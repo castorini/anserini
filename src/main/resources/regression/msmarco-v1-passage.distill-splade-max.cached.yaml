@@ -1,11 +1,11 @@
 ---
-corpus: msmarco-passage-deepimpact
-corpus_path: collections/msmarco/msmarco-passage-deepimpact/
+corpus: msmarco-passage-distill-splade-max
+corpus_path: collections/msmarco/msmarco-passage-distill-splade-max/
 
-download_url: https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-deepimpact.tar
-download_checksum: 73843885b503af3c8b3ee62e5f5a9900
+download_url: https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-distill-splade-max.tar
+download_checksum: b5d126f5d9a8e1b3ef3f5cb0ba651725
 
-index_path: indexes/lucene-inverted.msmarco-v1-passage.deepimpact/
+index_path: indexes/lucene-inverted.msmarco-v1-passage.distill-splade-max/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 16
@@ -13,7 +13,7 @@ index_options: -impact -pretokenized
 index_stats:
   documents: 8841823
   documents (non-empty): 8841823
-  total terms: 35455908214
+  total terms: 95445422483
 
 metrics:
   - metric: AP@1000
@@ -49,20 +49,20 @@ topic_reader: TsvInt
 topics:
   - name: "[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)"
     id: dev
-    path: topics.msmarco-passage.dev-subset.deepimpact.tsv.gz
+    path: topics.msmarco-passage.dev-subset.distill-splade-max.tsv.gz
     qrel: qrels.msmarco-passage.dev-subset.txt
 
 models:
-  - name: deepimpact-cached_q
-    display: DeepImpact
+  - name: distill-splade-max-cached
+    display: DistilSPLADE-max
     params: -impact -pretokenized
     results:
       AP@1000:
-        - 0.3334
+        - 0.3746
       RR@10:
-        - 0.3274
+        - 0.3686
       R@100:
-        - 0.8421
+        - 0.8984
       R@1000:
-        - 0.9476
+        - 0.9787
 

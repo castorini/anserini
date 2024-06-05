@@ -6,13 +6,13 @@ This page describes regression experiments, integrated into Anserini's regressio
 
 In these experiments, we are using pre-encoded queries (i.e., cached results of query encoding).
 
-The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8.yaml).
-Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
+The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8.cached.yaml).
+Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8.cached.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```bash
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8.cached
 ```
 
 We make available a version of the MS MARCO Passage Corpus that has already been encoded with Cohere embed-english-v3.0.
@@ -20,7 +20,7 @@ We make available a version of the MS MARCO Passage Corpus that has already been
 From any machine, the following command will download the corpus and perform the complete regression, end to end:
 
 ```bash
-python src/main/python/run_regression.py --download --index --verify --search --regression msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8
+python src/main/python/run_regression.py --download --index --verify --search --regression msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8.cached
 ```
 
 The `run_regression.py` script automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same regression results.
@@ -38,7 +38,7 @@ To confirm, `msmarco-passage-cohere-embed-english-v3.0.tar` is 38 GB and has MD5
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8 \
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8.cached \
   --corpus-path collections/msmarco-passage-cohere-embed-english-v3.0
 ```
 
@@ -76,17 +76,17 @@ bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -index indexes/lucene-hnsw-int8.msmarco-v1-passage.cohere-embed-english-v3.0/ \
   -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.cohere-embed-english-v3.0.jsonl.gz \
   -topicReader JsonIntVector \
-  -output runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-cached_q.topics.msmarco-passage.dev-subset.cohere-embed-english-v3.0.jsonl.txt \
+  -output runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-cached.topics.msmarco-passage.dev-subset.cohere-embed-english-v3.0.jsonl.txt \
   -generator VectorQueryGenerator -topicField vector -threads 16 -hits 1000 -efSearch 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-cached_q.topics.msmarco-passage.dev-subset.cohere-embed-english-v3.0.jsonl.txt
-bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-cached_q.topics.msmarco-passage.dev-subset.cohere-embed-english-v3.0.jsonl.txt
-bin/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-cached_q.topics.msmarco-passage.dev-subset.cohere-embed-english-v3.0.jsonl.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-cached_q.topics.msmarco-passage.dev-subset.cohere-embed-english-v3.0.jsonl.txt
+bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-cached.topics.msmarco-passage.dev-subset.cohere-embed-english-v3.0.jsonl.txt
+bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-cached.topics.msmarco-passage.dev-subset.cohere-embed-english-v3.0.jsonl.txt
+bin/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-cached.topics.msmarco-passage.dev-subset.cohere-embed-english-v3.0.jsonl.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-cached.topics.msmarco-passage.dev-subset.cohere-embed-english-v3.0.jsonl.txt
 ```
 
 ## Effectiveness
@@ -104,8 +104,8 @@ With the above commands, you should be able to reproduce the following results:
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.974     |
 
 Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
-Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8.yaml).
+Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8.cached.yaml).
 
 ## Reproduction Log[*](../../docs/reproducibility.md)
 
-To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8.template) and run `bin/build.sh` to rebuild the documentation.
+To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8.cached.template) and run `bin/build.sh` to rebuild the documentation.

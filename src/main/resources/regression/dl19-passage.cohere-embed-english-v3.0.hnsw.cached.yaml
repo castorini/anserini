@@ -50,7 +50,7 @@ topics:
     qrel: qrels.dl19-passage.txt
 
 models:
-  - name: cohere-embed-english-v3.0-cached_q
+  - name: cohere-embed-english-v3.0-cached
     display: cohere-embed-english-v3.0
     type: hnsw
     params: -generator VectorQueryGenerator -topicField vector -threads 16 -hits 1000 -efSearch 1000

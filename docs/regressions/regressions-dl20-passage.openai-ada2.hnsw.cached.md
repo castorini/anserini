@@ -11,13 +11,13 @@ In these experiments, we are using pre-encoded queries (i.e., cached results of 
 Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 For additional instructions on working with MS MARCO passage collection, refer to [this page](experiments-msmarco-passage.md).
 
-The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/dl20-passage.openai-ada2.hnsw.yaml).
-Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/dl20-passage.openai-ada2.hnsw.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
+The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/dl20-passage.openai-ada2.hnsw.cached.yaml).
+Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/dl20-passage.openai-ada2.hnsw.cached.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```bash
-python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.openai-ada2.hnsw
+python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.openai-ada2.hnsw.cached
 ```
 
 We make available a version of the MS MARCO Passage Corpus that has already been encoded with the OpenAI-ada2 embedding model.
@@ -25,7 +25,7 @@ We make available a version of the MS MARCO Passage Corpus that has already been
 From any machine, the following command will download the corpus and perform the complete regression, end to end:
 
 ```bash
-python src/main/python/run_regression.py --download --index --verify --search --regression dl20-passage.openai-ada2.hnsw
+python src/main/python/run_regression.py --download --index --verify --search --regression dl20-passage.openai-ada2.hnsw.cached
 ```
 
 The `run_regression.py` script automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same regression results.
@@ -43,7 +43,7 @@ To confirm, `msmarco-passage-openai-ada2.tar` is 109 GB and has MD5 checksum `a4
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
-python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.openai-ada2.hnsw \
+python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.openai-ada2.hnsw.cached \
   --corpus-path collections/msmarco-passage-openai-ada2
 ```
 
@@ -80,17 +80,17 @@ bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -index indexes/lucene-hnsw.msmarco-v1-passage.openai-ada2/ \
   -topics tools/topics-and-qrels/topics.dl20.openai-ada2.jsonl.gz \
   -topicReader JsonIntVector \
-  -output runs/run.msmarco-passage-openai-ada2.openai-ada2-cached_q.topics.dl20.openai-ada2.jsonl.txt \
+  -output runs/run.msmarco-passage-openai-ada2.openai-ada2-cached.topics.dl20.openai-ada2.jsonl.txt \
   -generator VectorQueryGenerator -topicField vector -threads 16 -hits 1000 -efSearch 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-openai-ada2.openai-ada2-cached_q.topics.dl20.openai-ada2.jsonl.txt
-bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-openai-ada2.openai-ada2-cached_q.topics.dl20.openai-ada2.jsonl.txt
-bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-openai-ada2.openai-ada2-cached_q.topics.dl20.openai-ada2.jsonl.txt
-bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-openai-ada2.openai-ada2-cached_q.topics.dl20.openai-ada2.jsonl.txt
+bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-openai-ada2.openai-ada2-cached.topics.dl20.openai-ada2.jsonl.txt
+bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-openai-ada2.openai-ada2-cached.topics.dl20.openai-ada2.jsonl.txt
+bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-openai-ada2.openai-ada2-cached.topics.dl20.openai-ada2.jsonl.txt
+bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-openai-ada2.openai-ada2-cached.topics.dl20.openai-ada2.jsonl.txt
 ```
 
 ## Effectiveness
@@ -108,7 +108,7 @@ With the above commands, you should be able to reproduce the following results:
 | [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.867     |
 
 Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
-Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/dl20-passage.openai-ada2.hnsw.yaml).
+Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/dl20-passage.openai-ada2.hnsw.cached.yaml).
 
 Also note that retrieval metrics are computed to depth 1000 hits per query (as opposed to 100 hits per query for document ranking).
 Also, for computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., AP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).
@@ -116,4 +116,4 @@ The experimental results reported here are directly comparable to the results re
 
 ## Reproduction Log[*](reproducibility.md)
 
-To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/dl20-passage.openai-ada2.hnsw.template) and run `bin/build.sh` to rebuild the documentation.
+To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/dl20-passage.openai-ada2.hnsw.cached.template) and run `bin/build.sh` to rebuild the documentation.

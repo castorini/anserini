@@ -6,13 +6,13 @@ This page describes regression experiments, integrated into Anserini's regressio
 
 In these experiments, we are using pre-encoded queries (i.e., cached results of query encoding).
 
-The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/dl20-passage.cohere-embed-english-v3.0.hnsw.yaml).
-Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/dl20-passage.cohere-embed-english-v3.0.hnsw.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
+The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/dl20-passage.cohere-embed-english-v3.0.hnsw.cached.yaml).
+Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/dl20-passage.cohere-embed-english-v3.0.hnsw.cached.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```bash
-python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.cohere-embed-english-v3.0.hnsw
+python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.cohere-embed-english-v3.0.hnsw.cached
 ```
 
 We make available a version of the MS MARCO Passage Corpus that has already been encoded with Cohere embed-english-v3.0.
@@ -20,7 +20,7 @@ We make available a version of the MS MARCO Passage Corpus that has already been
 From any machine, the following command will download the corpus and perform the complete regression, end to end:
 
 ```bash
-python src/main/python/run_regression.py --download --index --verify --search --regression dl20-passage.cohere-embed-english-v3.0.hnsw
+python src/main/python/run_regression.py --download --index --verify --search --regression dl20-passage.cohere-embed-english-v3.0.hnsw.cached
 ```
 
 The `run_regression.py` script automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same regression results.
@@ -38,7 +38,7 @@ To confirm, `msmarco-passage-cohere-embed-english-v3.0.tar` is 38 GB and has MD5
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
-python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.cohere-embed-english-v3.0.hnsw \
+python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.cohere-embed-english-v3.0.hnsw.cached \
   --corpus-path collections/msmarco-passage-cohere-embed-english-v3.0
 ```
 
@@ -75,17 +75,17 @@ bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -index indexes/lucene-hnsw.msmarco-v1-passage.cohere-embed-english-v3.0/ \
   -topics tools/topics-and-qrels/topics.dl20.cohere-embed-english-v3.0.jsonl.gz \
   -topicReader JsonIntVector \
-  -output runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-cached_q.topics.dl20.cohere-embed-english-v3.0.jsonl.txt \
+  -output runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-cached.topics.dl20.cohere-embed-english-v3.0.jsonl.txt \
   -generator VectorQueryGenerator -topicField vector -threads 16 -hits 1000 -efSearch 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-cached_q.topics.dl20.cohere-embed-english-v3.0.jsonl.txt
-bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-cached_q.topics.dl20.cohere-embed-english-v3.0.jsonl.txt
-bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-cached_q.topics.dl20.cohere-embed-english-v3.0.jsonl.txt
-bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-cached_q.topics.dl20.cohere-embed-english-v3.0.jsonl.txt
+bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-cached.topics.dl20.cohere-embed-english-v3.0.jsonl.txt
+bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-cached.topics.dl20.cohere-embed-english-v3.0.jsonl.txt
+bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-cached.topics.dl20.cohere-embed-english-v3.0.jsonl.txt
+bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-cached.topics.dl20.cohere-embed-english-v3.0.jsonl.txt
 ```
 
 ## Effectiveness
@@ -103,8 +103,8 @@ With the above commands, you should be able to reproduce the following results:
 | [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.864     |
 
 Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
-Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/dl20-passage.cohere-embed-english-v3.0.hnsw.yaml).
+Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/dl20-passage.cohere-embed-english-v3.0.hnsw.cached.yaml).
 
 ## Reproduction Log[*](../../docs/reproducibility.md)
 
-To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/dl20-passage.cohere-embed-english-v3.0.hnsw.template) and run `bin/build.sh` to rebuild the documentation.
+To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/dl20-passage.cohere-embed-english-v3.0.hnsw.cached.template) and run `bin/build.sh` to rebuild the documentation.
