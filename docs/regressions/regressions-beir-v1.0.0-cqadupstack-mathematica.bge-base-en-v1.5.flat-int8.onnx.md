@@ -34,14 +34,14 @@ Sample indexing command, building quantized flat indexes:
 ```
 bin/run.sh io.anserini.index.IndexCollection \
   -collection JsonDenseVectorCollection \
-  -input /path/to/beir-v1.0.0.bge-base-en-v1.5 \
+  -input /path/to/beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5 \
   -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-flat-int8.beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5/ \
   -threads 16 -quantize.int8 \
-  >& logs/log.beir-v1.0.0.bge-base-en-v1.5 &
+  >& logs/log.beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5 &
 ```
 
-The path `/path/to/beir-v1.0.0.bge-base-en-v1.5/` should point to the corpus downloaded above.
+The path `/path/to/beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5/` should point to the corpus downloaded above.
 
 ## Retrieval
 
@@ -54,16 +54,16 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-flat-int8.beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5/ \
   -topics tools/topics-and-qrels/topics.beir-v1.0.0-cqadupstack-mathematica.test.tsv.gz \
   -topicReader TsvString \
-  -output runs/run.beir-v1.0.0.bge-base-en-v1.5.bge-flat-int8-onnx.topics.beir-v1.0.0-cqadupstack-mathematica.test.txt \
+  -output runs/run.beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.bge-flat-int8-onnx.topics.beir-v1.0.0-cqadupstack-mathematica.test.txt \
   -generator VectorQueryGenerator -topicField vector -removeQuery -threads 16 -hits 1000 -encoder BgeBaseEn15 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-mathematica.test.txt runs/run.beir-v1.0.0.bge-base-en-v1.5.bge-flat-int8-onnx.topics.beir-v1.0.0-cqadupstack-mathematica.test.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-mathematica.test.txt runs/run.beir-v1.0.0.bge-base-en-v1.5.bge-flat-int8-onnx.topics.beir-v1.0.0-cqadupstack-mathematica.test.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-mathematica.test.txt runs/run.beir-v1.0.0.bge-base-en-v1.5.bge-flat-int8-onnx.topics.beir-v1.0.0-cqadupstack-mathematica.test.txt
+bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-mathematica.test.txt runs/run.beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.bge-flat-int8-onnx.topics.beir-v1.0.0-cqadupstack-mathematica.test.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-mathematica.test.txt runs/run.beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.bge-flat-int8-onnx.topics.beir-v1.0.0-cqadupstack-mathematica.test.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-mathematica.test.txt runs/run.beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.bge-flat-int8-onnx.topics.beir-v1.0.0-cqadupstack-mathematica.test.txt
 ```
 
 ## Effectiveness
