@@ -225,7 +225,7 @@ def evaluate_and_verify(yaml_data, dry_run):
                             flat_tolerance_ok = 0.007
                         else:
                             flat_tolerance_ok = 0.005
-                    elif model['name'].endswith('-flat-int8'):
+                    elif model['name'].endswith('-flat-int8-cached'):
                         if topic_set['name'].endswith('BioASQ'):
                             flat_tolerance_ok = 0.005
                         elif topic_set['name'].endswith('NFCorpus') and metric['metric'] == 'R@1000':
