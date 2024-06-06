@@ -50,16 +50,16 @@ topics:
     qrel: qrels.msmarco-passage.dev-subset.txt
 
 models:
-  - name: bge-hnsw-flat-cached
+  - name: bge-flat-cached
     display: BGE-base-en-v1.5
     type: flat
     params: -generator VectorQueryGenerator -topicField vector -threads 16 -hits 1000
     results:
       AP@1000:
-        - 0.363
+        - 0.3641
       RR@10:
-        - 0.358
+        - 0.3583
       R@100:
-        - 0.897
+        - 0.9006
       R@1000:
-        - 0.977
+        - 0.9811

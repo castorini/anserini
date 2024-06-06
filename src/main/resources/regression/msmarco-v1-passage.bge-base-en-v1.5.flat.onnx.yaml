@@ -1,11 +1,11 @@
 ---
-corpus: msmarco-passage.cohere-embed-english-v3.0
-corpus_path: collections/msmarco/msmarco-passage-cohere-embed-english-v3.0/
+corpus: msmarco-passage.bge-base-en-v1.5
+corpus_path: collections/msmarco/msmarco-passage-bge-base-en-v1.5/
 
-download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cohere-embed-english-v3.0.tar
-download_checksum: 06a6e38a0522850c6aa504db7b2617f5
+download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-bge-base-en-v1.5.tar
+download_checksum: 353d2c9e72e858897ad479cca4ea0db1
 
-index_path: indexes/lucene-flat.msmarco-v1-passage.cohere-embed-english-v3.0/
+index_path: indexes/lucene-flat.msmarco-v1-passage.bge-base-en-v1.5/
 index_type: flat
 collection_class: JsonDenseVectorCollection
 generator_class: DenseVectorDocumentGenerator
@@ -13,13 +13,6 @@ index_threads: 16
 index_options: ""
 
 metrics:
-  - metric: nDCG@10
-    command: bin/trec_eval
-    params: -c -m ndcg_cut.10
-    separator: "\t"
-    parse_index: 2
-    metric_precision: 4
-    can_combine: false
   - metric: AP@1000
     command: bin/trec_eval
     params: -c -m map
@@ -34,6 +27,13 @@ metrics:
     parse_index: 2
     metric_precision: 4
     can_combine: false
+  - metric: R@100
+    command: bin/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
   - metric: R@1000
     command: bin/trec_eval
     params: -c -m recall.1000
@@ -42,24 +42,24 @@ metrics:
     metric_precision: 4
     can_combine: false
 
-topic_reader: JsonIntVector
+topic_reader: TsvInt
 topics:
   - name: "[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)"
     id: dev
-    path: topics.msmarco-passage.dev-subset.cohere-embed-english-v3.0.jsonl.gz
+    path: topics.msmarco-passage.dev-subset.txt
     qrel: qrels.msmarco-passage.dev-subset.txt
 
 models:
-  - name: cohere-embed-english-v3.0-flat-cached
-    display: cohere-embed-english-v3.0
+  - name: bge-flat-onnx
+    display: BGE-base-en-v1.5
     type: flat
-    params: -generator VectorQueryGenerator -topicField vector -threads 16 -hits 1000
+    params: -generator VectorQueryGenerator -topicField title -threads 16 -hits 1000 -encoder BgeBaseEn15
     results:
-      nDCG@10:
-        - 0.4287
       AP@1000:
-        - 0.3716
+        - 0.3641
       RR@10:
-        - 0.3658
+        - 0.3583
+      R@100:
+        - 0.9006
       R@1000:
-        - 0.9786
+        - 0.9811
