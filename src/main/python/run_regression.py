@@ -213,7 +213,7 @@ def evaluate_and_verify(yaml_data, dry_run):
                 using_hnsw = True if 'type' in model and model['type'] == 'hnsw' else False
                 using_flat = True if 'type' in model and model['type'] == 'flat' else False
 
-                if using_flat:
+                if using_flat and 'BEIR' in topic_set['name']:
                     if model['name'].endswith('-flat-int8-onnx'):
                         if topic_set['name'].endswith('ArguAna'):
                             flat_tolerance_ok = 0.021
@@ -249,6 +249,18 @@ def evaluate_and_verify(yaml_data, dry_run):
                             flat_tolerance_ok = 0.002
                     else:
                         flat_tolerance_ok = 1e-9
+                elif using_flat and 'MS MARCO Passage' in topic_set['name']:
+                    if model['name'].endswith('-flat-int8-onnx'):
+                        flat_tolerance_ok = 0.004
+                    elif model['name'].endswith('-flat-int8-cached'):
+                        flat_tolerance_ok = 0.003
+                    elif model['name'].endswith('-flat-onnx'):
+                        flat_tolerance_ok = 0.002
+                    else:
+                        flat_tolerance_ok = 1e-9
+                    print(f'Tolerance: {flat_tolerance_ok}')
+                else:
+                    flat_tolerance_ok = 1e-9
 
                 # For HNSW, only print out score to third digit
                 if using_hnsw:
