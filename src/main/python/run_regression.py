@@ -251,11 +251,11 @@ def evaluate_and_verify(yaml_data, dry_run):
                         flat_tolerance_ok = 1e-9
                 elif using_flat and 'MS MARCO Passage' in topic_set['name']:
                     if model['name'].endswith('-flat-int8-onnx'):
-                        flat_tolerance_ok = 0.004
+                        flat_tolerance_ok = 0.002
                     elif model['name'].endswith('-flat-int8-cached'):
                         flat_tolerance_ok = 0.003
                     elif model['name'].endswith('-flat-onnx'):
-                        flat_tolerance_ok = 0.002
+                        flat_tolerance_ok = 0.0001
                     else:
                         flat_tolerance_ok = 1e-9
                     print(f'Tolerance: {flat_tolerance_ok}')
