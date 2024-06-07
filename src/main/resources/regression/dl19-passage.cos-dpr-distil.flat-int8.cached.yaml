@@ -50,7 +50,7 @@ topics:
     qrel: qrels.dl19-passage.txt
 
 models:
-  - name: cos-dpr-distil-flat-cached
+  - name: cos-dpr-distil-flat-int8-cached
     display: cosDPR-distil
     type: flat
     params: -generator VectorQueryGenerator -topicField vector -threads 16 -hits 1000
