@@ -10,7 +10,7 @@ index_type: flat
 collection_class: JsonDenseVectorCollection
 generator_class: DenseVectorDocumentGenerator
 index_threads: 16
-index_options: -M 16 -efC 100 -memoryBuffer 65536 -noMerge -quantize.int8
+index_options: -quantize.int8
 
 metrics:
   - metric: AP@1000
@@ -52,7 +52,7 @@ topics:
 models:
   - name: cos-dpr-distil-flat-int8-onnx
     display: cosDPR-distil
-    type: hnsw
+    type: flat
     params: -generator VectorQueryGenerator -topicField title -threads 16 -hits 1000 -encoder CosDprDistil
     results:
       AP@1000:

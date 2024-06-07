@@ -52,7 +52,7 @@ topics:
 models:
   - name: bge-flat-int8-onnx
     display: BGE-base-en-v1.5
-    type: hnsw
+    type: flat
     params: -generator VectorQueryGenerator -topicField title -threads 16 -hits 1000 -encoder BgeBaseEn15
     results:
       AP@1000:

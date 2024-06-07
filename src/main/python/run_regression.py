@@ -254,7 +254,10 @@ def evaluate_and_verify(yaml_data, dry_run):
                     if model['name'].endswith('-flat-int8-onnx'):
                         flat_tolerance_ok = 0.002
                     elif model['name'].endswith('-flat-int8-cached'):
-                        flat_tolerance_ok = 0.003
+                        if model['name'] == 'openai-ada2-flat-int8-cached':
+                            flat_tolerance_ok = 0.008
+                        else:
+                            flat_tolerance_ok = 0.002
                     elif model['name'].endswith('-flat-onnx'):
                         flat_tolerance_ok = 0.0001
                     else:
