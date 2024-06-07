@@ -1,12 +1,12 @@
 # Anserini Regressions: TREC 2019 Deep Learning Track (Passage)
 
-**Model**: OpenAI-ada2 embeddings (using pre-encoded queries) with HNSW indexes
+**Model**: OpenAI-ada2 embeddings with flat indexes (using cached queries)
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, using OpenAI-ada2 embeddings on the [TREC 2019 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html), as described in the following paper:
 
 > Jimmy Lin, Ronak Pradeep, Tommaso Teofili, and Jasper Xian. [Vector Search with OpenAI Embeddings: Lucene Is All You Need.](https://arxiv.org/abs/2308.14963) _arXiv:2308.14963_, 2023.
 
-In these experiments, we are using pre-encoded queries (i.e., cached results of query encoding).
+In these experiments, we are using cached queries (i.e., cached results of query encoding).
 
 Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 For additional instructions on working with MS MARCO passage collection, refer to [this page](experiments-msmarco-passage.md).
@@ -49,7 +49,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 
 ## Indexing
 
-Sample indexing command, building HNSW indexes:
+Sample indexing command, building flat indexes:
 
 ```bash
 bin/run.sh io.anserini.index.IndexCollection \
@@ -64,9 +64,6 @@ bin/run.sh io.anserini.index.IndexCollection \
 The path `/path/to/msmarco-passage.openai-ada2/` should point to the corpus downloaded above.
 Upon completion, we should have an index with 8,841,823 documents.
 
-Note that here we are explicitly using Lucene's `NoMergePolicy` merge policy, which suppresses any merging of index segments.
-This is because merging index segments is a costly operation and not worthwhile given our query set.
-
 ## Retrieval
 
 Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
@@ -76,7 +73,7 @@ The original data can be found [here](https://trec.nist.gov/data/deep2019.html).
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```bash
-bin/run.sh io.anserini.search.SearchHnswDenseVectors \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-flat.msmarco-v1-passage.openai-ada2/ \
   -topics tools/topics-and-qrels/topics.dl19-passage.openai-ada2.jsonl.gz \
   -topicReader JsonIntVector \
@@ -99,13 +96,13 @@ With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **OpenAI-ada2**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.4790    |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.4788    |
 | **nDCG@10**                                                                                                  | **OpenAI-ada2**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7040    |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7035    |
 | **R@100**                                                                                                    | **OpenAI-ada2**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6240    |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6235    |
 | **R@1000**                                                                                                   | **OpenAI-ada2**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.8570    |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.8629    |
 
 Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
 Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/dl19-passage.openai-ada2.flat.cached.yaml).

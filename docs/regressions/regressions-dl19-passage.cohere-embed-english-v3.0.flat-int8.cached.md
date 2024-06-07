@@ -1,10 +1,10 @@
 # Anserini Regressions: MS MARCO Passage Ranking
 
-**Model**: [Cohere embed-english-v3.0](https://docs.cohere.com/reference/embed) with HNSW quantized indexes (using pre-encoded queries)
+**Model**: [Cohere embed-english-v3.0](https://docs.cohere.com/reference/embed) with quantized flat indexes (using cached queries)
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, using the [Cohere embed-english-v3.0](https://docs.cohere.com/reference/embed) model on the [TREC 2019 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html).
 
-In these experiments, we are using pre-encoded queries (i.e., cached results of query encoding).
+In these experiments, we are using cached queries (i.e., cached results of query encoding).
 
 The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/dl19-passage.cohere-embed-english-v3.0.flat-int8.cached.yaml).
 Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/dl19-passage.cohere-embed-english-v3.0.flat-int8.cached.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
@@ -44,7 +44,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 
 ## Indexing
 
-Sample indexing command, building HNSW indexes:
+Sample indexing command, building quantized flat indexes:
 
 ```bash
 bin/run.sh io.anserini.index.IndexCollection \
@@ -52,15 +52,12 @@ bin/run.sh io.anserini.index.IndexCollection \
   -input /path/to/msmarco-passage.cohere-embed-english-v3.0 \
   -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-flat-int8.msmarco-v1-passage.cohere-embed-english-v3.0/ \
-  -threads 16 -M 16 -efC 100 -noMerge -quantize.int8 \
+  -threads 16 -quantize.int8 \
   >& logs/log.msmarco-passage.cohere-embed-english-v3.0 &
 ```
 
 The path `/path/to/msmarco-passage.cohere-embed-english-v3.0/` should point to the corpus downloaded above.
 Upon completion, we should have an index with 8,841,823 documents.
-
-Note that here we are explicitly using Lucene's `NoMergePolicy` merge policy, which suppresses any merging of index segments.
-This is because merging index segments is a costly operation and not worthwhile given our query set.
 
 ## Retrieval
 
@@ -71,7 +68,7 @@ The original data can be found [here](https://trec.nist.gov/data/deep2019.html).
 After indexing has completed, you should be able to perform retrieval as follows using HNSW indexes:
 
 ```bash
-bin/run.sh io.anserini.search.SearchHnswDenseVectors \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-flat-int8.msmarco-v1-passage.cohere-embed-english-v3.0/ \
   -topics tools/topics-and-qrels/topics.dl19-passage.cohere-embed-english-v3.0.jsonl.gz \
   -topicReader JsonIntVector \
@@ -94,13 +91,13 @@ With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **cohere-embed-english-v3.0**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.4870    |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.4884    |
 | **nDCG@10**                                                                                                  | **cohere-embed-english-v3.0**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6900    |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6956    |
 | **R@100**                                                                                                    | **cohere-embed-english-v3.0**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6470    |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6484    |
 | **R@1000**                                                                                                   | **cohere-embed-english-v3.0**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.8500    |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.8630    |
 
 Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
 Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/dl19-passage.cohere-embed-english-v3.0.flat-int8.cached.yaml).

@@ -263,6 +263,26 @@ def evaluate_and_verify(yaml_data, dry_run):
                     else:
                         flat_tolerance_ok = 1e-9
                     print(f'Tolerance: {flat_tolerance_ok}')
+                elif using_flat and 'DL19' in topic_set['name']:
+                    if model['name'].endswith('-flat-int8-onnx'):
+                        flat_tolerance_ok = 0.002
+                    elif model['name'].endswith('-flat-int8-cached'):
+                        flat_tolerance_ok = 0.002
+                    elif model['name'].endswith('-flat-onnx'):
+                        flat_tolerance_ok = 0.0001
+                    else:
+                        flat_tolerance_ok = 1e-9
+                    print(f'DL19 Tolerance: {flat_tolerance_ok}')
+                elif using_flat and 'DL20' in topic_set['name']:
+                    if model['name'].endswith('-flat-int8-onnx'):
+                        flat_tolerance_ok = 0.002
+                    elif model['name'].endswith('-flat-int8-cached'):
+                        flat_tolerance_ok = 0.002
+                    elif model['name'].endswith('-flat-onnx'):
+                        flat_tolerance_ok = 0.0001
+                    else:
+                        flat_tolerance_ok = 1e-9
+                    print(f'DL20 Tolerance: {flat_tolerance_ok}')
                 else:
                     flat_tolerance_ok = 1e-9
 
@@ -270,8 +290,13 @@ def evaluate_and_verify(yaml_data, dry_run):
                 if using_hnsw:
                     result_str = 'expected: {0:.3f} actual: {1:.3f} - metric: {2:<8} model: {3} topics: {4}'.format(
                         expected, actual, metric['metric'], model['name'], topic_set['id'])
+                if using_flat:
+                    result_str = (f'expected: {expected:.4f} actual: {actual:.4f} '
+                                  f'(delta={abs(expected-actual):.4f}, tolerance={abs(flat_tolerance_ok):.4f}) - '
+                                  f'metric: {metric["metric"]:<8} model: {model["name"]} topics: {topic_set["id"]}')
                 else:
-                    result_str = f'expected: {expected:.4f} actual: {actual:.4f} (delta={abs(expected-actual):.4f}) - metric: {metric["metric"]:<8} model: {model["name"]} topics: {topic_set["id"]}'
+                    result_str = (f'expected: {expected:.4f} actual: {actual:.4f} (delta={abs(expected-actual):.4f}) - '
+                                  f'metric: {metric["metric"]:<8} model: {model["name"]} topics: {topic_set["id"]}')
 
                 # - For inverted indexes, we expect scores to match precisely.
                 # - For flat indexes (on dense vectors), use the tolerance values set above.

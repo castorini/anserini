@@ -1,12 +1,12 @@
 # Anserini Regressions: TREC 2020 Deep Learning Track (Passage)
 
-**Model**: [BGE-base-en-v1.5](https://huggingface.co/BAAI/bge-base-en-v1.5) with HNSW indexes (using pre-encoded queries)
+**Model**: [BGE-base-en-v1.5](https://huggingface.co/BAAI/bge-base-en-v1.5) with flat indexes (using cached queries)
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, using the [BGE-base-en-v1.5](https://huggingface.co/BAAI/bge-base-en-v1.5) model on the [TREC 2020 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html), as described in the following paper:
 
 > Shitao Xiao, Zheng Liu, Peitian Zhang, and Niklas Muennighoff. [C-Pack: Packaged Resources To Advance General Chinese Embedding.](https://arxiv.org/abs/2309.07597) _arXiv:2309.07597_, 2023.
 
-In these experiments, we are using pre-encoded queries (i.e., cached results of query encoding).
+In these experiments, we are using cached queries (i.e., cached results of query encoding).
 
 Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 For additional instructions on working with MS MARCO passage collection, refer to [this page](experiments-msmarco-passage.md).
@@ -49,7 +49,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 
 ## Indexing
 
-Sample indexing command, building HNSW indexes:
+Sample indexing command, building flat indexes:
 
 ```bash
 bin/run.sh io.anserini.index.IndexCollection \
@@ -64,9 +64,6 @@ bin/run.sh io.anserini.index.IndexCollection \
 The path `/path/to/msmarco-passage.bge-base-en-v1.5/` should point to the corpus downloaded above.
 Upon completion, we should have an index with 8,841,823 documents.
 
-Note that here we are explicitly using Lucene's `NoMergePolicy` merge policy, which suppresses any merging of index segments.
-This is because merging index segments is a costly operation and not worthwhile given our query set.
-
 ## Retrieval
 
 Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
@@ -76,7 +73,7 @@ The original data can be found [here](https://trec.nist.gov/data/deep2020.html).
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```bash
-bin/run.sh io.anserini.search.SearchHnswDenseVectors \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-flat.msmarco-v1-passage.bge-base-en-v1.5/ \
   -topics tools/topics-and-qrels/topics.dl20.bge-base-en-v1.5.jsonl.gz \
   -topicReader JsonIntVector \
@@ -99,13 +96,13 @@ With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **BGE-base-en-v1.5**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.4640    |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.4650    |
 | **nDCG@10**                                                                                                  | **BGE-base-en-v1.5**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6770    |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6780    |
 | **R@100**                                                                                                    | **BGE-base-en-v1.5**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7140    |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7169    |
 | **R@1000**                                                                                                   | **BGE-base-en-v1.5**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.8400    |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.8503    |
 
 Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
 Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/dl20-passage.bge-base-en-v1.5.flat.cached.yaml).

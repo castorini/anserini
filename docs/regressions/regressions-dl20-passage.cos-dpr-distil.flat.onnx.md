@@ -1,6 +1,6 @@
 # Anserini Regressions: TREC 2020 Deep Learning Track (Passage)
 
-**Model**: cosDPR-distil with HNSW indexes (using ONNX for on-the-fly query encoding)
+**Model**: cosDPR-distil with flat indexes (using ONNX for on-the-fly query encoding)
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, using the cosDPR-distil model on the [TREC 2020 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html), as described in the following paper:
 
@@ -49,7 +49,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 
 ## Indexing
 
-Sample indexing command, building HNSW indexes:
+Sample indexing command, building flat indexes:
 
 ```bash
 bin/run.sh io.anserini.index.IndexCollection \
@@ -64,9 +64,6 @@ bin/run.sh io.anserini.index.IndexCollection \
 The path `/path/to/msmarco-passage.cos-dpr-distil/` should point to the corpus downloaded above.
 Upon completion, we should have an index with 8,841,823 documents.
 
-Note that here we are explicitly using Lucene's `NoMergePolicy` merge policy, which suppresses any merging of index segments.
-This is because merging index segments is a costly operation and not worthwhile given our query set.
-
 ## Retrieval
 
 Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
@@ -76,7 +73,7 @@ The original data can be found [here](https://trec.nist.gov/data/deep2020.html).
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```bash
-bin/run.sh io.anserini.search.SearchHnswDenseVectors \
+bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-flat.msmarco-v1-passage.cos-dpr-distil/ \
   -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicReader TsvInt \
@@ -101,13 +98,13 @@ With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **cosDPR-distil**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.4820    |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.4876    |
 | **nDCG@10**                                                                                                  | **cosDPR-distil**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7010    |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7025    |
 | **R@100**                                                                                                    | **cosDPR-distil**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7120    |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7204    |
 | **R@1000**                                                                                                   | **cosDPR-distil**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.8430    |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.8533    |
 
 Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
 Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/dl20-passage.cos-dpr-distil.flat.onnx.yaml).

@@ -56,10 +56,10 @@ models:
     params: -generator VectorQueryGenerator -topicField vector -threads 16 -hits 1000
     results:
       AP@1000:
-        - 0.505
+        - 0.5067
       nDCG@10:
-        - 0.725
+        - 0.7245
       R@100:
-        - 0.724
+        - 0.7279
       R@1000:
-        - 0.864
+        - 0.8682
