@@ -51,6 +51,7 @@ CORPUS_ROOTS = [
     '/mnt/',                      # on tjena
     '/tuna1/',                    # on tuna
     '/store/',                    # on orca
+    '/u4/jimmylin/',              # on linux.cs
     '/System/Volumes/Data/store'  # for new organization of directories in macOS Monterey
 ]
 
