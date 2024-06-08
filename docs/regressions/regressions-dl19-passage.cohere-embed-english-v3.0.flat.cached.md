@@ -99,9 +99,4 @@ With the above commands, you should be able to reproduce the following results:
 | **R@1000**                                                                                                   | **cohere-embed-english-v3.0**|
 | [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.8630    |
 
-Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
-Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/dl19-passage.cohere-embed-english-v3.0.flat.cached.yaml).
-
-## Reproduction Log[*](../../docs/reproducibility.md)
-
-To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/dl19-passage.cohere-embed-english-v3.0.flat.cached.template) and run `bin/build.sh` to rebuild the documentation.
+Note that since we're running brute-force search with cached queries on non-quantized indexes, the results should be reproducible _exactly_.

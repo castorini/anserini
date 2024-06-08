@@ -77,17 +77,17 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-flat-int8.msmarco-v1-passage.cos-dpr-distil/ \
   -topics tools/topics-and-qrels/topics.dl19-passage.cos-dpr-distil.jsonl.gz \
   -topicReader JsonIntVector \
-  -output runs/run.msmarco-passage.cos-dpr-distil.cos-dpr-distil-flat-cached.topics.dl19-passage.cos-dpr-distil.jsonl.txt \
+  -output runs/run.msmarco-passage.cos-dpr-distil.cos-dpr-distil-flat-int8-cached.topics.dl19-passage.cos-dpr-distil.jsonl.txt \
   -generator VectorQueryGenerator -topicField vector -threads 16 -hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage.cos-dpr-distil.cos-dpr-distil-flat-cached.topics.dl19-passage.cos-dpr-distil.jsonl.txt
-bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage.cos-dpr-distil.cos-dpr-distil-flat-cached.topics.dl19-passage.cos-dpr-distil.jsonl.txt
-bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage.cos-dpr-distil.cos-dpr-distil-flat-cached.topics.dl19-passage.cos-dpr-distil.jsonl.txt
-bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage.cos-dpr-distil.cos-dpr-distil-flat-cached.topics.dl19-passage.cos-dpr-distil.jsonl.txt
+bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage.cos-dpr-distil.cos-dpr-distil-flat-int8-cached.topics.dl19-passage.cos-dpr-distil.jsonl.txt
+bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage.cos-dpr-distil.cos-dpr-distil-flat-int8-cached.topics.dl19-passage.cos-dpr-distil.jsonl.txt
+bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage.cos-dpr-distil.cos-dpr-distil-flat-int8-cached.topics.dl19-passage.cos-dpr-distil.jsonl.txt
+bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage.cos-dpr-distil.cos-dpr-distil-flat-int8-cached.topics.dl19-passage.cos-dpr-distil.jsonl.txt
 ```
 
 ## Effectiveness
@@ -104,13 +104,5 @@ With the above commands, you should be able to reproduce the following results:
 | **R@1000**                                                                                                   | **cosDPR-distil**|
 | [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.8201    |
 
-Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
-Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/dl19-passage.cos-dpr-distil.flat-int8.cached.yaml).
-
-Also note that retrieval metrics are computed to depth 1000 hits per query (as opposed to 100 hits per query for document ranking).
-Also, for computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., AP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).
-The experimental results reported here are directly comparable to the results reported in the [track overview paper](https://arxiv.org/abs/2003.07820).
-
-## Reproduction Log[*](reproducibility.md)
-
-To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/dl19-passage.cos-dpr-distil.flat-int8.cached.template) and run `bin/build.sh` to rebuild the documentation.
+The above figures are from running brute-force search with cached queries on non-quantized indexes.
+With cached queries on quantized indexes, results may differ slightly.

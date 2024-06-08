@@ -100,5 +100,5 @@ With the above commands, you should be able to reproduce the following results:
 | **R@1000**                                                                                                   | **OpenAI-ada2**|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9858    |
 
-Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
-Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/msmarco-v1-passage.openai-ada2.flat-int8.cached.yaml).
+The above figures are from running brute-force search with cached queries on non-quantized indexes.
+With cached queries on quantized indexes, results may differ slightly.

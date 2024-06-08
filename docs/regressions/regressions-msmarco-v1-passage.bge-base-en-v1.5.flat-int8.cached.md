@@ -99,3 +99,6 @@ With the above commands, you should be able to reproduce the following results:
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9006    |
 | **R@1000**                                                                                                   | **BGE-base-en-v1.5**|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9811    |
+
+The above figures are from running brute-force search with cached queries on non-quantized indexes.
+With cached queries on quantized indexes, results may differ slightly.

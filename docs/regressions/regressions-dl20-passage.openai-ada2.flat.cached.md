@@ -104,13 +104,4 @@ With the above commands, you should be able to reproduce the following results:
 | **R@1000**                                                                                                   | **OpenAI-ada2**|
 | [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.8705    |
 
-Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
-Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/dl20-passage.openai-ada2.flat.cached.yaml).
-
-Also note that retrieval metrics are computed to depth 1000 hits per query (as opposed to 100 hits per query for document ranking).
-Also, for computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., AP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).
-The experimental results reported here are directly comparable to the results reported in the [track overview paper](https://arxiv.org/abs/2003.07820).
-
-## Reproduction Log[*](reproducibility.md)
-
-To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/dl20-passage.openai-ada2.flat.cached.template) and run `bin/build.sh` to rebuild the documentation.
+Note that since we're running brute-force search with cached queries on non-quantized indexes, the results should be reproducible _exactly_.

@@ -101,3 +101,6 @@ With the above commands, you should be able to reproduce the following results:
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9075    |
 | **R@1000**                                                                                                   | **cosDPR-distil**|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9796    |
+
+The above figures are from running brute-force search with cached queries on non-quantized indexes.
+With ONNX query encoding on non-quantized indexes, results may differ slightly.

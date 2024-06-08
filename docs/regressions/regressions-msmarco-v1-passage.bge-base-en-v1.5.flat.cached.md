@@ -100,4 +100,4 @@ With the above commands, you should be able to reproduce the following results:
 | **R@1000**                                                                                                   | **BGE-base-en-v1.5**|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9811    |
 
-Note that since we're running brute-force search with cached queries, the results should be reproducible _exactly_.
+Note that since we're running brute-force search with cached queries on non-quantized indexes, the results should be reproducible _exactly_.

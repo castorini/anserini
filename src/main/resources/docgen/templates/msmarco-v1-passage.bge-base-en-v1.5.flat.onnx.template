@@ -77,3 +77,6 @@ ${eval_cmds}
 With the above commands, you should be able to reproduce the following results:
 
 ${effectiveness}
+
+The above figures are from running brute-force search with cached queries on non-quantized indexes.
+With ONNX query encoding on non-quantized indexes, results may differ slightly.
