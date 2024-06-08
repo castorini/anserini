@@ -82,7 +82,7 @@ bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -index indexes/lucene-hnsw-int8.msmarco-v1-passage.cos-dpr-distil/ \
   -topics tools/topics-and-qrels/topics.dl19-passage.txt \
   -topicReader TsvInt \
-  -output runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw.topics.dl19-passage.txt \
+  -output runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw-onnx.topics.dl19-passage.txt \
   -generator VectorQueryGenerator -topicField title -threads 16 -hits 1000 -efSearch 1000 -encoder CosDprDistil &
 ```
 
@@ -91,10 +91,10 @@ Note that we are performing query inference "on-the-fly" with ONNX in these expe
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw.topics.dl19-passage.txt
-bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw.topics.dl19-passage.txt
-bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw.topics.dl19-passage.txt
-bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw.topics.dl19-passage.txt
+bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw-onnx.topics.dl19-passage.txt
+bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw-onnx.topics.dl19-passage.txt
+bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw-onnx.topics.dl19-passage.txt
+bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw-onnx.topics.dl19-passage.txt
 ```
 
 ## Effectiveness

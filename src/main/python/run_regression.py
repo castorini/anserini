@@ -143,9 +143,11 @@ def construct_indexing_command(yaml_data, args):
 
 
 def construct_runfile_path(index, id, model_name):
-    # If the index is 'indexes/lucene-index.msmarco-passage-ca/', we pull out 'msmarco-passage-ca'.
-    # Be careful, for 'indexes/lucene-index.mrtydi-v1.1-arabic/', we want to pull out 'mrtydi-v1.1-arabic'.
-    index_part = index.split('/')[1].split('.', 1)[1]
+    # If the index is 'indexes/lucene-inverted.msmarco-passage-ca/', we pull out 'msmarco-passage-ca'.
+    #  'indexes/lucene-hnsw-int8.msmarco-v1-passage.cos-dpr-distil/' -> 'hnsw-int8.msmarco-v1-passage.cos-dpr-distil'
+    #  'indexes/lucene-hnsw.msmarco-v1-passage.cos-dpr-distil/' -> 'hnsw.msmarco-v1-passage.cos-dpr-distil/'
+    # Be careful, for 'indexes/lucene-inverted.mrtydi-v1.1-arabic/', we want to pull out 'inverted-mrtydi-v1.1-arabic'.
+    index_part = index.split('/')[1].split('-', 1)[1]
     return os.path.join('runs/', 'run.{0}.{1}.{2}'.format(index_part, id, model_name))
 
 
