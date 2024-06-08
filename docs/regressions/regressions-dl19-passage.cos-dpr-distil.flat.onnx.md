@@ -108,3 +108,11 @@ With the above commands, you should be able to reproduce the following results:
 
 The above figures are from running brute-force search with cached queries on non-quantized indexes.
 With ONNX query encoding on non-quantized indexes, results may differ slightly.
+
+❗ Retrieval metrics here are computed to depth 1000 hits per query (as opposed to 100 hits per query for document ranking).
+For computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., AP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).
+The experimental results reported here are directly comparable to the results reported in the [track overview paper](https://arxiv.org/abs/2003.07820).
+
+## Reproduction Log[*](reproducibility.md)
+
+To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/dl19-passage.cos-dpr-distil.flat.onnx.template) and run `bin/build.sh` to rebuild the documentation.

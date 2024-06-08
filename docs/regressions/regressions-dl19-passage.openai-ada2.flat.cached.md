@@ -105,3 +105,11 @@ With the above commands, you should be able to reproduce the following results:
 | [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.8629    |
 
 Note that since we're running brute-force search with cached queries on non-quantized indexes, the results should be reproducible _exactly_.
+
+❗ Retrieval metrics here are computed to depth 1000 hits per query (as opposed to 100 hits per query for document ranking).
+For computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., AP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).
+The experimental results reported here are directly comparable to the results reported in the [track overview paper](https://arxiv.org/abs/2003.07820).
+
+## Reproduction Log[*](reproducibility.md)
+
+To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/dl19-passage.openai-ada2.flat.cached.template) and run `bin/build.sh` to rebuild the documentation.
