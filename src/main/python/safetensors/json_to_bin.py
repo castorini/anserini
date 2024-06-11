@@ -4,29 +4,24 @@ import torch
 import os
 
 # Define input and output directories
-input_directory = '../../../../collections/beir-v1.0.0/bge-base-en-v1.5/nfcorpus'
-output_directory = '../../../../target/safetensors'
-vectors_directory = os.path.join(output_directory, 'vectors')
-docids_directory = os.path.join(output_directory, 'docids')
-docid_to_idx_directory = os.path.join(output_directory, 'docid_to_idx')
+input_directory = '../../../../collections/beir-v1.0.0-bge-base-en-v1.5/nfcorpus'
+output_directory = os.path.join(input_directory, '../..').replace('/collections/', '/collections.safetensors/')
 
 # Create output directories if they do not exist
-os.makedirs(vectors_directory, exist_ok=True)
-os.makedirs(docids_directory, exist_ok=True)
-os.makedirs(docid_to_idx_directory, exist_ok=True)
+os.makedirs(output_directory, exist_ok=True)
 
 # Process all JSONL files in the input directory
 for input_filename in os.listdir(input_directory):
-    if input_filename.endswith('.json'):
+    if input_filename.endswith('.jsonl'):
         input_file_path = os.path.join(input_directory, input_filename)
         
         # Extract the base name (e.g., "vectors.part00" from "vectors.part00.jsonl")
         base_name = os.path.splitext(input_filename)[0]
         
         # Define paths for output files using the new naming convention
-        vectors_path = os.path.join(vectors_directory, f'{base_name}_vectors.safetensors')
-        docids_path = os.path.join(docids_directory, f'{base_name}_docids.safetensors')
-        docid_to_idx_path = os.path.join(docid_to_idx_directory, f'{base_name}_docid_to_idx.json')
+        vectors_path = os.path.join(output_directory, f'{base_name}_vectors.safetensors')
+        docids_path = os.path.join(output_directory, f'{base_name}_docids.safetensors')
+        docid_to_idx_path = os.path.join(output_directory, f'{base_name}_docid_to_idx.json')
 
         # Initialize lists to hold data
         vectors = []

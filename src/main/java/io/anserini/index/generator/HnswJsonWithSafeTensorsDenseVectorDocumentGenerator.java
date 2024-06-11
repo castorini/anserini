@@ -3,7 +3,6 @@ package io.anserini.index.generator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.anserini.collection.SourceDocument;
 import io.anserini.index.Constants;
-import io.anserini.index.SafeTensorsIndexCollection;
 import org.apache.lucene.document.BinaryDocValuesField;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -28,11 +27,9 @@ import java.util.Map;
  * @param <T> type of the source document
  */
 public class HnswJsonWithSafeTensorsDenseVectorDocumentGenerator<T extends SourceDocument> implements LuceneDocumentGenerator<T> {
-    private final SafeTensorsIndexCollection.Args args;
     private String currentJsonlFile;
 
-    public HnswJsonWithSafeTensorsDenseVectorDocumentGenerator(SafeTensorsIndexCollection.Args args) {
-        this.args = args;
+    public HnswJsonWithSafeTensorsDenseVectorDocumentGenerator() {
     }
 
     public void setCurrentJsonlFile(String currentJsonlFile) {
@@ -44,9 +41,10 @@ public class HnswJsonWithSafeTensorsDenseVectorDocumentGenerator<T extends Sourc
         try {
             // Determine the corresponding SafeTensors files based on the current JSONL file
             String baseFilename = currentJsonlFile.replace(".json", "");
-            String vectorsFilePath = Paths.get(args.vectorsDirectory, baseFilename + "_vectors.safetensors").toString();
-            String docidsFilePath = Paths.get(args.docidsDirectory, baseFilename + "_docids.safetensors").toString();
-            String docidToIdxFilePath = Paths.get(args.docidToIdxDirectory, baseFilename + "_docid_to_idx.json").toString();
+            String safetensorsDirectory = Paths.get(src.raw()).toString().replace("/collections/", "/collections.safetensors/");
+            String vectorsFilePath = Paths.get(safetensorsDirectory, baseFilename + "_vectors.safetensors").toString();
+            String docidsFilePath = Paths.get(safetensorsDirectory, baseFilename + "_docids.safetensors").toString();
+            String docidToIdxFilePath = Paths.get(safetensorsDirectory, baseFilename + "_docid_to_idx.json").toString();
 
             // Read and deserialize the SafeTensors files
             byte[] vectorsData = Files.readAllBytes(Paths.get(vectorsFilePath));
