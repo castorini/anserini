@@ -1,32 +1,35 @@
 import json
-from safetensors.torch import save_file
 import torch
 import os
+import subprocess
+from safetensors.torch import save_file
 
-# Define input and output directories
-input_directory = '../../../../collections/beir-v1.0.0/bge-base-en-v1.5/nfcorpus'
-output_directory = '../../../../target/safetensors'
-vectors_directory = os.path.join(output_directory, 'vectors')
-docids_directory = os.path.join(output_directory, 'docids')
-docid_to_idx_directory = os.path.join(output_directory, 'docid_to_idx')
+# Base directory relative to the expected script execution path in the Anserini repository
+base_directory = './collections/beir-v1.0.0/bge-base-en-v1.5.safetensors/nfcorpus'
 
-# Create output directories if they do not exist
-os.makedirs(vectors_directory, exist_ok=True)
-os.makedirs(docids_directory, exist_ok=True)
-os.makedirs(docid_to_idx_directory, exist_ok=True)
+# Complete path to the JSONL file (assuming it's gzipped and needs to be decompressed)
+jsonl_gz_file = os.path.join(base_directory, 'vectors.part00.jsonl.gz')
+
+# Check if the gzipped file exists and unzip it
+if os.path.exists(jsonl_gz_file):
+    subprocess.run(['gzip', '-d', jsonl_gz_file], check=True)
+    print(f"Unzipped the file in the directory {base_directory}")
+else:
+    print(f"File not found: {jsonl_gz_file}")
+    exit(1)  # Exit if the file does not exist to avoid further errors
 
 # Process all JSONL files in the input directory
-for input_filename in os.listdir(input_directory):
-    if input_filename.endswith('.json'):
-        input_file_path = os.path.join(input_directory, input_filename)
+for input_filename in os.listdir(base_directory):
+    if input_filename.endswith('.jsonl'):
+        input_file_path = os.path.join(base_directory, input_filename)
         
         # Extract the base name (e.g., "vectors.part00" from "vectors.part00.jsonl")
         base_name = os.path.splitext(input_filename)[0]
         
         # Define paths for output files using the new naming convention
-        vectors_path = os.path.join(vectors_directory, f'{base_name}_vectors.safetensors')
-        docids_path = os.path.join(docids_directory, f'{base_name}_docids.safetensors')
-        docid_to_idx_path = os.path.join(docid_to_idx_directory, f'{base_name}_docid_to_idx.json')
+        vectors_path = os.path.join(base_directory, f'{base_name}_vectors.safetensors')
+        docids_path = os.path.join(base_directory, f'{base_name}_docids.safetensors')
+        docid_to_idx_path = os.path.join(base_directory, f'{base_name}_docid_to_idx.json')
 
         # Initialize lists to hold data
         vectors = []
@@ -36,7 +39,6 @@ for input_filename in os.listdir(input_directory):
         with open(input_file_path, 'r') as file:
             for line in file:
                 entry = json.loads(line)
-                # Ensure that the vector starts with a valid number
                 if isinstance(entry['vector'][0], float):
                     vectors.append(entry['vector'])
                     docids.append(entry['docid'])
