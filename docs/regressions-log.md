@@ -3,6 +3,13 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### June 13, 2024
+
++ commit [`6cf601`](https://github.com/castorini/anserini/commit/6cf60132fa9ec49eac0861f3af8ed6e8d72e6471) (2024/06/13)
+
+Added flat regressions for MS MARCO v1 passage corpus: BGE, Cohere v3, cosDPR, OpenAI Ada2.
+Total of 36 regressions: 12 each for dev, DL19, and DL20.
+
 ### June 3, 2024
 
 + commit [`6093e3`](https://github.com/castorini/anserini/commit/6093e301c753e2c6ce00ab37b8df1d7628ba3e1f) (2024/06/03)
