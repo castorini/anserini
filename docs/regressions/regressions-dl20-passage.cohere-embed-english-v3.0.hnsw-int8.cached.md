@@ -1,4 +1,4 @@
-# Anserini Regressions: MS MARCO Passage Ranking
+# Anserini Regressions: TREC 2020 Deep Learning Track (Passage)
 
 **Model**: [Cohere embed-english-v3.0](https://docs.cohere.com/reference/embed) with HNSW quantized indexes (using pre-encoded queries)
 
@@ -105,6 +105,10 @@ With the above commands, you should be able to reproduce the following results:
 Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
 Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/dl20-passage.cohere-embed-english-v3.0.hnsw-int8.cached.yaml).
 
-## Reproduction Log[*](../../docs/reproducibility.md)
+❗ Retrieval metrics here are computed to depth 1000 hits per query (as opposed to 100 hits per query for document ranking).
+For computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., AP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).
+The experimental results reported here are directly comparable to the results reported in the [track overview paper](https://arxiv.org/abs/2102.07662).
+
+## Reproduction Log[*](reproducibility.md)
 
 To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/dl20-passage.cohere-embed-english-v3.0.hnsw-int8.cached.template) and run `bin/build.sh` to rebuild the documentation.
