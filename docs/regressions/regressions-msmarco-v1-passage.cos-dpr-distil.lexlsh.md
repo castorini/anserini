@@ -98,9 +98,6 @@ With the above commands, you should be able to reproduce the following results:
 | **R@1000**                                                                                                   | **cosDPR-distill**|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9596    |
 
-Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
-Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/msmarco-v1-passage.cos-dpr-distil.lexlsh.yaml).
-
 ## Reproduction Log[*](../../docs/reproducibility.md)
 
 To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/msmarco-v1-passage.cos-dpr-distil.lexlsh.template) and run `bin/build.sh` to rebuild the documentation.
