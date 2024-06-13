@@ -7,21 +7,23 @@ from safetensors.torch import save_file
 # Base directory relative to the expected script execution path in the Anserini repository
 base_directory = './collections/beir-v1.0.0/bge-base-en-v1.5.safetensors/nfcorpus'
 
+input_direcotry = './collections/beir-v1.0.0/bge-base-en-v1.5/nfcorpus'
 # Complete path to the JSONL file (assuming it's gzipped and needs to be decompressed)
-jsonl_gz_file = os.path.join(base_directory, 'vectors.part00.jsonl.gz')
+jsonl_gz_file = os.path.join(input_direcotry , 'vectors.part00.jsonl.gz')
 
 # Check if the gzipped file exists and unzip it
 if os.path.exists(jsonl_gz_file):
     subprocess.run(['gzip', '-d', jsonl_gz_file], check=True)
-    print(f"Unzipped the file in the directory {base_directory}")
+    print(f"Unzipped the file in the directory {input_direcotry}")
 else:
     print(f"File not found: {jsonl_gz_file}")
-    exit(1)  # Exit if the file does not exist to avoid further errors
+
+    # exit(1)  # Exit if the file does not exist to avoid further errors
 
 # Process all JSONL files in the input directory
-for input_filename in os.listdir(base_directory):
+for input_filename in os.listdir(input_direcotry):
     if input_filename.endswith('.jsonl'):
-        input_file_path = os.path.join(base_directory, input_filename)
+        input_file_path = os.path.join(input_direcotry , input_filename)
         
         # Extract the base name (e.g., "vectors.part00" from "vectors.part00.jsonl")
         base_name = os.path.splitext(input_filename)[0]

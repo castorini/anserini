@@ -3,7 +3,6 @@ package io.anserini.index.generator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.anserini.collection.SourceDocument;
 import io.anserini.index.Constants;
-import io.anserini.index.SafeTensorsIndexCollection;
 import org.apache.lucene.document.BinaryDocValuesField;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -22,31 +21,31 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+
 /**
  * Converts a {@link SourceDocument} from SafeTensors into a Lucene {@link Document}, ready to be indexed.
  *
  * @param <T> type of the source document
  */
 public class HnswJsonWithSafeTensorsDenseVectorDocumentGenerator<T extends SourceDocument> implements LuceneDocumentGenerator<T> {
-    private final SafeTensorsIndexCollection.Args args;
-    private String currentJsonlFile;
+  
 
-    public HnswJsonWithSafeTensorsDenseVectorDocumentGenerator(SafeTensorsIndexCollection.Args args) {
-        this.args = args;
+
+    public HnswJsonWithSafeTensorsDenseVectorDocumentGenerator() {
+       
     }
 
-    public void setCurrentJsonlFile(String currentJsonlFile) {
-        this.currentJsonlFile = currentJsonlFile;
-    }
+    // public void setCurrentJsonlFile(String currentJsonlFile) {
+    //     this.currentJsonlFile = currentJsonlFile;
+    // }
 
     @Override
     public Document createDocument(T src) throws InvalidDocumentException {
         try {
-            // Determine the corresponding SafeTensors files based on the current JSONL file
-            String baseFilename = currentJsonlFile.replace(".json", "");
-            String vectorsFilePath = Paths.get(args.vectorsDirectory, baseFilename + "_vectors.safetensors").toString();
-            String docidsFilePath = Paths.get(args.docidsDirectory, baseFilename + "_docids.safetensors").toString();
-            String docidToIdxFilePath = Paths.get(args.docidToIdxDirectory, baseFilename + "_docid_to_idx.json").toString();
+
+            String vectorsFilePath = "collections/beir-v1.0.0/bge-base-en-v1.5.safetensors/nfcorpus/vectors.part00_vectors.safetensors";
+            String docidsFilePath = "collections/beir-v1.0.0/bge-base-en-v1.5.safetensors/nfcorpus/vectors.part00_docids.safetensors";
+            String docidToIdxFilePath = "collections/beir-v1.0.0/bge-base-en-v1.5.safetensors/nfcorpus/vectors.part00_docid_to_idx.json";
 
             // Read and deserialize the SafeTensors files
             byte[] vectorsData = Files.readAllBytes(Paths.get(vectorsFilePath));
