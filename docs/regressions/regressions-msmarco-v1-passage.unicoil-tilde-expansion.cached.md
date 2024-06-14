@@ -1,11 +1,13 @@
 # Anserini Regressions: MS MARCO Passage Ranking
 
-**Model**: uniCOIL (with TILDE expansions)
+**Model**: uniCOIL with TILDE expansions (using cached queries)
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, using uniCOIL (with TILDE expansions) on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking).
 The uniCOIL+TILDE model is described in the following paper:
 
 > Shengyao Zhuang and Guido Zuccon. [Fast Passage Re-ranking with Contextualized Exact Term Matching and Efficient Passage Expansion.](https://arxiv.org/pdf/2108.08513) _arXiv:2108.08513_.
+
+In these experiments, we are using cached queries (i.e., cached results of query encoding).
 
 The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/msmarco-v1-passage.unicoil-tilde-expansion.cached.yaml).
 Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/msmarco-v1-passage.unicoil-tilde-expansion.cached.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
