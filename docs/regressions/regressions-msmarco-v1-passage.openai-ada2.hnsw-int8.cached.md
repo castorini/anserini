@@ -1,12 +1,12 @@
 # Anserini Regressions: MS MARCO Passage Ranking
 
-**Model**: OpenAI-ada2 embeddings (using pre-encoded queries) with HNSW quantized indexes
+**Model**: OpenAI-ada2 embeddings with quantized HNSW indexes (using cached queries)
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, using OpenAI-ada2 embeddings on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking), as described in the following paper:
 
 > Jimmy Lin, Ronak Pradeep, Tommaso Teofili, and Jasper Xian. [Vector Search with OpenAI Embeddings: Lucene Is All You Need.](https://arxiv.org/abs/2308.14963) _arXiv:2308.14963_, 2023.
 
-In these experiments, we are using pre-encoded queries (i.e., cached results of query encoding).
+In these experiments, we are using cached queries (i.e., cached results of query encoding).
 
 The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/msmarco-v1-passage.openai-ada2.hnsw-int8.cached.yaml).
 Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/msmarco-v1-passage.openai-ada2.hnsw-int8.cached.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
@@ -46,7 +46,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 
 ## Indexing
 
-Sample indexing command, building HNSW indexes:
+Sample indexing command, building quantized HNSW indexes:
 
 ```bash
 bin/run.sh io.anserini.index.IndexHnswDenseVectors \
