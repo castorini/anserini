@@ -146,4 +146,4 @@ With the above commands, you should be able to reproduce the following results:
 | [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.7551    | 0.7889    | 0.8096    |
 
 This run roughly corresponds to run `d_unicoil0` submitted to the TREC 2021 Deep Learning Track under the "baseline" group.
-The difference is that here we are using pre-encoded queries, whereas the official submission performed query encoding on the fly.
+The difference is that here we are using cached queries (i.e., cached results of query encoding), whereas the official submission performed query encoding on the fly.
