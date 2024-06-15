@@ -16,7 +16,10 @@
 
 package io.anserini.server;
 
+import io.anserini.index.IndexInfo;
+
 import java.util.List;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -50,6 +53,24 @@ public class Controller {
     queryMap.put("candidates", candidates);
 
     return queryMap;
+  }
+
+  @RequestMapping(method = RequestMethod.GET, path = "/list")
+  public List<Map<String, Object>> list() {
+    IndexInfo[] indexes = IndexInfo.values();
+    List<Map<String, Object>> indexList = new ArrayList<>();
+    for (IndexInfo index : indexes) {
+      indexList.add(Map.of(
+        "indexName", index.indexName,
+        "description", index.description,
+        "filename", index.filename,
+        "corpus", index.corpus,
+        "model", index.model,
+        "urls", index.urls,
+        "md5", index.md5
+      ));
+    }
+    return indexList;
   }
 
 }
