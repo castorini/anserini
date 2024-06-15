@@ -17,6 +17,7 @@
 package io.anserini.server;
 
 import io.anserini.index.IndexInfo;
+import io.anserini.util.PrebuiltIndexHandler;
 
 import java.util.List;
 import java.util.LinkedHashMap;
@@ -42,6 +43,10 @@ public class Controller {
 
     if (index == null) {
       index = DEFAULT_INDEX;
+    }
+
+    if (!IndexInfo.contains(index)) {
+      throw new IllegalArgumentException("Index " + index + " not found!");
     }
 
     SearchService searchService = new SearchService(index);
@@ -70,6 +75,17 @@ public class Controller {
       ));
     }
     return indexList;
+  }
+
+  @RequestMapping(method = RequestMethod.GET, path = "/isCached/{index}")
+  public boolean isCached(@PathVariable("index") String index) {
+    if (!IndexInfo.contains(index)) {
+      throw new IllegalArgumentException("Index name " + index + " not found!");
+    }
+    
+    PrebuiltIndexHandler handler = new PrebuiltIndexHandler(index);
+    handler.initialize();
+    return handler.checkIndexFileExist();
   }
 
 }
