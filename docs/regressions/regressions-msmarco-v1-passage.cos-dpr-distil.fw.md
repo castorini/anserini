@@ -1,9 +1,9 @@
 # Anserini Regressions: MS MARCO Passage Ranking
 
-**Model**: cosDPR-distil with inverted indexes using the "fake-words" technique (q=40); pre-encoded queries
+**Model**: cosDPR-distil with inverted indexes using the "fake-words" technique (q=40) using cached queries
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, using the cosDPR-distil model on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking).
-In these experiments, we are using pre-encoded queries (i.e., cached results of query encoding).
+In these experiments, we are using cached queries (i.e., cached results of query encoding).
 
 The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/msmarco-v1-passage.cos-dpr-distil.fw.yaml).
 Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/msmarco-v1-passage.cos-dpr-distil.fw.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
