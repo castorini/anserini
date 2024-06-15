@@ -20,78 +20,59 @@ interface Props {
   onSelect: (selectedValue: string) => void;
 }
 
+interface IndexInfo {
+  indexName: string;
+  description: string;
+  filename: string;
+  corpus: string;
+  model: string;
+  urls: string[];
+  md5: string;
+}
+
 const Dropdown: React.FC<Props> = ({ onSelect }) => {
   const [selectedCollection, setSelectedCollection] = useState<string | null>(null);
   const [selectedCorpus, setSelectedCorpus] = useState<string | null>(null);
   const [selectedIndex, setSelectedIndex] = useState<string | null>(null);
+  
+  const [indexInfoList, setIndexInfoList] = useState<{ [key: string]: IndexInfo }>({});
+  const [collections, setCollections] = useState<{ [key: string]: string[] | { [key: string]: string[] } }>({});
 
-  const [collections, setCollections] = useState<{ [key: string]: string[] | { [key: string]: string[] } }>({
-    'MS MARCO V1': [
-      'msmarco-v1-passage',
-      'msmarco-v1-passage.splade-pp-ed',
-      'msmarco-v1-passage.cos-dpr-distil',
-      'msmarco-v1-passage.cos-dpr-distil.quantized',
-      'msmarco-v1-passage.bge-base-en-v1.5',
-      'msmarco-v1-passage.bge-base-en-v1.5.quantized',
-      'msmarco-v1-passage.cohere-embed-english-v3.0',
-      'msmarco-v1-passage.cohere-embed-english-v3.0.quantized',
-    ],
-    'MS MARCO V2': [
-      'msmarco-v2-passage',
-      'msmarco-v2-doc',
-      'msmarco-v2-doc-segmented',
-      'msmarco-v2.1-doc',
-      'msmarco-v2.1-doc-segmented',
-    ],
-    'BEIR': {}
-  });
+  // Fetch indexes from api
+  useEffect(
+    () => {
+      const fetchIndexes = async () => {
+        const response = await fetch('/api/list');
+        const indexList = await response.json();
+        setIndexInfoList(indexList);
 
-  // Generate collections for BEIR
-  useEffect(() => {
-    const keys = [
-      'trec-covid',
-      'bioasq',
-      'nfcorpus',
-      'nq',
-      'hotpotqa',
-      'fiqa',
-      'signal1m', 
-      'trec-news',
-      'robust04',
-      'arguana',
-      'webis-touche2020',
-      'cqadupstack-android',
-      'cqadupstack-english',
-      'cqadupstack-gaming',
-      'cqadupstack-gis',
-      'cqadupstack-mathematica',
-      'cqadupstack-physics',
-      'cqadupstack-programmers',
-      'cqadupstack-stats',
-      'cqadupstack-tex',
-      'cqadupstack-unix',
-      'cqadupstack-webmasters',
-      'cqadupstack-wordpress',
-      'quora',
-      'dbpedia-entity',
-      'scidocs',
-      'fever',
-      'climate-fever',
-      'scifact',
-    ];
-    const generatedMap = collections;
-    
-    keys.forEach(key => {
-      const newObj = generatedMap['BEIR'] as { [key: string]: string[] };
-      newObj[key] = [
-        `${key}.flat`,
-        `${key}.multifield`,
-        `${key}.splade-pp-ed`,
-        `${key}.bge-base-en-v1.5`,
-      ];
-    });
-    setCollections(generatedMap);
-  }, []);
+        const dropdownList : { [key: string]: string[] | { [key: string]: string[] } } = {};
+        for (const value of Object.values(indexList)) {
+          const index = value as IndexInfo;
+
+          if (index['corpus'].includes('MS MARCO V1')) {
+            if (!dropdownList['MS MARCO V1']) dropdownList['MS MARCO V1'] = [];
+            (dropdownList['MS MARCO V1'] as string[]).push(index.indexName);
+          } else if (index['corpus'].includes('MS MARCO V2')) {
+            if (!dropdownList['MS MARCO V2']) dropdownList['MS MARCO V2'] = [];
+            (dropdownList['MS MARCO V2'] as string[]).push(index.indexName);
+          } else if (index['corpus'].includes('BEIR')) {
+            if (!dropdownList['BEIR']) dropdownList['BEIR'] = {};
+            const beir = dropdownList['BEIR'] as { [key: string]: string[] };
+            const corpus = (index['corpus'] as string);
+            if (beir[corpus]) {
+              (beir[corpus] as string[]).push(index.indexName);
+            } else {
+              beir[corpus] = [index.indexName];
+            }
+          }
+        }
+        setCollections(dropdownList);
+      }
+
+      fetchIndexes();
+    }
+  , []);
 
   return (
     <div className="dropdowns">
@@ -113,7 +94,7 @@ const Dropdown: React.FC<Props> = ({ onSelect }) => {
           <option value="" className="dropdown-item">Select</option>
           {Array.isArray(collections[selectedCollection])
               && (collections[selectedCollection] as string[]).map((index) => (
-            <option className="dropdown-item" key={index} value={index}>{index}</option>
+            <option className="dropdown-item" key={index} value={index}>{indexInfoList[index].corpus} | {indexInfoList[index].model}</option>
           ))}
         </select>
       </>}
@@ -134,7 +115,7 @@ const Dropdown: React.FC<Props> = ({ onSelect }) => {
         <option value="" className="dropdown-item">Select</option>
         {selectedCorpus && !Array.isArray(collections[selectedCollection])
             && (collections[selectedCollection] as { [key: string]: string[] })[selectedCorpus].map((index) => (
-          <option className="dropdown-item" key={index} value={index}>{index}</option>
+          <option className="dropdown-item" key={index} value={index}>{indexInfoList[index].corpus} | {indexInfoList[index].model}</option>
         ))}
       </select></>}
     </div>
