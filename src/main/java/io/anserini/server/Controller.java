@@ -59,6 +59,17 @@ public class Controller {
     return queryMap;
   }
 
+  @RequestMapping(method = RequestMethod.GET, path = "/isCached/{index}")
+  public boolean isCached(@PathVariable("index") String index) {
+    if (!IndexInfo.contains(index)) {
+      throw new IllegalArgumentException("Index name " + index + " not found!");
+    }
+    
+    PrebuiltIndexHandler handler = new PrebuiltIndexHandler(index);
+    handler.initialize();
+    return handler.checkIndexFileExist();
+  }
+
   @RequestMapping(method = RequestMethod.GET, path = "/list")
   public Map<String, Map<String, Object>> list() {
     IndexInfo[] indexes = IndexInfo.values();
@@ -71,21 +82,11 @@ public class Controller {
         "corpus", index.corpus,
         "model", index.model,
         "urls", index.urls,
-        "md5", index.md5
+        "md5", index.md5,
+        "isCached", isCached(index.indexName)
       ));
     }
     return indexList;
-  }
-
-  @RequestMapping(method = RequestMethod.GET, path = "/isCached/{index}")
-  public boolean isCached(@PathVariable("index") String index) {
-    if (!IndexInfo.contains(index)) {
-      throw new IllegalArgumentException("Index name " + index + " not found!");
-    }
-    
-    PrebuiltIndexHandler handler = new PrebuiltIndexHandler(index);
-    handler.initialize();
-    return handler.checkIndexFileExist();
   }
 
 }

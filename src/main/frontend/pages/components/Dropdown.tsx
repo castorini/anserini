@@ -28,6 +28,7 @@ interface IndexInfo {
   model: string;
   urls: string[];
   md5: string;
+  isCached: boolean;
 }
 
 const Dropdown: React.FC<Props> = ({ onSelect }) => {
@@ -86,6 +87,7 @@ const Dropdown: React.FC<Props> = ({ onSelect }) => {
           <option className="dropdown-item" key={collection} value={collection}>{collection}</option>
         ))}
       </select>
+
       {selectedCollection && selectedCollection.includes("MS MARCO") && <>
         <select className="dropdown-button" onChange={(e) => {
           setSelectedIndex(e.target.value);
@@ -94,10 +96,11 @@ const Dropdown: React.FC<Props> = ({ onSelect }) => {
           <option value="" className="dropdown-item">Select</option>
           {Array.isArray(collections[selectedCollection])
               && (collections[selectedCollection] as string[]).map((index) => (
-            <option className="dropdown-item" key={index} value={index}>{indexInfoList[index].corpus} | {indexInfoList[index].model}</option>
+            <option className={`dropdown-item ${indexInfoList[index].isCached ? 'cached' : ''}`} key={index} value={index}>{indexInfoList[index].corpus} | {indexInfoList[index].model}</option>
           ))}
         </select>
       </>}
+
       {selectedCollection=='BEIR' && <>
       <select className="dropdown-button" onChange={(e) => {
         setSelectedCorpus(e.target.value);
@@ -115,7 +118,7 @@ const Dropdown: React.FC<Props> = ({ onSelect }) => {
         <option value="" className="dropdown-item">Select</option>
         {selectedCorpus && !Array.isArray(collections[selectedCollection])
             && (collections[selectedCollection] as { [key: string]: string[] })[selectedCorpus].map((index) => (
-          <option className="dropdown-item" key={index} value={index}>{indexInfoList[index].corpus} | {indexInfoList[index].model}</option>
+          <option className={`dropdown-item ${indexInfoList[index].isCached ? 'cached' : ''}`} key={index} value={index}>{indexInfoList[index].corpus} | {indexInfoList[index].model}</option>
         ))}
       </select></>}
     </div>
