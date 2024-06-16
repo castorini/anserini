@@ -43,7 +43,7 @@ const Dropdown: React.FC<Props> = ({ onSelect }) => {
   useEffect(
     () => {
       const fetchIndexes = async () => {
-        const response = await fetch('/api/list');
+        const response = await fetch('/api/indexes');
         const indexList = await response.json();
         setIndexInfoList(indexList);
 

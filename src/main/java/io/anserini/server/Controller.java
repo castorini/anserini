@@ -59,7 +59,7 @@ public class Controller {
     return queryMap;
   }
 
-  @RequestMapping(method = RequestMethod.GET, path = "/isCached/{index}")
+  @RequestMapping(method = RequestMethod.GET, path = "/index/{index}/cached")
   public boolean isCached(@PathVariable("index") String index) {
     if (!IndexInfo.contains(index)) {
       throw new IllegalArgumentException("Index name " + index + " not found!");
@@ -70,7 +70,7 @@ public class Controller {
     return handler.checkIndexFileExist();
   }
 
-  @RequestMapping(method = RequestMethod.GET, path = "/list")
+  @RequestMapping(method = RequestMethod.GET, path = "/indexes")
   public Map<String, Map<String, Object>> list() {
     IndexInfo[] indexes = IndexInfo.values();
     Map<String, Map<String, Object>> indexList = new LinkedHashMap<>();
