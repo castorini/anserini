@@ -28,139 +28,139 @@ import java.util.Map;
  * @param <T> type of the source document
  */
 public class HnswJsonWithSafeTensorsDenseVectorDocumentGenerator<T extends SourceDocument> implements LuceneDocumentGenerator<T> {
-  
+	
 
 
-    public HnswJsonWithSafeTensorsDenseVectorDocumentGenerator() {
-       
-    }
+	public HnswJsonWithSafeTensorsDenseVectorDocumentGenerator() {
+		 
+	}
 
-    // public void setCurrentJsonlFile(String currentJsonlFile) {
-    //     this.currentJsonlFile = currentJsonlFile;
-    // }
+	// public void setCurrentJsonlFile(String currentJsonlFile) {
+	//     this.currentJsonlFile = currentJsonlFile;
+	// }
 
-    @Override
-    public Document createDocument(T src) throws InvalidDocumentException {
-        try {
+	@Override
+	public Document createDocument(T src) throws InvalidDocumentException {
+		try {
 
-            String vectorsFilePath = "collections/beir-v1.0.0/bge-base-en-v1.5.safetensors/nfcorpus/vectors.part00_vectors.safetensors";
-            String docidsFilePath = "collections/beir-v1.0.0/bge-base-en-v1.5.safetensors/nfcorpus/vectors.part00_docids.safetensors";
-            String docidToIdxFilePath = "collections/beir-v1.0.0/bge-base-en-v1.5.safetensors/nfcorpus/vectors.part00_docid_to_idx.json";
+			String vectorsFilePath = "collections/beir-v1.0.0/bge-base-en-v1.5.safetensors/nfcorpus/vectors.part00_vectors.safetensors";
+			String docidsFilePath = "collections/beir-v1.0.0/bge-base-en-v1.5.safetensors/nfcorpus/vectors.part00_docids.safetensors";
+			String docidToIdxFilePath = "collections/beir-v1.0.0/bge-base-en-v1.5.safetensors/nfcorpus/vectors.part00_docid_to_idx.json";
 
-            // Read and deserialize the SafeTensors files
-            byte[] vectorsData = Files.readAllBytes(Paths.get(vectorsFilePath));
-            byte[] docidsData = Files.readAllBytes(Paths.get(docidsFilePath));
+			// Read and deserialize the SafeTensors files
+			byte[] vectorsData = Files.readAllBytes(Paths.get(vectorsFilePath));
+			byte[] docidsData = Files.readAllBytes(Paths.get(docidsFilePath));
 
-            // Deserialize docid_to_idx.json
-            ObjectMapper objectMapper = new ObjectMapper();
-            @SuppressWarnings("unchecked")
-            Map<String, Integer> docidToIdx = objectMapper.readValue(Files.readAllBytes(Paths.get(docidToIdxFilePath)), Map.class);
-            Map<Integer, String> idxToDocid = new LinkedHashMap<>();
-            for (Map.Entry<String, Integer> entry : docidToIdx.entrySet()) {
-                idxToDocid.put(entry.getValue(), entry.getKey());
-            }
+			// Deserialize docid_to_idx.json
+			ObjectMapper objectMapper = new ObjectMapper();
+			@SuppressWarnings("unchecked")
+			Map<String, Integer> docidToIdx = objectMapper.readValue(Files.readAllBytes(Paths.get(docidToIdxFilePath)), Map.class);
+			Map<Integer, String> idxToDocid = new LinkedHashMap<>();
+			for (Map.Entry<String, Integer> entry : docidToIdx.entrySet()) {
+				idxToDocid.put(entry.getValue(), entry.getKey());
+			}
 
-            // Deserialize docids
-            Map<String, Object> docidsHeader = parseHeader(docidsData);
-            int[] docidIndices = extractDocidIndices(docidsData, docidsHeader);
-            String[] docids = new String[docidIndices.length];
-            for (int i = 0; i < docidIndices.length; i++) {
-                docids[i] = idxToDocid.get(docidIndices[i]);
-            }
+			// Deserialize docids
+			Map<String, Object> docidsHeader = parseHeader(docidsData);
+			int[] docidIndices = extractDocidIndices(docidsData, docidsHeader);
+			String[] docids = new String[docidIndices.length];
+			for (int i = 0; i < docidIndices.length; i++) {
+				docids[i] = idxToDocid.get(docidIndices[i]);
+			}
 
-            // Deserialize vectors
-            Map<String, Object> vectorsHeader = parseHeader(vectorsData);
-            double[][] vectors = extractVectors(vectorsData, vectorsHeader);
+			// Deserialize vectors
+			Map<String, Object> vectorsHeader = parseHeader(vectorsData);
+			double[][] vectors = extractVectors(vectorsData, vectorsHeader);
 
-            // Create the Lucene document
-            String id = src.id();
-            Integer indexObj = idxToDocid.entrySet().stream().filter(entry -> entry.getValue().equals(id)).findFirst().orElse(null).getKey();
-            if (indexObj == null) {
-                throw new InvalidDocumentException();
-            }
-            int index = indexObj;
-            float[] contents = new float[vectors[index].length];
-            for (int i = 0; i < contents.length; i++) {
-                contents[i] = (float) vectors[index][i];
-            }
+			// Create the Lucene document
+			String id = src.id();
+			Integer indexObj = idxToDocid.entrySet().stream().filter(entry -> entry.getValue().equals(id)).findFirst().orElse(null).getKey();
+			if (indexObj == null) {
+				throw new InvalidDocumentException();
+			}
+			int index = indexObj;
+			float[] contents = new float[vectors[index].length];
+			for (int i = 0; i < contents.length; i++) {
+				contents[i] = (float) vectors[index][i];
+			}
 
-            final Document document = new Document();
-            document.add(new StringField(Constants.ID, id, Field.Store.YES));
-            document.add(new BinaryDocValuesField(Constants.ID, new BytesRef(id)));
-            document.add(new KnnFloatVectorField(Constants.VECTOR, contents, VectorSimilarityFunction.DOT_PRODUCT));
+			final Document document = new Document();
+			document.add(new StringField(Constants.ID, id, Field.Store.YES));
+			document.add(new BinaryDocValuesField(Constants.ID, new BytesRef(id)));
+			document.add(new KnnFloatVectorField(Constants.VECTOR, contents, VectorSimilarityFunction.DOT_PRODUCT));
 
-            return document;
+			return document;
 
-        } catch (Exception e) {
-            throw new InvalidDocumentException();
-        }
-    }
+		} catch (Exception e) {
+			throw new InvalidDocumentException();
+		}
+	}
 
-    private Map<String, Object> parseHeader(byte[] data) throws IOException {
-        ByteBuffer buffer = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN);
-        long headerSize = buffer.getLong();
-        byte[] headerBytes = new byte[(int) headerSize];
-        buffer.get(headerBytes);
-        String headerJson = new String(headerBytes, StandardCharsets.UTF_8).trim();
-        ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.readValue(headerJson, Map.class);
-    }
+	private Map<String, Object> parseHeader(byte[] data) throws IOException {
+		ByteBuffer buffer = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN);
+		long headerSize = buffer.getLong();
+		byte[] headerBytes = new byte[(int) headerSize];
+		buffer.get(headerBytes);
+		String headerJson = new String(headerBytes, StandardCharsets.UTF_8).trim();
+		ObjectMapper objectMapper = new ObjectMapper();
+		return objectMapper.readValue(headerJson, Map.class);
+	}
 
-    private double[][] extractVectors(byte[] data, Map<String, Object> header) {
-        @SuppressWarnings("unchecked")
-        Map<String, Object> vectorsInfo = (Map<String, Object>) header.get("vectors");
-        String dtype = (String) vectorsInfo.get("dtype");
+	private double[][] extractVectors(byte[] data, Map<String, Object> header) {
+		@SuppressWarnings("unchecked")
+		Map<String, Object> vectorsInfo = (Map<String, Object>) header.get("vectors");
+		String dtype = (String) vectorsInfo.get("dtype");
 
-        @SuppressWarnings("unchecked")
-        List<Integer> shapeList = (List<Integer>) vectorsInfo.get("shape");
-        int rows = shapeList.get(0);
-        int cols = shapeList.get(1);
-        @SuppressWarnings("unchecked")
-        List<Number> dataOffsets = (List<Number>) vectorsInfo.get("data_offsets");
-        long begin = dataOffsets.get(0).longValue();
+		@SuppressWarnings("unchecked")
+		List<Integer> shapeList = (List<Integer>) vectorsInfo.get("shape");
+		int rows = shapeList.get(0);
+		int cols = shapeList.get(1);
+		@SuppressWarnings("unchecked")
+		List<Number> dataOffsets = (List<Number>) vectorsInfo.get("data_offsets");
+		long begin = dataOffsets.get(0).longValue();
 
-        ByteBuffer buffer = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN);
-        buffer.position((int) (begin + buffer.getLong(0) + 8));
+		ByteBuffer buffer = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN);
+		buffer.position((int) (begin + buffer.getLong(0) + 8));
 
-        double[][] vectors = new double[rows][cols];
-        if (dtype.equals("F64")) {
-            for (int i = 0; i < rows; i++) {
-                for (int j = 0; j < cols; j++) {
-                    vectors[i][j] = buffer.getDouble();
-                }
-            }
-        } else {
-            throw new UnsupportedOperationException("Unsupported data type: " + dtype);
-        }
+		double[][] vectors = new double[rows][cols];
+		if (dtype.equals("F64")) {
+			for (int i = 0; i < rows; i++) {
+				for (int j = 0; j < cols; j++) {
+					vectors[i][j] = buffer.getDouble();
+				}
+			}
+		} else {
+			throw new UnsupportedOperationException("Unsupported data type: " + dtype);
+		}
 
-        return vectors;
-    }
+		return vectors;
+	}
 
-    private int[] extractDocidIndices(byte[] data, Map<String, Object> header) {
-        @SuppressWarnings("unchecked")
-        Map<String, Object> docidsInfo = (Map<String, Object>) header.get("docids");
-        String dtype = (String) docidsInfo.get("dtype");
+	private int[] extractDocidIndices(byte[] data, Map<String, Object> header) {
+		@SuppressWarnings("unchecked")
+		Map<String, Object> docidsInfo = (Map<String, Object>) header.get("docids");
+		String dtype = (String) docidsInfo.get("dtype");
 
-        @SuppressWarnings("unchecked")
-        List<Integer> shapeList = (List<Integer>) docidsInfo.get("shape");
-        int length = shapeList.get(0);
+		@SuppressWarnings("unchecked")
+		List<Integer> shapeList = (List<Integer>) docidsInfo.get("shape");
+		int length = shapeList.get(0);
 
-        @SuppressWarnings("unchecked")
-        List<Number> dataOffsets = (List<Number>) docidsInfo.get("data_offsets");
-        long begin = dataOffsets.get(0).longValue();
+		@SuppressWarnings("unchecked")
+		List<Number> dataOffsets = (List<Number>) docidsInfo.get("data_offsets");
+		long begin = dataOffsets.get(0).longValue();
 
-        ByteBuffer buffer = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN);
-        buffer.position((int) (begin + buffer.getLong(0) + 8));
+		ByteBuffer buffer = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN);
+		buffer.position((int) (begin + buffer.getLong(0) + 8));
 
-        int[] docidIndices = new int[length];
-        if (dtype.equals("I64")) {
-            for (int i = 0; i < length; i++) {
-                docidIndices[i] = (int) buffer.getLong();
-            }
-        } else {
-            throw new UnsupportedOperationException("Unsupported data type: " + dtype);
-        }
+		int[] docidIndices = new int[length];
+		if (dtype.equals("I64")) {
+			for (int i = 0; i < length; i++) {
+				docidIndices[i] = (int) buffer.getLong();
+			}
+		} else {
+			throw new UnsupportedOperationException("Unsupported data type: " + dtype);
+		}
 
-        return docidIndices;
-    }
+		return docidIndices;
+	}
 }
