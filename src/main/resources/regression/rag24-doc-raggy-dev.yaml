@@ -52,7 +52,7 @@ metrics:
 topic_reader: TsvInt
 topics:
   - name: "RAG 24: RAGgy dev queries"
-    id: dl23
+    id: rag24.raggy-dev
     path: topics.rag24.raggy-dev.txt
     qrel: qrels.rag24.raggy-dev.txt
 

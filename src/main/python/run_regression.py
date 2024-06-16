@@ -51,17 +51,20 @@ CORPUS_ROOTS = [
     '/mnt/',                      # on tjena
     '/tuna1/',                    # on tuna
     '/store/',                    # on orca
+    '/u4/jimmylin/',              # on linux.cs
     '/System/Volumes/Data/store'  # for new organization of directories in macOS Monterey
 ]
 
 INDEX_COMMAND = 'bin/run.sh io.anserini.index.IndexCollection'
-INDEX_HNSW_COMMAND = 'bin/run.sh io.anserini.index.IndexHnswDenseVectors'
+INDEX_FLAT_DENSE_COMMAND = 'bin/run.sh io.anserini.index.IndexFlatDenseVectors'
+INDEX_HNSW_DENSE_COMMAND = 'bin/run.sh io.anserini.index.IndexHnswDenseVectors'
 INDEX_INVERTED_DENSE_COMMAND = 'bin/run.sh io.anserini.index.IndexInvertedDenseVectors'
 
 INDEX_STATS_COMMAND = 'bin/run.sh io.anserini.index.IndexReaderUtils'
 
 SEARCH_COMMAND = 'bin/run.sh io.anserini.search.SearchCollection'
-SEARCH_HNSW_COMMAND = 'bin/run.sh io.anserini.search.SearchHnswDenseVectors'
+SEARCH_FLAT_DENSE_COMMAND = 'bin/run.sh io.anserini.search.SearchFlatDenseVectors'
+SEARCH_HNSW_DENSE_COMMAND = 'bin/run.sh io.anserini.search.SearchHnswDenseVectors'
 SEARCH_INVERTED_DENSE_COMMAND = 'bin/run.sh io.anserini.search.SearchInvertedDenseVectors'
 
 
@@ -121,7 +124,9 @@ def construct_indexing_command(yaml_data, args):
     if yaml_data.get('index_type') == 'inverted-dense':
         root_cmd = INDEX_INVERTED_DENSE_COMMAND
     elif yaml_data.get('index_type') == 'hnsw':
-        root_cmd = INDEX_HNSW_COMMAND
+        root_cmd = INDEX_HNSW_DENSE_COMMAND
+    elif yaml_data.get('index_type') == 'flat':
+        root_cmd = INDEX_FLAT_DENSE_COMMAND
     else:
         root_cmd = INDEX_COMMAND
 
@@ -139,16 +144,18 @@ def construct_indexing_command(yaml_data, args):
 
 
 def construct_runfile_path(index, id, model_name):
-    # If the index is 'indexes/lucene-index.msmarco-passage-ca/', we pull out 'msmarco-passage-ca'.
-    # Be careful, for 'indexes/lucene-index.mrtydi-v1.1-arabic/', we want to pull out 'mrtydi-v1.1-arabic'.
-    index_part = index.split('/')[1].split('.', 1)[1]
+    # If the index is 'indexes/lucene-inverted.msmarco-passage-ca/', we pull out 'msmarco-passage-ca'.
+    #  'indexes/lucene-hnsw-int8.msmarco-v1-passage.cos-dpr-distil/' -> 'hnsw-int8.msmarco-v1-passage.cos-dpr-distil'
+    #  'indexes/lucene-hnsw.msmarco-v1-passage.cos-dpr-distil/' -> 'hnsw.msmarco-v1-passage.cos-dpr-distil/'
+    # Be careful, for 'indexes/lucene-inverted.mrtydi-v1.1-arabic/', we want to pull out 'inverted-mrtydi-v1.1-arabic'.
+    index_part = index.split('/')[1].split('-', 1)[1]
     return os.path.join('runs/', 'run.{0}.{1}.{2}'.format(index_part, id, model_name))
 
 
 def construct_search_commands(yaml_data):
     ranking_commands = [
         [
-            SEARCH_INVERTED_DENSE_COMMAND if model.get('type') == 'inverted-dense' else SEARCH_HNSW_COMMAND if model.get('type') == 'hnsw' else SEARCH_COMMAND,
+            SEARCH_INVERTED_DENSE_COMMAND if model.get('type') == 'inverted-dense' else SEARCH_HNSW_DENSE_COMMAND if model.get('type') == 'hnsw' else SEARCH_FLAT_DENSE_COMMAND if model.get('type') == 'flat' else SEARCH_COMMAND,
             '-index', construct_index_path(yaml_data),
             '-topics', os.path.join('tools/topics-and-qrels', topic_set['path']),
             '-topicReader', topic_set['topic_reader'] if 'topic_reader' in topic_set and topic_set['topic_reader'] else yaml_data['topic_reader'],
@@ -204,26 +211,126 @@ def evaluate_and_verify(yaml_data, dry_run):
                 expected = round(model['results'][metric['metric']][i], metric['metric_precision'])
                 actual = round(float(eval_out), metric['metric_precision'])
 
-                using_hnsw = True \
-                    if 'VectorQueryGenerator' in model['params'] or \
-                       ('-encoder' in model['params'] and ('SpladePlusPlusEnsembleDistil' not in model['params'] and 'SpladePlusPlusSelfDistil' not in model['params'])) else False
+                using_hnsw = True if 'type' in model and model['type'] == 'hnsw' else False
+                using_flat = True if 'type' in model and model['type'] == 'flat' else False
 
-                # For HNSW, we only print to third digit
+                if using_flat and 'BEIR' in topic_set['name']:
+                    if model['name'].endswith('-flat-int8-onnx'):
+                        if topic_set['name'].endswith('ArguAna'):
+                            flat_tolerance_ok = 0.021
+                        elif topic_set['name'].endswith('NFCorpus') and metric['metric'] == 'R@1000':
+                            flat_tolerance_ok = 0.007
+                        elif topic_set['name'].endswith('Signal-1M'):
+                            flat_tolerance_ok = 0.006
+                        elif topic_set['name'].endswith('TREC-NEWS'):
+                            flat_tolerance_ok = 0.01
+                        elif topic_set['name'].endswith('Webis-Touche2020'):
+                            flat_tolerance_ok = 0.007
+                        else:
+                            flat_tolerance_ok = 0.005
+                    elif model['name'].endswith('-flat-int8-cached'):
+                        if topic_set['name'].endswith('BioASQ'):
+                            flat_tolerance_ok = 0.005
+                        elif topic_set['name'].endswith('NFCorpus') and metric['metric'] == 'R@1000':
+                            flat_tolerance_ok = 0.006
+                        elif topic_set['name'].endswith('Signal-1M'):
+                            flat_tolerance_ok = 0.007
+                        elif topic_set['name'].endswith('TREC-NEWS'):
+                            flat_tolerance_ok = 0.009
+                        elif topic_set['name'].endswith('Webis-Touche2020'):
+                            flat_tolerance_ok = 0.007
+                        else:
+                            flat_tolerance_ok = 0.004
+                    elif model['name'].endswith('-flat-onnx'):
+                        if topic_set['name'].endswith('ArguAna'):
+                            flat_tolerance_ok = 0.02
+                        elif topic_set['name'].endswith('Robust04'):
+                            flat_tolerance_ok = 0.004
+                        else:
+                            flat_tolerance_ok = 0.002
+                    else:
+                        flat_tolerance_ok = 1e-9
+                elif using_flat and 'MS MARCO Passage' in topic_set['name']:
+                    if model['name'].endswith('-flat-int8-onnx'):
+                        flat_tolerance_ok = 0.002
+                    elif model['name'].endswith('-flat-int8-cached'):
+                        if model['name'] == 'openai-ada2-flat-int8-cached':
+                            flat_tolerance_ok = 0.008
+                        else:
+                            flat_tolerance_ok = 0.002
+                    elif model['name'].endswith('-flat-onnx'):
+                        flat_tolerance_ok = 0.0001
+                    else:
+                        flat_tolerance_ok = 1e-9
+                    #print(f'Tolerance: {flat_tolerance_ok}')
+                elif using_flat and 'DL19' in topic_set['name']:
+                    if model['name'].endswith('-flat-int8-onnx'):
+                        if model['name'] == 'bge-flat-int8-onnx':
+                            flat_tolerance_ok = 0.007
+                        elif model['name'] == 'cos-dpr-distil-flat-int8-onnx':
+                            flat_tolerance_ok = 0.004
+                        else:
+                            flat_tolerance_ok = 0.002
+                    elif model['name'].endswith('-flat-int8-cached'):
+                        if model['name'] == 'openai-ada2-flat-int8-cached':
+                            flat_tolerance_ok = 0.008
+                        else:
+                            flat_tolerance_ok = 0.002
+                    elif model['name'].endswith('-flat-onnx'):
+                        if model['name'] == 'bge-flat-onnx':
+                            flat_tolerance_ok = 0.008
+                        else:
+                            flat_tolerance_ok = 0.0001
+                    else:
+                        flat_tolerance_ok = 1e-9
+                    #print(f'DL19 Tolerance: {flat_tolerance_ok}')
+                elif using_flat and 'DL20' in topic_set['name']:
+                    if model['name'].endswith('-flat-int8-onnx'):
+                        if model['name'] == 'bge-flat-int8-onnx':
+                            flat_tolerance_ok = 0.004
+                        elif model['name'] == 'cos-dpr-distil-flat-int8-onnx':
+                            flat_tolerance_ok = 0.004
+                        else:
+                            flat_tolerance_ok = 0.002
+                    elif model['name'].endswith('-flat-int8-cached'):
+                        if model['name'] == 'bge-flat-int8-cached':
+                            flat_tolerance_ok = 0.005
+                        elif model['name'] == 'cos-dpr-distil-flat-int8-cached':
+                            flat_tolerance_ok = 0.004
+                        else:
+                            flat_tolerance_ok = 0.002
+                    elif model['name'].endswith('-flat-onnx'):
+                        if model['name'] == 'bge-flat-onnx':
+                            flat_tolerance_ok = 0.005
+                        else:
+                            flat_tolerance_ok = 0.0001
+                    else:
+                        flat_tolerance_ok = 1e-9
+                    #print(f'DL20 Tolerance: {flat_tolerance_ok}')
+                else:
+                    flat_tolerance_ok = 1e-9
+
+                # For HNSW, only print out score to third digit
                 if using_hnsw:
                     result_str = 'expected: {0:.3f} actual: {1:.3f} - metric: {2:<8} model: {3} topics: {4}'.format(
                         expected, actual, metric['metric'], model['name'], topic_set['id'])
+                if using_flat:
+                    result_str = (f'expected: {expected:.4f} actual: {actual:.4f} '
+                                  f'(delta={abs(expected-actual):.4f}, tolerance={abs(flat_tolerance_ok):.4f}) - '
+                                  f'metric: {metric["metric"]:<8} model: {model["name"]} topics: {topic_set["id"]}')
                 else:
-                    result_str = 'expected: {0:.4f} actual: {1:.4f} - metric: {2:<8} model: {3} topics: {4}'.format(
-                        expected, actual, metric['metric'], model['name'], topic_set['id'])
+                    result_str = (f'expected: {expected:.4f} actual: {actual:.4f} (delta={abs(expected-actual):.4f}) - '
+                                  f'metric: {metric["metric"]:<8} model: {model["name"]} topics: {topic_set["id"]}')
 
-                # For inverted indexes, we expect scores to match precisely.
-                # For HNSW, be more tolerant, but as long as the actual score is higher than the expected score,
-                # let the test pass.
-                if is_close(expected, actual) or \
-                        (using_hnsw and is_close(expected, actual, abs_tol=0.005)) or \
-                        (using_hnsw and actual > expected):
+                # - For inverted indexes, we expect scores to match precisely.
+                # - For flat indexes (on dense vectors), use the tolerance values set above.
+                # - For HNSW, be more tolerant, but as long as the actual score is higher than the expected score,
+                #   let the test pass.
+                if is_close(expected, actual) or actual > expected or \
+                        (using_flat and is_close(expected, actual, abs_tol=flat_tolerance_ok)) or \
+                        (using_hnsw and is_close(expected, actual, abs_tol=0.005)):
                     logger.info(ok_str + result_str)
-                # For ONNX runs, increase tolerance a bit because we observe some minor differences across OSes.
+                # For ONNX runs with HNSW, increase tolerance a bit because we observe minor differences across OSes.
                 elif using_hnsw and is_close(expected, actual, abs_tol=0.0101):
                     logger.info(okish_str + result_str)
                     okish = True
@@ -382,6 +489,8 @@ if __name__ == '__main__':
         logger.info('='*10 + ' Verifying Index ' + '='*10)
         if yaml_data.get('index_type') == 'hnsw':
             logger.info('Skipping verification step for HNSW dense indexes.')
+        elif yaml_data.get('index_type') == 'flat':
+            logger.info('Skipping verification step for flat dense indexes.')
         else:
             verification_command_args = [INDEX_STATS_COMMAND, '-index', construct_index_path(yaml_data), '-stats']
             if yaml_data.get('index_type') == 'inverted-dense':

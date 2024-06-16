@@ -8,7 +8,7 @@ download_checksum: 353d2c9e72e858897ad479cca4ea0db1
 index_path: indexes/lucene-hnsw.msmarco-v1-passage.bge-base-en-v1.5/
 index_type: hnsw
 collection_class: JsonDenseVectorCollection
-generator_class: HnswDenseVectorDocumentGenerator
+generator_class: DenseVectorDocumentGenerator
 index_threads: 16
 index_options: -M 16 -efC 100 -memoryBuffer 65536 -noMerge
 

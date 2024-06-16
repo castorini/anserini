@@ -38,7 +38,7 @@ public class TopicReaderTest {
       String path = topic.path;
       assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(path));
     }
-    assertEquals(475, cnt);
+    assertEquals(476, cnt);
   }
 
   @Test
@@ -993,6 +993,20 @@ public class TopicReaderTest {
     assertEquals(3100918, (int) topics.lastKey());
     assertEquals("Can older adults gain strength by training once per week?", topics.get(topics.lastKey()).get("title"));
     assertEquals("Can older adults gain strength by training once per week?", topics.get(3100918).get("title"));
+  }
+
+  @Test
+  public void testTREC24_RAG_RESEARCHY() throws IOException {
+    SortedMap<Integer, Map<String, String>> topics;
+
+    topics = TopicReader.getTopics(Topics.TREC2024_RAG_RESEARCHY_DEV);
+    assertNotNull(topics);
+    assertEquals(600, topics.size());
+    assertEquals(429, (int) topics.firstKey());
+    assertEquals("how do cafeteria-style plans increase costs for employers?", topics.get(topics.firstKey()).get("title"));
+    assertEquals(1009569, (int) topics.lastKey());
+    assertEquals("how do video games improve problem solving", topics.get(topics.lastKey()).get("title"));
+    assertEquals("how do video games improve problem solving", topics.get(1009569).get("title"));
   }
 
   @Test
