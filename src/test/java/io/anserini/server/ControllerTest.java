@@ -52,4 +52,11 @@ public class ControllerTest {
     });
   }
 
+  @Test
+  public void testListIndexes() throws Exception {
+    ControllerV1_0 controller = new ControllerV1_0();
+    Map<String, Map<String, Object>> indexes = controller.listIndexes();
+    assertEquals(indexes.size(), IndexInfo.values().length);
+  }
+
 }
