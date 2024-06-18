@@ -26,8 +26,8 @@ const SearchBar: React.FC = () => {
   const fetchResults = async (query: string, index: string) => {
     setLoading(true);
     try {
-      let endpoint = '/api';
-      if (index != '') endpoint += `/index/${index}`;
+      let endpoint = '/api/v1.0';
+      if (index != '') endpoint += `/indexes/${index}`;
       endpoint += `/search?query=${query}`;
       
       const response = await fetch(endpoint);

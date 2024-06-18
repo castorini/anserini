@@ -28,7 +28,7 @@ interface IndexInfo {
   model: string;
   urls: string[];
   md5: string;
-  isCached: boolean;
+  cached: boolean;
 }
 
 const Dropdown: React.FC<Props> = ({ onSelect }) => {
@@ -43,7 +43,7 @@ const Dropdown: React.FC<Props> = ({ onSelect }) => {
   useEffect(
     () => {
       const fetchIndexes = async () => {
-        const response = await fetch('/api/indexes');
+        const response = await fetch('/api/v1.0/indexes');
         const indexList = await response.json();
         setIndexInfoList(indexList);
 
@@ -96,7 +96,7 @@ const Dropdown: React.FC<Props> = ({ onSelect }) => {
           <option value="" className="dropdown-item">Select</option>
           {Array.isArray(collections[selectedCollection])
               && (collections[selectedCollection] as string[]).map((index) => (
-            <option className={`dropdown-item ${indexInfoList[index].isCached ? 'cached' : ''}`} key={index} value={index}>{indexInfoList[index].corpus} | {indexInfoList[index].model}</option>
+            <option className={`dropdown-item ${indexInfoList[index].cached ? 'cached' : ''}`} key={index} value={index}>{indexInfoList[index].corpus} | {indexInfoList[index].model}</option>
           ))}
         </select>
       </>}
@@ -118,7 +118,7 @@ const Dropdown: React.FC<Props> = ({ onSelect }) => {
         <option value="" className="dropdown-item">Select</option>
         {selectedCorpus && !Array.isArray(collections[selectedCollection])
             && (collections[selectedCollection] as { [key: string]: string[] })[selectedCorpus].map((index) => (
-          <option className={`dropdown-item ${indexInfoList[index].isCached ? 'cached' : ''}`} key={index} value={index}>{indexInfoList[index].corpus} | {indexInfoList[index].model}</option>
+          <option className={`dropdown-item ${indexInfoList[index].cached ? 'cached' : ''}`} key={index} value={index}>{indexInfoList[index].corpus} | {indexInfoList[index].model}</option>
         ))}
       </select></>}
     </div>
