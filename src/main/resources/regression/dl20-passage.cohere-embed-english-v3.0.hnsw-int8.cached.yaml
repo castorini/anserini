@@ -1,5 +1,5 @@
 ---
-corpus: msmarco-passage-cohere-embed-english-v3.0
+corpus: msmarco-passage.cohere-embed-english-v3.0
 corpus_path: collections/msmarco/msmarco-passage-cohere-embed-english-v3.0/
 
 download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cohere-embed-english-v3.0.tar
@@ -10,7 +10,7 @@ index_type: hnsw
 collection_class: JsonDenseVectorCollection
 generator_class: DenseVectorDocumentGenerator 
 index_threads: 16
-index_options: -M 16 -efC 100 -noMerge -quantize.int8
+index_options: -M 16 -efC 100 -quantize.int8
 
 metrics:
   - metric: AP@1000
@@ -50,7 +50,7 @@ topics:
     qrel: qrels.dl20-passage.txt
 
 models:
-  - name: cohere-embed-english-v3.0-cached
+  - name: cohere-embed-english-v3.0-hnsw-int8-cached
     display: cohere-embed-english-v3.0
     type: hnsw
     params: -generator VectorQueryGenerator -topicField vector -threads 16 -hits 1000 -efSearch 1000

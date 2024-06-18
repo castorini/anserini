@@ -1,5 +1,5 @@
 ---
-corpus: msmarco-passage-bge-base-en-v1.5
+corpus: msmarco-passage.bge-base-en-v1.5
 corpus_path: collections/msmarco/msmarco-passage-bge-base-en-v1.5/
 
 download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-bge-base-en-v1.5.tar
@@ -10,7 +10,7 @@ index_type: hnsw
 collection_class: JsonDenseVectorCollection
 generator_class: DenseVectorDocumentGenerator
 index_threads: 16
-index_options: -M 16 -efC 100 -memoryBuffer 65536 -noMerge -quantize.int8
+index_options: -M 16 -efC 100 -quantize.int8
 
 metrics:
   - metric: AP@1000
@@ -50,7 +50,7 @@ topics:
     qrel: qrels.dl19-passage.txt
 
 models:
-  - name: bge-hnsw-onnx
+  - name: bge-hnsw-int8-onnx
     display: BGE-base-en-v1.5
     type: hnsw
     params: -generator VectorQueryGenerator -topicField title -threads 16 -hits 1000 -efSearch 1000 -encoder BgeBaseEn15
