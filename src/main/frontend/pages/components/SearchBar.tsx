@@ -32,6 +32,7 @@ const SearchBar: React.FC = () => {
       
       const response = await fetch(endpoint);
       const data = await response.json();
+      console.log(data);
       setResults(data.candidates);
     } catch (error) {
       console.error("Failed to fetch data: ", error);
@@ -70,7 +71,7 @@ const SearchBar: React.FC = () => {
           <h3>Document ID: {result.docid} <span>Score: {result.score}</span></h3>
           {Object.entries(result.doc).map(([key, value]) => (
             <p key={key}>
-              <strong>{key}:</strong> {value as React.ReactNode}
+              <strong>{key}:</strong> {JSON.stringify(value) as React.ReactNode}
             </p>
           ))}
         </div>
