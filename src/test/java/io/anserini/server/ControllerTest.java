@@ -16,7 +16,8 @@
 
 package io.anserini.server;
 
-import java.util.Arrays;
+import io.anserini.index.IndexInfo;
+
 import java.util.List;
 import java.util.Map;
 
@@ -30,9 +31,9 @@ public class ControllerTest {
 
   @Test
   public void testSearch() throws Exception {
-    Controller controller = new Controller();
+    ControllerV1_0 controller = new ControllerV1_0();
 
-    Map<String, Object> results = controller.search(null, "Albert Einstein", 10, "");
+    Map<String, Object> results = controller.searchIndex(null, "Albert Einstein", 10, "");
     assertNotNull(results);
     assertTrue(results.get("candidates") instanceof List);
 
@@ -44,10 +45,10 @@ public class ControllerTest {
 
   @Test
   public void testIndexNotFound() throws Exception {
-    Controller controller = new Controller();
+    ControllerV1_0 controller = new ControllerV1_0();
 
     assertThrows(RuntimeException.class, () -> {
-      Map<String, Object> results = controller.search("nonexistent-index", "Albert Einstein", 10, "");
+      Map<String, Object> results = controller.searchIndex("nonexistent-index", "Albert Einstein", 10, "");
     });
   }
 
