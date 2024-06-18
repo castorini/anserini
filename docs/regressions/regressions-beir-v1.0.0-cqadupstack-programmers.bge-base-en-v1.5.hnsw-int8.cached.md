@@ -37,7 +37,7 @@ bin/run.sh io.anserini.index.IndexHnswDenseVectors \
   -input /path/to/beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5 \
   -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-hnsw-int8.beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5/ \
-  -threads 16 -M 16 -efC 100 -memoryBuffer 65536 -noMerge -quantize.int8 \
+  -threads 16 -M 16 -efC 100 -quantize.int8 \
   >& logs/log.beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5 &
 ```
 
