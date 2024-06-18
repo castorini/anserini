@@ -1,9 +1,9 @@
 # Anserini Regressions: TREC 2022 Deep Learning Track (Passage)
 
-**Model**: SPLADE++ CoCondenser-EnsembleDistil (using pre-encoded queries)
+**Model**: SPLADE++ CoCondenser-EnsembleDistil (using cached queries)
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, applying the [SPLADE++ CoCondenser-EnsembleDistil](https://huggingface.co/naver/splade-cocondenser-ensembledistil) model to the MS MARCO V2 passage corpus.
-Here, we evaluate on the [TREC 2022 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2022.html), using pre-encoded queries (i.e., cached results of query encoding).
+Here, we evaluate on the [TREC 2022 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2022.html), using cached queries (i.e., cached results of query encoding).
 
 The model is described in the following paper:
 

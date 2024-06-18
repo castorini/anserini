@@ -1,8 +1,8 @@
 # Anserini Regressions: BEIR (v1.0.0) &mdash; NQ
 
-**Model**: [SPLADE++ (CoCondenser-EnsembleDistil)](https://arxiv.org/abs/2205.04733) (using ONNX for on-the-fly query encoding)
+**Model**: [SPLADE++ CoCondenser-EnsembleDistil](https://arxiv.org/abs/2205.04733) (using ONNX for on-the-fly query encoding)
 
-This page describes regression experiments, integrated into Anserini's regression testing framework, using [SPLADE++ (CoCondenser-EnsembleDistil)](https://arxiv.org/abs/2205.04733) on [BEIR (v1.0.0) &mdash; NQ](http://beir.ai/).
+This page describes regression experiments, integrated into Anserini's regression testing framework, using [SPLADE++ CoCondenser-EnsembleDistil](https://arxiv.org/abs/2205.04733) on [BEIR (v1.0.0) &mdash; NQ](http://beir.ai/).
 The model itself can be download [here](https://huggingface.co/naver/splade-cocondenser-ensembledistil).
 See the [official SPLADE repo](https://github.com/naver/splade) and the following paper for more details:
 
