@@ -16,6 +16,9 @@
 
 package io.anserini.server;
 
+import io.anserini.index.IndexInfo;
+import io.anserini.util.PrebuiltIndexHandler;
+
 import java.util.List;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -27,19 +30,23 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = "/api")
-public class Controller {
+@RequestMapping(path = "/api/v1.0")
+public class ControllerV1_0 {
 
   private static final String DEFAULT_INDEX = "msmarco-v1-passage";
 
-  @RequestMapping(method = RequestMethod.GET, path = {"/index/{index}/search", "/search"})
-  public Map<String, Object> search(@PathVariable(value = "index", required = false) String index,
+  @RequestMapping(method = RequestMethod.GET, path = {"/indexes/{index}/search", "/search"})
+  public Map<String, Object> searchIndex(@PathVariable(value = "index", required = false) String index,
       @RequestParam("query") String query,
       @RequestParam(value = "hits", defaultValue = "10") int hits,
       @RequestParam(value = "qid", defaultValue = "") String qid) {
 
     if (index == null) {
       index = DEFAULT_INDEX;
+    }
+
+    if (!IndexInfo.contains(index)) {
+      throw new IllegalArgumentException("Index " + index + " not found!");
     }
 
     SearchService searchService = new SearchService(index);
@@ -50,6 +57,36 @@ public class Controller {
     queryMap.put("candidates", candidates);
 
     return queryMap;
+  }
+
+  @RequestMapping(method = RequestMethod.GET, path = "/indexes/{index}/status")
+  public Map<String, Object> getIndexStatus(@PathVariable("index") String index) {
+    if (!IndexInfo.contains(index)) {
+      throw new IllegalArgumentException("Index name " + index + " not found!");
+    }
+    
+    PrebuiltIndexHandler handler = new PrebuiltIndexHandler(index);
+    handler.initialize();
+    return Map.of("cached", handler.checkIndexFileExist());
+  }
+
+  @RequestMapping(method = RequestMethod.GET, path = "/indexes")
+  public Map<String, Map<String, Object>> listIndexes() {
+    IndexInfo[] indexes = IndexInfo.values();
+    Map<String, Map<String, Object>> indexList = new LinkedHashMap<>();
+    for (IndexInfo index : indexes) {
+      indexList.put(index.indexName, Map.of(
+        "indexName", index.indexName,
+        "description", index.description,
+        "filename", index.filename,
+        "corpus", index.corpus,
+        "model", index.model,
+        "urls", index.urls,
+        "md5", index.md5,
+        "cached", getIndexStatus(index.indexName).get("cached")
+      ));
+    }
+    return indexList;
   }
 
 }

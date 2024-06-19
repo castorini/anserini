@@ -157,3 +157,8 @@ ul {
 .dropdown-item:hover {
   background-color: #f7f7f7;
 }
+
+/* Change background color slightly on hover for dropdown buttons */
+.cached {
+  background-color: #b7ffa4;
+}
