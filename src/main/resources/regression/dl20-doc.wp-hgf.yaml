@@ -10,7 +10,7 @@ index_options: -storePositions -storeDocvectors -storeRaw -analyzeWithHuggingFac
 index_stats:
   documents: 3213835
   documents (non-empty): 3213835
-  total terms: 5326253111
+  total terms: 1432265281
 
 metrics:
   - metric: AP@100
@@ -55,10 +55,10 @@ models:
     params: -bm25 -analyzeWithHuggingFaceTokenizer bert-base-uncased
     results:
       AP@100:
-        - 0.3258
+        - 0.3014
       nDCG@10:
-        - 0.5046
+        - 0.5011
       R@100:
-        - 0.5483
+        - 0.4899
       R@1000:
-        - 0.7436
+        - 0.6708
