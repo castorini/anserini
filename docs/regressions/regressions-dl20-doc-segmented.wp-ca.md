@@ -76,13 +76,13 @@ With the above commands, you should be able to reproduce the following results:
 
 | **AP@100**                                                                                                   | **BM25 (default)**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.3568    |
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.3601    |
 | **nDCG@10**                                                                                                  | **BM25 (default)**|
-| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.5196    |
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.5253    |
 | **R@100**                                                                                                    | **BM25 (default)**|
 | [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.5912    |
 | **R@1000**                                                                                                   | **BM25 (default)**|
-| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.7856    |
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.7872    |
 
 Explanation of settings:
 

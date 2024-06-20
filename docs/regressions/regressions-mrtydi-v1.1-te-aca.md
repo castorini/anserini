@@ -69,10 +69,10 @@ With the above commands, you should be able to reproduce the following results:
 
 | **MRR@100**                                                                                                  | **BM25**  |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [Mr. TyDi (Telugu): train](https://github.com/castorini/mr.tydi)                                             | 0.4063    |
-| [Mr. TyDi (Telugu): dev](https://github.com/castorini/mr.tydi)                                               | 0.4131    |
-| [Mr. TyDi (Telugu): test](https://github.com/castorini/mr.tydi)                                              | 0.5096    |
+| [Mr. TyDi (Telugu): train](https://github.com/castorini/mr.tydi)                                             | 0.4051    |
+| [Mr. TyDi (Telugu): dev](https://github.com/castorini/mr.tydi)                                               | 0.4127    |
+| [Mr. TyDi (Telugu): test](https://github.com/castorini/mr.tydi)                                              | 0.5083    |
 | **R@100**                                                                                                    | **BM25**  |
-| [Mr. TyDi (Telugu): train](https://github.com/castorini/mr.tydi)                                             | 0.8379    |
-| [Mr. TyDi (Telugu): dev](https://github.com/castorini/mr.tydi)                                               | 0.8332    |
+| [Mr. TyDi (Telugu): train](https://github.com/castorini/mr.tydi)                                             | 0.8371    |
+| [Mr. TyDi (Telugu): dev](https://github.com/castorini/mr.tydi)                                               | 0.8321    |
 | [Mr. TyDi (Telugu): test](https://github.com/castorini/mr.tydi)                                              | 0.9110    |

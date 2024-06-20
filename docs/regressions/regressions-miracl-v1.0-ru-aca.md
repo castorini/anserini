@@ -58,4 +58,4 @@ With the above commands, you should be able to reproduce the following results:
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [MIRACL (Russian): dev](https://github.com/project-miracl/miracl)                                            | 0.3616    |
 | **R@100**                                                                                                    | **BM25**  |
-| [MIRACL (Russian): dev](https://github.com/project-miracl/miracl)                                            | 0.7579    |
+| [MIRACL (Russian): dev](https://github.com/project-miracl/miracl)                                            | 0.7578    |

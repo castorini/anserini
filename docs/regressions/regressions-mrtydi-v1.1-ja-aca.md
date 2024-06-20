@@ -69,10 +69,10 @@ With the above commands, you should be able to reproduce the following results:
 
 | **MRR@100**                                                                                                  | **BM25**  |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [Mr. TyDi (Japanese): train](https://github.com/castorini/mr.tydi)                                           | 0.2402    |
-| [Mr. TyDi (Japanese): dev](https://github.com/castorini/mr.tydi)                                             | 0.2477    |
-| [Mr. TyDi (Japanese): test](https://github.com/castorini/mr.tydi)                                            | 0.2316    |
+| [Mr. TyDi (Japanese): train](https://github.com/castorini/mr.tydi)                                           | 0.2401    |
+| [Mr. TyDi (Japanese): dev](https://github.com/castorini/mr.tydi)                                             | 0.2466    |
+| [Mr. TyDi (Japanese): test](https://github.com/castorini/mr.tydi)                                            | 0.2294    |
 | **R@100**                                                                                                    | **BM25**  |
-| [Mr. TyDi (Japanese): train](https://github.com/castorini/mr.tydi)                                           | 0.7571    |
-| [Mr. TyDi (Japanese): dev](https://github.com/castorini/mr.tydi)                                             | 0.7694    |
-| [Mr. TyDi (Japanese): test](https://github.com/castorini/mr.tydi)                                            | 0.7007    |
+| [Mr. TyDi (Japanese): train](https://github.com/castorini/mr.tydi)                                           | 0.7563    |
+| [Mr. TyDi (Japanese): dev](https://github.com/castorini/mr.tydi)                                             | 0.7662    |
+| [Mr. TyDi (Japanese): test](https://github.com/castorini/mr.tydi)                                            | 0.7021    |

@@ -69,9 +69,9 @@ With the above commands, you should be able to reproduce the following results:
 
 | **MRR@100**                                                                                                  | **BM25**  |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [Mr. TyDi (Russian): train](https://github.com/castorini/mr.tydi)                                            | 0.2509    |
-| [Mr. TyDi (Russian): dev](https://github.com/castorini/mr.tydi)                                              | 0.2421    |
-| [Mr. TyDi (Russian): test](https://github.com/castorini/mr.tydi)                                             | 0.3720    |
+| [Mr. TyDi (Russian): train](https://github.com/castorini/mr.tydi)                                            | 0.2510    |
+| [Mr. TyDi (Russian): dev](https://github.com/castorini/mr.tydi)                                              | 0.2423    |
+| [Mr. TyDi (Russian): test](https://github.com/castorini/mr.tydi)                                             | 0.3718    |
 | **R@100**                                                                                                    | **BM25**  |
 | [Mr. TyDi (Russian): train](https://github.com/castorini/mr.tydi)                                            | 0.6614    |
 | [Mr. TyDi (Russian): dev](https://github.com/castorini/mr.tydi)                                              | 0.6676    |

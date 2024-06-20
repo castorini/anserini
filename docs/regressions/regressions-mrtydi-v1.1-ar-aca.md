@@ -69,10 +69,10 @@ With the above commands, you should be able to reproduce the following results:
 
 | **MRR@100**                                                                                                  | **BM25**  |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [Mr. TyDi (Arabic): train](https://github.com/castorini/mr.tydi)                                             | 0.3448    |
-| [Mr. TyDi (Arabic): dev](https://github.com/castorini/mr.tydi)                                               | 0.3530    |
-| [Mr. TyDi (Arabic): test](https://github.com/castorini/mr.tydi)                                              | 0.3821    |
+| [Mr. TyDi (Arabic): train](https://github.com/castorini/mr.tydi)                                             | 0.3449    |
+| [Mr. TyDi (Arabic): dev](https://github.com/castorini/mr.tydi)                                               | 0.3528    |
+| [Mr. TyDi (Arabic): test](https://github.com/castorini/mr.tydi)                                              | 0.3827    |
 | **R@100**                                                                                                    | **BM25**  |
-| [Mr. TyDi (Arabic): train](https://github.com/castorini/mr.tydi)                                             | 0.8026    |
-| [Mr. TyDi (Arabic): dev](https://github.com/castorini/mr.tydi)                                               | 0.8061    |
+| [Mr. TyDi (Arabic): train](https://github.com/castorini/mr.tydi)                                             | 0.8025    |
+| [Mr. TyDi (Arabic): dev](https://github.com/castorini/mr.tydi)                                               | 0.8067    |
 | [Mr. TyDi (Arabic): test](https://github.com/castorini/mr.tydi)                                              | 0.7986    |

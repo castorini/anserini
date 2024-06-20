@@ -76,13 +76,13 @@ With the above commands, you should be able to reproduce the following results:
 
 | **AP@100**                                                                                                   | **BM25 (default)**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.2604    |
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.2606    |
 | **nDCG@10**                                                                                                  | **BM25 (default)**|
-| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.5396    |
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.5442    |
 | **R@100**                                                                                                    | **BM25 (default)**|
-| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.4040    |
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.4055    |
 | **R@1000**                                                                                                   | **BM25 (default)**|
-| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.6813    |
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.6835    |
 
 Explanation of settings:
 

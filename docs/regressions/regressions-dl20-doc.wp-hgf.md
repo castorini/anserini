@@ -68,10 +68,10 @@ With the above commands, you should be able to reproduce the following results:
 
 | **AP@100**                                                                                                   | **BM25 (default)**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.3258    |
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.3014    |
 | **nDCG@10**                                                                                                  | **BM25 (default)**|
-| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.5046    |
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.5011    |
 | **R@100**                                                                                                    | **BM25 (default)**|
-| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.5483    |
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.4899    |
 | **R@1000**                                                                                                   | **BM25 (default)**|
-| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.7436    |
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.6708    |

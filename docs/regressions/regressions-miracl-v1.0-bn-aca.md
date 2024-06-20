@@ -56,6 +56,6 @@ With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **BM25**  |
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [MIRACL (Bengali): dev](https://github.com/project-miracl/miracl)                                            | 0.5436    |
+| [MIRACL (Bengali): dev](https://github.com/project-miracl/miracl)                                            | 0.5431    |
 | **R@100**                                                                                                    | **BM25**  |
 | [MIRACL (Bengali): dev](https://github.com/project-miracl/miracl)                                            | 0.9387    |
