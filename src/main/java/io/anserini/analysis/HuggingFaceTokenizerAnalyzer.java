@@ -40,6 +40,21 @@ public class HuggingFaceTokenizerAnalyzer extends Analyzer {
   public HuggingFaceTokenizerAnalyzer(String huggingFaceModelId) throws IOException {
     Map<String, String> options = new ConcurrentHashMap<>();
     options.put("addSpecialTokens", "false");
+    // Note upgrading from djl v0.21.0 to v0.28.0 (June 2024)
+    //
+    // In theory, since we're just tokenizing, we shouldn't be constrained by the modelMaxLength.
+    // Previously, at v0.21.0, we were able to tokenize arbitrarily long sequences.
+    // However, the implementation seems to have changed.
+    //
+    // As of the v0.28.0 upgrade, if we put a large value, we get the warning:
+    // "maxLength is greater then (sic) modelMaxLength, change to: 512"
+    //
+    // On the other hand, if we don't set this value, we get the warning:
+    // "maxLength is not explicitly specified, use modelMaxLength: 512".
+    //
+    // In other words, the implementation forces truncation, even for our IR application, i.e., it
+    // forces FirstP retrieval.
+    options.put("maxLength", "512");
     Path path = Paths.get(huggingFaceModelId);
     
     if(Files.exists(path) == true){
