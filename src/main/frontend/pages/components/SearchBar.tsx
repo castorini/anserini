@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Dropdown from './Dropdown';
+import { Input, Button, Box, Spinner, Text, VStack, HStack } from '@chakra-ui/react';
 
 const SearchBar: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -27,7 +28,7 @@ const SearchBar: React.FC = () => {
     setLoading(true);
     try {
       let endpoint = '/api/v1.0';
-      if (index != '') endpoint += `/indexes/${index}`;
+      if (index !== '') endpoint += `/indexes/${index}`;
       endpoint += `/search?query=${query}`;
       
       const response = await fetch(endpoint);
@@ -38,7 +39,7 @@ const SearchBar: React.FC = () => {
       console.error("Failed to fetch data: ", error);
       setResults([]);
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
   };
 
@@ -49,34 +50,35 @@ const SearchBar: React.FC = () => {
 
   return (
     <>
-    <div className="search-container">
-      <form className="search-bar" onSubmit={handleSubmit}>
-        <Dropdown onSelect={(selectedValue) => setIndex(selectedValue)} />
-        <div className="search-input-container">
-          <input
-            type="text"
-            value={query}
-            placeholder="Search..."
-            className="search-input"
-            onChange={(e) => setQuery(e.target.value)}
-          />
-          <button className="search-button" type="submit" disabled={loading}>Search</button>
-        </div>
-      </form>
-    </div>
-    {loading && <p>Loading...</p>}
-    <ul>
-      {results.map((result, index) => (
-        <div className="query-card" key={index}>
-          <h3>Document ID: {result.docid} <span>Score: {result.score}</span></h3>
-          {Object.entries(result.doc).map(([key, value]) => (
-            <p key={key}>
-              <strong>{key}:</strong> {JSON.stringify(value) as React.ReactNode}
-            </p>
-          ))}
-        </div>
-      ))}
-    </ul>
+      <Box className="search-container" p={4}>
+        <form className="search-bar" onSubmit={handleSubmit}>
+          <HStack spacing={4}>
+            <Dropdown onSelect={(selectedValue) => setIndex(selectedValue)} />
+            <Input
+              type="text"
+              value={query}
+              placeholder="Search..."
+              onChange={(e) => setQuery(e.target.value)}
+            />
+            <Button type="submit" isLoading={loading}>Search</Button>
+          </HStack>
+        </form>
+      </Box>
+      {loading && <Spinner />}
+      <VStack spacing={4} align="stretch">
+        {results.map((result, index) => (
+          <Box key={index} p={4} shadow="md" borderWidth="1px">
+            <Text as="h3">
+              Document ID: {result.docid} <Text as="span">Score: {result.score}</Text>
+            </Text>
+            {Object.entries(result.doc).map(([key, value]) => (
+              <Text key={key}>
+                <strong>{key}:</strong> {JSON.stringify(value)}
+              </Text>
+            ))}
+          </Box>
+        ))}
+      </VStack>
     </>
   );
 };

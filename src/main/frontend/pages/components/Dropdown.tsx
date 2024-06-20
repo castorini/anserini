@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Select } from '@chakra-ui/react';
 
 interface Props {
   onSelect: (selectedValue: string) => void;
@@ -35,92 +36,91 @@ const Dropdown: React.FC<Props> = ({ onSelect }) => {
   const [selectedCollection, setSelectedCollection] = useState<string | null>(null);
   const [selectedCorpus, setSelectedCorpus] = useState<string | null>(null);
   const [selectedIndex, setSelectedIndex] = useState<string | null>(null);
-  
   const [indexInfoList, setIndexInfoList] = useState<{ [key: string]: IndexInfo }>({});
   const [collections, setCollections] = useState<{ [key: string]: string[] | { [key: string]: string[] } }>({});
 
-  // Fetch indexes from api
-  useEffect(
-    () => {
-      const fetchIndexes = async () => {
-        const response = await fetch('/api/v1.0/indexes');
-        const indexList = await response.json();
-        setIndexInfoList(indexList);
+  useEffect(() => {
+    const fetchIndexes = async () => {
+      const response = await fetch('/api/v1.0/indexes');
+      const indexList = await response.json();
+      setIndexInfoList(indexList);
 
-        const dropdownList : { [key: string]: string[] | { [key: string]: string[] } } = {};
-        for (const value of Object.values(indexList)) {
-          const index = value as IndexInfo;
+      const dropdownList: { [key: string]: string[] | { [key: string]: string[] } } = {};
+      for (const value of Object.values(indexList)) {
+        const index = value as IndexInfo;
 
-          if (index['corpus'].includes('MS MARCO V1')) {
-            if (!dropdownList['MS MARCO V1']) dropdownList['MS MARCO V1'] = [];
-            (dropdownList['MS MARCO V1'] as string[]).push(index.indexName);
-          } else if (index['corpus'].includes('MS MARCO V2')) {
-            if (!dropdownList['MS MARCO V2']) dropdownList['MS MARCO V2'] = [];
-            (dropdownList['MS MARCO V2'] as string[]).push(index.indexName);
-          } else if (index['corpus'].includes('BEIR')) {
-            if (!dropdownList['BEIR']) dropdownList['BEIR'] = {};
-            const beir = dropdownList['BEIR'] as { [key: string]: string[] };
-            const corpus = (index['corpus'] as string);
-            if (beir[corpus]) {
-              (beir[corpus] as string[]).push(index.indexName);
-            } else {
-              beir[corpus] = [index.indexName];
-            }
+        if (index.corpus.includes('MS MARCO V1')) {
+          if (!dropdownList['MS MARCO V1']) dropdownList['MS MARCO V1'] = [];
+          (dropdownList['MS MARCO V1'] as string[]).push(index.indexName);
+        } else if (index.corpus.includes('MS MARCO V2')) {
+          if (!dropdownList['MS MARCO V2']) dropdownList['MS MARCO V2'] = [];
+          (dropdownList['MS MARCO V2'] as string[]).push(index.indexName);
+        } else if (index.corpus.includes('BEIR')) {
+          if (!dropdownList['BEIR']) dropdownList['BEIR'] = {};
+          const beir = dropdownList['BEIR'] as { [key: string]: string[] };
+          const corpus = index.corpus as string;
+          if (beir[corpus]) {
+            (beir[corpus] as string[]).push(index.indexName);
+          } else {
+            beir[corpus] = [index.indexName];
           }
         }
-        setCollections(dropdownList);
       }
+      setCollections(dropdownList);
+    };
 
-      fetchIndexes();
-    }
-  , []);
+    fetchIndexes();
+  }, []);
 
   return (
     <div className="dropdowns">
-      <select className="dropdown-button" onChange={(e) => {
+      <Select placeholder="Select" onChange={(e) => {
         setSelectedCollection(e.target.value);
         setSelectedCorpus(null);
         setSelectedIndex(null);
       }}>
-        <option value="" className="dropdown-item">Select</option>
         {Object.keys(collections).map((collection) => (
-          <option className="dropdown-item" key={collection} value={collection}>{collection}</option>
+          <option key={collection} value={collection}>{collection}</option>
         ))}
-      </select>
+      </Select>
 
-      {selectedCollection && selectedCollection.includes("MS MARCO") && <>
-        <select className="dropdown-button" onChange={(e) => {
+      {selectedCollection && selectedCollection.includes("MS MARCO") && (
+        <Select placeholder="Select" onChange={(e) => {
           setSelectedIndex(e.target.value);
-          onSelect(e.target.value)}}
-        >
-          <option value="" className="dropdown-item">Select</option>
-          {Array.isArray(collections[selectedCollection])
-              && (collections[selectedCollection] as string[]).map((index) => (
-            <option className={`dropdown-item ${indexInfoList[index].cached ? 'cached' : ''}`} key={index} value={index}>{indexInfoList[index].corpus} | {indexInfoList[index].model}</option>
-          ))}
-        </select>
-      </>}
+          onSelect(e.target.value);
+        }}>
+          {Array.isArray(collections[selectedCollection]) &&
+            (collections[selectedCollection] as string[]).map((index) => (
+              <option key={index} value={index}>
+                {indexInfoList[index].corpus} | {indexInfoList[index].model}
+              </option>
+            ))}
+        </Select>
+      )}
 
-      {selectedCollection=='BEIR' && <>
-      <select className="dropdown-button" onChange={(e) => {
-        setSelectedCorpus(e.target.value);
-        setSelectedIndex(null);
-      }}>
-        <option value="" className="dropdown-item">Select</option>
-        {selectedCollection && collections[selectedCollection] && Object.keys(collections[selectedCollection]).map((corpus) => (
-          <option className="dropdown-item" key={corpus} value={corpus}>{corpus}</option>
-        ))}
-      </select>
-      <select className="dropdown-button" onChange={(e) => {
-        setSelectedIndex(e.target.value);
-        onSelect(e.target.value)}}
-      >
-        <option value="" className="dropdown-item">Select</option>
-        {selectedCorpus && !Array.isArray(collections[selectedCollection])
-            && (collections[selectedCollection] as { [key: string]: string[] })[selectedCorpus].map((index) => (
-          <option className={`dropdown-item ${indexInfoList[index].cached ? 'cached' : ''}`} key={index} value={index}>{indexInfoList[index].corpus} | {indexInfoList[index].model}</option>
-        ))}
-      </select></>}
+      {selectedCollection === 'BEIR' && (
+        <>
+          <Select placeholder="Select" onChange={(e) => {
+            setSelectedCorpus(e.target.value);
+            setSelectedIndex(null);
+          }}>
+            {selectedCollection && collections[selectedCollection] && Object.keys(collections[selectedCollection]).map((corpus) => (
+              <option key={corpus} value={corpus}>{corpus}</option>
+            ))}
+          </Select>
+          <Select placeholder="Select" onChange={(e) => {
+            setSelectedIndex(e.target.value);
+            onSelect(e.target.value);
+          }}>
+            {selectedCorpus && !Array.isArray(collections[selectedCollection]) &&
+              (collections[selectedCollection] as { [key: string]: string[] })[selectedCorpus].map((index) => (
+                <option key={index} value={index}>
+                  {indexInfoList[index].corpus} | {indexInfoList[index].model}
+                </option>
+              ))}
+          </Select>
+        </>
+      )}
     </div>
   );
 };
