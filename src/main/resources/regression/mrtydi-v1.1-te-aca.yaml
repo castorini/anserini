@@ -10,7 +10,7 @@ index_options: -storePositions -storeDocvectors -storeRaw -language te -useAutoC
 index_stats:
   documents: 548224
   documents (non-empty): 548224
-  total terms: 66656576
+  total terms: 65741581
 
 metrics:
   - metric: MRR@100
@@ -49,10 +49,10 @@ models:
     params: -bm25 -hits 100 -language te -useAutoCompositeAnalyzer
     results:
       MRR@100:
-        - 0.4063
-        - 0.4131
-        - 0.5096
+        - 0.4051
+        - 0.4127
+        - 0.5083
       R@100:
-        - 0.8379
-        - 0.8332
+        - 0.8371
+        - 0.8321
         - 0.9110

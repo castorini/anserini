@@ -10,7 +10,7 @@ index_options: -storePositions -storeDocvectors -storeRaw -language sw -useAutoC
 index_stats:
   documents: 131924
   documents (non-empty): 131924
-  total terms: 7898934
+  total terms: 7844636
 
 metrics:
   - metric: nDCG@10
@@ -41,6 +41,6 @@ models:
     params: -bm25 -hits 100 -language sw -useAutoCompositeAnalyzer
     results:
       nDCG@10:
-        - 0.4146
+        - 0.4152
       R@100:
-        - 0.8025
+        - 0.8021
