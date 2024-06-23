@@ -88,7 +88,7 @@ const Dropdown: React.FC<Props> = ({ onSelect }) => {
             }}>
               {selectedCorpus && !Array.isArray(collections[selectedCollection]) &&
                 (collections[selectedCollection] as { [key: string]: string[] })[selectedCorpus].map((index) => (
-                  <option key={index} value={index}>
+                  <option key={index} value={index} style={{ backgroundColor: indexInfoList[index].cached ? '#c8e6c9' : undefined }}>
                     {indexInfoList[index].model}
                   </option>
                 ))}

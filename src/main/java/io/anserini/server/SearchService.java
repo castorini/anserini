@@ -67,6 +67,7 @@ public class SearchService {
         candidate.put("doc", content);
         candidates.add(candidate);
       }
+      searcher.close();
       return candidates;
     } catch (Exception e) {
       e.printStackTrace();
