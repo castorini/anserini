@@ -61,10 +61,13 @@ public class SearchService {
         JsonNode rootNode = mapper.readTree(raw);
         Map<String, Object> content = mapper.convertValue(rootNode, Map.class);
         content.remove("docid");
+        content.remove("id");
+        content.remove("_id");
         Map<String, Object> candidate = new LinkedHashMap<>();
         candidate.put("docid", r.docid);
         candidate.put("score", r.score);
         candidate.put("doc", content);
+        candidate.put("raw", raw);
         candidates.add(candidate);
       }
       searcher.close();

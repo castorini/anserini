@@ -56,6 +56,18 @@ const SearchBar: React.FC = () => {
         <form style={{ height: "100%" }} onSubmit={handleSubmit}>
           <Flex direction="column" gap={4} height="100%">
             <Dropdown onSelect={(selectedValue) => setIndex(selectedValue)} />
+            <HStack spacing={4}>
+              <Input
+                type="text"
+                value={query}
+                placeholder="Type your query here..."
+                onChange={(e) => setQuery(e.target.value)}
+                bg="gray.100"
+                border="none"
+                _focus={{ bg: 'white', boxShadow: 'outline' }}
+              />
+              <Button type="submit" colorScheme="blue" isLoading={loading}>Go!</Button>
+            </HStack>
             <Box p={4} borderWidth="1px" borderRadius="md" overflowY="auto" flexGrow={1}>
             {loading && <Spinner size="lg" />}
               <VStack height="100%" spacing={4} align="stretch">
@@ -76,18 +88,6 @@ const SearchBar: React.FC = () => {
                 ))}
               </VStack>
             </Box>
-            <HStack spacing={4}>
-              <Input
-                type="text"
-                value={query}
-                placeholder="Type your query here..."
-                onChange={(e) => setQuery(e.target.value)}
-                bg="gray.100"
-                border="none"
-                _focus={{ bg: 'white', boxShadow: 'outline' }}
-              />
-              <Button type="submit" colorScheme="blue" isLoading={loading}>Search</Button>
-            </HStack>
           </Flex>
         </form>
       </Box>
