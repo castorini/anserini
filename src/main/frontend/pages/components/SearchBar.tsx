@@ -16,7 +16,7 @@
 
 import React, { useState } from 'react';
 import Dropdown from './Dropdown';
-import { Input, Button, Box, Spinner, Text, VStack, HStack } from '@chakra-ui/react';
+import { Input, Button, Box, Spinner, Text, VStack, HStack, Container, Heading, Divider } from '@chakra-ui/react';
 
 const SearchBar: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -49,37 +49,49 @@ const SearchBar: React.FC = () => {
   };
 
   return (
-    <>
-      <Box className="search-container" p={4}>
-        <form className="search-bar" onSubmit={handleSubmit}>
-          <HStack spacing={4}>
-            <Dropdown onSelect={(selectedValue) => setIndex(selectedValue)} />
-            <Input
-              type="text"
-              value={query}
-              placeholder="Search..."
-              onChange={(e) => setQuery(e.target.value)}
-            />
-            <Button type="submit" isLoading={loading}>Search</Button>
-          </HStack>
-        </form>
-      </Box>
-      {loading && <Spinner />}
-      <VStack spacing={4} align="stretch">
-        {results.map((result, index) => (
-          <Box key={index} p={4} shadow="md" borderWidth="1px">
-            <Text as="h3">
-              Document ID: {result.docid} <Text as="span">Score: {result.score}</Text>
-            </Text>
-            {Object.entries(result.doc).map(([key, value]) => (
-              <Text key={key}>
-                <strong>{key}:</strong> {JSON.stringify(value)}
+    <Container maxW="container.md" mt={8} p={4} boxShadow="lg" borderRadius="md" bg="white">
+      <VStack spacing={6} align="stretch">
+        <Heading as="h1" size="xl" textAlign="center">Anserini 2 Search</Heading>
+        <Divider />
+        <Box p={4} borderWidth="1px" borderRadius="md">
+          <form onSubmit={handleSubmit}>
+            <VStack spacing={4}>
+              {/* all items left aligned */}
+              <Box w="100%" p={4} borderWidth="1px" borderRadius="md" ml="auto">
+                <Dropdown onSelect={(selectedValue) => setIndex(selectedValue)} />
+              </Box>
+              <HStack spacing={4}>
+                <Input
+                  type="text"
+                  value={query}
+                  placeholder="Type your query here..."
+                  onChange={(e) => setQuery(e.target.value)}
+                  bg="gray.100"
+                  border="none"
+                  _focus={{ bg: 'white', boxShadow: 'outline' }}
+                />
+                <Button type="submit" colorScheme="blue" isLoading={loading}>Search</Button>
+              </HStack>
+            </VStack>
+          </form>
+        </Box>
+        {loading && <Spinner size="lg" />}
+        <VStack spacing={4} align="stretch">
+          {results.map((result, index) => (
+            <Box key={index} p={4} shadow="md" borderWidth="1px" borderRadius="md">
+              <Text as="h3" fontWeight="bold">
+                Document ID: {result.docid} <Text as="span" fontWeight="normal">Score: {result.score}</Text>
               </Text>
-            ))}
-          </Box>
-        ))}
+              {Object.entries(result.doc).map(([key, value]) => (
+                <Text key={key}>
+                  <strong>{key}:</strong> {JSON.stringify(value)}
+                </Text>
+              ))}
+            </Box>
+          ))}
+        </VStack>
       </VStack>
-    </>
+    </Container>
   );
 };
 
