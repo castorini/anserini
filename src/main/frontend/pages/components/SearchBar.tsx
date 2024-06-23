@@ -16,7 +16,7 @@
 
 import React, { useState } from 'react';
 import Dropdown from './Dropdown';
-import { Input, Button, Box, Spinner, Text, VStack, HStack, Container, Heading, Divider } from '@chakra-ui/react';
+import { Input, Button, Box, Spinner, Text, VStack, HStack, Container, Heading, Divider, Flex, FormControl, Center } from '@chakra-ui/react';
 
 const SearchBar: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -49,49 +49,49 @@ const SearchBar: React.FC = () => {
   };
 
   return (
-    <Container maxW="container.md" mt={8} p={4} boxShadow="lg" borderRadius="md" bg="white">
-      <VStack spacing={6} align="stretch">
-        <Heading as="h1" size="xl" textAlign="center">Anserini 2 Search</Heading>
-        <Divider />
-        <Box p={4} borderWidth="1px" borderRadius="md">
-          <form onSubmit={handleSubmit}>
-            <VStack spacing={4}>
-              {/* all items left aligned */}
-              <Box w="100%" p={4} borderWidth="1px" borderRadius="md" ml="auto">
-                <Dropdown onSelect={(selectedValue) => setIndex(selectedValue)} />
-              </Box>
-              <HStack spacing={4}>
-                <Input
-                  type="text"
-                  value={query}
-                  placeholder="Type your query here..."
-                  onChange={(e) => setQuery(e.target.value)}
-                  bg="gray.100"
-                  border="none"
-                  _focus={{ bg: 'white', boxShadow: 'outline' }}
-                />
-                <Button type="submit" colorScheme="blue" isLoading={loading}>Search</Button>
-              </HStack>
-            </VStack>
-          </form>
-        </Box>
-        {loading && <Spinner size="lg" />}
-        <VStack spacing={4} align="stretch">
-          {results.map((result, index) => (
-            <Box key={index} p={4} shadow="md" borderWidth="1px" borderRadius="md">
-              <Text as="h3" fontWeight="bold">
-                Document ID: {result.docid} <Text as="span" fontWeight="normal">Score: {result.score}</Text>
-              </Text>
-              {Object.entries(result.doc).map(([key, value]) => (
-                <Text key={key}>
-                  <strong>{key}:</strong> {JSON.stringify(value)}
-                </Text>
-              ))}
+    <Flex maxW="container.xl" height="90vh" mt="3vh" mx="auto" p={4} boxShadow="lg" borderRadius="lg" bg="white" direction="column" justifyContent="space-between">
+      <Heading as="h1" size="xl" textAlign="center">Anserini Search</Heading>
+      <Divider />
+      <Box height="90%" p={4}>
+        <form style={{ height: "100%" }} onSubmit={handleSubmit}>
+          <Flex direction="column" gap={4} height="100%">
+            <Dropdown onSelect={(selectedValue) => setIndex(selectedValue)} />
+            <Box p={4} borderWidth="1px" borderRadius="md" overflowY="auto" flexGrow={1}>
+            {loading && <Spinner size="lg" />}
+              <VStack height="100%" spacing={4} align="stretch">
+                {results.map((result, index) => (
+                  <Box key={index} p={4} shadow="md" borderWidth="1px" borderRadius="md">
+                    <Flex justifyContent="space-between" alignItems="center" direction="row">
+                      <Text as="h3" fontWeight="bold">
+                        Document ID: {result.docid}
+                      </Text>
+                      <Text as="span" fontWeight="normal">Score: {result.score}</Text>
+                    </Flex>
+                    {Object.entries(result.doc).map(([key, value]) => (
+                      <Text key={key}>
+                        <strong>{key}:</strong> {JSON.stringify(value)}
+                      </Text>
+                    ))}
+                  </Box>
+                ))}
+              </VStack>
             </Box>
-          ))}
-        </VStack>
-      </VStack>
-    </Container>
+            <HStack spacing={4}>
+              <Input
+                type="text"
+                value={query}
+                placeholder="Type your query here..."
+                onChange={(e) => setQuery(e.target.value)}
+                bg="gray.100"
+                border="none"
+                _focus={{ bg: 'white', boxShadow: 'outline' }}
+              />
+              <Button type="submit" colorScheme="blue" isLoading={loading}>Search</Button>
+            </HStack>
+          </Flex>
+        </form>
+      </Box>
+    </Flex>
   );
 };
 

@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
+import { Container } from '@chakra-ui/react';
 import SearchBar from './components/SearchBar';
 
 export default function Home() {
   return (
-    <div className="container">
-      <SearchBar />
-    </div>
+    <SearchBar />
   );
 }

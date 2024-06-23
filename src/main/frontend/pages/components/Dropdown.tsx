@@ -60,7 +60,7 @@ const Dropdown: React.FC<Props> = ({ onSelect }) => {
   }, []);
 
   return (
-    <Box p={4}>
+    <Box>
       <HStack spacing={4}>
         <Select placeholder="Select" onChange={(e) => {
           setSelectedCollection(e.target.value);
