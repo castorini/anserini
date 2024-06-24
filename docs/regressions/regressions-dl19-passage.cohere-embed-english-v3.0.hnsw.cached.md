@@ -52,7 +52,7 @@ bin/run.sh io.anserini.index.IndexHnswDenseVectors \
   -input /path/to/msmarco-passage-cohere-embed-english-v3.0 \
   -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-hnsw.msmarco-v1-passage.cohere-embed-english-v3.0/ \
-  -threads 16 -M 16 -efC 100 -memoryBuffer 65536 -noMerge \
+  -threads 16 -M 16 -efC 100 \
   >& logs/log.msmarco-passage-cohere-embed-english-v3.0 &
 ```
 
@@ -75,17 +75,17 @@ bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -index indexes/lucene-hnsw.msmarco-v1-passage.cohere-embed-english-v3.0/ \
   -topics tools/topics-and-qrels/topics.dl19-passage.cohere-embed-english-v3.0.jsonl.gz \
   -topicReader JsonIntVector \
-  -output runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-cached.topics.dl19-passage.cohere-embed-english-v3.0.jsonl.txt \
+  -output runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-hnsw-cached.topics.dl19-passage.cohere-embed-english-v3.0.jsonl.txt \
   -generator VectorQueryGenerator -topicField vector -threads 16 -hits 1000 -efSearch 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-cached.topics.dl19-passage.cohere-embed-english-v3.0.jsonl.txt
-bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-cached.topics.dl19-passage.cohere-embed-english-v3.0.jsonl.txt
-bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-cached.topics.dl19-passage.cohere-embed-english-v3.0.jsonl.txt
-bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-cached.topics.dl19-passage.cohere-embed-english-v3.0.jsonl.txt
+bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-hnsw-cached.topics.dl19-passage.cohere-embed-english-v3.0.jsonl.txt
+bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-hnsw-cached.topics.dl19-passage.cohere-embed-english-v3.0.jsonl.txt
+bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-hnsw-cached.topics.dl19-passage.cohere-embed-english-v3.0.jsonl.txt
+bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-hnsw-cached.topics.dl19-passage.cohere-embed-english-v3.0.jsonl.txt
 ```
 
 ## Effectiveness

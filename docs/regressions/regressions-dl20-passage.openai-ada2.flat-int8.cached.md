@@ -36,15 +36,15 @@ Download the corpus and unpack into `collections/`:
 
 ```bash
 wget https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-openai-ada2.tar -P collections/
-tar xvf collections/msmarco-passage.openai-ada2.tar -C collections/
+tar xvf collections/msmarco-passage-openai-ada2.tar -C collections/
 ```
 
-To confirm, `msmarco-passage.openai-ada2.tar` is 109 GB and has MD5 checksum `a4d843d522ff3a3af7edbee789a63402`.
+To confirm, `msmarco-passage-openai-ada2.tar` is 109 GB and has MD5 checksum `a4d843d522ff3a3af7edbee789a63402`.
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
 python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.openai-ada2.flat-int8.cached \
-  --corpus-path collections/msmarco-passage.openai-ada2
+  --corpus-path collections/msmarco-passage-openai-ada2
 ```
 
 ## Indexing
@@ -54,14 +54,14 @@ Sample indexing command, building quantized flat indexes:
 ```bash
 bin/run.sh io.anserini.index.IndexCollection \
   -collection JsonDenseVectorCollection \
-  -input /path/to/msmarco-passage.openai-ada2 \
+  -input /path/to/msmarco-passage-openai-ada2 \
   -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-flat-int8.msmarco-v1-passage.openai-ada2/ \
   -threads 16 -quantize.int8 \
-  >& logs/log.msmarco-passage.openai-ada2 &
+  >& logs/log.msmarco-passage-openai-ada2 &
 ```
 
-The path `/path/to/msmarco-passage.openai-ada2/` should point to the corpus downloaded above.
+The path `/path/to/msmarco-passage-openai-ada2/` should point to the corpus downloaded above.
 Upon completion, we should have an index with 8,841,823 documents.
 
 ## Retrieval
@@ -77,17 +77,17 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-flat-int8.msmarco-v1-passage.openai-ada2/ \
   -topics tools/topics-and-qrels/topics.dl20.openai-ada2.jsonl.gz \
   -topicReader JsonIntVector \
-  -output runs/run.msmarco-passage.openai-ada2.openai-ada2-flat-int8-cached.topics.dl20.openai-ada2.jsonl.txt \
+  -output runs/run.msmarco-passage-openai-ada2.openai-ada2-flat-int8-cached.topics.dl20.openai-ada2.jsonl.txt \
   -generator VectorQueryGenerator -topicField vector -threads 16 -hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage.openai-ada2.openai-ada2-flat-int8-cached.topics.dl20.openai-ada2.jsonl.txt
-bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage.openai-ada2.openai-ada2-flat-int8-cached.topics.dl20.openai-ada2.jsonl.txt
-bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage.openai-ada2.openai-ada2-flat-int8-cached.topics.dl20.openai-ada2.jsonl.txt
-bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage.openai-ada2.openai-ada2-flat-int8-cached.topics.dl20.openai-ada2.jsonl.txt
+bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-openai-ada2.openai-ada2-flat-int8-cached.topics.dl20.openai-ada2.jsonl.txt
+bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-openai-ada2.openai-ada2-flat-int8-cached.topics.dl20.openai-ada2.jsonl.txt
+bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-openai-ada2.openai-ada2-flat-int8-cached.topics.dl20.openai-ada2.jsonl.txt
+bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-openai-ada2.openai-ada2-flat-int8-cached.topics.dl20.openai-ada2.jsonl.txt
 ```
 
 ## Effectiveness
