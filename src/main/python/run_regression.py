@@ -28,6 +28,7 @@ import time
 from multiprocessing import Pool
 from subprocess import call, Popen, PIPE
 from urllib.request import urlretrieve
+from collections import defaultdict
 
 import yaml
 from tqdm import tqdm
@@ -183,6 +184,37 @@ def construct_convert_commands(yaml_data):
     return converting_commands
 
 
+beir_flat_int8_onnx = defaultdict(lambda: 0.005)
+beir_flat_int8_onnx['ArguAna'] = 0.021
+beir_flat_int8_onnx['NFCorpus'] = 0.007
+beir_flat_int8_onnx['Signal-1M'] = 0.006
+beir_flat_int8_onnx['TREC-NEWS'] = 0.01
+beir_flat_int8_onnx['Webis-Touche2020'] = 0.007
+
+beir_flat_int8_cached = defaultdict(lambda: 0.004)
+beir_flat_int8_cached['BioASQ'] = 0.005
+beir_flat_int8_cached['NFCorpus'] = 0.006
+beir_flat_int8_cached['Signal-1M'] = 0.007
+beir_flat_int8_cached['TREC-NEWS'] = 0.009
+beir_flat_int8_cached['Webis-Touche2020'] = 0.007
+
+beir_flat_onnx = defaultdict(lambda: 0.002)
+beir_flat_onnx['ArguAna'] = 0.02
+beir_flat_onnx['Robust04'] = 0.004
+
+beir_flat_cached = defaultdict(lambda: 1e-9)
+
+flat_tolerance_beir = {
+    'flat-int8-onnx': beir_flat_int8_onnx,
+    'flat-int8-cached': beir_flat_int8_cached,
+    'flat-onnx': beir_flat_onnx,
+    'flat-cached': beir_flat_cached,
+}
+
+model_type_pattern = re.compile(r'(flat-int8-onnx|flat-int8-cached|flat-onnx|flat-cached)$')
+beir_dataset_pattern = re.compile(r'BEIR \(v1.0.0\): (.*)$')
+
+
 def evaluate_and_verify(yaml_data, dry_run):
     fail_str = '\033[91m[FAIL]\033[0m '
     ok_str = '   [OK] '
@@ -215,41 +247,50 @@ def evaluate_and_verify(yaml_data, dry_run):
                 using_flat = True if 'type' in model and model['type'] == 'flat' else False
 
                 if using_flat and 'BEIR' in topic_set['name']:
-                    if model['name'].endswith('-flat-int8-onnx'):
-                        if topic_set['name'].endswith('ArguAna'):
-                            flat_tolerance_ok = 0.021
-                        elif topic_set['name'].endswith('NFCorpus') and metric['metric'] == 'R@1000':
-                            flat_tolerance_ok = 0.007
-                        elif topic_set['name'].endswith('Signal-1M'):
-                            flat_tolerance_ok = 0.006
-                        elif topic_set['name'].endswith('TREC-NEWS'):
-                            flat_tolerance_ok = 0.01
-                        elif topic_set['name'].endswith('Webis-Touche2020'):
-                            flat_tolerance_ok = 0.007
-                        else:
-                            flat_tolerance_ok = 0.005
-                    elif model['name'].endswith('-flat-int8-cached'):
-                        if topic_set['name'].endswith('BioASQ'):
-                            flat_tolerance_ok = 0.005
-                        elif topic_set['name'].endswith('NFCorpus') and metric['metric'] == 'R@1000':
-                            flat_tolerance_ok = 0.006
-                        elif topic_set['name'].endswith('Signal-1M'):
-                            flat_tolerance_ok = 0.007
-                        elif topic_set['name'].endswith('TREC-NEWS'):
-                            flat_tolerance_ok = 0.009
-                        elif topic_set['name'].endswith('Webis-Touche2020'):
-                            flat_tolerance_ok = 0.007
-                        else:
-                            flat_tolerance_ok = 0.004
-                    elif model['name'].endswith('-flat-onnx'):
-                        if topic_set['name'].endswith('ArguAna'):
-                            flat_tolerance_ok = 0.02
-                        elif topic_set['name'].endswith('Robust04'):
-                            flat_tolerance_ok = 0.004
-                        else:
-                            flat_tolerance_ok = 0.002
-                    else:
-                        flat_tolerance_ok = 1e-9
+                    match = beir_dataset_pattern.search(topic_set['name'])
+                    beir_dataset = match.group(1)
+
+                    match = model_type_pattern.search(model['name'])
+                    model_type = match.group(1)
+
+                    flat_tolerance_ok = flat_tolerance_beir[model_type][beir_dataset]
+                    print(f'#### {model_type} {beir_dataset} {flat_tolerance_ok}')
+
+                    # if model['name'].endswith('-flat-int8-onnx'):
+                    #     if topic_set['name'].endswith('ArguAna'):
+                    #         flat_tolerance_ok = 0.021
+                    #     elif topic_set['name'].endswith('NFCorpus') and metric['metric'] == 'R@1000':
+                    #         flat_tolerance_ok = 0.007
+                    #     elif topic_set['name'].endswith('Signal-1M'):
+                    #         flat_tolerance_ok = 0.006
+                    #     elif topic_set['name'].endswith('TREC-NEWS'):
+                    #         flat_tolerance_ok = 0.01
+                    #     elif topic_set['name'].endswith('Webis-Touche2020'):
+                    #         flat_tolerance_ok = 0.007
+                    #     else:
+                    #         flat_tolerance_ok = 0.005
+                    # elif model['name'].endswith('-flat-int8-cached'):
+                    #     if topic_set['name'].endswith('BioASQ'):
+                    #         flat_tolerance_ok = 0.005
+                    #     elif topic_set['name'].endswith('NFCorpus') and metric['metric'] == 'R@1000':
+                    #         flat_tolerance_ok = 0.006
+                    #     elif topic_set['name'].endswith('Signal-1M'):
+                    #         flat_tolerance_ok = 0.007
+                    #     elif topic_set['name'].endswith('TREC-NEWS'):
+                    #         flat_tolerance_ok = 0.009
+                    #     elif topic_set['name'].endswith('Webis-Touche2020'):
+                    #         flat_tolerance_ok = 0.007
+                    #     else:
+                    #         flat_tolerance_ok = 0.004
+                    # elif model['name'].endswith('-flat-onnx'):
+                    #     if topic_set['name'].endswith('ArguAna'):
+                    #         flat_tolerance_ok = 0.02
+                    #     elif topic_set['name'].endswith('Robust04'):
+                    #         flat_tolerance_ok = 0.004
+                    #     else:
+                    #         flat_tolerance_ok = 0.002
+                    # else:
+                    #     flat_tolerance_ok = 1e-9
                 elif using_flat and 'MS MARCO Passage' in topic_set['name']:
                     if model['name'].endswith('-flat-int8-onnx'):
                         flat_tolerance_ok = 0.002
