@@ -36,15 +36,15 @@ Download the corpus and unpack into `collections/`:
 
 ```bash
 wget https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cos-dpr-distil.tar -P collections/
-tar xvf collections/msmarco-passage.cos-dpr-distil.tar -C collections/
+tar xvf collections/msmarco-passage-cos-dpr-distil.tar -C collections/
 ```
 
-To confirm, `msmarco-passage.cos-dpr-distil.tar` is 57 GB and has MD5 checksum `e20ffbc8b5e7f760af31298aefeaebbd`.
+To confirm, `msmarco-passage-cos-dpr-distil.tar` is 57 GB and has MD5 checksum `e20ffbc8b5e7f760af31298aefeaebbd`.
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
 python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.cos-dpr-distil.flat.onnx \
-  --corpus-path collections/msmarco-passage.cos-dpr-distil
+  --corpus-path collections/msmarco-passage-cos-dpr-distil
 ```
 
 ## Indexing
@@ -54,14 +54,14 @@ Sample indexing command, building flat indexes:
 ```bash
 bin/run.sh io.anserini.index.IndexCollection \
   -collection JsonDenseVectorCollection \
-  -input /path/to/msmarco-passage.cos-dpr-distil \
+  -input /path/to/msmarco-passage-cos-dpr-distil \
   -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-flat.msmarco-v1-passage.cos-dpr-distil/ \
   -threads 16  \
-  >& logs/log.msmarco-passage.cos-dpr-distil &
+  >& logs/log.msmarco-passage-cos-dpr-distil &
 ```
 
-The path `/path/to/msmarco-passage.cos-dpr-distil/` should point to the corpus downloaded above.
+The path `/path/to/msmarco-passage-cos-dpr-distil/` should point to the corpus downloaded above.
 Upon completion, we should have an index with 8,841,823 documents.
 
 ## Retrieval
@@ -77,7 +77,7 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-flat.msmarco-v1-passage.cos-dpr-distil/ \
   -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicReader TsvInt \
-  -output runs/run.msmarco-passage.cos-dpr-distil.cos-dpr-distil-flat-onnx.topics.dl20.txt \
+  -output runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-flat-onnx.topics.dl20.txt \
   -generator VectorQueryGenerator -topicField title -threads 16 -hits 1000 -encoder CosDprDistil &
 ```
 
@@ -86,10 +86,10 @@ Note that we are performing query inference "on-the-fly" with ONNX in these expe
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage.cos-dpr-distil.cos-dpr-distil-flat-onnx.topics.dl20.txt
-bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage.cos-dpr-distil.cos-dpr-distil-flat-onnx.topics.dl20.txt
-bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage.cos-dpr-distil.cos-dpr-distil-flat-onnx.topics.dl20.txt
-bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage.cos-dpr-distil.cos-dpr-distil-flat-onnx.topics.dl20.txt
+bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-flat-onnx.topics.dl20.txt
+bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-flat-onnx.topics.dl20.txt
+bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-flat-onnx.topics.dl20.txt
+bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-flat-onnx.topics.dl20.txt
 ```
 
 ## Effectiveness

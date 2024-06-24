@@ -54,7 +54,7 @@ bin/run.sh io.anserini.index.IndexHnswDenseVectors \
   -input /path/to/msmarco-passage-cos-dpr-distil \
   -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-hnsw-int8.msmarco-v1-passage.cos-dpr-distil/ \
-  -threads 16 -M 16 -efC 100 -memoryBuffer 65536 -noMerge -quantize.int8 \
+  -threads 16 -M 16 -efC 100 -quantize.int8 \
   >& logs/log.msmarco-passage-cos-dpr-distil &
 ```
 
@@ -78,7 +78,7 @@ bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -index indexes/lucene-hnsw-int8.msmarco-v1-passage.cos-dpr-distil/ \
   -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
   -topicReader TsvInt \
-  -output runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw-onnx.topics.msmarco-passage.dev-subset.txt \
+  -output runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw-int8-onnx.topics.msmarco-passage.dev-subset.txt \
   -generator VectorQueryGenerator -topicField title -threads 16 -hits 1000 -efSearch 1000 -encoder CosDprDistil &
 ```
 
@@ -87,10 +87,10 @@ Note that we are performing query inference "on-the-fly" with ONNX in these expe
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw-onnx.topics.msmarco-passage.dev-subset.txt
-bin/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw-onnx.topics.msmarco-passage.dev-subset.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw-onnx.topics.msmarco-passage.dev-subset.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw-onnx.topics.msmarco-passage.dev-subset.txt
+bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw-int8-onnx.topics.msmarco-passage.dev-subset.txt
+bin/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw-int8-onnx.topics.msmarco-passage.dev-subset.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw-int8-onnx.topics.msmarco-passage.dev-subset.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw-int8-onnx.topics.msmarco-passage.dev-subset.txt
 ```
 
 ## Effectiveness
