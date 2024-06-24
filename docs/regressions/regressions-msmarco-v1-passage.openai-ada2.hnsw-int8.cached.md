@@ -54,7 +54,7 @@ bin/run.sh io.anserini.index.IndexHnswDenseVectors \
   -input /path/to/msmarco-passage-openai-ada2 \
   -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-hnsw-int8.msmarco-v1-passage.openai-ada2/ \
-  -threads 16 -M 16 -efC 100 -memoryBuffer 65536 -noMerge -quantize.int8 \
+  -threads 16 -M 16 -efC 100 -quantize.int8 \
   >& logs/log.msmarco-passage-openai-ada2 &
 ```
 
@@ -78,17 +78,17 @@ bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -index indexes/lucene-hnsw-int8.msmarco-v1-passage.openai-ada2/ \
   -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.openai-ada2.jsonl.gz \
   -topicReader JsonIntVector \
-  -output runs/run.msmarco-passage-openai-ada2.openai-ada2-cached.topics.msmarco-passage.dev-subset.openai-ada2.jsonl.txt \
+  -output runs/run.msmarco-passage-openai-ada2.openai-ada2-hnsw-int8-cached.topics.msmarco-passage.dev-subset.openai-ada2.jsonl.txt \
   -generator VectorQueryGenerator -topicField vector -threads 16 -hits 1000 -efSearch 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-openai-ada2.openai-ada2-cached.topics.msmarco-passage.dev-subset.openai-ada2.jsonl.txt
-bin/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-openai-ada2.openai-ada2-cached.topics.msmarco-passage.dev-subset.openai-ada2.jsonl.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-openai-ada2.openai-ada2-cached.topics.msmarco-passage.dev-subset.openai-ada2.jsonl.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-openai-ada2.openai-ada2-cached.topics.msmarco-passage.dev-subset.openai-ada2.jsonl.txt
+bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-openai-ada2.openai-ada2-hnsw-int8-cached.topics.msmarco-passage.dev-subset.openai-ada2.jsonl.txt
+bin/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-openai-ada2.openai-ada2-hnsw-int8-cached.topics.msmarco-passage.dev-subset.openai-ada2.jsonl.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-openai-ada2.openai-ada2-hnsw-int8-cached.topics.msmarco-passage.dev-subset.openai-ada2.jsonl.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-openai-ada2.openai-ada2-hnsw-int8-cached.topics.msmarco-passage.dev-subset.openai-ada2.jsonl.txt
 ```
 
 ## Effectiveness
