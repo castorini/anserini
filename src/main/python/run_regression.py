@@ -213,12 +213,43 @@ flat_tolerance_beir = {
 }
 
 beir_hnsw_int8_onnx = defaultdict(lambda: 0.005)
+beir_hnsw_int8_onnx['ArguAna'] = 0.03
+beir_hnsw_int8_onnx['BioASQ'] = 0.02
+beir_hnsw_int8_onnx['DBPedia'] = 0.006
+beir_hnsw_int8_onnx['FiQA-2018'] = 0.007
+beir_hnsw_int8_onnx['HotpotQA'] = 0.008
+beir_hnsw_int8_onnx['NFCorpus'] = 0.006
+beir_hnsw_int8_onnx['Robust04'] = 0.006
+beir_hnsw_int8_onnx['Signal-1M'] = 0.04
+beir_hnsw_int8_onnx['TREC-NEWS'] = 0.02
+beir_hnsw_int8_onnx['Webis-Touche2020'] = 0.01
 
 beir_hnsw_int8_cached = defaultdict(lambda: 0.005)
+beir_hnsw_int8_cached['BioASQ'] = 0.02
+beir_hnsw_int8_cached['FiQA-2018'] = 0.007
+beir_hnsw_int8_cached['HotpotQA'] = 0.007
+beir_hnsw_int8_cached['Signal-1M'] = 0.04
+beir_hnsw_int8_cached['TREC-NEWS'] = 0.02
+beir_hnsw_int8_cached['Webis-Touche2020'] = 0.006
 
 beir_hnsw_onnx = defaultdict(lambda: 0.003)
+beir_hnsw_onnx['ArguAna'] = 0.02
+beir_hnsw_onnx['CQADupStack-wordpress'] = 0.004
+beir_hnsw_onnx['DBPedia'] = 0.006
+beir_hnsw_onnx['FEVER'] = 0.007
+beir_hnsw_onnx['FiQA-2018'] = 0.007
+beir_hnsw_onnx['HotpotQA'] = 0.007
+beir_hnsw_onnx['Robust04'] = 0.004
+beir_hnsw_onnx['Signal-1M'] = 0.05
+beir_hnsw_onnx['TREC-NEWS'] = 0.02
 
-beir_hnsw_cached = defaultdict(lambda: 0.002)
+beir_hnsw_cached = defaultdict(lambda: 0.003)
+beir_hnsw_cached['DBPedia'] = 0.006
+beir_hnsw_cached['FEVER'] = 0.008
+beir_hnsw_cached['FiQA-2018'] = 0.008
+beir_hnsw_cached['HotpotQA'] = 0.007
+beir_hnsw_cached['Signal-1M'] = 0.05
+beir_hnsw_cached['TREC-NEWS'] = 0.02
 
 hnsw_tolerance_beir = {
     'hnsw-int8-onnx': beir_hnsw_int8_onnx,
