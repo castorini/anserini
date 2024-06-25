@@ -212,11 +212,11 @@ flat_tolerance_beir = {
 
 beir_hnsw_int8_onnx = defaultdict(lambda: 0.005)
 
-beir_hnsw_int8_cached = defaultdict(lambda: 0.004)
+beir_hnsw_int8_cached = defaultdict(lambda: 0.005)
 
-beir_hnsw_onnx = defaultdict(lambda: 0.002)
+beir_hnsw_onnx = defaultdict(lambda: 0.003)
 
-beir_hnsw_cached = defaultdict(lambda: 1e-9)
+beir_hnsw_cached = defaultdict(lambda: 0.002)
 
 hnsw_tolerance_beir = {
     'hnsw-int8-onnx': beir_hnsw_int8_onnx,

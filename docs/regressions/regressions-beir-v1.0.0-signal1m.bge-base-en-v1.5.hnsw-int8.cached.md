@@ -56,16 +56,16 @@ bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -index indexes/lucene-hnsw-int8.beir-v1.0.0-signal1m.bge-base-en-v1.5/ \
   -topics tools/topics-and-qrels/topics.beir-v1.0.0-signal1m.test.bge-base-en-v1.5.jsonl.gz \
   -topicReader JsonStringVector \
-  -output runs/run.beir-v1.0.0-signal1m.bge-base-en-v1.5.bge-hnsw-cached.topics.beir-v1.0.0-signal1m.test.bge-base-en-v1.5.jsonl.txt \
+  -output runs/run.beir-v1.0.0-signal1m.bge-base-en-v1.5.bge-hnsw-int8-cached.topics.beir-v1.0.0-signal1m.test.bge-base-en-v1.5.jsonl.txt \
   -generator VectorQueryGenerator -topicField vector -removeQuery -threads 16 -hits 1000 -efSearch 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-signal1m.test.txt runs/run.beir-v1.0.0-signal1m.bge-base-en-v1.5.bge-hnsw-cached.topics.beir-v1.0.0-signal1m.test.bge-base-en-v1.5.jsonl.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-signal1m.test.txt runs/run.beir-v1.0.0-signal1m.bge-base-en-v1.5.bge-hnsw-cached.topics.beir-v1.0.0-signal1m.test.bge-base-en-v1.5.jsonl.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-signal1m.test.txt runs/run.beir-v1.0.0-signal1m.bge-base-en-v1.5.bge-hnsw-cached.topics.beir-v1.0.0-signal1m.test.bge-base-en-v1.5.jsonl.txt
+bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-signal1m.test.txt runs/run.beir-v1.0.0-signal1m.bge-base-en-v1.5.bge-hnsw-int8-cached.topics.beir-v1.0.0-signal1m.test.bge-base-en-v1.5.jsonl.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-signal1m.test.txt runs/run.beir-v1.0.0-signal1m.bge-base-en-v1.5.bge-hnsw-int8-cached.topics.beir-v1.0.0-signal1m.test.bge-base-en-v1.5.jsonl.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-signal1m.test.txt runs/run.beir-v1.0.0-signal1m.bge-base-en-v1.5.bge-hnsw-int8-cached.topics.beir-v1.0.0-signal1m.test.bge-base-en-v1.5.jsonl.txt
 ```
 
 ## Effectiveness

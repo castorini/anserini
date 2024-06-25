@@ -56,16 +56,16 @@ bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -index indexes/lucene-hnsw-int8.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5/ \
   -topics tools/topics-and-qrels/topics.beir-v1.0.0-cqadupstack-physics.test.tsv.gz \
   -topicReader TsvString \
-  -output runs/run.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.bge-hnsw-onnx.topics.beir-v1.0.0-cqadupstack-physics.test.txt \
+  -output runs/run.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.bge-hnsw-int8-onnx.topics.beir-v1.0.0-cqadupstack-physics.test.txt \
   -generator VectorQueryGenerator -topicField title -removeQuery -threads 16 -hits 1000 -efSearch 1000 -encoder BgeBaseEn15 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-physics.test.txt runs/run.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.bge-hnsw-onnx.topics.beir-v1.0.0-cqadupstack-physics.test.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-physics.test.txt runs/run.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.bge-hnsw-onnx.topics.beir-v1.0.0-cqadupstack-physics.test.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-physics.test.txt runs/run.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.bge-hnsw-onnx.topics.beir-v1.0.0-cqadupstack-physics.test.txt
+bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-physics.test.txt runs/run.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.bge-hnsw-int8-onnx.topics.beir-v1.0.0-cqadupstack-physics.test.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-physics.test.txt runs/run.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.bge-hnsw-int8-onnx.topics.beir-v1.0.0-cqadupstack-physics.test.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-physics.test.txt runs/run.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.bge-hnsw-int8-onnx.topics.beir-v1.0.0-cqadupstack-physics.test.txt
 ```
 
 ## Effectiveness
