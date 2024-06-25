@@ -74,11 +74,11 @@ With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **BGE-base-en-v1.5**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): FEVER                                                                                         | 0.861     |
+| BEIR (v1.0.0): FEVER                                                                                         | 0.863     |
 | **R@100**                                                                                                    | **BGE-base-en-v1.5**|
-| BEIR (v1.0.0): FEVER                                                                                         | 0.967     |
+| BEIR (v1.0.0): FEVER                                                                                         | 0.972     |
 | **R@1000**                                                                                                   | **BGE-base-en-v1.5**|
-| BEIR (v1.0.0): FEVER                                                                                         | 0.980     |
+| BEIR (v1.0.0): FEVER                                                                                         | 0.985     |
 
 Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
 Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/beir-v1.0.0-fever.bge-base-en-v1.5.hnsw.cached.yaml).

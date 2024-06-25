@@ -74,11 +74,11 @@ With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **BGE-base-en-v1.5**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): CQADupStack-programmers                                                                       | 0.425     |
+| BEIR (v1.0.0): CQADupStack-programmers                                                                       | 0.424     |
 | **R@100**                                                                                                    | **BGE-base-en-v1.5**|
 | BEIR (v1.0.0): CQADupStack-programmers                                                                       | 0.786     |
 | **R@1000**                                                                                                   | **BGE-base-en-v1.5**|
-| BEIR (v1.0.0): CQADupStack-programmers                                                                       | 0.934     |
+| BEIR (v1.0.0): CQADupStack-programmers                                                                       | 0.935     |
 
 Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
 Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.hnsw-int8.cached.yaml).

@@ -74,11 +74,11 @@ With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **BGE-base-en-v1.5**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): FiQA-2018                                                                                     | 0.405     |
+| BEIR (v1.0.0): FiQA-2018                                                                                     | 0.407     |
 | **R@100**                                                                                                    | **BGE-base-en-v1.5**|
-| BEIR (v1.0.0): FiQA-2018                                                                                     | 0.739     |
+| BEIR (v1.0.0): FiQA-2018                                                                                     | 0.742     |
 | **R@1000**                                                                                                   | **BGE-base-en-v1.5**|
-| BEIR (v1.0.0): FiQA-2018                                                                                     | 0.902     |
+| BEIR (v1.0.0): FiQA-2018                                                                                     | 0.908     |
 
 Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
 Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/beir-v1.0.0-fiqa.bge-base-en-v1.5.hnsw.onnx.yaml).

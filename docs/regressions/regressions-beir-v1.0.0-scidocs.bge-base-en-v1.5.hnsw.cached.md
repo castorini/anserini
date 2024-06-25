@@ -78,7 +78,7 @@ With the above commands, you should be able to reproduce the following results:
 | **R@100**                                                                                                    | **BGE-base-en-v1.5**|
 | BEIR (v1.0.0): SCIDOCS                                                                                       | 0.496     |
 | **R@1000**                                                                                                   | **BGE-base-en-v1.5**|
-| BEIR (v1.0.0): SCIDOCS                                                                                       | 0.783     |
+| BEIR (v1.0.0): SCIDOCS                                                                                       | 0.782     |
 
 Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
 Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/beir-v1.0.0-scidocs.bge-base-en-v1.5.hnsw.cached.yaml).

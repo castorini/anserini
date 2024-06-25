@@ -74,9 +74,9 @@ With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **BGE-base-en-v1.5**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): ArguAna                                                                                       | 0.635     |
+| BEIR (v1.0.0): ArguAna                                                                                       | 0.636     |
 | **R@100**                                                                                                    | **BGE-base-en-v1.5**|
-| BEIR (v1.0.0): ArguAna                                                                                       | 0.991     |
+| BEIR (v1.0.0): ArguAna                                                                                       | 0.992     |
 | **R@1000**                                                                                                   | **BGE-base-en-v1.5**|
 | BEIR (v1.0.0): ArguAna                                                                                       | 0.996     |
 
