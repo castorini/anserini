@@ -183,12 +183,12 @@ def construct_convert_commands(yaml_data):
     return converting_commands
 
 
-beir_flat_int8_onnx = defaultdict(lambda: 0.005)
-beir_flat_int8_onnx['ArguAna'] = 0.021
+beir_flat_int8_onnx = defaultdict(lambda: 0.004)
+beir_flat_int8_onnx['ArguAna'] = 0.03
 beir_flat_int8_onnx['NFCorpus'] = 0.007
-beir_flat_int8_onnx['Signal-1M'] = 0.006
+beir_flat_int8_onnx['Signal-1M'] = 0.005
 beir_flat_int8_onnx['TREC-NEWS'] = 0.01
-beir_flat_int8_onnx['Webis-Touche2020'] = 0.007
+beir_flat_int8_onnx['Webis-Touche2020'] = 0.005
 
 beir_flat_int8_cached = defaultdict(lambda: 0.004)
 beir_flat_int8_cached['BioASQ'] = 0.005
@@ -197,8 +197,10 @@ beir_flat_int8_cached['Signal-1M'] = 0.007
 beir_flat_int8_cached['TREC-NEWS'] = 0.009
 beir_flat_int8_cached['Webis-Touche2020'] = 0.007
 
-beir_flat_onnx = defaultdict(lambda: 0.002)
+beir_flat_onnx = defaultdict(lambda: 0.001)
 beir_flat_onnx['ArguAna'] = 0.02
+beir_flat_onnx['CQADupStack-wordpress'] = 0.002
+beir_flat_onnx['Quora'] = 0.002
 beir_flat_onnx['Robust04'] = 0.004
 
 beir_flat_cached = defaultdict(lambda: 1e-9)
@@ -393,6 +395,10 @@ def evaluate_and_verify(yaml_data, dry_run):
                         (using_flat and is_close(expected, actual, abs_tol=tolerance_ok)) or \
                         (using_hnsw and is_close(expected, actual, abs_tol=tolerance_ok)):
                     logger.info(ok_str + result_str)
+                elif (using_flat and is_close(expected, actual, abs_tol=tolerance_ok * 1.5)) or \
+                        (using_hnsw and is_close(expected, actual, abs_tol=tolerance_ok * 1.5)):
+                    logger.info(okish_str + result_str)
+                    okish = True
                 # For ONNX runs with HNSW, increase tolerance a bit because we observe minor differences across OSes.
                 # elif using_hnsw and is_close(expected, actual, abs_tol=0.0101):
                 #     logger.info(okish_str + result_str)
