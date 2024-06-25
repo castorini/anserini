@@ -296,50 +296,16 @@ def evaluate_and_verify(yaml_data, dry_run):
                 using_flat = True if 'type' in model and model['type'] == 'flat' else False
 
                 if using_flat and 'BEIR' in topic_set['name']:
+                    # Extract BEIR dataset
                     match = beir_dataset_pattern.search(topic_set['name'])
                     beir_dataset = match.group(1)
 
+                    # Extract model
                     match = flat_model_type_pattern.search(model['name'])
                     model_type = match.group(1)
 
+                    # Lookup tolerance
                     tolerance_ok = flat_tolerance_beir[model_type][beir_dataset]
-                    print(f'#### {model_type} {beir_dataset} {tolerance_ok}')
-
-                    # if model['name'].endswith('-flat-int8-onnx'):
-                    #     if topic_set['name'].endswith('ArguAna'):
-                    #         tolerance_ok = 0.021
-                    #     elif topic_set['name'].endswith('NFCorpus') and metric['metric'] == 'R@1000':
-                    #         tolerance_ok = 0.007
-                    #     elif topic_set['name'].endswith('Signal-1M'):
-                    #         tolerance_ok = 0.006
-                    #     elif topic_set['name'].endswith('TREC-NEWS'):
-                    #         tolerance_ok = 0.01
-                    #     elif topic_set['name'].endswith('Webis-Touche2020'):
-                    #         tolerance_ok = 0.007
-                    #     else:
-                    #         tolerance_ok = 0.005
-                    # elif model['name'].endswith('-flat-int8-cached'):
-                    #     if topic_set['name'].endswith('BioASQ'):
-                    #         tolerance_ok = 0.005
-                    #     elif topic_set['name'].endswith('NFCorpus') and metric['metric'] == 'R@1000':
-                    #         tolerance_ok = 0.006
-                    #     elif topic_set['name'].endswith('Signal-1M'):
-                    #         tolerance_ok = 0.007
-                    #     elif topic_set['name'].endswith('TREC-NEWS'):
-                    #         tolerance_ok = 0.009
-                    #     elif topic_set['name'].endswith('Webis-Touche2020'):
-                    #         tolerance_ok = 0.007
-                    #     else:
-                    #         tolerance_ok = 0.004
-                    # elif model['name'].endswith('-flat-onnx'):
-                    #     if topic_set['name'].endswith('ArguAna'):
-                    #         tolerance_ok = 0.02
-                    #     elif topic_set['name'].endswith('Robust04'):
-                    #         tolerance_ok = 0.004
-                    #     else:
-                    #         tolerance_ok = 0.002
-                    # else:
-                    #     tolerance_ok = 1e-9
                 elif using_flat and 'MS MARCO Passage' in topic_set['name']:
                     if model['name'].endswith('-flat-int8-onnx'):
                         tolerance_ok = 0.002
@@ -352,7 +318,6 @@ def evaluate_and_verify(yaml_data, dry_run):
                         tolerance_ok = 0.0001
                     else:
                         tolerance_ok = 1e-9
-                    #print(f'Tolerance: {tolerance_ok}')
                 elif using_flat and 'DL19' in topic_set['name']:
                     if model['name'].endswith('-flat-int8-onnx'):
                         if model['name'] == 'bge-flat-int8-onnx':
@@ -373,7 +338,6 @@ def evaluate_and_verify(yaml_data, dry_run):
                             tolerance_ok = 0.0001
                     else:
                         tolerance_ok = 1e-9
-                    #print(f'DL19 Tolerance: {tolerance_ok}')
                 elif using_flat and 'DL20' in topic_set['name']:
                     if model['name'].endswith('-flat-int8-onnx'):
                         if model['name'] == 'bge-flat-int8-onnx':
@@ -396,19 +360,20 @@ def evaluate_and_verify(yaml_data, dry_run):
                             tolerance_ok = 0.0001
                     else:
                         tolerance_ok = 1e-9
-                    #print(f'DL20 Tolerance: {tolerance_ok}')
                 else:
                     tolerance_ok = 1e-9
 
                 if using_hnsw and 'BEIR' in topic_set['name']:
+                    # Extract BEIR dataset
                     match = beir_dataset_pattern.search(topic_set['name'])
                     beir_dataset = match.group(1)
 
+                    # Extract model
                     match = hnsw_model_type_pattern.search(model['name'])
                     model_type = match.group(1)
 
+                    # Lookup tolerance
                     tolerance_ok = hnsw_tolerance_beir[model_type][beir_dataset]
-                    print(f'#### {model_type} {beir_dataset} {tolerance_ok}')
 
                 if using_flat or using_hnsw:
                     result_str = (f'expected: {expected:.4f} actual: {actual:.4f} '
@@ -418,10 +383,9 @@ def evaluate_and_verify(yaml_data, dry_run):
                     result_str = (f'expected: {expected:.4f} actual: {actual:.4f} (delta={abs(expected-actual):.4f}) - '
                                   f'metric: {metric["metric"]:<8} model: {model["name"]} topics: {topic_set["id"]}')
 
-                # - For inverted indexes, we expect scores to match precisely.
-                # - For flat indexes (on dense vectors), use the tolerance values set above.
-                # - For HNSW, be more tolerant, but as long as the actual score is higher than the expected score,
-                #   let the test pass.
+                # For flat and HNSW indexes:
+                #   - to get "OK", we need to be within specified tolerance.
+                #   - to get "OKish", we need to be within 150% of specified tolerance.
                 if is_close(expected, actual) or actual > expected or \
                         (using_flat and is_close(expected, actual, abs_tol=tolerance_ok)) or \
                         (using_hnsw and is_close(expected, actual, abs_tol=tolerance_ok)):
@@ -430,10 +394,6 @@ def evaluate_and_verify(yaml_data, dry_run):
                         (using_hnsw and is_close(expected, actual, abs_tol=tolerance_ok * 1.5)):
                     logger.info(okish_str + result_str)
                     okish = True
-                # For ONNX runs with HNSW, increase tolerance a bit because we observe minor differences across OSes.
-                # elif using_hnsw and is_close(expected, actual, abs_tol=0.0101):
-                #     logger.info(okish_str + result_str)
-                #     okish = True
                 else:
                     if args.lucene8 and is_close_lucene8(expected, actual):
                         logger.info(okish_str + result_str)
