@@ -14,29 +14,11 @@
  * limitations under the License.
  */
 
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import SearchBar from './components/SearchBar'
+import { Container } from '@chakra-ui/react';
+import SearchBar from './components/SearchBar';
 
-const Home: NextPage = () => {
+export default function Home() {
   return (
-    <div>
-      <Head>
-        <title>TEST APP</title>
-        <meta name="description" content="Anserini demo for text retrieval" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main>
-        <h1>
-          Welcome to <a href="https://github.com/castorini/anserini/">Anserini!</a>
-        </h1>
-
-        <SearchBar />
-
-      </main>
-    </div>
-  )
+    <SearchBar />
+  );
 }
-
-export default Home

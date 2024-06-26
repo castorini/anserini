@@ -3,11 +3,26 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### June 13, 2024
+
++ commit [`6cf601`](https://github.com/castorini/anserini/commit/6cf60132fa9ec49eac0861f3af8ed6e8d72e6471) (2024/06/13)
+
+Added flat regressions for MS MARCO v1 passage corpus: BGE, Cohere v3, cosDPR, OpenAI Ada2.
+Total of 36 regressions: 12 each for dev, DL19, and DL20.
+
+### June 3, 2024
+
++ commit [`6093e3`](https://github.com/castorini/anserini/commit/6093e301c753e2c6ce00ab37b8df1d7628ba3e1f) (2024/06/03)
++ commit [`215233`](https://github.com/castorini/anserini/commit/215233880bd29a94833b4269308c38bd4ac15bb8) (2024/05/30)
+
+Implemented brute-force search on dense vectors: `AnseriniLucene99FlatVectorFormat` and `AnseriniLucene99ScalarQuantizedVectorsFormat`.
+Added regressions for all BEIR datasets: {cached, ONNX} × {original, int8}.
+
 ### April 26, 2024
 
 + commit [`e6b7ea`](https://github.com/castorini/anserini/commit/e6b7ea20a37d1d10636d0553db735e5b2d810735) (2024/04/26)
 
-Add regressions for MS MARCO V2.1 corpora: document + segmented document.
+Added regressions for MS MARCO V2.1 corpora: document + segmented document.
 
 ### April 10, 2024
 

@@ -77,11 +77,12 @@ public class IndexHnswDenseVectorsTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void testInvalidCollection() throws Exception {
+    String indexPath = "target/lucene-test-index.hnsw." + System.currentTimeMillis();
     String[] indexArgs = new String[] {
         "-collection", "FakeJsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
-        "-index", "target/idx-sample-hnsw" + System.currentTimeMillis(),
-        "-generator", "HnswDenseVectorDocumentGenerator",
+        "-index", indexPath,
+        "-generator", "DenseVectorDocumentGenerator",
         "-threads", "1",
         "-M", "16", "-efC", "100"
     };
@@ -91,11 +92,12 @@ public class IndexHnswDenseVectorsTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void testCollectionPath() throws Exception {
+    String indexPath = "target/lucene-test-index.hnsw." + System.currentTimeMillis();
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector_fake_path",
-        "-index", "target/idx-sample-hnsw" + System.currentTimeMillis(),
-        "-generator", "HnswDenseVectorDocumentGenerator",
+        "-index", indexPath,
+        "-generator", "DenseVectorDocumentGenerator",
         "-threads", "1",
         "-M", "16", "-efC", "100"
     };
@@ -105,11 +107,12 @@ public class IndexHnswDenseVectorsTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void testInvalidGenerator() throws Exception {
+    String indexPath = "target/lucene-test-index.hnsw." + System.currentTimeMillis();
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
-        "-index", "target/idx-sample-hnsw" + System.currentTimeMillis(),
-        "-generator", "FakeHnswDenseVectorDocumentGenerator",
+        "-index", indexPath,
+        "-generator", "FakeDenseVectorDocumentGenerator",
         "-threads", "1",
         "-M", "16", "-efC", "100"
     };
@@ -119,26 +122,27 @@ public class IndexHnswDenseVectorsTest {
 
   @Test
   public void testDefaultGenerator() throws Exception {
+    String indexPath = "target/lucene-test-index.hnsw." + System.currentTimeMillis();
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
-        "-index", "target/idx-sample-hnsw" + System.currentTimeMillis(),
+        "-index", indexPath,
         "-threads", "1",
         "-M", "16", "-efC", "100"
     };
 
     IndexHnswDenseVectors.main(indexArgs);
-    // If this succeeded, then the default -generator of HnswDenseVectorDocumentGenerator must have worked.
+    // If this succeeded, then the default -generator of DenseVectorDocumentGenerator must have worked.
   }
 
   @Test
   public void test1() throws Exception {
-    String indexPath = "target/idx-sample-hnsw" + System.currentTimeMillis();
+    String indexPath = "target/lucene-test-index.hnsw." + System.currentTimeMillis();
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
         "-index", indexPath,
-        "-generator", "HnswDenseVectorDocumentGenerator",
+        "-generator", "DenseVectorDocumentGenerator",
         "-threads", "1",
         "-M", "16", "-efC", "100"
     };
@@ -155,12 +159,12 @@ public class IndexHnswDenseVectorsTest {
 
   @Test
   public void testQuantizedInt8() throws Exception {
-    String indexPath = "target/idx-sample-hnsw" + System.currentTimeMillis();
+    String indexPath = "target/lucene-test-index.hnsw." + System.currentTimeMillis();
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
         "-index", indexPath,
-        "-generator", "HnswDenseVectorDocumentGenerator",
+        "-generator", "DenseVectorDocumentGenerator",
         "-threads", "1",
         "-M", "16", "-efC", "100", "-quantize.int8"
     };

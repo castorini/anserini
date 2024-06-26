@@ -1,6 +1,6 @@
 # Anserini Regressions: MS MARCO Passage Ranking
 
-**Model**: cosDPR-distil with HNSW quantized indexes (using ONNX for on-the-fly query encoding)
+**Model**: cosDPR-distil with quantized HNSW indexes (using ONNX for on-the-fly query encoding)
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, using the cosDPR-distil model on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking), as described in the following paper:
 
@@ -46,13 +46,13 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 
 ## Indexing
 
-Sample indexing command, building HNSW indexes:
+Sample indexing command, building quantized HNSW indexes:
 
 ```bash
 bin/run.sh io.anserini.index.IndexHnswDenseVectors \
   -collection JsonDenseVectorCollection \
   -input /path/to/msmarco-passage-cos-dpr-distil \
-  -generator HnswDenseVectorDocumentGenerator \
+  -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-hnsw-int8.msmarco-v1-passage.cos-dpr-distil/ \
   -threads 16 -M 16 -efC 100 -memoryBuffer 65536 -noMerge -quantize.int8 \
   >& logs/log.msmarco-passage-cos-dpr-distil &

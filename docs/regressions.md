@@ -42,29 +42,41 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.wp-ca >& logs/log.msmarco-v1-passage.wp-ca.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.doc2query >& logs/log.msmarco-v1-passage.doc2query.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.docTTTTTquery >& logs/log.msmarco-v1-passage.docTTTTTquery.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.deepimpact >& logs/log.msmarco-v1-passage.deepimpact.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.unicoil >& logs/log.msmarco-v1-passage.unicoil.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.unicoil-noexp >& logs/log.msmarco-v1-passage.unicoil-noexp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.unicoil-tilde-expansion >& logs/log.msmarco-v1-passage.unicoil-tilde-expansion.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.distill-splade-max >& logs/log.msmarco-v1-passage.distill-splade-max.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.splade-pp-ed >& logs/log.msmarco-v1-passage.splade-pp-ed.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.deepimpact.cached >& logs/log.msmarco-v1-passage.deepimpact.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.unicoil.cached >& logs/log.msmarco-v1-passage.unicoil.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.unicoil-noexp.cached >& logs/log.msmarco-v1-passage.unicoil-noexp.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.unicoil-tilde-expansion.cached >& logs/log.msmarco-v1-passage.unicoil-tilde-expansion.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.distill-splade-max.cached >& logs/log.msmarco-v1-passage.distill-splade-max.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.splade-pp-ed.cached >& logs/log.msmarco-v1-passage.splade-pp-ed.cached.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.splade-pp-ed.onnx >& logs/log.msmarco-v1-passage.splade-pp-ed.onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.splade-pp-sd >& logs/log.msmarco-v1-passage.splade-pp-sd.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.splade-pp-sd.cached >& logs/log.msmarco-v1-passage.splade-pp-sd.cached.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.splade-pp-sd.onnx >& logs/log.msmarco-v1-passage.splade-pp-sd.onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cos-dpr-distil.hnsw >& logs/log.msmarco-v1-passage.cos-dpr-distil.hnsw.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cos-dpr-distil.flat.cached >& logs/log.msmarco-v1-passage.cos-dpr-distil.flat.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cos-dpr-distil.flat.onnx >& logs/log.msmarco-v1-passage.cos-dpr-distil.flat.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cos-dpr-distil.flat-int8.cached >& logs/log.msmarco-v1-passage.cos-dpr-distil.flat-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cos-dpr-distil.flat-int8.onnx >& logs/log.msmarco-v1-passage.cos-dpr-distil.flat-int8.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cos-dpr-distil.hnsw.cached >& logs/log.msmarco-v1-passage.cos-dpr-distil.hnsw.cached.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cos-dpr-distil.hnsw.onnx >& logs/log.msmarco-v1-passage.cos-dpr-distil.hnsw.onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cos-dpr-distil.hnsw-int8 >& logs/log.msmarco-v1-passage.cos-dpr-distil.hnsw-int8.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cos-dpr-distil.hnsw-int8.cached >& logs/log.msmarco-v1-passage.cos-dpr-distil.hnsw-int8.cached.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cos-dpr-distil.hnsw-int8.onnx >& logs/log.msmarco-v1-passage.cos-dpr-distil.hnsw-int8.onnx.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cos-dpr-distil.fw >& logs/log.msmarco-v1-passage.cos-dpr-distil.fw.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cos-dpr-distil.lexlsh >& logs/log.msmarco-v1-passage.cos-dpr-distil.lexlsh.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.bge-base-en-v1.5.hnsw >& logs/log.msmarco-v1-passage.bge-base-en-v1.5.hnsw.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.bge-base-en-v1.5.flat.cached >& logs/log.msmarco-v1-passage.bge-base-en-v1.5.flat.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.bge-base-en-v1.5.flat.onnx >& logs/log.msmarco-v1-passage.bge-base-en-v1.5.flat.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.bge-base-en-v1.5.flat-int8.cached >& logs/log.msmarco-v1-passage.bge-base-en-v1.5.flat-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.bge-base-en-v1.5.flat-int8.onnx >& logs/log.msmarco-v1-passage.bge-base-en-v1.5.flat-int8.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.bge-base-en-v1.5.hnsw.cached >& logs/log.msmarco-v1-passage.bge-base-en-v1.5.hnsw.cached.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.bge-base-en-v1.5.hnsw.onnx >& logs/log.msmarco-v1-passage.bge-base-en-v1.5.hnsw.onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8 >& logs/log.msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8.cached >& logs/log.msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8.cached.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8.onnx >& logs/log.msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8.onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cohere-embed-english-v3.0.hnsw >& logs/log.msmarco-v1-passage.cohere-embed-english-v3.0.hnsw.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8 >& logs/log.msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.openai-ada2.hnsw >& logs/log.msmarco-v1-passage.openai-ada2.hnsw.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.openai-ada2.hnsw-int8 >& logs/log.msmarco-v1-passage.openai-ada2.hnsw-int8.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cohere-embed-english-v3.0.flat.cached >& logs/log.msmarco-v1-passage.cohere-embed-english-v3.0.flat.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cohere-embed-english-v3.0.flat-int8.cached >& logs/log.msmarco-v1-passage.cohere-embed-english-v3.0.flat-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cohere-embed-english-v3.0.hnsw.cached >& logs/log.msmarco-v1-passage.cohere-embed-english-v3.0.hnsw.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8.cached >& logs/log.msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.openai-ada2.flat.cached >& logs/log.msmarco-v1-passage.openai-ada2.flat.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.openai-ada2.flat-int8.cached >& logs/log.msmarco-v1-passage.openai-ada2.flat-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.openai-ada2.hnsw.cached >& logs/log.msmarco-v1-passage.openai-ada2.hnsw.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.openai-ada2.hnsw-int8.cached >& logs/log.msmarco-v1-passage.openai-ada2.hnsw-int8.cached.txt &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-doc >& logs/log.msmarco-v1-doc.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-doc.wp-tok >& logs/log.msmarco-v1-doc.wp-tok.txt &
@@ -75,8 +87,8 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-doc-segmented.wp-tok >& logs/log.msmarco-v1-doc-segmented.wp-tok.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-doc-segmented.wp-ca >& logs/log.msmarco-v1-doc-segmented.wp-ca.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-doc-segmented.docTTTTTquery >& logs/log.msmarco-v1-doc-segmented.docTTTTTquery.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-doc-segmented.unicoil >& logs/log.msmarco-v1-doc-segmented.unicoil.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-doc-segmented.unicoil-noexp >& logs/log.msmarco-v1-doc-segmented.unicoil-noexp.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-doc-segmented.unicoil.cached >& logs/log.msmarco-v1-doc-segmented.unicoil.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-doc-segmented.unicoil-noexp.cached >& logs/log.msmarco-v1-doc-segmented.unicoil-noexp.cached.txt &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage >& logs/log.dl19-passage.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.bm25-b8 >& logs/log.dl19-passage.bm25-b8.txt &
@@ -84,26 +96,38 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.wp-hgf >& logs/log.dl19-passage.wp-hgf.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.wp-ca >& logs/log.dl19-passage.wp-ca.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.docTTTTTquery >& logs/log.dl19-passage.docTTTTTquery.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.unicoil >& logs/log.dl19-passage.unicoil.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.unicoil-noexp >& logs/log.dl19-passage.unicoil-noexp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.splade-pp-ed >& logs/log.dl19-passage.splade-pp-ed.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.unicoil.cached >& logs/log.dl19-passage.unicoil.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.unicoil-noexp.cached >& logs/log.dl19-passage.unicoil-noexp.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.splade-pp-ed.cached >& logs/log.dl19-passage.splade-pp-ed.cached.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.splade-pp-ed.onnx >& logs/log.dl19-passage.splade-pp-ed.onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.splade-pp-sd >& logs/log.dl19-passage.splade-pp-sd.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.splade-pp-sd.cached >& logs/log.dl19-passage.splade-pp-sd.cached.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.splade-pp-sd.onnx >& logs/log.dl19-passage.splade-pp-sd.onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.cos-dpr-distil.hnsw >& logs/log.dl19-passage.cos-dpr-distil.hnsw.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.cos-dpr-distil.flat.cached >& logs/log.dl19-passage.cos-dpr-distil.flat.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.cos-dpr-distil.flat.onnx >& logs/log.dl19-passage.cos-dpr-distil.flat.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.cos-dpr-distil.flat-int8.cached >& logs/log.dl19-passage.cos-dpr-distil.flat-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.cos-dpr-distil.flat-int8.onnx >& logs/log.dl19-passage.cos-dpr-distil.flat-int8.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.cos-dpr-distil.hnsw.cached >& logs/log.dl19-passage.cos-dpr-distil.hnsw.cached.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.cos-dpr-distil.hnsw.onnx >& logs/log.dl19-passage.cos-dpr-distil.hnsw.onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.cos-dpr-distil.hnsw-int8 >& logs/log.dl19-passage.cos-dpr-distil.hnsw-int8.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.cos-dpr-distil.hnsw-int8.cached >& logs/log.dl19-passage.cos-dpr-distil.hnsw-int8.cached.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.cos-dpr-distil.hnsw-int8.onnx >& logs/log.dl19-passage.cos-dpr-distil.hnsw-int8.onnx.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.cos-dpr-distil.fw >& logs/log.dl19-passage.cos-dpr-distil.fw.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.cos-dpr-distil.lexlsh >& logs/log.dl19-passage.cos-dpr-distil.lexlsh.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.bge-base-en-v1.5.hnsw >& logs/log.dl19-passage.bge-base-en-v1.5.hnsw.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.bge-base-en-v1.5.flat.cached >& logs/log.dl19-passage.bge-base-en-v1.5.flat.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.bge-base-en-v1.5.flat.onnx >& logs/log.dl19-passage.bge-base-en-v1.5.flat.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.bge-base-en-v1.5.flat-int8.cached >& logs/log.dl19-passage.bge-base-en-v1.5.flat-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.bge-base-en-v1.5.flat-int8.onnx >& logs/log.dl19-passage.bge-base-en-v1.5.flat-int8.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.bge-base-en-v1.5.hnsw.cached >& logs/log.dl19-passage.bge-base-en-v1.5.hnsw.cached.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.bge-base-en-v1.5.hnsw.onnx >& logs/log.dl19-passage.bge-base-en-v1.5.hnsw.onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.bge-base-en-v1.5.hnsw-int8 >& logs/log.dl19-passage.bge-base-en-v1.5.hnsw-int8.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.bge-base-en-v1.5.hnsw-int8.cached >& logs/log.dl19-passage.bge-base-en-v1.5.hnsw-int8.cached.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.bge-base-en-v1.5.hnsw-int8.onnx >& logs/log.dl19-passage.bge-base-en-v1.5.hnsw-int8.onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.openai-ada2.hnsw >& logs/log.dl19-passage.openai-ada2.hnsw.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.openai-ada2.hnsw-int8 >& logs/log.dl19-passage.openai-ada2.hnsw-int8.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.cohere-embed-english-v3.0.hnsw >& logs/log.dl19-passage.cohere-embed-english-v3.0.hnsw.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.cohere-embed-english-v3.0.hnsw-int8 >& logs/log.dl19-passage.cohere-embed-english-v3.0.hnsw-int8.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.openai-ada2.flat.cached >& logs/log.dl19-passage.openai-ada2.flat.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.openai-ada2.flat-int8.cached >& logs/log.dl19-passage.openai-ada2.flat-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.openai-ada2.hnsw.cached >& logs/log.dl19-passage.openai-ada2.hnsw.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.openai-ada2.hnsw-int8.cached >& logs/log.dl19-passage.openai-ada2.hnsw-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.cohere-embed-english-v3.0.flat.cached >& logs/log.dl19-passage.cohere-embed-english-v3.0.flat.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.cohere-embed-english-v3.0.flat-int8.cached >& logs/log.dl19-passage.cohere-embed-english-v3.0.flat-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.cohere-embed-english-v3.0.hnsw.cached >& logs/log.dl19-passage.cohere-embed-english-v3.0.hnsw.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.cohere-embed-english-v3.0.hnsw-int8.cached >& logs/log.dl19-passage.cohere-embed-english-v3.0.hnsw-int8.cached.txt &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-doc >& logs/log.dl19-doc.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-doc.wp-tok >& logs/log.dl19-doc.wp-tok.txt &
@@ -114,8 +138,8 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-doc-segmented.wp-tok >& logs/log.dl19-doc-segmented.wp-tok.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-doc-segmented.wp-ca >& logs/log.dl19-doc-segmented.wp-ca.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-doc-segmented.docTTTTTquery >& logs/log.dl19-doc-segmented.docTTTTTquery.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-doc-segmented.unicoil >& logs/log.dl19-doc-segmented.unicoil.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-doc-segmented.unicoil-noexp >& logs/log.dl19-doc-segmented.unicoil-noexp.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-doc-segmented.unicoil.cached >& logs/log.dl19-doc-segmented.unicoil.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-doc-segmented.unicoil-noexp.cached >& logs/log.dl19-doc-segmented.unicoil-noexp.cached.txt &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage >& logs/log.dl20-passage.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.bm25-b8 >& logs/log.dl20-passage.bm25-b8.txt &
@@ -123,26 +147,38 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.wp-hgf >& logs/log.dl20-passage.wp-hgf.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.wp-ca >& logs/log.dl20-passage.wp-ca.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.docTTTTTquery >& logs/log.dl20-passage.docTTTTTquery.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.unicoil >& logs/log.dl20-passage.unicoil.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.unicoil-noexp >& logs/log.dl20-passage.unicoil-noexp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.splade-pp-ed >& logs/log.dl20-passage.splade-pp-ed.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.unicoil.cached >& logs/log.dl20-passage.unicoil.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.unicoil-noexp.cached >& logs/log.dl20-passage.unicoil-noexp.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.splade-pp-ed.cached >& logs/log.dl20-passage.splade-pp-ed.cached.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.splade-pp-ed.onnx >& logs/log.dl20-passage.splade-pp-ed.onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.splade-pp-sd >& logs/log.dl20-passage.splade-pp-sd.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.splade-pp-sd.cached >& logs/log.dl20-passage.splade-pp-sd.cached.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.splade-pp-sd.onnx >& logs/log.dl20-passage.splade-pp-sd.onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.cos-dpr-distil.hnsw >& logs/log.dl20-passage.cos-dpr-distil.hnsw.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.cos-dpr-distil.flat.cached >& logs/log.dl20-passage.cos-dpr-distil.flat.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.cos-dpr-distil.flat.onnx >& logs/log.dl20-passage.cos-dpr-distil.flat.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.cos-dpr-distil.flat-int8.cached >& logs/log.dl20-passage.cos-dpr-distil.flat-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.cos-dpr-distil.flat-int8.onnx >& logs/log.dl20-passage.cos-dpr-distil.flat-int8.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.cos-dpr-distil.hnsw.cached >& logs/log.dl20-passage.cos-dpr-distil.hnsw.cached.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.cos-dpr-distil.hnsw.onnx >& logs/log.dl20-passage.cos-dpr-distil.hnsw.onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.cos-dpr-distil.hnsw-int8 >& logs/log.dl20-passage.cos-dpr-distil.hnsw-int8.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.cos-dpr-distil.hnsw-int8.cached >& logs/log.dl20-passage.cos-dpr-distil.hnsw-int8.cached.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.cos-dpr-distil.hnsw-int8.onnx >& logs/log.dl20-passage.cos-dpr-distil.hnsw-int8.onnx.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.cos-dpr-distil.fw >& logs/log.dl20-passage.cos-dpr-distil.fw.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.cos-dpr-distil.lexlsh >& logs/log.dl20-passage.cos-dpr-distil.lexlsh.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.bge-base-en-v1.5.hnsw >& logs/log.dl20-passage.bge-base-en-v1.5.hnsw.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.bge-base-en-v1.5.flat.cached >& logs/log.dl20-passage.bge-base-en-v1.5.flat.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.bge-base-en-v1.5.flat.onnx >& logs/log.dl20-passage.bge-base-en-v1.5.flat.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.bge-base-en-v1.5.flat-int8.cached >& logs/log.dl20-passage.bge-base-en-v1.5.flat-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.bge-base-en-v1.5.flat-int8.onnx >& logs/log.dl20-passage.bge-base-en-v1.5.flat-int8.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.bge-base-en-v1.5.hnsw.cached >& logs/log.dl20-passage.bge-base-en-v1.5.hnsw.cached.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.bge-base-en-v1.5.hnsw.onnx >& logs/log.dl20-passage.bge-base-en-v1.5.hnsw.onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.bge-base-en-v1.5.hnsw-int8 >& logs/log.dl20-passage.bge-base-en-v1.5.hnsw-int8.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.bge-base-en-v1.5.hnsw-int8.cached >& logs/log.dl20-passage.bge-base-en-v1.5.hnsw-int8.cached.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.bge-base-en-v1.5.hnsw-int8.onnx >& logs/log.dl20-passage.bge-base-en-v1.5.hnsw-int8.onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.openai-ada2.hnsw >& logs/log.dl20-passage.openai-ada2.hnsw.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.openai-ada2.hnsw-int8 >& logs/log.dl20-passage.openai-ada2.hnsw-int8.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.cohere-embed-english-v3.0.hnsw >& logs/log.dl20-passage.cohere-embed-english-v3.0.hnsw.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.cohere-embed-english-v3.0.hnsw-int8 >& logs/log.dl20-passage.cohere-embed-english-v3.0.hnsw-int8.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.openai-ada2.flat.cached >& logs/log.dl20-passage.openai-ada2.flat.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.openai-ada2.flat-int8.cached >& logs/log.dl20-passage.openai-ada2.flat-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.openai-ada2.hnsw.cached >& logs/log.dl20-passage.openai-ada2.hnsw.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.openai-ada2.hnsw-int8.cached >& logs/log.dl20-passage.openai-ada2.hnsw-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.cohere-embed-english-v3.0.flat.cached >& logs/log.dl20-passage.cohere-embed-english-v3.0.flat.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.cohere-embed-english-v3.0.flat-int8.cached >& logs/log.dl20-passage.cohere-embed-english-v3.0.flat-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.cohere-embed-english-v3.0.hnsw.cached >& logs/log.dl20-passage.cohere-embed-english-v3.0.hnsw.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.cohere-embed-english-v3.0.hnsw-int8.cached >& logs/log.dl20-passage.cohere-embed-english-v3.0.hnsw-int8.cached.txt &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc >& logs/log.dl20-doc.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc.wp-tok >& logs/log.dl20-doc.wp-tok.txt &
@@ -153,8 +189,8 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc-segmented.wp-tok >& logs/log.dl20-doc-segmented.wp-tok.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc-segmented.wp-ca >& logs/log.dl20-doc-segmented.wp-ca.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc-segmented.docTTTTTquery >& logs/log.dl20-doc-segmented.docTTTTTquery.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc-segmented.unicoil >& logs/log.dl20-doc-segmented.unicoil.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc-segmented.unicoil-noexp >& logs/log.dl20-doc-segmented.unicoil-noexp.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc-segmented.unicoil.cached >& logs/log.dl20-doc-segmented.unicoil.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-doc-segmented.unicoil-noexp.cached >& logs/log.dl20-doc-segmented.unicoil-noexp.cached.txt &
 ```
 
 </details>
@@ -164,11 +200,11 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 ```bash
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage >& logs/log.msmarco-v2-passage.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage.d2q-t5 >& logs/log.msmarco-v2-passage.d2q-t5.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage.unicoil-noexp-0shot >& logs/log.msmarco-v2-passage.unicoil-noexp-0shot.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage.unicoil-0shot >& logs/log.msmarco-v2-passage.unicoil-0shot.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage.splade-pp-ed >& logs/log.msmarco-v2-passage.splade-pp-ed.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage.unicoil-noexp-0shot.cached >& logs/log.msmarco-v2-passage.unicoil-noexp-0shot.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage.unicoil-0shot.cached >& logs/log.msmarco-v2-passage.unicoil-0shot.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage.splade-pp-ed.cached >& logs/log.msmarco-v2-passage.splade-pp-ed.cached.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage.splade-pp-ed.onnx >& logs/log.msmarco-v2-passage.splade-pp-ed.onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage.splade-pp-sd >& logs/log.msmarco-v2-passage.splade-pp-sd.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage.splade-pp-sd.cached >& logs/log.msmarco-v2-passage.splade-pp-sd.cached.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage.splade-pp-sd.onnx >& logs/log.msmarco-v2-passage.splade-pp-sd.onnx.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage-augmented >& logs/log.msmarco-v2-passage-augmented.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage-augmented.d2q-t5 >& logs/log.msmarco-v2-passage-augmented.d2q-t5.txt &
@@ -177,18 +213,18 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc.d2q-t5 >& logs/log.msmarco-v2-doc.d2q-t5.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented >& logs/log.msmarco-v2-doc-segmented.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented.d2q-t5 >& logs/log.msmarco-v2-doc-segmented.d2q-t5.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented.unicoil-noexp-0shot >& logs/log.msmarco-v2-doc-segmented.unicoil-noexp-0shot.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented.unicoil-noexp-0shot-v2 >& logs/log.msmarco-v2-doc-segmented.unicoil-noexp-0shot-v2.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented.unicoil-0shot >& logs/log.msmarco-v2-doc-segmented.unicoil-0shot.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented.unicoil-0shot-v2 >& logs/log.msmarco-v2-doc-segmented.unicoil-0shot-v2.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented.unicoil-noexp-0shot.cached >& logs/log.msmarco-v2-doc-segmented.unicoil-noexp-0shot.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented.unicoil-noexp-0shot-v2.cached >& logs/log.msmarco-v2-doc-segmented.unicoil-noexp-0shot-v2.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented.unicoil-0shot.cached >& logs/log.msmarco-v2-doc-segmented.unicoil-0shot.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented.unicoil-0shot-v2.cached >& logs/log.msmarco-v2-doc-segmented.unicoil-0shot-v2.cached.txt &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-passage >& logs/log.dl21-passage.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-passage.d2q-t5 >& logs/log.dl21-passage.d2q-t5.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-passage.unicoil-noexp-0shot >& logs/log.dl21-passage.unicoil-noexp-0shot.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-passage.unicoil-0shot >& logs/log.dl21-passage.unicoil-0shot.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-passage.splade-pp-ed >& logs/log.dl21-passage.splade-pp-ed.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-passage.unicoil-noexp-0shot.cached >& logs/log.dl21-passage.unicoil-noexp-0shot.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-passage.unicoil-0shot.cached >& logs/log.dl21-passage.unicoil-0shot.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-passage.splade-pp-ed.cached >& logs/log.dl21-passage.splade-pp-ed.cached.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-passage.splade-pp-ed.onnx >& logs/log.dl21-passage.splade-pp-ed.onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-passage.splade-pp-sd >& logs/log.dl21-passage.splade-pp-sd.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-passage.splade-pp-sd.cached >& logs/log.dl21-passage.splade-pp-sd.cached.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-passage.splade-pp-sd.onnx >& logs/log.dl21-passage.splade-pp-sd.onnx.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-passage-augmented >& logs/log.dl21-passage-augmented.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-passage-augmented.d2q-t5 >& logs/log.dl21-passage-augmented.d2q-t5.txt &
@@ -197,18 +233,18 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-doc.d2q-t5 >& logs/log.dl21-doc.d2q-t5.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-doc-segmented >& logs/log.dl21-doc-segmented.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-doc-segmented.d2q-t5 >& logs/log.dl21-doc-segmented.d2q-t5.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-doc-segmented.unicoil-noexp-0shot >& logs/log.dl21-doc-segmented.unicoil-noexp-0shot.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-doc-segmented.unicoil-noexp-0shot-v2 >& logs/log.dl21-doc-segmented.unicoil-noexp-0shot-v2.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-doc-segmented.unicoil-0shot >& logs/log.dl21-doc-segmented.unicoil-0shot.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-doc-segmented.unicoil-0shot-v2 >& logs/log.dl21-doc-segmented.unicoil-0shot-v2.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-doc-segmented.unicoil-noexp-0shot.cached >& logs/log.dl21-doc-segmented.unicoil-noexp-0shot.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-doc-segmented.unicoil-noexp-0shot-v2.cached >& logs/log.dl21-doc-segmented.unicoil-noexp-0shot-v2.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-doc-segmented.unicoil-0shot.cached >& logs/log.dl21-doc-segmented.unicoil-0shot.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-doc-segmented.unicoil-0shot-v2.cached >& logs/log.dl21-doc-segmented.unicoil-0shot-v2.cached.txt &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl22-passage >& logs/log.dl22-passage.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl22-passage.d2q-t5 >& logs/log.dl22-passage.d2q-t5.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl22-passage.unicoil-noexp-0shot >& logs/log.dl22-passage.unicoil-noexp-0shot.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl22-passage.unicoil-0shot >& logs/log.dl22-passage.unicoil-0shot.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl22-passage.splade-pp-ed >& logs/log.dl22-passage.splade-pp-ed.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl22-passage.unicoil-noexp-0shot.cached >& logs/log.dl22-passage.unicoil-noexp-0shot.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl22-passage.unicoil-0shot.cached >& logs/log.dl22-passage.unicoil-0shot.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl22-passage.splade-pp-ed.cached >& logs/log.dl22-passage.splade-pp-ed.cached.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl22-passage.splade-pp-ed.onnx >& logs/log.dl22-passage.splade-pp-ed.onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl22-passage.splade-pp-sd >& logs/log.dl22-passage.splade-pp-sd.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl22-passage.splade-pp-sd.cached >& logs/log.dl22-passage.splade-pp-sd.cached.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl22-passage.splade-pp-sd.onnx >& logs/log.dl22-passage.splade-pp-sd.onnx.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl22-passage-augmented >& logs/log.dl22-passage-augmented.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl22-passage-augmented.d2q-t5 >& logs/log.dl22-passage-augmented.d2q-t5.txt &
@@ -217,16 +253,16 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl22-doc.d2q-t5 >& logs/log.dl22-doc.d2q-t5.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl22-doc-segmented >& logs/log.dl22-doc-segmented.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl22-doc-segmented.d2q-t5 >& logs/log.dl22-doc-segmented.d2q-t5.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl22-doc-segmented.unicoil-noexp-0shot-v2 >& logs/log.dl22-doc-segmented.unicoil-noexp-0shot-v2.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl22-doc-segmented.unicoil-0shot-v2 >& logs/log.dl22-doc-segmented.unicoil-0shot-v2.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl22-doc-segmented.unicoil-noexp-0shot-v2.cached >& logs/log.dl22-doc-segmented.unicoil-noexp-0shot-v2.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl22-doc-segmented.unicoil-0shot-v2.cached >& logs/log.dl22-doc-segmented.unicoil-0shot-v2.cached.txt &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl23-passage >& logs/log.dl23-passage.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl23-passage.d2q-t5 >& logs/log.dl23-passage.d2q-t5.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl23-passage.unicoil-noexp-0shot >& logs/log.dl23-passage.unicoil-noexp-0shot.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl23-passage.unicoil-0shot >& logs/log.dl23-passage.unicoil-0shot.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl23-passage.splade-pp-ed >& logs/log.dl23-passage.splade-pp-ed.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl23-passage.unicoil-noexp-0shot.cached >& logs/log.dl23-passage.unicoil-noexp-0shot.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl23-passage.unicoil-0shot.cached >& logs/log.dl23-passage.unicoil-0shot.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl23-passage.splade-pp-ed.cached >& logs/log.dl23-passage.splade-pp-ed.cached.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl23-passage.splade-pp-ed.onnx >& logs/log.dl23-passage.splade-pp-ed.onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl23-passage.splade-pp-sd >& logs/log.dl23-passage.splade-pp-sd.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl23-passage.splade-pp-sd.cached >& logs/log.dl23-passage.splade-pp-sd.cached.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl23-passage.splade-pp-sd.onnx >& logs/log.dl23-passage.splade-pp-sd.onnx.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl23-passage-augmented >& logs/log.dl23-passage-augmented.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl23-passage-augmented.d2q-t5 >& logs/log.dl23-passage-augmented.d2q-t5.txt &
@@ -235,8 +271,8 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl23-doc.d2q-t5 >& logs/log.dl23-doc.d2q-t5.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl23-doc-segmented >& logs/log.dl23-doc-segmented.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl23-doc-segmented.d2q-t5 >& logs/log.dl23-doc-segmented.d2q-t5.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl23-doc-segmented.unicoil-noexp-0shot-v2 >& logs/log.dl23-doc-segmented.unicoil-noexp-0shot-v2.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl23-doc-segmented.unicoil-0shot-v2 >& logs/log.dl23-doc-segmented.unicoil-0shot-v2.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl23-doc-segmented.unicoil-noexp-0shot-v2.cached >& logs/log.dl23-doc-segmented.unicoil-noexp-0shot-v2.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl23-doc-segmented.unicoil-0shot-v2.cached >& logs/log.dl23-doc-segmented.unicoil-0shot-v2.cached.txt &
 ```
 
 </details>
@@ -264,130 +300,260 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 <details>
 <summary>BEIR (v1.0.0): BGE-base-en-v1.5</summary>
 
+Flat indexes:
+
 ```bash
-# Original HNSW indexes, pre-encoded queries
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-covid-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-trec-covid-bge-base-en-v1.5-hnsw.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-bioasq-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-bioasq-bge-base-en-v1.5-hnsw.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nfcorpus-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-nfcorpus-bge-base-en-v1.5-hnsw.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nq-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-nq-bge-base-en-v1.5-hnsw.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-hotpotqa-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-hotpotqa-bge-base-en-v1.5-hnsw.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fiqa-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-fiqa-bge-base-en-v1.5-hnsw.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-signal1m-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-signal1m-bge-base-en-v1.5-hnsw.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-news-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-trec-news-bge-base-en-v1.5-hnsw.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-robust04-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-robust04-bge-base-en-v1.5-hnsw.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-arguana-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-arguana-bge-base-en-v1.5-hnsw.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-webis-touche2020-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-webis-touche2020-bge-base-en-v1.5-hnsw.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-android-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-cqadupstack-android-bge-base-en-v1.5-hnsw.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-english-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-cqadupstack-english-bge-base-en-v1.5-hnsw.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gaming-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-cqadupstack-gaming-bge-base-en-v1.5-hnsw.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gis-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-cqadupstack-gis-bge-base-en-v1.5-hnsw.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-mathematica-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-cqadupstack-mathematica-bge-base-en-v1.5-hnsw.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-physics-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-cqadupstack-physics-bge-base-en-v1.5-hnsw.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-programmers-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-cqadupstack-programmers-bge-base-en-v1.5-hnsw.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-stats-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-cqadupstack-stats-bge-base-en-v1.5-hnsw.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-tex-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-cqadupstack-tex-bge-base-en-v1.5-hnsw.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-unix-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-cqadupstack-unix-bge-base-en-v1.5-hnsw.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-webmasters-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-cqadupstack-webmasters-bge-base-en-v1.5-hnsw.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-wordpress-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-cqadupstack-wordpress-bge-base-en-v1.5-hnsw.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-quora-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-quora-bge-base-en-v1.5-hnsw.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-dbpedia-entity-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-dbpedia-entity-bge-base-en-v1.5-hnsw.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scidocs-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-scidocs-bge-base-en-v1.5-hnsw.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fever-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-fever-bge-base-en-v1.5-hnsw.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-climate-fever-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-climate-fever-bge-base-en-v1.5-hnsw.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scifact-bge-base-en-v1.5-hnsw >& logs/log.beir-v1.0.0-scifact-bge-base-en-v1.5-hnsw.txt &
+# Original flat indexes, cached queries
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-arguana.bge-base-en-v1.5.flat.cached >& logs/log.beir-v1.0.0-arguana.bge-base-en-v1.5.flat.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-bioasq.bge-base-en-v1.5.flat.cached >& logs/log.beir-v1.0.0-bioasq.bge-base-en-v1.5.flat.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-climate-fever.bge-base-en-v1.5.flat.cached >& logs/log.beir-v1.0.0-climate-fever.bge-base-en-v1.5.flat.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.flat.cached >& logs/log.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.flat.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.flat.cached >& logs/log.beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.flat.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.flat.cached >& logs/log.beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.flat.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.flat.cached >& logs/log.beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.flat.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.flat.cached >& logs/log.beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.flat.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.flat.cached >& logs/log.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.flat.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.flat.cached >& logs/log.beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.flat.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.flat.cached >& logs/log.beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.flat.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.flat.cached >& logs/log.beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.flat.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.flat.cached >& logs/log.beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.flat.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.flat.cached >& logs/log.beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.flat.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.flat.cached >& logs/log.beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.flat.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.flat.cached >& logs/log.beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.flat.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fever.bge-base-en-v1.5.flat.cached >& logs/log.beir-v1.0.0-fever.bge-base-en-v1.5.flat.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fiqa.bge-base-en-v1.5.flat.cached >& logs/log.beir-v1.0.0-fiqa.bge-base-en-v1.5.flat.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-hotpotqa.bge-base-en-v1.5.flat.cached >& logs/log.beir-v1.0.0-hotpotqa.bge-base-en-v1.5.flat.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nfcorpus.bge-base-en-v1.5.flat.cached >& logs/log.beir-v1.0.0-nfcorpus.bge-base-en-v1.5.flat.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nq.bge-base-en-v1.5.flat.cached >& logs/log.beir-v1.0.0-nq.bge-base-en-v1.5.flat.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-quora.bge-base-en-v1.5.flat.cached >& logs/log.beir-v1.0.0-quora.bge-base-en-v1.5.flat.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-robust04.bge-base-en-v1.5.flat.cached >& logs/log.beir-v1.0.0-robust04.bge-base-en-v1.5.flat.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scidocs.bge-base-en-v1.5.flat.cached >& logs/log.beir-v1.0.0-scidocs.bge-base-en-v1.5.flat.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scifact.bge-base-en-v1.5.flat.cached >& logs/log.beir-v1.0.0-scifact.bge-base-en-v1.5.flat.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-signal1m.bge-base-en-v1.5.flat.cached >& logs/log.beir-v1.0.0-signal1m.bge-base-en-v1.5.flat.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-covid.bge-base-en-v1.5.flat.cached >& logs/log.beir-v1.0.0-trec-covid.bge-base-en-v1.5.flat.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-news.bge-base-en-v1.5.flat.cached >& logs/log.beir-v1.0.0-trec-news.bge-base-en-v1.5.flat.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.flat.cached >& logs/log.beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.flat.cached.txt &
+
+# Original flat indexes, ONNX
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-arguana.bge-base-en-v1.5.flat.onnx >& logs/log.beir-v1.0.0-arguana.bge-base-en-v1.5.flat.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-bioasq.bge-base-en-v1.5.flat.onnx >& logs/log.beir-v1.0.0-bioasq.bge-base-en-v1.5.flat.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-climate-fever.bge-base-en-v1.5.flat.onnx >& logs/log.beir-v1.0.0-climate-fever.bge-base-en-v1.5.flat.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.flat.onnx >& logs/log.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.flat.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.flat.onnx >& logs/log.beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.flat.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.flat.onnx >& logs/log.beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.flat.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.flat.onnx >& logs/log.beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.flat.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.flat.onnx >& logs/log.beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.flat.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.flat.onnx >& logs/log.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.flat.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.flat.onnx >& logs/log.beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.flat.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.flat.onnx >& logs/log.beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.flat.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.flat.onnx >& logs/log.beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.flat.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.flat.onnx >& logs/log.beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.flat.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.flat.onnx >& logs/log.beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.flat.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.flat.onnx >& logs/log.beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.flat.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.flat.onnx >& logs/log.beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.flat.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fever.bge-base-en-v1.5.flat.onnx >& logs/log.beir-v1.0.0-fever.bge-base-en-v1.5.flat.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fiqa.bge-base-en-v1.5.flat.onnx >& logs/log.beir-v1.0.0-fiqa.bge-base-en-v1.5.flat.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-hotpotqa.bge-base-en-v1.5.flat.onnx >& logs/log.beir-v1.0.0-hotpotqa.bge-base-en-v1.5.flat.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nfcorpus.bge-base-en-v1.5.flat.onnx >& logs/log.beir-v1.0.0-nfcorpus.bge-base-en-v1.5.flat.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nq.bge-base-en-v1.5.flat.onnx >& logs/log.beir-v1.0.0-nq.bge-base-en-v1.5.flat.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-quora.bge-base-en-v1.5.flat.onnx >& logs/log.beir-v1.0.0-quora.bge-base-en-v1.5.flat.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-robust04.bge-base-en-v1.5.flat.onnx >& logs/log.beir-v1.0.0-robust04.bge-base-en-v1.5.flat.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scidocs.bge-base-en-v1.5.flat.onnx >& logs/log.beir-v1.0.0-scidocs.bge-base-en-v1.5.flat.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scifact.bge-base-en-v1.5.flat.onnx >& logs/log.beir-v1.0.0-scifact.bge-base-en-v1.5.flat.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-signal1m.bge-base-en-v1.5.flat.onnx >& logs/log.beir-v1.0.0-signal1m.bge-base-en-v1.5.flat.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-covid.bge-base-en-v1.5.flat.onnx >& logs/log.beir-v1.0.0-trec-covid.bge-base-en-v1.5.flat.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-news.bge-base-en-v1.5.flat.onnx >& logs/log.beir-v1.0.0-trec-news.bge-base-en-v1.5.flat.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.flat.onnx >& logs/log.beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.flat.onnx.txt &
+
+# Quantized flat indexes, cached queries
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-arguana.bge-base-en-v1.5.flat-int8.cached >& logs/log.beir-v1.0.0-arguana.bge-base-en-v1.5.flat-int8.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-bioasq.bge-base-en-v1.5.flat-int8.cached >& logs/log.beir-v1.0.0-bioasq.bge-base-en-v1.5.flat-int8.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-climate-fever.bge-base-en-v1.5.flat-int8.cached >& logs/log.beir-v1.0.0-climate-fever.bge-base-en-v1.5.flat-int8.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.flat-int8.cached >& logs/log.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.flat-int8.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.flat-int8.cached >& logs/log.beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.flat-int8.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.flat-int8.cached >& logs/log.beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.flat-int8.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.flat-int8.cached >& logs/log.beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.flat-int8.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.flat-int8.cached >& logs/log.beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.flat-int8.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.flat-int8.cached >& logs/log.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.flat-int8.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.flat-int8.cached >& logs/log.beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.flat-int8.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.flat-int8.cached >& logs/log.beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.flat-int8.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.flat-int8.cached >& logs/log.beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.flat-int8.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.flat-int8.cached >& logs/log.beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.flat-int8.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.flat-int8.cached >& logs/log.beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.flat-int8.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.flat-int8.cached >& logs/log.beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.flat-int8.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.flat-int8.cached >& logs/log.beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.flat-int8.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fever.bge-base-en-v1.5.flat-int8.cached >& logs/log.beir-v1.0.0-fever.bge-base-en-v1.5.flat-int8.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fiqa.bge-base-en-v1.5.flat-int8.cached >& logs/log.beir-v1.0.0-fiqa.bge-base-en-v1.5.flat-int8.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-hotpotqa.bge-base-en-v1.5.flat-int8.cached >& logs/log.beir-v1.0.0-hotpotqa.bge-base-en-v1.5.flat-int8.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nfcorpus.bge-base-en-v1.5.flat-int8.cached >& logs/log.beir-v1.0.0-nfcorpus.bge-base-en-v1.5.flat-int8.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nq.bge-base-en-v1.5.flat-int8.cached >& logs/log.beir-v1.0.0-nq.bge-base-en-v1.5.flat-int8.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-quora.bge-base-en-v1.5.flat-int8.cached >& logs/log.beir-v1.0.0-quora.bge-base-en-v1.5.flat-int8.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-robust04.bge-base-en-v1.5.flat-int8.cached >& logs/log.beir-v1.0.0-robust04.bge-base-en-v1.5.flat-int8.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scidocs.bge-base-en-v1.5.flat-int8.cached >& logs/log.beir-v1.0.0-scidocs.bge-base-en-v1.5.flat-int8.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scifact.bge-base-en-v1.5.flat-int8.cached >& logs/log.beir-v1.0.0-scifact.bge-base-en-v1.5.flat-int8.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-signal1m.bge-base-en-v1.5.flat-int8.cached >& logs/log.beir-v1.0.0-signal1m.bge-base-en-v1.5.flat-int8.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-covid.bge-base-en-v1.5.flat-int8.cached >& logs/log.beir-v1.0.0-trec-covid.bge-base-en-v1.5.flat-int8.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-news.bge-base-en-v1.5.flat-int8.cached >& logs/log.beir-v1.0.0-trec-news.bge-base-en-v1.5.flat-int8.cached.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.flat-int8.cached >& logs/log.beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.flat-int8.cached.txt &
+
+# Quantized flat indexes, ONNX
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-arguana.bge-base-en-v1.5.flat-int8.onnx >& logs/log.beir-v1.0.0-arguana.bge-base-en-v1.5.flat-int8.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-bioasq.bge-base-en-v1.5.flat-int8.onnx >& logs/log.beir-v1.0.0-bioasq.bge-base-en-v1.5.flat-int8.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-climate-fever.bge-base-en-v1.5.flat-int8.onnx >& logs/log.beir-v1.0.0-climate-fever.bge-base-en-v1.5.flat-int8.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.flat-int8.onnx >& logs/log.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.flat-int8.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.flat-int8.onnx >& logs/log.beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.flat-int8.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.flat-int8.onnx >& logs/log.beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.flat-int8.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.flat-int8.onnx >& logs/log.beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.flat-int8.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.flat-int8.onnx >& logs/log.beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.flat-int8.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.flat-int8.onnx >& logs/log.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.flat-int8.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.flat-int8.onnx >& logs/log.beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.flat-int8.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.flat-int8.onnx >& logs/log.beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.flat-int8.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.flat-int8.onnx >& logs/log.beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.flat-int8.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.flat-int8.onnx >& logs/log.beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.flat-int8.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.flat-int8.onnx >& logs/log.beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.flat-int8.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.flat-int8.onnx >& logs/log.beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.flat-int8.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.flat-int8.onnx >& logs/log.beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.flat-int8.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fever.bge-base-en-v1.5.flat-int8.onnx >& logs/log.beir-v1.0.0-fever.bge-base-en-v1.5.flat-int8.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fiqa.bge-base-en-v1.5.flat-int8.onnx >& logs/log.beir-v1.0.0-fiqa.bge-base-en-v1.5.flat-int8.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-hotpotqa.bge-base-en-v1.5.flat-int8.onnx >& logs/log.beir-v1.0.0-hotpotqa.bge-base-en-v1.5.flat-int8.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nfcorpus.bge-base-en-v1.5.flat-int8.onnx >& logs/log.beir-v1.0.0-nfcorpus.bge-base-en-v1.5.flat-int8.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nq.bge-base-en-v1.5.flat-int8.onnx >& logs/log.beir-v1.0.0-nq.bge-base-en-v1.5.flat-int8.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-quora.bge-base-en-v1.5.flat-int8.onnx >& logs/log.beir-v1.0.0-quora.bge-base-en-v1.5.flat-int8.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-robust04.bge-base-en-v1.5.flat-int8.onnx >& logs/log.beir-v1.0.0-robust04.bge-base-en-v1.5.flat-int8.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scidocs.bge-base-en-v1.5.flat-int8.onnx >& logs/log.beir-v1.0.0-scidocs.bge-base-en-v1.5.flat-int8.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scifact.bge-base-en-v1.5.flat-int8.onnx >& logs/log.beir-v1.0.0-scifact.bge-base-en-v1.5.flat-int8.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-signal1m.bge-base-en-v1.5.flat-int8.onnx >& logs/log.beir-v1.0.0-signal1m.bge-base-en-v1.5.flat-int8.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-covid.bge-base-en-v1.5.flat-int8.onnx >& logs/log.beir-v1.0.0-trec-covid.bge-base-en-v1.5.flat-int8.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-news.bge-base-en-v1.5.flat-int8.onnx >& logs/log.beir-v1.0.0-trec-news.bge-base-en-v1.5.flat-int8.onnx.txt &
+python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.flat-int8.onnx >& logs/log.beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.flat-int8.onnx.txt &
+```
+
+HNSW indexes:
+
+```bash
+# Original HNSW indexes, cached queries
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-covid.bge-base-en-v1.5.hnsw.cached >& logs/log.beir-v1.0.0-trec-covid.bge-base-en-v1.5.hnsw.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-bioasq.bge-base-en-v1.5.hnsw.cached >& logs/log.beir-v1.0.0-bioasq.bge-base-en-v1.5.hnsw.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nfcorpus.bge-base-en-v1.5.hnsw.cached >& logs/log.beir-v1.0.0-nfcorpus.bge-base-en-v1.5.hnsw.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nq.bge-base-en-v1.5.hnsw.cached >& logs/log.beir-v1.0.0-nq.bge-base-en-v1.5.hnsw.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-hotpotqa.bge-base-en-v1.5.hnsw.cached >& logs/log.beir-v1.0.0-hotpotqa.bge-base-en-v1.5.hnsw.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fiqa.bge-base-en-v1.5.hnsw.cached >& logs/log.beir-v1.0.0-fiqa.bge-base-en-v1.5.hnsw.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-signal1m.bge-base-en-v1.5.hnsw.cached >& logs/log.beir-v1.0.0-signal1m.bge-base-en-v1.5.hnsw.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-news.bge-base-en-v1.5.hnsw.cached >& logs/log.beir-v1.0.0-trec-news.bge-base-en-v1.5.hnsw.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-robust04.bge-base-en-v1.5.hnsw.cached >& logs/log.beir-v1.0.0-robust04.bge-base-en-v1.5.hnsw.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-arguana.bge-base-en-v1.5.hnsw.cached >& logs/log.beir-v1.0.0-arguana.bge-base-en-v1.5.hnsw.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.hnsw.cached >& logs/log.beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.hnsw.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.hnsw.cached >& logs/log.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.hnsw.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.hnsw.cached >& logs/log.beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.hnsw.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.hnsw.cached >& logs/log.beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.hnsw.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.hnsw.cached >& logs/log.beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.hnsw.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.hnsw.cached >& logs/log.beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.hnsw.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.hnsw.cached >& logs/log.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.hnsw.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.hnsw.cached >& logs/log.beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.hnsw.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.hnsw.cached >& logs/log.beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.hnsw.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.hnsw.cached >& logs/log.beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.hnsw.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.hnsw.cached >& logs/log.beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.hnsw.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.hnsw.cached >& logs/log.beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.hnsw.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.hnsw.cached >& logs/log.beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.hnsw.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-quora.bge-base-en-v1.5.hnsw.cached >& logs/log.beir-v1.0.0-quora.bge-base-en-v1.5.hnsw.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.hnsw.cached >& logs/log.beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.hnsw.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scidocs.bge-base-en-v1.5.hnsw.cached >& logs/log.beir-v1.0.0-scidocs.bge-base-en-v1.5.hnsw.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fever.bge-base-en-v1.5.hnsw.cached >& logs/log.beir-v1.0.0-fever.bge-base-en-v1.5.hnsw.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-climate-fever.bge-base-en-v1.5.hnsw.cached >& logs/log.beir-v1.0.0-climate-fever.bge-base-en-v1.5.hnsw.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scifact.bge-base-en-v1.5.hnsw.cached >& logs/log.beir-v1.0.0-scifact.bge-base-en-v1.5.hnsw.cached.txt &
 
 # Original HNSW indexes, ONNX
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-covid-bge-base-en-v1.5-hnsw-onnx >& logs/log.beir-v1.0.0-trec-covid-bge-base-en-v1.5-hnsw-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-bioasq-bge-base-en-v1.5-hnsw-onnx >& logs/log.beir-v1.0.0-bioasq-bge-base-en-v1.5-hnsw-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nfcorpus-bge-base-en-v1.5-hnsw-onnx >& logs/log.beir-v1.0.0-nfcorpus-bge-base-en-v1.5-hnsw-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nq-bge-base-en-v1.5-hnsw-onnx >& logs/log.beir-v1.0.0-nq-bge-base-en-v1.5-hnsw-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-hotpotqa-bge-base-en-v1.5-hnsw-onnx >& logs/log.beir-v1.0.0-hotpotqa-bge-base-en-v1.5-hnsw-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fiqa-bge-base-en-v1.5-hnsw-onnx >& logs/log.beir-v1.0.0-fiqa-bge-base-en-v1.5-hnsw-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-signal1m-bge-base-en-v1.5-hnsw-onnx >& logs/log.beir-v1.0.0-signal1m-bge-base-en-v1.5-hnsw-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-news-bge-base-en-v1.5-hnsw-onnx >& logs/log.beir-v1.0.0-trec-news-bge-base-en-v1.5-hnsw-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-robust04-bge-base-en-v1.5-hnsw-onnx >& logs/log.beir-v1.0.0-robust04-bge-base-en-v1.5-hnsw-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-arguana-bge-base-en-v1.5-hnsw-onnx >& logs/log.beir-v1.0.0-arguana-bge-base-en-v1.5-hnsw-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-webis-touche2020-bge-base-en-v1.5-hnsw-onnx >& logs/log.beir-v1.0.0-webis-touche2020-bge-base-en-v1.5-hnsw-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-android-bge-base-en-v1.5-hnsw-onnx >& logs/log.beir-v1.0.0-cqadupstack-android-bge-base-en-v1.5-hnsw-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-english-bge-base-en-v1.5-hnsw-onnx >& logs/log.beir-v1.0.0-cqadupstack-english-bge-base-en-v1.5-hnsw-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gaming-bge-base-en-v1.5-hnsw-onnx >& logs/log.beir-v1.0.0-cqadupstack-gaming-bge-base-en-v1.5-hnsw-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gis-bge-base-en-v1.5-hnsw-onnx >& logs/log.beir-v1.0.0-cqadupstack-gis-bge-base-en-v1.5-hnsw-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-mathematica-bge-base-en-v1.5-hnsw-onnx >& logs/log.beir-v1.0.0-cqadupstack-mathematica-bge-base-en-v1.5-hnsw-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-physics-bge-base-en-v1.5-hnsw-onnx >& logs/log.beir-v1.0.0-cqadupstack-physics-bge-base-en-v1.5-hnsw-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-programmers-bge-base-en-v1.5-hnsw-onnx >& logs/log.beir-v1.0.0-cqadupstack-programmers-bge-base-en-v1.5-hnsw-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-stats-bge-base-en-v1.5-hnsw-onnx >& logs/log.beir-v1.0.0-cqadupstack-stats-bge-base-en-v1.5-hnsw-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-tex-bge-base-en-v1.5-hnsw-onnx >& logs/log.beir-v1.0.0-cqadupstack-tex-bge-base-en-v1.5-hnsw-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-unix-bge-base-en-v1.5-hnsw-onnx >& logs/log.beir-v1.0.0-cqadupstack-unix-bge-base-en-v1.5-hnsw-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-webmasters-bge-base-en-v1.5-hnsw-onnx >& logs/log.beir-v1.0.0-cqadupstack-webmasters-bge-base-en-v1.5-hnsw-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-wordpress-bge-base-en-v1.5-hnsw-onnx >& logs/log.beir-v1.0.0-cqadupstack-wordpress-bge-base-en-v1.5-hnsw-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-quora-bge-base-en-v1.5-hnsw-onnx >& logs/log.beir-v1.0.0-quora-bge-base-en-v1.5-hnsw-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-dbpedia-entity-bge-base-en-v1.5-hnsw-onnx >& logs/log.beir-v1.0.0-dbpedia-entity-bge-base-en-v1.5-hnsw-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scidocs-bge-base-en-v1.5-hnsw-onnx >& logs/log.beir-v1.0.0-scidocs-bge-base-en-v1.5-hnsw-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fever-bge-base-en-v1.5-hnsw-onnx >& logs/log.beir-v1.0.0-fever-bge-base-en-v1.5-hnsw-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-climate-fever-bge-base-en-v1.5-hnsw-onnx >& logs/log.beir-v1.0.0-climate-fever-bge-base-en-v1.5-hnsw-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scifact-bge-base-en-v1.5-hnsw-onnx >& logs/log.beir-v1.0.0-scifact-bge-base-en-v1.5-hnsw-onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-covid.bge-base-en-v1.5.hnsw.onnx >& logs/log.beir-v1.0.0-trec-covid.bge-base-en-v1.5.hnsw.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-bioasq.bge-base-en-v1.5.hnsw.onnx >& logs/log.beir-v1.0.0-bioasq.bge-base-en-v1.5.hnsw.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nfcorpus.bge-base-en-v1.5.hnsw.onnx >& logs/log.beir-v1.0.0-nfcorpus.bge-base-en-v1.5.hnsw.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nq.bge-base-en-v1.5.hnsw.onnx >& logs/log.beir-v1.0.0-nq.bge-base-en-v1.5.hnsw.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-hotpotqa.bge-base-en-v1.5.hnsw.onnx >& logs/log.beir-v1.0.0-hotpotqa.bge-base-en-v1.5.hnsw.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fiqa.bge-base-en-v1.5.hnsw.onnx >& logs/log.beir-v1.0.0-fiqa.bge-base-en-v1.5.hnsw.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-signal1m.bge-base-en-v1.5.hnsw.onnx >& logs/log.beir-v1.0.0-signal1m.bge-base-en-v1.5.hnsw.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-news.bge-base-en-v1.5.hnsw.onnx >& logs/log.beir-v1.0.0-trec-news.bge-base-en-v1.5.hnsw.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-robust04.bge-base-en-v1.5.hnsw.onnx >& logs/log.beir-v1.0.0-robust04.bge-base-en-v1.5.hnsw.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-arguana.bge-base-en-v1.5.hnsw.onnx >& logs/log.beir-v1.0.0-arguana.bge-base-en-v1.5.hnsw.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.hnsw.onnx >& logs/log.beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.hnsw.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.hnsw.onnx >& logs/log.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.hnsw.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.hnsw.onnx >& logs/log.beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.hnsw.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.hnsw.onnx >& logs/log.beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.hnsw.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.hnsw.onnx >& logs/log.beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.hnsw.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.hnsw.onnx >& logs/log.beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.hnsw.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.hnsw.onnx >& logs/log.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.hnsw.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.hnsw.onnx >& logs/log.beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.hnsw.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.hnsw.onnx >& logs/log.beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.hnsw.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.hnsw.onnx >& logs/log.beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.hnsw.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.hnsw.onnx >& logs/log.beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.hnsw.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.hnsw.onnx >& logs/log.beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.hnsw.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.hnsw.onnx >& logs/log.beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.hnsw.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-quora.bge-base-en-v1.5.hnsw.onnx >& logs/log.beir-v1.0.0-quora.bge-base-en-v1.5.hnsw.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.hnsw.onnx >& logs/log.beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.hnsw.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scidocs.bge-base-en-v1.5.hnsw.onnx >& logs/log.beir-v1.0.0-scidocs.bge-base-en-v1.5.hnsw.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fever.bge-base-en-v1.5.hnsw.onnx >& logs/log.beir-v1.0.0-fever.bge-base-en-v1.5.hnsw.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-climate-fever.bge-base-en-v1.5.hnsw.onnx >& logs/log.beir-v1.0.0-climate-fever.bge-base-en-v1.5.hnsw.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scifact.bge-base-en-v1.5.hnsw.onnx >& logs/log.beir-v1.0.0-scifact.bge-base-en-v1.5.hnsw.onnx.txt &
 
-# Quantized HNSW indexes, pre-encoded queries
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-covid-bge-base-en-v1.5-hnsw-int8 >& logs/log.beir-v1.0.0-trec-covid-bge-base-en-v1.5-hnsw-int8.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-bioasq-bge-base-en-v1.5-hnsw-int8 >& logs/log.beir-v1.0.0-bioasq-bge-base-en-v1.5-hnsw-int8.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nfcorpus-bge-base-en-v1.5-hnsw-int8 >& logs/log.beir-v1.0.0-nfcorpus-bge-base-en-v1.5-hnsw-int8.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nq-bge-base-en-v1.5-hnsw-int8 >& logs/log.beir-v1.0.0-nq-bge-base-en-v1.5-hnsw-int8.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-hotpotqa-bge-base-en-v1.5-hnsw-int8 >& logs/log.beir-v1.0.0-hotpotqa-bge-base-en-v1.5-hnsw-int8.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fiqa-bge-base-en-v1.5-hnsw-int8 >& logs/log.beir-v1.0.0-fiqa-bge-base-en-v1.5-hnsw-int8.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-signal1m-bge-base-en-v1.5-hnsw-int8 >& logs/log.beir-v1.0.0-signal1m-bge-base-en-v1.5-hnsw-int8.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-news-bge-base-en-v1.5-hnsw-int8 >& logs/log.beir-v1.0.0-trec-news-bge-base-en-v1.5-hnsw-int8.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-robust04-bge-base-en-v1.5-hnsw-int8 >& logs/log.beir-v1.0.0-robust04-bge-base-en-v1.5-hnsw-int8.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-arguana-bge-base-en-v1.5-hnsw-int8 >& logs/log.beir-v1.0.0-arguana-bge-base-en-v1.5-hnsw-int8.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-webis-touche2020-bge-base-en-v1.5-hnsw-int8 >& logs/log.beir-v1.0.0-webis-touche2020-bge-base-en-v1.5-hnsw-int8.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-android-bge-base-en-v1.5-hnsw-int8 >& logs/log.beir-v1.0.0-cqadupstack-android-bge-base-en-v1.5-hnsw-int8.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-english-bge-base-en-v1.5-hnsw-int8 >& logs/log.beir-v1.0.0-cqadupstack-english-bge-base-en-v1.5-hnsw-int8.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gaming-bge-base-en-v1.5-hnsw-int8 >& logs/log.beir-v1.0.0-cqadupstack-gaming-bge-base-en-v1.5-hnsw-int8.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gis-bge-base-en-v1.5-hnsw-int8 >& logs/log.beir-v1.0.0-cqadupstack-gis-bge-base-en-v1.5-hnsw-int8.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-mathematica-bge-base-en-v1.5-hnsw-int8 >& logs/log.beir-v1.0.0-cqadupstack-mathematica-bge-base-en-v1.5-hnsw-int8.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-physics-bge-base-en-v1.5-hnsw-int8 >& logs/log.beir-v1.0.0-cqadupstack-physics-bge-base-en-v1.5-hnsw-int8.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-programmers-bge-base-en-v1.5-hnsw-int8 >& logs/log.beir-v1.0.0-cqadupstack-programmers-bge-base-en-v1.5-hnsw-int8.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-stats-bge-base-en-v1.5-hnsw-int8 >& logs/log.beir-v1.0.0-cqadupstack-stats-bge-base-en-v1.5-hnsw-int8.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-tex-bge-base-en-v1.5-hnsw-int8 >& logs/log.beir-v1.0.0-cqadupstack-tex-bge-base-en-v1.5-hnsw-int8.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-unix-bge-base-en-v1.5-hnsw-int8 >& logs/log.beir-v1.0.0-cqadupstack-unix-bge-base-en-v1.5-hnsw-int8.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-webmasters-bge-base-en-v1.5-hnsw-int8 >& logs/log.beir-v1.0.0-cqadupstack-webmasters-bge-base-en-v1.5-hnsw-int8.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-wordpress-bge-base-en-v1.5-hnsw-int8 >& logs/log.beir-v1.0.0-cqadupstack-wordpress-bge-base-en-v1.5-hnsw-int8.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-quora-bge-base-en-v1.5-hnsw-int8 >& logs/log.beir-v1.0.0-quora-bge-base-en-v1.5-hnsw-int8.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-dbpedia-entity-bge-base-en-v1.5-hnsw-int8 >& logs/log.beir-v1.0.0-dbpedia-entity-bge-base-en-v1.5-hnsw-int8.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scidocs-bge-base-en-v1.5-hnsw-int8 >& logs/log.beir-v1.0.0-scidocs-bge-base-en-v1.5-hnsw-int8.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fever-bge-base-en-v1.5-hnsw-int8 >& logs/log.beir-v1.0.0-fever-bge-base-en-v1.5-hnsw-int8.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-climate-fever-bge-base-en-v1.5-hnsw-int8 >& logs/log.beir-v1.0.0-climate-fever-bge-base-en-v1.5-hnsw-int8.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scifact-bge-base-en-v1.5-hnsw-int8 >& logs/log.beir-v1.0.0-scifact-bge-base-en-v1.5-hnsw-int8.txt &
+# Quantized HNSW indexes, cached queries
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-covid.bge-base-en-v1.5.hnsw-int8.cached >& logs/log.beir-v1.0.0-trec-covid.bge-base-en-v1.5.hnsw-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-bioasq.bge-base-en-v1.5.hnsw-int8.cached >& logs/log.beir-v1.0.0-bioasq.bge-base-en-v1.5.hnsw-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nfcorpus.bge-base-en-v1.5.hnsw-int8.cached >& logs/log.beir-v1.0.0-nfcorpus.bge-base-en-v1.5.hnsw-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nq.bge-base-en-v1.5.hnsw-int8.cached >& logs/log.beir-v1.0.0-nq.bge-base-en-v1.5.hnsw-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-hotpotqa.bge-base-en-v1.5.hnsw-int8.cached >& logs/log.beir-v1.0.0-hotpotqa.bge-base-en-v1.5.hnsw-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fiqa.bge-base-en-v1.5.hnsw-int8.cached >& logs/log.beir-v1.0.0-fiqa.bge-base-en-v1.5.hnsw-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-signal1m.bge-base-en-v1.5.hnsw-int8.cached >& logs/log.beir-v1.0.0-signal1m.bge-base-en-v1.5.hnsw-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-news.bge-base-en-v1.5.hnsw-int8.cached >& logs/log.beir-v1.0.0-trec-news.bge-base-en-v1.5.hnsw-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-robust04.bge-base-en-v1.5.hnsw-int8.cached >& logs/log.beir-v1.0.0-robust04.bge-base-en-v1.5.hnsw-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-arguana.bge-base-en-v1.5.hnsw-int8.cached >& logs/log.beir-v1.0.0-arguana.bge-base-en-v1.5.hnsw-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.hnsw-int8.cached >& logs/log.beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.hnsw-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.hnsw-int8.cached >& logs/log.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.hnsw-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.hnsw-int8.cached >& logs/log.beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.hnsw-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.hnsw-int8.cached >& logs/log.beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.hnsw-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.hnsw-int8.cached >& logs/log.beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.hnsw-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.hnsw-int8.cached >& logs/log.beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.hnsw-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.hnsw-int8.cached >& logs/log.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.hnsw-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.hnsw-int8.cached >& logs/log.beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.hnsw-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.hnsw-int8.cached >& logs/log.beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.hnsw-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.hnsw-int8.cached >& logs/log.beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.hnsw-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.hnsw-int8.cached >& logs/log.beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.hnsw-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.hnsw-int8.cached >& logs/log.beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.hnsw-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.hnsw-int8.cached >& logs/log.beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.hnsw-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-quora.bge-base-en-v1.5.hnsw-int8.cached >& logs/log.beir-v1.0.0-quora.bge-base-en-v1.5.hnsw-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.hnsw-int8.cached >& logs/log.beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.hnsw-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scidocs.bge-base-en-v1.5.hnsw-int8.cached >& logs/log.beir-v1.0.0-scidocs.bge-base-en-v1.5.hnsw-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fever.bge-base-en-v1.5.hnsw-int8.cached >& logs/log.beir-v1.0.0-fever.bge-base-en-v1.5.hnsw-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-climate-fever.bge-base-en-v1.5.hnsw-int8.cached >& logs/log.beir-v1.0.0-climate-fever.bge-base-en-v1.5.hnsw-int8.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scifact.bge-base-en-v1.5.hnsw-int8.cached >& logs/log.beir-v1.0.0-scifact.bge-base-en-v1.5.hnsw-int8.cached.txt &
 
 # Quantized HNSW indexes, ONNX
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-covid-bge-base-en-v1.5-hnsw-int8-onnx >& logs/log.beir-v1.0.0-trec-covid-bge-base-en-v1.5-hnsw-int8-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-bioasq-bge-base-en-v1.5-hnsw-int8-onnx >& logs/log.beir-v1.0.0-bioasq-bge-base-en-v1.5-hnsw-int8-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nfcorpus-bge-base-en-v1.5-hnsw-int8-onnx >& logs/log.beir-v1.0.0-nfcorpus-bge-base-en-v1.5-hnsw-int8-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nq-bge-base-en-v1.5-hnsw-int8-onnx >& logs/log.beir-v1.0.0-nq-bge-base-en-v1.5-hnsw-int8-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-hotpotqa-bge-base-en-v1.5-hnsw-int8-onnx >& logs/log.beir-v1.0.0-hotpotqa-bge-base-en-v1.5-hnsw-int8-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fiqa-bge-base-en-v1.5-hnsw-int8-onnx >& logs/log.beir-v1.0.0-fiqa-bge-base-en-v1.5-hnsw-int8-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-signal1m-bge-base-en-v1.5-hnsw-int8-onnx >& logs/log.beir-v1.0.0-signal1m-bge-base-en-v1.5-hnsw-int8-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-news-bge-base-en-v1.5-hnsw-int8-onnx >& logs/log.beir-v1.0.0-trec-news-bge-base-en-v1.5-hnsw-int8-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-robust04-bge-base-en-v1.5-hnsw-int8-onnx >& logs/log.beir-v1.0.0-robust04-bge-base-en-v1.5-hnsw-int8-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-arguana-bge-base-en-v1.5-hnsw-int8-onnx >& logs/log.beir-v1.0.0-arguana-bge-base-en-v1.5-hnsw-int8-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-webis-touche2020-bge-base-en-v1.5-hnsw-int8-onnx >& logs/log.beir-v1.0.0-webis-touche2020-bge-base-en-v1.5-hnsw-int8-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-android-bge-base-en-v1.5-hnsw-int8-onnx >& logs/log.beir-v1.0.0-cqadupstack-android-bge-base-en-v1.5-hnsw-int8-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-english-bge-base-en-v1.5-hnsw-int8-onnx >& logs/log.beir-v1.0.0-cqadupstack-english-bge-base-en-v1.5-hnsw-int8-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gaming-bge-base-en-v1.5-hnsw-int8-onnx >& logs/log.beir-v1.0.0-cqadupstack-gaming-bge-base-en-v1.5-hnsw-int8-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gis-bge-base-en-v1.5-hnsw-int8-onnx >& logs/log.beir-v1.0.0-cqadupstack-gis-bge-base-en-v1.5-hnsw-int8-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-mathematica-bge-base-en-v1.5-hnsw-int8-onnx >& logs/log.beir-v1.0.0-cqadupstack-mathematica-bge-base-en-v1.5-hnsw-int8-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-physics-bge-base-en-v1.5-hnsw-int8-onnx >& logs/log.beir-v1.0.0-cqadupstack-physics-bge-base-en-v1.5-hnsw-int8-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-programmers-bge-base-en-v1.5-hnsw-int8-onnx >& logs/log.beir-v1.0.0-cqadupstack-programmers-bge-base-en-v1.5-hnsw-int8-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-stats-bge-base-en-v1.5-hnsw-int8-onnx >& logs/log.beir-v1.0.0-cqadupstack-stats-bge-base-en-v1.5-hnsw-int8-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-tex-bge-base-en-v1.5-hnsw-int8-onnx >& logs/log.beir-v1.0.0-cqadupstack-tex-bge-base-en-v1.5-hnsw-int8-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-unix-bge-base-en-v1.5-hnsw-int8-onnx >& logs/log.beir-v1.0.0-cqadupstack-unix-bge-base-en-v1.5-hnsw-int8-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-webmasters-bge-base-en-v1.5-hnsw-int8-onnx >& logs/log.beir-v1.0.0-cqadupstack-webmasters-bge-base-en-v1.5-hnsw-int8-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-wordpress-bge-base-en-v1.5-hnsw-int8-onnx >& logs/log.beir-v1.0.0-cqadupstack-wordpress-bge-base-en-v1.5-hnsw-int8-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-quora-bge-base-en-v1.5-hnsw-int8-onnx >& logs/log.beir-v1.0.0-quora-bge-base-en-v1.5-hnsw-int8-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-dbpedia-entity-bge-base-en-v1.5-hnsw-int8-onnx >& logs/log.beir-v1.0.0-dbpedia-entity-bge-base-en-v1.5-hnsw-int8-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scidocs-bge-base-en-v1.5-hnsw-int8-onnx >& logs/log.beir-v1.0.0-scidocs-bge-base-en-v1.5-hnsw-int8-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fever-bge-base-en-v1.5-hnsw-int8-onnx >& logs/log.beir-v1.0.0-fever-bge-base-en-v1.5-hnsw-int8-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-climate-fever-bge-base-en-v1.5-hnsw-int8-onnx >& logs/log.beir-v1.0.0-climate-fever-bge-base-en-v1.5-hnsw-int8-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scifact-bge-base-en-v1.5-hnsw-int8-onnx >& logs/log.beir-v1.0.0-scifact-bge-base-en-v1.5-hnsw-int8-onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-covid.bge-base-en-v1.5.hnsw-int8.onnx >& logs/log.beir-v1.0.0-trec-covid.bge-base-en-v1.5.hnsw-int8.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-bioasq.bge-base-en-v1.5.hnsw-int8.onnx >& logs/log.beir-v1.0.0-bioasq.bge-base-en-v1.5.hnsw-int8.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nfcorpus.bge-base-en-v1.5.hnsw-int8.onnx >& logs/log.beir-v1.0.0-nfcorpus.bge-base-en-v1.5.hnsw-int8.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nq.bge-base-en-v1.5.hnsw-int8.onnx >& logs/log.beir-v1.0.0-nq.bge-base-en-v1.5.hnsw-int8.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-hotpotqa.bge-base-en-v1.5.hnsw-int8.onnx >& logs/log.beir-v1.0.0-hotpotqa.bge-base-en-v1.5.hnsw-int8.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fiqa.bge-base-en-v1.5.hnsw-int8.onnx >& logs/log.beir-v1.0.0-fiqa.bge-base-en-v1.5.hnsw-int8.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-signal1m.bge-base-en-v1.5.hnsw-int8.onnx >& logs/log.beir-v1.0.0-signal1m.bge-base-en-v1.5.hnsw-int8.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-news.bge-base-en-v1.5.hnsw-int8.onnx >& logs/log.beir-v1.0.0-trec-news.bge-base-en-v1.5.hnsw-int8.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-robust04.bge-base-en-v1.5.hnsw-int8.onnx >& logs/log.beir-v1.0.0-robust04.bge-base-en-v1.5.hnsw-int8.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-arguana.bge-base-en-v1.5.hnsw-int8.onnx >& logs/log.beir-v1.0.0-arguana.bge-base-en-v1.5.hnsw-int8.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.hnsw-int8.onnx >& logs/log.beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.hnsw-int8.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.hnsw-int8.onnx >& logs/log.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.hnsw-int8.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.hnsw-int8.onnx >& logs/log.beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.hnsw-int8.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.hnsw-int8.onnx >& logs/log.beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.hnsw-int8.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.hnsw-int8.onnx >& logs/log.beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.hnsw-int8.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.hnsw-int8.onnx >& logs/log.beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.hnsw-int8.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.hnsw-int8.onnx >& logs/log.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.hnsw-int8.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.hnsw-int8.onnx >& logs/log.beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.hnsw-int8.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.hnsw-int8.onnx >& logs/log.beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.hnsw-int8.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.hnsw-int8.onnx >& logs/log.beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.hnsw-int8.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.hnsw-int8.onnx >& logs/log.beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.hnsw-int8.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.hnsw-int8.onnx >& logs/log.beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.hnsw-int8.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.hnsw-int8.onnx >& logs/log.beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.hnsw-int8.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-quora.bge-base-en-v1.5.hnsw-int8.onnx >& logs/log.beir-v1.0.0-quora.bge-base-en-v1.5.hnsw-int8.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.hnsw-int8.onnx >& logs/log.beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.hnsw-int8.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scidocs.bge-base-en-v1.5.hnsw-int8.onnx >& logs/log.beir-v1.0.0-scidocs.bge-base-en-v1.5.hnsw-int8.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fever.bge-base-en-v1.5.hnsw-int8.onnx >& logs/log.beir-v1.0.0-fever.bge-base-en-v1.5.hnsw-int8.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-climate-fever.bge-base-en-v1.5.hnsw-int8.onnx >& logs/log.beir-v1.0.0-climate-fever.bge-base-en-v1.5.hnsw-int8.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scifact.bge-base-en-v1.5.hnsw-int8.onnx >& logs/log.beir-v1.0.0-scifact.bge-base-en-v1.5.hnsw-int8.onnx.txt &
 ```
 
 </details>
@@ -395,67 +561,67 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 <summary>BEIR (v1.0.0): SPLADE++ CoCondenser-EnsembleDistil</summary>
 
 ```bash
-# Pre-encoded queries
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-covid-splade-pp-ed >& logs/log.beir-v1.0.0-trec-covid-splade-pp-ed.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-bioasq-splade-pp-ed >& logs/log.beir-v1.0.0-bioasq-splade-pp-ed.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nfcorpus-splade-pp-ed >& logs/log.beir-v1.0.0-nfcorpus-splade-pp-ed.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nq-splade-pp-ed >& logs/log.beir-v1.0.0-nq-splade-pp-ed.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-hotpotqa-splade-pp-ed >& logs/log.beir-v1.0.0-hotpotqa-splade-pp-ed.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fiqa-splade-pp-ed >& logs/log.beir-v1.0.0-fiqa-splade-pp-ed.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-signal1m-splade-pp-ed >& logs/log.beir-v1.0.0-signal1m-splade-pp-ed.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-news-splade-pp-ed >& logs/log.beir-v1.0.0-trec-news-splade-pp-ed.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-robust04-splade-pp-ed >& logs/log.beir-v1.0.0-robust04-splade-pp-ed.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-arguana-splade-pp-ed >& logs/log.beir-v1.0.0-arguana-splade-pp-ed.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-webis-touche2020-splade-pp-ed >& logs/log.beir-v1.0.0-webis-touche2020-splade-pp-ed.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-android-splade-pp-ed >& logs/log.beir-v1.0.0-cqadupstack-android-splade-pp-ed.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-english-splade-pp-ed >& logs/log.beir-v1.0.0-cqadupstack-english-splade-pp-ed.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gaming-splade-pp-ed >& logs/log.beir-v1.0.0-cqadupstack-gaming-splade-pp-ed.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gis-splade-pp-ed >& logs/log.beir-v1.0.0-cqadupstack-gis-splade-pp-ed.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-mathematica-splade-pp-ed >& logs/log.beir-v1.0.0-cqadupstack-mathematica-splade-pp-ed.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-physics-splade-pp-ed >& logs/log.beir-v1.0.0-cqadupstack-physics-splade-pp-ed.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-programmers-splade-pp-ed >& logs/log.beir-v1.0.0-cqadupstack-programmers-splade-pp-ed.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-stats-splade-pp-ed >& logs/log.beir-v1.0.0-cqadupstack-stats-splade-pp-ed.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-tex-splade-pp-ed >& logs/log.beir-v1.0.0-cqadupstack-tex-splade-pp-ed.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-unix-splade-pp-ed >& logs/log.beir-v1.0.0-cqadupstack-unix-splade-pp-ed.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-webmasters-splade-pp-ed >& logs/log.beir-v1.0.0-cqadupstack-webmasters-splade-pp-ed.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-wordpress-splade-pp-ed >& logs/log.beir-v1.0.0-cqadupstack-wordpress-splade-pp-ed.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-quora-splade-pp-ed >& logs/log.beir-v1.0.0-quora-splade-pp-ed.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-dbpedia-entity-splade-pp-ed >& logs/log.beir-v1.0.0-dbpedia-entity-splade-pp-ed.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scidocs-splade-pp-ed >& logs/log.beir-v1.0.0-scidocs-splade-pp-ed.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fever-splade-pp-ed >& logs/log.beir-v1.0.0-fever-splade-pp-ed.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-climate-fever-splade-pp-ed >& logs/log.beir-v1.0.0-climate-fever-splade-pp-ed.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scifact-splade-pp-ed >& logs/log.beir-v1.0.0-scifact-splade-pp-ed.txt &
+# Cached queries
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-covid.splade-pp-ed.cached >& logs/log.beir-v1.0.0-trec-covid.splade-pp-ed.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-bioasq.splade-pp-ed.cached >& logs/log.beir-v1.0.0-bioasq.splade-pp-ed.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nfcorpus.splade-pp-ed.cached >& logs/log.beir-v1.0.0-nfcorpus.splade-pp-ed.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nq.splade-pp-ed.cached >& logs/log.beir-v1.0.0-nq.splade-pp-ed.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-hotpotqa.splade-pp-ed.cached >& logs/log.beir-v1.0.0-hotpotqa.splade-pp-ed.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fiqa.splade-pp-ed.cached >& logs/log.beir-v1.0.0-fiqa.splade-pp-ed.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-signal1m.splade-pp-ed.cached >& logs/log.beir-v1.0.0-signal1m.splade-pp-ed.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-news.splade-pp-ed.cached >& logs/log.beir-v1.0.0-trec-news.splade-pp-ed.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-robust04.splade-pp-ed.cached >& logs/log.beir-v1.0.0-robust04.splade-pp-ed.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-arguana.splade-pp-ed.cached >& logs/log.beir-v1.0.0-arguana.splade-pp-ed.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-webis-touche2020.splade-pp-ed.cached >& logs/log.beir-v1.0.0-webis-touche2020.splade-pp-ed.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-android.splade-pp-ed.cached >& logs/log.beir-v1.0.0-cqadupstack-android.splade-pp-ed.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-english.splade-pp-ed.cached >& logs/log.beir-v1.0.0-cqadupstack-english.splade-pp-ed.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gaming.splade-pp-ed.cached >& logs/log.beir-v1.0.0-cqadupstack-gaming.splade-pp-ed.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gis.splade-pp-ed.cached >& logs/log.beir-v1.0.0-cqadupstack-gis.splade-pp-ed.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-mathematica.splade-pp-ed.cached >& logs/log.beir-v1.0.0-cqadupstack-mathematica.splade-pp-ed.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-physics.splade-pp-ed.cached >& logs/log.beir-v1.0.0-cqadupstack-physics.splade-pp-ed.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-programmers.splade-pp-ed.cached >& logs/log.beir-v1.0.0-cqadupstack-programmers.splade-pp-ed.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-stats.splade-pp-ed.cached >& logs/log.beir-v1.0.0-cqadupstack-stats.splade-pp-ed.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-tex.splade-pp-ed.cached >& logs/log.beir-v1.0.0-cqadupstack-tex.splade-pp-ed.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-unix.splade-pp-ed.cached >& logs/log.beir-v1.0.0-cqadupstack-unix.splade-pp-ed.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-webmasters.splade-pp-ed.cached >& logs/log.beir-v1.0.0-cqadupstack-webmasters.splade-pp-ed.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-wordpress.splade-pp-ed.cached >& logs/log.beir-v1.0.0-cqadupstack-wordpress.splade-pp-ed.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-quora.splade-pp-ed.cached >& logs/log.beir-v1.0.0-quora.splade-pp-ed.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-dbpedia-entity.splade-pp-ed.cached >& logs/log.beir-v1.0.0-dbpedia-entity.splade-pp-ed.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scidocs.splade-pp-ed.cached >& logs/log.beir-v1.0.0-scidocs.splade-pp-ed.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fever.splade-pp-ed.cached >& logs/log.beir-v1.0.0-fever.splade-pp-ed.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-climate-fever.splade-pp-ed.cached >& logs/log.beir-v1.0.0-climate-fever.splade-pp-ed.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scifact.splade-pp-ed.cached >& logs/log.beir-v1.0.0-scifact.splade-pp-ed.cached.txt &
 
 # ONNX
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-covid-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-trec-covid-splade-pp-ed-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-bioasq-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-bioasq-splade-pp-ed-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nfcorpus-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-nfcorpus-splade-pp-ed-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nq-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-nq-splade-pp-ed-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-hotpotqa-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-hotpotqa-splade-pp-ed-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fiqa-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-fiqa-splade-pp-ed-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-signal1m-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-signal1m-splade-pp-ed-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-news-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-trec-news-splade-pp-ed-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-robust04-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-robust04-splade-pp-ed-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-arguana-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-arguana-splade-pp-ed-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-webis-touche2020-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-webis-touche2020-splade-pp-ed-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-android-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-cqadupstack-android-splade-pp-ed-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-english-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-cqadupstack-english-splade-pp-ed-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gaming-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-cqadupstack-gaming-splade-pp-ed-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gis-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-cqadupstack-gis-splade-pp-ed-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-mathematica-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-cqadupstack-mathematica-splade-pp-ed-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-physics-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-cqadupstack-physics-splade-pp-ed-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-programmers-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-cqadupstack-programmers-splade-pp-ed-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-stats-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-cqadupstack-stats-splade-pp-ed-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-tex-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-cqadupstack-tex-splade-pp-ed-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-unix-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-cqadupstack-unix-splade-pp-ed-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-webmasters-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-cqadupstack-webmasters-splade-pp-ed-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-wordpress-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-cqadupstack-wordpress-splade-pp-ed-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-quora-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-quora-splade-pp-ed-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-dbpedia-entity-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-dbpedia-entity-splade-pp-ed-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scidocs-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-scidocs-splade-pp-ed-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fever-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-fever-splade-pp-ed-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-climate-fever-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-climate-fever-splade-pp-ed-onnx.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scifact-splade-pp-ed-onnx >& logs/log.beir-v1.0.0-scifact-splade-pp-ed-onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-covid.splade-pp-ed.onnx >& logs/log.beir-v1.0.0-trec-covid.splade-pp-ed.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-bioasq.splade-pp-ed.onnx >& logs/log.beir-v1.0.0-bioasq.splade-pp-ed.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nfcorpus.splade-pp-ed.onnx >& logs/log.beir-v1.0.0-nfcorpus.splade-pp-ed.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nq.splade-pp-ed.onnx >& logs/log.beir-v1.0.0-nq.splade-pp-ed.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-hotpotqa.splade-pp-ed.onnx >& logs/log.beir-v1.0.0-hotpotqa.splade-pp-ed.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fiqa.splade-pp-ed.onnx >& logs/log.beir-v1.0.0-fiqa.splade-pp-ed.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-signal1m.splade-pp-ed.onnx >& logs/log.beir-v1.0.0-signal1m.splade-pp-ed.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-news.splade-pp-ed.onnx >& logs/log.beir-v1.0.0-trec-news.splade-pp-ed.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-robust04.splade-pp-ed.onnx >& logs/log.beir-v1.0.0-robust04.splade-pp-ed.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-arguana.splade-pp-ed.onnx >& logs/log.beir-v1.0.0-arguana.splade-pp-ed.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-webis-touche2020.splade-pp-ed.onnx >& logs/log.beir-v1.0.0-webis-touche2020.splade-pp-ed.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-android.splade-pp-ed.onnx >& logs/log.beir-v1.0.0-cqadupstack-android.splade-pp-ed.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-english.splade-pp-ed.onnx >& logs/log.beir-v1.0.0-cqadupstack-english.splade-pp-ed.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gaming.splade-pp-ed.onnx >& logs/log.beir-v1.0.0-cqadupstack-gaming.splade-pp-ed.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gis.splade-pp-ed.onnx >& logs/log.beir-v1.0.0-cqadupstack-gis.splade-pp-ed.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-mathematica.splade-pp-ed.onnx >& logs/log.beir-v1.0.0-cqadupstack-mathematica.splade-pp-ed.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-physics.splade-pp-ed.onnx >& logs/log.beir-v1.0.0-cqadupstack-physics.splade-pp-ed.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-programmers.splade-pp-ed.onnx >& logs/log.beir-v1.0.0-cqadupstack-programmers.splade-pp-ed.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-stats.splade-pp-ed.onnx >& logs/log.beir-v1.0.0-cqadupstack-stats.splade-pp-ed.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-tex.splade-pp-ed.onnx >& logs/log.beir-v1.0.0-cqadupstack-tex.splade-pp-ed.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-unix.splade-pp-ed.onnx >& logs/log.beir-v1.0.0-cqadupstack-unix.splade-pp-ed.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-webmasters.splade-pp-ed.onnx >& logs/log.beir-v1.0.0-cqadupstack-webmasters.splade-pp-ed.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-wordpress.splade-pp-ed.onnx >& logs/log.beir-v1.0.0-cqadupstack-wordpress.splade-pp-ed.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-quora.splade-pp-ed.onnx >& logs/log.beir-v1.0.0-quora.splade-pp-ed.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-dbpedia-entity.splade-pp-ed.onnx >& logs/log.beir-v1.0.0-dbpedia-entity.splade-pp-ed.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scidocs.splade-pp-ed.onnx >& logs/log.beir-v1.0.0-scidocs.splade-pp-ed.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fever.splade-pp-ed.onnx >& logs/log.beir-v1.0.0-fever.splade-pp-ed.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-climate-fever.splade-pp-ed.onnx >& logs/log.beir-v1.0.0-climate-fever.splade-pp-ed.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scifact.splade-pp-ed.onnx >& logs/log.beir-v1.0.0-scifact.splade-pp-ed.onnx.txt &
 ```
 
 </details>
@@ -463,35 +629,35 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 <summary>BEIR (v1.0.0): uniCOIL (noexp)</summary>
 
 ```bash
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-covid-unicoil-noexp >& logs/log.beir-v1.0.0-trec-covid-unicoil-noexp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-bioasq-unicoil-noexp >& logs/log.beir-v1.0.0-bioasq-unicoil-noexp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nfcorpus-unicoil-noexp >& logs/log.beir-v1.0.0-nfcorpus-unicoil-noexp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nq-unicoil-noexp >& logs/log.beir-v1.0.0-nq-unicoil-noexp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-hotpotqa-unicoil-noexp >& logs/log.beir-v1.0.0-hotpotqa-unicoil-noexp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fiqa-unicoil-noexp >& logs/log.beir-v1.0.0-fiqa-unicoil-noexp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-signal1m-unicoil-noexp >& logs/log.beir-v1.0.0-signal1m-unicoil-noexp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-news-unicoil-noexp >& logs/log.beir-v1.0.0-trec-news-unicoil-noexp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-robust04-unicoil-noexp >& logs/log.beir-v1.0.0-robust04-unicoil-noexp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-arguana-unicoil-noexp >& logs/log.beir-v1.0.0-arguana-unicoil-noexp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-webis-touche2020-unicoil-noexp >& logs/log.beir-v1.0.0-webis-touche2020-unicoil-noexp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-android-unicoil-noexp >& logs/log.beir-v1.0.0-cqadupstack-android-unicoil-noexp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-english-unicoil-noexp >& logs/log.beir-v1.0.0-cqadupstack-english-unicoil-noexp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gaming-unicoil-noexp >& logs/log.beir-v1.0.0-cqadupstack-gaming-unicoil-noexp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gis-unicoil-noexp >& logs/log.beir-v1.0.0-cqadupstack-gis-unicoil-noexp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-mathematica-unicoil-noexp >& logs/log.beir-v1.0.0-cqadupstack-mathematica-unicoil-noexp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-physics-unicoil-noexp >& logs/log.beir-v1.0.0-cqadupstack-physics-unicoil-noexp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-programmers-unicoil-noexp >& logs/log.beir-v1.0.0-cqadupstack-programmers-unicoil-noexp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-stats-unicoil-noexp >& logs/log.beir-v1.0.0-cqadupstack-stats-unicoil-noexp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-tex-unicoil-noexp >& logs/log.beir-v1.0.0-cqadupstack-tex-unicoil-noexp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-unix-unicoil-noexp >& logs/log.beir-v1.0.0-cqadupstack-unix-unicoil-noexp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-webmasters-unicoil-noexp >& logs/log.beir-v1.0.0-cqadupstack-webmasters-unicoil-noexp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-wordpress-unicoil-noexp >& logs/log.beir-v1.0.0-cqadupstack-wordpress-unicoil-noexp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-quora-unicoil-noexp >& logs/log.beir-v1.0.0-quora-unicoil-noexp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-dbpedia-entity-unicoil-noexp >& logs/log.beir-v1.0.0-dbpedia-entity-unicoil-noexp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scidocs-unicoil-noexp >& logs/log.beir-v1.0.0-scidocs-unicoil-noexp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fever-unicoil-noexp >& logs/log.beir-v1.0.0-fever-unicoil-noexp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-climate-fever-unicoil-noexp >& logs/log.beir-v1.0.0-climate-fever-unicoil-noexp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scifact-unicoil-noexp >& logs/log.beir-v1.0.0-scifact-unicoil-noexp.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-covid.unicoil-noexp.cached >& logs/log.beir-v1.0.0-trec-covid.unicoil-noexp.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-bioasq.unicoil-noexp.cached >& logs/log.beir-v1.0.0-bioasq.unicoil-noexp.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nfcorpus.unicoil-noexp.cached >& logs/log.beir-v1.0.0-nfcorpus.unicoil-noexp.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nq.unicoil-noexp.cached >& logs/log.beir-v1.0.0-nq.unicoil-noexp.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-hotpotqa.unicoil-noexp.cached >& logs/log.beir-v1.0.0-hotpotqa.unicoil-noexp.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fiqa.unicoil-noexp.cached >& logs/log.beir-v1.0.0-fiqa.unicoil-noexp.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-signal1m.unicoil-noexp.cached >& logs/log.beir-v1.0.0-signal1m.unicoil-noexp.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-news.unicoil-noexp.cached >& logs/log.beir-v1.0.0-trec-news.unicoil-noexp.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-robust04.unicoil-noexp.cached >& logs/log.beir-v1.0.0-robust04.unicoil-noexp.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-arguana.unicoil-noexp.cached >& logs/log.beir-v1.0.0-arguana.unicoil-noexp.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-webis-touche2020.unicoil-noexp.cached >& logs/log.beir-v1.0.0-webis-touche2020.unicoil-noexp.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-android.unicoil-noexp.cached >& logs/log.beir-v1.0.0-cqadupstack-android.unicoil-noexp.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-english.unicoil-noexp.cached >& logs/log.beir-v1.0.0-cqadupstack-english.unicoil-noexp.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gaming.unicoil-noexp.cached >& logs/log.beir-v1.0.0-cqadupstack-gaming.unicoil-noexp.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gis.unicoil-noexp.cached >& logs/log.beir-v1.0.0-cqadupstack-gis.unicoil-noexp.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-mathematica.unicoil-noexp.cached >& logs/log.beir-v1.0.0-cqadupstack-mathematica.unicoil-noexp.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-physics.unicoil-noexp.cached >& logs/log.beir-v1.0.0-cqadupstack-physics.unicoil-noexp.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-programmers.unicoil-noexp.cached >& logs/log.beir-v1.0.0-cqadupstack-programmers.unicoil-noexp.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-stats.unicoil-noexp.cached >& logs/log.beir-v1.0.0-cqadupstack-stats.unicoil-noexp.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-tex.unicoil-noexp.cached >& logs/log.beir-v1.0.0-cqadupstack-tex.unicoil-noexp.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-unix.unicoil-noexp.cached >& logs/log.beir-v1.0.0-cqadupstack-unix.unicoil-noexp.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-webmasters.unicoil-noexp.cached >& logs/log.beir-v1.0.0-cqadupstack-webmasters.unicoil-noexp.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-wordpress.unicoil-noexp.cached >& logs/log.beir-v1.0.0-cqadupstack-wordpress.unicoil-noexp.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-quora.unicoil-noexp.cached >& logs/log.beir-v1.0.0-quora.unicoil-noexp.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-dbpedia-entity.unicoil-noexp.cached >& logs/log.beir-v1.0.0-dbpedia-entity.unicoil-noexp.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scidocs.unicoil-noexp.cached >& logs/log.beir-v1.0.0-scidocs.unicoil-noexp.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fever.unicoil-noexp.cached >& logs/log.beir-v1.0.0-fever.unicoil-noexp.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-climate-fever.unicoil-noexp.cached >& logs/log.beir-v1.0.0-climate-fever.unicoil-noexp.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scifact.unicoil-noexp.cached >& logs/log.beir-v1.0.0-scifact.unicoil-noexp.cached.txt &
 ```
 
 </details>
@@ -499,35 +665,35 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 <summary>BEIR (v1.0.0): "flat" baseline</summary>
 
 ```bash
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-covid-flat >& logs/log.beir-v1.0.0-trec-covid-flat.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-bioasq-flat >& logs/log.beir-v1.0.0-bioasq-flat.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nfcorpus-flat >& logs/log.beir-v1.0.0-nfcorpus-flat.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nq-flat >& logs/log.beir-v1.0.0-nq-flat.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-hotpotqa-flat >& logs/log.beir-v1.0.0-hotpotqa-flat.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fiqa-flat >& logs/log.beir-v1.0.0-fiqa-flat.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-signal1m-flat >& logs/log.beir-v1.0.0-signal1m-flat.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-news-flat >& logs/log.beir-v1.0.0-trec-news-flat.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-robust04-flat >& logs/log.beir-v1.0.0-robust04-flat.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-arguana-flat >& logs/log.beir-v1.0.0-arguana-flat.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-webis-touche2020-flat >& logs/log.beir-v1.0.0-webis-touche2020-flat.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-android-flat >& logs/log.beir-v1.0.0-cqadupstack-android-flat.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-english-flat >& logs/log.beir-v1.0.0-cqadupstack-english-flat.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gaming-flat >& logs/log.beir-v1.0.0-cqadupstack-gaming-flat.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gis-flat >& logs/log.beir-v1.0.0-cqadupstack-gis-flat.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-mathematica-flat >& logs/log.beir-v1.0.0-cqadupstack-mathematica-flat.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-physics-flat >& logs/log.beir-v1.0.0-cqadupstack-physics-flat.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-programmers-flat >& logs/log.beir-v1.0.0-cqadupstack-programmers-flat.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-stats-flat >& logs/log.beir-v1.0.0-cqadupstack-stats-flat.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-tex-flat >& logs/log.beir-v1.0.0-cqadupstack-tex-flat.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-unix-flat >& logs/log.beir-v1.0.0-cqadupstack-unix-flat.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-webmasters-flat >& logs/log.beir-v1.0.0-cqadupstack-webmasters-flat.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-wordpress-flat >& logs/log.beir-v1.0.0-cqadupstack-wordpress-flat.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-quora-flat >& logs/log.beir-v1.0.0-quora-flat.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-dbpedia-entity-flat >& logs/log.beir-v1.0.0-dbpedia-entity-flat.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scidocs-flat >& logs/log.beir-v1.0.0-scidocs-flat.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fever-flat >& logs/log.beir-v1.0.0-fever-flat.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-climate-fever-flat >& logs/log.beir-v1.0.0-climate-fever-flat.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scifact-flat >& logs/log.beir-v1.0.0-scifact-flat.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-covid.flat >& logs/log.beir-v1.0.0-trec-covid.flat.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-bioasq.flat >& logs/log.beir-v1.0.0-bioasq.flat.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nfcorpus.flat >& logs/log.beir-v1.0.0-nfcorpus.flat.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nq.flat >& logs/log.beir-v1.0.0-nq.flat.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-hotpotqa.flat >& logs/log.beir-v1.0.0-hotpotqa.flat.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fiqa.flat >& logs/log.beir-v1.0.0-fiqa.flat.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-signal1m.flat >& logs/log.beir-v1.0.0-signal1m.flat.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-news.flat >& logs/log.beir-v1.0.0-trec-news.flat.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-robust04.flat >& logs/log.beir-v1.0.0-robust04.flat.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-arguana.flat >& logs/log.beir-v1.0.0-arguana.flat.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-webis-touche2020.flat >& logs/log.beir-v1.0.0-webis-touche2020.flat.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-android.flat >& logs/log.beir-v1.0.0-cqadupstack-android.flat.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-english.flat >& logs/log.beir-v1.0.0-cqadupstack-english.flat.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gaming.flat >& logs/log.beir-v1.0.0-cqadupstack-gaming.flat.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gis.flat >& logs/log.beir-v1.0.0-cqadupstack-gis.flat.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-mathematica.flat >& logs/log.beir-v1.0.0-cqadupstack-mathematica.flat.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-physics.flat >& logs/log.beir-v1.0.0-cqadupstack-physics.flat.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-programmers.flat >& logs/log.beir-v1.0.0-cqadupstack-programmers.flat.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-stats.flat >& logs/log.beir-v1.0.0-cqadupstack-stats.flat.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-tex.flat >& logs/log.beir-v1.0.0-cqadupstack-tex.flat.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-unix.flat >& logs/log.beir-v1.0.0-cqadupstack-unix.flat.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-webmasters.flat >& logs/log.beir-v1.0.0-cqadupstack-webmasters.flat.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-wordpress.flat >& logs/log.beir-v1.0.0-cqadupstack-wordpress.flat.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-quora.flat >& logs/log.beir-v1.0.0-quora.flat.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-dbpedia-entity.flat >& logs/log.beir-v1.0.0-dbpedia-entity.flat.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scidocs.flat >& logs/log.beir-v1.0.0-scidocs.flat.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fever.flat >& logs/log.beir-v1.0.0-fever.flat.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-climate-fever.flat >& logs/log.beir-v1.0.0-climate-fever.flat.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scifact.flat >& logs/log.beir-v1.0.0-scifact.flat.txt &
 ```
 
 </details>
@@ -535,35 +701,35 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 <summary>BEIR (v1.0.0): "flat" baseline with WordPiece tokenization</summary>
 
 ```bash
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-covid-flat-wp >& logs/log.beir-v1.0.0-trec-covid-flat-wp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-bioasq-flat-wp >& logs/log.beir-v1.0.0-bioasq-flat-wp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nfcorpus-flat-wp >& logs/log.beir-v1.0.0-nfcorpus-flat-wp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nq-flat-wp >& logs/log.beir-v1.0.0-nq-flat-wp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-hotpotqa-flat-wp >& logs/log.beir-v1.0.0-hotpotqa-flat-wp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fiqa-flat-wp >& logs/log.beir-v1.0.0-fiqa-flat-wp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-signal1m-flat-wp >& logs/log.beir-v1.0.0-signal1m-flat-wp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-news-flat-wp >& logs/log.beir-v1.0.0-trec-news-flat-wp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-robust04-flat-wp >& logs/log.beir-v1.0.0-robust04-flat-wp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-arguana-flat-wp >& logs/log.beir-v1.0.0-arguana-flat-wp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-webis-touche2020-flat-wp >& logs/log.beir-v1.0.0-webis-touche2020-flat-wp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-android-flat-wp >& logs/log.beir-v1.0.0-cqadupstack-android-flat-wp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-english-flat-wp >& logs/log.beir-v1.0.0-cqadupstack-english-flat-wp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gaming-flat-wp >& logs/log.beir-v1.0.0-cqadupstack-gaming-flat-wp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gis-flat-wp >& logs/log.beir-v1.0.0-cqadupstack-gis-flat-wp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-mathematica-flat-wp >& logs/log.beir-v1.0.0-cqadupstack-mathematica-flat-wp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-physics-flat-wp >& logs/log.beir-v1.0.0-cqadupstack-physics-flat-wp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-programmers-flat-wp >& logs/log.beir-v1.0.0-cqadupstack-programmers-flat-wp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-stats-flat-wp >& logs/log.beir-v1.0.0-cqadupstack-stats-flat-wp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-tex-flat-wp >& logs/log.beir-v1.0.0-cqadupstack-tex-flat-wp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-unix-flat-wp >& logs/log.beir-v1.0.0-cqadupstack-unix-flat-wp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-webmasters-flat-wp >& logs/log.beir-v1.0.0-cqadupstack-webmasters-flat-wp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-wordpress-flat-wp >& logs/log.beir-v1.0.0-cqadupstack-wordpress-flat-wp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-quora-flat-wp >& logs/log.beir-v1.0.0-quora-flat-wp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-dbpedia-entity-flat-wp >& logs/log.beir-v1.0.0-dbpedia-entity-flat-wp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scidocs-flat-wp >& logs/log.beir-v1.0.0-scidocs-flat-wp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fever-flat-wp >& logs/log.beir-v1.0.0-fever-flat-wp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-climate-fever-flat-wp >& logs/log.beir-v1.0.0-climate-fever-flat-wp.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scifact-flat-wp >& logs/log.beir-v1.0.0-scifact-flat-wp.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-covid.flat-wp >& logs/log.beir-v1.0.0-trec-covid.flat-wp.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-bioasq.flat-wp >& logs/log.beir-v1.0.0-bioasq.flat-wp.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nfcorpus.flat-wp >& logs/log.beir-v1.0.0-nfcorpus.flat-wp.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nq.flat-wp >& logs/log.beir-v1.0.0-nq.flat-wp.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-hotpotqa.flat-wp >& logs/log.beir-v1.0.0-hotpotqa.flat-wp.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fiqa.flat-wp >& logs/log.beir-v1.0.0-fiqa.flat-wp.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-signal1m.flat-wp >& logs/log.beir-v1.0.0-signal1m.flat-wp.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-news.flat-wp >& logs/log.beir-v1.0.0-trec-news.flat-wp.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-robust04.flat-wp >& logs/log.beir-v1.0.0-robust04.flat-wp.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-arguana.flat-wp >& logs/log.beir-v1.0.0-arguana.flat-wp.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-webis-touche2020.flat-wp >& logs/log.beir-v1.0.0-webis-touche2020.flat-wp.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-android.flat-wp >& logs/log.beir-v1.0.0-cqadupstack-android.flat-wp.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-english.flat-wp >& logs/log.beir-v1.0.0-cqadupstack-english.flat-wp.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gaming.flat-wp >& logs/log.beir-v1.0.0-cqadupstack-gaming.flat-wp.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gis.flat-wp >& logs/log.beir-v1.0.0-cqadupstack-gis.flat-wp.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-mathematica.flat-wp >& logs/log.beir-v1.0.0-cqadupstack-mathematica.flat-wp.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-physics.flat-wp >& logs/log.beir-v1.0.0-cqadupstack-physics.flat-wp.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-programmers.flat-wp >& logs/log.beir-v1.0.0-cqadupstack-programmers.flat-wp.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-stats.flat-wp >& logs/log.beir-v1.0.0-cqadupstack-stats.flat-wp.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-tex.flat-wp >& logs/log.beir-v1.0.0-cqadupstack-tex.flat-wp.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-unix.flat-wp >& logs/log.beir-v1.0.0-cqadupstack-unix.flat-wp.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-webmasters.flat-wp >& logs/log.beir-v1.0.0-cqadupstack-webmasters.flat-wp.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-wordpress.flat-wp >& logs/log.beir-v1.0.0-cqadupstack-wordpress.flat-wp.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-quora.flat-wp >& logs/log.beir-v1.0.0-quora.flat-wp.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-dbpedia-entity.flat-wp >& logs/log.beir-v1.0.0-dbpedia-entity.flat-wp.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scidocs.flat-wp >& logs/log.beir-v1.0.0-scidocs.flat-wp.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fever.flat-wp >& logs/log.beir-v1.0.0-fever.flat-wp.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-climate-fever.flat-wp >& logs/log.beir-v1.0.0-climate-fever.flat-wp.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scifact.flat-wp >& logs/log.beir-v1.0.0-scifact.flat-wp.txt &
 ```
 
 </details>
@@ -571,35 +737,35 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 <summary>BEIR (v1.0.0): "multifield" baseline</summary>
 
 ```bash
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-covid-multifield >& logs/log.beir-v1.0.0-trec-covid-multifield.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-bioasq-multifield >& logs/log.beir-v1.0.0-bioasq-multifield.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nfcorpus-multifield >& logs/log.beir-v1.0.0-nfcorpus-multifield.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nq-multifield >& logs/log.beir-v1.0.0-nq-multifield.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-hotpotqa-multifield >& logs/log.beir-v1.0.0-hotpotqa-multifield.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fiqa-multifield >& logs/log.beir-v1.0.0-fiqa-multifield.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-signal1m-multifield >& logs/log.beir-v1.0.0-signal1m-multifield.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-news-multifield >& logs/log.beir-v1.0.0-trec-news-multifield.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-robust04-multifield >& logs/log.beir-v1.0.0-robust04-multifield.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-arguana-multifield >& logs/log.beir-v1.0.0-arguana-multifield.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-webis-touche2020-multifield >& logs/log.beir-v1.0.0-webis-touche2020-multifield.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-android-multifield >& logs/log.beir-v1.0.0-cqadupstack-android-multifield.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-english-multifield >& logs/log.beir-v1.0.0-cqadupstack-english-multifield.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gaming-multifield >& logs/log.beir-v1.0.0-cqadupstack-gaming-multifield.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gis-multifield >& logs/log.beir-v1.0.0-cqadupstack-gis-multifield.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-mathematica-multifield >& logs/log.beir-v1.0.0-cqadupstack-mathematica-multifield.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-physics-multifield >& logs/log.beir-v1.0.0-cqadupstack-physics-multifield.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-programmers-multifield >& logs/log.beir-v1.0.0-cqadupstack-programmers-multifield.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-stats-multifield >& logs/log.beir-v1.0.0-cqadupstack-stats-multifield.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-tex-multifield >& logs/log.beir-v1.0.0-cqadupstack-tex-multifield.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-unix-multifield >& logs/log.beir-v1.0.0-cqadupstack-unix-multifield.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-webmasters-multifield >& logs/log.beir-v1.0.0-cqadupstack-webmasters-multifield.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-wordpress-multifield >& logs/log.beir-v1.0.0-cqadupstack-wordpress-multifield.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-quora-multifield >& logs/log.beir-v1.0.0-quora-multifield.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-dbpedia-entity-multifield >& logs/log.beir-v1.0.0-dbpedia-entity-multifield.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scidocs-multifield >& logs/log.beir-v1.0.0-scidocs-multifield.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fever-multifield >& logs/log.beir-v1.0.0-fever-multifield.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-climate-fever-multifield >& logs/log.beir-v1.0.0-climate-fever-multifield.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scifact-multifield >& logs/log.beir-v1.0.0-scifact-multifield.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-covid.multifield >& logs/log.beir-v1.0.0-trec-covid.multifield.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-bioasq.multifield >& logs/log.beir-v1.0.0-bioasq.multifield.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nfcorpus.multifield >& logs/log.beir-v1.0.0-nfcorpus.multifield.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nq.multifield >& logs/log.beir-v1.0.0-nq.multifield.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-hotpotqa.multifield >& logs/log.beir-v1.0.0-hotpotqa.multifield.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fiqa.multifield >& logs/log.beir-v1.0.0-fiqa.multifield.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-signal1m.multifield >& logs/log.beir-v1.0.0-signal1m.multifield.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-news.multifield >& logs/log.beir-v1.0.0-trec-news.multifield.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-robust04.multifield >& logs/log.beir-v1.0.0-robust04.multifield.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-arguana.multifield >& logs/log.beir-v1.0.0-arguana.multifield.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-webis-touche2020.multifield >& logs/log.beir-v1.0.0-webis-touche2020.multifield.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-android.multifield >& logs/log.beir-v1.0.0-cqadupstack-android.multifield.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-english.multifield >& logs/log.beir-v1.0.0-cqadupstack-english.multifield.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gaming.multifield >& logs/log.beir-v1.0.0-cqadupstack-gaming.multifield.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gis.multifield >& logs/log.beir-v1.0.0-cqadupstack-gis.multifield.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-mathematica.multifield >& logs/log.beir-v1.0.0-cqadupstack-mathematica.multifield.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-physics.multifield >& logs/log.beir-v1.0.0-cqadupstack-physics.multifield.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-programmers.multifield >& logs/log.beir-v1.0.0-cqadupstack-programmers.multifield.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-stats.multifield >& logs/log.beir-v1.0.0-cqadupstack-stats.multifield.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-tex.multifield >& logs/log.beir-v1.0.0-cqadupstack-tex.multifield.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-unix.multifield >& logs/log.beir-v1.0.0-cqadupstack-unix.multifield.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-webmasters.multifield >& logs/log.beir-v1.0.0-cqadupstack-webmasters.multifield.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-wordpress.multifield >& logs/log.beir-v1.0.0-cqadupstack-wordpress.multifield.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-quora.multifield >& logs/log.beir-v1.0.0-quora.multifield.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-dbpedia-entity.multifield >& logs/log.beir-v1.0.0-dbpedia-entity.multifield.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scidocs.multifield >& logs/log.beir-v1.0.0-scidocs.multifield.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fever.multifield >& logs/log.beir-v1.0.0-fever.multifield.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-climate-fever.multifield >& logs/log.beir-v1.0.0-climate-fever.multifield.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scifact.multifield >& logs/log.beir-v1.0.0-scifact.multifield.txt &
 ```
 
 </details>
