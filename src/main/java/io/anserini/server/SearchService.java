@@ -57,20 +57,50 @@ public class SearchService {
       ScoredDoc[] results = searcher.search(query, hits);
       List<Map<String, Object>> candidates = new ArrayList<>();
       for (ScoredDoc r : results) {
-        String raw = r.lucene_document.get(Constants.RAW);
-        JsonNode rootNode = mapper.readTree(raw);
-        Map<String, Object> content = mapper.convertValue(rootNode, Map.class);
-        content.remove("docid");
         Map<String, Object> candidate = new LinkedHashMap<>();
         candidate.put("docid", r.docid);
         candidate.put("score", r.score);
-        candidate.put("doc", content);
+        String raw = r.lucene_document.get(Constants.RAW);
+        if (raw != null) {
+          JsonNode rootNode = mapper.readTree(raw);
+          Map<String, Object> content = mapper.convertValue(rootNode, Map.class);
+          content.remove("docid");
+          content.remove("id");
+          content.remove("_id");
+          candidate.put("doc", content);
+        } else {
+          candidate.put("doc", null);
+        }
         candidates.add(candidate);
       }
+      searcher.close();
       return candidates;
     } catch (Exception e) {
       e.printStackTrace();
       return List.of();
+    }
+  }
+
+  public Map<String, Object> getDocument(String docid) {
+    try {
+      SimpleSearcher searcher = new SimpleSearcher(indexDir);
+      String raw = searcher.doc(docid).get(Constants.RAW);
+      Map<String, Object> candidate = new LinkedHashMap<>();
+      if (raw != null) {
+        JsonNode rootNode = mapper.readTree(raw);
+        Map<String, Object> content = mapper.convertValue(rootNode, Map.class);
+        content.remove("docid");
+        content.remove("id");
+        content.remove("_id");
+        candidate.put("doc", content);
+      } else {
+        candidate.put("doc", null);
+      }
+      searcher.close();
+      return candidate;
+    } catch (Exception e) {
+      e.printStackTrace();
+      return Map.of();
     }
   }
 
