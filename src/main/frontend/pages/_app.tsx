@@ -13,18 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import '../styles/globals.css';
+import type { AppProps } from 'next/app';
+import { ChakraProvider } from '@chakra-ui/react';
 
-import '../styles/globals.css'
-import SearchBar from './components/SearchBar'
-
-export default function Home() {
+function MyApp({ Component, pageProps } : AppProps) {
   return (
-    <div className="container">
-      <div className="header">
-        <h1>Anserini Search Interface</h1>
-        <p>A Lucene toolkit for reproducible information retrieval research</p>
-      </div>
-      <SearchBar />
-    </div>
+    <ChakraProvider>
+      <Component {...pageProps} />
+    </ChakraProvider>
   );
 }
+
+export default MyApp;

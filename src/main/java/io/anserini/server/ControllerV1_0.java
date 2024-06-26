@@ -59,6 +59,12 @@ public class ControllerV1_0 {
     return queryMap;
   }
 
+  @RequestMapping(method = RequestMethod.GET, path = "/indexes/{index}/documents/{docid}")
+  public Map<String, Object> getDocument(@PathVariable("index") String index, @PathVariable("docid") String docid) {
+    SearchService searchService = new SearchService(index);
+    return searchService.getDocument(docid);
+  }
+
   @RequestMapping(method = RequestMethod.GET, path = "/indexes/{index}/status")
   public Map<String, Object> getIndexStatus(@PathVariable("index") String index) {
     if (!IndexInfo.contains(index)) {

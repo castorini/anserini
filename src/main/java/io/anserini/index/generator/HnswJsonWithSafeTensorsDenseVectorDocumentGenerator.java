@@ -2,7 +2,8 @@ package io.anserini.index.generator;
 
 import io.anserini.collection.SourceDocument;
 import io.anserini.index.Constants;
-import io.anserini.index.IndexCollection;
+import io.anserini.index.IndexHnswDenseVectors;
+import io.anserini.index.IndexHnswDenseVectors.Args;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.BinaryDocValuesField;
@@ -26,34 +27,18 @@ import java.util.stream.Stream;
 public class HnswJsonWithSafeTensorsDenseVectorDocumentGenerator<T extends SourceDocument>
         implements LuceneDocumentGenerator<T> {
     private static final Logger LOG = LogManager.getLogger(HnswJsonWithSafeTensorsDenseVectorDocumentGenerator.class);
-    protected IndexCollection.Args args;
+    protected Args args;
     private HashSet<String> allowedFileSuffix;
 
-    public HnswJsonWithSafeTensorsDenseVectorDocumentGenerator(IndexCollection.Args args) {
-        super();
-        this.args = args;
+    public HnswJsonWithSafeTensorsDenseVectorDocumentGenerator() {
         this.allowedFileSuffix = new HashSet<>(Arrays.asList(".json", ".jsonl", ".gz"));
         LOG.info("V1 Initializing HnswJsonWithSafeTensorsDenseVectorDocumentGenerator...");
-        initializeArgs();
     }
 
-    public void setArgs(IndexCollection.Args args) {
+    public void setArgs(IndexHnswDenseVectors.Args args) {
         this.args = args;
         LOG.info("Args set via setter method:");
         LOG.info(" - Input path: " + this.args.input);
-    }
-
-    private void initializeArgs() {
-        if (this.args.input == null || this.args.input.isEmpty()) {
-            String inputPath = System.getProperty("input.path");
-            if (inputPath != null && !inputPath.isEmpty()) {
-                this.args.input = inputPath;
-                LOG.info("Initialized input path from system property: " + this.args.input);
-            } else {
-                LOG.error("Input path is not provided and cannot be initialized.");
-                throw new IllegalArgumentException("Input path is not provided.");
-            }
-        }
     }
 
     @Override
@@ -94,6 +79,7 @@ public class HnswJsonWithSafeTensorsDenseVectorDocumentGenerator<T extends Sourc
 
             // Create the Lucene document
             String id = src.id();
+            LOG.info("Processing document ID: " + id);
             int[] docidAscii = id.chars().toArray();
 
             Integer index = null;
@@ -121,7 +107,7 @@ public class HnswJsonWithSafeTensorsDenseVectorDocumentGenerator<T extends Sourc
             return document;
         } catch (Exception e) {
             LOG.error("Error creating document", e);
-            LOG.error("trace: " + e.getStackTrace());
+            LOG.error("trace: " + Arrays.toString(e.getStackTrace()));
             LOG.error("Document ID: " + src.id());
             LOG.error("Document contents: " + src.contents());
             LOG.error("Paths: " + this.args.input);
