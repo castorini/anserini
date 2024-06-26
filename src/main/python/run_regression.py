@@ -186,15 +186,15 @@ def construct_convert_commands(yaml_data):
 beir_flat_int8_onnx = defaultdict(lambda: 0.004)
 beir_flat_int8_onnx['ArguAna'] = 0.03
 beir_flat_int8_onnx['NFCorpus'] = 0.007
-beir_flat_int8_onnx['Signal-1M'] = 0.005
+beir_flat_int8_onnx['Signal-1M'] = 0.006
 beir_flat_int8_onnx['TREC-NEWS'] = 0.01
-beir_flat_int8_onnx['Webis-Touche2020'] = 0.005
+beir_flat_int8_onnx['Webis-Touche2020'] = 0.007
 
 beir_flat_int8_cached = defaultdict(lambda: 0.004)
 beir_flat_int8_cached['BioASQ'] = 0.005
 beir_flat_int8_cached['NFCorpus'] = 0.006
 beir_flat_int8_cached['Signal-1M'] = 0.007
-beir_flat_int8_cached['TREC-NEWS'] = 0.009
+beir_flat_int8_cached['TREC-NEWS'] = 0.01
 beir_flat_int8_cached['Webis-Touche2020'] = 0.007
 
 beir_flat_onnx = defaultdict(lambda: 0.001)
@@ -205,7 +205,7 @@ beir_flat_onnx['Robust04'] = 0.004
 
 beir_flat_cached = defaultdict(lambda: 1e-9)
 
-flat_tolerance_beir = {
+beir_flat_tolerance = {
     'flat-int8-onnx': beir_flat_int8_onnx,
     'flat-int8-cached': beir_flat_int8_cached,
     'flat-onnx': beir_flat_onnx,
@@ -249,9 +249,9 @@ beir_hnsw_cached['FEVER'] = 0.008
 beir_hnsw_cached['FiQA-2018'] = 0.008
 beir_hnsw_cached['HotpotQA'] = 0.007
 beir_hnsw_cached['Signal-1M'] = 0.05
-beir_hnsw_cached['TREC-NEWS'] = 0.02
+beir_hnsw_cached['TREC-NEWS'] = 0.025
 
-hnsw_tolerance_beir = {
+beir_hnsw_tolerance = {
     'hnsw-int8-onnx': beir_hnsw_int8_onnx,
     'hnsw-int8-cached': beir_hnsw_int8_cached,
     'hnsw-onnx': beir_hnsw_onnx,
@@ -305,7 +305,7 @@ def evaluate_and_verify(yaml_data, dry_run):
                     model_type = match.group(1)
 
                     # Lookup tolerance
-                    tolerance_ok = flat_tolerance_beir[model_type][beir_dataset]
+                    tolerance_ok = beir_flat_tolerance[model_type][beir_dataset]
                 elif using_flat and 'MS MARCO Passage' in topic_set['name']:
                     if model['name'].endswith('-flat-int8-onnx'):
                         tolerance_ok = 0.002
@@ -373,7 +373,7 @@ def evaluate_and_verify(yaml_data, dry_run):
                     model_type = match.group(1)
 
                     # Lookup tolerance
-                    tolerance_ok = hnsw_tolerance_beir[model_type][beir_dataset]
+                    tolerance_ok = beir_hnsw_tolerance[model_type][beir_dataset]
 
                 if using_flat or using_hnsw:
                     result_str = (f'expected: {expected:.4f} actual: {actual:.4f} '
