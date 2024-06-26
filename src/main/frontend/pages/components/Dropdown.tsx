@@ -16,6 +16,17 @@ interface IndexInfo {
   cached: boolean;
 }
 
+interface IndexInfo {
+  indexName: string;
+  description: string;
+  filename: string;
+  corpus: string;
+  model: string;
+  urls: string[];
+  md5: string;
+  cached: boolean;
+}
+
 const Dropdown: React.FC<Props> = ({ onSelect }) => {
   const [selectedCollection, setSelectedCollection] = useState<string | null>(null);
   const [selectedCorpus, setSelectedCorpus] = useState<string | null>(null);

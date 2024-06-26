@@ -12,6 +12,7 @@ java -cp $ANSERINI_JAR io.anserini.server.Application --server.port=8081
 
 And then navigate to [`http://localhost:8081/`](http://localhost:8081/) in your browser.
 
+<<<<<<< HEAD
 ## List Indexes
 
 To list all the index information, the endpoint is `api/v1.0/indexes/`
@@ -54,6 +55,8 @@ Output is a mapping from index name to `IndexInfo` enum
 }
 ```
 
+=======
+>>>>>>> remotes/upstream/master
 ## Search Queries
 
 The search query endpoint is `api/v1.0/indexes/{index_name}/search?query={query}&hits={hits}&qid={qid}`
@@ -108,6 +111,7 @@ The json results are the same as the output of the `-outputRerankerRequests` opt
 }
 ```
 
+<<<<<<< HEAD
 ## Get Document Content by DocId
 
 To access the content of a document in an index, the endpoint is `api/v1.0/indexes/{index_name}/document/{docid}`
@@ -123,6 +127,47 @@ Output is an object containing the 'cached' property
 ```json
 {
   "cached": true
+=======
+## List Indexes
+
+To list all the index information, the endpoint is `api/v1.0/indexes/`
+
+Run
+
+```bash
+curl -X GET "http://localhost:8081/api/v1.0/indexes"
+```
+
+Output is a mapping from index name to `IndexInfo` enum
+
+```json
+{
+    "cacm": {
+        "urls": [
+            "https://github.com/castorini/anserini-data/raw/master/CACM/lucene-index.cacm.20221005.252b5e.tar.gz"
+        ],
+        "cached": false,
+        "md5": "cfe14d543c6a27f4d742fb2d0099b8e0",
+        "indexName": "cacm",
+        "description": "Lucene index of the CACM corpus.",
+        "model": "BM25",
+        "corpus": "CACM",
+        "filename": "lucene-index.cacm.20221005.252b5e.tar.gz"
+    },
+    "msmarco-v1-passage": {
+        "urls": [
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v1-passage.20221004.252b5e.tar.gz"
+        ],
+        "cached": true,
+        "md5": "678876e8c99a89933d553609a0fd8793",
+        "indexName": "msmarco-v1-passage",
+        "description": "Lucene index of the MS MARCO V1 passage corpus.",
+        "model": "BM25",
+        "corpus": "MS MARCO V1 Passage",
+        "filename": "lucene-inverted.msmarco-v1-passage.20221004.252b5e.tar.gz"
+    },
+    ...
+>>>>>>> remotes/upstream/master
 }
 ```
 
@@ -140,11 +185,15 @@ Output is an object containing the 'cached' property
 
 ```json
 {
+<<<<<<< HEAD
     "doc": {
         "url": "https://diabetestalk.net/blood-sugar/conversion-of-carbohydrates-to-glucose",
         "title": "Conversion Of Carbohydrates To Glucose | DiabetesTalk.Net",
         "headings": "...",
         "body": "..."
     }
+=======
+  "cached": true
+>>>>>>> remotes/upstream/master
 }
 ```
