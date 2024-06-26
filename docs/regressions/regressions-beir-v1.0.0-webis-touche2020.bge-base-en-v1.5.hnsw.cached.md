@@ -78,7 +78,8 @@ With the above commands, you should be able to reproduce the following results:
 | **R@100**                                                                                                    | **BGE-base-en-v1.5**|
 | BEIR (v1.0.0): Webis-Touche2020                                                                              | 0.486     |
 | **R@1000**                                                                                                   | **BGE-base-en-v1.5**|
-| BEIR (v1.0.0): Webis-Touche2020                                                                              | 0.831     |
+| BEIR (v1.0.0): Webis-Touche2020                                                                              | 0.830     |
 
-Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
-Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.hnsw.cached.yaml).
+The above figures are from running brute-force search with cached queries on non-quantized **flat** indexes.
+With cached queries on non-quantized HNSW indexes, observed results may differ slightly (typically, lower), but scores should generally be within 0.003 of the results reported above (with some outliers).
+Note that HNSW indexing is non-deterministic (i.e., results may differ slightly between trials).
