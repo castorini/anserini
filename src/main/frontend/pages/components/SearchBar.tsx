@@ -30,12 +30,19 @@ const SearchBar: React.FC = () => {
     try {
       let endpoint = '/api/v1.0';
       if (index !== '') endpoint += `/indexes/${index}`;
-      endpoint += `/search?query=${query}`;
-      
-      const response = await fetch(endpoint);
-      const data = await response.json();
-      console.log(data);
-      setResults(data.candidates);
+      if (queryType === 'search query') {
+        endpoint += `/search?query=${query}`;
+        
+        const response = await fetch(endpoint);
+        const data = await response.json();
+        console.log(data);
+        setResults(data.candidates);
+      } else {
+        endpoint += `/documents/${query}`;
+        const response = await fetch(endpoint);
+        const data = await response.json();
+        setResults([data]);
+      }
     } catch (error) {
       console.error("Failed to fetch data: ", error);
       setResults([]);
@@ -59,11 +66,13 @@ const SearchBar: React.FC = () => {
             <Dropdown onSelect={(selectedValue) => setIndex(selectedValue)} />
             <HStack spacing={4}>
               <Select
-                placeholder="Select query type"
+                defaultValue="search query"
+                placeholder="Search by..."
                 onChange={(e) => setQueryType(e.target.value)}
+                width="150px"
               >
-                <option value="search query">Search query</option>
-                <option value="docid query">Docid query</option>
+                <option value="search query">By query</option>
+                <option value="docid query">By docid</option>
               </Select>
               <Input
                 type="text"
@@ -72,6 +81,7 @@ const SearchBar: React.FC = () => {
                 onChange={(e) => setQuery(e.target.value)}
                 bg="gray.100"
                 border="none"
+                width="100%"
                 _focus={{ bg: 'white', boxShadow: 'outline' }}
               />
               <Button type="submit" colorScheme="blue" isLoading={loading}>Go!</Button>
@@ -82,10 +92,10 @@ const SearchBar: React.FC = () => {
                 {results.map((result, index) => (
                   <Box key={index} p={4} shadow="md" borderWidth="1px" borderRadius="md">
                     <Flex justifyContent="space-between" alignItems="center" direction="row">
-                      <Text as="h3" fontWeight="bold">
+                      {result.docid && <Text as="h3" fontWeight="bold">
                         Document ID: {result.docid}
-                      </Text>
-                      <Text as="span" fontWeight="normal">Score: {result.score}</Text>
+                      </Text>}
+                      {result.score && <Text as="span" fontWeight="normal">Score: {result.score}</Text>}
                     </Flex>
                     {result.doc && Object.entries(result.doc).map(([key, value]) => (
                       <Text key={key}>

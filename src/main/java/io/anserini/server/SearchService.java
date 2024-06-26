@@ -96,6 +96,7 @@ public class SearchService {
       } else {
         candidate.put("doc", null);
       }
+      searcher.close();
       return candidate;
     } catch (Exception e) {
       e.printStackTrace();
