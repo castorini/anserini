@@ -81,4 +81,26 @@ public class SearchService {
     }
   }
 
+  public Map<String, Object> getDocument(String docid) {
+    try {
+      SimpleSearcher searcher = new SimpleSearcher(indexDir);
+      String raw = searcher.doc(docid).get(Constants.RAW);
+      Map<String, Object> candidate = new LinkedHashMap<>();
+      if (raw != null) {
+        JsonNode rootNode = mapper.readTree(raw);
+        Map<String, Object> content = mapper.convertValue(rootNode, Map.class);
+        content.remove("docid");
+        content.remove("id");
+        content.remove("_id");
+        candidate.put("doc", content);
+      } else {
+        candidate.put("doc", null);
+      }
+      return candidate;
+    } catch (Exception e) {
+      e.printStackTrace();
+      return Map.of();
+    }
+  }
+
 }

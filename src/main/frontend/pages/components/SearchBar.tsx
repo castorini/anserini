@@ -16,12 +16,13 @@
 
 import React, { useState } from 'react';
 import Dropdown from './Dropdown';
-import { Input, Button, Box, Spinner, Text, VStack, HStack, Container, Heading, Divider, Flex, FormControl, Center } from '@chakra-ui/react';
+import { Input, Button, Box, Spinner, Text, VStack, HStack, Container, Heading, Divider, Flex, FormControl, Center, Select } from '@chakra-ui/react';
 
 const SearchBar: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [results, setResults] = useState<Array<any>>([]);
   const [query, setQuery] = useState<string>('');
+  const [queryType, setQueryType] = useState<string>('search query');
   const [index, setIndex] = useState<string>('');
 
   const fetchResults = async (query: string, index: string) => {
@@ -57,6 +58,13 @@ const SearchBar: React.FC = () => {
           <Flex direction="column" gap={4} height="100%">
             <Dropdown onSelect={(selectedValue) => setIndex(selectedValue)} />
             <HStack spacing={4}>
+              <Select
+                placeholder="Select query type"
+                onChange={(e) => setQueryType(e.target.value)}
+              >
+                <option value="search query">Search query</option>
+                <option value="docid query">Docid query</option>
+              </Select>
               <Input
                 type="text"
                 value={query}
