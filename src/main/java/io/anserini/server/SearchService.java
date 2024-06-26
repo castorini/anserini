@@ -57,17 +57,20 @@ public class SearchService {
       ScoredDoc[] results = searcher.search(query, hits);
       List<Map<String, Object>> candidates = new ArrayList<>();
       for (ScoredDoc r : results) {
-        String raw = r.lucene_document.get(Constants.RAW);
-        JsonNode rootNode = mapper.readTree(raw);
-        Map<String, Object> content = mapper.convertValue(rootNode, Map.class);
-        content.remove("docid");
-        content.remove("id");
-        content.remove("_id");
         Map<String, Object> candidate = new LinkedHashMap<>();
         candidate.put("docid", r.docid);
         candidate.put("score", r.score);
-        candidate.put("doc", content);
-        candidate.put("raw", raw);
+        String raw = r.lucene_document.get(Constants.RAW);
+        if (raw != null) {
+          JsonNode rootNode = mapper.readTree(raw);
+          Map<String, Object> content = mapper.convertValue(rootNode, Map.class);
+          content.remove("docid");
+          content.remove("id");
+          content.remove("_id");
+          candidate.put("doc", content);
+        } else {
+          candidate.put("doc", null);
+        }
         candidates.add(candidate);
       }
       searcher.close();

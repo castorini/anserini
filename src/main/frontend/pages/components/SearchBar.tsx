@@ -79,7 +79,7 @@ const SearchBar: React.FC = () => {
                       </Text>
                       <Text as="span" fontWeight="normal">Score: {result.score}</Text>
                     </Flex>
-                    {Object.entries(result.doc).map(([key, value]) => (
+                    {result.doc && Object.entries(result.doc).map(([key, value]) => (
                       <Text key={key}>
                         <strong>{key}:</strong> {JSON.stringify(value)}
                       </Text>
