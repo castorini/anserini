@@ -78,5 +78,5 @@ With the above commands, you should be able to reproduce the following results:
 | **R@1000**                                                                                                   | **BGE-base-en-v1.5**|
 | BEIR (v1.0.0): TREC-NEWS                                                                                     | 0.7875    |
 
-The above figures are from running brute-force search with cached queries.
-With ONNX query encoding, results may differ slightly, but the nDCG@10 score should generally be within 0.002 of the result reported above (with a small number of outliers).
+The above figures are from running brute-force search with cached queries on non-quantized flat indexes.
+With ONNX query encoding on non-quantized flat indexes, observed results may differ slightly (typically, lower), but scores should generally be within 0.001 of the results reported above (with some outliers).

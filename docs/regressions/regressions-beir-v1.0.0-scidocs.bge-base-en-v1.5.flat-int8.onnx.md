@@ -78,5 +78,6 @@ With the above commands, you should be able to reproduce the following results:
 | **R@1000**                                                                                                   | **BGE-base-en-v1.5**|
 | BEIR (v1.0.0): SCIDOCS                                                                                       | 0.7824    |
 
-The above figures are from running brute-force search with cached queries on non-quantized indexes.
-With quantized indexes and on-the-fly ONNX query encoding, results may differ slightly, but the nDCG@10 score should generally be within 0.005 of the result reported above (with a small number of outliers).
+The above figures are from running brute-force search with cached queries on non-quantized flat indexes.
+With ONNX query encoding on quantized flat indexes, observed results may differ slightly (typically, lower), but scores should generally be within 0.004 of the results reported above (with some outliers).
+Note that quantization is non-deterministic due to sampling (i.e., results may differ slightly between trials).
