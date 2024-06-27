@@ -263,6 +263,52 @@ hnsw_model_type_pattern = re.compile(r'(hnsw-int8-onnx|hnsw-int8-cached|hnsw-onn
 
 beir_dataset_pattern = re.compile(r'BEIR \(v1.0.0\): (.*)$')
 
+msmarco_v1_flat_int8_onnx = defaultdict(lambda: 0.002)
+msmarco_v1_flat_int8_cached = defaultdict(lambda: 0.002)
+msmarco_v1_flat_int8_cached['openai-ada2-flat-int8-cached'] = 0.008
+msmarco_v1_flat_onnx = defaultdict(lambda: 0.0001)
+msmarco_v1_flat_cached = defaultdict(lambda: 1e-9)
+
+msmarco_v1_flat_tolerance = {
+    'flat-int8-onnx': msmarco_v1_flat_int8_onnx,
+    'flat-int8-cached': msmarco_v1_flat_int8_cached,
+    'flat-onnx': msmarco_v1_flat_onnx,
+    'flat-cached': msmarco_v1_flat_cached,
+}
+
+dl19_flat_int8_onnx = defaultdict(lambda: 0.002)
+dl19_flat_int8_onnx['bge-flat-int8-onnx'] = 0.007
+dl19_flat_int8_onnx['cos-dpr-distil-flat-int8-onnx'] = 0.004
+dl19_flat_int8_cached = defaultdict(lambda: 0.002)
+dl19_flat_int8_cached['openai-ada2-flat-int8-cached'] = 0.008
+dl19_flat_onnx = defaultdict(lambda: 0.0001)
+dl19_flat_onnx['bge-flat-onnx'] = 0.008
+dl19_flat_cached = defaultdict(lambda: 1e-9)
+
+dl19_flat_tolerance = {
+    'flat-int8-onnx': dl19_flat_int8_onnx,
+    'flat-int8-cached': dl19_flat_int8_cached,
+    'flat-onnx': dl19_flat_onnx,
+    'flat-cached': dl19_flat_cached,
+}
+
+dl20_flat_int8_onnx = defaultdict(lambda: 0.002)
+dl20_flat_int8_onnx['bge-flat-int8-onnx'] = 0.004
+dl20_flat_int8_onnx['cos-dpr-distil-flat-int8-onnx'] = 0.004
+dl20_flat_int8_cached = defaultdict(lambda: 0.002)
+dl20_flat_int8_cached['bge-flat-int8-cached'] = 0.005
+dl20_flat_int8_cached['cos-dpr-distil-flat-int8-cached'] = 0.004
+dl20_flat_onnx = defaultdict(lambda: 0.0001)
+dl20_flat_onnx['bge-flat-onnx'] = 0.005
+dl20_flat_cached = defaultdict(lambda: 1e-9)
+
+dl20_flat_tolerance = {
+    'flat-int8-onnx': dl20_flat_int8_onnx,
+    'flat-int8-cached': dl20_flat_int8_cached,
+    'flat-onnx': dl20_flat_onnx,
+    'flat-cached': dl20_flat_cached,
+}
+
 
 def evaluate_and_verify(yaml_data, dry_run):
     fail_str = '\033[91m[FAIL]\033[0m '
@@ -295,73 +341,77 @@ def evaluate_and_verify(yaml_data, dry_run):
                 using_hnsw = True if 'type' in model and model['type'] == 'hnsw' else False
                 using_flat = True if 'type' in model and model['type'] == 'flat' else False
 
+                if using_flat:
+                    # Extract model
+                    match = flat_model_type_pattern.search(model['name'])
+                    model_type = match.group(1)
+
                 if using_flat and 'BEIR' in topic_set['name']:
                     # Extract BEIR dataset
                     match = beir_dataset_pattern.search(topic_set['name'])
                     beir_dataset = match.group(1)
 
-                    # Extract model
-                    match = flat_model_type_pattern.search(model['name'])
-                    model_type = match.group(1)
-
                     # Lookup tolerance
                     tolerance_ok = beir_flat_tolerance[model_type][beir_dataset]
                 elif using_flat and 'MS MARCO Passage' in topic_set['name']:
-                    if model['name'].endswith('-flat-int8-onnx'):
-                        tolerance_ok = 0.002
-                    elif model['name'].endswith('-flat-int8-cached'):
-                        if model['name'] == 'openai-ada2-flat-int8-cached':
-                            tolerance_ok = 0.008
-                        else:
-                            tolerance_ok = 0.002
-                    elif model['name'].endswith('-flat-onnx'):
-                        tolerance_ok = 0.0001
-                    else:
-                        tolerance_ok = 1e-9
+                    tolerance_ok = msmarco_v1_flat_tolerance[model_type][model['name']]
+#                     if model['name'].endswith('-flat-int8-onnx'):
+#                         tolerance_ok = 0.002
+#                     elif model['name'].endswith('-flat-int8-cached'):
+#                         if model['name'] == 'openai-ada2-flat-int8-cached':
+#                             tolerance_ok = 0.008
+#                         else:
+#                             tolerance_ok = 0.002
+#                     elif model['name'].endswith('-flat-onnx'):
+#                         tolerance_ok = 0.0001
+#                     else:
+#                         tolerance_ok = 1e-9
                 elif using_flat and 'DL19' in topic_set['name']:
-                    if model['name'].endswith('-flat-int8-onnx'):
-                        if model['name'] == 'bge-flat-int8-onnx':
-                            tolerance_ok = 0.007
-                        elif model['name'] == 'cos-dpr-distil-flat-int8-onnx':
-                            tolerance_ok = 0.004
-                        else:
-                            tolerance_ok = 0.002
-                    elif model['name'].endswith('-flat-int8-cached'):
-                        if model['name'] == 'openai-ada2-flat-int8-cached':
-                            tolerance_ok = 0.008
-                        else:
-                            tolerance_ok = 0.002
-                    elif model['name'].endswith('-flat-onnx'):
-                        if model['name'] == 'bge-flat-onnx':
-                            tolerance_ok = 0.008
-                        else:
-                            tolerance_ok = 0.0001
-                    else:
-                        tolerance_ok = 1e-9
+                    tolerance_ok = dl19_flat_tolerance[model_type][model['name']]
+#                     if model['name'].endswith('-flat-int8-onnx'):
+#                         if model['name'] == 'bge-flat-int8-onnx':
+#                             tolerance_ok = 0.007
+#                         elif model['name'] == 'cos-dpr-distil-flat-int8-onnx':
+#                             tolerance_ok = 0.004
+#                         else:
+#                             tolerance_ok = 0.002
+#                     elif model['name'].endswith('-flat-int8-cached'):
+#                         if model['name'] == 'openai-ada2-flat-int8-cached':
+#                             tolerance_ok = 0.008
+#                         else:
+#                             tolerance_ok = 0.002
+#                     elif model['name'].endswith('-flat-onnx'):
+#                         if model['name'] == 'bge-flat-onnx':
+#                             tolerance_ok = 0.008
+#                         else:
+#                             tolerance_ok = 0.0001
+#                     else:
+#                         tolerance_ok = 1e-9
                 elif using_flat and 'DL20' in topic_set['name']:
-                    if model['name'].endswith('-flat-int8-onnx'):
-                        if model['name'] == 'bge-flat-int8-onnx':
-                            tolerance_ok = 0.004
-                        elif model['name'] == 'cos-dpr-distil-flat-int8-onnx':
-                            tolerance_ok = 0.004
-                        else:
-                            tolerance_ok = 0.002
-                    elif model['name'].endswith('-flat-int8-cached'):
-                        if model['name'] == 'bge-flat-int8-cached':
-                            tolerance_ok = 0.005
-                        elif model['name'] == 'cos-dpr-distil-flat-int8-cached':
-                            tolerance_ok = 0.004
-                        else:
-                            tolerance_ok = 0.002
-                    elif model['name'].endswith('-flat-onnx'):
-                        if model['name'] == 'bge-flat-onnx':
-                            tolerance_ok = 0.005
-                        else:
-                            tolerance_ok = 0.0001
-                    else:
-                        tolerance_ok = 1e-9
-                else:
-                    tolerance_ok = 1e-9
+                    tolerance_ok = dl20_flat_tolerance[model_type][model['name']]
+#                     if model['name'].endswith('-flat-int8-onnx'):
+#                         if model['name'] == 'bge-flat-int8-onnx':
+#                             tolerance_ok = 0.004
+#                         elif model['name'] == 'cos-dpr-distil-flat-int8-onnx':
+#                             tolerance_ok = 0.004
+#                         else:
+#                             tolerance_ok = 0.002
+#                     elif model['name'].endswith('-flat-int8-cached'):
+#                         if model['name'] == 'bge-flat-int8-cached':
+#                             tolerance_ok = 0.005
+#                         elif model['name'] == 'cos-dpr-distil-flat-int8-cached':
+#                             tolerance_ok = 0.004
+#                         else:
+#                             tolerance_ok = 0.002
+#                     elif model['name'].endswith('-flat-onnx'):
+#                         if model['name'] == 'bge-flat-onnx':
+#                             tolerance_ok = 0.005
+#                         else:
+#                             tolerance_ok = 0.0001
+#                     else:
+#                         tolerance_ok = 1e-9
+#                 else:
+#                     tolerance_ok = 1e-9
 
                 if using_hnsw and 'BEIR' in topic_set['name']:
                     # Extract BEIR dataset
