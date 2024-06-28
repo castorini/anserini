@@ -103,11 +103,11 @@ With the above commands, you should be able to reproduce the following results:
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.477     |
 | **nDCG@10**                                                                                                  | **OpenAI-ada2**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.675     |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.676     |
 | **R@100**                                                                                                    | **OpenAI-ada2**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.727     |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.724     |
 | **R@1000**                                                                                                   | **OpenAI-ada2**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.866     |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.871     |
 
 Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
 Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/dl20-passage.openai-ada2.hnsw-int8.cached.yaml).

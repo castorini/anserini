@@ -94,13 +94,13 @@ With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **cohere-embed-english-v3.0**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.505     |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.507     |
 | **nDCG@10**                                                                                                  | **cohere-embed-english-v3.0**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.722     |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.725     |
 | **R@100**                                                                                                    | **cohere-embed-english-v3.0**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.720     |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.728     |
 | **R@1000**                                                                                                   | **cohere-embed-english-v3.0**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.858     |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.868     |
 
 Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
 Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/dl20-passage.cohere-embed-english-v3.0.hnsw-int8.cached.yaml).

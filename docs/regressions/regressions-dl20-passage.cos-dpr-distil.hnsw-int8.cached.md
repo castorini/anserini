@@ -101,13 +101,13 @@ With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **cosDPR-distil**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.482     |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.488     |
 | **nDCG@10**                                                                                                  | **cosDPR-distil**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.701     |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.702     |
 | **R@100**                                                                                                    | **cosDPR-distil**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.712     |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.720     |
 | **R@1000**                                                                                                   | **cosDPR-distil**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.843     |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.853     |
 
 Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
 Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/dl20-passage.cos-dpr-distil.hnsw-int8.cached.yaml).
