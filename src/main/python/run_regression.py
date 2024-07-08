@@ -263,6 +263,104 @@ hnsw_model_type_pattern = re.compile(r'(hnsw-int8-onnx|hnsw-int8-cached|hnsw-onn
 
 beir_dataset_pattern = re.compile(r'BEIR \(v1.0.0\): (.*)$')
 
+msmarco_v1_flat_int8_onnx = defaultdict(lambda: 0.002)
+msmarco_v1_flat_int8_cached = defaultdict(lambda: 0.002)
+msmarco_v1_flat_int8_cached['openai-ada2-flat-int8-cached'] = 0.008
+msmarco_v1_flat_onnx = defaultdict(lambda: 0.0001)
+msmarco_v1_flat_cached = defaultdict(lambda: 1e-9)
+
+msmarco_v1_flat_tolerance = {
+    'flat-int8-onnx': msmarco_v1_flat_int8_onnx,
+    'flat-int8-cached': msmarco_v1_flat_int8_cached,
+    'flat-onnx': msmarco_v1_flat_onnx,
+    'flat-cached': msmarco_v1_flat_cached,
+}
+
+dl19_flat_int8_onnx = defaultdict(lambda: 0.002)
+dl19_flat_int8_onnx['bge-flat-int8-onnx'] = 0.008
+dl19_flat_int8_cached = defaultdict(lambda: 0.002)
+dl19_flat_int8_cached['bge-flat-int8-cached'] = 0.005
+dl19_flat_int8_cached['openai-ada2-flat-int8-cached'] = 0.008
+dl19_flat_onnx = defaultdict(lambda: 0.0001)
+dl19_flat_onnx['bge-flat-onnx'] = 0.008
+dl19_flat_cached = defaultdict(lambda: 1e-9)
+
+dl19_flat_tolerance = {
+    'flat-int8-onnx': dl19_flat_int8_onnx,
+    'flat-int8-cached': dl19_flat_int8_cached,
+    'flat-onnx': dl19_flat_onnx,
+    'flat-cached': dl19_flat_cached,
+}
+
+dl20_flat_int8_onnx = defaultdict(lambda: 0.002)
+dl20_flat_int8_onnx['bge-flat-int8-onnx'] = 0.004
+dl20_flat_int8_cached = defaultdict(lambda: 0.002)
+dl20_flat_int8_cached['bge-flat-int8-cached'] = 0.005
+dl20_flat_int8_cached['cos-dpr-distil-flat-int8-cached'] = 0.004
+dl20_flat_int8_cached['cohere-embed-english-v3.0-flat-int8-cached'] = 0.004
+dl20_flat_onnx = defaultdict(lambda: 0.0001)
+dl20_flat_onnx['bge-flat-onnx'] = 0.005
+dl20_flat_cached = defaultdict(lambda: 1e-9)
+
+dl20_flat_tolerance = {
+    'flat-int8-onnx': dl20_flat_int8_onnx,
+    'flat-int8-cached': dl20_flat_int8_cached,
+    'flat-onnx': dl20_flat_onnx,
+    'flat-cached': dl20_flat_cached,
+}
+
+msmarco_v1_hnsw_int8_onnx = defaultdict(lambda: 0.01)
+msmarco_v1_hnsw_int8_cached = defaultdict(lambda: 0.01)
+msmarco_v1_hnsw_onnx = defaultdict(lambda: 0.01)
+msmarco_v1_hnsw_onnx['cos-dpr-distil-hnsw-onnx']  = 0.015
+msmarco_v1_hnsw_cached = defaultdict(lambda: 0.01)
+msmarco_v1_hnsw_cached['cos-dpr-distil-hnsw-cached'] = 0.015
+
+msmarco_v1_hnsw_tolerance = {
+    'hnsw-int8-onnx': msmarco_v1_hnsw_int8_onnx,
+    'hnsw-int8-cached': msmarco_v1_hnsw_int8_cached,
+    'hnsw-onnx': msmarco_v1_hnsw_onnx,
+    'hnsw-cached': msmarco_v1_hnsw_cached,
+}
+
+dl19_hnsw_int8_onnx = defaultdict(lambda: 0.01)
+dl19_hnsw_int8_onnx['bge-hnsw-int8-onnx'] = 0.02
+dl19_hnsw_int8_onnx['cos-dpr-distil-hnsw-int8-onnx'] = 0.025
+dl19_hnsw_int8_cached = defaultdict(lambda: 0.01)
+dl19_hnsw_int8_cached['bge-hnsw-int8-cached'] = 0.015
+dl19_hnsw_int8_cached['cohere-embed-english-v3.0-hnsw-int8-cached'] = 0.015
+dl19_hnsw_int8_cached['cos-dpr-distil-hnsw-int8-cached'] = 0.025
+dl19_hnsw_int8_cached['openai-ada2-hnsw-int8-cached'] = 0.015
+dl19_hnsw_onnx = defaultdict(lambda: 0.015)
+dl19_hnsw_onnx['bge-hnsw-onnx'] = 0.02
+dl19_hnsw_cached = defaultdict(lambda: 0.01)
+dl19_hnsw_cached['cohere-embed-english-v3.0-hnsw-cached'] = 0.02
+dl19_hnsw_cached['cos-dpr-distil-hnsw-cached'] = 0.015
+
+dl19_hnsw_tolerance = {
+    'hnsw-int8-onnx': dl19_hnsw_int8_onnx,
+    'hnsw-int8-cached': dl19_hnsw_int8_cached,
+    'hnsw-onnx': dl19_hnsw_onnx,
+    'hnsw-cached': dl19_hnsw_cached,
+}
+
+dl20_hnsw_int8_onnx = defaultdict(lambda: 0.01)
+dl20_hnsw_int8_cached = defaultdict(lambda: 0.01)
+dl20_hnsw_int8_cached['bge-hnsw-int8-cached'] = 0.015
+dl20_hnsw_int8_cached['cohere-embed-english-v3.0-hnsw-int8-cached'] = 0.012
+dl20_hnsw_onnx = defaultdict(lambda: 0.015)
+dl20_hnsw_cached = defaultdict(lambda: 0.01)
+dl20_hnsw_cached['bge-hnsw-cached'] = 0.015
+dl20_hnsw_cached['cohere-embed-english-v3.0-hnsw-cached'] = 0.025
+dl20_hnsw_cached['cos-dpr-distil-hnsw-cached'] = 0.015
+
+dl20_hnsw_tolerance = {
+    'hnsw-int8-onnx': dl20_hnsw_int8_onnx,
+    'hnsw-int8-cached': dl20_hnsw_int8_cached,
+    'hnsw-onnx': dl20_hnsw_onnx,
+    'hnsw-cached': dl20_hnsw_cached,
+}
+
 
 def evaluate_and_verify(yaml_data, dry_run):
     fail_str = '\033[91m[FAIL]\033[0m '
@@ -295,85 +393,41 @@ def evaluate_and_verify(yaml_data, dry_run):
                 using_hnsw = True if 'type' in model and model['type'] == 'hnsw' else False
                 using_flat = True if 'type' in model and model['type'] == 'flat' else False
 
-                if using_flat and 'BEIR' in topic_set['name']:
-                    # Extract BEIR dataset
-                    match = beir_dataset_pattern.search(topic_set['name'])
-                    beir_dataset = match.group(1)
-
+                if using_flat:
                     # Extract model
                     match = flat_model_type_pattern.search(model['name'])
                     model_type = match.group(1)
 
-                    # Lookup tolerance
-                    tolerance_ok = beir_flat_tolerance[model_type][beir_dataset]
-                elif using_flat and 'MS MARCO Passage' in topic_set['name']:
-                    if model['name'].endswith('-flat-int8-onnx'):
-                        tolerance_ok = 0.002
-                    elif model['name'].endswith('-flat-int8-cached'):
-                        if model['name'] == 'openai-ada2-flat-int8-cached':
-                            tolerance_ok = 0.008
-                        else:
-                            tolerance_ok = 0.002
-                    elif model['name'].endswith('-flat-onnx'):
-                        tolerance_ok = 0.0001
-                    else:
-                        tolerance_ok = 1e-9
-                elif using_flat and 'DL19' in topic_set['name']:
-                    if model['name'].endswith('-flat-int8-onnx'):
-                        if model['name'] == 'bge-flat-int8-onnx':
-                            tolerance_ok = 0.007
-                        elif model['name'] == 'cos-dpr-distil-flat-int8-onnx':
-                            tolerance_ok = 0.004
-                        else:
-                            tolerance_ok = 0.002
-                    elif model['name'].endswith('-flat-int8-cached'):
-                        if model['name'] == 'openai-ada2-flat-int8-cached':
-                            tolerance_ok = 0.008
-                        else:
-                            tolerance_ok = 0.002
-                    elif model['name'].endswith('-flat-onnx'):
-                        if model['name'] == 'bge-flat-onnx':
-                            tolerance_ok = 0.008
-                        else:
-                            tolerance_ok = 0.0001
-                    else:
-                        tolerance_ok = 1e-9
-                elif using_flat and 'DL20' in topic_set['name']:
-                    if model['name'].endswith('-flat-int8-onnx'):
-                        if model['name'] == 'bge-flat-int8-onnx':
-                            tolerance_ok = 0.004
-                        elif model['name'] == 'cos-dpr-distil-flat-int8-onnx':
-                            tolerance_ok = 0.004
-                        else:
-                            tolerance_ok = 0.002
-                    elif model['name'].endswith('-flat-int8-cached'):
-                        if model['name'] == 'bge-flat-int8-cached':
-                            tolerance_ok = 0.005
-                        elif model['name'] == 'cos-dpr-distil-flat-int8-cached':
-                            tolerance_ok = 0.004
-                        else:
-                            tolerance_ok = 0.002
-                    elif model['name'].endswith('-flat-onnx'):
-                        if model['name'] == 'bge-flat-onnx':
-                            tolerance_ok = 0.005
-                        else:
-                            tolerance_ok = 0.0001
-                    else:
-                        tolerance_ok = 1e-9
-                else:
-                    tolerance_ok = 1e-9
+                    if 'BEIR' in topic_set['name']:
+                        # Extract BEIR dataset
+                        match = beir_dataset_pattern.search(topic_set['name'])
+                        beir_dataset = match.group(1)
 
-                if using_hnsw and 'BEIR' in topic_set['name']:
-                    # Extract BEIR dataset
-                    match = beir_dataset_pattern.search(topic_set['name'])
-                    beir_dataset = match.group(1)
+                        tolerance_ok = beir_flat_tolerance[model_type][beir_dataset]
+                    elif 'MS MARCO Passage' in topic_set['name']:
+                        tolerance_ok = msmarco_v1_flat_tolerance[model_type][model['name']]
+                    elif 'DL19' in topic_set['name']:
+                        tolerance_ok = dl19_flat_tolerance[model_type][model['name']]
+                    elif using_flat and 'DL20' in topic_set['name']:
+                        tolerance_ok = dl20_flat_tolerance[model_type][model['name']]
 
+                if using_hnsw:
                     # Extract model
                     match = hnsw_model_type_pattern.search(model['name'])
                     model_type = match.group(1)
 
-                    # Lookup tolerance
-                    tolerance_ok = beir_hnsw_tolerance[model_type][beir_dataset]
+                    if 'BEIR' in topic_set['name']:
+                        # Extract BEIR dataset
+                        match = beir_dataset_pattern.search(topic_set['name'])
+                        beir_dataset = match.group(1)
+
+                        tolerance_ok = beir_hnsw_tolerance[model_type][beir_dataset]
+                    elif 'MS MARCO Passage' in topic_set['name']:
+                        tolerance_ok = msmarco_v1_hnsw_tolerance[model_type][model['name']]
+                    elif 'DL19' in topic_set['name']:
+                        tolerance_ok = dl19_hnsw_tolerance[model_type][model['name']]
+                    elif 'DL20' in topic_set['name']:
+                        tolerance_ok = dl20_hnsw_tolerance[model_type][model['name']]
 
                 if using_flat or using_hnsw:
                     result_str = (f'expected: {expected:.4f} actual: {actual:.4f} '
