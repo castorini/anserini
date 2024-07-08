@@ -101,16 +101,17 @@ With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **OpenAI-ada2**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.478     |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.479     |
 | **nDCG@10**                                                                                                  | **OpenAI-ada2**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.707     |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.703     |
 | **R@100**                                                                                                    | **OpenAI-ada2**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.617     |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.623     |
 | **R@1000**                                                                                                   | **OpenAI-ada2**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.853     |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.863     |
 
-Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
-Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/dl19-passage.openai-ada2.hnsw-int8.cached.yaml).
+The above figures are from running brute-force search with cached queries on non-quantized **flat** indexes.
+With cached queries on quantized HNSW indexes, observed results are likely to differ; scores may be lower by up to 0.01, sometimes more.
+Note that both HNSW indexing and quantization are non-deterministic (i.e., results may differ slightly between trials).
 
 ❗ Retrieval metrics here are computed to depth 1000 hits per query (as opposed to 100 hits per query for document ranking).
 For computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., AP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).
