@@ -37,6 +37,21 @@ public class HnswJsonWithSafeTensorsDenseVectorDocumentGenerator<T extends Sourc
         this.args = args;
         this.allowedFileSuffix = new HashSet<>(Arrays.asList(".json", ".jsonl", ".gz"));
         LOG.info("Initializing HnswJsonWithSafeTensorsDenseVectorDocumentGenerator with Args...");
+
+    }
+
+    private void initializeArgs() {
+        if (this.args.input == null || this.args.input.isEmpty()) {
+            String inputPath = System.getProperty("input.path");
+            if (inputPath != null && !inputPath.isEmpty()) {
+                this.args.input = inputPath;
+                LOG.info("Initialized input path from system property: " + this.args.input);
+            } else {
+                LOG.error("Input path is not provided and cannot be initialized.");
+                throw new IllegalArgumentException("Input path is not provided.");
+            }
+        }
+
     }
 
     @Override
@@ -95,6 +110,7 @@ public class HnswJsonWithSafeTensorsDenseVectorDocumentGenerator<T extends Sourc
         } catch (Exception e) {
             LOG.error("Error creating document", e);
             LOG.error("trace: " + Arrays.toString(e.getStackTrace()));
+
             LOG.error("Document ID: " + src.id());
             LOG.error("Document contents: " + src.contents());
             LOG.error("Paths: " + this.args.input);

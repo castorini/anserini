@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+
  package io.anserini.index;
 
  import io.anserini.collection.DocumentCollection;
@@ -345,4 +346,4 @@
    public Counters getCounters() {
      return this.counters;
    }
- }
+
