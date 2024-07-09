@@ -3,7 +3,7 @@ import torch
 import os
 import argparse
 import gzip
-from safetensors.torch import save_file
+from safetensors.torch import save_file, load_file
 
 # Set up argument parser
 parser = argparse.ArgumentParser(description='Process vectors and docids from JSONL or GZ files.')
@@ -66,3 +66,10 @@ save_file({'docids': docids_tensor}, docids_path)
 
 print(f"Saved vectors to {vectors_path}")
 print(f"Saved docids to {docids_path}")
+
+# Load vectors and docids
+loaded_vectors = load_file(vectors_path)['vectors']
+loaded_docids = load_file(docids_path)['docids']
+
+print(f"Loaded vectors: {loaded_vectors}")
+print(f"Loaded document IDs (ASCII): {loaded_docids}")
