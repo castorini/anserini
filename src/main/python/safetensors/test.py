@@ -1,93 +1,76 @@
-import os
 import json
 import torch
-import time
-import tracemalloc
-from safetensors.torch import load_file
-import matplotlib.pyplot as plt
+import os
+import gzip
+from safetensors.torch import save_file, load_file
 
-# Define directories
-output_directory = '../../../../target/safetensors'
-vectors_directory = os.path.join(output_directory, 'vectors')
-docids_directory = os.path.join(output_directory, 'docids')
-docid_to_idx_directory = os.path.join(output_directory, 'docid_to_idx')
-input_directory = '../../../../collections/beir-v1.0.0/bge-base-en-v1.5/nfcorpus'
+# Define paths
+input_file_path = "/home/p2ojaghi/anserini/anserini/src/main/python/safetensors/sample_input.jsonl"
+output_directory = "/home/p2ojaghi/anserini/anserini/src/main/python/safetensors"
 
-# Function to measure performance
-def measure_performance(file_path):
-    start_time_load = time.time()
-    tracemalloc.start()
-    loaded_data = load_file(file_path)
-    current_load, peak_load = tracemalloc.get_traced_memory()
-    time_taken_load = time.time() - start_time_load
-    tracemalloc.stop()
+# Ensure the output directory exists
+if not os.path.exists(output_directory):
+    os.makedirs(output_directory)
 
-    print(f"Time taken to load: {time_taken_load} seconds")
-    print(f"Memory used: {current_load / 10**6} MB; Peak: {peak_load / 10**6} MB")
+# Check if the input file is a .gz file and convert it to .jsonl if necessary
+if input_file_path.endswith('.gz'):
+    with gzip.open(input_file_path, 'rt') as gz_file:
+        jsonl_file_path = input_file_path.replace('.gz', '.jsonl')
+        with open(jsonl_file_path, 'w') as jsonl_file:
+            for line in gz_file:
+                jsonl_file.write(line)
+    input_file_path = jsonl_file_path
 
-    return time_taken_load, current_load, peak_load
+# Check if the input file is a .jsonl file
+elif not input_file_path.endswith('.jsonl'):
+    raise ValueError("Input file must be a .jsonl or .gz file")
 
-# Function to verify data integrity
-def verify_data_integrity(original_data, loaded_data, key):
-    original_tensor = torch.tensor(original_data, dtype=loaded_data[key].dtype)
-    if not torch.equal(original_tensor, loaded_data[key]):
-        print(f"Data integrity check failed for {key}!")
-        print(f"Original data type: {original_tensor.dtype}, Loaded data type: {loaded_data[key].dtype}")
-        print(f"Original shape: {original_tensor.shape}, Loaded shape: {loaded_data[key].shape}")
-        if original_tensor.shape == loaded_data[key].shape:
-            diff = original_tensor != loaded_data[key]
-            print(f"Number of mismatched entries: {diff.sum()}")
-            print(f"Mismatched original data: {original_tensor[diff]}")
-            print(f"Mismatched loaded data: {loaded_data[key][diff]}")
-        assert False, "Mismatch detected."
-    else:
-        print(f"Data integrity verified for {key}.")
+# Get the base name of the input file for output file names
+base_name = os.path.basename(input_file_path).replace('.jsonl', '')
 
-# Function to check data type
-def check_data_type(data, key):
-    if not isinstance(data[key], torch.Tensor):
-        print(f"Data type check failed for {key}!")
-        print(f"Expected data type: torch.Tensor, Actual data type: {type(data[key])}")
-        assert False, "Data type mismatch detected."
-    else:
-        print(f"Data type verified for {key}.")
+vectors_path = os.path.join(output_directory, f'{base_name}_vectors.safetensors')
+docids_path = os.path.join(output_directory, f'{base_name}_docids.safetensors')
 
-# Verify the performance and integrity of the processed files
-for base_name in os.listdir(input_directory):
-    if base_name.endswith('.json'):
-        base_name = os.path.splitext(base_name)[0]
+# Initialize lists to hold data
+vectors = []
+docids = []
 
-        file_path_vectors = os.path.join(vectors_directory, f'{base_name}_vectors.safetensors')
-        file_path_docids = os.path.join(docids_directory, f'{base_name}_docids.safetensors')
-        docid_to_idx_path = os.path.join(docid_to_idx_directory, f'{base_name}_docid_to_idx.json')
+# Process the JSONL file to extract vectors and docids
+with open(input_file_path, 'r') as file:
+    for line in file:
+        entry = json.loads(line)
+        # Ensure that the vector starts with a valid number
+        if isinstance(entry['vector'][0], float):
+            vectors.append(entry['vector'])
+            docid = entry['docid']
+            docid_ascii = [ord(char) for char in docid]  # Convert docid to ASCII values
+            docids.append(docid_ascii)
+        else:
+            print(f"Skipped invalid vector entry with docid: {entry['docid']}")
 
-        # Load the original data for integrity check
-        vectors = []
-        docids = []
+# Convert lists to tensors
+vectors_tensor = torch.tensor(vectors, dtype=torch.float32)  # Use float32 for memory efficiency
+docids_tensor = torch.nn.utils.rnn.pad_sequence([torch.tensor(d, dtype=torch.int64) for d in docids], batch_first=True)
 
-        # Process the JSONL file to extract vectors and docids
-        input_file_path = os.path.join(input_directory, f'{base_name}.jsonl')
-        with open(input_file_path, 'r') as file:
-            for line in file:
-                entry = json.loads(line)
-                vectors.append(entry['vector'])
-                docids.append(entry['docid'])
+# Debugging: Print out the first few document IDs and vectors
+print("Sample document IDs (ASCII):", docids[:5])
+print("Sample vectors:", vectors[:5])
 
-        # Measure performance for vectors
-        time_taken_load_vectors, current_load_vectors, peak_load_vectors = measure_performance(file_path_vectors)
-        loaded_vectors = load_file(file_path_vectors)
-        verify_data_integrity(vectors, loaded_vectors, 'vectors')
-        check_data_type(loaded_vectors, 'vectors')
+# Save the tensors to SafeTensors files
+save_file({'vectors': vectors_tensor}, vectors_path)
+save_file({'docids': docids_tensor}, docids_path)
 
-        # Measure performance for docids
-        time_taken_load_docids, current_load_docids, peak_load_docids = measure_performance(file_path_docids)
-        loaded_docids = load_file(file_path_docids)
+print(f"Saved vectors to {vectors_path}")
+print(f"Saved docids to {docids_path}")
 
-        # Load the docid_to_idx mapping from the JSON file
-        with open(docid_to_idx_path, 'r') as f:
-            docid_to_idx = json.load(f)
+vectors_path = '/home/p2ojaghi/anserini/anserini/src/main/python/safetensors/sample_input_vectors.safetensors'
+docids_path = '/home/p2ojaghi/anserini/anserini/src/main/python/safetensors/sample_input_docids.safetensors'
 
-        # Convert original docids to indices and verify data integrity
-        original_docids_idx = [docid_to_idx[docid] for docid in docids]
-        verify_data_integrity(original_docids_idx, loaded_docids, 'docids')
-        check_data_type(loaded_docids, 'docids')
+# Load vectors and docids
+loaded_vectors = load_file(vectors_path)['vectors']
+loaded_docids = load_file(docids_path)['docids']
+
+print(f"Loaded vectors: {loaded_vectors}")
+print(f"Loaded document IDs (ASCII): {loaded_docids}")
+
+
