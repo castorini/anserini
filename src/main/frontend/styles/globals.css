@@ -1,17 +1,3 @@
-/* globals.css */
-
-/* Container for interface title and description */
-.header h1 {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
-  color: #333;
-}
-
-.header p {
-  font-size: 1rem;
-  color: #666;
-}
-
 body {
   margin: 0;
   padding: 0;
@@ -156,4 +142,9 @@ ul {
 /* Change background color slightly on hover for dropdown items */
 .dropdown-item:hover {
   background-color: #f7f7f7;
+}
+
+/* Change background color slightly on hover for dropdown buttons */
+.cached {
+  background-color: #b7ffa4;
 }

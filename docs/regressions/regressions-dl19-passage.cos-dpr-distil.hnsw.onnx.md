@@ -55,9 +55,9 @@ Sample indexing command, building HNSW indexes:
 bin/run.sh io.anserini.index.IndexHnswDenseVectors \
   -collection JsonDenseVectorCollection \
   -input /path/to/msmarco-passage-cos-dpr-distil \
-  -generator HnswDenseVectorDocumentGenerator \
+  -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-hnsw.msmarco-v1-passage.cos-dpr-distil/ \
-  -threads 16 -M 16 -efC 100 -memoryBuffer 65536 -noMerge \
+  -threads 16 -M 16 -efC 100 \
   >& logs/log.msmarco-passage-cos-dpr-distil &
 ```
 
@@ -80,7 +80,7 @@ bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -index indexes/lucene-hnsw.msmarco-v1-passage.cos-dpr-distil/ \
   -topics tools/topics-and-qrels/topics.dl19-passage.txt \
   -topicReader TsvInt \
-  -output runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw.topics.dl19-passage.txt \
+  -output runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw-onnx.topics.dl19-passage.txt \
   -generator VectorQueryGenerator -topicField title -threads 16 -hits 1000 -efSearch 1000 -encoder CosDprDistil &
 ```
 
@@ -89,10 +89,10 @@ Note that we are performing query inference "on-the-fly" with ONNX in these expe
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw.topics.dl19-passage.txt
-bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw.topics.dl19-passage.txt
-bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw.topics.dl19-passage.txt
-bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw.topics.dl19-passage.txt
+bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw-onnx.topics.dl19-passage.txt
+bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw-onnx.topics.dl19-passage.txt
+bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw-onnx.topics.dl19-passage.txt
+bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw-onnx.topics.dl19-passage.txt
 ```
 
 ## Effectiveness
@@ -101,19 +101,20 @@ With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **cosDPR-distil**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.458     |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.466     |
 | **nDCG@10**                                                                                                  | **cosDPR-distil**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.717     |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.725     |
 | **R@100**                                                                                                    | **cosDPR-distil**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.605     |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.617     |
 | **R@1000**                                                                                                   | **cosDPR-distil**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.805     |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.820     |
 
-Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
-Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/dl19-passage.cos-dpr-distil.hnsw.onnx.yaml).
+The above figures are from running brute-force search with cached queries on non-quantized **flat** indexes.
+With ONNX query encoding on non-quantized HNSW indexes, observed results are likely to differ; scores may be lower by up to 0.01, sometimes more.
+Note that HNSW indexing is non-deterministic (i.e., results may differ slightly between trials).
 
-Also note that retrieval metrics are computed to depth 1000 hits per query (as opposed to 100 hits per query for document ranking).
-Also, for computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., AP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).
+❗ Retrieval metrics here are computed to depth 1000 hits per query (as opposed to 100 hits per query for document ranking).
+For computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., AP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).
 The experimental results reported here are directly comparable to the results reported in the [track overview paper](https://arxiv.org/abs/2003.07820).
 
 ## Reproduction Log[*](reproducibility.md)

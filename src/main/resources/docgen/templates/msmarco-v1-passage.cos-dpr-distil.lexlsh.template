@@ -1,9 +1,9 @@
 # Anserini Regressions: MS MARCO Passage Ranking
 
-**Model**: cosDPR-distil with inverted indexes using the "LexLSH" technique (b=600); pre-encoded queries
+**Model**: cosDPR-distil with inverted indexes using the "LexLSH" technique (b=600) using cached queries
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, using the cosDPR-distil model on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking).
-In these experiments, we are using pre-encoded queries (i.e., cached results of query encoding).
+In these experiments, we are using cached queries (i.e., cached results of query encoding).
 
 The exact configurations for these regressions are stored in [this YAML file](${yaml}).
 Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
@@ -75,9 +75,6 @@ ${eval_cmds}
 With the above commands, you should be able to reproduce the following results:
 
 ${effectiveness}
-
-Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
-Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](${yaml}).
 
 ## Reproduction Log[*](${root_path}/docs/reproducibility.md)
 
