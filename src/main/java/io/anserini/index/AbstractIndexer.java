@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
  package io.anserini.index;
 
  import io.anserini.collection.DocumentCollection;
@@ -230,10 +229,6 @@
            Class.forName("io.anserini.collection." + args.collectionClass);
        this.collection = collectionClass.getConstructor(Path.class).newInstance(collectionPath);
      } catch (Exception e) {
-      LOG.error(e);
-      // print more error detail 
-      LOG.error("Error loading collection class: " + args.collectionClass);
-      LOG.error("Collection path: " + collectionPath);
        throw new IllegalArgumentException(String.format("Unable to load collection class \"%s\".", args.collectionClass));
      }
    }
@@ -329,15 +324,12 @@
          // Each thread gets its own document generator, so we don't need to make any assumptions about its thread safety.
          @SuppressWarnings("unchecked")
          LuceneDocumentGenerator<SourceDocument> generator = (LuceneDocumentGenerator<SourceDocument>)
-         generatorClass.getDeclaredConstructor(Args.class).newInstance(args);
-
+                //  generatorClass.getDeclaredConstructor((Class<?> []) null).newInstance();
+                generatorClass.getDeclaredConstructor(Args.class).newInstance(args);
+                 
  
          executor.execute(new IndexerThread(segmentPath, generator));
        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-          LOG.error(e);
-          LOG.error("Error instantiating generator class: " + generatorClass);
-          LOG.error("Segment path: " + segmentPath);
-          LOG.error("Args: " + args);
          throw new IllegalArgumentException(String.format("Unable to load LuceneDocumentGenerator \"%s\".", generatorClass.getSimpleName()));
        }
      });
@@ -347,4 +339,3 @@
      return this.counters;
    }
  }
- 
