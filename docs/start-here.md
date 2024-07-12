@@ -393,4 +393,4 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@Feng-12138](https://github.com/Feng-12138) on 2024-06-15 (commit [`ad97377`](https://github.com/castorini/anserini/commit/ad97377e463e70ee8b2f501ac7c41134af53e976))
 + Results reproduced by [@hosnahoseini](https://github.com/hosnahoseini) on 2024-06-15 (commit [`ad97377`](https://github.com/castorini/anserini/commit/ad97377e463e70ee8b2f501ac7c41134af53e976))
 + Results reproduced by [@FaizanFaisal25](https://github.com/FaizanFaisal25) on 2024-06-25 (commit [`e92370a`](https://github.com/FaizanFaisal25/anserini/commit/e92370a06eaa3bbc5bacdba65cc9c3f125590071))
-Results reproduced by [@MehrnazSadeghieh](https://github.com/MehrnazSadeghieh) on 2024-07-12 (commit [`6817e19`](https://github.com/MehrnazSadeghieh/anserini/commit/6817e191e5cbf57c30b06b5a64429d0e24b60b87))
+Results reproduced by [@MehrnazSadeghieh](https://github.com/MehrnazSadeghieh) on 2024-07-12 (commit [`f509bea`](https://github.com/MehrnazSadeghieh/anserini/commit/f509bea0be0483ec4373c1b8516009e4d3b059a1))
