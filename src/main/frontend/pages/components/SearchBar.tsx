@@ -96,7 +96,9 @@ const SearchBar: React.FC = () => {
                 </Flex>
                 {result.doc && Object.entries(result.doc).map(([key, value]) => (
                   <Text key={key}>
-                    <strong>{key}:</strong> {JSON.stringify(value)}
+                    <strong>{key}:</strong> {
+                      typeof value === 'object' ? JSON.stringify(value) : (String)(value)
+                    }
                   </Text>
                 ))}
               </Box>
