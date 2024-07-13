@@ -81,7 +81,7 @@ const Dropdown: React.FC<Props> = ({ onSelect }) => {
                 <option key={corpus} value={corpus}>{corpus.replace('MS MARCO', '').replace('BEIR: ', '')}</option>
               ))}
             </Select>
-            {selectedCorpus && ( 
+            {selectedCorpus && (
             <Select placeholder="Select" onChange={(e) => {
               setSelectedIndex(e.target.value);
               onSelect(e.target.value);
