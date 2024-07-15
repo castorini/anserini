@@ -57,9 +57,9 @@ const SearchBar: React.FC = () => {
   };
 
   return (
-    <Flex margin={8} direction="column" justifyContent="space-between">
-      <Heading as="h1" size="xl" textAlign="center" marginBottom={4}>Anserini Search</Heading>
-      <form style={{ height: "100%" }} onSubmit={handleSubmit}>
+    <VStack direction="column" justifyContent="space-between">
+      <form style={{ width: "100%", position: "sticky", top: 0, zIndex: 10, backgroundColor: "white", padding: "16px", boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)", height: "100%" }} onSubmit={handleSubmit}>
+        <Heading as="h1" size="xl" textAlign="center" marginBottom={4}>Anserini Search</Heading>
         <Flex direction="column" gap={4} height="100%">
           <Dropdown onSelect={(selectedValue) => setIndex(selectedValue)} />
           <HStack spacing={4}>
@@ -84,29 +84,27 @@ const SearchBar: React.FC = () => {
             />
             <Button type="submit" colorScheme="blue" isLoading={loading}>Go!</Button>
           </HStack>
-          {loading && <Spinner size="lg" />}
-          <VStack height="100%" spacing={4} align="stretch">
-            {results.map((result, index) => (
-              <Box key={index} p={4} shadow="md" borderWidth="1px" borderRadius="md">
-                <Flex justifyContent="space-between" alignItems="center" direction="row">
-                  {result.docid && <Text as="h3" fontWeight="bold">
-                    Document ID: {result.docid}
-                  </Text>}
-                  {result.score && <Text as="span" fontWeight="normal">Score: {result.score}</Text>}
-                </Flex>
-                {result.doc && Object.entries(result.doc).map(([key, value]) => (
-                  <Text key={key}>
-                    <strong>{key}:</strong> {
-                      typeof value === 'object' ? JSON.stringify(value) : (String)(value)
-                    }
-                  </Text>
-                ))}
-              </Box>
-            ))}
-          </VStack>
         </Flex>
       </form>
-    </Flex>
+      {loading && <Spinner size="lg" />}
+      {results.map((result, index) => (
+        <Box key={index} p={4} width="calc(100% - 32px)" shadow="md" borderWidth="1px" borderRadius="md">
+          <Flex justifyContent="space-between" alignItems="center" direction="row">
+            {result.docid && <Text as="h3" fontWeight="bold">
+              Document ID: {result.docid}
+            </Text>}
+            {result.score && <Text as="span" fontWeight="normal">Score: {result.score}</Text>}
+          </Flex>
+          {result.doc && Object.entries(result.doc).map(([key, value]) => (
+            <Text key={key}>
+              <strong>{key}:</strong> {
+                typeof value === 'object' ? JSON.stringify(value) : (String)(value)
+              }
+            </Text>
+          ))}
+        </Box>
+      ))}
+    </VStack>
   );
 };
 
