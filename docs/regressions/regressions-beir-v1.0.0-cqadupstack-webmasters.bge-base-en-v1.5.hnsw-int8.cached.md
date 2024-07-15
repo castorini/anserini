@@ -37,7 +37,7 @@ bin/run.sh io.anserini.index.IndexHnswDenseVectors \
   -input /path/to/beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5 \
   -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-hnsw-int8.beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5/ \
-  -threads 16 -M 16 -efC 100 -memoryBuffer 65536 -noMerge -quantize.int8 \
+  -threads 16 -M 16 -efC 100 -quantize.int8 \
   >& logs/log.beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5 &
 ```
 
@@ -56,16 +56,16 @@ bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -index indexes/lucene-hnsw-int8.beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5/ \
   -topics tools/topics-and-qrels/topics.beir-v1.0.0-cqadupstack-webmasters.test.bge-base-en-v1.5.jsonl.gz \
   -topicReader JsonStringVector \
-  -output runs/run.beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.bge-hnsw-cached.topics.beir-v1.0.0-cqadupstack-webmasters.test.bge-base-en-v1.5.jsonl.txt \
+  -output runs/run.beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.bge-hnsw-int8-cached.topics.beir-v1.0.0-cqadupstack-webmasters.test.bge-base-en-v1.5.jsonl.txt \
   -generator VectorQueryGenerator -topicField vector -removeQuery -threads 16 -hits 1000 -efSearch 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-webmasters.test.txt runs/run.beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.bge-hnsw-cached.topics.beir-v1.0.0-cqadupstack-webmasters.test.bge-base-en-v1.5.jsonl.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-webmasters.test.txt runs/run.beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.bge-hnsw-cached.topics.beir-v1.0.0-cqadupstack-webmasters.test.bge-base-en-v1.5.jsonl.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-webmasters.test.txt runs/run.beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.bge-hnsw-cached.topics.beir-v1.0.0-cqadupstack-webmasters.test.bge-base-en-v1.5.jsonl.txt
+bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-webmasters.test.txt runs/run.beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.bge-hnsw-int8-cached.topics.beir-v1.0.0-cqadupstack-webmasters.test.bge-base-en-v1.5.jsonl.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-webmasters.test.txt runs/run.beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.bge-hnsw-int8-cached.topics.beir-v1.0.0-cqadupstack-webmasters.test.bge-base-en-v1.5.jsonl.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-webmasters.test.txt runs/run.beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.bge-hnsw-int8-cached.topics.beir-v1.0.0-cqadupstack-webmasters.test.bge-base-en-v1.5.jsonl.txt
 ```
 
 ## Effectiveness
@@ -74,11 +74,12 @@ With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **BGE-base-en-v1.5**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): CQADupStack-webmasters                                                                        | 0.411     |
+| BEIR (v1.0.0): CQADupStack-webmasters                                                                        | 0.407     |
 | **R@100**                                                                                                    | **BGE-base-en-v1.5**|
-| BEIR (v1.0.0): CQADupStack-webmasters                                                                        | 0.780     |
+| BEIR (v1.0.0): CQADupStack-webmasters                                                                        | 0.777     |
 | **R@1000**                                                                                                   | **BGE-base-en-v1.5**|
-| BEIR (v1.0.0): CQADupStack-webmasters                                                                        | 0.937     |
+| BEIR (v1.0.0): CQADupStack-webmasters                                                                        | 0.938     |
 
-Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
-Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.hnsw-int8.cached.yaml).
+The above figures are from running brute-force search with cached queries on non-quantized **flat** indexes.
+With cached queries on quantized HNSW indexes, observed results may differ slightly (typically, lower), but scores should generally be within 0.005 of the results reported above (with some outliers).
+Note that both HNSW indexing and quantization are non-deterministic (i.e., results may differ slightly between trials).

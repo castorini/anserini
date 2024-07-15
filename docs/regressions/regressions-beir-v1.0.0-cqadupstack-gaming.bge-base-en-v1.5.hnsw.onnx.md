@@ -74,11 +74,12 @@ With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **BGE-base-en-v1.5**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): CQADupStack-gaming                                                                            | 0.595     |
+| BEIR (v1.0.0): CQADupStack-gaming                                                                            | 0.596     |
 | **R@100**                                                                                                    | **BGE-base-en-v1.5**|
-| BEIR (v1.0.0): CQADupStack-gaming                                                                            | 0.901     |
+| BEIR (v1.0.0): CQADupStack-gaming                                                                            | 0.904     |
 | **R@1000**                                                                                                   | **BGE-base-en-v1.5**|
-| BEIR (v1.0.0): CQADupStack-gaming                                                                            | 0.970     |
+| BEIR (v1.0.0): CQADupStack-gaming                                                                            | 0.972     |
 
-Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
-Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.hnsw.onnx.yaml).
+The above figures are from running brute-force search with cached queries on non-quantized **flat** indexes.
+With ONNX query encoding on non-quantized HNSW indexes, observed results may differ slightly (typically, lower), but scores should generally be within 0.003 of the results reported above (with some outliers).
+Note that HNSW indexing is non-deterministic (i.e., results may differ slightly between trials).
