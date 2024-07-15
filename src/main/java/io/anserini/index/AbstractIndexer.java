@@ -324,9 +324,7 @@
          // Each thread gets its own document generator, so we don't need to make any assumptions about its thread safety.
          @SuppressWarnings("unchecked")
          LuceneDocumentGenerator<SourceDocument> generator = (LuceneDocumentGenerator<SourceDocument>)
-                //  generatorClass.getDeclaredConstructor((Class<?> []) null).newInstance();
-                generatorClass.getDeclaredConstructor(Args.class).newInstance(args);
-                 
+                 generatorClass.getDeclaredConstructor((Class<?> []) null).newInstance();
  
          executor.execute(new IndexerThread(segmentPath, generator));
        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
