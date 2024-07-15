@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class SafeTensorsDenseVectorCollection extends DocumentCollection<SafeTensorsDenseVectorCollection.Document> {
@@ -31,6 +32,10 @@ public class SafeTensorsDenseVectorCollection extends DocumentCollection<SafeTen
     readData();
   }
 
+  public SafeTensorsDenseVectorCollection() {
+    // Default constructor
+  }
+
   @Override
   public FileSegment<SafeTensorsDenseVectorCollection.Document> createFileSegment(Path p) throws IOException {
     return new SafeTensorsDenseVectorCollection.Segment(p, vectors, docids);
@@ -42,21 +47,23 @@ public class SafeTensorsDenseVectorCollection extends DocumentCollection<SafeTen
   }
 
   private void generateFilePaths(Path inputFolder) throws IOException {
-    String inputFileName;
-    try (Stream<Path> files = Files.list(inputFolder)) {
-      inputFileName = files
-          .filter(file -> file.toString().endsWith(".safetensors"))
-          .map(file -> file.getFileName().toString())
-          .findFirst()
-          .orElseThrow(() -> new IOException("No valid input file found in the directory"));
+    List<Path> files;
+    try (Stream<Path> stream = Files.list(inputFolder)) {
+      files = stream.collect(Collectors.toList());
     }
 
-    Path parent = inputFolder.getParent();
-    String baseName = inputFileName.replace(".safetensors", "");
-    vectorsFilePath = Paths.get(parent.toString(), baseName + "_vectors.safetensors").toString();
-    docidsFilePath = Paths.get(parent.toString(), baseName + "_docids.safetensors").toString();
-  }
+    vectorsFilePath = files.stream()
+        .filter(file -> file.toString().contains("_vectors.safetensors"))
+        .map(Path::toString)
+        .findFirst()
+        .orElseThrow(() -> new IOException("No vectors file found in the directory " + inputFolder));
 
+    docidsFilePath = files.stream()
+        .filter(file -> file.toString().contains("_docids.safetensors"))
+        .map(Path::toString)
+        .findFirst()
+        .orElseThrow(() -> new IOException("No docids file found in the directory " + inputFolder));
+  }
   private void readData() throws IOException {
     vectors = readVectors(vectorsFilePath);
     docids = readDocidAsciiValues(docidsFilePath);
