@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -25,6 +26,7 @@ public class SafeTensorsDenseVectorCollection extends DocumentCollection<SafeTen
   private String docidsFilePath;
   public double[][] vectors;
   public String[] docids;
+  private static final ConcurrentHashMap<String, Boolean> processedDocuments = new ConcurrentHashMap<>();
 
   public SafeTensorsDenseVectorCollection(Path path) throws IOException {
     this.path = path;
@@ -64,6 +66,7 @@ public class SafeTensorsDenseVectorCollection extends DocumentCollection<SafeTen
         .findFirst()
         .orElseThrow(() -> new IOException("No docids file found in the directory " + inputFolder));
   }
+
   private void readData() throws IOException {
     vectors = readVectors(vectorsFilePath);
     docids = readDocidAsciiValues(docidsFilePath);
@@ -166,7 +169,7 @@ public class SafeTensorsDenseVectorCollection extends DocumentCollection<SafeTen
     }
 
     @Override
-    protected void readNext() throws IOException, NoSuchElementException {
+    protected synchronized void readNext() throws IOException, NoSuchElementException {
       if (currentIndex >= docids.length) {
         atEOF = true;
         throw new NoSuchElementException("End of file reached");
