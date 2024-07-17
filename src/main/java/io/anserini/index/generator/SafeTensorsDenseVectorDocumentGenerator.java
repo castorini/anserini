@@ -15,16 +15,30 @@ import org.apache.logging.log4j.Logger;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * A document generator for creating Lucene documents with SafeTensors dense vector data.
+ * Implements the LuceneDocumentGenerator interface.
+ * 
+ * @param <T> the type of SourceDocument
+ */
 public class SafeTensorsDenseVectorDocumentGenerator<T extends SourceDocument> implements LuceneDocumentGenerator<T> {
   private static final Logger LOG = LogManager.getLogger(SafeTensorsDenseVectorDocumentGenerator.class);
-  private static final ConcurrentHashMap<String, AtomicBoolean> processedDocuments = new ConcurrentHashMap<>();
+  private static final ConcurrentHashMap<String, AtomicBoolean> processedDocuments = new ConcurrentHashMap<>();  // Track processed documents
 
+  /**
+   * Creates a Lucene document from the source document.
+   * 
+   * @param src the source document
+   * @return the created Lucene document
+   * @throws InvalidDocumentException if the document is invalid
+   */
   @SuppressWarnings("unused")
   @Override
   public Document createDocument(T src) throws InvalidDocumentException {
     String docId = src.id();
     AtomicBoolean alreadyProcessed = processedDocuments.putIfAbsent(docId, new AtomicBoolean(true));
 
+    // Check if the document is already being processed by another thread
     if (alreadyProcessed != null && alreadyProcessed.get()) {
       LOG.warn("Document ID: " + docId + " is already being processed by another thread.");
       return null;
@@ -33,6 +47,7 @@ public class SafeTensorsDenseVectorDocumentGenerator<T extends SourceDocument> i
     try {
       LOG.info("Processing document ID: " + src.id() + " with thread: " + Thread.currentThread().getName());
 
+      // Parse vector data from document contents
       float[] contents = parseVectorFromContents(src.contents());
       if (contents == null) {
         throw new InvalidDocumentException();
@@ -40,6 +55,7 @@ public class SafeTensorsDenseVectorDocumentGenerator<T extends SourceDocument> i
 
       LOG.info("Vector length: " + contents.length + " for document ID: " + src.id());
 
+      // Create and populate the Lucene document
       final Document document = new Document();
       document.add(new StringField(Constants.ID, src.id(), Field.Store.YES));
       document.add(new BinaryDocValuesField(Constants.ID, new BytesRef(src.id())));
@@ -52,10 +68,17 @@ public class SafeTensorsDenseVectorDocumentGenerator<T extends SourceDocument> i
       LOG.error("Error creating document for ID: " + src.id(), e);
       throw new InvalidDocumentException();
     } finally {
-      processedDocuments.get(docId).set(false);  // Mark processing as complete
+      // Mark processing as complete
+      processedDocuments.get(docId).set(false);
     }
   }
 
+  /**
+   * Parses the vector data from the document contents.
+   * 
+   * @param contents the contents of the document
+   * @return the parsed vector as an array of floats
+   */
   private float[] parseVectorFromContents(String contents) {
     String[] parts = contents.replace("[", "").replace("]", "").split(",");
     float[] vector = new float[parts.length];
