@@ -16,20 +16,6 @@ interface IndexInfo {
   cached: boolean;
 }
 
-<<<<<<< HEAD
-=======
-interface IndexInfo {
-  indexName: string;
-  description: string;
-  filename: string;
-  corpus: string;
-  model: string;
-  urls: string[];
-  md5: string;
-  cached: boolean;
-}
-
->>>>>>> b3f27dfac2f1d73a2f614df1e14639572fc3de70
 const Dropdown: React.FC<Props> = ({ onSelect }) => {
   const [selectedCollection, setSelectedCollection] = useState<string | null>(null);
   const [selectedCorpus, setSelectedCorpus] = useState<string | null>(null);
@@ -95,11 +81,7 @@ const Dropdown: React.FC<Props> = ({ onSelect }) => {
                 <option key={corpus} value={corpus}>{corpus.replace('MS MARCO', '').replace('BEIR: ', '')}</option>
               ))}
             </Select>
-<<<<<<< HEAD
             {selectedCorpus && (
-=======
-            {selectedCorpus && ( 
->>>>>>> b3f27dfac2f1d73a2f614df1e14639572fc3de70
             <Select placeholder="Select" onChange={(e) => {
               setSelectedIndex(e.target.value);
               onSelect(e.target.value);
