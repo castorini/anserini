@@ -60,11 +60,7 @@ The search query endpoint is `api/v1.0/indexes/{index_name}/search?query={query}
 
 Path variables:
 
-<<<<<<< HEAD
-- `index`: The index name to query. Default is "msmarco-v1-passage"
-=======
 - `index_name`: The index name to query. Default is "msmarco-v1-passage"
->>>>>>> b3f27dfac2f1d73a2f614df1e14639572fc3de70
 
 Query parameters:
 
@@ -122,13 +118,6 @@ Here's an example of getting the document of the top candidate from the above ex
 curl -X GET "http://localhost:8080/api/v1.0/indexes/msmarco-v2.1-doc/documents/msmarco_v2.1_doc_15_390497775"
 ```
 
-<<<<<<< HEAD
-Output is an object containing the 'cached' property
-
-```json
-{
-  "cached": true
-=======
 Output is an object of the same format as a candidate from search
 
 ```json
@@ -139,7 +128,6 @@ Output is an object of the same format as a candidate from search
         "headings": "...",
         "body": "..."
     }
->>>>>>> b3f27dfac2f1d73a2f614df1e14639572fc3de70
 }
 ```
 
@@ -157,17 +145,6 @@ Output is an object containing the 'cached' property
 
 ```json
 {
-<<<<<<< HEAD
-    "doc": {
-        "url": "https://diabetestalk.net/blood-sugar/conversion-of-carbohydrates-to-glucose",
-        "title": "Conversion Of Carbohydrates To Glucose | DiabetesTalk.Net",
-        "headings": "...",
-        "body": "..."
-    }
-}
-```
-=======
   "cached": true
 }
 ```
->>>>>>> b3f27dfac2f1d73a2f614df1e14639572fc3de70

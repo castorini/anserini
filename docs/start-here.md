@@ -392,3 +392,8 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@alireza-taban](https://github.com/alireza-taban) on 2024-06-09 (commit [`59330e3`](https://github.com/castorini/anserini/commit/59330e355b4aaf6754622cb3a136259dea0d8d05))
 + Results reproduced by [@Feng-12138](https://github.com/Feng-12138) on 2024-06-15 (commit [`ad97377`](https://github.com/castorini/anserini/commit/ad97377e463e70ee8b2f501ac7c41134af53e976))
 + Results reproduced by [@hosnahoseini](https://github.com/hosnahoseini) on 2024-06-15 (commit [`ad97377`](https://github.com/castorini/anserini/commit/ad97377e463e70ee8b2f501ac7c41134af53e976))
++ Results reproduced by [@FaizanFaisal25](https://github.com/FaizanFaisal25) on 2024-06-25 (commit [`e92370a`](https://github.com/FaizanFaisal25/anserini/commit/e92370a06eaa3bbc5bacdba65cc9c3f125590071))
++ Results reproduced by [@XKTZ](https://github.com/XKTZ) on 2024-07-12 (commit [`3885b5c`](https://github.com/castorini/anserini/commit/3885b5c25178d2a88fc3b953d572b518ef0d1da6))
++ Results reproduced by [@alireza-nasirian](https://github.com/alireza-nasirian) on 2024-07-19 (commit [`3885b5c`](https://github.com/castorini/anserini/commit/3885b5c25178d2a88fc3b953d572b518ef0d1da6))
++ Results reproduced by [@MehrnazSadeghieh](https://github.com/MehrnazSadeghieh) on 2024-07-19 (commit [`bb55c0b`](https://github.com/castorini/anserini/commit/bb55c0b5b219cb402c7f7084be7c32ad961a6595))
++ Results reproduced by [@MariaPonomarenko38](https://github.com/MehrnazSadeghieh) on 2024-07-19 (commit [`1f750c6`](https://github.com/castorini/anserini/commit/1f750c67f42f02820b0a75237579e34a8c676248))
