@@ -57,59 +57,54 @@ const SearchBar: React.FC = () => {
   };
 
   return (
-    <Flex maxW="container.xl" height="90vh" mt="3vh" mx="auto" p={4} boxShadow="lg" borderRadius="lg" bg="white" direction="column" justifyContent="space-between">
-      <Heading as="h1" size="xl" textAlign="center">Anserini Search</Heading>
-      <Divider />
-      <Box height="90%" p={4}>
-        <form style={{ height: "100%" }} onSubmit={handleSubmit}>
-          <Flex direction="column" gap={4} height="100%">
-            <Dropdown onSelect={(selectedValue) => setIndex(selectedValue)} />
-            <HStack spacing={4}>
-              <Select
-                defaultValue="search query"
-                placeholder="Search by..."
-                onChange={(e) => setQueryType(e.target.value)}
-                width="150px"
-              >
-                <option value="search query">By query</option>
-                <option value="docid query">By docid</option>
-              </Select>
-              <Input
-                type="text"
-                value={query}
-                placeholder="Type your query here..."
-                onChange={(e) => setQuery(e.target.value)}
-                bg="gray.100"
-                border="none"
-                width="100%"
-                _focus={{ bg: 'white', boxShadow: 'outline' }}
-              />
-              <Button type="submit" colorScheme="blue" isLoading={loading}>Go!</Button>
-            </HStack>
-            <Box p={4} borderWidth="1px" borderRadius="md" overflowY="auto" flexGrow={1}>
-            {loading && <Spinner size="lg" />}
-              <VStack height="100%" spacing={4} align="stretch">
-                {results.map((result, index) => (
-                  <Box key={index} p={4} shadow="md" borderWidth="1px" borderRadius="md">
-                    <Flex justifyContent="space-between" alignItems="center" direction="row">
-                      {result.docid && <Text as="h3" fontWeight="bold">
-                        Document ID: {result.docid}
-                      </Text>}
-                      {result.score && <Text as="span" fontWeight="normal">Score: {result.score}</Text>}
-                    </Flex>
-                    {result.doc && Object.entries(result.doc).map(([key, value]) => (
-                      <Text key={key}>
-                        <strong>{key}:</strong> {JSON.stringify(value)}
-                      </Text>
-                    ))}
-                  </Box>
-                ))}
-              </VStack>
-            </Box>
+    <VStack direction="column" justifyContent="space-between">
+      <form style={{ width: "100%", position: "sticky", top: 0, zIndex: 10, backgroundColor: "white", padding: "16px", boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)", height: "100%" }} onSubmit={handleSubmit}>
+        <Heading as="h1" size="xl" textAlign="center" marginBottom={4}>Anserini Search</Heading>
+        <Flex direction="column" gap={4} height="100%">
+          <Dropdown onSelect={(selectedValue) => setIndex(selectedValue)} />
+          <HStack spacing={4}>
+            <Select
+              defaultValue="search query"
+              placeholder="Search by..."
+              onChange={(e) => setQueryType(e.target.value)}
+              width="150px"
+            >
+              <option value="search query">By query</option>
+              <option value="docid query">By docid</option>
+            </Select>
+            <Input
+              type="text"
+              value={query}
+              placeholder="Type your query here..."
+              onChange={(e) => setQuery(e.target.value)}
+              bg="gray.100"
+              border="none"
+              width="100%"
+              _focus={{ bg: 'white', boxShadow: 'outline' }}
+            />
+            <Button type="submit" colorScheme="blue" isLoading={loading}>Go!</Button>
+          </HStack>
+        </Flex>
+      </form>
+      {loading && <Spinner size="lg" />}
+      {results.map((result, index) => (
+        <Box key={index} p={4} width="calc(100% - 32px)" shadow="md" borderWidth="1px" borderRadius="md">
+          <Flex justifyContent="space-between" alignItems="center" direction="row">
+            {result.docid && <Text as="h3" fontWeight="bold">
+              Document ID: {result.docid}
+            </Text>}
+            {result.score && <Text as="span" fontWeight="normal">Score: {result.score}</Text>}
           </Flex>
-        </form>
-      </Box>
-    </Flex>
+          {result.doc && Object.entries(result.doc).map(([key, value]) => (
+            <Text key={key}>
+              <strong>{key}:</strong> {
+                typeof value === 'object' ? JSON.stringify(value) : (String)(value)
+              }
+            </Text>
+          ))}
+        </Box>
+      ))}
+    </VStack>
   );
 };
 
