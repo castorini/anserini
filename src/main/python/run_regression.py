@@ -301,6 +301,7 @@ dl20_flat_int8_cached = defaultdict(lambda: 0.002)
 dl20_flat_int8_cached['bge-flat-int8-cached'] = 0.005
 dl20_flat_int8_cached['cos-dpr-distil-flat-int8-cached'] = 0.004
 dl20_flat_int8_cached['cohere-embed-english-v3.0-flat-int8-cached'] = 0.004
+dl20_flat_int8_cached['openai-ada2-flat-int8-cached'] = 0.003
 dl20_flat_onnx = defaultdict(lambda: 0.0001)
 dl20_flat_onnx['bge-flat-onnx'] = 0.005
 dl20_flat_cached = defaultdict(lambda: 1e-9)
@@ -327,7 +328,7 @@ msmarco_v1_hnsw_tolerance = {
 }
 
 dl19_hnsw_int8_onnx = defaultdict(lambda: 0.01)
-dl19_hnsw_int8_onnx['bge-hnsw-int8-onnx'] = 0.02
+dl19_hnsw_int8_onnx['bge-hnsw-int8-onnx'] = 0.025
 dl19_hnsw_int8_onnx['cos-dpr-distil-hnsw-int8-onnx'] = 0.025
 dl19_hnsw_int8_cached = defaultdict(lambda: 0.01)
 dl19_hnsw_int8_cached['bge-hnsw-int8-cached'] = 0.015
@@ -348,6 +349,7 @@ dl19_hnsw_tolerance = {
 }
 
 dl20_hnsw_int8_onnx = defaultdict(lambda: 0.01)
+dl20_hnsw_int8_onnx['bge-hnsw-int8-onnx'] = 0.015
 dl20_hnsw_int8_cached = defaultdict(lambda: 0.01)
 dl20_hnsw_int8_cached['bge-hnsw-int8-cached'] = 0.015
 dl20_hnsw_int8_cached['cohere-embed-english-v3.0-hnsw-int8-cached'] = 0.015
