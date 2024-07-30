@@ -348,16 +348,11 @@ dl19_hnsw_tolerance = {
     'hnsw-cached': dl19_hnsw_cached,
 }
 
-dl20_hnsw_int8_onnx = defaultdict(lambda: 0.01)
-dl20_hnsw_int8_onnx['bge-hnsw-int8-onnx'] = 0.015
-dl20_hnsw_int8_cached = defaultdict(lambda: 0.01)
-dl20_hnsw_int8_cached['bge-hnsw-int8-cached'] = 0.015
-dl20_hnsw_int8_cached['cohere-embed-english-v3.0-hnsw-int8-cached'] = 0.015
+dl20_hnsw_int8_onnx = defaultdict(lambda: 0.015)
+dl20_hnsw_int8_cached = defaultdict(lambda: 0.015)
 dl20_hnsw_onnx = defaultdict(lambda: 0.015)
-dl20_hnsw_cached = defaultdict(lambda: 0.01)
-dl20_hnsw_cached['bge-hnsw-cached'] = 0.015
+dl20_hnsw_cached = defaultdict(lambda: 0.015)
 dl20_hnsw_cached['cohere-embed-english-v3.0-hnsw-cached'] = 0.025
-dl20_hnsw_cached['cos-dpr-distil-hnsw-cached'] = 0.015
 
 dl20_hnsw_tolerance = {
     'hnsw-int8-onnx': dl20_hnsw_int8_onnx,
