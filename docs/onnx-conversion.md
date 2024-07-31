@@ -228,3 +228,24 @@ optimized_model.save_model_to_file(optimized_model_path)
 print(f"ONNX model optimization successful. Saved to {optimized_model_path}")
 ```
 
+## Running Inference
+
+As the final step of this tutorial, we can use the ```onnxruntime.InferenceSession``` module for a simple inference session. 
+
+### Run the End to End Inference
+
+Loading and running is done easily with argparse in the following script:
+```
+src/main/python/onnx/run_onnx_model_inference.py
+```
+
+For this example, we will continue with the SPLADE++ Ensemble Distil model.
+
+To run the script for running inference, run the following sequence of commands:
+```bash
+# Begin by going to the appropriate directory
+cd src/main/python/onnx
+# Now run the script
+python3 run_onnx_model_inference.py --model_path models/splade-cocondenser-ensembledistil-optimized.onnx \
+                                    --model_name naver/splade-cocondenser-ensembledistil
+```
