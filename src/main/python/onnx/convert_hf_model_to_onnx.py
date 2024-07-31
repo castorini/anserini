@@ -3,6 +3,7 @@ from transformers import AutoTokenizer, AutoModel
 import onnx
 import onnxruntime
 import argparse
+import os
 
 # device
 device = "cuda" if torch.cuda.is_available() else "cpu" # make sure torch is compiled with cuda if you have a cuda device
@@ -82,6 +83,8 @@ if __name__ == "__main__":
     model = AutoModel.from_pretrained(args.model_name).to(device)
     tokenizer = AutoTokenizer.from_pretrained(args.model_name)
     model_prefix = args.model_name.split('/')[-1]
+    
+    os.makedirs("models", exist_ok=True)
     onnx_path = f"models/{model_prefix}.onnx"
 
     convert_model_to_onnx(args.text, model, tokenizer, onnx_path, device=device)
