@@ -44,14 +44,16 @@ def convert_model_to_onnx(text, model, tokenizer, onnx_path, device):
     num_heads = model.config.num_attention_heads
     hidden_size = model.config.hidden_size
 
-    torch.onnx.export(model,
-                      tuple(test_input.values()),
-                      onnx_path,
-                      input_names=input_names,
-                      output_names=output_names,
-                      dynamic_axes=dynamic_axes,
-                      do_constant_folding=True,
-                      opset_version=14)
+    torch.onnx.export(
+        model,
+        tuple(test_input.values()),
+        onnx_path,
+        input_names=input_names,
+        output_names=output_names,
+        dynamic_axes=dynamic_axes,
+        do_constant_folding=True,
+        opset_version=14
+    )
     
     onnx_model = onnx.load(onnx_path)
     meta = onnx_model.metadata_props.add()
@@ -68,6 +70,7 @@ def convert_model_to_onnx(text, model, tokenizer, onnx_path, device):
     onnx.checker.check_model(onnx_model)
     print("ONNX model checked successfully")
 
+    # small inference session for testing
     ort_session = onnxruntime.InferenceSession(onnx_path)
     ort_inputs = {k: v.cpu().numpy() for k, v in test_input.items()}
     ort_outputs = ort_session.run(None, ort_inputs)
