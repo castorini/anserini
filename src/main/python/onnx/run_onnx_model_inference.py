@@ -17,7 +17,7 @@ def run_onnx_inference(model_path, model_name, text, threshold):
     )
 
     sparse_vector = outputs[0]
-    sparse_vector[sparse_vector < threshold] = 0
+    sparse_vector[sparse_vector < threshold] = float(0.0)
 
     print(f"Sparse vector shape after thresholding: {sparse_vector.shape}")
     print(f"Non-zero elements after thresholding: {np.count_nonzero(sparse_vector)}")

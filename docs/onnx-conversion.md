@@ -15,11 +15,19 @@ pip requirements:
 pip install torch transformers onnx onnxruntime onnxoptimizer
 ```
 
+versions tested:
+```bash
+onnx                         1.16.1
+onnxoptimizer                0.3.13
+onnxruntime                  1.18.1
+```
+
 ## Converting from PyTorch models to ONNX model
 The following sections will describe how to convert SPLADE++ model to ONNX model. The steps are as follows:  
 
 ### Run the End to End PyTorch to ONNX Conversion
 Loading and running is done easily with argparse in the following script:
+
 ```
 src/main/python/onnx/convert_hf_model_to_onnx.py
 ```
@@ -45,7 +53,7 @@ Since we want our script to be generic, and be able to load any huggingface mode
 
 ```python
 with torch.no_grad():
-    outputs = model(**test_input) # We provide the text test input and the model object.
+    outputs = model(**test_input) # We provide the text test input and the model object, via the function parameters.
 
 if isinstance(outputs, torch.Tensor):
     return ['output']
@@ -57,11 +65,11 @@ else:
     return [f'output_{i}' for i in range(len(outputs))]
 ```
 
-This is modularized in the function definition for ```get_model_output_names(model, test_input)```
+This is modularized in the function definition for ```get_model_output_names(model, test_input)```.
 
 ---
 
-Another important component is being able to specify the dimensions of the input and output tensors. This is achieved by the following code:
+Another important component is being able to specify the dynamic axes of the input and output tensors. This is achieved by the following code:
 
 ```python
 dynamic_axes = {}
@@ -72,7 +80,7 @@ for name in output_names:
 return dynamic_axes
 ```
 
-This is important for the generalization of input and output shapes to be captured for any model that is provided. This is once again modularized in the function defintion for ```get_dynamic_axes(input_names, output_names)```
+This is important for the generalization of input and output shapes to be captured for any model that is provided. This is once again modularized in the function defintion for ```get_dynamic_axes(input_names, output_names)```.
 
 ### Converting the Model to ONNX Format
 
@@ -230,7 +238,7 @@ print(f"ONNX model optimization successful. Saved to {optimized_model_path}")
 
 ## Running Inference
 
-As the final step of this tutorial, we can use the ```onnxruntime.InferenceSession``` module for a simple inference session. 
+Up until this point, we have mainly covered the steps to generating an optimized ONNX model for SPLADE++ Ensemble Distil, however, how do we actually use our model in practice? The steps are as follows:  
 
 ### Run the End to End Inference
 
@@ -249,3 +257,65 @@ cd src/main/python/onnx
 python3 run_onnx_model_inference.py --model_path models/splade-cocondenser-ensembledistil-optimized.onnx \
                                     --model_name naver/splade-cocondenser-ensembledistil
 ```
+
+So what actually happens under the hood? The following sections will discuss the key parts of the above script:
+
+### Create Inference Session + Load Optimized Model and Tokenizer
+
+As a first step, we introduce the necessary items for building an inference session with the provided module in ONNX runtime, ```onnxruntime.InferenceSession```:
+
+```python
+model = onnxruntime.InferenceSession(model_path) # provide the model path to your optimized model
+tokenizer = AutoTokenizer.from_pretrained(model_name) # provide the model name as seen on huggingface
+inputs = tokenizer(text, return_tensors="np") # provide test input, in our case this is "What is AI?"
+```
+
+This is modularized in the function definition for ```run_onnx_inference(model_path, model_name, text, threshold)```.
+
+### Running the Inference Session on the Data
+
+As an intermediary step before generating the output vector, we are responsible for either providing or creating if not available, given that ```token_type_ids``` is a named field in the input:
+
+```python
+if 'token_type_ids' not in inputs and any('token_type_ids' in input.name for input in model.get_inputs()):
+    inputs['token_type_ids'] = np.zeros_like(inputs['input_ids']) # create vector of zeroes given 'token_type_ids' is not provided
+```
+
+Following the creation of ```token_type_ids``` we produce the initial output vector with no thresholding, we use the provided ```run``` method in ```onnxruntime.InferenceSession```: 
+
+```python
+outputs = model.run(
+    None,
+    {name: inputs[name] for name in inputs if name in [input.name for input in model.get_inputs()]}
+)
+```
+
+As a final step, we now need to threshold the output vector to sparsify the output. In other words, if a given index is below our defined threshold value ```1e-4 -> 0.0001``` we default it's value to ```float(0.0)```:
+
+```python
+sparse_vector = outputs[0]
+sparse_vector[sparse_vector < threshold] = float(0.0)
+
+print(f"Sparse vector shape after thresholding: {sparse_vector.shape}")
+print(f"Non-zero elements after thresholding: {np.count_nonzero(sparse_vector)}")
+print(f"Sparse vector output after thresholding: {sparse_vector}")
+```
+
+For our particular inference example, these are the produced outputs:
+
+```bash
+Sparse vector shape after thresholding: (1, 6, 768)
+Non-zero elements after thresholding: 2257
+Sparse vector output after thresholding: [[[0.         0.23089279 0.14276895 ... 0.20041081 0.55569583 0.59115154]
+  [0.         0.22479157 0.15564989 ... 0.19655053 0.57261604 0.574073  ]
+  [0.         0.2015025  0.1403993  ... 0.1951014  0.5457072  0.64515686]
+  [0.         0.22291817 0.17013982 ... 0.18394655 0.57281554 0.4937031 ]
+  [0.         0.20837721 0.15399718 ... 0.20376778 0.5603207  0.6763782 ]
+  [0.         0.19091329 0.02668291 ... 0.13754089 0.26660776 0.96173954]]]
+```
+
+All of these definitions are modularized in ```run_onnx_inference(model_path, model_name, text, threshold)```.
+
+## Concluding Remarks
+
+Now that we have successfully gone through a complete reproduction of converting SPLADE++ Ensemble Distil from PyTorch to ONNX, and ran inference with the optimized model, the scripts can be used to reproduce any model of your choice.
