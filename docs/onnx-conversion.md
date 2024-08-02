@@ -185,7 +185,7 @@ To run the script and produce the optimized onnx model, run the following sequen
 cd src/main/python/onnx
 # Now run the script
 python3 optimize_onnx_model.py --model_path models/splade-cocondenser-ensembledistil.onnx
-# If you would like to run the script that produces the graph summary for the un-optimized and optimized graphs, run the following:
+# To run the script that produces the graph summary for the un-optimized and optimized graphs, run the following:
 python3 optimize_onnx_model.py --model_path models/splade-cocondenser-ensembledistil.onnx --stats
 ```
 
@@ -265,7 +265,7 @@ So what actually happens under the hood? The following sections will discuss the
 As a first step, we introduce the necessary items for building an inference session with the provided module in ONNX runtime, ```onnxruntime.InferenceSession```:
 
 ```python
-model = onnxruntime.InferenceSession(model_path) # provide the model path to your optimized model
+model = onnxruntime.InferenceSession(model_path) # provide the model path to the optimized model
 tokenizer = AutoTokenizer.from_pretrained(model_name) # provide the model name as seen on huggingface
 inputs = tokenizer(text, return_tensors="np") # provide test input, in our case this is "What is AI?"
 ```
@@ -318,4 +318,17 @@ All of these definitions are modularized in ```run_onnx_inference(model_path, mo
 
 ## Concluding Remarks
 
-Now that we have successfully gone through a complete reproduction of converting SPLADE++ Ensemble Distil from PyTorch to ONNX, and ran inference with the optimized model, the scripts can be used to reproduce any model of your choice.
+Now that we have successfully gone through a complete reproduction of converting SPLADE++ Ensemble Distil from PyTorch to ONNX, and ran inference with the optimized model, the scripts can be used to reproduce any model available on Huggingface.
+
+### Reproducing SPLADE++ Ensemble Distil Regressions 
+
+To reproduce the regressions with the newly generated ONNX model, like seen in the [regressions-msmarco-v1-passage.splade-pp-ed.onnx.md](regressions/regressions-msmarco-v1-passage.splade-pp-ed.onnx.md), below are the following steps:
+
+First, we want to store the newly generated models in the ```~/.cache/anserini/encoders``` directory.
+
+```bash
+cd src/main/python/onnx/models
+cp splade-cocondenser-ensembledistil-optimized.onnx ~/.cache/anserini/encoders/
+```
+
+Second, now run the end to end regression as seen in the previously mentioned documentation with the generated ONNX model.
