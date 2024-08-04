@@ -398,3 +398,4 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@MehrnazSadeghieh](https://github.com/MehrnazSadeghieh) on 2024-07-19 (commit [`bb55c0b`](https://github.com/castorini/anserini/commit/bb55c0b5b219cb402c7f7084be7c32ad961a6595))
 + Results reproduced by [@MariaPonomarenko38](https://github.com/MehrnazSadeghieh) on 2024-07-19 (commit [`1f750c6`](https://github.com/castorini/anserini/commit/1f750c67f42f02820b0a75237579e34a8c676248))
 + Results reproduced by [@daisyyedda](https://github.com/daisyyedda) on 2024-08-02 (commit [`3885b5c`](https://github.com/castorini/anserini/commit/3885b5c25178d2a88fc3b953d572b518ef0d1da6))
++ Results reproduced by [@valamuri2020](https://github.com/valamuri2020) on 2024-07-29 (commit [`10d9388`](https://github.com/castorini/anserini/commit/10d9388cb002a74d20d0e1fcd25cd573db720765))
