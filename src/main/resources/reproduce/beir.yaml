@@ -812,7 +812,7 @@ conditions:
       - topic_key: cqadupstack-stats
         eval_key: beir-v1.0.0-cqadupstack-stats.test
         scores:
-          - nDCG@10: 0.3731
+          - nDCG@10: 0.3732
       - topic_key: cqadupstack-tex
         eval_key: beir-v1.0.0-cqadupstack-tex.test
         scores:
@@ -862,11 +862,11 @@ conditions:
       - topic_key: trec-covid
         eval_key: beir-v1.0.0-trec-covid.test
         scores:
-          - nDCG@10: 0.7814
+          - nDCG@10: 0.7815
       - topic_key: bioasq
         eval_key: beir-v1.0.0-bioasq.test
         scores:
-          - nDCG@10: 0.4149
+          - nDCG@10: 0.4148
       - topic_key: nfcorpus
         eval_key: beir-v1.0.0-nfcorpus.test
         scores:
@@ -874,7 +874,7 @@ conditions:
       - topic_key: nq
         eval_key: beir-v1.0.0-nq.test
         scores:
-          - nDCG@10: 0.5413
+          - nDCG@10: 0.5415
       - topic_key: hotpotqa
         eval_key: beir-v1.0.0-hotpotqa.test
         scores:
@@ -890,23 +890,23 @@ conditions:
       - topic_key: trec-news
         eval_key: beir-v1.0.0-trec-news.test
         scores:
-          - nDCG@10: 0.4425
+          - nDCG@10: 0.4424
       - topic_key: robust04
         eval_key: beir-v1.0.0-robust04.test
         scores:
-          - nDCG@10: 0.4465
+          - nDCG@10: 0.4435
       - topic_key: arguana
         eval_key: beir-v1.0.0-arguana.test
         scores:
-          - nDCG@10: 0.6361
+          - nDCG@10: 0.6228
       - topic_key: webis-touche2020
         eval_key: beir-v1.0.0-webis-touche2020.test
         scores:
-          - nDCG@10: 0.2570
+          - nDCG@10: 0.2571
       - topic_key: cqadupstack-android
         eval_key: beir-v1.0.0-cqadupstack-android.test
         scores:
-          - nDCG@10: 0.5075
+          - nDCG@10: 0.5076
       - topic_key: cqadupstack-english
         eval_key: beir-v1.0.0-cqadupstack-english.test
         scores:
@@ -914,11 +914,11 @@ conditions:
       - topic_key: cqadupstack-gaming
         eval_key: beir-v1.0.0-cqadupstack-gaming.test
         scores:
-          - nDCG@10: 0.5965
+          - nDCG@10: 0.5967
       - topic_key: cqadupstack-gis
         eval_key: beir-v1.0.0-cqadupstack-gis.test
         scores:
-          - nDCG@10: 0.4127
+          - nDCG@10: 0.4131
       - topic_key: cqadupstack-mathematica
         eval_key: beir-v1.0.0-cqadupstack-mathematica.test
         scores:
@@ -926,15 +926,15 @@ conditions:
       - topic_key: cqadupstack-physics
         eval_key: beir-v1.0.0-cqadupstack-physics.test
         scores:
-          - nDCG@10: 0.4722
+          - nDCG@10: 0.4724
       - topic_key: cqadupstack-programmers
         eval_key: beir-v1.0.0-cqadupstack-programmers.test
         scores:
-          - nDCG@10: 0.4242
+          - nDCG@10: 0.4238
       - topic_key: cqadupstack-stats
         eval_key: beir-v1.0.0-cqadupstack-stats.test
         scores:
-          - nDCG@10: 0.3732
+          - nDCG@10: 0.3728
       - topic_key: cqadupstack-tex
         eval_key: beir-v1.0.0-cqadupstack-tex.test
         scores:
@@ -942,11 +942,11 @@ conditions:
       - topic_key: cqadupstack-unix
         eval_key: beir-v1.0.0-cqadupstack-unix.test
         scores:
-          - nDCG@10: 0.4219
+          - nDCG@10: 0.4220
       - topic_key: cqadupstack-webmasters
         eval_key: beir-v1.0.0-cqadupstack-webmasters.test
         scores:
-          - nDCG@10: 0.4065
+          - nDCG@10: 0.4072
       - topic_key: cqadupstack-wordpress
         eval_key: beir-v1.0.0-cqadupstack-wordpress.test
         scores:
@@ -954,23 +954,23 @@ conditions:
       - topic_key: quora
         eval_key: beir-v1.0.0-quora.test
         scores:
-          - nDCG@10: 0.8890
+          - nDCG@10: 0.8876
       - topic_key: dbpedia-entity
         eval_key: beir-v1.0.0-dbpedia-entity.test
         scores:
-          - nDCG@10: 0.4074
+          - nDCG@10: 0.4073
       - topic_key: scidocs
         eval_key: beir-v1.0.0-scidocs.test
         scores:
-          - nDCG@10: 0.2170
+          - nDCG@10: 0.2172
       - topic_key: fever
         eval_key: beir-v1.0.0-fever.test
         scores:
-          - nDCG@10: 0.8630
+          - nDCG@10: 0.8629
       - topic_key: climate-fever
         eval_key: beir-v1.0.0-climate-fever.test
         scores:
-          - nDCG@10: 0.3119
+          - nDCG@10: 0.3117
       - topic_key: scifact
         eval_key: beir-v1.0.0-scifact.test
         scores:
