@@ -328,7 +328,7 @@ First, we want to store the newly generated models in the ```~/.cache/anserini/e
 
 ```bash
 cd src/main/python/onnx/models
-cp splade-cocondenser-ensembledistil-optimized.onnx ~/.cache/anserini/encoders/
+cp splade-cocondenser-ensembledistil-optimized.onnx splade-cocondenser-ensembledistil-vocab.txt ~/.cache/anserini/encoders/
 ```
 
 Second, now run the end to end regression as seen in the previously mentioned documentation with the generated ONNX model.
