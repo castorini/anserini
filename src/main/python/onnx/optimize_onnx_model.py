@@ -26,7 +26,7 @@ def optimize_onnx_model(model_path, print_stats=False):
     # optimized_model.convert_float_to_float16()
 
     # Save the optimized model
-    model_name = model_path.split(".")[0]
+    model_name = model_path.rsplit(".onnx", 1)[0]
     optimized_model_path = f'{model_name}-optimized.onnx'
     optimized_model.save_model_to_file(optimized_model_path)
     print(f"ONNX model optimization successful. Saved to {optimized_model_path}")

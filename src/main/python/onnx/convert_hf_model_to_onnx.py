@@ -29,7 +29,7 @@ def get_dynamic_axes(input_names, output_names):
         dynamic_axes[name] = {0: 'batch_size', 1: 'sequence'}
     return dynamic_axes
 
-def convert_model_to_onnx(text, model, tokenizer, onnx_path, device):
+def convert_model_to_onnx(text, model, tokenizer, onnx_path, vocab_path, device):
     print(model) # this prints the model structure for better understanding (optional)
     model.eval()
     
@@ -70,6 +70,12 @@ def convert_model_to_onnx(text, model, tokenizer, onnx_path, device):
     onnx.checker.check_model(onnx_model)
     print("ONNX model checked successfully")
 
+    vocab = tokenizer.get_vocab()
+    with open(vocab_path, 'w', encoding='utf-8') as f:
+        for token, index in sorted(vocab.items(), key=lambda x: x[1]):
+            f.write(f"{token}\n")
+    print(f"Vocabulary saved to {vocab_path}")
+
     # small inference session for testing
     ort_session = onnxruntime.InferenceSession(onnx_path)
     ort_inputs = {k: v.cpu().numpy() for k, v in test_input.items()}
@@ -89,5 +95,6 @@ if __name__ == "__main__":
     
     os.makedirs("models", exist_ok=True)
     onnx_path = f"models/{model_prefix}.onnx"
+    vocab_path = f"models/{model_prefix}-vocab.txt"
 
-    convert_model_to_onnx(args.text, model, tokenizer, onnx_path, device=device)
+    convert_model_to_onnx(args.text, model, tokenizer, onnx_path, vocab_path, device=device)
