@@ -72,9 +72,9 @@ With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **BGE-base-en-v1.5**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): NQ                                                                                            | 0.5413    |
+| BEIR (v1.0.0): NQ                                                                                            | 0.5415    |
 | **R@100**                                                                                                    | **BGE-base-en-v1.5**|
-| BEIR (v1.0.0): NQ                                                                                            | 0.9415    |
+| BEIR (v1.0.0): NQ                                                                                            | 0.9414    |
 | **R@1000**                                                                                                   | **BGE-base-en-v1.5**|
 | BEIR (v1.0.0): NQ                                                                                            | 0.9859    |
 
