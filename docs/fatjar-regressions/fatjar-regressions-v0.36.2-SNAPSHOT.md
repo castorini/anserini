@@ -415,37 +415,37 @@ Currently, Anserini provides support for the following models:
 
 The table below reports the effectiveness of the models (nDCG@10):
 
-| Corpus                     |   Flat |     MF |     Sp |     So |    Bfc |    Bfo |    Bhc |    Bho |
-|:---------------------------|-------:|-------:|-------:|-------:|-------:|-------:|-------:|-------:|
-| `trec-covid`               | 0.5947 | 0.6559 | 0.7274 | 0.7270 | 0.7814 | 0.7814 | 0.7834 | 0.7835 |
-| `bioasq`                   | 0.5225 | 0.4646 | 0.4980 | 0.4980 | 0.4149 | 0.4149 | 0.4042 | 0.4042 |
-| `nfcorpus`                 | 0.3218 | 0.3254 | 0.3470 | 0.3473 | 0.3735 | 0.3735 | 0.3735 | 0.3738 |
-| `nq`                       | 0.3055 | 0.3285 | 0.5378 | 0.5372 | 0.5413 | 0.5413 | 0.5413 | 0.5415 |
-| `hotpotqa`                 | 0.6330 | 0.6027 | 0.6868 | 0.6868 | 0.7259 | 0.7259 | 0.7242 | 0.7241 |
-| `fiqa`                     | 0.2361 | 0.2361 | 0.3475 | 0.3473 | 0.4065 | 0.4065 | 0.4065 | 0.4065 |
-| `signal1m`                 | 0.3304 | 0.3304 | 0.3008 | 0.3006 | 0.2886 | 0.2886 | 0.2869 | 0.2869 |
-| `trec-news`                | 0.3952 | 0.3977 | 0.4152 | 0.4169 | 0.4425 | 0.4425 | 0.4411 | 0.4410 |
-| `robust04`                 | 0.4070 | 0.4070 | 0.4679 | 0.4651 | 0.4465 | 0.4465 | 0.4467 | 0.4437 |
-| `arguana`                  | 0.3970 | 0.4142 | 0.5203 | 0.5218 | 0.6361 | 0.6361 | 0.6361 | 0.6228 |
-| `webis-touche2020`         | 0.4422 | 0.3673 | 0.2468 | 0.2464 | 0.2570 | 0.2570 | 0.2570 | 0.2571 |
-| `cqadupstack-android`      | 0.3801 | 0.3709 | 0.3904 | 0.3898 | 0.5075 | 0.5075 | 0.5075 | 0.5076 |
-| `cqadupstack-english`      | 0.3453 | 0.3321 | 0.4079 | 0.4078 | 0.4857 | 0.4857 | 0.4855 | 0.4855 |
-| `cqadupstack-gaming`       | 0.4822 | 0.4418 | 0.4957 | 0.4959 | 0.5965 | 0.5965 | 0.5965 | 0.5967 |
-| `cqadupstack-gis`          | 0.2901 | 0.2904 | 0.3150 | 0.3148 | 0.4127 | 0.4127 | 0.4129 | 0.4133 |
-| `cqadupstack-mathematica`  | 0.2015 | 0.2046 | 0.2377 | 0.2379 | 0.3163 | 0.3163 | 0.3163 | 0.3163 |
-| `cqadupstack-physics`      | 0.3214 | 0.3248 | 0.3599 | 0.3597 | 0.4722 | 0.4722 | 0.4722 | 0.4724 |
-| `cqadupstack-programmers`  | 0.2802 | 0.2963 | 0.3401 | 0.3399 | 0.4242 | 0.4242 | 0.4242 | 0.4238 |
-| `cqadupstack-stats`        | 0.2711 | 0.2790 | 0.2990 | 0.2980 | 0.3732 | 0.3732 | 0.3731 | 0.3728 |
-| `cqadupstack-tex`          | 0.2244 | 0.2086 | 0.2530 | 0.2529 | 0.3115 | 0.3115 | 0.3115 | 0.3115 |
-| `cqadupstack-unix`         | 0.2749 | 0.2788 | 0.3167 | 0.3170 | 0.4219 | 0.4219 | 0.4219 | 0.4220 |
-| `cqadupstack-webmasters`   | 0.3059 | 0.3008 | 0.3167 | 0.3166 | 0.4065 | 0.4065 | 0.4065 | 0.4072 |
-| `cqadupstack-wordpress`    | 0.2483 | 0.2562 | 0.2733 | 0.2718 | 0.3547 | 0.3547 | 0.3547 | 0.3547 |
-| `quora`                    | 0.7886 | 0.7886 | 0.8343 | 0.8344 | 0.8890 | 0.8890 | 0.8890 | 0.8876 |
-| `dbpedia-entity`           | 0.3180 | 0.3128 | 0.4366 | 0.4374 | 0.4074 | 0.4074 | 0.4077 | 0.4076 |
-| `scidocs`                  | 0.1490 | 0.1581 | 0.1591 | 0.1588 | 0.2170 | 0.2170 | 0.2170 | 0.2172 |
-| `fever`                    | 0.6513 | 0.7530 | 0.7882 | 0.7879 | 0.8630 | 0.8630 | 0.8620 | 0.8620 |
-| `climate-fever`            | 0.1651 | 0.2129 | 0.2297 | 0.2298 | 0.3119 | 0.3119 | 0.3119 | 0.3117 |
-| `scifact`                  | 0.6789 | 0.6647 | 0.7041 | 0.7036 | 0.7408 | 0.7408 | 0.7408 | 0.7408 |
+| Corpus                    |   Flat |     MF |     Sp |     So |    Bfc |    Bfo |    Bhc |    Bho |
+|:--------------------------|-------:|-------:|-------:|-------:|-------:|-------:|-------:|-------:|
+| `trec-covid`              | 0.5947 | 0.6559 | 0.7274 | 0.7270 | 0.7814 | 0.7815 | 0.7834 | 0.7835 |
+| `bioasq`                  | 0.5225 | 0.4646 | 0.4980 | 0.4980 | 0.4149 | 0.4148 | 0.4042 | 0.4042 |
+| `nfcorpus`                | 0.3218 | 0.3254 | 0.3470 | 0.3473 | 0.3735 | 0.3735 | 0.3735 | 0.3735 |
+| `nq`                      | 0.3055 | 0.3285 | 0.5378 | 0.5372 | 0.5413 | 0.5415 | 0.5413 | 0.5415 |
+| `hotpotqa`                | 0.6330 | 0.6027 | 0.6868 | 0.6868 | 0.7259 | 0.7259 | 0.7242 | 0.7241 |
+| `fiqa`                    | 0.2361 | 0.2361 | 0.3475 | 0.3473 | 0.4065 | 0.4065 | 0.4065 | 0.4065 |
+| `signal1m`                | 0.3304 | 0.3304 | 0.3008 | 0.3006 | 0.2886 | 0.2886 | 0.2869 | 0.2869 |
+| `trec-news`               | 0.3952 | 0.3977 | 0.4152 | 0.4169 | 0.4425 | 0.4424 | 0.4411 | 0.4410 |
+| `robust04`                | 0.4070 | 0.4070 | 0.4679 | 0.4651 | 0.4465 | 0.4435 | 0.4467 | 0.4437 |
+| `arguana`                 | 0.3970 | 0.4142 | 0.5203 | 0.5218 | 0.6361 | 0.6228 | 0.6361 | 0.6228 |
+| `webis-touche2020`        | 0.4422 | 0.3673 | 0.2468 | 0.2464 | 0.2570 | 0.2571 | 0.2570 | 0.2571 |
+| `cqadupstack-android`     | 0.3801 | 0.3709 | 0.3904 | 0.3898 | 0.5075 | 0.5076 | 0.5075 | 0.5076 |
+| `cqadupstack-english`     | 0.3453 | 0.3321 | 0.4079 | 0.4078 | 0.4857 | 0.4857 | 0.4855 | 0.4855 |
+| `cqadupstack-gaming`      | 0.4822 | 0.4418 | 0.4957 | 0.4959 | 0.5965 | 0.5967 | 0.5965 | 0.5967 |
+| `cqadupstack-gis`         | 0.2901 | 0.2904 | 0.3150 | 0.3148 | 0.4127 | 0.4131 | 0.4129 | 0.4133 |
+| `cqadupstack-mathematica` | 0.2015 | 0.2046 | 0.2377 | 0.2379 | 0.3163 | 0.3163 | 0.3163 | 0.3163 |
+| `cqadupstack-physics`     | 0.3214 | 0.3248 | 0.3599 | 0.3597 | 0.4722 | 0.4724 | 0.4722 | 0.4724 |
+| `cqadupstack-programmers` | 0.2802 | 0.2963 | 0.3401 | 0.3399 | 0.4242 | 0.4238 | 0.4242 | 0.4238 |
+| `cqadupstack-stats`       | 0.2711 | 0.2790 | 0.2990 | 0.2980 | 0.3732 | 0.3728 | 0.3732 | 0.3728 |
+| `cqadupstack-tex`         | 0.2244 | 0.2086 | 0.2530 | 0.2529 | 0.3115 | 0.3115 | 0.3115 | 0.3115 |
+| `cqadupstack-unix`        | 0.2749 | 0.2788 | 0.3167 | 0.3170 | 0.4219 | 0.4220 | 0.4219 | 0.4220 |
+| `cqadupstack-webmasters`  | 0.3059 | 0.3008 | 0.3167 | 0.3166 | 0.4065 | 0.4072 | 0.4065 | 0.4072 |
+| `cqadupstack-wordpress`   | 0.2483 | 0.2562 | 0.2733 | 0.2718 | 0.3547 | 0.3547 | 0.3547 | 0.3547 |
+| `quora`                   | 0.7886 | 0.7886 | 0.8343 | 0.8344 | 0.8890 | 0.8876 | 0.8890 | 0.8876 |
+| `dbpedia-entity`          | 0.3180 | 0.3128 | 0.4366 | 0.4374 | 0.4074 | 0.4073 | 0.4077 | 0.4076 |
+| `scidocs`                 | 0.1490 | 0.1581 | 0.1591 | 0.1588 | 0.2170 | 0.2172 | 0.2170 | 0.2172 |
+| `fever`                   | 0.6513 | 0.7530 | 0.7882 | 0.7879 | 0.8630 | 0.8629 | 0.8620 | 0.8620 |
+| `climate-fever`           | 0.1651 | 0.2129 | 0.2297 | 0.2298 | 0.3119 | 0.3117 | 0.3119 | 0.3117 |
+| `scifact`                 | 0.6789 | 0.6647 | 0.7041 | 0.7036 | 0.7408 | 0.7408 | 0.7408 | 0.7408 |
 
 The follow command will reproduce the above experiments:
 
@@ -469,10 +469,14 @@ do
     java -cp $ANSERINI_JAR io.anserini.search.SearchCollection -index beir-v1.0.0-${c}.splade-pp-ed -topics beir-${c}.splade-pp-ed -output $OUTPUT_DIR/run.beir.splade-pp-ed.cached_q.${c}.txt -impact -pretokenized -removeQuery
     # SPLADE++ ED, ONNX
     java -cp $ANSERINI_JAR io.anserini.search.SearchCollection -index beir-v1.0.0-${c}.splade-pp-ed -topics beir-${c} -encoder SpladePlusPlusEnsembleDistil -output $OUTPUT_DIR/run.beir.splade-pp-ed.onnx.${c}.txt -impact -pretokenized -removeQuery
-    # BGE-base-en-v1.5, cached queries
-    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index beir-v1.0.0-${c}.bge-base-en-v1.5 -topics beir-${c}.bge-base-en-v1.5 -output $OUTPUT_DIR/run.beir.bge-base-en-v1.5.cached_q.${c}.txt -threads 16 -efSearch 1000 -removeQuery
-    # BGE-base-en-v1.5, ONNX
-    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index beir-v1.0.0-${c}.bge-base-en-v1.5 -topics beir-${c} -encoder BgeBaseEn15 -output $OUTPUT_DIR/run.beir.bge-base-en-v1.5.onnx.${c}.txt -threads 16 -efSearch 1000 -removeQuery
+    # BGE-base-en-v1.5, HNSW, cached queries
+    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index beir-v1.0.0-${c}.bge-base-en-v1.5.hnsw -topics beir-${c}.bge-base-en-v1.5 -output $OUTPUT_DIR/run.beir.bge-base-en-v1.5.hnsw.cached_q.${c}.txt -threads 16 -efSearch 1000 -removeQuery
+    # BGE-base-en-v1.5, HNSW, ONNX
+    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index beir-v1.0.0-${c}.bge-base-en-v1.5.hnsw -topics beir-${c} -encoder BgeBaseEn15 -output $OUTPUT_DIR/run.beir.bge-base-en-v1.5.hnsw.onnx.${c}.txt -threads 16 -efSearch 1000 -removeQuery
+    # BGE-base-en-v1.5, flat, cached queries
+    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index beir-v1.0.0-${c}.bge-base-en-v1.5.flat -topics beir-${c}.bge-base-en-v1.5 -output $OUTPUT_DIR/run.beir.bge-base-en-v1.5.flat.cached_q.${c}.txt -threads 16 -removeQuery
+    # BGE-base-en-v1.5, flat, ONNX
+    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index beir-v1.0.0-${c}.bge-base-en-v1.5.flat -topics beir-${c} -encoder BgeBaseEn15 -output $OUTPUT_DIR/run.beir.bge-base-en-v1.5.flat.onnx.${c}.txt -threads 16 -removeQuery
 done
 ```
 
@@ -486,8 +490,10 @@ do
     java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 qrels.beir-v1.0.0-${c}.test.txt $OUTPUT_DIR/run.beir.multifield.${c}.txt
     java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 qrels.beir-v1.0.0-${c}.test.txt $OUTPUT_DIR/run.beir.splade-pp-ed.cached_q.${c}.txt
     java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 qrels.beir-v1.0.0-${c}.test.txt $OUTPUT_DIR/run.beir.splade-pp-ed.onnx.${c}.txt
-    java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 qrels.beir-v1.0.0-${c}.test.txt $OUTPUT_DIR/run.beir.bge-base-en-v1.5.cached_q.${c}.txt
-    java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 qrels.beir-v1.0.0-${c}.test.txt $OUTPUT_DIR/run.beir.bge-base-en-v1.5.onnx.${c}.txt
+    java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 qrels.beir-v1.0.0-${c}.test.txt $OUTPUT_DIR/run.beir.bge-base-en-v1.5.hnsw.cached_q.${c}.txt
+    java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 qrels.beir-v1.0.0-${c}.test.txt $OUTPUT_DIR/run.beir.bge-base-en-v1.5.hnsw.onnx.${c}.txt
+    java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 qrels.beir-v1.0.0-${c}.test.txt $OUTPUT_DIR/run.beir.bge-base-en-v1.5.flat.cached_q.${c}.txt
+    java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 qrels.beir-v1.0.0-${c}.test.txt $OUTPUT_DIR/run.beir.bge-base-en-v1.5.flat.onnx.${c}.txt
 done
 ```
 

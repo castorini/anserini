@@ -568,7 +568,7 @@ conditions:
     - topic_key: cqadupstack-stats
       eval_key: beir-v1.0.0-cqadupstack-stats.test
       scores:
-        - nDCG@10: 0.3731
+        - nDCG@10: 0.3732
     - topic_key: cqadupstack-tex
       eval_key: beir-v1.0.0-cqadupstack-tex.test
       scores:
@@ -626,7 +626,7 @@ conditions:
     - topic_key: nfcorpus
       eval_key: beir-v1.0.0-nfcorpus.test
       scores:
-        - nDCG@10: 0.3738
+        - nDCG@10: 0.3735
     - topic_key: nq
       eval_key: beir-v1.0.0-nq.test
       scores:
