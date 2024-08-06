@@ -332,3 +332,7 @@ cp splade-cocondenser-ensembledistil-optimized.onnx splade-cocondenser-ensembled
 ```
 
 Second, now run the end to end regression as seen in the previously mentioned documentation with the generated ONNX model.
+
+
+### Reproduction Log
++ Results reproduced by [@valamuri2020](https://github.com/valamuri2020) on 2024-08-06 (commit [`6178b40`](https://github.com/castorini/anserini/commit/6178b407fc791d62f81e751313771165c6e2c743))
