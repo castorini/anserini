@@ -469,14 +469,14 @@ do
     java -cp $ANSERINI_JAR io.anserini.search.SearchCollection -index beir-v1.0.0-${c}.splade-pp-ed -topics beir-${c}.splade-pp-ed -output $OUTPUT_DIR/run.beir.splade-pp-ed.cached_q.${c}.txt -impact -pretokenized -removeQuery
     # SPLADE++ ED, ONNX
     java -cp $ANSERINI_JAR io.anserini.search.SearchCollection -index beir-v1.0.0-${c}.splade-pp-ed -topics beir-${c} -encoder SpladePlusPlusEnsembleDistil -output $OUTPUT_DIR/run.beir.splade-pp-ed.onnx.${c}.txt -impact -pretokenized -removeQuery
-    # BGE-base-en-v1.5, HNSW, cached queries
-    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index beir-v1.0.0-${c}.bge-base-en-v1.5.hnsw -topics beir-${c}.bge-base-en-v1.5 -output $OUTPUT_DIR/run.beir.bge-base-en-v1.5.hnsw.cached_q.${c}.txt -threads 16 -efSearch 1000 -removeQuery
-    # BGE-base-en-v1.5, HNSW, ONNX
-    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index beir-v1.0.0-${c}.bge-base-en-v1.5.hnsw -topics beir-${c} -encoder BgeBaseEn15 -output $OUTPUT_DIR/run.beir.bge-base-en-v1.5.hnsw.onnx.${c}.txt -threads 16 -efSearch 1000 -removeQuery
     # BGE-base-en-v1.5, flat, cached queries
     java -cp $ANSERINI_JAR io.anserini.search.SearchFlatDenseVectors -index beir-v1.0.0-${c}.bge-base-en-v1.5.flat -topics beir-${c}.bge-base-en-v1.5 -output $OUTPUT_DIR/run.beir.bge-base-en-v1.5.flat.cached_q.${c}.txt -threads 16 -removeQuery
     # BGE-base-en-v1.5, flat, ONNX
     java -cp $ANSERINI_JAR io.anserini.search.SearchFlatDenseVectors -index beir-v1.0.0-${c}.bge-base-en-v1.5.flat -topics beir-${c} -encoder BgeBaseEn15 -output $OUTPUT_DIR/run.beir.bge-base-en-v1.5.flat.onnx.${c}.txt -threads 16 -removeQuery
+    # BGE-base-en-v1.5, HNSW, cached queries
+    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index beir-v1.0.0-${c}.bge-base-en-v1.5.hnsw -topics beir-${c}.bge-base-en-v1.5 -output $OUTPUT_DIR/run.beir.bge-base-en-v1.5.hnsw.cached_q.${c}.txt -threads 16 -efSearch 1000 -removeQuery
+    # BGE-base-en-v1.5, HNSW, ONNX
+    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index beir-v1.0.0-${c}.bge-base-en-v1.5.hnsw -topics beir-${c} -encoder BgeBaseEn15 -output $OUTPUT_DIR/run.beir.bge-base-en-v1.5.hnsw.onnx.${c}.txt -threads 16 -efSearch 1000 -removeQuery
 done
 ```
 
@@ -490,10 +490,10 @@ do
     java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 qrels.beir-v1.0.0-${c}.test.txt $OUTPUT_DIR/run.beir.multifield.${c}.txt
     java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 qrels.beir-v1.0.0-${c}.test.txt $OUTPUT_DIR/run.beir.splade-pp-ed.cached_q.${c}.txt
     java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 qrels.beir-v1.0.0-${c}.test.txt $OUTPUT_DIR/run.beir.splade-pp-ed.onnx.${c}.txt
-    java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 qrels.beir-v1.0.0-${c}.test.txt $OUTPUT_DIR/run.beir.bge-base-en-v1.5.hnsw.cached_q.${c}.txt
-    java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 qrels.beir-v1.0.0-${c}.test.txt $OUTPUT_DIR/run.beir.bge-base-en-v1.5.hnsw.onnx.${c}.txt
     java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 qrels.beir-v1.0.0-${c}.test.txt $OUTPUT_DIR/run.beir.bge-base-en-v1.5.flat.cached_q.${c}.txt
     java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 qrels.beir-v1.0.0-${c}.test.txt $OUTPUT_DIR/run.beir.bge-base-en-v1.5.flat.onnx.${c}.txt
+    java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 qrels.beir-v1.0.0-${c}.test.txt $OUTPUT_DIR/run.beir.bge-base-en-v1.5.hnsw.cached_q.${c}.txt
+    java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 qrels.beir-v1.0.0-${c}.test.txt $OUTPUT_DIR/run.beir.bge-base-en-v1.5.hnsw.onnx.${c}.txt
 done
 ```
 
