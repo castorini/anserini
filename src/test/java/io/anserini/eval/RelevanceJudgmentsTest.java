@@ -365,7 +365,7 @@ public class RelevanceJudgmentsTest{
   }
 
   @Test
-  public void testTREC24_RAG() throws IOException{
+  public void testTREC24_RAG_RAGGY_DEV() throws IOException{
     // % cut -f 1 -d ' ' tools/topics-and-qrels/qrels.rag24.raggy-dev.txt | uniq | wc
     //      120     120     937
     // % wc tools/topics-and-qrels/qrels.rag24.raggy-dev.txt
