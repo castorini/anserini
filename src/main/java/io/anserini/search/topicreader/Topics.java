@@ -93,7 +93,7 @@ public enum Topics {
 
   TREC2024_RAG_RAGGY_DEV(TsvIntTopicReader.class, "topics.rag24.raggy-dev.txt"),
   TREC2024_RAG_RESEARCHY_DEV(TsvIntTopicReader.class, "topics.rag24.researchy-dev.txt"),
-  TREC2024_RAG_TEST(TsvIntTopicReader.class, "topics.rag24.test.txt"),
+  TREC2024_RAG_TEST(TsvStringTopicReader.class, "topics.rag24.test.txt"),
 
   // MS MARCO V1 topics
   MSMARCO_DOC_DEV(TsvIntTopicReader.class,"topics.msmarco-doc.dev.txt"),

@@ -1016,10 +1016,10 @@ public class TopicReaderTest {
     topics = TopicReader.getTopics(Topics.TREC2024_RAG_TEST);
     assertNotNull(topics);
     assertEquals(301, topics.size());
-    assertEquals("2024-145979", topics.firstKey());
-    assertEquals("what is vicarious trauma and how can it be coped with?", topics.get(topics.firstKey()).get("title"));
-    assertEquals("2024-21669", topics.lastKey());
-    assertEquals("do abortions kill more black people than other weapons", topics.get(topics.lastKey()).get("title"));
+    assertEquals("2024-105741", topics.firstKey());
+    assertEquals("is it dangerous to have wbc over 15,000 without treatment?", topics.get(topics.firstKey()).get("title"));
+    assertEquals("2024-96485", topics.lastKey());
+    assertEquals("how would advance electronics course impact students", topics.get(topics.lastKey()).get("title"));
     assertEquals("how the solar eclipse can affect mental health", topics.get("2024-79154").get("title"));
   }
 
