@@ -10,7 +10,7 @@ index_type: hnsw
 collection_class: JsonDenseVectorCollection
 generator_class: DenseVectorDocumentGenerator
 index_threads: 16
-index_options: -M 16 -efC 100 -memoryBuffer 65536 -noMerge -quantize.int8
+index_options: -M 16 -efC 100 -quantize.int8
 
 metrics:
   - metric: AP@1000
@@ -50,16 +50,16 @@ topics:
     qrel: qrels.dl20-passage.txt
 
 models:
-  - name: bge-hnsw-cached
+  - name: bge-hnsw-int8-cached
     display: BGE-base-en-v1.5
     type: hnsw
     params: -generator VectorQueryGenerator -topicField vector -threads 16 -hits 1000 -efSearch 1000
     results:
       AP@1000:
-        - 0.463
+        - 0.4650
       nDCG@10:
-        - 0.674
+        - 0.6780
       R@100:
-        - 0.712
+        - 0.7169
       R@1000:
-        - 0.840
+        - 0.8503

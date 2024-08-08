@@ -57,7 +57,7 @@ public class PrebuiltIndexHandler {
     return path.toFile().exists();
   }
 
-  private boolean checkIndexFileExist() {
+  public boolean checkIndexFileExist() {
     /*
      * Check if the index file exists. If the index file exists, return true.
      * Otherwise, return false.

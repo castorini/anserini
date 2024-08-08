@@ -32,7 +32,7 @@ After download and unpacking the corpora, the `run_regression.py` command above 
 Sample indexing command, building quantized flat indexes:
 
 ```
-bin/run.sh io.anserini.index.IndexCollection \
+bin/run.sh io.anserini.index.IndexFlatDenseVectors \
   -collection JsonDenseVectorCollection \
   -input /path/to/beir-v1.0.0-nq.bge-base-en-v1.5 \
   -generator DenseVectorDocumentGenerator \
@@ -50,7 +50,7 @@ Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/t
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-bin/run.sh io.anserini.search.SearchCollection \
+bin/run.sh io.anserini.search.SearchFlatDenseVectors \
   -index indexes/lucene-flat-int8.beir-v1.0.0-nq.bge-base-en-v1.5/ \
   -topics tools/topics-and-qrels/topics.beir-v1.0.0-nq.test.bge-base-en-v1.5.jsonl.gz \
   -topicReader JsonStringVector \
@@ -78,5 +78,6 @@ With the above commands, you should be able to reproduce the following results:
 | **R@1000**                                                                                                   | **BGE-base-en-v1.5**|
 | BEIR (v1.0.0): NQ                                                                                            | 0.9859    |
 
-The above figures are from running brute-force search with cached queries on non-quantized indexes.
-With quantized indexes, results may differ slightly, but the nDCG@10 score should generally be within 0.004 of the result reported above (with a small number of outliers).
+The above figures are from running brute-force search with cached queries on non-quantized flat indexes.
+With cached queries on quantized flat indexes, observed results may differ slightly (typically, lower), but scores should generally be within 0.004 of the results reported above (with some outliers).
+Note that quantization is non-deterministic due to sampling (i.e., results may differ slightly between trials).

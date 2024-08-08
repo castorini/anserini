@@ -32,7 +32,7 @@ After download and unpacking the corpora, the `run_regression.py` command above 
 Sample indexing command, building flat indexes:
 
 ```
-bin/run.sh io.anserini.index.IndexCollection \
+bin/run.sh io.anserini.index.IndexFlatDenseVectors \
   -collection JsonDenseVectorCollection \
   -input /path/to/beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5 \
   -generator DenseVectorDocumentGenerator \
@@ -50,7 +50,7 @@ Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/t
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-bin/run.sh io.anserini.search.SearchCollection \
+bin/run.sh io.anserini.search.SearchFlatDenseVectors \
   -index indexes/lucene-flat.beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5/ \
   -topics tools/topics-and-qrels/topics.beir-v1.0.0-cqadupstack-programmers.test.bge-base-en-v1.5.jsonl.gz \
   -topicReader JsonStringVector \
@@ -78,4 +78,4 @@ With the above commands, you should be able to reproduce the following results:
 | **R@1000**                                                                                                   | **BGE-base-en-v1.5**|
 | BEIR (v1.0.0): CQADupStack-programmers                                                                       | 0.9348    |
 
-Note that since we're running brute-force search, the results should be reproducible _exactly_.
+Note that since we're running brute-force search with cached queries on non-quantized flat indexes, the results should be reproducible _exactly_.

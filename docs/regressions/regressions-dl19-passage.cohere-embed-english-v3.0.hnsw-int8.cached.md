@@ -52,7 +52,7 @@ bin/run.sh io.anserini.index.IndexHnswDenseVectors \
   -input /path/to/msmarco-passage-cohere-embed-english-v3.0 \
   -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-hnsw-int8.msmarco-v1-passage.cohere-embed-english-v3.0/ \
-  -threads 16 -M 16 -efC 100 -noMerge -quantize.int8 \
+  -threads 16 -M 16 -efC 100 -quantize.int8 \
   >& logs/log.msmarco-passage-cohere-embed-english-v3.0 &
 ```
 
@@ -75,17 +75,17 @@ bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -index indexes/lucene-hnsw-int8.msmarco-v1-passage.cohere-embed-english-v3.0/ \
   -topics tools/topics-and-qrels/topics.dl19-passage.cohere-embed-english-v3.0.jsonl.gz \
   -topicReader JsonIntVector \
-  -output runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-cached.topics.dl19-passage.cohere-embed-english-v3.0.jsonl.txt \
+  -output runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-hnsw-int8-cached.topics.dl19-passage.cohere-embed-english-v3.0.jsonl.txt \
   -generator VectorQueryGenerator -topicField vector -threads 16 -hits 1000 -efSearch 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-cached.topics.dl19-passage.cohere-embed-english-v3.0.jsonl.txt
-bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-cached.topics.dl19-passage.cohere-embed-english-v3.0.jsonl.txt
-bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-cached.topics.dl19-passage.cohere-embed-english-v3.0.jsonl.txt
-bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-cached.topics.dl19-passage.cohere-embed-english-v3.0.jsonl.txt
+bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-hnsw-int8-cached.topics.dl19-passage.cohere-embed-english-v3.0.jsonl.txt
+bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-hnsw-int8-cached.topics.dl19-passage.cohere-embed-english-v3.0.jsonl.txt
+bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-hnsw-int8-cached.topics.dl19-passage.cohere-embed-english-v3.0.jsonl.txt
+bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-hnsw-int8-cached.topics.dl19-passage.cohere-embed-english-v3.0.jsonl.txt
 ```
 
 ## Effectiveness
@@ -94,16 +94,17 @@ With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **cohere-embed-english-v3.0**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.487     |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.488     |
 | **nDCG@10**                                                                                                  | **cohere-embed-english-v3.0**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.690     |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.696     |
 | **R@100**                                                                                                    | **cohere-embed-english-v3.0**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.647     |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.648     |
 | **R@1000**                                                                                                   | **cohere-embed-english-v3.0**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.850     |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.863     |
 
-Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
-Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/dl19-passage.cohere-embed-english-v3.0.hnsw-int8.cached.yaml).
+The above figures are from running brute-force search with cached queries on non-quantized **flat** indexes.
+With cached queries on quantized HNSW indexes, observed results are likely to differ; scores may be lower by up to 0.01, sometimes more.
+Note that both HNSW indexing and quantization are non-deterministic (i.e., results may differ slightly between trials).
 
 ❗ Retrieval metrics here are computed to depth 1000 hits per query (as opposed to 100 hits per query for document ranking).
 For computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., AP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).

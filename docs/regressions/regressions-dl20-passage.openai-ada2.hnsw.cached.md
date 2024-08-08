@@ -57,7 +57,7 @@ bin/run.sh io.anserini.index.IndexHnswDenseVectors \
   -input /path/to/msmarco-passage-openai-ada2 \
   -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-hnsw.msmarco-v1-passage.openai-ada2/ \
-  -threads 16 -M 16 -efC 100 -memoryBuffer 65536 -noMerge -maxThreadMemoryBeforeFlush 1945 \
+  -threads 16 -M 16 -efC 100 \
   >& logs/log.msmarco-passage-openai-ada2 &
 ```
 
@@ -80,17 +80,17 @@ bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -index indexes/lucene-hnsw.msmarco-v1-passage.openai-ada2/ \
   -topics tools/topics-and-qrels/topics.dl20.openai-ada2.jsonl.gz \
   -topicReader JsonIntVector \
-  -output runs/run.msmarco-passage-openai-ada2.openai-ada2-cached.topics.dl20.openai-ada2.jsonl.txt \
+  -output runs/run.msmarco-passage-openai-ada2.openai-ada2-hnsw-cached.topics.dl20.openai-ada2.jsonl.txt \
   -generator VectorQueryGenerator -topicField vector -threads 16 -hits 1000 -efSearch 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-openai-ada2.openai-ada2-cached.topics.dl20.openai-ada2.jsonl.txt
-bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-openai-ada2.openai-ada2-cached.topics.dl20.openai-ada2.jsonl.txt
-bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-openai-ada2.openai-ada2-cached.topics.dl20.openai-ada2.jsonl.txt
-bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-openai-ada2.openai-ada2-cached.topics.dl20.openai-ada2.jsonl.txt
+bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-openai-ada2.openai-ada2-hnsw-cached.topics.dl20.openai-ada2.jsonl.txt
+bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-openai-ada2.openai-ada2-hnsw-cached.topics.dl20.openai-ada2.jsonl.txt
+bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-openai-ada2.openai-ada2-hnsw-cached.topics.dl20.openai-ada2.jsonl.txt
+bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-openai-ada2.openai-ada2-hnsw-cached.topics.dl20.openai-ada2.jsonl.txt
 ```
 
 ## Effectiveness
@@ -103,12 +103,13 @@ With the above commands, you should be able to reproduce the following results:
 | **nDCG@10**                                                                                                  | **OpenAI-ada2**|
 | [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.676     |
 | **R@100**                                                                                                    | **OpenAI-ada2**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.723     |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.724     |
 | **R@1000**                                                                                                   | **OpenAI-ada2**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.867     |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.871     |
 
-Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
-Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/dl20-passage.openai-ada2.hnsw.cached.yaml).
+The above figures are from running brute-force search with cached queries on non-quantized **flat** indexes.
+With cached queries on non-quantized HNSW indexes, observed results are likely to differ; scores may be lower by up to 0.01, sometimes more.
+Note that HNSW indexing is non-deterministic (i.e., results may differ slightly between trials).
 
 ❗ Retrieval metrics here are computed to depth 1000 hits per query (as opposed to 100 hits per query for document ranking).
 For computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., AP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).

@@ -33,15 +33,15 @@ Download the corpus and unpack into `collections/`:
 
 ```bash
 wget https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cos-dpr-distil.tar -P collections/
-tar xvf collections/msmarco-passage.cos-dpr-distil.tar -C collections/
+tar xvf collections/msmarco-passage-cos-dpr-distil.tar -C collections/
 ```
 
-To confirm, `msmarco-passage.cos-dpr-distil.tar` is 57 GB and has MD5 checksum `e20ffbc8b5e7f760af31298aefeaebbd`.
+To confirm, `msmarco-passage-cos-dpr-distil.tar` is 57 GB and has MD5 checksum `e20ffbc8b5e7f760af31298aefeaebbd`.
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cos-dpr-distil.flat-int8.onnx \
-  --corpus-path collections/msmarco-passage.cos-dpr-distil
+  --corpus-path collections/msmarco-passage-cos-dpr-distil
 ```
 
 ## Indexing
@@ -49,16 +49,16 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Sample indexing command, building quantized flat indexes:
 
 ```bash
-bin/run.sh io.anserini.index.IndexCollection \
+bin/run.sh io.anserini.index.IndexFlatDenseVectors \
   -collection JsonDenseVectorCollection \
-  -input /path/to/msmarco-passage.cos-dpr-distil \
+  -input /path/to/msmarco-passage-cos-dpr-distil \
   -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-flat-int8.msmarco-v1-passage.cos-dpr-distil/ \
   -threads 16 -quantize.int8 \
-  >& logs/log.msmarco-passage.cos-dpr-distil &
+  >& logs/log.msmarco-passage-cos-dpr-distil &
 ```
 
-The path `/path/to/msmarco-passage.cos-dpr-distil/` should point to the corpus downloaded above.
+The path `/path/to/msmarco-passage-cos-dpr-distil/` should point to the corpus downloaded above.
 Upon completion, we should have an index with 8,841,823 documents.
 
 ## Retrieval
@@ -69,11 +69,11 @@ The regression experiments here evaluate on the 6980 dev set questions; see [thi
 After indexing has completed, you should be able to perform retrieval as follows using HNSW indexes:
 
 ```bash
-bin/run.sh io.anserini.search.SearchCollection \
+bin/run.sh io.anserini.search.SearchFlatDenseVectors \
   -index indexes/lucene-flat-int8.msmarco-v1-passage.cos-dpr-distil/ \
   -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
   -topicReader TsvInt \
-  -output runs/run.msmarco-passage.cos-dpr-distil.cos-dpr-distil-flat-int8-onnx.topics.msmarco-passage.dev-subset.txt \
+  -output runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-flat-int8-onnx.topics.msmarco-passage.dev-subset.txt \
   -generator VectorQueryGenerator -topicField title -threads 16 -hits 1000 -encoder CosDprDistil &
 ```
 
@@ -82,10 +82,10 @@ Note that we are performing query inference "on-the-fly" with ONNX in these expe
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.cos-dpr-distil.cos-dpr-distil-flat-int8-onnx.topics.msmarco-passage.dev-subset.txt
-bin/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.cos-dpr-distil.cos-dpr-distil-flat-int8-onnx.topics.msmarco-passage.dev-subset.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.cos-dpr-distil.cos-dpr-distil-flat-int8-onnx.topics.msmarco-passage.dev-subset.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.cos-dpr-distil.cos-dpr-distil-flat-int8-onnx.topics.msmarco-passage.dev-subset.txt
+bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-flat-int8-onnx.topics.msmarco-passage.dev-subset.txt
+bin/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-flat-int8-onnx.topics.msmarco-passage.dev-subset.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-flat-int8-onnx.topics.msmarco-passage.dev-subset.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-flat-int8-onnx.topics.msmarco-passage.dev-subset.txt
 ```
 
 ## Effectiveness

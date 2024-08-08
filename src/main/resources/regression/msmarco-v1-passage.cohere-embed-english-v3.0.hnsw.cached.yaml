@@ -10,7 +10,7 @@ index_type: hnsw
 collection_class: JsonDenseVectorCollection
 generator_class: DenseVectorDocumentGenerator 
 index_threads: 16
-index_options: -M 16 -efC 100 -memoryBuffer 65536 -noMerge
+index_options: -M 16 -efC 100
 
 metrics:
   - metric: nDCG@10
@@ -50,16 +50,16 @@ topics:
     qrel: qrels.msmarco-passage.dev-subset.txt
 
 models:
-  - name: cohere-embed-english-v3.0-cached
+  - name: cohere-embed-english-v3.0-hnsw-cached
     display: cohere-embed-english-v3.0
     type: hnsw
     params: -generator VectorQueryGenerator -topicField vector -threads 16 -hits 1000 -efSearch 1000
     results:
       nDCG@10:
-        - 0.428
+        - 0.4287
       AP@1000:
-        - 0.371
+        - 0.3716
       RR@10:
-        - 0.365
+        - 0.3658
       R@1000:
-        - 0.974
+        - 0.9786

@@ -1,143 +1,103 @@
-/*
- * Anserini: A Lucene toolkit for reproducible information retrieval research
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Select, HStack, Box } from '@chakra-ui/react';
 
 interface Props {
   onSelect: (selectedValue: string) => void;
+}
+
+interface IndexInfo {
+  indexName: string;
+  description: string;
+  filename: string;
+  corpus: string;
+  model: string;
+  urls: string[];
+  md5: string;
+  cached: boolean;
 }
 
 const Dropdown: React.FC<Props> = ({ onSelect }) => {
   const [selectedCollection, setSelectedCollection] = useState<string | null>(null);
   const [selectedCorpus, setSelectedCorpus] = useState<string | null>(null);
   const [selectedIndex, setSelectedIndex] = useState<string | null>(null);
+  const [indexInfoList, setIndexInfoList] = useState<{ [key: string]: IndexInfo }>({});
+  const [collections, setCollections] = useState<{ [key: string]: string[] | { [key: string]: string[] } }>({});
 
-  const [collections, setCollections] = useState<{ [key: string]: string[] | { [key: string]: string[] } }>({
-    'MS MARCO V1': [
-      'msmarco-v1-passage',
-      'msmarco-v1-passage.splade-pp-ed',
-      'msmarco-v1-passage.cos-dpr-distil',
-      'msmarco-v1-passage.cos-dpr-distil.quantized',
-      'msmarco-v1-passage.bge-base-en-v1.5',
-      'msmarco-v1-passage.bge-base-en-v1.5.quantized',
-      'msmarco-v1-passage.cohere-embed-english-v3.0',
-      'msmarco-v1-passage.cohere-embed-english-v3.0.quantized',
-    ],
-    'MS MARCO V2': [
-      'msmarco-v2-passage',
-      'msmarco-v2-doc',
-      'msmarco-v2-doc-segmented',
-      'msmarco-v2.1-doc',
-      'msmarco-v2.1-doc-segmented',
-    ],
-    'BEIR': {}
-  });
-
-  // Generate collections for BEIR
   useEffect(() => {
-    const keys = [
-      'trec-covid',
-      'bioasq',
-      'nfcorpus',
-      'nq',
-      'hotpotqa',
-      'fiqa',
-      'signal1m', 
-      'trec-news',
-      'robust04',
-      'arguana',
-      'webis-touche2020',
-      'cqadupstack-android',
-      'cqadupstack-english',
-      'cqadupstack-gaming',
-      'cqadupstack-gis',
-      'cqadupstack-mathematica',
-      'cqadupstack-physics',
-      'cqadupstack-programmers',
-      'cqadupstack-stats',
-      'cqadupstack-tex',
-      'cqadupstack-unix',
-      'cqadupstack-webmasters',
-      'cqadupstack-wordpress',
-      'quora',
-      'dbpedia-entity',
-      'scidocs',
-      'fever',
-      'climate-fever',
-      'scifact',
-    ];
-    const generatedMap = collections;
-    
-    keys.forEach(key => {
-      const newObj = generatedMap['BEIR'] as { [key: string]: string[] };
-      newObj[key] = [
-        `${key}.flat`,
-        `${key}.multifield`,
-        `${key}.splade-pp-ed`,
-        `${key}.bge-base-en-v1.5`,
-      ];
-    });
-    setCollections(generatedMap);
+    const fetchIndexes = async () => {
+      const response = await fetch('/api/v1.0/indexes');
+      const indexList = await response.json();
+      setIndexInfoList(indexList);
+
+      const dropdownList: { [key: string]: string[] | { [key: string]: string[] } } = {};
+      for (const value of Object.values(indexList)) {
+        const index = value as IndexInfo;
+
+        if (index.corpus.includes('MS MARCO')) {
+          if (!dropdownList['MS MARCO']) dropdownList['MS MARCO'] = {};
+          const msmarco = dropdownList['MS MARCO'] as { [key: string]: string[] };
+          const corpus = index.corpus as string;
+          if (msmarco[corpus]) {
+            (msmarco[corpus] as string[]).push(index.indexName);
+          } else {
+            msmarco[corpus] = [index.indexName];
+          }
+        } else if (index.corpus.includes('BEIR')) {
+          if (!dropdownList['BEIR']) dropdownList['BEIR'] = {};
+          const beir = dropdownList['BEIR'] as { [key: string]: string[] };
+          const corpus = index.corpus as string;
+          if (beir[corpus]) {
+            (beir[corpus] as string[]).push(index.indexName);
+          } else {
+            beir[corpus] = [index.indexName];
+          }
+        }
+      }
+      setCollections(dropdownList);
+    };
+
+    fetchIndexes();
   }, []);
 
   return (
-    <div className="dropdowns">
-      <select className="dropdown-button" onChange={(e) => {
-        setSelectedCollection(e.target.value);
-        setSelectedCorpus(null);
-        setSelectedIndex(null);
-      }}>
-        <option value="" className="dropdown-item">Select</option>
-        {Object.keys(collections).map((collection) => (
-          <option className="dropdown-item" key={collection} value={collection}>{collection}</option>
-        ))}
-      </select>
-      {selectedCollection && selectedCollection.includes("MS MARCO") && <>
-        <select className="dropdown-button" onChange={(e) => {
-          setSelectedIndex(e.target.value);
-          onSelect(e.target.value)}}
-        >
-          <option value="" className="dropdown-item">Select</option>
-          {Array.isArray(collections[selectedCollection])
-              && (collections[selectedCollection] as string[]).map((index) => (
-            <option className="dropdown-item" key={index} value={index}>{index}</option>
+    <Box>
+      <HStack spacing={4}>
+        <Select placeholder="Select" onChange={(e) => {
+          setSelectedCollection(e.target.value);
+          setSelectedCorpus(null);
+          setSelectedIndex(null);
+        }}>
+          {Object.keys(collections).map((collection) => (
+            <option key={collection} value={collection}>{collection}</option>
           ))}
-        </select>
-      </>}
-      {selectedCollection=='BEIR' && <>
-      <select className="dropdown-button" onChange={(e) => {
-        setSelectedCorpus(e.target.value);
-        setSelectedIndex(null);
-      }}>
-        <option value="" className="dropdown-item">Select</option>
-        {selectedCollection && collections[selectedCollection] && Object.keys(collections[selectedCollection]).map((corpus) => (
-          <option className="dropdown-item" key={corpus} value={corpus}>{corpus}</option>
-        ))}
-      </select>
-      <select className="dropdown-button" onChange={(e) => {
-        setSelectedIndex(e.target.value);
-        onSelect(e.target.value)}}
-      >
-        <option value="" className="dropdown-item">Select</option>
-        {selectedCorpus && !Array.isArray(collections[selectedCollection])
-            && (collections[selectedCollection] as { [key: string]: string[] })[selectedCorpus].map((index) => (
-          <option className="dropdown-item" key={index} value={index}>{index}</option>
-        ))}
-      </select></>}
-    </div>
+        </Select>
+        {selectedCollection !== null && (
+          <>
+            <Select placeholder="Select" onChange={(e) => {
+              setSelectedCorpus(e.target.value);
+              setSelectedIndex(null);
+            }}>
+              {selectedCollection && collections[selectedCollection] && Object.keys(collections[selectedCollection]).map((corpus) => (
+                <option key={corpus} value={corpus}>{corpus.replace('MS MARCO', '').replace('BEIR: ', '')}</option>
+              ))}
+            </Select>
+            {selectedCorpus && (
+            <Select placeholder="Select" onChange={(e) => {
+              setSelectedIndex(e.target.value);
+              onSelect(e.target.value);
+            }}>
+              {selectedCorpus && !Array.isArray(collections[selectedCollection]) &&
+                (collections[selectedCollection] as { [key: string]: string[] })[selectedCorpus].map((index) => (
+                  <option key={index} value={index} style={{ backgroundColor: indexInfoList[index].cached ? '#c8e6c9' : undefined }}>
+                    {indexInfoList[index].model}
+                  </option>
+                ))}
+            </Select>
+            )}
+          </>
+        )}
+      </HStack>
+    </Box>
   );
 };
 
