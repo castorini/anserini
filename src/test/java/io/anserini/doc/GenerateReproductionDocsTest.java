@@ -17,6 +17,7 @@ package io.anserini.doc;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -120,14 +121,14 @@ public class GenerateReproductionDocsTest {
             .replace("$output", runFile);
 
         tempCommands.put(shortTopicKey, commandString);
-        String evalCommandString = "";
-        for (Entry<String, Double> entry : topic.scores.get(0).entrySet()) {
+        StringBuilder evalCommandString = new StringBuilder();
+        for (Entry<String, Double> entry : topic.scores.getFirst().entrySet()) {
           final String tempEvalCommand = "tools/eval/trec_eval.9.0.4/trec_eval "
               + evalCommandMap.get(evalKey).get(entry.getKey()) + " " + evalKey + " " + runFile;
-          evalCommandString += tempEvalCommand + "\n";
+          evalCommandString.append(tempEvalCommand).append("\n");
           metricScoreMap.put(entry.getKey(), (Double) entry.getValue());
         }
-        tempEvalCommands.put(shortTopicKey, evalCommandString);
+        tempEvalCommands.put(shortTopicKey, evalCommandString.toString());
         topicMetricMap.put(shortTopicKey, metricScoreMap);
 
       }
@@ -138,8 +139,8 @@ public class GenerateReproductionDocsTest {
 
     // Additional logic to generate report
     int rowCounter = 1;
-    String htmlString = "";
-    Scanner rowScanner = new Scanner(new File(ROW_TEMPLATE_PATH), "UTF-8");
+    StringBuilder htmlString = new StringBuilder();
+    Scanner rowScanner = new Scanner(new File(ROW_TEMPLATE_PATH), StandardCharsets.UTF_8);
     String rowTemplateString = rowScanner.useDelimiter("\\A").next();
     rowScanner.close();
 
@@ -164,19 +165,19 @@ public class GenerateReproductionDocsTest {
       valuesMap.put("eval_cmd3", formatEvalCommand(evalCommands.get(model).get("dev")));
 
       StringSubstitutor sub = new StringSubstitutor(valuesMap);
-      htmlString += sub.replace(rowTemplateString) + "\n";
+      htmlString.append(sub.replace(rowTemplateString)).append("\n");
       rowCounter++;
     }
-    Scanner htmlScanner = new Scanner(new File(HTML_TEMPLATE_PATH), "UTF-8");
+    Scanner htmlScanner = new Scanner(new File(HTML_TEMPLATE_PATH), StandardCharsets.UTF_8);
     String htmlTemplateString = htmlScanner.useDelimiter("\\A").next();
     htmlScanner.close();
 
     Map<String, String> outputValuesMap = new HashMap<>();
     outputValuesMap.put("title", "MS MARCO V1 Passage");
-    outputValuesMap.put("rows", htmlString);
+    outputValuesMap.put("rows", htmlString.toString());
 
     StringSubstitutor sub = new StringSubstitutor(outputValuesMap);
-    String resolvedString = new String(sub.replace(htmlTemplateString));
+    String resolvedString = sub.replace(htmlTemplateString);
     FileUtils.writeStringToFile(new File("docs/reproduce/msmarco-v1-passage.html"), resolvedString, "UTF-8");
   }
 }

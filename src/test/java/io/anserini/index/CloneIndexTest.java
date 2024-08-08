@@ -30,6 +30,7 @@ import org.apache.lucene.index.Term;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.jetbrains.annotations.NotNull;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -81,7 +82,7 @@ public class CloneIndexTest extends IndexerTestBase {
     config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
     IndexWriter writer = new IndexWriter(dir2, config);
 
-    LeafReader leafReader = reader.leaves().get(0).reader();
+    LeafReader leafReader = reader.leaves().getFirst().reader();
     CodecReader codecReader = SlowCodecReaderWrapper.wrap(leafReader);
     writer.addIndexes(new MyFilterCodecReader(codecReader));
     writer.commit();
@@ -149,6 +150,7 @@ public class CloneIndexTest extends IndexerTestBase {
       fieldsProducer.iterator();
     }
 
+    @NotNull
     @Override
     public Iterator<String> iterator() {
       return fieldsProducer.iterator();

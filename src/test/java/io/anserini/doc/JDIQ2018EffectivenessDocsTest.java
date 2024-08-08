@@ -25,7 +25,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.net.URL;
-import java.util.Arrays;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -68,9 +68,9 @@ public class JDIQ2018EffectivenessDocsTest {
     public String generateEffectiveness() {
       Map<String, Object> data = transform();
       StringBuilder builder = new StringBuilder();
-      for (String collection: Arrays.asList(new String[] { "disk12", "robust04", "robust05", "core17",
-          "wt10g", "gov2", "cw09b", "cw12b13", "mb11", "mb13"})) {
-        builder.append("#### "+collection+"\n");
+      for (String collection: new String[] { "disk12", "robust04", "robust05", "core17",
+          "wt10g", "gov2", "cw09b", "cw12b13", "mb11", "mb13"}) {
+        builder.append("#### ").append(collection).append("\n");
         for (Map.Entry<String, Object> entry2 : ((Map<String, Object>)data.get(collection)).entrySet()) {
           String metric = entry2.getKey();
           builder.append(String.format("%1$-40s|", metric.toUpperCase()));
@@ -113,16 +113,18 @@ public class JDIQ2018EffectivenessDocsTest {
   }
   
   @Test
-  public void main() throws Exception {
+  public void mainTest() throws Exception {
     ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
     URL yaml = JDIQ2018EffectivenessDocsTest.class.getResource("/jdiq2018/models.yaml");
+    assert yaml != null;
     Model data = mapper.readValue(new File(yaml.toURI()), Model.class);
     Map<String, String> valuesMap = new HashMap<>();
     valuesMap.put("results", data.generateEffectiveness());
 
     StringSubstitutor sub = new StringSubstitutor(valuesMap);
     URL template = GenerateRegressionDocsTest.class.getResource("/jdiq2018/doc.template");
-    Scanner scanner = new Scanner(new File(template.toURI()), "UTF-8");
+    assert template != null;
+    Scanner scanner = new Scanner(new File(template.toURI()), StandardCharsets.UTF_8);
     String text = scanner.useDelimiter("\\A").next();
     scanner.close();
     String resolvedString = sub.replace(text);

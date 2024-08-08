@@ -24,8 +24,10 @@ import org.junit.Test;
 
 import java.io.File;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class GenerateRegressionDocsTest {
@@ -34,7 +36,8 @@ public class GenerateRegressionDocsTest {
     ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
     URL templatesRoot = GenerateRegressionDocsTest.class.getResource("/docgen/templates/");
 
-    for (final File fileEntry : new File(templatesRoot.toURI()).listFiles()) {
+    assert templatesRoot != null;
+    for (final File fileEntry : Objects.requireNonNull(new File(templatesRoot.toURI()).listFiles())) {
       // This is the name of the test, which can be different from the name of the collection,
       // e.g., multiple topics run on the same collection.
       String testName = fileEntry.getName().replaceAll(".template", "");
@@ -61,7 +64,8 @@ public class GenerateRegressionDocsTest {
 
       StringSubstitutor sub = new StringSubstitutor(valuesMap);
       URL template = GenerateRegressionDocsTest.class.getResource(String.format("/docgen/templates/%s.template", testName));
-      Scanner scanner = new Scanner(new File(template.toURI()), "UTF-8");
+      assert template != null;
+      Scanner scanner = new Scanner(new File(template.toURI()), StandardCharsets.UTF_8);
       String text = scanner.useDelimiter("\\A").next();
       scanner.close();
       String resolvedString = sub.replace(text);
