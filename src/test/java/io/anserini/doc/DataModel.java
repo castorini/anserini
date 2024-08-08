@@ -27,10 +27,12 @@ import java.util.Map;
 public class DataModel {
   private static final String INDEX_COMMAND = "bin/run.sh io.anserini.index.IndexCollection";
   private static final String INDEX_HNSW_COMMAND = "bin/run.sh io.anserini.index.IndexHnswDenseVectors";
+  private static final String INDEX_FLAT_COMMAND = "bin/run.sh io.anserini.index.IndexFlatDenseVectors";
   private static final String INDEX_INVERTED_DENSE_COMMAND = "bin/run.sh io.anserini.index.IndexInvertedDenseVectors";
 
   private static final String SEARCH_COMMAND = "bin/run.sh io.anserini.search.SearchCollection";
   private static final String SEARCH_HNSW_COMMAND = "bin/run.sh io.anserini.search.SearchHnswDenseVectors";
+  private static final String SEARCH_FLAT_COMMAND = "bin/run.sh io.anserini.search.SearchFlatDenseVectors";
   private static final String SEARCH_INVERTED_DENSE_COMMAND = "bin/run.sh io.anserini.search.SearchInvertedDenseVectors";
 
   private String corpus;
@@ -280,6 +282,8 @@ public class DataModel {
     String indexCommand = INDEX_COMMAND;
     if ("hnsw".equals(getIndex_type())) {
       indexCommand = INDEX_HNSW_COMMAND;
+    } else if ("flat".equals(getIndex_type())) {
+      indexCommand = INDEX_FLAT_COMMAND;
     } else if ("inverted-dense".equals(getIndex_type())) {
       indexCommand = INDEX_INVERTED_DENSE_COMMAND;
     }
@@ -319,6 +323,8 @@ public class DataModel {
         String searchCommand = SEARCH_COMMAND;
         if ("hnsw".equals(model.getType())) {
           searchCommand = SEARCH_HNSW_COMMAND;
+        } else if ("flat".equals(model.getType())) {
+          searchCommand = SEARCH_FLAT_COMMAND;
         } else if ("inverted-dense".equals(model.getType())) {
           searchCommand = SEARCH_INVERTED_DENSE_COMMAND;
         }
