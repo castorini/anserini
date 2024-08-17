@@ -1,9 +1,10 @@
-import torch
-from transformers import AutoTokenizer, AutoModel
-import onnx
-import onnxruntime
 import argparse
 import os
+
+import onnx
+import onnxruntime
+import torch
+from transformers import AutoModel, AutoTokenizer
 
 # device
 device = "cuda" if torch.cuda.is_available() else "cpu" # make sure torch is compiled with cuda if you have a cuda device
@@ -21,14 +22,6 @@ def get_model_output_names(model, test_input):
     else:
         return [f'output_{i}' for i in range(len(outputs))]
 
-def get_dynamic_axes(input_names, output_names):
-    dynamic_axes = {}
-    for name in input_names:
-        dynamic_axes[name] = {0: 'batch_size', 1: 'sequence'}
-    for name in output_names:
-        dynamic_axes[name] = {0: 'batch_size', 1: 'sequence'}
-    return dynamic_axes
-
 def convert_model_to_onnx(text, model, tokenizer, onnx_path, vocab_path, device):
     print(model) # this prints the model structure for better understanding (optional)
     model.eval()
@@ -38,7 +31,6 @@ def convert_model_to_onnx(text, model, tokenizer, onnx_path, vocab_path, device)
     test_input = {k: v.to(device) for k, v in test_input.items()}
     
     output_names = get_model_output_names(model, test_input)
-    dynamic_axes = get_dynamic_axes(input_names, output_names)
     
     model_type = model.config.model_type
     num_heads = model.config.num_attention_heads
@@ -50,7 +42,6 @@ def convert_model_to_onnx(text, model, tokenizer, onnx_path, vocab_path, device)
         onnx_path,
         input_names=input_names,
         output_names=output_names,
-        dynamic_axes=dynamic_axes,
         do_constant_folding=True,
         opset_version=14
     )
