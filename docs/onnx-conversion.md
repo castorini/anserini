@@ -316,6 +316,46 @@ Sparse vector output after thresholding: [[[0.         0.23089279 0.14276895 ...
 
 All of these definitions are modularized in ```run_onnx_inference(model_path, model_name, text, threshold)```.
 
+## Quantization
+
+### Run End to End Quantization
+
+Loading and running is done easily with argparse in the following script:
+```
+src/main/python/onnx/quantize_onnx_model.py
+```
+
+For this example, we will continue with the SPLADE++ Ensemble Distil model.
+
+To run the script for running inference, run the following sequence of commands:
+```bash
+# Begin by going to the appropriate directory
+cd src/main/python/onnx
+# Now run the script
+python3 quantize_onnx_model.py --model_path models/splade-cocondenser-ensembledistil-optimized-8bit.onnx \
+                                    --model_name naver/splade-cocondenser-ensembledistil
+```
+
+So what actually happens under the hood? The following sections will discuss the key parts of the above script:
+
+### Quantizing the Model to 8-bit
+
+As seen below, the model name and extension are extracted from the presented optimized onnx model file, and a custom name with 8-bit is created. 
+
+In terms of the quantization semantics, only the ```model_input``` and ```model_output``` are needed as specifications to the target model. The other two arguments are needed for specifying the desired weight datatype with ```weight_type=QuantType.QInt8``` as well as the default tensor type ```extra_options={'DefaultTensorType': onnx.TensorProto.FLOAT}```
+
+```python
+base, ext = os.path.splitext(onnx_model_path)
+quantized_model_path = f"{base}-8bit{ext}"
+    
+quantize_dynamic(
+    model_input=onnx_model_path,
+    model_output=quantized_model_path,
+    weight_type=QuantType.QInt8,
+    extra_options={'DefaultTensorType': onnx.TensorProto.FLOAT}
+)
+```
+
 ## Concluding Remarks
 
 Now that we have successfully gone through a complete reproduction of converting SPLADE++ Ensemble Distil from PyTorch to ONNX, and ran inference with the optimized model, the scripts can be used to reproduce any model available on Huggingface.
