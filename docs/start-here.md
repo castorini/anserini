@@ -400,3 +400,4 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@valamuri2020](https://github.com/valamuri2020) on 2024-07-29 (commit [`10d9388`](https://github.com/castorini/anserini/commit/10d9388cb002a74d20d0e1fcd25cd573db720765))
 + Results reproduced by [@daisyyedda](https://github.com/daisyyedda) on 2024-08-02 (commit [`3885b5c`](https://github.com/castorini/anserini/commit/3885b5c25178d2a88fc3b953d572b518ef0d1da6))
 + Results reproduced by [@natek-1](https://github.com/natek-1) on 2024-08-05 (commit [`b467d4a`](https://github.com/castorini/anserini/commit/b467d4ade64ba99810b554bfa47655958b9477b2))
++ Results reproduced by [@emily-emily](https://github.com/emily-emily) on 2024-08-14 (commit [`28a98d0`](https://github.com/castorini/anserini/commit/28a98d05d1d379cd9133fce151779e2f312b3806))

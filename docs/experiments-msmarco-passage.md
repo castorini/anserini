@@ -20,7 +20,7 @@ Instead, really try to understand what's going on.
 
 What's Anserini?
 Well, it's the repo that you're in right now.
-Anserini is a toolkit (in Java) for reproducible information retrieval research built on the [Luence search library](https://lucene.apache.org/).
+Anserini is a toolkit (in Java) for reproducible information retrieval research built on the [Lucene search library](https://lucene.apache.org/).
 The Lucene search library provides components of the popular [Elasticsearch](https://www.elastic.co/) platform.
 
 Think of it this way: Lucene provides a "kit of parts".
@@ -505,3 +505,4 @@ The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to th
 + Results reproduced by [@valamuri2020](https://github.com/valamuri2020) on 2024-07-29 (commit [`10d9388`](https://github.com/castorini/anserini/commit/10d9388cb002a74d20d0e1fcd25cd573db720765))
 + Results reproduced by [@daisyyedda](https://github.com/daisyyedda) on 2024-08-02 (commit [`3885b5c`](https://github.com/castorini/anserini/commit/3885b5c25178d2a88fc3b953d572b518ef0d1da6))
 + Results reproduced by [@natek-1](https://github.com/natek-1) on 2024-08-05 (commit [`b467d4a`](https://github.com/castorini/anserini/commit/b467d4ade64ba99810b554bfa47655958b9477b2))
++ Results reproduced by [@emily-emily](https://github.com/emily-emily) on 2024-08-15 (commit [`28a98d0`](https://github.com/castorini/anserini/commit/28a98d05d1d379cd9133fce151779e2f312b3806))
