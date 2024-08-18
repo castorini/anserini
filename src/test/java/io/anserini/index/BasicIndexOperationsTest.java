@@ -99,10 +99,11 @@ public class BasicIndexOperationsTest extends IndexerTestBase {
 
     Map<Integer, Integer> norms = new HashMap<>();
     for (LeafReaderContext context : reader.leaves()) {
-      LeafReader leafReader = context.reader();
-      NumericDocValues docValues = leafReader.getNormValues("contents");
-      while (docValues.nextDoc() != DocIdSetIterator.NO_MORE_DOCS) {
-        norms.put(docValues.docID() + context.docBase, SmallFloat.byte4ToInt((byte) docValues.longValue()));
+      try(LeafReader leafReader = context.reader()) {
+        NumericDocValues docValues = leafReader.getNormValues("contents");
+        while (docValues.nextDoc() != DocIdSetIterator.NO_MORE_DOCS) {
+          norms.put(docValues.docID() + context.docBase, SmallFloat.byte4ToInt((byte) docValues.longValue()));
+        }
       }
     }
 
