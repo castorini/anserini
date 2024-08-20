@@ -318,7 +318,7 @@ All of these definitions are modularized in ```run_onnx_inference(model_path, mo
 
 ## Quantization
 
-### Run End to End Quantization
+### Run End-to-End Quantization
 
 Loading and running is done easily with argparse in the following script:
 ```
