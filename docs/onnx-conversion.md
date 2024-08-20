@@ -332,7 +332,7 @@ To run the script for running inference, run the following sequence of commands:
 # Begin by going to the appropriate directory
 cd src/main/python/onnx
 # Now run the script
-python3 quantize_onnx_model.py --model_path models/splade-cocondenser-ensembledistil-optimized-8bit.onnx \
+python quantize_onnx_model.py --model_path models/splade-cocondenser-ensembledistil-optimized-8bit.onnx \
                                     --model_name naver/splade-cocondenser-ensembledistil
 ```
 
