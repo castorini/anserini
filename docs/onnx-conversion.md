@@ -42,7 +42,7 @@ To run the script and produce the onnx model, run the following sequence of comm
 # Begin by going to the appropriate directory
 cd src/main/python/onnx
 # Now run the script
-python3 convert_hf_model_to_onnx.py --model_name naver/splade-cocondenser-ensembledistil
+python convert_hf_model_to_onnx.py --model_name naver/splade-cocondenser-ensembledistil
 ```
 
 So what actually happens under the hood? The following sections will discuss the key parts of the above script:
@@ -184,9 +184,9 @@ To run the script and produce the optimized onnx model, run the following sequen
 # Begin by going to the appropriate directory
 cd src/main/python/onnx
 # Now run the script
-python3 optimize_onnx_model.py --model_path models/splade-cocondenser-ensembledistil.onnx
+python optimize_onnx_model.py --model_path models/splade-cocondenser-ensembledistil.onnx
 # To run the script that produces the graph summary for the un-optimized and optimized graphs, run the following:
-python3 optimize_onnx_model.py --model_path models/splade-cocondenser-ensembledistil.onnx --stats
+python optimize_onnx_model.py --model_path models/splade-cocondenser-ensembledistil.onnx --stats
 ```
 
 So what actually happens under the hood? The following sections will discuss the key parts of the above script:
@@ -254,7 +254,7 @@ To run the script for running inference, run the following sequence of commands:
 # Begin by going to the appropriate directory
 cd src/main/python/onnx
 # Now run the script
-python3 run_onnx_model_inference.py --model_path models/splade-cocondenser-ensembledistil-optimized.onnx \
+python run_onnx_model_inference.py --model_path models/splade-cocondenser-ensembledistil-optimized.onnx \
                                     --model_name naver/splade-cocondenser-ensembledistil
 ```
 
@@ -342,7 +342,7 @@ So what actually happens under the hood? The following sections will discuss the
 
 As seen below, the model name and extension are extracted from the presented optimized onnx model file, and a custom name with 8-bit is created. 
 
-In terms of the quantization semantics, only the ```model_input``` and ```model_output``` are needed as specifications to the target model. The other two arguments are needed for specifying the desired weight datatype with ```weight_type=QuantType.QInt8``` as well as the default tensor type ```extra_options={'DefaultTensorType': onnx.TensorProto.FLOAT}```
+In terms of the quantization semantics, only the `model_input` and `model_output` are needed as specifications to the target model. The other two arguments are needed for specifying the desired weight datatype with `weight_type=QuantType.QInt8` as well as the default tensor type `extra_options={'DefaultTensorType': onnx.TensorProto.FLOAT}`
 
 ```python
 base, ext = os.path.splitext(onnx_model_path)
