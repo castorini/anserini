@@ -20,7 +20,6 @@ import static org.junit.Assert.assertArrayEquals;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -1098,7 +1097,7 @@ public class BgeBaseEn15EncoderInferenceTest extends DenseEncoderInferenceTest {
   }
 
   @Test
-  public void maxlen() throws OrtException, IOException {
+  public void testMaxLength() throws OrtException {
     DenseEncoder encoder = null;
     float[] expectedWeights = (float[]) longExamples[0][1];
     String[] inputStrings = (String[]) longExamples[0][0];

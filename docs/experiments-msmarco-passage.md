@@ -20,7 +20,7 @@ Instead, really try to understand what's going on.
 
 What's Anserini?
 Well, it's the repo that you're in right now.
-Anserini is a toolkit (in Java) for reproducible information retrieval research built on the [Luence search library](https://lucene.apache.org/).
+Anserini is a toolkit (in Java) for reproducible information retrieval research built on the [Lucene search library](https://lucene.apache.org/).
 The Lucene search library provides components of the popular [Elasticsearch](https://www.elastic.co/) platform.
 
 Think of it this way: Lucene provides a "kit of parts".
@@ -500,3 +500,11 @@ The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to th
 + Results reproduced by [@hosnahoseini](https://github.com/hosnahoseini) on 2024-06-18 (commit [`ad97377`](https://github.com/castorini/anserini/commit/ad97377e463e70ee8b2f501ac7c41134af53e976))
 + Results reproduced by [@FaizanFaisal25](https://github.com/FaizanFaisal25) on 2024-06-29 (commit [`e92370a`](https://github.com/FaizanFaisal25/anserini/commit/e92370a06eaa3bbc5bacdba65cc9c3f125590071))
 + Results reproduced by [@nicoella](https://github.com/nicoella) on 2024-07-06 (commit [`9cc2d89`](https://github.com/castorini/anserini/commit/9cc2d899e777b45b1e289f58b9e8e05099de6b3f))
++ Results reproduced by [@XKTZ](https://github.com/XKTZ) on 2024-07-12 (commit [`3885b5c`](https://github.com/castorini/anserini/commit/3885b5c25178d2a88fc3b953d572b518ef0d1da6))
++ Results reproduced by [@alireza-nasirian](https://github.com/alireza-nasirian) on 2024-07-19 (commit [`3885b5c`](https://github.com/castorini/anserini/commit/3885b5c25178d2a88fc3b953d572b518ef0d1da6))
++ Results reproduced by [@MehrnazSadeghieh](https://github.com/MehrnazSadeghieh) on 2024-07-19 (commit [`bb55c0b`](https://github.com/castorini/anserini/commit/bb55c0b5b219cb402c7f7084be7c32ad961a6595))
++ Results reproduced by [@valamuri2020](https://github.com/valamuri2020) on 2024-07-29 (commit [`10d9388`](https://github.com/castorini/anserini/commit/10d9388cb002a74d20d0e1fcd25cd573db720765))
++ Results reproduced by [@daisyyedda](https://github.com/daisyyedda) on 2024-08-02 (commit [`3885b5c`](https://github.com/castorini/anserini/commit/3885b5c25178d2a88fc3b953d572b518ef0d1da6))
++ Results reproduced by [@natek-1](https://github.com/natek-1) on 2024-08-05 (commit [`b467d4a`](https://github.com/castorini/anserini/commit/b467d4ade64ba99810b554bfa47655958b9477b2))
++ Results reproduced by [@emily-emily](https://github.com/emily-emily) on 2024-08-15 (commit [`28a98d0`](https://github.com/castorini/anserini/commit/28a98d05d1d379cd9133fce151779e2f312b3806))
++ Results reproduced by [@npjd](https://github.com/npjd) on 2024-08-17 (commit [`46b6834`](https://github.com/castorini/anserini/commit/46b68345b0ee614f511b87c9f66cee399e1308c5))
