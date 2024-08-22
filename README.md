@@ -331,7 +331,7 @@ Once you've unpacked the data, the following commands will loop over all BEIR co
 MODEL="splade-pp-ed"; CORPORA=(trec-covid bioasq nfcorpus nq hotpotqa fiqa signal1m trec-news robust04 arguana webis-touche2020 cqadupstack-android cqadupstack-english cqadupstack-gaming cqadupstack-gis cqadupstack-mathematica cqadupstack-physics cqadupstack-programmers cqadupstack-stats cqadupstack-tex cqadupstack-unix cqadupstack-webmasters cqadupstack-wordpress quora dbpedia-entity scidocs fever climate-fever scifact); for c in "${CORPORA[@]}"
 do
     echo "Running $c..."
-    python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-${c}.${MODEL}.onnx > logs/log.beir-v1.0.0-${c}-${MODEL} 2>&1
+    python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-${c}.${MODEL}.onnx > logs/log.beir-v1.0.0-${c}-${MODEL}.onnx 2>&1
 done
 ```
 
