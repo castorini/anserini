@@ -1,12 +1,9 @@
-# Anserini Fatjar Regresions (v0.36.2-SNAPSHOT)
-
-❗ **This is a stub.**
+# Anserini Fatjar Regresions (v0.37.0)
 
 Fetch the fatjar:
 
 ```bash
-# Update once artifact has been published
-wget https://repo1.maven.org/maven2/io/anserini/anserini/0.36.0/anserini-0.36.0-fatjar.jar
+wget https://repo1.maven.org/maven2/io/anserini/anserini/0.37.0/anserini-0.37.0-fatjar.jar
 ```
 
 Note that prebuilt indexes will be downloaded to `~/.cache/pyserini/indexes/`.
@@ -16,8 +13,8 @@ If you want to change the download location, the current workaround is to use sy
 Let's start out by setting the `ANSERINI_JAR` and the `OUTPUT_DIR`:
 
 ```bash
-export ANSERINI_JAR=`ls target/*-fatjar.jar`
-export OUTPUT_DIR="runs"
+export ANSERINI_JAR="anserini-0.37.0-fatjar.jar"
+export OUTPUT_DIR="."
 ```
 
 ## Webapp and REST API
@@ -39,6 +36,8 @@ curl -X GET "http://localhost:8081/api/collection/msmarco-v2.1-doc/search?query=
 
 The json results are the same as the output of the `-outputRerankerRequests` option in `SearchCollection`, described below for TREC 2024 RAG.
 Use the `hits` parameter to specify the number of hits to return, e.g., `hits=1000` to return the top 1000 hits.
+
+Details of the built-in webapp and REST API can be found [here](../rest-api.md).
 
 ## TREC 2024 RAG
 
