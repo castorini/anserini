@@ -20,7 +20,6 @@ export ANSERINI_JAR=`ls target/*-fatjar.jar`
 export OUTPUT_DIR="runs"
 ```
 
-
 ## Webapp and REST API
 
 Anserini has a built-in webapp for interactive querying along with a REST API that can be used by other applications.
@@ -397,7 +396,7 @@ java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl20-passage $OUTPUT_DIR/run.
 
 ## BEIR
 
-❗ Beware, the (automatically downloaded) indexes for running these experiments take up 246 GB in total.
+❗ Beware, the (automatically downloaded) indexes for running these experiments take up 374 GB in total.
 
 Currently, Anserini provides support for the following models:
 
