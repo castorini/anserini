@@ -349,7 +349,7 @@ For the other models, modify the above commands as follows:
 | BGE | `bge-base-en-v1.5` | `e4e8324ba3da3b46e715297407a24f00` | `bge-base-en-v1.5-hnsw` |
 
 The "Corpus" above should be substituted into the full file name `beir-v1.0.0-${corpus}.tar`, e.g., `beir-v1.0.0-bge-base-en-v1.5.tar`.
-The above commands will also work with some minor modifications, to match the schema of the `--regression` parameter with the YAML config files in `src/main/resources/regression/`.
+The above commands should work with some minor modifications: you'll need to tweak the `--regression` parameter to match the schema of the YAML config files in `src/main/resources/regression/`.
 
 </details>
 <details>
