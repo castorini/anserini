@@ -41,13 +41,65 @@ Details of the built-in webapp and REST API can be found [here](../rest-api.md).
 
 ## TREC 2024 RAG
 
+For the TREC 2024 RAG Track, we have thus far only implemented BM25 baselines on the MS MARCO V2.1 document corpus (both the doc and doc segmented variants).
+
 ❗ Beware, you need lots of space to run these experiments.
 The `msmarco-v2.1-doc` prebuilt index is 63 GB uncompressed.
 The `msmarco-v2.1-doc-segmented` prebuilt index is 84 GB uncompressed.
 Both indexes will be downloaded automatically.
 
-For the TREC 2024 RAG track, we have thus far only implemented BM25 baselines on the MS MARCO V2.1 document corpus (both the doc and doc segmented variants).
-Current results are based existing qrels that have been "projected" over from MS MARCO V2.0 passage judgments.
+This release of Anserini comes with the test topic for the TREC 2024 RAG track (`-topics rag24.test`).
+To generate jsonl output containing the raw documents that can be reranked and further processed, use the `-outputRerankerRequests` option to specify an output file.
+For example:
+
+```bash
+java -cp $ANSERINI_JAR io.anserini.search.SearchCollection \
+  -index msmarco-v2.1-doc \
+  -topics rag24.test \
+  -output $OUTPUT_DIR/run.msmarco-v2.1-doc.bm25.rag24.test.txt \
+  -bm25 -hits 20 \
+  -outputRerankerRequests $OUTPUT_DIR/results.msmarco-v2.1-doc.bm25.rag24.test.jsonl
+```
+
+And the output looks something like:
+
+```bash
+$ head -n 1 $OUTPUT_DIR/results.msmarco-v2.1-doc.bm25.rag24.test.jsonl | jq
+{
+  "query": {
+    "qid": "2024-105741",
+    "text": "is it dangerous to have wbc over 15,000 without treatment?"
+  },
+  "candidates": [
+    {
+      "docid": "msmarco_v2.1_doc_38_1524878562",
+      "score": 14.4877,
+      "doc": {
+        "url": "https://www.ebmconsult.com/articles/lab-test-white-blood-count-wbc",
+        "title": "Lab Test: White Blood Cell Count, WBC",
+        "headings": "...",
+        "body": "..."
+      }
+    },
+    {
+      "docid": "msmarco_v2.1_doc_19_1675146822",
+      "score": 14.3835,
+      "doc": {
+        "url": "https://fcer.org/white-blood-cells/",
+        "title": "White Blood Cells (WBCs) - Definition, Function, and Ranges",
+        "headings": "...",
+        "body": "..."
+      }
+    },
+    ...
+  ]
+}
+```
+
+Replace `-index msmarco-v2.1-doc` with `-index msmarco-v2.1-doc-segemented` if you want to search over the doc segments instead of the full docs.
+
+Since the TREC 2024 RAG evaluation hasn't happened yet, there are no qrels for evaluation.
+However, we _do_ have results based existing qrels that have been "projected" over from MS MARCO V2.0 passage judgments.
 The table below reports effectiveness (dev in terms of RR@10, DL21-DL23, RAGgy in terms of nDCG@10):
 
 |                                                                            |    dev |   dev2 |   DL21 |   DL22 |   DL23 |  RAGgy |
@@ -193,53 +245,6 @@ recall_1000           	all	0.5745
 ```
 
 </details>
-
-To generate jsonl output containing the raw documents that can be reranked and further processed, use the `-outputRerankerRequests` option to specify an output file.
-For example:
-
-```bash
-java -cp $ANSERINI_JAR io.anserini.search.SearchCollection \
-  -index msmarco-v2.1-doc \
-  -topics dl23-doc \
-  -output $OUTPUT_DIR/run.msmarco-v2.1-doc.bm25.dl23-doc.txt \
-  -bm25 -hits 20 \
-  -outputRerankerRequests $OUTPUT_DIR/results.msmarco-v2.1-doc.bm25.dl23-doc.jsonl
-```
-
-And the output looks something like:
-
-```bash
-$ head -n 1 $OUTPUT_DIR/results.msmarco-v2.1-doc.bm25.dl23-doc.jsonl | jq
-{
-  "query": {
-    "text": "How does the process of digestion and metabolism of carbohydrates start",
-    "qid": 2000138
-  },
-  "candidates": [
-    {
-      "docid": "msmarco_v2.1_doc_15_390497775",
-      "score": 14.3364,
-      "doc": {
-        "url": "https://diabetestalk.net/blood-sugar/conversion-of-carbohydrates-to-glucose",
-        "title": "Conversion Of Carbohydrates To Glucose | DiabetesTalk.Net",
-        "headings": "...",
-        "body": "..."
-      }
-    },
-    {
-      "docid": "msmarco_v2.1_doc_15_416962410",
-      "score": 14.2271,
-      "doc": {
-        "url": "https://diabetestalk.net/insulin/how-is-starch-converted-to-glucose-in-the-body",
-        "title": "How Is Starch Converted To Glucose In The Body? | DiabetesTalk.Net",
-        "headings": "...",
-        "body": "..."
-      }
-    },
-    ...
-  ]
-}
-```
 
 
 ## MS MARCO V1 Passage
