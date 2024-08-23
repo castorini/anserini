@@ -42,7 +42,7 @@ To evaluate:
 java -cp anserini-0.37.0-fatjar.jar trec_eval -c -M 10 -m recip_rank msmarco-passage.dev-subset run.msmarco-v1-passage-dev.splade-pp-ed-onnx.txt
 ```
 
-See [detailed instructions](docs/fatjar-regressions/fatjar-regressions-v0.37.0.md) for the current fatjar release of Anserini (v0.36.1) to reproduce regression experiments on the MS MARCO V2.1 corpora for TREC 2024 RAG, on MS MARCO V1 Passage, and on BEIR, all directly from the fatjar!
+See [detailed instructions](docs/fatjar-regressions/fatjar-regressions-v0.37.0.md) for the current fatjar release of Anserini (v0.37.0) to reproduce regression experiments on the MS MARCO V2.1 corpora for TREC 2024 RAG, on MS MARCO V1 Passage, and on BEIR, all directly from the fatjar!
 
 Also, Anserini comes with a built-in webapp for interactive querying along with a REST API that can be used by other applications.
 Check out our documentation [here](docs/rest-api.md).

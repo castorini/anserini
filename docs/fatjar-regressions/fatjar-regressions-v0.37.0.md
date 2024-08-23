@@ -31,7 +31,7 @@ And then navigate to [`http://localhost:8081/`](http://localhost:8081/) in your 
 Here's a specific example of using the REST API to issue the query "How does the process of digestion and metabolism of carbohydrates start" to `msmarco-v2.1-doc`:
 
 ```bash
-curl -X GET "http://localhost:8081/api/collection/msmarco-v2.1-doc/search?query=How%20does%20the%20process%20of%20digestion%20and%20metabolism%20of%20carbohydrates%20start" 
+curl -X GET "http://localhost:8081/api/v1.0/indexes/msmarco-v2.1-doc/search?query=How%20does%20the%20process%20of%20digestion%20and%20metabolism%20of%20carbohydrates%20start"
 ```
 
 The json results are the same as the output of the `-outputRerankerRequests` option in `SearchCollection`, described below for TREC 2024 RAG.
