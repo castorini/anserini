@@ -1,3 +1,19 @@
+/*
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.anserini.index.generator;
 
 import io.anserini.collection.SourceDocument;
@@ -18,7 +34,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * A document generator for creating Lucene documents with SafeTensors dense vector data.
  * Implements the LuceneDocumentGenerator interface.
- * 
+ *
  * @param <T> the type of SourceDocument
  */
 public class SafeTensorsDenseVectorDocumentGenerator<T extends SourceDocument> implements LuceneDocumentGenerator<T> {
@@ -36,20 +52,14 @@ public class SafeTensorsDenseVectorDocumentGenerator<T extends SourceDocument> i
   @Override
   public Document createDocument(T src) throws InvalidDocumentException {
     String docId = src.id();
-    AtomicBoolean alreadyProcessed = processedDocuments.putIfAbsent(docId, new AtomicBoolean(true));
-
-    // Check if the document is already being processed by another thread
-    if (alreadyProcessed != null && alreadyProcessed.get()) {
-      LOG.warn("Document ID: " + docId + " is already being processed by another thread.");
-      return null;
-    }
 
     try {
       LOG.info("Processing document ID: " + src.id() + " with thread: " + Thread.currentThread().getName());
 
       // Parse vector data from document contents
       float[] contents = parseVectorFromContents(src.contents());
-      if (contents == null) {
+      if (contents == null || contents.length == 0) {
+        LOG.error("Vector data is null or empty for document ID: " + src.id());
         throw new InvalidDocumentException();
       }
 
@@ -62,14 +72,18 @@ public class SafeTensorsDenseVectorDocumentGenerator<T extends SourceDocument> i
       document.add(new KnnFloatVectorField(Constants.VECTOR, contents, VectorSimilarityFunction.DOT_PRODUCT));
 
       LOG.info("Document created for ID: " + src.id());
-
       return document;
+
     } catch (Exception e) {
       LOG.error("Error creating document for ID: " + src.id(), e);
       throw new InvalidDocumentException();
+
     } finally {
-      // Mark processing as complete
-      processedDocuments.get(docId).set(false);
+      // Ensure the processed flag is reset if needed
+      AtomicBoolean processed = processedDocuments.get(docId);
+      if (processed != null) {
+        processed.set(false);
+      }
     }
   }
 
@@ -80,11 +94,21 @@ public class SafeTensorsDenseVectorDocumentGenerator<T extends SourceDocument> i
    * @return the parsed vector as an array of floats
    */
   private float[] parseVectorFromContents(String contents) {
-    String[] parts = contents.replace("[", "").replace("]", "").split(",");
-    float[] vector = new float[parts.length];
-    for (int i = 0; i < parts.length; i++) {
-      vector[i] = Float.parseFloat(parts[i].trim());
+    if (contents == null || contents.isEmpty()) {
+      LOG.error("Contents are null or empty, cannot parse vectors.");
+      return null;
     }
-    return vector;
+
+    try {
+      String[] parts = contents.replace("[", "").replace("]", "").split(",");
+      float[] vector = new float[parts.length];
+      for (int i = 0; i < parts.length; i++) {
+        vector[i] = Float.parseFloat(parts[i].trim());
+      }
+      return vector;
+    } catch (NumberFormatException e) {
+      LOG.error("Error parsing vector contents: " + contents, e);
+      return null;
+    }
   }
 }
