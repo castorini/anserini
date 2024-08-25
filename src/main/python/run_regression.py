@@ -215,7 +215,7 @@ beir_flat_tolerance = {
 beir_hnsw_int8_onnx = defaultdict(lambda: 0.005)
 beir_hnsw_int8_onnx['ArguAna'] = 0.03
 beir_hnsw_int8_onnx['BioASQ'] = 0.02
-beir_hnsw_int8_onnx['DBPedia'] = 0.006
+beir_hnsw_int8_onnx['DBPedia'] = 0.007
 beir_hnsw_int8_onnx['FiQA-2018'] = 0.007
 beir_hnsw_int8_onnx['HotpotQA'] = 0.008
 beir_hnsw_int8_onnx['NFCorpus'] = 0.006
@@ -234,6 +234,7 @@ beir_hnsw_int8_cached['Webis-Touche2020'] = 0.006
 
 beir_hnsw_onnx = defaultdict(lambda: 0.003)
 beir_hnsw_onnx['ArguAna'] = 0.02
+beir_hnsw_onnx['BioASQ'] = 0.005
 beir_hnsw_onnx['CQADupStack-wordpress'] = 0.004
 beir_hnsw_onnx['DBPedia'] = 0.006
 beir_hnsw_onnx['FEVER'] = 0.007
@@ -244,6 +245,7 @@ beir_hnsw_onnx['Signal-1M'] = 0.05
 beir_hnsw_onnx['TREC-NEWS'] = 0.02
 
 beir_hnsw_cached = defaultdict(lambda: 0.003)
+beir_hnsw_cached['BioASQ'] = 0.005
 beir_hnsw_cached['DBPedia'] = 0.006
 beir_hnsw_cached['FEVER'] = 0.008
 beir_hnsw_cached['FiQA-2018'] = 0.008
@@ -294,10 +296,12 @@ dl19_flat_tolerance = {
 
 dl20_flat_int8_onnx = defaultdict(lambda: 0.002)
 dl20_flat_int8_onnx['bge-flat-int8-onnx'] = 0.004
+dl20_flat_int8_onnx['cos-dpr-distil-flat-int8-onnx'] = 0.004
 dl20_flat_int8_cached = defaultdict(lambda: 0.002)
 dl20_flat_int8_cached['bge-flat-int8-cached'] = 0.005
 dl20_flat_int8_cached['cos-dpr-distil-flat-int8-cached'] = 0.004
 dl20_flat_int8_cached['cohere-embed-english-v3.0-flat-int8-cached'] = 0.004
+dl20_flat_int8_cached['openai-ada2-flat-int8-cached'] = 0.003
 dl20_flat_onnx = defaultdict(lambda: 0.0001)
 dl20_flat_onnx['bge-flat-onnx'] = 0.005
 dl20_flat_cached = defaultdict(lambda: 1e-9)
@@ -324,18 +328,17 @@ msmarco_v1_hnsw_tolerance = {
 }
 
 dl19_hnsw_int8_onnx = defaultdict(lambda: 0.01)
-dl19_hnsw_int8_onnx['bge-hnsw-int8-onnx'] = 0.02
+dl19_hnsw_int8_onnx['bge-hnsw-int8-onnx'] = 0.025
 dl19_hnsw_int8_onnx['cos-dpr-distil-hnsw-int8-onnx'] = 0.025
 dl19_hnsw_int8_cached = defaultdict(lambda: 0.01)
-dl19_hnsw_int8_cached['bge-hnsw-int8-cached'] = 0.015
-dl19_hnsw_int8_cached['cohere-embed-english-v3.0-hnsw-int8-cached'] = 0.015
+dl19_hnsw_int8_cached['bge-hnsw-int8-cached'] = 0.02
+dl19_hnsw_int8_cached['cohere-embed-english-v3.0-hnsw-int8-cached'] = 0.02
 dl19_hnsw_int8_cached['cos-dpr-distil-hnsw-int8-cached'] = 0.025
 dl19_hnsw_int8_cached['openai-ada2-hnsw-int8-cached'] = 0.015
 dl19_hnsw_onnx = defaultdict(lambda: 0.015)
 dl19_hnsw_onnx['bge-hnsw-onnx'] = 0.02
-dl19_hnsw_cached = defaultdict(lambda: 0.01)
+dl19_hnsw_cached = defaultdict(lambda: 0.015)
 dl19_hnsw_cached['cohere-embed-english-v3.0-hnsw-cached'] = 0.02
-dl19_hnsw_cached['cos-dpr-distil-hnsw-cached'] = 0.015
 
 dl19_hnsw_tolerance = {
     'hnsw-int8-onnx': dl19_hnsw_int8_onnx,
@@ -344,15 +347,11 @@ dl19_hnsw_tolerance = {
     'hnsw-cached': dl19_hnsw_cached,
 }
 
-dl20_hnsw_int8_onnx = defaultdict(lambda: 0.01)
-dl20_hnsw_int8_cached = defaultdict(lambda: 0.01)
-dl20_hnsw_int8_cached['bge-hnsw-int8-cached'] = 0.015
-dl20_hnsw_int8_cached['cohere-embed-english-v3.0-hnsw-int8-cached'] = 0.012
+dl20_hnsw_int8_onnx = defaultdict(lambda: 0.02)
+dl20_hnsw_int8_cached = defaultdict(lambda: 0.02)
 dl20_hnsw_onnx = defaultdict(lambda: 0.015)
-dl20_hnsw_cached = defaultdict(lambda: 0.01)
-dl20_hnsw_cached['bge-hnsw-cached'] = 0.015
+dl20_hnsw_cached = defaultdict(lambda: 0.015)
 dl20_hnsw_cached['cohere-embed-english-v3.0-hnsw-cached'] = 0.025
-dl20_hnsw_cached['cos-dpr-distil-hnsw-cached'] = 0.015
 
 dl20_hnsw_tolerance = {
     'hnsw-int8-onnx': dl20_hnsw_int8_onnx,

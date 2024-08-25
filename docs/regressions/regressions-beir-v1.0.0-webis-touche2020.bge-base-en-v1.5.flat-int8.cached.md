@@ -32,7 +32,7 @@ After download and unpacking the corpora, the `run_regression.py` command above 
 Sample indexing command, building quantized flat indexes:
 
 ```
-bin/run.sh io.anserini.index.IndexCollection \
+bin/run.sh io.anserini.index.IndexFlatDenseVectors \
   -collection JsonDenseVectorCollection \
   -input /path/to/beir-v1.0.0-webis-touche2020.bge-base-en-v1.5 \
   -generator DenseVectorDocumentGenerator \
@@ -50,7 +50,7 @@ Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/t
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-bin/run.sh io.anserini.search.SearchCollection \
+bin/run.sh io.anserini.search.SearchFlatDenseVectors \
   -index indexes/lucene-flat-int8.beir-v1.0.0-webis-touche2020.bge-base-en-v1.5/ \
   -topics tools/topics-and-qrels/topics.beir-v1.0.0-webis-touche2020.test.bge-base-en-v1.5.jsonl.gz \
   -topicReader JsonStringVector \

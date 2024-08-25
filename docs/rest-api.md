@@ -115,7 +115,7 @@ To access the content of a document in an index, the endpoint is `api/v1.0/index
 Here's an example of getting the document of the top candidate from the above example:
 
 ```bash
-curl -X GET "http://localhost:8080/api/v1.0/indexes/msmarco-v2.1-doc/documents/msmarco_v2.1_doc_15_390497775"
+curl -X GET "http://localhost:8081/api/v1.0/indexes/msmarco-v2.1-doc/documents/msmarco_v2.1_doc_15_390497775"
 ```
 
 Output is an object of the same format as a candidate from search
