@@ -72,5 +72,3 @@ loaded_docids = load_file(docids_path)['docids']
 
 print(f"Loaded vectors: {loaded_vectors}")
 print(f"Loaded document IDs (ASCII): {loaded_docids}")
-
-
