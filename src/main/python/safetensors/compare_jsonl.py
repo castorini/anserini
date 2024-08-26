@@ -1,17 +1,22 @@
 import json
+import torch
 import sys
+from safetensors.torch import load_file
 
-def read_jsonl(file_path):
-    with open(file_path, 'r') as f:
-        return [json.loads(line) for line in f]
+def convert_safetensors_to_dicts(vectors_path, docids_path):
+    # Load vectors and docids
+    vectors_tensor = load_file(vectors_path)['vectors']
+    docids_tensor = load_file(docids_path)['docids']
 
-def compare_jsonl(vectors_file, contents_file):
-    vectors_data = read_jsonl(vectors_file)
-    contents_data = read_jsonl(contents_file)
+    # Convert docids_tensor to a list of docid strings
+    docids = ["".join([chr(int(c)) for c in row if c != 0]) for row in docids_tensor.tolist()]
 
-    vectors_dict = {entry['docid']: entry['vector'] for entry in vectors_data}
-    contents_dict = {entry['docid']: entry for entry in contents_data}  # Keep full entry for accurate comparison
+    vectors_dict = {docids[i]: vectors_tensor[i].tolist() for i in range(len(docids))}
+    contents_dict = {docid: {"docid": docid, "contents": "Dummy contents for docid: " + docid, "vector": vectors_dict[docid]} for docid in docids}
 
+    return vectors_dict, contents_dict
+
+def compare_dicts(vectors_dict, contents_dict):
     all_docids = set(vectors_dict.keys()).union(contents_dict.keys())
 
     differences = []
@@ -41,10 +46,14 @@ def compare_jsonl(vectors_file, contents_file):
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
-        print("Usage: python compare_jsonl.py <vectors_file.jsonl> <contents_file.jsonl>")
+        print("Usage: python compare_safetensors.py <vectors.safetensors> <docids.safetensors>")
         sys.exit(1)
 
-    vectors_file = sys.argv[1]
-    contents_file = sys.argv[2]
+    vectors_path = sys.argv[1]
+    docids_path = sys.argv[2]
 
-    compare_jsonl(vectors_file, contents_file)
+    # Convert SafeTensors to dictionaries
+    vectors_dict, contents_dict = convert_safetensors_to_dicts(vectors_path, docids_path)
+
+    # Compare the dictionaries
+    compare_dicts(vectors_dict, contents_dict)
