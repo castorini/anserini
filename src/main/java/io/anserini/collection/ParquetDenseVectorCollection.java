@@ -104,7 +104,7 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
      */
     public Segment(java.nio.file.Path path) throws IOException {
       super(path);
-      initializeParquetReader(path); // Initialize the Parquet reader and load data
+      initializeParquetReader(path);
     }
 
     /**
@@ -145,11 +145,11 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
       while ((record = reader.read()) != null) {
         // Extract the docid (String) from the record
         String docid = record.getString("docid", 0);
-        ids.add(docid); // Add to the list of IDs
+        ids.add(docid);
 
         // Extract the contents (String) from the record
         String content = record.getString("contents", 0);
-        contents.add(content); // Add to the list of contents
+        contents.add(content);
 
         // Extract the vector (double[]) from the record
         Group vectorGroup = record.getGroup("vector", 0); // Access the 'vector' field
@@ -159,11 +159,11 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
           Group listGroup = vectorGroup.getGroup(0, i); // Access the 'list' group
           vector[i] = listGroup.getDouble("element", 0); // Get the double value from the 'element' field
         }
-        vectors.add(vector); // Add to the list of vectors
+        vectors.add(vector);
       }
 
-      reader.close(); // Close the reader
-      currentIndex = 0; // Start iterating from the beginning
+      reader.close();
+      currentIndex = 0;
     }
 
     /**
@@ -176,8 +176,8 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
     protected synchronized void readNext() throws IOException, NoSuchElementException {
       // Check if we have reached the end of the list
       if (currentIndex >= ids.size()) {
-        atEOF = true; // Set the end-of-file flag
-        throw new NoSuchElementException("End of file reached"); // Throw exception to signal end of data
+        atEOF = true;
+        throw new NoSuchElementException("End of file reached");
       }
 
       // Get the current document's ID, contents, and vector
@@ -188,7 +188,6 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
       // Create a new Document object with the retrieved data
       bufferedRecord = new ParquetDenseVectorCollection.Document(id, vector, content);
 
-      // Move to the next document
       currentIndex++;
     }
   }
@@ -197,9 +196,9 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
    * Inner class representing a document in the ParquetDenseVectorCollection.
    */
   public static class Document implements SourceDocument {
-    private final String id; // Document ID
-    private final double[] vector; // Vector data
-    private final String raw; // Raw data
+    private final String id;
+    private final double[] vector;
+    private final String raw;
 
     /**
      * Constructor for the Document class.
