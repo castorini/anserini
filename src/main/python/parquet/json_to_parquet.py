@@ -40,10 +40,7 @@ def convert_file_to_parquet(input_file_path: str, output_file_path: str) -> int:
     Converts a single JSONL file to Parquet format.
     """
     try:
-        # Read the JSONL data
         data = read_jsonl_file(input_file_path)
-
-        # Convert to DataFrame
         df = pd.DataFrame(data)
 
         # Write to Parquet
@@ -90,7 +87,7 @@ def convert_and_validate_file(input_file_path: str, output_file_path: str) -> in
     Converts a single JSONL file to Parquet format and then validates it.
     """
     row_count = convert_file_to_parquet(input_file_path, output_file_path)
-    # validate_parquet_conversion(input_file_path, output_file_path)
+    validate_parquet_conversion(input_file_path, output_file_path)
     logging.info(f"Converted {input_file_path} to {output_file_path}")
     return row_count
 
@@ -161,7 +158,6 @@ def convert_jsonl_to_parquet(input_dir: str, output_dir: str, overwrite=False) -
 if __name__ == "__main__":
     setup_logging()
 
-    # Argument parsing
     parser = argparse.ArgumentParser(
         description="Convert JSONL files to Parquet format and validate."
     )
