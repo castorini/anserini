@@ -116,8 +116,9 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
      *
      * @param bufferedReader the BufferedReader to read the file segment.
      */
-    public Segment(BufferedReader bufferedReader) {
+    public Segment(BufferedReader bufferedReader) throws IOException {
       super(bufferedReader);
+      throw new IOException("Not Implemented");
     }
 
     /**
@@ -151,10 +152,12 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
         contents.add(content); // Add to the list of contents
 
         // Extract the vector (double[]) from the record
-        int vectorSize = record.getFieldRepetitionCount("vector");
+        Group vectorGroup = record.getGroup("vector", 0); // Access the 'vector' field
+        int vectorSize = vectorGroup.getFieldRepetitionCount(0); // Get the number of elements in the vector
         double[] vector = new double[vectorSize];
         for (int i = 0; i < vectorSize; i++) {
-          vector[i] = record.getDouble("vector", i);
+          Group listGroup = vectorGroup.getGroup(0, i); // Access the 'list' group
+          vector[i] = listGroup.getDouble("element", 0); // Get the double value from the 'element' field
         }
         vectors.add(vector); // Add to the list of vectors
       }
