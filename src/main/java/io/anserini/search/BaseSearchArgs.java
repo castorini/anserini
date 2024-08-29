@@ -21,7 +21,7 @@ import org.kohsuke.args4j.Option;
 /**
  * This is the base class that holds common arguments for configuring searchers. Note that, explicitly, there are no
  * arguments that are specific to the retrieval implementation (e.g., for HNSW searchers), and that there are no
- * arguments that define queries and outputs (which are to be defined by sub-classes that may call the searcher in
+ * arguments that define queries and outputs (which are to be defined by subclasses that may call the searcher in
  * different ways).
  */
 public class BaseSearchArgs {

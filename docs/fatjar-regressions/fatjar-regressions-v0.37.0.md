@@ -36,19 +36,20 @@ curl -X GET "http://localhost:8081/api/v1.0/indexes/msmarco-v2.1-doc/search?quer
 
 The json results are the same as the output of the `-outputRerankerRequests` option in `SearchCollection`, described below for TREC 2024 RAG.
 Use the `hits` parameter to specify the number of hits to return, e.g., `hits=1000` to return the top 1000 hits.
+Switch to `msmarco-v2.1-doc-segmented` in the route to query the segmented docs instead.
 
 Details of the built-in webapp and REST API can be found [here](../rest-api.md).
 
 ## TREC 2024 RAG
 
-For the TREC 2024 RAG Track, we have thus far only implemented BM25 baselines on the MS MARCO V2.1 document corpus (both the doc and doc segmented variants).
+For the [TREC 2024 RAG Track](https://trec-rag.github.io/), we have thus far only implemented BM25 baselines on the MS MARCO V2.1 document corpus (both the doc and doc segmented variants).
 
 ❗ Beware, you need lots of space to run these experiments.
 The `msmarco-v2.1-doc` prebuilt index is 63 GB uncompressed.
 The `msmarco-v2.1-doc-segmented` prebuilt index is 84 GB uncompressed.
 Both indexes will be downloaded automatically.
 
-This release of Anserini comes with the test topic for the TREC 2024 RAG track (`-topics rag24.test`).
+This release of Anserini comes with bindings for the test topics for the TREC 2024 RAG track (`-topics rag24.test`).
 To generate jsonl output containing the raw documents that can be reranked and further processed, use the `-outputRerankerRequests` option to specify an output file.
 For example:
 
@@ -61,7 +62,7 @@ java -cp $ANSERINI_JAR io.anserini.search.SearchCollection \
   -outputRerankerRequests $OUTPUT_DIR/results.msmarco-v2.1-doc.bm25.rag24.test.jsonl
 ```
 
-And the output looks something like:
+And the output looks something like (pipe through `jq` to pretty-print):
 
 ```bash
 $ head -n 1 $OUTPUT_DIR/results.msmarco-v2.1-doc.bm25.rag24.test.jsonl | jq
