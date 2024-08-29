@@ -51,11 +51,12 @@ Sample indexing command:
 
 ```bash
 bin/run.sh io.anserini.index.IndexCollection \
+  -threads 16 \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-passage-deepimpact \
   -generator DefaultLuceneDocumentGenerator \
   -index indexes/lucene-inverted.msmarco-v1-passage.deepimpact/ \
-  -threads 16 -impact -pretokenized \
+  -impact -pretokenized \
   >& logs/log.msmarco-passage-deepimpact &
 ```
 

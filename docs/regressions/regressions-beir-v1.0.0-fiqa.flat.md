@@ -28,11 +28,12 @@ Typical indexing command:
 
 ```
 bin/run.sh io.anserini.index.IndexCollection \
+  -threads 1 \
   -collection BeirFlatCollection \
   -input /path/to/beir-v1.0.0-fiqa.flat \
   -generator DefaultLuceneDocumentGenerator \
   -index indexes/lucene-inverted.beir-v1.0.0-fiqa.flat/ \
-  -threads 1 -storePositions -storeDocvectors -storeRaw \
+  -storePositions -storeDocvectors -storeRaw \
   >& logs/log.beir-v1.0.0-fiqa.flat &
 ```
 

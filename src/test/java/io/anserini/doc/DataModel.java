@@ -289,12 +289,12 @@ public class DataModel {
     }
 
     return indexCommand + " \\\n" +
+        "  -threads " + getIndex_threads() + " \\\n" +
         "  -collection " + getCollection_class() + " \\\n" +
         "  -input " + "/path/to/" + collection + " \\\n" +
         "  -generator " + getGenerator_class() + " \\\n" +
         "  -index " + getIndex_path() + " \\\n" +
-        "  -threads " + getIndex_threads() +
-        " " + getIndex_options() + " \\\n" +
+        (getIndex_options().isEmpty() ? "" : "  " + getIndex_options() + " \\\n" ) +
         String.format("  >& logs/log.%s &", collection);
   }
 

@@ -24,11 +24,12 @@ Typical indexing command:
 
 ```
 bin/run.sh io.anserini.index.IndexCollection \
+  -threads 30 \
   -collection JsonCollection \
   -input /path/to/car-paragraphCorpus.v2.0-doc2query \
   -generator DefaultLuceneDocumentGenerator \
   -index indexes/lucene-index.car-paragraphCorpus.v2.0-doc2query/ \
-  -threads 30 -storePositions -storeDocvectors -storeRaw \
+  -storePositions -storeDocvectors -storeRaw \
   >& logs/log.car-paragraphCorpus.v2.0-doc2query &
 ```
 

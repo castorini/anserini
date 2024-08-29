@@ -34,11 +34,12 @@ Typical indexing command:
 
 ```
 bin/run.sh io.anserini.index.IndexCollection \
+  -threads 16 \
   -collection JsonVectorCollection \
   -input /path/to/beir-v1.0.0-quora.unicoil-noexp \
   -generator DefaultLuceneDocumentGenerator \
   -index indexes/lucene-inverted.beir-v1.0.0-quora.unicoil-noexp/ \
-  -threads 16 -impact -pretokenized \
+  -impact -pretokenized \
   >& logs/log.beir-v1.0.0-quora.unicoil-noexp &
 ```
 

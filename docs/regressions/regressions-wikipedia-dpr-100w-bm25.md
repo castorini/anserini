@@ -19,11 +19,12 @@ Typical indexing command:
 
 ```bash
 bin/run.sh io.anserini.index.IndexCollection \
+  -threads 43 \
   -collection JsonCollection \
   -input /path/to/wikipedia-dpr-100w \
   -generator DefaultLuceneDocumentGenerator \
   -index indexes/lucene-index.wikipedia-dpr-100w/ \
-  -threads 43 -storeRaw \
+  -storeRaw \
   >& logs/log.wikipedia-dpr-100w &
 ```
 

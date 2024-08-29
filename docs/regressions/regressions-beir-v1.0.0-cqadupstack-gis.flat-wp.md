@@ -29,11 +29,12 @@ Typical indexing command:
 
 ```
 bin/run.sh io.anserini.index.IndexCollection \
+  -threads 1 \
   -collection BeirFlatCollection \
   -input /path/to/beir-v1.0.0-cqadupstack-gis.flat-wp \
   -generator DefaultLuceneDocumentGenerator \
   -index indexes/lucene-inverted.beir-v1.0.0-cqadupstack-gis.flat-wp/ \
-  -threads 1 -storePositions -storeDocvectors -storeRaw -pretokenized \
+  -storePositions -storeDocvectors -storeRaw -pretokenized \
   >& logs/log.beir-v1.0.0-cqadupstack-gis.flat-wp &
 ```
 
