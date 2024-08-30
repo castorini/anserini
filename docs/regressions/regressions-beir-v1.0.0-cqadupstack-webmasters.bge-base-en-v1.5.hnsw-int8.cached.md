@@ -58,7 +58,7 @@ bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -topics tools/topics-and-qrels/topics.beir-v1.0.0-cqadupstack-webmasters.test.bge-base-en-v1.5.jsonl.gz \
   -topicReader JsonStringVector \
   -output runs/run.beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.bge-hnsw-int8-cached.topics.beir-v1.0.0-cqadupstack-webmasters.test.bge-base-en-v1.5.jsonl.txt \
-  -generator VectorQueryGenerator -topicField vector -removeQuery -threads 16 -hits 1000 -efSearch 1000 &
+  -hits 1000 -efSearch 1000 -removeQuery -threads 16 &
 ```
 
 Evaluation can be performed using `trec_eval`:
