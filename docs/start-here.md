@@ -403,3 +403,4 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@natek-1](https://github.com/natek-1) on 2024-08-05 (commit [`b467d4a`](https://github.com/castorini/anserini/commit/b467d4ade64ba99810b554bfa47655958b9477b2))
 + Results reproduced by [@emily-emily](https://github.com/emily-emily) on 2024-08-14 (commit [`28a98d0`](https://github.com/castorini/anserini/commit/28a98d05d1d379cd9133fce151779e2f312b3806))
 + Results reproduced by [@npjd](https://github.com/npjd) on 2024-08-17 (commit [`46b6834`](https://github.com/castorini/anserini/commit/46b68345b0ee614f511b87c9f66cee399e1308c5))
++ Results reproduced by [@setarehbabajani](https://github.com/setarehbabajani) on 2024-08-29 (commit [`859c7bba`](https://github.com/castorini/anserini/commit/859c7bbadd39693e5890a758e89135c04ab811ee))
