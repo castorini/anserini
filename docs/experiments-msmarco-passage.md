@@ -104,7 +104,7 @@ bin/run.sh io.anserini.index.IndexCollection \
 ```
 For Windows:
 ```bash
-windows-bat\win-run.bat io.anserini.index.IndexCollection -collection JsonCollection -input collections\msmarco-passage\collection_jsonl -index indexes\msmarco-passage\lucene-index-msmarco -generator DefaultLuceneDocumentGenerator -threads 9 -storePositions -storeDocvectors -storeRaw
+bin\run.bat io.anserini.index.IndexCollection -collection JsonCollection -input collections\msmarco-passage\collection_jsonl -index indexes\msmarco-passage\lucene-index-msmarco -generator DefaultLuceneDocumentGenerator -threads 9 -storePositions -storeDocvectors -storeRaw
 ```
 
 
@@ -134,7 +134,7 @@ bin/run.sh io.anserini.search.SearchCollection \
 ```
 For Windows:
 ```bash
-windows-bat\win-run.bat io.anserini.search.SearchCollection -index indexes\msmarco-passage\lucene-index-msmarco -topics collections\msmarco-passage\queries.dev.small.tsv -topicReader TsvInt -output runs\run.msmarco-passage.dev.small.tsv -format msmarco -parallelism 4 -bm25 -bm25.k1 0.82 -bm25.b 0.68 -hits 1000
+bin\run.bat io.anserini.search.SearchCollection -index indexes\msmarco-passage\lucene-index-msmarco -topics collections\msmarco-passage\queries.dev.small.tsv -topicReader TsvInt -output runs\run.msmarco-passage.dev.small.tsv -format msmarco -parallelism 4 -bm25 -bm25.k1 0.82 -bm25.b 0.68 -hits 1000
 ```
 
 This is the **retrieval** (or **search**) phase.
@@ -519,4 +519,4 @@ The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to th
 + Results reproduced by [@natek-1](https://github.com/natek-1) on 2024-08-05 (commit [`b467d4a`](https://github.com/castorini/anserini/commit/b467d4ade64ba99810b554bfa47655958b9477b2))
 + Results reproduced by [@emily-emily](https://github.com/emily-emily) on 2024-08-15 (commit [`28a98d0`](https://github.com/castorini/anserini/commit/28a98d05d1d379cd9133fce151779e2f312b3806))
 + Results reproduced by [@npjd](https://github.com/npjd) on 2024-08-17 (commit [`46b6834`](https://github.com/castorini/anserini/commit/46b68345b0ee614f511b87c9f66cee399e1308c5))
-+ Results reproduced by [@setarehbabajani](https://github.com/setarehbabajani) on 2024-08-30 (commit [`48da138c`](https://github.com/castorini/anserini/commit/48da138c562697708c959a7e5ef6596f44393262))
++ Results reproduced by [@setarehbabajani](https://github.com/setarehbabajani) on 2024-08-30 (commit [`61bfffdc`](https://github.com/castorini/anserini/commit/61bfffdc9c6fa701bcc969d4dc46c6433f95f39f))
