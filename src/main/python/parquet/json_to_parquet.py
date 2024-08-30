@@ -42,14 +42,15 @@ def convert_file_to_parquet(input_file_path: str, output_file_path: str) -> int:
     try:
         data = read_jsonl_file(input_file_path)
         df = pd.DataFrame(data)
+        # contents is a placeholder field, can be dropped
+        df.drop(columns=["contents"], inplace=True)
 
         # Write to Parquet
         df.to_parquet(output_file_path, index=False)
         return len(df)
     except Exception as e:
         logging.error(f"Error converting {input_file_path} to Parquet: {e}")
-        raise RuntimeError(
-            f"Error converting {input_file_path} to Parquet: {e}")
+        raise RuntimeError(f"Error converting {input_file_path} to Parquet: {e}")
 
 
 def validate_parquet_conversion(input_file_path: str, parquet_file_path: str) -> bool:
@@ -60,6 +61,7 @@ def validate_parquet_conversion(input_file_path: str, parquet_file_path: str) ->
         # Read original JSONL data
         jsonl_data = read_jsonl_file(input_file_path)
         jsonl_df = pd.DataFrame(jsonl_data)
+        jsonl_df.drop(columns=["contents"], inplace=True)
 
         # Read Parquet data
         parquet_df = pd.read_parquet(parquet_file_path)

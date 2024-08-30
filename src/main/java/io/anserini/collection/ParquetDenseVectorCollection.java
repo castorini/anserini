@@ -25,16 +25,10 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.concurrent.ConcurrentHashMap;
 
-import org.apache.hadoop.conf.Configuration;
 import org.apache.parquet.example.data.Group;
-import org.apache.parquet.example.data.simple.SimpleGroup;
-import org.apache.parquet.example.data.simple.convert.GroupRecordConverter;
 import org.apache.parquet.hadoop.ParquetReader;
 import org.apache.parquet.hadoop.example.GroupReadSupport;
-import org.apache.parquet.io.InputFile;
-import org.apache.parquet.hadoop.util.HadoopInputFile;
 
 import java.util.ArrayList;
 
@@ -138,7 +132,6 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
       // Initialize lists to store data read from the Parquet file
       vectors = new ArrayList<>();
       ids = new ArrayList<>();
-      contents = new ArrayList<>();
 
       Group record;
       // Read each record from the Parquet file
@@ -146,10 +139,6 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
         // Extract the docid (String) from the record
         String docid = record.getString("docid", 0);
         ids.add(docid);
-
-        // Extract the contents (String) from the record
-        String content = record.getString("contents", 0);
-        contents.add(content);
 
         // Extract the vector (double[]) from the record
         Group vectorGroup = record.getGroup("vector", 0); // Access the 'vector' field
@@ -182,11 +171,10 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
 
       // Get the current document's ID, contents, and vector
       String id = ids.get(currentIndex);
-      String content = contents.get(currentIndex);
       double[] vector = vectors.get(currentIndex);
 
       // Create a new Document object with the retrieved data
-      bufferedRecord = new ParquetDenseVectorCollection.Document(id, vector, content);
+      bufferedRecord = new ParquetDenseVectorCollection.Document(id, vector, "");
 
       currentIndex++;
     }
