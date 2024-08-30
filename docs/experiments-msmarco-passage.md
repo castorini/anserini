@@ -93,6 +93,7 @@ If you haven't built Anserini already, build it now using the instructions in [a
 
 We index these docs as a `JsonCollection` (a specification of how documents are encoded) using Anserini:
 
+In Linux/MacOS:
 ```bash
 bin/run.sh io.anserini.index.IndexCollection \
   -collection JsonCollection \
@@ -100,6 +101,15 @@ bin/run.sh io.anserini.index.IndexCollection \
   -index indexes/msmarco-passage/lucene-index-msmarco \
   -generator DefaultLuceneDocumentGenerator \
   -threads 9 -storePositions -storeDocvectors -storeRaw 
+```
+In Windows:
+```bash
+java -cp target\anserini-0.12.0-fatjar.jar io.anserini.index.IndexCollection ^
+  -collection JsonCollection ^
+  -input collections\msmarco-passage\collection_jsonl ^
+  -index indexes\msmarco-passage\lucene-index-msmarco ^
+  -generator DefaultLuceneDocumentGenerator ^
+  -threads 9 -storePositions -storeDocvectors -storeRaw
 ```
 
 In this case, Lucene creates what is known as an **inverted index**.
@@ -116,6 +126,7 @@ garbage collecting. To mitigate this issue, you may need to modify run.sh to cha
 In the above step, we've built the inverted index.
 Now we can perform a retrieval run using queries we've prepared:
 
+In Linux/MacOS:
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/msmarco-passage/lucene-index-msmarco \
@@ -125,6 +136,11 @@ bin/run.sh io.anserini.search.SearchCollection \
   -parallelism 4 \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 -hits 1000
 ```
+In Windows:
+```bash
+java -cp target\anserini-0.12.0-fatjar.jar io.anserini.search.SearchCollection -index indexes\msmarco-passage\lucene-index-msmarco -topics collections\msmarco-passage\queries.dev.small.tsv -topicreader TsvInt -output runs\run.msmarco-passage.dev.small.tsv -format msmarco -parallelism 4 -bm25 -bm25.k1 0.82 -bm25.b 0.68 -hits 1000
+```
+
 
 This is the **retrieval** (or **search**) phase.
 We're performing retrieval _in batch_, on a set of queries.
@@ -294,8 +310,7 @@ This is consistent with the example we worked through above.
 At this point, make sure that the connections between a query, the relevance judgments for a query, the ranked list, and the metric (MRR@10) are clear in your mind.
 Work through a few more examples (take another query, look at its qrels and ranked list, and compute its MRR@10 by hand) to convince yourself that you understand what's going on.
 
-The tl;dr is that there are different formats for run files and lots of different metrics you can compute.
-`trec_eval` is a standard tool used by information retrieval researchers (which has many command-line options that you'll slowly learn over time).
+There are various formats for run files and a wide range of metrics that can be used to evaluate search results. `trec_eval` is a widely-used tool among information retrieval researchers, offering many command-line options that you will gradually become familiar with.
 Researchers have been trying to answer the question "how do we know if a search result is good and how do we measure it" for over half a century... and the question still has not been fully resolved.
 In short, it's complicated.
 
@@ -508,3 +523,4 @@ The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to th
 + Results reproduced by [@natek-1](https://github.com/natek-1) on 2024-08-05 (commit [`b467d4a`](https://github.com/castorini/anserini/commit/b467d4ade64ba99810b554bfa47655958b9477b2))
 + Results reproduced by [@emily-emily](https://github.com/emily-emily) on 2024-08-15 (commit [`28a98d0`](https://github.com/castorini/anserini/commit/28a98d05d1d379cd9133fce151779e2f312b3806))
 + Results reproduced by [@npjd](https://github.com/npjd) on 2024-08-17 (commit [`46b6834`](https://github.com/castorini/anserini/commit/46b68345b0ee614f511b87c9f66cee399e1308c5))
++ Results reproduced by [@setarehbabajani](https://github.com/setarehbabajani) on 2024-08-29 (commit [`db27fb10`](https://github.com/castorini/anserini/commit/db27fb105b4b6fa3f2a5ada4af6490f935ce9ace))
