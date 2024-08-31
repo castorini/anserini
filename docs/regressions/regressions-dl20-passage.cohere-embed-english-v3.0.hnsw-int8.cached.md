@@ -48,11 +48,12 @@ Sample indexing command, building quantized HNSW indexes:
 
 ```bash
 bin/run.sh io.anserini.index.IndexHnswDenseVectors \
+  -threads 16 \
   -collection JsonDenseVectorCollection \
   -input /path/to/msmarco-passage-cohere-embed-english-v3.0 \
   -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-hnsw-int8.msmarco-v1-passage.cohere-embed-english-v3.0/ \
-  -threads 16 -M 16 -efC 100 -quantize.int8 \
+  -M 16 -efC 100 -quantize.int8 \
   >& logs/log.msmarco-passage-cohere-embed-english-v3.0 &
 ```
 

@@ -33,11 +33,11 @@ Sample indexing command, building flat indexes:
 
 ```
 bin/run.sh io.anserini.index.IndexFlatDenseVectors \
+  -threads 16 \
   -collection JsonDenseVectorCollection \
   -input /path/to/beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5 \
   -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-flat.beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5/ \
-  -threads 16  \
   >& logs/log.beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5 &
 ```
 
@@ -55,7 +55,7 @@ bin/run.sh io.anserini.search.SearchFlatDenseVectors \
   -topics tools/topics-and-qrels/topics.beir-v1.0.0-cqadupstack-webmasters.test.bge-base-en-v1.5.jsonl.gz \
   -topicReader JsonStringVector \
   -output runs/run.beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.bge-flat-cached.topics.beir-v1.0.0-cqadupstack-webmasters.test.bge-base-en-v1.5.jsonl.txt \
-  -generator VectorQueryGenerator -topicField vector -removeQuery -threads 16 -hits 1000 &
+  -hits 1000 -removeQuery -threads 16 &
 ```
 
 Evaluation can be performed using `trec_eval`:

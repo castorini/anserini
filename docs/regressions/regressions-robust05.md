@@ -18,11 +18,12 @@ Typical indexing command:
 
 ```
 bin/run.sh io.anserini.index.IndexCollection \
+  -threads 16 \
   -collection TrecCollection \
   -input /path/to/robust05 \
   -generator DefaultLuceneDocumentGenerator \
   -index indexes/lucene-index.robust05/ \
-  -threads 16 -storePositions -storeDocvectors -storeRaw \
+  -storePositions -storeDocvectors -storeRaw \
   >& logs/log.robust05 &
 ```
 

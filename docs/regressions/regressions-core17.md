@@ -18,11 +18,12 @@ Typical indexing command:
 
 ```
 bin/run.sh io.anserini.index.IndexCollection \
+  -threads 16 \
   -collection NewYorkTimesCollection \
   -input /path/to/nyt \
   -generator DefaultLuceneDocumentGenerator \
   -index indexes/lucene-index.nyt/ \
-  -threads 16 -storePositions -storeDocvectors -storeRaw \
+  -storePositions -storeDocvectors -storeRaw \
   >& logs/log.nyt &
 ```
 

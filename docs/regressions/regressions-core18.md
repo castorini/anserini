@@ -18,11 +18,12 @@ Typical indexing command:
 
 ```
 bin/run.sh io.anserini.index.IndexCollection \
+  -threads 1 \
   -collection WashingtonPostCollection \
   -input /path/to/wapo.v2 \
   -generator WashingtonPostGenerator \
   -index indexes/lucene-index.wapo.v2/ \
-  -threads 1 -storePositions -storeDocvectors -storeRaw \
+  -storePositions -storeDocvectors -storeRaw \
   >& logs/log.wapo.v2 &
 ```
 

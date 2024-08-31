@@ -32,11 +32,12 @@ Typical indexing command:
 
 ```
 bin/run.sh io.anserini.index.IndexCollection \
+  -threads 8 \
   -collection NeuClirCollection \
   -input /path/to/neuclir22-fa \
   -generator DefaultLuceneDocumentGenerator \
   -index indexes/lucene-index.neuclir22-fa \
-  -threads 8 -storePositions -storeDocvectors -storeRaw -language fa \
+  -storePositions -storeDocvectors -storeRaw -language fa \
   >& logs/log.neuclir22-fa &
 ```
 

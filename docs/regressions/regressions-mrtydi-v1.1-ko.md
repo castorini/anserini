@@ -17,11 +17,12 @@ Typical indexing command:
 
 ```
 bin/run.sh io.anserini.index.IndexCollection \
+  -threads 1 \
   -collection MrTyDiCollection \
   -input /path/to/mrtydi-v1.1-ko \
   -generator DefaultLuceneDocumentGenerator \
   -index indexes/lucene-index.mrtydi-v1.1-korean/ \
-  -threads 1 -storePositions -storeDocvectors -storeRaw -language ko \
+  -storePositions -storeDocvectors -storeRaw -language ko \
   >& logs/log.mrtydi-v1.1-ko &
 ```
 

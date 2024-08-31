@@ -22,11 +22,12 @@ Typical indexing command:
 
 ```bash
 bin/run.sh io.anserini.index.IndexCollection \
+  -threads 20 \
   -collection MrTyDiCollection \
   -input /path/to/wiki-all-6-3-tamber \
   -generator DefaultLuceneDocumentGenerator \
   -index indexes/lucene-index.wiki-all-6-3-tamber/ \
-  -threads 20 -storeRaw \
+  -storeRaw \
   >& logs/log.wiki-all-6-3-tamber &
 ```
 

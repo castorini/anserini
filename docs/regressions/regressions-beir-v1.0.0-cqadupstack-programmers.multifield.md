@@ -29,11 +29,12 @@ Typical indexing command:
 
 ```
 bin/run.sh io.anserini.index.IndexCollection \
+  -threads 1 \
   -collection BeirMultifieldCollection \
   -input /path/to/beir-v1.0.0-cqadupstack-programmers.multifield \
   -generator DefaultLuceneDocumentGenerator \
   -index indexes/lucene-inverted.beir-v1.0.0-cqadupstack-programmers.multifield/ \
-  -threads 1 -storePositions -storeDocvectors -storeRaw -fields title \
+  -storePositions -storeDocvectors -storeRaw -fields title \
   >& logs/log.beir-v1.0.0-cqadupstack-programmers.multifield &
 ```
 
