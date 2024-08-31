@@ -53,11 +53,12 @@ Sample indexing command, building quantized flat indexes:
 
 ```bash
 bin/run.sh io.anserini.index.IndexFlatDenseVectors \
+  -threads 16 \
   -collection JsonDenseVectorCollection \
   -input /path/to/msmarco-passage-openai-ada2 \
   -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-flat-int8.msmarco-v1-passage.openai-ada2/ \
-  -threads 16 -quantize.int8 \
+  -quantize.int8 \
   >& logs/log.msmarco-passage-openai-ada2 &
 ```
 

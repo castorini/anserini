@@ -18,11 +18,12 @@ Typical indexing command:
 
 ```
 bin/run.sh io.anserini.index.IndexCollection \
+  -threads 16 \
   -collection CleanTrecCollection \
   -input /path/to/ntcir8-zh \
   -generator DefaultLuceneDocumentGenerator \
   -index indexes/lucene-index.ntcir8-zh/ \
-  -threads 16 -storePositions -storeDocvectors -storeRaw -language zh -uniqueDocid -optimize \
+  -storePositions -storeDocvectors -storeRaw -language zh -uniqueDocid -optimize \
   >& logs/log.ntcir8-zh &
 ```
 

@@ -21,11 +21,12 @@ Indexing the Tweets2011 collection:
 
 ```
 bin/run.sh io.anserini.index.IndexCollection \
+  -threads 44 \
   -collection TweetCollection \
   -input /path/to/mb11 \
   -generator TweetGenerator \
   -index indexes/lucene-index.mb11/ \
-  -threads 44 -storePositions -storeDocvectors -storeRaw -tweet.keepUrls -tweet.stemming \
+  -storePositions -storeDocvectors -storeRaw -tweet.keepUrls -tweet.stemming \
   >& logs/log.mb11 &
 ```
 

@@ -53,11 +53,11 @@ Sample indexing command, building flat indexes:
 
 ```bash
 bin/run.sh io.anserini.index.IndexFlatDenseVectors \
+  -threads 16 \
   -collection JsonDenseVectorCollection \
   -input /path/to/msmarco-passage-openai-ada2 \
   -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-flat.msmarco-v1-passage.openai-ada2/ \
-  -threads 16  \
   >& logs/log.msmarco-passage-openai-ada2 &
 ```
 

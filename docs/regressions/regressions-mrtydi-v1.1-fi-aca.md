@@ -19,11 +19,12 @@ Typical indexing command:
 
 ```
 bin/run.sh io.anserini.index.IndexCollection \
+  -threads 1 \
   -collection MrTyDiCollection \
   -input /path/to/mrtydi-v1.1-fi \
   -generator DefaultLuceneDocumentGenerator \
   -index indexes/lucene-index.mrtydi-v1.1-finnish-aca/ \
-  -threads 1 -storePositions -storeDocvectors -storeRaw -language fi -useAutoCompositeAnalyzer \
+  -storePositions -storeDocvectors -storeRaw -language fi -useAutoCompositeAnalyzer \
   >& logs/log.mrtydi-v1.1-fi &
 ```
 

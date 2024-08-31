@@ -41,11 +41,12 @@ Typical indexing command:
 
 ```
 bin/run.sh io.anserini.index.IndexCollection \
+  -threads 8 \
   -collection JsonVectorCollection \
   -input /path/to/neuclir22-fa-splade \
   -generator DefaultLuceneDocumentGenerator \
   -index indexes/lucene-index.neuclir22-fa-splade \
-  -threads 8 -impact -pretokenized -storeRaw \
+  -impact -pretokenized -storeRaw \
   >& logs/log.neuclir22-fa-splade &
 ```
 

@@ -33,11 +33,12 @@ Sample indexing command, building quantized HNSW indexes:
 
 ```
 bin/run.sh io.anserini.index.IndexHnswDenseVectors \
+  -threads 16 \
   -collection JsonDenseVectorCollection \
   -input /path/to/beir-v1.0.0-bioasq.bge-base-en-v1.5 \
   -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-hnsw-int8.beir-v1.0.0-bioasq.bge-base-en-v1.5/ \
-  -threads 16 -M 16 -efC 500 -noMerge -quantize.int8 \
+  -M 16 -efC 500 -noMerge -quantize.int8 \
   >& logs/log.beir-v1.0.0-bioasq.bge-base-en-v1.5 &
 ```
 
@@ -57,7 +58,7 @@ bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -topics tools/topics-and-qrels/topics.beir-v1.0.0-bioasq.test.tsv.gz \
   -topicReader TsvString \
   -output runs/run.beir-v1.0.0-bioasq.bge-base-en-v1.5.bge-hnsw-int8-onnx.topics.beir-v1.0.0-bioasq.test.txt \
-  -generator VectorQueryGenerator -topicField title -removeQuery -threads 16 -hits 1000 -efSearch 5000 -encoder BgeBaseEn15 &
+  -encoder BgeBaseEn15 -hits 1000 -efSearch 1000 -removeQuery -threads 16 &
 ```
 
 Evaluation can be performed using `trec_eval`:

@@ -22,11 +22,12 @@ Typical indexing command:
 
 ```
 bin/run.sh io.anserini.index.IndexCollection \
+  -threads 24 \
   -collection MsMarcoV2DocCollection \
   -input /path/to/msmarco-v2.1-doc \
   -generator DefaultLuceneDocumentGenerator \
   -index indexes/lucene-inverted.msmarco-v2.1-doc/ \
-  -threads 24 -storeRaw \
+  -storeRaw \
   >& logs/log.msmarco-v2.1-doc &
 ```
 
