@@ -134,12 +134,13 @@ public final class SearchInvertedDenseVectors<K extends Comparable<K>> implement
         try {
           out.writeTopic(qid, queries.get(qids.indexOf(qid)), results.get(qid));
         } catch (JsonProcessingException e) {
-          // Handle the exception or rethrow as unchecked
+          // Rethrow as unchecked; if we encounter an exception here, the caller should really look into it.
           throw new RuntimeException(e);
         }
       });
     } catch (IOException e) {
-      e.printStackTrace();
+      // Rethrow as unchecked; if we encounter an exception here, the caller should really look into it.
+      throw new RuntimeException(e);
     }
   }
 
