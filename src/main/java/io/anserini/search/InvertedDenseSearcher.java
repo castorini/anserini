@@ -105,47 +105,62 @@ public class InvertedDenseSearcher<K extends Comparable<K>> extends BaseSearcher
     this.generator = new InvertedDenseVectorQueryGenerator(args, true);
   }
 
-  public SortedMap<K, ScoredDoc[]> batch_search(List<K> qids, List<String> queries, int hits) {
+  /**
+   * Searches the collection in batch using multiple threads.
+   *
+   * @param queries list of queries
+   * @param qids list of unique query ids
+   * @param k number of hits
+   * @param threads number of threads
+   * @return a map of query id to search results
+   */
+  public SortedMap<K, ScoredDoc[]> batch_search(List<String> queries, List<K> qids, int k, int threads) {
     final SortedMap<K, ScoredDoc[]> results = new ConcurrentSkipListMap<>();
-    final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threads);
     final AtomicInteger cnt = new AtomicInteger();
-
     final long start = System.nanoTime();
-    assert qids.size() == queries.size();
-    for (int i=0; i<qids.size(); i++) {
-      K qid = qids.get(i);
-      String queryString = queries.get(i);
 
-      // This is the per-query execution, in parallel.
-      executor.execute(() -> {
-        try {
-          results.put(qid, search(qid, queryString, hits));
-        } catch (IOException e) {
-          throw new CompletionException(e);
+    try(ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(threads)) {
+      assert qids.size() == queries.size();
+      for (int i = 0; i < qids.size(); i++) {
+        K qid = qids.get(i);
+        String queryString = queries.get(i);
+
+        // This is the per-query execution, in parallel.
+        executor.execute(() -> {
+          try {
+            results.put(qid, search(qid, queryString, k));
+          } catch (IOException e) {
+            throw new CompletionException(e);
+          }
+
+          int n = cnt.incrementAndGet();
+          if (n % 100 == 0) {
+            LOG.info(String.format("%d queries processed", n));
+          }
+        });
+      }
+
+      executor.shutdown();
+
+      try {
+        // Wait a while for existing tasks to terminate
+        if (!executor.awaitTermination(60, TimeUnit.SECONDS)) {
+          executor.shutdownNow(); // Cancel currently executing tasks
+          // Wait a while for tasks to respond to being cancelled
+          if (!executor.awaitTermination(60, TimeUnit.SECONDS))
+            System.err.println("Pool did not terminate");
         }
-
-        int n = cnt.incrementAndGet();
-        if (n % 100 == 0) {
-          LOG.info(String.format("%d queries processed", n));
-        }
-      });
-    }
-
-    executor.shutdown();
-
-    try {
-      // Wait for existing tasks to terminate.
-      while (!executor.awaitTermination(1, TimeUnit.MINUTES));
-    } catch (InterruptedException ie) {
-      // (Re-)Cancel if current thread also interrupted.
-      executor.shutdownNow();
-      // Preserve interrupt status.
-      Thread.currentThread().interrupt();
+      } catch (InterruptedException ex) {
+        // (Re-)Cancel if current thread also interrupted
+        executor.shutdownNow();
+        // Preserve interrupt status
+        Thread.currentThread().interrupt();
+      }
     }
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
 
-    LOG.info(queries.size() + " queries processed in " +
-        DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss") +
+    LOG.info("{} queries processed in {}{}", queries.size(),
+        DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"),
         String.format(" = ~%.2f q/s", queries.size() / (durationMillis / 1000.0)));
 
     return results;

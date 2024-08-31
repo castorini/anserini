@@ -162,7 +162,7 @@ public class FlatDenseSearcherTest {
     });
 
     try(FlatDenseSearcher<Integer> searcher = new FlatDenseSearcher<>(args)) {
-      SortedMap<Integer, ScoredDoc[]> allResults = searcher.batch_search(qids, queries, 5);
+      SortedMap<Integer, ScoredDoc[]> allResults = searcher.batch_search(queries, qids, 5, 2);
 
       ScoredDoc[] results = allResults.get(160885);
       assertEquals(5, results.length);
@@ -406,7 +406,7 @@ public class FlatDenseSearcherTest {
     });
 
     try(FlatDenseSearcher<Integer> searcher = new FlatDenseSearcher<>(args)) {
-      SortedMap<Integer, ScoredDoc[]> allResults = searcher.batch_search(qids, queries, 5);
+      SortedMap<Integer, ScoredDoc[]> allResults = searcher.batch_search(queries, qids, 5, 2);
 
       ScoredDoc[] results = allResults.get(2);
       assertEquals(5, results.length);
