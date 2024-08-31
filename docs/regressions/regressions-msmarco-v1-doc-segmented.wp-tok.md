@@ -22,11 +22,12 @@ Typical indexing command:
 
 ```
 bin/run.sh io.anserini.index.IndexCollection \
+  -threads 16 \
   -collection JsonCollection \
   -input /path/to/msmarco-doc-segmented-wp \
   -generator DefaultLuceneDocumentGenerator \
   -index indexes/lucene-inverted.msmarco-v1-doc-segmented.wp-tok/ \
-  -threads 16 -storePositions -storeDocvectors -storeRaw -pretokenized \
+  -storePositions -storeDocvectors -storeRaw -pretokenized \
   >& logs/log.msmarco-doc-segmented-wp &
 ```
 

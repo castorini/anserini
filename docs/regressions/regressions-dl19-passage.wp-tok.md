@@ -24,11 +24,12 @@ Typical indexing command:
 
 ```
 bin/run.sh io.anserini.index.IndexCollection \
+  -threads 9 \
   -collection JsonCollection \
   -input /path/to/msmarco-passage-wp \
   -generator DefaultLuceneDocumentGenerator \
   -index indexes/lucene-inverted.msmarco-v1-passage.wp-tok/ \
-  -threads 9 -storePositions -storeDocvectors -storeRaw -pretokenized \
+  -storePositions -storeDocvectors -storeRaw -pretokenized \
   >& logs/log.msmarco-passage-wp &
 ```
 

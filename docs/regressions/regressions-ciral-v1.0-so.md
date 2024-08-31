@@ -17,11 +17,12 @@ Typical indexing command:
 
 ```
 bin/run.sh io.anserini.index.IndexCollection \
+  -threads 16 \
   -collection MrTyDiCollection \
   -input /path/to/ciral-somali \
   -generator DefaultLuceneDocumentGenerator \
   -index indexes/lucene-index.ciral-v1.0-so/ \
-  -threads 16 -storePositions -storeDocvectors -storeRaw -language so \
+  -storePositions -storeDocvectors -storeRaw -language so \
   >& logs/log.ciral-somali &
 ```
 

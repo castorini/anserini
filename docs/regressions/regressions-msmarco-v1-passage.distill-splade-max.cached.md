@@ -52,11 +52,12 @@ Sample indexing command:
 
 ```bash
 bin/run.sh io.anserini.index.IndexCollection \
+  -threads 16 \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-passage-distill-splade-max \
   -generator DefaultLuceneDocumentGenerator \
   -index indexes/lucene-inverted.msmarco-v1-passage.distill-splade-max/ \
-  -threads 16 -impact -pretokenized \
+  -impact -pretokenized \
   >& logs/log.msmarco-passage-distill-splade-max &
 ```
 

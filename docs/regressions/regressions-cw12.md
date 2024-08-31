@@ -18,11 +18,12 @@ Typical indexing command:
 
 ```
 bin/run.sh io.anserini.index.IndexCollection \
+  -threads 44 \
   -collection ClueWeb12Collection \
   -input /path/to/cw12 \
   -generator DefaultLuceneDocumentGenerator \
   -index indexes/lucene-index.cw12/ \
-  -threads 44 -storeRaw \
+  -storeRaw \
   >& logs/log.cw12 &
 ```
 

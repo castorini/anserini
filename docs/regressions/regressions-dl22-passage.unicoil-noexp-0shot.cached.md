@@ -62,11 +62,12 @@ Sample indexing command:
 
 ```
 bin/run.sh io.anserini.index.IndexCollection \
+  -threads 24 \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-v2-passage-unicoil-noexp-0shot \
   -generator DefaultLuceneDocumentGenerator \
   -index indexes/lucene-inverted.msmarco-v2-passage.unicoil-noexp-0shot/ \
-  -threads 24 -impact -pretokenized -storeRaw \
+  -impact -pretokenized -storeRaw \
   >& logs/log.msmarco-v2-passage-unicoil-noexp-0shot &
 ```
 
