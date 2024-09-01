@@ -1,116 +1,159 @@
-import json
-import torch
 import os
-import argparse
+import json
 import gzip
+import torch
+import argparse
+import shutil
 import logging
 from safetensors.torch import save_file, load_file
-from tqdm import tqdm  # Import tqdm for progress bars
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from tqdm import tqdm
 
-# Set up logging to both console and file
-log_file_path = 'process_log.log'
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s', handlers=[
-    logging.FileHandler(log_file_path),  # Log detailed information to a file
-    logging.StreamHandler()  # Log high-level information to the console
-])
 
-# Set up argument parser
-parser = argparse.ArgumentParser(description='Process vectors and docids from JSON, JSONL, or GZ files.')
-parser.add_argument('--input', required=True, help='Path to the input JSON, JSONL, or GZ file')
-parser.add_argument('--output', required=True, help='Path to the output directory')
-parser.add_argument('--overwrite', action='store_true', help='Overwrite existing files if they already exist')
+def setup_logging():
+    logging.basicConfig(
+        format="%(asctime)s - %(levelname)s - %(message)s",
+        level=logging.ERROR,
+        handlers=[
+            logging.StreamHandler()  # Logs to the terminal
+        ]
+    )
 
-args = parser.parse_args()
 
-# Define paths
-input_file_path = args.input
-output_directory = args.output
+def read_jsonl_file(file_path: str) -> list[dict]:
+    data = []
+    try:
+        if file_path.endswith(".gz"):
+            with gzip.open(file_path, "rt", encoding="utf-8") as f:
+                for line in f:
+                    data.append(json.loads(line))
+        else:
+            with open(file_path, "r", encoding="utf-8") as f:
+                for line in f:
+                    data.append(json.loads(line))
+    except Exception as e:
+        logging.error(f"Failed to read file {file_path}: {e}")
+        raise RuntimeError(f"Failed to read file {file_path}: {e}")
+    return data
 
-# Ensure the input file exists
-if not os.path.exists(input_file_path):
-    logging.error(f"Input file '{input_file_path}' not found.")
-    raise FileNotFoundError(f"Input file '{input_file_path}' not found.")
 
-# Ensure the output directory exists or create it
-try:
-    os.makedirs(output_directory, exist_ok=True)
-except OSError as e:
-    logging.error(f"Failed to create output directory '{output_directory}': {e}")
-    raise OSError(f"Failed to create output directory '{output_directory}': {e}")
+def convert_file_to_safetensors(input_file_path: str, vectors_path: str, docids_path: str) -> int:
+    try:
+        data = read_jsonl_file(input_file_path)
+        vectors = []
+        docids = []
+        
+        for entry in data:
+            if isinstance(entry.get('vector', [None])[0], float):
+                vectors.append(entry['vector'])
+                docid = entry['docid']
+                docid_ascii = [ord(char) for char in docid]  # Convert docid to ASCII values
+                docids.append(docid_ascii)
+            else:
+                logging.warning(f"Skipped invalid vector entry with docid: {entry.get('docid', 'N/A')}")
 
-# Get the base name of the input file for output file names
-base_name = os.path.basename(input_file_path).replace('.jsonl', '').replace('.gz', '').replace('.json', '')
+        # Convert to tensors
+        vectors_tensor = torch.tensor(vectors, dtype=torch.float64)
+        docids_tensor = torch.nn.utils.rnn.pad_sequence([torch.tensor(d, dtype=torch.int64) for d in docids], batch_first=True)
+        
+        # Save as Safetensors
+        save_file({'vectors': vectors_tensor}, vectors_path)
+        save_file({'docids': docids_tensor}, docids_path)
 
-vectors_path = os.path.join(output_directory, f'{base_name}_vectors.safetensors')
-docids_path = os.path.join(output_directory, f'{base_name}_docids.safetensors')
+        return len(vectors)  # Return number of processed entries
 
-if not args.overwrite:
-    if os.path.exists(vectors_path) or os.path.exists(docids_path):
-        logging.error(f"Output files '{vectors_path}' or '{docids_path}' already exist. Use '--overwrite' to overwrite.")
-        raise FileExistsError(f"Output files '{vectors_path}' or '{docids_path}' already exist. Use '--overwrite' to overwrite.")
+    except Exception as e:
+        logging.error(f"Error converting {input_file_path} to Safetensors: {e}")
+        raise RuntimeError(f"Error converting {input_file_path} to Safetensors: {e}")
 
-# Initialize lists to hold data
-vectors = []
-docids = []
 
-# Determine file opener based on file extension
-if input_file_path.endswith('.gz'):
-    file_opener = gzip.open
-elif input_file_path.endswith('.jsonl') or input_file_path.endswith('.json'):
-    file_opener = open
-else:
-    logging.error("Input file must be a .json, .jsonl, or .gz file")
-    raise ValueError("Input file must be a .json, .jsonl, or .gz file")
+def validate_safetensor_conversion(vectors_path: str, docids_path: str, original_data: list[dict]) -> bool:
+    try:
+        loaded_vectors = load_file(vectors_path)['vectors']
+        loaded_docids = load_file(docids_path)['docids']
+        
+        # Validate the sizes
+        if loaded_vectors.size(0) != len(original_data):
+            raise ValueError(f"Validation failed for {vectors_path}: number of vectors does not match the original data")
+        
+        logging.info(f"Validation successful for {vectors_path} and {docids_path}")
+        return True
 
-# Get total number of lines for tqdm if possible
-try:
-    total_lines = sum(1 for _ in file_opener(input_file_path, 'rt'))
-except Exception:
-    total_lines = None
+    except Exception as e:
+        logging.error(f"Validation failed for {vectors_path} or {docids_path}: {e}")
+        raise e
 
-# Process the JSON, JSONL, or GZ file to extract vectors and docids
-try:
-    with file_opener(input_file_path, 'rt') as file:
-        for line in tqdm(file, total=total_lines, desc="Processing lines"):
+
+def convert_and_validate_file(input_file_path: str, vectors_path: str, docids_path: str) -> int:
+    row_count = convert_file_to_safetensors(input_file_path, vectors_path, docids_path)
+    original_data = read_jsonl_file(input_file_path)
+    validate_safetensor_conversion(vectors_path, docids_path, original_data)
+    logging.info(f"Converted {input_file_path} to {vectors_path} and {docids_path}")
+    return row_count
+
+
+def convert_jsonl_to_safetensors(input_dir: str, output_dir: str, overwrite=False) -> None:
+    if overwrite and os.path.exists(output_dir):
+        shutil.rmtree(output_dir)
+
+    os.makedirs(output_dir, exist_ok=True)
+
+    seen_basenames = set()
+    total_files = 0
+    total_rows = 0
+
+    files_to_process = []
+    for file_name in os.listdir(input_dir):
+        input_file_path = os.path.join(input_dir, file_name)
+
+        if file_name.endswith(".jsonl"):
+            basename = file_name[:-6]
+        elif file_name.endswith(".jsonl.gz"):
+            basename = file_name[:-9]
+        else:
+            continue
+
+        if basename in seen_basenames:
+            continue
+
+        seen_basenames.add(basename)
+        vectors_path = os.path.join(output_dir, f"{basename}_vectors.safetensors")
+        docids_path = os.path.join(output_dir, f"{basename}_docids.safetensors")
+        files_to_process.append((input_file_path, vectors_path, docids_path))
+
+    with tqdm(total=len(files_to_process), desc="Processing Files") as pbar:
+        for input_path, vectors_path, docids_path in files_to_process:
             try:
-                entry = json.loads(line)
-                if isinstance(entry.get('vector', [None])[0], float):
-                    vectors.append(entry['vector'])
-                    docid = entry['docid']
-                    docid_ascii = [ord(char) for char in docid]  # Convert docid to ASCII values
-                    docids.append(docid_ascii)
-                else:
-                    logging.warning(f"Skipped invalid vector entry with docid: {entry.get('docid', 'N/A')}")
-            except (json.JSONDecodeError, KeyError) as e:
-                logging.warning(f"Skipped invalid JSON entry: {e}")
-except IOError as e:
-    logging.error(f"Failed to read the input file '{input_file_path}': {e}")
-    raise IOError(f"Failed to read the input file '{input_file_path}': {e}")
+                logging.info(f"Processing file: {input_path}")
+                row_count = convert_and_validate_file(input_path, vectors_path, docids_path)
+                total_files += 1
+                total_rows += row_count
+            except Exception as e:
+                logging.error(f"Failed to process {input_path}: {e}")
+            finally:
+                pbar.update(1)
 
-# Convert lists to tensors
-vectors_tensor = torch.tensor(vectors, dtype=torch.float64)
-docids_tensor = torch.nn.utils.rnn.pad_sequence([torch.tensor(d, dtype=torch.int64) for d in docids], batch_first=True)
+    logging.info(f"Total files processed: {total_files}")
+    logging.info(f"Total rows processed: {total_rows}")
 
-# Save the tensors to SafeTensors files
-try:
-    save_file({'vectors': vectors_tensor}, vectors_path)
-    save_file({'docids': docids_tensor}, docids_path)
-    logging.info(f"Saved vectors to {vectors_path}")
-    logging.info(f"Saved docids to {docids_path}")
-except IOError as e:
-    logging.error(f"Failed to save tensors: {e}")
-    raise IOError(f"Failed to save tensors: {e}")
+if __name__ == "__main__":
+    setup_logging()
 
-# Load vectors and docids for verification
-try:
-    loaded_vectors = load_file(vectors_path)['vectors']
-    loaded_docids = load_file(docids_path)['docids']
-    logging.info(f"Loaded vectors from {vectors_path}")
-    logging.info(f"Loaded document IDs (ASCII) from {docids_path}")
-    # Log detailed information to the file
-    logging.getLogger().handlers[0].setLevel(logging.DEBUG)
-    logging.debug(f"Loaded vectors: {loaded_vectors}")
-    logging.debug(f"Loaded document IDs (ASCII): {loaded_docids}")
-except IOError as e:
-    logging.error(f"Failed to load tensors: {e}")
-    raise IOError(f"Failed to load tensors: {e}")
+    parser = argparse.ArgumentParser(
+        description="Convert JSONL files to Safetensor format and validate."
+    )
+    parser.add_argument(
+        "--input", required=True, help="Input directory containing JSONL files."
+    )
+    parser.add_argument(
+        "--output", required=True, help="Output directory for Safetensor files."
+    )
+    parser.add_argument(
+        "--overwrite",
+        action="store_true",
+        default=False,
+        help="Overwrite the output directory.",
+    )
+    args = parser.parse_args()
+
+    convert_jsonl_to_safetensors(args.input, args.output, args.overwrite)
