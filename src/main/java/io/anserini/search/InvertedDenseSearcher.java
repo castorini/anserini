@@ -143,17 +143,12 @@ public class InvertedDenseSearcher<K extends Comparable<K>> extends BaseSearcher
       executor.shutdown();
 
       try {
-        // Wait a while for existing tasks to terminate
-        if (!executor.awaitTermination(60, TimeUnit.SECONDS)) {
-          executor.shutdownNow(); // Cancel currently executing tasks
-          // Wait a while for tasks to respond to being cancelled
-          if (!executor.awaitTermination(60, TimeUnit.SECONDS))
-            System.err.println("Pool did not terminate");
-        }
-      } catch (InterruptedException ex) {
-        // (Re-)Cancel if current thread also interrupted
+        // Wait for existing tasks to terminate.
+        while (!executor.awaitTermination(1, TimeUnit.MINUTES));
+      } catch (InterruptedException ie) {
+        // (Re-)Cancel if current thread also interrupted.
         executor.shutdownNow();
-        // Preserve interrupt status
+        // Preserve interrupt status.
         Thread.currentThread().interrupt();
       }
     }
