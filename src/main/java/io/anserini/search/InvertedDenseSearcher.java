@@ -33,6 +33,7 @@ import org.apache.lucene.search.similarities.ClassicSimilarity;
 import org.apache.lucene.store.FSDirectory;
 import org.kohsuke.args4j.Option;
 
+import javax.annotation.Nullable;
 import java.io.Closeable;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -161,13 +162,29 @@ public class InvertedDenseSearcher<K extends Comparable<K>> extends BaseSearcher
     return results;
   }
 
-  public ScoredDoc[] search(String queryString, int hits) throws IOException {
-    return search(null, queryString, hits);
+  /**
+   * Searches the collection with a query.
+   *
+   * @param query query
+   * @param k number of hits
+   * @return array of search results
+   * @throws IOException if error encountered during search
+   */
+  public ScoredDoc[] search(String query, int k) throws IOException {
+    return search(null, query, k);
   }
 
-  public ScoredDoc[] search(K qid, String queryString, int hits) throws IOException {
-    Query query = generator.buildQuery(queryString);
-    TopDocs topDocs = getIndexSearcher().search(query, hits, BREAK_SCORE_TIES_BY_DOCID, true);
+  /**
+   * Searches the collection with a query.
+   *
+   * @param qid query id
+   * @param query query
+   * @param k number of hits
+   * @return array of search results
+   * @throws IOException if error encountered during search
+   */
+  public ScoredDoc[] search(@Nullable K qid, String query, int k) throws IOException {
+    TopDocs topDocs = getIndexSearcher().search(generator.buildQuery(query), k, BREAK_SCORE_TIES_BY_DOCID, true);
 
     return super.processLuceneTopDocs(qid, topDocs);
   }

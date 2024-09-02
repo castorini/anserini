@@ -185,32 +185,66 @@ public class FlatDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
     return results;
   }
 
-  public ScoredDoc[] search(float[] queryFloat, int hits) throws IOException {
-    return search(null, queryFloat, hits);
+  /**
+   * Searches the collection with a query vector.
+   *
+   * @param query query vector
+   * @param k number of hits
+   * @return array of search results
+   * @throws IOException if error encountered during search
+   */
+  public ScoredDoc[] search(float[] query, int k) throws IOException {
+    return search(null, query, k);
   }
 
-  public ScoredDoc[] search(@Nullable K qid, float[] queryFloat, int hits) throws IOException {
-    KnnFloatVectorQuery query = new KnnFloatVectorQuery(Constants.VECTOR, queryFloat, DUMMY_EF_SEARCH);
-    TopDocs topDocs = getIndexSearcher().search(query, hits, BREAK_SCORE_TIES_BY_DOCID, true);
+  /**
+   * Searches the collection with a query vector.
+   *
+   * @param qid query id
+   * @param query query vector
+   * @param k number of hits
+   * @return array of search results
+   * @throws IOException if error encountered during search
+   */
+  public ScoredDoc[] search(@Nullable K qid, float[] query, int k) throws IOException {
+    KnnFloatVectorQuery vectorQuery = new KnnFloatVectorQuery(Constants.VECTOR, query, DUMMY_EF_SEARCH);
+    TopDocs topDocs = getIndexSearcher().search(vectorQuery, k, BREAK_SCORE_TIES_BY_DOCID, true);
 
     return super.processLuceneTopDocs(qid, topDocs);
   }
 
-  public ScoredDoc[] search(String queryString, int hits) throws IOException {
-    return search(null, queryString, hits);
+  /**
+   * Searches the collection with a string query that will be encoded by the underlying encoder.
+   *
+   * @param query query
+   * @param k number of hits
+   * @return array of search results
+   * @throws IOException if error encountered during search
+   */
+  public ScoredDoc[] search(String query, int k) throws IOException {
+    return search(null, query, k);
   }
 
-  public ScoredDoc[] search(@Nullable K qid, String queryString, int hits) throws IOException {
+  /**
+   * Searches the collection with a string query that will be encoded by the underlying encoder.
+   *
+   * @param qid query id
+   * @param query query
+   * @param k number of hits
+   * @return array of search results
+   * @throws IOException if error encountered during search
+   */
+  public ScoredDoc[] search(@Nullable K qid, String query, int k) throws IOException {
     if (encoder != null) {
       try {
-        return search(qid, encoder.encode(queryString), hits);
+        return search(qid, encoder.encode(query), k);
       } catch (OrtException e) {
         throw new RuntimeException("Error encoding query.");
       }
     }
 
-    KnnFloatVectorQuery query = generator.buildQuery(Constants.VECTOR, queryString, DUMMY_EF_SEARCH);
-    TopDocs topDocs = getIndexSearcher().search(query, hits, BREAK_SCORE_TIES_BY_DOCID, true);
+    KnnFloatVectorQuery vectorQuery = generator.buildQuery(Constants.VECTOR, query, DUMMY_EF_SEARCH);
+    TopDocs topDocs = getIndexSearcher().search(vectorQuery, k, BREAK_SCORE_TIES_BY_DOCID, true);
 
     return super.processLuceneTopDocs(qid, topDocs);
   }
