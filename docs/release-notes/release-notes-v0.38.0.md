@@ -5,16 +5,10 @@
 
 ## Summary of Changes
 
-+ Added support for indexing and searching flat (dense) vectors.
-+ Added prebuilt flat indexes and repro bindings for the BGE embedding model.
-+ Added bindings for researchy questions and the TREC 2024 RAG Track test set.
-+ Added new regressions with prebuilt indexes.
-+ Improved metadata for prebuilt indexes.
-+ Improved documentation for ONNX models.
-+ Improved webapp and REST API.
-  + Created new versioned routes.
-  + Refined UI components.
-+ Upgraded `ai.djl` and fixed token length issue.
++ Refactored dense searchers to enable cleaner Pyserini bindings.
+  + Changed method signature of `batch_search` to take (queries, qids) instead of (qids, queries) to be consistent with `SimpleSearcher` and `SimpleImpactSearcher`.
+  + Refactored `ThreadPoolExecutor` to use try-with-resources.
++ Tweaked parameters in regression yaml: simplified parameters in cases where there are default for BEIR.
 
 ## Contributors (This Release)
 
