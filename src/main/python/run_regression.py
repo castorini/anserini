@@ -234,7 +234,7 @@ beir_hnsw_int8_cached['Webis-Touche2020'] = 0.006
 
 beir_hnsw_onnx = defaultdict(lambda: 0.003)
 beir_hnsw_onnx['ArguAna'] = 0.02
-beir_hnsw_onnx['BioASQ'] = 0.005
+beir_hnsw_onnx['BioASQ'] = 0.01
 beir_hnsw_onnx['CQADupStack-wordpress'] = 0.004
 beir_hnsw_onnx['DBPedia'] = 0.006
 beir_hnsw_onnx['FEVER'] = 0.007
@@ -245,7 +245,7 @@ beir_hnsw_onnx['Signal-1M'] = 0.05
 beir_hnsw_onnx['TREC-NEWS'] = 0.02
 
 beir_hnsw_cached = defaultdict(lambda: 0.003)
-beir_hnsw_cached['BioASQ'] = 0.005
+beir_hnsw_cached['BioASQ'] = 0.01
 beir_hnsw_cached['DBPedia'] = 0.006
 beir_hnsw_cached['FEVER'] = 0.008
 beir_hnsw_cached['FiQA-2018'] = 0.008

@@ -81,12 +81,12 @@ public final class SearchFlatDenseVectors<K extends Comparable<K>> implements Ru
     this.args = args;
     this.searcher = new FlatDenseSearcher<>(args);
 
-    LOG.info(String.format("============ Initializing %s ============", this.getClass().getSimpleName()));
-    LOG.info("Index: " + args.index);
-    LOG.info("Topics: " + Arrays.toString(args.topics));
-    LOG.info("Query generator: " + args.queryGenerator);
-    LOG.info("Encoder: " + args.encoder);
-    LOG.info("Threads: " + args.threads);
+    LOG.info("============ Initializing {} ============", this.getClass().getSimpleName());
+    LOG.info("Index: {}", args.index);
+    LOG.info("Topics: {}", Arrays.toString(args.topics));
+    LOG.info("Query generator: {}", args.queryGenerator);
+    LOG.info("Encoder: {}", args.encoder);
+    LOG.info("Threads: {}", args.threads);
 
     // We might not be able to successfully read topics for a variety of reasons. Gather all possible
     // exceptions together as an unchecked exception to make initialization and error reporting clearer.
@@ -140,7 +140,7 @@ public final class SearchFlatDenseVectors<K extends Comparable<K>> implements Ru
   @Override
   public void run() {
     LOG.info("============ Launching Search Threads ============");
-    SortedMap<K, ScoredDoc[]> results = searcher.batch_search(qids, queries, args.hits);
+    SortedMap<K, ScoredDoc[]> results = searcher.batch_search(queries, qids, args.hits, args.threads);
 
     try(RunOutputWriter<K> out = new RunOutputWriter<>(args.output, args.format, args.runtag, null)) {
       // zip query to results
@@ -148,12 +148,13 @@ public final class SearchFlatDenseVectors<K extends Comparable<K>> implements Ru
         try {
           out.writeTopic(qid, queries.get(qids.indexOf(qid)), results.get(qid));
         } catch (JsonProcessingException e) {
-          // Handle the exception or rethrow as unchecked
+          // Rethrow as unchecked; if we encounter an exception here, the caller should really look into it.
           throw new RuntimeException(e);
         }
       });
     } catch (IOException e) {
-      e.printStackTrace();
+      // Rethrow as unchecked; if we encounter an exception here, the caller should really look into it.
+      throw new RuntimeException(e);
     }
   }
 
