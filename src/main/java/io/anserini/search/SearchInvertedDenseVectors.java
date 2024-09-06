@@ -127,19 +127,20 @@ public final class SearchInvertedDenseVectors<K extends Comparable<K>> implement
   @Override
   public void run() {
     LOG.info("============ Launching Search Threads ============");
-    SortedMap<K, ScoredDoc[]> results = searcher.batch_search(qids, queries, args.hits);
+    SortedMap<K, ScoredDoc[]> results = searcher.batch_search(queries, qids, args.hits, args.threads);
 
     try(RunOutputWriter<K> out = new RunOutputWriter<>(args.output, args.format, args.runtag, null)) {
      results.forEach((qid, hits) -> {
         try {
           out.writeTopic(qid, queries.get(qids.indexOf(qid)), results.get(qid));
         } catch (JsonProcessingException e) {
-          // Handle the exception or rethrow as unchecked
+          // Rethrow as unchecked; if we encounter an exception here, the caller should really look into it.
           throw new RuntimeException(e);
         }
       });
     } catch (IOException e) {
-      e.printStackTrace();
+      // Rethrow as unchecked; if we encounter an exception here, the caller should really look into it.
+      throw new RuntimeException(e);
     }
   }
 
