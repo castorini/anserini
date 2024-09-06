@@ -22,13 +22,13 @@ Anserini is packaged in a self-contained fatjar, which also provides the simples
 Assuming you've already got Java installed, fetch the fatjar:
 
 ```bash
-wget https://repo1.maven.org/maven2/io/anserini/anserini/0.37.0/anserini-0.37.0-fatjar.jar
+wget https://repo1.maven.org/maven2/io/anserini/anserini/0.38.0/anserini-0.38.0-fatjar.jar
 ```
 
 The follow commands will generate a SPLADE++ ED run with the dev queries (encoded using ONNX) on the MS MARCO passage corpus:
 
 ```bash
-java -cp anserini-0.37.0-fatjar.jar io.anserini.search.SearchCollection \
+java -cp anserini-0.38.0-fatjar.jar io.anserini.search.SearchCollection \
   -index msmarco-v1-passage.splade-pp-ed \
   -topics msmarco-v1-passage.dev \
   -encoder SpladePlusPlusEnsembleDistil \
@@ -39,21 +39,22 @@ java -cp anserini-0.37.0-fatjar.jar io.anserini.search.SearchCollection \
 To evaluate:
 
 ```bash
-java -cp anserini-0.37.0-fatjar.jar trec_eval -c -M 10 -m recip_rank msmarco-passage.dev-subset run.msmarco-v1-passage-dev.splade-pp-ed-onnx.txt
+java -cp anserini-0.38.0-fatjar.jar trec_eval -c -M 10 -m recip_rank msmarco-passage.dev-subset run.msmarco-v1-passage-dev.splade-pp-ed-onnx.txt
 ```
 
-See [detailed instructions](docs/fatjar-regressions/fatjar-regressions-v0.37.0.md) for the current fatjar release of Anserini (v0.37.0) to reproduce regression experiments on the MS MARCO V2.1 corpora for TREC 2024 RAG, on MS MARCO V1 Passage, and on BEIR, all directly from the fatjar!
+See [detailed instructions](docs/fatjar-regressions/fatjar-regressions-v0.38.0.md) for the current fatjar release of Anserini (v0.38.0) to reproduce regression experiments on the MS MARCO V2.1 corpora for TREC 2024 RAG, on MS MARCO V1 Passage, and on BEIR, all directly from the fatjar!
 
 Also, Anserini comes with a built-in webapp for interactive querying along with a REST API that can be used by other applications.
 Check out our documentation [here](docs/rest-api.md).
 
 <!--
-We also have [forthcoming instructions](docs/fatjar-regressions/fatjar-regressions-v0.37.1-SNAPSHOT.md) for the next release (v0.37.1-SNAPSHOT) if you're interested.
+We also have [forthcoming instructions](docs/fatjar-regressions/fatjar-regressions-v0.38.1-SNAPSHOT.md) for the next release (v0.38.1-SNAPSHOT) if you're interested.
 -->
 
 <details>
 <summary>Older instructions</summary>
 
++ [Anserini v0.37.0](docs/fatjar-regressions/fatjar-regressions-v0.37.0.md)
 + [Anserini v0.36.1](docs/fatjar-regressions/fatjar-regressions-v0.36.1.md)
 + [Anserini v0.36.0](docs/fatjar-regressions/fatjar-regressions-v0.36.0.md)
 + [Anserini v0.35.1](docs/fatjar-regressions/fatjar-regressions-v0.35.1.md)
@@ -461,6 +462,7 @@ Beyond that, there are always [open issues](https://github.com/castorini/anserin
 
 ## 📜️ Release History
 
++ v0.38.0: September 6, 2024 [[Release Notes](docs/release-notes/release-notes-v0.38.0.md)]
 + v0.37.0: August 22, 2024 [[Release Notes](docs/release-notes/release-notes-v0.37.0.md)]
 + v0.36.1: May 23, 2024 [[Release Notes](docs/release-notes/release-notes-v0.36.1.md)]
 + v0.36.0: April 28, 2024 [[Release Notes](docs/release-notes/release-notes-v0.36.0.md)]
