@@ -16,29 +16,22 @@
 
 package io.anserini.fusion;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 import org.kohsuke.args4j.spi.StringArrayOptionHandler;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.ArrayList;
-import java.nio.file.Files;
+import java.util.List;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import java.util.List;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
-
 import io.anserini.trectools.TrecRun;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * Main entry point for Fusion.
@@ -47,14 +40,14 @@ public class FuseTrecRuns {
   private static final Logger LOG = LogManager.getLogger(FuseTrecRuns.class);
 
   public static class Args extends TrecRunFuser.Args {
-    @Option(name = "-options", usage = "Print information about options.")
+    @Option(name = "-options", required = false, usage = "Print information about options.")
     public Boolean options = false;
 
     @Option(name = "-runs", handler = StringArrayOptionHandler.class, metaVar = "[file]", required = true, 
         usage = "Path to both run files to fuse")
     public String[] runs;
 
-    @Option (name = "-resort", usage="We Resort the Trec run files or not")
+    @Option (name = "-resort", required = false, metaVar = "[flag]", usage="We Resort the Trec run files or not")
     public boolean resort = false;
   }
 

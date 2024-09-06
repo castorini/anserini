@@ -1,3 +1,19 @@
+/*
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.anserini.fusion;
 
 import java.io.IOException;
@@ -10,9 +26,15 @@ import org.kohsuke.args4j.Option;
 import io.anserini.trectools.RescoreMethod;
 import io.anserini.trectools.TrecRun;
 
-
+/**
+ * Main logic class for Fusion
+ */
 public class TrecRunFuser {
   private final Args args;
+
+  private static final String METHOD_RRF = "rrf";
+  private static final String METHOD_INTERPOLATION = "interpolation";
+  private static final String METHOD_AVERAGE = "average";
 
   public static class Args {
     @Option(name = "-output", metaVar = "[output]", required = true, usage = "Path to save the output")
@@ -24,16 +46,16 @@ public class TrecRunFuser {
     @Option(name = "-method", metaVar = "[method]", required = false, usage = "Specify fusion method")
     public String method = "rrf";
 
-    @Option(name = "-rrf_k", metaVar = "[rrf_k]", required = false, usage = "Parameter k needed for reciprocal rank fusion.")
+    @Option(name = "-rrf_k", metaVar = "[number]", required = false, usage = "Parameter k needed for reciprocal rank fusion.")
     public int rrf_k = 60;
 
-    @Option(name = "-alpha", required = false, usage = "Alpha value used for interpolation.")
+    @Option(name = "-alpha", metaVar = "[value]", required = false, usage = "Alpha value used for interpolation.")
     public double alpha = 0.5;
 
-    @Option(name = "-k", required = false, usage = "number of documents to output for topic")
+    @Option(name = "-k", metaVar = "[number]", required = false, usage = "number of documents to output for topic")
     public int k = 1000;
 
-    @Option(name = "-depth", required = false, usage = "Pool depth per topic.")
+    @Option(name = "-depth", metaVar = "[number]", required = false, usage = "Pool depth per topic.")
     public int depth = 1000;
   }
 
@@ -42,13 +64,13 @@ public class TrecRunFuser {
   }
   
   /**
- * Perform fusion by averaging on a list of TrecRun objects.
- *
- * @param runs List of TrecRun objects.
- * @param depth Maximum number of results from each input run to consider. Set to Integer.MAX_VALUE by default, which indicates that the complete list of results is considered.
- * @param k Length of final results list. Set to Integer.MAX_VALUE by default, which indicates that the union of all input documents are ranked.
- * @return Output TrecRun that combines input runs via averaging.
- */
+   * Perform fusion by averaging on a list of TrecRun objects.
+   *
+   * @param runs List of TrecRun objects.
+   * @param depth Maximum number of results from each input run to consider. Set to Integer.MAX_VALUE by default, which indicates that the complete list of results is considered.
+   * @param k Length of final results list. Set to Integer.MAX_VALUE by default, which indicates that the union of all input documents are ranked.
+   * @return Output TrecRun that combines input runs via averaging.
+   */
   public static TrecRun average(List<TrecRun> runs, int depth, int k) {
     
     for (TrecRun run : runs) {
@@ -77,16 +99,16 @@ public class TrecRunFuser {
     return TrecRun.merge(runs, depth, k);
   }
 
-/**
- * Perform fusion by interpolation on a list of exactly two TrecRun objects.
- * new_score = first_run_score * alpha + (1 - alpha) * second_run_score.
- *
- * @param runs List of TrecRun objects. Exactly two runs.
- * @param alpha Parameter alpha will be applied on the first run and (1 - alpha) will be applied on the second run.
- * @param depth Maximum number of results from each input run to consider. Set to Integer.MAX_VALUE by default, which indicates that the complete list of results is considered.
- * @param k Length of final results list. Set to Integer.MAX_VALUE by default, which indicates that the union of all input documents are ranked.
- * @return Output TrecRun that combines input runs via interpolation.
- */  
+  /**
+   * Perform fusion by interpolation on a list of exactly two TrecRun objects.
+   * new_score = first_run_score * alpha + (1 - alpha) * second_run_score.
+   *
+   * @param runs List of TrecRun objects. Exactly two runs.
+   * @param alpha Parameter alpha will be applied on the first run and (1 - alpha) will be applied on the second run.
+   * @param depth Maximum number of results from each input run to consider. Set to Integer.MAX_VALUE by default, which indicates that the complete list of results is considered.
+   * @param k Length of final results list. Set to Integer.MAX_VALUE by default, which indicates that the union of all input documents are ranked.
+   * @return Output TrecRun that combines input runs via interpolation.
+   */  
   public static TrecRun interpolation(List<TrecRun> runs, double alpha, int depth, int k) {
     // Ensure exactly 2 runs are provided, as interpolation requires 2 runs
     if (runs.size() != 2) {
@@ -115,13 +137,13 @@ public class TrecRunFuser {
 
     // Select fusion method
     switch (args.method.toLowerCase()) {
-      case "rrf":
+      case METHOD_RRF:
         fusedRun = reciprocalRankFusion(runs, args.rrf_k, args.depth, args.k);
         break;
-      case "interpolation":
+      case METHOD_INTERPOLATION:
         fusedRun = interpolation(runs, args.alpha, args.depth, args.k);
         break;
-      case "average":
+      case METHOD_AVERAGE:
         fusedRun = average(runs, args.depth, args.k);
         break;
       default:
