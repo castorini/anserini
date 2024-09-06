@@ -261,5 +261,4 @@ public class TrecRun {
 
     return mergedRun;
   }
-
 }
