@@ -53,7 +53,7 @@ models:
   - name: bge-hnsw-cached
     display: BGE-base-en-v1.5
     type: hnsw
-    params: -generator VectorQueryGenerator -topicField vector -threads 16 -hits 1000 -efSearch 1000
+    params: -hits 1000 -efSearch 1000 -threads 16
     results:
       AP@1000:
         - 0.4650

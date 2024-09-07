@@ -53,7 +53,7 @@ models:
   - name: bge-flat-int8-cached
     display: BGE-base-en-v1.5
     type: flat
-    params: -generator VectorQueryGenerator -topicField vector -threads 16 -hits 1000
+    params: -hits 1000 -threads 16
     results:
       AP@1000:
         - 0.3641

@@ -78,7 +78,7 @@ bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-passage-bge-base-en-v1.5.bge-hnsw-onnx.topics.msmarco-passage.dev-subset.txt \
-  -generator VectorQueryGenerator -topicField title -threads 16 -hits 1000 -efSearch 1000 -encoder BgeBaseEn15 &
+  -encoder BgeBaseEn15 -hits 1000 -efSearch 1000 -threads 16 &
 ```
 
 Evaluation can be performed using `trec_eval`:
