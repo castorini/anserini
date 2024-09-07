@@ -23,9 +23,6 @@ import java.util.List;
 
 import org.kohsuke.args4j.Option;
 
-import io.anserini.trectools.RescoreMethod;
-import io.anserini.trectools.TrecRun;
-
 /**
  * Main logic class for Fusion
  */

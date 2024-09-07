@@ -31,8 +31,6 @@ import java.util.List;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import io.anserini.trectools.TrecRun;
-
 /**
  * Main entry point for Fusion.
  */

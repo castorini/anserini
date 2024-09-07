@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-package io.anserini.trectools;
+package io.anserini.fusion;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -37,7 +37,7 @@ import org.apache.commons.io.FileUtils;
 public class TrecRun {
   // Enum representing the columns in the TREC run file
   public enum Column {
-      TOPIC, Q0, DOCID, RANK, SCORE, TAG
+    TOPIC, Q0, DOCID, RANK, SCORE, TAG
   }
   
   private List<Map<Column, Object>> runData;
@@ -51,19 +51,19 @@ public class TrecRun {
 
   // Constructor with reSort parameter
   public TrecRun(Path filepath, Boolean reSort) throws IOException {
-      this.resetData();
-      this.filepath = filepath;
-      this.reSort = reSort;
-      this.readRun(filepath);
+    this.resetData();
+    this.filepath = filepath;
+    this.reSort = reSort;
+    this.readRun(filepath);
   }
 
   // Constructor without parameters
   public TrecRun() {
-      this.resetData();
+    this.resetData();
   }
 
   private void resetData() {
-      runData = new ArrayList<>();
+    runData = new ArrayList<>();
   }
 
   /**

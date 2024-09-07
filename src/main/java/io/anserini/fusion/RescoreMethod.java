@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.anserini.trectools;
+package io.anserini.fusion;
 
 public enum RescoreMethod {
   RRF,
