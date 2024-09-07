@@ -182,7 +182,7 @@ public final class IndexCollection extends AbstractIndexer {
     if (args.bm25Accurate) {
       // Necessary during indexing as the norm used in BM25 is already determined at index time.
       config.setSimilarity(new AccurateBM25Similarity());
-    } if (args.impact ) {
+    } else if (args.impact ) {
       config.setSimilarity(new ImpactSimilarity());
     } else {
       config.setSimilarity(new BM25Similarity());
