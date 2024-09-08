@@ -1,3 +1,0 @@
-1 Q0 hanxiao2 1 99 reciprocal_rank_fusion_k=60
-1 Q0 pyeb86on 2 24 reciprocal_rank_fusion_k=60
-1 Q0 2054tkb7 3 13 reciprocal_rank_fusion_k=60
