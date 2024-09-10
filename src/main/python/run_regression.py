@@ -393,22 +393,27 @@ def evaluate_and_verify(yaml_data, dry_run):
                 using_flat = True if 'type' in model and model['type'] == 'flat' else False
 
                 if using_flat:
-                    # Extract model
-                    match = flat_model_type_pattern.search(model['name'])
-                    model_type = match.group(1)
+                    if 'tolerance' in model:
+                        #print(model['tolerance'])
+                        #print(metric)
+                        tolerance_ok = model['tolerance'][metric['metric']][i]
+                    else:
+                        # Extract model
+                        match = flat_model_type_pattern.search(model['name'])
+                        model_type = match.group(1)
 
-                    if 'BEIR' in topic_set['name']:
-                        # Extract BEIR dataset
-                        match = beir_dataset_pattern.search(topic_set['name'])
-                        beir_dataset = match.group(1)
+                        if 'BEIR' in topic_set['name']:
+                            # Extract BEIR dataset
+                            match = beir_dataset_pattern.search(topic_set['name'])
+                            beir_dataset = match.group(1)
 
-                        tolerance_ok = beir_flat_tolerance[model_type][beir_dataset]
-                    elif 'MS MARCO Passage' in topic_set['name']:
-                        tolerance_ok = msmarco_v1_flat_tolerance[model_type][model['name']]
-                    elif 'DL19' in topic_set['name']:
-                        tolerance_ok = dl19_flat_tolerance[model_type][model['name']]
-                    elif using_flat and 'DL20' in topic_set['name']:
-                        tolerance_ok = dl20_flat_tolerance[model_type][model['name']]
+                            tolerance_ok = beir_flat_tolerance[model_type][beir_dataset]
+                        elif 'MS MARCO Passage' in topic_set['name']:
+                            tolerance_ok = msmarco_v1_flat_tolerance[model_type][model['name']]
+                        elif 'DL19' in topic_set['name']:
+                            tolerance_ok = dl19_flat_tolerance[model_type][model['name']]
+                        elif using_flat and 'DL20' in topic_set['name']:
+                            tolerance_ok = dl20_flat_tolerance[model_type][model['name']]
 
                 if using_hnsw:
                     # Extract model
