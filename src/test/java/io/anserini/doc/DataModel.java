@@ -221,6 +221,7 @@ public class DataModel {
     private String type;
     private String params;
     private Map<String, List<Float>> results;
+    private Map<String, List<Float>> tolerance;
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
@@ -228,11 +229,14 @@ public class DataModel {
     public void setDisplay(String display) { this.display = display; }
     public String getType() { return type; }
     public void setType(String type) { this.type = type; }
+    public String getParams() { return params; }
+    public void setParams(String params) { this.params = params; }
 
     public Map<String, List<Float>> getResults() { return results; }
     public void setResults(Map<String, List<Float>> results) { this.results = results; }
-    public String getParams() { return params; }
-    public void setParams(String params) { this.params = params; }
+
+    public Map<String, List<Float>> getTolerance() { return tolerance; }
+    public void setTolerance(Map<String, List<Float>> tolerance) { this.tolerance = tolerance; }
   }
 
   static public class Conversion {
