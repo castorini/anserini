@@ -418,22 +418,25 @@ def evaluate_and_verify(yaml_data, dry_run):
                     #         tolerance_ok = dl20_flat_tolerance[model_type][model['name']]
 
                 if using_hnsw:
-                    # Extract model
-                    match = hnsw_model_type_pattern.search(model['name'])
-                    model_type = match.group(1)
+                    if 'tolerance' in model:
+                        tolerance_ok = model['tolerance'][metric['metric']][i]
+                    else:
+                        # Extract model
+                        match = hnsw_model_type_pattern.search(model['name'])
+                        model_type = match.group(1)
 
-                    if 'BEIR' in topic_set['name']:
-                        # Extract BEIR dataset
-                        match = beir_dataset_pattern.search(topic_set['name'])
-                        beir_dataset = match.group(1)
+                        if 'BEIR' in topic_set['name']:
+                            # Extract BEIR dataset
+                            match = beir_dataset_pattern.search(topic_set['name'])
+                            beir_dataset = match.group(1)
 
-                        tolerance_ok = beir_hnsw_tolerance[model_type][beir_dataset]
-                    elif 'MS MARCO Passage' in topic_set['name']:
-                        tolerance_ok = msmarco_v1_hnsw_tolerance[model_type][model['name']]
-                    elif 'DL19' in topic_set['name']:
-                        tolerance_ok = dl19_hnsw_tolerance[model_type][model['name']]
-                    elif 'DL20' in topic_set['name']:
-                        tolerance_ok = dl20_hnsw_tolerance[model_type][model['name']]
+                            tolerance_ok = beir_hnsw_tolerance[model_type][beir_dataset]
+                        elif 'MS MARCO Passage' in topic_set['name']:
+                            tolerance_ok = msmarco_v1_hnsw_tolerance[model_type][model['name']]
+                        elif 'DL19' in topic_set['name']:
+                            tolerance_ok = dl19_hnsw_tolerance[model_type][model['name']]
+                        elif 'DL20' in topic_set['name']:
+                            tolerance_ok = dl20_hnsw_tolerance[model_type][model['name']]
 
                 if using_flat or using_hnsw:
                     result_str = (f'expected: {expected:.4f} actual: {actual:.4f} '
