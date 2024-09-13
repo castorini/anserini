@@ -212,58 +212,58 @@ def construct_convert_commands(yaml_data):
 #     'flat-cached': beir_flat_cached,
 # }
 
-beir_hnsw_int8_onnx = defaultdict(lambda: 0.005)
-beir_hnsw_int8_onnx['ArguAna'] = 0.03
-beir_hnsw_int8_onnx['BioASQ'] = 0.02
-beir_hnsw_int8_onnx['DBPedia'] = 0.007
-beir_hnsw_int8_onnx['FiQA-2018'] = 0.007
-beir_hnsw_int8_onnx['HotpotQA'] = 0.008
-beir_hnsw_int8_onnx['NFCorpus'] = 0.006
-beir_hnsw_int8_onnx['Robust04'] = 0.006
-beir_hnsw_int8_onnx['Signal-1M'] = 0.04
-beir_hnsw_int8_onnx['TREC-NEWS'] = 0.02
-beir_hnsw_int8_onnx['Webis-Touche2020'] = 0.01
-
-beir_hnsw_int8_cached = defaultdict(lambda: 0.005)
-beir_hnsw_int8_cached['BioASQ'] = 0.02
-beir_hnsw_int8_cached['FiQA-2018'] = 0.007
-beir_hnsw_int8_cached['HotpotQA'] = 0.007
-beir_hnsw_int8_cached['Signal-1M'] = 0.04
-beir_hnsw_int8_cached['TREC-NEWS'] = 0.02
-beir_hnsw_int8_cached['Webis-Touche2020'] = 0.006
-
-beir_hnsw_onnx = defaultdict(lambda: 0.003)
-beir_hnsw_onnx['ArguAna'] = 0.02
-beir_hnsw_onnx['BioASQ'] = 0.01
-beir_hnsw_onnx['CQADupStack-wordpress'] = 0.004
-beir_hnsw_onnx['DBPedia'] = 0.006
-beir_hnsw_onnx['FEVER'] = 0.007
-beir_hnsw_onnx['FiQA-2018'] = 0.007
-beir_hnsw_onnx['HotpotQA'] = 0.007
-beir_hnsw_onnx['Robust04'] = 0.004
-beir_hnsw_onnx['Signal-1M'] = 0.05
-beir_hnsw_onnx['TREC-NEWS'] = 0.02
-
-beir_hnsw_cached = defaultdict(lambda: 0.003)
-beir_hnsw_cached['BioASQ'] = 0.01
-beir_hnsw_cached['DBPedia'] = 0.006
-beir_hnsw_cached['FEVER'] = 0.008
-beir_hnsw_cached['FiQA-2018'] = 0.008
-beir_hnsw_cached['HotpotQA'] = 0.007
-beir_hnsw_cached['Signal-1M'] = 0.05
-beir_hnsw_cached['TREC-NEWS'] = 0.025
-
-beir_hnsw_tolerance = {
-    'hnsw-int8-onnx': beir_hnsw_int8_onnx,
-    'hnsw-int8-cached': beir_hnsw_int8_cached,
-    'hnsw-onnx': beir_hnsw_onnx,
-    'hnsw-cached': beir_hnsw_cached,
-}
+# beir_hnsw_int8_onnx = defaultdict(lambda: 0.005)
+# beir_hnsw_int8_onnx['ArguAna'] = 0.03
+# beir_hnsw_int8_onnx['BioASQ'] = 0.02
+# beir_hnsw_int8_onnx['DBPedia'] = 0.007
+# beir_hnsw_int8_onnx['FiQA-2018'] = 0.007
+# beir_hnsw_int8_onnx['HotpotQA'] = 0.008
+# beir_hnsw_int8_onnx['NFCorpus'] = 0.006
+# beir_hnsw_int8_onnx['Robust04'] = 0.006
+# beir_hnsw_int8_onnx['Signal-1M'] = 0.04
+# beir_hnsw_int8_onnx['TREC-NEWS'] = 0.02
+# beir_hnsw_int8_onnx['Webis-Touche2020'] = 0.01
+#
+# beir_hnsw_int8_cached = defaultdict(lambda: 0.005)
+# beir_hnsw_int8_cached['BioASQ'] = 0.02
+# beir_hnsw_int8_cached['FiQA-2018'] = 0.007
+# beir_hnsw_int8_cached['HotpotQA'] = 0.007
+# beir_hnsw_int8_cached['Signal-1M'] = 0.04
+# beir_hnsw_int8_cached['TREC-NEWS'] = 0.02
+# beir_hnsw_int8_cached['Webis-Touche2020'] = 0.006
+#
+# beir_hnsw_onnx = defaultdict(lambda: 0.003)
+# beir_hnsw_onnx['ArguAna'] = 0.02
+# beir_hnsw_onnx['BioASQ'] = 0.01
+# beir_hnsw_onnx['CQADupStack-wordpress'] = 0.004
+# beir_hnsw_onnx['DBPedia'] = 0.006
+# beir_hnsw_onnx['FEVER'] = 0.007
+# beir_hnsw_onnx['FiQA-2018'] = 0.007
+# beir_hnsw_onnx['HotpotQA'] = 0.007
+# beir_hnsw_onnx['Robust04'] = 0.004
+# beir_hnsw_onnx['Signal-1M'] = 0.05
+# beir_hnsw_onnx['TREC-NEWS'] = 0.02
+#
+# beir_hnsw_cached = defaultdict(lambda: 0.003)
+# beir_hnsw_cached['BioASQ'] = 0.01
+# beir_hnsw_cached['DBPedia'] = 0.006
+# beir_hnsw_cached['FEVER'] = 0.008
+# beir_hnsw_cached['FiQA-2018'] = 0.008
+# beir_hnsw_cached['HotpotQA'] = 0.007
+# beir_hnsw_cached['Signal-1M'] = 0.05
+# beir_hnsw_cached['TREC-NEWS'] = 0.025
+#
+# beir_hnsw_tolerance = {
+#     'hnsw-int8-onnx': beir_hnsw_int8_onnx,
+#     'hnsw-int8-cached': beir_hnsw_int8_cached,
+#     'hnsw-onnx': beir_hnsw_onnx,
+#     'hnsw-cached': beir_hnsw_cached,
+# }
 
 #flat_model_type_pattern = re.compile(r'(flat-int8-onnx|flat-int8-cached|flat-onnx|flat-cached)$')
-hnsw_model_type_pattern = re.compile(r'(hnsw-int8-onnx|hnsw-int8-cached|hnsw-onnx|hnsw-cached)$')
-
-beir_dataset_pattern = re.compile(r'BEIR \(v1.0.0\): (.*)$')
+# hnsw_model_type_pattern = re.compile(r'(hnsw-int8-onnx|hnsw-int8-cached|hnsw-onnx|hnsw-cached)$')
+#
+# beir_dataset_pattern = re.compile(r'BEIR \(v1.0.0\): (.*)$')
 
 # msmarco_v1_flat_int8_onnx = defaultdict(lambda: 0.002)
 # msmarco_v1_flat_int8_cached = defaultdict(lambda: 0.002)
@@ -313,52 +313,52 @@ beir_dataset_pattern = re.compile(r'BEIR \(v1.0.0\): (.*)$')
 #     'flat-cached': dl20_flat_cached,
 # }
 
-msmarco_v1_hnsw_int8_onnx = defaultdict(lambda: 0.01)
-msmarco_v1_hnsw_int8_cached = defaultdict(lambda: 0.01)
-msmarco_v1_hnsw_onnx = defaultdict(lambda: 0.01)
-msmarco_v1_hnsw_onnx['cos-dpr-distil-hnsw-onnx']  = 0.015
-msmarco_v1_hnsw_cached = defaultdict(lambda: 0.01)
-msmarco_v1_hnsw_cached['cos-dpr-distil-hnsw-cached'] = 0.015
-
-msmarco_v1_hnsw_tolerance = {
-    'hnsw-int8-onnx': msmarco_v1_hnsw_int8_onnx,
-    'hnsw-int8-cached': msmarco_v1_hnsw_int8_cached,
-    'hnsw-onnx': msmarco_v1_hnsw_onnx,
-    'hnsw-cached': msmarco_v1_hnsw_cached,
-}
-
-dl19_hnsw_int8_onnx = defaultdict(lambda: 0.01)
-dl19_hnsw_int8_onnx['bge-hnsw-int8-onnx'] = 0.025
-dl19_hnsw_int8_onnx['cos-dpr-distil-hnsw-int8-onnx'] = 0.025
-dl19_hnsw_int8_cached = defaultdict(lambda: 0.01)
-dl19_hnsw_int8_cached['bge-hnsw-int8-cached'] = 0.02
-dl19_hnsw_int8_cached['cohere-embed-english-v3.0-hnsw-int8-cached'] = 0.02
-dl19_hnsw_int8_cached['cos-dpr-distil-hnsw-int8-cached'] = 0.025
-dl19_hnsw_int8_cached['openai-ada2-hnsw-int8-cached'] = 0.015
-dl19_hnsw_onnx = defaultdict(lambda: 0.015)
-dl19_hnsw_onnx['bge-hnsw-onnx'] = 0.02
-dl19_hnsw_cached = defaultdict(lambda: 0.015)
-dl19_hnsw_cached['cohere-embed-english-v3.0-hnsw-cached'] = 0.02
-
-dl19_hnsw_tolerance = {
-    'hnsw-int8-onnx': dl19_hnsw_int8_onnx,
-    'hnsw-int8-cached': dl19_hnsw_int8_cached,
-    'hnsw-onnx': dl19_hnsw_onnx,
-    'hnsw-cached': dl19_hnsw_cached,
-}
-
-dl20_hnsw_int8_onnx = defaultdict(lambda: 0.02)
-dl20_hnsw_int8_cached = defaultdict(lambda: 0.02)
-dl20_hnsw_onnx = defaultdict(lambda: 0.015)
-dl20_hnsw_cached = defaultdict(lambda: 0.015)
-dl20_hnsw_cached['cohere-embed-english-v3.0-hnsw-cached'] = 0.025
-
-dl20_hnsw_tolerance = {
-    'hnsw-int8-onnx': dl20_hnsw_int8_onnx,
-    'hnsw-int8-cached': dl20_hnsw_int8_cached,
-    'hnsw-onnx': dl20_hnsw_onnx,
-    'hnsw-cached': dl20_hnsw_cached,
-}
+# msmarco_v1_hnsw_int8_onnx = defaultdict(lambda: 0.01)
+# msmarco_v1_hnsw_int8_cached = defaultdict(lambda: 0.01)
+# msmarco_v1_hnsw_onnx = defaultdict(lambda: 0.01)
+# msmarco_v1_hnsw_onnx['cos-dpr-distil-hnsw-onnx']  = 0.015
+# msmarco_v1_hnsw_cached = defaultdict(lambda: 0.01)
+# msmarco_v1_hnsw_cached['cos-dpr-distil-hnsw-cached'] = 0.015
+#
+# msmarco_v1_hnsw_tolerance = {
+#     'hnsw-int8-onnx': msmarco_v1_hnsw_int8_onnx,
+#     'hnsw-int8-cached': msmarco_v1_hnsw_int8_cached,
+#     'hnsw-onnx': msmarco_v1_hnsw_onnx,
+#     'hnsw-cached': msmarco_v1_hnsw_cached,
+# }
+#
+# dl19_hnsw_int8_onnx = defaultdict(lambda: 0.01)
+# dl19_hnsw_int8_onnx['bge-hnsw-int8-onnx'] = 0.025
+# dl19_hnsw_int8_onnx['cos-dpr-distil-hnsw-int8-onnx'] = 0.025
+# dl19_hnsw_int8_cached = defaultdict(lambda: 0.01)
+# dl19_hnsw_int8_cached['bge-hnsw-int8-cached'] = 0.02
+# dl19_hnsw_int8_cached['cohere-embed-english-v3.0-hnsw-int8-cached'] = 0.02
+# dl19_hnsw_int8_cached['cos-dpr-distil-hnsw-int8-cached'] = 0.025
+# dl19_hnsw_int8_cached['openai-ada2-hnsw-int8-cached'] = 0.015
+# dl19_hnsw_onnx = defaultdict(lambda: 0.015)
+# dl19_hnsw_onnx['bge-hnsw-onnx'] = 0.02
+# dl19_hnsw_cached = defaultdict(lambda: 0.015)
+# dl19_hnsw_cached['cohere-embed-english-v3.0-hnsw-cached'] = 0.02
+#
+# dl19_hnsw_tolerance = {
+#     'hnsw-int8-onnx': dl19_hnsw_int8_onnx,
+#     'hnsw-int8-cached': dl19_hnsw_int8_cached,
+#     'hnsw-onnx': dl19_hnsw_onnx,
+#     'hnsw-cached': dl19_hnsw_cached,
+# }
+#
+# dl20_hnsw_int8_onnx = defaultdict(lambda: 0.02)
+# dl20_hnsw_int8_cached = defaultdict(lambda: 0.02)
+# dl20_hnsw_onnx = defaultdict(lambda: 0.015)
+# dl20_hnsw_cached = defaultdict(lambda: 0.015)
+# dl20_hnsw_cached['cohere-embed-english-v3.0-hnsw-cached'] = 0.025
+#
+# dl20_hnsw_tolerance = {
+#     'hnsw-int8-onnx': dl20_hnsw_int8_onnx,
+#     'hnsw-int8-cached': dl20_hnsw_int8_cached,
+#     'hnsw-onnx': dl20_hnsw_onnx,
+#     'hnsw-cached': dl20_hnsw_cached,
+# }
 
 
 def evaluate_and_verify(yaml_data, dry_run):
@@ -392,13 +392,18 @@ def evaluate_and_verify(yaml_data, dry_run):
                 using_hnsw = True if 'type' in model and model['type'] == 'hnsw' else False
                 using_flat = True if 'type' in model and model['type'] == 'flat' else False
 
-                if using_flat:
-                    if 'tolerance' in model:
-                        #print(model['tolerance'])
-                        #print(metric)
-                        tolerance_ok = model['tolerance'][metric['metric']][i]
-                    else:
-                        tolerance_ok = 0
+                if 'tolerance' in model:
+                    tolerance_ok = model['tolerance'][metric['metric']][i]
+                else:
+                    tolerance_ok = 0
+
+                # if using_flat:
+                #     if 'tolerance' in model:
+                #         #print(model['tolerance'])
+                #         #print(metric)
+                #         tolerance_ok = model['tolerance'][metric['metric']][i]
+                #     else:
+                #         tolerance_ok = 0
                     # else:
                     #     # Extract model
                     #     match = flat_model_type_pattern.search(model['name'])
@@ -417,26 +422,28 @@ def evaluate_and_verify(yaml_data, dry_run):
                     #     elif using_flat and 'DL20' in topic_set['name']:
                     #         tolerance_ok = dl20_flat_tolerance[model_type][model['name']]
 
-                if using_hnsw:
-                    if 'tolerance' in model:
-                        tolerance_ok = model['tolerance'][metric['metric']][i]
-                    else:
-                        # Extract model
-                        match = hnsw_model_type_pattern.search(model['name'])
-                        model_type = match.group(1)
-
-                        if 'BEIR' in topic_set['name']:
-                            # Extract BEIR dataset
-                            match = beir_dataset_pattern.search(topic_set['name'])
-                            beir_dataset = match.group(1)
-
-                            tolerance_ok = beir_hnsw_tolerance[model_type][beir_dataset]
-                        elif 'MS MARCO Passage' in topic_set['name']:
-                            tolerance_ok = msmarco_v1_hnsw_tolerance[model_type][model['name']]
-                        elif 'DL19' in topic_set['name']:
-                            tolerance_ok = dl19_hnsw_tolerance[model_type][model['name']]
-                        elif 'DL20' in topic_set['name']:
-                            tolerance_ok = dl20_hnsw_tolerance[model_type][model['name']]
+                # if using_hnsw:
+                #     if 'tolerance' in model:
+                #         tolerance_ok = model['tolerance'][metric['metric']][i]
+                #     else:
+                #         tolerance_ok = 0
+                    # else:
+                    #     # Extract model
+                    #     match = hnsw_model_type_pattern.search(model['name'])
+                    #     model_type = match.group(1)
+                    #
+                    #     if 'BEIR' in topic_set['name']:
+                    #         # Extract BEIR dataset
+                    #         match = beir_dataset_pattern.search(topic_set['name'])
+                    #         beir_dataset = match.group(1)
+                    #
+                    #         tolerance_ok = beir_hnsw_tolerance[model_type][beir_dataset]
+                    #     elif 'MS MARCO Passage' in topic_set['name']:
+                    #         tolerance_ok = msmarco_v1_hnsw_tolerance[model_type][model['name']]
+                    #     elif 'DL19' in topic_set['name']:
+                    #         tolerance_ok = dl19_hnsw_tolerance[model_type][model['name']]
+                    #     elif 'DL20' in topic_set['name']:
+                    #         tolerance_ok = dl20_hnsw_tolerance[model_type][model['name']]
 
                 if using_flat or using_hnsw:
                     result_str = (f'expected: {expected:.4f} actual: {actual:.4f} '
