@@ -56,11 +56,11 @@ models:
     params: -hits 1000 -efSearch 1000 -threads 16
     results:
       AP@1000:
-        - 0.3000
+        - 0.3716
       RR@10:
         - 0.3658
       R@100:
-        - 0.3000
+        - 0.8935
       R@1000:
         - 0.9786
     tolerance:
