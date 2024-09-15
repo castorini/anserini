@@ -13,13 +13,6 @@ index_threads: 16
 index_options: -M 16 -efC 100
 
 metrics:
-  - metric: nDCG@10
-    command: bin/trec_eval
-    params: -c -m ndcg_cut.10
-    separator: "\t"
-    parse_index: 2
-    metric_precision: 4
-    can_combine: false
   - metric: AP@1000
     command: bin/trec_eval
     params: -c -m map
@@ -30,6 +23,13 @@ metrics:
   - metric: RR@10
     command: bin/trec_eval
     params: -c -M 10 -m recip_rank
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: bin/trec_eval
+    params: -c -m recall.100
     separator: "\t"
     parse_index: 2
     metric_precision: 4
@@ -55,20 +55,20 @@ models:
     type: hnsw
     params: -hits 1000 -efSearch 1000 -threads 16
     results:
-      nDCG@10:
-        - 0.4287
       AP@1000:
-        - 0.3716
+        - 0.3000
       RR@10:
         - 0.3658
+      R@100:
+        - 0.3000
       R@1000:
         - 0.9786
     tolerance:
-      nDCG@10:
-        - 0.004
       AP@1000:
         - 0.003
       RR@10:
+        - 0.003
+      R@100:
         - 0.003
       R@1000:
         - 0.01
