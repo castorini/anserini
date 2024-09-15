@@ -79,9 +79,9 @@ bin/run.sh io.anserini.search.SearchFlatDenseVectors \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-flat-int8-cached.topics.msmarco-passage.dev-subset.cohere-embed-english-v3.0.jsonl.txt
 bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-flat-int8-cached.topics.msmarco-passage.dev-subset.cohere-embed-english-v3.0.jsonl.txt
 bin/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-flat-int8-cached.topics.msmarco-passage.dev-subset.cohere-embed-english-v3.0.jsonl.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-flat-int8-cached.topics.msmarco-passage.dev-subset.cohere-embed-english-v3.0.jsonl.txt
 bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-flat-int8-cached.topics.msmarco-passage.dev-subset.cohere-embed-english-v3.0.jsonl.txt
 ```
 
@@ -89,13 +89,13 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@10**                                                                                                  | **cohere-embed-english-v3.0**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.4287    |
 | **AP@1000**                                                                                                  | **cohere-embed-english-v3.0**|
+|:-------------------------------------------------------------------------------------------------------------|-----------|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3716    |
 | **RR@10**                                                                                                    | **cohere-embed-english-v3.0**|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3658    |
+| **R@100**                                                                                                    | **cohere-embed-english-v3.0**|
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.8935    |
 | **R@1000**                                                                                                   | **cohere-embed-english-v3.0**|
 | [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9786    |
 
