@@ -407,3 +407,4 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@antea-ab](https://github.com/antea-ab) on 2024-08-31 (commit [`e0a9578`](https://github.com/castorini/anserini/commit/e0a9578cd391674e8b3aa15ee25906b5fb442c9d))
 + Results reproduced by [@anshulsc](https://github.com/anshulsc) on 2024-09-06 (commit [`c096dff`](https://github.com/castorini/anserini/commit/c096dffe0d114af3bc4d8e4e71ebef4fe02bc94d))
 + Results reproduced by [@r-aya](https://github.com/r-aya) on 2024-09-07 (commit [`4319f89`](https://github.com/castorini/anserini/commit/4319f89472c4dd3359482f041dbcaee5202d8dd2))
++ Results reproduced by [@Amirkia1998](https://github.com/Amirkia1998) on 2024-09-16 (commit [`204bc87`](https://github.com/castorini/anserini/commit/204bc87ef66e689773549ff804377eae20d5d7ce))
