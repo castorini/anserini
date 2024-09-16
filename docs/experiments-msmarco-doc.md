@@ -292,3 +292,5 @@ That's it!
 + Results reproduced by [@ErrenYeager](https://github.com/ErrenYeager) on 2023-09-02 (commit [`4ae518b`](https://github.com/castorini/anserini/commit/4ae518bb284ebcba0b273a473bc8774735cb7d19))
 + Results reproduced by [@Minhajul99](https://github.com/Minhajul99) on 2023-12-09 (commit [`f1d6320`](https://github.com/Minhajul99/anserini/commit/f1d6320a0002faeec28f3262cc5bf982c992503b))
 + Results reproduced by [@MariaPonomarenko38](https://github.com/MehrnazSadeghieh) on 2024-07-19 (commit [`1f750c6`](https://github.com/castorini/anserini/commit/1f750c67f42f02820b0a75237579e34a8c676248))
+
+
