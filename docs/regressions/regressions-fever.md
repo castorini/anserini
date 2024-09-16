@@ -17,11 +17,12 @@ Typical indexing command:
 
 ```
 bin/run.sh io.anserini.index.IndexCollection \
+  -threads 1 \
   -collection FeverParagraphCollection \
   -input /path/to/fever \
   -generator DefaultLuceneDocumentGenerator \
   -index indexes/lucene-index.fever-paragraph/ \
-  -threads 1 -storePositions -storeDocvectors -storeRaw \
+  -storePositions -storeDocvectors -storeRaw \
   >& logs/log.fever &
 ```
 

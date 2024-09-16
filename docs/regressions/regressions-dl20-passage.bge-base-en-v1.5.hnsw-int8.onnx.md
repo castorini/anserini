@@ -1,6 +1,6 @@
 # Anserini Regressions: TREC 2020 Deep Learning Track (Passage)
 
-**Model**: [BGE-base-en-v1.5](https://huggingface.co/BAAI/bge-base-en-v1.5) with HNSW quantized indexes (using ONNX for on-the-fly query encoding)
+**Model**: [BGE-base-en-v1.5](https://huggingface.co/BAAI/bge-base-en-v1.5) with quantized HNSW indexes (using ONNX for on-the-fly query encoding)
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, using the [BGE-base-en-v1.5](https://huggingface.co/BAAI/bge-base-en-v1.5) model on the [TREC 2020 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html), as described in the following paper:
 
@@ -49,15 +49,16 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 
 ## Indexing
 
-Sample indexing command, building HNSW indexes:
+Sample indexing command, building quantized HNSW indexes:
 
 ```bash
 bin/run.sh io.anserini.index.IndexHnswDenseVectors \
+  -threads 16 \
   -collection JsonDenseVectorCollection \
   -input /path/to/msmarco-passage-bge-base-en-v1.5 \
-  -generator HnswDenseVectorDocumentGenerator \
+  -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-hnsw-int8.msmarco-v1-passage.bge-base-en-v1.5/ \
-  -threads 16 -M 16 -efC 100 -memoryBuffer 65536 -noMerge -quantize.int8 \
+  -M 16 -efC 100 -quantize.int8 \
   >& logs/log.msmarco-passage-bge-base-en-v1.5 &
 ```
 
@@ -82,17 +83,17 @@ bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -index indexes/lucene-hnsw-int8.msmarco-v1-passage.bge-base-en-v1.5/ \
   -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicReader TsvInt \
-  -output runs/run.msmarco-passage-bge-base-en-v1.5.bge-hnsw-onnx.topics.dl20.txt \
+  -output runs/run.msmarco-passage-bge-base-en-v1.5.bge-hnsw-int8-onnx.topics.dl20.txt \
   -generator VectorQueryGenerator -topicField title -threads 16 -hits 1000 -efSearch 1000 -encoder BgeBaseEn15 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-bge-base-en-v1.5.bge-hnsw-onnx.topics.dl20.txt
-bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-bge-base-en-v1.5.bge-hnsw-onnx.topics.dl20.txt
-bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-bge-base-en-v1.5.bge-hnsw-onnx.topics.dl20.txt
-bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-bge-base-en-v1.5.bge-hnsw-onnx.topics.dl20.txt
+bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-bge-base-en-v1.5.bge-hnsw-int8-onnx.topics.dl20.txt
+bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-bge-base-en-v1.5.bge-hnsw-int8-onnx.topics.dl20.txt
+bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-bge-base-en-v1.5.bge-hnsw-int8-onnx.topics.dl20.txt
+bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-bge-base-en-v1.5.bge-hnsw-int8-onnx.topics.dl20.txt
 ```
 
 ## Effectiveness
@@ -101,20 +102,21 @@ With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **BGE-base-en-v1.5**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.462     |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.465     |
 | **nDCG@10**                                                                                                  | **BGE-base-en-v1.5**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.677     |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.678     |
 | **R@100**                                                                                                    | **BGE-base-en-v1.5**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.711     |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.717     |
 | **R@1000**                                                                                                   | **BGE-base-en-v1.5**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.848     |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.850     |
 
-Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
-Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/dl20-passage.bge-base-en-v1.5.hnsw-int8.onnx.yaml).
+The above figures are from running brute-force search with cached queries on non-quantized **flat** indexes.
+With ONNX query encoding on quantized HNSW indexes, observed results are likely to differ; scores may be lower by up to 0.01, sometimes more.
+Note that both HNSW indexing and quantization are non-deterministic (i.e., results may differ slightly between trials).
 
-Also note that retrieval metrics are computed to depth 1000 hits per query (as opposed to 100 hits per query for document ranking).
-Also, for computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., AP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).
-The experimental results reported here are directly comparable to the results reported in the [track overview paper](https://arxiv.org/abs/2003.07820).
+❗ Retrieval metrics here are computed to depth 1000 hits per query (as opposed to 100 hits per query for document ranking).
+For computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., AP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).
+The experimental results reported here are directly comparable to the results reported in the [track overview paper](https://arxiv.org/abs/2102.07662).
 
 ## Reproduction Log[*](reproducibility.md)
 

@@ -24,11 +24,12 @@ Typical indexing command:
 
 ```
 bin/run.sh io.anserini.index.IndexCollection \
+  -threads 9 \
   -collection JsonCollection \
   -input /path/to/msmarco-passage-doc2query \
   -generator DefaultLuceneDocumentGenerator \
   -index indexes/lucene-inverted.msmarco-v1-passage.doc2query/ \
-  -threads 9 -storePositions -storeDocvectors -storeRaw \
+  -storePositions -storeDocvectors -storeRaw \
   >& logs/log.msmarco-passage-doc2query &
 ```
 

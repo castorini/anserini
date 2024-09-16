@@ -18,11 +18,12 @@ Typical indexing command:
 
 ```
 bin/run.sh io.anserini.index.IndexCollection \
+  -threads 1 \
   -collection CarCollection \
   -input /path/to/car-paragraphCorpus.v1.5 \
   -generator DefaultLuceneDocumentGenerator \
   -index indexes/lucene-index.car-paragraphCorpus.v1.5/ \
-  -threads 1 -storePositions -storeDocvectors -storeRaw \
+  -storePositions -storeDocvectors -storeRaw \
   >& logs/log.car-paragraphCorpus.v1.5 &
 ```
 

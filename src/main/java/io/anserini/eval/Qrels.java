@@ -18,6 +18,7 @@ package io.anserini.eval;
 
 import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.Map;
 
 public enum Qrels {
   TREC1_ADHOC("qrels.adhoc.51-100.txt"),
@@ -191,15 +192,22 @@ public enum Qrels {
   CIRAL_V10_SW_TEST_B("qrels.ciral-v1.0-sw-test-b.tsv"),
   CIRAL_V10_YO_TEST_B("qrels.ciral-v1.0-yo-test-b.tsv");
 
-  private static HashMap<String, String> symbolFileDict = generateSymbolFileDict();
+  private static Map<String, String> symbolFileDict = generateSymbolFileDict();
 
   private static HashMap<String, String> generateSymbolFileDict() {
-    var d = new HashMap<String, String>();
-    for(Qrels c : Qrels.values()) {
-      String sym = c.path.substring(c.path.indexOf('.') + 1, c.path.lastIndexOf('.'));
-      d.put(sym, c.path);
+    HashMap<String, String> m = new HashMap<>();
+    for (Qrels qrels : Qrels.values()) {
+      String sym = qrels.path.substring(qrels.path.indexOf('.') + 1, qrels.path.lastIndexOf('.'));
+      m.put(sym, qrels.path);
     }
-    return d;
+
+    // Additional aliases
+    m.put("msmarco-passage-dev", "qrels.msmarco-passage.dev-subset.txt");
+    m.put("msmarco-v1-passage-dev", "qrels.msmarco-passage.dev-subset.txt");
+    m.put("msmarco-passage.dev", "qrels.msmarco-passage.dev-subset.txt");
+    m.put("msmarco-v1-passage.dev", "qrels.msmarco-passage.dev-subset.txt");
+
+    return m;
   }
 
   public final String path;

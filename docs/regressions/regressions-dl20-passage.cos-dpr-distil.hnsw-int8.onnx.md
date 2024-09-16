@@ -1,6 +1,6 @@
 # Anserini Regressions: TREC 2020 Deep Learning Track (Passage)
 
-**Model**: cosDPR-distil with HNSW quantized indexes (using ONNX for on-the-fly query encoding)
+**Model**: cosDPR-distil with quantized HNSW indexes (using ONNX for on-the-fly query encoding)
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, using the cosDPR-distil model on the [TREC 2020 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html), as described in the following paper:
 
@@ -49,15 +49,16 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 
 ## Indexing
 
-Sample indexing command, building HNSW indexes:
+Sample indexing command, building quantized HNSW indexes:
 
 ```bash
 bin/run.sh io.anserini.index.IndexHnswDenseVectors \
+  -threads 16 \
   -collection JsonDenseVectorCollection \
   -input /path/to/msmarco-passage-cos-dpr-distil \
-  -generator HnswDenseVectorDocumentGenerator \
+  -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-hnsw-int8.msmarco-v1-passage.cos-dpr-distil/ \
-  -threads 16 -M 16 -efC 100 -memoryBuffer 65536 -noMerge -quantize.int8 \
+  -M 16 -efC 100 -quantize.int8 \
   >& logs/log.msmarco-passage-cos-dpr-distil &
 ```
 
@@ -82,7 +83,7 @@ bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -index indexes/lucene-hnsw-int8.msmarco-v1-passage.cos-dpr-distil/ \
   -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicReader TsvInt \
-  -output runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw-onnx.topics.dl20.txt \
+  -output runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw-int8-onnx.topics.dl20.txt \
   -generator VectorQueryGenerator -topicField title -threads 16 -hits 1000 -efSearch 1000 -encoder CosDprDistil &
 ```
 
@@ -91,10 +92,10 @@ Note that we are performing query inference "on-the-fly" with ONNX in these expe
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw-onnx.topics.dl20.txt
-bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw-onnx.topics.dl20.txt
-bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw-onnx.topics.dl20.txt
-bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw-onnx.topics.dl20.txt
+bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw-int8-onnx.topics.dl20.txt
+bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw-int8-onnx.topics.dl20.txt
+bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw-int8-onnx.topics.dl20.txt
+bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw-int8-onnx.topics.dl20.txt
 ```
 
 ## Effectiveness
@@ -103,20 +104,21 @@ With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **cosDPR-distil**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.482     |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.488     |
 | **nDCG@10**                                                                                                  | **cosDPR-distil**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.701     |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.702     |
 | **R@100**                                                                                                    | **cosDPR-distil**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.712     |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.720     |
 | **R@1000**                                                                                                   | **cosDPR-distil**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.843     |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.853     |
 
-Note that due to the non-deterministic nature of HNSW indexing, results may differ slightly between each experimental run.
-Nevertheless, scores are generally within 0.005 of the reference values recorded in [our YAML configuration file](../../src/main/resources/regression/dl20-passage.cos-dpr-distil.hnsw-int8.onnx.yaml).
+The above figures are from running brute-force search with cached queries on non-quantized **flat** indexes.
+With ONNX query encoding on quantized HNSW indexes, observed results are likely to differ; scores may be lower by up to 0.01, sometimes more.
+Note that both HNSW indexing and quantization are non-deterministic (i.e., results may differ slightly between trials).
 
-Also note that retrieval metrics are computed to depth 1000 hits per query (as opposed to 100 hits per query for document ranking).
-Also, for computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., AP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).
-The experimental results reported here are directly comparable to the results reported in the [track overview paper](https://arxiv.org/abs/2003.07820).
+❗ Retrieval metrics here are computed to depth 1000 hits per query (as opposed to 100 hits per query for document ranking).
+For computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., AP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).
+The experimental results reported here are directly comparable to the results reported in the [track overview paper](https://arxiv.org/abs/2102.07662).
 
 ## Reproduction Log[*](reproducibility.md)
 

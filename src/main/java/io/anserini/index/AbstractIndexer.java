@@ -175,6 +175,7 @@ public abstract class AbstractIndexer implements Runnable {
         LOG.debug(inputFile.getParent().getFileName().toString() + File.separator +
             inputFile.getFileName().toString() + ": " + cnt + " docs added.");
       } catch (Exception e) {
+        e.printStackTrace();
         LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e.getMessage());
       }
     }

@@ -3,6 +3,7 @@
 This page contains instructions for running BM25 baselines on the [MS MARCO *passage* ranking task](https://microsoft.github.io/msmarco/).
 Note that there is a separate [MS MARCO *document* ranking task](experiments-msmarco-doc.md).
 This exercise will require a machine with >8 GB RAM and >15 GB free disk space .
+If you're using a Windows machine, equivalent commands are provided alongside the Unix-like (Linux/macOS) commands.
 
 If you're a Waterloo student traversing the [onboarding path](https://github.com/lintool/guide/blob/master/ura.md), [start here](start-here.md
 ).
@@ -20,7 +21,7 @@ Instead, really try to understand what's going on.
 
 What's Anserini?
 Well, it's the repo that you're in right now.
-Anserini is a toolkit (in Java) for reproducible information retrieval research built on the [Luence search library](https://lucene.apache.org/).
+Anserini is a toolkit (in Java) for reproducible information retrieval research built on the [Lucene search library](https://lucene.apache.org/).
 The Lucene search library provides components of the popular [Elasticsearch](https://www.elastic.co/) platform.
 
 Think of it this way: Lucene provides a "kit of parts".
@@ -89,7 +90,7 @@ On the other hand, retrieval needs to be fast, i.e., low latency, high throughpu
 
 With the data prep above, we can now index the MS MARCO passage collection in `collections/msmarco-passage/collection_jsonl`.
 
-If you haven't built Anserini already, build it now using the instructions in [anserini#-getting-started](https://github.com/castorini/anserini#-getting-started).
+If you haven't built Anserini already, build it now using the instructions in [anserini#-installation](https://github.com/castorini/anserini?tab=readme-ov-file#-installation).
 
 We index these docs as a `JsonCollection` (a specification of how documents are encoded) using Anserini:
 
@@ -101,11 +102,20 @@ bin/run.sh io.anserini.index.IndexCollection \
   -generator DefaultLuceneDocumentGenerator \
   -threads 9 -storePositions -storeDocvectors -storeRaw 
 ```
+For Windows:
+```bash
+bin\run.bat io.anserini.index.IndexCollection -collection JsonCollection -input collections\msmarco-passage\collection_jsonl -index indexes\msmarco-passage\lucene-index-msmarco -generator DefaultLuceneDocumentGenerator -threads 9 -storePositions -storeDocvectors -storeRaw
+```
+
+
 
 In this case, Lucene creates what is known as an **inverted index**.
 
 Upon completion, we should have an index with 8,841,823 documents.
 The indexing speed may vary; on a modern desktop with an SSD, indexing takes a couple of minutes.
+On the new MacBook Pro M3 Laptop, if you only have 8GB memory, you might encounter an issue where the threads are forced to abort before indexing
+finishes. This is likely caused by JVM allocating more memory than available on the system, thus causing too much memory swapping without actively
+garbage collecting. To mitigate this issue, you may need to modify run.sh to change the -Xms option to 2GB and -Xmx to 6GB.
 
 
 ## Retrieval
@@ -121,6 +131,10 @@ bin/run.sh io.anserini.search.SearchCollection \
   -output runs/run.msmarco-passage.dev.small.tsv -format msmarco \
   -parallelism 4 \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 -hits 1000
+```
+For Windows:
+```bash
+bin\run.bat io.anserini.search.SearchCollection -index indexes\msmarco-passage\lucene-index-msmarco -topics collections\msmarco-passage\queries.dev.small.tsv -topicReader TsvInt -output runs\run.msmarco-passage.dev.small.tsv -format msmarco -parallelism 4 -bm25 -bm25.k1 0.82 -bm25.b 0.68 -hits 1000
 ```
 
 This is the **retrieval** (or **search**) phase.
@@ -216,7 +230,7 @@ Remember from the [start here](start-here.md
 The final ingredient is a metric, i.e., how to quantify the "quality" of a ranked list.
 Here, we're using a metric called MRR, or mean reciprocal rank.
 The idea is quite simple:
-We look at where the relevant `docid` appears.
+We look at the rank position of the first relevant `docid`.
 If it appears at rank 1, the system gets a score of one.
 If it appears at rank 2, the system gets a score of 1/2.
 If it appears at rank 3, the system gets a score of 1/3.
@@ -482,3 +496,30 @@ The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to th
 + Results reproduced by [@a68lin](https://github.com/a68lin) on 2024-04-11 (commit [`39cecf6`](https://github.com/castorini/anserini/commit/39cecf6c257bae85f4e9f6ab02e0be101338c3cc))
 + Results reproduced by [@DanielKohn1208](https://github.com/DanielKohn1208/) on 2024-04-21 (commit [`9863611d`](https://github.com/castorini/anserini/commit/9863611d307773c086e64496a2a94cf6599c28b0))
 + Results reproduced by [@emadahmed19](https://github.com/emadahmed19) on 2024-04-28 (commit [`a4064a6`](https://github.com/castorini/anserini/commit/a4064a6fcf6adc7a2cdb5f94e2959f6e3904d916))
++ Results reproduced by [@CheranMahalingam](https://github.com/CheranMahalingam) on 2024-05-05 (commit [`2331882`](https://github.com/castorini/anserini/commit/23318820f3134425cdf32be80a0e8afb1adaf237))
++ Results reproduced by [@billycz8](https://github.com/billycz8) on 2024-05-08 (commit [`8e18867`](https://github.com/castorini/anserini/commit/8e188670e038c79782302ee3596828ea688250e0))
++ Results reproduced by [@KenWuqianhao](https://github.com/KenWuqianghao) on 2024-05-08 (commit [`0558bf4`](https://github.com/castorini/anserini/commit/0558bf416ea3f955af683f23c75a5170539076e6))
++ Results reproduced by [@baixabhi](https://github.com/baixabhi) on 2024-05-09 (commit [`8e188670`](https://github.com/castorini/anserini/commit/8e188670e038c79782302ee3596828ea688250e0))
++ Results reproduced by [@Yuv-sue1005](https://github.com/Yuv-sue1005/) on 2024-05-10 (commit ['3abc2a0'](https://github.com/castorini/anserini/commit/3abc2a0f0dbcb26630825577b39219f0c2754534/))
++ Results reproduced by [@hrouzegar](https://github.com/hrouzegar) on 2024-05-11 (commit [`3229fcdd`](https://github.com/castorini/anserini/commit/3229fcdd44e77daec9ba44350ff4931af266fd84))
++ Results reproduced by [@RohanNankani](https://github.com/RohanNankani) on 2024-05-17 (commit [`a6ea614`](https://github.com/castorini/anserini/commit/a6ea6147fa68bca2a8f869479dee28d620d93dbd))
++ Results reproduced by [@IR3KT4FUNZ](https://github.com/IR3KT4FUNZ) on 2024-05-20 (commit [`97c39f`](https://github.com/castorini/anserini/commit/97c39fd35f2ed1c95a425812d719083d9b088583))
++ Results reproduced by [@bilet-13](https://github.com/bilet-13) on 2024-05-26 (commit [`97c39fd`](https://github.com/castorini/anserini/commit/97c39fd35f2ed1c95a425812d719083d9b088583))
++ Results reproduced by [@SeanSong25](https://github.com/SeanSong25) on 2024-06-03 (commit [`ae6ee3f`](https://github.com/castorini/anserini/commit/ae6ee3f89a94049904ff509393976620385688b6))
++ Results reproduced by [@alireza-taban](https://github.com/alireza-taban) on 2024-06-10 (commit [`59330e3`](https://github.com/castorini/anserini/commit/59330e355b4aaf6754622cb3a136259dea0d8d05))
++ Results reproduced by [@Feng-12138](https://github.com/Feng-12138) on 2024-06-16 (commit [`ad97377`](https://github.com/castorini/anserini/commit/ad97377e463e70ee8b2f501ac7c41134af53e976))
++ Results reproduced by [@hosnahoseini](https://github.com/hosnahoseini) on 2024-06-18 (commit [`ad97377`](https://github.com/castorini/anserini/commit/ad97377e463e70ee8b2f501ac7c41134af53e976))
++ Results reproduced by [@FaizanFaisal25](https://github.com/FaizanFaisal25) on 2024-06-29 (commit [`e92370a`](https://github.com/FaizanFaisal25/anserini/commit/e92370a06eaa3bbc5bacdba65cc9c3f125590071))
++ Results reproduced by [@nicoella](https://github.com/nicoella) on 2024-07-06 (commit [`9cc2d89`](https://github.com/castorini/anserini/commit/9cc2d899e777b45b1e289f58b9e8e05099de6b3f))
++ Results reproduced by [@XKTZ](https://github.com/XKTZ) on 2024-07-12 (commit [`3885b5c`](https://github.com/castorini/anserini/commit/3885b5c25178d2a88fc3b953d572b518ef0d1da6))
++ Results reproduced by [@alireza-nasirian](https://github.com/alireza-nasirian) on 2024-07-19 (commit [`3885b5c`](https://github.com/castorini/anserini/commit/3885b5c25178d2a88fc3b953d572b518ef0d1da6))
++ Results reproduced by [@MehrnazSadeghieh](https://github.com/MehrnazSadeghieh) on 2024-07-19 (commit [`bb55c0b`](https://github.com/castorini/anserini/commit/bb55c0b5b219cb402c7f7084be7c32ad961a6595))
++ Results reproduced by [@valamuri2020](https://github.com/valamuri2020) on 2024-07-29 (commit [`10d9388`](https://github.com/castorini/anserini/commit/10d9388cb002a74d20d0e1fcd25cd573db720765))
++ Results reproduced by [@daisyyedda](https://github.com/daisyyedda) on 2024-08-02 (commit [`3885b5c`](https://github.com/castorini/anserini/commit/3885b5c25178d2a88fc3b953d572b518ef0d1da6))
++ Results reproduced by [@natek-1](https://github.com/natek-1) on 2024-08-05 (commit [`b467d4a`](https://github.com/castorini/anserini/commit/b467d4ade64ba99810b554bfa47655958b9477b2))
++ Results reproduced by [@emily-emily](https://github.com/emily-emily) on 2024-08-15 (commit [`28a98d0`](https://github.com/castorini/anserini/commit/28a98d05d1d379cd9133fce151779e2f312b3806))
++ Results reproduced by [@npjd](https://github.com/npjd) on 2024-08-17 (commit [`46b6834`](https://github.com/castorini/anserini/commit/46b68345b0ee614f511b87c9f66cee399e1308c5))
++ Results reproduced by [@setarehbabajani](https://github.com/setarehbabajani) on 2024-08-30 (commit [`859c7bb`](https://github.com/castorini/anserini/commit/859c7bbadd39693e5890a758e89135c04ab811ee))
++ Results reproduced by [@antea-ab](https://github.com/antea-ab) on 2024-09-01 (commit [`e0a9578`](https://github.com/castorini/anserini/commit/e0a9578cd391674e8b3aa15ee25906b5fb442c9d))
++ Results reproduced by [@anshulsc](https://github.com/anshulsc) on 2024-09-06 (commit [`c096dff`](https://github.com/castorini/anserini/commit/c096dffe0d114af3bc4d8e4e71ebef4fe02bc94d))
++ Results reproduced by [@r-aya](https://github.com/r-aya) on 2024-09-07 (commit [`4319f89`](https://github.com/castorini/anserini/commit/4319f89472c4dd3359482f041dbcaee5202d8dd2))

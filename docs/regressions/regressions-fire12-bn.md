@@ -18,11 +18,12 @@ Typical indexing command:
 
 ```
 bin/run.sh io.anserini.index.IndexCollection \
+  -threads 16 \
   -collection CleanTrecCollection \
   -input /path/to/fire12-bn \
   -generator DefaultLuceneDocumentGenerator \
   -index indexes/lucene-index.fire12-bn/ \
-  -threads 16 -storePositions -storeDocvectors -storeRaw -language bn \
+  -storePositions -storeDocvectors -storeRaw -language bn \
   >& logs/log.fire12-bn &
 ```
 

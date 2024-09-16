@@ -1024,6 +1024,13 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       }
     }
 
+    LOG.info("MaxPassage: " + args.selectMaxPassage);
+    if (args.selectMaxPassage) {
+      LOG.info("MaxPassage delimiter: " + args.selectMaxPassageDelimiter);
+      LOG.info("MaxPassage hits: " + args.selectMaxPassageHits);
+    }
+    LOG.info("Hits: " + args.hits);
+
     // get collection class if available
     if (args.collectionClass != null) {
       try {
@@ -1035,6 +1042,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     } else {
       this.collectionClass = null;
     }
+    LOG.info("Collection class: " + this.collectionClass);
 
     this.isRerank = args.rm3 || args.axiom || args.bm25prf || args.rocchio;
     this.analyzer = getAnalyzer();

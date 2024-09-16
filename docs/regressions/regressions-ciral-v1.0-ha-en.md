@@ -17,11 +17,12 @@ Typical indexing command:
 
 ```
 bin/run.sh io.anserini.index.IndexCollection \
+  -threads 16 \
   -collection MrTyDiCollection \
   -input /path/to/ciral-hausa-english \
   -generator DefaultLuceneDocumentGenerator \
   -index indexes/lucene-index.ciral-v1.0-ha-en/ \
-  -threads 16 -storePositions -storeDocvectors -storeRaw \
+  -storePositions -storeDocvectors -storeRaw \
   >& logs/log.ciral-hausa-english &
 ```
 

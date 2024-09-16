@@ -53,11 +53,12 @@ Sample indexing command:
 
 ```bash
 bin/run.sh io.anserini.index.IndexCollection \
+  -threads 16 \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-passage-splade-pp-ed \
   -generator DefaultLuceneDocumentGenerator \
   -index indexes/lucene-inverted.msmarco-v1-passage.splade-pp-ed/ \
-  -threads 16 -impact -pretokenized -storeDocvectors \
+  -impact -pretokenized -storeDocvectors \
   >& logs/log.msmarco-passage-splade-pp-ed &
 ```
 
@@ -132,8 +133,8 @@ With the above commands, you should be able to reproduce the following results:
 | **R@1000**                                                                                                   | **SPLADE++ CoCondenser-EnsembleDistil**| **+RM3**  | **+Rocchio**|
 | [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.8728    | 0.8684    | 0.8799    |
 
-Note that retrieval metrics are computed to depth 1000 hits per query (as opposed to 100 hits per query for document ranking).
-Also, for computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., AP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).
+❗ Retrieval metrics here are computed to depth 1000 hits per query (as opposed to 100 hits per query for document ranking).
+For computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., AP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).
 The experimental results reported here are directly comparable to the results reported in the [track overview paper](https://arxiv.org/abs/2003.07820).
 
 ## Reproduction Log[*](../../docs/reproducibility.md)

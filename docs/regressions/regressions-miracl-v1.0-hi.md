@@ -17,11 +17,12 @@ Typical indexing command:
 
 ```
 bin/run.sh io.anserini.index.IndexCollection \
+  -threads 1 \
   -collection MrTyDiCollection \
   -input /path/to/miracl-v1.0-hi \
   -generator DefaultLuceneDocumentGenerator \
   -index indexes/lucene-index.miracl-v1.0-hi/ \
-  -threads 1 -storePositions -storeDocvectors -storeRaw -language hi \
+  -storePositions -storeDocvectors -storeRaw -language hi \
   >& logs/log.miracl-v1.0-hi &
 ```
 

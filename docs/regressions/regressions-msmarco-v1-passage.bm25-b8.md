@@ -45,11 +45,12 @@ Typical indexing command:
 
 ```bash
 bin/run.sh io.anserini.index.IndexCollection \
+  -threads 9 \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-passage-bm25-b8 \
   -generator DefaultLuceneDocumentGenerator \
   -index indexes/lucene-inverted.msmarco-v1-passage.bm25-b8/ \
-  -threads 9 -impact -pretokenized \
+  -impact -pretokenized \
   >& logs/log.msmarco-passage-bm25-b8 &
 ```
 

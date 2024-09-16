@@ -17,9 +17,12 @@
 package io.anserini.reproduce;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
@@ -32,14 +35,13 @@ public class RunMsMarco {
   public static class Args {
     @Option(name = "-options", usage = "Print information about options.")
     public Boolean options = false;
-    @Option(name = "-v", metaVar = "[int]", usage = "MsMarco Version (1/2), where 2 is for V2.1. Default 1.")
-    public int MsMarcoVersion = 1;
+    @Option(name = "-collection", usage = "MS MARCO version {'msmarco-v1-passage' (default), 'msmarco-v2.1'}.")
+    public String MsMarcoVersion = "msmarco-v1-passage";
   }
 
   public static void main(String[] args) throws Exception {
 
     // check for cmd option
-    String COLLECTION = "msmarco-v1-passage";
     Args MsMarcoArgs = new Args();
     CmdLineParser parser = new CmdLineParser(MsMarcoArgs, ParserProperties.defaults().withUsageWidth(120));
 
@@ -64,16 +66,14 @@ public class RunMsMarco {
 
       return;
     }
-    switch (MsMarcoArgs.MsMarcoVersion) {
-        case 2:
-            COLLECTION = "msmarco-v2.1-doc";
-            break;
-        default: // MsMarcoVersion == 1
-            COLLECTION = "msmarco-v1-passage";
-            break;
+
+    Set<String> allowedVersions = new HashSet<>(Arrays.asList("msmarco-v2.1", "msmarco-v1-passage"));
+    if (!allowedVersions.contains(MsMarcoArgs.MsMarcoVersion)) {
+        System.err.println("Invalid MS MARCO version: " + MsMarcoArgs.MsMarcoVersion);
+        System.exit(1);
     }
 
-    RunRepro repro = new RunRepro(COLLECTION, new MsMarcoMetricDefinitions());
+    RunRepro repro = new RunRepro(MsMarcoArgs.MsMarcoVersion, new MsMarcoMetricDefinitions());
     repro.run();
   }
 
@@ -87,8 +87,7 @@ public class RunMsMarco {
       Map<String, String> msmarcoDevSubsetMetrics = new HashMap<>();
       msmarcoDevSubsetMetrics.put("MRR@10", "-c -M 10 -m recip_rank");
       msmarcoDevSubsetMetrics.put("R@1K", "-c -m recall.1000");
-      msmarcoV1Passage.put("msmarco-passage.dev-subset",
-          msmarcoDevSubsetMetrics);
+      msmarcoV1Passage.put("msmarco-passage.dev", msmarcoDevSubsetMetrics);
   
       Map<String, String> dl19PassageMetrics = new HashMap<>();
       dl19PassageMetrics.put("MAP", "-c -l 2 -m map");
@@ -109,13 +108,11 @@ public class RunMsMarco {
       // msmarco-v2.1-doc definitions
       Map<String, String> msmarco2Dev1Metrics = new HashMap<>();
       msmarco2Dev1Metrics.put("MRR@10", "-c -M 100 -m recip_rank");
-      msmarcoV2Passage.put("msmarco-v2.1-doc.dev",
-          msmarco2Dev1Metrics);
+      msmarcoV2Passage.put("msmarco-v2.1-doc.dev", msmarco2Dev1Metrics);
       
       Map<String, String> msmarco2Dev2Metrics = new HashMap<>();
       msmarco2Dev2Metrics.put("MRR@10", "-c -M 100 -m recip_rank");
-      msmarcoV2Passage.put("msmarco-v2.1-doc.dev2",
-          msmarco2Dev2Metrics);
+      msmarcoV2Passage.put("msmarco-v2.1-doc.dev2", msmarco2Dev2Metrics);
   
       Map<String, String> dl21PassageMetrics = new HashMap<>();
       dl21PassageMetrics.put("MAP", "-c -M 100 -m map");
@@ -140,8 +137,16 @@ public class RunMsMarco {
       dl23PassageMetrics.put("R@100", "-c -m recall.100");
       dl23PassageMetrics.put("R@1K", "-c -m recall.1000");
       msmarcoV2Passage.put("dl23-doc-msmarco-v2.1", dl23PassageMetrics);
-  
-      metricDefinitions.put("msmarco-v2.1-doc", msmarcoV2Passage);
+
+      Map<String, String> rag24RaggyMetrics = new HashMap<>();
+      rag24RaggyMetrics.put("MAP", "-c -M 100 -m map");
+      rag24RaggyMetrics.put("MRR@10", "-c -M 100 -m recip_rank");
+      rag24RaggyMetrics.put("nDCG@10", "-c -m ndcg_cut.10");
+      rag24RaggyMetrics.put("R@100", "-c -m recall.100");
+      rag24RaggyMetrics.put("R@1K", "-c -m recall.1000");
+      msmarcoV2Passage.put("rag24.raggy-dev", rag24RaggyMetrics);
+
+      metricDefinitions.put("msmarco-v2.1", msmarcoV2Passage);
     }
   }
 

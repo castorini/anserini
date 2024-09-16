@@ -18,11 +18,12 @@ Typical indexing command:
 
 ```
 bin/run.sh io.anserini.index.IndexCollection \
+  -threads 16 \
   -collection JsonCollection \
   -input /path/to/clef06-fr \
   -generator DefaultLuceneDocumentGenerator \
   -index indexes/lucene-index.clef06-fr/ \
-  -threads 16 -storePositions -storeDocvectors -storeRaw -language fr \
+  -storePositions -storeDocvectors -storeRaw -language fr \
   >& logs/log.clef06-fr &
 ```
 

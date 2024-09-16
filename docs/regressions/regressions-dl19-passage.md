@@ -22,11 +22,12 @@ Typical indexing command:
 
 ```
 bin/run.sh io.anserini.index.IndexCollection \
+  -threads 9 \
   -collection JsonCollection \
   -input /path/to/msmarco-passage \
   -generator DefaultLuceneDocumentGenerator \
   -index indexes/lucene-inverted.msmarco-v1-passage/ \
-  -threads 9 -storePositions -storeDocvectors -storeRaw \
+  -storePositions -storeDocvectors -storeRaw \
   >& logs/log.msmarco-passage &
 ```
 
@@ -214,8 +215,8 @@ Explanation of settings:
 
 Settings tuned on the MS MARCO passage sparse judgments _may not_ work well on the TREC dense judgments.
 
-Note that retrieval metrics are computed to depth 1000 hits per query (as opposed to 100 hits per query for document ranking).
-Also, for computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., AP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).
+❗ Retrieval metrics here are computed to depth 1000 hits per query (as opposed to 100 hits per query for document ranking).
+For computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., AP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).
 The experimental results reported here are directly comparable to the results reported in the [track overview paper](https://arxiv.org/abs/2003.07820).
 
 These regressions correspond to official TREC 2019 Deep Learning Track submissions by `BASELINE` group:

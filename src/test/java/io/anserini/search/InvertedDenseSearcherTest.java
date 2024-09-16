@@ -24,7 +24,6 @@ import org.apache.logging.log4j.core.config.Configurator;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -161,7 +160,7 @@ public class InvertedDenseSearcherTest {
     });
 
     try(InvertedDenseSearcher<Integer> searcher = new InvertedDenseSearcher<>(args)) {
-      SortedMap<Integer, ScoredDoc[]> allResults = searcher.batch_search(qids, queries, 5);
+      SortedMap<Integer, ScoredDoc[]> allResults = searcher.batch_search(queries, qids, 5, 2);
 
       ScoredDoc[] results = allResults.get(160885);
       assertEquals(5, results.length);
@@ -313,7 +312,7 @@ public class InvertedDenseSearcherTest {
     });
 
     try(InvertedDenseSearcher<Integer> searcher = new InvertedDenseSearcher<>(args)) {
-      SortedMap<Integer, ScoredDoc[]> allResults = searcher.batch_search(qids, queries, 5);
+      SortedMap<Integer, ScoredDoc[]> allResults = searcher.batch_search(queries, qids, 5, 2);
 
       ScoredDoc[] results = allResults.get(160885);
       assertEquals(5, results.length);

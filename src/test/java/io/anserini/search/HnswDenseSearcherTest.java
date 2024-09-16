@@ -48,7 +48,7 @@ public class HnswDenseSearcherTest {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
         "-index", indexPath,
-        "-generator", "HnswDenseVectorDocumentGenerator",
+        "-generator", "DenseVectorDocumentGenerator",
         "-threads", "1",
         "-M", "16", "-efC", "100"
     };
@@ -138,7 +138,7 @@ public class HnswDenseSearcherTest {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
         "-index", indexPath,
-        "-generator", "HnswDenseVectorDocumentGenerator",
+        "-generator", "DenseVectorDocumentGenerator",
         "-threads", "1",
         "-M", "16", "-efC", "100"
     };
@@ -164,7 +164,7 @@ public class HnswDenseSearcherTest {
     });
 
     try(HnswDenseSearcher<Integer> searcher = new HnswDenseSearcher<>(args)) {
-      SortedMap<Integer, ScoredDoc[]> allResults = searcher.batch_search(qids, queries, 5);
+      SortedMap<Integer, ScoredDoc[]> allResults = searcher.batch_search(queries, qids, 5, 2);
 
       ScoredDoc[] results = allResults.get(160885);
       assertEquals(5, results.length);
@@ -203,7 +203,7 @@ public class HnswDenseSearcherTest {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/cos-dpr-distil/json_vector/",
         "-index", indexPath,
-        "-generator", "HnswDenseVectorDocumentGenerator",
+        "-generator", "DenseVectorDocumentGenerator",
         "-threads", "1",
         "-M", "16", "-efC", "100"
     };
@@ -293,7 +293,7 @@ public class HnswDenseSearcherTest {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/cos-dpr-distil/json_vector/",
         "-index", indexPath,
-        "-generator", "HnswDenseVectorDocumentGenerator",
+        "-generator", "DenseVectorDocumentGenerator",
         "-threads", "1",
         "-M", "16", "-efC", "100"
     };
@@ -384,7 +384,7 @@ public class HnswDenseSearcherTest {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/cos-dpr-distil/json_vector/",
         "-index", indexPath,
-        "-generator", "HnswDenseVectorDocumentGenerator",
+        "-generator", "DenseVectorDocumentGenerator",
         "-threads", "1",
         "-M", "16", "-efC", "100"
     };
@@ -411,7 +411,7 @@ public class HnswDenseSearcherTest {
     });
 
     try(HnswDenseSearcher<Integer> searcher = new HnswDenseSearcher<>(args)) {
-      SortedMap<Integer, ScoredDoc[]> allResults = searcher.batch_search(qids, queries, 5);
+      SortedMap<Integer, ScoredDoc[]> allResults = searcher.batch_search(queries, qids, 5, 2);
 
       ScoredDoc[] results = allResults.get(2);
       assertEquals(5, results.length);

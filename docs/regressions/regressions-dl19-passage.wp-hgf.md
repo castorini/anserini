@@ -24,11 +24,12 @@ Typical indexing command:
 
 ```
 bin/run.sh io.anserini.index.IndexCollection \
+  -threads 9 \
   -collection JsonCollection \
   -input /path/to/msmarco-passage \
   -generator DefaultLuceneDocumentGenerator \
   -index indexes/lucene-inverted.msmarco-v1-passage.wp-hgf/ \
-  -threads 9 -storePositions -storeDocvectors -storeRaw -analyzeWithHuggingFaceTokenizer bert-base-uncased \
+  -storePositions -storeDocvectors -storeRaw -analyzeWithHuggingFaceTokenizer bert-base-uncased \
   >& logs/log.msmarco-passage &
 ```
 
@@ -75,3 +76,11 @@ With the above commands, you should be able to reproduce the following results:
 | [DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)                                                   | 0.4552    |
 | **R@1000**                                                                                                   | **BM25 (default)**|
 | [DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)                                                   | 0.7111    |
+
+❗ Retrieval metrics here are computed to depth 1000 hits per query (as opposed to 100 hits per query for document ranking).
+For computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., AP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).
+The experimental results reported here are directly comparable to the results reported in the [track overview paper](https://arxiv.org/abs/2003.07820).
+
+## Reproduction Log[*](reproducibility.md)
+
+To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/dl19-passage.wp-hgf.template) and run `bin/build.sh` to rebuild the documentation.

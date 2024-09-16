@@ -10,13 +10,15 @@
     "export": "next build && next export"
   },
   "dependencies": {
-    "@emotion/react": "^11.10.4",
-    "@emotion/styled": "^11.10.4",
+    "@chakra-ui/react": "^2.8.2",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
     "@mui/material": "^5.10.10",
-    "next": "^13.5.1",
+    "framer-motion": "^11.2.11",
+    "next": "^14.1.1",
+    "postcss": "^8.4.31",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "postcss": "^8.4.31",
     "zod": "^3.22.3"
   },
   "devDependencies": {
