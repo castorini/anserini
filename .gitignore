@@ -82,3 +82,4 @@ tools/topics-and-qrels/qrels.covid-round2-cumulative.txt
 /src/main/python/onnx/models/*.onnx
 /src/main/python/parquet/venv*
 *.jar
+*.jar
