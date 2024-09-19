@@ -84,7 +84,7 @@ bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -topics tools/topics-and-qrels/topics.dl19-passage.cos-dpr-distil.jsonl.gz \
   -topicReader JsonIntVector \
   -output runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw-int8-cached.topics.dl19-passage.cos-dpr-distil.jsonl.txt \
-  -generator VectorQueryGenerator -topicField vector -threads 16 -hits 1000 -efSearch 1000 &
+  -hits 1000 -efSearch 1000 -threads 16 &
 ```
 
 Evaluation can be performed using `trec_eval`:

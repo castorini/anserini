@@ -53,7 +53,7 @@ models:
   - name: cos-dpr-distil-hnsw-int8-onnx
     display: cosDPR-distil
     type: hnsw
-    params: -generator VectorQueryGenerator -topicField title -threads 16 -hits 1000 -efSearch 1000 -encoder CosDprDistil
+    params: -encoder CosDprDistil -hits 1000 -efSearch 1000 -threads 16
     results:
       AP@1000:
         - 0.4656
@@ -63,3 +63,12 @@ models:
         - 0.6173
       R@1000:
         - 0.8201
+    tolerance:
+      AP@1000:
+        - 0.02
+      nDCG@10:
+        - 0.025
+      R@100:
+        - 0.025
+      R@1000:
+        - 0.03

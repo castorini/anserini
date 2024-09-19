@@ -10,7 +10,7 @@ index_type: flat
 collection_class: JsonDenseVectorCollection
 generator_class: DenseVectorDocumentGenerator
 index_threads: 16
-index_options: -M 16 -efC 100 -memoryBuffer 65536 -noMerge -quantize.int8
+index_options: -quantize.int8
 
 metrics:
   - metric: AP@1000
@@ -53,7 +53,7 @@ models:
   - name: openai-ada2-flat-int8-cached
     display: OpenAI-ada2
     type: flat
-    params: -generator VectorQueryGenerator -topicField vector -threads 16 -hits 1000
+    params: -hits 1000 -threads 16
     results:
       AP@1000:
         - 0.4788
@@ -63,3 +63,12 @@ models:
         - 0.6235
       R@1000:
         - 0.8629
+    tolerance:
+      AP@1000:
+        - 0.002
+      nDCG@10:
+        - 0.002
+      R@100:
+        - 0.007
+      R@1000:
+        - 0.008
