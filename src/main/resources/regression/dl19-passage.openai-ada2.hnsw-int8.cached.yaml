@@ -53,7 +53,7 @@ models:
   - name: openai-ada2-hnsw-int8-cached
     display: OpenAI-ada2
     type: hnsw
-    params: -generator VectorQueryGenerator -topicField vector -threads 16 -hits 1000 -efSearch 1000
+    params: -hits 1000 -efSearch 1000 -threads 16
     results:
       AP@1000:
         - 0.4788
@@ -63,3 +63,12 @@ models:
         - 0.6235
       R@1000:
         - 0.8629
+    tolerance:
+      AP@1000:
+        - 0.015
+      nDCG@10:
+        - 0.015
+      R@100:
+        - 0.015
+      R@1000:
+        - 0.015

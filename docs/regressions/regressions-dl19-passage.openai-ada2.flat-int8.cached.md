@@ -58,7 +58,7 @@ bin/run.sh io.anserini.index.IndexFlatDenseVectors \
   -input /path/to/msmarco-passage-openai-ada2 \
   -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-flat-int8.msmarco-v1-passage.openai-ada2/ \
-  -M 16 -efC 100 -memoryBuffer 65536 -noMerge -quantize.int8 \
+  -quantize.int8 \
   >& logs/log.msmarco-passage-openai-ada2 &
 ```
 
@@ -79,7 +79,7 @@ bin/run.sh io.anserini.search.SearchFlatDenseVectors \
   -topics tools/topics-and-qrels/topics.dl19-passage.openai-ada2.jsonl.gz \
   -topicReader JsonIntVector \
   -output runs/run.msmarco-passage-openai-ada2.openai-ada2-flat-int8-cached.topics.dl19-passage.openai-ada2.jsonl.txt \
-  -generator VectorQueryGenerator -topicField vector -threads 16 -hits 1000 &
+  -hits 1000 -threads 16 &
 ```
 
 Evaluation can be performed using `trec_eval`:

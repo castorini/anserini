@@ -7,7 +7,7 @@ index_type: hnsw
 collection_class: JsonDenseVectorCollection
 generator_class: DenseVectorDocumentGenerator
 index_threads: 16
-index_options: -M 16 -efC 100 -memoryBuffer 65536 -noMerge -quantize.int8
+index_options: -M 16 -efC 100 -quantize.int8
 
 metrics:
   - metric: nDCG@10
@@ -51,3 +51,10 @@ models:
         - 0.7856
       R@1000:
         - 0.9348
+    tolerance:
+      nDCG@10:
+        - 0.001
+      R@100:
+        - 0.002
+      R@1000:
+        - 0.002

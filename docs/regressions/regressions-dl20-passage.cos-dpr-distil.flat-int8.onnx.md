@@ -79,7 +79,7 @@ bin/run.sh io.anserini.search.SearchFlatDenseVectors \
   -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-flat-int8-onnx.topics.dl20.txt \
-  -generator VectorQueryGenerator -topicField title -threads 16 -hits 1000 -encoder CosDprDistil &
+  -encoder CosDprDistil -hits 1000 -threads 16 &
 ```
 
 Note that we are performing query inference "on-the-fly" with ONNX in these experiments.

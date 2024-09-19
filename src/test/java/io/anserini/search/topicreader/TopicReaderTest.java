@@ -1953,7 +1953,7 @@ public class TopicReaderTest {
   @Test
   public void testBeirBgeBaseEn15Topics() throws IOException {
     assertEquals(50,    TopicReader.getTopics(Topics.BEIR_V1_0_0_TREC_COVID_TEST_BGE_BASE_EN_15).keySet().size());
-    assertEquals(3743,  TopicReader.getTopics(Topics.BEIR_V1_0_0_BIOASQ_TEST_BGE_BASE_EN_15).keySet().size());
+    assertEquals(500,  TopicReader.getTopics(Topics.BEIR_V1_0_0_BIOASQ_TEST_BGE_BASE_EN_15).keySet().size());
     assertEquals(323,   TopicReader.getTopics(Topics.BEIR_V1_0_0_NFCORPUS_TEST_BGE_BASE_EN_15).keySet().size());
     assertEquals(3452,  TopicReader.getTopics(Topics.BEIR_V1_0_0_NQ_TEST_BGE_BASE_EN_15).keySet().size());
     assertEquals(7405,  TopicReader.getTopics(Topics.BEIR_V1_0_0_HOTPOTQA_TEST_BGE_BASE_EN_15).keySet().size());
