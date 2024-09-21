@@ -112,7 +112,7 @@ It simply means: of the top 10 documents, what fraction are relevant according t
 For a query, if five of them are relevant, you get a score of 0.5; if nine of them are relevant, you get a score of 0.9.
 You compute P@10 per query, and then average across all queries.
 
-Information retrieval researchers have dozens of metrics, but a detailed explanation of each isn't important right now... 
+Information retrieval researchers have dozens of metrics, but a detailed explanation of each isn't important right now...
 just recognize that _all_ metrics are imperfect, but they try to capture different aspects of the quality of a ranked list in terms of containing relevant documents.
 For nearly all metrics, though, higher is better.
 
@@ -200,7 +200,7 @@ Look inside a file to see the json format we use.
 The entire collection is now something like this:
 
 ```bash
-$ wc collections/msmarco-passage/collection_jsonl/* 
+$ wc collections/msmarco-passage/collection_jsonl/*
  1000000 58716381 374524070 collections/msmarco-passage/collection_jsonl/docs00.json
  1000000 59072018 377845773 collections/msmarco-passage/collection_jsonl/docs01.json
  1000000 58895092 375856044 collections/msmarco-passage/collection_jsonl/docs02.json
@@ -217,7 +217,7 @@ As an aside, data munging along these lines is a very common data preparation op
 Collections rarely come in _exactly_ the format that your tools expect, so you'll be frequently writing lots of small scripts that munge data to convert from one format to another.
 
 Similarly, we'll also have to do a bit of data munging of the queries and the qrels.
-We're going to retain only the queries that are in the qrels file: 
+We're going to retain only the queries that are in the qrels file:
 
 ```bash
 python tools/scripts/msmarco/filter_queries.py \
@@ -252,7 +252,7 @@ These queries are taken from Bing search logs, so they're "realistic" web querie
 Okay, let's now cross-reference the `qid` with the relevance judgments, i.e., the qrels file:
 
 ```bash
-$ grep 1048585 collections/msmarco-passage/qrels.dev.small.tsv 
+$ grep 1048585 collections/msmarco-passage/qrels.dev.small.tsv
 1048585	0	7187158	1
 ```
 
@@ -282,7 +282,7 @@ Well, we've just seen that there are 6980 training queries.
 For those, we have 7437 relevance judgments:
 
 ```bash
-$ wc collections/msmarco-passage/qrels.dev.small.tsv  
+$ wc collections/msmarco-passage/qrels.dev.small.tsv
 7437   29748  143300 collections/msmarco-passage/qrels.dev.small.tsv
 ````
 
@@ -295,7 +295,7 @@ This is just looking at the development set.
 Now let's look at the training set:
 
 ```bash
-$ wc collections/msmarco-passage/qrels.train.tsv               
+$ wc collections/msmarco-passage/qrels.train.tsv
 532761 2131044 10589532 collections/msmarco-passage/qrels.train.tsv
 ```
 
@@ -409,3 +409,4 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@r-aya](https://github.com/r-aya) on 2024-09-07 (commit [`4319f89`](https://github.com/castorini/anserini/commit/4319f89472c4dd3359482f041dbcaee5202d8dd2))
 + Results reproduced by [@Amirkia1998](https://github.com/Amirkia1998) on 2024-09-20 (commit [`9e0cd5b`](https://github.com/castorini/anserini/commit/204bc87ef66e689773549ff804377eae20d5d7ce))
 + Results reproduced by [@CCarolD](https://github.com/CCarolD) on 2024-09-20 (commit [`2cb5d13`](https://github.com/castorini/anserini/commit/2cb5d1377862d49f70fa60cc452e96b31d815b94))
++ Results reproduced by [@pjyi2147](https://github.com/pjyi2147) on 2024-09-20 (commit [`2cb5d13`](https://github.com/castorini/anserini/commit/2cb5d1377862d49f70fa60cc452e96b31d815b94))
