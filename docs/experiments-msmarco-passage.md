@@ -100,7 +100,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -input collections/msmarco-passage/collection_jsonl \
   -index indexes/msmarco-passage/lucene-index-msmarco \
   -generator DefaultLuceneDocumentGenerator \
-  -threads 9 -storePositions -storeDocvectors -storeRaw 
+  -threads 9 -storePositions -storeDocvectors -storeRaw
 ```
 For Windows:
 ```bash
@@ -206,7 +206,7 @@ Since the first column indicates the `qid`, it means that the file contains rank
 
 ## Evaluation
 
-Finally, we can evaluate the retrieved documents using this the official MS MARCO evaluation script: 
+Finally, we can evaluate the retrieved documents using this the official MS MARCO evaluation script:
 
 ```bash
 python tools/scripts/msmarco/msmarco_passage_eval.py \
@@ -244,7 +244,7 @@ We take the average of the scores across all queries (6980 in this case), and we
 You can find this run on the [MS MARCO Passage Ranking Leaderboard](https://microsoft.github.io/MSMARCO-Passage-Ranking-Submissions/leaderboard/) as the entry named "BM25 (Lucene8, tuned)", dated 2019/06/26.
 So you've just reproduced (part of) a leaderboard submission!
 
-We can also use the official [TREC](https://trec.nist.gov/) evaluation tool, `trec_eval`, to compute other metrics than MRR@10. 
+We can also use the official [TREC](https://trec.nist.gov/) evaluation tool, `trec_eval`, to compute other metrics than MRR@10.
 For that we first need to convert runs and qrels files to the TREC format:
 
 ```bash
@@ -525,3 +525,4 @@ The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to th
 + Results reproduced by [@r-aya](https://github.com/r-aya) on 2024-09-07 (commit [`4319f89`](https://github.com/castorini/anserini/commit/4319f89472c4dd3359482f041dbcaee5202d8dd2))
 + Results reproduced by [@Amirkia1998](https://github.com/Amirkia1998) on 2024-09-20 (commit [`9e0cd5b`](https://github.com/castorini/anserini/commit/204bc87ef66e689773549ff804377eae20d5d7ce))
 + Results reproduced by [@CCarolD](https://github.com/CCarolD) on 2024-09-20 (commit [`2cb5d13`](https://github.com/castorini/anserini/commit/2cb5d1377862d49f70fa60cc452e96b31d815b94))
++ Results reproduced by [@pjyi2147](https://github.com/pjyi2147) on 2024-09-20 (commit [`2cb5d13`](https://github.com/castorini/anserini/commit/2cb5d1377862d49f70fa60cc452e96b31d815b94))
