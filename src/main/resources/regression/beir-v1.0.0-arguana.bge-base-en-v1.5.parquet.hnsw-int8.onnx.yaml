@@ -1,0 +1,60 @@
+---
+corpus: beir-v1.0.0-arguana.bge-base-en-v1.5
+corpus_path: collections/beir-v1.0.0/bge-base-en-v1.5/arguana.parquet
+
+index_path: indexes/lucene-hnsw-int8.beir-v1.0.0-arguana.bge-base-en-v1.5/
+index_type: hnsw
+collection_class: ParquetDenseVectorCollection
+generator_class: ParquetDenseVectorDocumentGenerator
+index_threads: 16
+index_options: -M 16 -efC 100 -quantize.int8
+
+metrics:
+  - metric: nDCG@10
+    command: bin/trec_eval
+    params: -c -m ndcg_cut.10
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: bin/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: bin/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvString
+topics:
+  - name: "BEIR (v1.0.0): ArguAna"
+    id: test
+    path: topics.beir-v1.0.0-arguana.test.tsv.gz
+    qrel: qrels.beir-v1.0.0-arguana.test.txt
+
+models:
+  - name: bge-hnsw-int8-onnx
+    display: BGE-base-en-v1.5
+    type: hnsw
+    params: -encoder BgeBaseEn15 -hits 1000 -efSearch 1000 -removeQuery -threads 16
+    results:
+      nDCG@10:
+        - 0.6361
+      R@100:
+        - 0.9915
+      R@1000:
+        - 0.9964
+    tolerance:
+      nDCG@10:
+        - 0.02
+      R@100:
+        - 0.025
+      R@1000:
+        - 0.003
