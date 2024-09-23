@@ -1,0 +1,74 @@
+---
+corpus: beir-v1.0.0-robust04.flat
+corpus_path: collections/beir-v1.0.0/corpus/robust04/
+
+metrics:
+  - metric: nDCG@10
+    command: bin/trec_eval
+    params: -c -m ndcg_cut.10
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: bin/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: bin/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvString
+topics:
+  - name: "BEIR (v1.0.0): Robust04"
+    id: test
+    path: topics.beir-v1.0.0-robust04.test.tsv.gz
+    qrel: qrels.beir-v1.0.0-robust04.test.txt
+
+# Fusion Regression Test Configuration
+runs:
+  - runs/runs.beir/run.inverted.beir-v1.0.0-robust04.flat.test.bm25
+  - runs/runs.beir/run.inverted.beir-v1.0.0-robust04.splade-pp-ed.test.splade-pp-ed-cached
+
+methods:
+  - name: rrf
+    k: 1000
+    depth: 1000
+    rrf_k: 60
+    output: runs/fuse/run.inverted.beir-v1.0.0-robust04.flat.test.bm25.splade-pp-ed.test.splade-pp-ed-cached.fusion.rrf
+    results:
+      nDCG@10:
+        - 0.4636
+      R@100:
+        - 0.4243
+      R@1000:
+        - 0.7349
+  - name: average
+    output: runs/fuse/run.inverted.beir-v1.0.0-robust04.flat.test.bm25.splade-pp-ed.test.splade-pp-ed-cached.fusion.average
+    results:
+      nDCG@10:
+        - 0.4
+      R@100:
+        - 0.4
+      R@1000:
+        - 0.7
+  - name: interpolation
+    alpha: 0.5
+    output: runs/fuse/run.inverted.beir-v1.0.0-robust04.flat.test.bm25.splade-pp-ed.test.splade-pp-ed-cached.fusion.interpolation
+    results:
+      nDCG@10:
+        - 0.4
+      R@100:
+        - 0.4
+      R@1000:
+        - 0.7      
+  
+      
+

@@ -2,16 +2,6 @@
 corpus: beir-v1.0.0-robust04.flat
 corpus_path: collections/beir-v1.0.0/corpus/robust04/
 
-index_path: indexes/lucene-inverted.beir-v1.0.0-robust04.flat/
-collection_class: BeirFlatCollection
-generator_class: DefaultLuceneDocumentGenerator
-index_threads: 1
-index_options: -storePositions -storeDocvectors -storeRaw
-index_stats:
-  documents: 528036
-  documents (non-empty): 528036
-  total terms: 174384263
-
 metrics:
   - metric: nDCG@10
     command: bin/trec_eval
@@ -42,15 +32,34 @@ topics:
     path: topics.beir-v1.0.0-robust04.test.tsv.gz
     qrel: qrels.beir-v1.0.0-robust04.test.txt
 
-models:
-  - name: bm25
-    display: BM25
-    params: -bm25 -removeQuery -hits 1000
+# Fusion Regression Test Configuration
+runs:
+  - runs/runs.beir/run.inverted.beir-v1.0.0-robust04.flat.test.bm25
+  - runs/runs.beir/run.inverted.beir-v1.0.0-robust04.multifield.test.bm25
+  - runs/runs.beir/run.inverted.beir-v1.0.0-robust04.splade-pp-ed.test.splade-pp-ed-cached
+
+methods:
+  - name: rrf
+    k: 1000
+    depth: 1000
+    rrf_k: 60
+    output: runs/fuse/run.inverted.beir-v1.0.0-robust04.flat.test.bm25.multifield.test.bm25.splade-pp-ed.test.splade-pp-ed-cached.fusion.rrf
     results:
       nDCG@10:
-        - 0.4070
+        - 0.4636
       R@100:
-        - 0.3746
+        - 0.4243
       R@1000:
-        - 0.6345
- 
+        - 0.7349
+  - name: average
+    output: runs/fuse/run.inverted.beir-v1.0.0-robust04.flat.test.bm25.multifield.test.bm25.splade-pp-ed.test.splade-pp-ed-cached.fusion.average
+    results:
+      nDCG@10:
+        - 0.4
+      R@100:
+        - 0.38
+      R@1000:
+        - 0.62
+  
+      
+
