@@ -119,7 +119,8 @@ def evaluate_and_verify(yaml_data: dict, dry_run: bool):
                     continue
 
                 try:
-                    out = check_output(' '.join(eval_cmd)).decode('utf-8').split('\n')[-1]
+                    out = [line for line in
+                            check_output(' '.join(eval_cmd)).decode('utf-8').split('\n') if line.strip()][-1]
                     if not out.strip():
                         continue
                 except Exception as e:
