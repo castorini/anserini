@@ -20,4 +20,11 @@ mkdir -p runs/runs.beir
 wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=1XVlVCDYQe3YjRzxplaeGbmW_0EFQCgm8' -O runs/runs.beir/run.inverted.beir-v1.0.0-robust04.multifield.test.bm25
 wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=1Z4rWlNgmXebMf1ardfiDg_4KIZImjqxt' -O runs/runs.beir/run.inverted.beir-v1.0.0-robust04.splade-pp-ed.test.splade-pp-ed-cached
 wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=1fExxJHkPPNCdtptKqWTbcsH0Ql0PnPqS' -O runs/runs.beir/run.inverted.beir-v1.0.0-robust04.flat.test.bm25
+```
 
+## Run fuse-regression script with two yaml tests
+```bash
+python src/main/python/run_fusion_regression.py --regression test_0
+
+python src/main/python/run_fusion_regression.py --regression test_1
+```
