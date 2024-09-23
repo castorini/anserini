@@ -1,0 +1,73 @@
+---
+corpus: beir-v1.0.0-robust04.bge-base-en-v1.5
+corpus_path: collections/beir-v1.0.0/bge-base-en-v1.5/robust04
+
+metrics:
+  - metric: nDCG@10
+    command: bin/trec_eval
+    params: -c -m ndcg_cut.10
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: bin/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: bin/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: JsonStringVector
+topics:
+  - name: "BEIR (v1.0.0): Robust04"
+    id: test
+    path: topics.beir-v1.0.0-robust04.test.bge-base-en-v1.5.jsonl.gz
+    qrel: qrels.beir-v1.0.0-robust04.test.txt
+
+# Fusion Regression Test Configuration
+runs:
+  - runs/run.flat-int8.beir-v1.0.0-robust04.bge-base-en-v1.5.test.bge-flat-int8-cached
+  - runs/run.flat.beir-v1.0.0-robust04.bge-base-en-v1.5.test.bge-flat-cached
+methods:
+  - name: rrf
+    k: 1000
+    depth: 1000
+    rrf_k: 60
+    output: runs/fuse/run.flat-int8.beir-v1.0.0-robust04.bge-base-en-v1.5.test.bge-flat-int8-cached.bge-flat-cached.fusion.rrf
+    results:
+      nDCG@10:
+        - 0.3
+      R@100:
+        - 0.3
+      R@1000:
+        - 0.5
+  - name: average
+    output: runs/fuse/run.flat-int8.beir-v1.0.0-robust04.bge-base-en-v1.5.test.bge-flat-int8-cached.bge-flat-cached.fusion.average
+    results:
+      nDCG@10:
+        - 0.3
+      R@100:
+        - 0.3
+      R@1000:
+        - 0.5
+  - name: interpolation
+    alpha: 0.5
+    output: runs/fuse/run.flat-int8.beir-v1.0.0-robust04.bge-base-en-v1.5.test.bge-flat-int8-cached.bge-flat-cached.fusion.interpolation
+    results:
+      nDCG@10:
+        - 0.3
+      R@100:
+        - 0.3
+      R@1000:
+        - 0.5    
+  
+      
+
