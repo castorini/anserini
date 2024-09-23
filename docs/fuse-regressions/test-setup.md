@@ -7,7 +7,7 @@ You will need the following:
 - A working installation of `wget`.
 - Enough disk space to store the downloaded files.
 
-## Automatic Download Using Script
+## Automatic Download Using Script for test0/1
 To automatically download the required files, you can use the following shell script. The script will download and extract the files in the `runs/runs.beir` folder with the correct filenames.
 
 ```bash
@@ -21,10 +21,16 @@ wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=1XVl
 wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=1Z4rWlNgmXebMf1ardfiDg_4KIZImjqxt' -O runs/runs.beir/run.inverted.beir-v1.0.0-robust04.splade-pp-ed.test.splade-pp-ed-cached
 wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=1fExxJHkPPNCdtptKqWTbcsH0Ql0PnPqS' -O runs/runs.beir/run.inverted.beir-v1.0.0-robust04.flat.test.bm25
 ```
+## Perform two regression runs for test2
+One could generate the runs necessary for test 3 following 
+- https://github.com/castorini/anserini/blob/master/docs/regressions/regressions-beir-v1.0.0-robust04.bge-base-en-v1.5.flat-int8.cached.md
+- https://github.com/castorini/anserini/blob/master/docs/regressions/regressions-beir-v1.0.0-robust04.bge-base-en-v1.5.flat.cached.md
 
 ## Run fuse-regression script with two yaml tests
 ```bash
 python src/main/python/run_fusion_regression.py --regression test_0
 
 python src/main/python/run_fusion_regression.py --regression test_1
+
+python src/main/python/run_fusion_regression.py --regression test_2
 ```
