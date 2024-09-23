@@ -22,7 +22,7 @@ wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=1Z4r
 wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=1fExxJHkPPNCdtptKqWTbcsH0Ql0PnPqS' -O runs/runs.beir/run.inverted.beir-v1.0.0-robust04.flat.test.bm25
 ```
 ## Perform two regression runs for test2
-One could generate the runs necessary for test 3 following 
+One could generate the runs necessary for test 2 following 
 - https://github.com/castorini/anserini/blob/master/docs/regressions/regressions-beir-v1.0.0-robust04.bge-base-en-v1.5.flat-int8.cached.md
 - https://github.com/castorini/anserini/blob/master/docs/regressions/regressions-beir-v1.0.0-robust04.bge-base-en-v1.5.flat.cached.md
 
