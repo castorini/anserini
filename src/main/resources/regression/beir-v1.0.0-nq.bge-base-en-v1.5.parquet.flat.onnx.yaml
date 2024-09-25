@@ -1,7 +1,8 @@
+---
 corpus: beir-v1.0.0-nq.bge-base-en-v1.5
 corpus_path: collections/beir-v1.0.0/bge-base-en-v1.5/nq.parquet
 
-index_path: indexes/parquet/nq
+index_path: indexes/lucene-flat.beir-v1.0.0-nq.bge-base-en-v1.5/
 index_type: flat
 collection_class: ParquetDenseVectorCollection
 generator_class: ParquetDenseVectorDocumentGenerator
@@ -9,45 +10,51 @@ index_threads: 16
 index_options: ""
 
 metrics:
-- metric: nDCG@10
-  command: bin/trec_eval
-  params: -c -m ndcg_cut.10
-  separator: "\t"
-  parse_index: 2
-  metric_precision: 4
-  can_combine: false
-- metric: R@100
-  command: bin/trec_eval
-  params: -c -m recall.100
-  separator: "\t"
-  parse_index: 2
-  metric_precision: 4
-  can_combine: false
-- metric: R@1000
-  command: bin/trec_eval
-  params: -c -m recall.1000
-  separator: "\t"
-  parse_index: 2
-  metric_precision: 4
-  can_combine: false
+  - metric: nDCG@10
+    command: bin/trec_eval
+    params: -c -m ndcg_cut.10
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: bin/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: bin/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
 
 topic_reader: TsvString
 topics:
-- name: "BEIR (v1.0.0): NQ"
-  id: test
-  path: topics.beir-v1.0.0-nq.test.tsv.gz
-  qrel: qrels.beir-v1.0.0-nq.test.txt
+  - name: "BEIR (v1.0.0): NQ"
+    id: test
+    path: topics.beir-v1.0.0-nq.test.tsv.gz
+    qrel: qrels.beir-v1.0.0-nq.test.txt
 
 models:
-- name: bge-flat-onnx
-  display: BGE-base-en-v1.5
-  type: flat
-  params: -generator VectorQueryGenerator -topicField vector -removeQuery -threads
-    16 -hits 1000 -encoder BgeBaseEn15
-  results:
-    nDCG@10:
-    - 0.5413
-    R@100:
-    - 0.9415
-    R@1000:
-    - 0.9859
+  - name: bge-flat-onnx
+    display: BGE-base-en-v1.5
+    type: flat
+    params: -encoder BgeBaseEn15 -hits 1000 -removeQuery -threads 16
+    results:
+      nDCG@10:
+        - 0.5413
+      R@100:
+        - 0.9415
+      R@1000:
+        - 0.9859
+    tolerance:
+      nDCG@10:
+        - 0.0001
+      R@100:
+        - 0.0002
+      R@1000:
+        - 0.0001

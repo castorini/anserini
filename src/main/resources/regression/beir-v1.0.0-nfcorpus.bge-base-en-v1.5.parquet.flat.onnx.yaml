@@ -1,7 +1,8 @@
+---
 corpus: beir-v1.0.0-nfcorpus.bge-base-en-v1.5
 corpus_path: collections/beir-v1.0.0/bge-base-en-v1.5/nfcorpus.parquet
 
-index_path: indexes/parquet/nfcorpus
+index_path: indexes/lucene-flat.beir-v1.0.0-nfcorpus.bge-base-en-v1.5/
 index_type: flat
 collection_class: ParquetDenseVectorCollection
 generator_class: ParquetDenseVectorDocumentGenerator
@@ -9,45 +10,51 @@ index_threads: 16
 index_options: ""
 
 metrics:
-- metric: nDCG@10
-  command: bin/trec_eval
-  params: -c -m ndcg_cut.10
-  separator: "\t"
-  parse_index: 2
-  metric_precision: 4
-  can_combine: false
-- metric: R@100
-  command: bin/trec_eval
-  params: -c -m recall.100
-  separator: "\t"
-  parse_index: 2
-  metric_precision: 4
-  can_combine: false
-- metric: R@1000
-  command: bin/trec_eval
-  params: -c -m recall.1000
-  separator: "\t"
-  parse_index: 2
-  metric_precision: 4
-  can_combine: false
+  - metric: nDCG@10
+    command: bin/trec_eval
+    params: -c -m ndcg_cut.10
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: bin/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: bin/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
 
 topic_reader: TsvString
 topics:
-- name: "BEIR (v1.0.0): NFCorpus"
-  id: test
-  path: topics.beir-v1.0.0-nfcorpus.test.tsv.gz
-  qrel: qrels.beir-v1.0.0-nfcorpus.test.txt
+  - name: "BEIR (v1.0.0): NFCorpus"
+    id: test
+    path: topics.beir-v1.0.0-nfcorpus.test.tsv.gz
+    qrel: qrels.beir-v1.0.0-nfcorpus.test.txt
 
 models:
-- name: bge-flat-onnx
-  display: BGE-base-en-v1.5
-  type: flat
-  params: -generator VectorQueryGenerator -topicField vector -removeQuery -threads
-    16 -hits 1000 -encoder BgeBaseEn15
-  results:
-    nDCG@10:
-    - 0.3735
-    R@100:
-    - 0.3368
-    R@1000:
-    - 0.6622
+  - name: bge-flat-onnx
+    display: BGE-base-en-v1.5
+    type: flat
+    params: -encoder BgeBaseEn15 -hits 1000 -removeQuery -threads 16
+    results:
+      nDCG@10:
+        - 0.3735
+      R@100:
+        - 0.3368
+      R@1000:
+        - 0.6622
+    tolerance:
+      nDCG@10:
+        - 0.0001
+      R@100:
+        - 0.0001
+      R@1000:
+        - 0.0001
