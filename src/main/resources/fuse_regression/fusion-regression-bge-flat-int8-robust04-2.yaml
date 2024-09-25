@@ -36,6 +36,12 @@ topics:
 runs:
   - runs/run.flat-int8.beir-v1.0.0-robust04.bge-base-en-v1.5.test.bge-flat-int8-cached
   - runs/run.flat.beir-v1.0.0-robust04.bge-base-en-v1.5.test.bge-flat-cached
+
+# yaml files that generated the runs
+run_origins:
+  - src/main/resources/regression/beir-v1.0.0-robust04.bge-base-en-v1.5.flat-int8.cached.yaml
+  - src/main/resources/regression/beir-v1.0.0-robust04.bge-base-en-v1.5.flat.cached.yaml
+
 methods:
   - name: rrf
     k: 1000
@@ -44,30 +50,30 @@ methods:
     output: runs/fuse/run.flat-int8.beir-v1.0.0-robust04.bge-base-en-v1.5.test.bge-flat-int8-cached.bge-flat-cached.fusion.rrf
     results:
       nDCG@10:
-        - 0.3
+        - 0.4467
       R@100:
-        - 0.3
+        - 0.3497
       R@1000:
-        - 0.5
+        - 0.5982
   - name: average
     output: runs/fuse/run.flat-int8.beir-v1.0.0-robust04.bge-base-en-v1.5.test.bge-flat-int8-cached.bge-flat-cached.fusion.average
     results:
       nDCG@10:
-        - 0.3
+        - 0.4463
       R@100:
-        - 0.3
+        - 0.3498
       R@1000:
-        - 0.5
+        - 0.5984
   - name: interpolation
     alpha: 0.5
     output: runs/fuse/run.flat-int8.beir-v1.0.0-robust04.bge-base-en-v1.5.test.bge-flat-int8-cached.bge-flat-cached.fusion.interpolation
     results:
       nDCG@10:
-        - 0.3
+        - 0.4463
       R@100:
-        - 0.3
+        - 0.3498
       R@1000:
-        - 0.5    
+        - 0.5984    
   
       
 
