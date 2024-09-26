@@ -177,10 +177,14 @@ To confirm, `collectionandqueries.tar.gz` should have MD5 checksum of `31644046b
 
 If you peak inside the collection:
 
+Linux:
 ```bash
 head collections/msmarco-passage/collection.tsv
 ```
-
+Windows:
+```bash
+Get-Content collections\msmarco-passage\collection.tsv -TotalCount 10
+```
 You'll see that `collection.tsv` contains the documents that we're searching.
 Note that generically we call them "documents" but in truth they are passages; we'll use the terms interchangeably.
 
@@ -189,12 +193,16 @@ the first column contains a unique identifier for the passage (called the `docid
 
 Next, we need to do a bit of data munging to get the collection into something Anserini can easily work with, which is a jsonl format (where we have one json object per line):
 
+Linux:
 ```bash
 python tools/scripts/msmarco/convert_collection_to_jsonl.py \
   --collection-path collections/msmarco-passage/collection.tsv \
   --output-folder collections/msmarco-passage/collection_jsonl
 ```
-
+Windows:
+```bash
+python tools\scripts\msmarco\convert_collection_to_jsonl.py --collection-path collections\msmarco-passage\collection.tsv --output-folder collections\msmarco-passage\collection_jsonl
+```
 The above script should generate 9 jsonl files in `collections/msmarco-passage/collection_jsonl`, each with 1M lines (except for the last one, which should have 841,823 lines).
 Look inside a file to see the json format we use.
 The entire collection is now something like this:
@@ -219,18 +227,23 @@ Collections rarely come in _exactly_ the format that your tools expect, so you'l
 Similarly, we'll also have to do a bit of data munging of the queries and the qrels.
 We're going to retain only the queries that are in the qrels file:
 
+Linux:
 ```bash
 python tools/scripts/msmarco/filter_queries.py \
   --qrels collections/msmarco-passage/qrels.dev.small.tsv \
   --queries collections/msmarco-passage/queries.dev.tsv \
   --output collections/msmarco-passage/queries.dev.small.tsv
 ```
-
+Windows:
+```bash
+python tools\scripts\msmarco\filter_queries.py --qrels collections\msmarco-passage\qrels.dev.small.tsv --queries collections\msmarco-passage\queries.dev.tsv --output collections\msmarco-passage\queries.dev.small.tsv
+```
 The output queries file `collections/msmarco-passage/queries.dev.small.tsv` should contain 6980 lines.
 Verify with `wc`.
 
 Check out its contents:
 
+Linux:
 ```bash
 $ head collections/msmarco-passage/queries.dev.small.tsv
 1048585	what is paula deen's brother
@@ -244,18 +257,25 @@ $ head collections/msmarco-passage/queries.dev.small.tsv
 786786	what is priority pass
 524699	tricare service number
 ```
-
+Windows:
+```bash
+Get-Content collections\msmarco-passage\queries.dev.small.tsv -TotalCount 10
+```
 These are the queries in the development set of the MS MARCO passage ranking test collection.
 The first field is a unique identifier for the query (called the `qid`) and the second column is the query itself.
 These queries are taken from Bing search logs, so they're "realistic" web queries in that they may be ambiguous, contain typos, etc.
 
 Okay, let's now cross-reference the `qid` with the relevance judgments, i.e., the qrels file:
 
+Linux:
 ```bash
 $ grep 1048585 collections/msmarco-passage/qrels.dev.small.tsv
 1048585	0	7187158	1
 ```
-
+Windows:
+```bash
+findstr 1048585 collections\msmarco-passage\qrels.dev.small.tsv
+```
 The above is the standard format for a qrels file.
 The first column is the `qid`;
 the second column is (almost) always 0 (it's a historical artifact dating back decades);
@@ -267,11 +287,15 @@ So, this entry says that the document with id 7187158 is relevant to the query w
 Well, how do we get the actual contents of document 7187158?
 The simplest way is to grep through the collection itself:
 
+Linux:
 ```bash
 $ grep 7187158 collections/msmarco-passage/collection.tsv
 7187158	Paula Deen and her brother Earl W. Bubba Hiers are being sued by a former general manager at Uncle Bubba'sâ¦ Paula Deen and her brother Earl W. Bubba Hiers are being sued by a former general manager at Uncle Bubba'sâ¦
 ```
-
+Windows:
+```bash
+findstr 7187158 collections\msmarco-passage\collection.tsv
+```
 We see here that, indeed, the passage above is relevant to the query (i.e., provides information that answers the question).
 Note that this particular passage is a bit dirty (garbage characters, dups, etc.)... but that's pretty much a fact of life when you're dealing with the web.
 
@@ -281,11 +305,15 @@ How big is the MS MARCO passage ranking test collection, btw?
 Well, we've just seen that there are 6980 training queries.
 For those, we have 7437 relevance judgments:
 
+Linux:
 ```bash
 $ wc collections/msmarco-passage/qrels.dev.small.tsv
 7437   29748  143300 collections/msmarco-passage/qrels.dev.small.tsv
 ````
-
+Windows:
+```bash
+Get-Content collections\msmarco-passage\qrels.dev.small.tsv | Measure-Object
+```
 This means that we have only about one relevance judgments per query.
 We call these **sparse judgments**, i.e., where we have relatively few relevance judgments per query (here, just about one relevance judgment per query).
 In other cases, where we have many relevance judgments per query (potentially hundreds or even more), we call those **dense judgments**.
@@ -294,11 +322,15 @@ There are important implications when using sparse vs. dense judgments, but that
 This is just looking at the development set.
 Now let's look at the training set:
 
+Linux:
 ```bash
 $ wc collections/msmarco-passage/qrels.train.tsv
 532761 2131044 10589532 collections/msmarco-passage/qrels.train.tsv
 ```
-
+Windows:
+```bash
+Get-Content collections\msmarco-passage\qrels.train.tsv | Measure-Object
+```
 Wow, there are over 532k relevance judgments in the dataset!
 (Yes, that's big!)
 It's sufficient... for example... to _train_ neural networks (transformers) to perform retrieval!
