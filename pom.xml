@@ -154,6 +154,16 @@
               <goal>shade</goal>
             </goals>
             <configuration>
+              <filters>
+                  <filter>
+                      <artifact>*:*</artifact>
+                      <excludes>
+                          <exclude>META-INF/*.SF</exclude>
+                          <exclude>META-INF/*.DSA</exclude>
+                          <exclude>META-INF/*.RSA</exclude>
+                      </excludes>
+                  </filter>
+              </filters>
               <createDependencyReducedPom>false</createDependencyReducedPom>
               <!-- See https://maven.apache.org/plugins/maven-shade-plugin/examples/resource-transformers.html
 
