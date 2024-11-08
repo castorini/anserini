@@ -172,8 +172,6 @@ if __name__ == '__main__':
             logger.error(f"Run file {run['file']} does not exist. Please run the dependent regressions first, recorded in the fusion yaml file.")
             exit(1)
 
-
-
     # Construct the fusion command
     fusion_commands = construct_fusion_commands(yaml_data)
 
