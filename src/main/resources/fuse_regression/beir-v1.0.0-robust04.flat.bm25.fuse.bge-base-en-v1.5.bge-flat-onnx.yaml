@@ -34,8 +34,13 @@ topics:
 
 # Fusion Regression Test Configuration
 runs:
-  - runs/run.beir-v1.0.0-robust04.flat.bm25.topics.beir-v1.0.0-robust04.test.txt
-  - runs/run.beir-v1.0.0-robust04.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-robust04.test.txt
+  - name: flat-bm25
+    dependency: beir-v1.0.0-robust04.flat.yaml
+    file: runs/run.beir-v1.0.0-robust04.flat.bm25.topics.beir-v1.0.0-robust04.test.txt
+  - name: bge-flat-onnx
+    dependency: beir-v1.0.0-robust04.bge-base-en-v1.5.flat.onnx.yaml
+    file: runs/run.beir-v1.0.0-robust04.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-robust04.test.txt
+
 
 methods:
   - name: rrf
