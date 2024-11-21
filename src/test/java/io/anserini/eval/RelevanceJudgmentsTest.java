@@ -38,7 +38,7 @@ public class RelevanceJudgmentsTest{
 
   @Test
   public void testTotalCount() {
-    assertEquals(170, Qrels.values().length);
+    assertEquals(171, Qrels.values().length);
   }
 
   @Test(expected = IOException.class)
