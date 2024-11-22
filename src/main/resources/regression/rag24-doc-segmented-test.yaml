@@ -1,0 +1,101 @@
+---
+corpus: msmarco-v2.1-doc-segmented
+corpus_path: collections/msmarco/msmarco_v2.1_doc_segmented/
+
+index_path: indexes/lucene-inverted.msmarco-v2.1-doc-segmented/
+collection_class: MsMarcoV2DocCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 24
+index_options: -storeRaw
+index_stats:
+  documents: 113520750
+  documents (non-empty): 113520750
+  total terms: 22707699649
+
+metrics:
+  - metric: MAP@100
+    command: bin/trec_eval
+    params: -c -M 100 -m map
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: no
+  - metric: MRR@100
+    command: bin/trec_eval
+    params: -c -M 100 -m recip_rank
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: nDCG@10
+    command: bin/trec_eval
+    params: -c -m ndcg_cut.10
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: R@100
+    command: bin/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: bin/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvInt
+topics:
+  - name: "RAG 24: Test queries"
+    id: rag24.test
+    path: topics.rag24.test.txt
+    qrel: qrels.rag24.test-umbrela-all.txt
+
+models:
+  - name: bm25-default
+    display: BM25 (default)
+    params: -bm25
+    results:
+      MAP@100:
+        - 0.0861
+      MRR@100:
+        - 0.7010
+      nDCG@10:
+        - 0.3290
+      R@100:
+        - 0.1395
+      R@1000:
+        - 0.3467
+  - name: bm25-default+rm3
+    display: +RM3
+    params: -bm25 -rm3 -collection MsMarcoV2DocCollection
+    results:
+      MAP@100:
+        - 0.0873
+      MRR@100:
+        - 0.6687
+      nDCG@10:
+        - 0.3256
+      R@100:
+        - 0.1318
+      R@1000:
+        - 0.3521
+  - name: bm25-default+rocchio
+    display: +Rocchio
+    params: -bm25 -rocchio -collection MsMarcoV2DocCollection
+    results:
+      MAP@100:
+        - 0.0929
+      MRR@100:
+        - 0.6791
+      nDCG@10:
+        - 0.3307
+      R@100:
+        - 0.1384
+      R@1000:
+        - 0.3667
