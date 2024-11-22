@@ -41,18 +41,14 @@ def read_faiss_index(index_path):
         raise RuntimeError(f"Failed to read FAISS index file {index_path}: {e}")
 
 
-def write_to_parquet_in_chunks(df, output_dir, chunk_size_gb=25):
+def write_to_parquet_in_chunks(df, output_dir, rows_per_chunk=10**6):
     """
     Writes the DataFrame to Parquet files in chunks of specified size.
     """
-    # Estimate the number of rows per chunk
-    estimated_row_size = df.memory_usage(deep=True).sum() / len(df)
-    rows_per_chunk = int((chunk_size_gb * 1024**3) / estimated_row_size)
-
     # Write DataFrame to Parquet in chunks
     for i in range(0, len(df), rows_per_chunk):
         chunk = df.iloc[i:i + rows_per_chunk]
-        chunk_file = os.path.join(output_dir, f'faiss_data_chunk_{i//rows_per_chunk}.parquet')
+        chunk_file = os.path.join(output_dir, f'chunk_{i//rows_per_chunk}.parquet')
         try:
             chunk.to_parquet(chunk_file, index=False)
             logging.info(f"Successfully wrote chunk to {chunk_file}")
@@ -99,14 +95,15 @@ def convert_faiss_to_parquet(input_dir, output_dir, overwrite):
     })
 
     # Write DataFrame to Parquet in chunks
-    # write_to_parquet_in_chunks(df, output_dir, chunk_size_gb=25)
+    write_to_parquet_in_chunks(df, output_dir)
+    
     # Convert DataFrame to Parquet
-    try:
-        df.to_parquet(output_path, index=False)
-        logging.info(f"Successfully converted to Parquet and saved at {output_path}")
-    except Exception as e:
-        logging.error(f"Failed to write to Parquet file {output_path}: {e}")
-        raise RuntimeError(f"Failed to write to Parquet file {output_path}: {e}")
+    # try:
+    #     df.to_parquet(output_path, index=False)
+    #     logging.info(f"Successfully converted to Parquet and saved at {output_path}")
+    # except Exception as e:
+    #     logging.error(f"Failed to write to Parquet file {output_path}: {e}")
+    #     raise RuntimeError(f"Failed to write to Parquet file {output_path}: {e}")
 
 
 if __name__ == "__main__":
