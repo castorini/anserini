@@ -29,11 +29,12 @@ Typical indexing command:
 
 ```
 bin/run.sh io.anserini.index.IndexCollection \
+  -threads 7 \
   -collection JsonCollection \
   -input /path/to/msmarco-doc \
   -generator DefaultLuceneDocumentGenerator \
   -index indexes/lucene-inverted.msmarco-v1-doc/ \
-  -threads 7 -storePositions -storeDocvectors -storeRaw \
+  -storePositions -storeDocvectors -storeRaw \
   >& logs/log.msmarco-doc &
 ```
 

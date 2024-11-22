@@ -129,78 +129,122 @@ public class FlatDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
     }
   }
 
-  public SortedMap<K, ScoredDoc[]> batch_search(List<K> qids, List<String> queries, int hits) {
+  /**
+   * Searches the collection in batch using multiple threads.
+   *
+   * @param queries list of queries
+   * @param qids list of unique query ids
+   * @param k number of hits
+   * @param threads number of threads
+   * @return a map of query id to search results
+   */
+  public SortedMap<K, ScoredDoc[]> batch_search(List<String> queries, List<K> qids, int k, int threads) {
     final SortedMap<K, ScoredDoc[]> results = new ConcurrentSkipListMap<>();
-    final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threads);
     final AtomicInteger cnt = new AtomicInteger();
-
     final long start = System.nanoTime();
-    assert qids.size() == queries.size();
-    for (int i=0; i<qids.size(); i++) {
-      K qid = qids.get(i);
-      String queryString = queries.get(i);
 
-      // This is the per-query execution, in parallel.
-      executor.execute(() -> {
-        try {
-          results.put(qid, search(qid, queryString, hits));
-        } catch (IOException e) {
-          throw new CompletionException(e);
-        }
+    try(ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(threads)) {
+      assert qids.size() == queries.size();
+      for (int i = 0; i < qids.size(); i++) {
+        K qid = qids.get(i);
+        String queryString = queries.get(i);
 
-        int n = cnt.incrementAndGet();
-        if (n % 100 == 0) {
-          LOG.info(String.format("%d queries processed", n));
-        }
-      });
-    }
+        // This is the per-query execution, in parallel.
+        executor.execute(() -> {
+          try {
+            results.put(qid, search(qid, queryString, k));
+          } catch (IOException e) {
+            throw new CompletionException(e);
+          }
 
-    executor.shutdown();
+          int n = cnt.incrementAndGet();
+          if (n % 100 == 0) {
+            LOG.info(String.format("%d queries processed", n));
+          }
+        });
+      }
 
-    try {
-      // Wait for existing tasks to terminate.
-      while (!executor.awaitTermination(1, TimeUnit.MINUTES));
-    } catch (InterruptedException ie) {
-      // (Re-)Cancel if current thread also interrupted.
-      executor.shutdownNow();
-      // Preserve interrupt status.
-      Thread.currentThread().interrupt();
+      executor.shutdown();
+
+      try {
+        // Wait for existing tasks to terminate.
+        while (!executor.awaitTermination(1, TimeUnit.MINUTES));
+      } catch (InterruptedException ie) {
+        // (Re-)Cancel if current thread also interrupted.
+        executor.shutdownNow();
+        // Preserve interrupt status.
+        Thread.currentThread().interrupt();
+      }
     }
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
 
-    LOG.info(queries.size() + " queries processed in " +
-        DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss") +
+    LOG.info("{} queries processed in {}{}", queries.size(),
+        DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"),
         String.format(" = ~%.2f q/s", queries.size() / (durationMillis / 1000.0)));
 
     return results;
   }
 
-  public ScoredDoc[] search(float[] queryFloat, int hits) throws IOException {
-    return search(null, queryFloat, hits);
+  /**
+   * Searches the collection with a query vector.
+   *
+   * @param query query vector
+   * @param k number of hits
+   * @return array of search results
+   * @throws IOException if error encountered during search
+   */
+  public ScoredDoc[] search(float[] query, int k) throws IOException {
+    return search(null, query, k);
   }
 
-  public ScoredDoc[] search(@Nullable K qid, float[] queryFloat, int hits) throws IOException {
-    KnnFloatVectorQuery query = new KnnFloatVectorQuery(Constants.VECTOR, queryFloat, DUMMY_EF_SEARCH);
-    TopDocs topDocs = getIndexSearcher().search(query, hits, BREAK_SCORE_TIES_BY_DOCID, true);
+  /**
+   * Searches the collection with a query vector.
+   *
+   * @param qid query id
+   * @param query query vector
+   * @param k number of hits
+   * @return array of search results
+   * @throws IOException if error encountered during search
+   */
+  public ScoredDoc[] search(@Nullable K qid, float[] query, int k) throws IOException {
+    KnnFloatVectorQuery vectorQuery = new KnnFloatVectorQuery(Constants.VECTOR, query, DUMMY_EF_SEARCH);
+    TopDocs topDocs = getIndexSearcher().search(vectorQuery, k, BREAK_SCORE_TIES_BY_DOCID, true);
 
     return super.processLuceneTopDocs(qid, topDocs);
   }
 
-  public ScoredDoc[] search(String queryString, int hits) throws IOException {
-    return search(null, queryString, hits);
+  /**
+   * Searches the collection with a string query that will be encoded by the underlying encoder.
+   *
+   * @param query query
+   * @param k number of hits
+   * @return array of search results
+   * @throws IOException if error encountered during search
+   */
+  public ScoredDoc[] search(String query, int k) throws IOException {
+    return search(null, query, k);
   }
 
-  public ScoredDoc[] search(@Nullable K qid, String queryString, int hits) throws IOException {
+  /**
+   * Searches the collection with a string query that will be encoded by the underlying encoder.
+   *
+   * @param qid query id
+   * @param query query
+   * @param k number of hits
+   * @return array of search results
+   * @throws IOException if error encountered during search
+   */
+  public ScoredDoc[] search(@Nullable K qid, String query, int k) throws IOException {
     if (encoder != null) {
       try {
-        return search(qid, encoder.encode(queryString), hits);
+        return search(qid, encoder.encode(query), k);
       } catch (OrtException e) {
         throw new RuntimeException("Error encoding query.");
       }
     }
 
-    KnnFloatVectorQuery query = generator.buildQuery(Constants.VECTOR, queryString, DUMMY_EF_SEARCH);
-    TopDocs topDocs = getIndexSearcher().search(query, hits, BREAK_SCORE_TIES_BY_DOCID, true);
+    KnnFloatVectorQuery vectorQuery = generator.buildQuery(Constants.VECTOR, query, DUMMY_EF_SEARCH);
+    TopDocs topDocs = getIndexSearcher().search(vectorQuery, k, BREAK_SCORE_TIES_BY_DOCID, true);
 
     return super.processLuceneTopDocs(qid, topDocs);
   }

@@ -43,7 +43,7 @@ models:
   - name: bge-hnsw-int8-cached
     display: BGE-base-en-v1.5
     type: hnsw
-    params: -generator VectorQueryGenerator -topicField vector -removeQuery -threads 16 -hits 1000 -efSearch 5000
+    params: -hits 1000 -efSearch 2000 -removeQuery -threads 16
     results:
       nDCG@10:
         - 0.4149
@@ -51,3 +51,10 @@ models:
         - 0.6317
       R@1000:
         - 0.8059
+    tolerance:
+      nDCG@10:
+        - 0.03
+      R@100:
+        - 0.035
+      R@1000:
+        - 0.06

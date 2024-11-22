@@ -49,12 +49,12 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Sample indexing command, building flat indexes:
 
 ```bash
-bin/run.sh io.anserini.index.IndexCollection \
+bin/run.sh io.anserini.index.IndexFlatDenseVectors \
+  -threads 16 \
   -collection JsonDenseVectorCollection \
   -input /path/to/msmarco-passage-openai-ada2 \
   -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-flat.msmarco-v1-passage.openai-ada2/ \
-  -threads 16  \
   >& logs/log.msmarco-passage-openai-ada2 &
 ```
 
@@ -69,12 +69,12 @@ The regression experiments here evaluate on the 6980 dev set questions; see [thi
 After indexing has completed, you should be able to perform retrieval as follows using HNSW indexes:
 
 ```bash
-bin/run.sh io.anserini.search.SearchCollection \
+bin/run.sh io.anserini.search.SearchFlatDenseVectors \
   -index indexes/lucene-flat.msmarco-v1-passage.openai-ada2/ \
   -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.openai-ada2.jsonl.gz \
   -topicReader JsonIntVector \
   -output runs/run.msmarco-passage-openai-ada2.openai-ada2-flat-cached.topics.msmarco-passage.dev-subset.openai-ada2.jsonl.txt \
-  -generator VectorQueryGenerator -topicField vector -threads 16 -hits 1000 &
+  -hits 1000 -threads 16 &
 ```
 
 Evaluation can be performed using `trec_eval`:

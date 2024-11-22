@@ -53,7 +53,7 @@ models:
   - name: bge-flat-onnx
     display: BGE-base-en-v1.5
     type: flat
-    params: -generator VectorQueryGenerator -topicField title -threads 16 -hits 1000 -encoder BgeBaseEn15
+    params: -encoder BgeBaseEn15 -hits 1000 -threads 16
     results:
       AP@1000:
         - 0.4435
@@ -63,3 +63,12 @@ models:
         - 0.6171
       R@1000:
         - 0.8472
+    tolerance:
+      AP@1000:
+        - 0.006
+      nDCG@10:
+        - 0.005
+      R@100:
+        - 0.008
+      R@1000:
+        - 0.005

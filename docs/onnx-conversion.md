@@ -1,6 +1,8 @@
 # End to End ONNX Conversion for SPLADE++ Ensemble Distil
 This MD file will describe steps to convert particular PyTorch models (i.e., [SPLADE++](https://doi.org/10.1145/3477495.3531857)) to ONNX models and options to further optimize compute graph for Transformer-based models. For more details on how does ONNX Conversion work and how to optimize the compute graph, please refer to [ONNX Tutorials](https://github.com/onnx/tutorials#services).
 
+The SPLADE model takes a text input and generates sparse token-level representations as output, where each token is assigned a weight, enabling efficient information retrieval. A more in depth explantation can be found [here](https://www.pinecone.io/learn/splade/).
+
 All scripts are available for reference under in the following directory:
 ```
 src/main/python/onnx
@@ -42,7 +44,7 @@ To run the script and produce the onnx model, run the following sequence of comm
 # Begin by going to the appropriate directory
 cd src/main/python/onnx
 # Now run the script
-python3 convert_hf_model_to_onnx.py --model_name naver/splade-cocondenser-ensembledistil
+python convert_hf_model_to_onnx.py --model_name naver/splade-cocondenser-ensembledistil
 ```
 
 So what actually happens under the hood? The following sections will discuss the key parts of the above script:
@@ -184,9 +186,9 @@ To run the script and produce the optimized onnx model, run the following sequen
 # Begin by going to the appropriate directory
 cd src/main/python/onnx
 # Now run the script
-python3 optimize_onnx_model.py --model_path models/splade-cocondenser-ensembledistil.onnx
+python optimize_onnx_model.py --model_path models/splade-cocondenser-ensembledistil.onnx
 # To run the script that produces the graph summary for the un-optimized and optimized graphs, run the following:
-python3 optimize_onnx_model.py --model_path models/splade-cocondenser-ensembledistil.onnx --stats
+python optimize_onnx_model.py --model_path models/splade-cocondenser-ensembledistil.onnx --stats
 ```
 
 So what actually happens under the hood? The following sections will discuss the key parts of the above script:
@@ -254,7 +256,7 @@ To run the script for running inference, run the following sequence of commands:
 # Begin by going to the appropriate directory
 cd src/main/python/onnx
 # Now run the script
-python3 run_onnx_model_inference.py --model_path models/splade-cocondenser-ensembledistil-optimized.onnx \
+python run_onnx_model_inference.py --model_path models/splade-cocondenser-ensembledistil-optimized.onnx \
                                     --model_name naver/splade-cocondenser-ensembledistil
 ```
 
@@ -316,6 +318,46 @@ Sparse vector output after thresholding: [[[0.         0.23089279 0.14276895 ...
 
 All of these definitions are modularized in ```run_onnx_inference(model_path, model_name, text, threshold)```.
 
+## Quantization
+
+### Run End-to-End Quantization
+
+Loading and running is done easily with argparse in the following script:
+```
+src/main/python/onnx/quantize_onnx_model.py
+```
+
+For this example, we will continue with the SPLADE++ Ensemble Distil model.
+
+To run the script for running inference, run the following sequence of commands:
+```bash
+# Begin by going to the appropriate directory
+cd src/main/python/onnx
+# Now run the script
+python quantize_onnx_model.py --model_path models/splade-cocondenser-ensembledistil-optimized-8bit.onnx \
+                                    --model_name naver/splade-cocondenser-ensembledistil
+```
+
+So what actually happens under the hood? The following sections will discuss the key parts of the above script:
+
+### Quantizing the Model to 8-bit
+
+As seen below, the model name and extension are extracted from the presented optimized onnx model file, and a custom name with 8-bit is created. 
+
+In terms of the quantization semantics, only the `model_input` and `model_output` are needed as specifications to the target model. The other two arguments are needed for specifying the desired weight datatype with `weight_type=QuantType.QInt8` as well as the default tensor type `extra_options={'DefaultTensorType': onnx.TensorProto.FLOAT}`
+
+```python
+base, ext = os.path.splitext(onnx_model_path)
+quantized_model_path = f"{base}-8bit{ext}"
+    
+quantize_dynamic(
+    model_input=onnx_model_path,
+    model_output=quantized_model_path,
+    weight_type=QuantType.QInt8,
+    extra_options={'DefaultTensorType': onnx.TensorProto.FLOAT}
+)
+```
+
 ## Concluding Remarks
 
 Now that we have successfully gone through a complete reproduction of converting SPLADE++ Ensemble Distil from PyTorch to ONNX, and ran inference with the optimized model, the scripts can be used to reproduce any model available on Huggingface.
@@ -332,3 +374,7 @@ cp splade-cocondenser-ensembledistil-optimized.onnx splade-cocondenser-ensembled
 ```
 
 Second, now run the end to end regression as seen in the previously mentioned documentation with the generated ONNX model.
+
+
+### Reproduction Log
++ Results reproduced by [@valamuri2020](https://github.com/valamuri2020) on 2024-08-06 (commit [`6178b40`](https://github.com/castorini/anserini/commit/6178b407fc791d62f81e751313771165c6e2c743))

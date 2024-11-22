@@ -19,11 +19,12 @@ Typical indexing command:
 
 ```
 bin/run.sh io.anserini.index.IndexCollection \
+  -threads 1 \
   -collection MrTyDiCollection \
   -input /path/to/miracl-v1.0-ru \
   -generator DefaultLuceneDocumentGenerator \
   -index indexes/lucene-index.miracl-v1.0-ru-aca/ \
-  -threads 1 -storePositions -storeDocvectors -storeRaw -language ru -useAutoCompositeAnalyzer \
+  -storePositions -storeDocvectors -storeRaw -language ru -useAutoCompositeAnalyzer \
   >& logs/log.miracl-v1.0-ru &
 ```
 

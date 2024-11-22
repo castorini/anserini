@@ -50,11 +50,12 @@ Sample indexing command, applying inverted indexes to dense vectors using the "L
 
 ```bash
 bin/run.sh io.anserini.index.IndexInvertedDenseVectors \
+  -threads 16 \
   -collection JsonDenseVectorCollection \
   -input /path/to/msmarco-passage-cos-dpr-distil \
   -generator InvertedDenseVectorDocumentGenerator \
   -index indexes/lucene-inverted.msmarco-v1-passage.cos-dpr-distil.lexlsh-600/ \
-  -threads 16 -encoding lexlsh -lexlsh.b 600 \
+  -encoding lexlsh -lexlsh.b 600 \
   >& logs/log.msmarco-passage-cos-dpr-distil &
 ```
 

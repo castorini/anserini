@@ -38,7 +38,7 @@ public class TopicReaderTest {
       String path = topic.path;
       assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(path));
     }
-    assertEquals(476, cnt);
+    assertEquals(477, cnt);
   }
 
   @Test
@@ -982,7 +982,7 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testTREC24_RAG() throws IOException {
+  public void testTREC24_RAG_RAGGY_DEV() throws IOException {
     SortedMap<Integer, Map<String, String>> topics;
 
     topics = TopicReader.getTopics(Topics.TREC2024_RAG_RAGGY_DEV);
@@ -996,7 +996,7 @@ public class TopicReaderTest {
   }
 
   @Test
-  public void testTREC24_RAG_RESEARCHY() throws IOException {
+  public void testTREC24_RAG_RESEARCHY_DEV() throws IOException {
     SortedMap<Integer, Map<String, String>> topics;
 
     topics = TopicReader.getTopics(Topics.TREC2024_RAG_RESEARCHY_DEV);
@@ -1007,6 +1007,20 @@ public class TopicReaderTest {
     assertEquals(1009569, (int) topics.lastKey());
     assertEquals("how do video games improve problem solving", topics.get(topics.lastKey()).get("title"));
     assertEquals("how do video games improve problem solving", topics.get(1009569).get("title"));
+  }
+
+  @Test
+  public void testTREC24_RAG_TEST() throws IOException {
+    SortedMap<String, Map<String, String>> topics;
+
+    topics = TopicReader.getTopics(Topics.TREC2024_RAG_TEST);
+    assertNotNull(topics);
+    assertEquals(301, topics.size());
+    assertEquals("2024-105741", topics.firstKey());
+    assertEquals("is it dangerous to have wbc over 15,000 without treatment?", topics.get(topics.firstKey()).get("title"));
+    assertEquals("2024-96485", topics.lastKey());
+    assertEquals("how would advance electronics course impact students", topics.get(topics.lastKey()).get("title"));
+    assertEquals("how the solar eclipse can affect mental health", topics.get("2024-79154").get("title"));
   }
 
   @Test
@@ -1939,7 +1953,7 @@ public class TopicReaderTest {
   @Test
   public void testBeirBgeBaseEn15Topics() throws IOException {
     assertEquals(50,    TopicReader.getTopics(Topics.BEIR_V1_0_0_TREC_COVID_TEST_BGE_BASE_EN_15).keySet().size());
-    assertEquals(3743,  TopicReader.getTopics(Topics.BEIR_V1_0_0_BIOASQ_TEST_BGE_BASE_EN_15).keySet().size());
+    assertEquals(500,  TopicReader.getTopics(Topics.BEIR_V1_0_0_BIOASQ_TEST_BGE_BASE_EN_15).keySet().size());
     assertEquals(323,   TopicReader.getTopics(Topics.BEIR_V1_0_0_NFCORPUS_TEST_BGE_BASE_EN_15).keySet().size());
     assertEquals(3452,  TopicReader.getTopics(Topics.BEIR_V1_0_0_NQ_TEST_BGE_BASE_EN_15).keySet().size());
     assertEquals(7405,  TopicReader.getTopics(Topics.BEIR_V1_0_0_HOTPOTQA_TEST_BGE_BASE_EN_15).keySet().size());

@@ -47,12 +47,13 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Sample indexing command, building quantized flat indexes:
 
 ```bash
-bin/run.sh io.anserini.index.IndexCollection \
+bin/run.sh io.anserini.index.IndexFlatDenseVectors \
+  -threads 16 \
   -collection JsonDenseVectorCollection \
   -input /path/to/msmarco-passage-cohere-embed-english-v3.0 \
   -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-flat-int8.msmarco-v1-passage.cohere-embed-english-v3.0/ \
-  -threads 16 -quantize.int8 \
+  -quantize.int8 \
   >& logs/log.msmarco-passage-cohere-embed-english-v3.0 &
 ```
 
@@ -68,12 +69,12 @@ The original data can be found [here](https://trec.nist.gov/data/deep2019.html).
 After indexing has completed, you should be able to perform retrieval as follows using HNSW indexes:
 
 ```bash
-bin/run.sh io.anserini.search.SearchCollection \
+bin/run.sh io.anserini.search.SearchFlatDenseVectors \
   -index indexes/lucene-flat-int8.msmarco-v1-passage.cohere-embed-english-v3.0/ \
   -topics tools/topics-and-qrels/topics.dl19-passage.cohere-embed-english-v3.0.jsonl.gz \
   -topicReader JsonIntVector \
   -output runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-flat-int8-cached.topics.dl19-passage.cohere-embed-english-v3.0.jsonl.txt \
-  -generator VectorQueryGenerator -topicField vector -threads 16 -hits 1000 &
+  -hits 1000 -threads 16 &
 ```
 
 Evaluation can be performed using `trec_eval`:

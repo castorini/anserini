@@ -27,10 +27,12 @@ import java.util.Map;
 public class DataModel {
   private static final String INDEX_COMMAND = "bin/run.sh io.anserini.index.IndexCollection";
   private static final String INDEX_HNSW_COMMAND = "bin/run.sh io.anserini.index.IndexHnswDenseVectors";
+  private static final String INDEX_FLAT_COMMAND = "bin/run.sh io.anserini.index.IndexFlatDenseVectors";
   private static final String INDEX_INVERTED_DENSE_COMMAND = "bin/run.sh io.anserini.index.IndexInvertedDenseVectors";
 
   private static final String SEARCH_COMMAND = "bin/run.sh io.anserini.search.SearchCollection";
   private static final String SEARCH_HNSW_COMMAND = "bin/run.sh io.anserini.search.SearchHnswDenseVectors";
+  private static final String SEARCH_FLAT_COMMAND = "bin/run.sh io.anserini.search.SearchFlatDenseVectors";
   private static final String SEARCH_INVERTED_DENSE_COMMAND = "bin/run.sh io.anserini.search.SearchInvertedDenseVectors";
 
   private String corpus;
@@ -191,7 +193,7 @@ public class DataModel {
     this.conversions = conversions;
   }
 
-  static class Topic {
+  static public class Topic {
     private String name;
     private String id;
     private String path;
@@ -213,12 +215,13 @@ public class DataModel {
     public void setConvert_params(String convert_params) { this.convert_params = convert_params; }
   }
 
-  static class Model {
+  static public class Model {
     private String name;
     private String display;
     private String type;
     private String params;
     private Map<String, List<Float>> results;
+    private Map<String, List<Float>> tolerance;
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
@@ -226,14 +229,17 @@ public class DataModel {
     public void setDisplay(String display) { this.display = display; }
     public String getType() { return type; }
     public void setType(String type) { this.type = type; }
+    public String getParams() { return params; }
+    public void setParams(String params) { this.params = params; }
 
     public Map<String, List<Float>> getResults() { return results; }
     public void setResults(Map<String, List<Float>> results) { this.results = results; }
-    public String getParams() { return params; }
-    public void setParams(String params) { this.params = params; }
+
+    public Map<String, List<Float>> getTolerance() { return tolerance; }
+    public void setTolerance(Map<String, List<Float>> tolerance) { this.tolerance = tolerance; }
   }
 
-  static class Conversion {
+  static public class Conversion {
     private String command;
     private String in_file_ext;
     private String out_file_ext;
@@ -249,7 +255,7 @@ public class DataModel {
     public void setParams(String params) { this.params = params; }
   }
 
-  static class Metric {
+  static public class Metric {
     private String command;
     private String params;
     private String separator;
@@ -280,20 +286,20 @@ public class DataModel {
     String indexCommand = INDEX_COMMAND;
     if ("hnsw".equals(getIndex_type())) {
       indexCommand = INDEX_HNSW_COMMAND;
+    } else if ("flat".equals(getIndex_type())) {
+      indexCommand = INDEX_FLAT_COMMAND;
     } else if ("inverted-dense".equals(getIndex_type())) {
       indexCommand = INDEX_INVERTED_DENSE_COMMAND;
     }
 
-    StringBuilder builder = new StringBuilder();
-    builder.append(indexCommand).append(" \\\n");
-    builder.append("  -collection ").append(getCollection_class()).append(" \\\n");
-    builder.append("  -input ").append("/path/to/"+collection).append(" \\\n");
-    builder.append("  -generator ").append(getGenerator_class()).append(" \\\n");
-    builder.append("  -index ").append(getIndex_path()).append(" \\\n");
-    builder.append("  -threads ").append(getIndex_threads());
-    builder.append(" ").append(getIndex_options()).append(" \\\n");
-    builder.append(String.format("  >& logs/log.%s &", collection));
-    return builder.toString();
+    return indexCommand + " \\\n" +
+        "  -threads " + getIndex_threads() + " \\\n" +
+        "  -collection " + getCollection_class() + " \\\n" +
+        "  -input " + "/path/to/" + collection + " \\\n" +
+        "  -generator " + getGenerator_class() + " \\\n" +
+        "  -index " + getIndex_path() + " \\\n" +
+        (getIndex_options().isEmpty() ? "" : "  " + getIndex_options() + " \\\n" ) +
+        String.format("  >& logs/log.%s &", collection);
   }
 
   private String generateRunFile(String collection, Model model, Topic topic) {
@@ -319,6 +325,8 @@ public class DataModel {
         String searchCommand = SEARCH_COMMAND;
         if ("hnsw".equals(model.getType())) {
           searchCommand = SEARCH_HNSW_COMMAND;
+        } else if ("flat".equals(model.getType())) {
+          searchCommand = SEARCH_FLAT_COMMAND;
         } else if ("inverted-dense".equals(model.getType())) {
           searchCommand = SEARCH_INVERTED_DENSE_COMMAND;
         }
@@ -348,8 +356,8 @@ public class DataModel {
             builder.append(conversion.getCommand()).append(" \\\n");
             builder.append("  --index").append(" ").append(getIndex_path()).append(" \\\n");
             builder.append("  --topics").append(" ").append(topic.getId()).append(" \\\n");
-            builder.append("  --input").append(" ").append(generateRunFile(collection, model, topic) + ((conversion.getIn_file_ext() == null) ? "" : conversion.getIn_file_ext())).append(" \\\n");
-            builder.append("  --output").append(" ").append(generateRunFile(collection, model, topic) + conversion.getOut_file_ext()).append(" \\\n");
+            builder.append("  --input").append(" ").append(generateRunFile(collection, model, topic)).append((conversion.getIn_file_ext() == null) ? "" : conversion.getIn_file_ext()).append(" \\\n");
+            builder.append("  --output").append(" ").append(generateRunFile(collection, model, topic)).append(conversion.getOut_file_ext()).append(" \\\n");
             if (conversion.getParams() != null) {
               builder.append("  ").append(conversion.getParams());
             }
@@ -394,12 +402,12 @@ public class DataModel {
             combinedEvalCmd.get(evalCmd).putIfAbsent(evalCmdResidual, new ArrayList<>());
             combinedEvalCmd.get(evalCmd).get(evalCmdResidual).add(evalCmdOption);
           } else {
-            builder.append(evalCmd + evalCmdOption + evalCmdResidual);
+            builder.append(evalCmd).append(evalCmdOption).append(evalCmdResidual);
           }
         }
         for (Map.Entry<String, Map<String, List<String>>> entry : combinedEvalCmd.entrySet()) {
           for (Map.Entry<String, List<String>> innerEntry : entry.getValue().entrySet()) {
-            builder.append(entry.getKey() + String.join("", innerEntry.getValue()) + innerEntry.getKey());
+            builder.append(entry.getKey()).append(String.join("", innerEntry.getValue())).append(innerEntry.getKey());
           }
         }
       }

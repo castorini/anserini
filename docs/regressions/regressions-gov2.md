@@ -18,11 +18,12 @@ Typical indexing command:
 
 ```
 bin/run.sh io.anserini.index.IndexCollection \
+  -threads 44 \
   -collection TrecwebCollection \
   -input /path/to/gov2 \
   -generator DefaultLuceneDocumentGenerator \
   -index indexes/lucene-index.gov2/ \
-  -threads 44 -storePositions -storeDocvectors -storeRaw \
+  -storePositions -storeDocvectors -storeRaw \
   >& logs/log.gov2 &
 ```
 

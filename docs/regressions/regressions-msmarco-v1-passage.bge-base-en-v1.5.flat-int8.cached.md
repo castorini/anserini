@@ -49,12 +49,13 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 Sample indexing command, building quantized flat indexes:
 
 ```bash
-bin/run.sh io.anserini.index.IndexCollection \
+bin/run.sh io.anserini.index.IndexFlatDenseVectors \
+  -threads 16 \
   -collection JsonDenseVectorCollection \
   -input /path/to/msmarco-passage-bge-base-en-v1.5 \
   -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-flat-int8.msmarco-v1-passage.bge-base-en-v1.5/ \
-  -threads 16 -quantize.int8 \
+  -quantize.int8 \
   >& logs/log.msmarco-passage-bge-base-en-v1.5 &
 ```
 
@@ -69,12 +70,12 @@ The regression experiments here evaluate on the 6980 dev set questions; see [thi
 After indexing has completed, you should be able to perform retrieval as follows using HNSW indexes:
 
 ```bash
-bin/run.sh io.anserini.search.SearchCollection \
+bin/run.sh io.anserini.search.SearchFlatDenseVectors \
   -index indexes/lucene-flat-int8.msmarco-v1-passage.bge-base-en-v1.5/ \
   -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.bge-base-en-v1.5.jsonl.gz \
   -topicReader JsonIntVector \
   -output runs/run.msmarco-passage-bge-base-en-v1.5.bge-flat-int8-cached.topics.msmarco-passage.dev-subset.bge-base-en-v1.5.jsonl.txt \
-  -generator VectorQueryGenerator -topicField vector -threads 16 -hits 1000 &
+  -hits 1000 -threads 16 &
 ```
 
 Evaluation can be performed using `trec_eval`:

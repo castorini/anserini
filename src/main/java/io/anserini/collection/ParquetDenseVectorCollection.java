@@ -25,16 +25,10 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.concurrent.ConcurrentHashMap;
 
-import org.apache.hadoop.conf.Configuration;
 import org.apache.parquet.example.data.Group;
-import org.apache.parquet.example.data.simple.SimpleGroup;
-import org.apache.parquet.example.data.simple.convert.GroupRecordConverter;
 import org.apache.parquet.hadoop.ParquetReader;
 import org.apache.parquet.hadoop.example.GroupReadSupport;
-import org.apache.parquet.io.InputFile;
-import org.apache.parquet.hadoop.util.HadoopInputFile;
 
 import java.util.ArrayList;
 
@@ -104,7 +98,7 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
      */
     public Segment(java.nio.file.Path path) throws IOException {
       super(path);
-      initializeParquetReader(path); // Initialize the Parquet reader and load data
+      initializeParquetReader(path);
     }
 
     /**
@@ -138,18 +132,13 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
       // Initialize lists to store data read from the Parquet file
       vectors = new ArrayList<>();
       ids = new ArrayList<>();
-      contents = new ArrayList<>();
 
       Group record;
       // Read each record from the Parquet file
       while ((record = reader.read()) != null) {
         // Extract the docid (String) from the record
         String docid = record.getString("docid", 0);
-        ids.add(docid); // Add to the list of IDs
-
-        // Extract the contents (String) from the record
-        String content = record.getString("contents", 0);
-        contents.add(content); // Add to the list of contents
+        ids.add(docid);
 
         // Extract the vector (double[]) from the record
         Group vectorGroup = record.getGroup("vector", 0); // Access the 'vector' field
@@ -159,11 +148,11 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
           Group listGroup = vectorGroup.getGroup(0, i); // Access the 'list' group
           vector[i] = listGroup.getDouble("element", 0); // Get the double value from the 'element' field
         }
-        vectors.add(vector); // Add to the list of vectors
+        vectors.add(vector);
       }
 
-      reader.close(); // Close the reader
-      currentIndex = 0; // Start iterating from the beginning
+      reader.close();
+      currentIndex = 0;
     }
 
     /**
@@ -176,19 +165,17 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
     protected synchronized void readNext() throws IOException, NoSuchElementException {
       // Check if we have reached the end of the list
       if (currentIndex >= ids.size()) {
-        atEOF = true; // Set the end-of-file flag
-        throw new NoSuchElementException("End of file reached"); // Throw exception to signal end of data
+        atEOF = true;
+        throw new NoSuchElementException("End of file reached");
       }
 
       // Get the current document's ID, contents, and vector
       String id = ids.get(currentIndex);
-      String content = contents.get(currentIndex);
       double[] vector = vectors.get(currentIndex);
 
       // Create a new Document object with the retrieved data
-      bufferedRecord = new ParquetDenseVectorCollection.Document(id, vector, content);
+      bufferedRecord = new ParquetDenseVectorCollection.Document(id, vector, "");
 
-      // Move to the next document
       currentIndex++;
     }
   }
@@ -197,9 +184,9 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
    * Inner class representing a document in the ParquetDenseVectorCollection.
    */
   public static class Document implements SourceDocument {
-    private final String id; // Document ID
-    private final double[] vector; // Vector data
-    private final String raw; // Raw data
+    private final String id;
+    private final double[] vector;
+    private final String raw;
 
     /**
      * Constructor for the Document class.

@@ -53,11 +53,12 @@ Sample indexing command, building HNSW indexes:
 
 ```bash
 bin/run.sh io.anserini.index.IndexHnswDenseVectors \
+  -threads 16 \
   -collection JsonDenseVectorCollection \
   -input /path/to/msmarco-passage-bge-base-en-v1.5 \
   -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-hnsw.msmarco-v1-passage.bge-base-en-v1.5/ \
-  -threads 16 -M 16 -efC 100 \
+  -M 16 -efC 100 \
   >& logs/log.msmarco-passage-bge-base-en-v1.5 &
 ```
 
@@ -81,7 +82,7 @@ bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -topics tools/topics-and-qrels/topics.dl20.bge-base-en-v1.5.jsonl.gz \
   -topicReader JsonIntVector \
   -output runs/run.msmarco-passage-bge-base-en-v1.5.bge-hnsw-cached.topics.dl20.bge-base-en-v1.5.jsonl.txt \
-  -generator VectorQueryGenerator -topicField vector -threads 16 -hits 1000 -efSearch 1000 &
+  -hits 1000 -efSearch 1000 -threads 16 &
 ```
 
 Evaluation can be performed using `trec_eval`:

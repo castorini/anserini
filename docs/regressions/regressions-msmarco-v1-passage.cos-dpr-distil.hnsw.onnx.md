@@ -50,11 +50,12 @@ Sample indexing command, building HNSW indexes:
 
 ```bash
 bin/run.sh io.anserini.index.IndexHnswDenseVectors \
+  -threads 16 \
   -collection JsonDenseVectorCollection \
   -input /path/to/msmarco-passage-cos-dpr-distil \
   -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-hnsw.msmarco-v1-passage.cos-dpr-distil/ \
-  -threads 16 -M 16 -efC 100 \
+  -M 16 -efC 100 \
   >& logs/log.msmarco-passage-cos-dpr-distil &
 ```
 
@@ -77,7 +78,7 @@ bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-hnsw-onnx.topics.msmarco-passage.dev-subset.txt \
-  -generator VectorQueryGenerator -topicField title -threads 16 -hits 1000 -efSearch 1000 -encoder CosDprDistil &
+  -encoder CosDprDistil -hits 1000 -efSearch 1000 -threads 16 &
 ```
 
 Note that we are performing query inference "on-the-fly" with ONNX in these experiments.

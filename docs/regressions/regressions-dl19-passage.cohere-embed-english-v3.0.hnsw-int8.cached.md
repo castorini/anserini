@@ -48,11 +48,12 @@ Sample indexing command, building quantized HNSW indexes:
 
 ```bash
 bin/run.sh io.anserini.index.IndexHnswDenseVectors \
+  -threads 16 \
   -collection JsonDenseVectorCollection \
   -input /path/to/msmarco-passage-cohere-embed-english-v3.0 \
   -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-hnsw-int8.msmarco-v1-passage.cohere-embed-english-v3.0/ \
-  -threads 16 -M 16 -efC 100 -quantize.int8 \
+  -M 16 -efC 100 -quantize.int8 \
   >& logs/log.msmarco-passage-cohere-embed-english-v3.0 &
 ```
 
@@ -76,7 +77,7 @@ bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -topics tools/topics-and-qrels/topics.dl19-passage.cohere-embed-english-v3.0.jsonl.gz \
   -topicReader JsonIntVector \
   -output runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-hnsw-int8-cached.topics.dl19-passage.cohere-embed-english-v3.0.jsonl.txt \
-  -generator VectorQueryGenerator -topicField vector -threads 16 -hits 1000 -efSearch 1000 &
+  -hits 1000 -efSearch 1000 -threads 16 &
 ```
 
 Evaluation can be performed using `trec_eval`:

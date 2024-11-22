@@ -38,7 +38,7 @@ public class RelevanceJudgmentsTest{
 
   @Test
   public void testTotalCount() {
-    assertEquals(170, Qrels.values().length);
+    assertEquals(171, Qrels.values().length);
   }
 
   @Test(expected = IOException.class)
@@ -365,7 +365,7 @@ public class RelevanceJudgmentsTest{
   }
 
   @Test
-  public void testTREC24_RAG() throws IOException{
+  public void testTREC24_RAG_RAGGY_DEV() throws IOException{
     // % cut -f 1 -d ' ' tools/topics-and-qrels/qrels.rag24.raggy-dev.txt | uniq | wc
     //      120     120     937
     // % wc tools/topics-and-qrels/qrels.rag24.raggy-dev.txt
@@ -384,6 +384,28 @@ public class RelevanceJudgmentsTest{
     assertEquals(147328, getQrelsCount(qrels));
     assertEquals(1, qrels.getRelevanceGrade("2001010", "msmarco_v2.1_doc_00_1372241967"));
     assertEquals(1, qrels.getRelevanceGrade("253263", "msmarco_v2.1_doc_46_843492186"));
+  }
+
+  @Test
+  public void testTREC24_RAG_UMBRELA() throws IOException{
+    // % cut -f 1 -d ' ' tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt | uniq | wc
+    //      301     301    3448
+    // % wc tools/topics-and-qrels/qrels.rag24.raggy-dev.txt
+    //   108479  433916 6475451 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt
+
+    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt");
+    assertNotNull(qrels);
+    assertEquals(301, qrels.getQids().size());
+    assertEquals(108479, getQrelsCount(qrels));
+    assertEquals(1, qrels.getRelevanceGrade("2024-145979", "msmarco_v2.1_doc_25_771726319#13_1477564195"));
+    assertEquals(1, qrels.getRelevanceGrade("2024-216592", "msmarco_v2.1_doc_52_1092442741#3_2165187686"));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2024_RAG_UMBRELA);
+    assertNotNull(qrels);
+    assertEquals(301, qrels.getQids().size());
+    assertEquals(108479, getQrelsCount(qrels));
+    assertEquals(1, qrels.getRelevanceGrade("2024-145979", "msmarco_v2.1_doc_25_771726319#13_1477564195"));
+    assertEquals(1, qrels.getRelevanceGrade("2024-216592", "msmarco_v2.1_doc_52_1092442741#3_2165187686"));
   }
 
   @Test

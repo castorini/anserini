@@ -7,7 +7,7 @@ index_type: hnsw
 collection_class: JsonDenseVectorCollection
 generator_class: DenseVectorDocumentGenerator
 index_threads: 16
-index_options: -M 16 -efC 100 -memoryBuffer 65536 -noMerge
+index_options: -M 16 -efC 100
 
 metrics:
   - metric: nDCG@10
@@ -43,7 +43,7 @@ models:
   - name: bge-hnsw-onnx
     display: BGE-base-en-v1.5
     type: hnsw
-    params: -generator VectorQueryGenerator -topicField title -removeQuery -threads 16 -hits 1000 -efSearch 1000 -encoder BgeBaseEn15
+    params: -encoder BgeBaseEn15 -hits 1000 -efSearch 1000 -removeQuery -threads 16
     results:
       nDCG@10:
         - 0.4065
@@ -51,3 +51,10 @@ models:
         - 0.7774
       R@1000:
         - 0.9380
+    tolerance:
+      nDCG@10:
+        - 0.001
+      R@100:
+        - 0.001
+      R@1000:
+        - 0.002

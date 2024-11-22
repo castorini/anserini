@@ -65,11 +65,12 @@ Sample indexing command:
 
 ```bash
 bin/run.sh io.anserini.index.IndexCollection \
+  -threads 24 \
   -collection JsonVectorCollection \
   -input /path/to/msmarco-v2-doc-segmented-unicoil-0shot \
   -generator DefaultLuceneDocumentGenerator \
   -index indexes/lucene-inverted.msmarco-v2-doc-segmented.unicoil-0shot/ \
-  -threads 24 -impact -pretokenized \
+  -impact -pretokenized \
   >& logs/log.msmarco-v2-doc-segmented-unicoil-0shot &
 ```
 
