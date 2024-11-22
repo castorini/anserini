@@ -1,17 +1,15 @@
 import os
 import argparse
 import logging
-import faiss
-import numpy as np
-import pandas as pd
 import shutil
+import faiss
+import pandas as pd
 
 
 def setup_logging():
     logging.basicConfig(
         format="%(asctime)s - %(levelname)s - %(message)s", level=logging.INFO
     )
-
 
 def read_docid_file(docid_path):
     """
@@ -99,7 +97,6 @@ def convert_faiss_to_parquet(input_dir, output_dir, overwrite):
 if __name__ == "__main__":
     setup_logging()
 
-    # Argument parsing
     parser = argparse.ArgumentParser(
         description="Convert FAISS index files to Parquet format in chunks."
     )
