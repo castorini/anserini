@@ -88,7 +88,6 @@ def convert_faiss_to_parquet(input_dir, output_dir, overwrite):
         logging.error(error_message)
         raise ValueError(error_message)
 
-    # Create DataFrame
     df = pd.DataFrame({
         'docid': docids,
         'vector': vectors.tolist()  # Convert vectors to a list format
@@ -96,15 +95,6 @@ def convert_faiss_to_parquet(input_dir, output_dir, overwrite):
 
     # Write DataFrame to Parquet in chunks
     write_to_parquet_in_chunks(df, output_dir)
-    
-    # Convert DataFrame to Parquet
-    # try:
-    #     df.to_parquet(output_path, index=False)
-    #     logging.info(f"Successfully converted to Parquet and saved at {output_path}")
-    # except Exception as e:
-    #     logging.error(f"Failed to write to Parquet file {output_path}: {e}")
-    #     raise RuntimeError(f"Failed to write to Parquet file {output_path}: {e}")
-
 
 if __name__ == "__main__":
     setup_logging()
