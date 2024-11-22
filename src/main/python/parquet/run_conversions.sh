@@ -1,6 +1,13 @@
 #!/bin/bash
 
-BASE_DIR="collections/faiss/"
+# Default base directory
+DEFAULT_BASE_DIR="collections/faiss/"
+BASE_DIR=${1:-$DEFAULT_BASE_DIR}
+
+# Shift the arguments if a base directory is passed
+if [ "$BASE_DIR" != "$DEFAULT_BASE_DIR" ]; then
+  shift
+fi
 
 # Check if the --all flag is passed
 if [ "$1" == "--all" ]; then
@@ -42,9 +49,9 @@ for SUBDIR in "${SUBDIRS[@]}"; do
       INDEX_NAME="indexes/faiss-parquet/$SUBDIR_NAME"
       RUNS_FILE="runs/${SUBDIR_NAME}_faiss_parquet.txt"
       EVAL_FILE="runs/${SUBDIR_NAME}_faiss_parquet_evals.txt"
-      # Convert JSON to Parquet
-      # python src/main/python/parquet/json_to_parquet.py --input "$SUBDIR" --output "$PARQUET_DIR" --overwrite
-      # python src/main/python/parquet/faiss_to_parquet.py --input "$SUBDIR" --output "$PARQUET_DIR" --overwrite
+      
+      # Convert to Parquet
+      python src/main/python/parquet/faiss_to_parquet.py --input "$SUBDIR" --output "$PARQUET_DIR" --overwrite
 
       # Index Parquet data
       bin/run.sh io.anserini.index.IndexFlatDenseVectors \
@@ -52,7 +59,7 @@ for SUBDIR in "${SUBDIRS[@]}"; do
         -collection ParquetDenseVectorCollection \
         -input "$PARQUET_DIR" \
         -generator ParquetDenseVectorDocumentGenerator \
-        -index "$INDEX_NAME" # \
+        -index "$INDEX_NAME" \
        	>&"logs/debug-log.beir-v1.0.0-${SUBDIR_NAME}.bge-base-en-v1.5"
 
       # Search on the indexed data
@@ -81,4 +88,4 @@ done
 
 wait
 
-echo "All specified subdirectories processed."cho "All specified subdirectories processed."
+echo "All specified subdirectories processed."
