@@ -288,7 +288,7 @@ Key:
   + original (float32) indexes: cached queries (🫙), ONNX (🅾️)
   + quantized (int8) indexes: cached queries (🫙), ONNX (🅾️)
 
-See instructions below the table for how to reproduce results for a model on all BEIR corpora "in one go".
+See instructions below the table for how to reproduce results programmatically.
 
 | Corpus                  |                                       F1                                       |                                        F2                                         |                                          MF                                          |                                               U1                                               |                                                                                            S1                                                                                             | BGE (flat)                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | BGE (HNSW)                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 |-------------------------|:------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -361,16 +361,16 @@ See instructions below the table for how to reproduce results for a model on all
 
 To reproduce the above results programmatically, start by downloading the appropriate collection:
 
-| Collection                                             |  Size | Checksum                           |
-|:-------------------------------------------------------|------:|:-----------------------------------|
-| `beir-v1.0.0-corpus.tar`                               | XX GB | `faefd5281b662c72ce03d22021e4ff6b` |
-| `beir-v1.0.0-corpus-wp.tar`                            | XX GB | `3cf8f3dcdcadd49362965dd4466e6ff2` |
-| `beir-v1.0.0-unicoil-noexp.tar`                        | XX GB | `4fd04d2af816a6637fc12922cccc8a83` |
-| `beir-v1.0.0-splade-pp-ed.tar`                         | XX GB | `9c7de5b444a788c9e74c340bf833173b` |
-| `beir-v1.0.0-bge-base-en-v1.5.parquet.tar`             | XX GB | `c279f9fc2464574b482ec53efcc1c487` |
-| `beir-v1.0.0-bge-base-en-v1.5.tar` (jsonl, deprecated) | XX GB | `e4e8324ba3da3b46e715297407a24f00` |
+| Collection                                             |   Size | Checksum                           |
+|:-------------------------------------------------------|-------:|:-----------------------------------|
+| `beir-v1.0.0-corpus.tar`                               |  14 GB | `faefd5281b662c72ce03d22021e4ff6b` |
+| `beir-v1.0.0-corpus-wp.tar`                            |  13 GB | `3cf8f3dcdcadd49362965dd4466e6ff2` |
+| `beir-v1.0.0-unicoil-noexp.tar`                        |  30 GB | `4fd04d2af816a6637fc12922cccc8a83` |
+| `beir-v1.0.0-splade-pp-ed.tar`                         |  43 GB | `9c7de5b444a788c9e74c340bf833173b` |
+| `beir-v1.0.0-bge-base-en-v1.5.parquet.tar`             | 194 GB | `c279f9fc2464574b482ec53efcc1c487` |
+| `beir-v1.0.0-bge-base-en-v1.5.tar` (jsonl, deprecated) | 294 GB | `e4e8324ba3da3b46e715297407a24f00` |
 
-Substitute into the snippet below:
+Substitute into the snippet below to download and unpack the data:
 
 ```bash
 wget https://rgw.cs.uwaterloo.ca/pyserini/data/$COLLECTION -P collections/
@@ -383,12 +383,11 @@ Once you've unpacked the data, the following commands will loop over all BEIR co
 MODEL="$MODEL"; CORPORA=(trec-covid bioasq nfcorpus nq hotpotqa fiqa signal1m trec-news robust04 arguana webis-touche2020 cqadupstack-android cqadupstack-english cqadupstack-gaming cqadupstack-gis cqadupstack-mathematica cqadupstack-physics cqadupstack-programmers cqadupstack-stats cqadupstack-tex cqadupstack-unix cqadupstack-webmasters cqadupstack-wordpress quora dbpedia-entity scidocs fever climate-fever scifact); for c in "${CORPORA[@]}"
 do
     echo "Running $c..."
-    python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-${c}.${MODEL}.onnx > logs/log.beir-v1.0.0-${c}-${MODEL}.onnx 2>&1
+    python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-${c}.${MODEL} > logs/log.beir-v1.0.0-${c}-${MODEL} 2>&1
 done
 ```
 
 Substitute the appropriate binding for `$MODEL` from the table below.
-The "Collection" column tells you which of the collections you need to download (from above)
 
 | Key                      | `$MODEL`                                    |
 |:-------------------------|:--------------------------------------------|
@@ -397,11 +396,17 @@ The "Collection" column tells you which of the collections you need to download 
 | MF                       | `multifield`                                |
 | U1 (cached)              | `unicoil-noexp.cached`                      |
 | S1 (cached)              | `splade-pp-ed.cached`                       |
-| BGE (cached; flat, full) | `bge-base-en-v1.5.parquet.flat.cached`      |
-| BGE (cached; flat, int8) | `bge-base-en-v1.5.parquet.flat-int8.cached` |
-| BGE (cached; HNSW, full) | `bge-base-en-v1.5.parquet.hnsw.cached`      |
-| BGE (cached; HNSW, int8) | `bge-base-en-v1.5.parquet.hnsw-int8.cached` |
+| S1 (ONNX)                | `splade-pp-ed.onnx`                         |
+| BGE (flat, full; cached) | `bge-base-en-v1.5.parquet.flat.cached`      |
+| BGE (flat, int8; cached) | `bge-base-en-v1.5.parquet.flat-int8.cached` |
+| BGE (HNSW, full; cached) | `bge-base-en-v1.5.parquet.hnsw.cached`      |
+| BGE (HNSW, int8; cached) | `bge-base-en-v1.5.parquet.hnsw-int8.cached` |
+| BGE (flat, full; ONNX)   | `bge-base-en-v1.5.parquet.flat.onnx`        |
+| BGE (flat, int8; ONNX)   | `bge-base-en-v1.5.parquet.flat-int8.onnx`   |
+| BGE (HNSW, full; ONNX)   | `bge-base-en-v1.5.parquet.hnsw.onnx`        |
+| BGE (HNSW, int8; ONNX)   | `bge-base-en-v1.5.parquet.hnsw-int8.onnx`   |
 
+---
 
 | Key                      | Collection                                 | `$MODEL`                                    |
 |:-------------------------|:-------------------------------------------|:--------------------------------------------|
