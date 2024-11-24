@@ -359,7 +359,14 @@ See instructions below the table for how to reproduce results programmatically.
 
 </details>
 
-To reproduce the above results programmatically, start by downloading the appropriate collection:
+To reproduce the above results programmatically, use the following commands to download and unpack the data:
+
+```bash
+wget https://rgw.cs.uwaterloo.ca/pyserini/data/$COLLECTION -P collections/
+tar xvf collections/$COLLECTION -C collections/
+```
+
+Substitute the appropriate `$COLLECTION` from the table below.
 
 | `$COLLECTION`                                          |   Size | Checksum                           |
 |:-------------------------------------------------------|-------:|:-----------------------------------|
@@ -369,13 +376,6 @@ To reproduce the above results programmatically, start by downloading the approp
 | `beir-v1.0.0-splade-pp-ed.tar`                         |  43 GB | `9c7de5b444a788c9e74c340bf833173b` |
 | `beir-v1.0.0-bge-base-en-v1.5.parquet.tar`             | 194 GB | `c279f9fc2464574b482ec53efcc1c487` |
 | `beir-v1.0.0-bge-base-en-v1.5.tar` (jsonl, deprecated) | 294 GB | `e4e8324ba3da3b46e715297407a24f00` |
-
-Substitute the appropriate `$COLLECTION` into the snippet below to download and unpack the data:
-
-```bash
-wget https://rgw.cs.uwaterloo.ca/pyserini/data/$COLLECTION -P collections/
-tar xvf collections/$COLLECTION -C collections/
-```
 
 Once you've unpacked the data, the following commands will loop over all BEIR corpora and run the regressions:
 
@@ -387,7 +387,7 @@ do
 done
 ```
 
-Substitute the appropriate binding for `$MODEL` from the table below.
+Substitute the appropriate `$MODEL` from the table below.
 
 | Key                      | `$MODEL`                                    |
 |:-------------------------|:--------------------------------------------|
