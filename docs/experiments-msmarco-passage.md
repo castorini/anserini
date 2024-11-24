@@ -25,7 +25,7 @@ Anserini is a toolkit (in Java) for reproducible information retrieval research 
 The Lucene search library provides components of the popular [Elasticsearch](https://www.elastic.co/) platform.
 
 Think of it this way: Lucene provides a "kit of parts".
-Elasticsearch provides "assembly of parts" targeted to production search applications, with a REST-centric API.
+Elasticsearch provides an "assembly of parts" targeted to production search applications, with a REST-centric API.
 Anserini provides an alternative way of composing the same core components together, targeted at information retrieval researchers.
 By building on Lucene, Anserini aims to bridge the gap between academic information retrieval research and the practice of building real-world search applications.
 That is, most things done with Anserini can be "translated" into Elasticsearch quite easily.
@@ -535,5 +535,6 @@ The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to th
 + Results reproduced by [@a-y-m-a-n-c-h](https://github.com/a-y-m-a-n-c-h) on 2024-10-16 (commit [`0346842`](https://github.com/castorini/anserini/commit/03468423c820e1c0c38c9f48dc25d1f2f315831c))
 + Results reproduced by [@Samantha-Zhan](https://github.com/Samantha-Zhan) on 2024-10-20 (commit [`daceb40`](https://github.com/castorini/anserini/commit/daceb4084c8e8103e3e86c81a8e0d597d409220e))
 + Results reproduced by [@pxlin-09](https://github.com/pxlin-09) on 2024-10-26 (commit [`e2eb203`](https://github.com/castorini/anserini/commit/e2eb203b83dd643a356ee90f299c8877f6e108bd))
++ Results reproduced by [@b8zhong](https://github.com/b8zhong) on 2024-11-23 (commit [`c619dc8`](https://github.com/castorini/anserini/commit/c619dc8d9ab28298251964053a927906e9957f51))
 + Results reproduced by [@ShreyasP20](https://github.com/ShreyasP20) on 2024-11-24 (commit [`c619dc8`](https://github.com/castorini/anserini/commit/c619dc8d9ab28298251964053a927906e9957f51))
 + Results reproduced by [@Divyajyoti02](https://github.com/Divyajyoti02) on 2024-11-24 (commit [`a1bcf88`](https://github.com/castorini/anserini/commit/a1bcf8853062da9f73915c873968a4e998d4e904))
