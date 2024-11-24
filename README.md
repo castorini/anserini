@@ -361,7 +361,7 @@ See instructions below the table for how to reproduce results programmatically.
 
 To reproduce the above results programmatically, start by downloading the appropriate collection:
 
-| Collection                                             |   Size | Checksum                           |
+| `$COLLECTION`                                          |   Size | Checksum                           |
 |:-------------------------------------------------------|-------:|:-----------------------------------|
 | `beir-v1.0.0-corpus.tar`                               |  14 GB | `faefd5281b662c72ce03d22021e4ff6b` |
 | `beir-v1.0.0-corpus-wp.tar`                            |  13 GB | `3cf8f3dcdcadd49362965dd4466e6ff2` |
@@ -370,7 +370,7 @@ To reproduce the above results programmatically, start by downloading the approp
 | `beir-v1.0.0-bge-base-en-v1.5.parquet.tar`             | 194 GB | `c279f9fc2464574b482ec53efcc1c487` |
 | `beir-v1.0.0-bge-base-en-v1.5.tar` (jsonl, deprecated) | 294 GB | `e4e8324ba3da3b46e715297407a24f00` |
 
-Substitute into the snippet below to download and unpack the data:
+Substitute the appropriate `$COLLECTION` into the snippet below to download and unpack the data:
 
 ```bash
 wget https://rgw.cs.uwaterloo.ca/pyserini/data/$COLLECTION -P collections/
@@ -405,58 +405,6 @@ Substitute the appropriate binding for `$MODEL` from the table below.
 | BGE (flat, int8; ONNX)   | `bge-base-en-v1.5.parquet.flat-int8.onnx`   |
 | BGE (HNSW, full; ONNX)   | `bge-base-en-v1.5.parquet.hnsw.onnx`        |
 | BGE (HNSW, int8; ONNX)   | `bge-base-en-v1.5.parquet.hnsw-int8.onnx`   |
-
----
-
-| Key                      | Collection                                 | `$MODEL`                                    |
-|:-------------------------|:-------------------------------------------|:--------------------------------------------|
-| F1                       | `beir-v1.0.0-corpus.tar`                   | `flat`                                      |
-| F2                       | `beir-v1.0.0-corpus-wp.tar`                | `flat-wp`                                   |
-| MF                       | `beir-v1.0.0-corpus.tar`                   | `multifield`                                |
-| U1 (cached)              | `beir-v1.0.0-unicoil-noexp.tar`            | `unicoil-noexp.cached`                      |
-| S1 (cached)              | `beir-v1.0.0-splade-pp-ed.tar`             | `splade-pp-ed.cached`                       |
-| BGE (cached; flat, full) | `beir-v1.0.0-bge-base-en-v1.5.parquet.tar` | `bge-base-en-v1.5.parquet.flat.cached`      |
-| BGE (cached; flat, int8) | `beir-v1.0.0-bge-base-en-v1.5.parquet.tar` | `bge-base-en-v1.5.parquet.flat-int8.cached` |
-| BGE (cached; HNSW, full) | `beir-v1.0.0-bge-base-en-v1.5.parquet.tar` | `bge-base-en-v1.5.parquet.hnsw.cached`      |
-| BGE (cached; HNSW, int8) | `beir-v1.0.0-bge-base-en-v1.5.parquet.tar` | `bge-base-en-v1.5.parquet.hnsw-int8.cached` |
-
-
----
-
-
-To reproduce the SPLADE++ CoCondenser-EnsembleDistil results, start by downloading the collection:
-
-```bash
-wget https://rgw.cs.uwaterloo.ca/pyserini/data/beir-v1.0.0-splade-pp-ed.tar -P collections/
-tar xvf collections/beir-v1.0.0-splade-pp-ed.tar -C collections/
-```
-
-The tarball is 42 GB and has MD5 checksum `9c7de5b444a788c9e74c340bf833173b`.
-Once you've unpacked the data, the following commands will loop over all BEIR corpora and run the regressions:
-
-```bash
-MODEL="splade-pp-ed"; CORPORA=(trec-covid bioasq nfcorpus nq hotpotqa fiqa signal1m trec-news robust04 arguana webis-touche2020 cqadupstack-android cqadupstack-english cqadupstack-gaming cqadupstack-gis cqadupstack-mathematica cqadupstack-physics cqadupstack-programmers cqadupstack-stats cqadupstack-tex cqadupstack-unix cqadupstack-webmasters cqadupstack-wordpress quora dbpedia-entity scidocs fever climate-fever scifact); for c in "${CORPORA[@]}"
-do
-    echo "Running $c..."
-    python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-${c}.${MODEL}.onnx > logs/log.beir-v1.0.0-${c}-${MODEL}.onnx 2>&1
-done
-```
-
-You can verify the results by examining the log files in `logs/`.
-
-For the other models, modify the above commands as follows:
-
-| Key | Corpus             | Checksum                           | `MODEL`                 |
-|:----|:-------------------|:-----------------------------------|:------------------------|
-| F1  | `corpus`           | `faefd5281b662c72ce03d22021e4ff6b` | `flat`                  |
-| F2  | `corpus-wp`        | `3cf8f3dcdcadd49362965dd4466e6ff2` | `flat-wp`               |
-| MF  | `corpus`           | `faefd5281b662c72ce03d22021e4ff6b` | `multifield`            |
-| U1  | `unicoil-noexp`    | `4fd04d2af816a6637fc12922cccc8a83` | `unicoil-noexp`         |
-| S1  | `splade-pp-ed`     | `9c7de5b444a788c9e74c340bf833173b` | `splade-pp-ed`          |
-| BGE | `bge-base-en-v1.5` | `e4e8324ba3da3b46e715297407a24f00` | `bge-base-en-v1.5-hnsw` |
-
-The "Corpus" above should be substituted into the full file name `beir-v1.0.0-${corpus}.tar`, e.g., `beir-v1.0.0-bge-base-en-v1.5.tar`.
-The above commands should work with some minor modifications: you'll need to tweak the `--regression` parameter to match the schema of the YAML config files in `src/main/resources/regression/`.
 
 </details>
 <details>
