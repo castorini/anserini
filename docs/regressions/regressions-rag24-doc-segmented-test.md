@@ -46,21 +46,21 @@ After indexing has completed, you should be able to perform retrieval as follows
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2.1-doc-segmented/ \
   -topics tools/topics-and-qrels/topics.rag24.test.txt \
-  -topicReader TsvInt \
+  -topicReader TsvString \
   -output runs/run.msmarco-v2.1-doc-segmented.bm25-default.topics.rag24.test.txt \
   -bm25 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2.1-doc-segmented/ \
   -topics tools/topics-and-qrels/topics.rag24.test.txt \
-  -topicReader TsvInt \
+  -topicReader TsvString \
   -output runs/run.msmarco-v2.1-doc-segmented.bm25-default+rm3.topics.rag24.test.txt \
   -bm25 -rm3 -collection MsMarcoV2DocCollection &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2.1-doc-segmented/ \
   -topics tools/topics-and-qrels/topics.rag24.test.txt \
-  -topicReader TsvInt \
+  -topicReader TsvString \
   -output runs/run.msmarco-v2.1-doc-segmented.bm25-default+rocchio.topics.rag24.test.txt \
   -bm25 -rocchio -collection MsMarcoV2DocCollection &
 ```

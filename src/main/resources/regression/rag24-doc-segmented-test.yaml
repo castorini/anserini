@@ -49,7 +49,7 @@ metrics:
     metric_precision: 4
     can_combine: false
 
-topic_reader: TsvInt
+topic_reader: TsvString
 topics:
   - name: "RAG 24: Test queries"
     id: rag24.test
