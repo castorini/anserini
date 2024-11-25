@@ -77,7 +77,7 @@ bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -topics tools/topics-and-qrels/topics.dl19-passage.cohere-embed-english-v3.0.jsonl.gz \
   -topicReader JsonIntVector \
   -output runs/run.msmarco-passage-cohere-embed-english-v3.0.cohere-embed-english-v3.0-hnsw-int8-cached.topics.dl19-passage.cohere-embed-english-v3.0.jsonl.txt \
-  -generator VectorQueryGenerator -topicField vector -threads 16 -hits 1000 -efSearch 1000 &
+  -hits 1000 -efSearch 1000 -threads 16 &
 ```
 
 Evaluation can be performed using `trec_eval`:

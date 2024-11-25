@@ -25,7 +25,7 @@ Anserini is a toolkit (in Java) for reproducible information retrieval research 
 The Lucene search library provides components of the popular [Elasticsearch](https://www.elastic.co/) platform.
 
 Think of it this way: Lucene provides a "kit of parts".
-Elasticsearch provides "assembly of parts" targeted to production search applications, with a REST-centric API.
+Elasticsearch provides an "assembly of parts" targeted to production search applications, with a REST-centric API.
 Anserini provides an alternative way of composing the same core components together, targeted at information retrieval researchers.
 By building on Lucene, Anserini aims to bridge the gap between academic information retrieval research and the practice of building real-world search applications.
 That is, most things done with Anserini can be "translated" into Elasticsearch quite easily.
@@ -100,7 +100,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -input collections/msmarco-passage/collection_jsonl \
   -index indexes/msmarco-passage/lucene-index-msmarco \
   -generator DefaultLuceneDocumentGenerator \
-  -threads 9 -storePositions -storeDocvectors -storeRaw 
+  -threads 9 -storePositions -storeDocvectors -storeRaw
 ```
 For Windows:
 ```bash
@@ -206,7 +206,7 @@ Since the first column indicates the `qid`, it means that the file contains rank
 
 ## Evaluation
 
-Finally, we can evaluate the retrieved documents using this the official MS MARCO evaluation script: 
+Finally, we can evaluate the retrieved documents using this the official MS MARCO evaluation script:
 
 ```bash
 python tools/scripts/msmarco/msmarco_passage_eval.py \
@@ -244,7 +244,7 @@ We take the average of the scores across all queries (6980 in this case), and we
 You can find this run on the [MS MARCO Passage Ranking Leaderboard](https://microsoft.github.io/MSMARCO-Passage-Ranking-Submissions/leaderboard/) as the entry named "BM25 (Lucene8, tuned)", dated 2019/06/26.
 So you've just reproduced (part of) a leaderboard submission!
 
-We can also use the official [TREC](https://trec.nist.gov/) evaluation tool, `trec_eval`, to compute other metrics than MRR@10. 
+We can also use the official [TREC](https://trec.nist.gov/) evaluation tool, `trec_eval`, to compute other metrics than MRR@10.
 For that we first need to convert runs and qrels files to the TREC format:
 
 ```bash
@@ -523,3 +523,18 @@ The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to th
 + Results reproduced by [@antea-ab](https://github.com/antea-ab) on 2024-09-01 (commit [`e0a9578`](https://github.com/castorini/anserini/commit/e0a9578cd391674e8b3aa15ee25906b5fb442c9d))
 + Results reproduced by [@anshulsc](https://github.com/anshulsc) on 2024-09-06 (commit [`c096dff`](https://github.com/castorini/anserini/commit/c096dffe0d114af3bc4d8e4e71ebef4fe02bc94d))
 + Results reproduced by [@r-aya](https://github.com/r-aya) on 2024-09-07 (commit [`4319f89`](https://github.com/castorini/anserini/commit/4319f89472c4dd3359482f041dbcaee5202d8dd2))
++ Results reproduced by [@Amirkia1998](https://github.com/Amirkia1998) on 2024-09-20 (commit [`9e0cd5b`](https://github.com/castorini/anserini/commit/204bc87ef66e689773549ff804377eae20d5d7ce))
++ Results reproduced by [@CCarolD](https://github.com/CCarolD) on 2024-09-20 (commit [`2cb5d13`](https://github.com/castorini/anserini/commit/2cb5d1377862d49f70fa60cc452e96b31d815b94))
++ Results reproduced by [@pjyi2147](https://github.com/pjyi2147) on 2024-09-20 (commit [`2cb5d13`](https://github.com/castorini/anserini/commit/2cb5d1377862d49f70fa60cc452e96b31d815b94))
++ Results reproduced by [@krishh-p](https://github.com/krishh-p) on 2024-09-21 (commit [`f04321f`](https://github.com/castorini/anserini/commit/f04321f40b6eb64308ea90394749912b6199589d))
++ Results reproduced by [@andrewxucs](https://github.com/andrewxucs) on 2024-09-22 (commit [`4ef1de0`](https://github.com/castorini/anserini/commit/4ef1de032c98372298da63f11618ff0f0861b2a7))
++ Results reproduced by [@Hossein-Molaeian](https://github.com/Hossein-Molaeian) on 2024-09-22 (commit [`3641b48`](https://github.com/castorini/anserini/commit/3641b48688ced617a5a13c9029a174fccf0ef6c6))
++ Results reproduced by [@AhmedEssam19](https://github.com/AhmedEssam19) on 2024-09-27 (commit [`25523b4`](https://github.com/castorini/anserini/commit/25523b48597b4f061f7d016f888a124028b9b01f))
++ Results reproduced by [@sisixili](https://github.com/sisixili) on 2024-10-01 (commit [`25523b4`](https://github.com/castorini/anserini/commit/25523b48597b4f061f7d016f888a124028b9b01f))
++ Results reproduced by [@Raghav0005](https://github.com/Raghav0005) on 2024-10-07 (commit [`ee97c1d`](https://github.com/castorini/anserini/commit/ee97c1d5deeb684748723179711128f67557832c))
++ Results reproduced by [@a-y-m-a-n-c-h](https://github.com/a-y-m-a-n-c-h) on 2024-10-16 (commit [`0346842`](https://github.com/castorini/anserini/commit/03468423c820e1c0c38c9f48dc25d1f2f315831c))
++ Results reproduced by [@Samantha-Zhan](https://github.com/Samantha-Zhan) on 2024-10-20 (commit [`daceb40`](https://github.com/castorini/anserini/commit/daceb4084c8e8103e3e86c81a8e0d597d409220e))
++ Results reproduced by [@pxlin-09](https://github.com/pxlin-09) on 2024-10-26 (commit [`e2eb203`](https://github.com/castorini/anserini/commit/e2eb203b83dd643a356ee90f299c8877f6e108bd))
++ Results reproduced by [@b8zhong](https://github.com/b8zhong) on 2024-11-23 (commit [`c619dc8`](https://github.com/castorini/anserini/commit/c619dc8d9ab28298251964053a927906e9957f51))
++ Results reproduced by [@ShreyasP20](https://github.com/ShreyasP20) on 2024-11-24 (commit [`c619dc8`](https://github.com/castorini/anserini/commit/c619dc8d9ab28298251964053a927906e9957f51))
++ Results reproduced by [@Divyajyoti02](https://github.com/Divyajyoti02) on 2024-11-24 (commit [`a1bcf88`](https://github.com/castorini/anserini/commit/a1bcf8853062da9f73915c873968a4e998d4e904))

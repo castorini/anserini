@@ -49,8 +49,6 @@ public class ParquetDenseVectorDocumentGenerator<T extends SourceDocument> imple
   public Document createDocument(T src) throws InvalidDocumentException {
 
     try {
-      LOG.info("Processing document ID: " + src.id() + " with thread: " + Thread.currentThread().getName());
-
       // Parse vector data from document contents
       float[] contents = parseVectorFromString(src.contents());
       if (contents == null || contents.length == 0) {
@@ -58,15 +56,12 @@ public class ParquetDenseVectorDocumentGenerator<T extends SourceDocument> imple
         throw new InvalidDocumentException();
       }
 
-      LOG.info("Vector length: " + contents.length + " for document ID: " + src.id());
-
       // Create and populate the Lucene document
       final Document document = new Document();
       document.add(new StringField(Constants.ID, src.id(), Field.Store.YES));
       document.add(new BinaryDocValuesField(Constants.ID, new BytesRef(src.id())));
       document.add(new KnnFloatVectorField(Constants.VECTOR, contents, VectorSimilarityFunction.DOT_PRODUCT));
 
-      LOG.info("Document created for ID: " + src.id());
       return document;
 
     } catch (Exception e) {

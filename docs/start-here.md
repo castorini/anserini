@@ -112,7 +112,7 @@ It simply means: of the top 10 documents, what fraction are relevant according t
 For a query, if five of them are relevant, you get a score of 0.5; if nine of them are relevant, you get a score of 0.9.
 You compute P@10 per query, and then average across all queries.
 
-Information retrieval researchers have dozens of metrics, but a detailed explanation of each isn't important right now... 
+Information retrieval researchers have dozens of metrics, but a detailed explanation of each isn't important right now...
 just recognize that _all_ metrics are imperfect, but they try to capture different aspects of the quality of a ranked list in terms of containing relevant documents.
 For nearly all metrics, though, higher is better.
 
@@ -200,7 +200,7 @@ Look inside a file to see the json format we use.
 The entire collection is now something like this:
 
 ```bash
-$ wc collections/msmarco-passage/collection_jsonl/* 
+$ wc collections/msmarco-passage/collection_jsonl/*
  1000000 58716381 374524070 collections/msmarco-passage/collection_jsonl/docs00.json
  1000000 59072018 377845773 collections/msmarco-passage/collection_jsonl/docs01.json
  1000000 58895092 375856044 collections/msmarco-passage/collection_jsonl/docs02.json
@@ -217,7 +217,7 @@ As an aside, data munging along these lines is a very common data preparation op
 Collections rarely come in _exactly_ the format that your tools expect, so you'll be frequently writing lots of small scripts that munge data to convert from one format to another.
 
 Similarly, we'll also have to do a bit of data munging of the queries and the qrels.
-We're going to retain only the queries that are in the qrels file: 
+We're going to retain only the queries that are in the qrels file:
 
 ```bash
 python tools/scripts/msmarco/filter_queries.py \
@@ -252,7 +252,7 @@ These queries are taken from Bing search logs, so they're "realistic" web querie
 Okay, let's now cross-reference the `qid` with the relevance judgments, i.e., the qrels file:
 
 ```bash
-$ grep 1048585 collections/msmarco-passage/qrels.dev.small.tsv 
+$ grep 1048585 collections/msmarco-passage/qrels.dev.small.tsv
 1048585	0	7187158	1
 ```
 
@@ -282,7 +282,7 @@ Well, we've just seen that there are 6980 training queries.
 For those, we have 7437 relevance judgments:
 
 ```bash
-$ wc collections/msmarco-passage/qrels.dev.small.tsv  
+$ wc collections/msmarco-passage/qrels.dev.small.tsv
 7437   29748  143300 collections/msmarco-passage/qrels.dev.small.tsv
 ````
 
@@ -295,7 +295,7 @@ This is just looking at the development set.
 Now let's look at the training set:
 
 ```bash
-$ wc collections/msmarco-passage/qrels.train.tsv               
+$ wc collections/msmarco-passage/qrels.train.tsv
 532761 2131044 10589532 collections/msmarco-passage/qrels.train.tsv
 ```
 
@@ -407,3 +407,18 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@antea-ab](https://github.com/antea-ab) on 2024-08-31 (commit [`e0a9578`](https://github.com/castorini/anserini/commit/e0a9578cd391674e8b3aa15ee25906b5fb442c9d))
 + Results reproduced by [@anshulsc](https://github.com/anshulsc) on 2024-09-06 (commit [`c096dff`](https://github.com/castorini/anserini/commit/c096dffe0d114af3bc4d8e4e71ebef4fe02bc94d))
 + Results reproduced by [@r-aya](https://github.com/r-aya) on 2024-09-07 (commit [`4319f89`](https://github.com/castorini/anserini/commit/4319f89472c4dd3359482f041dbcaee5202d8dd2))
++ Results reproduced by [@Amirkia1998](https://github.com/Amirkia1998) on 2024-09-20 (commit [`9e0cd5b`](https://github.com/castorini/anserini/commit/204bc87ef66e689773549ff804377eae20d5d7ce))
++ Results reproduced by [@CCarolD](https://github.com/CCarolD) on 2024-09-20 (commit [`2cb5d13`](https://github.com/castorini/anserini/commit/2cb5d1377862d49f70fa60cc452e96b31d815b94))
++ Results reproduced by [@pjyi2147](https://github.com/pjyi2147) on 2024-09-20 (commit [`2cb5d13`](https://github.com/castorini/anserini/commit/2cb5d1377862d49f70fa60cc452e96b31d815b94))
++ Results reproduced by [@krishh-p](https://github.com/krishh-p) on 2024-09-21 (commit [`f04321f`](https://github.com/castorini/anserini/commit/f04321f40b6eb64308ea90394749912b6199589d))
++ Results reproduced by [@andrewxucs](https://github.com/andrewxucs) on 2024-09-22 (commit [`4ef1de0`](https://github.com/castorini/anserini/commit/4ef1de032c98372298da63f11618ff0f0861b2a7))
++ Results reproduced by [@Hossein-Molaeian](https://github.com/Hossein-Molaeian) on 2024-09-22 (commit [`3641b48`](https://github.com/castorini/anserini/commit/3641b48688ced617a5a13c9029a174fccf0ef6c6))
++ Results reproduced by [@AhmedEssam19](https://github.com/AhmedEssam19) on 2024-09-27 (commit [`25523b4`](https://github.com/castorini/anserini/commit/25523b48597b4f061f7d016f888a124028b9b01f))
++ Results reproduced by [@sisixili](https://github.com/sisixili) on 2024-10-01 (commit [`25523b4`](https://github.com/castorini/anserini/commit/25523b48597b4f061f7d016f888a124028b9b01f))
++ Results reproduced by [@Raghav0005](https://github.com/Raghav0005) on 2024-10-06 (commit [`ee97c1d`](https://github.com/castorini/anserini/commit/ee97c1d5deeb684748723179711128f67557832c))
++ Results reproduced by [@a-y-m-a-n-c-h](https://github.com/a-y-m-a-n-c-h) on 2024-10-16 (commit [`0346842`](https://github.com/castorini/anserini/commit/03468423c820e1c0c38c9f48dc25d1f2f315831c))
++ Results reproduced by [@Samantha-Zhan](https://github.com/Samantha-Zhan) on 2024-10-20 (commit [`daceb40`](https://github.com/castorini/anserini/commit/daceb4084c8e8103e3e86c81a8e0d597d409220e))
++ Results reproduced by [@pxlin-09](https://github.com/pxlin-09) on 2024-10-26 (commit [`e2eb203`](https://github.com/castorini/anserini/commit/e2eb203b83dd643a356ee90f299c8877f6e108bd))
++ Results reproduced by [@b8zhong](https://github.com/b8zhong) on 2024-11-23 (commit [`c619dc8`](https://github.com/castorini/anserini/commit/c619dc8d9ab28298251964053a927906e9957f51))
++ Results reproduced by [@ShreyasP20](https://github.com/ShreyasP20) on 2024-11-24 (commit[`c619dc8`](https://github.com/castorini/anserini/commit/c619dc8d9ab28298251964053a927906e9957f51))
++ Results reproduced by [@Divyajyoti02](https://github.com/Divyajyoti02) on 2024-11-24 (commit [`a1bcf88`](https://github.com/castorini/anserini/commit/a1bcf8853062da9f73915c873968a4e998d4e904))

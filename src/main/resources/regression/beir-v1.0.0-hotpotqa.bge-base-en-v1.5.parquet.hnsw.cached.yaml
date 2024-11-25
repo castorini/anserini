@@ -1,7 +1,8 @@
+---
 corpus: beir-v1.0.0-hotpotqa.bge-base-en-v1.5
 corpus_path: collections/beir-v1.0.0/bge-base-en-v1.5/hotpotqa.parquet
 
-index_path: indexes/parquet/hotpotqa
+index_path: indexes/lucene-hnsw.beir-v1.0.0-hotpotqa.bge-base-en-v1.5/
 index_type: hnsw
 collection_class: ParquetDenseVectorCollection
 generator_class: ParquetDenseVectorDocumentGenerator
@@ -9,45 +10,51 @@ index_threads: 16
 index_options: -M 16 -efC 100
 
 metrics:
-- metric: nDCG@10
-  command: bin/trec_eval
-  params: -c -m ndcg_cut.10
-  separator: "\t"
-  parse_index: 2
-  metric_precision: 4
-  can_combine: false
-- metric: R@100
-  command: bin/trec_eval
-  params: -c -m recall.100
-  separator: "\t"
-  parse_index: 2
-  metric_precision: 4
-  can_combine: false
-- metric: R@1000
-  command: bin/trec_eval
-  params: -c -m recall.1000
-  separator: "\t"
-  parse_index: 2
-  metric_precision: 4
-  can_combine: false
+  - metric: nDCG@10
+    command: bin/trec_eval
+    params: -c -m ndcg_cut.10
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: bin/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: bin/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
 
 topic_reader: JsonStringVector
 topics:
-- name: "BEIR (v1.0.0): HotpotQA"
-  id: test
-  path: topics.beir-v1.0.0-hotpotqa.test.bge-base-en-v1.5.jsonl.gz
-  qrel: qrels.beir-v1.0.0-hotpotqa.test.txt
+  - name: "BEIR (v1.0.0): HotpotQA"
+    id: test
+    path: topics.beir-v1.0.0-hotpotqa.test.bge-base-en-v1.5.jsonl.gz
+    qrel: qrels.beir-v1.0.0-hotpotqa.test.txt
 
 models:
-- name: bge-hnsw-cached
-  display: BGE-base-en-v1.5
-  type: hnsw
-  params: -generator VectorQueryGenerator -topicField vector -removeQuery -threads
-    16 -hits 1000 -efSearch 1000
-  results:
-    nDCG@10:
-    - 0.7259
-    R@100:
-    - 0.8727
-    R@1000:
-    - 0.9424
+  - name: bge-hnsw-cached
+    display: BGE-base-en-v1.5
+    type: hnsw
+    params: -hits 1000 -efSearch 1000 -removeQuery -threads 16
+    results:
+      nDCG@10:
+        - 0.7259
+      R@100:
+        - 0.8727
+      R@1000:
+        - 0.9424
+    tolerance:
+      nDCG@10:
+        - 0.02
+      R@100:
+        - 0.02
+      R@1000:
+        - 0.02
