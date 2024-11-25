@@ -105,7 +105,7 @@ Each of these [_end-to-end_ regressions](docs/regressions.md) starts from the ra
 See individual pages for details.
 
 <details>
-<summary>MS MARCO V1 Passage Regressions</summary>
+<summary>MS MARCO V1 Passage Regressions (dev queries, TREC DL 19/20)</summary>
 
 ### MS MARCO V1 Passage Regressions
 
@@ -168,7 +168,7 @@ Key:
 
 </details>
 <details>
-<summary>MS MARCO V1 Document Regressions</summary>
+<summary>MS MARCO V1 Document Regressions (dev queries, TREC DL 19/20)</summary>
 
 ### MS MARCO V1 Document Regressions
 
@@ -198,7 +198,7 @@ Key:
 
 </details>
 <details>
-<summary>MS MARCO V2 Passage Regressions</summary>
+<summary>MS MARCO V2 Passage Regressions (dev/dev2 queries, TREC DL 21/22/23)</summary>
 
 ### MS MARCO V2 Passage Regressions
 
@@ -229,7 +229,7 @@ Key:
 
 </details>
 <details>
-<summary>MS MARCO V2 Document Regressions</summary>
+<summary>MS MARCO V2 Document Regressions (dev/dev2 queries, TREC DL 21/22/23)</summary>
 
 ### MS MARCO V2 Document Regressions
 
@@ -254,12 +254,28 @@ Key:
 
 </details>
 <details>
-<summary>MS MARCO V2.1 Document Regressions</summary>
+<summary>MS MARCO V2.1 Passage Regressions (TREC RAG 24)</summary>
+
+### MS MARCO V2.1 Passage Regressions
+
+The MS MARCO V2.1 corpora were derived from the V2 corpora for the TREC 2024 RAG Track.
+Instructions for downloading the corpus can be found [here](https://trec-rag.github.io/annoucements/2024-corpus-finalization/).
+The experiments below use _passage-level_ qrels.
+
+|           |                            RAG 24                             |
+|-----------|:-------------------------------------------------------------:|
+| baselines | [+](docs/regressions/regressions-rag24-doc-segmented-test.md) |
+
+</details>
+<details>
+<summary>MS MARCO V2.1 Document Regressions (dev set for TREC RAG 24)</summary>
 
 ### MS MARCO V2.1 Document Regressions
 
 The MS MARCO V2.1 corpora were derived from the V2 corpora for the TREC 2024 RAG Track.
-The experiments below capture topics and qrels originally targeted at the V2 corpora, but have been "projected" over to the V2.1 corpora.
+Instructions for downloading the corpus can be found [here](https://trec-rag.github.io/annoucements/2024-corpus-finalization/).
+The experiments below capture topics and _document-level_ qrels originally targeted at the V2 corpora, but have been "projected" over to the V2.1 corpora.
+These should be treated like dev topics for the TREC 2024 RAG Track; actual qrels for that track were generated at the passage level.
 
 |                                         |                               dev                               |                                 DL21                                 |                                 DL22                                 |                                 DL23                                 |                             RAGgy dev                              |
 |-----------------------------------------|:---------------------------------------------------------------:|:--------------------------------------------------------------------:|:--------------------------------------------------------------------:|:--------------------------------------------------------------------:|:------------------------------------------------------------------:|
