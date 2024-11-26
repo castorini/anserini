@@ -15,35 +15,35 @@ index_stats:
 metrics:
   - metric: MAP@100
     command: bin/trec_eval
-    params: -c -M 100 -m map
+    params: -c -l 2 -M 100 -m map
     separator: "\t"
     parse_index: 2
     metric_precision: 4
     can_combine: no
   - metric: MRR@100
     command: bin/trec_eval
-    params: -c -M 100 -m recip_rank
+    params: -c -l 2 -M 100 -m recip_rank
     separator: "\t"
     parse_index: 2
     metric_precision: 4
     can_combine: true
   - metric: nDCG@10
     command: bin/trec_eval
-    params: -c -m ndcg_cut.10
+    params: -c -l 2 -m ndcg_cut.10
     separator: "\t"
     parse_index: 2
     metric_precision: 4
     can_combine: true
   - metric: R@100
     command: bin/trec_eval
-    params: -c -m recall.100
+    params: -c -l 2 -m recall.100
     separator: "\t"
     parse_index: 2
     metric_precision: 4
     can_combine: false
   - metric: R@1000
     command: bin/trec_eval
-    params: -c -m recall.1000
+    params: -c -l 2 -m recall.1000
     separator: "\t"
     parse_index: 2
     metric_precision: 4
@@ -62,40 +62,40 @@ models:
     params: -bm25
     results:
       MAP@100:
-        - 0.0861
+        - 0.0582
       MRR@100:
-        - 0.7010
+        - 0.3833
       nDCG@10:
         - 0.3290
       R@100:
-        - 0.1395
+        - 0.1396
       R@1000:
-        - 0.3467
+        - 0.3364
   - name: bm25-default+rm3
     display: +RM3
     params: -bm25 -rm3 -collection MsMarcoV2DocCollection
     results:
       MAP@100:
-        - 0.0873
+        - 0.0604
       MRR@100:
-        - 0.6687
+        - 0.3601
       nDCG@10:
         - 0.3256
       R@100:
-        - 0.1318
+        - 0.1347
       R@1000:
-        - 0.3521
+        - 0.3318
   - name: bm25-default+rocchio
     display: +Rocchio
     params: -bm25 -rocchio -collection MsMarcoV2DocCollection
     results:
       MAP@100:
-        - 0.0929
+        - 0.0642
       MRR@100:
-        - 0.6791
+        - 0.3715
       nDCG@10:
         - 0.3307
       R@100:
-        - 0.1384
+        - 0.1402
       R@1000:
-        - 0.3667
+        - 0.3469
