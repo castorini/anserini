@@ -82,4 +82,5 @@ For convenience, we also provide pre-built indexes above.
 ## Reproduction Log[*](reproducibility.md)
 
 + Results reproduced by [@stephaniewhoo](http://github.com/stephaniewhoo) on 2020-11-24 (commit [`b7f1f08`](https://github.com/castorini/anserini/commit/b7f1f08689014159c1d5b2c9b9905b363af1cbbf))
++ Results reproduced by [@b8zhong](http://github.com/b8zhong) on 2024-11-27 (commit [`a5e6771`](https://github.com/castorini/anserini/commit/a5e6771a0aedcfb1c394e345636236d536c8c57d))
 
