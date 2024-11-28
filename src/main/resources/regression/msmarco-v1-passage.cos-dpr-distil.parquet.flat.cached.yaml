@@ -1,6 +1,6 @@
 ---
 corpus: msmarco-passage-cos-dpr-distil
-corpus_path: collections/msmarco/msmarco-passage-cos-dpr-distil/
+corpus_path: collections/msmarco/msmarco-passage-cos-dpr-distil.parquet/
 
 download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cos-dpr-distil.tar
 download_checksum: e20ffbc8b5e7f760af31298aefeaebbd
