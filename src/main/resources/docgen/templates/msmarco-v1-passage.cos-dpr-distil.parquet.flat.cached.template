@@ -36,7 +36,7 @@ wget ${download_url} -P collections/
 tar xvf collections/${corpus}.tar -C collections/
 ```
 
-To confirm, `${corpus}.tar` is 57 GB and has MD5 checksum `${download_checksum}`.
+To confirm, `${corpus}.tar` is 38 GB and has MD5 checksum `${download_checksum}`.
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash

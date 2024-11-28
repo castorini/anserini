@@ -17,7 +17,7 @@ From one of our Waterloo servers (e.g., `orca`), the following command will perf
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.bge-base-en-v1.5.parquet.flat.cached
 ```
 
-We make available a version of the MS MARCO Passage Corpus that has already been encoded with cosDPR-distil.
+We make available a version of the MS MARCO Passage Corpus that has already been encoded by the BGE-base-en-v1.5 model.
 
 From any machine, the following command will download the corpus and perform the complete regression, end to end:
 
@@ -32,11 +32,11 @@ The `run_regression.py` script automates the following steps, but if you want to
 Download the corpus and unpack into `collections/`:
 
 ```bash
-wget https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-bge-base-en-v1.5.tar -P collections/
+wget https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-bge-base-en-v1.5.parquet.tar -P collections/
 tar xvf collections/msmarco-passage-bge-base-en-v1.5.tar -C collections/
 ```
 
-To confirm, `msmarco-passage-bge-base-en-v1.5.tar` is 59 GB and has MD5 checksum `353d2c9e72e858897ad479cca4ea0db1`.
+To confirm, `msmarco-passage-bge-base-en-v1.5.tar` is 39 GB and has MD5 checksum `b235e19ec492c18a18057b30b8b23fd4`.
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash

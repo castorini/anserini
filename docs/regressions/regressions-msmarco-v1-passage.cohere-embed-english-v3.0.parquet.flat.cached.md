@@ -30,11 +30,11 @@ The `run_regression.py` script automates the following steps, but if you want to
 Download the corpus and unpack into `collections/`:
 
 ```bash
-wget https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cohere-embed-english-v3.0.tar -P collections/
+wget https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cohere-embed-english-v3.0.parquet.tar -P collections/
 tar xvf collections/msmarco-passage-cohere-embed-english-v3.0.tar -C collections/
 ```
 
-To confirm, `msmarco-passage-cohere-embed-english-v3.0.tar` is 38 GB and has MD5 checksum `06a6e38a0522850c6aa504db7b2617f5`.
+To confirm, `msmarco-passage-cohere-embed-english-v3.0.tar` is 16 GB and has MD5 checksum `40c5caf33476746e93ceeb75174b8d64`.
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash

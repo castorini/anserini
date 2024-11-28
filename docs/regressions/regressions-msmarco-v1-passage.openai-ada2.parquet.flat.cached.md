@@ -32,11 +32,11 @@ The `run_regression.py` script automates the following steps, but if you want to
 Download the corpus and unpack into `collections/`:
 
 ```bash
-wget https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-openai-ada2.tar -P collections/
+wget https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-openai-ada2.parquet.tar -P collections/
 tar xvf collections/msmarco-passage-openai-ada2.tar -C collections/
 ```
 
-To confirm, `msmarco-passage-openai-ada2.tar` is 109 GB and has MD5 checksum `a4d843d522ff3a3af7edbee789a63402`.
+To confirm, `msmarco-passage-openai-ada2.tar` is 75 GB and has MD5 checksum `fa3637e9c4150b157270e19ef3a4f779`.
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
