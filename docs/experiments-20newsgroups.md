@@ -41,7 +41,7 @@ Now you should see the train and test splits merged into one folder in `collecti
 To index train and test together:
 
 ```bash
-java -cp target/anserini-*-fatjar.jar io.anserini.index.IndexCollection \
+bin/run.sh io.anserini.index.IndexCollection \
   -collection TwentyNewsgroupsCollection \
   -input collections/20newsgroups/20news-bydate \
   -index indexes/lucene-index.20newsgroups.all \
@@ -52,7 +52,7 @@ java -cp target/anserini-*-fatjar.jar io.anserini.index.IndexCollection \
 To index just the train set:
 
 ```bash
-java -cp target/anserini-*-fatjar.jar io.anserini.index.IndexCollection \
+bin/run.sh io.anserini.index.IndexCollection \
   -collection TwentyNewsgroupsCollection \
   -input collections/20newsgroups/20news-bydate-train \
   -index indexes/lucene-index.20newsgroups.train \
@@ -63,7 +63,7 @@ java -cp target/anserini-*-fatjar.jar io.anserini.index.IndexCollection \
 To index just the test set:
 
 ```bash
-java -cp target/anserini-*-fatjar.jar io.anserini.index.IndexCollection \
+bin/run.sh io.anserini.index.IndexCollection \
   -collection TwentyNewsgroupsCollection \
   -input collections/20newsgroups/20news-bydate-test \
   -index indexes/lucene-index.20newsgroups.test \
@@ -76,7 +76,7 @@ Indexing should take just a few seconds.
 You can check the document count (for train and test together, or train/test individually) with:
 
 ```bash
-java -cp target/anserini-*-fatjar.jar io.anserini.index.IndexReaderUtils \
+bin/run.sh io.anserini.index.IndexReaderUtils \
   -index indexes/lucene-index.20newsgroups.all \
   -stats
 ```
