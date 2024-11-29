@@ -73,10 +73,13 @@ bin/run.sh io.anserini.index.IndexCollection \
 And perform retrieval:
 
 ```
-python tools/scripts/msmarco/retrieve.py --hits 1000 \
- --index indexes/msmarco-passage/lucene-index-msmarco-expanded-topk10 \
- --queries collections/msmarco-passage/queries.dev.small.tsv \
- --output runs/run.msmarco-passage.dev.small.expanded-topk10.tsv
+python -m pyserini.search.lucene \
+  --index indexes/msmarco-passage/lucene-index-msmarco-expanded-topk10 \
+  --topics collections/msmarco-passage/queries.dev.small.tsv \
+  --topics-format default \
+  --output runs/run.msmarco-passage.dev.small.expanded-topk10.tsv \
+  --output-format msmarco \
+  --bm25 --k1 0.82 --b 0.68 --hits 1000
 ```
 
 Alternatively, we can use the Java implementation of the above script, which is faster (taking advantage of multi-threaded retrieval with the `-threads` option):
@@ -99,7 +102,7 @@ The output should be:
 
 ```
 #####################
-MRR @10: 0.2213412471005586
+MRR @10: 0.22134124710055886
 QueriesRanked: 6980
 #####################
 ```
