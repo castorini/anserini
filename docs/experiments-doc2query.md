@@ -171,10 +171,12 @@ To verify (and to track progress), the above script will generate a total of 30 
 After the script completes, we can index the expanded documents:
 
 ```
-sh target/appassembler/bin/IndexCollection -collection JsonCollection \
- -generator DefaultLuceneDocumentGenerator -threads 30 \
- -input collections/trec_car/collection_jsonl_expanded_topk10 \
- -index indexes/trec_car/lucene-index.car17v2.0-expanded-topk10
+bin/run.sh io.anserini.index.IndexCollection \
+  -collection JsonCollection \
+  -generator DefaultLuceneDocumentGenerator \
+  -threads 30 \
+  -input collections/trec_car/collection_jsonl_expanded_topk10 \
+  -index indexes/trec_car/lucene-index.car17v2.0-expanded-topk10
 ```
 
 And perform retrieval on the test queries:
