@@ -33,15 +33,15 @@ Download the corpus and unpack into `collections/`:
 
 ```bash
 wget https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-bge-base-en-v1.5.parquet.tar -P collections/
-tar xvf collections/msmarco-passage-bge-base-en-v1.5.tar -C collections/
+tar xvf collections/msmarco-passage-bge-base-en-v1.5.parquet.tar -C collections/
 ```
 
-To confirm, `msmarco-passage-bge-base-en-v1.5.tar` is 39 GB and has MD5 checksum `b235e19ec492c18a18057b30b8b23fd4`.
+To confirm, `msmarco-passage-bge-base-en-v1.5.parquet.tar` is 39 GB and has MD5 checksum `b235e19ec492c18a18057b30b8b23fd4`.
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.bge-base-en-v1.5.parquet.flat.cached \
-  --corpus-path collections/msmarco-passage-bge-base-en-v1.5
+  --corpus-path collections/msmarco-passage-bge-base-en-v1.5.parquet
 ```
 
 ## Indexing
@@ -52,13 +52,13 @@ Sample indexing command, building flat indexes:
 bin/run.sh io.anserini.index.IndexFlatDenseVectors \
   -threads 16 \
   -collection ParquetDenseVectorCollection \
-  -input /path/to/msmarco-passage-bge-base-en-v1.5 \
+  -input /path/to/msmarco-passage-bge-base-en-v1.5.parquet \
   -generator ParquetDenseVectorDocumentGenerator \
   -index indexes/lucene-flat.msmarco-v1-passage.bge-base-en-v1.5/ \
-  >& logs/log.msmarco-passage-bge-base-en-v1.5 &
+  >& logs/log.msmarco-passage-bge-base-en-v1.5.parquet &
 ```
 
-The path `/path/to/msmarco-passage-bge-base-en-v1.5/` should point to the corpus downloaded above.
+The path `/path/to/msmarco-passage-bge-base-en-v1.5.parquet/` should point to the corpus downloaded above.
 Upon completion, we should have an index with 8,841,823 documents.
 
 ## Retrieval
@@ -73,17 +73,17 @@ bin/run.sh io.anserini.search.SearchFlatDenseVectors \
   -index indexes/lucene-flat.msmarco-v1-passage.bge-base-en-v1.5/ \
   -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.bge-base-en-v1.5.jsonl.gz \
   -topicReader JsonIntVector \
-  -output runs/run.msmarco-passage-bge-base-en-v1.5.bge-flat-cached.topics.msmarco-passage.dev-subset.bge-base-en-v1.5.jsonl.txt \
+  -output runs/run.msmarco-passage-bge-base-en-v1.5.parquet.bge-flat-cached.topics.msmarco-passage.dev-subset.bge-base-en-v1.5.jsonl.txt \
   -hits 1000 -threads 16 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-bge-base-en-v1.5.bge-flat-cached.topics.msmarco-passage.dev-subset.bge-base-en-v1.5.jsonl.txt
-bin/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-bge-base-en-v1.5.bge-flat-cached.topics.msmarco-passage.dev-subset.bge-base-en-v1.5.jsonl.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-bge-base-en-v1.5.bge-flat-cached.topics.msmarco-passage.dev-subset.bge-base-en-v1.5.jsonl.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-bge-base-en-v1.5.bge-flat-cached.topics.msmarco-passage.dev-subset.bge-base-en-v1.5.jsonl.txt
+bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-bge-base-en-v1.5.parquet.bge-flat-cached.topics.msmarco-passage.dev-subset.bge-base-en-v1.5.jsonl.txt
+bin/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-bge-base-en-v1.5.parquet.bge-flat-cached.topics.msmarco-passage.dev-subset.bge-base-en-v1.5.jsonl.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-bge-base-en-v1.5.parquet.bge-flat-cached.topics.msmarco-passage.dev-subset.bge-base-en-v1.5.jsonl.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-bge-base-en-v1.5.parquet.bge-flat-cached.topics.msmarco-passage.dev-subset.bge-base-en-v1.5.jsonl.txt
 ```
 
 ## Effectiveness

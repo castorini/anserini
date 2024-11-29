@@ -33,15 +33,15 @@ Download the corpus and unpack into `collections/`:
 
 ```bash
 wget https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cos-dpr-distil.parquet.tar -P collections/
-tar xvf collections/msmarco-passage-cos-dpr-distil.tar -C collections/
+tar xvf collections/msmarco-passage-cos-dpr-distil.parquet.tar -C collections/
 ```
 
-To confirm, `msmarco-passage-cos-dpr-distil.tar` is 38 GB and has MD5 checksum `c8a204fbc3ccda581aa375936af43a97`.
+To confirm, `msmarco-passage-cos-dpr-distil.parquet.tar` is 38 GB and has MD5 checksum `c8a204fbc3ccda581aa375936af43a97`.
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cos-dpr-distil.parquet.flat.cached \
-  --corpus-path collections/msmarco-passage-cos-dpr-distil
+  --corpus-path collections/msmarco-passage-cos-dpr-distil.parquet
 ```
 
 ## Indexing
@@ -52,13 +52,13 @@ Sample indexing command, building flat indexes:
 bin/run.sh io.anserini.index.IndexFlatDenseVectors \
   -threads 16 \
   -collection ParquetDenseVectorCollection \
-  -input /path/to/msmarco-passage-cos-dpr-distil \
+  -input /path/to/msmarco-passage-cos-dpr-distil.parquet \
   -generator ParquetDenseVectorDocumentGenerator \
   -index indexes/lucene-flat.msmarco-v1-passage.cos-dpr-distil/ \
-  >& logs/log.msmarco-passage-cos-dpr-distil &
+  >& logs/log.msmarco-passage-cos-dpr-distil.parquet &
 ```
 
-The path `/path/to/msmarco-passage-cos-dpr-distil/` should point to the corpus downloaded above.
+The path `/path/to/msmarco-passage-cos-dpr-distil.parquet/` should point to the corpus downloaded above.
 Upon completion, we should have an index with 8,841,823 documents.
 
 ## Retrieval
@@ -73,17 +73,17 @@ bin/run.sh io.anserini.search.SearchFlatDenseVectors \
   -index indexes/lucene-flat.msmarco-v1-passage.cos-dpr-distil/ \
   -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.gz \
   -topicReader JsonIntVector \
-  -output runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-flat-cached.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt \
+  -output runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-flat-cached.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt \
   -hits 1000 -threads 16 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-flat-cached.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
-bin/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-flat-cached.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-flat-cached.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-flat-cached.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
+bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-flat-cached.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
+bin/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-flat-cached.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-flat-cached.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-flat-cached.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
 ```
 
 ## Effectiveness

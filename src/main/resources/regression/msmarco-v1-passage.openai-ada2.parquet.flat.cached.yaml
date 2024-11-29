@@ -1,5 +1,5 @@
 ---
-corpus: msmarco-passage-openai-ada2
+corpus: msmarco-passage-openai-ada2.parquet
 corpus_path: collections/msmarco/msmarco-passage-openai-ada2.parquet/
 
 download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-openai-ada2.parquet.tar
