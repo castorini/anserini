@@ -31,8 +31,7 @@ Before going through this guide, it is recommended that you [reproduce our BM25 
 To start, grab the predicted queries:
 
 ```bash
-# Grab tarball from either one of two sources:
-wget https://www.dropbox.com/s/57g2s9vhthoewty/msmarco-passage-pred-test_topk10.tar.gz -P collections/msmarco-passage
+# Grab tarball:
 wget https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/base/msmarco-passage-pred-test_topk10.tar.gz -P collections/msmarco-passage
 
 # Unpack tarball:
@@ -62,8 +61,10 @@ To verify (and to track progress), the above script will generate a total of 9 J
 After the script completes, we can index the expanded documents:
 
 ```
-sh target/appassembler/bin/IndexCollection -collection JsonCollection \
- -generator DefaultLuceneDocumentGenerator -threads 9 \
+bin/run.sh io.anserini.index.IndexCollection \
+ -collection JsonCollection \
+ -generator DefaultLuceneDocumentGenerator \
+ -threads 6 \
  -input collections/msmarco-passage/collection_jsonl_expanded_topk10 \
  -index indexes/msmarco-passage/lucene-index-msmarco-expanded-topk10 \
  -storePositions -storeDocvectors -storeRaw
