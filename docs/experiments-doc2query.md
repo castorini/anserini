@@ -85,10 +85,15 @@ python -m pyserini.search.lucene \
 Alternatively, we can use the Java implementation of the above script, which is faster (taking advantage of multi-threaded retrieval with the `-threads` option):
 
 ```
-sh target/appassembler/bin/SearchMsmarco  -hits 1000 -threads 8 \
- -index indexes/msmarco-passage/lucene-index-msmarco-expanded-topk10 \
- -queries collections/msmarco-passage/queries.dev.small.tsv \
- -output runs/run.msmarco-passage.dev.small.expanded-topk10.tsv
+bin/run.sh io.anserini.search.SearchCollection \
+  -index indexes/msmarco-passage/lucene-index-msmarco-expanded-topk10 \
+  -topics collections/msmarco-passage/queries.dev.small.tsv \
+  -topicReader TsvInt \
+  -output runs/run.msmarco-passage.dev.small.expanded-topk10.tsv \
+  -format msmarco \
+  -hits 1000 \
+  -threads 8 \
+  -bm25 -bm25.k1 0.82 -bm25.b 0.68
 ```
 
 Finally, to evaluate:
