@@ -189,9 +189,9 @@ sh target/appassembler/bin/SearchCollection -topicReader Car \
 Evaluation is performed with `trec_eval`:
 
 ```
-target/appassembler/bin/trec_eval -c -m map -c -m recip_rank \
- tools/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt \
- runs/run.car17v2.0.bm25.expanded-topk10.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -m recip_rank \
+tools/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt \
+runs/run.car17v2.0.bm25.expanded-topk10.txt
 ```
 
 With the above commands, you should be able to reproduce the following results:
@@ -212,3 +212,4 @@ TREC CAR corpus v2.0 in this experiment instead of corpus v1.5 used in the paper
 + Results reproduced by [@HangCui0510](https://github.com/HangCui0510) on 2020-04-23 (commit [`0ae567d`](https://github.com/castorini/anserini/commit/0ae567df5c8a70ac211efd958c9ca1ff609ff782))
 + Results reproduced by [@kelvin-jiang](https://github.com/kelvin-jiang) on 2020-05-25 (commit [`b6e0367`](https://github.com/castorini/anserini/commit/b6e0367ef4e2b4fce9d81c8397ef1188e35971e7))
 + Results reproduced by [@lintool](https://github.com/lintool) on 2020-11-09 (commit [`94eae4`](https://github.com/castorini/anserini/commit/94eae4e06678446954446f2d47dae1666efe134f))
++ Results reproduced by [@b8zhong](https://github.com/b8zhong) on 2024-11-24 (commit [`778968f`](https://github.com/castorini/pyserini/commit/778968fd3a4ab7e2e756d9f7e58aca0314bfbf5d))
