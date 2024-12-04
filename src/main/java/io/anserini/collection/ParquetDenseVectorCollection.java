@@ -137,16 +137,16 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
       // Read each record from the Parquet file
       while ((record = reader.read()) != null) {
         // Extract the docid (String) from the record
-        String docid = record.getString("docid", 0);
+        String docid = record.getString("doc_id", 0);
         ids.add(docid);
 
         // Extract the vector (double[]) from the record
-        Group vectorGroup = record.getGroup("vector", 0); // Access the 'vector' field
+        Group vectorGroup = record.getGroup("embedding", 0); // Access the 'vector' field
         int vectorSize = vectorGroup.getFieldRepetitionCount(0); // Get the number of elements in the vector
         double[] vector = new double[vectorSize];
         for (int i = 0; i < vectorSize; i++) {
           Group listGroup = vectorGroup.getGroup(0, i); // Access the 'list' group
-          vector[i] = listGroup.getDouble("element", 0); // Get the double value from the 'element' field
+          vector[i] = listGroup.getFloat("element", 0); // Get the double value from the 'element' field
         }
         vectors.add(vector);
       }
