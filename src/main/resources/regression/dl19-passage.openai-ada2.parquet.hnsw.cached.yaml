@@ -1,9 +1,9 @@
 ---
-corpus: msmarco-passage-openai-ada2
-corpus_path: collections/msmarco/msmarco-passage-openai-ada2/
+corpus: msmarco-passage-openai-ada2.parquet
+corpus_path: collections/msmarco/msmarco-passage-openai-ada2.parquet/
 
-download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-openai-ada2.tar
-download_checksum: a4d843d522ff3a3af7edbee789a63402
+download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-openai-ada2.parquet.tar
+download_checksum: fa3637e9c4150b157270e19ef3a4f779
 
 index_path: indexes/lucene-hnsw.msmarco-v1-passage.openai-ada2/
 index_type: hnsw
