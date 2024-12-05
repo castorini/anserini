@@ -1,0 +1,74 @@
+---
+corpus: msmarco-passage-openai-ada2
+corpus_path: collections/msmarco/msmarco-passage-openai-ada2/
+
+download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-openai-ada2.tar
+download_checksum: a4d843d522ff3a3af7edbee789a63402
+
+index_path: indexes/lucene-flat-int8.msmarco-v1-passage.openai-ada2/
+index_type: flat
+collection_class: ParquetDenseVectorCollection
+generator_class: ParquetDenseVectorDocumentGenerator
+index_threads: 16
+index_options: -quantize.int8
+
+metrics:
+  - metric: AP@1000
+    command: bin/trec_eval
+    params: -m map -c -l 2
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: nDCG@10
+    command: bin/trec_eval
+    params: -m ndcg_cut.10 -c
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: bin/trec_eval
+    params: -m recall.100 -c -l 2
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: bin/trec_eval
+    params: -m recall.1000 -c -l 2
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: JsonIntVector
+topics:
+  - name: "[DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)"
+    id: dl19
+    path: topics.dl19-passage.openai-ada2.jsonl.gz
+    qrel: qrels.dl19-passage.txt
+
+models:
+  - name: openai-ada2-flat-int8-cached
+    display: OpenAI-ada2
+    type: flat
+    params: -hits 1000 -threads 16
+    results:
+      AP@1000:
+        - 0.4788
+      nDCG@10:
+        - 0.7035
+      R@100:
+        - 0.6235
+      R@1000:
+        - 0.8629
+    tolerance:
+      AP@1000:
+        - 0.002
+      nDCG@10:
+        - 0.002
+      R@100:
+        - 0.007
+      R@1000:
+        - 0.008
