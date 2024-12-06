@@ -129,7 +129,7 @@ See individual pages for details.
 | SPLADE++ CoCondenser-EnsembleDistil        |                                                                                                                         [🫙](docs/regressions/regressions-msmarco-v1-passage.splade-pp-ed.cached.md)[🅾️](docs/regressions/regressions-msmarco-v1-passage.splade-pp-ed.onnx.md)                                                                                                                          |                                                                                                                   [🫙](docs/regressions/regressions-dl19-passage.splade-pp-ed.cached.md)[🅾️](docs/regressions/regressions-dl19-passage.splade-pp-ed.onnx.md)                                                                                                                   |                                                                                                                   [🫙](docs/regressions/regressions-dl20-passage.splade-pp-ed.cached.md)[🅾️](docs/regressions/regressions-dl20-passage.splade-pp-ed.onnx.md)                                                                                                                   |
 | SPLADE++ CoCondenser-SelfDistil            |                                                                                                                         [🫙](docs/regressions/regressions-msmarco-v1-passage.splade-pp-sd.cached.md)[🅾️](docs/regressions/regressions-msmarco-v1-passage.splade-pp-sd.onnx.md)                                                                                                                          |                                                                                                                   [🫙](docs/regressions/regressions-dl19-passage.splade-pp-sd.cached.md)[🅾️](docs/regressions/regressions-dl19-passage.splade-pp-sd.onnx.md)                                                                                                                   |                                                                                                                   [🫙](docs/regressions/regressions-dl20-passage.splade-pp-sd.cached.md)[🅾️](docs/regressions/regressions-dl20-passage.splade-pp-sd.onnx.md)                                                                                                                   |
 | **Learned Dense** (HNSW indexes)           |                                                                                                                                                                                                                                                                                                                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                 |                                                                                                                                                                                                                                                                                                                                                                                 |
-| cosDPR-distil                              |     full:[🫙](docs/regressions/regressions-msmarco-v1-passage.cos-dpr-distil.parquet.hnsw.cached.md)[🅾️](docs/regressions/regressions-msmarco-v1-passage.cos-dpr-distil.parquet.hnsw.onnx.md) int8:[🫙](docs/regressions/regressions-msmarco-v1-passage.cos-dpr-distil.parquet.hnsw-int8.cached.md)[🅾️](docs/regressions/regressions-msmarco-v1-passage.parquet.cos-dpr-distil.hnsw-int8.onnx.md)      |     full:[🫙](docs/regressions/regressions-dl19-passage.cos-dpr-distil.parquet.hnsw.cached.md)[🅾️](docs/regressions/regressions-dl19-passage.cos-dpr-distil.parquet.hnsw.onnx.md) int8:[🫙](docs/regressions/regressions-dl19-passage.cos-dpr-distil.parquet.hnsw-int8.cached.md)[🅾️](docs/regressions/regressions-dl19-passage.cos-dpr-distil.parquet.hnsw-int8.onnx.md)     |     full:[🫙](docs/regressions/regressions-dl20-passage.cos-dpr-distil.parquet.hnsw.cached.md)[🅾️](docs/regressions/regressions-dl20-passage.cos-dpr-distil.parquet.hnsw.onnx.md) int8:[🫙](docs/regressions/regressions-dl20-passage.cos-dpr-distil.parquet.hnsw-int8.cached.md)[🅾️](docs/regressions/regressions-dl20-passage.cos-dpr-distil.parquet.hnsw-int8.onnx.md)     |
+| cosDPR-distil                              |     full:[🫙](docs/regressions/regressions-msmarco-v1-passage.cos-dpr-distil.parquet.hnsw.cached.md)[🅾️](docs/regressions/regressions-msmarco-v1-passage.cos-dpr-distil.parquet.hnsw.onnx.md) int8:[🫙](docs/regressions/regressions-msmarco-v1-passage.cos-dpr-distil.parquet.hnsw-int8.cached.md)[🅾️](docs/regressions/regressions-msmarco-v1-passage.cos-dpr-distil.parquet.hnsw-int8.onnx.md)      |     full:[🫙](docs/regressions/regressions-dl19-passage.cos-dpr-distil.parquet.hnsw.cached.md)[🅾️](docs/regressions/regressions-dl19-passage.cos-dpr-distil.parquet.hnsw.onnx.md) int8:[🫙](docs/regressions/regressions-dl19-passage.cos-dpr-distil.parquet.hnsw-int8.cached.md)[🅾️](docs/regressions/regressions-dl19-passage.cos-dpr-distil.parquet.hnsw-int8.onnx.md)     |     full:[🫙](docs/regressions/regressions-dl20-passage.cos-dpr-distil.parquet.hnsw.cached.md)[🅾️](docs/regressions/regressions-dl20-passage.cos-dpr-distil.parquet.hnsw.onnx.md) int8:[🫙](docs/regressions/regressions-dl20-passage.cos-dpr-distil.parquet.hnsw-int8.cached.md)[🅾️](docs/regressions/regressions-dl20-passage.cos-dpr-distil.parquet.hnsw-int8.onnx.md)     |
 | BGE-base-en-v1.5                           | full:[🫙](docs/regressions/regressions-msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw.cached.md)[🅾️](docs/regressions/regressions-msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw.onnx.md)  int8:[🫙](docs/regressions/regressions-msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw-int8.cached.md)[🅾️](docs/regressions/regressions-msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw-int8.onnx.md) | full:[🫙](docs/regressions/regressions-dl19-passage.bge-base-en-v1.5.parquet.hnsw.cached.md)[🅾️](docs/regressions/regressions-dl19-passage.bge-base-en-v1.5.parquet.hnsw.onnx.md) int8:[🫙](docs/regressions/regressions-dl19-passage.bge-base-en-v1.5.parquet.hnsw-int8.cached.md)[🅾️](docs/regressions/regressions-dl19-passage.bge-base-en-v1.5.parquet.hnsw-int8.onnx.md) | full:[🫙](docs/regressions/regressions-dl20-passage.bge-base-en-v1.5.parquet.hnsw.cached.md)[🅾️](docs/regressions/regressions-dl20-passage.bge-base-en-v1.5.parquet.hnsw.onnx.md) int8:[🫙](docs/regressions/regressions-dl20-passage.bge-base-en-v1.5.parquet.hnsw-int8.cached.md)[🅾️](docs/regressions/regressions-dl20-passage.bge-base-en-v1.5.parquet.hnsw-int8.onnx.md) |
 | OpenAI Ada2                                |                                                                                                     full:[🫙](docs/regressions/regressions-msmarco-v1-passage.openai-ada2.parquet.hnsw.cached.md) int8:[🫙](docs/regressions/regressions-msmarco-v1-passage.openai-ada2.parquet.hnsw-int8.cached.md)                                                                                                     |                                                                                              full:[🫙](docs/regressions/regressions-dl19-passage.openai-ada2.parquet.hnsw.cached.md) int8:[🫙](docs/regressions/regressions-dl19-passage.openai-ada2.parquet.hnsw-int8.cached.md)                                                                                               |                                                                                              full:[🫙](docs/regressions/regressions-dl20-passage.openai-ada2.parquet.hnsw.cached.md) int8:[🫙](docs/regressions/regressions-dl20-passage.openai-ada2.parquet.hnsw-int8.cached.md)                                                                                               |
 | Cohere English v3.0                        |                                                                                       full:[🫙](docs/regressions/regressions-msmarco-v1-passage.cohere-embed-english-v3.0.parquet.hnsw.cached.md) int8:[🫙](docs/regressions/regressions-msmarco-v1-passage.cohere-embed-english-v3.0.parquet.hnsw-int8.cached.md)                                                                                       |                                                                                full:[🫙](docs/regressions/regressions-dl19-passage.cohere-embed-english-v3.0.parquet.hnsw.cached.md) int8:[🫙](docs/regressions/regressions-dl19-passage.cohere-embed-english-v3.0.parquet.hnsw-int8.cached.md)                                                                                 |                                                                                full:[🫙](docs/regressions/regressions-dl20-passage.cohere-embed-english-v3.0.parquet.hnsw.cached.md) int8:[🫙](docs/regressions/regressions-dl20-passage.cohere-embed-english-v3.0.parquet.hnsw-int8.cached.md)                                                                                 |
@@ -195,6 +195,8 @@ Key:
 
 </details>
 
+<hr/>
+
 </details>
 <details>
 <summary>MS MARCO V1 Document Regressions</summary>
@@ -224,6 +226,8 @@ Key:
 |:------------------------------------------------------------------------------------------------------------------------------------------------|-------:|:-----------------------------------|
 | [MS MARCO V1 doc: uniCOIL (noexp)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-doc-segmented-unicoil-noexp.tar)                   |  11 GB | `11b226e1cacd9c8ae0a660fd14cdd710` |
 | [MS MARCO V1 doc: uniCOIL (d2q-T5)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-doc-segmented-unicoil.tar)                        |  19 GB | `6a00e2c0c375cb1e52c83ae5ac377ebb` |
+
+<hr/>
 
 </details>
 <details>
@@ -256,6 +260,8 @@ Key:
 | [SPLADE++ CoCondenser-EnsembleDistil](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco_v2_passage_splade_pp_ed.tar) | 66 GB | `2cdb2adc259b8fa6caf666b20ebdc0e8` |
 | [SPLADE++ CoCondenser-SelfDistil](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco_v2_passage_splade_pp_sd.tar)     | 76 GB | `061930dd615c7c807323ea7fc7957877` |
 
+<hr/>
+
 </details>
 <details>
 <summary>MS MARCO V2 Document Regressions</summary>
@@ -281,6 +287,8 @@ Key:
 | [MS MARCO V2 doc: uniCOIL (noexp)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_doc_segmented_unicoil_noexp_0shot_v2.tar)       |  55 GB | `97ba262c497164de1054f357caea0c63` |
 | [MS MARCO V2 doc: uniCOIL (d2q-T5)](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco_v2_doc_segmented_unicoil_0shot_v2.tar)            |  72 GB | `c5639748c2cbad0152e10b0ebde3b804` |
 
+<hr/>
+
 </details>
 <details>
 <summary>MS MARCO V2.1 Document Regressions</summary>
@@ -296,6 +304,8 @@ The experiments below capture topics and qrels originally targeted at the V2 cor
 | baselines                               |      [+](docs/regressions/regressions-msmarco-v2.1-doc.md)      |      [+](docs/regressions/regressions-dl21-doc-msmarco-v2.1.md)      |      [+](docs/regressions/regressions-dl22-doc-msmarco-v2.1.md)      |      [+](docs/regressions/regressions-dl23-doc-msmarco-v2.1.md)      |      [+](docs/regressions/regressions-rag24-doc-raggy-dev.md)      |
 | **Unsupervised Lexical, Segmented Doc** |                                                                 |                                                                      |                                                                      |                                                                      |                                                                    |
 | baselines                               | [+](docs/regressions/regressions-msmarco-v2.1-doc-segmented.md) | [+](docs/regressions/regressions-dl21-doc-segmented-msmarco-v2.1.md) | [+](docs/regressions/regressions-dl22-doc-segmented-msmarco-v2.1.md) | [+](docs/regressions/regressions-dl23-doc-segmented-msmarco-v2.1.md) | [+](docs/regressions/regressions-rag24-doc-segmented-raggy-dev.md) |
+
+<hr/>
 
 </details>
 <details>
@@ -435,6 +445,8 @@ Substitute the appropriate `$MODEL` from the table below.
 | BGE (HNSW, full; ONNX)   | `bge-base-en-v1.5.parquet.hnsw.onnx`        |
 | BGE (HNSW, int8; ONNX)   | `bge-base-en-v1.5.parquet.hnsw-int8.onnx`   |
 
+<hr/>
+
 </details>
 <details>
 <summary>Cross-lingual and Multi-lingual Regressions</summary>
@@ -457,6 +469,8 @@ Substitute the appropriate `$MODEL` from the table below.
 + Regressions for CIRAL (v1.0) BM25 (query translation): [Hausa](docs/regressions/regressions-ciral-v1.0-ha.md), [Somali](docs/regressions/regressions-ciral-v1.0-so.md), [Swahili](docs/regressions/regressions-ciral-v1.0-sw.md), [Yoruba](docs/regressions/regressions-ciral-v1.0-yo.md)
 + Regressions for CIRAL (v1.0) BM25 (document translation): [Hausa](docs/regressions/regressions-ciral-v1.0-ha-en.md), [Somali](docs/regressions/regressions-ciral-v1.0-so-en.md), [Swahili](docs/regressions/regressions-ciral-v1.0-sw-en.md), [Yoruba](docs/regressions/regressions-ciral-v1.0-yo-en.md)
 
+<hr/>
+
 </details>
 <details>
 <summary>Other Regressions</summary>
@@ -472,6 +486,8 @@ Substitute the appropriate `$MODEL` from the table below.
 + Regressions for TREC News Tracks (Background Linking Task): [2018](docs/regressions/regressions-backgroundlinking18.md), [2019](docs/regressions/regressions-backgroundlinking19.md), [2020](docs/regressions/regressions-backgroundlinking20.md)
 + Regressions for [FEVER Fact Verification](docs/regressions/regressions-fever.md)
 + Regressions for DPR Wikipedia QA baselines: [100-word splits](docs/regressions/regressions-wikipedia-dpr-100w-bm25.md), [6/3 sliding window sentences](docs/regressions/regressions-wiki-all-6-3-tamber-bm25.md)
+
+<hr/>
 
 </details>
 
