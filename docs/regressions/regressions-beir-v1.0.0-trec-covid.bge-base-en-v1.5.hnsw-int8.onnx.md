@@ -43,8 +43,6 @@ bin/run.sh io.anserini.index.IndexHnswDenseVectors \
 ```
 
 The path `/path/to/beir-v1.0.0-trec-covid.bge-base-en-v1.5/` should point to the corpus downloaded above.
-Note that here we are explicitly using Lucene's `NoMergePolicy` merge policy, which suppresses any merging of index segments.
-This is because merging index segments is a costly operation and not worthwhile given our query set.
 
 ## Retrieval
 

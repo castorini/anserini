@@ -41,34 +41,57 @@ Now you should see the train and test splits merged into one folder in `collecti
 To index train and test together:
 
 ```bash
-sh target/appassembler/bin/IndexCollection -collection TwentyNewsgroupsCollection \
- -input collections/20newsgroups/20news-bydate \
- -index indexes/lucene-index.20newsgroups.all \
- -generator DefaultLuceneDocumentGenerator -threads 2 \
- -storePositions -storeDocvectors -storeRaw -optimize
+bin/run.sh io.anserini.index.IndexCollection \
+  -collection TwentyNewsgroupsCollection \
+  -input collections/20newsgroups/20news-bydate \
+  -index indexes/lucene-index.20newsgroups.all \
+  -generator DefaultLuceneDocumentGenerator -threads 2 \
+  -storePositions -storeDocvectors -storeRaw -optimize
 ```
 
 To index just the train set:
 
 ```bash
-sh target/appassembler/bin/IndexCollection -collection TwentyNewsgroupsCollection \
- -input collections/20newsgroups/20news-bydate-train \
- -index indexes/lucene-index.20newsgroups.train \
- -generator DefaultLuceneDocumentGenerator -threads 2 \
- -storePositions -storeDocvectors -storeRaw -optimize
+bin/run.sh io.anserini.index.IndexCollection \
+  -collection TwentyNewsgroupsCollection \
+  -input collections/20newsgroups/20news-bydate-train \
+  -index indexes/lucene-index.20newsgroups.train \
+  -generator DefaultLuceneDocumentGenerator -threads 2 \
+  -storePositions -storeDocvectors -storeRaw -optimize
 ```
 
 To index just the test set:
 
 ```bash
-sh target/appassembler/bin/IndexCollection -collection TwentyNewsgroupsCollection \
- -input collections/20newsgroups/20news-bydate-test \
- -index indexes/lucene-index.20newsgroups.test \
- -generator DefaultLuceneDocumentGenerator -threads 2 \
- -storePositions -storeDocvectors -storeRaw -optimize
+bin/run.sh io.anserini.index.IndexCollection \
+  -collection TwentyNewsgroupsCollection \
+  -input collections/20newsgroups/20news-bydate-test \
+  -index indexes/lucene-index.20newsgroups.test \
+  -generator DefaultLuceneDocumentGenerator -threads 2 \
+  -storePositions -storeDocvectors -storeRaw -optimize
 ```
 
 Indexing should take just a few seconds.
+
+You can check the document count (for train and test together, or train/test individually) with:
+
+```bash
+bin/run.sh io.anserini.index.IndexReaderUtils \
+  -index indexes/lucene-index.20newsgroups.all \
+  -stats
+```
+
+Which should output:
+
+```
+Index statistics
+----------------
+documents:             18846
+documents (non-empty): 18846
+unique terms:          165633
+total terms:           4219956
+```
+
 For reference, the number of docs indexed should be exactly as follows:
 
 |               | # of docs | pre-built index |
@@ -82,4 +105,5 @@ For convenience, we also provide pre-built indexes above.
 ## Reproduction Log[*](reproducibility.md)
 
 + Results reproduced by [@stephaniewhoo](http://github.com/stephaniewhoo) on 2020-11-24 (commit [`b7f1f08`](https://github.com/castorini/anserini/commit/b7f1f08689014159c1d5b2c9b9905b363af1cbbf))
++ Results reproduced by [@b8zhong](http://github.com/b8zhong) on 2024-11-27 (commit [`a5e6771`](https://github.com/castorini/anserini/commit/a5e6771a0aedcfb1c394e345636236d536c8c57d))
 

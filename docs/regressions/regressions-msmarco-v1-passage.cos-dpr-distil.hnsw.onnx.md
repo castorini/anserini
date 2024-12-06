@@ -62,6 +62,10 @@ bin/run.sh io.anserini.index.IndexHnswDenseVectors \
 The path `/path/to/msmarco-passage-cos-dpr-distil/` should point to the corpus downloaded above.
 Upon completion, we should have an index with 8,841,823 documents.
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
 ## Retrieval
 
 Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
