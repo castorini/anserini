@@ -148,11 +148,45 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
           Group listGroup = vectorGroup.getGroup(0, i); // Access the 'list' group
           vector[i] = listGroup.getFloat("element", 0); // Get the double value from the 'element' field
         }
+        vector = normalizeVector(vector);
         vectors.add(vector);
       }
 
       reader.close();
       currentIndex = 0;
+    }
+
+    /**
+     * Computes the L2 norm (Euclidean norm) of a vector.
+     * @param vector the vector to compute the norm of
+     * @return the L2 norm of the vector
+     */
+    private static double computeL2Norm(double[] vector) {
+      double sumOfSquares = 0.0;
+      for (double v : vector) {
+        sumOfSquares += v * v;
+      }
+      return Math.sqrt(sumOfSquares);
+    }
+
+    /**
+     * Normalizes a vector to have a norm of 1.
+     * @param vector the vector to normalize
+     * @return a new vector that is the normalized version of the input vector
+     */
+    private static double[] normalizeVector(double[] vector) {
+      double norm = computeL2Norm(vector);
+      double[] normalizedVector = new double[vector.length];
+
+      if (norm == 0) {
+        throw new IllegalArgumentException("Zero vector cannot be normalized.");
+      }
+
+      for (int i = 0; i < vector.length; i++) {
+        normalizedVector[i] = vector[i] / norm;
+      }
+
+      return normalizedVector;
     }
 
     /**
