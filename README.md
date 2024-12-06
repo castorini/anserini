@@ -143,7 +143,7 @@ See individual pages for details.
 | cosDPR-distil w/ "LexLSH"                  |                                                                                                                                                              [🫙](docs/regressions/regressions-msmarco-v1-passage.cos-dpr-distil.lexlsh.md)                                                                                                                                                              |                                                                                                                                                    [🫙](docs/regressions/regressions-dl19-passage.cos-dpr-distil.lexlsh.md)                                                                                                                                                     |                                                                                                                                                    [🫙](docs/regressions/regressions-dl20-passage.cos-dpr-distil.lexlsh.md)                                                                                                                                                     |
 
 <details>
-<summary>Deprecated instructions using corpora in jsonl format</summary>
+<summary>Deprecated instructions for learned dense models using corpora in jsonl format</summary>
 
 |                                            |                                                                                                                                                                                   dev                                                                                                                                                                                    |                                                                                                                                                                      DL19                                                                                                                                                                       |                                                                                                                                                                      DL20                                                                                                                                                                       |
 |--------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
@@ -182,10 +182,18 @@ Key:
 | [BGE-base-en-v1.5](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-bge-base-en-v1.5.parquet.tar) (parquet)                     |  39 GB | `b235e19ec492c18a18057b30b8b23fd4` |
 | [OpenAI-ada2](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-openai-ada2.parquet.tar) (parquet)                               |  75 GB | `fa3637e9c4150b157270e19ef3a4f779` |
 | [Cohere embed-english-v3.0](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cohere-embed-english-v3.0.parquet.tar) (parquet)   |  16 GB | `40c5caf33476746e93ceeb75174b8d64` |
+
+<details>
+<summary>Deprecated corpora for learned dense models using corpora in jsonl format</summary>
+
+| Corpora                                                                                                                                  |   Size | Checksum                           |
+|:-----------------------------------------------------------------------------------------------------------------------------------------|-------:|:-----------------------------------|
 | [cosDPR-distil](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cos-dpr-distil.tar) (jsonl, deprecated)                        |  57 GB | `e20ffbc8b5e7f760af31298aefeaebbd` |
 | [BGE-base-en-v1.5](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-bge-base-en-v1.5.tar) (jsonl, deprecated)                   |  59 GB | `353d2c9e72e858897ad479cca4ea0db1` |
 | [OpenAI-ada2](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-openai-ada2.tar) (jsonl, deprecated)                             | 109 GB | `a4d843d522ff3a3af7edbee789a63402` |
 | [Cohere embed-english-v3.0](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cohere-embed-english-v3.0.tar) (jsonl, deprecated) |  38 GB | `06a6e38a0522850c6aa504db7b2617f5` |
+
+</details>
 
 </details>
 <details>
