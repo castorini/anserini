@@ -50,7 +50,7 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
 
   public static final class Args extends AbstractIndexer.Args {
     @Option(name = "-generator", metaVar = "[class]", usage = "Document generator class in io.anserini.index.generator.")
-    public String generatorClass = "DenseVectorDocumentGenerator";
+    public String generatorClass = "JsonDenseVectorDocumentGenerator";
 
     @Option(name = "-M", metaVar = "[num]", usage = "HNSW parameters M")
     public int M = 16;

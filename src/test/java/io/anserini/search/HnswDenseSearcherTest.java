@@ -48,7 +48,7 @@ public class HnswDenseSearcherTest {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
         "-index", indexPath,
-        "-generator", "DenseVectorDocumentGenerator",
+        "-generator", "JsonDenseVectorDocumentGenerator",
         "-threads", "1",
         "-M", "16", "-efC", "100"
     };
@@ -138,7 +138,7 @@ public class HnswDenseSearcherTest {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
         "-index", indexPath,
-        "-generator", "DenseVectorDocumentGenerator",
+        "-generator", "JsonDenseVectorDocumentGenerator",
         "-threads", "1",
         "-M", "16", "-efC", "100"
     };
@@ -203,7 +203,7 @@ public class HnswDenseSearcherTest {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/cos-dpr-distil/json_vector/",
         "-index", indexPath,
-        "-generator", "DenseVectorDocumentGenerator",
+        "-generator", "JsonDenseVectorDocumentGenerator",
         "-threads", "1",
         "-M", "16", "-efC", "100"
     };
@@ -293,7 +293,7 @@ public class HnswDenseSearcherTest {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/cos-dpr-distil/json_vector/",
         "-index", indexPath,
-        "-generator", "DenseVectorDocumentGenerator",
+        "-generator", "JsonDenseVectorDocumentGenerator",
         "-threads", "1",
         "-M", "16", "-efC", "100"
     };
@@ -384,7 +384,7 @@ public class HnswDenseSearcherTest {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/cos-dpr-distil/json_vector/",
         "-index", indexPath,
-        "-generator", "DenseVectorDocumentGenerator",
+        "-generator", "JsonDenseVectorDocumentGenerator",
         "-threads", "1",
         "-M", "16", "-efC", "100"
     };

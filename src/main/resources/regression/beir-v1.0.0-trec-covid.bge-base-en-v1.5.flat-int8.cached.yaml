@@ -5,7 +5,7 @@ corpus_path: collections/beir-v1.0.0/bge-base-en-v1.5/trec-covid
 index_path: indexes/lucene-flat-int8.beir-v1.0.0-trec-covid.bge-base-en-v1.5/
 index_type: flat
 collection_class: JsonDenseVectorCollection
-generator_class: DenseVectorDocumentGenerator
+generator_class: JsonDenseVectorDocumentGenerator
 index_threads: 16
 index_options: -quantize.int8
 

@@ -128,7 +128,7 @@ public class IndexFlatDenseVectorsTest {
     };
 
     IndexFlatDenseVectors.main(indexArgs);
-    // If this succeeded, then the default -generator of DenseVectorDocumentGenerator must have worked.
+    // If this succeeded, then the default -generator of JsonDenseVectorDocumentGenerator must have worked.
   }
 
   @Test
@@ -138,7 +138,7 @@ public class IndexFlatDenseVectorsTest {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
         "-index", indexPath,
-        "-generator", "DenseVectorDocumentGenerator",
+        "-generator", "JsonDenseVectorDocumentGenerator",
         "-threads", "1"
     };
 
@@ -159,7 +159,7 @@ public class IndexFlatDenseVectorsTest {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
         "-index", indexPath,
-        "-generator", "DenseVectorDocumentGenerator",
+        "-generator", "JsonDenseVectorDocumentGenerator",
         "-threads", "1", "-quantize.int8"
     };
 

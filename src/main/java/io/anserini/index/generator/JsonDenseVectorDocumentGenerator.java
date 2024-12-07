@@ -36,8 +36,8 @@ import java.util.ArrayList;
  *
  * @param <T> type of the source document
  */
-public class DenseVectorDocumentGenerator<T extends SourceDocument> implements LuceneDocumentGenerator<T> {
-  public DenseVectorDocumentGenerator() {
+public class JsonDenseVectorDocumentGenerator<T extends SourceDocument> implements LuceneDocumentGenerator<T> {
+  public JsonDenseVectorDocumentGenerator() {
   }
 
   private float[] convertJsonArray(String vectorString) throws JsonProcessingException {
