@@ -1,0 +1,74 @@
+---
+corpus: msmarco-passage-bge-base-en-v1.5.parquet
+corpus_path: collections/msmarco/msmarco-passage-bge-base-en-v1.5.parquet/
+
+download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-bge-base-en-v1.5.parquet.tar
+download_checksum: b235e19ec492c18a18057b30b8b23fd4
+
+index_path: indexes/lucene-hnsw.msmarco-v1-passage.bge-base-en-v1.5/
+index_type: hnsw
+collection_class: ParquetDenseVectorCollection
+generator_class: ParquetDenseVectorDocumentGenerator
+index_threads: 16
+index_options: -M 16 -efC 100
+
+metrics:
+  - metric: AP@1000
+    command: bin/trec_eval
+    params: -m map -c -l 2
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: nDCG@10
+    command: bin/trec_eval
+    params: -m ndcg_cut.10 -c
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: bin/trec_eval
+    params: -m recall.100 -c -l 2
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: bin/trec_eval
+    params: -m recall.1000 -c -l 2
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: JsonIntVector
+topics:
+  - name: "[DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)"
+    id: dl19
+    path: topics.dl19-passage.bge-base-en-v1.5.jsonl.gz
+    qrel: qrels.dl19-passage.txt
+
+models:
+  - name: bge-hnsw-cached
+    display: BGE-base-en-v1.5
+    type: hnsw
+    params: -hits 1000 -efSearch 1000 -threads 16
+    results:
+      AP@1000:
+        - 0.4435
+      nDCG@10:
+        - 0.7065
+      R@100:
+        - 0.6171
+      R@1000:
+        - 0.8472
+    tolerance:
+      AP@1000:
+        - 0.008
+      nDCG@10:
+        - 0.009
+      R@100:
+        - 0.009
+      R@1000:
+        - 0.02
