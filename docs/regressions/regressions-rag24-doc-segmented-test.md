@@ -2,8 +2,9 @@
 
 **Models**: various bag-of-words approaches on segmented documents
 
-This page describes regression experiments for document ranking _on the segmented version_ of the MS MARCO V2.1 document corpus using the test queries, which is integrated into Anserini's regression testing framework.
+This page describes regression experiments for document ranking _on the segmented version_ of the MS MARCO V2.1 document corpus using the test topics (= queries in TREC parlance), which is integrated into Anserini's regression testing framework.
 This corpus was derived from the MS MARCO V2 _segmented_ document corpus and prepared for the TREC 2024 RAG Track.
+Instructions for downloading the corpus can be found [here](https://trec-rag.github.io/annoucements/2024-corpus-finalization/).
 
 Here, we cover bag-of-words baselines where each _segment_ in the MS MARCO V2.1 segmented document corpus is treated as a unit of indexing.
 
@@ -38,7 +39,6 @@ For additional details, see explanation of [common indexing options](../../docs/
 ## Retrieval
 
 Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
-These evaluation resources are from the original V2 corpus, but have been "projected" over to the V2.1 corpus.
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
