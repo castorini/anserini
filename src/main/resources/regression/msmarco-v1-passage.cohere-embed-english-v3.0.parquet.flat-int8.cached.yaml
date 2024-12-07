@@ -1,0 +1,74 @@
+---
+corpus: msmarco-passage-cohere-embed-english-v3.0.parquet
+corpus_path: collections/msmarco/msmarco-passage-cohere-embed-english-v3.0.parquet/
+
+download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cohere-embed-english-v3.0.parquet.tar
+download_checksum: 40c5caf33476746e93ceeb75174b8d64
+
+index_path: indexes/lucene-flat-int8.msmarco-v1-passage.cohere-embed-english-v3.0/
+index_type: flat
+collection_class: ParquetDenseVectorCollection
+generator_class: ParquetDenseVectorDocumentGenerator
+index_threads: 16
+index_options: -quantize.int8
+
+metrics:
+  - metric: AP@1000
+    command: bin/trec_eval
+    params: -c -m map
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: RR@10
+    command: bin/trec_eval
+    params: -c -M 10 -m recip_rank
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: bin/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: bin/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: JsonIntVector
+topics:
+  - name: "[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)"
+    id: dev
+    path: topics.msmarco-passage.dev-subset.cohere-embed-english-v3.0.jsonl.gz
+    qrel: qrels.msmarco-passage.dev-subset.txt
+
+models:
+  - name: cohere-embed-english-v3.0-flat-int8-cached
+    display: cohere-embed-english-v3.0
+    type: flat
+    params: -hits 1000 -threads 16
+    results:
+      AP@1000:
+        - 0.3716
+      RR@10:
+        - 0.3658
+      R@100:
+        - 0.8935
+      R@1000:
+        - 0.9786
+    tolerance:
+      AP@1000:
+        - 0.003
+      RR@10:
+        - 0.003
+      R@100:
+        - 0.003
+      R@1000:
+        - 0.009

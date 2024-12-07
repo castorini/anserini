@@ -422,3 +422,6 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@b8zhong](https://github.com/b8zhong) on 2024-11-23 (commit [`c619dc8`](https://github.com/castorini/anserini/commit/c619dc8d9ab28298251964053a927906e9957f51))
 + Results reproduced by [@ShreyasP20](https://github.com/ShreyasP20) on 2024-11-24 (commit[`c619dc8`](https://github.com/castorini/anserini/commit/c619dc8d9ab28298251964053a927906e9957f51))
 + Results reproduced by [@Divyajyoti02](https://github.com/Divyajyoti02) on 2024-11-24 (commit [`a1bcf88`](https://github.com/castorini/anserini/commit/a1bcf8853062da9f73915c873968a4e998d4e904))
++ Results reproduced by [@nihalmenon](https://github.com/nihalmenon) on 2024-11-29 (commit [`aa91e2db`](https://github.com/castorini/anserini/commit/aa91e2db224c752cc6a947bdf66bdbf9ce90af25))
++ Results reproduced by [@sherloc512](https://github.com/sherloc512) on 2024-12-04 (commit [`9e55b1c`](https://github.com/castorini/anserini/commit/9e55b1c97fced46530dac1f78975d19635ffaf7a))
++ Results reproduced by [@zdann15](https://github.com/zdann15) on 2024-12-04 (commit [`9d311b4`](https://github.com/castorini/anserini/commit/9d311b4409a9ff3d79b01910178eaec3931f0abe))
