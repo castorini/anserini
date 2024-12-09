@@ -303,6 +303,8 @@ The experiments below use _passage-level_ qrels.
 |-----------|:-------------------------------------------------------------:|
 | baselines | [+](docs/regressions/regressions-rag24-doc-segmented-test.md) |
 
+<hr/>
+
 </details>
 <details>
 <summary>MS MARCO V2.1 Document Regressions</summary>
