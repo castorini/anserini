@@ -300,7 +300,7 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 
 </details>
 <details>
-<summary>BEIR (v1.0.0): BGE-base-en-v1.5 (using Parquet corpus)</summary>
+<summary>BEIR (v1.0.0): BGE-base-en-v1.5 (using parquet corpus)</summary>
 
 Flat indexes:
 

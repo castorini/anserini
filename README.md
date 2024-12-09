@@ -105,7 +105,7 @@ Each of these [_end-to-end_ regressions](docs/regressions.md) starts from the ra
 See individual pages for details.
 
 <details>
-<summary>MS MARCO V1 Passage Regressions (dev queries, TREC DL 19/20)</summary>
+<summary>MS MARCO V1 Passage Regressions</summary>
 
 ### MS MARCO V1 Passage Regressions
 
@@ -199,7 +199,7 @@ Key:
 
 </details>
 <details>
-<summary>MS MARCO V1 Document Regressions (dev queries, TREC DL 19/20)</summary>
+<summary>MS MARCO V1 Document Regressions</summary>
 
 ### MS MARCO V1 Document Regressions
 
@@ -231,7 +231,7 @@ Key:
 
 </details>
 <details>
-<summary>MS MARCO V2 Passage Regressions (dev/dev2 queries, TREC DL 21/22/23)</summary>
+<summary>MS MARCO V2 Passage Regressions</summary>
 
 ### MS MARCO V2 Passage Regressions
 
@@ -264,7 +264,7 @@ Key:
 
 </details>
 <details>
-<summary>MS MARCO V2 Document Regressions (dev/dev2 queries, TREC DL 21/22/23)</summary>
+<summary>MS MARCO V2 Document Regressions</summary>
 
 ### MS MARCO V2 Document Regressions
 
@@ -291,9 +291,9 @@ Key:
 
 </details>
 <details>
-<summary>MS MARCO V2.1 Passage Regressions (TREC RAG 24)</summary>
+<summary>MS MARCO V2.1 Segmented Document Regressions</summary>
 
-### MS MARCO V2.1 Passage Regressions
+### MS MARCO V2.1 Segmented Document Regressions
 
 The MS MARCO V2.1 corpora were derived from the V2 corpora for the TREC 2024 RAG Track.
 Instructions for downloading the corpus can be found [here](https://trec-rag.github.io/annoucements/2024-corpus-finalization/).
@@ -305,7 +305,7 @@ The experiments below use _passage-level_ qrels.
 
 </details>
 <details>
-<summary>MS MARCO V2.1 Document Regressions (dev set for TREC RAG 24)</summary>
+<summary>MS MARCO V2.1 Document Regressions</summary>
 
 ### MS MARCO V2.1 Document Regressions
 
