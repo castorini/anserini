@@ -291,12 +291,30 @@ Key:
 
 </details>
 <details>
+<summary>MS MARCO V2.1 Segmented Document Regressions</summary>
+
+### MS MARCO V2.1 Segmented Document Regressions
+
+The MS MARCO V2.1 corpora were derived from the V2 corpora for the TREC 2024 RAG Track.
+Instructions for downloading the corpus can be found [here](https://trec-rag.github.io/annoucements/2024-corpus-finalization/).
+The experiments below use _passage-level_ qrels.
+
+|           |                            RAG 24                             |
+|-----------|:-------------------------------------------------------------:|
+| baselines | [+](docs/regressions/regressions-rag24-doc-segmented-test.md) |
+
+<hr/>
+
+</details>
+<details>
 <summary>MS MARCO V2.1 Document Regressions</summary>
 
 ### MS MARCO V2.1 Document Regressions
 
 The MS MARCO V2.1 corpora were derived from the V2 corpora for the TREC 2024 RAG Track.
-The experiments below capture topics and qrels originally targeted at the V2 corpora, but have been "projected" over to the V2.1 corpora.
+Instructions for downloading the corpus can be found [here](https://trec-rag.github.io/annoucements/2024-corpus-finalization/).
+The experiments below capture topics and _document-level_ qrels originally targeted at the V2 corpora, but have been "projected" over to the V2.1 corpora.
+These should be treated like dev topics for the TREC 2024 RAG Track; actual qrels for that track were generated at the passage level.
 
 |                                         |                               dev                               |                                 DL21                                 |                                 DL22                                 |                                 DL23                                 |                             RAGgy dev                              |
 |-----------------------------------------|:---------------------------------------------------------------:|:--------------------------------------------------------------------:|:--------------------------------------------------------------------:|:--------------------------------------------------------------------:|:------------------------------------------------------------------:|

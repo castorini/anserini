@@ -1,3 +1,6 @@
+# TREC RAG 24
+python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test > logs/log.rag24-doc-segmented-test 2>&1
+
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.bge-base-en-v1.5.flat.cached > logs/log.msmarco-v1-passage.bge-base-en-v1.5.flat.cached.txt 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cohere-embed-english-v3.0.flat.cached > logs/log.msmarco-v1-passage.cohere-embed-english-v3.0.flat.cached.txt 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cos-dpr-distil.flat.cached > logs/log.msmarco-v1-passage.cos-dpr-distil.flat.cached.txt 2>&1
@@ -8,8 +11,9 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cos-dpr-distil.flat-int8.cached > logs/log.msmarco-v1-passage.cos-dpr-distil.flat-int8.cached.txt 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.openai-ada2.flat-int8.cached > logs/log.msmarco-v1-passage.openai-ada2.flat-int8.cached.txt 2>&1
 
+# MS MARCO V2.1 (note we already built doc segmented from RAG 24 above)
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2.1-doc > logs/log.msmarco-v2.1-doc.txt 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2.1-doc-segmented > logs/log.msmarco-v2.1-doc-segmented.txt 2>&1
+python src/main/python/run_regression.py --verify --search --regression msmarco-v2.1-doc-segmented > logs/log.msmarco-v2.1-doc-segmented.txt 2>&1
 
 # MS MARCO V1 passage
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cohere-embed-english-v3.0.hnsw.cached > logs/log.msmarco-v1-passage.cohere-embed-english-v3.0.hnsw.cached.txt 2>&1
