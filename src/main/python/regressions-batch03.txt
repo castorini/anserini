@@ -1,5 +1,6 @@
-# MS MARCO V2.1, full indexing
+# MS MARCO V2.1, full indexing - build both doc and doc segmented conditions
 python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test > logs/log.rag24-doc-segmented-test.txt 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-raggy-dev > logs/log.rag24-doc-raggy-dev.txt 2>&1
 
 # MS MARCO V1, full indexing
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage > logs/log.msmarco-v1-passage.txt 2>&1
@@ -336,5 +337,4 @@ python src/main/python/run_regression.py --verify --search --regression dl22-doc
 python src/main/python/run_regression.py --verify --search --regression dl23-doc-msmarco-v2.1 > logs/log.dl23-doc-msmarco-v2.1.txt 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl23-doc-segmented-msmarco-v2.1 > logs/log.dl23-doc-segmented-msmarco-v2.1.txt 2>&1
 
-python src/main/python/run_regression.py --verify --search --regression rag24-doc-raggy-dev > logs/log.rag24-doc-raggy-dev.txt 2>&1
 python src/main/python/run_regression.py --verify --search --regression rag24-doc-segmented-raggy-dev > logs/log.rag24-doc-segmented-raggy-dev.txt 2>&1

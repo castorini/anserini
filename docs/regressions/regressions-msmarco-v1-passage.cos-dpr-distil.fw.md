@@ -50,7 +50,7 @@ bin/run.sh io.anserini.index.IndexInvertedDenseVectors \
   -threads 16 \
   -collection JsonDenseVectorCollection \
   -input /path/to/msmarco-passage-cos-dpr-distil \
-  -generator InvertedDenseVectorDocumentGenerator \
+  -generator JsonInvertedDenseVectorDocumentGenerator \
   -index indexes/lucene-inverted.msmarco-v1-passage.cos-dpr-distil.fw-40/ \
   -encoding fw -fw.q 40 \
   >& logs/log.msmarco-passage-cos-dpr-distil &

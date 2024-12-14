@@ -51,7 +51,7 @@ bin/run.sh io.anserini.index.IndexHnswDenseVectors \
   -threads 16 \
   -collection JsonDenseVectorCollection \
   -input /path/to/msmarco-passage-cohere-embed-english-v3.0 \
-  -generator DenseVectorDocumentGenerator \
+  -generator JsonDenseVectorDocumentGenerator \
   -index indexes/lucene-hnsw-int8.msmarco-v1-passage.cohere-embed-english-v3.0/ \
   -M 16 -efC 100 -quantize.int8 \
   >& logs/log.msmarco-passage-cohere-embed-english-v3.0 &

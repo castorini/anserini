@@ -56,7 +56,7 @@ bin/run.sh io.anserini.index.IndexFlatDenseVectors \
   -threads 16 \
   -collection JsonDenseVectorCollection \
   -input /path/to/msmarco-passage-cos-dpr-distil \
-  -generator DenseVectorDocumentGenerator \
+  -generator JsonDenseVectorDocumentGenerator \
   -index indexes/lucene-flat.msmarco-v1-passage.cos-dpr-distil/ \
   >& logs/log.msmarco-passage-cos-dpr-distil &
 ```
