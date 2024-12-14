@@ -8,7 +8,7 @@ download_checksum: a4d843d522ff3a3af7edbee789a63402
 index_path: indexes/lucene-hnsw.msmarco-v1-passage.openai-ada2/
 index_type: hnsw
 collection_class: JsonDenseVectorCollection
-generator_class: DenseVectorDocumentGenerator
+generator_class: JsonDenseVectorDocumentGenerator
 index_threads: 16
 index_options: -M 16 -efC 100
 

@@ -48,7 +48,7 @@ public final class IndexFlatDenseVectors extends AbstractIndexer {
 
   public static final class Args extends AbstractIndexer.Args {
     @Option(name = "-generator", metaVar = "[class]", usage = "Document generator class in io.anserini.index.generator.")
-    public String generatorClass = "DenseVectorDocumentGenerator";
+    public String generatorClass = "JsonDenseVectorDocumentGenerator";
 
     @Option(name = "-quantize.int8", usage = "Quantize vectors into int8.")
     public boolean quantizeInt8 = false;
