@@ -21,7 +21,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.anserini.collection.SourceDocument;
 import io.anserini.index.Constants;
-import io.anserini.index.IndexInvertedDenseVectors;
 import org.apache.lucene.document.BinaryDocValuesField;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -36,8 +35,8 @@ import java.util.ArrayList;
  *
  * @param <T> type of the source document
  */
-public class InvertedDenseVectorDocumentGenerator<T extends SourceDocument> implements LuceneDocumentGenerator<T> {
-  public InvertedDenseVectorDocumentGenerator() {
+public class JsonInvertedDenseVectorDocumentGenerator<T extends SourceDocument> implements LuceneDocumentGenerator<T> {
+  public JsonInvertedDenseVectorDocumentGenerator() {
   }
 
   private float[] convertJsonArray(String vectorString) throws JsonProcessingException {
