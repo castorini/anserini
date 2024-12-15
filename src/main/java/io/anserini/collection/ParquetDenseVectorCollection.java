@@ -37,209 +37,196 @@ import java.util.ArrayList;
  * Extends the DocumentCollection class for handling documents.
  */
 public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDenseVectorCollection.Document> {
-  private static final Logger LOG = LogManager.getLogger(ParquetDenseVectorCollection.class);
-
-  /**
-   * Constructor that initializes the collection by reading vector and doc ID data
-   * from the specified path.
-   * 
-   * @param path the path to the directory containing the data files.
-   * @throws IOException if an I/O error occurs during file reading.
-   */
-  public ParquetDenseVectorCollection(Path path) throws IOException {
-    this.path = path;
-  }
-
-  /**
-   * Default constructor.
-   */
-  public ParquetDenseVectorCollection() {
-  }
-
-  /**
-   * Creates a file segment for the specified path.
-   * 
-   * @param p the path to the file segment.
-   * @return a FileSegment instance.
-   * @throws IOException if an I/O error occurs.
-   */
-  @Override
-  public FileSegment<ParquetDenseVectorCollection.Document> createFileSegment(Path p) throws IOException {
-    return new ParquetDenseVectorCollection.Segment(p);
-  }
-
-  /**
-   * Throws UnsupportedOperationException as BufferedReader is not supported for
-   * this collection.
-   * 
-   * @param bufferedReader the BufferedReader instance.
-   * @throws UnsupportedOperationException indicating the method is not supported.
-   */
-  @Override
-  public FileSegment<ParquetDenseVectorCollection.Document> createFileSegment(BufferedReader bufferedReader)
-      throws IOException {
-    throw new UnsupportedOperationException("BufferedReader is not supported for ParquetDenseVectorCollection.");
-  }
-
-  /**
-   * Inner class representing a file segment for ParquetDenseVectorCollection.
-   */
-  public static class Segment extends FileSegment<ParquetDenseVectorCollection.Document> {
-    private List<double[]> vectors; // List to store vectors from the Parquet file
-    private List<String> ids; // List to store document IDs
-    private List<String> contents; // List to store contents of the documents
-    private int currentIndex; // Current index for iteration
+    private static final Logger LOG = LogManager.getLogger(ParquetDenseVectorCollection.class);
 
     /**
-     * Constructor for the Segment class using a file path.
-     *
-     * @param path the path to the file segment.
-     * @throws IOException if an I/O error occurs during file reading.
-     */
-    public Segment(java.nio.file.Path path) throws IOException {
-      super(path);
-      initializeParquetReader(path);
-    }
-
-    /**
-     * Constructor for the Segment class using a BufferedReader.
+     * Constructor that initializes the collection by reading vector and doc ID data
+     * from the specified path.
      * 
-     * This constructor might be used if you want to read from a different input
-     * source instead of a file path. For Parquet files, we generally use the
-     * file path constructor.
-     *
-     * @param bufferedReader the BufferedReader to read the file segment.
+     * @param path the path to the directory containing the data files.
+     * @throws IOException if an I/O error occurs during file reading.
      */
-    public Segment(BufferedReader bufferedReader) throws IOException {
-      super(bufferedReader);
-      throw new IOException("Not Implemented");
+    public ParquetDenseVectorCollection(Path path) throws IOException {
+        this.path = path;
     }
 
     /**
-     * Initializes the Parquet reader and loads data into memory.
-     *
-     * @param path the path to the Parquet file.
-     * @throws IOException if an I/O error occurs during file reading.
+     * Default constructor.
      */
-    private void initializeParquetReader(java.nio.file.Path path) throws IOException {
-      // Convert the Java Path object to a Hadoop Path object using fully qualified
-      // name
-      org.apache.hadoop.fs.Path hadoopPath = new org.apache.hadoop.fs.Path(path.toString());
+    public ParquetDenseVectorCollection() {
+    }
 
-      // Create a ParquetReader with GroupReadSupport to read Group objects
-      ParquetReader<Group> reader = ParquetReader.builder(new GroupReadSupport(), hadoopPath).build();
+    /**
+     * Creates a file segment for the specified path.
+     * 
+     * @param p the path to the file segment.
+     * @return a FileSegment instance.
+     * @throws IOException if an I/O error occurs.
+     */
+    @Override
+    public FileSegment<ParquetDenseVectorCollection.Document> createFileSegment(Path p) throws IOException {
+        return new ParquetDenseVectorCollection.Segment(p);
+    }
 
-      // Initialize lists to store data read from the Parquet file
-      vectors = new ArrayList<>();
-      ids = new ArrayList<>();
+    /**
+     * Throws UnsupportedOperationException as BufferedReader is not supported for
+     * this collection.
+     * 
+     * @param bufferedReader the BufferedReader instance.
+     * @throws UnsupportedOperationException indicating the method is not supported.
+     */
+    @Override
+    public FileSegment<ParquetDenseVectorCollection.Document> createFileSegment(BufferedReader bufferedReader)
+            throws IOException {
+        throw new UnsupportedOperationException("BufferedReader is not supported for ParquetDenseVectorCollection.");
+    }
 
-      Group record;
-      // Read each record from the Parquet file
-      while ((record = reader.read()) != null) {
-        // Extract the docid (String) from the record
-        String docid = record.getString("docid", 0);
-        ids.add(docid);
+    /**
+     * Inner class representing a file segment for ParquetDenseVectorCollection.
+     */
+    public static class Segment extends FileSegment<ParquetDenseVectorCollection.Document> {
+        // Remove preloaded lists; use ParquetReader instead
+        private ParquetReader<Group> reader; // ParquetReader for streaming records
+        private boolean readerInitialized = false; // To check if the reader is initialized
 
-        // Extract the vector (double[]) from the record
-        Group vectorGroup = record.getGroup("vector", 0); // Access the 'vector' field
-        int vectorSize = vectorGroup.getFieldRepetitionCount(0); // Get the number of elements in the vector
-        double[] vector = new double[vectorSize];
-        for (int i = 0; i < vectorSize; i++) {
-          Group listGroup = vectorGroup.getGroup(0, i); // Access the 'list' group
-          vector[i] = listGroup.getDouble("element", 0); // Get the double value from the 'element' field
+        /**
+         * Constructor for the Segment class using a file path.
+         *
+         * @param path the path to the file segment.
+         * @throws IOException if an I/O error occurs during file reading.
+         */
+        public Segment(java.nio.file.Path path) throws IOException {
+            super(path);
+            initializeParquetReader(path);
         }
-        vectors.add(vector);
-      }
 
-      reader.close();
-      currentIndex = 0;
+        /**
+         * Constructor for the Segment class using a BufferedReader.
+         *
+         * This constructor might be used if you want to read from a different input
+         * source instead of a file path. For Parquet files, we generally use the
+         * file path constructor.
+         *
+         * @param bufferedReader the BufferedReader to read the file segment.
+         */
+        public Segment(BufferedReader bufferedReader) throws IOException {
+            super(bufferedReader);
+            throw new IOException("Not Implemented");
+        }
+
+        /**
+         * Initializes the Parquet reader.
+         *
+         * @param path the path to the Parquet file.
+         * @throws IOException if an I/O error occurs during file reading.
+         */
+        private void initializeParquetReader(java.nio.file.Path path) throws IOException {
+            // Convert the Java Path object to a Hadoop Path object
+            org.apache.hadoop.fs.Path hadoopPath = new org.apache.hadoop.fs.Path(path.toString());
+
+            // Create a ParquetReader with GroupReadSupport to read Group objects
+            reader = ParquetReader.builder(new GroupReadSupport(), hadoopPath).build();
+            readerInitialized = true; // Mark the reader as initialized
+        }
+
+        /**
+         * Reads the next document in the segment incrementally using the ParquetReader.
+         *
+         * @throws IOException            if an I/O error occurs during file reading.
+         * @throws NoSuchElementException if end of file is reached.
+         */
+        @Override
+        protected synchronized void readNext() throws IOException, NoSuchElementException {
+            // Check if we have reached the end of the file
+            if (atEOF || !readerInitialized) {
+                atEOF = true;
+                throw new NoSuchElementException("End of file reached");
+            }
+
+            // Read the next record from the ParquetReader
+            Group record = reader.read();
+            if (record == null) {
+                atEOF = true;
+                reader.close(); // Close the reader when EOF is reached
+                throw new NoSuchElementException("End of file reached");
+            }
+
+            // Extract the docid (String) from the record
+            String docid = record.getString("docid", 0);
+
+            // Extract the vector (double[]) from the record
+            Group vectorGroup = record.getGroup("vector", 0); // Access the 'vector' field
+            int vectorSize = vectorGroup.getFieldRepetitionCount(0); // Get the number of elements in the vector
+            double[] vector = new double[vectorSize];
+            for (int i = 0; i < vectorSize; i++) {
+                Group listGroup = vectorGroup.getGroup(0, i); // Access the 'list' group
+                vector[i] = listGroup.getDouble("element", 0); // Get the double value from the 'element' field
+            }
+
+            // Create a new Document object with the retrieved data
+            bufferedRecord = new ParquetDenseVectorCollection.Document(docid, vector, "");
+        }
     }
 
     /**
-     * Reads the next document in the segment.
-     *
-     * @throws IOException            if an I/O error occurs during file reading.
-     * @throws NoSuchElementException if end of file is reached.
+     * Inner class representing a document in the ParquetDenseVectorCollection.
      */
-    @Override
-    protected synchronized void readNext() throws IOException, NoSuchElementException {
-      // Check if we have reached the end of the list
-      if (currentIndex >= ids.size()) {
-        atEOF = true;
-        throw new NoSuchElementException("End of file reached");
-      }
+    public static class Document implements SourceDocument {
+        private final String id;
+        private final double[] vector;
+        private final String raw;
 
-      // Get the current document's ID, contents, and vector
-      String id = ids.get(currentIndex);
-      double[] vector = vectors.get(currentIndex);
+        /**
+         * Constructor for the Document class.
+         * 
+         * @param id     the document ID.
+         * @param vector the vector data.
+         * @param raw    the raw data.
+         */
+        public Document(String id, double[] vector, String raw) {
+            this.id = id;
+            this.vector = vector;
+            this.raw = raw;
+        }
 
-      // Create a new Document object with the retrieved data
-      bufferedRecord = new ParquetDenseVectorCollection.Document(id, vector, "");
+        /**
+         * Returns the document ID.
+         * 
+         * @return the document ID.
+         */
+        @Override
+        public String id() {
+            return id;
+        }
 
-      currentIndex++;
+        /**
+         * Returns the vector contents as a string.
+         * 
+         * @return the vector contents.
+         */
+        @Override
+        public String contents() {
+            return Arrays.toString(vector);
+        }
+
+        /**
+         * Returns the raw data.
+         * 
+         * @return the raw data.
+         */
+        @Override
+        public String raw() {
+            return raw;
+        }
+
+        /**
+         * Indicates whether the document is indexable.
+         * 
+         * @return true if the document is indexable, false otherwise.
+         */
+        @Override
+        public boolean indexable() {
+            return true;
+        }
     }
-  }
-
-  /**
-   * Inner class representing a document in the ParquetDenseVectorCollection.
-   */
-  public static class Document implements SourceDocument {
-    private final String id;
-    private final double[] vector;
-    private final String raw;
-
-    /**
-     * Constructor for the Document class.
-     * 
-     * @param id     the document ID.
-     * @param vector the vector data.
-     * @param raw    the raw data.
-     */
-    public Document(String id, double[] vector, String raw) {
-      this.id = id;
-      this.vector = vector;
-      this.raw = raw;
-    }
-
-    /**
-     * Returns the document ID.
-     * 
-     * @return the document ID.
-     */
-    @Override
-    public String id() {
-      return id;
-    }
-
-    /**
-     * Returns the vector contents as a string.
-     * 
-     * @return the vector contents.
-     */
-    @Override
-    public String contents() {
-      return Arrays.toString(vector);
-    }
-
-    /**
-     * Returns the raw data.
-     * 
-     * @return the raw data.
-     */
-    @Override
-    public String raw() {
-      return raw;
-    }
-
-    /**
-     * Indicates whether the document is indexable.
-     * 
-     * @return true if the document is indexable, false otherwise.
-     */
-    @Override
-    public boolean indexable() {
-      return true;
-    }
-  }
-
 }
