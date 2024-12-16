@@ -16,21 +16,19 @@
 
 package io.anserini.collection;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.parquet.example.data.Group;
 import org.apache.parquet.hadoop.ParquetReader;
 import org.apache.parquet.hadoop.example.GroupReadSupport;
-
-import java.util.ArrayList;
 
 /**
  * Collection class for managing Parquet dense vectors
@@ -87,8 +85,7 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
   public static class Segment extends FileSegment<ParquetDenseVectorCollection.Document> {
     private List<double[]> vectors; // List to store vectors from the Parquet file
     private List<String> ids; // List to store document IDs
-    private List<String> contents; // List to store contents of the documents
-    private int currentIndex; // Current index for iteration
+    private ParquetReader<Group> reader;
 
     /**
      * Constructor for the Segment class using a file path.
@@ -126,33 +123,11 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
       // name
       org.apache.hadoop.fs.Path hadoopPath = new org.apache.hadoop.fs.Path(path.toString());
 
-      // Create a ParquetReader with GroupReadSupport to read Group objects
-      ParquetReader<Group> reader = ParquetReader.builder(new GroupReadSupport(), hadoopPath).build();
+      reader = ParquetReader.builder(new GroupReadSupport(), hadoopPath).build();
 
       // Initialize lists to store data read from the Parquet file
       vectors = new ArrayList<>();
       ids = new ArrayList<>();
-
-      Group record;
-      // Read each record from the Parquet file
-      while ((record = reader.read()) != null) {
-        // Extract the docid (String) from the record
-        String docid = record.getString("docid", 0);
-        ids.add(docid);
-
-        // Extract the vector (double[]) from the record
-        Group vectorGroup = record.getGroup("vector", 0); // Access the 'vector' field
-        int vectorSize = vectorGroup.getFieldRepetitionCount(0); // Get the number of elements in the vector
-        double[] vector = new double[vectorSize];
-        for (int i = 0; i < vectorSize; i++) {
-          Group listGroup = vectorGroup.getGroup(0, i); // Access the 'list' group
-          vector[i] = listGroup.getDouble("element", 0); // Get the double value from the 'element' field
-        }
-        vectors.add(vector);
-      }
-
-      reader.close();
-      currentIndex = 0;
     }
 
     /**
@@ -164,19 +139,30 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
     @Override
     protected synchronized void readNext() throws IOException, NoSuchElementException {
       // Check if we have reached the end of the list
-      if (currentIndex >= ids.size()) {
+      Group record = reader.read();
+      if (record == null) {
         atEOF = true;
+        reader.close();
         throw new NoSuchElementException("End of file reached");
       }
+      
+    // Read each record from the Parquet file
+      // Extract the docid (String) from the record
+      String docid = record.getString("docid", 0);
+      ids.add(docid);
 
-      // Get the current document's ID, contents, and vector
-      String id = ids.get(currentIndex);
-      double[] vector = vectors.get(currentIndex);
+      // Extract the vector (double[]) from the record
+      Group vectorGroup = record.getGroup("vector", 0); // Access the 'vector' field
+      int vectorSize = vectorGroup.getFieldRepetitionCount(0); // Get the number of elements in the vector
+      double[] vector = new double[vectorSize];
+      for (int i = 0; i < vectorSize; i++) {
+        Group listGroup = vectorGroup.getGroup(0, i); // Access the 'list' group
+        vector[i] = listGroup.getDouble("element", 0); // Get the double value from the 'element' field
+      }
+      vectors.add(vector);
 
       // Create a new Document object with the retrieved data
-      bufferedRecord = new ParquetDenseVectorCollection.Document(id, vector, "");
-
-      currentIndex++;
+      bufferedRecord = new ParquetDenseVectorCollection.Document(docid, vector, "");
     }
   }
 
