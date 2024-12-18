@@ -86,6 +86,7 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
     private List<double[]> vectors; // List to store vectors from the Parquet file
     private List<String> ids; // List to store document IDs
     private ParquetReader<Group> reader;
+    private boolean readerInitialized;
 
     /**
      * Constructor for the Segment class using a file path.
@@ -128,6 +129,7 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
       // Initialize lists to store data read from the Parquet file
       vectors = new ArrayList<>();
       ids = new ArrayList<>();
+      readerInitialized = true;
     }
 
     /**
@@ -139,10 +141,14 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
     @Override
     protected synchronized void readNext() throws IOException, NoSuchElementException {
       // Check if we have reached the end of the list
+      if(atEOF || !readerInitialized){
+        throw new NoSuchElementException("End of file reached");
+      }
       Group record = reader.read();
       if (record == null) {
         atEOF = true;
         reader.close();
+        readerInitialized = false;
         throw new NoSuchElementException("End of file reached");
       }
       
