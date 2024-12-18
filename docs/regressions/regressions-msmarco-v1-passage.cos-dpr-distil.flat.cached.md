@@ -71,7 +71,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchFlatDenseVectors \
   -index indexes/lucene-flat.msmarco-v1-passage.cos-dpr-distil/ \
-  -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.gz \
+  -topics tools\topics-and-qrels\topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.gz \
   -topicReader JsonIntVector \
   -output runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-flat-cached.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt \
   -hits 1000 -threads 16 &
@@ -80,10 +80,10 @@ bin/run.sh io.anserini.search.SearchFlatDenseVectors \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-flat-cached.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
-bin/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-flat-cached.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-flat-cached.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-flat-cached.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
+bin/trec_eval -c -m map tools\topics-and-qrels\qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-flat-cached.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
+bin/trec_eval -c -M 10 -m recip_rank tools\topics-and-qrels\qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-flat-cached.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
+bin/trec_eval -c -m recall.100 tools\topics-and-qrels\qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-flat-cached.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
+bin/trec_eval -c -m recall.1000 tools\topics-and-qrels\qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.cos-dpr-distil-flat-cached.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
 ```
 
 ## Effectiveness

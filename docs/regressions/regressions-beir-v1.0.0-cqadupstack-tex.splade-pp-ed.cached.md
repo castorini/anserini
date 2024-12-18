@@ -56,7 +56,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.beir-v1.0.0-cqadupstack-tex.splade-pp-ed/ \
-  -topics tools/topics-and-qrels/topics.beir-v1.0.0-cqadupstack-tex.test.splade-pp-ed.tsv.gz \
+  -topics tools\topics-and-qrels\topics.beir-v1.0.0-cqadupstack-tex.test.splade-pp-ed.tsv.gz \
   -topicReader TsvString \
   -output runs/run.beir-v1.0.0-cqadupstack-tex.splade-pp-ed.splade-pp-ed-cached.topics.beir-v1.0.0-cqadupstack-tex.test.splade-pp-ed.txt \
   -impact -pretokenized -removeQuery -hits 1000 &
@@ -65,9 +65,9 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-tex.test.txt runs/run.beir-v1.0.0-cqadupstack-tex.splade-pp-ed.splade-pp-ed-cached.topics.beir-v1.0.0-cqadupstack-tex.test.splade-pp-ed.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-tex.test.txt runs/run.beir-v1.0.0-cqadupstack-tex.splade-pp-ed.splade-pp-ed-cached.topics.beir-v1.0.0-cqadupstack-tex.test.splade-pp-ed.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-tex.test.txt runs/run.beir-v1.0.0-cqadupstack-tex.splade-pp-ed.splade-pp-ed-cached.topics.beir-v1.0.0-cqadupstack-tex.test.splade-pp-ed.txt
+bin/trec_eval -c -m ndcg_cut.10 tools\topics-and-qrels\qrels.beir-v1.0.0-cqadupstack-tex.test.txt runs/run.beir-v1.0.0-cqadupstack-tex.splade-pp-ed.splade-pp-ed-cached.topics.beir-v1.0.0-cqadupstack-tex.test.splade-pp-ed.txt
+bin/trec_eval -c -m recall.100 tools\topics-and-qrels\qrels.beir-v1.0.0-cqadupstack-tex.test.txt runs/run.beir-v1.0.0-cqadupstack-tex.splade-pp-ed.splade-pp-ed-cached.topics.beir-v1.0.0-cqadupstack-tex.test.splade-pp-ed.txt
+bin/trec_eval -c -m recall.1000 tools\topics-and-qrels\qrels.beir-v1.0.0-cqadupstack-tex.test.txt runs/run.beir-v1.0.0-cqadupstack-tex.splade-pp-ed.splade-pp-ed-cached.topics.beir-v1.0.0-cqadupstack-tex.test.splade-pp-ed.txt
 ```
 
 ## Effectiveness

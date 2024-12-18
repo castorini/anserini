@@ -45,21 +45,21 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2.1-doc-segmented/ \
-  -topics tools/topics-and-qrels/topics.rag24.test.txt \
+  -topics tools\topics-and-qrels\topics.rag24.test.txt \
   -topicReader TsvString \
   -output runs/run.msmarco-v2.1-doc-segmented.bm25-default.topics.rag24.test.txt \
   -bm25 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2.1-doc-segmented/ \
-  -topics tools/topics-and-qrels/topics.rag24.test.txt \
+  -topics tools\topics-and-qrels\topics.rag24.test.txt \
   -topicReader TsvString \
   -output runs/run.msmarco-v2.1-doc-segmented.bm25-default+rm3.topics.rag24.test.txt \
   -bm25 -rm3 -collection MsMarcoV2DocCollection &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2.1-doc-segmented/ \
-  -topics tools/topics-and-qrels/topics.rag24.test.txt \
+  -topics tools\topics-and-qrels\topics.rag24.test.txt \
   -topicReader TsvString \
   -output runs/run.msmarco-v2.1-doc-segmented.bm25-default+rocchio.topics.rag24.test.txt \
   -bm25 -rocchio -collection MsMarcoV2DocCollection &
@@ -68,20 +68,20 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-bin/trec_eval -c -l 2 -M 100 -m map tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default.topics.rag24.test.txt
-bin/trec_eval -c -l 2 -m recall.100 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default.topics.rag24.test.txt
-bin/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default.topics.rag24.test.txt
-bin/trec_eval -c -l 2 -M 100 -m recip_rank -c -l 2 -m ndcg_cut.10 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default.topics.rag24.test.txt
+bin/trec_eval -c -l 2 -M 100 -m map tools\topics-and-qrels\qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default.topics.rag24.test.txt
+bin/trec_eval -c -l 2 -m recall.100 tools\topics-and-qrels\qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default.topics.rag24.test.txt
+bin/trec_eval -c -l 2 -m recall.1000 tools\topics-and-qrels\qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default.topics.rag24.test.txt
+bin/trec_eval -c -l 2 -M 100 -m recip_rank -c -l 2 -m ndcg_cut.10 tools\topics-and-qrels\qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default.topics.rag24.test.txt
 
-bin/trec_eval -c -l 2 -M 100 -m map tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rm3.topics.rag24.test.txt
-bin/trec_eval -c -l 2 -m recall.100 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rm3.topics.rag24.test.txt
-bin/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rm3.topics.rag24.test.txt
-bin/trec_eval -c -l 2 -M 100 -m recip_rank -c -l 2 -m ndcg_cut.10 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rm3.topics.rag24.test.txt
+bin/trec_eval -c -l 2 -M 100 -m map tools\topics-and-qrels\qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rm3.topics.rag24.test.txt
+bin/trec_eval -c -l 2 -m recall.100 tools\topics-and-qrels\qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rm3.topics.rag24.test.txt
+bin/trec_eval -c -l 2 -m recall.1000 tools\topics-and-qrels\qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rm3.topics.rag24.test.txt
+bin/trec_eval -c -l 2 -M 100 -m recip_rank -c -l 2 -m ndcg_cut.10 tools\topics-and-qrels\qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rm3.topics.rag24.test.txt
 
-bin/trec_eval -c -l 2 -M 100 -m map tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rocchio.topics.rag24.test.txt
-bin/trec_eval -c -l 2 -m recall.100 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rocchio.topics.rag24.test.txt
-bin/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rocchio.topics.rag24.test.txt
-bin/trec_eval -c -l 2 -M 100 -m recip_rank -c -l 2 -m ndcg_cut.10 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rocchio.topics.rag24.test.txt
+bin/trec_eval -c -l 2 -M 100 -m map tools\topics-and-qrels\qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rocchio.topics.rag24.test.txt
+bin/trec_eval -c -l 2 -m recall.100 tools\topics-and-qrels\qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rocchio.topics.rag24.test.txt
+bin/trec_eval -c -l 2 -m recall.1000 tools\topics-and-qrels\qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rocchio.topics.rag24.test.txt
+bin/trec_eval -c -l 2 -M 100 -m recip_rank -c -l 2 -m ndcg_cut.10 tools\topics-and-qrels\qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rocchio.topics.rag24.test.txt
 ```
 
 ## Effectiveness

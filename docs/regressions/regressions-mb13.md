@@ -54,78 +54,78 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.mb13/ \
-  -topics tools/topics-and-qrels/topics.microblog2013.txt \
+  -topics tools\topics-and-qrels\topics.microblog2013.txt \
   -topicReader Microblog \
   -output runs/run.mb13.bm25.topics.microblog2013.txt \
   -searchTweets -bm25 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.mb13/ \
-  -topics tools/topics-and-qrels/topics.microblog2014.txt \
+  -topics tools\topics-and-qrels\topics.microblog2014.txt \
   -topicReader Microblog \
   -output runs/run.mb13.bm25.topics.microblog2014.txt \
   -searchTweets -bm25 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.mb13/ \
-  -topics tools/topics-and-qrels/topics.microblog2013.txt \
+  -topics tools\topics-and-qrels\topics.microblog2013.txt \
   -topicReader Microblog \
   -output runs/run.mb13.bm25+rm3.topics.microblog2013.txt \
   -searchTweets -bm25 -rm3 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.mb13/ \
-  -topics tools/topics-and-qrels/topics.microblog2014.txt \
+  -topics tools\topics-and-qrels\topics.microblog2014.txt \
   -topicReader Microblog \
   -output runs/run.mb13.bm25+rm3.topics.microblog2014.txt \
   -searchTweets -bm25 -rm3 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.mb13/ \
-  -topics tools/topics-and-qrels/topics.microblog2013.txt \
+  -topics tools\topics-and-qrels\topics.microblog2013.txt \
   -topicReader Microblog \
   -output runs/run.mb13.bm25+ax.topics.microblog2013.txt \
   -searchTweets -bm25 -axiom -axiom.beta 1.0 -axiom.deterministic -rerankCutoff 20 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.mb13/ \
-  -topics tools/topics-and-qrels/topics.microblog2014.txt \
+  -topics tools\topics-and-qrels\topics.microblog2014.txt \
   -topicReader Microblog \
   -output runs/run.mb13.bm25+ax.topics.microblog2014.txt \
   -searchTweets -bm25 -axiom -axiom.beta 1.0 -axiom.deterministic -rerankCutoff 20 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.mb13/ \
-  -topics tools/topics-and-qrels/topics.microblog2013.txt \
+  -topics tools\topics-and-qrels\topics.microblog2013.txt \
   -topicReader Microblog \
   -output runs/run.mb13.ql.topics.microblog2013.txt \
   -searchTweets -qld &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.mb13/ \
-  -topics tools/topics-and-qrels/topics.microblog2014.txt \
+  -topics tools\topics-and-qrels\topics.microblog2014.txt \
   -topicReader Microblog \
   -output runs/run.mb13.ql.topics.microblog2014.txt \
   -searchTweets -qld &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.mb13/ \
-  -topics tools/topics-and-qrels/topics.microblog2013.txt \
+  -topics tools\topics-and-qrels\topics.microblog2013.txt \
   -topicReader Microblog \
   -output runs/run.mb13.ql+rm3.topics.microblog2013.txt \
   -searchTweets -qld -rm3 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.mb13/ \
-  -topics tools/topics-and-qrels/topics.microblog2014.txt \
+  -topics tools\topics-and-qrels\topics.microblog2014.txt \
   -topicReader Microblog \
   -output runs/run.mb13.ql+rm3.topics.microblog2014.txt \
   -searchTweets -qld -rm3 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.mb13/ \
-  -topics tools/topics-and-qrels/topics.microblog2013.txt \
+  -topics tools\topics-and-qrels\topics.microblog2013.txt \
   -topicReader Microblog \
   -output runs/run.mb13.ql+ax.topics.microblog2013.txt \
   -searchTweets -qld -axiom -axiom.beta 1.0 -axiom.deterministic -rerankCutoff 20 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.mb13/ \
-  -topics tools/topics-and-qrels/topics.microblog2014.txt \
+  -topics tools\topics-and-qrels\topics.microblog2014.txt \
   -topicReader Microblog \
   -output runs/run.mb13.ql+ax.topics.microblog2014.txt \
   -searchTweets -qld -axiom -axiom.beta 1.0 -axiom.deterministic -rerankCutoff 20 &
@@ -134,23 +134,23 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2013.txt runs/run.mb13.bm25.topics.microblog2013.txt
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2014.txt runs/run.mb13.bm25.topics.microblog2014.txt
+bin/trec_eval -m map -m P.30 tools\topics-and-qrels\qrels.microblog2013.txt runs/run.mb13.bm25.topics.microblog2013.txt
+bin/trec_eval -m map -m P.30 tools\topics-and-qrels\qrels.microblog2014.txt runs/run.mb13.bm25.topics.microblog2014.txt
 
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2013.txt runs/run.mb13.bm25+rm3.topics.microblog2013.txt
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2014.txt runs/run.mb13.bm25+rm3.topics.microblog2014.txt
+bin/trec_eval -m map -m P.30 tools\topics-and-qrels\qrels.microblog2013.txt runs/run.mb13.bm25+rm3.topics.microblog2013.txt
+bin/trec_eval -m map -m P.30 tools\topics-and-qrels\qrels.microblog2014.txt runs/run.mb13.bm25+rm3.topics.microblog2014.txt
 
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2013.txt runs/run.mb13.bm25+ax.topics.microblog2013.txt
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2014.txt runs/run.mb13.bm25+ax.topics.microblog2014.txt
+bin/trec_eval -m map -m P.30 tools\topics-and-qrels\qrels.microblog2013.txt runs/run.mb13.bm25+ax.topics.microblog2013.txt
+bin/trec_eval -m map -m P.30 tools\topics-and-qrels\qrels.microblog2014.txt runs/run.mb13.bm25+ax.topics.microblog2014.txt
 
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2013.txt runs/run.mb13.ql.topics.microblog2013.txt
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2014.txt runs/run.mb13.ql.topics.microblog2014.txt
+bin/trec_eval -m map -m P.30 tools\topics-and-qrels\qrels.microblog2013.txt runs/run.mb13.ql.topics.microblog2013.txt
+bin/trec_eval -m map -m P.30 tools\topics-and-qrels\qrels.microblog2014.txt runs/run.mb13.ql.topics.microblog2014.txt
 
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2013.txt runs/run.mb13.ql+rm3.topics.microblog2013.txt
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2014.txt runs/run.mb13.ql+rm3.topics.microblog2014.txt
+bin/trec_eval -m map -m P.30 tools\topics-and-qrels\qrels.microblog2013.txt runs/run.mb13.ql+rm3.topics.microblog2013.txt
+bin/trec_eval -m map -m P.30 tools\topics-and-qrels\qrels.microblog2014.txt runs/run.mb13.ql+rm3.topics.microblog2014.txt
 
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2013.txt runs/run.mb13.ql+ax.topics.microblog2013.txt
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.microblog2014.txt runs/run.mb13.ql+ax.topics.microblog2014.txt
+bin/trec_eval -m map -m P.30 tools\topics-and-qrels\qrels.microblog2013.txt runs/run.mb13.ql+ax.topics.microblog2013.txt
+bin/trec_eval -m map -m P.30 tools\topics-and-qrels\qrels.microblog2014.txt runs/run.mb13.ql+ax.topics.microblog2014.txt
 ```
 
 ## Effectiveness

@@ -36,7 +36,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.miracl-v1.0-ko/ \
-  -topics tools/topics-and-qrels/topics.miracl-v1.0-ko-dev.tsv \
+  -topics tools\topics-and-qrels\topics.miracl-v1.0-ko-dev.tsv \
   -topicReader TsvInt \
   -output runs/run.miracl-v1.0-ko.bm25.topics.miracl-v1.0-ko-dev.txt \
   -bm25 -hits 100 -language ko &
@@ -45,8 +45,8 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.miracl-v1.0-ko-dev.tsv runs/run.miracl-v1.0-ko.bm25.topics.miracl-v1.0-ko-dev.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.miracl-v1.0-ko-dev.tsv runs/run.miracl-v1.0-ko.bm25.topics.miracl-v1.0-ko-dev.txt
+bin/trec_eval -c -m ndcg_cut.10 tools\topics-and-qrels\qrels.miracl-v1.0-ko-dev.tsv runs/run.miracl-v1.0-ko.bm25.topics.miracl-v1.0-ko-dev.txt
+bin/trec_eval -c -m recall.100 tools\topics-and-qrels\qrels.miracl-v1.0-ko-dev.tsv runs/run.miracl-v1.0-ko.bm25.topics.miracl-v1.0-ko-dev.txt
 ```
 
 ## Effectiveness

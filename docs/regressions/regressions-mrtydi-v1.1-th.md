@@ -36,19 +36,19 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-thai/ \
-  -topics tools/topics-and-qrels/topics.mrtydi-v1.1-th.train.txt.gz \
+  -topics tools\topics-and-qrels\topics.mrtydi-v1.1-th.train.txt.gz \
   -topicReader TsvInt \
   -output runs/run.mrtydi-v1.1-th.bm25.topics.mrtydi-v1.1-th.train.txt \
   -bm25 -hits 100 -language th &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-thai/ \
-  -topics tools/topics-and-qrels/topics.mrtydi-v1.1-th.dev.txt.gz \
+  -topics tools\topics-and-qrels\topics.mrtydi-v1.1-th.dev.txt.gz \
   -topicReader TsvInt \
   -output runs/run.mrtydi-v1.1-th.bm25.topics.mrtydi-v1.1-th.dev.txt \
   -bm25 -hits 100 -language th &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-thai/ \
-  -topics tools/topics-and-qrels/topics.mrtydi-v1.1-th.test.txt.gz \
+  -topics tools\topics-and-qrels\topics.mrtydi-v1.1-th.test.txt.gz \
   -topicReader TsvInt \
   -output runs/run.mrtydi-v1.1-th.bm25.topics.mrtydi-v1.1-th.test.txt \
   -bm25 -hits 100 -language th &
@@ -57,9 +57,9 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools/topics-and-qrels/qrels.mrtydi-v1.1-th.train.txt runs/run.mrtydi-v1.1-th.bm25.topics.mrtydi-v1.1-th.train.txt
-bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools/topics-and-qrels/qrels.mrtydi-v1.1-th.dev.txt runs/run.mrtydi-v1.1-th.bm25.topics.mrtydi-v1.1-th.dev.txt
-bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools/topics-and-qrels/qrels.mrtydi-v1.1-th.test.txt runs/run.mrtydi-v1.1-th.bm25.topics.mrtydi-v1.1-th.test.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools\topics-and-qrels\qrels.mrtydi-v1.1-th.train.txt runs/run.mrtydi-v1.1-th.bm25.topics.mrtydi-v1.1-th.train.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools\topics-and-qrels\qrels.mrtydi-v1.1-th.dev.txt runs/run.mrtydi-v1.1-th.bm25.topics.mrtydi-v1.1-th.dev.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools\topics-and-qrels\qrels.mrtydi-v1.1-th.test.txt runs/run.mrtydi-v1.1-th.bm25.topics.mrtydi-v1.1-th.test.txt
 ```
 
 ## Effectiveness

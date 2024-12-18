@@ -44,13 +44,13 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2-doc-segmented/ \
-  -topics tools/topics-and-qrels/topics.msmarco-v2-doc.dev.txt \
+  -topics tools\topics-and-qrels\topics.msmarco-v2-doc.dev.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-doc-segmented.bm25-default.topics.msmarco-v2-doc.dev.txt \
   -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2-doc-segmented/ \
-  -topics tools/topics-and-qrels/topics.msmarco-v2-doc.dev2.txt \
+  -topics tools\topics-and-qrels\topics.msmarco-v2-doc.dev2.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-doc-segmented.bm25-default.topics.msmarco-v2-doc.dev2.txt \
   -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
@@ -59,12 +59,12 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc-segmented.bm25-default.topics.msmarco-v2-doc.dev.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc-segmented.bm25-default.topics.msmarco-v2-doc.dev.txt
-bin/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc-segmented.bm25-default.topics.msmarco-v2-doc.dev.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented.bm25-default.topics.msmarco-v2-doc.dev2.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented.bm25-default.topics.msmarco-v2-doc.dev2.txt
-bin/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented.bm25-default.topics.msmarco-v2-doc.dev2.txt
+bin/trec_eval -c -m recall.100 tools\topics-and-qrels\qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc-segmented.bm25-default.topics.msmarco-v2-doc.dev.txt
+bin/trec_eval -c -m recall.1000 tools\topics-and-qrels\qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc-segmented.bm25-default.topics.msmarco-v2-doc.dev.txt
+bin/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank tools\topics-and-qrels\qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc-segmented.bm25-default.topics.msmarco-v2-doc.dev.txt
+bin/trec_eval -c -m recall.100 tools\topics-and-qrels\qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented.bm25-default.topics.msmarco-v2-doc.dev2.txt
+bin/trec_eval -c -m recall.1000 tools\topics-and-qrels\qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented.bm25-default.topics.msmarco-v2-doc.dev2.txt
+bin/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank tools\topics-and-qrels\qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented.bm25-default.topics.msmarco-v2-doc.dev2.txt
 ```
 
 ## Effectiveness

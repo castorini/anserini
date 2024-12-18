@@ -36,19 +36,19 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.ciral-v1.0-sw/ \
-  -topics tools/topics-and-qrels/topics.ciral-v1.0-sw-test-a-native.tsv \
+  -topics tools\topics-and-qrels\topics.ciral-v1.0-sw-test-a-native.tsv \
   -topicReader TsvInt \
   -output runs/run.ciral-swahili.bm25-default.topics.ciral-v1.0-sw-test-a-native.txt \
   -bm25 -hits 1000 -language sw &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.ciral-v1.0-sw/ \
-  -topics tools/topics-and-qrels/topics.ciral-v1.0-sw-test-a-native.tsv \
+  -topics tools\topics-and-qrels\topics.ciral-v1.0-sw-test-a-native.tsv \
   -topicReader TsvInt \
   -output runs/run.ciral-swahili.bm25-default.topics.ciral-v1.0-sw-test-a-native.txt \
   -bm25 -hits 1000 -language sw &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.ciral-v1.0-sw/ \
-  -topics tools/topics-and-qrels/topics.ciral-v1.0-sw-test-b-native.tsv \
+  -topics tools\topics-and-qrels\topics.ciral-v1.0-sw-test-b-native.tsv \
   -topicReader TsvInt \
   -output runs/run.ciral-swahili.bm25-default.topics.ciral-v1.0-sw-test-b-native.txt \
   -bm25 -hits 1000 -language sw &
@@ -57,12 +57,12 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.ciral-v1.0-sw-test-a.tsv runs/run.ciral-swahili.bm25-default.topics.ciral-v1.0-sw-test-a-native.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.ciral-v1.0-sw-test-a.tsv runs/run.ciral-swahili.bm25-default.topics.ciral-v1.0-sw-test-a-native.txt
-bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.ciral-v1.0-sw-test-a-pools.tsv runs/run.ciral-swahili.bm25-default.topics.ciral-v1.0-sw-test-a-native.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.ciral-v1.0-sw-test-a-pools.tsv runs/run.ciral-swahili.bm25-default.topics.ciral-v1.0-sw-test-a-native.txt
-bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.ciral-v1.0-sw-test-b.tsv runs/run.ciral-swahili.bm25-default.topics.ciral-v1.0-sw-test-b-native.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.ciral-v1.0-sw-test-b.tsv runs/run.ciral-swahili.bm25-default.topics.ciral-v1.0-sw-test-b-native.txt
+bin/trec_eval -c -m ndcg_cut.20 tools\topics-and-qrels\qrels.ciral-v1.0-sw-test-a.tsv runs/run.ciral-swahili.bm25-default.topics.ciral-v1.0-sw-test-a-native.txt
+bin/trec_eval -c -m recall.100 tools\topics-and-qrels\qrels.ciral-v1.0-sw-test-a.tsv runs/run.ciral-swahili.bm25-default.topics.ciral-v1.0-sw-test-a-native.txt
+bin/trec_eval -c -m ndcg_cut.20 tools\topics-and-qrels\qrels.ciral-v1.0-sw-test-a-pools.tsv runs/run.ciral-swahili.bm25-default.topics.ciral-v1.0-sw-test-a-native.txt
+bin/trec_eval -c -m recall.100 tools\topics-and-qrels\qrels.ciral-v1.0-sw-test-a-pools.tsv runs/run.ciral-swahili.bm25-default.topics.ciral-v1.0-sw-test-a-native.txt
+bin/trec_eval -c -m ndcg_cut.20 tools\topics-and-qrels\qrels.ciral-v1.0-sw-test-b.tsv runs/run.ciral-swahili.bm25-default.topics.ciral-v1.0-sw-test-b-native.txt
+bin/trec_eval -c -m recall.100 tools\topics-and-qrels\qrels.ciral-v1.0-sw-test-b.tsv runs/run.ciral-swahili.bm25-default.topics.ciral-v1.0-sw-test-b-native.txt
 ```
 
 ## Effectiveness

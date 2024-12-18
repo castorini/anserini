@@ -1,0 +1,100 @@
+------------------------------------------------------------------------------
+Change Log  (only recent)
+------------------------------------------------------------------------------
+12/5/12 Version 9.0.4
+       Fixed yaap measure (Stephen Robertson).
+12/5/12 Version 9.0.3
+       Added yaap measure (Stephen Robertson).
+2/28/12 Version 9.0.2
+       Cleaned up warning messages again, Corrected -c flag implementation
+7/14/09 Version 9.0
+       Long past time to get this out there, despite my plans
+       for more features!  Minor cleanup of warning messages 
+       in 64bit and gcc 4.4 compilers
+12/31/08
+       comments and documentation of Zscore file format corrected.
+       trec_eval.c get_zscores.c
+3/3/08 Version 9.0alpha.  
+       Complete rewrite of entire trec_eval (needed for a long time - 
+       core code was written in the 1980's and was ugly then!). 
+       Complete separation of individual measure calculations -
+       computers are now fast enough so can afford recalculation of lots
+       of intermediate values.  
+       Parameters for measures (eg, cutoffs for P) can be specified on the
+       command line.  
+       Choice of measures can be specifed on the command line.
+       Should be much easier to add measures, and much easier to add
+       new input file formats with associated measures.
+       An initial set of preference evaluation measures (with their own
+       input rel_info format) have been added.
+       Help now gives targeted measure and format descriptions.  Try
+          trec_eval -h -m all_prefs -R prefs
+       to get info on preference measures and formats, for instance.
+       All internal calculations are in double rather than float. Yields
+       minor variations in output at rare times; mostly when going from a
+       double percentage to a corresponding doc cutoff (eg, in iprec_at_recall).
+       All globally known procedure names or variables now begin with 'te_'
+       to allow incorporation of procedures in other programs.
+       
+       Measures added:
+       	        ndcg, ndcg_cut, set_F, success, map_avgjg, P_avgjg, runid,
+		relstring, ndcg_p
+		various preference evaluation measures.
+       Measures renamed:
+                set_P			was exact_prec
+	        set_recall 		was exact_recall
+	        set_relative_P		was exact_relative_prec
+	        set_recall		was exact_recall
+	        set_map			was exact_unranked_avg_prec
+		gm_map                  was gm_ap
+		11pt_avg                was 11-pt_avg
+                Rprec-mult_*            was *R-prec
+		P_*                     was P*
+                recall_*                was recall*
+		relative_P_*            was relative_P*
+		iprec_at_recall_*       was ircl_prn.*
+       Measures dropped for now:
+       		3-pt_avg       	
+		avg_doc_prec   	
+		avg_relative_prec	
+		exact_relative_unranked_avg_prec	
+		map_at_R       	
+                int_map        	
+                exact_int_R_rcl_prec
+                int_map_at_R   	
+                unranked_avg_prec*
+                relative_unranked_avg_prec*
+                rcl_at_142_nonrel	
+                fallout_recall_*
+                int_*R-prec
+                micro_prec     	
+                micro_recall   	
+                micro_bpref    	
+		bpref variants
+		time base measures.
+	Input formats added:
+	        prefs - allows expression of preferences
+		qrels_prefs - same as standard qrels, except treated as prefs
+		qrels_jg - same as standard qrels, except allows judgment sets
+                           from multiple users (judgment groups).
+
+Version 8.1, Added infAP, minor bug fixes
+7/24/06 Improved infAP comments (implementation verified by Yilmaz).
+        trec_eval_help.c: allow longer measure explanations.
+6/27/06 get_opt.c Fixed error message
+6/22/06 Added measure infAP (Aslam et al) to allow judging only sample 
+        of pools.  -1 for rel in qrels file interpreted as pool doc not judged.
+6/22/06 trvec_teval.c: fixed bugs in calculation of bpref if multiple
+	relevance levels were used and a non-default relevance level
+	was given. (Eg. A doc with rel level of 2 was counted as unjudged
+	rather than judged nonrel if a relevance level of 3 was needed
+	to consider relevant.)
+4/5/06  Changed comments in README, trec_eval.c, trec_eval_help.c files 
+        which incorrectly claimed queries with no relevant docs are 
+        ignored (this was true with very old versions of trec_eval).  Now
+        reads that queries with no relevance information are ignored.
+        Giorgio Di Nunzio and Nicola Ferro,
+------------------------------------------------------------------------------
+Version 8.0, full bpref bug fix, see file bpref_bug.  I decided to up the 
+        version number since bpref results are incompatible with previous 
+        results (though the changes are small).

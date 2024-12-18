@@ -78,13 +78,13 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2-passage.splade-pp-ed/ \
-  -topics tools/topics-and-qrels/topics.msmarco-v2-passage.dev.splade-pp-ed.tsv.gz \
+  -topics tools\topics-and-qrels\topics.msmarco-v2-passage.dev.splade-pp-ed.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached.topics.msmarco-v2-passage.dev.splade-pp-ed.txt \
   -parallelism 16 -impact -pretokenized &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2-passage.splade-pp-ed/ \
-  -topics tools/topics-and-qrels/topics.msmarco-v2-passage.dev2.splade-pp-ed.tsv.gz \
+  -topics tools\topics-and-qrels\topics.msmarco-v2-passage.dev2.splade-pp-ed.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached.topics.msmarco-v2-passage.dev2.splade-pp-ed.txt \
   -parallelism 16 -impact -pretokenized &
@@ -93,12 +93,12 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached.topics.msmarco-v2-passage.dev.splade-pp-ed.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached.topics.msmarco-v2-passage.dev.splade-pp-ed.txt
-bin/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached.topics.msmarco-v2-passage.dev.splade-pp-ed.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached.topics.msmarco-v2-passage.dev2.splade-pp-ed.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached.topics.msmarco-v2-passage.dev2.splade-pp-ed.txt
-bin/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached.topics.msmarco-v2-passage.dev2.splade-pp-ed.txt
+bin/trec_eval -c -m recall.100 tools\topics-and-qrels\qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached.topics.msmarco-v2-passage.dev.splade-pp-ed.txt
+bin/trec_eval -c -m recall.1000 tools\topics-and-qrels\qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached.topics.msmarco-v2-passage.dev.splade-pp-ed.txt
+bin/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank tools\topics-and-qrels\qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached.topics.msmarco-v2-passage.dev.splade-pp-ed.txt
+bin/trec_eval -c -m recall.100 tools\topics-and-qrels\qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached.topics.msmarco-v2-passage.dev2.splade-pp-ed.txt
+bin/trec_eval -c -m recall.1000 tools\topics-and-qrels\qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached.topics.msmarco-v2-passage.dev2.splade-pp-ed.txt
+bin/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank tools\topics-and-qrels\qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached.topics.msmarco-v2-passage.dev2.splade-pp-ed.txt
 ```
 
 ## Effectiveness

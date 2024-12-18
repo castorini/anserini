@@ -45,7 +45,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.fire12-en/ \
-  -topics tools/topics-and-qrels/topics.fire12en.176-225.txt \
+  -topics tools\topics-and-qrels\topics.fire12en.176-225.txt \
   -topicReader Trec \
   -output runs/run.fire12-en.bm25.topics.fire12en.176-225.txt \
   -bm25 -language en &
@@ -54,7 +54,7 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-bin/trec_eval -m map -m P.20 -m ndcg_cut.20 tools/topics-and-qrels/qrels.fire12en.176-225.txt runs/run.fire12-en.bm25.topics.fire12en.176-225.txt
+bin/trec_eval -m map -m P.20 -m ndcg_cut.20 tools\topics-and-qrels\qrels.fire12en.176-225.txt runs/run.fire12-en.bm25.topics.fire12en.176-225.txt
 ```
 
 ## Effectiveness

@@ -71,7 +71,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchFlatDenseVectors \
   -index indexes/lucene-flat.msmarco-v1-passage.cos-dpr-distil/ \
-  -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
+  -topics tools\topics-and-qrels\topics.msmarco-passage.dev-subset.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-flat-onnx.topics.msmarco-passage.dev-subset.txt \
   -encoder CosDprDistil -hits 1000 -threads 16 &
@@ -82,10 +82,10 @@ Note that we are performing query inference "on-the-fly" with ONNX in these expe
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-flat-onnx.topics.msmarco-passage.dev-subset.txt
-bin/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-flat-onnx.topics.msmarco-passage.dev-subset.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-flat-onnx.topics.msmarco-passage.dev-subset.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-flat-onnx.topics.msmarco-passage.dev-subset.txt
+bin/trec_eval -c -m map tools\topics-and-qrels\qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-flat-onnx.topics.msmarco-passage.dev-subset.txt
+bin/trec_eval -c -M 10 -m recip_rank tools\topics-and-qrels\qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-flat-onnx.topics.msmarco-passage.dev-subset.txt
+bin/trec_eval -c -m recall.100 tools\topics-and-qrels\qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-flat-onnx.topics.msmarco-passage.dev-subset.txt
+bin/trec_eval -c -m recall.1000 tools\topics-and-qrels\qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-flat-onnx.topics.msmarco-passage.dev-subset.txt
 ```
 
 ## Effectiveness

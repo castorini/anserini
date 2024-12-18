@@ -81,21 +81,21 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v1-doc-segmented.unicoil/ \
-  -topics tools/topics-and-qrels/topics.dl20.unicoil.0shot.tsv.gz \
+  -topics tools\topics-and-qrels\topics.dl20.unicoil.0shot.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-doc-segmented-unicoil.unicoil-cached.topics.dl20.unicoil.0shot.txt \
   -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v1-doc-segmented.unicoil/ \
-  -topics tools/topics-and-qrels/topics.dl20.unicoil.0shot.tsv.gz \
+  -topics tools\topics-and-qrels\topics.dl20.unicoil.0shot.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-doc-segmented-unicoil.unicoil-cached+rm3.topics.dl20.unicoil.0shot.txt \
   -impact -pretokenized -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v1-doc-segmented.unicoil/ \
-  -topics tools/topics-and-qrels/topics.dl20.unicoil.0shot.tsv.gz \
+  -topics tools\topics-and-qrels\topics.dl20.unicoil.0shot.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-doc-segmented-unicoil.unicoil-cached+rocchio.topics.dl20.unicoil.0shot.txt \
   -impact -pretokenized -rocchio -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
@@ -104,20 +104,20 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil-cached.topics.dl20.unicoil.0shot.txt
-bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil-cached.topics.dl20.unicoil.0shot.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil-cached.topics.dl20.unicoil.0shot.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil-cached.topics.dl20.unicoil.0shot.txt
+bin/trec_eval -c -M 100 -m map tools\topics-and-qrels\qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil-cached.topics.dl20.unicoil.0shot.txt
+bin/trec_eval -c -m ndcg_cut.10 tools\topics-and-qrels\qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil-cached.topics.dl20.unicoil.0shot.txt
+bin/trec_eval -c -m recall.100 tools\topics-and-qrels\qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil-cached.topics.dl20.unicoil.0shot.txt
+bin/trec_eval -c -m recall.1000 tools\topics-and-qrels\qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil-cached.topics.dl20.unicoil.0shot.txt
 
-bin/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil-cached+rm3.topics.dl20.unicoil.0shot.txt
-bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil-cached+rm3.topics.dl20.unicoil.0shot.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil-cached+rm3.topics.dl20.unicoil.0shot.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil-cached+rm3.topics.dl20.unicoil.0shot.txt
+bin/trec_eval -c -M 100 -m map tools\topics-and-qrels\qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil-cached+rm3.topics.dl20.unicoil.0shot.txt
+bin/trec_eval -c -m ndcg_cut.10 tools\topics-and-qrels\qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil-cached+rm3.topics.dl20.unicoil.0shot.txt
+bin/trec_eval -c -m recall.100 tools\topics-and-qrels\qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil-cached+rm3.topics.dl20.unicoil.0shot.txt
+bin/trec_eval -c -m recall.1000 tools\topics-and-qrels\qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil-cached+rm3.topics.dl20.unicoil.0shot.txt
 
-bin/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil-cached+rocchio.topics.dl20.unicoil.0shot.txt
-bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil-cached+rocchio.topics.dl20.unicoil.0shot.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil-cached+rocchio.topics.dl20.unicoil.0shot.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil-cached+rocchio.topics.dl20.unicoil.0shot.txt
+bin/trec_eval -c -M 100 -m map tools\topics-and-qrels\qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil-cached+rocchio.topics.dl20.unicoil.0shot.txt
+bin/trec_eval -c -m ndcg_cut.10 tools\topics-and-qrels\qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil-cached+rocchio.topics.dl20.unicoil.0shot.txt
+bin/trec_eval -c -m recall.100 tools\topics-and-qrels\qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil-cached+rocchio.topics.dl20.unicoil.0shot.txt
+bin/trec_eval -c -m recall.1000 tools\topics-and-qrels\qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-unicoil.unicoil-cached+rocchio.topics.dl20.unicoil.0shot.txt
 ```
 
 ## Effectiveness

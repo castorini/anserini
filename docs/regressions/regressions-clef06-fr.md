@@ -45,7 +45,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.clef06-fr/ \
-  -topics tools/topics-and-qrels/topics.clef06fr.mono.fr.txt \
+  -topics tools\topics-and-qrels\topics.clef06fr.mono.fr.txt \
   -topicReader TsvString \
   -output runs/run.clef06-fr.bm25.topics.clef06fr.mono.fr.txt \
   -bm25 -language fr &
@@ -54,7 +54,7 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-bin/trec_eval -m map -m P.20 -m ndcg_cut.20 tools/topics-and-qrels/qrels.clef06fr.txt runs/run.clef06-fr.bm25.topics.clef06fr.mono.fr.txt
+bin/trec_eval -m map -m P.20 -m ndcg_cut.20 tools\topics-and-qrels\qrels.clef06fr.txt runs/run.clef06-fr.bm25.topics.clef06fr.mono.fr.txt
 ```
 
 ## Effectiveness
