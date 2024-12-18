@@ -50,111 +50,111 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-fa \
-  -topics tools/topics-and-qrels/topics.hc4-v1.0-fa.dev.title.tsv \
+  -topics tools\topics-and-qrels\topics.hc4-v1.0-fa.dev.title.tsv \
   -topicReader TsvInt \
   -output runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.dev.title.txt \
   -bm25 -language fa &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-fa \
-  -topics tools/topics-and-qrels/topics.hc4-v1.0-fa.dev.desc.tsv \
+  -topics tools\topics-and-qrels\topics.hc4-v1.0-fa.dev.desc.tsv \
   -topicReader TsvInt \
   -output runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.dev.desc.txt \
   -bm25 -language fa &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-fa \
-  -topics tools/topics-and-qrels/topics.hc4-v1.0-fa.dev.desc.title.tsv \
+  -topics tools\topics-and-qrels\topics.hc4-v1.0-fa.dev.desc.title.tsv \
   -topicReader TsvInt \
   -output runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.dev.desc.title.txt \
   -bm25 -language fa &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-fa \
-  -topics tools/topics-and-qrels/topics.hc4-v1.0-fa.test.title.tsv \
+  -topics tools\topics-and-qrels\topics.hc4-v1.0-fa.test.title.tsv \
   -topicReader TsvInt \
   -output runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.test.title.txt \
   -bm25 -language fa &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-fa \
-  -topics tools/topics-and-qrels/topics.hc4-v1.0-fa.test.desc.tsv \
+  -topics tools\topics-and-qrels\topics.hc4-v1.0-fa.test.desc.tsv \
   -topicReader TsvInt \
   -output runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.test.desc.txt \
   -bm25 -language fa &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-fa \
-  -topics tools/topics-and-qrels/topics.hc4-v1.0-fa.test.desc.title.tsv \
+  -topics tools\topics-and-qrels\topics.hc4-v1.0-fa.test.desc.title.tsv \
   -topicReader TsvInt \
   -output runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.test.desc.title.txt \
   -bm25 -language fa &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-fa \
-  -topics tools/topics-and-qrels/topics.hc4-v1.0-fa.dev.title.tsv \
+  -topics tools\topics-and-qrels\topics.hc4-v1.0-fa.dev.title.tsv \
   -topicReader TsvInt \
   -output runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.dev.title.txt \
   -bm25 -rm3 -language fa &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-fa \
-  -topics tools/topics-and-qrels/topics.hc4-v1.0-fa.dev.desc.tsv \
+  -topics tools\topics-and-qrels\topics.hc4-v1.0-fa.dev.desc.tsv \
   -topicReader TsvInt \
   -output runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.dev.desc.txt \
   -bm25 -rm3 -language fa &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-fa \
-  -topics tools/topics-and-qrels/topics.hc4-v1.0-fa.dev.desc.title.tsv \
+  -topics tools\topics-and-qrels\topics.hc4-v1.0-fa.dev.desc.title.tsv \
   -topicReader TsvInt \
   -output runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.dev.desc.title.txt \
   -bm25 -rm3 -language fa &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-fa \
-  -topics tools/topics-and-qrels/topics.hc4-v1.0-fa.test.title.tsv \
+  -topics tools\topics-and-qrels\topics.hc4-v1.0-fa.test.title.tsv \
   -topicReader TsvInt \
   -output runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.test.title.txt \
   -bm25 -rm3 -language fa &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-fa \
-  -topics tools/topics-and-qrels/topics.hc4-v1.0-fa.test.desc.tsv \
+  -topics tools\topics-and-qrels\topics.hc4-v1.0-fa.test.desc.tsv \
   -topicReader TsvInt \
   -output runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.test.desc.txt \
   -bm25 -rm3 -language fa &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-fa \
-  -topics tools/topics-and-qrels/topics.hc4-v1.0-fa.test.desc.title.tsv \
+  -topics tools\topics-and-qrels\topics.hc4-v1.0-fa.test.desc.title.tsv \
   -topicReader TsvInt \
   -output runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.test.desc.title.txt \
   -bm25 -rm3 -language fa &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-fa \
-  -topics tools/topics-and-qrels/topics.hc4-v1.0-fa.dev.title.tsv \
+  -topics tools\topics-and-qrels\topics.hc4-v1.0-fa.dev.title.tsv \
   -topicReader TsvInt \
   -output runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.dev.title.txt \
   -bm25 -rocchio -language fa &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-fa \
-  -topics tools/topics-and-qrels/topics.hc4-v1.0-fa.dev.desc.tsv \
+  -topics tools\topics-and-qrels\topics.hc4-v1.0-fa.dev.desc.tsv \
   -topicReader TsvInt \
   -output runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.dev.desc.txt \
   -bm25 -rocchio -language fa &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-fa \
-  -topics tools/topics-and-qrels/topics.hc4-v1.0-fa.dev.desc.title.tsv \
+  -topics tools\topics-and-qrels\topics.hc4-v1.0-fa.dev.desc.title.tsv \
   -topicReader TsvInt \
   -output runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.dev.desc.title.txt \
   -bm25 -rocchio -language fa &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-fa \
-  -topics tools/topics-and-qrels/topics.hc4-v1.0-fa.test.title.tsv \
+  -topics tools\topics-and-qrels\topics.hc4-v1.0-fa.test.title.tsv \
   -topicReader TsvInt \
   -output runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.test.title.txt \
   -bm25 -rocchio -language fa &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-fa \
-  -topics tools/topics-and-qrels/topics.hc4-v1.0-fa.test.desc.tsv \
+  -topics tools\topics-and-qrels\topics.hc4-v1.0-fa.test.desc.tsv \
   -topicReader TsvInt \
   -output runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.test.desc.txt \
   -bm25 -rocchio -language fa &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.hc4-v1.0-fa \
-  -topics tools/topics-and-qrels/topics.hc4-v1.0-fa.test.desc.title.tsv \
+  -topics tools\topics-and-qrels\topics.hc4-v1.0-fa.test.desc.title.tsv \
   -topicReader TsvInt \
   -output runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.test.desc.title.txt \
   -bm25 -rocchio -language fa &
@@ -163,80 +163,80 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.dev.title.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.dev.title.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.dev.title.txt
-bin/trec_eval -c -m map tools/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.dev.title.txt
-bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.dev.desc.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.dev.desc.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.dev.desc.txt
-bin/trec_eval -c -m map tools/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.dev.desc.txt
-bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.dev.desc.title.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.dev.desc.title.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.dev.desc.title.txt
-bin/trec_eval -c -m map tools/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.dev.desc.title.txt
-bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.test.title.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.test.title.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.test.title.txt
-bin/trec_eval -c -m map tools/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.test.title.txt
-bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.test.desc.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.test.desc.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.test.desc.txt
-bin/trec_eval -c -m map tools/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.test.desc.txt
-bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.test.desc.title.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.test.desc.title.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.test.desc.title.txt
-bin/trec_eval -c -m map tools/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.test.desc.title.txt
+bin/trec_eval -c -m ndcg_cut.20 tools\topics-and-qrels\qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.dev.title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 tools\topics-and-qrels\qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.dev.title.txt
+bin/trec_eval -c -m recall.1000 tools\topics-and-qrels\qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.dev.title.txt
+bin/trec_eval -c -m map tools\topics-and-qrels\qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.dev.title.txt
+bin/trec_eval -c -m ndcg_cut.20 tools\topics-and-qrels\qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.dev.desc.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 tools\topics-and-qrels\qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.dev.desc.txt
+bin/trec_eval -c -m recall.1000 tools\topics-and-qrels\qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.dev.desc.txt
+bin/trec_eval -c -m map tools\topics-and-qrels\qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.dev.desc.txt
+bin/trec_eval -c -m ndcg_cut.20 tools\topics-and-qrels\qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.dev.desc.title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 tools\topics-and-qrels\qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.dev.desc.title.txt
+bin/trec_eval -c -m recall.1000 tools\topics-and-qrels\qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.dev.desc.title.txt
+bin/trec_eval -c -m map tools\topics-and-qrels\qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.dev.desc.title.txt
+bin/trec_eval -c -m ndcg_cut.20 tools\topics-and-qrels\qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.test.title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 tools\topics-and-qrels\qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.test.title.txt
+bin/trec_eval -c -m recall.1000 tools\topics-and-qrels\qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.test.title.txt
+bin/trec_eval -c -m map tools\topics-and-qrels\qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.test.title.txt
+bin/trec_eval -c -m ndcg_cut.20 tools\topics-and-qrels\qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.test.desc.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 tools\topics-and-qrels\qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.test.desc.txt
+bin/trec_eval -c -m recall.1000 tools\topics-and-qrels\qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.test.desc.txt
+bin/trec_eval -c -m map tools\topics-and-qrels\qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.test.desc.txt
+bin/trec_eval -c -m ndcg_cut.20 tools\topics-and-qrels\qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.test.desc.title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 tools\topics-and-qrels\qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.test.desc.title.txt
+bin/trec_eval -c -m recall.1000 tools\topics-and-qrels\qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.test.desc.title.txt
+bin/trec_eval -c -m map tools\topics-and-qrels\qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default.topics.hc4-v1.0-fa.test.desc.title.txt
 
-bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.dev.title.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.dev.title.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.dev.title.txt
-bin/trec_eval -c -m map tools/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.dev.title.txt
-bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.dev.desc.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.dev.desc.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.dev.desc.txt
-bin/trec_eval -c -m map tools/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.dev.desc.txt
-bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.dev.desc.title.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.dev.desc.title.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.dev.desc.title.txt
-bin/trec_eval -c -m map tools/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.dev.desc.title.txt
-bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.test.title.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.test.title.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.test.title.txt
-bin/trec_eval -c -m map tools/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.test.title.txt
-bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.test.desc.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.test.desc.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.test.desc.txt
-bin/trec_eval -c -m map tools/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.test.desc.txt
-bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.test.desc.title.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.test.desc.title.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.test.desc.title.txt
-bin/trec_eval -c -m map tools/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.test.desc.title.txt
+bin/trec_eval -c -m ndcg_cut.20 tools\topics-and-qrels\qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.dev.title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 tools\topics-and-qrels\qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.dev.title.txt
+bin/trec_eval -c -m recall.1000 tools\topics-and-qrels\qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.dev.title.txt
+bin/trec_eval -c -m map tools\topics-and-qrels\qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.dev.title.txt
+bin/trec_eval -c -m ndcg_cut.20 tools\topics-and-qrels\qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.dev.desc.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 tools\topics-and-qrels\qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.dev.desc.txt
+bin/trec_eval -c -m recall.1000 tools\topics-and-qrels\qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.dev.desc.txt
+bin/trec_eval -c -m map tools\topics-and-qrels\qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.dev.desc.txt
+bin/trec_eval -c -m ndcg_cut.20 tools\topics-and-qrels\qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.dev.desc.title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 tools\topics-and-qrels\qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.dev.desc.title.txt
+bin/trec_eval -c -m recall.1000 tools\topics-and-qrels\qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.dev.desc.title.txt
+bin/trec_eval -c -m map tools\topics-and-qrels\qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.dev.desc.title.txt
+bin/trec_eval -c -m ndcg_cut.20 tools\topics-and-qrels\qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.test.title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 tools\topics-and-qrels\qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.test.title.txt
+bin/trec_eval -c -m recall.1000 tools\topics-and-qrels\qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.test.title.txt
+bin/trec_eval -c -m map tools\topics-and-qrels\qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.test.title.txt
+bin/trec_eval -c -m ndcg_cut.20 tools\topics-and-qrels\qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.test.desc.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 tools\topics-and-qrels\qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.test.desc.txt
+bin/trec_eval -c -m recall.1000 tools\topics-and-qrels\qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.test.desc.txt
+bin/trec_eval -c -m map tools\topics-and-qrels\qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.test.desc.txt
+bin/trec_eval -c -m ndcg_cut.20 tools\topics-and-qrels\qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.test.desc.title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 tools\topics-and-qrels\qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.test.desc.title.txt
+bin/trec_eval -c -m recall.1000 tools\topics-and-qrels\qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.test.desc.title.txt
+bin/trec_eval -c -m map tools\topics-and-qrels\qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rm3.topics.hc4-v1.0-fa.test.desc.title.txt
 
-bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.dev.title.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.dev.title.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.dev.title.txt
-bin/trec_eval -c -m map tools/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.dev.title.txt
-bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.dev.desc.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.dev.desc.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.dev.desc.txt
-bin/trec_eval -c -m map tools/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.dev.desc.txt
-bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.dev.desc.title.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.dev.desc.title.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.dev.desc.title.txt
-bin/trec_eval -c -m map tools/topics-and-qrels/qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.dev.desc.title.txt
-bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.test.title.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.test.title.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.test.title.txt
-bin/trec_eval -c -m map tools/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.test.title.txt
-bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.test.desc.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.test.desc.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.test.desc.txt
-bin/trec_eval -c -m map tools/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.test.desc.txt
-bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.test.desc.title.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.test.desc.title.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.test.desc.title.txt
-bin/trec_eval -c -m map tools/topics-and-qrels/qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.test.desc.title.txt
+bin/trec_eval -c -m ndcg_cut.20 tools\topics-and-qrels\qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.dev.title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 tools\topics-and-qrels\qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.dev.title.txt
+bin/trec_eval -c -m recall.1000 tools\topics-and-qrels\qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.dev.title.txt
+bin/trec_eval -c -m map tools\topics-and-qrels\qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.dev.title.txt
+bin/trec_eval -c -m ndcg_cut.20 tools\topics-and-qrels\qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.dev.desc.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 tools\topics-and-qrels\qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.dev.desc.txt
+bin/trec_eval -c -m recall.1000 tools\topics-and-qrels\qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.dev.desc.txt
+bin/trec_eval -c -m map tools\topics-and-qrels\qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.dev.desc.txt
+bin/trec_eval -c -m ndcg_cut.20 tools\topics-and-qrels\qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.dev.desc.title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 tools\topics-and-qrels\qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.dev.desc.title.txt
+bin/trec_eval -c -m recall.1000 tools\topics-and-qrels\qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.dev.desc.title.txt
+bin/trec_eval -c -m map tools\topics-and-qrels\qrels.hc4-v1.0-fa.dev.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.dev.desc.title.txt
+bin/trec_eval -c -m ndcg_cut.20 tools\topics-and-qrels\qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.test.title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 tools\topics-and-qrels\qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.test.title.txt
+bin/trec_eval -c -m recall.1000 tools\topics-and-qrels\qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.test.title.txt
+bin/trec_eval -c -m map tools\topics-and-qrels\qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.test.title.txt
+bin/trec_eval -c -m ndcg_cut.20 tools\topics-and-qrels\qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.test.desc.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 tools\topics-and-qrels\qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.test.desc.txt
+bin/trec_eval -c -m recall.1000 tools\topics-and-qrels\qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.test.desc.txt
+bin/trec_eval -c -m map tools\topics-and-qrels\qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.test.desc.txt
+bin/trec_eval -c -m ndcg_cut.20 tools\topics-and-qrels\qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.test.desc.title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 tools\topics-and-qrels\qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.test.desc.title.txt
+bin/trec_eval -c -m recall.1000 tools\topics-and-qrels\qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.test.desc.title.txt
+bin/trec_eval -c -m map tools\topics-and-qrels\qrels.hc4-v1.0-fa.test.txt runs/run.hc4-v1.0-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.test.desc.title.txt
 ```
 
 ## Effectiveness

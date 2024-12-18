@@ -48,114 +48,114 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.disk12/ \
-  -topics tools/topics-and-qrels/topics.adhoc.51-100.txt \
+  -topics tools\topics-and-qrels\topics.adhoc.51-100.txt \
   -topicReader Trec \
   -output runs/run.disk12.bm25.topics.adhoc.51-100.txt \
   -bm25 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.disk12/ \
-  -topics tools/topics-and-qrels/topics.adhoc.101-150.txt \
+  -topics tools\topics-and-qrels\topics.adhoc.101-150.txt \
   -topicReader Trec \
   -output runs/run.disk12.bm25.topics.adhoc.101-150.txt \
   -bm25 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.disk12/ \
-  -topics tools/topics-and-qrels/topics.adhoc.151-200.txt \
+  -topics tools\topics-and-qrels\topics.adhoc.151-200.txt \
   -topicReader Trec \
   -output runs/run.disk12.bm25.topics.adhoc.151-200.txt \
   -bm25 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.disk12/ \
-  -topics tools/topics-and-qrels/topics.adhoc.51-100.txt \
+  -topics tools\topics-and-qrels\topics.adhoc.51-100.txt \
   -topicReader Trec \
   -output runs/run.disk12.bm25+rm3.topics.adhoc.51-100.txt \
   -bm25 -rm3 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.disk12/ \
-  -topics tools/topics-and-qrels/topics.adhoc.101-150.txt \
+  -topics tools\topics-and-qrels\topics.adhoc.101-150.txt \
   -topicReader Trec \
   -output runs/run.disk12.bm25+rm3.topics.adhoc.101-150.txt \
   -bm25 -rm3 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.disk12/ \
-  -topics tools/topics-and-qrels/topics.adhoc.151-200.txt \
+  -topics tools\topics-and-qrels\topics.adhoc.151-200.txt \
   -topicReader Trec \
   -output runs/run.disk12.bm25+rm3.topics.adhoc.151-200.txt \
   -bm25 -rm3 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.disk12/ \
-  -topics tools/topics-and-qrels/topics.adhoc.51-100.txt \
+  -topics tools\topics-and-qrels\topics.adhoc.51-100.txt \
   -topicReader Trec \
   -output runs/run.disk12.bm25+ax.topics.adhoc.51-100.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.disk12/ \
-  -topics tools/topics-and-qrels/topics.adhoc.101-150.txt \
+  -topics tools\topics-and-qrels\topics.adhoc.101-150.txt \
   -topicReader Trec \
   -output runs/run.disk12.bm25+ax.topics.adhoc.101-150.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.disk12/ \
-  -topics tools/topics-and-qrels/topics.adhoc.151-200.txt \
+  -topics tools\topics-and-qrels\topics.adhoc.151-200.txt \
   -topicReader Trec \
   -output runs/run.disk12.bm25+ax.topics.adhoc.151-200.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.disk12/ \
-  -topics tools/topics-and-qrels/topics.adhoc.51-100.txt \
+  -topics tools\topics-and-qrels\topics.adhoc.51-100.txt \
   -topicReader Trec \
   -output runs/run.disk12.ql.topics.adhoc.51-100.txt \
   -qld &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.disk12/ \
-  -topics tools/topics-and-qrels/topics.adhoc.101-150.txt \
+  -topics tools\topics-and-qrels\topics.adhoc.101-150.txt \
   -topicReader Trec \
   -output runs/run.disk12.ql.topics.adhoc.101-150.txt \
   -qld &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.disk12/ \
-  -topics tools/topics-and-qrels/topics.adhoc.151-200.txt \
+  -topics tools\topics-and-qrels\topics.adhoc.151-200.txt \
   -topicReader Trec \
   -output runs/run.disk12.ql.topics.adhoc.151-200.txt \
   -qld &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.disk12/ \
-  -topics tools/topics-and-qrels/topics.adhoc.51-100.txt \
+  -topics tools\topics-and-qrels\topics.adhoc.51-100.txt \
   -topicReader Trec \
   -output runs/run.disk12.ql+rm3.topics.adhoc.51-100.txt \
   -qld -rm3 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.disk12/ \
-  -topics tools/topics-and-qrels/topics.adhoc.101-150.txt \
+  -topics tools\topics-and-qrels\topics.adhoc.101-150.txt \
   -topicReader Trec \
   -output runs/run.disk12.ql+rm3.topics.adhoc.101-150.txt \
   -qld -rm3 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.disk12/ \
-  -topics tools/topics-and-qrels/topics.adhoc.151-200.txt \
+  -topics tools\topics-and-qrels\topics.adhoc.151-200.txt \
   -topicReader Trec \
   -output runs/run.disk12.ql+rm3.topics.adhoc.151-200.txt \
   -qld -rm3 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.disk12/ \
-  -topics tools/topics-and-qrels/topics.adhoc.51-100.txt \
+  -topics tools\topics-and-qrels\topics.adhoc.51-100.txt \
   -topicReader Trec \
   -output runs/run.disk12.ql+ax.topics.adhoc.51-100.txt \
   -qld -axiom -axiom.deterministic -rerankCutoff 20 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.disk12/ \
-  -topics tools/topics-and-qrels/topics.adhoc.101-150.txt \
+  -topics tools\topics-and-qrels\topics.adhoc.101-150.txt \
   -topicReader Trec \
   -output runs/run.disk12.ql+ax.topics.adhoc.101-150.txt \
   -qld -axiom -axiom.deterministic -rerankCutoff 20 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.disk12/ \
-  -topics tools/topics-and-qrels/topics.adhoc.151-200.txt \
+  -topics tools\topics-and-qrels\topics.adhoc.151-200.txt \
   -topicReader Trec \
   -output runs/run.disk12.ql+ax.topics.adhoc.151-200.txt \
   -qld -axiom -axiom.deterministic -rerankCutoff 20 &
@@ -164,29 +164,29 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.51-100.txt runs/run.disk12.bm25.topics.adhoc.51-100.txt
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.101-150.txt runs/run.disk12.bm25.topics.adhoc.101-150.txt
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.151-200.txt runs/run.disk12.bm25.topics.adhoc.151-200.txt
+bin/trec_eval -m map -m P.30 tools\topics-and-qrels\qrels.adhoc.51-100.txt runs/run.disk12.bm25.topics.adhoc.51-100.txt
+bin/trec_eval -m map -m P.30 tools\topics-and-qrels\qrels.adhoc.101-150.txt runs/run.disk12.bm25.topics.adhoc.101-150.txt
+bin/trec_eval -m map -m P.30 tools\topics-and-qrels\qrels.adhoc.151-200.txt runs/run.disk12.bm25.topics.adhoc.151-200.txt
 
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.51-100.txt runs/run.disk12.bm25+rm3.topics.adhoc.51-100.txt
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.101-150.txt runs/run.disk12.bm25+rm3.topics.adhoc.101-150.txt
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.151-200.txt runs/run.disk12.bm25+rm3.topics.adhoc.151-200.txt
+bin/trec_eval -m map -m P.30 tools\topics-and-qrels\qrels.adhoc.51-100.txt runs/run.disk12.bm25+rm3.topics.adhoc.51-100.txt
+bin/trec_eval -m map -m P.30 tools\topics-and-qrels\qrels.adhoc.101-150.txt runs/run.disk12.bm25+rm3.topics.adhoc.101-150.txt
+bin/trec_eval -m map -m P.30 tools\topics-and-qrels\qrels.adhoc.151-200.txt runs/run.disk12.bm25+rm3.topics.adhoc.151-200.txt
 
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.51-100.txt runs/run.disk12.bm25+ax.topics.adhoc.51-100.txt
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.101-150.txt runs/run.disk12.bm25+ax.topics.adhoc.101-150.txt
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.151-200.txt runs/run.disk12.bm25+ax.topics.adhoc.151-200.txt
+bin/trec_eval -m map -m P.30 tools\topics-and-qrels\qrels.adhoc.51-100.txt runs/run.disk12.bm25+ax.topics.adhoc.51-100.txt
+bin/trec_eval -m map -m P.30 tools\topics-and-qrels\qrels.adhoc.101-150.txt runs/run.disk12.bm25+ax.topics.adhoc.101-150.txt
+bin/trec_eval -m map -m P.30 tools\topics-and-qrels\qrels.adhoc.151-200.txt runs/run.disk12.bm25+ax.topics.adhoc.151-200.txt
 
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.51-100.txt runs/run.disk12.ql.topics.adhoc.51-100.txt
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.101-150.txt runs/run.disk12.ql.topics.adhoc.101-150.txt
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.151-200.txt runs/run.disk12.ql.topics.adhoc.151-200.txt
+bin/trec_eval -m map -m P.30 tools\topics-and-qrels\qrels.adhoc.51-100.txt runs/run.disk12.ql.topics.adhoc.51-100.txt
+bin/trec_eval -m map -m P.30 tools\topics-and-qrels\qrels.adhoc.101-150.txt runs/run.disk12.ql.topics.adhoc.101-150.txt
+bin/trec_eval -m map -m P.30 tools\topics-and-qrels\qrels.adhoc.151-200.txt runs/run.disk12.ql.topics.adhoc.151-200.txt
 
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.51-100.txt runs/run.disk12.ql+rm3.topics.adhoc.51-100.txt
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.101-150.txt runs/run.disk12.ql+rm3.topics.adhoc.101-150.txt
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.151-200.txt runs/run.disk12.ql+rm3.topics.adhoc.151-200.txt
+bin/trec_eval -m map -m P.30 tools\topics-and-qrels\qrels.adhoc.51-100.txt runs/run.disk12.ql+rm3.topics.adhoc.51-100.txt
+bin/trec_eval -m map -m P.30 tools\topics-and-qrels\qrels.adhoc.101-150.txt runs/run.disk12.ql+rm3.topics.adhoc.101-150.txt
+bin/trec_eval -m map -m P.30 tools\topics-and-qrels\qrels.adhoc.151-200.txt runs/run.disk12.ql+rm3.topics.adhoc.151-200.txt
 
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.51-100.txt runs/run.disk12.ql+ax.topics.adhoc.51-100.txt
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.101-150.txt runs/run.disk12.ql+ax.topics.adhoc.101-150.txt
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.151-200.txt runs/run.disk12.ql+ax.topics.adhoc.151-200.txt
+bin/trec_eval -m map -m P.30 tools\topics-and-qrels\qrels.adhoc.51-100.txt runs/run.disk12.ql+ax.topics.adhoc.51-100.txt
+bin/trec_eval -m map -m P.30 tools\topics-and-qrels\qrels.adhoc.101-150.txt runs/run.disk12.ql+ax.topics.adhoc.101-150.txt
+bin/trec_eval -m map -m P.30 tools\topics-and-qrels\qrels.adhoc.151-200.txt runs/run.disk12.ql+ax.topics.adhoc.151-200.txt
 ```
 
 ## Effectiveness

@@ -53,7 +53,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -index indexes/lucene-hnsw-int8.beir-v1.0.0-scidocs.bge-base-en-v1.5/ \
-  -topics tools/topics-and-qrels/topics.beir-v1.0.0-scidocs.test.bge-base-en-v1.5.jsonl.gz \
+  -topics tools\topics-and-qrels\topics.beir-v1.0.0-scidocs.test.bge-base-en-v1.5.jsonl.gz \
   -topicReader JsonStringVector \
   -output runs/run.beir-v1.0.0-scidocs.bge-base-en-v1.5.bge-hnsw-int8-cached.topics.beir-v1.0.0-scidocs.test.bge-base-en-v1.5.jsonl.txt \
   -hits 1000 -efSearch 1000 -removeQuery -threads 16 &
@@ -62,9 +62,9 @@ bin/run.sh io.anserini.search.SearchHnswDenseVectors \
 Evaluation can be performed using `trec_eval`:
 
 ```
-bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-scidocs.test.txt runs/run.beir-v1.0.0-scidocs.bge-base-en-v1.5.bge-hnsw-int8-cached.topics.beir-v1.0.0-scidocs.test.bge-base-en-v1.5.jsonl.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-scidocs.test.txt runs/run.beir-v1.0.0-scidocs.bge-base-en-v1.5.bge-hnsw-int8-cached.topics.beir-v1.0.0-scidocs.test.bge-base-en-v1.5.jsonl.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-scidocs.test.txt runs/run.beir-v1.0.0-scidocs.bge-base-en-v1.5.bge-hnsw-int8-cached.topics.beir-v1.0.0-scidocs.test.bge-base-en-v1.5.jsonl.txt
+bin/trec_eval -c -m ndcg_cut.10 tools\topics-and-qrels\qrels.beir-v1.0.0-scidocs.test.txt runs/run.beir-v1.0.0-scidocs.bge-base-en-v1.5.bge-hnsw-int8-cached.topics.beir-v1.0.0-scidocs.test.bge-base-en-v1.5.jsonl.txt
+bin/trec_eval -c -m recall.100 tools\topics-and-qrels\qrels.beir-v1.0.0-scidocs.test.txt runs/run.beir-v1.0.0-scidocs.bge-base-en-v1.5.bge-hnsw-int8-cached.topics.beir-v1.0.0-scidocs.test.bge-base-en-v1.5.jsonl.txt
+bin/trec_eval -c -m recall.1000 tools\topics-and-qrels\qrels.beir-v1.0.0-scidocs.test.txt runs/run.beir-v1.0.0-scidocs.bge-base-en-v1.5.bge-hnsw-int8-cached.topics.beir-v1.0.0-scidocs.test.bge-base-en-v1.5.jsonl.txt
 ```
 
 ## Effectiveness

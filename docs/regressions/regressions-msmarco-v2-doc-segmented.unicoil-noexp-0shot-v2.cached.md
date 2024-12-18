@@ -91,13 +91,13 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2-doc-segmented.unicoil-noexp-0shot-v2/ \
-  -topics tools/topics-and-qrels/topics.msmarco-v2-doc.dev.unicoil-noexp.0shot.tsv.gz \
+  -topics tools\topics-and-qrels\topics.msmarco-v2-doc.dev.unicoil-noexp.0shot.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2.unicoil-noexp-0shot-cached_q.topics.msmarco-v2-doc.dev.unicoil-noexp.0shot.txt \
   -parallelism 16 -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2-doc-segmented.unicoil-noexp-0shot-v2/ \
-  -topics tools/topics-and-qrels/topics.msmarco-v2-doc.dev2.unicoil-noexp.0shot.tsv.gz \
+  -topics tools\topics-and-qrels\topics.msmarco-v2-doc.dev2.unicoil-noexp.0shot.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2.unicoil-noexp-0shot-cached_q.topics.msmarco-v2-doc.dev2.unicoil-noexp.0shot.txt \
   -parallelism 16 -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
@@ -106,12 +106,12 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2.unicoil-noexp-0shot-cached_q.topics.msmarco-v2-doc.dev.unicoil-noexp.0shot.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2.unicoil-noexp-0shot-cached_q.topics.msmarco-v2-doc.dev.unicoil-noexp.0shot.txt
-bin/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2.unicoil-noexp-0shot-cached_q.topics.msmarco-v2-doc.dev.unicoil-noexp.0shot.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2.unicoil-noexp-0shot-cached_q.topics.msmarco-v2-doc.dev2.unicoil-noexp.0shot.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2.unicoil-noexp-0shot-cached_q.topics.msmarco-v2-doc.dev2.unicoil-noexp.0shot.txt
-bin/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2.unicoil-noexp-0shot-cached_q.topics.msmarco-v2-doc.dev2.unicoil-noexp.0shot.txt
+bin/trec_eval -c -m recall.100 tools\topics-and-qrels\qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2.unicoil-noexp-0shot-cached_q.topics.msmarco-v2-doc.dev.unicoil-noexp.0shot.txt
+bin/trec_eval -c -m recall.1000 tools\topics-and-qrels\qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2.unicoil-noexp-0shot-cached_q.topics.msmarco-v2-doc.dev.unicoil-noexp.0shot.txt
+bin/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank tools\topics-and-qrels\qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2.unicoil-noexp-0shot-cached_q.topics.msmarco-v2-doc.dev.unicoil-noexp.0shot.txt
+bin/trec_eval -c -m recall.100 tools\topics-and-qrels\qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2.unicoil-noexp-0shot-cached_q.topics.msmarco-v2-doc.dev2.unicoil-noexp.0shot.txt
+bin/trec_eval -c -m recall.1000 tools\topics-and-qrels\qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2.unicoil-noexp-0shot-cached_q.topics.msmarco-v2-doc.dev2.unicoil-noexp.0shot.txt
+bin/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank tools\topics-and-qrels\qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot-v2.unicoil-noexp-0shot-cached_q.topics.msmarco-v2-doc.dev2.unicoil-noexp.0shot.txt
 ```
 
 ## Effectiveness

@@ -44,7 +44,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v1-doc.wp-ca/ \
-  -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
+  -topics tools\topics-and-qrels\topics.msmarco-doc.dev.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-doc.bm25-default.topics.msmarco-doc.dev.txt \
   -bm25 -analyzeWithHuggingFaceTokenizer bert-base-uncased -useCompositeAnalyzer &
@@ -53,10 +53,10 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc.bm25-default.topics.msmarco-doc.dev.txt
-bin/trec_eval -c -M 100 -m recip_rank tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc.bm25-default.topics.msmarco-doc.dev.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc.bm25-default.topics.msmarco-doc.dev.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc.bm25-default.topics.msmarco-doc.dev.txt
+bin/trec_eval -c -m map tools\topics-and-qrels\qrels.msmarco-doc.dev.txt runs/run.msmarco-doc.bm25-default.topics.msmarco-doc.dev.txt
+bin/trec_eval -c -M 100 -m recip_rank tools\topics-and-qrels\qrels.msmarco-doc.dev.txt runs/run.msmarco-doc.bm25-default.topics.msmarco-doc.dev.txt
+bin/trec_eval -c -m recall.100 tools\topics-and-qrels\qrels.msmarco-doc.dev.txt runs/run.msmarco-doc.bm25-default.topics.msmarco-doc.dev.txt
+bin/trec_eval -c -m recall.1000 tools\topics-and-qrels\qrels.msmarco-doc.dev.txt runs/run.msmarco-doc.bm25-default.topics.msmarco-doc.dev.txt
 ```
 
 ## Effectiveness

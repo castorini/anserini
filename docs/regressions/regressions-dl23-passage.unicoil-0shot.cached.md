@@ -88,21 +88,21 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2-passage.unicoil-0shot/ \
-  -topics tools/topics-and-qrels/topics.dl23.unicoil.0shot.tsv.gz \
+  -topics tools\topics-and-qrels\topics.dl23.unicoil.0shot.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached.topics.dl23.unicoil.0shot.txt \
   -impact -pretokenized &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2-passage.unicoil-0shot/ \
-  -topics tools/topics-and-qrels/topics.dl23.unicoil.0shot.tsv.gz \
+  -topics tools\topics-and-qrels\topics.dl23.unicoil.0shot.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached+rm3.topics.dl23.unicoil.0shot.txt \
   -impact -pretokenized -rm3 -collection JsonVectorCollection &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2-passage.unicoil-0shot/ \
-  -topics tools/topics-and-qrels/topics.dl23.unicoil.0shot.tsv.gz \
+  -topics tools\topics-and-qrels\topics.dl23.unicoil.0shot.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached+rocchio.topics.dl23.unicoil.0shot.txt \
   -impact -pretokenized -rocchio -collection JsonVectorCollection &
@@ -111,23 +111,23 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached.topics.dl23.unicoil.0shot.txt
-bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached.topics.dl23.unicoil.0shot.txt
-bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached.topics.dl23.unicoil.0shot.txt
-bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached.topics.dl23.unicoil.0shot.txt
-bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached.topics.dl23.unicoil.0shot.txt
+bin/trec_eval -c -M 100 -m map -l 2 tools\topics-and-qrels\qrels.dl23-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached.topics.dl23.unicoil.0shot.txt
+bin/trec_eval -c -M 100 -m recip_rank -l 2 tools\topics-and-qrels\qrels.dl23-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached.topics.dl23.unicoil.0shot.txt
+bin/trec_eval -c -m ndcg_cut.10 tools\topics-and-qrels\qrels.dl23-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached.topics.dl23.unicoil.0shot.txt
+bin/trec_eval -c -m recall.100 -l 2 tools\topics-and-qrels\qrels.dl23-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached.topics.dl23.unicoil.0shot.txt
+bin/trec_eval -c -m recall.1000 -l 2 tools\topics-and-qrels\qrels.dl23-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached.topics.dl23.unicoil.0shot.txt
 
-bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached+rm3.topics.dl23.unicoil.0shot.txt
-bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached+rm3.topics.dl23.unicoil.0shot.txt
-bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached+rm3.topics.dl23.unicoil.0shot.txt
-bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached+rm3.topics.dl23.unicoil.0shot.txt
-bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached+rm3.topics.dl23.unicoil.0shot.txt
+bin/trec_eval -c -M 100 -m map -l 2 tools\topics-and-qrels\qrels.dl23-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached+rm3.topics.dl23.unicoil.0shot.txt
+bin/trec_eval -c -M 100 -m recip_rank -l 2 tools\topics-and-qrels\qrels.dl23-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached+rm3.topics.dl23.unicoil.0shot.txt
+bin/trec_eval -c -m ndcg_cut.10 tools\topics-and-qrels\qrels.dl23-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached+rm3.topics.dl23.unicoil.0shot.txt
+bin/trec_eval -c -m recall.100 -l 2 tools\topics-and-qrels\qrels.dl23-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached+rm3.topics.dl23.unicoil.0shot.txt
+bin/trec_eval -c -m recall.1000 -l 2 tools\topics-and-qrels\qrels.dl23-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached+rm3.topics.dl23.unicoil.0shot.txt
 
-bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached+rocchio.topics.dl23.unicoil.0shot.txt
-bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached+rocchio.topics.dl23.unicoil.0shot.txt
-bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached+rocchio.topics.dl23.unicoil.0shot.txt
-bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached+rocchio.topics.dl23.unicoil.0shot.txt
-bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl23-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached+rocchio.topics.dl23.unicoil.0shot.txt
+bin/trec_eval -c -M 100 -m map -l 2 tools\topics-and-qrels\qrels.dl23-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached+rocchio.topics.dl23.unicoil.0shot.txt
+bin/trec_eval -c -M 100 -m recip_rank -l 2 tools\topics-and-qrels\qrels.dl23-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached+rocchio.topics.dl23.unicoil.0shot.txt
+bin/trec_eval -c -m ndcg_cut.10 tools\topics-and-qrels\qrels.dl23-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached+rocchio.topics.dl23.unicoil.0shot.txt
+bin/trec_eval -c -m recall.100 -l 2 tools\topics-and-qrels\qrels.dl23-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached+rocchio.topics.dl23.unicoil.0shot.txt
+bin/trec_eval -c -m recall.1000 -l 2 tools\topics-and-qrels\qrels.dl23-passage.txt runs/run.msmarco-v2-passage-unicoil-0shot.unicoil-0shot-cached+rocchio.topics.dl23.unicoil.0shot.txt
 ```
 
 ## Effectiveness

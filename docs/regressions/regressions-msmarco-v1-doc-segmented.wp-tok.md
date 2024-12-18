@@ -46,7 +46,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v1-doc-segmented.wp-tok/ \
-  -topics tools/topics-and-qrels/topics.msmarco-doc.dev.wp.tsv.gz \
+  -topics tools\topics-and-qrels\topics.msmarco-doc.dev.wp.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-doc-segmented-wp.bm25-default.topics.msmarco-doc.dev.wp.txt \
   -bm25 -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
@@ -55,10 +55,10 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-wp.bm25-default.topics.msmarco-doc.dev.wp.txt
-bin/trec_eval -c -M 100 -m recip_rank tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-wp.bm25-default.topics.msmarco-doc.dev.wp.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-wp.bm25-default.topics.msmarco-doc.dev.wp.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-wp.bm25-default.topics.msmarco-doc.dev.wp.txt
+bin/trec_eval -c -m map tools\topics-and-qrels\qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-wp.bm25-default.topics.msmarco-doc.dev.wp.txt
+bin/trec_eval -c -M 100 -m recip_rank tools\topics-and-qrels\qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-wp.bm25-default.topics.msmarco-doc.dev.wp.txt
+bin/trec_eval -c -m recall.100 tools\topics-and-qrels\qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-wp.bm25-default.topics.msmarco-doc.dev.wp.txt
+bin/trec_eval -c -m recall.1000 tools\topics-and-qrels\qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented-wp.bm25-default.topics.msmarco-doc.dev.wp.txt
 ```
 
 ## Effectiveness

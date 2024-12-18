@@ -93,7 +93,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2-doc-segmented.unicoil-noexp-0shot/ \
-  -topics tools/topics-and-qrels/topics.dl21.unicoil-noexp.0shot.tsv.gz \
+  -topics tools\topics-and-qrels\topics.dl21.unicoil-noexp.0shot.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot-cached.topics.dl21.unicoil-noexp.0shot.txt \
   -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -impact -pretokenized &
@@ -102,10 +102,10 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot-cached.topics.dl21.unicoil-noexp.0shot.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot-cached.topics.dl21.unicoil-noexp.0shot.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot-cached.topics.dl21.unicoil-noexp.0shot.txt
-bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot-cached.topics.dl21.unicoil-noexp.0shot.txt
+bin/trec_eval -c -M 100 -m map tools\topics-and-qrels\qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot-cached.topics.dl21.unicoil-noexp.0shot.txt
+bin/trec_eval -c -m recall.100 tools\topics-and-qrels\qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot-cached.topics.dl21.unicoil-noexp.0shot.txt
+bin/trec_eval -c -m recall.1000 tools\topics-and-qrels\qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot-cached.topics.dl21.unicoil-noexp.0shot.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 tools\topics-and-qrels\qrels.dl21-doc.txt runs/run.msmarco-v2-doc-segmented-unicoil-noexp-0shot.unicoil-noexp-0shot-cached.topics.dl21.unicoil-noexp.0shot.txt
 ```
 
 ## Effectiveness

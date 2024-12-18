@@ -38,7 +38,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.miracl-v1.0-hi-aca/ \
-  -topics tools/topics-and-qrels/topics.miracl-v1.0-hi-dev.tsv \
+  -topics tools\topics-and-qrels\topics.miracl-v1.0-hi-dev.tsv \
   -topicReader TsvString \
   -output runs/run.miracl-v1.0-hi.bm25.topics.miracl-v1.0-hi-dev.txt \
   -bm25 -hits 100 -language hi -useAutoCompositeAnalyzer &
@@ -47,8 +47,8 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.miracl-v1.0-hi-dev.tsv runs/run.miracl-v1.0-hi.bm25.topics.miracl-v1.0-hi-dev.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.miracl-v1.0-hi-dev.tsv runs/run.miracl-v1.0-hi.bm25.topics.miracl-v1.0-hi-dev.txt
+bin/trec_eval -c -m ndcg_cut.10 tools\topics-and-qrels\qrels.miracl-v1.0-hi-dev.tsv runs/run.miracl-v1.0-hi.bm25.topics.miracl-v1.0-hi-dev.txt
+bin/trec_eval -c -m recall.100 tools\topics-and-qrels\qrels.miracl-v1.0-hi-dev.tsv runs/run.miracl-v1.0-hi.bm25.topics.miracl-v1.0-hi-dev.txt
 ```
 
 ## Effectiveness

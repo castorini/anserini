@@ -41,14 +41,14 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.fever-paragraph/ \
-  -topics tools/topics-and-qrels/topics.fever.dev.txt \
+  -topics tools\topics-and-qrels\topics.fever.dev.txt \
   -topicReader TsvInt \
   -output runs/run.fever.bm25-default.topics.fever.dev.txt \
   -bm25 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.fever-paragraph/ \
-  -topics tools/topics-and-qrels/topics.fever.dev.txt \
+  -topics tools\topics-and-qrels\topics.fever.dev.txt \
   -topicReader TsvInt \
   -output runs/run.fever.bm25-tuned.topics.fever.dev.txt \
   -bm25 -bm25.k1 0.9 -bm25.b 0.1 &
@@ -57,9 +57,9 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-bin/trec_eval -c -m recall.100 -c -m recall.1000 tools/topics-and-qrels/qrels.fever.dev.txt runs/run.fever.bm25-default.topics.fever.dev.txt
+bin/trec_eval -c -m recall.100 -c -m recall.1000 tools\topics-and-qrels\qrels.fever.dev.txt runs/run.fever.bm25-default.topics.fever.dev.txt
 
-bin/trec_eval -c -m recall.100 -c -m recall.1000 tools/topics-and-qrels/qrels.fever.dev.txt runs/run.fever.bm25-tuned.topics.fever.dev.txt
+bin/trec_eval -c -m recall.100 -c -m recall.1000 tools\topics-and-qrels\qrels.fever.dev.txt runs/run.fever.bm25-tuned.topics.fever.dev.txt
 ```
 
 ## Effectiveness

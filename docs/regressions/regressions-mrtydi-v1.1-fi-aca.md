@@ -38,19 +38,19 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-finnish-aca/ \
-  -topics tools/topics-and-qrels/topics.mrtydi-v1.1-fi.train.txt.gz \
+  -topics tools\topics-and-qrels\topics.mrtydi-v1.1-fi.train.txt.gz \
   -topicReader TsvInt \
   -output runs/run.mrtydi-v1.1-fi.bm25.topics.mrtydi-v1.1-fi.train.txt \
   -bm25 -hits 100 -language fi -useAutoCompositeAnalyzer &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-finnish-aca/ \
-  -topics tools/topics-and-qrels/topics.mrtydi-v1.1-fi.dev.txt.gz \
+  -topics tools\topics-and-qrels\topics.mrtydi-v1.1-fi.dev.txt.gz \
   -topicReader TsvInt \
   -output runs/run.mrtydi-v1.1-fi.bm25.topics.mrtydi-v1.1-fi.dev.txt \
   -bm25 -hits 100 -language fi -useAutoCompositeAnalyzer &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-finnish-aca/ \
-  -topics tools/topics-and-qrels/topics.mrtydi-v1.1-fi.test.txt.gz \
+  -topics tools\topics-and-qrels\topics.mrtydi-v1.1-fi.test.txt.gz \
   -topicReader TsvInt \
   -output runs/run.mrtydi-v1.1-fi.bm25.topics.mrtydi-v1.1-fi.test.txt \
   -bm25 -hits 100 -language fi -useAutoCompositeAnalyzer &
@@ -59,9 +59,9 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools/topics-and-qrels/qrels.mrtydi-v1.1-fi.train.txt runs/run.mrtydi-v1.1-fi.bm25.topics.mrtydi-v1.1-fi.train.txt
-bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools/topics-and-qrels/qrels.mrtydi-v1.1-fi.dev.txt runs/run.mrtydi-v1.1-fi.bm25.topics.mrtydi-v1.1-fi.dev.txt
-bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools/topics-and-qrels/qrels.mrtydi-v1.1-fi.test.txt runs/run.mrtydi-v1.1-fi.bm25.topics.mrtydi-v1.1-fi.test.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools\topics-and-qrels\qrels.mrtydi-v1.1-fi.train.txt runs/run.mrtydi-v1.1-fi.bm25.topics.mrtydi-v1.1-fi.train.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools\topics-and-qrels\qrels.mrtydi-v1.1-fi.dev.txt runs/run.mrtydi-v1.1-fi.bm25.topics.mrtydi-v1.1-fi.dev.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools\topics-and-qrels\qrels.mrtydi-v1.1-fi.test.txt runs/run.mrtydi-v1.1-fi.bm25.topics.mrtydi-v1.1-fi.test.txt
 ```
 
 ## Effectiveness

@@ -45,42 +45,42 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
-  -topics tools/topics-and-qrels/topics.core18.txt \
+  -topics tools\topics-and-qrels\topics.core18.txt \
   -topicReader Trec \
   -output runs/run.wapo.v2.bm25.topics.core18.txt \
   -bm25 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
-  -topics tools/topics-and-qrels/topics.core18.txt \
+  -topics tools\topics-and-qrels\topics.core18.txt \
   -topicReader Trec \
   -output runs/run.wapo.v2.bm25+rm3.topics.core18.txt \
   -bm25 -rm3 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
-  -topics tools/topics-and-qrels/topics.core18.txt \
+  -topics tools\topics-and-qrels\topics.core18.txt \
   -topicReader Trec \
   -output runs/run.wapo.v2.bm25+ax.topics.core18.txt \
   -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
-  -topics tools/topics-and-qrels/topics.core18.txt \
+  -topics tools\topics-and-qrels\topics.core18.txt \
   -topicReader Trec \
   -output runs/run.wapo.v2.ql.topics.core18.txt \
   -qld &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
-  -topics tools/topics-and-qrels/topics.core18.txt \
+  -topics tools\topics-and-qrels\topics.core18.txt \
   -topicReader Trec \
   -output runs/run.wapo.v2.ql+rm3.topics.core18.txt \
   -qld -rm3 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
-  -topics tools/topics-and-qrels/topics.core18.txt \
+  -topics tools\topics-and-qrels\topics.core18.txt \
   -topicReader Trec \
   -output runs/run.wapo.v2.ql+ax.topics.core18.txt \
   -qld -axiom -axiom.deterministic -rerankCutoff 20 &
@@ -89,17 +89,17 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.bm25.topics.core18.txt
+bin/trec_eval -m map -m P.30 tools\topics-and-qrels\qrels.core18.txt runs/run.wapo.v2.bm25.topics.core18.txt
 
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.bm25+rm3.topics.core18.txt
+bin/trec_eval -m map -m P.30 tools\topics-and-qrels\qrels.core18.txt runs/run.wapo.v2.bm25+rm3.topics.core18.txt
 
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.bm25+ax.topics.core18.txt
+bin/trec_eval -m map -m P.30 tools\topics-and-qrels\qrels.core18.txt runs/run.wapo.v2.bm25+ax.topics.core18.txt
 
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.ql.topics.core18.txt
+bin/trec_eval -m map -m P.30 tools\topics-and-qrels\qrels.core18.txt runs/run.wapo.v2.ql.topics.core18.txt
 
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.ql+rm3.topics.core18.txt
+bin/trec_eval -m map -m P.30 tools\topics-and-qrels\qrels.core18.txt runs/run.wapo.v2.ql+rm3.topics.core18.txt
 
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core18.txt runs/run.wapo.v2.ql+ax.topics.core18.txt
+bin/trec_eval -m map -m P.30 tools\topics-and-qrels\qrels.core18.txt runs/run.wapo.v2.ql+ax.topics.core18.txt
 ```
 
 ## Effectiveness

@@ -36,19 +36,19 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.ciral-v1.0-so-en/ \
-  -topics tools/topics-and-qrels/topics.ciral-v1.0-so-test-a.tsv \
+  -topics tools\topics-and-qrels\topics.ciral-v1.0-so-test-a.tsv \
   -topicReader TsvInt \
   -output runs/run.ciral-somali-english.bm25-default.topics.ciral-v1.0-so-test-a.txt \
   -bm25 -hits 1000 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.ciral-v1.0-so-en/ \
-  -topics tools/topics-and-qrels/topics.ciral-v1.0-so-test-a.tsv \
+  -topics tools\topics-and-qrels\topics.ciral-v1.0-so-test-a.tsv \
   -topicReader TsvInt \
   -output runs/run.ciral-somali-english.bm25-default.topics.ciral-v1.0-so-test-a.txt \
   -bm25 -hits 1000 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.ciral-v1.0-so-en/ \
-  -topics tools/topics-and-qrels/topics.ciral-v1.0-so-test-b.tsv \
+  -topics tools\topics-and-qrels\topics.ciral-v1.0-so-test-b.tsv \
   -topicReader TsvInt \
   -output runs/run.ciral-somali-english.bm25-default.topics.ciral-v1.0-so-test-b.txt \
   -bm25 -hits 1000 &
@@ -57,12 +57,12 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.ciral-v1.0-so-test-a.tsv runs/run.ciral-somali-english.bm25-default.topics.ciral-v1.0-so-test-a.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.ciral-v1.0-so-test-a.tsv runs/run.ciral-somali-english.bm25-default.topics.ciral-v1.0-so-test-a.txt
-bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.ciral-v1.0-so-test-a-pools.tsv runs/run.ciral-somali-english.bm25-default.topics.ciral-v1.0-so-test-a.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.ciral-v1.0-so-test-a-pools.tsv runs/run.ciral-somali-english.bm25-default.topics.ciral-v1.0-so-test-a.txt
-bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.ciral-v1.0-so-test-b.tsv runs/run.ciral-somali-english.bm25-default.topics.ciral-v1.0-so-test-b.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.ciral-v1.0-so-test-b.tsv runs/run.ciral-somali-english.bm25-default.topics.ciral-v1.0-so-test-b.txt
+bin/trec_eval -c -m ndcg_cut.20 tools\topics-and-qrels\qrels.ciral-v1.0-so-test-a.tsv runs/run.ciral-somali-english.bm25-default.topics.ciral-v1.0-so-test-a.txt
+bin/trec_eval -c -m recall.100 tools\topics-and-qrels\qrels.ciral-v1.0-so-test-a.tsv runs/run.ciral-somali-english.bm25-default.topics.ciral-v1.0-so-test-a.txt
+bin/trec_eval -c -m ndcg_cut.20 tools\topics-and-qrels\qrels.ciral-v1.0-so-test-a-pools.tsv runs/run.ciral-somali-english.bm25-default.topics.ciral-v1.0-so-test-a.txt
+bin/trec_eval -c -m recall.100 tools\topics-and-qrels\qrels.ciral-v1.0-so-test-a-pools.tsv runs/run.ciral-somali-english.bm25-default.topics.ciral-v1.0-so-test-a.txt
+bin/trec_eval -c -m ndcg_cut.20 tools\topics-and-qrels\qrels.ciral-v1.0-so-test-b.tsv runs/run.ciral-somali-english.bm25-default.topics.ciral-v1.0-so-test-b.txt
+bin/trec_eval -c -m recall.100 tools\topics-and-qrels\qrels.ciral-v1.0-so-test-b.tsv runs/run.ciral-somali-english.bm25-default.topics.ciral-v1.0-so-test-b.txt
 ```
 
 ## Effectiveness

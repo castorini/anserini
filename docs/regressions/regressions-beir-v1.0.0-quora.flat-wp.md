@@ -49,7 +49,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.beir-v1.0.0-quora.flat-wp/ \
-  -topics tools/topics-and-qrels/topics.beir-v1.0.0-quora.test.wp.tsv.gz \
+  -topics tools\topics-and-qrels\topics.beir-v1.0.0-quora.test.wp.tsv.gz \
   -topicReader TsvString \
   -output runs/run.beir-v1.0.0-quora.flat-wp.bm25.topics.beir-v1.0.0-quora.test.wp.txt \
   -bm25 -removeQuery -pretokenized &
@@ -58,9 +58,9 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-quora.test.txt runs/run.beir-v1.0.0-quora.flat-wp.bm25.topics.beir-v1.0.0-quora.test.wp.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-quora.test.txt runs/run.beir-v1.0.0-quora.flat-wp.bm25.topics.beir-v1.0.0-quora.test.wp.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-quora.test.txt runs/run.beir-v1.0.0-quora.flat-wp.bm25.topics.beir-v1.0.0-quora.test.wp.txt
+bin/trec_eval -c -m ndcg_cut.10 tools\topics-and-qrels\qrels.beir-v1.0.0-quora.test.txt runs/run.beir-v1.0.0-quora.flat-wp.bm25.topics.beir-v1.0.0-quora.test.wp.txt
+bin/trec_eval -c -m recall.100 tools\topics-and-qrels\qrels.beir-v1.0.0-quora.test.txt runs/run.beir-v1.0.0-quora.flat-wp.bm25.topics.beir-v1.0.0-quora.test.wp.txt
+bin/trec_eval -c -m recall.1000 tools\topics-and-qrels\qrels.beir-v1.0.0-quora.test.txt runs/run.beir-v1.0.0-quora.flat-wp.bm25.topics.beir-v1.0.0-quora.test.wp.txt
 ```
 
 ## Effectiveness

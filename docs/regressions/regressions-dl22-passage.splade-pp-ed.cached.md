@@ -81,21 +81,21 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2-passage.splade-pp-ed/ \
-  -topics tools/topics-and-qrels/topics.dl22.splade-pp-ed.tsv.gz \
+  -topics tools\topics-and-qrels\topics.dl22.splade-pp-ed.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached.topics.dl22.splade-pp-ed.txt \
   -parallelism 16 -impact -pretokenized &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2-passage.splade-pp-ed/ \
-  -topics tools/topics-and-qrels/topics.dl22.splade-pp-ed.tsv.gz \
+  -topics tools\topics-and-qrels\topics.dl22.splade-pp-ed.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached+rm3.topics.dl22.splade-pp-ed.txt \
   -parallelism 16 -impact -pretokenized -rm3 -collection JsonVectorCollection &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2-passage.splade-pp-ed/ \
-  -topics tools/topics-and-qrels/topics.dl22.splade-pp-ed.tsv.gz \
+  -topics tools\topics-and-qrels\topics.dl22.splade-pp-ed.tsv.gz \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached+rocchio.topics.dl22.splade-pp-ed.txt \
   -parallelism 16 -impact -pretokenized -rocchio -collection JsonVectorCollection &
@@ -104,23 +104,23 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached.topics.dl22.splade-pp-ed.txt
-bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached.topics.dl22.splade-pp-ed.txt
-bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached.topics.dl22.splade-pp-ed.txt
-bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached.topics.dl22.splade-pp-ed.txt
-bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached.topics.dl22.splade-pp-ed.txt
+bin/trec_eval -c -M 100 -m map -l 2 tools\topics-and-qrels\qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached.topics.dl22.splade-pp-ed.txt
+bin/trec_eval -c -M 100 -m recip_rank -l 2 tools\topics-and-qrels\qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached.topics.dl22.splade-pp-ed.txt
+bin/trec_eval -c -m ndcg_cut.10 tools\topics-and-qrels\qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached.topics.dl22.splade-pp-ed.txt
+bin/trec_eval -c -m recall.100 -l 2 tools\topics-and-qrels\qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached.topics.dl22.splade-pp-ed.txt
+bin/trec_eval -c -m recall.1000 -l 2 tools\topics-and-qrels\qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached.topics.dl22.splade-pp-ed.txt
 
-bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached+rm3.topics.dl22.splade-pp-ed.txt
-bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached+rm3.topics.dl22.splade-pp-ed.txt
-bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached+rm3.topics.dl22.splade-pp-ed.txt
-bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached+rm3.topics.dl22.splade-pp-ed.txt
-bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached+rm3.topics.dl22.splade-pp-ed.txt
+bin/trec_eval -c -M 100 -m map -l 2 tools\topics-and-qrels\qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached+rm3.topics.dl22.splade-pp-ed.txt
+bin/trec_eval -c -M 100 -m recip_rank -l 2 tools\topics-and-qrels\qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached+rm3.topics.dl22.splade-pp-ed.txt
+bin/trec_eval -c -m ndcg_cut.10 tools\topics-and-qrels\qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached+rm3.topics.dl22.splade-pp-ed.txt
+bin/trec_eval -c -m recall.100 -l 2 tools\topics-and-qrels\qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached+rm3.topics.dl22.splade-pp-ed.txt
+bin/trec_eval -c -m recall.1000 -l 2 tools\topics-and-qrels\qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached+rm3.topics.dl22.splade-pp-ed.txt
 
-bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached+rocchio.topics.dl22.splade-pp-ed.txt
-bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached+rocchio.topics.dl22.splade-pp-ed.txt
-bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached+rocchio.topics.dl22.splade-pp-ed.txt
-bin/trec_eval -c -m recall.100 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached+rocchio.topics.dl22.splade-pp-ed.txt
-bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached+rocchio.topics.dl22.splade-pp-ed.txt
+bin/trec_eval -c -M 100 -m map -l 2 tools\topics-and-qrels\qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached+rocchio.topics.dl22.splade-pp-ed.txt
+bin/trec_eval -c -M 100 -m recip_rank -l 2 tools\topics-and-qrels\qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached+rocchio.topics.dl22.splade-pp-ed.txt
+bin/trec_eval -c -m ndcg_cut.10 tools\topics-and-qrels\qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached+rocchio.topics.dl22.splade-pp-ed.txt
+bin/trec_eval -c -m recall.100 -l 2 tools\topics-and-qrels\qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached+rocchio.topics.dl22.splade-pp-ed.txt
+bin/trec_eval -c -m recall.1000 -l 2 tools\topics-and-qrels\qrels.dl22-passage.txt runs/run.msmarco-v2-passage-splade-pp-ed.splade-pp-ed-cached+rocchio.topics.dl22.splade-pp-ed.txt
 ```
 
 ## Effectiveness

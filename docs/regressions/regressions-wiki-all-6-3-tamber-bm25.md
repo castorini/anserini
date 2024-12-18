@@ -45,37 +45,37 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wiki-all-6-3-tamber/ \
-  -topics tools/topics-and-qrels/topics.dpr.nq.test.txt \
+  -topics tools\topics-and-qrels\topics.dpr.nq.test.txt \
   -topicReader DprNq \
   -output runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.nq.test.txt \
   -bm25 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wiki-all-6-3-tamber/ \
-  -topics tools/topics-and-qrels/topics.dpr.trivia.test.txt \
+  -topics tools\topics-and-qrels\topics.dpr.trivia.test.txt \
   -topicReader DprNq \
   -output runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.trivia.test.txt \
   -bm25 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wiki-all-6-3-tamber/ \
-  -topics tools/topics-and-qrels/topics.dpr.squad.test.txt \
+  -topics tools\topics-and-qrels\topics.dpr.squad.test.txt \
   -topicReader DprJsonl \
   -output runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.squad.test.txt \
   -bm25 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wiki-all-6-3-tamber/ \
-  -topics tools/topics-and-qrels/topics.dpr.wq.test.txt \
+  -topics tools\topics-and-qrels\topics.dpr.wq.test.txt \
   -topicReader DprJsonl \
   -output runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.wq.test.txt \
   -bm25 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wiki-all-6-3-tamber/ \
-  -topics tools/topics-and-qrels/topics.dpr.curated.test.txt \
+  -topics tools\topics-and-qrels\topics.dpr.curated.test.txt \
   -topicReader DprJsonl \
   -output runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.curated.test.txt \
   -bm25 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wiki-all-6-3-tamber/ \
-  -topics tools/topics-and-qrels/topics.nq.test.txt \
+  -topics tools\topics-and-qrels\topics.nq.test.txt \
   -topicReader DprNq \
   -output runs/run.wiki-all-6-3-tamber.bm25.topics.nq.test.txt \
   -bm25 &

@@ -49,21 +49,21 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2.1-doc-segmented/ \
-  -topics tools/topics-and-qrels/topics.dl22.txt \
+  -topics tools\topics-and-qrels\topics.dl22.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2.1-doc-segmented.bm25-default.topics.dl22.txt \
   -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2.1-doc-segmented/ \
-  -topics tools/topics-and-qrels/topics.dl22.txt \
+  -topics tools\topics-and-qrels\topics.dl22.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2.1-doc-segmented.bm25-default+rm3.topics.dl22.txt \
   -bm25 -rm3 -collection MsMarcoV2DocCollection -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2.1-doc-segmented/ \
-  -topics tools/topics-and-qrels/topics.dl22.txt \
+  -topics tools\topics-and-qrels\topics.dl22.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-v2.1-doc-segmented.bm25-default+rocchio.topics.dl22.txt \
   -bm25 -rocchio -collection MsMarcoV2DocCollection -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
@@ -72,20 +72,20 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-bin/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl22-doc-msmarco-v2.1.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default.topics.dl22.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl22-doc-msmarco-v2.1.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default.topics.dl22.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl22-doc-msmarco-v2.1.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default.topics.dl22.txt
-bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl22-doc-msmarco-v2.1.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default.topics.dl22.txt
+bin/trec_eval -c -M 100 -m map tools\topics-and-qrels\qrels.dl22-doc-msmarco-v2.1.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default.topics.dl22.txt
+bin/trec_eval -c -m recall.100 tools\topics-and-qrels\qrels.dl22-doc-msmarco-v2.1.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default.topics.dl22.txt
+bin/trec_eval -c -m recall.1000 tools\topics-and-qrels\qrels.dl22-doc-msmarco-v2.1.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default.topics.dl22.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 tools\topics-and-qrels\qrels.dl22-doc-msmarco-v2.1.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default.topics.dl22.txt
 
-bin/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl22-doc-msmarco-v2.1.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rm3.topics.dl22.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl22-doc-msmarco-v2.1.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rm3.topics.dl22.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl22-doc-msmarco-v2.1.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rm3.topics.dl22.txt
-bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl22-doc-msmarco-v2.1.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rm3.topics.dl22.txt
+bin/trec_eval -c -M 100 -m map tools\topics-and-qrels\qrels.dl22-doc-msmarco-v2.1.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rm3.topics.dl22.txt
+bin/trec_eval -c -m recall.100 tools\topics-and-qrels\qrels.dl22-doc-msmarco-v2.1.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rm3.topics.dl22.txt
+bin/trec_eval -c -m recall.1000 tools\topics-and-qrels\qrels.dl22-doc-msmarco-v2.1.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rm3.topics.dl22.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 tools\topics-and-qrels\qrels.dl22-doc-msmarco-v2.1.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rm3.topics.dl22.txt
 
-bin/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl22-doc-msmarco-v2.1.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rocchio.topics.dl22.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl22-doc-msmarco-v2.1.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rocchio.topics.dl22.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl22-doc-msmarco-v2.1.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rocchio.topics.dl22.txt
-bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl22-doc-msmarco-v2.1.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rocchio.topics.dl22.txt
+bin/trec_eval -c -M 100 -m map tools\topics-and-qrels\qrels.dl22-doc-msmarco-v2.1.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rocchio.topics.dl22.txt
+bin/trec_eval -c -m recall.100 tools\topics-and-qrels\qrels.dl22-doc-msmarco-v2.1.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rocchio.topics.dl22.txt
+bin/trec_eval -c -m recall.1000 tools\topics-and-qrels\qrels.dl22-doc-msmarco-v2.1.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rocchio.topics.dl22.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 tools\topics-and-qrels\qrels.dl22-doc-msmarco-v2.1.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rocchio.topics.dl22.txt
 ```
 
 ## Effectiveness
