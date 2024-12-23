@@ -29,6 +29,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.parquet.example.data.Group;
 import org.apache.parquet.hadoop.ParquetReader;
 import org.apache.parquet.hadoop.example.GroupReadSupport;
+import org.apache.parquet.schema.PrimitiveType;
 
 /**
  * Collection class for managing Parquet dense vectors
@@ -83,7 +84,7 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
    * Inner class representing a file segment for ParquetDenseVectorCollection.
    */
   public static class Segment extends FileSegment<ParquetDenseVectorCollection.Document> {
-    private List<double[]> vectors; // List to store vectors from the Parquet file
+    private List<float[]> vectors; // List to store vectors from the Parquet file
     private List<String> ids; // List to store document IDs
     private ParquetReader<Group> reader;
     private boolean readerInitialized;
@@ -152,19 +153,24 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
         throw new NoSuchElementException("End of file reached");
       }
       
-    // Read each record from the Parquet file
-      // Extract the docid (String) from the record
       String docid = record.getString("docid", 0);
       ids.add(docid);
 
-      // Extract the vector (double[]) from the record
-      Group vectorGroup = record.getGroup("vector", 0); // Access the 'vector' field
-      int vectorSize = vectorGroup.getFieldRepetitionCount(0); // Get the number of elements in the vector
-      double[] vector = new double[vectorSize];
+      // Extract the vector (double[]) from the record
+      Group vectorGroup = record.getGroup("vector", 0);// Access the 'vector' field
+      int vectorSize = vectorGroup.getFieldRepetitionCount(0);// Get the number of elements in the vector
+      float[] vector = new float[vectorSize];
+      
+      // We detect the type from the schema
+      Group firstElement = vectorGroup.getGroup(0, 0);
+      boolean isDouble = firstElement.getType().getFields().get(0).asPrimitiveType().getPrimitiveTypeName().equals(PrimitiveType.PrimitiveTypeName.DOUBLE);
+      
+      // Single-pass read with conditional cast if needed
       for (int i = 0; i < vectorSize; i++) {
-        Group listGroup = vectorGroup.getGroup(0, i); // Access the 'list' group
-        vector[i] = listGroup.getDouble("element", 0); // Get the double value from the 'element' field
+        Group listGroup = vectorGroup.getGroup(0, i);
+        vector[i] = isDouble ? (float) listGroup.getDouble("element", 0) : listGroup.getFloat("element", 0);
       }
+      
       vectors.add(vector);
 
       // Create a new Document object with the retrieved data
@@ -177,7 +183,7 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
    */
   public static class Document implements SourceDocument {
     private final String id;
-    private final double[] vector;
+    private final float[] vector;
     private final String raw;
 
     /**
@@ -187,7 +193,7 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
      * @param vector the vector data.
      * @param raw    the raw data.
      */
-    public Document(String id, double[] vector, String raw) {
+    public Document(String id, float[] vector, String raw) {
       this.id = id;
       this.vector = vector;
       this.raw = raw;
