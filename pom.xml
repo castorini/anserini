@@ -53,10 +53,6 @@
       <id>AnseriniMaven</id>
       <url>https://raw.githubusercontent.com/lintool/AnseriniMaven/master/mvn-repo/</url>
     </repository>
-    <repository>
-      <id>strategicblue</id>
-      <url>https://raw.githubusercontent.com/strategicblue/parquet-floor/mvn-repo/</url>
-    </repository>
   </repositories>
 
   <distributionManagement>
@@ -554,7 +550,7 @@
     <dependency>
       <groupId>blue.strategic.parquet</groupId>
       <artifactId>parquet-floor</artifactId>
-      <version>1.36</version>
+      <version>1.49</version>
     </dependency>
   </dependencies>
 </project>
