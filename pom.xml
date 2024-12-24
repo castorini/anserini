@@ -550,7 +550,7 @@
     <dependency>
       <groupId>blue.strategic.parquet</groupId>
       <artifactId>parquet-floor</artifactId>
-      <version>1.49</version>
+      <version>1.36</version>
     </dependency>
   </dependencies>
 </project>
