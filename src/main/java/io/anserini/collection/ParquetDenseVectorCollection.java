@@ -161,9 +161,14 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
       int vectorSize = vectorGroup.getFieldRepetitionCount(0);// Get the number of elements in the vector
       float[] vector = new float[vectorSize];
       
-      // We detect the type from the schema
       Group firstElement = vectorGroup.getGroup(0, 0);
-      boolean isDouble = firstElement.getType().getFields().get(0).asPrimitiveType().getPrimitiveTypeName().equals(PrimitiveType.PrimitiveTypeName.DOUBLE);
+      PrimitiveType.PrimitiveTypeName primitiveType = firstElement.getType().getFields().get(0).asPrimitiveType().getPrimitiveTypeName();
+      boolean isDouble = primitiveType.equals(PrimitiveType.PrimitiveTypeName.DOUBLE);
+      boolean isFloat = primitiveType.equals(PrimitiveType.PrimitiveTypeName.FLOAT);
+      
+      if (!isDouble && !isFloat) {
+        throw new IllegalArgumentException(String.format("Vector elements must be either DOUBLE or FLOAT, found: %s", primitiveType));
+      }
       
       // Single-pass read with conditional cast if needed
       for (int i = 0; i < vectorSize; i++) {
