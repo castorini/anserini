@@ -177,6 +177,28 @@ public class IndexHnswDenseVectorsTest {
   }
 
   @Test
+  public void testParquetFloat() throws Exception {
+    String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
+    String[] indexArgs = new String[] {
+        "-collection", "ParquetDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/parquet/msmarco-passage-bge-base-en-v1.5.parquet-float",
+        "-index", indexPath,
+        "-generator", "ParquetDenseVectorDocumentGenerator",
+        "-threads", "1",
+        "-M", "16", "-efC", "100"
+    };
+
+    IndexHnswDenseVectors.main(indexArgs);
+
+    IndexReader reader = IndexReaderUtils.getReader(indexPath);
+    assertNotNull(reader);
+
+    Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, Constants.VECTOR);
+    assertNotNull(results);
+    assertEquals(10, results.get("documents"));
+  }
+
+  @Test
   public void testQuantizedInt8() throws Exception {
     String indexPath = "target/lucene-test-index.hnsw." + System.currentTimeMillis();
     String[] indexArgs = new String[] {
