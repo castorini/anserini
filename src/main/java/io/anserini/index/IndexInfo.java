@@ -48,7 +48,7 @@ public enum IndexInfo {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v1-passage.splade-pp-ed.20230524.a59610.tar.gz" },
       "2c008fc36131e27966a72292932358e6"),
 
-  MSMARCO_V1_PASSAGE_COS_DPR_DISTIL_HNSW("msmarco-v1-passage.cos-dpr-distil.hnsw",
+  MSMARCO_V1_PASSAGE_COS_DPR_DISTIL_HNSW("msmarco-v1-passage.cosdpr-distil.hnsw",
       "Lucene HNSW index of the MS MARCO V1 passage corpus encoded by cos-DPR Distil.",
       "lucene-hnsw.msmarco-v1-passage.cosdpr-distil.20240108.825148.tar.gz",
       "lucene-hnsw.msmarco-v1-passage.cosdpr-distil.20240108.825148.README.md",
@@ -56,9 +56,9 @@ public enum IndexInfo {
       "cosDPR-distil w/ HNSW fp32",
       new String[] {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw.msmarco-v1-passage.cosdpr-distil.20240108.825148.tar.gz" },
-      "d0d602c46fb8b93511f2ab1214bcb86a"),
+      "df4c60fa1f3804fa409499824d12d035"),
 
-  MSMARCO_V1_PASSAGE_COS_DPR_DISTIL_HNSW_INT8("msmarco-v1-passage.cos-dpr-distil.hnsw-int8",
+  MSMARCO_V1_PASSAGE_COS_DPR_DISTIL_HNSW_INT8("msmarco-v1-passage.cosdpr-distil.hnsw-int8",
       "Lucene quantized HNSW index of the MS MARCO V1 passage corpus encoded by cos-DPR Distil.",
       "lucene-hnsw-int8.msmarco-v1-passage.cosdpr-distil.20240108.825148.tar.gz",
       "lucene-hnsw.msmarco-v1-passage.cosdpr-distil.20240108.825148.README.md",
@@ -66,7 +66,7 @@ public enum IndexInfo {
       "cosDPR-distil w/ HNSW int8",
       new String[] {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v1-passage.cosdpr-distil.20240108.825148.tar.gz" },
-      "24ed94669c9caf52704e0ceccee3732b"),
+      "119124ad358bb81e6a203b04d1b99a9c"),
 
   MSMARCO_V1_PASSAGE_BGE_BASE_EN_15_HNSW("msmarco-v1-passage.bge-base-en-v1.5.hnsw",
       "Lucene HNSW index of the MS MARCO V1 passage corpus encoded by BGE-base-en-v1.5.",
