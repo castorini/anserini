@@ -3,6 +3,18 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### December 7, 2024
+
++ commit [`f9f73c`](https://github.com/castorini/anserini/commit/f9f73c280ed51c9c816418be23f098ab17cf64ee) (2024/12/07)
+
+Installed MS MARCO Passage V1 Parquet regressions.
+
+### November 22, 2024
+
++ commit [`c619dc`](https://github.com/castorini/anserini/commit/c619dc8d9ab28298251964053a927906e9957f51) (2024/12/22)
+
+Added regression for TREC 2024 RAG baselines, with bug fix here at [`c619dc`](https://github.com/castorini/anserini/commit/a90973cf3daac38e5d4a749f26c712d11f1c6b3c).
+
 ### June 13, 2024
 
 + commit [`6cf601`](https://github.com/castorini/anserini/commit/6cf60132fa9ec49eac0861f3af8ed6e8d72e6471) (2024/06/13)
