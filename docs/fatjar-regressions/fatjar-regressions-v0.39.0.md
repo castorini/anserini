@@ -309,13 +309,13 @@ done
 TOPICS=(msmarco-v1-passage.dev dl19-passage dl20-passage); for t in "${TOPICS[@]}"
 do
     # Using fp32 index, cached queries
-    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cosdpr-distil.hnsw -topics ${t}.cos-dpr-distil -output $OUTPUT_DIR/run.msmarco-v1-passage.cos-dpr-distil.hnsw.cached_q.${t}.cos-dpr-distil.txt -threads 16 -efSearch 1000
+    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cosdpr-distil.hnsw -topics ${t}.cosdpr-distil -output $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw.cached_q.${t}.cosdpr-distil.txt -threads 16 -efSearch 1000
     # Using fp32 index, ONNX
-    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cosdpr-distil.hnsw -topics ${t} -encoder CosDprDistil -output $OUTPUT_DIR/run.msmarco-v1-passage.cos-dpr-distil.hnsw.onnx.${t}.txt -threads 16 -efSearch 1000
+    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cosdpr-distil.hnsw -topics ${t} -encoder CosDprDistil -output $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw.onnx.${t}.txt -threads 16 -efSearch 1000
     # Using int8 index, cached queries
-    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cosdpr-distil.hnsw-int8 -topics ${t}.cos-dpr-distil -output $OUTPUT_DIR/run.msmarco-v1-passage.cos-dpr-distil.hnsw-int8.cached_q.${t}.cos-dpr-distil.txt -threads 16 -efSearch 1000
+    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cosdpr-distil.hnsw-int8 -topics ${t}.cosdpr-distil -output $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw-int8.cached_q.${t}.cosdpr-distil.txt -threads 16 -efSearch 1000
     # Using int8 index, ONNX
-    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cosdpr-distil.hnsw-int8 -topics ${t} -encoder CosDprDistil -output $OUTPUT_DIR/run.msmarco-v1-passage.cos-dpr-distil.hnsw-int8.onnx.${t}.txt -threads 16 -efSearch 1000
+    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cosdpr-distil.hnsw-int8 -topics ${t} -encoder CosDprDistil -output $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw-int8.onnx.${t}.txt -threads 16 -efSearch 1000
 done
 
 # bge-base-en-v1.5
@@ -356,21 +356,21 @@ java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-passage.dev $OUT
 java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl19-passage $OUTPUT_DIR/run.msmarco-v1-passage.splade-pp-ed.onnx.dl19-passage.txt
 java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl20-passage $OUTPUT_DIR/run.msmarco-v1-passage.splade-pp-ed.onnx.dl20-passage.txt
 echo ''
-java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.cos-dpr-distil.hnsw.cached_q.msmarco-v1-passage.dev.cos-dpr-distil.txt
-java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl19-passage $OUTPUT_DIR/run.msmarco-v1-passage.cos-dpr-distil.hnsw.cached_q.dl19-passage.cos-dpr-distil.txt
-java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl20-passage $OUTPUT_DIR/run.msmarco-v1-passage.cos-dpr-distil.hnsw.cached_q.dl20-passage.cos-dpr-distil.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw.cached_q.msmarco-v1-passage.dev.cosdpr-distil.txt
+java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl19-passage $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw.cached_q.dl19-passage.cosdpr-distil.txt
+java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl20-passage $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw.cached_q.dl20-passage.cosdpr-distil.txt
 echo ''
-java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.cos-dpr-distil.hnsw.onnx.msmarco-v1-passage.dev.txt
-java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl19-passage $OUTPUT_DIR/run.msmarco-v1-passage.cos-dpr-distil.hnsw.onnx.dl19-passage.txt
-java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl20-passage $OUTPUT_DIR/run.msmarco-v1-passage.cos-dpr-distil.hnsw.onnx.dl20-passage.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw.onnx.msmarco-v1-passage.dev.txt
+java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl19-passage $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw.onnx.dl19-passage.txt
+java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl20-passage $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw.onnx.dl20-passage.txt
 echo ''
-java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.cos-dpr-distil.hnsw-int8.cached_q.msmarco-v1-passage.dev.cos-dpr-distil.txt
-java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl19-passage $OUTPUT_DIR/run.msmarco-v1-passage.cos-dpr-distil.hnsw-int8.cached_q.dl19-passage.cos-dpr-distil.txt
-java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl20-passage $OUTPUT_DIR/run.msmarco-v1-passage.cos-dpr-distil.hnsw-int8.cached_q.dl20-passage.cos-dpr-distil.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw-int8.cached_q.msmarco-v1-passage.dev.cosdpr-distil.txt
+java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl19-passage $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw-int8.cached_q.dl19-passage.cosdpr-distil.txt
+java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl20-passage $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw-int8.cached_q.dl20-passage.cosdpr-distil.txt
 echo ''
-java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.cos-dpr-distil.hnsw-int8.onnx.msmarco-v1-passage.dev.txt
-java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl19-passage $OUTPUT_DIR/run.msmarco-v1-passage.cos-dpr-distil.hnsw-int8.onnx.dl19-passage.txt
-java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl20-passage $OUTPUT_DIR/run.msmarco-v1-passage.cos-dpr-distil.hnsw-int8.onnx.dl20-passage.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw-int8.onnx.msmarco-v1-passage.dev.txt
+java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl19-passage $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw-int8.onnx.dl19-passage.txt
+java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl20-passage $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw-int8.onnx.dl20-passage.txt
 echo ''
 java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw.cached_q.msmarco-v1-passage.dev.bge-base-en-v1.5.txt
 java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl19-passage $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw.cached_q.dl19-passage.bge-base-en-v1.5.txt

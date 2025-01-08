@@ -731,7 +731,7 @@ public class TopicReaderTest {
     assertEquals(1133167, (int) topics.lastKey());
     assertEquals(17675, topics.get(topics.lastKey()).get("title").split(" ").length);
 
-    topics = TopicReader.getTopics(Topics.TREC2019_DL_PASSAGE_COS_DPR_DISTIL);
+    topics = TopicReader.getTopics(Topics.TREC2019_DL_PASSAGE_COSDPR_DISTIL);
     assertNotNull(topics);
     assertEquals(43, topics.size());
     assertEquals(19335, (int) topics.firstKey());
@@ -818,7 +818,7 @@ public class TopicReaderTest {
     assertEquals(1136962, (int) topics.lastKey());
     assertEquals(30994, topics.get(topics.lastKey()).get("title").split(" ").length);
 
-    topics = TopicReader.getTopics(Topics.TREC2020_DL_COS_DPR_DISTIL);
+    topics = TopicReader.getTopics(Topics.TREC2020_DL_COSDPR_DISTIL);
     assertNotNull(topics);
     assertEquals(200, topics.size());
     assertEquals(3505, (int) topics.firstKey());
@@ -1188,7 +1188,7 @@ public class TopicReaderTest {
     assertEquals(1102400, (int) topics.lastKey());
     assertEquals(30718, topics.get(topics.lastKey()).get("title").split(" ").length);
 
-    topics = TopicReader.getTopics(Topics.MSMARCO_PASSAGE_DEV_SUBSET_COS_DPR_DISTIL);
+    topics = TopicReader.getTopics(Topics.MSMARCO_PASSAGE_DEV_SUBSET_COSDPR_DISTIL);
     assertNotNull(topics);
     assertEquals(6980, topics.size());
     assertEquals(2, (int) topics.firstKey());
