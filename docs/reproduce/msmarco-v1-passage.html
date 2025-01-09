@@ -555,20 +555,20 @@ Command to generate run on TREC 2019 queries:
   <blockquote class="mycode">
 <pre><code>java -cp $fatjar io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
-  -index msmarco-v1-passage.cos-dpr-distil \
-  -topics dl19-passage.cos-dpr-distil \
-  -output runs/run.msmarco.cos-dpr-distil.fp32.cached_q.dl19.txt \
+  -index msmarco-v1-passage.cosdpr-distil.hnsw \
+  -topics dl19-passage.cosdpr-distil \
+  -output runs/run.msmarco.cosdpr-distil.hnsw.cached_q.dl19.txt \
   -efSearch 1000 -hits 1000
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl19-passage \
-  runs/run.msmarco.cos-dpr-distil.fp32.cached_q.dl19.txt
+  runs/run.msmarco.cosdpr-distil.hnsw.cached_q.dl19.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl19-passage \
-  runs/run.msmarco.cos-dpr-distil.fp32.cached_q.dl19.txt
+  runs/run.msmarco.cosdpr-distil.hnsw.cached_q.dl19.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
-  runs/run.msmarco.cos-dpr-distil.fp32.cached_q.dl19.txt
+  runs/run.msmarco.cosdpr-distil.hnsw.cached_q.dl19.txt
 </code></pre>
   </blockquote>
 
@@ -579,20 +579,20 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
   <blockquote class="mycode">
 <pre><code>java -cp $fatjar io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
-  -index msmarco-v1-passage.cos-dpr-distil \
-  -topics dl20-passage.cos-dpr-distil \
-  -output runs/run.msmarco.cos-dpr-distil.fp32.cached_q.dl20.txt \
+  -index msmarco-v1-passage.cosdpr-distil.hnsw \
+  -topics dl20-passage.cosdpr-distil \
+  -output runs/run.msmarco.cosdpr-distil.hnsw.cached_q.dl20.txt \
   -efSearch 1000 -hits 1000
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl20-passage \
-  runs/run.msmarco.cos-dpr-distil.fp32.cached_q.dl20.txt
+  runs/run.msmarco.cosdpr-distil.hnsw.cached_q.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl20-passage \
-  runs/run.msmarco.cos-dpr-distil.fp32.cached_q.dl20.txt
+  runs/run.msmarco.cosdpr-distil.hnsw.cached_q.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
-  runs/run.msmarco.cos-dpr-distil.fp32.cached_q.dl20.txt
+  runs/run.msmarco.cosdpr-distil.hnsw.cached_q.dl20.txt
 </code></pre>
   </blockquote>
 
@@ -603,18 +603,18 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
   <blockquote class="mycode">
 <pre><code>java -cp $fatjar io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
-  -index msmarco-v1-passage.cos-dpr-distil \
-  -topics msmarco-v1-passage.dev.cos-dpr-distil \
-  -output runs/run.msmarco.cos-dpr-distil.fp32.cached_q.dev.txt \
+  -index msmarco-v1-passage.cosdpr-distil.hnsw \
+  -topics msmarco-v1-passage.dev.cosdpr-distil \
+  -output runs/run.msmarco.cosdpr-distil.hnsw.cached_q.dev.txt \
   -efSearch 1000 -hits 1000
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
-  runs/run.msmarco.cos-dpr-distil.fp32.cached_q.dev.txt
+  runs/run.msmarco.cosdpr-distil.hnsw.cached_q.dev.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 msmarco-passage.dev \
-  runs/run.msmarco.cos-dpr-distil.fp32.cached_q.dev.txt
+  runs/run.msmarco.cosdpr-distil.hnsw.cached_q.dev.txt
 </code></pre>
   </blockquote>
 
@@ -667,9 +667,9 @@ Command to generate run on TREC 2019 queries:
   <blockquote class="mycode">
 <pre><code>java -cp $fatjar io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
-  -index msmarco-v1-passage.cos-dpr-distil \
+  -index msmarco-v1-passage.cosdpr-distil.hnsw \
   -topics dl19-passage \
-  -output runs/run.msmarco.cos-dpr-distil.fp32.onnx.dl19.txt \
+  -output runs/run.msmarco.cosdpr-distil.hnsw.onnx.dl19.txt \
   -efSearch 1000 -hits 1000 \
   -encoder CosDprDistil
 </code></pre></blockquote>
@@ -677,11 +677,11 @@ Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl19-passage \
-  runs/run.msmarco.cos-dpr-distil.fp32.onnx.dl19.txt
+  runs/run.msmarco.cosdpr-distil.hnsw.onnx.dl19.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl19-passage \
-  runs/run.msmarco.cos-dpr-distil.fp32.onnx.dl19.txt
+  runs/run.msmarco.cosdpr-distil.hnsw.onnx.dl19.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
-  runs/run.msmarco.cos-dpr-distil.fp32.onnx.dl19.txt
+  runs/run.msmarco.cosdpr-distil.hnsw.onnx.dl19.txt
 </code></pre>
   </blockquote>
 
@@ -692,9 +692,9 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
   <blockquote class="mycode">
 <pre><code>java -cp $fatjar io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
-  -index msmarco-v1-passage.cos-dpr-distil \
+  -index msmarco-v1-passage.cosdpr-distil.hnsw \
   -topics dl20-passage \
-  -output runs/run.msmarco.cos-dpr-distil.fp32.onnx.dl20.txt \
+  -output runs/run.msmarco.cosdpr-distil.hnsw.onnx.dl20.txt \
   -efSearch 1000 -hits 1000 \
   -encoder CosDprDistil
 </code></pre></blockquote>
@@ -702,11 +702,11 @@ Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl20-passage \
-  runs/run.msmarco.cos-dpr-distil.fp32.onnx.dl20.txt
+  runs/run.msmarco.cosdpr-distil.hnsw.onnx.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl20-passage \
-  runs/run.msmarco.cos-dpr-distil.fp32.onnx.dl20.txt
+  runs/run.msmarco.cosdpr-distil.hnsw.onnx.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
-  runs/run.msmarco.cos-dpr-distil.fp32.onnx.dl20.txt
+  runs/run.msmarco.cosdpr-distil.hnsw.onnx.dl20.txt
 </code></pre>
   </blockquote>
 
@@ -717,9 +717,9 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
   <blockquote class="mycode">
 <pre><code>java -cp $fatjar io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
-  -index msmarco-v1-passage.cos-dpr-distil \
+  -index msmarco-v1-passage.cosdpr-distil.hnsw \
   -topics msmarco-v1-passage.dev \
-  -output runs/run.msmarco.cos-dpr-distil.fp32.onnx.dev.txt \
+  -output runs/run.msmarco.cosdpr-distil.hnsw.onnx.dev.txt \
   -efSearch 1000 -hits 1000 \
   -encoder CosDprDistil
 </code></pre></blockquote>
@@ -727,9 +727,9 @@ Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
-  runs/run.msmarco.cos-dpr-distil.fp32.onnx.dev.txt
+  runs/run.msmarco.cosdpr-distil.hnsw.onnx.dev.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 msmarco-passage.dev \
-  runs/run.msmarco.cos-dpr-distil.fp32.onnx.dev.txt
+  runs/run.msmarco.cosdpr-distil.hnsw.onnx.dev.txt
 </code></pre>
   </blockquote>
 
@@ -782,20 +782,20 @@ Command to generate run on TREC 2019 queries:
   <blockquote class="mycode">
 <pre><code>java -cp $fatjar io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
-  -index msmarco-v1-passage.cos-dpr-distil.quantized \
-  -topics dl19-passage.cos-dpr-distil \
-  -output runs/run.msmarco.cos-dpr-distil.int8.cached_q.dl19.txt \
+  -index msmarco-v1-passage.cosdpr-distil.hnsw-int8 \
+  -topics dl19-passage.cosdpr-distil \
+  -output runs/run.msmarco.cosdpr-distil.hnsw-int8.cached_q.dl19.txt \
   -efSearch 1000 -hits 1000
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl19-passage \
-  runs/run.msmarco.cos-dpr-distil.int8.cached_q.dl19.txt
+  runs/run.msmarco.cosdpr-distil.hnsw-int8.cached_q.dl19.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl19-passage \
-  runs/run.msmarco.cos-dpr-distil.int8.cached_q.dl19.txt
+  runs/run.msmarco.cosdpr-distil.hnsw-int8.cached_q.dl19.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
-  runs/run.msmarco.cos-dpr-distil.int8.cached_q.dl19.txt
+  runs/run.msmarco.cosdpr-distil.hnsw-int8.cached_q.dl19.txt
 </code></pre>
   </blockquote>
 
@@ -806,20 +806,20 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
   <blockquote class="mycode">
 <pre><code>java -cp $fatjar io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
-  -index msmarco-v1-passage.cos-dpr-distil.quantized \
-  -topics dl20-passage.cos-dpr-distil \
-  -output runs/run.msmarco.cos-dpr-distil.int8.cached_q.dl20.txt \
+  -index msmarco-v1-passage.cosdpr-distil.hnsw-int8 \
+  -topics dl20-passage.cosdpr-distil \
+  -output runs/run.msmarco.cosdpr-distil.hnsw-int8.cached_q.dl20.txt \
   -efSearch 1000 -hits 1000
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl20-passage \
-  runs/run.msmarco.cos-dpr-distil.int8.cached_q.dl20.txt
+  runs/run.msmarco.cosdpr-distil.hnsw-int8.cached_q.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl20-passage \
-  runs/run.msmarco.cos-dpr-distil.int8.cached_q.dl20.txt
+  runs/run.msmarco.cosdpr-distil.hnsw-int8.cached_q.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
-  runs/run.msmarco.cos-dpr-distil.int8.cached_q.dl20.txt
+  runs/run.msmarco.cosdpr-distil.hnsw-int8.cached_q.dl20.txt
 </code></pre>
   </blockquote>
 
@@ -830,18 +830,18 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
   <blockquote class="mycode">
 <pre><code>java -cp $fatjar io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
-  -index msmarco-v1-passage.cos-dpr-distil.quantized \
-  -topics msmarco-v1-passage.dev.cos-dpr-distil \
-  -output runs/run.msmarco.cos-dpr-distil.int8.cached_q.dev.txt \
+  -index msmarco-v1-passage.cosdpr-distil.hnsw-int8 \
+  -topics msmarco-v1-passage.dev.cosdpr-distil \
+  -output runs/run.msmarco.cosdpr-distil.hnsw-int8.cached_q.dev.txt \
   -efSearch 1000 -hits 1000
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
-  runs/run.msmarco.cos-dpr-distil.int8.cached_q.dev.txt
+  runs/run.msmarco.cosdpr-distil.hnsw-int8.cached_q.dev.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 msmarco-passage.dev \
-  runs/run.msmarco.cos-dpr-distil.int8.cached_q.dev.txt
+  runs/run.msmarco.cosdpr-distil.hnsw-int8.cached_q.dev.txt
 </code></pre>
   </blockquote>
 
@@ -894,9 +894,9 @@ Command to generate run on TREC 2019 queries:
   <blockquote class="mycode">
 <pre><code>java -cp $fatjar io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
-  -index msmarco-v1-passage.cos-dpr-distil.quantized \
+  -index msmarco-v1-passage.cosdpr-distil.hnsw-int8 \
   -topics dl19-passage \
-  -output runs/run.msmarco.cos-dpr-distil.int8.onnx.dl19.txt \
+  -output runs/run.msmarco.cosdpr-distil.hnsw-int8.onnx.dl19.txt \
   -efSearch 1000 -hits 1000 \
   -encoder CosDprDistil
 </code></pre></blockquote>
@@ -904,11 +904,11 @@ Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl19-passage \
-  runs/run.msmarco.cos-dpr-distil.int8.onnx.dl19.txt
+  runs/run.msmarco.cosdpr-distil.hnsw-int8.onnx.dl19.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl19-passage \
-  runs/run.msmarco.cos-dpr-distil.int8.onnx.dl19.txt
+  runs/run.msmarco.cosdpr-distil.hnsw-int8.onnx.dl19.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
-  runs/run.msmarco.cos-dpr-distil.int8.onnx.dl19.txt
+  runs/run.msmarco.cosdpr-distil.hnsw-int8.onnx.dl19.txt
 </code></pre>
   </blockquote>
 
@@ -919,9 +919,9 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
   <blockquote class="mycode">
 <pre><code>java -cp $fatjar io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
-  -index msmarco-v1-passage.cos-dpr-distil.quantized \
+  -index msmarco-v1-passage.cosdpr-distil.hnsw-int8 \
   -topics dl20-passage \
-  -output runs/run.msmarco.cos-dpr-distil.int8.onnx.dl20.txt \
+  -output runs/run.msmarco.cosdpr-distil.hnsw-int8.onnx.dl20.txt \
   -efSearch 1000 -hits 1000 \
   -encoder CosDprDistil
 </code></pre></blockquote>
@@ -929,11 +929,11 @@ Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl20-passage \
-  runs/run.msmarco.cos-dpr-distil.int8.onnx.dl20.txt
+  runs/run.msmarco.cosdpr-distil.hnsw-int8.onnx.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl20-passage \
-  runs/run.msmarco.cos-dpr-distil.int8.onnx.dl20.txt
+  runs/run.msmarco.cosdpr-distil.hnsw-int8.onnx.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
-  runs/run.msmarco.cos-dpr-distil.int8.onnx.dl20.txt
+  runs/run.msmarco.cosdpr-distil.hnsw-int8.onnx.dl20.txt
 </code></pre>
   </blockquote>
 
@@ -944,9 +944,9 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
   <blockquote class="mycode">
 <pre><code>java -cp $fatjar io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
-  -index msmarco-v1-passage.cos-dpr-distil.quantized \
+  -index msmarco-v1-passage.cosdpr-distil.hnsw-int8 \
   -topics msmarco-v1-passage.dev \
-  -output runs/run.msmarco.cos-dpr-distil.int8.onnx.dev.txt \
+  -output runs/run.msmarco.cosdpr-distil.hnsw-int8.onnx.dev.txt \
   -efSearch 1000 -hits 1000 \
   -encoder CosDprDistil
 </code></pre></blockquote>
@@ -954,9 +954,9 @@ Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
-  runs/run.msmarco.cos-dpr-distil.int8.onnx.dev.txt
+  runs/run.msmarco.cosdpr-distil.hnsw-int8.onnx.dev.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 msmarco-passage.dev \
-  runs/run.msmarco.cos-dpr-distil.int8.onnx.dev.txt
+  runs/run.msmarco.cosdpr-distil.hnsw-int8.onnx.dev.txt
 </code></pre>
   </blockquote>
 
@@ -1009,20 +1009,20 @@ Command to generate run on TREC 2019 queries:
   <blockquote class="mycode">
 <pre><code>java -cp $fatjar io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
-  -index msmarco-v1-passage.bge-base-en-v1.5 \
+  -index msmarco-v1-passage.bge-base-en-v1.5.hnsw \
   -topics dl19-passage.bge-base-en-v1.5 \
-  -output runs/run.msmarco.bge-base-en-v1.5.fp32.cached_q.dl19.txt \
+  -output runs/run.msmarco.bge-base-en-v1.5.hnsw.cached_q.dl19.txt \
   -efSearch 1000 -hits 1000
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl19-passage \
-  runs/run.msmarco.bge-base-en-v1.5.fp32.cached_q.dl19.txt
+  runs/run.msmarco.bge-base-en-v1.5.hnsw.cached_q.dl19.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl19-passage \
-  runs/run.msmarco.bge-base-en-v1.5.fp32.cached_q.dl19.txt
+  runs/run.msmarco.bge-base-en-v1.5.hnsw.cached_q.dl19.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
-  runs/run.msmarco.bge-base-en-v1.5.fp32.cached_q.dl19.txt
+  runs/run.msmarco.bge-base-en-v1.5.hnsw.cached_q.dl19.txt
 </code></pre>
   </blockquote>
 
@@ -1033,20 +1033,20 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
   <blockquote class="mycode">
 <pre><code>java -cp $fatjar io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
-  -index msmarco-v1-passage.bge-base-en-v1.5 \
+  -index msmarco-v1-passage.bge-base-en-v1.5.hnsw \
   -topics dl20-passage.bge-base-en-v1.5 \
-  -output runs/run.msmarco.bge-base-en-v1.5.fp32.cached_q.dl20.txt \
+  -output runs/run.msmarco.bge-base-en-v1.5.hnsw.cached_q.dl20.txt \
   -efSearch 1000 -hits 1000
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl20-passage \
-  runs/run.msmarco.bge-base-en-v1.5.fp32.cached_q.dl20.txt
+  runs/run.msmarco.bge-base-en-v1.5.hnsw.cached_q.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl20-passage \
-  runs/run.msmarco.bge-base-en-v1.5.fp32.cached_q.dl20.txt
+  runs/run.msmarco.bge-base-en-v1.5.hnsw.cached_q.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
-  runs/run.msmarco.bge-base-en-v1.5.fp32.cached_q.dl20.txt
+  runs/run.msmarco.bge-base-en-v1.5.hnsw.cached_q.dl20.txt
 </code></pre>
   </blockquote>
 
@@ -1057,18 +1057,18 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
   <blockquote class="mycode">
 <pre><code>java -cp $fatjar io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
-  -index msmarco-v1-passage.bge-base-en-v1.5 \
+  -index msmarco-v1-passage.bge-base-en-v1.5.hnsw \
   -topics msmarco-v1-passage.dev.bge-base-en-v1.5 \
-  -output runs/run.msmarco.bge-base-en-v1.5.fp32.cached_q.dev.txt \
+  -output runs/run.msmarco.bge-base-en-v1.5.hnsw.cached_q.dev.txt \
   -efSearch 1000 -hits 1000
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
-  runs/run.msmarco.bge-base-en-v1.5.fp32.cached_q.dev.txt
+  runs/run.msmarco.bge-base-en-v1.5.hnsw.cached_q.dev.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 msmarco-passage.dev \
-  runs/run.msmarco.bge-base-en-v1.5.fp32.cached_q.dev.txt
+  runs/run.msmarco.bge-base-en-v1.5.hnsw.cached_q.dev.txt
 </code></pre>
   </blockquote>
 
@@ -1121,9 +1121,9 @@ Command to generate run on TREC 2019 queries:
   <blockquote class="mycode">
 <pre><code>java -cp $fatjar io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
-  -index msmarco-v1-passage.bge-base-en-v1.5 \
+  -index msmarco-v1-passage.bge-base-en-v1.5.hnsw \
   -topics dl19-passage \
-  -output runs/run.msmarco.bge-base-en-v1.5.fp32.onnx.dl19.txt \
+  -output runs/run.msmarco.bge-base-en-v1.5.hnsw.onnx.dl19.txt \
   -efSearch 1000 -hits 1000 \
   -encoder BgeBaseEn15
 </code></pre></blockquote>
@@ -1131,11 +1131,11 @@ Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl19-passage \
-  runs/run.msmarco.bge-base-en-v1.5.fp32.onnx.dl19.txt
+  runs/run.msmarco.bge-base-en-v1.5.hnsw.onnx.dl19.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl19-passage \
-  runs/run.msmarco.bge-base-en-v1.5.fp32.onnx.dl19.txt
+  runs/run.msmarco.bge-base-en-v1.5.hnsw.onnx.dl19.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
-  runs/run.msmarco.bge-base-en-v1.5.fp32.onnx.dl19.txt
+  runs/run.msmarco.bge-base-en-v1.5.hnsw.onnx.dl19.txt
 </code></pre>
   </blockquote>
 
@@ -1146,9 +1146,9 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
   <blockquote class="mycode">
 <pre><code>java -cp $fatjar io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
-  -index msmarco-v1-passage.bge-base-en-v1.5 \
+  -index msmarco-v1-passage.bge-base-en-v1.5.hnsw \
   -topics dl20-passage \
-  -output runs/run.msmarco.bge-base-en-v1.5.fp32.onnx.dl20.txt \
+  -output runs/run.msmarco.bge-base-en-v1.5.hnsw.onnx.dl20.txt \
   -efSearch 1000 -hits 1000 \
   -encoder BgeBaseEn15
 </code></pre></blockquote>
@@ -1156,11 +1156,11 @@ Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl20-passage \
-  runs/run.msmarco.bge-base-en-v1.5.fp32.onnx.dl20.txt
+  runs/run.msmarco.bge-base-en-v1.5.hnsw.onnx.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl20-passage \
-  runs/run.msmarco.bge-base-en-v1.5.fp32.onnx.dl20.txt
+  runs/run.msmarco.bge-base-en-v1.5.hnsw.onnx.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
-  runs/run.msmarco.bge-base-en-v1.5.fp32.onnx.dl20.txt
+  runs/run.msmarco.bge-base-en-v1.5.hnsw.onnx.dl20.txt
 </code></pre>
   </blockquote>
 
@@ -1171,9 +1171,9 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
   <blockquote class="mycode">
 <pre><code>java -cp $fatjar io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
-  -index msmarco-v1-passage.bge-base-en-v1.5 \
+  -index msmarco-v1-passage.bge-base-en-v1.5.hnsw \
   -topics msmarco-v1-passage.dev \
-  -output runs/run.msmarco.bge-base-en-v1.5.fp32.onnx.dev.txt \
+  -output runs/run.msmarco.bge-base-en-v1.5.hnsw.onnx.dev.txt \
   -efSearch 1000 -hits 1000 \
   -encoder BgeBaseEn15
 </code></pre></blockquote>
@@ -1181,9 +1181,9 @@ Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
-  runs/run.msmarco.bge-base-en-v1.5.fp32.onnx.dev.txt
+  runs/run.msmarco.bge-base-en-v1.5.hnsw.onnx.dev.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 msmarco-passage.dev \
-  runs/run.msmarco.bge-base-en-v1.5.fp32.onnx.dev.txt
+  runs/run.msmarco.bge-base-en-v1.5.hnsw.onnx.dev.txt
 </code></pre>
   </blockquote>
 
@@ -1236,20 +1236,20 @@ Command to generate run on TREC 2019 queries:
   <blockquote class="mycode">
 <pre><code>java -cp $fatjar io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
-  -index msmarco-v1-passage.bge-base-en-v1.5.quantized \
+  -index msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8 \
   -topics dl19-passage.bge-base-en-v1.5 \
-  -output runs/run.msmarco.bge-base-en-v1.5.int8.cached_q.dl19.txt \
+  -output runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.cached_q.dl19.txt \
   -efSearch 1000 -hits 1000
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl19-passage \
-  runs/run.msmarco.bge-base-en-v1.5.int8.cached_q.dl19.txt
+  runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.cached_q.dl19.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl19-passage \
-  runs/run.msmarco.bge-base-en-v1.5.int8.cached_q.dl19.txt
+  runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.cached_q.dl19.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
-  runs/run.msmarco.bge-base-en-v1.5.int8.cached_q.dl19.txt
+  runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.cached_q.dl19.txt
 </code></pre>
   </blockquote>
 
@@ -1260,20 +1260,20 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
   <blockquote class="mycode">
 <pre><code>java -cp $fatjar io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
-  -index msmarco-v1-passage.bge-base-en-v1.5.quantized \
+  -index msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8 \
   -topics dl20-passage.bge-base-en-v1.5 \
-  -output runs/run.msmarco.bge-base-en-v1.5.int8.cached_q.dl20.txt \
+  -output runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.cached_q.dl20.txt \
   -efSearch 1000 -hits 1000
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl20-passage \
-  runs/run.msmarco.bge-base-en-v1.5.int8.cached_q.dl20.txt
+  runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.cached_q.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl20-passage \
-  runs/run.msmarco.bge-base-en-v1.5.int8.cached_q.dl20.txt
+  runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.cached_q.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
-  runs/run.msmarco.bge-base-en-v1.5.int8.cached_q.dl20.txt
+  runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.cached_q.dl20.txt
 </code></pre>
   </blockquote>
 
@@ -1284,18 +1284,18 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
   <blockquote class="mycode">
 <pre><code>java -cp $fatjar io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
-  -index msmarco-v1-passage.bge-base-en-v1.5.quantized \
+  -index msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8 \
   -topics msmarco-v1-passage.dev.bge-base-en-v1.5 \
-  -output runs/run.msmarco.bge-base-en-v1.5.int8.cached_q.dev.txt \
+  -output runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.cached_q.dev.txt \
   -efSearch 1000 -hits 1000
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
-  runs/run.msmarco.bge-base-en-v1.5.int8.cached_q.dev.txt
+  runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.cached_q.dev.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 msmarco-passage.dev \
-  runs/run.msmarco.bge-base-en-v1.5.int8.cached_q.dev.txt
+  runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.cached_q.dev.txt
 </code></pre>
   </blockquote>
 
@@ -1348,9 +1348,9 @@ Command to generate run on TREC 2019 queries:
   <blockquote class="mycode">
 <pre><code>java -cp $fatjar io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
-  -index msmarco-v1-passage.bge-base-en-v1.5.quantized \
+  -index msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8 \
   -topics dl19-passage \
-  -output runs/run.msmarco.bge-base-en-v1.5.int8.onnx.dl19.txt \
+  -output runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.onnx.dl19.txt \
   -efSearch 1000 -hits 1000 \
   -encoder BgeBaseEn15
 </code></pre></blockquote>
@@ -1358,11 +1358,11 @@ Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl19-passage \
-  runs/run.msmarco.bge-base-en-v1.5.int8.onnx.dl19.txt
+  runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.onnx.dl19.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl19-passage \
-  runs/run.msmarco.bge-base-en-v1.5.int8.onnx.dl19.txt
+  runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.onnx.dl19.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
-  runs/run.msmarco.bge-base-en-v1.5.int8.onnx.dl19.txt
+  runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.onnx.dl19.txt
 </code></pre>
   </blockquote>
 
@@ -1373,9 +1373,9 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
   <blockquote class="mycode">
 <pre><code>java -cp $fatjar io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
-  -index msmarco-v1-passage.bge-base-en-v1.5.quantized \
+  -index msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8 \
   -topics dl20-passage \
-  -output runs/run.msmarco.bge-base-en-v1.5.int8.onnx.dl20.txt \
+  -output runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.onnx.dl20.txt \
   -efSearch 1000 -hits 1000 \
   -encoder BgeBaseEn15
 </code></pre></blockquote>
@@ -1383,11 +1383,11 @@ Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl20-passage \
-  runs/run.msmarco.bge-base-en-v1.5.int8.onnx.dl20.txt
+  runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.onnx.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl20-passage \
-  runs/run.msmarco.bge-base-en-v1.5.int8.onnx.dl20.txt
+  runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.onnx.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
-  runs/run.msmarco.bge-base-en-v1.5.int8.onnx.dl20.txt
+  runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.onnx.dl20.txt
 </code></pre>
   </blockquote>
 
@@ -1398,9 +1398,9 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
   <blockquote class="mycode">
 <pre><code>java -cp $fatjar io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
-  -index msmarco-v1-passage.bge-base-en-v1.5.quantized \
+  -index msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8 \
   -topics msmarco-v1-passage.dev \
-  -output runs/run.msmarco.bge-base-en-v1.5.int8.onnx.dev.txt \
+  -output runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.onnx.dev.txt \
   -efSearch 1000 -hits 1000 \
   -encoder BgeBaseEn15
 </code></pre></blockquote>
@@ -1408,9 +1408,9 @@ Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
-  runs/run.msmarco.bge-base-en-v1.5.int8.onnx.dev.txt
+  runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.onnx.dev.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 msmarco-passage.dev \
-  runs/run.msmarco.bge-base-en-v1.5.int8.onnx.dev.txt
+  runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.onnx.dev.txt
 </code></pre>
   </blockquote>
 
@@ -1463,20 +1463,20 @@ Command to generate run on TREC 2019 queries:
   <blockquote class="mycode">
 <pre><code>java -cp $fatjar io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
-  -index msmarco-v1-passage.cohere-embed-english-v3.0 \
+  -index msmarco-v1-passage.cohere-embed-english-v3.0.hnsw \
   -topics dl19-passage.cohere-embed-english-v3.0 \
-  -output runs/run.msmarco.cohere-embed-english-v3.0.fp32.cached_q.dl19.txt \
+  -output runs/run.msmarco.cohere-embed-english-v3.0.hnsw.cached_q.dl19.txt \
   -efSearch 1000 -hits 1000
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl19-passage \
-  runs/run.msmarco.cohere-embed-english-v3.0.fp32.cached_q.dl19.txt
+  runs/run.msmarco.cohere-embed-english-v3.0.hnsw.cached_q.dl19.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl19-passage \
-  runs/run.msmarco.cohere-embed-english-v3.0.fp32.cached_q.dl19.txt
+  runs/run.msmarco.cohere-embed-english-v3.0.hnsw.cached_q.dl19.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
-  runs/run.msmarco.cohere-embed-english-v3.0.fp32.cached_q.dl19.txt
+  runs/run.msmarco.cohere-embed-english-v3.0.hnsw.cached_q.dl19.txt
 </code></pre>
   </blockquote>
 
@@ -1487,20 +1487,20 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
   <blockquote class="mycode">
 <pre><code>java -cp $fatjar io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
-  -index msmarco-v1-passage.cohere-embed-english-v3.0 \
+  -index msmarco-v1-passage.cohere-embed-english-v3.0.hnsw \
   -topics dl20-passage.cohere-embed-english-v3.0 \
-  -output runs/run.msmarco.cohere-embed-english-v3.0.fp32.cached_q.dl20.txt \
+  -output runs/run.msmarco.cohere-embed-english-v3.0.hnsw.cached_q.dl20.txt \
   -efSearch 1000 -hits 1000
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl20-passage \
-  runs/run.msmarco.cohere-embed-english-v3.0.fp32.cached_q.dl20.txt
+  runs/run.msmarco.cohere-embed-english-v3.0.hnsw.cached_q.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl20-passage \
-  runs/run.msmarco.cohere-embed-english-v3.0.fp32.cached_q.dl20.txt
+  runs/run.msmarco.cohere-embed-english-v3.0.hnsw.cached_q.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
-  runs/run.msmarco.cohere-embed-english-v3.0.fp32.cached_q.dl20.txt
+  runs/run.msmarco.cohere-embed-english-v3.0.hnsw.cached_q.dl20.txt
 </code></pre>
   </blockquote>
 
@@ -1511,18 +1511,18 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
   <blockquote class="mycode">
 <pre><code>java -cp $fatjar io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
-  -index msmarco-v1-passage.cohere-embed-english-v3.0 \
+  -index msmarco-v1-passage.cohere-embed-english-v3.0.hnsw \
   -topics msmarco-v1-passage.dev.cohere-embed-english-v3.0 \
-  -output runs/run.msmarco.cohere-embed-english-v3.0.fp32.cached_q.dev.txt \
+  -output runs/run.msmarco.cohere-embed-english-v3.0.hnsw.cached_q.dev.txt \
   -efSearch 1000 -hits 1000
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
-  runs/run.msmarco.cohere-embed-english-v3.0.fp32.cached_q.dev.txt
+  runs/run.msmarco.cohere-embed-english-v3.0.hnsw.cached_q.dev.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 msmarco-passage.dev \
-  runs/run.msmarco.cohere-embed-english-v3.0.fp32.cached_q.dev.txt
+  runs/run.msmarco.cohere-embed-english-v3.0.hnsw.cached_q.dev.txt
 </code></pre>
   </blockquote>
 
@@ -1575,20 +1575,20 @@ Command to generate run on TREC 2019 queries:
   <blockquote class="mycode">
 <pre><code>java -cp $fatjar io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
-  -index msmarco-v1-passage.cohere-embed-english-v3.0.quantized \
+  -index msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8 \
   -topics dl19-passage.cohere-embed-english-v3.0 \
-  -output runs/run.msmarco.cohere-embed-english-v3.0.int8.cached_q.dl19.txt \
+  -output runs/run.msmarco.cohere-embed-english-v3.0.hnsw-int8.cached_q.dl19.txt \
   -efSearch 1000 -hits 1000
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl19-passage \
-  runs/run.msmarco.cohere-embed-english-v3.0.int8.cached_q.dl19.txt
+  runs/run.msmarco.cohere-embed-english-v3.0.hnsw-int8.cached_q.dl19.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl19-passage \
-  runs/run.msmarco.cohere-embed-english-v3.0.int8.cached_q.dl19.txt
+  runs/run.msmarco.cohere-embed-english-v3.0.hnsw-int8.cached_q.dl19.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
-  runs/run.msmarco.cohere-embed-english-v3.0.int8.cached_q.dl19.txt
+  runs/run.msmarco.cohere-embed-english-v3.0.hnsw-int8.cached_q.dl19.txt
 </code></pre>
   </blockquote>
 
@@ -1599,20 +1599,20 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
   <blockquote class="mycode">
 <pre><code>java -cp $fatjar io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
-  -index msmarco-v1-passage.cohere-embed-english-v3.0.quantized \
+  -index msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8 \
   -topics dl20-passage.cohere-embed-english-v3.0 \
-  -output runs/run.msmarco.cohere-embed-english-v3.0.int8.cached_q.dl20.txt \
+  -output runs/run.msmarco.cohere-embed-english-v3.0.hnsw-int8.cached_q.dl20.txt \
   -efSearch 1000 -hits 1000
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl20-passage \
-  runs/run.msmarco.cohere-embed-english-v3.0.int8.cached_q.dl20.txt
+  runs/run.msmarco.cohere-embed-english-v3.0.hnsw-int8.cached_q.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl20-passage \
-  runs/run.msmarco.cohere-embed-english-v3.0.int8.cached_q.dl20.txt
+  runs/run.msmarco.cohere-embed-english-v3.0.hnsw-int8.cached_q.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
-  runs/run.msmarco.cohere-embed-english-v3.0.int8.cached_q.dl20.txt
+  runs/run.msmarco.cohere-embed-english-v3.0.hnsw-int8.cached_q.dl20.txt
 </code></pre>
   </blockquote>
 
@@ -1623,18 +1623,18 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
   <blockquote class="mycode">
 <pre><code>java -cp $fatjar io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
-  -index msmarco-v1-passage.cohere-embed-english-v3.0.quantized \
+  -index msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8 \
   -topics msmarco-v1-passage.dev.cohere-embed-english-v3.0 \
-  -output runs/run.msmarco.cohere-embed-english-v3.0.int8.cached_q.dev.txt \
+  -output runs/run.msmarco.cohere-embed-english-v3.0.hnsw-int8.cached_q.dev.txt \
   -efSearch 1000 -hits 1000
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
-  runs/run.msmarco.cohere-embed-english-v3.0.int8.cached_q.dev.txt
+  runs/run.msmarco.cohere-embed-english-v3.0.hnsw-int8.cached_q.dev.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 msmarco-passage.dev \
-  runs/run.msmarco.cohere-embed-english-v3.0.int8.cached_q.dev.txt
+  runs/run.msmarco.cohere-embed-english-v3.0.hnsw-int8.cached_q.dev.txt
 </code></pre>
   </blockquote>
 

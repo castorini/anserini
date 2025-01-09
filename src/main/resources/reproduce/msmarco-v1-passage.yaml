@@ -114,7 +114,7 @@ conditions:
           - MAP: 0.4876
             nDCG@10: 0.7025
             R@1K: 0.8540
-  - name: cosdpr-distil.int8.cached_q
+  - name: cosdpr-distil.hnsw-int8.cached_q
     display: "cosDPR-distil w/ HNSW int8 (cached queries)"
     display_html: "cosDPR-distil w/ HNSW int8 (cached queries)"
     display_row: ""
@@ -137,7 +137,7 @@ conditions:
           - MAP: 0.4872
             nDCG@10: 0.7004
             R@1K: 0.8538
-  - name: cosdpr-distil.int8.onnx
+  - name: cosdpr-distil.hnsw-int8.onnx
     display: "cosDPR-distil w/ HNSW int8 (ONNX)"
     display_html: "cosDPR-distil w/ HNSW int8 (ONNX)"
     display_row: ""
@@ -206,7 +206,7 @@ conditions:
           - MAP: 0.4626
             nDCG@10: 0.6768
             R@1K: 0.8526
-  - name: bge-base-en-v1.5.int8.cached_q
+  - name: bge-base-en-v1.5.hnsw-int8.cached_q
     display: "bge-base-en-v1.5 w/ HNSW int8 (cached queries)"
     display_html: "bge-base-en-v1.5 w/ HNSW int8 (cached queries)"
     display_row: ""
@@ -229,7 +229,7 @@ conditions:
           - MAP: 0.4623
             nDCG@10: 0.6738
             R@1K: 0.8420
-  - name: bge-base-en-v1.5.int8.onnx
+  - name: bge-base-en-v1.5.hnsw-int8.onnx
     display: "bge-base-en-v1.5 w/ HNSW int8 (ONNX)"
     display_html: "bge-base-en-v1.5 w/ HNSW int8 (ONNX)"
     display_row: ""
@@ -275,7 +275,7 @@ conditions:
           - MAP: 0.5068
             nDCG@10: 0.7245
             R@1K: 0.8682
-  - name: cohere-embed-english-v3.0.int8.cached_q
+  - name: cohere-embed-english-v3.0.hnsw-int8.cached_q
     display: "cohere-embed-english-v3.0 w/ HNSW int8 (cached queries)"
     display_html: "cohere-embed-english-v3.0 w/ HNSW int8 (cached queries)"
     display_row: ""
