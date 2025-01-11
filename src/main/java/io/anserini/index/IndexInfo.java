@@ -59,7 +59,7 @@ public enum IndexInfo {
       "df4c60fa1f3804fa409499824d12d035"),
 
   MSMARCO_V1_PASSAGE_COS_DPR_DISTIL_HNSW_INT8("msmarco-v1-passage.cosdpr-distil.hnsw-int8",
-      "Lucene quantized HNSW index of the MS MARCO V1 passage corpus encoded by cos-DPR Distil.",
+      "Lucene quantized (int8) HNSW index of the MS MARCO V1 passage corpus encoded by cos-DPR Distil.",
       "lucene-hnsw-int8.msmarco-v1-passage.cosdpr-distil.20240108.825148.tar.gz",
       "lucene-hnsw.msmarco-v1-passage.cosdpr-distil.20240108.825148.README.md",
       "MS MARCO V1 Passage",
@@ -79,7 +79,7 @@ public enum IndexInfo {
       "00a577f689d90f95e6c5611438b0af3d"),
 
   MSMARCO_V1_PASSAGE_BGE_BASE_EN_15_HNSW_INT8("msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8",
-      "Lucene quantized HNSW index of the MS MARCO V1 passage corpus encoded by BGE-base-en-v1.5.",
+      "Lucene quantized (int8) HNSW index of the MS MARCO V1 passage corpus encoded by BGE-base-en-v1.5.",
       "lucene-hnsw-int8.msmarco-v1-passage.bge-base-en-v1.5.20240117.53514b.tar.gz",
       "lucene-hnsw.msmarco-v1-passage.bge-base-en-v1.5.20240117.53514b.README.md",
       "MS MARCO V1 Passage",
@@ -99,7 +99,7 @@ public enum IndexInfo {
       "c7294ca988ae1b812d427362ffca1ee2"),
 
   MSMARCO_V1_PASSAGE_COHERE_EMBED_ENGLISH_30_HNSW_INT8("msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8",
-      "Lucene quantized HNSW index of the MS MARCO V1 passage corpus encoded by Cohere embed-english-v3.0.",
+      "Lucene quantized (int8) HNSW index of the MS MARCO V1 passage corpus encoded by Cohere embed-english-v3.0.",
       "lucene-hnsw-int8.msmarco-v1-passage.cohere-embed-english-v3.0.20240228.eacd13.tar.gz",
       "",
       "MS MARCO V1 Passage",

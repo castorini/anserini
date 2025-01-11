@@ -3,7 +3,7 @@
 Fetch the fatjar:
 
 ```bash
-wget https://repo1.maven.org/maven2/io/anserini/anserini/0.38.0/anserini-0.38.0-fatjar.jar
+wget https://repo1.maven.org/maven2/io/anserini/anserini/0.39.0/anserini-0.39.0-fatjar.jar
 ```
 
 Note that prebuilt indexes will be downloaded to `~/.cache/pyserini/indexes/`.
@@ -13,7 +13,7 @@ If you want to change the download location, the current workaround is to use sy
 Let's start out by setting the `ANSERINI_JAR` and the `OUTPUT_DIR`:
 
 ```bash
-export ANSERINI_JAR="target/anserini-0.38.1-SNAPSHOT-fatjar.jar"
+export ANSERINI_JAR="anserini-0.39.0-fatjar.jar"
 export OUTPUT_DIR="."
 ```
 
@@ -308,35 +308,35 @@ done
 # cosDPR-distil
 TOPICS=(msmarco-v1-passage.dev dl19-passage dl20-passage); for t in "${TOPICS[@]}"
 do
-    # Using fp32 index, cached queries
+    # Using HNSW (fp32) index with cached queries
     java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cosdpr-distil.hnsw -topics ${t}.cosdpr-distil -output $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw.cached_q.${t}.cosdpr-distil.txt -threads 16 -efSearch 1000
-    # Using fp32 index, ONNX
+    # Using HNSW (fp32) index with ONNX encoding
     java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cosdpr-distil.hnsw -topics ${t} -encoder CosDprDistil -output $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw.onnx.${t}.txt -threads 16 -efSearch 1000
-    # Using int8 index, cached queries
+    # Using HNSW (int8) index with cached queries
     java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cosdpr-distil.hnsw-int8 -topics ${t}.cosdpr-distil -output $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw-int8.cached_q.${t}.cosdpr-distil.txt -threads 16 -efSearch 1000
-    # Using int8 index, ONNX
+    # Using HNSW (int8) index with ONNX encoding
     java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cosdpr-distil.hnsw-int8 -topics ${t} -encoder CosDprDistil -output $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw-int8.onnx.${t}.txt -threads 16 -efSearch 1000
 done
 
 # bge-base-en-v1.5
 TOPICS=(msmarco-v1-passage.dev dl19-passage dl20-passage); for t in "${TOPICS[@]}"
 do
-    # Using fp32 index, cached queries
+    # Using HNSW (fp32) index with cached queries
     java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.bge-base-en-v1.5.hnsw -topics ${t}.bge-base-en-v1.5 -output $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw.cached_q.${t}.bge-base-en-v1.5.txt -threads 16 -efSearch 1000
-    # Using fp32 index, ONNX
+    # Using HNSW (fp32) index with ONNX encoding
     java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.bge-base-en-v1.5.hnsw -topics ${t} -encoder BgeBaseEn15 -output $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw.onnx.${t}.txt -threads 16 -efSearch 1000
-    # Using int8 index, cached queries
+    # Using HNSW (int8) index with cached queries
     java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8 -topics ${t}.bge-base-en-v1.5 -output $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8.cached_q.${t}.bge-base-en-v1.5.txt -threads 16 -efSearch 1000
-    # Using int8 index, ONNX
+    # Using HNSW (int8) index with ONNX encoding
     java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8 -topics ${t} -encoder BgeBaseEn15 -output $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8.onnx.${t}.txt -threads 16 -efSearch 1000
 done
 
 # cohere-embed-english-v3.0
 TOPICS=(msmarco-v1-passage.dev dl19-passage dl20-passage); for t in "${TOPICS[@]}"
 do
-    # Using fp32 index, cached queries
+    # Using HNSW (fp32) index with cached queries
     java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cohere-embed-english-v3.0.hnsw -topics ${t}.cohere-embed-english-v3.0 -output $OUTPUT_DIR/run.msmarco-v1-passage.cohere-embed-english-v3.0.hnsw.cached_q.${t}.cohere-embed-english-v3.0.txt -threads 16 -efSearch 1000
-    # Using int8 index, cached queries
+    # Using HNSW (int8) index with cached queries
     java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8 -topics ${t}.cohere-embed-english-v3.0 -output $OUTPUT_DIR/run.msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8.cached_q.${t}.cohere-embed-english-v3.0.txt -threads 16 -efSearch 1000
 done
 ```
@@ -473,13 +473,13 @@ do
     java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -index beir-v1.0.0-${c}.splade-pp-ed -topics beir-${c}.splade-pp-ed -output $OUTPUT_DIR/run.beir.splade-pp-ed.cached_q.${c}.txt -impact -pretokenized -removeQuery
     # SPLADE++ ED, ONNX
     java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -index beir-v1.0.0-${c}.splade-pp-ed -topics beir-${c} -encoder SpladePlusPlusEnsembleDistil -output $OUTPUT_DIR/run.beir.splade-pp-ed.onnx.${c}.txt -impact -pretokenized -removeQuery
-    # BGE-base-en-v1.5, flat, cached queries
+    # BGE-base-en-v1.5, flat dense vector index, cached queries
     java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.search.SearchFlatDenseVectors -index beir-v1.0.0-${c}.bge-base-en-v1.5.flat -topics beir-${c}.bge-base-en-v1.5 -output $OUTPUT_DIR/run.beir.bge-base-en-v1.5.flat.cached_q.${c}.txt -threads 16 -removeQuery
-    # BGE-base-en-v1.5, flat, ONNX
+    # BGE-base-en-v1.5, flat dense vector index, ONNX
     java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.search.SearchFlatDenseVectors -index beir-v1.0.0-${c}.bge-base-en-v1.5.flat -topics beir-${c} -encoder BgeBaseEn15 -output $OUTPUT_DIR/run.beir.bge-base-en-v1.5.flat.onnx.${c}.txt -threads 16 -removeQuery
-    # BGE-base-en-v1.5, HNSW, cached queries
+    # BGE-base-en-v1.5, HNSW index, cached queries
     java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -index beir-v1.0.0-${c}.bge-base-en-v1.5.hnsw -topics beir-${c}.bge-base-en-v1.5 -output $OUTPUT_DIR/run.beir.bge-base-en-v1.5.hnsw.cached_q.${c}.txt -threads 16 -efSearch 1000 -removeQuery
-    # BGE-base-en-v1.5, HNSW, ONNX
+    # BGE-base-en-v1.5, HNSW index, ONNX
     java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -index beir-v1.0.0-${c}.bge-base-en-v1.5.hnsw -topics beir-${c} -encoder BgeBaseEn15 -output $OUTPUT_DIR/run.beir.bge-base-en-v1.5.hnsw.onnx.${c}.txt -threads 16 -efSearch 1000 -removeQuery
 done
 ```
