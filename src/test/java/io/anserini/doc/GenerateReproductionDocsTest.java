@@ -44,16 +44,16 @@ public class GenerateReproductionDocsTest {
       "bm25",
       "splade-pp-ed.cached_q",
       "splade-pp-ed.onnx",
-      "cos-dpr-distil.fp32.cached_q",
-      "cos-dpr-distil.fp32.onnx",
-      "cos-dpr-distil.int8.cached_q",
-      "cos-dpr-distil.int8.onnx",
-      "bge-base-en-v1.5.fp32.cached_q",
-      "bge-base-en-v1.5.fp32.onnx",
-      "bge-base-en-v1.5.int8.cached_q",
-      "bge-base-en-v1.5.int8.onnx",
-      "cohere-embed-english-v3.0.fp32.cached_q",
-      "cohere-embed-english-v3.0.int8.cached_q"
+      "cosdpr-distil.hnsw.cached_q",
+      "cosdpr-distil.hnsw.onnx",
+      "cosdpr-distil.hnsw-int8.cached_q",
+      "cosdpr-distil.hnsw-int8.onnx",
+      "bge-base-en-v1.5.hnsw.cached_q",
+      "bge-base-en-v1.5.hnsw.onnx",
+      "bge-base-en-v1.5.hnsw-int8.cached_q",
+      "bge-base-en-v1.5.hnsw-int8.onnx",
+      "cohere-embed-english-v3.0.hnsw.cached_q",
+      "cohere-embed-english-v3.0.hnsw-int8.cached_q"
   };
 
   public static String findMsMarcoTableTopicSetKeyV1(String topicKey) {
