@@ -5,7 +5,8 @@
 
 ## Summary of Changes
 
-+ Added support for indexing dense vectors in Parquet format: `ParquetDenseVectorCollection` and `ParquetDenseVectorDocumentGenerator`.
++ Added support for indexing dense vectors in Parquet format:
+  + Created `ParquetDenseVectorCollection` and `ParquetDenseVectorDocumentGenerator`.
   + Used `strategicblue/parquet-floor` dependency.
   + Refactored `DenseVectorDocumentGenerator` to `JsonDenseVectorDocumentGenerator`.
   + Refactored `InvertedDenseVectorDocumentGenerator` to `JsonInvertedDenseVectorDocumentGenerator`.
