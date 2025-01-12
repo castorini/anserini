@@ -201,7 +201,7 @@ public class HnswDenseSearcherTest {
     String indexPath = "target/idx-sample-hnsw" + System.currentTimeMillis();
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
-        "-input", "src/test/resources/sample_docs/cos-dpr-distil/json_vector/",
+        "-input", "src/test/resources/sample_docs/cosdpr-distil/json_vector/",
         "-index", indexPath,
         "-generator", "JsonDenseVectorDocumentGenerator",
         "-threads", "1",
@@ -214,7 +214,7 @@ public class HnswDenseSearcherTest {
     args.index = indexPath;
 
     TopicReader<Integer> topicReader = new JsonIntVectorTopicReader(
-        Path.of("src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-cos-dpr-distil.jsonl"));
+        Path.of("src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-cosdpr-distil.jsonl"));
 
     SortedMap<Integer, Map<String, String>> topics = topicReader.read();
     Iterator<Integer> iterator = topics.keySet().iterator();
@@ -291,7 +291,7 @@ public class HnswDenseSearcherTest {
     String indexPath = "target/idx-sample-hnsw" + System.currentTimeMillis();
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
-        "-input", "src/test/resources/sample_docs/cos-dpr-distil/json_vector/",
+        "-input", "src/test/resources/sample_docs/cosdpr-distil/json_vector/",
         "-index", indexPath,
         "-generator", "JsonDenseVectorDocumentGenerator",
         "-threads", "1",
@@ -305,7 +305,7 @@ public class HnswDenseSearcherTest {
     args.encoder = "CosDprDistil";
 
     TopicReader<Integer> topicReader = new TsvIntTopicReader(
-        Path.of("src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-cos-dpr-distil.tsv"));
+        Path.of("src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-cosdpr-distil.tsv"));
 
     SortedMap<Integer, Map<String, String>> topics = topicReader.read();
     Iterator<Integer> iterator = topics.keySet().iterator();
@@ -382,7 +382,7 @@ public class HnswDenseSearcherTest {
     String indexPath = "target/idx-sample-hnsw" + System.currentTimeMillis();
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
-        "-input", "src/test/resources/sample_docs/cos-dpr-distil/json_vector/",
+        "-input", "src/test/resources/sample_docs/cosdpr-distil/json_vector/",
         "-index", indexPath,
         "-generator", "JsonDenseVectorDocumentGenerator",
         "-threads", "1",
@@ -396,7 +396,7 @@ public class HnswDenseSearcherTest {
     args.encoder = "CosDprDistil";
 
     TopicReader<Integer> topicReader = new TsvIntTopicReader(
-        Path.of("src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-cos-dpr-distil.tsv"));
+        Path.of("src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-cosdpr-distil.tsv"));
 
     SortedMap<Integer, Map<String, String>> topics = topicReader.read();
 

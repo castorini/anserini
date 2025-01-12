@@ -24,8 +24,8 @@ import org.junit.Test;
 import ai.onnxruntime.OrtException;
 
 public class CosDprDistilEncoderInferenceTest extends DenseEncoderInferenceTest {
-  static private final String MODEL_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/cos-dpr-distil-optimized.onnx";
-  static private final String MODEL_NAME = "cos-dpr-distil-optimized.onnx";
+  static private final String MODEL_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/cosdpr-distil-optimized.onnx";
+  static private final String MODEL_NAME = "cosdpr-distil-optimized.onnx";
   static private final Object[][] EXAMPLES = new Object[][] {
       { new long[] { 101, 2339, 2079, 2111, 23088, 4091, 1999, 3637, 102 },
           new float[] { 0.008203385f, 0.027375592f, -0.024188124f, -0.062396917f, -0.036147732f, 0.013109594f,

@@ -327,7 +327,7 @@ public class SearchHnswDenseVectorsTest {
     String indexPath = "target/idx-sample-hnsw" + System.currentTimeMillis();
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
-        "-input", "src/test/resources/sample_docs/cos-dpr-distil/json_vector/",
+        "-input", "src/test/resources/sample_docs/cosdpr-distil/json_vector/",
         "-index", indexPath,
         "-generator", "JsonDenseVectorDocumentGenerator",
         "-threads", "1",
@@ -339,7 +339,7 @@ public class SearchHnswDenseVectorsTest {
     String runfile = "target/run-" + System.currentTimeMillis();
     String[] searchArgs = new String[] {
         "-index", indexPath,
-        "-topics", "src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-cos-dpr-distil.jsonl",
+        "-topics", "src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-cosdpr-distil.jsonl",
         "-output", runfile,
         "-generator", "VectorQueryGenerator",
         "-topicReader", "JsonIntVector",
@@ -370,7 +370,7 @@ public class SearchHnswDenseVectorsTest {
     String indexPath = "target/idx-sample-hnsw" + System.currentTimeMillis();
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
-        "-input", "src/test/resources/sample_docs/cos-dpr-distil/json_vector/",
+        "-input", "src/test/resources/sample_docs/cosdpr-distil/json_vector/",
         "-index", indexPath,
         "-generator", "JsonDenseVectorDocumentGenerator",
         "-threads", "1",
@@ -382,7 +382,7 @@ public class SearchHnswDenseVectorsTest {
     String runfile = "target/run-" + System.currentTimeMillis();
     String[] searchArgs = new String[] {
         "-index", indexPath,
-        "-topics", "src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-cos-dpr-distil.jsonl",
+        "-topics", "src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-cosdpr-distil.jsonl",
         "-output", runfile,
         "-generator", "VectorQueryGenerator",
         "-topicReader", "JsonIntVector",
@@ -413,7 +413,7 @@ public class SearchHnswDenseVectorsTest {
     String indexPath = "target/idx-sample-hnsw" + System.currentTimeMillis();
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
-        "-input", "src/test/resources/sample_docs/cos-dpr-distil/json_vector/",
+        "-input", "src/test/resources/sample_docs/cosdpr-distil/json_vector/",
         "-index", indexPath,
         "-generator", "JsonDenseVectorDocumentGenerator",
         "-threads", "1",
@@ -425,7 +425,7 @@ public class SearchHnswDenseVectorsTest {
     String runfile = "target/run-" + System.currentTimeMillis();
     String[] searchArgs = new String[] {
         "-index", indexPath,
-        "-topics", "TREC2019_DL_PASSAGE_COS_DPR_DISTIL",
+        "-topics", "TREC2019_DL_PASSAGE_COSDPR_DISTIL",
         "-output", runfile,
         "-efSearch", "1000",
         "-hits", "5"};
@@ -458,7 +458,7 @@ public class SearchHnswDenseVectorsTest {
     String indexPath = "target/idx-sample-hnsw" + System.currentTimeMillis();
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
-        "-input", "src/test/resources/sample_docs/cos-dpr-distil/json_vector/",
+        "-input", "src/test/resources/sample_docs/cosdpr-distil/json_vector/",
         "-index", indexPath,
         "-generator", "JsonDenseVectorDocumentGenerator",
         "-threads", "1",
@@ -470,7 +470,7 @@ public class SearchHnswDenseVectorsTest {
     String runfile = "target/run-" + System.currentTimeMillis();
     String[] searchArgs = new String[] {
         "-index", indexPath,
-        "-topics", "src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-cos-dpr-distil.tsv",
+        "-topics", "src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-cosdpr-distil.tsv",
         "-output", runfile,
         "-generator", "VectorQueryGenerator",
         "-encoder", "CosDprDistil",

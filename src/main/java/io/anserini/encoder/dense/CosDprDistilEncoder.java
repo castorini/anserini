@@ -31,13 +31,13 @@ import ai.onnxruntime.OrtSession;
  * CosDPRDistil
  */
 public class CosDprDistilEncoder extends DenseEncoder {
-  static private final String MODEL_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/cos-dpr-distil-optimized.onnx";
+  static private final String MODEL_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/cosdpr-distil-optimized.onnx";
 
-  static private final String VOCAB_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/cos-dpr-distil-vocab.txt";
+  static private final String VOCAB_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/cosdpr-distil-vocab.txt";
 
-  static private final String MODEL_NAME = "cos-dpr-distil-optimized.onnx";
+  static private final String MODEL_NAME = "cosdpr-distil-optimized.onnx";
 
-  static private final String VOCAB_NAME = "cos-dpr-distil-vocab.txt";
+  static private final String VOCAB_NAME = "cosdpr-distil-vocab.txt";
 
   public CosDprDistilEncoder() throws IOException, OrtException, URISyntaxException {
     super(MODEL_NAME, MODEL_URL, VOCAB_NAME, VOCAB_URL);
