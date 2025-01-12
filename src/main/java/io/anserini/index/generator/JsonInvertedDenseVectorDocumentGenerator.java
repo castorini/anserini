@@ -56,10 +56,20 @@ public class JsonInvertedDenseVectorDocumentGenerator<T extends SourceDocument> 
     String id = src.id();
     float[] contents;
 
-    try {
+    /* try {
       contents = convertJsonArray(src.contents());
     } catch (Exception e) {
       throw new InvalidDocumentException();
+    } */
+    
+    // Try direct vector access first for efficiency, fall back to string parsing for backward compatibility
+    contents = src.vector();
+    if (contents == null) {
+      try{
+        contents = convertJsonArray(src.contents());
+      } catch (Exception e) {
+        throw new InvalidDocumentException();
+      }
     }
 
     StringBuilder sb = new StringBuilder();

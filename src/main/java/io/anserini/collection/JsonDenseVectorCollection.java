@@ -66,6 +66,7 @@ public class JsonDenseVectorCollection extends DocumentCollection<JsonDenseVecto
     private final String id;
     private final String contents;
     private final String raw;
+    private final float[] vectorData;
     private Map<String, String> fields;
 
     public Document(JsonNode json) {
@@ -73,6 +74,15 @@ public class JsonDenseVectorCollection extends DocumentCollection<JsonDenseVecto
       this.raw = json.toPrettyString();
       this.id = json.get("docid").asText();
       this.contents = json.get("vector").toString();
+      JsonNode vectorNode = json.get("vector");
+        if (vectorNode != null && vectorNode.isArray()) {
+            vectorData = new float[vectorNode.size()];
+            for (int i = 0; i < vectorNode.size(); i++) {
+                vectorData[i] = (float) vectorNode.get(i).asDouble();
+            }
+        } else {
+            vectorData = null;
+        }
       // We're not going to index any other fields, so just initialize an empty map.
       this.fields = new HashMap<>();
     }
@@ -101,6 +111,11 @@ public class JsonDenseVectorCollection extends DocumentCollection<JsonDenseVecto
     @Override
     public Map<String, String> fields() {
       return fields;
+    }
+
+    @Override
+    public float[] vector() {
+      return vectorData;
     }
   }
 }

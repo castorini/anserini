@@ -37,10 +37,12 @@ public class VectorQueryGenerator {
     return vector;
   }
   
-  public KnnFloatVectorQuery buildQuery(String field, String queryString, Integer topK) throws JsonProcessingException{
-    float[] queryVector;
-    queryVector = convertJsonArray(queryString);
-    KnnFloatVectorQuery knnQuery = new KnnFloatVectorQuery(field, queryVector, topK);
-    return knnQuery;
+  public KnnFloatVectorQuery buildQuery(String field, float[] vector, Integer topK) {
+    return new KnnFloatVectorQuery(field, vector, topK);
+  }
+
+  public KnnFloatVectorQuery buildQuery(String field, String queryString, Integer topK) throws JsonProcessingException {
+    float[] queryVector = convertJsonArray(queryString);
+    return buildQuery(field, queryVector, topK);
   }
 }
