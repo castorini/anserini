@@ -159,6 +159,106 @@ public enum IndexInfo {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2.1-doc-segmented.20240418.4f9675.tar.gz" },
       "6ec4cd595c9fe1ad91b43eabb39a637c"),
 
+  MSMARCO_V21_DOC_SEGMENTED_SHARD00_ARCTIC_EMBED_L_HNSW_INT8("msmarco-v2.1-doc-segmented-shard00.arctic-embed-l.hnsw-int8",
+      "Lucene quantized (int8) HNSW index of the MS MARCO V2.1 segmented document corpus (shard00) encoded by Snowflake's arctic-embed-l model.",
+      "lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard00.arctic-embed-l.20250114.4884f5.tar.gz",
+      "",
+      "MS MARCO V2.1 Segmented Doc",
+      "Snowflake's arctic-embed-l w/ HNSW int8",
+      new String[] {
+          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard00.arctic-embed-l.20250114.4884f5.tar.gz" },
+      "aab3f8e9aa0563bd0f875584784a0845"),
+
+  MSMARCO_V21_DOC_SEGMENTED_SHARD01_ARCTIC_EMBED_L_HNSW_INT8("msmarco-v2.1-doc-segmented-shard01.arctic-embed-l.hnsw-int8",
+      "Lucene quantized (int8) HNSW index of the MS MARCO V2.1 segmented document corpus (shard01) encoded by Snowflake's arctic-embed-l model.",
+      "lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard01.arctic-embed-l.20250114.4884f5.tar.gz",
+      "",
+      "MS MARCO V2.1 Segmented Doc",
+      "Snowflake's arctic-embed-l w/ HNSW int8",
+      new String[] {
+          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard01.arctic-embed-l.20250114.4884f5.tar.gz" },
+      "34ea30fe72c2bc1795ae83e71b191547"),
+
+  MSMARCO_V21_DOC_SEGMENTED_SHARD02_ARCTIC_EMBED_L_HNSW_INT8("msmarco-v2.1-doc-segmented-shard02.arctic-embed-l.hnsw-int8",
+      "Lucene quantized (int8) HNSW index of the MS MARCO V2.1 segmented document corpus (shard02) encoded by Snowflake's arctic-embed-l model.",
+      "lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard02.arctic-embed-l.20250114.4884f5.tar.gz",
+      "",
+      "MS MARCO V2.1 Segmented Doc",
+      "Snowflake's arctic-embed-l w/ HNSW int8",
+      new String[] {
+          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard02.arctic-embed-l.20250114.4884f5.tar.gz" },
+      "b6271d6db65119977491675f74f466d5"),
+
+  MSMARCO_V21_DOC_SEGMENTED_SHARD03_ARCTIC_EMBED_L_HNSW_INT8("msmarco-v2.1-doc-segmented-shard03.arctic-embed-l.hnsw-int8",
+      "Lucene quantized (int8) HNSW index of the MS MARCO V2.1 segmented document corpus (shard03) encoded by Snowflake's arctic-embed-l model.",
+      "lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard03.arctic-embed-l.20250114.4884f5.tar.gz",
+      "",
+      "MS MARCO V2.1 Segmented Doc",
+      "Snowflake's arctic-embed-l w/ HNSW int8",
+      new String[] {
+          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard03.arctic-embed-l.20250114.4884f5.tar.gz" },
+      "a9cd644eb6037f67d2e9c06a8f60928d"),
+
+  MSMARCO_V21_DOC_SEGMENTED_SHARD04_ARCTIC_EMBED_L_HNSW_INT8("msmarco-v2.1-doc-segmented-shard04.arctic-embed-l.hnsw-int8",
+      "Lucene quantized (int8) HNSW index of the MS MARCO V2.1 segmented document corpus (shard04) encoded by Snowflake's arctic-embed-l model.",
+      "lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard04.arctic-embed-l.20250114.4884f5.tar.gz",
+      "",
+      "MS MARCO V2.1 Segmented Doc",
+      "Snowflake's arctic-embed-l w/ HNSW int8",
+      new String[] {
+          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard04.arctic-embed-l.20250114.4884f5.tar.gz" },
+      "07b7e451e0525d01c1f1f2b1c42b1bd5"),
+
+  MSMARCO_V21_DOC_SEGMENTED_SHARD05_ARCTIC_EMBED_L_HNSW_INT8("msmarco-v2.1-doc-segmented-shard05.arctic-embed-l.hnsw-int8",
+      "Lucene quantized (int8) HNSW index of the MS MARCO V2.1 segmented document corpus (shard05) encoded by Snowflake's arctic-embed-l model.",
+      "lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard05.arctic-embed-l.20250114.4884f5.tar.gz",
+      "",
+      "MS MARCO V2.1 Segmented Doc",
+      "Snowflake's arctic-embed-l w/ HNSW int8",
+      new String[] {
+          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard05.arctic-embed-l.20250114.4884f5.tar.gz" },
+      "2573dce175788981be2f266ebb33c96d"),
+
+  MSMARCO_V21_DOC_SEGMENTED_SHARD06_ARCTIC_EMBED_L_HNSW_INT8("msmarco-v2.1-doc-segmented-shard06.arctic-embed-l.hnsw-int8",
+      "Lucene quantized (int8) HNSW index of the MS MARCO V2.1 segmented document corpus (shard06) encoded by Snowflake's arctic-embed-l model.",
+      "lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard06.arctic-embed-l.20250114.4884f5.tar.gz",
+      "",
+      "MS MARCO V2.1 Segmented Doc",
+      "Snowflake's arctic-embed-l w/ HNSW int8",
+      new String[] {
+          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard06.arctic-embed-l.20250114.4884f5.tar.gz" },
+      "a644aea445a8b78cc9e99d2ce111ff11"),
+
+  MSMARCO_V21_DOC_SEGMENTED_SHARD07_ARCTIC_EMBED_L_HNSW_INT8("msmarco-v2.1-doc-segmented-shard07.arctic-embed-l.hnsw-int8",
+      "Lucene quantized (int8) HNSW index of the MS MARCO V2.1 segmented document corpus (shard07) encoded by Snowflake's arctic-embed-l model.",
+      "lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard07.arctic-embed-l.20250114.4884f5.tar.gz",
+      "",
+      "MS MARCO V2.1 Segmented Doc",
+      "Snowflake's arctic-embed-l w/ HNSW int8",
+      new String[] {
+          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard07.arctic-embed-l.20250114.4884f5.tar.gz" },
+      "402d37deccb44b5fc105049889e8aaea"),
+
+  MSMARCO_V21_DOC_SEGMENTED_SHARD08_ARCTIC_EMBED_L_HNSW_INT8("msmarco-v2.1-doc-segmented-shard08.arctic-embed-l.hnsw-int8",
+      "Lucene quantized (int8) HNSW index of the MS MARCO V2.1 segmented document corpus (shard08) encoded by Snowflake's arctic-embed-l model.",
+      "lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard08.arctic-embed-l.20250114.4884f5.tar.gz",
+      "",
+      "MS MARCO V2.1 Segmented Doc",
+      "Snowflake's arctic-embed-l w/ HNSW int8",
+      new String[] {
+          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard08.arctic-embed-l.20250114.4884f5.tar.gz" },
+      "89ebcd027f7297b26a1edc8ae5726527"),
+
+  MSMARCO_V21_DOC_SEGMENTED_SHARD09_ARCTIC_EMBED_L_HNSW_INT8("msmarco-v2.1-doc-segmented-shard09.arctic-embed-l.hnsw-int8",
+      "Lucene quantized (int8) HNSW index of the MS MARCO V2.1 segmented document corpus (shard09) encoded by Snowflake's arctic-embed-l model.",
+      "lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard09.arctic-embed-l.20250114.4884f5.tar.gz",
+      "",
+      "MS MARCO V2.1 Segmented Doc",
+      "Snowflake's arctic-embed-l w/ HNSW int8",
+      new String[] {
+          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard09.arctic-embed-l.20250114.4884f5.tar.gz" },
+      "5e580bb7eb9ee2bb6bfa492b3430c17d"),
+
   // BEIR: flat
   BEIR_V1_0_0_TREC_COVID_FLAT("beir-v1.0.0-trec-covid.flat",
       "Lucene inverted 'flat' index of BEIR collection 'trec-covid'.",
