@@ -36,10 +36,10 @@ topics:
 runs:
   - name: flat-bm25
     dependency: beir-v1.0.0-robust04.flat.yaml
-    file: runs/run.beir-v1.0.0-robust04.flat.bm25.topics.beir-v1.0.0-robust04.test.txt
+    file: runs/run.inverted.beir-v1.0.0-robust04.flat.test.bm25
   - name: bge-flat-onnx
     dependency: beir-v1.0.0-robust04.bge-base-en-v1.5.flat.onnx.yaml
-    file: runs/run.beir-v1.0.0-robust04.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-robust04.test.txt
+    file: runs/run.flat.beir-v1.0.0-robust04.bge-base-en-v1.5.test.bge-flat-cached
 
 methods:
   - name: rrf
