@@ -59,7 +59,7 @@ def construct_fusion_commands(yaml_data: dict) -> list:
     return [
         [
             FUSE_COMMAND,
-            '-runs', ' '.join([run for run in yaml_data['runs']]),
+            '-runs', ' '.join(run['file'] for run in yaml_data['runs']),
             '-output', method.get('output'),
             '-method', method.get('name', 'average'),
             '-k', str(method.get('k', 1000)),
@@ -165,6 +165,12 @@ if __name__ == '__main__':
     except FileNotFoundError as e:
         logger.error(f"Failed to load configuration file: {e}")
         exit(1)
+
+    # Check existence of run files
+    for run in yaml_data['runs']:
+        if not os.path.exists(run['file']):
+            logger.error(f"Run file {run['file']} does not exist. Please run the dependent regressions first, recorded in the fusion yaml file.")
+            exit(1)
 
     # Construct the fusion command
     fusion_commands = construct_fusion_commands(yaml_data)
