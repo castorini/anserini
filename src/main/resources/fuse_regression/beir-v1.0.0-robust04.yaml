@@ -32,10 +32,14 @@ topics:
     path: topics.beir-v1.0.0-robust04.test.tsv.gz
     qrel: qrels.beir-v1.0.0-robust04.test.txt
 
-# Fusion Regression Test Configuration
+# Run dependencies for fusion
 runs:
-  - runs/run.inverted.beir-v1.0.0-robust04.flat.test.bm25
-  - runs/run.flat.beir-v1.0.0-robust04.bge-base-en-v1.5.test.bge-flat-onnx
+  - name: flat-bm25
+    dependency: beir-v1.0.0-robust04.flat.yaml
+    file: runs/run.inverted.beir-v1.0.0-robust04.flat.test.bm25
+  - name: bge-flat-onnx
+    dependency: beir-v1.0.0-robust04.bge-base-en-v1.5.flat.onnx.yaml
+    file: runs/run.flat.beir-v1.0.0-robust04.bge-base-en-v1.5.test.bge-flat-cached
 
 methods:
   - name: rrf
