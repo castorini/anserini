@@ -19,9 +19,9 @@ pip install torch transformers onnx onnxruntime onnxoptimizer
 
 versions tested:
 ```bash
-onnx                         1.16.1
+onnx                         1.17.0
 onnxoptimizer                0.3.13
-onnxruntime                  1.18.1
+onnxruntime                  1.20.1
 ```
 
 ## Converting from PyTorch models to ONNX model
@@ -334,8 +334,8 @@ To run the script for running inference, run the following sequence of commands:
 # Begin by going to the appropriate directory
 cd src/main/python/onnx
 # Now run the script
-python quantize_onnx_model.py --model_path models/splade-cocondenser-ensembledistil-optimized-8bit.onnx \
-                                    --model_name naver/splade-cocondenser-ensembledistil
+python quantize_onnx_model.py --model_path models/splade-cocondenser-ensembledistil-optimized.onnx
+
 ```
 
 So what actually happens under the hood? The following sections will discuss the key parts of the above script:
@@ -378,3 +378,4 @@ Second, now run the end to end regression as seen in the previously mentioned do
 
 ### Reproduction Log
 + Results reproduced by [@valamuri2020](https://github.com/valamuri2020) on 2024-08-06 (commit [`6178b40`](https://github.com/castorini/anserini/commit/6178b407fc791d62f81e751313771165c6e2c743))
++ Results reproduced by [@b8zhong](https://github.com/b8zhong) on 2025-01-16 (commit [`7c1de0e`](https://github.com/castorini/anserini/commit/7c1de0eb94781e5868ee9962d9019e4474bd1ce7))
