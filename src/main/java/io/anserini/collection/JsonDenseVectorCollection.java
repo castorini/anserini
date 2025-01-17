@@ -24,7 +24,6 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
-
 /**
  * A document collection for encoded dense vectors for ANN (HNSW) search.
  * The "vector" field are concatenated into the "contents" field for indexing.
@@ -75,14 +74,14 @@ public class JsonDenseVectorCollection extends DocumentCollection<JsonDenseVecto
       this.id = json.get("docid").asText();
       this.contents = json.get("vector").toString();
       JsonNode vectorNode = json.get("vector");
-        if (vectorNode != null && vectorNode.isArray()) {
-            vectorData = new float[vectorNode.size()];
-            for (int i = 0; i < vectorNode.size(); i++) {
-                vectorData[i] = (float) vectorNode.get(i).asDouble();
-            }
-        } else {
-            vectorData = null;
+      if (vectorNode != null && vectorNode.isArray()) {
+        vectorData = new float[vectorNode.size()];
+        for (int i = 0; i < vectorNode.size(); i++) {
+          vectorData[i] = (float) vectorNode.get(i).asDouble();
         }
+      } else {
+        vectorData = null;
+      }
       // We're not going to index any other fields, so just initialize an empty map.
       this.fields = new HashMap<>();
     }

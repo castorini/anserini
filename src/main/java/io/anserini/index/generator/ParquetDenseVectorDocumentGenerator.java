@@ -49,15 +49,7 @@ public class ParquetDenseVectorDocumentGenerator<T extends SourceDocument> imple
   public Document createDocument(T src) throws InvalidDocumentException {
 
     try {
-      /* // Parse vector data from document contents
-      float[] contents = parseVectorFromString(src.contents()); */
-
-      // Try direct vector access first for efficiency, fall back to string parsing for backward compatibility
       float[] contents = src.vector();
-      if (contents == null) {
-        contents = parseVectorFromString(src.contents());
-      }
-
       if (contents == null || contents.length == 0) {
         LOG.error("Vector data is null or empty for document ID: " + src.id());
         throw new InvalidDocumentException();
@@ -74,32 +66,6 @@ public class ParquetDenseVectorDocumentGenerator<T extends SourceDocument> imple
     } catch (Exception e) {
       LOG.error("Error creating document for ID: " + src.id(), e);
       throw new InvalidDocumentException();
-    }
-  }
-
-  /**
-   * Parses the vector data from the document contents.
-   * 
-   * @param contents the contents of the document
-   * @return the parsed vector as an array of doubles
-   */
-
-  private float[] parseVectorFromString(String contents) {
-    if (contents == null || contents.isEmpty()) {
-      LOG.error("Contents are null or empty, cannot parse vectors.");
-      return null;
-    }
-
-    try {
-      String[] parts = contents.replace("[", "").replace("]", "").split(",");
-      float[] vector = new float[parts.length];
-      for (int i = 0; i < parts.length; i++) {
-        vector[i] = Float.parseFloat(parts[i].trim());
-      }
-      return vector;
-    } catch (NumberFormatException e) {
-      LOG.error("Error parsing vector contents: " + contents, e);
-      return null;
     }
   }
 }

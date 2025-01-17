@@ -23,8 +23,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 /**
- * A JSON document collection where the user can specify directly the vector to
- * be indexed.
+ * A JSON document collection where the user can specify directly the vector to be indexed.
  */
 public class JsonVectorCollection extends DocumentCollection<JsonVectorCollection.Document> {
   public JsonVectorCollection(Path path) {
@@ -40,8 +39,7 @@ public class JsonVectorCollection extends DocumentCollection<JsonVectorCollectio
   }
 
   @Override
-  public FileSegment<JsonVectorCollection.Document> createFileSegment(BufferedReader bufferedReader)
-      throws IOException {
+  public FileSegment<JsonVectorCollection.Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
     return new JsonVectorCollection.Segment<>(bufferedReader);
   }
 
@@ -67,8 +65,7 @@ public class JsonVectorCollection extends DocumentCollection<JsonVectorCollectio
     public Document(JsonNode json) {
       super(json);
 
-      // We're going to take the map associated with "vector" and generate
-      // pseudo-document.
+      // We're going to take the map associated with "vector" and generate pseudo-document.
       JsonNode vectorNode = json.get("vector");
 
       if (vectorNode.isArray()) {

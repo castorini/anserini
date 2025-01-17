@@ -28,14 +28,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JsonIntVectorTopicReader extends TopicReader<Integer> {
-  private final Map<Integer, float[]> vectorCache = new HashMap<>();
 
   public JsonIntVectorTopicReader(Path topicFile) throws IOException {
     super(topicFile);
-  }
-
-  public float[] getVector(Integer qid) {
-    return vectorCache.get(qid);
   }
 
   @Override
@@ -47,21 +42,9 @@ public class JsonIntVectorTopicReader extends TopicReader<Integer> {
       line = line.trim();
       JsonNode lineNode = mapper.readerFor(JsonNode.class).readTree(line);
       Integer topicID = lineNode.get("qid").asInt();
-      JsonNode vectorNode = lineNode.get("vector");
-      
-      // Store vector string for backward compatibility
       Map<String, String> fields = new HashMap<>();
-      fields.put("vector", vectorNode.toString());
+      fields.put("vector", lineNode.get("vector").toString());
       map.put(topicID, fields);
-
-      // Cache parsed vector
-      if (vectorNode.isArray()) {
-        float[] vector = new float[vectorNode.size()];
-        for (int i = 0; i < vectorNode.size(); i++) {
-          vector[i] = (float) vectorNode.get(i).asDouble();
-        }
-        vectorCache.put(topicID, vector);
-      }
     }
     return map;
   }

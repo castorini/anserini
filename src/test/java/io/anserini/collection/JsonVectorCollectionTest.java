@@ -18,7 +18,7 @@ package io.anserini.collection;
 
 import java.util.Map;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;;
 
 public abstract class JsonVectorCollectionTest extends DocumentCollectionTest<JsonVectorCollection.Document> {
   @Override
