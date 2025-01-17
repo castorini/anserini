@@ -76,8 +76,6 @@ Then, build using Maven:
 mvn clean package
 ```
 
-You can skip the tests, which are a long process, by adding the `-DskipTests` argument to the command above.
-
 The `tools/` directory, which contains evaluation tools and other scripts, is actually [this repo](https://github.com/castorini/anserini-tools), integrated as a [Git submodule](https://git-scm.com/book/en/v2/Git-Tools-Submodules) (so that it can be shared across related projects).
 Build as follows (you might get warnings, but okay to ignore):
 
