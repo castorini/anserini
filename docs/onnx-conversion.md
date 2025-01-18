@@ -27,7 +27,7 @@ onnxruntime                  1.20.1
 ## Converting from PyTorch models to ONNX model
 The following sections will describe how to convert SPLADE++ model to ONNX model. The steps are as follows:  
 
-### Run the End to End PyTorch to ONNX Conversion
+### Run the End to End PyTorch to ONNX Conversion with Validation
 Loading and running is done easily with argparse in the following script:
 
 ```
@@ -39,15 +39,31 @@ All that needs to be provided is the model_name as seen on huggingface. In our e
 naver/splade-cocondenser-ensembledistil
 ```
 
-To run the script and produce the onnx model, run the following sequence of commands:
+To run the script and produce the onnx model with validation, run the following sequence of commands:
 ```bash
-# Begin by going to the appropriate directory
 cd src/main/python/onnx
-# Now run the script
-python convert_hf_model_to_onnx.py --model_name naver/splade-cocondenser-ensembledistil
+# Now run the script with validation
+python convert_hf_model_to_onnx.py --model_name naver/splade-cocondenser-ensembledistil --text "what is AI?"
 ```
 
-So what actually happens under the hood? The following sections will discuss the key parts of the above script:
+The script will now:
+1. Convert the PyTorch model to ONNX format
+2. Run inference on both models with the test input ("what is AI?" by default)
+3. Compute and report the L1 norm difference between PyTorch and ONNX outputs
+4. Validate that the difference is below an acceptable threshold (1e-4)
+
+Example output:
+```
+Some weights of BertModel were not initialized from the model checkpoint at naver/splade-cocondenser-ensembledistil and are newly initialized: ['bert.pooler.dense.bias', 'bert.pooler.dense.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+ONNX model checked successfully
+L1 difference between PyTorch and ONNX outputs: 3.5234e-07
+ONNX conversion validated successfully!
+```
+
+> Note: For SPLADE models, the validation applies ReLU activation to both PyTorch and ONNX outputs before computing the L1 difference, since SPLADE uses ReLU activation in its architecture. This ensures accurate validation of the conversion process.
+
+If the L1 difference exceeds the threshold, a warning will be displayed indicating potential conversion issues.
 
 ### Getting Output Specificaton from the Model
 
