@@ -1,5 +1,5 @@
 # End to End ONNX Conversion for Neural Retrieval Models
-This MD file will describe steps to convert particular PyTorch models (i.e., [SPLADE++](https://doi.org/10.1145/3477495.3531857)) to ONNX models and options to further optimize compute graph for Transformer-based models. For more details on how does ONNX Conversion work and how to optimize the compute graph, please refer to [ONNX Tutorials](https://github.com/onnx/tutorials#services).
+This MD file will describe steps to convert particular PyTorch models (i.e., [SPLADE++](https://doi.org/10.1145/3477495.3531857)) to ONNX models and options to further optimize compute graph for transformer-based models. For more details on how does ONNX Conversion work and how to optimize the compute graph, please refer to [ONNX Tutorials](https://github.com/onnx/tutorials#services).
 
 The SPLADE model takes a text input and generates sparse token-level representations as output, where each token is assigned a weight, enabling efficient information retrieval. A more in depth explantation can be found [here](https://www.pinecone.io/learn/splade/).
 
@@ -25,7 +25,8 @@ onnxruntime                  1.20.1
 ```
 
 ## Converting from PyTorch models to ONNX model
-The following sections will describe how to convert a Transformer-based model to ONNX model. We use the SPLADE++ model as an example. The steps are as follows:  
+The following sections will describe how to convert a transformer-based model to ONNX model. 
+We use the SPLADE++ model as an example. The steps are as follows:  
 
 ### Run the End to End PyTorch to ONNX Conversion with Validation
 Loading and running is done easily with argparse in the following script:
@@ -65,7 +66,7 @@ L1 difference between PyTorch and ONNX outputs: 0.009487475268542767
 ONNX conversion validated successfully!
 ```
 
-> Note: For Transformer models like SPLADE, the validation applies ReLU activation to both PyTorch and ONNX outputs before computing the L1 difference, since these models often use ReLU activation in their architecture. This ensures accurate validation of the conversion process.
+> Note: For transformer models like SPLADE, the validation applies ReLU activation to both PyTorch and ONNX outputs before computing the L1 difference, since these models often use ReLU activation in their architecture. This ensures accurate validation of the conversion process.
 
 If the L1 difference exceeds the threshold, a warning will be displayed indicating potential conversion issues.
 
@@ -146,7 +147,7 @@ torch.onnx.export(
 
 ### Adding Metadata
 
-As the final step for completing a successful export of the Transformer ONNX model, we need to provide some metadata which is actually used to retrieve important information for the optimization step we will see later. Here is how the metadata is provided in the script:
+As the final step for completing a successful export of the transformer ONNX model, we need to provide some metadata which is actually used to retrieve important information for the optimization step we will see later. Here is how the metadata is provided in the script:
 
 ```python
 # First we begin by collecting the necessary information from the model's configuration
@@ -382,7 +383,7 @@ quantize_dynamic(
 
 Now that we have successfully gone through a complete reproduction of converting SPLADE++ Ensemble Distil from PyTorch to ONNX, and ran inference with the optimized model, the scripts can be used to reproduce any model available on Hugging Face.
 
-### Reproducing Transformer-based Model Regressions 
+### Reproducing Transformer-Based Model Regressions 
 
 To reproduce the regressions with the newly generated ONNX model, like seen in the [regressions-msmarco-v1-passage.splade-pp-ed.onnx.md](regressions/regressions-msmarco-v1-passage.splade-pp-ed.onnx.md), below are the following steps:
 
