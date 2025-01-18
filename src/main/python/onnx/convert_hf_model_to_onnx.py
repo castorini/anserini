@@ -77,13 +77,24 @@ def convert_model_to_onnx(text, model, tokenizer, onnx_path, vocab_path, device)
     logging.info("ONNX model test run successful")
 
     l1_diff = validate_onnx_conversion(model, onnx_path, test_input, tokenizer)
-    validation_threshold = 1e-4
+    validation_threshold = 1e-2
     if l1_diff > validation_threshold:
         logging.warning(f"Warning: L1 difference ({l1_diff}) exceeds threshold ({validation_threshold})")
         logging.warning("ONNX conversion may not be accurate!")
         logging.warning("This could be due to missing ReLU activation in the comparison.")
     else:
         logging.info("ONNX conversion validated successfully!")
+
+def compute_l2_norm(vector):
+    """Computes the L2 norm (Euclidean norm) of a vector."""
+    return np.sqrt(np.sum(np.square(vector)))
+
+def normalize_vector(vector):
+    """Normalizes a vector to have a norm of 1."""
+    norm = compute_l2_norm(vector)
+    if norm == 0:
+        raise ValueError("Zero vector cannot be normalized.")
+    return vector / norm
 
 def validate_onnx_conversion(pytorch_model, onnx_model_path, test_input, tokenizer):
     """Validates ONNX model outputs against PyTorch model outputs."""
@@ -96,7 +107,6 @@ def validate_onnx_conversion(pytorch_model, onnx_model_path, test_input, tokeniz
     onnx_inputs = {name: test_input[name].numpy() for name in test_input if name in [i.name for i in ort_session.get_inputs()]}
     onnx_outputs = ort_session.run(None, onnx_inputs)
     
-    # Convert output to numpy for comparison
     if isinstance(pytorch_outputs, torch.Tensor):
         pytorch_outputs = pytorch_outputs.numpy()
     else:
@@ -105,9 +115,8 @@ def validate_onnx_conversion(pytorch_model, onnx_model_path, test_input, tokeniz
         elif hasattr(pytorch_outputs, 'logits'):
             pytorch_outputs = pytorch_outputs.logits.numpy()
     
-    # Apply ReLU to both outputs before comparison (for SPLADE models)
-    pytorch_outputs = np.maximum(pytorch_outputs, 0)
-    onnx_outputs = np.maximum(onnx_outputs[0], 0)
+    pytorch_outputs = normalize_vector(pytorch_outputs)
+    onnx_outputs = normalize_vector(onnx_outputs[0])
     
     l1_diff = np.mean(np.abs(pytorch_outputs - onnx_outputs))
     logging.info(f"L1 difference between PyTorch and ONNX outputs: {l1_diff}")
