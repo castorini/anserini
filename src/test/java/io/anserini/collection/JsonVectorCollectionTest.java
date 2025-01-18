@@ -18,7 +18,7 @@ package io.anserini.collection;
 
 import java.util.Map;
 import org.junit.Test;
-import static org.junit.Assert.assertArrayEquals;;
+import static org.junit.Assert.assertArrayEquals;
 
 public abstract class JsonVectorCollectionTest extends DocumentCollectionTest<JsonVectorCollection.Document> {
   @Override
@@ -44,14 +44,14 @@ public abstract class JsonVectorCollectionTest extends DocumentCollectionTest<Js
       // Should be a dense vector
       float[] vector = doc.vector();
       assertNotNull("Dense vector format should return non-null vector()", vector);
-      
+
       // Parse expected values from content string
       String[] parts = content.substring(1, content.length() - 1).split(",");
       float[] expected = new float[parts.length];
       for (int i = 0; i < parts.length; i++) {
         expected[i] = Float.parseFloat(parts[i].trim());
       }
-      
+
       // Compare actual values
       assertArrayEquals("Vector values should match", expected, vector, 0.0001f);
     } else {
