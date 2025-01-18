@@ -1,5 +1,5 @@
-# End to End ONNX Conversion for SPLADE++ Ensemble Distil
-This MD file will describe steps to convert particular PyTorch models (i.e., [SPLADE++](https://doi.org/10.1145/3477495.3531857)) to ONNX models and options to further optimize compute graph for Transformer-based models. For more details on how does ONNX Conversion work and how to optimize the compute graph, please refer to [ONNX Tutorials](https://github.com/onnx/tutorials#services).
+# End to End ONNX Conversion for Neural Retrieval Models
+This MD file will describe steps to convert particular PyTorch models (i.e., [SPLADE++](https://doi.org/10.1145/3477495.3531857)) to ONNX models and options to further optimize compute graph for transformer-based models. For more details on how does ONNX Conversion work and how to optimize the compute graph, please refer to [ONNX Tutorials](https://github.com/onnx/tutorials#services).
 
 The SPLADE model takes a text input and generates sparse token-level representations as output, where each token is assigned a weight, enabling efficient information retrieval. A more in depth explantation can be found [here](https://www.pinecone.io/learn/splade/).
 
@@ -19,39 +19,60 @@ pip install torch transformers onnx onnxruntime onnxoptimizer
 
 versions tested:
 ```bash
-onnx                         1.16.1
+onnx                         1.17.0
 onnxoptimizer                0.3.13
-onnxruntime                  1.18.1
+onnxruntime                  1.20.1
 ```
 
 ## Converting from PyTorch models to ONNX model
-The following sections will describe how to convert SPLADE++ model to ONNX model. The steps are as follows:  
+The following sections will describe how to convert a transformer-based model to ONNX model. 
+We use the SPLADE++ model as an example. The steps are as follows:  
 
-### Run the End to End PyTorch to ONNX Conversion
+### Run the End to End PyTorch to ONNX Conversion with Validation
 Loading and running is done easily with argparse in the following script:
 
 ```
 src/main/python/onnx/convert_hf_model_to_onnx.py
 ```
 
-All that needs to be provided is the model_name as seen on huggingface. In our example we will be loading the SPLADE++ Ensemble Distil model found here:
+All that needs to be provided is the model_name as seen on Hugging Face. In our example, we will be loading the SPLADE++ Ensemble Distil model found here:
 ```
 naver/splade-cocondenser-ensembledistil
 ```
 
-To run the script and produce the onnx model, run the following sequence of commands:
+To run the script and produce the onnx model with validation, run the following sequence of commands:
 ```bash
-# Begin by going to the appropriate directory
 cd src/main/python/onnx
-# Now run the script
-python convert_hf_model_to_onnx.py --model_name naver/splade-cocondenser-ensembledistil
+# Now run the script with validation
+python convert_hf_model_to_onnx.py --model_name naver/splade-cocondenser-ensembledistil --text "what is AI?"
 ```
 
-So what actually happens under the hood? The following sections will discuss the key parts of the above script:
+The script will now:
+1. Convert the PyTorch model to ONNX format
+2. Run inference on both models with the test input ("what is AI?" by default)
+3. Compute and report the L1 norm difference between PyTorch and ONNX outputs
+4. Validate that the difference is below an acceptable threshold (1e-2)
 
-### Getting Output Specificaton from the Model
+Example output:
+```
+Some weights of BertModel were not initialized from the model checkpoint at naver/splade-cocondenser-ensembledistil and are newly initialized: ['bert.pooler.dense.bias', 'bert.pooler.dense.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Model converted and saved to models/splade-cocondenser-ensembledistil.onnx
+ONNX model checked successfully
+Vocabulary saved to models/splade-cocondenser-ensembledistil-vocab.txt
+ONNX model output shape: (1, 6, 768)
+ONNX model test run successful
+L1 difference between PyTorch and ONNX outputs: 0.009487475268542767
+ONNX conversion validated successfully!
+```
 
-Since we want our script to be generic, and be able to load any huggingface model with simplicity, we make it possible to fetch all required information from the model output structure with the following code:
+> Note: For transformer models like SPLADE, the validation applies ReLU activation to both PyTorch and ONNX outputs before computing the L1 difference, since these models often use ReLU activation in their architecture. This ensures accurate validation of the conversion process.
+
+If the L1 difference exceeds the threshold, a warning will be displayed indicating potential conversion issues.
+
+### Getting Output Specification from the Model
+
+Since we want our script to be generic and able to load any Hugging Face model with simplicity, we make it possible to fetch all required information from the model output structure with the following code:
 
 ```python
 with torch.no_grad():
@@ -100,7 +121,7 @@ test_input = {k: v.to(device) for k, v in test_input.items()}
 
 #### Part 2
 
-The second part consists of using the methods mentioned in the previous section for provinding ```output_names``` and ```dynamic_axes```:
+The second part consists of using the methods mentioned in the previous section for providing ```output_names``` and ```dynamic_axes```:
 
 ```python
 output_names = get_model_output_names(model, test_input)
@@ -109,7 +130,7 @@ dynamic_axes = get_dynamic_axes(input_names, output_names)
 
 #### Putting it all Together
 
-As the final step, we pass all the necessary information to ```torch.onxx.export()```:
+As the final step, we pass all the necessary information to ```torch.onnx.export()```:
 
 ```python
 torch.onnx.export(
@@ -126,10 +147,10 @@ torch.onnx.export(
 
 ### Adding Metadata
 
-As the final step for completing a successful export of the SPLADE++ ONNX model, we need to provide some metadata which is actually used to retrieve important information for the optimization step we will see later. Here is how the metadata is provided in the script:
+As the final step for completing a successful export of the transformer ONNX model, we need to provide some metadata which is actually used to retrieve important information for the optimization step we will see later. Here is how the metadata is provided in the script:
 
 ```python
-# First we begin by collecting the necessary infromation from the model's configuration
+# First we begin by collecting the necessary information from the model's configuration
 model_type = model.config.model_type
 num_heads = model.config.num_attention_heads
 hidden_size = model.config.hidden_size
@@ -268,7 +289,7 @@ As a first step, we introduce the necessary items for building an inference sess
 
 ```python
 model = onnxruntime.InferenceSession(model_path) # provide the model path to the optimized model
-tokenizer = AutoTokenizer.from_pretrained(model_name) # provide the model name as seen on huggingface
+tokenizer = AutoTokenizer.from_pretrained(model_name) # provide the model name as seen on Hugging Face
 inputs = tokenizer(text, return_tensors="np") # provide test input, in our case this is "What is AI?"
 ```
 
@@ -292,7 +313,7 @@ outputs = model.run(
 )
 ```
 
-As a final step, we now need to threshold the output vector to sparsify the output. In other words, if a given index is below our defined threshold value ```1e-4 -> 0.0001``` we default it's value to ```float(0.0)```:
+As a final step, we now need to threshold the output vector to sparsify the output. In other words, if a given index is below our defined threshold value ```1e-2 -> 0.01``` we default its value to ```float(0.0)```:
 
 ```python
 sparse_vector = outputs[0]
@@ -334,8 +355,8 @@ To run the script for running inference, run the following sequence of commands:
 # Begin by going to the appropriate directory
 cd src/main/python/onnx
 # Now run the script
-python quantize_onnx_model.py --model_path models/splade-cocondenser-ensembledistil-optimized-8bit.onnx \
-                                    --model_name naver/splade-cocondenser-ensembledistil
+python quantize_onnx_model.py --model_path models/splade-cocondenser-ensembledistil-optimized.onnx
+
 ```
 
 So what actually happens under the hood? The following sections will discuss the key parts of the above script:
@@ -360,9 +381,9 @@ quantize_dynamic(
 
 ## Concluding Remarks
 
-Now that we have successfully gone through a complete reproduction of converting SPLADE++ Ensemble Distil from PyTorch to ONNX, and ran inference with the optimized model, the scripts can be used to reproduce any model available on Huggingface.
+Now that we have successfully gone through a complete reproduction of converting SPLADE++ Ensemble Distil from PyTorch to ONNX, and ran inference with the optimized model, the scripts can be used to reproduce any model available on Hugging Face.
 
-### Reproducing SPLADE++ Ensemble Distil Regressions 
+### Reproducing Transformer-Based Model Regressions 
 
 To reproduce the regressions with the newly generated ONNX model, like seen in the [regressions-msmarco-v1-passage.splade-pp-ed.onnx.md](regressions/regressions-msmarco-v1-passage.splade-pp-ed.onnx.md), below are the following steps:
 
@@ -378,3 +399,4 @@ Second, now run the end to end regression as seen in the previously mentioned do
 
 ### Reproduction Log
 + Results reproduced by [@valamuri2020](https://github.com/valamuri2020) on 2024-08-06 (commit [`6178b40`](https://github.com/castorini/anserini/commit/6178b407fc791d62f81e751313771165c6e2c743))
++ Results reproduced by [@b8zhong](https://github.com/b8zhong) on 2025-01-16 (commit [`7c1de0e`](https://github.com/castorini/anserini/commit/7c1de0eb94781e5868ee9962d9019e4474bd1ce7))
