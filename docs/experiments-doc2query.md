@@ -190,8 +190,8 @@ Evaluation is performed with `trec_eval`:
 
 ```
 tools/eval/trec_eval.9.0.4/trec_eval -c -m map -m recip_rank \
-tools/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt \
-runs/run.car17v2.0.bm25.expanded-topk10.txt
+  tools/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt \
+  runs/run.car17v2.0.bm25.expanded-topk10.txt
 ```
 
 With the above commands, you should be able to reproduce the following results:
