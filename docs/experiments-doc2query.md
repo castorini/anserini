@@ -17,9 +17,9 @@ Here's a summary of the datasets referenced in this guide:
 
 File | Size | MD5 | Download
 :----|-----:|:----|:-----
-`msmarco-passage-pred-test_topk10.tar.gz` | 764 MB | `241608d4d12a0bc595bed2aff0f56ea3` | [[Dropbox](https://www.dropbox.com/s/57g2s9vhthoewty/msmarco-passage-pred-test_topk10.tar.gz?dl=1)] [[GitLab](https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/base/msmarco-passage-pred-test_topk10.tar.gz)]
-`paragraphCorpus.v2.0.tar.xz` | 4.7 GB | `a404e9256d763ddcacc3da1e34de466a` | [[Dropbox](https://www.dropbox.com/s/1xq559k5i86gk17/paragraphCorpus.v2.0.tar.xz?dl=1)] [[GitLab](https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/base/paragraphCorpus.v2.0.tar.xz)]
-`trec-car-pred-test_topk10.tar.gz` | 2.7 GB | `b9f98b55e6260c64e830b34d80a7afd7` | [[Dropbox](https://www.dropbox.com/s/rl4r0md0xgxg7d9/trec-car-pred-test_topk10.tar.gz?dl=1)] [[GitLab](https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/base/trec-car-pred-test_topk10.tar.gz)]
+`msmarco-passage-pred-test_topk10.tar.gz` | 764 MB | `241608d4d12a0bc595bed2aff0f56ea3` | [[GitLab](https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/base/msmarco-passage-pred-test_topk10.tar.gz)]
+`paragraphCorpus.v2.0.tar.xz` | 4.7 GB | `a404e9256d763ddcacc3da1e34de466a` | [[GitLab](https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/base/paragraphCorpus.v2.0.tar.xz)]
+`trec-car-pred-test_topk10.tar.gz` | 2.7 GB | `b9f98b55e6260c64e830b34d80a7afd7` | [[GitLab](https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/base/trec-car-pred-test_topk10.tar.gz)]
 
 The GitLab repo is [here](https://git.uwaterloo.ca/jimmylin/doc2query-data/) if you want direct access.
 
@@ -31,8 +31,7 @@ Before going through this guide, it is recommended that you [reproduce our BM25 
 To start, grab the predicted queries:
 
 ```bash
-# Grab tarball from either one of two sources:
-wget https://www.dropbox.com/s/57g2s9vhthoewty/msmarco-passage-pred-test_topk10.tar.gz -P collections/msmarco-passage
+# Grab tarball:
 wget https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/base/msmarco-passage-pred-test_topk10.tar.gz -P collections/msmarco-passage
 
 # Unpack tarball:
@@ -62,8 +61,10 @@ To verify (and to track progress), the above script will generate a total of 9 J
 After the script completes, we can index the expanded documents:
 
 ```
-sh target/appassembler/bin/IndexCollection -collection JsonCollection \
- -generator DefaultLuceneDocumentGenerator -threads 9 \
+bin/run.sh io.anserini.index.IndexCollection \
+ -collection JsonCollection \
+ -generator DefaultLuceneDocumentGenerator \
+ -threads 6 \
  -input collections/msmarco-passage/collection_jsonl_expanded_topk10 \
  -index indexes/msmarco-passage/lucene-index-msmarco-expanded-topk10 \
  -storePositions -storeDocvectors -storeRaw
@@ -72,19 +73,27 @@ sh target/appassembler/bin/IndexCollection -collection JsonCollection \
 And perform retrieval:
 
 ```
-python tools/scripts/msmarco/retrieve.py --hits 1000 \
- --index indexes/msmarco-passage/lucene-index-msmarco-expanded-topk10 \
- --queries collections/msmarco-passage/queries.dev.small.tsv \
- --output runs/run.msmarco-passage.dev.small.expanded-topk10.tsv
+python -m pyserini.search.lucene \
+  --index indexes/msmarco-passage/lucene-index-msmarco-expanded-topk10 \
+  --topics collections/msmarco-passage/queries.dev.small.tsv \
+  --topics-format default \
+  --output runs/run.msmarco-passage.dev.small.expanded-topk10.tsv \
+  --output-format msmarco \
+  --bm25 --k1 0.82 --b 0.68 --hits 1000
 ```
 
 Alternatively, we can use the Java implementation of the above script, which is faster (taking advantage of multi-threaded retrieval with the `-threads` option):
 
 ```
-sh target/appassembler/bin/SearchMsmarco  -hits 1000 -threads 8 \
- -index indexes/msmarco-passage/lucene-index-msmarco-expanded-topk10 \
- -queries collections/msmarco-passage/queries.dev.small.tsv \
- -output runs/run.msmarco-passage.dev.small.expanded-topk10.tsv
+bin/run.sh io.anserini.search.SearchCollection \
+  -index indexes/msmarco-passage/lucene-index-msmarco-expanded-topk10 \
+  -topics collections/msmarco-passage/queries.dev.small.tsv \
+  -topicReader TsvInt \
+  -output runs/run.msmarco-passage.dev.small.expanded-topk10.tsv \
+  -format msmarco \
+  -hits 1000 \
+  -threads 8 \
+  -bm25 -bm25.k1 0.82 -bm25.b 0.68
 ```
 
 Finally, to evaluate:
@@ -127,11 +136,9 @@ To start, download the TREC CAR dataset and the predicted queries:
 ```bash
 mkdir collections/trec_car
 
-# Grab tarballs from either one of two sources:
-wget https://www.dropbox.com/s/1xq559k5i86gk17/paragraphCorpus.v2.0.tar.xz -P collections/trec_car
+# Grab tarballs:
 wget https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/base/paragraphCorpus.v2.0.tar.xz -P collections/trec_car
 
-wget https://www.dropbox.com/s/rl4r0md0xgxg7d9/trec-car-pred-test_topk10.tar.gz -P collections/trec_car
 wget https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/base/trec-car-pred-test_topk10.tar.gz -P collections/trec_car
 
 # Unpack tarballs:
@@ -162,10 +169,12 @@ To verify (and to track progress), the above script will generate a total of 30 
 After the script completes, we can index the expanded documents:
 
 ```
-sh target/appassembler/bin/IndexCollection -collection JsonCollection \
- -generator DefaultLuceneDocumentGenerator -threads 30 \
- -input collections/trec_car/collection_jsonl_expanded_topk10 \
- -index indexes/trec_car/lucene-index.car17v2.0-expanded-topk10
+bin/run.sh io.anserini.index.IndexCollection \
+  -collection JsonCollection \
+  -generator DefaultLuceneDocumentGenerator \
+  -threads 30 \
+  -input collections/trec_car/collection_jsonl_expanded_topk10 \
+  -index indexes/trec_car/lucene-index.car17v2.0-expanded-topk10
 ```
 
 And perform retrieval on the test queries:
@@ -180,9 +189,9 @@ sh target/appassembler/bin/SearchCollection -topicReader Car \
 Evaluation is performed with `trec_eval`:
 
 ```
-target/appassembler/bin/trec_eval -c -m map -c -m recip_rank \
- tools/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt \
- runs/run.car17v2.0.bm25.expanded-topk10.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -m recip_rank \
+  tools/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt \
+  runs/run.car17v2.0.bm25.expanded-topk10.txt
 ```
 
 With the above commands, you should be able to reproduce the following results:
@@ -203,3 +212,4 @@ TREC CAR corpus v2.0 in this experiment instead of corpus v1.5 used in the paper
 + Results reproduced by [@HangCui0510](https://github.com/HangCui0510) on 2020-04-23 (commit [`0ae567d`](https://github.com/castorini/anserini/commit/0ae567df5c8a70ac211efd958c9ca1ff609ff782))
 + Results reproduced by [@kelvin-jiang](https://github.com/kelvin-jiang) on 2020-05-25 (commit [`b6e0367`](https://github.com/castorini/anserini/commit/b6e0367ef4e2b4fce9d81c8397ef1188e35971e7))
 + Results reproduced by [@lintool](https://github.com/lintool) on 2020-11-09 (commit [`94eae4`](https://github.com/castorini/anserini/commit/94eae4e06678446954446f2d47dae1666efe134f))
++ Results reproduced by [@b8zhong](https://github.com/b8zhong) on 2024-11-29 (commit [`778968f`](https://github.com/castorini/pyserini/commit/778968fd3a4ab7e2e756d9f7e58aca0314bfbf5d))
