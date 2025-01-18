@@ -40,9 +40,13 @@ Switch to `msmarco-v2.1-doc-segmented` in the route to query the segmented docs 
 
 Details of the built-in webapp and REST API can be found [here](../rest-api.md).
 
-## TREC 2024 RAG
+## MS MARCO V2.1 + TREC RAG
 
-For the [TREC 2024 RAG Track](https://trec-rag.github.io/), we have thus far only implemented BM25 baselines on the MS MARCO V2.1 document corpus (both the doc and doc segmented variants).
+For the [TREC RAG Track](https://trec-rag.github.io/), Anserini so far has only BM25 baselines.
+The evaluation uses the MS MARCO V2.1 corpora; there are two "variants", documents and segmented documents:
+
++ The segmented documents version (segments = passages) is the one actually used for the TREC RAG evaluations. It contains 113,520,750 text passages.
++ The documents version is the source of the segments, and useful as a point of reference. It contains 10,960,555 documents.
 
 ❗ Beware, you need lots of space to run these experiments.
 The `msmarco-v2.1-doc` prebuilt index is 63 GB uncompressed.
@@ -50,14 +54,25 @@ The `msmarco-v2.1-doc-segmented` prebuilt index is 84 GB uncompressed.
 Both indexes will be downloaded automatically.
 
 This release of Anserini comes with bindings for the test topics for the TREC 2024 RAG track (`-topics rag24.test`).
+To generate a standard TREC run file for these topics (top-1000 hits, BM25), issue the following command:
+
+```bash
+java -cp $ANSERINI_JAR io.anserini.search.SearchCollection \
+  -index msmarco-v2.1-doc-segments \
+  -topics rag24.test \
+  -output $OUTPUT_DIR/run.msmarco-v2.1-doc-segments.bm25.rag24.test.txt \
+  -bm25 -hits 1000
+```
+
+
 To generate jsonl output containing the raw documents that can be reranked and further processed, use the `-outputRerankerRequests` option to specify an output file.
 For example:
 
 ```bash
 java -cp $ANSERINI_JAR io.anserini.search.SearchCollection \
-  -index msmarco-v2.1-doc \
+  -index msmarco-v2.1-doc-segments \
   -topics rag24.test \
-  -output $OUTPUT_DIR/run.msmarco-v2.1-doc.bm25.rag24.test.txt \
+  -output $OUTPUT_DIR/run.msmarco-v2.1-doc-segments.bm25.rag24.test.txt \
   -bm25 -hits 20 \
   -outputRerankerRequests $OUTPUT_DIR/results.msmarco-v2.1-doc.bm25.rag24.test.jsonl
 ```
@@ -101,7 +116,7 @@ Replace `-index msmarco-v2.1-doc` with `-index msmarco-v2.1-doc-segemented` if y
 
 Since the TREC 2024 RAG evaluation hasn't happened yet, there are no qrels for evaluation.
 However, we _do_ have results based existing qrels that have been "projected" over from MS MARCO V2.0 passage judgments.
-The table below reports effectiveness (dev in terms of RR@10, DL21-DL23, RAGgy in terms of nDCG@10):
+The table below reports effectiveness (dev in terms of RR@100, DL21-DL23, RAGgy in terms of nDCG@10):
 
 |                                                                            |    dev |   dev2 |   DL21 |   DL22 |   DL23 |  RAGgy |
 |:---------------------------------------------------------------------------|-------:|-------:|-------:|-------:|-------:|-------:|
@@ -344,55 +359,55 @@ done
 And here's the snippet of code to perform the evaluation (which will yield the scores above):
 
 ```bash
-java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.bm25.msmarco-v1-passage.dev.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.bm25.msmarco-v1-passage.dev.txt
 java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl19-passage $OUTPUT_DIR/run.msmarco-v1-passage.bm25.dl19-passage.txt
 java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl20-passage $OUTPUT_DIR/run.msmarco-v1-passage.bm25.dl20-passage.txt
 echo ''
-java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.splade-pp-ed.cached_q.msmarco-v1-passage.dev.splade-pp-ed.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.splade-pp-ed.cached_q.msmarco-v1-passage.dev.splade-pp-ed.txt
 java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl19-passage $OUTPUT_DIR/run.msmarco-v1-passage.splade-pp-ed.cached_q.dl19-passage.splade-pp-ed.txt
 java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl20-passage $OUTPUT_DIR/run.msmarco-v1-passage.splade-pp-ed.cached_q.dl20-passage.splade-pp-ed.txt
 echo ''
-java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.splade-pp-ed.onnx.msmarco-v1-passage.dev.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.splade-pp-ed.onnx.msmarco-v1-passage.dev.txt
 java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl19-passage $OUTPUT_DIR/run.msmarco-v1-passage.splade-pp-ed.onnx.dl19-passage.txt
 java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl20-passage $OUTPUT_DIR/run.msmarco-v1-passage.splade-pp-ed.onnx.dl20-passage.txt
 echo ''
-java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw.cached_q.msmarco-v1-passage.dev.cosdpr-distil.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw.cached_q.msmarco-v1-passage.dev.cosdpr-distil.txt
 java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl19-passage $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw.cached_q.dl19-passage.cosdpr-distil.txt
 java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl20-passage $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw.cached_q.dl20-passage.cosdpr-distil.txt
 echo ''
-java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw.onnx.msmarco-v1-passage.dev.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw.onnx.msmarco-v1-passage.dev.txt
 java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl19-passage $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw.onnx.dl19-passage.txt
 java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl20-passage $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw.onnx.dl20-passage.txt
 echo ''
-java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw-int8.cached_q.msmarco-v1-passage.dev.cosdpr-distil.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw-int8.cached_q.msmarco-v1-passage.dev.cosdpr-distil.txt
 java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl19-passage $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw-int8.cached_q.dl19-passage.cosdpr-distil.txt
 java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl20-passage $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw-int8.cached_q.dl20-passage.cosdpr-distil.txt
 echo ''
-java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw-int8.onnx.msmarco-v1-passage.dev.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw-int8.onnx.msmarco-v1-passage.dev.txt
 java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl19-passage $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw-int8.onnx.dl19-passage.txt
 java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl20-passage $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw-int8.onnx.dl20-passage.txt
 echo ''
-java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw.cached_q.msmarco-v1-passage.dev.bge-base-en-v1.5.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw.cached_q.msmarco-v1-passage.dev.bge-base-en-v1.5.txt
 java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl19-passage $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw.cached_q.dl19-passage.bge-base-en-v1.5.txt
 java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl20-passage $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw.cached_q.dl20-passage.bge-base-en-v1.5.txt
 echo ''
-java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw.onnx.msmarco-v1-passage.dev.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw.onnx.msmarco-v1-passage.dev.txt
 java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl19-passage $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw.onnx.dl19-passage.txt
 java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl20-passage $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw.onnx.dl20-passage.txt
 echo ''
-java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8.cached_q.msmarco-v1-passage.dev.bge-base-en-v1.5.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8.cached_q.msmarco-v1-passage.dev.bge-base-en-v1.5.txt
 java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl19-passage $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8.cached_q.dl19-passage.bge-base-en-v1.5.txt
 java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl20-passage $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8.cached_q.dl20-passage.bge-base-en-v1.5.txt
 echo ''
-java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8.onnx.msmarco-v1-passage.dev.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8.onnx.msmarco-v1-passage.dev.txt
 java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl19-passage $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8.onnx.dl19-passage.txt
 java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl20-passage $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8.onnx.dl20-passage.txt
 echo ''
-java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.cohere-embed-english-v3.0.hnsw.cached_q.msmarco-v1-passage.dev.cohere-embed-english-v3.0.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.cohere-embed-english-v3.0.hnsw.cached_q.msmarco-v1-passage.dev.cohere-embed-english-v3.0.txt
 java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl19-passage $OUTPUT_DIR/run.msmarco-v1-passage.cohere-embed-english-v3.0.hnsw.cached_q.dl19-passage.cohere-embed-english-v3.0.txt
 java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl20-passage $OUTPUT_DIR/run.msmarco-v1-passage.cohere-embed-english-v3.0.hnsw.cached_q.dl20-passage.cohere-embed-english-v3.0.txt
 echo ''
-java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8.cached_q.msmarco-v1-passage.dev.cohere-embed-english-v3.0.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8.cached_q.msmarco-v1-passage.dev.cohere-embed-english-v3.0.txt
 java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl19-passage $OUTPUT_DIR/run.msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8.cached_q.dl19-passage.cohere-embed-english-v3.0.txt
 java -cp $ANSERINI_JAR trec_eval -m ndcg_cut.10 -c dl20-passage $OUTPUT_DIR/run.msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8.cached_q.dl20-passage.cohere-embed-english-v3.0.txt
 ```

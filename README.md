@@ -296,11 +296,11 @@ Key:
 
 ### MS MARCO V2.1 Segmented Document Regressions
 
-The MS MARCO V2.1 corpora were derived from the V2 corpora for the TREC 2024 RAG Track.
+The MS MARCO V2.1 corpora (documents and segmented documents) were derived from the V2 documents corpus for the TREC 2024 RAG Track.
 Instructions for downloading the corpus can be found [here](https://trec-rag.github.io/annoucements/2024-corpus-finalization/).
-The experiments below use _passage-level_ qrels.
+The experiments below capture topics and _passage-level_ qrels for the V2.1 segmented documents corpus.
 
-|           |                            RAG 24                             |
+|           |                        RAG 24 UMBRELA                         |
 |-----------|:-------------------------------------------------------------:|
 | baselines | [+](docs/regressions/regressions-rag24-doc-segmented-test.md) |
 
@@ -312,10 +312,11 @@ The experiments below use _passage-level_ qrels.
 
 ### MS MARCO V2.1 Document Regressions
 
-The MS MARCO V2.1 corpora were derived from the V2 corpora for the TREC 2024 RAG Track.
+The MS MARCO V2.1 corpora (documents and segmented documents) were derived from the V2 documents corpus for the TREC 2024 RAG Track.
 Instructions for downloading the corpus can be found [here](https://trec-rag.github.io/annoucements/2024-corpus-finalization/).
-The experiments below capture topics and _document-level_ qrels originally targeted at the V2 corpora, but have been "projected" over to the V2.1 corpora.
+The experiments below capture topics and _document-level_ qrels originally targeted at the V2 documents corpus, but have been "projected" over to the V2.1 documents corpus.
 These should be treated like dev topics for the TREC 2024 RAG Track; actual qrels for that track were generated at the passage level.
+There are no plans to generate addition _document-level_ qrels beyond these.
 
 |                                         |                               dev                               |                                 DL21                                 |                                 DL22                                 |                                 DL23                                 |                             RAGgy dev                              |
 |-----------------------------------------|:---------------------------------------------------------------:|:--------------------------------------------------------------------:|:--------------------------------------------------------------------:|:--------------------------------------------------------------------:|:------------------------------------------------------------------:|
