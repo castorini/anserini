@@ -448,31 +448,6 @@ public class IndexReaderUtils {
   }
 
   /**
-   * Returns the dense vector representation of a document, if available.
-   *
-   * @param reader index reader
-   * @param docid document id
-   * @return vector as float array, or null if not available
-   * @throws IOException if error encountered during access to index
-   */
-  public static float[] getDenseVector(IndexReader reader, String docid) throws IOException {
-    Document doc = document(reader, docid);
-    if (doc == null) return null;
-    
-    String vectorStr = doc.get(Constants.VECTOR);
-    if (vectorStr == null) return null;
-    
-    try {
-      String[] parts = vectorStr.substring(1, vectorStr.length() - 1).split(",");
-      float[] vector = new float[parts.length];
-      for (int i = 0; i < parts.length; i++) vector[i] = Float.parseFloat(parts[i].trim());
-      return vector;
-    } catch (Exception e) {
-      return null;
-    }
-  }
-
-  /**
    * Returns the term position mapping for a particular document. Note that this method explicitly returns
    * {@code null} if the document does not exist (as opposed to an empty map), so that the caller is explicitly forced
    * to handle this case.

@@ -74,7 +74,7 @@ public class JsonVectorCollection extends DocumentCollection<JsonVectorCollectio
         for (int i = 0; i < vectorNode.size(); i++) {
           vectorData[i] = (float) vectorNode.get(i).asDouble();
         }
-        this.contents = vectorNode.toString();
+        this.contents = null;
       } else {
         // Sparse vector format
         // Generate pseudo-document by appending the feature cnt times
