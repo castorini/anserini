@@ -8,7 +8,7 @@ download_checksum: e20ffbc8b5e7f760af31298aefeaebbd
 index_path: indexes/lucene-inverted.msmarco-v1-passage.cos-dpr-distil.fw-40/
 index_type: inverted-dense
 collection_class: JsonDenseVectorCollection
-generator_class: InvertedDenseVectorDocumentGenerator
+generator_class: JsonInvertedDenseVectorDocumentGenerator
 index_threads: 16
 index_options: -encoding fw -fw.q 40
 index_stats:

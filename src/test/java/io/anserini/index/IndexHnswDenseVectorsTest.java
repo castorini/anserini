@@ -16,19 +16,18 @@
 
 package io.anserini.index;
 
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.core.config.Configurator;
-import org.apache.lucene.index.IndexReader;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.Map;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.lucene.index.IndexReader;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
  * Tests for {@link IndexHnswDenseVectors}
@@ -132,7 +131,7 @@ public class IndexHnswDenseVectorsTest {
     };
 
     IndexHnswDenseVectors.main(indexArgs);
-    // If this succeeded, then the default -generator of DenseVectorDocumentGenerator must have worked.
+    // If this succeeded, then the default -generator of JsonDenseVectorDocumentGenerator must have worked.
   }
 
   @Test
@@ -142,7 +141,7 @@ public class IndexHnswDenseVectorsTest {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
         "-index", indexPath,
-        "-generator", "DenseVectorDocumentGenerator",
+        "-generator", "JsonDenseVectorDocumentGenerator",
         "-threads", "1",
         "-M", "16", "-efC", "100"
     };
@@ -156,6 +155,48 @@ public class IndexHnswDenseVectorsTest {
     assertNotNull(results);
     assertEquals(100, results.get("documents"));
   }
+  @Test
+  public void testParquet() throws Exception {
+    String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
+    String[] indexArgs = new String[] {
+        "-collection", "ParquetDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/parquet/msmarco-passage-bge-base-en-v1.5.parquet/",
+        "-index", indexPath,
+        "-generator", "ParquetDenseVectorDocumentGenerator",
+        "-threads", "1"
+    };
+
+    IndexFlatDenseVectors.main(indexArgs);
+
+    IndexReader reader = IndexReaderUtils.getReader(indexPath);
+    assertNotNull(reader);
+
+    Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, Constants.VECTOR);
+    assertNotNull(results);
+    assertEquals(10, results.get("documents"));
+  }
+
+  @Test
+  public void testParquetFloat() throws Exception {
+    String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
+    String[] indexArgs = new String[] {
+        "-collection", "ParquetDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/parquet/msmarco-passage-bge-base-en-v1.5.parquet-float",
+        "-index", indexPath,
+        "-generator", "ParquetDenseVectorDocumentGenerator",
+        "-threads", "1",
+        "-M", "16", "-efC", "100"
+    };
+
+    IndexHnswDenseVectors.main(indexArgs);
+
+    IndexReader reader = IndexReaderUtils.getReader(indexPath);
+    assertNotNull(reader);
+
+    Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, Constants.VECTOR);
+    assertNotNull(results);
+    assertEquals(10, results.get("documents"));
+  }
 
   @Test
   public void testQuantizedInt8() throws Exception {
@@ -164,7 +205,7 @@ public class IndexHnswDenseVectorsTest {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
         "-index", indexPath,
-        "-generator", "DenseVectorDocumentGenerator",
+        "-generator", "JsonDenseVectorDocumentGenerator",
         "-threads", "1",
         "-M", "16", "-efC", "100", "-quantize.int8"
     };

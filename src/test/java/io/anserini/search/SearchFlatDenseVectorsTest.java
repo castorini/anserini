@@ -122,7 +122,7 @@ public class SearchFlatDenseVectorsTest {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
         "-index", indexPath,
-        "-generator", "DenseVectorDocumentGenerator",
+        "-generator", "JsonDenseVectorDocumentGenerator",
         "-threads", "1"
     };
 
@@ -152,7 +152,7 @@ public class SearchFlatDenseVectorsTest {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
         "-index", indexPath,
-        "-generator", "DenseVectorDocumentGenerator",
+        "-generator", "JsonDenseVectorDocumentGenerator",
         "-threads", "1"
     };
 
@@ -182,7 +182,7 @@ public class SearchFlatDenseVectorsTest {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
         "-index", indexPath,
-        "-generator", "DenseVectorDocumentGenerator",
+        "-generator", "JsonDenseVectorDocumentGenerator",
         "-threads", "1"
     };
 
@@ -212,7 +212,7 @@ public class SearchFlatDenseVectorsTest {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
         "-index", indexPath,
-        "-generator", "DenseVectorDocumentGenerator",
+        "-generator", "JsonDenseVectorDocumentGenerator",
         "-threads", "1"
     };
 
@@ -242,7 +242,7 @@ public class SearchFlatDenseVectorsTest {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
         "-index", indexPath,
-        "-generator", "DenseVectorDocumentGenerator",
+        "-generator", "JsonDenseVectorDocumentGenerator",
         "-threads", "1"
     };
 
@@ -274,7 +274,7 @@ public class SearchFlatDenseVectorsTest {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
         "-index", indexPath,
-        "-generator", "DenseVectorDocumentGenerator",
+        "-generator", "JsonDenseVectorDocumentGenerator",
         "-threads", "1"
     };
 
@@ -313,9 +313,9 @@ public class SearchFlatDenseVectorsTest {
     String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
-        "-input", "src/test/resources/sample_docs/cos-dpr-distil/json_vector/",
+        "-input", "src/test/resources/sample_docs/cosdpr-distil/json_vector/",
         "-index", indexPath,
-        "-generator", "DenseVectorDocumentGenerator",
+        "-generator", "JsonDenseVectorDocumentGenerator",
         "-threads", "1"
     };
 
@@ -324,7 +324,7 @@ public class SearchFlatDenseVectorsTest {
     String runfile = "target/run-" + System.currentTimeMillis();
     String[] searchArgs = new String[] {
         "-index", indexPath,
-        "-topics", "src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-cos-dpr-distil.jsonl",
+        "-topics", "src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-cosdpr-distil.jsonl",
         "-output", runfile,
         "-generator", "VectorQueryGenerator",
         "-topicReader", "JsonIntVector",
@@ -354,9 +354,9 @@ public class SearchFlatDenseVectorsTest {
     String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
-        "-input", "src/test/resources/sample_docs/cos-dpr-distil/json_vector/",
+        "-input", "src/test/resources/sample_docs/cosdpr-distil/json_vector/",
         "-index", indexPath,
-        "-generator", "DenseVectorDocumentGenerator",
+        "-generator", "JsonDenseVectorDocumentGenerator",
         "-threads", "1", "-quantize.int8"
     };
 
@@ -365,7 +365,7 @@ public class SearchFlatDenseVectorsTest {
     String runfile = "target/run-" + System.currentTimeMillis();
     String[] searchArgs = new String[] {
         "-index", indexPath,
-        "-topics", "src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-cos-dpr-distil.jsonl",
+        "-topics", "src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-cosdpr-distil.jsonl",
         "-output", runfile,
         "-generator", "VectorQueryGenerator",
         "-topicReader", "JsonIntVector",
@@ -395,9 +395,9 @@ public class SearchFlatDenseVectorsTest {
     String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
-        "-input", "src/test/resources/sample_docs/cos-dpr-distil/json_vector/",
+        "-input", "src/test/resources/sample_docs/cosdpr-distil/json_vector/",
         "-index", indexPath,
-        "-generator", "DenseVectorDocumentGenerator",
+        "-generator", "JsonDenseVectorDocumentGenerator",
         "-threads", "1"
     };
 
@@ -406,7 +406,7 @@ public class SearchFlatDenseVectorsTest {
     String runfile = "target/run-" + System.currentTimeMillis();
     String[] searchArgs = new String[] {
         "-index", indexPath,
-        "-topics", "TREC2019_DL_PASSAGE_COS_DPR_DISTIL",
+        "-topics", "TREC2019_DL_PASSAGE_COSDPR_DISTIL",
         "-output", runfile,
         "-hits", "5"};
     SearchFlatDenseVectors.main(searchArgs);
@@ -437,9 +437,9 @@ public class SearchFlatDenseVectorsTest {
     String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
-        "-input", "src/test/resources/sample_docs/cos-dpr-distil/json_vector/",
+        "-input", "src/test/resources/sample_docs/cosdpr-distil/json_vector/",
         "-index", indexPath,
-        "-generator", "DenseVectorDocumentGenerator",
+        "-generator", "JsonDenseVectorDocumentGenerator",
         "-threads", "1"
     };
 
@@ -448,7 +448,7 @@ public class SearchFlatDenseVectorsTest {
     String runfile = "target/run-" + System.currentTimeMillis();
     String[] searchArgs = new String[] {
         "-index", indexPath,
-        "-topics", "src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-cos-dpr-distil.tsv",
+        "-topics", "src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-cosdpr-distil.tsv",
         "-output", runfile,
         "-generator", "VectorQueryGenerator",
         "-encoder", "CosDprDistil",
@@ -482,7 +482,7 @@ public class SearchFlatDenseVectorsTest {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector/",
         "-index", indexPath,
-        "-generator", "DenseVectorDocumentGenerator",
+        "-generator", "JsonDenseVectorDocumentGenerator",
         "-threads", "1"
     };
 
@@ -522,7 +522,7 @@ public class SearchFlatDenseVectorsTest {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector2",
         "-index", indexPath,
-        "-generator", "DenseVectorDocumentGenerator",
+        "-generator", "JsonDenseVectorDocumentGenerator",
         "-threads", "1"
     };
 

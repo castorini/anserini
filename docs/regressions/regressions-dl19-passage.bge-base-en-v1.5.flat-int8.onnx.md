@@ -20,7 +20,7 @@ From one of our Waterloo servers (e.g., `orca`), the following command will perf
 python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.bge-base-en-v1.5.flat-int8.onnx
 ```
 
-We make available a version of the MS MARCO Passage Corpus that has already been encoded with cosDPR-distil.
+We make available a version of the MS MARCO Passage Corpus that has already been encoded by the BGE-base-en-v1.5 model.
 
 From any machine, the following command will download the corpus and perform the complete regression, end to end:
 
@@ -56,7 +56,7 @@ bin/run.sh io.anserini.index.IndexFlatDenseVectors \
   -threads 16 \
   -collection JsonDenseVectorCollection \
   -input /path/to/msmarco-passage-bge-base-en-v1.5 \
-  -generator DenseVectorDocumentGenerator \
+  -generator JsonDenseVectorDocumentGenerator \
   -index indexes/lucene-flat-int8.msmarco-v1-passage.bge-base-en-v1.5/ \
   -quantize.int8 \
   >& logs/log.msmarco-passage-bge-base-en-v1.5 &

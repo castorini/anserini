@@ -36,15 +36,13 @@ bin/run.sh io.anserini.index.IndexHnswDenseVectors \
   -threads 16 \
   -collection JsonDenseVectorCollection \
   -input /path/to/beir-v1.0.0-fever.bge-base-en-v1.5 \
-  -generator DenseVectorDocumentGenerator \
+  -generator JsonDenseVectorDocumentGenerator \
   -index indexes/lucene-hnsw.beir-v1.0.0-fever.bge-base-en-v1.5/ \
   -M 16 -efC 100 \
   >& logs/log.beir-v1.0.0-fever.bge-base-en-v1.5 &
 ```
 
 The path `/path/to/beir-v1.0.0-fever.bge-base-en-v1.5/` should point to the corpus downloaded above.
-Note that here we are explicitly using Lucene's `NoMergePolicy` merge policy, which suppresses any merging of index segments.
-This is because merging index segments is a costly operation and not worthwhile given our query set.
 
 ## Retrieval
 

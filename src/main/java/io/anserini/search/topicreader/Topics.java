@@ -62,7 +62,7 @@ public enum Topics {
   TREC2019_DL_PASSAGE_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvIntTopicReader.class,"topics.dl19-passage.splade_distil_cocodenser_medium.tsv.gz"),
   TREC2019_DL_PASSAGE_SPLADE_PP_ED(TsvIntTopicReader.class,"topics.dl19-passage.splade-pp-ed.tsv.gz"),
   TREC2019_DL_PASSAGE_SPLADE_PP_SD(TsvIntTopicReader.class,"topics.dl19-passage.splade-pp-sd.tsv.gz"),
-  TREC2019_DL_PASSAGE_COS_DPR_DISTIL(JsonIntVectorTopicReader.class, "topics.dl19-passage.cos-dpr-distil.jsonl.gz"),
+  TREC2019_DL_PASSAGE_COSDPR_DISTIL(JsonIntVectorTopicReader.class, "topics.dl19-passage.cosdpr-distil.jsonl.gz"),
   TREC2019_DL_PASSAGE_BGE_BASE_EN_15(JsonIntVectorTopicReader.class, "topics.dl19-passage.bge-base-en-v1.5.jsonl.gz"),
   TREC2019_DL_PASSAGE_COHERE_EMBED_ENGLISH_30(JsonIntVectorTopicReader.class, "topics.dl19-passage.cohere-embed-english-v3.0.jsonl.gz"),
   TREC2020_DL(TsvIntTopicReader.class,"topics.dl20.txt"),
@@ -72,7 +72,7 @@ public enum Topics {
   TREC2020_DL_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvIntTopicReader.class,"topics.dl20.splade_distil_cocodenser_medium.tsv.gz"),
   TREC2020_DL_SPLADE_PP_ED(TsvIntTopicReader.class,"topics.dl20.splade-pp-ed.tsv.gz"),
   TREC2020_DL_SPLADE_PP_SD(TsvIntTopicReader.class,"topics.dl20.splade-pp-sd.tsv.gz"),
-  TREC2020_DL_COS_DPR_DISTIL(JsonIntVectorTopicReader.class, "topics.dl20.cos-dpr-distil.jsonl.gz"),
+  TREC2020_DL_COSDPR_DISTIL(JsonIntVectorTopicReader.class, "topics.dl20.cosdpr-distil.jsonl.gz"),
   TREC2020_DL_BGE_BASE_EN_15(JsonIntVectorTopicReader.class, "topics.dl20.bge-base-en-v1.5.jsonl.gz"),
   TREC2020_DL_COHERE_EMBED_ENGLISH_30(JsonIntVectorTopicReader.class, "topics.dl20.cohere-embed-english-v3.0.jsonl.gz"),
   TREC2021_DL(TsvIntTopicReader.class,"topics.dl21.txt"),
@@ -80,20 +80,26 @@ public enum Topics {
   TREC2021_DL_UNICOIL_NOEXP(TsvIntTopicReader.class,"topics.dl21.unicoil-noexp.0shot.tsv.gz"),
   TREC2021_DL_SPLADE_PP_ED(TsvIntTopicReader.class,"topics.dl21.splade-pp-ed.tsv.gz"),
   TREC2021_DL_SPLADE_PP_SD(TsvIntTopicReader.class,"topics.dl21.splade-pp-sd.tsv.gz"),
+  TREC2021_DL_SNOWFLAKE_ARCTIC_EMBED_L(JsonIntVectorTopicReader.class, "topics.dl21.snowflake-arctic-embed-l.jsonl.gz"),
   TREC2022_DL(TsvIntTopicReader.class,"topics.dl22.txt"),
   TREC2022_DL_UNICOIL(TsvIntTopicReader.class,"topics.dl22.unicoil.0shot.tsv.gz"),
   TREC2022_DL_UNICOIL_NOEXP(TsvIntTopicReader.class,"topics.dl22.unicoil-noexp.0shot.tsv.gz"),
   TREC2022_DL_SPLADE_PP_ED(TsvIntTopicReader.class,"topics.dl22.splade-pp-ed.tsv.gz"),
   TREC2022_DL_SPLADE_PP_SD(TsvIntTopicReader.class,"topics.dl22.splade-pp-sd.tsv.gz"),
+  TREC2022_DL_SNOWFLAKE_ARCTIC_EMBED_L(JsonIntVectorTopicReader.class, "topics.dl22.snowflake-arctic-embed-l.jsonl.gz"),
   TREC2023_DL(TsvIntTopicReader.class, "topics.dl23.txt"),
   TREC2023_DL_UNICOIL(TsvIntTopicReader.class,"topics.dl23.unicoil.0shot.tsv.gz"),
   TREC2023_DL_UNICOIL_NOEXP(TsvIntTopicReader.class,"topics.dl23.unicoil-noexp.0shot.tsv.gz"),
   TREC2023_DL_SPLADE_PP_ED(TsvIntTopicReader.class,"topics.dl23.splade-pp-ed.tsv.gz"),
   TREC2023_DL_SPLADE_PP_SD(TsvIntTopicReader.class,"topics.dl23.splade-pp-sd.tsv.gz"),
+  TREC2023_DL_SNOWFLAKE_ARCTIC_EMBED_L(JsonIntVectorTopicReader.class, "topics.dl23.snowflake-arctic-embed-l.jsonl.gz"),
 
   TREC2024_RAG_RAGGY_DEV(TsvIntTopicReader.class, "topics.rag24.raggy-dev.txt"),
+  TREC2024_RAG_RAGGY_DEV_SNOWFLAKE_ARCTIC_EMBED_L(JsonIntVectorTopicReader.class, "topics.rag24.raggy-dev.snowflake-arctic-embed-l.jsonl.gz"),
   TREC2024_RAG_RESEARCHY_DEV(TsvIntTopicReader.class, "topics.rag24.researchy-dev.txt"),
+  TREC2024_RAG_RESEARCHY_DEV_SNOWFLAKE_ARCTIC_EMBED_L(JsonIntVectorTopicReader.class, "topics.rag24.researchy-dev.snowflake-arctic-embed-l.jsonl.gz"),
   TREC2024_RAG_TEST(TsvStringTopicReader.class, "topics.rag24.test.txt"),
+  TREC2024_RAG_TEST_SNOWFLAKE_ARCTIC_EMBED_L(JsonStringVectorTopicReader.class, "topics.rag24.test.snowflake-arctic-embed-l.jsonl.gz"),
 
   // MS MARCO V1 topics
   MSMARCO_DOC_DEV(TsvIntTopicReader.class,"topics.msmarco-doc.dev.txt"),
@@ -111,7 +117,7 @@ public enum Topics {
   MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvIntTopicReader.class, "topics.msmarco-passage.dev-subset.splade_distil_cocodenser_medium.tsv.gz"),
   MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_ED(TsvIntTopicReader.class, "topics.msmarco-passage.dev-subset.splade-pp-ed.tsv.gz"),
   MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_SD(TsvIntTopicReader.class, "topics.msmarco-passage.dev-subset.splade-pp-sd.tsv.gz"),
-  MSMARCO_PASSAGE_DEV_SUBSET_COS_DPR_DISTIL(JsonIntVectorTopicReader.class, "topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.gz"),
+  MSMARCO_PASSAGE_DEV_SUBSET_COSDPR_DISTIL(JsonIntVectorTopicReader.class, "topics.msmarco-passage.dev-subset.cosdpr-distil.jsonl.gz"),
   MSMARCO_PASSAGE_DEV_SUBSET_BGE_BASE_EN_15(JsonIntVectorTopicReader.class, "topics.msmarco-passage.dev-subset.bge-base-en-v1.5.jsonl.gz"),
   MSMARCO_PASSAGE_DEV_SUBSET_COHERE_EMBED_ENGLISH_30(JsonIntVectorTopicReader.class, "topics.msmarco-passage.dev-subset.cohere-embed-english-v3.0.jsonl.gz"),
   MSMARCO_PASSAGE_TEST_SUBSET(TsvIntTopicReader.class, "topics.msmarco-passage.test-subset.txt"),
@@ -120,9 +126,11 @@ public enum Topics {
   MSMARCO_V2_DOC_DEV(TsvIntTopicReader.class,"topics.msmarco-v2-doc.dev.txt"),
   MSMARCO_V2_DOC_DEV_UNICOIL(TsvIntTopicReader.class,"topics.msmarco-v2-doc.dev.unicoil.0shot.tsv.gz"),
   MSMARCO_V2_DOC_DEV_UNICOIL_NOEXP(TsvIntTopicReader.class,"topics.msmarco-v2-doc.dev.unicoil-noexp.0shot.tsv.gz"),
+  MSMARCO_V2_DOC_DEV_SNOWFLAKE_ARCTIC_EMBED_L(JsonIntVectorTopicReader.class, "topics.msmarco-v2-doc.dev.snowflake-arctic-embed-l.jsonl.gz"),
   MSMARCO_V2_DOC_DEV2(TsvIntTopicReader.class,"topics.msmarco-v2-doc.dev2.txt"),
   MSMARCO_V2_DOC_DEV2_UNICOIL(TsvIntTopicReader.class,"topics.msmarco-v2-doc.dev2.unicoil.0shot.tsv.gz"),
   MSMARCO_V2_DOC_DEV2_UNICOIL_NOEXP(TsvIntTopicReader.class,"topics.msmarco-v2-doc.dev2.unicoil-noexp.0shot.tsv.gz"),
+  MSMARCO_V2_DOC_DEV2_SNOWFLAKE_ARCTIC_EMBED_L(JsonIntVectorTopicReader.class, "topics.msmarco-v2-doc.dev2.snowflake-arctic-embed-l.jsonl.gz"),
   MSMARCO_V2_PASSAGE_DEV(TsvIntTopicReader.class, "topics.msmarco-v2-passage.dev.txt"),
   MSMARCO_V2_PASSAGE_DEV_UNICOIL(TsvIntTopicReader.class, "topics.msmarco-v2-passage.dev.unicoil.0shot.tsv.gz"),
   MSMARCO_V2_PASSAGE_DEV_UNICOIL_NOEXP(TsvIntTopicReader.class, "topics.msmarco-v2-passage.dev.unicoil-noexp.0shot.tsv.gz"),
@@ -558,25 +566,25 @@ public enum Topics {
     // Additional aliases
     m.put("msmarco-passage-dev", MSMARCO_PASSAGE_DEV_SUBSET);
     m.put("msmarco-passage-dev-splade-pp-ed", MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_ED);
-    m.put("msmarco-passage-dev-cos-dpr-distil", MSMARCO_PASSAGE_DEV_SUBSET_COS_DPR_DISTIL);
+    m.put("msmarco-passage-dev-cosdpr-distil", MSMARCO_PASSAGE_DEV_SUBSET_COSDPR_DISTIL);
     m.put("msmarco-passage-dev-bge-base-en-v1.5", MSMARCO_PASSAGE_DEV_SUBSET_BGE_BASE_EN_15);
     m.put("msmarco-passage-dev-cohere-embed-english-v3.0", MSMARCO_PASSAGE_DEV_SUBSET_COHERE_EMBED_ENGLISH_30);
 
     m.put("msmarco-passage.dev", MSMARCO_PASSAGE_DEV_SUBSET);
     m.put("msmarco-passage.dev.splade-pp-ed", MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_ED);
-    m.put("msmarco-passage.dev.cos-dpr-distil", MSMARCO_PASSAGE_DEV_SUBSET_COS_DPR_DISTIL);
+    m.put("msmarco-passage.dev.cosdpr-distil", MSMARCO_PASSAGE_DEV_SUBSET_COSDPR_DISTIL);
     m.put("msmarco-passage.dev.bge-base-en-v1.5", MSMARCO_PASSAGE_DEV_SUBSET_BGE_BASE_EN_15);
     m.put("msmarco-passage.dev.cohere-embed-english-v3.0", MSMARCO_PASSAGE_DEV_SUBSET_COHERE_EMBED_ENGLISH_30);
 
     m.put("msmarco-v1-passage-dev", MSMARCO_PASSAGE_DEV_SUBSET);
     m.put("msmarco-v1-passage-dev-splade-pp-ed", MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_ED);
-    m.put("msmarco-v1-passage-dev-cos-dpr-distil", MSMARCO_PASSAGE_DEV_SUBSET_COS_DPR_DISTIL);
+    m.put("msmarco-v1-passage-dev-cosdpr-distil", MSMARCO_PASSAGE_DEV_SUBSET_COSDPR_DISTIL);
     m.put("msmarco-v1-passage-dev-bge-base-en-v1.5", MSMARCO_PASSAGE_DEV_SUBSET_BGE_BASE_EN_15);
     m.put("msmarco-v1-passage-dev-cohere-embed-english-v3.0", MSMARCO_PASSAGE_DEV_SUBSET_COHERE_EMBED_ENGLISH_30);
 
     m.put("msmarco-v1-passage.dev", MSMARCO_PASSAGE_DEV_SUBSET);
     m.put("msmarco-v1-passage.dev.splade-pp-ed", MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_ED);
-    m.put("msmarco-v1-passage.dev.cos-dpr-distil", MSMARCO_PASSAGE_DEV_SUBSET_COS_DPR_DISTIL);
+    m.put("msmarco-v1-passage.dev.cosdpr-distil", MSMARCO_PASSAGE_DEV_SUBSET_COSDPR_DISTIL);
     m.put("msmarco-v1-passage.dev.bge-base-en-v1.5", MSMARCO_PASSAGE_DEV_SUBSET_BGE_BASE_EN_15);
     m.put("msmarco-v1-passage.dev.cohere-embed-english-v3.0", MSMARCO_PASSAGE_DEV_SUBSET_COHERE_EMBED_ENGLISH_30);
 
@@ -584,7 +592,7 @@ public enum Topics {
     m.put("dl20-doc", TREC2020_DL);
 
     m.put("dl20-passage.splade-pp-ed", TREC2020_DL_SPLADE_PP_ED);
-    m.put("dl20-passage.cos-dpr-distil", TREC2020_DL_COS_DPR_DISTIL);
+    m.put("dl20-passage.cosdpr-distil", TREC2020_DL_COSDPR_DISTIL);
     m.put("dl20-passage.bge-base-en-v1.5", TREC2020_DL_BGE_BASE_EN_15);
     m.put("dl20-passage.cohere-embed-english-v3.0", TREC2020_DL_COHERE_EMBED_ENGLISH_30);
 

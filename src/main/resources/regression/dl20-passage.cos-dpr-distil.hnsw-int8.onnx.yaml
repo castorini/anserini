@@ -8,7 +8,7 @@ download_checksum: e20ffbc8b5e7f760af31298aefeaebbd
 index_path: indexes/lucene-hnsw-int8.msmarco-v1-passage.cos-dpr-distil/
 index_type: hnsw
 collection_class: JsonDenseVectorCollection
-generator_class: DenseVectorDocumentGenerator
+generator_class: JsonDenseVectorDocumentGenerator
 index_threads: 16
 index_options: -M 16 -efC 100 -quantize.int8
 

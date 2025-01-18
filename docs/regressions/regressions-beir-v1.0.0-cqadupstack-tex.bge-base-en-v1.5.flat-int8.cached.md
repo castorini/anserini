@@ -36,7 +36,7 @@ bin/run.sh io.anserini.index.IndexFlatDenseVectors \
   -threads 16 \
   -collection JsonDenseVectorCollection \
   -input /path/to/beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5 \
-  -generator DenseVectorDocumentGenerator \
+  -generator JsonDenseVectorDocumentGenerator \
   -index indexes/lucene-flat-int8.beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5/ \
   -quantize.int8 \
   >& logs/log.beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5 &

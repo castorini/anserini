@@ -20,7 +20,7 @@ From one of our Waterloo servers (e.g., `orca`), the following command will perf
 python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.bge-base-en-v1.5.hnsw.cached
 ```
 
-We make available a version of the MS MARCO Passage Corpus that has already been encoded with cosDPR-distil.
+We make available a version of the MS MARCO Passage Corpus that has already been encoded by the BGE-base-en-v1.5 model.
 
 From any machine, the following command will download the corpus and perform the complete regression, end to end:
 
@@ -56,7 +56,7 @@ bin/run.sh io.anserini.index.IndexHnswDenseVectors \
   -threads 16 \
   -collection JsonDenseVectorCollection \
   -input /path/to/msmarco-passage-bge-base-en-v1.5 \
-  -generator DenseVectorDocumentGenerator \
+  -generator JsonDenseVectorDocumentGenerator \
   -index indexes/lucene-hnsw.msmarco-v1-passage.bge-base-en-v1.5/ \
   -M 16 -efC 100 \
   >& logs/log.msmarco-passage-bge-base-en-v1.5 &
@@ -64,9 +64,6 @@ bin/run.sh io.anserini.index.IndexHnswDenseVectors \
 
 The path `/path/to/msmarco-passage-bge-base-en-v1.5/` should point to the corpus downloaded above.
 Upon completion, we should have an index with 8,841,823 documents.
-
-Note that here we are explicitly using Lucene's `NoMergePolicy` merge policy, which suppresses any merging of index segments.
-This is because merging index segments is a costly operation and not worthwhile given our query set.
 
 ## Retrieval
 

@@ -50,7 +50,7 @@ public final class IndexInvertedDenseVectors extends AbstractIndexer {
 
   public static final class Args extends AbstractIndexer.Args {
     @Option(name = "-generator", metaVar = "[class]", usage = "Document generator class in io.anserini.index.generator.")
-    public String generatorClass = "InvertedDenseVectorDocumentGenerator";
+    public String generatorClass = "JsonInvertedDenseVectorDocumentGenerator";
 
     @Option(name = "-encoding", metaVar = "[word]", usage = "Encoding method: {'fw', 'lexlsh'}.")
     public String encoding = FW;

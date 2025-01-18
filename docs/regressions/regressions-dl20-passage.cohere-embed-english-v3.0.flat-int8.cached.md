@@ -51,7 +51,7 @@ bin/run.sh io.anserini.index.IndexFlatDenseVectors \
   -threads 16 \
   -collection JsonDenseVectorCollection \
   -input /path/to/msmarco-passage-cohere-embed-english-v3.0 \
-  -generator DenseVectorDocumentGenerator \
+  -generator JsonDenseVectorDocumentGenerator \
   -index indexes/lucene-flat-int8.msmarco-v1-passage.cohere-embed-english-v3.0/ \
   -quantize.int8 \
   >& logs/log.msmarco-passage-cohere-embed-english-v3.0 &

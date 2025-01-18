@@ -51,7 +51,7 @@ bin/run.sh io.anserini.index.IndexHnswDenseVectors \
   -threads 16 \
   -collection JsonDenseVectorCollection \
   -input /path/to/msmarco-passage-cohere-embed-english-v3.0 \
-  -generator DenseVectorDocumentGenerator \
+  -generator JsonDenseVectorDocumentGenerator \
   -index indexes/lucene-hnsw.msmarco-v1-passage.cohere-embed-english-v3.0/ \
   -M 16 -efC 100 \
   >& logs/log.msmarco-passage-cohere-embed-english-v3.0 &
@@ -59,9 +59,6 @@ bin/run.sh io.anserini.index.IndexHnswDenseVectors \
 
 The path `/path/to/msmarco-passage-cohere-embed-english-v3.0/` should point to the corpus downloaded above.
 Upon completion, we should have an index with 8,841,823 documents.
-
-Note that here we are explicitly using Lucene's `NoMergePolicy` merge policy, which suppresses any merging of index segments.
-This is because merging index segments is a costly operation and not worthwhile given our query set.
 
 ## Retrieval
 

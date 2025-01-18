@@ -38,7 +38,7 @@ public class TopicReaderTest {
       String path = topic.path;
       assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(path));
     }
-    assertEquals(477, cnt);
+    assertEquals(485, cnt);
   }
 
   @Test
@@ -731,7 +731,7 @@ public class TopicReaderTest {
     assertEquals(1133167, (int) topics.lastKey());
     assertEquals(17675, topics.get(topics.lastKey()).get("title").split(" ").length);
 
-    topics = TopicReader.getTopics(Topics.TREC2019_DL_PASSAGE_COS_DPR_DISTIL);
+    topics = TopicReader.getTopics(Topics.TREC2019_DL_PASSAGE_COSDPR_DISTIL);
     assertNotNull(topics);
     assertEquals(43, topics.size());
     assertEquals(19335, (int) topics.firstKey());
@@ -818,7 +818,7 @@ public class TopicReaderTest {
     assertEquals(1136962, (int) topics.lastKey());
     assertEquals(30994, topics.get(topics.lastKey()).get("title").split(" ").length);
 
-    topics = TopicReader.getTopics(Topics.TREC2020_DL_COS_DPR_DISTIL);
+    topics = TopicReader.getTopics(Topics.TREC2020_DL_COSDPR_DISTIL);
     assertNotNull(topics);
     assertEquals(200, topics.size());
     assertEquals(3505, (int) topics.firstKey());
@@ -887,6 +887,14 @@ public class TopicReaderTest {
     assertEquals(26369, topics.get(topics.firstKey()).get("title").split(" ").length);
     assertEquals(1136769, (int) topics.lastKey());
     assertEquals(27149, topics.get(topics.lastKey()).get("title").split(" ").length);
+
+    topics = TopicReader.getTopics(Topics.TREC2021_DL_SNOWFLAKE_ARCTIC_EMBED_L);
+    assertNotNull(topics);
+    assertEquals(477, topics.size());
+    assertEquals(2082, (int) topics.firstKey());
+    assertEquals("[-0.0054801227524876595", topics.get(topics.firstKey()).get("vector").split(",")[0]);
+    assertEquals(1136769, (int) topics.lastKey());
+    assertEquals("[0.0038787610828876495", topics.get(topics.lastKey()).get("vector").split(",")[0]);
   }
 
   @Test
@@ -933,6 +941,14 @@ public class TopicReaderTest {
     assertEquals(31052, topics.get(topics.firstKey()).get("title").split(" ").length);
     assertEquals(2056473, (int) topics.lastKey());
     assertEquals(33891, topics.get(topics.lastKey()).get("title").split(" ").length);
+
+    topics = TopicReader.getTopics(Topics.TREC2022_DL_SNOWFLAKE_ARCTIC_EMBED_L);
+    assertNotNull(topics);
+    assertEquals(500, topics.size());
+    assertEquals(588, (int) topics.firstKey());
+    assertEquals("[0.020797204226255417", topics.get(topics.firstKey()).get("vector").split(",")[0]);
+    assertEquals(2056473, (int) topics.lastKey());
+    assertEquals("[0.005524440202862024", topics.get(topics.lastKey()).get("vector").split(",")[0]);
   }
 
   @Test
@@ -979,6 +995,14 @@ public class TopicReaderTest {
     assertEquals(163500, topics.get(topics.firstKey()).get("title").split(" ").length);
     assertEquals(3100949, (int) topics.lastKey());
     assertEquals(181700, topics.get(topics.lastKey()).get("title").split(" ").length);
+
+    topics = TopicReader.getTopics(Topics.TREC2023_DL_SNOWFLAKE_ARCTIC_EMBED_L);
+    assertNotNull(topics);
+    assertEquals(700, topics.size());
+    assertEquals(2000138, (int) topics.firstKey());
+    assertEquals("[0.001558756805025041", topics.get(topics.firstKey()).get("vector").split(",")[0]);
+    assertEquals(3100949, (int) topics.lastKey());
+    assertEquals("[0.014963677152991295", topics.get(topics.lastKey()).get("vector").split(",")[0]);
   }
 
   @Test
@@ -993,6 +1017,14 @@ public class TopicReaderTest {
     assertEquals(3100918, (int) topics.lastKey());
     assertEquals("Can older adults gain strength by training once per week?", topics.get(topics.lastKey()).get("title"));
     assertEquals("Can older adults gain strength by training once per week?", topics.get(3100918).get("title"));
+
+    topics = TopicReader.getTopics(Topics.TREC2024_RAG_RAGGY_DEV_SNOWFLAKE_ARCTIC_EMBED_L);
+    assertNotNull(topics);
+    assertEquals(120, topics.size());
+    assertEquals(23287, (int) topics.firstKey());
+    assertEquals("[0.008992074057459831", topics.get(topics.firstKey()).get("vector").split(",")[0]);
+    assertEquals(3100918, (int) topics.lastKey());
+    assertEquals("[0.010409535840153694", topics.get(topics.lastKey()).get("vector").split(",")[0]);
   }
 
   @Test
@@ -1007,6 +1039,14 @@ public class TopicReaderTest {
     assertEquals(1009569, (int) topics.lastKey());
     assertEquals("how do video games improve problem solving", topics.get(topics.lastKey()).get("title"));
     assertEquals("how do video games improve problem solving", topics.get(1009569).get("title"));
+
+    topics = TopicReader.getTopics(Topics.TREC2024_RAG_RESEARCHY_DEV_SNOWFLAKE_ARCTIC_EMBED_L);
+    assertNotNull(topics);
+    assertEquals(600, topics.size());
+    assertEquals(429, (int) topics.firstKey());
+    assertEquals("[0.03783365339040756", topics.get(topics.firstKey()).get("vector").split(",")[0]);
+    assertEquals(1009569, (int) topics.lastKey());
+    assertEquals("[0.029290692880749702", topics.get(topics.lastKey()).get("vector").split(",")[0]);
   }
 
   @Test
@@ -1021,6 +1061,14 @@ public class TopicReaderTest {
     assertEquals("2024-96485", topics.lastKey());
     assertEquals("how would advance electronics course impact students", topics.get(topics.lastKey()).get("title"));
     assertEquals("how the solar eclipse can affect mental health", topics.get("2024-79154").get("title"));
+
+    topics = TopicReader.getTopics(Topics.TREC2024_RAG_TEST_SNOWFLAKE_ARCTIC_EMBED_L);
+    assertNotNull(topics);
+    assertEquals(301, topics.size());
+    assertEquals("2024-105741", topics.firstKey());
+    assertEquals("[-0.009175633080303669", topics.get(topics.firstKey()).get("vector").split(",")[0]);
+    assertEquals("2024-96485", topics.lastKey());
+    assertEquals("[0.017953362315893173", topics.get(topics.lastKey()).get("vector").split(",")[0]);
   }
 
   @Test
@@ -1140,7 +1188,7 @@ public class TopicReaderTest {
     assertEquals(1102400, (int) topics.lastKey());
     assertEquals(30718, topics.get(topics.lastKey()).get("title").split(" ").length);
 
-    topics = TopicReader.getTopics(Topics.MSMARCO_PASSAGE_DEV_SUBSET_COS_DPR_DISTIL);
+    topics = TopicReader.getTopics(Topics.MSMARCO_PASSAGE_DEV_SUBSET_COSDPR_DISTIL);
     assertNotNull(topics);
     assertEquals(6980, topics.size());
     assertEquals(2, (int) topics.firstKey());
@@ -1201,6 +1249,14 @@ public class TopicReaderTest {
     assertEquals(1102390, (int) topics.lastKey());
     assertEquals(533, topics.get(topics.lastKey()).get("title").split(" ").length);
 
+    topics = TopicReader.getTopics(Topics.MSMARCO_V2_DOC_DEV_SNOWFLAKE_ARCTIC_EMBED_L);
+    assertNotNull(topics);
+    assertEquals(4552, topics.size());
+    assertEquals(2, (int) topics.firstKey());
+    assertEquals("[0.02950862981379032", topics.get(topics.firstKey()).get("vector").split(",")[0]);
+    assertEquals(1102390, (int) topics.lastKey());
+    assertEquals("[-0.04409797489643097", topics.get(topics.lastKey()).get("vector").split(",")[0]);
+
     topics = TopicReader.getTopics(Topics.MSMARCO_V2_DOC_DEV2);
     assertNotNull(topics);
     assertEquals(5000, topics.size());
@@ -1224,6 +1280,14 @@ public class TopicReaderTest {
     assertEquals(690, topics.get(topics.firstKey()).get("title").split(" ").length);
     assertEquals(1102413, (int) topics.lastKey());
     assertEquals(537, topics.get(topics.lastKey()).get("title").split(" ").length);
+
+    topics = TopicReader.getTopics(Topics.MSMARCO_V2_DOC_DEV2_SNOWFLAKE_ARCTIC_EMBED_L);
+    assertNotNull(topics);
+    assertEquals(5000, topics.size());
+    assertEquals(361, (int) topics.firstKey());
+    assertEquals("[0.002593959914520383", topics.get(topics.firstKey()).get("vector").split(",")[0]);
+    assertEquals(1102413, (int) topics.lastKey());
+    assertEquals("[0.006848456338047981", topics.get(topics.lastKey()).get("vector").split(",")[0]);
 
     topics = TopicReader.getTopics(Topics.MSMARCO_V2_PASSAGE_DEV);
     assertNotNull(topics);
