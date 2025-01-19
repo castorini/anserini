@@ -28,15 +28,14 @@ java -cp $ANSERINI_JAR io.anserini.server.Application --server.port=8081
 
 And then navigate to [`http://localhost:8081/`](http://localhost:8081/) in your browser.
 
-Here's a specific example of using the REST API to issue the query "How does the process of digestion and metabolism of carbohydrates start" to `msmarco-v2.1-doc`:
+Here's a specific example of using the REST API to issue the query "How does the process of digestion and metabolism of carbohydrates start" to `msmarco-v2.1-doc-segmented`:
 
 ```bash
-curl -X GET "http://localhost:8081/api/v1.0/indexes/msmarco-v2.1-doc/search?query=How%20does%20the%20process%20of%20digestion%20and%20metabolism%20of%20carbohydrates%20start"
+curl -X GET "http://localhost:8081/api/v1.0/indexes/msmarco-v2.1-doc-segmented/search?query=How%20does%20the%20process%20of%20digestion%20and%20metabolism%20of%20carbohydrates%20start"
 ```
 
-The json results are the same as the output of the `-outputRerankerRequests` option in `SearchCollection`, described below for TREC 2024 RAG.
+The json results are the same as the output of the `-outputRerankerRequests` option in `SearchCollection`, described below for "MS MARCO V2.1 + TREC RAG".
 Use the `hits` parameter to specify the number of hits to return, e.g., `hits=1000` to return the top 1000 hits.
-Switch to `msmarco-v2.1-doc-segmented` in the route to query the segmented docs instead.
 
 Details of the built-in webapp and REST API can be found [here](../rest-api.md).
 
@@ -68,9 +67,11 @@ The UMBRELA qrels are included in this release.
 To evaluate using them:
 
 ```bash
-java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 rag24.test-umbrela \
+java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 rag24.test-umbrela-all \
   $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.rag24.test.txt
 ```
+
+<!-- post v0.39.0 we added an alias for rag24.test-umbrela -->
 
 The expected results:
 
