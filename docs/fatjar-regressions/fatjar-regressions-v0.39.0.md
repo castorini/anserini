@@ -6,16 +6,16 @@ Fetch the fatjar:
 wget https://repo1.maven.org/maven2/io/anserini/anserini/0.39.0/anserini-0.39.0-fatjar.jar
 ```
 
-Note that prebuilt indexes will be downloaded to `~/.cache/pyserini/indexes/`.
-Currently, this path is hard-coded (see [Anserini #2322](https://github.com/castorini/anserini/issues/2322)).
-If you want to change the download location, the current workaround is to use symlinks, i.e., symlink `~/.cache/pyserini/indexes/` to the actual path you desire.
-
 Let's start out by setting the `ANSERINI_JAR` and the `OUTPUT_DIR`:
 
 ```bash
 export ANSERINI_JAR="anserini-0.39.0-fatjar.jar"
 export OUTPUT_DIR="."
 ```
+
+❗ Anserini ships with a number of prebuilt indexes, which it'll automagically download for you.
+This is a great feature, but the indexes can take up a lot of space.
+See [this guide on prebuilt indexes](../prebuilt-indexes.md) for more details.
 
 ## Webapp and REST API
 
@@ -39,6 +39,11 @@ Use the `hits` parameter to specify the number of hits to return, e.g., `hits=10
 
 Details of the built-in webapp and REST API can be found [here](../rest-api.md).
 
+❗ Beware, the above commands will trigger automatic downloading of prebuilt indexes, which take up a lot of space.
+The `msmarco-v2.1-doc` prebuilt index is 63 GB uncompressed.
+The `msmarco-v2.1-doc-segmented` prebuilt index is 84 GB uncompressed.
+See [this guide on prebuilt indexes](../prebuilt-indexes.md) for more details.
+
 ## MS MARCO V2.1 + TREC RAG
 
 For the [TREC RAG Track](https://trec-rag.github.io/), Anserini so far has only BM25 baselines.
@@ -51,6 +56,7 @@ The evaluation uses the MS MARCO V2.1 corpora, which has two "variants", documen
 The `msmarco-v2.1-doc` prebuilt index is 63 GB uncompressed.
 The `msmarco-v2.1-doc-segmented` prebuilt index is 84 GB uncompressed.
 Both indexes will be downloaded automatically.
+See [this guide on prebuilt indexes](../prebuilt-indexes.md) for more details.
 
 This release of Anserini comes with bindings for the test topics for the TREC 2024 RAG track (`-topics rag24.test`).
 To generate a standard TREC run file for these topics (top-1000 hits, BM25), issue the following command:

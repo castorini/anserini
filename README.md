@@ -47,6 +47,9 @@ See [detailed instructions](docs/fatjar-regressions/fatjar-regressions-v0.39.0.m
 Also, Anserini comes with a built-in webapp for interactive querying along with a REST API that can be used by other applications.
 Check out our documentation [here](docs/rest-api.md).
 
+❗ Beware, Anserini ships with many prebuilt indexes, which are automatically downloaded upon request (for example, `-index msmarco-v1-passage.splade-pp-ed` above triggers the download of a prebuilt index): these indexes can take up a lot of space.
+See [this guide on prebuilt indexes](docs/prebuilt-indexes.md) for more details.
+
 <!--
 We also have [forthcoming instructions](docs/fatjar-regressions/fatjar-regressions-v0.39.1-SNAPSHOT.md) for the next release (v0.39.1-SNAPSHOT) if you're interested.
 -->
