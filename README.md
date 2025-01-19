@@ -13,13 +13,11 @@ Among other goals, our effort aims to be [the opposite of this](http://phdcomics
 Anserini grew out of [a reproducibility study of various open-source retrieval engines in 2016](https://link.springer.com/chapter/10.1007/978-3-319-30671-1_30) (Lin et al., ECIR 2016). 
 See [Yang et al. (SIGIR 2017)](https://dl.acm.org/doi/10.1145/3077136.3080721) and [Yang et al. (JDIQ 2018)](https://dl.acm.org/doi/10.1145/3239571) for overviews.
 
-❗ Anserini was upgraded from JDK 11 to JDK 21 at commit [`272565`](https://github.com/castorini/anserini/commit/39cecf6c257bae85f4e9f6ab02e0be101338c3cc) (2024/04/03), which corresponds to the release of v0.35.0.
-
 
 ## 💥 Try It!
 
 Anserini is packaged in a self-contained fatjar, which also provides the simplest way to get started.
-Assuming you've already got Java installed, fetch the fatjar:
+Assuming you've already got Java 21 installed (Yes, you need _exactly_ this version), fetch the fatjar:
 
 ```bash
 wget https://repo1.maven.org/maven2/io/anserini/anserini/0.39.0/anserini-0.39.0-fatjar.jar
@@ -39,7 +37,9 @@ java -cp anserini-0.39.0-fatjar.jar io.anserini.search.SearchCollection \
 To evaluate:
 
 ```bash
-java -cp anserini-0.39.0-fatjar.jar trec_eval -c -M 10 -m recip_rank msmarco-passage.dev-subset run.msmarco-v1-passage-dev.splade-pp-ed-onnx.txt
+java -cp anserini-0.39.0-fatjar.jar trec_eval \
+  -c -M 10 -m recip_rank msmarco-passage.dev-subset \
+  run.msmarco-v1-passage-dev.splade-pp-ed-onnx.txt
 ```
 
 See [detailed instructions](docs/fatjar-regressions/fatjar-regressions-v0.39.0.md) for the current fatjar release of Anserini (v0.39.0) to reproduce regression experiments on the MS MARCO V2.1 corpora for TREC 2024 RAG, on MS MARCO V1 Passage, and on BEIR, all directly from the fatjar!
@@ -639,6 +639,7 @@ Beyond that, there are always [open issues](https://github.com/castorini/anserin
 
 ## 📜️ Historical Notes
 
++ Anserini was upgraded from JDK 11 to JDK 21 at commit [`272565`](https://github.com/castorini/anserini/commit/39cecf6c257bae85f4e9f6ab02e0be101338c3cc) (2024/04/03), which corresponds to the release of v0.35.0.
 + Anserini was upgraded to Lucene 9.3 at commit [`272565`](https://github.com/castorini/anserini/commit/27256551e958f39495b04e89ef55de9d27f33414) (8/2/2022): this upgrade created backward compatibility issues, see [#1952](https://github.com/castorini/anserini/issues/1952).
 Anserini will automatically detect Lucene 8 indexes and disable consistent tie-breaking to avoid runtime errors.
 However, Lucene 9 code running on Lucene 8 indexes may give slightly different results than Lucene 8 code running on Lucene 8 indexes.
