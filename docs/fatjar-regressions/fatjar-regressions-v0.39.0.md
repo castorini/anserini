@@ -43,10 +43,10 @@ Details of the built-in webapp and REST API can be found [here](../rest-api.md).
 ## MS MARCO V2.1 + TREC RAG
 
 For the [TREC RAG Track](https://trec-rag.github.io/), Anserini so far has only BM25 baselines.
-The evaluation uses the MS MARCO V2.1 corpora; there are two "variants", documents and segmented documents:
+The evaluation uses the MS MARCO V2.1 corpora, which has two "variants", documents and segmented documents:
 
-+ The segmented documents version (segments = passages) is the one actually used for the TREC RAG evaluations. It contains 113,520,750 text passages.
-+ The documents version is the source of the segments, and useful as a point of reference. It contains 10,960,555 documents.
++ The segmented documents corpus (segments = passages) is the one actually used for the TREC RAG evaluations. It contains 113,520,750 passages.
++ The documents corpus is the source of the segments and useful as a point of reference. It contains 10,960,555 documents.
 
 ❗ Beware, you need lots of space to run these experiments.
 The `msmarco-v2.1-doc` prebuilt index is 63 GB uncompressed.
@@ -58,29 +58,43 @@ To generate a standard TREC run file for these topics (top-1000 hits, BM25), iss
 
 ```bash
 java -cp $ANSERINI_JAR io.anserini.search.SearchCollection \
-  -index msmarco-v2.1-doc-segments \
+  -index msmarco-v2.1-doc-segmented \
   -topics rag24.test \
-  -output $OUTPUT_DIR/run.msmarco-v2.1-doc-segments.bm25.rag24.test.txt \
+  -output $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.rag24.test.txt \
   -bm25 -hits 1000
 ```
 
+The UMBRELA qrels are included in this release.
+To evaluate using them:
+
+```bash
+java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 rag24.test-umbrela \
+  $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.rag24.test.txt
+```
+
+The expected results:
+
+```
+ndcg_cut_10           	all	0.3290
+```
 
 To generate jsonl output containing the raw documents that can be reranked and further processed, use the `-outputRerankerRequests` option to specify an output file.
 For example:
 
 ```bash
 java -cp $ANSERINI_JAR io.anserini.search.SearchCollection \
-  -index msmarco-v2.1-doc-segments \
+  -index msmarco-v2.1-doc-segmented \
   -topics rag24.test \
-  -output $OUTPUT_DIR/run.msmarco-v2.1-doc-segments.bm25.rag24.test.txt \
+  -output $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.rag24.test.txt \
   -bm25 -hits 20 \
-  -outputRerankerRequests $OUTPUT_DIR/results.msmarco-v2.1-doc.bm25.rag24.test.jsonl
+  -outputRerankerRequests $OUTPUT_DIR/results.msmarco-v2.1-doc-segmented.bm25.rag24.test.jsonl
 ```
 
-And the output looks something like (pipe through `jq` to pretty-print):
+In the above command, we only fetch the top-20 hits.
+To examine the output, pipe through `jq` to pretty-print:
 
 ```bash
-$ head -n 1 $OUTPUT_DIR/results.msmarco-v2.1-doc.bm25.rag24.test.jsonl | jq
+$ head -n 1 $OUTPUT_DIR/results.msmarco-v2.1-doc-segmented.bm25.rag24.test.jsonl | jq
 {
   "query": {
     "qid": "2024-105741",
@@ -88,23 +102,27 @@ $ head -n 1 $OUTPUT_DIR/results.msmarco-v2.1-doc.bm25.rag24.test.jsonl | jq
   },
   "candidates": [
     {
-      "docid": "msmarco_v2.1_doc_38_1524878562",
-      "score": 14.4877,
+      "docid": "msmarco_v2.1_doc_16_287012450#4_490828734",
+      "score": 15.8199,
       "doc": {
-        "url": "https://www.ebmconsult.com/articles/lab-test-white-blood-count-wbc",
-        "title": "Lab Test: White Blood Cell Count, WBC",
-        "headings": "...",
-        "body": "..."
+        "url": "https://emedicine.medscape.com/article/961169-treatment",
+        "title": "Bacteremia Treatment & Management: Medical Care",
+        "headings": "Bacteremia Treatment & Management\nBacteremia Treatment & Management\nMedical Care\nHow well do low-risk criteria work?\nEmpiric antibiotics: How well do they work?\nTreatment algorithms\n",
+        "segment": "band-to-neutrophil ratio\n< 0.2\n< 20,000/μL\n5-15,000/μL; ABC < 1,000\n5-15,000/μL; ABC < 1,000\nUrine assessment\n< 10 WBCs per HPF; Negative for bacteria\n< 10 WBCs per HPF; Leukocyte esterase negative\n< 10 WBCs per HPF\n< 5 WBCs per HPF\nCSF assessment\n< 8 WBCs per HPF; Negative for bacteria\n< 10 WBCs per HPF\n< 10-20 WBCs per HPF\n…\nChest radiography\nNo infiltrate\nWithin reference range, if obtained\nWithin reference range, if obtained\n…\nStool culture\n< 5 WBCs per HPF\n…\n< 5 WBCs per HPF\n…\n* Acute illness observation score\nHow well do low-risk criteria work? The above guidelines are presented to define a group of febrile young infants who can be treated without antibiotics. Statistically, this translates into a high NPV (ie, a very high proportion of true negative cultures is observed in patients deemed to be at low risk). The NPV of various low-risk criteria for serious bacterial infection and occult bacteremia are as follows [ 10, 14, 16, 19, 74, 75, 76] : Philadelphia NPV - 95-100%\nBoston NPV - 95-98%\nRochester NPV - 98.3-99%\nAAP 1993 - 99-99.8%\nIn basic terms, even by the most stringent criteria, somewhere between 1 in 100 and 1 in 500 low-risk, but bacteremic, febrile infants are missed.",
+        "start_char": 2846,
+        "end_char": 4049
       }
     },
     {
-      "docid": "msmarco_v2.1_doc_19_1675146822",
-      "score": 14.3835,
+      "docid": "msmarco_v2.1_doc_16_287012450#3_490827079",
+      "score": 15.231,
       "doc": {
-        "url": "https://fcer.org/white-blood-cells/",
-        "title": "White Blood Cells (WBCs) - Definition, Function, and Ranges",
-        "headings": "...",
-        "body": "..."
+        "url": "https://emedicine.medscape.com/article/961169-treatment",
+        "title": "Bacteremia Treatment & Management: Medical Care",
+        "headings": "Bacteremia Treatment & Management\nBacteremia Treatment & Management\nMedical Care\nHow well do low-risk criteria work?\nEmpiric antibiotics: How well do they work?\nTreatment algorithms\n",
+        "segment": "73] Since then, numerous studies have evaluated combinations of age, temperature, history, examination findings, and laboratory results to determine which young infants are at a low risk for bacterial infection. [ 10, 66, 74, 75, 76]\nThe following are the low-risk criteria established by groups from Philadelphia, Boston, and Rochester and the 1993 American Academy of Pediatrics (AAP) guideline. Table 11. Low-Risk Criteria for Infants Younger than 3 Months [ 10, 74, 75, 76] (Open Table in a new window)\nCriterion\nPhiladelphia\nBoston\nRochester\nAAP 1993\nAge\n1-2 mo\n1-2 mo\n0-3 mo\n1-3 mo\nTemperature\n38.2°C\n≥38°C\n≥38°C\n≥38°C\nAppearance\nAIOS * < 15\nWell\nAny\nWell\nHistory\nImmune\nNo antibiotics in the last 24 h; No immunizations in the last 48 h\nPreviously healthy\nPreviously healthy\nExamination\nNonfocal\nNonfocal\nNonfocal\nNonfocal\nWBC count\n< 15,000/μL; band-to-neutrophil ratio\n< 0.2\n< 20,000/μL\n5-15,000/μL; ABC < 1,000\n5-15,000/μL; ABC < 1,000\nUrine assessment\n< 10 WBCs per HPF; Negative for bacteria\n< 10 WBCs per HPF; Leukocyte esterase negative\n< 10 WBCs per HPF\n< 5 WBCs per HPF\nCSF assessment\n< 8 WBCs per HPF;",
+        "start_char": 1993,
+        "end_char": 3111
       }
     },
     ...
@@ -114,8 +132,8 @@ $ head -n 1 $OUTPUT_DIR/results.msmarco-v2.1-doc.bm25.rag24.test.jsonl | jq
 
 Replace `-index msmarco-v2.1-doc` with `-index msmarco-v2.1-doc-segemented` if you want to search over the doc segments instead of the full docs.
 
-Since the TREC 2024 RAG evaluation hasn't happened yet, there are no qrels for evaluation.
-However, we _do_ have results based existing qrels that have been "projected" over from MS MARCO V2.0 passage judgments.
+The experiments below capture _document-level_ qrels originally targeted at the V2 documents corpus, but have been "projected" over to the V2.1 documents corpus.
+These can be viewed as dev topics for the TREC 2024 RAG Track (and were released prior to the evaluation).
 The table below reports effectiveness (dev in terms of RR@100, DL21-DL23, RAGgy in terms of nDCG@10):
 
 |                                                                            |    dev |   dev2 |   DL21 |   DL22 |   DL23 |  RAGgy |
