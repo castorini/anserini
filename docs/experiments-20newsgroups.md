@@ -94,11 +94,11 @@ total terms:           4219956
 
 For reference, the number of docs indexed should be exactly as follows:
 
-|               | # of docs | pre-built index |
-|---------------|----------:|-----------------|
-| Train         |    11,314 | [[download](https://www.dropbox.com/s/npg5eovr92h5k7w/lucene-index.20newsgroups.train.tar.gz)]
-| Test          |     7,532 | [[download](https://www.dropbox.com/s/aptj8hz9wti3qaf/lucene-index.20newsgroups.test.tar.gz)]
-| Train + Test  |    18,846 | [[download](https://www.dropbox.com/s/qo2wt6fzu01yt4c/lucene-index.20newsgroups.all.tar.gz)]
+|               | # of docs |
+|---------------|-----------|
+| Train         |    11,314 |
+| Test          |     7,532 |
+| Train + Test  |    18,846 |
 
 For convenience, we also provide pre-built indexes above.
 
