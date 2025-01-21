@@ -243,6 +243,11 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
     public boolean indexable() {
       return true;
     }
+
+    @Override
+    public float[] vector() {
+        return vector;
+    }
   }
 
 }

@@ -40,27 +40,12 @@ public class JsonDenseVectorDocumentGenerator<T extends SourceDocument> implemen
   public JsonDenseVectorDocumentGenerator() {
   }
 
-  private float[] convertJsonArray(String vectorString) throws JsonProcessingException {
-    ObjectMapper mapper = new ObjectMapper();
-    ArrayList<Float> denseVector = mapper.readValue(vectorString, new TypeReference<>(){});
-
-    int length = denseVector.size();
-    float[] vector = new float[length];
-    for (int i=0; i<length; i++) {
-      vector[i] = denseVector.get(i);
-    }
-
-    return vector;
-  }
-
   @Override
   public Document createDocument(T src) throws InvalidDocumentException {
     String id = src.id();
-    float[] contents;
-
-    try {
-      contents = convertJsonArray(src.contents());
-    } catch (Exception e) {
+    float[] contents = src.vector();
+    
+    if (contents == null) {
       throw new InvalidDocumentException();
     }
 

@@ -60,6 +60,7 @@ public class JsonVectorCollection extends DocumentCollection<JsonVectorCollectio
 
   public static class Document extends JsonCollection.Document {
     private final String contents;
+    private final float[] vectorData;
 
     public Document(JsonNode json) {
       super(json);
@@ -67,23 +68,38 @@ public class JsonVectorCollection extends DocumentCollection<JsonVectorCollectio
       // We're going to take the map associated with "vector" and generate pseudo-document.
       JsonNode vectorNode = json.get("vector");
 
-      // Iterate through the features:
-      final StringBuilder sb = new StringBuilder();
-      vectorNode.fields().forEachRemaining( e -> {
-        int cnt = e.getValue().asInt();
-        // Generate pseudo-document by appending the feature cnt times,
-        // where cnt is the value of the feature
-        for (int i=0; i<cnt; i++ ) {
-          sb.append(e.getKey()).append(" ");
+      if (vectorNode.isArray()) {
+        // Dense vector format - store directly
+        vectorData = new float[vectorNode.size()];
+        for (int i = 0; i < vectorNode.size(); i++) {
+          vectorData[i] = (float) vectorNode.get(i).asDouble();
         }
-      });
+        this.contents = null;
+      } else {
+        // Sparse vector format
+        // Generate pseudo-document by appending the feature cnt times
+        // where cnt is the value of the feature
+        final StringBuilder sb = new StringBuilder();
+        vectorNode.fields().forEachRemaining(e -> {
+          int cnt = e.getValue().asInt();
+          for (int i = 0; i < cnt; i++) {
+            sb.append(e.getKey()).append(" ");
+          }
+        });
+        this.contents = sb.toString();
+        vectorData = null; // No dense vector for sparse format
+      }
 
-      this.contents = sb.toString();
     }
 
     @Override
     public String contents() {
       return contents;
+    }
+
+    @Override
+    public float[] vector() {
+      return vectorData;
     }
   }
 }
