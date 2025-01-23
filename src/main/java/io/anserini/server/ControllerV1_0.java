@@ -50,8 +50,8 @@ public class ControllerV1_0 {
       @RequestParam(value = "hits", defaultValue = "10") int hits,
       @RequestParam(value = "qid", defaultValue = "") String qid,
       @RequestParam(value = "efSearch", defaultValue = "100") int efSearch,
-      @RequestParam(value = "encoder", required = true) String encoder,
-      @RequestParam(value = "queryGenerator", required = true) String queryGenerator) {
+      @RequestParam(value = "encoder", required = false) String encoder,
+      @RequestParam(value = "queryGenerator", required = false) String queryGenerator) {
 
     if (index == null) {
       index = DEFAULT_INDEX;
@@ -61,10 +61,8 @@ public class ControllerV1_0 {
       throw new IllegalArgumentException("Index " + index + " not found!");
     }
 
-    if (index.contains(".hnsw")) {
-      if (encoder == null || queryGenerator == null) {
-        throw new IllegalArgumentException("HNSW indexes require both 'encoder' and 'queryGenerator' parameters");
-      }
+    if (index.contains(".hnsw") && (encoder == null || queryGenerator == null)) {
+      throw new IllegalArgumentException("HNSW indexes require both 'encoder' and 'queryGenerator' parameters");
     }
 
     SearchService searchService = new SearchService(index);

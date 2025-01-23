@@ -137,15 +137,8 @@ public class SearchService {
     HnswDenseSearcher.Args args = new HnswDenseSearcher.Args();
     args.index = indexDir;
     args.efSearch = efSearch;
-    args.queryGenerator = queryGenerator != null ? queryGenerator : DEFAULT_QUERY_GENERATOR;
-    
-    // Attempt to get encoder from IndexInfo, or use provided encoder
-    if (encoder != null) {
-      args.encoder = encoder;
-    } else if (IndexInfo.contains(prebuiltIndex)) {
-      IndexInfo info = IndexInfo.get(prebuiltIndex);
-      args.encoder = info.model.substring(0, info.model.indexOf(" w/ HNSW"));
-    }
+    args.encoder = encoder;
+    args.queryGenerator = queryGenerator;
     return args;
   }
 
