@@ -40,7 +40,7 @@ public class ControllerV1_0 {
       @RequestParam("query") String query,
       @RequestParam(value = "hits", defaultValue = "10") int hits,
       @RequestParam(value = "qid", defaultValue = "") String qid,
-      @RequestParam(value = "efSearch", required = false) Integer efSearch,
+      @RequestParam(value = "efSearch", defaultValue = "100") int efSearch,
       @RequestParam(value = "encoder", required = false) String encoder,
       @RequestParam(value = "queryGenerator", required = false) String queryGenerator) {
 

@@ -84,7 +84,7 @@ public class SearchService {
         searcher.close();
         return candidates;
       } else {
-        return searchHnsw(query, hits, null, null, null);
+        return searchHnsw(query, hits, 0, null, null);
       }
     } catch (Exception e) {
       e.printStackTrace();
@@ -93,7 +93,7 @@ public class SearchService {
   }
 
   public List<Map<String, Object>> search(String query, int hits,
-      Integer efSearch, String encoder, String queryGenerator) {
+      int efSearch, String encoder, String queryGenerator) {
     if (!isHnswIndex) {
       // Ignore HNSW parameters for BM25 indexes
       return search(query, hits);
@@ -102,7 +102,7 @@ public class SearchService {
   }
 
   private List<Map<String, Object>> searchHnsw(String query, int hits,
-      Integer efSearch, String encoder, String queryGenerator) {
+      int efSearch, String encoder, String queryGenerator) {
     try {
       HnswDenseSearcher.Args args = createHnswArgs(efSearch, encoder, queryGenerator);
       HnswDenseSearcher searcher = new HnswDenseSearcher(args);
@@ -133,10 +133,10 @@ public class SearchService {
     }
   }
 
-  private HnswDenseSearcher.Args createHnswArgs(Integer efSearch, String encoder, String queryGenerator) {
+  private HnswDenseSearcher.Args createHnswArgs(int efSearch, String encoder, String queryGenerator) {
     HnswDenseSearcher.Args args = new HnswDenseSearcher.Args();
     args.index = indexDir;
-    args.efSearch = efSearch != null ? efSearch : DEFAULT_EF_SEARCH;
+    args.efSearch = efSearch;
     args.queryGenerator = queryGenerator != null ? queryGenerator : DEFAULT_QUERY_GENERATOR;
     
     // Attempt to get encoder from IndexInfo, or use provided encoder
@@ -151,25 +151,24 @@ public class SearchService {
 
   public Map<String, Object> getDocument(String docid) {
     try {
-      if (!isHnswIndex) {
-        SimpleSearcher searcher = new SimpleSearcher(indexDir);
-        String raw = searcher.doc(docid).get(Constants.RAW);
-        Map<String, Object> candidate = new LinkedHashMap<>();
-        if (raw != null) {
-          JsonNode rootNode = mapper.readTree(raw);
-          Map<String, Object> content = mapper.convertValue(rootNode, Map.class);
-          content.remove("docid");
-          content.remove("id");
-          content.remove("_id");
-          candidate.put("doc", content);
-        } else {
-          candidate.put("doc", null);
-        }
-        searcher.close();
-        return candidate;
-      } else {
+      if (isHnswIndex) {
         return getHnswDocument(docid);
       }
+      SimpleSearcher searcher = new SimpleSearcher(indexDir);
+      String raw = searcher.doc(docid).get(Constants.RAW);
+      Map<String, Object> candidate = new LinkedHashMap<>();
+      if (raw != null) {
+        JsonNode rootNode = mapper.readTree(raw);
+        Map<String, Object> content = mapper.convertValue(rootNode, Map.class);
+        content.remove("docid");
+        content.remove("id");
+        content.remove("_id");
+        candidate.put("doc", content);
+      } else {
+        candidate.put("doc", null);
+      }
+      searcher.close();
+      return candidate;
     } catch (Exception e) {
       e.printStackTrace();
       return Map.of();
@@ -178,7 +177,7 @@ public class SearchService {
 
   private Map<String, Object> getHnswDocument(String docid) {
     try {
-      HnswDenseSearcher searcher = new HnswDenseSearcher(createHnswArgs(null, null, null));
+      HnswDenseSearcher searcher = new HnswDenseSearcher(createHnswArgs(DEFAULT_EF_SEARCH, null, null));
       String raw = searcher.search(docid, 1)[0].lucene_document.get(Constants.RAW);
       Map<String, Object> candidate = new LinkedHashMap<>();
       if (raw != null) {
