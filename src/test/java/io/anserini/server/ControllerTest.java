@@ -33,7 +33,7 @@ public class ControllerTest {
   public void testSearch() throws Exception {
     ControllerV1_0 controller = new ControllerV1_0();
 
-    Map<String, Object> results = controller.searchIndex(null, "Albert Einstein", 10, "");
+    Map<String, Object> results = controller.searchIndex(null, "Albert Einstein", 10, "", null, null, null);
     assertNotNull(results);
     assertTrue(results.get("candidates") instanceof List);
 
@@ -48,7 +48,7 @@ public class ControllerTest {
     ControllerV1_0 controller = new ControllerV1_0();
 
     assertThrows(RuntimeException.class, () -> {
-      Map<String, Object> results = controller.searchIndex("nonexistent-index", "Albert Einstein", 10, "");
+      Map<String, Object> results = controller.searchIndex("nonexistent-index", "Albert Einstein", 10, "", null, null, null);
     });
   }
 

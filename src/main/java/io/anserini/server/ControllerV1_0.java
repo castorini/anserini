@@ -39,7 +39,10 @@ public class ControllerV1_0 {
   public Map<String, Object> searchIndex(@PathVariable(value = "index", required = false) String index,
       @RequestParam("query") String query,
       @RequestParam(value = "hits", defaultValue = "10") int hits,
-      @RequestParam(value = "qid", defaultValue = "") String qid) {
+      @RequestParam(value = "qid", defaultValue = "") String qid,
+      @RequestParam(value = "efSearch", required = false) Integer efSearch,
+      @RequestParam(value = "encoder", required = false) String encoder,
+      @RequestParam(value = "queryGenerator", required = false) String queryGenerator) {
 
     if (index == null) {
       index = DEFAULT_INDEX;
@@ -50,7 +53,7 @@ public class ControllerV1_0 {
     }
 
     SearchService searchService = new SearchService(index);
-    List<Map<String, Object>> candidates = searchService.search(query, hits);
+    List<Map<String, Object>> candidates = searchService.search(query, hits, efSearch, encoder, queryGenerator);
 
     Map<String, Object> queryMap = new LinkedHashMap<>();
     queryMap.put("query", new LinkedHashMap<>(Map.of("qid", qid, "text", query)));
