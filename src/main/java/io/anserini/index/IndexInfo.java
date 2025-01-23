@@ -25,7 +25,14 @@ public enum IndexInfo {
       "BM25",
       new String[] {
           "https://github.com/castorini/anserini-data/raw/master/CACM/lucene-index.cacm.20221005.252b5e.tar.gz" },
+<<<<<<< Updated upstream
       "cfe14d543c6a27f4d742fb2d0099b8e0"),
+=======
+      "cfe14d543c6a27f4d742fb2d0099b8e0",
+      IndexType.bm25,
+      "",
+      ""),
+>>>>>>> Stashed changes
 
   // MS MARCO V1
   MSMARCO_V1_PASSAGE("msmarco-v1-passage",
@@ -36,7 +43,10 @@ public enum IndexInfo {
       "BM25",
       new String[] {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v1-passage.20221004.252b5e.tar.gz" },
-      "678876e8c99a89933d553609a0fd8793"),
+      "678876e8c99a89933d553609a0fd8793",
+      IndexType.bm25,
+      "",
+      ""),
 
   MSMARCO_V1_PASSAGE_SPLADE_PP_ED("msmarco-v1-passage.splade-pp-ed",
       "Lucene impact index of the MS MARCO V1 passage corpus encoded by SPLADE++ CoCondenser-EnsembleDistil.",
@@ -46,7 +56,10 @@ public enum IndexInfo {
       "SPLADE++ EnsembleDistil",
       new String[] {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v1-passage.splade-pp-ed.20230524.a59610.tar.gz" },
-      "2c008fc36131e27966a72292932358e6"),
+      "2c008fc36131e27966a72292932358e6",
+      IndexType.flat,
+      "SpladePpEd",
+      "VectorQueryGenerator"),
 
   MSMARCO_V1_PASSAGE_COS_DPR_DISTIL_HNSW("msmarco-v1-passage.cosdpr-distil.hnsw",
       "Lucene HNSW index of the MS MARCO V1 passage corpus encoded by cos-DPR Distil.",
@@ -56,7 +69,14 @@ public enum IndexInfo {
       "cosDPR-distil w/ HNSW fp32",
       new String[] {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw.msmarco-v1-passage.cosdpr-distil.20240108.825148.tar.gz" },
+<<<<<<< Updated upstream
       "df4c60fa1f3804fa409499824d12d035"),
+=======
+      "df4c60fa1f3804fa409499824d12d035",
+      IndexType.hnsw,
+      "CosDprDistil",
+      "VectorQueryGenerator"),
+>>>>>>> Stashed changes
 
   MSMARCO_V1_PASSAGE_COS_DPR_DISTIL_HNSW_INT8("msmarco-v1-passage.cosdpr-distil.hnsw-int8",
       "Lucene quantized (int8) HNSW index of the MS MARCO V1 passage corpus encoded by cos-DPR Distil.",
@@ -66,7 +86,10 @@ public enum IndexInfo {
       "cosDPR-distil w/ HNSW int8",
       new String[] {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v1-passage.cosdpr-distil.20240108.825148.tar.gz" },
-      "119124ad358bb81e6a203b04d1b99a9c"),
+      "119124ad358bb81e6a203b04d1b99a9c",
+      IndexType.hnsw,
+      "CosDprDistil",
+      "VectorQueryGenerator"),
 
   MSMARCO_V1_PASSAGE_BGE_BASE_EN_15_HNSW("msmarco-v1-passage.bge-base-en-v1.5.hnsw",
       "Lucene HNSW index of the MS MARCO V1 passage corpus encoded by BGE-base-en-v1.5.",
@@ -76,7 +99,10 @@ public enum IndexInfo {
       "bge-base-en-v1.5 w/ HNSW fp32",
       new String[] {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw.msmarco-v1-passage.bge-base-en-v1.5.20240117.53514b.tar.gz" },
-      "00a577f689d90f95e6c5611438b0af3d"),
+      "00a577f689d90f95e6c5611438b0af3d",
+      IndexType.hnsw,
+      "BgeBaseEn15",
+      "VectorQueryGenerator"),
 
   MSMARCO_V1_PASSAGE_BGE_BASE_EN_15_HNSW_INT8("msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8",
       "Lucene quantized (int8) HNSW index of the MS MARCO V1 passage corpus encoded by BGE-base-en-v1.5.",
@@ -86,7 +112,10 @@ public enum IndexInfo {
       "bge-base-en-v1.5 w/ HNSW int8",
       new String[] {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v1-passage.bge-base-en-v1.5.20240117.53514b.tar.gz" },
-      "7830712459cf124c96fd058bb0a405b7"),
+      "7830712459cf124c96fd058bb0a405b7",
+      IndexType.hnsw,
+      "BgeBaseEn15",
+      "VectorQueryGenerator"),
 
   MSMARCO_V1_PASSAGE_COHERE_EMBED_ENGLISH_30_HNSW("msmarco-v1-passage.cohere-embed-english-v3.0.hnsw",
       "Lucene HNSW index of the MS MARCO V1 passage corpus encoded by Cohere embed-english-v3.0.",
@@ -96,7 +125,10 @@ public enum IndexInfo {
       "cohere-embed-english-v3.0 w/ HNSW fp32",
       new String[] {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw.msmarco-v1-passage.cohere-embed-english-v3.0.20240228.eacd13.tar.gz" },
-      "c7294ca988ae1b812d427362ffca1ee2"),
+      "c7294ca988ae1b812d427362ffca1ee2",
+      IndexType.hnsw,
+      "CohereEmbedEnglish30",
+      "VectorQueryGenerator"),
 
   MSMARCO_V1_PASSAGE_COHERE_EMBED_ENGLISH_30_HNSW_INT8("msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8",
       "Lucene quantized (int8) HNSW index of the MS MARCO V1 passage corpus encoded by Cohere embed-english-v3.0.",
@@ -106,7 +138,10 @@ public enum IndexInfo {
       "cohere-embed-english-v3.0 w/ HNSW fp32",
       new String[] {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v1-passage.cohere-embed-english-v3.0.20240228.eacd13.tar.gz" },
-      "dbaca578cc8495f504cdd0a7187f4c36"),
+      "dbaca578cc8495f504cdd0a7187f4c36",
+      IndexType.hnsw,
+      "CohereEmbedEnglish30",
+      "VectorQueryGenerator"),
 
   // MS MARCO V2
   MSMARCO_V2_PASSAGE("msmarco-v2-passage",
@@ -117,7 +152,10 @@ public enum IndexInfo {
       "BM25",
       new String[] {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-index.msmarco-v2-passage.20220808.4d6d2a.tar.gz" },
-      "eacd8556dd416ccad517b5e7dc97bceb"),
+      "eacd8556dd416ccad517b5e7dc97bceb",
+      IndexType.bm25,
+      "",
+      ""),
 
   MSMARCO_V2_DOC("msmarco-v2-doc",
       "Lucene index of the MS MARCO V2 document corpus.",
@@ -127,7 +165,10 @@ public enum IndexInfo {
       "BM25",
       new String[] {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-index.msmarco-v2-doc.20220808.4d6d2a.tar.gz" },
-      "0599bd6ed5ee28390b279eb398ef0267"),
+      "0599bd6ed5ee28390b279eb398ef0267",
+      IndexType.flat,
+      "",
+      ""),
 
   MSMARCO_V2_DOC_SEGMENTED("msmarco-v2-doc-segmented",
       "Lucene index of the MS MARCO V2 segmented document corpus.",
@@ -137,7 +178,10 @@ public enum IndexInfo {
       "BM25",
       new String[] {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-index.msmarco-v2-doc-segmented.20220808.4d6d2a.tar.gz" },
-      "8a5f444fa5a63cc5d4ddc3e6dd15faa0"),
+      "8a5f444fa5a63cc5d4ddc3e6dd15faa0",
+      IndexType.bm25,
+      "",
+      ""),
 
   MSMARCO_V21_DOC("msmarco-v2.1-doc",
       "Lucene index of the MS MARCO V2.1 document corpus.",
@@ -147,7 +191,10 @@ public enum IndexInfo {
       "BM25",
       new String[] {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2.1-doc.20240418.4f9675.tar.gz" },
-      "cecd55856c34afa82f1a499705c9df02"),
+      "cecd55856c34afa82f1a499705c9df02",
+      IndexType.bm25,
+      "",
+      ""),
 
   MSMARCO_V21_DOC_SEGMENTED("msmarco-v2.1-doc-segmented",
       "Lucene index of the MS MARCO V2.1 segmented document corpus.",
@@ -157,7 +204,10 @@ public enum IndexInfo {
       "BM25",
       new String[] {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2.1-doc-segmented.20240418.4f9675.tar.gz" },
-      "6ec4cd595c9fe1ad91b43eabb39a637c"),
+      "6ec4cd595c9fe1ad91b43eabb39a637c",
+      IndexType.bm25,
+      "",
+      ""),
 
   MSMARCO_V21_DOC_SEGMENTED_SHARD00_ARCTIC_EMBED_L_HNSW_INT8("msmarco-v2.1-doc-segmented-shard00.arctic-embed-l.hnsw-int8",
       "Lucene quantized (int8) HNSW index of the MS MARCO V2.1 segmented document corpus (shard00) encoded by Snowflake's arctic-embed-l model.",
@@ -167,7 +217,10 @@ public enum IndexInfo {
       "Snowflake's arctic-embed-l w/ HNSW int8",
       new String[] {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard00.arctic-embed-l.20250114.4884f5.tar.gz" },
-      "aab3f8e9aa0563bd0f875584784a0845"),
+      "aab3f8e9aa0563bd0f875584784a0845",
+      IndexType.hnsw,
+      "ArcticEmbedL",
+      "VectorQueryGenerator"),
 
   MSMARCO_V21_DOC_SEGMENTED_SHARD01_ARCTIC_EMBED_L_HNSW_INT8("msmarco-v2.1-doc-segmented-shard01.arctic-embed-l.hnsw-int8",
       "Lucene quantized (int8) HNSW index of the MS MARCO V2.1 segmented document corpus (shard01) encoded by Snowflake's arctic-embed-l model.",
@@ -177,7 +230,10 @@ public enum IndexInfo {
       "Snowflake's arctic-embed-l w/ HNSW int8",
       new String[] {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard01.arctic-embed-l.20250114.4884f5.tar.gz" },
-      "34ea30fe72c2bc1795ae83e71b191547"),
+      "34ea30fe72c2bc1795ae83e71b191547",
+      IndexType.hnsw,
+      "ArcticEmbedL",
+      "VectorQueryGenerator"),
 
   MSMARCO_V21_DOC_SEGMENTED_SHARD02_ARCTIC_EMBED_L_HNSW_INT8("msmarco-v2.1-doc-segmented-shard02.arctic-embed-l.hnsw-int8",
       "Lucene quantized (int8) HNSW index of the MS MARCO V2.1 segmented document corpus (shard02) encoded by Snowflake's arctic-embed-l model.",
@@ -187,7 +243,10 @@ public enum IndexInfo {
       "Snowflake's arctic-embed-l w/ HNSW int8",
       new String[] {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard02.arctic-embed-l.20250114.4884f5.tar.gz" },
-      "b6271d6db65119977491675f74f466d5"),
+      "b6271d6db65119977491675f74f466d5",
+      IndexType.hnsw,
+      "ArcticEmbedL",
+      "VectorQueryGenerator"),
 
   MSMARCO_V21_DOC_SEGMENTED_SHARD03_ARCTIC_EMBED_L_HNSW_INT8("msmarco-v2.1-doc-segmented-shard03.arctic-embed-l.hnsw-int8",
       "Lucene quantized (int8) HNSW index of the MS MARCO V2.1 segmented document corpus (shard03) encoded by Snowflake's arctic-embed-l model.",
@@ -197,7 +256,10 @@ public enum IndexInfo {
       "Snowflake's arctic-embed-l w/ HNSW int8",
       new String[] {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard03.arctic-embed-l.20250114.4884f5.tar.gz" },
-      "a9cd644eb6037f67d2e9c06a8f60928d"),
+      "a9cd644eb6037f67d2e9c06a8f60928d",
+      IndexType.hnsw,
+      "ArcticEmbedL",
+      "VectorQueryGenerator"),
 
   MSMARCO_V21_DOC_SEGMENTED_SHARD04_ARCTIC_EMBED_L_HNSW_INT8("msmarco-v2.1-doc-segmented-shard04.arctic-embed-l.hnsw-int8",
       "Lucene quantized (int8) HNSW index of the MS MARCO V2.1 segmented document corpus (shard04) encoded by Snowflake's arctic-embed-l model.",
@@ -207,7 +269,10 @@ public enum IndexInfo {
       "Snowflake's arctic-embed-l w/ HNSW int8",
       new String[] {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard04.arctic-embed-l.20250114.4884f5.tar.gz" },
-      "07b7e451e0525d01c1f1f2b1c42b1bd5"),
+      "07b7e451e0525d01c1f1f2b1c42b1bd5",
+      IndexType.hnsw,
+      "ArcticEmbedL",
+      "VectorQueryGenerator"),
 
   MSMARCO_V21_DOC_SEGMENTED_SHARD05_ARCTIC_EMBED_L_HNSW_INT8("msmarco-v2.1-doc-segmented-shard05.arctic-embed-l.hnsw-int8",
       "Lucene quantized (int8) HNSW index of the MS MARCO V2.1 segmented document corpus (shard05) encoded by Snowflake's arctic-embed-l model.",
@@ -217,7 +282,10 @@ public enum IndexInfo {
       "Snowflake's arctic-embed-l w/ HNSW int8",
       new String[] {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard05.arctic-embed-l.20250114.4884f5.tar.gz" },
-      "2573dce175788981be2f266ebb33c96d"),
+      "2573dce175788981be2f266ebb33c96d",
+      IndexType.hnsw,
+      "ArcticEmbedL",
+      "VectorQueryGenerator"),
 
   MSMARCO_V21_DOC_SEGMENTED_SHARD06_ARCTIC_EMBED_L_HNSW_INT8("msmarco-v2.1-doc-segmented-shard06.arctic-embed-l.hnsw-int8",
       "Lucene quantized (int8) HNSW index of the MS MARCO V2.1 segmented document corpus (shard06) encoded by Snowflake's arctic-embed-l model.",
@@ -227,7 +295,10 @@ public enum IndexInfo {
       "Snowflake's arctic-embed-l w/ HNSW int8",
       new String[] {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard06.arctic-embed-l.20250114.4884f5.tar.gz" },
-      "a644aea445a8b78cc9e99d2ce111ff11"),
+      "a644aea445a8b78cc9e99d2ce111ff11",
+      IndexType.hnsw,
+      "ArcticEmbedL",
+      "VectorQueryGenerator"),
 
   MSMARCO_V21_DOC_SEGMENTED_SHARD07_ARCTIC_EMBED_L_HNSW_INT8("msmarco-v2.1-doc-segmented-shard07.arctic-embed-l.hnsw-int8",
       "Lucene quantized (int8) HNSW index of the MS MARCO V2.1 segmented document corpus (shard07) encoded by Snowflake's arctic-embed-l model.",
@@ -237,7 +308,10 @@ public enum IndexInfo {
       "Snowflake's arctic-embed-l w/ HNSW int8",
       new String[] {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard07.arctic-embed-l.20250114.4884f5.tar.gz" },
-      "402d37deccb44b5fc105049889e8aaea"),
+      "402d37deccb44b5fc105049889e8aaea",
+      IndexType.hnsw,
+      "ArcticEmbedL",
+      "VectorQueryGenerator"),
 
   MSMARCO_V21_DOC_SEGMENTED_SHARD08_ARCTIC_EMBED_L_HNSW_INT8("msmarco-v2.1-doc-segmented-shard08.arctic-embed-l.hnsw-int8",
       "Lucene quantized (int8) HNSW index of the MS MARCO V2.1 segmented document corpus (shard08) encoded by Snowflake's arctic-embed-l model.",
@@ -247,7 +321,10 @@ public enum IndexInfo {
       "Snowflake's arctic-embed-l w/ HNSW int8",
       new String[] {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard08.arctic-embed-l.20250114.4884f5.tar.gz" },
-      "89ebcd027f7297b26a1edc8ae5726527"),
+      "89ebcd027f7297b26a1edc8ae5726527",
+      IndexType.hnsw,
+      "ArcticEmbedL",
+      "VectorQueryGenerator"),
 
   MSMARCO_V21_DOC_SEGMENTED_SHARD09_ARCTIC_EMBED_L_HNSW_INT8("msmarco-v2.1-doc-segmented-shard09.arctic-embed-l.hnsw-int8",
       "Lucene quantized (int8) HNSW index of the MS MARCO V2.1 segmented document corpus (shard09) encoded by Snowflake's arctic-embed-l model.",
@@ -257,7 +334,10 @@ public enum IndexInfo {
       "Snowflake's arctic-embed-l w/ HNSW int8",
       new String[] {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard09.arctic-embed-l.20250114.4884f5.tar.gz" },
-      "5e580bb7eb9ee2bb6bfa492b3430c17d"),
+      "5e580bb7eb9ee2bb6bfa492b3430c17d",
+      IndexType.hnsw,
+      "ArcticEmbedL",
+      "VectorQueryGenerator"),
 
   // BEIR: flat
   BEIR_V1_0_0_TREC_COVID_FLAT("beir-v1.0.0-trec-covid.flat",
@@ -267,7 +347,9 @@ public enum IndexInfo {
       "BEIR: trec-covid",
       "BM25 'flat'",
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.beir-v1.0.0-trec-covid.flat.20221116.505594.tar.gz" },
-      "1aaf107b0787aa349deac92cb67d4230"),
+      "1aaf107b0787aa349deac92cb67d4230",
+      IndexType.flat,
+
 
   BEIR_V1_0_0_BIOASQ_FLAT("beir-v1.0.0-bioasq.flat",
       "Lucene inverted 'flat' index of BEIR collection 'bioasq'.",
@@ -1567,7 +1649,7 @@ public enum IndexInfo {
       "BEIR: scifact",
       "bge-base-en-v1.5",
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-scifact.bge-base-en-v1.5.20240618.6cf601.tar.gz" },
-      "556abd7e9fcffbf06057ce3111cf4cc5");
+      "556abd7e9fcffbf06057ce3111cf4cc5",);
 
   public final String indexName;
   public final String description;
@@ -1577,9 +1659,17 @@ public enum IndexInfo {
   public final String model;
   public final String[] urls;
   public final String md5;
+  public final IndexType indexType;
+  public enum IndexType {
+    flat,
+    hnsw,
+    bm25
+  }
+  public final String encoder;
+  public final String queryGenerator;
 
   IndexInfo(String indexName, String description, String filename, String readme, String corpus, String model,
-            String[] urls, String md5) {
+            String[] urls, String md5, IndexType indexType, String encoder, String queryGenerator) {
     this.indexName = indexName;
     this.description = description;
     this.filename = filename;
@@ -1588,6 +1678,9 @@ public enum IndexInfo {
     this.model = model;
     this.urls = urls;
     this.md5 = md5;
+    this.indexType = indexType;
+    this.encoder = encoder;
+    this.queryGenerator = queryGenerator;
   }
 
   public static boolean contains(String indexName) {
@@ -1608,4 +1701,15 @@ public enum IndexInfo {
     throw new IllegalArgumentException("Index name " + indexName + " not found!");
   }
 
+  public String getDefaultEncoder() {
+    return encoder;
+  }
+
+  public String getDefaultQueryGenerator() {
+    return queryGenerator;
+  }
+
+  public static final int DEFAULT_EF_SEARCH = 100;
+  public static final String DEFAULT_QUERY_GENERATOR = "VectorQueryGenerator";
+  public static final String DEFAULT_ENCODER = "BgeBaseEn15";
 }

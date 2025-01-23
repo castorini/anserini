@@ -22,6 +22,8 @@ import io.anserini.util.PrebuiltIndexHandler;
 import java.util.List;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -44,28 +46,26 @@ public class ControllerV1_0 {
 
   private static final String DEFAULT_INDEX = "msmarco-v1-passage";
 
-  @RequestMapping(method = RequestMethod.GET, path = {"/indexes/{index}/search", "/search"})
-  public Map<String, Object> searchIndex(@PathVariable(value = "index", required = false) String index,
+  private final Map<String, SearchService> services = new ConcurrentHashMap<>();
+
+  private SearchService getOrCreateSearchService(String index) {
+    return services.computeIfAbsent(index, k -> new SearchService(k));
+  }
+
+  @RequestMapping(method = RequestMethod.GET, path = "/indexes/{index}/search")
+  public Map<String, Object> searchIndex(@PathVariable("index") String index,
       @RequestParam("query") String query,
       @RequestParam(value = "hits", defaultValue = "10") int hits,
       @RequestParam(value = "qid", defaultValue = "") String qid,
-      @RequestParam(value = "efSearch", defaultValue = "100") int efSearch,
+      @RequestParam(value = "efSearch", required = false) Integer efSearch,
       @RequestParam(value = "encoder", required = false) String encoder,
       @RequestParam(value = "queryGenerator", required = false) String queryGenerator) {
-
-    if (index == null) {
-      index = DEFAULT_INDEX;
-    }
 
     if (!IndexInfo.contains(index)) {
       throw new IllegalArgumentException("Index " + index + " not found!");
     }
 
-    if (index.contains(".hnsw") && (encoder == null || queryGenerator == null)) {
-      throw new IllegalArgumentException("HNSW indexes require both 'encoder' and 'queryGenerator' parameters");
-    }
-
-    SearchService searchService = new SearchService(index);
+    SearchService searchService = getOrCreateSearchService(index);
     List<Map<String, Object>> candidates = searchService.search(query, hits, efSearch, encoder, queryGenerator);
 
     Map<String, Object> queryMap = new LinkedHashMap<>();
@@ -86,7 +86,7 @@ public class ControllerV1_0 {
     if (!IndexInfo.contains(index)) {
       throw new IllegalArgumentException("Index name " + index + " not found!");
     }
-    
+
     PrebuiltIndexHandler handler = new PrebuiltIndexHandler(index);
     handler.initialize();
     return Map.of("cached", handler.checkIndexFileExist());
@@ -98,17 +98,90 @@ public class ControllerV1_0 {
     Map<String, Map<String, Object>> indexList = new LinkedHashMap<>();
     for (IndexInfo index : indexes) {
       indexList.put(index.indexName, Map.of(
-        "indexName", index.indexName,
-        "description", index.description,
-        "filename", index.filename,
-        "corpus", index.corpus,
-        "model", index.model,
-        "urls", index.urls,
-        "md5", index.md5,
-        "cached", getIndexStatus(index.indexName).get("cached")
-      ));
+          "indexName", index.indexName,
+          "description", index.description,
+          "filename", index.filename,
+          "corpus", index.corpus,
+          "model", index.model,
+          "urls", index.urls,
+          "md5", index.md5,
+          "cached", getIndexStatus(index.indexName).get("cached")));
     }
     return indexList;
+  }
+
+  @RequestMapping(method = RequestMethod.POST, path = "/indexes/{index}/settings")
+  public Map<String, Object> updateIndexSettings(
+      @PathVariable("index") String index,
+      @RequestParam(value = "efSearch", required = false) String efSearch,
+      @RequestParam(value = "encoder", required = false) String encoder,
+      @RequestParam(value = "queryGenerator", required = false) String queryGenerator) {
+
+    if (!IndexInfo.contains(index)) {
+      throw new IllegalArgumentException("Index " + index + " not found!");
+    }
+
+    SearchService service = getOrCreateSearchService(index);
+    Map<String, String> errors = new HashMap<>();
+
+    // Simple parameter handling
+    if (efSearch != null) {
+      try {
+        service.setEfSearchOverride(efSearch);
+      } catch (IllegalArgumentException e) {
+        errors.put("efSearch", e.getMessage());
+      }
+    }
+
+    if (encoder != null) {
+      try {
+        service.setEncoderOverride(encoder);
+      } catch (IllegalArgumentException e) {
+        errors.put("encoder", e.getMessage());
+      }
+    }
+
+    if (queryGenerator != null) {
+      try {
+        service.setQueryGeneratorOverride(queryGenerator);
+      } catch (IllegalArgumentException e) {
+        errors.put("queryGenerator", e.getMessage());
+      }
+    }
+
+    if (!errors.isEmpty()) {
+      return Map.of("status", "error", "errors", errors);
+    }
+    return Map.of("status", "success");
+  }
+
+  @RequestMapping(method = RequestMethod.GET, path = "/indexes/{index}/settings")
+  public Map<String, Object> getIndexSettings(@PathVariable("index") String index) {
+    if (!IndexInfo.contains(index)) {
+      throw new IllegalArgumentException("Index " + index + " not found!");
+    }
+
+    SearchService service = getOrCreateSearchService(index);
+
+    // Simple direct mapping of current values
+    Map<String, Object> settings = new HashMap<>();
+
+    Integer efSearch = service.getEfSearchOverride();
+    if (efSearch != null) {
+      settings.put("efSearch", efSearch);
+    }
+
+    String encoder = service.getEncoderOverride();
+    if (encoder != null) {
+      settings.put("encoder", encoder);
+    }
+
+    String queryGenerator = service.getQueryGeneratorOverride();
+    if (queryGenerator != null) {
+      settings.put("queryGenerator", queryGenerator);
+    }
+
+    return settings;
   }
 
 }
