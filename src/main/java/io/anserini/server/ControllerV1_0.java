@@ -28,10 +28,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @RestController
 @RequestMapping(path = "/api/v1.0")
 public class ControllerV1_0 {
+
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ExceptionHandler(IllegalArgumentException.class)
+  public Map<String, String> handleIllegalArgumentException(IllegalArgumentException ex) {
+    return Map.of("error", ex.getMessage());
+  }
 
   private static final String DEFAULT_INDEX = "msmarco-v1-passage";
 
@@ -41,8 +50,8 @@ public class ControllerV1_0 {
       @RequestParam(value = "hits", defaultValue = "10") int hits,
       @RequestParam(value = "qid", defaultValue = "") String qid,
       @RequestParam(value = "efSearch", defaultValue = "100") int efSearch,
-      @RequestParam(value = "encoder", required = false) String encoder,
-      @RequestParam(value = "queryGenerator", required = false) String queryGenerator) {
+      @RequestParam(value = "encoder", required = true) String encoder,
+      @RequestParam(value = "queryGenerator", required = true) String queryGenerator) {
 
     if (index == null) {
       index = DEFAULT_INDEX;
@@ -50,6 +59,12 @@ public class ControllerV1_0 {
 
     if (!IndexInfo.contains(index)) {
       throw new IllegalArgumentException("Index " + index + " not found!");
+    }
+
+    if (index.contains(".hnsw")) {
+      if (encoder == null || queryGenerator == null) {
+        throw new IllegalArgumentException("HNSW indexes require both 'encoder' and 'queryGenerator' parameters");
+      }
     }
 
     SearchService searchService = new SearchService(index);

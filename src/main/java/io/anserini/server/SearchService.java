@@ -84,7 +84,7 @@ public class SearchService {
         searcher.close();
         return candidates;
       } else {
-        return searchHnsw(query, hits, 0, null, null);
+        return searchHnsw(query, hits, DEFAULT_EF_SEARCH, null, null);
       }
     } catch (Exception e) {
       e.printStackTrace();
