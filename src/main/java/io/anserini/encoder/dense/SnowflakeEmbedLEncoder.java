@@ -29,14 +29,14 @@
  import ai.onnxruntime.OrtSession;
 
 public class SnowflakeEmbedLEncoder extends DenseEncoder {
-  //TODO: These URLs are not correct because they live on the SSH Orca machine- Temporary fix
-    static private final String MODEL_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/snowflake-embed-l-optimized.onnx";
+  //TODO: These URLs are not correct because they live on the SSH Orca machine- Temporary placeholder
+    static private final String MODEL_URL = "";
 
-  static private final String VOCAB_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/snowflake-embed-l-vocab.txt";
+  static private final String VOCAB_URL = "";
 
-  static private final String MODEL_NAME = "snowflake-embed-l-optimized.onnx";
+  static private final String MODEL_NAME = "";
 
-  static private final String VOCAB_NAME = "snowflake-embed-l-vocab.txt";
+  static private final String VOCAB_NAME = "";
 
   static private final String INSTRUCTION = "Represent this sentence for searching relevant passages: ";
 
@@ -51,19 +51,29 @@ public class SnowflakeEmbedLEncoder extends DenseEncoder {
     // Keep basic tokenization for now since we know we need tokens (SPLADE does this)
     List<String> queryTokens = new ArrayList<>();
     queryTokens.add("[CLS]");
-    queryTokens.addAll(this.tokenizer.tokenize(INSTRUCTION + query));  // INSTRUCTION needs verification
+    queryTokens.addAll(this.tokenizer.tokenize(INSTRUCTION + query));
     queryTokens.add("[SEP]");
     
     Map<String, OnnxTensor> inputs = new HashMap<>();
     long[] queryTokenIds = convertTokensToIds(this.tokenizer, queryTokens, this.vocab, MAX_SEQ_LEN);
+    long[][] inputTokenIds = new long[1][queryTokenIds.length];
+    inputTokenIds[0] = queryTokenIds;
     
-    // TODO: Verify exact input names and formats required by Arctic model
-    // TODO: Verify exact output names and how to process them
-    // TODO: Add proper error handling like SPLADE
+    long[][] attentionMask = new long[1][queryTokenIds.length];
+    Arrays.fill(attentionMask[0], 1);
+    
+    long[][] tokenTypeIds = new long[1][queryTokenIds.length];
+    
+    inputs.put("input_ids", OnnxTensor.createTensor(environment, inputTokenIds));
+    inputs.put("attention_mask", OnnxTensor.createTensor(environment, attentionMask));
+    inputs.put("token_type_ids", OnnxTensor.createTensor(environment, tokenTypeIds));
     
     float[] weights = null;
     try (OrtSession.Result results = this.session.run(inputs)) {
-        // TODO: Replace with actual output handling once we know the names/format
+        weights = ((float[][][]) results.get("last_hidden_state").get().getValue())[0][0];
+        weights = normalize(weights);
+    } catch (OrtException e) {
+        e.printStackTrace();
     }
     return weights;
   }
