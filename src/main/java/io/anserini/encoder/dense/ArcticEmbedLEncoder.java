@@ -28,7 +28,7 @@
  import ai.onnxruntime.OrtException;
  import ai.onnxruntime.OrtSession;
 
-public class SnowflakeEmbedLEncoder extends DenseEncoder {
+public class ArcticEmbedLEncoder extends DenseEncoder {
   //TODO: These URLs are not correct because they live on the SSH Orca machine- Temporary placeholder
     static private final String MODEL_URL = "";
 
@@ -42,7 +42,7 @@ public class SnowflakeEmbedLEncoder extends DenseEncoder {
 
   static private final int MAX_SEQ_LEN = 512;
 
-  public SnowflakeEmbedLEncoder() throws IOException, OrtException, URISyntaxException {
+  public ArcticEmbedLEncoder() throws IOException, OrtException, URISyntaxException {
     super(MODEL_NAME, MODEL_URL, VOCAB_NAME, VOCAB_URL);
   }
 
