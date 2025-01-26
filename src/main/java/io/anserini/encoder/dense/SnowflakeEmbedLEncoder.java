@@ -61,12 +61,9 @@ public class SnowflakeEmbedLEncoder extends DenseEncoder {
     
     long[][] attentionMask = new long[1][queryTokenIds.length];
     Arrays.fill(attentionMask[0], 1);
-    
-    long[][] tokenTypeIds = new long[1][queryTokenIds.length];
-    
+        
     inputs.put("input_ids", OnnxTensor.createTensor(environment, inputTokenIds));
     inputs.put("attention_mask", OnnxTensor.createTensor(environment, attentionMask));
-    inputs.put("token_type_ids", OnnxTensor.createTensor(environment, tokenTypeIds));
     
     float[] weights = null;
     try (OrtSession.Result results = this.session.run(inputs)) {
