@@ -29,8 +29,7 @@
  import ai.onnxruntime.OrtSession;
 
 public class ArcticEmbedLEncoder extends DenseEncoder {
-  //TODO: These URLs are not correct because they live on the SSH Orca machine- Temporary placeholder
-    static private final String MODEL_URL = "";
+  static private final String MODEL_URL = "";
 
   static private final String VOCAB_URL = "";
 
