@@ -99,15 +99,22 @@ public class SearchService {
         return candidates;
       } else {
         // HNSW search - only return docids and scores
+        IndexInfo indexInfo = IndexInfo.get(prebuiltIndex);
         HnswDenseSearcher.Args args = new HnswDenseSearcher.Args();
         args.index = indexDir;
 
-        args.efSearch = efSearch != null ? efSearch: getEfSearchOverride() != null ? getEfSearchOverride() : IndexInfo.DEFAULT_EF_SEARCH;
+        // Parameter precedence: explicit param > override > index default
+        args.efSearch = efSearch != null ? efSearch 
+            : getEfSearchOverride() != null ? getEfSearchOverride() 
+            : indexInfo.DEFAULT_EF_SEARCH;
 
-        IndexInfo indexInfo = IndexInfo.get(prebuiltIndex);
-        args.encoder = encoder != null ? encoder: getEncoderOverride() != null ? getEncoderOverride(): indexInfo.getDefaultEncoder();
+        args.encoder = encoder != null ? encoder 
+            : getEncoderOverride() != null ? getEncoderOverride() 
+            : indexInfo.getDefaultEncoder();
 
-        args.queryGenerator = queryGenerator != null ? queryGenerator: getQueryGeneratorOverride() != null ? getQueryGeneratorOverride(): indexInfo.getDefaultQueryGenerator();
+        args.queryGenerator = queryGenerator != null ? queryGenerator 
+            : getQueryGeneratorOverride() != null ? getQueryGeneratorOverride() 
+            : indexInfo.getDefaultQueryGenerator();
 
         System.out.println("=== HNSW Args ===");
         System.out.println("Index: " + args.index);
