@@ -93,12 +93,12 @@ public class SearchService {
         args.efSearch = efSearch != null ? efSearch
             : getEfSearchOverride() != null ? getEfSearchOverride()
                 : IndexInfo.DEFAULT_EF_SEARCH;
-        args.encoder = encoder != null ? encoder
-            : getEncoderOverride() != null ? getEncoderOverride()
-                : indexInfo.encoder;
-        args.queryGenerator = queryGenerator != null ? queryGenerator
-            : getQueryGeneratorOverride() != null ? getQueryGeneratorOverride()
-                : indexInfo.queryGenerator;
+        args.encoder = encoder != null ? encoder.replace(".class", "")
+            : getEncoderOverride() != null ? getEncoderOverride().replace(".class", "")
+            : indexInfo.encoder != null ? indexInfo.encoder.replace(".class", "") : null;
+        args.queryGenerator = queryGenerator != null ? queryGenerator.replace(".class", "")
+            : getQueryGeneratorOverride() != null ? getQueryGeneratorOverride().replace(".class", "")
+            : indexInfo.queryGenerator.replace(".class", "");
         try (HnswDenseSearcher<Float> searcher = new HnswDenseSearcher<Float>(args)) {
           ScoredDoc[] results = searcher.search(query, hits);
           List<Map<String, Object>> candidates = new ArrayList<>();
@@ -167,7 +167,7 @@ public class SearchService {
     if (!value.equals(indexInfo.encoder)) {
       throw new IllegalArgumentException("Unsupported encoder: " + value + " for index " + prebuiltIndex);
     }
-    indexOverrides.put("encoder", value);
+    indexOverrides.put("encoder", value.replace(".class", ""));
   }
 
   public void setQueryGeneratorOverride(String value) {
@@ -178,7 +178,7 @@ public class SearchService {
     if (!value.equals(indexInfo.queryGenerator)) {
       throw new IllegalArgumentException("Unsupported queryGenerator: " + value + " for index " + prebuiltIndex);
     }
-    indexOverrides.put("queryGenerator", value);
+    indexOverrides.put("queryGenerator", value.replace(".class", ""));
   }
 
   private void validateSearchParameters(String query, int hits) {

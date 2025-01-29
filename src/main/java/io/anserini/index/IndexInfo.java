@@ -126,7 +126,7 @@ public enum IndexInfo {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw.msmarco-v1-passage.cohere-embed-english-v3.0.20240228.eacd13.tar.gz" },
       "c7294ca988ae1b812d427362ffca1ee2",
       IndexType.DENSE_HNSW,
-      "CohereEmbedEnglishV30",
+      null,
       "VectorQueryGenerator.class",
       "msmarco-v1-passage"),
 
@@ -140,7 +140,7 @@ public enum IndexInfo {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v1-passage.cohere-embed-english-v3.0.20240228.eacd13.tar.gz" },
       "dbaca578cc8495f504cdd0a7187f4c36",
       IndexType.DENSE_HNSW,
-      "CohereEmbedEnglishV30",
+      null,
       "VectorQueryGenerator.class",
       "msmarco-v1-passage"),
 
