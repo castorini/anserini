@@ -101,7 +101,7 @@ Replace `-index msmarco-v2.1-doc` with `-index msmarco-v2.1-doc-segemented` if y
 
 Since the TREC 2024 RAG evaluation hasn't happened yet, there are no qrels for evaluation.
 However, we _do_ have results based existing qrels that have been "projected" over from MS MARCO V2.0 passage judgments.
-The table below reports effectiveness (dev in terms of RR@10, DL21-DL23, RAGgy in terms of nDCG@10):
+The table below reports effectiveness (dev in terms of RR@100, DL21-DL23, RAGgy in terms of nDCG@10):
 
 |                                                                            |    dev |   dev2 |   DL21 |   DL22 |   DL23 |  RAGgy |
 |:---------------------------------------------------------------------------|-------:|-------:|-------:|-------:|-------:|-------:|

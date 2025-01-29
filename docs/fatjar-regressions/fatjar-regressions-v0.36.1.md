@@ -46,7 +46,7 @@ Both indexes will be downloaded automatically.
 
 For the TREC 2024 RAG track, we have thus far only implemented BM25 baselines on the MS MARCO V2.1 document corpus (both the doc and doc segmented variants).
 Current results are based existing qrels that have been "projected" over from MS MARCO V2.0 passage judgments.
-The table below reports effectiveness (dev in terms of RR@10, DL21-DL23, RAGgy in terms of nDCG@10):
+The table below reports effectiveness (dev in terms of RR@100, DL21-DL23, RAGgy in terms of nDCG@10):
 
 |                                                                            |    dev |   dev2 |   DL21 |   DL22 |   DL23 |  RAGgy |
 |:---------------------------------------------------------------------------|-------:|-------:|-------:|-------:|-------:|-------:|

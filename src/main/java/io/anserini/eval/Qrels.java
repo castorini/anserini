@@ -207,6 +207,7 @@ public enum Qrels {
     m.put("msmarco-v1-passage-dev", "qrels.msmarco-passage.dev-subset.txt");
     m.put("msmarco-passage.dev", "qrels.msmarco-passage.dev-subset.txt");
     m.put("msmarco-v1-passage.dev", "qrels.msmarco-passage.dev-subset.txt");
+    m.put("rag24.test-umbrela", "qrels.rag24.test-umbrela-all.txt");
 
     return m;
   }

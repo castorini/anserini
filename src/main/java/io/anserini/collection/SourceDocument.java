@@ -50,4 +50,16 @@ public interface SourceDocument {
    * @return <code>true</code> if this document is meant to be indexed
    */
   boolean indexable();
+
+  /**
+   * Optional method to directly access a document's vector representation without string parsing.
+   * Added to avoid the inefficient pattern of converting vectors to/from strings.
+   * Implementations can override this to provide direct vector access.
+   *
+   * @return float array containing the vector representation, or null if not implemented
+   */
+  default float[] vector() {
+    return null;
+  }
 }
+
