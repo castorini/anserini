@@ -52,8 +52,8 @@ public class ControllerV1_0 {
     return services.computeIfAbsent(index, k -> new SearchService(k));
   }
 
-  @RequestMapping(method = RequestMethod.GET, path = "/indexes/{index}/search")
-  public Map<String, Object> searchIndex(@PathVariable("index") String index,
+  @RequestMapping(method = RequestMethod.GET, path = {"/indexes/{index}/search", "/search"})
+  public Map<String, Object> searchIndex(@PathVariable(value = "index", required = false) String index,
       @RequestParam("query") String query,
       @RequestParam(value = "hits", defaultValue = "10") int hits,
       @RequestParam(value = "qid", defaultValue = "") String qid,
@@ -98,14 +98,14 @@ public class ControllerV1_0 {
     Map<String, Map<String, Object>> indexList = new LinkedHashMap<>();
     for (IndexInfo index : indexes) {
       indexList.put(index.indexName, Map.of(
-          "indexName", index.indexName,
-          "description", index.description,
-          "filename", index.filename,
-          "corpus", index.corpus,
-          "model", index.model,
-          "urls", index.urls,
-          "md5", index.md5,
-          "cached", getIndexStatus(index.indexName).get("cached")));
+        "indexName", index.indexName,
+        "description", index.description,
+        "filename", index.filename,
+        "corpus", index.corpus,
+        "model", index.model,
+        "urls", index.urls,
+        "md5", index.md5,
+        "cached", getIndexStatus(index.indexName).get("cached")));
     }
     return indexList;
   }
@@ -122,36 +122,17 @@ public class ControllerV1_0 {
     }
 
     SearchService service = getOrCreateSearchService(index);
-    Map<String, String> errors = new HashMap<>();
 
-    // Simple parameter handling
     if (efSearch != null) {
-      try {
-        service.setEfSearchOverride(efSearch);
-      } catch (IllegalArgumentException e) {
-        errors.put("efSearch", e.getMessage());
-      }
+      service.setEfSearchOverride(efSearch);
     }
-
     if (encoder != null) {
-      try {
-        service.setEncoderOverride(encoder);
-      } catch (IllegalArgumentException e) {
-        errors.put("encoder", e.getMessage());
-      }
+      service.setEncoderOverride(encoder);
     }
-
     if (queryGenerator != null) {
-      try {
-        service.setQueryGeneratorOverride(queryGenerator);
-      } catch (IllegalArgumentException e) {
-        errors.put("queryGenerator", e.getMessage());
-      }
+      service.setQueryGeneratorOverride(queryGenerator);
     }
 
-    if (!errors.isEmpty()) {
-      return Map.of("status", "error", "errors", errors);
-    }
     return Map.of("status", "success");
   }
 

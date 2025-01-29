@@ -31,6 +31,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class SearchService {
@@ -50,7 +52,8 @@ public class SearchService {
     try {
       handler.download();
       indexDir = handler.decompressIndex();
-      isHnswIndex = prebuiltIndex.contains(".hnsw");
+      IndexInfo indexInfo = IndexInfo.get(prebuiltIndex);
+      isHnswIndex = indexInfo.indexType == IndexInfo.IndexType.DENSE_HNSW;
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
@@ -63,17 +66,7 @@ public class SearchService {
   public List<Map<String, Object>> search(String query, int hits,
       Integer efSearch, String encoder, String queryGenerator) {
     try {
-      System.out.println("=== Search Parameters ===");
-      System.out.println("Query: " + query);
-      System.out.println("Hits: " + hits);
-      System.out.println("EF Search: " + efSearch);
-      System.out.println("Encoder: " + encoder);
-      System.out.println("Query Generator: " + queryGenerator);
-      System.out.println("Is HNSW Index: " + isHnswIndex);
-      System.out.println("Index Dir: " + indexDir);
-
       if (!isHnswIndex) {
-        // Regular search with document contents
         SimpleSearcher searcher = new SimpleSearcher(indexDir);
         searcher.set_bm25(k1, b);
         ScoredDoc[] results = searcher.search(query, hits);
@@ -98,50 +91,29 @@ public class SearchService {
         searcher.close();
         return candidates;
       } else {
-        // HNSW search - only return docids and scores
         IndexInfo indexInfo = IndexInfo.get(prebuiltIndex);
         HnswDenseSearcher.Args args = new HnswDenseSearcher.Args();
         args.index = indexDir;
-
-        // Parameter precedence: explicit param > override > index default
         args.efSearch = efSearch != null ? efSearch 
             : getEfSearchOverride() != null ? getEfSearchOverride() 
-            : indexInfo.DEFAULT_EF_SEARCH;
-
+            : IndexInfo.DEFAULT_EF_SEARCH;
         args.encoder = encoder != null ? encoder 
             : getEncoderOverride() != null ? getEncoderOverride() 
-            : indexInfo.getDefaultEncoder();
-
+            : indexInfo.encoder;
         args.queryGenerator = queryGenerator != null ? queryGenerator 
             : getQueryGeneratorOverride() != null ? getQueryGeneratorOverride() 
-            : indexInfo.getDefaultQueryGenerator();
-
-        System.out.println("=== HNSW Args ===");
-        System.out.println("Index: " + args.index);
-        System.out.println("EF Search: " + args.efSearch);
-        System.out.println("Encoder: " + args.encoder);
-        System.out.println("Query Generator: " + args.queryGenerator);
+            : indexInfo.queryGenerator;
 
         HnswDenseSearcher<?> searcher = new HnswDenseSearcher<>(args);
-        System.out.println("Created HNSW searcher");
-
         ScoredDoc[] results = searcher.search(query, hits);
-        System.out.println("Search completed, results: " + (results != null ? results.length : "null"));
-
         List<Map<String, Object>> candidates = new ArrayList<>();
-        if (results != null) {
-          for (ScoredDoc r : results) {
-            candidates.add(Map.of("docid", r.docid,"score", r.score));
-          }
+        for (ScoredDoc r : results) {
+          candidates.add(Map.of("docid", r.docid, "score", r.score));
         }
-
         searcher.close();
         return candidates;
       }
     } catch (Exception e) {
-      System.out.println("=== Search Error ===");
-      System.out.println("Error type: " + e.getClass().getName());
-      System.out.println("Error message: " + e.getMessage());
       e.printStackTrace();
       return List.of();
     }
@@ -174,7 +146,6 @@ public class SearchService {
     }
   }
 
-  // Simple getters with type casting
   public Integer getEfSearchOverride() {
     return (Integer) indexOverrides.get("efSearch");
   }
@@ -187,7 +158,6 @@ public class SearchService {
     return (String) indexOverrides.get("queryGenerator");
   }
 
-  // Simple setters with basic validation
   public void setEfSearchOverride(String value) {
     try {
       int efSearch = Integer.parseInt(value);

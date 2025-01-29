@@ -1020,19 +1020,6 @@ public enum IndexInfo {
       "InvertedDenseVectorQueryGenerator",
       "beir-v1.0.0-cqadupstack-webmasters"),
 
-  BEIR_V1_0_0_CQADUPSTACK_WORDPRESS_MULTIFIELD("beir-v1.0.0-cqadupstack-wordpress.multifield",
-      "Lucene inverted 'multifield' index of BEIR collection 'cqadupstack-wordpress'.",
-      "lucene-inverted.beir-v1.0.0-cqadupstack-wordpress.multifield.20221116.505594.tar.gz",
-      "",
-      "BEIR: cqadupstack-wordpress",
-      "BM25 'multifield'",
-      new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.beir-v1.0.0-cqadupstack-wordpress.multifield.20221116.505594.tar.gz" },
-      "f619c003e2d0cf84794cc672e18e0437",
-      IndexType.BM25_MULTIFIELDS,
-      "BM25",
-      "InvertedDenseVectorQueryGenerator",
-      "beir-v1.0.0-cqadupstack-wordpress"),
-
   BEIR_V1_0_0_QUORA_MULTIFIELD("beir-v1.0.0-quora.multifield",
       "Lucene inverted 'multifield' index of BEIR collection 'quora'.",
       "lucene-inverted.beir-v1.0.0-quora.multifield.20221116.505594.tar.gz",
@@ -1698,19 +1685,6 @@ public enum IndexInfo {
       "VectorQueryGenerator",
       ""),
 
-  BEIR_V1_0_0_CQADUPSTACK_PHYSICS_BGE_BASE_EN_15_HNSW("beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.hnsw",
-      "Lucene HNSW index of BEIR collection 'cqadupstack-physics' encoded by BGE-base-en-v1.5.",
-      "lucene-hnsw.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.20240223.43c9ec.tar.gz",
-      "lucene-hnsw.beir-v1.0.0.bge-base-en-v1.5.20240223.43c9ec.README.md",
-      "BEIR: cqadupstack-physics",
-      "bge-base-en-v1.5",
-      new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.20240223.43c9ec.tar.gz" },
-      "82f71e086930c7d8c5fe423173b9bc2e",
-      IndexType.DENSE_HNSW,
-      "BgeBaseEn15",
-      "VectorQueryGenerator",
-      ""),
-
   BEIR_V1_0_0_CQADUPSTACK_PROGRAMMERS_BGE_BASE_EN_15_HNSW("beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.hnsw",
       "Lucene HNSW index of BEIR collection 'cqadupstack-programmers' encoded by BGE-base-en-v1.5.",
       "lucene-hnsw.beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.20240223.43c9ec.tar.gz",
@@ -2037,19 +2011,6 @@ public enum IndexInfo {
       "VectorQueryGenerator",
       ""),
 
-  BEIR_V1_0_0_CQADUPSTACK_GAMING_BGE_BASE_EN_15_FLAT("beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.flat",
-      "Lucene flat index of BEIR collection 'cqadupstack-gaming' encoded by BGE-base-en-v1.5.",
-      "lucene-flat.beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.20240618.6cf601.tar.gz",
-      "lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20240618.6cf601.README.md",
-      "BEIR: cqadupstack-gaming",
-      "bge-base-en-v1.5",
-      new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.20240618.6cf601.tar.gz" },
-      "36c47d9387134e88321fa1d4e8f1503e",
-      IndexType.DENSE_FLAT,
-      "BgeBaseEn15",
-      "VectorQueryGenerator",
-      ""),
-
   BEIR_V1_0_0_CQADUPSTACK_GIS_BGE_BASE_EN_15_FLAT("beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.flat",
       "Lucene flat index of BEIR collection 'cqadupstack-gis' encoded by BGE-base-en-v1.5.",
       "lucene-flat.beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.20240618.6cf601.tar.gz",
@@ -2291,24 +2252,12 @@ public enum IndexInfo {
   }
 
   public static IndexInfo get(String indexName) {
-    for (IndexInfo indexInfo : IndexInfo.values()) {
-      if (indexInfo.indexName.equals(indexName)) {
-        return indexInfo;
+    for (IndexInfo index : values()) {
+      if (index.indexName.equals(indexName)) {
+        return index;
       }
     }
     throw new IllegalArgumentException("Index name " + indexName + " not found!");
-  }
-
-  public String getDefaultEncoder() {
-    return encoder;
-  }
-
-  public String getDefaultQueryGenerator() {
-    return queryGenerator;
-  }
-
-  public String getDefaultInvertedIndex() {
-    return invertedIndex;
   }
 
   public static final int DEFAULT_EF_SEARCH = 100;
