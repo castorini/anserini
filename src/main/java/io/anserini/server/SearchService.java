@@ -42,41 +42,6 @@ public class SearchService {
   private final boolean isHnswIndex;
   private final Map<String, Object> indexOverrides = new ConcurrentHashMap<>();
 
-  private static class IndexInitializationResult {
-    final String indexDir;
-    final boolean isHnswIndex;
-    final Exception error;
-
-    IndexInitializationResult(String indexDir, boolean isHnswIndex, Exception error) {
-      this.indexDir = indexDir;
-      this.isHnswIndex = isHnswIndex;
-      this.error = error;
-    }
-  }
-
-  private IndexInitializationResult initializeIndex(String prebuiltIndex) {
-    try {
-      PrebuiltIndexHandler handler = new PrebuiltIndexHandler(prebuiltIndex);
-      handler.initialize();
-      handler.download();
-      String indexDir = handler.decompressIndex();
-      IndexInfo indexInfo = IndexInfo.get(prebuiltIndex);
-      boolean isHnsw = indexInfo.indexType == IndexInfo.IndexType.DENSE_HNSW;
-      return new IndexInitializationResult(indexDir, isHnsw, null);
-    } catch (Exception e) {
-      return new IndexInitializationResult(null, false, e);
-    }
-  }
-
-  private void validateSearchParameters(String query, int hits) {
-    if (query == null || query.trim().isEmpty()) {
-      throw new IllegalArgumentException("Query cannot be empty");
-    }
-    if (hits <= 0) {
-      throw new IllegalArgumentException("Number of hits must be positive");
-    }
-  }
-
   public SearchService(String prebuiltIndex) {
     this.prebuiltIndex = prebuiltIndex;
     IndexInitializationResult result = initializeIndex(prebuiltIndex);
@@ -204,5 +169,40 @@ public class SearchService {
       throw new IllegalArgumentException("queryGenerator cannot be empty");
     }
     indexOverrides.put("queryGenerator", value);
+  }
+
+  private void validateSearchParameters(String query, int hits) {
+    if (query == null || query.trim().isEmpty()) {
+      throw new IllegalArgumentException("Query cannot be empty");
+    }
+    if (hits <= 0) {
+      throw new IllegalArgumentException("Number of hits must be positive");
+    }
+  }
+
+  private IndexInitializationResult initializeIndex(String prebuiltIndex) {
+    try {
+      PrebuiltIndexHandler handler = new PrebuiltIndexHandler(prebuiltIndex);
+      handler.initialize();
+      handler.download();
+      String indexDir = handler.decompressIndex();
+      IndexInfo indexInfo = IndexInfo.get(prebuiltIndex);
+      boolean isHnsw = indexInfo.indexType == IndexInfo.IndexType.DENSE_HNSW;
+      return new IndexInitializationResult(indexDir, isHnsw, null);
+    } catch (Exception e) {
+      return new IndexInitializationResult(null, false, e);
+    }
+  }
+
+  private static class IndexInitializationResult {
+    final String indexDir;
+    final boolean isHnswIndex;
+    final Exception error;
+
+    IndexInitializationResult(String indexDir, boolean isHnswIndex, Exception error) {
+      this.indexDir = indexDir;
+      this.isHnswIndex = isHnswIndex;
+      this.error = error;
+    }
   }
 }

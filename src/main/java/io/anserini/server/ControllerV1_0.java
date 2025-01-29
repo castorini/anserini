@@ -37,6 +37,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @RestController
 @RequestMapping(path = "/api/v1.0")
 public class ControllerV1_0 {
+  private final Map<String, SearchService> services = new ConcurrentHashMap<>();
 
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ExceptionHandler(IllegalArgumentException.class)
@@ -44,13 +45,7 @@ public class ControllerV1_0 {
     return Map.of("error", ex.getMessage());
   }
 
-  private final Map<String, SearchService> services = new ConcurrentHashMap<>();
-
-  private SearchService getOrCreateSearchService(String index) {
-    return services.computeIfAbsent(index, k -> new SearchService(k));
-  }
-
-  @RequestMapping(method = RequestMethod.GET, path = {"/indexes/{index}/search", "/search"})
+  @RequestMapping(method = RequestMethod.GET, path = { "/indexes/{index}/search", "/search" })
   public Map<String, Object> searchIndex(@PathVariable(value = "index", required = false) String index,
       @RequestParam("query") String query,
       @RequestParam(value = "hits", defaultValue = "10") int hits,
@@ -96,14 +91,14 @@ public class ControllerV1_0 {
     Map<String, Map<String, Object>> indexList = new LinkedHashMap<>();
     for (IndexInfo index : indexes) {
       indexList.put(index.indexName, Map.of(
-        "indexName", index.indexName,
-        "description", index.description,
-        "filename", index.filename,
-        "corpus", index.corpus,
-        "model", index.model,
-        "urls", index.urls,
-        "md5", index.md5,
-        "cached", getIndexStatus(index.indexName).get("cached")));
+          "indexName", index.indexName,
+          "description", index.description,
+          "filename", index.filename,
+          "corpus", index.corpus,
+          "model", index.model,
+          "urls", index.urls,
+          "md5", index.md5,
+          "cached", getIndexStatus(index.indexName).get("cached")));
     }
     return indexList;
   }
@@ -142,7 +137,6 @@ public class ControllerV1_0 {
 
     SearchService service = getOrCreateSearchService(index);
 
-    // Simple direct mapping of current values
     Map<String, Object> settings = new HashMap<>();
 
     Integer efSearch = service.getEfSearchOverride();
@@ -163,4 +157,7 @@ public class ControllerV1_0 {
     return settings;
   }
 
+  private SearchService getOrCreateSearchService(String index) {
+    return services.computeIfAbsent(index, k -> new SearchService(k));
+  }
 }
