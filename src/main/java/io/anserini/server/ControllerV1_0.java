@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @RestController
-@RequestMapping(path = "/api/v1.0")
+@RequestMapping(path = "/api/v1.1")
 public class ControllerV1_0 {
   private final Map<String, SearchService> services = new ConcurrentHashMap<>();
 
@@ -47,16 +47,14 @@ public class ControllerV1_0 {
 
   @RequestMapping(method = RequestMethod.GET, path = { "/indexes/{index}/search", "/search" })
   public Map<String, Object> searchIndex(@PathVariable(value = "index", required = true) String index,
-      @RequestParam("query") String query,
-      @RequestParam(value = "hits", defaultValue = "10") int hits,
-      @RequestParam(value = "qid", defaultValue = "") String qid,
-      @RequestParam(value = "efSearch", required = false) Integer efSearch,
-      @RequestParam(value = "encoder", required = false) String encoder,
-      @RequestParam(value = "queryGenerator", required = false) String queryGenerator) {
+    @RequestParam("query") String query,
+    @RequestParam(value = "hits", defaultValue = "10") int hits,
+    @RequestParam(value = "qid", defaultValue = "") String qid,
+    @RequestParam(value = "efSearch", required = false) Integer efSearch,
+    @RequestParam(value = "encoder", required = false) String encoder,
+    @RequestParam(value = "queryGenerator", required = false) String queryGenerator) {
 
-    if (index == null) {
-      throw new IllegalArgumentException("Index parameter is required");
-    }
+    if (index == null) throw new IllegalArgumentException("Index parameter is required");
 
     if (!IndexInfo.contains(index)) {
       throw new IllegalArgumentException("Index " + index + " not found!");
@@ -94,42 +92,40 @@ public class ControllerV1_0 {
     IndexInfo[] indexes = IndexInfo.values();
     Map<String, Map<String, Object>> indexList = new LinkedHashMap<>();
     for (IndexInfo index : indexes) {
-      indexList.put(index.indexName, Map.of(
-          "indexName", index.indexName,
-          "description", index.description,
-          "filename", index.filename,
-          "corpus", index.corpus,
-          "model", index.model,
-          "urls", index.urls,
-          "md5", index.md5,
-          "cached", getIndexStatus(index.indexName).get("cached")));
+      Map<String, Object> indexInfo = new LinkedHashMap<>();
+      indexInfo.put("indexName", index.indexName);
+      indexInfo.put("description", index.description);
+      indexInfo.put("filename", index.filename);
+      indexInfo.put("corpus", index.corpus);
+      indexInfo.put("model", index.model);
+      indexInfo.put("urls", index.urls);
+      indexInfo.put("md5", index.md5);
+      indexInfo.put("cached", getIndexStatus(index.indexName).get("cached"));
+      indexInfo.put("indexType", index.indexType);
+      indexInfo.put("encoder", index.encoder);
+      indexInfo.put("queryGenerator", index.queryGenerator);
+      indexInfo.put("invertedIndex", index.invertedIndex);
+      
+      indexList.put(index.indexName, indexInfo);
     }
     return indexList;
   }
 
   @RequestMapping(method = RequestMethod.POST, path = "/indexes/{index}/settings")
   public Map<String, Object> updateIndexSettings(
-      @PathVariable("index") String index,
-      @RequestParam(value = "efSearch", required = false) String efSearch,
-      @RequestParam(value = "encoder", required = false) String encoder,
-      @RequestParam(value = "queryGenerator", required = false) String queryGenerator) {
+    @PathVariable("index") String index,
+    @RequestParam(value = "efSearch", required = false) String efSearch,
+    @RequestParam(value = "encoder", required = false) String encoder,
+    @RequestParam(value = "queryGenerator", required = false) String queryGenerator) {
 
     if (!IndexInfo.contains(index)) {
       throw new IllegalArgumentException("Index " + index + " not found!");
     }
 
     SearchService service = getOrCreateSearchService(index);
-
-    if (efSearch != null) {
-      service.setEfSearchOverride(efSearch);
-    }
-    if (encoder != null) {
-      service.setEncoderOverride(encoder);
-    }
-    if (queryGenerator != null) {
-      service.setQueryGeneratorOverride(queryGenerator);
-    }
-
+    if (efSearch != null) service.setEfSearchOverride(efSearch);
+    if (encoder != null) service.setEncoderOverride(encoder);
+    if (queryGenerator != null) service.setQueryGeneratorOverride(queryGenerator);
     return Map.of("status", "success");
   }
 
@@ -144,19 +140,13 @@ public class ControllerV1_0 {
     Map<String, Object> settings = new HashMap<>();
 
     Integer efSearch = service.getEfSearchOverride();
-    if (efSearch != null) {
-      settings.put("efSearch", efSearch);
-    }
+    if (efSearch != null) settings.put("efSearch", efSearch);
 
     String encoder = service.getEncoderOverride();
-    if (encoder != null) {
-      settings.put("encoder", encoder);
-    }
+    if (encoder != null) settings.put("encoder", encoder);
 
     String queryGenerator = service.getQueryGeneratorOverride();
-    if (queryGenerator != null) {
-      settings.put("queryGenerator", queryGenerator);
-    }
+    if (queryGenerator != null) settings.put("queryGenerator", queryGenerator);
 
     return settings;
   }
