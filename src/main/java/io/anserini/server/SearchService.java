@@ -26,13 +26,10 @@ import io.anserini.index.IndexInfo;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class SearchService {
@@ -45,17 +42,48 @@ public class SearchService {
   private final boolean isHnswIndex;
   private final Map<String, Object> indexOverrides = new ConcurrentHashMap<>();
 
+  private static class IndexInitializationResult {
+    final String indexDir;
+    final boolean isHnswIndex;
+    final Exception error;
+
+    IndexInitializationResult(String indexDir, boolean isHnswIndex, Exception error) {
+      this.indexDir = indexDir;
+      this.isHnswIndex = isHnswIndex;
+      this.error = error;
+    }
+  }
+
+  private IndexInitializationResult initializeIndex(String prebuiltIndex) {
+    try {
+      PrebuiltIndexHandler handler = new PrebuiltIndexHandler(prebuiltIndex);
+      handler.initialize();
+      handler.download();
+      String indexDir = handler.decompressIndex();
+      IndexInfo indexInfo = IndexInfo.get(prebuiltIndex);
+      boolean isHnsw = indexInfo.indexType == IndexInfo.IndexType.DENSE_HNSW;
+      return new IndexInitializationResult(indexDir, isHnsw, null);
+    } catch (Exception e) {
+      return new IndexInitializationResult(null, false, e);
+    }
+  }
+
+  private void validateSearchParameters(String query, int hits) {
+    if (query == null || query.trim().isEmpty()) {
+      throw new IllegalArgumentException("Query cannot be empty");
+    }
+    if (hits <= 0) {
+      throw new IllegalArgumentException("Number of hits must be positive");
+    }
+  }
+
   public SearchService(String prebuiltIndex) {
     this.prebuiltIndex = prebuiltIndex;
-    PrebuiltIndexHandler handler = new PrebuiltIndexHandler(prebuiltIndex);
-    handler.initialize();
-    try {
-      handler.download();
-      indexDir = handler.decompressIndex();
-      IndexInfo indexInfo = IndexInfo.get(prebuiltIndex);
-      isHnswIndex = indexInfo.indexType == IndexInfo.IndexType.DENSE_HNSW;
-    } catch (Exception e) {
-      throw new RuntimeException(e);
+    IndexInitializationResult result = initializeIndex(prebuiltIndex);
+    this.indexDir = result.indexDir;
+    this.isHnswIndex = result.isHnswIndex;
+    if (result.error != null) {
+      throw new RuntimeException(result.error);
     }
   }
 
@@ -65,63 +93,62 @@ public class SearchService {
 
   public List<Map<String, Object>> search(String query, int hits,
       Integer efSearch, String encoder, String queryGenerator) {
+    validateSearchParameters(query, hits);
+
     try {
       if (!isHnswIndex) {
-        SimpleSearcher searcher = new SimpleSearcher(indexDir);
-        searcher.set_bm25(k1, b);
-        ScoredDoc[] results = searcher.search(query, hits);
-        List<Map<String, Object>> candidates = new ArrayList<>();
-        for (ScoredDoc r : results) {
-          Map<String, Object> candidate = new LinkedHashMap<>();
-          candidate.put("docid", r.docid);
-          candidate.put("score", r.score);
-          String raw = r.lucene_document.get(Constants.RAW);
-          if (raw != null) {
-            JsonNode rootNode = mapper.readTree(raw);
-            Map<String, Object> content = mapper.convertValue(rootNode, Map.class);
-            content.remove("docid");
-            content.remove("id");
-            content.remove("_id");
-            candidate.put("doc", content);
-          } else {
-            candidate.put("doc", null);
+        try (SimpleSearcher searcher = new SimpleSearcher(indexDir)) {
+          searcher.set_bm25(k1, b);
+          ScoredDoc[] results = searcher.search(query, hits);
+          List<Map<String, Object>> candidates = new ArrayList<>();
+          for (ScoredDoc r : results) {
+            Map<String, Object> candidate = new LinkedHashMap<>();
+            candidate.put("docid", r.docid);
+            candidate.put("score", r.score);
+            String raw = r.lucene_document.get(Constants.RAW);
+            if (raw != null) {
+              JsonNode rootNode = mapper.readTree(raw);
+              Map<String, Object> content = mapper.convertValue(rootNode, Map.class);
+              content.remove("docid");
+              content.remove("id");
+              content.remove("_id");
+              candidate.put("doc", content);
+            } else {
+              candidate.put("doc", null);
+            }
+            candidates.add(candidate);
           }
-          candidates.add(candidate);
+          return candidates;
         }
-        searcher.close();
-        return candidates;
       } else {
         IndexInfo indexInfo = IndexInfo.get(prebuiltIndex);
         HnswDenseSearcher.Args args = new HnswDenseSearcher.Args();
         args.index = indexDir;
-        args.efSearch = efSearch != null ? efSearch 
-          : getEfSearchOverride() != null ? getEfSearchOverride() 
-          : IndexInfo.DEFAULT_EF_SEARCH;
-        args.encoder = encoder != null ? encoder 
-          : getEncoderOverride() != null ? getEncoderOverride() 
-          : indexInfo.encoder;
-        args.queryGenerator = queryGenerator != null ? queryGenerator 
-          : getQueryGeneratorOverride() != null ? getQueryGeneratorOverride() 
-          : indexInfo.queryGenerator;
-
-        HnswDenseSearcher<Float> searcher = new HnswDenseSearcher<Float>(args);
-        ScoredDoc[] results = searcher.search(query, hits);
-        List<Map<String, Object>> candidates = new ArrayList<>();
-        for (ScoredDoc r : results) {
-          candidates.add(Map.of("docid", r.docid, "score", r.score));
+        args.efSearch = efSearch != null ? efSearch
+            : getEfSearchOverride() != null ? getEfSearchOverride()
+                : IndexInfo.DEFAULT_EF_SEARCH;
+        args.encoder = encoder != null ? encoder
+            : getEncoderOverride() != null ? getEncoderOverride()
+                : indexInfo.encoder;
+        args.queryGenerator = queryGenerator != null ? queryGenerator
+            : getQueryGeneratorOverride() != null ? getQueryGeneratorOverride()
+                : indexInfo.queryGenerator;
+        try (HnswDenseSearcher<Float> searcher = new HnswDenseSearcher<Float>(args)) {
+          ScoredDoc[] results = searcher.search(query, hits);
+          List<Map<String, Object>> candidates = new ArrayList<>();
+          for (ScoredDoc r : results) {
+            candidates.add(Map.of("docid", r.docid, "score", r.score));
+          }
+          return candidates;
         }
-        searcher.close();
-        return candidates;
       }
     } catch (Exception e) {
-      e.printStackTrace();
       return List.of();
     }
   }
 
   public Map<String, Object> getDocument(String docid) {
-    try {
-      SimpleSearcher searcher = new SimpleSearcher(indexDir);
+    try (SimpleSearcher searcher = new SimpleSearcher(indexDir)) {
       String raw = searcher.doc(docid).get(Constants.RAW);
       Map<String, Object> candidate = new LinkedHashMap<>();
       if (raw != null) {
@@ -134,7 +161,6 @@ public class SearchService {
       } else {
         candidate.put("doc", null);
       }
-      searcher.close();
       return candidate;
     } catch (Exception e) {
       e.printStackTrace();
