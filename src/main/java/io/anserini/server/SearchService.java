@@ -114,6 +114,7 @@ public class SearchService {
   }
 
   public Map<String, Object> getDocument(String docid) {
+    if (!isHnswIndex) throw new IllegalArgumentException("getDocument is only supported for HNSW indexes");
     try (SimpleSearcher searcher = new SimpleSearcher(indexDir)) {
       String raw = searcher.doc(docid).get(Constants.RAW);
       Map<String, Object> candidate = new LinkedHashMap<>();

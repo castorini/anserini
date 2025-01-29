@@ -54,11 +54,7 @@ public class ControllerV1_0 {
     @RequestParam(value = "encoder", required = false) String encoder,
     @RequestParam(value = "queryGenerator", required = false) String queryGenerator) {
 
-    if (index == null) throw new IllegalArgumentException("Index parameter is required");
-
-    if (!IndexInfo.contains(index)) {
-      throw new IllegalArgumentException("Index " + index + " not found!");
-    }
+    if (!IndexInfo.contains(index)) throw new IllegalArgumentException("Index " + index + " not found!");
 
     SearchService searchService = getOrCreateSearchService(index);
     List<Map<String, Object>> candidates = searchService.search(query, hits, efSearch, encoder, queryGenerator);
@@ -72,8 +68,10 @@ public class ControllerV1_0 {
 
   @RequestMapping(method = RequestMethod.GET, path = "/indexes/{index}/documents/{docid}")
   public Map<String, Object> getDocument(@PathVariable("index") String index, @PathVariable("docid") String docid) {
-    SearchService searchService = new SearchService(index);
-    return searchService.getDocument(docid);
+    if (!IndexInfo.contains(index)) {
+      throw new IllegalArgumentException("Index " + index + " not found!");
+    }
+    return getOrCreateSearchService(index).getDocument(docid);
   }
 
   @RequestMapping(method = RequestMethod.GET, path = "/indexes/{index}/status")
