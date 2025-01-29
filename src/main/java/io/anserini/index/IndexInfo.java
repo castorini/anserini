@@ -2261,6 +2261,4 @@ public enum IndexInfo {
   }
 
   public static final int DEFAULT_EF_SEARCH = 100;
-  public static final String DEFAULT_QUERY_GENERATOR = "VectorQueryGenerator";
-  public static final String DEFAULT_ENCODER = "BgeBaseEn15";
 }

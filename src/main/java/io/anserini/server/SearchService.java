@@ -59,6 +59,7 @@ public class SearchService {
   public List<Map<String, Object>> search(String query, int hits,
       Integer efSearch, String encoder, String queryGenerator) {
     validateSearchParameters(query, hits);
+    validateSettings(efSearch, encoder, queryGenerator);
 
     try {
       if (!isHnswIndex) {
@@ -159,7 +160,11 @@ public class SearchService {
 
   public void setEncoderOverride(String value) {
     if (value == null || value.trim().isEmpty()) {
-      throw new IllegalArgumentException("encoder cannot be empty");
+      throw new IllegalArgumentException("Encoder cannot be empty");
+    }
+    IndexInfo indexInfo = IndexInfo.get(prebuiltIndex);
+    if (!value.equals(indexInfo.encoder)) {
+      throw new IllegalArgumentException("Unsupported encoder: " + value + " for index " + prebuiltIndex);
     }
     indexOverrides.put("encoder", value);
   }
@@ -167,6 +172,10 @@ public class SearchService {
   public void setQueryGeneratorOverride(String value) {
     if (value == null || value.trim().isEmpty()) {
       throw new IllegalArgumentException("queryGenerator cannot be empty");
+    }
+    IndexInfo indexInfo = IndexInfo.get(prebuiltIndex);
+    if (!value.equals(indexInfo.queryGenerator)) {
+      throw new IllegalArgumentException("Unsupported queryGenerator: " + value + " for index " + prebuiltIndex);
     }
     indexOverrides.put("queryGenerator", value);
   }
@@ -177,6 +186,22 @@ public class SearchService {
     }
     if (hits <= 0) {
       throw new IllegalArgumentException("Number of hits must be positive");
+    }
+  }
+
+  private void validateSettings(Integer efSearch, String encoder, String queryGenerator) {
+    IndexInfo indexInfo = IndexInfo.get(prebuiltIndex);
+    
+    if (efSearch != null && !isHnswIndex) {
+      throw new IllegalArgumentException("efSearch parameter is only supported for HNSW indexes");
+    }
+
+    if (encoder != null && !encoder.equals(indexInfo.encoder)) {
+      throw new IllegalArgumentException("Unsupported encoder: " + encoder + " for index " + prebuiltIndex);
+    }
+
+    if (queryGenerator != null && !queryGenerator.equals(indexInfo.queryGenerator)) {
+      throw new IllegalArgumentException("Unsupported queryGenerator: " + queryGenerator + " for index " + prebuiltIndex);
     }
   }
 

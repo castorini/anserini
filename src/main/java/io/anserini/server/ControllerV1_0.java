@@ -46,13 +46,17 @@ public class ControllerV1_0 {
   }
 
   @RequestMapping(method = RequestMethod.GET, path = { "/indexes/{index}/search", "/search" })
-  public Map<String, Object> searchIndex(@PathVariable(value = "index", required = false) String index,
+  public Map<String, Object> searchIndex(@PathVariable(value = "index", required = true) String index,
       @RequestParam("query") String query,
       @RequestParam(value = "hits", defaultValue = "10") int hits,
       @RequestParam(value = "qid", defaultValue = "") String qid,
       @RequestParam(value = "efSearch", required = false) Integer efSearch,
       @RequestParam(value = "encoder", required = false) String encoder,
       @RequestParam(value = "queryGenerator", required = false) String queryGenerator) {
+
+    if (index == null) {
+      throw new IllegalArgumentException("Index parameter is required");
+    }
 
     if (!IndexInfo.contains(index)) {
       throw new IllegalArgumentException("Index " + index + " not found!");

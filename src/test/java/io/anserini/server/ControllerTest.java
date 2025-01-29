@@ -33,7 +33,7 @@ public class ControllerTest {
   public void testSearch() throws Exception {
     ControllerV1_0 controller = new ControllerV1_0();
 
-    Map<String, Object> results = controller.searchIndex(null, "Albert Einstein", 10, "", null, null, null);
+    Map<String, Object> results = controller.searchIndex("msmarco-v1-passage", "Albert Einstein", 10, "", null, null, null);
     assertNotNull(results);
     assertTrue(results.get("candidates") instanceof List);
 
@@ -41,13 +41,17 @@ public class ControllerTest {
     List<Map<String, Object>> candidates = (List<Map<String, Object>>) results.get("candidates");
     assertEquals(10, candidates.size());
     assertEquals("3553430", candidates.get(0).get("docid"));
+
+    assertThrows(IllegalArgumentException.class, () -> {
+      controller.searchIndex(null, "Albert Einstein", 10, "", null, null, null);
+    });
   }
 
   @Test
   public void testIndexNotFound() throws Exception {
     ControllerV1_0 controller = new ControllerV1_0();
 
-    assertThrows(RuntimeException.class, () -> {
+    assertThrows(IllegalArgumentException.class, () -> {
       Map<String, Object> results = controller.searchIndex("nonexistent-index", "Albert Einstein", 10, "", null, null, null);
     });
   }
