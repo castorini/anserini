@@ -31,7 +31,7 @@ public class ControllerTest {
 
   @Test
   public void testSearch() throws Exception {
-    ControllerV1_0 controller = new ControllerV1_0();
+    Controller controller = new Controller();
 
     Map<String, Object> results = controller.searchIndex("msmarco-v1-passage", "Albert Einstein", 10, "", null, null, null);
     assertNotNull(results);
@@ -49,7 +49,7 @@ public class ControllerTest {
 
   @Test
   public void testIndexNotFound() throws Exception {
-    ControllerV1_0 controller = new ControllerV1_0();
+    Controller controller = new Controller();
 
     assertThrows(IllegalArgumentException.class, () -> {
       Map<String, Object> results = controller.searchIndex("nonexistent-index", "Albert Einstein", 10, "", null, null, null);
@@ -58,7 +58,7 @@ public class ControllerTest {
 
   @Test
   public void testListIndexes() throws Exception {
-    ControllerV1_0 controller = new ControllerV1_0();
+    Controller controller = new Controller();
     Map<String, Map<String, Object>> indexes = controller.listIndexes();
     assertEquals(indexes.size(), IndexInfo.values().length);
   }

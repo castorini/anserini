@@ -36,7 +36,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @RestController
 @RequestMapping(path = "/api/v1.1")
-public class ControllerV1_0 {
+public class Controller {
   private final Map<String, SearchService> services = new ConcurrentHashMap<>();
 
   @ResponseStatus(HttpStatus.BAD_REQUEST)
