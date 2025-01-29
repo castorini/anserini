@@ -95,16 +95,16 @@ public class SearchService {
         HnswDenseSearcher.Args args = new HnswDenseSearcher.Args();
         args.index = indexDir;
         args.efSearch = efSearch != null ? efSearch 
-            : getEfSearchOverride() != null ? getEfSearchOverride() 
-            : IndexInfo.DEFAULT_EF_SEARCH;
+          : getEfSearchOverride() != null ? getEfSearchOverride() 
+          : IndexInfo.DEFAULT_EF_SEARCH;
         args.encoder = encoder != null ? encoder 
-            : getEncoderOverride() != null ? getEncoderOverride() 
-            : indexInfo.encoder;
+          : getEncoderOverride() != null ? getEncoderOverride() 
+          : indexInfo.encoder;
         args.queryGenerator = queryGenerator != null ? queryGenerator 
-            : getQueryGeneratorOverride() != null ? getQueryGeneratorOverride() 
-            : indexInfo.queryGenerator;
+          : getQueryGeneratorOverride() != null ? getQueryGeneratorOverride() 
+          : indexInfo.queryGenerator;
 
-        HnswDenseSearcher<?> searcher = new HnswDenseSearcher<>(args);
+        HnswDenseSearcher<Float> searcher = new HnswDenseSearcher<Float>(args);
         ScoredDoc[] results = searcher.search(query, hits);
         List<Map<String, Object>> candidates = new ArrayList<>();
         for (ScoredDoc r : results) {
@@ -120,10 +120,6 @@ public class SearchService {
   }
 
   public Map<String, Object> getDocument(String docid) {
-    if (isHnswIndex) {
-      throw new UnsupportedOperationException("Document retrieval not supported for HNSW indexes");
-    }
-
     try {
       SimpleSearcher searcher = new SimpleSearcher(indexDir);
       String raw = searcher.doc(docid).get(Constants.RAW);

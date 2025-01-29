@@ -44,8 +44,6 @@ public class ControllerV1_0 {
     return Map.of("error", ex.getMessage());
   }
 
-  private static final String DEFAULT_INDEX = "msmarco-v1-passage";
-
   private final Map<String, SearchService> services = new ConcurrentHashMap<>();
 
   private SearchService getOrCreateSearchService(String index) {
