@@ -71,17 +71,17 @@ Evaluation can be performed using `trec_eval`:
 bin/trec_eval -c -l 2 -M 100 -m map tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default.topics.rag24.test.txt
 bin/trec_eval -c -l 2 -m recall.100 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default.topics.rag24.test.txt
 bin/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default.topics.rag24.test.txt
-bin/trec_eval -c -l 2 -M 100 -m recip_rank -c -l 2 -m ndcg_cut.10 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default.topics.rag24.test.txt
+bin/trec_eval -c -l 2 -M 100 -m recip_rank -c -m ndcg_cut.20 -c -m ndcg_cut.100 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default.topics.rag24.test.txt
 
 bin/trec_eval -c -l 2 -M 100 -m map tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rm3.topics.rag24.test.txt
 bin/trec_eval -c -l 2 -m recall.100 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rm3.topics.rag24.test.txt
 bin/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rm3.topics.rag24.test.txt
-bin/trec_eval -c -l 2 -M 100 -m recip_rank -c -l 2 -m ndcg_cut.10 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rm3.topics.rag24.test.txt
+bin/trec_eval -c -l 2 -M 100 -m recip_rank -c -m ndcg_cut.20 -c -m ndcg_cut.100 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rm3.topics.rag24.test.txt
 
 bin/trec_eval -c -l 2 -M 100 -m map tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rocchio.topics.rag24.test.txt
 bin/trec_eval -c -l 2 -m recall.100 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rocchio.topics.rag24.test.txt
 bin/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rocchio.topics.rag24.test.txt
-bin/trec_eval -c -l 2 -M 100 -m recip_rank -c -l 2 -m ndcg_cut.10 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rocchio.topics.rag24.test.txt
+bin/trec_eval -c -l 2 -M 100 -m recip_rank -c -m ndcg_cut.20 -c -m ndcg_cut.100 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rocchio.topics.rag24.test.txt
 ```
 
 ## Effectiveness
@@ -93,8 +93,10 @@ With the above commands, you should be able to reproduce the following results:
 | RAG 24: Test queries                                                                                         | 0.0582    | 0.0604    | 0.0642    |
 | **MRR@100**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
 | RAG 24: Test queries                                                                                         | 0.3833    | 0.3601    | 0.3715    |
-| **nDCG@10**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| RAG 24: Test queries                                                                                         | 0.3290    | 0.3256    | 0.3307    |
+| **nDCG@20**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
+| RAG 24: Test queries                                                                                         | 0.3198    | 0.3063    | 0.3196    |
+| **nDCG@100**                                                                                                 | **BM25 (default)**| **+RM3**  | **+Rocchio**|
+| RAG 24: Test queries                                                                                         | 0.2563    | 0.2410    | 0.2527    |
 | **R@100**                                                                                                    | **BM25 (default)**| **+RM3**  | **+Rocchio**|
 | RAG 24: Test queries                                                                                         | 0.1396    | 0.1347    | 0.1402    |
 | **R@1000**                                                                                                   | **BM25 (default)**| **+RM3**  | **+Rocchio**|
