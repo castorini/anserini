@@ -14,7 +14,7 @@ This guide focuses on the segmented documents corpus.
 ### TREC 2024 RAG
 
 With Anserini, you can reproduce baseline runs on the TREC 2024 RAG test queries using BM25 and ArcticEmbed-L embeddings.
-Using the UMBRELA qrels, these are the evaluation numbers you'd get:
+Using the [UMBRELA qrels](https://trec-rag.github.io/annoucements/umbrela-qrels/), these are the evaluation numbers you'd get:
 
 **nDCG@20**
 
@@ -35,6 +35,10 @@ Using the UMBRELA qrels, these are the evaluation numbers you'd get:
 | RAG24 Test  (UMBRELA) | 0.1395 |    0.2547     |
 
 See instructions below on how to reproduce these runs.
+
+More details can be found in the following paper:
+
+> Shivani Upadhyay, Ronak Pradeep, Nandan Thakur, Daniel Campos, Nick Craswell, Ian Soboroff, Hoa Trang Dang, and Jimmy Lin. [A Large-Scale Study of Relevance Assessments with Large Language Models: An Initial Look.](https://arxiv.org/abs/2411.08275) _arXiv:2411.08275_, November 2024.
 
 ### Dev Queries
 
