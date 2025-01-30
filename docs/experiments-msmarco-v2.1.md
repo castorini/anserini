@@ -87,9 +87,9 @@ bin/run.sh io.anserini.search.SearchCollection \
 And to evaluate:
 
 ```bash
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25.rag24.test.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.100 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25.rag24.test.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25.rag24.test.txt
+bin/run.sh trec_eval -c -m ndcg_cut.20 rag24.test-umbrela-all runs/run.msmarco-v2.1-doc-segmented.bm25.rag24.test.txt
+bin/run.sh trec_eval -c -m ndcg_cut.100 rag24.test-umbrela-all runs/run.msmarco-v2.1-doc-segmented.bm25.rag24.test.txt
+bin/run.sh trec_eval -c -m recall.100 rag24.test-umbrela-all runs/run.msmarco-v2.1-doc-segmented.bm25.rag24.test.txt
 ```
 
 You should arrive at exactly the effectiveness metrics [above](#trec-2024-rag).
@@ -101,26 +101,26 @@ Note that here we are generating document-level runs via the MaxP technique (i.e
 ```bash
 TOPICS=(msmarco-v2-doc.dev msmarco-v2-doc.dev2 dl21-doc dl22-doc dl23-doc rag24.raggy-dev); for t in "${TOPICS[@]}"
 do
-    bin/run.sh io.anserini.search.SearchCollection -index msmarco-v2.1-doc-segmented -topics $t -output runs/run.msmarco-v2.1.doc-segmented.${t}.txt -threads 16 -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
+    bin/run.sh io.anserini.search.SearchCollection -index msmarco-v2.1-doc-segmented -topics $t -output runs/run.msmarco-v2.1.doc-segmented.bm25.${t}.txt -threads 16 -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
 done
 ```
 
 And to evaluate:
 
 ```bash
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.msmarco-v2.1-doc.dev.txt runs/run.msmarco-v2.1.doc-segmented.msmarco-v2-doc.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.msmarco-v2.1-doc.dev2.txt runs/run.msmarco-v2.1.doc-segmented.msmarco-v2-doc.dev2.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl21-doc-msmarco-v2.1.txt runs/run.msmarco-v2.1.doc-segmented.dl21-doc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl22-doc-msmarco-v2.1.txt runs/run.msmarco-v2.1.doc-segmented.dl22-doc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl23-doc-msmarco-v2.1.txt runs/run.msmarco-v2.1.doc-segmented.dl23-doc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.rag24.raggy-dev.txt runs/run.msmarco-v2.1.doc-segmented.rag24.raggy-dev.txt
+bin/run.sh trec_eval -c -m ndcg_cut.10 msmarco-v2.1-doc.dev runs/run.msmarco-v2.1.doc-segmented.bm25.msmarco-v2-doc.dev.txt
+bin/run.sh trec_eval -c -m ndcg_cut.10 msmarco-v2.1-doc.dev2 runs/run.msmarco-v2.1.doc-segmented.bm25.msmarco-v2-doc.dev2.txt
+bin/run.sh trec_eval -c -m ndcg_cut.10 dl21-doc-msmarco-v2.1 runs/run.msmarco-v2.1.doc-segmented.bm25.dl21-doc.txt
+bin/run.sh trec_eval -c -m ndcg_cut.10 dl22-doc-msmarco-v2.1 runs/run.msmarco-v2.1.doc-segmented.bm25.dl22-doc.txt
+bin/run.sh trec_eval -c -m ndcg_cut.10 dl23-doc-msmarco-v2.1 runs/run.msmarco-v2.1.doc-segmented.bm25.dl23-doc.txt
+bin/run.sh trec_eval -c -m ndcg_cut.10 rag24.raggy-dev runs/run.msmarco-v2.1.doc-segmented.bm25.rag24.raggy-dev.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-v2.1-doc.dev.txt runs/run.msmarco-v2.1.doc-segmented.msmarco-v2-doc.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-v2.1-doc.dev2.txt runs/run.msmarco-v2.1.doc-segmented.msmarco-v2-doc.dev2.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl21-doc-msmarco-v2.1.txt runs/run.msmarco-v2.1.doc-segmented.dl21-doc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl22-doc-msmarco-v2.1.txt runs/run.msmarco-v2.1.doc-segmented.dl22-doc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl23-doc-msmarco-v2.1.txt runs/run.msmarco-v2.1.doc-segmented.dl23-doc.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.rag24.raggy-dev.txt runs/run.msmarco-v2.1.doc-segmented.rag24.raggy-dev.txt
+bin/run.sh trec_eval -c -m recall.100 msmarco-v2.1-doc.dev runs/run.msmarco-v2.1.doc-segmented.bm25.msmarco-v2-doc.dev.txt
+bin/run.sh trec_eval -c -m recall.100 msmarco-v2.1-doc.dev2 runs/run.msmarco-v2.1.doc-segmented.bm25.msmarco-v2-doc.dev2.txt
+bin/run.sh trec_eval -c -m recall.100 dl21-doc-msmarco-v2.1 runs/run.msmarco-v2.1.doc-segmented.bm25.dl21-doc.txt
+bin/run.sh trec_eval -c -m recall.100 dl22-doc-msmarco-v2.1 runs/run.msmarco-v2.1.doc-segmented.bm25.dl22-doc.txt
+bin/run.sh trec_eval -c -m recall.100 dl23-doc-msmarco-v2.1 runs/run.msmarco-v2.1.doc-segmented.bm25.dl23-doc.txt
+bin/run.sh trec_eval -c -m recall.100 rag24.raggy-dev runs/run.msmarco-v2.1.doc-segmented.bm25.rag24.raggy-dev.txt
 ```
 
 You should arrive at exactly the effectiveness metrics [above](#dev-queries).
@@ -143,7 +143,7 @@ Here's how you reproduce results on the TREC 2024 RAG Track test queries:
 # RAG24 test
 SHARDS=(00 01 02 03 04 05 06 07 08 09); for shard in "${SHARDS[@]}"
 do
-    bin/run.sh io.anserini.search.SearchHnswDenseVectors -index msmarco-v2.1-doc-segmented-shard${shard}.arctic-embed-l.hnsw-int8 -efSearch 1000 -topics rag24.test.snowflake-arctic-embed-l -output runs/run.rag24.test.arctic-l-msv2.1.shard${shard}.txt -hits 250 -threads 32 > logs/log.run.rag24.test.arctic-l-msv2.1.shard${shard}.txt 2>&1
+    bin/run.sh io.anserini.search.SearchHnswDenseVectors -index msmarco-v2.1-doc-segmented-shard${shard}.arctic-embed-l.hnsw-int8 -efSearch 1000 -topics rag24.test.snowflake-arctic-embed-l -output runs/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.shard${shard}.txt -hits 250 -threads 32 > logs/log.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.shard${shard}.txt 2>&1
 done
 ```
 
@@ -151,11 +151,11 @@ Note that here we are generating passage-level runs.
 As it turns out, for evaluation purposes, you can just cat all the 10 run files together and evaluate:
 
 ```bash
-cat runs/run.rag24.test.arctic-l-msv2.1.shard0* > runs/run.rag24.test.arctic-l-msv2.1.txt
+cat runs/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.shard0* > runs/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.rag24.test.arctic-l-msv2.1.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.100 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.rag24.test.arctic-l-msv2.1.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.rag24.test.arctic-l-msv2.1.txt
+bin/run.sh trec_eval -c -m ndcg_cut.20 rag24.test-umbrela-all runs/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.txt
+bin/run.sh trec_eval -c -m ndcg_cut.100 rag24.test-umbrela-all runs/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.txt
+bin/run.sh trec_eval -c -m recall.100 rag24.test-umbrela-all runs/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.txt
 ```
 
 You should arrive at exactly the effectiveness metrics [above](#trec-2024-rag).
@@ -168,70 +168,70 @@ Note that here we are generating document-level runs via the MaxP technique (i.e
 # dev
 SHARDS=(00 01 02 03 04 05 06 07 08 09); for shard in "${SHARDS[@]}"
 do
-    bin/run.sh io.anserini.search.SearchHnswDenseVectors -index msmarco-v2.1-doc-segmented-shard${shard}.arctic-embed-l.hnsw-int8 -efSearch 1000 -topics msmarco-v2-doc.dev.snowflake-arctic-embed-l -output runs/run.msmarco-v2-doc.dev.arctic-l-msv2.1.shard${shard}.txt -threads 32 -hits 1000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 250 > logs/log.run.msmarco-v2-doc.dev.arctic-l-msv2.1.shard${shard}.txt 2>&1
+    bin/run.sh io.anserini.search.SearchHnswDenseVectors -index msmarco-v2.1-doc-segmented-shard${shard}.arctic-embed-l.hnsw-int8 -efSearch 1000 -topics msmarco-v2-doc.dev.snowflake-arctic-embed-l -output runs/run.msmarco-v2.1-doc-segmented.arctic-l.msmarco-v2-doc.dev.shard${shard}.txt -threads 32 -hits 1000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 250 > logs/log.msmarco-v2.1-doc-segmented.arctic-l.msmarco-v2-doc.dev.shard${shard}.txt 2>&1
 done
 
 # dev2
 SHARDS=(00 01 02 03 04 05 06 07 08 09); for shard in "${SHARDS[@]}"
 do
-    bin/run.sh io.anserini.search.SearchHnswDenseVectors -index msmarco-v2.1-doc-segmented-shard${shard}.arctic-embed-l.hnsw-int8 -efSearch 1000 -topics msmarco-v2-doc.dev2.snowflake-arctic-embed-l -output runs/run.msmarco-v2-doc.dev2.arctic-l-msv2.1.shard${shard}.txt -threads 32 -hits 1000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 250 > logs/log.run.msmarco-v2-doc.dev2.arctic-l-msv2.1.shard${shard}.txt 2>&1
+    bin/run.sh io.anserini.search.SearchHnswDenseVectors -index msmarco-v2.1-doc-segmented-shard${shard}.arctic-embed-l.hnsw-int8 -efSearch 1000 -topics msmarco-v2-doc.dev2.snowflake-arctic-embed-l -output runs/run.msmarco-v2.1-doc-segmented.arctic-l.msmarco-v2-doc.dev2.shard${shard}.txt -threads 32 -hits 1000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 250 > logs/log.msmarco-v2.1-doc-segmented.arctic-l.msmarco-v2-doc.dev2.shard${shard}.txt 2>&1
 done
 
 # DL21
 SHARDS=(00 01 02 03 04 05 06 07 08 09); for shard in "${SHARDS[@]}"
 do
-    bin/run.sh io.anserini.search.SearchHnswDenseVectors -index msmarco-v2.1-doc-segmented-shard${shard}.arctic-embed-l.hnsw-int8 -efSearch 1000 -topics dl21.snowflake-arctic-embed-l -output runs/run.dl21.arctic-l-msv2.1.shard${shard}.txt -threads 32 -hits 1000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 250 > logs/log.run.dl21.arctic-l-msv2.1.shard${shard}.txt 2>&1
+    bin/run.sh io.anserini.search.SearchHnswDenseVectors -index msmarco-v2.1-doc-segmented-shard${shard}.arctic-embed-l.hnsw-int8 -efSearch 1000 -topics dl21.snowflake-arctic-embed-l -output runs/run.msmarco-v2.1-doc-segmented.arctic-l.dl21.shard${shard}.txt -threads 32 -hits 1000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 250 > logs/log.msmarco-v2.1-doc-segmented.arctic-l.dl21.shard${shard}.txt 2>&1
 done
 
 # DL22
 SHARDS=(00 01 02 03 04 05 06 07 08 09); for shard in "${SHARDS[@]}"
 do
-    bin/run.sh io.anserini.search.SearchHnswDenseVectors -index msmarco-v2.1-doc-segmented-shard${shard}.arctic-embed-l.hnsw-int8 -efSearch 1000 -topics dl22.snowflake-arctic-embed-l -output runs/run.dl22.arctic-l-msv2.1.shard${shard}.txt -threads 32 -hits 1000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 250 > logs/log.run.dl22.arctic-l-msv2.1.shard${shard}.txt 2>&1
+    bin/run.sh io.anserini.search.SearchHnswDenseVectors -index msmarco-v2.1-doc-segmented-shard${shard}.arctic-embed-l.hnsw-int8 -efSearch 1000 -topics dl22.snowflake-arctic-embed-l -output runs/run.msmarco-v2.1-doc-segmented.arctic-l.dl22.shard${shard}.txt -threads 32 -hits 1000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 250 > logs/log.msmarco-v2.1-doc-segmented.arctic-l.dl22.shard${shard}.txt 2>&1
 done
 
 # DL23
 SHARDS=(00 01 02 03 04 05 06 07 08 09); for shard in "${SHARDS[@]}"
 do
-    bin/run.sh io.anserini.search.SearchHnswDenseVectors -index msmarco-v2.1-doc-segmented-shard${shard}.arctic-embed-l.hnsw-int8 -efSearch 1000 -topics dl23.snowflake-arctic-embed-l -output runs/run.dl23.arctic-l-msv2.1.shard${shard}.txt -threads 32 -hits 1000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 250 > logs/log.run.dl23.arctic-l-msv2.1.shard${shard}.txt 2>&1
+    bin/run.sh io.anserini.search.SearchHnswDenseVectors -index msmarco-v2.1-doc-segmented-shard${shard}.arctic-embed-l.hnsw-int8 -efSearch 1000 -topics dl23.snowflake-arctic-embed-l -output runs/run.msmarco-v2.1-doc-segmented.arctic-l.dl23.shard${shard}.txt -threads 32 -hits 1000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 250 > logs/log.msmarco-v2.1-doc-segmented.arctic-l.dl23.shard${shard}.txt 2>&1
 done
 
 # RAG24 Raggy
 SHARDS=(00 01 02 03 04 05 06 07 08 09); for shard in "${SHARDS[@]}"
 do
-    bin/run.sh io.anserini.search.SearchHnswDenseVectors -index msmarco-v2.1-doc-segmented-shard${shard}.arctic-embed-l.hnsw-int8 -efSearch 1000 -topics rag24.raggy-dev.snowflake-arctic-embed-l -output runs/run.rag24.raggy-dev.arctic-l-msv2.1.shard${shard}.txt -threads 32 -hits 1000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 250 > logs/log.run.rag24.raggy-dev.arctic-l-msv2.1.shard${shard}.txt 2>&1
+    bin/run.sh io.anserini.search.SearchHnswDenseVectors -index msmarco-v2.1-doc-segmented-shard${shard}.arctic-embed-l.hnsw-int8 -efSearch 1000 -topics rag24.raggy-dev.snowflake-arctic-embed-l -output runs/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.raggy-dev.shard${shard}.txt -threads 32 -hits 1000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 250 > logs/log.msmarco-v2.1-doc-segmented.arctic-l.rag24.raggy-dev.shard${shard}.txt 2>&1
 done
 ```
 
 As it turns out, for evaluation purposes, you can just cat all the 10 run files together and evaluate:
 
 ```
-cat runs/run.msmarco-v2-doc.dev.arctic-l-msv2.1.shard0* > runs/run.msmarco-v2-doc.dev.arctic-l-msv2.1.txt
-cat runs/run.msmarco-v2-doc.dev2.arctic-l-msv2.1.shard0* > runs/run.msmarco-v2-doc.dev2.arctic-l-msv2.1.txt
-cat runs/run.dl21.arctic-l-msv2.1.shard0* > runs/run.dl21.arctic-l-msv2.1.txt
-cat runs/run.dl22.arctic-l-msv2.1.shard0* > runs/run.dl22.arctic-l-msv2.1.txt
-cat runs/run.dl23.arctic-l-msv2.1.shard0* > runs/run.dl23.arctic-l-msv2.1.txt
-cat runs/run.rag24.raggy-dev.arctic-l-msv2.1.shard0* > runs/run.rag24.raggy-dev.arctic-l-msv2.1.txt
+cat runs/run.msmarco-v2.1-doc-segmented.arctic-l.msmarco-v2-doc.dev.shard0* > runs/run.msmarco-v2.1-doc-segmented.arctic-l.msmarco-v2-doc.dev.txt
+cat runs/run.msmarco-v2.1-doc-segmented.arctic-l.msmarco-v2-doc.dev2.shard0* > runs/run.msmarco-v2.1-doc-segmented.arctic-l.msmarco-v2-doc2.dev.txt
+cat runs/run.msmarco-v2.1-doc-segmented.arctic-l.dl21.shard0* > runs/run.msmarco-v2.1-doc-segmented.arctic-l.dl21.txt
+cat runs/run.msmarco-v2.1-doc-segmented.arctic-l.dl22.shard0* > runs/run.msmarco-v2.1-doc-segmented.arctic-l.dl22.txt
+cat runs/run.msmarco-v2.1-doc-segmented.arctic-l.dl23.shard0* > runs/run.msmarco-v2.1-doc-segmented.arctic-l.dl23.txt
+cat runs/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.raggy-dev.shard0* > runs/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.raggy-dev.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.msmarco-v2.1-doc.dev.txt runs/run.msmarco-v2-doc.dev.arctic-l-msv2.1.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.msmarco-v2.1-doc.dev2.txt runs/run.msmarco-v2-doc.dev2.arctic-l-msv2.1.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl21-doc-msmarco-v2.1.txt runs/run.dl21.arctic-l-msv2.1.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl22-doc-msmarco-v2.1.txt runs/run.dl22.arctic-l-msv2.1.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl23-doc-msmarco-v2.1.txt runs/run.dl23.arctic-l-msv2.1.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.rag24.raggy-dev.txt runs/run.rag24.raggy-dev.arctic-l-msv2.1.txt
+bin/run.sh trec_eval -c -m ndcg_cut.10 msmarco-v2.1-doc.dev runs/run.msmarco-v2.1-doc-segmented.arctic-l.msmarco-v2-doc.dev.txt
+bin/run.sh trec_eval -c -m ndcg_cut.10 msmarco-v2.1-doc.dev2 runs/run.msmarco-v2.1-doc-segmented.arctic-l.msmarco-v2-doc2.dev.txt
+bin/run.sh trec_eval -c -m ndcg_cut.10 dl21-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc-segmented.arctic-l.dl21.txt
+bin/run.sh trec_eval -c -m ndcg_cut.10 dl22-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc-segmented.arctic-l.dl22.txt
+bin/run.sh trec_eval -c -m ndcg_cut.10 dl23-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc-segmented.arctic-l.dl23.txt
+bin/run.sh trec_eval -c -m ndcg_cut.10 rag24.raggy-dev runs/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.raggy-dev.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-v2.1-doc.dev.txt runs/run.msmarco-v2-doc.dev.arctic-l-msv2.1.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-v2.1-doc.dev2.txt runs/run.msmarco-v2-doc.dev2.arctic-l-msv2.1.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl21-doc-msmarco-v2.1.txt runs/run.dl21.arctic-l-msv2.1.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl22-doc-msmarco-v2.1.txt runs/run.dl22.arctic-l-msv2.1.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl23-doc-msmarco-v2.1.txt runs/run.dl23.arctic-l-msv2.1.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.rag24.raggy-dev.txt runs/run.rag24.raggy-dev.arctic-l-msv2.1.txt
+bin/run.sh trec_eval -c -m recall.100 msmarco-v2.1-doc.dev runs/run.msmarco-v2.1-doc-segmented.arctic-l.msmarco-v2-doc.dev.txt
+bin/run.sh trec_eval -c -m recall.100 msmarco-v2.1-doc.dev2 runs/run.msmarco-v2.1-doc-segmented.arctic-l.msmarco-v2-doc2.dev.txt
+bin/run.sh trec_eval -c -m recall.100 dl21-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc-segmented.arctic-l.dl21.txt
+bin/run.sh trec_eval -c -m recall.100 dl22-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc-segmented.arctic-l.dl22.txt
+bin/run.sh trec_eval -c -m recall.100 dl23-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc-segmented.arctic-l.dl23.txt
+bin/run.sh trec_eval -c -m recall.100 rag24.raggy-dev runs/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.raggy-dev.txt
 ```
 
 You should arrive at exactly the effectiveness metrics [above](#dev-queries).
 Note that these are _document-level_ relevance judgments.
 
 The indexes for ArcticEmbed-L are big!
-Here's specifically their sizes, in GB:
+Here are their sizes, in GB:
 
 ```
 56	lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard00.arctic-embed-l.20250114.4884f5.aab3f8e9aa0563bd0f875584784a0845
