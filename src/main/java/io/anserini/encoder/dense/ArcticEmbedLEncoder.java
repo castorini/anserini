@@ -74,7 +74,6 @@ public class ArcticEmbedLEncoder extends DenseEncoder {
 
       return normalize(weights);
     } catch (OrtException e) {
-      LOG.error("Error encoding query: {}", e.getMessage());
       throw e;
     }
   }
