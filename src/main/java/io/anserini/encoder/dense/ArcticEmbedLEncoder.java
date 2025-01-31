@@ -59,7 +59,6 @@ public class ArcticEmbedLEncoder extends DenseEncoder {
 
     long[][] attentionMask = new long[1][queryTokenIds.length];
     long[][] tokenTypeIds = new long[1][queryTokenIds.length];
-    // Initialize attention mask with all ones
     Arrays.fill(attentionMask[0], 1);
 
     inputs.put("input_ids", OnnxTensor.createTensor(environment, inputTokenIds));
@@ -69,21 +68,14 @@ public class ArcticEmbedLEncoder extends DenseEncoder {
     float[] weights = null;
     try (OrtSession.Result results = session.run(inputs)) {
       float[][][] tensorData = (float[][][]) ((OnnxTensor) results.get(0)).getValue();
-      int seqLen = tensorData[0].length;
-      weights = new float[1024];
 
-      for (int i = 0; i < seqLen; i++) {
-        for (int j = 0; j < 1024; j++) {
-          weights[j] += tensorData[0][i][j];
-        }
-      }
-      for (int j = 0; j < 1024; j++) {
-        weights[j] /= seqLen;
-      }
-      weights = normalize(weights);
+      weights = new float[1024];
+      System.arraycopy(tensorData[0][0], 0, weights, 0, 1024);
+
+      return normalize(weights);
     } catch (OrtException e) {
+      LOG.error("Error encoding query: {}", e.getMessage());
       throw e;
     }
-    return weights;
   }
 }
