@@ -28,6 +28,9 @@ import ai.onnxruntime.OnnxTensor;
 import ai.onnxruntime.OrtException;
 import ai.onnxruntime.OrtSession;
 
+/**
+ * ArcticEmbedL
+ */
 public class ArcticEmbedLEncoder extends DenseEncoder {
   static private final String MODEL_URL = "https://huggingface.co/Snowflake/snowflake-arctic-embed-l/blob/main/onnx/model.onnx";
   static private final String VOCAB_URL = "https://huggingface.co/Snowflake/snowflake-arctic-embed-l/blob/main/vocab.txt";
@@ -56,6 +59,7 @@ public class ArcticEmbedLEncoder extends DenseEncoder {
 
     long[][] attentionMask = new long[1][queryTokenIds.length];
     long[][] tokenTypeIds = new long[1][queryTokenIds.length];
+    // Initialize attention mask with all ones
     Arrays.fill(attentionMask[0], 1);
 
     inputs.put("input_ids", OnnxTensor.createTensor(environment, inputTokenIds));
