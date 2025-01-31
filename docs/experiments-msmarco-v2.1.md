@@ -274,4 +274,4 @@ On UWaterloo servers (e.g., `orca`), the base path for the shards is `/mnt/msmar
 
 ## Reproduction Log[*](reproducibility.md)
 
-+ Results reproduced by [@xxx](https://github.com/xxx) on 2025-xx-xx (commit [`xxxxxx`](https://github.com/castorini/anserini/commit/xxxxxx))
++ Results reproduced by [@vincent-4](https://github.com/vincent-4) on 2025-01-31 (commit [`3769728`](https://github.com/castorini/anserini/commit/3769728))
