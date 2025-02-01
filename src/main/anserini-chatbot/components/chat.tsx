@@ -29,91 +29,83 @@ export function Chat({
   selectedVisibilityType: VisibilityType;
   isReadonly: boolean;
 }) {
+  // Split into two separate components based on model type
+  if (selectedModelId.includes('anserini')) {
+    return (
+      <SearchChat
+        id={id}
+        initialMessages={initialMessages}
+        selectedModelId={selectedModelId}
+        selectedVisibilityType={selectedVisibilityType}
+        isReadonly={isReadonly}
+      />
+    );
+  }
+
+  return (
+    <OpenAIChat
+      id={id}
+      initialMessages={initialMessages}
+      selectedModelId={selectedModelId}
+      selectedVisibilityType={selectedVisibilityType}
+      isReadonly={isReadonly}
+    />
+  );
+}
+
+// Separate component for search functionality
+function SearchChat({ id, initialMessages, selectedModelId, selectedVisibilityType, isReadonly }: {
+  id: string;
+  initialMessages: Array<Message>;
+  selectedModelId: string;
+  selectedVisibilityType: VisibilityType;
+  isReadonly: boolean;
+}) {
   const { mutate } = useSWRConfig();
-  const [localMessages, setLocalMessages] = useState<Message[]>(initialMessages);
-  const isSearchModel = selectedModelId.includes('anserini');
+  const [messages, setMessages] = useState<Array<Message>>(initialMessages);
+  const [input, setInput] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [attachments, setAttachments] = useState<Array<Attachment>>([]);
+  const isBlockVisible = useBlockSelector((state) => state.isVisible);
 
-  const {
-    messages: aiMessages,
-    setMessages,
-    handleSubmit: originalHandleSubmit,
-    input,
-    setInput,
-    append,
-    isLoading,
-    stop,
-    reload,
-  } = useChat({
-    id,
-    body: { id, modelId: selectedModelId },
-    initialMessages,
-    experimental_throttle: isSearchModel ? 0 : 100,
-  });
-
-  // Custom submit handler for search models
-  const handleSubmit = async (e?: React.FormEvent<HTMLFormElement>) => {
-    // Prevent form submission if event exists
-    if (e) {
-      e.preventDefault();
-    }
-    
+  // Split into two functions: one for the actual submission and one for the form handler
+  const submitMessage = async () => {
     if (!input.trim()) return;
+    
+    setIsLoading(true);
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id,
+          messages: [...messages, { role: 'user', content: input }],
+          modelId: selectedModelId,
+        }),
+      });
 
-    if (isSearchModel) {
-      // Immediately append user message
-      const userMessage: Message = {
-        id: crypto.randomUUID(),
-        role: 'user',
-        content: input,
-        createdAt: new Date(),
-      };
-      setLocalMessages(prev => [...prev, userMessage]);
+      const data = await response.json();
+      
+      setMessages([
+        ...messages,
+        { id: crypto.randomUUID(), role: 'user', content: input },
+        { id: data.messageId, role: 'assistant', content: data.content }
+      ]);
+      
       setInput('');
-
-      try {
-        // Direct API call for search
-        const response = await fetch('/api/chat', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            id,
-            messages: [...localMessages, userMessage],
-            modelId: selectedModelId,
-          }),
-        });
-
-        const data = await response.json();
-        
-        // Immediately append assistant message
-        setLocalMessages(prev => [...prev, {
-          id: crypto.randomUUID(),
-          role: 'assistant',
-          content: data.content,
-          createdAt: new Date(),
-        }]);
-
-        await mutate('/api/history');
-      } catch (error) {
-        console.error('Search error:', error);
-      }
-    } else {
-      // Use original handler for chat models
-      if (e) {
-        originalHandleSubmit(e);
-      }
+      await mutate('/api/history');
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  // Use local messages for search model, AI messages for chat model
-  const displayMessages = isSearchModel ? localMessages : aiMessages;
+  // Form submit handler that can be called directly or via form
+  const handleSubmit = async (e?: React.FormEvent<HTMLFormElement>) => {
+    e?.preventDefault();
+    await submitMessage();
+  };
 
-  const { data: votes } = useSWR<Array<Vote>>(
-    `/api/vote?chatId=${id}`,
-    fetcher,
-  );
-
-  const [attachments, setAttachments] = useState<Array<Attachment>>([]);
-  const isBlockVisible = useBlockSelector((state) => state.isVisible);
+  const { data: votes } = useSWR<Array<Vote>>(`/api/vote?chatId=${id}`, fetcher);
 
   return (
     <>
@@ -129,14 +121,108 @@ export function Chat({
           chatId={id}
           isLoading={isLoading}
           votes={votes}
-          messages={displayMessages}
+          messages={messages}
+          setMessages={setMessages}
+          reload={() => {}}
+          isReadonly={isReadonly}
+          isBlockVisible={isBlockVisible}
+        />
+
+        <form onSubmit={handleSubmit} className="flex mx-auto px-4 bg-background pb-4 md:pb-6 gap-2 w-full md:max-w-3xl">
+          {!isReadonly && (
+            <MultimodalInput
+              chatId={id}
+              input={input}
+              setInput={setInput}
+              handleSubmit={handleSubmit}
+              isLoading={isLoading}
+              stop={() => {}}
+              attachments={attachments}
+              setAttachments={setAttachments}
+              messages={messages}
+              setMessages={setMessages}
+              append={() => {}}
+            />
+          )}
+        </form>
+      </div>
+
+      <Block
+        chatId={id}
+        input={input}
+        setInput={setInput}
+        handleSubmit={handleSubmit}
+        isLoading={isLoading}
+        stop={() => {}}
+        attachments={attachments}
+        setAttachments={setAttachments}
+        append={() => {}}
+        messages={messages}
+        setMessages={setMessages}
+        reload={() => {}}
+        votes={votes}
+        isReadonly={isReadonly}
+      />
+    </>
+  );
+}
+
+// Original OpenAI chat functionality
+function OpenAIChat({ id, initialMessages, selectedModelId, selectedVisibilityType, isReadonly }: {
+  id: string;
+  initialMessages: Array<Message>;
+  selectedModelId: string;
+  selectedVisibilityType: VisibilityType;
+  isReadonly: boolean;
+}) {
+  const { mutate } = useSWRConfig();
+  const [attachments, setAttachments] = useState<Array<Attachment>>([]);
+  const isBlockVisible = useBlockSelector((state) => state.isVisible);
+
+  const {
+    messages,
+    setMessages,
+    handleSubmit,
+    input,
+    setInput,
+    append,
+    isLoading,
+    stop,
+    reload,
+  } = useChat({
+    id,
+    body: { id, modelId: selectedModelId },
+    initialMessages,
+    experimental_throttle: 100,
+    onFinish: () => {
+      mutate('/api/history');
+    },
+  });
+
+  const { data: votes } = useSWR<Array<Vote>>(`/api/vote?chatId=${id}`, fetcher);
+
+  return (
+    <>
+      <div key={`${id}-${selectedModelId}`} className="flex flex-col min-w-0 h-dvh bg-background">
+        <ChatHeader
+          chatId={id}
+          selectedModelId={selectedModelId}
+          selectedVisibilityType={selectedVisibilityType}
+          isReadonly={isReadonly}
+        />
+
+        <Messages
+          chatId={id}
+          isLoading={isLoading}
+          votes={votes}
+          messages={messages}
           setMessages={setMessages}
           reload={reload}
           isReadonly={isReadonly}
           isBlockVisible={isBlockVisible}
         />
 
-        <form className="flex mx-auto px-4 bg-background pb-4 md:pb-6 gap-2 w-full md:max-w-3xl">
+        <form onSubmit={handleSubmit} className="flex mx-auto px-4 bg-background pb-4 md:pb-6 gap-2 w-full md:max-w-3xl">
           {!isReadonly && (
             <MultimodalInput
               chatId={id}
@@ -147,7 +233,7 @@ export function Chat({
               stop={stop}
               attachments={attachments}
               setAttachments={setAttachments}
-              messages={displayMessages}
+              messages={messages}
               setMessages={setMessages}
               append={append}
             />
@@ -165,7 +251,7 @@ export function Chat({
         attachments={attachments}
         setAttachments={setAttachments}
         append={append}
-        messages={displayMessages}
+        messages={messages}
         setMessages={setMessages}
         reload={reload}
         votes={votes}
