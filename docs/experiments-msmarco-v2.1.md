@@ -141,7 +141,18 @@ The commands below will download the indexes automatically, so make sure you hav
 See [this guide on prebuilt indexes](prebuilt-indexes.md) for general info on prebuilt indexes.
 Additional helpful tips are provided below for dealing with space issues.
 
-Here's how you reproduce results on the TREC 2024 RAG Track test queries:
+Here's how you reproduce results on the TREC 2024 RAG Track test queries, using ONNX to encode queries on the fly (which means you can extend to arbitrary queries):
+
+```bash
+# RAG24 test
+SHARDS=(00 01 02 03 04 05 06 07 08 09); for shard in "${SHARDS[@]}"
+do
+    bin/run.sh io.anserini.search.SearchHnswDenseVectors -index msmarco-v2.1-doc-segmented-shard${shard}.arctic-embed-l.hnsw-int8 -efSearch 1000 -topics rag24.test -topicReader TsvString -topicField title -encoder ArcticEmbedL -output runs/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.shard${shard}.txt -hits 250 -threads 32 > logs/log.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.shard${shard}.txt 2>&1
+done
+```
+
+<details>
+<summary>Same commands, but using cached queries (faster)</summary>
 
 ```bash
 # RAG24 test
@@ -150,6 +161,8 @@ do
     bin/run.sh io.anserini.search.SearchHnswDenseVectors -index msmarco-v2.1-doc-segmented-shard${shard}.arctic-embed-l.hnsw-int8 -efSearch 1000 -topics rag24.test.snowflake-arctic-embed-l -output runs/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.shard${shard}.txt -hits 250 -threads 32 > logs/log.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.shard${shard}.txt 2>&1
 done
 ```
+
+</details>
 
 Note that here we are generating passage-level runs.
 As it turns out, for evaluation purposes, you can just cat all the 10 run files together and evaluate:
@@ -165,8 +178,50 @@ bin/run.sh trec_eval -c -m recall.100 rag24.test-umbrela-all runs/run.msmarco-v2
 You should arrive at exactly the effectiveness metrics [above](#trec-2024-rag).
 Note that these are _passage-level_ relevance judgments.
 
-Here's how you reproduce results on the "dev queries".
+Shown below is how to reproduce results on the "dev queries".
 Note that here we are generating document-level runs via the MaxP technique (i.e., each document is represented by its highest-scoring passage).
+The commands below use ONNX to encode queries on the fly, which means you can extend to arbitrary queries.
+
+```bash
+# dev
+SHARDS=(00 01 02 03 04 05 06 07 08 09); for shard in "${SHARDS[@]}"
+do
+    bin/run.sh io.anserini.search.SearchHnswDenseVectors -index msmarco-v2.1-doc-segmented-shard${shard}.arctic-embed-l.hnsw-int8 -efSearch 1000 -topics msmarco-v2-doc.dev -topicReader TsvString -topicField title -encoder ArcticEmbedL -output runs/run.msmarco-v2.1-doc-segmented.arctic-l.msmarco-v2-doc.dev.shard${shard}.txt -threads 32 -hits 1000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 250 > logs/log.msmarco-v2.1-doc-segmented.arctic-l.msmarco-v2-doc.dev.shard${shard}.txt 2>&1
+done
+
+# dev2
+SHARDS=(00 01 02 03 04 05 06 07 08 09); for shard in "${SHARDS[@]}"
+do
+    bin/run.sh io.anserini.search.SearchHnswDenseVectors -index msmarco-v2.1-doc-segmented-shard${shard}.arctic-embed-l.hnsw-int8 -efSearch 1000 -topics msmarco-v2-doc.dev2 -topicReader TsvString -topicField title -encoder ArcticEmbedL -output runs/run.msmarco-v2.1-doc-segmented.arctic-l.msmarco-v2-doc.dev2.shard${shard}.txt -threads 32 -hits 1000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 250 > logs/log.msmarco-v2.1-doc-segmented.arctic-l.msmarco-v2-doc.dev2.shard${shard}.txt 2>&1
+done
+
+# DL21
+SHARDS=(00 01 02 03 04 05 06 07 08 09); for shard in "${SHARDS[@]}"
+do
+    bin/run.sh io.anserini.search.SearchHnswDenseVectors -index msmarco-v2.1-doc-segmented-shard${shard}.arctic-embed-l.hnsw-int8 -efSearch 1000 -topics dl21 -topicReader TsvString -topicField title -encoder ArcticEmbedL -output runs/run.msmarco-v2.1-doc-segmented.arctic-l.dl21.shard${shard}.txt -threads 32 -hits 1000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 250 > logs/log.msmarco-v2.1-doc-segmented.arctic-l.dl21.shard${shard}.txt 2>&1
+done
+
+# DL22
+SHARDS=(00 01 02 03 04 05 06 07 08 09); for shard in "${SHARDS[@]}"
+do
+    bin/run.sh io.anserini.search.SearchHnswDenseVectors -index msmarco-v2.1-doc-segmented-shard${shard}.arctic-embed-l.hnsw-int8 -efSearch 1000 -topics dl22 -topicReader TsvString -topicField title -encoder ArcticEmbedL -output runs/run.msmarco-v2.1-doc-segmented.arctic-l.dl22.shard${shard}.txt -threads 32 -hits 1000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 250 > logs/log.msmarco-v2.1-doc-segmented.arctic-l.dl22.shard${shard}.txt 2>&1
+done
+
+# DL23
+SHARDS=(00 01 02 03 04 05 06 07 08 09); for shard in "${SHARDS[@]}"
+do
+    bin/run.sh io.anserini.search.SearchHnswDenseVectors -index msmarco-v2.1-doc-segmented-shard${shard}.arctic-embed-l.hnsw-int8 -efSearch 1000 -topics dl23 -topicReader TsvString -topicField title -encoder ArcticEmbedL -output runs/run.msmarco-v2.1-doc-segmented.arctic-l.dl23.shard${shard}.txt -threads 32 -hits 1000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 250 > logs/log.msmarco-v2.1-doc-segmented.arctic-l.dl23.shard${shard}.txt 2>&1
+done
+
+# RAG24 Raggy
+SHARDS=(00 01 02 03 04 05 06 07 08 09); for shard in "${SHARDS[@]}"
+do
+    bin/run.sh io.anserini.search.SearchHnswDenseVectors -index msmarco-v2.1-doc-segmented-shard${shard}.arctic-embed-l.hnsw-int8 -efSearch 1000 -topics rag24.raggy-dev -topicReader TsvString -topicField title -encoder ArcticEmbedL -output runs/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.raggy-dev.shard${shard}.txt -threads 32 -hits 1000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 250 > logs/log.msmarco-v2.1-doc-segmented.arctic-l.rag24.raggy-dev.shard${shard}.txt 2>&1
+done
+```
+
+<details>
+<summary>Same commands, but using cached queries (faster)</summary>
 
 ```bash
 # dev
@@ -205,6 +260,8 @@ do
     bin/run.sh io.anserini.search.SearchHnswDenseVectors -index msmarco-v2.1-doc-segmented-shard${shard}.arctic-embed-l.hnsw-int8 -efSearch 1000 -topics rag24.raggy-dev.snowflake-arctic-embed-l -output runs/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.raggy-dev.shard${shard}.txt -threads 32 -hits 1000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 250 > logs/log.msmarco-v2.1-doc-segmented.arctic-l.rag24.raggy-dev.shard${shard}.txt 2>&1
 done
 ```
+
+</details>
 
 As it turns out, for evaluation purposes, you can just cat all the 10 run files together and evaluate:
 
