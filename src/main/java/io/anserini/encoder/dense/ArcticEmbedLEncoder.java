@@ -32,8 +32,8 @@ import ai.onnxruntime.OrtSession;
  * ArcticEmbedL
  */
 public class ArcticEmbedLEncoder extends DenseEncoder {
-  static private final String MODEL_URL = "https://huggingface.co/Snowflake/snowflake-arctic-embed-l/blob/main/onnx/model.onnx";
-  static private final String VOCAB_URL = "https://huggingface.co/Snowflake/snowflake-arctic-embed-l/blob/main/vocab.txt";
+  static private final String MODEL_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/arctic-embed-l-official.onnx";
+  static private final String VOCAB_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/arctic-embed-l-official-vocab.txt";
 
   static private final String MODEL_NAME = "snowflake-arctic-embed-l-official.onnx";
   static private final String VOCAB_NAME = "snowflake-arctic-embed-l-vocab.txt";
