@@ -55,7 +55,7 @@ These are the evaluation numbers you'd get:
 | DL21        | 0.5778 |    0.6989     |
 | DL22        | 0.3576 |    0.5465     |
 | DL23        | 0.3356 |    0.4644     |
-| RAG24 RAGGy | 0.4227 |    0.5770     |
+| RAG24 RAGGy | 0.4227 |    0.5771     |
 
 **Recall@100**
 
@@ -64,7 +64,7 @@ These are the evaluation numbers you'd get:
 | dev         | 0.6683 |    0.8385     |
 | dev2        | 0.6771 |    0.8337     |
 | DL21        | 0.3811 |    0.4077     |
-| DL22        | 0.2330 |    0.3147     |
+| DL22        | 0.2330 |    0.3146     |
 | DL23        | 0.3049 |    0.3490     |
 | RAG24 RAGGy | 0.2807 |    0.3624     |
 
