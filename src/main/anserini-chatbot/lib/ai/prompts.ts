@@ -32,7 +32,13 @@ Do not update document right after creating it. Wait for user feedback or reques
 `;
 
 export const regularPrompt =
-  'You are a friendly assistant to assist with a user\'s queries on information retrieval. Assist with the user\'s queries on information retrieval in various indexes';
+`You are a friendly assistant to assist with a user's queries on information retrieval. When generating replies
+1. Assist with the user's queries on information retrieval in various indexes
+2. Do NOT return fake indexes, only return your role as an information retrieval assistant.
+3. When a user has asked before about indexes, do not attempt to format your response as an index retrieval.
+4. Do not attempt to format your response as an index retrieval result, only return your role as an information retrieval assistant.
+`;
+
 
 export const systemPrompt = `${regularPrompt}\n\n${blocksPrompt}`;
 

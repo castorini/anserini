@@ -103,70 +103,80 @@ export async function POST(request: Request) {
     });
 
     try {
+      console.log('Processing Anserini search request');
+      
       if (!model.indexId) {
         throw new Error('Index ID is required for search models');
       }
-      // Search using Anserini service
+      
       const searchResults = await searchAnserini({
         query: userMessage.content.toString(),
         indexId: model.indexId,
       });
 
-      // Format results as markdown
-      const formattedResults = formatSearchResultsToMarkdown(searchResults, model.indexId);
+      console.log('Search results received:', searchResults);
 
+      const formattedResults = formatSearchResultsToMarkdown(searchResults, model.indexId);
+      
       // Save the assistant message
+      const assistantMessage = {
+        id: assistantMessageId,
+        role: 'assistant',
+        content: formattedResults,
+        createdAt: new Date(),
+        chatId: id
+      };
+
+      console.log('Saving assistant message:', assistantMessage);
+      
       await saveMessages({
-        messages: [
-          {
-            id: assistantMessageId,
-            role: 'assistant',
-            content: formattedResults,
-            createdAt: new Date(),
-            chatId: id
-          }
-        ]
+        messages: [assistantMessage]
       });
 
-    console.log("messages:", JSON.stringify(messages, null, 2))
-      // Return as a streaming response
+      // Check if the request accepts streaming
+      const acceptsStreaming = request.headers.get('accept')?.includes('text/event-stream');
+
+      if (!acceptsStreaming) {
+        // Return direct JSON response
+        return new Response(JSON.stringify({
+          content: formattedResults,
+          messageId: assistantMessageId,
+        }), {
+          headers: { 'Content-Type': 'application/json' },
+        });
+      }
+
+      // Return streaming response for OpenAI compatibility
       return createDataStreamResponse({
         execute: async (dataStream) => {
-          // Write the user message ID first
+          console.log('Starting stream response');
+          
+          // Write user message ID immediately
           dataStream.writeData({
             type: 'user-message-id',
             content: userMessageId,
           });
 
-          // Create a result object similar to what streamText returns
-          const result = {
-            fullStream: (async function* () {
-              yield {
-                type: 'text-delta',
-                textDelta: formattedResults
-              };
-            })(),
-            mergeIntoDataStream: async (ds: typeof dataStream) => {
-              // Write the text content
-              ds.writeData({
-                type: 'text-delta',
-                content: formattedResults
-              });
-              
-              // Write the assistant message ID
-              ds.writeMessageAnnotation({
-                messageIdFromServer: assistantMessageId,
-              });
+          // Write assistant message ID immediately
+          dataStream.writeMessageAnnotation({
+            messageIdFromServer: assistantMessageId,
+          });
 
-              // Signal completion
-              ds.writeData({ type: 'finish', content: '' });
-            }
-          };
+          // Stream the response in very small chunks for better UI responsiveness
+          const chunks = formattedResults.match(/.{1,50}/g) || [];
+          for (const chunk of chunks) {
+            dataStream.writeData({
+              type: 'text-delta',
+              content: chunk
+            });
+            // Smaller delay for faster updates
+            await new Promise(resolve => setTimeout(resolve, 5));
+          }
 
-        console.log("result:", JSON.stringify(result, null, 2))
-
-          // Use the same pattern as the OpenAI flow
-          await result.mergeIntoDataStream(dataStream);
+          // Signal completion
+          dataStream.writeData({ type: 'finish', content: '' });
+          
+          console.log('Stream response completed');
         }
       });
     } catch (error) {

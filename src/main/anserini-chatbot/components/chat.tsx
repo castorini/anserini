@@ -2,8 +2,9 @@
 
 import type { Attachment, Message } from 'ai';
 import { useChat } from 'ai/react';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import useSWR, { useSWRConfig } from 'swr';
+
 
 import { ChatHeader } from '@/components/chat-header';
 import type { Vote } from '@/lib/db/schema';
@@ -29,13 +30,13 @@ export function Chat({
   isReadonly: boolean;
 }) {
   const { mutate } = useSWRConfig();
-
-  const chatKey = `${id}-${selectedModelId}`;
+  const [localMessages, setLocalMessages] = useState<Message[]>(initialMessages);
+  const isSearchModel = selectedModelId.includes('anserini');
 
   const {
-    messages,
+    messages: aiMessages,
     setMessages,
-    handleSubmit,
+    handleSubmit: originalHandleSubmit,
     input,
     setInput,
     append,
@@ -46,11 +47,65 @@ export function Chat({
     id,
     body: { id, modelId: selectedModelId },
     initialMessages,
-    experimental_throttle: 100,
-    onFinish: () => {
-      mutate('/api/history');
-    },
+    experimental_throttle: isSearchModel ? 0 : 100,
   });
+
+  // Custom submit handler for search models
+  const handleSubmit = async (e?: React.FormEvent<HTMLFormElement>) => {
+    // Prevent form submission if event exists
+    if (e) {
+      e.preventDefault();
+    }
+    
+    if (!input.trim()) return;
+
+    if (isSearchModel) {
+      // Immediately append user message
+      const userMessage: Message = {
+        id: crypto.randomUUID(),
+        role: 'user',
+        content: input,
+        createdAt: new Date(),
+      };
+      setLocalMessages(prev => [...prev, userMessage]);
+      setInput('');
+
+      try {
+        // Direct API call for search
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            id,
+            messages: [...localMessages, userMessage],
+            modelId: selectedModelId,
+          }),
+        });
+
+        const data = await response.json();
+        
+        // Immediately append assistant message
+        setLocalMessages(prev => [...prev, {
+          id: crypto.randomUUID(),
+          role: 'assistant',
+          content: data.content,
+          createdAt: new Date(),
+        }]);
+
+        await mutate('/api/history');
+      } catch (error) {
+        console.error('Search error:', error);
+      }
+    } else {
+      // Use original handler for chat models
+      if (e) {
+        originalHandleSubmit(e);
+      }
+    }
+  };
+
+  // Use local messages for search model, AI messages for chat model
+  const displayMessages = isSearchModel ? localMessages : aiMessages;
 
   const { data: votes } = useSWR<Array<Vote>>(
     `/api/vote?chatId=${id}`,
@@ -62,7 +117,7 @@ export function Chat({
 
   return (
     <>
-      <div key={chatKey} className="flex flex-col min-w-0 h-dvh bg-background">
+      <div key={`${id}-${selectedModelId}`} className="flex flex-col min-w-0 h-dvh bg-background">
         <ChatHeader
           chatId={id}
           selectedModelId={selectedModelId}
@@ -74,7 +129,7 @@ export function Chat({
           chatId={id}
           isLoading={isLoading}
           votes={votes}
-          messages={messages}
+          messages={displayMessages}
           setMessages={setMessages}
           reload={reload}
           isReadonly={isReadonly}
@@ -92,7 +147,7 @@ export function Chat({
               stop={stop}
               attachments={attachments}
               setAttachments={setAttachments}
-              messages={messages}
+              messages={displayMessages}
               setMessages={setMessages}
               append={append}
             />
@@ -110,7 +165,7 @@ export function Chat({
         attachments={attachments}
         setAttachments={setAttachments}
         append={append}
-        messages={messages}
+        messages={displayMessages}
         setMessages={setMessages}
         reload={reload}
         votes={votes}
