@@ -17,7 +17,6 @@
 package io.anserini.encoder;
 
 import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Arrays;
