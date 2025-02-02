@@ -200,8 +200,7 @@ public class SearchService {
 
     if (queryGenerator != null) {
       if (!queryGenerator.equals(indexInfo.queryGenerator)) {
-        throw new IllegalArgumentException(
-            "Unsupported queryGenerator: " + queryGenerator + " for index " + prebuiltIndex);
+        throw new IllegalArgumentException("Unsupported queryGenerator: " + queryGenerator + " for index " + prebuiltIndex);
       }
     }
   }
