@@ -38,11 +38,11 @@ public class SearchServiceTest {
 
   @Test
   public void testInvalidSearchParameters() {
-    SearchService service = new SearchService("msmarco-v1-passage");
+    SearchService service = new SearchService("beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.hnsw");
     assertThrows("InvalidSearchParameters: search(\"\") should throw IllegalArgumentException (query must be non-empty)",
-        IllegalArgumentException.class, () -> service.search("", 10));
+        IllegalArgumentException.class, () -> service.search("", 10, 100, null, null));
     assertThrows("InvalidSearchParameters: search('query', 0) should throw IllegalArgumentException (result count must be > 0)",
-        IllegalArgumentException.class, () -> service.search("query", 0));
+        IllegalArgumentException.class, () -> service.search("query", 0, 100, null, null));
   }
 
   @Test
@@ -67,14 +67,19 @@ public class SearchServiceTest {
         IllegalArgumentException.class, () -> service.setQueryGeneratorOverride(""));
     assertThrows("QueryOverrides: setQueryGeneratorOverride('someOtherQueryGenerator') is not supported for beir-v1; expected IllegalArgumentException",
         IllegalArgumentException.class, () -> service.setQueryGeneratorOverride("someOtherQueryGenerator"));
-    SearchService nonHnswService = new SearchService("beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5");
+    SearchService nonHnswService = new SearchService("beir-v1.0.0-cqadupstack-english.flat");
     assertThrows("QueryOverrides: setEfSearchOverride('100') on a non-HNSW index should throw IllegalArgumentException (efSearch supported only for HNSW indexes)",
         IllegalArgumentException.class, () -> nonHnswService.setEfSearchOverride("100"));
+    assertThrows("QueryOverrides: setQueryGeneratorOverride('someOtherQueryGenerator') on a non-HNSW index should throw IllegalArgumentException (queryGenerator supported only for HNSW indexes)",
+        IllegalArgumentException.class, () -> nonHnswService.setQueryGeneratorOverride("someOtherQueryGenerator"));
+    assertThrows("QueryOverrides: setEncoderOverride('someOtherEncoder') on a non-HNSW index should throw IllegalArgumentException (encoder supported only for HNSW indexes)",
+        IllegalArgumentException.class, () -> nonHnswService.setEncoderOverride("someOtherEncoder"));
   }
 
   @Test
   public void testHnswSearch() throws Exception {
     SearchService service = new SearchService("beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.hnsw");
+
     List<Map<String, Object>> results = service.search("test query", 5, 100, null, null);
     assertNotNull("HNSW Search: search('test query', 5, 100, null, null) returned null results", results);
     assertTrue("HNSW Search: Expected results size <= 5 but got " + results.size(), results.size() <= 5);
@@ -83,6 +88,7 @@ public class SearchServiceTest {
   @Test
   public void testEfSearchOverride() {
     SearchService service = new SearchService("beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.hnsw");
+
     service.setEfSearchOverride("200");
     int efSearch = service.getEfSearchOverride();
     assertEquals("EfSearchOverride: Expected efSearch to be 200 but got " + efSearch, 200, efSearch);

@@ -148,36 +148,26 @@ public class SearchService {
   }
 
   public void setEfSearchOverride(String value) {
-    try {
-      int efSearch = Integer.parseInt(value);
-      if (efSearch <= 0) {
-        throw new IllegalArgumentException("efSearch must be positive");
-      }
-      indexOverrides.put("efSearch", efSearch);
-    } catch (NumberFormatException e) {
-      throw new IllegalArgumentException("Invalid efSearch value: " + value);
+    if (value == null || value.trim().isEmpty()) {
+      throw new IllegalArgumentException("efSearch cannot be empty");
     }
+    validateSettings(Integer.parseInt(value), getEncoderOverride(), getQueryGeneratorOverride());
+    indexOverrides.put("efSearch", Integer.parseInt(value));
   }
 
   public void setEncoderOverride(String value) {
     if (value == null || value.trim().isEmpty()) {
       throw new IllegalArgumentException("Encoder cannot be empty");
     }
-    IndexInfo indexInfo = IndexInfo.get(prebuiltIndex);
-    if (!value.equals(indexInfo.encoder)) {
-      throw new IllegalArgumentException("Unsupported encoder: " + value + " for index " + prebuiltIndex);
-    }
+    validateSettings(getEfSearchOverride(), value, getQueryGeneratorOverride());
     indexOverrides.put("encoder", value.replace(".class", ""));
   }
 
   public void setQueryGeneratorOverride(String value) {
     if (value == null || value.trim().isEmpty()) {
-      throw new IllegalArgumentException("queryGenerator cannot be empty");
+      throw new IllegalArgumentException("QueryGenerator cannot be empty");
     }
-    IndexInfo indexInfo = IndexInfo.get(prebuiltIndex);
-    if (!value.equals(indexInfo.queryGenerator)) {
-      throw new IllegalArgumentException("Unsupported queryGenerator: " + value + " for index " + prebuiltIndex);
-    }
+    validateSettings(getEfSearchOverride(), getEncoderOverride(), value);
     indexOverrides.put("queryGenerator", value.replace(".class", ""));
   }
 
@@ -192,17 +182,27 @@ public class SearchService {
 
   private void validateSettings(Integer efSearch, String encoder, String queryGenerator) {
     IndexInfo indexInfo = IndexInfo.get(prebuiltIndex);
-    
-    if (efSearch != null && !isHnswIndex) {
-      throw new IllegalArgumentException("efSearch parameter is only supported for HNSW indexes");
+
+    if (efSearch != null) {
+      if (efSearch <= 0) {
+        throw new IllegalArgumentException("efSearch must be positive but got " + efSearch);
+      }
+      if (!isHnswIndex) {
+        throw new IllegalArgumentException("efSearch parameter is only supported for HNSW indexes, but index " + prebuiltIndex + " is not HNSW");
+      }
     }
 
-    if (encoder != null && !encoder.equals(indexInfo.encoder)) {
-      throw new IllegalArgumentException("Unsupported encoder: " + encoder + " for index " + prebuiltIndex);
+    if (encoder != null) {
+      if (!encoder.equals(indexInfo.encoder)) {
+        throw new IllegalArgumentException("Unsupported encoder: " + encoder + " for index " + prebuiltIndex);
+      }
     }
 
-    if (queryGenerator != null && !queryGenerator.equals(indexInfo.queryGenerator)) {
-      throw new IllegalArgumentException("Unsupported queryGenerator: " + queryGenerator + " for index " + prebuiltIndex);
+    if (queryGenerator != null) {
+      if (!queryGenerator.equals(indexInfo.queryGenerator)) {
+        throw new IllegalArgumentException(
+            "Unsupported queryGenerator: " + queryGenerator + " for index " + prebuiltIndex);
+      }
     }
   }
 
