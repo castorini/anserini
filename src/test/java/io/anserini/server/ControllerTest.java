@@ -113,5 +113,5 @@ public class ControllerTest {
       assertTrue("Index details: Should contain queryGenerator",  indexInfo.containsKey("queryGenerator"));
       assertTrue("Index details: Should contain invertedIndex",  indexInfo.containsKey("invertedIndex"));
     }
-}
+  }
 }
