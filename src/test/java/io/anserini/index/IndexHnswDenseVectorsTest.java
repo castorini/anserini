@@ -19,6 +19,7 @@ package io.anserini.index;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.Map;
+import io.anserini.index.generator.InvalidDocumentException;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
@@ -26,6 +27,7 @@ import org.apache.lucene.index.IndexReader;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -196,6 +198,41 @@ public class IndexHnswDenseVectorsTest {
     Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, Constants.VECTOR);
     assertNotNull(results);
     assertEquals(10, results.get("documents"));
+  }
+
+  @Test
+  public void testNullVector() throws Exception {
+    // Test for JsonDenseVectorDocumentGenerator
+    String indexPath = "target/lucene-test-index.hnsw." + System.currentTimeMillis();
+    String[] indexArgs = new String[] {
+        "-collection", "JsonDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/openai_ada2/json_vector_null",
+        "-index", indexPath,
+        "-generator", "JsonDenseVectorDocumentGenerator",
+        "-threads", "1"
+    };
+
+    IndexHnswDenseVectors.main(indexArgs);
+    IndexReader reader = IndexReaderUtils.getReader(indexPath);
+    assertNotNull(reader);
+    Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, Constants.VECTOR);
+    assertEquals(0, results.get("documents"));
+
+    // Test for JsonInvertedDenseVectorDocumentGenerator
+    indexPath = "target/lucene-test-index.hnsw." + System.currentTimeMillis();
+    indexArgs = new String[] {
+        "-collection", "JsonDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/openai_ada2/json_vector_null",
+        "-index", indexPath,
+        "-generator", "JsonInvertedDenseVectorDocumentGenerator",
+        "-threads", "1"
+    };
+
+    IndexHnswDenseVectors.main(indexArgs);
+    reader = IndexReaderUtils.getReader(indexPath);
+    assertNotNull(reader);
+    results = IndexReaderUtils.getIndexStats(reader, Constants.VECTOR);
+    assertEquals(0, results.get("documents"));
   }
 
   @Test
