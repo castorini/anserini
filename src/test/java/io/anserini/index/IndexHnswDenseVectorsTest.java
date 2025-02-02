@@ -212,12 +212,11 @@ public class IndexHnswDenseVectorsTest {
         "-threads", "1"
     };
 
-    try {
-      IndexHnswDenseVectors.main(indexArgs);
-      fail("Expected InvalidDocumentException");
-    } catch (InvalidDocumentException e) {
-      // expected
-    }
+    IndexHnswDenseVectors.main(indexArgs);
+    IndexReader reader = IndexReaderUtils.getReader(indexPath);
+    assertNotNull(reader);
+    Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, Constants.VECTOR);
+    assertEquals(0, results.get("documents"));
 
     // Test for JsonInvertedDenseVectorDocumentGenerator
     indexPath = "target/lucene-test-index.hnsw." + System.currentTimeMillis();
@@ -229,12 +228,11 @@ public class IndexHnswDenseVectorsTest {
         "-threads", "1"
     };
 
-    try {
-      IndexHnswDenseVectors.main(indexArgs);
-      fail("Expected InvalidDocumentException");
-    } catch (InvalidDocumentException e) {
-      // expected
-    }
+    IndexHnswDenseVectors.main(indexArgs);
+    reader = IndexReaderUtils.getReader(indexPath);
+    assertNotNull(reader);
+    results = IndexReaderUtils.getIndexStats(reader, Constants.VECTOR);
+    assertEquals(0, results.get("documents"));
   }
 
   @Test
