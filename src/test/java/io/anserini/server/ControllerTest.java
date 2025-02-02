@@ -65,15 +65,15 @@ public class ControllerTest {
   @Test
   public void testGetIndexStatusValid() {
   Controller controller = new Controller();
-  Map<String, Object> status = controller.getIndexStatus("beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.hnsw");
-  assertNotNull("GetIndexStatus: Expected non-null status map for valid index 'beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.hnsw'", status);
-  assertTrue("GetIndexStatus: Expected status map to contain key 'cached'", status.containsKey("cached"));
+    Map<String, Object> status = controller.getIndexStatus("beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.hnsw");
+    assertNotNull("GetIndexStatus: Expected non-null status map for valid index 'beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.hnsw'", status);
+    assertTrue("GetIndexStatus: Expected status map to contain key 'cached'", status.containsKey("cached"));
   }
 
   @Test
   public void testGetIndexStatusInvalidIndex() {
-  Controller controller = new Controller();
-  assertThrows("GetIndexStatus: Calling getIndexStatus with invalid index 'nonexistent-index' should throw IllegalArgumentException",
+    Controller controller = new Controller();
+    assertThrows("GetIndexStatus: Calling getIndexStatus with invalid index 'nonexistent-index' should throw IllegalArgumentException",
       IllegalArgumentException.class,() -> controller.getIndexStatus("nonexistent-index"));
   }
 
@@ -86,4 +86,32 @@ public class ControllerTest {
     assertEquals("ListIndexes: Expected " + expectedIndexCount + " indexes but found " + actualIndexCount, expectedIndexCount, actualIndexCount);
   }
 
+  @Test
+  public void testDocumentRetrieval() throws Exception {
+    Controller controller = new Controller();
+    
+    Map<String, Object> doc = controller.getDocument("beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.hnsw", "3553430");
+    assertNotNull("Document retrieval: Expected non-null document for valid docid", doc);
+    assertThrows("Document retrieval: Invalid index should throw IllegalArgumentException",
+        IllegalArgumentException.class, () -> controller.getDocument("nonexistent-index", "3553430"));
+  }
+
+  @Test
+  public void testIndexDetailsInListIndexes() throws Exception {
+    Controller controller = new Controller();
+    Map<String, Map<String, Object>> indexes = controller.listIndexes();
+    
+    for (Map.Entry<String, Map<String, Object>> entry : indexes.entrySet()) {
+        Map<String, Object> indexInfo = entry.getValue();
+        assertTrue("Index details: Should contain filename",  indexInfo.containsKey("filename"));
+        assertTrue("Index details: Should contain corpus",  indexInfo.containsKey("corpus"));
+        assertTrue("Index details: Should contain model",  indexInfo.containsKey("model"));
+        assertTrue("Index details: Should contain urls",  indexInfo.containsKey("urls"));
+        assertTrue("Index details: Should contain md5",  indexInfo.containsKey("md5"));
+        assertTrue("Index details: Should contain indexType",  indexInfo.containsKey("indexType"));
+        assertTrue("Index details: Should contain encoder",  indexInfo.containsKey("encoder"));
+        assertTrue("Index details: Should contain queryGenerator",  indexInfo.containsKey("queryGenerator"));
+        assertTrue("Index details: Should contain invertedIndex",  indexInfo.containsKey("invertedIndex"));
+    }
+}
 }
