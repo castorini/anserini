@@ -102,16 +102,16 @@ public class ControllerTest {
     Map<String, Map<String, Object>> indexes = controller.listIndexes();
     
     for (Map.Entry<String, Map<String, Object>> entry : indexes.entrySet()) {
-        Map<String, Object> indexInfo = entry.getValue();
-        assertTrue("Index details: Should contain filename",  indexInfo.containsKey("filename"));
-        assertTrue("Index details: Should contain corpus",  indexInfo.containsKey("corpus"));
-        assertTrue("Index details: Should contain model",  indexInfo.containsKey("model"));
-        assertTrue("Index details: Should contain urls",  indexInfo.containsKey("urls"));
-        assertTrue("Index details: Should contain md5",  indexInfo.containsKey("md5"));
-        assertTrue("Index details: Should contain indexType",  indexInfo.containsKey("indexType"));
-        assertTrue("Index details: Should contain encoder",  indexInfo.containsKey("encoder"));
-        assertTrue("Index details: Should contain queryGenerator",  indexInfo.containsKey("queryGenerator"));
-        assertTrue("Index details: Should contain invertedIndex",  indexInfo.containsKey("invertedIndex"));
+    Map<String, Object> indexInfo = entry.getValue();
+      assertTrue("Index details: Should contain filename",  indexInfo.containsKey("filename"));
+      assertTrue("Index details: Should contain corpus",  indexInfo.containsKey("corpus"));
+      assertTrue("Index details: Should contain model",  indexInfo.containsKey("model"));
+      assertTrue("Index details: Should contain urls",  indexInfo.containsKey("urls"));
+      assertTrue("Index details: Should contain md5",  indexInfo.containsKey("md5"));
+      assertTrue("Index details: Should contain indexType",  indexInfo.containsKey("indexType"));
+      assertTrue("Index details: Should contain encoder",  indexInfo.containsKey("encoder"));
+      assertTrue("Index details: Should contain queryGenerator",  indexInfo.containsKey("queryGenerator"));
+      assertTrue("Index details: Should contain invertedIndex",  indexInfo.containsKey("invertedIndex"));
     }
 }
 }
