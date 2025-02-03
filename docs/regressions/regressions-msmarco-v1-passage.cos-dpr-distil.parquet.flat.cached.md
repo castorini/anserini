@@ -36,7 +36,7 @@ wget https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cos-dpr-distil.pa
 tar xvf collections/msmarco-passage-cos-dpr-distil.parquet.tar -C collections/
 ```
 
-To confirm, `msmarco-passage-cos-dpr-distil.parquet.tar` is 38 GB and has MD5 checksum `c8a204fbc3ccda581aa375936af43a97`.
+To confirm, `msmarco-passage-cos-dpr-distil.parquet.tar` is 26 GB and has MD5 checksum `b9183de205fbd5c799211c21187179e7`.
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
