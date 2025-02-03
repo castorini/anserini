@@ -26,6 +26,8 @@ import io.anserini.index.IndexInfo;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.apache.lucene.document.Document;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -116,7 +118,12 @@ public class SearchService {
   public Map<String, Object> getDocument(String docid) {
     if (!isHnswIndex) throw new IllegalArgumentException("getDocument is only supported for HNSW indexes");
     try (SimpleSearcher searcher = new SimpleSearcher(indexDir)) {
-      String raw = searcher.doc(docid).get(Constants.RAW);
+      Document lucene_document = searcher.doc(docid);
+      if (lucene_document == null) {
+        return Map.of("error", "Document not found: " + docid);
+      }
+      
+      String raw = lucene_document.get(Constants.RAW);
       Map<String, Object> candidate = new LinkedHashMap<>();
       if (raw != null) {
         JsonNode rootNode = mapper.readTree(raw);
@@ -131,7 +138,7 @@ public class SearchService {
       return candidate;
     } catch (Exception e) {
       e.printStackTrace();
-      return Map.of();
+      return Map.of("error", "Error retrieving document: " + e.getMessage());
     }
   }
 
@@ -151,8 +158,15 @@ public class SearchService {
     if (value == null || value.trim().isEmpty()) {
       throw new IllegalArgumentException("efSearch cannot be empty");
     }
-    validateSettings(Integer.parseInt(value), getEncoderOverride(), getQueryGeneratorOverride());
-    indexOverrides.put("efSearch", Integer.parseInt(value));
+
+    int efSearch;
+    try {
+      efSearch = Integer.parseInt(value.trim());
+    } catch (NumberFormatException e) {
+      throw new IllegalArgumentException("efSearch must be a valid integer, but got: " + value);
+    }
+    validateSettings(efSearch, getEncoderOverride(), getQueryGeneratorOverride());
+    indexOverrides.put("efSearch", efSearch);
   }
 
   public void setEncoderOverride(String value) {
