@@ -21,6 +21,7 @@ export async function generateTitleFromUserMessage({
 }: {
   message: CoreUserMessage;
 }) {
+    /* We don't want to use the LLM to generate the title as it creates LLM dependencies.
   const { text: title } = await generateText({
     model: customModel('gpt-4o-mini'),
     system: `\n
@@ -30,8 +31,10 @@ export async function generateTitleFromUserMessage({
     - do not use quotes or colons`,
     prompt: JSON.stringify(message),
   });
+  */
 
-  return title;
+  const title = message.content.toString().slice(0, 50);
+  return title || 'New Chat';
 }
 
 export async function deleteTrailingMessages({ id }: { id: string }) {
