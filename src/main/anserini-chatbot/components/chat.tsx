@@ -1,6 +1,6 @@
 'use client';
 
-import type { Attachment, Message } from 'ai';
+import type { Attachment, Message, CreateMessage, ChatRequestOptions } from 'ai';
 import { useChat } from 'ai/react';
 import { useState, useMemo } from 'react';
 import useSWR, { useSWRConfig } from 'swr';
@@ -99,10 +99,24 @@ function SearchChat({ id, initialMessages, selectedModelId, selectedVisibilityTy
     }
   };
 
-  // Form submit handler that can be called directly or via form
-  const handleSubmit = async (e?: React.FormEvent<HTMLFormElement>) => {
-    e?.preventDefault();
+  // Form submit handler that matches MultimodalInput's expected type
+  const handleSubmit = async (
+    event?: { preventDefault?: () => void } | undefined,
+    chatRequestOptions?: ChatRequestOptions
+  ) => {
+    event?.preventDefault?.();
     await submitMessage();
+  };
+
+  const append = async (
+    message: Message | CreateMessage,
+    chatRequestOptions?: ChatRequestOptions
+  ): Promise<string | null | undefined> => {
+    return null;
+  };
+
+  const reload = async (chatRequestOptions?: ChatRequestOptions): Promise<string | null | undefined> => {
+    return null;
   };
 
   const { data: votes } = useSWR<Array<Vote>>(`/api/vote?chatId=${id}`, fetcher);
@@ -123,7 +137,7 @@ function SearchChat({ id, initialMessages, selectedModelId, selectedVisibilityTy
           votes={votes}
           messages={messages}
           setMessages={setMessages}
-          reload={() => {}}
+          reload={reload}
           isReadonly={isReadonly}
           isBlockVisible={isBlockVisible}
         />
@@ -141,7 +155,7 @@ function SearchChat({ id, initialMessages, selectedModelId, selectedVisibilityTy
               setAttachments={setAttachments}
               messages={messages}
               setMessages={setMessages}
-              append={() => {}}
+              append={append}
             />
           )}
         </form>
@@ -156,10 +170,10 @@ function SearchChat({ id, initialMessages, selectedModelId, selectedVisibilityTy
         stop={() => {}}
         attachments={attachments}
         setAttachments={setAttachments}
-        append={() => {}}
+        append={append}
         messages={messages}
         setMessages={setMessages}
-        reload={() => {}}
+        reload={reload}
         votes={votes}
         isReadonly={isReadonly}
       />
