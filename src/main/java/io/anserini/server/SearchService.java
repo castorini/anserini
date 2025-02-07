@@ -22,6 +22,7 @@ import io.anserini.search.SimpleSearcher;
 import io.anserini.search.HnswDenseSearcher;
 import io.anserini.util.PrebuiltIndexHandler;
 import io.anserini.index.IndexInfo;
+import io.anserini.index.ShardInfo;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,10 +30,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.lucene.document.Document;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class SearchService {
 
@@ -58,8 +62,7 @@ public class SearchService {
     return search(query, hits, null, null, null);
   }
 
-  public List<Map<String, Object>> search(String query, int hits,
-      Integer efSearch, String encoder, String queryGenerator) {
+  public List<Map<String, Object>> search(String query, int hits,Integer efSearch, String encoder, String queryGenerator) {
     validateSearchParameters(query, hits);
     validateSettings(efSearch, encoder, queryGenerator);
 
@@ -73,6 +76,7 @@ public class SearchService {
             Map<String, Object> candidate = new LinkedHashMap<>();
             candidate.put("docid", r.docid);
             candidate.put("score", r.score);
+
             String raw = r.lucene_document.get(Constants.RAW);
             if (raw != null) {
               JsonNode rootNode = mapper.readTree(raw);
@@ -111,6 +115,7 @@ public class SearchService {
         }
       }
     } catch (Exception e) {
+      e.printStackTrace();
       return List.of();
     }
   }
@@ -231,6 +236,21 @@ public class SearchService {
     } catch (Exception e) {
       return new IndexInitializationResult(null, false, e);
     }
+  }
+
+  static List<Map<String, Object>> searchSharded(ShardInfo shardGroup, String query, int hits,
+    Integer efSearch, String encoder, String queryGenerator, Function<String, SearchService> serviceProvider) {
+
+    return Arrays.stream(shardGroup.getShards())
+      .parallel()
+      .map(shard -> {
+        SearchService service = serviceProvider.apply(shard.indexName);
+        return service.search(query, hits, efSearch, encoder, queryGenerator);
+      })
+      .flatMap(List::stream)
+      .sorted((a, b) -> ((Float) b.get("score")).compareTo((Float) a.get("score")))
+      .limit(hits)
+      .collect(Collectors.toList());
   }
 
   private static class IndexInitializationResult {
