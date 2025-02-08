@@ -39,7 +39,7 @@ wget https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-openai-ada2.parqu
 tar xvf collections/msmarco-passage-openai-ada2.parquet.tar -C collections/
 ```
 
-To confirm, `msmarco-passage-openai-ada2.parquet.tar` is 75 GB and has MD5 checksum `fa3637e9c4150b157270e19ef3a4f779`.
+To confirm, `msmarco-passage-openai-ada2.parquet.tar` is 51 GB and has MD5 checksum `a8fddf594c9b8e771637968033b12f6d`.
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash

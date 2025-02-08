@@ -3,7 +3,7 @@ corpus: msmarco-passage-cos-dpr-distil.parquet
 corpus_path: collections/msmarco/msmarco-passage-cos-dpr-distil.parquet/
 
 download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cos-dpr-distil.parquet.tar
-download_checksum: c8a204fbc3ccda581aa375936af43a97
+download_checksum: b9183de205fbd5c799211c21187179e7
 
 index_path: indexes/lucene-hnsw-int8.msmarco-v1-passage.cos-dpr-distil/
 index_type: hnsw

@@ -36,7 +36,7 @@ wget https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-bge-base-en-v1.5.
 tar xvf collections/msmarco-passage-bge-base-en-v1.5.parquet.tar -C collections/
 ```
 
-To confirm, `msmarco-passage-bge-base-en-v1.5.parquet.tar` is 39 GB and has MD5 checksum `b235e19ec492c18a18057b30b8b23fd4`.
+To confirm, `msmarco-passage-bge-base-en-v1.5.parquet.tar` is 26 GB and has MD5 checksum `a55b3cb338ec4a1b1c36825bf0854648`.
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash

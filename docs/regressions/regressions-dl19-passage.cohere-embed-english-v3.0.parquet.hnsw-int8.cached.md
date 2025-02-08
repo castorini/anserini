@@ -34,7 +34,7 @@ wget https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cohere-embed-engl
 tar xvf collections/msmarco-passage-cohere-embed-english-v3.0.parquet.tar -C collections/
 ```
 
-To confirm, `msmarco-passage-cohere-embed-english-v3.0.parquet.tar` is 16 GB and has MD5 checksum `40c5caf33476746e93ceeb75174b8d64`.
+To confirm, `msmarco-passage-cohere-embed-english-v3.0.parquet.tar` is 16 GB and has MD5 checksum `760dfb5ba9e2b0cc6f7e527e518fef03`.
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash

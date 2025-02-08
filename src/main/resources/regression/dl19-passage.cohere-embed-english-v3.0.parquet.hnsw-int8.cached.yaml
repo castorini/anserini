@@ -3,7 +3,7 @@ corpus: msmarco-passage-cohere-embed-english-v3.0.parquet
 corpus_path: collections/msmarco/msmarco-passage-cohere-embed-english-v3.0.parquet/
 
 download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cohere-embed-english-v3.0.parquet.tar
-download_checksum: 40c5caf33476746e93ceeb75174b8d64
+download_checksum: 760dfb5ba9e2b0cc6f7e527e518fef03
 
 index_path: indexes/lucene-hnsw-int8.msmarco-v1-passage.cohere-embed-english-v3.0/
 index_type: hnsw
