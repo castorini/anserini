@@ -182,10 +182,10 @@ Key:
 | [SPLADEv2](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-distill-splade-max.tar)                                     | 9.9 GB | `b5d126f5d9a8e1b3ef3f5cb0ba651725` |
 | [SPLADE++ CoCondenser-EnsembleDistil](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-splade-pp-ed.tar)                        | 4.2 GB | `e489133bdc54ee1e7c62a32aa582bc77` |
 | [SPLADE++ CoCondenser-SelfDistil](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-splade-pp-sd.tar)                            | 4.8 GB | `cb7e264222f2bf2221dd2c9d28190be1` |
-| [cosDPR-distil](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cos-dpr-distil.parquet.tar) (parquet)                          |  38 GB | `c8a204fbc3ccda581aa375936af43a97` |
-| [BGE-base-en-v1.5](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-bge-base-en-v1.5.parquet.tar) (parquet)                     |  39 GB | `b235e19ec492c18a18057b30b8b23fd4` |
-| [OpenAI-ada2](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-openai-ada2.parquet.tar) (parquet)                               |  75 GB | `fa3637e9c4150b157270e19ef3a4f779` |
-| [Cohere embed-english-v3.0](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cohere-embed-english-v3.0.parquet.tar) (parquet)   |  16 GB | `40c5caf33476746e93ceeb75174b8d64` |
+| [cosDPR-distil](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cos-dpr-distil.parquet.tar) (parquet)                          |  26 GB | `b9183de205fbd5c799211c21187179e7` |
+| [BGE-base-en-v1.5](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-bge-base-en-v1.5.parquet.tar) (parquet)                     |  26 GB | `a55b3cb338ec4a1b1c36825bf0854648` |
+| [OpenAI-ada2](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-openai-ada2.parquet.tar) (parquet)                               |  51 GB | `a8fddf594c9b8e771637968033b12f6d` |
+| [Cohere embed-english-v3.0](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cohere-embed-english-v3.0.parquet.tar) (parquet)   |  16 GB | `760dfb5ba9e2b0cc6f7e527e518fef03` |
 
 <details>
 <summary>Deprecated corpora for learned dense models using corpora in jsonl format</summary>

@@ -3,7 +3,7 @@ corpus: msmarco-passage-openai-ada2.parquet
 corpus_path: collections/msmarco/msmarco-passage-openai-ada2.parquet/
 
 download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-openai-ada2.parquet.tar
-download_checksum: fa3637e9c4150b157270e19ef3a4f779
+download_checksum: a8fddf594c9b8e771637968033b12f6d
 
 index_path: indexes/lucene-hnsw.msmarco-v1-passage.openai-ada2/
 index_type: hnsw

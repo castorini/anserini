@@ -3,7 +3,7 @@ corpus: msmarco-passage-bge-base-en-v1.5.parquet
 corpus_path: collections/msmarco/msmarco-passage-bge-base-en-v1.5.parquet/
 
 download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-bge-base-en-v1.5.parquet.tar
-download_checksum: b235e19ec492c18a18057b30b8b23fd4
+download_checksum: a55b3cb338ec4a1b1c36825bf0854648
 
 index_path: indexes/lucene-hnsw.msmarco-v1-passage.bge-base-en-v1.5/
 index_type: hnsw
