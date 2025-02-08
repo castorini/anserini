@@ -184,7 +184,7 @@ Key:
 | [SPLADE++ CoCondenser-SelfDistil](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-splade-pp-sd.tar)                            | 4.8 GB | `cb7e264222f2bf2221dd2c9d28190be1` |
 | [cosDPR-distil](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cos-dpr-distil.parquet.tar) (parquet)                          |  26 GB | `b9183de205fbd5c799211c21187179e7` |
 | [BGE-base-en-v1.5](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-bge-base-en-v1.5.parquet.tar) (parquet)                     |  26 GB | `a55b3cb338ec4a1b1c36825bf0854648` |
-| [OpenAI-ada2](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-openai-ada2.parquet.tar) (parquet)                               |  51 GB | `abcbe9a794b385ac5128076352e20ec9` |
+| [OpenAI-ada2](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-openai-ada2.parquet.tar) (parquet)                               |  51 GB | `a8fddf594c9b8e771637968033b12f6d` |
 | [Cohere embed-english-v3.0](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cohere-embed-english-v3.0.parquet.tar) (parquet)   |  16 GB | `760dfb5ba9e2b0cc6f7e527e518fef03` |
 
 <details>
