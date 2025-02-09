@@ -24,7 +24,7 @@ wget https://rgw.cs.uwaterloo.ca/pyserini/data/beir-v1.0.0-bge-base-en-v1.5.parq
 tar xvf collections/beir-v1.0.0-bge-base-en-v1.5.parquet.tar -C collections/
 ```
 
-The tarball is 194 GB and has MD5 checksum `c279f9fc2464574b482ec53efcc1c487`.
+The tarball is 127 GB and has MD5 checksum `5f8dce18660cc8ac0318500bea5993ac`.
 After download and unpacking the corpora, the `run_regression.py` command above should work without any issue.
 
 ## Indexing
