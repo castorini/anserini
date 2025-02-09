@@ -49,7 +49,6 @@ import java.util.stream.IntStream;
 public final class SearchShardedHnswDenseVectors<K extends Comparable<K>> implements Runnable, Closeable {
   private static final Logger LOG = LogManager.getLogger(SearchShardedHnswDenseVectors.class);
 
-  public static class Args extends HnswDenseSearcher.Args {
   public static class Args extends SearchHnswDenseVectors.Args {
     @Option(name = "-topics", metaVar = "[file]", handler = StringArrayOptionHandler.class, required = true, usage = "topics file")
     public String[] topics;
@@ -77,10 +76,6 @@ public final class SearchShardedHnswDenseVectors<K extends Comparable<K>> implem
   }
 
   private final Args args;
-  private final List<HnswDenseSearcher<K>> searchers;
-  private final List<K> qids = new ArrayList<>();
-  private final List<String> queries = new ArrayList<>();
-  private final ShardInfo[] shards;
   private final List<SearchHnswDenseVectors<K>> searchers;
   private final IndexInfo[] shards;
   private final int threadsPerShard;
@@ -93,7 +88,6 @@ public final class SearchShardedHnswDenseVectors<K extends Comparable<K>> implem
   public SearchShardedHnswDenseVectors(Args args) throws IOException {
     this.args = args;
     this.searchers = new ArrayList<>();
-    this.shards = ShardInfo.getShardedIndex(args.index);
     this.shards = ShardInfo.fromIdentifier(args.index).getShards();
     this.threadsPerShard = Math.max(args.threads / shards.length, 1);
 
@@ -108,57 +102,6 @@ public final class SearchShardedHnswDenseVectors<K extends Comparable<K>> implem
     // TODO: make this configurable
     String indexPath = "/store/scratch/v4zhong/.cache/pyserini/indexes/";
     
-    for (ShardInfo shard : shards) {
-      HnswDenseSearcher.Args searcherArgs = new HnswDenseSearcher.Args();
-      searcherArgs.index = indexPath + shard.indexName;
-      searcherArgs.encoder = args.encoder;
-      searcherArgs.queryGenerator = args.queryGenerator;
-      searcherArgs.efSearch = args.efSearch;
-      searcherArgs.threads = threadsPerShard;
-      searchers.add(new HnswDenseSearcher<>(searcherArgs));
-    }
-
-    // We might not be able to successfully read topics for a variety of reasons. Gather all possible
-    // exceptions together as an unchecked exception to make initialization and error reporting clearer.
-    SortedMap<K, Map<String, String>> topics = new TreeMap<>();
-    for (String topicsFile : args.topics) {
-      Path topicsFilePath = Paths.get(topicsFile);
-      if (!Files.exists(topicsFilePath) || !Files.isRegularFile(topicsFilePath) || !Files.isReadable(topicsFilePath)) {
-        Topics ref = Topics.getByName(topicsFile);
-        if (ref == null) {
-          throw new IllegalArgumentException(String.format("\"%s\" does not refer to valid topics.", topicsFilePath));
-        } else {
-          topics.putAll(TopicReader.getTopics(ref));
-        }
-      } else {
-        try {
-          @SuppressWarnings("unchecked")
-          TopicReader<K> tr = (TopicReader<K>) Class
-            .forName(String.format("io.anserini.search.topicreader.%sTopicReader", args.topicReader))
-            .getConstructor(Path.class).newInstance(topicsFilePath);
-          topics.putAll(tr.read());
-        } catch (Exception e) {
-          throw new IllegalArgumentException(String.format("Unable to load topic reader \"%s\".", args.topicReader));
-        }
-      }
-    }
-
-    // Now iterate through all the topics to pick out the right field with proper
-    // exception handling.
-    try {
-      topics.forEach((qid, topic) -> {
-        String query;
-        if ( args.encoder != null) {
-          query = topic.get("title");
-        } else {
-          query = topic.get(args.topicField);
-        }
-        assert query != null;
-        qids.add(qid);
-        queries.add(query);
-      });
-    } catch (AssertionError|Exception e) {
-      throw new IllegalArgumentException(String.format("Unable to read topic field \"%s\".", args.topicField));
     for (IndexInfo shard : shards) {
       Args shardArgs = new Args();
       // Copy all args from the parent
@@ -170,6 +113,8 @@ public final class SearchShardedHnswDenseVectors<K extends Comparable<K>> implem
       shardArgs.runtag = args.runtag;
       shardArgs.format = args.format;
       shardArgs.options = args.options;
+      
+      // Set shard-specific args
       shardArgs.index = indexPath + shard.indexName;
       shardArgs.encoder = args.encoder;
       shardArgs.queryGenerator = args.queryGenerator;
@@ -183,7 +128,6 @@ public final class SearchShardedHnswDenseVectors<K extends Comparable<K>> implem
   @Override
   public void close() throws IOException {
     LOG.info("Closing searchers...");
-    for (HnswDenseSearcher<K> searcher : searchers) {
     for (SearchHnswDenseVectors<K> searcher : searchers) {
       try {
         searcher.close();
@@ -200,24 +144,14 @@ public final class SearchShardedHnswDenseVectors<K extends Comparable<K>> implem
     LOG.info("============ Running Sharded Search ============");
 
     IntStream.range(0, searchers.size()).parallel().forEach(i -> {
-      HnswDenseSearcher<K> searcher = searchers.get(i);
+      SearchHnswDenseVectors<K> searcher = searchers.get(i);
       String shardOutputPath = args.output.replaceFirst("\\.txt$", ".shard" + String.format("%02d", i) + ".txt");
       LOG.info("Processing shard {} -> {}", i, shardOutputPath);
 
       try {
-        SortedMap<K, ScoredDoc[]> shardResults = searcher.batch_search(queries, qids, args.hits, threadsPerShard);
-        try (RunOutputWriter<K> writer = new RunOutputWriter<>(shardOutputPath, args.format, args.runtag, null)) {
-          shardResults.forEach((qid, docs) -> {
-            try {
-              writer.writeTopic(qid, queries.get(qids.indexOf(qid)), docs);
-            } catch (JsonProcessingException e) {
-              throw new RuntimeException(e);
-            }
-          });
-        }
-        //Close searcher right after we use
+        searcher.args.output = shardOutputPath;
+        searcher.run();
         searcher.close();
-
         LOG.info("Closed searcher for shard {}", i);
       } catch (IOException e) {
         throw new RuntimeException(String.format("Error processing shard %d: %s", i, e.getMessage()), e);
