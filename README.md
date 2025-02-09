@@ -436,7 +436,7 @@ Substitute the appropriate `$COLLECTION` from the table below.
 | `beir-v1.0.0-corpus-wp.tar`                            |  13 GB | `3cf8f3dcdcadd49362965dd4466e6ff2` |
 | `beir-v1.0.0-unicoil-noexp.tar`                        |  30 GB | `4fd04d2af816a6637fc12922cccc8a83` |
 | `beir-v1.0.0-splade-pp-ed.tar`                         |  43 GB | `9c7de5b444a788c9e74c340bf833173b` |
-| `beir-v1.0.0-bge-base-en-v1.5.parquet.tar`             | 194 GB | `c279f9fc2464574b482ec53efcc1c487` |
+| `beir-v1.0.0-bge-base-en-v1.5.parquet.tar`             | 127 GB | `5f8dce18660cc8ac0318500bea5993ac` |
 | `beir-v1.0.0-bge-base-en-v1.5.tar` (jsonl, deprecated) | 294 GB | `e4e8324ba3da3b46e715297407a24f00` |
 
 Once you've unpacked the data, the following commands will loop over all BEIR corpora and run the regressions:
