@@ -73,6 +73,7 @@ public final class SearchHnswDenseVectors<K extends Comparable<K>> implements Ru
   }
 
   private final Args args;
+  protected final Args args;
   private final HnswDenseSearcher<K> searcher;
   private final List<K> qids= new ArrayList<>();
   private final List<String> queries = new ArrayList<>();

@@ -19,6 +19,7 @@ package io.anserini.search;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import io.anserini.index.ShardInfo;
+import io.anserini.index.IndexInfo;
 import io.anserini.search.topicreader.TopicReader;
 import io.anserini.search.topicreader.Topics;
 import org.apache.logging.log4j.LogManager;
@@ -49,6 +50,7 @@ public final class SearchShardedHnswDenseVectors<K extends Comparable<K>> implem
   private static final Logger LOG = LogManager.getLogger(SearchShardedHnswDenseVectors.class);
 
   public static class Args extends HnswDenseSearcher.Args {
+  public static class Args extends SearchHnswDenseVectors.Args {
     @Option(name = "-topics", metaVar = "[file]", handler = StringArrayOptionHandler.class, required = true, usage = "topics file")
     public String[] topics;
 
@@ -79,6 +81,8 @@ public final class SearchShardedHnswDenseVectors<K extends Comparable<K>> implem
   private final List<K> qids = new ArrayList<>();
   private final List<String> queries = new ArrayList<>();
   private final ShardInfo[] shards;
+  private final List<SearchHnswDenseVectors<K>> searchers;
+  private final IndexInfo[] shards;
   private final int threadsPerShard;
 
   /*
@@ -90,6 +94,7 @@ public final class SearchShardedHnswDenseVectors<K extends Comparable<K>> implem
     this.args = args;
     this.searchers = new ArrayList<>();
     this.shards = ShardInfo.getShardedIndex(args.index);
+    this.shards = ShardInfo.fromIdentifier(args.index).getShards();
     this.threadsPerShard = Math.max(args.threads / shards.length, 1);
 
     LOG.info("============ Initializing {} ============", this.getClass().getSimpleName());
@@ -154,6 +159,24 @@ public final class SearchShardedHnswDenseVectors<K extends Comparable<K>> implem
       });
     } catch (AssertionError|Exception e) {
       throw new IllegalArgumentException(String.format("Unable to read topic field \"%s\".", args.topicField));
+    for (IndexInfo shard : shards) {
+      Args shardArgs = new Args();
+      // Copy all args from the parent
+      shardArgs.topics = args.topics;
+      shardArgs.output = args.output;
+      shardArgs.topicReader = args.topicReader;
+      shardArgs.topicField = args.topicField;
+      shardArgs.hits = args.hits;
+      shardArgs.runtag = args.runtag;
+      shardArgs.format = args.format;
+      shardArgs.options = args.options;
+      shardArgs.index = indexPath + shard.indexName;
+      shardArgs.encoder = args.encoder;
+      shardArgs.queryGenerator = args.queryGenerator;
+      shardArgs.efSearch = args.efSearch;
+      shardArgs.threads = threadsPerShard;
+
+      searchers.add(new SearchHnswDenseVectors<K>(shardArgs));
     }
   }
 
@@ -161,6 +184,7 @@ public final class SearchShardedHnswDenseVectors<K extends Comparable<K>> implem
   public void close() throws IOException {
     LOG.info("Closing searchers...");
     for (HnswDenseSearcher<K> searcher : searchers) {
+    for (SearchHnswDenseVectors<K> searcher : searchers) {
       try {
         searcher.close();
         LOG.info("Closed searcher: {}", searcher.getClass().getSimpleName());
