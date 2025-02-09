@@ -50,29 +50,7 @@ public final class SearchShardedHnswDenseVectors<K extends Comparable<K>> implem
   private static final Logger LOG = LogManager.getLogger(SearchShardedHnswDenseVectors.class);
 
   public static class Args extends SearchHnswDenseVectors.Args {
-    @Option(name = "-topics", metaVar = "[file]", handler = StringArrayOptionHandler.class, required = true, usage = "topics file")
-    public String[] topics;
-
-    @Option(name = "-output", metaVar = "[file]", required = true, usage = "output file")
-    public String output;
-
-    @Option(name = "-topicReader", usage = "TopicReader to use.")
-    public String topicReader = "JsonIntVector";
-
-    @Option(name = "-topicField", usage = "Topic field that should be used as the query.")
-    public String topicField = "vector";
-
-    @Option(name = "-hits", metaVar = "[number]", usage = "max number of hits to return")
-    public int hits = 1000;
-
-    @Option(name = "-runtag", metaVar = "[tag]", usage = "runtag")
-    public String runtag = "Anserini";
-
-    @Option(name = "-format", metaVar = "[output format]", usage = "Output format, default \"trec\", alternative \"msmarco\".")
-    public String format = "trec";
-
-    @Option(name = "-options", usage = "Print information about options.")
-    public Boolean options = false;
+    // Does not need to be overridden
   }
 
   private final Args args;
