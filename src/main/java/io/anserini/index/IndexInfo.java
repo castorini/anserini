@@ -226,7 +226,7 @@ public enum IndexInfo {
       "aab3f8e9aa0563bd0f875584784a0845",
       IndexType.DENSE_HNSW,
       "ArcticEmbedLEncoder.class",
-      "JsonInvertedDenseVectorQueryGenerator.class",
+      "InvertedDenseVectorQueryGenerator.class",
       "msmarco-v2.1-doc-segmented"),
 
   MSMARCO_V21_DOC_SEGMENTED_SHARD01_ARCTIC_EMBED_L_HNSW_INT8("msmarco-v2.1-doc-segmented-shard01.arctic-embed-l.hnsw-int8",
@@ -240,7 +240,7 @@ public enum IndexInfo {
       "34ea30fe72c2bc1795ae83e71b191547",
       IndexType.DENSE_HNSW,
       "ArcticEmbedLEncoder.class",
-      "JsonInvertedDenseVectorQueryGenerator.class",
+      "InvertedDenseVectorQueryGenerator.class",
       "msmarco-v2.1-doc-segmented"),
 
   MSMARCO_V21_DOC_SEGMENTED_SHARD02_ARCTIC_EMBED_L_HNSW_INT8("msmarco-v2.1-doc-segmented-shard02.arctic-embed-l.hnsw-int8",
@@ -254,7 +254,7 @@ public enum IndexInfo {
       "b6271d6db65119977491675f74f466d5",
       IndexType.DENSE_HNSW,
       "ArcticEmbedLEncoder.class",
-      "JsonInvertedDenseVectorQueryGenerator.class",
+      "InvertedDenseVectorQueryGenerator.class",
       "msmarco-v2.1-doc-segmented"),
 
   MSMARCO_V21_DOC_SEGMENTED_SHARD03_ARCTIC_EMBED_L_HNSW_INT8("msmarco-v2.1-doc-segmented-shard03.arctic-embed-l.hnsw-int8",
@@ -268,7 +268,7 @@ public enum IndexInfo {
       "a9cd644eb6037f67d2e9c06a8f60928d",
       IndexType.DENSE_HNSW,
       "ArcticEmbedLEncoder.class",
-      "JsonInvertedDenseVectorQueryGenerator.class",
+      "InvertedDenseVectorQueryGenerator.class",
       "msmarco-v2.1-doc-segmented"),
 
   MSMARCO_V21_DOC_SEGMENTED_SHARD04_ARCTIC_EMBED_L_HNSW_INT8("msmarco-v2.1-doc-segmented-shard04.arctic-embed-l.hnsw-int8",
@@ -282,7 +282,7 @@ public enum IndexInfo {
       "07b7e451e0525d01c1f1f2b1c42b1bd5",
       IndexType.DENSE_HNSW,
       "ArcticEmbedLEncoder.class",
-      "JsonInvertedDenseVectorQueryGenerator.class",
+      "InvertedDenseVectorQueryGenerator.class",
       "msmarco-v2.1-doc-segmented"),
 
   MSMARCO_V21_DOC_SEGMENTED_SHARD05_ARCTIC_EMBED_L_HNSW_INT8("msmarco-v2.1-doc-segmented-shard05.arctic-embed-l.hnsw-int8",
@@ -296,7 +296,7 @@ public enum IndexInfo {
       "2573dce175788981be2f266ebb33c96d",
       IndexType.DENSE_HNSW,
       "ArcticEmbedLEncoder.class",
-      "JsonInvertedDenseVectorQueryGenerator.class",
+      "InvertedDenseVectorQueryGenerator.class",
       "msmarco-v2.1-doc-segmented"),
 
   MSMARCO_V21_DOC_SEGMENTED_SHARD06_ARCTIC_EMBED_L_HNSW_INT8("msmarco-v2.1-doc-segmented-shard06.arctic-embed-l.hnsw-int8",
@@ -310,7 +310,7 @@ public enum IndexInfo {
       "a644aea445a8b78cc9e99d2ce111ff11",
       IndexType.DENSE_HNSW,
       "ArcticEmbedLEncoder.class",
-      "JsonInvertedDenseVectorQueryGenerator.class",
+      "InvertedDenseVectorQueryGenerator.class",
       "msmarco-v2.1-doc-segmented"),
 
   MSMARCO_V21_DOC_SEGMENTED_SHARD07_ARCTIC_EMBED_L_HNSW_INT8("msmarco-v2.1-doc-segmented-shard07.arctic-embed-l.hnsw-int8",
@@ -324,7 +324,7 @@ public enum IndexInfo {
       "402d37deccb44b5fc105049889e8aaea",
       IndexType.DENSE_HNSW,
       "ArcticEmbedLEncoder.class",
-      "JsonInvertedDenseVectorQueryGenerator.class",
+      "InvertedDenseVectorQueryGenerator.class",
       "msmarco-v2.1-doc-segmented"),
 
   MSMARCO_V21_DOC_SEGMENTED_SHARD08_ARCTIC_EMBED_L_HNSW_INT8("msmarco-v2.1-doc-segmented-shard08.arctic-embed-l.hnsw-int8",
@@ -338,7 +338,7 @@ public enum IndexInfo {
       "89ebcd027f7297b26a1edc8ae5726527",
       IndexType.DENSE_HNSW,
       "ArcticEmbedLEncoder.class",
-      "JsonInvertedDenseVectorQueryGenerator.class",
+      "InvertedDenseVectorQueryGenerator.class",
       "msmarco-v2.1-doc-segmented"),
 
   MSMARCO_V21_DOC_SEGMENTED_SHARD09_ARCTIC_EMBED_L_HNSW_INT8("msmarco-v2.1-doc-segmented-shard09.arctic-embed-l.hnsw-int8",
@@ -352,7 +352,7 @@ public enum IndexInfo {
       "5e580bb7eb9ee2bb6bfa492b3430c17d",
       IndexType.DENSE_HNSW,
       "ArcticEmbedLEncoder.class",
-      "JsonInvertedDenseVectorQueryGenerator.class",
+      "InvertedDenseVectorQueryGenerator.class",
       "msmarco-v2.1-doc-segmented"),
 
   // BEIR: flat
