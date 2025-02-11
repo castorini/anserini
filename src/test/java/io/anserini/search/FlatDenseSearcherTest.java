@@ -48,7 +48,7 @@ public class FlatDenseSearcherTest {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
         "-index", indexPath,
-        "-generator", "JsonDenseVectorDocumentGenerator",
+        "-generator", "DenseVectorDocumentGenerator",
         "-threads", "1"
     };
 
@@ -137,7 +137,7 @@ public class FlatDenseSearcherTest {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
         "-index", indexPath,
-        "-generator", "JsonDenseVectorDocumentGenerator",
+        "-generator", "DenseVectorDocumentGenerator",
         "-threads", "1"
     };
 
@@ -201,7 +201,7 @@ public class FlatDenseSearcherTest {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/cosdpr-distil/json_vector/",
         "-index", indexPath,
-        "-generator", "JsonDenseVectorDocumentGenerator",
+        "-generator", "DenseVectorDocumentGenerator",
         "-threads", "1"
     };
 
@@ -290,7 +290,7 @@ public class FlatDenseSearcherTest {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/cosdpr-distil/json_vector/",
         "-index", indexPath,
-        "-generator", "JsonDenseVectorDocumentGenerator",
+        "-generator", "DenseVectorDocumentGenerator",
         "-threads", "1"
     };
 
@@ -380,7 +380,7 @@ public class FlatDenseSearcherTest {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/cosdpr-distil/json_vector/",
         "-index", indexPath,
-        "-generator", "JsonDenseVectorDocumentGenerator",
+        "-generator", "DenseVectorDocumentGenerator",
         "-threads", "1"
     };
 

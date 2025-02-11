@@ -35,8 +35,8 @@ import org.apache.logging.log4j.Logger;
  *
  * @param <T> the type of SourceDocument
  */
-public class ParquetDenseVectorDocumentGenerator<T extends SourceDocument> implements LuceneDocumentGenerator<T> {
-  private static final Logger LOG = LogManager.getLogger(ParquetDenseVectorDocumentGenerator.class);
+public class DenseVectorDocumentGenerator<T extends SourceDocument> implements LuceneDocumentGenerator<T> {
+  private static final Logger LOG = LogManager.getLogger(DenseVectorDocumentGenerator.class);
 
   /**
    * Creates a Lucene document from the source document.

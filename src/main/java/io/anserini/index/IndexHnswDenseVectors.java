@@ -17,6 +17,7 @@
 package io.anserini.index;
 
 import io.anserini.collection.SourceDocument;
+import io.anserini.index.generator.DenseVectorDocumentGenerator;
 import io.anserini.index.generator.LuceneDocumentGenerator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -50,7 +51,7 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
 
   public static final class Args extends AbstractIndexer.Args {
     @Option(name = "-generator", metaVar = "[class]", usage = "Document generator class in io.anserini.index.generator.")
-    public String generatorClass = "JsonDenseVectorDocumentGenerator";
+    public String generatorClass = DenseVectorDocumentGenerator.class.getSimpleName();
 
     @Option(name = "-M", metaVar = "[num]", usage = "HNSW parameters M")
     public int M = 16;
