@@ -36,7 +36,7 @@ bin/run.sh io.anserini.index.IndexFlatDenseVectors \
   -threads 16 \
   -collection ParquetDenseVectorCollection \
   -input /path/to/beir-v1.0.0-hotpotqa.bge-base-en-v1.5 \
-  -generator ParquetDenseVectorDocumentGenerator \
+  -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-flat-int8.beir-v1.0.0-hotpotqa.bge-base-en-v1.5/ \
   -quantize.int8 \
   >& logs/log.beir-v1.0.0-hotpotqa.bge-base-en-v1.5 &

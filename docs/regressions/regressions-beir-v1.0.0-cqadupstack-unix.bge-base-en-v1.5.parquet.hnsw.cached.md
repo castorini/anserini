@@ -36,7 +36,7 @@ bin/run.sh io.anserini.index.IndexHnswDenseVectors \
   -threads 16 \
   -collection ParquetDenseVectorCollection \
   -input /path/to/beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5 \
-  -generator ParquetDenseVectorDocumentGenerator \
+  -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-hnsw.beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5/ \
   -M 16 -efC 100 \
   >& logs/log.beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5 &

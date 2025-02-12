@@ -8,7 +8,7 @@ download_checksum: 06a6e38a0522850c6aa504db7b2617f5
 index_path: indexes/lucene-flat.msmarco-v1-passage.cohere-embed-english-v3.0/
 index_type: flat
 collection_class: JsonDenseVectorCollection
-generator_class: JsonDenseVectorDocumentGenerator
+generator_class: DenseVectorDocumentGenerator
 index_threads: 16
 index_options: ""
 

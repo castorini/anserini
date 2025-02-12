@@ -53,7 +53,7 @@ bin/run.sh io.anserini.index.IndexFlatDenseVectors \
   -threads 16 \
   -collection ParquetDenseVectorCollection \
   -input /path/to/msmarco-passage-cos-dpr-distil.parquet \
-  -generator ParquetDenseVectorDocumentGenerator \
+  -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-flat.msmarco-v1-passage.cos-dpr-distil/ \
   >& logs/log.msmarco-passage-cos-dpr-distil.parquet &
 ```
