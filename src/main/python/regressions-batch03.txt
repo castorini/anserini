@@ -38,6 +38,9 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cohere-embed-english-v3.0.parquet.hnsw.cached > logs/log.msmarco-v1-passage.cohere-embed-english-v3.0.parquet.hnsw.cached.txt 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cohere-embed-english-v3.0.parquet.hnsw-int8.cached > logs/log.msmarco-v1-passage.cohere-embed-english-v3.0.parquet.hnsw-int8.cached.txt 2>&1
 
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cos-dpr-distil.parquet.fw > logs/log.msmarco-v1-passage.cos-dpr-distil.parquet.fw.txt 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cos-dpr-distil.parquet.lexlsh > logs/log.msmarco-v1-passage.cos-dpr-distil.parquet.lexlsh.txt 2>&1
+
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-doc > logs/log.msmarco-v1-doc.txt 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-doc.wp-tok > logs/log.msmarco-v1-doc.wp-tok.txt 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-doc.wp-hgf > logs/log.msmarco-v1-doc.wp-hgf.txt 2>&1
@@ -122,6 +125,9 @@ python src/main/python/run_regression.py --verify --search --regression dl19-pas
 python src/main/python/run_regression.py --verify --search --regression dl19-passage.cohere-embed-english-v3.0.parquet.hnsw.cached > logs/log.dl19-passage.cohere-embed-english-v3.0.parquet.hnsw.cached.txt 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl19-passage.cohere-embed-english-v3.0.parquet.hnsw-int8.cached > logs/log.dl19-passage.cohere-embed-english-v3.0.parquet.hnsw-int8.cached.txt 2>&1
 
+python src/main/python/run_regression.py --verify --search --regression dl19-passage.cos-dpr-distil.parquet.fw > logs/log.dl19-passage.cos-dpr-distil.parquet.fw.txt 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl19-passage.cos-dpr-distil.parquet.lexlsh > logs/log.dl19-passage.cos-dpr-distil.parquet.lexlsh.txt 2>&1
+
 python src/main/python/run_regression.py --verify --search --regression dl19-doc > logs/log.dl19-doc.txt 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl19-doc.wp-tok > logs/log.dl19-doc.wp-tok.txt 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl19-doc.wp-hgf > logs/log.dl19-doc.wp-hgf.txt 2>&1
@@ -174,6 +180,9 @@ python src/main/python/run_regression.py --verify --search --regression dl20-pas
 python src/main/python/run_regression.py --verify --search --regression dl20-passage.cohere-embed-english-v3.0.parquet.flat-int8.cached > logs/log.dl20-passage.cohere-embed-english-v3.0.parquet.flat-int8.cached.txt 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl20-passage.cohere-embed-english-v3.0.parquet.hnsw.cached > logs/log.dl20-passage.cohere-embed-english-v3.0.parquet.hnsw.cached.txt 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl20-passage.cohere-embed-english-v3.0.parquet.hnsw-int8.cached > logs/log.dl20-passage.cohere-embed-english-v3.0.parquet.hnsw-int8.cached.txt 2>&1
+
+python src/main/python/run_regression.py --verify --search --regression dl20-passage.cos-dpr-distil.parquet.fw > logs/log.dl20-passage.cos-dpr-distil.parquet.fw.txt 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl20-passage.cos-dpr-distil.parquet.lexlsh > logs/log.dl20-passage.cos-dpr-distil.parquet.lexlsh.txt 2>&1
 
 python src/main/python/run_regression.py --verify --search --regression dl20-doc > logs/log.dl20-doc.txt 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl20-doc.wp-tok > logs/log.dl20-doc.wp-tok.txt 2>&1
