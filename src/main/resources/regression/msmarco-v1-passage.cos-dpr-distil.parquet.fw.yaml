@@ -2,8 +2,8 @@
 corpus: msmarco-passage-cos-dpr-distil.parquet
 corpus_path: collections/msmarco/msmarco-passage-cos-dpr-distil.parquet/
 
-download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cos-dpr-distil.tar
-download_checksum: e20ffbc8b5e7f760af31298aefeaebbd
+download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cos-dpr-distil.parquet.tar
+download_checksum: b9183de205fbd5c799211c21187179e7
 
 index_path: indexes/lucene-inverted.msmarco-v1-passage.cos-dpr-distil.fw-40/
 index_type: inverted-dense
