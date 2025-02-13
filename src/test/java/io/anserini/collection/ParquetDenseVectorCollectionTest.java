@@ -61,10 +61,11 @@ public class ParquetDenseVectorCollectionTest extends DocumentCollectionTest<Par
    * 1. Documents can be read from the Parquet file
    * 2. Each document has a valid ID
    * 3. The collection contains the expected number of documents
+   * 4. We test both double and float segments
    */
   @Test
-  public void testSegment() throws IOException {
-    Path path = Paths.get("src/test/resources/sample_docs/parquet/msmarco-passage-bge-base-en-v1.5.parquet");
+  public void testDoubleSegment() throws IOException {
+    Path path = Paths.get("src/test/resources/sample_docs/parquet/msmarco-passage-bge-base-en-v1.5.parquet-double");
     ParquetDenseVectorCollection collection = new ParquetDenseVectorCollection(path);
 
     AtomicInteger cnt = new AtomicInteger();
@@ -81,4 +82,24 @@ public class ParquetDenseVectorCollectionTest extends DocumentCollectionTest<Par
       assertTrue("Document ID should not be empty", docId != null && !docId.isEmpty());
     }
   }
-} 
+
+  @Test
+  public void testFloatSegment() throws IOException {
+    Path path = Paths.get("src/test/resources/sample_docs/parquet/msmarco-passage-bge-base-en-v1.5.parquet-float");
+    ParquetDenseVectorCollection collection = new ParquetDenseVectorCollection(path);
+
+    AtomicInteger cnt = new AtomicInteger();
+    Map<String, Integer> docIds = new HashMap<>();
+
+    for (FileSegment<ParquetDenseVectorCollection.Document> segment : collection) {
+      for (ParquetDenseVectorCollection.Document doc : segment) {
+        docIds.put(doc.id(), cnt.incrementAndGet());
+      }
+    }
+
+    assertTrue("Collection should contain documents", docIds.size() > 0);
+    for (String docId : docIds.keySet()) {
+      assertTrue("Document ID should not be empty", docId != null && !docId.isEmpty());
+    }
+  }
+}

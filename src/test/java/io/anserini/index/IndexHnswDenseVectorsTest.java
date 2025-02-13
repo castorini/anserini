@@ -158,7 +158,7 @@ public class IndexHnswDenseVectorsTest {
     assertEquals(100, results.get("documents"));
   }
   @Test
-  public void testParquetDenseVectorDocumentGeneratorDouble() throws Exception {
+  public void testHnswDouble() throws Exception {
     String indexPath = "target/lucene-test-index.hnsw." + System.currentTimeMillis();
     String[] indexArgs = new String[] {
         "-collection", "ParquetDenseVectorCollection",
@@ -169,7 +169,7 @@ public class IndexHnswDenseVectorsTest {
         "-M", "16", "-efC", "100"
     };
 
-    IndexFlatDenseVectors.main(indexArgs);
+    IndexHnswDenseVectors.main(indexArgs);
 
     IndexReader reader = IndexReaderUtils.getReader(indexPath);
     assertNotNull(reader);
@@ -180,7 +180,7 @@ public class IndexHnswDenseVectorsTest {
   }
 
   @Test
-  public void testParquetDenseVectorDocumentGeneratorFloat() throws Exception {
+  public void testHnswFloat() throws Exception {
     String indexPath = "target/lucene-test-index.hnsw." + System.currentTimeMillis();
     String[] indexArgs = new String[] {
         "-collection", "ParquetDenseVectorCollection",
