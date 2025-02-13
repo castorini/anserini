@@ -62,7 +62,6 @@ public class ParquetDenseVectorDocumentGenerator<T extends SourceDocument> imple
       document.add(new KnnFloatVectorField(Constants.VECTOR, contents, VectorSimilarityFunction.DOT_PRODUCT));
 
       return document;
-
     } catch (InvalidDocumentException e) {
       throw e;
     } catch (Exception e) {

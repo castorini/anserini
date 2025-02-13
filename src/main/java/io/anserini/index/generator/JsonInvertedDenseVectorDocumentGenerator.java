@@ -61,11 +61,11 @@ public class JsonInvertedDenseVectorDocumentGenerator<T extends SourceDocument> 
       sb.append(fv);
     }
 
-    final Document document = new Document();
-    // Store the collection docid.
-    document.add(new StringField(Constants.ID, id, Field.Store.YES));
-    // This is needed to break score ties by docid.
-    document.add(new BinaryDocValuesField(Constants.ID, new BytesRef(id)));
+      final Document document = new Document();
+      // Store the collection docid.
+      document.add(new StringField(Constants.ID, id, Field.Store.YES));
+      // This is needed to break score ties by docid.
+      document.add(new BinaryDocValuesField(Constants.ID, new BytesRef(id)));
 
       document.add(new TextField(Constants.VECTOR, sb.toString(), Field.Store.NO));
 
