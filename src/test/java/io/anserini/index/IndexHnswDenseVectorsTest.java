@@ -157,6 +157,7 @@ public class IndexHnswDenseVectorsTest {
     assertNotNull(results);
     assertEquals(100, results.get("documents"));
   }
+
   @Test
   public void testHnswDouble() throws Exception {
     String indexPath = "target/lucene-test-index.hnsw." + System.currentTimeMillis();
