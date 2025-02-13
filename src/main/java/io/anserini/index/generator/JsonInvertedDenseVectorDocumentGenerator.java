@@ -27,6 +27,8 @@ import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.util.BytesRef;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 
@@ -36,17 +38,20 @@ import java.util.ArrayList;
  * @param <T> type of the source document
  */
 public class JsonInvertedDenseVectorDocumentGenerator<T extends SourceDocument> implements LuceneDocumentGenerator<T> {
+  private static final Logger LOG = LogManager.getLogger(JsonDenseVectorDocumentGenerator.class);
+
   public JsonInvertedDenseVectorDocumentGenerator() {
   }
 
   @Override
   public Document createDocument(T src) throws InvalidDocumentException {
     String id = src.id();
-    float[] contents = src.vector();
-    
-    if (contents == null) {
-      throw new InvalidDocumentException();
-    }
+    try {
+      float[] contents = src.vector();
+
+      if (contents == null) {
+        throw new InvalidDocumentException();
+      }
 
     StringBuilder sb = new StringBuilder();
     for (double fv : contents) {
@@ -62,8 +67,14 @@ public class JsonInvertedDenseVectorDocumentGenerator<T extends SourceDocument> 
     // This is needed to break score ties by docid.
     document.add(new BinaryDocValuesField(Constants.ID, new BytesRef(id)));
 
-    document.add(new TextField(Constants.VECTOR, sb.toString(), Field.Store.NO));
+      document.add(new TextField(Constants.VECTOR, sb.toString(), Field.Store.NO));
 
-    return document;
+      return document;
+    } catch (InvalidDocumentException e) {
+      throw e;
+    } catch (Exception e) {
+      LOG.error("Unexpected error creating document for ID: " + id, e);
+      throw new InvalidDocumentException();
+    }
   }
 }

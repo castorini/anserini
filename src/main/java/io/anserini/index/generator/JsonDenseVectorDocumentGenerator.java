@@ -28,6 +28,9 @@ import org.apache.lucene.document.KnnFloatVectorField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.VectorSimilarityFunction;
 import org.apache.lucene.util.BytesRef;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 import java.util.ArrayList;
 
@@ -37,28 +40,37 @@ import java.util.ArrayList;
  * @param <T> type of the source document
  */
 public class JsonDenseVectorDocumentGenerator<T extends SourceDocument> implements LuceneDocumentGenerator<T> {
+  private static final Logger LOG = LogManager.getLogger(JsonDenseVectorDocumentGenerator.class);
+
   public JsonDenseVectorDocumentGenerator() {
   }
 
   @Override
   public Document createDocument(T src) throws InvalidDocumentException {
     String id = src.id();
-    float[] contents = src.vector();
-    
-    if (contents == null) {
+    try {
+      float[] contents = src.vector();
+
+      if (contents == null) {
+        throw new InvalidDocumentException();
+      }
+
+      // Make a new, empty document.
+      final Document document = new Document();
+
+      // Store the collection docid.
+      document.add(new StringField(Constants.ID, id, Field.Store.YES));
+      // This is needed to break score ties by docid.
+      document.add(new BinaryDocValuesField(Constants.ID, new BytesRef(id)));
+
+      document.add(new KnnFloatVectorField(Constants.VECTOR, contents, VectorSimilarityFunction.DOT_PRODUCT));
+
+      return document;
+    } catch (InvalidDocumentException e) {
+      throw e;
+    } catch (Exception e) {
+      LOG.error("Unexpected error creating document for ID: " + id, e);
       throw new InvalidDocumentException();
     }
-
-    // Make a new, empty document.
-    final Document document = new Document();
-
-    // Store the collection docid.
-    document.add(new StringField(Constants.ID, id, Field.Store.YES));
-    // This is needed to break score ties by docid.
-    document.add(new BinaryDocValuesField(Constants.ID, new BytesRef(id)));
-
-    document.add(new KnnFloatVectorField(Constants.VECTOR, contents, VectorSimilarityFunction.DOT_PRODUCT));
-
-    return document;
   }
 }
