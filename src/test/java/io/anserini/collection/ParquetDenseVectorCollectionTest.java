@@ -74,10 +74,23 @@
      for (FileSegment<ParquetDenseVectorCollection.Document> segment : collection) {
        for (ParquetDenseVectorCollection.Document doc : segment) {
          docIds.put(doc.id(), cnt.incrementAndGet());
+         // Verify vector format - should be a comma-separated list of numbers
+         String contents = doc.contents();
+         assertTrue("Vector content should not be empty", contents != null && !contents.isEmpty());
+         String[] values = contents.split(",");
+         assertEquals("Vector should have 768 dimensions", 768, values.length);
+         // Verify each value can be parsed as a number
+         for (String value : values) {
+           try {
+             Double.parseDouble(value.trim());
+           } catch (NumberFormatException e) {
+             throw new AssertionError("Vector value is not a valid number: " + value);
+           }
+         }
        }
      }
 
-     assertTrue("Collection should contain documents", docIds.size() > 0);
+     assertEquals("Collection should contain exactly 10 documents", 10, docIds.size());
      for (String docId : docIds.keySet()) {
        assertTrue("Document ID should not be empty", docId != null && !docId.isEmpty());
      }
@@ -94,10 +107,21 @@
      for (FileSegment<ParquetDenseVectorCollection.Document> segment : collection) {
        for (ParquetDenseVectorCollection.Document doc : segment) {
          docIds.put(doc.id(), cnt.incrementAndGet());
+         String contents = doc.contents();
+         assertTrue("Vector content should not be empty", contents != null && !contents.isEmpty());
+         String[] values = contents.split(",");
+         assertEquals("Vector should have 768 dimensions", 768, values.length);
+         for (String value : values) {
+           try {
+             Float.parseFloat(value.trim());
+           } catch (NumberFormatException e) {
+             throw new AssertionError("Vector value is not a valid number: " + value);
+           }
+         }
        }
      }
 
-     assertTrue("Collection should contain documents", docIds.size() > 0);
+     assertEquals("Collection should contain exactly 10 documents", 10, docIds.size());
      for (String docId : docIds.keySet()) {
        assertTrue("Document ID should not be empty", docId != null && !docId.isEmpty());
      }
