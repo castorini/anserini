@@ -76,7 +76,7 @@ public class SearchService {
             Map<String, Object> candidate = new LinkedHashMap<>();
             candidate.put("docid", r.docid);
             candidate.put("score", r.score);
-            
+
             String raw = r.lucene_document.get(Constants.RAW);
             if (raw != null) {
               JsonNode rootNode = mapper.readTree(raw);
@@ -240,7 +240,7 @@ public class SearchService {
 
   static List<Map<String, Object>> searchSharded(ShardInfo shardGroup, String query, int hits,
     Integer efSearch, String encoder, String queryGenerator, Function<String, SearchService> serviceProvider) {
-    
+
     return Arrays.stream(shardGroup.getShards())
       .parallel()
       .map(shard -> {
