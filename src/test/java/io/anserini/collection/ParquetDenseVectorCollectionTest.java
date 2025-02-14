@@ -14,20 +14,20 @@
  * limitations under the License.
  */
 
- package io.anserini.collection;
+package io.anserini.collection;
 
- import org.junit.Before;
- import org.junit.Test;
+import org.junit.Before;
+import org.junit.Test;
 
- import java.io.IOException;
- import java.nio.file.Path;
- import java.nio.file.Paths;
- import java.util.HashMap;
- import java.util.Map;
- import java.util.concurrent.atomic.AtomicInteger;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
- import static org.junit.Assert.assertEquals;
- import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
  /**
   * Tests for the ParquetDenseVectorCollection class which handles dense vector embeddings stored in Parquet format.
