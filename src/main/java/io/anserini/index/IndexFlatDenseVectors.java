@@ -20,6 +20,7 @@ import io.anserini.collection.SourceDocument;
 import io.anserini.index.codecs.AnseriniLucene99FlatVectorFormat;
 import io.anserini.index.codecs.AnseriniLucene99ScalarQuantizedVectorsFormat;
 import io.anserini.index.generator.LuceneDocumentGenerator;
+import io.anserini.index.generator.DenseVectorDocumentGenerator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.codecs.KnnVectorsFormat;
@@ -48,7 +49,7 @@ public final class IndexFlatDenseVectors extends AbstractIndexer {
 
   public static final class Args extends AbstractIndexer.Args {
     @Option(name = "-generator", metaVar = "[class]", usage = "Document generator class in io.anserini.index.generator.")
-    public String generatorClass = "JsonDenseVectorDocumentGenerator";
+    public String generatorClass = DenseVectorDocumentGenerator.class.getSimpleName();
 
     @Option(name = "-quantize.int8", usage = "Quantize vectors into int8.")
     public boolean quantizeInt8 = false;

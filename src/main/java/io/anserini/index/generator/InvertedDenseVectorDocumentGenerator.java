@@ -16,28 +16,22 @@
 
 package io.anserini.index.generator;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.anserini.collection.SourceDocument;
 import io.anserini.index.Constants;
 import org.apache.lucene.document.BinaryDocValuesField;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
-import org.apache.lucene.document.KnnFloatVectorField;
 import org.apache.lucene.document.StringField;
-import org.apache.lucene.index.VectorSimilarityFunction;
+import org.apache.lucene.document.TextField;
 import org.apache.lucene.util.BytesRef;
 
-import java.util.ArrayList;
-
 /**
- * Converts a {@link SourceDocument} into a Lucene {@link Document}, ready to be indexed.
+ * Converts a {@link SourceDocument} into a Lucene {@link Document}.
  *
  * @param <T> type of the source document
  */
-public class JsonDenseVectorDocumentGenerator<T extends SourceDocument> implements LuceneDocumentGenerator<T> {
-  public JsonDenseVectorDocumentGenerator() {
+public class InvertedDenseVectorDocumentGenerator<T extends SourceDocument> implements LuceneDocumentGenerator<T> {
+  public InvertedDenseVectorDocumentGenerator() {
   }
 
   @Override
@@ -49,15 +43,21 @@ public class JsonDenseVectorDocumentGenerator<T extends SourceDocument> implemen
       throw new InvalidDocumentException();
     }
 
-    // Make a new, empty document.
-    final Document document = new Document();
+    StringBuilder sb = new StringBuilder();
+    for (double fv : contents) {
+      if (!sb.isEmpty()) {
+        sb.append(' ');
+      }
+      sb.append(fv);
+    }
 
+    final Document document = new Document();
     // Store the collection docid.
     document.add(new StringField(Constants.ID, id, Field.Store.YES));
     // This is needed to break score ties by docid.
     document.add(new BinaryDocValuesField(Constants.ID, new BytesRef(id)));
 
-    document.add(new KnnFloatVectorField(Constants.VECTOR, contents, VectorSimilarityFunction.DOT_PRODUCT));
+    document.add(new TextField(Constants.VECTOR, sb.toString(), Field.Store.NO));
 
     return document;
   }

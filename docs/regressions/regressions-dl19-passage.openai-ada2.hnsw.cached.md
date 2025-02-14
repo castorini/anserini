@@ -56,7 +56,7 @@ bin/run.sh io.anserini.index.IndexHnswDenseVectors \
   -threads 16 \
   -collection JsonDenseVectorCollection \
   -input /path/to/msmarco-passage-openai-ada2 \
-  -generator JsonDenseVectorDocumentGenerator \
+  -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-hnsw.msmarco-v1-passage.openai-ada2/ \
   -M 16 -efC 100 \
   >& logs/log.msmarco-passage-openai-ada2 &

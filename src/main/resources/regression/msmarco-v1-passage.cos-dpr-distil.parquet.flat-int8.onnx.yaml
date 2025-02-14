@@ -8,7 +8,7 @@ download_checksum: b9183de205fbd5c799211c21187179e7
 index_path: indexes/lucene-flat-int8.msmarco-v1-passage.cos-dpr-distil/
 index_type: flat
 collection_class: ParquetDenseVectorCollection
-generator_class: ParquetDenseVectorDocumentGenerator
+generator_class: DenseVectorDocumentGenerator
 index_threads: 16
 index_options: -quantize.int8
 

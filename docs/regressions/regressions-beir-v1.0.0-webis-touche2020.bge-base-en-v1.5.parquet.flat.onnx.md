@@ -36,7 +36,7 @@ bin/run.sh io.anserini.index.IndexFlatDenseVectors \
   -threads 16 \
   -collection ParquetDenseVectorCollection \
   -input /path/to/beir-v1.0.0-webis-touche2020.bge-base-en-v1.5 \
-  -generator ParquetDenseVectorDocumentGenerator \
+  -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-flat.beir-v1.0.0-webis-touche2020.bge-base-en-v1.5/ \
   >& logs/log.beir-v1.0.0-webis-touche2020.bge-base-en-v1.5 &
 ```

@@ -138,7 +138,7 @@ public class IndexFlatDenseVectorsTest {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
         "-index", indexPath,
-        "-generator", "JsonDenseVectorDocumentGenerator",
+        "-generator", "DenseVectorDocumentGenerator",
         "-threads", "1"
     };
 
@@ -159,7 +159,7 @@ public class IndexFlatDenseVectorsTest {
         "-collection", "ParquetDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/parquet/msmarco-passage-bge-base-en-v1.5.parquet/",
         "-index", indexPath,
-        "-generator", "ParquetDenseVectorDocumentGenerator",
+        "-generator", "DenseVectorDocumentGenerator",
         "-threads", "1"
     };
 
@@ -180,7 +180,7 @@ public class IndexFlatDenseVectorsTest {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
         "-index", indexPath,
-        "-generator", "JsonDenseVectorDocumentGenerator",
+        "-generator", "DenseVectorDocumentGenerator",
         "-threads", "1", "-quantize.int8"
     };
 
@@ -201,7 +201,7 @@ public class IndexFlatDenseVectorsTest {
         "-collection", "ParquetDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/parquet/msmarco-passage-bge-base-en-v1.5.parquet-float",
         "-index", indexPath,
-        "-generator", "ParquetDenseVectorDocumentGenerator",
+        "-generator", "DenseVectorDocumentGenerator",
         "-threads", "1"
     };
 

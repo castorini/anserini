@@ -143,7 +143,7 @@ public class IndexHnswDenseVectorsTest {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
         "-index", indexPath,
-        "-generator", "JsonDenseVectorDocumentGenerator",
+        "-generator", "DenseVectorDocumentGenerator",
         "-threads", "1",
         "-M", "16", "-efC", "100"
     };
@@ -164,7 +164,7 @@ public class IndexHnswDenseVectorsTest {
         "-collection", "ParquetDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/parquet/msmarco-passage-bge-base-en-v1.5.parquet/",
         "-index", indexPath,
-        "-generator", "ParquetDenseVectorDocumentGenerator",
+        "-generator", "DenseVectorDocumentGenerator",
         "-threads", "1"
     };
 
@@ -185,7 +185,7 @@ public class IndexHnswDenseVectorsTest {
         "-collection", "ParquetDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/parquet/msmarco-passage-bge-base-en-v1.5.parquet-float",
         "-index", indexPath,
-        "-generator", "ParquetDenseVectorDocumentGenerator",
+        "-generator", "DenseVectorDocumentGenerator",
         "-threads", "1",
         "-M", "16", "-efC", "100"
     };
@@ -208,7 +208,7 @@ public class IndexHnswDenseVectorsTest {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector_null",
         "-index", indexPath,
-        "-generator", "JsonDenseVectorDocumentGenerator",
+        "-generator", "DenseVectorDocumentGenerator",
         "-threads", "1"
     };
 
@@ -224,7 +224,7 @@ public class IndexHnswDenseVectorsTest {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector_null",
         "-index", indexPath,
-        "-generator", "JsonInvertedDenseVectorDocumentGenerator",
+        "-generator", "InvertedDenseVectorDocumentGenerator",
         "-threads", "1"
     };
 
@@ -242,7 +242,7 @@ public class IndexHnswDenseVectorsTest {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
         "-index", indexPath,
-        "-generator", "JsonDenseVectorDocumentGenerator",
+        "-generator", "DenseVectorDocumentGenerator",
         "-threads", "1",
         "-M", "16", "-efC", "100", "-quantize.int8"
     };

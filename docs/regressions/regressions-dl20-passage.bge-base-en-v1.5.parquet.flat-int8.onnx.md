@@ -56,7 +56,7 @@ bin/run.sh io.anserini.index.IndexFlatDenseVectors \
   -threads 16 \
   -collection ParquetDenseVectorCollection \
   -input /path/to/msmarco-passage-bge-base-en-v1.5.parquet \
-  -generator ParquetDenseVectorDocumentGenerator \
+  -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-flat-int8.msmarco-v1-passage.bge-base-en-v1.5/ \
   -quantize.int8 \
   >& logs/log.msmarco-passage-bge-base-en-v1.5.parquet &

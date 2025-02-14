@@ -56,7 +56,7 @@ bin/run.sh io.anserini.index.IndexFlatDenseVectors \
   -threads 16 \
   -collection JsonDenseVectorCollection \
   -input /path/to/msmarco-passage-bge-base-en-v1.5 \
-  -generator JsonDenseVectorDocumentGenerator \
+  -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-flat.msmarco-v1-passage.bge-base-en-v1.5/ \
   >& logs/log.msmarco-passage-bge-base-en-v1.5 &
 ```
