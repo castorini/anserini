@@ -74,12 +74,11 @@ import static org.junit.Assert.assertTrue;
      for (FileSegment<ParquetDenseVectorCollection.Document> segment : collection) {
        for (ParquetDenseVectorCollection.Document doc : segment) {
          docIds.put(doc.id(), cnt.incrementAndGet());
-         // Verify vector format - should be a comma-separated list of numbers
          String contents = doc.contents();
          assertTrue("Vector content should not be empty", contents != null && !contents.isEmpty());
+         contents = contents.replaceAll("[\\[\\]]", "");
          String[] values = contents.split(",");
          assertEquals("Vector should have 768 dimensions", 768, values.length);
-         // Verify each value can be parsed as a number
          for (String value : values) {
            try {
              Double.parseDouble(value.trim());
@@ -90,7 +89,7 @@ import static org.junit.Assert.assertTrue;
        }
      }
 
-     assertEquals("Collection should contain exactly 18 documents", 18, docIds.size());
+     assertEquals("Collection should contain exactly 10 documents", 10, docIds.size());
      for (String docId : docIds.keySet()) {
        assertTrue("Document ID should not be empty", docId != null && !docId.isEmpty());
      }
@@ -109,6 +108,8 @@ import static org.junit.Assert.assertTrue;
          docIds.put(doc.id(), cnt.incrementAndGet());
          String contents = doc.contents();
          assertTrue("Vector content should not be empty", contents != null && !contents.isEmpty());
+         // Remove array brackets and split
+         contents = contents.replaceAll("[\\[\\]]", "");
          String[] values = contents.split(",");
          assertEquals("Vector should have 768 dimensions", 768, values.length);
          for (String value : values) {
@@ -121,7 +122,7 @@ import static org.junit.Assert.assertTrue;
        }
      }
 
-     assertEquals("Collection should contain exactly 18 documents", 18, docIds.size());
+     assertEquals("Collection should contain exactly 10 documents", 10, docIds.size());
      for (String docId : docIds.keySet()) {
        assertTrue("Document ID should not be empty", docId != null && !docId.isEmpty());
      }

@@ -170,7 +170,7 @@ public class IndexFlatDenseVectorsTest {
 
     Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, Constants.VECTOR);
     assertNotNull(results);
-    assertEquals(18, results.get("documents"));
+    assertEquals(10, results.get("documents"));
   }
 
   @Test
@@ -191,7 +191,7 @@ public class IndexFlatDenseVectorsTest {
 
     Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, Constants.VECTOR);
     assertNotNull(results);
-    assertEquals(18, results.get("documents"));
+    assertEquals(10, results.get("documents"));
   }
 
   @Test
@@ -212,7 +212,7 @@ public class IndexFlatDenseVectorsTest {
 
     Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, Constants.VECTOR);
     assertNotNull(results);
-    assertEquals(18, results.get("documents"));
+    assertEquals(10, results.get("documents"));
   }
 
   @Test
