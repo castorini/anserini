@@ -8,7 +8,7 @@ download_checksum: a8fddf594c9b8e771637968033b12f6d
 index_path: indexes/lucene-flat-int8.msmarco-v1-passage.openai-ada2/
 index_type: flat
 collection_class: ParquetDenseVectorCollection
-generator_class: ParquetDenseVectorDocumentGenerator
+generator_class: DenseVectorDocumentGenerator
 index_threads: 16
 index_options: -quantize.int8
 

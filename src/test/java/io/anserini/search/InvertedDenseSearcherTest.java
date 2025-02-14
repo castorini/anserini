@@ -46,7 +46,7 @@ public class InvertedDenseSearcherTest {
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
-        "-generator", "JsonInvertedDenseVectorDocumentGenerator",
+        "-generator", "InvertedDenseVectorDocumentGenerator",
         "-index", indexPath,
         "-encoding", "fw"
     };
@@ -134,7 +134,7 @@ public class InvertedDenseSearcherTest {
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
-        "-generator", "JsonInvertedDenseVectorDocumentGenerator",
+        "-generator", "InvertedDenseVectorDocumentGenerator",
         "-index", indexPath,
         "-encoding", "fw"
     };
@@ -198,7 +198,7 @@ public class InvertedDenseSearcherTest {
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
-        "-generator", "JsonInvertedDenseVectorDocumentGenerator",
+        "-generator", "InvertedDenseVectorDocumentGenerator",
         "-index", indexPath,
         "-encoding", "lexlsh"
     };
@@ -286,7 +286,7 @@ public class InvertedDenseSearcherTest {
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
-        "-generator", "JsonInvertedDenseVectorDocumentGenerator",
+        "-generator", "InvertedDenseVectorDocumentGenerator",
         "-index", indexPath,
         "-encoding", "lexlsh"
     };

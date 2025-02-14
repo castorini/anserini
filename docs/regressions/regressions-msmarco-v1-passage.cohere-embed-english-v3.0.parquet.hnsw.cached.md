@@ -51,7 +51,7 @@ bin/run.sh io.anserini.index.IndexHnswDenseVectors \
   -threads 16 \
   -collection ParquetDenseVectorCollection \
   -input /path/to/msmarco-passage-cohere-embed-english-v3.0.parquet \
-  -generator ParquetDenseVectorDocumentGenerator \
+  -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-hnsw.msmarco-v1-passage.cohere-embed-english-v3.0/ \
   -M 16 -efC 100 \
   >& logs/log.msmarco-passage-cohere-embed-english-v3.0.parquet &

@@ -5,7 +5,7 @@ corpus_path: collections/beir-v1.0.0/bge-base-en-v1.5/bioasq
 index_path: indexes/lucene-hnsw.beir-v1.0.0-bioasq.bge-base-en-v1.5/
 index_type: hnsw
 collection_class: JsonDenseVectorCollection
-generator_class: JsonDenseVectorDocumentGenerator
+generator_class: DenseVectorDocumentGenerator
 index_threads: 16
 index_options: -M 16 -efC 500
 

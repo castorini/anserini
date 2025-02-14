@@ -53,7 +53,7 @@ bin/run.sh io.anserini.index.IndexHnswDenseVectors \
   -threads 16 \
   -collection ParquetDenseVectorCollection \
   -input /path/to/msmarco-passage-openai-ada2.parquet \
-  -generator ParquetDenseVectorDocumentGenerator \
+  -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-hnsw-int8.msmarco-v1-passage.openai-ada2/ \
   -M 16 -efC 100 -quantize.int8 \
   >& logs/log.msmarco-passage-openai-ada2.parquet &

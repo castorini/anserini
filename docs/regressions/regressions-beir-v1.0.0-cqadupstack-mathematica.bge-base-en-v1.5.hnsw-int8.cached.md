@@ -36,7 +36,7 @@ bin/run.sh io.anserini.index.IndexHnswDenseVectors \
   -threads 16 \
   -collection JsonDenseVectorCollection \
   -input /path/to/beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5 \
-  -generator JsonDenseVectorDocumentGenerator \
+  -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-hnsw-int8.beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5/ \
   -M 16 -efC 100 -quantize.int8 \
   >& logs/log.beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5 &
