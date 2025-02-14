@@ -177,7 +177,7 @@ public class IndexHnswDenseVectorsTest {
 
     Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, Constants.VECTOR);
     assertNotNull(results);
-    assertEquals(10, results.get("documents"));
+    assertEquals(18, results.get("documents"));
   }
 
   @Test

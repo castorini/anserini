@@ -90,7 +90,7 @@
        }
      }
 
-     assertEquals("Collection should contain exactly 10 documents", 10, docIds.size());
+     assertEquals("Collection should contain exactly 18 documents", 18, docIds.size());
      for (String docId : docIds.keySet()) {
        assertTrue("Document ID should not be empty", docId != null && !docId.isEmpty());
      }
@@ -121,7 +121,7 @@
        }
      }
 
-     assertEquals("Collection should contain exactly 10 documents", 10, docIds.size());
+     assertEquals("Collection should contain exactly 18 documents", 18, docIds.size());
      for (String docId : docIds.keySet()) {
        assertTrue("Document ID should not be empty", docId != null && !docId.isEmpty());
      }
