@@ -434,4 +434,5 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@Alexisfine](https://github.com/Alexisfine) on 2025-01-12 (commit [`697ae8f`](https://github.com/Alexisfine/anserini/commit/697ae8f239a53baa4a119c57009cffb60aac1a0c))
 + Results reproduced by [@ezafar](https://github.com/ezafar) on 2025-01-14 (commit [`f18bc80`](https://github.com/castorini/anserini/commit/f18bc8010ddfc341e83e39973c11620260846310))
 + Results reproduced by [@ErfanSadraiye](https://github.com/ErfanSadraiye) on 2025-01-16 (commit [`7c1de0e`](https://github.com/castorini/anserini/commit/7c1de0eb94781e5868ee9962d9019e4474bd1ce7))
-+ Results reproduced by [@Taqvis](https://github.com/Taqvis) on 2025-02-08 (commit [`817fb66`](https://github.com/castorini/anserini/commit/817fb669291c487e07826430b3d7a60fa0fae746)))
++ Results reproduced by [@Taqvis](https://github.com/Taqvis) on 2025-02-08 (commit [`817fb66`](https://github.com/castorini/anserini/commit/817fb669291c487e07826430b3d7a60fa0fae746))
++ Results reproduced by [@mohammaderfankabir](https://github.com/mohammaderfankabir) on 2025-02-14 (commit [`864f647`](https://github.com/castorini/anserini/commit/864f647d5fdb684a34ec70367d3aa45f894ecdce))
