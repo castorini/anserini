@@ -79,7 +79,7 @@ public final class SearchShardedHnswDenseVectors<K extends Comparable<K>> implem
 
     // TODO: make this configurable
     String indexPath = "/store/scratch/v4zhong/.cache/pyserini/indexes/";
-    
+
     for (IndexInfo shard : shards) {
       Args shardArgs = new Args();
       // Copy all args from the parent
@@ -91,7 +91,7 @@ public final class SearchShardedHnswDenseVectors<K extends Comparable<K>> implem
       shardArgs.runtag = args.runtag;
       shardArgs.format = args.format;
       shardArgs.options = args.options;
-      
+
       // Set shard-specific args
       shardArgs.index = indexPath + shard.indexName;
       shardArgs.encoder = args.encoder;
@@ -121,9 +121,11 @@ public final class SearchShardedHnswDenseVectors<K extends Comparable<K>> implem
   public void run() {
     LOG.info("============ Running Sharded Search ============");
 
+    List<String> shardOutputPaths = new ArrayList<>();
     IntStream.range(0, searchers.size()).parallel().forEach(i -> {
       SearchHnswDenseVectors<K> searcher = searchers.get(i);
       String shardOutputPath = args.output.replaceFirst("\\.txt$", ".shard" + String.format("%02d", i) + ".txt");
+      shardOutputPaths.add(shardOutputPath);
       LOG.info("Processing shard {} -> {}", i, shardOutputPath);
 
       try {
@@ -135,7 +137,24 @@ public final class SearchShardedHnswDenseVectors<K extends Comparable<K>> implem
         throw new RuntimeException(String.format("Error processing shard %d: %s", i, e.getMessage()), e);
       }
     });
-    LOG.info("All shards processed. Results written to individual shard files.");
+
+    LOG.info("Concatenating shard results into {}", args.output);
+    try {
+      Files.createDirectories(Paths.get(args.output).getParent());
+      Files.write(Paths.get(args.output), new byte[0]);
+
+      for (String shardPath : shardOutputPaths) {
+        if (Files.exists(Paths.get(shardPath))) {
+          Files.write(Paths.get(args.output),
+                     Files.readAllBytes(Paths.get(shardPath)),
+                     java.nio.file.StandardOpenOption.APPEND);
+        }
+      }
+      LOG.info("All results concatenated successfully.");
+      LOG.info("Individual shard results are not deleted.");
+    } catch (IOException e) {
+      throw new RuntimeException("Error concatenating shard results: " + e.getMessage(), e);
+    }
   }
 
   public static void main(String[] args) throws Exception {
@@ -163,7 +182,7 @@ public final class SearchShardedHnswDenseVectors<K extends Comparable<K>> implem
 
       return;
     }
-    
+
     try (SearchShardedHnswDenseVectors<?> searcher = new SearchShardedHnswDenseVectors<>(searchArgs)) {
       searcher.run();
     } catch (RuntimeException e) {
