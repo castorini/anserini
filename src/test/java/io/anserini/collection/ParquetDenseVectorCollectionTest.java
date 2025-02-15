@@ -108,7 +108,6 @@ import static org.junit.Assert.assertTrue;
          docIds.put(doc.id(), cnt.incrementAndGet());
          String contents = doc.contents();
          assertTrue("Vector content should not be empty", contents != null && !contents.isEmpty());
-         // Remove array brackets and split
          contents = contents.replaceAll("[\\[\\]]", "");
          String[] values = contents.split(",");
          assertEquals("Vector should have 768 dimensions", 768, values.length);
