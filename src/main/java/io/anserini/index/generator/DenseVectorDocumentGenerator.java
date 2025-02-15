@@ -40,7 +40,7 @@ public class DenseVectorDocumentGenerator<T extends SourceDocument> implements L
 
   /**
    * Creates a Lucene document from the source document.
-   * 
+   *
    * @param src the source document
    * @return the created Lucene document
    * @throws InvalidDocumentException if the document is invalid
@@ -63,8 +63,10 @@ public class DenseVectorDocumentGenerator<T extends SourceDocument> implements L
 
       return document;
 
+    } catch (InvalidDocumentException e) {
+      throw e;
     } catch (Exception e) {
-      LOG.error("Error creating document for ID: " + src.id(), e);
+      LOG.error("Unexpected error creating document for ID: " + src.id(), e);
       throw new InvalidDocumentException();
     }
   }

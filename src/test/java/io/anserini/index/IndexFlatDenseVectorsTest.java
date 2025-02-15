@@ -128,11 +128,11 @@ public class IndexFlatDenseVectorsTest {
     };
 
     IndexFlatDenseVectors.main(indexArgs);
-    // If this succeeded, then the default -generator of JsonDenseVectorDocumentGenerator must have worked.
+    // If this succeeded, then the default -generator of DenseVectorDocumentGenerator must have worked.
   }
 
   @Test
-  public void test1() throws Exception {
+  public void testJsonDenseVectorCollection() throws Exception {
     String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
@@ -151,13 +151,13 @@ public class IndexFlatDenseVectorsTest {
     assertNotNull(results);
     assertEquals(100, results.get("documents"));
   }
-  
+
   @Test
-  public void testParquet() throws Exception {
+  public void testParquetFloat() throws Exception {
     String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
     String[] indexArgs = new String[] {
         "-collection", "ParquetDenseVectorCollection",
-        "-input", "src/test/resources/sample_docs/parquet/msmarco-passage-bge-base-en-v1.5.parquet/",
+        "-input", "src/test/resources/sample_docs/parquet/msmarco-passage-bge-base-en-v1.5.parquet-float/",
         "-index", indexPath,
         "-generator", "DenseVectorDocumentGenerator",
         "-threads", "1"
@@ -172,7 +172,28 @@ public class IndexFlatDenseVectorsTest {
     assertNotNull(results);
     assertEquals(10, results.get("documents"));
   }
-  
+
+  @Test
+  public void testParquetDouble() throws Exception {
+    String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
+    String[] indexArgs = new String[] {
+        "-collection", "ParquetDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/parquet/msmarco-passage-bge-base-en-v1.5.parquet-double/",
+        "-index", indexPath,
+        "-generator", "DenseVectorDocumentGenerator",
+        "-threads", "1"
+    };
+
+    IndexFlatDenseVectors.main(indexArgs);
+
+    IndexReader reader = IndexReaderUtils.getReader(indexPath);
+    assertNotNull(reader);
+
+    Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, Constants.VECTOR);
+    assertNotNull(results);
+    assertEquals(10, results.get("documents"));
+  }
+
   @Test
   public void testQuantizedInt8() throws Exception {
     String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
@@ -192,26 +213,5 @@ public class IndexFlatDenseVectorsTest {
     Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, Constants.VECTOR);
     assertNotNull(results);
     assertEquals(100, results.get("documents"));
-  }
-
-  @Test
-  public void testParquetFloat() throws Exception {
-    String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
-    String[] indexArgs = new String[] {
-        "-collection", "ParquetDenseVectorCollection",
-        "-input", "src/test/resources/sample_docs/parquet/msmarco-passage-bge-base-en-v1.5.parquet-float",
-        "-index", indexPath,
-        "-generator", "DenseVectorDocumentGenerator",
-        "-threads", "1"
-    };
-
-    IndexFlatDenseVectors.main(indexArgs);
-
-    IndexReader reader = IndexReaderUtils.getReader(indexPath);
-    assertNotNull(reader);
-
-    Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, Constants.VECTOR);
-    assertNotNull(results);
-    assertEquals(10, results.get("documents"));
   }
 }

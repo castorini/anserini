@@ -58,7 +58,7 @@ for SUBDIR in "${SUBDIRS[@]}"; do
         -threads 16 \
         -collection ParquetDenseVectorCollection \
         -input "$PARQUET_DIR" \
-        -generator ParquetDenseVectorDocumentGenerator \
+        -generator DenseVectorDocumentGenerator \
         -index "$INDEX_NAME" \
        	>&"logs/debug-log.beir-v1.0.0-${SUBDIR_NAME}.bge-base-en-v1.5"
 
