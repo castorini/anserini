@@ -133,11 +133,11 @@ public class IndexHnswDenseVectorsTest {
     };
 
     IndexHnswDenseVectors.main(indexArgs);
-    // If this succeeded, then the default -generator of JsonDenseVectorDocumentGenerator must have worked.
+    // If this succeeded, then the default -generator of InvertedDenseVectorDocumentGenerator must have worked.
   }
 
   @Test
-  public void test1() throws Exception {
+  public void testJsonDenseVectorCollection() throws Exception {
     String indexPath = "target/lucene-test-index.hnsw." + System.currentTimeMillis();
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
@@ -157,33 +157,13 @@ public class IndexHnswDenseVectorsTest {
     assertNotNull(results);
     assertEquals(100, results.get("documents"));
   }
-  @Test
-  public void testParquet() throws Exception {
-    String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
-    String[] indexArgs = new String[] {
-        "-collection", "ParquetDenseVectorCollection",
-        "-input", "src/test/resources/sample_docs/parquet/msmarco-passage-bge-base-en-v1.5.parquet/",
-        "-index", indexPath,
-        "-generator", "DenseVectorDocumentGenerator",
-        "-threads", "1"
-    };
-
-    IndexFlatDenseVectors.main(indexArgs);
-
-    IndexReader reader = IndexReaderUtils.getReader(indexPath);
-    assertNotNull(reader);
-
-    Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, Constants.VECTOR);
-    assertNotNull(results);
-    assertEquals(10, results.get("documents"));
-  }
 
   @Test
   public void testParquetFloat() throws Exception {
-    String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
+    String indexPath = "target/lucene-test-index.hnsw." + System.currentTimeMillis();
     String[] indexArgs = new String[] {
         "-collection", "ParquetDenseVectorCollection",
-        "-input", "src/test/resources/sample_docs/parquet/msmarco-passage-bge-base-en-v1.5.parquet-float",
+        "-input", "src/test/resources/sample_docs/parquet/msmarco-passage-bge-base-en-v1.5.parquet-float/",
         "-index", indexPath,
         "-generator", "DenseVectorDocumentGenerator",
         "-threads", "1",
@@ -201,15 +181,37 @@ public class IndexHnswDenseVectorsTest {
   }
 
   @Test
-  public void testNullVector() throws Exception {
-    // Test for JsonDenseVectorDocumentGenerator
+  public void testParquetDouble() throws Exception {
+    String indexPath = "target/lucene-test-index.hnsw." + System.currentTimeMillis();
+    String[] indexArgs = new String[] {
+        "-collection", "ParquetDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/parquet/msmarco-passage-bge-base-en-v1.5.parquet-double/",
+        "-index", indexPath,
+        "-generator", "DenseVectorDocumentGenerator",
+        "-threads", "1",
+        "-M", "16", "-efC", "100"
+    };
+
+    IndexHnswDenseVectors.main(indexArgs);
+
+    IndexReader reader = IndexReaderUtils.getReader(indexPath);
+    assertNotNull(reader);
+
+    Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, Constants.VECTOR);
+    assertNotNull(results);
+    assertEquals(10, results.get("documents"));
+  }
+
+  @Test
+  public void testNullVectorDense() throws Exception {
     String indexPath = "target/lucene-test-index.hnsw." + System.currentTimeMillis();
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector_null",
         "-index", indexPath,
         "-generator", "DenseVectorDocumentGenerator",
-        "-threads", "1"
+        "-threads", "1",
+        "-M", "16", "-efC", "100"
     };
 
     IndexHnswDenseVectors.main(indexArgs);
@@ -217,21 +219,24 @@ public class IndexHnswDenseVectorsTest {
     assertNotNull(reader);
     Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, Constants.VECTOR);
     assertEquals(0, results.get("documents"));
+  }
 
-    // Test for JsonInvertedDenseVectorDocumentGenerator
-    indexPath = "target/lucene-test-index.hnsw." + System.currentTimeMillis();
-    indexArgs = new String[] {
+  @Test
+  public void testNullVectorInverted() throws Exception {
+    String indexPath = "target/lucene-test-index.hnsw." + System.currentTimeMillis();
+    String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector_null",
         "-index", indexPath,
         "-generator", "InvertedDenseVectorDocumentGenerator",
-        "-threads", "1"
+        "-threads", "1",
+        "-M", "16", "-efC", "100"
     };
 
     IndexHnswDenseVectors.main(indexArgs);
-    reader = IndexReaderUtils.getReader(indexPath);
+    IndexReader reader = IndexReaderUtils.getReader(indexPath);
     assertNotNull(reader);
-    results = IndexReaderUtils.getIndexStats(reader, Constants.VECTOR);
+    Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, Constants.VECTOR);
     assertEquals(0, results.get("documents"));
   }
 
