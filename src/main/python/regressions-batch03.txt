@@ -196,23 +196,15 @@ python src/main/python/run_regression.py --verify --search --regression dl20-doc
 python src/main/python/run_regression.py --verify --search --regression dl20-doc-segmented.unicoil.cached > logs/log.dl20-doc-segmented.unicoil.cached.txt 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl20-doc-segmented.unicoil-noexp.cached > logs/log.dl20-doc-segmented.unicoil-noexp.cached.txt 2>&1
 
-# MS MARCO V1, full indexing, json
+# MS MARCO V1, full indexing, json dense vectors (cached)
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cos-dpr-distil.flat.cached > logs/log.msmarco-v1-passage.cos-dpr-distil.flat.cached.txt 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cos-dpr-distil.flat.onnx > logs/log.msmarco-v1-passage.cos-dpr-distil.flat.onnx.txt 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cos-dpr-distil.flat-int8.cached > logs/log.msmarco-v1-passage.cos-dpr-distil.flat-int8.cached.txt 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cos-dpr-distil.flat-int8.onnx > logs/log.msmarco-v1-passage.cos-dpr-distil.flat-int8.onnx.txt 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cos-dpr-distil.hnsw.cached > logs/log.msmarco-v1-passage.cos-dpr-distil.hnsw.cached.txt 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cos-dpr-distil.hnsw.onnx > logs/log.msmarco-v1-passage.cos-dpr-distil.hnsw.onnx.txt 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cos-dpr-distil.hnsw-int8.cached > logs/log.msmarco-v1-passage.cos-dpr-distil.hnsw-int8.cached.txt 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cos-dpr-distil.hnsw-int8.onnx > logs/log.msmarco-v1-passage.cos-dpr-distil.hnsw-int8.onnx.txt 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.bge-base-en-v1.5.flat.cached > logs/log.msmarco-v1-passage.bge-base-en-v1.5.flat.cached.txt 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.bge-base-en-v1.5.flat.onnx > logs/log.msmarco-v1-passage.bge-base-en-v1.5.flat.onnx.txt 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.bge-base-en-v1.5.flat-int8.cached > logs/log.msmarco-v1-passage.bge-base-en-v1.5.flat-int8.cached.txt 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.bge-base-en-v1.5.flat-int8.onnx > logs/log.msmarco-v1-passage.bge-base-en-v1.5.flat-int8.onnx.txt 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.bge-base-en-v1.5.hnsw.cached > logs/log.msmarco-v1-passage.bge-base-en-v1.5.hnsw.cached.txt 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.bge-base-en-v1.5.hnsw.onnx > logs/log.msmarco-v1-passage.bge-base-en-v1.5.hnsw.onnx.txt 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8.cached > logs/log.msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8.cached.txt 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8.onnx > logs/log.msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8.onnx.txt 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.openai-ada2.flat.cached > logs/log.msmarco-v1-passage.openai-ada2.flat.cached.txt 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.openai-ada2.flat-int8.cached > logs/log.msmarco-v1-passage.openai-ada2.flat-int8.cached.txt 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.openai-ada2.hnsw.cached > logs/log.msmarco-v1-passage.openai-ada2.hnsw.cached.txt 2>&1
@@ -282,7 +274,17 @@ python src/main/python/run_regression.py --verify --search --regression dl23-doc
 python src/main/python/run_regression.py --verify --search --regression dl23-doc-segmented.unicoil-noexp-0shot-v2.cached > logs/log.dl23-doc-segmented.unicoil-noexp-0shot-v2.cached.txt 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl23-doc-segmented.unicoil-0shot-v2.cached > logs/log.dl23-doc-segmented.unicoil-0shot-v2.cached.txt 2>&1
 
-# Just retrieval, json
+# MS MARCO V1, just retrieval, json dense vectors (onnx)
+python src/main/python/run_regression.py --verify --search --regression msmarco-v1-passage.cos-dpr-distil.flat.onnx > logs/log.msmarco-v1-passage.cos-dpr-distil.flat.onnx.txt 2>&1
+python src/main/python/run_regression.py --verify --search --regression msmarco-v1-passage.cos-dpr-distil.flat-int8.onnx > logs/log.msmarco-v1-passage.cos-dpr-distil.flat-int8.onnx.txt 2>&1
+python src/main/python/run_regression.py --verify --search --regression msmarco-v1-passage.cos-dpr-distil.hnsw.onnx > logs/log.msmarco-v1-passage.cos-dpr-distil.hnsw.onnx.txt 2>&1
+python src/main/python/run_regression.py --verify --search --regression msmarco-v1-passage.cos-dpr-distil.hnsw-int8.onnx > logs/log.msmarco-v1-passage.cos-dpr-distil.hnsw-int8.onnx.txt 2>&1
+python src/main/python/run_regression.py --verify --search --regression msmarco-v1-passage.bge-base-en-v1.5.flat.onnx > logs/log.msmarco-v1-passage.bge-base-en-v1.5.flat.onnx.txt 2>&1
+python src/main/python/run_regression.py --verify --search --regression msmarco-v1-passage.bge-base-en-v1.5.flat-int8.onnx > logs/log.msmarco-v1-passage.bge-base-en-v1.5.flat-int8.onnx.txt 2>&1
+python src/main/python/run_regression.py --verify --search --regression msmarco-v1-passage.bge-base-en-v1.5.hnsw.onnx > logs/log.msmarco-v1-passage.bge-base-en-v1.5.hnsw.onnx.txt 2>&1
+python src/main/python/run_regression.py --verify --search --regression msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8.onnx > logs/log.msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8.onnx.txt 2>&1
+
+# Just retrieval, json dense vectors
 python src/main/python/run_regression.py --verify --search --regression dl19-passage.cos-dpr-distil.flat.cached > logs/log.dl19-passage.cos-dpr-distil.flat.cached.txt 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl19-passage.cos-dpr-distil.flat.onnx > logs/log.dl19-passage.cos-dpr-distil.flat.onnx.txt 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl19-passage.cos-dpr-distil.flat-int8.cached > logs/log.dl19-passage.cos-dpr-distil.flat-int8.cached.txt 2>&1
