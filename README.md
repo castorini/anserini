@@ -169,18 +169,6 @@ Key:
 | [OpenAI-ada2](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-openai-ada2.parquet.tar) (parquet)                               |  51 GB | `a8fddf594c9b8e771637968033b12f6d` |
 | [Cohere embed-english-v3.0](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cohere-embed-english-v3.0.parquet.tar) (parquet)   |  16 GB | `760dfb5ba9e2b0cc6f7e527e518fef03` |
 
-<details>
-<summary>Deprecated corpora for learned dense models using corpora in jsonl format</summary>
-
-| Corpora                                                                                                                                  |   Size | Checksum                           |
-|:-----------------------------------------------------------------------------------------------------------------------------------------|-------:|:-----------------------------------|
-| [cosDPR-distil](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cos-dpr-distil.tar) (jsonl, deprecated)                        |  57 GB | `e20ffbc8b5e7f760af31298aefeaebbd` |
-| [BGE-base-en-v1.5](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-bge-base-en-v1.5.tar) (jsonl, deprecated)                   |  59 GB | `353d2c9e72e858897ad479cca4ea0db1` |
-| [OpenAI-ada2](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-openai-ada2.tar) (jsonl, deprecated)                             | 109 GB | `a4d843d522ff3a3af7edbee789a63402` |
-| [Cohere embed-english-v3.0](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cohere-embed-english-v3.0.tar) (jsonl, deprecated) |  38 GB | `06a6e38a0522850c6aa504db7b2617f5` |
-
-</details>
-
 <hr/>
 
 </details>
@@ -382,7 +370,6 @@ Substitute the appropriate `$COLLECTION` from the table below.
 | `beir-v1.0.0-unicoil-noexp.tar`                        |  30 GB | `4fd04d2af816a6637fc12922cccc8a83` |
 | `beir-v1.0.0-splade-pp-ed.tar`                         |  43 GB | `9c7de5b444a788c9e74c340bf833173b` |
 | `beir-v1.0.0-bge-base-en-v1.5.parquet.tar`             | 127 GB | `5f8dce18660cc8ac0318500bea5993ac` |
-| `beir-v1.0.0-bge-base-en-v1.5.tar` (jsonl, deprecated) | 294 GB | `e4e8324ba3da3b46e715297407a24f00` |
 
 Once you've unpacked the data, the following commands will loop over all BEIR corpora and run the regressions:
 
