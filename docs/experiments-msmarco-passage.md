@@ -2,15 +2,13 @@
 
 This page contains instructions for running BM25 baselines on the [MS MARCO *passage* ranking task](https://microsoft.github.io/msmarco/).
 Note that there is a separate [MS MARCO *document* ranking task](experiments-msmarco-doc.md).
-This exercise will require a machine with >8 GB RAM and >15 GB free disk space .
-If you're using a Windows machine, equivalent commands are provided alongside the Unix-like (Linux/macOS) commands.
+This exercise will require a machine with at least 8 GB RAM and  at least 15 GB free disk space.
 
 If you're a Waterloo student traversing the [onboarding path](https://github.com/lintool/guide/blob/master/ura.md), [start here](start-here.md
 ).
 In general, don't try to rush through this guide by just blindly copying and pasting commands into a shell;
 that's what I call [cargo culting](https://en.wikipedia.org/wiki/Cargo_cult_programming).
 Instead, really try to understand what's going on.
-
 
 **Learning outcomes** for this guide, building on previous steps in the onboarding path:
 
@@ -51,7 +49,7 @@ wget https://msmarco.z22.web.core.windows.net/msmarcoranking/collectionandquerie
 tar xvfz collections/msmarco-passage/collectionandqueries.tar.gz -C collections/msmarco-passage
 ```
 
-To confirm, `collectionandqueries.tar.gz` should have MD5 checksum of `31644046b18952c1386cd4564ba2ae69`.
+To confirm, `collectionandqueries.tar.gz` is around 1 GB and should have MD5 checksum of `31644046b18952c1386cd4564ba2ae69`.
 
 Next, we need to convert the MS MARCO tsv collection into Anserini's jsonl files (which have one json object per line):
 
@@ -90,9 +88,9 @@ On the other hand, retrieval needs to be fast, i.e., low latency, high throughpu
 
 With the data prep above, we can now index the MS MARCO passage collection in `collections/msmarco-passage/collection_jsonl`.
 
-If you haven't built Anserini already, build it now using the instructions in [anserini#-installation](https://github.com/castorini/anserini?tab=readme-ov-file#-installation).
+If you haven't built Anserini already, build it now using the instructions provided [here](https://github.com/castorini/anserini?tab=readme-ov-file#-installation).
 
-We index these docs as a `JsonCollection` (a specification of how documents are encoded) using Anserini:
+Using Anserini, we can index these docs as a `JsonCollection` (a specification of how documents are encoded) with the following command:
 
 ```bash
 bin/run.sh io.anserini.index.IndexCollection \
@@ -102,21 +100,26 @@ bin/run.sh io.anserini.index.IndexCollection \
   -generator DefaultLuceneDocumentGenerator \
   -threads 9 -storePositions -storeDocvectors -storeRaw
 ```
-For Windows:
-```bash
-bin\run.bat io.anserini.index.IndexCollection -collection JsonCollection -input collections\msmarco-passage\collection_jsonl -index indexes\msmarco-passage\lucene-index-msmarco -generator DefaultLuceneDocumentGenerator -threads 9 -storePositions -storeDocvectors -storeRaw
-```
-
-
 
 In this case, Lucene creates what is known as an **inverted index**.
 
 Upon completion, we should have an index with 8,841,823 documents.
-The indexing speed may vary; on a modern desktop with an SSD, indexing takes a couple of minutes.
-On the new MacBook Pro M3 Laptop, if you only have 8GB memory, you might encounter an issue where the threads are forced to abort before indexing
-finishes. This is likely caused by JVM allocating more memory than available on the system, thus causing too much memory swapping without actively
-garbage collecting. To mitigate this issue, you may need to modify run.sh to change the -Xms option to 2GB and -Xmx to 6GB.
+The indexing speed may vary;
+On a modern desktop with an SSD, indexing takes a couple of minutes.
+On a circa 2022 MacBook Air with an Apple M2 processor and 24 GB RAM, indexing takes around 3 minutes.
+YMMV.
 
+If you run into out-of-memory issues, you might need dial down `-threads` (i.e., use fewer threads).
+Or you might need to go into modify `run.sh` and tweak the `-Xms` and `-Xmx` memory settings.
+
+The inverted index consumes around 4 GB:
+
+```bash
+% du -h indexes
+4.3G	indexes/msmarco-passage/lucene-index-msmarco
+4.3G	indexes/msmarco-passage
+4.3G	indexes
+```
 
 ## Retrieval
 
@@ -132,10 +135,6 @@ bin/run.sh io.anserini.search.SearchCollection \
   -parallelism 4 \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 -hits 1000
 ```
-For Windows:
-```bash
-bin\run.bat io.anserini.search.SearchCollection -index indexes\msmarco-passage\lucene-index-msmarco -topics collections\msmarco-passage\queries.dev.small.tsv -topicReader TsvInt -output runs\run.msmarco-passage.dev.small.tsv -format msmarco -parallelism 4 -bm25 -bm25.k1 0.82 -bm25.b 0.68 -hits 1000
-```
 
 This is the **retrieval** (or **search**) phase.
 We're performing retrieval _in batch_, on a set of queries.
@@ -149,9 +148,9 @@ The above command uses BM25 with tuned parameters `k1=0.82`, `b=0.68`.
 The option `-hits` specifies the number of documents per query to be retrieved.
 Thus, the output file should have approximately 6980 × 1000 = 6.9M lines.
 
-Retrieval speed will vary by machine:
-On a reasonably modern desktop with an SSD, with four threads (as specified above), the run takes a couple of minutes.
-Adjust the parallelism by changing the `-parallelism` argument.
+Retrieval speed will vary.
+On a reasonably modern machine (e.g., the MacBook Air referenced above), with four threads (as specified above), the run takes a couple of minutes.
+Adjust the number of threads to use by changing the `-parallelism` argument.
 
 Congratulations, you've performed your first **retrieval run**!
 
@@ -294,10 +293,14 @@ bin/trec_eval -q -c -M 10 -m recip_rank \
 We can find the MRR@10 for `qid` 1048585 above:
 
 ```bash
-$ bin/trec_eval -q -c -M 10 -m recip_rank \
-    collections/msmarco-passage/qrels.dev.small.trec \
-    runs/run.msmarco-passage.dev.small.trec | grep 1048585
+bin/trec_eval -q -c -M 10 -m recip_rank \
+  collections/msmarco-passage/qrels.dev.small.trec \
+  runs/run.msmarco-passage.dev.small.trec | grep 1048585
+```
 
+Which is:
+
+```
 recip_rank            	1048585	1.0000
 ```
 

@@ -44,7 +44,7 @@ How do we "fetch" those pieces of content?
 Well, that's retrieval!
 (You might have also heard about something called vector search? We'll cover exactly that later in this onboarding path.)
 
-In fact, retrieval augmentation is exactly how the new Bing search works.
+In fact, retrieval augmentation is exactly how the "new" Bing search works (well, not so new since it debuted in February of 2023).
 You don't have to take my word: you can directly read the blog post on [building the new Bing](https://blogs.bing.com/search-quality-insights/february-2023/Building-the-New-Bing) and find the following diagram:
 
 <img src="Prometheus-Model.png" width="500" />
@@ -52,7 +52,12 @@ You don't have to take my word: you can directly read the blog post on [building
 Search comprises "internal queries" to fetch content ("Bing results") that are then fed into an LLM (i.e., stuffed into the prompt) to generate answers.
 If you want more evidence, here's a [NeurIPS 2020 paper](https://arxiv.org/abs/2005.11401) that basically says the same thing.
 
-Thus, retrieval forms the foundation of answer generation with LLMs.
+Bing is referenced here because it's the first major consumer product built on RAG.
+[Perplexity](https://www.perplexity.ai/), [ChatGPT search](https://openai.com/index/introducing-chatgpt-search/), and pretty much every customer service chatbot work in similar ways.
+And if you add in control loops and other non-linear flow, you get ["agentic RAG"](https://weaviate.io/blog/what-is-agentic-rag).
+If you need additional convincing, check out [Google Trends](https://trends.google.com/trends/explore?date=today%205-y&q=%2Fg%2F11w2hkn8vj&hl=en).
+
+This is just a long-winded way of saying that retrieval (i.e., search) forms the foundation of answer generation with LLMs.
 In fact, it's critical to the quality of the output.
 We all know the adage "[garbage in, garbage out](https://en.wikipedia.org/wiki/Garbage_in,_garbage_out)", which highlights the importance of retrieval.
 If the retrieval quality ain't good, the LLM output will be garbage.
@@ -69,7 +74,7 @@ Now, let's get back to the retrieval problem and try to unpack the definition a 
 A **"query"** is a representation of an information need (i.e., the reason you're looking for information in the first place) that serves as the input to a retrieval system.
 
 The **"collection"** is what you're retrieving from (i.e., searching).
-Some people say "corpus" (plural, "corpora", not "corpuses"), but the terms are used interchangeably.
+Some people say **"corpus"** (plural, "corpora", not "corpuses"), but the terms are used interchangeably.
 A "collection" or "corpus" comprises "documents".
 In standard parlance, a "document" is used generically to refer to any discrete information object that can be retrieved.
 We call them "documents" even though in reality they may be webpages, passages, PDFs, Powerpoint slides, Excel spreadsheets, or even images, audio, or video.
@@ -146,7 +151,7 @@ Otherwise, I think it's probably okay to continue along the onboarding path... a
 
 Bringing together everything we've discussed so far, a test collection consists of three elements:
 
-+ a collection (or corpus) of documents
++ a collection of documents (or corpus)
 + a set of queries
 + relevance judgments (or qrels), which tell us which documents are relevant to which queries
 
@@ -173,9 +178,16 @@ wget https://msmarco.z22.web.core.windows.net/msmarcoranking/collectionandquerie
 tar xvfz collections/msmarco-passage/collectionandqueries.tar.gz -C collections/msmarco-passage
 ```
 
-To confirm, `collectionandqueries.tar.gz` should have MD5 checksum of `31644046b18952c1386cd4564ba2ae69`.
+To confirm, `collectionandqueries.tar.gz` is around 1 GB and should have MD5 checksum of `31644046b18952c1386cd4564ba2ae69`.
+Once you unpack it, you're looking at ~4 GB on disk.
 
-If you peak inside the collection:
+```bash
+% du -h collections
+3.9G	collections/msmarco-passage
+3.9G	collections
+```
+
+Peak inside the collection:
 
 ```bash
 head collections/msmarco-passage/collection.tsv
@@ -211,6 +223,15 @@ $ wc collections/msmarco-passage/collection_jsonl/*
  1000000 56920456 364726419 collections/msmarco-passage/collection_jsonl/docs07.json
   841823 47767342 306155721 collections/msmarco-passage/collection_jsonl/docs08.json
  8841823 523912422 3338781467 total
+```
+
+At this point, you'll have used about 7 GB of disk:
+
+```bash
+% du -h collections
+3.2G	collections/msmarco-passage/collection_jsonl
+7.1G	collections/msmarco-passage
+7.1G	collections
 ```
 
 As an aside, data munging along these lines is a very common data preparation operation.
@@ -273,7 +294,7 @@ $ grep 7187158 collections/msmarco-passage/collection.tsv
 ```
 
 We see here that, indeed, the passage above is relevant to the query (i.e., provides information that answers the question).
-Note that this particular passage is a bit dirty (garbage characters, dups, etc.)... but that's pretty much a fact of life when you're dealing with the web.
+Note that this particular passage is a bit dirty (garbage characters, dups, etc.)... but that's pretty much a fact of life when you're dealing with material crawled from the web.
 
 Before proceeding, try the same thing with a few more queries: map the queries to the relevance judgments to the actual documents.
 
