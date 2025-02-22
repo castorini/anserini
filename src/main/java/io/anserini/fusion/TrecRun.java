@@ -147,7 +147,7 @@ public class TrecRun {
     if (tag != null) {
       runData.forEach(record -> record.put(Column.TAG, tag));
     }
-    runData.sort(Comparator.comparing((Map<Column, Object> r) -> Integer.parseInt((String) r.get(Column.TOPIC)))
+    runData.sort(Comparator.comparing((Map<Column, Object> r) -> (String) r.get(Column.TOPIC))
       .thenComparing(r -> (Double) r.get(Column.SCORE), Comparator.reverseOrder()));
     FileUtils.writeLines(outputPath.toFile(), runData.stream()
         .map(record -> record.entrySet().stream()
