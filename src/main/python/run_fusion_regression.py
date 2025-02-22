@@ -20,9 +20,20 @@ import logging
 import time
 import yaml
 from subprocess import call, Popen, PIPE
+from ranx import Run, fuse, evaluate, Qrels, optimize_fusion
 
 # Constants
 FUSE_COMMAND = 'bin/run.sh io.anserini.fusion.FuseTrecRuns'
+fusion_method_ranx = {
+    "rrf": "rrf",
+    "average": "sum",
+    "interpolation": "wsum"
+}
+metrics_ranx = {
+    "nDCG@10": "ndcg@10",
+    "R@100": "recall@100",
+    "R@1000": "recall@1000"
+}
 
 # Set up logging
 logger = logging.getLogger('fusion_regression_test')
@@ -87,6 +98,52 @@ def run_fusion_commands(cmds: list):
         except Exception as e:
             logger.error(f"Error executing command {cmd}: {str(e)}")
 
+def run_to_dict(filename: str, qrel: bool) -> dict:
+    res = {}
+    with open(filename, 'r') as file:
+        for line in file:
+            tokens = line.strip().split()
+            q_key = tokens[0]
+            d_key = tokens[2]
+            value = tokens[3]
+            if not qrel:
+                value = tokens[4]
+            if q_key not in res:
+                res[q_key] = {}
+            
+            res[q_key][d_key] = value
+    # print(res.keys())
+    return res
+
+def compare_with_ranx(qrel_file: str, runs: list[str], methods: dict, metrics: list[str]) -> dict:
+    qrels = Qrels(run_to_dict(qrel_file, True))
+    allkeys = set()
+    for i, r in enumerate(runs):
+        runs[i] = run_to_dict(r, False)
+        allkeys = allkeys.union(set(runs[i].keys()))
+    for i, r in enumerate(runs):
+        for key in allkeys:
+            r.setdefault(key, {})
+        runs[i] = Run(r).make_comparable(qrels)
+    ranx_results = {}
+    for method in methods:
+        ranx_method = fusion_method_ranx[method["name"]]
+        best_params = {}
+        if ranx_method == "wsum":
+            best_params['weights'] = (method.get('alpha', 0.5), 1 - method.get('alpha', 0.5))
+        elif ranx_method == "rrf":
+            best_params['k'] = method.get('rrf_k', 60)
+        fused = fuse(
+            runs=runs,
+            norm=None,
+            method=ranx_method,
+            params=best_params 
+        )
+        results = evaluate(qrels, fused, metrics)
+        ranx_results[method["name"]] = results
+    return ranx_results
+
+
 def evaluate_and_verify(yaml_data: dict, dry_run: bool):
     """
     Runs the evaluation and verification of the fusion results.
@@ -101,6 +158,7 @@ def evaluate_and_verify(yaml_data: dict, dry_run: bool):
 
     logger.info('=' * 10 + ' Verifying Fusion Results ' + '=' * 10)
 
+    results = {}
     for method in yaml_data['methods']:
         for i, topic_set in enumerate(yaml_data['topics']):
             for metric in yaml_data['metrics']:
@@ -140,6 +198,9 @@ def evaluate_and_verify(yaml_data: dict, dry_run: bool):
                 else:
                     logger.error(fail_str + result_str)
                     failures = True
+                if method["name"] not in results:
+                    results[method["name"]] = {}
+                results[method["name"]][metric["metric"]] = actual
 
     end_time = time.time()
     logger.info(f"Total execution time: {end_time - start_time:.2f} seconds")
@@ -147,6 +208,23 @@ def evaluate_and_verify(yaml_data: dict, dry_run: bool):
         logger.error(f'{fail_str}Some tests failed.')
     else:
         logger.info(f'All tests passed successfully!')
+
+    logger.info('=' * 10 + ' Verifying Fusion Results Against Ranx' + '=' * 10)
+    sanity_check = compare_with_ranx('tools/topics-and-qrels/' + yaml_data['topics'][0]['qrel'], 
+                                    [run["file"] for run in yaml_data["runs"]], 
+                                    yaml_data['methods'], 
+                                    ['ndcg@10', 'recall@100', 'recall@1000'])
+    for method in yaml_data['methods']:
+        for i, topic_set in enumerate(yaml_data['topics']):
+            for metric in yaml_data['metrics']:
+                expected = sanity_check[method["name"]][metrics_ranx[metric["metric"]]]
+                actual = results[method["name"]][metric["metric"]]
+                result_str = (
+                    f'ranx: {expected:.4f} actual: {actual:.4f} (delta={abs(expected-actual):.4f}) - '
+                    f'metric: {metric["metric"]:<8} method: {method["name"]} topics: {topic_set["id"]}'
+                )
+                logger.info(result_str)
+    logger.info(f"Total ranx execution time: {time.time() - end_time:.2f} seconds")       
 
 if __name__ == '__main__':
     start_time = time.time()
