@@ -3,6 +3,12 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### February 14, 2025
+
++ commit [`d1585e`](https://github.com/castorini/anserini/commit/d1585ed640a11d8d9a6b1af499195525d78a03ae) (2025/02/14)
+
+Installed LexicalLSH and FakeWords Parquet regressions for MS MARCO Passage V1.
+
 ### December 7, 2024
 
 + commit [`f9f73c`](https://github.com/castorini/anserini/commit/f9f73c280ed51c9c816418be23f098ab17cf64ee) (2024/12/07)
