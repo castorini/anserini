@@ -2,10 +2,9 @@
 
 This page contains instructions for running BM25 baselines on the [MS MARCO *passage* ranking task](https://microsoft.github.io/msmarco/).
 Note that there is a separate [MS MARCO *document* ranking task](experiments-msmarco-doc.md).
-This exercise will require a machine with at least 8 GB RAM and  at least 15 GB free disk space.
+This exercise will require a machine with at least 8 GB RAM and at least 15 GB free disk space.
 
-If you're a Waterloo student traversing the [onboarding path](https://github.com/lintool/guide/blob/master/ura.md), [start here](start-here.md
-).
+If you're a Waterloo student traversing the [onboarding path](https://github.com/lintool/guide/blob/master/ura.md), [start here](start-here.md).
 In general, don't try to rush through this guide by just blindly copying and pasting commands into a shell;
 that's what I call [cargo culting](https://en.wikipedia.org/wiki/Cargo_cult_programming).
 Instead, really try to understand what's going on.
@@ -73,6 +72,7 @@ python tools/scripts/msmarco/filter_queries.py \
 ```
 
 The output queries file `collections/msmarco-passage/queries.dev.small.tsv` should contain 6980 lines.
+Confirm with `wc`.
 
 ## Indexing
 
@@ -131,7 +131,8 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/msmarco-passage/lucene-index-msmarco \
   -topics collections/msmarco-passage/queries.dev.small.tsv \
   -topicReader TsvInt \
-  -output runs/run.msmarco-passage.dev.small.tsv -format msmarco \
+  -output runs/run.msmarco-passage.dev.bm25.tsv \
+  -format msmarco \
   -parallelism 4 \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 -hits 1000
 ```
@@ -162,7 +163,7 @@ The retrieval run contains the ranked lists for all queries you fed to it.
 Let's take a look:
 
 ```bash
-$ head runs/run.msmarco-passage.dev.small.tsv
+$ head runs/run.msmarco-passage.dev.bm25.tsv
 1048585	7187158	1
 1048585	7187157	2
 1048585	7187163	3
@@ -196,7 +197,7 @@ Remember that this document was indeed marked relevant in the qrels, as we saw i
 As an additional sanity check, run the following:
 
 ```bash
-$ cut -f 1 runs/run.msmarco-passage.dev.small.tsv | uniq | wc
+$ cut -f 1 runs/run.msmarco-passage.dev.bm25.tsv | uniq | wc
     6980    6980   51039
 ```
 
@@ -209,7 +210,7 @@ Finally, we can evaluate the retrieved documents using this the official MS MARC
 
 ```bash
 python tools/scripts/msmarco/msmarco_passage_eval.py \
- collections/msmarco-passage/qrels.dev.small.tsv runs/run.msmarco-passage.dev.small.tsv
+ collections/msmarco-passage/qrels.dev.small.tsv runs/run.msmarco-passage.dev.bm25.tsv
 ```
 
 And the output should be like this:
@@ -223,8 +224,7 @@ QueriesRanked: 6980
 
 (Yea, the number of digits of precision is a bit... excessive)
 
-Remember from the [start here](start-here.md
-) guide that with relevance judgments (qrels), we can automatically evaluate the retrieval system output (i.e., the run).
+Remember from the [start here](start-here.md) guide that with relevance judgments (qrels), we can automatically evaluate the retrieval system output (i.e., the run).
 
 The final ingredient is a metric, i.e., how to quantify the "quality" of a ranked list.
 Here, we're using a metric called MRR, or mean reciprocal rank.
@@ -248,8 +248,8 @@ For that we first need to convert runs and qrels files to the TREC format:
 
 ```bash
 python tools/scripts/msmarco/convert_msmarco_to_trec_run.py \
-  --input runs/run.msmarco-passage.dev.small.tsv \
-  --output runs/run.msmarco-passage.dev.small.trec
+  --input runs/run.msmarco-passage.dev.bm25.tsv \
+  --output runs/run.msmarco-passage.dev.bm25.trec
 
 python tools/scripts/msmarco/convert_msmarco_to_trec_qrels.py \
   --input collections/msmarco-passage/qrels.dev.small.tsv \
@@ -261,7 +261,7 @@ And run the `trec_eval` tool:
 ```bash
 bin/trec_eval -c -mrecall.1000 -mmap \
   collections/msmarco-passage/qrels.dev.small.trec \
-  runs/run.msmarco-passage.dev.small.trec
+  runs/run.msmarco-passage.dev.bm25.trec
 ```
 
 The output should be:
@@ -278,7 +278,7 @@ You can use `trec_eval` to compute the MRR@10 also, which gives results identica
 ```
 bin/trec_eval -c -M 10 -m recip_rank \
   collections/msmarco-passage/qrels.dev.small.trec \
-  runs/run.msmarco-passage.dev.small.trec
+  runs/run.msmarco-passage.dev.bm25.trec
 ```
 
 It's a different command-line incantation of `trec_eval` to compute MRR@10.
@@ -287,7 +287,7 @@ And if you add `-q`, the tool will spit out the MRR@10 _per query_ (for all 6980
 ```
 bin/trec_eval -q -c -M 10 -m recip_rank \
   collections/msmarco-passage/qrels.dev.small.trec \
-  runs/run.msmarco-passage.dev.small.trec
+  runs/run.msmarco-passage.dev.bm25.trec
 ```
 
 We can find the MRR@10 for `qid` 1048585 above:
@@ -295,7 +295,7 @@ We can find the MRR@10 for `qid` 1048585 above:
 ```bash
 bin/trec_eval -q -c -M 10 -m recip_rank \
   collections/msmarco-passage/qrels.dev.small.trec \
-  runs/run.msmarco-passage.dev.small.trec | grep 1048585
+  runs/run.msmarco-passage.dev.bm25.trec | grep 1048585
 ```
 
 Which is:
@@ -313,8 +313,12 @@ The tl;dr is that there are different formats for run files and lots of differen
 Researchers have been trying to answer the question "how do we know if a search result is good and how do we measure it" for over half a century... and the question still has not been fully resolved.
 In short, it's complicated.
 
+
+## Wrapping Up
+
+That's it for this lesson.
 At this time, look back through the learning outcomes again and make sure you're good.
-As a next step in the onboarding path, you basically [do the same thing again in Python with Pyserini](https://github.com/castorini/pyserini/blob/master/docs/experiments-msmarco-passage.md) (as opposed to Java with Anserini here).
+As a next step in the onboarding path, move on to explore [dense and hybrid search](experiments-msmarco-passage2.md).
 
 Before you move on, however, add an entry in the "Reproduction Log" at the bottom of this page, following the same format: use `yyyy-mm-dd`, make sure you're using a commit id that's on the main trunk of Anserini, and use its 7-hexadecimal prefix for the link anchor text.
 In the description of your pull request, please provide some details on your setup (e.g., operating system, environment and configuration, etc.).
