@@ -519,7 +519,7 @@ public class SearchHnswDenseVectorsTest {
         "-output", runfile,
         "-generator", "VectorQueryGenerator",
         // This works regardless of whether we specify the suffix (Encoder) or not.
-        "-encoder", "CosDprDistil",
+        "-encoder", "CosDprDistilEncoder",
         "-topicReader", "TsvInt",
         "-topicField", "title",
         "-efSearch", "1000",
@@ -541,6 +541,7 @@ public class SearchHnswDenseVectorsTest {
     });
 
     new File(runfile).delete();
+    new File(indexPath).delete();
   }
 
   @Test
