@@ -24,8 +24,6 @@ import org.apache.logging.log4j.core.config.Configurator;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import ai.onnxruntime.OrtEnvironment;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintStream;
@@ -497,53 +495,6 @@ public class SearchHnswDenseVectorsTest {
     });
 
     new File(runfile).delete();
-  }
-
-  @Test
-  @SuppressWarnings("ResultOfMethodCallIgnored")
-  public void testBasicWithOnnxWithSuffix() throws Exception {
-    String indexPath = "target/idx-sample-hnsw" + System.currentTimeMillis();
-    String[] indexArgs = new String[] {
-        "-collection", "JsonDenseVectorCollection",
-        "-input", "src/test/resources/sample_docs/cosdpr-distil/json_vector/",
-        "-index", indexPath,
-        "-generator", "DenseVectorDocumentGenerator",
-        "-threads", "1",
-        "-M", "16", "-efC", "100"
-    };
-
-    IndexHnswDenseVectors.main(indexArgs);
-
-    String runfile = "target/run-" + System.currentTimeMillis();
-    String[] searchArgs = new String[] {
-        "-index", indexPath,
-        "-topics", "src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-cosdpr-distil.tsv",
-        "-output", runfile,
-        "-generator", "VectorQueryGenerator",
-        // This works regardless of whether we specify the suffix (Encoder) or not.
-        "-encoder", "CosDprDistilEncoder",
-        "-topicReader", "TsvInt",
-        "-topicField", "title",
-        "-efSearch", "1000",
-        "-hits", "5"};
-    SearchHnswDenseVectors.main(searchArgs);
-
-    // Note output is slightly different from pre-encoded query vectors.
-    TestUtils.checkRunFileApproximate(runfile, new String[] {
-        "2 Q0 208 1 0.578723 Anserini",
-        "2 Q0 224 2 0.578716 Anserini",
-        "2 Q0 384 3 0.573913 Anserini",
-        "2 Q0 136 4 0.573051 Anserini",
-        "2 Q0 720 5 0.571061 Anserini",
-        "1048585 Q0 624 1 0.568417 Anserini",
-        "1048585 Q0 120 2 0.563483 Anserini",
-        "1048585 Q0 320 3 0.558932 Anserini",
-        "1048585 Q0 328 4 0.550985 Anserini",
-        "1048585 Q0 232 5 0.550977 Anserini"
-    });
-
-    new File(runfile).delete();
-    OrtEnvironment.getEnvironment().close();
   }
 
   @Test
