@@ -445,8 +445,11 @@ public class SearchFlatDenseVectorsTest {
 
     IndexFlatDenseVectors.main(indexArgs);
 
-    String runfile = "target/run-" + System.currentTimeMillis();
-    String[] searchArgs = new String[] {
+    String runfile;
+    String[] searchArgs;
+
+    runfile = "target/run-" + System.currentTimeMillis();
+    searchArgs = new String[] {
         "-index", indexPath,
         "-topics", "src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-cosdpr-distil.tsv",
         "-output", runfile,
@@ -472,24 +475,9 @@ public class SearchFlatDenseVectorsTest {
     });
 
     new File(runfile).delete();
-  }
 
-  @Test
-  @SuppressWarnings("ResultOfMethodCallIgnored")
-  public void testBasicWithOnnxWithEncoderSuffix() throws Exception {
-    String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
-    String[] indexArgs = new String[] {
-        "-collection", "JsonDenseVectorCollection",
-        "-input", "src/test/resources/sample_docs/cosdpr-distil/json_vector/",
-        "-index", indexPath,
-        "-generator", "DenseVectorDocumentGenerator",
-        "-threads", "1"
-    };
-
-    IndexFlatDenseVectors.main(indexArgs);
-
-    String runfile = "target/run-" + System.currentTimeMillis();
-    String[] searchArgs = new String[] {
+    runfile = "target/run-" + System.currentTimeMillis();
+    searchArgs = new String[] {
         "-index", indexPath,
         "-topics", "src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-cosdpr-distil.tsv",
         "-output", runfile,
