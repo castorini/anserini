@@ -1,21 +1,14 @@
-# Anserini: Anserini: Dense + Hybrid Search for MS MARCO Passage Ranking
+# Anserini: Dense Retrieval for MS MARCO Passage Ranking
 
-This page contains instructions for running BM25 baselines on the [MS MARCO *passage* ranking task](https://microsoft.github.io/msmarco/).
-Note that there is a separate [MS MARCO *document* ranking task](experiments-msmarco-doc.md).
-This exercise will require a machine with at least 8 GB RAM and at least 15 GB free disk space.
-
-If you're a Waterloo student traversing the [onboarding path](https://github.com/lintool/guide/blob/master/ura.md), [start here](start-here.md
-).
+If you're a Waterloo student traversing the [onboarding path](https://github.com/lintool/guide/blob/master/ura.md), [start here](start-here.md).
 In general, don't try to rush through this guide by just blindly copying and pasting commands into a shell;
 that's what I call [cargo culting](https://en.wikipedia.org/wiki/Cargo_cult_programming).
 Instead, really try to understand what's going on.
 
 **Learning outcomes** for this guide, building on previous steps in the onboarding path:
 
-+ Be able to use Anserini to build a Lucene inverted index on the MS MARCO passage collection.
-+ Be able to use Anserini to perform a batch retrieval run on the MS MARCO passage collection with the dev queries.
-+ Be able to evaluate the retrieved results above.
-+ Understand the MRR metric.
++ Be able to use Anserini prebuilt indexes to skip indexing, for both BM25 and dense retrieval.
++ Be able to use Anserini to perform a batch retrieval run using a dense retrieval model.
 
 ## Repeating Retrieval with Prebuilt Indexes
 
@@ -23,8 +16,9 @@ In the [previous lesson](experiments-msmarco-passage.md), you learned that index
 Indexing only needs to be done once, and once it's done we can perform retrieval on as many queries as we'd like.
 Of course, if the document collection changes, we'll need to modify the index, but nearly all collections used for research are static.
 
-This is where prebuilt indexes come in.
+This is where prebuilt indexes come in:
 Instead of making everyone build their own indexes, we can directly share indexes that have already been built.
+Take the time to read [this guide about prebuilt documents](prebuilt-indexes.md).
 
 Here's the same retrieval run that you've done before, on the MS MARCO passage collection with the dev queries, but now using a prebuilt index:
 
@@ -42,7 +36,7 @@ Instead of passing the path to an index in the `-index` parameter, we specify th
 Anserini downloads the index from a known location on UWaterloo servers, and stores a copy in `~/.cache/pyserini/indexes`.
 Go ahead and confirm it's there.
 
-The complete list of prebuilt indexes (and where to find them) is in [`IndexInfo`](https://github.com/castorini/anserini/blob/master/src/main/java/io/anserini/index/IndexInfo.java).
+The complete list of prebuilt indexes (and where to find them) is in the class [`IndexInfo`](https://github.com/castorini/anserini/blob/master/src/main/java/io/anserini/index/IndexInfo.java).
 
 We can then evaluate the run with the `trec_eval` tool.
 Let's compute the MRR@10 score, which is the official metric:
@@ -54,7 +48,10 @@ bin/trec_eval -c -M 10 -m recip_rank \
 ```
 
 The MRR@10 should be 0.1875.
-(Tiny bit of difference due to tie breaking...)
+
+There's a _tiny_ bit of difference between this result and the one from the previous lesson.
+Previously, we used `-format msmarco` to generate the output in a different format, which we then converted into the TREC format before evaluating.
+This conversion is lossy and causes slight score differences due to tie-breaking effects (i.e., what happens when two documents are tied in terms of score).
 
 ## Retrieval with Dense Indexes
 
@@ -87,6 +84,8 @@ Beware, it's 26 GB:
 26G	~/.cache/pyserini/indexes/lucene-hnsw.msmarco-v1-passage.bge-base-en-v1.5.20240117.53514b.00a577f689d90f95e6c5611438b0af3d
 ````
 
+For reference: on a circa 2022 MacBook Air with an Apple M2 processor and 24 GB RAM, the retrieval run takes around X minutes.
+
 Let's compute the MRR@10 score:
 
 ```
@@ -97,25 +96,6 @@ bin/trec_eval -c -M 10 -m recip_rank \
 
 You should get a score of 0.3521, which is much higher than the 0.1874 score from BM25.
 Yes, dense retrieval is better.
-
-
-## Retrieval Fusion
-
-"hybrid search"
-
-```
-bin/run.sh io.anserini.fusion.FuseTrecRuns -method rrf \
-  -runs runs/run.msmarco-passage.dev.small.trec runs/run.msmarco-passage.dev.small.bge.trec \
-  -output runs/run.msmarco-passage.dev.small.fused.trec
-```
-
-
-```
-bin/trec_eval -c -M 10 -m recip_rank \
-  collections/msmarco-passage/qrels.dev.small.trec \
-  runs/run.msmarco-passage.dev.small.fused.trec
-```
-
 
 
 ## Wrapping Up

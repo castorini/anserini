@@ -12,7 +12,7 @@ Instead, really try to understand what's going on.
 **Learning outcomes** for this guide, building on previous steps in the onboarding path:
 
 + Be able to use Anserini to build a Lucene inverted index on the MS MARCO passage collection.
-+ Be able to use Anserini to perform a batch retrieval run on the MS MARCO passage collection with the dev queries.
++ Be able to use Anserini to perform a batch retrieval run using the above index.
 + Be able to evaluate the retrieved results above.
 + Understand the MRR metric.
 
@@ -30,8 +30,7 @@ That is, most things done with Anserini can be "translated" into Elasticsearch q
 ## Data Prep
 
 In this guide, we're just going through the mechanical steps of data prep.
-To better understand what you're actually doing, go through the [start here](start-here.md
-) guide.
+To better understand what you're actually doing, go through the [start here](start-here.md) guide.
 The guide contains the same exact instructions, but provide more detailed explanations.
 
 We're going to use the repository's root directory as the working directory.
