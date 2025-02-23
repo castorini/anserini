@@ -519,7 +519,7 @@ public class SearchHnswDenseVectorsTest {
         "-output", runfile,
         "-generator", "VectorQueryGenerator",
         // This works regardless of whether we specify the suffix (Encoder) or not.
-        "-encoder", "CosDprDistilEncoder",
+        "-encoder", "CosDprDistil",
         "-topicReader", "TsvInt",
         "-topicField", "title",
         "-efSearch", "1000",
