@@ -16,6 +16,15 @@
 
 package io.anserini.index;
 
+import io.anserini.encoder.sparse.SpladePlusPlusEnsembleDistilEncoder;
+import io.anserini.encoder.dense.ArcticEmbedLEncoder;
+import io.anserini.search.query.VectorQueryGenerator;
+import io.anserini.encoder.dense.BgeBaseEn15Encoder;
+import io.anserini.search.query.InvertedDenseVectorQueryGenerator;
+
+
+
+
 public enum IndexInfo {
   CACM("cacm",
       "Lucene index of the CACM corpus.",
@@ -56,8 +65,8 @@ public enum IndexInfo {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v1-passage.splade-pp-ed.20230524.a59610.tar.gz" },
       "2c008fc36131e27966a72292932358e6",
       IndexType.SPLADE_PP_ED,
-      "SpladePlusPlusEnsembleDistilEncoder",
-      "InvertedDenseVectorQueryGenerator",
+      SpladePlusPlusEnsembleDistilEncoder.class.getSimpleName(),
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "msmarco-v1-passage"),
 
   MSMARCO_V1_PASSAGE_COS_DPR_DISTIL_HNSW("msmarco-v1-passage.cosdpr-distil.hnsw",
@@ -71,7 +80,7 @@ public enum IndexInfo {
       "df4c60fa1f3804fa409499824d12d035",
       IndexType.DENSE_HNSW,
       "CosDprDistilEncoder",
-      "VectorQueryGenerator",
+      VectorQueryGenerator.class.getSimpleName(),
       "msmarco-v1-passage"),
 
   MSMARCO_V1_PASSAGE_COS_DPR_DISTIL_HNSW_INT8("msmarco-v1-passage.cosdpr-distil.hnsw-int8",
@@ -85,7 +94,7 @@ public enum IndexInfo {
       "119124ad358bb81e6a203b04d1b99a9c",
       IndexType.DENSE_HNSW,
       "CosDprDistilEncoder",
-      "VectorQueryGenerator",
+      VectorQueryGenerator.class.getSimpleName(),
       "msmarco-v1-passage"),
 
   MSMARCO_V1_PASSAGE_BGE_BASE_EN_15_HNSW("msmarco-v1-passage.bge-base-en-v1.5.hnsw",
@@ -98,8 +107,8 @@ public enum IndexInfo {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw.msmarco-v1-passage.bge-base-en-v1.5.20240117.53514b.tar.gz" },
       "00a577f689d90f95e6c5611438b0af3d",
       IndexType.DENSE_HNSW,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       "msmarco-v1-passage"),
 
   MSMARCO_V1_PASSAGE_BGE_BASE_EN_15_HNSW_INT8("msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8",
@@ -112,8 +121,8 @@ public enum IndexInfo {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v1-passage.bge-base-en-v1.5.20240117.53514b.tar.gz" },
       "7830712459cf124c96fd058bb0a405b7",
       IndexType.DENSE_HNSW,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       "msmarco-v1-passage"),
 
   MSMARCO_V1_PASSAGE_COHERE_EMBED_ENGLISH_30_HNSW("msmarco-v1-passage.cohere-embed-english-v3.0.hnsw",
@@ -127,7 +136,7 @@ public enum IndexInfo {
       "c7294ca988ae1b812d427362ffca1ee2",
       IndexType.DENSE_HNSW,
       null,
-      "VectorQueryGenerator",
+      VectorQueryGenerator.class.getSimpleName(),
       "msmarco-v1-passage"),
 
   MSMARCO_V1_PASSAGE_COHERE_EMBED_ENGLISH_30_HNSW_INT8("msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8",
@@ -141,7 +150,7 @@ public enum IndexInfo {
       "dbaca578cc8495f504cdd0a7187f4c36",
       IndexType.DENSE_HNSW,
       null,
-      "VectorQueryGenerator",
+      VectorQueryGenerator.class.getSimpleName(),
       "msmarco-v1-passage"),
 
   // MS MARCO V2
@@ -225,8 +234,8 @@ public enum IndexInfo {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard00.arctic-embed-l.20250114.4884f5.tar.gz" },
       "aab3f8e9aa0563bd0f875584784a0845",
       IndexType.DENSE_HNSW,
-      "ArcticEmbedL",
-      "JsonInvertedDenseVectorQueryGenerator",
+      ArcticEmbedLEncoder.class.getSimpleName(),
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "msmarco-v2.1-doc-segmented"),
 
   MSMARCO_V21_DOC_SEGMENTED_SHARD01_ARCTIC_EMBED_L_HNSW_INT8("msmarco-v2.1-doc-segmented-shard01.arctic-embed-l.hnsw-int8",
@@ -239,8 +248,8 @@ public enum IndexInfo {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard01.arctic-embed-l.20250114.4884f5.tar.gz" },
       "34ea30fe72c2bc1795ae83e71b191547",
       IndexType.DENSE_HNSW,
-      "ArcticEmbedL",
-      "JsonInvertedDenseVectorQueryGenerator",
+      ArcticEmbedLEncoder.class.getSimpleName(),
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "msmarco-v2.1-doc-segmented"),
 
   MSMARCO_V21_DOC_SEGMENTED_SHARD02_ARCTIC_EMBED_L_HNSW_INT8("msmarco-v2.1-doc-segmented-shard02.arctic-embed-l.hnsw-int8",
@@ -253,8 +262,8 @@ public enum IndexInfo {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard02.arctic-embed-l.20250114.4884f5.tar.gz" },
       "b6271d6db65119977491675f74f466d5",
       IndexType.DENSE_HNSW,
-      "ArcticEmbedL",
-      "JsonInvertedDenseVectorQueryGenerator",
+      ArcticEmbedLEncoder.class.getSimpleName(),
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "msmarco-v2.1-doc-segmented"),
 
   MSMARCO_V21_DOC_SEGMENTED_SHARD03_ARCTIC_EMBED_L_HNSW_INT8("msmarco-v2.1-doc-segmented-shard03.arctic-embed-l.hnsw-int8",
@@ -267,8 +276,8 @@ public enum IndexInfo {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard03.arctic-embed-l.20250114.4884f5.tar.gz" },
       "a9cd644eb6037f67d2e9c06a8f60928d",
       IndexType.DENSE_HNSW,
-      "ArcticEmbedL",
-      "JsonInvertedDenseVectorQueryGenerator",
+      ArcticEmbedLEncoder.class.getSimpleName(),
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "msmarco-v2.1-doc-segmented"),
 
   MSMARCO_V21_DOC_SEGMENTED_SHARD04_ARCTIC_EMBED_L_HNSW_INT8("msmarco-v2.1-doc-segmented-shard04.arctic-embed-l.hnsw-int8",
@@ -281,8 +290,8 @@ public enum IndexInfo {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard04.arctic-embed-l.20250114.4884f5.tar.gz" },
       "07b7e451e0525d01c1f1f2b1c42b1bd5",
       IndexType.DENSE_HNSW,
-      "ArcticEmbedL",
-      "JsonInvertedDenseVectorQueryGenerator",
+      ArcticEmbedLEncoder.class.getSimpleName(),
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "msmarco-v2.1-doc-segmented"),
 
   MSMARCO_V21_DOC_SEGMENTED_SHARD05_ARCTIC_EMBED_L_HNSW_INT8("msmarco-v2.1-doc-segmented-shard05.arctic-embed-l.hnsw-int8",
@@ -295,8 +304,8 @@ public enum IndexInfo {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard05.arctic-embed-l.20250114.4884f5.tar.gz" },
       "2573dce175788981be2f266ebb33c96d",
       IndexType.DENSE_HNSW,
-      "ArcticEmbedL",
-      "JsonInvertedDenseVectorQueryGenerator",
+      ArcticEmbedLEncoder.class.getSimpleName(),
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "msmarco-v2.1-doc-segmented"),
 
   MSMARCO_V21_DOC_SEGMENTED_SHARD06_ARCTIC_EMBED_L_HNSW_INT8("msmarco-v2.1-doc-segmented-shard06.arctic-embed-l.hnsw-int8",
@@ -309,8 +318,8 @@ public enum IndexInfo {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard06.arctic-embed-l.20250114.4884f5.tar.gz" },
       "a644aea445a8b78cc9e99d2ce111ff11",
       IndexType.DENSE_HNSW,
-      "ArcticEmbedL",
-      "JsonInvertedDenseVectorQueryGenerator",
+      ArcticEmbedLEncoder.class.getSimpleName(),
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "msmarco-v2.1-doc-segmented"),
 
   MSMARCO_V21_DOC_SEGMENTED_SHARD07_ARCTIC_EMBED_L_HNSW_INT8("msmarco-v2.1-doc-segmented-shard07.arctic-embed-l.hnsw-int8",
@@ -323,8 +332,8 @@ public enum IndexInfo {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard07.arctic-embed-l.20250114.4884f5.tar.gz" },
       "402d37deccb44b5fc105049889e8aaea",
       IndexType.DENSE_HNSW,
-      "ArcticEmbedL",
-      "JsonInvertedDenseVectorQueryGenerator",
+      ArcticEmbedLEncoder.class.getSimpleName(),
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "msmarco-v2.1-doc-segmented"),
 
   MSMARCO_V21_DOC_SEGMENTED_SHARD08_ARCTIC_EMBED_L_HNSW_INT8("msmarco-v2.1-doc-segmented-shard08.arctic-embed-l.hnsw-int8",
@@ -337,8 +346,8 @@ public enum IndexInfo {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard08.arctic-embed-l.20250114.4884f5.tar.gz" },
       "89ebcd027f7297b26a1edc8ae5726527",
       IndexType.DENSE_HNSW,
-      "ArcticEmbedL",
-      "JsonInvertedDenseVectorQueryGenerator",
+      ArcticEmbedLEncoder.class.getSimpleName(),
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "msmarco-v2.1-doc-segmented"),
 
   MSMARCO_V21_DOC_SEGMENTED_SHARD09_ARCTIC_EMBED_L_HNSW_INT8("msmarco-v2.1-doc-segmented-shard09.arctic-embed-l.hnsw-int8",
@@ -351,8 +360,8 @@ public enum IndexInfo {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard09.arctic-embed-l.20250114.4884f5.tar.gz" },
       "5e580bb7eb9ee2bb6bfa492b3430c17d",
       IndexType.DENSE_HNSW,
-      "ArcticEmbedL",
-      "JsonInvertedDenseVectorQueryGenerator",
+      ArcticEmbedLEncoder.class.getSimpleName(),
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "msmarco-v2.1-doc-segmented"),
 
   // BEIR: flat
@@ -366,7 +375,7 @@ public enum IndexInfo {
       "1aaf107b0787aa349deac92cb67d4230",
       IndexType.DENSE_FLAT,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-trec-covid"),
 
   BEIR_V1_0_0_BIOASQ_FLAT("beir-v1.0.0-bioasq.flat",
@@ -379,7 +388,7 @@ public enum IndexInfo {
       "12728b3629817d352322f18b0cb6199b",
       IndexType.DENSE_FLAT,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-bioasq"),
 
   BEIR_V1_0_0_NFCORPUS_FLAT("beir-v1.0.0-nfcorpus.flat",
@@ -392,7 +401,7 @@ public enum IndexInfo {
       "eb7a6f1bb15071c2940bc50752d86626",
       IndexType.DENSE_FLAT,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-nfcorpus"),
 
   BEIR_V1_0_0_NQ_FLAT("beir-v1.0.0-nq.flat",
@@ -405,7 +414,7 @@ public enum IndexInfo {
       "0ba1ef0412d8a0fb56b4a04ecb13ef0b",
       IndexType.DENSE_FLAT,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-nq"),
 
   BEIR_V1_0_0_HOTPOTQA_FLAT("beir-v1.0.0-hotpotqa.flat",
@@ -418,7 +427,7 @@ public enum IndexInfo {
       "3f41d640a8ebbcad4f598140750c24f8",
       IndexType.DENSE_FLAT,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-hotpotqa"),
 
   BEIR_V1_0_0_FIQA_FLAT("beir-v1.0.0-fiqa.flat",
@@ -431,7 +440,7 @@ public enum IndexInfo {
       "d98ee6ebfc234657ecbd04226e8a7849",
       IndexType.DENSE_FLAT,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-fiqa"),
 
   BEIR_V1_0_0_SIGNAL1M_FLAT("beir-v1.0.0-signal1m.flat",
@@ -444,7 +453,7 @@ public enum IndexInfo {
       "93d901916b473351fbc04fdf12c5ba4f",
       IndexType.DENSE_FLAT,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-signal1m"),
 
   BEIR_V1_0_0_TREC_NEWS_FLAT("beir-v1.0.0-trec-news.flat",
@@ -457,7 +466,7 @@ public enum IndexInfo {
       "22e7752c3d0122c28013b33e5e2134ae",
       IndexType.DENSE_FLAT,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-trec-news"),
 
   BEIR_V1_0_0_ROBUST04_FLAT("beir-v1.0.0-robust04.flat",
@@ -470,7 +479,7 @@ public enum IndexInfo {
       "d508fc770002a99a5dc3da3d0fa001b7",
       IndexType.DENSE_FLAT,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-robust04"),
 
   BEIR_V1_0_0_ARGUANA_FLAT("beir-v1.0.0-arguana.flat",
@@ -483,7 +492,7 @@ public enum IndexInfo {
       "db59ef0cb74e9cfeac0ac735827381df",
       IndexType.DENSE_FLAT,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-arguana"),
 
   BEIR_V1_0_0_WEBIS_TOUCHE2020_FLAT("beir-v1.0.0-webis-touche2020.flat",
@@ -496,7 +505,7 @@ public enum IndexInfo {
       "f6419ddfd53c0bf1d76ea132b1c0c352",
       IndexType.DENSE_FLAT,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-webis-touche2020"),
 
   BEIR_V1_0_0_CQADUPSTACK_ANDROID_FLAT("beir-v1.0.0-cqadupstack-android.flat",
@@ -509,7 +518,7 @@ public enum IndexInfo {
       "443e413b49c39de43a6cece96a7513c0",
       IndexType.DENSE_FLAT,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-cqadupstack-android"),
 
   BEIR_V1_0_0_CQADUPSTACK_ENGLISH_FLAT("beir-v1.0.0-cqadupstack-english.flat",
@@ -522,7 +531,7 @@ public enum IndexInfo {
       "f7db543f5bb56fa98c3c14224c6b96f2",
       IndexType.DENSE_FLAT,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-cqadupstack-english"),
 
   BEIR_V1_0_0_CQADUPSTACK_GAMING_FLAT("beir-v1.0.0-cqadupstack-gaming.flat",
@@ -535,7 +544,7 @@ public enum IndexInfo {
       "775169fd863d3e91076e1905799456ea",
       IndexType.DENSE_FLAT,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-cqadupstack-gaming"),
 
   BEIR_V1_0_0_CQADUPSTACK_GIS_FLAT("beir-v1.0.0-cqadupstack-gis.flat",
@@ -548,7 +557,7 @@ public enum IndexInfo {
       "4c5be1c7026a61ca7866b4f28cac91fe",
       IndexType.DENSE_FLAT,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-cqadupstack-gis"),
 
   BEIR_V1_0_0_CQADUPSTACK_MATHEMATICA_FLAT("beir-v1.0.0-cqadupstack-mathematica.flat",
@@ -561,7 +570,7 @@ public enum IndexInfo {
       "43e2b33db7ecadc041165005aa5d4b6f",
       IndexType.DENSE_FLAT,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-cqadupstack-mathematica"),
 
   BEIR_V1_0_0_CQADUPSTACK_PHYSICS_FLAT("beir-v1.0.0-cqadupstack-physics.flat",
@@ -574,7 +583,7 @@ public enum IndexInfo {
       "765b8013595962e01600f4f851e8f16d",
       IndexType.DENSE_FLAT,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-cqadupstack-physics"),
 
   BEIR_V1_0_0_CQADUPSTACK_PROGRAMMERS_FLAT("beir-v1.0.0-cqadupstack-programmers.flat",
@@ -587,7 +596,7 @@ public enum IndexInfo {
       "aa4fc9f29a0436a6e0942656274ceaf5",
       IndexType.DENSE_FLAT,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-cqadupstack-programmers"),
 
   BEIR_V1_0_0_CQADUPSTACK_STATS_FLAT("beir-v1.0.0-cqadupstack-stats.flat",
@@ -600,7 +609,7 @@ public enum IndexInfo {
       "d56538f56d982ce09961d4b680bd4dc5",
       IndexType.DENSE_FLAT,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-cqadupstack-stats"),
 
   BEIR_V1_0_0_CQADUPSTACK_TEX_FLAT("beir-v1.0.0-cqadupstack-tex.flat",
@@ -613,7 +622,7 @@ public enum IndexInfo {
       "36825b8428aa34fdaad7e420e120c101",
       IndexType.DENSE_FLAT,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-cqadupstack-tex"),
 
   BEIR_V1_0_0_CQADUPSTACK_UNIX_FLAT("beir-v1.0.0-cqadupstack-unix.flat",
@@ -626,7 +635,7 @@ public enum IndexInfo {
       "961e386016c7eb7afa2bc26feb96902c",
       IndexType.DENSE_FLAT,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-cqadupstack-unix"),
 
   BEIR_V1_0_0_CQADUPSTACK_WEBMASTERS_FLAT("beir-v1.0.0-cqadupstack-webmasters.flat",
@@ -639,7 +648,7 @@ public enum IndexInfo {
       "f31625436dc6efc24b9c2ae1b0f2364e",
       IndexType.DENSE_FLAT,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-cqadupstack-webmasters"),
 
   BEIR_V1_0_0_CQADUPSTACK_WORDPRESS_FLAT("beir-v1.0.0-cqadupstack-wordpress.flat",
@@ -652,7 +661,7 @@ public enum IndexInfo {
       "5a0035fbb6ccabd20fe0eed742dce0d0",
       IndexType.DENSE_FLAT,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-cqadupstack-wordpress"),
 
   BEIR_V1_0_0_QUORA_FLAT("beir-v1.0.0-quora.flat",
@@ -665,7 +674,7 @@ public enum IndexInfo {
       "48c95c2da43e24cc603695d3e6bfd779",
       IndexType.DENSE_FLAT,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-quora"),
 
   BEIR_V1_0_0_DBPEDIA_ENTITY_FLAT("beir-v1.0.0-dbpedia-entity.flat",
@@ -678,7 +687,7 @@ public enum IndexInfo {
       "8ac66272fde08ff10491dc0ec52f17e2",
       IndexType.DENSE_FLAT,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-dbpedia-entity"),
 
   BEIR_V1_0_0_SCIDOCS_FLAT("beir-v1.0.0-scidocs.flat",
@@ -691,7 +700,7 @@ public enum IndexInfo {
       "9555ecc5da399a73956d9302a98420fc",
       IndexType.DENSE_FLAT,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-scidocs"),
 
   BEIR_V1_0_0_FEVER_FLAT("beir-v1.0.0-fever.flat",
@@ -704,7 +713,7 @@ public enum IndexInfo {
       "30b5a338f9f16669ed3dae3bae4e7b32",
       IndexType.DENSE_FLAT,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-fever"),
 
   BEIR_V1_0_0_CLIMATE_FEVER_FLAT("beir-v1.0.0-climate-fever.flat",
@@ -717,7 +726,7 @@ public enum IndexInfo {
       "6e7101f4a5c241ba263bb6a826049826",
       IndexType.DENSE_FLAT,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-climate-fever"),
 
   BEIR_V1_0_0_SCIFACT_FLAT("beir-v1.0.0-scifact.flat",
@@ -730,7 +739,7 @@ public enum IndexInfo {
       "59777038fe0539e600658591e322ea57",
       IndexType.DENSE_FLAT,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-scifact"),
 
   // BEIR: multifield
@@ -744,7 +753,7 @@ public enum IndexInfo {
       "0439617a927a33727c7b592bd436d8d6",
       IndexType.BM25_MULTIFIELDS,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-trec-covid"),
 
   BEIR_V1_0_0_BIOASQ_MULTIFIELD("beir-v1.0.0-bioasq.multifield",
@@ -757,7 +766,7 @@ public enum IndexInfo {
       "b2f4fed18b04414193f8368b6891e19c",
       IndexType.BM25_MULTIFIELDS,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-bioasq"),
 
   BEIR_V1_0_0_NFCORPUS_MULTIFIELD("beir-v1.0.0-nfcorpus.multifield",
@@ -770,7 +779,7 @@ public enum IndexInfo {
       "85cdcceaf06c482ab6a60c34c06c0448",
       IndexType.BM25_MULTIFIELDS,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-nfcorpus"),
 
   BEIR_V1_0_0_NQ_MULTIFIELD("beir-v1.0.0-nq.multifield",
@@ -783,7 +792,7 @@ public enum IndexInfo {
       "73b3e3c49c2d79a2851c1ba85f8fbbdf",
       IndexType.BM25_MULTIFIELDS,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-nq"),
 
   BEIR_V1_0_0_HOTPOTQA_MULTIFIELD("beir-v1.0.0-hotpotqa.multifield",
@@ -796,7 +805,7 @@ public enum IndexInfo {
       "1d9f75122d4b50cb33cccaa125640a38",
       IndexType.BM25_MULTIFIELDS,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-hotpotqa"),
 
   BEIR_V1_0_0_FIQA_MULTIFIELD("beir-v1.0.0-fiqa.multifield",
@@ -809,7 +818,7 @@ public enum IndexInfo {
       "1c9330baf3d9004ae46778d4d9e039f6",
       IndexType.BM25_MULTIFIELDS,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-fiqa"),
 
   BEIR_V1_0_0_SIGNAL1M_MULTIFIELD("beir-v1.0.0-signal1m.multifield",
@@ -822,7 +831,7 @@ public enum IndexInfo {
       "0735de4f103330975d206285ea85aaf5",
       IndexType.BM25_MULTIFIELDS,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-signal1m"),
 
   BEIR_V1_0_0_TREC_NEWS_MULTIFIELD("beir-v1.0.0-trec-news.multifield",
@@ -835,7 +844,7 @@ public enum IndexInfo {
       "a7b5bd79d22d3631dffcad2ffa8afd0a",
       IndexType.BM25_MULTIFIELDS,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-trec-news"),
 
   BEIR_V1_0_0_ROBUST04_MULTIFIELD("beir-v1.0.0-robust04.multifield",
@@ -848,7 +857,7 @@ public enum IndexInfo {
       "49db6bf123b6224d0e0973a16ff9c243",
       IndexType.BM25_MULTIFIELDS,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-robust04"),
 
   BEIR_V1_0_0_ARGUANA_MULTIFIELD("beir-v1.0.0-arguana.multifield",
@@ -861,7 +870,7 @@ public enum IndexInfo {
       "895b0d78a1cc40222aaebcff10b6b929",
       IndexType.BM25_MULTIFIELDS,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-arguana"),
 
   BEIR_V1_0_0_WEBIS_TOUCHE2020_MULTIFIELD("beir-v1.0.0-webis-touche2020.multifield",
@@ -874,7 +883,7 @@ public enum IndexInfo {
       "390552c8b93dc95bf2f58808d1c8a37d",
       IndexType.BM25_MULTIFIELDS,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-webis-touche2020"),
 
   BEIR_V1_0_0_CQADUPSTACK_ANDROID_MULTIFIELD("beir-v1.0.0-cqadupstack-android.multifield",
@@ -887,7 +896,7 @@ public enum IndexInfo {
       "299fc8b542dabc241320db571b8f8ff0",
       IndexType.BM25_MULTIFIELDS,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-cqadupstack-android"),
 
   BEIR_V1_0_0_CQADUPSTACK_ENGLISH_MULTIFIELD("beir-v1.0.0-cqadupstack-english.multifield",
@@ -900,7 +909,7 @@ public enum IndexInfo {
       "5bb26ad0ba9184592b5ed935e65b5f17",
       IndexType.BM25_MULTIFIELDS,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-cqadupstack-english"),
 
   BEIR_V1_0_0_CQADUPSTACK_GAMING_MULTIFIELD("beir-v1.0.0-cqadupstack-gaming.multifield",
@@ -913,7 +922,7 @@ public enum IndexInfo {
       "90d1ae9a1862b8b96871b9b94cc46b4e",
       IndexType.BM25_MULTIFIELDS,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-cqadupstack-gaming"),
 
   BEIR_V1_0_0_CQADUPSTACK_GIS_MULTIFIELD("beir-v1.0.0-cqadupstack-gis.multifield",
@@ -926,7 +935,7 @@ public enum IndexInfo {
       "62869b2b6cf569424fed659adf1e5ea7",
       IndexType.BM25_MULTIFIELDS,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-cqadupstack-gis"),
 
   BEIR_V1_0_0_CQADUPSTACK_MATHEMATICA_MULTIFIELD("beir-v1.0.0-cqadupstack-mathematica.multifield",
@@ -939,7 +948,7 @@ public enum IndexInfo {
       "a78c9d2e29a4b727fbeb38e825629df5",
       IndexType.BM25_MULTIFIELDS,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-cqadupstack-mathematica"),
 
   BEIR_V1_0_0_CQADUPSTACK_PHYSICS_MULTIFIELD("beir-v1.0.0-cqadupstack-physics.multifield",
@@ -952,7 +961,7 @@ public enum IndexInfo {
       "d6e60e2665c1b6f2bac021dc6c767393",
       IndexType.BM25_MULTIFIELDS,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-cqadupstack-physics"),
 
   BEIR_V1_0_0_CQADUPSTACK_PROGRAMMERS_MULTIFIELD("beir-v1.0.0-cqadupstack-programmers.multifield",
@@ -965,7 +974,7 @@ public enum IndexInfo {
       "77b54cd7613b555d80998b9744eef85c",
       IndexType.BM25_MULTIFIELDS,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-cqadupstack-programmers"),
 
   BEIR_V1_0_0_CQADUPSTACK_STATS_MULTIFIELD("beir-v1.0.0-cqadupstack-stats.multifield",
@@ -978,7 +987,7 @@ public enum IndexInfo {
       "8469917c70c767ea398ec2b93aaf04ca",
       IndexType.BM25_MULTIFIELDS,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-cqadupstack-stats"),
 
   BEIR_V1_0_0_CQADUPSTACK_TEX_MULTIFIELD("beir-v1.0.0-cqadupstack-tex.multifield",
@@ -991,7 +1000,7 @@ public enum IndexInfo {
       "4d0b0efb2579e0fd73b9156921580a00",
       IndexType.BM25_MULTIFIELDS,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-cqadupstack-tex"),
 
   BEIR_V1_0_0_CQADUPSTACK_UNIX_MULTIFIELD("beir-v1.0.0-cqadupstack-unix.multifield",
@@ -1004,7 +1013,7 @@ public enum IndexInfo {
       "33e2510bb1414ca106766ae787e28670",
       IndexType.BM25_MULTIFIELDS,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-cqadupstack-unix"),
 
   BEIR_V1_0_0_CQADUPSTACK_WEBMASTERS_MULTIFIELD("beir-v1.0.0-cqadupstack-webmasters.multifield",
@@ -1017,7 +1026,7 @@ public enum IndexInfo {
       "cb16d3da34b6705747ec07ce89913457",
       IndexType.BM25_MULTIFIELDS,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-cqadupstack-webmasters"),
 
   BEIR_V1_0_0_CQADUPSTACK_WORDPRESS_MULTIFIELD("beir-v1.0.0-cqadupstack-wordpress.multifield",
@@ -1030,7 +1039,7 @@ public enum IndexInfo {
       "f619c003e2d0cf84794cc672e18e0437",
       IndexType.BM25_MULTIFIELDS,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-cqadupstack-wordpress"),
 
   BEIR_V1_0_0_QUORA_MULTIFIELD("beir-v1.0.0-quora.multifield",
@@ -1043,7 +1052,7 @@ public enum IndexInfo {
       "9248de265c88afc105231659d8c8be09",
       IndexType.BM25_MULTIFIELDS,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-quora"),
 
   BEIR_V1_0_0_DBPEDIA_ENTITY_MULTIFIELD("beir-v1.0.0-dbpedia-entity.multifield",
@@ -1056,7 +1065,7 @@ public enum IndexInfo {
       "b7f0ae30f045188a608cc87553cade37",
       IndexType.BM25_MULTIFIELDS,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-dbpedia-entity"),
 
   BEIR_V1_0_0_SCIDOCS_MULTIFIELD("beir-v1.0.0-scidocs.multifield",
@@ -1069,7 +1078,7 @@ public enum IndexInfo {
       "6409f5ec569530fc3240590dab59bc4c",
       IndexType.BM25_MULTIFIELDS,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-scidocs"),
 
   BEIR_V1_0_0_FEVER_MULTIFIELD("beir-v1.0.0-fever.multifield",
@@ -1082,7 +1091,7 @@ public enum IndexInfo {
       "841908da91e7e5eaa0d122faf1a486d8",
       IndexType.BM25_MULTIFIELDS,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-fever"),
 
   BEIR_V1_0_0_CLIMATE_FEVER_MULTIFIELD("beir-v1.0.0-climate-fever.multifield",
@@ -1095,7 +1104,7 @@ public enum IndexInfo {
       "2901ac443ca4f0df424a35d068905829",
       IndexType.BM25_MULTIFIELDS,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-climate-fever"),
 
   BEIR_V1_0_0_SCIFACT_MULTIFIELD("beir-v1.0.0-scifact.multifield",
@@ -1108,7 +1117,7 @@ public enum IndexInfo {
       "b40b26f44f68ab9aa4b573aafea27e2e",
       IndexType.BM25_MULTIFIELDS,
       null,
-      "InvertedDenseVectorQueryGenerator",
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-scifact"),
 
   // BEIR: SPLADE++ ED
@@ -1121,8 +1130,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.beir-v1.0.0-trec-covid.splade-pp-ed.20231124.a66f86f.tar.gz" },
       "e808ff9d4a1f45de9f0bc292900302b4",
       IndexType.SPLADE_PP_ED,
-      "SpladePlusPlusEnsembleDistilEncoder",
-      "InvertedDenseVectorQueryGenerator",
+      SpladePlusPlusEnsembleDistilEncoder.class.getSimpleName(),
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-trec-covid"),
 
   BEIR_V1_0_0_BIOASQ_SPLADE_PP_ED("beir-v1.0.0-bioasq.splade-pp-ed",
@@ -1134,8 +1143,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.beir-v1.0.0-bioasq.splade-pp-ed.20231124.a66f86f.tar.gz" },
       "fc661b2c2fa59e24f37c6dfa6de8e682",
       IndexType.SPLADE_PP_ED,
-      "SpladePlusPlusEnsembleDistilEncoder",
-      "InvertedDenseVectorQueryGenerator",
+      SpladePlusPlusEnsembleDistilEncoder.class.getSimpleName(),
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-bioasq"),
 
   BEIR_V1_0_0_NFCORPUS_SPLADE_PP_ED("beir-v1.0.0-nfcorpus.splade-pp-ed",
@@ -1147,8 +1156,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.beir-v1.0.0-nfcorpus.splade-pp-ed.20231124.a66f86f.tar.gz" },
       "7d6e66cca9d2db8bb7caa3bdf330cdd8",
       IndexType.SPLADE_PP_ED,
-      "SpladePlusPlusEnsembleDistilEncoder",
-      "InvertedDenseVectorQueryGenerator",
+      SpladePlusPlusEnsembleDistilEncoder.class.getSimpleName(),
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-nfcorpus"),
 
   BEIR_V1_0_0_NQ_SPLADE_PP_ED("beir-v1.0.0-nq.splade-pp-ed",
@@ -1160,8 +1169,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.beir-v1.0.0-nq.splade-pp-ed.20231124.a66f86f.tar.gz" },
       "a785d6636df60c861829507c3d806ee6",
       IndexType.SPLADE_PP_ED,
-      "SpladePlusPlusEnsembleDistilEncoder",
-      "InvertedDenseVectorQueryGenerator",
+      SpladePlusPlusEnsembleDistilEncoder.class.getSimpleName(),
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-nq"),
 
   BEIR_V1_0_0_HOTPOTQA_SPLADE_PP_ED("beir-v1.0.0-hotpotqa.splade-pp-ed",
@@ -1173,8 +1182,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.beir-v1.0.0-hotpotqa.splade-pp-ed.20231124.a66f86f.tar.gz" },
       "b280ed3f7b12034c0cc4b302f92801b9",
       IndexType.SPLADE_PP_ED,
-      "SpladePlusPlusEnsembleDistilEncoder",
-      "InvertedDenseVectorQueryGenerator",
+      SpladePlusPlusEnsembleDistilEncoder.class.getSimpleName(),
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-hotpotqa"),
 
   BEIR_V1_0_0_FIQA_SPLADE_PP_ED("beir-v1.0.0-fiqa.splade-pp-ed",
@@ -1186,8 +1195,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.beir-v1.0.0-fiqa.splade-pp-ed.20231124.a66f86f.tar.gz" },
       "ea53103c695c0da6cea5b1c8353371b0",
       IndexType.SPLADE_PP_ED,
-      "SpladePlusPlusEnsembleDistilEncoder",
-      "InvertedDenseVectorQueryGenerator",
+      SpladePlusPlusEnsembleDistilEncoder.class.getSimpleName(),
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-fiqa"),
 
   BEIR_V1_0_0_SIGNAL1M_SPLADE_PP_ED("beir-v1.0.0-signal1m.splade-pp-ed",
@@ -1199,8 +1208,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.beir-v1.0.0-signal1m.splade-pp-ed.20231124.a66f86f.tar.gz" },
       "0b46d71c97eabe9ca424f3ab9b2ddc64",
       IndexType.SPLADE_PP_ED,
-      "SpladePlusPlusEnsembleDistilEncoder",
-      "InvertedDenseVectorQueryGenerator",
+      SpladePlusPlusEnsembleDistilEncoder.class.getSimpleName(),
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-signal1m"),
 
   BEIR_V1_0_0_TREC_NEWS_SPLADE_PP_ED("beir-v1.0.0-trec-news.splade-pp-ed",
@@ -1212,8 +1221,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.beir-v1.0.0-trec-news.splade-pp-ed.20231124.a66f86f.tar.gz" },
       "ef4fb032b632b80355db46549f08a026",
       IndexType.SPLADE_PP_ED,
-      "SpladePlusPlusEnsembleDistilEncoder",
-      "InvertedDenseVectorQueryGenerator",
+      SpladePlusPlusEnsembleDistilEncoder.class.getSimpleName(),
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-trec-news"),
 
   BEIR_V1_0_0_ROBUST04_SPLADE_PP_ED("beir-v1.0.0-robust04.splade-pp-ed",
@@ -1225,8 +1234,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.beir-v1.0.0-robust04.splade-pp-ed.20231124.a66f86f.tar.gz" },
       "c1a6fd094bb9e34e69e10040d9b0ad2a",
       IndexType.SPLADE_PP_ED,
-      "SpladePlusPlusEnsembleDistilEncoder",
-      "InvertedDenseVectorQueryGenerator",
+      SpladePlusPlusEnsembleDistilEncoder.class.getSimpleName(),
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-robust04"),
 
   BEIR_V1_0_0_ARGUANA_SPLADE_PP_ED("beir-v1.0.0-arguana.splade-pp-ed",
@@ -1238,8 +1247,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.beir-v1.0.0-arguana.splade-pp-ed.20231124.a66f86f.tar.gz" },
       "c2725b375ca53ff031ee8b4ba8501eb6",
       IndexType.SPLADE_PP_ED,
-      "SpladePlusPlusEnsembleDistilEncoder",
-      "InvertedDenseVectorQueryGenerator",
+      SpladePlusPlusEnsembleDistilEncoder.class.getSimpleName(),
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-arguana"),
 
   BEIR_V1_0_0_WEBIS_TOUCHE2020_SPLADE_PP_ED("beir-v1.0.0-webis-touche2020.splade-pp-ed",
@@ -1251,8 +1260,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.beir-v1.0.0-webis-touche2020.splade-pp-ed.20231124.a66f86f.tar.gz" },
       "1abec77feeb741edfb3c9b7565b42964",
       IndexType.SPLADE_PP_ED,
-      "SpladePlusPlusEnsembleDistilEncoder",
-      "InvertedDenseVectorQueryGenerator",
+      SpladePlusPlusEnsembleDistilEncoder.class.getSimpleName(),
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-webis-touche2020"),
 
   BEIR_V1_0_0_CQADUPSTACK_ANDROID_SPLADE_PP_ED("beir-v1.0.0-cqadupstack-android.splade-pp-ed",
@@ -1264,8 +1273,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.beir-v1.0.0-cqadupstack-android.splade-pp-ed.20231124.a66f86f.tar.gz" },
       "0b6b36417df9095e9ed32e4127bdd2fd",
       IndexType.SPLADE_PP_ED,
-      "SpladePlusPlusEnsembleDistilEncoder",
-      "InvertedDenseVectorQueryGenerator",
+      SpladePlusPlusEnsembleDistilEncoder.class.getSimpleName(),
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-cqadupstack-android"),
 
   BEIR_V1_0_0_CQADUPSTACK_ENGLISH_SPLADE_PP_ED("beir-v1.0.0-cqadupstack-english.splade-pp-ed",
@@ -1277,8 +1286,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.beir-v1.0.0-cqadupstack-english.splade-pp-ed.20231124.a66f86f.tar.gz" },
       "f2a5f68523117638f957bcc353c956c1",
       IndexType.SPLADE_PP_ED,
-      "SpladePlusPlusEnsembleDistilEncoder",
-      "InvertedDenseVectorQueryGenerator",
+      SpladePlusPlusEnsembleDistilEncoder.class.getSimpleName(),
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-cqadupstack-english"),
 
   BEIR_V1_0_0_CQADUPSTACK_GAMING_SPLADE_PP_ED("beir-v1.0.0-cqadupstack-gaming.splade-pp-ed",
@@ -1290,8 +1299,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.beir-v1.0.0-cqadupstack-gaming.splade-pp-ed.20231124.a66f86f.tar.gz" },
       "804851ed2ca5c38464f28263fb664615",
       IndexType.SPLADE_PP_ED,
-      "SpladePlusPlusEnsembleDistilEncoder",
-      "InvertedDenseVectorQueryGenerator",
+      SpladePlusPlusEnsembleDistilEncoder.class.getSimpleName(),
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-cqadupstack-gaming"),
 
   BEIR_V1_0_0_CQADUPSTACK_GIS_SPLADE_PP_ED("beir-v1.0.0-cqadupstack-gis.splade-pp-ed",
@@ -1303,8 +1312,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.beir-v1.0.0-cqadupstack-gis.splade-pp-ed.20231124.a66f86f.tar.gz" },
       "ee53ba7f26e678f39c3db8997785169a",
       IndexType.SPLADE_PP_ED,
-      "SpladePlusPlusEnsembleDistilEncoder",
-      "InvertedDenseVectorQueryGenerator",
+      SpladePlusPlusEnsembleDistilEncoder.class.getSimpleName(),
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-cqadupstack-gis"),
 
   BEIR_V1_0_0_CQADUPSTACK_MATHEMATICA_SPLADE_PP_ED("beir-v1.0.0-cqadupstack-mathematica.splade-pp-ed",
@@ -1316,8 +1325,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.beir-v1.0.0-cqadupstack-mathematica.splade-pp-ed.20231124.a66f86f.tar.gz" },
       "c3dd33ddfd364a0665450691963f9036",
       IndexType.SPLADE_PP_ED,
-      "SpladePlusPlusEnsembleDistilEncoder",
-      "InvertedDenseVectorQueryGenerator",
+      SpladePlusPlusEnsembleDistilEncoder.class.getSimpleName(),
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-cqadupstack-mathematica"),
 
   BEIR_V1_0_0_CQADUPSTACK_PHYSICS_SPLADE_PP_ED("beir-v1.0.0-cqadupstack-physics.splade-pp-ed",
@@ -1329,8 +1338,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.beir-v1.0.0-cqadupstack-physics.splade-pp-ed.20231124.a66f86f.tar.gz" },
       "155a130b556072ec0b84788417361228",
       IndexType.SPLADE_PP_ED,
-      "SpladePlusPlusEnsembleDistilEncoder",
-      "InvertedDenseVectorQueryGenerator",
+      SpladePlusPlusEnsembleDistilEncoder.class.getSimpleName(),
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-cqadupstack-physics"),
 
   BEIR_V1_0_0_CQADUPSTACK_PROGRAMMERS_SPLADE_PP_ED("beir-v1.0.0-cqadupstack-programmers.splade-pp-ed",
@@ -1342,8 +1351,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.beir-v1.0.0-cqadupstack-programmers.splade-pp-ed.20231124.a66f86f.tar.gz" },
       "f0923dd88b7d4f050d54ff6f6efcc7f5",
       IndexType.SPLADE_PP_ED,
-      "SpladePlusPlusEnsembleDistilEncoder",
-      "InvertedDenseVectorQueryGenerator",
+      SpladePlusPlusEnsembleDistilEncoder.class.getSimpleName(),
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-cqadupstack-programmers"),
 
   BEIR_V1_0_0_CQADUPSTACK_STATS_SPLADE_PP_ED("beir-v1.0.0-cqadupstack-stats.splade-pp-ed",
@@ -1355,8 +1364,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.beir-v1.0.0-cqadupstack-stats.splade-pp-ed.20231124.a66f86f.tar.gz" },
       "78e62040ed6d44e232e9381e96a56cc7",
       IndexType.SPLADE_PP_ED,
-      "SpladePlusPlusEnsembleDistilEncoder",
-      "InvertedDenseVectorQueryGenerator",
+      SpladePlusPlusEnsembleDistilEncoder.class.getSimpleName(),
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-cqadupstack-stats"),
 
   BEIR_V1_0_0_CQADUPSTACK_TEX_SPLADE_PP_ED("beir-v1.0.0-cqadupstack-tex.splade-pp-ed",
@@ -1368,8 +1377,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.beir-v1.0.0-cqadupstack-tex.splade-pp-ed.20231124.a66f86f.tar.gz" },
       "402088c62cbffeba3d710fec408226ed",
       IndexType.SPLADE_PP_ED,
-      "SpladePlusPlusEnsembleDistilEncoder",
-      "InvertedDenseVectorQueryGenerator",
+      SpladePlusPlusEnsembleDistilEncoder.class.getSimpleName(),
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-cqadupstack-tex"),
 
   BEIR_V1_0_0_CQADUPSTACK_UNIX_SPLADE_PP_ED("beir-v1.0.0-cqadupstack-unix.splade-pp-ed",
@@ -1381,8 +1390,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.beir-v1.0.0-cqadupstack-unix.splade-pp-ed.20231124.a66f86f.tar.gz" },
       "66e884e446ff183e07973c65ccf32625",
       IndexType.SPLADE_PP_ED,
-      "SpladePlusPlusEnsembleDistilEncoder",
-      "InvertedDenseVectorQueryGenerator",
+      SpladePlusPlusEnsembleDistilEncoder.class.getSimpleName(),
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-cqadupstack-unix"),
 
   BEIR_V1_0_0_CQADUPSTACK_WEBMASTERS_SPLADE_PP_ED("beir-v1.0.0-cqadupstack-webmasters.splade-pp-ed",
@@ -1394,8 +1403,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.beir-v1.0.0-cqadupstack-webmasters.splade-pp-ed.20231124.a66f86f.tar.gz" },
       "17be129cbe65b4e4e64a181f95a56972",
       IndexType.SPLADE_PP_ED,
-      "SpladePlusPlusEnsembleDistilEncoder",
-      "InvertedDenseVectorQueryGenerator",
+      SpladePlusPlusEnsembleDistilEncoder.class.getSimpleName(),
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-cqadupstack-webmasters"),
 
   BEIR_V1_0_0_CQADUPSTACK_WORDPRESS_SPLADE_PP_ED("beir-v1.0.0-cqadupstack-wordpress.splade-pp-ed",
@@ -1407,8 +1416,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.beir-v1.0.0-cqadupstack-wordpress.splade-pp-ed.20231124.a66f86f.tar.gz" },
       "f20bacfe92f21bc75360a9978278e690",
       IndexType.SPLADE_PP_ED,
-      "SpladePlusPlusEnsembleDistilEncoder",
-      "InvertedDenseVectorQueryGenerator",
+      SpladePlusPlusEnsembleDistilEncoder.class.getSimpleName(),
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-cqadupstack-wordpress"),
 
   BEIR_V1_0_0_QUORA_SPLADE_PP_ED("beir-v1.0.0-quora.splade-pp-ed",
@@ -1420,8 +1429,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.beir-v1.0.0-quora.splade-pp-ed.20231124.a66f86f.tar.gz" },
       "ce6dbaacf3b7b0e8282020565d324ea5",
       IndexType.SPLADE_PP_ED,
-      "SpladePlusPlusEnsembleDistilEncoder",
-      "InvertedDenseVectorQueryGenerator",
+      SpladePlusPlusEnsembleDistilEncoder.class.getSimpleName(),
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-quora"),
 
   BEIR_V1_0_0_DBPEDIA_ENTITY_SPLADE_PP_ED("beir-v1.0.0-dbpedia-entity.splade-pp-ed",
@@ -1433,8 +1442,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.beir-v1.0.0-dbpedia-entity.splade-pp-ed.20231124.a66f86f.tar.gz" },
       "fc9ac8329b6e2c054290791e68e0a0e4",
       IndexType.SPLADE_PP_ED,
-      "SpladePlusPlusEnsembleDistilEncoder",
-      "InvertedDenseVectorQueryGenerator",
+      SpladePlusPlusEnsembleDistilEncoder.class.getSimpleName(),
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-dbpedia-entity"),
 
   BEIR_V1_0_0_SCIDOCS_SPLADE_PP_ED("beir-v1.0.0-scidocs.splade-pp-ed",
@@ -1446,8 +1455,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.beir-v1.0.0-scidocs.splade-pp-ed.20231124.a66f86f.tar.gz" },
       "3285b17da7cd88d2e6e62a3bfc465039",
       IndexType.SPLADE_PP_ED,
-      "SpladePlusPlusEnsembleDistilEncoder",
-      "InvertedDenseVectorQueryGenerator",
+      SpladePlusPlusEnsembleDistilEncoder.class.getSimpleName(),
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-scidocs"),
 
   BEIR_V1_0_0_FEVER_SPLADE_PP_ED("beir-v1.0.0-fever.splade-pp-ed",
@@ -1459,8 +1468,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.beir-v1.0.0-fever.splade-pp-ed.20231124.a66f86f.tar.gz" },
       "22e67800879422840f20c7d0008795a9",
       IndexType.SPLADE_PP_ED,
-      "SpladePlusPlusEnsembleDistilEncoder",
-      "InvertedDenseVectorQueryGenerator",
+      SpladePlusPlusEnsembleDistilEncoder.class.getSimpleName(),
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-fever"),
 
   BEIR_V1_0_0_CLIMATE_FEVER_SPLADE_PP_ED("beir-v1.0.0-climate-fever.splade-pp-ed",
@@ -1472,8 +1481,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.beir-v1.0.0-climate-fever.splade-pp-ed.20231124.a66f86f.tar.gz" },
       "bd5f3c804874ca18f99590037873a1bc",
       IndexType.SPLADE_PP_ED,
-      "SpladePlusPlusEnsembleDistilEncoder",
-      "InvertedDenseVectorQueryGenerator",
+      SpladePlusPlusEnsembleDistilEncoder.class.getSimpleName(),
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-climate-fever"),
 
   BEIR_V1_0_0_SCIFACT_SPLADE_PP_ED("beir-v1.0.0-scifact.splade-pp-ed",
@@ -1485,8 +1494,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.beir-v1.0.0-scifact.splade-pp-ed.20231124.a66f86f.tar.gz" },
       "3abe52209fcd04f411da438a37254e3a",
       IndexType.SPLADE_PP_ED,
-      "SpladePlusPlusEnsembleDistilEncoder",
-      "InvertedDenseVectorQueryGenerator",
+      SpladePlusPlusEnsembleDistilEncoder.class.getSimpleName(),
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-scifact.flat"),
 
   // BEIR: BGE
@@ -1499,8 +1508,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw.beir-v1.0.0-trec-covid.bge-base-en-v1.5.20240223.43c9ec.tar.gz" },
       "2c8cba8525f8ec6920dbb4f0b4a2e0a6",
       IndexType.DENSE_HNSW,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_BIOASQ_BGE_BASE_EN_15_HNSW("beir-v1.0.0-bioasq.bge-base-en-v1.5.hnsw",
@@ -1512,8 +1521,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw.beir-v1.0.0-bioasq.bge-base-en-v1.5.20240223.43c9ec.tar.gz" },
       "2f4cde27ef5ec3be1193e06854fdaae6",
       IndexType.DENSE_HNSW,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_NFCORPUS_BGE_BASE_EN_15_HNSW("beir-v1.0.0-nfcorpus.bge-base-en-v1.5.hnsw",
@@ -1525,8 +1534,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw.beir-v1.0.0-nfcorpus.bge-base-en-v1.5.20240223.43c9ec.tar.gz" },
       "d0aa34bf35b59466e7064c424dd82e2c",
       IndexType.DENSE_HNSW,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_NQ_BGE_BASE_EN_15_HNSW("beir-v1.0.0-nq.bge-base-en-v1.5.hnsw",
@@ -1538,8 +1547,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw.beir-v1.0.0-nq.bge-base-en-v1.5.20240223.43c9ec.tar.gz" },
       "b0bbd85821c734125ffbc0f7ea8f75ae",
       IndexType.DENSE_HNSW,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_HOTPOTQA_BGE_BASE_EN_15_HNSW("beir-v1.0.0-hotpotqa.bge-base-en-v1.5.hnsw",
@@ -1551,8 +1560,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw.beir-v1.0.0-hotpotqa.bge-base-en-v1.5.20240223.43c9ec.tar.gz" },
       "83129157f2138a2240b69f8f5404e579",
       IndexType.DENSE_HNSW,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_FIQA_BGE_BASE_EN_15_HNSW("beir-v1.0.0-fiqa.bge-base-en-v1.5.hnsw",
@@ -1564,8 +1573,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw.beir-v1.0.0-fiqa.bge-base-en-v1.5.20240223.43c9ec.tar.gz" },
       "f2e3191b9d047b88b4692ec3ac87acd0",
       IndexType.DENSE_HNSW,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_SIGNAL1M_BGE_BASE_EN_15_HNSW("beir-v1.0.0-signal1m.bge-base-en-v1.5.hnsw",
@@ -1577,8 +1586,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw.beir-v1.0.0-signal1m.bge-base-en-v1.5.20240223.43c9ec.tar.gz" },
       "86a5dc12806c5e2f5f1e7cf646ef9004",
       IndexType.DENSE_HNSW,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_TREC_NEWS_BGE_BASE_EN_15_HNSW("beir-v1.0.0-trec-news.bge-base-en-v1.5.hnsw",
@@ -1590,8 +1599,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw.beir-v1.0.0-trec-news.bge-base-en-v1.5.20240223.43c9ec.tar.gz" },
       "fcb8fae8c46c76931bde0ad51ecb86f8",
       IndexType.DENSE_HNSW,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_ROBUST04_BGE_BASE_EN_15_HNSW("beir-v1.0.0-robust04.bge-base-en-v1.5.hnsw",
@@ -1603,8 +1612,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw.beir-v1.0.0-robust04.bge-base-en-v1.5.20240223.43c9ec.tar.gz" },
       "1b975602bf6b87e0a5815a254eb6e945",
       IndexType.DENSE_HNSW,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_ARGUANA_BGE_BASE_EN_15_HNSW("beir-v1.0.0-arguana.bge-base-en-v1.5.hnsw",
@@ -1616,8 +1625,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw.beir-v1.0.0-arguana.bge-base-en-v1.5.20240223.43c9ec.tar.gz" },
       "468129157636526a3e96bc9427d62808",
       IndexType.DENSE_HNSW,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_WEBIS_TOUCHE2020_BGE_BASE_EN_15_HNSW("beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.hnsw",
@@ -1629,8 +1638,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw.beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.20240223.43c9ec.tar.gz" },
       "4639db80366f755bb552ce4c736c4aea",
       IndexType.DENSE_HNSW,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_CQADUPSTACK_ANDROID_BGE_BASE_EN_15_HNSW("beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.hnsw",
@@ -1642,8 +1651,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.20240223.43c9ec.tar.gz" },
       "f7e1f2e737756a84b0273794dcb1038f",
       IndexType.DENSE_HNSW,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_CQADUPSTACK_ENGLISH_BGE_BASE_EN_15_HNSW("beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.hnsw",
@@ -1655,8 +1664,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw.beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.20240223.43c9ec.tar.gz" },
       "fcdb3fc633b2ca027111536ba422aaed",
       IndexType.DENSE_HNSW,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_CQADUPSTACK_GAMING_BGE_BASE_EN_15_HNSW("beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.hnsw",
@@ -1668,8 +1677,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw.beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.20240223.43c9ec.tar.gz" },
       "d59b216b3df6eb1b724e2f20ceb14407",
       IndexType.DENSE_HNSW,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_CQADUPSTACK_GIS_BGE_BASE_EN_15_HNSW("beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.hnsw",
@@ -1681,8 +1690,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw.beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.20240223.43c9ec.tar.gz" },
       "1dd42a28e388b30f42ede02565d445ca",
       IndexType.DENSE_HNSW,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_CQADUPSTACK_MATHEMATICA_BGE_BASE_EN_15_HNSW("beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.hnsw",
@@ -1694,8 +1703,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw.beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.20240223.43c9ec.tar.gz" },
       "cda37cb1893409c67908cf3aab1467fe",
       IndexType.DENSE_HNSW,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_CQADUPSTACK_PHYSICS_BGE_BASE_EN_15_HNSW("beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.hnsw",
@@ -1707,8 +1716,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.20240223.43c9ec.tar.gz" },
       "82f71e086930c7d8c5fe423173b9bc2e",
       IndexType.DENSE_HNSW,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_CQADUPSTACK_PROGRAMMERS_BGE_BASE_EN_15_HNSW("beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.hnsw",
@@ -1720,8 +1729,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw.beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.20240223.43c9ec.tar.gz" },
       "a7a8e17dcef7b40fde2492436aab1458",
       IndexType.DENSE_HNSW,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_CQADUPSTACK_STATS_BGE_BASE_EN_15_HNSW("beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.hnsw",
@@ -1733,8 +1742,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw.beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.20240223.43c9ec.tar.gz" },
       "7a304fa64332256976bed5049392605b",
       IndexType.DENSE_HNSW,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_CQADUPSTACK_TEX_BGE_BASE_EN_15_HNSW("beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.hnsw",
@@ -1746,8 +1755,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw.beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.20240223.43c9ec.tar.gz" },
       "bc5b41b294528611982615c0fcb7ebc7",
       IndexType.DENSE_HNSW,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_CQADUPSTACK_UNIX_BGE_BASE_EN_15_HNSW("beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.hnsw",
@@ -1759,8 +1768,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw.beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.20240223.43c9ec.tar.gz" },
       "e42e7b6f46239211f9e9a3ed521d30eb",
       IndexType.DENSE_HNSW,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_CQADUPSTACK_WEBMASTERS_BGE_BASE_EN_15_HNSW("beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.hnsw",
@@ -1772,8 +1781,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw.beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.20240223.43c9ec.tar.gz" },
       "21987ab658ba062397095226eb62aaf1",
       IndexType.DENSE_HNSW,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_CQADUPSTACK_WORDPRESS_BGE_BASE_EN_15_HNSW("beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.hnsw",
@@ -1785,8 +1794,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw.beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.20240223.43c9ec.tar.gz" },
       "4e80be8087e8f282c42c2b57e377bb65",
       IndexType.DENSE_HNSW,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_QUORA_BGE_BASE_EN_15_HNSW("beir-v1.0.0-quora.bge-base-en-v1.5.hnsw",
@@ -1798,8 +1807,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw.beir-v1.0.0-quora.bge-base-en-v1.5.20240223.43c9ec.tar.gz" },
       "064d785db557b011649d5f8b07237eb4",
       IndexType.DENSE_HNSW,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_DBPEDIA_ENTITY_BGE_BASE_EN_15_HNSW("beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.hnsw",
@@ -1811,8 +1820,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw.beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.20240223.43c9ec.tar.gz" },
       "323d47f84a54894ba5e6ca215999a533",
       IndexType.DENSE_HNSW,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_SCIDOCS_BGE_BASE_EN_15_HNSW("beir-v1.0.0-scidocs.bge-base-en-v1.5.hnsw",
@@ -1824,8 +1833,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw.beir-v1.0.0-scidocs.bge-base-en-v1.5.20240223.43c9ec.tar.gz" },
       "50668564faa9723160b1dba37afbf6d9",
       IndexType.DENSE_HNSW,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_FEVER_BGE_BASE_EN_15_HNSW("beir-v1.0.0-fever.bge-base-en-v1.5.hnsw",
@@ -1837,8 +1846,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw.beir-v1.0.0-fever.bge-base-en-v1.5.20240223.43c9ec.tar.gz" },
       "33f67e73786a41b454bf88ac2a7c21c7",
       IndexType.DENSE_HNSW,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_CLIMATE_FEVER_BGE_BASE_EN_15_HNSW("beir-v1.0.0-climate-fever.bge-base-en-v1.5.hnsw",
@@ -1850,8 +1859,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw.beir-v1.0.0-climate-fever.bge-base-en-v1.5.20240223.43c9ec.tar.gz" },
       "412337f9f8182e8ec6417bc3cd48288f",
       IndexType.DENSE_HNSW,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_SCIFACT_BGE_BASE_EN_15_HNSW("beir-v1.0.0-scifact.bge-base-en-v1.5.hnsw",
@@ -1863,8 +1872,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw.beir-v1.0.0-scifact.bge-base-en-v1.5.20240223.43c9ec.tar.gz" },
       "6de5a41a301575933fa9932f9ecb404d",
       IndexType.DENSE_HNSW,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   // BEIR: BGE (flat)
@@ -1877,8 +1886,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-trec-covid.bge-base-en-v1.5.20240618.6cf601.tar.gz" },
       "516748bfd1923a999a56160e93b8daae",
       IndexType.DENSE_FLAT,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_BIOASQ_BGE_BASE_EN_15_FLAT("beir-v1.0.0-bioasq.bge-base-en-v1.5.flat",
@@ -1890,8 +1899,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-bioasq.bge-base-en-v1.5.20240618.6cf601.tar.gz" },
       "b470cc88cdf338a7325f14eb05bf784d",
       IndexType.DENSE_FLAT,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_NFCORPUS_BGE_BASE_EN_15_FLAT("beir-v1.0.0-nfcorpus.bge-base-en-v1.5.flat",
@@ -1903,8 +1912,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-nfcorpus.bge-base-en-v1.5.20240618.6cf601.tar.gz" },
       "9c1d92c88faccc72d0e869439cd28ad5",
       IndexType.DENSE_FLAT,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_NQ_BGE_BASE_EN_15_FLAT("beir-v1.0.0-nq.bge-base-en-v1.5.flat",
@@ -1916,8 +1925,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-nq.bge-base-en-v1.5.20240618.6cf601.tar.gz" },
       "ad668f12f998052ec22b91f808e301e6",
       IndexType.DENSE_FLAT,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_HOTPOTQA_BGE_BASE_EN_15_FLAT("beir-v1.0.0-hotpotqa.bge-base-en-v1.5.flat",
@@ -1929,8 +1938,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-hotpotqa.bge-base-en-v1.5.20240618.6cf601.tar.gz" },
       "43422329006eea8648ac2928589a0512",
       IndexType.DENSE_FLAT,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_FIQA_BGE_BASE_EN_15_FLAT("beir-v1.0.0-fiqa.bge-base-en-v1.5.flat",
@@ -1942,8 +1951,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-fiqa.bge-base-en-v1.5.20240618.6cf601.tar.gz" },
       "1b727263a0195430dbc20a3cc412f819",
       IndexType.DENSE_FLAT,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_SIGNAL1M_BGE_BASE_EN_15_FLAT("beir-v1.0.0-signal1m.bge-base-en-v1.5.flat",
@@ -1955,8 +1964,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-signal1m.bge-base-en-v1.5.20240618.6cf601.tar.gz" },
       "7e3967b5e0326a3e4063fde12ccfd9d0",
       IndexType.DENSE_FLAT,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_TREC_NEWS_BGE_BASE_EN_15_FLAT("beir-v1.0.0-trec-news.bge-base-en-v1.5.flat",
@@ -1968,8 +1977,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-trec-news.bge-base-en-v1.5.20240618.6cf601.tar.gz" },
       "3da92ed6d976cd02333dd9078c0220ae",
       IndexType.DENSE_FLAT,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_ROBUST04_BGE_BASE_EN_15_FLAT("beir-v1.0.0-robust04.bge-base-en-v1.5.flat",
@@ -1981,8 +1990,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-robust04.bge-base-en-v1.5.20240618.6cf601.tar.gz" },
       "7750b4abbc60fe821c5948a81296f1d0",
       IndexType.DENSE_FLAT,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_ARGUANA_BGE_BASE_EN_15_FLAT("beir-v1.0.0-arguana.bge-base-en-v1.5.flat",
@@ -1994,8 +2003,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-arguana.bge-base-en-v1.5.20240618.6cf601.tar.gz" },
       "ac0f12b71080c92ab752983a0684686e",
       IndexType.DENSE_FLAT,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_WEBIS_TOUCHE2020_BGE_BASE_EN_15_FLAT("beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.flat",
@@ -2007,8 +2016,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.20240618.6cf601.tar.gz" },
       "d9572d89c85eccbc781d552699fa2e92",
       IndexType.DENSE_FLAT,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_CQADUPSTACK_ANDROID_BGE_BASE_EN_15_FLAT("beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.flat",
@@ -2020,8 +2029,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.20240618.6cf601.tar.gz" },
       "354f39e9e4cf11eb2f2b99409f672995",
       IndexType.DENSE_FLAT,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_CQADUPSTACK_ENGLISH_BGE_BASE_EN_15_FLAT("beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.flat",
@@ -2033,8 +2042,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.20240618.6cf601.tar.gz" },
       "36f72965dcaf9e2dee697152bb38b6d9",
       IndexType.DENSE_FLAT,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
       BEIR_V1_0_0_CQADUPSTACK_GAMING_BGE_BASE_EN_15_FLAT("beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.flat",
@@ -2046,8 +2055,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.20240618.6cf601.tar.gz" },
       "36c47d9387134e88321fa1d4e8f1503e",
       IndexType.DENSE_FLAT,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_CQADUPSTACK_GIS_BGE_BASE_EN_15_FLAT("beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.flat",
@@ -2059,8 +2068,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.20240618.6cf601.tar.gz" },
       "74e85b1e2847e13343e3b90b4a28a96e",
       IndexType.DENSE_FLAT,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_CQADUPSTACK_MATHEMATICA_BGE_BASE_EN_15_FLAT("beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.flat",
@@ -2072,8 +2081,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.20240618.6cf601.tar.gz" },
       "e720e0a7351574161570a77908094e73",
       IndexType.DENSE_FLAT,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_CQADUPSTACK_PHYSICS_BGE_BASE_EN_15_FLAT("beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.flat",
@@ -2085,8 +2094,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.20240618.6cf601.tar.gz" },
       "026a07c3c331fe7be2a8441b124c9f4f",
       IndexType.DENSE_FLAT,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_CQADUPSTACK_PROGRAMMERS_BGE_BASE_EN_15_FLAT("beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.flat",
@@ -2098,8 +2107,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.20240618.6cf601.tar.gz" },
       "4cb595ae05660973d0b381f1791f0c50",
       IndexType.DENSE_FLAT,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_CQADUPSTACK_STATS_BGE_BASE_EN_15_FLAT("beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.flat",
@@ -2111,8 +2120,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.20240618.6cf601.tar.gz" },
       "7f0cc4b9036c3d92f82ac86beeb1767e",
       IndexType.DENSE_FLAT,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_CQADUPSTACK_TEX_BGE_BASE_EN_15_FLAT("beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.flat",
@@ -2124,8 +2133,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.20240618.6cf601.tar.gz" },
       "7770dfcb197d6a37492c634e5f17beb5",
       IndexType.DENSE_FLAT,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_CQADUPSTACK_UNIX_BGE_BASE_EN_15_FLAT("beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.flat",
@@ -2137,8 +2146,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.20240618.6cf601.tar.gz" },
       "52f04d06f1d6d8ecdb2b0496ebd99ab8",
       IndexType.DENSE_FLAT,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_CQADUPSTACK_WEBMASTERS_BGE_BASE_EN_15_FLAT("beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.flat",
@@ -2150,8 +2159,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.20240618.6cf601.tar.gz" },
       "7bac4a98b9d3dc95f979bac8beedd648",
       IndexType.DENSE_FLAT,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_CQADUPSTACK_WORDPRESS_BGE_BASE_EN_15_FLAT("beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.flat",
@@ -2163,8 +2172,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.20240618.6cf601.tar.gz" },
       "5a9802e2fc1eeb06a83723172f19b709",
       IndexType.DENSE_FLAT,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_QUORA_BGE_BASE_EN_15_FLAT("beir-v1.0.0-quora.bge-base-en-v1.5.flat",
@@ -2176,8 +2185,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-quora.bge-base-en-v1.5.20240618.6cf601.tar.gz" },
       "21dfce18ce9e4351af900c343556c9e2",
       IndexType.DENSE_FLAT,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_DBPEDIA_ENTITY_BGE_BASE_EN_15_FLAT("beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.flat",
@@ -2189,8 +2198,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.20240618.6cf601.tar.gz" },
       "4158d064d8bb61ed361cea98e6187248",
       IndexType.DENSE_FLAT,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_SCIDOCS_BGE_BASE_EN_15_FLAT("beir-v1.0.0-scidocs.bge-base-en-v1.5.flat",
@@ -2202,8 +2211,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-scidocs.bge-base-en-v1.5.20240618.6cf601.tar.gz" },
       "db316cf58c1f8e44aa0c62d7dcd71ec1",
       IndexType.DENSE_FLAT,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_FEVER_BGE_BASE_EN_15_FLAT("beir-v1.0.0-fever.bge-base-en-v1.5.flat",
@@ -2215,8 +2224,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-fever.bge-base-en-v1.5.20240618.6cf601.tar.gz" },
       "e53c73a00737cf069360dc66fdc193f8",
       IndexType.DENSE_FLAT,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_CLIMATE_FEVER_BGE_BASE_EN_15_FLAT("beir-v1.0.0-climate-fever.bge-base-en-v1.5.flat",
@@ -2228,8 +2237,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-climate-fever.bge-base-en-v1.5.20240618.6cf601.tar.gz" },
       "bdf55c67f0abba5060fead09ef972d29",
       IndexType.DENSE_FLAT,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       ""),
 
   BEIR_V1_0_0_SCIFACT_BGE_BASE_EN_15_FLAT("beir-v1.0.0-scifact.bge-base-en-v1.5.flat",
@@ -2241,8 +2250,8 @@ public enum IndexInfo {
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-scifact.bge-base-en-v1.5.20240618.6cf601.tar.gz" },
       "556abd7e9fcffbf06057ce3111cf4cc5",
       IndexType.DENSE_FLAT,
-      "BgeBaseEn15Encoder",
-      "VectorQueryGenerator",
+      BgeBaseEn15Encoder.class.getSimpleName(),
+      VectorQueryGenerator.class.getSimpleName(),
       "");
 
   public final String indexName;
