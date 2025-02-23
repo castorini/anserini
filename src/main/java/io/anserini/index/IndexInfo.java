@@ -22,9 +22,6 @@ import io.anserini.search.query.VectorQueryGenerator;
 import io.anserini.encoder.dense.BgeBaseEn15Encoder;
 import io.anserini.search.query.InvertedDenseVectorQueryGenerator;
 
-
-
-
 public enum IndexInfo {
   CACM("cacm",
       "Lucene index of the CACM corpus.",
