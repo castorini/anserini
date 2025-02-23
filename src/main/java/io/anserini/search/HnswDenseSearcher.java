@@ -119,8 +119,14 @@ public class HnswDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
 
     if (args.encoder != null) {
       try {
+        // If Encoder is part of the name, strip ".Encoder" suffix to normalize the name
+        // This supports both implementations based on a large amount of older code: we can use both.
+        String encoderName = args.encoder.endsWith("Encoder") ?
+            args.encoder.substring(0, args.encoder.length() - "Encoder".length()) :
+            args.encoder;
+
         encoder = (DenseEncoder) Class
-            .forName(String.format("io.anserini.encoder.dense.%sEncoder", args.encoder))
+            .forName(String.format("io.anserini.encoder.dense.%sEncoder", encoderName))
             .getConstructor().newInstance();
       } catch (Exception e) {
         throw new IllegalArgumentException(String.format("Unable to load Encoder \"%s\".", args.encoder));
