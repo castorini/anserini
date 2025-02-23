@@ -24,6 +24,8 @@ import org.apache.logging.log4j.core.config.Configurator;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import ai.onnxruntime.OrtEnvironment;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintStream;
@@ -541,6 +543,7 @@ public class SearchHnswDenseVectorsTest {
     });
 
     new File(runfile).delete();
+    OrtEnvironment.getEnvironment().close();
   }
 
   @Test
