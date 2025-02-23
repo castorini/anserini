@@ -500,7 +500,7 @@ public class SearchHnswDenseVectorsTest {
   @Test
   @SuppressWarnings("ResultOfMethodCallIgnored")
   public void testBasicWithOnnxWithSuffix() throws Exception {
-    String indexPath = "target/idx-sample-hnsw" + System.currentTimeMillis();
+    String indexPath = "target/idx-sample-hnsw2" + System.currentTimeMillis();
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/cosdpr-distil/json_vector/",
@@ -541,7 +541,6 @@ public class SearchHnswDenseVectorsTest {
     });
 
     new File(runfile).delete();
-    new File(indexPath).delete();
   }
 
   @Test
