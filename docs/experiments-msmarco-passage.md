@@ -9,7 +9,7 @@ In general, don't try to rush through this guide by just blindly copying and pas
 that's what I call [cargo culting](https://en.wikipedia.org/wiki/Cargo_cult_programming).
 Instead, really try to understand what's going on.
 
-**Learning outcomes** for this guide, building on previous steps in the onboarding path:
+**Learning outcomes** for this guide, building on previous lessons in the onboarding path:
 
 + Be able to use Anserini to build a Lucene inverted index on the MS MARCO passage collection.
 + Be able to use Anserini to perform a batch retrieval run using the above index.
@@ -317,7 +317,7 @@ In short, it's complicated.
 
 That's it for this lesson.
 At this time, look back through the learning outcomes again and make sure you're good.
-As a next step in the onboarding path, move on to explore [dense and hybrid search](experiments-msmarco-passage2.md).
+As a next step in the onboarding path, move on to explore [dense retrieval](experiments-msmarco-passage2.md).
 
 Before you move on, however, add an entry in the "Reproduction Log" at the bottom of this page, following the same format: use `yyyy-mm-dd`, make sure you're using a commit id that's on the main trunk of Anserini, and use its 7-hexadecimal prefix for the link anchor text.
 In the description of your pull request, please provide some details on your setup (e.g., operating system, environment and configuration, etc.).

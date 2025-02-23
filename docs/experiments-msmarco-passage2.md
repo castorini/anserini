@@ -5,7 +5,7 @@ In general, don't try to rush through this guide by just blindly copying and pas
 that's what I call [cargo culting](https://en.wikipedia.org/wiki/Cargo_cult_programming).
 Instead, really try to understand what's going on.
 
-**Learning outcomes** for this guide, building on previous steps in the onboarding path:
+**Learning outcomes** for this guide, building on previous lessons in the onboarding path:
 
 + Be able to use Anserini prebuilt indexes to skip indexing, for both BM25 and dense retrieval.
 + Be able to use Anserini to perform a batch retrieval run using a dense retrieval model.
@@ -50,12 +50,12 @@ bin/trec_eval -c -M 10 -m recip_rank \
 The MRR@10 should be 0.1875.
 
 There's a _tiny_ bit of difference between this result and the one from the previous lesson.
-Previously, we used `-format msmarco` to generate the output in a different format, which we then converted into the TREC format before evaluating.
+Previously, we used `-format msmarco` to generate the output in the MS MARCO format, which we then converted into the TREC format before evaluating.
 This conversion is lossy and causes slight score differences due to tie-breaking effects (i.e., what happens when two documents are tied in terms of score).
 
 ## Retrieval with Dense Indexes
 
-Next, we're going to look at retrieval with what are known as dense vector representations (or just dense vectors, for short).
+Next, we're going to look at retrieval using dense vector representations (or just dense vectors).
 This is also called dense retrieval or vector search.
 We'll learn more about how they work later in the onboarding path in Pyserini, but for now, let's perform a retrieval run, using the same queries on the same collection.
 
@@ -77,14 +77,9 @@ bin/run.sh io.anserini.search.SearchHnswDenseVectors \
 Instead of `SearchCollection`, we use `SearchHnswDenseVectors` since it's a different type of index.
 We are using a prebuilt index, specified as `-index msmarco-v1-passage.bge-base-en-v1.5.hnsw`.
 The above retrieval command automatically downloads the HNSW index for the MS MARCO passage collection.
-Beware, it's 26 GB:
+Beware, it's 26 GB.
 
-```bash
-% du -h ~/.cache/pyserini/indexes/lucene-hnsw.msmarco-v1-passage.bge-base-en-v1.5.20240117.53514b.00a577f689d90f95e6c5611438b0af3d
-26G	~/.cache/pyserini/indexes/lucene-hnsw.msmarco-v1-passage.bge-base-en-v1.5.20240117.53514b.00a577f689d90f95e6c5611438b0af3d
-````
-
-For reference: on a circa 2022 MacBook Air with an Apple M2 processor and 24 GB RAM, the retrieval run takes around X minutes.
+For reference, on a circa 2022 MacBook Air with an Apple M2 processor and 24 GB RAM, the retrieval run takes around 4 minutes.
 
 Let's compute the MRR@10 score:
 
