@@ -2,20 +2,17 @@
 
 This page contains instructions for running BM25 baselines on the [MS MARCO *passage* ranking task](https://microsoft.github.io/msmarco/).
 Note that there is a separate [MS MARCO *document* ranking task](experiments-msmarco-doc.md).
-This exercise will require a machine with >8 GB RAM and >15 GB free disk space .
-If you're using a Windows machine, equivalent commands are provided alongside the Unix-like (Linux/macOS) commands.
+This exercise will require a machine with at least 8 GB RAM and at least 15 GB free disk space.
 
-If you're a Waterloo student traversing the [onboarding path](https://github.com/lintool/guide/blob/master/ura.md), [start here](start-here.md
-).
+If you're a Waterloo student traversing the [onboarding path](https://github.com/lintool/guide/blob/master/ura.md), [start here](start-here.md).
 In general, don't try to rush through this guide by just blindly copying and pasting commands into a shell;
 that's what I call [cargo culting](https://en.wikipedia.org/wiki/Cargo_cult_programming).
 Instead, really try to understand what's going on.
 
-
 **Learning outcomes** for this guide, building on previous steps in the onboarding path:
 
 + Be able to use Anserini to build a Lucene inverted index on the MS MARCO passage collection.
-+ Be able to use Anserini to perform a batch retrieval run on the MS MARCO passage collection with the dev queries.
++ Be able to use Anserini to perform a batch retrieval run using the above index.
 + Be able to evaluate the retrieved results above.
 + Understand the MRR metric.
 
@@ -33,8 +30,7 @@ That is, most things done with Anserini can be "translated" into Elasticsearch q
 ## Data Prep
 
 In this guide, we're just going through the mechanical steps of data prep.
-To better understand what you're actually doing, go through the [start here](start-here.md
-) guide.
+To better understand what you're actually doing, go through the [start here](start-here.md) guide.
 The guide contains the same exact instructions, but provide more detailed explanations.
 
 We're going to use the repository's root directory as the working directory.
@@ -51,7 +47,7 @@ wget https://msmarco.z22.web.core.windows.net/msmarcoranking/collectionandquerie
 tar xvfz collections/msmarco-passage/collectionandqueries.tar.gz -C collections/msmarco-passage
 ```
 
-To confirm, `collectionandqueries.tar.gz` should have MD5 checksum of `31644046b18952c1386cd4564ba2ae69`.
+To confirm, `collectionandqueries.tar.gz` is around 1 GB and should have MD5 checksum of `31644046b18952c1386cd4564ba2ae69`.
 
 Next, we need to convert the MS MARCO tsv collection into Anserini's jsonl files (which have one json object per line):
 
@@ -75,6 +71,7 @@ python tools/scripts/msmarco/filter_queries.py \
 ```
 
 The output queries file `collections/msmarco-passage/queries.dev.small.tsv` should contain 6980 lines.
+Confirm with `wc`.
 
 ## Indexing
 
@@ -90,9 +87,9 @@ On the other hand, retrieval needs to be fast, i.e., low latency, high throughpu
 
 With the data prep above, we can now index the MS MARCO passage collection in `collections/msmarco-passage/collection_jsonl`.
 
-If you haven't built Anserini already, build it now using the instructions in [anserini#-installation](https://github.com/castorini/anserini?tab=readme-ov-file#-installation).
+If you haven't built Anserini already, build it now using the instructions provided [here](https://github.com/castorini/anserini?tab=readme-ov-file#-installation).
 
-We index these docs as a `JsonCollection` (a specification of how documents are encoded) using Anserini:
+Using Anserini, we can index these docs as a `JsonCollection` (a specification of how documents are encoded) with the following command:
 
 ```bash
 bin/run.sh io.anserini.index.IndexCollection \
@@ -102,21 +99,26 @@ bin/run.sh io.anserini.index.IndexCollection \
   -generator DefaultLuceneDocumentGenerator \
   -threads 9 -storePositions -storeDocvectors -storeRaw
 ```
-For Windows:
-```bash
-bin\run.bat io.anserini.index.IndexCollection -collection JsonCollection -input collections\msmarco-passage\collection_jsonl -index indexes\msmarco-passage\lucene-index-msmarco -generator DefaultLuceneDocumentGenerator -threads 9 -storePositions -storeDocvectors -storeRaw
-```
-
-
 
 In this case, Lucene creates what is known as an **inverted index**.
 
 Upon completion, we should have an index with 8,841,823 documents.
-The indexing speed may vary; on a modern desktop with an SSD, indexing takes a couple of minutes.
-On the new MacBook Pro M3 Laptop, if you only have 8GB memory, you might encounter an issue where the threads are forced to abort before indexing
-finishes. This is likely caused by JVM allocating more memory than available on the system, thus causing too much memory swapping without actively
-garbage collecting. To mitigate this issue, you may need to modify run.sh to change the -Xms option to 2GB and -Xmx to 6GB.
+The indexing speed may vary;
+On a modern desktop with an SSD, indexing takes a couple of minutes.
+On a circa 2022 MacBook Air with an Apple M2 processor and 24 GB RAM, indexing takes around 3 minutes.
+YMMV.
 
+If you run into out-of-memory issues, you might need dial down `-threads` (i.e., use fewer threads).
+Or you might need to go into modify `run.sh` and tweak the `-Xms` and `-Xmx` memory settings.
+
+The inverted index consumes around 4 GB:
+
+```bash
+% du -h indexes
+4.3G	indexes/msmarco-passage/lucene-index-msmarco
+4.3G	indexes/msmarco-passage
+4.3G	indexes
+```
 
 ## Retrieval
 
@@ -128,13 +130,10 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/msmarco-passage/lucene-index-msmarco \
   -topics collections/msmarco-passage/queries.dev.small.tsv \
   -topicReader TsvInt \
-  -output runs/run.msmarco-passage.dev.small.tsv -format msmarco \
+  -output runs/run.msmarco-passage.dev.bm25.tsv \
+  -format msmarco \
   -parallelism 4 \
   -bm25 -bm25.k1 0.82 -bm25.b 0.68 -hits 1000
-```
-For Windows:
-```bash
-bin\run.bat io.anserini.search.SearchCollection -index indexes\msmarco-passage\lucene-index-msmarco -topics collections\msmarco-passage\queries.dev.small.tsv -topicReader TsvInt -output runs\run.msmarco-passage.dev.small.tsv -format msmarco -parallelism 4 -bm25 -bm25.k1 0.82 -bm25.b 0.68 -hits 1000
 ```
 
 This is the **retrieval** (or **search**) phase.
@@ -149,9 +148,9 @@ The above command uses BM25 with tuned parameters `k1=0.82`, `b=0.68`.
 The option `-hits` specifies the number of documents per query to be retrieved.
 Thus, the output file should have approximately 6980 × 1000 = 6.9M lines.
 
-Retrieval speed will vary by machine:
-On a reasonably modern desktop with an SSD, with four threads (as specified above), the run takes a couple of minutes.
-Adjust the parallelism by changing the `-parallelism` argument.
+Retrieval speed will vary.
+On a reasonably modern machine (e.g., the MacBook Air referenced above), with four threads (as specified above), the run takes a couple of minutes.
+Adjust the number of threads to use by changing the `-parallelism` argument.
 
 Congratulations, you've performed your first **retrieval run**!
 
@@ -163,7 +162,7 @@ The retrieval run contains the ranked lists for all queries you fed to it.
 Let's take a look:
 
 ```bash
-$ head runs/run.msmarco-passage.dev.small.tsv
+$ head runs/run.msmarco-passage.dev.bm25.tsv
 1048585	7187158	1
 1048585	7187157	2
 1048585	7187163	3
@@ -197,7 +196,7 @@ Remember that this document was indeed marked relevant in the qrels, as we saw i
 As an additional sanity check, run the following:
 
 ```bash
-$ cut -f 1 runs/run.msmarco-passage.dev.small.tsv | uniq | wc
+$ cut -f 1 runs/run.msmarco-passage.dev.bm25.tsv | uniq | wc
     6980    6980   51039
 ```
 
@@ -210,7 +209,7 @@ Finally, we can evaluate the retrieved documents using this the official MS MARC
 
 ```bash
 python tools/scripts/msmarco/msmarco_passage_eval.py \
- collections/msmarco-passage/qrels.dev.small.tsv runs/run.msmarco-passage.dev.small.tsv
+ collections/msmarco-passage/qrels.dev.small.tsv runs/run.msmarco-passage.dev.bm25.tsv
 ```
 
 And the output should be like this:
@@ -224,8 +223,7 @@ QueriesRanked: 6980
 
 (Yea, the number of digits of precision is a bit... excessive)
 
-Remember from the [start here](start-here.md
-) guide that with relevance judgments (qrels), we can automatically evaluate the retrieval system output (i.e., the run).
+Remember from the [start here](start-here.md) guide that with relevance judgments (qrels), we can automatically evaluate the retrieval system output (i.e., the run).
 
 The final ingredient is a metric, i.e., how to quantify the "quality" of a ranked list.
 Here, we're using a metric called MRR, or mean reciprocal rank.
@@ -249,8 +247,8 @@ For that we first need to convert runs and qrels files to the TREC format:
 
 ```bash
 python tools/scripts/msmarco/convert_msmarco_to_trec_run.py \
-  --input runs/run.msmarco-passage.dev.small.tsv \
-  --output runs/run.msmarco-passage.dev.small.trec
+  --input runs/run.msmarco-passage.dev.bm25.tsv \
+  --output runs/run.msmarco-passage.dev.bm25.trec
 
 python tools/scripts/msmarco/convert_msmarco_to_trec_qrels.py \
   --input collections/msmarco-passage/qrels.dev.small.tsv \
@@ -262,7 +260,7 @@ And run the `trec_eval` tool:
 ```bash
 bin/trec_eval -c -mrecall.1000 -mmap \
   collections/msmarco-passage/qrels.dev.small.trec \
-  runs/run.msmarco-passage.dev.small.trec
+  runs/run.msmarco-passage.dev.bm25.trec
 ```
 
 The output should be:
@@ -279,7 +277,7 @@ You can use `trec_eval` to compute the MRR@10 also, which gives results identica
 ```
 bin/trec_eval -c -M 10 -m recip_rank \
   collections/msmarco-passage/qrels.dev.small.trec \
-  runs/run.msmarco-passage.dev.small.trec
+  runs/run.msmarco-passage.dev.bm25.trec
 ```
 
 It's a different command-line incantation of `trec_eval` to compute MRR@10.
@@ -288,16 +286,20 @@ And if you add `-q`, the tool will spit out the MRR@10 _per query_ (for all 6980
 ```
 bin/trec_eval -q -c -M 10 -m recip_rank \
   collections/msmarco-passage/qrels.dev.small.trec \
-  runs/run.msmarco-passage.dev.small.trec
+  runs/run.msmarco-passage.dev.bm25.trec
 ```
 
 We can find the MRR@10 for `qid` 1048585 above:
 
 ```bash
-$ bin/trec_eval -q -c -M 10 -m recip_rank \
-    collections/msmarco-passage/qrels.dev.small.trec \
-    runs/run.msmarco-passage.dev.small.trec | grep 1048585
+bin/trec_eval -q -c -M 10 -m recip_rank \
+  collections/msmarco-passage/qrels.dev.small.trec \
+  runs/run.msmarco-passage.dev.bm25.trec | grep 1048585
+```
 
+Which is:
+
+```
 recip_rank            	1048585	1.0000
 ```
 
@@ -310,8 +312,12 @@ The tl;dr is that there are different formats for run files and lots of differen
 Researchers have been trying to answer the question "how do we know if a search result is good and how do we measure it" for over half a century... and the question still has not been fully resolved.
 In short, it's complicated.
 
+
+## Wrapping Up
+
+That's it for this lesson.
 At this time, look back through the learning outcomes again and make sure you're good.
-As a next step in the onboarding path, you basically [do the same thing again in Python with Pyserini](https://github.com/castorini/pyserini/blob/master/docs/experiments-msmarco-passage.md) (as opposed to Java with Anserini here).
+As a next step in the onboarding path, move on to explore [dense and hybrid search](experiments-msmarco-passage2.md).
 
 Before you move on, however, add an entry in the "Reproduction Log" at the bottom of this page, following the same format: use `yyyy-mm-dd`, make sure you're using a commit id that's on the main trunk of Anserini, and use its 7-hexadecimal prefix for the link anchor text.
 In the description of your pull request, please provide some details on your setup (e.g., operating system, environment and configuration, etc.).
