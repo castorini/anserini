@@ -187,7 +187,7 @@ Once you unpack it, you're looking at ~4 GB on disk.
 3.9G	collections
 ```
 
-Peak inside the collection:
+Peek inside the collection:
 
 ```bash
 head collections/msmarco-passage/collection.tsv
