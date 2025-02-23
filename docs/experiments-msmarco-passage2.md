@@ -74,6 +74,8 @@ bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -encoder BgeBaseEn15 -hits 1000 -threads 4
 ```
 
+Note: If you encounter encoder loading errors, clear the cache at `~/.cache/pyserini/encoders`.
+
 Instead of `SearchCollection`, we use `SearchHnswDenseVectors` since it's a different type of index.
 We are using a prebuilt index, specified as `-index msmarco-v1-passage.bge-base-en-v1.5.hnsw`.
 The above retrieval command automatically downloads the HNSW index for the MS MARCO passage collection.
@@ -104,3 +106,4 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 
 ## Reproduction Log[*](reproducibility.md)
 
++ Results reproduced by [@b8zhong](https://github.com/b8zhong) on 2025-02-23 (commit [`daceb40`](https://github.com/castorini/anserini/commit/daceb4084c8e8103e3e86c81a8e0d597d409220e))
