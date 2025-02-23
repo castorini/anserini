@@ -74,6 +74,8 @@ bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -encoder BgeBaseEn15 -hits 1000 -threads 4
 ```
 
+> Note: If you encounter encoder loading errors, clear the cache at `~/.cache/pyserini/encoders`.
+
 Instead of `SearchCollection`, we use `SearchHnswDenseVectors` since it's a different type of index.
 We are using a prebuilt index, specified as `-index msmarco-v1-passage.bge-base-en-v1.5.hnsw`.
 The above retrieval command automatically downloads the HNSW index for the MS MARCO passage collection.
@@ -82,7 +84,7 @@ Beware, it's 26 GB:
 ```bash
 % du -h ~/.cache/pyserini/indexes/lucene-hnsw.msmarco-v1-passage.bge-base-en-v1.5.20240117.53514b.00a577f689d90f95e6c5611438b0af3d
 26G	~/.cache/pyserini/indexes/lucene-hnsw.msmarco-v1-passage.bge-base-en-v1.5.20240117.53514b.00a577f689d90f95e6c5611438b0af3d
-````
+```
 
 For reference: on a circa 2022 MacBook Air with an Apple M2 processor and 24 GB RAM, the retrieval run takes around X minutes.
 
