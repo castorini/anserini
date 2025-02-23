@@ -74,7 +74,7 @@ bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -encoder BgeBaseEn15 -hits 1000 -threads 4
 ```
 
-> Note: If you encounter encoder loading errors, clear the cache at `~/.cache/pyserini/encoders`.
+Note: If you encounter encoder loading errors, clear the cache at `~/.cache/pyserini/encoders`.
 
 Instead of `SearchCollection`, we use `SearchHnswDenseVectors` since it's a different type of index.
 We are using a prebuilt index, specified as `-index msmarco-v1-passage.bge-base-en-v1.5.hnsw`.
