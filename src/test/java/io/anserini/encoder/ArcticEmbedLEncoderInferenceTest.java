@@ -929,7 +929,9 @@ public class ArcticEmbedLEncoderInferenceTest extends DenseEncoderInferenceTest 
         String[] inputStrings = (String[]) example[0];
         float[] expectedWeights = (float[]) example[1];
         float[] embeddings = encoder.encode(inputStrings[0]);
+
         assertArrayEquals(expectedWeights, embeddings, 1e-4f);
+        assertEquals(1024, embeddings.length);
       }
     } catch (Exception e) {
       throw e;
