@@ -467,13 +467,46 @@ public class SearchHnswDenseVectorsTest {
 
     IndexHnswDenseVectors.main(indexArgs);
 
-    String runfile = "target/run-" + System.currentTimeMillis();
-    String[] searchArgs = new String[] {
+    String runfile;
+    String[] searchArgs;
+
+    runfile = "target/run-" + System.currentTimeMillis();
+    searchArgs = new String[] {
         "-index", indexPath,
         "-topics", "src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-cosdpr-distil.tsv",
         "-output", runfile,
         "-generator", "VectorQueryGenerator",
         "-encoder", "CosDprDistil",
+        "-topicReader", "TsvInt",
+        "-topicField", "title",
+        "-efSearch", "1000",
+        "-hits", "5"};
+    SearchHnswDenseVectors.main(searchArgs);
+
+    // Note output is slightly different from pre-encoded query vectors.
+    TestUtils.checkRunFileApproximate(runfile, new String[] {
+        "2 Q0 208 1 0.578723 Anserini",
+        "2 Q0 224 2 0.578716 Anserini",
+        "2 Q0 384 3 0.573913 Anserini",
+        "2 Q0 136 4 0.573051 Anserini",
+        "2 Q0 720 5 0.571061 Anserini",
+        "1048585 Q0 624 1 0.568417 Anserini",
+        "1048585 Q0 120 2 0.563483 Anserini",
+        "1048585 Q0 320 3 0.558932 Anserini",
+        "1048585 Q0 328 4 0.550985 Anserini",
+        "1048585 Q0 232 5 0.550977 Anserini"
+    });
+
+    new File(runfile).delete();
+
+    runfile = "target/run-" + System.currentTimeMillis();
+    searchArgs = new String[] {
+        "-index", indexPath,
+        "-topics", "src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-cosdpr-distil.tsv",
+        "-output", runfile,
+        "-generator", "VectorQueryGenerator",
+        // This works regardless of whether we specify the suffix (Encoder) or not.
+        "-encoder", "CosDprDistilEncoder",
         "-topicReader", "TsvInt",
         "-topicField", "title",
         "-efSearch", "1000",

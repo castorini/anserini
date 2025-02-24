@@ -32,8 +32,6 @@ import ai.onnxruntime.OrtException;
 import ai.onnxruntime.OrtSession;
 import ai.onnxruntime.OrtSession.Result;
 import io.anserini.encoder.dense.ArcticEmbedLEncoder;
-import io.anserini.encoder.dense.DenseEncoder;
-import io.anserini.encoder.OnnxEncoder;
 
 public class ArcticEmbedLEncoderInferenceTest extends DenseEncoderInferenceTest {
   static private final String MODEL_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/arctic-embed-l-official.onnx";
@@ -909,27 +907,19 @@ public class ArcticEmbedLEncoderInferenceTest extends DenseEncoderInferenceTest 
       }
     }
   }
+
   @Test
-  public void testLength() throws OrtException, IOException, URISyntaxException {
+  public void testLongQuery() throws OrtException, IOException, URISyntaxException {
     try {
       ArcticEmbedLEncoder encoder = new ArcticEmbedLEncoder();
-      String query = "This is a test query";
-      float[] embeddings = encoder.encode(query);
-      assertEquals(1024, embeddings.length);
-    } catch (Exception e) {
-      throw e;
-    }
-  }
 
-@Test
-public void testLongQuery() throws OrtException, IOException, URISyntaxException {
-  try {
-    ArcticEmbedLEncoder encoder = new ArcticEmbedLEncoder();
-    for (Object[] example : LONG_EXAMPLES) {
-      String[] inputStrings = (String[]) example[0];
-    float[] expectedWeights = (float[]) example[1];
-    float[] embeddings = encoder.encode(inputStrings[0]);
+      for (Object[] example : LONG_EXAMPLES) {
+        String[] inputStrings = (String[]) example[0];
+        float[] expectedWeights = (float[]) example[1];
+        float[] embeddings = encoder.encode(inputStrings[0]);
+
         assertArrayEquals(expectedWeights, embeddings, 1e-4f);
+        assertEquals(1024, embeddings.length);
       }
     } catch (Exception e) {
       throw e;
