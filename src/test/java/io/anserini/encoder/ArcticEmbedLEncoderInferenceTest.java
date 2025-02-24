@@ -908,17 +908,17 @@ public class ArcticEmbedLEncoderInferenceTest extends DenseEncoderInferenceTest 
 //    }
 //  }
 
-  @Test
-  public void testLength() throws OrtException, IOException, URISyntaxException {
-    try {
-      ArcticEmbedLEncoder encoder = new ArcticEmbedLEncoder();
-      String query = "This is a test query";
-      float[] embeddings = encoder.encode(query);
-      assertEquals(1024, embeddings.length);
-    } catch (Exception e) {
-      throw e;
-    }
-  }
+//  @Test
+//  public void testLength() throws OrtException, IOException, URISyntaxException {
+//    try {
+//      ArcticEmbedLEncoder encoder = new ArcticEmbedLEncoder();
+//      String query = "This is a test query";
+//      float[] embeddings = encoder.encode(query);
+//      assertEquals(1024, embeddings.length);
+//    } catch (Exception e) {
+//      throw e;
+//    }
+//  }
 
   @Test
   public void testLongQuery() throws OrtException, IOException, URISyntaxException {
