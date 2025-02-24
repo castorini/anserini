@@ -505,7 +505,8 @@ public class SearchHnswDenseVectorsTest {
         "-topics", "src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-cosdpr-distil.tsv",
         "-output", runfile,
         "-generator", "VectorQueryGenerator",
-        "-encoder", "CosDprDistil",
+        // This works regardless of whether we specify the suffix (Encoder) or not.
+        "-encoder", "CosDprDistilEncoder",
         "-topicReader", "TsvInt",
         "-topicField", "title",
         "-efSearch", "1000",

@@ -869,44 +869,44 @@ public class ArcticEmbedLEncoderInferenceTest extends DenseEncoderInferenceTest 
     super(MODEL_NAME, MODEL_URL, EXAMPLES);
   }
 
-//  @Test
-//  public void basic() throws OrtException, IOException, URISyntaxException {
-//    String modelPath = getEncoderModelPath().toString();
-//
-//    try (OrtEnvironment env = OrtEnvironment.getEnvironment();
-//        OrtSession.SessionOptions options = new OrtSession.SessionOptions();
-//        OrtSession session = env.createSession(modelPath, options)) {
-//
-//      for (Object[] example : examples) {
-//        long[] inputIds = (long[]) example[0];
-//        float[] expectedEmbeddings = (float[]) example[1];
-//
-//        Map<String, OnnxTensor> inputs = new HashMap<>();
-//
-//        long[][] tokenIds;
-//        tokenIds = new long[1][inputIds.length];
-//        tokenIds[0] = inputIds;
-//
-//        long[][] attentionMask = new long[1][tokenIds[0].length];
-//        long[][] tokenTypeIds = new long[1][tokenIds[0].length];
-//        // Initialize attention mask with all ones
-//        Arrays.fill(attentionMask[0], 1);
-//
-//        inputs.put("input_ids", OnnxTensor.createTensor(env, tokenIds));
-//        inputs.put("attention_mask", OnnxTensor.createTensor(env, attentionMask));
-//        inputs.put("token_type_ids", OnnxTensor.createTensor(env, tokenTypeIds));
-//
-//        try (Result results = session.run(inputs)) {
-//          float[][][] embeddings = (float[][][]) ((OnnxTensor) results.get(0)).getValue();
-//          float[] weights = new float[EMBEDDING_DIM];
-//          System.arraycopy(embeddings[0][0], 0, weights, 0, 1024);
-//
-//          weights = OnnxEncoder.normalize(weights);
-//          assertArrayEquals(expectedEmbeddings, weights, 1e-4f);
-//        }
-//      }
-//    }
-//  }
+  @Test
+  public void basic() throws OrtException, IOException, URISyntaxException {
+    String modelPath = getEncoderModelPath().toString();
+
+    try (OrtEnvironment env = OrtEnvironment.getEnvironment();
+        OrtSession.SessionOptions options = new OrtSession.SessionOptions();
+        OrtSession session = env.createSession(modelPath, options)) {
+
+      for (Object[] example : examples) {
+        long[] inputIds = (long[]) example[0];
+        float[] expectedEmbeddings = (float[]) example[1];
+
+        Map<String, OnnxTensor> inputs = new HashMap<>();
+
+        long[][] tokenIds;
+        tokenIds = new long[1][inputIds.length];
+        tokenIds[0] = inputIds;
+
+        long[][] attentionMask = new long[1][tokenIds[0].length];
+        long[][] tokenTypeIds = new long[1][tokenIds[0].length];
+        // Initialize attention mask with all ones
+        Arrays.fill(attentionMask[0], 1);
+
+        inputs.put("input_ids", OnnxTensor.createTensor(env, tokenIds));
+        inputs.put("attention_mask", OnnxTensor.createTensor(env, attentionMask));
+        inputs.put("token_type_ids", OnnxTensor.createTensor(env, tokenTypeIds));
+
+        try (Result results = session.run(inputs)) {
+          float[][][] embeddings = (float[][][]) ((OnnxTensor) results.get(0)).getValue();
+          float[] weights = new float[EMBEDDING_DIM];
+          System.arraycopy(embeddings[0][0], 0, weights, 0, 1024);
+
+          weights = OnnxEncoder.normalize(weights);
+          assertArrayEquals(expectedEmbeddings, weights, 1e-4f);
+        }
+      }
+    }
+  }
 
 //  @Test
 //  public void testLength() throws OrtException, IOException, URISyntaxException {
