@@ -1,0 +1,75 @@
+---
+corpus: beir-v1.0.0-ms-marco
+corpus_path: collections/beir-v1.0.0/corpus/ms-marco/
+
+metrics:
+  - metric: nDCG@10
+    command: bin/trec_eval
+    params: -c -m ndcg_cut.10
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: bin/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: bin/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvString
+topics:
+  - name: "MSMARCO"
+    id: test
+    path: ../../collections/msmarco-passage/queries.dev.small.trec
+    qrel: ../../collections/msmarco-passage/qrels.dev.small.trec
+
+# Run dependencies for fusion
+runs:
+  - name: flat-bm25
+    dependency: 
+    file: runs/run.msmarco-passage.dev.small.trec
+  - name: bge-flat-onnx
+    dependency: 
+    file: runs/run.msmarco-passage.dev.small.bge.trec
+
+methods:
+  - name: rrf
+    k: 1000
+    depth: 1000
+    rrf_k: 60
+    output: runs/runs.fuse.rrf.ms-marco.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.ms-marco.test.txt
+    results:
+      nDCG@10:
+        - 0.3577
+      R@100:
+        - 0.8934
+      R@1000:
+        - 0.9526
+  - name: average
+    output: runs/runs.fuse.avg.ms-marco.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.ms-marco.test.txt
+    results:
+      nDCG@10:
+        - 0.3107
+      R@100:
+        - 0.8896
+      R@1000:
+        - 0.9526
+  - name: interpolation
+    alpha: 0.5
+    output: runs/runs.fuse.interp.ms-marco.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.ms-marco.test.txt
+    results:      
+      nDCG@10:
+        - 0.3107
+      R@100:
+        - 0.8896
+      R@1000:
+        - 0.9526
