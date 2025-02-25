@@ -3,6 +3,13 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### February 21, 2025
+
++ commit [`e37007`](https://github.com/castorini/anserini/commit/e370075cd57c92c987ebf368ef1b5c549f06feb8) (2025/02/21)
+
+Removed all dense vector regressions using corpora in jsonl format, which has been deprecated.
+This marks the end of a long journey that began in August 2022 when [Xueguang Ma](https://github.com/MXueguang) introduced the jsonl dense vector format to support HNSW indexing directly in Anserini (with [castorini/anserini#1955](https://github.com/castorini/anserini/pull/1955)).
+
 ### February 14, 2025
 
 + commit [`d1585e`](https://github.com/castorini/anserini/commit/d1585ed640a11d8d9a6b1af499195525d78a03ae) (2025/02/14)
