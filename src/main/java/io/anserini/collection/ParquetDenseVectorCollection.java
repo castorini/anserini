@@ -142,6 +142,9 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
     private List<String> ids; // List to store document IDs
     private ParquetReader<Group> reader;
     private boolean readerInitialized;
+    private String docIdField;
+    private String vectorField;
+    private boolean normalizeVectors;
 
     /**
      * Constructor for the Segment class using a file path.
@@ -256,13 +259,10 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
       
       Group firstElement = vectorGroup.getGroup(0, 0);
       PrimitiveType.PrimitiveTypeName primitiveType = firstElement.getType().getFields().get(0).asPrimitiveType().getPrimitiveTypeName();
-      PrimitiveType.PrimitiveTypeName primitiveType = firstElement.getType().getFields().get(0).asPrimitiveType()
-          .getPrimitiveTypeName();
       boolean isDouble = primitiveType.equals(PrimitiveType.PrimitiveTypeName.DOUBLE);
       boolean isFloat = primitiveType.equals(PrimitiveType.PrimitiveTypeName.FLOAT);
       
       if (!isDouble && !isFloat) {
-        throw new IllegalArgumentException(String.format("Vector elements must be either DOUBLE or FLOAT, found: %s", primitiveType));
         throw new IllegalArgumentException(
             String.format("Vector elements must be either DOUBLE or FLOAT, found: %s", primitiveType));
       }
@@ -274,7 +274,7 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
       }
       
 
-      if (normalizeVectors) {
+      if (this.normalizeVectors) {
         vector = normalizeVector(vector);
       }
 
