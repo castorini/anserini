@@ -58,13 +58,13 @@ public final class IndexFlatDenseVectors extends AbstractIndexer {
     @Option(name = "-storeVectors", usage = "Boolean switch to store raw raw vectors.")
     public boolean storeVectors = false;
 
-    @Option(name = "-docid.field", metaVar = "[name]", usage = "Name of the document ID field in Parquet files.")
+    @Option(name = "-docidField", metaVar = "[name]", usage = "Name of the document ID field in Parquet files.")
     public String docIdField = "docid";
 
-    @Option(name = "-vector.field", metaVar = "[name]", usage = "Name of the vector field in Parquet files.")
+    @Option(name = "-vectorField", metaVar = "[name]", usage = "Name of the vector field in Parquet files.")
     public String vectorField = "vector";
 
-    @Option(name = "-normalize.vectors", usage = "Normalize vectors to unit length.")
+    @Option(name = "-normalizeVectors", usage = "Normalize vectors to unit length.")
     public boolean normalizeVectors = false;
   }
 
@@ -73,8 +73,7 @@ public final class IndexFlatDenseVectors extends AbstractIndexer {
     super(args);
 
     try {
-      super.generatorClass = (Class<LuceneDocumentGenerator<? extends SourceDocument>>) Class
-          .forName("io.anserini.index.generator." + args.generatorClass);
+      super.generatorClass = (Class<LuceneDocumentGenerator<? extends SourceDocument>>) Class.forName("io.anserini.index.generator." + args.generatorClass);
     } catch (Exception e) {
       throw new IllegalArgumentException(String.format("Unable to load generator class \"%s\".", args.generatorClass));
     }
