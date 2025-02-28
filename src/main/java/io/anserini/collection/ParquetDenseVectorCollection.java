@@ -245,17 +245,12 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
         readerInitialized = false;
         throw new NoSuchElementException("End of file reached");
       }
-      
-      String docid = record.getString("docid", 0);
 
-      String docid = record.getString(docIdField, 0);
+      String docid = record.getString(this.docIdField, 0);
       ids.add(docid);
 
-      // Extract the vector (double[]) from the record
-      Group vectorGroup = record.getGroup("vector", 0);// Access the 'vector' field
-      int vectorSize = vectorGroup.getFieldRepetitionCount(0);// Get the number of elements in the vector
       // Extract the vector (double[]) from the record
-      Group vectorGroup = record.getGroup(vectorField, 0);// Access the vector field
+      Group vectorGroup = record.getGroup(this.vectorField, 0);// Access the vector field
       int vectorSize = vectorGroup.getFieldRepetitionCount(0);// Get the number of elements in the vector
       float[] vector = new float[vectorSize];
       
