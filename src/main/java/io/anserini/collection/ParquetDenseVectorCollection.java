@@ -263,8 +263,7 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
       boolean isFloat = primitiveType.equals(PrimitiveType.PrimitiveTypeName.FLOAT);
       
       if (!isDouble && !isFloat) {
-        throw new IllegalArgumentException(
-            String.format("Vector elements must be either DOUBLE or FLOAT, found: %s", primitiveType));
+        throw new IllegalArgumentException(String.format("Vector elements must be either DOUBLE or FLOAT, found: %s", primitiveType));
       }
 
       // Single-pass read with conditional cast if needed
