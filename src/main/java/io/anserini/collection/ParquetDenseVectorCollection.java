@@ -38,7 +38,7 @@ import org.apache.parquet.schema.PrimitiveType;
 public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDenseVectorCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(ParquetDenseVectorCollection.class);
 
-  protected String docIdField = "docid";
+  protected String docidField = "docid";
   protected String vectorField = "vector";
   protected boolean normalizeVectors = false;
 
@@ -57,15 +57,15 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
    * Constructor that initializes the collection with custom field names.
    * 
    * @param path             the path to the directory containing the data files.
-   * @param docIdField       the field name for document IDs.
+   * @param docidField       the field name for document IDs.
    * @param vectorField      the field name for vector data.
    * @param normalizeVectors whether to normalize the vectors.
    * @throws IOException if an I/O error occurs during file reading.
    */
-  public ParquetDenseVectorCollection(Path path, String docIdField, String vectorField, boolean normalizeVectors)
+  public ParquetDenseVectorCollection(Path path, String docidField, String vectorField, boolean normalizeVectors)
       throws IOException {
     this.path = path;
-    this.docIdField = docIdField;
+    this.docidField = docidField;
     this.vectorField = vectorField;
     this.normalizeVectors = normalizeVectors;
   }
@@ -79,11 +79,11 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
   /**
    * Set the document ID field name.
    * 
-   * @param docIdField the field name for document IDs.
+   * @param docidField the field name for document IDs.
    * @return this collection instance for chaining.
    */
-  public ParquetDenseVectorCollection withDocIdField(String docIdField) {
-    this.docIdField = docIdField;
+  public ParquetDenseVectorCollection withDocIdField(String docidField) {
+    this.docidField = docidField;
     return this;
   }
 
@@ -118,7 +118,7 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
    */
   @Override
   public FileSegment<ParquetDenseVectorCollection.Document> createFileSegment(Path p) throws IOException {
-    return new ParquetDenseVectorCollection.Segment(p, docIdField, vectorField, normalizeVectors);
+    return new ParquetDenseVectorCollection.Segment(p, docidField, vectorField, normalizeVectors);
   }
 
   /**
@@ -142,7 +142,7 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
     private List<String> ids; // List to store document IDs
     private ParquetReader<Group> reader;
     private boolean readerInitialized;
-    private String docIdField;
+    private String docidField;
     private String vectorField;
     private boolean normalizeVectors;
 
@@ -160,15 +160,15 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
      * Constructor for the Segment class using a file path with custom field names.
      *
      * @param path             the path to the file segment.
-     * @param docIdField       the field name for document IDs.
+     * @param docidField       the field name for document IDs.
      * @param vectorField      the field name for vector data.
      * @param normalizeVectors whether to normalize the vectors.
      * @throws IOException if an I/O error occurs during file reading.
      */
-    public Segment(java.nio.file.Path path, String docIdField, String vectorField, boolean normalizeVectors)
+    public Segment(java.nio.file.Path path, String docidField, String vectorField, boolean normalizeVectors)
         throws IOException {
       super(path);
-      this.docIdField = docIdField;
+      this.docidField = docidField;
       this.vectorField = vectorField;
       this.normalizeVectors = normalizeVectors;
       initializeParquetReader(path);
@@ -249,7 +249,7 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
         throw new NoSuchElementException("End of file reached");
       }
 
-      String docid = record.getString(this.docIdField, 0);
+      String docid = record.getString(this.docidField, 0);
       ids.add(docid);
 
       // Extract the vector (double[]) from the record

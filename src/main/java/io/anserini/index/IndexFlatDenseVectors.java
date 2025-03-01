@@ -59,7 +59,7 @@ public final class IndexFlatDenseVectors extends AbstractIndexer {
     public boolean storeVectors = false;
 
     @Option(name = "-docidField", metaVar = "[name]", usage = "Name of the document ID field in Parquet files.")
-    public String docIdField = "docid";
+    public String docidField = "docid";
 
     @Option(name = "-vectorField", metaVar = "[name]", usage = "Name of the vector field in Parquet files.")
     public String vectorField = "vector";
@@ -80,7 +80,7 @@ public final class IndexFlatDenseVectors extends AbstractIndexer {
 
     if (collection instanceof ParquetDenseVectorCollection) {
       ParquetDenseVectorCollection parquetCollection = (ParquetDenseVectorCollection) collection;
-      parquetCollection.withDocIdField(args.docIdField)
+      parquetCollection.withDocIdField(args.docidField)
           .withVectorField(args.vectorField)
           .withNormalizeVectors(args.normalizeVectors);
     }
@@ -121,7 +121,7 @@ public final class IndexFlatDenseVectors extends AbstractIndexer {
     LOG.info(" + Generator: " + args.generatorClass);
     LOG.info(" + Store document vectors? " + args.storeVectors);
     LOG.info(" + Int8 quantization? " + args.quantizeInt8);
-    LOG.info(" + Document ID field: " + args.docIdField);
+    LOG.info(" + Document ID field: " + args.docidField);
     LOG.info(" + Vector field: " + args.vectorField);
     LOG.info(" + Normalize vectors? " + args.normalizeVectors);
   }
