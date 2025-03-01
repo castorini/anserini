@@ -22,7 +22,6 @@ import io.anserini.search.SimpleSearcher;
 import io.anserini.search.HnswDenseSearcher;
 import io.anserini.util.PrebuiltIndexHandler;
 import io.anserini.index.IndexInfo;
-import io.anserini.index.ShardInfo;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -39,6 +38,28 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class SearchService {
+
+  // For convenience of the API caller: we pre-define the mappings in a simple way.
+  private static Map<String, IndexInfo[]> SHARDED_INDEXES = Map.of(
+      "msmarco-v2.1-doc-segmented.arctic-embed-l.hnsw-int8", new IndexInfo[] {
+          IndexInfo.MSMARCO_V21_DOC_SEGMENTED_SHARD00_ARCTIC_EMBED_L_HNSW_INT8,
+          IndexInfo.MSMARCO_V21_DOC_SEGMENTED_SHARD01_ARCTIC_EMBED_L_HNSW_INT8,
+          IndexInfo.MSMARCO_V21_DOC_SEGMENTED_SHARD02_ARCTIC_EMBED_L_HNSW_INT8,
+          IndexInfo.MSMARCO_V21_DOC_SEGMENTED_SHARD03_ARCTIC_EMBED_L_HNSW_INT8,
+          IndexInfo.MSMARCO_V21_DOC_SEGMENTED_SHARD04_ARCTIC_EMBED_L_HNSW_INT8,
+          IndexInfo.MSMARCO_V21_DOC_SEGMENTED_SHARD05_ARCTIC_EMBED_L_HNSW_INT8,
+          IndexInfo.MSMARCO_V21_DOC_SEGMENTED_SHARD06_ARCTIC_EMBED_L_HNSW_INT8,
+          IndexInfo.MSMARCO_V21_DOC_SEGMENTED_SHARD07_ARCTIC_EMBED_L_HNSW_INT8,
+          IndexInfo.MSMARCO_V21_DOC_SEGMENTED_SHARD08_ARCTIC_EMBED_L_HNSW_INT8,
+          IndexInfo.MSMARCO_V21_DOC_SEGMENTED_SHARD09_ARCTIC_EMBED_L_HNSW_INT8
+      });
+
+  public static IndexInfo[] getShardedIndexes(String identifier) {
+    if (!SHARDED_INDEXES.containsKey(identifier)) {
+      throw new IllegalArgumentException("No collection found for identifier: " + identifier);
+    }
+    return SHARDED_INDEXES.get(identifier);
+  }
 
   private final String indexDir;
   private final String prebuiltIndex;
@@ -62,7 +83,8 @@ public class SearchService {
     return search(query, hits, null, null, null);
   }
 
-  public List<Map<String, Object>> search(String query, int hits,Integer efSearch, String encoder, String queryGenerator) {
+  public List<Map<String, Object>> search(String query, int hits, Integer efSearch, String encoder,
+      String queryGenerator) {
     validateSearchParameters(query, hits);
     validateSettings(efSearch, encoder, queryGenerator);
 
@@ -95,16 +117,11 @@ public class SearchService {
       } else {
         IndexInfo indexInfo = IndexInfo.get(prebuiltIndex);
         HnswDenseSearcher.Args args = new HnswDenseSearcher.Args();
+        // Various fallbacks for if the user doesn't provide a parameter
         args.index = indexDir;
-        args.efSearch = efSearch != null ? efSearch
-            : getEfSearchOverride() != null ? getEfSearchOverride()
-                : IndexInfo.DEFAULT_EF_SEARCH;
-        args.encoder = encoder != null ? encoder.replace(".class", "")
-            : getEncoderOverride() != null ? getEncoderOverride().replace(".class", "")
-            : indexInfo.encoder != null ? indexInfo.encoder.replace(".class", "") : null;
-        args.queryGenerator = queryGenerator != null ? queryGenerator.replace(".class", "")
-            : getQueryGeneratorOverride() != null ? getQueryGeneratorOverride().replace(".class", "")
-            : indexInfo.queryGenerator.replace(".class", "");
+        args.efSearch = efSearch != null ? efSearch : getEfSearchOverride() != null ? getEfSearchOverride(): IndexInfo.DEFAULT_EF_SEARCH;
+        args.encoder = encoder != null ? encoder : getEncoderOverride() != null ? getEncoderOverride(): indexInfo.encoder;
+        args.queryGenerator = queryGenerator != null ? queryGenerator : getQueryGeneratorOverride() != null ? getQueryGeneratorOverride(): indexInfo.queryGenerator;
         try (HnswDenseSearcher<Float> searcher = new HnswDenseSearcher<Float>(args)) {
           ScoredDoc[] results = searcher.search(query, hits);
           List<Map<String, Object>> candidates = new ArrayList<>();
@@ -121,13 +138,14 @@ public class SearchService {
   }
 
   public Map<String, Object> getDocument(String docid) {
-    if (!isHnswIndex) throw new IllegalArgumentException("getDocument is only supported for HNSW indexes");
+    if (!isHnswIndex)
+      throw new IllegalArgumentException("getDocument is only supported for HNSW indexes");
     try (SimpleSearcher searcher = new SimpleSearcher(indexDir)) {
       Document lucene_document = searcher.doc(docid);
       if (lucene_document == null) {
         return Map.of("error", "Document not found: " + docid);
       }
-      
+
       String raw = lucene_document.get(Constants.RAW);
       Map<String, Object> candidate = new LinkedHashMap<>();
       if (raw != null) {
@@ -179,7 +197,7 @@ public class SearchService {
       throw new IllegalArgumentException("Encoder cannot be empty");
     }
     validateSettings(getEfSearchOverride(), value, getQueryGeneratorOverride());
-    indexOverrides.put("encoder", value.replace(".class", ""));
+    indexOverrides.put("encoder", value);
   }
 
   public void setQueryGeneratorOverride(String value) {
@@ -187,7 +205,7 @@ public class SearchService {
       throw new IllegalArgumentException("QueryGenerator cannot be empty");
     }
     validateSettings(getEfSearchOverride(), getEncoderOverride(), value);
-    indexOverrides.put("queryGenerator", value.replace(".class", ""));
+    indexOverrides.put("queryGenerator", value);
   }
 
   private void validateSearchParameters(String query, int hits) {
@@ -207,7 +225,8 @@ public class SearchService {
         throw new IllegalArgumentException("efSearch must be positive but got " + efSearch);
       }
       if (!isHnswIndex) {
-        throw new IllegalArgumentException("efSearch parameter is only supported for HNSW indexes, but index " + prebuiltIndex + " is not HNSW");
+        throw new IllegalArgumentException(
+            "efSearch parameter is only supported for HNSW indexes, but index " + prebuiltIndex + " is not HNSW");
       }
     }
 
@@ -219,7 +238,8 @@ public class SearchService {
 
     if (queryGenerator != null) {
       if (!queryGenerator.equals(indexInfo.queryGenerator)) {
-        throw new IllegalArgumentException("Unsupported queryGenerator: " + queryGenerator + " for index " + prebuiltIndex);
+        throw new IllegalArgumentException(
+            "Unsupported queryGenerator: " + queryGenerator + " for index " + prebuiltIndex);
       }
     }
   }
@@ -238,15 +258,17 @@ public class SearchService {
     }
   }
 
-  static List<Map<String, Object>> searchSharded(ShardInfo shardGroup, String query, int hits,
-    Integer efSearch, String encoder, String queryGenerator, Function<String, SearchService> serviceProvider) {
+  static List<Map<String, Object>> searchSharded(String identifier, String query, int hits, Integer efSearch, String encoder, String queryGenerator) {
 
-    return Arrays.stream(shardGroup.getShards())
+    // Try to retrieve the shards from the pre-defined mappings.
+    // Can be changed to a better mapping if we want to support more sharded searches.
+    IndexInfo[] shards = getShardedIndexes(identifier);
+
+    return Arrays.stream(shards)
       .parallel()
       .map(shard -> {
-        SearchService service = serviceProvider.apply(shard.indexName);
-        return service.search(query, hits, efSearch, encoder, queryGenerator);
-      })
+        SearchService service = new SearchService(shard.indexName);
+        return service.search(query, hits, efSearch, encoder, queryGenerator);})
       .flatMap(List::stream)
       .sorted((a, b) -> ((Float) b.get("score")).compareTo((Float) a.get("score")))
       .limit(hits)

@@ -66,7 +66,7 @@
  
      List<Map<String, Object>> candidates;
      if (shardGroup != null) {
-       candidates = SearchService.searchSharded(shardGroup, query, hits, efSearch, encoder, queryGenerator, this::getOrCreateSearchService);
+       candidates = SearchService.searchSharded(index, query, hits, efSearch, encoder, queryGenerator);
      } else {
        candidates = getOrCreateSearchService(index).search(query, hits, efSearch, encoder, queryGenerator);
      }
