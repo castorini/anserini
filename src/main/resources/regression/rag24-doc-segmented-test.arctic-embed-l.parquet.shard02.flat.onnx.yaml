@@ -1,8 +1,8 @@
 ---
-corpus: msmarco-v2.1-doc-segmented-shard00.arctic-embed-l
-corpus_path: collections/msmarco/msmarco_v2.1_doc_segmented.arctic-embed-l/shard00
+corpus: msmarco-v2.1-doc-segmented-shard02.arctic-embed-l
+corpus_path: collections/msmarco/msmarco_v2.1_doc_segmented.arctic-embed-l/shard02
 
-index_path: indexes/lucene-flat.msmarco-v2.1-doc-segmented-shard00.arctic-embed-l
+index_path: indexes/lucene-flat.msmarco-v2.1-doc-segmented-shard02.arctic-embed-l
 index_type: flat
 collection_class: ParquetDenseVectorCollection
 generator_class: DenseVectorDocumentGenerator
