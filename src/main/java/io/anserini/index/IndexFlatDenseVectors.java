@@ -17,6 +17,7 @@
 package io.anserini.index;
 
 import io.anserini.collection.SourceDocument;
+import io.anserini.collection.ParquetDenseVectorCollection;
 import io.anserini.index.codecs.AnseriniLucene99FlatVectorFormat;
 import io.anserini.index.codecs.AnseriniLucene99ScalarQuantizedVectorsFormat;
 import io.anserini.index.generator.LuceneDocumentGenerator;
@@ -56,6 +57,15 @@ public final class IndexFlatDenseVectors extends AbstractIndexer {
 
     @Option(name = "-storeVectors", usage = "Boolean switch to store raw raw vectors.")
     public boolean storeVectors = false;
+
+    @Option(name = "-docidField", metaVar = "[name]", usage = "Name of the document ID field in Parquet files.")
+    public String docidField = "docid";
+
+    @Option(name = "-vectorField", metaVar = "[name]", usage = "Name of the vector field in Parquet files.")
+    public String vectorField = "vector";
+
+    @Option(name = "-normalizeVectors", usage = "Normalize vectors to unit length.")
+    public boolean normalizeVectors = false;
   }
 
   @SuppressWarnings("unchecked")
@@ -63,10 +73,13 @@ public final class IndexFlatDenseVectors extends AbstractIndexer {
     super(args);
 
     try {
-      super.generatorClass = (Class<LuceneDocumentGenerator<? extends SourceDocument>>)
-          Class.forName("io.anserini.index.generator." + args.generatorClass);
+      super.generatorClass = (Class<LuceneDocumentGenerator<? extends SourceDocument>>) Class.forName("io.anserini.index.generator." + args.generatorClass);
     } catch (Exception e) {
       throw new IllegalArgumentException(String.format("Unable to load generator class \"%s\".", args.generatorClass));
+    }
+
+    if (collection instanceof ParquetDenseVectorCollection) {
+      ((ParquetDenseVectorCollection) collection).withDocidField(args.docidField).withVectorField(args.vectorField).withNormalizeVectors(args.normalizeVectors);
     }
 
     try {
@@ -105,6 +118,9 @@ public final class IndexFlatDenseVectors extends AbstractIndexer {
     LOG.info(" + Generator: " + args.generatorClass);
     LOG.info(" + Store document vectors? " + args.storeVectors);
     LOG.info(" + Int8 quantization? " + args.quantizeInt8);
+    LOG.info(" + Document ID field: " + args.docidField);
+    LOG.info(" + Vector field: " + args.vectorField);
+    LOG.info(" + Normalize vectors? " + args.normalizeVectors);
   }
 
   // Solution provided by Solr, see https://www.mail-archive.com/java-user@lucene.apache.org/msg52149.html
