@@ -38,6 +38,10 @@ import org.apache.parquet.schema.PrimitiveType;
 public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDenseVectorCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(ParquetDenseVectorCollection.class);
 
+  protected String docidField = "docid";
+  protected String vectorField = "vector";
+  protected boolean normalizeVectors = false;
+
   /**
    * Constructor that initializes the collection by reading vector and doc ID data
    * from the specified path.
@@ -50,9 +54,59 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
   }
 
   /**
+   * Constructor that initializes the collection with custom field names.
+   * 
+   * @param path             the path to the directory containing the data files.
+   * @param docidField       the field name for document IDs.
+   * @param vectorField      the field name for vector data.
+   * @param normalizeVectors whether to normalize the vectors.
+   * @throws IOException if an I/O error occurs during file reading.
+   */
+  public ParquetDenseVectorCollection(Path path, String docidField, String vectorField, boolean normalizeVectors)
+      throws IOException {
+    this.path = path;
+    this.docidField = docidField;
+    this.vectorField = vectorField;
+    this.normalizeVectors = normalizeVectors;
+  }
+
+  /**
    * Default constructor.
    */
   public ParquetDenseVectorCollection() {
+  }
+
+  /**
+   * Set the document ID field name.
+   * 
+   * @param docidField the field name for document IDs.
+   * @return this collection instance for chaining.
+   */
+  public ParquetDenseVectorCollection withDocidField(String docidField) {
+    this.docidField = docidField;
+    return this;
+  }
+
+  /**
+   * Set the vector field name.
+   * 
+   * @param vectorField the field name for vector data.
+   * @return this collection instance for chaining.
+   */
+  public ParquetDenseVectorCollection withVectorField(String vectorField) {
+    this.vectorField = vectorField;
+    return this;
+  }
+
+  /**
+   * Set whether to normalize vectors.
+   * 
+   * @param normalizeVectors whether to normalize the vectors.
+   * @return this collection instance for chaining.
+   */
+  public ParquetDenseVectorCollection withNormalizeVectors(boolean normalizeVectors) {
+    this.normalizeVectors = normalizeVectors;
+    return this;
   }
 
   /**
@@ -64,7 +118,7 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
    */
   @Override
   public FileSegment<ParquetDenseVectorCollection.Document> createFileSegment(Path p) throws IOException {
-    return new ParquetDenseVectorCollection.Segment(p);
+    return new ParquetDenseVectorCollection.Segment(p, docidField, vectorField, normalizeVectors);
   }
 
   /**
@@ -88,6 +142,9 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
     private List<String> ids; // List to store document IDs
     private ParquetReader<Group> reader;
     private boolean readerInitialized;
+    private String docidField;
+    private String vectorField;
+    private boolean normalizeVectors;
 
     /**
      * Constructor for the Segment class using a file path.
@@ -96,7 +153,24 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
      * @throws IOException if an I/O error occurs during file reading.
      */
     public Segment(java.nio.file.Path path) throws IOException {
+      this(path, "docid", "vector", false);
+    }
+
+    /**
+     * Constructor for the Segment class using a file path with custom field names.
+     *
+     * @param path             the path to the file segment.
+     * @param docidField       the field name for document IDs.
+     * @param vectorField      the field name for vector data.
+     * @param normalizeVectors whether to normalize the vectors.
+     * @throws IOException if an I/O error occurs during file reading.
+     */
+    public Segment(java.nio.file.Path path, String docidField, String vectorField, boolean normalizeVectors)
+        throws IOException {
       super(path);
+      this.docidField = docidField;
+      this.vectorField = vectorField;
+      this.normalizeVectors = normalizeVectors;
       initializeParquetReader(path);
     }
 
@@ -134,6 +208,28 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
     }
 
     /**
+     * @param vector the vector to normalize.
+     * @return the normalized vector.
+     */
+    private float[] normalizeVector(float[] vector) {
+      float squaredSum = 0.0f;
+
+      for (float value : vector) {
+        squaredSum += value * value;
+      }
+
+
+      float norm = (float) Math.sqrt(squaredSum);
+      float[] normalizedVector = new float[vector.length];
+
+      for (int i = 0; i < vector.length; i++) {
+        normalizedVector[i] = vector[i] / norm;
+      }
+
+      return normalizedVector;
+    }
+
+    /**
      * Reads the next document in the segment.
      *
      * @throws IOException            if an I/O error occurs during file reading.
@@ -152,13 +248,12 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
         readerInitialized = false;
         throw new NoSuchElementException("End of file reached");
       }
-      
-      String docid = record.getString("docid", 0);
+
+      String docid = record.getString(this.docidField, 0);
       ids.add(docid);
 
-      // Extract the vector (double[]) from the record
-      Group vectorGroup = record.getGroup("vector", 0);// Access the 'vector' field
-      int vectorSize = vectorGroup.getFieldRepetitionCount(0);// Get the number of elements in the vector
+      Group vectorGroup = record.getGroup(this.vectorField, 0);
+      int vectorSize = vectorGroup.getFieldRepetitionCount(0);
       float[] vector = new float[vectorSize];
       
       Group firstElement = vectorGroup.getGroup(0, 0);
@@ -169,13 +264,17 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
       if (!isDouble && !isFloat) {
         throw new IllegalArgumentException(String.format("Vector elements must be either DOUBLE or FLOAT, found: %s", primitiveType));
       }
-      
-      // Single-pass read with conditional cast if needed
+
       for (int i = 0; i < vectorSize; i++) {
         Group listGroup = vectorGroup.getGroup(0, i);
         vector[i] = isDouble ? (float) listGroup.getDouble("element", 0) : listGroup.getFloat("element", 0);
       }
       
+
+      if (this.normalizeVectors) {
+        vector = normalizeVector(vector);
+      }
+
       vectors.add(vector);
 
       // Create a new Document object with the retrieved data
@@ -246,8 +345,7 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
 
     @Override
     public float[] vector() {
-        return vector;
+      return vector;
     }
   }
-
 }
