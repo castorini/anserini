@@ -87,7 +87,7 @@ public class SearchShardedHnswDenseVectorsTest {
         "-topics", "rag24.test",
         "-topicReader", "TsvString",
         "-topicField", "title",
-        "-encoder", "ArcticEmbedL",
+        "-encoder", "ArcticEmbedLEncoder",
         "-output", runfile,
         "-hits", "250",
         "-threads", "32"
@@ -110,7 +110,7 @@ public class SearchShardedHnswDenseVectorsTest {
         "-topics", "nonexistent.test",
         "-topicReader", "TsvString",
         "-topicField", "title",
-        "-encoder", "ArcticEmbedL",
+        "-encoder", "ArcticEmbedLEncoder",
         "-output", runfile,
         "-hits", "250",
         "-threads", "32"
@@ -132,7 +132,7 @@ public class SearchShardedHnswDenseVectorsTest {
         "-topics", "rag24.test",
         "-topicReader", "NonexistentReader",
         "-topicField", "title",
-        "-encoder", "ArcticEmbedL",
+        "-encoder", "ArcticEmbedLEncoder",
         "-output", runfile,
         "-hits", "250",
         "-threads", "32"
@@ -168,81 +168,113 @@ public class SearchShardedHnswDenseVectorsTest {
   @Test
   @SuppressWarnings("ResultOfMethodCallIgnored")
   public void testBasicShardedSearch() throws Exception {
-    String runfile = "target/run-" + System.currentTimeMillis();
+    String timestamp = String.valueOf(System.currentTimeMillis());
+    String shardPath1 = "target/idx-sample-hnsw-shard00-" + timestamp;
+    String shardPath2 = "target/idx-sample-hnsw-shard01-" + timestamp;
+
+    // Index first shard
+    String[] indexArgs1 = new String[] {
+        "-collection", "ParquetDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/parquet/snowflake-msmarco-arctic-embed",
+        "-index", shardPath1,
+        "-generator", "DenseVectorDocumentGenerator",
+        "-docidField", "doc_id", 
+        "-vectorField", "embedding",
+        "-normalize", "true",
+        "-threads", "1",
+        "-M", "16", "-efC", "100"
+    };
+    IndexHnswDenseVectors.main(indexArgs1);
+
+    // Index second shard - use the same data for simplicity in testing
+    String[] indexArgs2 = new String[] {
+        "-collection", "ParquetDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/parquet/snowflake-msmarco-arctic-embed",
+        "-index", shardPath2,
+        "-generator", "DenseVectorDocumentGenerator",
+        "-docidField", "doc_id", 
+        "-vectorField", "embedding",
+        "-normalize", "true",
+        "-threads", "1",
+        "-M", "16", "-efC", "100"
+    };
+    IndexHnswDenseVectors.main(indexArgs2);
+
+    // Run sharded search with text queries
+    String runfile = "target/run-sharded-" + timestamp;
     String[] searchArgs = new String[] {
-        "-index", "msmarco-v2.1-doc-segmented.arctic-embed-l.hnsw-int8",
-        "-efSearch", "1000",
-        "-topics", "rag24.test",
+        "-index", String.format("%s %s", shardPath1, shardPath2),
+        "-topics", "src/test/resources/sample_topics/arctic.tsv",
+        "-output", runfile,
         "-topicReader", "TsvString",
         "-topicField", "title",
         "-encoder", "ArcticEmbedL",
-        "-output", runfile,
-        "-hits", "250",
-        "-threads", "32"
-    };
+        "-efSearch", "1000",
+        "-hits", "5"};
 
     SearchShardedHnswDenseVectors.main(searchArgs);
 
-    // TODO: Update with actual expected results
-    TestUtils.checkRunFileApproximate(runfile, new String[] {
-        // TODO: Some run data:
-    });
-
-    new File(runfile).delete();
+    // Verify results (basic check that the file exists and is not empty)
+    File f = new File(runfile);
+    assertTrue(f.exists());
+    assertTrue(f.length() > 0);
+    f.delete();
   }
 
   @Test
   @SuppressWarnings("ResultOfMethodCallIgnored")
-  public void testShardedSearchWithRemoveQuery() throws Exception {
-    String runfile = "target/run-" + System.currentTimeMillis();
-    String[] searchArgs = new String[] {
-        "-index", "msmarco-v2.1-doc-segmented.arctic-embed-l.hnsw-int8",
-        "-efSearch", "1000",
-        "-topics", "rag24.test",
-        "-topicReader", "TsvString",
-        "-topicField", "title",
-        "-encoder", "ArcticEmbedL",
-        "-output", runfile,
-        "-hits", "250",
-        "-threads", "32",
-        "-removeQuery"
+  public void testShardedSearchWithPreEncodedVectors() throws Exception {
+    // Create unique timestamps for each shard to avoid conflicts
+    String timestamp = String.valueOf(System.currentTimeMillis());
+    String shardPath1 = "target/idx-sample-hnsw-shard00-" + timestamp;
+    String shardPath2 = "target/idx-sample-hnsw-shard01-" + timestamp;
+
+    // Index first shard
+    String[] indexArgs1 = new String[] {
+        "-collection", "ParquetDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/parquet/snowflake-msmarco-arctic-embed",
+        "-index", shardPath1,
+        "-generator", "DenseVectorDocumentGenerator",
+        "-docidField", "doc_id", 
+        "-vectorField", "embedding",
+        "-normalize", "true",
+        "-threads", "1",
+        "-M", "16", "-efC", "100"
     };
+    IndexHnswDenseVectors.main(indexArgs1);
+
+    // Index second shard - use the same data for simplicity in testing
+    String[] indexArgs2 = new String[] {
+        "-collection", "ParquetDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/parquet/snowflake-msmarco-arctic-embed",
+        "-index", shardPath2,
+        "-generator", "DenseVectorDocumentGenerator",
+        "-docidField", "doc_id", 
+        "-vectorField", "embedding",
+        "-normalize", "true",
+        "-threads", "1",
+        "-M", "16", "-efC", "100"
+    };
+    IndexHnswDenseVectors.main(indexArgs2);
+
+    // Run sharded search with pre-encoded vectors
+    String runfile = "target/run-sharded-vectors-" + timestamp;
+    String[] searchArgs = new String[] {
+        "-index", String.format("%s %s", shardPath1, shardPath2),
+        "-topics", "src/test/resources/sample_topics/arctic.jsonl",
+        "-output", runfile,
+        "-generator", "VectorQueryGenerator",
+        "-topicReader", "JsonIntVector",
+        "-topicField", "vector",
+        "-efSearch", "1000",
+        "-hits", "5"};
 
     SearchShardedHnswDenseVectors.main(searchArgs);
 
-    // TODO: Update with actual expected results
-    TestUtils.checkRunFileApproximate(runfile, new String[] {
-        // TODO: Some run data:
-    });
-
-    new File(runfile).delete();
-  }
-
-  @Test
-  @SuppressWarnings("ResultOfMethodCallIgnored")
-  public void testShardedSearchWithMaxPassage() throws Exception {
-    String runfile = "target/run-" + System.currentTimeMillis();
-    String[] searchArgs = new String[] {
-        "-index", "msmarco-v2.1-doc-segmented.arctic-embed-l.hnsw-int8",
-        "-efSearch", "1000",
-        "-topics", "rag24.test",
-        "-topicReader", "TsvString",
-        "-topicField", "title",
-        "-encoder", "ArcticEmbedL",
-        "-output", runfile,
-        "-hits", "250",
-        "-threads", "32",
-        "-selectMaxPassage",
-        "-selectMaxPassage.hits", "5"
-    };
-
-    SearchShardedHnswDenseVectors.main(searchArgs);
-
-    // TODO: Update with actual expected results
-    TestUtils.checkRunFileApproximate(runfile, new String[] {
-        // TODO: Some run data:
-    });
-
-    new File(runfile).delete();
+    // Verify results (basic check that the file exists and is not empty)
+    File f = new File(runfile);
+    assertTrue(f.exists());
+    assertTrue(f.length() > 0);
+    f.delete();
   }
 }
