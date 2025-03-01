@@ -79,10 +79,7 @@ public final class IndexFlatDenseVectors extends AbstractIndexer {
     }
 
     if (collection instanceof ParquetDenseVectorCollection) {
-      ParquetDenseVectorCollection parquetCollection = (ParquetDenseVectorCollection) collection;
-      parquetCollection.withDocIdField(args.docidField)
-          .withVectorField(args.vectorField)
-          .withNormalizeVectors(args.normalizeVectors);
+      ((ParquetDenseVectorCollection) collection).withDocidField(args.docidField).withVectorField(args.vectorField).withNormalizeVectors(args.normalizeVectors);
     }
 
     try {

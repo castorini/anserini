@@ -107,10 +107,7 @@ public class ParquetDenseVectorCollectionTest extends DocumentCollectionTest<Par
   public void testSnowflakeParquetFormat() throws IOException {
     Path path = Paths.get("src/test/resources/sample_docs/parquet/snowflake-msmarco-arctic-embed/snowflake.parquet");
   
-  ParquetDenseVectorCollection collection = new ParquetDenseVectorCollection(path)
-      .withDocIdField("doc_id")
-      .withVectorField("embedding")
-      .withNormalizeVectors(true);
+  ParquetDenseVectorCollection collection = new ParquetDenseVectorCollection(path).withDocidField("doc_id").withVectorField("embedding").withNormalizeVectors(true);
 
   AtomicInteger cnt = new AtomicInteger();
   Map<String, Integer> docIds = new HashMap<>();

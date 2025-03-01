@@ -82,7 +82,7 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
    * @param docidField the field name for document IDs.
    * @return this collection instance for chaining.
    */
-  public ParquetDenseVectorCollection withDocIdField(String docidField) {
+  public ParquetDenseVectorCollection withDocidField(String docidField) {
     this.docidField = docidField;
     return this;
   }
@@ -252,9 +252,8 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
       String docid = record.getString(this.docidField, 0);
       ids.add(docid);
 
-      // Extract the vector (double[]) from the record
-      Group vectorGroup = record.getGroup(this.vectorField, 0);// Access the vector field
-      int vectorSize = vectorGroup.getFieldRepetitionCount(0);// Get the number of elements in the vector
+      Group vectorGroup = record.getGroup(this.vectorField, 0);
+      int vectorSize = vectorGroup.getFieldRepetitionCount(0);
       float[] vector = new float[vectorSize];
       
       Group firstElement = vectorGroup.getGroup(0, 0);
@@ -266,7 +265,6 @@ public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDens
         throw new IllegalArgumentException(String.format("Vector elements must be either DOUBLE or FLOAT, found: %s", primitiveType));
       }
 
-      // Single-pass read with conditional cast if needed
       for (int i = 0; i < vectorSize; i++) {
         Group listGroup = vectorGroup.getGroup(0, i);
         vector[i] = isDouble ? (float) listGroup.getDouble("element", 0) : listGroup.getFloat("element", 0);
