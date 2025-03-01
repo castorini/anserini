@@ -43,7 +43,7 @@ models:
   - name: arctic-embed-l-flat-onnx
     display: ArcticEmbedL
     type: flat
-    params: -topics rag24.test -topicReader TsvString -topicField title -encoder ArcticEmbedLEncoder -efSearch 1000
+    params: -topics rag24.test -topicReader TsvString -topicField title -encoder ArcticEmbedLEncoder
     results:
       nDCG@20:
         - 0.3198
