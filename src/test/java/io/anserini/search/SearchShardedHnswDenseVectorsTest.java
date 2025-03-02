@@ -83,7 +83,7 @@ public class SearchShardedHnswDenseVectorsTest {
     String fakePath = "target/nonexistent-index-" + timestamp;
     String runfile = "target/run-" + System.currentTimeMillis();
     String[] searchArgs = new String[] {
-        "-index", fakePath + "-shard00 " + fakePath + "-shard01",
+        "-index", fakePath + "-shard00" + "," + fakePath + "-shard01",
         "-efSearch", "1000",
         "-topics", "rag24.test",
         "-topicReader", "TsvString",
@@ -106,7 +106,7 @@ public class SearchShardedHnswDenseVectorsTest {
 
     String runfile = "target/run-" + System.currentTimeMillis();
     String[] searchArgs = new String[] {
-        "-index", "src/test/resources/prebuilt_indexes/fake-index-shard00 src/test/resources/prebuilt_indexes/fake-index-shard01",
+        "-index", "src/test/resources/prebuilt_indexes/fake-index-shard00,src/test/resources/prebuilt_indexes/fake-index-shard01",
         "-efSearch", "1000",
         "-topics", "nonexistent.test",
         "-topicReader", "TsvString",
@@ -128,7 +128,7 @@ public class SearchShardedHnswDenseVectorsTest {
 
     String runfile = "target/run-" + System.currentTimeMillis();
     String[] searchArgs = new String[] {
-        "-index", "src/test/resources/prebuilt_indexes/fake-index-shard00 src/test/resources/prebuilt_indexes/fake-index-shard01",
+        "-index", "src/test/resources/prebuilt_indexes/fake-index-shard00,src/test/resources/prebuilt_indexes/fake-index-shard01",
         "-efSearch", "1000",
         "-topics", "rag24.test",
         "-topicReader", "NonexistentReader",
@@ -150,7 +150,7 @@ public class SearchShardedHnswDenseVectorsTest {
 
     String runfile = "target/run-" + System.currentTimeMillis();
     String[] searchArgs = new String[] {
-        "-index", "src/test/resources/prebuilt_indexes/fake-index-shard00 src/test/resources/prebuilt_indexes/fake-index-shard01",
+        "-index", "src/test/resources/prebuilt_indexes/fake-index-shard00,src/test/resources/prebuilt_indexes/fake-index-shard01",
         "-efSearch", "1000",
         "-topics", "rag24.test",
         "-topicReader", "TsvString",
@@ -201,7 +201,7 @@ public class SearchShardedHnswDenseVectorsTest {
 
     String runfile = "target/run-sharded-" + timestamp;
     String[] searchArgs = new String[] {
-        "-index", String.format("%s %s", shardPath1, shardPath2),
+        "-index", String.format("%s,%s", shardPath1, shardPath2),
         "-topics", "src/test/resources/sample_topics/arctic.tsv",
         "-output", runfile,
         "-topicReader", "TsvString",
@@ -253,7 +253,7 @@ public class SearchShardedHnswDenseVectorsTest {
 
     String runfile = "target/run-sharded-vectors-" + timestamp;
     String[] searchArgs = new String[] {
-        "-index", String.format("%s %s", shardPath1, shardPath2),
+        "-index", String.format("%s,%s", shardPath1, shardPath2),
         "-topics", "src/test/resources/sample_topics/arctic.jsonl",
         "-output", runfile,
         "-generator", "VectorQueryGenerator",
