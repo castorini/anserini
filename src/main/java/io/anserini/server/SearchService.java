@@ -22,6 +22,7 @@ import io.anserini.search.SimpleSearcher;
 import io.anserini.search.HnswDenseSearcher;
 import io.anserini.util.PrebuiltIndexHandler;
 import io.anserini.index.IndexInfo;
+import io.anserini.index.ShardInfo;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,28 +39,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class SearchService {
-
-  // For convenience of the API caller: we pre-define the mappings in a simple way.
-  private static Map<String, IndexInfo[]> SHARDED_INDEXES = Map.of(
-      "msmarco-v2.1-doc-segmented.arctic-embed-l.hnsw-int8", new IndexInfo[] {
-          IndexInfo.MSMARCO_V21_DOC_SEGMENTED_SHARD00_ARCTIC_EMBED_L_HNSW_INT8,
-          IndexInfo.MSMARCO_V21_DOC_SEGMENTED_SHARD01_ARCTIC_EMBED_L_HNSW_INT8,
-          IndexInfo.MSMARCO_V21_DOC_SEGMENTED_SHARD02_ARCTIC_EMBED_L_HNSW_INT8,
-          IndexInfo.MSMARCO_V21_DOC_SEGMENTED_SHARD03_ARCTIC_EMBED_L_HNSW_INT8,
-          IndexInfo.MSMARCO_V21_DOC_SEGMENTED_SHARD04_ARCTIC_EMBED_L_HNSW_INT8,
-          IndexInfo.MSMARCO_V21_DOC_SEGMENTED_SHARD05_ARCTIC_EMBED_L_HNSW_INT8,
-          IndexInfo.MSMARCO_V21_DOC_SEGMENTED_SHARD06_ARCTIC_EMBED_L_HNSW_INT8,
-          IndexInfo.MSMARCO_V21_DOC_SEGMENTED_SHARD07_ARCTIC_EMBED_L_HNSW_INT8,
-          IndexInfo.MSMARCO_V21_DOC_SEGMENTED_SHARD08_ARCTIC_EMBED_L_HNSW_INT8,
-          IndexInfo.MSMARCO_V21_DOC_SEGMENTED_SHARD09_ARCTIC_EMBED_L_HNSW_INT8
-      });
-
-  public static IndexInfo[] getShardedIndexes(String identifier) {
-    if (!SHARDED_INDEXES.containsKey(identifier)) {
-      throw new IllegalArgumentException("No collection found for identifier: " + identifier);
-    }
-    return SHARDED_INDEXES.get(identifier);
-  }
 
   private final String indexDir;
   private final String prebuiltIndex;
@@ -260,15 +239,16 @@ public class SearchService {
 
   static List<Map<String, Object>> searchSharded(String identifier, String query, int hits, Integer efSearch, String encoder, String queryGenerator) {
 
-    // Try to retrieve the shards from the pre-defined mappings.
-    // Can be changed to a better mapping if we want to support more sharded searches.
-    IndexInfo[] shards = getShardedIndexes(identifier);
+    // Retrieve the shards from ShardInfo organizer enum
+    ShardInfo shardInfo = ShardInfo.fromIdentifier(identifier);
+    IndexInfo[] shards = shardInfo.getShards();
 
     return Arrays.stream(shards)
       .parallel()
       .map(shard -> {
         SearchService service = new SearchService(shard.indexName);
-        return service.search(query, hits, efSearch, encoder, queryGenerator);})
+        return service.search(query, hits, efSearch, encoder, queryGenerator);
+      })
       .flatMap(List::stream)
       .sorted((a, b) -> ((Float) b.get("score")).compareTo((Float) a.get("score")))
       .limit(hits)
