@@ -16,7 +16,6 @@
 
 package io.anserini.search;
 
-import io.anserini.TestUtils;
 import io.anserini.index.AbstractIndexer;
 import io.anserini.index.IndexHnswDenseVectors;
 import org.apache.logging.log4j.Level;
@@ -80,9 +79,11 @@ public class SearchShardedHnswDenseVectorsTest {
   public void testInvalidIndex() throws Exception {
     redirectStderr();
 
+    String timestamp = String.valueOf(System.currentTimeMillis());
+    String fakePath = "target/nonexistent-index-" + timestamp;
     String runfile = "target/run-" + System.currentTimeMillis();
     String[] searchArgs = new String[] {
-        "-index", "msmarco-v2.1-doc-segmented.nonexistent.hnsw-int8",
+        "-index", fakePath + "-shard00 " + fakePath + "-shard01",
         "-efSearch", "1000",
         "-topics", "rag24.test",
         "-topicReader", "TsvString",
@@ -94,7 +95,7 @@ public class SearchShardedHnswDenseVectorsTest {
     };
     SearchShardedHnswDenseVectors.main(searchArgs);
 
-    assertEquals("Error: No collection found for identifier: msmarco-v2.1-doc-segmented.nonexistent.hnsw-int8\n",
+    assertEquals("Error: No collection found for identifier: " + fakePath + "-shard00\n",
                 err.toString());
     restoreStderr();
   }
@@ -105,7 +106,7 @@ public class SearchShardedHnswDenseVectorsTest {
 
     String runfile = "target/run-" + System.currentTimeMillis();
     String[] searchArgs = new String[] {
-        "-index", "msmarco-v2.1-doc-segmented.arctic-embed-l.hnsw-int8",
+        "-index", "src/test/resources/prebuilt_indexes/fake-index-shard00 src/test/resources/prebuilt_indexes/fake-index-shard01",
         "-efSearch", "1000",
         "-topics", "nonexistent.test",
         "-topicReader", "TsvString",
@@ -127,7 +128,7 @@ public class SearchShardedHnswDenseVectorsTest {
 
     String runfile = "target/run-" + System.currentTimeMillis();
     String[] searchArgs = new String[] {
-        "-index", "msmarco-v2.1-doc-segmented.arctic-embed-l.hnsw-int8",
+        "-index", "src/test/resources/prebuilt_indexes/fake-index-shard00 src/test/resources/prebuilt_indexes/fake-index-shard01",
         "-efSearch", "1000",
         "-topics", "rag24.test",
         "-topicReader", "NonexistentReader",
@@ -149,7 +150,7 @@ public class SearchShardedHnswDenseVectorsTest {
 
     String runfile = "target/run-" + System.currentTimeMillis();
     String[] searchArgs = new String[] {
-        "-index", "msmarco-v2.1-doc-segmented.arctic-embed-l.hnsw-int8",
+        "-index", "src/test/resources/prebuilt_indexes/fake-index-shard00 src/test/resources/prebuilt_indexes/fake-index-shard01",
         "-efSearch", "1000",
         "-topics", "rag24.test",
         "-topicReader", "TsvString",
@@ -172,7 +173,6 @@ public class SearchShardedHnswDenseVectorsTest {
     String shardPath1 = "target/idx-sample-hnsw-shard00-" + timestamp;
     String shardPath2 = "target/idx-sample-hnsw-shard01-" + timestamp;
 
-    // Index first shard
     String[] indexArgs1 = new String[] {
         "-collection", "ParquetDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/parquet/snowflake-msmarco-arctic-embed",
@@ -186,7 +186,6 @@ public class SearchShardedHnswDenseVectorsTest {
     };
     IndexHnswDenseVectors.main(indexArgs1);
 
-    // Index second shard - use the same data for simplicity in testing
     String[] indexArgs2 = new String[] {
         "-collection", "ParquetDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/parquet/snowflake-msmarco-arctic-embed",
@@ -200,7 +199,6 @@ public class SearchShardedHnswDenseVectorsTest {
     };
     IndexHnswDenseVectors.main(indexArgs2);
 
-    // Run sharded search with text queries
     String runfile = "target/run-sharded-" + timestamp;
     String[] searchArgs = new String[] {
         "-index", String.format("%s %s", shardPath1, shardPath2),
@@ -214,7 +212,6 @@ public class SearchShardedHnswDenseVectorsTest {
 
     SearchShardedHnswDenseVectors.main(searchArgs);
 
-    // Verify results (basic check that the file exists and is not empty)
     File f = new File(runfile);
     assertTrue(f.exists());
     assertTrue(f.length() > 0);
@@ -224,12 +221,10 @@ public class SearchShardedHnswDenseVectorsTest {
   @Test
   @SuppressWarnings("ResultOfMethodCallIgnored")
   public void testShardedSearchWithPreEncodedVectors() throws Exception {
-    // Create unique timestamps for each shard to avoid conflicts
     String timestamp = String.valueOf(System.currentTimeMillis());
     String shardPath1 = "target/idx-sample-hnsw-shard00-" + timestamp;
     String shardPath2 = "target/idx-sample-hnsw-shard01-" + timestamp;
 
-    // Index first shard
     String[] indexArgs1 = new String[] {
         "-collection", "ParquetDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/parquet/snowflake-msmarco-arctic-embed",
@@ -243,7 +238,6 @@ public class SearchShardedHnswDenseVectorsTest {
     };
     IndexHnswDenseVectors.main(indexArgs1);
 
-    // Index second shard - use the same data for simplicity in testing
     String[] indexArgs2 = new String[] {
         "-collection", "ParquetDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/parquet/snowflake-msmarco-arctic-embed",
@@ -257,7 +251,6 @@ public class SearchShardedHnswDenseVectorsTest {
     };
     IndexHnswDenseVectors.main(indexArgs2);
 
-    // Run sharded search with pre-encoded vectors
     String runfile = "target/run-sharded-vectors-" + timestamp;
     String[] searchArgs = new String[] {
         "-index", String.format("%s %s", shardPath1, shardPath2),
@@ -271,7 +264,6 @@ public class SearchShardedHnswDenseVectorsTest {
 
     SearchShardedHnswDenseVectors.main(searchArgs);
 
-    // Verify results (basic check that the file exists and is not empty)
     File f = new File(runfile);
     assertTrue(f.exists());
     assertTrue(f.length() > 0);

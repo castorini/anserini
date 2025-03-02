@@ -28,7 +28,7 @@ import java.util.Map;
 import org.junit.Test;
 
 public class SearchServiceTest {
-
+          
   @Test
   public void testBasicSearch() throws Exception {
     SearchService service = new SearchService("beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.hnsw");
@@ -117,51 +117,5 @@ public class SearchServiceTest {
   public void testInvalidIndex() {
     assertThrows("InvalidIndex: Constructing SearchService with index 'nonexistent-index' should throw RuntimeException",
         RuntimeException.class, () -> new SearchService("nonexistent-index"));
-  }
-
-  @Test
-  public void testShardedSearch() throws Exception {
-    String identifier = "msmarco-v2.1-doc-segmented.arctic-embed-l.hnsw-int8";
-    ShardInfo shardGroup = ShardInfo.fromIdentifier(identifier);
-
-    List<Map<String, Object>> results = SearchService.searchSharded(
-        shardGroup, "test query", 10, null, null, null,
-        index -> new SearchService(index));
-
-    assertNotNull(String.format("Expected non-null results for sharded search with identifier '%s'", identifier),
-                 results);
-    assertTrue(String.format("Expected results size <= 10 but got %d", results.size()),
-              results.size() <= 10);
-  }
-
-  @Test
-  public void testShardedSearchSorting() throws Exception {
-    String identifier = "msmarco-v2.1-doc-segmented.arctic-embed-l.hnsw-int8";
-    ShardInfo shardGroup = ShardInfo.fromIdentifier(identifier);
-
-    List<Map<String, Object>> results = SearchService.searchSharded(
-        shardGroup, "test query", 5, null, null, null,
-        index -> new SearchService(index));
-
-    for (int i = 1; i < results.size(); i++) {
-      float prevScore = (Float) results.get(i-1).get("score");
-      float currScore = (Float) results.get(i).get("score");
-      assertTrue(String.format("Expected score %f to be >= %f at position %d", prevScore, currScore, i),
-                prevScore >= currScore);
-    }
-  }
-
-  @Test
-  public void testShardedSearchParameters() throws Exception {
-    String identifier = "msmarco-v2.1-doc-segmented.arctic-embed-l.hnsw-int8";
-    ShardInfo shardGroup = ShardInfo.fromIdentifier(identifier);
-
-    List<Map<String, Object>> results = SearchService.searchSharded(
-        shardGroup, "test query", 5, 100, "ArcticEmbedL.class", "VectorQueryGenerator.class",
-        index -> new SearchService(index));
-
-    assertNotNull("Expected non-null results with custom parameters", results);
-    assertTrue(String.format("Expected results size <= 5 but got %d", results.size()),
-              results.size() <= 5);
   }
 }

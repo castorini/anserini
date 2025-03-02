@@ -52,14 +52,14 @@ public class ControllerTest {
     }
     
     assertThrows("Search: Calling searchIndex with a null index should throw IllegalArgumentException",
-        IllegalArgumentException.class, () -> controller.searchIndex(null, "Albert Einstein", 10, "", null, null, null));
+        IllegalArgumentException.class, () -> controller.searchIndex(null, "Albert Einstein", 10, "", null, null, null, null));
   }
 
   @Test
   public void testIndexNotFound() throws Exception {
     Controller controller = new Controller();
     assertThrows("IndexNotFound: Calling searchIndex with an invalid index 'nonexistent-index' should throw IllegalArgumentException",
-        IllegalArgumentException.class, () -> controller.searchIndex("nonexistent-index", "Albert Einstein", 10, "", null, null, null));
+        IllegalArgumentException.class, () -> controller.searchIndex("nonexistent-index", "Albert Einstein", 10, "", null, null, null, null));
   }
 
   @Test
