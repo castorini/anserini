@@ -56,39 +56,13 @@ public class SearchShardedHnswDenseVectorsTest {
   }
 
   @Test
-  @SuppressWarnings("ResultOfMethodCallIgnored")
   public void testBasicShardedSearch() throws Exception {
+    String shardPath1 = "src/test/resources/prebuilt_indexes/fake-index-shard00";
+    String shardPath2 = "src/test/resources/prebuilt_indexes/fake-index-shard01";
+
     String timestamp = String.valueOf(System.currentTimeMillis());
-    String shardPath1 = "target/idx-sample-hnsw-shard00-" + timestamp;
-    String shardPath2 = "target/idx-sample-hnsw-shard01-" + timestamp;
-
-    String[] indexArgs1 = new String[] {
-        "-collection", "ParquetDenseVectorCollection",
-        "-input", "src/test/resources/sample_docs/parquet/snowflake-msmarco-arctic-embed",
-        "-index", shardPath1,
-        "-generator", "DenseVectorDocumentGenerator",
-        "-docidField", "doc_id", 
-        "-vectorField", "embedding",
-        "-normalize", "true",
-        "-threads", "1",
-        "-M", "16", "-efC", "100"
-    };
-    IndexHnswDenseVectors.main(indexArgs1);
-
-    String[] indexArgs2 = new String[] {
-        "-collection", "ParquetDenseVectorCollection",
-        "-input", "src/test/resources/sample_docs/parquet/snowflake-msmarco-arctic-embed",
-        "-index", shardPath2,
-        "-generator", "DenseVectorDocumentGenerator",
-        "-docidField", "doc_id", 
-        "-vectorField", "embedding",
-        "-normalize", "true",
-        "-threads", "1",
-        "-M", "16", "-efC", "100"
-    };
-    IndexHnswDenseVectors.main(indexArgs2);
-
     String runfile = "target/run-sharded-" + timestamp;
+    
     String[] searchArgs = new String[] {
         "-index", String.format("%s,%s", shardPath1, shardPath2),
         "-topics", "src/test/resources/sample_topics/arctic.tsv",
@@ -108,39 +82,14 @@ public class SearchShardedHnswDenseVectorsTest {
   }
 
   @Test
-  @SuppressWarnings("ResultOfMethodCallIgnored")
   public void testShardedSearchWithPreEncodedVectors() throws Exception {
+    String shardPath1 = "src/test/resources/prebuilt_indexes/fake-index-shard00";
+    String shardPath2 = "src/test/resources/prebuilt_indexes/fake-index-shard01";
+
     String timestamp = String.valueOf(System.currentTimeMillis());
-    String shardPath1 = "target/idx-sample-hnsw-shard00-" + timestamp;
-    String shardPath2 = "target/idx-sample-hnsw-shard01-" + timestamp;
-
-    String[] indexArgs1 = new String[] {
-        "-collection", "ParquetDenseVectorCollection",
-        "-input", "src/test/resources/sample_docs/parquet/snowflake-msmarco-arctic-embed",
-        "-index", shardPath1,
-        "-generator", "DenseVectorDocumentGenerator",
-        "-docidField", "doc_id", 
-        "-vectorField", "embedding",
-        "-normalize", "true",
-        "-threads", "1",
-        "-M", "16", "-efC", "100"
-    };
-    IndexHnswDenseVectors.main(indexArgs1);
-
-    String[] indexArgs2 = new String[] {
-        "-collection", "ParquetDenseVectorCollection",
-        "-input", "src/test/resources/sample_docs/parquet/snowflake-msmarco-arctic-embed",
-        "-index", shardPath2,
-        "-generator", "DenseVectorDocumentGenerator",
-        "-docidField", "doc_id", 
-        "-vectorField", "embedding",
-        "-normalize", "true",
-        "-threads", "1",
-        "-M", "16", "-efC", "100"
-    };
-    IndexHnswDenseVectors.main(indexArgs2);
-
     String runfile = "target/run-sharded-vectors-" + timestamp;
+    
+    // Properly format the sharded index paths as a comma-separated list
     String[] searchArgs = new String[] {
         "-index", String.format("%s,%s", shardPath1, shardPath2),
         "-topics", "src/test/resources/sample_topics/arctic.jsonl",
