@@ -100,12 +100,7 @@ public final class SearchShardedHnswDenseVectors<K extends Comparable<K>> implem
         shardArgs.efSearch = args.efSearch;
         shardArgs.threads = threadsPerShard;
 
-        try {
-          searchers.add(new SearchHnswDenseVectors<K>(shardArgs));
-        } catch (Exception e) {
-          LOG.error("Error initializing searcher for shard {}: {}", shardPath, e.getMessage());
-          throw e;
-        }
+        searchers.add(new SearchHnswDenseVectors<K>(shardArgs));
       }
     } catch (Exception e) {
       close();
@@ -135,6 +130,9 @@ public final class SearchShardedHnswDenseVectors<K extends Comparable<K>> implem
     IntStream.range(0, searchers.size()).parallel().forEach(i -> {
       SearchHnswDenseVectors<K> searcher = searchers.get(i);
       String shardOutputPath = args.output.replaceFirst("\\.txt$", ".shard" + String.format("%02d", i) + ".txt");
+      if (!args.output.endsWith(".txt")) {
+        shardOutputPath = args.output + ".shard" + String.format("%02d", i);
+      }
       shardOutputPaths.add(shardOutputPath);
       LOG.info("Processing shard {} -> {}", i, shardOutputPath);
 
