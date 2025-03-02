@@ -48,10 +48,7 @@ public final class SearchShardedHnswDenseVectors<K extends Comparable<K>> implem
   private static final Logger LOG = LogManager.getLogger(SearchShardedHnswDenseVectors.class);
 
   public static class Args extends SearchHnswDenseVectors.Args {
-    // Override the index parameter to support multiple indices
-    @Option(name = "-index", metaVar = "[indices]", required = true, 
-            usage = "Space-separated list of index paths enclosed in quotes (e.g., \"index1 index2 index3\")")
-    public String index;
+    //No additional arguments needed
   }
 
   private final Args args;
@@ -62,19 +59,19 @@ public final class SearchShardedHnswDenseVectors<K extends Comparable<K>> implem
   /*
    * Constructor for sharded HNSW dense vector search.
    * Any index names can be used as long as they are registered in IndexInfo.
-   * The caller must provide space-separated index paths enclosed in quotes:
-   * e.g., "-index "msmarco-v2.1-doc-segmented-shard00.arctic-embed-l.hnsw-int8 msmarco-v2.1-doc-segmented-shard01.arctic-embed-l.hnsw-int8"
+   * The caller must provide comma-separated index paths:
+   * e.g., "-index msmarco-v2.1-doc-segmented-shard00.arctic-embed-l.hnsw-int8,msmarco-v2.1-doc-segmented-shard01.arctic-embed-l.hnsw-int8"
    */
   public SearchShardedHnswDenseVectors(Args args) throws IOException {
     this.args = args;
     this.searchers = new ArrayList<>();
     
-    // Parse space-separated shard paths
-    this.shardPaths = args.index.split("\\s+");
+    // Parse comma-separated shard paths
+    this.shardPaths = args.index.split(",");
     this.threadsPerShard = args.threads;
 
     LOG.info("============ Initializing {} ============", this.getClass().getSimpleName());
-    LOG.info("Using {} shards", shardPaths.length);
+    LOG.info("Using {} shards", this.shardPaths.length);
     LOG.info("Topics: {}", Arrays.toString(args.topics));
     LOG.info("Query generator: {}", args.queryGenerator);
     LOG.info("Encoder: {}", args.encoder);
@@ -82,7 +79,7 @@ public final class SearchShardedHnswDenseVectors<K extends Comparable<K>> implem
     LOG.info("Threads per shard: {}", threadsPerShard);
 
     // Initialize searchers for each shard
-    for (String shardPath : shardPaths) {
+    for (String shardPath : this.shardPaths) {
       Args shardArgs = new Args();
       // Copy all args from the parent
       shardArgs.topics = args.topics;
@@ -95,7 +92,7 @@ public final class SearchShardedHnswDenseVectors<K extends Comparable<K>> implem
       shardArgs.options = args.options;
 
       // Set shard-specific args
-      shardArgs.index = shardPath.trim();
+      shardArgs.index = shardPath;
       shardArgs.encoder = args.encoder;
       shardArgs.queryGenerator = args.queryGenerator;
       shardArgs.efSearch = args.efSearch;
@@ -177,7 +174,7 @@ public final class SearchShardedHnswDenseVectors<K extends Comparable<K>> implem
         System.err.printf("\nRequired options are %s\n", required);
         
         System.err.println("\nUsage example:");
-        System.err.println("  -index \"msmarco-v2.1-doc-segmented-shard00.arctic-embed-l.hnsw-int8 msmarco-v2.1-doc-segmented-shard01.arctic-embed-l.hnsw-int8\"");
+        System.err.println("  -index \"msmarco-v2.1-doc-segmented-shard00.arctic-embed-l.hnsw-int8,msmarco-v2.1-doc-segmented-shard01.arctic-embed-l.hnsw-int8\"");
       } else {
         System.err.printf("Error: %s. For help, use \"-options\" to print out information about options.\n",
           e.getMessage());
