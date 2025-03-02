@@ -1,5 +1,23 @@
+/*
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.anserini.index;
 
+// Only referenced by the REST API class for simplicity.
+// Dedicated sharded searcher class uses comma-separated list of shards.
 public enum ShardInfo {
   MSMARCO_V21_DOC_SEGMENTED_ARCTIC_EMBED_L_HNSW_INT8("msmarco-v2.1-doc-segmented.arctic-embed-l.hnsw-int8",
     new IndexInfo[] {
