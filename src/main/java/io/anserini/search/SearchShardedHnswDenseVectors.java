@@ -78,27 +78,54 @@ public final class SearchShardedHnswDenseVectors<K extends Comparable<K>> implem
     LOG.info("Threads: {}", args.threads);
     LOG.info("Threads per shard: {}", threadsPerShard);
 
+    // Validate topic reader before initializing searchers
+    if (args.topicReader != null) {
+      try {
+        if (TopicReader.getTopicReaderClassByFile(args.topicReader) == null) {
+          throw new IOException("Unable to load topic reader \"" + args.topicReader + "\".");
+        }
+      } catch (Exception e) {
+        throw new IOException("Unable to load topic reader \"" + args.topicReader + "\".");
+      }
+    }
+
     // Initialize searchers for each shard
-    for (String shardPath : this.shardPaths) {
-      Args shardArgs = new Args();
-      // Copy all args from the parent
-      shardArgs.topics = args.topics;
-      shardArgs.output = args.output;
-      shardArgs.topicReader = args.topicReader;
-      shardArgs.topicField = args.topicField;
-      shardArgs.hits = args.hits;
-      shardArgs.runtag = args.runtag;
-      shardArgs.format = args.format;
-      shardArgs.options = args.options;
+    try {
+      for (String shardPath : this.shardPaths) {
+        // Validate index path before attempting to create searcher
+        if (!Files.exists(Paths.get(shardPath))) {
+          throw new IOException("No collection found for identifier: " + shardPath);
+        }
+        
+        Args shardArgs = new Args();
+        // Copy all args from the parent
+        shardArgs.topics = args.topics;
+        shardArgs.output = args.output;
+        shardArgs.topicReader = args.topicReader;
+        shardArgs.topicField = args.topicField;
+        shardArgs.hits = args.hits;
+        shardArgs.runtag = args.runtag;
+        shardArgs.format = args.format;
+        shardArgs.options = args.options;
 
-      // Set shard-specific args
-      shardArgs.index = shardPath;
-      shardArgs.encoder = args.encoder;
-      shardArgs.queryGenerator = args.queryGenerator;
-      shardArgs.efSearch = args.efSearch;
-      shardArgs.threads = threadsPerShard;
+        // Set shard-specific args
+        shardArgs.index = shardPath;
+        shardArgs.encoder = args.encoder;
+        shardArgs.queryGenerator = args.queryGenerator;
+        shardArgs.efSearch = args.efSearch;
+        shardArgs.threads = threadsPerShard;
 
-      searchers.add(new SearchHnswDenseVectors<K>(shardArgs));
+        searchers.add(new SearchHnswDenseVectors<K>(shardArgs));
+      }
+    } catch (IOException e) {
+      for (SearchHnswDenseVectors<K> searcher : searchers) {
+        try {
+          searcher.close();
+        } catch (IOException ex) {
+          LOG.warn("Error closing searcher during initialization failure", ex);
+        }
+      }
+      throw e;
     }
   }
 
@@ -121,10 +148,14 @@ public final class SearchShardedHnswDenseVectors<K extends Comparable<K>> implem
     LOG.info("============ Running Sharded Search ============");
 
     List<String> shardOutputPaths = new ArrayList<>();
+    final List<Exception> exceptions = new ArrayList<>();
+
     IntStream.range(0, searchers.size()).parallel().forEach(i -> {
       SearchHnswDenseVectors<K> searcher = searchers.get(i);
       String shardOutputPath = args.output.replaceFirst("\\.txt$", ".shard" + String.format("%02d", i) + ".txt");
-      shardOutputPaths.add(shardOutputPath);
+      synchronized (shardOutputPaths) {
+        shardOutputPaths.add(shardOutputPath);
+      }
       LOG.info("Processing shard {} -> {}", i, shardOutputPath);
 
       try {
@@ -132,10 +163,18 @@ public final class SearchShardedHnswDenseVectors<K extends Comparable<K>> implem
         searcher.run();
         searcher.close();
         LOG.info("Closed searcher for shard {}", i);
-      } catch (IOException e) {
-        throw new RuntimeException(String.format("Error processing shard %d: %s", i, e.getMessage()), e);
+      } catch (Exception e) {
+        synchronized (exceptions) {
+          exceptions.add(e);
+        }
+        LOG.error("Error processing shard {}: {}", i, e.getMessage(), e);
       }
     });
+
+    // Check if any exceptions occurred during processing
+    if (!exceptions.isEmpty()) {
+      throw new RuntimeException("Error processing shards: " + exceptions.get(0).getMessage(), exceptions.get(0));
+    }
 
     LOG.info("Concatenating shard results into {}", args.output);
     try {
@@ -144,7 +183,7 @@ public final class SearchShardedHnswDenseVectors<K extends Comparable<K>> implem
 
       for (String shardPath : shardOutputPaths) {
         if (Files.exists(Paths.get(shardPath))) {
-          Files.write(Paths.get(args.output),Files.readAllBytes(Paths.get(shardPath)),java.nio.file.StandardOpenOption.APPEND);
+          Files.write(Paths.get(args.output), Files.readAllBytes(Paths.get(shardPath)), java.nio.file.StandardOpenOption.APPEND);
         }
       }
       LOG.info("All results concatenated successfully.");
@@ -176,8 +215,7 @@ public final class SearchShardedHnswDenseVectors<K extends Comparable<K>> implem
         System.err.println("\nUsage example:");
         System.err.println("  -index \"msmarco-v2.1-doc-segmented-shard00.arctic-embed-l.hnsw-int8,msmarco-v2.1-doc-segmented-shard01.arctic-embed-l.hnsw-int8\"");
       } else {
-        System.err.printf("Error: %s. For help, use \"-options\" to print out information about options.\n",
-          e.getMessage());
+        System.err.printf("Error: %s\n", e.getMessage());
       }
 
       return;
@@ -185,7 +223,7 @@ public final class SearchShardedHnswDenseVectors<K extends Comparable<K>> implem
 
     try (SearchShardedHnswDenseVectors<?> searcher = new SearchShardedHnswDenseVectors<>(searchArgs)) {
       searcher.run();
-    } catch (RuntimeException e) {
+    } catch (Exception e) {
       System.err.printf("Error: %s\n", e.getMessage());
     }
   }
