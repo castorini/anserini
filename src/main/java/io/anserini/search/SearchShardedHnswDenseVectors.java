@@ -151,12 +151,25 @@ public final class SearchShardedHnswDenseVectors<K extends Comparable<K>> implem
       Files.createDirectories(Paths.get(args.output).getParent());
       Files.write(Paths.get(args.output), new byte[0]);
 
+      boolean anyShardHasContent = false;
       for (String shardPath : shardOutputPaths) {
-        if (Files.exists(Paths.get(shardPath))) {
-          Files.write(Paths.get(args.output),Files.readAllBytes(Paths.get(shardPath)),java.nio.file.StandardOpenOption.APPEND);
+        if (Files.exists(Paths.get(shardPath)) && Files.size(Paths.get(shardPath)) > 0) {
+          anyShardHasContent = true;
+          Files.write(Paths.get(args.output), Files.readAllBytes(Paths.get(shardPath)), 
+                     java.nio.file.StandardOpenOption.APPEND);
+          LOG.info("Appended content from shard file: {} (size: {} bytes)", 
+                  shardPath, Files.size(Paths.get(shardPath)));
+        } else {
+          LOG.warn("Shard file {} does not exist or is empty", shardPath);
         }
       }
-      LOG.info("All results concatenated successfully.");
+      
+      if (!anyShardHasContent) {
+        LOG.warn("No shard files contained any content. Output file will be empty.");
+      } else {
+        LOG.info("All results concatenated successfully.");
+      }
+      
       LOG.info("Individual shard results are not deleted. Shard results for each shard are stored in the output directory as separate files.");
     } catch (IOException e) {
       throw new RuntimeException("Error concatenating shard results: " + e.getMessage(), e);
