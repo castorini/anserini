@@ -1,0 +1,53 @@
+---
+corpus: msmarco-v2.1-doc-segmented-shard04.arctic-embed-l
+corpus_path: collections/msmarco/msmarco_v2.1_doc_segmented.arctic-embed-l/shard04
+
+index_path: indexes/lucene-flat.msmarco-v2.1-doc-segmented-shard04.arctic-embed-l
+index_type: flat
+collection_class: ParquetDenseVectorCollection
+generator_class: DenseVectorDocumentGenerator
+index_threads: 6
+index_options: -docidField doc_id -vectorField embedding -normalizeVectors
+
+metrics:
+  - metric: nDCG@20
+    command: bin/trec_eval
+    params: -c -m ndcg_cut.20
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: nDCG@100
+    command: bin/trec_eval
+    params: -c -m ndcg_cut.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: bin/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvString
+topics:
+  - name: "RAG 24: Test queries"
+    id: rag24.test
+    path: topics.rag24.test.txt
+    qrel: qrels.rag24.test-umbrela-all.txt
+
+models:
+  - name: arctic-embed-l-flat-onnx
+    display: ArcticEmbedL
+    type: flat
+    params: -topics rag24.test -topicReader TsvString -topicField title -encoder ArcticEmbedLEncoder
+    results:
+      nDCG@20:
+        - 0.2899
+      nDCG@100:
+        - 0.1707
+      R@100:
+        - 0.0686
