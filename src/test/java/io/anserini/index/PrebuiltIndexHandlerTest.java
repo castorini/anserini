@@ -23,6 +23,7 @@ import java.nio.file.Path;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.apache.commons.io.FileUtils;
 
 import io.anserini.util.PrebuiltIndexHandler;
 import static org.junit.Assert.assertTrue;
@@ -62,7 +63,7 @@ public class PrebuiltIndexHandlerTest {
       assertTrue(decompressedPath.startsWith(tempDir.toString()));
       
     } finally {
-      Files.deleteIfExists(tempDir);
+      FileUtils.deleteDirectory(tempDir.toFile());
       usingTempHandler = false;
     }
   }
