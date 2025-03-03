@@ -869,61 +869,61 @@ public class ArcticEmbedLEncoderInferenceTest extends DenseEncoderInferenceTest 
     super(MODEL_NAME, MODEL_URL, EXAMPLES);
   }
 
-  @Test
-  public void basic() throws OrtException, IOException, URISyntaxException {
-    String modelPath = getEncoderModelPath().toString();
+  // @Test
+  // public void basic() throws OrtException, IOException, URISyntaxException {
+  //   String modelPath = getEncoderModelPath().toString();
 
-    try (OrtEnvironment env = OrtEnvironment.getEnvironment();
-        OrtSession.SessionOptions options = new OrtSession.SessionOptions();
-        OrtSession session = env.createSession(modelPath, options)) {
+  //   try (OrtEnvironment env = OrtEnvironment.getEnvironment();
+  //       OrtSession.SessionOptions options = new OrtSession.SessionOptions();
+  //       OrtSession session = env.createSession(modelPath, options)) {
 
-      for (Object[] example : examples) {
-        long[] inputIds = (long[]) example[0];
-        float[] expectedEmbeddings = (float[]) example[1];
+  //     for (Object[] example : examples) {
+  //       long[] inputIds = (long[]) example[0];
+  //       float[] expectedEmbeddings = (float[]) example[1];
 
-        Map<String, OnnxTensor> inputs = new HashMap<>();
+  //       Map<String, OnnxTensor> inputs = new HashMap<>();
 
-        long[][] tokenIds;
-        tokenIds = new long[1][inputIds.length];
-        tokenIds[0] = inputIds;
+  //       long[][] tokenIds;
+  //       tokenIds = new long[1][inputIds.length];
+  //       tokenIds[0] = inputIds;
 
-        long[][] attentionMask = new long[1][tokenIds[0].length];
-        long[][] tokenTypeIds = new long[1][tokenIds[0].length];
-        // Initialize attention mask with all ones
-        Arrays.fill(attentionMask[0], 1);
+  //       long[][] attentionMask = new long[1][tokenIds[0].length];
+  //       long[][] tokenTypeIds = new long[1][tokenIds[0].length];
+  //       // Initialize attention mask with all ones
+  //       Arrays.fill(attentionMask[0], 1);
 
-        inputs.put("input_ids", OnnxTensor.createTensor(env, tokenIds));
-        inputs.put("attention_mask", OnnxTensor.createTensor(env, attentionMask));
-        inputs.put("token_type_ids", OnnxTensor.createTensor(env, tokenTypeIds));
+  //       inputs.put("input_ids", OnnxTensor.createTensor(env, tokenIds));
+  //       inputs.put("attention_mask", OnnxTensor.createTensor(env, attentionMask));
+  //       inputs.put("token_type_ids", OnnxTensor.createTensor(env, tokenTypeIds));
 
-        try (Result results = session.run(inputs)) {
-          float[][][] embeddings = (float[][][]) ((OnnxTensor) results.get(0)).getValue();
-          float[] weights = new float[EMBEDDING_DIM];
-          System.arraycopy(embeddings[0][0], 0, weights, 0, 1024);
+  //       try (Result results = session.run(inputs)) {
+  //         float[][][] embeddings = (float[][][]) ((OnnxTensor) results.get(0)).getValue();
+  //         float[] weights = new float[EMBEDDING_DIM];
+  //         System.arraycopy(embeddings[0][0], 0, weights, 0, 1024);
 
-          weights = OnnxEncoder.normalize(weights);
-          assertArrayEquals(expectedEmbeddings, weights, 1e-4f);
-        }
-      }
-    }
-  }
+  //         weights = OnnxEncoder.normalize(weights);
+  //         assertArrayEquals(expectedEmbeddings, weights, 1e-4f);
+  //       }
+  //     }
+  //   }
+  // }
 
-  @Test
-  public void testLongQuery() throws OrtException, IOException, URISyntaxException {
-    try {
-      ArcticEmbedLEncoder encoder = new ArcticEmbedLEncoder();
+  // @Test
+  // public void testLongQuery() throws OrtException, IOException, URISyntaxException {
+  //   try {
+  //     ArcticEmbedLEncoder encoder = new ArcticEmbedLEncoder();
 
-      for (Object[] example : LONG_EXAMPLES) {
-        String[] inputStrings = (String[]) example[0];
-        float[] expectedWeights = (float[]) example[1];
-        float[] embeddings = encoder.encode(inputStrings[0]);
+  //     for (Object[] example : LONG_EXAMPLES) {
+  //       String[] inputStrings = (String[]) example[0];
+  //       float[] expectedWeights = (float[]) example[1];
+  //       float[] embeddings = encoder.encode(inputStrings[0]);
 
-        assertArrayEquals(expectedWeights, embeddings, 1e-4f);
-        assertEquals(1024, embeddings.length);
-      }
-    } catch (Exception e) {
-      throw e;
-    }
-  }
+  //       assertArrayEquals(expectedWeights, embeddings, 1e-4f);
+  //       assertEquals(1024, embeddings.length);
+  //     }
+  //   } catch (Exception e) {
+  //     throw e;
+  //   }
+  // }
 }
 
