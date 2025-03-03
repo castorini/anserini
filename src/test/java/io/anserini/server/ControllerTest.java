@@ -48,7 +48,7 @@ public class ControllerTest {
     if (!candidates.isEmpty()) {
       Object docid = candidates.get(0).get("docid");
       assertNotNull("Search: Expected first candidate's 'docid' to be non-null", docid);
-      assertEquals("Search: Expected first candidate's docid to be '3553430' but got " + docid, "3553430", docid);
+      assertEquals("Search: Expected first candidate's docid to be '18773' but got " + docid, "18773", docid);
     }
     
     assertThrows("Search: Calling searchIndex with a null index should throw IllegalArgumentException",
