@@ -37,7 +37,7 @@ runs:
   - name: flat-bm25
     dependency: 
     file: runs/run.msmarco-passage.dev.small.trec
-  - name: bge-flat-onnx
+  - name: bge-hnsw-onnx
     dependency: 
     file: runs/run.msmarco-passage.dev.small.bge.trec
 
@@ -46,7 +46,7 @@ methods:
     k: 1000
     depth: 1000
     rrf_k: 60
-    output: runs/runs.fuse.rrf.ms-marco.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.ms-marco.test.txt
+    output: runs/runs.fuse.rrf.ms-marco.flat.bm25.bge-base-en-v1.5.bge-hnsw-onnx.topics.ms-marco.test.txt
     results:
       nDCG@10:
         - 0.3577
@@ -55,7 +55,7 @@ methods:
       R@1000:
         - 0.9526
   - name: average
-    output: runs/runs.fuse.avg.ms-marco.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.ms-marco.test.txt
+    output: runs/runs.fuse.avg.ms-marco.flat.bm25.bge-base-en-v1.5.bge-hnsw-onnx.topics.ms-marco.test.txt
     results:
       nDCG@10:
         - 0.3107
@@ -65,7 +65,7 @@ methods:
         - 0.9526
   - name: interpolation
     alpha: 0.5
-    output: runs/runs.fuse.interp.ms-marco.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.ms-marco.test.txt
+    output: runs/runs.fuse.interp.ms-marco.flat.bm25.bge-base-en-v1.5.bge-hnsw-onnx.topics.ms-marco.test.txt
     results:      
       nDCG@10:
         - 0.3107

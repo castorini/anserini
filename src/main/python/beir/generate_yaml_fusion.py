@@ -87,8 +87,8 @@ runs:
   - name: flat-bm25
     dependency: beir-v1.0.0-{corpus_short}.flat.yaml
     file: runs/run.inverted.beir-v1.0.0-{corpus_short}.flat.test.bm25
-  - name: bge-flat-onnx
-    dependency: beir-v1.0.0-{corpus_short}.bge-base-en-v1.5.flat.onnx.yaml
+  - name: bge-flat-cached
+    dependency: beir-v1.0.0-{corpus_short}.bge-base-en-v1.5.parquet.flat.cached.yaml
     file: runs/run.flat.beir-v1.0.0-{corpus_short}.bge-base-en-v1.5.test.bge-flat-cached
 
 methods:
@@ -96,7 +96,7 @@ methods:
     k: 1000
     depth: 1000
     rrf_k: 60
-    output: runs/runs.fuse.rrf.beir-v1.0.0-{corpus_short}.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-{corpus_short}.test.txt
+    output: runs/runs.fuse.rrf.beir-v1.0.0-{corpus_short}.flat.bm25.bge-base-en-v1.5.bge-flat-cached.topics.beir-v1.0.0-{corpus_short}.test.txt
     results:
       nDCG@10:
         - 0.8714
@@ -105,7 +105,7 @@ methods:
       R@1000:
         - 0.9999
   - name: average
-    output: runs/runs.fuse.avg.beir-v1.0.0-{corpus_short}.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-{corpus_short}.test.txt
+    output: runs/runs.fuse.avg.beir-v1.0.0-{corpus_short}.flat.bm25.bge-base-en-v1.5.bge-flat-cached.topics.beir-v1.0.0-{corpus_short}.test.txt
     results:
       nDCG@10:
         - 0.8019
@@ -115,7 +115,7 @@ methods:
         - 0.9950
   - name: interpolation
     alpha: 0.5
-    output: runs/runs.fuse.interp.beir-v1.0.0-{corpus_short}.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-{corpus_short}.test.txt
+    output: runs/runs.fuse.interp.beir-v1.0.0-{corpus_short}.flat.bm25.bge-base-en-v1.5.bge-flat-cached.topics.beir-v1.0.0-{corpus_short}.test.txt
     results:      
       nDCG@10:
         - 0.8019

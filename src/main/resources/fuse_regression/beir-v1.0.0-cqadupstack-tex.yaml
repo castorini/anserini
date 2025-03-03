@@ -37,8 +37,8 @@ runs:
   - name: flat-bm25
     dependency: beir-v1.0.0-cqadupstack-tex.flat.yaml
     file: runs/run.inverted.beir-v1.0.0-cqadupstack-tex.flat.test.bm25
-  - name: bge-flat-onnx
-    dependency: beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.flat.onnx.yaml
+  - name: bge-flat-cached
+    dependency: beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.flat.cached.yaml
     file: runs/run.flat.beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.test.bge-flat-cached
 
 methods:
@@ -46,7 +46,7 @@ methods:
     k: 1000
     depth: 1000
     rrf_k: 60
-    output: runs/runs.fuse.rrf.beir-v1.0.0-cqadupstack-tex.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-cqadupstack-tex.test.txt
+    output: runs/runs.fuse.rrf.beir-v1.0.0-cqadupstack-tex.flat.bm25.bge-base-en-v1.5.bge-flat-cached.topics.beir-v1.0.0-cqadupstack-tex.test.txt
     results:
       nDCG@10:
         - 0.2931
@@ -55,7 +55,7 @@ methods:
       R@1000:
         - 0.8430
   - name: average
-    output: runs/runs.fuse.avg.beir-v1.0.0-cqadupstack-tex.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-cqadupstack-tex.test.txt
+    output: runs/runs.fuse.avg.beir-v1.0.0-cqadupstack-tex.flat.bm25.bge-base-en-v1.5.bge-flat-cached.topics.beir-v1.0.0-cqadupstack-tex.test.txt
     results:
       nDCG@10:
         - 0.2332
@@ -65,7 +65,7 @@ methods:
         - 0.6907
   - name: interpolation
     alpha: 0.5
-    output: runs/runs.fuse.interp.beir-v1.0.0-cqadupstack-tex.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-cqadupstack-tex.test.txt
+    output: runs/runs.fuse.interp.beir-v1.0.0-cqadupstack-tex.flat.bm25.bge-base-en-v1.5.bge-flat-cached.topics.beir-v1.0.0-cqadupstack-tex.test.txt
     results:      
       nDCG@10:
         - 0.2332
