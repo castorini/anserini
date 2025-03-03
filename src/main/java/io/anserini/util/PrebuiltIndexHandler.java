@@ -35,7 +35,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class PrebuiltIndexHandler {
-  private static final String CACHE_DIR = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "indexes").toString();
+  private static final String DEFAULT_CACHE_DIR = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "indexes").toString();
+  private static final String CACHE_DIR_PROPERTY = "anserini.index.cache";
+  private static final String CACHE_DIR_ENV = "ANSERINI_INDEX_CACHE";
 
   private String indexName;
   private String saveRootPath;
@@ -48,9 +50,36 @@ public class PrebuiltIndexHandler {
     this.indexName = indexName;
     this.saveRootPath = getCache();
   }
+  
+  /**
+   * Creates a PrebuiltIndexHandler with a custom, user specified cache directory.
+   * This is good if you don't want to use the default cache directory,
+   * at ~/.cache/pyserini/indexes.
+   * Specify it through the environment variable $ANSERINI_INDEX_CACHE.
+   * Alternatively, specify it through the system property $anserini.index.cache.
+   * We recommend specifying it through the environment variable as it's easier to manage:
+   * but if left unset, fallbacks are appropriate.
+   * 
+   * @param indexName the name of the index
+   * @param cacheDir the custom cache directory to use
+   */
+  public PrebuiltIndexHandler(String indexName, String cacheDir) {
+    this.indexName = indexName;
+    this.saveRootPath = cacheDir;
+  }
 
   private String getCache() {
-    return CACHE_DIR;
+    String cacheDir = System.getProperty(CACHE_DIR_PROPERTY);
+    
+    if (cacheDir == null || cacheDir.isEmpty()) {
+      cacheDir = System.getenv(CACHE_DIR_ENV);
+    }
+    
+    if (cacheDir == null || cacheDir.isEmpty()) {
+      cacheDir = DEFAULT_CACHE_DIR;
+    }
+    
+    return cacheDir;
   }
 
   private static boolean checkFileExist(Path path) {
