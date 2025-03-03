@@ -33,7 +33,7 @@ public class ControllerTest {
   @Test
   public void testSearch() throws Exception {
     Controller controller = new Controller();
-    Map<String, Object> results = controller.searchIndex("beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.hnsw", "Albert Einstein", 10, "", null, null, null);
+    Map<String, Object> results = controller.searchIndex("msmarco-v1-passage", "Albert Einstein", 10, "", null, null, null);
     
     assertNotNull("Search: Expected non-null results from searchIndex with valid parameters", results);
     
@@ -48,7 +48,7 @@ public class ControllerTest {
     if (!candidates.isEmpty()) {
       Object docid = candidates.get(0).get("docid");
       assertNotNull("Search: Expected first candidate's 'docid' to be non-null", docid);
-      assertEquals("Search: Expected first candidate's docid to be '18773' but got " + docid, "18773", docid);
+      assertEquals("Search: Expected first candidate's docid to be '3553430' but got " + docid, "3553430", docid);
     }
     
     assertThrows("Search: Calling searchIndex with a null index should throw IllegalArgumentException",
