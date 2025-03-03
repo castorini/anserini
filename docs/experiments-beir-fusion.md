@@ -55,6 +55,13 @@ The table below reports the effectiveness of the methods:
 
 ❗ Beware, the (automatically downloaded) indexes for running these experiments take up 374 GB in total.
 
+Let's start out by setting the `ANSERINI_JAR` and the `OUTPUT_DIR`. Note that the jar must be post v0.39.0. The following is an example from the root directory of Anserini after building.
+
+```bash
+export ANSERINI_JAR="target/anserini-0.39.1-SNAPSHOT-fatjar.jar"
+export OUTPUT_DIR="./runs"
+```
+
 The following snippet will generate the complete set of results that corresponds to the above table:
 
 ```bash
