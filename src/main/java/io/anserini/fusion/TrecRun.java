@@ -30,6 +30,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Wrapper class for a TREC run.
@@ -43,6 +45,9 @@ public class TrecRun {
   private List<Map<Column, Object>> runData;
   private Path filepath = null;
   private Boolean reSort = false;
+  private int queriesMerged = 0;
+
+  private static final Logger LOG = LogManager.getLogger(TrecRun.class);
   
   // Constructor without reSort parameter
   public TrecRun(Path filepath) throws IOException {
@@ -256,6 +261,10 @@ public class TrecRun {
         record.put(Column.SCORE, entry.getValue());
         record.put(Column.TAG, "merge_sum");
         mergedRun.runData.add(record);
+      }
+      mergedRun.queriesMerged++;
+      if(mergedRun.queriesMerged % 100 == 0){
+        LOG.info(String.format("%d queries merged", mergedRun.queriesMerged));
       }
     });
 
