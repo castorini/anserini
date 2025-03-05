@@ -273,9 +273,15 @@ The MS MARCO V2.1 corpora (documents and segmented documents) were derived from 
 Instructions for downloading the corpus can be found [here](https://trec-rag.github.io/annoucements/2024-corpus-finalization/).
 The experiments below capture topics and _passage-level_ qrels for the V2.1 segmented documents corpus.
 
-|           |                        RAG 24 UMBRELA                         |
-|-----------|:-------------------------------------------------------------:|
-| baselines | [+](docs/regressions/regressions-rag24-doc-segmented-test.md) |
+|                                          |                                              RAG 24 UMBRELA                                              |
+|------------------------------------------|:--------------------------------------------------------------------------------------------------------:|
+| baselines                                |                      [🔑](docs/regressions/regressions-rag24-doc-segmented-test.md)                      |
+| Arctic-embed-l (`shard00`, flat indexes) | [🅾️](docs/regressions/regressions-rag24-doc-segmented-test.arctic-embed-l.parquet.shard00.flat.onnx.md) |
+
+Key:
+
++ 🔑 = keyword queries
++ 🅾️ = query encoding with ONNX
 
 <hr/>
 
