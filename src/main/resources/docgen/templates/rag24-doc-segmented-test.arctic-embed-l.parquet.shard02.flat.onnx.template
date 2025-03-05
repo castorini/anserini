@@ -10,7 +10,7 @@ The complete dataset comprises 60 parquet files (from `00` to `59`).
 Due to its large size (472 GB), we have divided the vectors into ten shards, each comprised of six files:
 for example `shard00` spans `00.parquet` to `05.parquet`; `shard01` spans the next six parquet files, etc.
 
-This page documents experiments for `shard00`; we expect the corpus to be in `msmarco_v2.1_doc_segmented.arctic-embed-l/shard00` (relative to the base collection path).
+This page documents experiments for `shard02`; we expect the corpus to be in `msmarco_v2.1_doc_segmented.arctic-embed-l/shard00` (relative to the base collection path).
 In these experiments, we are performing query inference "on-the-fly" with ONNX, using flat vector indexes.
 
 The exact configurations for these regressions are stored in [this YAML file](${yaml}).
