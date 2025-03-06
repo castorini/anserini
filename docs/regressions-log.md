@@ -3,6 +3,12 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### March 5, 2025
+
++ commit [`dcfc4f`](https://github.com/castorini/anserini/commit/dcfc4fc79b78ac2d00c67bf4ed802cbf9aa62ce5) (2025/03/05)
+
+Added ArcticEmbedL regressions for MS MARCO V2.1 RAG 24.
+
 ### February 21, 2025
 
 + commit [`e37007`](https://github.com/castorini/anserini/commit/e370075cd57c92c987ebf368ef1b5c549f06feb8) (2025/02/21)
