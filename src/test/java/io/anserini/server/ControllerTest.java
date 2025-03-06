@@ -33,7 +33,7 @@ public class ControllerTest {
   @Test
   public void testSearch() throws Exception {
     Controller controller = new Controller();
-    Map<String, Object> results = controller.searchIndex("beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.hnsw", "Albert Einstein", 10, "", null, null, null);
+    Map<String, Object> results = controller.searchIndex("beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.hnsw", "Albert Einstein", 10, "", null, null, null, null);
     
     assertNotNull("Search: Expected non-null results from searchIndex with valid parameters", results);
     
