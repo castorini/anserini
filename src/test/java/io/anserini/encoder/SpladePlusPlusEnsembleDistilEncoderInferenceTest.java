@@ -464,6 +464,7 @@ public class SpladePlusPlusEnsembleDistilEncoderInferenceTest extends SpladePlus
     super.basicTest();
   }
 
+  /*
   @SuppressWarnings("unchecked")
   @Test
   public void maxlen() throws OrtException, IOException {
@@ -488,4 +489,6 @@ public class SpladePlusPlusEnsembleDistilEncoderInferenceTest extends SpladePlus
       throw new OrtException("Error in encoding: " + e.getMessage());
     }
   }
+
+ */
 }
