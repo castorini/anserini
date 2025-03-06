@@ -19,8 +19,8 @@ The HNSW indexes for dense retrieval models are even larger, for example, the Ar
 
 The prebuilt indexes are automatically downloaded to `~/.cache/pyserini/indexes/`, which may not be the best location for you.
 (Yes, `pyserini`; this is so prebuilt indexes from both Pyserini and Anserini can live in the same location.)
-Currently, this path is hard-coded (see [Anserini #2322](https://github.com/castorini/anserini/issues/2322)).
-If you want to change the download location, the current workaround is to use symlinks, i.e., symlink `~/.cache/pyserini/indexes/` to the actual path you desire.
+
+You can customize the location of the cache directory using environment variables or system properties. See the [cache directories documentation](cache-directories.md) for detailed information on how to customize where Anserini stores its cached resources.
 
 ## Managing Indexes Manually
 

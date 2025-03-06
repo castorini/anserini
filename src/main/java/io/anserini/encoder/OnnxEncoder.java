@@ -31,10 +31,9 @@ import ai.djl.modality.nlp.bert.BertFullTokenizer;
 import ai.onnxruntime.OrtEnvironment;
 import ai.onnxruntime.OrtException;
 import ai.onnxruntime.OrtSession;
+import io.anserini.util.CacheUtils;
 
 public abstract class OnnxEncoder<T> {
-  private static final String CACHE_DIR = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "encoders").toString();
-
   protected final BertFullTokenizer tokenizer;
 
   protected final DefaultVocabulary vocab;
@@ -53,11 +52,7 @@ public abstract class OnnxEncoder<T> {
   }
 
   static protected String getCacheDir() {
-    File cacheDir = new File(CACHE_DIR);
-    if (!cacheDir.exists()) {
-      cacheDir.mkdir();
-    }
-    return cacheDir.getPath();
+    return CacheUtils.getEncodersCache();
   }
 
   static protected Path getModelPath(String modelName, String modelURL) throws IOException, URISyntaxException {
