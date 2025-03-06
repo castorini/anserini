@@ -16,11 +16,11 @@ By default, these are stored in your home directory under `~/.cache/pyserini/`.
 
 ## Customizing Cache Directories
 
-You can customize these paths using environment variables or system properties.
+You can customize these paths using environment variables.
 
 ### Using Environment Variables
 
-```bash
+```sh
 # Set custom cache directory for indexes
 export ANSERINI_INDEX_CACHE=/path/to/custom/index/cache
 
