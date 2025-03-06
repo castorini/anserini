@@ -273,9 +273,24 @@ The MS MARCO V2.1 corpora (documents and segmented documents) were derived from 
 Instructions for downloading the corpus can be found [here](https://trec-rag.github.io/annoucements/2024-corpus-finalization/).
 The experiments below capture topics and _passage-level_ qrels for the V2.1 segmented documents corpus.
 
-|           |                        RAG 24 UMBRELA                         |
-|-----------|:-------------------------------------------------------------:|
-| baselines | [+](docs/regressions/regressions-rag24-doc-segmented-test.md) |
+|                                          |                                              RAG 24 UMBRELA                                              |
+|------------------------------------------|:--------------------------------------------------------------------------------------------------------:|
+| baselines                                |                      [🔑](docs/regressions/regressions-rag24-doc-segmented-test.md)                      |
+| Arctic-embed-l (`shard00`, flat indexes) | [🅾️](docs/regressions/regressions-rag24-doc-segmented-test.arctic-embed-l.parquet.shard00.flat.onnx.md) |
+| Arctic-embed-l (`shard01`, flat indexes) | [🅾️](docs/regressions/regressions-rag24-doc-segmented-test.arctic-embed-l.parquet.shard01.flat.onnx.md) |
+| Arctic-embed-l (`shard02`, flat indexes) | [🅾️](docs/regressions/regressions-rag24-doc-segmented-test.arctic-embed-l.parquet.shard02.flat.onnx.md) |
+| Arctic-embed-l (`shard03`, flat indexes) | [🅾️](docs/regressions/regressions-rag24-doc-segmented-test.arctic-embed-l.parquet.shard03.flat.onnx.md) |
+| Arctic-embed-l (`shard04`, flat indexes) | [🅾️](docs/regressions/regressions-rag24-doc-segmented-test.arctic-embed-l.parquet.shard04.flat.onnx.md) |
+| Arctic-embed-l (`shard05`, flat indexes) | [🅾️](docs/regressions/regressions-rag24-doc-segmented-test.arctic-embed-l.parquet.shard05.flat.onnx.md) |
+| Arctic-embed-l (`shard06`, flat indexes) | [🅾️](docs/regressions/regressions-rag24-doc-segmented-test.arctic-embed-l.parquet.shard06.flat.onnx.md) |
+| Arctic-embed-l (`shard07`, flat indexes) | [🅾️](docs/regressions/regressions-rag24-doc-segmented-test.arctic-embed-l.parquet.shard07.flat.onnx.md) |
+| Arctic-embed-l (`shard08`, flat indexes) | [🅾️](docs/regressions/regressions-rag24-doc-segmented-test.arctic-embed-l.parquet.shard08.flat.onnx.md) |
+| Arctic-embed-l (`shard09`, flat indexes) | [🅾️](docs/regressions/regressions-rag24-doc-segmented-test.arctic-embed-l.parquet.shard09.flat.onnx.md) |
+
+Key:
+
++ 🔑 = keyword queries
++ 🅾️ = query encoding with ONNX
 
 <hr/>
 

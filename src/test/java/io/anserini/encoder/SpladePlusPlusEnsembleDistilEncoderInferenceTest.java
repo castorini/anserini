@@ -224,14 +224,11 @@ public class SpladePlusPlusEnsembleDistilEncoderInferenceTest extends SpladePlus
               0.060074817f } },
   };
 
-  static private final Object[][] LONG_EXAMPLES = new Object[][] {
+  static protected final Object[][] LONG_EXAMPLES = new Object[][] {
       { new String[] {
-          "In the dawn of the 21st century, humanity stands on the brink of one of the most transformative periods in history: the rise of artificial intelligence (AI). "
-              +
-              "This technological revolution promises to redefine the way we live, work, and interact with the world around us. "
-              +
-              "However, as with any major technological advancement, the implications of AI for society are complex, nuanced, and not entirely predictable. "
-              +
+          "In the dawn of the 21st century, humanity stands on the brink of one of the most transformative periods in history: the rise of artificial intelligence (AI). " +
+              "This technological revolution promises to redefine the way we live, work, and interact with the world around us. " +
+              "However, as with any major technological advancement, the implications of AI for society are complex, nuanced, and not entirely predictable. " +
               "This essay explores the potential impacts of AI on various aspects of human life, including employment, ethics, personal privacy, and societal structures." },
           new HashMap<String, Integer>() {
             {
@@ -464,28 +461,7 @@ public class SpladePlusPlusEnsembleDistilEncoderInferenceTest extends SpladePlus
     super.basicTest();
   }
 
-  @SuppressWarnings("unchecked")
-  @Test
-  public void maxlen() throws OrtException, IOException {
-    SparseEncoder encoder = null;
-    String[] inputStrings = (String[]) longExamples[0][0];
-    Map<String, Integer> expectedMap = (Map<String, Integer>) longExamples[0][1];
-
-    try {
-      encoder = new SpladePlusPlusEnsembleDistilEncoder();
-    } catch (Exception e) {
-      throw new RuntimeException(e);
-    }
-    try {
-      Map<String, Integer> outputs = encoder.getEncodedQueryMap(inputStrings[0]);
-      for (Map.Entry<String, Integer> entry : outputs.entrySet()) {
-        String key = entry.getKey();
-        Integer value = entry.getValue();
-        Integer expectedValue = expectedMap.get(key);
-        assertEquals(expectedValue, value);
-      }
-    } catch (OrtException e) {
-      throw new OrtException("Error in encoding: " + e.getMessage());
-    }
-  }
+  // We're running into this issue on GitHub Java CI:
+  // > Error: The operation was canceled.
+  // Can't reproduce locally, but separating test cases into separate files seems to fix it...
 }
