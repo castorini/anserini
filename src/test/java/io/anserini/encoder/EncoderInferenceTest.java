@@ -25,22 +25,13 @@ import java.nio.file.Path;
 import org.apache.commons.io.FileUtils;
 
 public abstract class EncoderInferenceTest {
-  private static final String CACHE_DIR = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "encoders").toString();
   protected String modelName;
   protected String modelUrl;
   protected Object[][] examples;
   protected Object[][] longExamples;
 
-  protected String getCacheDir() {
-    File cacheDir = new File(CACHE_DIR);
-    if (!cacheDir.exists()) {
-      cacheDir.mkdir();
-    }
-    return cacheDir.getPath();
-  }
-
   protected Path getEncoderModelPath() throws IOException, URISyntaxException {
-    File modelFile = new File(getCacheDir(), modelName);
+    File modelFile = new File(OnnxEncoder.getCacheDir(), modelName);
     FileUtils.copyURLToFile(new URI(modelUrl).toURL(), modelFile);
     return modelFile.toPath();
   }
