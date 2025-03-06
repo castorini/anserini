@@ -946,14 +946,12 @@ public class BgeBaseEn15EncoderInferenceTest extends DenseEncoderInferenceTest {
               0.41067237f, -0.56658965f, -0.29985803f, 0.3577116f, 0.07851693f, -0.797587f, -0.64298934f, -0.8372911f,
               -0.57727516f, 0.6823535f, 0.8443152f, -0.29511172f } }
   };
-  static private final Object[][] LONG_EXAMPLES = new Object[][] {
+
+  static protected final Object[][] LONG_EXAMPLES = new Object[][] {
       { new String[] {
-          "In the dawn of the 21st century, humanity stands on the brink of one of the most transformative periods in history: the rise of artificial intelligence (AI). "
-              +
-              "This technological revolution promises to redefine the way we live, work, and interact with the world around us. "
-              +
-              "However, as with any major technological advancement, the implications of AI for society are complex, nuanced, and not entirely predictable. "
-              +
+          "In the dawn of the 21st century, humanity stands on the brink of one of the most transformative periods in history: the rise of artificial intelligence (AI). " +
+              "This technological revolution promises to redefine the way we live, work, and interact with the world around us. " +
+              "However, as with any major technological advancement, the implications of AI for society are complex, nuanced, and not entirely predictable. " +
               "This essay explores the potential impacts of AI on various aspects of human life, including employment, ethics, personal privacy, and societal structures." },
           new float[] { 0.044444107f, 0.020188615f, 0.021676198f, -0.010987711f, 0.06378974f, -0.03154505f, 0.05383968f,
               0.049584307f, 0.018384006f, -0.038459595f, -0.026186362f, -0.033443756f, -0.0827261f, -0.03494365f,
@@ -1096,22 +1094,7 @@ public class BgeBaseEn15EncoderInferenceTest extends DenseEncoderInferenceTest {
     }
   }
 
-  @Test
-  public void testMaxLength() throws OrtException {
-    DenseEncoder encoder = null;
-    float[] expectedWeights = (float[]) longExamples[0][1];
-    String[] inputStrings = (String[]) longExamples[0][0];
-
-    try {
-      encoder = new BgeBaseEn15Encoder();
-    } catch (Exception e) {
-      throw new RuntimeException(e);
-    }
-    try {
-      float[] outputs = encoder.encode(inputStrings[0]);
-      assertArrayEquals(expectedWeights, outputs, 1e-4f);
-    } catch (OrtException e) {
-      throw new OrtException("Error in encoding: " + e.getMessage());
-    }
-  }
+  // We're running into this issue on GitHub Java CI:
+  // > Error: The operation was canceled.
+  // Can't reproduce locally, but separating test cases into separate files seems to fix it...
 }
