@@ -17,6 +17,7 @@
 package io.anserini.util;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 
 /**
@@ -41,24 +42,27 @@ public class CacheUtils {
   /**
    * Gets the cache directory for indexes.
    * @return Path to the indexes cache directory
+   * @throws IOException if the cache directory cannot be created
    */
-  public static String getIndexesCache() {
+  public static String getIndexesCache() throws IOException {
     return getCacheDir(INDEXES_CACHE_PROPERTY, INDEXES_CACHE_ENV, Path.of(BASE_CACHE_DIR, INDEXES_DIR).toString());
   }
   
   /**
    * Gets the cache directory for encoders.
    * @return Path to the encoders cache directory
+   * @throws IOException if the cache directory cannot be created
    */
-  public static String getEncodersCache() {
+  public static String getEncodersCache() throws IOException {
     return getCacheDir(ENCODERS_CACHE_PROPERTY, ENCODERS_CACHE_ENV, Path.of(BASE_CACHE_DIR, ENCODERS_DIR).toString());
   }
   
   /**
    * Gets the cache directory for topics and qrels.
    * @return Path to the topics and qrels cache directory
+   * @throws IOException if the cache directory cannot be created
    */
-  public static String getTopicsAndQrelsCache() {
+  public static String getTopicsAndQrelsCache() throws IOException {
     return getCacheDir(TOPICS_QRELS_CACHE_PROPERTY, TOPICS_QRELS_CACHE_ENV,
                        Path.of(BASE_CACHE_DIR, TOPICS_QRELS_DIR).toString());
   }
@@ -69,8 +73,9 @@ public class CacheUtils {
    * @param envVarName Environment variable name to check second
    * @param defaultPath Default path to use if neither property nor env var is set
    * @return The resolved cache directory path
+   * @throws IOException if the cache directory cannot be created
    */
-  private static String getCacheDir(String propertyName, String envVarName, String defaultPath) {
+  private static String getCacheDir(String propertyName, String envVarName, String defaultPath) throws IOException {
     String cacheDir = System.getProperty(propertyName);
     
     if (cacheDir == null || cacheDir.isEmpty()) {
@@ -83,7 +88,9 @@ public class CacheUtils {
     
     File cacheDirFile = new File(cacheDir);
     if (!cacheDirFile.exists()) {
-      cacheDirFile.mkdirs();
+      if (!cacheDirFile.mkdirs() && !cacheDirFile.exists()) {
+        throw new IOException("Failed to create cache directory: " + cacheDir + "\n Check that you have write permissions to the directory.");
+      }
     }
     
     return cacheDir;
