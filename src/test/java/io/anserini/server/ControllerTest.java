@@ -33,7 +33,7 @@ public class ControllerTest {
   @Test
   public void testSearch() throws Exception {
     Controller controller = new Controller();
-    Map<String, Object> results = controller.searchIndex("beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.hnsw", "Albert Einstein", 10, "", null, null, null);
+    Map<String, Object> results = controller.searchIndex("beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.hnsw", "Albert Einstein", 10, "", null, null, null, null);
     
     assertNotNull("Search: Expected non-null results from searchIndex with valid parameters", results);
     
@@ -52,14 +52,14 @@ public class ControllerTest {
     }
     
     assertThrows("Search: Calling searchIndex with a null index should throw IllegalArgumentException",
-        IllegalArgumentException.class, () -> controller.searchIndex(null, "Albert Einstein", 10, "", null, null, null));
+        IllegalArgumentException.class, () -> controller.searchIndex(null, "Albert Einstein", 10, "", null, null, null, null));
   }
 
   @Test
   public void testIndexNotFound() throws Exception {
     Controller controller = new Controller();
     assertThrows("IndexNotFound: Calling searchIndex with an invalid index 'nonexistent-index' should throw IllegalArgumentException",
-        IllegalArgumentException.class, () -> controller.searchIndex("nonexistent-index", "Albert Einstein", 10, "", null, null, null));
+        IllegalArgumentException.class, () -> controller.searchIndex("nonexistent-index", "Albert Einstein", 10, "", null, null, null, null));
   }
 
   @Test
