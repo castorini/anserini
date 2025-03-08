@@ -237,8 +237,8 @@ public class TrecRun {
 
     Set<String> topics = runs.stream().flatMap(run -> run.getTopics().stream()).collect(Collectors.toSet());
 
-    topics.forEach(topic -> {
-      Map<String, Double> docScores = new HashMap<>();
+    topics.forEach(topic -> { // for every query
+      Map<String, Double> docScores = new HashMap<>(); // doc id, total score across runs
       for (TrecRun run : runs) {
         run.getDocsByTopic(topic, depth != null ? depth : Integer.MAX_VALUE).forEach(record -> {
           String docId = (String) record.get(Column.DOCID);
