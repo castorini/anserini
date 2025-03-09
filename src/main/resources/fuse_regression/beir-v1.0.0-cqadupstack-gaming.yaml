@@ -73,3 +73,12 @@ methods:
         - 0.7956
       R@1000:
         - 0.8952
+  - name: normalize
+    output: runs/runs.fuse.norm.beir-v1.0.0-cqadupstack-gaming.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-cqadupstack-gaming.test.txt
+    results:      
+      nDCG@10:
+        - 0.5818
+      R@100:
+        - 0.8906
+      R@1000:
+        - 0.9641

@@ -73,3 +73,12 @@ methods:
         - 0.7922
       R@1000:
         - 0.8958
+  - name: normalize
+    output: runs/runs.fuse.norm.beir-v1.0.0-nq.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-nq.test.txt
+    results:      
+      nDCG@10:
+        - 0.5183
+      R@100:
+        - 0.9372
+      R@1000:
+        - 0.9870
