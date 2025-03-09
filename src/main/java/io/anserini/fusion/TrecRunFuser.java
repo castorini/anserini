@@ -32,6 +32,7 @@ public class TrecRunFuser {
   private static final String METHOD_RRF = "rrf";
   private static final String METHOD_INTERPOLATION = "interpolation";
   private static final String METHOD_AVERAGE = "average";
+  private static final String METHOD_NORMALIZE = "normalize";
 
   public static class Args {
     @Option(name = "-output", metaVar = "[output]", required = true, usage = "Path to save the output")
@@ -97,6 +98,23 @@ public class TrecRunFuser {
   }
 
   /**
+   * Perform fusion by normalizing scores and taking the average. 
+   *
+   * @param runs List of TrecRun objects.
+   * @param depth Maximum number of results from each input run to consider. Set to Integer.MAX_VALUE by default, which indicates that the complete list of results is considered.
+   * @param k Length of final results list. Set to Integer.MAX_VALUE by default, which indicates that the union of all input documents are ranked.
+   * @return Output TrecRun that combines input runs via reciprocal rank fusion.
+   */
+  public static TrecRun normalize(List<TrecRun> runs, int depth, int k) {
+    
+    for (TrecRun run : runs) {
+      run.rescore(RescoreMethod.NORMALIZE, 0, 0);
+    }
+
+    return average(runs, depth, k);
+  }
+
+  /**
    * Perform fusion by interpolation on a list of exactly two TrecRun objects.
    * new_score = first_run_score * alpha + (1 - alpha) * second_run_score.
    *
@@ -142,6 +160,9 @@ public class TrecRunFuser {
         break;
       case METHOD_AVERAGE:
         fusedRun = average(runs, args.depth, args.k);
+        break;
+      case METHOD_NORMALIZE:
+        fusedRun = normalize(runs, args.depth, args.k);
         break;
       default:
         throw new IllegalArgumentException("Unknown fusion method: " + args.method + 
