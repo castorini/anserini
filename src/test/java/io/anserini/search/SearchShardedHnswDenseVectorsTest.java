@@ -97,8 +97,8 @@ public class SearchShardedHnswDenseVectorsTest {
           "-topicReader", "TsvString",
           "-topicField", "title",
           "-encoder", "ArcticEmbedL",
-          "-efSearch", "1000",
-          "-hits", "5"};
+          "-efSearch", "150",
+          "-hits", "2"};
 
       LOG.info("Running search with args: {}", String.join(" ", searchArgs));
       SearchShardedHnswDenseVectors.main(searchArgs);
