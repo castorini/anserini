@@ -111,6 +111,7 @@ public class SearchShardedHnswDenseVectorsTest {
           "-topicReader", "TsvString",
           "-topicField", "title",
           "-encoder", "ArcticEmbedL",
+          "-threads", "1", // threadsPerShard
           "-efSearch", "100",  // Reduced from 1000 to reduce memory usage
           "-hits", "10"};      // Reduced hit count to reduce memory usage
 
@@ -168,6 +169,7 @@ public class SearchShardedHnswDenseVectorsTest {
           "-generator", "VectorQueryGenerator",
           "-topicReader", "JsonIntVector",
           "-topicField", "vector",
+          "-threads", "1", // threadsPerShard
           "-efSearch", "100",  // Reduced from 1000 to reduce memory usage
           "-hits", "10"};      // Reduced hit count to reduce memory usage
 
