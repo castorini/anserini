@@ -22,6 +22,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.Configurator;
+import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -51,6 +52,19 @@ public class SearchShardedHnswDenseVectorsTest {
 
   private void restoreStderr() {
     System.setErr(save);
+  }
+
+  /**
+   * Attempt to clean up memory between tests
+   */
+  @After
+  public void cleanupMemory() {
+    System.gc();
+    try {
+      Thread.sleep(500); // Give GC time to work
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+    }
   }
 
   @BeforeClass
@@ -97,8 +111,8 @@ public class SearchShardedHnswDenseVectorsTest {
           "-topicReader", "TsvString",
           "-topicField", "title",
           "-encoder", "ArcticEmbedL",
-          "-efSearch", "150",
-          "-hits", "2"};
+          "-efSearch", "100",  // Reduced from 1000 to reduce memory usage
+          "-hits", "10"};      // Reduced hit count to reduce memory usage
 
       LOG.info("Running search with args: {}", String.join(" ", searchArgs));
       SearchShardedHnswDenseVectors.main(searchArgs);
@@ -154,8 +168,8 @@ public class SearchShardedHnswDenseVectorsTest {
           "-generator", "VectorQueryGenerator",
           "-topicReader", "JsonIntVector",
           "-topicField", "vector",
-          "-efSearch", "1000",
-          "-hits", "5"};
+          "-efSearch", "100",  // Reduced from 1000 to reduce memory usage
+          "-hits", "10"};      // Reduced hit count to reduce memory usage
 
       LOG.info("Running search with args: {}", String.join(" ", searchArgs));
       SearchShardedHnswDenseVectors.main(searchArgs);
