@@ -37,25 +37,25 @@ runs:
   - name: flat-bm25
     dependency: beir-v1.0.0-hotpotqa.flat.yaml
     file: runs/run.inverted.beir-v1.0.0-hotpotqa.flat.test.bm25
-  - name: bge-flat-cached
-    dependency: beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.flat.cached.yaml
-    file: runs/run.flat.beir-v1.0.0-hotpotqa.bge-base-en-v1.5.test.bge-flat-cached
+  - name: bge-flat-onnx
+    dependency: beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.flat.onnx.yaml
+    file: runs/run.flat.beir-v1.0.0-hotpotqa.bge-base-en-v1.5.test.bge-flat-onnx
 
 methods:
   - name: rrf
     k: 1000
     depth: 1000
     rrf_k: 60
-    output: runs/runs.fuse.rrf.beir-v1.0.0-hotpotqa.flat.bm25.bge-base-en-v1.5.bge-flat-cached.topics.beir-v1.0.0-hotpotqa.test.txt
+    output: runs/runs.fuse.rrf.beir-v1.0.0-hotpotqa.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-hotpotqa.test.txt
     results:
       nDCG@10:
         - 0.7389
       R@100:
-        - 0.8918
+        - 0.8917
       R@1000:
-        - 0.9472
+        - 0.9473
   - name: average
-    output: runs/runs.fuse.avg.beir-v1.0.0-hotpotqa.flat.bm25.bge-base-en-v1.5.bge-flat-cached.topics.beir-v1.0.0-hotpotqa.test.txt
+    output: runs/runs.fuse.avg.beir-v1.0.0-hotpotqa.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-hotpotqa.test.txt
     results:
       nDCG@10:
         - 0.6497
@@ -65,7 +65,7 @@ methods:
         - 0.8820
   - name: interpolation
     alpha: 0.5
-    output: runs/runs.fuse.interp.beir-v1.0.0-hotpotqa.flat.bm25.bge-base-en-v1.5.bge-flat-cached.topics.beir-v1.0.0-hotpotqa.test.txt
+    output: runs/runs.fuse.interp.beir-v1.0.0-hotpotqa.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-hotpotqa.test.txt
     results:      
       nDCG@10:
         - 0.6497
@@ -73,3 +73,12 @@ methods:
         - 0.8184
       R@1000:
         - 0.8820
+  - name: normalize
+    output: runs/runs.fuse.norm.beir-v1.0.0-hotpotqa.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-hotpotqa.test.txt
+    results:      
+      nDCG@10:
+        - 0.7658
+      R@100:
+        - 0.8919
+      R@1000:
+        - 0.9477
