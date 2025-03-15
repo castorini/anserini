@@ -20,14 +20,15 @@ import logging
 import time
 import yaml
 from subprocess import call, Popen, PIPE
-from ranx import Run, fuse, evaluate, Qrels, optimize_fusion
+from ranx import Run, fuse, evaluate, Qrels
 
 # Constants
 FUSE_COMMAND = 'bin/run.sh io.anserini.fusion.FuseTrecRuns'
 fusion_method_ranx = {
     "rrf": "rrf",
     "average": "sum",
-    "interpolation": "wsum"
+    "interpolation": "wsum",
+    "normalize": "sum"
 }
 metrics_ranx = {
     "nDCG@10": "ndcg@10",
@@ -99,6 +100,7 @@ def run_fusion_commands(cmds: list):
             logger.error(f"Error executing command {cmd}: {str(e)}")
 
 def run_to_dict(filename: str, qrel: bool) -> dict:
+    """Takes filename of run/qrel and returns dict in Ranx compatible format."""
     res = {}
     with open(filename, 'r') as file:
         for line in file:
@@ -116,6 +118,7 @@ def run_to_dict(filename: str, qrel: bool) -> dict:
     return res
 
 def compare_with_ranx(qrel_file: str, runs: list[str], methods: dict, metrics: list[str]) -> dict:
+    """Given fusion conditions and location of runs and qrel, runs fusion with ranx and returns results."""
     qrels = Qrels(run_to_dict(qrel_file, True))
     allkeys = set()
     for i, r in enumerate(runs):
@@ -129,13 +132,16 @@ def compare_with_ranx(qrel_file: str, runs: list[str], methods: dict, metrics: l
     for method in methods:
         ranx_method = fusion_method_ranx[method["name"]]
         best_params = {}
+        norm_method = None
         if ranx_method == "wsum":
             best_params['weights'] = (method.get('alpha', 0.5), 1 - method.get('alpha', 0.5))
         elif ranx_method == "rrf":
             best_params['k'] = method.get('rrf_k', 60)
+        if method["name"] == "normalize":
+            norm_method = "min-max"
         fused = fuse(
             runs=runs,
-            norm=None,
+            norm=norm_method,
             method=ranx_method,
             params=best_params 
         )
