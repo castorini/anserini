@@ -77,7 +77,9 @@
        assertTrue("Output file doesn't exist: " + runfile, f.exists());
        assertTrue("Output file is empty: " + runfile, f.length() > 0);
 
-       f.delete();
+     f.delete();
+     new File(runfile + ".shard00").delete();
+     new File(runfile + ".shard01").delete();
    }
 
 //   @Test
