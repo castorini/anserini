@@ -32,11 +32,9 @@ import java.util.Map;
 
 public class UniCoilEncoder extends SparseEncoder {
   static private final String MODEL_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/unicoil.onnx";
-
   static private final String VOCAB_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/wordpiece-vocab.txt";
 
   static private final String MODEL_NAME = "unicoil.onnx";
-
   static private final String VOCAB_NAME = "unicoil-vocab.txt";
 
   public UniCoilEncoder() throws IOException, OrtException, URISyntaxException {
@@ -88,6 +86,15 @@ public class UniCoilEncoder extends SparseEncoder {
       }
     }
     return tokenWeightMap;
+  }
+
+  public long[] tokenizeToIds(String query) {
+    List<String> queryTokens = new ArrayList<>();
+    queryTokens.add("[CLS]");
+    queryTokens.addAll(tokenizer.tokenize(query));
+    queryTokens.add("[SEP]");
+
+    return convertTokensToIds(tokenizer, queryTokens, vocab);
   }
 
   @Override

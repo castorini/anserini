@@ -32,11 +32,9 @@ import java.util.Map;
 
 public class SpladePlusPlusSelfDistilEncoder extends SparseEncoder {
   static private final String MODEL_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/splade-pp-sd-optimized.onnx";
-
   static private final String VOCAB_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/wordpiece-vocab.txt";
 
   static private final String MODEL_NAME = "splade-pp-sd-optimized.onnx";
-
   static private final String VOCAB_NAME = "splade-pp-sd-vocab.txt";
 
   public SpladePlusPlusSelfDistilEncoder() throws IOException, OrtException, URISyntaxException {
@@ -47,6 +45,15 @@ public class SpladePlusPlusSelfDistilEncoder extends SparseEncoder {
   public String encode(String query) throws OrtException {
     Map<String, Float> tokenWeightMap = getTokenWeightMap(query);
     return generateEncodedQuery(tokenWeightMap);
+  }
+
+  public long[] tokenizeToIds(String query) {
+    List<String> queryTokens = new ArrayList<>();
+    queryTokens.add("[CLS]");
+    queryTokens.addAll(tokenizer.tokenize(query));
+    queryTokens.add("[SEP]");
+
+    return convertTokensToIds(tokenizer, queryTokens, vocab);
   }
 
   @Override

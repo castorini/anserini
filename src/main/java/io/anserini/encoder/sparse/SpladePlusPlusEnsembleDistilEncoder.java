@@ -32,11 +32,9 @@ import java.util.Map;
 
 public class SpladePlusPlusEnsembleDistilEncoder extends SparseEncoder {
   static private final String MODEL_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/splade-pp-ed-optimized.onnx";
-
   static private final String VOCAB_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/wordpiece-vocab.txt";
 
   static private final String MODEL_NAME = "splade-pp-ed-optimized.onnx";
-
   static private final String VOCAB_NAME = "splade-pp-ed-vocab.txt";
 
   static private final int MAX_SEQ_LEN = 512;
@@ -49,6 +47,15 @@ public class SpladePlusPlusEnsembleDistilEncoder extends SparseEncoder {
   public String encode(String query) throws OrtException {
     Map<String, Float> tokenWeightMap = getTokenWeightMap(query);
     return generateEncodedQuery(tokenWeightMap);
+  }
+
+  public long[] tokenizeToIds(String query) {
+    List<String> queryTokens = new ArrayList<>();
+    queryTokens.add("[CLS]");
+    queryTokens.addAll(tokenizer.tokenize(query));
+    queryTokens.add("[SEP]");
+
+    return convertTokensToIds(tokenizer, queryTokens, vocab);
   }
 
   @Override
