@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.anserini.encoder;
+package io.anserini.encoder.dense;
 
 import static org.junit.Assert.assertArrayEquals;
 
@@ -30,8 +30,6 @@ import ai.onnxruntime.OrtEnvironment;
 import ai.onnxruntime.OrtException;
 import ai.onnxruntime.OrtSession;
 import ai.onnxruntime.OrtSession.Result;
-import io.anserini.encoder.dense.BgeBaseEn15Encoder;
-import io.anserini.encoder.dense.DenseEncoder;
 
 public class BgeBaseEn15EncoderInferenceTest extends DenseEncoderInferenceTest {
   static private final String MODEL_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/bge-base-en-v1.5-optimized.onnx";
