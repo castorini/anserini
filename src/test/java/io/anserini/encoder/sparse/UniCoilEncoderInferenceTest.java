@@ -14,13 +14,14 @@
   * limitations under the License.
   */
 
- package io.anserini.encoder;
+ package io.anserini.encoder.sparse;
 
  import ai.onnxruntime.OnnxTensor;
  import ai.onnxruntime.OrtEnvironment;
  import ai.onnxruntime.OrtException;
  import ai.onnxruntime.OrtSession;
  import ai.onnxruntime.OrtSession.Result;
+ import io.anserini.encoder.EncoderInferenceTest;
  import org.junit.Test;
 
  import java.io.IOException;
