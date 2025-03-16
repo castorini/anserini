@@ -33,7 +33,6 @@ import java.util.List;
 import static org.junit.Assert.assertArrayEquals;
 
 public class UniCoilEncoderTokenizationTest {
-  private static final String CACHE_DIR = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "encoders").toString();
   static private final String VOCAB_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/wordpiece-vocab.txt";
 
   Object[][] examples = new Object[][] {
@@ -78,20 +77,6 @@ public class UniCoilEncoderTokenizationTest {
               1029, 102 } },
   };
 
-  static private String getCacheDir() {
-    File cacheDir = new File(CACHE_DIR);
-    if (!cacheDir.exists()) {
-      cacheDir.mkdir();
-    }
-    return cacheDir.getPath();
-  }
-
-  static private Path getVocabPath() throws IOException, URISyntaxException {
-    File vocabFile = new File(getCacheDir(), "unicoil-vocab.txt");
-    FileUtils.copyURLToFile(new URI(VOCAB_URL).toURL(), vocabFile);
-    return vocabFile.toPath();
-  }
-
   @Test
   public void basic() throws Exception {
     DefaultVocabulary vocabulary = DefaultVocabulary.builder()
@@ -118,5 +103,11 @@ public class UniCoilEncoderTokenizationTest {
       tokenIds[i] = tokenizer.getVocabulary().getIndex(tokens.get(i));
     }
     return tokenIds;
+  }
+
+  static private Path getVocabPath() throws IOException, URISyntaxException {
+    File vocabFile = new File(OnnxEncoder.getCacheDir(), "unicoil-vocab.txt");
+    FileUtils.copyURLToFile(new URI(VOCAB_URL).toURL(), vocabFile);
+    return vocabFile.toPath();
   }
 }

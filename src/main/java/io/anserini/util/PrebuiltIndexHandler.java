@@ -23,6 +23,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.input.CountingInputStream;
 
 import io.anserini.index.IndexInfo;
+import io.anserini.util.CacheUtils;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -35,10 +36,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class PrebuiltIndexHandler {
-  private static final String DEFAULT_CACHE_DIR = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "indexes").toString();
-  private static final String CACHE_DIR_PROPERTY = "anserini.index.cache";
-  private static final String CACHE_DIR_ENV = "ANSERINI_INDEX_CACHE";
-
   private String indexName;
   private String saveRootPath;
   private IndexInfo info = null;
@@ -69,17 +66,7 @@ public class PrebuiltIndexHandler {
   }
 
   private String getCache() {
-    String cacheDir = System.getProperty(CACHE_DIR_PROPERTY);
-    
-    if (cacheDir == null || cacheDir.isEmpty()) {
-      cacheDir = System.getenv(CACHE_DIR_ENV);
-    }
-    
-    if (cacheDir == null || cacheDir.isEmpty()) {
-      cacheDir = DEFAULT_CACHE_DIR;
-    }
-    
-    return cacheDir;
+    return CacheUtils.getIndexesCache();
   }
 
   private static boolean checkFileExist(Path path) {

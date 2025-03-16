@@ -26,6 +26,8 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.nio.file.Path;
 
+import io.anserini.util.CacheUtils;
+
 public class RelevanceJudgmentsTest{
 
   public int getQrelsCount(RelevanceJudgments qrels) throws IOException{
@@ -1639,42 +1641,42 @@ public class RelevanceJudgmentsTest{
     Path expected;
     Path produced;
 
-    expected = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "topics-and-qrels", "qrels.msmarco-passage.dev-subset.txt");
+    expected = Path.of(CacheUtils.getTopicsAndQrelsCache(), "qrels.msmarco-passage.dev-subset.txt");
     produced = RelevanceJudgments.getQrelsPath(Path.of("msmarco-passage.dev-subset"));
     assertNotNull(produced);
     assertEquals(expected, produced);
 
-    expected = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "topics-and-qrels", "qrels.msmarco-v2-passage.dev2.txt");
+    expected = Path.of(CacheUtils.getTopicsAndQrelsCache(), "qrels.msmarco-v2-passage.dev2.txt");
     produced = RelevanceJudgments.getQrelsPath(Path.of("msmarco-v2-passage.dev2"));
     assertNotNull(produced);
     assertEquals(expected, produced);
 
-    expected = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "topics-and-qrels", "qrels.miracl-v1.0-en-dev.tsv");
+    expected = Path.of(CacheUtils.getTopicsAndQrelsCache(), "qrels.miracl-v1.0-en-dev.tsv");
     produced = RelevanceJudgments.getQrelsPath(Path.of("miracl-v1.0-en-dev"));
     assertNotNull(produced);
     assertEquals(expected, produced);
 
-    expected = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "topics-and-qrels", "qrels.covid-round3.txt");
+    expected = Path.of(CacheUtils.getTopicsAndQrelsCache(), "qrels.covid-round3.txt");
     produced = RelevanceJudgments.getQrelsPath(Path.of("covid-round3"));
     assertNotNull(produced);
     assertEquals(expected, produced);
     
-    expected = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "topics-and-qrels", "qrels.ciral-v1.0-yo-test-a-pools.tsv");
+    expected = Path.of(CacheUtils.getTopicsAndQrelsCache(), "qrels.ciral-v1.0-yo-test-a-pools.tsv");
     produced = RelevanceJudgments.getQrelsPath(Path.of("ciral-v1.0-yo-test-a-pools"));
     assertNotNull(produced);
     assertEquals(expected, produced);
 
-    expected = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "topics-and-qrels", "qrels.adhoc.151-200.txt");
+    expected = Path.of(CacheUtils.getTopicsAndQrelsCache(), "qrels.adhoc.151-200.txt");
     produced = RelevanceJudgments.getQrelsPath(Path.of("adhoc.151-200"));
     assertNotNull(produced);
     assertEquals(expected, produced);
 
-    expected = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "topics-and-qrels", "qrels.microblog2012.txt");
+    expected = Path.of(CacheUtils.getTopicsAndQrelsCache(), "qrels.microblog2012.txt");
     produced = RelevanceJudgments.getQrelsPath(Path.of("microblog2012"));
     assertNotNull(produced);
     assertEquals(expected, produced);
 
-    expected = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "topics-and-qrels", "qrels.terabyte04.701-750.txt");
+    expected = Path.of(CacheUtils.getTopicsAndQrelsCache(), "qrels.terabyte04.701-750.txt");
     produced = RelevanceJudgments.getQrelsPath(Path.of("terabyte04.701-750"));
     assertNotNull(produced);
     assertEquals(expected, produced);
