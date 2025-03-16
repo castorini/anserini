@@ -1068,29 +1068,29 @@ public class BgeBaseEn15EncoderInferenceTest extends DenseEncoderInferenceTest {
     super(MODEL_NAME, MODEL_URL, EXAMPLES, LONG_EXAMPLES);
   }
 
-  @Test
-  public void basic() throws OrtException, IOException, URISyntaxException {
-    String modelPath = getEncoderModelPath().toString();
-    try (OrtEnvironment env = OrtEnvironment.getEnvironment();
-        OrtSession.SessionOptions options = new OrtSession.SessionOptions();
-        OrtSession session = env.createSession(modelPath, options)) {
-
-      for (Object[] example : examples) {
-        long[] inputIds = (long[]) example[0];
-        float[] expectedWeights = (float[]) example[1];
-
-        Map<String, OnnxTensor> inputs = new HashMap<>();
-        long[][] tokenIds = new long[1][inputIds.length];
-        tokenIds[0] = inputIds;
-        inputs.put("input_ids", OnnxTensor.createTensor(env, tokenIds));
-
-        try (Result results = session.run(inputs)) {
-          float[] weights = ((float[][][]) results.get("last_hidden_state").get().getValue())[0][0];
-          assertArrayEquals(expectedWeights, weights, 1e-4f);
-        }
-      }
-    }
-  }
+//  @Test
+//  public void basic() throws OrtException, IOException, URISyntaxException {
+//    String modelPath = getEncoderModelPath().toString();
+//    try (OrtEnvironment env = OrtEnvironment.getEnvironment();
+//        OrtSession.SessionOptions options = new OrtSession.SessionOptions();
+//        OrtSession session = env.createSession(modelPath, options)) {
+//
+//      for (Object[] example : examples) {
+//        long[] inputIds = (long[]) example[0];
+//        float[] expectedWeights = (float[]) example[1];
+//
+//        Map<String, OnnxTensor> inputs = new HashMap<>();
+//        long[][] tokenIds = new long[1][inputIds.length];
+//        tokenIds[0] = inputIds;
+//        inputs.put("input_ids", OnnxTensor.createTensor(env, tokenIds));
+//
+//        try (Result results = session.run(inputs)) {
+//          float[] weights = ((float[][][]) results.get("last_hidden_state").get().getValue())[0][0];
+//          assertArrayEquals(expectedWeights, weights, 1e-4f);
+//        }
+//      }
+//    }
+//  }
 
   // We're running into this issue on GitHub Java CI:
   // > Error: The operation was canceled.
