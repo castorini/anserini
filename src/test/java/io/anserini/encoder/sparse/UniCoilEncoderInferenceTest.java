@@ -154,6 +154,8 @@ public class UniCoilEncoderInferenceTest extends BaseSparseEncoderInferenceTest 
 
   @Test
   public void testExamples() throws OrtException, IOException, URISyntaxException {
-    super.testExamples(EXAMPLES, new UniCoilEncoder());
+    try(SparseEncoder encoder = new UniCoilEncoder()) {
+      super.testExamples(EXAMPLES, encoder);
+    }
   }
 }

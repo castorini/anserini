@@ -31,8 +31,9 @@ import ai.djl.modality.nlp.bert.BertFullTokenizer;
 import ai.onnxruntime.OrtEnvironment;
 import ai.onnxruntime.OrtException;
 import ai.onnxruntime.OrtSession;
+import org.apache.parquet.Log;
 
-public abstract class OnnxEncoder<T> {
+public abstract class OnnxEncoder<T> implements AutoCloseable {
   private static final String CACHE_DIR = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "encoders").toString();
 
   protected final BertFullTokenizer tokenizer;
@@ -118,4 +119,13 @@ public abstract class OnnxEncoder<T> {
         new OrtSession.SessionOptions());
   }
 
+  public void close() {
+    try {
+      System.out.println("Closing...");
+      this.session.close();
+    } catch (OrtException e) {
+      // Nothing we can do at this point, so wrap and rethrow.
+      throw new RuntimeException(e);
+    }
+  }
 }

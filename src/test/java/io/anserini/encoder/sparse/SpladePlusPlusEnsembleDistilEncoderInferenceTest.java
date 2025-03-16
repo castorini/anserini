@@ -392,6 +392,8 @@ public class SpladePlusPlusEnsembleDistilEncoderInferenceTest extends BaseSparse
 
   @Test
   public void testExamples() throws OrtException, IOException, URISyntaxException {
-    super.testExamples(EXAMPLES, new SpladePlusPlusEnsembleDistilEncoder());
+    try(SparseEncoder encoder = new SpladePlusPlusEnsembleDistilEncoder()) {
+      super.testExamples(EXAMPLES, encoder);
+    }
   }
 }
