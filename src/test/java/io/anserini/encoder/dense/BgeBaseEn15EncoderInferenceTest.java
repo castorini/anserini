@@ -16,21 +16,19 @@
 
 package io.anserini.encoder.dense;
 
-import static org.junit.Assert.assertArrayEquals;
-
-import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.junit.Test;
-
 import ai.onnxruntime.OnnxTensor;
 import ai.onnxruntime.OrtEnvironment;
 import ai.onnxruntime.OrtException;
 import ai.onnxruntime.OrtSession;
 import ai.onnxruntime.OrtSession.Result;
+import org.junit.Test;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.Assert.assertArrayEquals;
 
 public class BgeBaseEn15EncoderInferenceTest extends DenseEncoderInferenceTest {
   static private final String MODEL_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/bge-base-en-v1.5-optimized.onnx";
@@ -1091,48 +1089,7 @@ public class BgeBaseEn15EncoderInferenceTest extends DenseEncoderInferenceTest {
         }
       }
     }
-
-    // Specify the directory for which you want to check the free space.
-    // You can use the current directory, a specific drive, or a subdirectory.
-    File directory = new File("."); // Current directory
-
-    // Get the free space in bytes.
-    long freeSpace = directory.getFreeSpace();
-
-    // Get the total space in bytes.
-    long totalSpace = directory.getTotalSpace();
-
-    // Get the usable space in bytes (space available to this JVM).
-    long usableSpace = directory.getUsableSpace();
-
-    // Convert bytes to gigabytes for easier reading.
-    double freeSpaceGB = (double) freeSpace / (1024 * 1024 * 1024);
-    double totalSpaceGB = (double) totalSpace / (1024 * 1024 * 1024);
-    double usableSpaceGB = (double) usableSpace / (1024 * 1024 * 1024);
-
-    // Print the results.
-    System.out.printf("Total space: %.2f GB%n", totalSpaceGB);
-    System.out.printf("Usable space: %.2f GB%n", usableSpaceGB);
-    System.out.printf("Free space: %.2f GB%n", freeSpaceGB);
-
-    Runtime runtime = Runtime.getRuntime();
-
-    long maxMemory = runtime.maxMemory(); //Maximum amount of memory that the JVM will attempt to use
-    long totalMemory = runtime.totalMemory(); // Total memory currently available to the JVM
-    long freeMemory = runtime.freeMemory();  // Amount of free memory available in the JVM
-
-    // Calculate used memory
-    long usedMemory = totalMemory - freeMemory;
-
-    System.out.println("Max memory: " + maxMemory / (1024 * 1024) + "MB");
-    System.out.println("Total memory: " + totalMemory / (1024 * 1024) + "MB");
-    System.out.println("Free memory: " + freeMemory / (1024 * 1024) + "MB");
-    System.out.println("Used memory: " + usedMemory / (1024 * 1024) + "MB");
   }
-
-  // We're running into this issue on GitHub Java CI:
-  // > Error: The operation was canceled.
-  // Can't reproduce locally, but separating test cases into separate files seems to fix it...
 
   @Test
   public void testMaxLength() throws OrtException, IOException, URISyntaxException {
@@ -1143,42 +1100,5 @@ public class BgeBaseEn15EncoderInferenceTest extends DenseEncoderInferenceTest {
       float[] outputs = encoder.encode(inputStrings[0]);
       assertArrayEquals(expectedWeights, outputs, 1e-4f);
     }
-
-    // Specify the directory for which you want to check the free space.
-    // You can use the current directory, a specific drive, or a subdirectory.
-    File directory = new File("."); // Current directory
-
-    // Get the free space in bytes.
-    long freeSpace = directory.getFreeSpace();
-
-    // Get the total space in bytes.
-    long totalSpace = directory.getTotalSpace();
-
-    // Get the usable space in bytes (space available to this JVM).
-    long usableSpace = directory.getUsableSpace();
-
-    // Convert bytes to gigabytes for easier reading.
-    double freeSpaceGB = (double) freeSpace / (1024 * 1024 * 1024);
-    double totalSpaceGB = (double) totalSpace / (1024 * 1024 * 1024);
-    double usableSpaceGB = (double) usableSpace / (1024 * 1024 * 1024);
-
-    // Print the results.
-    System.out.printf("Total space: %.2f GB%n", totalSpaceGB);
-    System.out.printf("Usable space: %.2f GB%n", usableSpaceGB);
-    System.out.printf("Free space: %.2f GB%n", freeSpaceGB);
-
-    Runtime runtime = Runtime.getRuntime();
-
-    long maxMemory = runtime.maxMemory(); //Maximum amount of memory that the JVM will attempt to use
-    long totalMemory = runtime.totalMemory(); // Total memory currently available to the JVM
-    long freeMemory = runtime.freeMemory();  // Amount of free memory available in the JVM
-
-    // Calculate used memory
-    long usedMemory = totalMemory - freeMemory;
-
-    System.out.println("Max memory: " + maxMemory / (1024 * 1024) + "MB");
-    System.out.println("Total memory: " + totalMemory / (1024 * 1024) + "MB");
-    System.out.println("Free memory: " + freeMemory / (1024 * 1024) + "MB");
-    System.out.println("Used memory: " + usedMemory / (1024 * 1024) + "MB");
   }
 }

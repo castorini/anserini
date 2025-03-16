@@ -16,21 +16,18 @@
 
  package io.anserini.encoder.dense;
 
- import java.io.IOException;
- import java.net.URISyntaxException;
- import java.util.ArrayList;
- import java.util.Arrays;
- import java.util.HashMap;
- import java.util.List;
- import java.util.Map;
+import ai.onnxruntime.OnnxTensor;
+import ai.onnxruntime.OrtException;
+import ai.onnxruntime.OrtSession;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
  
- import ai.onnxruntime.OnnxTensor;
- import ai.onnxruntime.OrtException;
- import ai.onnxruntime.OrtSession;
- 
- /**
-  * ArcticEmbedL
-  */
  public class ArcticEmbedLEncoder extends DenseEncoder {
    static private final String MODEL_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/arctic-embed-l-official.onnx";
    static private final String VOCAB_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/arctic-embed-l-official-vocab.txt";

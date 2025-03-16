@@ -16,10 +16,9 @@
 
 package io.anserini.encoder.sparse;
 
-import io.anserini.encoder.OnnxEncoder;
-
 import ai.djl.modality.nlp.DefaultVocabulary;
 import ai.onnxruntime.OrtException;
+import io.anserini.encoder.OnnxEncoder;
 
 import java.io.IOException;
 import java.net.URISyntaxException;

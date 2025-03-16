@@ -18,20 +18,5 @@ package io.anserini.encoder.sparse;
 
 import java.util.Map;
 
-public class SparseExampleOutputPair {
-  private final String example;
-  private final Map<String, Integer> output;
-
-  public SparseExampleOutputPair(String example, Map<String, Integer> output) {
-    this.example = example;
-    this.output = output;
-  }
-
-  public String getExample() {
-    return this.example;
-  }
-
-  public Map<String, Integer> getOutput() {
-    return this.output;
-  }
+public record SparseExampleOutputPair(String example, Map<String, Integer> output) {
 }

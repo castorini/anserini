@@ -16,24 +16,21 @@
 
 package io.anserini.encoder.dense;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertArrayEquals;
+import ai.onnxruntime.OnnxTensor;
+import ai.onnxruntime.OrtEnvironment;
+import ai.onnxruntime.OrtException;
+import ai.onnxruntime.OrtSession;
+import ai.onnxruntime.OrtSession.Result;
+import io.anserini.encoder.OnnxEncoder;
+import org.junit.Test;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import io.anserini.encoder.OnnxEncoder;
-import org.junit.Test;
-
-import ai.onnxruntime.OnnxTensor;
-import ai.onnxruntime.OrtEnvironment;
-import ai.onnxruntime.OrtException;
-import ai.onnxruntime.OrtSession;
-import ai.onnxruntime.OrtSession.Result;
+import static org.junit.Assert.assertArrayEquals;
 
 public class ArcticEmbedLEncoderInferenceTest extends DenseEncoderInferenceTest {
   static private final String MODEL_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/arctic-embed-l-official.onnx";
@@ -874,20 +871,6 @@ public class ArcticEmbedLEncoderInferenceTest extends DenseEncoderInferenceTest 
 
   @Test
   public void basic() throws OrtException, IOException, URISyntaxException {
-    Runtime runtime = Runtime.getRuntime();
-
-    long maxMemory = runtime.maxMemory(); //Maximum amount of memory that the JVM will attempt to use
-    long totalMemory = runtime.totalMemory(); // Total memory currently available to the JVM
-    long freeMemory = runtime.freeMemory();  // Amount of free memory available in the JVM
-
-    // Calculate used memory
-    long usedMemory = totalMemory - freeMemory;
-
-    System.out.println("Max memory: " + maxMemory / (1024 * 1024) + "MB");
-    System.out.println("Total memory: " + totalMemory / (1024 * 1024) + "MB");
-    System.out.println("Free memory: " + freeMemory / (1024 * 1024) + "MB");
-    System.out.println("Used memory: " + usedMemory / (1024 * 1024) + "MB");
-
     String modelPath = getEncoderModelPath().toString();
 
     try (OrtEnvironment env = OrtEnvironment.getEnvironment();
@@ -923,29 +906,6 @@ public class ArcticEmbedLEncoderInferenceTest extends DenseEncoderInferenceTest 
         }
       }
     }
-
-    // Specify the directory for which you want to check the free space.
-    // You can use the current directory, a specific drive, or a subdirectory.
-    File directory = new File("."); // Current directory
-
-    // Get the free space in bytes.
-    long freeSpace = directory.getFreeSpace();
-
-    // Get the total space in bytes.
-    long totalSpace = directory.getTotalSpace();
-
-    // Get the usable space in bytes (space available to this JVM).
-    long usableSpace = directory.getUsableSpace();
-
-    // Convert bytes to gigabytes for easier reading.
-    double freeSpaceGB = (double) freeSpace / (1024 * 1024 * 1024);
-    double totalSpaceGB = (double) totalSpace / (1024 * 1024 * 1024);
-    double usableSpaceGB = (double) usableSpace / (1024 * 1024 * 1024);
-
-    // Print the results.
-    System.out.printf("Total space: %.2f GB%n", totalSpaceGB);
-    System.out.printf("Usable space: %.2f GB%n", usableSpaceGB);
-    System.out.printf("Free space: %.2f GB%n", freeSpaceGB);
   }
 
   @Test
@@ -957,29 +917,6 @@ public class ArcticEmbedLEncoderInferenceTest extends DenseEncoderInferenceTest 
       float[] outputs = encoder.encode(inputStrings[0]);
       assertArrayEquals(expectedWeights, outputs, 1e-4f);
     }
-
-    // Specify the directory for which you want to check the free space.
-    // You can use the current directory, a specific drive, or a subdirectory.
-    File directory = new File("."); // Current directory
-
-    // Get the free space in bytes.
-    long freeSpace = directory.getFreeSpace();
-
-    // Get the total space in bytes.
-    long totalSpace = directory.getTotalSpace();
-
-    // Get the usable space in bytes (space available to this JVM).
-    long usableSpace = directory.getUsableSpace();
-
-    // Convert bytes to gigabytes for easier reading.
-    double freeSpaceGB = (double) freeSpace / (1024 * 1024 * 1024);
-    double totalSpaceGB = (double) totalSpace / (1024 * 1024 * 1024);
-    double usableSpaceGB = (double) usableSpace / (1024 * 1024 * 1024);
-
-    // Print the results.
-    System.out.printf("Total space: %.2f GB%n", totalSpaceGB);
-    System.out.printf("Usable space: %.2f GB%n", usableSpaceGB);
-    System.out.printf("Free space: %.2f GB%n", freeSpaceGB);
   }
 }
 

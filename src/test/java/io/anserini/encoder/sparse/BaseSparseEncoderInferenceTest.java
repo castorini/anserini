@@ -1,49 +1,40 @@
+/*
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.anserini.encoder.sparse;
 
 import ai.onnxruntime.OrtException;
-import org.junit.Test;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
 public class BaseSparseEncoderInferenceTest {
-  public void testExamples(SparseExampleOutputPair[] examples, SparseEncoder encoder) throws OrtException, IOException, URISyntaxException {
-    for (SparseExampleOutputPair pair: examples) {
-      Map<String, Integer> outputs = encoder.getEncodedQueryMap(pair.getExample());
-      Map<String, Integer> expectedMap = pair.getOutput();
+  public void testExamples(SparseExampleOutputPair[] examples, SparseEncoder encoder) throws OrtException {
+    for (SparseExampleOutputPair pair : examples) {
+      Map<String, Integer> outputs = encoder.getEncodedQueryMap(pair.example());
+      Map<String, Integer> expectedWeights = pair.output();
 
-      assertEquals(expectedMap.size(), outputs.size());
+      assertEquals(expectedWeights.size(), outputs.size());
       for (Map.Entry<String, Integer> entry : outputs.entrySet()) {
-        String key = entry.getKey();
-        Integer value = entry.getValue();
-        //System.out.println(entry.getKey() + " " + entry.getValue());
+        String token = entry.getKey();
+        Integer weight = entry.getValue();
 
-        Integer expectedValue = expectedMap.get(key);
-        assertEquals(expectedValue, value);
+        assertEquals(expectedWeights.get(token), weight);
       }
-      //System.out.println("----");
     }
-
-    System.out.printf("Deleting %s...\n", encoder.getModelPath());
-    Files.delete(encoder.getModelPath());
-
-    Runtime runtime = Runtime.getRuntime();
-
-    long maxMemory = runtime.maxMemory(); //Maximum amount of memory that the JVM will attempt to use
-    long totalMemory = runtime.totalMemory(); // Total memory currently available to the JVM
-    long freeMemory = runtime.freeMemory();  // Amount of free memory available in the JVM
-
-    // Calculate used memory
-    long usedMemory = totalMemory - freeMemory;
-
-    System.out.println("Max memory: " + maxMemory / (1024 * 1024) + "MB");
-    System.out.println("Total memory: " + totalMemory / (1024 * 1024) + "MB");
-    System.out.println("Free memory: " + freeMemory / (1024 * 1024) + "MB");
-    System.out.println("Used memory: " + usedMemory / (1024 * 1024) + "MB");
   }
-
 }
