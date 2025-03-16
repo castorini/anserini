@@ -16,12 +16,11 @@
 
 package io.anserini.encoder.dense;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-
+import ai.onnxruntime.OrtException;
 import org.junit.Test;
 
-import ai.onnxruntime.OrtException;
+import java.io.IOException;
+import java.net.URISyntaxException;
 
 public class CosDprDistilEncoderInferenceTest extends DenseEncoderInferenceTest {
   static private final String MODEL_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/cosdpr-distil-optimized.onnx";

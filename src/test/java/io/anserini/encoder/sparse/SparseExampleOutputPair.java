@@ -16,11 +16,7 @@
 
 package io.anserini.encoder.sparse;
 
-import io.anserini.encoder.EncoderInferenceTest;
+import java.util.Map;
 
-public abstract class SparseEncoderInferenceTest extends EncoderInferenceTest {
-
-  public SparseEncoderInferenceTest(String modelName, String modelUrl, Object[][] examples) {
-    super(modelName, modelUrl, examples);
-  }
+public record SparseExampleOutputPair(String example, Map<String, Integer> output) {
 }

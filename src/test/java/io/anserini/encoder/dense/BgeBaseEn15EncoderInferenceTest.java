@@ -16,20 +16,19 @@
 
 package io.anserini.encoder.dense;
 
-import static org.junit.Assert.assertArrayEquals;
+import ai.onnxruntime.OnnxTensor;
+import ai.onnxruntime.OrtEnvironment;
+import ai.onnxruntime.OrtException;
+import ai.onnxruntime.OrtSession;
+import ai.onnxruntime.OrtSession.Result;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Test;
-
-import ai.onnxruntime.OnnxTensor;
-import ai.onnxruntime.OrtEnvironment;
-import ai.onnxruntime.OrtException;
-import ai.onnxruntime.OrtSession;
-import ai.onnxruntime.OrtSession.Result;
+import static org.junit.Assert.assertArrayEquals;
 
 public class BgeBaseEn15EncoderInferenceTest extends DenseEncoderInferenceTest {
   static private final String MODEL_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/bge-base-en-v1.5-optimized.onnx";
@@ -945,7 +944,7 @@ public class BgeBaseEn15EncoderInferenceTest extends DenseEncoderInferenceTest {
               -0.57727516f, 0.6823535f, 0.8443152f, -0.29511172f } }
   };
 
-  static protected final Object[][] LONG_EXAMPLES = new Object[][] {
+  static private final Object[][] LONG_EXAMPLES = new Object[][] {
       { new String[] {
           "In the dawn of the 21st century, humanity stands on the brink of one of the most transformative periods in history: the rise of artificial intelligence (AI). " +
               "This technological revolution promises to redefine the way we live, work, and interact with the world around us. " +
@@ -1092,7 +1091,14 @@ public class BgeBaseEn15EncoderInferenceTest extends DenseEncoderInferenceTest {
     }
   }
 
-  // We're running into this issue on GitHub Java CI:
-  // > Error: The operation was canceled.
-  // Can't reproduce locally, but separating test cases into separate files seems to fix it...
+  @Test
+  public void testMaxLength() throws OrtException, IOException, URISyntaxException {
+    try(DenseEncoder encoder = new BgeBaseEn15Encoder()) {
+      float[] expectedWeights = (float[]) BgeBaseEn15EncoderInferenceTest.LONG_EXAMPLES[0][1];
+      String[] inputStrings = (String[]) BgeBaseEn15EncoderInferenceTest.LONG_EXAMPLES[0][0];
+
+      float[] outputs = encoder.encode(inputStrings[0]);
+      assertArrayEquals(expectedWeights, outputs, 1e-4f);
+    }
+  }
 }

@@ -16,15 +16,13 @@
 
 package io.anserini.encoder;
 
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-
-import org.apache.commons.io.FileUtils;
-import org.junit.After;
 
 public abstract class EncoderInferenceTest {
   private static final String CACHE_DIR = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "encoders").toString();
@@ -58,11 +56,5 @@ public abstract class EncoderInferenceTest {
     this.modelUrl = modelUrl;
     this.examples = examples;
     this.longExamples = longExamples;
-  }
-
-  @After
-  public void cleanup() throws IOException, URISyntaxException {
-    System.out.printf("Deleting %s...\n", getEncoderModelPath().toString());
-    Files.delete(getEncoderModelPath());
   }
 }
