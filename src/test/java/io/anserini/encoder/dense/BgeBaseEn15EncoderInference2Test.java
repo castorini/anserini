@@ -14,11 +14,9 @@
  * limitations under the License.
  */
 
-package io.anserini.encoder;
+package io.anserini.encoder.dense;
 
 import ai.onnxruntime.OrtException;
-import io.anserini.encoder.dense.BgeBaseEn15Encoder;
-import io.anserini.encoder.dense.DenseEncoder;
 import org.junit.Test;
 
 import java.io.IOException;

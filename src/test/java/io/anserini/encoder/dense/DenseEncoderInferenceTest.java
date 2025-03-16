@@ -14,32 +14,31 @@
  * limitations under the License.
  */
 
-package io.anserini.encoder;
+package io.anserini.encoder.dense;
 
 import ai.onnxruntime.OnnxTensor;
 import ai.onnxruntime.OrtEnvironment;
 import ai.onnxruntime.OrtException;
 import ai.onnxruntime.OrtSession;
 import ai.onnxruntime.OrtSession.Result;
+import io.anserini.encoder.EncoderInferenceTest;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.assertArrayEquals;
 
-abstract class SpladePlusPlusEncoderInferenceTest extends EncoderInferenceTest {
+abstract class DenseEncoderInferenceTest extends EncoderInferenceTest {
 
-  public SpladePlusPlusEncoderInferenceTest(String modelName, String modelUrl, Object[][] examples) {
+  public DenseEncoderInferenceTest(String modelName, String modelUrl, Object[][] examples) {
     super(modelName, modelUrl, examples);
   }
 
-  public SpladePlusPlusEncoderInferenceTest(String modelName, String modelUrl, Object[][] examples, Object[][] longExamples) {
+  public DenseEncoderInferenceTest(String modelName, String modelUrl, Object[][] examples, Object[][] longExamples) {
     super(modelName, modelUrl, examples, longExamples);
   }
-
 
   protected void basicTest() throws IOException, OrtException, URISyntaxException {
     String modelPath = getEncoderModelPath().toString();
@@ -49,26 +48,18 @@ abstract class SpladePlusPlusEncoderInferenceTest extends EncoderInferenceTest {
 
       for (Object[] example : examples) {
         long[] inputIds = (long[]) example[0];
-        long[] expectedIdx = (long[]) example[1];
-        float[] expectedWeights = (float[]) example[2];
+        float[] expectedWeights = (float[]) example[1];
 
         Map<String, OnnxTensor> inputs = new HashMap<>();
         long[][] tokenIds = new long[1][inputIds.length];
-        long[][] tokenTypeIdsTensor = new long[1][inputIds.length];
-        long[][] attentionMaskTensor = new long[1][inputIds.length];
-        Arrays.fill(attentionMaskTensor[0], 1);
         tokenIds[0] = inputIds;
         inputs.put("input_ids", OnnxTensor.createTensor(env, tokenIds));
-        inputs.put("token_type_ids", OnnxTensor.createTensor(env, tokenTypeIdsTensor));
-        inputs.put("attention_mask", OnnxTensor.createTensor(env, attentionMaskTensor));
+
         try (Result results = session.run(inputs)) {
-          long[] indexes = (long[]) results.get("output_idx").get().getValue();
-          float[] weights = (float[]) results.get("output_weights").get().getValue();
-          assertArrayEquals(expectedIdx, indexes);
+          float[] weights = ((float[][]) results.get("pooler_output").get().getValue())[0];
           assertArrayEquals(expectedWeights, weights, 1e-4f);
         }
       }
     }
   }
-
 }

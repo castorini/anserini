@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.anserini.encoder;
+package io.anserini.encoder.sparse;
 
 import ai.onnxruntime.OrtException;
 import org.junit.Test;

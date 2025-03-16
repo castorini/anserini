@@ -14,11 +14,9 @@
  * limitations under the License.
  */
 
-package io.anserini.encoder;
+package io.anserini.encoder.sparse;
 
 import ai.onnxruntime.OrtException;
-import io.anserini.encoder.sparse.SparseEncoder;
-import io.anserini.encoder.sparse.SpladePlusPlusEnsembleDistilEncoder;
 
 import org.junit.Test;
 
@@ -27,7 +25,6 @@ import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
-import java.util.Map;
 
 public class SpladePlusPlusEnsembleDistilEncoderInferenceTest extends SpladePlusPlusEncoderInferenceTest {
 

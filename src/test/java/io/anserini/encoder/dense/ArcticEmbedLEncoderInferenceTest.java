@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-package io.anserini.encoder;
+package io.anserini.encoder.dense;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
@@ -24,6 +24,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.anserini.encoder.OnnxEncoder;
 import org.junit.Test;
 
 import ai.onnxruntime.OnnxTensor;
@@ -31,7 +32,6 @@ import ai.onnxruntime.OrtEnvironment;
 import ai.onnxruntime.OrtException;
 import ai.onnxruntime.OrtSession;
 import ai.onnxruntime.OrtSession.Result;
-import io.anserini.encoder.dense.ArcticEmbedLEncoder;
 
 public class ArcticEmbedLEncoderInferenceTest extends DenseEncoderInferenceTest {
   static private final String MODEL_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/arctic-embed-l-official.onnx";

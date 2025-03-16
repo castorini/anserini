@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
-package io.anserini.encoder;
+package io.anserini.encoder.sparse;
 
-public abstract class SparseEncoderInferenceTest extends EncoderInferenceTest{
+import io.anserini.encoder.EncoderInferenceTest;
+
+public abstract class SparseEncoderInferenceTest extends EncoderInferenceTest {
 
   public SparseEncoderInferenceTest(String modelName, String modelUrl, Object[][] examples) {
     super(modelName, modelUrl, examples);
