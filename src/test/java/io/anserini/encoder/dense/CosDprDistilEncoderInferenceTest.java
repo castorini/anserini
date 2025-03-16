@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.anserini.encoder;
+package io.anserini.encoder.dense;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
