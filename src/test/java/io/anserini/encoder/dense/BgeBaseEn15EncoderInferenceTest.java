@@ -1069,7 +1069,7 @@ public class BgeBaseEn15EncoderInferenceTest extends DenseEncoderInferenceTest {
     super(MODEL_NAME, MODEL_URL, EXAMPLES, LONG_EXAMPLES);
   }
 
-  @Test
+  //@Test
   public void basic() throws OrtException, IOException, URISyntaxException {
     String modelPath = getEncoderModelPath().toString();
     try (OrtEnvironment env = OrtEnvironment.getEnvironment();

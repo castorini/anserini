@@ -17,6 +17,7 @@
 package io.anserini.encoder.dense;
 
 import ai.onnxruntime.OrtException;
+import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,7 +29,7 @@ public class ArcticEmbedLEncoderInference2Test {
   // We're running into this issue on GitHub Java CI:
   // > Error: The operation was canceled.
   // Can't reproduce locally, but separating test cases into separate files seems to fix it...
-  //@Test
+  @Test
   public void testMaxLength() throws OrtException, IOException, URISyntaxException {
     ArcticEmbedLEncoder encoder = new ArcticEmbedLEncoder();
     float[] expectedWeights = (float[]) ArcticEmbedLEncoderInferenceTest.LONG_EXAMPLES[0][1];

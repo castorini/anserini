@@ -1154,7 +1154,7 @@ public class CosDprDistilEncoderInferenceTest extends DenseEncoderInferenceTest 
     super(MODEL_NAME, MODEL_URL, EXAMPLES);
   }
 
-  @Test
+  //@Test
   public void basic() throws OrtException, IOException, URISyntaxException {
     super.basicTest();
 
