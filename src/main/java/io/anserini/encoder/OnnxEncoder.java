@@ -121,8 +121,9 @@ public abstract class OnnxEncoder<T> implements AutoCloseable {
 
   public void close() {
     try {
-      System.out.println("Closing...");
+      System.out.println("Closing session...");
       this.session.close();
+      // Note that we don't need to close the environment: according to docs, it's a no-op.
     } catch (OrtException e) {
       // Nothing we can do at this point, so wrap and rethrow.
       throw new RuntimeException(e);

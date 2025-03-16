@@ -29,14 +29,15 @@ public class BgeBaseEn15EncoderInference2Test {
   // We're running into this issue on GitHub Java CI:
   // > Error: The operation was canceled.
   // Can't reproduce locally, but separating test cases into separate files seems to fix it...
-  //@Test
+  @Test
   public void testMaxLength() throws OrtException, IOException, URISyntaxException {
-    DenseEncoder encoder = new BgeBaseEn15Encoder();
-    float[] expectedWeights = (float[]) BgeBaseEn15EncoderInferenceTest.LONG_EXAMPLES[0][1];
-    String[] inputStrings = (String[]) BgeBaseEn15EncoderInferenceTest.LONG_EXAMPLES[0][0];
+    try(DenseEncoder encoder = new BgeBaseEn15Encoder()) {
+      float[] expectedWeights = (float[]) BgeBaseEn15EncoderInferenceTest.LONG_EXAMPLES[0][1];
+      String[] inputStrings = (String[]) BgeBaseEn15EncoderInferenceTest.LONG_EXAMPLES[0][0];
 
-    float[] outputs = encoder.encode(inputStrings[0]);
-    assertArrayEquals(expectedWeights, outputs, 1e-4f);
+      float[] outputs = encoder.encode(inputStrings[0]);
+      assertArrayEquals(expectedWeights, outputs, 1e-4f);
+    }
 
     // Specify the directory for which you want to check the free space.
     // You can use the current directory, a specific drive, or a subdirectory.

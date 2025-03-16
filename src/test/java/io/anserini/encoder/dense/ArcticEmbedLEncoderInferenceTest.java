@@ -871,7 +871,7 @@ public class ArcticEmbedLEncoderInferenceTest extends DenseEncoderInferenceTest 
     super(MODEL_NAME, MODEL_URL, EXAMPLES);
   }
 
-  //@Test
+  @Test
   public void basic() throws OrtException, IOException, URISyntaxException {
     Runtime runtime = Runtime.getRuntime();
 

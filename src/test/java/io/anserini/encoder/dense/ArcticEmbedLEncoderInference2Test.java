@@ -31,12 +31,13 @@ public class ArcticEmbedLEncoderInference2Test {
   // Can't reproduce locally, but separating test cases into separate files seems to fix it...
   @Test
   public void testMaxLength() throws OrtException, IOException, URISyntaxException {
-    ArcticEmbedLEncoder encoder = new ArcticEmbedLEncoder();
-    float[] expectedWeights = (float[]) ArcticEmbedLEncoderInferenceTest.LONG_EXAMPLES[0][1];
-    String[] inputStrings = (String[]) ArcticEmbedLEncoderInferenceTest.LONG_EXAMPLES[0][0];
+    try(ArcticEmbedLEncoder encoder = new ArcticEmbedLEncoder()) {
+      float[] expectedWeights = (float[]) ArcticEmbedLEncoderInferenceTest.LONG_EXAMPLES[0][1];
+      String[] inputStrings = (String[]) ArcticEmbedLEncoderInferenceTest.LONG_EXAMPLES[0][0];
 
-    float[] outputs = encoder.encode(inputStrings[0]);
-    assertArrayEquals(expectedWeights, outputs, 1e-4f);
+      float[] outputs = encoder.encode(inputStrings[0]);
+      assertArrayEquals(expectedWeights, outputs, 1e-4f);
+    }
 
     // Specify the directory for which you want to check the free space.
     // You can use the current directory, a specific drive, or a subdirectory.
