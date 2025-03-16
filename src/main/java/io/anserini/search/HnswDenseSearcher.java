@@ -50,7 +50,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class HnswDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> implements Closeable {
+public class HnswDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> implements AutoCloseable {
   // These are the default tie-breaking rules for documents that end up with the same score with respect to a query.
   // For most collections, docids are strings, and we break ties by lexicographic sort order.
   public static final Sort BREAK_SCORE_TIES_BY_DOCID =
@@ -259,5 +259,8 @@ public class HnswDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
   @Override
   public void close() throws IOException {
     reader.close();
+    if (encoder != null) {
+      encoder.close();
+    }
   }
 }

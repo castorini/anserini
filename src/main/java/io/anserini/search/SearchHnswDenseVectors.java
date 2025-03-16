@@ -43,7 +43,7 @@ import java.util.TreeMap;
 /**
  * Main entry point for HNSW search.
  */
-public final class SearchHnswDenseVectors<K extends Comparable<K>> implements Runnable, Closeable {
+public final class SearchHnswDenseVectors<K extends Comparable<K>> implements Runnable, AutoCloseable {
   private static final Logger LOG = LogManager.getLogger(SearchHnswDenseVectors.class);
 
   public static class Args extends HnswDenseSearcher.Args {
