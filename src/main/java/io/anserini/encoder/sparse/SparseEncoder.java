@@ -23,6 +23,7 @@ import ai.onnxruntime.OrtException;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -91,4 +92,6 @@ public abstract class SparseEncoder extends OnnxEncoder<String> {
   }
 
   protected abstract Map<String, Float> getTokenWeightMap(String query) throws OrtException;
+
+  public abstract Path getModelPath() throws IOException, URISyntaxException;
 }

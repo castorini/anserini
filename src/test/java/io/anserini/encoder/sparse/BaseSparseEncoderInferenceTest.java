@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
@@ -26,6 +27,9 @@ public class BaseSparseEncoderInferenceTest {
       }
       //System.out.println("----");
     }
+
+    System.out.printf("Deleting %s...\n", encoder.getModelPath());
+    Files.delete(encoder.getModelPath());
   }
 
 }

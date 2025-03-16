@@ -19,9 +19,11 @@ package io.anserini.encoder.sparse;
 import ai.onnxruntime.OnnxTensor;
 import ai.onnxruntime.OrtException;
 import ai.onnxruntime.OrtSession;
+import io.anserini.encoder.OnnxEncoder;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -79,4 +81,7 @@ public class SpladePlusPlusEnsembleDistilEncoder extends SparseEncoder {
     return tokenWeightMap;
   }
 
+  public Path getModelPath() throws IOException, URISyntaxException {
+    return OnnxEncoder.getModelPath(MODEL_NAME, MODEL_URL);
+  }
 }
