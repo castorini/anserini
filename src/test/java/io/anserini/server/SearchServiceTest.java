@@ -21,13 +21,14 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
+import io.anserini.index.ShardInfo;
 import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
 
 public class SearchServiceTest {
-
+          
   @Test
   public void testBasicSearch() throws Exception {
     SearchService service = new SearchService("beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.hnsw");
@@ -48,7 +49,7 @@ public class SearchServiceTest {
   @Test
   public void testEncoderOverrides() {
     SearchService service = new SearchService("beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.hnsw");
-    
+
     assertThrows("EncoderOverrides: setEncoderOverride(null) should throw IllegalArgumentException (encoder parameter must be non-null)",
         IllegalArgumentException.class, () -> service.setEncoderOverride(null));
     assertThrows("EncoderOverrides: setEncoderOverride(\"\") should throw IllegalArgumentException (encoder parameter must be non-empty)",
@@ -60,7 +61,7 @@ public class SearchServiceTest {
   @Test
   public void testQueryOverrides() {
     SearchService service = new SearchService("beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.hnsw");
-    
+
     assertThrows("QueryOverrides: setQueryGeneratorOverride(null) should throw IllegalArgumentException (queryGenerator must be non-null)",
         IllegalArgumentException.class, () -> service.setQueryGeneratorOverride(null));
     assertThrows("QueryOverrides: setQueryGeneratorOverride(\"\") should throw IllegalArgumentException (queryGenerator must be non-empty)",
@@ -102,6 +103,7 @@ public class SearchServiceTest {
   @Test
   public void testGetDocument() throws Exception {
     SearchService service = new SearchService("beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.hnsw");
+
     List<Map<String, Object>> results = service.search("test query", 1);
     assertNotNull("GetDocument: search('test query', 1) returned null results", results);
     if (!results.isEmpty()) {

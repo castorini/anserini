@@ -17,6 +17,7 @@
 package io.anserini.server;
 
 import io.anserini.index.IndexInfo;
+import io.anserini.index.ShardInfo;
 import io.anserini.util.PrebuiltIndexHandler;
 
 import java.util.List;
@@ -52,12 +53,29 @@ public class Controller {
     @RequestParam(value = "qid", defaultValue = "") String qid,
     @RequestParam(value = "efSearch", required = false) Integer efSearch,
     @RequestParam(value = "encoder", required = false) String encoder,
-    @RequestParam(value = "queryGenerator", required = false) String queryGenerator) {
-
-    if (!IndexInfo.contains(index)) throw new IllegalArgumentException("Index " + index + " not found!");
-
-    SearchService searchService = getOrCreateSearchService(index);
-    List<Map<String, Object>> candidates = searchService.search(query, hits, efSearch, encoder, queryGenerator);
+    @RequestParam(value = "queryGenerator", required = false) String queryGenerator,
+    @RequestParam(value = "shard", required = false) String shard) {
+    
+    List<Map<String, Object>> candidates;
+    
+    // First check if it's a sharded search by the shard parameter
+    if (shard != null) {
+      // If shard parameter is provided, use that for sharded search
+      candidates = SearchService.searchSharded(shard, query, hits, efSearch, encoder, queryGenerator);
+    } 
+    else {
+      try {
+        // Try to see if the index is a shard identifier
+        ShardInfo.fromIdentifier(index);
+        // If we get here, the index is a valid shard identifier
+        candidates = SearchService.searchSharded(index, query, hits, efSearch, encoder, queryGenerator);
+      } catch (IllegalArgumentException e) {
+        // Not a shard identifier, so do a regular search
+        if (!IndexInfo.contains(index)) throw new IllegalArgumentException("Index " + index + " not found!");
+        SearchService searchService = getOrCreateSearchService(index);
+        candidates = searchService.search(query, hits, efSearch, encoder, queryGenerator);
+      }
+    }
 
     Map<String, Object> queryMap = new LinkedHashMap<>();
     queryMap.put("query", new LinkedHashMap<>(Map.of("qid", qid, "text", query)));

@@ -72,7 +72,7 @@ public final class SearchHnswDenseVectors<K extends Comparable<K>> implements Ru
     public Boolean options = false;
   }
 
-  private final Args args;
+  protected final Args args;
   private final HnswDenseSearcher<K> searcher;
   private final List<K> qids= new ArrayList<>();
   private final List<String> queries = new ArrayList<>();
@@ -158,12 +158,12 @@ public final class SearchHnswDenseVectors<K extends Comparable<K>> implements Ru
     }
   }
 
-  public static void main(String[] args) throws Exception {
+  public static void main(String[] cmdlineArgs) throws Exception {
     Args searchArgs = new Args();
     CmdLineParser parser = new CmdLineParser(searchArgs, ParserProperties.defaults().withUsageWidth(120));
 
     try {
-      parser.parseArgument(args);
+      parser.parseArgument(cmdlineArgs);
     } catch (CmdLineException e) {
       if (searchArgs.options) {
         System.err.printf("Options for %s:\n\n", SearchHnswDenseVectors.class.getSimpleName());
