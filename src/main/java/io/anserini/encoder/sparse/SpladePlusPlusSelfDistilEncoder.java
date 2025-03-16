@@ -19,9 +19,11 @@ package io.anserini.encoder.sparse;
 import ai.onnxruntime.OnnxTensor;
 import ai.onnxruntime.OrtException;
 import ai.onnxruntime.OrtSession;
+import io.anserini.encoder.OnnxEncoder;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -30,11 +32,9 @@ import java.util.Map;
 
 public class SpladePlusPlusSelfDistilEncoder extends SparseEncoder {
   static private final String MODEL_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/splade-pp-sd-optimized.onnx";
-
   static private final String VOCAB_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/wordpiece-vocab.txt";
 
   static private final String MODEL_NAME = "splade-pp-sd-optimized.onnx";
-
   static private final String VOCAB_NAME = "splade-pp-sd-vocab.txt";
 
   public SpladePlusPlusSelfDistilEncoder() throws IOException, OrtException, URISyntaxException {
@@ -45,6 +45,15 @@ public class SpladePlusPlusSelfDistilEncoder extends SparseEncoder {
   public String encode(String query) throws OrtException {
     Map<String, Float> tokenWeightMap = getTokenWeightMap(query);
     return generateEncodedQuery(tokenWeightMap);
+  }
+
+  public long[] tokenizeToIds(String query) {
+    List<String> queryTokens = new ArrayList<>();
+    queryTokens.add("[CLS]");
+    queryTokens.addAll(tokenizer.tokenize(query));
+    queryTokens.add("[SEP]");
+
+    return convertTokensToIds(tokenizer, queryTokens, vocab);
   }
 
   @Override
@@ -78,4 +87,7 @@ public class SpladePlusPlusSelfDistilEncoder extends SparseEncoder {
     return tokenWeightMap;
   }
 
+  public Path getModelPath() throws IOException, URISyntaxException {
+    return OnnxEncoder.getModelPath(MODEL_NAME, MODEL_URL);
+  }
 }

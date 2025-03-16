@@ -16,6 +16,10 @@
 
 package io.anserini.encoder.dense;
 
+import ai.onnxruntime.OnnxTensor;
+import ai.onnxruntime.OrtException;
+import ai.onnxruntime.OrtSession;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -23,20 +27,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ai.onnxruntime.OnnxTensor;
-import ai.onnxruntime.OrtException;
-import ai.onnxruntime.OrtSession;
-
-/**
- * BgeBaseEn15
- */
 public class BgeBaseEn15Encoder extends DenseEncoder {
   static private final String MODEL_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/bge-base-en-v1.5-optimized.onnx";
-
   static private final String VOCAB_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/bge-base-en-v1.5-vocab.txt";
 
   static private final String MODEL_NAME = "bge-base-en-v1.5-optimized.onnx";
-
   static private final String VOCAB_NAME = "bge-base-en-v1.5-vocab.txt";
 
   static private final String INSTRUCTION = "Represent this sentence for searching relevant passages: ";

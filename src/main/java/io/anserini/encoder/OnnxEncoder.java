@@ -16,6 +16,16 @@
 
 package io.anserini.encoder;
 
+import ai.djl.modality.nlp.DefaultVocabulary;
+import ai.djl.modality.nlp.Vocabulary;
+import ai.djl.modality.nlp.bert.BertFullTokenizer;
+import ai.onnxruntime.OrtEnvironment;
+import ai.onnxruntime.OrtException;
+import ai.onnxruntime.OrtSession;
+import org.apache.commons.io.FileUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -23,16 +33,9 @@ import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.util.List;
 
-import org.apache.commons.io.FileUtils;
+public abstract class OnnxEncoder<T> implements AutoCloseable {
+  private static final Logger LOG = LogManager.getLogger(OnnxEncoder.class);
 
-import ai.djl.modality.nlp.DefaultVocabulary;
-import ai.djl.modality.nlp.Vocabulary;
-import ai.djl.modality.nlp.bert.BertFullTokenizer;
-import ai.onnxruntime.OrtEnvironment;
-import ai.onnxruntime.OrtException;
-import ai.onnxruntime.OrtSession;
-
-public abstract class OnnxEncoder<T> {
   private static final String CACHE_DIR = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "encoders").toString();
 
   protected final BertFullTokenizer tokenizer;
@@ -118,4 +121,13 @@ public abstract class OnnxEncoder<T> {
         new OrtSession.SessionOptions());
   }
 
+  public void close() {
+    try {
+      this.session.close();
+      // Note that we don't need to close the environment: according to docs, it's a no-op.
+    } catch (OrtException e) {
+      // Nothing we can do at this point, so log and move on.
+      LOG.error("Error closing session: {}", e.getMessage());
+    }
+  }
 }

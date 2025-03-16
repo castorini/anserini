@@ -16,22 +16,21 @@
 
 package io.anserini.encoder.dense;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertArrayEquals;
+import ai.onnxruntime.OnnxTensor;
+import ai.onnxruntime.OrtEnvironment;
+import ai.onnxruntime.OrtException;
+import ai.onnxruntime.OrtSession;
+import ai.onnxruntime.OrtSession.Result;
+import io.anserini.encoder.OnnxEncoder;
+import org.junit.Test;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import io.anserini.encoder.OnnxEncoder;
-import org.junit.Test;
-
-import ai.onnxruntime.OnnxTensor;
-import ai.onnxruntime.OrtEnvironment;
-import ai.onnxruntime.OrtException;
-import ai.onnxruntime.OrtSession;
-import ai.onnxruntime.OrtSession.Result;
+import static org.junit.Assert.assertArrayEquals;
 
 public class ArcticEmbedLEncoderInferenceTest extends DenseEncoderInferenceTest {
   static private final String MODEL_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/arctic-embed-l-official.onnx";
@@ -853,6 +852,7 @@ public class ArcticEmbedLEncoderInferenceTest extends DenseEncoderInferenceTest 
               0.013179f, -0.001298f, 0.004385f, 0.019288f, -0.058062f, 0.009981f, -0.024119f, -0.020618f,
               -0.040823f } },
   };
+
   static private final Object[][] LONG_EXAMPLES = new Object[][] {
     { new String[] {
         "In the dawn of the 21st century, humanity stands on the brink of one " +
@@ -909,20 +909,13 @@ public class ArcticEmbedLEncoderInferenceTest extends DenseEncoderInferenceTest 
   }
 
   @Test
-  public void testLongQuery() throws OrtException, IOException, URISyntaxException {
-    try {
-      ArcticEmbedLEncoder encoder = new ArcticEmbedLEncoder();
+  public void testMaxLength() throws OrtException, IOException, URISyntaxException {
+    try(ArcticEmbedLEncoder encoder = new ArcticEmbedLEncoder()) {
+      float[] expectedWeights = (float[]) ArcticEmbedLEncoderInferenceTest.LONG_EXAMPLES[0][1];
+      String[] inputStrings = (String[]) ArcticEmbedLEncoderInferenceTest.LONG_EXAMPLES[0][0];
 
-      for (Object[] example : LONG_EXAMPLES) {
-        String[] inputStrings = (String[]) example[0];
-        float[] expectedWeights = (float[]) example[1];
-        float[] embeddings = encoder.encode(inputStrings[0]);
-
-        assertArrayEquals(expectedWeights, embeddings, 1e-4f);
-        assertEquals(1024, embeddings.length);
-      }
-    } catch (Exception e) {
-      throw e;
+      float[] outputs = encoder.encode(inputStrings[0]);
+      assertArrayEquals(expectedWeights, outputs, 1e-4f);
     }
   }
 }

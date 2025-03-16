@@ -13,23 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package io.anserini.encoder.dense;
 
+import ai.onnxruntime.OrtException;
 import io.anserini.encoder.OnnxEncoder;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-import ai.onnxruntime.OrtException;
-
-/**
- * DenseEncoder
- */
 public abstract class DenseEncoder extends OnnxEncoder<float[]> {
-
   public DenseEncoder(String modelName, String modelURL, String vocabName, String vocabURL)
       throws IOException, OrtException, URISyntaxException {
     super(modelName, modelURL, vocabName, vocabURL);
   }
-
 }
