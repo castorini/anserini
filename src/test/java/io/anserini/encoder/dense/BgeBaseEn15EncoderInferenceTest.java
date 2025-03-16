@@ -18,6 +18,7 @@ package io.anserini.encoder.dense;
 
 import static org.junit.Assert.assertArrayEquals;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
@@ -1068,29 +1069,52 @@ public class BgeBaseEn15EncoderInferenceTest extends DenseEncoderInferenceTest {
     super(MODEL_NAME, MODEL_URL, EXAMPLES, LONG_EXAMPLES);
   }
 
-//  @Test
-//  public void basic() throws OrtException, IOException, URISyntaxException {
-//    String modelPath = getEncoderModelPath().toString();
-//    try (OrtEnvironment env = OrtEnvironment.getEnvironment();
-//        OrtSession.SessionOptions options = new OrtSession.SessionOptions();
-//        OrtSession session = env.createSession(modelPath, options)) {
-//
-//      for (Object[] example : examples) {
-//        long[] inputIds = (long[]) example[0];
-//        float[] expectedWeights = (float[]) example[1];
-//
-//        Map<String, OnnxTensor> inputs = new HashMap<>();
-//        long[][] tokenIds = new long[1][inputIds.length];
-//        tokenIds[0] = inputIds;
-//        inputs.put("input_ids", OnnxTensor.createTensor(env, tokenIds));
-//
-//        try (Result results = session.run(inputs)) {
-//          float[] weights = ((float[][][]) results.get("last_hidden_state").get().getValue())[0][0];
-//          assertArrayEquals(expectedWeights, weights, 1e-4f);
-//        }
-//      }
-//    }
-//  }
+  @Test
+  public void basic() throws OrtException, IOException, URISyntaxException {
+    String modelPath = getEncoderModelPath().toString();
+    try (OrtEnvironment env = OrtEnvironment.getEnvironment();
+        OrtSession.SessionOptions options = new OrtSession.SessionOptions();
+        OrtSession session = env.createSession(modelPath, options)) {
+
+      for (Object[] example : examples) {
+        long[] inputIds = (long[]) example[0];
+        float[] expectedWeights = (float[]) example[1];
+
+        Map<String, OnnxTensor> inputs = new HashMap<>();
+        long[][] tokenIds = new long[1][inputIds.length];
+        tokenIds[0] = inputIds;
+        inputs.put("input_ids", OnnxTensor.createTensor(env, tokenIds));
+
+        try (Result results = session.run(inputs)) {
+          float[] weights = ((float[][][]) results.get("last_hidden_state").get().getValue())[0][0];
+          assertArrayEquals(expectedWeights, weights, 1e-4f);
+        }
+      }
+    }
+
+    // Specify the directory for which you want to check the free space.
+    // You can use the current directory, a specific drive, or a subdirectory.
+    File directory = new File("."); // Current directory
+
+    // Get the free space in bytes.
+    long freeSpace = directory.getFreeSpace();
+
+    // Get the total space in bytes.
+    long totalSpace = directory.getTotalSpace();
+
+    // Get the usable space in bytes (space available to this JVM).
+    long usableSpace = directory.getUsableSpace();
+
+    // Convert bytes to gigabytes for easier reading.
+    double freeSpaceGB = (double) freeSpace / (1024 * 1024 * 1024);
+    double totalSpaceGB = (double) totalSpace / (1024 * 1024 * 1024);
+    double usableSpaceGB = (double) usableSpace / (1024 * 1024 * 1024);
+
+    // Print the results.
+    System.out.printf("Total space: %.2f GB%n", totalSpaceGB);
+    System.out.printf("Usable space: %.2f GB%n", usableSpaceGB);
+    System.out.printf("Free space: %.2f GB%n", freeSpaceGB);
+  }
 
   // We're running into this issue on GitHub Java CI:
   // > Error: The operation was canceled.
