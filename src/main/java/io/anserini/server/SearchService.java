@@ -22,6 +22,7 @@ import io.anserini.search.SimpleSearcher;
 import io.anserini.search.HnswDenseSearcher;
 import io.anserini.util.PrebuiltIndexHandler;
 import io.anserini.index.IndexInfo;
+import io.anserini.index.ShardInfo;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,10 +30,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.lucene.document.Document;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class SearchService {
 
@@ -58,8 +62,8 @@ public class SearchService {
     return search(query, hits, null, null, null);
   }
 
-  public List<Map<String, Object>> search(String query, int hits,
-      Integer efSearch, String encoder, String queryGenerator) {
+  public List<Map<String, Object>> search(String query, int hits, Integer efSearch, String encoder,
+      String queryGenerator) {
     validateSearchParameters(query, hits);
     validateSettings(efSearch, encoder, queryGenerator);
 
@@ -73,6 +77,7 @@ public class SearchService {
             Map<String, Object> candidate = new LinkedHashMap<>();
             candidate.put("docid", r.docid);
             candidate.put("score", r.score);
+
             String raw = r.lucene_document.get(Constants.RAW);
             if (raw != null) {
               JsonNode rootNode = mapper.readTree(raw);
@@ -91,16 +96,11 @@ public class SearchService {
       } else {
         IndexInfo indexInfo = IndexInfo.get(prebuiltIndex);
         HnswDenseSearcher.Args args = new HnswDenseSearcher.Args();
+        // Various fallbacks for if the user doesn't provide a parameter
         args.index = indexDir;
-        args.efSearch = efSearch != null ? efSearch
-            : getEfSearchOverride() != null ? getEfSearchOverride()
-                : IndexInfo.DEFAULT_EF_SEARCH;
-        args.encoder = encoder != null ? encoder.replace(".class", "")
-            : getEncoderOverride() != null ? getEncoderOverride().replace(".class", "")
-            : indexInfo.encoder != null ? indexInfo.encoder.replace(".class", "") : null;
-        args.queryGenerator = queryGenerator != null ? queryGenerator.replace(".class", "")
-            : getQueryGeneratorOverride() != null ? getQueryGeneratorOverride().replace(".class", "")
-            : indexInfo.queryGenerator.replace(".class", "");
+        args.efSearch = efSearch != null ? efSearch : getEfSearchOverride() != null ? getEfSearchOverride(): IndexInfo.DEFAULT_EF_SEARCH;
+        args.encoder = encoder != null ? encoder : getEncoderOverride() != null ? getEncoderOverride(): indexInfo.encoder;
+        args.queryGenerator = queryGenerator != null ? queryGenerator : getQueryGeneratorOverride() != null ? getQueryGeneratorOverride(): indexInfo.queryGenerator;
         try (HnswDenseSearcher<Float> searcher = new HnswDenseSearcher<Float>(args)) {
           ScoredDoc[] results = searcher.search(query, hits);
           List<Map<String, Object>> candidates = new ArrayList<>();
@@ -111,18 +111,20 @@ public class SearchService {
         }
       }
     } catch (Exception e) {
+      e.printStackTrace();
       return List.of();
     }
   }
 
   public Map<String, Object> getDocument(String docid) {
-    if (!isHnswIndex) throw new IllegalArgumentException("getDocument is only supported for HNSW indexes");
+    if (!isHnswIndex)
+      throw new IllegalArgumentException("getDocument is only supported for HNSW indexes");
     try (SimpleSearcher searcher = new SimpleSearcher(indexDir)) {
       Document lucene_document = searcher.doc(docid);
       if (lucene_document == null) {
         return Map.of("error", "Document not found: " + docid);
       }
-      
+
       String raw = lucene_document.get(Constants.RAW);
       Map<String, Object> candidate = new LinkedHashMap<>();
       if (raw != null) {
@@ -174,7 +176,7 @@ public class SearchService {
       throw new IllegalArgumentException("Encoder cannot be empty");
     }
     validateSettings(getEfSearchOverride(), value, getQueryGeneratorOverride());
-    indexOverrides.put("encoder", value.replace(".class", ""));
+    indexOverrides.put("encoder", value);
   }
 
   public void setQueryGeneratorOverride(String value) {
@@ -182,7 +184,7 @@ public class SearchService {
       throw new IllegalArgumentException("QueryGenerator cannot be empty");
     }
     validateSettings(getEfSearchOverride(), getEncoderOverride(), value);
-    indexOverrides.put("queryGenerator", value.replace(".class", ""));
+    indexOverrides.put("queryGenerator", value);
   }
 
   private void validateSearchParameters(String query, int hits) {
@@ -202,7 +204,8 @@ public class SearchService {
         throw new IllegalArgumentException("efSearch must be positive but got " + efSearch);
       }
       if (!isHnswIndex) {
-        throw new IllegalArgumentException("efSearch parameter is only supported for HNSW indexes, but index " + prebuiltIndex + " is not HNSW");
+        throw new IllegalArgumentException(
+            "efSearch parameter is only supported for HNSW indexes, but index " + prebuiltIndex + " is not HNSW");
       }
     }
 
@@ -214,7 +217,8 @@ public class SearchService {
 
     if (queryGenerator != null) {
       if (!queryGenerator.equals(indexInfo.queryGenerator)) {
-        throw new IllegalArgumentException("Unsupported queryGenerator: " + queryGenerator + " for index " + prebuiltIndex);
+        throw new IllegalArgumentException(
+            "Unsupported queryGenerator: " + queryGenerator + " for index " + prebuiltIndex);
       }
     }
   }
@@ -231,6 +235,24 @@ public class SearchService {
     } catch (Exception e) {
       return new IndexInitializationResult(null, false, e);
     }
+  }
+
+  static List<Map<String, Object>> searchSharded(String identifier, String query, int hits, Integer efSearch, String encoder, String queryGenerator) {
+
+    // Retrieve the shards from ShardInfo organizer enum
+    ShardInfo shardInfo = ShardInfo.fromIdentifier(identifier);
+    IndexInfo[] shards = shardInfo.getShards();
+
+    return Arrays.stream(shards)
+      .parallel()
+      .map(shard -> {
+        SearchService service = new SearchService(shard.indexName);
+        return service.search(query, hits, efSearch, encoder, queryGenerator);
+      })
+      .flatMap(List::stream)
+      .sorted((a, b) -> ((Float) b.get("score")).compareTo((Float) a.get("score")))
+      .limit(hits)
+      .collect(Collectors.toList());
   }
 
   private static class IndexInitializationResult {
