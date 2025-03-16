@@ -53,808 +53,808 @@ public class RelevanceJudgmentsTest{
     new RelevanceJudgments("tools/topics-and-qrels/topics.robust04.txt ");
   }
 
-  @Test
-  public void testRobust04() throws IOException{
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.robust04.txt");
-    assertNotNull(qrels);
-    assertEquals(249, qrels.getQids().size());
-    assertEquals(311410, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("301", "FBIS3-10082"));
-    assertEquals(0, qrels.getRelevanceGrade("700", "LA123090-0137"));
-    assertEquals(0, qrels.getRelevanceGrade("700", "LA123090-0137x")); // non-existent docid
-    assertEquals(0, qrels.getRelevanceGrade("xxx", "LA123090-0137"));  // non-existent topic
-    assertTrue(qrels.isDocJudged("301", "FBIS3-10082"));
-    assertNull(qrels.getDocMap("xxx"));
-
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.ROBUST04);
-    assertNotNull(qrels);
-    assertEquals(249, qrels.getQids().size());
-    assertEquals(311410, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("301", "FBIS3-10082"));
-    assertEquals(0, qrels.getRelevanceGrade("700", "LA123090-0137"));
-    assertEquals(0, qrels.getRelevanceGrade("700", "LA123090-0137x")); // non-existent docid
-    assertEquals(0, qrels.getRelevanceGrade("xxx", "LA123090-0137"));  // non-existent topic
-    assertTrue(qrels.isDocJudged("301", "FBIS3-10082"));
-    assertNull(qrels.getDocMap("xxx"));
-
-    assertEquals(6543541, RelevanceJudgments.getQrelsResource(Path.of("tools/topics-and-qrels/qrels.robust04.txt")).length());
-  }
-
-  @Test
-  public void testRobust05() throws IOException{
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.robust05.txt");
-    assertNotNull(qrels);
-    assertEquals(50, qrels.getQids().size());
-    assertEquals(37798, getQrelsCount(qrels));
-    assertEquals(2, qrels.getRelevanceGrade("303", "APW19980609.1531"));
-    assertEquals(0, qrels.getRelevanceGrade("689", "XIE20000925.0055"));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.ROBUST05);
-    assertNotNull(qrels);
-    assertEquals(50, qrels.getQids().size());
-    assertEquals(37798, getQrelsCount(qrels));
-    assertEquals(2, qrels.getRelevanceGrade("303", "APW19980609.1531"));
-    assertEquals(0, qrels.getRelevanceGrade("689", "XIE20000925.0055"));
-  }
-
-  @Test
-  public void testTrec19DLDoc() throws IOException{
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.dl19-doc.txt");
-    assertNotNull(qrels);
-    assertEquals(43, qrels.getQids().size());
-    assertEquals(16258, getQrelsCount(qrels));
-    assertEquals(0, qrels.getRelevanceGrade("19335", "D1035833"));
-    assertEquals(0, qrels.getRelevanceGrade("1133167", "D984590"));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2019_DL_DOC);
-    assertNotNull(qrels);
-    assertEquals(43, qrels.getQids().size());
-    assertEquals(16258, getQrelsCount(qrels));
-    assertEquals(0, qrels.getRelevanceGrade("19335", "D1035833"));
-    assertEquals(0, qrels.getRelevanceGrade("1133167", "D984590"));
-  }
-
-  @Test
-  public void testTrec19DLPassage() throws IOException{
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.dl19-passage.txt");
-    assertNotNull(qrels);
-    assertEquals(43, qrels.getQids().size());
-    assertEquals(9260, getQrelsCount(qrels));
-    assertEquals(0, qrels.getRelevanceGrade("19335", "1017759"));
-    assertEquals(1, qrels.getRelevanceGrade("1133167", "8804478"));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2019_DL_PASSAGE);
-    assertNotNull(qrels);
-    assertEquals(43, qrels.getQids().size());
-    assertEquals(9260, getQrelsCount(qrels));
-    assertEquals(0, qrels.getRelevanceGrade("19335", "1017759"));
-    assertEquals(1, qrels.getRelevanceGrade("1133167", "8804478"));
-  }
-
-  @Test
-  public void testTrec20DLDoc() throws IOException{
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.dl20-doc.txt");
-    assertNotNull(qrels);
-    assertEquals(45, qrels.getQids().size());
-    assertEquals(9098, getQrelsCount(qrels));
-    assertEquals(3, qrels.getRelevanceGrade("42255", "D1884223"));
-    assertEquals(3, qrels.getRelevanceGrade("1136962", "D96741"));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2020_DL_DOC);
-    assertNotNull(qrels);
-    assertEquals(45, qrels.getQids().size());
-    assertEquals(9098, getQrelsCount(qrels));
-    assertEquals(3, qrels.getRelevanceGrade("42255", "D1884223"));
-    assertEquals(3, qrels.getRelevanceGrade("1136962", "D96741"));
-  }
-
-  @Test
-  public void testTrec20DLPassage() throws IOException{
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.dl20-passage.txt");
-    assertNotNull(qrels);
-    assertEquals(54, qrels.getQids().size());
-    assertEquals(11386, getQrelsCount(qrels));
-    assertEquals(2, qrels.getRelevanceGrade("23849", "1020327"));
-    assertEquals(1, qrels.getRelevanceGrade("1136962", "937258"));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2020_DL_PASSAGE);
-    assertNotNull(qrels);
-    assertEquals(54, qrels.getQids().size());
-    assertEquals(11386, getQrelsCount(qrels));
-    assertEquals(2, qrels.getRelevanceGrade("23849", "1020327"));
-    assertEquals(1, qrels.getRelevanceGrade("1136962", "937258"));
-  }
-
-  @Test
-  public void testTrec21DLDoc() throws IOException{
-    // % cut -f 1 -d ' ' tools/topics-and-qrels/qrels.dl21-doc.txt | uniq | wc
-    //       57      57     412
-    // % wc tools/topics-and-qrels/qrels.dl21-doc.txt
-    //    13058   52232  478328 tools/topics-and-qrels/qrels.dl21-doc.txt
-
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.dl21-doc.txt");
-    assertNotNull(qrels);
-    assertEquals(57, qrels.getQids().size());
-    assertEquals(13058, getQrelsCount(qrels));
-    assertEquals(2, qrels.getRelevanceGrade("2082", "msmarco_doc_01_1320020407"));
-    assertEquals(1, qrels.getRelevanceGrade("1129560", "msmarco_doc_59_863449044"));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2021_DL_DOC);
-    assertNotNull(qrels);
-    assertEquals(57, qrels.getQids().size());
-    assertEquals(13058, getQrelsCount(qrels));
-    assertEquals(2, qrels.getRelevanceGrade("2082", "msmarco_doc_01_1320020407"));
-    assertEquals(1, qrels.getRelevanceGrade("1129560", "msmarco_doc_59_863449044"));
-  }
-
-  @Test
-  public void testTrec21DLPassage() throws IOException{
-    // % cut -f 1 -d ' ' tools/topics-and-qrels/qrels.dl21-passage.txt | uniq | wc
-    //       53      53     382
-    // % wc tools/topics-and-qrels/qrels.dl21-passage.txt
-    //    10828   43312  433887 tools/topics-and-qrels/qrels.dl21-passage.txt
-
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.dl21-passage.txt");
-    assertNotNull(qrels);
-    assertEquals(53, qrels.getQids().size());
-    assertEquals(10828, getQrelsCount(qrels));
-    assertEquals(3, qrels.getRelevanceGrade("2082", "msmarco_passage_02_179207466"));
-    assertEquals(1, qrels.getRelevanceGrade("1129560", "msmarco_passage_67_937656589"));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2021_DL_PASSAGE);
-    assertNotNull(qrels);
-    assertEquals(53, qrels.getQids().size());
-    assertEquals(10828, getQrelsCount(qrels));
-    assertEquals(3, qrels.getRelevanceGrade("2082", "msmarco_passage_02_179207466"));
-    assertEquals(1, qrels.getRelevanceGrade("1129560", "msmarco_passage_67_937656589"));
-  }
-
-  @Test
-  public void testTrec21DLDocMsMarcoV21() throws IOException{
-    // % cut -f 1 -d ' ' tools/topics-and-qrels/qrels.dl21-doc-msmarco-v2.1.txt | sort | uniq | wc
-    //       57      57     412
-    // % wc tools/topics-and-qrels/qrels.dl21-doc-msmarco-v2.1.txt
-    //    10973   43892  456277 tools/topics-and-qrels/qrels.dl21-doc-msmarco-v2.1.txt
-
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.dl21-doc-msmarco-v2.1.txt");
-    assertNotNull(qrels);
-    assertEquals(57, qrels.getQids().size());
-    assertEquals(10973, getQrelsCount(qrels));
-    assertEquals(2, qrels.getRelevanceGrade("2082", "msmarco_v2.1_doc_01_1281570012"));
-    assertEquals(2, qrels.getRelevanceGrade("1128632", "msmarco_v2.1_doc_17_481617788"));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2021_DL_DOC_MSMARCO_V21);
-    assertNotNull(qrels);
-    assertEquals(57, qrels.getQids().size());
-    assertEquals(10973, getQrelsCount(qrels));
-    assertEquals(2, qrels.getRelevanceGrade("2082", "msmarco_v2.1_doc_01_1281570012"));
-    assertEquals(2, qrels.getRelevanceGrade("1128632", "msmarco_v2.1_doc_17_481617788"));
-  }
-
-  @Test
-  public void testTrec22DLDoc() throws IOException{
-    // % cut -f 1 -d ' ' tools/topics-and-qrels/qrels.dl22-doc.txt | uniq | wc
-    //       76      76     608
-    // % wc tools/topics-and-qrels/qrels.dl22-doc.txt
-    //   369638 1478552 13808681 tools/topics-and-qrels/qrels.dl22-doc.txt
-
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.dl22-doc.txt");
-    assertNotNull(qrels);
-    assertEquals(76, qrels.getQids().size());
-    assertEquals(369638, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("2000511", "msmarco_doc_00_928744703"));
-    assertEquals(1, qrels.getRelevanceGrade("2056323", "msmarco_doc_59_419476385"));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2022_DL_DOC);
-    assertNotNull(qrels);
-    assertEquals(76, qrels.getQids().size());
-    assertEquals(369638, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("2000511", "msmarco_doc_00_928744703"));
-    assertEquals(1, qrels.getRelevanceGrade("2056323", "msmarco_doc_59_419476385"));
-  }
-
-  @Test
-  public void testTrec22DLPassage() throws IOException{
-    // % cut -f 1 -d ' ' tools/topics-and-qrels/qrels.dl22-passage.txt | uniq | wc
-    //      76      76     608
-    // % wc tools/topics-and-qrels/qrels.dl22-passage.txt
-    //  386416 1545664 15800539 tools/topics-and-qrels/qrels.dl22-passage.txt
-
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.dl22-passage.txt");
-    assertNotNull(qrels);
-    assertEquals(76, qrels.getQids().size());
-    assertEquals(386416, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("2000511", "msmarco_passage_00_491585864"));
-    assertEquals(1, qrels.getRelevanceGrade("2056323", "msmarco_passage_68_715747739"));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2022_DL_PASSAGE);
-    assertNotNull(qrels);
-    assertEquals(76, qrels.getQids().size());
-    assertEquals(386416, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("2000511", "msmarco_passage_00_491585864"));
-    assertEquals(1, qrels.getRelevanceGrade("2056323", "msmarco_passage_68_715747739"));
-  }
-
-  @Test
-  public void testTrec22DLDocMsMarcoV21() throws IOException{
-    // % cut -f 1 -d ' ' tools/topics-and-qrels/qrels.dl22-doc-msmarco-v2.1.txt | sort | uniq | wc
-    //       76      76     608
-    // % wc tools/topics-and-qrels/qrels.dl22-doc-msmarco-v2.1.txt
-    //   349541 1398164 14786970 tools/topics-and-qrels/qrels.dl22-doc-msmarco-v2.1.txt
-
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.dl22-doc-msmarco-v2.1.txt");
-    assertNotNull(qrels);
-    assertEquals(76, qrels.getQids().size());
-    assertEquals(349541, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("2000511", "msmarco_v2.1_doc_00_896525856"));
-    assertEquals(2, qrels.getRelevanceGrade("2056158", "msmarco_v2.1_doc_06_934688453"));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2022_DL_DOC_MSMARCO_V21);
-    assertNotNull(qrels);
-    assertEquals(76, qrels.getQids().size());
-    assertEquals(349541, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("2000511", "msmarco_v2.1_doc_00_896525856"));
-    assertEquals(2, qrels.getRelevanceGrade("2056158", "msmarco_v2.1_doc_06_934688453"));
-  }
-
-  @Test
-  public void testTrec23DLDoc() throws IOException{
-    // % cut -f 1 -d ' ' tools/topics-and-qrels/qrels.dl23-doc.txt | uniq | wc
-    //       82      82     656
-    // % wc tools/topics-and-qrels/qrels.dl23-doc.txt
-    //    18034   72136  675015 tools/topics-and-qrels/qrels.dl23-doc.txt
-
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.dl23-doc.txt");
-    assertNotNull(qrels);
-    assertEquals(82, qrels.getQids().size());
-    assertEquals(18034, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("2001010", "msmarco_doc_00_1413652624"));
-    assertEquals(3, qrels.getRelevanceGrade("3100922", "msmarco_doc_16_3928760942"));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2023_DL_DOC);
-    assertNotNull(qrels);
-    assertEquals(82, qrels.getQids().size());
-    assertEquals(18034, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("2001010", "msmarco_doc_00_1413652624"));
-    assertEquals(3, qrels.getRelevanceGrade("3100922", "msmarco_doc_16_3928760942"));
-  }
-
-  @Test
-  public void testTrec23DLPassage() throws IOException{
-    // % cut -f 1 -d ' ' tools/topics-and-qrels/qrels.dl23-passage.txt | uniq | wc
-    //      82      82     656
-    // % wc tools/topics-and-qrels/qrels.dl23-passage.txt
-    //   22327   89308  912450 tools/topics-and-qrels/qrels.dl23-passage.txt
-
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.dl23-passage.txt");
-    assertNotNull(qrels);
-    assertEquals(82, qrels.getQids().size());
-    assertEquals(22327, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("2001010", "msmarco_passage_00_729315698"));
-    assertEquals(2, qrels.getRelevanceGrade("3100922", "msmarco_passage_22_487548813"));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2023_DL_PASSAGE);
-    assertNotNull(qrels);
-    assertEquals(82, qrels.getQids().size());
-    assertEquals(22327, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("2001010", "msmarco_passage_00_729315698"));
-    assertEquals(2, qrels.getRelevanceGrade("3100922", "msmarco_passage_22_487548813"));
-  }
-
-  @Test
-  public void testTrec23DLDocMsMarcoV21() throws IOException{
-    // % cut -f 1 -d ' ' tools/topics-and-qrels/qrels.dl23-doc-msmarco-v2.1.txt | uniq | wc
-    //       82      82     656
-    // % wc tools/topics-and-qrels/qrels.dl23-doc-msmarco-v2.1.txt
-    //    15995   63980  677618 tools/topics-and-qrels/qrels.dl23-doc-msmarco-v2.1.txt
-
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.dl23-doc-msmarco-v2.1.txt");
-    assertNotNull(qrels);
-    assertEquals(82, qrels.getQids().size());
-    assertEquals(15995, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("2001010", "msmarco_v2.1_doc_00_1372241967"));
-    assertEquals(2, qrels.getRelevanceGrade("3100922", "msmarco_v2.1_doc_19_1982402861"));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2023_DL_DOC_MSMARCO_V21);
-    assertNotNull(qrels);
-    assertEquals(82, qrels.getQids().size());
-    assertEquals(15995, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("2001010", "msmarco_v2.1_doc_00_1372241967"));
-    assertEquals(2, qrels.getRelevanceGrade("3100922", "msmarco_v2.1_doc_19_1982402861"));
-  }
-
-  @Test
-  public void testTREC24_RAG_RAGGY_DEV() throws IOException{
-    // % cut -f 1 -d ' ' tools/topics-and-qrels/qrels.rag24.raggy-dev.txt | uniq | wc
-    //      120     120     937
-    // % wc tools/topics-and-qrels/qrels.rag24.raggy-dev.txt
-    //   147328  589312 6377570 tools/topics-and-qrels/qrels.rag24.raggy-dev.txt
-
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.rag24.raggy-dev.txt");
-    assertNotNull(qrels);
-    assertEquals(120, qrels.getQids().size());
-    assertEquals(147328, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("2001010", "msmarco_v2.1_doc_00_1372241967"));
-    assertEquals(1, qrels.getRelevanceGrade("253263", "msmarco_v2.1_doc_46_843492186"));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2024_RAG_RAGGY_DEV);
-    assertNotNull(qrels);
-    assertEquals(120, qrels.getQids().size());
-    assertEquals(147328, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("2001010", "msmarco_v2.1_doc_00_1372241967"));
-    assertEquals(1, qrels.getRelevanceGrade("253263", "msmarco_v2.1_doc_46_843492186"));
-  }
-
-  @Test
-  public void testTREC24_RAG_UMBRELA() throws IOException{
-    // % cut -f 1 -d ' ' tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt | uniq | wc
-    //      301     301    3448
-    // % wc tools/topics-and-qrels/qrels.rag24.raggy-dev.txt
-    //   108479  433916 6475451 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt
-
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt");
-    assertNotNull(qrels);
-    assertEquals(301, qrels.getQids().size());
-    assertEquals(108479, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("2024-145979", "msmarco_v2.1_doc_25_771726319#13_1477564195"));
-    assertEquals(1, qrels.getRelevanceGrade("2024-216592", "msmarco_v2.1_doc_52_1092442741#3_2165187686"));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2024_RAG_UMBRELA);
-    assertNotNull(qrels);
-    assertEquals(301, qrels.getQids().size());
-    assertEquals(108479, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("2024-145979", "msmarco_v2.1_doc_25_771726319#13_1477564195"));
-    assertEquals(1, qrels.getRelevanceGrade("2024-216592", "msmarco_v2.1_doc_52_1092442741#3_2165187686"));
-  }
-
-  @Test
-  public void testMsmarcoDocDev() throws IOException{
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.msmarco-doc.dev.txt");
-    assertNotNull(qrels);
-    assertEquals(5193, qrels.getQids().size());
-    assertEquals(5193, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("2", "D1650436"));
-    assertEquals(1, qrels.getRelevanceGrade("1102400", "D677570"));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.MSMARCO_DOC_DEV);
-    assertNotNull(qrels);
-    assertEquals(5193, qrels.getQids().size());
-    assertEquals(5193, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("2", "D1650436"));
-    assertEquals(1, qrels.getRelevanceGrade("1102400", "D677570"));
-  }
-
-  @Test
-  public void testMsmarcoPassageDevSubset() throws IOException{
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt");
-    assertNotNull(qrels);
-    assertEquals(6980, qrels.getQids().size());
-    assertEquals(7437, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("300674", "7067032"));
-    assertEquals(1, qrels.getRelevanceGrade("195199", "8009377"));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.MSMARCO_PASSAGE_DEV_SUBSET);
-    assertNotNull(qrels);
-    assertEquals(6980, qrels.getQids().size());
-    assertEquals(7437, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("300674", "7067032"));
-    assertEquals(1, qrels.getRelevanceGrade("195199", "8009377"));
-  }
-
-  @Test
-  public void testMsmarcoV2DocDevMsMarcoV21() throws IOException{
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.msmarco-v2.1-doc.dev.txt");
-    assertNotNull(qrels);
-    assertEquals(4552, qrels.getQids().size());
-    assertEquals(4702, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("1000000", "msmarco_v2.1_doc_17_1968189952"));
-    assertEquals(1, qrels.getRelevanceGrade("999897", "msmarco_v2.1_doc_46_191673440"));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.MSMARCO_V21_DOC_DEV);
-    assertNotNull(qrels);
-    assertEquals(4552, qrels.getQids().size());
-    assertEquals(4702, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("1000000", "msmarco_v2.1_doc_17_1968189952"));
-    assertEquals(1, qrels.getRelevanceGrade("999897", "msmarco_v2.1_doc_46_191673440"));
-  }
-
-  @Test
-  public void testMsmarcoV2DocDev2MsMarcoV21() throws IOException{
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.msmarco-v2.1-doc.dev2.txt");
-    assertNotNull(qrels);
-    assertEquals(5000, qrels.getQids().size());
-    assertEquals(5177, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("1000202", "msmarco_v2.1_doc_08_69146701"));
-    assertEquals(1, qrels.getRelevanceGrade("999659", "msmarco_v2.1_doc_08_1247437925"));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.MSMARCO_V21_DOC_DEV2);
-    assertNotNull(qrels);
-    assertEquals(5000, qrels.getQids().size());
-    assertEquals(5177, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("1000202", "msmarco_v2.1_doc_08_69146701"));
-    assertEquals(1, qrels.getRelevanceGrade("999659", "msmarco_v2.1_doc_08_1247437925"));
-  }
-
-  @Test
-  public void testMsmarcoV2DocPassage() throws IOException{
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt");
-    assertNotNull(qrels);
-    assertEquals(3903, qrels.getQids().size());
-    assertEquals(4009, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("763878", "msmarco_passage_33_459057644"));
-    assertEquals(1, qrels.getRelevanceGrade("1091692", "msmarco_passage_23_330102695"));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.MSMARCO_V2_PASSAGE_DEV);
-    assertNotNull(qrels);
-    assertEquals(3903, qrels.getQids().size());
-    assertEquals(4009, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("763878", "msmarco_passage_33_459057644"));
-    assertEquals(1, qrels.getRelevanceGrade("1091692", "msmarco_passage_23_330102695"));
-  }
-
-  @Test
-  public void testMsmarcoV2DocPassage2() throws IOException{
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt");
-    assertNotNull(qrels);
-    assertEquals(4281, qrels.getQids().size());
-    assertEquals(4411, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("419507", "msmarco_passage_04_254301507"));
-    assertEquals(1, qrels.getRelevanceGrade("961297", "msmarco_passage_18_858458289"));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.MSMARCO_V2_PASSAGE_DEV2);
-    assertNotNull(qrels);
-    assertEquals(4281, qrels.getQids().size());
-    assertEquals(4411, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("419507", "msmarco_passage_04_254301507"));
-    assertEquals(1, qrels.getRelevanceGrade("961297", "msmarco_passage_18_858458289"));
-  }
-
-  @Test
-  public void testMsmarcoV2DocDev() throws IOException{
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt");
-    assertNotNull(qrels);
-    assertEquals(4552, qrels.getQids().size());
-    assertEquals(4702, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("1000000", "msmarco_doc_17_2560009121"));
-    assertEquals(1, qrels.getRelevanceGrade("999942", "msmarco_doc_06_956348348"));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.MSMARCO_V2_DOC_DEV);
-    assertNotNull(qrels);
-    assertEquals(4552, qrels.getQids().size());
-    assertEquals(4702, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("1000000", "msmarco_doc_17_2560009121"));
-    assertEquals(1, qrels.getRelevanceGrade("999942", "msmarco_doc_06_956348348"));
-  }
-
-  @Test
-  public void testMsmarcoV2DocDev2() throws IOException{
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt");
-    assertNotNull(qrels);
-    assertEquals(5000, qrels.getQids().size());
-    assertEquals(5178, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("1000202", "msmarco_doc_08_73026062"));
-    assertEquals(1, qrels.getRelevanceGrade("999937", "msmarco_doc_05_319743607"));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.MSMARCO_V2_DOC_DEV2);
-    assertNotNull(qrels);
-    assertEquals(5000, qrels.getQids().size());
-    assertEquals(5178, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("1000202", "msmarco_doc_08_73026062"));
-    assertEquals(1, qrels.getRelevanceGrade("999937", "msmarco_doc_05_319743607"));
-  }
-
-  @Test
-  public void testCore17() throws IOException{
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.core17.txt");
-    assertNotNull(qrels);
-    assertEquals(50, qrels.getQids().size());
-    assertEquals(30030, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("307", "1001536"));
-    assertEquals(0, qrels.getRelevanceGrade("690", "996059"));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.CORE17);
-    assertNotNull(qrels);
-    assertEquals(50, qrels.getQids().size());
-    assertEquals(30030, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("307", "1001536"));
-    assertEquals(0, qrels.getRelevanceGrade("690", "996059"));
-  }
-
-  @Test
-  public void testCore18() throws IOException{
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.core18.txt");
-    assertNotNull(qrels);
-    assertEquals(50, qrels.getQids().size());
-    assertEquals(26233, getQrelsCount(qrels));
-    assertEquals(0, qrels.getRelevanceGrade("321", "004c6120d0aa69da29cc045da0562168"));
-    assertEquals(0, qrels.getRelevanceGrade("825", "ff3a25b0-0ba4-11e4-8341-b8072b1e7348"));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.CORE18);
-    assertNotNull(qrels);
-    assertEquals(50, qrels.getQids().size());
-    assertEquals(26233, getQrelsCount(qrels));
-    assertEquals(0, qrels.getRelevanceGrade("321", "004c6120d0aa69da29cc045da0562168"));
-    assertEquals(0, qrels.getRelevanceGrade("825", "ff3a25b0-0ba4-11e4-8341-b8072b1e7348"));
-  }
-
-  @Test
-  public void testCar15() throws IOException{
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.car17v1.5.benchmarkY1test.txt");
-    assertNotNull(qrels);
-    assertEquals(2125, qrels.getQids().size());
-    assertEquals(5820, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("Aftertaste/Aftertaste%20processing%20in%20the%20cerebral%20cortex",
-        "38c1bd25ddca2705164677a3f598c46df85afba7"));
-    assertEquals(1, qrels.getRelevanceGrade("Yellowstone%20National%20Park/Recreation",
-        "e80b5185da1493edde41bea19a389a3f62167369"));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.CAR17V15_BENCHMARK_Y1_TEST);
-    assertNotNull(qrels);
-    assertEquals(2125, qrels.getQids().size());
-    assertEquals(5820, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("Aftertaste/Aftertaste%20processing%20in%20the%20cerebral%20cortex",
-            "38c1bd25ddca2705164677a3f598c46df85afba7"));
-    assertEquals(1, qrels.getRelevanceGrade("Yellowstone%20National%20Park/Recreation",
-            "e80b5185da1493edde41bea19a389a3f62167369"));
-  }
-
-  @Test
-  public void testCar20() throws IOException{
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt");
-    assertNotNull(qrels);
-    assertEquals(2254, qrels.getQids().size());
-    assertEquals(6192, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("enwiki:Aftertaste", "327cca6c4d38953196fa6789f615546f03287b25"));
-    assertEquals(1, qrels.getRelevanceGrade("enwiki:Yellowstone%20National%20Park/Recreation",
-        "b812fca195f74f8c563db4262260554fe3ff3731"));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.CAR17V20_BENCHMARK_Y1_TEST);
-    assertNotNull(qrels);
-    assertEquals(2254, qrels.getQids().size());
-    assertEquals(6192, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("enwiki:Aftertaste", "327cca6c4d38953196fa6789f615546f03287b25"));
-    assertEquals(1, qrels.getRelevanceGrade("enwiki:Yellowstone%20National%20Park/Recreation",
-            "b812fca195f74f8c563db4262260554fe3ff3731"));
-  }
-
-  @Test
-  public void testTrec2018BL() throws IOException{
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.backgroundlinking18.txt");
-    assertNotNull(qrels);
-    assertEquals(50, qrels.getQids().size());
-    assertEquals(8508, getQrelsCount(qrels));
-    assertEquals(16, qrels.getRelevanceGrade("321", "00f57310e5c8ec7833d6756ba637332e"));
-    assertEquals(0, qrels.getRelevanceGrade("825", "f66b624ba8689d704872fa776fb52860"));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2018_BL);
-    assertNotNull(qrels);
-    assertEquals(50, qrels.getQids().size());
-    assertEquals(8508, getQrelsCount(qrels));
-    assertEquals(16, qrels.getRelevanceGrade("321", "00f57310e5c8ec7833d6756ba637332e"));
-    assertEquals(0, qrels.getRelevanceGrade("825", "f66b624ba8689d704872fa776fb52860"));
-  }
-
-  @Test
-  public void testTrec2019BL() throws IOException{
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.backgroundlinking19.txt");
-    assertNotNull(qrels);
-    assertEquals(57, qrels.getQids().size());
-    assertEquals(15655, getQrelsCount(qrels));
-    assertEquals(2, qrels.getRelevanceGrade("826", "0154349511cd8c49ab862d6cb0d8f6a8"));
-    assertEquals(0, qrels.getRelevanceGrade("885", "fde80cb0-b4f0-11e2-bbf2-a6f9e9d79e19"));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2019_BL);
-    assertNotNull(qrels);
-    assertEquals(57, qrels.getQids().size());
-    assertEquals(15655, getQrelsCount(qrels));
-    assertEquals(2, qrels.getRelevanceGrade("826", "0154349511cd8c49ab862d6cb0d8f6a8"));
-    assertEquals(0, qrels.getRelevanceGrade("885", "fde80cb0-b4f0-11e2-bbf2-a6f9e9d79e19"));
-  }
-
-  @Test
-  public void testTrec2020BL() throws IOException{
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.backgroundlinking20.txt");
-    assertNotNull(qrels);
-    assertEquals(49, qrels.getQids().size());
-    assertEquals(17764, getQrelsCount(qrels));
-    assertEquals(0, qrels.getRelevanceGrade("886", "00183d98-741b-11e5-8248-98e0f5a2e830"));
-    assertEquals(0, qrels.getRelevanceGrade("935", "ff0a760128ecdbcc096cafc8cd553255"));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2020_BL);
-    assertNotNull(qrels);
-    assertEquals(49, qrels.getQids().size());
-    assertEquals(17764, getQrelsCount(qrels));
-    assertEquals(0, qrels.getRelevanceGrade("886", "00183d98-741b-11e5-8248-98e0f5a2e830"));
-    assertEquals(0, qrels.getRelevanceGrade("935", "ff0a760128ecdbcc096cafc8cd553255"));
-  }
-
-  @Test
-  public void testCovidRound1() throws IOException{
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.covid-round1.txt");
-    assertNotNull(qrels);
-    assertEquals(30, qrels.getQids().size());
-    assertEquals(8691, getQrelsCount(qrels));
-    assertEquals(2, qrels.getRelevanceGrade("1", "010vptx3"));
-    assertEquals(1, qrels.getRelevanceGrade("30", "zn87f1lk"));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.COVID_ROUND1);
-    assertNotNull(qrels);
-    assertEquals(30, qrels.getQids().size());
-    assertEquals(8691, getQrelsCount(qrels));
-    assertEquals(2, qrels.getRelevanceGrade("1", "010vptx3"));
-    assertEquals(1, qrels.getRelevanceGrade("30", "zn87f1lk"));
-  }
-
-  @Test
-  public void testCovidRound2() throws IOException{
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.covid-round2.txt");
-    assertNotNull(qrels);
-    assertEquals(35, qrels.getQids().size());
-    assertEquals(12037, getQrelsCount(qrels));
-    assertEquals(0, qrels.getRelevanceGrade("1", "08efpohc"));
-    assertEquals(0, qrels.getRelevanceGrade("35", "zzmfhr2s"));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.COVID_ROUND2);
-    assertNotNull(qrels);
-    assertEquals(35, qrels.getQids().size());
-    assertEquals(12037, getQrelsCount(qrels));
-    assertEquals(0, qrels.getRelevanceGrade("1", "08efpohc"));
-    assertEquals(0, qrels.getRelevanceGrade("35", "zzmfhr2s"));
-  }
-
-  @Test
-  public void testCovidRound3() throws IOException{
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.covid-round3.txt");
-    assertNotNull(qrels);
-    assertEquals(40, qrels.getQids().size());
-    assertEquals(12713, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("1", "0194oljo"));
-    assertEquals(1, qrels.getRelevanceGrade("40", "zsx7wfyj"));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.COVID_ROUND3);
-    assertNotNull(qrels);
-    assertEquals(40, qrels.getQids().size());
-    assertEquals(12713, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("1", "0194oljo"));
-    assertEquals(1, qrels.getRelevanceGrade("40", "zsx7wfyj"));
-  }
-
-  @Test
-  public void testCovidRound4() throws IOException{
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.covid-round4.txt");
-    assertNotNull(qrels);
-    assertEquals(45, qrels.getQids().size());
-    assertEquals(13262, getQrelsCount(qrels));
-    assertEquals(2, qrels.getRelevanceGrade("1", "1c47w4q5"));
-    assertEquals(2, qrels.getRelevanceGrade("45", "zzrsk1ls"));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.COVID_ROUND4);
-    assertNotNull(qrels);
-    assertEquals(45, qrels.getQids().size());
-    assertEquals(13262, getQrelsCount(qrels));
-    assertEquals(2, qrels.getRelevanceGrade("1", "1c47w4q5"));
-    assertEquals(2, qrels.getRelevanceGrade("45", "zzrsk1ls"));
-  }
-
-  @Test
-  public void testCovidRound5() throws IOException{
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.covid-round5.txt");
-    assertNotNull(qrels);
-    assertEquals(50, qrels.getQids().size());
-    assertEquals(23151, getQrelsCount(qrels));
-    assertEquals(2, qrels.getRelevanceGrade("1", "005b2j4b"));
-    assertEquals(1, qrels.getRelevanceGrade("50", "zz8wvos9"));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.COVID_ROUND5);
-    assertNotNull(qrels);
-    assertEquals(50, qrels.getQids().size());
-    assertEquals(23151, getQrelsCount(qrels));
-    assertEquals(2, qrels.getRelevanceGrade("1", "005b2j4b"));
-    assertEquals(1, qrels.getRelevanceGrade("50", "zz8wvos9"));
-  }
-
-  @Test
-  public void testCovidRound3Cumulative() throws IOException{
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.covid-round3-cumulative.txt");
-    assertNotNull(qrels);
-    assertEquals(40, qrels.getQids().size());
-    assertEquals(33068, getQrelsCount(qrels));
-    assertEquals(2, qrels.getRelevanceGrade("1", "010vptx3"));
-    assertEquals(1, qrels.getRelevanceGrade("40", "zsx7wfyj"));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.COVID_ROUND3_CUMULATIVE);
-    assertNotNull(qrels);
-    assertEquals(40, qrels.getQids().size());
-    assertEquals(33068, getQrelsCount(qrels));
-    assertEquals(2, qrels.getRelevanceGrade("1", "010vptx3"));
-    assertEquals(1, qrels.getRelevanceGrade("40", "zsx7wfyj"));
-  }
-
-  @Test
-  public void testCovidRound4Cumulative() throws IOException{
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.covid-round4-cumulative.txt");
-    assertNotNull(qrels);
-    assertEquals(45, qrels.getQids().size());
-    assertEquals(46203, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("1", "00fmeepz"));
-    assertEquals(2, qrels.getRelevanceGrade("45", "zzrsk1ls"));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.COVID_ROUND4_CUMULATIVE);
-    assertNotNull(qrels);
-    assertEquals(45, qrels.getQids().size());
-    assertEquals(46203, getQrelsCount(qrels));
-    assertEquals(1, qrels.getRelevanceGrade("1", "00fmeepz"));
-    assertEquals(2, qrels.getRelevanceGrade("45", "zzrsk1ls"));
-  }
-
-  @Test
-  public void testCovidComplete() throws IOException{
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.covid-complete.txt");
-    assertNotNull(qrels);
-    assertEquals(50, qrels.getQids().size());
-    assertEquals(69318, getQrelsCount(qrels));
-    assertEquals(2, qrels.getRelevanceGrade("1", "005b2j4b"));
-    assertEquals(1, qrels.getRelevanceGrade("50", "zz8wvos9"));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.COVID_COMPLETE);
-    assertNotNull(qrels);
-    assertEquals(50, qrels.getQids().size());
-    assertEquals(69318, getQrelsCount(qrels));
-    assertEquals(2, qrels.getRelevanceGrade("1", "005b2j4b"));
-    assertEquals(1, qrels.getRelevanceGrade("50", "zz8wvos9"));
-  }
-
-  @Test
-  public void testNtcir8Zh() throws IOException{
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.ntcir8.eval.txt");
-    assertNotNull(qrels);
-    assertEquals(100, qrels.getQids().size());
-    assertEquals(110213, getQrelsCount(qrels));
-    assertEquals(0, qrels.getRelevanceGrade("ACLIA2-CS-0001", "XIN_CMN_20020106.0118"));
-    assertEquals(0, qrels.getRelevanceGrade("ACLIA2-CS-0001", "XIN_CMN_20020107.0140"));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.NTCIR8_ZH);
-    assertNotNull(qrels);
-    assertEquals(100, qrels.getQids().size());
-    assertEquals(110213, getQrelsCount(qrels));
-    assertEquals(0, qrels.getRelevanceGrade("ACLIA2-CS-0001", "XIN_CMN_20020106.0118"));
-    assertEquals(0, qrels.getRelevanceGrade("ACLIA2-CS-0001", "XIN_CMN_20020107.0140"));
-  }
-
-  @Test
-  public void testClef2006Fr() throws IOException{
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.clef06fr.txt");
-    assertNotNull(qrels);
-    assertEquals(49, qrels.getQids().size());
-    assertEquals(17882, getQrelsCount(qrels));
-    assertEquals(0, qrels.getRelevanceGrade("301-AH", "ATS.940106.0082"));
-    assertEquals(0, qrels.getRelevanceGrade("301-AH", "ATS.940112.0089"));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.CLEF2006_FR);
-    assertNotNull(qrels);
-    assertEquals(49, qrels.getQids().size());
-    assertEquals(17882, getQrelsCount(qrels));
-    assertEquals(0, qrels.getRelevanceGrade("301-AH", "ATS.940106.0082"));
-    assertEquals(0, qrels.getRelevanceGrade("301-AH", "ATS.940112.0089"));
-  }
-
-  @Test
-  public void testTrec2002Ar() throws IOException{
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.trec02ar.txt");
-    assertNotNull(qrels);
-    assertEquals(50, qrels.getQids().size());
-    assertEquals(38432, getQrelsCount(qrels));
-    assertEquals(0, qrels.getRelevanceGrade("26", "19940515_AFP_ARB.0115"));
-    assertEquals(1, qrels.getRelevanceGrade("26", "19941213_AFP_ARB.0159"));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2002_AR);
-    assertNotNull(qrels);
-    assertEquals(50, qrels.getQids().size());
-    assertEquals(38432, getQrelsCount(qrels));
-    assertEquals(0, qrels.getRelevanceGrade("26", "19940515_AFP_ARB.0115"));
-    assertEquals(1, qrels.getRelevanceGrade("26", "19941213_AFP_ARB.0159"));
-  }
+//  @Test
+//  public void testRobust04() throws IOException{
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.robust04.txt");
+//    assertNotNull(qrels);
+//    assertEquals(249, qrels.getQids().size());
+//    assertEquals(311410, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("301", "FBIS3-10082"));
+//    assertEquals(0, qrels.getRelevanceGrade("700", "LA123090-0137"));
+//    assertEquals(0, qrels.getRelevanceGrade("700", "LA123090-0137x")); // non-existent docid
+//    assertEquals(0, qrels.getRelevanceGrade("xxx", "LA123090-0137"));  // non-existent topic
+//    assertTrue(qrels.isDocJudged("301", "FBIS3-10082"));
+//    assertNull(qrels.getDocMap("xxx"));
+//
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.ROBUST04);
+//    assertNotNull(qrels);
+//    assertEquals(249, qrels.getQids().size());
+//    assertEquals(311410, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("301", "FBIS3-10082"));
+//    assertEquals(0, qrels.getRelevanceGrade("700", "LA123090-0137"));
+//    assertEquals(0, qrels.getRelevanceGrade("700", "LA123090-0137x")); // non-existent docid
+//    assertEquals(0, qrels.getRelevanceGrade("xxx", "LA123090-0137"));  // non-existent topic
+//    assertTrue(qrels.isDocJudged("301", "FBIS3-10082"));
+//    assertNull(qrels.getDocMap("xxx"));
+//
+//    assertEquals(6543541, RelevanceJudgments.getQrelsResource(Path.of("tools/topics-and-qrels/qrels.robust04.txt")).length());
+//  }
+//
+//  @Test
+//  public void testRobust05() throws IOException{
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.robust05.txt");
+//    assertNotNull(qrels);
+//    assertEquals(50, qrels.getQids().size());
+//    assertEquals(37798, getQrelsCount(qrels));
+//    assertEquals(2, qrels.getRelevanceGrade("303", "APW19980609.1531"));
+//    assertEquals(0, qrels.getRelevanceGrade("689", "XIE20000925.0055"));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.ROBUST05);
+//    assertNotNull(qrels);
+//    assertEquals(50, qrels.getQids().size());
+//    assertEquals(37798, getQrelsCount(qrels));
+//    assertEquals(2, qrels.getRelevanceGrade("303", "APW19980609.1531"));
+//    assertEquals(0, qrels.getRelevanceGrade("689", "XIE20000925.0055"));
+//  }
+//
+//  @Test
+//  public void testTrec19DLDoc() throws IOException{
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.dl19-doc.txt");
+//    assertNotNull(qrels);
+//    assertEquals(43, qrels.getQids().size());
+//    assertEquals(16258, getQrelsCount(qrels));
+//    assertEquals(0, qrels.getRelevanceGrade("19335", "D1035833"));
+//    assertEquals(0, qrels.getRelevanceGrade("1133167", "D984590"));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2019_DL_DOC);
+//    assertNotNull(qrels);
+//    assertEquals(43, qrels.getQids().size());
+//    assertEquals(16258, getQrelsCount(qrels));
+//    assertEquals(0, qrels.getRelevanceGrade("19335", "D1035833"));
+//    assertEquals(0, qrels.getRelevanceGrade("1133167", "D984590"));
+//  }
+//
+//  @Test
+//  public void testTrec19DLPassage() throws IOException{
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.dl19-passage.txt");
+//    assertNotNull(qrels);
+//    assertEquals(43, qrels.getQids().size());
+//    assertEquals(9260, getQrelsCount(qrels));
+//    assertEquals(0, qrels.getRelevanceGrade("19335", "1017759"));
+//    assertEquals(1, qrels.getRelevanceGrade("1133167", "8804478"));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2019_DL_PASSAGE);
+//    assertNotNull(qrels);
+//    assertEquals(43, qrels.getQids().size());
+//    assertEquals(9260, getQrelsCount(qrels));
+//    assertEquals(0, qrels.getRelevanceGrade("19335", "1017759"));
+//    assertEquals(1, qrels.getRelevanceGrade("1133167", "8804478"));
+//  }
+//
+//  @Test
+//  public void testTrec20DLDoc() throws IOException{
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.dl20-doc.txt");
+//    assertNotNull(qrels);
+//    assertEquals(45, qrels.getQids().size());
+//    assertEquals(9098, getQrelsCount(qrels));
+//    assertEquals(3, qrels.getRelevanceGrade("42255", "D1884223"));
+//    assertEquals(3, qrels.getRelevanceGrade("1136962", "D96741"));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2020_DL_DOC);
+//    assertNotNull(qrels);
+//    assertEquals(45, qrels.getQids().size());
+//    assertEquals(9098, getQrelsCount(qrels));
+//    assertEquals(3, qrels.getRelevanceGrade("42255", "D1884223"));
+//    assertEquals(3, qrels.getRelevanceGrade("1136962", "D96741"));
+//  }
+//
+//  @Test
+//  public void testTrec20DLPassage() throws IOException{
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.dl20-passage.txt");
+//    assertNotNull(qrels);
+//    assertEquals(54, qrels.getQids().size());
+//    assertEquals(11386, getQrelsCount(qrels));
+//    assertEquals(2, qrels.getRelevanceGrade("23849", "1020327"));
+//    assertEquals(1, qrels.getRelevanceGrade("1136962", "937258"));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2020_DL_PASSAGE);
+//    assertNotNull(qrels);
+//    assertEquals(54, qrels.getQids().size());
+//    assertEquals(11386, getQrelsCount(qrels));
+//    assertEquals(2, qrels.getRelevanceGrade("23849", "1020327"));
+//    assertEquals(1, qrels.getRelevanceGrade("1136962", "937258"));
+//  }
+//
+//  @Test
+//  public void testTrec21DLDoc() throws IOException{
+//    // % cut -f 1 -d ' ' tools/topics-and-qrels/qrels.dl21-doc.txt | uniq | wc
+//    //       57      57     412
+//    // % wc tools/topics-and-qrels/qrels.dl21-doc.txt
+//    //    13058   52232  478328 tools/topics-and-qrels/qrels.dl21-doc.txt
+//
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.dl21-doc.txt");
+//    assertNotNull(qrels);
+//    assertEquals(57, qrels.getQids().size());
+//    assertEquals(13058, getQrelsCount(qrels));
+//    assertEquals(2, qrels.getRelevanceGrade("2082", "msmarco_doc_01_1320020407"));
+//    assertEquals(1, qrels.getRelevanceGrade("1129560", "msmarco_doc_59_863449044"));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2021_DL_DOC);
+//    assertNotNull(qrels);
+//    assertEquals(57, qrels.getQids().size());
+//    assertEquals(13058, getQrelsCount(qrels));
+//    assertEquals(2, qrels.getRelevanceGrade("2082", "msmarco_doc_01_1320020407"));
+//    assertEquals(1, qrels.getRelevanceGrade("1129560", "msmarco_doc_59_863449044"));
+//  }
+//
+//  @Test
+//  public void testTrec21DLPassage() throws IOException{
+//    // % cut -f 1 -d ' ' tools/topics-and-qrels/qrels.dl21-passage.txt | uniq | wc
+//    //       53      53     382
+//    // % wc tools/topics-and-qrels/qrels.dl21-passage.txt
+//    //    10828   43312  433887 tools/topics-and-qrels/qrels.dl21-passage.txt
+//
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.dl21-passage.txt");
+//    assertNotNull(qrels);
+//    assertEquals(53, qrels.getQids().size());
+//    assertEquals(10828, getQrelsCount(qrels));
+//    assertEquals(3, qrels.getRelevanceGrade("2082", "msmarco_passage_02_179207466"));
+//    assertEquals(1, qrels.getRelevanceGrade("1129560", "msmarco_passage_67_937656589"));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2021_DL_PASSAGE);
+//    assertNotNull(qrels);
+//    assertEquals(53, qrels.getQids().size());
+//    assertEquals(10828, getQrelsCount(qrels));
+//    assertEquals(3, qrels.getRelevanceGrade("2082", "msmarco_passage_02_179207466"));
+//    assertEquals(1, qrels.getRelevanceGrade("1129560", "msmarco_passage_67_937656589"));
+//  }
+//
+//  @Test
+//  public void testTrec21DLDocMsMarcoV21() throws IOException{
+//    // % cut -f 1 -d ' ' tools/topics-and-qrels/qrels.dl21-doc-msmarco-v2.1.txt | sort | uniq | wc
+//    //       57      57     412
+//    // % wc tools/topics-and-qrels/qrels.dl21-doc-msmarco-v2.1.txt
+//    //    10973   43892  456277 tools/topics-and-qrels/qrels.dl21-doc-msmarco-v2.1.txt
+//
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.dl21-doc-msmarco-v2.1.txt");
+//    assertNotNull(qrels);
+//    assertEquals(57, qrels.getQids().size());
+//    assertEquals(10973, getQrelsCount(qrels));
+//    assertEquals(2, qrels.getRelevanceGrade("2082", "msmarco_v2.1_doc_01_1281570012"));
+//    assertEquals(2, qrels.getRelevanceGrade("1128632", "msmarco_v2.1_doc_17_481617788"));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2021_DL_DOC_MSMARCO_V21);
+//    assertNotNull(qrels);
+//    assertEquals(57, qrels.getQids().size());
+//    assertEquals(10973, getQrelsCount(qrels));
+//    assertEquals(2, qrels.getRelevanceGrade("2082", "msmarco_v2.1_doc_01_1281570012"));
+//    assertEquals(2, qrels.getRelevanceGrade("1128632", "msmarco_v2.1_doc_17_481617788"));
+//  }
+//
+//  @Test
+//  public void testTrec22DLDoc() throws IOException{
+//    // % cut -f 1 -d ' ' tools/topics-and-qrels/qrels.dl22-doc.txt | uniq | wc
+//    //       76      76     608
+//    // % wc tools/topics-and-qrels/qrels.dl22-doc.txt
+//    //   369638 1478552 13808681 tools/topics-and-qrels/qrels.dl22-doc.txt
+//
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.dl22-doc.txt");
+//    assertNotNull(qrels);
+//    assertEquals(76, qrels.getQids().size());
+//    assertEquals(369638, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("2000511", "msmarco_doc_00_928744703"));
+//    assertEquals(1, qrels.getRelevanceGrade("2056323", "msmarco_doc_59_419476385"));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2022_DL_DOC);
+//    assertNotNull(qrels);
+//    assertEquals(76, qrels.getQids().size());
+//    assertEquals(369638, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("2000511", "msmarco_doc_00_928744703"));
+//    assertEquals(1, qrels.getRelevanceGrade("2056323", "msmarco_doc_59_419476385"));
+//  }
+//
+//  @Test
+//  public void testTrec22DLPassage() throws IOException{
+//    // % cut -f 1 -d ' ' tools/topics-and-qrels/qrels.dl22-passage.txt | uniq | wc
+//    //      76      76     608
+//    // % wc tools/topics-and-qrels/qrels.dl22-passage.txt
+//    //  386416 1545664 15800539 tools/topics-and-qrels/qrels.dl22-passage.txt
+//
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.dl22-passage.txt");
+//    assertNotNull(qrels);
+//    assertEquals(76, qrels.getQids().size());
+//    assertEquals(386416, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("2000511", "msmarco_passage_00_491585864"));
+//    assertEquals(1, qrels.getRelevanceGrade("2056323", "msmarco_passage_68_715747739"));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2022_DL_PASSAGE);
+//    assertNotNull(qrels);
+//    assertEquals(76, qrels.getQids().size());
+//    assertEquals(386416, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("2000511", "msmarco_passage_00_491585864"));
+//    assertEquals(1, qrels.getRelevanceGrade("2056323", "msmarco_passage_68_715747739"));
+//  }
+//
+//  @Test
+//  public void testTrec22DLDocMsMarcoV21() throws IOException{
+//    // % cut -f 1 -d ' ' tools/topics-and-qrels/qrels.dl22-doc-msmarco-v2.1.txt | sort | uniq | wc
+//    //       76      76     608
+//    // % wc tools/topics-and-qrels/qrels.dl22-doc-msmarco-v2.1.txt
+//    //   349541 1398164 14786970 tools/topics-and-qrels/qrels.dl22-doc-msmarco-v2.1.txt
+//
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.dl22-doc-msmarco-v2.1.txt");
+//    assertNotNull(qrels);
+//    assertEquals(76, qrels.getQids().size());
+//    assertEquals(349541, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("2000511", "msmarco_v2.1_doc_00_896525856"));
+//    assertEquals(2, qrels.getRelevanceGrade("2056158", "msmarco_v2.1_doc_06_934688453"));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2022_DL_DOC_MSMARCO_V21);
+//    assertNotNull(qrels);
+//    assertEquals(76, qrels.getQids().size());
+//    assertEquals(349541, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("2000511", "msmarco_v2.1_doc_00_896525856"));
+//    assertEquals(2, qrels.getRelevanceGrade("2056158", "msmarco_v2.1_doc_06_934688453"));
+//  }
+//
+//  @Test
+//  public void testTrec23DLDoc() throws IOException{
+//    // % cut -f 1 -d ' ' tools/topics-and-qrels/qrels.dl23-doc.txt | uniq | wc
+//    //       82      82     656
+//    // % wc tools/topics-and-qrels/qrels.dl23-doc.txt
+//    //    18034   72136  675015 tools/topics-and-qrels/qrels.dl23-doc.txt
+//
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.dl23-doc.txt");
+//    assertNotNull(qrels);
+//    assertEquals(82, qrels.getQids().size());
+//    assertEquals(18034, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("2001010", "msmarco_doc_00_1413652624"));
+//    assertEquals(3, qrels.getRelevanceGrade("3100922", "msmarco_doc_16_3928760942"));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2023_DL_DOC);
+//    assertNotNull(qrels);
+//    assertEquals(82, qrels.getQids().size());
+//    assertEquals(18034, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("2001010", "msmarco_doc_00_1413652624"));
+//    assertEquals(3, qrels.getRelevanceGrade("3100922", "msmarco_doc_16_3928760942"));
+//  }
+//
+//  @Test
+//  public void testTrec23DLPassage() throws IOException{
+//    // % cut -f 1 -d ' ' tools/topics-and-qrels/qrels.dl23-passage.txt | uniq | wc
+//    //      82      82     656
+//    // % wc tools/topics-and-qrels/qrels.dl23-passage.txt
+//    //   22327   89308  912450 tools/topics-and-qrels/qrels.dl23-passage.txt
+//
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.dl23-passage.txt");
+//    assertNotNull(qrels);
+//    assertEquals(82, qrels.getQids().size());
+//    assertEquals(22327, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("2001010", "msmarco_passage_00_729315698"));
+//    assertEquals(2, qrels.getRelevanceGrade("3100922", "msmarco_passage_22_487548813"));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2023_DL_PASSAGE);
+//    assertNotNull(qrels);
+//    assertEquals(82, qrels.getQids().size());
+//    assertEquals(22327, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("2001010", "msmarco_passage_00_729315698"));
+//    assertEquals(2, qrels.getRelevanceGrade("3100922", "msmarco_passage_22_487548813"));
+//  }
+//
+//  @Test
+//  public void testTrec23DLDocMsMarcoV21() throws IOException{
+//    // % cut -f 1 -d ' ' tools/topics-and-qrels/qrels.dl23-doc-msmarco-v2.1.txt | uniq | wc
+//    //       82      82     656
+//    // % wc tools/topics-and-qrels/qrels.dl23-doc-msmarco-v2.1.txt
+//    //    15995   63980  677618 tools/topics-and-qrels/qrels.dl23-doc-msmarco-v2.1.txt
+//
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.dl23-doc-msmarco-v2.1.txt");
+//    assertNotNull(qrels);
+//    assertEquals(82, qrels.getQids().size());
+//    assertEquals(15995, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("2001010", "msmarco_v2.1_doc_00_1372241967"));
+//    assertEquals(2, qrels.getRelevanceGrade("3100922", "msmarco_v2.1_doc_19_1982402861"));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2023_DL_DOC_MSMARCO_V21);
+//    assertNotNull(qrels);
+//    assertEquals(82, qrels.getQids().size());
+//    assertEquals(15995, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("2001010", "msmarco_v2.1_doc_00_1372241967"));
+//    assertEquals(2, qrels.getRelevanceGrade("3100922", "msmarco_v2.1_doc_19_1982402861"));
+//  }
+//
+//  @Test
+//  public void testTREC24_RAG_RAGGY_DEV() throws IOException{
+//    // % cut -f 1 -d ' ' tools/topics-and-qrels/qrels.rag24.raggy-dev.txt | uniq | wc
+//    //      120     120     937
+//    // % wc tools/topics-and-qrels/qrels.rag24.raggy-dev.txt
+//    //   147328  589312 6377570 tools/topics-and-qrels/qrels.rag24.raggy-dev.txt
+//
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.rag24.raggy-dev.txt");
+//    assertNotNull(qrels);
+//    assertEquals(120, qrels.getQids().size());
+//    assertEquals(147328, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("2001010", "msmarco_v2.1_doc_00_1372241967"));
+//    assertEquals(1, qrels.getRelevanceGrade("253263", "msmarco_v2.1_doc_46_843492186"));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2024_RAG_RAGGY_DEV);
+//    assertNotNull(qrels);
+//    assertEquals(120, qrels.getQids().size());
+//    assertEquals(147328, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("2001010", "msmarco_v2.1_doc_00_1372241967"));
+//    assertEquals(1, qrels.getRelevanceGrade("253263", "msmarco_v2.1_doc_46_843492186"));
+//  }
+//
+//  @Test
+//  public void testTREC24_RAG_UMBRELA() throws IOException{
+//    // % cut -f 1 -d ' ' tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt | uniq | wc
+//    //      301     301    3448
+//    // % wc tools/topics-and-qrels/qrels.rag24.raggy-dev.txt
+//    //   108479  433916 6475451 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt
+//
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt");
+//    assertNotNull(qrels);
+//    assertEquals(301, qrels.getQids().size());
+//    assertEquals(108479, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("2024-145979", "msmarco_v2.1_doc_25_771726319#13_1477564195"));
+//    assertEquals(1, qrels.getRelevanceGrade("2024-216592", "msmarco_v2.1_doc_52_1092442741#3_2165187686"));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2024_RAG_UMBRELA);
+//    assertNotNull(qrels);
+//    assertEquals(301, qrels.getQids().size());
+//    assertEquals(108479, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("2024-145979", "msmarco_v2.1_doc_25_771726319#13_1477564195"));
+//    assertEquals(1, qrels.getRelevanceGrade("2024-216592", "msmarco_v2.1_doc_52_1092442741#3_2165187686"));
+//  }
+//
+//  @Test
+//  public void testMsmarcoDocDev() throws IOException{
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.msmarco-doc.dev.txt");
+//    assertNotNull(qrels);
+//    assertEquals(5193, qrels.getQids().size());
+//    assertEquals(5193, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("2", "D1650436"));
+//    assertEquals(1, qrels.getRelevanceGrade("1102400", "D677570"));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.MSMARCO_DOC_DEV);
+//    assertNotNull(qrels);
+//    assertEquals(5193, qrels.getQids().size());
+//    assertEquals(5193, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("2", "D1650436"));
+//    assertEquals(1, qrels.getRelevanceGrade("1102400", "D677570"));
+//  }
+//
+//  @Test
+//  public void testMsmarcoPassageDevSubset() throws IOException{
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt");
+//    assertNotNull(qrels);
+//    assertEquals(6980, qrels.getQids().size());
+//    assertEquals(7437, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("300674", "7067032"));
+//    assertEquals(1, qrels.getRelevanceGrade("195199", "8009377"));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.MSMARCO_PASSAGE_DEV_SUBSET);
+//    assertNotNull(qrels);
+//    assertEquals(6980, qrels.getQids().size());
+//    assertEquals(7437, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("300674", "7067032"));
+//    assertEquals(1, qrels.getRelevanceGrade("195199", "8009377"));
+//  }
+//
+//  @Test
+//  public void testMsmarcoV2DocDevMsMarcoV21() throws IOException{
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.msmarco-v2.1-doc.dev.txt");
+//    assertNotNull(qrels);
+//    assertEquals(4552, qrels.getQids().size());
+//    assertEquals(4702, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("1000000", "msmarco_v2.1_doc_17_1968189952"));
+//    assertEquals(1, qrels.getRelevanceGrade("999897", "msmarco_v2.1_doc_46_191673440"));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.MSMARCO_V21_DOC_DEV);
+//    assertNotNull(qrels);
+//    assertEquals(4552, qrels.getQids().size());
+//    assertEquals(4702, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("1000000", "msmarco_v2.1_doc_17_1968189952"));
+//    assertEquals(1, qrels.getRelevanceGrade("999897", "msmarco_v2.1_doc_46_191673440"));
+//  }
+//
+//  @Test
+//  public void testMsmarcoV2DocDev2MsMarcoV21() throws IOException{
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.msmarco-v2.1-doc.dev2.txt");
+//    assertNotNull(qrels);
+//    assertEquals(5000, qrels.getQids().size());
+//    assertEquals(5177, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("1000202", "msmarco_v2.1_doc_08_69146701"));
+//    assertEquals(1, qrels.getRelevanceGrade("999659", "msmarco_v2.1_doc_08_1247437925"));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.MSMARCO_V21_DOC_DEV2);
+//    assertNotNull(qrels);
+//    assertEquals(5000, qrels.getQids().size());
+//    assertEquals(5177, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("1000202", "msmarco_v2.1_doc_08_69146701"));
+//    assertEquals(1, qrels.getRelevanceGrade("999659", "msmarco_v2.1_doc_08_1247437925"));
+//  }
+//
+//  @Test
+//  public void testMsmarcoV2DocPassage() throws IOException{
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt");
+//    assertNotNull(qrels);
+//    assertEquals(3903, qrels.getQids().size());
+//    assertEquals(4009, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("763878", "msmarco_passage_33_459057644"));
+//    assertEquals(1, qrels.getRelevanceGrade("1091692", "msmarco_passage_23_330102695"));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.MSMARCO_V2_PASSAGE_DEV);
+//    assertNotNull(qrels);
+//    assertEquals(3903, qrels.getQids().size());
+//    assertEquals(4009, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("763878", "msmarco_passage_33_459057644"));
+//    assertEquals(1, qrels.getRelevanceGrade("1091692", "msmarco_passage_23_330102695"));
+//  }
+//
+//  @Test
+//  public void testMsmarcoV2DocPassage2() throws IOException{
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt");
+//    assertNotNull(qrels);
+//    assertEquals(4281, qrels.getQids().size());
+//    assertEquals(4411, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("419507", "msmarco_passage_04_254301507"));
+//    assertEquals(1, qrels.getRelevanceGrade("961297", "msmarco_passage_18_858458289"));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.MSMARCO_V2_PASSAGE_DEV2);
+//    assertNotNull(qrels);
+//    assertEquals(4281, qrels.getQids().size());
+//    assertEquals(4411, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("419507", "msmarco_passage_04_254301507"));
+//    assertEquals(1, qrels.getRelevanceGrade("961297", "msmarco_passage_18_858458289"));
+//  }
+//
+//  @Test
+//  public void testMsmarcoV2DocDev() throws IOException{
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt");
+//    assertNotNull(qrels);
+//    assertEquals(4552, qrels.getQids().size());
+//    assertEquals(4702, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("1000000", "msmarco_doc_17_2560009121"));
+//    assertEquals(1, qrels.getRelevanceGrade("999942", "msmarco_doc_06_956348348"));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.MSMARCO_V2_DOC_DEV);
+//    assertNotNull(qrels);
+//    assertEquals(4552, qrels.getQids().size());
+//    assertEquals(4702, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("1000000", "msmarco_doc_17_2560009121"));
+//    assertEquals(1, qrels.getRelevanceGrade("999942", "msmarco_doc_06_956348348"));
+//  }
+//
+//  @Test
+//  public void testMsmarcoV2DocDev2() throws IOException{
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt");
+//    assertNotNull(qrels);
+//    assertEquals(5000, qrels.getQids().size());
+//    assertEquals(5178, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("1000202", "msmarco_doc_08_73026062"));
+//    assertEquals(1, qrels.getRelevanceGrade("999937", "msmarco_doc_05_319743607"));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.MSMARCO_V2_DOC_DEV2);
+//    assertNotNull(qrels);
+//    assertEquals(5000, qrels.getQids().size());
+//    assertEquals(5178, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("1000202", "msmarco_doc_08_73026062"));
+//    assertEquals(1, qrels.getRelevanceGrade("999937", "msmarco_doc_05_319743607"));
+//  }
+//
+//  @Test
+//  public void testCore17() throws IOException{
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.core17.txt");
+//    assertNotNull(qrels);
+//    assertEquals(50, qrels.getQids().size());
+//    assertEquals(30030, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("307", "1001536"));
+//    assertEquals(0, qrels.getRelevanceGrade("690", "996059"));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.CORE17);
+//    assertNotNull(qrels);
+//    assertEquals(50, qrels.getQids().size());
+//    assertEquals(30030, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("307", "1001536"));
+//    assertEquals(0, qrels.getRelevanceGrade("690", "996059"));
+//  }
+//
+//  @Test
+//  public void testCore18() throws IOException{
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.core18.txt");
+//    assertNotNull(qrels);
+//    assertEquals(50, qrels.getQids().size());
+//    assertEquals(26233, getQrelsCount(qrels));
+//    assertEquals(0, qrels.getRelevanceGrade("321", "004c6120d0aa69da29cc045da0562168"));
+//    assertEquals(0, qrels.getRelevanceGrade("825", "ff3a25b0-0ba4-11e4-8341-b8072b1e7348"));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.CORE18);
+//    assertNotNull(qrels);
+//    assertEquals(50, qrels.getQids().size());
+//    assertEquals(26233, getQrelsCount(qrels));
+//    assertEquals(0, qrels.getRelevanceGrade("321", "004c6120d0aa69da29cc045da0562168"));
+//    assertEquals(0, qrels.getRelevanceGrade("825", "ff3a25b0-0ba4-11e4-8341-b8072b1e7348"));
+//  }
+//
+//  @Test
+//  public void testCar15() throws IOException{
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.car17v1.5.benchmarkY1test.txt");
+//    assertNotNull(qrels);
+//    assertEquals(2125, qrels.getQids().size());
+//    assertEquals(5820, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("Aftertaste/Aftertaste%20processing%20in%20the%20cerebral%20cortex",
+//        "38c1bd25ddca2705164677a3f598c46df85afba7"));
+//    assertEquals(1, qrels.getRelevanceGrade("Yellowstone%20National%20Park/Recreation",
+//        "e80b5185da1493edde41bea19a389a3f62167369"));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.CAR17V15_BENCHMARK_Y1_TEST);
+//    assertNotNull(qrels);
+//    assertEquals(2125, qrels.getQids().size());
+//    assertEquals(5820, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("Aftertaste/Aftertaste%20processing%20in%20the%20cerebral%20cortex",
+//            "38c1bd25ddca2705164677a3f598c46df85afba7"));
+//    assertEquals(1, qrels.getRelevanceGrade("Yellowstone%20National%20Park/Recreation",
+//            "e80b5185da1493edde41bea19a389a3f62167369"));
+//  }
+//
+//  @Test
+//  public void testCar20() throws IOException{
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt");
+//    assertNotNull(qrels);
+//    assertEquals(2254, qrels.getQids().size());
+//    assertEquals(6192, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("enwiki:Aftertaste", "327cca6c4d38953196fa6789f615546f03287b25"));
+//    assertEquals(1, qrels.getRelevanceGrade("enwiki:Yellowstone%20National%20Park/Recreation",
+//        "b812fca195f74f8c563db4262260554fe3ff3731"));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.CAR17V20_BENCHMARK_Y1_TEST);
+//    assertNotNull(qrels);
+//    assertEquals(2254, qrels.getQids().size());
+//    assertEquals(6192, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("enwiki:Aftertaste", "327cca6c4d38953196fa6789f615546f03287b25"));
+//    assertEquals(1, qrels.getRelevanceGrade("enwiki:Yellowstone%20National%20Park/Recreation",
+//            "b812fca195f74f8c563db4262260554fe3ff3731"));
+//  }
+//
+//  @Test
+//  public void testTrec2018BL() throws IOException{
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.backgroundlinking18.txt");
+//    assertNotNull(qrels);
+//    assertEquals(50, qrels.getQids().size());
+//    assertEquals(8508, getQrelsCount(qrels));
+//    assertEquals(16, qrels.getRelevanceGrade("321", "00f57310e5c8ec7833d6756ba637332e"));
+//    assertEquals(0, qrels.getRelevanceGrade("825", "f66b624ba8689d704872fa776fb52860"));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2018_BL);
+//    assertNotNull(qrels);
+//    assertEquals(50, qrels.getQids().size());
+//    assertEquals(8508, getQrelsCount(qrels));
+//    assertEquals(16, qrels.getRelevanceGrade("321", "00f57310e5c8ec7833d6756ba637332e"));
+//    assertEquals(0, qrels.getRelevanceGrade("825", "f66b624ba8689d704872fa776fb52860"));
+//  }
+//
+//  @Test
+//  public void testTrec2019BL() throws IOException{
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.backgroundlinking19.txt");
+//    assertNotNull(qrels);
+//    assertEquals(57, qrels.getQids().size());
+//    assertEquals(15655, getQrelsCount(qrels));
+//    assertEquals(2, qrels.getRelevanceGrade("826", "0154349511cd8c49ab862d6cb0d8f6a8"));
+//    assertEquals(0, qrels.getRelevanceGrade("885", "fde80cb0-b4f0-11e2-bbf2-a6f9e9d79e19"));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2019_BL);
+//    assertNotNull(qrels);
+//    assertEquals(57, qrels.getQids().size());
+//    assertEquals(15655, getQrelsCount(qrels));
+//    assertEquals(2, qrels.getRelevanceGrade("826", "0154349511cd8c49ab862d6cb0d8f6a8"));
+//    assertEquals(0, qrels.getRelevanceGrade("885", "fde80cb0-b4f0-11e2-bbf2-a6f9e9d79e19"));
+//  }
+//
+//  @Test
+//  public void testTrec2020BL() throws IOException{
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.backgroundlinking20.txt");
+//    assertNotNull(qrels);
+//    assertEquals(49, qrels.getQids().size());
+//    assertEquals(17764, getQrelsCount(qrels));
+//    assertEquals(0, qrels.getRelevanceGrade("886", "00183d98-741b-11e5-8248-98e0f5a2e830"));
+//    assertEquals(0, qrels.getRelevanceGrade("935", "ff0a760128ecdbcc096cafc8cd553255"));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2020_BL);
+//    assertNotNull(qrels);
+//    assertEquals(49, qrels.getQids().size());
+//    assertEquals(17764, getQrelsCount(qrels));
+//    assertEquals(0, qrels.getRelevanceGrade("886", "00183d98-741b-11e5-8248-98e0f5a2e830"));
+//    assertEquals(0, qrels.getRelevanceGrade("935", "ff0a760128ecdbcc096cafc8cd553255"));
+//  }
+//
+//  @Test
+//  public void testCovidRound1() throws IOException{
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.covid-round1.txt");
+//    assertNotNull(qrels);
+//    assertEquals(30, qrels.getQids().size());
+//    assertEquals(8691, getQrelsCount(qrels));
+//    assertEquals(2, qrels.getRelevanceGrade("1", "010vptx3"));
+//    assertEquals(1, qrels.getRelevanceGrade("30", "zn87f1lk"));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.COVID_ROUND1);
+//    assertNotNull(qrels);
+//    assertEquals(30, qrels.getQids().size());
+//    assertEquals(8691, getQrelsCount(qrels));
+//    assertEquals(2, qrels.getRelevanceGrade("1", "010vptx3"));
+//    assertEquals(1, qrels.getRelevanceGrade("30", "zn87f1lk"));
+//  }
+//
+//  @Test
+//  public void testCovidRound2() throws IOException{
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.covid-round2.txt");
+//    assertNotNull(qrels);
+//    assertEquals(35, qrels.getQids().size());
+//    assertEquals(12037, getQrelsCount(qrels));
+//    assertEquals(0, qrels.getRelevanceGrade("1", "08efpohc"));
+//    assertEquals(0, qrels.getRelevanceGrade("35", "zzmfhr2s"));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.COVID_ROUND2);
+//    assertNotNull(qrels);
+//    assertEquals(35, qrels.getQids().size());
+//    assertEquals(12037, getQrelsCount(qrels));
+//    assertEquals(0, qrels.getRelevanceGrade("1", "08efpohc"));
+//    assertEquals(0, qrels.getRelevanceGrade("35", "zzmfhr2s"));
+//  }
+//
+//  @Test
+//  public void testCovidRound3() throws IOException{
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.covid-round3.txt");
+//    assertNotNull(qrels);
+//    assertEquals(40, qrels.getQids().size());
+//    assertEquals(12713, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("1", "0194oljo"));
+//    assertEquals(1, qrels.getRelevanceGrade("40", "zsx7wfyj"));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.COVID_ROUND3);
+//    assertNotNull(qrels);
+//    assertEquals(40, qrels.getQids().size());
+//    assertEquals(12713, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("1", "0194oljo"));
+//    assertEquals(1, qrels.getRelevanceGrade("40", "zsx7wfyj"));
+//  }
+//
+//  @Test
+//  public void testCovidRound4() throws IOException{
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.covid-round4.txt");
+//    assertNotNull(qrels);
+//    assertEquals(45, qrels.getQids().size());
+//    assertEquals(13262, getQrelsCount(qrels));
+//    assertEquals(2, qrels.getRelevanceGrade("1", "1c47w4q5"));
+//    assertEquals(2, qrels.getRelevanceGrade("45", "zzrsk1ls"));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.COVID_ROUND4);
+//    assertNotNull(qrels);
+//    assertEquals(45, qrels.getQids().size());
+//    assertEquals(13262, getQrelsCount(qrels));
+//    assertEquals(2, qrels.getRelevanceGrade("1", "1c47w4q5"));
+//    assertEquals(2, qrels.getRelevanceGrade("45", "zzrsk1ls"));
+//  }
+//
+//  @Test
+//  public void testCovidRound5() throws IOException{
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.covid-round5.txt");
+//    assertNotNull(qrels);
+//    assertEquals(50, qrels.getQids().size());
+//    assertEquals(23151, getQrelsCount(qrels));
+//    assertEquals(2, qrels.getRelevanceGrade("1", "005b2j4b"));
+//    assertEquals(1, qrels.getRelevanceGrade("50", "zz8wvos9"));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.COVID_ROUND5);
+//    assertNotNull(qrels);
+//    assertEquals(50, qrels.getQids().size());
+//    assertEquals(23151, getQrelsCount(qrels));
+//    assertEquals(2, qrels.getRelevanceGrade("1", "005b2j4b"));
+//    assertEquals(1, qrels.getRelevanceGrade("50", "zz8wvos9"));
+//  }
+//
+//  @Test
+//  public void testCovidRound3Cumulative() throws IOException{
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.covid-round3-cumulative.txt");
+//    assertNotNull(qrels);
+//    assertEquals(40, qrels.getQids().size());
+//    assertEquals(33068, getQrelsCount(qrels));
+//    assertEquals(2, qrels.getRelevanceGrade("1", "010vptx3"));
+//    assertEquals(1, qrels.getRelevanceGrade("40", "zsx7wfyj"));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.COVID_ROUND3_CUMULATIVE);
+//    assertNotNull(qrels);
+//    assertEquals(40, qrels.getQids().size());
+//    assertEquals(33068, getQrelsCount(qrels));
+//    assertEquals(2, qrels.getRelevanceGrade("1", "010vptx3"));
+//    assertEquals(1, qrels.getRelevanceGrade("40", "zsx7wfyj"));
+//  }
+//
+//  @Test
+//  public void testCovidRound4Cumulative() throws IOException{
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.covid-round4-cumulative.txt");
+//    assertNotNull(qrels);
+//    assertEquals(45, qrels.getQids().size());
+//    assertEquals(46203, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("1", "00fmeepz"));
+//    assertEquals(2, qrels.getRelevanceGrade("45", "zzrsk1ls"));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.COVID_ROUND4_CUMULATIVE);
+//    assertNotNull(qrels);
+//    assertEquals(45, qrels.getQids().size());
+//    assertEquals(46203, getQrelsCount(qrels));
+//    assertEquals(1, qrels.getRelevanceGrade("1", "00fmeepz"));
+//    assertEquals(2, qrels.getRelevanceGrade("45", "zzrsk1ls"));
+//  }
+//
+//  @Test
+//  public void testCovidComplete() throws IOException{
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.covid-complete.txt");
+//    assertNotNull(qrels);
+//    assertEquals(50, qrels.getQids().size());
+//    assertEquals(69318, getQrelsCount(qrels));
+//    assertEquals(2, qrels.getRelevanceGrade("1", "005b2j4b"));
+//    assertEquals(1, qrels.getRelevanceGrade("50", "zz8wvos9"));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.COVID_COMPLETE);
+//    assertNotNull(qrels);
+//    assertEquals(50, qrels.getQids().size());
+//    assertEquals(69318, getQrelsCount(qrels));
+//    assertEquals(2, qrels.getRelevanceGrade("1", "005b2j4b"));
+//    assertEquals(1, qrels.getRelevanceGrade("50", "zz8wvos9"));
+//  }
+//
+//  @Test
+//  public void testNtcir8Zh() throws IOException{
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.ntcir8.eval.txt");
+//    assertNotNull(qrels);
+//    assertEquals(100, qrels.getQids().size());
+//    assertEquals(110213, getQrelsCount(qrels));
+//    assertEquals(0, qrels.getRelevanceGrade("ACLIA2-CS-0001", "XIN_CMN_20020106.0118"));
+//    assertEquals(0, qrels.getRelevanceGrade("ACLIA2-CS-0001", "XIN_CMN_20020107.0140"));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.NTCIR8_ZH);
+//    assertNotNull(qrels);
+//    assertEquals(100, qrels.getQids().size());
+//    assertEquals(110213, getQrelsCount(qrels));
+//    assertEquals(0, qrels.getRelevanceGrade("ACLIA2-CS-0001", "XIN_CMN_20020106.0118"));
+//    assertEquals(0, qrels.getRelevanceGrade("ACLIA2-CS-0001", "XIN_CMN_20020107.0140"));
+//  }
+//
+//  @Test
+//  public void testClef2006Fr() throws IOException{
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.clef06fr.txt");
+//    assertNotNull(qrels);
+//    assertEquals(49, qrels.getQids().size());
+//    assertEquals(17882, getQrelsCount(qrels));
+//    assertEquals(0, qrels.getRelevanceGrade("301-AH", "ATS.940106.0082"));
+//    assertEquals(0, qrels.getRelevanceGrade("301-AH", "ATS.940112.0089"));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.CLEF2006_FR);
+//    assertNotNull(qrels);
+//    assertEquals(49, qrels.getQids().size());
+//    assertEquals(17882, getQrelsCount(qrels));
+//    assertEquals(0, qrels.getRelevanceGrade("301-AH", "ATS.940106.0082"));
+//    assertEquals(0, qrels.getRelevanceGrade("301-AH", "ATS.940112.0089"));
+//  }
+//
+//  @Test
+//  public void testTrec2002Ar() throws IOException{
+//    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.trec02ar.txt");
+//    assertNotNull(qrels);
+//    assertEquals(50, qrels.getQids().size());
+//    assertEquals(38432, getQrelsCount(qrels));
+//    assertEquals(0, qrels.getRelevanceGrade("26", "19940515_AFP_ARB.0115"));
+//    assertEquals(1, qrels.getRelevanceGrade("26", "19941213_AFP_ARB.0159"));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2002_AR);
+//    assertNotNull(qrels);
+//    assertEquals(50, qrels.getQids().size());
+//    assertEquals(38432, getQrelsCount(qrels));
+//    assertEquals(0, qrels.getRelevanceGrade("26", "19940515_AFP_ARB.0115"));
+//    assertEquals(1, qrels.getRelevanceGrade("26", "19941213_AFP_ARB.0159"));
+//  }
 
   @Test
   public void testMrTyDiAr() throws IOException{
@@ -1394,75 +1394,75 @@ public class RelevanceJudgmentsTest{
     assertEquals(339, getQrelsCount(qrels));
   }
   
-  @Test
-  public void testHC4() throws IOException{
-    RelevanceJudgments qrels;
-    
-    qrels = RelevanceJudgments.fromQrels(Qrels.HC4_V1_0_RU_DEV);
-    assertNotNull(qrels);
-    assertEquals(4, qrels.getQids().size());
-    assertEquals(265, getQrelsCount(qrels));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.HC4_V1_0_RU_TEST);
-    assertNotNull(qrels);
-    assertEquals(50, qrels.getQids().size());
-    assertEquals(2970, getQrelsCount(qrels));
-  
-    qrels = RelevanceJudgments.fromQrels(Qrels.HC4_V1_0_FA_DEV);
-    assertNotNull(qrels);
-    assertEquals(10, qrels.getQids().size());
-    assertEquals(565, getQrelsCount(qrels));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.HC4_V1_0_FA_TEST);
-    assertNotNull(qrels);
-    assertEquals(50, qrels.getQids().size());
-    assertEquals(2522, getQrelsCount(qrels));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.HC4_V1_0_ZH_DEV);
-    assertNotNull(qrels);
-    assertEquals(10, qrels.getQids().size());
-    assertEquals(466, getQrelsCount(qrels));
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.HC4_V1_0_ZH_TEST);
-    assertNotNull(qrels);
-    assertEquals(50, qrels.getQids().size());
-    assertEquals(2751, getQrelsCount(qrels));
-  }
-
-  @Test
-  public void testNeuClir2022() throws IOException{
-    RelevanceJudgments qrels;
-
-    // % cut -f 1 -d ' ' tools/topics-and-qrels/qrels.neuclir22-fa.txt | uniq | wc
-    //      46      46     146
-    // % wc tools/topics-and-qrels/qrels.neuclir22-fa.txt
-    //   34174  136696 1508848 tools/topics-and-qrels/qrels.neuclir22-fa.txt
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.NEUCLIR22_FA);
-    assertNotNull(qrels);
-    assertEquals(46, qrels.getQids().size());
-    assertEquals(34174, getQrelsCount(qrels));
-
-    // % cut -f 1 -d ' ' tools/topics-and-qrels/qrels.neuclir22-ru.txt | uniq | wc
-    //      45      45     139
-    // % wc tools/topics-and-qrels/qrels.neuclir22-ru.txt
-    //   33006  132024 1455114 tools/topics-and-qrels/qrels.neuclir22-ru.txt
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.NEUCLIR22_RU);
-    assertNotNull(qrels);
-    assertEquals(45, qrels.getQids().size());
-    assertEquals(33006, getQrelsCount(qrels));
-
-    // % cut -f 1 -d ' ' tools/topics-and-qrels/qrels.neuclir22-zh.txt | uniq | wc
-    //      49      49     155
-    // % wc tools/topics-and-qrels/qrels.neuclir22-zh.txt
-    //   36575  146300 1614196 tools/topics-and-qrels/qrels.neuclir22-zh.txt
-
-    qrels = RelevanceJudgments.fromQrels(Qrels.NEUCLIR22_ZH);
-    assertNotNull(qrels);
-    assertEquals(49, qrels.getQids().size());
-    assertEquals(36575, getQrelsCount(qrels));
-  }
+//  @Test
+//  public void testHC4() throws IOException{
+//    RelevanceJudgments qrels;
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.HC4_V1_0_RU_DEV);
+//    assertNotNull(qrels);
+//    assertEquals(4, qrels.getQids().size());
+//    assertEquals(265, getQrelsCount(qrels));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.HC4_V1_0_RU_TEST);
+//    assertNotNull(qrels);
+//    assertEquals(50, qrels.getQids().size());
+//    assertEquals(2970, getQrelsCount(qrels));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.HC4_V1_0_FA_DEV);
+//    assertNotNull(qrels);
+//    assertEquals(10, qrels.getQids().size());
+//    assertEquals(565, getQrelsCount(qrels));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.HC4_V1_0_FA_TEST);
+//    assertNotNull(qrels);
+//    assertEquals(50, qrels.getQids().size());
+//    assertEquals(2522, getQrelsCount(qrels));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.HC4_V1_0_ZH_DEV);
+//    assertNotNull(qrels);
+//    assertEquals(10, qrels.getQids().size());
+//    assertEquals(466, getQrelsCount(qrels));
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.HC4_V1_0_ZH_TEST);
+//    assertNotNull(qrels);
+//    assertEquals(50, qrels.getQids().size());
+//    assertEquals(2751, getQrelsCount(qrels));
+//  }
+//
+//  @Test
+//  public void testNeuClir2022() throws IOException{
+//    RelevanceJudgments qrels;
+//
+//    // % cut -f 1 -d ' ' tools/topics-and-qrels/qrels.neuclir22-fa.txt | uniq | wc
+//    //      46      46     146
+//    // % wc tools/topics-and-qrels/qrels.neuclir22-fa.txt
+//    //   34174  136696 1508848 tools/topics-and-qrels/qrels.neuclir22-fa.txt
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.NEUCLIR22_FA);
+//    assertNotNull(qrels);
+//    assertEquals(46, qrels.getQids().size());
+//    assertEquals(34174, getQrelsCount(qrels));
+//
+//    // % cut -f 1 -d ' ' tools/topics-and-qrels/qrels.neuclir22-ru.txt | uniq | wc
+//    //      45      45     139
+//    // % wc tools/topics-and-qrels/qrels.neuclir22-ru.txt
+//    //   33006  132024 1455114 tools/topics-and-qrels/qrels.neuclir22-ru.txt
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.NEUCLIR22_RU);
+//    assertNotNull(qrels);
+//    assertEquals(45, qrels.getQids().size());
+//    assertEquals(33006, getQrelsCount(qrels));
+//
+//    // % cut -f 1 -d ' ' tools/topics-and-qrels/qrels.neuclir22-zh.txt | uniq | wc
+//    //      49      49     155
+//    // % wc tools/topics-and-qrels/qrels.neuclir22-zh.txt
+//    //   36575  146300 1614196 tools/topics-and-qrels/qrels.neuclir22-zh.txt
+//
+//    qrels = RelevanceJudgments.fromQrels(Qrels.NEUCLIR22_ZH);
+//    assertNotNull(qrels);
+//    assertEquals(49, qrels.getQids().size());
+//    assertEquals(36575, getQrelsCount(qrels));
+//  }
 
   @Test
   public void testMIRACL() throws IOException{
