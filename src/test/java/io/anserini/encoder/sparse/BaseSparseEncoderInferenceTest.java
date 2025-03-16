@@ -30,6 +30,20 @@ public class BaseSparseEncoderInferenceTest {
 
     System.out.printf("Deleting %s...\n", encoder.getModelPath());
     Files.delete(encoder.getModelPath());
+
+    Runtime runtime = Runtime.getRuntime();
+
+    long maxMemory = runtime.maxMemory(); //Maximum amount of memory that the JVM will attempt to use
+    long totalMemory = runtime.totalMemory(); // Total memory currently available to the JVM
+    long freeMemory = runtime.freeMemory();  // Amount of free memory available in the JVM
+
+    // Calculate used memory
+    long usedMemory = totalMemory - freeMemory;
+
+    System.out.println("Max memory: " + maxMemory / (1024 * 1024) + "MB");
+    System.out.println("Total memory: " + totalMemory / (1024 * 1024) + "MB");
+    System.out.println("Free memory: " + freeMemory / (1024 * 1024) + "MB");
+    System.out.println("Used memory: " + usedMemory / (1024 * 1024) + "MB");
   }
 
 }
