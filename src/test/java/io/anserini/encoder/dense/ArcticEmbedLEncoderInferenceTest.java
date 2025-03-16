@@ -855,7 +855,8 @@ public class ArcticEmbedLEncoderInferenceTest extends DenseEncoderInferenceTest 
               0.013179f, -0.001298f, 0.004385f, 0.019288f, -0.058062f, 0.009981f, -0.024119f, -0.020618f,
               -0.040823f } },
   };
-  static public final Object[][] LONG_EXAMPLES = new Object[][] {
+
+  static private final Object[][] LONG_EXAMPLES = new Object[][] {
     { new String[] {
         "In the dawn of the 21st century, humanity stands on the brink of one " +
         "of the most transformative periods in history: the rise of artificial " +
@@ -921,6 +922,40 @@ public class ArcticEmbedLEncoderInferenceTest extends DenseEncoderInferenceTest 
           assertArrayEquals(expectedEmbeddings, weights, 1e-4f);
         }
       }
+    }
+
+    // Specify the directory for which you want to check the free space.
+    // You can use the current directory, a specific drive, or a subdirectory.
+    File directory = new File("."); // Current directory
+
+    // Get the free space in bytes.
+    long freeSpace = directory.getFreeSpace();
+
+    // Get the total space in bytes.
+    long totalSpace = directory.getTotalSpace();
+
+    // Get the usable space in bytes (space available to this JVM).
+    long usableSpace = directory.getUsableSpace();
+
+    // Convert bytes to gigabytes for easier reading.
+    double freeSpaceGB = (double) freeSpace / (1024 * 1024 * 1024);
+    double totalSpaceGB = (double) totalSpace / (1024 * 1024 * 1024);
+    double usableSpaceGB = (double) usableSpace / (1024 * 1024 * 1024);
+
+    // Print the results.
+    System.out.printf("Total space: %.2f GB%n", totalSpaceGB);
+    System.out.printf("Usable space: %.2f GB%n", usableSpaceGB);
+    System.out.printf("Free space: %.2f GB%n", freeSpaceGB);
+  }
+
+  @Test
+  public void testMaxLength() throws OrtException, IOException, URISyntaxException {
+    try(ArcticEmbedLEncoder encoder = new ArcticEmbedLEncoder()) {
+      float[] expectedWeights = (float[]) ArcticEmbedLEncoderInferenceTest.LONG_EXAMPLES[0][1];
+      String[] inputStrings = (String[]) ArcticEmbedLEncoderInferenceTest.LONG_EXAMPLES[0][0];
+
+      float[] outputs = encoder.encode(inputStrings[0]);
+      assertArrayEquals(expectedWeights, outputs, 1e-4f);
     }
 
     // Specify the directory for which you want to check the free space.
