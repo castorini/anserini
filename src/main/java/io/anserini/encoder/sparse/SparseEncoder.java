@@ -74,22 +74,6 @@ public abstract class SparseEncoder extends OnnxEncoder<String> {
     return getEncodedQueryMap(tokenWeightMap);
   }
 
-  static protected Map<String, Float> getTokenWeightMap(long[] indexes, float[] computedWeights,
-      DefaultVocabulary vocab) {
-    /*
-     * This function returns a map of token to its weight.
-     */
-    Map<String, Float> tokenWeightMap = new LinkedHashMap<>();
-
-    for (int i = 0; i < indexes.length; i++) {
-      if (indexes[i] == 101 || indexes[i] == 102 || indexes[i] == 0) {
-        continue;
-      }
-      tokenWeightMap.put(vocab.getToken(indexes[i]), computedWeights[i]);
-    }
-    return tokenWeightMap;
-  }
-
   protected abstract Map<String, Float> getTokenWeightMap(String query) throws OrtException;
 
   public abstract Path getModelPath() throws IOException, URISyntaxException;

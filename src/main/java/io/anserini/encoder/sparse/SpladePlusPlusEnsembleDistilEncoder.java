@@ -16,80 +16,22 @@
 
 package io.anserini.encoder.sparse;
 
-import ai.onnxruntime.OnnxTensor;
 import ai.onnxruntime.OrtException;
-import ai.onnxruntime.OrtSession;
 import io.anserini.encoder.OnnxEncoder;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-public class SpladePlusPlusEnsembleDistilEncoder extends SparseEncoder {
+public class SpladePlusPlusEnsembleDistilEncoder extends SpladePlusPlusEncoder {
   static private final String MODEL_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/splade-pp-ed-optimized.onnx";
   static private final String VOCAB_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/wordpiece-vocab.txt";
 
   static private final String MODEL_NAME = "splade-pp-ed-optimized.onnx";
   static private final String VOCAB_NAME = "splade-pp-ed-vocab.txt";
 
-  static private final int MAX_SEQ_LEN = 512;
-
   public SpladePlusPlusEnsembleDistilEncoder() throws IOException, OrtException, URISyntaxException {
-    super(5, 256, MODEL_NAME, MODEL_URL, VOCAB_NAME, VOCAB_URL);
-  }
-
-  @Override
-  public String encode(String query) throws OrtException {
-    Map<String, Float> tokenWeightMap = getTokenWeightMap(query);
-    return generateEncodedQuery(tokenWeightMap);
-  }
-
-  public long[] tokenizeToIds(String query) {
-    List<String> queryTokens = new ArrayList<>();
-    queryTokens.add("[CLS]");
-    queryTokens.addAll(tokenizer.tokenize(query));
-    queryTokens.add("[SEP]");
-
-    return convertTokensToIds(tokenizer, queryTokens, vocab);
-  }
-
-  @Override
-  protected Map<String, Float> getTokenWeightMap(String query) throws OrtException {
-    List<String> queryTokens = new ArrayList<>();
-    queryTokens.add("[CLS]");
-    queryTokens.addAll(tokenizer.tokenize(query));
-    queryTokens.add("[SEP]");
-
-    Map<String, OnnxTensor> inputs = new HashMap<>();
-    long[] queryTokenIds = convertTokensToIds(tokenizer, queryTokens, vocab, MAX_SEQ_LEN);
-    long[][] inputTokenIds = new long[1][queryTokenIds.length];
-
-    inputTokenIds[0] = queryTokenIds;
-    long[][] attentionMask = new long[1][queryTokenIds.length];
-    long[][] tokenTypeIds = new long[1][queryTokenIds.length];
-
-    // initialize attention mask with all 1s
-    Arrays.fill(attentionMask[0], 1);
-    inputs.put("input_ids", OnnxTensor.createTensor(environment, inputTokenIds));
-    inputs.put("token_type_ids", OnnxTensor.createTensor(environment, tokenTypeIds));
-    inputs.put("attention_mask", OnnxTensor.createTensor(environment, attentionMask));
-
-    Map<String, Float> tokenFloatWeights;
-    try (OrtSession.Result results = session.run(inputs)) {
-      assert (results.get("output_idx").isPresent());
-      assert (results.get("output_weights").isPresent());
-
-      long[] indexes = (long[]) results.get("output_idx").get().getValue();
-      float[] weights = (float[]) results.get("output_weights").get().getValue();
-      tokenFloatWeights = getTokenWeightMap(indexes, weights, vocab);
-    }
-
-    return tokenFloatWeights;
+    super(MODEL_NAME, MODEL_URL, VOCAB_NAME, VOCAB_URL);
   }
 
   public Path getModelPath() throws IOException, URISyntaxException {
