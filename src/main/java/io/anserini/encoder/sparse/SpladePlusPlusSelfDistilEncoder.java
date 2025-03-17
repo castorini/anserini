@@ -37,6 +37,8 @@ public class SpladePlusPlusSelfDistilEncoder extends SparseEncoder {
   static private final String MODEL_NAME = "splade-pp-sd-optimized.onnx";
   static private final String VOCAB_NAME = "splade-pp-sd-vocab.txt";
 
+  static private final int MAX_SEQ_LEN = 512;
+
   public SpladePlusPlusSelfDistilEncoder() throws IOException, OrtException, URISyntaxException {
     super(5, 256, MODEL_NAME, MODEL_URL, VOCAB_NAME, VOCAB_URL);
   }
@@ -64,7 +66,7 @@ public class SpladePlusPlusSelfDistilEncoder extends SparseEncoder {
     queryTokens.add("[SEP]");
 
     Map<String, OnnxTensor> inputs = new HashMap<>();
-    long[] queryTokenIds = convertTokensToIds(tokenizer, queryTokens, vocab);
+    long[] queryTokenIds = convertTokensToIds(tokenizer, queryTokens, vocab, MAX_SEQ_LEN);
     long[][] inputTokenIds = new long[1][queryTokenIds.length];
 
     inputTokenIds[0] = queryTokenIds;
@@ -76,15 +78,18 @@ public class SpladePlusPlusSelfDistilEncoder extends SparseEncoder {
     inputs.put("input_ids", OnnxTensor.createTensor(environment, inputTokenIds));
     inputs.put("token_type_ids", OnnxTensor.createTensor(environment, tokenTypeIds));
     inputs.put("attention_mask", OnnxTensor.createTensor(environment, attentionMask));
-    Map<String, Float> tokenWeightMap = null;
+
+    Map<String, Float> tokenFloatWeights;
     try (OrtSession.Result results = session.run(inputs)) {
+      assert (results.get("output_idx").isPresent());
+      assert (results.get("output_weights").isPresent());
+
       long[] indexes = (long[]) results.get("output_idx").get().getValue();
       float[] weights = (float[]) results.get("output_weights").get().getValue();
-      tokenWeightMap = getTokenWeightMap(indexes, weights, vocab);
-    } catch (OrtException e) {
-      e.printStackTrace();
+      tokenFloatWeights = getTokenWeightMap(indexes, weights, vocab);
     }
-    return tokenWeightMap;
+
+    return tokenFloatWeights;
   }
 
   public Path getModelPath() throws IOException, URISyntaxException {

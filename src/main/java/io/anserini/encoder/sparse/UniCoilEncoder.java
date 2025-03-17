@@ -110,13 +110,12 @@ public class UniCoilEncoder extends SparseEncoder {
     inputTokenIds[0] = queryTokenIds;
     inputs.put("inputIds", OnnxTensor.createTensor(environment, inputTokenIds));
 
-    Map<String, Float> tokenWeightMap = null;
+    Map<String, Float> tokenWeightMap;
     try (OrtSession.Result results = session.run(inputs)) {
       float[] computedWeights = flatten(results.get(0).getValue());
       tokenWeightMap = getTokenWeightMap(queryTokens, computedWeights);
-    } catch (OrtException e) {
-      e.printStackTrace();
     }
+
     return tokenWeightMap;
   }
 

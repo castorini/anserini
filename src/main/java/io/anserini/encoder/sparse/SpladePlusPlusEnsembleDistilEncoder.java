@@ -72,20 +72,24 @@ public class SpladePlusPlusEnsembleDistilEncoder extends SparseEncoder {
     inputTokenIds[0] = queryTokenIds;
     long[][] attentionMask = new long[1][queryTokenIds.length];
     long[][] tokenTypeIds = new long[1][queryTokenIds.length];
-    // initialize attention mask with all 1s 
+
+    // initialize attention mask with all 1s
     Arrays.fill(attentionMask[0], 1);
     inputs.put("input_ids", OnnxTensor.createTensor(environment, inputTokenIds));
     inputs.put("token_type_ids", OnnxTensor.createTensor(environment, tokenTypeIds));
     inputs.put("attention_mask", OnnxTensor.createTensor(environment, attentionMask));
-    Map<String, Float> tokenWeightMap = null;
+
+    Map<String, Float> tokenFloatWeights;
     try (OrtSession.Result results = session.run(inputs)) {
+      assert (results.get("output_idx").isPresent());
+      assert (results.get("output_weights").isPresent());
+
       long[] indexes = (long[]) results.get("output_idx").get().getValue();
       float[] weights = (float[]) results.get("output_weights").get().getValue();
-      tokenWeightMap = getTokenWeightMap(indexes, weights, vocab);
-    } catch (OrtException e) {
-      e.printStackTrace();
+      tokenFloatWeights = getTokenWeightMap(indexes, weights, vocab);
     }
-    return tokenWeightMap;
+
+    return tokenFloatWeights;
   }
 
   public Path getModelPath() throws IOException, URISyntaxException {
