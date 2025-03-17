@@ -38,6 +38,11 @@ public abstract class OnnxEncoder<T> implements AutoCloseable {
 
   private static final String CACHE_DIR = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "encoders").toString();
 
+  private final String modelName;
+  private final String modelUrl;
+  private final String vocabName;
+  private final String vocabUrl;
+
   protected final BertFullTokenizer tokenizer;
 
   protected final DefaultVocabulary vocab;
@@ -119,6 +124,11 @@ public abstract class OnnxEncoder<T> implements AutoCloseable {
     this.environment = OrtEnvironment.getEnvironment();
     this.session = environment.createSession(getModelPath(modelName, modelURL).toString(),
         new OrtSession.SessionOptions());
+
+    this.modelName = modelName;
+    this.modelUrl = modelURL;
+    this.vocabName = vocabName;
+    this.vocabUrl = vocabURL;
   }
 
   public void close() {
@@ -129,5 +139,9 @@ public abstract class OnnxEncoder<T> implements AutoCloseable {
       // Nothing we can do at this point, so log and move on.
       LOG.error("Error closing session: {}", e.getMessage());
     }
+  }
+
+  public Path getModelPath() throws IOException, URISyntaxException {
+    return OnnxEncoder.getModelPath(modelName, modelUrl);
   }
 }

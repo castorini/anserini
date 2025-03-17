@@ -17,11 +17,9 @@
 package io.anserini.encoder.sparse;
 
 import ai.onnxruntime.OrtException;
-import io.anserini.encoder.OnnxEncoder;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.file.Path;
 
 public class SpladePlusPlusSelfDistilEncoder extends SpladePlusPlusEncoder {
   static private final String MODEL_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/splade-pp-sd-optimized.onnx";
@@ -32,9 +30,5 @@ public class SpladePlusPlusSelfDistilEncoder extends SpladePlusPlusEncoder {
 
   public SpladePlusPlusSelfDistilEncoder() throws IOException, OrtException, URISyntaxException {
     super(MODEL_NAME, MODEL_URL, VOCAB_NAME, VOCAB_URL);
-  }
-
-  public Path getModelPath() throws IOException, URISyntaxException {
-    return OnnxEncoder.getModelPath(MODEL_NAME, MODEL_URL);
   }
 }

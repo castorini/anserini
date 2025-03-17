@@ -36,7 +36,7 @@ public abstract class SparseEncoder extends OnnxEncoder<String> {
   protected int quantRange;
 
   public SparseEncoder(int weightRange, int quantRange, String vocabName, String vocabURL, String modelName,
-      String modelURL) throws IOException, OrtException, URISyntaxException {
+                       String modelURL) throws IOException, OrtException, URISyntaxException {
     super(vocabName, vocabURL, modelName, modelURL);
     this.weightRange = weightRange;
     this.quantRange = quantRange;
@@ -75,6 +75,4 @@ public abstract class SparseEncoder extends OnnxEncoder<String> {
   }
 
   protected abstract Map<String, Float> getTokenWeightMap(String query) throws OrtException;
-
-  public abstract Path getModelPath() throws IOException, URISyntaxException;
 }
