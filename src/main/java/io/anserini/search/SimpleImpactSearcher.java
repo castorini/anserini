@@ -532,7 +532,7 @@ public class SimpleImpactSearcher implements Closeable {
       return queryTokens.stream().collect(Collectors.toMap(e->e, (a)->1, Integer::sum));
     }
 
-    return this.queryEncoder.encodeIntWeights(queryString);
+    return this.queryEncoder.encode(queryString);
   }
 
   /**

@@ -25,7 +25,7 @@ import static org.junit.Assert.assertEquals;
 public class BaseSparseEncoderInferenceTest {
   public void testExamples(SparseExampleOutputPair[] examples, SparseEncoder encoder) throws OrtException {
     for (SparseExampleOutputPair pair : examples) {
-      Map<String, Integer> outputs = encoder.encodeIntWeights(pair.example());
+      Map<String, Integer> outputs = encoder.encode(pair.example());
       Map<String, Integer> expectedWeights = pair.output();
 
       assertEquals(expectedWeights.size(), outputs.size());

@@ -19,7 +19,6 @@ package io.anserini.encoder.sparse;
 import ai.onnxruntime.OnnxTensor;
 import ai.onnxruntime.OrtException;
 import ai.onnxruntime.OrtSession;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -38,33 +37,6 @@ public class UniCoilEncoder extends SparseEncoder {
 
   public UniCoilEncoder() throws IOException, OrtException, URISyntaxException {
     super(5, 256, MODEL_NAME, MODEL_URL, VOCAB_NAME, VOCAB_URL);
-  }
-
-  @Override
-  public String encode(@NotNull String query) throws OrtException {
-    Map<String, Float> tokenWeightMap = computeFloatWeights(query);
-    return flatten(quantizeFloatWeights(tokenWeightMap));
-  }
-
-  private float[] flatten(Object obj) {
-    List<Float> weightsList = new ArrayList<>();
-    Object[] inputs = (Object[]) obj;
-    for (Object input : inputs) {
-      float[][] weights = (float[][]) input;
-      for (float[] weight : weights) {
-        weightsList.add(weight[0]);
-      }
-    }
-
-    return toArray(weightsList);
-  }
-
-  private float[] toArray(List<Float> input) {
-    float[] output = new float[input.size()];
-    for (int i = 0; i < output.length; i++) {
-      output[i] = input.get(i);
-    }
-    return output;
   }
 
   private Map<String, Float> getTokenWeightMap(List<String> tokens, float[] computedWeights) {
@@ -98,12 +70,30 @@ public class UniCoilEncoder extends SparseEncoder {
     inputTokenIds[0] = queryTokenIds;
     inputs.put("inputIds", OnnxTensor.createTensor(environment, inputTokenIds));
 
-    Map<String, Float> tokenWeightMap;
     try (OrtSession.Result results = session.run(inputs)) {
-      float[] computedWeights = flatten(results.get(0).getValue());
-      tokenWeightMap = getTokenWeightMap(queryTokens, computedWeights);
+      float[] computedWeights = flattenResults(results.get(0).getValue());
+      return getTokenWeightMap(queryTokens, computedWeights);
+    }
+  }
+
+  private float[] flattenResults(Object obj) {
+    List<Float> weightsList = new ArrayList<>();
+    Object[] inputs = (Object[]) obj;
+    for (Object input : inputs) {
+      float[][] weights = (float[][]) input;
+      for (float[] weight : weights) {
+        weightsList.add(weight[0]);
+      }
     }
 
-    return tokenWeightMap;
+    return toArray(weightsList);
+  }
+
+  private float[] toArray(List<Float> input) {
+    float[] output = new float[input.size()];
+    for (int i = 0; i < output.length; i++) {
+      output[i] = input.get(i);
+    }
+    return output;
   }
 }

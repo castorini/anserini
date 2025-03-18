@@ -27,34 +27,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class SparseEncoder extends OnnxEncoder<String> {
+public abstract class SparseEncoder extends OnnxEncoder<Map<String, Integer>> {
 
   protected int weightRange;
   protected int quantRange;
 
-  public SparseEncoder(int weightRange, int quantRange,
-                       @NotNull String vocabName, @NotNull String vocabUrl,
-                       @NotNull String modelName, @NotNull String modelUrl)
-      throws IOException, OrtException, URISyntaxException {
-    super(vocabName, vocabUrl, modelName, modelUrl);
-    this.weightRange = weightRange;
-    this.quantRange = quantRange;
-  }
-
-//  protected String generateEncodedQuery(Map<String, Float> tokenWeightMap) {
-//    List<String> encodedQuery = new ArrayList<>();
-//    for (Map.Entry<String, Float> entry : tokenWeightMap.entrySet()) {
-//      String token = entry.getKey();
-//      Float tokenWeight = entry.getValue();
-//      int weightQuantized = Math.round(tokenWeight / weightRange * quantRange);
-//      for (int i = 0; i < weightQuantized; ++i) {
-//        encodedQuery.add(token);
-//      }
-//    }
-//    return String.join(" ", encodedQuery);
-//  }
-
-  public String flatten(Map<String, Integer> intWeights) {
+  public static String flatten(Map<String, Integer> intWeights) {
     List<String> tokens = new ArrayList<>();
     for (Map.Entry<String, Integer> entry : intWeights.entrySet()) {
       String token = entry.getKey();
@@ -67,7 +45,16 @@ public abstract class SparseEncoder extends OnnxEncoder<String> {
     return String.join(" ", tokens);
   }
 
-  public Map<String, Integer> quantizeFloatWeights(Map<String, Float> tokenWeightMap) throws OrtException {
+  public SparseEncoder(int weightRange, int quantRange,
+                       @NotNull String vocabName, @NotNull String vocabUrl,
+                       @NotNull String modelName, @NotNull String modelUrl)
+      throws IOException, OrtException, URISyntaxException {
+    super(vocabName, vocabUrl, modelName, modelUrl);
+    this.weightRange = weightRange;
+    this.quantRange = quantRange;
+  }
+
+  public Map<String, Integer> quantizeFloatWeights(Map<String, Float> tokenWeightMap) {
     Map<String, Integer> encodedQuery = new HashMap<>();
     for (Map.Entry<String, Float> entry : tokenWeightMap.entrySet()) {
       String token = entry.getKey();
@@ -78,7 +65,8 @@ public abstract class SparseEncoder extends OnnxEncoder<String> {
     return encodedQuery;
   }
 
-  public Map<String, Integer> encodeIntWeights(String query) throws OrtException {
+  @Override
+  public Map<String, Integer> encode(@NotNull String query) throws OrtException {
     Map<String, Float> tokenWeightMap = computeFloatWeights(query);
     return quantizeFloatWeights(tokenWeightMap);
   }
