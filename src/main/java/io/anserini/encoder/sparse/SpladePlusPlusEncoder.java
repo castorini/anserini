@@ -43,12 +43,12 @@ public abstract class SpladePlusPlusEncoder extends SparseEncoder {
 
   @Override
   public String encode(@NotNull String query) throws OrtException {
-    Map<String, Float> tokenWeightMap = getTokenWeightMap(query);
-    return generateEncodedQuery(tokenWeightMap);
+    Map<String, Float> tokenWeightMap = computeFloatWeights(query);
+    return flatten(quantizeFloatWeights(tokenWeightMap));
   }
 
   @Override
-  protected Map<String, Float> getTokenWeightMap(String query) throws OrtException {
+  protected Map<String, Float> computeFloatWeights(String query) throws OrtException {
     List<String> queryTokens = new ArrayList<>();
     queryTokens.add("[CLS]");
     queryTokens.addAll(tokenizer.tokenize(query));

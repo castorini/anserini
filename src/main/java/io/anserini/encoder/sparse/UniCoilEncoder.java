@@ -42,10 +42,8 @@ public class UniCoilEncoder extends SparseEncoder {
 
   @Override
   public String encode(@NotNull String query) throws OrtException {
-    String encodedQuery = "";
-    Map<String, Float> tokenWeightMap = getTokenWeightMap(query);
-    encodedQuery = generateEncodedQuery(tokenWeightMap);
-    return encodedQuery;
+    Map<String, Float> tokenWeightMap = computeFloatWeights(query);
+    return flatten(quantizeFloatWeights(tokenWeightMap));
   }
 
   private float[] flatten(Object obj) {
@@ -88,7 +86,7 @@ public class UniCoilEncoder extends SparseEncoder {
   }
 
   @Override
-  protected Map<String, Float> getTokenWeightMap(String query) throws OrtException {
+  protected Map<String, Float> computeFloatWeights(String query) throws OrtException {
     List<String> queryTokens = new ArrayList<>();
     queryTokens.add("[CLS]");
     queryTokens.addAll(tokenizer.tokenize(query));

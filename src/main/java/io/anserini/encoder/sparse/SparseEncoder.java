@@ -41,20 +41,33 @@ public abstract class SparseEncoder extends OnnxEncoder<String> {
     this.quantRange = quantRange;
   }
 
-  public String generateEncodedQuery(Map<String, Float> tokenWeightMap) {
-    List<String> encodedQuery = new ArrayList<>();
-    for (Map.Entry<String, Float> entry : tokenWeightMap.entrySet()) {
+//  protected String generateEncodedQuery(Map<String, Float> tokenWeightMap) {
+//    List<String> encodedQuery = new ArrayList<>();
+//    for (Map.Entry<String, Float> entry : tokenWeightMap.entrySet()) {
+//      String token = entry.getKey();
+//      Float tokenWeight = entry.getValue();
+//      int weightQuantized = Math.round(tokenWeight / weightRange * quantRange);
+//      for (int i = 0; i < weightQuantized; ++i) {
+//        encodedQuery.add(token);
+//      }
+//    }
+//    return String.join(" ", encodedQuery);
+//  }
+
+  public String flatten(Map<String, Integer> intWeights) {
+    List<String> tokens = new ArrayList<>();
+    for (Map.Entry<String, Integer> entry : intWeights.entrySet()) {
       String token = entry.getKey();
-      Float tokenWeight = entry.getValue();
-      int weightQuantized = Math.round(tokenWeight / weightRange * quantRange);
-      for (int i = 0; i < weightQuantized; ++i) {
-        encodedQuery.add(token);
+      int weight = entry.getValue();
+      for (int i = 0; i < weight; i++) {
+        tokens.add(token);
       }
     }
-    return String.join(" ", encodedQuery);
+
+    return String.join(" ", tokens);
   }
 
-  public Map<String, Integer> getEncodedQueryMap(Map<String, Float> tokenWeightMap) throws OrtException {
+  public Map<String, Integer> quantizeFloatWeights(Map<String, Float> tokenWeightMap) throws OrtException {
     Map<String, Integer> encodedQuery = new HashMap<>();
     for (Map.Entry<String, Float> entry : tokenWeightMap.entrySet()) {
       String token = entry.getKey();
@@ -65,9 +78,9 @@ public abstract class SparseEncoder extends OnnxEncoder<String> {
     return encodedQuery;
   }
 
-  public Map<String, Integer> getEncodedQueryMap(String query) throws OrtException {
-    Map<String, Float> tokenWeightMap = getTokenWeightMap(query);
-    return getEncodedQueryMap(tokenWeightMap);
+  public Map<String, Integer> encodeIntWeights(String query) throws OrtException {
+    Map<String, Float> tokenWeightMap = computeFloatWeights(query);
+    return quantizeFloatWeights(tokenWeightMap);
   }
 
   public long[] tokenizeToIds(String query) {
@@ -79,5 +92,5 @@ public abstract class SparseEncoder extends OnnxEncoder<String> {
     return convertTokensToIds(queryTokens);
   }
 
-  protected abstract Map<String, Float> getTokenWeightMap(String query) throws OrtException;
+  protected abstract Map<String, Float> computeFloatWeights(String query) throws OrtException;
 }
