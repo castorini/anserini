@@ -19,6 +19,7 @@
 import ai.onnxruntime.OnnxTensor;
 import ai.onnxruntime.OrtException;
 import ai.onnxruntime.OrtSession;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -44,14 +45,14 @@ import java.util.Map;
    }
  
    @Override
-   public float[] encode(String query) throws OrtException {
+   public float[] encode(@NotNull String query) throws OrtException {
      List<String> queryTokens = new ArrayList<>();
      queryTokens.add("[CLS]");
      queryTokens.addAll(tokenizer.tokenize(INSTRUCTION + query));
      queryTokens.add("[SEP]");
  
      Map<String, OnnxTensor> inputs = new HashMap<>();
-     long[] queryTokenIds = convertTokensToIds(queryTokens, vocab, MAX_SEQ_LEN);
+     long[] queryTokenIds = convertTokensToIds(queryTokens, MAX_SEQ_LEN);
      long[][] inputTokenIds = new long[1][queryTokenIds.length];
      inputTokenIds[0] = queryTokenIds;
  

@@ -18,6 +18,7 @@ package io.anserini.encoder.sparse;
 
 import ai.onnxruntime.OrtException;
 import io.anserini.encoder.OnnxEncoder;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -31,7 +32,9 @@ public abstract class SparseEncoder extends OnnxEncoder<String> {
   protected int weightRange;
   protected int quantRange;
 
-  public SparseEncoder(int weightRange, int quantRange, String vocabName, String vocabUrl, String modelName, String modelUrl)
+  public SparseEncoder(int weightRange, int quantRange,
+                       @NotNull String vocabName, @NotNull String vocabUrl,
+                       @NotNull String modelName, @NotNull String modelUrl)
       throws IOException, OrtException, URISyntaxException {
     super(vocabName, vocabUrl, modelName, modelUrl);
     this.weightRange = weightRange;
@@ -73,7 +76,7 @@ public abstract class SparseEncoder extends OnnxEncoder<String> {
     queryTokens.addAll(tokenizer.tokenize(query));
     queryTokens.add("[SEP]");
 
-    return convertTokensToIds(queryTokens, vocab);
+    return convertTokensToIds(queryTokens);
   }
 
   protected abstract Map<String, Float> getTokenWeightMap(String query) throws OrtException;

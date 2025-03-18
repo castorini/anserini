@@ -19,6 +19,7 @@ package io.anserini.encoder.sparse;
 import ai.onnxruntime.OnnxTensor;
 import ai.onnxruntime.OrtException;
 import ai.onnxruntime.OrtSession;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -40,7 +41,7 @@ public class UniCoilEncoder extends SparseEncoder {
   }
 
   @Override
-  public String encode(String query) throws OrtException {
+  public String encode(@NotNull String query) throws OrtException {
     String encodedQuery = "";
     Map<String, Float> tokenWeightMap = getTokenWeightMap(query);
     encodedQuery = generateEncodedQuery(tokenWeightMap);
@@ -94,7 +95,7 @@ public class UniCoilEncoder extends SparseEncoder {
     queryTokens.add("[SEP]");
 
     Map<String, OnnxTensor> inputs = new HashMap<>();
-    long[] queryTokenIds = convertTokensToIds(queryTokens, vocab);
+    long[] queryTokenIds = convertTokensToIds(queryTokens);
     long[][] inputTokenIds = new long[1][queryTokenIds.length];
     inputTokenIds[0] = queryTokenIds;
     inputs.put("inputIds", OnnxTensor.createTensor(environment, inputTokenIds));

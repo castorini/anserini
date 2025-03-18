@@ -17,7 +17,6 @@
 package io.anserini.encoder;
 
 import ai.djl.modality.nlp.DefaultVocabulary;
-import ai.djl.modality.nlp.Vocabulary;
 import ai.djl.modality.nlp.bert.BertFullTokenizer;
 import ai.onnxruntime.OrtEnvironment;
 import ai.onnxruntime.OrtException;
@@ -25,6 +24,7 @@ import ai.onnxruntime.OrtSession;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,68 +49,65 @@ public abstract class OnnxEncoder<T> implements AutoCloseable {
   protected final OrtEnvironment environment;
   protected final OrtSession session;
 
-  static protected Path getVocabPath(String vocabName, String vocabURL) throws URISyntaxException, IOException {
+  public OnnxEncoder(@NotNull String modelName, @NotNull String modelUrl, @NotNull String vocabName, @NotNull String vocabUrl)
+      throws IOException, OrtException, URISyntaxException {
+    this.vocabName = vocabName;
+    this.vocabUrl = vocabUrl;
+    this.modelName = modelName;
+    this.modelUrl = modelUrl;
+
+    this.vocab = DefaultVocabulary.builder()
+        .addFromTextFile(getVocabPath())
+        .optUnknownToken("[UNK]")
+        .build();
+    this.tokenizer = new BertFullTokenizer(vocab, true);
+
+    this.environment = OrtEnvironment.getEnvironment();
+    this.session = environment.createSession(getModelPath().toString(), new OrtSession.SessionOptions());
+  }
+
+  public Path getVocabPath() throws URISyntaxException, IOException {
     File vocabFile = new File(getCacheDir(), vocabName);
     if (!vocabFile.exists()) {
-      FileUtils.copyURLToFile(new URI(vocabURL).toURL(), vocabFile);
+      FileUtils.copyURLToFile(new URI(vocabUrl).toURL(), vocabFile);
     }
 
     return vocabFile.toPath();
   }
 
-  static protected String getCacheDir() {
+  @SuppressWarnings("ResultOfMethodCallIgnored")
+  public String getCacheDir() {
     File cacheDir = new File(CACHE_DIR);
+
     if (!cacheDir.exists()) {
       cacheDir.mkdir();
     }
     return cacheDir.getPath();
   }
 
-  static protected Path getModelPath(String modelName, String modelURL) throws IOException, URISyntaxException {
+  public Path getModelPath() throws IOException, URISyntaxException {
     File modelFile = new File(getCacheDir(), modelName);
     if (!modelFile.exists()) {
-      FileUtils.copyURLToFile(new URI(modelURL).toURL(), modelFile);
+      FileUtils.copyURLToFile(new URI(modelUrl).toURL(), modelFile);
     }
 
     return modelFile.toPath();
   }
 
-  protected static long[] convertTokensToIds(List<String> tokens, Vocabulary vocab, int maxLen) {
+  protected long[] convertTokensToIds(List<String> tokens, int maxLen) {
     int numTokens = Math.min(tokens.size(), maxLen);
     long[] tokenIds = new long[numTokens];
-    for (int i = 0; i < numTokens; ++i) {
+    for (int i = 0; i < numTokens; i++) {
       tokenIds[i] = vocab.getIndex(tokens.get(i));
     }
     return tokenIds;
   }
 
-  protected static long[] convertTokensToIds(List<String> tokens, Vocabulary vocab) {
-    int numTokens = tokens.size();
-    long[] tokenIds = new long[numTokens];
-    for (int i = 0; i < numTokens; ++i) {
-      tokenIds[i] = vocab.getIndex(tokens.get(i));
-    }
-    return tokenIds;
+  protected long[] convertTokensToIds(List<String> tokens) {
+    return convertTokensToIds(tokens, Integer.MAX_VALUE);
   }
 
-  public abstract T encode(String query) throws OrtException;
-
-  public OnnxEncoder(String modelName, String modelUrl, String vocabName, String vocabUrl)
-      throws IOException, OrtException, URISyntaxException {
-    this.vocab = DefaultVocabulary.builder()
-        .addFromTextFile(getVocabPath(vocabName, vocabUrl))
-        .optUnknownToken("[UNK]")
-        .build();
-    this.tokenizer = new BertFullTokenizer(vocab, true);
-
-    this.environment = OrtEnvironment.getEnvironment();
-    this.session = environment.createSession(getModelPath(modelName, modelUrl).toString(), new OrtSession.SessionOptions());
-
-    this.modelName = modelName;
-    this.modelUrl = modelUrl;
-    this.vocabName = vocabName;
-    this.vocabUrl = vocabUrl;
-  }
+  public abstract T encode(@NotNull String query) throws OrtException;
 
   public void close() {
     try {
@@ -120,9 +117,5 @@ public abstract class OnnxEncoder<T> implements AutoCloseable {
       // Nothing we can do at this point, so log and move on.
       LOG.error("Error closing session: {}", e.getMessage());
     }
-  }
-
-  public Path getModelPath() throws IOException, URISyntaxException {
-    return OnnxEncoder.getModelPath(modelName, modelUrl);
   }
 }

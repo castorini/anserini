@@ -19,6 +19,7 @@ package io.anserini.encoder.sparse;
 import ai.onnxruntime.OnnxTensor;
 import ai.onnxruntime.OrtException;
 import ai.onnxruntime.OrtSession;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -34,13 +35,14 @@ public abstract class SpladePlusPlusEncoder extends SparseEncoder {
   static private final int QUANT_RANGE = 256;
   static private final int MAX_SEQ_LEN = 512;
 
-  protected SpladePlusPlusEncoder(String modelName, String modelUrl, String vocabName, String vocabUrl)
+  protected SpladePlusPlusEncoder(@NotNull String modelName, @NotNull String modelUrl,
+                                  @NotNull String vocabName, @NotNull String vocabUrl)
       throws IOException, OrtException, URISyntaxException {
     super(WEIGHT_RANGE, QUANT_RANGE, modelName, modelUrl, vocabName, vocabUrl);
   }
 
   @Override
-  public String encode(String query) throws OrtException {
+  public String encode(@NotNull String query) throws OrtException {
     Map<String, Float> tokenWeightMap = getTokenWeightMap(query);
     return generateEncodedQuery(tokenWeightMap);
   }
@@ -53,7 +55,7 @@ public abstract class SpladePlusPlusEncoder extends SparseEncoder {
     queryTokens.add("[SEP]");
 
     Map<String, OnnxTensor> inputs = new HashMap<>();
-    long[] queryTokenIds = convertTokensToIds(queryTokens, vocab, MAX_SEQ_LEN);
+    long[] queryTokenIds = convertTokensToIds(queryTokens, MAX_SEQ_LEN);
     long[][] inputTokenIds = new long[1][queryTokenIds.length];
 
     inputTokenIds[0] = queryTokenIds;
