@@ -44,11 +44,9 @@ public abstract class OnnxEncoder<T> implements AutoCloseable {
   private final String vocabUrl;
 
   protected final BertFullTokenizer tokenizer;
-
   protected final DefaultVocabulary vocab;
 
   protected final OrtEnvironment environment;
-
   protected final OrtSession session;
 
   static protected Path getVocabPath(String vocabName, String vocabURL) throws URISyntaxException, IOException {
@@ -77,7 +75,7 @@ public abstract class OnnxEncoder<T> implements AutoCloseable {
     return modelFile.toPath();
   }
 
-  protected static long[] convertTokensToIds(BertFullTokenizer tokenizer, List<String> tokens, Vocabulary vocab, int maxLen) {
+  protected static long[] convertTokensToIds(List<String> tokens, Vocabulary vocab, int maxLen) {
     int numTokens = Math.min(tokens.size(), maxLen);
     long[] tokenIds = new long[numTokens];
     for (int i = 0; i < numTokens; ++i) {
@@ -86,7 +84,7 @@ public abstract class OnnxEncoder<T> implements AutoCloseable {
     return tokenIds;
   }
 
-  protected static long[] convertTokensToIds(BertFullTokenizer tokenizer, List<String> tokens, Vocabulary vocab) {
+  protected static long[] convertTokensToIds(List<String> tokens, Vocabulary vocab) {
     int numTokens = tokens.size();
     long[] tokenIds = new long[numTokens];
     for (int i = 0; i < numTokens; ++i) {
@@ -95,40 +93,23 @@ public abstract class OnnxEncoder<T> implements AutoCloseable {
     return tokenIds;
   }
 
-  /*
-   * Normalize a vector using L2 norm
-   */
-  public static float[] normalize(float[] vector) {
-    final float EPS = 1e-12f;
-    float norm = 0;
-    for (float v : vector) {
-      norm += v * v;
-    }
-    norm = (float) Math.sqrt(norm);
-
-    for (int i = 0; i < vector.length; i++) {
-      vector[i] = vector[i] / (norm + EPS);
-    }
-    return vector;
-  }
-
   public abstract T encode(String query) throws OrtException;
 
-  public OnnxEncoder(String modelName, String modelURL, String vocabName, String vocabURL)
+  public OnnxEncoder(String modelName, String modelUrl, String vocabName, String vocabUrl)
       throws IOException, OrtException, URISyntaxException {
     this.vocab = DefaultVocabulary.builder()
-        .addFromTextFile(getVocabPath(vocabName, vocabURL))
+        .addFromTextFile(getVocabPath(vocabName, vocabUrl))
         .optUnknownToken("[UNK]")
         .build();
     this.tokenizer = new BertFullTokenizer(vocab, true);
+
     this.environment = OrtEnvironment.getEnvironment();
-    this.session = environment.createSession(getModelPath(modelName, modelURL).toString(),
-        new OrtSession.SessionOptions());
+    this.session = environment.createSession(getModelPath(modelName, modelUrl).toString(), new OrtSession.SessionOptions());
 
     this.modelName = modelName;
-    this.modelUrl = modelURL;
+    this.modelUrl = modelUrl;
     this.vocabName = vocabName;
-    this.vocabUrl = vocabURL;
+    this.vocabUrl = vocabUrl;
   }
 
   public void close() {

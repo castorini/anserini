@@ -50,19 +50,17 @@ public class BgeBaseEn15Encoder extends DenseEncoder {
     queryTokens.add("[SEP]");
     
     Map<String, OnnxTensor> inputs = new HashMap<>();
-    long[] queryTokenIds = convertTokensToIds(this.tokenizer, queryTokens, this.vocab, MAX_SEQ_LEN);
+    long[] queryTokenIds = convertTokensToIds(queryTokens, this.vocab, MAX_SEQ_LEN);
     long[][] inputTokenIds = new long[1][queryTokenIds.length];
 
     inputTokenIds[0] = queryTokenIds;
     inputs.put("input_ids", OnnxTensor.createTensor(this.environment, inputTokenIds));
     float[] weights = null;
     try (OrtSession.Result results = this.session.run(inputs)) {
+      assert (results.get("last_hidden_state").isPresent());
       weights = ((float[][][]) results.get("last_hidden_state").get().getValue())[0][0];
-      weights = normalize(weights);
-    } catch (OrtException e) {
-      e.printStackTrace();
-    }
-    return weights;
-  }
 
+      return normalize(weights);
+    }
+  }
 }

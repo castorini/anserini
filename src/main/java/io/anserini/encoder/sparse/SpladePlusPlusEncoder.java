@@ -45,15 +45,6 @@ public abstract class SpladePlusPlusEncoder extends SparseEncoder {
     return generateEncodedQuery(tokenWeightMap);
   }
 
-  public long[] tokenizeToIds(String query) {
-    List<String> queryTokens = new ArrayList<>();
-    queryTokens.add("[CLS]");
-    queryTokens.addAll(tokenizer.tokenize(query));
-    queryTokens.add("[SEP]");
-
-    return convertTokensToIds(tokenizer, queryTokens, vocab);
-  }
-
   @Override
   protected Map<String, Float> getTokenWeightMap(String query) throws OrtException {
     List<String> queryTokens = new ArrayList<>();
@@ -62,7 +53,7 @@ public abstract class SpladePlusPlusEncoder extends SparseEncoder {
     queryTokens.add("[SEP]");
 
     Map<String, OnnxTensor> inputs = new HashMap<>();
-    long[] queryTokenIds = convertTokensToIds(tokenizer, queryTokens, vocab, MAX_SEQ_LEN);
+    long[] queryTokenIds = convertTokensToIds(queryTokens, vocab, MAX_SEQ_LEN);
     long[][] inputTokenIds = new long[1][queryTokenIds.length];
 
     inputTokenIds[0] = queryTokenIds;

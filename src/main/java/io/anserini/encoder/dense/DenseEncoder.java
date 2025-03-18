@@ -27,4 +27,18 @@ public abstract class DenseEncoder extends OnnxEncoder<float[]> {
       throws IOException, OrtException, URISyntaxException {
     super(modelName, modelURL, vocabName, vocabURL);
   }
+
+  public static float[] normalize(float[] vector) {
+    final float EPS = 1e-12f;
+    float norm = 0;
+    for (float v : vector) {
+      norm += v * v;
+    }
+    norm = (float) Math.sqrt(norm);
+
+    for (int i = 0; i < vector.length; i++) {
+      vector[i] = vector[i] / (norm + EPS);
+    }
+    return vector;
+  }
 }

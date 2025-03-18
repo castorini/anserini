@@ -19,11 +19,9 @@ package io.anserini.encoder.sparse;
 import ai.onnxruntime.OnnxTensor;
 import ai.onnxruntime.OrtException;
 import ai.onnxruntime.OrtSession;
-import io.anserini.encoder.OnnxEncoder;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -58,6 +56,7 @@ public class UniCoilEncoder extends SparseEncoder {
         weightsList.add(weight[0]);
       }
     }
+
     return toArray(weightsList);
   }
 
@@ -74,27 +73,17 @@ public class UniCoilEncoder extends SparseEncoder {
     for (int i = 0; i < tokens.size(); ++i) {
       String token = tokens.get(i);
       float tokenWeight = computedWeights[i];
-      if (token.equals("[CLS]")) {
+      if (token.equals("[CLS]") || token.equals("[PAD]")) {
         continue;
-      } else if (token.equals("[PAD]")) {
-        break;
-      } else if (tokenWeightMap.containsKey(token)) {
-        Float accumulatedWeight = tokenWeightMap.get(token);
-        tokenWeightMap.put(token, accumulatedWeight + tokenWeight);
+      }
+
+      if (tokenWeightMap.containsKey(token)) {
+        tokenWeightMap.put(token, tokenWeightMap.get(token) + tokenWeight);
       } else {
         tokenWeightMap.put(token, tokenWeight);
       }
     }
     return tokenWeightMap;
-  }
-
-  public long[] tokenizeToIds(String query) {
-    List<String> queryTokens = new ArrayList<>();
-    queryTokens.add("[CLS]");
-    queryTokens.addAll(tokenizer.tokenize(query));
-    queryTokens.add("[SEP]");
-
-    return convertTokensToIds(tokenizer, queryTokens, vocab);
   }
 
   @Override
@@ -105,7 +94,7 @@ public class UniCoilEncoder extends SparseEncoder {
     queryTokens.add("[SEP]");
 
     Map<String, OnnxTensor> inputs = new HashMap<>();
-    long[] queryTokenIds = convertTokensToIds(tokenizer, queryTokens, vocab);
+    long[] queryTokenIds = convertTokensToIds(queryTokens, vocab);
     long[][] inputTokenIds = new long[1][queryTokenIds.length];
     inputTokenIds[0] = queryTokenIds;
     inputs.put("inputIds", OnnxTensor.createTensor(environment, inputTokenIds));
@@ -117,9 +106,5 @@ public class UniCoilEncoder extends SparseEncoder {
     }
 
     return tokenWeightMap;
-  }
-
-  public Path getModelPath() throws IOException, URISyntaxException {
-    return OnnxEncoder.getModelPath(MODEL_NAME, MODEL_URL);
   }
 }

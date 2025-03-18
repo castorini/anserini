@@ -51,7 +51,7 @@ import java.util.Map;
      queryTokens.add("[SEP]");
  
      Map<String, OnnxTensor> inputs = new HashMap<>();
-     long[] queryTokenIds = convertTokensToIds(tokenizer, queryTokens, vocab, MAX_SEQ_LEN);
+     long[] queryTokenIds = convertTokensToIds(queryTokens, vocab, MAX_SEQ_LEN);
      long[][] inputTokenIds = new long[1][queryTokenIds.length];
      inputTokenIds[0] = queryTokenIds;
  
@@ -65,11 +65,10 @@ import java.util.Map;
  
      float[] embeddings = new float[EMBEDDING_DIM];
      try (OrtSession.Result results = session.run(inputs)) {
-       float[][][] tensorData = (float[][][]) ((OnnxTensor) results.get(0)).getValue();
+       float[][][] tensorData = (float[][][]) results.get(0).getValue();
        System.arraycopy(tensorData[0][0], 0, embeddings, 0, EMBEDDING_DIM);
+
        return normalize(embeddings);
-     } catch (OrtException e) {
-       throw e;
      }
    }
  }

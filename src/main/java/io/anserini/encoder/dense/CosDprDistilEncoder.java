@@ -46,18 +46,15 @@ public class CosDprDistilEncoder extends DenseEncoder {
     queryTokens.add("[SEP]");
     
     Map<String, OnnxTensor> inputs = new HashMap<>();
-    long[] queryTokenIds = convertTokensToIds(this.tokenizer, queryTokens, this.vocab);
+    long[] queryTokenIds = convertTokensToIds(queryTokens, this.vocab);
     long[][] inputTokenIds = new long[1][queryTokenIds.length];
 
     inputTokenIds[0] = queryTokenIds;
     inputs.put("input_ids", OnnxTensor.createTensor(this.environment, inputTokenIds));
-    float[] weights = null;
     try (OrtSession.Result results = this.session.run(inputs)) {
-      weights = ((float[][]) results.get("pooler_output").get().getValue())[0];
-    } catch (OrtException e) {
-      e.printStackTrace();
-    }
-    return weights;
-  }
+      assert (results.get("pooler_output").isPresent());
 
+      return ((float[][]) results.get("pooler_output").get().getValue())[0];
+    }
+  }
 }
