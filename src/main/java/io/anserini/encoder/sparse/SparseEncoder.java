@@ -54,21 +54,27 @@ public abstract class SparseEncoder extends OnnxEncoder<Map<String, Integer>> {
     this.quantRange = quantRange;
   }
 
-  public Map<String, Integer> quantizeFloatWeights(Map<String, Float> tokenWeightMap) {
-    Map<String, Integer> encodedQuery = new HashMap<>();
-    for (Map.Entry<String, Float> entry : tokenWeightMap.entrySet()) {
-      String token = entry.getKey();
-      Float tokenWeight = entry.getValue();
-      int weightQuantized = Math.round(tokenWeight / weightRange * quantRange);
-      encodedQuery.put(token, weightQuantized);
-    }
-    return encodedQuery;
+  public Map<String, Integer> quantizeFloatWeights(Map<String, Float> tokenFloatWeights) {
+    Map<String, Integer> tokenIntWeights = new HashMap<>();
+    tokenFloatWeights.forEach((token, weight) -> tokenIntWeights.put(token, Math.round(weight / weightRange * quantRange)));
+
+    return tokenIntWeights;
   }
+
+//  public Map<String, Integer> quantizeFloatWeights(Map<String, Float> tokenFloatWeights) {
+//    Map<String, Integer> tokenIntWeights = new HashMap<>();
+//    for (Map.Entry<String, Float> entry : tokenFloatWeights.entrySet()) {
+//      String token = entry.getKey();
+//      int weightQuantized = Math.round(entry.getValue() / weightRange * quantRange);
+//
+//      tokenIntWeights.put(token, weightQuantized);
+//    }
+//    return tokenIntWeights;
+//  }
 
   @Override
   public Map<String, Integer> encode(@NotNull String query) throws OrtException {
-    Map<String, Float> tokenWeightMap = computeFloatWeights(query);
-    return quantizeFloatWeights(tokenWeightMap);
+    return quantizeFloatWeights(computeFloatWeights(query));
   }
 
   public long[] tokenizeToIds(String query) {

@@ -19,6 +19,7 @@ package io.anserini.encoder.sparse;
 import ai.onnxruntime.OnnxTensor;
 import ai.onnxruntime.OrtException;
 import ai.onnxruntime.OrtSession;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -39,24 +40,6 @@ public class UniCoilEncoder extends SparseEncoder {
     super(5, 256, MODEL_NAME, MODEL_URL, VOCAB_NAME, VOCAB_URL);
   }
 
-  private Map<String, Float> getTokenWeightMap(List<String> tokens, float[] computedWeights) {
-    Map<String, Float> tokenWeightMap = new LinkedHashMap<>();
-    for (int i = 0; i < tokens.size(); ++i) {
-      String token = tokens.get(i);
-      float tokenWeight = computedWeights[i];
-      if (token.equals("[CLS]") || token.equals("[PAD]")) {
-        continue;
-      }
-
-      if (tokenWeightMap.containsKey(token)) {
-        tokenWeightMap.put(token, tokenWeightMap.get(token) + tokenWeight);
-      } else {
-        tokenWeightMap.put(token, tokenWeight);
-      }
-    }
-    return tokenWeightMap;
-  }
-
   @Override
   protected Map<String, Float> computeFloatWeights(String query) throws OrtException {
     List<String> queryTokens = new ArrayList<>();
@@ -72,7 +55,24 @@ public class UniCoilEncoder extends SparseEncoder {
 
     try (OrtSession.Result results = session.run(inputs)) {
       float[] computedWeights = flattenResults(results.get(0).getValue());
-      return getTokenWeightMap(queryTokens, computedWeights);
+
+      Map<String, Float> tokenWeightMap = new LinkedHashMap<>();
+      for (int i = 0; i < queryTokens.size(); ++i) {
+        String token = queryTokens.get(i);
+        float tokenWeight = computedWeights[i];
+
+        if (token.equals("[CLS]") || token.equals("[PAD]")) {
+          continue;
+        }
+
+        if (tokenWeightMap.containsKey(token)) {
+          tokenWeightMap.put(token, tokenWeightMap.get(token) + tokenWeight);
+        } else {
+          tokenWeightMap.put(token, tokenWeight);
+        }
+      }
+
+      return tokenWeightMap;
     }
   }
 
@@ -86,14 +86,8 @@ public class UniCoilEncoder extends SparseEncoder {
       }
     }
 
-    return toArray(weightsList);
-  }
-
-  private float[] toArray(List<Float> input) {
-    float[] output = new float[input.size()];
-    for (int i = 0; i < output.length; i++) {
-      output[i] = input.get(i);
-    }
-    return output;
+    Float[] floatObjects = new Float[weightsList.size()];
+    floatObjects = weightsList.toArray(floatObjects);
+    return ArrayUtils.toPrimitive(floatObjects);
   }
 }
