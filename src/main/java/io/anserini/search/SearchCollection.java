@@ -868,7 +868,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
             }
 
             if (queryEncoder != null) {
-              queryString = new StringBuilder(queryEncoder.encode(queryString.toString()));
+              queryString = new StringBuilder(SparseEncoder.flatten(queryEncoder.encode(queryString.toString())));
             }
 
             ScoredDocs queryQrels = null;

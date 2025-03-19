@@ -16,81 +16,64 @@
 
 package io.anserini.encoder.sparse;
 
-import ai.djl.modality.nlp.DefaultVocabulary;
 import ai.onnxruntime.OrtException;
 import io.anserini.encoder.OnnxEncoder;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class SparseEncoder extends OnnxEncoder<String> {
+public abstract class SparseEncoder extends OnnxEncoder<Map<String, Integer>> {
 
   protected int weightRange;
-
   protected int quantRange;
 
-  public SparseEncoder(int weightRange, int quantRange, String vocabName, String vocabURL, String modelName,
-      String modelURL) throws IOException, OrtException, URISyntaxException {
-    super(vocabName, vocabURL, modelName, modelURL);
+  public static String flatten(Map<String, Integer> intWeights) {
+    List<String> tokens = new ArrayList<>();
+    for (Map.Entry<String, Integer> entry : intWeights.entrySet()) {
+      String token = entry.getKey();
+      int weight = entry.getValue();
+      for (int i = 0; i < weight; i++) {
+        tokens.add(token);
+      }
+    }
+
+    return String.join(" ", tokens);
+  }
+
+  public SparseEncoder(int weightRange, int quantRange,
+                       @NotNull String vocabName, @NotNull String vocabUrl,
+                       @NotNull String modelName, @NotNull String modelUrl)
+      throws IOException, OrtException, URISyntaxException {
+    super(vocabName, vocabUrl, modelName, modelUrl);
     this.weightRange = weightRange;
     this.quantRange = quantRange;
   }
 
-  public String generateEncodedQuery(Map<String, Float> tokenWeightMap) {
-    /*
-     * This function generates the encoded query.
-     */
-    List<String> encodedQuery = new ArrayList<>();
-    for (Map.Entry<String, Float> entry : tokenWeightMap.entrySet()) {
-      String token = entry.getKey();
-      Float tokenWeight = entry.getValue();
-      int weightQuantized = Math.round(tokenWeight / weightRange * quantRange);
-      for (int i = 0; i < weightQuantized; ++i) {
-        encodedQuery.add(token);
-      }
-    }
-    return String.join(" ", encodedQuery);
+  public Map<String, Integer> quantizeFloatWeights(Map<String, Float> tokenFloatWeights) {
+    Map<String, Integer> tokenIntWeights = new HashMap<>();
+    tokenFloatWeights.forEach((token, weight) -> tokenIntWeights.put(token, Math.round(weight / weightRange * quantRange)));
+
+    return tokenIntWeights;
   }
 
-  public Map<String, Integer> getEncodedQueryMap(Map<String, Float> tokenWeightMap) throws OrtException {
-    Map<String, Integer> encodedQuery = new HashMap<>();
-    for (Map.Entry<String, Float> entry : tokenWeightMap.entrySet()) {
-      String token = entry.getKey();
-      Float tokenWeight = entry.getValue();
-      int weightQuanted = Math.round(tokenWeight / weightRange * quantRange);
-      encodedQuery.put(token, weightQuanted);
-    }
-    return encodedQuery;
+  @Override
+  public Map<String, Integer> encode(@NotNull String query) throws OrtException {
+    return quantizeFloatWeights(computeFloatWeights(query));
   }
 
-  public Map<String, Integer> getEncodedQueryMap(String query) throws OrtException {
-    Map<String, Float> tokenWeightMap = getTokenWeightMap(query);
-    return getEncodedQueryMap(tokenWeightMap);
+  public long[] tokenizeToIds(String query) {
+    List<String> queryTokens = new ArrayList<>();
+    queryTokens.add(CLS);
+    queryTokens.addAll(tokenizer.tokenize(query));
+    queryTokens.add(SEP);
+
+    return convertTokensToIds(queryTokens);
   }
 
-  static protected Map<String, Float> getTokenWeightMap(long[] indexes, float[] computedWeights,
-      DefaultVocabulary vocab) {
-    /*
-     * This function returns a map of token to its weight.
-     */
-    Map<String, Float> tokenWeightMap = new LinkedHashMap<>();
-
-    for (int i = 0; i < indexes.length; i++) {
-      if (indexes[i] == 101 || indexes[i] == 102 || indexes[i] == 0) {
-        continue;
-      }
-      tokenWeightMap.put(vocab.getToken(indexes[i]), computedWeights[i]);
-    }
-    return tokenWeightMap;
-  }
-
-  protected abstract Map<String, Float> getTokenWeightMap(String query) throws OrtException;
-
-  public abstract Path getModelPath() throws IOException, URISyntaxException;
+  protected abstract Map<String, Float> computeFloatWeights(String query) throws OrtException;
 }

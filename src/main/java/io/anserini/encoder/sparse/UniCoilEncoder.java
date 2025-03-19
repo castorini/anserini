@@ -19,11 +19,10 @@ package io.anserini.encoder.sparse;
 import ai.onnxruntime.OnnxTensor;
 import ai.onnxruntime.OrtException;
 import ai.onnxruntime.OrtSession;
-import io.anserini.encoder.OnnxEncoder;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -37,19 +36,44 @@ public class UniCoilEncoder extends SparseEncoder {
   static private final String MODEL_NAME = "unicoil.onnx";
   static private final String VOCAB_NAME = "unicoil-vocab.txt";
 
+  static private final String MODEL_INPUT_IDS = "inputIds";
+
   public UniCoilEncoder() throws IOException, OrtException, URISyntaxException {
     super(5, 256, MODEL_NAME, MODEL_URL, VOCAB_NAME, VOCAB_URL);
   }
 
   @Override
-  public String encode(String query) throws OrtException {
-    String encodedQuery = "";
-    Map<String, Float> tokenWeightMap = getTokenWeightMap(query);
-    encodedQuery = generateEncodedQuery(tokenWeightMap);
-    return encodedQuery;
+  protected Map<String, Float> computeFloatWeights(String query) throws OrtException {
+    List<String> queryTokens = new ArrayList<>();
+    queryTokens.add(CLS);
+    queryTokens.addAll(tokenizer.tokenize(query));
+    queryTokens.add(SEP);
+
+    Map<String, OnnxTensor> inputs = new HashMap<>();
+    long[] queryTokenIds = convertTokensToIds(queryTokens);
+    long[][] inputTokenIds = new long[1][queryTokenIds.length];
+    inputTokenIds[0] = queryTokenIds;
+    inputs.put(MODEL_INPUT_IDS, OnnxTensor.createTensor(environment, inputTokenIds));
+
+    try (OrtSession.Result results = session.run(inputs)) {
+      float[] computedWeights = flattenResults(results.get(0).getValue());
+
+      Map<String, Float> tokenWeightMap = new LinkedHashMap<>();
+      for (int i = 0; i < queryTokens.size(); ++i) {
+        String token = queryTokens.get(i);
+        if (token.equals(CLS) || token.equals(PAD)) {
+          continue;
+        }
+
+        tokenWeightMap.put(token,
+            tokenWeightMap.containsKey(token) ? tokenWeightMap.get(token) + computedWeights[i] : computedWeights[i]);
+      }
+
+      return tokenWeightMap;
+    }
   }
 
-  private float[] flatten(Object obj) {
+  private float[] flattenResults(Object obj) {
     List<Float> weightsList = new ArrayList<>();
     Object[] inputs = (Object[]) obj;
     for (Object input : inputs) {
@@ -58,69 +82,9 @@ public class UniCoilEncoder extends SparseEncoder {
         weightsList.add(weight[0]);
       }
     }
-    return toArray(weightsList);
-  }
 
-  private float[] toArray(List<Float> input) {
-    float[] output = new float[input.size()];
-    for (int i = 0; i < output.length; i++) {
-      output[i] = input.get(i);
-    }
-    return output;
-  }
-
-  private Map<String, Float> getTokenWeightMap(List<String> tokens, float[] computedWeights) {
-    Map<String, Float> tokenWeightMap = new LinkedHashMap<>();
-    for (int i = 0; i < tokens.size(); ++i) {
-      String token = tokens.get(i);
-      float tokenWeight = computedWeights[i];
-      if (token.equals("[CLS]")) {
-        continue;
-      } else if (token.equals("[PAD]")) {
-        break;
-      } else if (tokenWeightMap.containsKey(token)) {
-        Float accumulatedWeight = tokenWeightMap.get(token);
-        tokenWeightMap.put(token, accumulatedWeight + tokenWeight);
-      } else {
-        tokenWeightMap.put(token, tokenWeight);
-      }
-    }
-    return tokenWeightMap;
-  }
-
-  public long[] tokenizeToIds(String query) {
-    List<String> queryTokens = new ArrayList<>();
-    queryTokens.add("[CLS]");
-    queryTokens.addAll(tokenizer.tokenize(query));
-    queryTokens.add("[SEP]");
-
-    return convertTokensToIds(tokenizer, queryTokens, vocab);
-  }
-
-  @Override
-  protected Map<String, Float> getTokenWeightMap(String query) throws OrtException {
-    List<String> queryTokens = new ArrayList<>();
-    queryTokens.add("[CLS]");
-    queryTokens.addAll(tokenizer.tokenize(query));
-    queryTokens.add("[SEP]");
-
-    Map<String, OnnxTensor> inputs = new HashMap<>();
-    long[] queryTokenIds = convertTokensToIds(tokenizer, queryTokens, vocab);
-    long[][] inputTokenIds = new long[1][queryTokenIds.length];
-    inputTokenIds[0] = queryTokenIds;
-    inputs.put("inputIds", OnnxTensor.createTensor(environment, inputTokenIds));
-
-    Map<String, Float> tokenWeightMap = null;
-    try (OrtSession.Result results = session.run(inputs)) {
-      float[] computedWeights = flatten(results.get(0).getValue());
-      tokenWeightMap = getTokenWeightMap(queryTokens, computedWeights);
-    } catch (OrtException e) {
-      e.printStackTrace();
-    }
-    return tokenWeightMap;
-  }
-
-  public Path getModelPath() throws IOException, URISyntaxException {
-    return OnnxEncoder.getModelPath(MODEL_NAME, MODEL_URL);
+    Float[] floatObjects = new Float[weightsList.size()];
+    floatObjects = weightsList.toArray(floatObjects);
+    return ArrayUtils.toPrimitive(floatObjects);
   }
 }
