@@ -35,9 +35,11 @@ public class BgeBaseEn15Encoder extends DenseEncoder {
   static private final String MODEL_NAME = "bge-base-en-v1.5-optimized.onnx";
   static private final String VOCAB_NAME = "bge-base-en-v1.5-vocab.txt";
 
-  static private final String INSTRUCTION = "Represent this sentence for searching relevant passages: ";
-
   static private final int MAX_SEQ_LEN = 512;
+
+  static private final String INSTRUCTION = "Represent this sentence for searching relevant passages: ";
+  static private final String MODEL_INPUT_IDS = "input_ids";
+  static private final String MODEL_LAST_HIDDEN_STATE = "last_hidden_state";
 
   public BgeBaseEn15Encoder() throws IOException, OrtException, URISyntaxException {
     super(MODEL_NAME, MODEL_URL, VOCAB_NAME, VOCAB_URL);
@@ -46,20 +48,20 @@ public class BgeBaseEn15Encoder extends DenseEncoder {
   @Override
   public float[] encode(@NotNull String query) throws OrtException {
     List<String> queryTokens = new ArrayList<>();
-    queryTokens.add("[CLS]");
+    queryTokens.add(CLS);
     queryTokens.addAll(this.tokenizer.tokenize(INSTRUCTION + query));
-    queryTokens.add("[SEP]");
+    queryTokens.add(SEP);
     
     Map<String, OnnxTensor> inputs = new HashMap<>();
     long[] queryTokenIds = convertTokensToIds(queryTokens, MAX_SEQ_LEN);
     long[][] inputTokenIds = new long[1][queryTokenIds.length];
-
     inputTokenIds[0] = queryTokenIds;
-    inputs.put("input_ids", OnnxTensor.createTensor(this.environment, inputTokenIds));
-    float[] weights = null;
+    inputs.put(MODEL_INPUT_IDS, OnnxTensor.createTensor(this.environment, inputTokenIds));
+
+    float[] weights;
     try (OrtSession.Result results = this.session.run(inputs)) {
-      assert (results.get("last_hidden_state").isPresent());
-      weights = ((float[][][]) results.get("last_hidden_state").get().getValue())[0][0];
+      assert (results.get(MODEL_LAST_HIDDEN_STATE).isPresent());
+      weights = ((float[][][]) results.get(MODEL_LAST_HIDDEN_STATE).get().getValue())[0][0];
 
       return normalize(weights);
     }

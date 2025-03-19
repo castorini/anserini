@@ -35,6 +35,12 @@ public abstract class SpladePlusPlusEncoder extends SparseEncoder {
   static private final int QUANT_RANGE = 256;
   static private final int MAX_SEQ_LEN = 512;
 
+  static private final String MODEL_INPUT_IDS = "input_ids";
+  static private final String MODEL_TOKEN_TYPE_IDS = "token_type_ids";
+  static private final String MODEL_ATTENTION_MASK = "attention_mask";
+  static private final String MODEL_OUTPUT_IDX = "output_idx";
+  static private final String MODEL_OUTPUT_WEIGHTS = "output_weights";
+
   protected SpladePlusPlusEncoder(@NotNull String modelName, @NotNull String modelUrl,
                                   @NotNull String vocabName, @NotNull String vocabUrl)
       throws IOException, OrtException, URISyntaxException {
@@ -44,30 +50,28 @@ public abstract class SpladePlusPlusEncoder extends SparseEncoder {
   @Override
   protected Map<String, Float> computeFloatWeights(String query) throws OrtException {
     List<String> queryTokens = new ArrayList<>();
-    queryTokens.add("[CLS]");
+    queryTokens.add(CLS);
     queryTokens.addAll(tokenizer.tokenize(query));
-    queryTokens.add("[SEP]");
+    queryTokens.add(SEP);
 
     Map<String, OnnxTensor> inputs = new HashMap<>();
     long[] queryTokenIds = convertTokensToIds(queryTokens, MAX_SEQ_LEN);
     long[][] inputTokenIds = new long[1][queryTokenIds.length];
-
     inputTokenIds[0] = queryTokenIds;
     long[][] attentionMask = new long[1][queryTokenIds.length];
+    Arrays.fill(attentionMask[0], 1);
     long[][] tokenTypeIds = new long[1][queryTokenIds.length];
 
-    // Initialize attention mask with all 1s.
-    Arrays.fill(attentionMask[0], 1);
-    inputs.put("input_ids", OnnxTensor.createTensor(environment, inputTokenIds));
-    inputs.put("token_type_ids", OnnxTensor.createTensor(environment, tokenTypeIds));
-    inputs.put("attention_mask", OnnxTensor.createTensor(environment, attentionMask));
+    inputs.put(MODEL_INPUT_IDS, OnnxTensor.createTensor(environment, inputTokenIds));
+    inputs.put(MODEL_TOKEN_TYPE_IDS, OnnxTensor.createTensor(environment, tokenTypeIds));
+    inputs.put(MODEL_ATTENTION_MASK, OnnxTensor.createTensor(environment, attentionMask));
 
     try (OrtSession.Result results = session.run(inputs)) {
-      assert (results.get("output_idx").isPresent());
-      assert (results.get("output_weights").isPresent());
+      assert (results.get(MODEL_OUTPUT_IDX).isPresent());
+      assert (results.get(MODEL_OUTPUT_WEIGHTS).isPresent());
 
-      long[] indexes = (long[]) results.get("output_idx").get().getValue();
-      float[] weights = (float[]) results.get("output_weights").get().getValue();
+      long[] indexes = (long[]) results.get(MODEL_OUTPUT_IDX).get().getValue();
+      float[] weights = (float[]) results.get(MODEL_OUTPUT_WEIGHTS).get().getValue();
 
       Map<String, Float> tokenFloatWeights = new LinkedHashMap<>();
       for (int i = 0; i < indexes.length; i++) {

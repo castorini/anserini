@@ -38,6 +38,10 @@ public abstract class OnnxEncoder<T> implements AutoCloseable {
 
   private static final String CACHE_DIR = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "encoders").toString();
 
+  protected static final String CLS = "[CLS]";
+  protected static final String SEP = "[SEP]";
+  protected static final String PAD = "[PAD]";
+
   private final String modelName;
   private final String modelUrl;
   private final String vocabName;

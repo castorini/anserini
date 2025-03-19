@@ -61,17 +61,6 @@ public abstract class SparseEncoder extends OnnxEncoder<Map<String, Integer>> {
     return tokenIntWeights;
   }
 
-//  public Map<String, Integer> quantizeFloatWeights(Map<String, Float> tokenFloatWeights) {
-//    Map<String, Integer> tokenIntWeights = new HashMap<>();
-//    for (Map.Entry<String, Float> entry : tokenFloatWeights.entrySet()) {
-//      String token = entry.getKey();
-//      int weightQuantized = Math.round(entry.getValue() / weightRange * quantRange);
-//
-//      tokenIntWeights.put(token, weightQuantized);
-//    }
-//    return tokenIntWeights;
-//  }
-
   @Override
   public Map<String, Integer> encode(@NotNull String query) throws OrtException {
     return quantizeFloatWeights(computeFloatWeights(query));
@@ -79,9 +68,9 @@ public abstract class SparseEncoder extends OnnxEncoder<Map<String, Integer>> {
 
   public long[] tokenizeToIds(String query) {
     List<String> queryTokens = new ArrayList<>();
-    queryTokens.add("[CLS]");
+    queryTokens.add(CLS);
     queryTokens.addAll(tokenizer.tokenize(query));
-    queryTokens.add("[SEP]");
+    queryTokens.add(SEP);
 
     return convertTokensToIds(queryTokens);
   }

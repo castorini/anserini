@@ -36,6 +36,8 @@ public class UniCoilEncoder extends SparseEncoder {
   static private final String MODEL_NAME = "unicoil.onnx";
   static private final String VOCAB_NAME = "unicoil-vocab.txt";
 
+  static private final String MODEL_INPUT_IDS = "inputIds";
+
   public UniCoilEncoder() throws IOException, OrtException, URISyntaxException {
     super(5, 256, MODEL_NAME, MODEL_URL, VOCAB_NAME, VOCAB_URL);
   }
@@ -43,15 +45,15 @@ public class UniCoilEncoder extends SparseEncoder {
   @Override
   protected Map<String, Float> computeFloatWeights(String query) throws OrtException {
     List<String> queryTokens = new ArrayList<>();
-    queryTokens.add("[CLS]");
+    queryTokens.add(CLS);
     queryTokens.addAll(tokenizer.tokenize(query));
-    queryTokens.add("[SEP]");
+    queryTokens.add(SEP);
 
     Map<String, OnnxTensor> inputs = new HashMap<>();
     long[] queryTokenIds = convertTokensToIds(queryTokens);
     long[][] inputTokenIds = new long[1][queryTokenIds.length];
     inputTokenIds[0] = queryTokenIds;
-    inputs.put("inputIds", OnnxTensor.createTensor(environment, inputTokenIds));
+    inputs.put(MODEL_INPUT_IDS, OnnxTensor.createTensor(environment, inputTokenIds));
 
     try (OrtSession.Result results = session.run(inputs)) {
       float[] computedWeights = flattenResults(results.get(0).getValue());
@@ -59,17 +61,12 @@ public class UniCoilEncoder extends SparseEncoder {
       Map<String, Float> tokenWeightMap = new LinkedHashMap<>();
       for (int i = 0; i < queryTokens.size(); ++i) {
         String token = queryTokens.get(i);
-        float tokenWeight = computedWeights[i];
-
-        if (token.equals("[CLS]") || token.equals("[PAD]")) {
+        if (token.equals(CLS) || token.equals(PAD)) {
           continue;
         }
 
-        if (tokenWeightMap.containsKey(token)) {
-          tokenWeightMap.put(token, tokenWeightMap.get(token) + tokenWeight);
-        } else {
-          tokenWeightMap.put(token, tokenWeight);
-        }
+        tokenWeightMap.put(token,
+            tokenWeightMap.containsKey(token) ? tokenWeightMap.get(token) + computedWeights[i] : computedWeights[i]);
       }
 
       return tokenWeightMap;
