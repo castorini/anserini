@@ -17,7 +17,6 @@
 package io.anserini.encoder;
 
 import ai.djl.modality.nlp.DefaultVocabulary;
-import ai.djl.modality.nlp.Vocabulary;
 import ai.djl.modality.nlp.bert.BertFullTokenizer;
 import ai.onnxruntime.OrtEnvironment;
 import ai.onnxruntime.OrtException;
@@ -25,6 +24,7 @@ import ai.onnxruntime.OrtSession;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,88 +38,80 @@ public abstract class OnnxEncoder<T> implements AutoCloseable {
 
   private static final String CACHE_DIR = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "encoders").toString();
 
-  protected final BertFullTokenizer tokenizer;
+  protected static final String CLS = "[CLS]";
+  protected static final String SEP = "[SEP]";
+  protected static final String PAD = "[PAD]";
 
+  private final String modelName;
+  private final String modelUrl;
+  private final String vocabName;
+  private final String vocabUrl;
+
+  protected final BertFullTokenizer tokenizer;
   protected final DefaultVocabulary vocab;
 
   protected final OrtEnvironment environment;
-
   protected final OrtSession session;
 
-  static protected Path getVocabPath(String vocabName, String vocabURL) throws URISyntaxException, IOException {
+  public OnnxEncoder(@NotNull String modelName, @NotNull String modelUrl, @NotNull String vocabName, @NotNull String vocabUrl)
+      throws IOException, OrtException, URISyntaxException {
+    this.vocabName = vocabName;
+    this.vocabUrl = vocabUrl;
+    this.modelName = modelName;
+    this.modelUrl = modelUrl;
+
+    this.vocab = DefaultVocabulary.builder()
+        .addFromTextFile(getVocabPath())
+        .optUnknownToken("[UNK]")
+        .build();
+    this.tokenizer = new BertFullTokenizer(vocab, true);
+
+    this.environment = OrtEnvironment.getEnvironment();
+    this.session = environment.createSession(getModelPath().toString(), new OrtSession.SessionOptions());
+  }
+
+  public Path getVocabPath() throws URISyntaxException, IOException {
     File vocabFile = new File(getCacheDir(), vocabName);
     if (!vocabFile.exists()) {
-      FileUtils.copyURLToFile(new URI(vocabURL).toURL(), vocabFile);
+      FileUtils.copyURLToFile(new URI(vocabUrl).toURL(), vocabFile);
     }
 
     return vocabFile.toPath();
   }
 
-  static protected String getCacheDir() {
+  @SuppressWarnings("ResultOfMethodCallIgnored")
+  public String getCacheDir() {
     File cacheDir = new File(CACHE_DIR);
+
     if (!cacheDir.exists()) {
       cacheDir.mkdir();
     }
     return cacheDir.getPath();
   }
 
-  static protected Path getModelPath(String modelName, String modelURL) throws IOException, URISyntaxException {
+  public Path getModelPath() throws IOException, URISyntaxException {
     File modelFile = new File(getCacheDir(), modelName);
     if (!modelFile.exists()) {
-      FileUtils.copyURLToFile(new URI(modelURL).toURL(), modelFile);
+      FileUtils.copyURLToFile(new URI(modelUrl).toURL(), modelFile);
     }
 
     return modelFile.toPath();
   }
 
-  protected static long[] convertTokensToIds(BertFullTokenizer tokenizer, List<String> tokens, Vocabulary vocab, int maxLen) {
+  protected long[] convertTokensToIds(List<String> tokens, int maxLen) {
     int numTokens = Math.min(tokens.size(), maxLen);
     long[] tokenIds = new long[numTokens];
-    for (int i = 0; i < numTokens; ++i) {
+    for (int i = 0; i < numTokens; i++) {
       tokenIds[i] = vocab.getIndex(tokens.get(i));
     }
     return tokenIds;
   }
 
-  protected static long[] convertTokensToIds(BertFullTokenizer tokenizer, List<String> tokens, Vocabulary vocab) {
-    int numTokens = tokens.size();
-    long[] tokenIds = new long[numTokens];
-    for (int i = 0; i < numTokens; ++i) {
-      tokenIds[i] = vocab.getIndex(tokens.get(i));
-    }
-    return tokenIds;
+  protected long[] convertTokensToIds(List<String> tokens) {
+    return convertTokensToIds(tokens, Integer.MAX_VALUE);
   }
 
-  /*
-   * Normalize a vector using L2 norm
-   */
-  public static float[] normalize(float[] vector) {
-    final float EPS = 1e-12f;
-    float norm = 0;
-    for (float v : vector) {
-      norm += v * v;
-    }
-    norm = (float) Math.sqrt(norm);
-
-    for (int i = 0; i < vector.length; i++) {
-      vector[i] = vector[i] / (norm + EPS);
-    }
-    return vector;
-  }
-
-  public abstract T encode(String query) throws OrtException;
-
-  public OnnxEncoder(String modelName, String modelURL, String vocabName, String vocabURL)
-      throws IOException, OrtException, URISyntaxException {
-    this.vocab = DefaultVocabulary.builder()
-        .addFromTextFile(getVocabPath(vocabName, vocabURL))
-        .optUnknownToken("[UNK]")
-        .build();
-    this.tokenizer = new BertFullTokenizer(vocab, true);
-    this.environment = OrtEnvironment.getEnvironment();
-    this.session = environment.createSession(getModelPath(modelName, modelURL).toString(),
-        new OrtSession.SessionOptions());
-  }
+  public abstract T encode(@NotNull String query) throws OrtException;
 
   public void close() {
     try {

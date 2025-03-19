@@ -901,7 +901,7 @@ public class ArcticEmbedLEncoderInferenceTest extends DenseEncoderInferenceTest 
           float[] weights = new float[EMBEDDING_DIM];
           System.arraycopy(embeddings[0][0], 0, weights, 0, 1024);
 
-          weights = OnnxEncoder.normalize(weights);
+          weights = DenseEncoder.normalize(weights);
           assertArrayEquals(expectedEmbeddings, weights, 1e-4f);
         }
       }

@@ -19,6 +19,7 @@
 import ai.onnxruntime.OnnxTensor;
 import ai.onnxruntime.OrtException;
 import ai.onnxruntime.OrtSession;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -34,42 +35,44 @@ import java.util.Map;
  
    static private final String MODEL_NAME = "snowflake-arctic-embed-l-official.onnx";
    static private final String VOCAB_NAME = "snowflake-arctic-embed-l-vocab.txt";
- 
-   static private final String INSTRUCTION = "Represent this sentence for searching relevant passages: ";
+
    static private final int MAX_SEQ_LEN = 512;
    static private final int EMBEDDING_DIM = 1024;
- 
+
+   static private final String INSTRUCTION = "Represent this sentence for searching relevant passages: ";
+   static private final String MODEL_INPUT_IDS = "input_ids";
+   static private final String MODEL_TOKEN_TYPE_IDS = "token_type_ids";
+   static private final String MODEL_ATTENTION_MASK = "attention_mask";
+
    public ArcticEmbedLEncoder() throws IOException, OrtException, URISyntaxException {
      super(MODEL_NAME, MODEL_URL, VOCAB_NAME, VOCAB_URL);
    }
  
    @Override
-   public float[] encode(String query) throws OrtException {
+   public float[] encode(@NotNull String query) throws OrtException {
      List<String> queryTokens = new ArrayList<>();
-     queryTokens.add("[CLS]");
+     queryTokens.add(CLS);
      queryTokens.addAll(tokenizer.tokenize(INSTRUCTION + query));
-     queryTokens.add("[SEP]");
+     queryTokens.add(SEP);
  
      Map<String, OnnxTensor> inputs = new HashMap<>();
-     long[] queryTokenIds = convertTokensToIds(tokenizer, queryTokens, vocab, MAX_SEQ_LEN);
+     long[] queryTokenIds = convertTokensToIds(queryTokens, MAX_SEQ_LEN);
      long[][] inputTokenIds = new long[1][queryTokenIds.length];
      inputTokenIds[0] = queryTokenIds;
- 
-     long[][] attentionMask = new long[1][queryTokenIds.length];
      long[][] tokenTypeIds = new long[1][queryTokenIds.length];
+     long[][] attentionMask = new long[1][queryTokenIds.length];
      Arrays.fill(attentionMask[0], 1);
  
-     inputs.put("input_ids", OnnxTensor.createTensor(environment, inputTokenIds));
-     inputs.put("token_type_ids", OnnxTensor.createTensor(environment, tokenTypeIds));
-     inputs.put("attention_mask", OnnxTensor.createTensor(environment, attentionMask));
+     inputs.put(MODEL_INPUT_IDS, OnnxTensor.createTensor(environment, inputTokenIds));
+     inputs.put(MODEL_TOKEN_TYPE_IDS, OnnxTensor.createTensor(environment, tokenTypeIds));
+     inputs.put(MODEL_ATTENTION_MASK, OnnxTensor.createTensor(environment, attentionMask));
  
      float[] embeddings = new float[EMBEDDING_DIM];
      try (OrtSession.Result results = session.run(inputs)) {
-       float[][][] tensorData = (float[][][]) ((OnnxTensor) results.get(0)).getValue();
+       float[][][] tensorData = (float[][][]) results.get(0).getValue();
        System.arraycopy(tensorData[0][0], 0, embeddings, 0, EMBEDDING_DIM);
+
        return normalize(embeddings);
-     } catch (OrtException e) {
-       throw e;
      }
    }
  }
