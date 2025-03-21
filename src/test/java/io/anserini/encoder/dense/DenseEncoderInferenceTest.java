@@ -20,8 +20,7 @@ import ai.onnxruntime.OrtException;
 
 import static org.junit.Assert.assertArrayEquals;
 
-abstract class DenseEncoderInferenceTest {
-
+public class DenseEncoderInferenceTest {
   public void testExamples(DenseExampleOutputPair[] examples, DenseEncoder encoder) throws OrtException {
     for (DenseExampleOutputPair pair : examples) {
       float[] outputs = encoder.encode(pair.example());

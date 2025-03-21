@@ -29,12 +29,7 @@ public class BaseSparseEncoderInferenceTest {
       Map<String, Integer> expectedWeights = pair.output();
 
       assertEquals(expectedWeights.size(), outputs.size());
-      for (Map.Entry<String, Integer> entry : outputs.entrySet()) {
-        String token = entry.getKey();
-        Integer weight = entry.getValue();
-
-        assertEquals(expectedWeights.get(token), weight);
-      }
+      outputs.forEach((token, weight) -> assertEquals(expectedWeights.get(token), weight));
     }
   }
 }

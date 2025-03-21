@@ -25,9 +25,6 @@ import java.net.URISyntaxException;
 import static org.junit.Assert.assertTrue;
 
 public class BgeBaseEn15EncoderInferenceTest extends DenseEncoderInferenceTest {
-  static private final String MODEL_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/bge-base-en-v1.5-optimized.onnx";
-  static private final String MODEL_NAME = "bge-base-en-v1.5-optimized.onnx";
-
   private static final DenseExampleOutputPair[] EXAMPLES = {
       new DenseExampleOutputPair(
           "In the dawn of the 21st century, humanity stands on the brink of one " +

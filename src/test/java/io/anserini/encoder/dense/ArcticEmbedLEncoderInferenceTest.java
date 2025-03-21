@@ -25,9 +25,6 @@ import java.net.URISyntaxException;
 import static org.junit.Assert.assertTrue;
 
 public class ArcticEmbedLEncoderInferenceTest extends DenseEncoderInferenceTest {
-  static private final String MODEL_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/arctic-embed-l-official.onnx";
-  static private final String MODEL_NAME = "arctic-embed-l-official.onnx";
-
   private static final DenseExampleOutputPair[] EXAMPLES = {
       new DenseExampleOutputPair(
           "In the dawn of the 21st century, humanity stands on the brink of one " +

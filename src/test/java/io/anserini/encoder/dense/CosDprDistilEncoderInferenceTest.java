@@ -25,9 +25,6 @@ import java.net.URISyntaxException;
 import static org.junit.Assert.assertTrue;
 
 public class CosDprDistilEncoderInferenceTest extends DenseEncoderInferenceTest {
-  static private final String MODEL_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/cosdpr-distil-optimized.onnx";
-  static private final String MODEL_NAME = "cosdpr-distil-optimized.onnx";
-
   private static final DenseExampleOutputPair[] EXAMPLES = {
       new DenseExampleOutputPair(
           "In the dawn of the 21st century, humanity stands on the brink of one " +
