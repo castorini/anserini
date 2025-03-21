@@ -14,22 +14,7 @@
  * limitations under the License.
  */
 
-package io.anserini.encoder.sparse;
+package io.anserini.encoder.dense;
 
-import ai.onnxruntime.OrtException;
-
-import java.util.Map;
-
-import static org.junit.Assert.assertEquals;
-
-public class BaseSparseEncoderInferenceTest {
-  public void testExamples(SparseExampleOutputPair[] examples, SparseEncoder encoder) throws OrtException {
-    for (SparseExampleOutputPair pair : examples) {
-      Map<String, Integer> outputs = encoder.encode(pair.example());
-      Map<String, Integer> expectedWeights = pair.output();
-
-      assertEquals(expectedWeights.size(), outputs.size());
-      outputs.forEach((token, weight) -> assertEquals(expectedWeights.get(token), weight));
-    }
-  }
+public record DenseExampleOutputPair(String example, float[] output) {
 }
