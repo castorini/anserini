@@ -1,0 +1,6 @@
+query1 Q0 doc3 3 5.000000 Anserini
+query1 Q0 doc1 1 7.000000 Anserini
+query1 Q0 doc2 2 6.000000 Anserini
+query2 Q0 doc3 3 12.000000 Anserini
+query2 Q0 doc2 2 13.000000 Anserini
+query2 Q0 doc1 1 14.000000 Anserini
