@@ -29,6 +29,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.distill-splade-max.cached > logs/log.msmarco-v1-passage.distill-splade-max.cached.txt 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.splade-pp-ed.cached > logs/log.msmarco-v1-passage.splade-pp-ed.cached.txt 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.splade-pp-sd.cached > logs/log.msmarco-v1-passage.splade-pp-sd.cached.txt 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.splade-v3.cached > logs/log.msmarco-v1-passage.splade-v3.cached.txt 2>&1
 
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cos-dpr-distil.parquet.flat.cached > logs/log.msmarco-v1-passage.cos-dpr-distil.parquet.flat.cached.txt 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cos-dpr-distil.parquet.flat-int8.cached > logs/log.msmarco-v1-passage.cos-dpr-distil.parquet.flat-int8.cached.txt 2>&1
@@ -105,6 +106,7 @@ python src/main/python/run_regression.py --verify --search --regression dl19-pas
 python src/main/python/run_regression.py --verify --search --regression dl19-passage.splade-pp-ed.onnx > logs/log.dl19-passage.splade-pp-ed.onnx.txt 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl19-passage.splade-pp-sd.cached > logs/log.dl19-passage.splade-pp-sd.cached.txt 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl19-passage.splade-pp-sd.onnx > logs/log.dl19-passage.splade-pp-sd.onnx.txt 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl19-passage.splade-v3.cached > logs/log.dl19-passage.splade-v3.cached.txt 2>&1
 
 python src/main/python/run_regression.py --verify --search --regression dl19-passage.cos-dpr-distil.parquet.flat.cached > logs/log.dl19-passage.cos-dpr-distil.parquet.flat.cached.txt 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl19-passage.cos-dpr-distil.parquet.flat.onnx > logs/log.dl19-passage.cos-dpr-distil.parquet.flat.onnx.txt 2>&1
@@ -158,6 +160,7 @@ python src/main/python/run_regression.py --verify --search --regression dl20-pas
 python src/main/python/run_regression.py --verify --search --regression dl20-passage.splade-pp-ed.onnx > logs/log.dl20-passage.splade-pp-ed.onnx.txt 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl20-passage.splade-pp-sd.cached > logs/log.dl20-passage.splade-pp-sd.cached.txt 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl20-passage.splade-pp-sd.onnx > logs/log.dl20-passage.splade-pp-sd.onnx.txt 2>&1
+python src/main/python/run_regression.py --verify --search --regression dl20-passage.splade-v3.cached > logs/log.dl20-passage.splade-v3.cached.txt 2>&1
 
 python src/main/python/run_regression.py --verify --search --regression dl20-passage.cos-dpr-distil.parquet.flat.cached > logs/log.dl20-passage.cos-dpr-distil.parquet.flat.cached.txt 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl20-passage.cos-dpr-distil.parquet.flat.onnx > logs/log.dl20-passage.cos-dpr-distil.parquet.flat.onnx.txt 2>&1
