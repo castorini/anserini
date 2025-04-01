@@ -51,6 +51,7 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.splade-pp-ed.onnx >& logs/log.msmarco-v1-passage.splade-pp-ed.onnx.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.splade-pp-sd.cached >& logs/log.msmarco-v1-passage.splade-pp-sd.cached.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.splade-pp-sd.onnx >& logs/log.msmarco-v1-passage.splade-pp-sd.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.splade-v3.cached >& logs/log.msmarco-v1-passage.splade-v3.cached.txt &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cos-dpr-distil.parquet.fw >& logs/log.msmarco-v1-passage.cos-dpr-distil.parquet.fw.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage.cos-dpr-distil.parquet.lexlsh >& logs/log.msmarco-v1-passage.cos-dpr-distil.parquet.lexlsh.txt &
@@ -104,6 +105,7 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.splade-pp-ed.onnx >& logs/log.dl19-passage.splade-pp-ed.onnx.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.splade-pp-sd.cached >& logs/log.dl19-passage.splade-pp-sd.cached.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.splade-pp-sd.onnx >& logs/log.dl19-passage.splade-pp-sd.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.splade-v3.cached >& logs/log.dl19-passage.splade-v3.cached.txt &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.cos-dpr-distil.parquet.fw >& logs/log.dl19-passage.cos-dpr-distil.parquet.fw.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.cos-dpr-distil.parquet.lexlsh >& logs/log.dl19-passage.cos-dpr-distil.parquet.lexlsh.txt &
@@ -157,6 +159,7 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.splade-pp-ed.onnx >& logs/log.dl20-passage.splade-pp-ed.onnx.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.splade-pp-sd.cached >& logs/log.dl20-passage.splade-pp-sd.cached.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.splade-pp-sd.onnx >& logs/log.dl20-passage.splade-pp-sd.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.splade-v3.cached >& logs/log.dl20-passage.splade-v3.cached.txt &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.cos-dpr-distil.parquet.fw >& logs/log.dl20-passage.cos-dpr-distil.parquet.fw.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.cos-dpr-distil.parquet.lexlsh >& logs/log.dl20-passage.cos-dpr-distil.parquet.lexlsh.txt &
