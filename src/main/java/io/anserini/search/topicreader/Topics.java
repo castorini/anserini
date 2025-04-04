@@ -549,14 +549,14 @@ public enum Topics {
   NTCIR_8_EN_EVAL(TsvStringTopicReader.class,   "topics.ntcir8en.eval.txt");
 
   public final String path;
-  public final Class<? extends TopicReader> readerClass;
+  public final Class<? extends TopicReader<?>> readerClass;
 
-  Topics(Class<? extends TopicReader> c, String path) {
+  Topics(Class<? extends TopicReader<?>> c, String path) {
     this.readerClass = c;
     this.path = path;
   }
 
-  private static Map<String, Topics> SYMBOL_DICTIONARY = generateSymbolDictionary();
+  private static final Map<String, Topics> SYMBOL_DICTIONARY = generateSymbolDictionary();
 
   private static Map<String, Topics> generateSymbolDictionary() {
     Map<String, Topics> m = new HashMap<>();
@@ -575,6 +575,13 @@ public enum Topics {
     m.put("msmarco-passage-dev-bge-base-en-v1.5", MSMARCO_PASSAGE_DEV_SUBSET_BGE_BASE_EN_15);
     m.put("msmarco-passage-dev-cohere-embed-english-v3.0", MSMARCO_PASSAGE_DEV_SUBSET_COHERE_EMBED_ENGLISH_30);
 
+    m.put("msmarco-passage-dev.splade-pp-ed", MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_ED);
+    m.put("msmarco-passage-dev.splade-pp-sd", MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_SD);
+    m.put("msmarco-passage-dev.splade-v3", MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_V3);
+    m.put("msmarco-passage-dev.cosdpr-distil", MSMARCO_PASSAGE_DEV_SUBSET_COSDPR_DISTIL);
+    m.put("msmarco-passage-dev.bge-base-en-v1.5", MSMARCO_PASSAGE_DEV_SUBSET_BGE_BASE_EN_15);
+    m.put("msmarco-passage-dev.cohere-embed-english-v3.0", MSMARCO_PASSAGE_DEV_SUBSET_COHERE_EMBED_ENGLISH_30);
+
     m.put("msmarco-passage.dev", MSMARCO_PASSAGE_DEV_SUBSET);
     m.put("msmarco-passage.dev.splade-pp-ed", MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_ED);
     m.put("msmarco-passage.dev.splade-pp-sd", MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_SD);
@@ -590,6 +597,13 @@ public enum Topics {
     m.put("msmarco-v1-passage-dev-cosdpr-distil", MSMARCO_PASSAGE_DEV_SUBSET_COSDPR_DISTIL);
     m.put("msmarco-v1-passage-dev-bge-base-en-v1.5", MSMARCO_PASSAGE_DEV_SUBSET_BGE_BASE_EN_15);
     m.put("msmarco-v1-passage-dev-cohere-embed-english-v3.0", MSMARCO_PASSAGE_DEV_SUBSET_COHERE_EMBED_ENGLISH_30);
+
+    m.put("msmarco-v1-passage-dev.splade-pp-ed", MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_ED);
+    m.put("msmarco-v1-passage-dev.splade-pp-sd", MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_SD);
+    m.put("msmarco-v1-passage-dev.splade-v3", MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_V3);
+    m.put("msmarco-v1-passage-dev.cosdpr-distil", MSMARCO_PASSAGE_DEV_SUBSET_COSDPR_DISTIL);
+    m.put("msmarco-v1-passage-dev.bge-base-en-v1.5", MSMARCO_PASSAGE_DEV_SUBSET_BGE_BASE_EN_15);
+    m.put("msmarco-v1-passage-dev.cohere-embed-english-v3.0", MSMARCO_PASSAGE_DEV_SUBSET_COHERE_EMBED_ENGLISH_30);
 
     m.put("msmarco-v1-passage.dev", MSMARCO_PASSAGE_DEV_SUBSET);
     m.put("msmarco-v1-passage.dev.splade-pp-ed", MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_ED);
