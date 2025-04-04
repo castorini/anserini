@@ -23,31 +23,85 @@ Assuming you've already got Java 21 installed (Yes, you need _exactly_ this vers
 wget https://repo1.maven.org/maven2/io/anserini/anserini/0.39.0/anserini-0.39.0-fatjar.jar
 ```
 
-The follow commands will generate a SPLADE++ ED run with the dev queries (encoded using ONNX) on the MS MARCO passage corpus:
+Do a BM25 run on the venerable MS MARCO passage corpus using the dev queries:
+
+```bash
+java -cp anserini-0.39.0-fatjar.jar io.anserini.search.SearchCollection \
+  -index msmarco-v1-passage \
+  -topics msmarco-v1-passage.dev \
+  -output run.msmarco-v1-passage.dev.bm25.txt \
+  -bm25
+```
+
+To evaluate:
+
+```bash
+java -cp anserini-0.39.0-fatjar.jar trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev \
+  run.msmarco-v1-passage.dev.bm25.txt
+```
+
+You should get an MRR (`recip_rank`) of 0.1840.
+
+<details>
+<summary>What about retrieval with (learned) <i>dense</i> vector representations?</summary>
+
+Want to do dense vector search?
+Anserini's got you covered.
+For example, same as above (MS MARCO passage, dev queries) using the BGE model (en, v1.5):
+
+```bash
+java -cp anserini-0.39.0-fatjar.jar io.anserini.search.SearchHnswDenseVectors \
+  -index msmarco-v1-passage.bge-base-en-v1.5.hnsw \
+  -topics msmarco-v1-passage.dev \
+  -encoder BgeBaseEn15  \
+  -output run.msmarco-v1-passage.dev.bge.txt \
+  -efSearch 1000
+```
+
+To evaluate:
+
+```bash
+java -cp anserini-0.39.0-fatjar.jar trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev \
+  run.msmarco-v1-passage.dev.bge.txt
+```
+
+You should get an MRR (`recip_rank`) of 0.3575.
+
+</details>
+
+<details>
+<summary>What about retrieval with (learned) <i>sparse</i> vector representations?</summary>
+
+Want to do retrieval with (learned) sparse vector representations?
+Anserini's also got you covered.
+For example, same as above (MS MARCO passage, dev queries) using SPLADE++ EnsembleDistil:
 
 ```bash
 java -cp anserini-0.39.0-fatjar.jar io.anserini.search.SearchCollection \
   -index msmarco-v1-passage.splade-pp-ed \
   -topics msmarco-v1-passage.dev \
   -encoder SpladePlusPlusEnsembleDistil \
-  -output run.msmarco-v1-passage-dev.splade-pp-ed-onnx.txt \
+  -output run.msmarco-v1-passage.dev.splade-pp-ed.txt \
   -impact -pretokenized
 ```
 
 To evaluate:
 
 ```bash
-java -cp anserini-0.39.0-fatjar.jar trec_eval \
-  -c -M 10 -m recip_rank msmarco-passage.dev-subset \
-  run.msmarco-v1-passage-dev.splade-pp-ed-onnx.txt
+java -cp anserini-0.39.0-fatjar.jar trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev \
+  run.msmarco-v1-passage.dev.splade-pp-ed.txt
 ```
+
+You should get an MRR (`recip_rank`) of 0.3828.
+
+</details>
 
 See [detailed instructions](docs/fatjar-regressions/fatjar-regressions-v0.39.0.md) for the current fatjar release of Anserini (v0.39.0) to reproduce regression experiments on the MS MARCO V2.1 corpora for TREC 2024 RAG, on MS MARCO V1 Passage, and on BEIR, all directly from the fatjar!
 
 Also, Anserini comes with a built-in webapp for interactive querying along with a REST API that can be used by other applications.
 Check out our documentation [here](docs/rest-api.md).
 
-❗ Beware, Anserini ships with many prebuilt indexes, which are automatically downloaded upon request (for example, `-index msmarco-v1-passage.splade-pp-ed` above triggers the download of a prebuilt index): these indexes can take up a lot of space.
+❗ Beware, Anserini ships with many prebuilt indexes, which are automatically downloaded upon request: these indexes can take up a lot of space.
 See [this guide on prebuilt indexes](docs/prebuilt-indexes.md) for more details.
 
 <!--
