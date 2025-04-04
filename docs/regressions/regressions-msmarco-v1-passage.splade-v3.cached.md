@@ -109,5 +109,4 @@ With the above commands, you should be able to reproduce the following results:
 
 To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/msmarco-v1-passage.splade-v3.cached.template) and run `bin/build.sh` to rebuild the documentation.
 
-+ Results reproduced by [@xxx](https://github.com/xxx) on yyyy-mm-dd (commit [`xxxxxxx`](https://github.com/castorini/anserini/commit/xxxxxxx))
 + Results reproduced by [@clides](https://github.com/clides) on 2025-04-03 (commit [`e59e25a`](https://github.com/castorini/anserini/commit/e59e25a1853f901a513baf7e3ab41ec15fd6640e))
