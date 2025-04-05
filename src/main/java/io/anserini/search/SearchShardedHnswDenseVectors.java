@@ -139,9 +139,8 @@ public final class SearchShardedHnswDenseVectors<K extends Comparable<K>> implem
       try {
         searcher.args.output = shardOutputPath;
         searcher.run();
-        searcher.close();
         LOG.info("Closed searcher for shard {}", i);
-      } catch (IOException e) {
+      } catch (RuntimeException e) {
         throw new RuntimeException(String.format("Error processing shard %d: %s", i, e.getMessage()), e);
       }
     });
