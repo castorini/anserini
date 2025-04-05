@@ -136,14 +136,8 @@ public final class SearchShardedHnswDenseVectors<K extends Comparable<K>> implem
       shardOutputPaths.add(shardOutputPath);
       LOG.info("Processing shard {} -> {}", i, shardOutputPath);
 
-      try {
-        searcher.args.output = shardOutputPath;
-        searcher.run();
-        searcher.close();
-        LOG.info("Closed searcher for shard {}", i);
-      } catch (IOException e) {
-        throw new RuntimeException(String.format("Error processing shard %d: %s", i, e.getMessage()), e);
-      }
+      searcher.args.output = shardOutputPath;
+      searcher.run();
     });
 
     LOG.info("Concatenating shard results into {}", args.output);
