@@ -77,9 +77,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc.d2q-t5 > logs/log.msmarco-v2-doc.d2q-t5.txt 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented > logs/log.msmarco-v2-doc-segmented.txt 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented.d2q-t5 > logs/log.msmarco-v2-doc-segmented.d2q-t5.txt 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented.unicoil-noexp-0shot.cached > logs/log.msmarco-v2-doc-segmented.unicoil-noexp-0shot.cached.txt 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented.unicoil-noexp-0shot-v2.cached > logs/log.msmarco-v2-doc-segmented.unicoil-noexp-0shot-v2.cached.txt 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented.unicoil-0shot.cached > logs/log.msmarco-v2-doc-segmented.unicoil-0shot.cached.txt 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented.unicoil-0shot-v2.cached > logs/log.msmarco-v2-doc-segmented.unicoil-0shot-v2.cached.txt 2>&1
 
 # Just retrieval
@@ -221,9 +219,7 @@ python src/main/python/run_regression.py --verify --search --regression dl21-doc
 python src/main/python/run_regression.py --verify --search --regression dl21-doc.d2q-t5 > logs/log.dl21-doc.d2q-t5.txt 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl21-doc-segmented > logs/log.dl21-doc-segmented.txt 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl21-doc-segmented.d2q-t5 > logs/log.dl21-doc-segmented.d2q-t5.txt 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl21-doc-segmented.unicoil-noexp-0shot.cached > logs/log.dl21-doc-segmented.unicoil-noexp-0shot.cached.txt 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl21-doc-segmented.unicoil-noexp-0shot-v2.cached > logs/log.dl21-doc-segmented.unicoil-noexp-0shot-v2.cached.txt 2>&1
-python src/main/python/run_regression.py --verify --search --regression dl21-doc-segmented.unicoil-0shot.cached > logs/log.dl21-doc-segmented.unicoil-0shot.cached.txt 2>&1
 python src/main/python/run_regression.py --verify --search --regression dl21-doc-segmented.unicoil-0shot-v2.cached > logs/log.dl21-doc-segmented.unicoil-0shot-v2.cached.txt 2>&1
 
 python src/main/python/run_regression.py --verify --search --regression dl22-passage > logs/log.dl22-passage.txt 2>&1
