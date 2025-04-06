@@ -50,7 +50,7 @@ public class FusionOptionsTest {
       "-depth", "0",
       "-rrf_k", "60",
       "-alpha", "0.5"};
-    FuseTrecRuns.main(fuseArgs);
+    FuseRuns.main(fuseArgs);
 
     assertEquals("Error: Option depth must be greater than 0. Please check the provided arguments. Use the \"-options\" flag to print out detailed information about available options and their usage.\n".trim(), err.toString().trim());
     restoreStderr();
@@ -68,7 +68,7 @@ public class FusionOptionsTest {
       "-depth", "1000",
       "-rrf_k", "60",
       "-alpha", "0.5"};
-    FuseTrecRuns.main(fuseArgs);
+    FuseRuns.main(fuseArgs);
 
     assertEquals("Error: Option k must be greater than 0. Please check the provided arguments. Use the \"-options\" flag to print out detailed information about available options and their usage.\n".trim(), err.toString().trim());
     restoreStderr();
@@ -86,7 +86,7 @@ public class FusionOptionsTest {
       "-depth", "1000",
       "-rrf_k", "60",
       "-alpha", "0.5"};
-    FuseTrecRuns.main(fuseArgs);
+    FuseRuns.main(fuseArgs);
 
     assertEquals("Error: /fake/path (No such file or directory). Please check the provided arguments. Use the \"-options\" flag to print out detailed information about available options and their usage.\n".trim(), err.toString().trim());
     restoreStderr();
@@ -104,7 +104,7 @@ public class FusionOptionsTest {
       "-depth", "1000",
       "-rrf_k", "60",
       "-alpha", "0.5"};
-    FuseTrecRuns.main(fuseArgs);
+    FuseRuns.main(fuseArgs);
 
     assertEquals("Unknown fusion method: add. Supported methods are: average, rrf, interpolation.".trim(), err.toString().trim());
     restoreStderr();
@@ -118,9 +118,9 @@ public class FusionOptionsTest {
       "-runs", "/fake/path /fake/path2",
       "-options"
     };
-    FuseTrecRuns.main(fuseArgs);
+    FuseRuns.main(fuseArgs);
 
-    assertTrue(err.toString().contains("Options for FuseTrecRuns:"));
+    assertTrue(err.toString().contains("Options for FuseRuns:"));
     restoreStderr();
   }
 }
