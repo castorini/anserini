@@ -222,9 +222,7 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc.d2q-t5 >& logs/log.msmarco-v2-doc.d2q-t5.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented >& logs/log.msmarco-v2-doc-segmented.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented.d2q-t5 >& logs/log.msmarco-v2-doc-segmented.d2q-t5.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented.unicoil-noexp-0shot.cached >& logs/log.msmarco-v2-doc-segmented.unicoil-noexp-0shot.cached.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented.unicoil-noexp-0shot-v2.cached >& logs/log.msmarco-v2-doc-segmented.unicoil-noexp-0shot-v2.cached.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented.unicoil-0shot.cached >& logs/log.msmarco-v2-doc-segmented.unicoil-0shot.cached.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-doc-segmented.unicoil-0shot-v2.cached >& logs/log.msmarco-v2-doc-segmented.unicoil-0shot-v2.cached.txt &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-passage >& logs/log.dl21-passage.txt &
@@ -242,9 +240,7 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-doc.d2q-t5 >& logs/log.dl21-doc.d2q-t5.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-doc-segmented >& logs/log.dl21-doc-segmented.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-doc-segmented.d2q-t5 >& logs/log.dl21-doc-segmented.d2q-t5.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-doc-segmented.unicoil-noexp-0shot.cached >& logs/log.dl21-doc-segmented.unicoil-noexp-0shot.cached.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-doc-segmented.unicoil-noexp-0shot-v2.cached >& logs/log.dl21-doc-segmented.unicoil-noexp-0shot-v2.cached.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-doc-segmented.unicoil-0shot.cached >& logs/log.dl21-doc-segmented.unicoil-0shot.cached.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-doc-segmented.unicoil-0shot-v2.cached >& logs/log.dl21-doc-segmented.unicoil-0shot-v2.cached.txt &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl22-passage >& logs/log.dl22-passage.txt &
