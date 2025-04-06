@@ -98,26 +98,26 @@ public class ScoredDocsFuser {
    */
   public static void rescore(RescoreMethod method, int rrfK, double scale, ScoredDocs scoredDocs) {
     switch (method) {
-        case RRF -> ScoredDocsFuser.rescoreRRF(rrfK, scoredDocs);
-        case SCALE -> ScoredDocsFuser.rescoreScale(scale, scoredDocs);
-        case NORMALIZE -> ScoredDocsFuser.normalizeScores(scoredDocs);
-        default -> throw new UnsupportedOperationException("Unknown rescore method: " + method);
+      case RRF -> ScoredDocsFuser.rescoreRRF(rrfK, scoredDocs);
+      case SCALE -> ScoredDocsFuser.rescoreScale(scale, scoredDocs);
+      case NORMALIZE -> ScoredDocsFuser.normalizeScores(scoredDocs);
+      default -> throw new UnsupportedOperationException("Unknown rescore method: " + method);
     }
   }
 
   private static void rescoreRRF(int rrfK, ScoredDocs scoredDocs) {
     int length = scoredDocs.lucene_documents.length;
     for(int i = 0; i < length; i++){
-        float score = (float)(1.0 / (rrfK + scoredDocs.lucene_docids[i]));
-        scoredDocs.scores[i] = score;
+      float score = (float)(1.0 / (rrfK + scoredDocs.lucene_docids[i]));
+      scoredDocs.scores[i] = score;
     }
   }
 
   private static void rescoreScale(double scale, ScoredDocs scoredDocs) {
     int length = scoredDocs.lucene_documents.length;
     for(int i = 0; i < length; i++){
-        float score = (float) (scoredDocs.scores[i] * scale);
-        scoredDocs.scores[i] = score;
+      float score = (float) (scoredDocs.scores[i] * scale);
+      scoredDocs.scores[i] = score;
     }
   }
 
@@ -125,24 +125,24 @@ public class ScoredDocsFuser {
     Map<String, List<Integer>> indicesForTopics = new HashMap<String, List<Integer>>(); // topic, list of indices for that topic
     int length = scoredDocs.lucene_documents.length;
     for(int i = 0; i < length; i++){
-        indicesForTopics.computeIfAbsent(scoredDocs.lucene_documents[i].get(TOPIC), k -> new ArrayList<>()).add(i);
+      indicesForTopics.computeIfAbsent(scoredDocs.lucene_documents[i].get(TOPIC), k -> new ArrayList<>()).add(i);
     }
 
     for(List<Integer> topicIndices : indicesForTopics.values()){
-        int numRecords = topicIndices.size();
-        float minScore = scoredDocs.scores[topicIndices.get(0)];
-        float maxScore = scoredDocs.scores[topicIndices.get(numRecords - 1)];
-        for(int i = 0; i < numRecords; i++){
-            int index = topicIndices.get(i);
-            minScore = Float.min(minScore, scoredDocs.scores[index]);
-            maxScore = Float.max(maxScore, scoredDocs.scores[index]);
-        }
+      int numRecords = topicIndices.size();
+      float minScore = scoredDocs.scores[topicIndices.get(0)];
+      float maxScore = scoredDocs.scores[topicIndices.get(numRecords - 1)];
+      for(int i = 0; i < numRecords; i++){
+        int index = topicIndices.get(i);
+        minScore = Float.min(minScore, scoredDocs.scores[index]);
+        maxScore = Float.max(maxScore, scoredDocs.scores[index]);
+      }
 
-        for(int i = 0; i < numRecords; i++){
-            int index = topicIndices.get(i);
-            float normalizedScore = ((float) scoredDocs.scores[index] - minScore) / (maxScore - minScore);
-            scoredDocs.scores[index] = normalizedScore;
-        }
+      for(int i = 0; i < numRecords; i++){
+        int index = topicIndices.get(i);
+        float normalizedScore = ((float) scoredDocs.scores[index] - minScore) / (maxScore - minScore);
+        scoredDocs.scores[index] = normalizedScore;
+      }
     }
   }
 
@@ -217,6 +217,7 @@ public class ScoredDocsFuser {
     for(int i = 0; i < indices.length; i++){
       indices[i] = i;
     }
+
     Arrays.sort(indices, (index1, index2) -> {
       String topic1 = scoredDocs.lucene_documents[index1].get(TOPIC);
       String topic2 = scoredDocs.lucene_documents[index2].get(TOPIC);
@@ -261,10 +262,10 @@ public class ScoredDocsFuser {
 
     ScoredDocsFuser.sortScoredDocs(run);
     try (BufferedWriter writer = Files.newBufferedWriter(outputPath)) {
-        for (int i = 0; i < run.lucene_documents.length; i++) {
-            writer.write(String.format("%s Q0 %s %d %.6f %s%n", 
-              run.lucene_documents[i].get(TOPIC), run.docids[i], run.lucene_docids[i], run.scores[i], tag));
-        }
+      for (int i = 0; i < run.lucene_documents.length; i++) {
+        writer.write(String.format("%s Q0 %s %d %.6f %s%n", 
+          run.lucene_documents[i].get(TOPIC), run.docids[i], run.lucene_docids[i], run.scores[i], tag));
+      }
     }
   }
 }
