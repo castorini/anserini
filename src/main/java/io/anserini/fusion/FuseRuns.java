@@ -21,6 +21,9 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 import org.kohsuke.args4j.spi.StringArrayOptionHandler;
+
+import io.anserini.search.ScoredDocs;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -34,10 +37,10 @@ import java.nio.file.Paths;
 /**
  * Main entry point for Fusion.
  */
-public class FuseTrecRuns {
-  private static final Logger LOG = LogManager.getLogger(FuseTrecRuns.class);
+public class FuseRuns {
+  private static final Logger LOG = LogManager.getLogger(FuseRuns.class);
 
-  public static class Args extends TrecRunFuser.Args {
+  public static class Args extends RunsFuser.Args {
     @Option(name = "-options", required = false, usage = "Print information about options.")
     public Boolean options = false;
 
@@ -50,14 +53,14 @@ public class FuseTrecRuns {
   }
 
   private final Args args;
-  private final TrecRunFuser fuser;
-  private final List<TrecRun> runs = new ArrayList<TrecRun>();
+  private final RunsFuser fuser;
+  private final List<ScoredDocs> runs = new ArrayList<ScoredDocs>();
 
-  public FuseTrecRuns(Args args) throws IOException {
+  public FuseRuns(Args args) throws IOException {
     this.args = args;
-    this.fuser = new TrecRunFuser(args);
+    this.fuser = new RunsFuser(args);
 
-    LOG.info(String.format("============ Initializing %s ============", FuseTrecRuns.class.getSimpleName()));
+    LOG.info(String.format("============ Initializing %s ============", FuseRuns.class.getSimpleName()));
     LOG.info("Runs: " + Arrays.toString(args.runs));
     LOG.info("Run tag: " + args.runtag);
     LOG.info("Fusion method: " + args.method);
@@ -83,7 +86,7 @@ public class FuseTrecRuns {
     for (String runFile : args.runs) {
       try {
         Path path = Paths.get(runFile);
-        TrecRun run = new TrecRun(path, args.resort);
+        ScoredDocs run = ScoredDocsFuser.readRun(path, args.resort);
         runs.add(run);
       } catch (Exception e) {
         throw new IllegalArgumentException(String.format("Error: %s. Please check the provided arguments. Use the \"-options\" flag to print out detailed information about available options and their usage.\n",
@@ -105,7 +108,7 @@ public class FuseTrecRuns {
       parser.parseArgument(args);
     } catch (CmdLineException e) {
       if (fuseArgs.options) {
-        System.err.printf("Options for %s:\n\n", FuseTrecRuns.class.getSimpleName());
+        System.err.printf("Options for %s:\n\n", FuseRuns.class.getSimpleName());
         parser.printUsage(System.err);
         ArrayList<String> required = new ArrayList<>();
         parser.getOptions().forEach(option -> {
@@ -122,7 +125,7 @@ public class FuseTrecRuns {
     }
 
     try {
-      FuseTrecRuns fuser = new FuseTrecRuns(fuseArgs);
+      FuseRuns fuser = new FuseRuns(fuseArgs);
       fuser.run();
     } catch (Exception e) {
       System.err.println(e.getMessage());
