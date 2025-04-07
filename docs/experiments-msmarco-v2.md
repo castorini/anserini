@@ -9,8 +9,7 @@ For example, to download passage collection:
 ```
 azcopy copy https://msmarco.blob.core.windows.net/msmarcoranking/msmarco_v2_passage.tar ./collections
 ```
-The speedup using `azcopy` is significant compared to `wget`, but the actual downloading time will vary based on your location as well as many other factors. Azcopy requires authentication with a Microsoft account; a work or education account is required. Azcopy will prompt for a login
-by device ID; follow the instructions to login.
+The speedup using `azcopy` is significant compared to `wget`, but the actual downloading time will vary based on your location as well as many other factors. Azcopy requires authentication with a Microsoft account; a work or education account is required. Azcopy will prompt for a login by device ID; follow the instructions to login.
 Just download the collections; queries and qrels are already included in this repo.
 
 ## Passage Collection
