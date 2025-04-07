@@ -6,7 +6,7 @@ Note that Pyserini provides a [comparable guide](https://github.com/castorini/py
 If you're having issues downloading the collection via `wget`, try using [AzCopy](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10).
 For example, to download passage collection:
 
-```
+```bash
 azcopy copy https://msmarco.blob.core.windows.net/msmarcoranking/msmarco_v2_passage.tar ./collections
 ```
 The speedup using `azcopy` is significant compared to `wget`, but the actual downloading time will vary based on your location as well as many other factors. Azcopy will ask you to login to your Microsoft account with a code generated in the terminal.
@@ -16,13 +16,13 @@ Just download the collections; queries and qrels are already included in this re
 
 Download and unpack the collection into `collections/`.
 
-```
+```bash
 tar -xvf collections/msmarco_v2_passage.tar -C ./collections
 ```
 
 Here's the indexing command for the passage collection, which is 21 GB compressed:
 
-```
+```bash
 sh target/appassembler/bin/IndexCollection -collection MsMarcoV2PassageCollection \
  -generator DefaultLuceneDocumentGenerator -threads 18 \
  -input collections/msmarco_v2_passage \
@@ -44,7 +44,7 @@ For reference:
 
 Perform runs on the dev queries (both sets):
 
-```
+```bash
 target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-passage \
  -topicReader TsvInt -topics tools/topics-and-qrels/topics.msmarco-v2-passage.dev.txt \
  -output runs/run.msmarco-v2-passage.dev.txt -bm25 -hits 1000
@@ -88,7 +88,7 @@ Once again, we recommend downloading with [AzCopy](https://docs.microsoft.com/en
 
 Indexing this augmented collection:
 
-```
+```bash
 sh target/appassembler/bin/IndexCollection -collection MsMarcoV2PassageCollection \
  -generator DefaultLuceneDocumentGenerator -threads 18 \
  -input collections/msmarco_v2_passage_augmented \
@@ -104,7 +104,7 @@ For example, with just the `-storeRaw` option, which supports bag-of-words first
 
 Perform runs on the dev queries (both sets):
 
-```
+```bash
 target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-passage-augmented \
  -topicReader TsvInt -topics tools/topics-and-qrels/topics.msmarco-v2-passage.dev.txt \
  -output runs/run.msmarco-v2-passage-augmented.dev.txt -bm25 -hits 1000
@@ -141,7 +141,7 @@ We see that adding these additional fields gives a nice bump to effectiveness.
 Download and unpack the collection into `collections/`.
 Here's the indexing command for the document collection, which is 33 GB compressed:
 
-```
+```bash
 sh target/appassembler/bin/IndexCollection -collection MsMarcoV2DocCollection \
  -generator DefaultLuceneDocumentGenerator -threads 18 \
  -input collections/msmarco_v2_doc \
@@ -162,7 +162,7 @@ Each "document" in the index comprises the url, title, headings, and body fields
 
 Perform runs on the dev queries (both sets):
 
-```
+```bash
 target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-doc \
  -topicReader TsvInt -topics tools/topics-and-qrels/topics.msmarco-v2-doc.dev.txt \
  -output runs/run.msmarco-v2-doc.dev.txt -bm25 -hits 1000
@@ -215,7 +215,7 @@ Once again, we recommend downloading with [AzCopy](https://docs.microsoft.com/en
 
 The segmented document collection can be indexed with the following command:
 
-```
+```bash
 sh target/appassembler/bin/IndexCollection -collection MsMarcoV2DocCollection \
  -generator DefaultLuceneDocumentGenerator -threads 18 \
  -input collections/msmarco_v2_doc_segmented \
@@ -231,7 +231,7 @@ For example, with just the `-storeRaw` option, which supports bag-of-words first
 
 Perform runs on the dev queries (both sets):
 
-```
+```bash
 target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-doc-segmented \
   -topicReader TsvInt -topics tools/topics-and-qrels/topics.msmarco-v2-doc.dev.txt \
   -output runs/run.msmarco-v2-doc-segmented.dev.txt \
