@@ -14,12 +14,12 @@ And then navigate to [`http://localhost:8081/`](http://localhost:8081/) in your 
 
 ## List Indexes
 
-To list all the index information, the endpoint is `api/v1.0/indexes/`
+To list all the index information, the endpoint is `api/v1.1/indexes/`
 
 Run
 
 ```bash
-curl -X GET "http://localhost:8081/api/v1.0/indexes"
+curl -X GET "http://localhost:8081/api/v1.1/indexes"
 ```
 
 Output is a mapping from index name to `IndexInfo` enum
@@ -56,7 +56,7 @@ Output is a mapping from index name to `IndexInfo` enum
 
 ## Search Queries
 
-The search query endpoint is `api/v1.0/indexes/{index_name}/search?query={query}&hits={hits}&qid={qid}`
+The search query endpoint is `api/v1.1/indexes/{index_name}/search?query={query}&hits={hits}&qid={qid}`
 
 Path variables:
 
@@ -71,7 +71,7 @@ Query parameters:
 Here's a specific example of using the REST API to issue the query "How does the process of digestion and metabolism of carbohydrates start" to `msmarco-v2.1-doc`:
 
 ```bash
-curl -X GET "http://localhost:8081/api/v1.0/indexes/msmarco-v2.1-doc/search?query=How%20does%20the%20process%20of%20digestion%20and%20metabolism%20of%20carbohydrates%20start" 
+curl -X GET "http://localhost:8081/api/v1.1/indexes/msmarco-v2.1-doc/search?query=How%20does%20the%20process%20of%20digestion%20and%20metabolism%20of%20carbohydrates%20start" 
 ```
 
 The json results are the same as the output of the `-outputRerankerRequests` option in `SearchCollection`
@@ -110,12 +110,12 @@ The json results are the same as the output of the `-outputRerankerRequests` opt
 
 ## Get Document Content by DocId
 
-To access the content of a document in an index, the endpoint is `api/v1.0/indexes/{index_name}/document/{docid}`
+To access the content of a document in an index, the endpoint is `api/v1.1/indexes/{index_name}/document/{docid}`
 
 Here's an example of getting the document of the top candidate from the above example:
 
 ```bash
-curl -X GET "http://localhost:8081/api/v1.0/indexes/msmarco-v2.1-doc/documents/msmarco_v2.1_doc_15_390497775"
+curl -X GET "http://localhost:8081/api/v1.1/indexes/msmarco-v2.1-doc/documents/msmarco_v2.1_doc_15_390497775"
 ```
 
 Output is an object of the same format as a candidate from search
@@ -133,12 +133,12 @@ Output is an object of the same format as a candidate from search
 
 ## Check Index Status
 
-To check whether an index is cached, the endpoint is `api/v1.0/indexes/{index_name}/status`
+To check whether an index is cached, the endpoint is `api/v1.1/indexes/{index_name}/status`
 
 Here's an example of checking the status of `msmarco-v1-passage`:
 
 ```bash
-curl -X GET "http://localhost:8081/api/v1.0/indexes/msmarco-v1-passage/status"
+curl -X GET "http://localhost:8081/api/v1.1/indexes/msmarco-v1-passage/status"
 ```
 
 Output is an object containing the 'cached' property
