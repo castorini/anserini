@@ -267,9 +267,9 @@ As we can see, even as first-stage retrieval (i.e., without reranking), retrieva
 
 ## Reproduction Log[*](reproducibility.md)
 
-+ Results reproduced by [@vincent-4](https://github.com/vincent-4) on 2025-04-07 (commit [`1af285b`](https://github.com/castorini/anserini/commit/1af285b610364acd0fb7a692e66b4cf432ddf7df))
 + Results reproduced by [@ronakice](https://github.com/ronakice) on 2021-06-25 (commit [`ce35d61`](https://github.com/castorini/anserini/commit/ce35d61455d5943e164e31880e517ce091fded66))
 + Results reproduced by [@crystina-z](https://github.com/crystina-z) on 2021-06-25 (commit [`ce35d61`](https://github.com/castorini/anserini/commit/ce35d61455d5943e164e31880e517ce091fded66))
 + Results reproduced by [@spacemanidol](https://github.com/spacemanidol) on 2021-06-28 (commit [`ce35d61`](https://github.com/castorini/anserini/commit/ce35d61455d5943e164e31880e517ce091fded66))
 + Results reproduced by [@crystina-z](https://github.com/crystina-z) on 2021-06-25 (commit [`dbc71ee`](https://github.com/castorini/anserini/commit/dbc71ee51fc7dbcdcb9118c9f7ad554b8b753a27))
 + Results reproduced by [@t-k-](https://github.com/t-k-) on 2021-07-29 (commit [`52b76f6`](https://github.com/castorini/anserini/commit/52b76f63b163036e8fad1a6e1b10b431b4ddd06c))
++ Results reproduced by [@vincent-4](https://github.com/vincent-4) on 2025-04-07 (commit [`1af285b`](https://github.com/castorini/anserini/commit/1af285b610364acd0fb7a692e66b4cf432ddf7df))
