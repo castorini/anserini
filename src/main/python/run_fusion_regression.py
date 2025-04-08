@@ -23,7 +23,7 @@ from subprocess import call, Popen, PIPE
 from ranx import Run, fuse, evaluate, Qrels
 
 # Constants
-FUSE_COMMAND = 'bin/run.sh io.anserini.fusion.FuseTrecRuns'
+FUSE_COMMAND = 'bin/run.sh io.anserini.fusion.FuseRuns'
 fusion_method_ranx = {
     "rrf": "rrf",
     "average": "sum",
@@ -99,35 +99,12 @@ def run_fusion_commands(cmds: list):
         except Exception as e:
             logger.error(f"Error executing command {cmd}: {str(e)}")
 
-def run_to_dict(filename: str, qrel: bool) -> dict:
-    """Takes filename of run/qrel and returns dict in Ranx compatible format."""
-    res = {}
-    with open(filename, 'r') as file:
-        for line in file:
-            tokens = line.strip().split()
-            q_key = tokens[0]
-            d_key = tokens[2]
-            value = tokens[3]
-            if not qrel:
-                value = tokens[4]
-            if q_key not in res:
-                res[q_key] = {}
-            
-            res[q_key][d_key] = value
-    # print(res.keys())
-    return res
-
 def compare_with_ranx(qrel_file: str, runs: list[str], methods: dict, metrics: list[str]) -> dict:
     """Given fusion conditions and location of runs and qrel, runs fusion with ranx and returns results."""
-    qrels = Qrels(run_to_dict(qrel_file, True))
-    allkeys = set()
+    qrels = Qrels.from_file(qrel_file)
     for i, r in enumerate(runs):
-        runs[i] = run_to_dict(r, False)
-        allkeys = allkeys.union(set(runs[i].keys()))
-    for i, r in enumerate(runs):
-        for key in allkeys:
-            r.setdefault(key, {})
-        runs[i] = Run(r).make_comparable(qrels)
+        runs[i] = Run.from_file(r, kind="trec").make_comparable(qrels)
+
     ranx_results = {}
     for method in methods:
         ranx_method = fusion_method_ranx[method["name"]]
@@ -147,6 +124,7 @@ def compare_with_ranx(qrel_file: str, runs: list[str], methods: dict, metrics: l
         )
         results = evaluate(qrels, fused, metrics)
         ranx_results[method["name"]] = results
+
     return ranx_results
 
 
@@ -233,8 +211,6 @@ def evaluate_and_verify(yaml_data: dict, dry_run: bool):
     logger.info(f"Total ranx execution time: {time.time() - end_time:.2f} seconds")       
 
 if __name__ == '__main__':
-    start_time = time.time()
-
     # Command-line argument parsing
     parser = argparse.ArgumentParser(description='Run Fusion regression tests.')
     parser.add_argument('--regression', required=True, help='Name of the regression test configuration.')
@@ -244,7 +220,7 @@ if __name__ == '__main__':
 
     # Load YAML configuration
     try:
-        with open(f'src/main/resources/fuse_regression/{args.regression}.yaml') as f:
+        with open(f'src/main/resources/fusion_regression/{args.regression}.yaml') as f:
             yaml_data = yaml.safe_load(f)
     except FileNotFoundError as e:
         logger.error(f"Failed to load configuration file: {e}")
@@ -255,6 +231,8 @@ if __name__ == '__main__':
         if not os.path.exists(run['file']):
             logger.error(f"Run file {run['file']} does not exist. Please run the dependent regressions first, recorded in the fusion yaml file.")
             exit(1)
+
+    start_time = time.time()
 
     # Construct the fusion command
     fusion_commands = construct_fusion_commands(yaml_data)

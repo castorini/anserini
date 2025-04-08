@@ -28,21 +28,22 @@ import java.util.List;
 import org.junit.Test;
 
 import io.anserini.TestUtils;
+import io.anserini.search.ScoredDocs;
 
-public class TrecRunTest {
+public class ScoredDocsFuserTest {
   @Test
   public void testInvalidNumRuns() {
-    TrecRun run = new TrecRun();
+    ScoredDocs run = new ScoredDocs();
     Path newPath = Paths.get("runs/new_run");
     IllegalStateException thrown1 = assertThrows(IllegalStateException.class, () -> {
-      run.saveToTxt(newPath, "Anserini");
+      ScoredDocsFuser.saveToTxt(newPath, "Anserini", run);
     });
-    assertEquals("Nothing to save. TrecRun is empty".trim(), thrown1.getMessage().trim());
+    assertEquals("Nothing to save. ScoredDocs is empty".trim(), thrown1.getMessage().trim());
 
-    List<TrecRun> runs = new ArrayList<>();
+    List<ScoredDocs> runs = new ArrayList<>();
     runs.add(run);
     IllegalArgumentException thrown2 = assertThrows(IllegalArgumentException.class, () -> {
-      TrecRun.merge(runs, 1000, 1000);
+      ScoredDocsFuser.merge(runs, 1000, 1000);
     });
     assertEquals("Merge requires at least 2 runs.".trim(), thrown2.getMessage().trim());
   }
@@ -51,9 +52,9 @@ public class TrecRunTest {
   public void testResort() {
     try {
       Path path = Paths.get("src/test/resources/sample_runs/run3");
-      TrecRun run = new TrecRun(path, true);
+      ScoredDocs run = ScoredDocsFuser.readRun(path, true);
       Path newPath = Paths.get("runs/sorted_run");
-      run.saveToTxt(newPath, "Anserini");
+      ScoredDocsFuser.saveToTxt(newPath, "Anserini", run);
       TestUtils.checkFile("runs/sorted_run", new String[]{
         "query1 Q0 doc1 1 7.000000 Anserini",
         "query1 Q0 doc2 2 6.000000 Anserini",

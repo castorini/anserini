@@ -58,7 +58,7 @@ methods:
     output: runs/runs.fuse.avg.beir-v1.0.0-signal1m.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-signal1m.test.txt
     results:
       nDCG@10:
-        - 0.3463
+        - 0.3467
       R@100:
         - 0.4077
       R@1000:
@@ -68,7 +68,7 @@ methods:
     output: runs/runs.fuse.interp.beir-v1.0.0-signal1m.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-signal1m.test.txt
     results:      
       nDCG@10:
-        - 0.3463
+        - 0.3467
       R@100:
         - 0.4077
       R@1000:
@@ -77,7 +77,7 @@ methods:
     output: runs/runs.fuse.norm.beir-v1.0.0-signal1m.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-signal1m.test.txt
     results:      
       nDCG@10:
-        - 0.3629
+        - 0.3624
       R@100:
         - 0.3947
       R@1000:
