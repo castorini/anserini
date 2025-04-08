@@ -72,7 +72,6 @@ public class RunsFuser {
    * @return Output ScoredDocs that combines input runs via averaging.
    */
   public static ScoredDocs average(List<ScoredDocs> runs, int depth, int k) {
-    
     for (ScoredDocs run : runs) {
       ScoredDocsFuser.rescore(RescoreMethod.SCALE, 0, (1/(double)runs.size()), run);
     }
@@ -91,7 +90,6 @@ public class RunsFuser {
    * @return Output ScoredDocs that combines input runs via reciprocal rank fusion.
    */
   public static ScoredDocs reciprocalRankFusion(List<ScoredDocs> runs, int rrf_k, int depth, int k) {
-    
     for (ScoredDocs run : runs) {
       ScoredDocsFuser.rescore(RescoreMethod.RRF, rrf_k, 0, run);
     }
@@ -108,7 +106,6 @@ public class RunsFuser {
    * @return Output ScoredDocs that combines input runs via reciprocal rank fusion.
    */
   public static ScoredDocs normalize(List<ScoredDocs> runs, int depth, int k) {
-    
     for (ScoredDocs run : runs) {
       ScoredDocsFuser.rescore(RescoreMethod.NORMALIZE, 0, 0, run);
     }

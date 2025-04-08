@@ -107,7 +107,7 @@ public class ScoredDocsFuser {
 
   private static void rescoreRRF(int rrfK, ScoredDocs scoredDocs) {
     int length = scoredDocs.lucene_documents.length;
-    for(int i = 0; i < length; i++){
+    for (int i = 0; i < length; i++) {
       float score = (float)(1.0 / (rrfK + scoredDocs.lucene_docids[i]));
       scoredDocs.scores[i] = score;
     }
@@ -115,7 +115,7 @@ public class ScoredDocsFuser {
 
   private static void rescoreScale(double scale, ScoredDocs scoredDocs) {
     int length = scoredDocs.lucene_documents.length;
-    for(int i = 0; i < length; i++){
+    for (int i = 0; i < length; i++) {
       float score = (float) (scoredDocs.scores[i] * scale);
       scoredDocs.scores[i] = score;
     }
@@ -124,21 +124,21 @@ public class ScoredDocsFuser {
   private static void normalizeScores(ScoredDocs scoredDocs) {
     Map<String, List<Integer>> indicesForTopics = new HashMap<String, List<Integer>>(); // topic, list of indices for that topic
     int length = scoredDocs.lucene_documents.length;
-    for(int i = 0; i < length; i++){
+    for (int i = 0; i < length; i++) {
       indicesForTopics.computeIfAbsent(scoredDocs.lucene_documents[i].get(TOPIC), k -> new ArrayList<>()).add(i);
     }
 
-    for(List<Integer> topicIndices : indicesForTopics.values()){
+    for (List<Integer> topicIndices : indicesForTopics.values()) {
       int numRecords = topicIndices.size();
       float minScore = scoredDocs.scores[topicIndices.get(0)];
       float maxScore = scoredDocs.scores[topicIndices.get(numRecords - 1)];
-      for(int i = 0; i < numRecords; i++){
+      for (int i = 0; i < numRecords; i++) {
         int index = topicIndices.get(i);
         minScore = Float.min(minScore, scoredDocs.scores[index]);
         maxScore = Float.max(maxScore, scoredDocs.scores[index]);
       }
 
-      for(int i = 0; i < numRecords; i++){
+      for (int i = 0; i < numRecords; i++) {
         int index = topicIndices.get(i);
         float normalizedScore = ((float) scoredDocs.scores[index] - minScore) / (maxScore - minScore);
         scoredDocs.scores[index] = normalizedScore;
@@ -163,8 +163,8 @@ public class ScoredDocsFuser {
 
     // for every topic, produce a map of docid to score, num of accumulated
     HashMap<String, HashMap<String, AbstractMap.SimpleEntry<Float, Integer>>> docScores = new HashMap<>();
-    for(ScoredDocs run : runs){
-      for(int i = 0; i < run.lucene_documents.length; i++){
+    for (ScoredDocs run : runs) {
+      for (int i = 0; i < run.lucene_documents.length; i++) {
         String query = run.lucene_documents[i].get(TOPIC);
         String docid = run.docids[i];
         Float score = run.scores[i];
@@ -179,7 +179,7 @@ public class ScoredDocsFuser {
     List<String> docids = new ArrayList<>(); // docid
     List<Float> score = new ArrayList<>(); // score
     List<Integer> rank = new ArrayList<>(); // rank
-    for(String query : docScores.keySet()){
+    for (String query : docScores.keySet()) {
       // for the current query, a list of all docids and scores, sorted by scores
       List<Map.Entry<String, Float>> sortedDocScores = docScores.get(query).entrySet().stream()
         .map(entry -> Map.entry(entry.getKey(), entry.getValue().getKey()))
@@ -214,7 +214,7 @@ public class ScoredDocsFuser {
    */
   public static void sortScoredDocs(ScoredDocs scoredDocs){
     Integer[] indices = new Integer[scoredDocs.lucene_documents.length];
-    for(int i = 0; i < indices.length; i++){
+    for (int i = 0; i < indices.length; i++) {
       indices[i] = i;
     }
 
@@ -232,7 +232,7 @@ public class ScoredDocsFuser {
     String[] sortedDocids = new String[indices.length];
     float[] sortedScores = new float[indices.length];
     int[] sortedRanks = new int[indices.length];
-    for(int i = 0; i < indices.length; i++){
+    for (int i = 0; i < indices.length; i++) {
       int index = indices[i];
       sorted_lucene_documents[i] = scoredDocs.lucene_documents[index];
       sortedDocids[i] = scoredDocs.docids[index];
