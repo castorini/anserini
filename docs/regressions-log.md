@@ -1,7 +1,33 @@
 # Anserini Regressions Log
 
-The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
+The following change log details commits to regression tests that alter effectiveness and the addition (or removal) of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
+
+### April 6, 2025
+
++ commit [`1af285`](https://github.com/castorini/anserini/commit/1af285b610364acd0fb7a692e66b4cf432ddf7df) (2025/04/06)
+
+Detailed in [castorini/pyserini#2270](https://github.com/castorini/anserini/pull/2770).
+Removed the following regressions:
+
++ `msmarco-v2-doc-segmented.unicoil-0shot.cached`
++ `msmarco-v2-doc-segmented.unicoil-noexp-0shot.cached`
++ `dl21-doc-segmented.unicoil-0shot.cached`
++ `dl21-doc-segmented.unicoil-noexp-0shot.cached`
+
+Back from a while ago, we had the following (and related regressions for DL):
+
+```
+msmarco-v2-doc-segmented.unicoil-0shot.cached.yaml
+msmarco-v2-doc-segmented.unicoil-0shot-v2.cached.yaml
+msmarco-v2-doc-segmented.unicoil-noexp-0shot.cached.yaml
+msmarco-v2-doc-segmented.unicoil-noexp-0shot-v2.cached.yaml
+```
+
+This was due to a bug:
+For v1, we only encoded the segment, which we later fixed with v2, encoding both title and segment.
+Until now, we've kept regressions for both v1 and v2.
+Removing the v1 variants, since there's no need to keep around anymore.
 
 ### March 5, 2025
 
