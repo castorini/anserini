@@ -35,7 +35,7 @@ public class FusionTest {
       "-depth", "1000",
       "-rrf_k", "60",
       "-alpha", "0.5"};
-    FuseTrecRuns.main(fuseArgs);
+    FuseRuns.main(fuseArgs);
     
     TestUtils.checkFile("runs/fused_run_interp.test", new String[]{
       "query1 Q0 doc2 1 5.500000 anserini.fusion",
@@ -61,7 +61,7 @@ public class FusionTest {
       "-depth", "1000",
       "-rrf_k", "60",
       "-alpha", "0.5"};
-    FuseTrecRuns.main(fuseArgs);
+    FuseRuns.main(fuseArgs);
     
     TestUtils.checkFile("runs/fused_run_avg.test", new String[]{
       "query1 Q0 doc2 1 5.500000 anserini.fusion",
@@ -87,7 +87,7 @@ public class FusionTest {
       "-depth", "1000",
       "-rrf_k", "60",
       "-alpha", "0.5"};
-    FuseTrecRuns.main(fuseArgs);
+    FuseRuns.main(fuseArgs);
     
     TestUtils.checkFile("runs/fused_run_rrf.test", new String[]{
       "query1 Q0 doc2 1 0.032522 anserini.fusion",
@@ -113,7 +113,7 @@ public class FusionTest {
       "-depth", "1000",
       "-rrf_k", "60",
       "-alpha", "0.5"};
-    FuseTrecRuns.main(fuseArgs);
+    FuseRuns.main(fuseArgs);
     
     TestUtils.checkFile("runs/fused_run_norm.test", new String[]{
       "query1 Q0 doc2 1 0.750000 anserini.fusion",

@@ -77,7 +77,7 @@ methods:
     output: runs/runs.fuse.norm.beir-v1.0.0-webis-touche2020.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-webis-touche2020.test.txt
     results:      
       nDCG@10:
-        - 0.3753
+        - 0.3755
       R@100:
         - 0.6039
       R@1000:

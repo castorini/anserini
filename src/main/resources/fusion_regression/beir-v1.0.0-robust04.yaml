@@ -58,7 +58,7 @@ methods:
     output: runs/runs.fuse.avg.beir-v1.0.0-robust04.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-robust04.test.txt
     results:
       nDCG@10:
-        - 0.4324
+        - 0.4327
       R@100:
         - 0.3963
       R@1000:
@@ -68,7 +68,7 @@ methods:
     output: runs/runs.fuse.interp.beir-v1.0.0-robust04.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-robust04.test.txt
     results:      
       nDCG@10:
-        - 0.4324
+        - 0.4327
       R@100:
         - 0.3963
       R@1000:

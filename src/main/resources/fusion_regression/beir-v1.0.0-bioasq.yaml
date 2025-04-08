@@ -58,9 +58,9 @@ methods:
     output: runs/runs.fuse.avg.beir-v1.0.0-bioasq.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-bioasq.test.txt
     results:
       nDCG@10:
-        - 0.5308
+        - 0.5315
       R@100:
-        - 0.7869
+        - 0.7866
       R@1000:
         - 0.9030
   - name: interpolation
@@ -68,9 +68,9 @@ methods:
     output: runs/runs.fuse.interp.beir-v1.0.0-bioasq.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-bioasq.test.txt
     results:      
       nDCG@10:
-        - 0.5308
+        - 0.5315
       R@100:
-        - 0.7869
+        - 0.7866
       R@1000:
         - 0.9030
   - name: normalize

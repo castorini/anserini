@@ -26,15 +26,15 @@ The table below reports the effectiveness of the methods with the nDCG@10 metric
 |---------------------------|-------:|--------:|--------------:|----------:|-------:|-------:|
 | `trec-covid`              | 0.8041 |  0.6567 |     0.6567    |   0.7956  | 0.5947 | 0.7815 |
 | `bioasq`                  | 0.5278 |  0.5308 |     0.5308    |   0.5428  | 0.5225 | 0.4148 |
-| `nfcorpus`                | 0.3725 |  0.3416 |     0.3416    |   0.3657  | 0.3218 | 0.3735 |
+| `nfcorpus`                | 0.3725 |  0.3415 |     0.3415    |   0.3657  | 0.3218 | 0.3735 |
 | `nq`                      | 0.4831 |  0.3241 |     0.3241    |   0.5183  | 0.3055 | 0.5415 |
 | `hotpotqa`                | 0.7389 |  0.6497 |     0.6497    |   0.7658  | 0.6330 | 0.7259 |
 | `fiqa`                    | 0.3671 |  0.2470 |     0.2470    |   0.3942  | 0.2361 | 0.4065 |
-| `signal1m`                | 0.3533 |  0.3463 |     0.3463    |   0.3629  | 0.3304 | 0.2886 |
+| `signal1m`                | 0.3533 |  0.3467 |     0.3467    |   0.3624  | 0.3304 | 0.2886 |
 | `trec-news`               | 0.4855 |  0.4162 |     0.4162    |   0.5008  | 0.3952 | 0.4424 |
 | `robust04`                | 0.5087 |  0.4327 |     0.4327    |   0.5127  | 0.4070 | 0.4435 |
 | `arguana`                 | 0.5586 |  0.3986 |     0.3986    |   0.5694  | 0.3970 | 0.6228 |
-| `webis-touche2020`        | 0.3771 |  0.4510 |     0.4510    |   0.3753  | 0.4422 | 0.2571 |
+| `webis-touche2020`        | 0.3771 |  0.4510 |     0.4510    |   0.3755  | 0.4422 | 0.2571 |
 | `cqadupstack-android`     | 0.4652 |  0.3872 |     0.3872    |   0.4868  | 0.3801 | 0.5076 |
 | `cqadupstack-english`     | 0.4461 |  0.3601 |     0.3601    |   0.4671  | 0.3453 | 0.4857 |
 | `cqadupstack-gaming`      | 0.5615 |  0.4886 |     0.4886    |   0.5818  | 0.4822 | 0.5967 |
@@ -60,7 +60,7 @@ The table below reports the effectiveness of the methods with the R@100 metric:
 | Corpus                    |    RRF | Average | Interpolation | Normalize |   BM25 |    BGE |
 |---------------------------|-------:|--------:|--------------:|----------:|-------:|-------:|
 | `trec-covid`              | 0.1467 |  0.1255 |     0.1255    |   0.1519  | 0.1091 | 0.1406 |
-| `bioasq`                  | 0.8128 |  0.7869 |     0.7869    |   0.8143  | 0.7687 | 0.6316 |
+| `bioasq`                  | 0.8128 |  0.7866 |     0.7866    |   0.8143  | 0.7687 | 0.6316 |
 | `nfcorpus`                | 0.3391 |  0.3003 |     0.3003    |   0.3288  | 0.2457 | 0.3368 |
 | `nq`                      | 0.9415 |  0.7922 |     0.7922    |   0.9372  | 0.7513 | 0.9414 |
 | `hotpotqa`                | 0.8917 |  0.8184 |     0.8184    |   0.8919  | 0.7957 | 0.8726 |
@@ -149,16 +149,16 @@ do
     java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.search.SearchFlatDenseVectors -index beir-v1.0.0-${c}.bge-base-en-v1.5.flat -topics beir-${c} -encoder BgeBaseEn15 -output $OUTPUT_DIR/run.flat.beir-v1.0.0-${c}.bge-base-en-v1.5.test.bge-flat-onnx -hits 1000 -removeQuery -threads 16
     
     # rrf fuse
-    java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.fusion.FuseTrecRuns -runs $OUTPUT_DIR/run.inverted.beir-v1.0.0-${c}.flat.test.bm25 $OUTPUT_DIR/run.flat.beir-v1.0.0-${c}.bge-base-en-v1.5.test.bge-flat-onnx -output $OUTPUT_DIR/runs.fuse.rrf.beir-v1.0.0-${c}.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-${c}.test.txt -method rrf -k 1000 -depth 1000 -rrf_k 60 -alpha 0.5
+    java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.fusion.FuseRuns -runs $OUTPUT_DIR/run.inverted.beir-v1.0.0-${c}.flat.test.bm25 $OUTPUT_DIR/run.flat.beir-v1.0.0-${c}.bge-base-en-v1.5.test.bge-flat-onnx -output $OUTPUT_DIR/runs.fuse.rrf.beir-v1.0.0-${c}.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-${c}.test.txt -method rrf -k 1000 -depth 1000 -rrf_k 60 -alpha 0.5
 
     # avg fuse
-    java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.fusion.FuseTrecRuns -runs $OUTPUT_DIR/run.inverted.beir-v1.0.0-${c}.flat.test.bm25 $OUTPUT_DIR/run.flat.beir-v1.0.0-${c}.bge-base-en-v1.5.test.bge-flat-onnx -output $OUTPUT_DIR/runs.fuse.avg.beir-v1.0.0-${c}.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-${c}.test.txt -method average -k 1000 -depth 1000 -rrf_k 60 -alpha 0.5
+    java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.fusion.FuseRuns -runs $OUTPUT_DIR/run.inverted.beir-v1.0.0-${c}.flat.test.bm25 $OUTPUT_DIR/run.flat.beir-v1.0.0-${c}.bge-base-en-v1.5.test.bge-flat-onnx -output $OUTPUT_DIR/runs.fuse.avg.beir-v1.0.0-${c}.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-${c}.test.txt -method average -k 1000 -depth 1000 -rrf_k 60 -alpha 0.5
 
     # interp fuse
-    java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.fusion.FuseTrecRuns -runs $OUTPUT_DIR/run.inverted.beir-v1.0.0-${c}.flat.test.bm25 $OUTPUT_DIR/run.flat.beir-v1.0.0-${c}.bge-base-en-v1.5.test.bge-flat-onnx -output $OUTPUT_DIR/runs.fuse.interp.beir-v1.0.0-${c}.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-${c}.test.txt -method interpolation -k 1000 -depth 1000 -rrf_k 60 -alpha 0.5
+    java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.fusion.FuseRuns -runs $OUTPUT_DIR/run.inverted.beir-v1.0.0-${c}.flat.test.bm25 $OUTPUT_DIR/run.flat.beir-v1.0.0-${c}.bge-base-en-v1.5.test.bge-flat-onnx -output $OUTPUT_DIR/runs.fuse.interp.beir-v1.0.0-${c}.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-${c}.test.txt -method interpolation -k 1000 -depth 1000 -rrf_k 60 -alpha 0.5
 
     # normalize fuse
-    java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.fusion.FuseTrecRuns -runs $OUTPUT_DIR/run.inverted.beir-v1.0.0-${c}.flat.test.bm25 $OUTPUT_DIR/run.flat.beir-v1.0.0-${c}.bge-base-en-v1.5.test.bge-flat-onnx -output $OUTPUT_DIR/runs.fuse.norm.beir-v1.0.0-${c}.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-${c}.test.txt -method interpolation -k 1000 -depth 1000 -rrf_k 60 -alpha 0.5
+    java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.fusion.FuseRuns -runs $OUTPUT_DIR/run.inverted.beir-v1.0.0-${c}.flat.test.bm25 $OUTPUT_DIR/run.flat.beir-v1.0.0-${c}.bge-base-en-v1.5.test.bge-flat-onnx -output $OUTPUT_DIR/runs.fuse.norm.beir-v1.0.0-${c}.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-${c}.test.txt -method interpolation -k 1000 -depth 1000 -rrf_k 60 -alpha 0.5
 done
 ```
 

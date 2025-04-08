@@ -23,10 +23,12 @@ import java.util.List;
 
 import org.kohsuke.args4j.Option;
 
+import io.anserini.search.ScoredDocs;
+
 /**
  * Main logic class for Fusion
  */
-public class TrecRunFuser {
+public class RunsFuser {
   private final Args args;
 
   private static final String METHOD_RRF = "rrf";
@@ -57,98 +59,90 @@ public class TrecRunFuser {
     public int depth = 1000;
   }
 
-  public TrecRunFuser(Args args) {
+  public RunsFuser(Args args) {
     this.args = args;
   }
   
   /**
-   * Perform fusion by averaging on a list of TrecRun objects.
+   * Perform fusion by averaging on a list of ScoredDocs objects.
    *
-   * @param runs List of TrecRun objects.
+   * @param runs List of ScoredDocs objects.
    * @param depth Maximum number of results from each input run to consider. Set to Integer.MAX_VALUE by default, which indicates that the complete list of results is considered.
    * @param k Length of final results list. Set to Integer.MAX_VALUE by default, which indicates that the union of all input documents are ranked.
-   * @return Output TrecRun that combines input runs via averaging.
+   * @return Output ScoredDocs that combines input runs via averaging.
    */
-  public static TrecRun average(List<TrecRun> runs, int depth, int k) {
-    
-    for (TrecRun run : runs) {
-      run.rescore(RescoreMethod.SCALE, 0, (1/(double)runs.size()));
+  public static ScoredDocs average(List<ScoredDocs> runs, int depth, int k) {
+    for (ScoredDocs run : runs) {
+      ScoredDocsFuser.rescore(RescoreMethod.SCALE, 0, (1/(double)runs.size()), run);
     }
 
-    return TrecRun.merge(runs, depth, k);
+    return ScoredDocsFuser.merge(runs, depth, k);
   }
 
   /**
    * Perform reciprocal rank fusion on a list of TrecRun objects. Implementation follows Cormack et al.
    * (SIGIR 2009) paper titled "Reciprocal Rank Fusion Outperforms Condorcet and Individual Rank Learning Methods."
    *
-   * @param runs List of TrecRun objects.
+   * @param runs List of ScoredDocs objects.
    * @param rrf_k Parameter to avoid vanishing importance of lower-ranked documents. Note that this is different from the *k* in top *k* retrieval; set to 60 by default, per Cormack et al.
    * @param depth Maximum number of results from each input run to consider. Set to Integer.MAX_VALUE by default, which indicates that the complete list of results is considered.
    * @param k Length of final results list. Set to Integer.MAX_VALUE by default, which indicates that the union of all input documents are ranked.
-   * @return Output TrecRun that combines input runs via reciprocal rank fusion.
+   * @return Output ScoredDocs that combines input runs via reciprocal rank fusion.
    */
-  public static TrecRun reciprocalRankFusion(List<TrecRun> runs, int rrf_k, int depth, int k) {
-    
-    for (TrecRun run : runs) {
-      run.rescore(RescoreMethod.RRF, rrf_k, 0);
+  public static ScoredDocs reciprocalRankFusion(List<ScoredDocs> runs, int rrf_k, int depth, int k) {
+    for (ScoredDocs run : runs) {
+      ScoredDocsFuser.rescore(RescoreMethod.RRF, rrf_k, 0, run);
     }
 
-    return TrecRun.merge(runs, depth, k);
+    return ScoredDocsFuser.merge(runs, depth, k);
   }
 
   /**
    * Perform fusion by normalizing scores and taking the average. 
    *
-   * @param runs List of TrecRun objects.
+   * @param runs List of ScoredDocs objects.
    * @param depth Maximum number of results from each input run to consider. Set to Integer.MAX_VALUE by default, which indicates that the complete list of results is considered.
    * @param k Length of final results list. Set to Integer.MAX_VALUE by default, which indicates that the union of all input documents are ranked.
-   * @return Output TrecRun that combines input runs via reciprocal rank fusion.
+   * @return Output ScoredDocs that combines input runs via reciprocal rank fusion.
    */
-  public static TrecRun normalize(List<TrecRun> runs, int depth, int k) {
-    
-    for (TrecRun run : runs) {
-      run.rescore(RescoreMethod.NORMALIZE, 0, 0);
+  public static ScoredDocs normalize(List<ScoredDocs> runs, int depth, int k) {
+    for (ScoredDocs run : runs) {
+      ScoredDocsFuser.rescore(RescoreMethod.NORMALIZE, 0, 0, run);
     }
 
     return average(runs, depth, k);
   }
 
   /**
-   * Perform fusion by interpolation on a list of exactly two TrecRun objects.
+   * Perform fusion by interpolation on a list of exactly two ScoredDocs objects.
    * new_score = first_run_score * alpha + (1 - alpha) * second_run_score.
    *
-   * @param runs List of TrecRun objects. Exactly two runs.
+   * @param runs List of ScoredDocs objects. Exactly two runs.
    * @param alpha Parameter alpha will be applied on the first run and (1 - alpha) will be applied on the second run.
    * @param depth Maximum number of results from each input run to consider. Set to Integer.MAX_VALUE by default, which indicates that the complete list of results is considered.
    * @param k Length of final results list. Set to Integer.MAX_VALUE by default, which indicates that the union of all input documents are ranked.
-   * @return Output TrecRun that combines input runs via interpolation.
+   * @return Output ScoredDocs that combines input runs via interpolation.
    */  
-  public static TrecRun interpolation(List<TrecRun> runs, double alpha, int depth, int k) {
+  public static ScoredDocs interpolation(List<ScoredDocs> runs, double alpha, int depth, int k) {
     // Ensure exactly 2 runs are provided, as interpolation requires 2 runs
     if (runs.size() != 2) {
       throw new IllegalArgumentException("Interpolation requires exactly 2 runs");
     }
 
-    runs.get(0).rescore(RescoreMethod.SCALE, 0, alpha);
-    runs.get(1).rescore(RescoreMethod.SCALE, 0, 1 - alpha);
+    ScoredDocsFuser.rescore(RescoreMethod.SCALE, 0, alpha, runs.get(0));
+    ScoredDocsFuser.rescore(RescoreMethod.SCALE, 0, 1 - alpha, runs.get(1));
 
-    return TrecRun.merge(runs, depth, k);
-  }
-
-  private void saveToTxt(TrecRun fusedRun) throws IOException {
-    Path outputPath = Paths.get(args.output);
-    fusedRun.saveToTxt(outputPath, args.runtag);
+    return ScoredDocsFuser.merge(runs, depth, k);
   }
 
   /**
-   * Process the fusion of TrecRun objects based on the specified method.
+   * Process the fusion of ScoredDocs objects based on the specified method.
    *
-   * @param runs List of TrecRun objects to be fused.
+   * @param runs List of ScoredDocs objects to be fused.
    * @throws IOException If an I/O error occurs while saving the output.
    */
-  public void fuse(List<TrecRun> runs) throws IOException {
-    TrecRun fusedRun;
+  public void fuse(List<ScoredDocs> runs) throws IOException {
+    ScoredDocs fusedRun;
 
     // Select fusion method
     switch (args.method.toLowerCase()) {
@@ -169,6 +163,7 @@ public class TrecRunFuser {
             ". Supported methods are: average, rrf, interpolation.");
     }
 
-    saveToTxt(fusedRun);
+    Path outputPath = Paths.get(args.output);
+    ScoredDocsFuser.saveToTxt(outputPath, args.runtag,  fusedRun);
   }
 }
