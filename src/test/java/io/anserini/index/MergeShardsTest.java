@@ -43,10 +43,13 @@ import java.io.PrintStream;
 import java.nio.file.Path;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class MergeShardsTest extends IndexerTestBase {
   private final static PrintStream standardOut = System.out;
+  private final static PrintStream standardErr = System.err;
   private final static ByteArrayOutputStream outputCaptor = new ByteArrayOutputStream();
+  private final static ByteArrayOutputStream errorCaptor = new ByteArrayOutputStream();
   
   private Path shardDir1;
   private Path shardDir2;
@@ -61,6 +64,7 @@ public class MergeShardsTest extends IndexerTestBase {
     mergedDir = createTempDir();
     
     System.setOut(new PrintStream(outputCaptor));
+    System.setErr(new PrintStream(errorCaptor));
     
     buildShardIndex(shardDir1, "shard1-doc1", "shard1-doc2");
     buildShardIndex(shardDir2, "shard2-doc1", "shard2-doc2");
@@ -70,6 +74,7 @@ public class MergeShardsTest extends IndexerTestBase {
   @Override
   public void tearDown() throws Exception {
     System.setOut(standardOut);
+    System.setErr(standardErr);
     System.gc();
     super.tearDown();
   }
@@ -124,10 +129,10 @@ public class MergeShardsTest extends IndexerTestBase {
     MergeShards.main(args);
     
     String output = outputCaptor.toString();
-    assert(output.contains("Adding index: " + shardDir1.toString()));
-    assert(output.contains("Adding index: " + shardDir2.toString()));
-    assert(output.contains("Merging..."));
-    assert(output.contains("Done. Merged index at: " + mergedDir.toString()));
+    assertTrue(output.contains("Adding index: " + shardDir1.toString()));
+    assertTrue(output.contains("Adding index: " + shardDir2.toString()));
+    assertTrue(output.contains("Merging..."));
+    assertTrue(output.contains("Done. Merged index at: " + mergedDir.toString()));
     
     Directory dir = FSDirectory.open(mergedDir);
     IndexReader reader = DirectoryReader.open(dir);
@@ -147,15 +152,19 @@ public class MergeShardsTest extends IndexerTestBase {
   }
   
   @Test
-  public void testMergeShardsInvalidArgs() throws Exception {
+  public void testValidateArguments() throws Exception {
     String[] args = new String[] { mergedDir.toString() };
     
+    errorCaptor.reset();
     outputCaptor.reset();
     
     try {
       MergeShards.main(args);
-    } catch (SecurityException e) {
+    } catch (Exception e) {
+      // MergeShards might exit, we'll just catch any exception
     }
     
+    String errorOutput = errorCaptor.toString();
+    assertTrue(errorOutput.contains("Usage: MergeShards <output_dir> <shard_dir1> [<shard_dir2> ...]"));
   }
-} 
+}
