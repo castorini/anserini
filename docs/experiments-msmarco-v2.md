@@ -9,7 +9,8 @@ For example, to download passage collection:
 ```bash
 azcopy copy https://msmarco.blob.core.windows.net/msmarcoranking/msmarco_v2_passage.tar ./collections
 ```
-The speedup using `azcopy` is significant compared to `wget`, but the actual downloading time will vary based on your location as well as many other factors. Azcopy will ask you to login to your Microsoft account with a code generated in the terminal.
+The speedup using `azcopy` is significant compared to `wget`, but the actual downloading time will vary based on your location as well as many other factors.
+Azcopy will ask you to login to your Microsoft account with a code generated in the terminal.
 Just download the collections; queries and qrels are already included in this repo.
 
 ## Passage Collection
@@ -31,8 +32,7 @@ bin/run.sh io.anserini.index.IndexCollection -collection MsMarcoV2PassageCollect
 ```
 
 Adjust `-threads` as appropriate.
-The above configuration, on a 2017 iMac Pro with SSD, takes around 30 minutes.
-On a 64-core Xeon 8160, eg `orca`, the full end-to-end run described below (all four datasets: indexing, searching dev/dev2, evaluation) takes around 1 hour 50 minutes with `-threads 32`.
+On a 64-core Xeon 8160, the full end-to-end run described below (all four datasets: indexing, searching dev/dev2, evaluation) takes around 1 hour 50 minutes with `-threads 32`.
 
 The complete index occupies 72 GB (138,364,198 passages).
 It's big because it includes postions (for phrase queries), document vectors (for relevance feedback), and a complete copy of the collection itself.
