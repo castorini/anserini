@@ -11,15 +11,15 @@
 + Added `ArcticEmbedLEncoder` ONNX implementation.
 + Added ArcticEmbedL regressions for MS MARCO V2.1 RAG 24 + prebuilt indexes.
 + Added `vector()` method to `SourceDocument` interface.
-+ Added HNSW support to the localhost REST API
++ Added HNSW support to the localhost REST API.
 + Added implementation of parallel search on shards.
 + Refactored `DocumentGenerators`.
 + Refactored fusion implementation to use `ScoredDocs`; other improvements.
 + Refactored all ONNX encoder implementations and tests.
 + Refactored `IndexInfo` naming.
 + Renamed regression tests to reduce confusion; removed JSON dense vector regressions.
-+ Removed LTR code.
 + Removed `msmarco-v2-doc-segmented.unicoil-0shot` regressions + related variants.
++ Removed LTR code.
 
 ## Contributors (This Release)
 
