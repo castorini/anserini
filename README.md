@@ -585,7 +585,7 @@ Beyond that, there are always [open issues](https://github.com/castorini/anserin
 
 ## 📜️ Release History
 
-+ v1.0.0: April 25, 2025 [[Release Notes](docs/release-notes/release-notes-v1.00.md)]
++ v1.0.0: April 25, 2025 [[Release Notes](docs/release-notes/release-notes-v1.0.0.md)]
 + v0.39.0: January 12, 2025 [[Release Notes](docs/release-notes/release-notes-v0.39.0.md)]
 + v0.38.0: September 6, 2024 [[Release Notes](docs/release-notes/release-notes-v0.38.0.md)]
 + v0.37.0: August 22, 2024 [[Release Notes](docs/release-notes/release-notes-v0.37.0.md)]
