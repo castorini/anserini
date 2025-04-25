@@ -26,7 +26,7 @@ wget https://repo1.maven.org/maven2/io/anserini/anserini/1.0.0/anserini-1.0.0-fa
 Do a BM25 run on the venerable MS MARCO passage corpus using the dev queries:
 
 ```bash
-java -cp anserini-0.39.0-fatjar.jar io.anserini.search.SearchCollection \
+java -cp anserini-1.0.0-fatjar.jar io.anserini.search.SearchCollection \
   -index msmarco-v1-passage \
   -topics msmarco-v1-passage.dev \
   -output run.msmarco-v1-passage.dev.bm25.txt \
