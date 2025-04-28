@@ -158,7 +158,7 @@ do
     java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.fusion.FuseRuns -runs $OUTPUT_DIR/run.inverted.beir-v1.0.0-${c}.flat.test.bm25 $OUTPUT_DIR/run.flat.beir-v1.0.0-${c}.bge-base-en-v1.5.test.bge-flat-onnx -output $OUTPUT_DIR/runs.fuse.interp.beir-v1.0.0-${c}.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-${c}.test.txt -method interpolation -k 1000 -depth 1000 -rrf_k 60 -alpha 0.5
 
     # normalize fuse
-    java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.fusion.FuseRuns -runs $OUTPUT_DIR/run.inverted.beir-v1.0.0-${c}.flat.test.bm25 $OUTPUT_DIR/run.flat.beir-v1.0.0-${c}.bge-base-en-v1.5.test.bge-flat-onnx -output $OUTPUT_DIR/runs.fuse.norm.beir-v1.0.0-${c}.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-${c}.test.txt -method interpolation -k 1000 -depth 1000 -rrf_k 60 -alpha 0.5
+    java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.fusion.FuseRuns -runs $OUTPUT_DIR/run.inverted.beir-v1.0.0-${c}.flat.test.bm25 $OUTPUT_DIR/run.flat.beir-v1.0.0-${c}.bge-base-en-v1.5.test.bge-flat-onnx -output $OUTPUT_DIR/runs.fuse.norm.beir-v1.0.0-${c}.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-${c}.test.txt -method normalize -k 1000 -depth 1000 -rrf_k 60 -alpha 0.5
 done
 ```
 
