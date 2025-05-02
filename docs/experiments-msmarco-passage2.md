@@ -110,3 +110,4 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@lilyjge](https://github.com/lilyjge) on 2025-02-23 (commit [`9b13fe4`](https://github.com/castorini/anserini/commit/9b13fe488d3227ba3a271366210eadfed521d0f5))
 + Results reproduced by [@JJGreen0](https://github.com/JJGreen0) on 2025-04-19 (commit [`2d8674c`](https://github.com/castorini/anserini/commit/2d8674c0cd741e1c407e0ac7cce8ea38fdd0bb97))
 + Results reproduced by [@ricky42613](https://github.com/ricky42613) on 2025-04-25 (commit [`adce4e3`](https://github.com/castorini/anserini/commit/adce4e30cc9abce3dc2afdf2f6d7694a447a071a))
++ Results reproduced by [@lzguan](https://github.com/lzguan) on 2025-04-30 (commit [`4d94f55`](https://github.com/castorini/anserini/commit/4d94f5533d05f882a1677f84c5af5de078739be6))
