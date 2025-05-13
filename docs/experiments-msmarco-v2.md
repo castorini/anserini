@@ -6,19 +6,25 @@ Note that Pyserini provides a [comparable guide](https://github.com/castorini/py
 If you're having issues downloading the collection via `wget`, try using [AzCopy](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10).
 For example, to download passage collection:
 
-```
+```bash
 azcopy copy https://msmarco.blob.core.windows.net/msmarcoranking/msmarco_v2_passage.tar ./collections
 ```
 The speedup using `azcopy` is significant compared to `wget`, but the actual downloading time will vary based on your location as well as many other factors.
+Azcopy will ask you to login to your Microsoft account with a code generated in the terminal.
 Just download the collections; queries and qrels are already included in this repo.
 
 ## Passage Collection
 
 Download and unpack the collection into `collections/`.
+
+```bash
+tar -xvf collections/msmarco_v2_passage.tar -C ./collections
+```
+
 Here's the indexing command for the passage collection, which is 21 GB compressed:
 
-```
-sh target/appassembler/bin/IndexCollection -collection MsMarcoV2PassageCollection \
+```bash
+bin/run.sh io.anserini.index.IndexCollection -collection MsMarcoV2PassageCollection \
  -generator DefaultLuceneDocumentGenerator -threads 18 \
  -input collections/msmarco_v2_passage \
  -index indexes/lucene-index.msmarco-v2-passage \
@@ -26,7 +32,6 @@ sh target/appassembler/bin/IndexCollection -collection MsMarcoV2PassageCollectio
 ```
 
 Adjust `-threads` as appropriate.
-The above configuration, on a 2017 iMac Pro with SSD, takes around 30 minutes.
 
 The complete index occupies 72 GB (138,364,198 passages).
 It's big because it includes postions (for phrase queries), document vectors (for relevance feedback), and a complete copy of the collection itself.
@@ -38,12 +43,12 @@ For reference:
 
 Perform runs on the dev queries (both sets):
 
-```
-target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-passage \
+```bash
+bin/run.sh io.anserini.search.SearchCollection -index indexes/lucene-index.msmarco-v2-passage \
  -topicReader TsvInt -topics tools/topics-and-qrels/topics.msmarco-v2-passage.dev.txt \
  -output runs/run.msmarco-v2-passage.dev.txt -bm25 -hits 1000
 
-target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-passage \
+bin/run.sh io.anserini.search.SearchCollection -index indexes/lucene-index.msmarco-v2-passage \
  -topicReader TsvInt -topics tools/topics-and-qrels/topics.msmarco-v2-passage.dev2.txt \
  -output runs/run.msmarco-v2-passage.dev2.txt -bm25 -hits 1000
 ```
@@ -51,19 +56,19 @@ target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-
 Evaluation:
 
 ```bash
-$ target/appassembler/bin/trec_eval -c -M 100 -m map -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage.dev.txt
+$ bin/trec_eval -c -M 100 -m map -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage.dev.txt
 map                   	all	0.0709
 recip_rank            	all	0.0719
 
-$ target/appassembler/bin/trec_eval -c -m recall.100,1000 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage.dev.txt
+$ bin/trec_eval -c -m recall.100,1000 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage.dev.txt
 recall_100            	all	0.3397
 recall_1000           	all	0.5733
 
-$ target/appassembler/bin/trec_eval -c -M 100 -m map -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage.dev2.txt
+$ bin/trec_eval -c -M 100 -m map -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage.dev2.txt
 map                   	all	0.0794
 recip_rank            	all	0.0802
 
-$ target/appassembler/bin/trec_eval -c -m recall.100,1000 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage.dev2.txt
+$ bin/trec_eval -c -m recall.100,1000 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage.dev2.txt
 recall_100            	all	0.3459
 recall_1000           	all	0.5839
 ```
@@ -82,8 +87,8 @@ Once again, we recommend downloading with [AzCopy](https://docs.microsoft.com/en
 
 Indexing this augmented collection:
 
-```
-sh target/appassembler/bin/IndexCollection -collection MsMarcoV2PassageCollection \
+```bash
+bin/run.sh io.anserini.index.IndexCollection -collection MsMarcoV2PassageCollection \
  -generator DefaultLuceneDocumentGenerator -threads 18 \
  -input collections/msmarco_v2_passage_augmented \
  -index indexes/lucene-index.msmarco-v2-passage-augmented \
@@ -98,12 +103,12 @@ For example, with just the `-storeRaw` option, which supports bag-of-words first
 
 Perform runs on the dev queries (both sets):
 
-```
-target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-passage-augmented \
+```bash
+bin/run.sh io.anserini.search.SearchCollection -index indexes/lucene-index.msmarco-v2-passage-augmented \
  -topicReader TsvInt -topics tools/topics-and-qrels/topics.msmarco-v2-passage.dev.txt \
  -output runs/run.msmarco-v2-passage-augmented.dev.txt -bm25 -hits 1000
 
-target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-passage-augmented \
+bin/run.sh io.anserini.search.SearchCollection -index indexes/lucene-index.msmarco-v2-passage-augmented \
  -topicReader TsvInt -topics tools/topics-and-qrels/topics.msmarco-v2-passage.dev2.txt \
  -output runs/run.msmarco-v2-passage-augmented.dev2.txt -bm25 -hits 1000
 ```
@@ -111,19 +116,19 @@ target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-
 Evaluation:
 
 ```bash
-$ target/appassembler/bin/trec_eval -c -M 100 -m map -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage-augmented.dev.txt
+$ bin/trec_eval -c -M 100 -m map -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage-augmented.dev.txt
 map                   	all	0.0863
 recip_rank            	all	0.0872
 
-$ target/appassembler/bin/trec_eval -c -m recall.100,1000 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage-augmented.dev.txt
+$ bin/trec_eval -c -m recall.100,1000 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage-augmented.dev.txt
 recall_100            	all	0.4030
 recall_1000           	all	0.6925
 
-$ target/appassembler/bin/trec_eval -c -M 100 -m map -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage-augmented.dev2.txt
+$ bin/trec_eval -c -M 100 -m map -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage-augmented.dev2.txt
 map                   	all	0.0904
 recip_rank            	all	0.0917
 
-$ target/appassembler/bin/trec_eval -c -m recall.100,1000 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage-augmented.dev2.txt
+$ bin/trec_eval -c -m recall.100,1000 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage-augmented.dev2.txt
 recall_100            	all	0.4159
 recall_1000           	all	0.6933
 ```
@@ -135,8 +140,8 @@ We see that adding these additional fields gives a nice bump to effectiveness.
 Download and unpack the collection into `collections/`.
 Here's the indexing command for the document collection, which is 33 GB compressed:
 
-```
-sh target/appassembler/bin/IndexCollection -collection MsMarcoV2DocCollection \
+```bash
+bin/run.sh io.anserini.index.IndexCollection -collection MsMarcoV2DocCollection \
  -generator DefaultLuceneDocumentGenerator -threads 18 \
  -input collections/msmarco_v2_doc \
  -index indexes/lucene-index.msmarco-v2-doc \
@@ -156,12 +161,12 @@ Each "document" in the index comprises the url, title, headings, and body fields
 
 Perform runs on the dev queries (both sets):
 
-```
-target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-doc \
+```bash
+bin/run.sh io.anserini.search.SearchCollection -index indexes/lucene-index.msmarco-v2-doc \
  -topicReader TsvInt -topics tools/topics-and-qrels/topics.msmarco-v2-doc.dev.txt \
  -output runs/run.msmarco-v2-doc.dev.txt -bm25 -hits 1000
 
-target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-doc \
+bin/run.sh io.anserini.search.SearchCollection -index indexes/lucene-index.msmarco-v2-doc \
  -topicReader TsvInt -topics tools/topics-and-qrels/topics.msmarco-v2-doc.dev2.txt \
  -output runs/run.msmarco-v2-doc.dev2.txt -bm25 -hits 1000
 ```
@@ -169,19 +174,19 @@ target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-
 Evaluation:
 
 ```bash
-$ target/appassembler/bin/trec_eval -c -M 100 -m map -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc.dev.txt
+$ bin/trec_eval -c -M 100 -m map -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc.dev.txt
 map                   	all	0.1552
 recip_rank            	all	0.1572
 
-$ target/appassembler/bin/trec_eval -c -m recall.100,1000 tools/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc.dev.txt
+$ bin/trec_eval -c -m recall.100,1000 tools/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc.dev.txt
 recall_100            	all	0.5956
 recall_1000           	all	0.8054
 
-$ target/appassembler/bin/trec_eval -c -M 100 -m map -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc.dev2.txt
+$ bin/trec_eval -c -M 100 -m map -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc.dev2.txt
 map                   	all	0.1639
 recip_rank            	all	0.1659
 
-$ target/appassembler/bin/trec_eval -c -m recall.100,1000 tools/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc.dev2.txt
+$ bin/trec_eval -c -m recall.100,1000 tools/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc.dev2.txt
 recall_100            	all	0.5970
 recall_1000           	all	0.8029
 ```
@@ -209,8 +214,8 @@ Once again, we recommend downloading with [AzCopy](https://docs.microsoft.com/en
 
 The segmented document collection can be indexed with the following command:
 
-```
-sh target/appassembler/bin/IndexCollection -collection MsMarcoV2DocCollection \
+```bash
+bin/run.sh io.anserini.index.IndexCollection -collection MsMarcoV2DocCollection \
  -generator DefaultLuceneDocumentGenerator -threads 18 \
  -input collections/msmarco_v2_doc_segmented \
  -index indexes/lucene-index.msmarco-v2-doc-segmented \
@@ -225,13 +230,13 @@ For example, with just the `-storeRaw` option, which supports bag-of-words first
 
 Perform runs on the dev queries (both sets):
 
-```
-target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-doc-segmented \
+```bash
+bin/run.sh io.anserini.search.SearchCollection -index indexes/lucene-index.msmarco-v2-doc-segmented \
   -topicReader TsvInt -topics tools/topics-and-qrels/topics.msmarco-v2-doc.dev.txt \
   -output runs/run.msmarco-v2-doc-segmented.dev.txt \
   -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
 
-target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-doc-segmented \
+bin/run.sh io.anserini.search.SearchCollection -index indexes/lucene-index.msmarco-v2-doc-segmented \
   -topicReader TsvInt -topics tools/topics-and-qrels/topics.msmarco-v2-doc.dev2.txt \
   -output runs/run.msmarco-v2-doc-segmented.dev2.txt \
   -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
@@ -240,19 +245,19 @@ target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-v2-
 Evaluation:
 
 ```bash
-$ target/appassembler/bin/trec_eval -c -M 100 -m map -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc-segmented.dev.txt
+$ bin/trec_eval -c -M 100 -m map -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc-segmented.dev.txt
 map                   	all	0.1875
 recip_rank            	all	0.1896
 
-$ target/appassembler/bin/trec_eval -c -m recall.100,1000 tools/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc-segmented.dev.txt
+$ bin/trec_eval -c -m recall.100,1000 tools/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt runs/run.msmarco-v2-doc-segmented.dev.txt
 recall_100            	all	0.6555
 recall_1000           	all	0.8542
 
-$ target/appassembler/bin/trec_eval -c -M 100 -m map -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented.dev2.txt
+$ bin/trec_eval -c -M 100 -m map -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented.dev2.txt
 map                   	all	0.1903
 recip_rank            	all	0.1930
 
-$ target/appassembler/bin/trec_eval -c -m recall.100,1000 tools/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented.dev2.txt
+$ bin/trec_eval -c -m recall.100,1000 tools/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt runs/run.msmarco-v2-doc-segmented.dev2.txt
 recall_100            	all	0.6629
 recall_1000           	all	0.8549
 ```
@@ -266,3 +271,4 @@ As we can see, even as first-stage retrieval (i.e., without reranking), retrieva
 + Results reproduced by [@spacemanidol](https://github.com/spacemanidol) on 2021-06-28 (commit [`ce35d61`](https://github.com/castorini/anserini/commit/ce35d61455d5943e164e31880e517ce091fded66))
 + Results reproduced by [@crystina-z](https://github.com/crystina-z) on 2021-06-25 (commit [`dbc71ee`](https://github.com/castorini/anserini/commit/dbc71ee51fc7dbcdcb9118c9f7ad554b8b753a27))
 + Results reproduced by [@t-k-](https://github.com/t-k-) on 2021-07-29 (commit [`52b76f6`](https://github.com/castorini/anserini/commit/52b76f63b163036e8fad1a6e1b10b431b4ddd06c))
++ Results reproduced by [@vincent-4](https://github.com/vincent-4) on 2025-04-07 (commit [`1af285b`](https://github.com/castorini/anserini/commit/1af285b610364acd0fb7a692e66b4cf432ddf7df))
