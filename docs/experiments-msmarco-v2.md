@@ -32,7 +32,6 @@ bin/run.sh io.anserini.index.IndexCollection -collection MsMarcoV2PassageCollect
 ```
 
 Adjust `-threads` as appropriate.
-On a 64-core Xeon 8160, the full end-to-end run described below (all four datasets: indexing, searching dev/dev2, evaluation) takes around 1 hour 50 minutes with `-threads 32`.
 
 The complete index occupies 72 GB (138,364,198 passages).
 It's big because it includes postions (for phrase queries), document vectors (for relevance feedback), and a complete copy of the collection itself.
