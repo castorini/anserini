@@ -71,11 +71,15 @@ public class HnswDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
 
     @Option(name = "-efSearch", metaVar = "[number]", usage = "efSearch parameter for HNSW search")
     public int efSearch = 100;
+
+    @Option(name = "-verbose", metaVar = "[boolean]", usage = "efSearch parameter for HNSW search")
+    public boolean verbose = true;
   }
 
   private final IndexReader reader;
   private final VectorQueryGenerator generator;
   private final DenseEncoder encoder;
+  private final Boolean verbose;
 
   public HnswDenseSearcher(Args args) {
     super(args);
@@ -134,6 +138,8 @@ public class HnswDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
     } else {
       encoder = null;
     }
+
+    this.verbose = args.verbose;
   }
 
   /**
@@ -165,7 +171,7 @@ public class HnswDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
           }
 
           int n = cnt.incrementAndGet();
-          if (n % 100 == 0) {
+          if (n % 100 == 0 && verbose) {
             LOG.info("{} queries processed", n);
           }
         });
@@ -184,10 +190,10 @@ public class HnswDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
       }
     }
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-
-    LOG.info("{} queries processed in {}{}", queries.size(),
-        DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"),
-        String.format(" = ~%.2f q/s", queries.size() / (durationMillis / 1000.0)));
+    if (verbose) {
+      LOG.info("Batch search completed in {}{}", DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"),
+          String.format(" = ~%.2f q/s", queries.size() / (durationMillis / 1000.0)));
+    }
 
     return results;
   }
