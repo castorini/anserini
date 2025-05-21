@@ -29,79 +29,79 @@ import static org.junit.Assert.assertTrue;
 public class SpladeV3EncoderTest extends BaseSparseEncoderInferenceTest {
 
   private static final SparseExampleOutputPair[] EXAMPLES = {
-      // new SparseExampleOutputPair("what is paula deen's brother",
-      //     new HashMap<>() {
-      //       {
-      //         put("he", 32);
-      //         put("she", 34);
-      //         put("who", 53);
-      //         put("##n", 56);
-      //         put("family", 24);
-      //         put("father", 29);
-      //         put("son", 14);
-      //         put("brother", 138);
-      //         put("friend", 18);
-      //         put("husband", 6);
-      //         put("whom", 3);
-      //         put("actor", 18);
-      //         put("brothers", 113);
-      //         put("sons", 7);
-      //         put("cousin", 8);
-      //         put("celebrity", 4);
-      //         put("dee", 107);
-      //         put("paula", 138);
-      //       }}),
-
-      new SparseExampleOutputPair("Androgen receptor define",
+      new SparseExampleOutputPair("what is paula deen's brother",
           new HashMap<>() {
             {
-              put("##rogen", 109);
-              put("abbreviation", 32);
-              put("alexander", 1);
-              put("and", 94);
-              put("barrett", 20);
-              put("beck", 24);
-              put("biological", 2);
-              put("biology", 56);
-              put("bp", 0);
-              put("brain", 10);
-              put("brian", 1);
-              put("burke", 4);
-              put("buzz", 1);
-              put("cell", 4);
-              put("chemical", 20);
-              put("davis", 21);
-              put("definition", 52);
-              put("detection", 7);
-              put("disorder", 15);
-              put("drug", 1);
-              put("fisher", 2);
-              put("function", 11);
-              put("gage", 42);
-              put("gene", 50);
-              put("gland", 14);
-              put("hart", 0);
-              put("helen", 11);
-              put("henry", 15);
-              put("hormone", 93);
-              put("hormones", 2);
-              put("ian", 16);
-              put("ion", 8);
-              put("is", 2);
-              put("leslie", 4);
-              put("lilly", 23);
-              put("milan", 3);
-              put("plus", 76);
-              put("receptor", 114);
-              put("receptors", 104);
-              put("regulation", 4);
-              put("sensor", 6);
-              put("sex", 15);
-              put("signal", 8);
-              put("spencer", 6);
-              put("stimulation", 5);
-              put("wilson", 13);
+              put("he", 32);
+              put("she", 34);
+              put("who", 53);
+              put("##n", 56);
+              put("family", 24);
+              put("father", 29);
+              put("son", 14);
+              put("brother", 138);
+              put("friend", 18);
+              put("husband", 6);
+              put("whom", 3);
+              put("actor", 18);
+              put("brothers", 113);
+              put("sons", 7);
+              put("cousin", 8);
+              put("celebrity", 4);
+              put("dee", 107);
+              put("paula", 138);
             }}),
+
+      // new SparseExampleOutputPair("Androgen receptor define",
+      //     new HashMap<>() {
+      //       {
+      //         put("##rogen", 109);
+      //         put("abbreviation", 32);
+      //         put("alexander", 1);
+      //         put("and", 94);
+      //         put("barrett", 20);
+      //         put("beck", 24);
+      //         put("biological", 2);
+      //         put("biology", 56);
+      //         put("bp", 0);
+      //         put("brain", 10);
+      //         put("brian", 1);
+      //         put("burke", 4);
+      //         put("buzz", 1);
+      //         put("cell", 4);
+      //         put("chemical", 20);
+      //         put("davis", 21);
+      //         put("definition", 52);
+      //         put("detection", 7);
+      //         put("disorder", 15);
+      //         put("drug", 1);
+      //         put("fisher", 2);
+      //         put("function", 11);
+      //         put("gage", 42);
+      //         put("gene", 50);
+      //         put("gland", 14);
+      //         put("hart", 0);
+      //         put("helen", 11);
+      //         put("henry", 15);
+      //         put("hormone", 93);
+      //         put("hormones", 2);
+      //         put("ian", 16);
+      //         put("ion", 8);
+      //         put("is", 2);
+      //         put("leslie", 4);
+      //         put("lilly", 23);
+      //         put("milan", 3);
+      //         put("plus", 76);
+      //         put("receptor", 114);
+      //         put("receptors", 104);
+      //         put("regulation", 4);
+      //         put("sensor", 6);
+      //         put("sex", 15);
+      //         put("signal", 8);
+      //         put("spencer", 6);
+      //         put("stimulation", 5);
+      //         put("wilson", 13);
+      //       }}),
 
       // new SparseExampleOutputPair("treating tension headaches without medication",
       //     new HashMap<>() {
@@ -420,6 +420,7 @@ public class SpladeV3EncoderTest extends BaseSparseEncoderInferenceTest {
   @Test
   public void testExamples() throws OrtException, IOException, URISyntaxException {
     try(SpladeV3Encoder encoder = new SpladeV3Encoder()) {
+      System.out.println(encoder.getModelPath());
       assertTrue(encoder.getModelPath().endsWith("splade-v3-optimized.onnx"));
       super.testExamples(EXAMPLES, encoder);
     }
