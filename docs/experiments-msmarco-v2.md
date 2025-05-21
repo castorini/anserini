@@ -6,7 +6,7 @@ Note that Pyserini provides a [comparable guide](https://github.com/castorini/py
 To speed up the downloads, you can use:
 
 ```bash
-wget --header "X-Ms-Version: 2019-12-12" https://msmarco.z22.web.core.windows.net/msmarcoranking/msmarco_v2_doc.tar 
+wget --header "X-Ms-Version: 2019-12-12" https://msmarco.z22.web.core.windows.net/msmarcoranking/msmarco_v2_passage.tar 
 ```
 
 If you're having issues downloading the collection via `wget`, try using [AzCopy](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10).
