@@ -3,6 +3,12 @@
 This guide contains instructions for running baselines on the MS MARCO V2 passage and document test collections, available [here](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html).
 Note that Pyserini provides a [comparable guide](https://github.com/castorini/pyserini/blob/msmarco-v2/docs/experiments-msmarco-v2.md), so if you don't like Java, you can get the same results from Python.
 
+To speed up the downloads, you can use:
+
+```bash
+wget --header "X-Ms-Version: 2019-12-12" https://msmarco.z22.web.core.windows.net/msmarcoranking/msmarco_v2_doc.tar 
+```
+
 If you're having issues downloading the collection via `wget`, try using [AzCopy](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10).
 For example, to download passage collection:
 
