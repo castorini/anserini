@@ -27,6 +27,7 @@ Download and unpack the collection into `collections/`.
 tar -xvf collections/msmarco_v2_passage.tar -C ./collections
 ```
 
+There's no need to uncompress the files, as Anserini can directly index gzipped files.
 Here's the indexing command for the passage collection, which is 21 GB compressed:
 
 ```bash
@@ -90,6 +91,12 @@ This information is available in the document collection, and we have written [a
 For convenience, this augmented corpus is being distributed as part of the MS MARCO dataset as part of "additional resources", `msmarco_v2_passage_augmented.tar` (21 GB, MD5 checksum of `69acf3962608b614dbaaeb10282b2ab8`).
 The tarball can be downloaded [here](https://msmarco.z22.web.core.windows.net/msmarcoranking/msmarco_v2_passage_augmented.tar).
 Once again, we recommend downloading with [AzCopy](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10).
+
+Unpack the collection into `collections/`.
+
+```bash
+tar -xvf collections/msmarco_v2_passage_augmented.tar -C ./collections
+```
 
 Indexing this augmented collection:
 
