@@ -13,7 +13,7 @@ If you're having issues downloading the collection via `wget`, try using [AzCopy
 For example, to download passage collection:
 
 ```bash
-azcopy copy https://msmarco.blob.core.windows.net/msmarcoranking/msmarco_v2_passage.tar ./collections
+azcopy copy https://msmarco.z22.web.core.windows.net/msmarcoranking/msmarco_v2_passage.tar ./collections
 ```
 The speedup using `azcopy` is significant compared to `wget`, but the actual downloading time will vary based on your location as well as many other factors.
 Azcopy will ask you to login to your Microsoft account with a code generated in the terminal.
@@ -88,7 +88,7 @@ The passage corpus contains only passage texts; it is missing additional informa
 This information is available in the document collection, and we have written [a Python script](https://github.com/castorini/pyserini/blob/master/scripts/msmarco_v2/augment_passage_corpus.py) to augment the passage collection with these additional fields (specifically `url`, `title`, `headings`).
 
 For convenience, this augmented corpus is being distributed as part of the MS MARCO dataset as part of "additional resources", `msmarco_v2_passage_augmented.tar` (21 GB, MD5 checksum of `69acf3962608b614dbaaeb10282b2ab8`).
-The tarball can be downloaded [here](https://msmarco.blob.core.windows.net/msmarcoranking/msmarco_v2_passage_augmented.tar).
+The tarball can be downloaded [here](https://msmarco.z22.web.core.windows.net/msmarcoranking/msmarco_v2_passage_augmented.tar).
 Once again, we recommend downloading with [AzCopy](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10).
 
 Indexing this augmented collection:
