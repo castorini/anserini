@@ -162,7 +162,6 @@ bin/run.sh io.anserini.index.IndexCollection -collection MsMarcoV2DocCollection 
 ```
 
 Same instructions as above.
-On the same machine as described above, indexing takes around 40 minutes.
 The complete index with the above configuration occupies 134 GB (11,959,635 documents).
 Index size can be reduced by removing the options `-storePositions`, `-storeDocvectors`, `-storeRaw` as appropriate.
 For reference:
