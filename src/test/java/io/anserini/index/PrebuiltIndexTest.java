@@ -48,6 +48,7 @@ public class PrebuiltIndexTest {
           final URL requestUrl = new URI(url).toURL();
           final HttpURLConnection con = (HttpURLConnection) requestUrl.openConnection();
           assertEquals(200, con.getResponseCode());
+          con.disconnect();
         } catch (IOException e) {
           throw new RuntimeException("Error connecting to " + url, e);
         } catch (Exception e) {
