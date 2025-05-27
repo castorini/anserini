@@ -118,3 +118,4 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@luisvenezian](https://github.com/luisvenezian) on 2025-05-15 (commit [`bd4c3c7`](https://github.com/castorini/pyserini/commit/74dce4f0fde6b82f22d3ba6a2a798ac4d8033f66))
 + Results reproduced by [@MINGYISU](https://github.com/MINGYISU) on 2025-05-14 (commit [`bd4c3c7`](https://github.com/castorini/anserini/commit/bd4c3c78823e26bf5ea2ae81a89ab69e1b630575))
 + Results reproduced by [@Armd04](https://github.com/Armd04) on 2025-05-16 (commit [`bd4c3c7`](https://github.com/castorini/anserini/commit/bd4c3c78823e26bf5ea2ae81a89ab69e1b630575))
++ Results reproduced by [@Cassidy-Li](https://github.com/Cassidy-Li) on 2025-05-20 (commit [`a6fe05c`](https://github.com/castorini/anserini/commit/a6fe05ccd6921c5241ea717146ac37ce1eabc8b2))
