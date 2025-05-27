@@ -103,7 +103,7 @@ public abstract class OnnxEncoder<T> implements AutoCloseable {
     if (!modelFile.exists()) {
       FileUtils.copyURLToFile(new URI(modelUrl).toURL(), modelFile);
       if (configUrl != null) {
-        File configFile = new File(getCacheDir(), this.getClass().getSimpleName() + ' ' + BASE_CONFIG_NAME);
+        File configFile = new File(getCacheDir(), this.getClass().getSimpleName() + '-' + BASE_CONFIG_NAME);
         FileUtils.copyURLToFile(new URI(configUrl).toURL(), configFile);
       }
     }
