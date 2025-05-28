@@ -46,12 +46,19 @@ public abstract class SparseEncoder extends OnnxEncoder<Map<String, Integer>> {
   }
 
   public SparseEncoder(int weightRange, int quantRange,
-                       @NotNull String vocabName, @NotNull String vocabUrl,
-                       @NotNull String modelName, @NotNull String modelUrl)
+                       @NotNull String modelName, @NotNull String modelUrl,
+                       @NotNull String vocabName, @NotNull String vocabUrl, String configUrl)
       throws IOException, OrtException, URISyntaxException {
-    super(vocabName, vocabUrl, modelName, modelUrl);
+    super(modelName, modelUrl, vocabName, vocabUrl, configUrl);
     this.weightRange = weightRange;
     this.quantRange = quantRange;
+  }
+
+  public SparseEncoder(int weightRange, int quantRange,
+                       @NotNull String modelName, @NotNull String modelUrl,
+                       @NotNull String vocabName, @NotNull String vocabUrl)
+      throws IOException, OrtException, URISyntaxException {
+    this(weightRange, quantRange, modelName, modelUrl, vocabName, vocabUrl, null);
   }
 
   public Map<String, Integer> quantizeFloatWeights(Map<String, Float> tokenFloatWeights) {
