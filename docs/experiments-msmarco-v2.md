@@ -3,11 +3,17 @@
 This guide contains instructions for running baselines on the MS MARCO V2 passage and document test collections, available [here](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html).
 Note that Pyserini provides a [comparable guide](https://github.com/castorini/pyserini/blob/msmarco-v2/docs/experiments-msmarco-v2.md), so if you don't like Java, you can get the same results from Python.
 
+To speed up the downloads, you can use:
+
+```bash
+wget --header "X-Ms-Version: 2019-12-12" https://msmarco.z22.web.core.windows.net/msmarcoranking/msmarco_v2_passage.tar 
+```
+
 If you're having issues downloading the collection via `wget`, try using [AzCopy](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10).
 For example, to download passage collection:
 
 ```bash
-azcopy copy https://msmarco.blob.core.windows.net/msmarcoranking/msmarco_v2_passage.tar ./collections
+azcopy copy https://msmarco.z22.web.core.windows.net/msmarcoranking/msmarco_v2_passage.tar ./collections
 ```
 The speedup using `azcopy` is significant compared to `wget`, but the actual downloading time will vary based on your location as well as many other factors.
 Azcopy will ask you to login to your Microsoft account with a code generated in the terminal.
@@ -21,6 +27,7 @@ Download and unpack the collection into `collections/`.
 tar -xvf collections/msmarco_v2_passage.tar -C ./collections
 ```
 
+There's no need to uncompress the files, as Anserini can directly index gzipped files.
 Here's the indexing command for the passage collection, which is 21 GB compressed:
 
 ```bash
@@ -82,8 +89,14 @@ The passage corpus contains only passage texts; it is missing additional informa
 This information is available in the document collection, and we have written [a Python script](https://github.com/castorini/pyserini/blob/master/scripts/msmarco_v2/augment_passage_corpus.py) to augment the passage collection with these additional fields (specifically `url`, `title`, `headings`).
 
 For convenience, this augmented corpus is being distributed as part of the MS MARCO dataset as part of "additional resources", `msmarco_v2_passage_augmented.tar` (21 GB, MD5 checksum of `69acf3962608b614dbaaeb10282b2ab8`).
-The tarball can be downloaded [here](https://msmarco.blob.core.windows.net/msmarcoranking/msmarco_v2_passage_augmented.tar).
+The tarball can be downloaded [here](https://msmarco.z22.web.core.windows.net/msmarcoranking/msmarco_v2_passage_augmented.tar).
 Once again, we recommend downloading with [AzCopy](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10).
+
+Unpack the collection into `collections/`.
+
+```bash
+tar -xvf collections/msmarco_v2_passage_augmented.tar -C ./collections
+```
 
 Indexing this augmented collection:
 
@@ -137,7 +150,7 @@ We see that adding these additional fields gives a nice bump to effectiveness.
 
 ## Document Collection
 
-Download and unpack the collection into `collections/`.
+[Download](https://msmarco.z22.web.core.windows.net/msmarcoranking/msmarco_v2_doc.tar) and unpack the collection into `collections/`.
 Here's the indexing command for the document collection, which is 33 GB compressed:
 
 ```bash
@@ -149,7 +162,6 @@ bin/run.sh io.anserini.index.IndexCollection -collection MsMarcoV2DocCollection 
 ```
 
 Same instructions as above.
-On the same machine as described above, indexing takes around 40 minutes.
 The complete index with the above configuration occupies 134 GB (11,959,635 documents).
 Index size can be reduced by removing the options `-storePositions`, `-storeDocvectors`, `-storeRaw` as appropriate.
 For reference:
@@ -209,7 +221,7 @@ Sentence chunking is performed with spaCy (v2.3.5); the version is important if 
 We have also experimented with _not_ trimming each document to the first 10k characters; the collection becomes much bigger and the results become worse on the dev queries below.
 
 For convenience, this segmented corpus is being distributed as part of the MS MARCO dataset as part of "additional resources", `msmarco_v2_doc_segmented.tar` (26 GB, MD5 checksum of `f18c3a75eb3426efeb6040dca3e885dc`).
-The tarball can be downloaded [here](https://msmarco.blob.core.windows.net/msmarcoranking/msmarco_v2_doc_segmented.tar).
+The tarball can be downloaded [here](https://msmarco.z22.web.core.windows.net/msmarcoranking/msmarco_v2_doc_segmented.tar).
 Once again, we recommend downloading with [AzCopy](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10).
 
 The segmented document collection can be indexed with the following command:
@@ -272,3 +284,4 @@ As we can see, even as first-stage retrieval (i.e., without reranking), retrieva
 + Results reproduced by [@crystina-z](https://github.com/crystina-z) on 2021-06-25 (commit [`dbc71ee`](https://github.com/castorini/anserini/commit/dbc71ee51fc7dbcdcb9118c9f7ad554b8b753a27))
 + Results reproduced by [@t-k-](https://github.com/t-k-) on 2021-07-29 (commit [`52b76f6`](https://github.com/castorini/anserini/commit/52b76f63b163036e8fad1a6e1b10b431b4ddd06c))
 + Results reproduced by [@vincent-4](https://github.com/vincent-4) on 2025-04-07 (commit [`1af285b`](https://github.com/castorini/anserini/commit/1af285b610364acd0fb7a692e66b4cf432ddf7df))
++ Results reproduced by [@lilyjge](https://github.com/lilyjge) on 2025-05-28 (commit [`bd4c3c7`](https://github.com/castorini/anserini/commit/bd4c3c78823e26bf5ea2ae81a89ab69e1b630575))
