@@ -284,4 +284,4 @@ As we can see, even as first-stage retrieval (i.e., without reranking), retrieva
 + Results reproduced by [@crystina-z](https://github.com/crystina-z) on 2021-06-25 (commit [`dbc71ee`](https://github.com/castorini/anserini/commit/dbc71ee51fc7dbcdcb9118c9f7ad554b8b753a27))
 + Results reproduced by [@t-k-](https://github.com/t-k-) on 2021-07-29 (commit [`52b76f6`](https://github.com/castorini/anserini/commit/52b76f63b163036e8fad1a6e1b10b431b4ddd06c))
 + Results reproduced by [@vincent-4](https://github.com/vincent-4) on 2025-04-07 (commit [`1af285b`](https://github.com/castorini/anserini/commit/1af285b610364acd0fb7a692e66b4cf432ddf7df))
-+ Results reproduced by [@lilyjge](https://github.com/lilyjge) on 2025-04-07 (commit [`bd4c3c7`](https://github.com/castorini/anserini/commit/bd4c3c78823e26bf5ea2ae81a89ab69e1b630575))
++ Results reproduced by [@lilyjge](https://github.com/lilyjge) on 2025-05-28 (commit [`bd4c3c7`](https://github.com/castorini/anserini/commit/bd4c3c78823e26bf5ea2ae81a89ab69e1b630575))
