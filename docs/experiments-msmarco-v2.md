@@ -150,7 +150,7 @@ We see that adding these additional fields gives a nice bump to effectiveness.
 
 ## Document Collection
 
-Download and unpack the collection into `collections/`.
+[Download](https://msmarco.z22.web.core.windows.net/msmarcoranking/msmarco_v2_doc.tar) and unpack the collection into `collections/`.
 Here's the indexing command for the document collection, which is 33 GB compressed:
 
 ```bash
@@ -221,7 +221,7 @@ Sentence chunking is performed with spaCy (v2.3.5); the version is important if 
 We have also experimented with _not_ trimming each document to the first 10k characters; the collection becomes much bigger and the results become worse on the dev queries below.
 
 For convenience, this segmented corpus is being distributed as part of the MS MARCO dataset as part of "additional resources", `msmarco_v2_doc_segmented.tar` (26 GB, MD5 checksum of `f18c3a75eb3426efeb6040dca3e885dc`).
-The tarball can be downloaded [here](https://msmarco.blob.core.windows.net/msmarcoranking/msmarco_v2_doc_segmented.tar).
+The tarball can be downloaded [here](https://msmarco.z22.web.core.windows.net/msmarcoranking/msmarco_v2_doc_segmented.tar).
 Once again, we recommend downloading with [AzCopy](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10).
 
 The segmented document collection can be indexed with the following command:
