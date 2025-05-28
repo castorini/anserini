@@ -30,7 +30,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class SpladePlusPlusEncoder extends SparseEncoder {
+public abstract class SpladeEncoder extends SparseEncoder {
   static private final int WEIGHT_RANGE = 5;
   static private final int QUANT_RANGE = 256;
   static private final int MAX_SEQ_LEN = 512;
@@ -41,10 +41,16 @@ public abstract class SpladePlusPlusEncoder extends SparseEncoder {
   static private final String MODEL_OUTPUT_IDX = "output_idx";
   static private final String MODEL_OUTPUT_WEIGHTS = "output_weights";
 
-  protected SpladePlusPlusEncoder(@NotNull String modelName, @NotNull String modelUrl,
-                                  @NotNull String vocabName, @NotNull String vocabUrl)
+  protected SpladeEncoder(@NotNull String modelName, @NotNull String modelUrl,
+                          @NotNull String vocabName, @NotNull String vocabUrl)
       throws IOException, OrtException, URISyntaxException {
     super(WEIGHT_RANGE, QUANT_RANGE, modelName, modelUrl, vocabName, vocabUrl);
+  }
+
+  protected SpladeEncoder(@NotNull String modelName, @NotNull String modelUrl,
+                          @NotNull String vocabName, @NotNull String vocabUrl, String configUrl)
+      throws IOException, OrtException, URISyntaxException {
+    super(WEIGHT_RANGE, QUANT_RANGE, modelName, modelUrl, vocabName, vocabUrl, configUrl);
   }
 
   @Override
