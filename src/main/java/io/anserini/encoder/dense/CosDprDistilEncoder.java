@@ -29,8 +29,10 @@ import java.util.List;
 import java.util.Map;
 
 public class CosDprDistilEncoder extends DenseEncoder {
-  static private final String MODEL_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/cosdpr-distil-optimized.onnx";
-  static private final String VOCAB_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/cosdpr-distil-vocab.txt";
+  static private final String MODEL_URL = "https://huggingface.co/castorini/cosdpr-distil-onnx/resolve/main/cosdpr-distil-optimized.onnx";
+  static private final String VOCAB_URL = "https://huggingface.co/castorini/cosdpr-distil-onnx/resolve/main/cosdpr-distil-vocab.txt";
+  static private final String CONFIG_URL = "https://huggingface.co/castorini/cosdpr-distil-onnx/resolve/main/config.json";
+
 
   static private final String MODEL_NAME = "cosdpr-distil-optimized.onnx";
   static private final String VOCAB_NAME = "cosdpr-distil-vocab.txt";
@@ -39,7 +41,7 @@ public class CosDprDistilEncoder extends DenseEncoder {
   static private final String MODEL_POOLER_OUTPUT = "pooler_output";
 
   public CosDprDistilEncoder() throws IOException, OrtException, URISyntaxException {
-    super(MODEL_NAME, MODEL_URL, VOCAB_NAME, VOCAB_URL);
+    super(MODEL_NAME, MODEL_URL, VOCAB_NAME, VOCAB_URL, CONFIG_URL);
   }
 
   @Override
