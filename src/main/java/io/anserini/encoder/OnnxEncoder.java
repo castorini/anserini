@@ -38,6 +38,8 @@ public abstract class OnnxEncoder<T> implements AutoCloseable {
 
   private static final String CACHE_DIR = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "encoders").toString();
 
+  private static final String BASE_CONFIG_NAME = "config.json";
+
   protected static final String CLS = "[CLS]";
   protected static final String SEP = "[SEP]";
   protected static final String PAD = "[PAD]";
@@ -46,6 +48,7 @@ public abstract class OnnxEncoder<T> implements AutoCloseable {
   private final String modelUrl;
   private final String vocabName;
   private final String vocabUrl;
+  private final String configUrl;
 
   protected final BertFullTokenizer tokenizer;
   protected final DefaultVocabulary vocab;
@@ -53,12 +56,13 @@ public abstract class OnnxEncoder<T> implements AutoCloseable {
   protected final OrtEnvironment environment;
   protected final OrtSession session;
 
-  public OnnxEncoder(@NotNull String modelName, @NotNull String modelUrl, @NotNull String vocabName, @NotNull String vocabUrl)
+  public OnnxEncoder(@NotNull String modelName, @NotNull String modelUrl, @NotNull String vocabName, @NotNull String vocabUrl, String configUrl)
       throws IOException, OrtException, URISyntaxException {
     this.vocabName = vocabName;
     this.vocabUrl = vocabUrl;
     this.modelName = modelName;
     this.modelUrl = modelUrl;
+    this.configUrl = configUrl;
 
     this.vocab = DefaultVocabulary.builder()
         .addFromTextFile(getVocabPath())
@@ -68,6 +72,11 @@ public abstract class OnnxEncoder<T> implements AutoCloseable {
 
     this.environment = OrtEnvironment.getEnvironment();
     this.session = environment.createSession(getModelPath().toString(), new OrtSession.SessionOptions());
+  }
+
+  public OnnxEncoder(@NotNull String modelName, @NotNull String modelUrl, @NotNull String vocabName, @NotNull String vocabUrl) 
+      throws IOException, OrtException, URISyntaxException{
+    this(modelName, modelUrl, vocabName, vocabUrl, null);
   }
 
   public Path getVocabPath() throws URISyntaxException, IOException {
@@ -93,6 +102,10 @@ public abstract class OnnxEncoder<T> implements AutoCloseable {
     File modelFile = new File(getCacheDir(), modelName);
     if (!modelFile.exists()) {
       FileUtils.copyURLToFile(new URI(modelUrl).toURL(), modelFile);
+      if (configUrl != null) {
+        File configFile = new File(getCacheDir(), this.getClass().getSimpleName() + '-' + BASE_CONFIG_NAME);
+        FileUtils.copyURLToFile(new URI(configUrl).toURL(), configFile);
+      }
     }
 
     return modelFile.toPath();

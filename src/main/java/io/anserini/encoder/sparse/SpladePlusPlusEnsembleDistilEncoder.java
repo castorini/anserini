@@ -21,7 +21,7 @@ import ai.onnxruntime.OrtException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-public class SpladePlusPlusEnsembleDistilEncoder extends SpladePlusPlusEncoder {
+public class SpladePlusPlusEnsembleDistilEncoder extends SpladeEncoder {
   static private final String MODEL_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/splade-pp-ed-optimized.onnx";
   static private final String VOCAB_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/wordpiece-vocab.txt";
 
