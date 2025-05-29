@@ -22,8 +22,8 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 public class SpladePlusPlusSelfDistilEncoder extends SpladeEncoder {
-  static private final String MODEL_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/splade-pp-sd-optimized.onnx";
-  static private final String VOCAB_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/wordpiece-vocab.txt";
+  static private final String MODEL_URL = "https://huggingface.co/castorini/splade-pp-onnx/resolve/main/splade-pp-sd-optimized.onnx";
+  static private final String VOCAB_URL = "https://huggingface.co/castorini/splade-pp-onnx/resolve/main/wordpiece-vocab.txt";
 
   static private final String MODEL_NAME = "splade-pp-sd-optimized.onnx";
   static private final String VOCAB_NAME = "splade-pp-sd-vocab.txt";
