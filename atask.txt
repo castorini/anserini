@@ -1,0 +1,20 @@
+
+git clone https://github.com/castorini/anserini.git
+cd anserini
+git submodule update --init --recursive
+
+mkdir collections/msmarco-passage
+$ curl -L https://msmarco.z22.web.core.windows.net/msmarcoranking/collectionandqueries.tar.gz -o collections/msmarco-passage/collectionandqueries.tar.gz
+tar xvfz collections/msmarco-passage/collectionandqueries.tar.gz -C collections/msmarco-passage
+head collections/msmarco-passage/collection.tsv
+
+python tools/scripts/msmarco/convert_collection_to_jsonl.py \
+  --collection-path collections/msmarco-passage/collection.tsv \
+  --output-folder collections/msmarco-passage/collection_jsonl
+
+python tools/scripts/msmarco/filter_queries.py \
+  --qrels collections/msmarco-passage/qrels.dev.small.tsv \
+  --queries collections/msmarco-passage/queries.dev.tsv \
+  --output collections/msmarco-passage/queries.dev.small.tsv
+
+https://github.com/castorini/anserini/pull/2808
