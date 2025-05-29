@@ -26,7 +26,7 @@ import java.util.HashMap;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertTrue;
 
-public class SpladeV3EncoderTest extends BaseSparseEncoderInferenceTest {
+public class SpladeV3EncoderInferenceTest extends BaseSparseEncoderInferenceTest {
 
   private static final SparseExampleOutputPair[] EXAMPLES = {
       new SparseExampleOutputPair("what is paula deen's brother",
