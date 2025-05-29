@@ -23,7 +23,7 @@ import java.net.URISyntaxException;
 
 public class SpladeV3Encoder extends SpladeEncoder {
   static private final String MODEL_URL = "https://huggingface.co/castorini/splade-v3-onnx/resolve/main/splade-v3-optimized.onnx";
-  static private final String VOCAB_URL = "https://huggingface.co/castorini/splade-v3-onnx/resolve/main/splade-v3-vocab.txt";
+  static private final String VOCAB_URL = "https://huggingface.co/datasets/castorini/wordpiece-vocab/resolve/main/wordpiece-vocab.txt";
   static private final String CONFIG_URL = "https://huggingface.co/castorini/splade-v3-onnx/resolve/main/config.json";
 
   static private final String MODEL_NAME = "splade-v3-optimized.onnx";
