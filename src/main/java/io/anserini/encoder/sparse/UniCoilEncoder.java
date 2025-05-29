@@ -31,7 +31,7 @@ import java.util.Map;
 
 public class UniCoilEncoder extends SparseEncoder {
   static private final String MODEL_URL = "https://huggingface.co/castorini/unicoil-onnx/resolve/main/unicoil.onnx";
-  static private final String VOCAB_URL = "https://huggingface.co/datasets/castorini/wordpiece-vocab/resolve/main/wordpiece-vocab.txt";
+  static private final String VOCAB_URL = "https://huggingface.co/castorini/unicoil-onnx/resolve/main/wordpiece-vocab.txt";
   static private final String CONFIG_URL = "https://huggingface.co/castorini/unicoil-onnx/resolve/main/config.json";
 
   static private final String MODEL_NAME = "unicoil.onnx";
