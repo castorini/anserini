@@ -29,8 +29,9 @@ import java.util.List;
 import java.util.Map;
 
 public class BgeBaseEn15Encoder extends DenseEncoder {
-  static private final String MODEL_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/bge-base-en-v1.5-optimized.onnx";
-  static private final String VOCAB_URL = "https://rgw.cs.uwaterloo.ca/pyserini/data/bge-base-en-v1.5-vocab.txt";
+  static private final String MODEL_URL = "https://huggingface.co/castorini/bge-base-en-v1.5-onnx/resolve/main/bge-base-en-v1.5-optimized.onnx";
+  static private final String VOCAB_URL = "https://huggingface.co/castorini/bge-base-en-v1.5-onnx/resolve/main/bge-base-en-v1.5-vocab.txt";
+  static private final String CONFIG_URL = "https://huggingface.co/castorini/bge-base-en-v1.5-onnx/resolve/main/config.json";
 
   static private final String MODEL_NAME = "bge-base-en-v1.5-optimized.onnx";
   static private final String VOCAB_NAME = "bge-base-en-v1.5-vocab.txt";
@@ -42,7 +43,7 @@ public class BgeBaseEn15Encoder extends DenseEncoder {
   static private final String MODEL_LAST_HIDDEN_STATE = "last_hidden_state";
 
   public BgeBaseEn15Encoder() throws IOException, OrtException, URISyntaxException {
-    super(MODEL_NAME, MODEL_URL, VOCAB_NAME, VOCAB_URL);
+    super(MODEL_NAME, MODEL_URL, VOCAB_NAME, VOCAB_URL, CONFIG_URL);
   }
 
   @Override
