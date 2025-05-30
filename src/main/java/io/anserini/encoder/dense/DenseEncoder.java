@@ -23,9 +23,9 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 public abstract class DenseEncoder extends OnnxEncoder<float[]> {
-  public DenseEncoder(String modelName, String modelURL, String vocabName, String vocabURL)
+  public DenseEncoder(String modelName, String modelURL, String vocabName, String vocabURL, String configURL)
       throws IOException, OrtException, URISyntaxException {
-    super(modelName, modelURL, vocabName, vocabURL);
+    super(modelName, modelURL, vocabName, vocabURL, configURL);
   }
 
   public static float[] normalize(float[] vector) {
