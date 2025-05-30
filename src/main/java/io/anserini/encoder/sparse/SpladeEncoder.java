@@ -42,12 +42,6 @@ public abstract class SpladeEncoder extends SparseEncoder {
   static private final String MODEL_OUTPUT_WEIGHTS = "output_weights";
 
   protected SpladeEncoder(@NotNull String modelName, @NotNull String modelUrl,
-                          @NotNull String vocabName, @NotNull String vocabUrl)
-      throws IOException, OrtException, URISyntaxException {
-    super(WEIGHT_RANGE, QUANT_RANGE, modelName, modelUrl, vocabName, vocabUrl);
-  }
-
-  protected SpladeEncoder(@NotNull String modelName, @NotNull String modelUrl,
                           @NotNull String vocabName, @NotNull String vocabUrl, String configUrl)
       throws IOException, OrtException, URISyntaxException {
     super(WEIGHT_RANGE, QUANT_RANGE, modelName, modelUrl, vocabName, vocabUrl, configUrl);
