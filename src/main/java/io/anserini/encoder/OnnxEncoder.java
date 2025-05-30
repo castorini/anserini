@@ -56,7 +56,7 @@ public abstract class OnnxEncoder<T> implements AutoCloseable {
   protected final OrtEnvironment environment;
   protected final OrtSession session;
 
-  public OnnxEncoder(@NotNull String modelName, @NotNull String modelUrl, @NotNull String vocabName, @NotNull String vocabUrl, String configUrl)
+  public OnnxEncoder(@NotNull String modelName, @NotNull String modelUrl, @NotNull String vocabName, @NotNull String vocabUrl, @NotNull String configUrl)
       throws IOException, OrtException, URISyntaxException {
     this.vocabName = vocabName;
     this.vocabUrl = vocabUrl;
