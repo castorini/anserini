@@ -33,7 +33,6 @@ public class CosDprDistilEncoder extends DenseEncoder {
   static private final String VOCAB_URL = "https://huggingface.co/castorini/cosdpr-distil-onnx/resolve/main/cosdpr-distil-vocab.txt";
   static private final String CONFIG_URL = "https://huggingface.co/castorini/cosdpr-distil-onnx/resolve/main/config.json";
 
-
   static private final String MODEL_NAME = "cosdpr-distil-optimized.onnx";
   static private final String VOCAB_NAME = "cosdpr-distil-vocab.txt";
 
