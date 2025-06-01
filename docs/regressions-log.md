@@ -3,6 +3,12 @@
 The following change log details commits to regression tests that alter effectiveness and the addition (or removal) of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### May 31, 2025
+
++ commit [`e59e25`](https://github.com/castorini/anserini/commit/e59e25a1853f901a513baf7e3ab41ec15fd6640e))
+
+Added ONNX regressions for SPLADE-v3 on MS MARCO V1 Passage.
+
 ### April 6, 2025
 
 + commit [`1af285`](https://github.com/castorini/anserini/commit/1af285b610364acd0fb7a692e66b4cf432ddf7df) (2025/04/06)

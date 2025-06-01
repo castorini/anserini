@@ -4,7 +4,7 @@
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, using the [SPLADE-v3](https://huggingface.co/naver/splade-v3) model on the [TREC 2020 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html), as described in the following paper:
 
-> Thibault Formal, Carlos Lassance, Benjamin Piwowarski, and Stéphane Clinchant. [From Distillation to Hard Negative Sampling: Making Sparse Neural IR Models More Effective.](https://dl.acm.org/doi/10.1145/3477495.3531857) _Proceedings of the 45th International ACM SIGIR Conference on Research and Development in Information Retrieval_, pages 2353–2359.
+> Carlos Lassance, Hervé Déjean, Thibault Formal, and Stéphane Clinchant. [SPLADE-v3: New baselines for SPLADE.](https://arxiv.org/abs/2403.06789) _arXiv:2403.06789_.
 
 In these experiments, we are using ONNX to perform query encoding on the fly.
 
@@ -20,7 +20,7 @@ From one of our Waterloo servers (e.g., `orca`), the following command will perf
 python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.splade-v3.onnx
 ```
 
-We make available a version of the MS MARCO Passage Corpus that has already been encoded with SPLADE++ CoCondenser-SelfDistil.
+We make available a version of the MS MARCO Passage Corpus that has already been encoded with SPLADE-v3.
 
 From any machine, the following command will download the corpus and perform the complete regression, end to end:
 
@@ -39,7 +39,7 @@ wget https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-splade-v3.tar -P 
 tar xvf collections/msmarco-passage-splade-v3.tar -C collections/
 ```
 
-To confirm, `msmarco-passage-splade-v3.tar` is 4.8 GB and has MD5 checksum `b5fbe7c294bd0b1e18f773337f540670`.
+To confirm, `msmarco-passage-splade-v3.tar` is 7.4 GB and has MD5 checksum `b5fbe7c294bd0b1e18f773337f540670`.
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
@@ -64,7 +64,7 @@ bin/run.sh io.anserini.index.IndexCollection \
 
 The path `/path/to/msmarco-passage-splade-v3/` should point to the corpus downloaded above.
 
-The important indexing options to note here are `-impact -pretokenized`: the first tells Anserini not to encode BM25 doclengths into Lucene's norms (which is the default) and the second option says not to apply any additional tokenization on the SPLADE-v3 tokens.
+The important indexing options to note here are `-impact -pretokenized`: the first tells Anserini not to encode BM25 doc lengths into Lucene's norms (which is the default) and the second option says not to apply any additional tokenization on the pre-encoded tokens.
 Upon completion, we should have an index with 8,841,823 documents.
 
 For additional details, see explanation of [common indexing options](../../docs/common-indexing-options.md).
@@ -140,3 +140,5 @@ The experimental results reported here are directly comparable to the results re
 ## Reproduction Log[*](../../docs/reproducibility.md)
 
 To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/dl20-passage.splade-v3.onnx.template) and run `bin/build.sh` to rebuild the documentation.
+
++ Results reproduced by [@lintool](https://github.com/lintool) on 2025-06-01 (commit [`847378d`](https://github.com/castorini/anserini/commit/847378da49168629bee56e9e82ff8c1a94a87ef4))
