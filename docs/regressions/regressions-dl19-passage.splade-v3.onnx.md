@@ -4,7 +4,7 @@
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, using the [SPLADE-v3](https://huggingface.co/naver/splade-v3) model on the [TREC 2019 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html), as described in the following paper:
 
-> Thibault Formal, Carlos Lassance, Benjamin Piwowarski, and Stéphane Clinchant. [From Distillation to Hard Negative Sampling: Making Sparse Neural IR Models More Effective.](https://dl.acm.org/doi/10.1145/3477495.3531857) _Proceedings of the 45th International ACM SIGIR Conference on Research and Development in Information Retrieval_, pages 2353–2359.
+> Carlos Lassance, Hervé Déjean, Thibault Formal, and Stéphane Clinchant. [SPLADE-v3: New baselines for SPLADE.](https://arxiv.org/abs/2403.06789) _arXiv:2403.06789_.
 
 In these experiments, we are using ONNX to perform query encoding on the fly.
 
@@ -39,7 +39,7 @@ wget https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-splade-v3.tar -P 
 tar xvf collections/msmarco-passage-splade-v3.tar -C collections/
 ```
 
-To confirm, `msmarco-passage-splade-v3.tar` is 4.8 GB and has MD5 checksum `b5fbe7c294bd0b1e18f773337f540670`.
+To confirm, `msmarco-passage-splade-v3.tar` is 7.4 GB and has MD5 checksum `b5fbe7c294bd0b1e18f773337f540670`.
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
@@ -140,3 +140,5 @@ The experimental results reported here are directly comparable to the results re
 ## Reproduction Log[*](../../docs/reproducibility.md)
 
 To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/dl19-passage.splade-v3.onnx.template) and run `bin/build.sh` to rebuild the documentation.
+
++ Results reproduced by [@lintool](https://github.com/lintool) on 2025-06-01 (commit [`847378d`](https://github.com/castorini/anserini/commit/847378da49168629bee56e9e82ff8c1a94a87ef4))

@@ -64,7 +64,7 @@ bin/run.sh io.anserini.index.IndexCollection \
 
 The path `/path/to/msmarco-passage-splade-pp-sd/` should point to the corpus downloaded above.
 
-The important indexing options to note here are `-impact -pretokenized`: the first tells Anserini not to encode BM25 doclengths into Lucene's norms (which is the default) and the second option says not to apply any additional tokenization on the SPLADE-distil CoCodenser Medium tokens.
+The important indexing options to note here are `-impact -pretokenized`: the first tells Anserini not to encode BM25 doc lengths into Lucene's norms (which is the default) and the second option says not to apply any additional tokenization on the pre-encoded tokens.
 Upon completion, we should have an index with 8,841,823 documents.
 
 For additional details, see explanation of [common indexing options](../../docs/common-indexing-options.md).
