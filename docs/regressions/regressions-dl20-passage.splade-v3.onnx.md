@@ -20,7 +20,7 @@ From one of our Waterloo servers (e.g., `orca`), the following command will perf
 python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.splade-v3.onnx
 ```
 
-We make available a version of the MS MARCO Passage Corpus that has already been encoded with SPLADE++ CoCondenser-SelfDistil.
+We make available a version of the MS MARCO Passage Corpus that has already been encoded with SPLADE-v3.
 
 From any machine, the following command will download the corpus and perform the complete regression, end to end:
 
@@ -39,7 +39,7 @@ wget https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-splade-v3.tar -P 
 tar xvf collections/msmarco-passage-splade-v3.tar -C collections/
 ```
 
-To confirm, `msmarco-passage-splade-v3.tar` is 4.8 GB and has MD5 checksum `b5fbe7c294bd0b1e18f773337f540670`.
+To confirm, `msmarco-passage-splade-v3.tar` is 7.4 GB and has MD5 checksum `b5fbe7c294bd0b1e18f773337f540670`.
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
@@ -140,3 +140,5 @@ The experimental results reported here are directly comparable to the results re
 ## Reproduction Log[*](../../docs/reproducibility.md)
 
 To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/dl20-passage.splade-v3.onnx.template) and run `bin/build.sh` to rebuild the documentation.
+
++ Results reproduced by [@lintool](https://github.com/lintool) on 2025-06-01 (commit [`847378d`](https://github.com/castorini/anserini/commit/847378da49168629bee56e9e82ff8c1a94a87ef4))
