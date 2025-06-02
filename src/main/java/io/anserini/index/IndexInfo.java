@@ -45,7 +45,7 @@ public enum IndexInfo {
       "MS MARCO V1 Passage",
       "BM25",
       new String[] {
-          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v1-passage.20221004.252b5e.tar.gz" },
+          "https://huggingface.co/datasets/castorini/msmarco-v1-passage/resolve/main/lucene-inverted/lucene-inverted.msmarco-v1-passage.20221004.252b5e.tar.gz" },
       "678876e8c99a89933d553609a0fd8793",
       IndexType.BM25,
       null,
@@ -59,7 +59,7 @@ public enum IndexInfo {
       "MS MARCO V1 Passage",
       "SPLADE++ EnsembleDistil",
       new String[] {
-          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v1-passage.splade-pp-ed.20230524.a59610.tar.gz" },
+          "https://huggingface.co/datasets/castorini/msmarco-v1-passage/resolve/main/lucene-inverted/lucene-inverted.msmarco-v1-passage.splade-pp-ed.20230524.a59610.tar.gz" },
       "2c008fc36131e27966a72292932358e6",
       IndexType.SPLADE_PP_ED,
       SpladePlusPlusEnsembleDistilEncoder.class.getSimpleName(),
@@ -73,7 +73,7 @@ public enum IndexInfo {
       "MS MARCO V1 Passage",
       "cosDPR-distil w/ HNSW fp32",
       new String[] {
-          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw.msmarco-v1-passage.cosdpr-distil.20240108.825148.tar.gz" },
+          "https://huggingface.co/datasets/castorini/msmarco-v1-passage/resolve/main/lucene-hnsw/lucene-hnsw.msmarco-v1-passage.cosdpr-distil.20240108.825148.tar.gz" },
       "df4c60fa1f3804fa409499824d12d035",
       IndexType.DENSE_HNSW,
       "CosDprDistilEncoder",
@@ -87,7 +87,7 @@ public enum IndexInfo {
       "MS MARCO V1 Passage",
       "cosDPR-distil w/ HNSW int8",
       new String[] {
-          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v1-passage.cosdpr-distil.20240108.825148.tar.gz" },
+          "https://huggingface.co/datasets/castorini/msmarco-v1-passage/resolve/main/lucene-hnsw/lucene-hnsw-int8.msmarco-v1-passage.cosdpr-distil.20240108.825148.tar.gz" },
       "119124ad358bb81e6a203b04d1b99a9c",
       IndexType.DENSE_HNSW,
       "CosDprDistilEncoder",
@@ -101,7 +101,7 @@ public enum IndexInfo {
       "MS MARCO V1 Passage",
       "bge-base-en-v1.5 w/ HNSW fp32",
       new String[] {
-          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw.msmarco-v1-passage.bge-base-en-v1.5.20240117.53514b.tar.gz" },
+          "https://huggingface.co/datasets/castorini/msmarco-v1-passage/resolve/main/lucene-hnsw/lucene-hnsw.msmarco-v1-passage.bge-base-en-v1.5.20240117.53514b.tar.gz" },
       "00a577f689d90f95e6c5611438b0af3d",
       IndexType.DENSE_HNSW,
       BgeBaseEn15Encoder.class.getSimpleName(),
@@ -115,7 +115,7 @@ public enum IndexInfo {
       "MS MARCO V1 Passage",
       "bge-base-en-v1.5 w/ HNSW int8",
       new String[] {
-          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v1-passage.bge-base-en-v1.5.20240117.53514b.tar.gz" },
+          "https://huggingface.co/datasets/castorini/msmarco-v1-passage/resolve/main/lucene-hnsw/lucene-hnsw-int8.msmarco-v1-passage.bge-base-en-v1.5.20240117.53514b.tar.gz" },
       "7830712459cf124c96fd058bb0a405b7",
       IndexType.DENSE_HNSW,
       BgeBaseEn15Encoder.class.getSimpleName(),
@@ -129,7 +129,7 @@ public enum IndexInfo {
       "MS MARCO V1 Passage",
       "cohere-embed-english-v3.0 w/ HNSW fp32",
       new String[] {
-          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw.msmarco-v1-passage.cohere-embed-english-v3.0.20240228.eacd13.tar.gz" },
+          "https://huggingface.co/datasets/castorini/msmarco-v1-passage/resolve/main/lucene-hnsw/lucene-hnsw.msmarco-v1-passage.cohere-embed-english-v3.0.20240228.eacd13.tar.gz" },
       "c7294ca988ae1b812d427362ffca1ee2",
       IndexType.DENSE_HNSW,
       null,
@@ -143,7 +143,7 @@ public enum IndexInfo {
       "MS MARCO V1 Passage",
       "cohere-embed-english-v3.0 w/ HNSW fp32",
       new String[] {
-          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v1-passage.cohere-embed-english-v3.0.20240228.eacd13.tar.gz" },
+          "https://huggingface.co/datasets/castorini/msmarco-v1-passage/resolve/main/lucene-hnsw/lucene-hnsw-int8.msmarco-v1-passage.cohere-embed-english-v3.0.20240228.eacd13.tar.gz" },
       "dbaca578cc8495f504cdd0a7187f4c36",
       IndexType.DENSE_HNSW,
       null,
