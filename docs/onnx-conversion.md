@@ -183,7 +183,7 @@ Initializers: 199
 ==================================================
 
 Optimized ONNX model summary:
-Number of nodes: 496
+Number of nodes: 497
 Number of inputs: 3
 Number of outputs: 2
 Initializers: 362
@@ -202,7 +202,7 @@ src/main/python/onnx/optimize_onnx_model.py
 
 For this example, we will continue with the SPLADE++ Ensemble Distil model.
 
-To run the script and produce the optimized onnx model, run the following sequence of commands:
+To run the script and produce the optimized ONNX model, run the following sequence of commands:
 ```bash
 # Begin by going to the appropriate directory
 cd src/main/python/onnx
@@ -379,22 +379,76 @@ quantize_dynamic(
 )
 ```
 
-## Concluding Remarks
+## Anserini Compatible Conversion
 
-Now that we have successfully gone through a complete reproduction of converting SPLADE++ Ensemble Distil from PyTorch to ONNX, and ran inference with the optimized model, the scripts can be used to reproduce any model available on Hugging Face.
+We have successfully converted SPLADE++ Ensemble Distil from PyTorch to ONNX and ran inference with the optimized model. 
+The scripts discussed above can be used to reproduce any model available on Hugging Face. 
+
+However, for this specific example, while the exported model is a perfectly valid ONNX model, it is not what Anserini expects. 
+Specifically, this exported model is missing a layer of logic that turns the ```last_hidden_state``` and ```pooler_output``` outputs of SPLADE models into the output indices and output weights that Anserini wants. 
+
+Thus, for compatibility with the current Anserini implementation of SPLADE encoders, the script we are about to run was created specifically to convert SPLADE models to ONNX. 
+It was originally designed for SPLADE-v3 (in fact, the ONNX version of SPLADE-v3 used in Anserini *was* exported with this script!), but it should work on all models from the SPLADE family.
+
+For consistency with the previous examples, ```naver/splade-cocondenser-ensembledistil``` has been hard-coded into the script, so all you need to do is run:
+
+```bash
+# Begin by going to the appropriate directory
+cd src/main/python/onnx
+# Now run the script
+python splade_to_onnx.py
+```
+
+If you want to try exporting the other SPLADE models, simply change the hard-coded model name.
+
+So what actually happens under the hood? The following sections will discuss the key parts of the above script:
+
+### Wrapper Logic
+
+As mentioned earlier, the outputs of SPLADE models need to be converted before they can be used by Anserini.
+In the following chunk of code, we implement this output conversion directly in Python before converting the whole model to ONNX by making a wrapper class for the model and adding the logic as a 'layer'. 
+
+This logic is very similar to Pyserini's implementation of its SPLADE encoder, which we provide for reference [here](https://github.com/castorini/pyserini/blob/master/pyserini/encode/_splade.py). 
+
+```python
+class SpladeExportWrapper(nn.Module):
+    def __init__(self, splade_model):
+        super().__init__()
+        self.splade = splade_model
+
+    def forward(self, input_ids, attention_mask, token_type_ids):
+        # Use token_type_ids in a no-op way to force ONNX to retain it
+        dummy = token_type_ids.sum() * 0.0
+        outputs = self.splade(input_ids=input_ids, attention_mask=attention_mask)
+        logits = outputs.logits
+        relu = torch.relu(logits)
+        log1p = torch.log1p(relu)
+        sparse_vec = torch.max(log1p * attention_mask.unsqueeze(-1), dim=1).values
+        nonzero = sparse_vec.nonzero(as_tuple=True)
+        values = sparse_vec[nonzero]
+        return nonzero[1], values + dummy
+```
+
+The rest of the conversion logic is largely similar to before, with a few nuances to ensure compatibility.
+We can also use the same optimization script to optimize the model. 
+
+```bash
+python optimize_onnx_model.py --model_path models/splade-pp-ed.onnx
+```
 
 ### Reproducing Transformer-Based Model Regressions 
 
-To reproduce the regressions with the newly generated ONNX model, like seen in the [regressions-msmarco-v1-passage.splade-pp-ed.onnx.md](regressions/regressions-msmarco-v1-passage.splade-pp-ed.onnx.md), below are the following steps:
+Now, we can reproduce regressions with the newly generated ONNX model, like seen in the [regressions-msmarco-v1-passage.splade-pp-ed.onnx.md](regressions/regressions-msmarco-v1-passage.splade-pp-ed.onnx.md).
 
-First, we want to store the newly generated models in the ```~/.cache/anserini/encoders``` directory.
+To make sure Anserini uses our generated model instead of downloading it, we want to store the newly generated models in the ```~/.cache/pyserini/encoders``` directory.
 
 ```bash
 cd src/main/python/onnx/models
-cp splade-cocondenser-ensembledistil-optimized.onnx splade-cocondenser-ensembledistil-vocab.txt ~/.cache/anserini/encoders/
+cp splade-pp-ed-optimized.onnx ~/.cache/pyserini/encoders/
+cp splade-cocondenser-ensembledistil-vocab.txt ~/.cache/pyserini/encoders/splade-pp-ed-vocab.txt
 ```
 
-Second, now run the end to end regression as seen in the previously mentioned documentation with the generated ONNX model.
+Finally, we can run the end to end regression as seen in the previously mentioned documentation with the generated ONNX model and the same scores should be obtained.
 
 
 ### Reproduction Log
