@@ -152,6 +152,7 @@ public class PrebuiltIndexHandler {
     }
 
     URL url = new URI(info.urls[0]).toURL();
+    System.out.println("Downloading index from: " + info.urls[0]);
     HttpURLConnection httpConnection = (HttpURLConnection) (url.openConnection());
     long completeFileSize = httpConnection.getContentLengthLong();
 
