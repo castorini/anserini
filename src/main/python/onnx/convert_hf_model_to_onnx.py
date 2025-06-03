@@ -29,8 +29,6 @@ def convert_model_to_onnx(text, model, tokenizer, onnx_path, vocab_path, device)
     model.eval()
     
     test_input = tokenizer(text, return_tensors="pt")
-    if "token_type_ids" not in test_input:
-        test_input["token_type_ids"] = torch.zeros_like(test_input["input_ids"])
     input_names = list(test_input.keys())
     test_input = {k: v.to(device) for k, v in test_input.items()}
     
@@ -54,7 +52,6 @@ def convert_model_to_onnx(text, model, tokenizer, onnx_path, vocab_path, device)
         },
         do_constant_folding=True,
         opset_version=14,
-        custom_opsets={"ai.onnx.ml": 4}
     )
     
     onnx_model = onnx.load(onnx_path)
