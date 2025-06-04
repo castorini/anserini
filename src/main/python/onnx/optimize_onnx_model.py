@@ -1,6 +1,5 @@
 import argparse
 from onnxruntime.transformers import optimizer
-from onnxruntime.transformers.fusion_options import FusionOptions
 
 # imports if you would like like print the optimized onnx model graph structure
 import onnx
@@ -14,10 +13,6 @@ def optimize_onnx_model(model_path, print_stats=False):
     model_type = next((prop.value for prop in model_metadata if prop.key == 'model_type'), None)
     num_heads = next((int(prop.value) for prop in model_metadata if prop.key == 'num_heads'), None)
     hidden_size = next((int(prop.value) for prop in model_metadata if prop.key == 'hidden_size'), None)
-    
-    opts = FusionOptions(model_type)
-    opts.enable_attention_mask = True
-    opts.enable_embed_layer_norm = True
 
     # Optimize the model
     optimized_model = optimizer.optimize_model(
@@ -25,7 +20,6 @@ def optimize_onnx_model(model_path, print_stats=False):
         model_type=model_type,
         num_heads=num_heads,
         hidden_size=hidden_size,
-        optimization_options=opts
     )
 
     found = False
