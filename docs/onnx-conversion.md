@@ -385,7 +385,7 @@ We have successfully converted SPLADE++ Ensemble Distil from PyTorch to ONNX and
 The scripts discussed above can be used to reproduce any model available on Hugging Face. 
 
 However, for this specific example, while the exported model is a perfectly valid ONNX model, it is not what Anserini expects. 
-Specifically, this exported model is missing a layer of logic that turns the ```last_hidden_state``` and ```pooler_output``` outputs of SPLADE models into the output indices and output weights that Anserini wants. 
+Specifically, this exported model is missing a layer of logic that turns the `last_hidden_state` and `pooler_output` outputs of SPLADE models into the output indices and output weights that Anserini wants. 
 
 Thus, for compatibility with the current Anserini implementation of SPLADE encoders, the script we are about to run was created specifically to convert SPLADE models to ONNX. 
 It was originally designed for SPLADE-v3 (in fact, the ONNX version of SPLADE-v3 used in Anserini *was* exported with this script!), but it should work on all models from the SPLADE family.
