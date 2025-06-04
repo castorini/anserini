@@ -474,8 +474,4 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@James-Begin](https://github.com/James-Begin) on 2025-05-21 (commit [`bd4c3c7`](https://github.com/castorini/anserini/commit/bd4c3c78823e26bf5ea2ae81a89ab69e1b630575))
 + Results reproduced by [@Roselynzzz](https://github.com/Roselynzzz) on 2025-05-26 (commit [`ef25129`](https://github.com/castorini/anserini/commit/ef2512948a40550f9ff1121ecb785fd74b3ebad4))
 + Results reproduced by [@AnnieZhang2](https://github.com/AnnieZhang2) on 2025-05-28 (commit [`bd4c3c7`](https://github.com/castorini/anserini/commit/bd4c3c78823e26bf5ea2ae81a89ab69e1b630575))
-<<<<<<< HEAD
 + Results reproduced by [@Vik7am10](https://github.com/Vik7am10) on 2025-06-02 (commit [`b216a5f`](https://github.com/castorini/anserini/commit/b216a5f715f3a6e947389459fef3c2711b85b46e))
-=======
-+ Results reproduced by [@Vik7am10](https://github.com/Vik7am10) on 2025-06-04 (commit [`b216a5f`](https://github.com/castorini/anserini/commit/b216a5f715f3a6e947389459fef3c2711b85b46e))
->>>>>>> c48c8950 (Redoing changes for PR)
