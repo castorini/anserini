@@ -4,8 +4,8 @@ import torch
 import torch.nn as nn
 import torch
 
-model = AutoModelForMaskedLM.from_pretrained("naver/splade-v3")
-tokenizer = AutoTokenizer.from_pretrained("naver/splade-v3")
+model = AutoModelForMaskedLM.from_pretrained("naver/splade-cocondenser-ensembledistil")
+tokenizer = AutoTokenizer.from_pretrained("naver/splade-cocondenser-ensembledistil")
 model.eval()
 
 class SpladeExportWrapper(nn.Module):
@@ -20,7 +20,7 @@ class SpladeExportWrapper(nn.Module):
         logits = outputs.logits
         relu = torch.relu(logits)
         log1p = torch.log1p(relu)
-        sparse_vec = torch.max(log1p, dim=1).values
+        sparse_vec = torch.max(log1p * attention_mask.unsqueeze(-1), dim=1).values
         nonzero = sparse_vec.nonzero(as_tuple=True)
         values = sparse_vec[nonzero]
         return nonzero[1], values + dummy
@@ -33,7 +33,7 @@ input_ids = dummy_inputs["input_ids"]
 attention_mask = dummy_inputs["attention_mask"]
 token_type_ids = torch.zeros_like(input_ids)
 
-onnx_path = "splade-v3.onnx"
+onnx_path = "models/splade-cocondenser-ensembledistil.onnx"
 
 torch.onnx.export(
     wrapped_model,
