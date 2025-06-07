@@ -72,7 +72,7 @@ public class HnswDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
     @Option(name = "-efSearch", metaVar = "[number]", usage = "efSearch parameter for HNSW search")
     public int efSearch = 100;
 
-    @Option(name = "-verbose", metaVar = "[boolean]", usage = "efSearch parameter for HNSW search")
+    @Option(name = "-verbose", metaVar = "[boolean]", usage = "Verbose logging.")
     public boolean verbose = true;
   }
 
