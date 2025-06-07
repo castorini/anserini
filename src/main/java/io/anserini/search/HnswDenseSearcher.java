@@ -79,7 +79,7 @@ public class HnswDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
   private final IndexReader reader;
   private final VectorQueryGenerator generator;
   private final DenseEncoder encoder;
-  private final Boolean verbose;
+  private final boolean verbose;
 
   public HnswDenseSearcher(Args args) {
     super(args);
