@@ -143,7 +143,7 @@ public class HnswDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
 
     // Trigger the log message during setup, preventing it from interrupting the tqdm progress bar in Pyserini.
     // Link to the issue: https://github.com/castorini/pyserini/issues/2097#issuecomment-2952431298
-    KnnFloatVectorQuery _dummyInstance = new KnnFloatVectorQuery(Constants.VECTOR, new float[0], ((Args) args).efSearch);
+    KnnFloatVectorQuery dummyInstance = new KnnFloatVectorQuery(Constants.VECTOR, new float[0], ((Args) args).efSearch);
   }
 
   /**
