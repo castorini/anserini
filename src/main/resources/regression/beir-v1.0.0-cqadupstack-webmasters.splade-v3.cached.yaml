@@ -48,8 +48,8 @@ models:
     params: -impact -pretokenized -removeQuery -hits 1000
     results:
       nDCG@10:
-        - 0.3167
+        - 0.3250
       R@100:
-        - 0.6360
+        - 0.6644
       R@1000:
-        - 0.8710
+        - 0.8839
