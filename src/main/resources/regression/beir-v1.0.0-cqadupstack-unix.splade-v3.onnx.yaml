@@ -1,7 +1,10 @@
 ---
 corpus: beir-v1.0.0-cqadupstack-unix.splade-v3
-corpus_path: collections/beir-v1.0.0/splade-v3-v3erted.beir-v1.0.0-cqadupstack-unix.splade-v3/
-collection_class: JsonVectorCollection-v3DocumentGenerator
+corpus_path: collections/beir-v1.0.0/splade-v3/cqadupstack-unix
+
+index_path: indexes/lucene-inverted.beir-v1.0.0-cqadupstack-unix.splade-v3/
+collection_class: JsonVectorCollection
+generator_class: DefaultLuceneDocumentGenerator
 index_threads: 16
 index_options: -impact -pretokenized
 index_stats:
@@ -45,8 +48,8 @@ models:
     params: -impact -pretokenized -removeQuery -hits 1000 -encoder SpladeV3
     results:
       nDCG@10:
-        - 0.3170
+        - 0.3196
       R@100:
-        - 0.6191
+        - 0.6251
       R@1000:
-        - 0.8254
+        - 0.8319

@@ -1,7 +1,10 @@
 ---
 corpus: beir-v1.0.0-trec-covid.splade-v3
-corpus_path: collections/beir-v1.0.0/spl-v3erted.beir-v1.0.0-trec-covid.splade-v3/
-collection_class: JsonVectorCollection-v3DocumentGenerator
+corpus_path: collections/beir-v1.0.0/splade-v3/trec-covid
+
+index_path: indexes/lucene-inverted.beir-v1.0.0-trec-covid.splade-v3/
+collection_class: JsonVectorCollection
+generator_class: DefaultLuceneDocumentGenerator
 index_threads: 16
 index_options: -impact -pretokenized
 index_stats:
@@ -45,8 +48,8 @@ models:
     params: -impact -pretokenized -removeQuery -hits 1000 -encoder SpladeV3
     results:
       nDCG@10:
-        - 0.7270
+        - 0.7299
       R@100:
-        - 0.1283
+        - 0.1409
       R@1000:
-        - 0.4444
+        - 0.4819
