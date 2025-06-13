@@ -68,6 +68,52 @@ conditions:
           - MAP: 0.4999
             nDCG@10: 0.7197
             R@1K: 0.8998
+  - name: splade-v3.cached_q
+    display: "SPLADEv3 (cached queries)"
+    display_html: "SPLADEv3 (cached queries)"
+    display_row: ""
+    command: java -cp $fatjar io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-passage.splade-v3 -topics $topics -output $output -impact -pretokenized -hits 1000
+    topics:
+      - topic_key: msmarco-v1-passage.dev.splade-v3
+        eval_key: msmarco-passage.dev
+        scores:
+          - MRR@10: 0.3999
+            R@1K: 0.9868
+      - topic_key: dl19-passage.splade-v3
+        eval_key: dl19-passage
+        scores:
+          - MAP: 0.5231
+            nDCG@10: 0.7264
+            R@1K: 0.8791	
+      - topic_key: dl20-passage.splade-v3
+        eval_key: dl20-passage
+        scores:
+          - MAP: 0.5402
+            nDCG@10: 0.7522	
+            R@1K: 0.9039
+  - name: splade-v3.onnx
+    display: "SPLADEv3 (ONNX)"
+    display_html: "SPLADEv3 (ONNX)"
+    display_row: ""
+    command: java -cp $fatjar io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-passage.splade-v3 -topics $topics -output $output -impact -pretokenized -hits 1000 -encoder SpladeV3
+    topics:
+      - topic_key: msmarco-v1-passage.dev
+        eval_key: msmarco-passage.dev
+        scores:
+          - MRR@10: 0.3999
+            R@1K: 0.9868
+      - topic_key: dl19-passage
+        eval_key: dl19-passage
+        scores:
+          - MAP: 0.5231
+            nDCG@10: 0.7264
+            R@1K: 0.8791
+      - topic_key: dl20-passage
+        eval_key: dl20-passage
+        scores:
+          - MAP: 0.4999
+            nDCG@10: 0.7197
+            R@1K: 0.9258
   - name: cosdpr-distil.hnsw.cached_q
     display: "cosDPR-distil w/ HNSW fp32 (cached queries)"
     display_html: "cosDPR-distil w/ HNSW fp32 (cached queries)"

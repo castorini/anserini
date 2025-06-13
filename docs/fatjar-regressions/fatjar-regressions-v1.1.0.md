@@ -204,7 +204,7 @@ $ head -n 1 $OUTPUT_DIR/results.msmarco-v2.1-doc-segmented.bm25.rag24.test.jsonl
 Currently, Anserini provides support for the following models:
 
 + BM25
-+ SPLADE++ EnsembleDistil: cached queries and ONNX query encoding
++ SPLADEv3: cached queries and ONNX query encoding
 + cosDPR-distil: cached queries and ONNX query encoding
 + bge-base-en-v1.5: cached queries and ONNX query encoding
 + cohere-embed-english-v3.0: cached queries and ONNX query encoding
@@ -214,8 +214,8 @@ The table below reports the effectiveness of the models (dev in terms of RR@10, 
 |                                                              |    dev |   DL19 |   DL20 |
 |:-------------------------------------------------------------|-------:|-------:|-------:|
 | BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.1840 | 0.5058 | 0.4796 |
-| SPLADE++ EnsembleDistil (cached queries)                     | 0.3830 | 0.7317 | 0.7198 |
-| SPLADE++ EnsembleDistil (ONNX)                               | 0.3828 | 0.7308 | 0.7197 |
+| SPLADEv3 (cached queries)                                    | 0.3999 | 0.7264 | 0.7522 |
+| SPLADEv3 (ONNX)                                              | 0.3999 | 0.7264 | 0.7522 |
 | cosDPR-distil w/ HNSW fp32 (cached queries)                  | 0.3887 | 0.7250 | 0.7025 |
 | cosDPR-distil w/ HNSW fp32 (ONNX)                            | 0.3887 | 0.7250 | 0.7025 |
 | cosDPR-distil w/ HNSW int8 (cached queries)                  | 0.3897 | 0.7240 | 0.7004 |
@@ -245,13 +245,13 @@ do
     java -cp $ANSERINI_JAR io.anserini.search.SearchCollection -index msmarco-v1-passage -topics ${t} -output $OUTPUT_DIR/run.msmarco-v1-passage.bm25.${t}.txt -threads 16 -bm25
 done
 
-# SPLADE++ ED
+# SPLADEv3
 TOPICS=(msmarco-v1-passage.dev dl19-passage dl20-passage); for t in "${TOPICS[@]}"
 do
     # Using cached queries
-    java -cp $ANSERINI_JAR io.anserini.search.SearchCollection -index msmarco-v1-passage.splade-pp-ed -topics ${t}.splade-pp-ed -output $OUTPUT_DIR/run.msmarco-v1-passage.splade-pp-ed.cached_q.${t}.splade-pp-ed.txt -threads 16 -impact -pretokenized
+    java -cp $ANSERINI_JAR io.anserini.search.SearchCollection -index msmarco-v1-passage.splade-v3 -topics ${t}.splade-v3 -output $OUTPUT_DIR/run.msmarco-v1-passage.splade-v3.cached_q.${t}.splade-v3.txt -threads 16 -impact -pretokenized
     # Using ONNX
-    java -cp $ANSERINI_JAR io.anserini.search.SearchCollection -index msmarco-v1-passage.splade-pp-ed -topics ${t} -encoder SpladePlusPlusEnsembleDistil -output $OUTPUT_DIR/run.msmarco-v1-passage.splade-pp-ed.onnx.${t}.txt -threads 16 -impact -pretokenized
+    java -cp $ANSERINI_JAR io.anserini.search.SearchCollection -index msmarco-v1-passage.splade-v3 -topics ${t} -encoder SpladeV3 -output $OUTPUT_DIR/run.msmarco-v1-passage.splade-v3.onnx.${t}.txt -threads 16 -impact -pretokenized
 done
 
 # cosDPR-distil
@@ -299,13 +299,13 @@ java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev $
 java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 dl19-passage $OUTPUT_DIR/run.msmarco-v1-passage.bm25.dl19-passage.txt
 java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 dl20-passage $OUTPUT_DIR/run.msmarco-v1-passage.bm25.dl20-passage.txt
 echo ''
-java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.splade-pp-ed.cached_q.msmarco-v1-passage.dev.splade-pp-ed.txt
-java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 dl19-passage $OUTPUT_DIR/run.msmarco-v1-passage.splade-pp-ed.cached_q.dl19-passage.splade-pp-ed.txt
-java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 dl20-passage $OUTPUT_DIR/run.msmarco-v1-passage.splade-pp-ed.cached_q.dl20-passage.splade-pp-ed.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.splade-v3.cached_q.msmarco-v1-passage.dev.splade-v3.txt
+java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 dl19-passage $OUTPUT_DIR/run.msmarco-v1-passage.splade-v3.cached_q.dl19-passage.splade-v3.txt
+java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 dl20-passage $OUTPUT_DIR/run.msmarco-v1-passage.splade-v3.cached_q.dl20-passage.splade-v3.txt
 echo ''
-java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.splade-pp-ed.onnx.msmarco-v1-passage.dev.txt
-java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 dl19-passage $OUTPUT_DIR/run.msmarco-v1-passage.splade-pp-ed.onnx.dl19-passage.txt
-java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 dl20-passage $OUTPUT_DIR/run.msmarco-v1-passage.splade-pp-ed.onnx.dl20-passage.txt
+java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.splade-v3.onnx.msmarco-v1-passage.dev.txt
+java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 dl19-passage $OUTPUT_DIR/run.msmarco-v1-passage.splade-v3.onnx.dl19-passage.txt
+java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 dl20-passage $OUTPUT_DIR/run.msmarco-v1-passage.splade-v3.onnx.dl20-passage.txt
 echo ''
 java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw.cached_q.msmarco-v1-passage.dev.cosdpr-distil.txt
 java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 dl19-passage $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw.cached_q.dl19-passage.cosdpr-distil.txt
@@ -381,7 +381,7 @@ The table below reports the effectiveness of the models (nDCG@10):
 | `signal1m`                | 0.3304 | 0.3304 | 0.2465 | 0.2465 | 0.2886 | 0.2886 | 0.2869 | 0.2869 |
 | `trec-news`               | 0.3952 | 0.3977 | 0.4365 | 0.4365 | 0.4425 | 0.4424 | 0.4411 | 0.4410 |
 | `robust04`                | 0.4070 | 0.4070 | 0.4952 | 0.4952 | 0.4465 | 0.4435 | 0.4467 | 0.4437 |
-| `arguana`                 | 0.3970 | 0.4142 | 0.4863 | 0.4845 | 0.6361 | 0.6228 | 0.6361 | 0.6228 |
+| `arguana`                 | 0.3970 | 0.4142 | 0.4872 | 0.4845 | 0.6361 | 0.6228 | 0.6361 | 0.6228 |
 | `webis-touche2020`        | 0.4422 | 0.3673 | 0.3086 | 0.3086 | 0.2570 | 0.2571 | 0.2570 | 0.2571 |
 | `cqadupstack-android`     | 0.3801 | 0.3709 | 0.4109 | 0.4109 | 0.5075 | 0.5076 | 0.5075 | 0.5076 |
 | `cqadupstack-english`     | 0.3453 | 0.3321 | 0.4255 | 0.4255 | 0.4857 | 0.4857 | 0.4855 | 0.4855 |
