@@ -67,6 +67,20 @@ public enum IndexInfo {
       InvertedDenseVectorQueryGenerator.class.getSimpleName(),
       "msmarco-v1-passage"),
 
+  MSMARCO_V1_PASSAGE_SPLADE_V3("msmarco-v1-passage.splade-v3",
+      "Lucene impact index of the MS MARCO passage corpus encoded by SPLADEv3.",
+      "lucene-inverted.msmarco-v1-passage-splade-v3.20250329.4f4c68.tar.gz",
+      "lucene-inverted.msmarco-v1-passage.splade-v3.20250329.4f4c68.README.md",
+      "MS MARCO V1 Passage",
+      "SPLADEv3",
+      new String[] {
+          "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1-passage/resolve/main/lucene-inverted/splade-v3/lucene-inverted.msmarco-v1-passage-splade-v3.20250329.4f4c68.tar.gz" },
+      "fb376859475a3b0b4a129613a6d726c8",
+      IndexType.SPLADE_V3,
+      SpladeV3Encoder.class.getSimpleName(),
+      InvertedDenseVectorQueryGenerator.class.getSimpleName(),
+      "msmarco-v1-passage"),
+
   MSMARCO_V1_PASSAGE_COS_DPR_DISTIL_HNSW("msmarco-v1-passage.cosdpr-distil.hnsw",
       "Lucene HNSW index of the MS MARCO V1 passage corpus encoded by cos-DPR Distil.",
       "lucene-hnsw.msmarco-v1-passage.cosdpr-distil.20240108.825148.tar.gz",
