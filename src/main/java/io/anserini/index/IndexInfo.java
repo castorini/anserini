@@ -69,13 +69,13 @@ public enum IndexInfo {
 
   MSMARCO_V1_PASSAGE_SPLADE_V3("msmarco-v1-passage.splade-v3",
       "Lucene impact index of the MS MARCO passage corpus encoded by SPLADEv3.",
-      "lucene-inverted.msmarco-v1-passage-splade-v3.20250329.4f4c68.tar.gz",
+      "lucene-inverted.msmarco-v1-passage.splade-v3.20250329.4f4c68.tar.gz",
       "lucene-inverted.msmarco-v1-passage.splade-v3.20250329.4f4c68.README.md",
       "MS MARCO V1 Passage",
       "SPLADEv3",
       new String[] {
-          "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1-passage/resolve/main/lucene-inverted/splade-v3/lucene-inverted.msmarco-v1-passage-splade-v3.20250329.4f4c68.tar.gz" },
-      "fb376859475a3b0b4a129613a6d726c8",
+          "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1-passage/resolve/main/lucene-inverted/splade-v3/lucene-inverted.msmarco-v1-passage.splade-v3.20250329.4f4c68.tar.gz" },
+      "52f4b59d236547f570555715ed314311",
       IndexType.SPLADE_V3,
       SpladeV3Encoder.class.getSimpleName(),
       InvertedDenseVectorQueryGenerator.class.getSimpleName(),
