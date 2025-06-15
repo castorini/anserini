@@ -580,6 +580,74 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 
 </details>
 <details>
+<summary>BEIR (v1.0.0): SPLADE-v3</summary>
+
+```bash
+# Cached queries
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-covid.splade-v3.cached >& logs/log.beir-v1.0.0-trec-covid.splade-v3.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-bioasq.splade-v3.cached >& logs/log.beir-v1.0.0-bioasq.splade-v3.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nfcorpus.splade-v3.cached >& logs/log.beir-v1.0.0-nfcorpus.splade-v3.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nq.splade-v3.cached >& logs/log.beir-v1.0.0-nq.splade-v3.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-hotpotqa.splade-v3.cached >& logs/log.beir-v1.0.0-hotpotqa.splade-v3.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fiqa.splade-v3.cached >& logs/log.beir-v1.0.0-fiqa.splade-v3.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-signal1m.splade-v3.cached >& logs/log.beir-v1.0.0-signal1m.splade-v3.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-news.splade-v3.cached >& logs/log.beir-v1.0.0-trec-news.splade-v3.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-robust04.splade-v3.cached >& logs/log.beir-v1.0.0-robust04.splade-v3.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-arguana.splade-v3.cached >& logs/log.beir-v1.0.0-arguana.splade-v3.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-webis-touche2020.splade-v3.cached >& logs/log.beir-v1.0.0-webis-touche2020.splade-v3.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-android.splade-v3.cached >& logs/log.beir-v1.0.0-cqadupstack-android.splade-v3.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-english.splade-v3.cached >& logs/log.beir-v1.0.0-cqadupstack-english.splade-v3.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gaming.splade-v3.cached >& logs/log.beir-v1.0.0-cqadupstack-gaming.splade-v3.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gis.splade-v3.cached >& logs/log.beir-v1.0.0-cqadupstack-gis.splade-v3.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-mathematica.splade-v3.cached >& logs/log.beir-v1.0.0-cqadupstack-mathematica.splade-v3.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-physics.splade-v3.cached >& logs/log.beir-v1.0.0-cqadupstack-physics.splade-v3.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-programmers.splade-v3.cached >& logs/log.beir-v1.0.0-cqadupstack-programmers.splade-v3.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-stats.splade-v3.cached >& logs/log.beir-v1.0.0-cqadupstack-stats.splade-v3.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-tex.splade-v3.cached >& logs/log.beir-v1.0.0-cqadupstack-tex.splade-v3.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-unix.splade-v3.cached >& logs/log.beir-v1.0.0-cqadupstack-unix.splade-v3.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-webmasters.splade-v3.cached >& logs/log.beir-v1.0.0-cqadupstack-webmasters.splade-v3.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-wordpress.splade-v3.cached >& logs/log.beir-v1.0.0-cqadupstack-wordpress.splade-v3.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-quora.splade-v3.cached >& logs/log.beir-v1.0.0-quora.splade-v3.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-dbpedia-entity.splade-v3.cached >& logs/log.beir-v1.0.0-dbpedia-entity.splade-v3.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scidocs.splade-v3.cached >& logs/log.beir-v1.0.0-scidocs.splade-v3.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fever.splade-v3.cached >& logs/log.beir-v1.0.0-fever.splade-v3.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-climate-fever.splade-v3.cached >& logs/log.beir-v1.0.0-climate-fever.splade-v3.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scifact.splade-v3.cached >& logs/log.beir-v1.0.0-scifact.splade-v3.cached.txt &
+
+# ONNX
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-covid.splade-v3.onnx >& logs/log.beir-v1.0.0-trec-covid.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-bioasq.splade-v3.onnx >& logs/log.beir-v1.0.0-bioasq.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nfcorpus.splade-v3.onnx >& logs/log.beir-v1.0.0-nfcorpus.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-nq.splade-v3.onnx >& logs/log.beir-v1.0.0-nq.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-hotpotqa.splade-v3.onnx >& logs/log.beir-v1.0.0-hotpotqa.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fiqa.splade-v3.onnx >& logs/log.beir-v1.0.0-fiqa.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-signal1m.splade-v3.onnx >& logs/log.beir-v1.0.0-signal1m.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-news.splade-v3.onnx >& logs/log.beir-v1.0.0-trec-news.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-robust04.splade-v3.onnx >& logs/log.beir-v1.0.0-robust04.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-arguana.splade-v3.onnx >& logs/log.beir-v1.0.0-arguana.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-webis-touche2020.splade-v3.onnx >& logs/log.beir-v1.0.0-webis-touche2020.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-android.splade-v3.onnx >& logs/log.beir-v1.0.0-cqadupstack-android.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-english.splade-v3.onnx >& logs/log.beir-v1.0.0-cqadupstack-english.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gaming.splade-v3.onnx >& logs/log.beir-v1.0.0-cqadupstack-gaming.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gis.splade-v3.onnx >& logs/log.beir-v1.0.0-cqadupstack-gis.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-mathematica.splade-v3.onnx >& logs/log.beir-v1.0.0-cqadupstack-mathematica.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-physics.splade-v3.onnx >& logs/log.beir-v1.0.0-cqadupstack-physics.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-programmers.splade-v3.onnx >& logs/log.beir-v1.0.0-cqadupstack-programmers.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-stats.splade-v3.onnx >& logs/log.beir-v1.0.0-cqadupstack-stats.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-tex.splade-v3.onnx >& logs/log.beir-v1.0.0-cqadupstack-tex.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-unix.splade-v3.onnx >& logs/log.beir-v1.0.0-cqadupstack-unix.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-webmasters.splade-v3.onnx >& logs/log.beir-v1.0.0-cqadupstack-webmasters.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-wordpress.splade-v3.onnx >& logs/log.beir-v1.0.0-cqadupstack-wordpress.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-quora.splade-v3.onnx >& logs/log.beir-v1.0.0-quora.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-dbpedia-entity.splade-v3.onnx >& logs/log.beir-v1.0.0-dbpedia-entity.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scidocs.splade-v3.onnx >& logs/log.beir-v1.0.0-scidocs.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-fever.splade-v3.onnx >& logs/log.beir-v1.0.0-fever.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-climate-fever.splade-v3.onnx >& logs/log.beir-v1.0.0-climate-fever.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-scifact.splade-v3.onnx >& logs/log.beir-v1.0.0-scifact.splade-v3.onnx.txt &
+```
+
+</details>
+<details>
 <summary>BEIR (v1.0.0): SPLADE++ CoCondenser-EnsembleDistil</summary>
 
 ```bash
