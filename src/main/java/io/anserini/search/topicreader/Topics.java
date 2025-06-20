@@ -343,6 +343,37 @@ public enum Topics {
   BEIR_V1_0_0_CLIMATE_FEVER_TEST_SPLADE_PP_ED(TsvStringTopicReader.class, "topics.beir-v1.0.0-climate-fever.test.splade-pp-ed.tsv.gz"),
   BEIR_V1_0_0_SCIFACT_TEST_SPLADE_PP_ED(TsvStringTopicReader.class, "topics.beir-v1.0.0-scifact.test.splade-pp-ed.tsv.gz"),
 
+  // BEIR (v1.0.0): pre-encoded queries for SPLADEv3
+  BEIR_V1_0_0_TREC_COVID_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-trec-covid.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_BIOASQ_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-bioasq.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_NFCORPUS_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-nfcorpus.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_NQ_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-nq.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_HOTPOTQA_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-hotpotqa.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_FIQA_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-fiqa.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_SIGNAL1M_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-signal1m.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_TREC_NEWS_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-trec-news.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_ROBUST04_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-robust04.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_ARGUANA_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-arguana.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_WEBIS_TOUCHE2020_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-webis-touche2020.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_ANDROID_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-cqadupstack-android.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_ENGLISH_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-cqadupstack-english.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_GAMING_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-cqadupstack-gaming.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_GIS_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-cqadupstack-gis.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_MATHEMATICA_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-cqadupstack-mathematica.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_PHYSICS_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-cqadupstack-physics.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_PROGRAMMERS_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-cqadupstack-programmers.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_STATS_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-cqadupstack-stats.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_TEX_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-cqadupstack-tex.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_UNIX_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-cqadupstack-unix.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_WEBMASTERS_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-cqadupstack-webmasters.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_WORDPRESS_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-cqadupstack-wordpress.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_QUORA_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-quora.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_DBPEDIA_ENTITY_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-dbpedia-entity.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_SCIDOCS_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-scidocs.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_FEVER_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-fever.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_CLIMATE_FEVER_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-climate-fever.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_SCIFACT_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-scifact.test.splade-v3.tsv.gz"),
+
   // BEIR (v1.0.0): pre-encoded queries for BGE-base-en-v1.5
   BEIR_V1_0_0_TREC_COVID_TEST_BGE_BASE_EN_15(JsonStringVectorTopicReader.class, "topics.beir-v1.0.0-trec-covid.test.bge-base-en-v1.5.jsonl.gz"),
   BEIR_V1_0_0_BIOASQ_TEST_BGE_BASE_EN_15(JsonStringVectorTopicReader.class, "topics.beir-v1.0.0-bioasq.test.bge-base-en-v1.5.jsonl.gz"),
@@ -719,6 +750,66 @@ public enum Topics {
     m.put("beir-fever.splade-pp-ed", BEIR_V1_0_0_FEVER_TEST_SPLADE_PP_ED);
     m.put("beir-climate-fever.splade-pp-ed", BEIR_V1_0_0_CLIMATE_FEVER_TEST_SPLADE_PP_ED);
     m.put("beir-scifact.splade-pp-ed", BEIR_V1_0_0_SCIFACT_TEST_SPLADE_PP_ED);
+
+    m.put("beir-trec-covid-splade-v3", BEIR_V1_0_0_TREC_COVID_TEST_SPLADE_V3);
+    m.put("beir-bioasq-splade-v3", BEIR_V1_0_0_BIOASQ_TEST_SPLADE_V3);
+    m.put("beir-nfcorpus-splade-v3", BEIR_V1_0_0_NFCORPUS_TEST_SPLADE_V3);
+    m.put("beir-nq-splade-v3", BEIR_V1_0_0_NQ_TEST_SPLADE_V3);
+    m.put("beir-hotpotqa-splade-v3", BEIR_V1_0_0_HOTPOTQA_TEST_SPLADE_V3);
+    m.put("beir-fiqa-splade-v3", BEIR_V1_0_0_FIQA_TEST_SPLADE_V3);
+    m.put("beir-signal1m-splade-v3", BEIR_V1_0_0_SIGNAL1M_TEST_SPLADE_V3);
+    m.put("beir-trec-news-splade-v3", BEIR_V1_0_0_TREC_NEWS_TEST_SPLADE_V3);
+    m.put("beir-robust04-splade-v3", BEIR_V1_0_0_ROBUST04_TEST_SPLADE_V3);
+    m.put("beir-arguana-splade-v3", BEIR_V1_0_0_ARGUANA_TEST_SPLADE_V3);
+    m.put("beir-webis-touche2020-splade-v3", BEIR_V1_0_0_WEBIS_TOUCHE2020_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-android-splade-v3", BEIR_V1_0_0_CQADUPSTACK_ANDROID_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-english-splade-v3", BEIR_V1_0_0_CQADUPSTACK_ENGLISH_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-gaming-splade-v3", BEIR_V1_0_0_CQADUPSTACK_GAMING_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-gis-splade-v3", BEIR_V1_0_0_CQADUPSTACK_GIS_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-mathematica-splade-v3", BEIR_V1_0_0_CQADUPSTACK_MATHEMATICA_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-physics-splade-v3", BEIR_V1_0_0_CQADUPSTACK_PHYSICS_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-programmers-splade-v3", BEIR_V1_0_0_CQADUPSTACK_PROGRAMMERS_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-stats-splade-v3", BEIR_V1_0_0_CQADUPSTACK_STATS_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-tex-splade-v3", BEIR_V1_0_0_CQADUPSTACK_TEX_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-unix-splade-v3", BEIR_V1_0_0_CQADUPSTACK_UNIX_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-webmasters-splade-v3", BEIR_V1_0_0_CQADUPSTACK_WEBMASTERS_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-wordpress-splade-v3", BEIR_V1_0_0_CQADUPSTACK_WORDPRESS_TEST_SPLADE_V3);
+    m.put("beir-quora-splade-v3", BEIR_V1_0_0_QUORA_TEST_SPLADE_V3);
+    m.put("beir-dbpedia-entity-splade-v3", BEIR_V1_0_0_DBPEDIA_ENTITY_TEST_SPLADE_V3);
+    m.put("beir-scidocs-splade-v3", BEIR_V1_0_0_SCIDOCS_TEST_SPLADE_V3);
+    m.put("beir-fever-splade-v3", BEIR_V1_0_0_FEVER_TEST_SPLADE_V3);
+    m.put("beir-climate-fever-splade-v3", BEIR_V1_0_0_CLIMATE_FEVER_TEST_SPLADE_V3);
+    m.put("beir-scifact-splade-v3", BEIR_V1_0_0_SCIFACT_TEST_SPLADE_V3);
+
+    m.put("beir-trec-covid.splade-v3", BEIR_V1_0_0_TREC_COVID_TEST_SPLADE_V3);
+    m.put("beir-bioasq.splade-v3", BEIR_V1_0_0_BIOASQ_TEST_SPLADE_V3);
+    m.put("beir-nfcorpus.splade-v3", BEIR_V1_0_0_NFCORPUS_TEST_SPLADE_V3);
+    m.put("beir-nq.splade-v3", BEIR_V1_0_0_NQ_TEST_SPLADE_V3);
+    m.put("beir-hotpotqa.splade-v3", BEIR_V1_0_0_HOTPOTQA_TEST_SPLADE_V3);
+    m.put("beir-fiqa.splade-v3", BEIR_V1_0_0_FIQA_TEST_SPLADE_V3);
+    m.put("beir-signal1m.splade-v3", BEIR_V1_0_0_SIGNAL1M_TEST_SPLADE_V3);
+    m.put("beir-trec-news.splade-v3", BEIR_V1_0_0_TREC_NEWS_TEST_SPLADE_V3);
+    m.put("beir-robust04.splade-v3", BEIR_V1_0_0_ROBUST04_TEST_SPLADE_V3);
+    m.put("beir-arguana.splade-v3", BEIR_V1_0_0_ARGUANA_TEST_SPLADE_V3);
+    m.put("beir-webis-touche2020.splade-v3", BEIR_V1_0_0_WEBIS_TOUCHE2020_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-android.splade-v3", BEIR_V1_0_0_CQADUPSTACK_ANDROID_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-english.splade-v3", BEIR_V1_0_0_CQADUPSTACK_ENGLISH_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-gaming.splade-v3", BEIR_V1_0_0_CQADUPSTACK_GAMING_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-gis.splade-v3", BEIR_V1_0_0_CQADUPSTACK_GIS_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-mathematica.splade-v3", BEIR_V1_0_0_CQADUPSTACK_MATHEMATICA_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-physics.splade-v3", BEIR_V1_0_0_CQADUPSTACK_PHYSICS_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-programmers.splade-v3", BEIR_V1_0_0_CQADUPSTACK_PROGRAMMERS_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-stats.splade-v3", BEIR_V1_0_0_CQADUPSTACK_STATS_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-tex.splade-v3", BEIR_V1_0_0_CQADUPSTACK_TEX_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-unix.splade-v3", BEIR_V1_0_0_CQADUPSTACK_UNIX_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-webmasters.splade-v3", BEIR_V1_0_0_CQADUPSTACK_WEBMASTERS_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-wordpress.splade-v3", BEIR_V1_0_0_CQADUPSTACK_WORDPRESS_TEST_SPLADE_V3);
+    m.put("beir-quora.splade-v3", BEIR_V1_0_0_QUORA_TEST_SPLADE_V3);
+    m.put("beir-dbpedia-entity.splade-v3", BEIR_V1_0_0_DBPEDIA_ENTITY_TEST_SPLADE_V3);
+    m.put("beir-scidocs.splade-v3", BEIR_V1_0_0_SCIDOCS_TEST_SPLADE_V3);
+    m.put("beir-fever.splade-v3", BEIR_V1_0_0_FEVER_TEST_SPLADE_V3);
+    m.put("beir-climate-fever.splade-v3", BEIR_V1_0_0_CLIMATE_FEVER_TEST_SPLADE_V3);
+    m.put("beir-scifact.splade-v3", BEIR_V1_0_0_SCIFACT_TEST_SPLADE_V3);
 
     m.put("beir-trec-covid-bge-base-en-v1.5", BEIR_V1_0_0_TREC_COVID_TEST_BGE_BASE_EN_15);
     m.put("beir-bioasq-bge-base-en-v1.5", BEIR_V1_0_0_BIOASQ_TEST_BGE_BASE_EN_15);
