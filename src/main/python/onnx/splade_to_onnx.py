@@ -33,7 +33,7 @@ input_ids = dummy_inputs["input_ids"]
 attention_mask = dummy_inputs["attention_mask"]
 token_type_ids = torch.zeros_like(input_ids)
 
-onnx_path = "models/splade-cocondenser-ensembledistil.onnx"
+onnx_path = "models/splade-pp-ed.onnx"
 
 torch.onnx.export(
     wrapped_model,
