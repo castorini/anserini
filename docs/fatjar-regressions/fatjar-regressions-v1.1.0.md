@@ -348,7 +348,7 @@ java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 dl19-passage $OUTPUT_DIR/run.
 java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 dl20-passage $OUTPUT_DIR/run.msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8.cached_q.dl20-passage.cohere-embed-english-v3.0.txt
 ```
 
-</details>guide on prebuilt indexes](../prebuilt-indexes.md) for more details.
+</details>
 
 ## BEIR
 
@@ -358,20 +358,16 @@ Currently, Anserini provides support for the following models:
 
 + Flat = BM25, "flat" bag-of-words baseline
 + MF = BM25, "multifield" bag-of-words baseline
-+ S = SPLADEv3:
-  + cached queries (Sp)
-  + ONNX query encoding (So)
++ S = SPLADE-v3:
 + Bf = bge-base-en-v1.5 (flat)
-  + cached queries (Bfc)
-  + ONNX query encoding (Bfo)
 + Bh = bge-base-en-v1.5 (HNSW)
-  + cached queries (Bhc)
-  + ONNX query encoding (Bhc)
+
+🫙 = cached queries, 🅾️ = query encoding with ONNX
 
 The table below reports the effectiveness of the models (nDCG@10):
 
-| Corpus                    | Flat   | MF     | Sp     | So     | Bfc    | Bfo    | Bhc    | Bho    |
-| ------------------------- | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ |
+| Corpus                    | Flat   | MF     | S 🫙   | S 🅾️  | Bf 🫙  | Bf 🅾️ | Bh 🫙  | Bh 🅾️ |
+|---------------------------|--------|--------|--------|--------|--------|--------|--------|--------|
 | `trec-covid`              | 0.5947 | 0.6559 | 0.7299 | 0.7299 | 0.7814 | 0.7815 | 0.7834 | 0.7835 |
 | `bioasq`                  | 0.5225 | 0.4646 | 0.5142 | 0.5142 | 0.4149 | 0.4148 | 0.4042 | 0.4042 |
 | `nfcorpus`                | 0.3218 | 0.3254 | 0.3629 | 0.3629 | 0.3735 | 0.3735 | 0.3735 | 0.3735 |
