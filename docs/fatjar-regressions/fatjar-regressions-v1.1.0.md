@@ -1,0 +1,459 @@
+# Anserini Fatjar Regresions (v1.1.0)
+
+Fetch the fatjar:
+
+```bash
+wget https://repo1.maven.org/maven2/io/anserini/anserini/1.1.0/anserini-1.1.0-fatjar.jar
+```
+
+Let's start out by setting the `ANSERINI_JAR` and the `OUTPUT_DIR`:
+
+```bash
+export ANSERINI_JAR="anserini-1.1.0-fatjar.jar"
+export OUTPUT_DIR="."
+```
+
+❗ Anserini ships with a number of prebuilt indexes, which it'll automagically download for you.
+This is a great feature, but the indexes can take up a lot of space.
+See [this guide on prebuilt indexes](../prebuilt-indexes.md) for more details.
+
+## Webapp and REST API
+
+Anserini has a built-in webapp for interactive querying along with a REST API that can be used by other applications.
+To start the REST API:
+
+```bash
+java -cp $ANSERINI_JAR io.anserini.server.Application --server.port=8081
+```
+
+And then navigate to [`http://localhost:8081/`](http://localhost:8081/) in your browser.
+
+Here's a specific example of using the REST API to issue the query "How does the process of digestion and metabolism of carbohydrates start" to `msmarco-v2.1-doc-segmented`:
+
+```bash
+curl -X GET "http://localhost:8081/api/v1.0/indexes/msmarco-v2.1-doc-segmented/search?query=How%20does%20the%20process%20of%20digestion%20and%20metabolism%20of%20carbohydrates%20start"
+```
+
+The json results are the same as the output of the `-outputRerankerRequests` option in `SearchCollection`, described below for "MS MARCO V2.1 + TREC RAG".
+Use the `hits` parameter to specify the number of hits to return, e.g., `hits=1000` to return the top 1000 hits.
+
+Details of the built-in webapp and REST API can be found [here](../rest-api.md).
+
+❗ Beware, the above commands will trigger automatic downloading of prebuilt indexes, which take up a lot of space.
+The `msmarco-v2.1-doc` prebuilt index is 63 GB uncompressed.
+The `msmarco-v2.1-doc-segmented` prebuilt index is 84 GB uncompressed.
+See [this guide on prebuilt indexes](../prebuilt-indexes.md) for more details.
+
+## MS MARCO V2.1 + TREC RAG
+
+The MS MARCO V2.1 collections were created for the [TREC RAG Track](https://trec-rag.github.io/).
+It was the official corpus used in 2024 and will remain the corpus for 2025.
+There are two separate MS MARCO V2.1 "variants", documents and segmented documents:
+
++ The segmented documents corpus (segments = passages) is the one actually used for the TREC RAG evaluations. It contains 113,520,750 passages.
++ The documents corpus is the source of the segments and useful as a point of reference (but not actually used in the TREC evaluations). It contains 10,960,555 documents.
+
+Here, we focus on the segmented documents corpus.
+
+With Anserini, you can reproduce baseline runs on the TREC 2024 RAG test queries using BM25 and ArcticEmbed-L embeddings.
+Using the [UMBRELA qrels](https://trec-rag.github.io/annoucements/umbrela-qrels/), these are the evaluation numbers you'd get:
+
+| Dataset / Metric                 |  BM25  | ArcticEmbed-L |
+|:---------------------------------|:------:|:-------------:|
+| RAG24 Test (UMBRELA): nDCG@20    | 0.3198 |    0.5497     |
+| RAG24 Test (UMBRELA): nDCG@100   | 0.2563 |    0.4855     |
+| RAG24 Test (UMBRELA): Recall@100 | 0.1395 |    0.2547     |
+
+See instructions below on how to reproduce these runs; more details can be found in the following paper:
+
+> Shivani Upadhyay, Ronak Pradeep, Nandan Thakur, Daniel Campos, Nick Craswell, Ian Soboroff, Hoa Trang Dang, and Jimmy Lin. [A Large-Scale Study of Relevance Assessments with Large Language Models: An Initial Look.](https://arxiv.org/abs/2411.08275) _arXiv:2411.08275_, November 2024.
+
+This guide covers runs with the official TREC 2024 RAG test queries.
+See [this page](../experiments-msmarco-v2.1.md) for instructions on runs with the TREC 2024 RAG "dev queries".
+
+### BM25
+
+For **BM25**, Anserini provides prebuilt inverted indexes.
+The following command will reproduce the above results:
+
+❗ Beware, you need lots of space to run these experiments.
+The `msmarco-v2.1-doc-segmented` prebuilt index is 84 GB uncompressed.
+The command below will download the index automatically.
+See [this guide on prebuilt indexes](../prebuilt-indexes.md) for more details.
+
+```bash
+java -cp $ANSERINI_JAR io.anserini.search.SearchCollection \
+  -index msmarco-v2.1-doc-segmented \
+  -topics rag24.test \
+  -output $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.rag24.test.txt \
+  -bm25 -hits 1000
+```
+
+And to evaluate:
+
+```bash
+java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.20 rag24.test-umbrela-all $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.rag24.test.txt
+java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.100 rag24.test-umbrela-all $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.rag24.test.txt
+java -cp $ANSERINI_JAR trec_eval -c -m recall.100 rag24.test-umbrela-all $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.rag24.test.txt
+```
+
+### ArcticEmbed-L
+
+For **ArcticEmbed-L**, Anserini also provides prebuilt indexes with ArcticEmbed-L embeddings.
+The embedding vectors were generated by Snowflake and are freely downloadable [on Hugging Face](https://huggingface.co/datasets/Snowflake/msmarco-v2.1-snowflake-arctic-embed-l).
+We provide prebuilt HNSW indexes with int8 quantization, divided into 10 shards, `00` to `09`.
+
+❗ Beware, the complete ArcticEmbed-L index for all 10 shards of the MS MARCO V2.1 segmented document collection totals 558 GB!
+The commands below will download the indexes automatically, so make sure you have plenty of space.
+See [this guide on prebuilt indexes](../prebuilt-indexes.md) for general info on prebuilt indexes.
+Additional helpful tips are provided below for dealing with space issues.
+
+Here's how you reproduce results on the TREC 2024 RAG Track test queries, using ONNX to encode queries on the fly (which means you can extend to arbitrary queries):
+
+```bash
+# RAG24 test
+SHARDS=(00 01 02 03 04 05 06 07 08 09); for shard in "${SHARDS[@]}"
+do
+    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v2.1-doc-segmented-shard${shard}.arctic-embed-l.hnsw-int8 -efSearch 1000 -topics rag24.test -topicReader TsvString -topicField title -encoder ArcticEmbedL -output $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.shard${shard}.txt -hits 250 -threads 32 > $OUTPUT_DIR/log.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.shard${shard}.txt 2>&1
+done
+```
+
+<details>
+<summary>Same commands, but using cached queries (faster)</summary>
+
+```bash
+# RAG24 test
+SHARDS=(00 01 02 03 04 05 06 07 08 09); for shard in "${SHARDS[@]}"
+do
+    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v2.1-doc-segmented-shard${shard}.arctic-embed-l.hnsw-int8 -efSearch 1000 -topics rag24.test.snowflake-arctic-embed-l -output $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.shard${shard}.txt -hits 250 -threads 32 > $OUTPUT_DIR/log.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.shard${shard}.txt 2>&1
+done
+```
+
+</details>
+
+For evaluation purposes, you can just cat all the 10 run files together and evaluate:
+
+```bash
+cat $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.shard0* > $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.txt
+
+java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.20 rag24.test-umbrela-all $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.txt
+java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.100 rag24.test-umbrela-all $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.txt
+java -cp $ANSERINI_JAR trec_eval -c -m recall.100 rag24.test-umbrela-all $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.txt
+```
+
+You should arrive at exactly the effectiveness metrics above.
+
+### BM25 + Raw Passages
+
+For BM25, to generate jsonl output containing the raw documents that can be reranked and further processed, use the `-outputRerankerRequests` option to specify an output file.
+For example:
+
+```bash
+java -cp $ANSERINI_JAR io.anserini.search.SearchCollection \
+  -index msmarco-v2.1-doc-segmented \
+  -topics rag24.test \
+  -output $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.rag24.test.txt \
+  -bm25 -hits 20 \
+  -outputRerankerRequests $OUTPUT_DIR/results.msmarco-v2.1-doc-segmented.bm25.rag24.test.jsonl
+```
+
+In the above command, we only fetch the top-20 hits.
+To examine the output, pipe through `jq` to pretty-print:
+
+```bash
+$ head -n 1 $OUTPUT_DIR/results.msmarco-v2.1-doc-segmented.bm25.rag24.test.jsonl | jq
+{
+  "query": {
+    "qid": "2024-105741",
+    "text": "is it dangerous to have wbc over 15,000 without treatment?"
+  },
+  "candidates": [
+    {
+      "docid": "msmarco_v2.1_doc_16_287012450#4_490828734",
+      "score": 15.8199,
+      "doc": {
+        "url": "https://emedicine.medscape.com/article/961169-treatment",
+        "title": "Bacteremia Treatment & Management: Medical Care",
+        "headings": "Bacteremia Treatment & Management\nBacteremia Treatment & Management\nMedical Care\nHow well do low-risk criteria work?\nEmpiric antibiotics: How well do they work?\nTreatment algorithms\n",
+        "segment": "band-to-neutrophil ratio\n< 0.2\n< 20,000/μL\n5-15,000/μL; ABC < 1,000\n5-15,000/μL; ABC < 1,000\nUrine assessment\n< 10 WBCs per HPF; Negative for bacteria\n< 10 WBCs per HPF; Leukocyte esterase negative\n< 10 WBCs per HPF\n< 5 WBCs per HPF\nCSF assessment\n< 8 WBCs per HPF; Negative for bacteria\n< 10 WBCs per HPF\n< 10-20 WBCs per HPF\n…\nChest radiography\nNo infiltrate\nWithin reference range, if obtained\nWithin reference range, if obtained\n…\nStool culture\n< 5 WBCs per HPF\n…\n< 5 WBCs per HPF\n…\n* Acute illness observation score\nHow well do low-risk criteria work? The above guidelines are presented to define a group of febrile young infants who can be treated without antibiotics. Statistically, this translates into a high NPV (ie, a very high proportion of true negative cultures is observed in patients deemed to be at low risk). The NPV of various low-risk criteria for serious bacterial infection and occult bacteremia are as follows [ 10, 14, 16, 19, 74, 75, 76] : Philadelphia NPV - 95-100%\nBoston NPV - 95-98%\nRochester NPV - 98.3-99%\nAAP 1993 - 99-99.8%\nIn basic terms, even by the most stringent criteria, somewhere between 1 in 100 and 1 in 500 low-risk, but bacteremic, febrile infants are missed.",
+        "start_char": 2846,
+        "end_char": 4049
+      }
+    },
+    {
+      "docid": "msmarco_v2.1_doc_16_287012450#3_490827079",
+      "score": 15.231,
+      "doc": {
+        "url": "https://emedicine.medscape.com/article/961169-treatment",
+        "title": "Bacteremia Treatment & Management: Medical Care",
+        "headings": "Bacteremia Treatment & Management\nBacteremia Treatment & Management\nMedical Care\nHow well do low-risk criteria work?\nEmpiric antibiotics: How well do they work?\nTreatment algorithms\n",
+        "segment": "73] Since then, numerous studies have evaluated combinations of age, temperature, history, examination findings, and laboratory results to determine which young infants are at a low risk for bacterial infection. [ 10, 66, 74, 75, 76]\nThe following are the low-risk criteria established by groups from Philadelphia, Boston, and Rochester and the 1993 American Academy of Pediatrics (AAP) guideline. Table 11. Low-Risk Criteria for Infants Younger than 3 Months [ 10, 74, 75, 76] (Open Table in a new window)\nCriterion\nPhiladelphia\nBoston\nRochester\nAAP 1993\nAge\n1-2 mo\n1-2 mo\n0-3 mo\n1-3 mo\nTemperature\n38.2°C\n≥38°C\n≥38°C\n≥38°C\nAppearance\nAIOS * < 15\nWell\nAny\nWell\nHistory\nImmune\nNo antibiotics in the last 24 h; No immunizations in the last 48 h\nPreviously healthy\nPreviously healthy\nExamination\nNonfocal\nNonfocal\nNonfocal\nNonfocal\nWBC count\n< 15,000/μL; band-to-neutrophil ratio\n< 0.2\n< 20,000/μL\n5-15,000/μL; ABC < 1,000\n5-15,000/μL; ABC < 1,000\nUrine assessment\n< 10 WBCs per HPF; Negative for bacteria\n< 10 WBCs per HPF; Leukocyte esterase negative\n< 10 WBCs per HPF\n< 5 WBCs per HPF\nCSF assessment\n< 8 WBCs per HPF;",
+        "start_char": 1993,
+        "end_char": 3111
+      }
+    },
+    ...
+  ]
+}
+```
+
+## MS MARCO V1 Passage
+
+❗ Beware, the (automatically downloaded) indexes for running these experiments take up 200 GB in total.
+
+Currently, Anserini provides support for the following models:
+
++ BM25
++ SPLADEv3: cached queries and ONNX query encoding
++ cosDPR-distil: cached queries and ONNX query encoding
++ bge-base-en-v1.5: cached queries and ONNX query encoding
++ cohere-embed-english-v3.0: cached queries and ONNX query encoding
+
+The table below reports the effectiveness of the models (dev in terms of RR@10, DL19 and DL20 in terms of nDCG@10):
+
+|                                                              |    dev |   DL19 |   DL20 |
+|:-------------------------------------------------------------|-------:|-------:|-------:|
+| BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.1840 | 0.5058 | 0.4796 |
+| SPLADEv3 (cached queries)                                    | 0.3999 | 0.7264 | 0.7522 |
+| SPLADEv3 (ONNX)                                              | 0.3999 | 0.7264 | 0.7522 |
+| cosDPR-distil w/ HNSW fp32 (cached queries)                  | 0.3887 | 0.7250 | 0.7025 |
+| cosDPR-distil w/ HNSW fp32 (ONNX)                            | 0.3887 | 0.7250 | 0.7025 |
+| cosDPR-distil w/ HNSW int8 (cached queries)                  | 0.3897 | 0.7240 | 0.7004 |
+| cosDPR-distil w/ HNSW int8 (ONNX)                            | 0.3899 | 0.7247 | 0.6996 |
+| bge-base-en-v1.5 w/ HNSW fp32 (cached queries)               | 0.3574 | 0.7065 | 0.6780 |
+| bge-base-en-v1.5 w/ HNSW fp32 (ONNX)                         | 0.3575 | 0.7016 | 0.6768 |
+| bge-base-en-v1.5 w/ HNSW int8 (cached queries)               | 0.3572 | 0.7016 | 0.6738 |
+| bge-base-en-v1.5 w/ HNSW int8 (ONNX)                         | 0.3575 | 0.7017 | 0.6767 |
+| cohere-embed-english-v3.0 w/ HNSW fp32 (cached queries)      | 0.3647 | 0.6956 | 0.7245 |
+| cohere-embed-english-v3.0 w/ HNSW int8 (cached queries)      | 0.3656 | 0.6955 | 0.7262 |
+
+The follow command will reproduce the above experiments:
+
+```bash
+java -cp $ANSERINI_JAR io.anserini.reproduce.RunMsMarco -collection msmarco-v1-passage
+```
+
+<details>
+<summary>Manual runs and evaluation</summary>
+
+The following snippet will generate the complete set of results that corresponds to the above table:
+
+```bash
+# BM25
+TOPICS=(msmarco-v1-passage.dev dl19-passage dl20-passage); for t in "${TOPICS[@]}"
+do
+    java -cp $ANSERINI_JAR io.anserini.search.SearchCollection -index msmarco-v1-passage -topics ${t} -output $OUTPUT_DIR/run.msmarco-v1-passage.bm25.${t}.txt -threads 16 -bm25
+done
+
+# SPLADEv3
+TOPICS=(msmarco-v1-passage.dev dl19-passage dl20-passage); for t in "${TOPICS[@]}"
+do
+    # Using cached queries
+    java -cp $ANSERINI_JAR io.anserini.search.SearchCollection -index msmarco-v1-passage.splade-v3 -topics ${t}.splade-v3 -output $OUTPUT_DIR/run.msmarco-v1-passage.splade-v3.cached_q.${t}.splade-v3.txt -threads 16 -impact -pretokenized
+    # Using ONNX
+    java -cp $ANSERINI_JAR io.anserini.search.SearchCollection -index msmarco-v1-passage.splade-v3 -topics ${t} -encoder SpladeV3 -output $OUTPUT_DIR/run.msmarco-v1-passage.splade-v3.onnx.${t}.txt -threads 16 -impact -pretokenized
+done
+
+# cosDPR-distil
+TOPICS=(msmarco-v1-passage.dev dl19-passage dl20-passage); for t in "${TOPICS[@]}"
+do
+    # Using HNSW (fp32) index with cached queries
+    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cosdpr-distil.hnsw -topics ${t}.cosdpr-distil -output $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw.cached_q.${t}.cosdpr-distil.txt -threads 16 -efSearch 1000
+    # Using HNSW (fp32) index with ONNX encoding
+    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cosdpr-distil.hnsw -topics ${t} -encoder CosDprDistil -output $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw.onnx.${t}.txt -threads 16 -efSearch 1000
+    # Using HNSW (int8) index with cached queries
+    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cosdpr-distil.hnsw-int8 -topics ${t}.cosdpr-distil -output $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw-int8.cached_q.${t}.cosdpr-distil.txt -threads 16 -efSearch 1000
+    # Using HNSW (int8) index with ONNX encoding
+    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cosdpr-distil.hnsw-int8 -topics ${t} -encoder CosDprDistil -output $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw-int8.onnx.${t}.txt -threads 16 -efSearch 1000
+done
+
+# bge-base-en-v1.5
+TOPICS=(msmarco-v1-passage.dev dl19-passage dl20-passage); for t in "${TOPICS[@]}"
+do
+    # Using HNSW (fp32) index with cached queries
+    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.bge-base-en-v1.5.hnsw -topics ${t}.bge-base-en-v1.5 -output $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw.cached_q.${t}.bge-base-en-v1.5.txt -threads 16 -efSearch 1000
+    # Using HNSW (fp32) index with ONNX encoding
+    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.bge-base-en-v1.5.hnsw -topics ${t} -encoder BgeBaseEn15 -output $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw.onnx.${t}.txt -threads 16 -efSearch 1000
+    # Using HNSW (int8) index with cached queries
+    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8 -topics ${t}.bge-base-en-v1.5 -output $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8.cached_q.${t}.bge-base-en-v1.5.txt -threads 16 -efSearch 1000
+    # Using HNSW (int8) index with ONNX encoding
+    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8 -topics ${t} -encoder BgeBaseEn15 -output $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8.onnx.${t}.txt -threads 16 -efSearch 1000
+done
+
+# cohere-embed-english-v3.0
+TOPICS=(msmarco-v1-passage.dev dl19-passage dl20-passage); for t in "${TOPICS[@]}"
+do
+    # Using HNSW (fp32) index with cached queries
+    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cohere-embed-english-v3.0.hnsw -topics ${t}.cohere-embed-english-v3.0 -output $OUTPUT_DIR/run.msmarco-v1-passage.cohere-embed-english-v3.0.hnsw.cached_q.${t}.cohere-embed-english-v3.0.txt -threads 16 -efSearch 1000
+    # Using HNSW (int8) index with cached queries
+    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8 -topics ${t}.cohere-embed-english-v3.0 -output $OUTPUT_DIR/run.msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8.cached_q.${t}.cohere-embed-english-v3.0.txt -threads 16 -efSearch 1000
+done
+```
+
+Minor note: the cached queries and ONNX runs have slightly different output filenames to align with `RunMsMarco`.
+
+And here's the snippet of code to perform the evaluation (which will yield the scores above):
+
+```bash
+java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.bm25.msmarco-v1-passage.dev.txt
+java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 dl19-passage $OUTPUT_DIR/run.msmarco-v1-passage.bm25.dl19-passage.txt
+java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 dl20-passage $OUTPUT_DIR/run.msmarco-v1-passage.bm25.dl20-passage.txt
+echo ''
+java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.splade-v3.cached_q.msmarco-v1-passage.dev.splade-v3.txt
+java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 dl19-passage $OUTPUT_DIR/run.msmarco-v1-passage.splade-v3.cached_q.dl19-passage.splade-v3.txt
+java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 dl20-passage $OUTPUT_DIR/run.msmarco-v1-passage.splade-v3.cached_q.dl20-passage.splade-v3.txt
+echo ''
+java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.splade-v3.onnx.msmarco-v1-passage.dev.txt
+java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 dl19-passage $OUTPUT_DIR/run.msmarco-v1-passage.splade-v3.onnx.dl19-passage.txt
+java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 dl20-passage $OUTPUT_DIR/run.msmarco-v1-passage.splade-v3.onnx.dl20-passage.txt
+echo ''
+java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw.cached_q.msmarco-v1-passage.dev.cosdpr-distil.txt
+java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 dl19-passage $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw.cached_q.dl19-passage.cosdpr-distil.txt
+java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 dl20-passage $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw.cached_q.dl20-passage.cosdpr-distil.txt
+echo ''
+java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw.onnx.msmarco-v1-passage.dev.txt
+java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 dl19-passage $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw.onnx.dl19-passage.txt
+java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 dl20-passage $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw.onnx.dl20-passage.txt
+echo ''
+java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw-int8.cached_q.msmarco-v1-passage.dev.cosdpr-distil.txt
+java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 dl19-passage $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw-int8.cached_q.dl19-passage.cosdpr-distil.txt
+java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 dl20-passage $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw-int8.cached_q.dl20-passage.cosdpr-distil.txt
+echo ''
+java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw-int8.onnx.msmarco-v1-passage.dev.txt
+java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 dl19-passage $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw-int8.onnx.dl19-passage.txt
+java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 dl20-passage $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw-int8.onnx.dl20-passage.txt
+echo ''
+java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw.cached_q.msmarco-v1-passage.dev.bge-base-en-v1.5.txt
+java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 dl19-passage $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw.cached_q.dl19-passage.bge-base-en-v1.5.txt
+java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 dl20-passage $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw.cached_q.dl20-passage.bge-base-en-v1.5.txt
+echo ''
+java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw.onnx.msmarco-v1-passage.dev.txt
+java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 dl19-passage $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw.onnx.dl19-passage.txt
+java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 dl20-passage $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw.onnx.dl20-passage.txt
+echo ''
+java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8.cached_q.msmarco-v1-passage.dev.bge-base-en-v1.5.txt
+java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 dl19-passage $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8.cached_q.dl19-passage.bge-base-en-v1.5.txt
+java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 dl20-passage $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8.cached_q.dl20-passage.bge-base-en-v1.5.txt
+echo ''
+java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8.onnx.msmarco-v1-passage.dev.txt
+java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 dl19-passage $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8.onnx.dl19-passage.txt
+java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 dl20-passage $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8.onnx.dl20-passage.txt
+echo ''
+java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.cohere-embed-english-v3.0.hnsw.cached_q.msmarco-v1-passage.dev.cohere-embed-english-v3.0.txt
+java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 dl19-passage $OUTPUT_DIR/run.msmarco-v1-passage.cohere-embed-english-v3.0.hnsw.cached_q.dl19-passage.cohere-embed-english-v3.0.txt
+java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 dl20-passage $OUTPUT_DIR/run.msmarco-v1-passage.cohere-embed-english-v3.0.hnsw.cached_q.dl20-passage.cohere-embed-english-v3.0.txt
+echo ''
+java -cp $ANSERINI_JAR trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev $OUTPUT_DIR/run.msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8.cached_q.msmarco-v1-passage.dev.cohere-embed-english-v3.0.txt
+java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 dl19-passage $OUTPUT_DIR/run.msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8.cached_q.dl19-passage.cohere-embed-english-v3.0.txt
+java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 dl20-passage $OUTPUT_DIR/run.msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8.cached_q.dl20-passage.cohere-embed-english-v3.0.txt
+```
+
+</details>guide on prebuilt indexes](../prebuilt-indexes.md) for more details.
+
+## BEIR
+
+❗ Beware, the (automatically downloaded) indexes for running these experiments take up 374 GB in total.
+
+Currently, Anserini provides support for the following models:
+
++ Flat = BM25, "flat" bag-of-words baseline
++ MF = BM25, "multifield" bag-of-words baseline
++ S = SPLADEv3:
+  + cached queries (Sp)
+  + ONNX query encoding (So)
++ Bf = bge-base-en-v1.5 (flat)
+  + cached queries (Bfc)
+  + ONNX query encoding (Bfo)
++ Bh = bge-base-en-v1.5 (HNSW)
+  + cached queries (Bhc)
+  + ONNX query encoding (Bhc)
+
+The table below reports the effectiveness of the models (nDCG@10):
+
+| Corpus                    | Flat   | MF     | Sp     | So     | Bfc    | Bfo    | Bhc    | Bho    |
+| ------------------------- | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ |
+| `trec-covid`              | 0.5947 | 0.6559 | 0.7299 | 0.7299 | 0.7814 | 0.7815 | 0.7834 | 0.7835 |
+| `bioasq`                  | 0.5225 | 0.4646 | 0.5142 | 0.5142 | 0.4149 | 0.4148 | 0.4042 | 0.4042 |
+| `nfcorpus`                | 0.3218 | 0.3254 | 0.3629 | 0.3629 | 0.3735 | 0.3735 | 0.3735 | 0.3735 |
+| `nq`                      | 0.3055 | 0.3285 | 0.5842 | 0.5842 | 0.5413 | 0.5415 | 0.5413 | 0.5415 |
+| `hotpotqa`                | 0.6330 | 0.6027 | 0.6884 | 0.6884 | 0.7259 | 0.7259 | 0.7242 | 0.7241 |
+| `fiqa`                    | 0.2361 | 0.2361 | 0.3798 | 0.3798 | 0.4065 | 0.4065 | 0.4065 | 0.4065 |
+| `signal1m`                | 0.3304 | 0.3304 | 0.2465 | 0.2465 | 0.2886 | 0.2886 | 0.2869 | 0.2869 |
+| `trec-news`               | 0.3952 | 0.3977 | 0.4365 | 0.4365 | 0.4425 | 0.4424 | 0.4411 | 0.4410 |
+| `robust04`                | 0.4070 | 0.4070 | 0.4952 | 0.4952 | 0.4465 | 0.4435 | 0.4467 | 0.4437 |
+| `arguana`                 | 0.3970 | 0.4142 | 0.4872 | 0.4845 | 0.6361 | 0.6228 | 0.6361 | 0.6228 |
+| `webis-touche2020`        | 0.4422 | 0.3673 | 0.3086 | 0.3086 | 0.2570 | 0.2571 | 0.2570 | 0.2571 |
+| `cqadupstack-android`     | 0.3801 | 0.3709 | 0.4109 | 0.4109 | 0.5075 | 0.5076 | 0.5075 | 0.5076 |
+| `cqadupstack-english`     | 0.3453 | 0.3321 | 0.4255 | 0.4255 | 0.4857 | 0.4857 | 0.4855 | 0.4855 |
+| `cqadupstack-gaming`      | 0.4822 | 0.4418 | 0.5193 | 0.5193 | 0.5965 | 0.5967 | 0.5965 | 0.5967 |
+| `cqadupstack-gis`         | 0.2901 | 0.2904 | 0.3236 | 0.3236 | 0.4127 | 0.4131 | 0.4129 | 0.4133 |
+| `cqadupstack-mathematica` | 0.2015 | 0.2046 | 0.2445 | 0.2445 | 0.3163 | 0.3163 | 0.3163 | 0.3163 |
+| `cqadupstack-physics`     | 0.3214 | 0.3248 | 0.3753 | 0.3753 | 0.4722 | 0.4724 | 0.4722 | 0.4724 |
+| `cqadupstack-programmers` | 0.2802 | 0.2963 | 0.3387 | 0.3387 | 0.4242 | 0.4238 | 0.4242 | 0.4238 |
+| `cqadupstack-stats`       | 0.2711 | 0.2790 | 0.3137 | 0.3137 | 0.3732 | 0.3728 | 0.3732 | 0.3728 |
+| `cqadupstack-tex`         | 0.2244 | 0.2086 | 0.2493 | 0.2493 | 0.3115 | 0.3115 | 0.3115 | 0.3115 |
+| `cqadupstack-unix`        | 0.2749 | 0.2788 | 0.3196 | 0.3196 | 0.4219 | 0.4220 | 0.4219 | 0.4220 |
+| `cqadupstack-webmasters`  | 0.3059 | 0.3008 | 0.3250 | 0.3250 | 0.4065 | 0.4072 | 0.4065 | 0.4072 |
+| `cqadupstack-wordpress`   | 0.2483 | 0.2562 | 0.2807 | 0.2807 | 0.3547 | 0.3547 | 0.3547 | 0.3547 |
+| `quora`                   | 0.7886 | 0.7886 | 0.8141 | 0.8141 | 0.8890 | 0.8876 | 0.8890 | 0.8876 |
+| `dbpedia-entity`          | 0.3180 | 0.3128 | 0.4476 | 0.4476 | 0.4074 | 0.4073 | 0.4077 | 0.4076 |
+| `scidocs`                 | 0.1490 | 0.1581 | 0.1567 | 0.1567 | 0.2170 | 0.2172 | 0.2170 | 0.2172 |
+| `fever`                   | 0.6513 | 0.7530 | 0.8015 | 0.8015 | 0.8630 | 0.8629 | 0.8620 | 0.8620 |
+| `climate-fever`           | 0.1651 | 0.2129 | 0.2625 | 0.2625 | 0.3119 | 0.3117 | 0.3119 | 0.3117 |
+| `scifact`                 | 0.6789 | 0.6647 | 0.7140 | 0.7140 | 0.7408 | 0.7408 | 0.7408 | 0.7408 |
+
+The follow command will reproduce the above experiments:
+
+```bash
+java -cp $ANSERINI_JAR io.anserini.reproduce.RunBeir
+```
+
+<details>
+<summary>Manual runs and evaluation</summary>
+
+The following snippet will generate the complete set of results that corresponds to the above table:
+
+```bash
+CORPORA=(trec-covid bioasq nfcorpus nq hotpotqa fiqa signal1m trec-news robust04 arguana webis-touche2020 cqadupstack-android cqadupstack-english cqadupstack-gaming cqadupstack-gis cqadupstack-mathematica cqadupstack-physics cqadupstack-programmers cqadupstack-stats cqadupstack-tex cqadupstack-unix cqadupstack-webmasters cqadupstack-wordpress quora dbpedia-entity scidocs fever climate-fever scifact); for c in "${CORPORA[@]}"
+do
+    # "flat" indexes
+    java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -index beir-v1.0.0-${c}.flat -topics beir-${c} -output $OUTPUT_DIR/run.beir.flat.${c}.txt -bm25 -removeQuery
+    # "multifield" indexes
+    java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -index beir-v1.0.0-${c}.multifield -topics beir-${c} -output $OUTPUT_DIR/run.beir.multifield.${c}.txt -bm25 -removeQuery -fields contents=1.0 title=1.0
+    # SPLADEv3, cached queries
+    java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -index beir-v1.0.0-${c}.splade-v3 -topics beir-${c}.splade-v3 -output $OUTPUT_DIR/run.beir.splade-v3.cached_q.${c}.txt -impact -pretokenized -removeQuery
+    # SPLADEv3, ONNX
+    java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -index beir-v1.0.0-${c}.splade-v3 -topics beir-${c} -encoder SpladeV3 -output $OUTPUT_DIR/run.beir.splade-v3.onnx.${c}.txt -impact -pretokenized -removeQuery
+    # BGE-base-en-v1.5, flat dense vector index, cached queries
+    java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.search.SearchFlatDenseVectors -index beir-v1.0.0-${c}.bge-base-en-v1.5.flat -topics beir-${c}.bge-base-en-v1.5 -output $OUTPUT_DIR/run.beir.bge-base-en-v1.5.flat.cached_q.${c}.txt -threads 16 -removeQuery
+    # BGE-base-en-v1.5, flat dense vector index, ONNX
+    java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.search.SearchFlatDenseVectors -index beir-v1.0.0-${c}.bge-base-en-v1.5.flat -topics beir-${c} -encoder BgeBaseEn15 -output $OUTPUT_DIR/run.beir.bge-base-en-v1.5.flat.onnx.${c}.txt -threads 16 -removeQuery
+    # BGE-base-en-v1.5, HNSW index, cached queries
+    java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -index beir-v1.0.0-${c}.bge-base-en-v1.5.hnsw -topics beir-${c}.bge-base-en-v1.5 -output $OUTPUT_DIR/run.beir.bge-base-en-v1.5.hnsw.cached_q.${c}.txt -threads 16 -efSearch 1000 -removeQuery
+    # BGE-base-en-v1.5, HNSW index, ONNX
+    java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -index beir-v1.0.0-${c}.bge-base-en-v1.5.hnsw -topics beir-${c} -encoder BgeBaseEn15 -output $OUTPUT_DIR/run.beir.bge-base-en-v1.5.hnsw.onnx.${c}.txt -threads 16 -efSearch 1000 -removeQuery
+done
+```
+
+Note that `--add-modules jdk.incubator.vector` enables OpenJDK's [Panama](https://openjdk.org/projects/panama/) Vector API, which [accelerates vector search](https://www.elastic.co/blog/accelerating-vector-search-simd-instructions).
+However, this is _not_ a score-preserving optimization.
+Similarity scores are slightly different in some cases, which leads to slightly different nDCG@10 scores for some BEIR collection.
+
+And here's the snippet of code to perform the evaluation (which will yield the scores above):
+
+```bash
+CORPORA=(trec-covid bioasq nfcorpus nq hotpotqa fiqa signal1m trec-news robust04 arguana webis-touche2020 cqadupstack-android cqadupstack-english cqadupstack-gaming cqadupstack-gis cqadupstack-mathematica cqadupstack-physics cqadupstack-programmers cqadupstack-stats cqadupstack-tex cqadupstack-unix cqadupstack-webmasters cqadupstack-wordpress quora dbpedia-entity scidocs fever climate-fever scifact); for c in "${CORPORA[@]}"
+do
+    echo $c
+    java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 qrels.beir-v1.0.0-${c}.test.txt $OUTPUT_DIR/run.beir.flat.${c}.txt
+    java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 qrels.beir-v1.0.0-${c}.test.txt $OUTPUT_DIR/run.beir.multifield.${c}.txt
+    java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 qrels.beir-v1.0.0-${c}.test.txt $OUTPUT_DIR/run.beir.splade-v3.cached_q.${c}.txt
+    java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 qrels.beir-v1.0.0-${c}.test.txt $OUTPUT_DIR/run.beir.splade-v3.onnx.${c}.txt
+    java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 qrels.beir-v1.0.0-${c}.test.txt $OUTPUT_DIR/run.beir.bge-base-en-v1.5.flat.cached_q.${c}.txt
+    java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 qrels.beir-v1.0.0-${c}.test.txt $OUTPUT_DIR/run.beir.bge-base-en-v1.5.flat.onnx.${c}.txt
+    java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 qrels.beir-v1.0.0-${c}.test.txt $OUTPUT_DIR/run.beir.bge-base-en-v1.5.hnsw.cached_q.${c}.txt
+    java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 qrels.beir-v1.0.0-${c}.test.txt $OUTPUT_DIR/run.beir.bge-base-en-v1.5.hnsw.onnx.${c}.txt
+done
+```
+
+</details>
