@@ -1,4 +1,4 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; NCorpus
+# Anserini Regressions: BEIR (v1.0.0) &mdash; NFCorpus
 
 **Model**: [SPLADE++ (CoCondenser-EnsembleDistil](https://arxiv.org/abs/2205.04733) (using cached queries)
 

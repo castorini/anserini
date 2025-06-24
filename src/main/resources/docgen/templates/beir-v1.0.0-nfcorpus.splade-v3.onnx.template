@@ -1,4 +1,4 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; NCorpus
+# Anserini Regressions: BEIR (v1.0.0) &mdash; NFCorpus
 
 **Model**: [SPLADE-v3](https://arxiv.org/abs/2403.06789) (using ONNX for on-the-fly query encoding)
 

@@ -2,7 +2,7 @@
 corpus: beir-v1.0.0-hotpotqa.splade-v3
 corpus_path: collections/beir-v1.0.0/splade-v3/hotpotqa
 
-index_path: indexes/lucene-inverted.beir-v1.0.0-hotpotqa.splade-pp-ed/
+index_path: indexes/lucene-inverted.beir-v1.0.0-hotpotqa.splade-v3/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 16

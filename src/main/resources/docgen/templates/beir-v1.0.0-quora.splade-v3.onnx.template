@@ -3,7 +3,6 @@
 **Model**: [SPLADE-v3](https://arxiv.org/abs/2403.06789) (using ONNX for on-the-fly query encoding)
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, using [SPLADE-v3](https://arxiv.org/abs/2403.06789) on [BEIR (v1.0.0) &mdash; Quora](http://beir.ai/).
-
 The model itself can be download [here](https://huggingface.co/naver/splade-v3).
 See the [official SPLADE repo](https://github.com/naver/splade) and the following paper for more details:
 

@@ -39,7 +39,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection JsonVectorCollection \
   -input /path/to/beir-v1.0.0-hotpotqa.splade-v3 \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-inverted.beir-v1.0.0-hotpotqa.splade-pp-ed/ \
+  -index indexes/lucene-inverted.beir-v1.0.0-hotpotqa.splade-v3/ \
   -impact -pretokenized \
   >& logs/log.beir-v1.0.0-hotpotqa.splade-v3 &
 ```
@@ -55,7 +55,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-inverted.beir-v1.0.0-hotpotqa.splade-pp-ed/ \
+  -index indexes/lucene-inverted.beir-v1.0.0-hotpotqa.splade-v3/ \
   -topics tools/topics-and-qrels/topics.beir-v1.0.0-hotpotqa.test.splade-v3.tsv.gz \
   -topicReader TsvString \
   -output runs/run.beir-v1.0.0-hotpotqa.splade-v3.splade-v3-cached.topics.beir-v1.0.0-hotpotqa.test.splade-v3.txt \
