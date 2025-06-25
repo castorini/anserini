@@ -215,7 +215,7 @@ The table below reports the effectiveness of the models (dev in terms of RR@10, 
 |:-------------------------------------------------------------|-------:|-------:|-------:|
 | BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.1840 | 0.5058 | 0.4796 |
 | SPLADEv3 (cached queries)                                    | 0.3999 | 0.7264 | 0.7522 |
-| SPLADEv3 (ONNX)                                              | 0.3999 | 0.7264 | 0.7522 |
+| SPLADEv3 (ONNX)                                              | 0.4000 | 0.7264 | 0.7522 |
 | cosDPR-distil w/ HNSW fp32 (cached queries)                  | 0.3887 | 0.7250 | 0.7025 |
 | cosDPR-distil w/ HNSW fp32 (ONNX)                            | 0.3887 | 0.7250 | 0.7025 |
 | cosDPR-distil w/ HNSW int8 (cached queries)                  | 0.3897 | 0.7240 | 0.7004 |
@@ -242,42 +242,42 @@ The following snippet will generate the complete set of results that corresponds
 # BM25
 TOPICS=(msmarco-v1-passage.dev dl19-passage dl20-passage); for t in "${TOPICS[@]}"
 do
-    java -cp $ANSERINI_JAR io.anserini.search.SearchCollection -index msmarco-v1-passage -topics ${t} -output $OUTPUT_DIR/run.msmarco-v1-passage.bm25.${t}.txt -threads 16 -bm25
+    java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -index msmarco-v1-passage -topics ${t} -output $OUTPUT_DIR/run.msmarco-v1-passage.bm25.${t}.txt -threads 16 -bm25
 done
 
 # SPLADEv3
 TOPICS=(msmarco-v1-passage.dev dl19-passage dl20-passage); for t in "${TOPICS[@]}"
 do
     # Using cached queries
-    java -cp $ANSERINI_JAR io.anserini.search.SearchCollection -index msmarco-v1-passage.splade-v3 -topics ${t}.splade-v3 -output $OUTPUT_DIR/run.msmarco-v1-passage.splade-v3.cached_q.${t}.splade-v3.txt -threads 16 -impact -pretokenized
+    java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -index msmarco-v1-passage.splade-v3 -topics ${t}.splade-v3 -output $OUTPUT_DIR/run.msmarco-v1-passage.splade-v3.cached_q.${t}.splade-v3.txt -threads 16 -impact -pretokenized
     # Using ONNX
-    java -cp $ANSERINI_JAR io.anserini.search.SearchCollection -index msmarco-v1-passage.splade-v3 -topics ${t} -encoder SpladeV3 -output $OUTPUT_DIR/run.msmarco-v1-passage.splade-v3.onnx.${t}.txt -threads 16 -impact -pretokenized
+    java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -index msmarco-v1-passage.splade-v3 -topics ${t} -encoder SpladeV3 -output $OUTPUT_DIR/run.msmarco-v1-passage.splade-v3.onnx.${t}.txt -threads 16 -impact -pretokenized
 done
 
 # cosDPR-distil
 TOPICS=(msmarco-v1-passage.dev dl19-passage dl20-passage); for t in "${TOPICS[@]}"
 do
     # Using HNSW (fp32) index with cached queries
-    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cosdpr-distil.hnsw -topics ${t}.cosdpr-distil -output $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw.cached_q.${t}.cosdpr-distil.txt -threads 16 -efSearch 1000
+    java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cosdpr-distil.hnsw -topics ${t}.cosdpr-distil -output $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw.cached_q.${t}.cosdpr-distil.txt -threads 16 -efSearch 1000
     # Using HNSW (fp32) index with ONNX encoding
-    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cosdpr-distil.hnsw -topics ${t} -encoder CosDprDistil -output $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw.onnx.${t}.txt -threads 16 -efSearch 1000
+    java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cosdpr-distil.hnsw -topics ${t} -encoder CosDprDistil -output $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw.onnx.${t}.txt -threads 16 -efSearch 1000
     # Using HNSW (int8) index with cached queries
-    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cosdpr-distil.hnsw-int8 -topics ${t}.cosdpr-distil -output $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw-int8.cached_q.${t}.cosdpr-distil.txt -threads 16 -efSearch 1000
+    java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cosdpr-distil.hnsw-int8 -topics ${t}.cosdpr-distil -output $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw-int8.cached_q.${t}.cosdpr-distil.txt -threads 16 -efSearch 1000
     # Using HNSW (int8) index with ONNX encoding
-    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cosdpr-distil.hnsw-int8 -topics ${t} -encoder CosDprDistil -output $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw-int8.onnx.${t}.txt -threads 16 -efSearch 1000
+    java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cosdpr-distil.hnsw-int8 -topics ${t} -encoder CosDprDistil -output $OUTPUT_DIR/run.msmarco-v1-passage.cosdpr-distil.hnsw-int8.onnx.${t}.txt -threads 16 -efSearch 1000
 done
 
 # bge-base-en-v1.5
 TOPICS=(msmarco-v1-passage.dev dl19-passage dl20-passage); for t in "${TOPICS[@]}"
 do
     # Using HNSW (fp32) index with cached queries
-    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.bge-base-en-v1.5.hnsw -topics ${t}.bge-base-en-v1.5 -output $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw.cached_q.${t}.bge-base-en-v1.5.txt -threads 16 -efSearch 1000
+    java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.bge-base-en-v1.5.hnsw -topics ${t}.bge-base-en-v1.5 -output $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw.cached_q.${t}.bge-base-en-v1.5.txt -threads 16 -efSearch 1000
     # Using HNSW (fp32) index with ONNX encoding
-    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.bge-base-en-v1.5.hnsw -topics ${t} -encoder BgeBaseEn15 -output $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw.onnx.${t}.txt -threads 16 -efSearch 1000
+    java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.bge-base-en-v1.5.hnsw -topics ${t} -encoder BgeBaseEn15 -output $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw.onnx.${t}.txt -threads 16 -efSearch 1000
     # Using HNSW (int8) index with cached queries
-    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8 -topics ${t}.bge-base-en-v1.5 -output $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8.cached_q.${t}.bge-base-en-v1.5.txt -threads 16 -efSearch 1000
+    java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8 -topics ${t}.bge-base-en-v1.5 -output $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8.cached_q.${t}.bge-base-en-v1.5.txt -threads 16 -efSearch 1000
     # Using HNSW (int8) index with ONNX encoding
-    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8 -topics ${t} -encoder BgeBaseEn15 -output $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8.onnx.${t}.txt -threads 16 -efSearch 1000
+    java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8 -topics ${t} -encoder BgeBaseEn15 -output $OUTPUT_DIR/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8.onnx.${t}.txt -threads 16 -efSearch 1000
 done
 
 # cohere-embed-english-v3.0

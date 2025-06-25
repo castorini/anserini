@@ -3,7 +3,7 @@ conditions:
     display: "BM25, flat bag-of-words baseline"
     display_html: "BM25, flat bag-of-words baseline"
     display_row: ""
-    command: java -cp $fatjar io.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.flat -topics beir-$topics -output $output -bm25 -removeQuery
+    command: java -cp $fatjar --add-modules jdk.incubator.vectorio.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.flat -topics beir-$topics -output $output -bm25 -removeQuery
     topics:
       - topic_key: trec-covid
         eval_key: beir-v1.0.0-trec-covid.test
@@ -125,7 +125,7 @@ conditions:
     display: "BM25, multifield bag-of-words baseline"
     display_html: "BM25, multifield bag-of-words baseline"
     display_row: ""
-    command: java -cp $fatjar io.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.multifield -topics beir-$topics -output $output -bm25 -removeQuery -fields contents=1.0 title=1.0
+    command: java -cp $fatjar --add-modules jdk.incubator.vectorio.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.multifield -topics beir-$topics -output $output -bm25 -removeQuery -fields contents=1.0 title=1.0
     topics:
       - topic_key: trec-covid
         eval_key: beir-v1.0.0-trec-covid.test
@@ -247,7 +247,7 @@ conditions:
     display: "SPLADE++ cached queries"
     display_html: "SPLADE++ cached queries"
     display_row: ""
-    command: java -cp $fatjar io.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.splade-pp-ed -topics beir-$topics.splade-pp-ed -output $output -impact -pretokenized -removeQuery
+    command: java -cp $fatjar --add-modules jdk.incubator.vectorio.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.splade-pp-ed -topics beir-$topics.splade-pp-ed -output $output -impact -pretokenized -removeQuery
     topics:
     - topic_key: trec-covid
       eval_key: beir-v1.0.0-trec-covid.test
@@ -369,7 +369,7 @@ conditions:
     display: "SPLADE++ ONNX query encoding"
     display_html: "SPLADE++ ONNX query encoding"
     display_row: ""
-    command: java -cp $fatjar io.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.splade-pp-ed -topics beir-$topics -encoder SpladePlusPlusEnsembleDistil -output $output -impact -pretokenized -removeQuery
+    command: java -cp $fatjar --add-modules jdk.incubator.vectorio.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.splade-pp-ed -topics beir-$topics -encoder SpladePlusPlusEnsembleDistil -output $output -impact -pretokenized -removeQuery
     topics:
     - topic_key: trec-covid
       eval_key: beir-v1.0.0-trec-covid.test
@@ -491,7 +491,7 @@ conditions:
     display: "SPLADEv3 cached queries"
     display_html: "SPLADEv3 cached queries"
     display_row: ""
-    command: java -cp $fatjar io.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.splade-v3 -topics beir-$topics.splade-v3 -output $output -impact -pretokenized -removeQuery
+    command: java -cp $fatjar --add-modules jdk.incubator.vectorio.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.splade-v3 -topics beir-$topics.splade-v3 -output $output -impact -pretokenized -removeQuery
     topics:
     - topic_key: trec-covid
       eval_key: beir-v1.0.0-trec-covid.test
@@ -613,7 +613,7 @@ conditions:
     display: "SPLADEv3 ONNX query encoding"
     display_html: "SPLADEv3 ONNX query encoding"
     display_row: ""
-    command: java -cp $fatjar io.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.splade-v3 -topics beir-$topics -encoder SpladeV3 -output $output -impact -pretokenized -removeQuery
+    command: java -cp $fatjar --add-modules jdk.incubator.vectorio.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.splade-v3 -topics beir-$topics -encoder SpladeV3 -output $output -impact -pretokenized -removeQuery
     topics:
     - topic_key: trec-covid
       eval_key: beir-v1.0.0-trec-covid.test

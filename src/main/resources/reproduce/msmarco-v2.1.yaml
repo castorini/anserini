@@ -3,7 +3,7 @@ conditions:
     display: "BM25 doc (k1=0.9, b=0.4)"
     display_html: "BM25 doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
     display_row: ""
-    command: java -cp $fatjar io.anserini.search.SearchCollection -threads $threads -index msmarco-v2.1-doc -topics $topics -output $output -hits 1000 -bm25
+    command: java -cp $fatjar --add-modules jdk.incubator.vectorio.anserini.search.SearchCollection -threads $threads -index msmarco-v2.1-doc -topics $topics -output $output -hits 1000 -bm25
     topics:
       - topic_key: msmarco-v2-doc.dev
         eval_key: msmarco-v2.1-doc.dev
@@ -49,7 +49,7 @@ conditions:
     display: "BM25 segmented doc (k1=0.9, b=0.4)"
     display_html: "BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
     display_row: ""
-    command: java -cp $fatjar io.anserini.search.SearchCollection -threads $threads -index msmarco-v2.1-doc-segmented -topics $topics -output $output -hits 10000 -bm25 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
+    command: java -cp $fatjar --add-modules jdk.incubator.vectorio.anserini.search.SearchCollection -threads $threads -index msmarco-v2.1-doc-segmented -topics $topics -output $output -hits 10000 -bm25 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
     topics:
       - topic_key: msmarco-v2-doc.dev
         eval_key: msmarco-v2.1-doc.dev
