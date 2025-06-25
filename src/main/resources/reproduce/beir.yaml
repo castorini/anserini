@@ -244,8 +244,8 @@ conditions:
         scores:
           - nDCG@10: 0.6647
   - name: splade-pp-ed.cached_q
-    display: "SPLADE++ cached queries"
-    display_html: "SPLADE++ cached queries"
+    display: "SPLADE++ EnsembleDistil (cached queries)"
+    display_html: "SPLADE++ EnsembleDistil (cached queries)"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.splade-pp-ed -topics beir-$topics.splade-pp-ed -output $output -impact -pretokenized -removeQuery
     topics:
@@ -366,8 +366,8 @@ conditions:
       scores:
         - nDCG@10: 0.7041
   - name: splade-pp-ed.onnx
-    display: "SPLADE++ ONNX query encoding"
-    display_html: "SPLADE++ ONNX query encoding"
+    display: "SPLADE++ EnsembleDistil (ONNX)"
+    display_html: "SPLADE++ EnsembleDistil (ONNX)"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.splade-pp-ed -topics beir-$topics -encoder SpladePlusPlusEnsembleDistil -output $output -impact -pretokenized -removeQuery
     topics:
@@ -488,8 +488,8 @@ conditions:
       scores:
         - nDCG@10: 0.7036
   - name: splade-v3.cached_q
-    display: "SPLADEv3 cached queries"
-    display_html: "SPLADEv3 cached queries"
+    display: "SPLADE-v3 (cached queries)"
+    display_html: "SPLADE-v3 (cached queries)"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.splade-v3 -topics beir-$topics.splade-v3 -output $output -impact -pretokenized -removeQuery
     topics:
@@ -610,8 +610,8 @@ conditions:
       scores:
         - nDCG@10: 0.7140
   - name: splade-v3.onnx
-    display: "SPLADEv3 ONNX query encoding"
-    display_html: "SPLADEv3 ONNX query encoding"
+    display: "SPLADE-v3 (ONNX)"
+    display_html: "SPLADE-v3 (ONNX)"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.splade-v3 -topics beir-$topics -encoder SpladeV3 -output $output -impact -pretokenized -removeQuery
     topics:
@@ -732,8 +732,8 @@ conditions:
       scores:
         - nDCG@10: 0.7140
   - name: bge-base-en-v1.5.hnsw.cached_q
-    display: "bge-base-en-v1.5 (HNSW) cached queries"
-    display_html: "bge-base-en-v1.5 (HNSW) cached queries"
+    display: "bge-base-en-v1.5 w/ HNSW indexes (cached queries)"
+    display_html: "bge-base-en-v1.5 w/ HNSW indexes (cached queries)"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index beir-v1.0.0-$topics.bge-base-en-v1.5.hnsw -topics beir-$topics.bge-base-en-v1.5 -output $output -efSearch 1000 -removeQuery
     topics:
@@ -854,8 +854,8 @@ conditions:
       scores:
         - nDCG@10: 0.7408
   - name: bge-base-en-v1.5.hnsw.onnx
-    display: "bge-base-en-v1.5 (HNSW) ONNX query encoding"
-    display_html: "bge-base-en-v1.5 (HNSW) ONNX query encoding"
+    display: "bge-base-en-v1.5 w/ HNSW indexes (ONNX)"
+    display_html: "bge-base-en-v1.5 w/ HNSW indexes (ONNX)"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index beir-v1.0.0-$topics.bge-base-en-v1.5.hnsw -topics beir-$topics -encoder BgeBaseEn15 -output $output -efSearch 1000 -removeQuery
     topics:
@@ -976,8 +976,8 @@ conditions:
       scores:
         - nDCG@10: 0.7408
   - name: bge-base-en-v1.5.flat.cached_q
-    display: "bge-base-en-v1.5 (flat) cached queries"
-    display_html: "bge-base-en-v1.5 (flat) cached queries"
+    display: "bge-base-en-v1.5 w/ flat indexes (cached queries)"
+    display_html: "bge-base-en-v1.5 w/ flat indexes (cached queries)"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchFlatDenseVectors -threads $threads -index beir-v1.0.0-$topics.bge-base-en-v1.5.flat -topics beir-$topics.bge-base-en-v1.5 -output $output -removeQuery
     topics:
@@ -1098,8 +1098,8 @@ conditions:
         scores:
           - nDCG@10: 0.7408
   - name: bge-base-en-v1.5.flat.onnx
-    display: "bge-base-en-v1.5 (flat) ONNX query encoding"
-    display_html: "bge-base-en-v1.5 (flat) ONNX query encoding"
+    display: "bge-base-en-v1.5 w/ flat indexes (ONNX)"
+    display_html: "bge-base-en-v1.5 w/ flat indexes (ONNX)"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchFlatDenseVectors -threads $threads -index beir-v1.0.0-$topics.bge-base-en-v1.5.flat -topics beir-$topics -encoder BgeBaseEn15 -output $output -removeQuery
     topics:
