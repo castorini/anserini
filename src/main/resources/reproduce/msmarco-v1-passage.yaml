@@ -3,7 +3,7 @@ conditions:
     display: "BM25 (k1=0.9, b=0.4)"
     display_html: "BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
     display_row: ""
-    command: java -cp $fatjar io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-passage -topics $topics -output $output -hits 1000 -bm25
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-passage -topics $topics -output $output -hits 1000 -bm25
     topics:
       - topic_key: msmarco-v1-passage.dev
         eval_key: msmarco-passage.dev
@@ -26,7 +26,7 @@ conditions:
     display: "SPLADE++ EnsembleDistil (cached queries)"
     display_html: "SPLADE++ EnsembleDistil (cached queries)"
     display_row: ""
-    command: java -cp $fatjar io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-passage.splade-pp-ed -topics $topics -output $output -impact -pretokenized -hits 1000
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-passage.splade-pp-ed -topics $topics -output $output -impact -pretokenized -hits 1000
     topics:
       - topic_key: msmarco-v1-passage.dev.splade-pp-ed
         eval_key: msmarco-passage.dev
@@ -49,7 +49,7 @@ conditions:
     display: "SPLADE++ EnsembleDistil (ONNX)"
     display_html: "SPLADE++ EnsembleDistil (ONNX)"
     display_row: ""
-    command: java -cp $fatjar io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-passage.splade-pp-ed -topics $topics -output $output -impact -pretokenized -hits 1000 -encoder SpladePlusPlusEnsembleDistil
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-passage.splade-pp-ed -topics $topics -output $output -impact -pretokenized -hits 1000 -encoder SpladePlusPlusEnsembleDistil
     topics:
       - topic_key: msmarco-v1-passage.dev
         eval_key: msmarco-passage.dev
@@ -69,10 +69,10 @@ conditions:
             nDCG@10: 0.7197
             R@1K: 0.8998
   - name: splade-v3.cached_q
-    display: "SPLADEv3 (cached queries)"
-    display_html: "SPLADEv3 (cached queries)"
+    display: "SPLADE-v3 (cached queries)"
+    display_html: "SPLADE-v3 (cached queries)"
     display_row: ""
-    command: java -cp $fatjar io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-passage.splade-v3 -topics $topics -output $output -impact -pretokenized -hits 1000
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-passage.splade-v3 -topics $topics -output $output -impact -pretokenized -hits 1000
     topics:
       - topic_key: msmarco-v1-passage.dev.splade-v3
         eval_key: msmarco-passage.dev
@@ -92,33 +92,33 @@ conditions:
             nDCG@10: 0.7522	
             R@1K: 0.9039
   - name: splade-v3.onnx
-    display: "SPLADEv3 (ONNX)"
-    display_html: "SPLADEv3 (ONNX)"
+    display: "SPLADE-v3 (ONNX)"
+    display_html: "SPLADE-v3 (ONNX)"
     display_row: ""
-    command: java -cp $fatjar io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-passage.splade-v3 -topics $topics -output $output -impact -pretokenized -hits 1000 -encoder SpladeV3
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-passage.splade-v3 -topics $topics -output $output -impact -pretokenized -hits 1000 -encoder SpladeV3
     topics:
       - topic_key: msmarco-v1-passage.dev
         eval_key: msmarco-passage.dev
         scores:
-          - MRR@10: 0.3999
+          - MRR@10: 0.4000
             R@1K: 0.9868
       - topic_key: dl19-passage
         eval_key: dl19-passage
         scores:
-          - MAP: 0.5231
+          - MAP: 0.5232
             nDCG@10: 0.7264
             R@1K: 0.8791
       - topic_key: dl20-passage
         eval_key: dl20-passage
         scores:
-          - MAP: 0.4999
-            nDCG@10: 0.7197
-            R@1K: 0.9258
+          - MAP: 0.5402
+            nDCG@10: 0.7522
+            R@1K: 0.9039
   - name: cosdpr-distil.hnsw.cached_q
     display: "cosDPR-distil w/ HNSW fp32 (cached queries)"
     display_html: "cosDPR-distil w/ HNSW fp32 (cached queries)"
     display_row: ""
-    command: java -cp $fatjar io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.cosdpr-distil.hnsw -topics $topics -output $output -efSearch 1000 -hits 1000
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.cosdpr-distil.hnsw -topics $topics -output $output -efSearch 1000 -hits 1000
     topics:
       - topic_key: msmarco-v1-passage.dev.cosdpr-distil
         eval_key: msmarco-passage.dev
@@ -141,7 +141,7 @@ conditions:
     display: "cosDPR-distil w/ HNSW fp32 (ONNX)"
     display_html: "cosDPR-distil w/ HNSW fp32 (ONNX)"
     display_row: ""
-    command: java -cp $fatjar io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.cosdpr-distil.hnsw -topics $topics -output $output -efSearch 1000 -hits 1000 -encoder CosDprDistil
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.cosdpr-distil.hnsw -topics $topics -output $output -efSearch 1000 -hits 1000 -encoder CosDprDistil
     topics:
       - topic_key: msmarco-v1-passage.dev
         eval_key: msmarco-passage.dev
@@ -164,7 +164,7 @@ conditions:
     display: "cosDPR-distil w/ HNSW int8 (cached queries)"
     display_html: "cosDPR-distil w/ HNSW int8 (cached queries)"
     display_row: ""
-    command: java -cp $fatjar io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.cosdpr-distil.hnsw-int8 -topics $topics -output $output -efSearch 1000 -hits 1000
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.cosdpr-distil.hnsw-int8 -topics $topics -output $output -efSearch 1000 -hits 1000
     topics:
       - topic_key: msmarco-v1-passage.dev.cosdpr-distil
         eval_key: msmarco-passage.dev
@@ -187,7 +187,7 @@ conditions:
     display: "cosDPR-distil w/ HNSW int8 (ONNX)"
     display_html: "cosDPR-distil w/ HNSW int8 (ONNX)"
     display_row: ""
-    command: java -cp $fatjar io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.cosdpr-distil.hnsw-int8 -topics $topics -output $output -efSearch 1000 -hits 1000 -encoder CosDprDistil
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.cosdpr-distil.hnsw-int8 -topics $topics -output $output -efSearch 1000 -hits 1000 -encoder CosDprDistil
     topics:
       - topic_key: msmarco-v1-passage.dev
         eval_key: msmarco-passage.dev
@@ -210,7 +210,7 @@ conditions:
     display: "bge-base-en-v1.5 w/ HNSW fp32 (cached queries)"
     display_html: "bge-base-en-v1.5 w/ HNSW fp32 (cached queries)"
     display_row: ""
-    command: java -cp $fatjar io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.bge-base-en-v1.5.hnsw -topics $topics -output $output -efSearch 1000 -hits 1000
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.bge-base-en-v1.5.hnsw -topics $topics -output $output -efSearch 1000 -hits 1000
     topics:
       - topic_key: msmarco-v1-passage.dev.bge-base-en-v1.5
         eval_key: msmarco-passage.dev
@@ -233,7 +233,7 @@ conditions:
     display: "bge-base-en-v1.5 w/ HNSW fp32 (ONNX)"
     display_html: "bge-base-en-v1.5 w/ HNSW fp32 (ONNX)"
     display_row: ""
-    command: java -cp $fatjar io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.bge-base-en-v1.5.hnsw -topics $topics -output $output -efSearch 1000 -hits 1000 -encoder BgeBaseEn15
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.bge-base-en-v1.5.hnsw -topics $topics -output $output -efSearch 1000 -hits 1000 -encoder BgeBaseEn15
     topics:
       - topic_key: msmarco-v1-passage.dev
         eval_key: msmarco-passage.dev
@@ -256,7 +256,7 @@ conditions:
     display: "bge-base-en-v1.5 w/ HNSW int8 (cached queries)"
     display_html: "bge-base-en-v1.5 w/ HNSW int8 (cached queries)"
     display_row: ""
-    command: java -cp $fatjar io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8 -topics $topics -output $output -efSearch 1000 -hits 1000
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8 -topics $topics -output $output -efSearch 1000 -hits 1000
     topics:
       - topic_key: msmarco-v1-passage.dev.bge-base-en-v1.5
         eval_key: msmarco-passage.dev
@@ -279,7 +279,7 @@ conditions:
     display: "bge-base-en-v1.5 w/ HNSW int8 (ONNX)"
     display_html: "bge-base-en-v1.5 w/ HNSW int8 (ONNX)"
     display_row: ""
-    command: java -cp $fatjar io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8 -topics $topics -output $output -efSearch 1000 -hits 1000 -encoder BgeBaseEn15
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8 -topics $topics -output $output -efSearch 1000 -hits 1000 -encoder BgeBaseEn15
     topics:
       - topic_key: msmarco-v1-passage.dev
         eval_key: msmarco-passage.dev
@@ -302,7 +302,7 @@ conditions:
     display: "cohere-embed-english-v3.0 w/ HNSW fp32 (cached queries)"
     display_html: "cohere-embed-english-v3.0 w/ HNSW fp32 (cached queries)"
     display_row: ""
-    command: java -cp $fatjar io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.cohere-embed-english-v3.0.hnsw -topics $topics -output $output -efSearch 1000 -hits 1000
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.cohere-embed-english-v3.0.hnsw -topics $topics -output $output -efSearch 1000 -hits 1000
     topics:
       - topic_key: msmarco-v1-passage.dev.cohere-embed-english-v3.0
         eval_key: msmarco-passage.dev
@@ -325,7 +325,7 @@ conditions:
     display: "cohere-embed-english-v3.0 w/ HNSW int8 (cached queries)"
     display_html: "cohere-embed-english-v3.0 w/ HNSW int8 (cached queries)"
     display_row: ""
-    command: java -cp $fatjar io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8 -topics $topics -output $output -efSearch 1000 -hits 1000
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8 -topics $topics -output $output -efSearch 1000 -hits 1000
     topics:
       - topic_key: msmarco-v1-passage.dev.cohere-embed-english-v3.0
         eval_key: msmarco-passage.dev
