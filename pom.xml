@@ -451,12 +451,12 @@
     <dependency>
       <groupId>ai.djl.huggingface</groupId>
       <artifactId>tokenizers</artifactId>
-      <version>0.28.0</version>
+      <version>0.33.0</version>
     </dependency>
     <dependency>
       <groupId>ai.djl</groupId>
       <artifactId>api</artifactId>
-      <version>0.31.1</version>
+      <version>0.33.0</version>
       <exclusions>
         <exclusion>
           <groupId>com.google.code.gson</groupId>
@@ -471,7 +471,7 @@
     <dependency>
       <groupId>me.tongfei</groupId>
       <artifactId>progressbar</artifactId>
-      <version>0.10.0</version>
+      <version>0.10.1</version>
     </dependency>
     <dependency>
       <groupId>commons-codec</groupId>
