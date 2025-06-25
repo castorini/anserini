@@ -204,7 +204,7 @@ $ head -n 1 $OUTPUT_DIR/results.msmarco-v2.1-doc-segmented.bm25.rag24.test.jsonl
 Currently, Anserini provides support for the following models:
 
 + BM25
-+ SPLADEv3: cached queries and ONNX query encoding
++ SPLADE-v3: cached queries and ONNX query encoding
 + cosDPR-distil: cached queries and ONNX query encoding
 + bge-base-en-v1.5: cached queries and ONNX query encoding
 + cohere-embed-english-v3.0: cached queries and ONNX query encoding
@@ -214,8 +214,8 @@ The table below reports the effectiveness of the models (dev in terms of RR@10, 
 |                                                              |    dev |   DL19 |   DL20 |
 |:-------------------------------------------------------------|-------:|-------:|-------:|
 | BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.1840 | 0.5058 | 0.4796 |
-| SPLADEv3 (cached queries)                                    | 0.3999 | 0.7264 | 0.7522 |
-| SPLADEv3 (ONNX)                                              | 0.4000 | 0.7264 | 0.7522 |
+| SPLADE-v3 (cached queries)                                   | 0.3999 | 0.7264 | 0.7522 |
+| SPLADE-v3 (ONNX)                                             | 0.4000 | 0.7264 | 0.7522 |
 | cosDPR-distil w/ HNSW fp32 (cached queries)                  | 0.3887 | 0.7250 | 0.7025 |
 | cosDPR-distil w/ HNSW fp32 (ONNX)                            | 0.3887 | 0.7250 | 0.7025 |
 | cosDPR-distil w/ HNSW int8 (cached queries)                  | 0.3897 | 0.7240 | 0.7004 |
