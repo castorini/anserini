@@ -18,11 +18,9 @@ package io.anserini.index.generator;
 
 import io.anserini.collection.SourceDocument;
 import io.anserini.index.Constants;
-import io.anserini.index.IndexHnswDenseVectors;
 import org.apache.lucene.document.BinaryDocValuesField;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
-import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.util.BytesRef;
@@ -36,14 +34,8 @@ import org.apache.logging.log4j.Logger;
  */
 public class InvertedDenseVectorDocumentGenerator<T extends SourceDocument> implements LuceneDocumentGenerator<T> {
   private static final Logger LOG = LogManager.getLogger(InvertedDenseVectorDocumentGenerator.class);
-  protected IndexHnswDenseVectors.Args args;
 
   public InvertedDenseVectorDocumentGenerator() {
-    this(new IndexHnswDenseVectors.Args());
-  }
-
-  public InvertedDenseVectorDocumentGenerator(IndexHnswDenseVectors.Args args) {
-    this.args = args;
   }
 
   @Override
@@ -71,11 +63,7 @@ public class InvertedDenseVectorDocumentGenerator<T extends SourceDocument> impl
     // This is needed to break score ties by docid.
     document.add(new BinaryDocValuesField(Constants.ID, new BytesRef(id)));
 
-    document.add(new TextField(Constants.VECTOR, sb.toString(), Field.Store.NO));
-
-    if (args.storeRaw) {
-      document.add(new StoredField(Constants.RAW, src.raw()));
-    }
+      document.add(new TextField(Constants.VECTOR, sb.toString(), Field.Store.NO));
 
       return document;
     } catch (InvalidDocumentException e) {
