@@ -255,9 +255,9 @@ done
 TOPICS=(msmarco-v1-passage.dev dl19-passage dl20-passage); for t in "${TOPICS[@]}"
 do
     # Using HNSW (fp32) index with cached queries
-    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cohere-embed-english-v3.0.hnsw -topics ${t}.cohere-embed-english-v3.0 -output $OUTPUT_DIR/run.msmarco-v1-passage.cohere-embed-english-v3.0.hnsw.cached_q.${t}.cohere-embed-english-v3.0.txt -threads 16 -efSearch 1000
+    java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cohere-embed-english-v3.0.hnsw -topics ${t}.cohere-embed-english-v3.0 -output $OUTPUT_DIR/run.msmarco-v1-passage.cohere-embed-english-v3.0.hnsw.cached_q.${t}.cohere-embed-english-v3.0.txt -threads 16 -efSearch 1000
     # Using HNSW (int8) index with cached queries
-    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8 -topics ${t}.cohere-embed-english-v3.0 -output $OUTPUT_DIR/run.msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8.cached_q.${t}.cohere-embed-english-v3.0.txt -threads 16 -efSearch 1000
+    java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -index msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8 -topics ${t}.cohere-embed-english-v3.0 -output $OUTPUT_DIR/run.msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8.cached_q.${t}.cohere-embed-english-v3.0.txt -threads 16 -efSearch 1000
 done
 ```
 
