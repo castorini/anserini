@@ -20,6 +20,8 @@ import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.search.SearchCollection;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
 import io.anserini.search.query.PhraseQueryGenerator;
+import io.anserini.util.PrebuiltIndexHandler;
+
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
@@ -52,6 +54,8 @@ import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -835,6 +839,30 @@ public class IndexReaderUtils {
     }
 
     return description;
+  }
+
+  public static Path getIndex(String index) {
+    Path indexPath = Path.of(index);
+    PrebuiltIndexHandler indexHandler = new PrebuiltIndexHandler(index);
+    // We might not be able to successfully create a reader for a variety of reasons, anything from path doesn't exist
+    // to corrupt index. Gather all possible exceptions together as an unchecked exception to make initialization and
+    // error reporting clearer.
+    if (!Files.exists(indexPath)) {
+      // it doesn't exist locally, we try to download it from remote
+      try {
+          indexHandler.initialize();
+          indexHandler.download();
+          indexPath = Path.of(indexHandler.decompressIndex());
+      } catch (IOException e) {
+          throw new RuntimeException("MD5 checksum does not match!");
+      } catch (Exception e) {
+          throw new IllegalArgumentException(String.format("Index path '%s' does not exist or is not a directory.", index));
+      }
+    } else {
+        // if it exists locally, we use it
+        indexPath = Paths.get(index);
+    }
+    return indexPath;
   }
 
   // This is needed by src/main/python/run_regression.py
