@@ -146,6 +146,10 @@ public class HnswDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
     KnnFloatVectorQuery dummyInstance = new KnnFloatVectorQuery(Constants.VECTOR, new float[0], ((Args) args).efSearch);
   }
 
+  public SortedMap<K, ScoredDoc[]> batch_search(List<String> queries, List<K> qids, int k, int threads) {
+    return batch_search(queries, qids, k, threads, null);
+  }
+
   /**
    * Searches the collection in batch using multiple threads.
    *
@@ -155,7 +159,7 @@ public class HnswDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
    * @param threads number of threads
    * @return a map of query id to search results
    */
-  public SortedMap<K, ScoredDoc[]> batch_search(List<String> queries, List<K> qids, int k, int threads) {
+  public SortedMap<K, ScoredDoc[]> batch_search(List<String> queries, List<K> qids, int k, int threads, String outputRerankerRequests) {
     final SortedMap<K, ScoredDoc[]> results = new ConcurrentSkipListMap<>();
     final AtomicInteger cnt = new AtomicInteger();
     final long start = System.nanoTime();
@@ -169,7 +173,12 @@ public class HnswDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
         // This is the per-query execution, in parallel.
         executor.execute(() -> {
           try {
-            results.put(qid, search(qid, queryString, k));
+            ScoredDoc[] docs = search(qid, queryString, k);
+            if (outputRerankerRequests != null) {
+              results.put(qid, processScoredDocs(qid, docs, true));
+            } else {
+              results.put(qid, processScoredDocs(qid, docs, false));
+            }
           } catch (IOException e) {
             throw new CompletionException(e);
           }
