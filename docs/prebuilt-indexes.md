@@ -36,7 +36,7 @@ and has an MD5 checksum of `678876e8c99a89933d553609a0fd8793`.
 You can download, verify, and put anywhere you want.
 With `-index /path/to/index/` you'll get exactly the same output as `-index msmarco-v1-passage`, except now you've got fine-grained control over managing the index.
 
-By manually manging the indexes, you can share indexes between multiple users to conserve space.
+By manually managing the indexes, you can share indexes between multiple users to conserve space.
 The schema of the index location in `~/.cache/pyserini/indexes/` is the tarball name (after unpacking), followed by a dot and the checksum, so `msmarco-v1-passage` lives in following location:
 
 ```
