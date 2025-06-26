@@ -182,64 +182,6 @@ public class BaseSearcher<K extends Comparable<K>> {
     return processScoredDocs(qid, docs, true);
   }
 
-    /**
-   * Processes array of {@link ScoredDoc} for a query based on the configuration for duplicate removal, docid-as-qid removal,
-   * and MaxP. Explicitly supports control over whether to retain references to the original Lucene docs (and hence
-   * memory usage).
-   *
-   * @param qid query id
-   * @param docs array of {@link ScoredDoc} to process
-   * @param keepLuceneDocument whether to retain references to the original Lucene docs
-   * @return processed ranked list
-   */
-  public ScoredDoc[] processScoredDocs(K qid, ScoredDoc[] docs, boolean keepLuceneDocument) {
-    assert docs != null;
-
-    List<ScoredDoc> results = new ArrayList<>();
-    // For removing duplicate docids.
-    Set<String> docids = new HashSet<>();
-
-    int rank = 1;
-    for (int i = 0; i < docs.length; i++) {
-      String docid = docs[i].docid;
-
-      if (args.selectMaxPassage) {
-        docid = docid.split(args.selectMaxPassageDelimiter)[0];
-      }
-
-      if (docids.contains(docid))
-        continue;
-
-      // Remove docids that are identical to the query id if flag is set.
-      if (args.removeQuery && docid.equals(qid))
-        continue;
-
-      // Note that if keepLuceneDocument == true, then we're retaining references to a lot of objects that cannot be
-      // garbage collected. If we're running lots of queries, e.g., from SearchCollection, this can easily exhaust
-      // the heap.
-      // System.out.println(docs[i].lucene_document.get(Constants.RAW));
-      results.add(new ScoredDoc(docid, docs[i].lucene_docid, docs[i].score,
-          keepLuceneDocument ? docs[i].lucene_document : null));
-
-      // Note that this option is set to false by default because duplicate documents usually indicate some
-      // underlying indexing issues, and we don't want to just eat errors silently.
-      //
-      // However, when we're performing passage retrieval, i.e., with "selectMaxSegment", we *do* want to remove
-      // duplicates.
-      if (args.removeDuplicates || args.selectMaxPassage) {
-        docids.add(docid);
-      }
-
-      rank++;
-
-      if (args.selectMaxPassage && rank > args.selectMaxPassageHits) {
-        break;
-      }
-    }
-
-    return results.toArray(new ScoredDoc[0]);
-  }
-
   /**
    * Processes {@link ScoredDocs} for a query based on the configuration for duplicate removal, docid-as-qid removal,
    * and MaxP. Explicitly supports control over whether to retain references to the original Lucene docs (and hence
