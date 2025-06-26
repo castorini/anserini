@@ -18,10 +18,12 @@ package io.anserini.index.generator;
 
 import io.anserini.collection.SourceDocument;
 import io.anserini.index.Constants;
+import io.anserini.index.IndexHnswDenseVectors;
 import org.apache.lucene.document.BinaryDocValuesField;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.KnnFloatVectorField;
+import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.VectorSimilarityFunction;
 import org.apache.lucene.util.BytesRef;
@@ -37,6 +39,15 @@ import org.apache.logging.log4j.Logger;
  */
 public class DenseVectorDocumentGenerator<T extends SourceDocument> implements LuceneDocumentGenerator<T> {
   private static final Logger LOG = LogManager.getLogger(DenseVectorDocumentGenerator.class);
+  protected IndexHnswDenseVectors.Args args;
+
+  public DenseVectorDocumentGenerator() {
+    this(new IndexHnswDenseVectors.Args());
+  }
+
+  public DenseVectorDocumentGenerator(IndexHnswDenseVectors.Args args) {
+    this.args = args;
+  }
 
   /**
    * Creates a Lucene document from the source document.
@@ -60,6 +71,10 @@ public class DenseVectorDocumentGenerator<T extends SourceDocument> implements L
       document.add(new StringField(Constants.ID, src.id(), Field.Store.YES));
       document.add(new BinaryDocValuesField(Constants.ID, new BytesRef(src.id())));
       document.add(new KnnFloatVectorField(Constants.VECTOR, contents, VectorSimilarityFunction.DOT_PRODUCT));
+
+      if (args.storeRaw) {
+        document.add(new StoredField(Constants.RAW, src.raw()));
+      }
 
       return document;
 

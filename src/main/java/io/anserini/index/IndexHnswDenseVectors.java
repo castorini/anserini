@@ -42,9 +42,12 @@ import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public final class IndexHnswDenseVectors extends AbstractIndexer {
   private static final Logger LOG = LogManager.getLogger(IndexHnswDenseVectors.class);
@@ -61,6 +64,10 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
 
     @Option(name = "-quantize.int8", usage = "Quantize vectors into int8.")
     public boolean quantizeInt8 = false;
+
+    @Option(name = "-storeRaw",
+    usage = "Boolean switch to store raw source documents.")
+    public boolean storeRaw = false;
 
     @Option(name = "-storeVectors", usage = "Boolean switch to store raw raw vectors.")
     public boolean storeVectors = false;
@@ -167,6 +174,21 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
       LOG.info(" + SegmentsPerTier: " + args.segmentsPerTier);
       LOG.info(" + MaxMergeAtOnce: " + args.maxMergeAtOnce);
     }
+  }
+
+  protected void processSegments(ThreadPoolExecutor executor, List<Path> segmentPaths) {
+    segmentPaths.forEach((segmentPath) -> {
+      try {
+        // Each thread gets its own document generator, so we don't need to make any assumptions about its thread safety.
+        @SuppressWarnings("unchecked")
+        LuceneDocumentGenerator<SourceDocument> generator = (LuceneDocumentGenerator<SourceDocument>)
+                generatorClass.getDeclaredConstructor(Args.class).newInstance(this.args);
+
+        executor.execute(new AbstractIndexer.IndexerThread(segmentPath, generator));
+      } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+        throw new IllegalArgumentException(String.format("Unable to load LuceneDocumentGenerator \"%s\".", generatorClass.getSimpleName()));
+      }
+    });
   }
 
   // Solution provided by Solr, see https://www.mail-archive.com/java-user@lucene.apache.org/msg52149.html
