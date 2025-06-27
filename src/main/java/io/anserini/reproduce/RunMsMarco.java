@@ -36,7 +36,7 @@ public class RunMsMarco {
     @Option(name = "-options", usage = "Print information about options.")
     public Boolean options = false;
 
-    @Option(name = "-collection", usage = "MS MARCO version {'msmarco-v1-passage' (default), 'msmarco-v2.1-doc'}.")
+    @Option(name = "-collection", usage = "MS MARCO version {'msmarco-v1-passage' (default), 'msmarco-v2.1-doc', 'msmarco-v2.1-segmented-doc'}.")
     public String MsMarcoVersion = "msmarco-v1-passage";
   }
 
@@ -68,7 +68,8 @@ public class RunMsMarco {
       return;
     }
 
-    Set<String> allowedVersions = new HashSet<>(Arrays.asList("msmarco-v1-passage", "msmarco-v2.1-doc"));
+    Set<String> allowedVersions =new HashSet<>(
+            Arrays.asList("msmarco-v1-passage", "msmarco-v2.1-doc", "msmarco-v2.1-segmented-doc"));
     if (!allowedVersions.contains(MsMarcoArgs.MsMarcoVersion)) {
         System.err.println("Invalid MS MARCO version: " + MsMarcoArgs.MsMarcoVersion);
         System.exit(1);
