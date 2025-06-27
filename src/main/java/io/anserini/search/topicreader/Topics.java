@@ -887,6 +887,7 @@ public enum Topics {
   }
 
   public static Topics getBaseTopics(String name) {
+    name = name.replaceFirst("^topics\\.", "");
     String regex = "^(.*?)(?:[.-](bge|cohere|splade|unicoil|cosdpr|txt|tsv|v\\d+|v\\d+\\.\\d+)).*";
     return Topics.getByName(name.replaceAll(regex, "$1"));
   }

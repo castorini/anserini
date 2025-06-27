@@ -18,7 +18,6 @@ package io.anserini.search;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-import io.anserini.rerank.OutputRerankerRequests;
 import io.anserini.search.topicreader.TopicReader;
 import io.anserini.search.topicreader.Topics;
 import org.apache.logging.log4j.LogManager;
@@ -52,9 +51,6 @@ public final class SearchHnswDenseVectors<K extends Comparable<K>> implements Ru
 
     @Option(name = "-output", metaVar = "[file]", required = true, usage = "output file")
     public String output;
-
-    @Option(name = "-outputRerankerRequests", metaVar = "[file]", usage = "Output file for reranking")
-    public String outputRerankerRequests;
 
     @Option(name = "-topicReader", usage = "TopicReader to use.")
     public String topicReader = "JsonIntVector";
@@ -157,18 +153,6 @@ public final class SearchHnswDenseVectors<K extends Comparable<K>> implements Ru
       });
     } catch (IOException e) {
       // Rethrow as unchecked; if we encounter an exception here, the caller should really look into it.
-      throw new RuntimeException(e);
-    }
-
-    try{
-      if (args.outputRerankerRequests != null) {
-          OutputRerankerRequests<K> rerankerRequests = new OutputRerankerRequests<>(args.topics, args.index, args.outputRerankerRequests);
-          for (K qid : results.keySet()) {
-            rerankerRequests.fromScoredDoc(qid, results.get(qid));
-          }
-          rerankerRequests.close();
-      }
-    } catch (IOException e) {
       throw new RuntimeException(e);
     }
   }
