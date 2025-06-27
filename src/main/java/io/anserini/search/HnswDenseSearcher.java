@@ -84,7 +84,7 @@ public class HnswDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
     Path indexPath = IndexReaderUtils.getIndex(args.index);
 
     try {
-      this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
+      this.reader = IndexReaderUtils.getReader(indexPath);
     } catch (IOException e) {
       throw new IllegalArgumentException(String.format("\"%s\" does not appear to be a valid index.", args.index));
     }

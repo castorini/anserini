@@ -172,14 +172,25 @@ public class IndexReaderUtils {
   }
 
   /**
-   * Creates an {@link IndexReader} given a path.
+   * Creates an {@link IndexReader} given a String path.
    *
    * @param path index path
    * @return index reader
    * @throws IOException if any errors are encountered
    */
   public static IndexReader getReader(String path) throws IOException {
-    Directory dir = FSDirectory.open(Paths.get(path));
+    return getReader(Paths.get(path));
+  }
+
+    /**
+   * Creates an {@link IndexReader} given a Path.
+   *
+   * @param path index path
+   * @return index reader
+   * @throws IOException if any errors are encountered
+   */
+  public static IndexReader getReader(Path path) throws IOException {
+    Directory dir = FSDirectory.open(path);
     return DirectoryReader.open(dir);
   }
 
@@ -856,7 +867,7 @@ public class IndexReaderUtils {
       } catch (IOException e) {
           throw new RuntimeException("MD5 checksum does not match!");
       } catch (Exception e) {
-          throw new IllegalArgumentException(String.format("Index path '%s' does not exist or is not a directory.", index));
+          throw new IllegalArgumentException(String.format("\"%s\" does not appear to be a valid index.", index));
       }
     } else {
         // if it exists locally, we use it
