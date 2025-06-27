@@ -149,6 +149,17 @@ public class RunMsMarco {
       msmarco_v21_doc.put("rag24.raggy-dev", rag24RaggyMetrics);
 
       metricDefinitions.put("msmarco-v2.1-doc", msmarco_v21_doc);
+
+      Map<String, Map<String, String>> msmarco_v21_segmented_doc = new HashMap<>();
+
+      // msmarco-v2.1-segmented-doc definitions
+      Map<String, String> rag24testMetrics = new HashMap<>();
+      rag24testMetrics.put("nDCG@10", "-c -m ndcg_cut.10");
+      rag24testMetrics.put("nDCG@20", "-c -m ndcg_cut.20");
+      rag24testMetrics.put("R@100", "-c -m recall.100");
+      msmarco_v21_segmented_doc.put("rag24.raggy-dev", rag24testMetrics);
+
+      metricDefinitions.put("msmarco-v2.1-segmented-doc", msmarco_v21_segmented_doc);
     }
   }
 
