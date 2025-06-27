@@ -1,0 +1,13 @@
+conditions:
+  - name: bm25
+    display: "BM25 segmented doc (k1=0.9, b=0.4)"
+    display_html: "BM25 doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
+    display_row: ""
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v2.1-doc-segmented -topics $topics -output $output -hits 1000 -bm25
+    topics:
+      - topic_key: rag24.test
+        eval_key: rag24.test-umbrela-all
+        scores:
+          - nDCG@10: 0.3198
+            nDCG@20: 0.2563
+            R@100: 0.3502
