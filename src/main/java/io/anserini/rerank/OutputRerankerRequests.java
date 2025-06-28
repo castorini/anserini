@@ -94,6 +94,9 @@ public class OutputRerankerRequests<K extends Comparable<K>> implements Closeabl
 
   public void addCandidate(String docid, float score) throws JsonProcessingException {
     String raw = IndexReaderUtils.documentRaw(indexReader, docid);
+    if (raw == null) {
+      throw new IllegalArgumentException("Raw document with docid " + docid + " not found in index.");
+    }
     JsonNode rootNode = mapper.readTree(raw);
     Map<String, Object> content = mapper.convertValue(rootNode, Map.class);
     content.remove(Constants.ID); // Remove the ID field from the content
@@ -107,8 +110,12 @@ public class OutputRerankerRequests<K extends Comparable<K>> implements Closeabl
   }
 
   public void writeQuery(K qid) throws JsonProcessingException {
+    int index = qids.indexOf(qid);
+    if (index == -1) {
+      throw new IllegalArgumentException("Query ID not found in the list of topics: " + qid);
+    }
     Map<String, Object> queryMap = new LinkedHashMap<>();
-    queryMap.put("query", new LinkedHashMap<>(Map.of("qid", qid, "text", queries.get(qids.indexOf(qid)))));
+    queryMap.put("query", new LinkedHashMap<>(Map.of("qid", qid, "text", queries.get(index))));
     queryMap.put("candidates", candidates);
     output.println(mapper.writeValueAsString(queryMap));
     candidates = new ArrayList<>();
@@ -152,7 +159,7 @@ public class OutputRerankerRequests<K extends Comparable<K>> implements Closeabl
     if (!Files.exists(topicsFilePath) || !Files.isRegularFile(topicsFilePath) || !Files.isReadable(topicsFilePath)) {
         Topics ref = Topics.getBaseTopics(topicsFile);
         if (ref==null) {
-          throw new IllegalArgumentException(String.format("\"%s\" does not refer to valid topics.", topicsFilePath));
+          throw new IllegalArgumentException(String.format("\"%s\" does not refer to valid topics.", topicsFile));
         } else {
           System.out.println("Generating outputRerankerRequests with raw topics from: " + ref.toString());
           topics.putAll(TopicReader.getTopics(ref));
@@ -164,6 +171,7 @@ public class OutputRerankerRequests<K extends Comparable<K>> implements Closeabl
               .forName(String.format("io.anserini.search.topicreader.%sTopicReader", args.topicReader))
               .getConstructor(Path.class).newInstance(topicsFilePath);
 
+          System.out.println("Generating outputRerankerRequests with raw topics from: " + topicsFilePath.toString());
           topics.putAll(tr.read());
         } catch (Exception e) {
           throw new IllegalArgumentException(String.format("Unable to load topic reader \"%s\".", args.topicReader));
@@ -201,7 +209,6 @@ public class OutputRerankerRequests<K extends Comparable<K>> implements Closeabl
   }
 
   public void run() throws IOException {
-    System.out.println("============ Generating Reranker Requests ============");
     fromRunFile();
   }
 
