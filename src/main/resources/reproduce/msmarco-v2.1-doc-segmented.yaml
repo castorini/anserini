@@ -1,0 +1,133 @@
+conditions:
+  - name: bm25
+    display: "BM25 segmented doc (k1=0.9, b=0.4)"
+    display_html: "BM25 doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
+    display_row: ""
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v2.1-doc-segmented -topics $topics -output $output -hits 1000 -bm25
+    topics:
+      - topic_key: rag24.test
+        eval_key: rag24.test-umbrela-all
+        scores:
+          - nDCG@20: 0.3198
+            nDCG@100: 0.2563
+            R@100: 0.1395
+  - name: shard00.arctic-l.hnsw-int8.onnx
+    display: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
+    display_html: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
+    display_row: ""
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard00.arctic-embed-l.hnsw-int8 -topics $topics -topicReader TsvString -topicField title -encoder ArcticEmbedL -output $output -hits 250
+    topics:
+      - topic_key: rag24.test
+        eval_key: rag24.test-umbrela-all
+        scores:
+          - nDCG@20: 0.2981
+            nDCG@100: 0.1782
+            R@100: 0.0742
+  - name: shard01.arctic-l.hnsw-int8.onnx
+    display: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
+    display_html: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
+    display_row: ""
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard01.arctic-embed-l.hnsw-int8 -topics $topics -topicReader TsvString -topicField title -encoder ArcticEmbedL -output $output -hits 250
+    topics:
+      - topic_key: rag24.test
+        eval_key: rag24.test-umbrela-all
+        scores:
+          - nDCG@20: 0.2981
+            nDCG@100: 0.1782
+            R@100: 0.0742
+  - name: shard02.arctic-l.hnsw-int8.onnx
+    display: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
+    display_html: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
+    display_row: ""
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard02.arctic-embed-l.hnsw-int8 -topics $topics -topicReader TsvString -topicField title -encoder ArcticEmbedL -output $output -hits 250
+    topics:
+      - topic_key: rag24.test
+        eval_key: rag24.test-umbrela-all
+        scores:
+          - nDCG@20: 0.2981
+            nDCG@100: 0.1782
+            R@100: 0.0742
+  - name: shard03.arctic-l.hnsw-int8.onnx
+    display: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
+    display_html: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
+    display_row: ""
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard03.arctic-embed-l.hnsw-int8 -topics $topics -topicReader TsvString -topicField title -encoder ArcticEmbedL -output $output -hits 250
+    topics:
+      - topic_key: rag24.test
+        eval_key: rag24.test-umbrela-all
+        scores:
+          - nDCG@20: 0.2981
+            nDCG@100: 0.1782
+            R@100: 0.0742
+  - name: shard04.arctic-l.hnsw-int8.onnx
+    display: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
+    display_html: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
+    display_row: ""
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard04.arctic-embed-l.hnsw-int8 -topics $topics -topicReader TsvString -topicField title -encoder ArcticEmbedL -output $output -hits 250
+    topics:
+      - topic_key: rag24.test
+        eval_key: rag24.test-umbrela-all
+        scores:
+          - nDCG@20: 0.2981
+            nDCG@100: 0.1782
+            R@100: 0.0742
+  - name: shard05.arctic-l.hnsw-int8.onnx
+    display: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
+    display_html: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
+    display_row: ""
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard05.arctic-embed-l.hnsw-int8 -topics $topics -topicReader TsvString -topicField title -encoder ArcticEmbedL -output $output -hits 250
+    topics:
+      - topic_key: rag24.test
+        eval_key: rag24.test-umbrela-all
+        scores:
+          - nDCG@20: 0.2981
+            nDCG@100: 0.1782
+            R@100: 0.0742
+  - name: shard06.arctic-l.hnsw-int8.onnx
+    display: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
+    display_html: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
+    display_row: ""
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard06.arctic-embed-l.hnsw-int8 -topics $topics -topicReader TsvString -topicField title -encoder ArcticEmbedL -output $output -hits 250
+    topics:
+      - topic_key: rag24.test
+        eval_key: rag24.test-umbrela-all
+        scores:
+          - nDCG@20: 0.2981
+            nDCG@100: 0.1782
+            R@100: 0.0742
+  - name: shard07.arctic-l.hnsw-int8.onnx
+    display: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
+    display_html: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
+    display_row: ""
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard07.arctic-embed-l.hnsw-int8 -topics $topics -topicReader TsvString -topicField title -encoder ArcticEmbedL -output $output -hits 250
+    topics:
+      - topic_key: rag24.test
+        eval_key: rag24.test-umbrela-all
+        scores:
+          - nDCG@20: 0.2981
+            nDCG@100: 0.1782
+            R@100: 0.0742
+  - name: shard08.arctic-l.hnsw-int8.onnx
+    display: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
+    display_html: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
+    display_row: ""
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard08.arctic-embed-l.hnsw-int8 -topics $topics -topicReader TsvString -topicField title -encoder ArcticEmbedL -output $output -hits 250
+    topics:
+      - topic_key: rag24.test
+        eval_key: rag24.test-umbrela-all
+        scores:
+          - nDCG@20: 0.2981
+            nDCG@100: 0.1782
+            R@100: 0.0742
+  - name: shard09.arctic-l.hnsw-int8.onnx
+    display: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
+    display_html: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
+    display_row: ""
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard09.arctic-embed-l.hnsw-int8 -topics $topics -topicReader TsvString -topicField title -encoder ArcticEmbedL -output $output -hits 250
+    topics:
+      - topic_key: rag24.test
+        eval_key: rag24.test-umbrela-all
+        scores:
+          - nDCG@20: 0.2981
+            nDCG@100: 0.1782
+            R@100: 0.0742

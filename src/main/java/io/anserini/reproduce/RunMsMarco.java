@@ -36,7 +36,7 @@ public class RunMsMarco {
     @Option(name = "-options", usage = "Print information about options.")
     public Boolean options = false;
 
-    @Option(name = "-collection", usage = "MS MARCO version {'msmarco-v1-passage' (default), 'msmarco-v2.1-doc', 'msmarco-v2.1-segmented-doc'}.")
+    @Option(name = "-collection", usage = "MS MARCO version {'msmarco-v1-passage' (default), 'msmarco-v2.1-doc', 'msmarco-v2.1-doc-segmented'}.")
     public String MsMarcoVersion = "msmarco-v1-passage";
   }
 
@@ -69,7 +69,7 @@ public class RunMsMarco {
     }
 
     Set<String> allowedVersions =new HashSet<>(
-            Arrays.asList("msmarco-v1-passage", "msmarco-v2.1-doc", "msmarco-v2.1-segmented-doc"));
+            Arrays.asList("msmarco-v1-passage", "msmarco-v2.1-doc", "msmarco-v2.1-doc-segmented"));
     if (!allowedVersions.contains(MsMarcoArgs.MsMarcoVersion)) {
         System.err.println("Invalid MS MARCO version: " + MsMarcoArgs.MsMarcoVersion);
         System.exit(1);
@@ -150,16 +150,16 @@ public class RunMsMarco {
 
       metricDefinitions.put("msmarco-v2.1-doc", msmarco_v21_doc);
 
-      Map<String, Map<String, String>> msmarco_v21_segmented_doc = new HashMap<>();
+      Map<String, Map<String, String>> msmarco_v21_doc_segmented = new HashMap<>();
 
       // msmarco-v2.1-segmented-doc definitions
       Map<String, String> rag24testMetrics = new HashMap<>();
-      rag24testMetrics.put("nDCG@10", "-c -m ndcg_cut.10");
       rag24testMetrics.put("nDCG@20", "-c -m ndcg_cut.20");
+      rag24testMetrics.put("nDCG@100", "-c -m ndcg_cut.100");
       rag24testMetrics.put("R@100", "-c -m recall.100");
-      msmarco_v21_segmented_doc.put("rag24.raggy-dev", rag24testMetrics);
+      msmarco_v21_doc_segmented.put("rag24.test-umbrela-all", rag24testMetrics);
 
-      metricDefinitions.put("msmarco-v2.1-segmented-doc", msmarco_v21_segmented_doc);
+      metricDefinitions.put("msmarco-v2.1-doc-segmented", msmarco_v21_doc_segmented);
     }
   }
 

@@ -114,13 +114,13 @@ public class RunRepro {
               double delta = Math.abs(score - expected.get(metric));
 
               if ( score > expected.get(metric)) {
-                System.out.printf("    %7s: %.4f %s expected %.4f%n", metric, score, OKAY_ISH, expected.get(metric));
+                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, OKAY_ISH, expected.get(metric));
               } else if (delta < 0.00001) {
-                System.out.printf("    %7s: %.4f [OK]%n", metric, score);
+                System.out.printf("    %8s: %.4f [OK]%n", metric, score);
               } else if (delta < 0.0002) {
-                System.out.printf("    %7s: %.4f %s expected %.4f%n", metric, score, OKAY_ISH, expected.get(metric));
+                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, OKAY_ISH, expected.get(metric));
               } else {
-                System.out.printf("    %7s: %.4f %s expected %.4f%n", metric, score, FAIL, expected.get(metric));
+                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, FAIL, expected.get(metric));
               }
             } else {
               System.out.println("Evaluation command failed for metric: " + metric);
