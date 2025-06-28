@@ -98,9 +98,6 @@ You should get an MRR (`recip_rank`) of 0.3828.
 
 See [detailed instructions](docs/fatjar-regressions/fatjar-regressions-v1.0.0.md) for the current fatjar release of Anserini (v1.0.0) to reproduce regression experiments on the MS MARCO V2.1 corpora for TREC 2024 RAG, on MS MARCO V1 Passage, and on BEIR, all directly from the fatjar!
 
-Also, Anserini comes with a built-in webapp for interactive querying along with a REST API that can be used by other applications.
-Check out our documentation [here](docs/rest-api.md).
-
 ❗ Beware, Anserini ships with many prebuilt indexes, which are automatically downloaded upon request: these indexes can take up a lot of space.
 See [this guide on prebuilt indexes](docs/prebuilt-indexes.md) for more details.
 

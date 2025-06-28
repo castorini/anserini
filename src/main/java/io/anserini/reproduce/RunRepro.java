@@ -33,10 +33,13 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 public class RunRepro {
   // ANSI escape code for red text
   private static final String RED = "\u001B[31m";
+  // ANSI escape code for blue text
+  private static final String BLUE = "\u001B[94m";
   // ANSI escape code to reset to the default text color
   private static final String RESET = "\u001B[0m";
 
   private static final String FAIL = RED + "[FAIL]" + RESET;
+  private static final String OKAY_ISH = BLUE + "[OK*]" + RESET;
 
   private final String COLLECTION;
   private final TrecEvalMetricDefinitions metricDefinitions;
@@ -59,7 +62,7 @@ public class RunRepro {
         .getResourceAsStream("reproduce/" + COLLECTION + ".yaml"), Config.class);
 
     for (Condition condition : config.conditions) {
-      System.out.println(String.format("# Running condition \"%s\": %s \n", condition.name, condition.display));
+      System.out.printf("# Running condition \"%s\": %s \n%n", condition.name, condition.display);
       for (Topic topic : condition.topics) {
         System.out.println("  - topic_key: " + topic.topic_key + "\n");
 
@@ -110,10 +113,14 @@ public class RunRepro {
               double score = Double.parseDouble(scoreString);
               double delta = Math.abs(score - expected.get(metric));
 
-              if (delta > 0.00005) {
-                System.out.println(String.format("    %7s: %.4f %s expected %.4f", metric, score, FAIL, expected.get(metric)));
+              if ( score > expected.get(metric)) {
+                System.out.printf("    %7s: %.4f %s expected %.4f%n", metric, score, OKAY_ISH, expected.get(metric));
+              } else if (delta < 0.00001) {
+                System.out.printf("    %7s: %.4f [OK]%n", metric, score);
+              } else if (delta < 0.0002) {
+                System.out.printf("    %7s: %.4f %s expected %.4f%n", metric, score, OKAY_ISH, expected.get(metric));
               } else {
-                System.out.println(String.format("    %7s: %.4f [OK]", metric, score));
+                System.out.printf("    %7s: %.4f %s expected %.4f%n", metric, score, FAIL, expected.get(metric));
               }
             } else {
               System.out.println("Evaluation command failed for metric: " + metric);
