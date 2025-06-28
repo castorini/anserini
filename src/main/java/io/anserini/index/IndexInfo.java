@@ -36,7 +36,7 @@ public enum IndexInfo {
       IndexType.SPARSE_INVERTED,
       null,
       null,
-      ""),
+      "cacm"),
 
   // MS MARCO V1
   MSMARCO_V1_PASSAGE("msmarco-v1-passage",
@@ -51,7 +51,7 @@ public enum IndexInfo {
       IndexType.SPARSE_INVERTED,
       null,
       null,
-      ""),
+      "msmarco-v1-passage"),
 
   MSMARCO_V1_PASSAGE_SPLADE_PP_ED("msmarco-v1-passage.splade-pp-ed",
       "Lucene impact index of the MS MARCO V1 passage corpus encoded by SPLADE++ CoCondenser-EnsembleDistil.",
@@ -178,7 +178,7 @@ public enum IndexInfo {
       IndexType.SPARSE_INVERTED,
       null,
       null,
-      ""),
+      "msmarco-v2-passage"),
 
   MSMARCO_V2_DOC("msmarco-v2-doc",
       "Lucene index of the MS MARCO V2 document corpus.",
@@ -192,7 +192,7 @@ public enum IndexInfo {
       IndexType.SPARSE_INVERTED,
       null,
       null,
-      ""),
+      "msmarco-v2-doc"),
 
   MSMARCO_V2_DOC_SEGMENTED("msmarco-v2-doc-segmented",
       "Lucene index of the MS MARCO V2 segmented document corpus.",
@@ -206,7 +206,7 @@ public enum IndexInfo {
       IndexType.SPARSE_INVERTED,
       null,
       null,
-      ""),
+      "msmarco-v2-doc-segmented"),
 
   MSMARCO_V21_DOC("msmarco-v2.1-doc",
       "Lucene index of the MS MARCO V2.1 document corpus.",
