@@ -182,7 +182,7 @@ public class IndexReaderUtils {
     return getReader(Paths.get(path));
   }
 
-    /**
+  /**
    * Creates an {@link IndexReader} given a Path.
    *
    * @param path index path

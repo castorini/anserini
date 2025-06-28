@@ -16,6 +16,8 @@
 
 package io.anserini.rerank;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.lucene.index.IndexReader;
 import org.checkerframework.checker.units.qual.K;
 import org.kohsuke.args4j.CmdLineException;
@@ -50,7 +52,9 @@ import io.anserini.search.ScoredDoc;
 import io.anserini.search.topicreader.TopicReader;
 import io.anserini.search.topicreader.Topics;
 
-public class OutputRerankerRequests<K extends Comparable<K>> implements Closeable {
+public class GenerateRerankerRequests<K extends Comparable<K>> implements Closeable {
+  private static final Logger LOG = LogManager.getLogger(GenerateRerankerRequests.class);
+
   public static class Args {
     @Option(name = "-index", required = true, usage = "Name or path of Lucene index with raw documents")
     public String index;
@@ -84,7 +88,7 @@ public class OutputRerankerRequests<K extends Comparable<K>> implements Closeabl
   private IndexReader indexReader;
   private PrintWriter output;
 
-  public OutputRerankerRequests(Args args) throws IOException {
+  public GenerateRerankerRequests(Args args) throws IOException {
     this.args = args;
     this.indexReader = getIndexReader(args.index);
     this.output = new PrintWriter(Files.newBufferedWriter(Paths.get(args.output), StandardCharsets.UTF_8));
@@ -121,14 +125,14 @@ public class OutputRerankerRequests<K extends Comparable<K>> implements Closeabl
     candidates = new ArrayList<>();
   }
 
-  public void fromScoredDoc(K qid, ScoredDoc[] results) throws JsonProcessingException, IOException {
+  public void useScoredDoc(K qid, ScoredDoc[] results) throws JsonProcessingException, IOException {
     for (ScoredDoc r : results) {
         addCandidate(r.docid, r.score);
     }
     writeQuery(qid);
   }
 
-  public void fromRunFile() throws IOException {
+  public void useRunFile() throws IOException {
     Path filepath = Paths.get(args.run);
     try (BufferedReader br = new BufferedReader(new FileReader(filepath.toFile()))) {
       String line, curQid = "";
@@ -161,7 +165,7 @@ public class OutputRerankerRequests<K extends Comparable<K>> implements Closeabl
         if (ref==null) {
           throw new IllegalArgumentException(String.format("\"%s\" does not refer to valid topics.", topicsFile));
         } else {
-          System.out.println("Generating outputRerankerRequests with raw topics from: " + ref.toString());
+          LOG.info("Generating reranker requests with raw topics from: " + ref.toString());
           topics.putAll(TopicReader.getTopics(ref));
         }
     } else {
@@ -171,7 +175,7 @@ public class OutputRerankerRequests<K extends Comparable<K>> implements Closeabl
               .forName(String.format("io.anserini.search.topicreader.%sTopicReader", args.topicReader))
               .getConstructor(Path.class).newInstance(topicsFilePath);
 
-          System.out.println("Generating outputRerankerRequests with raw topics from: " + topicsFilePath.toString());
+          LOG.info("Generating reranker requests with raw topics from: " + topicsFilePath.toString());
           topics.putAll(tr.read());
         } catch (Exception e) {
           throw new IllegalArgumentException(String.format("Unable to load topic reader \"%s\".", args.topicReader));
@@ -184,7 +188,7 @@ public class OutputRerankerRequests<K extends Comparable<K>> implements Closeabl
         assert query != null;
         qids.add(qid);
         queries.add(query);
-    });
+      });
     } catch (AssertionError|Exception e) {
       throw new IllegalArgumentException(String.format("Unable to read topic field \"%s\".", TOPIC_FIELD));
     }
@@ -196,7 +200,7 @@ public class OutputRerankerRequests<K extends Comparable<K>> implements Closeabl
       IndexInfo currentIndex = IndexInfo.get(index);
       indexPath = IndexReaderUtils.getIndex(currentIndex.invertedIndex);
     }
-    System.out.println("Generating outputRerankerRequests with raw documents from index: " + indexPath.toString());
+    LOG.info("Generating reranker requests with raw documents from index: " + indexPath.toString());
     try {
       return IndexReaderUtils.getReader(indexPath);
     } catch (IOException e) {
@@ -209,7 +213,7 @@ public class OutputRerankerRequests<K extends Comparable<K>> implements Closeabl
   }
 
   public void run() throws IOException {
-    fromRunFile();
+    useRunFile();
   }
 
   public static void main(String[] args) {
@@ -220,7 +224,7 @@ public class OutputRerankerRequests<K extends Comparable<K>> implements Closeabl
       parser.parseArgument(args);
     } catch (CmdLineException e) {
       if (generateArgs.options) {
-        System.err.printf("Options for %s:\n\n", OutputRerankerRequests.class.getSimpleName());
+        System.err.printf("Options for %s:\n\n", GenerateRerankerRequests.class.getSimpleName());
         parser.printUsage(System.err);
 
         List<String> required = new ArrayList<>();
@@ -238,7 +242,7 @@ public class OutputRerankerRequests<K extends Comparable<K>> implements Closeabl
       return;
     }
 
-    try(OutputRerankerRequests<?> generator = new OutputRerankerRequests<>(generateArgs)){
+    try(GenerateRerankerRequests<?> generator = new GenerateRerankerRequests<>(generateArgs)){
       generator.run();
     } catch (Exception e) {
       System.err.printf("Error: %s\n", e.getMessage());

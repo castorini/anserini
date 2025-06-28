@@ -25,7 +25,7 @@ import java.io.PrintStream;
 import org.junit.Test;
 import io.anserini.TestUtils;
 
-public class OutputRerankerRequestsTest {
+public class GenerateRerankerRequestsTest {
   private final ByteArrayOutputStream err = new ByteArrayOutputStream();
   private PrintStream save;
 
@@ -42,13 +42,13 @@ public class OutputRerankerRequestsTest {
   @Test
   public void testPrebuilt() throws Exception {
     redirectStderr();
-    OutputRerankerRequests.Args args = new OutputRerankerRequests.Args();
+    GenerateRerankerRequests.Args args = new GenerateRerankerRequests.Args();
     args.index = "cacm";
     args.run = "src/test/resources/sample_runs/run4";
     args.topics = "cacm";
     args.output = "test_reranker_requests.jsonl";
 
-    OutputRerankerRequests<String> outputRerankerRequests = new OutputRerankerRequests<>(args);
+    GenerateRerankerRequests<String> outputRerankerRequests = new GenerateRerankerRequests<>(args);
     outputRerankerRequests.close();
     assertTrue(!err.toString().contains("Error: "));
     assertTrue(new File("test_reranker_requests.jsonl").delete());
@@ -58,13 +58,13 @@ public class OutputRerankerRequestsTest {
   @Test
   public void testParseTopics() throws Exception {
     redirectStderr();
-    OutputRerankerRequests.Args args = new OutputRerankerRequests.Args();
+    GenerateRerankerRequests.Args args = new GenerateRerankerRequests.Args();
     args.index = "cacm";
     args.run = "src/test/resources/sample_runs/run4";
     args.topics = "cacm.bge-base-en-v1.5";
     args.output = "test_reranker_requests.jsonl";
 
-    OutputRerankerRequests<String> outputRerankerRequests = new OutputRerankerRequests<>(args);
+    GenerateRerankerRequests<String> outputRerankerRequests = new GenerateRerankerRequests<>(args);
     outputRerankerRequests.close();
     assertTrue(!err.toString().contains("Error: "));
     assertTrue(new File("test_reranker_requests.jsonl").delete());
@@ -74,13 +74,13 @@ public class OutputRerankerRequestsTest {
   @Test
   public void testLocalIndex() throws Exception {
     redirectStderr();
-    OutputRerankerRequests.Args args = new OutputRerankerRequests.Args();
+    GenerateRerankerRequests.Args args = new GenerateRerankerRequests.Args();
     args.index = "src/test/resources/prebuilt_indexes/raw-beir-collection1-index";
     args.run = "src/test/resources/sample_runs/run4";
     args.topics = "cacm";
     args.output = "test_reranker_requests.jsonl";
 
-    OutputRerankerRequests<String> outputRerankerRequests = new OutputRerankerRequests<>(args);
+    GenerateRerankerRequests<String> outputRerankerRequests = new GenerateRerankerRequests<>(args);
     outputRerankerRequests.close();
     assertTrue(!err.toString().contains("Error: "));
     assertTrue(new File("test_reranker_requests.jsonl").delete());
@@ -90,13 +90,13 @@ public class OutputRerankerRequestsTest {
   @Test
   public void testLocalTopics() throws Exception {
     redirectStderr();
-    OutputRerankerRequests.Args args = new OutputRerankerRequests.Args();
+    GenerateRerankerRequests.Args args = new GenerateRerankerRequests.Args();
     args.index = "cacm";
     args.run = "src/test/resources/sample_runs/run4";
     args.topics = "src/test/resources/sample_topics/acl_topics.tsv";
     args.output = "test_reranker_requests.jsonl";
 
-    OutputRerankerRequests<String> outputRerankerRequests = new OutputRerankerRequests<>(args);
+    GenerateRerankerRequests<String> outputRerankerRequests = new GenerateRerankerRequests<>(args);
     outputRerankerRequests.close();
     assertTrue(!err.toString().contains("Error: "));
     assertTrue(new File("test_reranker_requests.jsonl").delete());
@@ -113,7 +113,7 @@ public class OutputRerankerRequestsTest {
         "-output", "test_reranker_requests.jsonl"
     };
 
-    OutputRerankerRequests.main(rerankArgs);
+    GenerateRerankerRequests.main(rerankArgs);
     assertTrue(err.toString().contains("Raw document with docid "));
     assertTrue(err.toString().contains("not found in index."));
     assertTrue(new File("test_reranker_requests.jsonl").delete());
@@ -130,7 +130,7 @@ public class OutputRerankerRequestsTest {
         "-output", "test_reranker_requests.jsonl"
     };
 
-    OutputRerankerRequests.main(rerankArgs);
+    GenerateRerankerRequests.main(rerankArgs);
     assertTrue(err.toString().contains("Query ID not found in the list of topics:"));
     assertTrue(new File("test_reranker_requests.jsonl").delete());
     restoreStderr();
@@ -146,7 +146,7 @@ public class OutputRerankerRequestsTest {
         "-output", "test_reranker_requests.jsonl"
     };
 
-    OutputRerankerRequests.main(rerankArgs);
+    GenerateRerankerRequests.main(rerankArgs);
     assertTrue(!err.toString().contains("Error: "));
     
     try {
