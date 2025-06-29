@@ -70,16 +70,16 @@ java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.100 rag24.test-umbrela-all $OUTP
 java -cp $ANSERINI_JAR trec_eval -c -m recall.100 rag24.test-umbrela-all $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.rag24.test.txt
 ```
 
-To generate jsonl output containing the raw documents that can be reranked and further processed, use the `-outputRerankerRequests` option to specify an output file.
+To generate jsonl output containing the raw documents that can be reranked and further processed, use the `GenerateRerankerRequests` module on the run file.
 For example:
 
 ```bash
-java -cp $ANSERINI_JAR io.anserini.search.SearchCollection \
+java -cp $ANSERINI_JAR io.anserini.rerank.OutputRerankerRequests \
   -index msmarco-v2.1-doc-segmented \
+  -run $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.rag24.test.txt \
   -topics rag24.test \
-  -output $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.rag24.test.txt \
-  -bm25 -hits 20 \
-  -outputRerankerRequests $OUTPUT_DIR/results.msmarco-v2.1-doc-segmented.bm25.rag24.test.jsonl
+  -output $OUTPUT_DIR/results.msmarco-v2.1-doc-segmented.bm25.rag24.test.jsonl \
+  -hits 20
 ```
 
 In the above command, we only fetch the top-20 hits.
