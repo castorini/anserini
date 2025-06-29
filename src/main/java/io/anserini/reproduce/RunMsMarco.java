@@ -68,7 +68,7 @@ public class RunMsMarco {
       return;
     }
 
-    Set<String> allowedVersions =new HashSet<>(
+    Set<String> allowedVersions = new HashSet<>(
             Arrays.asList("msmarco-v1-passage", "msmarco-v2.1-doc", "msmarco-v2.1-doc-segmented"));
     if (!allowedVersions.contains(MsMarcoArgs.MsMarcoVersion)) {
         System.err.println("Invalid MS MARCO version: " + MsMarcoArgs.MsMarcoVersion);
