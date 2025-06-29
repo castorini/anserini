@@ -193,7 +193,7 @@ public class DataModel {
     this.conversions = conversions;
   }
 
-  static public class Topic {
+  public static class Topic {
     private String name;
     private String id;
     private String path;
@@ -215,7 +215,7 @@ public class DataModel {
     public void setConvert_params(String convert_params) { this.convert_params = convert_params; }
   }
 
-  static public class Model {
+  public static class Model {
     private String name;
     private String display;
     private String type;
@@ -239,7 +239,7 @@ public class DataModel {
     public void setTolerance(Map<String, List<Float>> tolerance) { this.tolerance = tolerance; }
   }
 
-  static public class Conversion {
+  public static class Conversion {
     private String command;
     private String in_file_ext;
     private String out_file_ext;
@@ -255,7 +255,7 @@ public class DataModel {
     public void setParams(String params) { this.params = params; }
   }
 
-  static public class Metric {
+  public static class Metric {
     private String command;
     private String params;
     private String separator;

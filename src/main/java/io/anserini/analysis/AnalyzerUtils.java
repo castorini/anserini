@@ -16,7 +16,6 @@
 
 package io.anserini.analysis;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.anserini.collection.DocumentCollection;
 import io.anserini.collection.FileSegment;
 import io.anserini.collection.SourceDocument;
@@ -36,11 +35,11 @@ import java.util.Map;
 
 public class AnalyzerUtils {
 
-  static public List<String> analyze(String s) {
+  public static List<String> analyze(String s) {
     return analyze(IndexCollection.DEFAULT_ANALYZER, s);
   }
 
-  static public List<String> analyze(Analyzer analyzer, String s) {
+  public static List<String> analyze(Analyzer analyzer, String s) {
     List<String> list = new ArrayList<>();
 
     try {
@@ -62,7 +61,7 @@ public class AnalyzerUtils {
     return list;
   }
 
-  static public Map<String, Long> computeDocumentVector(Analyzer analyzer, String s) {
+  public static Map<String, Long> computeDocumentVector(Analyzer analyzer, String s) {
     Map<String, Long> termFreqMap = new HashMap<>();
 
     try {
@@ -85,7 +84,7 @@ public class AnalyzerUtils {
   }
 
   @SuppressWarnings("unchecked")
-  static public Map<String, Long> computeDocumentVector(Analyzer analyzer, Class parser, String s) {
+  public static Map<String, Long> computeDocumentVector(Analyzer analyzer, Class parser, String s) {
     String content = "";
 
     try {

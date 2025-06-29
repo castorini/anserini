@@ -874,7 +874,7 @@ public enum Topics {
     return m;
   }
 
-  static public Topics getByName(String name) {
+  public static Topics getByName(String name) {
     try {
       return Topics.valueOf(name);
     } catch (IllegalArgumentException e) {
@@ -884,5 +884,11 @@ public enum Topics {
 
       return null;
     }
+  }
+
+  public static Topics getBaseTopics(String name) {
+    name = name.replaceFirst("^topics\\.", ""); // Remove "topics." prefix if present
+    String regex = "^(.*?)(?:[.-](bge|cohere|splade|unicoil|cosdpr|txt|tsv|v\\d+|v\\d+\\.\\d+)).*"; // Regex to remove model suffixes to get base topi name
+    return Topics.getByName(name.replaceAll(regex, "$1"));
   }
 }

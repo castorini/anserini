@@ -28,6 +28,7 @@ import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.collection.DocumentCollection;
 import io.anserini.encoder.sparse.SparseEncoder;
 import io.anserini.index.Constants;
+import io.anserini.index.IndexReaderUtils;
 import io.anserini.index.generator.TweetGenerator;
 import io.anserini.index.generator.WashingtonPostGenerator;
 import io.anserini.rerank.RerankerCascade;
@@ -46,7 +47,6 @@ import io.anserini.search.similarity.TaggedSimilarity;
 import io.anserini.search.topicreader.BackgroundLinkingTopicReader;
 import io.anserini.search.topicreader.TopicReader;
 import io.anserini.search.topicreader.Topics;
-import io.anserini.util.PrebuiltIndexHandler;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -987,23 +987,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
   @SuppressWarnings("unchecked")
   public SearchCollection(Args args) throws IOException {
     this.args = args;
-    Path indexPath = Path.of(args.index);
-    PrebuiltIndexHandler indexHandler = new PrebuiltIndexHandler(args.index);
-    if (!Files.exists(indexPath)) {
-      // it doesn't exist locally, we try to download it from remote
-      try {
-        indexHandler.initialize();
-        indexHandler.download();
-        indexPath = Path.of(indexHandler.decompressIndex());
-      } catch (IOException e) {
-        throw new RuntimeException("MD5 checksum does not match!");
-      } catch (Exception e) {
-        throw new IllegalArgumentException(String.format("Index path '%s' does not exist or is not a directory.", args.index));
-      }
-    } else {
-      // if it exists locally, we use it
-      indexPath = Paths.get(args.index);
-    }
+    Path indexPath = IndexReaderUtils.getIndex(args.index);
 
     LOG.info("============ Initializing Searcher ============");
     LOG.info("Index: " + indexPath);
