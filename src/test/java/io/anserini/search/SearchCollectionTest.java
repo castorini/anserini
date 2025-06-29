@@ -81,7 +81,7 @@ public class SearchCollectionTest {
 
     err.reset();
     SearchCollection.main(new String[] {"-index", "foo", "-output", "bar", "-topicReader", "baz", "-topics", "topic",});
-    assertTrue(err.toString().contains("Index path 'foo' does not exist or is not a directory."));
+    assertTrue(err.toString().contains("\"foo\" does not appear to be a valid index."));
 
     restoreStderr();
   }
