@@ -139,7 +139,7 @@ Here's how you reproduce results on the TREC 2024 RAG Track test queries, using 
 # RAG24 test
 SHARDS=(00 01 02 03 04 05 06 07 08 09); for shard in "${SHARDS[@]}"
 do
-    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v2.1-doc-segmented-shard${shard}.arctic-embed-l.hnsw-int8 -efSearch 1000 -topics rag24.test -topicReader TsvString -topicField title -encoder ArcticEmbedL -output $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.shard${shard}.txt -hits 250 -threads 32 > $OUTPUT_DIR/log.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.shard${shard}.txt 2>&1
+    java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads 32 -index msmarco-v2.1-doc-segmented-shard${shard}.arctic-embed-l.hnsw-int8 -topics rag24.test -topicReader TsvString -topicField title -encoder ArcticEmbedL -output $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.shard${shard}.txt -hits 250 -efSearch 1000 > $OUTPUT_DIR/log.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.shard${shard}.txt 2>&1
 done
 ```
 
@@ -150,7 +150,7 @@ done
 # RAG24 test
 SHARDS=(00 01 02 03 04 05 06 07 08 09); for shard in "${SHARDS[@]}"
 do
-    java -cp $ANSERINI_JAR io.anserini.search.SearchHnswDenseVectors -index msmarco-v2.1-doc-segmented-shard${shard}.arctic-embed-l.hnsw-int8 -efSearch 1000 -topics rag24.test.snowflake-arctic-embed-l -output $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.shard${shard}.txt -hits 250 -threads 32 > $OUTPUT_DIR/log.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.shard${shard}.txt 2>&1
+    java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads 32 -index msmarco-v2.1-doc-segmented-shard${shard}.arctic-embed-l.hnsw-int8 -topics rag24.test.snowflake-arctic-embed-l -output $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.shard${shard}.txt -hits 250 -efSearch 1000 > $OUTPUT_DIR/log.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.shard${shard}.txt 2>&1
 done
 ```
 
