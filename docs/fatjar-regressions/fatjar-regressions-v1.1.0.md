@@ -97,7 +97,7 @@ Here's how you reproduce results for all the shards at once, also using ONNX to 
 # RAG24 test
 java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector \
   io.anserini.search.SearchShardedHnswDenseVectors \
-  -threads 32 \
+  -threads 4 \
   -index "msmarco-v2.1-doc-segmented-shard00.arctic-embed-l.hnsw-int8,msmarco-v2.1-doc-segmented-shard01.arctic-embed-l.hnsw-int8,msmarco-v2.1-doc-segmented-shard02.arctic-embed-l.hnsw-int8,msmarco-v2.1-doc-segmented-shard03.arctic-embed-l.hnsw-int8,msmarco-v2.1-doc-segmented-shard04.arctic-embed-l.hnsw-int8,msmarco-v2.1-doc-segmented-shard05.arctic-embed-l.hnsw-int8,msmarco-v2.1-doc-segmented-shard06.arctic-embed-l.hnsw-int8,msmarco-v2.1-doc-segmented-shard07.arctic-embed-l.hnsw-int8,msmarco-v2.1-doc-segmented-shard08.arctic-embed-l.hnsw-int8,msmarco-v2.1-doc-segmented-shard09.arctic-embed-l.hnsw-int8" \
   -topics rag24.test -topicReader TsvString -topicField title \
   -encoder ArcticEmbedL \
@@ -113,7 +113,7 @@ java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector \
 # RAG24 test
 java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector \
   io.anserini.search.SearchShardedHnswDenseVectors \
-  -threads 32 \
+  -threads 4 \
   -index "msmarco-v2.1-doc-segmented-shard00.arctic-embed-l.hnsw-int8,msmarco-v2.1-doc-segmented-shard01.arctic-embed-l.hnsw-int8,msmarco-v2.1-doc-segmented-shard02.arctic-embed-l.hnsw-int8,msmarco-v2.1-doc-segmented-shard03.arctic-embed-l.hnsw-int8,msmarco-v2.1-doc-segmented-shard04.arctic-embed-l.hnsw-int8,msmarco-v2.1-doc-segmented-shard05.arctic-embed-l.hnsw-int8,msmarco-v2.1-doc-segmented-shard06.arctic-embed-l.hnsw-int8,msmarco-v2.1-doc-segmented-shard07.arctic-embed-l.hnsw-int8,msmarco-v2.1-doc-segmented-shard08.arctic-embed-l.hnsw-int8,msmarco-v2.1-doc-segmented-shard09.arctic-embed-l.hnsw-int8" \
   -topics rag24.test.snowflake-arctic-embed-l \
   -output $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.txt \
