@@ -70,58 +70,6 @@ java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.100 rag24.test-umbrela-all $OUTP
 java -cp $ANSERINI_JAR trec_eval -c -m recall.100 rag24.test-umbrela-all $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.rag24.test.txt
 ```
 
-To generate jsonl output containing the raw documents that can be reranked and further processed, use the `GenerateRerankerRequests` module on the run file.
-For example:
-
-```bash
-java -cp $ANSERINI_JAR io.anserini.rerank.OutputRerankerRequests \
-  -index msmarco-v2.1-doc-segmented \
-  -run $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.rag24.test.txt \
-  -topics rag24.test \
-  -output $OUTPUT_DIR/results.msmarco-v2.1-doc-segmented.bm25.rag24.test.jsonl \
-  -hits 20
-```
-
-In the above command, we only fetch the top-20 hits.
-To examine the output, pipe through `jq` to pretty-print:
-
-```bash
-$ head -n 1 $OUTPUT_DIR/results.msmarco-v2.1-doc-segmented.bm25.rag24.test.jsonl | jq
-{
-  "query": {
-    "qid": "2024-105741",
-    "text": "is it dangerous to have wbc over 15,000 without treatment?"
-  },
-  "candidates": [
-    {
-      "docid": "msmarco_v2.1_doc_16_287012450#4_490828734",
-      "score": 15.8199,
-      "doc": {
-        "url": "https://emedicine.medscape.com/article/961169-treatment",
-        "title": "Bacteremia Treatment & Management: Medical Care",
-        "headings": "Bacteremia Treatment & Management\nBacteremia Treatment & Management\nMedical Care\nHow well do low-risk criteria work?\nEmpiric antibiotics: How well do they work?\nTreatment algorithms\n",
-        "segment": "band-to-neutrophil ratio\n< 0.2\n< 20,000/μL\n5-15,000/μL; ABC < 1,000\n5-15,000/μL; ABC < 1,000\nUrine assessment\n< 10 WBCs per HPF; Negative for bacteria\n< 10 WBCs per HPF; Leukocyte esterase negative\n< 10 WBCs per HPF\n< 5 WBCs per HPF\nCSF assessment\n< 8 WBCs per HPF; Negative for bacteria\n< 10 WBCs per HPF\n< 10-20 WBCs per HPF\n…\nChest radiography\nNo infiltrate\nWithin reference range, if obtained\nWithin reference range, if obtained\n…\nStool culture\n< 5 WBCs per HPF\n…\n< 5 WBCs per HPF\n…\n* Acute illness observation score\nHow well do low-risk criteria work? The above guidelines are presented to define a group of febrile young infants who can be treated without antibiotics. Statistically, this translates into a high NPV (ie, a very high proportion of true negative cultures is observed in patients deemed to be at low risk). The NPV of various low-risk criteria for serious bacterial infection and occult bacteremia are as follows [ 10, 14, 16, 19, 74, 75, 76] : Philadelphia NPV - 95-100%\nBoston NPV - 95-98%\nRochester NPV - 98.3-99%\nAAP 1993 - 99-99.8%\nIn basic terms, even by the most stringent criteria, somewhere between 1 in 100 and 1 in 500 low-risk, but bacteremic, febrile infants are missed.",
-        "start_char": 2846,
-        "end_char": 4049
-      }
-    },
-    {
-      "docid": "msmarco_v2.1_doc_16_287012450#3_490827079",
-      "score": 15.231,
-      "doc": {
-        "url": "https://emedicine.medscape.com/article/961169-treatment",
-        "title": "Bacteremia Treatment & Management: Medical Care",
-        "headings": "Bacteremia Treatment & Management\nBacteremia Treatment & Management\nMedical Care\nHow well do low-risk criteria work?\nEmpiric antibiotics: How well do they work?\nTreatment algorithms\n",
-        "segment": "73] Since then, numerous studies have evaluated combinations of age, temperature, history, examination findings, and laboratory results to determine which young infants are at a low risk for bacterial infection. [ 10, 66, 74, 75, 76]\nThe following are the low-risk criteria established by groups from Philadelphia, Boston, and Rochester and the 1993 American Academy of Pediatrics (AAP) guideline. Table 11. Low-Risk Criteria for Infants Younger than 3 Months [ 10, 74, 75, 76] (Open Table in a new window)\nCriterion\nPhiladelphia\nBoston\nRochester\nAAP 1993\nAge\n1-2 mo\n1-2 mo\n0-3 mo\n1-3 mo\nTemperature\n38.2°C\n≥38°C\n≥38°C\n≥38°C\nAppearance\nAIOS * < 15\nWell\nAny\nWell\nHistory\nImmune\nNo antibiotics in the last 24 h; No immunizations in the last 48 h\nPreviously healthy\nPreviously healthy\nExamination\nNonfocal\nNonfocal\nNonfocal\nNonfocal\nWBC count\n< 15,000/μL; band-to-neutrophil ratio\n< 0.2\n< 20,000/μL\n5-15,000/μL; ABC < 1,000\n5-15,000/μL; ABC < 1,000\nUrine assessment\n< 10 WBCs per HPF; Negative for bacteria\n< 10 WBCs per HPF; Leukocyte esterase negative\n< 10 WBCs per HPF\n< 5 WBCs per HPF\nCSF assessment\n< 8 WBCs per HPF;",
-        "start_char": 1993,
-        "end_char": 3111
-      }
-    },
-    ...
-  ]
-}
-```
-
 ### ArcticEmbed-L
 
 For **ArcticEmbed-L**, Anserini also provides prebuilt indexes with ArcticEmbed-L embeddings.
@@ -184,6 +132,60 @@ java -cp $ANSERINI_JAR trec_eval -c -m recall.100 rag24.test-umbrela-all $OUTPUT
 ```
 
 You should arrive at exactly the effectiveness metrics above.
+
+### Generate Reranker Requests
+
+To generate jsonl output containing the raw documents that can be reranked and further processed, use the `GenerateRerankerRequests` module on the desired run file.
+For example, to generate for the BM25 retrieval results:
+
+```bash
+java -cp $ANSERINI_JAR io.anserini.rerank.GenerateRerankerRequests \
+  -index msmarco-v2.1-doc-segmented \
+  -run $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.rag24.test.txt \
+  -topics rag24.test \
+  -output $OUTPUT_DIR/results.msmarco-v2.1-doc-segmented.bm25.rag24.test.jsonl \
+  -hits 20
+```
+
+In the above command, we only fetch the top-20 hits.
+To examine the output, pipe through `jq` to pretty-print:
+
+```bash
+$ head -n 1 $OUTPUT_DIR/results.msmarco-v2.1-doc-segmented.bm25.rag24.test.jsonl | jq
+{
+  "query": {
+    "qid": "2024-105741",
+    "text": "is it dangerous to have wbc over 15,000 without treatment?"
+  },
+  "candidates": [
+    {
+      "docid": "msmarco_v2.1_doc_16_287012450#4_490828734",
+      "score": 15.8199,
+      "doc": {
+        "url": "https://emedicine.medscape.com/article/961169-treatment",
+        "title": "Bacteremia Treatment & Management: Medical Care",
+        "headings": "Bacteremia Treatment & Management\nBacteremia Treatment & Management\nMedical Care\nHow well do low-risk criteria work?\nEmpiric antibiotics: How well do they work?\nTreatment algorithms\n",
+        "segment": "band-to-neutrophil ratio\n< 0.2\n< 20,000/μL\n5-15,000/μL; ABC < 1,000\n5-15,000/μL; ABC < 1,000\nUrine assessment\n< 10 WBCs per HPF; Negative for bacteria\n< 10 WBCs per HPF; Leukocyte esterase negative\n< 10 WBCs per HPF\n< 5 WBCs per HPF\nCSF assessment\n< 8 WBCs per HPF; Negative for bacteria\n< 10 WBCs per HPF\n< 10-20 WBCs per HPF\n…\nChest radiography\nNo infiltrate\nWithin reference range, if obtained\nWithin reference range, if obtained\n…\nStool culture\n< 5 WBCs per HPF\n…\n< 5 WBCs per HPF\n…\n* Acute illness observation score\nHow well do low-risk criteria work? The above guidelines are presented to define a group of febrile young infants who can be treated without antibiotics. Statistically, this translates into a high NPV (ie, a very high proportion of true negative cultures is observed in patients deemed to be at low risk). The NPV of various low-risk criteria for serious bacterial infection and occult bacteremia are as follows [ 10, 14, 16, 19, 74, 75, 76] : Philadelphia NPV - 95-100%\nBoston NPV - 95-98%\nRochester NPV - 98.3-99%\nAAP 1993 - 99-99.8%\nIn basic terms, even by the most stringent criteria, somewhere between 1 in 100 and 1 in 500 low-risk, but bacteremic, febrile infants are missed.",
+        "start_char": 2846,
+        "end_char": 4049
+      }
+    },
+    {
+      "docid": "msmarco_v2.1_doc_16_287012450#3_490827079",
+      "score": 15.231,
+      "doc": {
+        "url": "https://emedicine.medscape.com/article/961169-treatment",
+        "title": "Bacteremia Treatment & Management: Medical Care",
+        "headings": "Bacteremia Treatment & Management\nBacteremia Treatment & Management\nMedical Care\nHow well do low-risk criteria work?\nEmpiric antibiotics: How well do they work?\nTreatment algorithms\n",
+        "segment": "73] Since then, numerous studies have evaluated combinations of age, temperature, history, examination findings, and laboratory results to determine which young infants are at a low risk for bacterial infection. [ 10, 66, 74, 75, 76]\nThe following are the low-risk criteria established by groups from Philadelphia, Boston, and Rochester and the 1993 American Academy of Pediatrics (AAP) guideline. Table 11. Low-Risk Criteria for Infants Younger than 3 Months [ 10, 74, 75, 76] (Open Table in a new window)\nCriterion\nPhiladelphia\nBoston\nRochester\nAAP 1993\nAge\n1-2 mo\n1-2 mo\n0-3 mo\n1-3 mo\nTemperature\n38.2°C\n≥38°C\n≥38°C\n≥38°C\nAppearance\nAIOS * < 15\nWell\nAny\nWell\nHistory\nImmune\nNo antibiotics in the last 24 h; No immunizations in the last 48 h\nPreviously healthy\nPreviously healthy\nExamination\nNonfocal\nNonfocal\nNonfocal\nNonfocal\nWBC count\n< 15,000/μL; band-to-neutrophil ratio\n< 0.2\n< 20,000/μL\n5-15,000/μL; ABC < 1,000\n5-15,000/μL; ABC < 1,000\nUrine assessment\n< 10 WBCs per HPF; Negative for bacteria\n< 10 WBCs per HPF; Leukocyte esterase negative\n< 10 WBCs per HPF\n< 5 WBCs per HPF\nCSF assessment\n< 8 WBCs per HPF;",
+        "start_char": 1993,
+        "end_char": 3111
+      }
+    },
+    ...
+  ]
+}
+```
 
 ## MS MARCO V1 Passage
 
