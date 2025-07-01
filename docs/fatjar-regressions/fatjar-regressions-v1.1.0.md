@@ -104,7 +104,21 @@ done
 
 </details>
 
-Here's how you reproduce results for all the shards at once, also using ONNX to encode queries:
+For evaluation purposes, you can just cat all the 10 run files together and evaluate:
+
+```bash
+cat $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.shard0* > $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.txt
+
+java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.20 rag24.test-umbrela-all $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.txt
+java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.100 rag24.test-umbrela-all $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.txt
+java -cp $ANSERINI_JAR trec_eval -c -m recall.100 rag24.test-umbrela-all $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.txt
+```
+
+You should arrive at exactly the effectiveness metrics above.
+
+Alternatively, you can use `SearchShardedHnswDenseVectors` to search all the shards at once.
+Here, you trade off fine-grained control for convenience.
+In the following, we use ONNX to encode queries:
 
 ```bash
 # RAG24 test
@@ -118,7 +132,8 @@ java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.search.Sea
   > $OUTPUT_DIR/log.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.txt 2>&1
 ```
 
-To evaluate:
+In this case, the output run file contains results from all the shards.
+You can directly evaluate:
 
 ```bash
 java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.20 rag24.test-umbrela-all $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.txt
