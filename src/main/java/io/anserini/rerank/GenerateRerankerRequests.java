@@ -195,14 +195,13 @@ public class GenerateRerankerRequests<K extends Comparable<K>> implements Closea
   }
 
   public IndexReader getIndexReader(String index) {
-    Path indexPath = Path.of(index);
-    if (!Files.exists(indexPath)) { // get inverted index if index doesn't exist locally
+    if (!Files.exists(Paths.get(index))) { // get inverted index if index doesn't exist locally
       IndexInfo currentIndex = IndexInfo.get(index);
-      indexPath = IndexReaderUtils.getIndex(currentIndex.invertedIndex);
+      index = IndexReaderUtils.getIndex(currentIndex.invertedIndex).toString();
     }
-    LOG.info("Generating reranker requests with raw documents from index: " + indexPath.toString());
+    LOG.info("Generating reranker requests with raw documents from index: " + index);
     try {
-      return IndexReaderUtils.getReader(indexPath);
+      return IndexReaderUtils.getReader(index);
     } catch (IOException e) {
       throw new IllegalArgumentException(String.format("\"%s\" does not appear to have a valid inverted index.", index));
     }
