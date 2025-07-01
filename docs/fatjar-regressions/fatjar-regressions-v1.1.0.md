@@ -55,7 +55,7 @@ The command below will download the index automatically.
 See [this guide on prebuilt indexes](../prebuilt-indexes.md) for more details.
 
 ```bash
-java -cp $ANSERINI_JAR io.anserini.search.SearchCollection \
+java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.search.SearchCollection \
   -index msmarco-v2.1-doc-segmented \
   -topics rag24.test \
   -output $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.rag24.test.txt \
@@ -91,12 +91,38 @@ do
 done
 ```
 
-Here's how you reproduce results for all the shards at once, also using ONNX to encode queries:
+<details>
+<summary>Same commands, but using cached queries (faster)</summary>
 
 ```bash
 # RAG24 test
-java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector \
-  io.anserini.search.SearchShardedHnswDenseVectors \
+SHARDS=(00 01 02 03 04 05 06 07 08 09); for shard in "${SHARDS[@]}"
+do
+    java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads 32 -index msmarco-v2.1-doc-segmented-shard${shard}.arctic-embed-l.hnsw-int8 -topics rag24.test.snowflake-arctic-embed-l -output $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.shard${shard}.txt -hits 250 -efSearch 1000 > $OUTPUT_DIR/log.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.shard${shard}.txt 2>&1
+done
+```
+
+</details>
+
+For evaluation purposes, you can just cat all the 10 run files together and evaluate:
+
+```bash
+cat $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.shard0* > $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.txt
+
+java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.20 rag24.test-umbrela-all $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.txt
+java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.100 rag24.test-umbrela-all $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.txt
+java -cp $ANSERINI_JAR trec_eval -c -m recall.100 rag24.test-umbrela-all $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.txt
+```
+
+You should arrive at exactly the effectiveness metrics above.
+
+Alternatively, you can use `SearchShardedHnswDenseVectors` to search all the shards at once.
+Here, you trade off fine-grained control for convenience.
+In the following, we use ONNX to encode queries:
+
+```bash
+# RAG24 test
+java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.search.SearchShardedHnswDenseVectors \
   -threads 4 \
   -index "msmarco-v2.1-doc-segmented-shard00.arctic-embed-l.hnsw-int8,msmarco-v2.1-doc-segmented-shard01.arctic-embed-l.hnsw-int8,msmarco-v2.1-doc-segmented-shard02.arctic-embed-l.hnsw-int8,msmarco-v2.1-doc-segmented-shard03.arctic-embed-l.hnsw-int8,msmarco-v2.1-doc-segmented-shard04.arctic-embed-l.hnsw-int8,msmarco-v2.1-doc-segmented-shard05.arctic-embed-l.hnsw-int8,msmarco-v2.1-doc-segmented-shard06.arctic-embed-l.hnsw-int8,msmarco-v2.1-doc-segmented-shard07.arctic-embed-l.hnsw-int8,msmarco-v2.1-doc-segmented-shard08.arctic-embed-l.hnsw-int8,msmarco-v2.1-doc-segmented-shard09.arctic-embed-l.hnsw-int8" \
   -topics rag24.test -topicReader TsvString -topicField title \
@@ -106,24 +132,8 @@ java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector \
   > $OUTPUT_DIR/log.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.txt 2>&1
 ```
 
-<details>
-<summary>Same command for searching all the shards, but using cached queries (faster)</summary>
-
-```bash
-# RAG24 test
-java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector \
-  io.anserini.search.SearchShardedHnswDenseVectors \
-  -threads 4 \
-  -index "msmarco-v2.1-doc-segmented-shard00.arctic-embed-l.hnsw-int8,msmarco-v2.1-doc-segmented-shard01.arctic-embed-l.hnsw-int8,msmarco-v2.1-doc-segmented-shard02.arctic-embed-l.hnsw-int8,msmarco-v2.1-doc-segmented-shard03.arctic-embed-l.hnsw-int8,msmarco-v2.1-doc-segmented-shard04.arctic-embed-l.hnsw-int8,msmarco-v2.1-doc-segmented-shard05.arctic-embed-l.hnsw-int8,msmarco-v2.1-doc-segmented-shard06.arctic-embed-l.hnsw-int8,msmarco-v2.1-doc-segmented-shard07.arctic-embed-l.hnsw-int8,msmarco-v2.1-doc-segmented-shard08.arctic-embed-l.hnsw-int8,msmarco-v2.1-doc-segmented-shard09.arctic-embed-l.hnsw-int8" \
-  -topics rag24.test.snowflake-arctic-embed-l \
-  -output $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.txt \
-  -hits 250 -efSearch 1000 \
-  > $OUTPUT_DIR/log.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.txt 2>&1
-```
-
-</details>
-
-To evaluate:
+In this case, the output run file contains results from all the shards.
+You can directly evaluate:
 
 ```bash
 java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.20 rag24.test-umbrela-all $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.txt
@@ -135,11 +145,11 @@ You should arrive at exactly the effectiveness metrics above.
 
 ### Generate Reranker Requests
 
-To generate jsonl output containing the raw documents that can be reranked and further processed, use the `GenerateRerankerRequests` module on the desired run file.
+To generate jsonl output containing the raw documents that can be reranked and further processed (for example, using [RankLLM](https://rankllm.ai/)), use the `GenerateRerankerRequests` program on the desired run file.
 For example, to generate for the BM25 retrieval results:
 
 ```bash
-java -cp $ANSERINI_JAR io.anserini.rerank.GenerateRerankerRequests \
+java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.rerank.GenerateRerankerRequests \
   -index msmarco-v2.1-doc-segmented \
   -run $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.rag24.test.txt \
   -topics rag24.test \
@@ -186,6 +196,8 @@ $ head -n 1 $OUTPUT_DIR/results.msmarco-v2.1-doc-segmented.bm25.rag24.test.jsonl
   ]
 }
 ```
+
+To generate similar output for ArcticEmbed-L, specify the corresponding run file with `-run`.
 
 ## MS MARCO V1 Passage
 
