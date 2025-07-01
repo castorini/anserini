@@ -179,21 +179,10 @@ public class IndexReaderUtils {
    * @throws IOException if any errors are encountered
    */
   public static IndexReader getReader(String path) throws IOException {
-    return getReader(Paths.get(path));
-  }
-
-  /**
-   * Creates an {@link IndexReader} given a Path.
-   *
-   * @param path index path
-   * @return index reader
-   * @throws IOException if any errors are encountered
-   */
-  public static IndexReader getReader(Path path) throws IOException {
-    Directory dir = FSDirectory.open(path);
+    Directory dir = FSDirectory.open(Paths.get(path));
     return DirectoryReader.open(dir);
   }
-
+  
   /**
    * Returns count information on a term or a phrase.
    *
