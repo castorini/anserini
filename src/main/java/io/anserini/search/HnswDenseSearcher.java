@@ -19,32 +19,22 @@ package io.anserini.search;
 import ai.onnxruntime.OrtException;
 import io.anserini.encoder.dense.DenseEncoder;
 import io.anserini.index.Constants;
-import io.anserini.search.query.VectorQueryGenerator;
 import io.anserini.index.IndexReaderUtils;
-
+import io.anserini.search.query.VectorQueryGenerator;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.KnnFloatVectorQuery;
-import org.apache.lucene.search.Sort;
-import org.apache.lucene.search.SortField;
-import org.apache.lucene.search.TopDocs;
-import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.search.*;
 import org.kohsuke.args4j.Option;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedMap;
-import java.util.concurrent.CompletionException;
-import java.util.concurrent.ConcurrentSkipListMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class HnswDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> implements AutoCloseable {
@@ -130,47 +120,46 @@ public class HnswDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
    * @param queries list of queries
    * @param qids list of unique query ids
    * @param k number of hits
-   * @param threads number of threads
+   * @param threadsIgnored number of threads
    * @return a map of query id to search results
    */
-  public SortedMap<K, ScoredDoc[]> batch_search(List<String> queries, List<K> qids, int k, int threads) {
+  public SortedMap<K, ScoredDoc[]> batch_search(List<String> queries, List<K> qids, int k, int threadsIgnored) {
+    // threadsIgnored parameter has been retained for backward compatibility
     final SortedMap<K, ScoredDoc[]> results = new ConcurrentSkipListMap<>();
     final AtomicInteger cnt = new AtomicInteger();
     final long start = System.nanoTime();
 
-    try(ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(threads)) {
-      assert qids.size() == queries.size();
-      for (int i = 0; i < qids.size(); i++) {
-        K qid = qids.get(i);
-        String queryString = queries.get(i);
+    assert qids.size() == queries.size();
 
-        // This is the per-query execution, in parallel.
-        executor.execute(() -> {
-          try {
-            results.put(qid, search(qid, queryString, k));
-          } catch (IOException e) {
-            throw new CompletionException(e);
-          }
+    List<Callable<Void>> tasks = new ArrayList<>(qids.size());
 
+    for (int i = 0; i < qids.size(); i++) {
+      K qid = qids.get(i);
+      String queryString = queries.get(i);
+
+      // This adds each query search into the task list
+      tasks.add(() -> {
+        try {
+          results.put(qid, search(qid, queryString, k));
           int n = cnt.incrementAndGet();
           if (n % 100 == 0 && verbose) {
             LOG.info("{} queries processed", n);
           }
-        });
-      }
+        } catch (IOException e) {
+          throw new CompletionException(e);
+        }
 
-      executor.shutdown();
-
-      try {
-        // Wait for existing tasks to terminate.
-        while (!executor.awaitTermination(1, TimeUnit.MINUTES));
-      } catch (InterruptedException ie) {
-        // (Re-)Cancel if current thread also interrupted.
-        executor.shutdownNow();
-        // Preserve interrupt status.
-        Thread.currentThread().interrupt();
-      }
+        return null;
+      });
     }
+
+    try (ExecutorService executor = Executors.newWorkStealingPool()) {
+      executor.invokeAll(tasks);  // blocks until all tasks complete
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      LOG.error("Batch search of queries interrupted", e);
+    }
+
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
     if (verbose) {
       LOG.info("Batch search completed in {}{}", DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"),
