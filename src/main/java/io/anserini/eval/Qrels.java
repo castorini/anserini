@@ -57,6 +57,7 @@ public enum Qrels {
   TREC2023_DL_DOC_MSMARCO_V21("qrels.dl23-doc-msmarco-v2.1.txt"),
   TREC2024_RAG_RAGGY_DEV("qrels.rag24.raggy-dev.txt"),
   TREC2024_RAG_UMBRELA("qrels.rag24.test-umbrela-all.txt"),
+  TREC2024_RAG("qrels.rag24.test.txt"),
   MSMARCO_DOC_DEV("qrels.msmarco-doc.dev.txt"),
   MSMARCO_PASSAGE_DEV_SUBSET("qrels.msmarco-passage.dev-subset.txt"),
   MSMARCO_V2_DOC_DEV("qrels.msmarco-v2-doc.dev.txt"),
@@ -193,7 +194,7 @@ public enum Qrels {
   CIRAL_V10_SW_TEST_B("qrels.ciral-v1.0-sw-test-b.tsv"),
   CIRAL_V10_YO_TEST_B("qrels.ciral-v1.0-yo-test-b.tsv");
 
-  private static Map<String, String> symbolFileDict = generateSymbolFileDict();
+  private static final Map<String, String> symbolFileDict = generateSymbolFileDict();
 
   private static HashMap<String, String> generateSymbolFileDict() {
     HashMap<String, String> m = new HashMap<>();

@@ -38,7 +38,7 @@ public class RelevanceJudgmentsTest{
 
   @Test
   public void testTotalCount() {
-    assertEquals(171, Qrels.values().length);
+    assertEquals(172, Qrels.values().length);
   }
 
   @Test(expected = IOException.class)
@@ -65,7 +65,6 @@ public class RelevanceJudgmentsTest{
     assertEquals(0, qrels.getRelevanceGrade("xxx", "LA123090-0137"));  // non-existent topic
     assertTrue(qrels.isDocJudged("301", "FBIS3-10082"));
     assertNull(qrels.getDocMap("xxx"));
-
 
     qrels = RelevanceJudgments.fromQrels(Qrels.ROBUST04);
     assertNotNull(qrels);
@@ -390,7 +389,7 @@ public class RelevanceJudgmentsTest{
   public void testTREC24_RAG_UMBRELA() throws IOException{
     // % cut -f 1 -d ' ' tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt | uniq | wc
     //      301     301    3448
-    // % wc tools/topics-and-qrels/qrels.rag24.raggy-dev.txt
+    // % wc tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt
     //   108479  433916 6475451 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt
 
     RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt");
@@ -406,6 +405,28 @@ public class RelevanceJudgmentsTest{
     assertEquals(108479, getQrelsCount(qrels));
     assertEquals(1, qrels.getRelevanceGrade("2024-145979", "msmarco_v2.1_doc_25_771726319#13_1477564195"));
     assertEquals(1, qrels.getRelevanceGrade("2024-216592", "msmarco_v2.1_doc_52_1092442741#3_2165187686"));
+  }
+
+  @Test
+  public void testTREC24_RAG() throws IOException{
+    // % cut -f 1 -d ' ' tools/topics-and-qrels/qrels.rag24.test.txt | uniq | wc
+    //       89      89    1028
+    // % wc tools/topics-and-qrels/qrels.rag24.test.txt
+    //   20429   81716 1201033 tools/topics-and-qrels/qrels.rag24.test.txt
+
+    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.rag24.test.txt");
+    assertNotNull(qrels);
+    assertEquals(89, qrels.getQids().size());
+    assertEquals(20429, getQrelsCount(qrels));
+    assertEquals(0, qrels.getRelevanceGrade("2024-145979", "msmarco_v2.1_doc_00_125364462#6_229054655"));
+    assertEquals(1, qrels.getRelevanceGrade("2024-96359", "msmarco_v2.1_doc_54_724887112#1_1700994504"));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.TREC2024_RAG);
+    assertNotNull(qrels);
+    assertEquals(89, qrels.getQids().size());
+    assertEquals(20429, getQrelsCount(qrels));
+    assertEquals(0, qrels.getRelevanceGrade("2024-145979", "msmarco_v2.1_doc_00_125364462#6_229054655"));
+    assertEquals(1, qrels.getRelevanceGrade("2024-96359", "msmarco_v2.1_doc_54_724887112#1_1700994504"));
   }
 
   @Test
