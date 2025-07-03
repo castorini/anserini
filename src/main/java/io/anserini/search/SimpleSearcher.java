@@ -78,6 +78,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Class that exposes basic search functionality, designed specifically to provide the bridge between Java and Python
@@ -524,43 +525,40 @@ public class SimpleSearcher implements Closeable {
       searcher.setSimilarity(similarity);
     }
 
-    ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(threads);
     ConcurrentHashMap<String, ScoredDoc[]> results = new ConcurrentHashMap<>();
-
     int queryCnt = queries.size();
+    List<Callable<Void>> tasks = new ArrayList<>(queryCnt);
+    AtomicInteger completionCount = new AtomicInteger();
+
     for (int q = 0; q < queryCnt; ++q) {
       String query = queries.get(q);
       String qid = qids.get(q);
-      executor.execute(() -> {
+      tasks.add(() -> {
         try {
           if (fields.size() > 0) {
             results.put(qid, search_fields(generator, query, fields, k));
           } else {
             results.put(qid, search(generator, query, k));
           }
+          completionCount.incrementAndGet();
         } catch (IOException e) {
           throw new CompletionException(e);
         }
+        return null;
       });
     }
 
-    executor.shutdown();
-
-    try {
-      // Wait for existing tasks to terminate
-      while (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
-        // Opportunity to perform status logging, but no-op here because logging interferes with Python tqdm
-      }
-    } catch (InterruptedException ie) {
-      // (Re-)Cancel if current thread also interrupted
-      executor.shutdownNow();
-      // Preserve interrupt status
+    try (ExecutorService executor = Executors.newWorkStealingPool()) {
+      // block until all tasks are completed
+      executor.invokeAll(tasks);
+    } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
+      throw new RuntimeException("Batch search of provided fields interrupted", e);
     }
 
-    if (queryCnt != executor.getCompletedTaskCount()) {
+    if (queryCnt != completionCount.get()) {
       throw new RuntimeException("queryCount = " + queryCnt +
-              " is not equal to completedTaskCount =  " + executor.getCompletedTaskCount());
+              " is not equal to completedTaskCount =  " + completionCount.get());
     }
 
     return results;
