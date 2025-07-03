@@ -1323,7 +1323,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     LOG.info("============ Launching Search Threads ============");
     LOG.info("runtag: " + args.runtag);
 
-    final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.parallelism);
+    List<Callable<Void>> tasks = new ArrayList<>();
 
     for (TaggedSimilarity taggedSimilarity : similarities) {
       for (RerankerCascade cascade : cascades) {
@@ -1339,20 +1339,21 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
           LOG.info("Run already exists, skipping: " + outputPath);
           continue;
         }
-        executor.execute(new SearcherThread<>(reader, topics, taggedSimilarity, cascade, outputPath));
+
+        tasks.add (() -> {
+          new SearcherThread<>(reader, topics, taggedSimilarity, cascade, outputPath).run();
+          return null;
+        });
+
       }
     }
-    executor.shutdown();
 
-    try {
-      // Wait for existing tasks to terminate
-      while (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
-      }
-    } catch (InterruptedException ie) {
-      // (Re-)Cancel if current thread also interrupted
-      executor.shutdownNow();
-      // Preserve interrupt status
+    try (ExecutorService executor = Executors.newWorkStealingPool(args.threads)) {
+      // block until all tasks are completed
+      executor.invokeAll(tasks);
+    } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
+      throw new RuntimeException("Launching of search threads interrupted", e);
     }
   }
 
