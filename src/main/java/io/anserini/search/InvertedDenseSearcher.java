@@ -25,7 +25,6 @@ import org.apache.logging.log4j.Logger;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TopDocs;
@@ -34,16 +33,12 @@ import org.apache.lucene.store.FSDirectory;
 import org.kohsuke.args4j.Option;
 
 import javax.annotation.Nullable;
-import java.io.Closeable;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedMap;
-import java.util.concurrent.CompletionException;
-import java.util.concurrent.ConcurrentSkipListMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static io.anserini.index.IndexInvertedDenseVectors.FW;
@@ -120,39 +115,37 @@ public class InvertedDenseSearcher<K extends Comparable<K>> extends BaseSearcher
     final AtomicInteger cnt = new AtomicInteger();
     final long start = System.nanoTime();
 
-    try(ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(threads)) {
-      assert qids.size() == queries.size();
-      for (int i = 0; i < qids.size(); i++) {
-        K qid = qids.get(i);
-        String queryString = queries.get(i);
+    assert qids.size() == queries.size();
 
-        // This is the per-query execution, in parallel.
-        executor.execute(() -> {
-          try {
-            results.put(qid, search(qid, queryString, k));
-          } catch (IOException e) {
-            throw new CompletionException(e);
-          }
+    List<Callable<Void>> tasks = new ArrayList<>(qids.size());
 
-          int n = cnt.incrementAndGet();
-          if (n % 100 == 0) {
-            LOG.info(String.format("%d queries processed", n));
-          }
-        });
-      }
+    for (int i = 0; i < qids.size(); i++) {
+      K qid = qids.get(i);
+      String queryString = queries.get(i);
 
-      executor.shutdown();
+      tasks.add(() -> {
+        try {
+          results.put(qid, search(qid, queryString, k));
+        } catch (IOException e) {
+          throw new CompletionException(e);
+        }
 
-      try {
-        // Wait for existing tasks to terminate.
-        while (!executor.awaitTermination(1, TimeUnit.MINUTES));
-      } catch (InterruptedException ie) {
-        // (Re-)Cancel if current thread also interrupted.
-        executor.shutdownNow();
-        // Preserve interrupt status.
-        Thread.currentThread().interrupt();
-      }
+        int n = cnt.incrementAndGet();
+        if (n % 100 == 0) {
+          LOG.info(String.format("%d queries processed", n));
+        }
+        return  null;
+      });
     }
+
+    try (ExecutorService executor = Executors.newWorkStealingPool()) {
+      // block until all tasks are completed
+      executor.invokeAll(tasks);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new RuntimeException("Batch search of queries interrupted", e);
+    }
+
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
 
     LOG.info("{} queries processed in {}{}", queries.size(),
