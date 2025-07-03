@@ -154,7 +154,8 @@ public class HnswDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
     }
 
     try (ExecutorService executor = Executors.newWorkStealingPool()) {
-      executor.invokeAll(tasks);  // blocks until all tasks complete
+      // block until all tasks are completed
+      executor.invokeAll(tasks);
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
       throw new RuntimeException("Batch search of queries interrupted", e);

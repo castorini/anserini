@@ -73,14 +73,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletionException;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * Class that exposes basic search functionality, designed specifically to provide the bridge between Java and Python
@@ -775,33 +772,29 @@ public class SimpleSearcher implements Closeable {
    * @return a map of docid to corresponding Lucene {@link Document}
    */
   public Map<String, Document> batch_get_docs(List<String> docids, int threads) {
-    ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(threads);
+
     ConcurrentHashMap<String, Document> results = new ConcurrentHashMap<>();
+    List<Callable<Void>> tasks = new ArrayList<>(docids.size());
 
     for (String docid: docids) {
-      executor.execute(() -> {
+      tasks.add(() -> {
         try {
           results.put(docid, IndexReaderUtils.document(reader, docid));
         } catch (Exception e) {
           // Do nothing, just eat the exception.
         }
+
+        return null;
       });
     }
 
-    executor.shutdown();
-
-    try {
-      // Wait for existing tasks to terminate
-      while (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
-        // Opportunity to perform status logging, but no-op here
-      }
-    } catch (InterruptedException ie) {
-      // (Re-)Cancel if current thread also interrupted
-      executor.shutdownNow();
-      // Preserve interrupt status
+    try (ExecutorService executor = Executors.newWorkStealingPool()) {
+      // block until all tasks are completed
+      executor.invokeAll(tasks);
+    } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
+      throw new RuntimeException("Batch retrieval of documents is interrupted", e);
     }
-
     return results;
   }
 
