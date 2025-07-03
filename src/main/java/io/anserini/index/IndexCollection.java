@@ -16,12 +16,7 @@
 
 package io.anserini.index;
 
-import io.anserini.analysis.AnalyzerMap;
-import io.anserini.analysis.AutoCompositeAnalyzer;
-import io.anserini.analysis.CompositeAnalyzer;
-import io.anserini.analysis.DefaultEnglishAnalyzer;
-import io.anserini.analysis.HuggingFaceTokenizerAnalyzer;
-import io.anserini.analysis.TweetAnalyzer;
+import io.anserini.analysis.*;
 import io.anserini.collection.SourceDocument;
 import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.search.similarity.AccurateBM25Similarity;
@@ -31,7 +26,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
-import org.apache.lucene.codecs.lucene99.Lucene99Codec;
 import org.apache.lucene.index.ConcurrentMergeScheduler;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
@@ -48,11 +42,7 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ThreadPoolExecutor;
 
 public final class IndexCollection extends AbstractIndexer {
