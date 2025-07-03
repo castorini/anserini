@@ -38,13 +38,10 @@ import org.kohsuke.args4j.Option;
 import javax.annotation.Nullable;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedMap;
-import java.util.concurrent.CompletionException;
-import java.util.concurrent.ConcurrentSkipListMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class FlatDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> implements AutoCloseable {
@@ -126,40 +123,37 @@ public class FlatDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
     final SortedMap<K, ScoredDoc[]> results = new ConcurrentSkipListMap<>();
     final AtomicInteger cnt = new AtomicInteger();
     final long start = System.nanoTime();
+    List<Callable<Void>> tasks = new ArrayList<>(qids.size());
 
-    try(ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(threads)) {
-      assert qids.size() == queries.size();
-      for (int i = 0; i < qids.size(); i++) {
-        K qid = qids.get(i);
-        String queryString = queries.get(i);
+    assert qids.size() == queries.size();
+    for (int i = 0; i < qids.size(); i++) {
+      K qid = qids.get(i);
+      String queryString = queries.get(i);
 
-        // This is the per-query execution, in parallel.
-        executor.execute(() -> {
-          try {
-            results.put(qid, search(qid, queryString, k));
-          } catch (IOException e) {
-            throw new CompletionException(e);
-          }
+      // This is the per-query execution, in parallel.
+      tasks.add(() -> {
+        try {
+          results.put(qid, search(qid, queryString, k));
+        } catch (IOException e) {
+          throw new CompletionException(e);
+        }
 
-          int n = cnt.incrementAndGet();
-          if (n % 100 == 0) {
-            LOG.info(String.format("%d queries processed", n));
-          }
-        });
-      }
-
-      executor.shutdown();
-
-      try {
-        // Wait for existing tasks to terminate.
-        while (!executor.awaitTermination(1, TimeUnit.MINUTES));
-      } catch (InterruptedException ie) {
-        // (Re-)Cancel if current thread also interrupted.
-        executor.shutdownNow();
-        // Preserve interrupt status.
-        Thread.currentThread().interrupt();
-      }
+        int n = cnt.incrementAndGet();
+        if (n % 100 == 0) {
+          LOG.info(String.format("%d queries processed", n));
+        }
+        return null;
+      });
     }
+
+    try (ExecutorService executor = Executors.newWorkStealingPool()) {
+      // block until all tasks are completed
+      executor.invokeAll(tasks);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new RuntimeException("Batch search of queries is interrupted", e);
+    }
+
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
 
     LOG.info("{} queries processed in {}{}", queries.size(),
