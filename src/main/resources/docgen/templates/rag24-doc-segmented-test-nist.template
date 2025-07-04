@@ -6,8 +6,9 @@ This page describes regression experiments for ranking _on the segmented version
 This corpus was derived from the MS MARCO V2 _segmented_ document corpus and prepared for the TREC 2024 RAG Track.
 Instructions for downloading the corpus can be found [here](https://trec-rag.github.io/annoucements/2024-corpus-finalization/).
 
-Evaluation uses (automatically generated) UMBRELA qrels over all 301 topics from the TREC 2024 RAG Track test set.
-UMBRELA is described in the following paper:
+Evaluation uses qrels over 89 topics from the TREC 2024 RAG Track test set.
+These qrels represent manual relevance judgments from NIST assessors, contrasted with automatically generated UMBRELA judgments.
+See the following paper for more details:
 
 > Shivani Upadhyay, Ronak Pradeep, Nandan Thakur, Daniel Campos, Nick Craswell, Ian Soboroff, and Jimmy Lin. A Large-Scale Study of Relevance Assessments with Large Language Models Using UMBRELA. _Proceedings of the 2025 International ACM SIGIR Conference on Innovative Concepts and Theories in Information Retrieval (ICTIR 2025)_, 2025.
 
@@ -36,7 +37,7 @@ For additional details, see explanation of [common indexing options](${root_path
 
 ## Retrieval
 
-Here, we are using all 301 test topics from the TREC 2024 RAG Track with (automatically generated) UMBRELA topics.
+Here, we are using 89 test topics from the TREC 2024 RAG Track with manual relevance judgments from NIST assessors.
 Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
 
 After indexing has completed, you should be able to perform retrieval as follows:

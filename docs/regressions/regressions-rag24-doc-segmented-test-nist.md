@@ -6,20 +6,21 @@ This page describes regression experiments for ranking _on the segmented version
 This corpus was derived from the MS MARCO V2 _segmented_ document corpus and prepared for the TREC 2024 RAG Track.
 Instructions for downloading the corpus can be found [here](https://trec-rag.github.io/annoucements/2024-corpus-finalization/).
 
-Evaluation uses (automatically generated) UMBRELA qrels over all 301 topics from the TREC 2024 RAG Track test set.
-UMBRELA is described in the following paper:
+Evaluation uses qrels over 89 topics from the TREC 2024 RAG Track test set.
+These qrels represent manual relevance judgments from NIST assessors, contrasted with automatically generated UMBRELA judgments.
+See the following paper for more details:
 
 > Shivani Upadhyay, Ronak Pradeep, Nandan Thakur, Daniel Campos, Nick Craswell, Ian Soboroff, and Jimmy Lin. A Large-Scale Study of Relevance Assessments with Large Language Models Using UMBRELA. _Proceedings of the 2025 International ACM SIGIR Conference on Innovative Concepts and Theories in Information Retrieval (ICTIR 2025)_, 2025.
 
 Here, we cover bag-of-words baselines where each _segment_ in the MS MARCO V2.1 segmented document corpus is treated as a unit of indexing.
 
-The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/rag24-doc-segmented-test-umbrela.yaml).
-Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/rag24-doc-segmented-test-umbrela.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/rag24-doc-segmented-test-nist.yaml).
+Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/rag24-doc-segmented-test-nist.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```
-python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test-umbrela
+python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test-nist
 ```
 
 ## Indexing
@@ -43,7 +44,7 @@ For additional details, see explanation of [common indexing options](../../docs/
 
 ## Retrieval
 
-Here, we are using all 301 test topics from the TREC 2024 RAG Track with (automatically generated) UMBRELA topics.
+Here, we are using 89 test topics from the TREC 2024 RAG Track with manual relevance judgments from NIST assessors.
 Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
 
 After indexing has completed, you should be able to perform retrieval as follows:
@@ -74,17 +75,17 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```
-bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default.topics.rag24.test.txt
-bin/trec_eval -c -m ndcg_cut.100 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default.topics.rag24.test.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default.topics.rag24.test.txt
+bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.rag24.test.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default.topics.rag24.test.txt
+bin/trec_eval -c -m ndcg_cut.100 tools/topics-and-qrels/qrels.rag24.test.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default.topics.rag24.test.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.rag24.test.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default.topics.rag24.test.txt
 
-bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rm3.topics.rag24.test.txt
-bin/trec_eval -c -m ndcg_cut.100 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rm3.topics.rag24.test.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rm3.topics.rag24.test.txt
+bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.rag24.test.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rm3.topics.rag24.test.txt
+bin/trec_eval -c -m ndcg_cut.100 tools/topics-and-qrels/qrels.rag24.test.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rm3.topics.rag24.test.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.rag24.test.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rm3.topics.rag24.test.txt
 
-bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rocchio.topics.rag24.test.txt
-bin/trec_eval -c -m ndcg_cut.100 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rocchio.topics.rag24.test.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rocchio.topics.rag24.test.txt
+bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.rag24.test.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rocchio.topics.rag24.test.txt
+bin/trec_eval -c -m ndcg_cut.100 tools/topics-and-qrels/qrels.rag24.test.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rocchio.topics.rag24.test.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.rag24.test.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rocchio.topics.rag24.test.txt
 ```
 
 ## Effectiveness
@@ -93,8 +94,8 @@ With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@20**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
-| RAG 24: Test queries                                                                                         | 0.3198    | 0.3063    | 0.3196    |
+| RAG 24: Test queries                                                                                         | 0.2809    | 0.2847    | 0.2877    |
 | **nDCG@100**                                                                                                 | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| RAG 24: Test queries                                                                                         | 0.2563    | 0.2410    | 0.2527    |
+| RAG 24: Test queries                                                                                         | 0.2345    | 0.2337    | 0.2422    |
 | **R@100**                                                                                                    | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| RAG 24: Test queries                                                                                         | 0.1395    | 0.1318    | 0.1384    |
+| RAG 24: Test queries                                                                                         | 0.1698    | 0.1664    | 0.1722    |
