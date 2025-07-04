@@ -43,7 +43,7 @@ For additional details, see explanation of [common indexing options](../../docs/
 
 ## Retrieval
 
-Here, we are using all 301 test topics from the TREC 2024 RAG Track with (automatically generated) UMBRELA topics.
+Here, we are using all 301 test topics from the TREC 2024 RAG Track with (automatically generated) UMBRELA relevance judgments.
 Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
 
 After indexing has completed, you should be able to perform retrieval as follows:

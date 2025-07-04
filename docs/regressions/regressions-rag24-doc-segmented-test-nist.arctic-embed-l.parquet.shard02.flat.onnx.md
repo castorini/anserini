@@ -13,6 +13,12 @@ for example `shard00` spans `00.parquet` to `05.parquet`; `shard01` spans the ne
 This page documents experiments for `shard02`; we expect the corpus to be in `msmarco_v2.1_doc_segmented.arctic-embed-l/shard00` (relative to the base collection path).
 In these experiments, we are performing query inference "on-the-fly" with ONNX, using flat vector indexes.
 
+Evaluation uses qrels over 89 topics from the TREC 2024 RAG Track test set.
+These qrels represent manual relevance judgments from NIST assessors, contrasted with automatically generated UMBRELA judgments.
+See the following paper for more details:
+
+> Shivani Upadhyay, Ronak Pradeep, Nandan Thakur, Daniel Campos, Nick Craswell, Ian Soboroff, and Jimmy Lin. A Large-Scale Study of Relevance Assessments with Large Language Models Using UMBRELA. _Proceedings of the 2025 International ACM SIGIR Conference on Innovative Concepts and Theories in Information Retrieval (ICTIR 2025)_, 2025.
+
 The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard02.flat.onnx.yaml).
 Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard02.flat.onnx.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
@@ -43,6 +49,7 @@ For additional details, see explanation of [common indexing options](../../docs/
 
 ## Retrieval
 
+Here, we are using 89 test topics from the TREC 2024 RAG Track with manual relevance judgments from NIST assessors.
 Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
 
 After indexing has completed, you should be able to perform retrieval as follows:
