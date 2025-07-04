@@ -46,8 +46,8 @@ models:
     params: -topics rag24.test -topicReader TsvString -topicField title -encoder ArcticEmbedLEncoder
     results:
       nDCG@20:
-        - 0.2422
+        - 0.2301
       nDCG@100:
-        - 0.1380
+        - 0.1368
       R@100:
-        - 0.0548
+        - 0.0706
