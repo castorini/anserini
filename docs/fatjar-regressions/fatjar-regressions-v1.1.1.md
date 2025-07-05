@@ -1,15 +1,15 @@
-# Anserini Fatjar Regresions (v1.1.0)
+# Anserini Fatjar Regresions (v1.1.1)
 
 Fetch the fatjar:
 
 ```bash
-wget https://repo1.maven.org/maven2/io/anserini/anserini/1.1.0/anserini-1.1.0-fatjar.jar
+wget https://repo1.maven.org/maven2/io/anserini/anserini/1.1.1/anserini-1.1.1-fatjar.jar
 ```
 
 Let's start out by setting the `ANSERINI_JAR` and the `OUTPUT_DIR`:
 
 ```bash
-export ANSERINI_JAR="anserini-1.1.0-fatjar.jar"
+export ANSERINI_JAR="anserini-1.1.1-fatjar.jar"
 export OUTPUT_DIR="."
 ```
 

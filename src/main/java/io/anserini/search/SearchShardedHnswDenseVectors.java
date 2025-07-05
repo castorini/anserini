@@ -16,29 +16,21 @@
 
 package io.anserini.search;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-
-import io.anserini.search.topicreader.TopicReader;
-import io.anserini.search.topicreader.Topics;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
-import org.kohsuke.args4j.spi.StringArrayOptionHandler;
 
 import java.io.Closeable;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
 import java.util.stream.IntStream;
 
 /**
@@ -48,13 +40,11 @@ public final class SearchShardedHnswDenseVectors<K extends Comparable<K>> implem
   private static final Logger LOG = LogManager.getLogger(SearchShardedHnswDenseVectors.class);
 
   public static class Args extends SearchHnswDenseVectors.Args {
-    //No additional arguments needed
+    // No additional arguments needed
   }
 
   private final Args args;
   private final List<SearchHnswDenseVectors<K>> searchers;
-  private final String[] shardPaths;
-  private final int threadsPerShard;
 
   /*
    * Constructor for sharded HNSW dense vector search.
@@ -67,11 +57,11 @@ public final class SearchShardedHnswDenseVectors<K extends Comparable<K>> implem
     this.searchers = new ArrayList<>();
     
     // Parse comma-separated shard paths
-    this.shardPaths = args.index.split(",");
-    this.threadsPerShard = args.threads;
+    String[] shardPaths = args.index.split(",");
+    int threadsPerShard = args.threads;
 
     LOG.info("============ Initializing {} ============", this.getClass().getSimpleName());
-    LOG.info("Using {} shards", this.shardPaths.length);
+    LOG.info("Using {} shards", shardPaths.length);
     LOG.info("Topics: {}", Arrays.toString(args.topics));
     LOG.info("Query generator: {}", args.queryGenerator);
     LOG.info("Encoder: {}", args.encoder);
@@ -81,7 +71,7 @@ public final class SearchShardedHnswDenseVectors<K extends Comparable<K>> implem
     // Initialize searchers for each shard
     // Each individual searcher will validate its own parameters
     try {
-      for (String shardPath : this.shardPaths) {
+      for (String shardPath : shardPaths) {
         Args shardArgs = new Args();
         // Copy all args from the parent
         shardArgs.topics = args.topics;
@@ -147,12 +137,11 @@ public final class SearchShardedHnswDenseVectors<K extends Comparable<K>> implem
 
       boolean anyShardHasContent = false;
       for (String shardPath : shardOutputPaths) {
-        if (Files.exists(Paths.get(shardPath)) && Files.size(Paths.get(shardPath)) > 0) {
+        Path path = Paths.get(shardPath);
+        if (Files.exists(path) && Files.size(path) > 0) {
           anyShardHasContent = true;
-          Files.write(Paths.get(args.output), Files.readAllBytes(Paths.get(shardPath)), 
-                     java.nio.file.StandardOpenOption.APPEND);
-          LOG.info("Appended content from shard file: {} (size: {} bytes)", 
-                  shardPath, Files.size(Paths.get(shardPath)));
+          Files.write(Paths.get(args.output), Files.readAllBytes(path), StandardOpenOption.APPEND);
+          LOG.info("Appended content from shard file: {} (size: {} bytes)", shardPath, Files.size(path));
         } else {
           LOG.warn("Shard file {} does not exist or is empty", shardPath);
         }

@@ -3,7 +3,7 @@
 
   <groupId>io.anserini</groupId>
   <artifactId>anserini</artifactId>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1.1.2-SNAPSHOT</version>
   <name>Anserini</name>
   <description>An information retrieval toolkit built on Lucene</description>
   <url>http://anserini.io/</url>
@@ -18,11 +18,10 @@
 
   <developers>
     <developer>
-      <name>Anserini Gaggle</name>
-      <id>anserini.gaggle</id>
-      <email>anserini.gaggle@gmail.com</email>
-      <organization>The Anserini Gaggle</organization>
-      <url>http://anserini.io/</url>
+      <name>Jimmy Lin</name>
+      <email>jimmylin@uwaterloo.ca</email>
+      <organization>University of Waterloo</organization>
+      <url>https://cs.uwaterloo.ca/~jimmylin/</url>
     </developer>
   </developers>
 
@@ -33,10 +32,10 @@
   </properties>
 
   <scm>
-    <connection>scm:git:git@github.com:castorini/Anserini.git</connection>
-    <developerConnection>scm:git:git@github.com:castorini/Anserini.git</developerConnection>
-    <url>git@github.com:castorini/Anserini.git</url>
-    <tag>anserini-0.35.1</tag>
+    <connection>scm:git:git@github.com:castorini/anserini.git</connection>
+    <developerConnection>scm:git:git@github.com:castorini/anserini.git</developerConnection>
+    <url>git@github.com:castorini/anserini.git</url>
+    <tag>HEAD</tag>
   </scm>
 
   <repositories>
@@ -44,27 +43,7 @@
       <id>jitpack.io</id>
       <url>https://jitpack.io</url>
     </repository>
-    <repository>
-      <id>public</id>
-      <url>https://repo1.maven.org/maven2</url>
-    </repository>
-    <repository>
-      <id>AnseriniMaven</id>
-      <url>https://raw.githubusercontent.com/lintool/AnseriniMaven/master/mvn-repo/</url>
-    </repository>
   </repositories>
-
-  <distributionManagement>
-    <snapshotRepository>
-      <id>sonatype-nexus-snapshots</id>
-      <name>Sonatype Nexus Shapshots</name>
-      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-    </snapshotRepository>
-    <repository>
-      <id>sonatype-nexus-staging</id>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-    </repository>
-  </distributionManagement>
 
   <build>
     <resources>
@@ -77,6 +56,15 @@
     </resources>
 
     <plugins>
+      <plugin>
+        <groupId>org.sonatype.central</groupId>
+        <artifactId>central-publishing-maven-plugin</artifactId>
+        <version>0.8.0</version>
+        <extensions>true</extensions>
+        <configuration>
+          <publishingServerId>central</publishingServerId>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -124,7 +112,6 @@
               <goal>jar</goal>
             </goals>
             <configuration>
-              <excludePackageNames>io.anserini.ltr</excludePackageNames>
             </configuration>
           </execution>
         </executions>
@@ -192,16 +179,6 @@
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-deploy-plugin</artifactId>
-        <version>3.0.0-M2</version>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-release-plugin</artifactId>
-        <version>3.0.0-M5</version>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-gpg-plugin</artifactId>
         <version>3.0.1</version>
         <executions>
@@ -233,28 +210,6 @@
           </execution>
         </executions>
       </plugin>
-      <!-- This is a common task, but we actually *don't* want to do this https://docs.spring.io/spring-boot/maven-plugin/packaging.html
-           Instead, we'll just run the webapp from the fatjar. Keeping this plugin commented out for reference.
-      <plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <goals>
-              <goal>repackage</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <excludes>
-            <exclude>
-              <groupId>org.projectlombok</groupId>
-              <artifactId>lombok</artifactId>
-            </exclude>
-          </excludes>
-        </configuration>
-      </plugin>
-      -->
       <plugin>
         <artifactId>maven-resources-plugin</artifactId>
         <version>3.3.1</version>
@@ -441,7 +396,7 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>32.0.0-jre</version>
+      <version>33.4.8-jre</version>
     </dependency>
     <dependency>
       <groupId>com.microsoft.onnxruntime</groupId>

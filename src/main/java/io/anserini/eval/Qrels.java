@@ -191,7 +191,19 @@ public enum Qrels {
   CIRAL_V10_HA_TEST_B("qrels.ciral-v1.0-ha-test-b.tsv"),
   CIRAL_V10_SO_TEST_B("qrels.ciral-v1.0-so-test-b.tsv"),
   CIRAL_V10_SW_TEST_B("qrels.ciral-v1.0-sw-test-b.tsv"),
-  CIRAL_V10_YO_TEST_B("qrels.ciral-v1.0-yo-test-b.tsv");
+  CIRAL_V10_YO_TEST_B("qrels.ciral-v1.0-yo-test-b.tsv"),
+  BRIGHT_BIOLOGY("qrels.bright-biology.txt"),
+  BRIGHT_EARTH_SCIENCE("qrels.bright-earth-science.txt"),
+  BRIGHT_ECONOMICS("qrels.bright-economics.txt"),
+  BRIGHT_PSYCHOLOGY("qrels.bright-psychology.txt"),
+  BRIGHT_ROBOTICS("qrels.bright-robotics.txt"),
+  BRIGHT_STACKOVERFLOW("qrels.bright-stackoverflow.txt"),
+  BRIGHT_SUSTAINABLE_LIVING("qrels.bright-sustainable-living.txt"),
+  BRIGHT_PONY("qrels.bright-pony.txt"),
+  BRIGHT_LEETCODE("qrels.bright-leetcode.txt"),
+  BRIGHT_AOPS("qrels.bright-aops.txt"),
+  BRIGHT_THEOREMQA_THEOREMS("qrels.bright-theoremqa-theorems.txt"),
+  BRIGHT_THEOREMQA_QUESTIONS("qrels.bright-theoremqa-questions.txt");
 
   private static Map<String, String> symbolFileDict = generateSymbolFileDict();
 
