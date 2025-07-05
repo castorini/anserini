@@ -38,7 +38,7 @@ public class TopicReaderTest {
       String path = topic.path;
       assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(path));
     }
-    assertEquals(517, cnt);
+    assertEquals(529, cnt);
   }
 
   @Test
@@ -2125,6 +2125,22 @@ public class TopicReaderTest {
     assertEquals(6666,  TopicReader.getTopics(Topics.BEIR_V1_0_0_FEVER_TEST_BGE_BASE_EN_15).keySet().size());
     assertEquals(1535,  TopicReader.getTopics(Topics.BEIR_V1_0_0_CLIMATE_FEVER_TEST_BGE_BASE_EN_15).keySet().size());
     assertEquals(300,   TopicReader.getTopics(Topics.BEIR_V1_0_0_SCIFACT_TEST_BGE_BASE_EN_15).keySet().size());
+  }
+
+    @Test
+  public void testBrightTopics() throws IOException {
+    assertEquals(103, TopicReader.getTopics(Topics.BRIGHT_BIOLOGY).keySet().size());
+    assertEquals(116, TopicReader.getTopics(Topics.BRIGHT_EARTH_SCIENCE).keySet().size());
+    assertEquals(103, TopicReader.getTopics(Topics.BRIGHT_ECONOMICS).keySet().size());
+    assertEquals(101, TopicReader.getTopics(Topics.BRIGHT_PSYCHOLOGY).keySet().size());
+    assertEquals(101, TopicReader.getTopics(Topics.BRIGHT_ROBOTICS).keySet().size());
+    assertEquals(117, TopicReader.getTopics(Topics.BRIGHT_STACKOVERFLOW).keySet().size());
+    assertEquals(108, TopicReader.getTopics(Topics.BRIGHT_SUSTAINABLE_LIVING).keySet().size());
+    assertEquals(112, TopicReader.getTopics(Topics.BRIGHT_PONY).keySet().size());
+    assertEquals(142, TopicReader.getTopics(Topics.BRIGHT_LEETCODE).keySet().size());
+    assertEquals(111, TopicReader.getTopics(Topics.BRIGHT_AOPS).keySet().size());
+    assertEquals(76, TopicReader.getTopics(Topics.BRIGHT_THEOREMQA_THEOREMS).keySet().size());
+    assertEquals(194, TopicReader.getTopics(Topics.BRIGHT_THEOREMQA_QUESTIONS).keySet().size());
   }
 
   @Test
