@@ -35,7 +35,7 @@ public class RunBeir {
       parser.parseArgument(args);
     } catch (CmdLineException exception) {
       System.err.println(exception.getMessage());
-      System.exit(1);
+      return;
     }
 
     RunRepro repro = new RunRepro("beir", new BeirMetricDefinitions(), beirArgs.printCommands, beirArgs.dryRun);
