@@ -3,9 +3,18 @@
 The following change log details commits to regression tests that alter effectiveness and the addition (or removal) of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### June 23, 2025
+
++ commit [`1758a3`](https://github.com/castorini/anserini/commit/1758a3610792601679950c55d501d7242e8bd9b9)
++ commit [`a53fc8`](https://github.com/castorini/anserini/commit/a53fc86f7101039d599bcf21fee0d73a8ec668f5)
++ commit [`581324`](https://github.com/castorini/anserini/commit/581324022cd4349d946f5595d2f0658a42c2f6e4)
++ commit [`587ab7`](https://github.com/castorini/anserini/commit/587ab7dce97e3f6d63fbb3151880c2e65c392ad6)
+
+Added SPLADE-v3 regressions for BEIR.
+
 ### May 31, 2025
 
-+ commit [`e59e25`](https://github.com/castorini/anserini/commit/e59e25a1853f901a513baf7e3ab41ec15fd6640e))
++ commit [`e59e25`](https://github.com/castorini/anserini/commit/e59e25a1853f901a513baf7e3ab41ec15fd6640e)
 
 Added ONNX regressions for SPLADE-v3 on MS MARCO V1 Passage.
 
