@@ -42,10 +42,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.Callable;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class AbstractIndexer implements Runnable {
@@ -339,7 +336,7 @@ public abstract class AbstractIndexer implements Runnable {
       });
     }
 
-    try (ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newWorkStealingPool()) {
+    try (ExecutorService executor = Executors.newWorkStealingPool()) {
       // block until all tasks are completed
       executor.invokeAll(tasks);
     } catch (InterruptedException e) {
