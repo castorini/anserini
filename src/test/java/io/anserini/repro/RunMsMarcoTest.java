@@ -27,26 +27,27 @@ import static org.junit.Assert.assertTrue;
 public class RunMsMarcoTest {
   private final ByteArrayOutputStream out = new ByteArrayOutputStream();
   private final ByteArrayOutputStream err = new ByteArrayOutputStream();
-  private PrintStream save;
+  private PrintStream saveOut;
+  private PrintStream saveErr;
 
   private void redirectStderr() {
-    save = System.err;
+    saveErr = System.err;
     err.reset();
     System.setErr(new PrintStream(err));
   }
 
   private void restoreStderr() {
-    System.setErr(save);
+    System.setErr(saveErr);
   }
 
   private void redirectStdout() {
-    save = System.out;
+    saveOut = System.out;
     out.reset();
     System.setOut(new PrintStream(out));
   }
 
   private void restoreStdout() {
-    System.setOut(save);
+    System.setOut(saveOut);
   }
 
   @Test
@@ -68,6 +69,20 @@ public class RunMsMarcoTest {
     RunMsMarco.main(args);
 
     assertTrue(out.toString().startsWith("# Running condition"));
+    restoreStdout();
+  }
+
+  @Test
+  public void test2() throws Exception {
+    redirectStdout();
+
+    String[] args = new String[] {"-dryRun", "-printCommands"};
+    RunMsMarco.main(args);
+
+    assertTrue(out.toString().startsWith("# Running condition"));
+    assertTrue(out.toString().contains("Retrieval command"));
+    assertTrue(out.toString().contains("Eval command"));
+
     restoreStdout();
   }
 }
