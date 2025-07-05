@@ -38,7 +38,7 @@ public class RelevanceJudgmentsTest{
 
   @Test
   public void testTotalCount() {
-    assertEquals(171, Qrels.values().length);
+    assertEquals(183, Qrels.values().length);
   }
 
   @Test(expected = IOException.class)
@@ -1242,6 +1242,71 @@ public class RelevanceJudgmentsTest{
     assertNotNull(qrels);
     assertEquals(1190, qrels.getQids().size());
     assertEquals(1368, getQrelsCount(qrels));
+  }
+
+  @Test
+  public void testBRIGHT() throws IOException{
+    RelevanceJudgments qrels;
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.BRIGHT_BIOLOGY);
+    assertNotNull(qrels);
+    assertEquals(103, qrels.getQids().size());
+    assertEquals(372, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.BRIGHT_EARTH_SCIENCE);
+    assertNotNull(qrels);
+    assertEquals(116, qrels.getQids().size());
+    assertEquals(585, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.BRIGHT_ECONOMICS);
+    assertNotNull(qrels);
+    assertEquals(103, qrels.getQids().size());
+    assertEquals(800, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.BRIGHT_PSYCHOLOGY);
+    assertNotNull(qrels);
+    assertEquals(101, qrels.getQids().size());
+    assertEquals(692, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.BRIGHT_ROBOTICS);
+    assertNotNull(qrels);
+    assertEquals(101, qrels.getQids().size());
+    assertEquals(520, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.BRIGHT_STACKOVERFLOW);
+    assertNotNull(qrels);
+    assertEquals(117, qrels.getQids().size());
+    assertEquals(478, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.BRIGHT_SUSTAINABLE_LIVING);
+    assertNotNull(qrels);
+    assertEquals(108, qrels.getQids().size());
+    assertEquals(576, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.BRIGHT_PONY);
+    assertNotNull(qrels);
+    assertEquals(112, qrels.getQids().size());
+    assertEquals(2219, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.BRIGHT_LEETCODE);
+    assertNotNull(qrels);
+    assertEquals(142, qrels.getQids().size());
+    assertEquals(262, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.BRIGHT_AOPS);
+    assertNotNull(qrels);
+    assertEquals(111, qrels.getQids().size());
+    assertEquals(524, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.BRIGHT_THEOREMQA_THEOREMS);
+    assertNotNull(qrels);
+    assertEquals(76, qrels.getQids().size());
+    assertEquals(151, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.BRIGHT_THEOREMQA_QUESTIONS);
+    assertNotNull(qrels);
+    assertEquals(194, qrels.getQids().size());
+    assertEquals(439, getQrelsCount(qrels));
   }
 
   @Test
