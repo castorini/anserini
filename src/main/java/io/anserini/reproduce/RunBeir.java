@@ -16,15 +16,29 @@
 
 package io.anserini.reproduce;
 
+import io.anserini.reproduce.RunRepro.Args;
+import io.anserini.reproduce.RunRepro.TrecEvalMetricDefinitions;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.ParserProperties;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import io.anserini.reproduce.RunRepro.TrecEvalMetricDefinitions;
 
 public class RunBeir {
 
   public static void main(String[] args) throws Exception {
-    RunRepro repro = new RunRepro("beir", new BeirMetricDefinitions());
+    Args beirArgs = new RunRepro.Args();
+    CmdLineParser parser = new CmdLineParser(beirArgs, ParserProperties.defaults().withUsageWidth(120));
+
+    try {
+      parser.parseArgument(args);
+    } catch (CmdLineException exception) {
+      System.err.println(exception.getMessage());
+      return;
+    }
+
+    RunRepro repro = new RunRepro("beir", new BeirMetricDefinitions(), beirArgs.printCommands, beirArgs.dryRun);
     repro.run();
   }
 
