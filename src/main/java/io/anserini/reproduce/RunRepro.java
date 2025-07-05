@@ -19,14 +19,10 @@ package io.anserini.reproduce;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.io.File;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.exc.StreamReadException;
-import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
@@ -53,13 +49,13 @@ public class RunRepro {
     this.dryRun = dryRun;
   }
 
-  public void run() throws StreamReadException, DatabindException, IOException, InterruptedException, URISyntaxException {
+  public void run() throws IOException, InterruptedException, URISyntaxException {
     if (!new File("runs").exists()) {
       new File("runs").mkdir();
     }
 
     String fatjarPath = new File(RunRepro.class.getProtectionDomain()
-                                .getCodeSource().getLocation().toURI()).getPath();
+        .getCodeSource().getLocation().toURI()).getPath();
 
     final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
     Config config = mapper.readValue(RunRepro.class.getClassLoader()
@@ -98,28 +94,41 @@ public class RunRepro {
         }
 
         // running the evaluation command
-        Map<String, Map<String, String>> evalCommands = metricDefinitions.getMetricDefinitions().get(collection);
-        InputStream stdout = null;
+        Map<String, Map<String, String>> evalDefinitions = metricDefinitions.getMetricDefinitions().get(collection);
+        InputStream stdout;
 
         for (Map<String, Double> expected : topic.scores) {
+          Map<String, String> evalCommands = new LinkedHashMap<>();
+
+          // Go through and gather the eval commands in a first pass, so that we can print all at once if desired.
           for (String metric : expected.keySet()) {
             String evalKey = topic.eval_key;
-            if (!evalCommands.get(evalKey).containsKey(metric)) {
-              continue; // skip metric unintended to test
+            if (!evalDefinitions.get(evalKey).containsKey(metric)) {
+              throw new RuntimeException("Invalid metric: " + metric);
             }
 
-            String evalCmd = "java -cp $fatjarPath trec_eval $metric $evalKey $output"
+            evalCommands.put(metric, "java -cp $fatjarPath trec_eval $metric $evalKey $output"
                 .replace("$fatjarPath", fatjarPath)
-                .replace("$metric", evalCommands.get(evalKey).get(metric))
+                .replace("$metric", evalDefinitions.get(evalKey).get(metric))
                 .replace("$evalKey", evalKey)
-                .replace("$output", output);
+                .replace("$output", output));
+          }
 
-            if (printCommands) {
-              System.out.println("    Eval command: " + evalCmd);
+          // Print the commands all at once if desired.
+          if (printCommands) {
+            for (Map.Entry<String, String> entry : evalCommands.entrySet()) {
+              System.out.println("    Eval command: " + entry.getValue());
             }
+            System.out.println();
+          }
+
+          // We've already gathered the eval commands, so just run them now and check.
+          for (Map.Entry<String, String> entry : evalCommands.entrySet()) {
+            String metric = entry.getKey();
+            String cmd = entry.getValue();
 
             if (!dryRun) {
-              pb = new ProcessBuilder(evalCmd.split(" "));
+              pb = new ProcessBuilder(cmd.split(" "));
               process = pb.start();
 
               int resultCode = process.waitFor();
