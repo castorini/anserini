@@ -33,6 +33,12 @@ import io.anserini.reproduce.RunRepro.TrecEvalMetricDefinitions;
 
 public class RunMsMarco {
   public static class Args {
+    @Option(name = "-printCommands", usage = "Print commands.")
+    public Boolean printCommands = false;
+
+    @Option(name = "-dryRun", usage = "Dry run.")
+    public Boolean dryRun = false;
+
     @Option(name = "-options", usage = "Print information about options.")
     public Boolean options = false;
 
@@ -75,7 +81,8 @@ public class RunMsMarco {
         System.exit(1);
     }
 
-    RunRepro repro = new RunRepro(MsMarcoArgs.MsMarcoVersion, new MsMarcoMetricDefinitions());
+    RunRepro repro = new RunRepro(MsMarcoArgs.MsMarcoVersion, new MsMarcoMetricDefinitions(),
+            MsMarcoArgs.printCommands, MsMarcoArgs.dryRun);
     repro.run();
   }
 

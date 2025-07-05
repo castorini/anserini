@@ -41,12 +41,16 @@ public class RunRepro {
   private static final String FAIL = RED + "[FAIL]" + RESET;
   private static final String OKAY_ISH = BLUE + "[OK*]" + RESET;
 
-  private final String COLLECTION;
+  private final String collection;
   private final TrecEvalMetricDefinitions metricDefinitions;
+  private final boolean printCommands;
+  private final boolean dryRun;
 
-  public RunRepro(String collection, TrecEvalMetricDefinitions metrics) {
-    COLLECTION = collection;
-    metricDefinitions = metrics;
+  public RunRepro(String collection, TrecEvalMetricDefinitions metrics, boolean printCommands, boolean dryRun) {
+    this.collection = collection;
+    this.metricDefinitions = metrics;
+    this.printCommands = printCommands;
+    this.dryRun = dryRun;
   }
 
   public void run() throws StreamReadException, DatabindException, IOException, InterruptedException, URISyntaxException {
@@ -59,14 +63,17 @@ public class RunRepro {
 
     final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
     Config config = mapper.readValue(RunRepro.class.getClassLoader()
-        .getResourceAsStream("reproduce/" + COLLECTION + ".yaml"), Config.class);
+        .getResourceAsStream("reproduce/" + collection + ".yaml"), Config.class);
+
+    ProcessBuilder pb;
+    Process process;
 
     for (Condition condition : config.conditions) {
       System.out.printf("# Running condition \"%s\": %s \n%n", condition.name, condition.display);
       for (Topic topic : condition.topics) {
         System.out.println("  - topic_key: " + topic.topic_key + "\n");
 
-        final String output = String.format("runs/run.%s.%s.%s.txt", COLLECTION, condition.name, topic.topic_key);
+        final String output = String.format("runs/run.%s.%s.%s.txt", collection, condition.name, topic.topic_key);
 
         final String command = condition.command
             .replace("$fatjar", fatjarPath)
@@ -74,20 +81,24 @@ public class RunRepro {
             .replace("$topics", topic.topic_key)
             .replace("$output", output);
 
-        System.out.println("    Running retrieval command: " + command);
-
-        ProcessBuilder pb = new ProcessBuilder(command.split(" "));
-        Process process = pb.start();
-        int resultCode = process.waitFor();
-        if (resultCode == 0) {
-          System.out.println("    Run successfully completed!");
-        } else {
-          System.out.println("    Run failed!");
+        if (printCommands) {
+          System.out.println("    Retrieval command: " + command);
         }
-        System.out.println();
+
+        if (!dryRun) {
+          pb = new ProcessBuilder(command.split(" "));
+          process = pb.start();
+          int resultCode = process.waitFor();
+          if (resultCode == 0) {
+            System.out.println("    Run successfully completed!");
+          } else {
+            System.out.println("    Run failed!");
+          }
+          System.out.println();
+        }
 
         // running the evaluation command
-        Map<String, Map<String, String>> evalCommands = metricDefinitions.getMetricDefinitions().get(COLLECTION);
+        Map<String, Map<String, String>> evalCommands = metricDefinitions.getMetricDefinitions().get(collection);
         InputStream stdout = null;
 
         for (Map<String, Double> expected : topic.scores) {
@@ -103,27 +114,33 @@ public class RunRepro {
                 .replace("$evalKey", evalKey)
                 .replace("$output", output);
 
-            pb = new ProcessBuilder(evalCmd.split(" "));
-            process = pb.start();
+            if (printCommands) {
+              System.out.println("    Eval command: " + evalCmd);
+            }
 
-            resultCode = process.waitFor();
-            stdout = process.getInputStream();
-            if (resultCode == 0) {
-              String scoreString = new String(stdout.readAllBytes()).replaceAll(".*?(\\d+\\.\\d+)$", "$1").trim();
-              double score = Double.parseDouble(scoreString);
-              double delta = Math.abs(score - expected.get(metric));
+            if (!dryRun) {
+              pb = new ProcessBuilder(evalCmd.split(" "));
+              process = pb.start();
 
-              if ( score > expected.get(metric)) {
-                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, OKAY_ISH, expected.get(metric));
-              } else if (delta < 0.00001) {
-                System.out.printf("    %8s: %.4f [OK]%n", metric, score);
-              } else if (delta < 0.0002) {
-                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, OKAY_ISH, expected.get(metric));
+              int resultCode = process.waitFor();
+              stdout = process.getInputStream();
+              if (resultCode == 0) {
+                String scoreString = new String(stdout.readAllBytes()).replaceAll(".*?(\\d+\\.\\d+)$", "$1").trim();
+                double score = Double.parseDouble(scoreString);
+                double delta = Math.abs(score - expected.get(metric));
+
+                if (score > expected.get(metric)) {
+                  System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, OKAY_ISH, expected.get(metric));
+                } else if (delta < 0.00001) {
+                  System.out.printf("    %8s: %.4f [OK]%n", metric, score);
+                } else if (delta < 0.0002) {
+                  System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, OKAY_ISH, expected.get(metric));
+                } else {
+                  System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, FAIL, expected.get(metric));
+                }
               } else {
-                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, FAIL, expected.get(metric));
+                System.out.println("Evaluation command failed for metric: " + metric);
               }
-            } else {
-              System.out.println("Evaluation command failed for metric: " + metric);
             }
           }
           System.out.println();
