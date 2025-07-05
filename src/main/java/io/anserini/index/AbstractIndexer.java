@@ -336,9 +336,29 @@ public abstract class AbstractIndexer implements Runnable {
       });
     }
 
-    try (ExecutorService executor = Executors.newWorkStealingPool()) {
+    try (
+            ExecutorService executor = Executors.newWorkStealingPool();
+            ScheduledExecutorService monitor = Executors.newSingleThreadScheduledExecutor()
+    ) {
+      // log progress every minute
+      int segmentCnt = segmentPaths.size();
+      monitor.scheduleAtFixedRate(() -> {
+        if (segmentCnt == 1) {
+          LOG.info(String.format("%,d documents indexed", counters.indexed.get()));
+        } else {
+          double percent = (double) completionCount.get() / segmentCnt * 100.0;
+          LOG.info(String.format("%.2f%% of files completed, %,d documents indexed",
+                    percent, counters.indexed.get()));
+          }
+        }, 1, 1, TimeUnit.MINUTES);
+
       // block until all tasks are completed
       executor.invokeAll(tasks);
+      monitor.shutdown();
+
+      if (!monitor.awaitTermination(5, TimeUnit.SECONDS)) {
+        monitor.shutdownNow();
+      }
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
       throw new RuntimeException("Processing of segments interrupted", e);
