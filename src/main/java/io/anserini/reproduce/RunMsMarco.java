@@ -32,30 +32,20 @@ import org.kohsuke.args4j.ParserProperties;
 import io.anserini.reproduce.RunRepro.TrecEvalMetricDefinitions;
 
 public class RunMsMarco {
-  public static class Args {
-    @Option(name = "-printCommands", usage = "Print commands.")
-    public Boolean printCommands = false;
-
-    @Option(name = "-dryRun", usage = "Dry run.")
-    public Boolean dryRun = false;
-
-    @Option(name = "-options", usage = "Print information about options.")
-    public Boolean options = false;
-
+  public static class Args extends RunRepro.Args {
     @Option(name = "-collection", usage = "MS MARCO version {'msmarco-v1-passage' (default), 'msmarco-v2.1-doc', 'msmarco-v2.1-doc-segmented'}.")
     public String MsMarcoVersion = "msmarco-v1-passage";
   }
 
   public static void main(String[] args) throws Exception {
-
     // check for cmd option
-    Args MsMarcoArgs = new Args();
-    CmdLineParser parser = new CmdLineParser(MsMarcoArgs, ParserProperties.defaults().withUsageWidth(120));
+    Args msmarcoArgs = new Args();
+    CmdLineParser parser = new CmdLineParser(msmarcoArgs, ParserProperties.defaults().withUsageWidth(120));
 
     try {
       parser.parseArgument(args);
     } catch (CmdLineException e) {
-      if (MsMarcoArgs.options) {
+      if (msmarcoArgs.options) {
         System.err.printf("Options for %s:\n\n", RunMsMarco.class.getSimpleName());
         parser.printUsage(System.err);
 
@@ -76,13 +66,13 @@ public class RunMsMarco {
 
     Set<String> allowedVersions = new HashSet<>(
             Arrays.asList("msmarco-v1-passage", "msmarco-v2.1-doc", "msmarco-v2.1-doc-segmented"));
-    if (!allowedVersions.contains(MsMarcoArgs.MsMarcoVersion)) {
-        System.err.println("Invalid MS MARCO version: " + MsMarcoArgs.MsMarcoVersion);
+    if (!allowedVersions.contains(msmarcoArgs.MsMarcoVersion)) {
+        System.err.println("Invalid MS MARCO version: " + msmarcoArgs.MsMarcoVersion);
         System.exit(1);
     }
 
-    RunRepro repro = new RunRepro(MsMarcoArgs.MsMarcoVersion, new MsMarcoMetricDefinitions(),
-            MsMarcoArgs.printCommands, MsMarcoArgs.dryRun);
+    RunRepro repro = new RunRepro(msmarcoArgs.MsMarcoVersion, new MsMarcoMetricDefinitions(),
+            msmarcoArgs.printCommands, msmarcoArgs.dryRun);
     repro.run();
   }
 

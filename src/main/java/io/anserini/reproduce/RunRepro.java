@@ -25,6 +25,7 @@ import java.io.File;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import org.kohsuke.args4j.Option;
 
 public class RunRepro {
   // ANSI escape code for red text
@@ -41,6 +42,17 @@ public class RunRepro {
   private final TrecEvalMetricDefinitions metricDefinitions;
   private final boolean printCommands;
   private final boolean dryRun;
+
+  public static class Args {
+    @Option(name = "-printCommands", usage = "Print commands.")
+    public Boolean printCommands = false;
+
+    @Option(name = "-dryRun", usage = "Dry run.")
+    public Boolean dryRun = false;
+
+    @Option(name = "-options", usage = "Print information about options.")
+    public Boolean options = false;
+  }
 
   public RunRepro(String collection, TrecEvalMetricDefinitions metrics, boolean printCommands, boolean dryRun) {
     this.collection = collection;
