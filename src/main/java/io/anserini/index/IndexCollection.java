@@ -43,7 +43,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public final class IndexCollection extends AbstractIndexer {
   private static final Logger LOG = LogManager.getLogger(IndexCollection.class);
@@ -257,6 +261,36 @@ public final class IndexCollection extends AbstractIndexer {
         throw new IllegalArgumentException(String.format("Unable to load LuceneDocumentGenerator \"%s\".", generatorClass.getSimpleName()));
       }
     });
+  }
+
+  protected void processSegments(List<Path> segmentPaths, AtomicInteger completionCount) {
+    // Use newWorkStealingPool to allow for dynamic thread allocation
+    List<Callable<Void>> tasks = new ArrayList<>(segmentPaths.size());
+
+    for (Path segmentPath : segmentPaths) {
+      tasks.add(() -> {
+        try {
+          // Each thread gets its own document generator, so we don't need to make any assumptions about its thread safety.
+          @SuppressWarnings("unchecked")
+          LuceneDocumentGenerator<SourceDocument> generator = (LuceneDocumentGenerator<SourceDocument>)
+                  generatorClass.getDeclaredConstructor(Args.class).newInstance(this.args);
+
+          new IndexerThread(segmentPath, generator, whitelistDocids).run();
+          completionCount.incrementAndGet();
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                 NoSuchMethodException e) {
+          throw new IllegalArgumentException(String.format("Unable to load LuceneDocumentGenerator \"%s\".", generatorClass.getSimpleName()));
+        }
+        return null;
+      });
+    }
+
+    try (ExecutorService executor = Executors.newWorkStealingPool()) {
+      executor.invokeAll(tasks);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new RuntimeException("Processing of segments interrupted", e);
+    }
   }
 
   public static void main(String[] args) throws Exception {

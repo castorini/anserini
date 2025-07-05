@@ -39,11 +39,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class AbstractIndexer implements Runnable {
   private static final Logger LOG = LogManager.getLogger(AbstractIndexer.class);
@@ -242,6 +245,7 @@ public abstract class AbstractIndexer implements Runnable {
             collection.getSegmentPaths(args.shardCount, args.shardCurrent) :
             collection.getSegmentPaths();
     final int segmentCnt = segmentPaths.size();
+    AtomicInteger completionCount = new AtomicInteger(0);
 
     final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threads);
     LOG.info(String.format("Thread pool with %s threads initialized.", args.threads));
@@ -249,29 +253,11 @@ public abstract class AbstractIndexer implements Runnable {
     LOG.info("Starting to index...");
 
     // Dispatch to default method to process the segments; subclasses can override this method if desired.
-    processSegments(executor, segmentPaths);
-    executor.shutdown();
+    processSegments(segmentPaths, completionCount);
 
-    try {
-      // Wait for existing tasks to terminate.
-      while (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
-        if (segmentCnt == 1) {
-          LOG.info(String.format("%,d documents indexed", counters.indexed.get()));
-        } else {
-          LOG.info(String.format("%.2f%% of files completed, %,d documents indexed",
-              (double) executor.getCompletedTaskCount() / segmentCnt * 100.0d, counters.indexed.get()));
-        }
-      }
-    } catch (InterruptedException ie) {
-      // (Re-)Cancel if current thread also interrupted.
-      executor.shutdownNow();
-      // Preserve interrupt status.
-      Thread.currentThread().interrupt();
-    }
-
-    if (segmentCnt != executor.getCompletedTaskCount()) {
+    if (segmentCnt != completionCount.get()) {
       throw new RuntimeException("totalFiles = " + segmentCnt +
-          " is not equal to completedTaskCount =  " + executor.getCompletedTaskCount());
+          " is not equal to completedTaskCount =  " + completionCount.get());
     }
 
     long numIndexed = writer.getDocStats().maxDoc;
@@ -316,7 +302,6 @@ public abstract class AbstractIndexer implements Runnable {
     LOG.info(String.format("Total %,d documents indexed in %s", numIndexed,
         DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss")));
   }
-
   // Default method to process the segments; subclasses can override this method if desired.
   protected void processSegments(ThreadPoolExecutor executor, List<Path> segmentPaths) {
     segmentPaths.forEach((segmentPath) -> {
@@ -331,6 +316,36 @@ public abstract class AbstractIndexer implements Runnable {
         throw new IllegalArgumentException(String.format("Unable to load LuceneDocumentGenerator \"%s\".", generatorClass.getSimpleName()));
       }
     });
+  }
+
+  protected void processSegments(List<Path> segmentPaths, AtomicInteger completionCount) {
+    // Use newWorkStealingPool to allow for dynamic thread allocation.
+    List<Callable<Void>> tasks = new ArrayList<>(segmentPaths.size());
+
+    for (Path segmentPath : segmentPaths) {
+      tasks.add(() -> {
+        try {
+          // Each thread gets its own document generator, so we don't need to make any assumptions about its thread safety.
+          @SuppressWarnings("unchecked")
+          LuceneDocumentGenerator<SourceDocument> generator = (LuceneDocumentGenerator<SourceDocument>)
+              generatorClass.getDeclaredConstructor((Class<?>[]) null).newInstance();
+
+            new IndexerThread(segmentPath, generator).run();
+            completionCount.incrementAndGet();
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            throw new IllegalArgumentException(String.format("Unable to load LuceneDocumentGenerator \"%s\".", generatorClass.getSimpleName()));
+            }
+        return null;
+      });
+    }
+
+    try (ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newWorkStealingPool()) {
+      // block until all tasks are completed
+      executor.invokeAll(tasks);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new RuntimeException("Processing of segments interrupted", e);
+    }
   }
 
   public Counters getCounters() {
