@@ -11,6 +11,12 @@ conditions:
           - nDCG@20: 0.3198
             nDCG@100: 0.2563
             R@100: 0.1395
+      - topic_key: rag24.test
+        eval_key: rag24.test
+        scores:
+          - nDCG@20: 0.2809
+            nDCG@100: 0.2345
+            R@100: 0.1698
   - name: shard00.arctic-l.hnsw-int8.cached
     display: "ArcticEmbed-L w/ HNSW int8 (cached queries)"
     display_html: "ArcticEmbed-L w/ HNSW int8 (cached queries)"
@@ -23,6 +29,12 @@ conditions:
           - nDCG@20: 0.3002
             nDCG@100: 0.1796
             R@100: 0.0750
+      - topic_key: rag24.test.snowflake-arctic-embed-l
+        eval_key: rag24.test
+        scores:
+          - nDCG@20: 0.2447
+            nDCG@100: 0.1440
+            R@100: 0.0746
   - name: shard01.arctic-l.hnsw-int8.cached
     display: "ArcticEmbed-L w/ HNSW int8 (cached queries)"
     display_html: "ArcticEmbed-L w/ HNSW int8 (cached queries)"
@@ -35,6 +47,12 @@ conditions:
           - nDCG@20: 0.2599
             nDCG@100: 0.1513
             R@100: 0.0619
+      - topic_key: rag24.test.snowflake-arctic-embed-l
+        eval_key: rag24.test
+        scores:
+          - nDCG@20: 0.2184
+            nDCG@100: 0.1274
+            R@100: 0.0690
   - name: shard02.arctic-l.hnsw-int8.cached
     display: "ArcticEmbed-L w/ HNSW int8 (cached queries)"
     display_html: "ArcticEmbed-L w/ HNSW int8 (cached queries)"
@@ -47,6 +65,12 @@ conditions:
           - nDCG@20: 0.2660
             nDCG@100: 0.1535
             R@100: 0.0639
+      - topic_key: rag24.test.snowflake-arctic-embed-l
+        eval_key: rag24.test
+        scores:
+          - nDCG@20: 0.2211
+            nDCG@100: 0.1296
+            R@100: 0.0720
   - name: shard03.arctic-l.hnsw-int8.cached
     display: "ArcticEmbed-L w/ HNSW int8 (cached queries)"
     display_html: "ArcticEmbed-L w/ HNSW int8 (cached queries)"
@@ -59,6 +83,12 @@ conditions:
           - nDCG@20: 0.2705
             nDCG@100: 0.1555
             R@100: 0.0634
+      - topic_key: rag24.test.snowflake-arctic-embed-l
+        eval_key: rag24.test
+        scores:
+          - nDCG@20: 0.2388
+            nDCG@100: 0.1425
+            R@100: 0.0805
   - name: shard04.arctic-l.hnsw-int8.cached
     display: "ArcticEmbed-L w/ HNSW int8 (cached queries)"
     display_html: "ArcticEmbed-L w/ HNSW int8 (cached queries)"
@@ -71,6 +101,12 @@ conditions:
           - nDCG@20: 0.2936
             nDCG@100: 0.1727
             R@100: 0.0692
+      - topic_key: rag24.test.snowflake-arctic-embed-l
+        eval_key: rag24.test
+        scores:
+          - nDCG@20: 0.2253
+            nDCG@100: 0.1261
+            R@100: 0.0654
   - name: shard05.arctic-l.hnsw-int8.cached
     display: "ArcticEmbed-L w/ HNSW int8 (cached queries)"
     display_html: "ArcticEmbed-L w/ HNSW int8 (cached queries)"
@@ -83,6 +119,12 @@ conditions:
           - nDCG@20: 0.2590
             nDCG@100: 0.1466
             R@100: 0.0580
+      - topic_key: rag24.test.snowflake-arctic-embed-l
+        eval_key: rag24.test
+        scores:
+          - nDCG@20: 0.2383
+            nDCG@100: 0.1305
+            R@100: 0.0638
   - name: shard06.arctic-l.hnsw-int8.cached
     display: "ArcticEmbed-L w/ HNSW int8 (cached queries)"
     display_html: "ArcticEmbed-L w/ HNSW int8 (cached queries)"
@@ -95,6 +137,12 @@ conditions:
           - nDCG@20: 0.2444
             nDCG@100: 0.1401
             R@100: 0.0557
+      - topic_key: rag24.test.snowflake-arctic-embed-l
+        eval_key: rag24.test
+        scores:
+          - nDCG@20: 0.2336
+            nDCG@100: 0.1391
+            R@100: 0.0715
   - name: shard07.arctic-l.hnsw-int8.cached
     display: "ArcticEmbed-L w/ HNSW int8 (cached queries)"
     display_html: "ArcticEmbed-L w/ HNSW int8 (cached queries)"
@@ -107,6 +155,12 @@ conditions:
           - nDCG@20: 0.2416
             nDCG@100: 0.1350
             R@100: 0.0502
+      - topic_key: rag24.test.snowflake-arctic-embed-l
+        eval_key: rag24.test
+        scores:
+          - nDCG@20: 0.2254
+            nDCG@100: 0.1263
+            R@100: 0.0587
   - name: shard08.arctic-l.hnsw-int8.cached
     display: "ArcticEmbed-L w/ HNSW int8 (cached queries)"
     display_html: "ArcticEmbed-L w/ HNSW int8 (cached queries)"
@@ -119,6 +173,12 @@ conditions:
           - nDCG@20: 0.2847
             nDCG@100: 0.1689
             R@100: 0.0678
+      - topic_key: rag24.test.snowflake-arctic-embed-l
+        eval_key: rag24.test
+        scores:
+          - nDCG@20: 0.2765
+            nDCG@100: 0.1663
+            R@100: 0.0893
   - name: shard09.arctic-l.hnsw-int8.cached
     display: "ArcticEmbed-L w/ HNSW int8 (cached queries)"
     display_html: "ArcticEmbed-L w/ HNSW int8 (cached queries)"
@@ -131,6 +191,12 @@ conditions:
           - nDCG@20: 0.2432
             nDCG@100: 0.1336
             R@100: 0.0522
+      - topic_key: rag24.test.snowflake-arctic-embed-l
+        eval_key: rag24.test
+        scores:
+          - nDCG@20: 0.2457
+            nDCG@100: 0.1376
+            R@100: 0.0715
   - name: shard00.arctic-l.hnsw-int8.onnx
     display: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
     display_html: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
@@ -143,6 +209,12 @@ conditions:
           - nDCG@20: 0.3003
             nDCG@100: 0.1796
             R@100: 0.0750
+      - topic_key: rag24.test
+        eval_key: rag24.test
+        scores:
+          - nDCG@20: 0.2449
+            nDCG@100: 0.1440
+            R@100: 0.0746
   - name: shard01.arctic-l.hnsw-int8.onnx
     display: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
     display_html: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
@@ -155,6 +227,12 @@ conditions:
           - nDCG@20: 0.2599
             nDCG@100: 0.1513
             R@100: 0.0619
+      - topic_key: rag24.test
+        eval_key: rag24.test
+        scores:
+          - nDCG@20: 0.2184
+            nDCG@100: 0.1274
+            R@100: 0.0690
   - name: shard02.arctic-l.hnsw-int8.onnx
     display: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
     display_html: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
@@ -167,6 +245,12 @@ conditions:
           - nDCG@20: 0.2661
             nDCG@100: 0.1535
             R@100: 0.0639
+      - topic_key: rag24.test
+        eval_key: rag24.test
+        scores:
+          - nDCG@20: 0.2211
+            nDCG@100: 0.1296
+            R@100: 0.0720
   - name: shard03.arctic-l.hnsw-int8.onnx
     display: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
     display_html: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
@@ -179,6 +263,12 @@ conditions:
           - nDCG@20: 0.2705
             nDCG@100: 0.1555
             R@100: 0.0634
+      - topic_key: rag24.test
+        eval_key: rag24.test
+        scores:
+          - nDCG@20: 0.2388
+            nDCG@100: 0.1425
+            R@100: 0.0805
   - name: shard04.arctic-l.hnsw-int8.onnx
     display: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
     display_html: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
@@ -191,6 +281,12 @@ conditions:
           - nDCG@20: 0.2937
             nDCG@100: 0.1727
             R@100: 0.0692
+      - topic_key: rag24.test
+        eval_key: rag24.test
+        scores:
+          - nDCG@20: 0.2253
+            nDCG@100: 0.1261
+            R@100: 0.0654
   - name: shard05.arctic-l.hnsw-int8.onnx
     display: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
     display_html: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
@@ -203,6 +299,12 @@ conditions:
           - nDCG@20: 0.2590
             nDCG@100: 0.1466
             R@100: 0.0580
+      - topic_key: rag24.test
+        eval_key: rag24.test
+        scores:
+          - nDCG@20: 0.2383
+            nDCG@100: 0.1305
+            R@100: 0.0638
   - name: shard06.arctic-l.hnsw-int8.onnx
     display: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
     display_html: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
@@ -215,6 +317,12 @@ conditions:
           - nDCG@20: 0.2444
             nDCG@100: 0.1401
             R@100: 0.0557
+      - topic_key: rag24.test
+        eval_key: rag24.test
+        scores:
+          - nDCG@20: 0.2336
+            nDCG@100: 0.1391
+            R@100: 0.0715
   - name: shard07.arctic-l.hnsw-int8.onnx
     display: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
     display_html: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
@@ -227,6 +335,12 @@ conditions:
           - nDCG@20: 0.2417
             nDCG@100: 0.1350
             R@100: 0.0502
+      - topic_key: rag24.test
+        eval_key: rag24.test
+        scores:
+          - nDCG@20: 0.2255
+            nDCG@100: 0.1263
+            R@100: 0.0587
   - name: shard08.arctic-l.hnsw-int8.onnx
     display: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
     display_html: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
@@ -239,6 +353,12 @@ conditions:
           - nDCG@20: 0.2847
             nDCG@100: 0.1689
             R@100: 0.0678
+      - topic_key: rag24.test
+        eval_key: rag24.test
+        scores:
+          - nDCG@20: 0.2765
+            nDCG@100: 0.1663
+            R@100: 0.0893
   - name: shard09.arctic-l.hnsw-int8.onnx
     display: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
     display_html: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
@@ -251,3 +371,9 @@ conditions:
           - nDCG@20: 0.2432
             nDCG@100: 0.1336
             R@100: 0.0522
+      - topic_key: rag24.test
+        eval_key: rag24.test
+        scores:
+          - nDCG@20: 0.2457
+            nDCG@100: 0.1376
+            R@100: 0.0715

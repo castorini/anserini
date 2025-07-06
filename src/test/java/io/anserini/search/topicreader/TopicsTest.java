@@ -18,14 +18,8 @@ package io.anserini.search.topicreader;
 
 import org.junit.Test;
 
-import java.io.IOException;
-import java.util.Map;
-import java.util.SortedMap;
-
 import static io.anserini.search.topicreader.Topics.*;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 public class TopicsTest {
 
