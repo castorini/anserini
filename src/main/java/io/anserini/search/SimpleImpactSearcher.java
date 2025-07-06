@@ -421,7 +421,7 @@ public class SimpleImpactSearcher implements Closeable {
     ConcurrentHashMap<String, ScoredDoc[]> results = new ConcurrentHashMap<>();
     int queryCnt = encoded_queries.size();
     List<Callable<Void>> tasks = new ArrayList<>(queryCnt);
-    AtomicInteger completionCount = new AtomicInteger();
+    AtomicInteger completedTaskCount = new AtomicInteger();
 
 
     for (int q = 0; q < queryCnt; ++q) {
@@ -430,7 +430,7 @@ public class SimpleImpactSearcher implements Closeable {
       tasks.add(() -> {
         try {
           results.put(qid, search(query, k));
-          completionCount.incrementAndGet();
+          completedTaskCount.incrementAndGet();
         } catch (IOException | OrtException e) {
           throw new CompletionException(e);
         }
@@ -438,16 +438,16 @@ public class SimpleImpactSearcher implements Closeable {
       });
     }
 
-    try (ExecutorService executor = Executors.newWorkStealingPool()) {
+    try (ExecutorService executor = Executors.newWorkStealingPool(threads)) {
       // block until all tasks are completed
       executor.invokeAll(tasks);
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
     }
 
-    if (queryCnt != completionCount.get()) {
+    if (queryCnt != completedTaskCount.get()) {
       throw new RuntimeException("queryCount = " + queryCnt +
-          " is not equal to completedTaskCount =  " + completionCount.get());
+          " is not equal to completedTaskCount =  " + completedTaskCount.get());
     }
 
     return results;

@@ -230,7 +230,7 @@ public class SimpleIndexer {
       });
     }
 
-    try (ExecutorService executor = Executors.newWorkStealingPool()) {
+    try (ExecutorService executor = Executors.newWorkStealingPool(threads)) {
       // blocks until all tasks complete
       executor.invokeAll(tasks);
     } catch (InterruptedException e) {

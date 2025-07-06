@@ -528,7 +528,7 @@ public class SimpleSearcher implements Closeable {
     ConcurrentHashMap<String, ScoredDoc[]> results = new ConcurrentHashMap<>();
     int queryCnt = queries.size();
     List<Callable<Void>> tasks = new ArrayList<>(queryCnt);
-    AtomicInteger completionCount = new AtomicInteger();
+    AtomicInteger completedTaskCount = new AtomicInteger();
 
     for (int q = 0; q < queryCnt; ++q) {
       String query = queries.get(q);
@@ -540,7 +540,7 @@ public class SimpleSearcher implements Closeable {
           } else {
             results.put(qid, search(generator, query, k));
           }
-          completionCount.incrementAndGet();
+          completedTaskCount.incrementAndGet();
         } catch (IOException e) {
           throw new CompletionException(e);
         }
@@ -555,9 +555,9 @@ public class SimpleSearcher implements Closeable {
       Thread.currentThread().interrupt();
     }
 
-    if (queryCnt != completionCount.get()) {
+    if (queryCnt != completedTaskCount.get()) {
       throw new RuntimeException("queryCount = " + queryCnt +
-              " is not equal to completedTaskCount =  " + completionCount.get());
+              " is not equal to completedTaskCount =  " + completedTaskCount.get());
     }
 
     return results;
@@ -785,7 +785,7 @@ public class SimpleSearcher implements Closeable {
       });
     }
 
-    try (ExecutorService executor = Executors.newWorkStealingPool()) {
+    try (ExecutorService executor = Executors.newWorkStealingPool(threads)) {
       // block until all tasks are completed
       executor.invokeAll(tasks);
     } catch (InterruptedException e) {

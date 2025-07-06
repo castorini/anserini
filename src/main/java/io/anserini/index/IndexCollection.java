@@ -260,8 +260,7 @@ public final class IndexCollection extends AbstractIndexer {
     });
   }
 
-  protected void processSegments(List<Path> segmentPaths, AtomicInteger completionCount) {
-    // Use newWorkStealingPool to allow for dynamic thread allocation
+  protected void processSegments(List<Path> segmentPaths, AtomicInteger completedTaskCount) {
     List<Callable<Void>> tasks = new ArrayList<>(segmentPaths.size());
 
     for (Path segmentPath : segmentPaths) {
@@ -273,7 +272,7 @@ public final class IndexCollection extends AbstractIndexer {
                   generatorClass.getDeclaredConstructor(Args.class).newInstance(this.args);
 
           new IndexerThread(segmentPath, generator, whitelistDocids).run();
-          completionCount.incrementAndGet();
+          completedTaskCount.incrementAndGet();
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
                  NoSuchMethodException e) {
           throw new IllegalArgumentException(String.format("Unable to load LuceneDocumentGenerator \"%s\".", generatorClass.getSimpleName()));
@@ -283,7 +282,7 @@ public final class IndexCollection extends AbstractIndexer {
     }
 
     try (
-            ExecutorService executor = Executors.newWorkStealingPool();
+            ExecutorService executor = Executors.newWorkStealingPool(args.threads);
             ScheduledExecutorService monitor = Executors.newSingleThreadScheduledExecutor()
     ) {
         // Log progress every minute
@@ -292,7 +291,7 @@ public final class IndexCollection extends AbstractIndexer {
         if (segmentCnt == 1) {
           LOG.info(String.format("%,d documents indexed", counters.indexed.get()));
         } else {
-          double percent = (double) completionCount.get() / segmentCnt * 100.0;
+          double percent = (double) completedTaskCount.get() / segmentCnt * 100.0;
           LOG.info(String.format("%.2f%% of files completed, %,d documents indexed",
                   percent, counters.indexed.get()));
           }

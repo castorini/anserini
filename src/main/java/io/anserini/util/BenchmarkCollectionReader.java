@@ -114,7 +114,7 @@ public final class BenchmarkCollectionReader {
 
     final List segmentPaths = collection.getSegmentPaths();
     final int segmentCnt = segmentPaths.size();
-    AtomicInteger completionCount = new AtomicInteger(0);
+    AtomicInteger completedTaskCount = new AtomicInteger(0);
 
     LOG.info(segmentCnt + " files found in " + collectionPath.toString());
 
@@ -123,19 +123,19 @@ public final class BenchmarkCollectionReader {
       int finalI = i;
       tasks.add(() -> {
         new ReaderThread(collection, (Path) segmentPaths.get(finalI)).run();
-        completionCount.incrementAndGet();
+        completedTaskCount.incrementAndGet();
         return null;
       });
     }
 
     // Work-stealing executor + progress logger
     try (
-            ExecutorService executor = Executors.newWorkStealingPool();
+            ExecutorService executor = Executors.newWorkStealingPool(args.threads);
             ScheduledExecutorService monitor = Executors.newSingleThreadScheduledExecutor()
     ) {
       // log progress every minute
       monitor.scheduleAtFixedRate(() -> {
-        double pct = (double) completionCount.get() / segmentCnt * 100.0d;
+        double pct = (double) completedTaskCount.get() / segmentCnt * 100.0d;
         LOG.info(String.format("%.2f percent completed", pct));
       }, 1, 1, TimeUnit.MINUTES);
 
@@ -146,9 +146,9 @@ public final class BenchmarkCollectionReader {
       Thread.currentThread().interrupt();
     }
 
-    if (segmentCnt != completionCount.get()) {
+    if (segmentCnt != completedTaskCount.get()) {
       throw new RuntimeException("totalFiles = " + segmentCnt +
-          " is not equal to completedTaskCount =  " + completionCount.get());
+          " is not equal to completedTaskCount =  " + completedTaskCount.get());
     }
 
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);

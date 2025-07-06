@@ -138,7 +138,7 @@ public class InvertedDenseSearcher<K extends Comparable<K>> extends BaseSearcher
       });
     }
 
-    try (ExecutorService executor = Executors.newWorkStealingPool()) {
+    try (ExecutorService executor = Executors.newWorkStealingPool(threads)) {
       // block until all tasks are completed
       executor.invokeAll(tasks);
     } catch (InterruptedException e) {

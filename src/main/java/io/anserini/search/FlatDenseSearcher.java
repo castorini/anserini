@@ -146,7 +146,7 @@ public class FlatDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
       });
     }
 
-    try (ExecutorService executor = Executors.newWorkStealingPool()) {
+    try (ExecutorService executor = Executors.newWorkStealingPool(threads)) {
       // block until all tasks are completed
       executor.invokeAll(tasks);
     } catch (InterruptedException e) {

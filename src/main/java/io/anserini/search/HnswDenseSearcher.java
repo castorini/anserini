@@ -120,10 +120,10 @@ public class HnswDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
    * @param queries list of queries
    * @param qids list of unique query ids
    * @param k number of hits
-   * @param threadsIgnored number of threads
+   * @param threads number of threads
    * @return a map of query id to search results
    */
-  public SortedMap<K, ScoredDoc[]> batch_search(List<String> queries, List<K> qids, int k, int threadsIgnored) {
+  public SortedMap<K, ScoredDoc[]> batch_search(List<String> queries, List<K> qids, int k, int threads) {
     // threadsIgnored parameter has been retained for backward compatibility
     final SortedMap<K, ScoredDoc[]> results = new ConcurrentSkipListMap<>();
     final AtomicInteger cnt = new AtomicInteger();
@@ -153,7 +153,7 @@ public class HnswDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
       });
     }
 
-    try (ExecutorService executor = Executors.newWorkStealingPool()) {
+    try (ExecutorService executor = Executors.newWorkStealingPool(threads)) {
       // block until all tasks are completed
       executor.invokeAll(tasks);
     } catch (InterruptedException e) {

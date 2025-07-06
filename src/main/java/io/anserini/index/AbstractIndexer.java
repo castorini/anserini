@@ -242,17 +242,18 @@ public abstract class AbstractIndexer implements Runnable {
             collection.getSegmentPaths(args.shardCount, args.shardCurrent) :
             collection.getSegmentPaths();
     final int segmentCnt = segmentPaths.size();
-    AtomicInteger completionCount = new AtomicInteger(0);
+    AtomicInteger completedTaskCount = new AtomicInteger(0);
 
+    LOG.info(String.format("Thread pool with %s threads initialized.", args.threads));
     LOG.info(String.format("%,d %s found in %s", segmentCnt, (segmentCnt == 1 ? "file" : "files"), collectionPath));
     LOG.info("Starting to index...");
 
     // Dispatch to default method to process the segments; subclasses can override this method if desired.
-    processSegments(segmentPaths, completionCount);
+    processSegments(segmentPaths, completedTaskCount);
 
-    if (segmentCnt != completionCount.get()) {
+    if (segmentCnt != completedTaskCount.get()) {
       throw new RuntimeException("totalFiles = " + segmentCnt +
-          " is not equal to completedTaskCount =  " + completionCount.get());
+          " is not equal to completedTaskCount =  " + completedTaskCount.get());
     }
 
     long numIndexed = writer.getDocStats().maxDoc;
@@ -313,8 +314,7 @@ public abstract class AbstractIndexer implements Runnable {
     });
   }
 
-  protected void processSegments(List<Path> segmentPaths, AtomicInteger completionCount) {
-    // Use newWorkStealingPool to allow for dynamic thread allocation.
+  protected void processSegments(List<Path> segmentPaths, AtomicInteger completedTaskCount) {
     List<Callable<Void>> tasks = new ArrayList<>(segmentPaths.size());
 
     for (Path segmentPath : segmentPaths) {
@@ -326,7 +326,7 @@ public abstract class AbstractIndexer implements Runnable {
               generatorClass.getDeclaredConstructor((Class<?>[]) null).newInstance();
 
             new IndexerThread(segmentPath, generator).run();
-            completionCount.incrementAndGet();
+            completedTaskCount.incrementAndGet();
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             throw new IllegalArgumentException(String.format("Unable to load LuceneDocumentGenerator \"%s\".", generatorClass.getSimpleName()));
             }
@@ -335,7 +335,7 @@ public abstract class AbstractIndexer implements Runnable {
     }
 
     try (
-            ExecutorService executor = Executors.newWorkStealingPool();
+            ExecutorService executor = Executors.newWorkStealingPool(args.threads);
             ScheduledExecutorService monitor = Executors.newSingleThreadScheduledExecutor()
     ) {
       // log progress every minute
@@ -344,7 +344,7 @@ public abstract class AbstractIndexer implements Runnable {
         if (segmentCnt == 1) {
           LOG.info(String.format("%,d documents indexed", counters.indexed.get()));
         } else {
-          double percent = (double) completionCount.get() / segmentCnt * 100.0;
+          double percent = (double) completedTaskCount.get() / segmentCnt * 100.0;
           LOG.info(String.format("%.2f%% of files completed, %,d documents indexed",
                     percent, counters.indexed.get()));
           }
