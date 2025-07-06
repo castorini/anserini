@@ -1,17 +1,17 @@
 # MS MARCO V2.1 segmented: Arctic
-python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test.arctic-embed-l.parquet.shard00.flat.onnx > logs/log.rag24-doc-segmented-test.arctic-embed-l.parquet.shard00.flat.onnx.txt 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test.arctic-embed-l.parquet.shard01.flat.onnx > logs/log.rag24-doc-segmented-test.arctic-embed-l.parquet.shard01.flat.onnx.txt 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test.arctic-embed-l.parquet.shard02.flat.onnx > logs/log.rag24-doc-segmented-test.arctic-embed-l.parquet.shard02.flat.onnx.txt 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test.arctic-embed-l.parquet.shard03.flat.onnx > logs/log.rag24-doc-segmented-test.arctic-embed-l.parquet.shard03.flat.onnx.txt 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test.arctic-embed-l.parquet.shard04.flat.onnx > logs/log.rag24-doc-segmented-test.arctic-embed-l.parquet.shard04.flat.onnx.txt 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test.arctic-embed-l.parquet.shard05.flat.onnx > logs/log.rag24-doc-segmented-test.arctic-embed-l.parquet.shard05.flat.onnx.txt 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test.arctic-embed-l.parquet.shard06.flat.onnx > logs/log.rag24-doc-segmented-test.arctic-embed-l.parquet.shard06.flat.onnx.txt 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test.arctic-embed-l.parquet.shard07.flat.onnx > logs/log.rag24-doc-segmented-test.arctic-embed-l.parquet.shard07.flat.onnx.txt 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test.arctic-embed-l.parquet.shard08.flat.onnx > logs/log.rag24-doc-segmented-test.arctic-embed-l.parquet.shard08.flat.onnx.txt 2>&1
-python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test.arctic-embed-l.parquet.shard09.flat.onnx > logs/log.rag24-doc-segmented-test.arctic-embed-l.parquet.shard09.flat.onnx.txt 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard00.flat.onnx > logs/log.rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard00.flat.onnx.txt 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard01.flat.onnx > logs/log.rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard01.flat.onnx.txt 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard02.flat.onnx > logs/log.rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard02.flat.onnx.txt 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard03.flat.onnx > logs/log.rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard03.flat.onnx.txt 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard04.flat.onnx > logs/log.rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard04.flat.onnx.txt 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard05.flat.onnx > logs/log.rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard05.flat.onnx.txt 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard06.flat.onnx > logs/log.rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard06.flat.onnx.txt 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard07.flat.onnx > logs/log.rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard07.flat.onnx.txt 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard08.flat.onnx > logs/log.rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard08.flat.onnx.txt 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard09.flat.onnx > logs/log.rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard09.flat.onnx.txt 2>&1
 
 # MS MARCO V2.1, full indexing - build both doc and doc segmented conditions
-python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test > logs/log.rag24-doc-segmented-test.txt 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test-umbrela > logs/log.rag24-doc-segmented-test-umbrela.txt 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-raggy-dev > logs/log.rag24-doc-raggy-dev.txt 2>&1
 
 # MS MARCO V1, full indexing
@@ -62,6 +62,21 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-doc-segmented.docTTTTTquery > logs/log.msmarco-v1-doc-segmented.docTTTTTquery.txt 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-doc-segmented.unicoil.cached > logs/log.msmarco-v1-doc-segmented.unicoil.cached.txt 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-doc-segmented.unicoil-noexp.cached > logs/log.msmarco-v1-doc-segmented.unicoil-noexp.cached.txt 2>&1
+
+# MS MARCO V2.1 segmented: Arctic (no indexing)
+python src/main/python/run_regression.py --verify --search --regression rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard00.flat.onnx > logs/log.rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard00.flat.onnx.txt 2>&1
+python src/main/python/run_regression.py --verify --search --regression rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard01.flat.onnx > logs/log.rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard01.flat.onnx.txt 2>&1
+python src/main/python/run_regression.py --verify --search --regression rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard02.flat.onnx > logs/log.rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard02.flat.onnx.txt 2>&1
+python src/main/python/run_regression.py --verify --search --regression rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard03.flat.onnx > logs/log.rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard03.flat.onnx.txt 2>&1
+python src/main/python/run_regression.py --verify --search --regression rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard04.flat.onnx > logs/log.rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard04.flat.onnx.txt 2>&1
+python src/main/python/run_regression.py --verify --search --regression rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard05.flat.onnx > logs/log.rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard05.flat.onnx.txt 2>&1
+python src/main/python/run_regression.py --verify --search --regression rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard06.flat.onnx > logs/log.rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard06.flat.onnx.txt 2>&1
+python src/main/python/run_regression.py --verify --search --regression rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard07.flat.onnx > logs/log.rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard07.flat.onnx.txt 2>&1
+python src/main/python/run_regression.py --verify --search --regression rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard08.flat.onnx > logs/log.rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard08.flat.onnx.txt 2>&1
+python src/main/python/run_regression.py --verify --search --regression rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard09.flat.onnx > logs/log.rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard09.flat.onnx.txt 2>&1
+
+# MS MARCO V2.1 segment: Inverted (no indexing)
+python src/main/python/run_regression.py --verify --search --regression rag24-doc-segmented-test-nist > logs/log.rag24-doc-segmented-test-nist.txt 2>&1
 
 # MS MARCO V2, full indexing
 python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2-passage > logs/log.msmarco-v2-passage.txt 2>&1
