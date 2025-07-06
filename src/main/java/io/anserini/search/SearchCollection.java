@@ -1348,7 +1348,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       }
     }
 
-    try (ExecutorService executor = Executors.newWorkStealingPool(args.threads)) {
+    try (ExecutorService executor = Executors.newWorkStealingPool(args.parallelism)) {
       // block until all tasks are completed
       executor.invokeAll(tasks);
     } catch (InterruptedException e) {
