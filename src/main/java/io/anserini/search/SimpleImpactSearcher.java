@@ -443,7 +443,6 @@ public class SimpleImpactSearcher implements Closeable {
       executor.invokeAll(tasks);
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
-      throw new RuntimeException("Batch search of encoded queries is interrupted", e);
     }
 
     if (queryCnt != completionCount.get()) {
@@ -499,7 +498,6 @@ public class SimpleImpactSearcher implements Closeable {
       executor.invokeAll(tasks);
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
-      throw new RuntimeException("Batch search of queries interrupted", e);
     }
 
     if (queryCnt != completionCount.get()) {

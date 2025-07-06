@@ -359,7 +359,6 @@ public abstract class AbstractIndexer implements Runnable {
       }
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
-      throw new RuntimeException("Processing of segments interrupted", e);
     }
   }
 

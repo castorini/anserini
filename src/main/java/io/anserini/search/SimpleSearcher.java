@@ -553,7 +553,6 @@ public class SimpleSearcher implements Closeable {
       executor.invokeAll(tasks);
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
-      throw new RuntimeException("Batch search of provided fields interrupted", e);
     }
 
     if (queryCnt != completionCount.get()) {
@@ -791,7 +790,6 @@ public class SimpleSearcher implements Closeable {
       executor.invokeAll(tasks);
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
-      throw new RuntimeException("Batch retrieval of documents is interrupted", e);
     }
     return results;
   }

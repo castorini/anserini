@@ -226,7 +226,6 @@ public class SimpleIndexer {
         } catch (GeneratorException | IOException e) {
           throw new CompletionException(e);
         }
-
         return null;
       });
     }
@@ -236,7 +235,6 @@ public class SimpleIndexer {
       executor.invokeAll(tasks);
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
-      throw new RuntimeException("Indexing of documents was interrupted", e);
     }
 
     return cnt.get();

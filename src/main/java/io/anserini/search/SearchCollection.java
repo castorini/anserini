@@ -911,7 +911,6 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
         executor.invokeAll(tasks);
       } catch (InterruptedException e) {
         Thread.currentThread().interrupt();
-        throw new RuntimeException("Interruption when processing queries", e);
       }
 
       final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
@@ -1353,7 +1352,6 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       executor.invokeAll(tasks);
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
-      throw new RuntimeException("Launching of search threads interrupted", e);
     }
   }
 

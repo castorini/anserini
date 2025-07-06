@@ -158,7 +158,6 @@ public class HnswDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
       executor.invokeAll(tasks);
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
-      throw new RuntimeException("Batch search of queries interrupted", e);
     }
 
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);

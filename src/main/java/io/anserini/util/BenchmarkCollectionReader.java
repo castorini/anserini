@@ -144,7 +144,6 @@ public final class BenchmarkCollectionReader {
       monitor.awaitTermination(5, TimeUnit.SECONDS);
     } catch (InterruptedException ie) {
       Thread.currentThread().interrupt();
-      throw new RuntimeException("Mapping collections interrupted", ie);
     }
 
     if (segmentCnt != completionCount.get()) {

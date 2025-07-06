@@ -307,7 +307,6 @@ public final class IndexCollection extends AbstractIndexer {
       }
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
-      throw new RuntimeException("Processing of segments interrupted", e);
     }
   }
 
