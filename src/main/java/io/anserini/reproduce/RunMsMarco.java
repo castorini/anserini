@@ -150,11 +150,17 @@ public class RunMsMarco {
       Map<String, Map<String, String>> msmarco_v21_doc_segmented = new HashMap<>();
 
       // msmarco-v2.1-segmented-doc definitions
-      Map<String, String> rag24testMetrics = new HashMap<>();
-      rag24testMetrics.put("nDCG@20", "-c -m ndcg_cut.20");
-      rag24testMetrics.put("nDCG@100", "-c -m ndcg_cut.100");
-      rag24testMetrics.put("R@100", "-c -m recall.100");
-      msmarco_v21_doc_segmented.put("rag24.test-umbrela-all", rag24testMetrics);
+      Map<String, String> rag24testMetricsUmbrela = new HashMap<>();
+      rag24testMetricsUmbrela.put("nDCG@20", "-c -m ndcg_cut.20");
+      rag24testMetricsUmbrela.put("nDCG@100", "-c -m ndcg_cut.100");
+      rag24testMetricsUmbrela.put("R@100", "-c -m recall.100");
+      msmarco_v21_doc_segmented.put("rag24.test-umbrela-all", rag24testMetricsUmbrela);
+
+      Map<String, String> rag24testMetricsNist = new HashMap<>();
+      rag24testMetricsNist.put("nDCG@20", "-c -m ndcg_cut.20");
+      rag24testMetricsNist.put("nDCG@100", "-c -m ndcg_cut.100");
+      rag24testMetricsNist.put("R@100", "-c -m recall.100");
+      msmarco_v21_doc_segmented.put("rag24.test", rag24testMetricsNist);
 
       metricDefinitions.put("msmarco-v2.1-doc-segmented", msmarco_v21_doc_segmented);
     }
