@@ -1,0 +1,56 @@
+---
+corpus: msmarco-v2.1-doc-segmented-splade-v3
+corpus_path: collections/msmarco/msmarco-v2.1-doc-segmented-splade-v3
+
+index_path: indexes/lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3/
+collection_class: JsonVectorCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 24
+index_options: -impact -pretokenized -storeDocvectors
+index_stats: # TODO (issue #2870): need to update this section once the corpus is uploaded
+  documents: 8841823
+  documents (non-empty): 8841823
+  total terms: 46922883529
+
+metrics:
+  - metric: nDCG@20
+    command: bin/trec_eval
+    params: -c -m ndcg_cut.20
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: nDCG@100
+    command: bin/trec_eval
+    params: -c -m ndcg_cut.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: bin/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvString
+topics:
+  - name: "RAG 24: Test queries"
+    id: rag24.test
+    path: topics.rag24.test.splade-v3.tsv.gz
+    qrel: qrels.rag24.test-umbrela-all.txt
+
+# TODO (issue #2870): need to update this section once the index is uploaded and the encoded query is uploaded
+models:
+  - name: splade-v3-cached
+    display: SPLADE-v3
+    params: -impact -pretokenized -removeQuery -hits 1000
+    results:
+      nDCG@20:
+        - 0.2981
+      nDCG@100:
+        - 0.1782
+      R@100:
+        - 0.0742
