@@ -1,0 +1,57 @@
+---
+corpus: bright-sustainable-living
+corpus_path: collections/bright/sustainable-living
+
+index_path: indexes/lucene-inverted.bright-sustainable-living/
+collection_class: JsonCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 1
+index_options: -storePositions -storeDocvectors -storeRaw
+index_stats:
+  documents: 60792
+  documents (non-empty): 60179
+  total terms: 2359358
+
+filter_cmd: python src/main/python/bright/filter_run.py --run runs/run.inverted.bright-sustainable-living.topics.bm25 --split sustainable_living
+
+metrics:
+  - metric: nDCG@10
+    command: bin/trec_eval
+    params: -c -m ndcg_cut.10
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: bin/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: bin/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvString
+topics:
+  - name: "BRIGHT: Sustainable Living"
+    id: topics
+    path: topics.bright-sustainable-living.tsv.gz
+    qrel: qrels.bright-sustainable-living.txt
+
+models:
+  - name: bm25
+    display: BM25
+    params: -bm25 -removeQuery -hits 1000
+    results:
+      nDCG@10:
+        - 0.1613
+      R@100:
+        - 0.4200
+      R@1000:
+        - 0.7424
