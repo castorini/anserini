@@ -1,6 +1,6 @@
 ---
 corpus: msmarco-v2.1-doc-segmented-splade-v3
-corpus_path: collections/msmarco/msmarco-v2.1-doc-segmented-splade-v3
+corpus_path: /mnt/collections/msmarco/msmarco_v2.1_doc_segmented_splade-v3
 
 index_path: indexes/lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3/
 collection_class: JsonVectorCollection
