@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.anserini.util;
+package io.anserini.eval;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -55,8 +55,7 @@ public class ExcludeDocs {
       file = BRIGHT_THEOREMQAQ;
     } else if (name.contains(BRIGHT_LEETCODE)) {
       file = BRIGHT_LEETCODE;
-    }
-    else {
+    } else {
       throw new IllegalArgumentException("Unknown dataset: " + name);
     }
     file = PREFIX + file + SUFFIX;
@@ -64,12 +63,12 @@ public class ExcludeDocs {
     Path local = Paths.get(CACHE_DIR, file);
     if (local == null || !Files.exists(local)) {
       String URL = SERVER_PATH + file;
-      System.out.println("Downloading excluded ids from " + URL);
+      System.out.println("Downloading exclusion ids from " + URL);
       File qrelsFile = new File(local.toString());  
       try {
         FileUtils.copyURLToFile(new URI(URL).toURL(), qrelsFile);
       } catch (Exception e) {
-        throw new IOException("Error downloading topics from " + URL);
+        throw new IOException("Error downloading exclusion ids from " + URL);
       }
     }
 

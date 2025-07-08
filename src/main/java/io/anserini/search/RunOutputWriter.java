@@ -20,8 +20,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.anserini.eval.ExcludeDocs;
 import io.anserini.index.Constants;
-import io.anserini.util.ExcludeDocs;
 
 import java.io.Closeable;
 import java.io.IOException;

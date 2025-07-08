@@ -27,6 +27,7 @@ import io.anserini.analysis.HuggingFaceTokenizerAnalyzer;
 import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.collection.DocumentCollection;
 import io.anserini.encoder.sparse.SparseEncoder;
+import io.anserini.eval.ExcludeDocs;
 import io.anserini.index.Constants;
 import io.anserini.index.IndexReaderUtils;
 import io.anserini.index.generator.TweetGenerator;
@@ -47,7 +48,6 @@ import io.anserini.search.similarity.TaggedSimilarity;
 import io.anserini.search.topicreader.BackgroundLinkingTopicReader;
 import io.anserini.search.topicreader.TopicReader;
 import io.anserini.search.topicreader.Topics;
-import io.anserini.util.ExcludeDocs;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;

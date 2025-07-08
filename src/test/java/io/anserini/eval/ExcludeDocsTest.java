@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package io.anserini.util;
+package io.anserini.eval;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import io.anserini.eval.ExcludeDocs;
 import io.anserini.search.ScoredDoc;
 
 public class ExcludeDocsTest {
