@@ -47,6 +47,7 @@ import io.anserini.search.similarity.TaggedSimilarity;
 import io.anserini.search.topicreader.BackgroundLinkingTopicReader;
 import io.anserini.search.topicreader.TopicReader;
 import io.anserini.search.topicreader.Topics;
+import io.anserini.util.ExcludeDocs;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -925,9 +926,13 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       LOG.info(desc + ": " + topics.size() + " queries processed in " +
           DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss") +
           String.format(" = ~%.2f q/s", topics.size() / (durationMillis / 1000.0)));
-
+      
+      String name = null;
+      if (ExcludeDocs.isExcludable(args.topics[0])){
+        name = args.topics[0];
+      }
       // Now we write the results to a run file.
-      try(RunOutputWriter<T> out = new RunOutputWriter<>(outputPath, args.format, args.runtag, args.outputRerankerRequests)) {
+      try(RunOutputWriter<T> out = new RunOutputWriter<>(outputPath, args.format, args.runtag, args.outputRerankerRequests, name)) {
         // Here's a really screwy corner case that we have to manually hack around: for MS MARCO V1, the query file is not
         // sorted by qid, but the topic representation internally is (i.e., K is a comparable). The original query runner
         // SearchMsmarco retained the order of the queries; however, this class does not. Thus, the run files list the

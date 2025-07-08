@@ -21,6 +21,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.anserini.index.Constants;
+import io.anserini.util.ExcludeDocs;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -34,23 +35,36 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-
 public class RunOutputWriter<K extends Comparable<K>> implements Closeable {
   private final PrintWriter out;
   private final String format;
   private final String runtag;
   private final ObjectMapper mapper = new ObjectMapper(); // For JSON serialization
   private final PrintWriter outputRerankerRequests;
+  private final String exclude;
 
-  public RunOutputWriter(String output, String format, String runtag, String outputRerankerRequests) throws IOException {
+  public RunOutputWriter(String output, String format, String runtag, String outputRerankerRequests, String exclude) throws IOException {
     this.out = new PrintWriter(Files.newBufferedWriter(Paths.get(output), StandardCharsets.UTF_8));
     this.format = format;
     this.runtag = runtag;
     this.outputRerankerRequests = outputRerankerRequests == null ? null : new PrintWriter(Files.newBufferedWriter(Paths.get(outputRerankerRequests), StandardCharsets.UTF_8));
+    this.exclude = exclude;
+  }
+
+  public RunOutputWriter(String output, String format, String runtag, String outputRerankerRequests) throws IOException {
+    this(output, format, runtag, outputRerankerRequests, null);
   }
 
   public void writeTopic(K qid, String query, ScoredDoc[] results) throws JsonProcessingException {
     int rank = 1;
+    if (exclude != null) {
+      try {
+        ExcludeDocs excludeDocs = new ExcludeDocs(exclude);
+        results = excludeDocs.exclude((String)qid, results);
+      } catch (Exception e) {
+        System.err.println("Error processing exclude docs: " + e.getMessage());
+      }
+    }
     if (outputRerankerRequests != null) {
       List<Map<String, Object>> candidates = new ArrayList<>();
       for (ScoredDoc r : results) {
@@ -75,6 +89,7 @@ public class RunOutputWriter<K extends Comparable<K>> implements Closeable {
         rank++;
       }
     } else {
+
       // Standard TREC format
       // + the first column is the topic number.
       // + the second column is currently unused and should always be "Q0".
