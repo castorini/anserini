@@ -64,7 +64,7 @@ public class ExcludeDocs {
     Path local = Paths.get(CACHE_DIR, file);
     if (local == null || !Files.exists(local)) {
       String URL = SERVER_PATH + file;
-      System.out.println("Downloading exclusion IDS from " + URL);
+      System.out.println("Downloading excluded ids from " + URL);
       File qrelsFile = new File(local.toString());  
       try {
         FileUtils.copyURLToFile(new URI(URL).toURL(), qrelsFile);
