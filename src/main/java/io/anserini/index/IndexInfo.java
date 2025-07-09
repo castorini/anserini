@@ -376,6 +376,20 @@ public enum IndexInfo {
       VectorQueryGenerator.class.getSimpleName(),
       "msmarco-v2.1-doc-segmented"),
 
+  MSMARCO_V21_DOC_SEGMENTED_SPLADE_V3("msmarco-v2.1-doc-segmented-splade-v3",
+     "Lucene impact index of the MS MARCO V2.1 segmented document corpus encoded by SPLADE v3.",
+     "lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3.20250707.4039c3.tar.gz",
+     "lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3.20250707.4039c3.README.md",
+     "MS MARCO V2.1 Segmented Doc",
+     "SPLADE v3",
+     new String[] {
+          "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v2.1-doc-segmented/resolve/main/lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3.20250707.4039c3.tar.gz" },
+     "75f677301833b4f3bf2c2c286be8879f",
+     IndexType.SPARSE_IMPACT,
+     SpladeV3Encoder.class.getSimpleName(),
+     BagOfWordsQueryGenerator.class.getSimpleName(),
+     "msmarco-v2.1-doc-segmented"),
+
   // BEIR: flat
   BEIR_V1_0_0_TREC_COVID_FLAT("beir-v1.0.0-trec-covid.flat",
       "Lucene inverted 'flat' index of BEIR (v1.0.0): TREC-COVID.",

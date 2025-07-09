@@ -6,11 +6,11 @@ index_path: indexes/lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3/
 collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 24
-index_options: -impact -pretokenized -storeDocvectors
-index_stats: # TODO (issue #2870): need to update this section once the corpus is uploaded
-  documents: 8841823
-  documents (non-empty): 8841823
-  total terms: 46922883529
+index_options: -impact -pretokenized
+index_stats:
+  documents: 113520750
+  documents (non-empty): 113520750
+  total terms: 866904601378
 
 metrics:
   - metric: nDCG@20
@@ -42,14 +42,14 @@ topics:
     path: topics.rag24.test.txt
     qrel: qrels.rag24.test-umbrela-all.txt
 
-models: # TODO (issue #2870): update this section once the index is uploaded
+models:
   - name: splade-v3-onnx
     display: SPLADE-v3
     params: -impact -pretokenized -removeQuery -hits 1000 -encoder SpladeV3
     results:
       nDCG@20:
-        - 0.2981
+        - 0.5167
       nDCG@100:
-        - 0.1782
+        - 0.4587
       R@100:
-        - 0.0742
+        - 0.2437
