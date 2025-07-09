@@ -3,6 +3,12 @@
 The following change log details commits to regression tests that alter effectiveness and the addition (or removal) of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### July 5, 2025
+
++ commit [`c42dfa`](https://github.com/castorini/anserini/commit/c42dfa41ab600e32b1a39f09d4b4d087ef27954b)
+
+Add RAG 24 official NIST qrels + associated regressions.
+
 ### June 23, 2025
 
 + commit [`1758a3`](https://github.com/castorini/anserini/commit/1758a3610792601679950c55d501d7242e8bd9b9)
