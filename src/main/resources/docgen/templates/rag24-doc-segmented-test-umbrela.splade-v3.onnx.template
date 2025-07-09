@@ -12,14 +12,13 @@ See the [official SPLADE repo](https://github.com/naver/splade) and the followin
 
 In these experiments, we are using ONNX to perform query encoding on the fly.
 
-Evaluation uses qrels over 89 topics from the TREC 2024 RAG Track test set.
-These qrels represent manual relevance judgments from NIST assessors, contrasted with automatically generated UMBRELA judgments.
-See the following paper for more details:
+Evaluation uses (automatically generated) UMBRELA qrels over all 301 topics from the TREC 2024 RAG Track test set.
+UMBRELA is described in the following paper:
 
 > Shivani Upadhyay, Ronak Pradeep, Nandan Thakur, Daniel Campos, Nick Craswell, Ian Soboroff, and Jimmy Lin. A Large-Scale Study of Relevance Assessments with Large Language Models Using UMBRELA. _Proceedings of the 2025 International ACM SIGIR Conference on Innovative Concepts and Theories in Information Retrieval (ICTIR 2025)_, 2025.
 
 The exact configurations for these regressions are stored in [this YAML file](${yaml}).
-Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
