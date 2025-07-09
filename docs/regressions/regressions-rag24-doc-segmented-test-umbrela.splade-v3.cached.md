@@ -12,9 +12,8 @@ See the [official SPLADE repo](https://github.com/naver/splade) and the followin
 
 In these experiments, we are using cached queries (i.e., cached results of query encoding).
 
-Evaluation uses qrels over 89 topics from the TREC 2024 RAG Track test set.
-These qrels represent manual relevance judgments from NIST assessors, contrasted with automatically generated UMBRELA judgments.
-See the following paper for more details:
+Evaluation uses (automatically generated) UMBRELA qrels over all 301 topics from the TREC 2024 RAG Track test set.
+UMBRELA is described in the following paper:
 
 > Shivani Upadhyay, Ronak Pradeep, Nandan Thakur, Daniel Campos, Nick Craswell, Ian Soboroff, and Jimmy Lin. A Large-Scale Study of Relevance Assessments with Large Language Models Using UMBRELA. _Proceedings of the 2025 International ACM SIGIR Conference on Innovative Concepts and Theories in Information Retrieval (ICTIR 2025)_, 2025.
 
