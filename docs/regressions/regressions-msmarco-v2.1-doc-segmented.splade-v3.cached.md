@@ -50,27 +50,27 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3/ \
-  -topics tools/topics-and-qrels/topics.msmarco-v2-doc.dev.tsv.gz \
+  -topics tools/topics-and-qrels/topics.msmarco-v2-doc.dev.splade-v3.tsv.gz \
   -topicReader TsvString \
-  -output runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-cached.topics.msmarco-v2-doc.dev.txt \
+  -output runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-cached.topics.msmarco-v2-doc.dev.splade-v3.txt \
   -impact -pretokenized -removeQuery -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3/ \
-  -topics tools/topics-and-qrels/topics.msmarco-v2-doc.dev2.tsv.gz \
+  -topics tools/topics-and-qrels/topics.msmarco-v2-doc.dev2.splade-v3.tsv.gz \
   -topicReader TsvString \
-  -output runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-cached.topics.msmarco-v2-doc.dev2.txt \
+  -output runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-cached.topics.msmarco-v2-doc.dev2.splade-v3.txt \
   -impact -pretokenized -removeQuery -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-v2.1-doc.dev.txt runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-cached.topics.msmarco-v2-doc.dev.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-v2.1-doc.dev.txt runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-cached.topics.msmarco-v2-doc.dev.txt
-bin/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2.1-doc.dev.txt runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-cached.topics.msmarco-v2-doc.dev.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-v2.1-doc.dev2.txt runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-cached.topics.msmarco-v2-doc.dev2.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-v2.1-doc.dev2.txt runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-cached.topics.msmarco-v2-doc.dev2.txt
-bin/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2.1-doc.dev2.txt runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-cached.topics.msmarco-v2-doc.dev2.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-v2.1-doc.dev.txt runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-cached.topics.msmarco-v2-doc.dev.splade-v3.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-v2.1-doc.dev.txt runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-cached.topics.msmarco-v2-doc.dev.splade-v3.txt
+bin/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2.1-doc.dev.txt runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-cached.topics.msmarco-v2-doc.dev.splade-v3.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-v2.1-doc.dev2.txt runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-cached.topics.msmarco-v2-doc.dev2.splade-v3.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-v2.1-doc.dev2.txt runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-cached.topics.msmarco-v2-doc.dev2.splade-v3.txt
+bin/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2.1-doc.dev2.txt runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-cached.topics.msmarco-v2-doc.dev2.splade-v3.txt
 ```
 
 ## Effectiveness
