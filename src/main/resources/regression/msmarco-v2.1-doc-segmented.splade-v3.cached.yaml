@@ -46,11 +46,11 @@ topic_reader: TsvString
 topics:
   - name: "[MS MARCO V2 Doc: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)"
     id: dev
-    path: topics.msmarco-v2-doc.dev.tsv.gz
+    path: topics.msmarco-v2-doc.dev.splade-v3.tsv.gz
     qrel: qrels.msmarco-v2.1-doc.dev.txt
   - name: "[MS MARCO V2 Doc: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)"
     id: dev2
-    path: topics.msmarco-v2-doc.dev2.tsv.gz
+    path: topics.msmarco-v2-doc.dev2.splade-v3.tsv.gz
     qrel: qrels.msmarco-v2.1-doc.dev2.txt
 
 models:
