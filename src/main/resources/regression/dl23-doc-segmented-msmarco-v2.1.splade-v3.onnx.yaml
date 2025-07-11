@@ -62,12 +62,12 @@ models:
     params: -impact -pretokenized -removeQuery -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -encoder SpladeV3
     results:
       MAP@100:
-        - 0.1391
+        - 0.1962
       MRR@100:
-        - 0.6519
+        - 0.7798
       nDCG@10:
-        - 0.3356
+        - 0.4473
       R@100:
-        - 0.3049
+        - 0.3752
       R@1000:
-        - 0.5852
+        - 0.6570

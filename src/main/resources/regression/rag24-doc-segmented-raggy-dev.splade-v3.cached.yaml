@@ -62,12 +62,12 @@ models:
     params: -impact -pretokenized -removeQuery -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
     results:
       MAP@100:
-        - 0.1561
+        - 0.2295
       MRR@100:
-        - 0.7465
+        - 0.8738
       nDCG@10:
-        - 0.4227
+        - 0.5536
       R@100:
-        - 0.2807
+        - 0.3657
       R@1000:
-        - 0.5745
+        - 0.6787
