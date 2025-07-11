@@ -290,6 +290,9 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 ```bash
 nohup python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test-umbrela >& logs/log.rag24-doc-segmented-test-umbrela.txt &
 
+nohup python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test-umbrela.splade-v3.onnx >& logs/log.rag24-doc-segmented-test-umbrela.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test-umbrela.splade-v3.cached >& logs/log.rag24-doc-segmented-test-umbrela.splade-v3.cached.txt &
+
 nohup python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard00.flat.onnx >& logs/log.rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard00.flat.onnx.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard01.flat.onnx >& logs/log.rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard01.flat.onnx.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard02.flat.onnx >& logs/log.rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard02.flat.onnx.txt &
@@ -302,6 +305,9 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard09.flat.onnx >& logs/log.rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard09.flat.onnx.txt &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test-nist >& logs/log.rag24-doc-segmented-test-nist.txt &
+
+nohup python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test-nist.splade-v3.onnx >& logs/log.rag24-doc-segmented-test-nist.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test-nist.splade-v3.cached >& logs/log.rag24-doc-segmented-test-nist.splade-v3.cached.txt &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard00.flat.onnx >& logs/log.rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard00.flat.onnx.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard01.flat.onnx >& logs/log.rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard01.flat.onnx.txt &
@@ -316,6 +322,9 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2.1-doc >& logs/log.msmarco-v2.1-doc.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2.1-doc-segmented >& logs/log.msmarco-v2.1-doc-segmented.txt &
+
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2.1-doc-segmented.splade-v3.onnx >& logs/log.msmarco-v2.1-doc-segmented.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2.1-doc-segmented.splade-v3.cached >& logs/log.msmarco-v2.1-doc-segmented.splade-v3.cached.txt &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-doc-msmarco-v2.1 >& logs/log.dl21-doc-msmarco-v2.1.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-doc-segmented-msmarco-v2.1 >& logs/log.dl21-doc-segmented-msmarco-v2.1.txt &
