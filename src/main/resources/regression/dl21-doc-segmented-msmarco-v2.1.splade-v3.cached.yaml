@@ -1,0 +1,73 @@
+---
+corpus: msmarco-v2.1-doc-segmented
+corpus_path: /mnt/collections/msmarco/msmarco_v2.1_doc_segmented_splade-v3
+
+index_path: indexes/lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3/
+collection_class: JsonVectorCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 24
+index_options: -impact -pretokenized
+index_stats:
+  documents: 113520750
+  documents (non-empty): 113520750
+  total terms: 866904601378
+
+metrics:
+  - metric: MAP@100
+    command: bin/trec_eval
+    params: -c -M 100 -m map
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: no
+  - metric: MRR@100
+    command: bin/trec_eval
+    params: -c -M 100 -m recip_rank
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: nDCG@10
+    command: bin/trec_eval
+    params: -c -m ndcg_cut.10
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: R@100
+    command: bin/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: bin/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvString
+topics:
+  - name: "[DL21 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)"
+    id: dl21
+    path: topics.dl21.splade-v3.tsv.gz
+    qrel: qrels.dl21-doc-msmarco-v2.1.txt
+
+models:
+  - name: splade-v3-cached
+    display: SPLADE-v3
+    params: -impact -pretokenized -removeQuery -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
+    results:
+      MAP@100:
+        - 0.3373
+      MRR@100:
+        - 0.9883
+      nDCG@10:
+        - 0.7275
+      R@100:
+        - 0.4471
+      R@1000:
+        - 0.8016
