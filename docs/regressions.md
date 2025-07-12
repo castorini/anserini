@@ -322,21 +322,28 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2.1-doc >& logs/log.msmarco-v2.1-doc.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2.1-doc-segmented >& logs/log.msmarco-v2.1-doc-segmented.txt &
-
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2.1-doc-segmented.splade-v3.onnx >& logs/log.msmarco-v2.1-doc-segmented.splade-v3.onnx.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2.1-doc-segmented.splade-v3.cached >& logs/log.msmarco-v2.1-doc-segmented.splade-v3.cached.txt &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-doc-msmarco-v2.1 >& logs/log.dl21-doc-msmarco-v2.1.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-doc-segmented-msmarco-v2.1 >& logs/log.dl21-doc-segmented-msmarco-v2.1.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-doc-segmented-msmarco-v2.1.splade-v3.onnx >& logs/log.dl21-doc-segmented-msmarco-v2.1.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl21-doc-segmented-msmarco-v2.1.splade-v3.cached >& logs/log.dl21-doc-segmented-msmarco-v2.1.splade-v3.cached.txt &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl22-doc-msmarco-v2.1 >& logs/log.dl22-doc-msmarco-v2.1.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl22-doc-segmented-msmarco-v2.1 >& logs/log.dl22-doc-segmented-msmarco-v2.1.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl22-doc-segmented-msmarco-v2.1.splade-v3.onnx >& logs/log.dl22-doc-segmented-msmarco-v2.1.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl22-doc-segmented-msmarco-v2.1.splade-v3.cached >& logs/log.dl22-doc-segmented-msmarco-v2.1.splade-v3.cached.txt &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl23-doc-msmarco-v2.1 >& logs/log.dl23-doc-msmarco-v2.1.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression dl23-doc-segmented-msmarco-v2.1 >& logs/log.dl23-doc-segmented-msmarco-v2.1.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl23-doc-segmented-msmarco-v2.1.splade-v3.onnx >& logs/log.dl23-doc-segmented-msmarco-v2.1.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression dl23-doc-segmented-msmarco-v2.1.splade-v3.cached >& logs/log.dl23-doc-segmented-msmarco-v2.1.splade-v3.cached.txt &
 
 nohup python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-raggy-dev >& logs/log.rag24-doc-raggy-dev.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-raggy-dev >& logs/log.rag24-doc-segmented-raggy-dev.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-raggy-dev.splade-v3.onnx >& logs/log.rag24-doc-segmented-raggy-dev.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-raggy-dev.splade-v3.cached >& logs/log.rag24-doc-segmented-raggy-dev.splade-v3.cached.txt &
 ```
 
 </details>
