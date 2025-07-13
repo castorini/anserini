@@ -26,6 +26,33 @@ From one of our Waterloo servers (e.g., `orca`), the following command will perf
 python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test-umbrela.splade-v3.onnx
 ```
 
+We make available a version of the MS MARCO V2.1 segmented document corpus that has already been encoded with SPLADE-v3.
+
+From any machine, the following command will download the corpus and perform the complete regression, end to end:
+
+```bash
+python src/main/python/run_regression.py --download --index --verify --search --regression rag24-doc-segmented-test-umbrela.splade-v3.onnx
+```
+
+The `run_regression.py` script automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same regression results.
+
+## Corpus Download
+
+Download the corpus and unpack into `collections/`:
+
+```bash
+wget https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco_v2.1_doc_segmented_splade-v3.tar -P collections/
+tar xvf collections/msmarco-v2.1-doc-segmented-splade-v3.tar -C collections/
+```
+
+To confirm, `msmarco-v2.1-doc-segmented-splade-v3.tar` is 125 GB and has MD5 checksum `c62490569364a1eb0101da1ca4a894d9`.
+With the corpus downloaded, the following command will perform the remaining steps below:
+
+```bash
+python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test-umbrela.splade-v3.onnx \
+  --corpus-path collections/msmarco-v2.1-doc-segmented-splade-v3
+```
+
 ## Indexing
 
 Typical indexing command:
