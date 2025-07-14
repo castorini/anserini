@@ -55,7 +55,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 
 ## Indexing
 
-Sample indexing command:
+Typical indexing command:
 
 ```
 bin/run.sh io.anserini.index.IndexCollection \
@@ -67,6 +67,8 @@ bin/run.sh io.anserini.index.IndexCollection \
   -impact -pretokenized \
   >& logs/log.msmarco-v2.1-doc-segmented-splade-v3 &
 ```
+
+The setting of `-input` should be a directory containing the compressed `jsonl` files that comprise the corpus.
 
 The important indexing options to note here are `-impact -pretokenized`: the first tells Anserini not to encode BM25 doclengths into Lucene's norms (which is the default) and the second option says not to apply any additional tokenization on the pre-encoded tokens.
 For additional details, see explanation of [common indexing options](../../docs/common-indexing-options.md).
