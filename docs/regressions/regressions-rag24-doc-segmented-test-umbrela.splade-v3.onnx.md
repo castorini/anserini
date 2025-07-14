@@ -50,7 +50,7 @@ With the corpus downloaded, the following command will perform the remaining ste
 
 ```bash
 python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test-umbrela.splade-v3.onnx \
-  --corpus-path collections/msmarco-v2.1-doc-segmented-splade-v3
+  --corpus-path collections/msmarco_v2.1_doc_segmented_splade-v3
 ```
 
 ## Indexing

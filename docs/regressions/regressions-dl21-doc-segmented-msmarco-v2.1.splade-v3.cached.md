@@ -46,7 +46,7 @@ With the corpus downloaded, the following command will perform the remaining ste
 
 ```bash
 python src/main/python/run_regression.py --index --verify --search --regression dl21-doc-segmented-msmarco-v2.1.splade-v3.cached \
-  --corpus-path collections/msmarco-v2.1-doc-segmented
+  --corpus-path collections/msmarco_v2.1_doc_segmented_splade-v3
 ```
 
 ## Indexing
