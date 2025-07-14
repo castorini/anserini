@@ -43,7 +43,7 @@ Download the corpus and unpack into `collections/`:
 
 ```bash
 wget https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco_v2.1_doc_segmented_splade-v3.tar -P collections/
-tar xvf collections/msmarco-v2.1-doc-segmented-splade-v3.tar -C collections/
+tar xvf collections/msmarco_v2.1_doc_segmented_splade-v3.tar -C collections/
 ```
 
 To confirm, `msmarco-v2.1-doc-segmented-splade-v3.tar` is 125 GB and has MD5 checksum `c62490569364a1eb0101da1ca4a894d9`.

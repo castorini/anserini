@@ -40,7 +40,7 @@ Download the corpus and unpack into `collections/`:
 
 ```bash
 wget ${download_url} -P collections/
-tar xvf collections/${corpus}.tar -C collections/
+tar xvf collections/${download_corpus}.tar -C collections/
 ```
 
 To confirm, `${corpus}.tar` is 125 GB and has MD5 checksum `${download_checksum}`.
