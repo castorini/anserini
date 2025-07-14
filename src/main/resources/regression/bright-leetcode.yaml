@@ -12,8 +12,6 @@ index_stats:
   documents (non-empty): 413932
   total terms: 35338566
 
-filter_cmd: python src/main/python/bright/filter_run.py --run runs/run.inverted.bright-leetcode.topics.bm25 --split leetcode
-
 metrics:
   - metric: nDCG@10
     command: bin/trec_eval
