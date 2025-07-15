@@ -12,8 +12,6 @@ index_stats:
   documents (non-empty): 121205
   total terms: 4924837
 
-filter_cmd: python src/main/python/bright/filter_run.py --run runs/run.inverted.bright-earth-science.topics.bm25 --split earth_science
-
 metrics:
   - metric: nDCG@10
     command: bin/trec_eval

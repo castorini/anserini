@@ -197,7 +197,7 @@ def evaluate_and_verify(yaml_data, dry_run):
                 eval_cmd = [
                   os.path.join(metric['command']), metric['params'] if 'params' in metric and metric['params'] else '',
                   os.path.join('tools/topics-and-qrels', topic_set['qrel']) if 'qrel' in topic_set and topic_set['qrel'] else '',
-                  construct_runfile_path(yaml_data['index_path'], topic_set['id'], model['name']) + (yaml_data['conversions'][-1]['out_file_ext'] if 'conversions' in yaml_data and yaml_data['conversions'][-1]['out_file_ext'] else '' + '.filtered' if 'filter_cmd' in yaml_data and yaml_data['filter_cmd'] else ''),
+                  construct_runfile_path(yaml_data['index_path'], topic_set['id'], model['name']) + (yaml_data['conversions'][-1]['out_file_ext'] if 'conversions' in yaml_data and yaml_data['conversions'][-1]['out_file_ext'] else ''),
                 ]
                 if dry_run:
                     logger.info(' '.join(eval_cmd))
@@ -435,14 +435,5 @@ if __name__ == '__main__':
             else:
                 with Pool(args.convert_pool) as p:
                     p.map(run_convert, convert_cmds)
-
-        if 'filter_cmd' in yaml_data and yaml_data['filter_cmd']:
-            logger.info('='*10 + ' Filtering ' + '='*10)
-            cmd = yaml_data['filter_cmd']
-            if args.dry_run:
-                logger.info(cmd)
-            else:
-                logger.info(cmd)
-                call(cmd, shell=True)
 
         evaluate_and_verify(yaml_data, args.dry_run)
