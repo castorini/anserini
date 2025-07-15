@@ -11,9 +11,7 @@ index_stats:
   documents: 57359
   documents (non-empty): 57030
   total terms: 2133799
-
-filter_cmd: python src/main/python/bright/filter_run.py --run runs/run.inverted.bright-biology.topics.bm25 --split biology
-
+  
 metrics:
   - metric: nDCG@10
     command: bin/trec_eval

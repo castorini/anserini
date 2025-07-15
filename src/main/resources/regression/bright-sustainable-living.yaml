@@ -12,8 +12,6 @@ index_stats:
   documents (non-empty): 60179
   total terms: 2359358
 
-filter_cmd: python src/main/python/bright/filter_run.py --run runs/run.inverted.bright-sustainable-living.topics.bm25 --split sustainable_living
-
 metrics:
   - metric: nDCG@10
     command: bin/trec_eval

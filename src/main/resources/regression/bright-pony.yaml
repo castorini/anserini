@@ -12,8 +12,6 @@ index_stats:
   documents (non-empty): 7892
   total terms: 264645
 
-filter_cmd: python src/main/python/bright/filter_run.py --run runs/run.inverted.bright-pony.topics.bm25 --split pony
-
 metrics:
   - metric: nDCG@10
     command: bin/trec_eval

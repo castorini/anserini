@@ -12,8 +12,6 @@ index_stats:
   documents (non-empty): 106075
   total terms: 12612557
 
-filter_cmd: python src/main/python/bright/filter_run.py --run runs/run.inverted.bright-stackoverflow.topics.bm25 --split stackoverflow
-
 metrics:
   - metric: nDCG@10
     command: bin/trec_eval
