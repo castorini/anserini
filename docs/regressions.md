@@ -1011,6 +1011,25 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 
 </details>
 <details>
+<summary>BRIGHT: baseline</summary>
+
+```bash
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-aops >& logs/log.bright-aops.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-biology >& logs/log.bright-biology.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-earth-science >& logs/log.bright-earth-science.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-economics >& logs/log.bright-economics.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-leetcode >& logs/log.bright-leetcode.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-pony >& logs/log.bright-pony.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-psychology >& logs/log.bright-psychology.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-robotics >& logs/log.bright-robotics.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-stackoverflow >& logs/log.bright-stackoverflow.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-sustainable-living >& logs/log.bright-sustainable-living.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-theoremqa-questions >& logs/log.bright-theoremqa-questions.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-theoremqa-theorems >& logs/log.bright-theoremqa-theorems.txt &
+```
+
+</details>
+<details>
 <summary>Other regressions</summary>
 
 ```bash
