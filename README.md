@@ -533,20 +533,23 @@ Substitute the appropriate `$MODEL` from the table below.
 
 ### BRIGHT Regressions
 
-| Corpus                     |                            Baselines                             |
-|----------------------------|:----------------------------------------------------------------:|
-| bright-aops                |        [🔑](docs/regressions/regressions-bright-aops.md)         |
-| bright-biology             |       [🔑](docs/regressions/regressions-bright-biology.md)       |
-| bright-earth-science       |    [🔑](docs/regressions/regressions-bright-earth-science.md)    |
-| bright-economics           |      [🔑](docs/regressions/regressions-bright-economics.md)      |
-| bright-leetcode            |      [🔑](docs/regressions/regressions-bright-leetcode.md)       |
-| bright-pony                |        [🔑](docs/regressions/regressions-bright-pony.md)         |
-| bright-psychology          |     [🔑](docs/regressions/regressions-bright-psychology.md)      |
-| bright-robotics            |      [🔑](docs/regressions/regressions-bright-robotics.md)       |
-| bright-stackoverflow       |    [🔑](docs/regressions/regressions-bright-stackoverflow.md)    |
-| bright-sustainable-living  | [🔑](docs/regressions/regressions-bright-sustainable-living.md)  |
-| bright-theoremqa-questions | [🔑](docs/regressions/regressions-bright-theoremqa-questions.md) |
-| bright-theoremqa-theorems  | [🔑](docs/regressions/regressions-bright-theoremqa-theorems.md)  |
+| Corpus              |                            Baselines                             |
+|---------------------|:----------------------------------------------------------------:|
+| **StackExchange**   |                                                                  |
+| Biology             |       [🔑](docs/regressions/regressions-bright-biology.md)       |
+| Earth Science       |    [🔑](docs/regressions/regressions-bright-earth-science.md)    |
+| Economics           |      [🔑](docs/regressions/regressions-bright-economics.md)      |
+| Psychology          |     [🔑](docs/regressions/regressions-bright-psychology.md)      |
+| Robotics            |      [🔑](docs/regressions/regressions-bright-robotics.md)       |
+| Stack Overflow      |    [🔑](docs/regressions/regressions-bright-stackoverflow.md)    |
+| Sustainable Living  | [🔑](docs/regressions/regressions-bright-sustainable-living.md)  |
+| **Coding**          |                                                                  |
+| LeetCode            |      [🔑](docs/regressions/regressions-bright-leetcode.md)       |
+| Pony                |        [🔑](docs/regressions/regressions-bright-pony.md)         |
+| **Theorems**        |                                                                  |
+| AoPS                |        [🔑](docs/regressions/regressions-bright-aops.md)         |
+| TheoremQA-Q         | [🔑](docs/regressions/regressions-bright-theoremqa-questions.md) |
+| TheoremQA-T         | [🔑](docs/regressions/regressions-bright-theoremqa-theorems.md)  |
 
 <hr/>
 
