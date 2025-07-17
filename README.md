@@ -529,6 +529,29 @@ Substitute the appropriate `$MODEL` from the table below.
 
 </details>
 <details>
+<summary>BRIGHT Regressions</summary>
+
+### BRIGHT Regressions
+
+| Corpus                     |                            Baselines                             |
+|----------------------------|:----------------------------------------------------------------:|
+| bright-aops                |        [🔑](docs/regressions/regressions-bright-aops.md)         |
+| bright-biology             |       [🔑](docs/regressions/regressions-bright-biology.md)       |
+| bright-earth-science       |    [🔑](docs/regressions/regressions-bright-earth-science.md)    |
+| bright-economics           |      [🔑](docs/regressions/regressions-bright-economics.md)      |
+| bright-leetcode            |      [🔑](docs/regressions/regressions-bright-leetcode.md)       |
+| bright-pony                |        [🔑](docs/regressions/regressions-bright-pony.md)         |
+| bright-psychology          |     [🔑](docs/regressions/regressions-bright-psychology.md)      |
+| bright-robotics            |      [🔑](docs/regressions/regressions-bright-robotics.md)       |
+| bright-stackoverflow       |    [🔑](docs/regressions/regressions-bright-stackoverflow.md)    |
+| bright-sustainable-living  | [🔑](docs/regressions/regressions-bright-sustainable-living.md)  |
+| bright-theoremqa-questions | [🔑](docs/regressions/regressions-bright-theoremqa-questions.md) |
+| bright-theoremqa-theorems  | [🔑](docs/regressions/regressions-bright-theoremqa-theorems.md)  |
+
+<hr/>
+
+</details>
+<details>
 <summary>Cross-lingual and Multi-lingual Regressions</summary>
 
 ### Cross-lingual and Multi-lingual Regressions
