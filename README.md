@@ -551,6 +551,14 @@ Substitute the appropriate `$MODEL` from the table below.
 | TheoremQA-Q         | [🔑](docs/regressions/regressions-bright-theoremqa-questions.md) |
 | TheoremQA-T         | [🔑](docs/regressions/regressions-bright-theoremqa-theorems.md)  |
 
+### Available Corpora for Download
+
+| Corpora                                                                                                                                |   Size | Checksum                           |
+|:---------------------------------------------------------------------------------------------------------------------------------------|-------:|:-----------------------------------|
+| [Post-Processed](https://huggingface.co/datasets/castorini/collections-bright/resolve/main/bright-corpus.tar)                                        | 1.2 GB | `d8c829f0e4468a8ce62768b6a1162158` |
+
+The [BRIGHT](https://arxiv.org/abs/2407.12883) corpus used here was processed from Hugging Face with these [scripts](https://github.com/ielab/llm-rankers/tree/main/Rank-R1/bright). 
+
 <hr/>
 
 </details>
