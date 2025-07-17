@@ -1011,7 +1011,7 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 
 </details>
 <details>
-<summary>BRIGHT: baseline</summary>
+<summary>BRIGHT: baselines</summary>
 
 ```bash
 nohup python src/main/python/run_regression.py --index --verify --search --regression bright-aops >& logs/log.bright-aops.txt &
