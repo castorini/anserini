@@ -207,6 +207,8 @@ python tools/scripts/msmarco/convert_collection_to_jsonl.py \
   --output-folder collections/msmarco-passage/collection_jsonl
 ```
 
+Note that the above script requires python version of 3.6 or above. You may have to use appropriate python environment or use python3 instead of python depending on how python is configured on your machine.
+
 The above script should generate 9 jsonl files in `collections/msmarco-passage/collection_jsonl`, each with 1M lines (except for the last one, which should have 841,823 lines).
 Look inside a file to see the json format we use.
 The entire collection is now something like this:
@@ -223,6 +225,12 @@ $ wc collections/msmarco-passage/collection_jsonl/*
  1000000 56920456 364726419 collections/msmarco-passage/collection_jsonl/docs07.json
   841823 47767342 306155721 collections/msmarco-passage/collection_jsonl/docs08.json
  8841823 523912422 3338781467 total
+```
+
+You can take a peek at a jsonl document to see how the converted data looks like:
+
+```bash
+head collections/msmarco-passage/collection_jsonl/docs00.json
 ```
 
 At this point, you'll have used about 7 GB of disk:
@@ -486,3 +494,4 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@hari495](https://github.com/hari495) on 2025-06-30 (commit [`0299e2a`](https://github.com/castorini/anserini/commit/0299e2af610087ceb87331e6df0b9e0962a778df))
 + Results reproduced by [@ed-ward-huang](https://github.com/ed-ward-huang) on 2025-07-06 (commit [`4039c30`](https://github.com/castorini/anserini/commit/4039c3054c961e80dc1562899609396142bc869b))
 + Results reproduced by [@OmarKhaled0K](https://github.com/OmarKhaled0K) on 2025-07-08 (commit [`dafa81e`](https://github.com/castorini/anserini/commit/dafa81e63ff4f21479cf65357c157d9e9763b3d9))
++ Results reproduced by [@niruhan](https://github.com/niruhan) on 2025-07-16 (commit [`d6a8b36`](https://github.com/niruhan/anserini/commit/d6a8b36a6bc9a62b70d44412f6ebb2ca0bc709cd))
