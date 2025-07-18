@@ -486,4 +486,4 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@hari495](https://github.com/hari495) on 2025-06-30 (commit [`0299e2a`](https://github.com/castorini/anserini/commit/0299e2af610087ceb87331e6df0b9e0962a778df))
 + Results reproduced by [@ed-ward-huang](https://github.com/ed-ward-huang) on 2025-07-06 (commit [`4039c30`](https://github.com/castorini/anserini/commit/4039c3054c961e80dc1562899609396142bc869b))
 + Results reproduced by [@OmarKhaled0K](https://github.com/OmarKhaled0K) on 2025-07-08 (commit [`dafa81e`](https://github.com/castorini/anserini/commit/dafa81e63ff4f21479cf65357c157d9e9763b3d9))
-+ Results reproduced by [@mindlesstruffle](https://github.com/mindlesstruffle) on 2025-07-08 (commit [`b5d4838`](https://github.com/castorini/anserini/commit/b5d48381c171e0ac36cd0c2523fe77b7bfe45435))
++ Results reproduced by [@mindlesstruffle](https://github.com/mindlesstruffle) on 2025-07-08 (commit [`b3ab936`](https://github.com/castorini/anserini/commit/b3ab936b03e8af2e80be7bde861945c1920553f3))
