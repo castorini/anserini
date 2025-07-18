@@ -134,3 +134,4 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@suraj-subrahmanyan](https://github.com/suraj-subrahmanyan) on 2025-07-02 (commit [`017841f`](https://github.com/castorini/anserini/commit/017841f33794508f760d26f58dedb5c770c1cbfc))
 + Results reproduced by [@ed-ward-huang](https://github.com/ed-ward-huang) on 2025-07-06 (commit [`4039c30`](https://github.com/castorini/anserini/commit/4039c3054c961e80dc1562899609396142bc869b))
 + Results reproduced by [@OmarKhaled0K](https://github.com/OmarKhaled0K) on 2025-07-08 (commit [`dafa81e`](https://github.com/castorini/anserini/commit/dafa81e63ff4f21479cf65357c157d9e9763b3d9))
++ Results reproduced by [@mindlesstruffle](https://github.com/mindlesstruffle) on 2025-07-09 (commit [`b5d4838`](https://github.com/castorini/anserini/commit/b5d48381c171e0ac36cd0c2523fe77b7bfe45435))
