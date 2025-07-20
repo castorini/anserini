@@ -529,6 +529,40 @@ Substitute the appropriate `$MODEL` from the table below.
 
 </details>
 <details>
+<summary>BRIGHT Regressions</summary>
+
+### BRIGHT Regressions
+
+| Corpus              |                            Baselines                             |
+|---------------------|:----------------------------------------------------------------:|
+| **StackExchange**   |                                                                  |
+| Biology             |       [🔑](docs/regressions/regressions-bright-biology.md)       |
+| Earth Science       |    [🔑](docs/regressions/regressions-bright-earth-science.md)    |
+| Economics           |      [🔑](docs/regressions/regressions-bright-economics.md)      |
+| Psychology          |     [🔑](docs/regressions/regressions-bright-psychology.md)      |
+| Robotics            |      [🔑](docs/regressions/regressions-bright-robotics.md)       |
+| Stack Overflow      |    [🔑](docs/regressions/regressions-bright-stackoverflow.md)    |
+| Sustainable Living  | [🔑](docs/regressions/regressions-bright-sustainable-living.md)  |
+| **Coding**          |                                                                  |
+| LeetCode            |      [🔑](docs/regressions/regressions-bright-leetcode.md)       |
+| Pony                |        [🔑](docs/regressions/regressions-bright-pony.md)         |
+| **Theorems**        |                                                                  |
+| AoPS                |        [🔑](docs/regressions/regressions-bright-aops.md)         |
+| TheoremQA-Q         | [🔑](docs/regressions/regressions-bright-theoremqa-questions.md) |
+| TheoremQA-T         | [🔑](docs/regressions/regressions-bright-theoremqa-theorems.md)  |
+
+### Available Corpora for Download
+
+| Corpora                                                                                                                                |   Size | Checksum                           |
+|:---------------------------------------------------------------------------------------------------------------------------------------|-------:|:-----------------------------------|
+| [Post-Processed](https://huggingface.co/datasets/castorini/collections-bright/resolve/main/bright-corpus.tar)                                        | 297 MB | `d8c829f0e4468a8ce62768b6a1162158` |
+
+The [BRIGHT](https://arxiv.org/abs/2407.12883) corpus used here was processed from Hugging Face with these [scripts](https://github.com/ielab/llm-rankers/tree/main/Rank-R1/bright). 
+
+<hr/>
+
+</details>
+<details>
 <summary>Cross-lingual and Multi-lingual Regressions</summary>
 
 ### Cross-lingual and Multi-lingual Regressions

@@ -1,3 +1,16 @@
+python src/main/python/run_regression.py --index --verify --search --regression bright-aops > logs/log.bright-aops.txt 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression bright-biology > logs/log.bright-biology.txt 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression bright-earth-science > logs/log.bright-earth-science.txt 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression bright-economics > logs/log.bright-economics.txt 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression bright-leetcode > logs/log.bright-leetcode.txt 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression bright-pony > logs/log.bright-pony.txt 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression bright-psychology > logs/log.bright-psychology.txt 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression bright-robotics > logs/log.bright-robotics.txt 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression bright-stackoverflow > logs/log.bright-stackoverflow.txt 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression bright-sustainable-living > logs/log.bright-sustainable-living.txt 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression bright-theoremqa-questions > logs/log.bright-theoremqa-questions.txt 2>&1
+python src/main/python/run_regression.py --index --verify --search --regression bright-theoremqa-theorems > logs/log.bright-theoremqa-theorems.txt 2>&1
+
 # BEIR w/ parquet
 python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-trec-covid.splade-v3.onnx > logs/log.beir-v1.0.0-trec-covid.splade-v3.onnx.txt 2>&1
 python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-bioasq.splade-v3.onnx > logs/log.beir-v1.0.0-bioasq.splade-v3.onnx.txt 2>&1
