@@ -207,8 +207,6 @@ python tools/scripts/msmarco/convert_collection_to_jsonl.py \
   --output-folder collections/msmarco-passage/collection_jsonl
 ```
 
-Note that the above script requires python version of 3.6 or above. You may have to use appropriate python environment or use python3 instead of python depending on how python is configured on your machine.
-
 The above script should generate 9 jsonl files in `collections/msmarco-passage/collection_jsonl`, each with 1M lines (except for the last one, which should have 841,823 lines).
 Look inside a file to see the json format we use.
 The entire collection is now something like this:
@@ -227,7 +225,7 @@ $ wc collections/msmarco-passage/collection_jsonl/*
  8841823 523912422 3338781467 total
 ```
 
-You can take a peek at a jsonl document to see how the converted data looks like:
+You can take a peek at a jsonl document to see what the converted data looks like:
 
 ```bash
 head collections/msmarco-passage/collection_jsonl/docs00.json
