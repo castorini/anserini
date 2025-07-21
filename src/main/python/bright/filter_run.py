@@ -25,7 +25,11 @@ for query in bright_queries:
         run[query_id] = [(docid, score) for docid, score in run[query_id] if docid not in excluded_ids]
 
 # Write the filtered run file
-with open(args.run.replace('.txt', '.filtered.txt'), 'w') as f:
+if args.run.endswith('.txt'):
+    output = args.run.replace('.txt', '.filtered.txt')
+else:
+    output = args.run + '.filtered'
+with open(output, 'w') as f:
     for qid, docid_scores in run.items():
         for rank, (docid, score) in enumerate(docid_scores):
             f.write(f'{qid} Q0 {docid} {rank+1} {score} {runtag}_filtered\n')
