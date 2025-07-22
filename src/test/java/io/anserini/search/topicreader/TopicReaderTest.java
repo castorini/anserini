@@ -38,7 +38,7 @@ public class TopicReaderTest {
       String path = topic.path;
       assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(path));
     }
-    assertEquals(529, cnt);
+    assertEquals(530, cnt);
   }
 
   @Test
@@ -1109,6 +1109,20 @@ public class TopicReaderTest {
     assertEquals("[-0.009175633080303669", topics.get(topics.firstKey()).get("vector").split(",")[0]);
     assertEquals("2024-96485", topics.lastKey());
     assertEquals("[0.017953362315893173", topics.get(topics.lastKey()).get("vector").split(",")[0]);
+  }
+
+  @Test
+  public void testTREC25_RAG_TEST() throws IOException {
+    SortedMap<String, Map<String, String>> topics;
+
+    topics = TopicReader.getTopics(Topics.TREC2025_RAG_TEST);
+    assertNotNull(topics);
+    assertEquals(105, topics.size());
+    assertEquals("100", topics.firstKey());
+    assertEquals("I'm trying to understand the various forms of discrimination and oppression people experience in the US, such as racial, gender, age, and housing. Can you explain their prevalence, how they affect individuals and society, and what laws or actions are in place to address them?", topics.get(topics.firstKey()).get("title"));
+    assertEquals("988", topics.lastKey());
+    assertEquals("I'm looking into the complex issue of immigration, particularly the challenges surrounding illegal immigration and the struggles immigrants encounter in the US. I'm also interested in how sanctuary cities add further complications to the overall immigration landscape.", topics.get(topics.lastKey()).get("title"));
+    assertEquals("I want to deeply understand the Holocaust: what it was, why and how it transpired, who was responsible, and its profound historical and societal impact, particularly on European Jewry. I'm also curious about its conclusion, lasting effects, and how it aligns with other destructive historical events like Sodom and Gomorrah.", topics.get("200").get("title"));
   }
 
   @Test
