@@ -16,12 +16,7 @@
 
 package io.anserini.index;
 
-import io.anserini.analysis.AnalyzerMap;
-import io.anserini.analysis.AutoCompositeAnalyzer;
-import io.anserini.analysis.CompositeAnalyzer;
-import io.anserini.analysis.DefaultEnglishAnalyzer;
-import io.anserini.analysis.HuggingFaceTokenizerAnalyzer;
-import io.anserini.analysis.TweetAnalyzer;
+import io.anserini.analysis.*;
 import io.anserini.collection.SourceDocument;
 import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.search.similarity.AccurateBM25Similarity;
@@ -31,7 +26,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
-import org.apache.lucene.codecs.lucene99.Lucene99Codec;
 import org.apache.lucene.index.ConcurrentMergeScheduler;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
@@ -48,12 +42,9 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.ThreadPoolExecutor;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public final class IndexCollection extends AbstractIndexer {
   private static final Logger LOG = LogManager.getLogger(IndexCollection.class);
@@ -267,6 +258,55 @@ public final class IndexCollection extends AbstractIndexer {
         throw new IllegalArgumentException(String.format("Unable to load LuceneDocumentGenerator \"%s\".", generatorClass.getSimpleName()));
       }
     });
+  }
+
+  protected void processSegments(List<Path> segmentPaths, AtomicInteger completedTaskCount) {
+    List<Callable<Void>> tasks = new ArrayList<>(segmentPaths.size());
+
+    for (Path segmentPath : segmentPaths) {
+      tasks.add(() -> {
+        try {
+          // Each thread gets its own document generator, so we don't need to make any assumptions about its thread safety.
+          @SuppressWarnings("unchecked")
+          LuceneDocumentGenerator<SourceDocument> generator = (LuceneDocumentGenerator<SourceDocument>)
+                  generatorClass.getDeclaredConstructor(Args.class).newInstance(this.args);
+
+          new IndexerThread(segmentPath, generator, whitelistDocids).run();
+          completedTaskCount.incrementAndGet();
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                 NoSuchMethodException e) {
+          throw new IllegalArgumentException(String.format("Unable to load LuceneDocumentGenerator \"%s\".", generatorClass.getSimpleName()));
+        }
+        return null;
+      });
+    }
+
+    try (
+            ExecutorService executor = Executors.newWorkStealingPool(args.threads);
+            ScheduledExecutorService monitor = Executors.newSingleThreadScheduledExecutor()
+    ) {
+        // Log progress every minute
+      int segmentCnt = segmentPaths.size();
+      monitor.scheduleAtFixedRate(() -> {
+        if (segmentCnt == 1) {
+          LOG.info(String.format("%,d documents indexed", counters.indexed.get()));
+        } else {
+          double percent = (double) completedTaskCount.get() / segmentCnt * 100.0;
+          LOG.info(String.format("%.2f%% of files completed, %,d documents indexed",
+                  percent, counters.indexed.get()));
+          }
+        }, 1, 1, TimeUnit.MINUTES);
+
+      // block until all tasks are completed
+      executor.invokeAll(tasks);
+      monitor.shutdown();
+
+      if (!monitor.awaitTermination(5, TimeUnit.SECONDS)) {
+        monitor.shutdownNow();
+      }
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+    }
   }
 
   public static void main(String[] args) throws Exception {
