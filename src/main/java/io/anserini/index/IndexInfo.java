@@ -38,6 +38,24 @@ public enum IndexInfo {
       null,
       "cacm"),
 
+  ACL_ANTHOLOGY("acl-anthology",
+      "Lucene index of the ACL Anthology",
+      "lucene-inverted.acl-anthology.20250715.75a6cd.tar.gz",
+      "",
+      "ACL Anthology",
+      "BM25",
+      new String[] {
+          "https://huggingface.co/datasets/castorini/prebuilt-indexes-acl-anthology/resolve/main/lucene-inverted/tf/lucene-inverted.acl-anthology.20250715.75a6cd.tar.gz"},
+      "5b3e8afc65db20058f0d6e6e991424a4",
+      IndexType.SPARSE_INVERTED,
+      null,
+      null,
+      "acl-anthology",
+      92835645L,
+      6622060L,
+      108329,
+      79122L),
+
   // MS MARCO V1
   MSMARCO_V1_PASSAGE("msmarco-v1-passage",
       "Lucene index of the MS MARCO V1 passage corpus.",
