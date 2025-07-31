@@ -21,10 +21,10 @@ The output of the command will be:
 ```
 Index statistics
 ----------------
-documents:             57359
-documents (non-empty): 57030
-unique terms:          77273
-total terms:           2133799
+documents:             3204
+documents (non-empty): 3204
+unique terms:          14363
+total terms:           320968
 ```
 
 Note that unless the underlying index was built with the `-optimize` option (i.e., merging all index segments into a single segment), `unique_terms` will show -1.
