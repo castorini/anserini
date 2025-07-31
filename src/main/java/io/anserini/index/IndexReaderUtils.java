@@ -889,7 +889,7 @@ public class IndexReaderUtils {
       return;
     }
 
-    IndexReader reader = IndexReaderUtils.getReader(args.index);
+    IndexReader reader = IndexReaderUtils.getReader(IndexReaderUtils.getIndex(args.index).toString());
     Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, args.field);
 
     if (args.stats) {
