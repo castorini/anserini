@@ -111,11 +111,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import java.util.concurrent.CompletionException;
-import java.util.concurrent.ConcurrentSkipListMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -846,18 +842,17 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       // A short descriptor of the ranking setup.
       final String desc = String.format("ranker: %s, reranker: %s", taggedSimilarity.getTag(), cascade.getTag());
 
-      // ThreadPool for parallelizing the execution of individual queries:
-      ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threads);
       // Data structure for holding the per-query results:
       ConcurrentSkipListMap<T, ScoredDoc[]> results = new ConcurrentSkipListMap<>();
       AtomicInteger cnt = new AtomicInteger();
+      List<Callable<Void>> tasks = new ArrayList<>();
 
       final long start = System.nanoTime();
       for (Map.Entry<T, Map<String, String>> entry : topics.entrySet()) {
         T qid = entry.getKey();
 
-        // This is the per-query execution, in parallel.
-        executor.execute(() -> {
+
+        tasks.add(() -> {
           try {
             StringBuilder queryString = new StringBuilder();
             if (args.topicField.contains("+")) {
@@ -907,20 +902,18 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
           }  catch (Exception e) {
             throw new CompletionException(e);
           }
+
+          return null;
         });
       }
 
-      executor.shutdown();
-
-      try {
-        // Wait for existing tasks to terminate.
-        while (!executor.awaitTermination(1, TimeUnit.MINUTES)) ;
-      } catch (InterruptedException ie) {
-        // (Re-)Cancel if current thread also interrupted.
-        executor.shutdownNow();
-        // Preserve interrupt status.
+      try (ExecutorService executor = Executors.newWorkStealingPool(args.threads)) {
+        // block until all tasks are completed
+        executor.invokeAll(tasks);
+      } catch (InterruptedException e) {
         Thread.currentThread().interrupt();
       }
+
       final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
 
       LOG.info(desc + ": " + topics.size() + " queries processed in " +
@@ -1334,7 +1327,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     LOG.info("============ Launching Search Threads ============");
     LOG.info("runtag: " + args.runtag);
 
-    final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.parallelism);
+    List<Callable<Void>> tasks = new ArrayList<>();
 
     for (TaggedSimilarity taggedSimilarity : similarities) {
       for (RerankerCascade cascade : cascades) {
@@ -1350,19 +1343,19 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
           LOG.info("Run already exists, skipping: " + outputPath);
           continue;
         }
-        executor.execute(new SearcherThread<>(reader, topics, taggedSimilarity, cascade, outputPath));
+
+        tasks.add (() -> {
+          new SearcherThread<>(reader, topics, taggedSimilarity, cascade, outputPath).run();
+          return null;
+        });
+
       }
     }
-    executor.shutdown();
 
-    try {
-      // Wait for existing tasks to terminate
-      while (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
-      }
-    } catch (InterruptedException ie) {
-      // (Re-)Cancel if current thread also interrupted
-      executor.shutdownNow();
-      // Preserve interrupt status
+    try (ExecutorService executor = Executors.newWorkStealingPool(args.parallelism)) {
+      // block until all tasks are completed
+      executor.invokeAll(tasks);
+    } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
     }
   }
