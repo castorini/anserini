@@ -154,7 +154,7 @@ public class GeneratePrebuiltIndexesDocTest {
         md.append("<summary>").append(dataset).append("</summary>\n").append("<dl>\n");
         for (IndexInfo info : grouped.get(type).get(dataset)) {
           md.append("<dt></dt><b><code>").append(info.indexName).append("</code></b>\n");
-          md.append("[<a href=\"https://github.com/castorini/pyserini/blob/master/pyserini/resources/index-metadata/").append(info.readme).append("\">readme</a>]\n");   
+          md.append("[<a href=\"").append(info.readme).append("\">readme</a>]\n");   
           md.append("<dd>").append(info.description).append("\n</dd>\n");
         }
         md.append("</dl>\n</details>\n");
