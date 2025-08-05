@@ -1,0 +1,55 @@
+---
+corpus: bright-psychology
+corpus_path: collections/bright/psychology
+
+index_path: indexes/lucene-inverted.bright-psychology/
+collection_class: JsonCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 1
+index_options: -storePositions -storeDocvectors -storeRaw
+index_stats:
+  documents: 52835
+  documents (non-empty): 52055
+  total terms: 2206965
+
+metrics:
+  - metric: nDCG@10
+    command: bin/trec_eval
+    params: -c -m ndcg_cut.10
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: bin/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: bin/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvString
+topics:
+  - name: "BRIGHT: Psychology"
+    id: topics
+    path: topics.bright-psychology.tsv.gz
+    qrel: qrels.bright-psychology.txt
+
+models:
+  - name: bm25
+    display: BM25
+    params: -bm25 -bm25query -removeQuery -hits 1000
+    results:
+      nDCG@10:
+        - 0.1266
+      R@100:
+        - 0.4105
+      R@1000:
+        - 0.6052
