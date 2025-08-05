@@ -533,23 +533,23 @@ Substitute the appropriate `$MODEL` from the table below.
 
 ### BRIGHT Regressions
 
-| Corpus              |                            Baselines                             |
-|---------------------|:----------------------------------------------------------------:|
-| **StackExchange**   |                                                                  |
-| Biology             |       [🔑](docs/regressions/regressions-bright-biology.md)       |
-| Earth Science       |    [🔑](docs/regressions/regressions-bright-earth-science.md)    |
-| Economics           |      [🔑](docs/regressions/regressions-bright-economics.md)      |
-| Psychology          |     [🔑](docs/regressions/regressions-bright-psychology.md)      |
-| Robotics            |      [🔑](docs/regressions/regressions-bright-robotics.md)       |
-| Stack Overflow      |    [🔑](docs/regressions/regressions-bright-stackoverflow.md)    |
-| Sustainable Living  | [🔑](docs/regressions/regressions-bright-sustainable-living.md)  |
-| **Coding**          |                                                                  |
-| LeetCode            |      [🔑](docs/regressions/regressions-bright-leetcode.md)       |
-| Pony                |        [🔑](docs/regressions/regressions-bright-pony.md)         |
-| **Theorems**        |                                                                  |
-| AoPS                |        [🔑](docs/regressions/regressions-bright-aops.md)         |
-| TheoremQA-Q         | [🔑](docs/regressions/regressions-bright-theoremqa-questions.md) |
-| TheoremQA-T         | [🔑](docs/regressions/regressions-bright-theoremqa-theorems.md)  |
+| Corpus                | BoW                                                              | BM25q                                                                  |
+| --------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| **StackExchange**     |                                                                  |                                                                        |
+| Biology               | [🔑](docs/regressions/regressions-bright-biology.md)             | [🔑](docs/regressions/regressions-bright-biology.bm25q.md)             |
+| Earth Science         | [🔑](docs/regressions/regressions-bright-earth-science.md)       | [🔑](docs/regressions/regressions-bright-earth-science.bm25q.md)       |
+| Economics             | [🔑](docs/regressions/regressions-bright-economics.md)           | [🔑](docs/regressions/regressions-bright-economics.bm25q.md)           |
+| Psychology            | [🔑](docs/regressions/regressions-bright-psychology.md)          | [🔑](docs/regressions/regressions-bright-psychology.bm25q.md)          |
+| Robotics              | [🔑](docs/regressions/regressions-bright-robotics.md)            | [🔑](docs/regressions/regressions-bright-robotics.bm25q.md)            |
+| Stack Overflow        | [🔑](docs/regressions/regressions-bright-stackoverflow.md)       | [🔑](docs/regressions/regressions-bright-stackoverflow.bm25q.md)       |
+| Sustainable Living    | [🔑](docs/regressions/regressions-bright-sustainable-living.md)  | [🔑](docs/regressions/regressions-bright-sustainable-living.bm25q.md)  |
+| **Coding**            |                                                                  |                                                                        |
+| LeetCode              | [🔑](docs/regressions/regressions-bright-leetcode.md)            | [🔑](docs/regressions/regressions-bright-leetcode.bm25q.md)            |
+| Pony                  | [🔑](docs/regressions/regressions-bright-pony.md)                | [🔑](docs/regressions/regressions-bright-pony.bm25q.md)                |
+| **Theorems**          |                                                                  |                                                                        |
+| AoPS                  | [🔑](docs/regressions/regressions-bright-aops.md)                | [🔑](docs/regressions/regressions-bright-aops.bm25q.md)                |
+| TheoremQA-Q           | [🔑](docs/regressions/regressions-bright-theoremqa-questions.md) | [🔑](docs/regressions/regressions-bright-theoremqa-questions.bm25q.md) |
+| TheoremQA-T           | [🔑](docs/regressions/regressions-bright-theoremqa-theorems.md)  | [🔑](docs/regressions/regressions-bright-theoremqa-theorems.bm25q.md)  |
 
 ### Available Corpora for Download
 
