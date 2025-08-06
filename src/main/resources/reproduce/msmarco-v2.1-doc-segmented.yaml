@@ -377,22 +377,39 @@ conditions:
           - nDCG@20: 0.2457
             nDCG@100: 0.1376
             R@100: 0.0715
-  - name: splade-v3.onnx
-    display: "SPLADE-v3 (ONNX)"
-    display_html: "SPLADE-v3 (ONNX)"
-    display_row: ""
-    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard09.arctic-embed-l.hnsw-int8 -topics $topics -topicReader TsvString -topicField title -encoder ArcticEmbedL -output $output -hits 250 -efSearch 1000
-    topics:
-      - topic_key: rag24.test
-        eval_key: rag24.test-umbrela-all
-        scores:
-          - nDCG@20: 0.2432
-            nDCG@100: 0.1336
-            R@100: 0.0522
-      - topic_key: rag24.test
-        eval_key: rag24.test
-        scores:
-          - nDCG@20: 0.2457
-            nDCG@100: 0.1376
-            R@100: 0.0715
-
+  - name: splade-v3.cached  
+    display: "SPLADE-v3 (cached queries)"  
+    display_html: "SPLADE-v3 (cached queries)"  
+    display_row: ""  
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v2.1-doc-segmented-splade-v3 -topics $topics -topicReader TsvString -output $output -impact -pretokenized -removeQuery -hits 1000  
+    topics:  
+      - topic_key: rag24.test.splade-v3  
+        eval_key: rag24.test-umbrela-all  
+        scores:  
+          - nDCG@20: 0.5167  
+            nDCG@100: 0.4587  
+            R@100: 0.2437  
+      - topic_key: rag24.test.splade-v3  
+        eval_key: rag24.test  
+        scores:  
+          - nDCG@20: 0.4642  
+            nDCG@100: 0.4349  
+            R@100: 0.3198
+  - name: splade-v3-onnx  
+    display: "SPLADE-v3 (ONNX)"  
+    display_html: "SPLADE-v3 (ONNX)"  
+    display_row: ""  
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v2.1-doc-segmented-splade-v3 -topics $topics -topicReader TsvString -output $output -impact -pretokenized -removeQuery -hits 1000 -encoder SpladeV3  
+    topics:  
+      - topic_key: rag24.test  
+        eval_key: rag24.test-umbrela-all  
+        scores:  
+          - nDCG@20: 0.5167  
+            nDCG@100: 0.4587  
+            R@100: 0.2437  
+      - topic_key: rag24.test  
+        eval_key: rag24.test  
+        scores:  
+          - nDCG@20: 0.4642  
+            nDCG@100: 0.4349  
+            R@100: 0.3198
