@@ -102,6 +102,7 @@ public enum Topics {
   TREC2024_RAG_RESEARCHY_DEV_SNOWFLAKE_ARCTIC_EMBED_L(JsonIntVectorTopicReader.class, "topics.rag24.researchy-dev.snowflake-arctic-embed-l.jsonl.gz"),
   TREC2024_RAG_TEST(TsvStringTopicReader.class, "topics.rag24.test.txt"),
   TREC2024_RAG_TEST_SNOWFLAKE_ARCTIC_EMBED_L(JsonStringVectorTopicReader.class, "topics.rag24.test.snowflake-arctic-embed-l.jsonl.gz"),
+  TREC2024_RAG_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.rag24.test.splade-v3.tsv.gz"),
   TREC2025_RAG_TEST(JsonStringTopicReader.class, "topics.rag25.test.jsonl"),
 
   // MS MARCO V1 topics
