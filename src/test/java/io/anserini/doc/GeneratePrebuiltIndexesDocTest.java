@@ -61,11 +61,11 @@ public class GeneratePrebuiltIndexesDocTest {
     # Anserini: Prebuilt Indexes
 
     Anserini ships with a number of prebuilt indexes.
-    This means that various indexes (inverted indexes, HNSW indexes, etc.) for common collections used in NLP and IR research have already been built and just needs to be downloaded (from UWaterloo/Hugging Face servers), which Anserini will handle automatically for you.
+    This means that various indexes (inverted indexes, HNSW indexes, etc.) for common collections used in NLP and IR research have already been built and just needs to be downloaded (from UWaterloo and Hugging Face servers), which Anserini will handle automatically for you.
 
-    Bindings for the available prebuilt indexes are in [`io.anserini.index.IndexInfo`](https://github.com/castorini/anserini/blob/master/src/main/java/io/anserini/index/IndexInfo.java) and below.
+    Bindings for the available prebuilt indexes are in [`io.anserini.index.IndexInfo`](https://github.com/castorini/anserini/blob/master/src/main/java/io/anserini/index/IndexInfo.java) and Java enums.
     For example, if you specify `-index msmarco-v1-passage`, Anserini will know that you mean the Lucene index of the MS MARCO V1 passage corpus.
-    It will then download the index from the servers and cache locally.
+    It will then download the index from the specified location(s) and cache locally.
     All of this happens automagically!
 
     ## Getting Started
@@ -92,19 +92,18 @@ public class GeneratePrebuiltIndexesDocTest {
 
     ## Managing Indexes
 
-    The downloaded index will by default be in `~/.cache/pyserini/indexes/`.
-    (Yes, `pyserini`; this is so prebuilt indexes from both Pyserini and Anserini can live in the same location.)
+    Downloaded indexes are by default stored in `~/.cache/pyserini/indexes/`.
+    (Yes, `pyserini` &mdash; this is so prebuilt indexes from both Pyserini and Anserini can live in the same location.)
     You can specify a custom cache directory by setting the environment variable `$ANSERINI_INDEX_CACHE` or the system property `anserini.index.cache`.
 
     Another helpful tip is to download and manage the indexes by hand.
-    All relevant information is stored in [`IndexInfo`](https://github.com/castorini/anserini/blob/master/src/main/java/io/anserini/index/IndexInfo.java).
-    For example, `msmarco-v1-passage` can be downloaded from:
+    From [`IndexInfo`](https://github.com/castorini/anserini/blob/master/src/main/java/io/anserini/index/IndexInfo.java): as an example, `msmarco-v1-passage` can be downloaded from:
 
     ```
     https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/passage/original/lucene-inverted/tf/lucene-inverted.msmarco-v1-passage.20221004.252b5e.tar.gz
     ```
 
-    and has an MD5 checksum of `678876e8c99a89933d553609a0fd8793`.
+    The tarball has an MD5 checksum of `678876e8c99a89933d553609a0fd8793`.
     You can download, verify, and put anywhere you want.
     With `-index /path/to/index/` you'll get exactly the same output as `-index msmarco-v1-passage`, except now you've got fine-grained control over managing the index.
 
@@ -116,7 +115,7 @@ public class GeneratePrebuiltIndexesDocTest {
     ```
 
     You can download the index once, put in a common location, and have each user symlink to the actual index location.
-    Source would conform to the schema above, target would be where your index actually resides.
+    The source of the symlink would conform to the schema above, and the target of the symlink would be where your index actually resides.
 
     ## Recovering from Partial Downloads
 
@@ -132,7 +131,9 @@ public class GeneratePrebuiltIndexesDocTest {
 
     Below is a summary of the prebuilt indexes that are currently available.
 
-    Note that this page is automatically generated from [this script](../src/test/java/io/anserini/doc/GeneratePrebuiltIndexesDocTest.java), so do not modify this page directly; modify the script instead.
+    Note that this page is automatically generated from [this case case](../src/test/java/io/anserini/doc/GeneratePrebuiltIndexesDocTest.java).
+    This means that the page is updated with every (successful) build.
+    Therefore, do not modify this page directly; modify the test case instead.
 
     """);
 
