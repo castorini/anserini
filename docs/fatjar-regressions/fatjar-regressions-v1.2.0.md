@@ -37,7 +37,9 @@ Using the [UMBRELA qrels](https://trec-rag.github.io/annoucements/umbrela-qrels/
 | RAG24 Test (UMBRELA): nDCG@100   | 0.2563 |    0.4855     |
 | RAG24 Test (UMBRELA): Recall@100 | 0.1395 |    0.2547     |
 
-See instructions below on how to reproduce these runs; more details can be found in the following paper:
+See instructions below on how to reproduce these runs; more details can be found in the following two papers:
+
+> Shivani Upadhyay, Ronak Pradeep, Nandan Thakur, Daniel Campos, Nick Craswell, Ian Soboroff, and Jimmy Lin. [A Large-Scale Study of Relevance Assessments with Large Language Models Using UMBRELA.](https://dl.acm.org/doi/10.1145/3731120.3744605) Proceedings of the 2025 International ACM SIGIR Conference on Innovative Concepts and Theories in Information Retrieval (ICTIR 2025), pages 358-368, July 2025, Padua, Italy.
 
 > Shivani Upadhyay, Ronak Pradeep, Nandan Thakur, Daniel Campos, Nick Craswell, Ian Soboroff, Hoa Trang Dang, and Jimmy Lin. [A Large-Scale Study of Relevance Assessments with Large Language Models: An Initial Look.](https://arxiv.org/abs/2411.08275) _arXiv:2411.08275_, November 2024.
 
@@ -229,17 +231,72 @@ The table below reports the effectiveness of the models (dev in terms of RR@10, 
 | cohere-embed-english-v3.0 w/ HNSW fp32 (cached queries)      | 0.3647 | 0.6956 | 0.7245 |
 | cohere-embed-english-v3.0 w/ HNSW int8 (cached queries)      | 0.3656 | 0.6955 | 0.7262 |
 
-The follow command will reproduce the above experiments:
+The following command will reproduce the above experiments:
 
 ```bash
 java -cp $ANSERINI_JAR io.anserini.reproduce.RunMsMarco -collection msmarco-v1-passage
 ```
 
+To print out the commands that will generate the above runs without performing the runs, use the options `-dryRun -printCommands`.
+
+## MS MARCO V2.1 Documents
+
+❗ Beware, the (automatically downloaded) indexes for running these experiments take up several hundred GBs.
+
+The MS MARCO V2.1 collections were created for the [TREC RAG Track](https://trec-rag.github.io/).
+Of the two variants, the documents corpus served as the source of the segmented documents corpus, but is not otherwise used in any formal evaluations.
+It primarily served development purposes for the TREC 2024 RAG evaluation, where previous qrels from MS MARCO V2 and DL21-DL23 were "projected over" to this corpus.
+
+The table below reports effectiveness (dev in terms of RR@10, DL21-DL23, RAGgy in terms of nDCG@10):
+
+|                    |    dev |   dev2 |   DL21 |   DL22 |   DL23 |  RAGgy |
+|:-------------------|-------:|-------:|-------:|-------:|-------:|-------:|
+| BM25 doc           | 0.1654 | 0.1732 | 0.5183 | 0.2991 | 0.2914 | 0.3631 |
+| BM25 doc-segmented | 0.1973 | 0.2000 | 0.5778 | 0.3576 | 0.3356 | 0.4227 |
+
+The following command will reproduce the above experiments:
+
+```bash
+java -cp $ANSERINI_JAR io.anserini.reproduce.RunMsMarco -collection msmarco-v2.1
+```
+
+To print out the commands that will generate the above runs without performing the runs, use the options `-dryRun -printCommands`.
+
+## MS MARCO V2.1 Segmented Documents
+
+❗ Beware, the (automatically downloaded) indexes for running these experiments take up several hundred GBs.
+
+The MS MARCO V2.1 collections were created for the [TREC RAG Track](https://trec-rag.github.io/).
+Of the two variants (the documents corpus and the segmented documents corpus), this is the one used in official TREC RAG evaluations:
+
+|                                               | RAG 24 UMBRELA | RAG 24 NIST |
+|-----------------------------------------------|:--------------:|:-----------:|
+| baselines                                     |     0.3198     |   0.2809    |
+| SPLADE-v3                                     |     0.5167     |   0.4642    |
+| Arctic-embed-l (`shard00`, HNSW int8 indexes) |     0.3003     |   0.2449    |
+| Arctic-embed-l (`shard01`, HNSW int8 indexes) |     0.2599     |   0.2184    |
+| Arctic-embed-l (`shard02`, HNSW int8 indexes) |     0.2661     |   0.2211    |
+| Arctic-embed-l (`shard03`, HNSW int8 indexes) |     0.2705     |   0.2388    |
+| Arctic-embed-l (`shard04`, HNSW int8 indexes) |     0.2937     |   0.2253    |
+| Arctic-embed-l (`shard05`, HNSW int8 indexes) |     0.2590     |   0.2383    |
+| Arctic-embed-l (`shard06`, HNSW int8 indexes) |     0.2444     |   0.2336    |
+| Arctic-embed-l (`shard07`, HNSW int8 indexes) |     0.2417     |   0.2255    |
+| Arctic-embed-l (`shard08`, HNSW int8 indexes) |     0.2847     |   0.2765    |
+| Arctic-embed-l (`shard09`, HNSW int8 indexes) |     0.2432     |   0.2457    |
+
+The following command will reproduce the above experiments:
+
+```bash
+java -cp $ANSERINI_JAR io.anserini.reproduce.RunMsMarco -collection msmarco-v2.1-doc-segmented
+```
+
+To print out the commands that will generate the above runs without performing the runs, use the options `-dryRun -printCommands`.
+
 ## BEIR
 
 ❗ Beware, the (automatically downloaded) indexes for running these experiments take up several hundred GBs.
 
-Currently, Anserini provides support for the following models:
+Here is a selection of models that are currently suppoted in Anserini:
 
 + Flat = BM25, "flat" bag-of-words baseline
 + MF = BM25, "multifield" bag-of-words baseline
@@ -283,9 +340,40 @@ The table below reports the effectiveness of the models (nDCG@10):
 | `climate-fever`           | 0.1651 | 0.2129 | 0.2625 | 0.2625 | 0.3119 | 0.3117 | 0.3119 | 0.3117 |
 | `scifact`                 | 0.6789 | 0.6647 | 0.7140 | 0.7140 | 0.7408 | 0.7408 | 0.7408 | 0.7408 |
 
-The follow command will reproduce the above experiments:
+The following command will reproduce the above experiments:
 
 ```bash
 java -cp $ANSERINI_JAR io.anserini.reproduce.RunBeir
 ```
 
+To print out the commands that will generate the above runs without performing the runs, use the options `-dryRun -printCommands`.
+
+## BRIGHT
+
+BRIGHT is a retrieval benchmark described [here](https://arxiv.org/abs/2407.12883).
+
+| Corpus             |  BM25  |
+|--------------------|:------:|
+| **StackExchange**  |        |
+| Biology            | 0.1824 |
+| Earth Science      | 0.2791 |
+| Economics          | 0.1645 |
+| Psychology         | 0.1342 |
+| Robotics           | 0.1091 |
+| Stack Overflow     | 0.1626 |
+| Sustainable Living | 0.1613 |
+| **Coding**         |        |
+| LeetCode           | 0.2471 |
+| Pony               | 0.0434 |
+| **Theorems**       |        |
+| AoPS               | 0.0645 |
+| TheoremQA-Q        | 0.0214 |
+| TheoremQA-T        | 0.0733 |
+
+The following command will reproduce the above experiments:
+
+```bash
+java -cp $ANSERINI_JAR io.anserini.reproduce.RunBright
+```
+
+To print out the commands that will generate the above runs without performing the runs, use the options `-dryRun -printCommands`.
