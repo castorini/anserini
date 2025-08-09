@@ -229,7 +229,7 @@ The table below reports the effectiveness of the models (dev in terms of RR@10, 
 | cohere-embed-english-v3.0 w/ HNSW fp32 (cached queries)      | 0.3647 | 0.6956 | 0.7245 |
 | cohere-embed-english-v3.0 w/ HNSW int8 (cached queries)      | 0.3656 | 0.6955 | 0.7262 |
 
-The follow command will reproduce the above experiments:
+The following command will reproduce the above experiments:
 
 ```bash
 java -cp $ANSERINI_JAR io.anserini.reproduce.RunMsMarco -collection msmarco-v1-passage
@@ -400,7 +400,7 @@ The table below reports the effectiveness of the models (nDCG@10):
 | `climate-fever`           | 0.1651 | 0.2129 | 0.2625 | 0.2625 | 0.3119 | 0.3117 | 0.3119 | 0.3117 |
 | `scifact`                 | 0.6789 | 0.6647 | 0.7140 | 0.7140 | 0.7408 | 0.7408 | 0.7408 | 0.7408 |
 
-The follow command will reproduce the above experiments:
+The following command will reproduce the above experiments:
 
 ```bash
 java -cp $ANSERINI_JAR io.anserini.reproduce.RunBeir

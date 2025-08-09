@@ -533,6 +533,8 @@ Substitute the appropriate `$MODEL` from the table below.
 
 ### BRIGHT Regressions
 
+BRIGHT is a retrieval benchmark described [here](https://arxiv.org/abs/2407.12883).
+
 | Corpus              |                            Baselines                             |
 |---------------------|:----------------------------------------------------------------:|
 | **StackExchange**   |                                                                  |
@@ -553,11 +555,11 @@ Substitute the appropriate `$MODEL` from the table below.
 
 ### Available Corpora for Download
 
-| Corpora                                                                                                                                |   Size | Checksum                           |
-|:---------------------------------------------------------------------------------------------------------------------------------------|-------:|:-----------------------------------|
-| [Post-Processed](https://huggingface.co/datasets/castorini/collections-bright/resolve/main/bright-corpus.tar)                                        | 297 MB | `d8c829f0e4468a8ce62768b6a1162158` |
+| Corpora                                                                                                       |   Size | Checksum                           |
+|:--------------------------------------------------------------------------------------------------------------|-------:|:-----------------------------------|
+| [Post-Processed](https://huggingface.co/datasets/castorini/collections-bright/resolve/main/bright-corpus.tar) | 297 MB | `d8c829f0e4468a8ce62768b6a1162158` |
 
-The [BRIGHT](https://arxiv.org/abs/2407.12883) corpus used here was processed from Hugging Face with these [scripts](https://github.com/ielab/llm-rankers/tree/main/Rank-R1/bright). 
+The BRIGHT corpus above was processed from Hugging Face with [these scripts](https://github.com/ielab/llm-rankers/tree/main/Rank-R1/bright).
 
 <hr/>
 

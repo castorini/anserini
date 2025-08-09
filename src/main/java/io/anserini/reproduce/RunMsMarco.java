@@ -16,20 +16,13 @@
 
 package io.anserini.reproduce;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import io.anserini.reproduce.RunRepro.TrecEvalMetricDefinitions;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 
-import io.anserini.reproduce.RunRepro.TrecEvalMetricDefinitions;
+import java.util.*;
 
 public class RunMsMarco {
   public static class Args extends RunRepro.Args {
