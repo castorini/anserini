@@ -367,8 +367,8 @@ BRIGHT is a retrieval benchmark described [here](https://arxiv.org/abs/2407.1288
 | Pony               | 0.0434 |
 | **Theorems**       |        |
 | AoPS               | 0.0645 |
-| TheoremQA-Q        | 0.0214 |
-| TheoremQA-T        | 0.0733 |
+| TheoremQA-Q        | 0.0733 |
+| TheoremQA-T        | 0.0214 |
 
 The following command will reproduce the above experiments:
 
