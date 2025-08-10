@@ -239,35 +239,13 @@ java -cp $ANSERINI_JAR io.anserini.reproduce.RunMsMarco -collection msmarco-v1-p
 
 To print out the commands that will generate the above runs without performing the runs, use the options `-dryRun -printCommands`.
 
-## MS MARCO V2.1 Documents
-
-❗ Beware, the (automatically downloaded) indexes for running these experiments take up several hundred GBs.
-
-The MS MARCO V2.1 collections were created for the [TREC RAG Track](https://trec-rag.github.io/).
-Of the two variants, the documents corpus served as the source of the segmented documents corpus, but is not otherwise used in any formal evaluations.
-It primarily served development purposes for the TREC 2024 RAG evaluation, where previous qrels from MS MARCO V2 and DL21-DL23 were "projected over" to this corpus.
-
-The table below reports effectiveness (dev in terms of RR@10, DL21-DL23, RAGgy in terms of nDCG@10):
-
-|                    |    dev |   dev2 |   DL21 |   DL22 |   DL23 |  RAGgy |
-|:-------------------|-------:|-------:|-------:|-------:|-------:|-------:|
-| BM25 doc           | 0.1654 | 0.1732 | 0.5183 | 0.2991 | 0.2914 | 0.3631 |
-| BM25 doc-segmented | 0.1973 | 0.2000 | 0.5778 | 0.3576 | 0.3356 | 0.4227 |
-
-The following command will reproduce the above experiments:
-
-```bash
-java -cp $ANSERINI_JAR io.anserini.reproduce.RunMsMarco -collection msmarco-v2.1
-```
-
-To print out the commands that will generate the above runs without performing the runs, use the options `-dryRun -printCommands`.
-
 ## MS MARCO V2.1 Segmented Documents
 
 ❗ Beware, the (automatically downloaded) indexes for running these experiments take up several hundred GBs.
 
 The MS MARCO V2.1 collections were created for the [TREC RAG Track](https://trec-rag.github.io/).
-Of the two variants (the documents corpus and the segmented documents corpus), this is the one used in official TREC RAG evaluations.
+There were two variants: the documents corpus and the segmented documents corpus.
+The documents corpus served as the source of the segmented documents corpus, but the segmented documents corpus is the one used in official TREC RAG evaluations.
 The following table reports nDCG@20 scores for various retrieval conditions:
 
 |                                               | RAG 24 UMBRELA | RAG 24 NIST |
@@ -289,6 +267,30 @@ The following command will reproduce the above experiments:
 
 ```bash
 java -cp $ANSERINI_JAR io.anserini.reproduce.RunMsMarco -collection msmarco-v2.1-doc-segmented
+```
+
+To print out the commands that will generate the above runs without performing the runs, use the options `-dryRun -printCommands`.
+
+## MS MARCO V2.1 Documents
+
+❗ Beware, the (automatically downloaded) indexes for running these experiments take up several hundred GBs.
+
+The MS MARCO V2.1 collections were created for the [TREC RAG Track](https://trec-rag.github.io/).
+There were two variants: the documents corpus and the segmented documents corpus.
+The documents corpus served as the source of the segmented documents corpus, but is not otherwise used in any formal evaluations.
+It primarily served development purposes for the TREC 2024 RAG evaluation, where previous qrels from MS MARCO V2 and DL21-DL23 were "projected over" to this corpus.
+
+The table below reports effectiveness (dev in terms of RR@10, DL21-DL23, RAGgy in terms of nDCG@10):
+
+|                    |    dev |   dev2 |   DL21 |   DL22 |   DL23 |  RAGgy |
+|:-------------------|-------:|-------:|-------:|-------:|-------:|-------:|
+| BM25 doc           | 0.1654 | 0.1732 | 0.5183 | 0.2991 | 0.2914 | 0.3631 |
+| BM25 doc-segmented | 0.1973 | 0.2000 | 0.5778 | 0.3576 | 0.3356 | 0.4227 |
+
+The following command will reproduce the above experiments:
+
+```bash
+java -cp $ANSERINI_JAR io.anserini.reproduce.RunMsMarco -collection msmarco-v2.1
 ```
 
 To print out the commands that will generate the above runs without performing the runs, use the options `-dryRun -printCommands`.
