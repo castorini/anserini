@@ -559,7 +559,7 @@ BRIGHT is a retrieval benchmark described [here](https://arxiv.org/abs/2407.1288
 |:--------------------------------------------------------------------------------------------------------------|-------:|:-----------------------------------|
 | [Post-Processed](https://huggingface.co/datasets/castorini/collections-bright/resolve/main/bright-corpus.tar) | 297 MB | `d8c829f0e4468a8ce62768b6a1162158` |
 
-The BRIGHT corpus above was processed from Hugging Face with [these scripts](https://github.com/ielab/llm-rankers/tree/main/Rank-R1/bright).
+The BRIGHT corpora above were processed from Hugging Face with [these scripts](https://github.com/ielab/llm-rankers/tree/main/Rank-R1/bright).
 
 <hr/>
 
