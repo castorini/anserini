@@ -267,7 +267,8 @@ To print out the commands that will generate the above runs without performing t
 ❗ Beware, the (automatically downloaded) indexes for running these experiments take up several hundred GBs.
 
 The MS MARCO V2.1 collections were created for the [TREC RAG Track](https://trec-rag.github.io/).
-Of the two variants (the documents corpus and the segmented documents corpus), this is the one used in official TREC RAG evaluations:
+Of the two variants (the documents corpus and the segmented documents corpus), this is the one used in official TREC RAG evaluations.
+The following table reports nDCG@20 scores for various retrieval conditions:
 
 |                                               | RAG 24 UMBRELA | RAG 24 NIST |
 |-----------------------------------------------|:--------------:|:-----------:|
@@ -351,6 +352,7 @@ To print out the commands that will generate the above runs without performing t
 ## BRIGHT
 
 BRIGHT is a retrieval benchmark described [here](https://arxiv.org/abs/2407.12883).
+The following table reports nDCG@10 scores for BM25 baselines:
 
 | Corpus             |  BM25  |
 |--------------------|:------:|
