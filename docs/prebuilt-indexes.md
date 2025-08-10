@@ -72,7 +72,7 @@ Then start over (e.g., rerun the command you were running before).
 
 Below is a summary of the prebuilt indexes that are currently available.
 
-Note that this page is automatically generated from [this case case](../src/test/java/io/anserini/doc/GeneratePrebuiltIndexesDocTest.java).
+Note that this page is automatically generated from [this test case](../src/test/java/io/anserini/doc/GeneratePrebuiltIndexesDocTest.java).
 This means that the page is updated with every (successful) build.
 Therefore, do not modify this page directly; modify the test case instead.
 
