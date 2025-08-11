@@ -8,9 +8,11 @@ Instructions for downloading the corpus can be found [here](https://trec-rag.git
 
 Evaluation uses qrels over 89 topics from the TREC 2024 RAG Track test set.
 These qrels represent manual relevance judgments from NIST assessors, contrasted with automatically generated UMBRELA judgments.
-See the following paper for more details:
+More details can be found in the following two papers:
 
-> Shivani Upadhyay, Ronak Pradeep, Nandan Thakur, Daniel Campos, Nick Craswell, Ian Soboroff, and Jimmy Lin. A Large-Scale Study of Relevance Assessments with Large Language Models Using UMBRELA. _Proceedings of the 2025 International ACM SIGIR Conference on Innovative Concepts and Theories in Information Retrieval (ICTIR 2025)_, 2025.
+> Shivani Upadhyay, Ronak Pradeep, Nandan Thakur, Daniel Campos, Nick Craswell, Ian Soboroff, and Jimmy Lin. [A Large-Scale Study of Relevance Assessments with Large Language Models Using UMBRELA.](https://dl.acm.org/doi/10.1145/3731120.3744605) Proceedings of the 2025 International ACM SIGIR Conference on Innovative Concepts and Theories in Information Retrieval (ICTIR 2025), pages 358-368, July 2025, Padua, Italy.
+
+> Shivani Upadhyay, Ronak Pradeep, Nandan Thakur, Daniel Campos, Nick Craswell, Ian Soboroff, Hoa Trang Dang, and Jimmy Lin. [A Large-Scale Study of Relevance Assessments with Large Language Models: An Initial Look.](https://arxiv.org/abs/2411.08275) _arXiv:2411.08275_, November 2024.
 
 Here, we cover bag-of-words baselines where each _segment_ in the MS MARCO V2.1 segmented document corpus is treated as a unit of indexing.
 

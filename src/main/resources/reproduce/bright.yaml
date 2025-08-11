@@ -45,11 +45,11 @@ conditions:
         eval_key: bright-aops
         scores:
           - nDCG@10: 0.0645
-      - topic_key: theoremqa-theorems
-        eval_key: bright-theoremqa-theorems
-        scores:
-          - nDCG@10: 0.0214
       - topic_key: theoremqa-questions
         eval_key: bright-theoremqa-questions
         scores:
           - nDCG@10: 0.0733
+      - topic_key: theoremqa-theorems
+        eval_key: bright-theoremqa-theorems
+        scores:
+          - nDCG@10: 0.0214
