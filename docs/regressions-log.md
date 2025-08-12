@@ -3,11 +3,17 @@
 The following change log details commits to regression tests that alter effectiveness and the addition (or removal) of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### July 9, 2025
+
++ commit [`35ab54`](https://github.com/castorini/anserini/commit/35ab54df4618f167c62d2252ef97b7a3510a4bf8)
+
+Added SPLADE-v3 regressions for MS MARCO v2.1.
+
 ### July 5, 2025
 
 + commit [`c42dfa`](https://github.com/castorini/anserini/commit/c42dfa41ab600e32b1a39f09d4b4d087ef27954b)
 
-Add RAG 24 official NIST qrels + associated regressions.
+Added RAG 24 official NIST qrels + associated regressions.
 
 ### June 23, 2025
 
