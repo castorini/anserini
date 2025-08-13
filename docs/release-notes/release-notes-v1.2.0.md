@@ -5,8 +5,8 @@
 
 ## Summary of Changes
 
-+ Added regressions for SPLADE-v3 for MS MARCO v2.1.
-+ Added regressions for BRIGHT.
++ Added SPLADE-v3 regressions for MS MARCO v2.1.
++ Added BRIGHT regressions.
 + Added TREC 2024 RAG official qrels and associated regressions.
 + Added TREC 2025 RAG topics.
 + Added `-dryRun` and `-printCommands` to `io.anserini.reproduce.RunRepro`.
