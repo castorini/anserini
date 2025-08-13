@@ -74,14 +74,14 @@ You should get an MRR (`recip_rank`) of 0.3575.
 
 Want to do retrieval with (learned) sparse vector representations?
 Anserini's also got you covered.
-For example, same as above (MS MARCO passage, dev queries) using SPLADE++ EnsembleDistil:
+For example, same as above (MS MARCO passage, dev queries) using SPLADE-v3:
 
 ```bash
 java -cp anserini-1.2.0-fatjar.jar io.anserini.search.SearchCollection \
-  -index msmarco-v1-passage.splade-pp-ed \
+  -index msmarco-v1-passage.splade-v3 \
   -topics msmarco-v1-passage.dev \
-  -encoder SpladePlusPlusEnsembleDistil \
-  -output run.msmarco-v1-passage.dev.splade-pp-ed.txt \
+  -encoder SpladeV3 \
+  -output run.msmarco-v1-passage.dev.splade-v3.txt \
   -impact -pretokenized
 ```
 
@@ -89,10 +89,10 @@ To evaluate:
 
 ```bash
 java -cp anserini-1.2.0-fatjar.jar trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev \
-  run.msmarco-v1-passage.dev.splade-pp-ed.txt
+  run.msmarco-v1-passage.dev.splade-v3.txt
 ```
 
-You should get an MRR (`recip_rank`) of 0.3828.
+You should get an MRR (`recip_rank`) of 0.4000.
 
 </details>
 
