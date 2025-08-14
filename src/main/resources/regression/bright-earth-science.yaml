@@ -1,6 +1,6 @@
 ---
 corpus: bright-earth-science
-corpus_path: collections/bright/earth-science
+corpus_path: collections/bright/corpus/earth-science
 
 index_path: indexes/lucene-inverted.bright-earth-science/
 collection_class: JsonCollection

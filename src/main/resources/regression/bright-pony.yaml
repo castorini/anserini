@@ -1,6 +1,6 @@
 ---
 corpus: bright-pony
-corpus_path: collections/bright/pony
+corpus_path: collections/bright/corpus/pony
 
 index_path: indexes/lucene-inverted.bright-pony/
 collection_class: JsonCollection
