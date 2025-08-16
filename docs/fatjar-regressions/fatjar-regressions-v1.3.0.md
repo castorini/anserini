@@ -1,21 +1,29 @@
-# Anserini Fatjar Regresions (v1.2.0)
+# Anserini Fatjar Regresions (v1.3.0)
 
 Fetch the fatjar:
 
 ```bash
-wget https://repo1.maven.org/maven2/io/anserini/anserini/1.2.0/anserini-1.2.0-fatjar.jar
+wget https://repo1.maven.org/maven2/io/anserini/anserini/1.3.0/anserini-1.3.0-fatjar.jar
 ```
 
 Let's start out by setting the `ANSERINI_JAR` and the `OUTPUT_DIR`:
 
 ```bash
-export ANSERINI_JAR="anserini-1.2.0-fatjar.jar"
+export ANSERINI_JAR="anserini-1.3.0-fatjar.jar"
 export OUTPUT_DIR="."
 ```
 
 ❗ Anserini ships with a number of prebuilt indexes, which it'll automagically download for you.
 This is a great feature, but the indexes can take up a lot of space.
 See [this guide on prebuilt indexes](../prebuilt-indexes.md) for more details.
+
+## Contents
+
++ [MS MARCO V2.1 + TREC RAG](#ms-marco-v21--trec-rag)
++ [MS MARCO V1 Passage](#ms-marco-v1-passage)
++ [MS MARCO V2.1 Segmented Documents](#ms-marco-v21-segmented-documents)
++ [BEIR](#beir)
++ [BRIGHT](#bright)
 
 ## MS MARCO V2.1 + TREC RAG
 
