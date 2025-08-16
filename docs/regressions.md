@@ -1011,7 +1011,7 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 
 </details>
 <details>
-<summary>BRIGHT: baselines</summary>
+<summary>BRIGHT: BM25</summary>
 
 ```bash
 nohup python src/main/python/run_regression.py --index --verify --search --regression bright-aops >& logs/log.bright-aops.txt &
@@ -1026,6 +1026,25 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 nohup python src/main/python/run_regression.py --index --verify --search --regression bright-sustainable-living >& logs/log.bright-sustainable-living.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression bright-theoremqa-questions >& logs/log.bright-theoremqa-questions.txt &
 nohup python src/main/python/run_regression.py --index --verify --search --regression bright-theoremqa-theorems >& logs/log.bright-theoremqa-theorems.txt &
+```
+
+</details>
+<details>
+<summary>BRIGHT: SPLADE-v3</summary>
+
+```
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-aops.splade-v3.onnx >& logs/log.bright-aops.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-biology.splade-v3.onnx >& logs/log.bright-biology.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-earth-science.splade-v3.onnx >& logs/log.bright-earth-science.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-economics.splade-v3.onnx >& logs/log.bright-economics.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-leetcode.splade-v3.onnx >& logs/log.bright-leetcode.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-pony.splade-v3.onnx >& logs/log.bright-pony.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-psychology.splade-v3.onnx >& logs/log.bright-psychology.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-robotics.splade-v3.onnx >& logs/log.bright-robotics.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-stackoverflow.splade-v3.onnx >& logs/log.bright-stackoverflow.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-sustainable-living.splade-v3.onnx >& logs/log.bright-sustainable-living.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-theoremqa-questions.splade-v3.onnx >& logs/log.bright-theoremqa-questions.splade-v3.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-theoremqa-theorems.splade-v3.onnx >& logs/log.bright-theoremqa-theorems.splade-v3.onnx.txt &
 ```
 
 </details>
