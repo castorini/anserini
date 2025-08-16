@@ -22,6 +22,7 @@ See [this guide on prebuilt indexes](../prebuilt-indexes.md) for more details.
 + [MS MARCO V2.1 + TREC RAG](#ms-marco-v21--trec-rag)
 + [MS MARCO V1 Passage](#ms-marco-v1-passage)
 + [MS MARCO V2.1 Segmented Documents](#ms-marco-v21-segmented-documents)
++ [MS MARCO V2.1 Documents](#ms-marco-v21-documents)
 + [BEIR](#beir)
 + [BRIGHT](#bright)
 
