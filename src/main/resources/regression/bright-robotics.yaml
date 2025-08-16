@@ -1,6 +1,6 @@
 ---
 corpus: bright-robotics
-corpus_path: collections/bright/robotics
+corpus_path: collections/bright/corpus/robotics
 
 index_path: indexes/lucene-inverted.bright-robotics/
 collection_class: JsonCollection

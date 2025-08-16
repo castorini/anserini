@@ -1,16 +1,16 @@
 ---
-corpus: bright-sustainable-living
-corpus_path: collections/bright/corpus/sustainable-living
+corpus: bright-earth-science
+corpus_path: collections/bright/splade-v3/earth-science
 
-index_path: indexes/lucene-inverted.bright-sustainable-living/
-collection_class: JsonCollection
+index_path: indexes/lucene-inverted.bright-earth-science.splade-v3/
+collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator
-index_threads: 1
-index_options: -storePositions -storeDocvectors -storeRaw
+index_threads: 16
+index_options: -impact -pretokenized
 index_stats:
-  documents: 60792
-  documents (non-empty): 60179
-  total terms: 2359358
+  documents: 121249
+  documents (non-empty): 121249
+  total terms: 797796096
 
 metrics:
   - metric: nDCG@10
@@ -37,19 +37,19 @@ metrics:
 
 topic_reader: TsvString
 topics:
-  - name: "BRIGHT: Sustainable Living"
+  - name: "BRIGHT: Earth Science"
     id: topics
-    path: topics.bright-sustainable-living.tsv.gz
-    qrel: qrels.bright-sustainable-living.txt
+    path: topics.bright-earth-science.tsv.gz
+    qrel: qrels.bright-earth-science.txt
 
 models:
-  - name: bm25
-    display: BM25
-    params: -bm25 -removeQuery -hits 1000
+  - name: splade-v3-onnx
+    display: SPLADE-v3
+    params: -impact -pretokenized -removeQuery -hits 1000 -encoder SpladeV3
     results:
       nDCG@10:
-        - 0.1613
+        - 0.2670
       R@100:
-        - 0.4200
+        - 0.5776
       R@1000:
-        - 0.7424
+        - 0.8127

@@ -1,6 +1,6 @@
 ---
 corpus: bright-psychology
-corpus_path: collections/bright/psychology
+corpus_path: collections/bright/corpus/psychology
 
 index_path: indexes/lucene-inverted.bright-psychology/
 collection_class: JsonCollection

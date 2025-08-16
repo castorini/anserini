@@ -1,6 +1,6 @@
 ---
 corpus: bright-stackoverflow
-corpus_path: collections/bright/stackoverflow
+corpus_path: collections/bright/corpus/stackoverflow
 
 index_path: indexes/lucene-inverted.bright-stackoverflow/
 collection_class: JsonCollection
