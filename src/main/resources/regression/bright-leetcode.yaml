@@ -1,6 +1,6 @@
 ---
 corpus: bright-leetcode
-corpus_path: collections/bright/leetcode
+corpus_path: collections/bright/corpus/leetcode
 
 index_path: indexes/lucene-inverted.bright-leetcode/
 collection_class: JsonCollection

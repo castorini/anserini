@@ -1,6 +1,6 @@
 ---
 corpus: bright-theoremqa-theorems
-corpus_path: collections/bright/theoremqa-theorems
+corpus_path: collections/bright/corpus/theoremqa-theorems
 
 index_path: indexes/lucene-inverted.bright-theoremqa-theorems/
 collection_class: JsonCollection
