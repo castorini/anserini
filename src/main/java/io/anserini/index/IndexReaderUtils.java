@@ -16,7 +16,6 @@
 
 package io.anserini.index;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -27,6 +26,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
@@ -889,11 +889,17 @@ public class IndexReaderUtils {
       parser.printUsage(System.err);
       return;
     }
+    
+    Path indexPath = IndexReaderUtils.getIndex(args.index);
 
     IndexReader reader = IndexReaderUtils.getReader(args.index);
     Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, args.field);
 
-    Path indexPath = getIndex(args.index);
+    results.put("physical_location", indexPath.toAbsolutePath().toString());
+    long totalSize = findDirectorySize(indexPath);
+    results.put("total_size_disk", totalSize);
+
+
     if (args.stats) {
       System.out.println("Index statistics");
       System.out.println("----------------");
@@ -901,10 +907,43 @@ public class IndexReaderUtils {
       System.out.println("documents (non-empty): " + results.get("non_empty_documents"));
       System.out.println("unique terms:          " + results.get("unique_terms"));
       System.out.println("total terms:           " + results.get("total_terms"));
-      System.out.println("physical location:     " + indexPath.toAbsolutePath());
-      System.out.println("total size on disk:    " + new File(indexPath.toString()).length() + " bytes");
+      System.out.println("physical location of index:     " + results.get("physical_location"));
+      System.out.println("total size on disk:    " + formatSize((long) results.get("total_size_disk")));
     }
 
     reader.close();
   }
+
+    public static long findDirectorySize(Path path) throws IOException {
+        try (Stream<Path> walk = Files.walk(path)) {
+            return walk.filter(Files::isRegularFile)
+                    .mapToLong(filePath -> {
+                        try {
+                            return Files.size(filePath);
+                        } catch (IOException e) {
+                            return 0L;
+                        }
+                    }).sum();
+        }
+    }
+
+    public static String formatSize(long bytes) {
+        String[] units = {"B", "KB", "MB", "GB", "TB"};
+        int unitIndex = 0;
+        double size = bytes;
+
+        while (size >= 1024 && unitIndex < units.length - 1) {
+            size = size/1024;
+            unitIndex = unitIndex + 1;
+        }
+
+        return String.format("%.1f %s", size, units[unitIndex]);
+    }
 }
+
+
+
+
+
+
+
