@@ -47,6 +47,7 @@ public class RunRepro {
   private final TrecEvalMetricDefinitions metricDefinitions;
   private final boolean printCommands;
   private final boolean dryRun;
+  private final boolean computeIndexSize;
 
   public static class Args {
     @Option(name = "-printCommands", usage = "Print commands.")
@@ -57,13 +58,17 @@ public class RunRepro {
 
     @Option(name = "-options", usage = "Print information about options.")
     public Boolean options = false;
+
+    @Option(name = "-computeIndexSize", usage = "Compute total size of all unique indexes referenced by runs.")
+    public Boolean computeIndexSize = false;
   }
 
-  public RunRepro(String collection, TrecEvalMetricDefinitions metrics, boolean printCommands, boolean dryRun) {
+  public RunRepro(String collection, TrecEvalMetricDefinitions metrics, boolean printCommands, boolean dryRun, boolean computeIndexSize) {
     this.collection = collection;
     this.metricDefinitions = metrics;
     this.printCommands = printCommands;
     this.dryRun = dryRun;
+    this.computeIndexSize = computeIndexSize;
   }
 
   public void run() throws IOException, InterruptedException, URISyntaxException {
@@ -82,6 +87,7 @@ public class RunRepro {
     Process process;
 
     final long start = System.nanoTime();
+    java.util.Set<String> uniqueIndexPaths = new java.util.HashSet<>();
     for (Condition condition : config.conditions) {
       System.out.printf("# Running condition \"%s\": %s \n%n", condition.name, condition.display);
       for (Topic topic : condition.topics) {
@@ -94,6 +100,12 @@ public class RunRepro {
             .replace("$threads", "16")
             .replace("$topics", topic.topic_key)
             .replace("$output", output);
+
+        // Track the index path referenced by this command, if any.
+        String indexPath = extractIndexPath(command);
+        if (indexPath != null) {
+          uniqueIndexPaths.add(indexPath);
+        }
 
         if (printCommands) {
           System.out.println("    Retrieval command: " + command);
@@ -175,8 +187,57 @@ public class RunRepro {
       }
     }
 
+    if (computeIndexSize) {
+      long totalBytes = 0L;
+      for (String idx : uniqueIndexPaths) {
+        java.nio.file.Path p = java.nio.file.Paths.get(idx);
+        if (java.nio.file.Files.exists(p)) {
+          totalBytes += findDirectorySize(p);
+        } else {
+          System.out.println("Index path not found (skipping size): " + idx);
+        }
+      }
+      System.out.println(String.format("Total size of %d unique indexes: %s (%d bytes)",
+          uniqueIndexPaths.size(), formatSize(totalBytes), totalBytes));
+    }
+
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
     System.out.println("Total run time: " + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
+  }
+
+  private static String extractIndexPath(String command) {
+    // Split on whitespace and find token after '-index'.
+    String[] parts = command.split(" ");
+    for (int i = 0; i < parts.length; i++) {
+      if ("-index".equals(parts[i]) && i + 1 < parts.length) {
+        return parts[i + 1];
+      }
+    }
+    return null;
+  }
+
+  private static long findDirectorySize(java.nio.file.Path path) throws IOException {
+    try (java.util.stream.Stream<java.nio.file.Path> walk = java.nio.file.Files.walk(path)) {
+      return walk.filter(java.nio.file.Files::isRegularFile)
+          .mapToLong(filePath -> {
+            try {
+              return java.nio.file.Files.size(filePath);
+            } catch (IOException e) {
+              return 0L;
+            }
+          }).sum();
+    }
+  }
+
+  private static String formatSize(long bytes) {
+    String[] units = {"B", "KB", "MB", "GB", "TB"};
+    int unitIndex = 0;
+    double size = bytes;
+    while (size >= 1024 && unitIndex < units.length - 1) {
+      size = size / 1024;
+      unitIndex = unitIndex + 1;
+    }
+    return String.format("%.1f %s", size, units[unitIndex]);
   }
 
   public static class Config {
