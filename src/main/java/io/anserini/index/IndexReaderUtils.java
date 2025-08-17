@@ -16,11 +16,17 @@
 
 package io.anserini.index;
 
-import io.anserini.analysis.AnalyzerUtils;
-import io.anserini.search.SearchCollection;
-import io.anserini.search.query.BagOfWordsQueryGenerator;
-import io.anserini.search.query.PhraseQueryGenerator;
-import io.anserini.util.PrebuiltIndexHandler;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
@@ -53,16 +59,11 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import io.anserini.analysis.AnalyzerUtils;
+import io.anserini.search.SearchCollection;
+import io.anserini.search.query.BagOfWordsQueryGenerator;
+import io.anserini.search.query.PhraseQueryGenerator;
+import io.anserini.util.PrebuiltIndexHandler;
 
 /**
  * Class containing a bunch of static helper methods for accessing a Lucene inverted index.
@@ -892,6 +893,7 @@ public class IndexReaderUtils {
     IndexReader reader = IndexReaderUtils.getReader(args.index);
     Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, args.field);
 
+    Path indexPath = getIndex(args.index);
     if (args.stats) {
       System.out.println("Index statistics");
       System.out.println("----------------");
@@ -899,6 +901,8 @@ public class IndexReaderUtils {
       System.out.println("documents (non-empty): " + results.get("non_empty_documents"));
       System.out.println("unique terms:          " + results.get("unique_terms"));
       System.out.println("total terms:           " + results.get("total_terms"));
+      System.out.println("physical location:     " + indexPath.toAbsolutePath());
+      System.out.println("total size on disk:    " + new File(indexPath.toString()).length() + " bytes");
     }
 
     reader.close();
