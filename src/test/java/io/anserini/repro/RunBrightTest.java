@@ -86,4 +86,17 @@ public class RunBrightTest {
 
     restoreStdout();
   }
+
+  @Test
+  public void testComputeIndexSize() throws Exception {
+    redirectStdout();
+
+    String[] args = new String[] {"-dryRun", "-computeIndexSize"};
+    RunBright.main(args);
+
+    String s = out.toString();
+    assertTrue(s.contains("Total size of"));
+
+    restoreStdout();
+  }
 }
