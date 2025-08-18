@@ -197,8 +197,8 @@ public class RunRepro {
           System.out.println("Index path not found (skipping size): " + idx);
         }
       }
-      System.out.println(String.format("Total size of %d unique indexes: %s (%d bytes)",
-          uniqueIndexPaths.size(), formatSize(totalBytes), totalBytes));
+      System.out.println(String.format("Total size of %d unique indexes: %s",
+          uniqueIndexPaths.size(), formatSize(totalBytes)));
     }
 
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
