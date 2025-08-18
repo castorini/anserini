@@ -107,7 +107,7 @@ public abstract class AbstractIndexer implements Runnable {
 
     @Override
     public void run() {
-      try(FileSegment<? extends SourceDocument> segment = collection.createFileSegment(inputFile)) {
+      try (FileSegment<? extends SourceDocument> segment = collection.createFileSegment(inputFile)) {
         // We keep track of two separate counts: the total count of documents in this file segment (cnt),
         // and the number of documents in this current "batch" (batch). We update the global counter every
         // 10k documents: this is so that we get intermediate updates, which is informative if a collection
@@ -161,22 +161,25 @@ public abstract class AbstractIndexer implements Runnable {
         int skipped = segment.getSkippedCount();
         if (skipped > 0) {
           counters.skipped.addAndGet(skipped);
-          LOG.warn(inputFile.getParent().getFileName().toString() + File.separator +
-              inputFile.getFileName().toString() + ": " + skipped + " docs skipped.");
+          LOG.warn("{}{}{}: {} docs skipped.",
+              inputFile.getParent().getFileName().toString(), File.separator,
+              inputFile.getFileName().toString(), skipped);
         }
 
         if (segment.getErrorStatus()) {
           counters.errors.incrementAndGet();
-          LOG.error(inputFile.getParent().getFileName().toString() + File.separator +
-              inputFile.getFileName().toString() + ": error iterating through segment.");
+          LOG.error("{}{}{}: error iterating through segment.",
+              inputFile.getParent().getFileName().toString(), File.separator,
+              inputFile.getFileName().toString());
         }
 
         // Log at the debug level because this can be quite noisy if there are lots of file segments.
-        LOG.debug(inputFile.getParent().getFileName().toString() + File.separator +
-            inputFile.getFileName().toString() + ": " + cnt + " docs added.");
+        LOG.debug("{}{}{}: {} docs added.",
+            inputFile.getParent().getFileName().toString(), File.separator,
+            inputFile.getFileName().toString(), cnt);
       } catch (Exception e) {
         e.printStackTrace();
-        LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e.getMessage());
+        LOG.error("{}: Unexpected Exception: {}", Thread.currentThread().getName(), e.getMessage());
       }
     }
   }
@@ -207,11 +210,11 @@ public abstract class AbstractIndexer implements Runnable {
 
     LOG.info("============ Loading Index Configuration ============");
     LOG.info("AbstractIndexer settings:");
-    LOG.info(" + DocumentCollection path: " + args.input);
-    LOG.info(" + CollectionClass: " + args.collectionClass);
-    LOG.info(" + Index path: " + args.index);
-    LOG.info(" + Threads: " + args.threads);
-    LOG.info(" + Optimize (merge segments)? " + args.optimize);
+    LOG.info(" + DocumentCollection path: {}", args.input);
+    LOG.info(" + CollectionClass: {}", args.collectionClass);
+    LOG.info(" + Index path: {}", args.index);
+    LOG.info(" + Threads: {}", args.threads);
+    LOG.info(" + Optimize (merge segments)? {}", args.optimize);
 
     // Our documentation uses /path/to/foo as a convention: to make copy and paste of the commands work,
     // we assume collections/ as the path location.
@@ -244,7 +247,7 @@ public abstract class AbstractIndexer implements Runnable {
     final int segmentCnt = segmentPaths.size();
     AtomicInteger completedTaskCount = new AtomicInteger(0);
 
-    LOG.info(String.format("Thread pool with %s threads initialized.", args.threads));
+    LOG.info("Thread pool with {} threads initialized.", args.threads);
     LOG.info(String.format("%,d %s found in %s", segmentCnt, (segmentCnt == 1 ? "file" : "files"), collectionPath));
     LOG.info("Starting to index...");
 
@@ -262,8 +265,8 @@ public abstract class AbstractIndexer implements Runnable {
       // this might be expected. For example, when indexing tweets - if a tweet is delivered multiple times
       // (i.e., same docid), with -uniqueDocid we're going to update the doc in the index in place, leading
       // to differences between the counts.
-      LOG.warn(String.format("Unexpected difference between number of indexed documents (%d) and index maxDoc (%d).",
-          numIndexed, counters.indexed.get()));
+      LOG.warn("Unexpected difference between number of indexed documents ({}) and index maxDoc ({}).",
+          numIndexed, counters.indexed.get());
     }
 
     // Do a final commit.
@@ -334,10 +337,8 @@ public abstract class AbstractIndexer implements Runnable {
       });
     }
 
-    try (
-            ExecutorService executor = Executors.newWorkStealingPool(args.threads);
-            ScheduledExecutorService monitor = Executors.newSingleThreadScheduledExecutor()
-    ) {
+    try (ExecutorService executor = Executors.newWorkStealingPool(args.threads);
+         ScheduledExecutorService monitor = Executors.newSingleThreadScheduledExecutor()) {
       // log progress every minute
       int segmentCnt = segmentPaths.size();
       monitor.scheduleAtFixedRate(() -> {
