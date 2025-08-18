@@ -859,7 +859,7 @@ public class IndexReaderUtils {
       return indexPath;
     }
 
-    // Path doesn't exist locally + it's not a prebuilt index
+    // Path doesn't exist locally + it's not a prebuilt index.
     throw new IllegalArgumentException(String.format("\"%s\" does not appear to be a valid index.", index));
  }
 
