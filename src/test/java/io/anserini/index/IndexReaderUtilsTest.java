@@ -622,7 +622,7 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
 
     assertTrue(output.startsWith(groundTruthOutput));
     assertTrue(output.contains("physical location of index:"));
-    assertTrue(output.contains("total size on disk:"));
+    assertTrue(output.contains("index path:"));
   }
 
   @Test

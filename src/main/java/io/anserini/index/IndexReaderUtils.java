@@ -907,7 +907,7 @@ public class IndexReaderUtils {
       System.out.println("unique terms:          " + results.get("unique_terms"));
       System.out.println("total terms:           " + results.get("total_terms"));
       System.out.println("physical location of index:     " + results.get("physical_location"));
-      System.out.println("total size on disk:    " + formatSize((long) results.get("total_size_disk")));
+      System.out.println("index path:    " + formatSize((long) results.get("total_size_disk")));
     }
 
     reader.close();
