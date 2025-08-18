@@ -57,6 +57,7 @@ public enum Qrels {
   TREC2023_DL_DOC_MSMARCO_V21("qrels.dl23-doc-msmarco-v2.1.txt"),
   TREC2024_RAG_RAGGY_DEV("qrels.rag24.raggy-dev.txt"),
   TREC2024_RAG_UMBRELA("qrels.rag24.test-umbrela-all.txt"),
+  TREC2024_RAG("qrels.rag24.test.txt"),
   MSMARCO_DOC_DEV("qrels.msmarco-doc.dev.txt"),
   MSMARCO_PASSAGE_DEV_SUBSET("qrels.msmarco-passage.dev-subset.txt"),
   MSMARCO_V2_DOC_DEV("qrels.msmarco-v2-doc.dev.txt"),
@@ -191,9 +192,21 @@ public enum Qrels {
   CIRAL_V10_HA_TEST_B("qrels.ciral-v1.0-ha-test-b.tsv"),
   CIRAL_V10_SO_TEST_B("qrels.ciral-v1.0-so-test-b.tsv"),
   CIRAL_V10_SW_TEST_B("qrels.ciral-v1.0-sw-test-b.tsv"),
-  CIRAL_V10_YO_TEST_B("qrels.ciral-v1.0-yo-test-b.tsv");
+  CIRAL_V10_YO_TEST_B("qrels.ciral-v1.0-yo-test-b.tsv"),
+  BRIGHT_BIOLOGY("qrels.bright-biology.txt"),
+  BRIGHT_EARTH_SCIENCE("qrels.bright-earth-science.txt"),
+  BRIGHT_ECONOMICS("qrels.bright-economics.txt"),
+  BRIGHT_PSYCHOLOGY("qrels.bright-psychology.txt"),
+  BRIGHT_ROBOTICS("qrels.bright-robotics.txt"),
+  BRIGHT_STACKOVERFLOW("qrels.bright-stackoverflow.txt"),
+  BRIGHT_SUSTAINABLE_LIVING("qrels.bright-sustainable-living.txt"),
+  BRIGHT_PONY("qrels.bright-pony.txt"),
+  BRIGHT_LEETCODE("qrels.bright-leetcode.txt"),
+  BRIGHT_AOPS("qrels.bright-aops.txt"),
+  BRIGHT_THEOREMQA_THEOREMS("qrels.bright-theoremqa-theorems.txt"),
+  BRIGHT_THEOREMQA_QUESTIONS("qrels.bright-theoremqa-questions.txt");
 
-  private static Map<String, String> symbolFileDict = generateSymbolFileDict();
+  private static final Map<String, String> symbolFileDict = generateSymbolFileDict();
 
   private static HashMap<String, String> generateSymbolFileDict() {
     HashMap<String, String> m = new HashMap<>();

@@ -20,13 +20,13 @@ Anserini is packaged in a self-contained fatjar, which also provides the simples
 Assuming you've already got Java 21 installed (Yes, you need _exactly_ this version), fetch the fatjar:
 
 ```bash
-wget https://repo1.maven.org/maven2/io/anserini/anserini/1.1.1/anserini-1.1.1-fatjar.jar
+wget https://repo1.maven.org/maven2/io/anserini/anserini/1.2.0/anserini-1.2.0-fatjar.jar
 ```
 
 Do a BM25 run on the venerable MS MARCO passage corpus using the dev queries:
 
 ```bash
-java -cp anserini-1.1.1-fatjar.jar io.anserini.search.SearchCollection \
+java -cp anserini-1.2.0-fatjar.jar io.anserini.search.SearchCollection \
   -index msmarco-v1-passage \
   -topics msmarco-v1-passage.dev \
   -output run.msmarco-v1-passage.dev.bm25.txt \
@@ -36,7 +36,7 @@ java -cp anserini-1.1.1-fatjar.jar io.anserini.search.SearchCollection \
 To evaluate:
 
 ```bash
-java -cp anserini-1.1.1-fatjar.jar trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev \
+java -cp anserini-1.2.0-fatjar.jar trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev \
   run.msmarco-v1-passage.dev.bm25.txt
 ```
 
@@ -50,7 +50,7 @@ Anserini's got you covered.
 For example, same as above (MS MARCO passage, dev queries) using the BGE model (en, v1.5):
 
 ```bash
-java -cp anserini-1.1.1-fatjar.jar io.anserini.search.SearchHnswDenseVectors \
+java -cp anserini-1.2.0-fatjar.jar io.anserini.search.SearchHnswDenseVectors \
   -index msmarco-v1-passage.bge-base-en-v1.5.hnsw \
   -topics msmarco-v1-passage.dev \
   -encoder BgeBaseEn15  \
@@ -61,7 +61,7 @@ java -cp anserini-1.1.1-fatjar.jar io.anserini.search.SearchHnswDenseVectors \
 To evaluate:
 
 ```bash
-java -cp anserini-1.1.1-fatjar.jar trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev \
+java -cp anserini-1.2.0-fatjar.jar trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev \
   run.msmarco-v1-passage.dev.bge.txt
 ```
 
@@ -74,29 +74,29 @@ You should get an MRR (`recip_rank`) of 0.3575.
 
 Want to do retrieval with (learned) sparse vector representations?
 Anserini's also got you covered.
-For example, same as above (MS MARCO passage, dev queries) using SPLADE++ EnsembleDistil:
+For example, same as above (MS MARCO passage, dev queries) using SPLADE-v3:
 
 ```bash
-java -cp anserini-1.1.1-fatjar.jar io.anserini.search.SearchCollection \
-  -index msmarco-v1-passage.splade-pp-ed \
+java -cp anserini-1.2.0-fatjar.jar io.anserini.search.SearchCollection \
+  -index msmarco-v1-passage.splade-v3 \
   -topics msmarco-v1-passage.dev \
-  -encoder SpladePlusPlusEnsembleDistil \
-  -output run.msmarco-v1-passage.dev.splade-pp-ed.txt \
+  -encoder SpladeV3 \
+  -output run.msmarco-v1-passage.dev.splade-v3.txt \
   -impact -pretokenized
 ```
 
 To evaluate:
 
 ```bash
-java -cp anserini-1.1.1-fatjar.jar trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev \
-  run.msmarco-v1-passage.dev.splade-pp-ed.txt
+java -cp anserini-1.2.0-fatjar.jar trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev \
+  run.msmarco-v1-passage.dev.splade-v3.txt
 ```
 
-You should get an MRR (`recip_rank`) of 0.3828.
+You should get an MRR (`recip_rank`) of 0.4000.
 
 </details>
 
-See [detailed instructions](docs/fatjar-regressions/fatjar-regressions-v1.1.1.md) for the current fatjar release of Anserini (v1.1.1) to reproduce regression experiments on the MS MARCO V2.1 corpora for TREC 2024 RAG, on MS MARCO V1 Passage, and on BEIR, all directly from the fatjar!
+See [detailed instructions](docs/fatjar-regressions/fatjar-regressions-v1.2.0.md) for the current fatjar release of Anserini (v1.2.0) to reproduce regression experiments on the MS MARCO V2.1 corpora for TREC 2024 RAG, on MS MARCO V1 Passage, and on BEIR, all directly from the fatjar!
 
 ❗ Beware, Anserini ships with many prebuilt indexes, which are automatically downloaded upon request: these indexes can take up a lot of space.
 See [this guide on prebuilt indexes](docs/prebuilt-indexes.md) for more details.
@@ -104,6 +104,7 @@ See [this guide on prebuilt indexes](docs/prebuilt-indexes.md) for more details.
 <details>
 <summary>Older instructions</summary>
 
++ [Anserini v1.1.1](docs/fatjar-regressions/fatjar-regressions-v1.1.1.md)
 + [Anserini v1.1.0](docs/fatjar-regressions/fatjar-regressions-v1.1.0.md)
 + [Anserini v1.0.0](docs/fatjar-regressions/fatjar-regressions-v1.0.0.md)
 + [Anserini v0.39.0](docs/fatjar-regressions/fatjar-regressions-v0.39.0.md)
@@ -182,7 +183,7 @@ See individual pages for details.
 | SPLADEv2                                   |                                                                                                                                                            [🫙](docs/regressions/regressions-msmarco-v1-passage.distill-splade-max.cached.md)                                                                                                                                                            |                                                                                                                                                                                                                                                                                                                                                                                 |                                                                                                                                                                                                                                                                                                                                                                                 |
 | SPLADE++ CoCondenser-EnsembleDistil        |                                                                                                                         [🫙](docs/regressions/regressions-msmarco-v1-passage.splade-pp-ed.cached.md)[🅾️](docs/regressions/regressions-msmarco-v1-passage.splade-pp-ed.onnx.md)                                                                                                                          |                                                                                                                   [🫙](docs/regressions/regressions-dl19-passage.splade-pp-ed.cached.md)[🅾️](docs/regressions/regressions-dl19-passage.splade-pp-ed.onnx.md)                                                                                                                   |                                                                                                                   [🫙](docs/regressions/regressions-dl20-passage.splade-pp-ed.cached.md)[🅾️](docs/regressions/regressions-dl20-passage.splade-pp-ed.onnx.md)                                                                                                                   |
 | SPLADE++ CoCondenser-SelfDistil            |                                                                                                                         [🫙](docs/regressions/regressions-msmarco-v1-passage.splade-pp-sd.cached.md)[🅾️](docs/regressions/regressions-msmarco-v1-passage.splade-pp-sd.onnx.md)                                                                                                                          |                                                                                                                   [🫙](docs/regressions/regressions-dl19-passage.splade-pp-sd.cached.md)[🅾️](docs/regressions/regressions-dl19-passage.splade-pp-sd.onnx.md)                                                                                                                   |                                                                                                                   [🫙](docs/regressions/regressions-dl20-passage.splade-pp-sd.cached.md)[🅾️](docs/regressions/regressions-dl20-passage.splade-pp-sd.onnx.md)                                                                                                                   |
-| SPLADEv3                                   |                                                                                                                            [🫙](docs/regressions/regressions-msmarco-v1-passage.splade-v3.cached.md)[🅾️](docs/regressions/regressions-msmarco-v1-passage.splade-v3.onnx.md)                                                                                                                             |                                                                                                                      [🫙](docs/regressions/regressions-dl19-passage.splade-v3.cached.md)[🅾️](docs/regressions/regressions-dl19-passage.splade-v3.onnx.md)                                                                                                                      |                                                                                                                      [🫙](docs/regressions/regressions-dl20-passage.splade-v3.cached.md)[🅾️](docs/regressions/regressions-dl20-passage.splade-v3.onnx.md)                                                                                                                      |
+| SPLADE-v3                                  |                                                                                                                            [🫙](docs/regressions/regressions-msmarco-v1-passage.splade-v3.cached.md)[🅾️](docs/regressions/regressions-msmarco-v1-passage.splade-v3.onnx.md)                                                                                                                             |                                                                                                                      [🫙](docs/regressions/regressions-dl19-passage.splade-v3.cached.md)[🅾️](docs/regressions/regressions-dl19-passage.splade-v3.onnx.md)                                                                                                                      |                                                                                                                      [🫙](docs/regressions/regressions-dl20-passage.splade-v3.cached.md)[🅾️](docs/regressions/regressions-dl20-passage.splade-v3.onnx.md)                                                                                                                      |
 | **Learned Dense** (HNSW indexes)           |                                                                                                                                                                                                                                                                                                                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                 |                                                                                                                                                                                                                                                                                                                                                                                 |
 | cosDPR-distil                              |     full:[🫙](docs/regressions/regressions-msmarco-v1-passage.cos-dpr-distil.parquet.hnsw.cached.md)[🅾️](docs/regressions/regressions-msmarco-v1-passage.cos-dpr-distil.parquet.hnsw.onnx.md) int8:[🫙](docs/regressions/regressions-msmarco-v1-passage.cos-dpr-distil.parquet.hnsw-int8.cached.md)[🅾️](docs/regressions/regressions-msmarco-v1-passage.cos-dpr-distil.parquet.hnsw-int8.onnx.md)      |     full:[🫙](docs/regressions/regressions-dl19-passage.cos-dpr-distil.parquet.hnsw.cached.md)[🅾️](docs/regressions/regressions-dl19-passage.cos-dpr-distil.parquet.hnsw.onnx.md) int8:[🫙](docs/regressions/regressions-dl19-passage.cos-dpr-distil.parquet.hnsw-int8.cached.md)[🅾️](docs/regressions/regressions-dl19-passage.cos-dpr-distil.parquet.hnsw-int8.onnx.md)     |     full:[🫙](docs/regressions/regressions-dl20-passage.cos-dpr-distil.parquet.hnsw.cached.md)[🅾️](docs/regressions/regressions-dl20-passage.cos-dpr-distil.parquet.hnsw.onnx.md) int8:[🫙](docs/regressions/regressions-dl20-passage.cos-dpr-distil.parquet.hnsw-int8.cached.md)[🅾️](docs/regressions/regressions-dl20-passage.cos-dpr-distil.parquet.hnsw-int8.onnx.md)     |
 | BGE-base-en-v1.5                           | full:[🫙](docs/regressions/regressions-msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw.cached.md)[🅾️](docs/regressions/regressions-msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw.onnx.md)  int8:[🫙](docs/regressions/regressions-msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw-int8.cached.md)[🅾️](docs/regressions/regressions-msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw-int8.onnx.md) | full:[🫙](docs/regressions/regressions-dl19-passage.bge-base-en-v1.5.parquet.hnsw.cached.md)[🅾️](docs/regressions/regressions-dl19-passage.bge-base-en-v1.5.parquet.hnsw.onnx.md) int8:[🫙](docs/regressions/regressions-dl19-passage.bge-base-en-v1.5.parquet.hnsw-int8.cached.md)[🅾️](docs/regressions/regressions-dl19-passage.bge-base-en-v1.5.parquet.hnsw-int8.onnx.md) | full:[🫙](docs/regressions/regressions-dl20-passage.bge-base-en-v1.5.parquet.hnsw.cached.md)[🅾️](docs/regressions/regressions-dl20-passage.bge-base-en-v1.5.parquet.hnsw.onnx.md) int8:[🫙](docs/regressions/regressions-dl20-passage.bge-base-en-v1.5.parquet.hnsw-int8.cached.md)[🅾️](docs/regressions/regressions-dl20-passage.bge-base-en-v1.5.parquet.hnsw-int8.onnx.md) |
@@ -215,7 +216,7 @@ Key:
 | [SPLADEv2](https://rgw.cs.uwaterloo.ca/JIMMYLIN-bucket0/data/msmarco-passage-distill-splade-max.tar)                                   | 9.9 GB | `b5d126f5d9a8e1b3ef3f5cb0ba651725` |
 | [SPLADE++ CoCondenser-EnsembleDistil](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-splade-pp-ed.tar)                      | 4.2 GB | `e489133bdc54ee1e7c62a32aa582bc77` |
 | [SPLADE++ CoCondenser-SelfDistil](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-splade-pp-sd.tar)                          | 4.8 GB | `cb7e264222f2bf2221dd2c9d28190be1` |
-| [SPLADEv3](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-splade-v3.tar)                                                    | 7.4 GB | `b5fbe7c294bd0b1e18f773337f540670` |
+| [SPLADE-v3](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-splade-v3.tar)                                                   | 7.4 GB | `b5fbe7c294bd0b1e18f773337f540670` |
 | [cosDPR-distil](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cos-dpr-distil.parquet.tar) (parquet)                        |  26 GB | `b9183de205fbd5c799211c21187179e7` |
 | [BGE-base-en-v1.5](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-bge-base-en-v1.5.parquet.tar) (parquet)                   |  26 GB | `a55b3cb338ec4a1b1c36825bf0854648` |
 | [OpenAI-ada2](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-openai-ada2.parquet.tar) (parquet)                             |  51 GB | `a8fddf594c9b8e771637968033b12f6d` |
@@ -325,24 +326,31 @@ The MS MARCO V2.1 corpora (documents and segmented documents) were derived from 
 Instructions for downloading the corpus can be found [here](https://trec-rag.github.io/annoucements/2024-corpus-finalization/).
 The experiments below capture topics and _passage-level_ qrels for the V2.1 segmented documents corpus.
 
-|                                          |                                              RAG 24 UMBRELA                                              |
-|------------------------------------------|:--------------------------------------------------------------------------------------------------------:|
-| baselines                                |                      [🔑](docs/regressions/regressions-rag24-doc-segmented-test.md)                      |
-| Arctic-embed-l (`shard00`, flat indexes) | [🅾️](docs/regressions/regressions-rag24-doc-segmented-test.arctic-embed-l.parquet.shard00.flat.onnx.md) |
-| Arctic-embed-l (`shard01`, flat indexes) | [🅾️](docs/regressions/regressions-rag24-doc-segmented-test.arctic-embed-l.parquet.shard01.flat.onnx.md) |
-| Arctic-embed-l (`shard02`, flat indexes) | [🅾️](docs/regressions/regressions-rag24-doc-segmented-test.arctic-embed-l.parquet.shard02.flat.onnx.md) |
-| Arctic-embed-l (`shard03`, flat indexes) | [🅾️](docs/regressions/regressions-rag24-doc-segmented-test.arctic-embed-l.parquet.shard03.flat.onnx.md) |
-| Arctic-embed-l (`shard04`, flat indexes) | [🅾️](docs/regressions/regressions-rag24-doc-segmented-test.arctic-embed-l.parquet.shard04.flat.onnx.md) |
-| Arctic-embed-l (`shard05`, flat indexes) | [🅾️](docs/regressions/regressions-rag24-doc-segmented-test.arctic-embed-l.parquet.shard05.flat.onnx.md) |
-| Arctic-embed-l (`shard06`, flat indexes) | [🅾️](docs/regressions/regressions-rag24-doc-segmented-test.arctic-embed-l.parquet.shard06.flat.onnx.md) |
-| Arctic-embed-l (`shard07`, flat indexes) | [🅾️](docs/regressions/regressions-rag24-doc-segmented-test.arctic-embed-l.parquet.shard07.flat.onnx.md) |
-| Arctic-embed-l (`shard08`, flat indexes) | [🅾️](docs/regressions/regressions-rag24-doc-segmented-test.arctic-embed-l.parquet.shard08.flat.onnx.md) |
-| Arctic-embed-l (`shard09`, flat indexes) | [🅾️](docs/regressions/regressions-rag24-doc-segmented-test.arctic-embed-l.parquet.shard09.flat.onnx.md) |
+|                                          |                                                                                 RAG 24 UMBRELA                                                                                 |                                                                               RAG 24 NIST                                                                                |
+|------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| baselines                                |                                                     [🔑](docs/regressions/regressions-rag24-doc-segmented-test-umbrela.md)                                                     |                                                   [🔑](docs/regressions/regressions-rag24-doc-segmented-test-nist.md)                                                    |
+| SPLADE-v3                                | [🫙](docs/regressions/regressions-rag24-doc-segmented-test-umbrela.splade-v3.cached.md) [🅾️](docs/regressions/regressions-rag24-doc-segmented-test-umbrela.splade-v3.onnx.md) | [🫙](docs/regressions/regressions-rag24-doc-segmented-test-nist.splade-v3.cached.md) [🅾️](docs/regressions/regressions-rag24-doc-segmented-test-nist.splade-v3.onnx.md) |
+| Arctic-embed-l (`shard00`, flat indexes) |                                [🅾️](docs/regressions/regressions-rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard00.flat.onnx.md)                                |                              [🅾️](docs/regressions/regressions-rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard00.flat.onnx.md)                               |
+| Arctic-embed-l (`shard01`, flat indexes) |                                [🅾️](docs/regressions/regressions-rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard01.flat.onnx.md)                                |                              [🅾️](docs/regressions/regressions-rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard01.flat.onnx.md)                               |
+| Arctic-embed-l (`shard02`, flat indexes) |                                [🅾️](docs/regressions/regressions-rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard02.flat.onnx.md)                                |                              [🅾️](docs/regressions/regressions-rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard02.flat.onnx.md)                               |
+| Arctic-embed-l (`shard03`, flat indexes) |                                [🅾️](docs/regressions/regressions-rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard03.flat.onnx.md)                                |                              [🅾️](docs/regressions/regressions-rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard03.flat.onnx.md)                               |
+| Arctic-embed-l (`shard04`, flat indexes) |                                [🅾️](docs/regressions/regressions-rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard04.flat.onnx.md)                                |                              [🅾️](docs/regressions/regressions-rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard04.flat.onnx.md)                               |
+| Arctic-embed-l (`shard05`, flat indexes) |                                [🅾️](docs/regressions/regressions-rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard05.flat.onnx.md)                                |                              [🅾️](docs/regressions/regressions-rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard05.flat.onnx.md)                               |
+| Arctic-embed-l (`shard06`, flat indexes) |                                [🅾️](docs/regressions/regressions-rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard06.flat.onnx.md)                                |                              [🅾️](docs/regressions/regressions-rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard06.flat.onnx.md)                               |
+| Arctic-embed-l (`shard07`, flat indexes) |                                [🅾️](docs/regressions/regressions-rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard07.flat.onnx.md)                                |                              [🅾️](docs/regressions/regressions-rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard07.flat.onnx.md)                               |
+| Arctic-embed-l (`shard08`, flat indexes) |                                [🅾️](docs/regressions/regressions-rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard08.flat.onnx.md)                                |                              [🅾️](docs/regressions/regressions-rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard08.flat.onnx.md)                               |
+| Arctic-embed-l (`shard09`, flat indexes) |                                [🅾️](docs/regressions/regressions-rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard09.flat.onnx.md)                                |                              [🅾️](docs/regressions/regressions-rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard09.flat.onnx.md)                               |
 
 Key:
 
 + 🔑 = keyword queries
-+ 🅾️ = query encoding with ONNX
++ 🫙 = cached queries, 🅾️ = query encoding with ONNX
+
+### Available Corpora for Download
+
+| Corpora                                                                                         |   Size | Checksum                           |
+|:------------------------------------------------------------------------------------------------|-------:|:-----------------------------------|
+| [SPLADE-v3](https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco_v2.1_doc_segmented_splade-v3.tar) | 125 GB | `c62490569364a1eb0101da1ca4a894d9` |
 
 <hr/>
 
@@ -358,12 +366,18 @@ The experiments below capture topics and _document-level_ qrels originally targe
 These should be treated like dev topics for the TREC 2024 RAG Track; actual qrels for that track were generated at the passage level.
 There are no plans to generate addition _document-level_ qrels beyond these.
 
-|                                         |                               dev                               |                                 DL21                                 |                                 DL22                                 |                                 DL23                                 |                             RAGgy dev                              |
-|-----------------------------------------|:---------------------------------------------------------------:|:--------------------------------------------------------------------:|:--------------------------------------------------------------------:|:--------------------------------------------------------------------:|:------------------------------------------------------------------:|
-| **Unsupervised Lexical, Complete Doc**  |                                                                 |                                                                      |                                                                      |                                                                      |                                                                    |
-| baselines                               |      [+](docs/regressions/regressions-msmarco-v2.1-doc.md)      |      [+](docs/regressions/regressions-dl21-doc-msmarco-v2.1.md)      |      [+](docs/regressions/regressions-dl22-doc-msmarco-v2.1.md)      |      [+](docs/regressions/regressions-dl23-doc-msmarco-v2.1.md)      |      [+](docs/regressions/regressions-rag24-doc-raggy-dev.md)      |
-| **Unsupervised Lexical, Segmented Doc** |                                                                 |                                                                      |                                                                      |                                                                      |                                                                    |
-| baselines                               | [+](docs/regressions/regressions-msmarco-v2.1-doc-segmented.md) | [+](docs/regressions/regressions-dl21-doc-segmented-msmarco-v2.1.md) | [+](docs/regressions/regressions-dl22-doc-segmented-msmarco-v2.1.md) | [+](docs/regressions/regressions-dl23-doc-segmented-msmarco-v2.1.md) | [+](docs/regressions/regressions-rag24-doc-segmented-raggy-dev.md) |
+|                                         |                                                                                dev                                                                                 |                                                                                     DL21                                                                                     |                                                                                     DL22                                                                                     |                                                                                     DL23                                                                                     |                                                                                RAGgy dev                                                                                 |
+|-----------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| **Unsupervised Lexical, Complete Doc**  |                                                                                                                                                                    |                                                                                                                                                                              |                                                                                                                                                                              |                                                                                                                                                                              |                                                                                                                                                                          |
+| baselines                               |                                                       [🔑](docs/regressions/regressions-msmarco-v2.1-doc.md)                                                       |                                                         [🔑](docs/regressions/regressions-dl21-doc-msmarco-v2.1.md)                                                          |                                                         [🔑](docs/regressions/regressions-dl22-doc-msmarco-v2.1.md)                                                          |                                                         [🔑](docs/regressions/regressions-dl23-doc-msmarco-v2.1.md)                                                          |                                                        [🔑](docs/regressions/regressions-rag24-doc-raggy-dev.md)                                                         |
+| **Unsupervised Lexical, Segmented Doc** |                                                                                                                                                                    |                                                                                                                                                                              |                                                                                                                                                                              |                                                                                                                                                                              |                                                                                                                                                                          |
+| baselines                               |                                                  [🔑](docs/regressions/regressions-msmarco-v2.1-doc-segmented.md)                                                  |                                                    [🔑](docs/regressions/regressions-dl21-doc-segmented-msmarco-v2.1.md)                                                     |                                                    [🔑](docs/regressions/regressions-dl22-doc-segmented-msmarco-v2.1.md)                                                     |                                                    [🔑](docs/regressions/regressions-dl23-doc-segmented-msmarco-v2.1.md)                                                     |                                                   [🔑](docs/regressions/regressions-rag24-doc-segmented-raggy-dev.md)                                                    |
+| SPLADE-v3                               | [🫙](docs/regressions/regressions-msmarco-v2.1-doc-segmented.splade-v3.cached.md) [🅾️](docs/regressions/regressions-msmarco-v2.1-doc-segmented.splade-v3.onnx.md) | [🫙](docs/regressions/regressions-dl21-doc-segmented-msmarco-v2.1.splade-v3.cached.md) [🅾️](docs/regressions/regressions-dl21-doc-segmented-msmarco-v2.1.splade-v3.onnx.md) | [🫙](docs/regressions/regressions-dl22-doc-segmented-msmarco-v2.1.splade-v3.cached.md) [🅾️](docs/regressions/regressions-dl22-doc-segmented-msmarco-v2.1.splade-v3.onnx.md) | [🫙](docs/regressions/regressions-dl23-doc-segmented-msmarco-v2.1.splade-v3.cached.md) [🅾️](docs/regressions/regressions-dl23-doc-segmented-msmarco-v2.1.splade-v3.onnx.md) | [🫙](docs/regressions/regressions-rag24-doc-segmented-raggy-dev.splade-v3.cached.md) [🅾️](docs/regressions/regressions-rag24-doc-segmented-raggy-dev.splade-v3.onnx.md) |
+
+Key:
+
++ 🔑 = keyword queries
++ 🫙 = cached queries, 🅾️ = query encoding with ONNX
 
 <hr/>
 
@@ -516,6 +530,46 @@ Substitute the appropriate `$MODEL` from the table below.
 
 </details>
 <details>
+<summary>BRIGHT Regressions</summary>
+
+### BRIGHT Regressions
+
+BRIGHT is a retrieval benchmark described [here](https://arxiv.org/abs/2407.12883).
+
++ Sv3 = SPLADE-v3: cached queries (🫙), ONNX (🅾️)
+
+| Corpus             |                               BM25                               |                                       Sv3                                        |
+|--------------------|:----------------------------------------------------------------:|:--------------------------------------------------------------------------------:|
+| **StackExchange**  |                                                                  |                                                                                  |
+| Biology            |       [🔑](docs/regressions/regressions-bright-biology.md)       |       [🅾️](docs/regressions/regressions-bright-biology.splade-v3.onnx.md)       |
+| Earth Science      |    [🔑](docs/regressions/regressions-bright-earth-science.md)    |    [🅾️](docs/regressions/regressions-bright-earth-science.splade-v3.onnx.md)    |
+| Economics          |      [🔑](docs/regressions/regressions-bright-economics.md)      |      [🅾️](docs/regressions/regressions-bright-economics.splade-v3.onnx.md)      |
+| Psychology         |     [🔑](docs/regressions/regressions-bright-psychology.md)      |     [🅾️](docs/regressions/regressions-bright-psychology.splade-v3.onnx.md)      |
+| Robotics           |      [🔑](docs/regressions/regressions-bright-robotics.md)       |      [🅾️](docs/regressions/regressions-bright-robotics.splade-v3.onnx.md)       |
+| Stack Overflow     |    [🔑](docs/regressions/regressions-bright-stackoverflow.md)    |    [🅾️](docs/regressions/regressions-bright-stackoverflow.splade-v3.onnx.md)    |
+| Sustainable Living | [🔑](docs/regressions/regressions-bright-sustainable-living.md)  | [🅾️](docs/regressions/regressions-bright-sustainable-living.splade-v3.onnx.md)  |
+| **Coding**         |                                                                  |                                                                                  |
+| LeetCode           |      [🔑](docs/regressions/regressions-bright-leetcode.md)       |      [🅾️](docs/regressions/regressions-bright-leetcode.splade-v3.onnx.md)       |
+| Pony               |        [🔑](docs/regressions/regressions-bright-pony.md)         |        [🅾️](docs/regressions/regressions-bright-pony.splade-v3.onnx.md)         |
+| **Theorems**       |                                                                  |                                                                                  |
+| AoPS               |        [🔑](docs/regressions/regressions-bright-aops.md)         |        [🅾️](docs/regressions/regressions-bright-aops.splade-v3.onnx.md)         |
+| TheoremQA-Q        | [🔑](docs/regressions/regressions-bright-theoremqa-questions.md) | [🅾️](docs/regressions/regressions-bright-theoremqa-questions.splade-v3.onnx.md) |
+| TheoremQA-T        | [🔑](docs/regressions/regressions-bright-theoremqa-theorems.md)  | [🅾️](docs/regressions/regressions-bright-theoremqa-theorems.splade-v3.onnx.md)  |
+
+
+### Available Corpora for Download
+
+| Corpora                                                                                                       |   Size | Checksum                           |
+|:--------------------------------------------------------------------------------------------------------------|-------:|:-----------------------------------|
+| [Post-Processed](https://huggingface.co/datasets/castorini/collections-bright/resolve/main/bright-corpus.tar) | 297 MB | `d8c829f0e4468a8ce62768b6a1162158` |
+| [SPLADE-v3](https://huggingface.co/datasets/castorini/collections-bright/resolve/main/bright-splade-v3.tar)   | 1.5 GB | `434cd776b5c40f8112d2bf888c58a516` |
+
+The BRIGHT corpora above were processed from Hugging Face with [these scripts](https://github.com/ielab/llm-rankers/tree/main/Rank-R1/bright).
+
+<hr/>
+
+</details>
+<details>
 <summary>Cross-lingual and Multi-lingual Regressions</summary>
 
 ### Cross-lingual and Multi-lingual Regressions
@@ -624,6 +678,7 @@ Beyond that, there are always [open issues](https://github.com/castorini/anserin
 
 ## 📜️ Release History
 
++ v1.2.0: August 12, 2025 [[Release Notes](docs/release-notes/release-notes-v1.2.0.md)]
 + v1.1.1: July 1, 2025 [[Release Notes](docs/release-notes/release-notes-v1.1.1.md)]
 + v1.1.0: July 1, 2025 [[Release Notes](docs/release-notes/release-notes-v1.1.0.md)] [[Known Issues](docs/known-issues/known-issues-v1.1.0.md)]
 + v1.0.0: April 25, 2025 [[Release Notes](docs/release-notes/release-notes-v1.0.0.md)]

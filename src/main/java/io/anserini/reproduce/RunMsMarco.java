@@ -16,40 +16,29 @@
 
 package io.anserini.reproduce;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import io.anserini.reproduce.RunRepro.TrecEvalMetricDefinitions;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 
-import io.anserini.reproduce.RunRepro.TrecEvalMetricDefinitions;
+import java.util.*;
 
 public class RunMsMarco {
-  public static class Args {
-    @Option(name = "-options", usage = "Print information about options.")
-    public Boolean options = false;
-
+  public static class Args extends RunRepro.Args {
     @Option(name = "-collection", usage = "MS MARCO version {'msmarco-v1-passage' (default), 'msmarco-v2.1-doc', 'msmarco-v2.1-doc-segmented'}.")
     public String MsMarcoVersion = "msmarco-v1-passage";
   }
 
   public static void main(String[] args) throws Exception {
-
     // check for cmd option
-    Args MsMarcoArgs = new Args();
-    CmdLineParser parser = new CmdLineParser(MsMarcoArgs, ParserProperties.defaults().withUsageWidth(120));
+    Args msmarcoArgs = new Args();
+    CmdLineParser parser = new CmdLineParser(msmarcoArgs, ParserProperties.defaults().withUsageWidth(120));
 
     try {
       parser.parseArgument(args);
     } catch (CmdLineException e) {
-      if (MsMarcoArgs.options) {
+      if (msmarcoArgs.options) {
         System.err.printf("Options for %s:\n\n", RunMsMarco.class.getSimpleName());
         parser.printUsage(System.err);
 
@@ -70,12 +59,13 @@ public class RunMsMarco {
 
     Set<String> allowedVersions = new HashSet<>(
             Arrays.asList("msmarco-v1-passage", "msmarco-v2.1-doc", "msmarco-v2.1-doc-segmented"));
-    if (!allowedVersions.contains(MsMarcoArgs.MsMarcoVersion)) {
-        System.err.println("Invalid MS MARCO version: " + MsMarcoArgs.MsMarcoVersion);
+    if (!allowedVersions.contains(msmarcoArgs.MsMarcoVersion)) {
+        System.err.println("Invalid MS MARCO version: " + msmarcoArgs.MsMarcoVersion);
         System.exit(1);
     }
 
-    RunRepro repro = new RunRepro(MsMarcoArgs.MsMarcoVersion, new MsMarcoMetricDefinitions());
+    RunRepro repro = new RunRepro(msmarcoArgs.MsMarcoVersion, new MsMarcoMetricDefinitions(),
+            msmarcoArgs.printCommands, msmarcoArgs.dryRun);
     repro.run();
   }
 
@@ -153,11 +143,17 @@ public class RunMsMarco {
       Map<String, Map<String, String>> msmarco_v21_doc_segmented = new HashMap<>();
 
       // msmarco-v2.1-segmented-doc definitions
-      Map<String, String> rag24testMetrics = new HashMap<>();
-      rag24testMetrics.put("nDCG@20", "-c -m ndcg_cut.20");
-      rag24testMetrics.put("nDCG@100", "-c -m ndcg_cut.100");
-      rag24testMetrics.put("R@100", "-c -m recall.100");
-      msmarco_v21_doc_segmented.put("rag24.test-umbrela-all", rag24testMetrics);
+      Map<String, String> rag24testMetricsUmbrela = new HashMap<>();
+      rag24testMetricsUmbrela.put("nDCG@20", "-c -m ndcg_cut.20");
+      rag24testMetricsUmbrela.put("nDCG@100", "-c -m ndcg_cut.100");
+      rag24testMetricsUmbrela.put("R@100", "-c -m recall.100");
+      msmarco_v21_doc_segmented.put("rag24.test-umbrela-all", rag24testMetricsUmbrela);
+
+      Map<String, String> rag24testMetricsNist = new HashMap<>();
+      rag24testMetricsNist.put("nDCG@20", "-c -m ndcg_cut.20");
+      rag24testMetricsNist.put("nDCG@100", "-c -m ndcg_cut.100");
+      rag24testMetricsNist.put("R@100", "-c -m recall.100");
+      msmarco_v21_doc_segmented.put("rag24.test", rag24testMetricsNist);
 
       metricDefinitions.put("msmarco-v2.1-doc-segmented", msmarco_v21_doc_segmented);
     }

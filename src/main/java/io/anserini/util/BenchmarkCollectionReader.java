@@ -31,10 +31,9 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 // Simple program to benchmark IO performance, reading collections from disk.
@@ -113,34 +112,43 @@ public final class BenchmarkCollectionReader {
     final long start = System.nanoTime();
     LOG.info("Starting MapCollections...");
 
-    int numThreads = args.threads;
-    final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(numThreads);
     final List segmentPaths = collection.getSegmentPaths();
-
     final int segmentCnt = segmentPaths.size();
+    AtomicInteger completedTaskCount = new AtomicInteger(0);
+
     LOG.info(segmentCnt + " files found in " + collectionPath.toString());
+
+    List<Callable<Void>> tasks = new ArrayList<>(segmentCnt);
     for (int i = 0; i < segmentCnt; i++) {
-      executor.execute(new ReaderThread(collection, (Path) segmentPaths.get(i)));
+      int finalI = i;
+      tasks.add(() -> {
+        new ReaderThread(collection, (Path) segmentPaths.get(finalI)).run();
+        completedTaskCount.incrementAndGet();
+        return null;
+      });
     }
 
-    executor.shutdown();
+    // Work-stealing executor + progress logger
+    try (
+            ExecutorService executor = Executors.newWorkStealingPool(args.threads);
+            ScheduledExecutorService monitor = Executors.newSingleThreadScheduledExecutor()
+    ) {
+      // log progress every minute
+      monitor.scheduleAtFixedRate(() -> {
+        double pct = (double) completedTaskCount.get() / segmentCnt * 100.0d;
+        LOG.info(String.format("%.2f percent completed", pct));
+      }, 1, 1, TimeUnit.MINUTES);
 
-    try {
-      // Wait for existing tasks to terminate
-      while (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
-        LOG.info(String.format("%.2f percent completed",
-            (double) executor.getCompletedTaskCount() / segmentCnt * 100.0d));
-      }
+      executor.invokeAll(tasks);      // blocks until every task is done
+      monitor.shutdown();             // stop the progress logger
+      monitor.awaitTermination(5, TimeUnit.SECONDS);
     } catch (InterruptedException ie) {
-      // (Re-)Cancel if current thread also interrupted
-      executor.shutdownNow();
-      // Preserve interrupt status
       Thread.currentThread().interrupt();
     }
 
-    if (segmentCnt != executor.getCompletedTaskCount()) {
+    if (segmentCnt != completedTaskCount.get()) {
       throw new RuntimeException("totalFiles = " + segmentCnt +
-          " is not equal to completedTaskCount =  " + executor.getCompletedTaskCount());
+          " is not equal to completedTaskCount =  " + completedTaskCount.get());
     }
 
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);

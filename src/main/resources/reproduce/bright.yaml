@@ -1,0 +1,109 @@
+conditions:
+  - name: bm25
+    display: "BM25, bag-of-words baseline"
+    display_html: "BM25, bag-of-words baseline"
+    display_row: ""
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index bright-$topics -topics bright-$topics -output $output -bm25 -removeQuery
+    topics:
+      - topic_key: biology
+        eval_key: bright-biology
+        scores:
+          - nDCG@10: 0.1824
+      - topic_key: earth-science
+        eval_key: bright-earth-science
+        scores:
+          - nDCG@10: 0.2791
+      - topic_key: economics
+        eval_key: bright-economics
+        scores:
+          - nDCG@10: 0.1645
+      - topic_key: psychology
+        eval_key: bright-psychology
+        scores:
+          - nDCG@10: 0.1342
+      - topic_key: robotics
+        eval_key: bright-robotics
+        scores:
+          - nDCG@10: 0.1091
+      - topic_key: stackoverflow
+        eval_key: bright-stackoverflow
+        scores:
+          - nDCG@10: 0.1626
+      - topic_key: sustainable-living
+        eval_key: bright-sustainable-living
+        scores:
+          - nDCG@10: 0.1613
+      - topic_key: pony
+        eval_key: bright-pony
+        scores:
+          - nDCG@10: 0.0434
+      - topic_key: leetcode
+        eval_key: bright-leetcode
+        scores:
+          - nDCG@10: 0.2471
+      - topic_key: aops
+        eval_key: bright-aops
+        scores:
+          - nDCG@10: 0.0645
+      - topic_key: theoremqa-questions
+        eval_key: bright-theoremqa-questions
+        scores:
+          - nDCG@10: 0.0733
+      - topic_key: theoremqa-theorems
+        eval_key: bright-theoremqa-theorems
+        scores:
+          - nDCG@10: 0.0214
+  - name: splade-v3.onnx
+    display: "SPLADE-v3 (ONNX)"
+    display_html: "SPLADE-v3 (ONNX)"
+    display_row: ""
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index bright-$topics.splade-v3 -topics bright-$topics -encoder SpladeV3 -output $output -impact -pretokenized -removeQuery
+    topics:
+      - topic_key: biology
+        eval_key: bright-biology
+        scores:
+          - nDCG@10: 0.2095
+      - topic_key: earth-science
+        eval_key: bright-earth-science
+        scores:
+          - nDCG@10: 0.2670
+      - topic_key: economics
+        eval_key: bright-economics
+        scores:
+          - nDCG@10: 0.1604
+      - topic_key: psychology
+        eval_key: bright-psychology
+        scores:
+          - nDCG@10: 0.1527
+      - topic_key: robotics
+        eval_key: bright-robotics
+        scores:
+          - nDCG@10: 0.1326
+      - topic_key: stackoverflow
+        eval_key: bright-stackoverflow
+        scores:
+          - nDCG@10: 0.1209
+      - topic_key: sustainable-living
+        eval_key: bright-sustainable-living
+        scores:
+          - nDCG@10: 0.1497
+      - topic_key: pony
+        eval_key: bright-pony
+        scores:
+          - nDCG@10: 0.1440
+      - topic_key: leetcode
+        eval_key: bright-leetcode
+        scores:
+          - nDCG@10: 0.2139
+      - topic_key: aops
+        eval_key: bright-aops
+        scores:
+          - nDCG@10: 0.0692
+      - topic_key: theoremqa-questions
+        eval_key: bright-theoremqa-questions
+        scores:
+          - nDCG@10: 0.1113
+      - topic_key: theoremqa-theorems
+        eval_key: bright-theoremqa-theorems
+        scores:
+          - nDCG@10: 0.0554
