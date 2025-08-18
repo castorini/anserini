@@ -32,6 +32,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import io.anserini.index.IndexReaderUtils;
+
 public class RunRepro {
   // ANSI escape code for red text
   private static final String RED = "\u001B[31m";
@@ -192,13 +194,13 @@ public class RunRepro {
       for (String idx : uniqueIndexPaths) {
         java.nio.file.Path p = java.nio.file.Paths.get(idx);
         if (java.nio.file.Files.exists(p)) {
-          totalBytes += findDirectorySize(p);
+          totalBytes += IndexReaderUtils.findDirectorySize(p);
         } else {
           System.out.println("Index path not found (skipping size): " + idx);
         }
       }
       System.out.println(String.format("Total size of %d unique indexes: %s",
-          uniqueIndexPaths.size(), formatSize(totalBytes)));
+          uniqueIndexPaths.size(), IndexReaderUtils.formatSize(totalBytes)));
     }
 
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
@@ -216,29 +218,6 @@ public class RunRepro {
     return null;
   }
 
-  private static long findDirectorySize(java.nio.file.Path path) throws IOException {
-    try (java.util.stream.Stream<java.nio.file.Path> walk = java.nio.file.Files.walk(path)) {
-      return walk.filter(java.nio.file.Files::isRegularFile)
-          .mapToLong(filePath -> {
-            try {
-              return java.nio.file.Files.size(filePath);
-            } catch (IOException e) {
-              return 0L;
-            }
-          }).sum();
-    }
-  }
-
-  private static String formatSize(long bytes) {
-    String[] units = {"B", "KB", "MB", "GB", "TB"};
-    int unitIndex = 0;
-    double size = bytes;
-    while (size >= 1024 && unitIndex < units.length - 1) {
-      size = size / 1024;
-      unitIndex = unitIndex + 1;
-    }
-    return String.format("%.1f %s", size, units[unitIndex]);
-  }
 
   public static class Config {
     @JsonProperty
