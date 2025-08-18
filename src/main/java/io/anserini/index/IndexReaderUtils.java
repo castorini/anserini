@@ -25,6 +25,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -891,14 +892,12 @@ public class IndexReaderUtils {
     }
     
     Path indexPath = IndexReaderUtils.getIndex(args.index);
-
     IndexReader reader = IndexReaderUtils.getReader(args.index);
     Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, args.field);
 
     results.put("physical_location", indexPath.toAbsolutePath().toString());
     long totalSize = findDirectorySize(indexPath);
     results.put("total_size_disk", totalSize);
-
 
     if (args.stats) {
       System.out.println("Index statistics");
@@ -914,36 +913,40 @@ public class IndexReaderUtils {
     reader.close();
   }
 
-    public static long findDirectorySize(Path path) throws IOException {
-        try (Stream<Path> walk = Files.walk(path)) {
-            return walk.filter(Files::isRegularFile)
-                    .mapToLong(filePath -> {
-                        try {
-                            return Files.size(filePath);
-                        } catch (IOException e) {
-                            return 0L;
-                        }
-                    }).sum();
-        }
+  /**
+   * Finds the total size of a directory recursively.
+   *
+   * @param path path to the directory
+   * @return total size of the directory in bytes
+   * @throws IOException if an error occurs
+   */
+  public static long findDirectorySize(Path path) throws IOException {
+    try (Stream<Path> walk = Files.walk(path)) {
+      return walk.filter(Files::isRegularFile)
+          .mapToLong(filePath -> {
+            try {
+              return Files.size(filePath);
+            } catch (IOException e) {
+              return 0L;
+            }
+          }).sum();
     }
-
-    public static String formatSize(long bytes) {
-        String[] units = {"B", "KB", "MB", "GB", "TB"};
-        int unitIndex = 0;
-        double size = bytes;
-
-        while (size >= 1024 && unitIndex < units.length - 1) {
-            size = size/1024;
-            unitIndex = unitIndex + 1;
-        }
-
-        return String.format("%.1f %s", size, units[unitIndex]);
+  }
+  
+  /**
+   * Formats the size in bytes into a easily readable string with units (B, KB, MB, GB, TB).
+   *
+   * @param bytes size in bytes
+   * @return formatted size string
+   */
+  public static String formatSize(long bytes) {
+    String[] units = {"B", "KB", "MB", "GB", "TB"};
+    int unitIndex = 0;
+    double size = bytes;
+    while (size >= 1024 && unitIndex < units.length - 1) {
+      size = size / 1024;
+      unitIndex = unitIndex + 1;
     }
+    return String.format(Locale.US, "%.1f %s", size, units[unitIndex]);
+  }
 }
-
-
-
-
-
-
-
