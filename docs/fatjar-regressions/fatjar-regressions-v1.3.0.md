@@ -370,17 +370,17 @@ The following table reports nDCG@10 scores.
 | Corpus                    |    BM25    |    Sv3     |
 |---------------------------|:----------:|:----------:|
 | **StackExchange**         |            |            |
-| Biology                   |   0.1824   |   0.2095   |
+| Biology                   |   0.1824   |   0.2101   |
 | Earth Science             |   0.2791   |   0.2670   |
 | Economics                 |   0.1645   |   0.1604   |
 | Psychology                |   0.1342   |   0.1527   |
-| Robotics                  |   0.1091   |   0.1326   |
-| Stack Overflow            |   0.1626   |   0.1209   |
+| Robotics                  |   0.1091   |   0.1578   |
+| Stack Overflow            |   0.1626   |   0.1290   |
 | Sustainable Living        |   0.1613   |   0.1497   |
 | **StackExchange** average | **0.1705** | **0.1704** |
 | &nbsp;                    |            |            |
 | **Coding**                |            |            |
-| LeetCode                  |   0.2471   |   0.2139   |
+| LeetCode                  |   0.2471   |   0.2603   |
 | Pony                      |   0.0434   |   0.1440   |
 | **Coding** average        | **0.1453** | **0.1790** |
 | &nbsp;                    |            |            |

@@ -79,6 +79,6 @@ With the above commands, you should be able to reproduce the following results:
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | BRIGHT: AoPS                                                                                                 | 0.0692    |
 | **R@100**                                                                                                    | **SPLADE-v3**|
-| BRIGHT: AoPS                                                                                                 | 0.2602    |
+| BRIGHT: AoPS                                                                                                 | 0.2624    |
 | **R@1000**                                                                                                   | **SPLADE-v3**|
-| BRIGHT: AoPS                                                                                                 | 0.4644    |
+| BRIGHT: AoPS                                                                                                 | 0.4656    |

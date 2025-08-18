@@ -77,8 +77,8 @@ With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **SPLADE-v3**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BRIGHT: Robotics                                                                                             | 0.1326    |
+| BRIGHT: Robotics                                                                                             | 0.1578    |
 | **R@100**                                                                                                    | **SPLADE-v3**|
-| BRIGHT: Robotics                                                                                             | 0.3803    |
+| BRIGHT: Robotics                                                                                             | 0.4470    |
 | **R@1000**                                                                                                   | **SPLADE-v3**|
-| BRIGHT: Robotics                                                                                             | 0.6733    |
+| BRIGHT: Robotics                                                                                             | 0.7557    |

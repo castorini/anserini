@@ -77,8 +77,8 @@ With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **SPLADE-v3**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BRIGHT: Stack Overflow                                                                                       | 0.1209    |
+| BRIGHT: Stack Overflow                                                                                       | 0.1290    |
 | **R@100**                                                                                                    | **SPLADE-v3**|
-| BRIGHT: Stack Overflow                                                                                       | 0.3693    |
+| BRIGHT: Stack Overflow                                                                                       | 0.4317    |
 | **R@1000**                                                                                                   | **SPLADE-v3**|
-| BRIGHT: Stack Overflow                                                                                       | 0.5923    |
+| BRIGHT: Stack Overflow                                                                                       | 0.6866    |

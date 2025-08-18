@@ -79,6 +79,6 @@ With the above commands, you should be able to reproduce the following results:
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | BRIGHT: Sustainable Living                                                                                   | 0.1497    |
 | **R@100**                                                                                                    | **SPLADE-v3**|
-| BRIGHT: Sustainable Living                                                                                   | 0.4826    |
+| BRIGHT: Sustainable Living                                                                                   | 0.4918    |
 | **R@1000**                                                                                                   | **SPLADE-v3**|
 | BRIGHT: Sustainable Living                                                                                   | 0.8432    |

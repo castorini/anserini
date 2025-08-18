@@ -62,7 +62,7 @@ conditions:
       - topic_key: biology
         eval_key: bright-biology
         scores:
-          - nDCG@10: 0.2095
+          - nDCG@10: 0.2101
       - topic_key: earth-science
         eval_key: bright-earth-science
         scores:
@@ -78,11 +78,11 @@ conditions:
       - topic_key: robotics
         eval_key: bright-robotics
         scores:
-          - nDCG@10: 0.1326
+          - nDCG@10: 0.1578
       - topic_key: stackoverflow
         eval_key: bright-stackoverflow
         scores:
-          - nDCG@10: 0.1209
+          - nDCG@10: 0.1290
       - topic_key: sustainable-living
         eval_key: bright-sustainable-living
         scores:
@@ -94,7 +94,7 @@ conditions:
       - topic_key: leetcode
         eval_key: bright-leetcode
         scores:
-          - nDCG@10: 0.2139
+          - nDCG@10: 0.2603
       - topic_key: aops
         eval_key: bright-aops
         scores:
