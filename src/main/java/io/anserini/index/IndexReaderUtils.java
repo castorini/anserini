@@ -895,9 +895,9 @@ public class IndexReaderUtils {
     IndexReader reader = IndexReaderUtils.getReader(args.index);
     Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, args.field);
 
-    results.put("physical_location", indexPath.toAbsolutePath().toString());
+    results.put("index_path", indexPath.toAbsolutePath().toString());
     long totalSize = findDirectorySize(indexPath);
-    results.put("total_size_disk", totalSize);
+    results.put("total_size", totalSize);
 
     if (args.stats) {
       System.out.println("Index statistics");
@@ -906,8 +906,8 @@ public class IndexReaderUtils {
       System.out.println("documents (non-empty): " + results.get("non_empty_documents"));
       System.out.println("unique terms:          " + results.get("unique_terms"));
       System.out.println("total terms:           " + results.get("total_terms"));
-      System.out.println("physical location of index:     " + results.get("physical_location"));
-      System.out.println("index path:    " + formatSize((long) results.get("total_size_disk")));
+      System.out.println("index_path:            " + results.get("index_path"));
+      System.out.println("total_size:            " + formatSize((long) results.get("total_size")));
     }
 
     reader.close();

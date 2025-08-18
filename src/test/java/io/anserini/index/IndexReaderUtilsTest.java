@@ -621,8 +621,8 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
         "total terms:           12\n";
 
     assertTrue(output.startsWith(groundTruthOutput));
-    assertTrue(output.contains("physical location of index:"));
-    assertTrue(output.contains("index path:"));
+    assertTrue(output.contains("index_path:"));
+    assertTrue(output.contains("total_size:"));
   }
 
   @Test
