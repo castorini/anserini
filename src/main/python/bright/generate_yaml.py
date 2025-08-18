@@ -73,13 +73,13 @@ topic_reader: TsvString
 topics:
   - name: "BRIGHT: {corpus_long}"
     id: topics
-    path: topics.bright-{corpus_short}.tsv.gz
+    path: topics.bright-{corpus_short}.splade-v3.tsv.gz
     qrel: qrels.bright-{corpus_short}.txt
 
 models:
-  - name: splade-v3-onnx
+  - name: splade-v3-cached
     display: SPLADE-v3
-    params: -impact -pretokenized -removeQuery -hits 1000 -encoder SpladeV3
+    params: -impact -pretokenized -removeQuery -hits 1000 
     results:
       nDCG@10:
         - 0.3952
@@ -90,7 +90,7 @@ models:
 """
 
 for key in bright_keys:
-    with open(f'src/main/resources/regression/bright-{key}.splade-v3.onnx.yaml', 'w') as file:
+    with open(f'src/main/resources/regression/bright-{key}.splade-v3.cached.yaml', 'w') as file:
         reader = LuceneIndexReader(f'indexes/lucene-inverted.bright-{key}.splade-v3')
         stats = reader.stats()
         documents = stats['documents']
