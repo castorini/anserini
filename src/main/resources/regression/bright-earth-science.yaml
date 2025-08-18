@@ -1,0 +1,55 @@
+---
+corpus: bright-earth-science
+corpus_path: collections/bright/corpus/earth-science
+
+index_path: indexes/lucene-inverted.bright-earth-science/
+collection_class: JsonCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 1
+index_options: -storePositions -storeDocvectors -storeRaw
+index_stats:
+  documents: 121249
+  documents (non-empty): 121205
+  total terms: 4924837
+
+metrics:
+  - metric: nDCG@10
+    command: bin/trec_eval
+    params: -c -m ndcg_cut.10
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: bin/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: bin/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvString
+topics:
+  - name: "BRIGHT: Earth Science"
+    id: topics
+    path: topics.bright-earth-science.tsv.gz
+    qrel: qrels.bright-earth-science.txt
+
+models:
+  - name: bm25
+    display: BM25
+    params: -bm25 -removeQuery -hits 1000
+    results:
+      nDCG@10:
+        - 0.2791
+      R@100:
+        - 0.5955
+      R@1000:
+        - 0.8101

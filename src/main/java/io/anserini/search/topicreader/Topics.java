@@ -102,6 +102,8 @@ public enum Topics {
   TREC2024_RAG_RESEARCHY_DEV_SNOWFLAKE_ARCTIC_EMBED_L(JsonIntVectorTopicReader.class, "topics.rag24.researchy-dev.snowflake-arctic-embed-l.jsonl.gz"),
   TREC2024_RAG_TEST(TsvStringTopicReader.class, "topics.rag24.test.txt"),
   TREC2024_RAG_TEST_SNOWFLAKE_ARCTIC_EMBED_L(JsonStringVectorTopicReader.class, "topics.rag24.test.snowflake-arctic-embed-l.jsonl.gz"),
+  TREC2024_RAG_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.rag24.test.splade-v3.tsv.gz"),
+  TREC2025_RAG_TEST(JsonStringTopicReader.class, "topics.rag25.test.jsonl"),
 
   // MS MARCO V1 topics
   MSMARCO_DOC_DEV(TsvIntTopicReader.class,"topics.msmarco-doc.dev.txt"),
@@ -571,6 +573,20 @@ public enum Topics {
   CIRAL_V10_SO_DEV_MONO(TsvIntTopicReader.class, "topics.ciral-v1.0-so-dev-native.tsv"),
   CIRAL_V10_SW_DEV_MONO(TsvIntTopicReader.class, "topics.ciral-v1.0-sw-dev-native.tsv"),
   CIRAL_V10_YO_DEV_MONO(TsvIntTopicReader.class, "topics.ciral-v1.0-yo-dev-native.tsv"),
+
+  // BRIGHT original queries
+  BRIGHT_BIOLOGY(TsvStringTopicReader.class, "topics.bright-biology.tsv.gz"),
+  BRIGHT_EARTH_SCIENCE(TsvStringTopicReader.class, "topics.bright-earth-science.tsv.gz"),
+  BRIGHT_ECONOMICS(TsvStringTopicReader.class, "topics.bright-economics.tsv.gz"),
+  BRIGHT_PSYCHOLOGY(TsvStringTopicReader.class, "topics.bright-psychology.tsv.gz"),
+  BRIGHT_ROBOTICS(TsvStringTopicReader.class, "topics.bright-robotics.tsv.gz"),
+  BRIGHT_STACKOVERFLOW(TsvStringTopicReader.class, "topics.bright-stackoverflow.tsv.gz"),
+  BRIGHT_SUSTAINABLE_LIVING(TsvStringTopicReader.class, "topics.bright-sustainable-living.tsv.gz"),
+  BRIGHT_PONY(TsvStringTopicReader.class, "topics.bright-pony.tsv.gz"),
+  BRIGHT_LEETCODE(TsvStringTopicReader.class, "topics.bright-leetcode.tsv.gz"),
+  BRIGHT_AOPS(TsvStringTopicReader.class, "topics.bright-aops.tsv.gz"),
+  BRIGHT_THEOREMQA_THEOREMS(TsvStringTopicReader.class, "topics.bright-theoremqa-theorems.tsv.gz"),
+  BRIGHT_THEOREMQA_QUESTIONS(TsvStringTopicReader.class, "topics.bright-theoremqa-questions.tsv.gz"),
 
   // unused topics
   CACM(CacmTopicReader.class,                   "topics.cacm.txt"),

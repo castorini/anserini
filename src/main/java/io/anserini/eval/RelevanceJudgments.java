@@ -22,7 +22,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -33,9 +32,9 @@ import java.util.Set;
 import org.apache.commons.io.FileUtils;
 
 public class RelevanceJudgments {
-  final private Map<String, Map<String, Integer>> qrels;
-  static private final String CACHE_DIR = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "topics-and-qrels").toString();
-  final private static String SERVER_PATH = "https://raw.githubusercontent.com/castorini/anserini-tools/master/topics-and-qrels/";
+  private final Map<String, Map<String, Integer>> qrels;
+  private static final String CACHE_DIR = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "topics-and-qrels").toString();
+  private static final String SERVER_PATH = "https://raw.githubusercontent.com/castorini/anserini-tools/master/topics-and-qrels/";
 
   public static RelevanceJudgments fromQrels(Qrels qrels) throws IOException {
     return new RelevanceJudgments("src/main/resources/" + qrels.path);

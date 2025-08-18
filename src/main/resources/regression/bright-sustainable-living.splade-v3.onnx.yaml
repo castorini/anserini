@@ -1,0 +1,55 @@
+---
+corpus: bright-sustainable-living
+corpus_path: collections/bright/splade-v3/sustainable-living
+
+index_path: indexes/lucene-inverted.bright-sustainable-living.splade-v3/
+collection_class: JsonVectorCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 16
+index_options: -impact -pretokenized
+index_stats:
+  documents: 60792
+  documents (non-empty): 60792
+  total terms: 249302496
+
+metrics:
+  - metric: nDCG@10
+    command: bin/trec_eval
+    params: -c -m ndcg_cut.10
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: bin/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: bin/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvString
+topics:
+  - name: "BRIGHT: Sustainable Living"
+    id: topics
+    path: topics.bright-sustainable-living.tsv.gz
+    qrel: qrels.bright-sustainable-living.txt
+
+models:
+  - name: splade-v3-onnx
+    display: SPLADE-v3
+    params: -impact -pretokenized -removeQuery -hits 1000 -encoder SpladeV3
+    results:
+      nDCG@10:
+        - 0.1497
+      R@100:
+        - 0.4826
+      R@1000:
+        - 0.8432

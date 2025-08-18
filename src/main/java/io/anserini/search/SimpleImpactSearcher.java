@@ -52,11 +52,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletionException;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 
@@ -421,39 +418,36 @@ public class SimpleImpactSearcher implements Closeable {
       searcher.setSimilarity(similarity);
     }
 
-    ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(threads);
     ConcurrentHashMap<String, ScoredDoc[]> results = new ConcurrentHashMap<>();
-
     int queryCnt = encoded_queries.size();
+    List<Callable<Void>> tasks = new ArrayList<>(queryCnt);
+    AtomicInteger completedTaskCount = new AtomicInteger();
+
+
     for (int q = 0; q < queryCnt; ++q) {
       Map<String, Integer> query = encoded_queries.get(q);
       String qid = qids.get(q);
-      executor.execute(() -> {
+      tasks.add(() -> {
         try {
           results.put(qid, search(query, k));
+          completedTaskCount.incrementAndGet();
         } catch (IOException | OrtException e) {
           throw new CompletionException(e);
         }
+        return null;
       });
     }
 
-    executor.shutdown();
-
-    try {
-      // Wait for existing tasks to terminate
-      while (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
-        // Opportunity to perform status logging, but no-op here because logging interferes with Python tqdm
-      }
-    } catch (InterruptedException ie) {
-      // (Re-)Cancel if current thread also interrupted
-      executor.shutdownNow();
-      // Preserve interrupt status
+    try (ExecutorService executor = Executors.newWorkStealingPool(threads)) {
+      // block until all tasks are completed
+      executor.invokeAll(tasks);
+    } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
     }
 
-    if (queryCnt != executor.getCompletedTaskCount()) {
+    if (queryCnt != completedTaskCount.get()) {
       throw new RuntimeException("queryCount = " + queryCnt +
-          " is not equal to completedTaskCount =  " + executor.getCompletedTaskCount());
+          " is not equal to completedTaskCount =  " + completedTaskCount.get());
     }
 
     return results;
@@ -480,39 +474,35 @@ public class SimpleImpactSearcher implements Closeable {
       searcher.setSimilarity(similarity);
     }
 
-    ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(threads);
     ConcurrentHashMap<String, ScoredDoc[]> results = new ConcurrentHashMap<>();
-
     int queryCnt = queries.size();
+    List<Callable<Void>> tasks = new ArrayList<>(queryCnt);
+    AtomicInteger completionCount = new AtomicInteger();
+
     for (int q = 0; q < queryCnt; ++q) {
       String query = queries.get(q);
       String qid = qids.get(q);
-      executor.execute(() -> {
+      tasks.add(() -> {
         try {
           results.put(qid, search(query, k));
+          completionCount.incrementAndGet();
         } catch (IOException | OrtException e) {
           throw new CompletionException(e);
         }
+        return null;
       });
     }
 
-    executor.shutdown();
-
-    try {
-      // Wait for existing tasks to terminate
-      while (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
-        // Opportunity to perform status logging, but no-op here because logging interferes with Python tqdm
-      }
-    } catch (InterruptedException ie) {
-      // (Re-)Cancel if current thread also interrupted
-      executor.shutdownNow();
-      // Preserve interrupt status
+    try (ExecutorService executor = Executors.newWorkStealingPool()) {
+      // block until all tasks are completed
+      executor.invokeAll(tasks);
+    } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
     }
 
-    if (queryCnt != executor.getCompletedTaskCount()) {
+    if (queryCnt != completionCount.get()) {
       throw new RuntimeException("queryCount = " + queryCnt +
-          " is not equal to completedTaskCount =  " + executor.getCompletedTaskCount());
+          " is not equal to completedTaskCount =  " + completionCount.get());
     }
 
     return results;

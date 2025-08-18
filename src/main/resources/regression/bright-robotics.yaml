@@ -1,0 +1,55 @@
+---
+corpus: bright-robotics
+corpus_path: collections/bright/corpus/robotics
+
+index_path: indexes/lucene-inverted.bright-robotics/
+collection_class: JsonCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 1
+index_options: -storePositions -storeDocvectors -storeRaw
+index_stats:
+  documents: 61961
+  documents (non-empty): 59732
+  total terms: 1965313
+
+metrics:
+  - metric: nDCG@10
+    command: bin/trec_eval
+    params: -c -m ndcg_cut.10
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: bin/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: bin/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvString
+topics:
+  - name: "BRIGHT: Robotics"
+    id: topics
+    path: topics.bright-robotics.tsv.gz
+    qrel: qrels.bright-robotics.txt
+
+models:
+  - name: bm25
+    display: BM25
+    params: -bm25 -removeQuery -hits 1000
+    results:
+      nDCG@10:
+        - 0.1091
+      R@100:
+        - 0.3711
+      R@1000:
+        - 0.6582
