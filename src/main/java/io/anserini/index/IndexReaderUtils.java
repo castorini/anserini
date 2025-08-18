@@ -16,11 +16,18 @@
 
 package io.anserini.index;
 
-import io.anserini.analysis.AnalyzerUtils;
-import io.anserini.search.SearchCollection;
-import io.anserini.search.query.BagOfWordsQueryGenerator;
-import io.anserini.search.query.PhraseQueryGenerator;
-import io.anserini.util.PrebuiltIndexHandler;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.stream.Stream;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
@@ -53,16 +60,11 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import io.anserini.analysis.AnalyzerUtils;
+import io.anserini.search.SearchCollection;
+import io.anserini.search.query.BagOfWordsQueryGenerator;
+import io.anserini.search.query.PhraseQueryGenerator;
+import io.anserini.util.PrebuiltIndexHandler;
 
 /**
  * Class containing a bunch of static helper methods for accessing a Lucene inverted index.
@@ -888,9 +890,14 @@ public class IndexReaderUtils {
       parser.printUsage(System.err);
       return;
     }
-
-    IndexReader reader = IndexReaderUtils.getReader(IndexReaderUtils.getIndex(args.index).toString());
+    
+    Path indexPath = IndexReaderUtils.getIndex(args.index);
+    IndexReader reader = IndexReaderUtils.getReader(args.index);
     Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, args.field);
+
+    results.put("index_path", indexPath.toAbsolutePath().toString());
+    long totalSize = findDirectorySize(indexPath);
+    results.put("total_size", totalSize);
 
     if (args.stats) {
       System.out.println("Index statistics");
@@ -899,8 +906,47 @@ public class IndexReaderUtils {
       System.out.println("documents (non-empty): " + results.get("non_empty_documents"));
       System.out.println("unique terms:          " + results.get("unique_terms"));
       System.out.println("total terms:           " + results.get("total_terms"));
+      System.out.println("index_path:            " + results.get("index_path"));
+      System.out.println("total_size:            " + formatSize((long) results.get("total_size")));
     }
 
     reader.close();
+  }
+
+  /**
+   * Finds the total size of a directory recursively.
+   *
+   * @param path path to the directory
+   * @return total size of the directory in bytes
+   * @throws IOException if an error occurs
+   */
+  public static long findDirectorySize(Path path) throws IOException {
+    try (Stream<Path> walk = Files.walk(path)) {
+      return walk.filter(Files::isRegularFile)
+          .mapToLong(filePath -> {
+            try {
+              return Files.size(filePath);
+            } catch (IOException e) {
+              return 0L;
+            }
+          }).sum();
+    }
+  }
+  
+  /**
+   * Formats the size in bytes into a easily readable string with units (B, KB, MB, GB, TB).
+   *
+   * @param bytes size in bytes
+   * @return formatted size string
+   */
+  public static String formatSize(long bytes) {
+    String[] units = {"B", "KB", "MB", "GB", "TB"};
+    int unitIndex = 0;
+    double size = bytes;
+    while (size >= 1024 && unitIndex < units.length - 1) {
+      size = size / 1024;
+      unitIndex = unitIndex + 1;
+    }
+    return String.format(Locale.US, "%.1f %s", size, units[unitIndex]);
   }
 }
