@@ -588,7 +588,7 @@ public enum Topics {
   BRIGHT_THEOREMQA_THEOREMS(TsvStringTopicReader.class, "topics.bright-theoremqa-theorems.tsv.gz"),
   BRIGHT_THEOREMQA_QUESTIONS(TsvStringTopicReader.class, "topics.bright-theoremqa-questions.tsv.gz"),
 
-  // BRIGHT: pre-encoded queries for SPLADEv3
+  // BRIGHT: pre-encoded queries for SPLADE-v3
   BRIGHT_BIOLOGY_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-biology.splade-v3.tsv.gz"),
   BRIGHT_EARTH_SCIENCE_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-earth-science.splade-v3.tsv.gz"),
   BRIGHT_ECONOMICS_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-economics.splade-v3.tsv.gz"),
