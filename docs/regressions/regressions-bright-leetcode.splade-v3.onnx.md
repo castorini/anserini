@@ -19,7 +19,7 @@ From one of our Waterloo servers (e.g., `orca`), the following command will perf
 python src/main/python/run_regression.py --index --verify --search --regression bright-leetcode.splade-v3.onnx
 ```
 
-All the BRIGHT corpora, encoded byt he SPLADE-v3 mode, are available for download:
+All the BRIGHT corpora, encoded by the SPLADE-v3 model, are available for download:
 
 ```bash
 wget https://huggingface.co/datasets/castorini/collections-bright/resolve/main/bright-splade-v3.tar -P collections/
@@ -77,8 +77,8 @@ With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **SPLADE-v3**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
-| BRIGHT: LeetCode                                                                                             | 0.2139    |
+| BRIGHT: LeetCode                                                                                             | 0.2603    |
 | **R@100**                                                                                                    | **SPLADE-v3**|
-| BRIGHT: LeetCode                                                                                             | 0.3860    |
+| BRIGHT: LeetCode                                                                                             | 0.5019    |
 | **R@1000**                                                                                                   | **SPLADE-v3**|
-| BRIGHT: LeetCode                                                                                             | 0.6746    |
+| BRIGHT: LeetCode                                                                                             | 0.8549    |

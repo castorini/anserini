@@ -19,7 +19,7 @@ From one of our Waterloo servers (e.g., `orca`), the following command will perf
 python src/main/python/run_regression.py --index --verify --search --regression bright-aops.splade-v3.onnx
 ```
 
-All the BRIGHT corpora, encoded byt he SPLADE-v3 mode, are available for download:
+All the BRIGHT corpora, encoded by the SPLADE-v3 model, are available for download:
 
 ```bash
 wget https://huggingface.co/datasets/castorini/collections-bright/resolve/main/bright-splade-v3.tar -P collections/
@@ -79,6 +79,6 @@ With the above commands, you should be able to reproduce the following results:
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | BRIGHT: AoPS                                                                                                 | 0.0692    |
 | **R@100**                                                                                                    | **SPLADE-v3**|
-| BRIGHT: AoPS                                                                                                 | 0.2602    |
+| BRIGHT: AoPS                                                                                                 | 0.2624    |
 | **R@1000**                                                                                                   | **SPLADE-v3**|
-| BRIGHT: AoPS                                                                                                 | 0.4644    |
+| BRIGHT: AoPS                                                                                                 | 0.4656    |

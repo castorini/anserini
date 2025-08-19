@@ -31,7 +31,7 @@ bright_keys = {
 
 doc_template1 = """# Anserini Regressions: BRIGHT &mdash; {corpus_long}
 
-**Model**: [SPLADE-v3](https://arxiv.org/abs/2403.06789) (using ONNX for on-the-fly query encoding)
+**Model**: [SPLADE-v3](https://arxiv.org/abs/2403.06789) (using cached queries)
 
 This page documents regression experiments for [BRIGHT &mdash; {corpus_long}](https://brightbenchmark.github.io/) using using [SPLADE-v3](https://arxiv.org/abs/2403.06789).
 The model itself can be download [here](https://huggingface.co/naver/splade-v3).
@@ -39,7 +39,7 @@ See the [official SPLADE repo](https://github.com/naver/splade) and the followin
 
 > Carlos Lassance, Hervé Déjean, Thibault Formal, and Stéphane Clinchant. [SPLADE-v3: New baselines for SPLADE.](https://arxiv.org/abs/2403.06789) _arXiv:2403.06789_.
 
-In these experiments, we are using ONNX to perform query encoding on the fly.
+In these experiments, we are using cached queries (i.e., cached results of query encoding).
 
 """
 
@@ -52,7 +52,7 @@ From one of our Waterloo servers (e.g., `orca`), the following command will perf
 python src/main/python/run_regression.py --index --verify --search --regression ${test_name}
 ```
 
-All the BRIGHT corpora, encoded byt he SPLADE-v3 mode, are available for download:
+All the BRIGHT corpora, encoded by the SPLADE-v3 model, are available for download:
 
 ```bash
 wget https://huggingface.co/datasets/castorini/collections-bright/resolve/main/bright-splade-v3.tar -P collections/
@@ -98,8 +98,8 @@ ${effectiveness}
 """
 
 for key in bright_keys:
-    with open(f'src/main/resources/docgen/templates/bright-{key}.splade-v3.onnx.template', 'w') as file:
+    with open(f'src/main/resources/docgen/templates/bright-{key}.splade-v3.cached.template', 'w') as file:
         formatted = doc_template1.format(corpus_long=bright_keys[key])
-        print(f'Writing yaml for {key}...')
+        print(f'Writing doc template for {key}...')
         file.write(formatted)
         file.write(doc_template2)
