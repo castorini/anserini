@@ -588,6 +588,20 @@ public enum Topics {
   BRIGHT_THEOREMQA_THEOREMS(TsvStringTopicReader.class, "topics.bright-theoremqa-theorems.tsv.gz"),
   BRIGHT_THEOREMQA_QUESTIONS(TsvStringTopicReader.class, "topics.bright-theoremqa-questions.tsv.gz"),
 
+  // BRIGHT: pre-encoded queries for SPLADE-v3
+  BRIGHT_BIOLOGY_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-biology.splade-v3.tsv.gz"),
+  BRIGHT_EARTH_SCIENCE_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-earth-science.splade-v3.tsv.gz"),
+  BRIGHT_ECONOMICS_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-economics.splade-v3.tsv.gz"),
+  BRIGHT_PSYCHOLOGY_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-psychology.splade-v3.tsv.gz"),
+  BRIGHT_ROBOTICS_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-robotics.splade-v3.tsv.gz"),
+  BRIGHT_STACKOVERFLOW_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-stackoverflow.splade-v3.tsv.gz"),
+  BRIGHT_SUSTAINABLE_LIVING_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-sustainable-living.splade-v3.tsv.gz"),
+  BRIGHT_PONY_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-pony.splade-v3.tsv.gz"),
+  BRIGHT_LEETCODE_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-leetcode.splade-v3.tsv.gz"),
+  BRIGHT_AOPS_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-aops.splade-v3.tsv.gz"),
+  BRIGHT_THEOREMQA_THEOREMS_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-theoremqa-theorems.splade-v3.tsv.gz"),
+  BRIGHT_THEOREMQA_QUESTIONS_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-theoremqa-questions.splade-v3.tsv.gz"),
+
   // unused topics
   CACM(CacmTopicReader.class,                   "topics.cacm.txt"),
   NTCIR_EN_1(NtcirTopicReader.class,            "topics.www1.english.txt"),

@@ -62,7 +62,7 @@ conditions:
       - topic_key: biology
         eval_key: bright-biology
         scores:
-          - nDCG@10: 0.2095
+          - nDCG@10: 0.2101
       - topic_key: earth-science
         eval_key: bright-earth-science
         scores:
@@ -78,11 +78,11 @@ conditions:
       - topic_key: robotics
         eval_key: bright-robotics
         scores:
-          - nDCG@10: 0.1326
+          - nDCG@10: 0.1578
       - topic_key: stackoverflow
         eval_key: bright-stackoverflow
         scores:
-          - nDCG@10: 0.1209
+          - nDCG@10: 0.1290
       - topic_key: sustainable-living
         eval_key: bright-sustainable-living
         scores:
@@ -94,7 +94,61 @@ conditions:
       - topic_key: leetcode
         eval_key: bright-leetcode
         scores:
-          - nDCG@10: 0.2139
+          - nDCG@10: 0.2603
+      - topic_key: aops
+        eval_key: bright-aops
+        scores:
+          - nDCG@10: 0.0692
+      - topic_key: theoremqa-questions
+        eval_key: bright-theoremqa-questions
+        scores:
+          - nDCG@10: 0.1113
+      - topic_key: theoremqa-theorems
+        eval_key: bright-theoremqa-theorems
+        scores:
+          - nDCG@10: 0.0554
+  - name: splade-v3.cached_q
+    display: "SPLADE-v3 (cached queries)"
+    display_html: "SPLADE-v3 (cached queries)"
+    display_row: ""
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index bright-$topics.splade-v3 -topics bright-$topics.splade-v3 -output $output -impact -pretokenized -removeQuery
+    topics:
+      - topic_key: biology
+        eval_key: bright-biology
+        scores:
+          - nDCG@10: 0.2101
+      - topic_key: earth-science
+        eval_key: bright-earth-science
+        scores:
+          - nDCG@10: 0.2670
+      - topic_key: economics
+        eval_key: bright-economics
+        scores:
+          - nDCG@10: 0.1604
+      - topic_key: psychology
+        eval_key: bright-psychology
+        scores:
+          - nDCG@10: 0.1527
+      - topic_key: robotics
+        eval_key: bright-robotics
+        scores:
+          - nDCG@10: 0.1580
+      - topic_key: stackoverflow
+        eval_key: bright-stackoverflow
+        scores:
+          - nDCG@10: 0.1290
+      - topic_key: sustainable-living
+        eval_key: bright-sustainable-living
+        scores:
+          - nDCG@10: 0.1497
+      - topic_key: pony
+        eval_key: bright-pony
+        scores:
+          - nDCG@10: 0.1440
+      - topic_key: leetcode
+        eval_key: bright-leetcode
+        scores:
+          - nDCG@10: 0.2597
       - topic_key: aops
         eval_key: bright-aops
         scores:
