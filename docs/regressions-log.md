@@ -3,6 +3,12 @@
 The following change log details commits to regression tests that alter effectiveness and the addition (or removal) of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### August 19, 2025
+
++ commit [`0a151c`](https://github.com/castorini/anserini/commit/0a151c703767146e5ef2718f8fd8711d781422ba)
+
+Added SPLADE-v3 cached query regressions for BRIGHT.
+
 ### August 16, 2025
 
 + commit [`c3bd64`](https://github.com/castorini/anserini/commit/c3bd645b2051e317185179f8750ce653b9529d1f)

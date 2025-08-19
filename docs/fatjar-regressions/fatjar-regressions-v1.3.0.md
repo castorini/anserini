@@ -212,7 +212,7 @@ To generate similar output for ArcticEmbed-L, specify the corresponding run file
 
 ## MS MARCO V1 Passage
 
-❗ Beware, the (automatically downloaded) indexes for running these experiments take up several hundred GBs.
+❗ Beware, running these experiments will automatically download 9 indexes totaling 203.1 GB.
 
 Currently, Anserini provides support for the following models:
 
@@ -250,7 +250,7 @@ To print out the commands that will generate the above runs without performing t
 
 ## MS MARCO V2.1 Segmented Documents
 
-❗ Beware, the (automatically downloaded) indexes for running these experiments take up several hundred GBs.
+❗ Beware, running these experiments will automatically download 2 indexes totaling 145.8 GB.
 
 The MS MARCO V2.1 collections were created for the [TREC RAG Track](https://trec-rag.github.io/).
 There were two variants: the documents corpus and the segmented documents corpus.
@@ -282,7 +282,7 @@ To print out the commands that will generate the above runs without performing t
 
 ## MS MARCO V2.1 Documents
 
-❗ Beware, the (automatically downloaded) indexes for running these experiments take up several hundred GBs.
+❗ Beware, running these experiments will automatically download 12 indexes totaling 698.0 GB.
 
 The MS MARCO V2.1 collections were created for the [TREC RAG Track](https://trec-rag.github.io/).
 There were two variants: the documents corpus and the segmented documents corpus.
@@ -306,7 +306,7 @@ To print out the commands that will generate the above runs without performing t
 
 ## BEIR
 
-❗ Beware, the (automatically downloaded) indexes for running these experiments take up several hundred GBs.
+❗ Beware, running these experiments will automatically download 174 indexes totaling 391.5 GB.
 
 Here is a selection of models that are currently suppoted in Anserini:
 
@@ -361,6 +361,8 @@ java -cp $ANSERINI_JAR io.anserini.reproduce.RunBeir
 To print out the commands that will generate the above runs without performing the runs, use the options `-dryRun -printCommands`.
 
 ## BRIGHT
+
+❗ Beware, running these experiments will automatically download 12 indexes totaling 1.1 GB.
 
 BRIGHT is a retrieval benchmark described [here](https://arxiv.org/abs/2407.12883).
 The following table reports nDCG@10 scores.
