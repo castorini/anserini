@@ -32,6 +32,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import io.anserini.index.IndexReaderUtils;
+import io.anserini.index.IndexInfo;
+import java.nio.file.Paths;
+import java.nio.file.Path;
+import java.nio.file.Files;
+
 public class RunRepro {
   // ANSI escape code for red text
   private static final String RED = "\u001B[31m";
@@ -47,6 +53,7 @@ public class RunRepro {
   private final TrecEvalMetricDefinitions metricDefinitions;
   private final boolean printCommands;
   private final boolean dryRun;
+  private final boolean computeIndexSize;
 
   public static class Args {
     @Option(name = "-printCommands", usage = "Print commands.")
@@ -57,13 +64,17 @@ public class RunRepro {
 
     @Option(name = "-options", usage = "Print information about options.")
     public Boolean options = false;
+
+    @Option(name = "-computeIndexSize", usage = "Compute total size of all unique indexes referenced by runs.")
+    public Boolean computeIndexSize = false;
   }
 
-  public RunRepro(String collection, TrecEvalMetricDefinitions metrics, boolean printCommands, boolean dryRun) {
+  public RunRepro(String collection, TrecEvalMetricDefinitions metrics, boolean printCommands, boolean dryRun, boolean computeIndexSize) {
     this.collection = collection;
     this.metricDefinitions = metrics;
     this.printCommands = printCommands;
     this.dryRun = dryRun;
+    this.computeIndexSize = computeIndexSize;
   }
 
   public void run() throws IOException, InterruptedException, URISyntaxException {
@@ -82,6 +93,69 @@ public class RunRepro {
     Process process;
 
     final long start = System.nanoTime();
+
+    // Pre-scan all commands to gather unique indexes referenced.
+    java.util.Set<String> uniqueIndexNames = new java.util.LinkedHashSet<>();
+    for (Condition condition : config.conditions) {
+      for (Topic topic : condition.topics) {
+        final String output = String.format("runs/run.%s.%s.%s.txt", collection, condition.name, topic.topic_key);
+        final String command = condition.command
+            .replace("$fatjar", fatjarPath)
+            .replace("$threads", "16")
+            .replace("$topics", topic.topic_key)
+            .replace("$output", output);
+        String indexPath = extractIndexPath(command);
+        if (indexPath != null) {
+          uniqueIndexNames.add(indexPath);
+        }
+      }
+    }
+
+    // If requested, print index summary before any runs.
+    if (computeIndexSize && !uniqueIndexNames.isEmpty()) {
+      System.out.printf("Indexes referenced by this run (%d total):%n", uniqueIndexNames.size());
+      long totalBytes = 0L;
+      int presentCount = 0;
+      for (String idx : uniqueIndexNames) {
+        // Prefer prebuilt cache path if this is a known alias.
+        if (IndexInfo.contains(idx)) {
+          Path prebuiltPath = expectedPrebuiltPath(idx);
+          if (prebuiltPath != null && Files.exists(prebuiltPath)) {
+            long sz = IndexReaderUtils.findDirectorySize(prebuiltPath);
+            totalBytes += sz;
+            presentCount++;
+            System.out.printf("  - %s: present in cache at %s (size: %s)%n", idx, prebuiltPath.toAbsolutePath(), IndexReaderUtils.formatSize(sz));
+            continue;
+          }
+          // Fall back to local path if provided as a directory.
+          Path p = Paths.get(idx);
+          if (Files.exists(p)) {
+            Path pathForSize = resolveSingleSymlinkChild(p);
+            long sz = IndexReaderUtils.findDirectorySize(pathForSize);
+            totalBytes += sz;
+            presentCount++;
+            System.out.printf("  - %s: present at %s (size: %s)%n", idx, pathForSize.toAbsolutePath(), IndexReaderUtils.formatSize(sz));
+          } else {
+            System.out.printf("  - %s: not downloaded (expected cache path: %s)%n", idx, prebuiltPath == null ? "<unknown>" : prebuiltPath.toAbsolutePath());
+          }
+          continue;
+        }
+
+        // Otherwise treat as a literal local path.
+        Path p = Paths.get(idx);
+        if (Files.exists(p)) {
+          Path pathForSize = resolveSingleSymlinkChild(p);
+          long sz = IndexReaderUtils.findDirectorySize(pathForSize);
+          totalBytes += sz;
+          presentCount++;
+          System.out.printf("  - %s: present at %s (size: %s)%n", idx, pathForSize.toAbsolutePath(), IndexReaderUtils.formatSize(sz));
+        } else {
+          System.out.printf("  - %s: unknown (neither local path nor prebuilt alias)%n", idx);
+        }
+      }
+      System.out.printf("Total size across %d of %d indexes: %s%n%n", presentCount, uniqueIndexNames.size(), IndexReaderUtils.formatSize(totalBytes));
+    }
+
     for (Condition condition : config.conditions) {
       System.out.printf("# Running condition \"%s\": %s \n%n", condition.name, condition.display);
       for (Topic topic : condition.topics) {
@@ -178,6 +252,71 @@ public class RunRepro {
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
     System.out.println("Total run time: " + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
   }
+
+  private static String extractIndexPath(String command) {
+    // Split on whitespace and find token after '-index'.
+    String[] parts = command.split(" ");
+    for (int i = 0; i < parts.length; i++) {
+      if ("-index".equals(parts[i]) && i + 1 < parts.length) {
+        return parts[i + 1];
+      }
+    }
+    return null;
+  }
+
+  private static Path expectedPrebuiltPath(String indexName) {
+    try {
+      IndexInfo info = IndexInfo.get(indexName);
+      String cacheRoot = getCacheRoot();
+      String base = info.filename;
+      if (base.endsWith(".tar.gz")) {
+        base = base.substring(0, base.length() - ".tar.gz".length());
+      } else if (base.endsWith(".gz")) {
+        base = base.substring(0, base.length() - ".gz".length());
+      }
+      return Path.of(cacheRoot, base + "." + info.md5);
+    } catch (Exception e) {
+      return null;
+    }
+  }
+
+  private static Path resolveSingleSymlinkChild(Path p) throws IOException {
+    Path pathForSize = p;
+    if (Files.isDirectory(p)) {
+      try (java.util.stream.Stream<Path> children = Files.list(p)) {
+        java.util.List<Path> entries = children.toList();
+        if (entries.size() == 1 && Files.isSymbolicLink(entries.get(0))) {
+          Path link = entries.get(0);
+          // Try to resolve to an absolute path using toRealPath if possible.
+          try {
+            Path real = link.toRealPath();
+            if (Files.exists(real)) {
+              return real;
+            }
+          } catch (IOException ignored) { }
+          // Fallback: best effort using the stored link target.
+          Path linkTarget = Files.readSymbolicLink(link);
+          Path resolved = link.getParent().resolve(linkTarget).normalize();
+          if (Files.exists(resolved)) {
+            return resolved;
+          }
+        }
+      }
+    }
+    return pathForSize;
+  }
+
+  private static String getCacheRoot() {
+    String cacheDir = System.getProperty("anserini.index.cache");
+    if (cacheDir == null || cacheDir.isEmpty()) {
+      cacheDir = System.getenv("ANSERINI_INDEX_CACHE");
+    }
+    if (cacheDir == null || cacheDir.isEmpty()) {
+      cacheDir = java.nio.file.Path.of(System.getProperty("user.home"), ".cache", "pyserini", "indexes").toString();
+    }
+    return cacheDir;
+  }
+
 
   public static class Config {
     @JsonProperty
