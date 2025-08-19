@@ -94,7 +94,8 @@ public class RunMsMarcoTest {
     RunMsMarco.main(args);
 
     String s = out.toString();
-    assertTrue(s.contains("Total size of"));
+    assertTrue(s.contains("Indexes referenced by this run"));
+    assertTrue(s.contains("Total size across"));
 
     restoreStdout();
   }
