@@ -52,9 +52,7 @@ public abstract class SpladeEncoder extends SparseEncoder {
     List<String> queryTokens = new ArrayList<>();
     queryTokens.add(CLS);
     queryTokens.addAll(tokenizer.tokenize(query));
-    if (queryTokens.size() > MAX_SEQ_LEN - 2) {
-      queryTokens = queryTokens.subList(0, MAX_SEQ_LEN - 2);
-    }
+    queryTokens = (queryTokens.size() > MAX_SEQ_LEN - 2) ? queryTokens.subList(0, MAX_SEQ_LEN - 2) : queryTokens;
     queryTokens.add(SEP);
 
     Map<String, OnnxTensor> inputs = new HashMap<>();
