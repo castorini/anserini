@@ -48,8 +48,8 @@ models:
     params: -impact -pretokenized -removeQuery -hits 1000 -encoder SpladeV3
     results:
       nDCG@10:
-        - 0.2139
+        - 0.2603
       R@100:
-        - 0.3860
+        - 0.5019
       R@1000:
-        - 0.6746
+        - 0.8549
