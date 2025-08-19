@@ -1,6 +1,6 @@
 ---
 corpus: bright-economics
-corpus_path: collections/bright/economics
+corpus_path: collections/bright/corpus/economics
 
 index_path: indexes/lucene-inverted.bright-economics/
 collection_class: JsonCollection
@@ -11,8 +11,6 @@ index_stats:
   documents: 50220
   documents (non-empty): 49472
   total terms: 2209688
-
-filter_cmd: python src/main/python/bright/filter_run.py --run runs/run.inverted.bright-economics.topics.bm25 --split economics
 
 metrics:
   - metric: nDCG@10

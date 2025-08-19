@@ -1,6 +1,6 @@
 ---
 corpus: bright-robotics
-corpus_path: collections/bright/robotics
+corpus_path: collections/bright/corpus/robotics
 
 index_path: indexes/lucene-inverted.bright-robotics/
 collection_class: JsonCollection
@@ -11,8 +11,6 @@ index_stats:
   documents: 61961
   documents (non-empty): 59732
   total terms: 1965313
-
-filter_cmd: python src/main/python/bright/filter_run.py --run runs/run.inverted.bright-robotics.topics.bm25 --split robotics
 
 metrics:
   - metric: nDCG@10

@@ -34,19 +34,17 @@ bright_keys = {
 
 yaml_template = """---
 corpus: bright-{corpus_short}
-corpus_path: collections/bright/{corpus_short}
+corpus_path: collections/bright/splade-v3/{corpus_short}
 
-index_path: indexes/lucene-inverted.bright-{corpus_short}/
-collection_class: JsonCollection
+index_path: indexes/lucene-inverted.bright-{corpus_short}.splade-v3/
+collection_class: JsonVectorCollection
 generator_class: DefaultLuceneDocumentGenerator
-index_threads: 1
-index_options: -storePositions -storeDocvectors -storeRaw
+index_threads: 16
+index_options: -impact -pretokenized
 index_stats:
   documents: {documents}
   documents (non-empty): {non_empty_documents}
   total terms: {total_terms}
-
-filter_cmd: python src/main/python/bright/filter_run.py --run runs/run.inverted.bright-{corpus_short}.topics.bm25 --split {underscore}
 
 metrics:
   - metric: nDCG@10
@@ -75,13 +73,13 @@ topic_reader: TsvString
 topics:
   - name: "BRIGHT: {corpus_long}"
     id: topics
-    path: topics.bright-{corpus_short}.tsv.gz
+    path: topics.bright-{corpus_short}.splade-v3.tsv.gz
     qrel: qrels.bright-{corpus_short}.txt
 
 models:
-  - name: bm25
-    display: BM25
-    params: -bm25 -removeQuery -hits 1000
+  - name: splade-v3-cached
+    display: SPLADE-v3
+    params: -impact -pretokenized -removeQuery -hits 1000 
     results:
       nDCG@10:
         - 0.3952
@@ -92,8 +90,8 @@ models:
 """
 
 for key in bright_keys:
-    with open(f'src/main/resources/regression/bright-{key}.yaml', 'w') as file:
-        reader = LuceneIndexReader(f'indexes/bright_og/lucene-inverted.bright-{key}.20250705.44ae8e')
+    with open(f'src/main/resources/regression/bright-{key}.splade-v3.cached.yaml', 'w') as file:
+        reader = LuceneIndexReader(f'indexes/lucene-inverted.bright-{key}.splade-v3')
         stats = reader.stats()
         documents = stats['documents']
         non_empty_documents = stats['non_empty_documents']

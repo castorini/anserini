@@ -1,6 +1,6 @@
 ---
 corpus: bright-psychology
-corpus_path: collections/bright/psychology
+corpus_path: collections/bright/corpus/psychology
 
 index_path: indexes/lucene-inverted.bright-psychology/
 collection_class: JsonCollection
@@ -11,8 +11,6 @@ index_stats:
   documents: 52835
   documents (non-empty): 52055
   total terms: 2206965
-
-filter_cmd: python src/main/python/bright/filter_run.py --run runs/run.inverted.bright-psychology.topics.bm25 --split psychology
 
 metrics:
   - metric: nDCG@10

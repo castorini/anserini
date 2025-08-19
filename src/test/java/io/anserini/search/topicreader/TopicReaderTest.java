@@ -38,7 +38,7 @@ public class TopicReaderTest {
       String path = topic.path;
       assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(path));
     }
-    assertEquals(529, cnt);
+    assertEquals(543, cnt);
   }
 
   @Test
@@ -1112,6 +1112,20 @@ public class TopicReaderTest {
   }
 
   @Test
+  public void testTREC25_RAG_TEST() throws IOException {
+    SortedMap<String, Map<String, String>> topics;
+
+    topics = TopicReader.getTopics(Topics.TREC2025_RAG_TEST);
+    assertNotNull(topics);
+    assertEquals(105, topics.size());
+    assertEquals("100", topics.firstKey());
+    assertEquals("I'm trying to understand the various forms of discrimination and oppression people experience in the US, such as racial, gender, age, and housing. Can you explain their prevalence, how they affect individuals and society, and what laws or actions are in place to address them?", topics.get(topics.firstKey()).get("title"));
+    assertEquals("988", topics.lastKey());
+    assertEquals("I'm looking into the complex issue of immigration, particularly the challenges surrounding illegal immigration and the struggles immigrants encounter in the US. I'm also interested in how sanctuary cities add further complications to the overall immigration landscape.", topics.get(topics.lastKey()).get("title"));
+    assertEquals("I want to deeply understand the Holocaust: what it was, why and how it transpired, who was responsible, and its profound historical and societal impact, particularly on European Jewry. I'm also curious about its conclusion, lasting effects, and how it aligns with other destructive historical events like Sodom and Gomorrah.", topics.get("200").get("title"));
+  }
+
+  @Test
   public void testMSMARCO_V1() throws IOException {
     SortedMap<Integer, Map<String, String>> topics;
 
@@ -2127,7 +2141,7 @@ public class TopicReaderTest {
     assertEquals(300,   TopicReader.getTopics(Topics.BEIR_V1_0_0_SCIFACT_TEST_BGE_BASE_EN_15).keySet().size());
   }
 
-    @Test
+  @Test
   public void testBrightTopics() throws IOException {
     assertEquals(103, TopicReader.getTopics(Topics.BRIGHT_BIOLOGY).keySet().size());
     assertEquals(116, TopicReader.getTopics(Topics.BRIGHT_EARTH_SCIENCE).keySet().size());
@@ -2141,6 +2155,22 @@ public class TopicReaderTest {
     assertEquals(111, TopicReader.getTopics(Topics.BRIGHT_AOPS).keySet().size());
     assertEquals(76, TopicReader.getTopics(Topics.BRIGHT_THEOREMQA_THEOREMS).keySet().size());
     assertEquals(194, TopicReader.getTopics(Topics.BRIGHT_THEOREMQA_QUESTIONS).keySet().size());
+  }
+
+  @Test
+  public void testBrightSpladeV3Topics() throws IOException {
+    assertEquals(103, TopicReader.getTopics(Topics.BRIGHT_BIOLOGY_SPLADE_V3).keySet().size());
+    assertEquals(116, TopicReader.getTopics(Topics.BRIGHT_EARTH_SCIENCE_SPLADE_V3).keySet().size());
+    assertEquals(103, TopicReader.getTopics(Topics.BRIGHT_ECONOMICS_SPLADE_V3).keySet().size());
+    assertEquals(101, TopicReader.getTopics(Topics.BRIGHT_PSYCHOLOGY_SPLADE_V3).keySet().size());
+    assertEquals(101, TopicReader.getTopics(Topics.BRIGHT_ROBOTICS_SPLADE_V3).keySet().size());
+    assertEquals(117, TopicReader.getTopics(Topics.BRIGHT_STACKOVERFLOW_SPLADE_V3).keySet().size());
+    assertEquals(108, TopicReader.getTopics(Topics.BRIGHT_SUSTAINABLE_LIVING_SPLADE_V3).keySet().size());
+    assertEquals(112, TopicReader.getTopics(Topics.BRIGHT_PONY_SPLADE_V3).keySet().size());
+    assertEquals(142, TopicReader.getTopics(Topics.BRIGHT_LEETCODE_SPLADE_V3).keySet().size());
+    assertEquals(111, TopicReader.getTopics(Topics.BRIGHT_AOPS_SPLADE_V3).keySet().size());
+    assertEquals(76, TopicReader.getTopics(Topics.BRIGHT_THEOREMQA_THEOREMS_SPLADE_V3).keySet().size());
+    assertEquals(194, TopicReader.getTopics(Topics.BRIGHT_THEOREMQA_QUESTIONS_SPLADE_V3).keySet().size());
   }
 
   @Test

@@ -1,6 +1,6 @@
 ---
 corpus: bright-aops
-corpus_path: collections/bright/aops
+corpus_path: collections/bright/corpus/aops
 
 index_path: indexes/lucene-inverted.bright-aops/
 collection_class: JsonCollection
@@ -11,8 +11,6 @@ index_stats:
   documents: 188002
   documents (non-empty): 188002
   total terms: 20699175
-
-filter_cmd: python src/main/python/bright/filter_run.py --run runs/run.inverted.bright-aops.topics.bm25 --split aops
 
 metrics:
   - metric: nDCG@10

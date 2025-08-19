@@ -40,10 +40,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.concurrent.CompletionException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
@@ -216,33 +215,25 @@ public class SimpleIndexer {
 
   @SuppressWarnings("unchecked")
   private <T> int addToIndex(T[] objects, Function<T, JsonCollection.Document> func) {
-    ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(threads);
     AtomicInteger cnt = new AtomicInteger();
+    List<Callable<Void>> tasks = new ArrayList<>(objects.length);
 
     for (T object : objects) {
-      executor.execute(() -> {
+      tasks.add(() -> {
         try {
           writer.addDocument(generator.createDocument(func.apply(object)));
           cnt.incrementAndGet();
-        } catch (GeneratorException e) {
-          throw new CompletionException(e);
-        } catch (IOException e) {
+        } catch (GeneratorException | IOException e) {
           throw new CompletionException(e);
         }
+        return null;
       });
     }
 
-    executor.shutdown();
-
-    try {
-      // Wait for existing tasks to terminate
-      while (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
-        // Opportunity to perform status logging, but no-op here because logging interferes with Python tqdm
-      }
-    } catch (InterruptedException ie) {
-      // (Re-)Cancel if current thread also interrupted
-      executor.shutdownNow();
-      // Preserve interrupt status
+    try (ExecutorService executor = Executors.newWorkStealingPool(threads)) {
+      // blocks until all tasks complete
+      executor.invokeAll(tasks);
+    } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
     }
 

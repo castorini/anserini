@@ -1,6 +1,6 @@
 ---
 corpus: bright-pony
-corpus_path: collections/bright/pony
+corpus_path: collections/bright/corpus/pony
 
 index_path: indexes/lucene-inverted.bright-pony/
 collection_class: JsonCollection
@@ -11,8 +11,6 @@ index_stats:
   documents: 7894
   documents (non-empty): 7892
   total terms: 264645
-
-filter_cmd: python src/main/python/bright/filter_run.py --run runs/run.inverted.bright-pony.topics.bm25 --split pony
 
 metrics:
   - metric: nDCG@10

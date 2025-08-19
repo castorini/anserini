@@ -111,11 +111,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import java.util.concurrent.CompletionException;
-import java.util.concurrent.ConcurrentSkipListMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -693,7 +689,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
         if (hasRelDocs) {
           scoredFbDocs = queryQrels;
         } else {//if no relevant documents, only perform score based tie breaking next
-          LOG.info("No relevant documents for " + qid.toString());
+          LOG.info("No relevant documents for {}", qid.toString());
           scoredFbDocs = ScoredDocs.fromTopDocs(rs, getIndexSearcher());
           cascade = new RerankerCascade();
           cascade.add(new ScoreTiesAdjusterReranker());
@@ -804,7 +800,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     }
   }
 
-  private final class SearcherThread<T extends Comparable<T>> extends Thread {
+  private final class SearchWorker<T extends Comparable<T>> extends Thread {
     final private Searcher<T> searcher;
     final private SortedMap<T, Map<String, String>> topics;
     final private TaggedSimilarity taggedSimilarity;
@@ -812,11 +808,11 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     final private String outputPath;
     final private SparseEncoder queryEncoder;
 
-    private SearcherThread(IndexReader reader,
-                           SortedMap<T, Map<String, String>> topics,
-                           TaggedSimilarity taggedSimilarity,
-                           RerankerCascade cascade,
-                           String outputPath) {
+    private SearchWorker(IndexReader reader,
+                         SortedMap<T, Map<String, String>> topics,
+                         TaggedSimilarity taggedSimilarity,
+                         RerankerCascade cascade,
+                         String outputPath) {
       // We need to pass in the topics because for tweets, we need to extract the tweet time.
       this.topics = topics;
       this.taggedSimilarity = taggedSimilarity;
@@ -846,18 +842,16 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       // A short descriptor of the ranking setup.
       final String desc = String.format("ranker: %s, reranker: %s", taggedSimilarity.getTag(), cascade.getTag());
 
-      // ThreadPool for parallelizing the execution of individual queries:
-      ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threads);
       // Data structure for holding the per-query results:
       ConcurrentSkipListMap<T, ScoredDoc[]> results = new ConcurrentSkipListMap<>();
       AtomicInteger cnt = new AtomicInteger();
+      List<Callable<Void>> tasks = new ArrayList<>();
 
       final long start = System.nanoTime();
       for (Map.Entry<T, Map<String, String>> entry : topics.entrySet()) {
         T qid = entry.getKey();
 
-        // This is the per-query execution, in parallel.
-        executor.execute(() -> {
+        tasks.add(() -> {
           try {
             StringBuilder queryString = new StringBuilder();
             if (args.topicField.contains("+")) {
@@ -891,7 +885,6 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
               docs = searcher.search(qid, queryString.toString(), cascade, queryQrels, hasRelDocs);
             }
 
-
             // If JSON output is requested, we retain references to the Lucene documents.
             // Note we do *not* want to retain references to the Lucene documents unless requested since it's a waste of memory.
             if (args.outputRerankerRequests != null) {
@@ -902,29 +895,26 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
 
             int n = cnt.incrementAndGet();
             if (n % 100 == 0) {
-              LOG.info(String.format("%s: %d queries processed", desc, n));
+              LOG.info("{}: {} queries processed", desc, n);
             }
           }  catch (Exception e) {
             throw new CompletionException(e);
           }
+
+          return null;
         });
       }
 
-      executor.shutdown();
-
-      try {
-        // Wait for existing tasks to terminate.
-        while (!executor.awaitTermination(1, TimeUnit.MINUTES)) ;
-      } catch (InterruptedException ie) {
-        // (Re-)Cancel if current thread also interrupted.
-        executor.shutdownNow();
-        // Preserve interrupt status.
+      try (ExecutorService executor = Executors.newWorkStealingPool(args.threads)) {
+        executor.invokeAll(tasks);
+      } catch (InterruptedException e) {
         Thread.currentThread().interrupt();
       }
+
       final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
 
-      LOG.info(desc + ": " + topics.size() + " queries processed in " +
-          DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss") +
+      LOG.info("{}: {} queries processed in {}{}", desc, topics.size(),
+          DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"),
           String.format(" = ~%.2f q/s", topics.size() / (durationMillis / 1000.0)));
       
       String name = null;
@@ -932,7 +922,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
         name = args.topics[0];
       }
       // Now we write the results to a run file.
-      try(RunOutputWriter<T> out = new RunOutputWriter<>(outputPath, args.format, args.runtag, args.outputRerankerRequests, name)) {
+      try (RunOutputWriter<T> out = new RunOutputWriter<>(outputPath, args.format, args.runtag, args.outputRerankerRequests, name)) {
         // Here's a really screwy corner case that we have to manually hack around: for MS MARCO V1, the query file is not
         // sorted by qid, but the topic representation internally is (i.e., K is a comparable). The original query runner
         // SearchMsmarco retained the order of the queries; however, this class does not. Thus, the run files list the
@@ -949,9 +939,9 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
             topics.keySet().size() == 5193;
 
         if (isMSMARCOv1_passage || isMAMARCOv1_doc) {
-          try(InputStream inputStream = isMSMARCOv1_passage ?
-              Files.newInputStream(TopicReader.getTopicPath(Path.of(Topics.MSMARCO_PASSAGE_DEV_SUBSET.path)), StandardOpenOption.READ):
-              Files.newInputStream(TopicReader.getTopicPath(Path.of(Topics.MSMARCO_DOC_DEV.path)), StandardOpenOption.READ) ) {
+          try (InputStream inputStream = isMSMARCOv1_passage ?
+                Files.newInputStream(TopicReader.getTopicPath(Path.of(Topics.MSMARCO_PASSAGE_DEV_SUBSET.path)), StandardOpenOption.READ):
+                Files.newInputStream(TopicReader.getTopicPath(Path.of(Topics.MSMARCO_DOC_DEV.path)), StandardOpenOption.READ) ) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             String line;
             while ((line = reader.readLine()) != null) {
@@ -965,10 +955,10 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
         } else {
             results.forEach((qid, hits) -> {
               try {
-                  out.writeTopic(qid, topics.get(qid).get("title"), results.get(qid));
+                out.writeTopic(qid, topics.get(qid).get("title"), results.get(qid));
               } catch (JsonProcessingException e) {
-                  // Handle the exception or rethrow as unchecked
-                  throw new RuntimeException(e);
+                // Handle the exception or rethrow as unchecked.
+                throw new RuntimeException(e);
               }
           });
         }
@@ -995,11 +985,11 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     Path indexPath = IndexReaderUtils.getIndex(args.index);
 
     LOG.info("============ Initializing Searcher ============");
-    LOG.info("Index: " + indexPath);
+    LOG.info("Index: {}", indexPath);
     this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
 
-    LOG.info("Threads: " + args.threads);
-    LOG.info("Fields: " + Arrays.toString(args.fields));
+    LOG.info("Threads: {}", args.threads);
+    LOG.info("Fields: {}", Arrays.toString(args.fields));
     if (args.fields.length != 0) {
       // The -fields argument should be in the form of "field1=weight1 field2=weight2...".
       // Try to parse, and throw exception if anything goes wrong.
@@ -1013,12 +1003,12 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       }
     }
 
-    LOG.info("MaxPassage: " + args.selectMaxPassage);
+    LOG.info("MaxPassage: {}", args.selectMaxPassage);
     if (args.selectMaxPassage) {
-      LOG.info("MaxPassage delimiter: " + args.selectMaxPassageDelimiter);
-      LOG.info("MaxPassage hits: " + args.selectMaxPassageHits);
+      LOG.info("MaxPassage delimiter: {}", args.selectMaxPassageDelimiter);
+      LOG.info("MaxPassage hits: {}", args.selectMaxPassageHits);
     }
-    LOG.info("Hits: " + args.hits);
+    LOG.info("Hits: {}", args.hits);
 
     // get collection class if available
     if (args.collectionClass != null) {
@@ -1031,7 +1021,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     } else {
       this.collectionClass = null;
     }
-    LOG.info("Collection class: " + this.collectionClass);
+    LOG.info("Collection class: {}", this.collectionClass);
 
     this.isRerank = args.rm3 || args.axiom || args.bm25prf || args.rocchio;
     this.analyzer = getAnalyzer();
@@ -1057,7 +1047,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       Path topicsFilePath = Paths.get(topicsFile);
       if (!Files.exists(topicsFilePath) || !Files.isRegularFile(topicsFilePath) || !Files.isReadable(topicsFilePath)) {
         Topics ref = Topics.getByName(topicsFile);
-        if (ref==null) {
+        if (ref == null) {
           throw new IllegalArgumentException(String.format("\"%s\" does not refer to valid topics.", topicsFilePath));
         } else {
           topics.putAll(TopicReader.getTopics(ref));
@@ -1255,7 +1245,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
 
   private void loadQrels(String rf_qrels) throws IOException {
     LOG.info("============ Loading qrels ============");
-    LOG.info("rf_qrels: " + rf_qrels);
+    LOG.info("rf_qrels: {}", rf_qrels);
     Path rfQrelsFilePath = Paths.get(rf_qrels);
     if (!Files.exists(rfQrelsFilePath) || !Files.isRegularFile(rfQrelsFilePath) || !Files.isReadable(rfQrelsFilePath)) {
       throw new IllegalArgumentException("Qrels file : " + rfQrelsFilePath + " does not exist or is not a (readable) file.");
@@ -1303,14 +1293,14 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
         } else {
           languageSpecificAnalyzer = new WhitespaceAnalyzer();
         }
-        String message = "Using CompositeAnalyzer with HF Tokenizer: %s & Analyzer %s";
-        LOG.info(String.format(message, args.analyzeWithHuggingFaceTokenizer, languageSpecificAnalyzer.getClass().getName()));
+        LOG.info("Using CompositeAnalyzer with HF Tokenizer {} and Analyzer {}",
+            args.analyzeWithHuggingFaceTokenizer, languageSpecificAnalyzer.getClass().getName());
         return new CompositeAnalyzer(args.analyzeWithHuggingFaceTokenizer, languageSpecificAnalyzer);
       } else if (args.analyzeWithHuggingFaceTokenizer != null) {
         return new HuggingFaceTokenizerAnalyzer(args.analyzeWithHuggingFaceTokenizer);
       } else if (AnalyzerMap.analyzerMap.containsKey(args.language)) {
         LOG.info("Using language-specific analyzer");
-        LOG.info("Language: " + args.language);
+        LOG.info("Language: {}", args.language);
         return AnalyzerMap.getLanguageSpecificAnalyzer(args.language);
       } else if (Arrays.asList("ha","so","sw","yo").contains(args.language)) {
         return new WhitespaceAnalyzer();
@@ -1319,9 +1309,9 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       } else {
         // Default to English
         LOG.info("Using DefaultEnglishAnalyzer");
-        LOG.info("Stemmer: " + args.stemmer);
-        LOG.info("Keep stopwords? " + args.keepStopwords);
-        LOG.info("Stopwords file: " + args.stopwords);
+        LOG.info("Stemmer: {}", args.stemmer);
+        LOG.info("Keep stopwords? {}", args.keepStopwords);
+        LOG.info("Stopwords file: {}", args.stopwords);
         return DefaultEnglishAnalyzer.fromArguments(args.stemmer, args.keepStopwords, args.stopwords);
       }
     } catch (Exception e) {
@@ -1332,9 +1322,9 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
   @Override
   public void run() {
     LOG.info("============ Launching Search Threads ============");
-    LOG.info("runtag: " + args.runtag);
+    LOG.info("runtag: {}", args.runtag);
 
-    final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.parallelism);
+    List<Callable<Void>> tasks = new ArrayList<>();
 
     for (TaggedSimilarity taggedSimilarity : similarities) {
       for (RerankerCascade cascade : cascades) {
@@ -1347,22 +1337,21 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
         }
 
         if (args.skipExists && new File(outputPath).exists()) {
-          LOG.info("Run already exists, skipping: " + outputPath);
+          LOG.info("Run already exists, skipping: {}", outputPath);
           continue;
         }
-        executor.execute(new SearcherThread<>(reader, topics, taggedSimilarity, cascade, outputPath));
+
+        tasks.add (() -> {
+          new SearchWorker<>(reader, topics, taggedSimilarity, cascade, outputPath).run();
+          return null;
+        });
       }
     }
-    executor.shutdown();
 
-    try {
-      // Wait for existing tasks to terminate
-      while (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
-      }
-    } catch (InterruptedException ie) {
-      // (Re-)Cancel if current thread also interrupted
-      executor.shutdownNow();
-      // Preserve interrupt status
+    // We want predictable thread count since each of the workers will spawn multiple threads.
+    try (ExecutorService executor = Executors.newFixedThreadPool(args.parallelism)) {
+      executor.invokeAll(tasks);
+    } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
     }
   }
@@ -1397,13 +1386,13 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
 
     // We're at top-level already inside a main; makes no sense to propagate exceptions further, so reformat the
     // exception messages and display on console.
-    try(SearchCollection<?> searcher = new SearchCollection<>(searchArgs)) {
+    try (SearchCollection<?> searcher = new SearchCollection<>(searchArgs)) {
       searcher.run();
     } catch (IllegalArgumentException e) {
       System.err.printf("Error: %s\n", e.getMessage());
     }
 
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-    LOG.info("Total run time: " + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
+    LOG.info("Total run time: {}", DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
   }
 }

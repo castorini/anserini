@@ -1,6 +1,6 @@
 ---
 corpus: bright-theoremqa-theorems
-corpus_path: collections/bright/theoremqa-theorems
+corpus_path: collections/bright/corpus/theoremqa-theorems
 
 index_path: indexes/lucene-inverted.bright-theoremqa-theorems/
 collection_class: JsonCollection
@@ -11,8 +11,6 @@ index_stats:
   documents: 23839
   documents (non-empty): 23839
   total terms: 2822888
-
-filter_cmd: python src/main/python/bright/filter_run.py --run runs/run.inverted.bright-theoremqa-theorems.topics.bm25 --split theoremqa_theorems
 
 metrics:
   - metric: nDCG@10
