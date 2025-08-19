@@ -659,4 +659,33 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     assertEquals("1.0 MB", IndexReaderUtils.formatSize(1048576));
     assertEquals("1.0 GB", IndexReaderUtils.formatSize(1073741824));
   }
+
+  private static final String PREBUILT_LABEL = "msmarco-v1-passage";
+
+  @Test
+  public void testAmbiguousPrebuiltLabelAndLocalPathThrows() throws IOException {
+    Path cwd = java.nio.file.Paths.get("");
+    Path localDir = cwd.resolve(PREBUILT_LABEL);
+
+    // Ensure clean state, create the conflicting local directory, then clean it up in finally.
+    if (java.nio.file.Files.exists(localDir)) {
+      // If it already exists for some reason, fail fast to avoid breaking other tests.
+      fail("Test setup error: unexpected existing directory " + localDir);
+    }
+
+    try {
+      java.nio.file.Files.createDirectory(localDir);
+      try {
+        IndexReaderUtils.getIndex(PREBUILT_LABEL);
+        fail("Expected IllegalArgumentException due to ambiguous index reference");
+      } catch (IllegalArgumentException e) {
+        assertTrue(e.getMessage().contains("Ambiguous index reference"));
+        assertTrue(e.getMessage().contains(PREBUILT_LABEL));
+      }
+    } finally {
+      if (java.nio.file.Files.exists(localDir)) {
+        java.nio.file.Files.delete(localDir);
+      }
+    }
+  }
 }

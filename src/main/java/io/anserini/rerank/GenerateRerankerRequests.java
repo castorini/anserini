@@ -194,15 +194,32 @@ public class GenerateRerankerRequests<K extends Comparable<K>> implements Closea
   }
 
   public IndexReader getIndexReader(String index) {
-    if (!Files.exists(Paths.get(index))) { // get inverted index if index doesn't exist locally
-      IndexInfo currentIndex = IndexInfo.get(index);
-      index = IndexReaderUtils.getIndex(currentIndex.invertedIndex).toString();
+    String resolvedIndex;
+
+    boolean isPrebuiltLabel = IndexInfo.contains(index);
+    boolean localExists = Files.exists(Paths.get(index));
+
+    // If both a prebuilt label and a local path exist, fail fast with
+    // a clear error to force disambiguation.
+    if (isPrebuiltLabel && localExists) {
+      throw new IllegalArgumentException(String.format(
+          "Ambiguous index reference \"%s\": both a prebuilt index label and a local path exist. " +
+          "Please disambiguate by specifying a full local path or removing/renaming the local directory.", index));
     }
-    LOG.info("Generating reranker requests with raw documents from index: " + index);
+
+    if (isPrebuiltLabel) {
+      IndexInfo currentIndex = IndexInfo.get(index);
+      resolvedIndex = IndexReaderUtils.getIndex(currentIndex.invertedIndex).toString();
+    } else {
+      // Not a known prebuilt label; resolve as prebuilt (if any) or local path.
+      resolvedIndex = IndexReaderUtils.getIndex(index).toString();
+    }
+
+    LOG.info("Generating reranker requests with raw documents from index: " + resolvedIndex);
     try {
-      return IndexReaderUtils.getReader(index);
+      return IndexReaderUtils.getReader(resolvedIndex);
     } catch (IOException e) {
-      throw new IllegalArgumentException(String.format("\"%s\" does not appear to have a valid inverted index.", index));
+      throw new IllegalArgumentException(String.format("\"%s\" does not appear to have a valid inverted index.", resolvedIndex));
     }
   }
 

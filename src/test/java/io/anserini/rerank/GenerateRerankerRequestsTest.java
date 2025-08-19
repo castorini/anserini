@@ -163,4 +163,39 @@ public class GenerateRerankerRequestsTest {
     assertTrue(new File("test_reranker_requests.jsonl").delete());
     restoreStderr();
   }
+
+  @Test
+  public void testAmbiguousIndexLabelAndLocalPath() throws Exception {
+    // Create a local directory that matches a known prebuilt label to force ambiguity.
+    final String prebuiltLabel = "msmarco-v1-passage";
+    File localDir = new File(prebuiltLabel);
+    if (localDir.exists()) {
+      // If it already exists, fail to avoid interfering with other tests.
+      throw new IllegalStateException("Unexpected pre-existing directory: " + localDir.getAbsolutePath());
+    }
+
+    try {
+      if (!localDir.mkdir()) {
+        throw new IllegalStateException("Failed to create test directory: " + localDir.getAbsolutePath());
+      }
+
+      GenerateRerankerRequests.Args args = new GenerateRerankerRequests.Args();
+      args.index = prebuiltLabel; // Ambiguous: label exists and local dir exists
+      args.run = "src/test/resources/sample_runs/run4";
+      args.topics = "cacm";
+      args.output = "test_reranker_requests.jsonl";
+
+      try (GenerateRerankerRequests<?> ignored = new GenerateRerankerRequests<>(args)) {
+        assertTrue("Expected IllegalArgumentException due to ambiguous index reference", false);
+      } catch (IllegalArgumentException e) {
+        assertTrue(e.getMessage().contains("Ambiguous index reference"));
+      }
+    } finally {
+      if (localDir.exists()) {
+        assertTrue(localDir.delete());
+      }
+      // Ensure we don't leave the output file around if it was accidentally created
+      new File("test_reranker_requests.jsonl").delete();
+    }
+  }
 }
