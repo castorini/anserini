@@ -25,7 +25,7 @@ documents:             3204
 documents (non-empty): 3204
 unique terms:          14363
 total terms:           320968
-index_path:            /u4/jimmylin/.cache/pyserini/indexes/lucene-index.cacm.20221005.252b5e.cfe14d543c6a27f4d742fb2d0099b8e0
+index_path:            /home/jimmylin/.cache/pyserini/indexes/lucene-index.cacm.20221005.252b5e.cfe14d543c6a27f4d742fb2d0099b8e0
 total_size:            2.9 MB
 ```
 
