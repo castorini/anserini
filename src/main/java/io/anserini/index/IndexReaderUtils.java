@@ -844,24 +844,44 @@ public class IndexReaderUtils {
   }
 
   public static Path getIndex(String index) {
+    boolean isPrebuiltLabel = false;
     try {
       PrebuiltIndexHandler handler = new PrebuiltIndexHandler(index);
       handler.initialize();
-      handler.download();
-      String indexLocation = handler.decompressIndex();
-      return Paths.get(indexLocation);
+      isPrebuiltLabel = true;
     } catch (Exception e) {
-      // Not a prebuilt index -- continue to check local path
+      // isPrebuiltLabel remains false
     }
-
+    
+    boolean localExists = Files.exists(Paths.get(index));
+    
+    if (isPrebuiltLabel && localExists) {
+      throw new IllegalArgumentException(String.format(
+          "Ambiguous index reference \"%s\": both a prebuilt index label and a local path exist. " +
+          "Please disambiguate by specifying a full local path or removing/renaming the local directory.", index));
+    }
+    
+    if (isPrebuiltLabel) {
+      try {
+        PrebuiltIndexHandler handler = new PrebuiltIndexHandler(index);
+        handler.initialize();
+        handler.download();
+        String indexLocation = handler.decompressIndex();
+        return Paths.get(indexLocation);
+      } catch (Exception e) {
+        //Fall through.
+      }
+    }
+    
+    // Try local path
     Path indexPath = Paths.get(index);
     if (Files.exists(indexPath)) {
       return indexPath;
     }
-
+    
     // Path doesn't exist locally + it's not a prebuilt index.
     throw new IllegalArgumentException(String.format("\"%s\" does not appear to be a valid index.", index));
- }
+  }
 
   // This is needed by src/main/python/run_regression.py
 
