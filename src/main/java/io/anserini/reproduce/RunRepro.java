@@ -114,50 +114,59 @@ public class RunRepro {
     // If requested, print index summary before any runs.
     if (computeIndexSize && !uniqueIndexNames.isEmpty()) {
       System.out.printf("Indexes referenced by this run (%d total):%n", uniqueIndexNames.size());
+
+      // Simple table header; allow path to extend naturally for easy copy/paste.
+      final String fmt = "%-70s  %12s  %12s  %s%n";
+      System.out.printf(fmt, "name", "size on disk", "download size", "path");
+      System.out.printf(fmt, repeat('-', 70), repeat('-', 12), repeat('-', 12), repeat('-', 30));
+
       long totalBytes = 0L;
       int presentCount = 0;
       for (String idx : uniqueIndexNames) {
-        // Prefer prebuilt cache path if this is a known alias.
+        String name = idx;
+        String sizeOnDiskStr = "-";
+        String downloadSizeStr = "-";
+        String pathStr = "-";
+
         if (IndexInfo.contains(idx)) {
-          Path prebuiltPath = expectedPrebuiltPath(idx);
-          if (prebuiltPath != null && Files.exists(prebuiltPath)) {
-            long sz = IndexReaderUtils.findDirectorySize(prebuiltPath);
-            if (sz <= 0L) {
-              System.out.printf("  - %s: not downloaded (expected cache path: %s)%n", idx, prebuiltPath.toAbsolutePath());
-            } else {
-              totalBytes += sz;
-              presentCount++;
-              System.out.printf("  - %s: present in cache at %s (size: %s)%n", idx, prebuiltPath.toAbsolutePath(), IndexReaderUtils.formatSize(sz));
-            }
-            continue;
+          // Prebuilt alias
+          IndexInfo info = IndexInfo.get(idx);
+          if (info.size > 0) {
+            downloadSizeStr = IndexReaderUtils.formatSize(info.size);
           }
-          // Fall back to local path if provided as a directory.
+          Path prebuiltPath = expectedPrebuiltPath(idx);
+          pathStr = prebuiltPath == null ? "-" : prebuiltPath.toAbsolutePath().toString();
+          long sz = -1L;
+          if (prebuiltPath != null && Files.exists(prebuiltPath)) {
+            // Ignore symlinks per request; measure directory as-is
+            sz = IndexReaderUtils.findDirectorySize(prebuiltPath);
+          }
+          if (sz > 0L) {
+            totalBytes += sz;
+            presentCount++;
+            sizeOnDiskStr = IndexReaderUtils.formatSize(sz);
+          } else {
+            sizeOnDiskStr = "-"; // treat empty or missing as not downloaded
+          }
+        } else {
+          // Literal local path
           Path p = Paths.get(idx);
+          pathStr = p.toAbsolutePath().toString();
           if (Files.exists(p)) {
             Path pathForSize = resolveSingleSymlinkChild(p);
             long sz = IndexReaderUtils.findDirectorySize(pathForSize);
-            totalBytes += sz;
-            presentCount++;
-            System.out.printf("  - %s: present at %s (size: %s)%n", idx, pathForSize.toAbsolutePath(), IndexReaderUtils.formatSize(sz));
-          } else {
-            System.out.printf("  - %s: not downloaded (expected cache path: %s)%n", idx, prebuiltPath == null ? "<unknown>" : prebuiltPath.toAbsolutePath());
+            if (sz > 0L) {
+              totalBytes += sz;
+              presentCount++;
+              sizeOnDiskStr = IndexReaderUtils.formatSize(sz);
+            }
           }
-          continue;
         }
 
-        // Otherwise treat as a literal local path.
-        Path p = Paths.get(idx);
-        if (Files.exists(p)) {
-          Path pathForSize = resolveSingleSymlinkChild(p);
-          long sz = IndexReaderUtils.findDirectorySize(pathForSize);
-          totalBytes += sz;
-          presentCount++;
-          System.out.printf("  - %s: present at %s (size: %s)%n", idx, pathForSize.toAbsolutePath(), IndexReaderUtils.formatSize(sz));
-        } else {
-          System.out.printf("  - %s: unknown (neither local path nor prebuilt alias)%n", idx);
-        }
+        System.out.printf(fmt, name, sizeOnDiskStr, downloadSizeStr, pathStr);
       }
-      System.out.printf("Total size across %d of %d indexes: %s%n%n", presentCount, uniqueIndexNames.size(), IndexReaderUtils.formatSize(totalBytes));
+
+      System.out.printf("%nTotal size across %d of %d indexes: %s%n%n", presentCount, uniqueIndexNames.size(), IndexReaderUtils.formatSize(totalBytes));
     }
 
     for (Condition condition : config.conditions) {
@@ -320,6 +329,14 @@ public class RunRepro {
     }
     return cacheDir;
   }
+
+  private static String repeat(char c, int n) {
+    StringBuilder sb = new StringBuilder(n);
+    for (int i = 0; i < n; i++) sb.append(c);
+    return sb.toString();
+  }
+
+  // Intentionally no per-column wrapping: keeping path fully visible makes copy/paste easier.
 
 
   public static class Config {
