@@ -115,13 +115,12 @@ public class RunRepro {
     if (computeIndexSize && !uniqueIndexNames.isEmpty()) {
       System.out.printf("Indexes referenced by this run (%d total):%n", uniqueIndexNames.size());
 
-      // Simple table header; allow path to extend naturally for easy copy/paste.
-      final String fmt = "%-70s  %12s  %12s  %s%n";
-      System.out.printf(fmt, "name", "size on disk", "download size", "path");
-      System.out.printf(fmt, repeat('-', 70), repeat('-', 12), repeat('-', 12), repeat('-', 30));
-
+      // First pass: compute rows and totals so we can size columns dynamically.
       long totalBytes = 0L;
+      long totalDownloadBytes = 0L;
       int presentCount = 0;
+      java.util.List<String[]> rows = new java.util.ArrayList<>(); // [name, sizeOnDisk, downloadSize, path]
+
       for (String idx : uniqueIndexNames) {
         String name = idx;
         String sizeOnDiskStr = "-";
@@ -133,6 +132,7 @@ public class RunRepro {
           IndexInfo info = IndexInfo.get(idx);
           if (info.size > 0) {
             downloadSizeStr = IndexReaderUtils.formatSize(info.size);
+            totalDownloadBytes += info.size;
           }
           Path prebuiltPath = expectedPrebuiltPath(idx);
           pathStr = prebuiltPath == null ? "-" : prebuiltPath.toAbsolutePath().toString();
@@ -163,8 +163,26 @@ public class RunRepro {
           }
         }
 
-        System.out.printf(fmt, name, sizeOnDiskStr, downloadSizeStr, pathStr);
+        rows.add(new String[] { name, sizeOnDiskStr, downloadSizeStr, pathStr });
       }
+
+      // Compute dynamic widths for first and last columns.
+      int nameWidth = Math.max("name".length(), uniqueIndexNames.stream().mapToInt(String::length).max().orElse(4));
+      nameWidth = Math.max(nameWidth, "total".length());
+      int pathWidth = "path".length();
+      for (String[] r : rows) {
+        if (r[3] != null) pathWidth = Math.max(pathWidth, r[3].length());
+      }
+
+      final String fmt = "%-" + nameWidth + "s  %12s  %12s  %-" + pathWidth + "s%n";
+      System.out.printf(fmt, "name", "size on disk", "download size", "path");
+      System.out.printf(fmt, repeat('-', nameWidth), repeat('-', 12), repeat('-', 12), repeat('-', pathWidth));
+
+      for (String[] r : rows) {
+        System.out.printf(fmt, r[0], r[1], r[2], r[3]);
+      }
+      // Add total row at the end with no path.
+      System.out.printf(fmt, "total", IndexReaderUtils.formatSize(totalBytes), IndexReaderUtils.formatSize(totalDownloadBytes), "-");
 
       System.out.printf("%nTotal size across %d of %d indexes: %s%n%n", presentCount, uniqueIndexNames.size(), IndexReaderUtils.formatSize(totalBytes));
     }
