@@ -122,9 +122,13 @@ public class RunRepro {
           Path prebuiltPath = expectedPrebuiltPath(idx);
           if (prebuiltPath != null && Files.exists(prebuiltPath)) {
             long sz = IndexReaderUtils.findDirectorySize(prebuiltPath);
-            totalBytes += sz;
-            presentCount++;
-            System.out.printf("  - %s: present in cache at %s (size: %s)%n", idx, prebuiltPath.toAbsolutePath(), IndexReaderUtils.formatSize(sz));
+            if (sz <= 0L) {
+              System.out.printf("  - %s: not downloaded (expected cache path: %s)%n", idx, prebuiltPath.toAbsolutePath());
+            } else {
+              totalBytes += sz;
+              presentCount++;
+              System.out.printf("  - %s: present in cache at %s (size: %s)%n", idx, prebuiltPath.toAbsolutePath(), IndexReaderUtils.formatSize(sz));
+            }
             continue;
           }
           // Fall back to local path if provided as a directory.
