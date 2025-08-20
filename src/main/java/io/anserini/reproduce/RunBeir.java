@@ -38,7 +38,7 @@ public class RunBeir {
       return;
     }
 
-    RunRepro repro = new RunRepro("beir", new BeirMetricDefinitions(), beirArgs.printCommands, beirArgs.dryRun);
+    RunRepro repro = new RunRepro("beir", new BeirMetricDefinitions(), beirArgs.printCommands, beirArgs.dryRun, beirArgs.computeIndexSize);
     repro.run();
   }
 

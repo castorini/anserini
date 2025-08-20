@@ -85,4 +85,18 @@ public class RunMsMarcoTest {
 
     restoreStdout();
   }
+
+  @Test
+  public void testComputeIndexSize() throws Exception {
+    redirectStdout();
+
+    String[] args = new String[] {"-dryRun", "-computeIndexSize"};
+    RunMsMarco.main(args);
+
+    String s = out.toString();
+    assertTrue(s.contains("Indexes referenced by this run"));
+    assertTrue(s.contains("Total size across"));
+
+    restoreStdout();
+  }
 }

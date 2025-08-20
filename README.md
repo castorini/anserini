@@ -538,23 +538,24 @@ BRIGHT is a retrieval benchmark described [here](https://arxiv.org/abs/2407.1288
 
 + Sv3 = SPLADE-v3: cached queries (🫙), ONNX (🅾️)
 
-| Corpus             |                               BM25                               |                                       Sv3                                        |
-|--------------------|:----------------------------------------------------------------:|:--------------------------------------------------------------------------------:|
-| **StackExchange**  |                                                                  |                                                                                  |
-| Biology            |       [🔑](docs/regressions/regressions-bright-biology.md)       |       [🅾️](docs/regressions/regressions-bright-biology.splade-v3.onnx.md)       |
-| Earth Science      |    [🔑](docs/regressions/regressions-bright-earth-science.md)    |    [🅾️](docs/regressions/regressions-bright-earth-science.splade-v3.onnx.md)    |
-| Economics          |      [🔑](docs/regressions/regressions-bright-economics.md)      |      [🅾️](docs/regressions/regressions-bright-economics.splade-v3.onnx.md)      |
-| Psychology         |     [🔑](docs/regressions/regressions-bright-psychology.md)      |     [🅾️](docs/regressions/regressions-bright-psychology.splade-v3.onnx.md)      |
-| Robotics           |      [🔑](docs/regressions/regressions-bright-robotics.md)       |      [🅾️](docs/regressions/regressions-bright-robotics.splade-v3.onnx.md)       |
-| Stack Overflow     |    [🔑](docs/regressions/regressions-bright-stackoverflow.md)    |    [🅾️](docs/regressions/regressions-bright-stackoverflow.splade-v3.onnx.md)    |
-| Sustainable Living | [🔑](docs/regressions/regressions-bright-sustainable-living.md)  | [🅾️](docs/regressions/regressions-bright-sustainable-living.splade-v3.onnx.md)  |
-| **Coding**         |                                                                  |                                                                                  |
-| LeetCode           |      [🔑](docs/regressions/regressions-bright-leetcode.md)       |      [🅾️](docs/regressions/regressions-bright-leetcode.splade-v3.onnx.md)       |
-| Pony               |        [🔑](docs/regressions/regressions-bright-pony.md)         |        [🅾️](docs/regressions/regressions-bright-pony.splade-v3.onnx.md)         |
-| **Theorems**       |                                                                  |                                                                                  |
-| AoPS               |        [🔑](docs/regressions/regressions-bright-aops.md)         |        [🅾️](docs/regressions/regressions-bright-aops.splade-v3.onnx.md)         |
-| TheoremQA-Q        | [🔑](docs/regressions/regressions-bright-theoremqa-questions.md) | [🅾️](docs/regressions/regressions-bright-theoremqa-questions.splade-v3.onnx.md) |
-| TheoremQA-T        | [🔑](docs/regressions/regressions-bright-theoremqa-theorems.md)  | [🅾️](docs/regressions/regressions-bright-theoremqa-theorems.splade-v3.onnx.md)  |
+| Corpus             |                               BM25                               |                                                                                Sv3                                                                                 |
+|--------------------|:----------------------------------------------------------------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| **StackExchange**  |                                                                  |                                                                                                                                                                    |
+| Biology            |       [🔑](docs/regressions/regressions-bright-biology.md)       |             [🫙](docs/regressions/regressions-bright-biology.splade-v3.cached.md) [🅾️](docs/regressions/regressions-bright-biology.splade-v3.onnx.md)             |
+| Earth Science      |    [🔑](docs/regressions/regressions-bright-earth-science.md)    |       [🫙](docs/regressions/regressions-bright-earth-science.splade-v3.cached.md) [🅾️](docs/regressions/regressions-bright-earth-science.splade-v3.onnx.md)       |
+| Economics          |      [🔑](docs/regressions/regressions-bright-economics.md)      |           [🫙](docs/regressions/regressions-bright-economics.splade-v3.cached.md) [🅾️](docs/regressions/regressions-bright-economics.splade-v3.onnx.md)           |
+| Psychology         |     [🔑](docs/regressions/regressions-bright-psychology.md)      |          [🫙](docs/regressions/regressions-bright-psychology.splade-v3.cached.md) [🅾️](docs/regressions/regressions-bright-psychology.splade-v3.onnx.md)          |
+| Robotics           |      [🔑](docs/regressions/regressions-bright-robotics.md)       |            [🫙](docs/regressions/regressions-bright-robotics.splade-v3.cached.md) [🅾️](docs/regressions/regressions-bright-robotics.splade-v3.onnx.md)            |
+| Stack Overflow     |    [🔑](docs/regressions/regressions-bright-stackoverflow.md)    |       [🫙](docs/regressions/regressions-bright-stackoverflow.splade-v3.cached.md) [🅾️](docs/regressions/regressions-bright-stackoverflow.splade-v3.onnx.md)       |
+| Sustainable Living | [🔑](docs/regressions/regressions-bright-sustainable-living.md)  |  [🫙](docs/regressions/regressions-bright-sustainable-living.splade-v3.cached.md) [🅾️](docs/regressions/regressions-bright-sustainable-living.splade-v3.onnx.md)  |
+| **Coding**         |                                                                  |                                                                                                                                                                    |
+| LeetCode           |      [🔑](docs/regressions/regressions-bright-leetcode.md)       |            [🫙](docs/regressions/regressions-bright-leetcode.splade-v3.cached.md) [🅾️](docs/regressions/regressions-bright-leetcode.splade-v3.onnx.md)            |
+| Pony               |        [🔑](docs/regressions/regressions-bright-pony.md)         |                [🫙](docs/regressions/regressions-bright-pony.splade-v3.cached.md) [🅾️](docs/regressions/regressions-bright-pony.splade-v3.onnx.md)                |
+| **Theorems**       |                                                                  |                                                                                                                                                                    |
+| AoPS               |        [🔑](docs/regressions/regressions-bright-aops.md)         |                [🫙](docs/regressions/regressions-bright-aops.splade-v3.cached.md) [🅾️](docs/regressions/regressions-bright-aops.splade-v3.onnx.md)                |
+| TheoremQA-Q        | [🔑](docs/regressions/regressions-bright-theoremqa-questions.md) | [🫙](docs/regressions/regressions-bright-theoremqa-questions.splade-v3.cached.md) [🅾️](docs/regressions/regressions-bright-theoremqa-questions.splade-v3.onnx.md) |
+| TheoremQA-T        | [🔑](docs/regressions/regressions-bright-theoremqa-theorems.md)  |  [🫙](docs/regressions/regressions-bright-theoremqa-theorems.splade-v3.cached.md) [🅾️](docs/regressions/regressions-bright-theoremqa-theorems.splade-v3.onnx.md)  |
+
 
 
 ### Available Corpora for Download

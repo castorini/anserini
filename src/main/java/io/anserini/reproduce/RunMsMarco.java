@@ -65,7 +65,7 @@ public class RunMsMarco {
     }
 
     RunRepro repro = new RunRepro(msmarcoArgs.MsMarcoVersion, new MsMarcoMetricDefinitions(),
-            msmarcoArgs.printCommands, msmarcoArgs.dryRun);
+            msmarcoArgs.printCommands, msmarcoArgs.dryRun, msmarcoArgs.computeIndexSize);
     repro.run();
   }
 
