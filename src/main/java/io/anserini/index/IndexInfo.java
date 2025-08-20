@@ -20,6 +20,7 @@ import io.anserini.encoder.dense.ArcticEmbedLEncoder;
 import io.anserini.encoder.dense.BgeBaseEn15Encoder;
 import io.anserini.encoder.sparse.SpladePlusPlusEnsembleDistilEncoder;
 import io.anserini.encoder.sparse.SpladeV3Encoder;
+import io.anserini.encoder.sparse.UniCoilEncoder;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
 import io.anserini.search.query.VectorQueryGenerator;
 
@@ -178,6 +179,34 @@ public enum IndexInfo {
       IndexType.SPARSE_INVERTED,
       null,
       null,
+      "msmarco-v2-passage"),
+
+    MSMARCO_V2_PASSAGE_UNICOIL_NOEXP_0SHOT("msmarco-v2-passage.unicoil-noexp-0shot",
+      "Lucene impact index of the MS MARCO V2 passage corpus for uniCOIL (noexp).",
+      "lucene-inverted.msmarco-v2-passage.unicoil-noexp-0shot.20220808.4d6d2a.tar.gz",
+      "https://github.com/castorini/pyserini/blob/c386df79cb7443361e49a5396a27fcbc713d008c/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-passage.unicoil-noexp-0shot.20220808.4d6d2a.README.md",
+      "MS MARCO V2 Passage",
+      "uniCOIL",
+      new String[] {
+          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2-passage.unicoil-noexp-0shot.20220808.4d6d2a.tar.gz" },
+      "3e0a5be5adca063a112fa2f0978f91cb",
+      IndexType.SPARSE_IMPACT,
+      UniCoilEncoder.class.getSimpleName(),
+      BagOfWordsQueryGenerator.class.getSimpleName(),
+      "msmarco-v2-passage"),
+
+    MSMARCO_V2_PASSAGE_UNICOIL_0SHOT("msmarco-v2-passage.unicoil-0shot",
+      "Lucene impact index of the MS MARCO V2 passage corpus for uniCOIL.",
+      "lucene-inverted.msmarco-v2-passage.unicoil-0shot.20220808.4d6d2a.tar.gz",
+      "https://github.com/castorini/pyserini/blob/c386df79cb7443361e49a5396a27fcbc713d008c/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-passage.unicoil-0shot.20220808.4d6d2a.README.md",
+      "MS MARCO V2 Passage",
+      "uniCOIL (with doc2query-T5 expansions) zero-shot",
+      new String[] {
+          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2-passage.unicoil-0shot.20220808.4d6d2a.tar.gz" },
+      "1949a00bfd5e1f1a230a04bbc1f01539",
+      IndexType.SPARSE_IMPACT,
+      UniCoilEncoder.class.getSimpleName(),
+      BagOfWordsQueryGenerator.class.getSimpleName(),
       "msmarco-v2-passage"),
 
   MSMARCO_V2_DOC("msmarco-v2-doc",
