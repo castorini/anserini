@@ -1,39 +1,8 @@
-#
-# Anserini: A Lucene toolkit for reproducible information retrieval research
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-# http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
-
-bright_keys = {
-    'biology': 'Biology',
-    'earth-science': 'Earth Science',
-    'economics': 'Economics',
-    'psychology': 'Psychology',
-    'robotics': 'Robotics',
-    'stackoverflow': 'Stack Overflow',
-    'sustainable-living': 'Sustainable Living',
-    'leetcode': 'LeetCode',
-    'pony': 'Pony',
-    'aops': 'AoPS',
-    'theoremqa-theorems': 'TheoremQA-T',
-    'theoremqa-questions': 'TheoremQA-Q'
-}
-
-doc_template1 = """# Anserini Regressions: BRIGHT &mdash; {corpus_long}
+# Anserini Regressions: BRIGHT &mdash; TheoremQA-T
 
 **Model**: [BGE-large-en-v1.5](https://huggingface.co/BAAI/bge-large-en-v1.5) with flat indexes (using cached queries)
 
-This page documents regression experiments, integrated into Anserini's regression testing framework, for [BRIGHT &mdash; {corpus_long}](https://brightbenchmark.github.io/) using [BGE-large-en-v1.5](https://huggingface.co/BAAI/bge-large-en-v1.5).
+This page documents regression experiments, integrated into Anserini's regression testing framework, for [BRIGHT &mdash; TheoremQA-T](https://brightbenchmark.github.io/) using [BGE-large-en-v1.5](https://huggingface.co/BAAI/bge-large-en-v1.5).
 The model itself can be download [here](https://huggingface.co/BAAI/bge-large-en-v1.5).
 See the following paper for more details:
 
@@ -41,9 +10,7 @@ See the following paper for more details:
 
 In these experiments, we are using cached queries (i.e., cached results of query encoding).
 
-"""
-
-doc_template2 = """The exact configurations for these regressions are stored in [this YAML file](${yaml}).
+The exact configurations for these regressions are stored in [this YAML file](${yaml}).
 Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and build Anserini to rebuild the documentation.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
@@ -95,11 +62,3 @@ With the above commands, you should be able to reproduce the following results:
 ${effectiveness}
 
 Note that since we're running brute-force search with cached queries on non-quantized flat indexes, the results should be reproducible _exactly_.
-"""
-
-for key in bright_keys:
-    with open(f'src/main/resources/docgen/templates/bright-{key}.bge-large-en-v1.5.flat.cached.template', 'w') as file:
-        formatted = doc_template1.format(corpus_long=bright_keys[key])
-        print(f'Writing doc template for {key}...')
-        file.write(formatted)
-        file.write(doc_template2)

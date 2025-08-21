@@ -33,18 +33,15 @@ bright_keys = {
 
 
 yaml_template = """---
-corpus: bright-{corpus_short}
-corpus_path: collections/bright/splade-v3/{corpus_short}
+corpus: bright-{corpus_short}.bge-large-en-v1.5
+corpus_path: collections/bright/bge-large-en-v1.5/{corpus_short}
 
-index_path: indexes/lucene-inverted.bright-{corpus_short}.splade-v3/
-collection_class: JsonVectorCollection
-generator_class: DefaultLuceneDocumentGenerator
+index_path: indexes/lucene-flat.bright-{corpus_short}.bge-large-en-v1.5/
+index_type: flat
+collection_class: JsonDenseVectorCollection
+generator_class: DenseVectorDocumentGenerator
 index_threads: 16
-index_options: -impact -pretokenized
-index_stats:
-  documents: {documents}
-  documents (non-empty): {non_empty_documents}
-  total terms: {total_terms}
+index_options: ""
 
 metrics:
   - metric: nDCG@10
@@ -69,17 +66,18 @@ metrics:
     metric_precision: 4
     can_combine: false
 
-topic_reader: TsvString
+topic_reader: JsonStringVector
 topics:
   - name: "BRIGHT: {corpus_long}"
     id: topics
-    path: topics.bright-{corpus_short}.splade-v3.tsv.gz
+    path: topics.bright-{corpus_short}.bge-large-en-v1.5.jsonl.gz
     qrel: qrels.bright-{corpus_short}.txt
 
 models:
-  - name: splade-v3-cached
-    display: SPLADE-v3
-    params: -impact -pretokenized -removeQuery -hits 1000 
+  - name: bge-flat-cached
+    display: BGE-large-en-v1.5
+    type: flat
+    params: -hits 1000 -removeQuery -threads 16
     results:
       nDCG@10:
         - 0.3952
@@ -90,14 +88,7 @@ models:
 """
 
 for key in bright_keys:
-    with open(f'src/main/resources/regression/bright-{key}.splade-v3.cached.yaml', 'w') as file:
-        reader = LuceneIndexReader(f'indexes/lucene-inverted.bright-{key}.splade-v3')
-        stats = reader.stats()
-        documents = stats['documents']
-        non_empty_documents = stats['non_empty_documents']
-        total_terms = stats['total_terms']
-        underscore = key.replace('-', '_')
-        formatted = yaml_template.format(corpus_short=key, corpus_long=bright_keys[key], documents=documents,
-                                         non_empty_documents=non_empty_documents, total_terms=total_terms, underscore=underscore)
+    with open(f'src/main/resources/regression/bright-{key}.bge-large-en-v1.5.flat.cached.yaml', 'w') as file:
+        formatted = yaml_template.format(corpus_short=key, corpus_long=bright_keys[key])
         print(f'Writing yaml for {key}...')
         file.write(formatted)
