@@ -31,15 +31,15 @@ bright_keys = {
 
 doc_template1 = """# Anserini Regressions: BRIGHT &mdash; {corpus_long}
 
-**Model**: [SPLADE-v3](https://arxiv.org/abs/2403.06789) (using cached queries)
+**Model**: [BGE-large-en-v1.5](https://huggingface.co/BAAI/bge-large-en-v1.5) with flat indexes (using ONNX for on-the-fly query encoding)
 
-This page documents regression experiments for [BRIGHT &mdash; {corpus_long}](https://brightbenchmark.github.io/) using using [SPLADE-v3](https://arxiv.org/abs/2403.06789).
-The model itself can be download [here](https://huggingface.co/naver/splade-v3).
-See the [official SPLADE repo](https://github.com/naver/splade) and the following paper for more details:
+This page documents regression experiments, integrated into Anserini's regression testing framework, for [BRIGHT &mdash; {corpus_long}](https://brightbenchmark.github.io/) using [BGE-large-en-v1.5](https://huggingface.co/BAAI/bge-large-en-v1.5).
+The model itself can be download [here](https://huggingface.co/BAAI/bge-large-en-v1.5).
+See the following paper for more details:
 
-> Carlos Lassance, Hervé Déjean, Thibault Formal, and Stéphane Clinchant. [SPLADE-v3: New baselines for SPLADE.](https://arxiv.org/abs/2403.06789) _arXiv:2403.06789_.
+> Shitao Xiao, Zheng Liu, Peitian Zhang, and Niklas Muennighoff. [C-Pack: Packaged Resources To Advance General Chinese Embedding.](https://arxiv.org/abs/2309.07597) _arXiv:2309.07597_, 2023.
 
-In these experiments, we are using cached queries (i.e., cached results of query encoding).
+In these experiments, we are using ONNX to perform query encoding on the fly.
 
 """
 
@@ -52,27 +52,25 @@ From one of our Waterloo servers (e.g., `orca`), the following command will perf
 python src/main/python/run_regression.py --index --verify --search --regression ${test_name}
 ```
 
-All the BRIGHT corpora, encoded by the SPLADE-v3 model, are available for download:
+All the BRIGHT corpora, encoded by the BGE-large-en-v1.5 model, are available for download:
 
 ```bash
-wget https://huggingface.co/datasets/castorini/collections-bright/resolve/main/bright-splade-v3.tar -P collections/
-tar xvf collections/bright-splade-v3.tar -C collections/
+wget https://huggingface.co/datasets/castorini/collections-bright/resolve/main/bright-bge-large-en-v1.5.tar -P collections/
+tar xvf collections/bright-bge-large-en-v1.5.tar -C collections/
 ```
 
-The tarball is 1.5 GB and has MD5 checksum `434cd776b5c40f8112d2bf888c58a516`.
+The tarball is 13 GB and has MD5 checksum `0ce2634d34d3d467cd1afd74f2f63c7b`.
 After download and unpacking the corpora, the `run_regression.py` command above should work without any issue.
 
 ## Indexing
 
-Typical indexing command:
+Typical indexing command, building flat indexes:
 
 ```
 ${index_cmds}
 ```
 
 The path `/path/to/${corpus}/` should point to the corpus downloaded above.
-The important indexing options to note here are `-impact -pretokenized`: the first tells Anserini not to encode BM25 doclengths into Lucene's norms (which is the default) and the second option says not to apply any additional tokenization on the pre-encoded tokens.
-For additional details, see explanation of [common indexing options](../../docs/common-indexing-options.md).
 
 ## Retrieval
 
@@ -95,10 +93,12 @@ ${eval_cmds}
 With the above commands, you should be able to reproduce the following results:
 
 ${effectiveness}
+
+With ONNX query encoding on non-quantized flat indexes, observed results may differ slightly (typically, lower), but scores should generally be within 0.001 of the results reported above (with some outliers).
 """
 
 for key in bright_keys:
-    with open(f'src/main/resources/docgen/templates/bright-{key}.splade-v3.cached.template', 'w') as file:
+    with open(f'src/main/resources/docgen/templates/bright-{key}.bge-large-en-v1.5.flat.onnx.template', 'w') as file:
         formatted = doc_template1.format(corpus_long=bright_keys[key])
         print(f'Writing doc template for {key}...')
         file.write(formatted)
