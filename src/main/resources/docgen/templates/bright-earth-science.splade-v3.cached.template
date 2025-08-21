@@ -2,7 +2,7 @@
 
 **Model**: [SPLADE-v3](https://arxiv.org/abs/2403.06789) (using cached queries)
 
-This page documents regression experiments for [BRIGHT &mdash; Earth Science](https://brightbenchmark.github.io/) using using [SPLADE-v3](https://arxiv.org/abs/2403.06789).
+This page documents regression experiments for [BRIGHT &mdash; Earth Science](https://brightbenchmark.github.io/) using [SPLADE-v3](https://arxiv.org/abs/2403.06789).
 The model itself can be download [here](https://huggingface.co/naver/splade-v3).
 See the [official SPLADE repo](https://github.com/naver/splade) and the following paper for more details:
 
