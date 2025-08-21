@@ -14,8 +14,6 @@
 # limitations under the License.
 #
 
-from pyserini.index.lucene import LuceneIndexReader
-
 bright_keys = {
     'biology': 'Biology',
     'earth-science': 'Earth Science',
@@ -66,18 +64,18 @@ metrics:
     metric_precision: 4
     can_combine: false
 
-topic_reader: JsonStringVector
+topic_reader: TsvString
 topics:
   - name: "BRIGHT: {corpus_long}"
     id: topics
-    path: topics.bright-{corpus_short}.bge-large-en-v1.5.jsonl.gz
+    path: topics.bright-{corpus_short}.tsv.gz
     qrel: qrels.bright-{corpus_short}.txt
 
 models:
-  - name: bge-flat-cached
+  - name: bge-flat-onnx
     display: BGE-large-en-v1.5
     type: flat
-    params: -hits 1000 -removeQuery -threads 16
+    params: -encoder BgeLargeEn15 -hits 1000 -removeQuery -threads 16
     results:
       nDCG@10:
         - 0.3952
@@ -88,7 +86,7 @@ models:
 """
 
 for key in bright_keys:
-    with open(f'src/main/resources/regression/bright-{key}.bge-large-en-v1.5.flat.cached.yaml', 'w') as file:
+    with open(f'src/main/resources/regression/bright-{key}.bge-large-en-v1.5.flat.onnx.yaml', 'w') as file:
         formatted = yaml_template.format(corpus_short=key, corpus_long=bright_keys[key])
         print(f'Writing yaml for {key}...')
         file.write(formatted)
