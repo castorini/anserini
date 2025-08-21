@@ -200,6 +200,59 @@ Therefore, do not modify this page directly; modify the test case instead.
 </dd>
 </dl>
 </details>
+<details>
+<summary>BRIGHT</summary>
+<dl>
+<dt></dt><b><code>bright-biology.bge-large-en-v1.5.flat</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md">readme</a>]
+<dd>Lucene flat index of BRIGHT collection 'biology' encoded by BGE-large-en-v1.5.
+</dd>
+<dt></dt><b><code>bright-earth-science.bge-large-en-v1.5.flat</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md">readme</a>]
+<dd>Lucene flat index of BRIGHT collection 'earth-science' encoded by BGE-large-en-v1.5.
+</dd>
+<dt></dt><b><code>bright-economics.bge-large-en-v1.5.flat</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md">readme</a>]
+<dd>Lucene flat index of BRIGHT collection 'economics' encoded by BGE-large-en-v1.5.
+</dd>
+<dt></dt><b><code>bright-psychology.bge-large-en-v1.5.flat</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md">readme</a>]
+<dd>Lucene flat index of BRIGHT collection 'psychology' encoded by BGE-large-en-v1.5.
+</dd>
+<dt></dt><b><code>bright-robotics.bge-large-en-v1.5.flat</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md">readme</a>]
+<dd>Lucene flat index of BRIGHT collection 'robotics' encoded by BGE-large-en-v1.5.
+</dd>
+<dt></dt><b><code>bright-stackoverflow.bge-large-en-v1.5.flat</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md">readme</a>]
+<dd>Lucene flat index of BRIGHT collection 'stackoverflow' encoded by BGE-large-en-v1.5.
+</dd>
+<dt></dt><b><code>bright-sustainable-living.bge-large-en-v1.5.flat</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md">readme</a>]
+<dd>Lucene flat index of BRIGHT collection 'sustainable-living' encoded by BGE-large-en-v1.5.
+</dd>
+<dt></dt><b><code>bright-pony.bge-large-en-v1.5.flat</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md">readme</a>]
+<dd>Lucene flat index of BRIGHT collection 'pony' encoded by BGE-large-en-v1.5.
+</dd>
+<dt></dt><b><code>bright-leetcode.bge-large-en-v1.5.flat</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md">readme</a>]
+<dd>Lucene flat index of BRIGHT collection 'leetcode' encoded by BGE-large-en-v1.5.
+</dd>
+<dt></dt><b><code>bright-aops.bge-large-en-v1.5.flat</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md">readme</a>]
+<dd>Lucene flat index of BRIGHT collection 'aops' encoded by BGE-large-en-v1.5.
+</dd>
+<dt></dt><b><code>bright-theoremqa-theorems.bge-large-en-v1.5.flat</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md">readme</a>]
+<dd>Lucene flat index of BRIGHT collection 'theoremqa-theorems' encoded by BGE-large-en-v1.5.
+</dd>
+<dt></dt><b><code>bright-theoremqa-questions.bge-large-en-v1.5.flat</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md">readme</a>]
+<dd>Lucene flat index of BRIGHT collection 'theoremqa-questions' encoded by BGE-large-en-v1.5.
+</dd>
+</dl>
+</details>
 
 ### Lucene HNSW Indexes
 <details>

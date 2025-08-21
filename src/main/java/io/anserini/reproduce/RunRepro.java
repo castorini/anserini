@@ -114,46 +114,77 @@ public class RunRepro {
     // If requested, print index summary before any runs.
     if (computeIndexSize && !uniqueIndexNames.isEmpty()) {
       System.out.printf("Indexes referenced by this run (%d total):%n", uniqueIndexNames.size());
+
+      // First pass: compute rows and totals so we can size columns dynamically.
       long totalBytes = 0L;
+      long totalDownloadBytes = 0L;
       int presentCount = 0;
+      java.util.List<String[]> rows = new java.util.ArrayList<>(); // [name, sizeOnDisk, downloadSize, path]
+
       for (String idx : uniqueIndexNames) {
-        // Prefer prebuilt cache path if this is a known alias.
+        String name = idx;
+        String sizeOnDiskStr = "-";
+        String downloadSizeStr = "-";
+        String pathStr = "-";
+
         if (IndexInfo.contains(idx)) {
+          // Prebuilt alias
+          IndexInfo info = IndexInfo.get(idx);
+          if (info.size > 0) {
+            downloadSizeStr = IndexReaderUtils.formatSize(info.size);
+            totalDownloadBytes += info.size;
+          }
           Path prebuiltPath = expectedPrebuiltPath(idx);
+          pathStr = prebuiltPath == null ? "-" : prebuiltPath.toAbsolutePath().toString();
+          long sz = -1L;
           if (prebuiltPath != null && Files.exists(prebuiltPath)) {
-            long sz = IndexReaderUtils.findDirectorySize(prebuiltPath);
+            // Ignore symlinks per request; measure directory as-is
+            sz = IndexReaderUtils.findDirectorySize(prebuiltPath);
+          }
+          if (sz > 0L) {
             totalBytes += sz;
             presentCount++;
-            System.out.printf("  - %s: present in cache at %s (size: %s)%n", idx, prebuiltPath.toAbsolutePath(), IndexReaderUtils.formatSize(sz));
-            continue;
+            sizeOnDiskStr = IndexReaderUtils.formatSize(sz);
+          } else {
+            sizeOnDiskStr = "-"; // treat empty or missing as not downloaded
           }
-          // Fall back to local path if provided as a directory.
+        } else {
+          // Literal local path
           Path p = Paths.get(idx);
+          pathStr = p.toAbsolutePath().toString();
           if (Files.exists(p)) {
             Path pathForSize = resolveSingleSymlinkChild(p);
             long sz = IndexReaderUtils.findDirectorySize(pathForSize);
-            totalBytes += sz;
-            presentCount++;
-            System.out.printf("  - %s: present at %s (size: %s)%n", idx, pathForSize.toAbsolutePath(), IndexReaderUtils.formatSize(sz));
-          } else {
-            System.out.printf("  - %s: not downloaded (expected cache path: %s)%n", idx, prebuiltPath == null ? "<unknown>" : prebuiltPath.toAbsolutePath());
+            if (sz > 0L) {
+              totalBytes += sz;
+              presentCount++;
+              sizeOnDiskStr = IndexReaderUtils.formatSize(sz);
+            }
           }
-          continue;
         }
 
-        // Otherwise treat as a literal local path.
-        Path p = Paths.get(idx);
-        if (Files.exists(p)) {
-          Path pathForSize = resolveSingleSymlinkChild(p);
-          long sz = IndexReaderUtils.findDirectorySize(pathForSize);
-          totalBytes += sz;
-          presentCount++;
-          System.out.printf("  - %s: present at %s (size: %s)%n", idx, pathForSize.toAbsolutePath(), IndexReaderUtils.formatSize(sz));
-        } else {
-          System.out.printf("  - %s: unknown (neither local path nor prebuilt alias)%n", idx);
-        }
+        rows.add(new String[] { name, sizeOnDiskStr, downloadSizeStr, pathStr });
       }
-      System.out.printf("Total size across %d of %d indexes: %s%n%n", presentCount, uniqueIndexNames.size(), IndexReaderUtils.formatSize(totalBytes));
+
+      // Compute dynamic widths for first and last columns.
+      int nameWidth = Math.max("name".length(), uniqueIndexNames.stream().mapToInt(String::length).max().orElse(4));
+      nameWidth = Math.max(nameWidth, "total".length());
+      int pathWidth = "path".length();
+      for (String[] r : rows) {
+        if (r[3] != null) pathWidth = Math.max(pathWidth, r[3].length());
+      }
+
+      final String fmt = "%-" + nameWidth + "s  %12s  %12s  %-" + pathWidth + "s%n";
+      System.out.printf(fmt, "name", "size on disk", "download size", "path");
+      System.out.printf(fmt, repeat('-', nameWidth), repeat('-', 12), repeat('-', 12), repeat('-', pathWidth));
+
+      for (String[] r : rows) {
+        System.out.printf(fmt, r[0], r[1], r[2], r[3]);
+      }
+      // Add total row at the end with no path.
+      System.out.printf(fmt, "total", IndexReaderUtils.formatSize(totalBytes), IndexReaderUtils.formatSize(totalDownloadBytes), "-");
+
+      System.out.printf("%nTotal size across %d of %d indexes: %s%n%n", presentCount, uniqueIndexNames.size(), IndexReaderUtils.formatSize(totalBytes));
     }
 
     for (Condition condition : config.conditions) {
@@ -316,6 +347,14 @@ public class RunRepro {
     }
     return cacheDir;
   }
+
+  private static String repeat(char c, int n) {
+    StringBuilder sb = new StringBuilder(n);
+    for (int i = 0; i < n; i++) sb.append(c);
+    return sb.toString();
+  }
+
+  // Intentionally no per-column wrapping: keeping path fully visible makes copy/paste easier.
 
 
   public static class Config {

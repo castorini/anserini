@@ -18,6 +18,7 @@ package io.anserini.search;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import io.anserini.eval.ExcludeDocs;
 import io.anserini.search.topicreader.TopicReader;
 import io.anserini.search.topicreader.Topics;
 import org.apache.logging.log4j.LogManager;
@@ -142,7 +143,12 @@ public final class SearchFlatDenseVectors<K extends Comparable<K>> implements Ru
     LOG.info("============ Launching Search Threads ============");
     SortedMap<K, ScoredDoc[]> results = searcher.batch_search(queries, qids, args.hits, args.threads);
 
-    try(RunOutputWriter<K> out = new RunOutputWriter<>(args.output, args.format, args.runtag, null)) {
+    String name = null;
+    if (ExcludeDocs.isExcludable(args.topics[0])){
+      name = args.topics[0];
+    }
+
+    try(RunOutputWriter<K> out = new RunOutputWriter<>(args.output, args.format, args.runtag, null, name)) {
       // zip query to results
       results.forEach((qid, hits) -> {
         try {
