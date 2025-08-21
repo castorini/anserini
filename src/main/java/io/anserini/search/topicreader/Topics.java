@@ -602,6 +602,20 @@ public enum Topics {
   BRIGHT_THEOREMQA_THEOREMS_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-theoremqa-theorems.splade-v3.tsv.gz"),
   BRIGHT_THEOREMQA_QUESTIONS_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-theoremqa-questions.splade-v3.tsv.gz"),
 
+  // BRIGHT: pre-encoded queries for BGE-large-en-v1.5
+  BRIGHT_BIOLOGY_BGE_LARGE_EN_15(JsonStringVectorTopicReader.class, "topics.bright-biology.bge-large-en-v1.5.jsonl.gz"),
+  BRIGHT_EARTH_SCIENCE_BGE_LARGE_EN_15(JsonStringVectorTopicReader.class, "topics.bright-earth-science.bge-large-en-v1.5.jsonl.gz"),
+  BRIGHT_ECONOMICS_BGE_LARGE_EN_15(JsonStringVectorTopicReader.class, "topics.bright-economics.bge-large-en-v1.5.jsonl.gz"),
+  BRIGHT_PSYCHOLOGY_BGE_LARGE_EN_15(JsonStringVectorTopicReader.class, "topics.bright-psychology.bge-large-en-v1.5.jsonl.gz"),
+  BRIGHT_ROBOTICS_BGE_LARGE_EN_15(JsonStringVectorTopicReader.class, "topics.bright-robotics.bge-large-en-v1.5.jsonl.gz"),
+  BRIGHT_STACKOVERFLOW_BGE_LARGE_EN_15(JsonStringVectorTopicReader.class, "topics.bright-stackoverflow.bge-large-en-v1.5.jsonl.gz"),
+  BRIGHT_SUSTAINABLE_LIVING_BGE_LARGE_EN_15(JsonStringVectorTopicReader.class, "topics.bright-sustainable-living.bge-large-en-v1.5.jsonl.gz"),
+  BRIGHT_PONY_BGE_LARGE_EN_15(JsonStringVectorTopicReader.class, "topics.bright-pony.bge-large-en-v1.5.jsonl.gz"),
+  BRIGHT_LEETCODE_BGE_LARGE_EN_15(JsonStringVectorTopicReader.class, "topics.bright-leetcode.bge-large-en-v1.5.jsonl.gz"),
+  BRIGHT_AOPS_BGE_LARGE_EN_15(JsonStringVectorTopicReader.class, "topics.bright-aops.bge-large-en-v1.5.jsonl.gz"),
+  BRIGHT_THEOREMQA_THEOREMS_BGE_LARGE_EN_15(JsonStringVectorTopicReader.class, "topics.bright-theoremqa-theorems.bge-large-en-v1.5.jsonl.gz"),
+  BRIGHT_THEOREMQA_QUESTIONS_BGE_LARGE_EN_15(JsonStringVectorTopicReader.class, "topics.bright-theoremqa-questions.bge-large-en-v1.5.jsonl.gz"),
+
   // unused topics
   CACM(CacmTopicReader.class,                   "topics.cacm.txt"),
   NTCIR_EN_1(NtcirTopicReader.class,            "topics.www1.english.txt"),

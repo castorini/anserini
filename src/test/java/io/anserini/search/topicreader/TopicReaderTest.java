@@ -38,7 +38,7 @@ public class TopicReaderTest {
       String path = topic.path;
       assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(path));
     }
-    assertEquals(543, cnt);
+    assertEquals(555, cnt);
   }
 
   @Test
@@ -2171,6 +2171,22 @@ public class TopicReaderTest {
     assertEquals(111, TopicReader.getTopics(Topics.BRIGHT_AOPS_SPLADE_V3).keySet().size());
     assertEquals(76, TopicReader.getTopics(Topics.BRIGHT_THEOREMQA_THEOREMS_SPLADE_V3).keySet().size());
     assertEquals(194, TopicReader.getTopics(Topics.BRIGHT_THEOREMQA_QUESTIONS_SPLADE_V3).keySet().size());
+  }
+
+  @Test
+  public void testBrightBgeLargeEn15Topics() throws IOException {
+    assertEquals(103, TopicReader.getTopics(Topics.BRIGHT_BIOLOGY_BGE_LARGE_EN_15).keySet().size());
+    assertEquals(116, TopicReader.getTopics(Topics.BRIGHT_EARTH_SCIENCE_BGE_LARGE_EN_15).keySet().size());
+    assertEquals(103, TopicReader.getTopics(Topics.BRIGHT_ECONOMICS_BGE_LARGE_EN_15).keySet().size());
+    assertEquals(101, TopicReader.getTopics(Topics.BRIGHT_PSYCHOLOGY_BGE_LARGE_EN_15).keySet().size());
+    assertEquals(101, TopicReader.getTopics(Topics.BRIGHT_ROBOTICS_BGE_LARGE_EN_15).keySet().size());
+    assertEquals(117, TopicReader.getTopics(Topics.BRIGHT_STACKOVERFLOW_BGE_LARGE_EN_15).keySet().size());
+    assertEquals(108, TopicReader.getTopics(Topics.BRIGHT_SUSTAINABLE_LIVING_BGE_LARGE_EN_15).keySet().size());
+    assertEquals(112, TopicReader.getTopics(Topics.BRIGHT_PONY_BGE_LARGE_EN_15).keySet().size());
+    assertEquals(142, TopicReader.getTopics(Topics.BRIGHT_LEETCODE_BGE_LARGE_EN_15).keySet().size());
+    assertEquals(111, TopicReader.getTopics(Topics.BRIGHT_AOPS_BGE_LARGE_EN_15).keySet().size());
+    assertEquals(76, TopicReader.getTopics(Topics.BRIGHT_THEOREMQA_THEOREMS_BGE_LARGE_EN_15).keySet().size());
+    assertEquals(194, TopicReader.getTopics(Topics.BRIGHT_THEOREMQA_QUESTIONS_BGE_LARGE_EN_15).keySet().size());
   }
 
   @Test
