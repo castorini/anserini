@@ -1,15 +1,15 @@
-# Anserini Fatjar Regresions (v1.3.0)
+# Anserini Fatjar Regresions (v1.2.1)
 
 Fetch the fatjar:
 
 ```bash
-wget https://repo1.maven.org/maven2/io/anserini/anserini/1.3.0/anserini-1.3.0-fatjar.jar
+wget https://repo1.maven.org/maven2/io/anserini/anserini/1.2.1/anserini-1.2.1-fatjar.jar
 ```
 
 Let's start out by setting the `ANSERINI_JAR` and the `OUTPUT_DIR`:
 
 ```bash
-export ANSERINI_JAR="anserini-1.3.0-fatjar.jar"
+export ANSERINI_JAR="anserini-1.2.1-fatjar.jar"
 export OUTPUT_DIR="."
 ```
 
@@ -362,7 +362,7 @@ To print out the commands that will generate the above runs without performing t
 
 ## BRIGHT
 
-❗ Beware, running these experiments will automatically download 12 indexes totaling 1.1 GB.
+❗ Beware, running these experiments will automatically download 24 indexes totaling 1.7 GB.
 
 BRIGHT is a retrieval benchmark described [here](https://arxiv.org/abs/2407.12883).
 The following table reports nDCG@10 scores.
