@@ -1,0 +1,45 @@
+conditions:
+  - name: bm25
+    display: "BM25 (k1=0.9, b=0.4)"
+    display_html: "BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
+    display_row: ""
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-doc -topics $topics -output $output -hits 1000 -bm25
+    topics:
+      - topic_key: msmarco-doc.dev
+        eval_key: msmarco-doc.dev
+        scores:
+          - MRR@100: 0.2299
+      - topic_key: dl19-doc
+        eval_key: dl19-doc
+        scores:
+          - AP@100: 0.2434
+            nDCG@10: 0.5176
+            R@1K: 0.6966
+      - topic_key: dl20-doc
+        eval_key: dl20-doc
+        scores:
+          - AP@100: 0.3793
+            nDCG@10: 0.5286
+            R@1K: 0.8085
+  - name: bm25-doc2query
+    display: "BM25 (k1=0.9, b=0.4) with doc2query-T5 expansions"
+    display_html: "BM25 with doc2query-T5 expansions (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
+    display_row: ""
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-doc.d2q-t5 -topics $topics -output $output -hits 1000 -bm25
+    topics:
+      - topic_key: msmarco-doc.dev
+        eval_key: msmarco-doc.dev
+        scores:
+          - MRR@100: 0.2880
+      - topic_key: dl19-doc
+        eval_key: dl19-doc
+        scores:
+          - AP@100: 0.2700
+            nDCG@10: 0.5968
+            R@1K: 0.7190
+      - topic_key: dl20-doc
+        eval_key: dl20-doc
+        scores:
+          - AP@100: 0.4230
+            nDCG@10: 0.5885
+            R@1K: 0.8403

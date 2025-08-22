@@ -37,7 +37,7 @@ conditions:
             nDCG@10: 0.2627
             R@100: 0.2329
             R@1K: 0.4346
-  - name: msmarco-v2-passage.unicoil-noexp-0shot
+  - name: unicoil-noexp-0shot
     display: "Unicoil (no expansion, 0-shot)"
     display_html: "Unicoil (no expansion, 0-shot)"
     display_row: ""
@@ -75,7 +75,7 @@ conditions:
             nDCG@10: 0.3262
             R@100: 0.2761
             R@1K: 0.5070
-  - name: msmarco-v2-passage.unicoil-0shot
+  - name: unicoil-0shot
     display: "Unicoil (with doc2query-T5 expansions) zero shot"
     display_html: "Unicoil (with doc2query-T5 expansions) zero shot"
     display_row: ""
