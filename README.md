@@ -563,7 +563,7 @@ BRIGHT is a retrieval benchmark described [here](https://arxiv.org/abs/2407.1288
 
 | Corpora                                                                                                       |   Size | Checksum                           |
 |:--------------------------------------------------------------------------------------------------------------|-------:|:-----------------------------------|
-| [Post-Processed](https://huggingface.co/datasets/castorini/collections-bright/resolve/main/bright-corpus.tar) | 297 MB | `d8c829f0e4468a8ce62768b6a1162158` |
+| [Post-Processed](https://huggingface.co/datasets/castorini/collections-bright/resolve/main/bright-corpus.tar) | 284 MB | `568b594709a9977369033117bfb6889c` |
 | [SPLADE-v3](https://huggingface.co/datasets/castorini/collections-bright/resolve/main/bright-splade-v3.tar)   | 1.5 GB | `434cd776b5c40f8112d2bf888c58a516` |
 
 The BRIGHT corpora above were processed from Hugging Face with [these scripts](https://github.com/ielab/llm-rankers/tree/main/Rank-R1/bright).
