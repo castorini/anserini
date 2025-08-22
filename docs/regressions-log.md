@@ -3,6 +3,12 @@
 The following change log details commits to regression tests that alter effectiveness and the addition (or removal) of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### August 21, 2025
+
++ commit [`f2f898`](https://github.com/castorini/anserini/commit/f2f89834aceb2ea2fbd6bbfcf440953e29731ddf)
+
+Added BGE (cached query and ONNX) regressions for BRIGHT.
+
 ### August 19, 2025
 
 + commit [`0a151c`](https://github.com/castorini/anserini/commit/0a151c703767146e5ef2718f8fd8711d781422ba)
