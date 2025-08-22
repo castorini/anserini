@@ -3,7 +3,7 @@ conditions:
     display: "BM25 (k1=0.9, b=0.4) "
     display_html: "BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
     display_row: ""
-    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-doc-segmented -topics $topics -output $output -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-doc-segmented -topics $topics -output $output -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
     topics:
       - topic_key: msmarco-doc.dev
         eval_key: msmarco-doc.dev
@@ -25,7 +25,7 @@ conditions:
     display: "BM25 (k1=0.9, b=0.4) with doc2query-T5 expansions"
     display_html: "BM25 with doc2query-T5 expansions (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
     display_row: ""
-    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-doc-segmented.d2q-t5 -topics $topics -output $output -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-doc-segmented.d2q-t5 -topics $topics -output $output -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
     topics:
       - topic_key: msmarco-doc.dev
         eval_key: msmarco-doc.dev
@@ -47,7 +47,7 @@ conditions:
     display: "uniCOIL (no expansions)"
     display_html: "uniCOIL (no expansions)"
     display_row: ""
-    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-doc-segmented.unicoil-noexp -topics $topics -output $output -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-doc-segmented.unicoil-noexp -topics $topics -output $output -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
     topics:
       - topic_key: msmarco-doc.dev.unicoil-noexp
         eval_key: msmarco-doc.dev
@@ -69,7 +69,7 @@ conditions:
     display: "uniCOIL (with doc2query-T5 expansions)"
     display_html: "uniCOIL (with doc2query-T5 expansions)"
     display_row: ""
-    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-doc-segmented.unicoil -topics $topics -output $output -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-doc-segmented.unicoil -topics $topics -output $output -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
     topics:
       - topic_key: msmarco-doc.dev.unicoil
         eval_key: msmarco-doc.dev

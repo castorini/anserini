@@ -205,15 +205,7 @@ public class RunRepro {
         }
 
         if (!dryRun) {
-          // Hack around msmarco-v1-doc-segmented delimiter
-          String[] commands = command.split(" ");
-          for (int i = 0; i < commands.length; i++) {
-            if (commands[i].equals("\"#\"")) {
-              commands[i] = "#";
-            }
-          }
-
-          pb = new ProcessBuilder(commands);
+          pb = new ProcessBuilder(command.split(" "));
           process = pb.start();
           int resultCode = process.waitFor();
           if (resultCode == 0) {
