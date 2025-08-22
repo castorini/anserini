@@ -1,0 +1,77 @@
+conditions:
+  - name: bm25
+    display: "BM25 (k1=0.9, b=0.4)"
+    display_html: "BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
+    display_row: ""
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v2-doc -topics $topics -output $output -hits 1000 -bm25
+    topics:
+      - topic_key: msmarco-v2-doc.dev
+        eval_key: msmarco-v2-doc.dev
+        scores:
+          - MRR@100: 0.1572
+      - topic_key: msmarco-v2-doc.dev2
+        eval_key: msmarco-v2-doc.dev2
+        scores:
+          - MRR@100: 0.1659
+      - topic_key: dl21
+        eval_key: dl21-doc
+        scores:
+          - MAP@100: 0.2126
+            MRR@100: 0.8367
+            nDCG@10: 0.5116
+            R@100: 0.3195
+            R@1K: 0.6739
+      - topic_key: dl22
+        eval_key: dl22-doc
+        scores:
+          - MAP@100: 0.0801
+            MRR@100: 0.6514
+            nDCG@10: 0.2993
+            R@100: 0.1756
+            R@1K: 0.4107
+      - topic_key: dl23
+        eval_key: dl23-doc
+        scores:
+          - MAP@100: 0.1046
+            MRR@100: 0.5669
+            nDCG@10: 0.2946
+            R@100: 0.2422
+            R@1K: 0.5262
+  - name: bm25-doc2query
+    display: "BM25 (k1=0.9, b=0.4) with doc2query-T5 expansions"
+    display_html: "BM25 with doc2query-T5 expansions (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
+    display_row: ""
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v2-doc.d2q-t5 -topics $topics -output $output -hits 1000 -bm25
+    topics:
+      - topic_key: msmarco-v2-doc.dev
+        eval_key: msmarco-v2-doc.dev
+        scores:
+          - MRR@100: 0.2011
+      - topic_key: msmarco-v2-doc.dev2
+        eval_key: msmarco-v2-doc.dev2
+        scores:
+          - MRR@100: 0.2012
+      - topic_key: dl21
+        eval_key: dl21-doc
+        scores:
+          - MAP@100: 0.2387
+            MRR@100: 0.8866
+            nDCG@10: 0.5792
+            R@100: 0.3443
+            R@1K: 0.7066
+      - topic_key: dl22
+        eval_key: dl22-doc
+        scores:
+          - MAP@100: 0.0977
+            MRR@100: 0.6666
+            nDCG@10: 0.3539
+            R@100: 0.2041
+            R@1K: 0.4301
+      - topic_key: dl23
+        eval_key: dl23-doc
+        scores:
+          - MAP@100: 0.1273
+            MRR@100: 0.6183
+            nDCG@10: 0.3511
+            R@100: 0.2773
+            R@1K: 0.5549
