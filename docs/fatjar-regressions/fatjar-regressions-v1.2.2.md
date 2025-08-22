@@ -381,20 +381,20 @@ The following table reports nDCG@10 scores.
 | Robotics                  |   0.1091   |   0.1578   |   0.1230   |
 | Stack Overflow            |   0.1626   |   0.1290   |   0.1099   |
 | Sustainable Living        |   0.1613   |   0.1497   |   0.1440   |
-| **StackExchange** average | **0.1705** | **0.1752** |            |
+| **StackExchange** average | **0.1705** | **0.1752** | **0.1575** |
 | &nbsp;                    |            |            |            |
 | **Coding**                |            |            |            |
 | LeetCode                  |   0.2471   |   0.2603   |   0.2668   |
 | Pony                      |   0.0434   |   0.1440   |   0.0338   |
-| **Coding** average        | **0.1453** | **0.2022** |            |
+| **Coding** average        | **0.1453** | **0.2022** | **0.1503** |
 | &nbsp;                    |            |            |            |
 | **Theorems**              |            |            |            |
 | AoPS                      |   0.0645   |   0.0692   |   0.0638   |
 | TheoremQA-Q               |   0.0733   |   0.1113   |   0.1411   |
 | TheoremQA-T               |   0.0214   |   0.0554   |   0.0532   |
-| **Theorems** average      | **0.0531** | **0.0786** |            |
+| **Theorems** average      | **0.0531** | **0.0786** | **0.0860** |
 | &nbsp;                    |            |            |            |
-| **Overall average**       | **0.1369** | **0.1556** |            |
+| **Overall average**       | **0.1369** | **0.1556** | **0.1384** |
 
 The following command will reproduce the above experiments (along with other experimental conditions not presented above):
 
