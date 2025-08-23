@@ -563,10 +563,11 @@ BRIGHT is a retrieval benchmark described [here](https://arxiv.org/abs/2407.1288
 
 ### Available Corpora for Download
 
-| Corpora                                                                                                       |   Size | Checksum                           |
-|:--------------------------------------------------------------------------------------------------------------|-------:|:-----------------------------------|
-| [Post-Processed](https://huggingface.co/datasets/castorini/collections-bright/resolve/main/bright-corpus.tar) | 284 MB | `568b594709a9977369033117bfb6889c` |
-| [SPLADE-v3](https://huggingface.co/datasets/castorini/collections-bright/resolve/main/bright-splade-v3.tar)   | 1.5 GB | `434cd776b5c40f8112d2bf888c58a516` |
+| Corpora                                                                                                                     |   Size | Checksum                           |
+|:----------------------------------------------------------------------------------------------------------------------------|-------:|:-----------------------------------|
+| [Post-Processed Corpora](https://huggingface.co/datasets/castorini/collections-bright/resolve/main/bright-corpus.tar)       | 284 MB | `568b594709a9977369033117bfb6889c` |
+| [SPLADE-v3](https://huggingface.co/datasets/castorini/collections-bright/resolve/main/bright-splade-v3.tar)                 | 1.5 GB | `434cd776b5c40f8112d2bf888c58a516` |
+| [BGE-large-en-v1.5](https://huggingface.co/datasets/castorini/collections-bright/resolve/main/bright-bge-large-en-v1.5.tar) |  13 GB | `0ce2634d34d3d467cd1afd74f2f63c7b` |
 
 The BRIGHT corpora above were processed from Hugging Face with [these scripts](https://github.com/ielab/llm-rankers/tree/main/Rank-R1/bright).
 
