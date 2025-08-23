@@ -31,15 +31,7 @@ bright_keys = {
 
 doc_template1 = """# Anserini Regressions: BRIGHT &mdash; {corpus_long}
 
-**Model**: [BGE-large-en-v1.5](https://huggingface.co/BAAI/bge-large-en-v1.5) with flat indexes (using ONNX for on-the-fly query encoding)
-
-This page documents regression experiments, integrated into Anserini's regression testing framework, for [BRIGHT &mdash; {corpus_long}](https://brightbenchmark.github.io/) using [BGE-large-en-v1.5](https://huggingface.co/BAAI/bge-large-en-v1.5).
-The model itself can be download [here](https://huggingface.co/BAAI/bge-large-en-v1.5).
-See the following paper for more details:
-
-> Shitao Xiao, Zheng Liu, Peitian Zhang, and Niklas Muennighoff. [C-Pack: Packaged Resources To Advance General Chinese Embedding.](https://arxiv.org/abs/2309.07597) _arXiv:2309.07597_, 2023.
-
-In these experiments, we are using ONNX to perform query encoding on the fly.
+This page documents BM25 regression experiments for [BRIGHT &mdash; {corpus_long}](https://brightbenchmark.github.io/).
 
 """
 
@@ -52,25 +44,26 @@ From one of our Waterloo servers (e.g., `orca`), the following command will perf
 python src/main/python/run_regression.py --index --verify --search --regression ${test_name}
 ```
 
-All the BRIGHT corpora, encoded by the BGE-large-en-v1.5 model, are available for download:
+All the BRIGHT corpora are available for download:
 
 ```bash
-wget https://huggingface.co/datasets/castorini/collections-bright/resolve/main/bright-bge-large-en-v1.5.tar -P collections/
-tar xvf collections/bright-bge-large-en-v1.5.tar -C collections/
+wget https://huggingface.co/datasets/castorini/collections-bright/resolve/main/bright-corpus.tar -P collections/
+tar xvf collections/bright-corpus.tar -C collections/
 ```
 
-The tarball is 13 GB and has MD5 checksum `0ce2634d34d3d467cd1afd74f2f63c7b`.
+The tarball is 284 MB and has MD5 checksum `568b594709a9977369033117bfb6889c`.
 After download and unpacking the corpora, the `run_regression.py` command above should work without any issue.
 
 ## Indexing
 
-Typical indexing command, building flat indexes:
+Typical indexing command:
 
 ```
 ${index_cmds}
 ```
 
 The path `/path/to/${corpus}/` should point to the corpus downloaded above.
+For additional details, see explanation of [common indexing options](${root_path}/docs/common-indexing-options.md).
 
 ## Retrieval
 
@@ -93,12 +86,10 @@ ${eval_cmds}
 With the above commands, you should be able to reproduce the following results:
 
 ${effectiveness}
-
-With ONNX query encoding on non-quantized flat indexes, observed results may differ slightly (typically, lower), but scores should generally be within 0.001 of the results reported above (with some outliers).
 """
 
 for key in bright_keys:
-    with open(f'src/main/resources/docgen/templates/bright-{key}.bge-large-en-v1.5.flat.onnx.template', 'w') as file:
+    with open(f'src/main/resources/docgen/templates/bright-{key}.template', 'w') as file:
         formatted = doc_template1.format(corpus_long=bright_keys[key])
         print(f'Writing doc template for {key}...')
         file.write(formatted)
