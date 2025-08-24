@@ -26,7 +26,7 @@ import java.util.*;
 
 public class RunMsMarco {
   public static class Args extends RunRepro.Args {
-    @Option(name = "-collection", usage = "MS MARCO version {'msmarco-v1-passage' (default), 'msmarco-v1-doc', 'msmarco-v1-doc-segmented', 'msmarco-v2-doc', 'msmarco-v2-doc-segmented', 'msmarco-v2-passage', 'msmarco-v2.1-doc', 'msmarco-v2.1-doc-segmented'}.")
+    @Option(name = "-collection", usage = "MS MARCO version {'msmarco-v1-passage' (default), 'msmarco-v1-doc', 'msmarco-v2-doc', 'msmarco-v2-passage', 'msmarco-v2.1-doc', 'msmarco-v2.1-doc-segmented'}.")
     public String MsMarcoVersion = "msmarco-v1-passage";
   }
 
@@ -58,7 +58,7 @@ public class RunMsMarco {
     }
 
     Set<String> allowedVersions = new HashSet<>(
-            Arrays.asList("msmarco-v1-doc", "msmarco-v1-doc-segmented", "msmarco-v1-passage", "msmarco-v2-doc", "msmarco-v2-doc-segmented", "msmarco-v2-passage", "msmarco-v2.1-doc", "msmarco-v2.1-doc-segmented"));
+            Arrays.asList("msmarco-v1-doc", "msmarco-v1-passage", "msmarco-v2-doc", "msmarco-v2-passage", "msmarco-v2.1-doc", "msmarco-v2.1-doc-segmented"));
     if (!allowedVersions.contains(msmarcoArgs.MsMarcoVersion)) {
         System.err.println("Invalid MS MARCO version: " + msmarcoArgs.MsMarcoVersion);
         System.exit(1);
@@ -113,7 +113,6 @@ public class RunMsMarco {
       dl20DocMetrics.put("R@1K", "-c -m recall.1000");
       msmarco_v1_doc.put("dl20-doc", dl20DocMetrics);
       metricDefinitions.put("msmarco-v1-doc", msmarco_v1_doc);
-      metricDefinitions.put("msmarco-v1-doc-segmented", msmarco_v1_doc);
   
       Map<String, Map<String, String>> msmarco_v2_doc = new HashMap<>();
       Map<String, Map<String, String>> msmarco_v2_passage = new HashMap<>();
@@ -144,7 +143,6 @@ public class RunMsMarco {
       msmarco_v2_doc.put("dl22-doc", dl21_3PassageMetrics);
       msmarco_v2_doc.put("dl23-doc", dl21_3PassageMetrics);
       metricDefinitions.put("msmarco-v2-doc", msmarco_v2_doc);
-      metricDefinitions.put("msmarco-v2-doc-segmented", msmarco_v2_doc);
 
       Map<String, String> dl21_3PassageMetrics2 = new HashMap<>();
       dl21_3PassageMetrics2.put("MAP@100", "-c -M 100 -m map -l 2");
