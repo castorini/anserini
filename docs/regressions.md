@@ -1062,6 +1062,39 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 
 </details>
 <details>
+<summary>BRIGHT: BGE-large-en-v1.5</summary>
+
+```bash
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-aops.bge-large-en-v1.5.flat.onnx >& logs/log.bright-aops.bge-large-en-v1.5.flat.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-biology.bge-large-en-v1.5.flat.onnx >& logs/log.bright-biology.bge-large-en-v1.5.flat.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-earth-science.bge-large-en-v1.5.flat.onnx >& logs/log.bright-earth-science.bge-large-en-v1.5.flat.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-economics.bge-large-en-v1.5.flat.onnx >& logs/log.bright-economics.bge-large-en-v1.5.flat.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-leetcode.bge-large-en-v1.5.flat.onnx >& logs/log.bright-leetcode.bge-large-en-v1.5.flat.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-pony.bge-large-en-v1.5.flat.onnx >& logs/log.bright-pony.bge-large-en-v1.5.flat.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-psychology.bge-large-en-v1.5.flat.onnx >& logs/log.bright-psychology.bge-large-en-v1.5.flat.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-robotics.bge-large-en-v1.5.flat.onnx >& logs/log.bright-robotics.bge-large-en-v1.5.flat.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-stackoverflow.bge-large-en-v1.5.flat.onnx >& logs/log.bright-stackoverflow.bge-large-en-v1.5.flat.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-sustainable-living.bge-large-en-v1.5.flat.onnx >& logs/log.bright-sustainable-living.bge-large-en-v1.5.flat.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-theoremqa-questions.bge-large-en-v1.5.flat.onnx >& logs/log.bright-theoremqa-questions.bge-large-en-v1.5.flat.onnx.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-theoremqa-theorems.bge-large-en-v1.5.flat.onnx >& logs/log.bright-theoremqa-theorems.bge-large-en-v1.5.flat.onnx.txt &
+
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-aops.bge-large-en-v1.5.flat.cached >& logs/log.bright-aops.bge-large-en-v1.5.flat.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-biology.bge-large-en-v1.5.flat.cached >& logs/log.bright-biology.bge-large-en-v1.5.flat.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-earth-science.bge-large-en-v1.5.flat.cached >& logs/log.bright-earth-science.bge-large-en-v1.5.flat.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-economics.bge-large-en-v1.5.flat.cached >& logs/log.bright-economics.bge-large-en-v1.5.flat.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-leetcode.bge-large-en-v1.5.flat.cached >& logs/log.bright-leetcode.bge-large-en-v1.5.flat.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-pony.bge-large-en-v1.5.flat.cached >& logs/log.bright-pony.bge-large-en-v1.5.flat.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-psychology.bge-large-en-v1.5.flat.cached >& logs/log.bright-psychology.bge-large-en-v1.5.flat.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-robotics.bge-large-en-v1.5.flat.cached >& logs/log.bright-robotics.bge-large-en-v1.5.flat.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-stackoverflow.bge-large-en-v1.5.flat.cached >& logs/log.bright-stackoverflow.bge-large-en-v1.5.flat.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-sustainable-living.bge-large-en-v1.5.flat.cached >& logs/log.bright-sustainable-living.bge-large-en-v1.5.flat.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-theoremqa-questions.bge-large-en-v1.5.flat.cached >& logs/log.bright-theoremqa-questions.bge-large-en-v1.5.flat.cached.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-theoremqa-theorems.bge-large-en-v1.5.flat.cached >& logs/log.bright-theoremqa-theorems.bge-large-en-v1.5.flat.cached.txt &
+
+```
+
+</details>
+<details>
 <summary>Other regressions</summary>
 
 ```bash

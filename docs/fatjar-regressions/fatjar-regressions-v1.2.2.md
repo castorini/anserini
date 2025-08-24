@@ -1,15 +1,15 @@
-# Anserini Fatjar Regresions (v1.2.1)
+# Anserini Fatjar Regresions (v1.2.2)
 
 Fetch the fatjar:
 
 ```bash
-wget https://repo1.maven.org/maven2/io/anserini/anserini/1.2.1/anserini-1.2.1-fatjar.jar
+wget https://repo1.maven.org/maven2/io/anserini/anserini/1.2.2/anserini-1.2.2-fatjar.jar
 ```
 
 Let's start out by setting the `ANSERINI_JAR` and the `OUTPUT_DIR`:
 
 ```bash
-export ANSERINI_JAR="anserini-1.2.1-fatjar.jar"
+export ANSERINI_JAR="anserini-1.2.2-fatjar.jar"
 export OUTPUT_DIR="."
 ```
 
@@ -310,49 +310,49 @@ To print out the commands that will generate the above runs without performing t
 
 Here is a selection of models that are currently supported in Anserini:
 
-+ Flat = BM25, "flat" bag-of-words baseline
-+ MF = BM25, "multifield" bag-of-words baseline
-+ S = SPLADE-v3:
-+ Bf = bge-base-en-v1.5 (flat)
-+ Bh = bge-base-en-v1.5 (HNSW)
++ BM25 (flat): BM25, "flat" bag-of-words baseline (see paper below)
++ BM25 (MF): BM25, "multifield" bag-of-words baseline (see paper below)
++ SPLADE-v3: SPLADE-v3 with ONNX query encoding
++ BGE (flat): bge-base-en-v1.5 using flat vector indexes, with ONNX query encoding
++ BGE (HNSW): bge-base-en-v1.5 using HNSW indexes, with ONNX query encoding
 
-🫙 = cached queries, 🅾️ = query encoding with ONNX
-
+> Ehsan Kamalloo, Nandan Thakur, Carlos Lassance, Xueguang Ma, Jheng-Hong Yang, and Jimmy Lin. [Resources for Brewing BEIR: Reproducible Reference Models and Statistical Analyses.](https://dl.acm.org/doi/10.1145/3626772.3657862) _Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval (SIGIR 2024)_, pages 1431-1440, July 2024, Washington, D.C.
+> 
 The table below reports the effectiveness of the models (nDCG@10):
 
-| Corpus                    | Flat   | MF     | S 🫙   | S 🅾️  | Bf 🫙  | Bf 🅾️ | Bh 🫙  | Bh 🅾️ |
-|---------------------------|--------|--------|--------|--------|--------|--------|--------|--------|
-| `trec-covid`              | 0.5947 | 0.6559 | 0.7299 | 0.7299 | 0.7814 | 0.7815 | 0.7834 | 0.7835 |
-| `bioasq`                  | 0.5225 | 0.4646 | 0.5142 | 0.5142 | 0.4149 | 0.4148 | 0.4042 | 0.4042 |
-| `nfcorpus`                | 0.3218 | 0.3254 | 0.3629 | 0.3629 | 0.3735 | 0.3735 | 0.3735 | 0.3735 |
-| `nq`                      | 0.3055 | 0.3285 | 0.5842 | 0.5842 | 0.5413 | 0.5415 | 0.5413 | 0.5415 |
-| `hotpotqa`                | 0.6330 | 0.6027 | 0.6884 | 0.6884 | 0.7259 | 0.7259 | 0.7242 | 0.7241 |
-| `fiqa`                    | 0.2361 | 0.2361 | 0.3798 | 0.3798 | 0.4065 | 0.4065 | 0.4065 | 0.4065 |
-| `signal1m`                | 0.3304 | 0.3304 | 0.2465 | 0.2465 | 0.2886 | 0.2886 | 0.2869 | 0.2869 |
-| `trec-news`               | 0.3952 | 0.3977 | 0.4365 | 0.4365 | 0.4425 | 0.4424 | 0.4411 | 0.4410 |
-| `robust04`                | 0.4070 | 0.4070 | 0.4952 | 0.4952 | 0.4465 | 0.4435 | 0.4467 | 0.4437 |
-| `arguana`                 | 0.3970 | 0.4142 | 0.4872 | 0.4845 | 0.6361 | 0.6228 | 0.6361 | 0.6228 |
-| `webis-touche2020`        | 0.4422 | 0.3673 | 0.3086 | 0.3086 | 0.2570 | 0.2571 | 0.2570 | 0.2571 |
-| `cqadupstack-android`     | 0.3801 | 0.3709 | 0.4109 | 0.4109 | 0.5075 | 0.5076 | 0.5075 | 0.5076 |
-| `cqadupstack-english`     | 0.3453 | 0.3321 | 0.4255 | 0.4255 | 0.4857 | 0.4857 | 0.4855 | 0.4855 |
-| `cqadupstack-gaming`      | 0.4822 | 0.4418 | 0.5193 | 0.5193 | 0.5965 | 0.5967 | 0.5965 | 0.5967 |
-| `cqadupstack-gis`         | 0.2901 | 0.2904 | 0.3236 | 0.3236 | 0.4127 | 0.4131 | 0.4129 | 0.4133 |
-| `cqadupstack-mathematica` | 0.2015 | 0.2046 | 0.2445 | 0.2445 | 0.3163 | 0.3163 | 0.3163 | 0.3163 |
-| `cqadupstack-physics`     | 0.3214 | 0.3248 | 0.3753 | 0.3753 | 0.4722 | 0.4724 | 0.4722 | 0.4724 |
-| `cqadupstack-programmers` | 0.2802 | 0.2963 | 0.3387 | 0.3387 | 0.4242 | 0.4238 | 0.4242 | 0.4238 |
-| `cqadupstack-stats`       | 0.2711 | 0.2790 | 0.3137 | 0.3137 | 0.3732 | 0.3728 | 0.3732 | 0.3728 |
-| `cqadupstack-tex`         | 0.2244 | 0.2086 | 0.2493 | 0.2493 | 0.3115 | 0.3115 | 0.3115 | 0.3115 |
-| `cqadupstack-unix`        | 0.2749 | 0.2788 | 0.3196 | 0.3196 | 0.4219 | 0.4220 | 0.4219 | 0.4220 |
-| `cqadupstack-webmasters`  | 0.3059 | 0.3008 | 0.3250 | 0.3250 | 0.4065 | 0.4072 | 0.4065 | 0.4072 |
-| `cqadupstack-wordpress`   | 0.2483 | 0.2562 | 0.2807 | 0.2807 | 0.3547 | 0.3547 | 0.3547 | 0.3547 |
-| `quora`                   | 0.7886 | 0.7886 | 0.8141 | 0.8141 | 0.8890 | 0.8876 | 0.8890 | 0.8876 |
-| `dbpedia-entity`          | 0.3180 | 0.3128 | 0.4476 | 0.4476 | 0.4074 | 0.4073 | 0.4077 | 0.4076 |
-| `scidocs`                 | 0.1490 | 0.1581 | 0.1567 | 0.1567 | 0.2170 | 0.2172 | 0.2170 | 0.2172 |
-| `fever`                   | 0.6513 | 0.7530 | 0.8015 | 0.8015 | 0.8630 | 0.8629 | 0.8620 | 0.8620 |
-| `climate-fever`           | 0.1651 | 0.2129 | 0.2625 | 0.2625 | 0.3119 | 0.3117 | 0.3119 | 0.3117 |
-| `scifact`                 | 0.6789 | 0.6647 | 0.7140 | 0.7140 | 0.7408 | 0.7408 | 0.7408 | 0.7408 |
+| Corpus                    | BM25 (flat) | BM25 (MF) | SPLADE-v3 | BGE (flat) | BGE (HNSW) |
+|:--------------------------|:-----------:|:---------:|:---------:|:----------:|:----------:|
+| `trec-covid`              |   0.5947    |  0.6559   |  0.7299   |   0.7815   |   0.7835   |
+| `bioasq`                  |   0.5225    |  0.4646   |  0.5142   |   0.4148   |   0.4042   |
+| `nfcorpus`                |   0.3218    |  0.3254   |  0.3629   |   0.3735   |   0.3735   |
+| `nq`                      |   0.3055    |  0.3285   |  0.5842   |   0.5415   |   0.5415   |
+| `hotpotqa`                |   0.6330    |  0.6027   |  0.6884   |   0.7259   |   0.7241   |
+| `fiqa`                    |   0.2361    |  0.2361   |  0.3798   |   0.4065   |   0.4065   |
+| `signal1m`                |   0.3304    |  0.3304   |  0.2465   |   0.2886   |   0.2869   |
+| `trec-news`               |   0.3952    |  0.3977   |  0.4365   |   0.4424   |   0.4410   |
+| `robust04`                |   0.4070    |  0.4070   |  0.4952   |   0.4435   |   0.4437   |
+| `arguana`                 |   0.3970    |  0.4142   |  0.4845   |   0.6228   |   0.6228   |
+| `webis-touche2020`        |   0.4422    |  0.3673   |  0.3086   |   0.2571   |   0.2571   |
+| `cqadupstack-android`     |   0.3801    |  0.3709   |  0.4109   |   0.5076   |   0.5076   |
+| `cqadupstack-english`     |   0.3453    |  0.3321   |  0.4255   |   0.4857   |   0.4855   |
+| `cqadupstack-gaming`      |   0.4822    |  0.4418   |  0.5193   |   0.5967   |   0.5967   |
+| `cqadupstack-gis`         |   0.2901    |  0.2904   |  0.3236   |   0.4131   |   0.4133   |
+| `cqadupstack-mathematica` |   0.2015    |  0.2046   |  0.2445   |   0.3163   |   0.3163   |
+| `cqadupstack-physics`     |   0.3214    |  0.3248   |  0.3753   |   0.4724   |   0.4724   |
+| `cqadupstack-programmers` |   0.2802    |  0.2963   |  0.3387   |   0.4238   |   0.4238   |
+| `cqadupstack-stats`       |   0.2711    |  0.2790   |  0.3137   |   0.3728   |   0.3728   |
+| `cqadupstack-tex`         |   0.2244    |  0.2086   |  0.2493   |   0.3115   |   0.3115   |
+| `cqadupstack-unix`        |   0.2749    |  0.2788   |  0.3196   |   0.4220   |   0.4220   |
+| `cqadupstack-webmasters`  |   0.3059    |  0.3008   |  0.3250   |   0.4072   |   0.4072   |
+| `cqadupstack-wordpress`   |   0.2483    |  0.2562   |  0.2807   |   0.3547   |   0.3547   |
+| `quora`                   |   0.7886    |  0.7886   |  0.8141   |   0.8876   |   0.8876   |
+| `dbpedia-entity`          |   0.3180    |  0.3128   |  0.4476   |   0.4073   |   0.4076   |
+| `scidocs`                 |   0.1490    |  0.1581   |  0.1567   |   0.2172   |   0.2172   |
+| `fever`                   |   0.6513    |  0.7530   |  0.8015   |   0.8629   |   0.8620   |
+| `climate-fever`           |   0.1651    |  0.2129   |  0.2625   |   0.3117   |   0.3117   |
+| `scifact`                 |   0.6789    |  0.6647   |  0.7140   |   0.7408   |   0.7408   |
 
-The following command will reproduce the above experiments:
+The following command will reproduce the above experiments (along with other experimental conditions not presented above):
 
 ```bash
 java -cp $ANSERINI_JAR io.anserini.reproduce.RunBeir
@@ -367,34 +367,36 @@ To print out the commands that will generate the above runs without performing t
 BRIGHT is a retrieval benchmark described [here](https://arxiv.org/abs/2407.12883).
 The following table reports nDCG@10 scores.
 
-+ Sv3 = SPLADE-v3 with ONNX query encoding
++ BM25
++ SPLADE-v3: SPLADE-v3 with ONNX query encoding
++ BGE (flat): BGE-large-en-v1.5 using flat vector indexes with ONNX query encoding
 
-| Corpus                    |    BM25    |    Sv3     |
-|---------------------------|:----------:|:----------:|
-| **StackExchange**         |            |            |
-| Biology                   |   0.1824   |   0.2101   |
-| Earth Science             |   0.2791   |   0.2670   |
-| Economics                 |   0.1645   |   0.1604   |
-| Psychology                |   0.1342   |   0.1527   |
-| Robotics                  |   0.1091   |   0.1578   |
-| Stack Overflow            |   0.1626   |   0.1290   |
-| Sustainable Living        |   0.1613   |   0.1497   |
-| **StackExchange** average | **0.1705** | **0.1752** |
-| &nbsp;                    |            |            |
-| **Coding**                |            |            |
-| LeetCode                  |   0.2471   |   0.2603   |
-| Pony                      |   0.0434   |   0.1440   |
-| **Coding** average        | **0.1453** | **0.2022** |
-| &nbsp;                    |            |            |
-| **Theorems**              |            |            |
-| AoPS                      |   0.0645   |   0.0692   |
-| TheoremQA-Q               |   0.0733   |   0.1113   |
-| TheoremQA-T               |   0.0214   |   0.0554   |
-| **Theorems** average      | **0.0531** | **0.0786** |
-| &nbsp;                    |            |            |
-| **Overall average**       | **0.1369** | **0.1556** |
+| Corpus                    |    BM25    | SPLADE-v3  | BGE (flat) |
+|---------------------------|:----------:|:----------:|:----------:|
+| **StackExchange**         |            |            |            |
+| Biology                   |   0.1824   |   0.2101   |   0.1242   |
+| Earth Science             |   0.2791   |   0.2670   |   0.2545   |
+| Economics                 |   0.1645   |   0.1604   |   0.1662   |
+| Psychology                |   0.1342   |   0.1527   |   0.1805   |
+| Robotics                  |   0.1091   |   0.1578   |   0.1230   |
+| Stack Overflow            |   0.1626   |   0.1290   |   0.1099   |
+| Sustainable Living        |   0.1613   |   0.1497   |   0.1440   |
+| **StackExchange** average | **0.1705** | **0.1752** | **0.1575** |
+| &nbsp;                    |            |            |            |
+| **Coding**                |            |            |            |
+| LeetCode                  |   0.2471   |   0.2603   |   0.2668   |
+| Pony                      |   0.0434   |   0.1440   |   0.0338   |
+| **Coding** average        | **0.1453** | **0.2022** | **0.1503** |
+| &nbsp;                    |            |            |            |
+| **Theorems**              |            |            |            |
+| AoPS                      |   0.0645   |   0.0692   |   0.0638   |
+| TheoremQA-Q               |   0.0733   |   0.1113   |   0.1411   |
+| TheoremQA-T               |   0.0214   |   0.0554   |   0.0532   |
+| **Theorems** average      | **0.0531** | **0.0786** | **0.0860** |
+| &nbsp;                    |            |            |            |
+| **Overall average**       | **0.1369** | **0.1556** | **0.1384** |
 
-The following command will reproduce the above experiments:
+The following command will reproduce the above experiments (along with other experimental conditions not presented above):
 
 ```bash
 java -cp $ANSERINI_JAR io.anserini.reproduce.RunBright
