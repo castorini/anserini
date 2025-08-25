@@ -16,13 +16,13 @@
 
 package io.anserini.index.generator;
 
-import com.twitter.twittertext.Extractor;
-import com.twitter.twittertext.TwitterTextParseResults;
-import com.twitter.twittertext.TwitterTextParser;
-import io.anserini.collection.TweetCollection;
-import io.anserini.index.Constants;
-import io.anserini.index.IndexCollection;
-import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
@@ -36,12 +36,14 @@ import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.IndexOptions;
 import org.apache.tools.bzip2.CBZip2InputStream;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.List;
+import com.carrotsearch.hppc.LongHashSet;
+import com.twitter.twittertext.Extractor;
+import com.twitter.twittertext.TwitterTextParseResults;
+import com.twitter.twittertext.TwitterTextParser;
+
+import io.anserini.collection.TweetCollection;
+import io.anserini.index.Constants;
+import io.anserini.index.IndexCollection;
 
 /**
  * Converts a {@link TweetCollection.Document} into a Lucene {@link Document}, ready to be indexed.
@@ -51,7 +53,7 @@ public class TweetGenerator implements LuceneDocumentGenerator<TweetCollection.D
 
   private IndexCollection.Args args;
 
-  private LongOpenHashSet deletes = null;
+  private LongHashSet deletes = null;
 
   public enum TweetField {
     ID_LONG("id_long"),
@@ -78,7 +80,7 @@ public class TweetGenerator implements LuceneDocumentGenerator<TweetCollection.D
     this.args = args;
 
     if (!args.tweetDeletedIdsFile.isEmpty()) {
-      deletes = new LongOpenHashSet();
+      deletes = new LongHashSet();
       File deletesFile = new File(args.tweetDeletedIdsFile);
       if (!deletesFile.exists()) {
         System.err.println("Error: " + deletesFile + " does not exist!");
