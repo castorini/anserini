@@ -20,6 +20,7 @@ import io.anserini.encoder.dense.ArcticEmbedLEncoder;
 import io.anserini.encoder.dense.BgeBaseEn15Encoder;
 import io.anserini.encoder.sparse.SpladePlusPlusEnsembleDistilEncoder;
 import io.anserini.encoder.sparse.SpladeV3Encoder;
+import io.anserini.encoder.sparse.UniCoilEncoder;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
 import io.anserini.search.query.VectorQueryGenerator;
 
@@ -165,6 +166,90 @@ public enum IndexInfo {
       VectorQueryGenerator.class.getSimpleName(),
       "msmarco-v1-passage"),
 
+  MSMARCO_V1_DOC("msmarco-v1-doc",
+      "Lucene index of the MS MARCO V1 document corpus.",
+      "lucene-inverted.msmarco-v1-doc.20221004.252b5e.tar.gz",
+      "https://github.com/castorini/pyserini/blob/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v1-doc.20221004.252b5e.README.md",
+      "MS MARCO V1 Documents",
+      "BM25",
+      new String[] {
+          "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/doc/original/lucene-inverted/tf/lucene-inverted.msmarco-v1-doc.20221004.252b5e.tar.gz" },
+      "f66020a923df6430007bd5718e53de86",
+      IndexType.SPARSE_INVERTED,
+      null,
+      BagOfWordsQueryGenerator.class.getSimpleName(),
+      "msmarco-v1-doc"),
+
+  MSMARCO_V1_DOC_D2Q_T5("msmarco-v1-doc.d2q-t5",
+      "Lucene index of the MS MARCO V1 document corpus with doc2query-T5 expansions.",
+      "lucene-inverted.msmarco-v1-doc.d2q-t5.20221004.252b5e.tar.gz",
+      "https://github.com/castorini/pyserini/blob/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v1-doc.d2q-t5.20221004.252b5e.README.md",
+      "MS MARCO V1 Documents",
+      "BM25",
+      new String[] {
+          "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/doc/d2q-t5/lucene-inverted/tf/lucene-inverted.msmarco-v1-doc.d2q-t5.20221004.252b5e.tar.gz" },
+      "c0b0a25c329c1bdd7df3189400ec2f38",
+      IndexType.SPARSE_INVERTED,
+      null,
+      BagOfWordsQueryGenerator.class.getSimpleName(),
+      "msmarco-v1-doc"),
+
+  MSMARCO_V1_DOC_SEGMENTED("msmarco-v1-doc-segmented",
+      "Lucene index of the MS MARCO V1 segmented document corpus.",
+      "lucene-inverted.msmarco-v1-doc-segmented.20221004.252b5e.tar.gz",
+      "https://github.com/castorini/pyserini/blob/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v1-doc-segmented.20221004.252b5e.README.md",
+      "MS MARCO V1 Documents",
+      "BM25",
+      new String[] {
+          "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/doc/segmented/lucene-inverted/tf/lucene-inverted.msmarco-v1-doc-segmented.20221004.252b5e.tar.gz" },
+      "dbf968dbf6e9d64119b4e320334524aa",
+      IndexType.SPARSE_INVERTED,
+      null,
+      BagOfWordsQueryGenerator.class.getSimpleName(),
+      "msmarco-v1-doc-segmented"),
+
+  MSMARCO_V1_DOC_SEGMENTED_D2Q_T5("msmarco-v1-doc-segmented.d2q-t5",
+      "Lucene index of the MS MARCO V1 segmented document corpus with doc2query-T5 expansions.",
+      "lucene-inverted.msmarco-v1-doc-segmented.d2q-t5.20221004.252b5e.tar.gz",
+      "https://github.com/castorini/pyserini/blob/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v1-doc-segmented.d2q-t5.20221004.252b5e.README.md",
+      "MS MARCO V1 Documents",
+      "BM25",
+      new String[] {
+          "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/doc/segmented-d2q-t5/lucene-inverted/tf/lucene-inverted.msmarco-v1-doc-segmented.d2q-t5.20221004.252b5e.tar.gz" },
+      "c76e514df930721401c215b90f9f5d14",
+      IndexType.SPARSE_INVERTED,
+      null,
+      BagOfWordsQueryGenerator.class.getSimpleName(),
+      "msmarco-v1-doc-segmented"),
+
+  MSMARCO_V1_DOC_SEGMENTED_UNICOIL_NOEXP("msmarco-v1-doc-segmented.unicoil-noexp",
+      "Lucene impact index of the MS MARCO V1 segmented document corpus for uniCOIL (noexp), with title/segment encoding.",
+      "lucene-inverted.msmarco-v1-doc-segmented.unicoil-noexp.20221005.252b5e.tar.gz",
+      "https://github.com/castorini/pyserini/blob/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v1-doc-segmented.unicoil-noexp.20221005.252b5e.README.md",
+      "MS MARCO V1 Documents",
+      "BM25",
+      new String[] {
+          "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/doc/segmented/lucene-inverted/unicoil-noexp/lucene-inverted.msmarco-v1-doc-segmented.unicoil-noexp.20221005.252b5e.tar.gz" },
+      "f92d5a2ba22274993b34f69e59427379",
+      IndexType.SPARSE_IMPACT,
+      UniCoilEncoder.class.getSimpleName(),
+      BagOfWordsQueryGenerator.class.getSimpleName(),
+      "msmarco-v1-doc-segmented"),
+
+  MSMARCO_V1_DOC_SEGMENTED_UNICOIL("msmarco-v1-doc-segmented.unicoil",
+      "Lucene impact index of the MS MARCO V1 segmented document corpus for uniCOIL, with title/segment encoding.",
+      "lucene-inverted.msmarco-v1-doc-segmented.unicoil.20221005.252b5e.tar.gz",
+      "https://github.com/castorini/pyserini/blob/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v1-doc-segmented.unicoil.20221005.252b5e.README.md",
+      "MS MARCO V1 Documents",
+      "BM25",
+      new String[] {
+          "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/doc/segmented/lucene-inverted/unicoil/lucene-inverted.msmarco-v1-doc-segmented.unicoil.20221005.252b5e.tar.gz" },
+      "7dc32ad22876fbbe0f24f21fd1ea50c0",
+      IndexType.SPARSE_IMPACT,
+      UniCoilEncoder.class.getSimpleName(),
+      BagOfWordsQueryGenerator.class.getSimpleName(),
+      "msmarco-v1-doc-segmented"),
+
   // MS MARCO V2
   MSMARCO_V2_PASSAGE("msmarco-v2-passage",
       "Lucene index of the MS MARCO V2 passage corpus.",
@@ -180,6 +265,34 @@ public enum IndexInfo {
       null,
       "msmarco-v2-passage"),
 
+  MSMARCO_V2_PASSAGE_UNICOIL_NOEXP_0SHOT("msmarco-v2-passage.unicoil-noexp-0shot",
+      "Lucene impact index of the MS MARCO V2 passage corpus for uniCOIL (noexp).",
+      "lucene-inverted.msmarco-v2-passage.unicoil-noexp-0shot.20220808.4d6d2a.tar.gz",
+      "https://github.com/castorini/pyserini/blob/c386df79cb7443361e49a5396a27fcbc713d008c/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-passage.unicoil-noexp-0shot.20220808.4d6d2a.README.md",
+      "MS MARCO V2 Passage",
+      "uniCOIL",
+      new String[] {
+          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2-passage.unicoil-noexp-0shot.20220808.4d6d2a.tar.gz" },
+      "3e0a5be5adca063a112fa2f0978f91cb",
+      IndexType.SPARSE_IMPACT,
+      UniCoilEncoder.class.getSimpleName(),
+      BagOfWordsQueryGenerator.class.getSimpleName(),
+      "msmarco-v2-passage"),
+
+  MSMARCO_V2_PASSAGE_UNICOIL_0SHOT("msmarco-v2-passage.unicoil-0shot",
+      "Lucene impact index of the MS MARCO V2 passage corpus for uniCOIL.",
+      "lucene-inverted.msmarco-v2-passage.unicoil-0shot.20220808.4d6d2a.tar.gz",
+      "https://github.com/castorini/pyserini/blob/c386df79cb7443361e49a5396a27fcbc713d008c/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-passage.unicoil-0shot.20220808.4d6d2a.README.md",
+      "MS MARCO V2 Passage",
+      "uniCOIL (with doc2query-T5 expansions) zero-shot",
+      new String[] {
+          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2-passage.unicoil-0shot.20220808.4d6d2a.tar.gz" },
+      "1949a00bfd5e1f1a230a04bbc1f01539",
+      IndexType.SPARSE_IMPACT,
+      UniCoilEncoder.class.getSimpleName(),
+      BagOfWordsQueryGenerator.class.getSimpleName(),
+      "msmarco-v2-passage"),
+
   MSMARCO_V2_DOC("msmarco-v2-doc",
       "Lucene index of the MS MARCO V2 document corpus.",
       "lucene-index.msmarco-v2-doc.20220808.4d6d2a.tar.gz",
@@ -187,8 +300,22 @@ public enum IndexInfo {
       "MS MARCO V2 Doc",
       "BM25",
       new String[] {
-          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-index.msmarco-v2-doc.20220808.4d6d2a.tar.gz" },
+          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2-doc.20220808.4d6d2a.tar.gz" },
       "0599bd6ed5ee28390b279eb398ef0267",
+      IndexType.SPARSE_INVERTED,
+      null,
+      null,
+      "msmarco-v2-doc"),
+
+  MSMARCO_V2_DOC_D2Q_T5("msmarco-v2-doc.d2q-t5",
+      "Lucene index of the MS MARCO V2 document corpus with doc2query-T5 expansions.",
+      "lucene-inverted.msmarco-v2-doc.d2q-t5.20220808.4d6d2a.tar.gz",
+      "https://github.com/castorini/pyserini/blob/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-doc.d2q-t5.20220808.4d6d2a.README.md",
+      "MS MARCO V2 Doc",
+      "BM25",
+      new String[] {
+          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2-doc.d2q-t5.20220808.4d6d2a.tar.gz" },
+      "e1279d6a569c622778852d5f0c97fa78",
       IndexType.SPARSE_INVERTED,
       null,
       null,
@@ -201,11 +328,53 @@ public enum IndexInfo {
       "MS MARCO V2 Segmented Doc",
       "BM25",
       new String[] {
-          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene-index.msmarco-v2-doc-segmented.20220808.4d6d2a.tar.gz" },
+          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2-doc-segmented.20220808.4d6d2a.tar.gz" },
       "8a5f444fa5a63cc5d4ddc3e6dd15faa0",
       IndexType.SPARSE_INVERTED,
       null,
       null,
+      "msmarco-v2-doc-segmented"),
+
+  MSMARCO_V2_DOC_SEGMENTED_D2Q_T5("msmarco-v2-doc-segmented.d2q-t5",
+      "Lucene index of the MS MARCO V2 segmented document corpus with doc2query-T5 expansions.",
+      "lucene-inverted.msmarco-v2-doc-segmented.d2q-t5.20220808.4d6d2a.tar.gz",
+      "https://github.com/castorini/pyserini/blob/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-doc-segmented.d2q-t5.20220808.4d6d2a.README.md",
+      "MS MARCO V2 Segmented Doc",
+      "BM25",
+      new String[] {
+          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2-doc-segmented.d2q-t5.20220808.4d6d2a.tar.gz" },
+      "a2c47e1af47e3a31b130c53f495ab4b4",
+      IndexType.SPARSE_INVERTED,
+      null,
+      null,
+      "msmarco-v2-doc-segmented"),
+
+  MSMARCO_V2_DOC_SEGMENTED_UNICOIL_NOEXP_0SHOT("msmarco-v2-doc-segmented.unicoil-noexp-0shot",
+      "Lucene impact index of the MS MARCO V2 segmented document corpus for uniCOIL (noexp) with title prepended.",
+      "lucene-inverted.msmarco-v2-doc-segmented.unicoil-noexp-0shot.20220808.4d6d2a.tar.gz",
+      "https://github.com/castorini/pyserini/blob/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-doc-segmented.unicoil-noexp-0shot.20220808.4d6d2a.README.md",
+      "MS MARCO V2 Segmented Doc",
+      "BM25",
+      new String[] {
+          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2-doc-segmented.unicoil-noexp-0shot.20220808.4d6d2a.tar.gz" },
+      "e3f448f4de46d86953892337fea39ed0",
+      IndexType.SPARSE_IMPACT,
+      UniCoilEncoder.class.getSimpleName(),
+      BagOfWordsQueryGenerator.class.getSimpleName(),
+      "msmarco-v2-doc-segmented"),
+
+  MSMARCO_V2_DOC_SEGMENTED_UNICOIL_0SHOT("msmarco-v2-doc-segmented.unicoil-0shot",
+      "Lucene impact index of the MS MARCO V2 segmented document corpus for uniCOIL, with title prepended.",
+      "lucene-inverted.msmarco-v2-doc-segmented.unicoil-0shot.20220808.4d6d2a.tar.gz",
+      "https://github.com/castorini/pyserini/blob/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-doc-segmented.unicoil-0shot.20220808.4d6d2a.README.md",
+      "MS MARCO V2 Segmented Doc",
+      "BM25",
+      new String[] {
+          "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2-doc-segmented.unicoil-0shot.20220808.4d6d2a.tar.gz" },
+      "ff12d2001f463460a11ff6f60175190e",
+      IndexType.SPARSE_IMPACT,
+      UniCoilEncoder.class.getSimpleName(),
+      BagOfWordsQueryGenerator.class.getSimpleName(),
       "msmarco-v2-doc-segmented"),
 
   MSMARCO_V21_DOC("msmarco-v2.1-doc",
