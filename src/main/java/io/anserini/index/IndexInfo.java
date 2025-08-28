@@ -296,13 +296,13 @@ public enum IndexInfo {
 
   MSMARCO_V2_DOC("msmarco-v2-doc",
       "Lucene index of the MS MARCO V2 document corpus.",
-      "lucene-index.msmarco-v2-doc.20220808.4d6d2a.tar.gz",
+      "lucene-inverted.msmarco-v2-doc.20220808.4d6d2a.tar.gz",
       "https://github.com/castorini/pyserini/blob/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-doc.20220808.4d6d2a.README.md",
       "MS MARCO V2 Doc",
       "BM25",
       new String[] {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2-doc.20220808.4d6d2a.tar.gz" },
-      "0599bd6ed5ee28390b279eb398ef0267",
+      "11017a76d2927294977c360a174ba1be",
       IndexType.SPARSE_INVERTED,
       null,
       null,
@@ -324,13 +324,13 @@ public enum IndexInfo {
 
   MSMARCO_V2_DOC_SEGMENTED("msmarco-v2-doc-segmented",
       "Lucene index of the MS MARCO V2 segmented document corpus.",
-      "lucene-index.msmarco-v2-doc-segmented.20220808.4d6d2a.tar.gz",
+      "lucene-inverted.msmarco-v2-doc-segmented.20220808.4d6d2a.tar.gz",
       "https://github.com/castorini/pyserini/blob/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-doc-segmented.20220808.4d6d2a.README.md",
       "MS MARCO V2 Segmented Doc",
       "BM25",
       new String[] {
           "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2-doc-segmented.20220808.4d6d2a.tar.gz" },
-      "8a5f444fa5a63cc5d4ddc3e6dd15faa0",
+      "42a0d23366e3dbdfecba1df2eb163ab2",
       IndexType.SPARSE_INVERTED,
       null,
       null,
