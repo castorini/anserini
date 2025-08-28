@@ -18,6 +18,7 @@ package io.anserini.index;
 
 import io.anserini.encoder.dense.ArcticEmbedLEncoder;
 import io.anserini.encoder.dense.BgeBaseEn15Encoder;
+import io.anserini.encoder.dense.BgeLargeEn15Encoder;
 import io.anserini.encoder.sparse.SpladePlusPlusEnsembleDistilEncoder;
 import io.anserini.encoder.sparse.SpladeV3Encoder;
 import io.anserini.encoder.sparse.UniCoilEncoder;
@@ -3544,7 +3545,7 @@ public enum IndexInfo {
     new String[] { "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright-biology.bge-large-en-v1.5.20250819.e5ee76.tar.gz" },
     "662deededd6abd63d0affe6cd721f9bc",
     IndexType.DENSE_FLAT,
-    BgeBaseEn15Encoder.class.getSimpleName(),
+    BgeLargeEn15Encoder.class.getSimpleName(),
     VectorQueryGenerator.class.getSimpleName(),
     "bright-biology"),
 
@@ -3557,7 +3558,7 @@ public enum IndexInfo {
     new String[] { "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright-earth-science.bge-large-en-v1.5.20250819.e5ee76.tar.gz" },
     "fde5e4a80ff52201562e8ecf26f21b7a",
     IndexType.DENSE_FLAT,
-    BgeBaseEn15Encoder.class.getSimpleName(),
+    BgeLargeEn15Encoder.class.getSimpleName(),
     VectorQueryGenerator.class.getSimpleName(),
     "bright-earth-science"),
 
@@ -3570,7 +3571,7 @@ public enum IndexInfo {
     new String[] { "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright-economics.bge-large-en-v1.5.20250819.e5ee76.tar.gz" },
     "6fde3c800c75d1ff48d210a35116aba7",
     IndexType.DENSE_FLAT,
-    BgeBaseEn15Encoder.class.getSimpleName(),
+    BgeLargeEn15Encoder.class.getSimpleName(),
     VectorQueryGenerator.class.getSimpleName(),
     "bright-economics"),
 
@@ -3583,7 +3584,7 @@ public enum IndexInfo {
     new String[] { "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright-psychology.bge-large-en-v1.5.20250819.e5ee76.tar.gz" },
     "e8d0ad213038c1a17bc6bc89a560f78c",
     IndexType.DENSE_FLAT,
-    BgeBaseEn15Encoder.class.getSimpleName(),
+    BgeLargeEn15Encoder.class.getSimpleName(),
     VectorQueryGenerator.class.getSimpleName(),
     "bright-psychology"),
 
@@ -3596,7 +3597,7 @@ public enum IndexInfo {
     new String[] { "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright-robotics.bge-large-en-v1.5.20250819.e5ee76.tar.gz" },
     "b8790e1cfdd5b5223b09cb5c2bc6d755",
     IndexType.DENSE_FLAT,
-    BgeBaseEn15Encoder.class.getSimpleName(),
+    BgeLargeEn15Encoder.class.getSimpleName(),
     VectorQueryGenerator.class.getSimpleName(),
     "bright-robotics"),
 
@@ -3609,7 +3610,7 @@ public enum IndexInfo {
     new String[] { "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright-stackoverflow.bge-large-en-v1.5.20250819.e5ee76.tar.gz" },
     "d51501bcfc2ea5f9b6955138af10a8ce",
     IndexType.DENSE_FLAT,
-    BgeBaseEn15Encoder.class.getSimpleName(),
+    BgeLargeEn15Encoder.class.getSimpleName(),
     VectorQueryGenerator.class.getSimpleName(),
     "bright-stackoverflow"),
 
@@ -3622,7 +3623,7 @@ public enum IndexInfo {
     new String[] { "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright-sustainable-living.bge-large-en-v1.5.20250819.e5ee76.tar.gz" },
     "74f35492ead2674eba66a593b7d41f9c",
     IndexType.DENSE_FLAT,
-    BgeBaseEn15Encoder.class.getSimpleName(),
+    BgeLargeEn15Encoder.class.getSimpleName(),
     VectorQueryGenerator.class.getSimpleName(),
     "bright-sustainable-living"),
 
@@ -3635,7 +3636,7 @@ public enum IndexInfo {
     new String[] { "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright-pony.bge-large-en-v1.5.20250819.e5ee76.tar.gz" },
     "9b6936888683c3de913f3dc72850b3bd",
     IndexType.DENSE_FLAT,
-    BgeBaseEn15Encoder.class.getSimpleName(),
+    BgeLargeEn15Encoder.class.getSimpleName(),
     VectorQueryGenerator.class.getSimpleName(),
     "bright-pony"),
 
@@ -3648,7 +3649,7 @@ public enum IndexInfo {
     new String[] { "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright-leetcode.bge-large-en-v1.5.20250819.e5ee76.tar.gz" },
     "b2a74dbfa98643a02c5c8a8d2f580307",
     IndexType.DENSE_FLAT,
-    BgeBaseEn15Encoder.class.getSimpleName(),
+    BgeLargeEn15Encoder.class.getSimpleName(),
     VectorQueryGenerator.class.getSimpleName(),
     "bright-leetcode"),
 
@@ -3661,7 +3662,7 @@ public enum IndexInfo {
     new String[] { "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright-aops.bge-large-en-v1.5.20250819.e5ee76.tar.gz" },
     "c1b38e76a91aa8823918171f6882ae66",
     IndexType.DENSE_FLAT,
-    BgeBaseEn15Encoder.class.getSimpleName(),
+    BgeLargeEn15Encoder.class.getSimpleName(),
     VectorQueryGenerator.class.getSimpleName(),
     "bright-aops"),
 
@@ -3674,7 +3675,7 @@ public enum IndexInfo {
     new String[] { "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright-theoremqa-theorems.bge-large-en-v1.5.20250819.e5ee76.tar.gz" },
     "9bbfac0a2a18095c39459cdf9378fe16",
     IndexType.DENSE_FLAT,
-    BgeBaseEn15Encoder.class.getSimpleName(),
+    BgeLargeEn15Encoder.class.getSimpleName(),
     VectorQueryGenerator.class.getSimpleName(),
     "bright-theoremqa-theorems"),
 
@@ -3687,7 +3688,7 @@ public enum IndexInfo {
     new String[] { "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright-theoremqa-questions.bge-large-en-v1.5.20250819.e5ee76.tar.gz" },
     "94c077d896ef6881c8c57e2302bae62d",
     IndexType.DENSE_FLAT,
-    BgeBaseEn15Encoder.class.getSimpleName(),
+    BgeLargeEn15Encoder.class.getSimpleName(),
     VectorQueryGenerator.class.getSimpleName(),
     "bright-theoremqa-questions");
 
