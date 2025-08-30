@@ -143,13 +143,13 @@ public class GeneratePrebuiltIndexesDocTest {
     for (IndexType type : grouped.keySet()) {
       String typeHeading = "";
       if (type == IndexType.SPARSE_INVERTED) {
-        typeHeading = "Lucene Standard Inverted Indexes";
+        typeHeading = "Lucene Inverted Indexes";
       } else if (type == IndexType.SPARSE_IMPACT) {
         typeHeading = "Lucene Impact Indexes";
       } else if (type == IndexType.DENSE_HNSW) {
         typeHeading = "Lucene HNSW Indexes";
       } else if (type == IndexType.DENSE_FLAT) {
-        typeHeading = "Lucene Flat Indexes";
+        typeHeading = "Lucene Flat Vector Indexes";
       }
 
       md.append("### ").append(typeHeading).append("\n");

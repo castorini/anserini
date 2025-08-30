@@ -22,7 +22,7 @@ conditions:
           - MAP: 0.2856
             nDCG@10: 0.4796
             R@1K: 0.7863
-  - name: splade-pp-ed.cached_q
+  - name: splade-pp-ed.cached
     display: "SPLADE++ EnsembleDistil (cached queries)"
     display_html: "SPLADE++ EnsembleDistil (cached queries)"
     display_row: ""
@@ -68,7 +68,7 @@ conditions:
           - MAP: 0.4999
             nDCG@10: 0.7197
             R@1K: 0.8998
-  - name: splade-v3.cached_q
+  - name: splade-v3.cached
     display: "SPLADE-v3 (cached queries)"
     display_html: "SPLADE-v3 (cached queries)"
     display_row: ""
@@ -114,7 +114,7 @@ conditions:
           - MAP: 0.5402
             nDCG@10: 0.7522
             R@1K: 0.9039
-  - name: cosdpr-distil.hnsw.cached_q
+  - name: cosdpr-distil.hnsw.cached
     display: "cosDPR-distil w/ HNSW fp32 (cached queries)"
     display_html: "cosDPR-distil w/ HNSW fp32 (cached queries)"
     display_row: ""
@@ -160,7 +160,7 @@ conditions:
           - MAP: 0.4876
             nDCG@10: 0.7025
             R@1K: 0.8540
-  - name: cosdpr-distil.hnsw-int8.cached_q
+  - name: cosdpr-distil.hnsw-int8.cached
     display: "cosDPR-distil w/ HNSW int8 (cached queries)"
     display_html: "cosDPR-distil w/ HNSW int8 (cached queries)"
     display_row: ""
@@ -206,7 +206,7 @@ conditions:
           - MAP: 0.4871
             nDCG@10: 0.6996
             R@1K: 0.8538
-  - name: bge-base-en-v1.5.hnsw.cached_q
+  - name: bge-base-en-v1.5.hnsw.cached
     display: "bge-base-en-v1.5 w/ HNSW fp32 (cached queries)"
     display_html: "bge-base-en-v1.5 w/ HNSW fp32 (cached queries)"
     display_row: ""
@@ -252,7 +252,7 @@ conditions:
           - MAP: 0.4626
             nDCG@10: 0.6768
             R@1K: 0.8526
-  - name: bge-base-en-v1.5.hnsw-int8.cached_q
+  - name: bge-base-en-v1.5.hnsw-int8.cached
     display: "bge-base-en-v1.5 w/ HNSW int8 (cached queries)"
     display_html: "bge-base-en-v1.5 w/ HNSW int8 (cached queries)"
     display_row: ""
@@ -298,7 +298,7 @@ conditions:
           - MAP: 0.4596
             nDCG@10: 0.6767
             R@1K: 0.8468
-  - name: cohere-embed-english-v3.0.hnsw.cached_q
+  - name: cohere-embed-english-v3.0.hnsw.cached
     display: "cohere-embed-english-v3.0 w/ HNSW fp32 (cached queries)"
     display_html: "cohere-embed-english-v3.0 w/ HNSW fp32 (cached queries)"
     display_row: ""
@@ -321,7 +321,7 @@ conditions:
           - MAP: 0.5068
             nDCG@10: 0.7245
             R@1K: 0.8682
-  - name: cohere-embed-english-v3.0.hnsw-int8.cached_q
+  - name: cohere-embed-english-v3.0.hnsw-int8.cached
     display: "cohere-embed-english-v3.0 w/ HNSW int8 (cached queries)"
     display_html: "cohere-embed-english-v3.0 w/ HNSW int8 (cached queries)"
     display_row: ""

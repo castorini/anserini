@@ -1,5 +1,5 @@
 conditions:
-  - name: bm25
+  - name: bm25-doc-default
     display: "BM25 (k1=0.9, b=0.4)"
     display_html: "BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
     display_row: ""
@@ -37,7 +37,7 @@ conditions:
             nDCG@10: 0.2946
             R@100: 0.2422
             R@1K: 0.5262
-  - name: bm25-doc2query
+  - name: bm25-d2q-t5-doc-default
     display: "BM25 (k1=0.9, b=0.4) with doc2query-T5 expansions"
     display_html: "BM25 with doc2query-T5 expansions (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
     display_row: ""
@@ -75,7 +75,7 @@ conditions:
             nDCG@10: 0.3511
             R@100: 0.2773
             R@1K: 0.5549
-  - name: bm25-segmented
+  - name: bm25-doc-segmented-default
     display: "BM25 segmented (k1=0.9, b=0.4) "
     display_html: "BM25 segmented (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
     display_row: ""
@@ -113,7 +113,7 @@ conditions:
             nDCG@10: 0.3405
             R@100: 0.2884
             R@1K: 0.5662
-  - name: bm25-segmented-doc2query
+  - name: bm25-d2q-t5-doc-segmented-default
     display: "BM25 segmented (k1=0.9, b=0.4) with doc2query-T5 expansions"
     display_html: "BM25 segmented with doc2query-T5 expansions (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
     display_row: ""
@@ -151,9 +151,9 @@ conditions:
             nDCG@10: 0.3612
             R@100: 0.3078
             R@1K: 0.5967
-  - name: unicoil-noexp-0shot-cached
-    display: "uniCOIL (noexp) zero-shot"
-    display_html: "uniCOIL (noexp) zero-shot"
+  - name: unicoil-noexp-0shot.cached
+    display: "uniCOIL (noexp) zero-shot using cached queries"
+    display_html: "uniCOIL (noexp) zero-shot using cached queries"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v2-doc-segmented.unicoil-noexp-0shot -topics $topics -output $output -parallelism 16 -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
     topics:
@@ -189,9 +189,9 @@ conditions:
             nDCG@10: 0.3898
             R@100: 0.2949
             R@1K: 0.5462
-  - name: unicoil-0shot-cached
-    display: "uniCOIL (with doc2query-T5) zero-shot"
-    display_html: "uniCOIL (with doc2query-T5) zero-shot"
+  - name: unicoil-0shot.cached
+    display: "uniCOIL (with doc2query-T5) zero-shot using cached queries"
+    display_html: "uniCOIL (with doc2query-T5) zero-shot using cached queries"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v2-doc-segmented.unicoil-0shot -topics $topics -output $output -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
     topics:
@@ -225,5 +225,43 @@ conditions:
           - MAP@100: 0.1554
             MRR@100: 0.7793
             nDCG@10: 0.4149
+            R@100: 0.3101
+            R@1K: 0.5753
+  - name: unicoil-0shot.onnx
+    display: "uniCOIL (with doc2query-T5) zero-shot using ONNX"
+    display_html: "uniCOIL (with doc2query-T5) zero-shot using ONNX"
+    display_row: ""
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v2-doc-segmented.unicoil-0shot -topics $topics -output $output -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000 -encoder UniCoil
+    topics:
+      - topic_key: msmarco-v2-doc.dev
+        eval_key: msmarco-v2-doc.dev
+        scores:
+          - MRR@100: 0.2419
+      - topic_key: msmarco-v2-doc.dev2
+        eval_key: msmarco-v2-doc.dev2
+        scores:
+          - MRR@100: 0.2445
+      - topic_key: dl21
+        eval_key: dl21-doc
+        scores:
+          - MAP@100: 0.2718
+            MRR@100: 0.9684
+            nDCG@10: 0.6783
+            R@100: 0.3700
+            R@1K: 0.7069
+      - topic_key: dl22
+        eval_key: dl22-doc
+        scores:
+          - MAP@100: 0.1400
+            MRR@100: 0.8170
+            nDCG@10: 0.4451
+            R@100: 0.2656
+            R@1K: 0.5235
+      - topic_key: dl23
+        eval_key: dl23-doc
+        scores:
+          - MAP@100: 0.1554
+            MRR@100: 0.7793
+            nDCG@10: 0.4150
             R@100: 0.3101
             R@1K: 0.5753
