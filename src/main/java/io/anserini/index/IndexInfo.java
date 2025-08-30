@@ -70,7 +70,7 @@ public enum IndexInfo {
       "msmarco-v1-passage"),
 
   MSMARCO_V1_PASSAGE_SPLADE_V3("msmarco-v1-passage.splade-v3",
-      "Anserini Lucene impact index of the MS MARCO passage corpus encoded by SPLADEv3",
+      "Anserini Lucene impact index of the MS MARCO passage corpus encoded by SPLADE-v3",
       "lucene-inverted.msmarco-v1-passage.splade-v3.20250329.4f4c68.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/passage/original/lucene-inverted/splade-v3/lucene-inverted.msmarco-v1-passage.splade-v3.20250329.4f4c68.README.md",
       "MS MARCO V1 Passage",
@@ -562,7 +562,7 @@ public enum IndexInfo {
 
   // BEIR: flat
   BEIR_V1_0_0_TREC_COVID_FLAT("beir-v1.0.0-trec-covid.flat",
-      "Anserini Lucene inverted 'flat' index of BEIR (v1.0.0): TREC-COVID",
+      "Anserini Lucene inverted 'flat' index of BEIR collection 'trec-covid'",
       "lucene-inverted.beir-v1.0.0-trec-covid.flat.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
       "BEIR: TREC-COVID",
@@ -579,7 +579,7 @@ public enum IndexInfo {
       202648L),
 
   BEIR_V1_0_0_BIOASQ_FLAT("beir-v1.0.0-bioasq.flat",
-      "Anserini Lucene inverted 'flat' index of BEIR (v1.0.0): BioASQ",
+      "Anserini Lucene inverted 'flat' index of BEIR collection 'bioasq'",
       "lucene-inverted.beir-v1.0.0-bioasq.flat.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
       "BEIR: BioASQ",
@@ -596,7 +596,7 @@ public enum IndexInfo {
       4960004L),
 
   BEIR_V1_0_0_NFCORPUS_FLAT("beir-v1.0.0-nfcorpus.flat",
-      "Anserini Lucene inverted 'flat' index of BEIR (v1.0.0): NFCorpus",
+      "Anserini Lucene inverted 'flat' index of BEIR collection 'nfcorpus'",
       "lucene-inverted.beir-v1.0.0-nfcorpus.flat.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
       "BEIR: NFCorpus",
@@ -613,7 +613,7 @@ public enum IndexInfo {
       22111L),
 
   BEIR_V1_0_0_NQ_FLAT("beir-v1.0.0-nq.flat",
-      "Anserini Lucene inverted 'flat' index of BEIR (v1.0.0): NQ",
+      "Anserini Lucene inverted 'flat' index of BEIR collection 'nq'",
       "lucene-inverted.beir-v1.0.0-nq.flat.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
       "BEIR: NQ",
@@ -630,7 +630,7 @@ public enum IndexInfo {
       997027L),
 
   BEIR_V1_0_0_HOTPOTQA_FLAT("beir-v1.0.0-hotpotqa.flat",
-      "Anserini Lucene inverted 'flat' index of BEIR (v1.0.0): HotpotQA",
+      "Anserini Lucene inverted 'flat' index of BEIR collection 'hotpotqa'",
       "lucene-inverted.beir-v1.0.0-hotpotqa.flat.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
       "BEIR: HotpotQA",
@@ -647,7 +647,7 @@ public enum IndexInfo {
       2644892L),
 
   BEIR_V1_0_0_FIQA_FLAT("beir-v1.0.0-fiqa.flat",
-      "Anserini Lucene inverted 'flat' index of BEIR (v1.0.0): FiQA-2018",
+      "Anserini Lucene inverted 'flat' index of BEIR collection 'fiqa'",
       "lucene-inverted.beir-v1.0.0-fiqa.flat.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
       "BEIR: FiQA-2018",
@@ -664,7 +664,7 @@ public enum IndexInfo {
       66977L),
 
   BEIR_V1_0_0_SIGNAL1M_FLAT("beir-v1.0.0-signal1m.flat",
-      "Anserini Lucene inverted 'flat' index of BEIR (v1.0.0): Signal-1M",
+      "Anserini Lucene inverted 'flat' index of BEIR collection 'signal1m'",
       "lucene-inverted.beir-v1.0.0-signal1m.flat.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
       "BEIR: Signal-1M",
@@ -681,7 +681,7 @@ public enum IndexInfo {
       796647L),
 
   BEIR_V1_0_0_TREC_NEWS_FLAT("beir-v1.0.0-trec-news.flat",
-      "Anserini Lucene inverted 'flat' index of BEIR (v1.0.0): TREC-NEWS",
+      "Anserini Lucene inverted 'flat' index of BEIR collection 'trec-news'",
       "lucene-inverted.beir-v1.0.0-trec-news.flat.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
       "BEIR: TREC-NEWS",
@@ -698,7 +698,7 @@ public enum IndexInfo {
       729872L),
 
   BEIR_V1_0_0_ROBUST04_FLAT("beir-v1.0.0-robust04.flat",
-      "Anserini Lucene inverted 'flat' index of BEIR (v1.0.0): Robust04",
+      "Anserini Lucene inverted 'flat' index of BEIR collection 'robust04'",
       "lucene-inverted.beir-v1.0.0-robust04.flat.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
       "BEIR: Robust04",
@@ -715,7 +715,7 @@ public enum IndexInfo {
       923466L),
 
   BEIR_V1_0_0_ARGUANA_FLAT("beir-v1.0.0-arguana.flat",
-      "Anserini Lucene inverted 'flat' index of BEIR (v1.0.0): ArguAna",
+      "Anserini Lucene inverted 'flat' index of BEIR collection 'arguana'",
       "lucene-inverted.beir-v1.0.0-arguana.flat.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
       "BEIR: ArguAna",
@@ -732,7 +732,7 @@ public enum IndexInfo {
       23895L),
 
   BEIR_V1_0_0_WEBIS_TOUCHE2020_FLAT("beir-v1.0.0-webis-touche2020.flat",
-      "Anserini Lucene inverted 'flat' index of BEIR (v1.0.0): Webis-Touche2020",
+      "Anserini Lucene inverted 'flat' index of BEIR collection 'webis-touche2020'",
       "lucene-inverted.beir-v1.0.0-webis-touche2020.flat.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
       "BEIR: Webis-Touche2020",
@@ -749,7 +749,7 @@ public enum IndexInfo {
       525540L),
 
   BEIR_V1_0_0_CQADUPSTACK_ANDROID_FLAT("beir-v1.0.0-cqadupstack-android.flat",
-      "Anserini Lucene inverted 'flat' index of BEIR (v1.0.0): CQADupStack-android",
+      "Anserini Lucene inverted 'flat' index of BEIR collection 'cqadupstack-android'",
       "lucene-inverted.beir-v1.0.0-cqadupstack-android.flat.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
       "BEIR: CQADupStack-android",
@@ -766,7 +766,7 @@ public enum IndexInfo {
       41456L),
 
   BEIR_V1_0_0_CQADUPSTACK_ENGLISH_FLAT("beir-v1.0.0-cqadupstack-english.flat",
-      "Anserini Lucene inverted 'flat' index of BEIR (v1.0.0): CQADupStack-english",
+      "Anserini Lucene inverted 'flat' index of BEIR collection 'cqadupstack-english'",
       "lucene-inverted.beir-v1.0.0-cqadupstack-english.flat.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
       "BEIR: CQADupStack-english",
@@ -783,7 +783,7 @@ public enum IndexInfo {
       62517L),
 
   BEIR_V1_0_0_CQADUPSTACK_GAMING_FLAT("beir-v1.0.0-cqadupstack-gaming.flat",
-      "Anserini Lucene inverted 'flat' index of BEIR (v1.0.0): CQADupStack-gaming",
+      "Anserini Lucene inverted 'flat' index of BEIR collection 'cqadupstack-gaming'",
       "lucene-inverted.beir-v1.0.0-cqadupstack-gaming.flat.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
       "BEIR: CQADupStack-gaming",
@@ -800,7 +800,7 @@ public enum IndexInfo {
       60070L),
 
   BEIR_V1_0_0_CQADUPSTACK_GIS_FLAT("beir-v1.0.0-cqadupstack-gis.flat",
-      "Anserini Lucene inverted 'flat' index of BEIR (v1.0.0): CQADupStack-gis",
+      "Anserini Lucene inverted 'flat' index of BEIR collection 'cqadupstack-gis'",
       "lucene-inverted.beir-v1.0.0-cqadupstack-gis.flat.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
       "BEIR: CQADupStack-gis",
@@ -817,7 +817,7 @@ public enum IndexInfo {
       184133L),
 
   BEIR_V1_0_0_CQADUPSTACK_MATHEMATICA_FLAT("beir-v1.0.0-cqadupstack-mathematica.flat",
-      "Anserini Lucene inverted 'flat' index of BEIR (v1.0.0): CQADupStack-mathematica",
+      "Anserini Lucene inverted 'flat' index of BEIR collection 'cqadupstack-mathematica'",
       "lucene-inverted.beir-v1.0.0-cqadupstack-mathematica.flat.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
       "BEIR: CQADupStack-mathematica",
@@ -834,7 +834,7 @@ public enum IndexInfo {
       111611L),
 
   BEIR_V1_0_0_CQADUPSTACK_PHYSICS_FLAT("beir-v1.0.0-cqadupstack-physics.flat",
-      "Anserini Lucene inverted 'flat' index of BEIR (v1.0.0): CQADupStack-physics",
+      "Anserini Lucene inverted 'flat' index of BEIR collection 'cqadupstack-physics'",
       "lucene-inverted.beir-v1.0.0-cqadupstack-physics.flat.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
       "BEIR: CQADupStack-physics",
@@ -851,7 +851,7 @@ public enum IndexInfo {
       55950L),
 
   BEIR_V1_0_0_CQADUPSTACK_PROGRAMMERS_FLAT("beir-v1.0.0-cqadupstack-programmers.flat",
-      "Anserini Lucene inverted 'flat' index of BEIR (v1.0.0): CQADupStack-programmers",
+      "Anserini Lucene inverted 'flat' index of BEIR collection 'cqadupstack-programmers'",
       "lucene-inverted.beir-v1.0.0-cqadupstack-programmers.flat.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
       "BEIR: CQADupStack-programmers",
@@ -868,7 +868,7 @@ public enum IndexInfo {
       74195L),
 
   BEIR_V1_0_0_CQADUPSTACK_STATS_FLAT("beir-v1.0.0-cqadupstack-stats.flat",
-      "Anserini Lucene inverted 'flat' index of BEIR (v1.0.0): CQADupStack-stats",
+      "Anserini Lucene inverted 'flat' index of BEIR collection 'cqadupstack-stats'",
       "lucene-inverted.beir-v1.0.0-cqadupstack-stats.flat.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
       "BEIR: CQADupStack-stats",
@@ -885,7 +885,7 @@ public enum IndexInfo {
       183358L),
 
   BEIR_V1_0_0_CQADUPSTACK_TEX_FLAT("beir-v1.0.0-cqadupstack-tex.flat",
-      "Anserini Lucene inverted 'flat' index of BEIR (v1.0.0): CQADupStack-tex",
+      "Anserini Lucene inverted 'flat' index of BEIR collection 'cqadupstack-tex'",
       "lucene-inverted.beir-v1.0.0-cqadupstack-tex.flat.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
       "BEIR: CQADupStack-tex",
@@ -902,7 +902,7 @@ public enum IndexInfo {
       288088L),
 
   BEIR_V1_0_0_CQADUPSTACK_UNIX_FLAT("beir-v1.0.0-cqadupstack-unix.flat",
-      "Anserini Lucene inverted 'flat' index of BEIR (v1.0.0): CQADupStack-unix",
+      "Anserini Lucene inverted 'flat' index of BEIR collection 'cqadupstack-unix'",
       "lucene-inverted.beir-v1.0.0-cqadupstack-unix.flat.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
       "BEIR: CQADupStack-unix",
@@ -919,7 +919,7 @@ public enum IndexInfo {
       206323L),
 
   BEIR_V1_0_0_CQADUPSTACK_WEBMASTERS_FLAT("beir-v1.0.0-cqadupstack-webmasters.flat",
-      "Anserini Lucene inverted 'flat' index of BEIR (v1.0.0): CQADupStack-webmasters",
+      "Anserini Lucene inverted 'flat' index of BEIR collection 'cqadupstack-webmasters'",
       "lucene-inverted.beir-v1.0.0-cqadupstack-webmasters.flat.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
       "BEIR: CQADupStack-webmasters",
@@ -936,7 +936,7 @@ public enum IndexInfo {
       40547L),
 
   BEIR_V1_0_0_CQADUPSTACK_WORDPRESS_FLAT("beir-v1.0.0-cqadupstack-wordpress.flat",
-      "Anserini Lucene inverted 'flat' index of BEIR (v1.0.0): CQADupStack-wordpress",
+      "Anserini Lucene inverted 'flat' index of BEIR collection 'cqadupstack-wordpress'",
       "lucene-inverted.beir-v1.0.0-cqadupstack-wordpress.flat.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
       "BEIR: CQADupStack-wordpress",
@@ -953,7 +953,7 @@ public enum IndexInfo {
       125727L),
 
   BEIR_V1_0_0_QUORA_FLAT("beir-v1.0.0-quora.flat",
-      "Anserini Lucene inverted 'flat' index of BEIR (v1.0.0): Quora",
+      "Anserini Lucene inverted 'flat' index of BEIR collection 'quora'",
       "lucene-inverted.beir-v1.0.0-quora.flat.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
       "BEIR: Quora",
@@ -970,7 +970,7 @@ public enum IndexInfo {
       69597L),
 
   BEIR_V1_0_0_DBPEDIA_ENTITY_FLAT("beir-v1.0.0-dbpedia-entity.flat",
-      "Anserini Lucene inverted 'flat' index of BEIR (v1.0.0): DBPedia",
+      "Anserini Lucene inverted 'flat' index of BEIR collection 'dbpedia-entity'",
       "lucene-inverted.beir-v1.0.0-dbpedia-entity.flat.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
       "BEIR: DBPedia",
@@ -987,7 +987,7 @@ public enum IndexInfo {
       3351459L),
 
   BEIR_V1_0_0_SCIDOCS_FLAT("beir-v1.0.0-scidocs.flat",
-      "Anserini Lucene inverted 'flat' index of BEIR (v1.0.0): SCIDOCS",
+      "Anserini Lucene inverted 'flat' index of BEIR collection 'scidocs'",
       "lucene-inverted.beir-v1.0.0-scidocs.flat.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
       "BEIR: SCIDOCS",
@@ -1004,7 +1004,7 @@ public enum IndexInfo {
       63604L),
 
   BEIR_V1_0_0_FEVER_FLAT("beir-v1.0.0-fever.flat",
-      "Anserini Lucene inverted 'flat' index of BEIR (v1.0.0): FEVER",
+      "Anserini Lucene inverted 'flat' index of BEIR collection 'fever'",
       "lucene-inverted.beir-v1.0.0-fever.flat.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
       "BEIR: FEVER",
@@ -1021,7 +1021,7 @@ public enum IndexInfo {
       3293639L),
 
   BEIR_V1_0_0_CLIMATE_FEVER_FLAT("beir-v1.0.0-climate-fever.flat",
-      "Anserini Lucene inverted 'flat' index of BEIR (v1.0.0): Climate-FEVER",
+      "Anserini Lucene inverted 'flat' index of BEIR collection 'climate-fever'",
       "lucene-inverted.beir-v1.0.0-climate-fever.flat.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
       "BEIR: Climate-FEVER",
@@ -1038,7 +1038,7 @@ public enum IndexInfo {
       3293621L),
 
   BEIR_V1_0_0_SCIFACT_FLAT("beir-v1.0.0-scifact.flat",
-      "Anserini Lucene inverted 'flat' index of BEIR (v1.0.0): SciFact",
+      "Anserini Lucene inverted 'flat' index of BEIR collection 'scifact'",
       "lucene-inverted.beir-v1.0.0-scifact.flat.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
       "BEIR: SciFact",
@@ -1056,7 +1056,7 @@ public enum IndexInfo {
 
   // BEIR: multifield
   BEIR_V1_0_0_TREC_COVID_MULTIFIELD("beir-v1.0.0-trec-covid.multifield",
-      "Anserini Lucene inverted 'multifield' index of BEIR (v1.0.0): TREC-COVID",
+      "Anserini Lucene inverted 'multifield' index of BEIR collection 'trec-covid'",
       "lucene-inverted.beir-v1.0.0-trec-covid.multifield.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
       "BEIR: TREC-COVID",
@@ -1073,7 +1073,7 @@ public enum IndexInfo {
       193851L),
 
   BEIR_V1_0_0_BIOASQ_MULTIFIELD("beir-v1.0.0-bioasq.multifield",
-      "Anserini Lucene inverted 'multifield' index of BEIR (v1.0.0): BioASQ",
+      "Anserini Lucene inverted 'multifield' index of BEIR collection 'bioasq'",
       "lucene-inverted.beir-v1.0.0-bioasq.multifield.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
       "BEIR: BioASQ",
@@ -1090,7 +1090,7 @@ public enum IndexInfo {
       4889053L),
 
   BEIR_V1_0_0_NFCORPUS_MULTIFIELD("beir-v1.0.0-nfcorpus.multifield",
-      "Anserini Lucene inverted 'multifield' index of BEIR (v1.0.0): NFCorpus",
+      "Anserini Lucene inverted 'multifield' index of BEIR collection 'nfcorpus'",
       "lucene-inverted.beir-v1.0.0-nfcorpus.multifield.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
       "BEIR: NFCorpus",
@@ -1107,7 +1107,7 @@ public enum IndexInfo {
       21819L),
 
   BEIR_V1_0_0_NQ_MULTIFIELD("beir-v1.0.0-nq.multifield",
-      "Anserini Lucene inverted 'multifield' index of BEIR (v1.0.0): NQ",
+      "Anserini Lucene inverted 'multifield' index of BEIR collection 'nq'",
       "lucene-inverted.beir-v1.0.0-nq.multifield.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
       "BEIR: NQ",
@@ -1124,7 +1124,7 @@ public enum IndexInfo {
       996653L),
 
   BEIR_V1_0_0_HOTPOTQA_MULTIFIELD("beir-v1.0.0-hotpotqa.multifield",
-      "Anserini Lucene inverted 'multifield' index of BEIR (v1.0.0): HotpotQA",
+      "Anserini Lucene inverted 'multifield' index of BEIR collection 'hotpotqa'",
       "lucene-inverted.beir-v1.0.0-hotpotqa.multifield.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
       "BEIR: HotpotQA",
@@ -1141,7 +1141,7 @@ public enum IndexInfo {
       2627639L),
 
   BEIR_V1_0_0_FIQA_MULTIFIELD("beir-v1.0.0-fiqa.multifield",
-      "Anserini Lucene inverted 'multifield' index of BEIR (v1.0.0): FiQA-2018",
+      "Anserini Lucene inverted 'multifield' index of BEIR collection 'fiqa'",
       "lucene-inverted.beir-v1.0.0-fiqa.multifield.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
       "BEIR: FiQA-2018",
@@ -1158,7 +1158,7 @@ public enum IndexInfo {
       66977L),
 
   BEIR_V1_0_0_SIGNAL1M_MULTIFIELD("beir-v1.0.0-signal1m.multifield",
-      "Anserini Lucene inverted 'multifield' index of BEIR (v1.0.0): Signal-1M",
+      "Anserini Lucene inverted 'multifield' index of BEIR collection 'signal1m'",
       "lucene-inverted.beir-v1.0.0-signal1m.multifield.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
       "BEIR: Signal-1M",
@@ -1175,7 +1175,7 @@ public enum IndexInfo {
       796647L),
 
   BEIR_V1_0_0_TREC_NEWS_MULTIFIELD("beir-v1.0.0-trec-news.multifield",
-      "Anserini Lucene inverted 'multifield' index of BEIR (v1.0.0): TREC-NEWS",
+      "Anserini Lucene inverted 'multifield' index of BEIR collection 'trec-news'",
       "lucene-inverted.beir-v1.0.0-trec-news.multifield.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
       "BEIR: TREC-NEWS",
@@ -1192,7 +1192,7 @@ public enum IndexInfo {
       727856L),
 
   BEIR_V1_0_0_ROBUST04_MULTIFIELD("beir-v1.0.0-robust04.multifield",
-      "Anserini Lucene inverted 'multifield' index of BEIR (v1.0.0): Robust04",
+      "Anserini Lucene inverted 'multifield' index of BEIR collection 'robust04'",
       "lucene-inverted.beir-v1.0.0-robust04.multifield.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
       "BEIR: Robust04",
@@ -1209,7 +1209,7 @@ public enum IndexInfo {
       923466L),
 
   BEIR_V1_0_0_ARGUANA_MULTIFIELD("beir-v1.0.0-arguana.multifield",
-      "Anserini Lucene inverted 'multifield' index of BEIR (v1.0.0): ArguAna",
+      "Anserini Lucene inverted 'multifield' index of BEIR collection 'arguana'",
       "lucene-inverted.beir-v1.0.0-arguana.multifield.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
       "BEIR: ArguAna",
@@ -1226,7 +1226,7 @@ public enum IndexInfo {
       23867L),
 
   BEIR_V1_0_0_WEBIS_TOUCHE2020_MULTIFIELD("beir-v1.0.0-webis-touche2020.multifield",
-      "Anserini Lucene inverted 'multifield' index of BEIR (v1.0.0): Webis-Touche2020",
+      "Anserini Lucene inverted 'multifield' index of BEIR collection 'webis-touche2020'",
       "lucene-inverted.beir-v1.0.0-webis-touche2020.multifield.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
       "BEIR: Webis-Touche2020",
@@ -1243,7 +1243,7 @@ public enum IndexInfo {
       524665L),
 
   BEIR_V1_0_0_CQADUPSTACK_ANDROID_MULTIFIELD("beir-v1.0.0-cqadupstack-android.multifield",
-      "Anserini Lucene inverted 'multifield' index of BEIR (v1.0.0): CQADupStack-android",
+      "Anserini Lucene inverted 'multifield' index of BEIR collection 'cqadupstack-android'",
       "lucene-inverted.beir-v1.0.0-cqadupstack-android.multifield.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
       "BEIR: CQADupStack-android",
@@ -1260,7 +1260,7 @@ public enum IndexInfo {
       40824L),
 
   BEIR_V1_0_0_CQADUPSTACK_ENGLISH_MULTIFIELD("beir-v1.0.0-cqadupstack-english.multifield",
-      "Anserini Lucene inverted 'multifield' index of BEIR (v1.0.0): CQADupStack-english",
+      "Anserini Lucene inverted 'multifield' index of BEIR collection 'cqadupstack-english'",
       "lucene-inverted.beir-v1.0.0-cqadupstack-english.multifield.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
       "BEIR: CQADupStack-english",
@@ -1277,7 +1277,7 @@ public enum IndexInfo {
       61530L),
 
   BEIR_V1_0_0_CQADUPSTACK_GAMING_MULTIFIELD("beir-v1.0.0-cqadupstack-gaming.multifield",
-      "Anserini Lucene inverted 'multifield' index of BEIR (v1.0.0): CQADupStack-gaming",
+      "Anserini Lucene inverted 'multifield' index of BEIR collection 'cqadupstack-gaming'",
       "lucene-inverted.beir-v1.0.0-cqadupstack-gaming.multifield.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
       "BEIR: CQADupStack-gaming",
@@ -1294,7 +1294,7 @@ public enum IndexInfo {
       59113L),
 
   BEIR_V1_0_0_CQADUPSTACK_GIS_MULTIFIELD("beir-v1.0.0-cqadupstack-gis.multifield",
-      "Anserini Lucene inverted 'multifield' index of BEIR (v1.0.0): CQADupStack-gis",
+      "Anserini Lucene inverted 'multifield' index of BEIR collection 'cqadupstack-gis'",
       "lucene-inverted.beir-v1.0.0-cqadupstack-gis.multifield.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
       "BEIR: CQADupStack-gis",
@@ -1311,7 +1311,7 @@ public enum IndexInfo {
       183298L),
 
   BEIR_V1_0_0_CQADUPSTACK_MATHEMATICA_MULTIFIELD("beir-v1.0.0-cqadupstack-mathematica.multifield",
-      "Anserini Lucene inverted 'multifield' index of BEIR (v1.0.0): CQADupStack-mathematica",
+      "Anserini Lucene inverted 'multifield' index of BEIR collection 'cqadupstack-mathematica'",
       "lucene-inverted.beir-v1.0.0-cqadupstack-mathematica.multifield.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
       "BEIR: CQADupStack-mathematica",
@@ -1328,7 +1328,7 @@ public enum IndexInfo {
       111306L),
 
   BEIR_V1_0_0_CQADUPSTACK_PHYSICS_MULTIFIELD("beir-v1.0.0-cqadupstack-physics.multifield",
-      "Anserini Lucene inverted 'multifield' index of BEIR (v1.0.0): CQADupStack-physics",
+      "Anserini Lucene inverted 'multifield' index of BEIR collection 'cqadupstack-physics'",
       "lucene-inverted.beir-v1.0.0-cqadupstack-physics.multifield.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
       "BEIR: CQADupStack-physics",
@@ -1345,7 +1345,7 @@ public enum IndexInfo {
       55229L),
 
   BEIR_V1_0_0_CQADUPSTACK_PROGRAMMERS_MULTIFIELD("beir-v1.0.0-cqadupstack-programmers.multifield",
-      "Anserini Lucene inverted 'multifield' index of BEIR (v1.0.0): CQADupStack-programmers",
+      "Anserini Lucene inverted 'multifield' index of BEIR collection 'cqadupstack-programmers'",
       "lucene-inverted.beir-v1.0.0-cqadupstack-programmers.multifield.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
       "BEIR: CQADupStack-programmers",
@@ -1362,7 +1362,7 @@ public enum IndexInfo {
       73765L),
 
   BEIR_V1_0_0_CQADUPSTACK_STATS_MULTIFIELD("beir-v1.0.0-cqadupstack-stats.multifield",
-      "Anserini Lucene inverted 'multifield' index of BEIR (v1.0.0): CQADupStack-stats",
+      "Anserini Lucene inverted 'multifield' index of BEIR collection 'cqadupstack-stats'",
       "lucene-inverted.beir-v1.0.0-cqadupstack-stats.multifield.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
       "BEIR: CQADupStack-stats",
@@ -1379,7 +1379,7 @@ public enum IndexInfo {
       182933L),
 
   BEIR_V1_0_0_CQADUPSTACK_TEX_MULTIFIELD("beir-v1.0.0-cqadupstack-tex.multifield",
-      "Anserini Lucene inverted 'multifield' index of BEIR (v1.0.0): CQADupStack-tex",
+      "Anserini Lucene inverted 'multifield' index of BEIR collection 'cqadupstack-tex'",
       "lucene-inverted.beir-v1.0.0-cqadupstack-tex.multifield.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
       "BEIR: CQADupStack-tex",
@@ -1396,7 +1396,7 @@ public enum IndexInfo {
       287393L),
 
   BEIR_V1_0_0_CQADUPSTACK_UNIX_MULTIFIELD("beir-v1.0.0-cqadupstack-unix.multifield",
-      "Anserini Lucene inverted 'multifield' index of BEIR (v1.0.0): CQADupStack-unix",
+      "Anserini Lucene inverted 'multifield' index of BEIR collection 'cqadupstack-unix'",
       "lucene-inverted.beir-v1.0.0-cqadupstack-unix.multifield.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
       "BEIR: CQADupStack-unix",
@@ -1413,7 +1413,7 @@ public enum IndexInfo {
       205471L),
 
   BEIR_V1_0_0_CQADUPSTACK_WEBMASTERS_MULTIFIELD("beir-v1.0.0-cqadupstack-webmasters.multifield",
-      "Anserini Lucene inverted 'multifield' index of BEIR (v1.0.0): CQADupStack-webmasters",
+      "Anserini Lucene inverted 'multifield' index of BEIR collection 'cqadupstack-webmasters'",
       "lucene-inverted.beir-v1.0.0-cqadupstack-webmasters.multifield.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
       "BEIR: CQADupStack-webmasters",
@@ -1430,7 +1430,7 @@ public enum IndexInfo {
       40073L),
 
   BEIR_V1_0_0_CQADUPSTACK_WORDPRESS_MULTIFIELD("beir-v1.0.0-cqadupstack-wordpress.multifield",
-      "Anserini Lucene inverted 'multifield' index of BEIR (v1.0.0): CQADupStack-wordpress",
+      "Anserini Lucene inverted 'multifield' index of BEIR collection 'cqadupstack-wordpress'",
       "lucene-inverted.beir-v1.0.0-cqadupstack-wordpress.multifield.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
       "BEIR: CQADupStack-wordpress",
@@ -1447,7 +1447,7 @@ public enum IndexInfo {
       125110L),
 
   BEIR_V1_0_0_QUORA_MULTIFIELD("beir-v1.0.0-quora.multifield",
-      "Anserini Lucene inverted 'multifield' index of BEIR (v1.0.0): Quora",
+      "Anserini Lucene inverted 'multifield' index of BEIR collection 'quora'",
       "lucene-inverted.beir-v1.0.0-quora.multifield.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
       "BEIR: Quora",
@@ -1464,7 +1464,7 @@ public enum IndexInfo {
       69597L),
 
   BEIR_V1_0_0_DBPEDIA_ENTITY_MULTIFIELD("beir-v1.0.0-dbpedia-entity.multifield",
-      "Anserini Lucene inverted 'multifield' index of BEIR (v1.0.0): DBPedia",
+      "Anserini Lucene inverted 'multifield' index of BEIR collection 'dbpedia-entity'",
       "lucene-inverted.beir-v1.0.0-dbpedia-entity.multifield.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
       "BEIR: DBPedia",
@@ -1481,7 +1481,7 @@ public enum IndexInfo {
       3338476L),
 
   BEIR_V1_0_0_SCIDOCS_MULTIFIELD("beir-v1.0.0-scidocs.multifield",
-      "Anserini Lucene inverted 'multifield' index of BEIR (v1.0.0): SCIDOCS",
+      "Anserini Lucene inverted 'multifield' index of BEIR collection 'scidocs'",
       "lucene-inverted.beir-v1.0.0-scidocs.multifield.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
       "BEIR: SCIDOCS",
@@ -1498,7 +1498,7 @@ public enum IndexInfo {
       62562L),
 
   BEIR_V1_0_0_FEVER_MULTIFIELD("beir-v1.0.0-fever.multifield",
-      "Anserini Lucene inverted 'multifield' index of BEIR (v1.0.0): FEVER",
+      "Anserini Lucene inverted 'multifield' index of BEIR collection 'fever'",
       "lucene-inverted.beir-v1.0.0-fever.multifield.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
       "BEIR: FEVER",
@@ -1515,7 +1515,7 @@ public enum IndexInfo {
       3275057L),
 
   BEIR_V1_0_0_CLIMATE_FEVER_MULTIFIELD("beir-v1.0.0-climate-fever.multifield",
-      "Anserini Lucene inverted 'multifield' index of BEIR (v1.0.0): Climate-FEVER",
+      "Anserini Lucene inverted 'multifield' index of BEIR collection 'climate-fever'",
       "lucene-inverted.beir-v1.0.0-climate-fever.multifield.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
       "BEIR: Climate-FEVER",
@@ -1532,7 +1532,7 @@ public enum IndexInfo {
       3275068L),
 
   BEIR_V1_0_0_SCIFACT_MULTIFIELD("beir-v1.0.0-scifact.multifield",
-      "Anserini Lucene inverted 'multifield' index of BEIR (v1.0.0): SciFact",
+      "Anserini Lucene inverted 'multifield' index of BEIR collection 'scifact'",
       "lucene-inverted.beir-v1.0.0-scifact.multifield.20221116.505594.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
       "BEIR: SciFact",
@@ -1550,7 +1550,7 @@ public enum IndexInfo {
 
   // BEIR: SPLADE++ ED
   BEIR_V1_0_0_TREC_COVID_SPLADE_PP_ED("beir-v1.0.0-trec-covid.splade-pp-ed",
-      "Anserini Lucene impact index of BEIR (v1.0.0): TREC-COVID, encoded by SPLADE++ CoCondenser-EnsembleDistil",
+      "Anserini Lucene impact index of BEIR collection 'trec-covid' encoded by SPLADE++ CoCondenser-EnsembleDistil",
       "lucene-inverted.beir-v1.0.0-trec-covid.splade-pp-ed.20231124.a66f86f.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
       "BEIR: TREC-COVID, encoded by SPLADE++ (CoCondenser-EnsembleDistil)",
@@ -1567,7 +1567,7 @@ public enum IndexInfo {
       26030L),
 
   BEIR_V1_0_0_BIOASQ_SPLADE_PP_ED("beir-v1.0.0-bioasq.splade-pp-ed",
-      "Anserini Lucene impact index of BEIR (v1.0.0): BioASQ, encoded by SPLADE++ CoCondenser-EnsembleDistil",
+      "Anserini Lucene impact index of BEIR collection 'bioasq' encoded by SPLADE++ CoCondenser-EnsembleDistil",
       "lucene-inverted.beir-v1.0.0-bioasq.splade-pp-ed.20231124.a66f86f.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
       "BEIR: BioASQ, encoded by SPLADE++ (CoCondenser-EnsembleDistil)",
@@ -1584,7 +1584,7 @@ public enum IndexInfo {
       27606L),
 
   BEIR_V1_0_0_NFCORPUS_SPLADE_PP_ED("beir-v1.0.0-nfcorpus.splade-pp-ed",
-      "Anserini Lucene impact index of BEIR (v1.0.0): NFCorpus, encoded by SPLADE++ CoCondenser-EnsembleDistil",
+      "Anserini Lucene impact index of BEIR collection 'nfcorpus' encoded by SPLADE++ CoCondenser-EnsembleDistil",
       "lucene-inverted.beir-v1.0.0-nfcorpus.splade-pp-ed.20231124.a66f86f.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
       "BEIR: NFCorpus, encoded by SPLADE++ (CoCondenser-EnsembleDistil)",
@@ -1601,7 +1601,7 @@ public enum IndexInfo {
       15307L),
 
   BEIR_V1_0_0_NQ_SPLADE_PP_ED("beir-v1.0.0-nq.splade-pp-ed",
-      "Anserini Lucene impact index of BEIR (v1.0.0): NQ, encoded by SPLADE++ CoCondenser-EnsembleDistil",
+      "Anserini Lucene impact index of BEIR collection 'nq' encoded by SPLADE++ CoCondenser-EnsembleDistil",
       "lucene-inverted.beir-v1.0.0-nq.splade-pp-ed.20231124.a66f86f.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
       "BEIR: NQ, encoded by SPLADE++ (CoCondenser-EnsembleDistil)",
@@ -1618,7 +1618,7 @@ public enum IndexInfo {
       28714L),
 
   BEIR_V1_0_0_HOTPOTQA_SPLADE_PP_ED("beir-v1.0.0-hotpotqa.splade-pp-ed",
-      "Anserini Lucene impact index of BEIR (v1.0.0): HotpotQA, encoded by SPLADE++ CoCondenser-EnsembleDistil",
+      "Anserini Lucene impact index of BEIR collection 'hotpotqa' encoded by SPLADE++ CoCondenser-EnsembleDistil",
       "lucene-inverted.beir-v1.0.0-hotpotqa.splade-pp-ed.20231124.a66f86f.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
       "BEIR: HotpotQA, encoded by SPLADE++ (CoCondenser-EnsembleDistil)",
@@ -1635,7 +1635,7 @@ public enum IndexInfo {
       28654L),
 
   BEIR_V1_0_0_FIQA_SPLADE_PP_ED("beir-v1.0.0-fiqa.splade-pp-ed",
-      "Anserini Lucene impact index of BEIR (v1.0.0): FiQA-2018, encoded by SPLADE++ CoCondenser-EnsembleDistil",
+      "Anserini Lucene impact index of BEIR collection 'fiqa' encoded by SPLADE++ CoCondenser-EnsembleDistil",
       "lucene-inverted.beir-v1.0.0-fiqa.splade-pp-ed.20231124.a66f86f.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
       "BEIR: FiQA-2018, encoded by SPLADE++ (CoCondenser-EnsembleDistil)",
@@ -1652,7 +1652,7 @@ public enum IndexInfo {
       25136L),
 
   BEIR_V1_0_0_SIGNAL1M_SPLADE_PP_ED("beir-v1.0.0-signal1m.splade-pp-ed",
-      "Anserini Lucene impact index of BEIR (v1.0.0): Signal-1M, encoded by SPLADE++ CoCondenser-EnsembleDistil",
+      "Anserini Lucene impact index of BEIR collection 'signal1m' encoded by SPLADE++ CoCondenser-EnsembleDistil",
       "lucene-inverted.beir-v1.0.0-signal1m.splade-pp-ed.20231124.a66f86f.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
       "BEIR: Signal-1M, encoded by SPLADE++ (CoCondenser-EnsembleDistil)",
@@ -1669,7 +1669,7 @@ public enum IndexInfo {
       28020L),
 
   BEIR_V1_0_0_TREC_NEWS_SPLADE_PP_ED("beir-v1.0.0-trec-news.splade-pp-ed",
-      "Anserini Lucene impact index of BEIR (v1.0.0): TREC-NEWS, encoded by SPLADE++ CoCondenser-EnsembleDistil",
+      "Anserini Lucene impact index of BEIR collection 'trec-news' encoded by SPLADE++ CoCondenser-EnsembleDistil",
       "lucene-inverted.beir-v1.0.0-trec-news.splade-pp-ed.20231124.a66f86f.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
       "BEIR: TREC-NEWS, encoded by SPLADE++ (CoCondenser-EnsembleDistil)",
@@ -1686,7 +1686,7 @@ public enum IndexInfo {
       27774L),
 
   BEIR_V1_0_0_ROBUST04_SPLADE_PP_ED("beir-v1.0.0-robust04.splade-pp-ed",
-      "Anserini Lucene impact index of BEIR (v1.0.0): Robust04, encoded by SPLADE++ CoCondenser-EnsembleDistil",
+      "Anserini Lucene impact index of BEIR collection 'robust04' encoded by SPLADE++ CoCondenser-EnsembleDistil",
       "lucene-inverted.beir-v1.0.0-robust04.splade-pp-ed.20231124.a66f86f.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
       "BEIR: Robust04, encoded by SPLADE++ (CoCondenser-EnsembleDistil)",
@@ -1703,7 +1703,7 @@ public enum IndexInfo {
       27545L),
 
   BEIR_V1_0_0_ARGUANA_SPLADE_PP_ED("beir-v1.0.0-arguana.splade-pp-ed",
-      "Anserini Lucene impact index of BEIR (v1.0.0): ArguAna, encoded by SPLADE++ CoCondenser-EnsembleDistil",
+      "Anserini Lucene impact index of BEIR collection 'arguana' encoded by SPLADE++ CoCondenser-EnsembleDistil",
       "lucene-inverted.beir-v1.0.0-arguana.splade-pp-ed.20231124.a66f86f.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
       "BEIR: ArguAna, encoded by SPLADE++ (CoCondenser-EnsembleDistil)",
@@ -1720,7 +1720,7 @@ public enum IndexInfo {
       21501L),
 
   BEIR_V1_0_0_WEBIS_TOUCHE2020_SPLADE_PP_ED("beir-v1.0.0-webis-touche2020.splade-pp-ed",
-      "Anserini Lucene impact index of BEIR (v1.0.0): Webis-Touche2020, encoded by SPLADE++ CoCondenser-EnsembleDistil",
+      "Anserini Lucene impact index of BEIR collection 'webis-touche2020' encoded by SPLADE++ CoCondenser-EnsembleDistil",
       "lucene-inverted.beir-v1.0.0-webis-touche2020.splade-pp-ed.20231124.a66f86f.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
       "BEIR: Webis-Touche2020, encoded by SPLADE++ (CoCondenser-EnsembleDistil)",
@@ -1737,7 +1737,7 @@ public enum IndexInfo {
       27611L),
 
   BEIR_V1_0_0_CQADUPSTACK_ANDROID_SPLADE_PP_ED("beir-v1.0.0-cqadupstack-android.splade-pp-ed",
-      "Anserini Lucene impact index of BEIR (v1.0.0): CQADupStack-android, encoded by SPLADE++ CoCondenser-EnsembleDistil",
+      "Anserini Lucene impact index of BEIR collection 'cqadupstack-android' encoded by SPLADE++ CoCondenser-EnsembleDistil",
       "lucene-inverted.beir-v1.0.0-cqadupstack-android.splade-pp-ed.20231124.a66f86f.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
       "BEIR: CQADupStack-android, encoded by SPLADE++ (CoCondenser-EnsembleDistil)",
@@ -1754,7 +1754,7 @@ public enum IndexInfo {
       16844L),
 
   BEIR_V1_0_0_CQADUPSTACK_ENGLISH_SPLADE_PP_ED("beir-v1.0.0-cqadupstack-english.splade-pp-ed",
-      "Anserini Lucene impact index of BEIR (v1.0.0): CQADupStack-english, encoded by SPLADE++ CoCondenser-EnsembleDistil",
+      "Anserini Lucene impact index of BEIR collection 'cqadupstack-english' encoded by SPLADE++ CoCondenser-EnsembleDistil",
       "lucene-inverted.beir-v1.0.0-cqadupstack-english.splade-pp-ed.20231124.a66f86f.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
       "BEIR: CQADupStack-english, encoded by SPLADE++ (CoCondenser-EnsembleDistil)",
@@ -1771,7 +1771,7 @@ public enum IndexInfo {
       25618L),
 
   BEIR_V1_0_0_CQADUPSTACK_GAMING_SPLADE_PP_ED("beir-v1.0.0-cqadupstack-gaming.splade-pp-ed",
-      "Anserini Lucene impact index of BEIR (v1.0.0): CQADupStack-gaming, encoded by SPLADE++ CoCondenser-EnsembleDistil",
+      "Anserini Lucene impact index of BEIR collection 'cqadupstack-gaming' encoded by SPLADE++ CoCondenser-EnsembleDistil",
       "lucene-inverted.beir-v1.0.0-cqadupstack-gaming.splade-pp-ed.20231124.a66f86f.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
       "BEIR: CQADupStack-gaming, encoded by SPLADE++ (CoCondenser-EnsembleDistil)",
@@ -1788,7 +1788,7 @@ public enum IndexInfo {
       22854L),
 
   BEIR_V1_0_0_CQADUPSTACK_GIS_SPLADE_PP_ED("beir-v1.0.0-cqadupstack-gis.splade-pp-ed",
-      "Anserini Lucene impact index of BEIR (v1.0.0): CQADupStack-gis, encoded by SPLADE++ CoCondenser-EnsembleDistil",
+      "Anserini Lucene impact index of BEIR collection 'cqadupstack-gis' encoded by SPLADE++ CoCondenser-EnsembleDistil",
       "lucene-inverted.beir-v1.0.0-cqadupstack-gis.splade-pp-ed.20231124.a66f86f.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
       "BEIR: CQADupStack-gis, encoded by SPLADE++ (CoCondenser-EnsembleDistil)",
@@ -1805,7 +1805,7 @@ public enum IndexInfo {
       20225L),
 
   BEIR_V1_0_0_CQADUPSTACK_MATHEMATICA_SPLADE_PP_ED("beir-v1.0.0-cqadupstack-mathematica.splade-pp-ed",
-      "Anserini Lucene impact index of BEIR (v1.0.0): CQADupStack-mathematica, encoded by SPLADE++ CoCondenser-EnsembleDistil",
+      "Anserini Lucene impact index of BEIR collection 'cqadupstack-mathematica' encoded by SPLADE++ CoCondenser-EnsembleDistil",
       "lucene-inverted.beir-v1.0.0-cqadupstack-mathematica.splade-pp-ed.20231124.a66f86f.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
       "BEIR: CQADupStack-mathematica, encoded by SPLADE++ (CoCondenser-EnsembleDistil)",
@@ -1822,7 +1822,7 @@ public enum IndexInfo {
       17697L),
 
   BEIR_V1_0_0_CQADUPSTACK_PHYSICS_SPLADE_PP_ED("beir-v1.0.0-cqadupstack-physics.splade-pp-ed",
-      "Anserini Lucene impact index of BEIR (v1.0.0): CQADupStack-physics, encoded by SPLADE++ CoCondenser-EnsembleDistil",
+      "Anserini Lucene impact index of BEIR collection 'cqadupstack-physics' encoded by SPLADE++ CoCondenser-EnsembleDistil",
       "lucene-inverted.beir-v1.0.0-cqadupstack-physics.splade-pp-ed.20231124.a66f86f.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
       "BEIR: CQADupStack-physics, encoded by SPLADE++ (CoCondenser-EnsembleDistil)",
@@ -1839,7 +1839,7 @@ public enum IndexInfo {
       21505L),
 
   BEIR_V1_0_0_CQADUPSTACK_PROGRAMMERS_SPLADE_PP_ED("beir-v1.0.0-cqadupstack-programmers.splade-pp-ed",
-      "Anserini Lucene impact index of BEIR (v1.0.0): CQADupStack-programmers, encoded by SPLADE++ CoCondenser-EnsembleDistil",
+      "Anserini Lucene impact index of BEIR collection 'cqadupstack-programmers' encoded by SPLADE++ CoCondenser-EnsembleDistil",
       "lucene-inverted.beir-v1.0.0-cqadupstack-programmers.splade-pp-ed.20231124.a66f86f.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
       "BEIR: CQADupStack-programmers, encoded by SPLADE++ (CoCondenser-EnsembleDistil)",
@@ -1856,7 +1856,7 @@ public enum IndexInfo {
       20985L),
 
   BEIR_V1_0_0_CQADUPSTACK_STATS_SPLADE_PP_ED("beir-v1.0.0-cqadupstack-stats.splade-pp-ed",
-      "Anserini Lucene impact index of BEIR (v1.0.0): CQADupStack-stats, encoded by SPLADE++ CoCondenser-EnsembleDistil",
+      "Anserini Lucene impact index of BEIR collection 'cqadupstack-stats' encoded by SPLADE++ CoCondenser-EnsembleDistil",
       "lucene-inverted.beir-v1.0.0-cqadupstack-stats.splade-pp-ed.20231124.a66f86f.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
       "BEIR: CQADupStack-stats, encoded by SPLADE++ (CoCondenser-EnsembleDistil)",
@@ -1873,7 +1873,7 @@ public enum IndexInfo {
       21654L),
 
   BEIR_V1_0_0_CQADUPSTACK_TEX_SPLADE_PP_ED("beir-v1.0.0-cqadupstack-tex.splade-pp-ed",
-      "Anserini Lucene impact index of BEIR (v1.0.0): CQADupStack-tex, encoded by SPLADE++ CoCondenser-EnsembleDistil",
+      "Anserini Lucene impact index of BEIR collection 'cqadupstack-tex' encoded by SPLADE++ CoCondenser-EnsembleDistil",
       "lucene-inverted.beir-v1.0.0-cqadupstack-tex.splade-pp-ed.20231124.a66f86f.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
       "BEIR: CQADupStack-tex, encoded by SPLADE++ (CoCondenser-EnsembleDistil)",
@@ -1890,7 +1890,7 @@ public enum IndexInfo {
       23064L),
 
   BEIR_V1_0_0_CQADUPSTACK_UNIX_SPLADE_PP_ED("beir-v1.0.0-cqadupstack-unix.splade-pp-ed",
-      "Anserini Lucene impact index of BEIR (v1.0.0): CQADupStack-unix, encoded by SPLADE++ CoCondenser-EnsembleDistil",
+      "Anserini Lucene impact index of BEIR collection 'cqadupstack-unix' encoded by SPLADE++ CoCondenser-EnsembleDistil",
       "lucene-inverted.beir-v1.0.0-cqadupstack-unix.splade-pp-ed.20231124.a66f86f.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
       "BEIR: CQADupStack-unix, encoded by SPLADE++ (CoCondenser-EnsembleDistil)",
@@ -1907,7 +1907,7 @@ public enum IndexInfo {
       19773L),
 
   BEIR_V1_0_0_CQADUPSTACK_WEBMASTERS_SPLADE_PP_ED("beir-v1.0.0-cqadupstack-webmasters.splade-pp-ed",
-      "Anserini Lucene impact index of BEIR (v1.0.0): CQADupStack-webmasters, encoded by SPLADE++ CoCondenser-EnsembleDistil",
+      "Anserini Lucene impact index of BEIR collection 'cqadupstack-webmasters' encoded by SPLADE++ CoCondenser-EnsembleDistil",
       "lucene-inverted.beir-v1.0.0-cqadupstack-webmasters.splade-pp-ed.20231124.a66f86f.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
       "BEIR: CQADupStack-webmasters, encoded by SPLADE++ (CoCondenser-EnsembleDistil)",
@@ -1924,7 +1924,7 @@ public enum IndexInfo {
       18246L),
 
   BEIR_V1_0_0_CQADUPSTACK_WORDPRESS_SPLADE_PP_ED("beir-v1.0.0-cqadupstack-wordpress.splade-pp-ed",
-      "Anserini Lucene impact index of BEIR (v1.0.0): CQADupStack-wordpress, encoded by SPLADE++ CoCondenser-EnsembleDistil",
+      "Anserini Lucene impact index of BEIR collection 'cqadupstack-wordpress' encoded by SPLADE++ CoCondenser-EnsembleDistil",
       "lucene-inverted.beir-v1.0.0-cqadupstack-wordpress.splade-pp-ed.20231124.a66f86f.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
       "BEIR: CQADupStack-wordpress, encoded by SPLADE++ (CoCondenser-EnsembleDistil)",
@@ -1941,7 +1941,7 @@ public enum IndexInfo {
       19864L),
 
   BEIR_V1_0_0_QUORA_SPLADE_PP_ED("beir-v1.0.0-quora.splade-pp-ed",
-      "Anserini Lucene impact index of BEIR (v1.0.0): Quora, encoded by SPLADE++ CoCondenser-EnsembleDistil",
+      "Anserini Lucene impact index of BEIR collection 'quora' encoded by SPLADE++ CoCondenser-EnsembleDistil",
       "lucene-inverted.beir-v1.0.0-quora.splade-pp-ed.20231124.a66f86f.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
       "BEIR: Quora, encoded by SPLADE++ (CoCondenser-EnsembleDistil)",
@@ -1958,7 +1958,7 @@ public enum IndexInfo {
       26583L),
 
   BEIR_V1_0_0_DBPEDIA_ENTITY_SPLADE_PP_ED("beir-v1.0.0-dbpedia-entity.splade-pp-ed",
-      "Anserini Lucene impact index of BEIR (v1.0.0): DBPedia, encoded by SPLADE++ CoCondenser-EnsembleDistil",
+      "Anserini Lucene impact index of BEIR collection 'dbpedia-entity' encoded by SPLADE++ CoCondenser-EnsembleDistil",
       "lucene-inverted.beir-v1.0.0-dbpedia-entity.splade-pp-ed.20231124.a66f86f.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
       "BEIR: DBPedia, encoded by SPLADE++ (CoCondenser-EnsembleDistil)",
@@ -1975,7 +1975,7 @@ public enum IndexInfo {
       28628L),
 
   BEIR_V1_0_0_SCIDOCS_SPLADE_PP_ED("beir-v1.0.0-scidocs.splade-pp-ed",
-      "Anserini Lucene impact index of BEIR (v1.0.0): SCIDOCS, encoded by SPLADE++ CoCondenser-EnsembleDistil",
+      "Anserini Lucene impact index of BEIR collection 'scidocs' encoded by SPLADE++ CoCondenser-EnsembleDistil",
       "lucene-inverted.beir-v1.0.0-scidocs.splade-pp-ed.20231124.a66f86f.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
       "BEIR: SCIDOCS, encoded by SPLADE++ (CoCondenser-EnsembleDistil)",
@@ -1992,7 +1992,7 @@ public enum IndexInfo {
       23225L),
 
   BEIR_V1_0_0_FEVER_SPLADE_PP_ED("beir-v1.0.0-fever.splade-pp-ed",
-      "Anserini Lucene impact index of BEIR (v1.0.0): FEVER, encoded by SPLADE++ CoCondenser-EnsembleDistil",
+      "Anserini Lucene impact index of BEIR collection 'fever' encoded by SPLADE++ CoCondenser-EnsembleDistil",
       "lucene-inverted.beir-v1.0.0-fever.splade-pp-ed.20231124.a66f86f.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
       "BEIR: FEVER, encoded by SPLADE++ (CoCondenser-EnsembleDistil)",
@@ -2009,7 +2009,7 @@ public enum IndexInfo {
       28578L),
 
   BEIR_V1_0_0_CLIMATE_FEVER_SPLADE_PP_ED("beir-v1.0.0-climate-fever.splade-pp-ed",
-      "Anserini Lucene impact index of BEIR (v1.0.0): Climate-FEVER, encoded by SPLADE++ CoCondenser-EnsembleDistil",
+      "Anserini Lucene impact index of BEIR collection 'climate-fever' encoded by SPLADE++ CoCondenser-EnsembleDistil",
       "lucene-inverted.beir-v1.0.0-climate-fever.splade-pp-ed.20231124.a66f86f.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
       "BEIR: Climate-FEVER, encoded by SPLADE++ (CoCondenser-EnsembleDistil)",
@@ -2026,7 +2026,7 @@ public enum IndexInfo {
       28578L),
 
   BEIR_V1_0_0_SCIFACT_SPLADE_PP_ED("beir-v1.0.0-scifact.splade-pp-ed",
-      "Anserini Lucene impact index of BEIR (v1.0.0): SciFact, encoded by SPLADE++ CoCondenser-EnsembleDistil",
+      "Anserini Lucene impact index of BEIR collection 'scifact' encoded by SPLADE++ CoCondenser-EnsembleDistil",
       "lucene-inverted.beir-v1.0.0-scifact.splade-pp-ed.20231124.a66f86f.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
       "BEIR: SciFact, encoded by SPLADE++ (CoCondenser-EnsembleDistil)",
@@ -2044,7 +2044,7 @@ public enum IndexInfo {
 
   // BEIR: SPLADE-v3
   BEIR_V1_0_0_TREC_COVID_SPLADE_V3("beir-v1.0.0-trec-covid.splade-v3",
-      "Anserini Lucene impact index of BEIR collection 'trec-covid' encoded by SPLADE-v3",
+      "Anserini Lucene impact index of BEIR collection 'trec-covid' collection 'trec-covid' encoded by SPLADE-v3",
       "lucene-inverted.beir-v1.0.0-trec-covid.splade-v3.20250603.168a2d.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
       "BEIR: trec-covid",
@@ -3177,7 +3177,7 @@ public enum IndexInfo {
       "beir-v1.0.0-scifact.flat"),
 
   BRIGHT_BIOLOGY("bright-biology",
-      "Anserini Lucene inverted index of BRIGHT: biology.",
+      "Anserini Lucene inverted index of BRIGHT collection 'biology'",
       "lucene-inverted.bright-biology.20250705.44ae8e.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/tf/lucene-inverted.bright.20250705.44ae8e.README.md",
       "BRIGHT: biology",
@@ -3194,7 +3194,7 @@ public enum IndexInfo {
       77273),
 
   BRIGHT_EARTH_SCIENCE("bright-earth-science",
-      "Anserini Lucene inverted index of BRIGHT: earth-science.",
+      "Anserini Lucene inverted index of BRIGHT collection 'earth-science'",
       "lucene-inverted.bright-earth-science.20250705.44ae8e.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/tf/lucene-inverted.bright.20250705.44ae8e.README.md",
       "BRIGHT: earth-science",
@@ -3211,7 +3211,7 @@ public enum IndexInfo {
       300607),
 
   BRIGHT_ECONOMICS("bright-economics",
-      "Anserini Lucene inverted index of BRIGHT: economics.",
+      "Anserini Lucene inverted index of BRIGHT collection 'economics'",
       "lucene-inverted.bright-economics.20250705.44ae8e.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/tf/lucene-inverted.bright.20250705.44ae8e.README.md",
       "BRIGHT: economics",
@@ -3228,7 +3228,7 @@ public enum IndexInfo {
       96651),
 
   BRIGHT_PSYCHOLOGY("bright-psychology",
-      "Anserini Lucene inverted index of BRIGHT: psychology.",
+      "Anserini Lucene inverted index of BRIGHT collection 'psychology'",
       "lucene-inverted.bright-psychology.20250705.44ae8e.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/tf/lucene-inverted.bright.20250705.44ae8e.README.md",
       "BRIGHT: psychology",
@@ -3245,7 +3245,7 @@ public enum IndexInfo {
       116023),
 
   BRIGHT_ROBOTICS("bright-robotics",
-      "Anserini Lucene inverted index of BRIGHT: robotics.",
+      "Anserini Lucene inverted index of BRIGHT collection 'robotics'",
       "lucene-inverted.bright-robotics.20250705.44ae8e.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/tf/lucene-inverted.bright.20250705.44ae8e.README.md",
       "BRIGHT: robotics",
@@ -3262,7 +3262,7 @@ public enum IndexInfo {
       108765),
 
   BRIGHT_STACKOVERFLOW("bright-stackoverflow",
-      "Anserini Lucene inverted index of BRIGHT: stackoverflow.",
+      "Anserini Lucene inverted index of BRIGHT collection 'stackoverflow'",
       "lucene-inverted.bright-stackoverflow.20250705.44ae8e.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/tf/lucene-inverted.bright.20250705.44ae8e.README.md",
       "BRIGHT: stackoverflow",
@@ -3279,7 +3279,7 @@ public enum IndexInfo {
       176923),
 
   BRIGHT_SUSTAINABLE_LIVING("bright-sustainable-living",
-      "Anserini Lucene inverted index of BRIGHT: sustainable-living.",
+      "Anserini Lucene inverted index of BRIGHT collection 'sustainable-living'",
       "lucene-inverted.bright-sustainable-living.20250705.44ae8e.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/tf/lucene-inverted.bright.20250705.44ae8e.README.md",
       "BRIGHT: sustainable-living",
@@ -3296,7 +3296,7 @@ public enum IndexInfo {
       108048),
 
   BRIGHT_PONY("bright-pony",
-      "Anserini Lucene inverted index of BRIGHT: pony.",
+      "Anserini Lucene inverted index of BRIGHT collection 'pony'",
       "lucene-inverted.bright-pony.20250705.44ae8e.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/tf/lucene-inverted.bright.20250705.44ae8e.README.md",
       "BRIGHT: pony",
@@ -3313,7 +3313,7 @@ public enum IndexInfo {
       10596),
 
   BRIGHT_LEETCODE("bright-leetcode",
-      "Anserini Lucene inverted index of BRIGHT: leetcode.",
+      "Anserini Lucene inverted index of BRIGHT collection 'leetcode'",
       "lucene-inverted.bright-leetcode.20250705.44ae8e.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/tf/lucene-inverted.bright.20250705.44ae8e.README.md",
       "BRIGHT: leetcode",
@@ -3330,7 +3330,7 @@ public enum IndexInfo {
       1808924),
 
   BRIGHT_AOPS("bright-aops",
-      "Anserini Lucene inverted index of BRIGHT: aops.",
+      "Anserini Lucene inverted index of BRIGHT collection 'aops'",
       "lucene-inverted.bright-aops.20250705.44ae8e.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/tf/lucene-inverted.bright.20250705.44ae8e.README.md",
       "BRIGHT: aops",
@@ -3347,7 +3347,7 @@ public enum IndexInfo {
       110945),
 
   BRIGHT_THEOREMQA_THEOREMS("bright-theoremqa-theorems",
-      "Anserini Lucene inverted index of BRIGHT: theoremqa-theorems.",
+      "Anserini Lucene inverted index of BRIGHT collection 'theoremqa-theorems'",
       "lucene-inverted.bright-theoremqa-theorems.20250705.44ae8e.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/tf/lucene-inverted.bright.20250705.44ae8e.README.md",
       "BRIGHT: theoremqa-theorems",
@@ -3364,7 +3364,7 @@ public enum IndexInfo {
       17116),
 
   BRIGHT_THEOREMQA_QUESTIONS("bright-theoremqa-questions",
-      "Anserini Lucene inverted index of BRIGHT: theoremqa-questions.",
+      "Anserini Lucene inverted index of BRIGHT collection 'theoremqa-questions'",
       "lucene-inverted.bright-theoremqa-questions.20250705.44ae8e.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/tf/lucene-inverted.bright.20250705.44ae8e.README.md",
       "BRIGHT: theoremqa-questions",
@@ -3379,9 +3379,9 @@ public enum IndexInfo {
       20699175,
       188002,
       110945),
-      
+
   BRIGHT_BIOLOGY_SPLADE_V3("bright-biology.splade-v3",
-      "Anserini Lucene impact index of BRIGHT: 'biology' encoded by SPLADE-v3",
+      "Anserini Lucene impact index of BRIGHT collection 'biology' encoded by SPLADE-v3",
       "lucene-inverted.bright-biology.splade-v3.20250808.c6674a.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/splade-v3/lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
       "BRIGHT: biology",
@@ -3394,7 +3394,7 @@ public enum IndexInfo {
       "bright-biology"),
 
   BRIGHT_EARTH_SCIENCE_SPLADE_V3("bright-earth-science.splade-v3",
-      "Anserini Lucene impact index of BRIGHT: 'earth-science' encoded by SPLADE-v3",
+      "Anserini Lucene impact index of BRIGHT collection 'earth-science' encoded by SPLADE-v3",
       "lucene-inverted.bright-earth-science.splade-v3.20250808.c6674a.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/splade-v3/lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
       "BRIGHT: earth-science",
@@ -3407,7 +3407,7 @@ public enum IndexInfo {
       "bright-earth-science"),
 
   BRIGHT_ECONOMICS_SPLADE_V3("bright-economics.splade-v3",
-      "Anserini Lucene impact index of BRIGHT: 'economics' encoded by SPLADE-v3",
+      "Anserini Lucene impact index of BRIGHT collection 'economics' encoded by SPLADE-v3",
       "lucene-inverted.bright-economics.splade-v3.20250808.c6674a.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/splade-v3/lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
       "BRIGHT: economics",
@@ -3420,7 +3420,7 @@ public enum IndexInfo {
       "bright-economics"),
 
   BRIGHT_PSYCHOLOGY_SPLADE_V3("bright-psychology.splade-v3",
-      "Anserini Lucene impact index of BRIGHT: 'psychology' encoded by SPLADE-v3",
+      "Anserini Lucene impact index of BRIGHT collection 'psychology' encoded by SPLADE-v3",
       "lucene-inverted.bright-psychology.splade-v3.20250808.c6674a.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/splade-v3/lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
       "BRIGHT: psychology",
@@ -3433,7 +3433,7 @@ public enum IndexInfo {
       "bright-psychology"),
 
   BRIGHT_ROBOTICS_SPLADE_V3("bright-robotics.splade-v3",
-      "Anserini Lucene impact index of BRIGHT: 'robotics' encoded by SPLADE-v3",
+      "Anserini Lucene impact index of BRIGHT collection 'robotics' encoded by SPLADE-v3",
       "lucene-inverted.bright-robotics.splade-v3.20250808.c6674a.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/splade-v3/lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
       "BRIGHT: robotics",
@@ -3446,7 +3446,7 @@ public enum IndexInfo {
       "bright-robotics"),
 
   BRIGHT_STACKOVERFLOW_SPLADE_V3("bright-stackoverflow.splade-v3",
-      "Anserini Lucene impact index of BRIGHT: 'stackoverflow' encoded by SPLADE-v3",
+      "Anserini Lucene impact index of BRIGHT collection 'stackoverflow' encoded by SPLADE-v3",
       "lucene-inverted.bright-stackoverflow.splade-v3.20250808.c6674a.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/splade-v3/lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
       "BRIGHT: stackoverflow",
@@ -3459,7 +3459,7 @@ public enum IndexInfo {
       "bright-stackoverflow"),
 
   BRIGHT_SUSTAINABLE_LIVING_SPLADE_V3("bright-sustainable-living.splade-v3",
-      "Anserini Lucene impact index of BRIGHT: 'sustainable-living' encoded by SPLADE-v3",
+      "Anserini Lucene impact index of BRIGHT collection 'sustainable-living' encoded by SPLADE-v3",
       "lucene-inverted.bright-sustainable-living.splade-v3.20250808.c6674a.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/splade-v3/lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
       "BRIGHT: sustainable-living",
@@ -3472,7 +3472,7 @@ public enum IndexInfo {
       "bright-sustainable-living"),
 
   BRIGHT_PONY_SPLADE_V3("bright-pony.splade-v3",
-      "Anserini Lucene impact index of BRIGHT: 'pony' encoded by SPLADE-v3",
+      "Anserini Lucene impact index of BRIGHT collection 'pony' encoded by SPLADE-v3",
       "lucene-inverted.bright-pony.splade-v3.20250808.c6674a.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/splade-v3/lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
       "BRIGHT: pony",
@@ -3485,7 +3485,7 @@ public enum IndexInfo {
       "bright-pony"),
 
   BRIGHT_LEETCODE_SPLADE_V3("bright-leetcode.splade-v3",
-      "Anserini Lucene impact index of BRIGHT: 'leetcode' encoded by SPLADE-v3",
+      "Anserini Lucene impact index of BRIGHT collection 'leetcode' encoded by SPLADE-v3",
       "lucene-inverted.bright-leetcode.splade-v3.20250808.c6674a.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/splade-v3/lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
       "BRIGHT: leetcode",
@@ -3498,7 +3498,7 @@ public enum IndexInfo {
       "bright-leetcode"),
 
   BRIGHT_AOPS_SPLADE_V3("bright-aops.splade-v3",
-      "Anserini Lucene impact index of BRIGHT: 'aops' encoded by SPLADE-v3",
+      "Anserini Lucene impact index of BRIGHT collection 'aops' encoded by SPLADE-v3",
       "lucene-inverted.bright-aops.splade-v3.20250808.c6674a.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/splade-v3/lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
       "BRIGHT: aops",
@@ -3511,7 +3511,7 @@ public enum IndexInfo {
       "bright-aops"),
 
   BRIGHT_THEOREMQA_THEOREMS_SPLADE_V3("bright-theoremqa-theorems.splade-v3",
-      "Anserini Lucene impact index of BRIGHT: 'theoremqa-theorems' encoded by SPLADE-v3",
+      "Anserini Lucene impact index of BRIGHT collection 'theoremqa-theorems' encoded by SPLADE-v3",
       "lucene-inverted.bright-theoremqa-theorems.splade-v3.20250808.c6674a.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/splade-v3/lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
       "BRIGHT: theoremqa-theorems",
@@ -3524,7 +3524,7 @@ public enum IndexInfo {
       "bright-theoremqa-theorems"),
 
   BRIGHT_THEOREMQA_QUESTIONS_SPLADE_V3("bright-theoremqa-questions.splade-v3",
-      "Anserini Lucene impact index of BRIGHT: 'theoremqa-questions' encoded by SPLADE-v3",
+      "Anserini Lucene impact index of BRIGHT collection 'theoremqa-questions' encoded by SPLADE-v3",
       "lucene-inverted.bright-theoremqa-questions.splade-v3.20250808.c6674a.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/splade-v3/lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
       "BRIGHT: theoremqa-questions",
