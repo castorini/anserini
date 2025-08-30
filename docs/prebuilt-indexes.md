@@ -78,7 +78,7 @@ Note that this page is automatically generated from [this test case](../src/test
 This means that the page is updated with every (successful) build.
 Therefore, do not modify this page directly; modify the test case instead.
 
-### Lucene Flat Indexes
+### Lucene Flat Vector Indexes
 <details>
 <summary>BEIR</summary>
 <dl>
@@ -779,7 +779,7 @@ Therefore, do not modify this page directly; modify the test case instead.
 </dl>
 </details>
 
-### Lucene Standard Inverted Indexes
+### Lucene Inverted Indexes
 <details>
 <summary>BEIR</summary>
 <dl>
