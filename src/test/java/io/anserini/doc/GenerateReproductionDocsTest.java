@@ -42,18 +42,18 @@ public class GenerateReproductionDocsTest {
   public final static String COLLECTION = "msmarco-v1-passage";
   public final static String[] MODELS = {
       "bm25",
-      "splade-pp-ed.cached_q",
+      "splade-pp-ed.cached",
       "splade-pp-ed.onnx",
-      "cosdpr-distil.hnsw.cached_q",
+      "cosdpr-distil.hnsw.cached",
       "cosdpr-distil.hnsw.onnx",
-      "cosdpr-distil.hnsw-int8.cached_q",
+      "cosdpr-distil.hnsw-int8.cached",
       "cosdpr-distil.hnsw-int8.onnx",
-      "bge-base-en-v1.5.hnsw.cached_q",
+      "bge-base-en-v1.5.hnsw.cached",
       "bge-base-en-v1.5.hnsw.onnx",
-      "bge-base-en-v1.5.hnsw-int8.cached_q",
+      "bge-base-en-v1.5.hnsw-int8.cached",
       "bge-base-en-v1.5.hnsw-int8.onnx",
-      "cohere-embed-english-v3.0.hnsw.cached_q",
-      "cohere-embed-english-v3.0.hnsw-int8.cached_q"
+      "cohere-embed-english-v3.0.hnsw.cached",
+      "cohere-embed-english-v3.0.hnsw-int8.cached"
   };
 
   public static String findMsMarcoTableTopicSetKeyV1(String topicKey) {
