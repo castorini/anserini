@@ -719,7 +719,7 @@ Therefore, do not modify this page directly; modify the test case instead.
 [<a href="https://github.com/castorini/pyserini/blob/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-doc-segmented.unicoil-0shot.20220808.4d6d2a.README.md">readme</a>]
 <dd>Anserini Lucene impact index of the MS MARCO V2 segmented document corpus for uniCOIL, with title prepended
 </dd>
-<dt></dt><b><code>msmarco-v2.1-doc-segmented-splade-v3</code></b>
+<dt></dt><b><code>msmarco-v2.1-doc-segmented.splade-v3</code></b>
 [<a href="https://github.com/castorini/pyserini/blob/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3.20250707.4039c3.README.md">readme</a>]
 <dd>Anserini Lucene impact index of the MS MARCO V2.1 segmented document corpus encoded by SPLADE-v3
 </dd>
