@@ -18,8 +18,8 @@ conditions:
             nDCG@100: 0.2345
             R@100: 0.1698
   - name: shard00.arctic-l.hnsw-int8.cached
-    display: "ArcticEmbed-L w/ HNSW int8 (cached queries)"
-    display_html: "ArcticEmbed-L w/ HNSW int8 (cached queries)"
+    display: "ArcticEmbed-L: quantized (int8) HNSW, cached queries"
+    display_html: "ArcticEmbed-L: quantized (int8) HNSW, cached queries"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard00.arctic-embed-l.hnsw-int8 -topics $topics -output $output -hits 250 -efSearch 1000
     topics:
@@ -36,8 +36,8 @@ conditions:
             nDCG@100: 0.1440
             R@100: 0.0746
   - name: shard01.arctic-l.hnsw-int8.cached
-    display: "ArcticEmbed-L w/ HNSW int8 (cached queries)"
-    display_html: "ArcticEmbed-L w/ HNSW int8 (cached queries)"
+    display: "ArcticEmbed-L: quantized (int8) HNSW, cached queries"
+    display_html: "ArcticEmbed-L: quantized (int8) HNSW, cached queries"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard01.arctic-embed-l.hnsw-int8 -topics $topics -output $output -hits 250 -efSearch 1000
     topics:
@@ -54,8 +54,8 @@ conditions:
             nDCG@100: 0.1274
             R@100: 0.0690
   - name: shard02.arctic-l.hnsw-int8.cached
-    display: "ArcticEmbed-L w/ HNSW int8 (cached queries)"
-    display_html: "ArcticEmbed-L w/ HNSW int8 (cached queries)"
+    display: "ArcticEmbed-L: quantized (int8) HNSW, cached queries"
+    display_html: "ArcticEmbed-L: quantized (int8) HNSW, cached queries"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard02.arctic-embed-l.hnsw-int8 -topics $topics -output $output -hits 250 -efSearch 1000
     topics:
@@ -72,8 +72,8 @@ conditions:
             nDCG@100: 0.1296
             R@100: 0.0720
   - name: shard03.arctic-l.hnsw-int8.cached
-    display: "ArcticEmbed-L w/ HNSW int8 (cached queries)"
-    display_html: "ArcticEmbed-L w/ HNSW int8 (cached queries)"
+    display: "ArcticEmbed-L: quantized (int8) HNSW, cached queries"
+    display_html: "ArcticEmbed-L: quantized (int8) HNSW, cached queries"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard03.arctic-embed-l.hnsw-int8 -topics $topics -output $output -hits 250 -efSearch 1000
     topics:
@@ -90,8 +90,8 @@ conditions:
             nDCG@100: 0.1425
             R@100: 0.0805
   - name: shard04.arctic-l.hnsw-int8.cached
-    display: "ArcticEmbed-L w/ HNSW int8 (cached queries)"
-    display_html: "ArcticEmbed-L w/ HNSW int8 (cached queries)"
+    display: "ArcticEmbed-L: quantized (int8) HNSW, cached queries"
+    display_html: "ArcticEmbed-L: quantized (int8) HNSW, cached queries"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard04.arctic-embed-l.hnsw-int8 -topics $topics -output $output -hits 250 -efSearch 1000
     topics:
@@ -108,8 +108,8 @@ conditions:
             nDCG@100: 0.1261
             R@100: 0.0654
   - name: shard05.arctic-l.hnsw-int8.cached
-    display: "ArcticEmbed-L w/ HNSW int8 (cached queries)"
-    display_html: "ArcticEmbed-L w/ HNSW int8 (cached queries)"
+    display: "ArcticEmbed-L: quantized (int8) HNSW, cached queries"
+    display_html: "ArcticEmbed-L: quantized (int8) HNSW, cached queries"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard05.arctic-embed-l.hnsw-int8 -topics $topics -output $output -hits 250 -efSearch 1000
     topics:
@@ -126,8 +126,8 @@ conditions:
             nDCG@100: 0.1305
             R@100: 0.0638
   - name: shard06.arctic-l.hnsw-int8.cached
-    display: "ArcticEmbed-L w/ HNSW int8 (cached queries)"
-    display_html: "ArcticEmbed-L w/ HNSW int8 (cached queries)"
+    display: "ArcticEmbed-L: quantized (int8) HNSW, cached queries"
+    display_html: "ArcticEmbed-L: quantized (int8) HNSW, cached queries"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard06.arctic-embed-l.hnsw-int8 -topics $topics -output $output -hits 250 -efSearch 1000
     topics:
@@ -144,8 +144,8 @@ conditions:
             nDCG@100: 0.1391
             R@100: 0.0715
   - name: shard07.arctic-l.hnsw-int8.cached
-    display: "ArcticEmbed-L w/ HNSW int8 (cached queries)"
-    display_html: "ArcticEmbed-L w/ HNSW int8 (cached queries)"
+    display: "ArcticEmbed-L: quantized (int8) HNSW, cached queries"
+    display_html: "ArcticEmbed-L: quantized (int8) HNSW, cached queries"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard07.arctic-embed-l.hnsw-int8 -topics $topics -output $output -hits 250 -efSearch 1000
     topics:
@@ -162,8 +162,8 @@ conditions:
             nDCG@100: 0.1263
             R@100: 0.0587
   - name: shard08.arctic-l.hnsw-int8.cached
-    display: "ArcticEmbed-L w/ HNSW int8 (cached queries)"
-    display_html: "ArcticEmbed-L w/ HNSW int8 (cached queries)"
+    display: "ArcticEmbed-L: quantized (int8) HNSW, cached queries"
+    display_html: "ArcticEmbed-L: quantized (int8) HNSW, cached queries"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard08.arctic-embed-l.hnsw-int8 -topics $topics -output $output -hits 250 -efSearch 1000
     topics:
@@ -180,8 +180,8 @@ conditions:
             nDCG@100: 0.1663
             R@100: 0.0893
   - name: shard09.arctic-l.hnsw-int8.cached
-    display: "ArcticEmbed-L w/ HNSW int8 (cached queries)"
-    display_html: "ArcticEmbed-L w/ HNSW int8 (cached queries)"
+    display: "ArcticEmbed-L: quantized (int8) HNSW, cached queries"
+    display_html: "ArcticEmbed-L: quantized (int8) HNSW, cached queries"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard09.arctic-embed-l.hnsw-int8 -topics $topics -output $output -hits 250 -efSearch 1000
     topics:
@@ -198,8 +198,8 @@ conditions:
             nDCG@100: 0.1376
             R@100: 0.0715
   - name: shard00.arctic-l.hnsw-int8.onnx
-    display: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
-    display_html: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
+    display: "ArcticEmbed-L: quantized (int8) HNSW, ONNX"
+    display_html: "ArcticEmbed-L: quantized (int8) HNSW, ONNX"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard00.arctic-embed-l.hnsw-int8 -topics $topics -encoder ArcticEmbedL -output $output -hits 250 -efSearch 1000
     topics:
@@ -216,8 +216,8 @@ conditions:
             nDCG@100: 0.1440
             R@100: 0.0746
   - name: shard01.arctic-l.hnsw-int8.onnx
-    display: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
-    display_html: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
+    display: "ArcticEmbed-L: quantized (int8) HNSW, ONNX"
+    display_html: "ArcticEmbed-L: quantized (int8) HNSW, ONNX"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard01.arctic-embed-l.hnsw-int8 -topics $topics -encoder ArcticEmbedL -output $output -hits 250 -efSearch 1000
     topics:
@@ -234,8 +234,8 @@ conditions:
             nDCG@100: 0.1274
             R@100: 0.0690
   - name: shard02.arctic-l.hnsw-int8.onnx
-    display: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
-    display_html: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
+    display: "ArcticEmbed-L: quantized (int8) HNSW, ONNX"
+    display_html: "ArcticEmbed-L: quantized (int8) HNSW, ONNX"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard02.arctic-embed-l.hnsw-int8 -topics $topics -encoder ArcticEmbedL -output $output -hits 250 -efSearch 1000
     topics:
@@ -252,8 +252,8 @@ conditions:
             nDCG@100: 0.1296
             R@100: 0.0720
   - name: shard03.arctic-l.hnsw-int8.onnx
-    display: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
-    display_html: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
+    display: "ArcticEmbed-L: quantized (int8) HNSW, ONNX"
+    display_html: "ArcticEmbed-L: quantized (int8) HNSW, ONNX"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard03.arctic-embed-l.hnsw-int8 -topics $topics -encoder ArcticEmbedL -output $output -hits 250 -efSearch 1000
     topics:
@@ -270,8 +270,8 @@ conditions:
             nDCG@100: 0.1425
             R@100: 0.0805
   - name: shard04.arctic-l.hnsw-int8.onnx
-    display: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
-    display_html: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
+    display: "ArcticEmbed-L: quantized (int8) HNSW, ONNX"
+    display_html: "ArcticEmbed-L: quantized (int8) HNSW, ONNX"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard04.arctic-embed-l.hnsw-int8 -topics $topics -encoder ArcticEmbedL -output $output -hits 250 -efSearch 1000
     topics:
@@ -288,8 +288,8 @@ conditions:
             nDCG@100: 0.1261
             R@100: 0.0654
   - name: shard05.arctic-l.hnsw-int8.onnx
-    display: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
-    display_html: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
+    display: "ArcticEmbed-L: quantized (int8) HNSW, ONNX"
+    display_html: "ArcticEmbed-L: quantized (int8) HNSW, ONNX"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard05.arctic-embed-l.hnsw-int8 -topics $topics -encoder ArcticEmbedL -output $output -hits 250 -efSearch 1000
     topics:
@@ -306,8 +306,8 @@ conditions:
             nDCG@100: 0.1305
             R@100: 0.0638
   - name: shard06.arctic-l.hnsw-int8.onnx
-    display: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
-    display_html: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
+    display: "ArcticEmbed-L: quantized (int8) HNSW, ONNX"
+    display_html: "ArcticEmbed-L: quantized (int8) HNSW, ONNX"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard06.arctic-embed-l.hnsw-int8 -topics $topics -encoder ArcticEmbedL -output $output -hits 250 -efSearch 1000
     topics:
@@ -324,8 +324,8 @@ conditions:
             nDCG@100: 0.1391
             R@100: 0.0715
   - name: shard07.arctic-l.hnsw-int8.onnx
-    display: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
-    display_html: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
+    display: "ArcticEmbed-L: quantized (int8) HNSW, ONNX"
+    display_html: "ArcticEmbed-L: quantized (int8) HNSW, ONNX"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard07.arctic-embed-l.hnsw-int8 -topics $topics -encoder ArcticEmbedL -output $output -hits 250 -efSearch 1000
     topics:
@@ -342,8 +342,8 @@ conditions:
             nDCG@100: 0.1263
             R@100: 0.0587
   - name: shard08.arctic-l.hnsw-int8.onnx
-    display: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
-    display_html: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
+    display: "ArcticEmbed-L: quantized (int8) HNSW, ONNX"
+    display_html: "ArcticEmbed-L: quantized (int8) HNSW, ONNX"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard08.arctic-embed-l.hnsw-int8 -topics $topics -encoder ArcticEmbedL -output $output -hits 250 -efSearch 1000
     topics:
@@ -360,8 +360,8 @@ conditions:
             nDCG@100: 0.1663
             R@100: 0.0893
   - name: shard09.arctic-l.hnsw-int8.onnx
-    display: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
-    display_html: "ArcticEmbed-L w/ HNSW int8 (ONNX)"
+    display: "ArcticEmbed-L: quantized (int8) HNSW, ONNX"
+    display_html: "ArcticEmbed-L: quantized (int8) HNSW, ONNX"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard09.arctic-embed-l.hnsw-int8 -topics $topics -encoder ArcticEmbedL -output $output -hits 250 -efSearch 1000
     topics:
@@ -378,8 +378,8 @@ conditions:
             nDCG@100: 0.1376
             R@100: 0.0715
   - name: splade-v3.cached  
-    display: "SPLADE-v3 (cached queries)"  
-    display_html: "SPLADE-v3 (cached queries)"  
+    display: "SPLADE-v3: cached queries"
+    display_html: "SPLADE-v3: cached queries"
     display_row: ""  
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v2.1-doc-segmented.splade-v3 -topics $topics -output $output -impact -pretokenized -removeQuery -hits 1000
     topics:  
@@ -396,8 +396,8 @@ conditions:
             nDCG@100: 0.4349  
             R@100: 0.3198
   - name: splade-v3-onnx  
-    display: "SPLADE-v3 (ONNX)"  
-    display_html: "SPLADE-v3 (ONNX)"  
+    display: "SPLADE-v3: ONNX"
+    display_html: "SPLADE-v3: ONNX"
     display_row: ""  
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v2.1-doc-segmented.splade-v3 -topics $topics -output $output -impact -pretokenized -removeQuery -hits 1000 -encoder SpladeV3
     topics:  

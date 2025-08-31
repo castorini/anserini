@@ -23,8 +23,8 @@ conditions:
             nDCG@10: 0.4796
             R@1K: 0.7863
   - name: splade-pp-ed.cached
-    display: "SPLADE++ EnsembleDistil (cached queries)"
-    display_html: "SPLADE++ EnsembleDistil (cached queries)"
+    display: "SPLADE++ EnsembleDistil: cached queries"
+    display_html: "SPLADE++ EnsembleDistil: cached queries"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-passage.splade-pp-ed -topics $topics -output $output -impact -pretokenized -hits 1000
     topics:
@@ -46,8 +46,8 @@ conditions:
             nDCG@10: 0.7198
             R@1K: 0.8995
   - name: splade-pp-ed.onnx
-    display: "SPLADE++ EnsembleDistil (ONNX)"
-    display_html: "SPLADE++ EnsembleDistil (ONNX)"
+    display: "SPLADE++ EnsembleDistil: ONNX"
+    display_html: "SPLADE++ EnsembleDistil: ONNX"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-passage.splade-pp-ed -topics $topics -output $output -impact -pretokenized -hits 1000 -encoder SpladePlusPlusEnsembleDistil
     topics:
@@ -69,8 +69,8 @@ conditions:
             nDCG@10: 0.7197
             R@1K: 0.8998
   - name: splade-v3.cached
-    display: "SPLADE-v3 (cached queries)"
-    display_html: "SPLADE-v3 (cached queries)"
+    display: "SPLADE-v3: cached queries"
+    display_html: "SPLADE-v3: cached queries"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-passage.splade-v3 -topics $topics -output $output -impact -pretokenized -hits 1000
     topics:
@@ -92,8 +92,8 @@ conditions:
             nDCG@10: 0.7522	
             R@1K: 0.9039
   - name: splade-v3.onnx
-    display: "SPLADE-v3 (ONNX)"
-    display_html: "SPLADE-v3 (ONNX)"
+    display: "SPLADE-v3: ONNX"
+    display_html: "SPLADE-v3: ONNX"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-passage.splade-v3 -topics $topics -output $output -impact -pretokenized -hits 1000 -encoder SpladeV3
     topics:
@@ -115,8 +115,8 @@ conditions:
             nDCG@10: 0.7522
             R@1K: 0.9039
   - name: cosdpr-distil.hnsw.cached
-    display: "cosDPR-distil w/ HNSW fp32 (cached queries)"
-    display_html: "cosDPR-distil w/ HNSW fp32 (cached queries)"
+    display: "cosDPR-distil: HNSW, cached queries"
+    display_html: "cosDPR-distil: HNSW, cached queries"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.cosdpr-distil.hnsw -topics $topics -output $output -efSearch 1000 -hits 1000
     topics:
@@ -138,8 +138,8 @@ conditions:
             nDCG@10: 0.7025
             R@1K: 0.8540
   - name: cosdpr-distil.hnsw.onnx
-    display: "cosDPR-distil w/ HNSW fp32 (ONNX)"
-    display_html: "cosDPR-distil w/ HNSW fp32 (ONNX)"
+    display: "cosDPR-distil: HNSW, ONNX"
+    display_html: "cosDPR-distil: HNSW, ONNX"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.cosdpr-distil.hnsw -topics $topics -output $output -efSearch 1000 -hits 1000 -encoder CosDprDistil
     topics:
@@ -161,8 +161,8 @@ conditions:
             nDCG@10: 0.7025
             R@1K: 0.8540
   - name: cosdpr-distil.hnsw-int8.cached
-    display: "cosDPR-distil w/ HNSW int8 (cached queries)"
-    display_html: "cosDPR-distil w/ HNSW int8 (cached queries)"
+    display: "cosDPR-distil: quantized (int8) HNSW, cached queries"
+    display_html: "cosDPR-distil: quantized (int8) HNSW, cached queries"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.cosdpr-distil.hnsw-int8 -topics $topics -output $output -efSearch 1000 -hits 1000
     topics:
@@ -184,8 +184,8 @@ conditions:
             nDCG@10: 0.7004
             R@1K: 0.8538
   - name: cosdpr-distil.hnsw-int8.onnx
-    display: "cosDPR-distil w/ HNSW int8 (ONNX)"
-    display_html: "cosDPR-distil w/ HNSW int8 (ONNX)"
+    display: "cosDPR-distil: quantized (int8) HNSW, ONNX"
+    display_html: "cosDPR-distil: quantized (int8) HNSW, ONNX"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.cosdpr-distil.hnsw-int8 -topics $topics -output $output -efSearch 1000 -hits 1000 -encoder CosDprDistil
     topics:
@@ -207,8 +207,8 @@ conditions:
             nDCG@10: 0.6996
             R@1K: 0.8538
   - name: bge-base-en-v1.5.hnsw.cached
-    display: "bge-base-en-v1.5 w/ HNSW fp32 (cached queries)"
-    display_html: "bge-base-en-v1.5 w/ HNSW fp32 (cached queries)"
+    display: "bge-base-en-v1.5: HNSW, cached queries"
+    display_html: "bge-base-en-v1.5: HNSW, cached queries"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.bge-base-en-v1.5.hnsw -topics $topics -output $output -efSearch 1000 -hits 1000
     topics:
@@ -230,8 +230,8 @@ conditions:
             nDCG@10: 0.6780
             R@1K: 0.8483
   - name: bge-base-en-v1.5.hnsw.onnx
-    display: "bge-base-en-v1.5 w/ HNSW fp32 (ONNX)"
-    display_html: "bge-base-en-v1.5 w/ HNSW fp32 (ONNX)"
+    display: "bge-base-en-v1.5: HNSW, ONNX"
+    display_html: "bge-base-en-v1.5: HNSW, ONNX"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.bge-base-en-v1.5.hnsw -topics $topics -output $output -efSearch 1000 -hits 1000 -encoder BgeBaseEn15
     topics:
@@ -253,8 +253,8 @@ conditions:
             nDCG@10: 0.6768
             R@1K: 0.8526
   - name: bge-base-en-v1.5.hnsw-int8.cached
-    display: "bge-base-en-v1.5 w/ HNSW int8 (cached queries)"
-    display_html: "bge-base-en-v1.5 w/ HNSW int8 (cached queries)"
+    display: "bge-base-en-v1.5: quantized (int8) HNSW, cached queries"
+    display_html: "bge-base-en-v1.5: quantized (int8) HNSW, cached queries"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8 -topics $topics -output $output -efSearch 1000 -hits 1000
     topics:
@@ -276,8 +276,8 @@ conditions:
             nDCG@10: 0.6738
             R@1K: 0.8420
   - name: bge-base-en-v1.5.hnsw-int8.onnx
-    display: "bge-base-en-v1.5 w/ HNSW int8 (ONNX)"
-    display_html: "bge-base-en-v1.5 w/ HNSW int8 (ONNX)"
+    display: "bge-base-en-v1.5: quantized (int8) HNSW, ONNX"
+    display_html: "bge-base-en-v1.5: quantized (int8) HNSW, ONNX"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8 -topics $topics -output $output -efSearch 1000 -hits 1000 -encoder BgeBaseEn15
     topics:
@@ -299,8 +299,8 @@ conditions:
             nDCG@10: 0.6767
             R@1K: 0.8468
   - name: cohere-embed-english-v3.0.hnsw.cached
-    display: "cohere-embed-english-v3.0 w/ HNSW fp32 (cached queries)"
-    display_html: "cohere-embed-english-v3.0 w/ HNSW fp32 (cached queries)"
+    display: "cohere-embed-english-v3.0: HNSW, cached queries"
+    display_html: "cohere-embed-english-v3.0: HNSW, cached queries"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.cohere-embed-english-v3.0.hnsw -topics $topics -output $output -efSearch 1000 -hits 1000
     topics:
@@ -322,8 +322,8 @@ conditions:
             nDCG@10: 0.7245
             R@1K: 0.8682
   - name: cohere-embed-english-v3.0.hnsw-int8.cached
-    display: "cohere-embed-english-v3.0 w/ HNSW int8 (cached queries)"
-    display_html: "cohere-embed-english-v3.0 w/ HNSW int8 (cached queries)"
+    display: "cohere-embed-english-v3.0: quantized (int8) HNSW, cached queries"
+    display_html: "cohere-embed-english-v3.0: quantized (int8) HNSW, cached queries"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8 -topics $topics -output $output -efSearch 1000 -hits 1000
     topics:

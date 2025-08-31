@@ -20,7 +20,10 @@ See [this guide on prebuilt indexes](../prebuilt-indexes.md) for more details.
 ## Contents
 
 + [MS MARCO V2.1 + TREC RAG](#ms-marco-v21--trec-rag)
-+ [MS MARCO V1 Passage](#ms-marco-v1-passage)
++ [MS MARCO V1 Passages](#ms-marco-v1-passages)
++ [MS MARCO V1 Documents](#ms-marco-v1-documents)
++ [MS MARCO V2 Passages](#ms-marco-v2-passages)
++ [MS MARCO V2 Documents](#ms-marco-v2-documents)
 + [MS MARCO V2.1 Segmented Documents](#ms-marco-v21-segmented-documents)
 + [MS MARCO V2.1 Documents](#ms-marco-v21-documents)
 + [BEIR](#beir)
@@ -210,19 +213,12 @@ $ head -n 1 $OUTPUT_DIR/results.msmarco-v2.1-doc-segmented.bm25.rag24.test.jsonl
 
 To generate similar output for ArcticEmbed-L, specify the corresponding run file with `-run`.
 
-## MS MARCO V1 Passage
+## MS MARCO V1 Passages
 
 ❗ Beware, running these experiments will automatically download 9 indexes totaling 203.1 GB.
 
-Currently, Anserini provides support for the following models:
-
-+ BM25
-+ SPLADE-v3: cached queries and ONNX query encoding
-+ cosDPR-distil: cached queries and ONNX query encoding
-+ bge-base-en-v1.5: cached queries and ONNX query encoding
-+ cohere-embed-english-v3.0: cached queries and ONNX query encoding
-
-The table below reports the effectiveness of the models (dev in terms of RR@10, DL19 and DL20 in terms of nDCG@10):
+Anserini provides support for a variety of models.
+The table below reports the effectiveness (dev in terms of RR@10, DL19 and DL20 in terms of nDCG@10):
 
 |                                                              |    dev |   DL19 |   DL20 |
 |:-------------------------------------------------------------|-------:|-------:|-------:|
@@ -247,6 +243,68 @@ java -cp $ANSERINI_JAR io.anserini.reproduce.RunMsMarco -collection msmarco-v1-p
 ```
 
 To print out the commands that will generate the above runs without performing the runs, use the options `-dryRun -printCommands`.
+
+## MS MARCO V1 Documents
+
+❗ Beware, running these experiments will automatically download X indexes totaling XX.X GB.
+
+Anserini provides support for a variety of models.
+The table below reports the effectiveness of selected models (dev in terms of RR@10, DL19 and DL20 in terms of nDCG@10):
+
+|                                                                            |    dev |   DL19 |   DL20 |
+|:---------------------------------------------------------------------------|-------:|-------:|-------:|
+| BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)  | 0.2299 | 0.5176 | 0.3793 |
+| BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.2684 | 0.5302 | 0.3586 |
+| BM25 complete doc with doc2query-T5 expansions                             | 0.2880 | 0.5968 | 0.5885 |
+| BM25 segmented doc with doc2query-T5 expansions                            | 0.3179 | 0.6119 | 0.5957 |
+| uniCOIL (with doc2query-T5 expansions) using ONNX                          | 0.3531 | 0.6396 | 0.6033 |
+
+The following command will reproduce runs corresponding to the above models (as well as additional ones not included in the table):
+
+```bash
+java -cp $ANSERINI_JAR io.anserini.reproduce.RunMsMarco -collection msmarco-v1-doc
+```
+
+To print out the commands that will generate runs for all available models (without actually performing the runs), use the options `-dryRun -printCommands`.
+
+## MS MARCO V2 Passages
+
+❗ Beware, running these experiments will automatically download X indexes totaling XX.X GB.
+
+Anserini provides support for a variety of models.
+The table below reports the effectiveness of selected models (dev and dev2 in terms of RR@100, DL21-23 in terms of nDCG@10):
+
+|                                                              |    dev |   dev2 |   DL21 |   DL22 |   DL23 |
+|:-------------------------------------------------------------|-------:|-------:|-------:|-------:|-------:|
+| BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.0719 | 0.0802 | 0.4458 | 0.2692 | 0.2627 |
+
+The following command will reproduce runs corresponding to the above models (as well as additional ones not included in the table):
+
+```bash
+java -cp $ANSERINI_JAR io.anserini.reproduce.RunMsMarco -collection msmarco-v2-passage
+```
+
+To print out the commands that will generate runs for all available models (without actually performing the runs), use the options `-dryRun -printCommands`.
+
+## MS MARCO V2 Documents
+
+❗ Beware, running these experiments will automatically download X indexes totaling XX.X GB.
+
+Anserini provides support for a variety of models.
+The table below reports the effectiveness of selected models (dev in terms of RR@10, DL19 and DL20 in terms of nDCG@10):
+
+|                                                                            |    dev |   dev2 |   DL21 |   DL22 |   DL23 |
+|:---------------------------------------------------------------------------|-------:|-------:|-------:|-------:|-------:|
+| BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)  | 0.1572 | 0.1659 | 0.5116 | 0.2993 | 0.2946 |
+| BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.1896 | 0.1930 | 0.5776 | 0.3618 | 0.3405 |
+
+The following command will reproduce runs corresponding to the above models (as well as additional ones not included in the table):
+
+```bash
+java -cp $ANSERINI_JAR io.anserini.reproduce.RunMsMarco -collection msmarco-v2-doc
+```
+
+To print out the commands that will generate runs for all available models (without actually performing the runs), use the options `-dryRun -printCommands`.
 
 ## MS MARCO V2.1 Segmented Documents
 
@@ -317,7 +375,7 @@ Here is a selection of models that are currently supported in Anserini:
 + BGE (HNSW): bge-base-en-v1.5 using HNSW indexes, with ONNX query encoding
 
 > Ehsan Kamalloo, Nandan Thakur, Carlos Lassance, Xueguang Ma, Jheng-Hong Yang, and Jimmy Lin. [Resources for Brewing BEIR: Reproducible Reference Models and Statistical Analyses.](https://dl.acm.org/doi/10.1145/3626772.3657862) _Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval (SIGIR 2024)_, pages 1431-1440, July 2024, Washington, D.C.
-> 
+
 The table below reports the effectiveness of the models (nDCG@10):
 
 | Corpus                    | BM25 (flat) | BM25 (MF) | SPLADE-v3 | BGE (flat) | BGE (HNSW) |
@@ -352,13 +410,13 @@ The table below reports the effectiveness of the models (nDCG@10):
 | `climate-fever`           |   0.1651    |  0.2129   |  0.2625   |   0.3117   |   0.3117   |
 | `scifact`                 |   0.6789    |  0.6647   |  0.7140   |   0.7408   |   0.7408   |
 
-The following command will reproduce the above experiments (along with other experimental conditions not presented above):
+The following command will reproduce runs corresponding to the above models (as well as additional ones not included in the table):
 
 ```bash
 java -cp $ANSERINI_JAR io.anserini.reproduce.RunBeir
 ```
 
-To print out the commands that will generate the above runs without performing the runs, use the options `-dryRun -printCommands`.
+To print out the commands that will generate runs for all available models (without actually performing the runs), use the options `-dryRun -printCommands`.
 
 ## BRIGHT
 
@@ -396,10 +454,10 @@ The following table reports nDCG@10 scores.
 | &nbsp;                    |            |            |            |
 | **Overall average**       | **0.1369** | **0.1556** | **0.1384** |
 
-The following command will reproduce the above experiments (along with other experimental conditions not presented above):
+The following command will reproduce runs corresponding to the above models (as well as additional ones not included in the table):
 
 ```bash
 java -cp $ANSERINI_JAR io.anserini.reproduce.RunBright
 ```
 
-To print out the commands that will generate the above runs without performing the runs, use the options `-dryRun -printCommands`.
+To print out the commands that will generate runs for all available models (without actually performing the runs), use the options `-dryRun -printCommands`.
