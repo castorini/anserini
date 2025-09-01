@@ -215,26 +215,26 @@ To generate similar output for ArcticEmbed-L, specify the corresponding run file
 
 ## MS MARCO V1 Passages
 
-❗ Beware, running these experiments will automatically download 9 indexes totaling 203.1 GB.
+❗ Beware, running these experiments will automatically download 9 indexes totaling 203 GB.
 
 Anserini provides support for a variety of models.
 The table below reports the effectiveness (dev in terms of RR@10, DL19 and DL20 in terms of nDCG@10):
 
-|                                                              |    dev |   DL19 |   DL20 |
-|:-------------------------------------------------------------|-------:|-------:|-------:|
-| BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.1840 | 0.5058 | 0.4796 |
-| SPLADE-v3 (cached queries)                                   | 0.3999 | 0.7264 | 0.7522 |
-| SPLADE-v3 (ONNX)                                             | 0.4000 | 0.7264 | 0.7522 |
-| cosDPR-distil w/ HNSW fp32 (cached queries)                  | 0.3887 | 0.7250 | 0.7025 |
-| cosDPR-distil w/ HNSW fp32 (ONNX)                            | 0.3887 | 0.7250 | 0.7025 |
-| cosDPR-distil w/ HNSW int8 (cached queries)                  | 0.3897 | 0.7240 | 0.7004 |
-| cosDPR-distil w/ HNSW int8 (ONNX)                            | 0.3899 | 0.7247 | 0.6996 |
-| bge-base-en-v1.5 w/ HNSW fp32 (cached queries)               | 0.3574 | 0.7065 | 0.6780 |
-| bge-base-en-v1.5 w/ HNSW fp32 (ONNX)                         | 0.3575 | 0.7016 | 0.6768 |
-| bge-base-en-v1.5 w/ HNSW int8 (cached queries)               | 0.3572 | 0.7016 | 0.6738 |
-| bge-base-en-v1.5 w/ HNSW int8 (ONNX)                         | 0.3575 | 0.7017 | 0.6767 |
-| cohere-embed-english-v3.0 w/ HNSW fp32 (cached queries)      | 0.3647 | 0.6956 | 0.7245 |
-| cohere-embed-english-v3.0 w/ HNSW int8 (cached queries)      | 0.3656 | 0.6955 | 0.7262 |
+|                                                                 |    dev |   DL19 |   DL20 |
+|:----------------------------------------------------------------|-------:|-------:|-------:|
+| BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)    | 0.1840 | 0.5058 | 0.4796 |
+| SPLADE-v3: cached queries                                       | 0.3999 | 0.7264 | 0.7522 |
+| SPLADE-v3: ONNX                                                 | 0.4000 | 0.7264 | 0.7522 |
+| cosDPR-distil: HNSW, cached queries                             | 0.3887 | 0.7250 | 0.7025 |
+| cosDPR-distil: HNSW, ONNX                                       | 0.3887 | 0.7250 | 0.7025 |
+| cosDPR-distil: quantized (int8) HNSW, cached queries            | 0.3897 | 0.7240 | 0.7004 |
+| cosDPR-distil: quantized (int8) HNSW, ONNX                      | 0.3899 | 0.7247 | 0.6996 |
+| bge-base-en-v1.5: HNSW, cached queries                          | 0.3574 | 0.7065 | 0.6780 |
+| bge-base-en-v1.5: HNSW, ONNX                                    | 0.3575 | 0.7016 | 0.6768 |
+| bge-base-en-v1.5: quantized (int8) HNSW, cached queries         | 0.3572 | 0.7016 | 0.6738 |
+| bge-base-en-v1.5: quantized (int8) HNSW, ONNX                   | 0.3575 | 0.7017 | 0.6767 |
+| cohere-embed-english-v3.0: HNSW, cached queries                 | 0.3647 | 0.6956 | 0.7245 |
+| cohere-embed-english-v3.0: quantized (int) HNSW, cached queries | 0.3656 | 0.6955 | 0.7262 |
 
 The following command will reproduce the above experiments:
 
@@ -246,7 +246,7 @@ To print out the commands that will generate the above runs without performing t
 
 ## MS MARCO V1 Documents
 
-❗ Beware, running these experiments will automatically download X indexes totaling XX.X GB.
+❗ Beware, running these experiments will automatically download 6 indexes totaling 51 GB.
 
 Anserini provides support for a variety of models.
 The table below reports the effectiveness of selected models (dev in terms of RR@10, DL19 and DL20 in terms of nDCG@10):
@@ -257,7 +257,7 @@ The table below reports the effectiveness of selected models (dev in terms of RR
 | BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.2684 | 0.5302 | 0.3586 |
 | BM25 complete doc with doc2query-T5 expansions                             | 0.2880 | 0.5968 | 0.5885 |
 | BM25 segmented doc with doc2query-T5 expansions                            | 0.3179 | 0.6119 | 0.5957 |
-| uniCOIL (with doc2query-T5 expansions) using ONNX                          | 0.3531 | 0.6396 | 0.6033 |
+| uniCOIL (with doc2query-T5 expansions): ONNX                               | 0.3531 | 0.6396 | 0.6033 |
 
 The following command will reproduce runs corresponding to the above models (as well as additional ones not included in the table):
 
@@ -269,7 +269,7 @@ To print out the commands that will generate runs for all available models (with
 
 ## MS MARCO V2 Passages
 
-❗ Beware, running these experiments will automatically download X indexes totaling XX.X GB.
+❗ Beware, running these experiments will automatically download 3 indexes totaling 90 GB.
 
 Anserini provides support for a variety of models.
 The table below reports the effectiveness of selected models (dev and dev2 in terms of RR@100, DL21-23 in terms of nDCG@10):
@@ -277,6 +277,7 @@ The table below reports the effectiveness of selected models (dev and dev2 in te
 |                                                              |    dev |   dev2 |   DL21 |   DL22 |   DL23 |
 |:-------------------------------------------------------------|-------:|-------:|-------:|-------:|-------:|
 | BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.0719 | 0.0802 | 0.4458 | 0.2692 | 0.2627 |
+| uniCOIL (with doc2query-T5 expansions): ONNX                 | 0.1499 | 0.1577 | 0.6159 | 0.4614 | 0.3855 |
 
 The following command will reproduce runs corresponding to the above models (as well as additional ones not included in the table):
 
@@ -288,7 +289,7 @@ To print out the commands that will generate runs for all available models (with
 
 ## MS MARCO V2 Documents
 
-❗ Beware, running these experiments will automatically download X indexes totaling XX.X GB.
+❗ Beware, running these experiments will automatically download 6 indexes totaling 310 GB.
 
 Anserini provides support for a variety of models.
 The table below reports the effectiveness of selected models (dev in terms of RR@10, DL19 and DL20 in terms of nDCG@10):
@@ -308,27 +309,27 @@ To print out the commands that will generate runs for all available models (with
 
 ## MS MARCO V2.1 Segmented Documents
 
-❗ Beware, running these experiments will automatically download 2 indexes totaling 145.8 GB.
+❗ Beware, running these experiments will automatically download 12 indexes totaling 698 GB.
 
 The MS MARCO V2.1 collections were created for the [TREC RAG Track](https://trec-rag.github.io/).
 There were two variants: the documents corpus and the segmented documents corpus.
 The documents corpus served as the source of the segmented documents corpus, but the segmented documents corpus is the one used in official TREC RAG evaluations.
 The following table reports nDCG@20 scores for various retrieval conditions:
 
-|                                               | RAG 24 UMBRELA | RAG 24 NIST |
-|-----------------------------------------------|:--------------:|:-----------:|
-| baselines                                     |     0.3198     |   0.2809    |
-| SPLADE-v3                                     |     0.5167     |   0.4642    |
-| Arctic-embed-l (`shard00`, HNSW int8 indexes) |     0.3003     |   0.2449    |
-| Arctic-embed-l (`shard01`, HNSW int8 indexes) |     0.2599     |   0.2184    |
-| Arctic-embed-l (`shard02`, HNSW int8 indexes) |     0.2661     |   0.2211    |
-| Arctic-embed-l (`shard03`, HNSW int8 indexes) |     0.2705     |   0.2388    |
-| Arctic-embed-l (`shard04`, HNSW int8 indexes) |     0.2937     |   0.2253    |
-| Arctic-embed-l (`shard05`, HNSW int8 indexes) |     0.2590     |   0.2383    |
-| Arctic-embed-l (`shard06`, HNSW int8 indexes) |     0.2444     |   0.2336    |
-| Arctic-embed-l (`shard07`, HNSW int8 indexes) |     0.2417     |   0.2255    |
-| Arctic-embed-l (`shard08`, HNSW int8 indexes) |     0.2847     |   0.2765    |
-| Arctic-embed-l (`shard09`, HNSW int8 indexes) |     0.2432     |   0.2457    |
+|                                                         | RAG 24 UMBRELA | RAG 24 NIST |
+|---------------------------------------------------------|:--------------:|:-----------:|
+| BM25                                                    |     0.3198     |   0.2809    |
+| SPLADE-v3: ONNX                                         |     0.5167     |   0.4642    |
+| Arctic-embed-l (`shard00`): quantized (int8) HNSW, ONNX |     0.3003     |   0.2449    |
+| Arctic-embed-l (`shard01`): quantized (int8) HNSW, ONNX |     0.2599     |   0.2184    |
+| Arctic-embed-l (`shard02`): quantized (int8) HNSW, ONNX |     0.2661     |   0.2211    |
+| Arctic-embed-l (`shard03`): quantized (int8) HNSW, ONNX |     0.2705     |   0.2388    |
+| Arctic-embed-l (`shard04`): quantized (int8) HNSW, ONNX |     0.2937     |   0.2253    |
+| Arctic-embed-l (`shard05`): quantized (int8) HNSW, ONNX |     0.2590     |   0.2383    |
+| Arctic-embed-l (`shard06`): quantized (int8) HNSW, ONNX |     0.2444     |   0.2336    |
+| Arctic-embed-l (`shard07`): quantized (int8) HNSW, ONNX |     0.2417     |   0.2255    |
+| Arctic-embed-l (`shard08`): quantized (int8) HNSW, ONNX |     0.2847     |   0.2765    |
+| Arctic-embed-l (`shard09`): quantized (int8) HNSW, ONNX |     0.2432     |   0.2457    |
 
 The following command will reproduce the above experiments:
 
@@ -340,7 +341,7 @@ To print out the commands that will generate the above runs without performing t
 
 ## MS MARCO V2.1 Documents
 
-❗ Beware, running these experiments will automatically download 12 indexes totaling 698.0 GB.
+❗ Beware, running these experiments will automatically download 2 indexes totaling 146 GB.
 
 The MS MARCO V2.1 collections were created for the [TREC RAG Track](https://trec-rag.github.io/).
 There were two variants: the documents corpus and the segmented documents corpus.
@@ -357,14 +358,14 @@ The table below reports effectiveness (dev in terms of RR@10, DL21-DL23, RAGgy i
 The following command will reproduce the above experiments:
 
 ```bash
-java -cp $ANSERINI_JAR io.anserini.reproduce.RunMsMarco -collection msmarco-v2.1
+java -cp $ANSERINI_JAR io.anserini.reproduce.RunMsMarco -collection msmarco-v2.1-doc
 ```
 
 To print out the commands that will generate the above runs without performing the runs, use the options `-dryRun -printCommands`.
 
 ## BEIR
 
-❗ Beware, running these experiments will automatically download 174 indexes totaling 391.5 GB.
+❗ Beware, running these experiments will automatically download 174 indexes totaling 392 GB.
 
 Here is a selection of models that are currently supported in Anserini:
 
@@ -420,7 +421,7 @@ To print out the commands that will generate runs for all available models (with
 
 ## BRIGHT
 
-❗ Beware, running these experiments will automatically download 24 indexes totaling 1.7 GB.
+❗ Beware, running these experiments will automatically download 36 indexes totaling 6.8 GB.
 
 BRIGHT is a retrieval benchmark described [here](https://arxiv.org/abs/2407.12883).
 The following table reports nDCG@10 scores.

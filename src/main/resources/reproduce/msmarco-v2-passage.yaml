@@ -37,9 +37,9 @@ conditions:
             nDCG@10: 0.2627
             R@100: 0.2329
             R@1K: 0.4346
-  - name: unicoil-noexp-0shot.cached
-    display: "Unicoil (no expansion) zero-shot: cached queries"
-    display_html: "Unicoil (no expansion) zero-shot: cached queries"
+  - name: unicoil-noexp.cached
+    display: "uniCOIL (no expansion): cached queries"
+    display_html: "uniCOIL (no expansion): cached queries"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v2-passage.unicoil-noexp-0shot -topics $topics -output $output -hits 1000 -impact -pretokenized
     topics:
@@ -75,9 +75,9 @@ conditions:
             nDCG@10: 0.3262
             R@100: 0.2761
             R@1K: 0.5070
-  - name: unicoil-0shot.cached
-    display: "Unicoil (with doc2query-T5 expansions) zero-shot: cached queries"
-    display_html: "Unicoil (with doc2query-T5 expansions) zero-shot: cached queries"
+  - name: unicoil.cached
+    display: "uniCOIL (with doc2query-T5): cached queries"
+    display_html: "uniCOIL (with doc2query-T5): cached queries"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v2-passage.unicoil-0shot -topics $topics -output $output -hits 1000 -impact -pretokenized
     topics:
@@ -113,9 +113,9 @@ conditions:
             nDCG@10: 0.3855
             R@100: 0.3293
             R@1K: 0.5541
-  - name: unicoil-0shot.onnx
-    display: "Unicoil (with doc2query-T5 expansions) zero-shot: ONNX"
-    display_html: "Unicoil (with doc2query-T5 expansions) zero-shot: ONNX"
+  - name: unicoil.onnx
+    display: "uniCOIL (with doc2query-T5): ONNX"
+    display_html: "uniCOIL (with doc2query-T5): ONNX"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v2-passage.unicoil-0shot -topics $topics -output $output -hits 1000 -impact -pretokenized -encoder UniCoil
     topics:

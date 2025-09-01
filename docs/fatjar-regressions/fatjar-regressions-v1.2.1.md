@@ -250,7 +250,7 @@ To print out the commands that will generate the above runs without performing t
 
 ## MS MARCO V2.1 Segmented Documents
 
-❗ Beware, running these experiments will automatically download 2 indexes totaling 145.8 GB.
+❗ Beware, running these experiments will automatically download 12 indexes totaling 698.0 GB.
 
 The MS MARCO V2.1 collections were created for the [TREC RAG Track](https://trec-rag.github.io/).
 There were two variants: the documents corpus and the segmented documents corpus.
@@ -282,7 +282,7 @@ To print out the commands that will generate the above runs without performing t
 
 ## MS MARCO V2.1 Documents
 
-❗ Beware, running these experiments will automatically download 12 indexes totaling 698.0 GB.
+❗ Beware, running these experiments will automatically download 2 indexes totaling 145.8 GB.
 
 The MS MARCO V2.1 collections were created for the [TREC RAG Track](https://trec-rag.github.io/).
 There were two variants: the documents corpus and the segmented documents corpus.
@@ -299,7 +299,7 @@ The table below reports effectiveness (dev in terms of RR@10, DL21-DL23, RAGgy i
 The following command will reproduce the above experiments:
 
 ```bash
-java -cp $ANSERINI_JAR io.anserini.reproduce.RunMsMarco -collection msmarco-v2.1
+java -cp $ANSERINI_JAR io.anserini.reproduce.RunMsMarco -collection msmarco-v2.1-doc
 ```
 
 To print out the commands that will generate the above runs without performing the runs, use the options `-dryRun -printCommands`.
