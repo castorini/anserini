@@ -249,15 +249,15 @@ To print out the commands that will generate the above runs without performing t
 ❗ Beware, running these experiments will automatically download 6 indexes totaling 51 GB.
 
 Anserini provides support for a variety of models.
-The table below reports the effectiveness of selected models (dev in terms of RR@10, DL19 and DL20 in terms of nDCG@10):
+The table below reports the effectiveness of selected models (dev in terms of RR@100, DL19 and DL20 in terms of nDCG@10):
 
 |                                                                            |    dev |   DL19 |   DL20 |
 |:---------------------------------------------------------------------------|-------:|-------:|-------:|
-| BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)  | 0.2299 | 0.5176 | 0.3793 |
-| BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.2684 | 0.5302 | 0.3586 |
-| BM25 complete doc with doc2query-T5 expansions                             | 0.2880 | 0.5968 | 0.5885 |
-| BM25 segmented doc with doc2query-T5 expansions                            | 0.3179 | 0.6119 | 0.5957 |
-| uniCOIL (with doc2query-T5 expansions): ONNX                               | 0.3531 | 0.6396 | 0.6033 |
+| BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)  | 0.2299 | 0.5176 | 0.5286 |
+| BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.2684 | 0.5302 | 0.5281 |
+| BM25 complete doc with doc2query-T5                                        | 0.2880 | 0.5968 | 0.5885 |
+| BM25 segmented doc with doc2query-T5                                       | 0.3179 | 0.6119 | 0.5957 |
+| uniCOIL (with doc2query-T5): ONNX                                          | 0.3531 | 0.6396 | 0.6033 |
 
 The following command will reproduce runs corresponding to the above models (as well as additional ones not included in the table):
 
@@ -277,7 +277,7 @@ The table below reports the effectiveness of selected models (dev and dev2 in te
 |                                                              |    dev |   dev2 |   DL21 |   DL22 |   DL23 |
 |:-------------------------------------------------------------|-------:|-------:|-------:|-------:|-------:|
 | BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.0719 | 0.0802 | 0.4458 | 0.2692 | 0.2627 |
-| uniCOIL (with doc2query-T5 expansions): ONNX                 | 0.1499 | 0.1577 | 0.6159 | 0.4614 | 0.3855 |
+| uniCOIL (with doc2query-T5): ONNX                            | 0.1499 | 0.1577 | 0.6159 | 0.4614 | 0.3855 |
 
 The following command will reproduce runs corresponding to the above models (as well as additional ones not included in the table):
 
@@ -298,6 +298,9 @@ The table below reports the effectiveness of selected models (dev in terms of RR
 |:---------------------------------------------------------------------------|-------:|-------:|-------:|-------:|-------:|
 | BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)  | 0.1572 | 0.1659 | 0.5116 | 0.2993 | 0.2946 |
 | BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.1896 | 0.1930 | 0.5776 | 0.3618 | 0.3405 |
+| BM25 complete doc with doc2query-T5                                        | 0.2011 | 0.2012 | 0.5792 | 0.3539 | 0.3511 |
+| BM25 segmented doc with doc2query-T5                                       | 0.2226 | 0.2234 | 0.6289 | 0.3975 | 0.3612 |
+| uniCOIL (with doc2query-T5): ONNX                                          | 0.2419 | 0.2445 | 0.6783 | 0.4451 | 0.4150 |
 
 The following command will reproduce runs corresponding to the above models (as well as additional ones not included in the table):
 
