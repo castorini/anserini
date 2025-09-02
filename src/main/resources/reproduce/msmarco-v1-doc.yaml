@@ -1,7 +1,7 @@
 conditions:
   - name: bm25-doc-default
-    display: "BM25 (k1=0.9, b=0.4)"
-    display_html: "BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
+    display: "BM25 complete doc (k1=0.9, b=0.4)"
+    display_html: "BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-doc -topics $topics -output $output -hits 1000 -bm25
     topics:
@@ -22,8 +22,8 @@ conditions:
             nDCG@10: 0.5286
             R@1K: 0.8085
   - name: bm25-d2q-t5-doc-default
-    display: "BM25 (k1=0.9, b=0.4) with doc2query-T5 expansions"
-    display_html: "BM25 with doc2query-T5 expansions (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
+    display: "BM25 complete doc with doc2query-T5 (k1=0.9, b=0.4)"
+    display_html: "BM25 complete doc with doc2query-T5 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-doc.d2q-t5 -topics $topics -output $output -hits 1000 -bm25
     topics:
@@ -44,8 +44,8 @@ conditions:
             nDCG@10: 0.5885
             R@1K: 0.8403
   - name: bm25-doc-segmented-default
-    display: "BM25 segmented (k1=0.9, b=0.4) "
-    display_html: "BM25 segmented (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
+    display: "BM25 segmented doc (k1=0.9, b=0.4)"
+    display_html: "BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-doc-segmented -topics $topics -output $output -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
     topics:
@@ -66,8 +66,8 @@ conditions:
             nDCG@10: 0.5281
             R@1K: 0.7755
   - name: bm25-d2q-t5-doc-segmented-default
-    display: "BM25 segmented (k1=0.9, b=0.4) with doc2query-T5 expansions"
-    display_html: "BM25 segmented with doc2query-T5 expansions (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
+    display: "BM25 segmented doc with doc2query-T5 (k1=0.9, b=0.4)"
+    display_html: "BM25 segmented doc with doc2query-T5 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-doc-segmented.d2q-t5 -topics $topics -output $output -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
     topics:
@@ -88,8 +88,8 @@ conditions:
             nDCG@10: 0.5957
             R@1K: 0.8046
   - name: unicoil-noexp.cached
-    display: "uniCOIL (no expansions) using cached queries"
-    display_html: "uniCOIL (no expansions) using cached queries"
+    display: "uniCOIL (no expansions): cached queries"
+    display_html: "uniCOIL (no expansions): cached queries"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-doc-segmented.unicoil-noexp -topics $topics -output $output -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
     topics:
@@ -110,8 +110,8 @@ conditions:
             nDCG@10: 0.5893
             R@1K: 0.7623
   - name: unicoil.cached
-    display: "uniCOIL (with doc2query-T5 expansions) using cached queries"
-    display_html: "uniCOIL (with doc2query-T5 expansions) using cached queries"
+    display: "uniCOIL (with doc2query-T5): cached queries"
+    display_html: "uniCOIL (with doc2query-T5): cached queries"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-doc-segmented.unicoil -topics $topics -output $output -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
     topics:
@@ -132,8 +132,8 @@ conditions:
             nDCG@10: 0.6033
             R@1K: 0.7869
   - name: unicoil.onnx
-    display: "uniCOIL (with doc2query-T5 expansions) using ONNX"
-    display_html: "uniCOIL (with doc2query-T5 expansions) using ONNX"
+    display: "uniCOIL (with doc2query-T5): ONNX"
+    display_html: "uniCOIL (with doc2query-T5): ONNX"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-doc-segmented.unicoil -topics $topics -output $output -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000 -encoder UniCoil
     topics:
