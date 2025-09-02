@@ -14,8 +14,6 @@
 # limitations under the License.
 #
 
-from pyserini.index.lucene import LuceneIndexReader
-
 bright_keys = {
     'biology': 'Biology',
     'earth-science': 'Earth Science',
@@ -33,20 +31,15 @@ bright_keys = {
 
 
 yaml_template = """---
-corpus: bright-{corpus_short}
-corpus_path: collections/bright/{corpus_short}
+corpus: bright-{corpus_short}.bge-large-en-v1.5
+corpus_path: collections/bright/bge-large-en-v1.5/{corpus_short}
 
-index_path: indexes/lucene-inverted.bright-{corpus_short}/
-collection_class: JsonCollection
-generator_class: DefaultLuceneDocumentGenerator
-index_threads: 1
-index_options: -storePositions -storeDocvectors -storeRaw
-index_stats:
-  documents: {documents}
-  documents (non-empty): {non_empty_documents}
-  total terms: {total_terms}
-
-filter_cmd: python src/main/python/bright/filter_run.py --run runs/run.inverted.bright-{corpus_short}.topics.bm25 --split {underscore}
+index_path: indexes/lucene-flat.bright-{corpus_short}.bge-large-en-v1.5/
+index_type: flat
+collection_class: JsonDenseVectorCollection
+generator_class: DenseVectorDocumentGenerator
+index_threads: 16
+index_options: ""
 
 metrics:
   - metric: nDCG@10
@@ -79,9 +72,10 @@ topics:
     qrel: qrels.bright-{corpus_short}.txt
 
 models:
-  - name: bm25
-    display: BM25
-    params: -bm25 -removeQuery -hits 1000
+  - name: bge-flat-onnx
+    display: BGE-large-en-v1.5
+    type: flat
+    params: -encoder BgeLargeEn15 -hits 1000 -removeQuery -threads 16
     results:
       nDCG@10:
         - 0.3952
@@ -92,14 +86,7 @@ models:
 """
 
 for key in bright_keys:
-    with open(f'src/main/resources/regression/bright-{key}.yaml', 'w') as file:
-        reader = LuceneIndexReader(f'indexes/bright_og/lucene-inverted.bright-{key}.20250705.44ae8e')
-        stats = reader.stats()
-        documents = stats['documents']
-        non_empty_documents = stats['non_empty_documents']
-        total_terms = stats['total_terms']
-        underscore = key.replace('-', '_')
-        formatted = yaml_template.format(corpus_short=key, corpus_long=bright_keys[key], documents=documents,
-                                         non_empty_documents=non_empty_documents, total_terms=total_terms, underscore=underscore)
+    with open(f'src/main/resources/regression/bright-{key}.bge-large-en-v1.5.flat.onnx.yaml', 'w') as file:
+        formatted = yaml_template.format(corpus_short=key, corpus_long=bright_keys[key])
         print(f'Writing yaml for {key}...')
         file.write(formatted)

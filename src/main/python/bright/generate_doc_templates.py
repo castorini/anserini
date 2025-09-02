@@ -51,7 +51,7 @@ wget https://huggingface.co/datasets/castorini/collections-bright/resolve/main/b
 tar xvf collections/bright-corpus.tar -C collections/
 ```
 
-The tarball is 297 MB and has MD5 checksum `d8c829f0e4468a8ce62768b6a1162158`.
+The tarball is 284 MB and has MD5 checksum `568b594709a9977369033117bfb6889c`.
 After download and unpacking the corpora, the `run_regression.py` command above should work without any issue.
 
 ## Indexing
@@ -91,6 +91,6 @@ ${effectiveness}
 for key in bright_keys:
     with open(f'src/main/resources/docgen/templates/bright-{key}.bm25q.template', 'w') as file:
         formatted = doc_template1.format(corpus_long=bright_keys[key])
-        print(f'Writing yaml for {key}...')
+        print(f'Writing doc template for {key}...')
         file.write(formatted)
         file.write(doc_template2)

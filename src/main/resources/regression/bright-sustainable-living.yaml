@@ -1,6 +1,6 @@
 ---
 corpus: bright-sustainable-living
-corpus_path: collections/bright/sustainable-living
+corpus_path: collections/bright/corpus/sustainable-living
 
 index_path: indexes/lucene-inverted.bright-sustainable-living/
 collection_class: JsonCollection

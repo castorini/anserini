@@ -16,11 +16,16 @@
 
 package io.anserini.index;
 
-import io.anserini.analysis.AnalyzerUtils;
-import io.anserini.analysis.DefaultEnglishAnalyzer;
-import io.anserini.search.ScoredDoc;
-import io.anserini.search.SearchCollection;
-import io.anserini.search.SimpleSearcher;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.FieldInfo;
@@ -41,13 +46,11 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.BytesRef;
 import org.junit.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import io.anserini.analysis.AnalyzerUtils;
+import io.anserini.analysis.DefaultEnglishAnalyzer;
+import io.anserini.search.ScoredDoc;
+import io.anserini.search.SearchCollection;
+import io.anserini.search.SimpleSearcher;
 
 public class IndexReaderUtilsTest extends IndexerTestBase {
 
@@ -608,6 +611,8 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     IndexReaderUtils.main(new String[] {"-index", tempDir1.toString(), "-stats"});
     System.setOut(savedStdout);
 
+    String output = redirectedStdout.toString();
+
     String groundTruthOutput = "Index statistics\n" +
         "----------------\n" +
         "documents:             3\n" +
@@ -615,7 +620,72 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
         "unique terms:          6\n" +
         "total terms:           12\n";
 
-    assertEquals(groundTruthOutput, redirectedStdout.toString());
+    assertTrue(output.startsWith(groundTruthOutput));
+    assertTrue(output.contains("index_path:"));
+    assertTrue(output.contains("total_size:"));
   }
 
+  @Test
+  public void testFindDirectorySize() throws Exception {
+    long size = IndexReaderUtils.findDirectorySize(tempDir1);
+    assertTrue(size > 0);
+
+    Path testDir = tempDir1.resolve("TestDirectory");
+    java.nio.file.Files.createDirectories(testDir);
+
+    Path tempFile1 = testDir.resolve("tempfile1.txt");
+    Path tempFile2 = testDir.resolve("tempfile2.txt");
+    java.nio.file.Files.write(tempFile1, new byte[100]);
+    java.nio.file.Files.write(tempFile2, new byte[200]);
+    long expectedSize = 300L;
+    long actualSize = IndexReaderUtils.findDirectorySize(testDir);
+    assertEquals(expectedSize, actualSize);
+
+    Path nonExistentPath = testDir.resolve("nonexistent"); // Test with a non-existent directory
+    try {
+      IndexReaderUtils.findDirectorySize(nonExistentPath);
+      fail("non-existent directory");
+    } catch (IOException e) {
+      // Expected exception
+    }
+  }
+
+  @Test
+  public void testFormatSize() {
+    assertEquals("0.0 B", IndexReaderUtils.formatSize(0));
+    assertEquals("500.0 B", IndexReaderUtils.formatSize(500));
+    assertEquals("1023.0 B", IndexReaderUtils.formatSize(1023));
+    assertEquals("1.5 KB", IndexReaderUtils.formatSize(1536));
+    assertEquals("1.0 MB", IndexReaderUtils.formatSize(1048576));
+    assertEquals("1.0 GB", IndexReaderUtils.formatSize(1073741824));
+  }
+
+  private static final String PREBUILT_LABEL = "msmarco-v1-passage";
+
+  @Test
+  public void testAmbiguousPrebuiltLabelAndLocalPathThrows() throws IOException {
+    Path cwd = java.nio.file.Paths.get("");
+    Path localDir = cwd.resolve(PREBUILT_LABEL);
+
+    // Ensure clean state, create the conflicting local directory, then clean it up in finally.
+    if (java.nio.file.Files.exists(localDir)) {
+      // If it already exists for some reason, fail fast to avoid breaking other tests.
+      fail("Test setup error: unexpected existing directory " + localDir);
+    }
+
+    try {
+      java.nio.file.Files.createDirectory(localDir);
+      try {
+        IndexReaderUtils.getIndex(PREBUILT_LABEL);
+        fail("Expected IllegalArgumentException due to ambiguous index reference");
+      } catch (IllegalArgumentException e) {
+        assertTrue(e.getMessage().contains("Ambiguous index reference"));
+        assertTrue(e.getMessage().contains(PREBUILT_LABEL));
+      }
+    } finally {
+      if (java.nio.file.Files.exists(localDir)) {
+        java.nio.file.Files.delete(localDir);
+      }
+    }
+  }
 }

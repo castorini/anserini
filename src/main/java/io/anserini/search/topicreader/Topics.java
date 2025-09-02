@@ -102,6 +102,7 @@ public enum Topics {
   TREC2024_RAG_RESEARCHY_DEV_SNOWFLAKE_ARCTIC_EMBED_L(JsonIntVectorTopicReader.class, "topics.rag24.researchy-dev.snowflake-arctic-embed-l.jsonl.gz"),
   TREC2024_RAG_TEST(TsvStringTopicReader.class, "topics.rag24.test.txt"),
   TREC2024_RAG_TEST_SNOWFLAKE_ARCTIC_EMBED_L(JsonStringVectorTopicReader.class, "topics.rag24.test.snowflake-arctic-embed-l.jsonl.gz"),
+  TREC2024_RAG_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.rag24.test.splade-v3.tsv.gz"),
   TREC2025_RAG_TEST(JsonStringTopicReader.class, "topics.rag25.test.jsonl"),
 
   // MS MARCO V1 topics
@@ -586,6 +587,34 @@ public enum Topics {
   BRIGHT_AOPS(TsvStringTopicReader.class, "topics.bright-aops.tsv.gz"),
   BRIGHT_THEOREMQA_THEOREMS(TsvStringTopicReader.class, "topics.bright-theoremqa-theorems.tsv.gz"),
   BRIGHT_THEOREMQA_QUESTIONS(TsvStringTopicReader.class, "topics.bright-theoremqa-questions.tsv.gz"),
+
+  // BRIGHT: pre-encoded queries for SPLADE-v3
+  BRIGHT_BIOLOGY_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-biology.splade-v3.tsv.gz"),
+  BRIGHT_EARTH_SCIENCE_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-earth-science.splade-v3.tsv.gz"),
+  BRIGHT_ECONOMICS_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-economics.splade-v3.tsv.gz"),
+  BRIGHT_PSYCHOLOGY_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-psychology.splade-v3.tsv.gz"),
+  BRIGHT_ROBOTICS_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-robotics.splade-v3.tsv.gz"),
+  BRIGHT_STACKOVERFLOW_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-stackoverflow.splade-v3.tsv.gz"),
+  BRIGHT_SUSTAINABLE_LIVING_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-sustainable-living.splade-v3.tsv.gz"),
+  BRIGHT_PONY_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-pony.splade-v3.tsv.gz"),
+  BRIGHT_LEETCODE_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-leetcode.splade-v3.tsv.gz"),
+  BRIGHT_AOPS_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-aops.splade-v3.tsv.gz"),
+  BRIGHT_THEOREMQA_THEOREMS_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-theoremqa-theorems.splade-v3.tsv.gz"),
+  BRIGHT_THEOREMQA_QUESTIONS_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-theoremqa-questions.splade-v3.tsv.gz"),
+
+  // BRIGHT: pre-encoded queries for BGE-large-en-v1.5
+  BRIGHT_BIOLOGY_BGE_LARGE_EN_15(JsonStringVectorTopicReader.class, "topics.bright-biology.bge-large-en-v1.5.jsonl.gz"),
+  BRIGHT_EARTH_SCIENCE_BGE_LARGE_EN_15(JsonStringVectorTopicReader.class, "topics.bright-earth-science.bge-large-en-v1.5.jsonl.gz"),
+  BRIGHT_ECONOMICS_BGE_LARGE_EN_15(JsonStringVectorTopicReader.class, "topics.bright-economics.bge-large-en-v1.5.jsonl.gz"),
+  BRIGHT_PSYCHOLOGY_BGE_LARGE_EN_15(JsonStringVectorTopicReader.class, "topics.bright-psychology.bge-large-en-v1.5.jsonl.gz"),
+  BRIGHT_ROBOTICS_BGE_LARGE_EN_15(JsonStringVectorTopicReader.class, "topics.bright-robotics.bge-large-en-v1.5.jsonl.gz"),
+  BRIGHT_STACKOVERFLOW_BGE_LARGE_EN_15(JsonStringVectorTopicReader.class, "topics.bright-stackoverflow.bge-large-en-v1.5.jsonl.gz"),
+  BRIGHT_SUSTAINABLE_LIVING_BGE_LARGE_EN_15(JsonStringVectorTopicReader.class, "topics.bright-sustainable-living.bge-large-en-v1.5.jsonl.gz"),
+  BRIGHT_PONY_BGE_LARGE_EN_15(JsonStringVectorTopicReader.class, "topics.bright-pony.bge-large-en-v1.5.jsonl.gz"),
+  BRIGHT_LEETCODE_BGE_LARGE_EN_15(JsonStringVectorTopicReader.class, "topics.bright-leetcode.bge-large-en-v1.5.jsonl.gz"),
+  BRIGHT_AOPS_BGE_LARGE_EN_15(JsonStringVectorTopicReader.class, "topics.bright-aops.bge-large-en-v1.5.jsonl.gz"),
+  BRIGHT_THEOREMQA_THEOREMS_BGE_LARGE_EN_15(JsonStringVectorTopicReader.class, "topics.bright-theoremqa-theorems.bge-large-en-v1.5.jsonl.gz"),
+  BRIGHT_THEOREMQA_QUESTIONS_BGE_LARGE_EN_15(JsonStringVectorTopicReader.class, "topics.bright-theoremqa-questions.bge-large-en-v1.5.jsonl.gz"),
 
   // unused topics
   CACM(CacmTopicReader.class,                   "topics.cacm.txt"),

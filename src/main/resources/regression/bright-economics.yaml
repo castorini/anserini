@@ -1,6 +1,6 @@
 ---
 corpus: bright-economics
-corpus_path: collections/bright/economics
+corpus_path: collections/bright/corpus/economics
 
 index_path: indexes/lucene-inverted.bright-economics/
 collection_class: JsonCollection

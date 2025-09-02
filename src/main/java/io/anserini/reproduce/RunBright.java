@@ -38,7 +38,7 @@ public class RunBright {
       return;
     }
 
-    RunRepro repro = new RunRepro("bright", new BrightMetricDefinitions(), brightArgs.printCommands, brightArgs.dryRun);
+    RunRepro repro = new RunRepro("bright", new BrightMetricDefinitions(), brightArgs.printCommands, brightArgs.dryRun, brightArgs.computeIndexSize);
     repro.run();
   }
 

@@ -3,7 +3,7 @@
 
   <groupId>io.anserini</groupId>
   <artifactId>anserini</artifactId>
-  <version>1.1.2-SNAPSHOT</version>
+  <version>1.2.3-SNAPSHOT</version>
   <name>Anserini</name>
   <description>An information retrieval toolkit built on Lucene</description>
   <url>http://anserini.io/</url>

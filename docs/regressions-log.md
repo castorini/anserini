@@ -3,11 +3,42 @@
 The following change log details commits to regression tests that alter effectiveness and the addition (or removal) of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### August 21, 2025
+
++ commit [`f2f898`](https://github.com/castorini/anserini/commit/f2f89834aceb2ea2fbd6bbfcf440953e29731ddf)
+
+Added BGE (cached query and ONNX) regressions for BRIGHT.
+
+### August 19, 2025
+
++ commit [`0a151c`](https://github.com/castorini/anserini/commit/0a151c703767146e5ef2718f8fd8711d781422ba)
+
+Added SPLADE-v3 cached query regressions for BRIGHT.
+
+### August 16, 2025
+
++ commit [`c3bd64`](https://github.com/castorini/anserini/commit/c3bd645b2051e317185179f8750ce653b9529d1f)
+
+Added SPLADE-v3 ONNX regressions for BRIGHT.
+
+### July 14, 2025
+
++ commit [`d6a8b3`](https://github.com/castorini/anserini/commit/d6a8b36a6bc9a62b70d44412f6ebb2ca0bc709cd)
++ commit [`3a3518`](https://github.com/castorini/anserini/commit/3a3518a159bab3207478422efad5e099656882c8)
+
+Added BM25 regressions for BRIGHT.
+
+### July 9, 2025
+
++ commit [`35ab54`](https://github.com/castorini/anserini/commit/35ab54df4618f167c62d2252ef97b7a3510a4bf8)
+
+Added SPLADE-v3 regressions for MS MARCO v2.1.
+
 ### July 5, 2025
 
 + commit [`c42dfa`](https://github.com/castorini/anserini/commit/c42dfa41ab600e32b1a39f09d4b4d087ef27954b)
 
-Add RAG 24 official NIST qrels + associated regressions.
+Added RAG 24 official NIST qrels + associated regressions.
 
 ### June 23, 2025
 

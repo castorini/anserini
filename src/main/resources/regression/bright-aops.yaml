@@ -1,6 +1,6 @@
 ---
 corpus: bright-aops
-corpus_path: collections/bright/aops
+corpus_path: collections/bright/corpus/aops
 
 index_path: indexes/lucene-inverted.bright-aops/
 collection_class: JsonCollection
