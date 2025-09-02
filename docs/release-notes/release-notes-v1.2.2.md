@@ -6,7 +6,7 @@
 ## Summary of Changes
 
 + Added BGE (cached query and ONNX) from-scratch regressions for BRIGHT.
-+ Added BGE Lucene flat vector indexes, topic bindings, and ONNX model for BRIGHT.
++ Added BGE prebuilt Lucene flat vector indexes, topic bindings, and ONNX model for BRIGHT.
 + Added fatjar regressions (with prebuilt indexes) for MS MARCO v1 doc, MS MARCO v2 passage/doc; various minor tweaks to other regression conditions.
 
 ## Contributors (This Release)
