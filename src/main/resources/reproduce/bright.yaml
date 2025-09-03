@@ -53,9 +53,62 @@ conditions:
         eval_key: bright-theoremqa-theorems
         scores:
           - nDCG@10: 0.0214
+  - name: bm25q
+    display_html: "BM25, query-side BM25 baseline"
+    display_row: ""
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index bright-$topics -topics bright-$topics -output $output -bm25 -bm25query -removeQuery
+    topics:
+      - topic_key: biology
+        eval_key: bright-biology
+        scores:
+          - nDCG@10: 0.1972
+      - topic_key: earth-science
+        eval_key: bright-earth-science
+        scores:
+          - nDCG@10: 0.2789
+      - topic_key: economics
+        eval_key: bright-economics
+        scores:
+          - nDCG@10: 0.1518
+      - topic_key: psychology
+        eval_key: bright-psychology
+        scores:
+          - nDCG@10: 0.1266
+      - topic_key: robotics
+        eval_key: bright-robotics
+        scores:
+          - nDCG@10: 0.1390
+      - topic_key: stackoverflow
+        eval_key: bright-stackoverflow
+        scores:
+          - nDCG@10: 0.1855
+      - topic_key: sustainable-living
+        eval_key: bright-sustainable-living
+        scores:
+          - nDCG@10: 0.1515
+      - topic_key: pony
+        eval_key: bright-pony
+        scores:
+          - nDCG@10: 0.0789
+      - topic_key: leetcode
+        eval_key: bright-leetcode
+        scores:
+          - nDCG@10: 0.2497
+      - topic_key: aops
+        eval_key: bright-aops
+        scores:
+          - nDCG@10: 0.0627
+      - topic_key: theoremqa-theorems
+        eval_key: bright-theoremqa-theorems
+        scores:
+          - nDCG@10: 0.0492
+      - topic_key: theoremqa-questions
+        eval_key: bright-theoremqa-questions
+        scores:
+          - nDCG@10: 0.1036
   - name: splade-v3.onnx
-    display: "SPLADE-v3 (ONNX)"
-    display_html: "SPLADE-v3 (ONNX)"
+    display: "SPLADE-v3: ONNX"
+    display_html: "SPLADE-v3: ONNX"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index bright-$topics.splade-v3 -topics bright-$topics -encoder SpladeV3 -output $output -impact -pretokenized -removeQuery
     topics:
@@ -107,9 +160,9 @@ conditions:
         eval_key: bright-theoremqa-theorems
         scores:
           - nDCG@10: 0.0554
-  - name: splade-v3.cached_q
-    display: "SPLADE-v3 (cached queries)"
-    display_html: "SPLADE-v3 (cached queries)"
+  - name: splade-v3.cached
+    display: "SPLADE-v3: cached queries"
+    display_html: "SPLADE-v3: cached queries"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index bright-$topics.splade-v3 -topics bright-$topics.splade-v3 -output $output -impact -pretokenized -removeQuery
     topics:
@@ -161,9 +214,9 @@ conditions:
         eval_key: bright-theoremqa-theorems
         scores:
           - nDCG@10: 0.0554
-  - name: bge-large-en-v1.5.flat.cached_q
-    display: "bge-large-en-v1.5 w/ flat indexes (cached queries)"
-    display_html: "bge-large-en-v1.5 w/ flat indexes (cached queries)"
+  - name: bge-large-en-v1.5.flat.cached
+    display: "bge-large-en-v1.5 w/ flat indexes: cached queries"
+    display_html: "bge-large-en-v1.5 w/ flat indexes: cached queries"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchFlatDenseVectors -threads $threads -index bright-$topics.bge-large-en-v1.5.flat -topics bright-$topics.bge-large-en-v1.5 -output $output -removeQuery
     topics:
@@ -216,8 +269,8 @@ conditions:
         scores:
           - nDCG@10: 0.0690
   - name: bge-large-en-v1.5.flat.onnx
-    display: "bge-large-en-v1.5 w/ flat indexes (ONNX)"
-    display_html: "bge-large-en-v1.5 w/ flat indexes (ONNX)"
+    display: "bge-large-en-v1.5 w/ flat indexes: ONNX"
+    display_html: "bge-large-en-v1.5 w/ flat indexes: ONNX"
     display_row: ""
     command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchFlatDenseVectors -threads $threads -index bright-$topics.bge-large-en-v1.5.flat -topics bright-$topics -encoder BgeLargeEn15 -output $output -removeQuery
     topics:

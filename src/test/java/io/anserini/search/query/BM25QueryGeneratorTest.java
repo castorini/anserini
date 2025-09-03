@@ -20,14 +20,15 @@ import io.anserini.index.IndexCollection;
 import io.anserini.index.IndexReaderUtils;
 
 import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.search.BooleanQuery;
-import org.apache.lucene.search.BoostQuery;
 import org.apache.lucene.search.Query;
+import org.apache.lucene.store.FSDirectory;
 import org.junit.Test;
 
-import java.util.Map;
 import java.io.IOException;
+import java.nio.file.Path;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -35,8 +36,10 @@ import static org.junit.Assert.assertTrue;
 public class BM25QueryGeneratorTest {
   @Test
   public void test1() throws IOException {
+    String TEST_INDEX = "beir-v1.0.0-nfcorpus.flat";
     Analyzer analyzer = IndexCollection.DEFAULT_ANALYZER;
-    IndexReader reader = IndexReaderUtils.getReader("indexes/beir/lucene-inverted.beir-v1.0.0-nfcorpus.flat");
+    Path indexPath = IndexReaderUtils.getIndex(TEST_INDEX);
+    IndexReader reader = DirectoryReader.open(FSDirectory.open(indexPath));
     QueryGenerator queryGenerator = new BM25QueryGenerator(0.9f, 0.4f, reader);
     Query query = queryGenerator.buildQuery("contents", analyzer, "Do Cholesterol Statin Drugs Cause Breast Cancer?");
 
@@ -53,41 +56,4 @@ public class BM25QueryGeneratorTest {
     assertEquals("(contents:breast)^1.6456642", (bq.clauses().get(5).getQuery().toString()));
     assertEquals("(contents:drug)^1.7181631", (bq.clauses().get(6).getQuery().toString()));
   }
-
-  // @Test
-  // public void test2() {
-  //   Analyzer analyzer = IndexCollection.DEFAULT_ANALYZER;
-  //   QueryGenerator queryGenerator = new BagOfWordsQueryGenerator();
-  //   Query query = queryGenerator.buildQuery("contents", analyzer, "Mary had a little lamb");
-
-  //   assertEquals("(contents:lamb)^1.0 (contents:mari)^1.0 (contents:had)^1.0 (contents:littl)^1.0", query.toString());
-  //   assertTrue(query instanceof BooleanQuery);
-
-  //   BooleanQuery bq = (BooleanQuery) query;
-  //   assertEquals(4, bq.clauses().size());
-  //   assertEquals("(contents:lamb)^1.0", (bq.clauses().get(0).getQuery().toString()));
-  //   assertEquals("(contents:mari)^1.0", (bq.clauses().get(1).getQuery().toString()));
-  //   assertEquals("(contents:had)^1.0", (bq.clauses().get(2).getQuery().toString()));
-  //   assertEquals("(contents:littl)^1.0", (bq.clauses().get(3).getQuery().toString()));
-  // }
-
-  // @Test
-  // public void testMultipleFields() {
-  //   Map<String, Float> fields = Map.of("field1", 3.14f, "field2", 2.178f);
-
-  //   QueryGenerator queryGenerator = new BagOfWordsQueryGenerator();
-  //   Query query = queryGenerator.buildQuery(fields, IndexCollection.DEFAULT_ANALYZER, "Mary had a little lamb");
-  //   assertTrue(query instanceof BooleanQuery);
-
-  //   BooleanQuery combinedQuery = (BooleanQuery) query;
-  //   assertEquals(2, combinedQuery.clauses().size());
-  //   assertTrue(combinedQuery.clauses().get(0).getQuery() instanceof BoostQuery);
-
-  //   BoostQuery boostQuery = (BoostQuery) combinedQuery.clauses().get(0).getQuery();
-  //   assertTrue(boostQuery.getBoost() > 1.0f);
-  //   assertTrue(boostQuery.getQuery() instanceof BooleanQuery);
-
-  //   BooleanQuery booleanQuery = (BooleanQuery) boostQuery.getQuery();
-  //   assertEquals(4, booleanQuery.clauses().size());
-  // }
 }
