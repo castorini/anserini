@@ -1,15 +1,15 @@
-# Anserini Fatjar Regresions (v1.2.1)
+# Anserini Fatjar Regresions (v1.2.2)
 
 Fetch the fatjar:
 
 ```bash
-wget https://repo1.maven.org/maven2/io/anserini/anserini/1.2.1/anserini-1.2.1-fatjar.jar
+wget https://repo1.maven.org/maven2/io/anserini/anserini/1.2.2/anserini-1.2.2-fatjar.jar
 ```
 
 Let's start out by setting the `ANSERINI_JAR` and the `OUTPUT_DIR`:
 
 ```bash
-export ANSERINI_JAR="anserini-1.2.1-fatjar.jar"
+export ANSERINI_JAR="anserini-1.2.2-fatjar.jar"
 export OUTPUT_DIR="."
 ```
 
@@ -20,7 +20,10 @@ See [this guide on prebuilt indexes](../prebuilt-indexes.md) for more details.
 ## Contents
 
 + [MS MARCO V2.1 + TREC RAG](#ms-marco-v21--trec-rag)
-+ [MS MARCO V1 Passage](#ms-marco-v1-passage)
++ [MS MARCO V1 Passages](#ms-marco-v1-passages)
++ [MS MARCO V1 Documents](#ms-marco-v1-documents)
++ [MS MARCO V2 Passages](#ms-marco-v2-passages)
++ [MS MARCO V2 Documents](#ms-marco-v2-documents)
 + [MS MARCO V2.1 Segmented Documents](#ms-marco-v21-segmented-documents)
 + [MS MARCO V2.1 Documents](#ms-marco-v21-documents)
 + [BEIR](#beir)
@@ -210,35 +213,28 @@ $ head -n 1 $OUTPUT_DIR/results.msmarco-v2.1-doc-segmented.bm25.rag24.test.jsonl
 
 To generate similar output for ArcticEmbed-L, specify the corresponding run file with `-run`.
 
-## MS MARCO V1 Passage
+## MS MARCO V1 Passages
 
-❗ Beware, running these experiments will automatically download 9 indexes totaling 203.1 GB.
+❗ Beware, running these experiments will automatically download 9 indexes totaling 203 GB.
 
-Currently, Anserini provides support for the following models:
+Anserini provides support for a variety of models.
+The table below reports the effectiveness (dev in terms of RR@10, DL19 and DL20 in terms of nDCG@10):
 
-+ BM25
-+ SPLADE-v3: cached queries and ONNX query encoding
-+ cosDPR-distil: cached queries and ONNX query encoding
-+ bge-base-en-v1.5: cached queries and ONNX query encoding
-+ cohere-embed-english-v3.0: cached queries and ONNX query encoding
-
-The table below reports the effectiveness of the models (dev in terms of RR@10, DL19 and DL20 in terms of nDCG@10):
-
-|                                                              |    dev |   DL19 |   DL20 |
-|:-------------------------------------------------------------|-------:|-------:|-------:|
-| BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.1840 | 0.5058 | 0.4796 |
-| SPLADE-v3 (cached queries)                                   | 0.3999 | 0.7264 | 0.7522 |
-| SPLADE-v3 (ONNX)                                             | 0.4000 | 0.7264 | 0.7522 |
-| cosDPR-distil w/ HNSW fp32 (cached queries)                  | 0.3887 | 0.7250 | 0.7025 |
-| cosDPR-distil w/ HNSW fp32 (ONNX)                            | 0.3887 | 0.7250 | 0.7025 |
-| cosDPR-distil w/ HNSW int8 (cached queries)                  | 0.3897 | 0.7240 | 0.7004 |
-| cosDPR-distil w/ HNSW int8 (ONNX)                            | 0.3899 | 0.7247 | 0.6996 |
-| bge-base-en-v1.5 w/ HNSW fp32 (cached queries)               | 0.3574 | 0.7065 | 0.6780 |
-| bge-base-en-v1.5 w/ HNSW fp32 (ONNX)                         | 0.3575 | 0.7016 | 0.6768 |
-| bge-base-en-v1.5 w/ HNSW int8 (cached queries)               | 0.3572 | 0.7016 | 0.6738 |
-| bge-base-en-v1.5 w/ HNSW int8 (ONNX)                         | 0.3575 | 0.7017 | 0.6767 |
-| cohere-embed-english-v3.0 w/ HNSW fp32 (cached queries)      | 0.3647 | 0.6956 | 0.7245 |
-| cohere-embed-english-v3.0 w/ HNSW int8 (cached queries)      | 0.3656 | 0.6955 | 0.7262 |
+|                                                                 |    dev |   DL19 |   DL20 |
+|:----------------------------------------------------------------|-------:|-------:|-------:|
+| BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)    | 0.1840 | 0.5058 | 0.4796 |
+| SPLADE-v3: cached queries                                       | 0.3999 | 0.7264 | 0.7522 |
+| SPLADE-v3: ONNX                                                 | 0.4000 | 0.7264 | 0.7522 |
+| cosDPR-distil: HNSW, cached queries                             | 0.3887 | 0.7250 | 0.7025 |
+| cosDPR-distil: HNSW, ONNX                                       | 0.3887 | 0.7250 | 0.7025 |
+| cosDPR-distil: quantized (int8) HNSW, cached queries            | 0.3897 | 0.7240 | 0.7004 |
+| cosDPR-distil: quantized (int8) HNSW, ONNX                      | 0.3899 | 0.7247 | 0.6996 |
+| bge-base-en-v1.5: HNSW, cached queries                          | 0.3574 | 0.7065 | 0.6780 |
+| bge-base-en-v1.5: HNSW, ONNX                                    | 0.3575 | 0.7016 | 0.6768 |
+| bge-base-en-v1.5: quantized (int8) HNSW, cached queries         | 0.3572 | 0.7016 | 0.6738 |
+| bge-base-en-v1.5: quantized (int8) HNSW, ONNX                   | 0.3575 | 0.7017 | 0.6767 |
+| cohere-embed-english-v3.0: HNSW, cached queries                 | 0.3647 | 0.6956 | 0.7245 |
+| cohere-embed-english-v3.0: quantized (int) HNSW, cached queries | 0.3656 | 0.6955 | 0.7262 |
 
 The following command will reproduce the above experiments:
 
@@ -248,29 +244,95 @@ java -cp $ANSERINI_JAR io.anserini.reproduce.RunMsMarco -collection msmarco-v1-p
 
 To print out the commands that will generate the above runs without performing the runs, use the options `-dryRun -printCommands`.
 
+## MS MARCO V1 Documents
+
+❗ Beware, running these experiments will automatically download 6 indexes totaling 51 GB.
+
+Anserini provides support for a variety of models.
+The table below reports the effectiveness of selected models (dev in terms of RR@100, DL19 and DL20 in terms of nDCG@10):
+
+|                                                                            |    dev |   DL19 |   DL20 |
+|:---------------------------------------------------------------------------|-------:|-------:|-------:|
+| BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)  | 0.2299 | 0.5176 | 0.5286 |
+| BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.2684 | 0.5302 | 0.5281 |
+| BM25 complete doc with doc2query-T5                                        | 0.2880 | 0.5968 | 0.5885 |
+| BM25 segmented doc with doc2query-T5                                       | 0.3179 | 0.6119 | 0.5957 |
+| uniCOIL (with doc2query-T5): ONNX                                          | 0.3531 | 0.6396 | 0.6033 |
+
+The following command will reproduce runs corresponding to the above models (as well as additional ones not included in the table):
+
+```bash
+java -cp $ANSERINI_JAR io.anserini.reproduce.RunMsMarco -collection msmarco-v1-doc
+```
+
+To print out the commands that will generate runs for all available models (without actually performing the runs), use the options `-dryRun -printCommands`.
+
+## MS MARCO V2 Passages
+
+❗ Beware, running these experiments will automatically download 3 indexes totaling 90 GB.
+
+Anserini provides support for a variety of models.
+The table below reports the effectiveness of selected models (dev and dev2 in terms of RR@100, DL21-23 in terms of nDCG@10):
+
+|                                                              |    dev |   dev2 |   DL21 |   DL22 |   DL23 |
+|:-------------------------------------------------------------|-------:|-------:|-------:|-------:|-------:|
+| BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.0719 | 0.0802 | 0.4458 | 0.2692 | 0.2627 |
+| uniCOIL (with doc2query-T5): ONNX                            | 0.1499 | 0.1577 | 0.6159 | 0.4614 | 0.3855 |
+
+The following command will reproduce runs corresponding to the above models (as well as additional ones not included in the table):
+
+```bash
+java -cp $ANSERINI_JAR io.anserini.reproduce.RunMsMarco -collection msmarco-v2-passage
+```
+
+To print out the commands that will generate runs for all available models (without actually performing the runs), use the options `-dryRun -printCommands`.
+
+## MS MARCO V2 Documents
+
+❗ Beware, running these experiments will automatically download 6 indexes totaling 310 GB.
+
+Anserini provides support for a variety of models.
+The table below reports the effectiveness of selected models (dev in terms of RR@10, DL19 and DL20 in terms of nDCG@10):
+
+|                                                                            |    dev |   dev2 |   DL21 |   DL22 |   DL23 |
+|:---------------------------------------------------------------------------|-------:|-------:|-------:|-------:|-------:|
+| BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)  | 0.1572 | 0.1659 | 0.5116 | 0.2993 | 0.2946 |
+| BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.1896 | 0.1930 | 0.5776 | 0.3618 | 0.3405 |
+| BM25 complete doc with doc2query-T5                                        | 0.2011 | 0.2012 | 0.5792 | 0.3539 | 0.3511 |
+| BM25 segmented doc with doc2query-T5                                       | 0.2226 | 0.2234 | 0.6289 | 0.3975 | 0.3612 |
+| uniCOIL (with doc2query-T5): ONNX                                          | 0.2419 | 0.2445 | 0.6783 | 0.4451 | 0.4150 |
+
+The following command will reproduce runs corresponding to the above models (as well as additional ones not included in the table):
+
+```bash
+java -cp $ANSERINI_JAR io.anserini.reproduce.RunMsMarco -collection msmarco-v2-doc
+```
+
+To print out the commands that will generate runs for all available models (without actually performing the runs), use the options `-dryRun -printCommands`.
+
 ## MS MARCO V2.1 Segmented Documents
 
-❗ Beware, running these experiments will automatically download 12 indexes totaling 698.0 GB.
+❗ Beware, running these experiments will automatically download 12 indexes totaling 698 GB.
 
 The MS MARCO V2.1 collections were created for the [TREC RAG Track](https://trec-rag.github.io/).
 There were two variants: the documents corpus and the segmented documents corpus.
 The documents corpus served as the source of the segmented documents corpus, but the segmented documents corpus is the one used in official TREC RAG evaluations.
 The following table reports nDCG@20 scores for various retrieval conditions:
 
-|                                               | RAG 24 UMBRELA | RAG 24 NIST |
-|-----------------------------------------------|:--------------:|:-----------:|
-| baselines                                     |     0.3198     |   0.2809    |
-| SPLADE-v3                                     |     0.5167     |   0.4642    |
-| Arctic-embed-l (`shard00`, HNSW int8 indexes) |     0.3003     |   0.2449    |
-| Arctic-embed-l (`shard01`, HNSW int8 indexes) |     0.2599     |   0.2184    |
-| Arctic-embed-l (`shard02`, HNSW int8 indexes) |     0.2661     |   0.2211    |
-| Arctic-embed-l (`shard03`, HNSW int8 indexes) |     0.2705     |   0.2388    |
-| Arctic-embed-l (`shard04`, HNSW int8 indexes) |     0.2937     |   0.2253    |
-| Arctic-embed-l (`shard05`, HNSW int8 indexes) |     0.2590     |   0.2383    |
-| Arctic-embed-l (`shard06`, HNSW int8 indexes) |     0.2444     |   0.2336    |
-| Arctic-embed-l (`shard07`, HNSW int8 indexes) |     0.2417     |   0.2255    |
-| Arctic-embed-l (`shard08`, HNSW int8 indexes) |     0.2847     |   0.2765    |
-| Arctic-embed-l (`shard09`, HNSW int8 indexes) |     0.2432     |   0.2457    |
+|                                                         | RAG 24 UMBRELA | RAG 24 NIST |
+|---------------------------------------------------------|:--------------:|:-----------:|
+| BM25                                                    |     0.3198     |   0.2809    |
+| SPLADE-v3: ONNX                                         |     0.5167     |   0.4642    |
+| Arctic-embed-l (`shard00`): quantized (int8) HNSW, ONNX |     0.3003     |   0.2449    |
+| Arctic-embed-l (`shard01`): quantized (int8) HNSW, ONNX |     0.2599     |   0.2184    |
+| Arctic-embed-l (`shard02`): quantized (int8) HNSW, ONNX |     0.2661     |   0.2211    |
+| Arctic-embed-l (`shard03`): quantized (int8) HNSW, ONNX |     0.2705     |   0.2388    |
+| Arctic-embed-l (`shard04`): quantized (int8) HNSW, ONNX |     0.2937     |   0.2253    |
+| Arctic-embed-l (`shard05`): quantized (int8) HNSW, ONNX |     0.2590     |   0.2383    |
+| Arctic-embed-l (`shard06`): quantized (int8) HNSW, ONNX |     0.2444     |   0.2336    |
+| Arctic-embed-l (`shard07`): quantized (int8) HNSW, ONNX |     0.2417     |   0.2255    |
+| Arctic-embed-l (`shard08`): quantized (int8) HNSW, ONNX |     0.2847     |   0.2765    |
+| Arctic-embed-l (`shard09`): quantized (int8) HNSW, ONNX |     0.2432     |   0.2457    |
 
 The following command will reproduce the above experiments:
 
@@ -282,7 +344,7 @@ To print out the commands that will generate the above runs without performing t
 
 ## MS MARCO V2.1 Documents
 
-❗ Beware, running these experiments will automatically download 2 indexes totaling 145.8 GB.
+❗ Beware, running these experiments will automatically download 2 indexes totaling 146 GB.
 
 The MS MARCO V2.1 collections were created for the [TREC RAG Track](https://trec-rag.github.io/).
 There were two variants: the documents corpus and the segmented documents corpus.
@@ -306,98 +368,100 @@ To print out the commands that will generate the above runs without performing t
 
 ## BEIR
 
-❗ Beware, running these experiments will automatically download 174 indexes totaling 391.5 GB.
+❗ Beware, running these experiments will automatically download 174 indexes totaling 392 GB.
 
 Here is a selection of models that are currently supported in Anserini:
 
-+ Flat = BM25, "flat" bag-of-words baseline
-+ MF = BM25, "multifield" bag-of-words baseline
-+ S = SPLADE-v3:
-+ Bf = bge-base-en-v1.5 (flat)
-+ Bh = bge-base-en-v1.5 (HNSW)
++ BM25 (flat): BM25, "flat" bag-of-words baseline (see paper below)
++ BM25 (MF): BM25, "multifield" bag-of-words baseline (see paper below)
++ SPLADE-v3: SPLADE-v3 with ONNX query encoding
++ BGE (flat): bge-base-en-v1.5 using flat vector indexes, with ONNX query encoding
++ BGE (HNSW): bge-base-en-v1.5 using HNSW indexes, with ONNX query encoding
 
-🫙 = cached queries, 🅾️ = query encoding with ONNX
+> Ehsan Kamalloo, Nandan Thakur, Carlos Lassance, Xueguang Ma, Jheng-Hong Yang, and Jimmy Lin. [Resources for Brewing BEIR: Reproducible Reference Models and Statistical Analyses.](https://dl.acm.org/doi/10.1145/3626772.3657862) _Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval (SIGIR 2024)_, pages 1431-1440, July 2024, Washington, D.C.
 
 The table below reports the effectiveness of the models (nDCG@10):
 
-| Corpus                    | Flat   | MF     | S 🫙   | S 🅾️  | Bf 🫙  | Bf 🅾️ | Bh 🫙  | Bh 🅾️ |
-|---------------------------|--------|--------|--------|--------|--------|--------|--------|--------|
-| `trec-covid`              | 0.5947 | 0.6559 | 0.7299 | 0.7299 | 0.7814 | 0.7815 | 0.7834 | 0.7835 |
-| `bioasq`                  | 0.5225 | 0.4646 | 0.5142 | 0.5142 | 0.4149 | 0.4148 | 0.4042 | 0.4042 |
-| `nfcorpus`                | 0.3218 | 0.3254 | 0.3629 | 0.3629 | 0.3735 | 0.3735 | 0.3735 | 0.3735 |
-| `nq`                      | 0.3055 | 0.3285 | 0.5842 | 0.5842 | 0.5413 | 0.5415 | 0.5413 | 0.5415 |
-| `hotpotqa`                | 0.6330 | 0.6027 | 0.6884 | 0.6884 | 0.7259 | 0.7259 | 0.7242 | 0.7241 |
-| `fiqa`                    | 0.2361 | 0.2361 | 0.3798 | 0.3798 | 0.4065 | 0.4065 | 0.4065 | 0.4065 |
-| `signal1m`                | 0.3304 | 0.3304 | 0.2465 | 0.2465 | 0.2886 | 0.2886 | 0.2869 | 0.2869 |
-| `trec-news`               | 0.3952 | 0.3977 | 0.4365 | 0.4365 | 0.4425 | 0.4424 | 0.4411 | 0.4410 |
-| `robust04`                | 0.4070 | 0.4070 | 0.4952 | 0.4952 | 0.4465 | 0.4435 | 0.4467 | 0.4437 |
-| `arguana`                 | 0.3970 | 0.4142 | 0.4872 | 0.4845 | 0.6361 | 0.6228 | 0.6361 | 0.6228 |
-| `webis-touche2020`        | 0.4422 | 0.3673 | 0.3086 | 0.3086 | 0.2570 | 0.2571 | 0.2570 | 0.2571 |
-| `cqadupstack-android`     | 0.3801 | 0.3709 | 0.4109 | 0.4109 | 0.5075 | 0.5076 | 0.5075 | 0.5076 |
-| `cqadupstack-english`     | 0.3453 | 0.3321 | 0.4255 | 0.4255 | 0.4857 | 0.4857 | 0.4855 | 0.4855 |
-| `cqadupstack-gaming`      | 0.4822 | 0.4418 | 0.5193 | 0.5193 | 0.5965 | 0.5967 | 0.5965 | 0.5967 |
-| `cqadupstack-gis`         | 0.2901 | 0.2904 | 0.3236 | 0.3236 | 0.4127 | 0.4131 | 0.4129 | 0.4133 |
-| `cqadupstack-mathematica` | 0.2015 | 0.2046 | 0.2445 | 0.2445 | 0.3163 | 0.3163 | 0.3163 | 0.3163 |
-| `cqadupstack-physics`     | 0.3214 | 0.3248 | 0.3753 | 0.3753 | 0.4722 | 0.4724 | 0.4722 | 0.4724 |
-| `cqadupstack-programmers` | 0.2802 | 0.2963 | 0.3387 | 0.3387 | 0.4242 | 0.4238 | 0.4242 | 0.4238 |
-| `cqadupstack-stats`       | 0.2711 | 0.2790 | 0.3137 | 0.3137 | 0.3732 | 0.3728 | 0.3732 | 0.3728 |
-| `cqadupstack-tex`         | 0.2244 | 0.2086 | 0.2493 | 0.2493 | 0.3115 | 0.3115 | 0.3115 | 0.3115 |
-| `cqadupstack-unix`        | 0.2749 | 0.2788 | 0.3196 | 0.3196 | 0.4219 | 0.4220 | 0.4219 | 0.4220 |
-| `cqadupstack-webmasters`  | 0.3059 | 0.3008 | 0.3250 | 0.3250 | 0.4065 | 0.4072 | 0.4065 | 0.4072 |
-| `cqadupstack-wordpress`   | 0.2483 | 0.2562 | 0.2807 | 0.2807 | 0.3547 | 0.3547 | 0.3547 | 0.3547 |
-| `quora`                   | 0.7886 | 0.7886 | 0.8141 | 0.8141 | 0.8890 | 0.8876 | 0.8890 | 0.8876 |
-| `dbpedia-entity`          | 0.3180 | 0.3128 | 0.4476 | 0.4476 | 0.4074 | 0.4073 | 0.4077 | 0.4076 |
-| `scidocs`                 | 0.1490 | 0.1581 | 0.1567 | 0.1567 | 0.2170 | 0.2172 | 0.2170 | 0.2172 |
-| `fever`                   | 0.6513 | 0.7530 | 0.8015 | 0.8015 | 0.8630 | 0.8629 | 0.8620 | 0.8620 |
-| `climate-fever`           | 0.1651 | 0.2129 | 0.2625 | 0.2625 | 0.3119 | 0.3117 | 0.3119 | 0.3117 |
-| `scifact`                 | 0.6789 | 0.6647 | 0.7140 | 0.7140 | 0.7408 | 0.7408 | 0.7408 | 0.7408 |
+| Corpus                    | BM25 (flat) | BM25 (MF) | SPLADE-v3 | BGE (flat) | BGE (HNSW) |
+|:--------------------------|:-----------:|:---------:|:---------:|:----------:|:----------:|
+| `trec-covid`              |   0.5947    |  0.6559   |  0.7299   |   0.7815   |   0.7835   |
+| `bioasq`                  |   0.5225    |  0.4646   |  0.5142   |   0.4148   |   0.4042   |
+| `nfcorpus`                |   0.3218    |  0.3254   |  0.3629   |   0.3735   |   0.3735   |
+| `nq`                      |   0.3055    |  0.3285   |  0.5842   |   0.5415   |   0.5415   |
+| `hotpotqa`                |   0.6330    |  0.6027   |  0.6884   |   0.7259   |   0.7241   |
+| `fiqa`                    |   0.2361    |  0.2361   |  0.3798   |   0.4065   |   0.4065   |
+| `signal1m`                |   0.3304    |  0.3304   |  0.2465   |   0.2886   |   0.2869   |
+| `trec-news`               |   0.3952    |  0.3977   |  0.4365   |   0.4424   |   0.4410   |
+| `robust04`                |   0.4070    |  0.4070   |  0.4952   |   0.4435   |   0.4437   |
+| `arguana`                 |   0.3970    |  0.4142   |  0.4845   |   0.6228   |   0.6228   |
+| `webis-touche2020`        |   0.4422    |  0.3673   |  0.3086   |   0.2571   |   0.2571   |
+| `cqadupstack-android`     |   0.3801    |  0.3709   |  0.4109   |   0.5076   |   0.5076   |
+| `cqadupstack-english`     |   0.3453    |  0.3321   |  0.4255   |   0.4857   |   0.4855   |
+| `cqadupstack-gaming`      |   0.4822    |  0.4418   |  0.5193   |   0.5967   |   0.5967   |
+| `cqadupstack-gis`         |   0.2901    |  0.2904   |  0.3236   |   0.4131   |   0.4133   |
+| `cqadupstack-mathematica` |   0.2015    |  0.2046   |  0.2445   |   0.3163   |   0.3163   |
+| `cqadupstack-physics`     |   0.3214    |  0.3248   |  0.3753   |   0.4724   |   0.4724   |
+| `cqadupstack-programmers` |   0.2802    |  0.2963   |  0.3387   |   0.4238   |   0.4238   |
+| `cqadupstack-stats`       |   0.2711    |  0.2790   |  0.3137   |   0.3728   |   0.3728   |
+| `cqadupstack-tex`         |   0.2244    |  0.2086   |  0.2493   |   0.3115   |   0.3115   |
+| `cqadupstack-unix`        |   0.2749    |  0.2788   |  0.3196   |   0.4220   |   0.4220   |
+| `cqadupstack-webmasters`  |   0.3059    |  0.3008   |  0.3250   |   0.4072   |   0.4072   |
+| `cqadupstack-wordpress`   |   0.2483    |  0.2562   |  0.2807   |   0.3547   |   0.3547   |
+| `quora`                   |   0.7886    |  0.7886   |  0.8141   |   0.8876   |   0.8876   |
+| `dbpedia-entity`          |   0.3180    |  0.3128   |  0.4476   |   0.4073   |   0.4076   |
+| `scidocs`                 |   0.1490    |  0.1581   |  0.1567   |   0.2172   |   0.2172   |
+| `fever`                   |   0.6513    |  0.7530   |  0.8015   |   0.8629   |   0.8620   |
+| `climate-fever`           |   0.1651    |  0.2129   |  0.2625   |   0.3117   |   0.3117   |
+| `scifact`                 |   0.6789    |  0.6647   |  0.7140   |   0.7408   |   0.7408   |
 
-The following command will reproduce the above experiments:
+The following command will reproduce runs corresponding to the above models (as well as additional ones not included in the table):
 
 ```bash
 java -cp $ANSERINI_JAR io.anserini.reproduce.RunBeir
 ```
 
-To print out the commands that will generate the above runs without performing the runs, use the options `-dryRun -printCommands`.
+To print out the commands that will generate runs for all available models (without actually performing the runs), use the options `-dryRun -printCommands`.
 
 ## BRIGHT
 
-❗ Beware, running these experiments will automatically download 24 indexes totaling 1.7 GB.
+❗ Beware, running these experiments will automatically download 36 indexes totaling 6.8 GB.
 
 BRIGHT is a retrieval benchmark described [here](https://arxiv.org/abs/2407.12883).
 The following table reports nDCG@10 scores.
 
-+ Sv3 = SPLADE-v3 with ONNX query encoding
++ BM25
++ SPLADE-v3: SPLADE-v3 with ONNX query encoding
++ BGE (flat): BGE-large-en-v1.5 using flat vector indexes with ONNX query encoding
 
-| Corpus                    |    BM25    |    Sv3     |
-|---------------------------|:----------:|:----------:|
-| **StackExchange**         |            |            |
-| Biology                   |   0.1824   |   0.2101   |
-| Earth Science             |   0.2791   |   0.2670   |
-| Economics                 |   0.1645   |   0.1604   |
-| Psychology                |   0.1342   |   0.1527   |
-| Robotics                  |   0.1091   |   0.1578   |
-| Stack Overflow            |   0.1626   |   0.1290   |
-| Sustainable Living        |   0.1613   |   0.1497   |
-| **StackExchange** average | **0.1705** | **0.1752** |
-| &nbsp;                    |            |            |
-| **Coding**                |            |            |
-| LeetCode                  |   0.2471   |   0.2603   |
-| Pony                      |   0.0434   |   0.1440   |
-| **Coding** average        | **0.1453** | **0.2022** |
-| &nbsp;                    |            |            |
-| **Theorems**              |            |            |
-| AoPS                      |   0.0645   |   0.0692   |
-| TheoremQA-Q               |   0.0733   |   0.1113   |
-| TheoremQA-T               |   0.0214   |   0.0554   |
-| **Theorems** average      | **0.0531** | **0.0786** |
-| &nbsp;                    |            |            |
-| **Overall average**       | **0.1369** | **0.1556** |
+| Corpus                    |    BM25    | SPLADE-v3  | BGE (flat) |
+|---------------------------|:----------:|:----------:|:----------:|
+| **StackExchange**         |            |            |            |
+| Biology                   |   0.1824   |   0.2101   |   0.1242   |
+| Earth Science             |   0.2791   |   0.2670   |   0.2545   |
+| Economics                 |   0.1645   |   0.1604   |   0.1662   |
+| Psychology                |   0.1342   |   0.1527   |   0.1805   |
+| Robotics                  |   0.1091   |   0.1578   |   0.1230   |
+| Stack Overflow            |   0.1626   |   0.1290   |   0.1099   |
+| Sustainable Living        |   0.1613   |   0.1497   |   0.1440   |
+| **StackExchange** average | **0.1705** | **0.1752** | **0.1575** |
+| &nbsp;                    |            |            |            |
+| **Coding**                |            |            |            |
+| LeetCode                  |   0.2471   |   0.2603   |   0.2668   |
+| Pony                      |   0.0434   |   0.1440   |   0.0338   |
+| **Coding** average        | **0.1453** | **0.2022** | **0.1503** |
+| &nbsp;                    |            |            |            |
+| **Theorems**              |            |            |            |
+| AoPS                      |   0.0645   |   0.0692   |   0.0638   |
+| TheoremQA-Q               |   0.0733   |   0.1113   |   0.1411   |
+| TheoremQA-T               |   0.0214   |   0.0554   |   0.0532   |
+| **Theorems** average      | **0.0531** | **0.0786** | **0.0860** |
+| &nbsp;                    |            |            |            |
+| **Overall average**       | **0.1369** | **0.1556** | **0.1384** |
 
-The following command will reproduce the above experiments:
+The following command will reproduce runs corresponding to the above models (as well as additional ones not included in the table):
 
 ```bash
 java -cp $ANSERINI_JAR io.anserini.reproduce.RunBright
 ```
 
-To print out the commands that will generate the above runs without performing the runs, use the options `-dryRun -printCommands`.
+To print out the commands that will generate runs for all available models (without actually performing the runs), use the options `-dryRun -printCommands`.
