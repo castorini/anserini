@@ -50,26 +50,26 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.bright-earth-science/ \
   -topics tools/topics-and-qrels/topics.bright-earth-science.tsv.gz \
   -topicReader TsvString \
-  -output runs/run.bright-earth-science.bm25.topics.bright-earth-science.txt \
+  -output runs/run.bright-earth-science.bm25query.topics.bright-earth-science.txt \
   -bm25 -bm25query -removeQuery -hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.bright-earth-science.txt runs/run.bright-earth-science.bm25.topics.bright-earth-science.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.bright-earth-science.txt runs/run.bright-earth-science.bm25.topics.bright-earth-science.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.bright-earth-science.txt runs/run.bright-earth-science.bm25.topics.bright-earth-science.txt
+bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.bright-earth-science.txt runs/run.bright-earth-science.bm25query.topics.bright-earth-science.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.bright-earth-science.txt runs/run.bright-earth-science.bm25query.topics.bright-earth-science.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.bright-earth-science.txt runs/run.bright-earth-science.bm25query.topics.bright-earth-science.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@10**                                                                                                  | **BM25**  |
+| **nDCG@10**                                                                                                  | **query-side-BM25**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | BRIGHT: Earth Science                                                                                        | 0.2789    |
-| **R@100**                                                                                                    | **BM25**  |
+| **R@100**                                                                                                    | **query-side-BM25**|
 | BRIGHT: Earth Science                                                                                        | 0.6013    |
-| **R@1000**                                                                                                   | **BM25**  |
+| **R@1000**                                                                                                   | **query-side-BM25**|
 | BRIGHT: Earth Science                                                                                        | 0.8418    |

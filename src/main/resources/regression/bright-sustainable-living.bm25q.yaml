@@ -43,8 +43,8 @@ topics:
     qrel: qrels.bright-sustainable-living.txt
 
 models:
-  - name: bm25
-    display: BM25
+  - name: bm25query
+    display: query-side-BM25
     params: -bm25 -bm25query -removeQuery -hits 1000
     results:
       nDCG@10:

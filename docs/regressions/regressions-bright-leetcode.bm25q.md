@@ -50,26 +50,26 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.bright-leetcode/ \
   -topics tools/topics-and-qrels/topics.bright-leetcode.tsv.gz \
   -topicReader TsvString \
-  -output runs/run.bright-leetcode.bm25.topics.bright-leetcode.txt \
+  -output runs/run.bright-leetcode.bm25query.topics.bright-leetcode.txt \
   -bm25 -bm25query -removeQuery -hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.bright-leetcode.txt runs/run.bright-leetcode.bm25.topics.bright-leetcode.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.bright-leetcode.txt runs/run.bright-leetcode.bm25.topics.bright-leetcode.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.bright-leetcode.txt runs/run.bright-leetcode.bm25.topics.bright-leetcode.txt
+bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.bright-leetcode.txt runs/run.bright-leetcode.bm25query.topics.bright-leetcode.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.bright-leetcode.txt runs/run.bright-leetcode.bm25query.topics.bright-leetcode.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.bright-leetcode.txt runs/run.bright-leetcode.bm25query.topics.bright-leetcode.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@10**                                                                                                  | **BM25**  |
+| **nDCG@10**                                                                                                  | **query-side-BM25**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | BRIGHT: LeetCode                                                                                             | 0.2497    |
-| **R@100**                                                                                                    | **BM25**  |
+| **R@100**                                                                                                    | **query-side-BM25**|
 | BRIGHT: LeetCode                                                                                             | 0.5376    |
-| **R@1000**                                                                                                   | **BM25**  |
+| **R@1000**                                                                                                   | **query-side-BM25**|
 | BRIGHT: LeetCode                                                                                             | 0.8673    |

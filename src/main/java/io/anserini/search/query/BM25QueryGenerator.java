@@ -68,8 +68,6 @@ public class BM25QueryGenerator extends QueryGenerator {
         float termFrequency = collect.get(t);
         long docFreq = IndexReaderUtils.getDF(indexReader, t);
         float idf = (float) Math.log(1 + (n - docFreq + 0.5) / (docFreq + 0.5));
-        // float idf = (float)Math.log(n + 1.0) - (float)Math.log(docFreq + 0.5);
-        // System.out.println("term: " + t + " idf: " + idf);
         float score = idf * (termFrequency / (termFrequency + k1 * (1 - b + b * (tokens.size() / avgLength))));
         builder.add(new BoostQuery(new TermQuery(new Term(field, t)), score),
             BooleanClause.Occur.SHOULD);

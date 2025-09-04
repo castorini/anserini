@@ -50,26 +50,26 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.bright-stackoverflow/ \
   -topics tools/topics-and-qrels/topics.bright-stackoverflow.tsv.gz \
   -topicReader TsvString \
-  -output runs/run.bright-stackoverflow.bm25.topics.bright-stackoverflow.txt \
+  -output runs/run.bright-stackoverflow.bm25query.topics.bright-stackoverflow.txt \
   -bm25 -bm25query -removeQuery -hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.bright-stackoverflow.txt runs/run.bright-stackoverflow.bm25.topics.bright-stackoverflow.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.bright-stackoverflow.txt runs/run.bright-stackoverflow.bm25.topics.bright-stackoverflow.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.bright-stackoverflow.txt runs/run.bright-stackoverflow.bm25.topics.bright-stackoverflow.txt
+bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.bright-stackoverflow.txt runs/run.bright-stackoverflow.bm25query.topics.bright-stackoverflow.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.bright-stackoverflow.txt runs/run.bright-stackoverflow.bm25query.topics.bright-stackoverflow.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.bright-stackoverflow.txt runs/run.bright-stackoverflow.bm25query.topics.bright-stackoverflow.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@10**                                                                                                  | **BM25**  |
+| **nDCG@10**                                                                                                  | **query-side-BM25**|
 |:-------------------------------------------------------------------------------------------------------------|-----------|
 | BRIGHT: Stack Overflow                                                                                       | 0.1855    |
-| **R@100**                                                                                                    | **BM25**  |
+| **R@100**                                                                                                    | **query-side-BM25**|
 | BRIGHT: Stack Overflow                                                                                       | 0.4631    |
-| **R@1000**                                                                                                   | **BM25**  |
+| **R@1000**                                                                                                   | **query-side-BM25**|
 | BRIGHT: Stack Overflow                                                                                       | 0.7414    |
