@@ -16,18 +16,18 @@
 
 package io.anserini.util;
 
-import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class FeatureVector {
-  private Object2FloatOpenHashMap<String> features = new Object2FloatOpenHashMap<String>();
+  private Map<String, Float> features = new HashMap<>();
 
   public enum Order {
     FEATURE_DESCENDING, FEATURE_ASCENDING, VALUE_DESCENDING, VALUE_ASCENDING
@@ -36,16 +36,12 @@ public class FeatureVector {
   public FeatureVector() {}
 
   public void addFeatureValue(String feature, float value) {
-    if (!features.containsKey(feature)) {
-      features.put(feature, value);
-    } else {
-      features.put(feature, features.getFloat(feature) + value);
-    }
+    features.put(feature, features.getOrDefault(feature, 0.0f) + value);
   }
 
   public FeatureVector pruneToSize(int k) {
     List<FeatureValuePair> pairs = getOrderedFeatures();
-    Object2FloatOpenHashMap<String> pruned = new Object2FloatOpenHashMap<>();
+    Map<String, Float> pruned = new HashMap<>();
 
     for (FeatureValuePair pair : pairs) {
       pruned.put(pair.getFeature(), pair.getValue());
@@ -60,8 +56,8 @@ public class FeatureVector {
 
   public FeatureVector scaleToUnitL2Norm() {
     double norm = computeL2Norm();
-    for (String f : features.keySet()) {
-      features.put(f, (float) (features.getFloat(f) / norm));
+    for (Map.Entry<String, Float> e : features.entrySet()) {
+      e.setValue((float) (e.getValue() / norm));
     }
 
     return this;
@@ -69,8 +65,8 @@ public class FeatureVector {
 
   public FeatureVector scaleToUnitL1Norm() {
     double norm = computeL1Norm();
-    for (String f : features.keySet()) {
-      features.put(f, (float) (features.getFloat(f) / norm));
+    for (Map.Entry<String, Float> e : features.entrySet()) {
+      e.setValue((float) (e.getValue() / norm));
     }
 
     return this;
@@ -81,7 +77,7 @@ public class FeatureVector {
   }
 
   public float getValue(String feature) {
-    return features.containsKey(feature) ? features.getFloat(feature) : 0.0f;
+    return features.getOrDefault(feature, 0.0f);
   }
 
   public Iterator<String> iterator() {
@@ -95,7 +91,7 @@ public class FeatureVector {
   public double computeL2Norm() {
     double norm = 0.0;
     for (String term : features.keySet()) {
-      norm += Math.pow(features.getFloat(term), 2.0);
+      norm += Math.pow(features.getOrDefault(term, 0.0f), 2.0);
     }
     return Math.sqrt(norm);
   }
@@ -103,7 +99,7 @@ public class FeatureVector {
   public double computeL1Norm() {
     double norm = 0.0;
     for (String term : features.keySet()) {
-      norm += Math.abs(features.getFloat(term));
+      norm += Math.abs(features.getOrDefault(term, 0.0f));
     }
     return norm;
   }
@@ -125,7 +121,7 @@ public class FeatureVector {
     Iterator<String> featureIterator = features.keySet().iterator();
     while (featureIterator.hasNext()) {
       String feature = featureIterator.next();
-      float value = features.getFloat(feature);
+      float value = features.getOrDefault(feature, 0.0f);
       FeatureValuePair featureValuePair = new FeatureValuePair(feature, value);
       pairs.add(featureValuePair);
     }
