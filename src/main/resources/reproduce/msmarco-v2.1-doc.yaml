@@ -8,40 +8,40 @@ conditions:
       - topic_key: msmarco-v2-doc.dev
         eval_key: msmarco-v2.1-doc.dev
         scores:
-          - MRR@10: 0.1654
+          - MRR@100: 0.1654
       - topic_key: msmarco-v2-doc.dev2
         eval_key: msmarco-v2.1-doc.dev2
         scores:
-          - MRR@10: 0.1732
+          - MRR@100: 0.1732
       - topic_key: dl21-doc
         eval_key: dl21-doc-msmarco-v2.1
         scores:
-          - MAP: 0.2281
-            MRR@10: 0.8466
+          - MAP@100: 0.2281
+            MRR@100: 0.8466
             nDCG@10: 0.5183
             R@100: 0.3502
             R@1K: 0.6915
       - topic_key: dl22-doc
         eval_key: dl22-doc-msmarco-v2.1
         scores:
-          - MAP: 0.0841
-            MRR@10: 0.6623
+          - MAP@100: 0.0841
+            MRR@100: 0.6623
             nDCG@10: 0.2991
             R@100: 0.1866
             R@1K: 0.4254
       - topic_key: dl23-doc
         eval_key: dl23-doc-msmarco-v2.1
         scores:
-          - MAP: 0.1089
-            MRR@10: 0.5783
+          - MAP@100: 0.1089
+            MRR@100: 0.5783
             nDCG@10: 0.2914
             R@100: 0.2604
             R@1K: 0.5383
       - topic_key: rag24.raggy-dev
         eval_key: rag24.raggy-dev
         scores:
-          - MAP: 0.1251
-            MRR@10: 0.7060
+          - MAP@100: 0.1251
+            MRR@100: 0.7060
             nDCG@10: 0.3631
             R@100: 0.2433
             R@1K: 0.5317
@@ -54,40 +54,40 @@ conditions:
       - topic_key: msmarco-v2-doc.dev
         eval_key: msmarco-v2.1-doc.dev
         scores:
-          - MRR@10: 0.1973
+          - MRR@100: 0.1973
       - topic_key: msmarco-v2-doc.dev2
         eval_key: msmarco-v2.1-doc.dev2
         scores:
-          - MRR@10: 0.2000
+          - MRR@100: 0.2000
       - topic_key: dl21-doc
         eval_key: dl21-doc-msmarco-v2.1
         scores:
-          - MAP: 0.2609
-            MRR@10: 0.9026
+          - MAP@100: 0.2609
+            MRR@100: 0.9026
             nDCG@10: 0.5778
             R@100: 0.3811
             R@1K: 0.7115
       - topic_key: dl22-doc
         eval_key: dl22-doc-msmarco-v2.1
         scores:
-          - MAP: 0.1079
-            MRR@10: 0.7213
+          - MAP@100: 0.1079
+            MRR@100: 0.7213
             nDCG@10: 0.3576
             R@100: 0.2330
             R@1K: 0.4790
       - topic_key: dl23-doc
         eval_key: dl23-doc-msmarco-v2.1
         scores:
-          - MAP: 0.1391
-            MRR@10: 0.6519
+          - MAP@100: 0.1391
+            MRR@100: 0.6519
             nDCG@10: 0.3356
             R@100: 0.3049
             R@1K: 0.5852
       - topic_key: rag24.raggy-dev
         eval_key: rag24.raggy-dev
         scores:
-          - MAP: 0.1561
-            MRR@10: 0.7465
+          - MAP@100: 0.1561
+            MRR@100: 0.7465
             nDCG@10: 0.4227
             R@100: 0.2807
             R@1K: 0.5745
