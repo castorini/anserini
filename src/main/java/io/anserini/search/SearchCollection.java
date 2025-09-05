@@ -249,14 +249,19 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     // -------------------
 
     @Option(name = "-bm25",
-        forbids = {"-impact", "-bm25.accurate", "-qld", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
+        forbids = {"-impact", "-bm25.accurate", "-bm25.querySide", "-qld", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
         usage = "ranking model: BM25")
     public boolean bm25 = false;
 
     @Option(name = "-bm25.accurate",
-        forbids = {"-impact", "-bm25", "-qld", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
+        forbids = {"-impact", "-bm25", "-bm25.querySide", "-qld", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
         usage = "BM25: use accurate document lengths")
     public boolean bm25Accurate = false;
+
+    @Option(name = "-bm25.querySide", 
+        forbids = {"-impact", "-bm25", "-bm25.accurate", "-qld", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
+        usage = "boolean switch to apply query-side BM25")
+    public boolean bm25q = false;
 
     // BM25 parameters: Robertson et al. (TREC 4) propose the range of 1.0-2.0 for k1 and 0.6-0.75 for b, with k1 = 1.2
     // and b = 0.75 being a very common setting. Empirically, these values don't work very well for modern collections.
@@ -270,12 +275,6 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
 
     @Option(name = "-bm25.b", handler = StringArrayOptionHandler.class, usage = "BM25: b parameter")
     public String[] bm25_b = new String[]{"0.4"};
-
-    // -------------------
-    // whether to apply BM25 on the query
-    // -------------------
-    @Option(name = "-bm25query", usage = "boolean switch to apply BM25 on the query")
-    public boolean bm25q = false;
 
     // --------------------------------------------------------
     // ranking model: query likelihood with Dirichlet smoothing
@@ -514,6 +513,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       this.impact = true;
       this.bm25 = false;
       this.bm25Accurate = false;
+      this.bm25q = false;
       this.qld = false;
       this.qljm = false;
       this.inl2 = false;
@@ -528,6 +528,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       this.impact = false;
       this.bm25 = true;
       this.bm25Accurate = false;
+      this.bm25q = false;
       this.qld = false;
       this.qljm = false;
       this.inl2 = false;
@@ -542,6 +543,22 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       this.impact = false;
       this.bm25 = false;
       this.bm25Accurate = true;
+      this.bm25q = false;
+      this.qld = false;
+      this.qljm = false;
+      this.inl2 = false;
+      this.spl = false;
+      this.f2exp = false;
+      this.f2log = false;
+
+      return this;
+    }
+
+    public Args bm25QuerySide() {
+      this.impact = false;
+      this.bm25 = false;
+      this.bm25Accurate = false;
+      this.bm25q = true;
       this.qld = false;
       this.qljm = false;
       this.inl2 = false;
@@ -556,6 +573,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       this.impact = false;
       this.bm25 = false;
       this.bm25Accurate = false;
+      this.bm25q = false;
       this.qld = true;
       this.qljm = false;
       this.inl2 = false;
@@ -570,6 +588,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       this.impact = false;
       this.bm25 = false;
       this.bm25Accurate = false;
+      this.bm25q = false;
       this.qld = false;
       this.qljm = true;
       this.inl2 = false;
@@ -584,6 +603,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       this.impact = false;
       this.bm25 = false;
       this.bm25Accurate = false;
+      this.bm25q = false;
       this.qld = false;
       this.qljm = false;
       this.inl2 = true;
@@ -598,6 +618,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       this.impact = false;
       this.bm25 = false;
       this.bm25Accurate = false;
+      this.bm25q = false;
       this.qld = false;
       this.qljm = false;
       this.inl2 = false;
@@ -612,6 +633,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       this.impact = false;
       this.bm25 = false;
       this.bm25Accurate = false;
+      this.bm25q = false;
       this.qld = false;
       this.qljm = false;
       this.inl2 = false;
@@ -626,6 +648,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       this.impact = false;
       this.bm25 = false;
       this.bm25Accurate = false;
+      this.bm25q = false;
       this.qld = false;
       this.qljm = false;
       this.inl2 = false;
@@ -1089,7 +1112,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
   private List<TaggedSimilarity> constructSimilarities() {
     List<TaggedSimilarity> similarities = new ArrayList<>();
 
-    if (args.bm25) {
+    if (args.bm25 || args.bm25q) {
       for (String k1 : args.bm25_k1) {
         for (String b : args.bm25_b) {
           similarities.add(new TaggedSimilarity(new BM25Similarity(Float.parseFloat(k1), Float.parseFloat(b)),
