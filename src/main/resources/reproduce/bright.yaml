@@ -53,10 +53,10 @@ conditions:
         eval_key: bright-theoremqa-theorems
         scores:
           - nDCG@10: 0.0214
-  - name: bm25q
+  - name: bm25qs
     display_html: "BM25, query-side BM25 baseline"
     display_row: ""
-    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index bright-$topics -topics bright-$topics -output $output -bm25 -bm25query -removeQuery
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index bright-$topics -topics bright-$topics -output $output -bm25.querySide -removeQuery
     topics:
       - topic_key: biology
         eval_key: bright-biology

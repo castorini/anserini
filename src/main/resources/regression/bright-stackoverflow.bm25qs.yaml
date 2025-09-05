@@ -1,16 +1,16 @@
 ---
-corpus: bright-aops
-corpus_path: collections/bright/aops
+corpus: bright-stackoverflow
+corpus_path: collections/bright/corpus/stackoverflow
 
-index_path: indexes/lucene-inverted.bright-aops/
+index_path: indexes/lucene-inverted.bright-stackoverflow/
 collection_class: JsonCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 1
 index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
-  documents: 188002
-  documents (non-empty): 188002
-  total terms: 20699175
+  documents: 107081
+  documents (non-empty): 106075
+  total terms: 12612557
 
 metrics:
   - metric: nDCG@10
@@ -37,19 +37,19 @@ metrics:
 
 topic_reader: TsvString
 topics:
-  - name: "BRIGHT: AoPS"
+  - name: "BRIGHT: Stack Overflow"
     id: topics
-    path: topics.bright-aops.tsv.gz
-    qrel: qrels.bright-aops.txt
+    path: topics.bright-stackoverflow.tsv.gz
+    qrel: qrels.bright-stackoverflow.txt
 
 models:
-  - name: bm25query
+  - name: bm25qs
     display: query-side-BM25
-    params: -bm25 -bm25.querySide -removeQuery -hits 1000
+    params: -bm25.querySide -removeQuery -hits 1000
     results:
       nDCG@10:
-        - 0.0627
+        - 0.1855
       R@100:
-        - 0.2174
+        - 0.4631
       R@1000:
-        - 0.4085
+        - 0.7414

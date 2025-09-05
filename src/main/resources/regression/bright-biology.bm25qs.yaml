@@ -1,17 +1,17 @@
 ---
-corpus: bright-sustainable-living
-corpus_path: collections/bright/sustainable-living
+corpus: bright-biology
+corpus_path: collections/bright/corpus/biology
 
-index_path: indexes/lucene-inverted.bright-sustainable-living/
+index_path: indexes/lucene-inverted.bright-biology/
 collection_class: JsonCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 1
 index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
-  documents: 60792
-  documents (non-empty): 60179
-  total terms: 2359358
-
+  documents: 57359
+  documents (non-empty): 57030
+  total terms: 2133799
+  
 metrics:
   - metric: nDCG@10
     command: bin/trec_eval
@@ -37,19 +37,19 @@ metrics:
 
 topic_reader: TsvString
 topics:
-  - name: "BRIGHT: Sustainable Living"
+  - name: "BRIGHT: Biology"
     id: topics
-    path: topics.bright-sustainable-living.tsv.gz
-    qrel: qrels.bright-sustainable-living.txt
+    path: topics.bright-biology.tsv.gz
+    qrel: qrels.bright-biology.txt
 
 models:
-  - name: bm25query
+  - name: bm25qs
     display: query-side-BM25
-    params: -bm25 -bm25.querySide -removeQuery -hits 1000
+    params: -bm25.querySide -removeQuery -hits 1000
     results:
       nDCG@10:
-        - 0.1515
+        - 0.1972
       R@100:
-        - 0.4653
+        - 0.4583
       R@1000:
-        - 0.7294
+        - 0.7638

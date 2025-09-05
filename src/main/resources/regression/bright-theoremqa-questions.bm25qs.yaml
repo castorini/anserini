@@ -1,16 +1,16 @@
 ---
-corpus: bright-economics
-corpus_path: collections/bright/economics
+corpus: bright-theoremqa-questions
+corpus_path: collections/bright/corpus/theoremqa-questions
 
-index_path: indexes/lucene-inverted.bright-economics/
+index_path: indexes/lucene-inverted.bright-theoremqa-questions/
 collection_class: JsonCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 1
 index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
-  documents: 50220
-  documents (non-empty): 49472
-  total terms: 2209688
+  documents: 188002
+  documents (non-empty): 188002
+  total terms: 20699175
 
 metrics:
   - metric: nDCG@10
@@ -37,19 +37,19 @@ metrics:
 
 topic_reader: TsvString
 topics:
-  - name: "BRIGHT: Economics"
+  - name: "BRIGHT: TheoremQA-Q"
     id: topics
-    path: topics.bright-economics.tsv.gz
-    qrel: qrels.bright-economics.txt
+    path: topics.bright-theoremqa-questions.tsv.gz
+    qrel: qrels.bright-theoremqa-questions.txt
 
 models:
-  - name: bm25query
+  - name: bm25qs
     display: query-side-BM25
-    params: -bm25 -bm25.querySide -removeQuery -hits 1000
+    params: -bm25.querySide -removeQuery -hits 1000
     results:
       nDCG@10:
-        - 0.1518
+        - 0.1036
       R@100:
-        - 0.3774
+        - 0.2119
       R@1000:
-        - 0.7140
+        - 0.4027
