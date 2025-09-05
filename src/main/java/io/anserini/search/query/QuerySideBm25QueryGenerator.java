@@ -73,8 +73,7 @@ public class QuerySideBm25QueryGenerator extends QueryGenerator {
             BooleanClause.Occur.SHOULD);
       }
       return builder.build();
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       throw new RuntimeException("Error building BM25 query", e);
     }
   }
