@@ -35,15 +35,15 @@ import io.anserini.index.Constants;
 import io.anserini.index.IndexReaderUtils;
 
 /*
- * Bag of Terms query builder
+ * Query-side BM25 query builder
  */
-public class BM25QueryGenerator extends QueryGenerator {
+public class QuerySideBm25QueryGenerator extends QueryGenerator {
   private final float k1;
   private final float b;
   private final IndexReader indexReader;
   private final float avgLength;
 
-  public BM25QueryGenerator(float k1, float b, IndexReader indexReader) {
+  public QuerySideBm25QueryGenerator(float k1, float b, IndexReader indexReader) {
     this.k1 = k1;
     this.b = b;
     this.indexReader = indexReader;

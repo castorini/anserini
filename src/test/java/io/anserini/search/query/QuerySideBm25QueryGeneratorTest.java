@@ -33,14 +33,14 @@ import java.nio.file.Path;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class BM25QueryGeneratorTest {
+public class QuerySideBm25QueryGeneratorTest {
   @Test
   public void test1() throws IOException {
     String TEST_INDEX = "beir-v1.0.0-nfcorpus.flat";
     Analyzer analyzer = IndexCollection.DEFAULT_ANALYZER;
     Path indexPath = IndexReaderUtils.getIndex(TEST_INDEX);
     IndexReader reader = DirectoryReader.open(FSDirectory.open(indexPath));
-    QueryGenerator queryGenerator = new BM25QueryGenerator(0.9f, 0.4f, reader);
+    QueryGenerator queryGenerator = new QuerySideBm25QueryGenerator(0.9f, 0.4f, reader);
     Query query = queryGenerator.buildQuery("contents", analyzer, "Do Cholesterol Statin Drugs Cause Breast Cancer?");
 
     assertEquals("(contents:caus)^1.1822546 (contents:statin)^3.1420643 (contents:cholesterol)^1.6210032 (contents:cancer)^0.98464656 (contents:do)^2.0192628 (contents:breast)^1.6456642 (contents:drug)^1.7181631", query.toString());

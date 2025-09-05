@@ -40,8 +40,8 @@ import io.anserini.rerank.lib.NewsBackgroundLinkingReranker;
 import io.anserini.rerank.lib.Rm3Reranker;
 import io.anserini.rerank.lib.RocchioReranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
-import io.anserini.search.query.BM25QueryGenerator;
 import io.anserini.search.query.QueryGenerator;
+import io.anserini.search.query.QuerySideBm25QueryGenerator;
 import io.anserini.search.query.SdmQueryGenerator;
 import io.anserini.search.similarity.AccurateBM25Similarity;
 import io.anserini.search.similarity.ImpactSimilarity;
@@ -646,7 +646,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
   private final class Searcher<T extends Comparable<T>> extends BaseSearcher<T> {
     private final QueryGenerator generator;
     private final SdmQueryGenerator sdmQueryGenerator;
-    private final BM25QueryGenerator bm25QueryGenerator;
+    private final QuerySideBm25QueryGenerator querySideBm25QueryGenerator;
     private final Args args;
 
     public Searcher(IndexSearcher searcher, TaggedSimilarity taggedSimilarity, Args args) {
@@ -656,7 +656,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       getIndexSearcher().setSimilarity(taggedSimilarity.getSimilarity());
 
       this.sdmQueryGenerator = new SdmQueryGenerator(((Args) args).sdm_tw, ((Args) args).sdm_ow, ((Args) args).sdm_uw);
-      this.bm25QueryGenerator = new BM25QueryGenerator(Float.parseFloat(args.bm25_k1[0]), Float.parseFloat(args.bm25_b[0]), reader);
+      this.querySideBm25QueryGenerator = new QuerySideBm25QueryGenerator(Float.parseFloat(args.bm25_k1[0]), Float.parseFloat(args.bm25_b[0]), reader);
 
       try {
         generator = (QueryGenerator) Class.forName("io.anserini.search.query." + ((Args) args).queryGenerator)
@@ -676,7 +676,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       if (args.sdm) {
         query = sdmQueryGenerator.buildQuery(Constants.CONTENTS, analyzer, queryString);
       } else if (args.bm25q) {
-        query = bm25QueryGenerator.buildQuery(Constants.CONTENTS, analyzer, queryString);
+        query = querySideBm25QueryGenerator.buildQuery(Constants.CONTENTS, analyzer, queryString);
       } else {
         // If fieldsMap isn't null, then it means that the -fields option is specified. In this case, we search across
         // multiple fields with the associated boosts.
