@@ -31,7 +31,9 @@ bright_keys = {
 
 doc_template1 = """# Anserini Regressions: BRIGHT &mdash; {corpus_long}
 
-This page documents BM25 regression experiments for [BRIGHT &mdash; {corpus_long}](https://brightbenchmark.github.io/).
+This page documents BM25 regression experiments for [BRIGHT &mdash; {corpus_long}](https://brightbenchmark.github.io/) with query-side BM25, as described in the following paper:
+
+> Yijun Ge, Sahel Sharifymoghaddam, and Jimmy Lin. [Lighting the Way for BRIGHT: Reproducible Baselines with Anserini, Pyserini, and RankLLM.](https://arxiv.org/abs/2509.02558) _arXiv:2509.02558_, 2025.
 
 """
 
@@ -89,7 +91,7 @@ ${effectiveness}
 """
 
 for key in bright_keys:
-    with open(f'src/main/resources/docgen/templates/bright-{key}.template', 'w') as file:
+    with open(f'src/main/resources/docgen/templates/bright-{key}.bm25q.template', 'w') as file:
         formatted = doc_template1.format(corpus_long=bright_keys[key])
         print(f'Writing doc template for {key}...')
         file.write(formatted)
