@@ -67,11 +67,11 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl20-doc.txt runs/r
 With the above commands, you should be able to reproduce the following results:
 
 | **AP@100**                                                                                                   | **BM25 (default)**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.3809    |
+|:-------------------------------------------------------------------------------------------------------------|-------------------|
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.3809            |
 | **nDCG@10**                                                                                                  | **BM25 (default)**|
-| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.5422    |
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.5422            |
 | **R@100**                                                                                                    | **BM25 (default)**|
-| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.6074    |
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.6074            |
 | **R@1000**                                                                                                   | **BM25 (default)**|
-| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.8147    |
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.8147            |

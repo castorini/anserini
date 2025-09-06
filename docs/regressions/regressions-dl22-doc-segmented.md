@@ -97,13 +97,13 @@ bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 tools/topics-and-qrels/q
 With the above commands, you should be able to reproduce the following results:
 
 | **MAP@100**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
-| [DL22 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.1036    | 0.1260    | 0.1281    |
+|:-------------------------------------------------------------------------------------------------------------|-------------------|-----------|-------------|
+| [DL22 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.1036            | 0.1260    | 0.1281      |
 | **MRR@100**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [DL22 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.7163    | 0.7464    | 0.7510    |
+| [DL22 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.7163            | 0.7464    | 0.7510      |
 | **nDCG@10**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [DL22 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.3618    | 0.3834    | 0.3960    |
+| [DL22 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.3618            | 0.3834    | 0.3960      |
 | **R@100**                                                                                                    | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [DL22 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.2192    | 0.2380    | 0.2414    |
+| [DL22 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.2192            | 0.2380    | 0.2414      |
 | **R@1000**                                                                                                   | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [DL22 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.4664    | 0.5114    | 0.5203    |
+| [DL22 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.4664            | 0.5114    | 0.5203      |

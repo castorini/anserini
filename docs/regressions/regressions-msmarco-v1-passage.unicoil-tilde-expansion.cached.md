@@ -98,14 +98,14 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev
 With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **uniCOIL (with TILDE expansions)**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3561    |
+|:-------------------------------------------------------------------------------------------------------------|------------------------------------|
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3561                             |
 | **RR@10**                                                                                                    | **uniCOIL (with TILDE expansions)**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3496    |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3496                             |
 | **R@100**                                                                                                    | **uniCOIL (with TILDE expansions)**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.8678    |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.8678                             |
 | **R@1000**                                                                                                   | **uniCOIL (with TILDE expansions)**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9646    |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9646                             |
 
 The above runs are in TREC output format and evaluated with `trec_eval`.
 In order to reproduce results reported in the paper, we need to convert to MS MARCO output format and then evaluate:

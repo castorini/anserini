@@ -73,11 +73,11 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.bright-earth-scienc
 With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **BGE-large-en-v1.5**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BRIGHT: Earth Science                                                                                        | 0.2545    |
+|:-------------------------------------------------------------------------------------------------------------|----------------------|
+| BRIGHT: Earth Science                                                                                        | 0.2545               |
 | **R@100**                                                                                                    | **BGE-large-en-v1.5**|
-| BRIGHT: Earth Science                                                                                        | 0.5399    |
+| BRIGHT: Earth Science                                                                                        | 0.5399               |
 | **R@1000**                                                                                                   | **BGE-large-en-v1.5**|
-| BRIGHT: Earth Science                                                                                        | 0.7441    |
+| BRIGHT: Earth Science                                                                                        | 0.7441               |
 
 With ONNX query encoding on non-quantized flat indexes, observed results may differ slightly (typically, lower), but scores should generally be within 0.001 of the results reported above (with some outliers).

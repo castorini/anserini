@@ -96,14 +96,14 @@ bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.t
 With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **OpenAI-ada2**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.477     |
+|:-------------------------------------------------------------------------------------------------------------|----------------|
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.477          |
 | **nDCG@10**                                                                                                  | **OpenAI-ada2**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.676     |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.676          |
 | **R@100**                                                                                                    | **OpenAI-ada2**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.724     |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.724          |
 | **R@1000**                                                                                                   | **OpenAI-ada2**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.871     |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.871          |
 
 The above figures are from running brute-force search with cached queries on non-quantized **flat** indexes.
 With cached queries on quantized HNSW indexes, observed results are likely to differ; scores may be lower by up to 0.01, sometimes more.

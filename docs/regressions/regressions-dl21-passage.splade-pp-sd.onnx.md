@@ -128,13 +128,13 @@ bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl21-passage.t
 With the above commands, you should be able to reproduce the following results:
 
 | **MAP@100**                                                                                                  | **SPLADE++ CoCondenser-SelfDistil**| **+RM3**  | **+Rocchio**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
-| [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.3253    | 0.3430    | 0.3452    |
+|:-------------------------------------------------------------------------------------------------------------|------------------------------------|-----------|-------------|
+| [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.3253                             | 0.3430    | 0.3452      |
 | **MRR@100**                                                                                                  | **SPLADE++ CoCondenser-SelfDistil**| **+RM3**  | **+Rocchio**|
-| [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.8080    | 0.8138    | 0.8231    |
+| [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.8080                             | 0.8138    | 0.8231      |
 | **nDCG@10**                                                                                                  | **SPLADE++ CoCondenser-SelfDistil**| **+RM3**  | **+Rocchio**|
-| [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.6806    | 0.6919    | 0.7033    |
+| [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.6806                             | 0.6919    | 0.7033      |
 | **R@100**                                                                                                    | **SPLADE++ CoCondenser-SelfDistil**| **+RM3**  | **+Rocchio**|
-| [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.5524    | 0.5603    | 0.5574    |
+| [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.5524                             | 0.5603    | 0.5574      |
 | **R@1000**                                                                                                   | **SPLADE++ CoCondenser-SelfDistil**| **+RM3**  | **+Rocchio**|
-| [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.8522    | 0.8663    | 0.8825    |
+| [DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.8522                             | 0.8663    | 0.8825      |

@@ -75,9 +75,9 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-arguana
 With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **SPLADE-v3**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): ArguAna                                                                                       | 0.4872    |
+|:-------------------------------------------------------------------------------------------------------------|--------------|
+| BEIR (v1.0.0): ArguAna                                                                                       | 0.4872       |
 | **R@100**                                                                                                    | **SPLADE-v3**|
-| BEIR (v1.0.0): ArguAna                                                                                       | 0.9822    |
+| BEIR (v1.0.0): ArguAna                                                                                       | 0.9822       |
 | **R@1000**                                                                                                   | **SPLADE-v3**|
-| BEIR (v1.0.0): ArguAna                                                                                       | 0.9957    |
+| BEIR (v1.0.0): ArguAna                                                                                       | 0.9957       |

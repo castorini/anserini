@@ -93,13 +93,13 @@ bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl23-passage.t
 With the above commands, you should be able to reproduce the following results:
 
 | **MAP@100**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
-| [DL23 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.0793    | 0.0806    | 0.0801    |
+|:-------------------------------------------------------------------------------------------------------------|-------------------|-----------|-------------|
+| [DL23 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.0793            | 0.0806    | 0.0801      |
 | **MRR@100**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [DL23 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.3803    | 0.3467    | 0.3512    |
+| [DL23 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.3803            | 0.3467    | 0.3512      |
 | **nDCG@10**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [DL23 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.2627    | 0.2602    | 0.2653    |
+| [DL23 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.2627            | 0.2602    | 0.2653      |
 | **R@100**                                                                                                    | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [DL23 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.2329    | 0.2279    | 0.2379    |
+| [DL23 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.2329            | 0.2279    | 0.2379      |
 | **R@1000**                                                                                                   | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [DL23 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.4346    | 0.4748    | 0.4810    |
+| [DL23 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.4346            | 0.4748    | 0.4810      |

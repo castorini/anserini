@@ -76,9 +76,9 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.bright-theoremqa-th
 With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **SPLADE-v3**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BRIGHT: TheoremQA-T                                                                                          | 0.0554    |
+|:-------------------------------------------------------------------------------------------------------------|--------------|
+| BRIGHT: TheoremQA-T                                                                                          | 0.0554       |
 | **R@100**                                                                                                    | **SPLADE-v3**|
-| BRIGHT: TheoremQA-T                                                                                          | 0.2621    |
+| BRIGHT: TheoremQA-T                                                                                          | 0.2621       |
 | **R@1000**                                                                                                   | **SPLADE-v3**|
-| BRIGHT: TheoremQA-T                                                                                          | 0.5052    |
+| BRIGHT: TheoremQA-T                                                                                          | 0.5052       |

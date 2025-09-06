@@ -101,13 +101,13 @@ bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 tools/topics-and-qrels/q
 With the above commands, you should be able to reproduce the following results:
 
 | **MAP@100**                                                                                                  | **SPLADE-v3**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL23 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.1962    |
+|:-------------------------------------------------------------------------------------------------------------|--------------|
+| [DL23 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.1962       |
 | **MRR@100**                                                                                                  | **SPLADE-v3**|
-| [DL23 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.7798    |
+| [DL23 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.7798       |
 | **nDCG@10**                                                                                                  | **SPLADE-v3**|
-| [DL23 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.4473    |
+| [DL23 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.4473       |
 | **R@100**                                                                                                    | **SPLADE-v3**|
-| [DL23 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.3752    |
+| [DL23 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.3752       |
 | **R@1000**                                                                                                   | **SPLADE-v3**|
-| [DL23 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.6570    |
+| [DL23 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.6570       |

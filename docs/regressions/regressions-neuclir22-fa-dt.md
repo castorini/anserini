@@ -154,22 +154,22 @@ bin/trec_eval -c -m map tools/topics-and-qrels/qrels.neuclir22-fa.txt runs/run.n
 With the above commands, you should be able to reproduce the following results:
 
 | **MAP**                                                                                                      | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
-| [NeuCLIR 2022 (Persian): title (original English queries)](https://neuclir.github.io/)                       | 0.2197    | 0.2341    | 0.2375    |
-| [NeuCLIR 2022 (Persian): desc (original English queries)](https://neuclir.github.io/)                        | 0.1663    | 0.2054    | 0.2103    |
-| [NeuCLIR 2022 (Persian): desc+title (original English queries)](https://neuclir.github.io/)                  | 0.2345    | 0.2519    | 0.2631    |
+|:-------------------------------------------------------------------------------------------------------------|-------------------|-----------|-------------|
+| [NeuCLIR 2022 (Persian): title (original English queries)](https://neuclir.github.io/)                       | 0.2197            | 0.2341    | 0.2375      |
+| [NeuCLIR 2022 (Persian): desc (original English queries)](https://neuclir.github.io/)                        | 0.1663            | 0.2054    | 0.2103      |
+| [NeuCLIR 2022 (Persian): desc+title (original English queries)](https://neuclir.github.io/)                  | 0.2345            | 0.2519    | 0.2631      |
 | **nDCG@20**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [NeuCLIR 2022 (Persian): title (original English queries)](https://neuclir.github.io/)                       | 0.3665    | 0.3449    | 0.3532    |
-| [NeuCLIR 2022 (Persian): desc (original English queries)](https://neuclir.github.io/)                        | 0.2889    | 0.3144    | 0.3127    |
-| [NeuCLIR 2022 (Persian): desc+title (original English queries)](https://neuclir.github.io/)                  | 0.3670    | 0.3616    | 0.3720    |
+| [NeuCLIR 2022 (Persian): title (original English queries)](https://neuclir.github.io/)                       | 0.3665            | 0.3449    | 0.3532      |
+| [NeuCLIR 2022 (Persian): desc (original English queries)](https://neuclir.github.io/)                        | 0.2889            | 0.3144    | 0.3127      |
+| [NeuCLIR 2022 (Persian): desc+title (original English queries)](https://neuclir.github.io/)                  | 0.3670            | 0.3616    | 0.3720      |
 | **J@20**                                                                                                     | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [NeuCLIR 2022 (Persian): title (original English queries)](https://neuclir.github.io/)                       | 0.3680    | 0.3974    | 0.3961    |
-| [NeuCLIR 2022 (Persian): desc (original English queries)](https://neuclir.github.io/)                        | 0.3048    | 0.3614    | 0.3561    |
-| [NeuCLIR 2022 (Persian): desc+title (original English queries)](https://neuclir.github.io/)                  | 0.3706    | 0.3939    | 0.3930    |
+| [NeuCLIR 2022 (Persian): title (original English queries)](https://neuclir.github.io/)                       | 0.3680            | 0.3974    | 0.3961      |
+| [NeuCLIR 2022 (Persian): desc (original English queries)](https://neuclir.github.io/)                        | 0.3048            | 0.3614    | 0.3561      |
+| [NeuCLIR 2022 (Persian): desc+title (original English queries)](https://neuclir.github.io/)                  | 0.3706            | 0.3939    | 0.3930      |
 | **Recall@1000**                                                                                              | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [NeuCLIR 2022 (Persian): title (original English queries)](https://neuclir.github.io/)                       | 0.7335    | 0.7942    | 0.8111    |
-| [NeuCLIR 2022 (Persian): desc (original English queries)](https://neuclir.github.io/)                        | 0.6319    | 0.7663    | 0.7638    |
-| [NeuCLIR 2022 (Persian): desc+title (original English queries)](https://neuclir.github.io/)                  | 0.7652    | 0.8180    | 0.8248    |
+| [NeuCLIR 2022 (Persian): title (original English queries)](https://neuclir.github.io/)                       | 0.7335            | 0.7942    | 0.8111      |
+| [NeuCLIR 2022 (Persian): desc (original English queries)](https://neuclir.github.io/)                        | 0.6319            | 0.7663    | 0.7638      |
+| [NeuCLIR 2022 (Persian): desc+title (original English queries)](https://neuclir.github.io/)                  | 0.7652            | 0.8180    | 0.8248      |
 
 ## Reproduction Log[*](../../docs/reproducibility.md)
 

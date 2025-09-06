@@ -71,11 +71,11 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadups
 With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **BGE-base-en-v1.5**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): CQADupStack-mathematica                                                                       | 0.3163    |
+|:-------------------------------------------------------------------------------------------------------------|---------------------|
+| BEIR (v1.0.0): CQADupStack-mathematica                                                                       | 0.3163              |
 | **R@100**                                                                                                    | **BGE-base-en-v1.5**|
-| BEIR (v1.0.0): CQADupStack-mathematica                                                                       | 0.6922    |
+| BEIR (v1.0.0): CQADupStack-mathematica                                                                       | 0.6922              |
 | **R@1000**                                                                                                   | **BGE-base-en-v1.5**|
-| BEIR (v1.0.0): CQADupStack-mathematica                                                                       | 0.8810    |
+| BEIR (v1.0.0): CQADupStack-mathematica                                                                       | 0.8810              |
 
 Note that since we're running brute-force search with cached queries on non-quantized flat indexes, the results should be reproducible _exactly_.

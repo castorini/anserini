@@ -75,9 +75,9 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-nq.test
 With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **SPLADE++ (CoCondenser-EnsembleDistil)**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): NQ                                                                                            | 0.5378    |
+|:-------------------------------------------------------------------------------------------------------------|------------------------------------------|
+| BEIR (v1.0.0): NQ                                                                                            | 0.5378                                   |
 | **R@100**                                                                                                    | **SPLADE++ (CoCondenser-EnsembleDistil)**|
-| BEIR (v1.0.0): NQ                                                                                            | 0.9296    |
+| BEIR (v1.0.0): NQ                                                                                            | 0.9296                                   |
 | **R@1000**                                                                                                   | **SPLADE++ (CoCondenser-EnsembleDistil)**|
-| BEIR (v1.0.0): NQ                                                                                            | 0.9839    |
+| BEIR (v1.0.0): NQ                                                                                            | 0.9839                                   |

@@ -73,11 +73,11 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.bright-aops.txt run
 With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **BGE-large-en-v1.5**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BRIGHT: AoPS                                                                                                 | 0.0600    |
+|:-------------------------------------------------------------------------------------------------------------|----------------------|
+| BRIGHT: AoPS                                                                                                 | 0.0600               |
 | **R@100**                                                                                                    | **BGE-large-en-v1.5**|
-| BRIGHT: AoPS                                                                                                 | 0.2217    |
+| BRIGHT: AoPS                                                                                                 | 0.2217               |
 | **R@1000**                                                                                                   | **BGE-large-en-v1.5**|
-| BRIGHT: AoPS                                                                                                 | 0.4226    |
+| BRIGHT: AoPS                                                                                                 | 0.4226               |
 
 Note that since we're running brute-force search with cached queries on non-quantized flat indexes, the results should be reproducible _exactly_.

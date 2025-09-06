@@ -67,11 +67,11 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl19-doc.txt runs/r
 With the above commands, you should be able to reproduce the following results:
 
 | **AP@100**                                                                                                   | **BM25 (default)**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.2476    |
+|:-------------------------------------------------------------------------------------------------------------|-------------------|
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.2476            |
 | **nDCG@10**                                                                                                  | **BM25 (default)**|
-| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.5127    |
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.5127            |
 | **R@100**                                                                                                    | **BM25 (default)**|
-| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.3993    |
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.3993            |
 | **R@1000**                                                                                                   | **BM25 (default)**|
-| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.7073    |
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.7073            |

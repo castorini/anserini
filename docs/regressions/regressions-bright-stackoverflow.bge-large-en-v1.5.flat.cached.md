@@ -73,11 +73,11 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.bright-stackoverflo
 With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **BGE-large-en-v1.5**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BRIGHT: Stack Overflow                                                                                       | 0.1083    |
+|:-------------------------------------------------------------------------------------------------------------|----------------------|
+| BRIGHT: Stack Overflow                                                                                       | 0.1083               |
 | **R@100**                                                                                                    | **BGE-large-en-v1.5**|
-| BRIGHT: Stack Overflow                                                                                       | 0.5368    |
+| BRIGHT: Stack Overflow                                                                                       | 0.5368               |
 | **R@1000**                                                                                                   | **BGE-large-en-v1.5**|
-| BRIGHT: Stack Overflow                                                                                       | 0.7591    |
+| BRIGHT: Stack Overflow                                                                                       | 0.7591               |
 
 Note that since we're running brute-force search with cached queries on non-quantized flat indexes, the results should be reproducible _exactly_.

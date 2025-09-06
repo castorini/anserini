@@ -76,9 +76,9 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.bright-robotics.txt
 With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **SPLADE-v3**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BRIGHT: Robotics                                                                                             | 0.1580    |
+|:-------------------------------------------------------------------------------------------------------------|--------------|
+| BRIGHT: Robotics                                                                                             | 0.1580       |
 | **R@100**                                                                                                    | **SPLADE-v3**|
-| BRIGHT: Robotics                                                                                             | 0.4474    |
+| BRIGHT: Robotics                                                                                             | 0.4474       |
 | **R@1000**                                                                                                   | **SPLADE-v3**|
-| BRIGHT: Robotics                                                                                             | 0.7560    |
+| BRIGHT: Robotics                                                                                             | 0.7560       |

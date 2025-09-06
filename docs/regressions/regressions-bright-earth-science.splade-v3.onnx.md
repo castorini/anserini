@@ -76,9 +76,9 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.bright-earth-scienc
 With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **SPLADE-v3**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BRIGHT: Earth Science                                                                                        | 0.2670    |
+|:-------------------------------------------------------------------------------------------------------------|--------------|
+| BRIGHT: Earth Science                                                                                        | 0.2670       |
 | **R@100**                                                                                                    | **SPLADE-v3**|
-| BRIGHT: Earth Science                                                                                        | 0.5776    |
+| BRIGHT: Earth Science                                                                                        | 0.5776       |
 | **R@1000**                                                                                                   | **SPLADE-v3**|
-| BRIGHT: Earth Science                                                                                        | 0.8127    |
+| BRIGHT: Earth Science                                                                                        | 0.8127       |

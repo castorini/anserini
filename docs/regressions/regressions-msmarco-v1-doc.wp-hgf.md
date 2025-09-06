@@ -65,11 +65,11 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-doc.dev.txt
 With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **BM25 (default)**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.2234    |
+|:-------------------------------------------------------------------------------------------------------------|-------------------|
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.2234            |
 | **RR@100**                                                                                                   | **BM25 (default)**|
-| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.2227    |
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.2227            |
 | **R@100**                                                                                                    | **BM25 (default)**|
-| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.7031    |
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.7031            |
 | **R@1000**                                                                                                   | **BM25 (default)**|
-| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.8743    |
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.8743            |

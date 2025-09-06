@@ -73,11 +73,11 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.bright-theoremqa-th
 With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **BGE-large-en-v1.5**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BRIGHT: TheoremQA-T                                                                                          | 0.0690    |
+|:-------------------------------------------------------------------------------------------------------------|----------------------|
+| BRIGHT: TheoremQA-T                                                                                          | 0.0690               |
 | **R@100**                                                                                                    | **BGE-large-en-v1.5**|
-| BRIGHT: TheoremQA-T                                                                                          | 0.2705    |
+| BRIGHT: TheoremQA-T                                                                                          | 0.2705               |
 | **R@1000**                                                                                                   | **BGE-large-en-v1.5**|
-| BRIGHT: TheoremQA-T                                                                                          | 0.5804    |
+| BRIGHT: TheoremQA-T                                                                                          | 0.5804               |
 
 Note that since we're running brute-force search with cached queries on non-quantized flat indexes, the results should be reproducible _exactly_.

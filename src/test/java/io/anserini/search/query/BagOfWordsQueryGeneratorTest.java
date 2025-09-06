@@ -21,7 +21,6 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.BoostQuery;
 import org.apache.lucene.search.Query;
-import org.apache.lucene.search.TermQuery;
 import org.junit.Test;
 
 import java.util.Map;

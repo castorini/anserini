@@ -156,22 +156,22 @@ bin/trec_eval -c -m map tools/topics-and-qrels/qrels.hc4-neuclir22-ru.test.txt r
 With the above commands, you should be able to reproduce the following results:
 
 | **MAP**                                                                                                      | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
-| [HC4 (Russian): test-topic title](https://github.com/hltcoe/HC4)                                             | 0.1204    | 0.1426    | 0.1321    |
-| [HC4 (Russian): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.1069    | 0.1217    | 0.1150    |
-| [HC4 (Russian): test-topic description+title](https://github.com/hltcoe/HC4)                                 | 0.1246    | 0.1469    | 0.1504    |
+|:-------------------------------------------------------------------------------------------------------------|-------------------|-----------|-------------|
+| [HC4 (Russian): test-topic title](https://github.com/hltcoe/HC4)                                             | 0.1204            | 0.1426    | 0.1321      |
+| [HC4 (Russian): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.1069            | 0.1217    | 0.1150      |
+| [HC4 (Russian): test-topic description+title](https://github.com/hltcoe/HC4)                                 | 0.1246            | 0.1469    | 0.1504      |
 | **nDCG@20**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [HC4 (Russian): test-topic title](https://github.com/hltcoe/HC4)                                             | 0.1693    | 0.2020    | 0.1921    |
-| [HC4 (Russian): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.1611    | 0.1809    | 0.1787    |
-| [HC4 (Russian): test-topic description+title](https://github.com/hltcoe/HC4)                                 | 0.1761    | 0.2239    | 0.2218    |
+| [HC4 (Russian): test-topic title](https://github.com/hltcoe/HC4)                                             | 0.1693            | 0.2020    | 0.1921      |
+| [HC4 (Russian): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.1611            | 0.1809    | 0.1787      |
+| [HC4 (Russian): test-topic description+title](https://github.com/hltcoe/HC4)                                 | 0.1761            | 0.2239    | 0.2218      |
 | **J@20**                                                                                                     | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [HC4 (Russian): test-topic title](https://github.com/hltcoe/HC4)                                             | 0.0720    | 0.0880    | 0.0900    |
-| [HC4 (Russian): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.0690    | 0.0840    | 0.0850    |
-| [HC4 (Russian): test-topic description+title](https://github.com/hltcoe/HC4)                                 | 0.0730    | 0.0970    | 0.0900    |
+| [HC4 (Russian): test-topic title](https://github.com/hltcoe/HC4)                                             | 0.0720            | 0.0880    | 0.0900      |
+| [HC4 (Russian): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.0690            | 0.0840    | 0.0850      |
+| [HC4 (Russian): test-topic description+title](https://github.com/hltcoe/HC4)                                 | 0.0730            | 0.0970    | 0.0900      |
 | **Recall@1000**                                                                                              | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [HC4 (Russian): test-topic title](https://github.com/hltcoe/HC4)                                             | 0.6432    | 0.7094    | 0.7044    |
-| [HC4 (Russian): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.6632    | 0.6866    | 0.6721    |
-| [HC4 (Russian): test-topic description+title](https://github.com/hltcoe/HC4)                                 | 0.6783    | 0.7089    | 0.7427    |
+| [HC4 (Russian): test-topic title](https://github.com/hltcoe/HC4)                                             | 0.6432            | 0.7094    | 0.7044      |
+| [HC4 (Russian): test-topic description](https://github.com/hltcoe/HC4)                                       | 0.6632            | 0.6866    | 0.6721      |
+| [HC4 (Russian): test-topic description+title](https://github.com/hltcoe/HC4)                                 | 0.6783            | 0.7089    | 0.7427      |
 
 ## Reproduction Log[*](../../docs/reproducibility.md)
 

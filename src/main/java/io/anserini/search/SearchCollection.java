@@ -41,6 +41,7 @@ import io.anserini.rerank.lib.Rm3Reranker;
 import io.anserini.rerank.lib.RocchioReranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
 import io.anserini.search.query.QueryGenerator;
+import io.anserini.search.query.QuerySideBm25QueryGenerator;
 import io.anserini.search.query.SdmQueryGenerator;
 import io.anserini.search.similarity.AccurateBM25Similarity;
 import io.anserini.search.similarity.ImpactSimilarity;
@@ -248,14 +249,19 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     // -------------------
 
     @Option(name = "-bm25",
-        forbids = {"-impact", "-bm25.accurate", "-qld", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
+        forbids = {"-impact", "-bm25.accurate", "-bm25.querySide", "-qld", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
         usage = "ranking model: BM25")
     public boolean bm25 = false;
 
     @Option(name = "-bm25.accurate",
-        forbids = {"-impact", "-bm25", "-qld", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
+        forbids = {"-impact", "-bm25", "-bm25.querySide", "-qld", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
         usage = "BM25: use accurate document lengths")
     public boolean bm25Accurate = false;
+
+    @Option(name = "-bm25.querySide", 
+        forbids = {"-impact", "-bm25", "-bm25.accurate", "-qld", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
+        usage = "boolean switch to apply query-side BM25")
+    public boolean bm25q = false;
 
     // BM25 parameters: Robertson et al. (TREC 4) propose the range of 1.0-2.0 for k1 and 0.6-0.75 for b, with k1 = 1.2
     // and b = 0.75 being a very common setting. Empirically, these values don't work very well for modern collections.
@@ -507,6 +513,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       this.impact = true;
       this.bm25 = false;
       this.bm25Accurate = false;
+      this.bm25q = false;
       this.qld = false;
       this.qljm = false;
       this.inl2 = false;
@@ -521,6 +528,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       this.impact = false;
       this.bm25 = true;
       this.bm25Accurate = false;
+      this.bm25q = false;
       this.qld = false;
       this.qljm = false;
       this.inl2 = false;
@@ -535,6 +543,22 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       this.impact = false;
       this.bm25 = false;
       this.bm25Accurate = true;
+      this.bm25q = false;
+      this.qld = false;
+      this.qljm = false;
+      this.inl2 = false;
+      this.spl = false;
+      this.f2exp = false;
+      this.f2log = false;
+
+      return this;
+    }
+
+    public Args bm25QuerySide() {
+      this.impact = false;
+      this.bm25 = false;
+      this.bm25Accurate = false;
+      this.bm25q = true;
       this.qld = false;
       this.qljm = false;
       this.inl2 = false;
@@ -549,6 +573,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       this.impact = false;
       this.bm25 = false;
       this.bm25Accurate = false;
+      this.bm25q = false;
       this.qld = true;
       this.qljm = false;
       this.inl2 = false;
@@ -563,6 +588,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       this.impact = false;
       this.bm25 = false;
       this.bm25Accurate = false;
+      this.bm25q = false;
       this.qld = false;
       this.qljm = true;
       this.inl2 = false;
@@ -577,6 +603,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       this.impact = false;
       this.bm25 = false;
       this.bm25Accurate = false;
+      this.bm25q = false;
       this.qld = false;
       this.qljm = false;
       this.inl2 = true;
@@ -591,6 +618,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       this.impact = false;
       this.bm25 = false;
       this.bm25Accurate = false;
+      this.bm25q = false;
       this.qld = false;
       this.qljm = false;
       this.inl2 = false;
@@ -605,6 +633,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       this.impact = false;
       this.bm25 = false;
       this.bm25Accurate = false;
+      this.bm25q = false;
       this.qld = false;
       this.qljm = false;
       this.inl2 = false;
@@ -619,6 +648,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       this.impact = false;
       this.bm25 = false;
       this.bm25Accurate = false;
+      this.bm25q = false;
       this.qld = false;
       this.qljm = false;
       this.inl2 = false;
@@ -639,15 +669,17 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
   private final class Searcher<T extends Comparable<T>> extends BaseSearcher<T> {
     private final QueryGenerator generator;
     private final SdmQueryGenerator sdmQueryGenerator;
+    private final QuerySideBm25QueryGenerator querySideBm25QueryGenerator;
     private final Args args;
 
-    public Searcher(IndexSearcher searcher, TaggedSimilarity taggedSimilarity, BaseSearchArgs args) {
+    public Searcher(IndexSearcher searcher, TaggedSimilarity taggedSimilarity, Args args) {
       super(args);
 
       setIndexSearcher(searcher);
       getIndexSearcher().setSimilarity(taggedSimilarity.getSimilarity());
 
       this.sdmQueryGenerator = new SdmQueryGenerator(((Args) args).sdm_tw, ((Args) args).sdm_ow, ((Args) args).sdm_uw);
+      this.querySideBm25QueryGenerator = new QuerySideBm25QueryGenerator(Float.parseFloat(args.bm25_k1[0]), Float.parseFloat(args.bm25_b[0]), reader);
 
       try {
         generator = (QueryGenerator) Class.forName("io.anserini.search.query." + ((Args) args).queryGenerator)
@@ -666,6 +698,8 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
 
       if (args.sdm) {
         query = sdmQueryGenerator.buildQuery(Constants.CONTENTS, analyzer, queryString);
+      } else if (args.bm25q) {
+        query = querySideBm25QueryGenerator.buildQuery(Constants.CONTENTS, analyzer, queryString);
       } else {
         // If fieldsMap isn't null, then it means that the -fields option is specified. In this case, we search across
         // multiple fields with the associated boosts.
@@ -1078,7 +1112,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
   private List<TaggedSimilarity> constructSimilarities() {
     List<TaggedSimilarity> similarities = new ArrayList<>();
 
-    if (args.bm25) {
+    if (args.bm25 || args.bm25q) {
       for (String k1 : args.bm25_k1) {
         for (String b : args.bm25_b) {
           similarities.add(new TaggedSimilarity(new BM25Similarity(Float.parseFloat(k1), Float.parseFloat(b)),
