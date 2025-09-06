@@ -73,9 +73,9 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-scifact
 With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **uniCOIL no expansion**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): SciFact                                                                                       | 0.6856    |
+|:-------------------------------------------------------------------------------------------------------------|-------------------------|
+| BEIR (v1.0.0): SciFact                                                                                       | 0.6856                  |
 | **R@100**                                                                                                    | **uniCOIL no expansion**|
-| BEIR (v1.0.0): SciFact                                                                                       | 0.9120    |
+| BEIR (v1.0.0): SciFact                                                                                       | 0.9120                  |
 | **R@1000**                                                                                                   | **uniCOIL no expansion**|
-| BEIR (v1.0.0): SciFact                                                                                       | 0.9743    |
+| BEIR (v1.0.0): SciFact                                                                                       | 0.9743                  |

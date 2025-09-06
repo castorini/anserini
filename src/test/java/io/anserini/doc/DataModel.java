@@ -434,7 +434,7 @@ public class DataModel {
       if (cnt == 0) {
         builder.append("|:").append(StringUtils.repeat("-", 109)).append("|");
         for (Model model : getModels()) {
-          builder.append(StringUtils.repeat("-", 11)).append("|");
+          builder.append(StringUtils.repeat("-", Math.max(model.getDisplay().length() + 5, 11))).append("|");
         }
         builder.append("\n");
       }
@@ -444,9 +444,9 @@ public class DataModel {
         for (Model model : getModels()) {
           // 3 digits for HNSW, 4 otherwise:
           if ("hnsw".equals(getIndex_type())) {
-            builder.append(String.format(" %-10.3f|", model.getResults().get(eval.getMetric()).get(i)));
+            builder.append(String.format(" %-" + Math.max(model.getDisplay().length() + 4, 10) + ".3f|", model.getResults().get(eval.getMetric()).get(i)));
           } else {
-            builder.append(String.format(" %-10.4f|", model.getResults().get(eval.getMetric()).get(i)));
+            builder.append(String.format(" %-" + Math.max(model.getDisplay().length() + 4, 10) + ".4f|", model.getResults().get(eval.getMetric()).get(i)));
           }
         }
         builder.append("\n");

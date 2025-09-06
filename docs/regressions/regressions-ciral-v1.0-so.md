@@ -70,11 +70,11 @@ bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.ciral-v1.0-so-test-b
 With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@20**                                                                                                  | **BM25 (default)**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [CIRAL Somali: Test Set A (Shallow Judgements)](https://huggingface.co/datasets/CIRAL/ciral)                 | 0.1214    |
-| [CIRAL Somali: Test Set A (Pools)](https://huggingface.co/datasets/CIRAL/ciral)                              | 0.1232    |
-| [CIRAL Somali: Test Set B](https://huggingface.co/datasets/CIRAL/ciral)                                      | 0.1725    |
+|:-------------------------------------------------------------------------------------------------------------|-------------------|
+| [CIRAL Somali: Test Set A (Shallow Judgements)](https://huggingface.co/datasets/CIRAL/ciral)                 | 0.1214            |
+| [CIRAL Somali: Test Set A (Pools)](https://huggingface.co/datasets/CIRAL/ciral)                              | 0.1232            |
+| [CIRAL Somali: Test Set B](https://huggingface.co/datasets/CIRAL/ciral)                                      | 0.1725            |
 | **R@100**                                                                                                    | **BM25 (default)**|
-| [CIRAL Somali: Test Set A (Shallow Judgements)](https://huggingface.co/datasets/CIRAL/ciral)                 | 0.2615    |
-| [CIRAL Somali: Test Set A (Pools)](https://huggingface.co/datasets/CIRAL/ciral)                              | 0.1923    |
-| [CIRAL Somali: Test Set B](https://huggingface.co/datasets/CIRAL/ciral)                                      | 0.3479    |
+| [CIRAL Somali: Test Set A (Shallow Judgements)](https://huggingface.co/datasets/CIRAL/ciral)                 | 0.2615            |
+| [CIRAL Somali: Test Set A (Pools)](https://huggingface.co/datasets/CIRAL/ciral)                              | 0.1923            |
+| [CIRAL Somali: Test Set B](https://huggingface.co/datasets/CIRAL/ciral)                                      | 0.3479            |

@@ -70,11 +70,11 @@ bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.ciral-v1.0-yo-test-b
 With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@20**                                                                                                  | **BM25 (default)**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [CIRAL Yoruba: Test Set A (Shallow Judgements)](https://huggingface.co/datasets/CIRAL/ciral)                 | 0.4265    |
-| [CIRAL Yoruba: Test Set A (Pools)](https://huggingface.co/datasets/CIRAL/ciral)                              | 0.4451    |
-| [CIRAL Yoruba: Test Set B](https://huggingface.co/datasets/CIRAL/ciral)                                      | 0.3700    |
+|:-------------------------------------------------------------------------------------------------------------|-------------------|
+| [CIRAL Yoruba: Test Set A (Shallow Judgements)](https://huggingface.co/datasets/CIRAL/ciral)                 | 0.4265            |
+| [CIRAL Yoruba: Test Set A (Pools)](https://huggingface.co/datasets/CIRAL/ciral)                              | 0.4451            |
+| [CIRAL Yoruba: Test Set B](https://huggingface.co/datasets/CIRAL/ciral)                                      | 0.3700            |
 | **R@100**                                                                                                    | **BM25 (default)**|
-| [CIRAL Yoruba: Test Set A (Shallow Judgements)](https://huggingface.co/datasets/CIRAL/ciral)                 | 0.7832    |
-| [CIRAL Yoruba: Test Set A (Pools)](https://huggingface.co/datasets/CIRAL/ciral)                              | 0.7199    |
-| [CIRAL Yoruba: Test Set B](https://huggingface.co/datasets/CIRAL/ciral)                                      | 0.7348    |
+| [CIRAL Yoruba: Test Set A (Shallow Judgements)](https://huggingface.co/datasets/CIRAL/ciral)                 | 0.7832            |
+| [CIRAL Yoruba: Test Set A (Pools)](https://huggingface.co/datasets/CIRAL/ciral)                              | 0.7199            |
+| [CIRAL Yoruba: Test Set B](https://huggingface.co/datasets/CIRAL/ciral)                                      | 0.7348            |

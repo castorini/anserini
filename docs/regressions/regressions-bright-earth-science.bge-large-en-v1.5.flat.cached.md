@@ -73,11 +73,11 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.bright-earth-scienc
 With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **BGE-large-en-v1.5**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BRIGHT: Earth Science                                                                                        | 0.2456    |
+|:-------------------------------------------------------------------------------------------------------------|----------------------|
+| BRIGHT: Earth Science                                                                                        | 0.2456               |
 | **R@100**                                                                                                    | **BGE-large-en-v1.5**|
-| BRIGHT: Earth Science                                                                                        | 0.5267    |
+| BRIGHT: Earth Science                                                                                        | 0.5267               |
 | **R@1000**                                                                                                   | **BGE-large-en-v1.5**|
-| BRIGHT: Earth Science                                                                                        | 0.7287    |
+| BRIGHT: Earth Science                                                                                        | 0.7287               |
 
 Note that since we're running brute-force search with cached queries on non-quantized flat indexes, the results should be reproducible _exactly_.

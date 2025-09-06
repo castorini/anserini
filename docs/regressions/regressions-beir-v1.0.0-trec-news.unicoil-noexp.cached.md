@@ -73,9 +73,9 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-trec-ne
 With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **uniCOIL no expansion**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): TREC-NEWS                                                                                     | 0.3743    |
+|:-------------------------------------------------------------------------------------------------------------|-------------------------|
+| BEIR (v1.0.0): TREC-NEWS                                                                                     | 0.3743                  |
 | **R@100**                                                                                                    | **uniCOIL no expansion**|
-| BEIR (v1.0.0): TREC-NEWS                                                                                     | 0.3573    |
+| BEIR (v1.0.0): TREC-NEWS                                                                                     | 0.3573                  |
 | **R@1000**                                                                                                   | **uniCOIL no expansion**|
-| BEIR (v1.0.0): TREC-NEWS                                                                                     | 0.6112    |
+| BEIR (v1.0.0): TREC-NEWS                                                                                     | 0.6112                  |

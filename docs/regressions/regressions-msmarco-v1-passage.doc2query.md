@@ -80,14 +80,14 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev
 With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **BM25 (default)**| **BM25 (tuned)**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.2270    | 0.2293    |
+|:-------------------------------------------------------------------------------------------------------------|-------------------|-----------------|
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.2270            | 0.2293          |
 | **RR@10**                                                                                                    | **BM25 (default)**| **BM25 (tuned)**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.2189    | 0.2213    |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.2189            | 0.2213          |
 | **R@100**                                                                                                    | **BM25 (default)**| **BM25 (tuned)**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.7133    | 0.7171    |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.7133            | 0.7171          |
 | **R@1000**                                                                                                   | **BM25 (default)**| **BM25 (tuned)**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.8900    | 0.8911    |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.8900            | 0.8911          |
 
 Explanation of settings:
 

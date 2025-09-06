@@ -73,11 +73,11 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.bright-theoremqa-th
 With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **BGE-large-en-v1.5**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BRIGHT: TheoremQA-T                                                                                          | 0.0532    |
+|:-------------------------------------------------------------------------------------------------------------|----------------------|
+| BRIGHT: TheoremQA-T                                                                                          | 0.0532               |
 | **R@100**                                                                                                    | **BGE-large-en-v1.5**|
-| BRIGHT: TheoremQA-T                                                                                          | 0.2585    |
+| BRIGHT: TheoremQA-T                                                                                          | 0.2585               |
 | **R@1000**                                                                                                   | **BGE-large-en-v1.5**|
-| BRIGHT: TheoremQA-T                                                                                          | 0.6018    |
+| BRIGHT: TheoremQA-T                                                                                          | 0.6018               |
 
 With ONNX query encoding on non-quantized flat indexes, observed results may differ slightly (typically, lower), but scores should generally be within 0.001 of the results reported above (with some outliers).

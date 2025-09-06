@@ -73,11 +73,11 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.bright-stackoverflo
 With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **BGE-large-en-v1.5**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BRIGHT: Stack Overflow                                                                                       | 0.1099    |
+|:-------------------------------------------------------------------------------------------------------------|----------------------|
+| BRIGHT: Stack Overflow                                                                                       | 0.1099               |
 | **R@100**                                                                                                    | **BGE-large-en-v1.5**|
-| BRIGHT: Stack Overflow                                                                                       | 0.5319    |
+| BRIGHT: Stack Overflow                                                                                       | 0.5319               |
 | **R@1000**                                                                                                   | **BGE-large-en-v1.5**|
-| BRIGHT: Stack Overflow                                                                                       | 0.7453    |
+| BRIGHT: Stack Overflow                                                                                       | 0.7453               |
 
 With ONNX query encoding on non-quantized flat indexes, observed results may differ slightly (typically, lower), but scores should generally be within 0.001 of the results reported above (with some outliers).

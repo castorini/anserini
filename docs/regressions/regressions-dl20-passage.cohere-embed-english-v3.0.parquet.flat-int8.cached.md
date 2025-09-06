@@ -91,14 +91,14 @@ bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.t
 With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **cohere-embed-english-v3.0**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.5067    |
+|:-------------------------------------------------------------------------------------------------------------|------------------------------|
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.5067                       |
 | **nDCG@10**                                                                                                  | **cohere-embed-english-v3.0**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7245    |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7245                       |
 | **R@100**                                                                                                    | **cohere-embed-english-v3.0**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7279    |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7279                       |
 | **R@1000**                                                                                                   | **cohere-embed-english-v3.0**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.8682    |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.8682                       |
 
 The above figures are from running brute-force search with cached queries on non-quantized indexes.
 With cached queries on quantized indexes, results may differ slightly.

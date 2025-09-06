@@ -91,14 +91,14 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev
 With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **BM25 (default)**| **BM25 (tuned)**| **BM25 (tuned2)**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.2805    | 0.2850    | 0.2893    |
+|:-------------------------------------------------------------------------------------------------------------|-------------------|-----------------|------------------|
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.2805            | 0.2850          | 0.2893           |
 | **RR@10**                                                                                                    | **BM25 (default)**| **BM25 (tuned)**| **BM25 (tuned2)**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.2723    | 0.2768    | 0.2816    |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.2723            | 0.2768          | 0.2816           |
 | **R@100**                                                                                                    | **BM25 (default)**| **BM25 (tuned)**| **BM25 (tuned2)**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.8192    | 0.8190    | 0.8277    |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.8192            | 0.8190          | 0.8277           |
 | **R@1000**                                                                                                   | **BM25 (default)**| **BM25 (tuned)**| **BM25 (tuned2)**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9470    | 0.9471    | 0.9506    |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9470            | 0.9471          | 0.9506           |
 
 Explanation of settings:
 

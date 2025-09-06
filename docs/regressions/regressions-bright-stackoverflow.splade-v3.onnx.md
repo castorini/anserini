@@ -76,9 +76,9 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.bright-stackoverflo
 With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **SPLADE-v3**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BRIGHT: Stack Overflow                                                                                       | 0.1290    |
+|:-------------------------------------------------------------------------------------------------------------|--------------|
+| BRIGHT: Stack Overflow                                                                                       | 0.1290       |
 | **R@100**                                                                                                    | **SPLADE-v3**|
-| BRIGHT: Stack Overflow                                                                                       | 0.4317    |
+| BRIGHT: Stack Overflow                                                                                       | 0.4317       |
 | **R@1000**                                                                                                   | **SPLADE-v3**|
-| BRIGHT: Stack Overflow                                                                                       | 0.6866    |
+| BRIGHT: Stack Overflow                                                                                       | 0.6866       |

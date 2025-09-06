@@ -73,11 +73,11 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.bright-sustainable-
 With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **BGE-large-en-v1.5**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BRIGHT: Sustainable Living                                                                                   | 0.1333    |
+|:-------------------------------------------------------------------------------------------------------------|----------------------|
+| BRIGHT: Sustainable Living                                                                                   | 0.1333               |
 | **R@100**                                                                                                    | **BGE-large-en-v1.5**|
-| BRIGHT: Sustainable Living                                                                                   | 0.5056    |
+| BRIGHT: Sustainable Living                                                                                   | 0.5056               |
 | **R@1000**                                                                                                   | **BGE-large-en-v1.5**|
-| BRIGHT: Sustainable Living                                                                                   | 0.7739    |
+| BRIGHT: Sustainable Living                                                                                   | 0.7739               |
 
 Note that since we're running brute-force search with cached queries on non-quantized flat indexes, the results should be reproducible _exactly_.

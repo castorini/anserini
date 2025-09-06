@@ -69,9 +69,9 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.bright-pony.txt run
 With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **query-side-BM25**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BRIGHT: Pony                                                                                                 | 0.0789    |
+|:-------------------------------------------------------------------------------------------------------------|--------------------|
+| BRIGHT: Pony                                                                                                 | 0.0789             |
 | **R@100**                                                                                                    | **query-side-BM25**|
-| BRIGHT: Pony                                                                                                 | 0.2820    |
+| BRIGHT: Pony                                                                                                 | 0.2820             |
 | **R@1000**                                                                                                   | **query-side-BM25**|
-| BRIGHT: Pony                                                                                                 | 0.9074    |
+| BRIGHT: Pony                                                                                                 | 0.9074             |

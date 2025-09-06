@@ -75,9 +75,9 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-quora.t
 With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **SPLADE-v3**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): Quora                                                                                         | 0.8141    |
+|:-------------------------------------------------------------------------------------------------------------|--------------|
+| BEIR (v1.0.0): Quora                                                                                         | 0.8141       |
 | **R@100**                                                                                                    | **SPLADE-v3**|
-| BEIR (v1.0.0): Quora                                                                                         | 0.9858    |
+| BEIR (v1.0.0): Quora                                                                                         | 0.9858       |
 | **R@1000**                                                                                                   | **SPLADE-v3**|
-| BEIR (v1.0.0): Quora                                                                                         | 0.9988    |
+| BEIR (v1.0.0): Quora                                                                                         | 0.9988       |

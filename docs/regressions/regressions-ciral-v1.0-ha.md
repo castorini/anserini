@@ -70,11 +70,11 @@ bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.ciral-v1.0-ha-test-b
 With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@20**                                                                                                  | **BM25 (default)**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [CIRAL Hausa: Test Set A (Shallow Judgements)](https://huggingface.co/datasets/CIRAL/ciral)                  | 0.1656    |
-| [CIRAL Hausa: Test Set A (Pools)](https://huggingface.co/datasets/CIRAL/ciral)                               | 0.1161    |
-| [CIRAL Hausa: Test Set B](https://huggingface.co/datasets/CIRAL/ciral)                                       | 0.2121    |
+|:-------------------------------------------------------------------------------------------------------------|-------------------|
+| [CIRAL Hausa: Test Set A (Shallow Judgements)](https://huggingface.co/datasets/CIRAL/ciral)                  | 0.1656            |
+| [CIRAL Hausa: Test Set A (Pools)](https://huggingface.co/datasets/CIRAL/ciral)                               | 0.1161            |
+| [CIRAL Hausa: Test Set B](https://huggingface.co/datasets/CIRAL/ciral)                                       | 0.2121            |
 | **R@100**                                                                                                    | **BM25 (default)**|
-| [CIRAL Hausa: Test Set A (Shallow Judgements)](https://huggingface.co/datasets/CIRAL/ciral)                  | 0.2874    |
-| [CIRAL Hausa: Test Set A (Pools)](https://huggingface.co/datasets/CIRAL/ciral)                               | 0.1916    |
-| [CIRAL Hausa: Test Set B](https://huggingface.co/datasets/CIRAL/ciral)                                       | 0.3800    |
+| [CIRAL Hausa: Test Set A (Shallow Judgements)](https://huggingface.co/datasets/CIRAL/ciral)                  | 0.2874            |
+| [CIRAL Hausa: Test Set A (Pools)](https://huggingface.co/datasets/CIRAL/ciral)                               | 0.1916            |
+| [CIRAL Hausa: Test Set B](https://huggingface.co/datasets/CIRAL/ciral)                                       | 0.3800            |

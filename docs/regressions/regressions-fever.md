@@ -67,9 +67,9 @@ bin/trec_eval -c -m recall.100 -c -m recall.1000 tools/topics-and-qrels/qrels.fe
 With the above commands, you should be able to reproduce the following results:
 
 | **R@100**                                                                                                    | **BM25 (Default)**| **BM25 (Tuned)**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|
-| [FEVER Paper Development Dataset](https://s3-eu-west-1.amazonaws.com/fever.public/paper_dev.jsonl)           | 0.8974    | 0.8988    |
+|:-------------------------------------------------------------------------------------------------------------|-------------------|-----------------|
+| [FEVER Paper Development Dataset](https://s3-eu-west-1.amazonaws.com/fever.public/paper_dev.jsonl)           | 0.8974            | 0.8988          |
 | **R@1000**                                                                                                   | **BM25 (Default)**| **BM25 (Tuned)**|
-| [FEVER Paper Development Dataset](https://s3-eu-west-1.amazonaws.com/fever.public/paper_dev.jsonl)           | 0.9477    | 0.9481    |
+| [FEVER Paper Development Dataset](https://s3-eu-west-1.amazonaws.com/fever.public/paper_dev.jsonl)           | 0.9477            | 0.9481          |
 
 The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=0.9`, `b=0.1`.

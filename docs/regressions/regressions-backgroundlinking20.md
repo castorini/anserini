@@ -80,8 +80,8 @@ bin/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 tools/topics-and-qrels/qr
 With the above commands, you should be able to reproduce the following results:
 
 | **MAP**                                                                                                      | **BM25**  | **+RM3**  | **+RM3+DF**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
-| [TREC 2020 Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.backgroundlinking20.txt)| 0.3286    | 0.4528    | 0.3438    |
+|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|------------|
+| [TREC 2020 Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.backgroundlinking20.txt)| 0.3286    | 0.4528    | 0.3438     |
 | **nDCG@5**                                                                                                   | **BM25**  | **+RM3**  | **+RM3+DF**|
-| [TREC 2020 Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.backgroundlinking20.txt)| 0.5231    | 0.5696    | 0.5304    |
+| [TREC 2020 Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.backgroundlinking20.txt)| 0.5231    | 0.5696    | 0.5304     |
 

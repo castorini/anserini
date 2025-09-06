@@ -94,14 +94,14 @@ bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.t
 With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **cosDPR-distill**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.4271    |
+|:-------------------------------------------------------------------------------------------------------------|-------------------|
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.4271            |
 | **nDCG@10**                                                                                                  | **cosDPR-distill**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6857    |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6857            |
 | **R@100**                                                                                                    | **cosDPR-distill**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.5766    |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.5766            |
 | **R@1000**                                                                                                   | **cosDPR-distill**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7902    |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7902            |
 
 ❗ Retrieval metrics here are computed to depth 1000 hits per query (as opposed to 100 hits per query for document ranking).
 For computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., AP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).

@@ -73,11 +73,11 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.bright-economics.tx
 With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **BGE-large-en-v1.5**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BRIGHT: Economics                                                                                            | 0.1661    |
+|:-------------------------------------------------------------------------------------------------------------|----------------------|
+| BRIGHT: Economics                                                                                            | 0.1661               |
 | **R@100**                                                                                                    | **BGE-large-en-v1.5**|
-| BRIGHT: Economics                                                                                            | 0.4509    |
+| BRIGHT: Economics                                                                                            | 0.4509               |
 | **R@1000**                                                                                                   | **BGE-large-en-v1.5**|
-| BRIGHT: Economics                                                                                            | 0.7550    |
+| BRIGHT: Economics                                                                                            | 0.7550               |
 
 Note that since we're running brute-force search with cached queries on non-quantized flat indexes, the results should be reproducible _exactly_.

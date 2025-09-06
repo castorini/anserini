@@ -75,9 +75,9 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadups
 With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **SPLADE-v3**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): CQADupStack-tex                                                                               | 0.2493    |
+|:-------------------------------------------------------------------------------------------------------------|--------------|
+| BEIR (v1.0.0): CQADupStack-tex                                                                               | 0.2493       |
 | **R@100**                                                                                                    | **SPLADE-v3**|
-| BEIR (v1.0.0): CQADupStack-tex                                                                               | 0.5263    |
+| BEIR (v1.0.0): CQADupStack-tex                                                                               | 0.5263       |
 | **R@1000**                                                                                                   | **SPLADE-v3**|
-| BEIR (v1.0.0): CQADupStack-tex                                                                               | 0.7517    |
+| BEIR (v1.0.0): CQADupStack-tex                                                                               | 0.7517       |
