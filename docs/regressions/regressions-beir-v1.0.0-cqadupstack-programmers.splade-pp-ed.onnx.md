@@ -75,9 +75,9 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadups
 With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **SPLADE++ (CoCondenser-EnsembleDistil)**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): CQADupStack-programmers                                                                       | 0.3399    |
+|:-------------------------------------------------------------------------------------------------------------|------------------------------------------|
+| BEIR (v1.0.0): CQADupStack-programmers                                                                       | 0.3399                                   |
 | **R@100**                                                                                                    | **SPLADE++ (CoCondenser-EnsembleDistil)**|
-| BEIR (v1.0.0): CQADupStack-programmers                                                                       | 0.6596    |
+| BEIR (v1.0.0): CQADupStack-programmers                                                                       | 0.6596                                   |
 | **R@1000**                                                                                                   | **SPLADE++ (CoCondenser-EnsembleDistil)**|
-| BEIR (v1.0.0): CQADupStack-programmers                                                                       | 0.8603    |
+| BEIR (v1.0.0): CQADupStack-programmers                                                                       | 0.8603                                   |

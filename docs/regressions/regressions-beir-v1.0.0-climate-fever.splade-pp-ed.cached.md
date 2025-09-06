@@ -75,9 +75,9 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-climate
 With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **SPLADE++ (CoCondenser-EnsembleDistil)**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): Climate-FEVER                                                                                 | 0.2297    |
+|:-------------------------------------------------------------------------------------------------------------|------------------------------------------|
+| BEIR (v1.0.0): Climate-FEVER                                                                                 | 0.2297                                   |
 | **R@100**                                                                                                    | **SPLADE++ (CoCondenser-EnsembleDistil)**|
-| BEIR (v1.0.0): Climate-FEVER                                                                                 | 0.5211    |
+| BEIR (v1.0.0): Climate-FEVER                                                                                 | 0.5211                                   |
 | **R@1000**                                                                                                   | **SPLADE++ (CoCondenser-EnsembleDistil)**|
-| BEIR (v1.0.0): Climate-FEVER                                                                                 | 0.7183    |
+| BEIR (v1.0.0): Climate-FEVER                                                                                 | 0.7183                                   |

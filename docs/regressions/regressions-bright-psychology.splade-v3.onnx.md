@@ -76,9 +76,9 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.bright-psychology.t
 With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **SPLADE-v3**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BRIGHT: Psychology                                                                                           | 0.1527    |
+|:-------------------------------------------------------------------------------------------------------------|--------------|
+| BRIGHT: Psychology                                                                                           | 0.1527       |
 | **R@100**                                                                                                    | **SPLADE-v3**|
-| BRIGHT: Psychology                                                                                           | 0.4687    |
+| BRIGHT: Psychology                                                                                           | 0.4687       |
 | **R@1000**                                                                                                   | **SPLADE-v3**|
-| BRIGHT: Psychology                                                                                           | 0.7673    |
+| BRIGHT: Psychology                                                                                           | 0.7673       |

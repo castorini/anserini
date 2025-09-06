@@ -73,9 +73,9 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-nq.test
 With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **uniCOIL no expansion**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): NQ                                                                                            | 0.4249    |
+|:-------------------------------------------------------------------------------------------------------------|-------------------------|
+| BEIR (v1.0.0): NQ                                                                                            | 0.4249                  |
 | **R@100**                                                                                                    | **uniCOIL no expansion**|
-| BEIR (v1.0.0): NQ                                                                                            | 0.8326    |
+| BEIR (v1.0.0): NQ                                                                                            | 0.8326                  |
 | **R@1000**                                                                                                   | **uniCOIL no expansion**|
-| BEIR (v1.0.0): NQ                                                                                            | 0.9285    |
+| BEIR (v1.0.0): NQ                                                                                            | 0.9285                  |

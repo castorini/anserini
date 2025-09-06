@@ -90,14 +90,14 @@ bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.t
 With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **cohere-embed-english-v3.0**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.4884    |
+|:-------------------------------------------------------------------------------------------------------------|------------------------------|
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.4884                       |
 | **nDCG@10**                                                                                                  | **cohere-embed-english-v3.0**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6956    |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6956                       |
 | **R@100**                                                                                                    | **cohere-embed-english-v3.0**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6484    |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6484                       |
 | **R@1000**                                                                                                   | **cohere-embed-english-v3.0**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.8630    |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.8630                       |
 
 Note that since we're running brute-force search with cached queries on non-quantized indexes, the results should be reproducible _exactly_.
 

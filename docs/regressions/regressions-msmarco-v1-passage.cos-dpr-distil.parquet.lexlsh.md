@@ -90,14 +90,14 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev
 With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **cosDPR-distill**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3509    |
+|:-------------------------------------------------------------------------------------------------------------|-------------------|
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3509            |
 | **RR@10**                                                                                                    | **cosDPR-distill**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3457    |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3457            |
 | **R@100**                                                                                                    | **cosDPR-distill**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.8615    |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.8615            |
 | **R@1000**                                                                                                   | **cosDPR-distill**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9596    |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9596            |
 
 ## Reproduction Log[*](../../docs/reproducibility.md)
 

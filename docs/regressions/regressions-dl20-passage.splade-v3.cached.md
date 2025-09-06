@@ -124,14 +124,14 @@ bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.t
 With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **SPLADEv3**| **+RM3**  | **+Rocchio**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.5402    | 0.5493    | 0.5456    |
+|:-------------------------------------------------------------------------------------------------------------|-------------|-----------|-------------|
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.5402      | 0.5493    | 0.5456      |
 | **nDCG@10**                                                                                                  | **SPLADEv3**| **+RM3**  | **+Rocchio**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7522    | 0.7280    | 0.7487    |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7522      | 0.7280    | 0.7487      |
 | **R@100**                                                                                                    | **SPLADEv3**| **+RM3**  | **+Rocchio**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7671    | 0.7685    | 0.7764    |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7671      | 0.7685    | 0.7764      |
 | **R@1000**                                                                                                   | **SPLADEv3**| **+RM3**  | **+Rocchio**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.9039    | 0.9316    | 0.9258    |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.9039      | 0.9316    | 0.9258      |
 
 ❗ Retrieval metrics here are computed to depth 1000 hits per query (as opposed to 100 hits per query for document ranking).
 For computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., AP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).

@@ -76,9 +76,9 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.bright-aops.txt run
 With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **SPLADE-v3**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BRIGHT: AoPS                                                                                                 | 0.0692    |
+|:-------------------------------------------------------------------------------------------------------------|--------------|
+| BRIGHT: AoPS                                                                                                 | 0.0692       |
 | **R@100**                                                                                                    | **SPLADE-v3**|
-| BRIGHT: AoPS                                                                                                 | 0.2624    |
+| BRIGHT: AoPS                                                                                                 | 0.2624       |
 | **R@1000**                                                                                                   | **SPLADE-v3**|
-| BRIGHT: AoPS                                                                                                 | 0.4656    |
+| BRIGHT: AoPS                                                                                                 | 0.4656       |

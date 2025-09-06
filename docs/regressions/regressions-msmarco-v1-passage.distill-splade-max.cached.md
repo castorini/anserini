@@ -98,14 +98,14 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev
 With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **DistilSPLADE-max**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3746    |
+|:-------------------------------------------------------------------------------------------------------------|---------------------|
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3746              |
 | **RR@10**                                                                                                    | **DistilSPLADE-max**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3686    |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3686              |
 | **R@100**                                                                                                    | **DistilSPLADE-max**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.8984    |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.8984              |
 | **R@1000**                                                                                                   | **DistilSPLADE-max**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9787    |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9787              |
 
 The above runs are in TREC output format and evaluated with `trec_eval`.
 In order to reproduce results reported in the paper, we need to convert to MS MARCO output format and then evaluate:

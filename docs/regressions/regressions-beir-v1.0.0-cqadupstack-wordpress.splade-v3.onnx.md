@@ -75,9 +75,9 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadups
 With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **SPLADE-v3**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): CQADupStack-wordpress                                                                         | 0.2807    |
+|:-------------------------------------------------------------------------------------------------------------|--------------|
+| BEIR (v1.0.0): CQADupStack-wordpress                                                                         | 0.2807       |
 | **R@100**                                                                                                    | **SPLADE-v3**|
-| BEIR (v1.0.0): CQADupStack-wordpress                                                                         | 0.5825    |
+| BEIR (v1.0.0): CQADupStack-wordpress                                                                         | 0.5825       |
 | **R@1000**                                                                                                   | **SPLADE-v3**|
-| BEIR (v1.0.0): CQADupStack-wordpress                                                                         | 0.8015    |
+| BEIR (v1.0.0): CQADupStack-wordpress                                                                         | 0.8015       |

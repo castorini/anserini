@@ -91,14 +91,14 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev
 With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **BGE-base-en-v1.5**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3641    |
+|:-------------------------------------------------------------------------------------------------------------|---------------------|
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3641              |
 | **RR@10**                                                                                                    | **BGE-base-en-v1.5**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3583    |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3583              |
 | **R@100**                                                                                                    | **BGE-base-en-v1.5**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9006    |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9006              |
 | **R@1000**                                                                                                   | **BGE-base-en-v1.5**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9811    |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9811              |
 
 The above figures are from running brute-force search with cached queries on non-quantized indexes.
 With ONNX query encoding on non-quantized indexes, results may differ slightly.

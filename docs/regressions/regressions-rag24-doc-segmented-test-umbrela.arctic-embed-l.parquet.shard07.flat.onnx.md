@@ -77,9 +77,9 @@ bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.rag24.test-umbrela-a
 With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@20**                                                                                                  | **ArcticEmbedL**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| RAG 24: Test queries                                                                                         | 0.2415    |
+|:-------------------------------------------------------------------------------------------------------------|-----------------|
+| RAG 24: Test queries                                                                                         | 0.2415          |
 | **nDCG@100**                                                                                                 | **ArcticEmbedL**|
-| RAG 24: Test queries                                                                                         | 0.1340    |
+| RAG 24: Test queries                                                                                         | 0.1340          |
 | **R@100**                                                                                                    | **ArcticEmbedL**|
-| RAG 24: Test queries                                                                                         | 0.0496    |
+| RAG 24: Test queries                                                                                         | 0.0496          |

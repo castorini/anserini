@@ -124,14 +124,14 @@ bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.t
 With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **SPLADE++ CoCondenser-EnsembleDistil**| **+RM3**  | **+Rocchio**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.5050    | 0.4995    | 0.5140    |
+|:-------------------------------------------------------------------------------------------------------------|----------------------------------------|-----------|-------------|
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.5050                                 | 0.4995    | 0.5140      |
 | **nDCG@10**                                                                                                  | **SPLADE++ CoCondenser-EnsembleDistil**| **+RM3**  | **+Rocchio**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7308    | 0.6849    | 0.7119    |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7308                                 | 0.6849    | 0.7119      |
 | **R@100**                                                                                                    | **SPLADE++ CoCondenser-EnsembleDistil**| **+RM3**  | **+Rocchio**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6390    | 0.6427    | 0.6394    |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6390                                 | 0.6427    | 0.6394      |
 | **R@1000**                                                                                                   | **SPLADE++ CoCondenser-EnsembleDistil**| **+RM3**  | **+Rocchio**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.8728    | 0.8684    | 0.8799    |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.8728                                 | 0.8684    | 0.8799      |
 
 ❗ Retrieval metrics here are computed to depth 1000 hits per query (as opposed to 100 hits per query for document ranking).
 For computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., AP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).

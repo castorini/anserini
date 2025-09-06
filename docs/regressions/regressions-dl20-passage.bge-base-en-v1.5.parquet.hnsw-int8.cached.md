@@ -96,14 +96,14 @@ bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.t
 With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **BGE-base-en-v1.5**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.465     |
+|:-------------------------------------------------------------------------------------------------------------|---------------------|
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.465               |
 | **nDCG@10**                                                                                                  | **BGE-base-en-v1.5**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.678     |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.678               |
 | **R@100**                                                                                                    | **BGE-base-en-v1.5**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.717     |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.717               |
 | **R@1000**                                                                                                   | **BGE-base-en-v1.5**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.850     |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.850               |
 
 The above figures are from running brute-force search with cached queries on non-quantized **flat** indexes.
 With cached queries on quantized HNSW indexes, observed results are likely to differ; scores may be lower by up to 0.01, sometimes more.

@@ -73,11 +73,11 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.bright-robotics.txt
 With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **BGE-large-en-v1.5**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BRIGHT: Robotics                                                                                             | 0.1171    |
+|:-------------------------------------------------------------------------------------------------------------|----------------------|
+| BRIGHT: Robotics                                                                                             | 0.1171               |
 | **R@100**                                                                                                    | **BGE-large-en-v1.5**|
-| BRIGHT: Robotics                                                                                             | 0.3155    |
+| BRIGHT: Robotics                                                                                             | 0.3155               |
 | **R@1000**                                                                                                   | **BGE-large-en-v1.5**|
-| BRIGHT: Robotics                                                                                             | 0.6114    |
+| BRIGHT: Robotics                                                                                             | 0.6114               |
 
 Note that since we're running brute-force search with cached queries on non-quantized flat indexes, the results should be reproducible _exactly_.

@@ -89,13 +89,13 @@ bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 tools/topics-and-qrels/q
 With the above commands, you should be able to reproduce the following results:
 
 | **MAP@100**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
-| RAG 24: RAGgy dev queries                                                                                    | 0.1251    | 0.1354    | 0.1358    |
+|:-------------------------------------------------------------------------------------------------------------|-------------------|-----------|-------------|
+| RAG 24: RAGgy dev queries                                                                                    | 0.1251            | 0.1354    | 0.1358      |
 | **MRR@100**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| RAG 24: RAGgy dev queries                                                                                    | 0.7060    | 0.5818    | 0.5887    |
+| RAG 24: RAGgy dev queries                                                                                    | 0.7060            | 0.5818    | 0.5887      |
 | **nDCG@10**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| RAG 24: RAGgy dev queries                                                                                    | 0.3631    | 0.3280    | 0.3332    |
+| RAG 24: RAGgy dev queries                                                                                    | 0.3631            | 0.3280    | 0.3332      |
 | **R@100**                                                                                                    | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| RAG 24: RAGgy dev queries                                                                                    | 0.2433    | 0.2513    | 0.2556    |
+| RAG 24: RAGgy dev queries                                                                                    | 0.2433            | 0.2513    | 0.2556      |
 | **R@1000**                                                                                                   | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| RAG 24: RAGgy dev queries                                                                                    | 0.5317    | 0.5649    | 0.5666    |
+| RAG 24: RAGgy dev queries                                                                                    | 0.5317            | 0.5649    | 0.5666      |
