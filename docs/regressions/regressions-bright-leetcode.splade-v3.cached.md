@@ -76,9 +76,9 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.bright-leetcode.txt
 With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **SPLADE-v3**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BRIGHT: LeetCode                                                                                             | 0.2597    |
+|:-------------------------------------------------------------------------------------------------------------|--------------|
+| BRIGHT: LeetCode                                                                                             | 0.2597       |
 | **R@100**                                                                                                    | **SPLADE-v3**|
-| BRIGHT: LeetCode                                                                                             | 0.5019    |
+| BRIGHT: LeetCode                                                                                             | 0.5019       |
 | **R@1000**                                                                                                   | **SPLADE-v3**|
-| BRIGHT: LeetCode                                                                                             | 0.8549    |
+| BRIGHT: LeetCode                                                                                             | 0.8549       |

@@ -75,9 +75,9 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-scidocs
 With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **SPLADE++ (CoCondenser-EnsembleDistil)**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): SCIDOCS                                                                                       | 0.1588    |
+|:-------------------------------------------------------------------------------------------------------------|------------------------------------------|
+| BEIR (v1.0.0): SCIDOCS                                                                                       | 0.1588                                   |
 | **R@100**                                                                                                    | **SPLADE++ (CoCondenser-EnsembleDistil)**|
-| BEIR (v1.0.0): SCIDOCS                                                                                       | 0.3730    |
+| BEIR (v1.0.0): SCIDOCS                                                                                       | 0.3730                                   |
 | **R@1000**                                                                                                   | **SPLADE++ (CoCondenser-EnsembleDistil)**|
-| BEIR (v1.0.0): SCIDOCS                                                                                       | 0.6020    |
+| BEIR (v1.0.0): SCIDOCS                                                                                       | 0.6020                                   |

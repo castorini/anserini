@@ -75,9 +75,9 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadups
 With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **SPLADE-v3**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): CQADupStack-android                                                                           | 0.4109    |
+|:-------------------------------------------------------------------------------------------------------------|--------------|
+| BEIR (v1.0.0): CQADupStack-android                                                                           | 0.4109       |
 | **R@100**                                                                                                    | **SPLADE-v3**|
-| BEIR (v1.0.0): CQADupStack-android                                                                           | 0.7418    |
+| BEIR (v1.0.0): CQADupStack-android                                                                           | 0.7418       |
 | **R@1000**                                                                                                   | **SPLADE-v3**|
-| BEIR (v1.0.0): CQADupStack-android                                                                           | 0.9205    |
+| BEIR (v1.0.0): CQADupStack-android                                                                           | 0.9205       |

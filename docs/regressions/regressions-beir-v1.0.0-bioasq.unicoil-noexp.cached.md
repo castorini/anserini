@@ -73,9 +73,9 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-bioasq.
 With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **uniCOIL no expansion**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): BioASQ                                                                                        | 0.4771    |
+|:-------------------------------------------------------------------------------------------------------------|-------------------------|
+| BEIR (v1.0.0): BioASQ                                                                                        | 0.4771                  |
 | **R@100**                                                                                                    | **uniCOIL no expansion**|
-| BEIR (v1.0.0): BioASQ                                                                                        | 0.7306    |
+| BEIR (v1.0.0): BioASQ                                                                                        | 0.7306                  |
 | **R@1000**                                                                                                   | **uniCOIL no expansion**|
-| BEIR (v1.0.0): BioASQ                                                                                        | 0.8814    |
+| BEIR (v1.0.0): BioASQ                                                                                        | 0.8814                  |

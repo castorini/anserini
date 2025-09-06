@@ -76,14 +76,14 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl20-doc.txt runs/r
 With the above commands, you should be able to reproduce the following results:
 
 | **AP@100**                                                                                                   | **BM25 (default)**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.3568    |
+|:-------------------------------------------------------------------------------------------------------------|-------------------|
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.3568            |
 | **nDCG@10**                                                                                                  | **BM25 (default)**|
-| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.5196    |
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.5196            |
 | **R@100**                                                                                                    | **BM25 (default)**|
-| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.5912    |
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.5912            |
 | **R@1000**                                                                                                   | **BM25 (default)**|
-| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.7856    |
+| [DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)                                                       | 0.7856            |
 
 Explanation of settings:
 

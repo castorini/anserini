@@ -72,12 +72,12 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-robust0
 With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **BGE-base-en-v1.5**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): Robust04                                                                                      | 0.447     |
+|:-------------------------------------------------------------------------------------------------------------|---------------------|
+| BEIR (v1.0.0): Robust04                                                                                      | 0.447               |
 | **R@100**                                                                                                    | **BGE-base-en-v1.5**|
-| BEIR (v1.0.0): Robust04                                                                                      | 0.351     |
+| BEIR (v1.0.0): Robust04                                                                                      | 0.351               |
 | **R@1000**                                                                                                   | **BGE-base-en-v1.5**|
-| BEIR (v1.0.0): Robust04                                                                                      | 0.598     |
+| BEIR (v1.0.0): Robust04                                                                                      | 0.598               |
 
 The above figures are from running brute-force search with cached queries on non-quantized **flat** indexes.
 With cached queries on quantized HNSW indexes, observed results may differ slightly (typically, lower), but scores should generally be within 0.005 of the results reported above (with some outliers).

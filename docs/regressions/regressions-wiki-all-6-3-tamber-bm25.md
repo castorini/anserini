@@ -143,20 +143,20 @@ python -m pyserini.eval.evaluate_dpr_retrieval --topk 100 --retrieval runs/run.w
 With the above commands, you should be able to reproduce the following results:
 
 | **top_20_accuracy**                                                                                          | **BM25 (default parameters)**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [DPR: Natural Questions Test](https://github.com/facebookresearch/DPR)                                       | 0.6604    |
-| [DPR: TriviaQA Test](https://github.com/facebookresearch/DPR)                                                | 0.7832    |
-| [DPR: SQuAD Test](https://github.com/facebookresearch/DPR)                                                   | 0.7265    |
-| [DPR: WebQuestions Test](https://github.com/facebookresearch/DPR)                                            | 0.6403    |
-| [DPR: CuratedTREC Test](https://github.com/facebookresearch/DPR)                                             | 0.8055    |
-| [EfficientQA: Natural Questions Test](https://efficientqa.github.io/)                                        | 0.6665    |
+|:-------------------------------------------------------------------------------------------------------------|------------------------------|
+| [DPR: Natural Questions Test](https://github.com/facebookresearch/DPR)                                       | 0.6604                       |
+| [DPR: TriviaQA Test](https://github.com/facebookresearch/DPR)                                                | 0.7832                       |
+| [DPR: SQuAD Test](https://github.com/facebookresearch/DPR)                                                   | 0.7265                       |
+| [DPR: WebQuestions Test](https://github.com/facebookresearch/DPR)                                            | 0.6403                       |
+| [DPR: CuratedTREC Test](https://github.com/facebookresearch/DPR)                                             | 0.8055                       |
+| [EfficientQA: Natural Questions Test](https://efficientqa.github.io/)                                        | 0.6665                       |
 | **top_100_accuracy**                                                                                         | **BM25 (default parameters)**|
-| [DPR: Natural Questions Test](https://github.com/facebookresearch/DPR)                                       | 0.8083    |
-| [DPR: TriviaQA Test](https://github.com/facebookresearch/DPR)                                                | 0.8482    |
-| [DPR: SQuAD Test](https://github.com/facebookresearch/DPR)                                                   | 0.8325    |
-| [DPR: WebQuestions Test](https://github.com/facebookresearch/DPR)                                            | 0.7874    |
-| [DPR: CuratedTREC Test](https://github.com/facebookresearch/DPR)                                             | 0.9135    |
-| [EfficientQA: Natural Questions Test](https://efficientqa.github.io/)                                        | 0.8166    |
+| [DPR: Natural Questions Test](https://github.com/facebookresearch/DPR)                                       | 0.8083                       |
+| [DPR: TriviaQA Test](https://github.com/facebookresearch/DPR)                                                | 0.8482                       |
+| [DPR: SQuAD Test](https://github.com/facebookresearch/DPR)                                                   | 0.8325                       |
+| [DPR: WebQuestions Test](https://github.com/facebookresearch/DPR)                                            | 0.7874                       |
+| [DPR: CuratedTREC Test](https://github.com/facebookresearch/DPR)                                             | 0.9135                       |
+| [EfficientQA: Natural Questions Test](https://efficientqa.github.io/)                                        | 0.8166                       |
 
 ## Reproduction Log[*](../../docs/reproducibility.md)
 

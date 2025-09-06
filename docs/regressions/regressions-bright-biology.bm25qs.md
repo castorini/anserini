@@ -69,9 +69,9 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.bright-biology.txt 
 With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **query-side-BM25**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BRIGHT: Biology                                                                                              | 0.1972    |
+|:-------------------------------------------------------------------------------------------------------------|--------------------|
+| BRIGHT: Biology                                                                                              | 0.1972             |
 | **R@100**                                                                                                    | **query-side-BM25**|
-| BRIGHT: Biology                                                                                              | 0.4583    |
+| BRIGHT: Biology                                                                                              | 0.4583             |
 | **R@1000**                                                                                                   | **query-side-BM25**|
-| BRIGHT: Biology                                                                                              | 0.7638    |
+| BRIGHT: Biology                                                                                              | 0.7638             |

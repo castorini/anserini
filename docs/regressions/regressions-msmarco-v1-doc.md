@@ -97,14 +97,14 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-doc.dev.txt
 With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **BM25 (default)**| **BM25 (tuned)**| **BM25 (tuned2)**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
-| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.2305    | 0.2784    | 0.2773    |
+|:-------------------------------------------------------------------------------------------------------------|-------------------|-----------------|------------------|
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.2305            | 0.2784          | 0.2773           |
 | **RR@100**                                                                                                   | **BM25 (default)**| **BM25 (tuned)**| **BM25 (tuned2)**|
-| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.2299    | 0.2778    | 0.2767    |
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.2299            | 0.2778          | 0.2767           |
 | **R@100**                                                                                                    | **BM25 (default)**| **BM25 (tuned)**| **BM25 (tuned2)**|
-| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.7281    | 0.8069    | 0.8070    |
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.7281            | 0.8069          | 0.8070           |
 | **R@1000**                                                                                                   | **BM25 (default)**| **BM25 (tuned)**| **BM25 (tuned2)**|
-| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.8856    | 0.9324    | 0.9357    |
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.8856            | 0.9324          | 0.9357           |
 
 Explanation of settings:
 

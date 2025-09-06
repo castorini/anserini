@@ -129,14 +129,14 @@ bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.t
 With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **uniCOIL (no expansions)**| **+RM3**  | **+Rocchio**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.4033    | 0.4176    | 0.4195    |
+|:-------------------------------------------------------------------------------------------------------------|----------------------------|-----------|-------------|
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.4033                     | 0.4176    | 0.4195      |
 | **nDCG@10**                                                                                                  | **uniCOIL (no expansions)**| **+RM3**  | **+Rocchio**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6433    | 0.6168    | 0.6226    |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6433                     | 0.6168    | 0.6226      |
 | **R@100**                                                                                                    | **uniCOIL (no expansions)**| **+RM3**  | **+Rocchio**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.5629    | 0.5915    | 0.5883    |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.5629                     | 0.5915    | 0.5883      |
 | **R@1000**                                                                                                   | **uniCOIL (no expansions)**| **+RM3**  | **+Rocchio**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7752    | 0.8019    | 0.7998    |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7752                     | 0.8019    | 0.7998      |
 
 ❗ Retrieval metrics here are computed to depth 1000 hits per query (as opposed to 100 hits per query for document ranking).
 For computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., AP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).

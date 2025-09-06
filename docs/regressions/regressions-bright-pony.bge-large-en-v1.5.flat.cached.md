@@ -73,11 +73,11 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.bright-pony.txt run
 With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **BGE-large-en-v1.5**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BRIGHT: Pony                                                                                                 | 0.0572    |
+|:-------------------------------------------------------------------------------------------------------------|----------------------|
+| BRIGHT: Pony                                                                                                 | 0.0572               |
 | **R@100**                                                                                                    | **BGE-large-en-v1.5**|
-| BRIGHT: Pony                                                                                                 | 0.2751    |
+| BRIGHT: Pony                                                                                                 | 0.2751               |
 | **R@1000**                                                                                                   | **BGE-large-en-v1.5**|
-| BRIGHT: Pony                                                                                                 | 0.7750    |
+| BRIGHT: Pony                                                                                                 | 0.7750               |
 
 Note that since we're running brute-force search with cached queries on non-quantized flat indexes, the results should be reproducible _exactly_.

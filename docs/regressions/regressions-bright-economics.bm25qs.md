@@ -69,9 +69,9 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.bright-economics.tx
 With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **query-side-BM25**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BRIGHT: Economics                                                                                            | 0.1518    |
+|:-------------------------------------------------------------------------------------------------------------|--------------------|
+| BRIGHT: Economics                                                                                            | 0.1518             |
 | **R@100**                                                                                                    | **query-side-BM25**|
-| BRIGHT: Economics                                                                                            | 0.3774    |
+| BRIGHT: Economics                                                                                            | 0.3774             |
 | **R@1000**                                                                                                   | **query-side-BM25**|
-| BRIGHT: Economics                                                                                            | 0.7140    |
+| BRIGHT: Economics                                                                                            | 0.7140             |
