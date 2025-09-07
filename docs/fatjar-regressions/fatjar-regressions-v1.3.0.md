@@ -437,30 +437,30 @@ The following table reports nDCG@10 scores.
 > Yijun Ge, Sahel Sharifymoghaddam, and Jimmy Lin. [Lighting the Way for BRIGHT: Reproducible Baselines with Anserini, Pyserini, and RankLLM.](https://arxiv.org/abs/2509.02558) _arXiv:2509.02558_, 2025.
 
 
-| Corpus                    |    BM25    | SPLADE-v3  | BGE (flat) |
-|---------------------------|:----------:|:----------:|:----------:|
-| **StackExchange**         |            |            |            |
-| Biology                   |   0.1824   |   0.2101   |   0.1242   |
-| Earth Science             |   0.2791   |   0.2670   |   0.2545   |
-| Economics                 |   0.1645   |   0.1604   |   0.1662   |
-| Psychology                |   0.1342   |   0.1527   |   0.1805   |
-| Robotics                  |   0.1091   |   0.1578   |   0.1230   |
-| Stack Overflow            |   0.1626   |   0.1290   |   0.1099   |
-| Sustainable Living        |   0.1613   |   0.1497   |   0.1440   |
-| **StackExchange** average | **0.1705** | **0.1752** | **0.1575** |
-| &nbsp;                    |            |            |            |
-| **Coding**                |            |            |            |
-| LeetCode                  |   0.2471   |   0.2603   |   0.2668   |
-| Pony                      |   0.0434   |   0.1440   |   0.0338   |
-| **Coding** average        | **0.1453** | **0.2022** | **0.1503** |
-| &nbsp;                    |            |            |            |
-| **Theorems**              |            |            |            |
-| AoPS                      |   0.0645   |   0.0692   |   0.0638   |
-| TheoremQA-Q               |   0.0733   |   0.1113   |   0.1411   |
-| TheoremQA-T               |   0.0214   |   0.0554   |   0.0532   |
-| **Theorems** average      | **0.0531** | **0.0786** | **0.0860** |
-| &nbsp;                    |            |            |            |
-| **Overall average**       | **0.1369** | **0.1556** | **0.1384** |
+| Corpus                    |    BM25    |   BM25QS   |  SPLADE-v3 | BGE (flat) |
+|---------------------------|:----------:|:----------:|:----------:|:----------:|
+| **StackExchange**         |            |            |            |            |
+| Biology                   |   0.1824   |   0.1972   |   0.2101   |   0.1242   |
+| Earth Science             |   0.2791   |   0.2789   |    0.267   |   0.2545   |
+| Economics                 |   0.1645   |   0.1518   |   0.1604   |   0.1662   |
+| Psychology                |   0.1342   |   0.1266   |   0.1527   |   0.1805   |
+| Robotics                  |   0.1091   |   0.1390   |   0.1578   |    0.123   |
+| Stack Overflow            |   0.1626   |   0.1855   |    0.129   |   0.1099   |
+| Sustainable Living        |   0.1613   |   0.1515   |   0.1497   |    0.144   |
+| **StackExchange** average | **0.1705** | **0.1758** | **0.1752** | **0.1575** |
+| &nbsp;                    |            |            |            |            |
+| **Coding**                |            |            |            |            |
+| LeetCode                  |   0.2471   |   0.2497   |   0.2603   |   0.2668   |
+| Pony                      |   0.0434   |   0.0789   |    0.144   |   0.0338   |
+| **Coding** average        | **0.1453** | **0.1643** | **0.2022** | **0.1503** |
+| &nbsp;                    |            |            |            |            |
+| **Theorems**              |            |            |            |            |
+| AoPS                      |   0.0645   |   0.0627   |   0.0692   |   0.0638   |
+| TheoremQA-Q               |   0.0733   |   0.1036   |   0.1113   |   0.1411   |
+| TheoremQA-T               |   0.0214   |   0.0492   |   0.0554   |   0.0532   |
+| **Theorems** average      | **0.0531** | **0.0718** | **0.0786** | **0.0860** |
+| &nbsp;                    |            |            |            |            |
+| **Overall average**       | **0.1369** | **0.1479** | **0.1556** | **0.1384** |
 
 The following command will reproduce runs corresponding to the above models (as well as additional ones not included in the table):
 
