@@ -3,6 +3,12 @@
 The following change log details commits to regression tests that alter effectiveness and the addition (or removal) of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### September 5, 2025
+
++ commit [`e394df`](https://github.com/castorini/anserini/commit/e394df0639cd693b278a36ef44cd3ccf9b3e01b3)
+
+Added query-side BM25 regressions for BRIGHT.
+
 ### August 21, 2025
 
 + commit [`f2f898`](https://github.com/castorini/anserini/commit/f2f89834aceb2ea2fbd6bbfcf440953e29731ddf)

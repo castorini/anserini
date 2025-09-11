@@ -1013,19 +1013,38 @@ nohup python src/main/python/run_regression.py --index --verify --search --regre
 <details>
 <summary>BRIGHT: BM25</summary>
 
+Default BM25:
+
 ```bash
-nohup python src/main/python/run_regression.py --index --verify --search --regression bright-aops >& logs/log.bright-aops.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression bright-biology >& logs/log.bright-biology.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression bright-earth-science >& logs/log.bright-earth-science.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression bright-economics >& logs/log.bright-economics.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression bright-leetcode >& logs/log.bright-leetcode.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression bright-pony >& logs/log.bright-pony.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression bright-psychology >& logs/log.bright-psychology.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression bright-robotics >& logs/log.bright-robotics.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression bright-stackoverflow >& logs/log.bright-stackoverflow.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression bright-sustainable-living >& logs/log.bright-sustainable-living.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression bright-theoremqa-questions >& logs/log.bright-theoremqa-questions.txt &
-nohup python src/main/python/run_regression.py --index --verify --search --regression bright-theoremqa-theorems >& logs/log.bright-theoremqa-theorems.txt &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-aops > logs/log.bright-aops.txt 2>&1 &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-biology > logs/log.bright-biology.txt 2>&1 &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-earth-science > logs/log.bright-earth-science.txt 2>&1 &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-economics > logs/log.bright-economics.txt 2>&1 &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-leetcode > logs/log.bright-leetcode.txt 2>&1 &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-pony > logs/log.bright-pony.txt 2>&1 &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-psychology > logs/log.bright-psychology.txt 2>&1 &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-robotics > logs/log.bright-robotics.txt 2>&1 &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-stackoverflow > logs/log.bright-stackoverflow.txt 2>&1 &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-sustainable-living > logs/log.bright-sustainable-living.txt 2>&1 &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-theoremqa-questions > logs/log.bright-theoremqa-questions.txt 2>&1 &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-theoremqa-theorems > logs/log.bright-theoremqa-theorems.txt 2>&1 &
+```
+
+Query-side BM25:
+
+```bash
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-aops.bm25qs > logs/log.bright-aops.bm25qs.txt 2>&1 &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-biology.bm25qs > logs/log.bright-biology.bm25qs.txt 2>&1 &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-earth-science.bm25qs > logs/log.bright-earth-science.bm25qs.txt 2>&1 &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-economics.bm25qs > logs/log.bright-economics.bm25qs.txt 2>&1 &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-leetcode.bm25qs > logs/log.bright-leetcode.bm25qs.txt 2>&1 &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-pony.bm25qs > logs/log.bright-pony.bm25qs.txt 2>&1 &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-psychology.bm25qs > logs/log.bright-psychology.bm25qs.txt 2>&1 &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-robotics.bm25qs > logs/log.bright-robotics.bm25qs.txt 2>&1 &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-stackoverflow.bm25qs > logs/log.bright-stackoverflow.bm25qs.txt 2>&1 &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-sustainable-living.bm25qs > logs/log.bright-sustainable-living.bm25qs.txt 2>&1 &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-theoremqa-questions.bm25qs > logs/log.bright-theoremqa-questions.bm25qs.txt 2>&1 &
+nohup python src/main/python/run_regression.py --index --verify --search --regression bright-theoremqa-theorems.bm25qs > logs/log.bright-theoremqa-theorems.bm25qs.txt 2>&1 &
 ```
 
 </details>
