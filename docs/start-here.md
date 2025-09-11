@@ -501,3 +501,4 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@CereNova](https://github.com/CereNova) on 2025-09-04 (commit [`b01c121`](https://github.com/castorini/anserini/commit/b01c1218aa199b8465327bc0be39bc7912642efb))
 + Results reproduced by [@NathanNCN](https://github.com/NathanNCN) on 2025-09-06(commit [`9e39f94`](https://github.com/castorini/anserini/commit/9e39f9463227b0100e0bbc4552895a394993754f))
 + Results reproduced by [@ShivamSingal](https://github.com/ShivamSingal) on 2025-09-07 (commit [`f59c8ee`](https://github.com/castorini/anserini/commit/f59c8ee05f5b61370874075c970f18c43ca41e37))
++ Results reproduced by [@FarmersWrap](https://github.com/FarmersWrap) on 2025-09-10 (commit [`676af03`](https://github.com/castorini/anserini/commit/676af034e8481d043880d22f8f2390ac56b8736d))
