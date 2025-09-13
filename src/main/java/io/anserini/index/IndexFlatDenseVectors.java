@@ -27,7 +27,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.lucene.codecs.KnnVectorsFormat;
 import org.apache.lucene.codecs.KnnVectorsReader;
 import org.apache.lucene.codecs.KnnVectorsWriter;
-import org.apache.lucene.codecs.lucene99.Lucene99Codec;
+import org.apache.lucene.codecs.lucene912.Lucene912Codec;
 import org.apache.lucene.index.ConcurrentMergeScheduler;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
@@ -88,7 +88,7 @@ public final class IndexFlatDenseVectors extends AbstractIndexer {
 
       if (args.quantizeInt8) {
         config = new IndexWriterConfig().setCodec(
-            new Lucene99Codec() {
+            new Lucene912Codec() {
               @Override
               public KnnVectorsFormat getKnnVectorsFormatForField(String field) {
                 return new DelegatingKnnVectorsFormat(new AnseriniLucene99ScalarQuantizedVectorsFormat(), 4096);
@@ -96,7 +96,7 @@ public final class IndexFlatDenseVectors extends AbstractIndexer {
             });
       } else {
         config = new IndexWriterConfig().setCodec(
-            new Lucene99Codec() {
+            new Lucene912Codec() {
               @Override
               public KnnVectorsFormat getKnnVectorsFormatForField(String field) {
                 return new DelegatingKnnVectorsFormat(new AnseriniLucene99FlatVectorFormat(), 4096);

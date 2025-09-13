@@ -72,7 +72,7 @@ public class AnseriniLucene99FlatVectorFormat extends KnnVectorsFormat {
 
     @Override
     public KnnFieldVectorsWriter<?> addField(FieldInfo fieldInfo) throws IOException {
-      return writer.addField(fieldInfo, null);
+      return writer.addField(fieldInfo);
     }
 
     @Override
