@@ -480,7 +480,11 @@ public enum IndexInfo {
       IndexType.SPARSE_INVERTED,
       null,
       BagOfWordsQueryGenerator.class.getSimpleName(),
-      "msmarco-v2-doc"),
+      "msmarco-v2-doc",
+      63431305265L,
+      14165667143L,
+      11959635,
+      44860768),
 
   MSMARCO_V2_DOC_D2Q_T5("msmarco-v2-doc.d2q-t5",
       "Anserini Lucene inverted index of the MS MARCO V2 document corpus with doc2query-T5 expansions",
