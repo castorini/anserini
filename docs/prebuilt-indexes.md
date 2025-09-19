@@ -1144,9 +1144,25 @@ Therefore, do not modify this page directly; modify the test case instead.
 [<a href="https://github.com/castorini/pyserini/blob/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2.1-doc.20240418.4f9675.README.md">readme</a>]
 <dd>Anserini Lucene inverted index of the MS MARCO V2.1 document corpus
 </dd>
+<dt></dt><b><code>msmarco-v2.1-doc-slim</code></b>
+[<a href="https://github.com/castorini/pyserini/blob/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2.1-doc.20240418.4f9675.README.md">readme</a>]
+<dd>Anserini Lucene inverted index of the MS MARCO V2.1 document corpus ('slim' version)
+</dd>
+<dt></dt><b><code>msmarco-v2.1-doc-full</code></b>
+[<a href="https://github.com/castorini/pyserini/blob/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2.1-doc.20240418.4f9675.README.md">readme</a>]
+<dd>Anserini Lucene inverted index of the MS MARCO V2.1 document corpus ('full' version)
+</dd>
 <dt></dt><b><code>msmarco-v2.1-doc-segmented</code></b>
 [<a href="https://github.com/castorini/pyserini/blob/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2.1-doc-segmented.20240418.4f9675.README.md">readme</a>]
 <dd>Anserini Lucene inverted index of the MS MARCO V2.1 segmented document corpus
+</dd>
+<dt></dt><b><code>msmarco-v2.1-doc-segmented-slim</code></b>
+[<a href="https://github.com/castorini/pyserini/blob/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2.1-doc-segmented.20240418.4f9675.README.md">readme</a>]
+<dd>Anserini Lucene inverted index of the MS MARCO V2.1 segmented document corpus ('slim' version)
+</dd>
+<dt></dt><b><code>msmarco-v2.1-doc-segmented-full</code></b>
+[<a href="https://github.com/castorini/pyserini/blob/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2.1-doc-segmented.20240418.4f9675.README.md">readme</a>]
+<dd>Anserini Lucene inverted index of the MS MARCO V2.1 segmented document corpus ('full' version)
 </dd>
 </dl>
 </details>
