@@ -22,6 +22,29 @@ conditions:
           - MAP: 0.2856
             nDCG@10: 0.4796
             R@1K: 0.7863
+  - name: bm25-d2q-t5
+    display: "BM25 with doc2query-T5 (k1=0.9, b=0.4)"
+    display_html: "BM25 with doc2query-T5  (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
+    display_row: ""
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-passage.d2q-t5 -topics $topics -output $output -hits 1000 -bm25
+    topics:
+      - topic_key: msmarco-v1-passage.dev
+        eval_key: msmarco-passage.dev
+        scores:
+          - MRR@10: 0.2723
+            R@1K: 0.9470
+      - topic_key: dl19-passage
+        eval_key: dl19-passage
+        scores:
+          - MAP: 0.4034
+            nDCG@10: 0.6417
+            R@1K: 0.8310
+      - topic_key: dl20-passage
+        eval_key: dl20-passage
+        scores:
+          - MAP: 0.4074
+            nDCG@10: 0.6187
+            R@1K: 0.8452
   - name: splade-pp-ed.cached
     display: "SPLADE++ EnsembleDistil: cached queries"
     display_html: "SPLADE++ EnsembleDistil: cached queries"
