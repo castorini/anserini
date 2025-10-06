@@ -3640,7 +3640,7 @@ public enum IndexInfo {
       null,
       BagOfWordsQueryGenerator.class.getSimpleName(),
       "bright-economics",
-      53415849,
+      23991405,
       2209688,
       50220,
       96651),
