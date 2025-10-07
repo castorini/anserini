@@ -313,7 +313,7 @@ $ wc collections/msmarco-passage/qrels.dev.small.tsv
 7437   29748  143300 collections/msmarco-passage/qrels.dev.small.tsv
 ```
 
-This means that we have only about one relevance judgments per query.
+This means that we have only about one relevance judgment per query.
 We call these **sparse judgments**, i.e., where we have relatively few relevance judgments per query (here, just about one relevance judgment per query).
 In other cases, where we have many relevance judgments per query (potentially hundreds or even more), we call those **dense judgments**.
 There are important implications when using sparse vs. dense judgments, but that's for another time...
