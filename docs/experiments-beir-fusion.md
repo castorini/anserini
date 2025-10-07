@@ -196,4 +196,8 @@ do
 
     java -cp $ANSERINI_JAR trec_eval -c -m recall.1000 qrels.beir-v1.0.0-${c}.test.txt $OUTPUT_DIR/runs.fuse.norm.beir-v1.0.0-${c}.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-${c}.test.txt
 done
-```
+```  
+
+## Reproduction Log[*](reproducibility.md)
+
++ Results reproduced by [@FarmersWrap](https://github.com/FarmersWrap) on 2025-10-05 (commit [`10ae206`](https://github.com/castorini/anserini/commit/10ae2062a5d5607657ec6abf842b08e50bf151c4))
