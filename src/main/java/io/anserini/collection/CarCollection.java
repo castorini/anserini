@@ -72,7 +72,10 @@ public class CarCollection extends DocumentCollection<CarCollection.Document> {
 
     public Segment(BufferedReader bufferedReader) throws IOException {
       super(bufferedReader);
-      stream = new ReaderInputStream(bufferedReader, StandardCharsets.UTF_8);
+      stream = ReaderInputStream.builder()
+        .setReader(bufferedReader)
+        .setCharset(StandardCharsets.UTF_8)
+        .get();
       iter = DeserializeData.iterableParagraphs(stream).iterator();
     }
 

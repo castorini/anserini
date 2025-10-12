@@ -25,6 +25,7 @@ import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -101,7 +102,7 @@ public class GenerateRerankerRequests<K extends Comparable<K>> implements Closea
       throw new IllegalArgumentException("Raw document with docid " + docid + " not found in index.");
     }
     JsonNode rootNode = mapper.readTree(raw);
-    Map<String, Object> content = mapper.convertValue(rootNode, Map.class);
+    Map<String, Object> content = mapper.convertValue(rootNode, new TypeReference<Map<String, Object>>() {});
     content.remove(Constants.ID); // Remove the ID field from the content
     content.remove("_id");
     content.remove("docid");
@@ -144,7 +145,7 @@ public class GenerateRerankerRequests<K extends Comparable<K>> implements Closea
         String qid = data[0];
         if (!curQid.equals(qid)) {
           if (!curQid.isEmpty()) {
-            writeQuery((K) curQid);
+            writeQuery(findQid(curQid));
           }
           curQid = qid;
         }
@@ -152,8 +153,17 @@ public class GenerateRerankerRequests<K extends Comparable<K>> implements Closea
         float score = Float.parseFloat(data[4]);
         addCandidate(docid, score);
       }
-      writeQuery((K) curQid); 
+      writeQuery(findQid(curQid));
     }
+  }
+
+  private K findQid(String qidStr) {
+    for (K qid : qids) {
+      if (qid.toString().equals(qidStr)) {
+        return qid;
+      }
+    }
+    throw new IllegalArgumentException("Query ID not found in the list of topics: " + qidStr);
   }
 
   public void getTopics(String topicsFile) throws IOException {

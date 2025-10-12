@@ -18,6 +18,7 @@ package io.anserini.search;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.anserini.eval.ExcludeDocs;
@@ -70,7 +71,7 @@ public class RunOutputWriter<K extends Comparable<K>> implements Closeable {
       for (ScoredDoc r : results) {
         String raw = r.lucene_document.get(Constants.RAW);
         JsonNode rootNode = mapper.readTree(raw);
-        Map<String, Object> content = mapper.convertValue(rootNode, Map.class);
+        Map<String, Object> content = mapper.convertValue(rootNode, new TypeReference<Map<String, Object>>() {});
         content.remove("docid");
         Map<String, Object> candidate = new LinkedHashMap<>();
         candidate.put("docid", r.docid);
