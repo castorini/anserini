@@ -20,7 +20,7 @@ import me.tongfei.progressbar.ProgressBar;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.input.CountingInputStream;
+import org.apache.commons.io.input.BoundedInputStream;
 
 import io.anserini.index.IndexInfo;
 
@@ -157,7 +157,10 @@ public class PrebuiltIndexHandler {
     long completeFileSize = httpConnection.getContentLengthLong();
 
     try (InputStream inputStream = url.openStream();
-        CountingInputStream cis = new CountingInputStream(inputStream);
+        BoundedInputStream bis = BoundedInputStream.builder()
+          .setInputStream(inputStream)
+          .setMaxCount(completeFileSize)
+          .get();
         FileOutputStream fileOS = new FileOutputStream(savePath.toFile());
         ProgressBar pb = new ProgressBar(indexName, Math.floorDiv(completeFileSize, 1000))) {
 
@@ -165,17 +168,17 @@ public class PrebuiltIndexHandler {
 
       new Thread(() -> {
         try {
-          IOUtils.copyLarge(cis, fileOS);
+          IOUtils.copyLarge(bis, fileOS);
         } catch (IOException e) {
           e.printStackTrace();
         }
       }).start();
 
-      while (cis.getByteCount() < completeFileSize) {
-        pb.stepTo(Math.floorDiv(cis.getByteCount(), 1000));
+      while (bis.getCount() < completeFileSize) {
+        pb.stepTo(Math.floorDiv(bis.getCount(), 1000));
       }
 
-      pb.stepTo(Math.floorDiv(cis.getByteCount(), 1000));
+      pb.stepTo(Math.floorDiv(bis.getCount(), 1000));
       pb.close();
 
       InputStream is = Files.newInputStream(savePath);
