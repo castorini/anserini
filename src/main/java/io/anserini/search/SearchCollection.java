@@ -240,7 +240,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     // ----------------------------------------------------------
 
     @Option(name = "-impact",
-        forbids = {"-bm25", "-bm25.accurate", "-qld", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
+        forbids = {"-bm25", "-bm25.accurate", "-bm25.querySide", "-qld", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
         usage = "ranking model: BM25")
     public boolean impact = false;
 
@@ -281,7 +281,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     // --------------------------------------------------------
 
     @Option(name = "-qld",
-        forbids = {"-impact", "-bm25", "-bm25.accurate", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
+        forbids = {"-impact", "-bm25", "-bm25.accurate", "-bm25.querySide", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
         usage = "ranking model: query likelihood with Dirichlet smoothing")
     public boolean qld = false;
 
@@ -301,7 +301,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     // -------------------------------------------------------------
 
     @Option(name = "-qljm",
-        forbids = {"-impact", "-bm25", "-bm25.accurate", "-qld", "-inl2", "-spl", "-f2exp", "-f2log"},
+        forbids = {"-impact", "-bm25", "-bm25.accurate", "-bm25.querySide", "-qld", "-inl2", "-spl", "-f2exp", "-f2log"},
         usage = "ranking model: query likelihood with Jelinek-Mercer smoothing")
     public boolean qljm = false;
 
@@ -313,7 +313,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     // -----------------------------------------
 
     @Option(name = "-inl2",
-        forbids = {"-impact", "bm25", "-bm25.accurate", "-qld", "-qljm", "-spl", "-f2exp", "-f2log"},
+        forbids = {"-impact", "bm25", "-bm25.accurate", "-bm25.querySide", "-qld", "-qljm", "-spl", "-f2exp", "-f2log"},
         usage = "use I(n)L2 scoring model")
     public boolean inl2 = false;
 
@@ -321,7 +321,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     public String[] inl2_c = new String[]{"0.1"};
 
     @Option(name = "-spl",
-        forbids = {"-impact", "bm25", "-bm25.accurate", "-qld", "-qljm", "-inl2", "-f2exp", "-f2log"},
+        forbids = {"-impact", "bm25", "-bm25.accurate", "-bm25.querySide", "-qld", "-qljm", "-inl2", "-f2exp", "-f2log"},
         usage = "use SPL scoring model")
     public boolean spl = false;
 
@@ -329,7 +329,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     public String[] spl_c = new String[]{"0.1"};
 
     @Option(name = "-f2exp",
-        forbids = {"-impact", "bm25", "-bm25.accurate", "-qld", "-qljm", "-inl2", "-spl", "-f2log"},
+        forbids = {"-impact", "bm25", "-bm25.accurate", "-bm25.querySide", "-qld", "-qljm", "-inl2", "-spl", "-f2log"},
         usage = "use F2Exp scoring model")
     public boolean f2exp = false;
 
@@ -337,7 +337,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     public String[] f2exp_s = new String[]{"0.5"};
 
     @Option(name = "-f2log",
-        forbids = {"-impact", "bm25", "-bm25.accurate", "-qld", "-qljm", "-inl2", "-spl", "-f2exp"},
+        forbids = {"-impact", "bm25", "-bm25.accurate", "-bm25.querySide", "-qld", "-qljm", "-inl2", "-spl", "-f2exp"},
         usage = "use F2Log scoring model")
     public boolean f2log = false;
 
