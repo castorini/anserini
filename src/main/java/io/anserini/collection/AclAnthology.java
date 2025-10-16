@@ -103,7 +103,7 @@ public class AclAnthology extends DocumentCollection<AclAnthology.Document> {
 
       if (iterator.hasNext()) {
         JsonNode root = iterator.next();
-        iter = root.fields();
+        iter = root.properties().iterator();
         if (iter.hasNext()) {
           nodeEntry = iter.next();
         }

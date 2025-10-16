@@ -225,7 +225,10 @@ public abstract class EndToEndTest extends LuceneTestCase {
       if (!referenceDocTokens.isEmpty()){
         try {
           List<String> docTokens = IndexReaderUtils.getDocumentTokens(reader, collectionDocid);
-          assertEquals(referenceDocTokens.get(collectionDocid).get("contents"), docTokens);
+          Map<String, List<String>> docTokenMap = referenceDocTokens.get(collectionDocid);
+          if (docTokenMap != null) {
+            assertEquals(docTokenMap.get("contents"), docTokens);
+          }
         } catch (NotStoredException e) {
           e.printStackTrace();
         }

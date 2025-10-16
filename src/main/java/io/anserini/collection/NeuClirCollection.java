@@ -124,7 +124,7 @@ public class NeuClirCollection extends DocumentCollection<NeuClirCollection.Docu
       this.raw = json.toPrettyString();
       this.fields = new HashMap<>();
       
-      json.fields().forEachRemaining( e -> {
+      json.properties().forEach( e -> {
         if ("id".equals(e.getKey())) {
           this.id = json.get("id").asText();
         } else {
