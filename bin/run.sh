@@ -1,3 +1,3 @@
 #!/bin/sh
 
-java -cp `ls target/*-fatjar.jar` -Xms512M -Xmx16G --add-modules jdk.incubator.vector $@
+java -cp `ls target/*-fatjar.jar` -Xms512M -Xmx192G --add-modules jdk.incubator.vector $@
