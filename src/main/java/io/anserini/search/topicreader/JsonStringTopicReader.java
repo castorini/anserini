@@ -45,7 +45,7 @@ public class JsonStringTopicReader extends TopicReader<String> {
       String topicID = lineNode.get("id").asText();
 
       Map<String, String> fields = new HashMap<>();
-      lineNode.fields().forEachRemaining( e -> {
+      lineNode.properties().forEach( e -> {
 	      if ("id".equals(e.getKey())) return; //skip id
 	      fields.put(e.getKey(), e.getValue().asText());
       });
