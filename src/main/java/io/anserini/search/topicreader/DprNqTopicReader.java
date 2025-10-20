@@ -36,9 +36,11 @@ public class DprNqTopicReader extends TopicReader<Integer> {
     @Override
     public SortedMap<Integer, Map<String, String>> read(BufferedReader reader) throws IOException {
       SortedMap<Integer, Map<String, String>> map = new TreeMap<>();
-      CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT
-        .withDelimiter('\t')
-        .withTrim());
+      CSVFormat csvFormat = CSVFormat.TDF.builder()
+        .setTrim(true)
+        .get();
+
+      CSVParser csvParser = csvFormat.parse(reader);      
       Integer topicID = 0;
       for (CSVRecord csvRecord : csvParser) {
         Map<String,String> fields = new HashMap<>();
