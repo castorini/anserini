@@ -190,8 +190,7 @@ $ grep 7187158 collections/msmarco-passage/collection.tsv
 In this case, the document (hit) seems relevant.
 That is, it contains information that addresses the information need.
 So here, the retrieval system "did well".
-Remember that this document was indeed marked relevant in the qrels, as we saw in the [start here](start-here.md
-) guide.
+Remember that this document was indeed marked relevant in the qrels, as we saw in the [start here](start-here.md) guide.
 
 As an additional sanity check, run the following:
 
@@ -311,7 +310,6 @@ The tl;dr is that there are different formats for run files and lots of differen
 `trec_eval` is a standard tool used by information retrieval researchers (which has many command-line options that you'll slowly learn over time).
 Researchers have been trying to answer the question "how do we know if a search result is good and how do we measure it" for over half a century... and the question still has not been fully resolved.
 In short, it's complicated.
-
 
 ## Wrapping Up
 
@@ -608,3 +606,4 @@ The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to th
 + Results reproduced by [@henry4516](https://github.com/henry4516) on 2025-10-14 (commit [`338ac0e`] (https://github.com/castorini/anserini/commit/338ac0e333204a7cb2bb625be11ce6846ff8f170))
 + Results reproduced by [@yazdanzv](https://github.com/yazdanzv) on 2025-10-15 (commit [`e011b386`](https://github.com/castorini/anserini/commit/e011b386423df6e089efae6210e19bc1abbca317))
 + Results reproduced by [@LiHuua258](https://github.com/LiHuua258) on 2025-10-24 (commit [`7302ce9 `](https://github.com/castorini/anserini/commit/7302ce9d9e832d2d7158e3000973e1a99bf23a24))
+- Results reproduced by [@RichHene](https://github.com/RichHene) on 2025-10-24 (commit [`7302ce9`](https://github.com/castorini/anserini/commit/7302ce9d9e832d2d7158e3000973e1a99bf23a24))
