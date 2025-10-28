@@ -139,7 +139,7 @@ bin/run.sh io.anserini.search.SearchCollection \
 This is the **retrieval** (or **search**) phase.
 We're performing retrieval _in batch_, on a set of queries.
 
-Retrieval here uses a "bag-of-words" model known as **BM25**.
+Retrieval here uses a "bag-of-words" model known as **BM25**, a ranking method that measures document relevance using term frequency, inverse document frequency and document length, with `k1` controlling term frequency scaling and `b` controlling length normalization.
 A "bag of words" model just means that documents are scored based on the matching of query terms (i.e., words) that appear in the documents, without regard to the structure of the document, the order of the words, etc.
 BM25 is perhaps the most popular bag-of-words retrieval model; it's the default in the popular [Elasticsearch](https://www.elastic.co/) platform.
 We'll discuss retrieval models in much more detail later.
