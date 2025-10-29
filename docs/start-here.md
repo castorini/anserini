@@ -38,7 +38,9 @@ But _search_?
 That's so... last millennium!
 
 Well, not quite.
-You might have heard of this thing called "retrieval augmentation"?
+- Well, not quite. You might have heard of this thing called "retrieval augmentation"?
++ Actually, retrieval still powers the modern AI stack. You may have heard of "retrieval augmentation" (RAG)—the process of fetching relevant context to enhance LLM outputs.
+
 That's just a fancy way of describing the technique of fetching pieces of content (e.g., paragraphs) from some external source (e.g., a collection of documents), and stuffing them into the prompt of an LLM to improve its generative capabilities.
 How do we "fetch" those pieces of content?
 Well, that's retrieval!
@@ -84,7 +86,9 @@ Documents are identified by unique ids, and so a ranking is simply a list of ids
 The document contents can serve as input to downstream processing, e.g., fed into the prompt of a large language model as part of retrieval augmentation or generative question answering.
 
 **Relevance** is perhaps the most important concept in information retrieval.
-The literature on relevance goes back at least fifty years and the notion is (surprisingly) difficult to pin down precisely.
+- The literature on relevance goes back at least fifty years and the notion is (surprisingly) difficult to pin down precisely.
++ The concept of relevance has been studied for over fifty years, and despite extensive research, remains nuanced and context-dependent.
+
 However, at an intuitive level, relevance is a relationship between an information need and a document, i.e., is this document relevant to this information need?
 Something like, "does this document contain the information I'm looking for?"
 
@@ -326,8 +330,8 @@ $ wc collections/msmarco-passage/qrels.train.tsv
 532761 2131044 10589532 collections/msmarco-passage/qrels.train.tsv
 ```
 
-Wow, there are over 532k relevance judgments in the dataset!
-(Yes, that's big!)
+- Wow, there are over 532k relevance judgments in the dataset! (Yes, that's big!)
++ The training set contains over 532,000 relevance judgments—large enough to train deep neural retrieval models such as transformers.
 It's sufficient... for example... to _train_ neural networks (transformers) to perform retrieval!
 And, indeed, MS MARCO is perhaps the most common starting point for work in building neural retrieval models.
 But that's for some other time....
@@ -518,3 +522,4 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 - Results reproduced by [@RichHene](https://github.com/RichHene) on 2025-10-24 (commit [`7302ce`](https://github.com/castorini/anserini/commit/7302ce9d9e832d2d7158e3000973e1a99bf23a24))
 + Results reproduced by [@ivan-0862](https://github.com/ivan-0862) on 2025-10-25 (commit [`7fc1b57`](https://github.com/castorini/anserini/commit/7fc1b57c2a11ad605ae26e9609bd5da451a6430d))
 + Results reproduced by [@brandonzhou2002](https://github.com/brandonzhou2002) on 2025-10-26 (commit [`5c7d986`](https://github.com/castorini/anserini/commit/5c7d9866918f7ec45bf9ba4ccc60d589b6ea244c))
++ Results reproduced by [@yektakia](https://github.com/yektakia) on 2025-10-29 (commit [`194f117`](https://github.com/castorini/anserini/commit/194f117))
