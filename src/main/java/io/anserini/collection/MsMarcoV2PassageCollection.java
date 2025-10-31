@@ -128,7 +128,7 @@ public class MsMarcoV2PassageCollection extends DocumentCollection<MsMarcoV2Pass
       this.raw = json.toPrettyString();
       this.fields = new HashMap<>();
 
-      json.fields().forEachRemaining( e -> {
+      json.properties().forEach( e -> {
         if ("pid".equals(e.getKey())) {
           this.id = json.get("pid").asText();
         } else {
