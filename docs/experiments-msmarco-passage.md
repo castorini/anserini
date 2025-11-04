@@ -190,8 +190,7 @@ $ grep 7187158 collections/msmarco-passage/collection.tsv
 In this case, the document (hit) seems relevant.
 That is, it contains information that addresses the information need.
 So here, the retrieval system "did well".
-Remember that this document was indeed marked relevant in the qrels, as we saw in the [start here](start-here.md
-) guide.
+Remember that this document was indeed marked relevant in the qrels, as we saw in the [start here](start-here.md) guide.
 
 As an additional sanity check, run the following:
 
@@ -311,7 +310,6 @@ The tl;dr is that there are different formats for run files and lots of differen
 `trec_eval` is a standard tool used by information retrieval researchers (which has many command-line options that you'll slowly learn over time).
 Researchers have been trying to answer the question "how do we know if a search result is good and how do we measure it" for over half a century... and the question still has not been fully resolved.
 In short, it's complicated.
-
 
 ## Wrapping Up
 
@@ -500,14 +498,14 @@ The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to th
 + Results reproduced by [@syedhuq28](https://github.com/syedhuq28) on 2024-03-28 (commit [`f681d65`](https://github.com/castorini/anserini/commit/f681d6504b9f89f65697878c6c984840456f5d53))
 + Results reproduced by [@th13nd4n0](https://github.com/th13nd4n0) on 2024-04-03 (commit [`279fc3e`](https://github.com/castorini/anserini/commit/279fc3eecaed4d07c0a9c42017447b6ae87b820c))
 + Results reproduced by [@a68lin](https://github.com/a68lin) on 2024-04-11 (commit [`39cecf6`](https://github.com/castorini/anserini/commit/39cecf6c257bae85f4e9f6ab02e0be101338c3cc))
-+ Results reproduced by [@DanielKohn1208](https://github.com/DanielKohn1208/) on 2024-04-21 (commit [`9863611d`](https://github.com/castorini/anserini/commit/9863611d307773c086e64496a2a94cf6599c28b0))
++ Results reproduced by [@DanielKohn1208](https://github.com/DanielKohn1208/) on 2024-04-21 (commit [`9863611`](https://github.com/castorini/anserini/commit/9863611d307773c086e64496a2a94cf6599c28b0))
 + Results reproduced by [@emadahmed19](https://github.com/emadahmed19) on 2024-04-28 (commit [`a4064a6`](https://github.com/castorini/anserini/commit/a4064a6fcf6adc7a2cdb5f94e2959f6e3904d916))
 + Results reproduced by [@CheranMahalingam](https://github.com/CheranMahalingam) on 2024-05-05 (commit [`2331882`](https://github.com/castorini/anserini/commit/23318820f3134425cdf32be80a0e8afb1adaf237))
 + Results reproduced by [@billycz8](https://github.com/billycz8) on 2024-05-08 (commit [`8e18867`](https://github.com/castorini/anserini/commit/8e188670e038c79782302ee3596828ea688250e0))
 + Results reproduced by [@KenWuqianhao](https://github.com/KenWuqianghao) on 2024-05-08 (commit [`0558bf4`](https://github.com/castorini/anserini/commit/0558bf416ea3f955af683f23c75a5170539076e6))
 + Results reproduced by [@baixabhi](https://github.com/baixabhi) on 2024-05-09 (commit [`8e188670`](https://github.com/castorini/anserini/commit/8e188670e038c79782302ee3596828ea688250e0))
 + Results reproduced by [@Yuv-sue1005](https://github.com/Yuv-sue1005/) on 2024-05-10 (commit [`3abc2a0`](https://github.com/castorini/anserini/commit/3abc2a0f0dbcb26630825577b39219f0c2754534/))
-+ Results reproduced by [@hrouzegar](https://github.com/hrouzegar) on 2024-05-11 (commit [`3229fcdd`](https://github.com/castorini/anserini/commit/3229fcdd44e77daec9ba44350ff4931af266fd84))
++ Results reproduced by [@hrouzegar](https://github.com/hrouzegar) on 2024-05-11 (commit [`3229fcd`](https://github.com/castorini/anserini/commit/3229fcdd44e77daec9ba44350ff4931af266fd84))
 + Results reproduced by [@RohanNankani](https://github.com/RohanNankani) on 2024-05-17 (commit [`a6ea614`](https://github.com/castorini/anserini/commit/a6ea6147fa68bca2a8f869479dee28d620d93dbd))
 + Results reproduced by [@IR3KT4FUNZ](https://github.com/IR3KT4FUNZ) on 2024-05-20 (commit [`97c39f`](https://github.com/castorini/anserini/commit/97c39fd35f2ed1c95a425812d719083d9b088583))
 + Results reproduced by [@bilet-13](https://github.com/bilet-13) on 2024-05-26 (commit [`97c39fd`](https://github.com/castorini/anserini/commit/97c39fd35f2ed1c95a425812d719083d9b088583))
@@ -548,7 +546,7 @@ The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to th
 + Results reproduced by [@sherloc512](https://github.com/sherloc512) on 2024-12-04 (commit [`9e55b1c`](https://github.com/castorini/anserini/commit/9e55b1c97fced46530dac1f78975d19635ffaf7a))
 + Results reproduced by [@zdann15](https://github.com/zdann15) on 2024-12-04 (commit [`9d311b4`](https://github.com/castorini/anserini/commit/9d311b4409a9ff3d79b01910178eaec3931f0abe))
 + Results reproduced by [@Alireza-Zwolf](https://github.com/Alireza-Zwolf) on 2024-12-15 (commit [`c7dff5f`](https://github.com/castorini/anserini/commit/c7dff5f8417905612ad9f97e85012440e9e16087))
-+ Results reproduced by [@Linsen-gao-457](https://github.com/Linsen-gao-457) on 2024-12-17 (commit [`a86484a6`](https://github.com/castorini/anserini/commit/a86484a6e99a7a97966c423d230ad05279b24508))
++ Results reproduced by [@Linsen-gao-457](https://github.com/Linsen-gao-457) on 2024-12-17 (commit [`a86484a`](https://github.com/castorini/anserini/commit/a86484a6e99a7a97966c423d230ad05279b24508))
 + Results reproduced by [@vincent-4](https://github.com/vincent-4) on 2024-12-20 (commit [`c619dc8`](https://github.com/castorini/anserini/commit/c619dc8d9ab28298251964053a927906e9957f51))
 + Results reproduced by [@robro612](https://github.com/robro612) on 2025-01-05 (commit [`f5c6929`](https://github.com/castorini/anserini/commit/f5c69292bcb49e9d779ca3d790e2de38a649fbd6))
 + Results reproduced by [@nourj98](https://github.com/nourj98) on 2025-01-06 (commit [`d970628`](https://github.com/castorini/anserini/commit/d9706285de2c3a80a25ed5d6218d899f46108adc))
@@ -593,8 +591,8 @@ The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to th
 + Results reproduced by [@bikram993298](https://github.com/bikram993298) on 2025-08-19 (commit [`c6ea078`](https://github.com/castorini/anserini/commit/c6ea078417e318e19fc868a5a911849067f80e10))
 + Results reproduced by [@JoshElkind](https://github.com/JoshElkind) on 2025-08-24 (commit [`7c3010f`](https://github.com/castorini/anserini/commit/7c3010fbda4618bea07ea372017e9e1e604f3d8b))
 + Results reproduced by [@CereNova](https://github.com/CereNova) on 2025-08-25 (commit [`500e8d5`](https://github.com/castorini/anserini/commit/500e8d5823fe83bde5b65f931525aadd09308bbe))
-+ Results reproduced by [@Dinesh7K](https://github.com/Dinesh7K) on 2025-09-03(commit [`e7cb101`](https://github.com/castorini/anserini/commit/e7cb101ed451b3595c74c4502632aa708605fb07))
-+ Results reproduced by [@NathanNCN](https://github.com/NathanNCN) on 2025-09-06(commit [`9e39f94`](https://github.com/castorini/anserini/commit/9e39f9463227b0100e0bbc4552895a394993754f))
++ Results reproduced by [@Dinesh7K](https://github.com/Dinesh7K) on 2025-09-03 (commit [`e7cb101`](https://github.com/castorini/anserini/commit/e7cb101ed451b3595c74c4502632aa708605fb07))
++ Results reproduced by [@NathanNCN](https://github.com/NathanNCN) on 2025-09-06 (commit [`9e39f94`](https://github.com/castorini/anserini/commit/9e39f9463227b0100e0bbc4552895a394993754f))
 + Results reproduced by [@ShivamSingal](https://github.com/ShivamSingal) on 2025-09-07 (commit [`f59c8ee`](https://github.com/castorini/anserini/commit/f59c8ee05f5b61370874075c970f18c43ca41e37))
 + Results reproduced by [@FarmersWrap](https://github.com/FarmersWrap) on 2025-09-10 (commit [`676af03`](https://github.com/castorini/anserini/commit/676af034e8481d043880d22f8f2390ac56b8736d))
 + Results reproduced by [@shreyaadritabanik](https://github.com/shreyaadritabanik) on 2025-09-10 (commit [`3112afd`](https://github.com/castorini/anserini/commit/3112afd2eff0997b8fe6a3ad7ead20cd8f81ec09))
@@ -603,7 +601,14 @@ The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to th
 + Results reproduced by [@InanSyed](https://github.com/InanSyed) on 2025-09-21 (commit [`a92e25c`](https://github.com/castorini/anserini/commit/a92e25c0775cec601776f15154f85d69dac62108))
 + Results reproduced by [@rashadjn](https://github.com/rashadjn) on 2025-09-24 (commit [`a92e25c`](https://github.com/castorini/anserini/commit/a92e25c0775cec601776f15154f85d69dac62108))
 + Results reproduced by [@samin-mehdizadeh](https://github.com/samin-mehdizadeh) on 2025-09-27 (commit [`a92e25c`](https://github.com/castorini/anserini/commit/a92e25c0775cec601776f15154f85d69dac62108))
-+ Results reproduced by [@AniruddhThakur](https://github.com/AniruddhThakur) on 2025-09-27 (commit ['eeb7756'](https://github.com/castorini/anserini/commit/eeb775657e7fd4a6d70ad303b9f45b1b48f48a49))
++ Results reproduced by [@AniruddhThakur](https://github.com/AniruddhThakur) on 2025-09-27 (commit [`eeb7756`](https://github.com/castorini/anserini/commit/eeb775657e7fd4a6d70ad303b9f45b1b48f48a49))
 + Results reproduced by [@prav0761](https://github.com/prav0761) on 2025-10-13 (commit [`4a2f9a0`](https://github.com/castorini/anserini/commit/4a2f9a0022d50c743b3bb7f983c9c605d77fcb29))
-+ Results reproduced by [@henry4516](https://github.com/henry4516) on 2025-10-14 (commit [`338ac0e`] (https://github.com/castorini/anserini/commit/338ac0e333204a7cb2bb625be11ce6846ff8f170))
-+ Results reproduced by [@yazdanzv](https://github.com/yazdanzv) on 2025-10-15 (commit [`e011b386`](https://github.com/castorini/anserini/commit/e011b386423df6e089efae6210e19bc1abbca317))
++ Results reproduced by [@henry4516](https://github.com/henry4516) on 2025-10-14 (commit [`338ac0e`](https://github.com/castorini/anserini/commit/338ac0e333204a7cb2bb625be11ce6846ff8f170))
++ Results reproduced by [@yazdanzv](https://github.com/yazdanzv) on 2025-10-15 (commit [`e011b38`](https://github.com/castorini/anserini/commit/e011b386423df6e089efae6210e19bc1abbca317))
++ Results reproduced by [@Raptors65](https://github.com/Raptors65) on 2025-10-23 (commit [`7302ce9`](https://github.com/castorini/anserini/commit/7302ce9d9e832d2d7158e3000973e1a99bf23a24))
++ Results reproduced by [@LiHuua258](https://github.com/LiHuua258) on 2025-10-24 (commit [`7302ce9 `](https://github.com/castorini/anserini/commit/7302ce9d9e832d2d7158e3000973e1a99bf23a24))
++ Results reproduced by [@RichHene](https://github.com/RichHene) on 2025-10-24 (commit [`7302ce9`](https://github.com/castorini/anserini/commit/7302ce9d9e832d2d7158e3000973e1a99bf23a24))
++ Results reproduced by [@ivan-0862](https://github.com/ivan-0862) on 2025-10-25 (commit [`7fc1b57`](https://github.com/castorini/anserini/commit/7fc1b57c2a11ad605ae26e9609bd5da451a6430d))
++ Results reproduced by [@royary](https://github.com/royary) on 2025-10-25 (commit [`7302ce9`](https://github.com/castorini/anserini/commit/7302ce9d9e832d2d7158e3000973e1a99bf23a24))
++ Results reproduced by [@brandonzhou2002](https://github.com/brandonzhou2002) on 2025-10-26 (commit [`5c7d986`](https://github.com/castorini/anserini/commit/5c7d9866918f7ec45bf9ba4ccc60d589b6ea244c))
++ Results reproduced by [@MahdiNoori2003](https://github.com/MahdiNoori2003) on 2025-10-28 (commit [`5c7d986`](https://github.com/castorini/anserini/commit/5c7d9866918f7ec45bf9ba4ccc60d589b6ea244c))
