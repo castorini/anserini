@@ -101,11 +101,15 @@ public class Cord19ParagraphCollection extends DocumentCollection<Cord19Paragrap
       bufferedReader = new BufferedReader(new InputStreamReader(
           new FileInputStream(path.toString())));
 
-      csvParser = new CSVParser(bufferedReader, CSVFormat.DEFAULT
-          .withFirstRecordAsHeader()
-          .withIgnoreHeaderCase()
-          .withTrim());
+      CSVFormat format = CSVFormat.DEFAULT.builder()
+        .setHeader()
+        .setSkipHeaderRecord(true)
+        .setIgnoreHeaderCase(true)
+        .setTrim(true)
+        .get();
 
+      csvParser = format.parse(bufferedReader);
+      
       iterator = csvParser.iterator();
     }
 
