@@ -159,7 +159,7 @@ public class AfribertaCollection extends DocumentCollection<AfribertaCollection.
     public Document(JsonNode json) {
       this.raw = json.toPrettyString();
       
-      json.fields().forEachRemaining( e -> {
+      json.properties().forEach( e -> {
         if ("id".equals(e.getKey())) {
           this.id = json.get("id").asText();
         } else if ("contents".equals(e.getKey())) {

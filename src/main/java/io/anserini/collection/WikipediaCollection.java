@@ -17,7 +17,7 @@
 package io.anserini.collection;
 
 import org.wikiclean.WikiClean;
-import org.wikiclean.WikiClean.WikiLanguage;
+import org.wikiclean.languages.English;
 import org.wikiclean.WikipediaArticlesDump;
 
 import java.io.BufferedReader;
@@ -66,7 +66,8 @@ public class WikipediaCollection extends DocumentCollection<WikipediaCollection.
       super(path);
       iter = new WikipediaArticlesDump(new File(path.toString())).iterator();
       cleaner = new WikiClean.Builder()
-          .withLanguage(WikiLanguage.EN).withTitle(false)
+          .withLanguage(new English())
+          .withTitle(false)
           .withFooter(false).build();
       rawString = null;
     }
@@ -75,7 +76,8 @@ public class WikipediaCollection extends DocumentCollection<WikipediaCollection.
       super(bufferedReader);
       iter = null;
       cleaner = new WikiClean.Builder()
-          .withLanguage(WikiLanguage.EN).withTitle(false)
+          .withLanguage(new English())
+          .withTitle(false)
           .withFooter(false).build();
       rawString = bufferedReader.lines().collect(Collectors.joining("\n"));
     }

@@ -129,7 +129,7 @@ public class MrTyDiCollection extends DocumentCollection<MrTyDiCollection.Docume
       this.raw = json.toPrettyString();
       this.fields = new HashMap<>();
 
-      json.fields().forEachRemaining( e -> {
+      json.properties().forEach( e -> {
         if ("docid".equals(e.getKey())) {
           this.id = json.get("docid").asText();
         } else {
