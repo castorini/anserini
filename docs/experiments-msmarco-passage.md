@@ -612,6 +612,5 @@ The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to th
 + Results reproduced by [@royary](https://github.com/royary) on 2025-10-25 (commit [`7302ce9`](https://github.com/castorini/anserini/commit/7302ce9d9e832d2d7158e3000973e1a99bf23a24))
 + Results reproduced by [@brandonzhou2002](https://github.com/brandonzhou2002) on 2025-10-26 (commit [`5c7d986`](https://github.com/castorini/anserini/commit/5c7d9866918f7ec45bf9ba4ccc60d589b6ea244c))
 + Results reproduced by [@MahdiNoori2003](https://github.com/MahdiNoori2003) on 2025-10-28 (commit [`5c7d986`](https://github.com/castorini/anserini/commit/5c7d9866918f7ec45bf9ba4ccc60d589b6ea244c))
-+ Results reproduced by [@minj22](https://github.com/minj22) on 2025-11-04
-  (commit [`c274dd8`](https://github.com/castorini/anserini/commit/c274dd8674ca2289c840e2a7844fd33afd2a7bbb))
++ Results reproduced by [@minj22](https://github.com/minj22) on 2025-11-04 (commit [`c274dd8`](https://github.com/castorini/anserini/commit/c274dd8674ca2289c840e2a7844fd33afd2a7bbb))
 + Results reproduced by [@ipouyall](https://github.com/ipouyall) on 2025-11-05 (commit [`82dfba0`](https://github.com/castorini/anserini/commit/82dfba06fa8e96d8380aa4fcd3f5782c321c70b7))
