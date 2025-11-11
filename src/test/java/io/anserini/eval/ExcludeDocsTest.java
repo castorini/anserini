@@ -20,7 +20,6 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import io.anserini.eval.ExcludeDocs;
 import io.anserini.search.ScoredDoc;
 
 public class ExcludeDocsTest {

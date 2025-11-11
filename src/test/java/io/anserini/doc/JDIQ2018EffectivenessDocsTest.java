@@ -34,49 +34,53 @@ import java.util.Scanner;
 public class JDIQ2018EffectivenessDocsTest {
   static class Model {
     private Map<String, Object> models;
+
     public Map<String, Object> getModels() {
       return models;
     }
+
     public void setModels(Map<String, Object> models) {
       this.models = models;
     }
+
     public Map<String, Object> transform() {
       Map<String, Object> converted = new HashMap<>();
       for (Map.Entry<String, Object> entry1 : models.entrySet()) {
         String model = entry1.getKey();
-        Map<String, Object> value = (Map<String, Object>)entry1.getValue();
-        Map<String, Object> collection_performance = (Map<String, Object>)value.get("expected");
+        Map<String, Object> value = (Map<String, Object>) entry1.getValue();
+        Map<String, Object> collection_performance = (Map<String, Object>) value.get("expected");
         for (Map.Entry<String, Object> entry2 : collection_performance.entrySet()) {
           String collection = entry2.getKey();
           converted.putIfAbsent(collection, new HashMap<String, Object>());
-          Map<String, Object> metric_performance = (Map<String, Object>)entry2.getValue();
+          Map<String, Object> metric_performance = (Map<String, Object>) entry2.getValue();
           for (Map.Entry<String, Object> entry3 : metric_performance.entrySet()) {
             String metric = entry3.getKey();
-            ((Map<String, Object>)converted.get(collection)).putIfAbsent(metric, new HashMap<String, Object>());
-            Map<String, Object> topic_performance = (Map<String, Object>)entry3.getValue();
+            ((Map<String, Object>) converted.get(collection)).putIfAbsent(metric, new HashMap<String, Object>());
+            Map<String, Object> topic_performance = (Map<String, Object>) entry3.getValue();
             for (Map.Entry<String, Object> entry4 : topic_performance.entrySet()) {
               String topic = entry4.getKey();
-              ((Map<String, Object>)((Map<String, Object>)converted.get(collection)).get(metric)).putIfAbsent(topic, new HashMap<String, Float>());
+              ((Map<String, Object>) ((Map<String, Object>) converted.get(collection)).get(metric)).putIfAbsent(topic,
+                  new HashMap<String, Float>());
               Double performance = (Double) entry4.getValue();
-              ((Map<String, Double>)(((Map<String, Object>)((Map<String, Object>)converted.get(collection)).get(metric)).get(topic))).put(model, performance);
+              ((Map<String, Double>) (((Map<String, Object>) ((Map<String, Object>) converted.get(collection))
+                  .get(metric)).get(topic))).put(model, performance);
             }
           }
         }
       }
       return converted;
     }
+
     public String generateEffectiveness() {
       Map<String, Object> data = transform();
       StringBuilder builder = new StringBuilder();
-      for (String collection: new String[] { "disk12", "robust04", "robust05", "core17",
-          "wt10g", "gov2", "cw09b", "cw12b13", "mb11", "mb13"}) {
+      for (String collection : new String[] { "disk12", "robust04", "robust05", "core17", "wt10g", "gov2", "cw09b", "cw12b13", "mb11", "mb13" }) {
         builder.append("#### ").append(collection).append("\n");
-        for (Map.Entry<String, Object> entry2 : ((Map<String, Object>)data.get(collection)).entrySet()) {
+        for (Map.Entry<String, Object> entry2 : ((Map<String, Object>) data.get(collection)).entrySet()) {
           String metric = entry2.getKey();
           builder.append(String.format("%1$-40s|", metric.toUpperCase()));
-          for (Map.Entry<String, Object> entry3 : ((Map<String, Object>)entry2.getValue()).entrySet()) {
-            String topic = entry3.getKey();
-            for (Map.Entry<String, Object> entry4 : ((Map<String, Object>)entry3.getValue()).entrySet()) {
+          for (Map.Entry<String, Object> entry3 : ((Map<String, Object>) entry2.getValue()).entrySet()) {
+            for (Map.Entry<String, Object> entry4 : ((Map<String, Object>) entry3.getValue()).entrySet()) {
               String model = entry4.getKey();
               builder.append(String.format(" %1$-10s|", model.toUpperCase()));
             }
@@ -84,21 +88,18 @@ public class JDIQ2018EffectivenessDocsTest {
           }
           builder.append("\n");
           builder.append(":").append(StringUtils.repeat("-", 39)).append("|");
-          for (Map.Entry<String, Object> entry3 : ((Map<String, Object>)entry2.getValue()).entrySet()) {
-            String topic = entry3.getKey();
-            for (Map.Entry<String, Object> entry4 : ((Map<String, Object>)entry3.getValue()).entrySet()) {
-              String model = entry4.getKey();
+          for (Map.Entry<String, Object> entry3 : ((Map<String, Object>) entry2.getValue()).entrySet()) {
+            for (@SuppressWarnings("unused") Map.Entry<String, Object> entry4 : ((Map<String, Object>) entry3.getValue()).entrySet()) {
               builder.append(StringUtils.repeat("-", 11)).append("|");
             }
             break;
           }
           builder.append("\n");
-          for (Map.Entry<String, Object> entry3 : ((Map<String, Object>)entry2.getValue()).entrySet()) {
+          for (Map.Entry<String, Object> entry3 : ((Map<String, Object>) entry2.getValue()).entrySet()) {
             String topic = entry3.getKey();
             builder.append(String.format("%1$-40s|", topic));
-            for (Map.Entry<String, Object> entry4 : ((Map<String, Object>)entry3.getValue()).entrySet()) {
-              String model = entry4.getKey();
-              Double value = (Double)entry4.getValue();
+            for (Map.Entry<String, Object> entry4 : ((Map<String, Object>) entry3.getValue()).entrySet()) {
+              Double value = (Double) entry4.getValue();
               builder.append(String.format(" %-10.4f|", value));
             }
             builder.append("\n");
@@ -107,11 +108,11 @@ public class JDIQ2018EffectivenessDocsTest {
         }
       }
       builder.delete(builder.lastIndexOf("\n"), builder.length());
-    
+
       return builder.toString();
     }
   }
-  
+
   @Test
   public void mainTest() throws Exception {
     ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
