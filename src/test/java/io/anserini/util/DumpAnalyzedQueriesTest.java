@@ -67,7 +67,7 @@ public class DumpAnalyzedQueriesTest {
   }
 
   @Test
-  public void testDumpAnalyzedQueriesWithWhitespaceAnalyzer() throws Exception {
+  public void testDumpAnalyzedQueriesWithDefaultAnalyzer() throws Exception {
     File topics = tempFolder.newFile("topics.tsv");
     Files.write(topics.toPath(), Arrays.asList(
         "topic1\tanserini analyzer",
