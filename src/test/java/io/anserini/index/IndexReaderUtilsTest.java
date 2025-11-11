@@ -188,47 +188,47 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     postingsList = IndexReaderUtils.getPostingsList(reader, "here");
     assertEquals(2, postingsList.get(0).getTF());
     assertEquals(0, postingsList.get(0).getDocid());
-    assertArrayEquals(new int[] {0, 4}, postingsList.get(0).getPositions());
+    assertArrayEquals(new int[] { 0, 4 }, postingsList.get(0).getPositions());
     assertEquals(1, postingsList.get(1).getTF());
     assertEquals(2, postingsList.get(1).getDocid());
-    assertArrayEquals(new int[] {0}, postingsList.get(1).getPositions());
+    assertArrayEquals(new int[] { 0 }, postingsList.get(1).getPositions());
 
     // more: (0, 1) [7] (1, 1) [0]
     postingsList = IndexReaderUtils.getPostingsList(reader, "more");
     assertEquals(1, postingsList.get(0).getTF());
     assertEquals(0, postingsList.get(0).getDocid());
-    assertArrayEquals(new int[] {7}, postingsList.get(0).getPositions());
+    assertArrayEquals(new int[] { 7 }, postingsList.get(0).getPositions());
     assertEquals(1, postingsList.get(1).getTF());
     assertEquals(1, postingsList.get(1).getDocid());
-    assertArrayEquals(new int[] {0}, postingsList.get(1).getPositions());
+    assertArrayEquals(new int[] { 0 }, postingsList.get(1).getPositions());
 
     // some: (0, 2) [2, 6]
     postingsList = IndexReaderUtils.getPostingsList(reader, "some");
     assertEquals(2, postingsList.get(0).getTF());
     assertEquals(0, postingsList.get(0).getDocid());
-    assertArrayEquals(new int[] {2, 6}, postingsList.get(0).getPositions());
+    assertArrayEquals(new int[] { 2, 6 }, postingsList.get(0).getPositions());
 
     // test: (2, 1) [3]
     postingsList = IndexReaderUtils.getPostingsList(reader, "test");
     assertEquals(1, postingsList.get(0).getTF());
     assertEquals(2, postingsList.get(0).getDocid());
-    assertArrayEquals(new int[] {3}, postingsList.get(0).getPositions());
+    assertArrayEquals(new int[] { 3 }, postingsList.get(0).getPositions());
 
     // tests: (2, 1) [3]
     // Note that 'tests' and 'test' both stem to the same string.
     postingsList = IndexReaderUtils.getPostingsList(reader, "tests");
     assertEquals(1, postingsList.get(0).getTF());
     assertEquals(2, postingsList.get(0).getDocid());
-    assertArrayEquals(new int[] {3}, postingsList.get(0).getPositions());
+    assertArrayEquals(new int[] { 3 }, postingsList.get(0).getPositions());
 
     // text: (0, 2) [3, 8] (1, 1) [1]
     postingsList = IndexReaderUtils.getPostingsList(reader, "text");
     assertEquals(2, postingsList.get(0).getTF());
     assertEquals(0, postingsList.get(0).getDocid());
-    assertArrayEquals(new int[] {3, 8}, postingsList.get(0).getPositions());
+    assertArrayEquals(new int[] { 3, 8 }, postingsList.get(0).getPositions());
     assertEquals(1, postingsList.get(1).getTF());
     assertEquals(1, postingsList.get(1).getDocid());
-    assertArrayEquals(new int[] {1}, postingsList.get(1).getPositions());
+    assertArrayEquals(new int[] { 1 }, postingsList.get(1).getPositions());
 
     reader.close();
     dir.close();
@@ -245,7 +245,7 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     postingsList = IndexReaderUtils.getPostingsList(reader, "city");
     assertEquals(1, postingsList.get(0).getTF());
     assertEquals(0, postingsList.get(0).getDocid());
-    assertArrayEquals(new int[] {9}, postingsList.get(0).getPositions());
+    assertArrayEquals(new int[] { 9 }, postingsList.get(0).getPositions());
 
     // Sanity check.
     assertNull(IndexReaderUtils.getPostingsList(reader, "citz"));
@@ -254,13 +254,13 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     postingsList = IndexReaderUtils.getPostingsList(reader, "city", true);
     assertEquals(1, postingsList.get(0).getTF());
     assertEquals(0, postingsList.get(0).getDocid());
-    assertArrayEquals(new int[] {9}, postingsList.get(0).getPositions());
+    assertArrayEquals(new int[] { 9 }, postingsList.get(0).getPositions());
 
     // Tell method to analyze *explicitly*:
     postingsList = IndexReaderUtils.getPostingsList(reader, "city", IndexCollection.DEFAULT_ANALYZER);
     assertEquals(1, postingsList.get(0).getTF());
     assertEquals(0, postingsList.get(0).getDocid());
-    assertArrayEquals(new int[] {9}, postingsList.get(0).getPositions());
+    assertArrayEquals(new int[] { 9 }, postingsList.get(0).getPositions());
 
     // Tell method to analyze *explicitly*, but pass in mismatched analyzer:
     assertNull(IndexReaderUtils.getPostingsList(reader, "city",
@@ -270,14 +270,14 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     postingsList = IndexReaderUtils.getPostingsList(reader, "citi", false);
     assertEquals(1, postingsList.get(0).getTF());
     assertEquals(0, postingsList.get(0).getDocid());
-    assertArrayEquals(new int[] {9}, postingsList.get(0).getPositions());
+    assertArrayEquals(new int[] { 9 }, postingsList.get(0).getPositions());
 
     // Tell method *not* to analyze:
     postingsList = IndexReaderUtils.getPostingsList(reader,
         AnalyzerUtils.analyze("city").get(0), false);
     assertEquals(1, postingsList.get(0).getTF());
     assertEquals(0, postingsList.get(0).getDocid());
-    assertArrayEquals(new int[] {9}, postingsList.get(0).getPositions());
+    assertArrayEquals(new int[] { 9 }, postingsList.get(0).getPositions());
 
     reader.close();
     dir.close();
@@ -294,7 +294,8 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     // The complete term/doc matrix
     Map<String, Map<String, Float>> termDocMatrix = new HashMap<>();
 
-    // We're going to iterate through all the terms in the dictionary to build the term/doc matrix
+    // We're going to iterate through all the terms in the dictionary to build the
+    // term/doc matrix
     Terms terms = MultiTerms.getTerms(reader, "contents");
     TermsEnum termsEnum = terms.iterator();
     BytesRef text;
@@ -306,7 +307,7 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
 
       TopDocs rs = searcher.search(new TermQuery(new Term("contents", term)), 3);
       StoredFields storedFields = reader.storedFields();
-      for (int i=0; i<rs.scoreDocs.length; i++) {
+      for (int i = 0; i < rs.scoreDocs.length; i++) {
         String docid = storedFields.document(rs.scoreDocs[i].doc).getField("id").stringValue();
         if (!termDocMatrix.containsKey(term))
           termDocMatrix.put(term, new HashMap<>());
@@ -315,9 +316,10 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     }
 
     int numDocs = reader.numDocs();
-    // Iterate through the document vectors, and verify that we have the same values as in the term/doc matrix
+    // Iterate through the document vectors, and verify that we have the same values
+    // as in the term/doc matrix
     TermVectors termVectors = reader.termVectors();
-    for (int i=0; i<numDocs; i++) {
+    for (int i = 0; i < numDocs; i++) {
       Terms termVector = termVectors.get(i, "contents");
       String docid = IndexReaderUtils.convertLuceneDocidToDocid(reader, i);
 
@@ -340,17 +342,17 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     IndexReader reader = DirectoryReader.open(dir);
 
     assertEquals(0.43400, IndexReaderUtils.getBM25UnanalyzedTermWeightWithParameters(reader, "doc1",
-        "city", IndexCollection.DEFAULT_ANALYZER,0.9f, 0.4f), 10e-5);
+        "city", IndexCollection.DEFAULT_ANALYZER, 0.9f, 0.4f), 10e-5);
     assertEquals(0.43400, IndexReaderUtils.getBM25AnalyzedTermWeightWithParameters(reader, "doc1",
         "citi", 0.9f, 0.4f), 10e-5);
 
     assertEquals(0.0f, IndexReaderUtils.getBM25UnanalyzedTermWeightWithParameters(reader, "doc2",
-        "city", IndexCollection.DEFAULT_ANALYZER,0.9f, 0.4f), 10e-5);
+        "city", IndexCollection.DEFAULT_ANALYZER, 0.9f, 0.4f), 10e-5);
     assertEquals(0.0f, IndexReaderUtils.getBM25AnalyzedTermWeightWithParameters(reader, "doc2",
         "citi", 0.9f, 0.4f), 10e-5);
 
     assertEquals(0.570250, IndexReaderUtils.getBM25UnanalyzedTermWeightWithParameters(reader, "doc3",
-        "test", IndexCollection.DEFAULT_ANALYZER,0.9f, 0.4f), 10e-5);
+        "test", IndexCollection.DEFAULT_ANALYZER, 0.9f, 0.4f), 10e-5);
     assertEquals(0.570250, IndexReaderUtils.getBM25AnalyzedTermWeightWithParameters(reader, "doc3",
         "test", 0.9f, 0.4f), 10e-5);
 
@@ -492,7 +494,7 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     IndexReader reader = DirectoryReader.open(dir);
     Document doc;
 
-    doc = IndexReaderUtils.documentByField(reader, "id","doc1");
+    doc = IndexReaderUtils.documentByField(reader, "id", "doc1");
     assertNotNull(doc);
     assertEquals("{\"contents\": \"here is some text here is some more text. city.\"}", doc.get("raw"));
 
@@ -529,73 +531,67 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
 
   @Test
   public void testComputeQueryDocumentScore() throws Exception {
-    SimpleSearcher searcher = new SimpleSearcher(tempDir1.toString());
-    Directory dir = FSDirectory.open(tempDir1);
-    IndexReader reader = DirectoryReader.open(dir);
-    Similarity similarity = new BM25Similarity(0.9f, 0.4f);
+    try (
+        SimpleSearcher searcher = new SimpleSearcher(tempDir1.toString());
+        Directory dir = FSDirectory.open(tempDir1);
+        IndexReader reader = DirectoryReader.open(dir)) {
+      Similarity similarity = new BM25Similarity(0.9f, 0.4f);
 
-    // A bunch of test queries...
-    String[] queries = {"text city", "text", "city"};
+      // A bunch of test queries...
+      String[] queries = { "text city", "text", "city" };
 
-    for (String query: queries) {
-      ScoredDoc[] results = searcher.search(query);
+      for (String query : queries) {
+        ScoredDoc[] results = searcher.search(query);
 
-      // Strategy is to loop over the results, compute query-document score individually, and compare.
-      for (ScoredDoc result : results) {
-        float score = IndexReaderUtils.computeQueryDocumentScoreWithSimilarity(
-            reader, result.docid, query, similarity);
-        assertEquals(score, result.score, 10e-5);
+        // Strategy is to loop over the results, compute query-document score
+        // individually, and compare.
+        for (ScoredDoc result : results) {
+          float score = IndexReaderUtils.computeQueryDocumentScoreWithSimilarity(
+              reader, result.docid, query, similarity);
+          assertEquals(score, result.score, 10e-5);
+        }
+
+        // This is hard coded - doc3 isn't retrieved by any of the queries.
+        assertEquals(0.0f, IndexReaderUtils.computeQueryDocumentScoreWithSimilarity(
+            reader, "doc3", query, similarity), 10e-6);
       }
-
-      // This is hard coded - doc3 isn't retrieved by any of the queries.
-      assertEquals(0.0f, IndexReaderUtils.computeQueryDocumentScoreWithSimilarity(
-              reader, "doc3", query, similarity), 10e-6);
     }
-
-    reader.close();
-    dir.close();
   }
 
   @Test
   public void testGetIndexStats() throws Exception {
-    Directory dir = FSDirectory.open(tempDir1);
-    IndexReader reader = DirectoryReader.open(dir);
-
-    assertEquals(3, IndexReaderUtils.getIndexStats(reader).get("documents"));
-    assertEquals(6L, IndexReaderUtils.getIndexStats(reader).get("unique_terms"));
-
-    reader.close();
-    dir.close();
+    try (
+        Directory dir = FSDirectory.open(tempDir1);
+        IndexReader reader = DirectoryReader.open(dir)) {
+      assertEquals(3, IndexReaderUtils.getIndexStats(reader).get("documents"));
+      assertEquals(6L, IndexReaderUtils.getIndexStats(reader).get("unique_terms"));
+    }
   }
 
   @Test
   public void testGetFieldInfo() throws Exception {
-    Directory dir = FSDirectory.open(tempDir1);
-    IndexReader reader = DirectoryReader.open(dir);
-
-    Map<String, FieldInfo> fields = IndexReaderUtils.getFieldInfo(reader);
-    assertTrue(fields.containsKey("id"));
-    assertTrue(fields.containsKey("contents"));
-    assertTrue(fields.containsKey("raw"));
-    assertEquals(3, fields.size());
-
-    reader.close();
-    dir.close();
+    try (
+        Directory dir = FSDirectory.open(tempDir1);
+        IndexReader reader = DirectoryReader.open(dir)) {
+      Map<String, FieldInfo> fields = IndexReaderUtils.getFieldInfo(reader);
+      assertTrue(fields.containsKey("id"));
+      assertTrue(fields.containsKey("contents"));
+      assertTrue(fields.containsKey("raw"));
+      assertEquals(3, fields.size());
+    }
   }
 
   @Test
   public void testGetFieldInfoDescription() throws Exception {
-    Directory dir = FSDirectory.open(tempDir1);
-    IndexReader reader = DirectoryReader.open(dir);
-
-    Map<String, String> fields = IndexReaderUtils.getFieldInfoDescription(reader);
-    assertEquals("(indexOption: DOCS, hasVectors: false)", fields.get("id"));
-    assertEquals("(indexOption: DOCS_AND_FREQS_AND_POSITIONS, hasVectors: true)", fields.get("contents"));
-    assertEquals("(indexOption: NONE, hasVectors: false)", fields.get("raw"));
-    assertEquals(3, fields.size());
-
-    reader.close();
-    dir.close();
+    try (
+        Directory dir = FSDirectory.open(tempDir1);
+        IndexReader reader = DirectoryReader.open(dir)) {
+      Map<String, String> fields = IndexReaderUtils.getFieldInfoDescription(reader);
+      assertEquals("(indexOption: DOCS, hasVectors: false)", fields.get("id"));
+      assertEquals("(indexOption: DOCS_AND_FREQS_AND_POSITIONS, hasVectors: true)", fields.get("contents"));
+      assertEquals("(indexOption: NONE, hasVectors: false)", fields.get("raw"));
+      assertEquals(3, fields.size());
+    }
   }
 
   @Test
@@ -608,7 +604,7 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     redirectedStdout.reset();
     System.setOut(new PrintStream(redirectedStdout));
 
-    IndexReaderUtils.main(new String[] {"-index", tempDir1.toString(), "-stats"});
+    IndexReaderUtils.main(new String[] { "-index", tempDir1.toString(), "-stats" });
     System.setOut(savedStdout);
 
     String output = redirectedStdout.toString();
@@ -667,9 +663,11 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     Path cwd = java.nio.file.Paths.get("");
     Path localDir = cwd.resolve(PREBUILT_LABEL);
 
-    // Ensure clean state, create the conflicting local directory, then clean it up in finally.
+    // Ensure clean state, create the conflicting local directory, then clean it up
+    // in finally.
     if (java.nio.file.Files.exists(localDir)) {
-      // If it already exists for some reason, fail fast to avoid breaking other tests.
+      // If it already exists for some reason, fail fast to avoid breaking other
+      // tests.
       fail("Test setup error: unexpected existing directory " + localDir);
     }
 

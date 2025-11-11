@@ -53,9 +53,9 @@ public final class BenchmarkCollectionReader {
 
   private final class ReaderThread extends Thread {
     final private Path inputFile;
-    final private DocumentCollection collection;
+    final private DocumentCollection<?> collection;
 
-    private ReaderThread(DocumentCollection collection, Path inputFile) {
+    private ReaderThread(DocumentCollection<?> collection, Path inputFile) {
       this.collection = collection;
       this.inputFile = inputFile;
 
@@ -66,7 +66,7 @@ public final class BenchmarkCollectionReader {
     public void run() {
       try {
         @SuppressWarnings("unchecked")
-        FileSegment<SourceDocument> segment = (FileSegment) collection.createFileSegment(inputFile);
+        FileSegment<SourceDocument> segment = (FileSegment<SourceDocument>) collection.createFileSegment(inputFile);
 
         // We're calling these records because the documents may not an indexable.
         AtomicInteger records = new AtomicInteger();
@@ -85,10 +85,9 @@ public final class BenchmarkCollectionReader {
 
   private final Args args;
   private final Path collectionPath;
-  private final Class collectionClass;
-  private final DocumentCollection collection;
+  private final Class<?> collectionClass;
+  private final DocumentCollection<?> collection;
 
-  @SuppressWarnings("unchecked")
   public BenchmarkCollectionReader(Args args) throws Exception {
     this.args = args;
 
@@ -105,14 +104,14 @@ public final class BenchmarkCollectionReader {
     this.collectionClass = Class.forName("io.anserini.collection." + args.collectionClass);
 
     // Initialize the collection.
-    collection = (DocumentCollection) this.collectionClass.getConstructor(Path.class).newInstance(collectionPath);
+    collection = (DocumentCollection<?>) this.collectionClass.getConstructor(Path.class).newInstance(collectionPath);
   }
 
   public void run() {
     final long start = System.nanoTime();
     LOG.info("Starting MapCollections...");
 
-    final List segmentPaths = collection.getSegmentPaths();
+    final List<?> segmentPaths = collection.getSegmentPaths();
     final int segmentCnt = segmentPaths.size();
     AtomicInteger completedTaskCount = new AtomicInteger(0);
 
@@ -130,8 +129,8 @@ public final class BenchmarkCollectionReader {
 
     // Work-stealing executor + progress logger
     try (
-            ExecutorService executor = Executors.newWorkStealingPool(args.threads);
-            ScheduledExecutorService monitor = Executors.newSingleThreadScheduledExecutor()
+      ExecutorService executor = Executors.newWorkStealingPool(args.threads);
+      ScheduledExecutorService monitor = Executors.newSingleThreadScheduledExecutor()
     ) {
       // log progress every minute
       monitor.scheduleAtFixedRate(() -> {
@@ -147,8 +146,7 @@ public final class BenchmarkCollectionReader {
     }
 
     if (segmentCnt != completedTaskCount.get()) {
-      throw new RuntimeException("totalFiles = " + segmentCnt +
-          " is not equal to completedTaskCount =  " + completedTaskCount.get());
+      throw new RuntimeException("totalFiles = " + segmentCnt + " is not equal to completedTaskCount =  " + completedTaskCount.get());
     }
 
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
@@ -164,8 +162,7 @@ public final class BenchmarkCollectionReader {
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
-      System.err.println("Example: "+ BenchmarkCollectionReader.class.getSimpleName() +
-          parser.printExample(OptionHandlerFilter.REQUIRED));
+      System.err.println("Example: "+ BenchmarkCollectionReader.class.getSimpleName() + parser.printExample(OptionHandlerFilter.REQUIRED));
       return;
     }
 
