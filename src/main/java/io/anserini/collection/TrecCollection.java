@@ -74,13 +74,11 @@ public class TrecCollection extends DocumentCollection<TrecCollection.Document> 
   public TrecCollection() {
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public FileSegment<TrecCollection.Document> createFileSegment(Path p) throws IOException {
     return new Segment<>(p);
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public FileSegment<TrecCollection.Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
     return new Segment<>(bufferedReader);
