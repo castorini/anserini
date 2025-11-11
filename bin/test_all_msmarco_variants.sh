@@ -1,5 +1,77 @@
 #!/usr/bin/bash
 
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-passage -topics msmarco-v1-passage.dev -output runs/run.msmarco-v1-passage.bm25.msmarco-v1-passage.dev.base.txt -hits 1000 -bm25
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-passage -topics dl19-passage -output runs/run.msmarco-v1-passage.bm25.dl19-passage.base.txt -hits 1000 -bm25
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-passage -topics dl20-passage -output runs/run.msmarco-v1-passage.bm25.dl20-passage.base.txt -hits 1000 -bm25
+
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-passage-slim -topics msmarco-v1-passage.dev -output runs/run.msmarco-v1-passage.bm25.msmarco-v1-passage.dev.slim.txt -hits 1000 -bm25
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-passage-slim -topics dl19-passage -output runs/run.msmarco-v1-passage.bm25.dl19-passage.slim.txt -hits 1000 -bm25
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-passage-slim -topics dl20-passage -output runs/run.msmarco-v1-passage.bm25.dl20-passage.slim.txt -hits 1000 -bm25
+
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-passage-full -topics msmarco-v1-passage.dev -output runs/run.msmarco-v1-passage.bm25.msmarco-v1-passage.dev.full.txt -hits 1000 -bm25
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-passage-full -topics dl19-passage -output runs/run.msmarco-v1-passage.bm25.dl19-passage.full.txt -hits 1000 -bm25
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-passage-full -topics dl20-passage -output runs/run.msmarco-v1-passage.bm25.dl20-passage.full.txt -hits 1000 -bm25
+
+##
+
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-passage.d2q-t5 -topics msmarco-v1-passage.dev -output runs/run.msmarco-v1-passage.bm25-d2q-t5.msmarco-v1-passage.dev.base.txt -hits 1000 -bm25
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-passage.d2q-t5 -topics dl19-passage -output runs/run.msmarco-v1-passage.bm25-d2q-t5.dl19-passage.base.txt -hits 1000 -bm25
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-passage.d2q-t5 -topics dl20-passage -output runs/run.msmarco-v1-passage.bm25-d2q-t5.dl20-passage.base.txt -hits 1000 -bm25
+
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-passage.d2q-t5-docvectors -topics msmarco-v1-passage.dev -output runs/run.msmarco-v1-passage.bm25-d2q-t5.msmarco-v1-passage.dev.docvectors.txt -hits 1000 -bm25
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-passage.d2q-t5-docvectors -topics dl19-passage -output runs/run.msmarco-v1-passage.bm25-d2q-t5.dl19-passage.docvectors.txt -hits 1000 -bm25
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-passage.d2q-t5-docvectors -topics dl20-passage -output runs/run.msmarco-v1-passage.bm25-d2q-t5.dl20-passage.docvectors.txt -hits 1000 -bm25
+
+##
+
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-doc -topics msmarco-doc.dev -output runs/run.msmarco-v1-doc.bm25-doc-default.msmarco-doc.dev.base.txt -hits 1000 -bm25
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-doc -topics dl19-doc -output runs/run.msmarco-v1-doc.bm25-doc-default.dl19-doc.base.txt -hits 1000 -bm25
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-doc -topics dl20-doc -output runs/run.msmarco-v1-doc.bm25-doc-default.dl20-doc.base.txt -hits 1000 -bm25
+
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-doc-slim -topics msmarco-doc.dev -output runs/run.msmarco-v1-doc.bm25-doc-default.msmarco-doc.dev.slim.txt -hits 1000 -bm25
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-doc-slim -topics dl19-doc -output runs/run.msmarco-v1-doc.bm25-doc-default.dl19-doc.slim.txt -hits 1000 -bm25
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-doc-slim -topics dl20-doc -output runs/run.msmarco-v1-doc.bm25-doc-default.dl20-doc.slim.txt -hits 1000 -bm25
+
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-doc-full -topics msmarco-doc.dev -output runs/run.msmarco-v1-doc.bm25-doc-default.msmarco-doc.dev.full.txt -hits 1000 -bm25
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-doc-full -topics dl19-doc -output runs/run.msmarco-v1-doc.bm25-doc-default.dl19-doc.full.txt -hits 1000 -bm25
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-doc-full -topics dl20-doc -output runs/run.msmarco-v1-doc.bm25-doc-default.dl20-doc.full.txt -hits 1000 -bm25
+
+##
+
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-doc.d2q-t5 -topics msmarco-doc.dev -output runs/run.msmarco-v1-doc.bm25-d2q-t5-doc-default.msmarco-doc.dev.base.txt -hits 1000 -bm25
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-doc.d2q-t5 -topics dl19-doc -output runs/run.msmarco-v1-doc.bm25-d2q-t5-doc-default.dl19-doc.base.txt -hits 1000 -bm25
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-doc.d2q-t5 -topics dl20-doc -output runs/run.msmarco-v1-doc.bm25-d2q-t5-doc-default.dl20-doc.base.txt -hits 1000 -bm25
+
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-doc.d2q-t5-docvectors -topics msmarco-doc.dev -output runs/run.msmarco-v1-doc.bm25-d2q-t5-doc-default.msmarco-doc.dev.docvectors.txt -hits 1000 -bm25
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-doc.d2q-t5-docvectors -topics dl19-doc -output runs/run.msmarco-v1-doc.bm25-d2q-t5-doc-default.dl19-doc.docvectors.txt -hits 1000 -bm25
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-doc.d2q-t5-docvectors -topics dl20-doc -output runs/run.msmarco-v1-doc.bm25-d2q-t5-doc-default.dl20-doc.docvectors.txt -hits 1000 -bm25
+
+##
+
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-doc-segmented -topics msmarco-doc.dev -output runs/run.msmarco-v1-doc.bm25-doc-segmented-default.msmarco-doc.dev.base.txt -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-doc-segmented -topics dl19-doc -output runs/run.msmarco-v1-doc.bm25-doc-segmented-default.dl19-doc.base.txt -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-doc-segmented -topics dl20-doc -output runs/run.msmarco-v1-doc.bm25-doc-segmented-default.dl20-doc.base.txt -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
+
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-doc-segmented-slim -topics msmarco-doc.dev -output runs/run.msmarco-v1-doc.bm25-doc-segmented-default.msmarco-doc.dev.slim.txt -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-doc-segmented-slim -topics dl19-doc -output runs/run.msmarco-v1-doc.bm25-doc-segmented-default.dl19-doc.slim.txt -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-doc-segmented-slim -topics dl20-doc -output runs/run.msmarco-v1-doc.bm25-doc-segmented-default.dl20-doc.slim.txt -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
+
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-doc-segmented-full -topics msmarco-doc.dev -output runs/run.msmarco-v1-doc.bm25-doc-segmented-default.msmarco-doc.dev.full.txt -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-doc-segmented-full -topics dl19-doc -output runs/run.msmarco-v1-doc.bm25-doc-segmented-default.dl19-doc.full.txt -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-doc-segmented-full -topics dl20-doc -output runs/run.msmarco-v1-doc.bm25-doc-segmented-default.dl20-doc.full.txt -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
+
+##
+
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-doc-segmented.d2q-t5 -topics msmarco-doc.dev -output runs/run.msmarco-v1-doc.bm25-d2q-t5-doc-segmented-default.msmarco-doc.dev.base.txt -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-doc-segmented.d2q-t5 -topics dl19-doc -output runs/run.msmarco-v1-doc.bm25-d2q-t5-doc-segmented-default.dl19-doc.base.txt -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-doc-segmented.d2q-t5 -topics dl20-doc -output runs/run.msmarco-v1-doc.bm25-d2q-t5-doc-segmented-default.dl20-doc.base.txt -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
+
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-doc-segmented.d2q-t5-docvectors -topics msmarco-doc.dev -output runs/run.msmarco-v1-doc.bm25-d2q-t5-doc-segmented-default.msmarco-doc.dev.docvectors.txt -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-doc-segmented.d2q-t5-docvectors -topics dl19-doc -output runs/run.msmarco-v1-doc.bm25-d2q-t5-doc-segmented-default.dl19-doc.docvectors.txt -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
+java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v1-doc-segmented.d2q-t5-docvectors -topics dl20-doc -output runs/run.msmarco-v1-doc.bm25-d2q-t5-doc-segmented-default.dl20-doc.docvectors.txt -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
+
+##
+
 java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v2-passage -topics msmarco-v2-passage.dev -output runs/run.msmarco-v2-passage.bm25.msmarco-v2-passage.dev.base.txt -hits 1000 -bm25
 java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v2-passage -topics msmarco-v2-passage.dev2 -output runs/run.msmarco-v2-passage.bm25.msmarco-v2-passage.dev2.base.txt -hits 1000 -bm25
 java -cp `ls target/*-fatjar.jar` io.anserini.search.SearchCollection -threads 16 -index msmarco-v2-passage -topics dl21 -output runs/run.msmarco-v2-passage.bm25.dl21.base.txt -hits 1000 -bm25
