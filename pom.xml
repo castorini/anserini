@@ -273,37 +273,37 @@
     <dependency>
       <groupId>org.tukaani</groupId>
       <artifactId>xz</artifactId>
-      <version>1.9</version>
+      <version>1.10</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-core</artifactId>
-      <version>2.16.0</version>
+      <version>2.20.0</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
-      <version>2.16.0</version>
+      <version>2.20.0</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-annotations</artifactId>
-      <version>2.16.0</version>
+      <version>2.20</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.datatype</groupId>
       <artifactId>jackson-datatype-jdk8</artifactId>
-      <version>2.16.0</version>
+      <version>2.20.0</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.dataformat</groupId>
       <artifactId>jackson-dataformat-yaml</artifactId>
-      <version>2.16.0</version>
+      <version>2.20.0</version>
     </dependency>
     <dependency>
       <groupId>org.yaml</groupId>
       <artifactId>snakeyaml</artifactId>
-      <version>2.2</version>
+      <version>2.5</version>
     </dependency>
     <dependency>
       <groupId>org.jsoup</groupId>
@@ -314,7 +314,7 @@
     <dependency>
       <groupId>args4j</groupId>
       <artifactId>args4j</artifactId>
-      <version>2.33</version>
+      <version>2.37</version>
       <type>jar</type>
     </dependency>
     <dependency>
@@ -330,17 +330,17 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
-      <version>1.7.32</version>
+      <version>2.1.0-alpha1</version>
     </dependency>
     <dependency>
         <groupId>com.carrotsearch</groupId>
         <artifactId>hppc</artifactId>
-        <version>0.8.1</version>
+        <version>0.10.0</version>
     </dependency>
     <dependency>
       <groupId>org.wikiclean</groupId>
       <artifactId>wikiclean</artifactId>
-      <version>1.1</version>
+      <version>1.2</version>
       <exclusions>
         <exclusion>
           <groupId>edu.stanford.nlp</groupId>
@@ -351,7 +351,7 @@
     <dependency> <!-- needed for CBZip2InputStream -->
       <groupId>org.apache.ant</groupId>
       <artifactId>ant</artifactId>
-      <version>1.10.11</version>
+      <version>1.10.15</version>
     </dependency>
     <dependency>
       <groupId>com.twitter.twittertext</groupId>
@@ -361,42 +361,47 @@
     <dependency>
       <groupId>com.github.TREMA-UNH</groupId>
       <artifactId>trec-car-tools-java</artifactId>
-      <version>19</version>
+      <version>22</version>
     </dependency>
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
-      <version>2.16.1</version>
+      <version>2.20.0</version>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-compress</artifactId>
-      <version>1.26.2</version>
+      <version>1.28.0</version>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-csv</artifactId>
-      <version>1.8</version>
+      <version>1.14.1</version>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-text</artifactId>
-      <version>1.10.0</version>
+      <version>1.14.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.18.0</version>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-all</artifactId>
-      <version>1.10.19</version>
+      <version>2.0.2-beta</version>
     </dependency>
     <dependency>
       <groupId>org.jbibtex</groupId>
       <artifactId>jbibtex</artifactId>
-      <version>1.0.19</version>
+      <version>1.0.20</version>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>33.4.8-jre</version>
+      <version>33.5.0-jre</version>
     </dependency>
     <dependency>
       <groupId>com.microsoft.onnxruntime</groupId>
@@ -406,12 +411,12 @@
     <dependency>
       <groupId>ai.djl.huggingface</groupId>
       <artifactId>tokenizers</artifactId>
-      <version>0.33.0</version>
+      <version>0.34.0</version>
     </dependency>
     <dependency>
       <groupId>ai.djl</groupId>
       <artifactId>api</artifactId>
-      <version>0.33.0</version>
+      <version>0.34.0</version>
       <exclusions>
         <exclusion>
           <groupId>com.google.code.gson</groupId>
@@ -431,7 +436,7 @@
     <dependency>
       <groupId>commons-codec</groupId>
       <artifactId>commons-codec</artifactId>
-      <version>1.15</version>
+      <version>1.19.0</version>
     </dependency>
     <!-- Apache Parquet Dependencies -->
     <dependency>

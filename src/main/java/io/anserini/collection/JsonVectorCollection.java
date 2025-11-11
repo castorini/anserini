@@ -80,7 +80,7 @@ public class JsonVectorCollection extends DocumentCollection<JsonVectorCollectio
         // Generate pseudo-document by appending the feature cnt times
         // where cnt is the value of the feature
         final StringBuilder sb = new StringBuilder();
-        vectorNode.fields().forEachRemaining(e -> {
+        vectorNode.properties().forEach(e -> {
           int cnt = e.getValue().asInt();
           for (int i = 0; i < cnt; i++) {
             sb.append(e.getKey()).append(" ");

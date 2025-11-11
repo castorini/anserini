@@ -68,12 +68,16 @@ public class Cord19AbstractCollection extends DocumentCollection<Cord19AbstractC
       super(path);
       bufferedReader = new BufferedReader(new InputStreamReader(
           new FileInputStream(path.toString())));
+      
+      CSVFormat format = CSVFormat.DEFAULT.builder()
+        .setHeader()
+        .setSkipHeaderRecord(true)
+        .setIgnoreHeaderCase(true)
+        .setTrim(true)
+        .get();
 
-      csvParser = new CSVParser(bufferedReader, CSVFormat.DEFAULT
-          .withFirstRecordAsHeader()
-          .withIgnoreHeaderCase()
-          .withTrim());
-
+      csvParser = format.parse(bufferedReader);
+      
       iterator = csvParser.iterator();
       if (iterator.hasNext()) {
         record = iterator.next();
