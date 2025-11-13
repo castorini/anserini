@@ -522,3 +522,4 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@minj22](https://github.com/minj22) on 2025-11-04 (commit [`c274dd8`](https://github.com/castorini/anserini/commit/c274dd8674ca2289c840e2a7844fd33afd2a7bbb))
 + Results reproduced by [@ipouyall](https://github.com/ipouyall) on 2025-11-05 (commit [`82dfba0`](https://github.com/castorini/anserini/commit/82dfba06fa8e96d8380aa4fcd3f5782c321c70b7))
 + Results reproduced by [@Amirhosseinpoor](https://github.com/Amirhosseinpoor) on 2025-11-09 (commit [`110daab`](https://github.com/castorini/anserini/commit/110daab529ea7f40593c356e40783ba09250f65b))
++ Results reproduced by [@AdrianGri](https://github.com/adriangri) on 2025-11-12 (commit [`c19077b`](https://github.com/castorini/anserini/commit/c19077b36a471263742cf63ac4d9b9ce57b7118d))
