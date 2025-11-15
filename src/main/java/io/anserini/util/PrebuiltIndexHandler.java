@@ -19,11 +19,10 @@ package io.anserini.util;
 import me.tongfei.progressbar.ProgressBar;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.input.BoundedInputStream;
 
 import io.anserini.index.IndexInfo;
 
+import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,6 +37,10 @@ public class PrebuiltIndexHandler {
   private static final String DEFAULT_CACHE_DIR = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "indexes").toString();
   private static final String CACHE_DIR_PROPERTY = "anserini.index.cache";
   private static final String CACHE_DIR_ENV = "ANSERINI_INDEX_CACHE";
+  private static final int MAX_DOWNLOAD_ATTEMPTS = 3;
+  private static final int DOWNLOAD_BUFFER_SIZE = 1 << 16; // 64 KB
+  private static final int CONNECT_TIMEOUT_MS = 60_000;
+  private static final int READ_TIMEOUT_MS = 120_000;
 
   private String indexName;
   private String saveRootPath;
@@ -151,37 +154,67 @@ public class PrebuiltIndexHandler {
       return;
     }
 
-    URL url = new URI(info.urls[0]).toURL();
-    System.out.println("Downloading index from: " + info.urls[0]);
-    HttpURLConnection httpConnection = (HttpURLConnection) (url.openConnection());
-    long completeFileSize = httpConnection.getContentLengthLong();
+    IOException lastException = null;
+    for (String urlString : info.urls) {
+      for (int attempt = 1; attempt <= MAX_DOWNLOAD_ATTEMPTS; attempt++) {
+        System.out.println("Downloading index from: " + urlString + " (attempt " + attempt + "/" + MAX_DOWNLOAD_ATTEMPTS + ")");
+        try {
+          downloadFromUrl(urlString);
+          verifyChecksum();
+          return;
+        } catch (IOException e) {
+          lastException = e;
+          System.err.println("Download failed: " + e.getMessage());
+          try {
+            Files.deleteIfExists(savePath);
+          } catch (IOException deleteException) {
+            System.err.println("Unable to remove incomplete download: " + deleteException.getMessage());
+          }
+        }
+      }
+    }
+    if (lastException != null) {
+      throw lastException;
+    }
+    throw new IOException("Failed to download index " + indexName);
+  }
 
-    try (InputStream inputStream = url.openStream();
-        BoundedInputStream bis = BoundedInputStream.builder()
-          .setInputStream(inputStream)
-          .setMaxCount(completeFileSize)
-          .get();
+  private void downloadFromUrl(String urlString) throws IOException, URISyntaxException {
+    URL url = new URI(urlString).toURL();
+    HttpURLConnection httpConnection = (HttpURLConnection) (url.openConnection());
+    httpConnection.setConnectTimeout(CONNECT_TIMEOUT_MS);
+    httpConnection.setReadTimeout(READ_TIMEOUT_MS);
+    long completeFileSize = httpConnection.getContentLengthLong();
+    boolean hasKnownSize = completeFileSize > 0;
+    long progressBarMax = hasKnownSize ? Math.max(1, Math.floorDiv(completeFileSize, 1000)) : 1;
+
+    try (InputStream inputStream = new BufferedInputStream(httpConnection.getInputStream());
         FileOutputStream fileOS = new FileOutputStream(savePath.toFile());
-        ProgressBar pb = new ProgressBar(indexName, Math.floorDiv(completeFileSize, 1000))) {
+        ProgressBar pb = new ProgressBar(indexName, progressBarMax)) {
 
       pb.setExtraMessage("Downloading...");
 
-      new Thread(() -> {
-        try {
-          IOUtils.copyLarge(bis, fileOS);
-        } catch (IOException e) {
-          e.printStackTrace();
+      byte[] buffer = new byte[DOWNLOAD_BUFFER_SIZE];
+      long downloaded = 0L;
+      int bytesRead;
+      while ((bytesRead = inputStream.read(buffer)) != -1) {
+        fileOS.write(buffer, 0, bytesRead);
+        downloaded += bytesRead;
+        if (hasKnownSize) {
+          pb.stepTo(Math.min(progressBarMax, Math.floorDiv(downloaded, 1000)));
         }
-      }).start();
-
-      while (bis.getCount() < completeFileSize) {
-        pb.stepTo(Math.floorDiv(bis.getCount(), 1000));
       }
 
-      pb.stepTo(Math.floorDiv(bis.getCount(), 1000));
-      pb.close();
+      if (hasKnownSize) {
+        pb.stepTo(progressBarMax);
+      }
+    } finally {
+      httpConnection.disconnect();
+    }
+  }
 
-      InputStream is = Files.newInputStream(savePath);
+  private void verifyChecksum() throws IOException {
+    try (InputStream is = Files.newInputStream(savePath)) {
       if (!checkMD5(is, info.md5)) {
         throw new IOException("MD5 check failed!");
       }
