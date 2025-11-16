@@ -17,27 +17,13 @@
 package io.anserini.collection;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.MappingIterator;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FilterInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
-import java.time.Instant;
-import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
-import java.util.zip.GZIPInputStream;
-
 
 public class C4NoCleanCollection extends C4Collection {
   public C4NoCleanCollection(Path path) {

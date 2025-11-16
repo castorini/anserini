@@ -18,8 +18,6 @@ package io.anserini.search;
 
 import io.anserini.index.Constants;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.StoredFields;
@@ -43,8 +41,6 @@ import java.util.Map;
  * <code>ScoredDoc[]</code> seemed more natural.
  */
 public class ScoredDocs {
-  private static final Logger LOG = LogManager.getLogger(ScoredDocs.class);
-
   public String[] docids;
   public int[] lucene_docids;
   public Document[] lucene_documents;

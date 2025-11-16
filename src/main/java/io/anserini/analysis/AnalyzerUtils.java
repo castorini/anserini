@@ -84,11 +84,11 @@ public class AnalyzerUtils {
   }
 
   @SuppressWarnings("unchecked")
-  public static Map<String, Long> computeDocumentVector(Analyzer analyzer, Class parser, String s) {
+  public static Map<String, Long> computeDocumentVector(Analyzer analyzer, Class<?> parser, String s) {
     String content = "";
 
     try {
-      DocumentCollection collection = (DocumentCollection) parser.getConstructor().newInstance();
+      DocumentCollection<SourceDocument> collection = (DocumentCollection<SourceDocument>) parser.getConstructor().newInstance();
       Reader inputString = new StringReader(s);
       BufferedReader bufferedReader = new BufferedReader(inputString);
       FileSegment<SourceDocument> segment = collection.createFileSegment(bufferedReader);

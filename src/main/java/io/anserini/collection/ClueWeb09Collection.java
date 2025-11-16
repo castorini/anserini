@@ -16,7 +16,6 @@
 
 package io.anserini.collection;
 
-import org.apache.commons.io.input.ReaderInputStream;
 import org.apache.logging.log4j.LogManager;
 
 import java.io.BufferedReader;
@@ -131,7 +130,6 @@ public class ClueWeb09Collection extends DocumentCollection<ClueWeb09Collection.
      * @return a WARC record (or null if EOF)
      */
     public static Document readNextWarcRecord(String rawContent) {
-      StringBuilder recordHeader = new StringBuilder();
       byte[] recordContent = rawContent.getBytes();
 
       Document retRecord = new Document();

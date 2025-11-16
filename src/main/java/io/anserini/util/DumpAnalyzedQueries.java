@@ -18,7 +18,6 @@ package io.anserini.util;
 
 import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.analysis.AnalyzerMap;
-import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.index.IndexCollection;
 import io.anserini.search.topicreader.TopicReader;
 import org.apache.lucene.analysis.Analyzer;
@@ -97,8 +96,7 @@ public class DumpAnalyzedQueries {
 
     TopicReader<?> tr;
     try {
-      // Can we infer the TopicReader?
-      Class<? extends TopicReader> clazz = TopicReader.getTopicReaderClassByFile(args.topicsFile.toString());
+      Class<? extends TopicReader<?>> clazz = (Class<? extends TopicReader<?>>) TopicReader.getTopicReaderClassByFile(args.topicsFile.toString());
       if (clazz != null) {
         LOG.warn(String.format("Inferring %s has TopicReader class %s.", args.topicsFile, clazz));
       } else {
@@ -110,7 +108,7 @@ public class DumpAnalyzedQueries {
           System.exit(-1);
         }
 
-        clazz = (Class<? extends TopicReader>) Class.forName(
+        clazz = (Class<? extends TopicReader<?>>) Class.forName(
             "io.anserini.search.topicreader." + args.topicReader + "TopicReader");
       }
 

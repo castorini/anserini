@@ -17,7 +17,6 @@
 package io.anserini.analysis.fw;
 
 import io.anserini.analysis.AnalyzerUtils;
-import io.anserini.analysis.fw.FakeWordsEncoderAnalyzer;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;

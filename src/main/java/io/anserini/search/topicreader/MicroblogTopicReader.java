@@ -31,18 +31,12 @@ public class MicroblogTopicReader extends TopicReader<Integer> {
     super(topicFile);
   }
 
-  private static final Pattern TOP_PATTERN =
-      Pattern.compile("<top(.*?)</top>", Pattern.DOTALL);
-  private static final Pattern NUM_PATTERN =
-      Pattern.compile("<num> Number: MB(\\d+) </num>", Pattern.DOTALL);
+  private static final Pattern NUM_PATTERN = Pattern.compile("<num> Number: MB(\\d+) </num>", Pattern.DOTALL);
   // TREC 2011 topics uses <title> tag
-  private static final Pattern TITLE_PATTERN =
-      Pattern.compile("<title>\\s*(.*?)\\s*</title>", Pattern.DOTALL);
+  private static final Pattern TITLE_PATTERN = Pattern.compile("<title>\\s*(.*?)\\s*</title>", Pattern.DOTALL);
   // TREC 2012 topics use <query> tag
-  private static final Pattern TITLE_PATTERN2 =
-      Pattern.compile("<query>\\s*(.*?)\\s*</query>", Pattern.DOTALL);
-  private static final Pattern TWEETTIME_PATTERN =
-      Pattern.compile("<querytweettime>\\s*(\\d+)\\s*</querytweettime>", Pattern.DOTALL);
+  private static final Pattern TITLE_PATTERN2 = Pattern.compile("<query>\\s*(.*?)\\s*</query>", Pattern.DOTALL);
+  private static final Pattern TWEETTIME_PATTERN = Pattern.compile("<querytweettime>\\s*(\\d+)\\s*</querytweettime>", Pattern.DOTALL);
 
   /**
    * Read topics of TREC Microblog Tracks from 2011 to 2014 including:

@@ -16,7 +16,6 @@
 
 package io.anserini.analysis;
 
-import io.anserini.analysis.FeatureVectorsTokenizer;
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.junit.Test;
