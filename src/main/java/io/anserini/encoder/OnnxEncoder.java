@@ -122,6 +122,7 @@ public abstract class OnnxEncoder<T> implements AutoCloseable {
     }
     return tokenIds;
   }
+
   protected long[] convertTokensToIds(List<String> tokens) {
     return convertTokensToIds(tokens, Integer.MAX_VALUE);
   }
