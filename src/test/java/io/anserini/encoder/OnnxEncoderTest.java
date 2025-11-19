@@ -28,7 +28,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class OnnxEncoderAbstractTest {
+public class OnnxEncoderTest {
 
   private ai.djl.modality.nlp.DefaultVocabulary getVocab(OnnxEncoder<?> encoder) {
     return ((OnnxEncoder<?>) encoder).vocab;
