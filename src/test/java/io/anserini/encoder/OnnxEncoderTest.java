@@ -37,8 +37,7 @@ public class OnnxEncoderTest {
   // Tests the convertTokensToIds method with empty query.
   @Test
   public void testConvertTokensToIdsEmptyQuery() throws Exception {
-    try (io.anserini.encoder.dense.BgeBaseEn15Encoder encoder = 
-         new io.anserini.encoder.dense.BgeBaseEn15Encoder()) {
+    try (io.anserini.encoder.dense.BgeBaseEn15Encoder encoder = new io.anserini.encoder.dense.BgeBaseEn15Encoder()) {
       String query = "";
       List<String> queryTokens = new ArrayList<>();
       queryTokens.add("[CLS]");
@@ -54,8 +53,7 @@ public class OnnxEncoderTest {
   // Tests the convertTokensToIds method with normal term query.
   @Test
   public void testConvertTokensToIdsNormalQuery() throws Exception {
-    try (io.anserini.encoder.dense.BgeBaseEn15Encoder encoder = 
-         new io.anserini.encoder.dense.BgeBaseEn15Encoder()) {
+    try (io.anserini.encoder.dense.BgeBaseEn15Encoder encoder = new io.anserini.encoder.dense.BgeBaseEn15Encoder()) {
       String query = "What is the capital of France?";
       String INSTRUCTION = "Represent this sentence for searching relevant passages: ";
       List<String> queryTokens = new ArrayList<>();
@@ -72,8 +70,7 @@ public class OnnxEncoderTest {
   // Tests the convertTokensToIds method with 512 term query.
   @Test
   public void testConvertTokensToIds512Terms() throws Exception {
-    try (io.anserini.encoder.dense.BgeBaseEn15Encoder encoder = 
-         new io.anserini.encoder.dense.BgeBaseEn15Encoder()) {
+    try (io.anserini.encoder.dense.BgeBaseEn15Encoder encoder = new io.anserini.encoder.dense.BgeBaseEn15Encoder()) {
       String testQuery = String.join(" ", Collections.nCopies(510, "hello"));
       List<String> queryTokens = new ArrayList<>();
       queryTokens.add("[CLS]");
@@ -88,8 +85,7 @@ public class OnnxEncoderTest {
   // Tests the convertTokensToIds method with 513 term query.
   @Test
   public void testConvertTokensToIds513Terms() throws Exception {
-    try (io.anserini.encoder.dense.BgeBaseEn15Encoder encoder = 
-         new io.anserini.encoder.dense.BgeBaseEn15Encoder()) {
+    try (io.anserini.encoder.dense.BgeBaseEn15Encoder encoder = new io.anserini.encoder.dense.BgeBaseEn15Encoder()) {
       String testQuery = String.join(" ", Collections.nCopies(511, "hello"));
       List<String> queryTokens = new ArrayList<>();
       queryTokens.add("[CLS]");
@@ -105,8 +101,7 @@ public class OnnxEncoderTest {
   // Tests the convertTokensToIds method with a real long query.
   @Test
   public void testConvertTokensToIdsReal512Query() throws Exception {
-    try (io.anserini.encoder.dense.BgeBaseEn15Encoder encoder = 
-         new io.anserini.encoder.dense.BgeBaseEn15Encoder()) {
+    try (io.anserini.encoder.dense.BgeBaseEn15Encoder encoder = new io.anserini.encoder.dense.BgeBaseEn15Encoder()) {
       String INSTRUCTION = "Represent this sentence for searching relevant passages: ";
       String testQuery = "Query: Collisions are dangerous and lead to injury.  Ray Fosse and Buster Posey (mentioned above in the Introduction) are just two examples of players who suffered major injuries in crashes at home plate. " +
           "Texas Rangers star Josh Hamilton, reigning Most Valuable Player of the American League, broke his arm when he collided with a catcher in 2011. " +
