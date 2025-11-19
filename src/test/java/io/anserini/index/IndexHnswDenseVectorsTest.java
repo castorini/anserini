@@ -19,7 +19,6 @@ package io.anserini.index;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.Map;
-import io.anserini.index.generator.InvalidDocumentException;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
@@ -27,7 +26,6 @@ import org.apache.lucene.index.IndexReader;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

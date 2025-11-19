@@ -17,7 +17,6 @@
 package io.anserini.analysis.lexlsh;
 
 import io.anserini.analysis.AnalyzerUtils;
-import io.anserini.analysis.lexlsh.LexicalLshAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.TextField;

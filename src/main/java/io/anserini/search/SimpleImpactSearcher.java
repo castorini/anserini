@@ -259,7 +259,7 @@ public class SimpleImpactSearcher implements Closeable {
    * @param filterTerms whether to filter terms to be English only
    */
   public void set_rm3(String collectionClass, int fbTerms, int fbDocs, float originalQueryWeight, boolean outputQuery, boolean filterTerms) {
-    Class clazz = null;
+    Class<?> clazz = null;
     try {
       if (collectionClass != null) {
         clazz = Class.forName("io.anserini.collection." + collectionClass);
@@ -332,7 +332,7 @@ public class SimpleImpactSearcher implements Closeable {
    * @param useNegative flag to use negative feedback
    */
   public void set_rocchio(String collectionClass, int topFbTerms, int topFbDocs, int bottomFbTerms, int bottomFbDocs, float alpha, float beta, float gamma, boolean outputQuery, boolean useNegative) {
-    Class clazz = null;
+    Class<?> clazz = null;
     try {
       if (collectionClass != null) {
         clazz = Class.forName("io.anserini.collection." + collectionClass);
@@ -515,9 +515,10 @@ public class SimpleImpactSearcher implements Closeable {
    * @throws OrtException if errors encountered during encoding
    * @return encoded query
    */
+  @SuppressWarnings("null")
   public Map<String, Integer> encode_with_onnx(String queryString) throws OrtException {
     // if no query encoder, assume its encoded query split by whitespace
-    if (this.queryEncoder == null){
+    if (this.queryEncoder == null) {
       List<String> queryTokens = AnalyzerUtils.analyze(analyzer, queryString);
       return queryTokens.stream().collect(Collectors.toMap(e->e, (a)->1, Integer::sum));
     }
@@ -616,7 +617,7 @@ public class SimpleImpactSearcher implements Closeable {
     List<String> queryTokens = AnalyzerUtils.analyze(analyzer, encodedQuery);
 
     TopDocs rs;
-    RerankerContext context;
+    RerankerContext<?> context;
     if (this.backwardsCompatibilityLucene8) {
       rs = searcher.search(query, k);
     } else {
