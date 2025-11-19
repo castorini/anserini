@@ -16,6 +16,7 @@
 
 package io.anserini.collection;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -29,7 +30,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ParquetDenseVectorCollectionTest extends DocumentCollectionTest<ParquetDenseVectorCollection.Document> {
   @Before
   public void setUp() throws Exception {
+    redirectStdErr();
     super.setUp();
+  }
+
+  @After
+  public void cleanUp() throws Exception {
+    restoreStdErr();
   }
 
   @Override

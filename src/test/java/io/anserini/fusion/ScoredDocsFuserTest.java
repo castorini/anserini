@@ -15,22 +15,37 @@
  */
 
 package io.anserini.fusion;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
+import io.anserini.StdOutStdErrRedirectableTestCase;
 import io.anserini.TestUtils;
 import io.anserini.search.ScoredDocs;
 
-public class ScoredDocsFuserTest {
+public class ScoredDocsFuserTest extends StdOutStdErrRedirectableTestCase {
+    @Before
+  public void setUp() throws Exception {
+    // Explictly set locale to US so that decimal points use '.' instead of ','
+    Locale.setDefault(Locale.US);
+
+    redirectStdErr();
+    super.setUp();
+  }
+
+  @After
+  public void cleanUp() throws Exception {
+    restoreStdErr();
+  }
+
   @Test
   public void testInvalidNumRuns() {
     ScoredDocs run = new ScoredDocs();

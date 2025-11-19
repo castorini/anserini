@@ -21,6 +21,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import io.anserini.StdOutStdErrRedirectableTestCase;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -34,7 +41,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public abstract class DocumentCollectionTest<T extends SourceDocument> extends LuceneTestCase {
+public abstract class DocumentCollectionTest<T extends SourceDocument> extends StdOutStdErrRedirectableTestCase {
   Path collectionPath;
   DocumentCollection<T> collection;
 

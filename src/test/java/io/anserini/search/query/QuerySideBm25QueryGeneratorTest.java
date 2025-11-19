@@ -16,6 +16,7 @@
 
 package io.anserini.search.query;
 
+import io.anserini.StdOutStdErrRedirectableTestCase;
 import io.anserini.index.IndexCollection;
 import io.anserini.index.IndexReaderUtils;
 
@@ -25,15 +26,27 @@ import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.store.FSDirectory;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.nio.file.Path;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+public class QuerySideBm25QueryGeneratorTest extends StdOutStdErrRedirectableTestCase {
+  @Before
+  public void setUp() throws Exception {
+    redirectStdOut();
+    redirectStdErr();
+    super.setUp();
+  }
 
-public class QuerySideBm25QueryGeneratorTest {
+  @After
+  public void cleanUp() throws Exception {
+    restoreStdOut();
+    restoreStdErr();
+  }
+
   @Test
   public void test1() throws IOException {
     String TEST_INDEX = "beir-v1.0.0-nfcorpus.flat";
