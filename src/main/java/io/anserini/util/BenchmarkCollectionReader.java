@@ -163,7 +163,7 @@ public final class BenchmarkCollectionReader {
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
-      System.err.println("Example: "+ BenchmarkCollectionReader.class.getSimpleName() + parser.printExample(OptionHandlerFilter.REQUIRED));
+      System.err.println(String.format("Example: %s%s", BenchmarkCollectionReader.class.getSimpleName(), parser.printExample(OptionHandlerFilter.REQUIRED)));
       return;
     }
 
