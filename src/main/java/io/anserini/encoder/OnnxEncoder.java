@@ -117,6 +117,9 @@ public abstract class OnnxEncoder<T> implements AutoCloseable {
     for (int i = 0; i < numTokens; i++) {
       tokenIds[i] = vocab.getIndex(tokens.get(i));
     }
+    if (numTokens > 1) {
+      tokenIds[numTokens - 1] = vocab.getIndex(SEP);
+    }
     return tokenIds;
   }
 
