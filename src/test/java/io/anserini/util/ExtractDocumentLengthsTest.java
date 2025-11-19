@@ -50,25 +50,25 @@ public class ExtractDocumentLengthsTest extends IndexerWithEmptyDocumentTestBase
 
   @Test
   public void testEmptyArgs() throws Exception {
-    redirectStderr();
+    redirectStdErr();
     ExtractDocumentLengths.main(new String[] {});
-    restoreStderr();
+    restoreStdErr();
 
-    assertTrue(redirectedStderr.toString().startsWith("Option \"-index\" is required"));
+    assertTrue(err.toString().startsWith("Option \"-index\" is required"));
   }
 
   @Test
   public void test() throws Exception {
     // See: https://github.com/castorini/anserini/issues/903
     Locale.setDefault(Locale.US);
-    redirectStdout();
-    redirectStderr(); // redirecting to be quiet
+    redirectStdOut();
+    redirectStdErr(); // redirecting to be quiet
     ExtractDocumentLengths.main(new String[] {"-index", tempDir1.toString(), "-output", randomFileName});
-    restoreStdout();
-    restoreStderr();
+    restoreStdOut();
+    restoreStdErr();
 
     assertEquals("Total number of terms in collection (sum of doclengths):\nLossy: 12\nExact: 12\n",
-        redirectedStdout.toString());
+        super.out.toString());
 
     List<String> lines = Files.readAllLines(Paths.get(randomFileName));
     assertEquals(5, lines.size());

@@ -50,20 +50,20 @@ public class ExtractTopDfTermsTest extends IndexerWithEmptyDocumentTestBase {
 
   @Test
   public void testEmptyArgs() throws Exception {
-    redirectStderr();
+    redirectStdErr();
     ExtractTopDfTerms.main(new String[] {});
-    restoreStderr();
+    restoreStdErr();
 
-    assertTrue(redirectedStderr.toString().startsWith("Option \"-index\" is required"));
+    assertTrue(super.err.toString().startsWith("Option \"-index\" is required"));
   }
 
   @Test
   public void test1() throws Exception {
     // See: https://github.com/castorini/anserini/issues/903
     Locale.setDefault(Locale.US);
-    redirectStdout(); // redirecting to be quiet
+    redirectStdOut(); // redirecting to be quiet
     ExtractTopDfTerms.main(new String[] {"-index", tempDir1.toString(), "-output", randomFileName});
-    restoreStdout();
+    restoreStdOut();
 
     List<String> lines = Files.readAllLines(Paths.get(randomFileName));
     assertEquals(6, lines.size());
@@ -79,9 +79,9 @@ public class ExtractTopDfTermsTest extends IndexerWithEmptyDocumentTestBase {
   public void test2() throws Exception {
     // See: https://github.com/castorini/anserini/issues/903
     Locale.setDefault(Locale.US);
-    redirectStdout(); // redirecting to be quiet
+    redirectStdOut(); // redirecting to be quiet
     ExtractTopDfTerms.main(new String[] {"-index", tempDir1.toString(), "-output", randomFileName, "-k", "1"});
-    restoreStdout();
+    restoreStdOut();
 
     List<String> lines = Files.readAllLines(Paths.get(randomFileName));
     assertEquals(1, lines.size());
