@@ -16,7 +16,6 @@
 
 package io.anserini.collection;
 
-import org.apache.commons.io.input.ReaderInputStream;
 import org.apache.logging.log4j.LogManager;
 
 import java.io.BufferedReader;

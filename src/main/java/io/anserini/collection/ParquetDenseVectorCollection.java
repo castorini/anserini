@@ -24,8 +24,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.apache.parquet.example.data.Group;
 import org.apache.parquet.hadoop.ParquetReader;
 import org.apache.parquet.hadoop.example.GroupReadSupport;
@@ -36,8 +34,6 @@ import org.apache.parquet.schema.PrimitiveType;
  * Extends the DocumentCollection class for handling documents.
  */
 public class ParquetDenseVectorCollection extends DocumentCollection<ParquetDenseVectorCollection.Document> {
-  private static final Logger LOG = LogManager.getLogger(ParquetDenseVectorCollection.class);
-
   protected String docidField = "docid";
   protected String vectorField = "vector";
   protected boolean normalizeVectors = false;

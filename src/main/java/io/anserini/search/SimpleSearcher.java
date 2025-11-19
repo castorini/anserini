@@ -297,7 +297,7 @@ public class SimpleSearcher implements Closeable {
    * @param filterTerms whether to filter terms to be English only
    */
   public void set_rm3(String collectionClass, int fbTerms, int fbDocs, float originalQueryWeight, boolean outputQuery, boolean filterTerms) {
-    Class clazz = null;
+    Class<?> clazz = null;
     try {
       if (collectionClass != null) {
         clazz = Class.forName("io.anserini.collection." + collectionClass);
@@ -370,7 +370,7 @@ public class SimpleSearcher implements Closeable {
    * @param useNegative flag to use negative feedback
    */
   public void set_rocchio(String collectionClass, int topFbTerms, int topFbDocs, int bottomFbTerms, int bottomFbDocs, float alpha, float beta, float gamma, boolean outputQuery, boolean useNegative) {
-    Class clazz = null;
+    Class<?> clazz = null;
     try {
       if (collectionClass != null) {
         clazz = Class.forName("io.anserini.collection." + collectionClass);
@@ -630,7 +630,7 @@ public class SimpleSearcher implements Closeable {
     searchArgs.hits = k;
 
     TopDocs rs;
-    RerankerContext context;
+    RerankerContext<?> context;
     if (this.backwardsCompatibilityLucene8) {
       rs = searcher.search(query, useRM3 ? searchArgs.rerankcutoff : k);
     } else {
@@ -668,7 +668,6 @@ public class SimpleSearcher implements Closeable {
 
   // internal implementation:
   // This initial implementation is very janky. We basically still perform retrieval, but just throw away the results.
-  @SuppressWarnings("unchecked")
   protected Map<String, Float> _get_feedback_terms(Query query, List<String> queryTokens, String queryString, int k) throws IOException {
     // Create an IndexSearch only once. Note that the object is thread safe.
     if (searcher == null) {
@@ -681,7 +680,7 @@ public class SimpleSearcher implements Closeable {
     searchArgs.hits = k;
 
     TopDocs rs;
-    RerankerContext context;
+    RerankerContext<?> context;
     if (this.backwardsCompatibilityLucene8) {
       rs = searcher.search(query, useRM3 ? searchArgs.rerankcutoff : k);
     } else {

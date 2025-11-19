@@ -28,7 +28,6 @@ import java.util.regex.Pattern;
 
 public class CacmTopicReader extends TopicReader<Integer> {
   private final String DOCNO = "<DOCNO>";
-  private final String TERMINATING_DOCNO = "</DOCNO>";
 
   private final String DOC = "<DOC>";
   private final String TERMINATING_DOC = "</DOC>";
@@ -45,12 +44,10 @@ public class CacmTopicReader extends TopicReader<Integer> {
     SortedMap<Integer, Map<String, String>> map = new TreeMap<>();
 
     try {
-      boolean found = false;
       String line;
       while ((line=bRdr.readLine()) != null) {
         line = line.trim();
         if (line.startsWith(DOC)) {
-          found = true;
           Map<String,String> fields = new HashMap<>();
           String qid = "";
           // continue to read DOCNO

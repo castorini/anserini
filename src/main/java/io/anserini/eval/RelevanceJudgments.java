@@ -139,9 +139,10 @@ public class RelevanceJudgments {
       throw new IOException("Could not get qrels file either from server or local file system!");
     }
 
-    InputStream inputStream = Files.newInputStream(resultPath);
-    String raw = new String(inputStream.readAllBytes());
-    return raw;
+    try (InputStream inputStream = Files.newInputStream(resultPath)) {
+      String raw = new String(inputStream.readAllBytes());
+      return raw;
+    }
   }
 
   /**

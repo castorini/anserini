@@ -211,6 +211,7 @@ public class trec_eval {
    * @param args trec_eval commandline arguments
    * @return exit code of trec_eval
    */
+  @SuppressWarnings("null")
   public int run(String[] args) {    
     try {
       ProcessBuilder pb = getBuilder(args);

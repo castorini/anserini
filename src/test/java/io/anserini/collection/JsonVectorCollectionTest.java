@@ -18,9 +18,6 @@ package io.anserini.collection;
 
 import java.util.Map;
 import org.junit.Test;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertEquals;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -62,10 +59,11 @@ public abstract class JsonVectorCollectionTest extends DocumentCollectionTest<Js
       assertNull("Non-array format should return null from vector()", doc.vector());
     }
   }
+
   /*
-  * Verify the cases where the vectorNode is an array
-  * If is not, then contents is null
-  */
+   * Verify the cases where the vectorNode is an array
+   * If is not, then contents is null
+   */
   @Test
   public void testDenseVectorDocument() throws Exception {
     String jsonStr = "{\"id\":\"dense1\",\"vector\":[1.1,2.2,3.3,4.4,5.5,6.6,7.7,8.8,9.9,10.1,11.11,12.12,13.13,14.14,15.15]}";
@@ -74,7 +72,7 @@ public abstract class JsonVectorCollectionTest extends DocumentCollectionTest<Js
     JsonVectorCollection.Document doc = new JsonVectorCollection.Document(jsonNode);
     assertEquals("dense1", doc.id());
     assertNull(doc.contents());
-    float[] expected = new float[] {1.1f,2.2f,3.3f,4.4f,5.5f,6.6f,7.7f,8.8f,9.9f,10.1f,11.11f,12.12f,13.13f,14.14f,15.15f};
+    float[] expected = new float[] { 1.1f, 2.2f, 3.3f, 4.4f, 5.5f, 6.6f, 7.7f, 8.8f, 9.9f, 10.1f, 11.11f, 12.12f, 13.13f, 14.14f, 15.15f };
     float[] actual = doc.vector();
     assertNotNull(actual);
     assertArrayEquals(expected, actual, 0.0001f);

@@ -17,7 +17,6 @@
 package io.anserini.analysis.lexlsh;
 
 import io.anserini.analysis.FeatureVectorsTokenizer;
-import io.anserini.analysis.lexlsh.LexicalLshFeaturePositionTokenFilter;
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.junit.Test;

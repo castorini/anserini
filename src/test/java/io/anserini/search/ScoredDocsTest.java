@@ -114,6 +114,7 @@ public class ScoredDocsTest extends IndexerTestBase {
     assertEquals(0.57024956f, topDocs.scoreDocs[0].score, 10e-8);
 
     // Now we can test ScoredDocs itself - note injecting null deliberately.
+    @SuppressWarnings("unused")
     ScoredDocs scoredDocs = ScoredDocs.fromTopDocs(topDocs, null);
   }
 

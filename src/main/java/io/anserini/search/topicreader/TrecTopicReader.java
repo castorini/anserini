@@ -106,7 +106,7 @@ public class TrecTopicReader extends TopicReader<Integer> {
 
         // Read the narrative...
         sb.setLength(0);
-        if (line.endsWith("</narr>")) {
+        if (line != null && line.endsWith("</narr>")) {
           // This means that the narrative is on a single line, like '<narr>....</narr>'
           sb.append(line);
         } else {

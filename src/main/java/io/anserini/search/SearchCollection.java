@@ -1091,7 +1091,6 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
           throw new IllegalArgumentException("Must specify the topic reader using -topicReader.");
         }
         try {
-          @SuppressWarnings("unchecked")
           TopicReader<K> tr = (TopicReader<K>) Class
               .forName(String.format("io.anserini.search.topicreader.%sTopicReader", args.topicReader))
               .getConstructor(Path.class).newInstance(topicsFilePath);

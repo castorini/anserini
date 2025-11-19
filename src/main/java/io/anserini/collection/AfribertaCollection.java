@@ -49,20 +49,17 @@ public class AfribertaCollection extends DocumentCollection<AfribertaCollection.
     this.allowedFileSuffix = new HashSet<>(Arrays.asList(".zip", ".txt"));
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public FileSegment<AfribertaCollection.Document> createFileSegment(Path p) throws IOException {
     return new Segment(p);
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public FileSegment<AfribertaCollection.Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
     return new Segment(bufferedReader);
   }
 
-
-  public static class Segment<T extends Document> extends FileSegment<T> {
+  public class Segment extends FileSegment<AfribertaCollection.Document> {
     private JsonNode node = null;
     private List<JsonNode> jsonNodeArray = null;
     private Iterator<JsonNode> iterator; // iterator for JSON line objects
@@ -70,16 +67,18 @@ public class AfribertaCollection extends DocumentCollection<AfribertaCollection.
     public Segment(Path path) throws IOException {
       super(path);
       
-      ZipFile zip = new ZipFile(String.valueOf(path));
-      for (Enumeration e = zip.entries(); e.hasMoreElements(); ) {
-        ZipEntry entry = (ZipEntry) e.nextElement();
-        if (!entry.isDirectory()) {
-          if (FilenameUtils.getExtension(entry.getName()).equals("txt")) {
-            jsonNodeArray = getTxtFiles(zip.getInputStream(entry));
+      try (ZipFile zip = new ZipFile(String.valueOf(path))) {
+        for (Enumeration<?> e = zip.entries(); e.hasMoreElements(); ) {
+          ZipEntry entry = (ZipEntry) e.nextElement();
+          if (!entry.isDirectory()) {
+            if (FilenameUtils.getExtension(entry.getName()).equals("txt")) {
+              jsonNodeArray = getTxtFiles(zip.getInputStream(entry));
+            }
           }
         }
+      } catch (IllegalArgumentException e) {
+        e.printStackTrace();
       }
-
       iterator = jsonNodeArray.iterator();
       if (iterator.hasNext()) {
         node = iterator.next();
@@ -124,13 +123,12 @@ public class AfribertaCollection extends DocumentCollection<AfribertaCollection.
       return jsonNodeArray;
     }
     
-    @SuppressWarnings("unchecked")
     @Override
     public void readNext() throws NoSuchElementException {
       if (node == null) {
         throw new NoSuchElementException("JsonNode is empty");
       } else if (node.isObject()) {
-        bufferedRecord = (T) createNewDocument(node);
+        bufferedRecord = createNewDocument(node);
         if (iterator.hasNext()) { // if bufferedReader contains JSON line objects, we parse the next JSON into node
           node = iterator.next();
         } else {
@@ -154,7 +152,6 @@ public class AfribertaCollection extends DocumentCollection<AfribertaCollection.
     private String id;
     private String raw;
     private String contents;
-    
     
     public Document(JsonNode json) {
       this.raw = json.toPrettyString();
