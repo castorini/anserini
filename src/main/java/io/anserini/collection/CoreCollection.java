@@ -78,12 +78,12 @@ public class CoreCollection extends DocumentCollection<CoreCollection.Document> 
     public Segment(Path path) throws IOException {
       super(path);
 
+      XZInputStream xzInputStream = null;
       if (path.toString().endsWith(".xz")) {
-        bufferedReader = new BufferedReader(new InputStreamReader(
-          new XZInputStream(new FileInputStream(path.toString()))));
+        xzInputStream = new XZInputStream(new FileInputStream(path.toString()));
+        bufferedReader = new BufferedReader(new InputStreamReader(xzInputStream));
       } else {
-        bufferedReader = new BufferedReader(new InputStreamReader(
-          new FileInputStream(path.toString())));
+        bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(path.toString())));
       }
 
       ObjectMapper mapper = new ObjectMapper();
@@ -94,6 +94,11 @@ public class CoreCollection extends DocumentCollection<CoreCollection.Document> 
           iter = node.elements();
         }
       }
+
+      if (path.toString().endsWith(".xz") && xzInputStream != null) {
+        xzInputStream.close();
+      }
+      bufferedReader.close();
     }
 
     public Segment(BufferedReader bufferedReader) throws IOException {

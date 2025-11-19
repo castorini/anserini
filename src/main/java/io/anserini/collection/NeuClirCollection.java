@@ -41,8 +41,6 @@ import java.util.stream.Collectors;
 import java.util.zip.GZIPInputStream;
 
 public class NeuClirCollection extends DocumentCollection<NeuClirCollection.Document> {
-  private static final Logger LOG = LogManager.getLogger(JsonCollection.class);
-
   public NeuClirCollection(Path path) {
     this.path = path;
     this.allowedFileSuffix = new HashSet<>(Arrays.asList(".json", ".jsonl", ".gz"));
