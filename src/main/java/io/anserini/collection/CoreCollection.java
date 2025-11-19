@@ -75,13 +75,11 @@ public class CoreCollection extends DocumentCollection<CoreCollection.Document> 
     private Iterator<JsonNode> iter = null; // iterator for JSON document array
     private MappingIterator<JsonNode> iterator; // iterator for JSON line objects
 
-    public Segment(Path path) throws IOException {
+    public Segment(Path path) throws IOException  {
       super(path);
 
-      XZInputStream xzInputStream = null;
       if (path.toString().endsWith(".xz")) {
-        xzInputStream = new XZInputStream(new FileInputStream(path.toString()));
-        bufferedReader = new BufferedReader(new InputStreamReader(xzInputStream));
+        bufferedReader = new BufferedReader(new InputStreamReader(new XZInputStream(new FileInputStream(path.toString()))));
       } else {
         bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(path.toString())));
       }
@@ -94,11 +92,6 @@ public class CoreCollection extends DocumentCollection<CoreCollection.Document> 
           iter = node.elements();
         }
       }
-
-      if (path.toString().endsWith(".xz") && xzInputStream != null) {
-        xzInputStream.close();
-      }
-      bufferedReader.close();
     }
 
     public Segment(BufferedReader bufferedReader) throws IOException {
