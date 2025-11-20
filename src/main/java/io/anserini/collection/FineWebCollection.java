@@ -80,6 +80,7 @@ public class FineWebCollection extends DocumentCollection<FineWebCollection.Docu
     private boolean readerInitialized;
     private String idField;
     private String contentsField;
+    private long documentCounter = 0; // Counter for auto-generating IDs when missing
 
     public Segment(Path path) throws IOException {
       this(path, "id", null);
@@ -89,6 +90,7 @@ public class FineWebCollection extends DocumentCollection<FineWebCollection.Docu
       super(path);
       this.idField = idField;
       this.contentsField = contentsField;
+      this.documentCounter = 0;
       initializeParquetReader(path);
     }
 
@@ -126,15 +128,15 @@ public class FineWebCollection extends DocumentCollection<FineWebCollection.Docu
           throw new NoSuchElementException("End of file reached");
         }
 
-        bufferedRecord = createNewDocument(record);
+        bufferedRecord = createNewDocument(record, documentCounter++);
       } catch (IOException e) {
         LOG.error("Error reading Parquet record", e);
         throw new NoSuchElementException("Error reading Parquet record: " + e.getMessage());
       }
     }
 
-    protected Document createNewDocument(Group record) {
-      return new Document(record, idField, contentsField);
+    protected Document createNewDocument(Group record, long rowNumber) {
+      return new Document(record, idField, contentsField, getSegmentPath(), rowNumber);
     }
   }
 
@@ -147,13 +149,17 @@ public class FineWebCollection extends DocumentCollection<FineWebCollection.Docu
     private String raw;
     private Map<String, String> fields;
 
-    public Document(Group record, String idField, String contentsField) {
+    public Document(Group record, String idField, String contentsField, Path segmentPath, long rowNumber) {
       this.fields = new HashMap<>();
       StringBuilder rawBuilder = new StringBuilder("{");
       boolean firstField = true;
+      
+      // Always initialize ID to null first
+      this.id = null;
 
       // Extract ID field - try the specified field first, then common alternatives
       String[] idFieldCandidates = new String[]{idField, "docid", "doc_id", "document_id"};
+      boolean idFound = false;
       for (String field : idFieldCandidates) {
         try {
           this.id = record.getString(field, 0);
@@ -162,12 +168,55 @@ public class FineWebCollection extends DocumentCollection<FineWebCollection.Docu
           }
           rawBuilder.append("\"").append(field).append("\":\"").append(escapeJson(id)).append("\"");
           firstField = false;
+          idFound = true;
           break;
         } catch (RuntimeException ignored) {
           // Field doesn't exist or is wrong type, try next
         }
       }
-
+      
+      // If ID not found, try to get any field that looks like an ID by checking all fields
+      if (!idFound) {
+        try {
+          int fieldCount = record.getType().getFieldCount();
+          for (int i = 0; i < fieldCount; i++) {
+            String fieldName = record.getType().getFieldName(i);
+            // Check if field name contains "id" (case insensitive)
+            if (fieldName.toLowerCase().contains("id")) {
+              try {
+                this.id = record.getString(i, 0);
+                if (!firstField) {
+                  rawBuilder.append(",");
+                }
+                rawBuilder.append("\"").append(fieldName).append("\":\"").append(escapeJson(id)).append("\"");
+                firstField = false;
+                idFound = true;
+                LOG.info("Found ID field: " + fieldName);
+                break;
+              } catch (RuntimeException ignored) {
+                // Not a string, try next
+              }
+            }
+          }
+        } catch (Exception e) {
+          LOG.warn("Error searching for ID field: " + e.getMessage());
+        }
+      }
+      
+      // If still not found, generate an ID based on segment path and row number
+      if (!idFound) {
+        String segmentName = segmentPath != null ? segmentPath.getFileName().toString().replace(".parquet", "") : "unknown";
+        this.id = segmentName + "_" + rowNumber;
+        // Insert ID at the beginning of the JSON
+        if (rawBuilder.length() > 1) {
+          rawBuilder.insert(1, "\"id\":\"" + escapeJson(this.id) + "\",");
+        } else {
+          rawBuilder.append("\"id\":\"").append(escapeJson(this.id)).append("\"");
+        }
+        firstField = false;
+        LOG.info("Auto-generated ID for document: " + this.id);
+      }
+      
       // Extract contents field - try "text" first, then "contents", or use provided field
       String[] contentsFieldCandidates = contentsField != null 
           ? new String[]{contentsField}
@@ -227,6 +276,13 @@ public class FineWebCollection extends DocumentCollection<FineWebCollection.Docu
 
       rawBuilder.append("}");
       this.raw = rawBuilder.toString();
+      
+      // Final safety check - ensure ID was set (should never be null at this point)
+      if (this.id == null || this.id.isEmpty()) {
+        String segmentName = segmentPath != null ? segmentPath.getFileName().toString().replace(".parquet", "") : "doc";
+        this.id = segmentName + "_" + rowNumber;
+        LOG.warn("Final safety fallback: Generated ID: " + this.id + " for row " + rowNumber);
+      }
     }
 
     /**
@@ -245,8 +301,12 @@ public class FineWebCollection extends DocumentCollection<FineWebCollection.Docu
 
     @Override
     public String id() {
-      if (id == null) {
-        throw new RuntimeException("FineWeb document has no \"id\" field!");
+      if (id == null || id.isEmpty()) {
+        // Final fallback - generate ID from raw content hash if available
+        String fallbackId = "doc_" + (raw != null ? raw.hashCode() : System.currentTimeMillis());
+        LOG.warn("ID was null in id() method! Generated fallback ID: " + fallbackId);
+        this.id = fallbackId;
+        return fallbackId;
       }
       return id;
     }
