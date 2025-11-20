@@ -16,15 +16,23 @@
 
 package io.anserini.index;
 
+import static org.junit.Assert.assertTrue;
+
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import io.anserini.StdOutStdErrRedirectableTestCase;
 
-import static org.junit.Assert.assertTrue;
-
 public class IndexCollectionInovcationsTest extends StdOutStdErrRedirectableTestCase {
+  @BeforeClass
+  public static void setupClass() {
+    Configurator.setLevel(IndexCollection.class.getName(), Level.ERROR);
+  }
+
   @Before
   public void setUp() throws Exception {
     redirectStdOut();

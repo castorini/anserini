@@ -16,27 +16,31 @@
 
 package io.anserini.integration;
 
-import io.anserini.collection.JsonCollection;
-import io.anserini.index.IndexCollection;
-import io.anserini.index.generator.DefaultLuceneDocumentGenerator;
-import io.anserini.search.SearchCollection;
-import com.carrotsearch.randomizedtesting.annotations.ThreadLeakScope;
-
-import ai.djl.util.Platform;
-
 import java.util.Map;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.junit.BeforeClass;
-import org.slf4j.simple.SimpleServiceProvider;
+
+import com.carrotsearch.randomizedtesting.annotations.ThreadLeakScope;
+
+import ai.djl.util.Platform;
+import io.anserini.collection.JsonCollection;
+import io.anserini.index.IndexCollection;
+import io.anserini.index.generator.DefaultLuceneDocumentGenerator;
+import io.anserini.search.SearchCollection;
 
 @ThreadLeakScope(ThreadLeakScope.Scope.NONE)
 public class HuggingFaceTokenizerEndToEndTest extends EndToEndTest {
   @BeforeClass
   public static void setupClass() {
+    java.util.logging.Logger root = java.util.logging.Logger.getLogger("");
+    root.setLevel(java.util.logging.Level.OFF); // suppress INFO and below
+    for (var handler : root.getHandlers()) {
+      handler.setLevel(java.util.logging.Level.OFF);
+    }
+
     Configurator.setLevel(Platform.class.getName(), Level.ERROR);
-    Configurator.setLevel(SimpleServiceProvider.class.getName(), Level.ERROR);
   }
 
   @Override

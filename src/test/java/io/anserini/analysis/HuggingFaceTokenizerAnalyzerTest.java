@@ -30,7 +30,6 @@ import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.slf4j.simple.SimpleServiceProvider;
 
 import ai.djl.util.Platform;
 import junit.framework.JUnit4TestAdapter;
@@ -38,8 +37,13 @@ import junit.framework.JUnit4TestAdapter;
 public class HuggingFaceTokenizerAnalyzerTest {
   @BeforeClass
   public static void setupClass() {
+    java.util.logging.Logger root = java.util.logging.Logger.getLogger("");
+    root.setLevel(java.util.logging.Level.OFF); // suppress INFO and below
+    for (var handler : root.getHandlers()) {
+      handler.setLevel(java.util.logging.Level.OFF);
+    }
+
     Configurator.setLevel(Platform.class.getName(), Level.ERROR);
-    Configurator.setLevel(SimpleServiceProvider.class.getName(), Level.ERROR);
   }
 
   Object[][] examples = new Object[][]{

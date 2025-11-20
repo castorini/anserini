@@ -33,6 +33,12 @@ import io.anserini.search.SimpleSearcher;
 public class SimpleIndexerAppendTest extends LuceneTestCase {
   @BeforeClass
   public static void setupClass() {
+    java.util.logging.Logger root = java.util.logging.Logger.getLogger("");
+    root.setLevel(java.util.logging.Level.OFF); // suppress INFO and below
+    for (var handler : root.getHandlers()) {
+      handler.setLevel(java.util.logging.Level.OFF);
+    }
+
     Configurator.setLevel(SimpleIndexer.class.getName(), Level.ERROR);
   }
 

@@ -16,13 +16,6 @@
 
 package io.anserini.util;
 
-import io.anserini.index.IndexerWithEmptyDocumentTestBase;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -30,8 +23,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import io.anserini.index.IndexerWithEmptyDocumentTestBase;
 
 public class ExtractTopDfTermsTest extends IndexerWithEmptyDocumentTestBase {
   private static final Random rand = new Random();
@@ -39,10 +36,10 @@ public class ExtractTopDfTermsTest extends IndexerWithEmptyDocumentTestBase {
 
   @BeforeClass
   public static void setupClass() {
-    Logger root = Logger.getLogger("");
-    root.setLevel(Level.WARNING); // suppress INFO and below
+    java.util.logging.Logger root = java.util.logging.Logger.getLogger("");
+    root.setLevel(java.util.logging.Level.OFF); // suppress INFO and below
     for (var handler : root.getHandlers()) {
-      handler.setLevel(Level.WARNING);
+      handler.setLevel(java.util.logging.Level.OFF);
     }
   }
 
