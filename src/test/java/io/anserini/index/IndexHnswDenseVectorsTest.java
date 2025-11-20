@@ -31,6 +31,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import io.anserini.StdOutStdErrRedirectableTestCase;
+import io.anserini.index.generator.DenseVectorDocumentGenerator;
 
 /**
  * Tests for {@link IndexHnswDenseVectors}
@@ -38,6 +39,12 @@ import io.anserini.StdOutStdErrRedirectableTestCase;
 public class IndexHnswDenseVectorsTest extends StdOutStdErrRedirectableTestCase {
   @BeforeClass
   public static void setupClass() {
+    java.util.logging.Logger root = java.util.logging.Logger.getLogger("");
+    root.setLevel(java.util.logging.Level.OFF); // suppress INFO and below
+    for (var handler : root.getHandlers()) {
+      handler.setLevel(java.util.logging.Level.OFF);
+    }
+
     Configurator.setLevel(AbstractIndexer.class.getName(), Level.ERROR);
     Configurator.setLevel(IndexCollection.class.getName(), Level.ERROR);
     Configurator.setLevel(IndexHnswDenseVectors.class.getName(), Level.ERROR);
@@ -207,6 +214,11 @@ public class IndexHnswDenseVectorsTest extends StdOutStdErrRedirectableTestCase 
         "-threads", "1",
         "-M", "16", "-efC", "100"
     };
+
+    // Since the vector is null, we will specifically trigger the following error:
+    //   Vector data is null or empty for document ID: 1
+    // Explicitly suppress, since this is expected.
+    Configurator.setLevel(DenseVectorDocumentGenerator.class.getName(), Level.OFF);
 
     IndexHnswDenseVectors.main(indexArgs);
     IndexReader reader = IndexReaderUtils.getReader(indexPath);

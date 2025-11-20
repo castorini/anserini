@@ -45,6 +45,7 @@ public class QuerySideBm25QueryGeneratorTest extends StdOutStdErrRedirectableLuc
   public void cleanUp() throws Exception {
     restoreStdOut();
     restoreStdErr();
+    super.tearDown();
   }
 
   @Test

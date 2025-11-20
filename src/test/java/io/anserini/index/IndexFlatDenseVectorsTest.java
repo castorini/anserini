@@ -38,6 +38,12 @@ import io.anserini.StdOutStdErrRedirectableTestCase;
 public class IndexFlatDenseVectorsTest extends StdOutStdErrRedirectableTestCase {
   @BeforeClass
   public static void setupClass() {
+    java.util.logging.Logger root = java.util.logging.Logger.getLogger("");
+    root.setLevel(java.util.logging.Level.OFF); // suppress INFO and below
+    for (var handler : root.getHandlers()) {
+      handler.setLevel(java.util.logging.Level.OFF);
+    }
+
     Configurator.setLevel(AbstractIndexer.class.getName(), Level.ERROR);
     Configurator.setLevel(IndexFlatDenseVectors.class.getName(), Level.ERROR);
   }

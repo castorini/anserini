@@ -39,6 +39,12 @@ import io.anserini.index.IndexFlatDenseVectors;
 public class SearchFlatDenseVectorsTest extends StdOutStdErrRedirectableTestCase {
   @BeforeClass
   public static void setupClass() {
+    java.util.logging.Logger root = java.util.logging.Logger.getLogger("");
+    root.setLevel(java.util.logging.Level.OFF); // suppress INFO and below
+    for (var handler : root.getHandlers()) {
+      handler.setLevel(java.util.logging.Level.OFF);
+    }
+
     Configurator.setLevel(AbstractIndexer.class.getName(), Level.ERROR);
     Configurator.setLevel(IndexFlatDenseVectors.class.getName(), Level.ERROR);
     Configurator.setLevel(SearchFlatDenseVectors.class.getName(), Level.ERROR);
