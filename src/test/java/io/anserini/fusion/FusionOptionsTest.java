@@ -22,9 +22,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import io.anserini.StdOutStdErrRedirectableTestCase;
+import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 
-public class FusionOptionsTest extends StdOutStdErrRedirectableTestCase {
+public class FusionOptionsTest extends StdOutStdErrRedirectableLuceneTestCase {
   @Before
   public void setUp() throws Exception {
     // Explictly set locale to US so that decimal points use '.' instead of ','

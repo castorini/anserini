@@ -16,10 +16,11 @@
 
 package io.anserini;
 
+import org.apache.lucene.tests.util.LuceneTestCase;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-public abstract class StdOutStdErrRedirectableTestCase {
+public abstract class StdOutStdErrRedirectableLuceneTestCase extends LuceneTestCase {
   protected final ByteArrayOutputStream out = new ByteArrayOutputStream();
   protected final ByteArrayOutputStream err = new ByteArrayOutputStream();
   protected PrintStream saveOut;

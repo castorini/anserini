@@ -20,7 +20,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import io.anserini.StdOutStdErrRedirectableTestCase;
+import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -35,7 +35,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public abstract class DocumentCollectionTest<T extends SourceDocument> extends StdOutStdErrRedirectableTestCase {
+public abstract class DocumentCollectionTest<T extends SourceDocument> extends StdOutStdErrRedirectableLuceneTestCase {
   Path collectionPath;
   DocumentCollection<T> collection;
 

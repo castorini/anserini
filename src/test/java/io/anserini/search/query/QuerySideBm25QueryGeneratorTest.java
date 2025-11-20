@@ -16,7 +16,7 @@
 
 package io.anserini.search.query;
 
-import io.anserini.StdOutStdErrRedirectableTestCase;
+import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 import io.anserini.index.IndexCollection;
 import io.anserini.index.IndexReaderUtils;
 
@@ -33,7 +33,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.nio.file.Path;
 
-public class QuerySideBm25QueryGeneratorTest extends StdOutStdErrRedirectableTestCase {
+public class QuerySideBm25QueryGeneratorTest extends StdOutStdErrRedirectableLuceneTestCase {
   @Before
   public void setUp() throws Exception {
     redirectStdOut();

@@ -17,8 +17,10 @@
 package io.anserini.util;
 
 import io.anserini.index.IndexerWithEmptyDocumentTestBase;
+
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.File;
@@ -28,9 +30,21 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class ExtractTopDfTermsTest extends IndexerWithEmptyDocumentTestBase {
   private static final Random rand = new Random();
   private String randomFileName;
+
+  @BeforeClass
+  public static void setupClass() {
+    Logger root = Logger.getLogger("");
+    root.setLevel(Level.WARNING); // suppress INFO and below
+    for (var handler : root.getHandlers()) {
+      handler.setLevel(Level.WARNING);
+    }
+  }
 
   @Before
   @Override
@@ -50,8 +64,10 @@ public class ExtractTopDfTermsTest extends IndexerWithEmptyDocumentTestBase {
 
   @Test
   public void testEmptyArgs() throws Exception {
+    redirectStdOut();
     redirectStdErr();
     ExtractTopDfTerms.main(new String[] {});
+    restoreStdOut();
     restoreStdErr();
 
     assertTrue(super.err.toString().startsWith("Option \"-index\" is required"));
@@ -62,8 +78,10 @@ public class ExtractTopDfTermsTest extends IndexerWithEmptyDocumentTestBase {
     // See: https://github.com/castorini/anserini/issues/903
     Locale.setDefault(Locale.US);
     redirectStdOut(); // redirecting to be quiet
+    redirectStdErr();
     ExtractTopDfTerms.main(new String[] {"-index", tempDir1.toString(), "-output", randomFileName});
     restoreStdOut();
+    restoreStdErr();
 
     List<String> lines = Files.readAllLines(Paths.get(randomFileName));
     assertEquals(6, lines.size());
@@ -80,8 +98,10 @@ public class ExtractTopDfTermsTest extends IndexerWithEmptyDocumentTestBase {
     // See: https://github.com/castorini/anserini/issues/903
     Locale.setDefault(Locale.US);
     redirectStdOut(); // redirecting to be quiet
+    redirectStdErr();
     ExtractTopDfTerms.main(new String[] {"-index", tempDir1.toString(), "-output", randomFileName, "-k", "1"});
     restoreStdOut();
+    restoreStdErr();
 
     List<String> lines = Files.readAllLines(Paths.get(randomFileName));
     assertEquals(1, lines.size());

@@ -27,7 +27,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import io.anserini.StdOutStdErrRedirectableTestCase;
+import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -36,7 +36,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AutoCompositeAnalyzerTest extends StdOutStdErrRedirectableTestCase {
+public class AutoCompositeAnalyzerTest extends StdOutStdErrRedirectableLuceneTestCase {
   @BeforeClass
   public static void setupClass() {
     Configurator.setLevel(AutoCompositeAnalyzer.class.getName(), Level.ERROR);
