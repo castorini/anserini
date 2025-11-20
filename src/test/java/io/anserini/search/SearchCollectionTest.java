@@ -16,17 +16,26 @@
 
 package io.anserini.search;
 
-import io.anserini.StdOutStdErrRedirectableTestCase;
-import io.anserini.TestUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
-import static org.junit.Assert.assertTrue;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import io.anserini.StdOutStdErrRedirectableTestCase;
+import io.anserini.TestUtils;
 
 public class SearchCollectionTest extends StdOutStdErrRedirectableTestCase {
+  @BeforeClass
+  public static void setupClass() {
+    Configurator.setLevel(SearchCollection.class.getName(), Level.ERROR);
+  }
+
   @Before
   public void setUp() throws Exception {
     redirectStdOut();

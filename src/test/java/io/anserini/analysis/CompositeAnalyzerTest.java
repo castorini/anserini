@@ -17,11 +17,18 @@
 package io.anserini.analysis;
 
 import junit.framework.JUnit4TestAdapter;
+
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.slf4j.simple.SimpleServiceProvider;
+
+import ai.djl.util.Platform;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -31,6 +38,12 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class CompositeAnalyzerTest {
+  @BeforeClass
+  public static void setupClass() {
+    Configurator.setLevel(Platform.class.getName(), Level.ERROR);
+    Configurator.setLevel(SimpleServiceProvider.class.getName(), Level.ERROR);
+  }
+
   Object[][] examples = new Object[][]{
     {"Ṣé Wàá Fọkàn sí Àwọn Ohun Tá A Ti Kọ Sílẹ̀?",
       new String[] {

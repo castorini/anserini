@@ -16,7 +16,11 @@
 
 package io.anserini.encoder;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.slf4j.simple.SimpleServiceProvider;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,6 +29,10 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class OnnxEncoderTest {
+  @BeforeClass
+  public static void setupClass() {
+    Configurator.setLevel(SimpleServiceProvider.class.getName(), Level.ERROR);
+  }
 
   // Tests the convertTokensToIds method with empty query.
   @Test

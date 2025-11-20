@@ -16,13 +16,9 @@
 
 package io.anserini.util;
 
-import io.anserini.index.IndexCollection;
-import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
-import org.apache.lucene.analysis.fr.FrenchAnalyzer;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
@@ -30,11 +26,23 @@ import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
+import org.apache.lucene.analysis.fr.FrenchAnalyzer;
+import org.junit.BeforeClass;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
+
+import io.anserini.index.IndexCollection;
 
 public class DumpAnalyzedQueriesTest {
+  @BeforeClass
+  public static void setupClass() {
+    Configurator.setLevel(DumpAnalyzedQueries.class.getName(), Level.ERROR);
+  }
 
   @Rule
   public TemporaryFolder tempFolder = new TemporaryFolder();

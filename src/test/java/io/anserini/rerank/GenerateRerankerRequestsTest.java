@@ -20,14 +20,22 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import io.anserini.StdOutStdErrRedirectableTestCase;
 import io.anserini.TestUtils;
 
 public class GenerateRerankerRequestsTest extends StdOutStdErrRedirectableTestCase {
+  @BeforeClass
+  public static void setupClass() {
+    Configurator.setLevel(GenerateRerankerRequests.class.getName(), Level.ERROR);
+  }
+
   @Before
   public void setUp() throws Exception {
     redirectStdOut();

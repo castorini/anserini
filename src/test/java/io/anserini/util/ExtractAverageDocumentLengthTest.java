@@ -29,7 +29,7 @@ public class ExtractAverageDocumentLengthTest extends IndexerWithEmptyDocumentTe
     ExtractAverageDocumentLength.main(new String[] {});
     restoreStdErr();
 
-    assertTrue(super.err.toString().startsWith("Option \"-index\" is required"));
+    assertTrue(err.toString().startsWith("Option \"-index\" is required"));
   }
 
   @Test
@@ -49,6 +49,6 @@ public class ExtractAverageDocumentLengthTest extends IndexerWithEmptyDocumentTe
             "SumTotalTermFreq: 12\n" +
             "DocCount:         3\n" +
             "avg doclength:    4.0\n",
-        super.out.toString());
+        out.toString());
   }
 }

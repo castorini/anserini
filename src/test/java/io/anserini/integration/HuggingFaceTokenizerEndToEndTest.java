@@ -22,11 +22,23 @@ import io.anserini.index.generator.DefaultLuceneDocumentGenerator;
 import io.anserini.search.SearchCollection;
 import com.carrotsearch.randomizedtesting.annotations.ThreadLeakScope;
 
+import ai.djl.util.Platform;
+
 import java.util.Map;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.junit.BeforeClass;
+import org.slf4j.simple.SimpleServiceProvider;
 
 @ThreadLeakScope(ThreadLeakScope.Scope.NONE)
 public class HuggingFaceTokenizerEndToEndTest extends EndToEndTest {
+  @BeforeClass
+  public static void setupClass() {
+    Configurator.setLevel(Platform.class.getName(), Level.ERROR);
+    Configurator.setLevel(SimpleServiceProvider.class.getName(), Level.ERROR);
+  }
+
   @Override
   IndexCollection.Args getIndexArgs() {
     IndexCollection.Args indexArgs = createDefaultIndexArgs();

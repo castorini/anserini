@@ -16,32 +16,21 @@
 
 package io.anserini.index;
 
-import org.apache.lucene.index.IndexReader;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
-import io.anserini.StdOutStdErrRedirectableTestCase;
-
-import java.util.Map;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+
+import java.util.Map;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.lucene.index.IndexReader;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import java.util.Map;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import io.anserini.StdOutStdErrRedirectableTestCase;
 
 /**
  * Tests for {@link IndexInvertedDenseVectors}

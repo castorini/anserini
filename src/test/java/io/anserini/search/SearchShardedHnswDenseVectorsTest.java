@@ -16,26 +16,20 @@
 
 package io.anserini.search;
 
-import io.anserini.StdOutStdErrRedirectableTestCase;
+import static org.junit.Assert.assertTrue;
 
-import io.anserini.index.AbstractIndexer;
- import io.anserini.index.IndexHnswDenseVectors;
- import org.apache.logging.log4j.Level;
- import org.apache.logging.log4j.LogManager;
- import org.apache.logging.log4j.Logger;
- import org.apache.logging.log4j.core.config.Configurator;
- import org.junit.BeforeClass;
- import org.junit.Test;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
- import java.io.ByteArrayOutputStream;
- import java.io.File;
- import java.io.PrintStream;
- import java.nio.file.Files;
- import java.nio.file.Paths;
-
-import static org.junit.Assert.assertTrue;
+import io.anserini.StdOutStdErrRedirectableTestCase;
 
 /**
  * Tests for {@link SearchShardedHnswDenseVectors}
@@ -43,15 +37,12 @@ import static org.junit.Assert.assertTrue;
 public class SearchShardedHnswDenseVectorsTest extends StdOutStdErrRedirectableTestCase {
   // Note, clashes with StdOutStdErrRedirectableLuceneTestCase
 
-   @BeforeClass
-   public static void setupClass() {
-     // Set log levels to INFO for better debugging
-     Configurator.setLevel(AbstractIndexer.class.getName(), Level.INFO);
-     Configurator.setLevel(IndexHnswDenseVectors.class.getName(), Level.INFO);
-     Configurator.setLevel(SearchShardedHnswDenseVectors.class.getName(), Level.INFO);
-     Configurator.setLevel(HnswDenseSearcher.class.getName(), Level.INFO);
-     Configurator.setLevel(SearchShardedHnswDenseVectorsTest.class.getName(), Level.INFO);
-   }
+  @BeforeClass
+  public static void setupClass() {
+    Configurator.setLevel(SearchShardedHnswDenseVectors.class.getName(), Level.ERROR);
+    Configurator.setLevel(SearchHnswDenseVectors.class.getName(), Level.ERROR);
+    Configurator.setLevel(HnswDenseSearcher.class.getName(), Level.ERROR);
+  }
 
   @Before
   public void setUp() throws Exception {

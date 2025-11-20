@@ -16,32 +16,22 @@
 
 package io.anserini.search;
 
-import io.anserini.StdOutStdErrRedirectableTestCase;
-import io.anserini.TestUtils;
-import io.anserini.index.IndexHnswDenseVectors;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.io.File;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import io.anserini.TestUtils;
-import io.anserini.index.AbstractIndexer;
-import io.anserini.index.IndexHnswDenseVectors;
+import java.io.File;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.PrintStream;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import io.anserini.StdOutStdErrRedirectableTestCase;
+import io.anserini.TestUtils;
+import io.anserini.index.AbstractIndexer;
+import io.anserini.index.IndexHnswDenseVectors;
 
 /**
  * Tests for {@link SearchHnswDenseVectors}

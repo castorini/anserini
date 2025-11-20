@@ -16,13 +16,23 @@
 
 package io.anserini.integration;
 
+import java.util.Map;
+
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.junit.BeforeClass;
+
 import io.anserini.collection.JsonCollection;
+import io.anserini.index.AbstractIndexer;
 import io.anserini.index.IndexCollection;
 import io.anserini.search.SearchCollection;
 
-import java.util.Map;
-
 public class JsonEndToEndMultifieldTest extends EndToEndTest {
+  @BeforeClass
+  public static void setupClass() {
+    Configurator.setLevel(AbstractIndexer.class.getName(), Level.ERROR);
+  }
+
   @Override
   IndexCollection.Args getIndexArgs() {
     IndexCollection.Args indexArgs = createDefaultIndexArgs();
