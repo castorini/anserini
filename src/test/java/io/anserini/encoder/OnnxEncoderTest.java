@@ -26,10 +26,6 @@ import static org.junit.Assert.*;
 
 public class OnnxEncoderTest {
 
-  private ai.djl.modality.nlp.DefaultVocabulary getVocab(OnnxEncoder<?> encoder) {
-    return ((OnnxEncoder<?>) encoder).vocab;
-  }
-
   // Tests the convertTokensToIds method with empty query.
   @Test
   public void testConvertTokensToIdsEmptyQuery() throws Exception {
@@ -41,8 +37,8 @@ public class OnnxEncoderTest {
       queryTokens.add("[SEP]");
       long[] result = ((OnnxEncoder<?>) encoder).convertTokensToIds(queryTokens, 512);
       assertTrue(result.length == 2);
-      assertEquals(getVocab(encoder).getIndex("[CLS]"), result[0]);
-      assertEquals(getVocab(encoder).getIndex("[SEP]"), result[result.length - 1]);
+      assertEquals(encoder.vocab.getIndex("[CLS]"), result[0]);
+      assertEquals(encoder.vocab.getIndex("[SEP]"), result[result.length - 1]);
     }
   }
 
@@ -58,8 +54,8 @@ public class OnnxEncoderTest {
       queryTokens.add("[SEP]");
       long[] result = ((OnnxEncoder<?>) encoder).convertTokensToIds(queryTokens, 512);
       assertEquals(17, result.length);
-      assertEquals(getVocab(encoder).getIndex("[CLS]"), result[0]);
-      assertEquals(getVocab(encoder).getIndex("[SEP]"), result[result.length - 1]);
+      assertEquals(encoder.vocab.getIndex("[CLS]"), result[0]);
+      assertEquals(encoder.vocab.getIndex("[SEP]"), result[result.length - 1]);
     }
   }
 
@@ -73,8 +69,9 @@ public class OnnxEncoderTest {
       queryTokens.addAll(encoder.tokenizer.tokenize(testQuery));
       queryTokens.add("[SEP]");
       long[] result = ((OnnxEncoder<?>) encoder).convertTokensToIds(queryTokens, 512);
-      assertEquals(getVocab(encoder).getIndex("[CLS]"), result[0]);
-      assertEquals(getVocab(encoder).getIndex("[SEP]"), result[result.length - 1]);
+      assertEquals(512, result.length);
+      assertEquals(encoder.vocab.getIndex("[CLS]"), result[0]);
+      assertEquals(encoder.vocab.getIndex("[SEP]"), result[result.length - 1]);
     }
   }
 
@@ -89,8 +86,8 @@ public class OnnxEncoderTest {
       queryTokens.add("[SEP]");
       long[] result = ((OnnxEncoder<?>) encoder).convertTokensToIds(queryTokens, 512);
       assertEquals(512, result.length);
-      assertEquals(getVocab(encoder).getIndex("[CLS]"), result[0]);
-      assertEquals(getVocab(encoder).getIndex("[SEP]"), result[result.length - 1]);
+      assertEquals(encoder.vocab.getIndex("[CLS]"), result[0]);
+      assertEquals(encoder.vocab.getIndex("[SEP]"), result[result.length - 1]);
     }
   }
 
@@ -118,8 +115,8 @@ public class OnnxEncoderTest {
       queryTokens.add("[SEP]");
       long[] result = ((OnnxEncoder<?>) encoder).convertTokensToIds(queryTokens, 512);
       assertEquals(512, result.length);
-      assertEquals(getVocab(encoder).getIndex("[CLS]"), result[0]);
-      assertEquals(getVocab(encoder).getIndex("[SEP]"), result[result.length - 1]);
+      assertEquals(encoder.vocab.getIndex("[CLS]"), result[0]);
+      assertEquals(encoder.vocab.getIndex("[SEP]"), result[result.length - 1]);
     }
   }
 }
