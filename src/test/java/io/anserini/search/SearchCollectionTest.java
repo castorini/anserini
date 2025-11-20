@@ -16,51 +16,37 @@
 
 package io.anserini.search;
 
+import io.anserini.StdOutStdErrRedirectableTestCase;
 import io.anserini.TestUtils;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.core.config.Configurator;
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.PrintStream;
 
 import static org.junit.Assert.assertTrue;
 
-public class SearchCollectionTest {
-  private final ByteArrayOutputStream err = new ByteArrayOutputStream();
-  private PrintStream save;
-
-  @BeforeClass
-  public static void setupClass() {
-    Configurator.setLevel(SearchCollection.class.getName(), Level.ERROR);
+public class SearchCollectionTest extends StdOutStdErrRedirectableTestCase {
+  @Before
+  public void setUp() throws Exception {
+    redirectStdOut();
+    redirectStdErr();
   }
 
-  private void redirectStderr() {
-    save = System.err;
-    err.reset();
-    System.setErr(new PrintStream(err));
-  }
-
-  private void restoreStderr() {
-    System.setErr(save);
+  @After
+  public void cleanUp() throws Exception {
+    restoreStdOut();
+    restoreStdErr();
   }
 
   @Test
   public void testAskForOptions() throws Exception {
-    redirectStderr();
-
     SearchCollection.main(new String[] {"-options"});
     assertTrue(err.toString().contains("Options for SearchCollection"));
-
-    restoreStderr();
   }
 
   @Test
   public void testIncompleteOptions() throws Exception {
-    redirectStderr();
-
     SearchCollection.main(new String[] {});
     assertTrue(err.toString().contains("Option \"-index\" is required"));
 
@@ -71,28 +57,17 @@ public class SearchCollectionTest {
     err.reset();
     SearchCollection.main(new String[] {"-index", "foo", "-output", "bar", "-topicReader", "baz"});
     assertTrue(err.toString().contains("Option \"-topics\" is required"));
-
-    restoreStderr();
   }
 
   @Test
   public void testOptionErrors() throws Exception {
-    redirectStderr();
-
-    err.reset();
     SearchCollection.main(new String[] {"-index", "foo", "-output", "bar", "-topicReader", "baz", "-topics", "topic",});
     assertTrue(err.toString().contains("\"foo\" does not appear to be a valid index."));
-
-    restoreStderr();
   }
 
   @Test
   public void testMutallyExclusive() throws Exception {
-    redirectStderr();
-
     // We can't exhaustively test all combinations, so we just sample a few combinations.
-
-    err.reset();
     SearchCollection.main(new String[] {"-index", "foo", "-output", "bar", "-topicReader", "baz", "-topics", "topic",
         "-bm25", "-qld"});
     assertTrue(err.toString().contains("cannot be used with the option"));
@@ -121,30 +96,20 @@ public class SearchCollectionTest {
     SearchCollection.main(new String[] {"-index", "foo", "-output", "bar", "-topicReader", "baz", "-topics", "topic",
         "-f2log", "-f2exp"});
     assertTrue(err.toString().contains("cannot be used with the option"));
-
-    restoreStderr();
   }
 
   @Test
   public void testInvalidTopicReader() throws Exception {
-    redirectStderr();
-
-    err.reset();
     SearchCollection.main(new String[] {
         "-index", "src/test/resources/prebuilt_indexes/lucene9-index.sample_docs_trec_collection2/",
         "-topics", "src/test/resources/sample_topics/Trec",
         "-topicReader", "FakeTrec",
         "-output", "run.test", "-bm25"});
     assertTrue(err.toString().contains("Unable to load topic reader"));
-
-    restoreStderr();
   }
 
   @Test
   public void testInvalidFields() throws Exception {
-    redirectStderr();
-
-    err.reset();
     SearchCollection.main(new String[] {
         "-index", "src/test/resources/prebuilt_indexes/lucene9-index.sample_docs_trec_collection2/",
         "-topics", "src/test/resources/sample_topics/Trec",
@@ -152,8 +117,6 @@ public class SearchCollectionTest {
         "-fields", "field1=a",
         "-output", "run.test", "-bm25"});
     assertTrue(err.toString().contains("Error parsing -fields"));
-
-    restoreStderr();
   }
 
   @Test
@@ -206,7 +169,6 @@ public class SearchCollectionTest {
         "1 Q0 2000001 1 4.000000 Anserini",});
     assertTrue(new File("run.test").delete());
   }
-
 
   @Test
   public void testSpecifyTopicsAsSymbol() throws Exception {

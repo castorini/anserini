@@ -16,17 +16,14 @@
 
 package io.anserini.search;
 
+import io.anserini.StdOutStdErrRedirectableTestCase;
 import io.anserini.TestUtils;
-import io.anserini.index.AbstractIndexer;
 import io.anserini.index.IndexInvertedDenseVectors;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.core.config.Configurator;
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.PrintStream;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -34,53 +31,34 @@ import static org.junit.Assert.assertTrue;
 /**
  * Tests for {@link SearchInvertedDenseVectors}
  */
-public class SearchInvertedDenseVectorsTest {
-  private final ByteArrayOutputStream err = new ByteArrayOutputStream();
-  private PrintStream save;
-
-  private void redirectStderr() {
-    save = System.err;
-    err.reset();
-    System.setErr(new PrintStream(err));
+public class SearchInvertedDenseVectorsTest extends StdOutStdErrRedirectableTestCase {
+  @Before
+  public void setUp() throws Exception {
+    redirectStdOut();
+    redirectStdErr();
   }
 
-  private void restoreStderr() {
-    System.setErr(save);
-  }
-
-  @BeforeClass
-  public static void setupClass() {
-    Configurator.setLevel(AbstractIndexer.class.getName(), Level.ERROR);
-    Configurator.setLevel(IndexInvertedDenseVectors.class.getName(), Level.ERROR);
-    Configurator.setLevel(SearchInvertedDenseVectors.class.getName(), Level.ERROR);
-    Configurator.setLevel(InvertedDenseSearcher.class.getName(), Level.ERROR);
+  @After
+  public void cleanUp() throws Exception {
+    restoreStdOut();
+    restoreStdErr();
   }
 
   @Test
   public void testEmptyInvocation() throws Exception {
-    redirectStderr();
-
     SearchInvertedDenseVectors.main(new String[] {});
     assertTrue(err.toString().contains("Error"));
     assertTrue(err.toString().contains("is required"));
-
-    restoreStderr();
   }
 
   @Test
   public void testAskForHelp() throws Exception {
-    redirectStderr();
-
     SearchInvertedDenseVectors.main(new String[] {"-options"});
     assertTrue(err.toString().contains("Options for"));
-
-    restoreStderr();
   }
 
   @Test
   public void testInvalidIndex1() throws Exception {
-    redirectStderr();
-
     // Fake path that doesn't exist.
     String[] searchArgs = new String[] {
         "-index", "/fake/path",
@@ -93,13 +71,10 @@ public class SearchInvertedDenseVectorsTest {
     SearchInvertedDenseVectors.main(searchArgs);
 
     assertEquals("Error: \"/fake/path\" does not appear to be a valid index.\n", err.toString());
-    restoreStderr();
   }
 
   @Test
   public void testInvalidIndex2() throws Exception {
-    redirectStderr();
-
     // Path that does exist, but isn't an index.
     String[] searchArgs = new String[] {
         "-index", "src/",
@@ -111,7 +86,6 @@ public class SearchInvertedDenseVectorsTest {
         "-encoding", "fw"};
     SearchInvertedDenseVectors.main(searchArgs);
     assertEquals("Error: \"src/\" does not appear to be a valid index.\n", err.toString());
-    restoreStderr();
   }
 
   @Test
@@ -136,11 +110,9 @@ public class SearchInvertedDenseVectorsTest {
         "-hits", "5",
         "-encoding", "fw"};
 
-    redirectStderr();
     SearchInvertedDenseVectors.main(searchArgs);
 
     assertEquals("Error: \"fake/topics/here\" does not appear to be a valid topics file.\n", err.toString());
-    restoreStderr();
   }
 
   @Test
@@ -165,11 +137,9 @@ public class SearchInvertedDenseVectorsTest {
         "-hits", "5",
         "-encoding", "fw"};
 
-    redirectStderr();
     SearchInvertedDenseVectors.main(searchArgs);
 
     assertEquals("Error: Unable to load topic reader \"FakeJsonIntVector\".\n", err.toString());
-    restoreStderr();
   }
 
   @Test
@@ -194,11 +164,9 @@ public class SearchInvertedDenseVectorsTest {
         "-hits", "5",
         "-encoding", "fw"};
 
-    redirectStderr();
     SearchInvertedDenseVectors.main(searchArgs);
 
     assertEquals("Error: Unable to read topic field \"fake_field\".\n", err.toString());
-    restoreStderr();
   }
 
   @Test
@@ -223,11 +191,9 @@ public class SearchInvertedDenseVectorsTest {
         "-hits", "5",
         "-encoding", "xxx"};
 
-    redirectStderr();
     SearchInvertedDenseVectors.main(searchArgs);
 
     assertEquals("Error: Invalid encoding scheme \"xxx\".\n", err.toString());
-    restoreStderr();
   }
 
   @Test

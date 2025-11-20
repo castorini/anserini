@@ -16,56 +16,40 @@
 
 package io.anserini.index;
 
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.core.config.Configurator;
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+import io.anserini.StdOutStdErrRedirectableTestCase;
 
 import static org.junit.Assert.assertTrue;
 
-public class IndexCollectionInovcationsTest {
-  private final ByteArrayOutputStream err = new ByteArrayOutputStream();
-  private PrintStream save;
-
-  private void redirectStderr() {
-    save = System.err;
-    err.reset();
-    System.setErr(new PrintStream(err));
+public class IndexCollectionInovcationsTest extends StdOutStdErrRedirectableTestCase {
+  @Before
+  public void setUp() throws Exception {
+    redirectStdOut();
+    redirectStdErr();
   }
 
-  private void restoreStderr() {
-    System.setErr(save);
-  }
-
-  @BeforeClass
-  public static void setupClass() {
-    Configurator.setLevel(AbstractIndexer.class.getName(), Level.ERROR);
-    Configurator.setLevel(IndexCollection.class.getName(), Level.ERROR);
+  @After
+  public void cleanUp() throws Exception {
+    restoreStdOut();
+    restoreStdErr();
   }
 
   @Test
   public void testEmptyInvocation() throws Exception {
-    redirectStderr();
     String[] indexArgs = new String[] {};
 
     IndexCollection.main(indexArgs);
     assertTrue(err.toString().contains("Error"));
     assertTrue(err.toString().contains("is required"));
-
-    restoreStderr();
   }
 
   @Test
   public void testAskForHelp() throws Exception {
-    redirectStderr();
-
     IndexCollection.main(new String[] {"-options"});
     assertTrue(err.toString().contains("Options for"));
-
-    restoreStderr();
   }
 
   @Test(expected = IllegalArgumentException.class)
