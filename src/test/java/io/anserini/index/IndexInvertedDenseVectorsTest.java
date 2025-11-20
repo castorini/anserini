@@ -29,10 +29,30 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.lucene.index.IndexReader;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 /**
  * Tests for {@link IndexInvertedDenseVectors}
  */
 public class IndexInvertedDenseVectorsTest extends StdOutStdErrRedirectableTestCase {
+  @BeforeClass
+  public static void setupClass() {
+    Configurator.setLevel(AbstractIndexer.class.getName(), Level.ERROR);
+    Configurator.setLevel(IndexInvertedDenseVectors.class.getName(), Level.ERROR);
+  }
+
   @Before
   public void setUp() throws Exception {
     redirectStdOut();

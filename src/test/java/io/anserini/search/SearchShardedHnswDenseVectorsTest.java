@@ -18,16 +18,22 @@ package io.anserini.search;
 
 import io.anserini.StdOutStdErrRedirectableTestCase;
 
+import io.anserini.index.AbstractIndexer;
+ import io.anserini.index.IndexHnswDenseVectors;
+ import org.apache.logging.log4j.Level;
+ import org.apache.logging.log4j.LogManager;
+ import org.apache.logging.log4j.Logger;
+ import org.apache.logging.log4j.core.config.Configurator;
+ import org.junit.BeforeClass;
+ import org.junit.Test;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
 
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+ import java.io.ByteArrayOutputStream;
+ import java.io.File;
+ import java.io.PrintStream;
+ import java.nio.file.Files;
+ import java.nio.file.Paths;
 
 import static org.junit.Assert.assertTrue;
 
@@ -37,14 +43,15 @@ import static org.junit.Assert.assertTrue;
 public class SearchShardedHnswDenseVectorsTest extends StdOutStdErrRedirectableTestCase {
   // Note, clashes with StdOutStdErrRedirectableLuceneTestCase
 
-  @BeforeClass
-  public static void setupClass() {
-    Logger root = Logger.getLogger("");
-    root.setLevel(Level.OFF);
-    for (var handler : root.getHandlers()) {
-      handler.setLevel(Level.OFF);
-    }
-  }
+   @BeforeClass
+   public static void setupClass() {
+     // Set log levels to INFO for better debugging
+     Configurator.setLevel(AbstractIndexer.class.getName(), Level.INFO);
+     Configurator.setLevel(IndexHnswDenseVectors.class.getName(), Level.INFO);
+     Configurator.setLevel(SearchShardedHnswDenseVectors.class.getName(), Level.INFO);
+     Configurator.setLevel(HnswDenseSearcher.class.getName(), Level.INFO);
+     Configurator.setLevel(SearchShardedHnswDenseVectorsTest.class.getName(), Level.INFO);
+   }
 
   @Before
   public void setUp() throws Exception {

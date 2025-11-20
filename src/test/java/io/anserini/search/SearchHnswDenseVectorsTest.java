@@ -28,10 +28,33 @@ import java.io.File;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import io.anserini.TestUtils;
+import io.anserini.index.AbstractIndexer;
+import io.anserini.index.IndexHnswDenseVectors;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.PrintStream;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 /**
  * Tests for {@link SearchHnswDenseVectors}
  */
 public class SearchHnswDenseVectorsTest extends StdOutStdErrRedirectableTestCase {
+  @BeforeClass
+  public static void setupClass() {
+    Configurator.setLevel(AbstractIndexer.class.getName(), Level.ERROR);
+    Configurator.setLevel(IndexHnswDenseVectors.class.getName(), Level.ERROR);
+    Configurator.setLevel(SearchHnswDenseVectors.class.getName(), Level.ERROR);
+    Configurator.setLevel(HnswDenseSearcher.class.getName(), Level.ERROR);
+  }
+
   @Before
   public void setUp() throws Exception {
     redirectStdOut();
