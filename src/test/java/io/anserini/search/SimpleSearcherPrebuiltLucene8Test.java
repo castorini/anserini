@@ -16,20 +16,15 @@
 
 package io.anserini.search;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 
-import org.junit.BeforeClass;
-
-public class SimpleSearcherPrebuiltLucene8Test {
+public class SimpleSearcherPrebuiltLucene8Test extends StdOutStdErrRedirectableLuceneTestCase {
   @BeforeClass
   public static void setupClass() {
-    java.util.logging.Logger root = java.util.logging.Logger.getLogger("");
-    root.setLevel(java.util.logging.Level.OFF); // suppress INFO and below
-    for (var handler : root.getHandlers()) {
-      handler.setLevel(java.util.logging.Level.OFF);
-    }
+    suppressJvmLogging();
   }
 
   @Test

@@ -16,8 +16,6 @@
 
 package io.anserini.analysis;
 
-import static org.junit.Assert.assertEquals;
-
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -32,16 +30,13 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import ai.djl.util.Platform;
+import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 import junit.framework.JUnit4TestAdapter;
 
-public class HuggingFaceTokenizerAnalyzerTest {
+public class HuggingFaceTokenizerAnalyzerTest extends StdOutStdErrRedirectableLuceneTestCase {
   @BeforeClass
   public static void setupClass() {
-    java.util.logging.Logger root = java.util.logging.Logger.getLogger("");
-    root.setLevel(java.util.logging.Level.OFF); // suppress INFO and below
-    for (var handler : root.getHandlers()) {
-      handler.setLevel(java.util.logging.Level.OFF);
-    }
+    suppressJvmLogging();
 
     Configurator.setLevel(Platform.class.getName(), Level.ERROR);
   }

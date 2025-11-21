@@ -16,10 +16,6 @@
 
 package io.anserini.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -36,16 +32,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
+import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 import io.anserini.index.IndexCollection;
 
-public class DumpAnalyzedQueriesTest {
+public class DumpAnalyzedQueriesTest extends StdOutStdErrRedirectableLuceneTestCase {
   @BeforeClass
   public static void setupClass() {
-    java.util.logging.Logger root = java.util.logging.Logger.getLogger("");
-    root.setLevel(java.util.logging.Level.OFF); // suppress INFO and below
-    for (var handler : root.getHandlers()) {
-      handler.setLevel(java.util.logging.Level.OFF);
-    }
+    suppressJvmLogging();
 
     Configurator.setLevel(DumpAnalyzedQueries.class.getName(), Level.ERROR);
   }
