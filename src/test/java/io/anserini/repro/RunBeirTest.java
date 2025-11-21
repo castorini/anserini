@@ -16,88 +16,61 @@
 
 package io.anserini.repro;
 
+import io.anserini.StdOutStdErrRedirectableTestCase;
 import io.anserini.reproduce.RunBeir;
-import org.junit.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
 
-public class RunBeirTest {
-  private final ByteArrayOutputStream out = new ByteArrayOutputStream();
-  private final ByteArrayOutputStream err = new ByteArrayOutputStream();
-  private PrintStream saveOut;
-  private PrintStream saveErr;
-
-  private void redirectStderr() {
-    saveErr = System.err;
-    err.reset();
-    System.setErr(new PrintStream(err));
+public class RunBeirTest extends StdOutStdErrRedirectableTestCase {
+  @Before
+  public void setUp() throws Exception {
+    redirectStdOut();
+    redirectStdErr();
   }
 
-  private void restoreStderr() {
-    System.setErr(saveErr);
-  }
-
-  private void redirectStdout() {
-    saveOut = System.out;
-    out.reset();
-    System.setOut(new PrintStream(out));
-  }
-
-  private void restoreStdout() {
-    System.setOut(saveOut);
+  @After
+  public void cleanUp() throws Exception {
+    restoreStdOut();
+    restoreStdErr();
   }
 
   @Test
   public void testInvalidOption() throws Exception {
-    redirectStderr();
-
     String[] args = new String[] {"-dry"};
     RunBeir.main(args);
 
     assertTrue(err.toString().startsWith("\"-dry\" is not a valid option"));
-    restoreStderr();
   }
 
   @Test
   public void test1() throws Exception {
-    redirectStdout();
-
     String[] args = new String[] {"-dryRun"};
     RunBeir.main(args);
 
     assertTrue(out.toString().startsWith("# Running condition"));
-    restoreStdout();
   }
-
 
   @Test
   public void test2() throws Exception {
-    redirectStdout();
-
     String[] args = new String[] {"-dryRun", "-printCommands"};
     RunBeir.main(args);
 
     assertTrue(out.toString().startsWith("# Running condition"));
     assertTrue(out.toString().contains("Retrieval command"));
     assertTrue(out.toString().contains("Eval command"));
-
-    restoreStdout();
   }
 
   @Test
   public void testComputeIndexSize() throws Exception {
-    redirectStdout();
-
     String[] args = new String[] {"-dryRun", "-computeIndexSize"};
     RunBeir.main(args);
 
     String s = out.toString();
     assertTrue(s.contains("Indexes referenced by this run"));
     assertTrue(s.contains("Total size across"));
-
-    restoreStdout();
   }
 }

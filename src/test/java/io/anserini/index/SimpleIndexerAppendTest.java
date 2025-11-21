@@ -16,17 +16,31 @@
 
 package io.anserini.index;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.lucene.tests.util.LuceneTestCase;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
 import io.anserini.collection.FileSegment;
 import io.anserini.collection.JsonCollection;
 import io.anserini.search.ScoredDoc;
 import io.anserini.search.SimpleSearcher;
-import org.apache.lucene.tests.util.LuceneTestCase;
-import org.junit.Test;
-
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class SimpleIndexerAppendTest extends LuceneTestCase {
+  @BeforeClass
+  public static void setupClass() {
+    java.util.logging.Logger root = java.util.logging.Logger.getLogger("");
+    root.setLevel(java.util.logging.Level.OFF); // suppress INFO and below
+    for (var handler : root.getHandlers()) {
+      handler.setLevel(java.util.logging.Level.OFF);
+    }
+
+    Configurator.setLevel(SimpleIndexer.class.getName(), Level.ERROR);
+  }
 
   private static class JsonCollectionWrapper {
     JsonCollection collection;

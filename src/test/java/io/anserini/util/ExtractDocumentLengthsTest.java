@@ -19,6 +19,7 @@ package io.anserini.util;
 import io.anserini.index.IndexerWithEmptyDocumentTestBase;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.File;
@@ -31,6 +32,15 @@ import java.util.Random;
 public class ExtractDocumentLengthsTest extends IndexerWithEmptyDocumentTestBase {
   private static final Random rand = new Random();
   private String randomFileName;
+
+  @BeforeClass
+  public static void setupClass() {
+    java.util.logging.Logger root = java.util.logging.Logger.getLogger("");
+    root.setLevel(java.util.logging.Level.OFF); // suppress INFO and below
+    for (var handler : root.getHandlers()) {
+      handler.setLevel(java.util.logging.Level.OFF);
+    }
+  }
 
   @Before
   @Override
@@ -50,25 +60,25 @@ public class ExtractDocumentLengthsTest extends IndexerWithEmptyDocumentTestBase
 
   @Test
   public void testEmptyArgs() throws Exception {
-    redirectStderr();
+    redirectStdErr();
     ExtractDocumentLengths.main(new String[] {});
-    restoreStderr();
+    restoreStdErr();
 
-    assertTrue(redirectedStderr.toString().startsWith("Option \"-index\" is required"));
+    assertTrue(err.toString().startsWith("Option \"-index\" is required"));
   }
 
   @Test
   public void test() throws Exception {
     // See: https://github.com/castorini/anserini/issues/903
     Locale.setDefault(Locale.US);
-    redirectStdout();
-    redirectStderr(); // redirecting to be quiet
+    redirectStdOut();
+    redirectStdErr(); // redirecting to be quiet
     ExtractDocumentLengths.main(new String[] {"-index", tempDir1.toString(), "-output", randomFileName});
-    restoreStdout();
-    restoreStderr();
+    restoreStdOut();
+    restoreStdErr();
 
     assertEquals("Total number of terms in collection (sum of doclengths):\nLossy: 12\nExact: 12\n",
-        redirectedStdout.toString());
+        super.out.toString());
 
     List<String> lines = Files.readAllLines(Paths.get(randomFileName));
     assertEquals(5, lines.size());

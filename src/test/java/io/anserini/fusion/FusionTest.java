@@ -16,15 +16,42 @@
 
 package io.anserini.fusion;
 
-import static org.junit.Assert.assertTrue;
-
 import java.io.File;
+import java.util.Locale;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 import io.anserini.TestUtils;
 
-public class FusionTest {
+public class FusionTest extends StdOutStdErrRedirectableLuceneTestCase {
+  @BeforeClass
+  public static void setupClass() {
+    Configurator.setLevel(FuseRuns.class.getName(), Level.ERROR);
+  }
+
+  @Before
+  public void setUp() throws Exception {
+    // Explictly set locale to US so that decimal points use '.' instead of ','
+    Locale.setDefault(Locale.US);
+
+    redirectStdOut();
+    redirectStdErr();
+    super.setUp();
+  }
+
+  @After
+  public void cleanUp() throws Exception {
+    restoreStdOut();
+    restoreStdErr();
+    super.tearDown();
+  }
+
   @Test
   public void testFuseInterpolation() throws Exception {
     String[] fuseArgs = new String[] {
