@@ -47,6 +47,7 @@ public class FusionOptionsTest extends StdOutStdErrRedirectableLuceneTestCase {
   public void tearDown() throws Exception {
     restoreStdOut();
     restoreStdErr();
+    super.tearDown();
   }
 
   @Test

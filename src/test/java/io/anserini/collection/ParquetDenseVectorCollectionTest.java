@@ -46,6 +46,7 @@ public class ParquetDenseVectorCollectionTest extends DocumentCollectionTest<Par
   @After
   public void tearDown() throws Exception {
     restoreStdErr();
+    super.tearDown();
   }
 
   @Override
