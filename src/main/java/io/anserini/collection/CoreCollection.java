@@ -79,7 +79,10 @@ public class CoreCollection extends DocumentCollection<CoreCollection.Document> 
       super(path);
 
       if (path.toString().endsWith(".xz")) {
-        bufferedReader = new BufferedReader(new InputStreamReader(new XZInputStream(new FileInputStream(path.toString()))));
+        FileInputStream fIn = new FileInputStream(path.toString());
+        XZInputStream xzStream = new XZInputStream(fIn);
+        InputStreamReader inReader = new InputStreamReader(xzStream);
+        bufferedReader = new BufferedReader(inReader);
       } else {
         bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(path.toString())));
       }

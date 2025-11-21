@@ -50,7 +50,7 @@ import java.util.Set;
 import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_DOCID;
 import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_TWEETID;
 
-public class Rm3Reranker implements Reranker {
+public class Rm3Reranker<T> implements Reranker<T> {
   private static final Logger LOG = LogManager.getLogger(Rm3Reranker.class);
 
   private final Analyzer analyzer;
