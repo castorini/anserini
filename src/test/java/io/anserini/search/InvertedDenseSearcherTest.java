@@ -16,6 +16,7 @@
 
 package io.anserini.search;
 
+import io.anserini.index.AbstractIndexer;
 import io.anserini.index.IndexInvertedDenseVectors;
 import io.anserini.search.topicreader.JsonIntVectorTopicReader;
 import io.anserini.search.topicreader.TopicReader;
@@ -36,6 +37,7 @@ import static org.junit.Assert.assertEquals;
 public class InvertedDenseSearcherTest {
   @BeforeClass
   public static void setupClass() {
+    Configurator.setLevel(AbstractIndexer.class.getName(), Level.ERROR);
     Configurator.setLevel(IndexInvertedDenseVectors.class.getName(), Level.ERROR);
     Configurator.setLevel(InvertedDenseSearcher.class.getName(), Level.ERROR);
   }

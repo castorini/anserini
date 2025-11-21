@@ -16,63 +16,63 @@
 
 package io.anserini.index;
 
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.core.config.Configurator;
-import org.apache.lucene.index.IndexReader;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import java.util.Map;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Map;
+
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.lucene.index.IndexReader;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import io.anserini.StdOutStdErrRedirectableTestCase;
+
 /**
  * Tests for {@link IndexFlatDenseVectors}
  */
-public class IndexFlatDenseVectorsTest {
-  private final ByteArrayOutputStream err = new ByteArrayOutputStream();
-  private PrintStream save;
-
-  private void redirectStderr() {
-    save = System.err;
-    err.reset();
-    System.setErr(new PrintStream(err));
-  }
-
-  private void restoreStderr() {
-    System.setErr(save);
-  }
-
+public class IndexFlatDenseVectorsTest extends StdOutStdErrRedirectableTestCase {
   @BeforeClass
   public static void setupClass() {
+    java.util.logging.Logger root = java.util.logging.Logger.getLogger("");
+    root.setLevel(java.util.logging.Level.OFF); // suppress INFO and below
+    for (var handler : root.getHandlers()) {
+      handler.setLevel(java.util.logging.Level.OFF);
+    }
+
     Configurator.setLevel(AbstractIndexer.class.getName(), Level.ERROR);
     Configurator.setLevel(IndexFlatDenseVectors.class.getName(), Level.ERROR);
   }
 
+  @Before
+  public void setUp() throws Exception {
+    redirectStdOut();
+    redirectStdErr();
+  }
+
+  @After
+  public void cleanUp() throws Exception {
+    restoreStdOut();
+    restoreStdErr();
+  }
+
   @Test
   public void testEmptyInvocation() throws Exception {
-    redirectStderr();
     String[] indexArgs = new String[] {};
 
     IndexFlatDenseVectors.main(indexArgs);
     assertTrue(err.toString().contains("Error"));
     assertTrue(err.toString().contains("is required"));
-
-    restoreStderr();
   }
 
   @Test
   public void testAskForHelp() throws Exception {
-    redirectStderr();
-
     IndexFlatDenseVectors.main(new String[] {"-options"});
     assertTrue(err.toString().contains("Options for"));
-
-    restoreStderr();
   }
 
   @Test(expected = IllegalArgumentException.class)

@@ -20,7 +20,18 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.BeforeClass;
+
 public class SimpleSearcherPrebuiltLucene8Test {
+  @BeforeClass
+  public static void setupClass() {
+    java.util.logging.Logger root = java.util.logging.Logger.getLogger("");
+    root.setLevel(java.util.logging.Level.OFF); // suppress INFO and below
+    for (var handler : root.getHandlers()) {
+      handler.setLevel(java.util.logging.Level.OFF);
+    }
+  }
+
   @Test
   public void testSearch1() throws Exception {
     try(SimpleSearcher searcher =

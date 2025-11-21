@@ -17,28 +17,38 @@
 package io.anserini.util;
 
 import io.anserini.index.IndexerWithEmptyDocumentTestBase;
+
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.Locale;
 
 public class ExtractAverageDocumentLengthTest extends IndexerWithEmptyDocumentTestBase {
+  @BeforeClass
+  public static void setupClass() {
+    java.util.logging.Logger root = java.util.logging.Logger.getLogger("");
+    root.setLevel(java.util.logging.Level.OFF); // suppress INFO and below
+    for (var handler : root.getHandlers()) {
+      handler.setLevel(java.util.logging.Level.OFF);
+    }
+  }
 
   @Test
   public void testEmptyArgs() throws Exception {
-    redirectStderr();
+    redirectStdErr();
     ExtractAverageDocumentLength.main(new String[] {});
-    restoreStderr();
+    restoreStdErr();
 
-    assertTrue(redirectedStderr.toString().startsWith("Option \"-index\" is required"));
+    assertTrue(err.toString().startsWith("Option \"-index\" is required"));
   }
 
   @Test
   public void test() throws Exception {
     // See: https://github.com/castorini/anserini/issues/903
     Locale.setDefault(Locale.US);
-    redirectStdout();
+    redirectStdOut();
     ExtractAverageDocumentLength.main(new String[] {"-index", tempDir1.toString()});
-    restoreStdout();
+    restoreStdOut();
 
     assertEquals("# Exact avg doclength\n" +
             "SumTotalTermFreq: 12\n" +
@@ -49,6 +59,6 @@ public class ExtractAverageDocumentLengthTest extends IndexerWithEmptyDocumentTe
             "SumTotalTermFreq: 12\n" +
             "DocCount:         3\n" +
             "avg doclength:    4.0\n",
-        redirectedStdout.toString());
+        out.toString());
   }
 }

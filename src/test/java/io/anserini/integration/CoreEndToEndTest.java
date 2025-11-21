@@ -17,12 +17,22 @@
 package io.anserini.integration;
 
 import io.anserini.collection.CoreCollection;
+import io.anserini.index.AbstractIndexer;
 import io.anserini.index.IndexCollection;
 import io.anserini.index.generator.CoreGenerator;
 
 import java.util.Map;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.junit.BeforeClass;
+
 public class CoreEndToEndTest extends EndToEndTest {
+  @BeforeClass
+  public static void setupClass() {
+    Configurator.setLevel(AbstractIndexer.class.getName(), Level.ERROR);
+  }
+
   @Override
   protected IndexCollection.Args getIndexArgs() {
     IndexCollection.Args indexArgs = createDefaultIndexArgs();

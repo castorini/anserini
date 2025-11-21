@@ -18,30 +18,38 @@ package io.anserini.rerank;
 
 import static org.junit.Assert.assertTrue;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.PrintStream;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+
+import io.anserini.StdOutStdErrRedirectableTestCase;
 import io.anserini.TestUtils;
 
-public class GenerateRerankerRequestsTest {
-  private final ByteArrayOutputStream err = new ByteArrayOutputStream();
-  private PrintStream save;
-
-  private void redirectStderr() {
-    save = System.err;
-    err.reset();
-    System.setErr(new PrintStream(err));
+public class GenerateRerankerRequestsTest extends StdOutStdErrRedirectableTestCase {
+  @BeforeClass
+  public static void setupClass() {
+    Configurator.setLevel(GenerateRerankerRequests.class.getName(), Level.ERROR);
   }
 
-  private void restoreStderr() {
-    System.setErr(save);
+  @Before
+  public void setUp() throws Exception {
+    redirectStdOut();
+    redirectStdErr();
+  }
+
+  @After
+  public void cleanUp() throws Exception {
+    restoreStdOut();
+    restoreStdErr();
   }
 
   @Test
   public void testPrebuilt() throws Exception {
-    redirectStderr();
     GenerateRerankerRequests.Args args = new GenerateRerankerRequests.Args();
     args.index = "cacm";
     args.run = "src/test/resources/sample_runs/run4";
@@ -52,12 +60,10 @@ public class GenerateRerankerRequestsTest {
     outputRerankerRequests.close();
     assertTrue(!err.toString().contains("Error: "));
     assertTrue(new File("test_reranker_requests.jsonl").delete());
-    restoreStderr();  
   }
 
   @Test
   public void testParseTopics() throws Exception {
-    redirectStderr();
     GenerateRerankerRequests.Args args = new GenerateRerankerRequests.Args();
     args.index = "cacm";
     args.run = "src/test/resources/sample_runs/run4";
@@ -68,12 +74,10 @@ public class GenerateRerankerRequestsTest {
     outputRerankerRequests.close();
     assertTrue(!err.toString().contains("Error: "));
     assertTrue(new File("test_reranker_requests.jsonl").delete());
-    restoreStderr();  
   }
 
   @Test
   public void testLocalIndex() throws Exception {
-    redirectStderr();
     GenerateRerankerRequests.Args args = new GenerateRerankerRequests.Args();
     args.index = "src/test/resources/prebuilt_indexes/raw-beir-collection1-index";
     args.run = "src/test/resources/sample_runs/run4";
@@ -84,12 +88,10 @@ public class GenerateRerankerRequestsTest {
     outputRerankerRequests.close();
     assertTrue(!err.toString().contains("Error: "));
     assertTrue(new File("test_reranker_requests.jsonl").delete());
-    restoreStderr();  
   }
 
   @Test
   public void testLocalTopics() throws Exception {
-    redirectStderr();
     GenerateRerankerRequests.Args args = new GenerateRerankerRequests.Args();
     args.index = "cacm";
     args.run = "src/test/resources/sample_runs/run4";
@@ -100,12 +102,10 @@ public class GenerateRerankerRequestsTest {
     outputRerankerRequests.close();
     assertTrue(!err.toString().contains("Error: "));
     assertTrue(new File("test_reranker_requests.jsonl").delete());
-    restoreStderr();  
   }
 
   @Test
   public void testBadIndex() throws Exception {
-    redirectStderr();
     String[] rerankArgs = new String[] {
         "-index", "src/test/resources/prebuilt_indexes/lucene9-index.sample_docs_trec_collection2/",
         "-run", "src/test/resources/sample_runs/run4",
@@ -117,12 +117,10 @@ public class GenerateRerankerRequestsTest {
     assertTrue(err.toString().contains("Raw document with docid "));
     assertTrue(err.toString().contains("not found in index."));
     assertTrue(new File("test_reranker_requests.jsonl").delete());
-    restoreStderr();
   }
 
   @Test
   public void testBadTopics() throws Exception {
-    redirectStderr();
     String[] rerankArgs = new String[] {
         "-index", "src/test/resources/prebuilt_indexes/raw-beir-collection1-index",
         "-run", "src/test/resources/sample_runs/run1",
@@ -133,12 +131,10 @@ public class GenerateRerankerRequestsTest {
     GenerateRerankerRequests.main(rerankArgs);
     assertTrue(err.toString().contains("Query ID not found in the list of topics:"));
     assertTrue(new File("test_reranker_requests.jsonl").delete());
-    restoreStderr();
   }
 
   @Test
   public void testGenerate() throws Exception {
-    redirectStderr();
     String[] rerankArgs = new String[] {
         "-index", "src/test/resources/prebuilt_indexes/raw-beir-collection1-index",
         "-run", "src/test/resources/sample_runs/run5",
@@ -161,7 +157,6 @@ public class GenerateRerankerRequestsTest {
       });
     }
     assertTrue(new File("test_reranker_requests.jsonl").delete());
-    restoreStderr();
   }
 
   @Test
