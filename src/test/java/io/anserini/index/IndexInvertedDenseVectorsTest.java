@@ -16,63 +16,57 @@
 
 package io.anserini.index;
 
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.core.config.Configurator;
-import org.apache.lucene.index.IndexReader;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import java.util.Map;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Map;
+
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.lucene.index.IndexReader;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import io.anserini.StdOutStdErrRedirectableTestCase;
+
 /**
  * Tests for {@link IndexInvertedDenseVectors}
  */
-public class IndexInvertedDenseVectorsTest {
-  private final ByteArrayOutputStream err = new ByteArrayOutputStream();
-  private PrintStream save;
-
-  private void redirectStderr() {
-    save = System.err;
-    err.reset();
-    System.setErr(new PrintStream(err));
-  }
-
-  private void restoreStderr() {
-    System.setErr(save);
-  }
-
+public class IndexInvertedDenseVectorsTest extends StdOutStdErrRedirectableTestCase {
   @BeforeClass
   public static void setupClass() {
     Configurator.setLevel(AbstractIndexer.class.getName(), Level.ERROR);
     Configurator.setLevel(IndexInvertedDenseVectors.class.getName(), Level.ERROR);
   }
 
+  @Before
+  public void setUp() throws Exception {
+    redirectStdOut();
+    redirectStdErr();
+  }
+
+  @After
+  public void cleanUp() throws Exception {
+    restoreStdOut();
+    restoreStdErr();
+  }
+
   @Test
   public void testEmptyInvocation() throws Exception {
-    redirectStderr();
     String[] indexArgs = new String[] {};
 
     IndexInvertedDenseVectors.main(indexArgs);
     assertTrue(err.toString().contains("Error"));
     assertTrue(err.toString().contains("is required"));
-
-    restoreStderr();
   }
 
   @Test
   public void testAskForHelp() throws Exception {
-    redirectStderr();
-
     IndexInvertedDenseVectors.main(new String[] {"-options"});
     assertTrue(err.toString().contains("Options for"));
-
-    restoreStderr();
   }
 
   @Test(expected = IllegalArgumentException.class)

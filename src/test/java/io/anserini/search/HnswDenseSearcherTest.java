@@ -16,6 +16,7 @@
 
 package io.anserini.search;
 
+import io.anserini.index.AbstractIndexer;
 import io.anserini.index.IndexHnswDenseVectors;
 import io.anserini.search.topicreader.JsonIntVectorTopicReader;
 import io.anserini.search.topicreader.TopicReader;
@@ -37,6 +38,13 @@ import static org.junit.Assert.assertEquals;
 public class HnswDenseSearcherTest {
   @BeforeClass
   public static void setupClass() {
+    java.util.logging.Logger root = java.util.logging.Logger.getLogger("");
+    root.setLevel(java.util.logging.Level.OFF); // suppress INFO and below
+    for (var handler : root.getHandlers()) {
+      handler.setLevel(java.util.logging.Level.OFF);
+    }
+
+    Configurator.setLevel(AbstractIndexer.class.getName(), Level.ERROR);
     Configurator.setLevel(IndexHnswDenseVectors.class.getName(), Level.ERROR);
     Configurator.setLevel(HnswDenseSearcher.class.getName(), Level.ERROR);
   }

@@ -22,8 +22,12 @@ import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -32,12 +36,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-
-public class AutoCompositeAnalyzerTest {
+public class AutoCompositeAnalyzerTest extends StdOutStdErrRedirectableLuceneTestCase {
   @BeforeClass
   public static void setupClass() {
     Configurator.setLevel(AutoCompositeAnalyzer.class.getName(), Level.ERROR);
+  }
+
+  @Before
+  public void setUp() throws Exception {
+    redirectStdOut();
+    redirectStdErr();
+    super.setUp();
+  }
+
+  @After
+  public void cleanUp() throws Exception {
+    restoreStdOut();
+    restoreStdErr();
   }
 
   private static final Map<String, Object[][]> examples = new HashMap<>() {

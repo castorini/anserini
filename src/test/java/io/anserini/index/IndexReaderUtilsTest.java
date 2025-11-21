@@ -16,15 +16,16 @@
 
 package io.anserini.index;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
@@ -44,6 +45,7 @@ import org.apache.lucene.search.similarities.Similarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.BytesRef;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import io.anserini.analysis.AnalyzerUtils;
@@ -53,11 +55,18 @@ import io.anserini.search.SearchCollection;
 import io.anserini.search.SimpleSearcher;
 
 public class IndexReaderUtilsTest extends IndexerTestBase {
+  @BeforeClass
+  public static void setupClass() {
+    Logger root = Logger.getLogger("");
+    root.setLevel(Level.WARNING); // suppress INFO and below
+    for (var handler : root.getHandlers()) {
+      handler.setLevel(Level.WARNING);
+    }
+  }
 
   @Test
   public void testTermCounts() throws Exception {
-    try (
-        Directory dir = FSDirectory.open(tempDir1);
+    try (Directory dir = FSDirectory.open(tempDir1);
         IndexReader reader = DirectoryReader.open(dir)) {
       Map<String, Long> termCountMap;
 
@@ -88,8 +97,7 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
 
   @Test
   public void testTermCountsWithAnalyzer() throws Exception {
-    try (
-        Directory dir = FSDirectory.open(tempDir1);
+    try (Directory dir = FSDirectory.open(tempDir1);
         IndexReader reader = DirectoryReader.open(dir)) {
       DefaultEnglishAnalyzer analyzer = DefaultEnglishAnalyzer.newDefaultInstance();
 
@@ -122,8 +130,7 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
 
   @Test
   public void testIterateThroughTerms() throws Exception {
-    try (
-        Directory dir = FSDirectory.open(tempDir1);
+    try (Directory dir = FSDirectory.open(tempDir1);
         IndexReader reader = DirectoryReader.open(dir)) {
       Iterator<IndexReaderUtils.IndexTerm> iter = IndexReaderUtils.getTerms(reader);
       IndexReaderUtils.IndexTerm term;
@@ -164,8 +171,7 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
 
   @Test
   public void testPostingsNonExistings() throws Exception {
-    try (
-        Directory dir = FSDirectory.open(tempDir1);
+    try (Directory dir = FSDirectory.open(tempDir1);
         IndexReader reader = DirectoryReader.open(dir)) {
       assertNull(IndexReaderUtils.getPostingsList(reader, "asxe"));
     }
@@ -173,8 +179,7 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
 
   @Test
   public void testPostingsLists1() throws Exception {
-    try (
-        Directory dir = FSDirectory.open(tempDir1);
+    try (Directory dir = FSDirectory.open(tempDir1);
         IndexReader reader = DirectoryReader.open(dir)) {
       List<IndexReaderUtils.Posting> postingsList;
 
@@ -228,8 +233,7 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
 
   @Test
   public void testPostingsLists2() throws Exception {
-    try (
-        Directory dir = FSDirectory.open(tempDir1);
+    try (Directory dir = FSDirectory.open(tempDir1);
         IndexReader reader = DirectoryReader.open(dir)) {
       List<IndexReaderUtils.Posting> postingsList;
 
@@ -276,8 +280,7 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     SearchCollection.Args args = new SearchCollection.Args();
     Similarity similarity = new BM25Similarity(Float.parseFloat(args.bm25_k1[0]), Float.parseFloat(args.bm25_b[0]));
 
-    try (
-        Directory dir = FSDirectory.open(tempDir1);
+    try (Directory dir = FSDirectory.open(tempDir1);
         IndexReader reader = DirectoryReader.open(dir)) {
       // The complete term/doc matrix
       Map<String, Map<String, Float>> termDocMatrix = new HashMap<>();
@@ -322,8 +325,7 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
 
   @Test
   public void computeBM25Weights() throws Exception {
-    try (
-        Directory dir = FSDirectory.open(tempDir1);
+    try (Directory dir = FSDirectory.open(tempDir1);
         IndexReader reader = DirectoryReader.open(dir)) {
       assertEquals(0.43400, IndexReaderUtils.getBM25UnanalyzedTermWeightWithParameters(
         reader, "doc1", "city", IndexCollection.DEFAULT_ANALYZER, 0.9f, 0.4f), 10e-5);
@@ -344,8 +346,7 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
 
   @Test
   public void testDocumentVector() throws Exception {
-    try (
-        Directory dir = FSDirectory.open(tempDir1);
+    try (Directory dir = FSDirectory.open(tempDir1);
         IndexReader reader = DirectoryReader.open(dir)) {
       Map<String, Long> documentVector;
 
@@ -374,8 +375,7 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
 
   @Test
   public void testTermPositions() throws Exception {
-    try (
-        Directory dir = FSDirectory.open(tempDir1);
+    try (Directory dir = FSDirectory.open(tempDir1);
         IndexReader reader = DirectoryReader.open(dir)) {
       Map<String, List<Integer>> termPositions;
 
@@ -407,8 +407,7 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
 
   @Test
   public void testGetDocumentRaw() throws Exception {
-    try (
-        Directory dir = FSDirectory.open(tempDir1);
+    try (Directory dir = FSDirectory.open(tempDir1);
         IndexReader reader = DirectoryReader.open(dir)) {
       assertEquals("{\"contents\": \"here is some text here is some more text. city.\"}", IndexReaderUtils.documentRaw(reader, "doc1"));
       assertEquals("{\"contents\": \"more texts\"}", IndexReaderUtils.documentRaw(reader, "doc2"));
@@ -419,8 +418,7 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
 
   @Test
   public void testGetDocumentContents() throws Exception {
-    try (
-        Directory dir = FSDirectory.open(tempDir1);
+    try (Directory dir = FSDirectory.open(tempDir1);
         IndexReader reader = DirectoryReader.open(dir)) {
       assertEquals("here is some text here is some more text. city.", IndexReaderUtils.documentContents(reader, "doc1"));
       assertEquals("more texts", IndexReaderUtils.documentContents(reader, "doc2"));
@@ -431,8 +429,7 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
 
   @Test
   public void testGetDocument() throws Exception {
-    try (
-        Directory dir = FSDirectory.open(tempDir1);
+    try (Directory dir = FSDirectory.open(tempDir1);
         IndexReader reader = DirectoryReader.open(dir)) {
       Document doc;
 
@@ -457,8 +454,7 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
 
   @Test
   public void testGetDocumentByField() throws Exception {
-    try (
-        Directory dir = FSDirectory.open(tempDir1);
+    try (Directory dir = FSDirectory.open(tempDir1);
         IndexReader reader = DirectoryReader.open(dir)) {
       Document doc;
 
@@ -478,8 +474,7 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
 
   @Test
   public void testDocidConversion() throws Exception {
-    try (
-        Directory dir = FSDirectory.open(tempDir1);
+    try (Directory dir = FSDirectory.open(tempDir1);
         IndexReader reader = DirectoryReader.open(dir)) {
       assertEquals("doc1", IndexReaderUtils.convertLuceneDocidToDocid(reader, 0));
       assertEquals("doc2", IndexReaderUtils.convertLuceneDocidToDocid(reader, 1));
@@ -495,8 +490,7 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
 
   @Test
   public void testComputeQueryDocumentScore() throws Exception {
-    try (
-        SimpleSearcher searcher = new SimpleSearcher(tempDir1.toString());
+    try (SimpleSearcher searcher = new SimpleSearcher(tempDir1.toString());
         Directory dir = FSDirectory.open(tempDir1);
         IndexReader reader = DirectoryReader.open(dir)) {
       Similarity similarity = new BM25Similarity(0.9f, 0.4f);
@@ -523,8 +517,7 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
 
   @Test
   public void testGetIndexStats() throws Exception {
-    try (
-        Directory dir = FSDirectory.open(tempDir1);
+    try (Directory dir = FSDirectory.open(tempDir1);
         IndexReader reader = DirectoryReader.open(dir)) {
       assertEquals(3, IndexReaderUtils.getIndexStats(reader).get("documents"));
       assertEquals(6L, IndexReaderUtils.getIndexStats(reader).get("unique_terms"));
@@ -533,8 +526,7 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
 
   @Test
   public void testGetFieldInfo() throws Exception {
-    try (
-        Directory dir = FSDirectory.open(tempDir1);
+    try (Directory dir = FSDirectory.open(tempDir1);
         IndexReader reader = DirectoryReader.open(dir)) {
       Map<String, FieldInfo> fields = IndexReaderUtils.getFieldInfo(reader);
       assertTrue(fields.containsKey("id"));
@@ -546,8 +538,7 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
 
   @Test
   public void testGetFieldInfoDescription() throws Exception {
-    try (
-        Directory dir = FSDirectory.open(tempDir1);
+    try (Directory dir = FSDirectory.open(tempDir1);
         IndexReader reader = DirectoryReader.open(dir)) {
       Map<String, String> fields = IndexReaderUtils.getFieldInfoDescription(reader);
       assertEquals("(indexOption: DOCS, hasVectors: false)", fields.get("id"));
@@ -562,15 +553,9 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     // See: https://github.com/castorini/anserini/issues/903
     Locale.setDefault(Locale.US);
 
-    final ByteArrayOutputStream redirectedStdout = new ByteArrayOutputStream();
-    PrintStream savedStdout = System.out;
-    redirectedStdout.reset();
-    System.setOut(new PrintStream(redirectedStdout));
+    redirectStdOut();
 
     IndexReaderUtils.main(new String[] { "-index", tempDir1.toString(), "-stats" });
-    System.setOut(savedStdout);
-
-    String output = redirectedStdout.toString();
 
     String groundTruthOutput = "Index statistics\n" +
         "----------------\n" +
@@ -579,9 +564,11 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
         "unique terms:          6\n" +
         "total terms:           12\n";
 
-    assertTrue(output.startsWith(groundTruthOutput));
-    assertTrue(output.contains("index_path:"));
-    assertTrue(output.contains("total_size:"));
+    assertTrue(out.toString().startsWith(groundTruthOutput));
+    assertTrue(out.toString().contains("index_path:"));
+    assertTrue(out.toString().contains("total_size:"));
+
+    restoreStdOut();
   }
 
   @Test
@@ -626,16 +613,14 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     Path cwd = java.nio.file.Paths.get("");
     Path localDir = cwd.resolve(PREBUILT_LABEL);
 
-    // Ensure clean state, create the conflicting local directory, then clean it up
-    // in finally.
-    if (java.nio.file.Files.exists(localDir)) {
-      // If it already exists for some reason, fail fast to avoid breaking other
-      // tests.
+    // Ensure clean state, create the conflicting local directory, then clean it up in finally.
+    if (Files.exists(localDir)) {
+      // If it already exists for some reason, fail fast to avoid breaking other tests.
       fail("Test setup error: unexpected existing directory " + localDir);
     }
 
     try {
-      java.nio.file.Files.createDirectory(localDir);
+      Files.createDirectory(localDir);
       try {
         IndexReaderUtils.getIndex(PREBUILT_LABEL);
         fail("Expected IllegalArgumentException due to ambiguous index reference");
@@ -644,8 +629,8 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
         assertTrue(e.getMessage().contains(PREBUILT_LABEL));
       }
     } finally {
-      if (java.nio.file.Files.exists(localDir)) {
-        java.nio.file.Files.delete(localDir);
+      if (Files.exists(localDir)) {
+        Files.delete(localDir);
       }
     }
   }
