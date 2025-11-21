@@ -50,8 +50,9 @@ public class ScoredDocsFuserTest extends StdOutStdErrRedirectableLuceneTestCase 
   }
 
   @After
-  public void cleanUp() throws Exception {
+  public void tearDown() throws Exception {
     restoreStdErr();
+    super.tearDown();
   }
 
   @Test

@@ -21,23 +21,19 @@ import java.nio.file.Paths;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
-import org.apache.lucene.tests.util.LuceneTestCase;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import io.anserini.SuppresedLoggingLuceneTestCase;
 import io.anserini.collection.FileSegment;
 import io.anserini.collection.JsonCollection;
 import io.anserini.search.ScoredDoc;
 import io.anserini.search.SimpleSearcher;
 
-public class SimpleIndexerAppendTest extends LuceneTestCase {
+public class SimpleIndexerAppendTest extends SuppresedLoggingLuceneTestCase {
   @BeforeClass
   public static void setupClass() {
-    java.util.logging.Logger root = java.util.logging.Logger.getLogger("");
-    root.setLevel(java.util.logging.Level.OFF); // suppress INFO and below
-    for (var handler : root.getHandlers()) {
-      handler.setLevel(java.util.logging.Level.OFF);
-    }
+    suppressJvmLogging();
 
     Configurator.setLevel(SimpleIndexer.class.getName(), Level.ERROR);
   }

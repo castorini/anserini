@@ -16,23 +16,6 @@
 
 package io.anserini.integration;
 
-import io.anserini.index.IndexCollection;
-import io.anserini.index.IndexReaderUtils;
-import io.anserini.index.NotStoredException;
-import io.anserini.search.SearchCollection;
-import org.apache.commons.io.FileUtils;
-import org.apache.lucene.index.CheckIndex;
-import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.tests.util.LuceneTestCase;
-import org.apache.lucene.tests.util.TestRuleLimitSysouts;
-import org.apache.lucene.util.IOUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -48,10 +31,28 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.lucene.index.CheckIndex;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.tests.util.TestRuleLimitSysouts;
+import org.apache.lucene.util.IOUtils;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
+import io.anserini.index.IndexCollection;
+import io.anserini.index.IndexReaderUtils;
+import io.anserini.index.NotStoredException;
+import io.anserini.search.SearchCollection;
+
 // This automatically tests indexing, retrieval, and evaluation from end to end.
 // Subclasses inherit and special to different collections.
 @TestRuleLimitSysouts.Limit(bytes = 20000)
-public abstract class EndToEndTest extends LuceneTestCase {
+public abstract class EndToEndTest extends StdOutStdErrRedirectableLuceneTestCase {
   private static final Random RANDOM = new Random();
 
   protected Map<String, SearchCollection.Args> testQueries = new HashMap<>();

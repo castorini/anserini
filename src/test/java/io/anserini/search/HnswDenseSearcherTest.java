@@ -16,16 +16,6 @@
 
 package io.anserini.search;
 
-import io.anserini.index.AbstractIndexer;
-import io.anserini.index.IndexHnswDenseVectors;
-import io.anserini.search.topicreader.JsonIntVectorTopicReader;
-import io.anserini.search.topicreader.TopicReader;
-import io.anserini.search.topicreader.TsvIntTopicReader;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.core.config.Configurator;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -33,16 +23,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 
-import static org.junit.Assert.assertEquals;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
-public class HnswDenseSearcherTest {
+import io.anserini.SuppresedLoggingLuceneTestCase;
+import io.anserini.index.AbstractIndexer;
+import io.anserini.index.IndexHnswDenseVectors;
+import io.anserini.search.topicreader.JsonIntVectorTopicReader;
+import io.anserini.search.topicreader.TopicReader;
+import io.anserini.search.topicreader.TsvIntTopicReader;
+
+public class HnswDenseSearcherTest extends SuppresedLoggingLuceneTestCase {
   @BeforeClass
   public static void setupClass() {
-    java.util.logging.Logger root = java.util.logging.Logger.getLogger("");
-    root.setLevel(java.util.logging.Level.OFF); // suppress INFO and below
-    for (var handler : root.getHandlers()) {
-      handler.setLevel(java.util.logging.Level.OFF);
-    }
+    suppressJvmLogging();
 
     Configurator.setLevel(AbstractIndexer.class.getName(), Level.ERROR);
     Configurator.setLevel(IndexHnswDenseVectors.class.getName(), Level.ERROR);

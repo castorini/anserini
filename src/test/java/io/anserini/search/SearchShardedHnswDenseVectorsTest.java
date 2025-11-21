@@ -24,18 +24,15 @@ import java.nio.file.Paths;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import io.anserini.StdOutStdErrRedirectableTestCase;
 
 /**
  * Tests for {@link SearchShardedHnswDenseVectors}
  */
-public class SearchShardedHnswDenseVectorsTest extends StdOutStdErrRedirectableTestCase {
-  // Note, clashes with StdOutStdErrRedirectableLuceneTestCase
+public class SearchShardedHnswDenseVectorsTest {
+  // Note, cannot extend StdOutStdErrRedirectableLuceneTestCase due to concurrency issues.
+  // As a result, we cannot just call suppressJvmLogging() - must duplicate code below.
 
   @BeforeClass
   public static void setupClass() {
@@ -49,18 +46,6 @@ public class SearchShardedHnswDenseVectorsTest extends StdOutStdErrRedirectableT
     Configurator.setLevel(SearchShardedHnswDenseVectors.class.getName(), Level.ERROR);
     Configurator.setLevel(SearchHnswDenseVectors.class.getName(), Level.ERROR);
     Configurator.setLevel(HnswDenseSearcher.class.getName(), Level.ERROR);
-  }
-
-  @Before
-  public void setUp() throws Exception {
-    redirectStdOut();
-    redirectStdErr();
-  }
-
-  @After
-  public void cleanUp() throws Exception {
-    restoreStdOut();
-    restoreStdErr();
   }
 
   @Test

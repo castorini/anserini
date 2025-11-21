@@ -50,9 +50,10 @@ public class AutoCompositeAnalyzerTest extends StdOutStdErrRedirectableLuceneTes
   }
 
   @After
-  public void cleanUp() throws Exception {
+  public void tearDown() throws Exception {
     restoreStdOut();
     restoreStdErr();
+    super.tearDown();
   }
 
   private static final Map<String, Object[][]> examples = new HashMap<>() {

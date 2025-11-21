@@ -24,8 +24,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
@@ -57,11 +55,7 @@ import io.anserini.search.SimpleSearcher;
 public class IndexReaderUtilsTest extends IndexerTestBase {
   @BeforeClass
   public static void setupClass() {
-    Logger root = Logger.getLogger("");
-    root.setLevel(Level.WARNING); // suppress INFO and below
-    for (var handler : root.getHandlers()) {
-      handler.setLevel(Level.WARNING);
-    }
+    suppressJvmLogging();
   }
 
   @Test

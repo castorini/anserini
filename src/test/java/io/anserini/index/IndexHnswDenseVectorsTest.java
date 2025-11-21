@@ -16,10 +16,6 @@
 
 package io.anserini.index;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
 import java.util.Map;
 
 import org.apache.logging.log4j.Level;
@@ -30,20 +26,16 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import io.anserini.StdOutStdErrRedirectableTestCase;
+import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 import io.anserini.index.generator.DenseVectorDocumentGenerator;
 
 /**
  * Tests for {@link IndexHnswDenseVectors}
  */
-public class IndexHnswDenseVectorsTest extends StdOutStdErrRedirectableTestCase {
+public class IndexHnswDenseVectorsTest extends StdOutStdErrRedirectableLuceneTestCase {
   @BeforeClass
   public static void setupClass() {
-    java.util.logging.Logger root = java.util.logging.Logger.getLogger("");
-    root.setLevel(java.util.logging.Level.OFF); // suppress INFO and below
-    for (var handler : root.getHandlers()) {
-      handler.setLevel(java.util.logging.Level.OFF);
-    }
+    suppressJvmLogging();
 
     Configurator.setLevel(AbstractIndexer.class.getName(), Level.ERROR);
     Configurator.setLevel(IndexCollection.class.getName(), Level.ERROR);
@@ -54,12 +46,14 @@ public class IndexHnswDenseVectorsTest extends StdOutStdErrRedirectableTestCase 
   public void setUp() throws Exception {
     redirectStdOut();
     redirectStdErr();
+    super.setUp();
   }
 
   @After
-  public void cleanUp() throws Exception {
+  public void tearDown() throws Exception {
     restoreStdOut();
     restoreStdErr();
+    super.tearDown();
   }
 
   @Test
