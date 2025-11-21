@@ -16,26 +16,26 @@
 
 package io.anserini.repro;
 
-import io.anserini.StdOutStdErrRedirectableTestCase;
-import io.anserini.reproduce.RunMsMarco;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertTrue;
+import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
+import io.anserini.reproduce.RunMsMarco;
 
-public class RunMsMarcoTest extends StdOutStdErrRedirectableTestCase {
+public class RunMsMarcoTest extends StdOutStdErrRedirectableLuceneTestCase {
   @Before
   public void setUp() throws Exception {
     redirectStdOut();
     redirectStdErr();
+    super.setUp();
   }
 
   @After
   public void cleanUp() throws Exception {
     restoreStdOut();
     restoreStdErr();
+    super.tearDown();
   }
 
   @Test

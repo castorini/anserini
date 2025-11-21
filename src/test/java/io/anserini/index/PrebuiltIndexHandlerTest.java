@@ -16,31 +16,61 @@
 
 package io.anserini.index;
 
+import static org.junit.Assert.assertTrue;
+
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.apache.commons.io.FileUtils;
 
-import io.anserini.StdOutStdErrRedirectableTestCase;
 import io.anserini.util.PrebuiltIndexHandler;
-import static org.junit.Assert.assertTrue;
 
-public class PrebuiltIndexHandlerTest extends StdOutStdErrRedirectableTestCase {
+public class PrebuiltIndexHandlerTest {
+  // Note, cannot extend StdOutStdErrRedirectableLuceneTestCase due to concurrency issues.
+  // So, we have to duplicate code to save/restore stderr/stdout.
+
   private PrebuiltIndexHandler handler;
   private Path originalIndexPath;
   private boolean usingTempHandler = false;
 
+  protected final ByteArrayOutputStream out = new ByteArrayOutputStream();
+  protected final ByteArrayOutputStream err = new ByteArrayOutputStream();
+  protected PrintStream saveOut;
+  protected PrintStream saveErr;
+
+  protected void redirectStdErr() {
+    saveErr = System.err;
+    err.reset();
+    System.setErr(new PrintStream(err));
+  }
+
+  protected void restoreStdErr() {
+    System.setErr(saveErr);
+  }
+
+  protected void redirectStdOut() {
+    saveOut = System.out;
+    out.reset();
+    System.setOut(new PrintStream(out));
+  }
+
+  protected void restoreStdOut() {
+    System.setOut(saveOut);
+  }
+
   @Before
   public void setUp() throws Exception {
-    handler = new PrebuiltIndexHandler("cacm"); // we use a lightweight index for testing
-    handler.initialize();
-
     redirectStdOut();
     redirectStdErr();
+
+    handler = new PrebuiltIndexHandler("cacm"); // we use a lightweight index for testing
+    handler.initialize();
   }
 
   @After

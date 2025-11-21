@@ -16,10 +16,6 @@
 
 package io.anserini.index;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
 import java.util.Map;
 
 import org.apache.logging.log4j.Level;
@@ -30,12 +26,12 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import io.anserini.StdOutStdErrRedirectableTestCase;
+import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 
 /**
  * Tests for {@link IndexInvertedDenseVectors}
  */
-public class IndexInvertedDenseVectorsTest extends StdOutStdErrRedirectableTestCase {
+public class IndexInvertedDenseVectorsTest extends StdOutStdErrRedirectableLuceneTestCase {
   @BeforeClass
   public static void setupClass() {
     Configurator.setLevel(AbstractIndexer.class.getName(), Level.ERROR);
@@ -46,12 +42,14 @@ public class IndexInvertedDenseVectorsTest extends StdOutStdErrRedirectableTestC
   public void setUp() throws Exception {
     redirectStdOut();
     redirectStdErr();
+    super.setUp();
   }
 
   @After
   public void cleanUp() throws Exception {
     restoreStdOut();
     restoreStdErr();
+    super.tearDown();
   }
 
   @Test

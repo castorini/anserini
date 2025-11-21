@@ -16,8 +16,6 @@
 
 package io.anserini.rerank;
 
-import static org.junit.Assert.assertTrue;
-
 import java.io.File;
 
 import org.apache.logging.log4j.Level;
@@ -27,10 +25,10 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import io.anserini.StdOutStdErrRedirectableTestCase;
+import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 import io.anserini.TestUtils;
 
-public class GenerateRerankerRequestsTest extends StdOutStdErrRedirectableTestCase {
+public class GenerateRerankerRequestsTest extends StdOutStdErrRedirectableLuceneTestCase {
   @BeforeClass
   public static void setupClass() {
     Configurator.setLevel(GenerateRerankerRequests.class.getName(), Level.ERROR);
@@ -40,12 +38,14 @@ public class GenerateRerankerRequestsTest extends StdOutStdErrRedirectableTestCa
   public void setUp() throws Exception {
     redirectStdOut();
     redirectStdErr();
+    super.setUp();
   }
 
   @After
   public void cleanUp() throws Exception {
     restoreStdOut();
     restoreStdErr();
+    super.tearDown();
   }
 
   @Test
