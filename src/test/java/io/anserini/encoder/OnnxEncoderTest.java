@@ -16,9 +16,6 @@
 
 package io.anserini.encoder;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -26,14 +23,12 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class OnnxEncoderTest {
+import io.anserini.SuppresedLoggingLuceneTestCase;
+
+public class OnnxEncoderTest extends SuppresedLoggingLuceneTestCase {
   @BeforeClass
   public static void setupClass() {
-    java.util.logging.Logger root = java.util.logging.Logger.getLogger("");
-    root.setLevel(java.util.logging.Level.OFF); // suppress INFO and below
-    for (var handler : root.getHandlers()) {
-      handler.setLevel(java.util.logging.Level.OFF);
-    }
+    suppressJvmLogging();
   }
 
   // Tests the convertTokensToIds method with empty query.

@@ -16,9 +16,6 @@
 
 package io.anserini.search;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import java.io.File;
 
 import org.apache.logging.log4j.Level;
@@ -28,7 +25,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import io.anserini.StdOutStdErrRedirectableTestCase;
+import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 import io.anserini.TestUtils;
 import io.anserini.index.AbstractIndexer;
 import io.anserini.index.IndexInvertedDenseVectors;
@@ -36,9 +33,11 @@ import io.anserini.index.IndexInvertedDenseVectors;
 /**
  * Tests for {@link SearchInvertedDenseVectors}
  */
-public class SearchInvertedDenseVectorsTest extends StdOutStdErrRedirectableTestCase {
+public class SearchInvertedDenseVectorsTest extends StdOutStdErrRedirectableLuceneTestCase {
   @BeforeClass
   public static void setupClass() {
+    suppressJvmLogging();
+
     Configurator.setLevel(AbstractIndexer.class.getName(), Level.ERROR);
     Configurator.setLevel(IndexInvertedDenseVectors.class.getName(), Level.ERROR);
     Configurator.setLevel(SearchInvertedDenseVectors.class.getName(), Level.ERROR);
@@ -49,12 +48,14 @@ public class SearchInvertedDenseVectorsTest extends StdOutStdErrRedirectableTest
   public void setUp() throws Exception {
     redirectStdOut();
     redirectStdErr();
+    super.setUp();
   }
 
   @After
-  public void cleanUp() throws Exception {
+  public void tearDown() throws Exception {
     restoreStdOut();
     restoreStdErr();
+    super.tearDown();
   }
 
   @Test

@@ -16,18 +16,19 @@
 
 package io.anserini.index;
 
-import static org.junit.Assert.assertTrue;
-
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.lucene.tests.util.TestRuleLimitSysouts;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import io.anserini.StdOutStdErrRedirectableTestCase;
+import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 
-public class IndexCollectionInovcationsTest extends StdOutStdErrRedirectableTestCase {
+@TestRuleLimitSysouts.Limit(bytes = 64 * 1024L)
+public class IndexCollectionInovcationsTest extends StdOutStdErrRedirectableLuceneTestCase {
+
   @BeforeClass
   public static void setupClass() {
     Configurator.setLevel(IndexCollection.class.getName(), Level.ERROR);
@@ -37,12 +38,14 @@ public class IndexCollectionInovcationsTest extends StdOutStdErrRedirectableTest
   public void setUp() throws Exception {
     redirectStdOut();
     redirectStdErr();
+    super.setUp();
   }
 
   @After
-  public void cleanUp() throws Exception {
+  public void tearDown() throws Exception {
     restoreStdOut();
     restoreStdErr();
+    super.tearDown();
   }
 
   @Test

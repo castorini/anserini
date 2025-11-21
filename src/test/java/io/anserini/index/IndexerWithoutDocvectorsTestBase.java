@@ -16,6 +16,10 @@
 
 package io.anserini.index;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.Locale;
+
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.document.BinaryDocValuesField;
@@ -29,16 +33,13 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.tests.util.LuceneTestCase;
 import org.apache.lucene.util.BytesRef;
 import org.junit.After;
 import org.junit.Before;
 
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.Locale;
+import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 
-public class IndexerWithoutDocvectorsTestBase extends LuceneTestCase {
+public class IndexerWithoutDocvectorsTestBase extends StdOutStdErrRedirectableLuceneTestCase {
   protected Path tempDir1;
 
   // A very simple example of how to build an index.
