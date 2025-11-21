@@ -17,6 +17,7 @@
 package io.anserini.rerank.lib;
 
 import io.anserini.analysis.AnalyzerUtils;
+import io.anserini.collection.DocumentCollection;
 import io.anserini.index.Constants;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
@@ -54,7 +55,7 @@ public class Rm3Reranker<T> implements Reranker<T> {
   private static final Logger LOG = LogManager.getLogger(Rm3Reranker.class);
 
   private final Analyzer analyzer;
-  private final Class parser;
+  private final Class<? extends DocumentCollection<?>> parser;
   private final String field;
 
   private final int fbTerms;
@@ -63,7 +64,7 @@ public class Rm3Reranker<T> implements Reranker<T> {
   private final boolean outputQuery;
   private final boolean filterTerms;
 
-  public Rm3Reranker(Analyzer analyzer, Class parser, String field, int fbTerms, int fbDocs, float originalQueryWeight, boolean outputQuery, boolean filterTerms) {
+  public Rm3Reranker(Analyzer analyzer, Class<? extends DocumentCollection<?>> parser, String field, int fbTerms, int fbDocs, float originalQueryWeight, boolean outputQuery, boolean filterTerms) {
     this.analyzer = analyzer;
     this.parser = parser;
     this.field = field;
@@ -74,9 +75,8 @@ public class Rm3Reranker<T> implements Reranker<T> {
     this.filterTerms = filterTerms;
   }
 
-  @SuppressWarnings("unchecked")
   @Override
-  public ScoredDocs rerank(ScoredDocs docs, RerankerContext context) {
+  public ScoredDocs rerank(ScoredDocs docs, RerankerContext<T> context) {
     assert (docs.lucene_documents.length == docs.scores.length);
 
     IndexSearcher searcher = context.getIndexSearcher();

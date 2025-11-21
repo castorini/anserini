@@ -17,6 +17,7 @@
 package io.anserini.rerank.lib;
 
 import io.anserini.analysis.AnalyzerUtils;
+import io.anserini.collection.DocumentCollection;
 import io.anserini.index.Constants;
 import io.anserini.index.IndexReaderUtils;
 import io.anserini.rerank.Reranker;
@@ -43,11 +44,11 @@ import static io.anserini.index.generator.WashingtonPostGenerator.WashingtonPost
  * Near-duplicate documents (similar/same with the query docid) will be removed by comparing
  * their cosine similarity with the query docid.
  */
-public class NewsBackgroundLinkingReranker implements Reranker {
+public class NewsBackgroundLinkingReranker implements Reranker<String> {
   private final Analyzer analyzer;
-  private final Class parser;
+  private final Class<? extends DocumentCollection<?>> parser;
 
-  public NewsBackgroundLinkingReranker(Analyzer analyzer, Class parser) {
+  public NewsBackgroundLinkingReranker(Analyzer analyzer, Class<? extends DocumentCollection<?>> parser) {
     assert analyzer != null;
     assert parser != null;
 
@@ -56,7 +57,7 @@ public class NewsBackgroundLinkingReranker implements Reranker {
   }
 
   @Override
-  public ScoredDocs rerank(ScoredDocs docs, RerankerContext context) {
+  public ScoredDocs rerank(ScoredDocs docs, RerankerContext<String> context) {
     assert docs != null;
     assert context != null;
 

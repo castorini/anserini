@@ -17,6 +17,7 @@
 package io.anserini.rerank.lib;
 
 import io.anserini.analysis.AnalyzerUtils;
+import io.anserini.collection.DocumentCollection;
 import io.anserini.index.Constants;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
@@ -53,7 +54,7 @@ public class RocchioReranker<T> implements Reranker<T> {
   private static final Logger LOG = LogManager.getLogger(RocchioReranker.class);
 
   private final Analyzer analyzer;
-  private final Class parser;
+  private final Class<? extends DocumentCollection<?>> parser;
   private final String field;
 
   private final int topFbTerms;
@@ -66,7 +67,7 @@ public class RocchioReranker<T> implements Reranker<T> {
   private final boolean outputQuery;
   private final boolean useNegative;
 
-  public RocchioReranker(Analyzer analyzer, Class parser, String field, int topFbTerms, int topFbDocs, int bottomFbTerms, int bottomFbDocs, float alpha, float beta, float gamma, boolean outputQuery, boolean useNegative) {
+  public RocchioReranker(Analyzer analyzer, Class<? extends DocumentCollection<?>> parser, String field, int topFbTerms, int topFbDocs, int bottomFbTerms, int bottomFbDocs, float alpha, float beta, float gamma, boolean outputQuery, boolean useNegative) {
     this.analyzer = analyzer;
     this.parser = parser;
     this.field = field;
