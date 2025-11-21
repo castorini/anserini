@@ -72,7 +72,7 @@ public class GenerateRerankerRequestsTest {
   }
 
   @After
-  public void cleanUp() throws Exception {
+  public void tearDown() throws Exception {
     restoreStdOut();
     restoreStdErr();
   }

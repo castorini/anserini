@@ -24,13 +24,13 @@ import org.apache.logging.log4j.core.config.Configurator;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
+import io.anserini.SuppresedLoggingLuceneTestCase;
 import io.anserini.collection.FileSegment;
 import io.anserini.collection.JsonCollection;
 import io.anserini.search.ScoredDoc;
 import io.anserini.search.SimpleSearcher;
 
-public class SimpleIndexerAppendTest extends StdOutStdErrRedirectableLuceneTestCase {
+public class SimpleIndexerAppendTest extends SuppresedLoggingLuceneTestCase {
   @BeforeClass
   public static void setupClass() {
     suppressJvmLogging();

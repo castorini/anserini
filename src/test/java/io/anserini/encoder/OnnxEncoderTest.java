@@ -23,9 +23,9 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
+import io.anserini.SuppresedLoggingLuceneTestCase;
 
-public class OnnxEncoderTest extends StdOutStdErrRedirectableLuceneTestCase {
+public class OnnxEncoderTest extends SuppresedLoggingLuceneTestCase {
   @BeforeClass
   public static void setupClass() {
     suppressJvmLogging();

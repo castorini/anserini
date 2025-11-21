@@ -28,14 +28,14 @@ import org.apache.logging.log4j.core.config.Configurator;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
+import io.anserini.SuppresedLoggingLuceneTestCase;
 import io.anserini.index.AbstractIndexer;
 import io.anserini.index.IndexHnswDenseVectors;
 import io.anserini.search.topicreader.JsonIntVectorTopicReader;
 import io.anserini.search.topicreader.TopicReader;
 import io.anserini.search.topicreader.TsvIntTopicReader;
 
-public class HnswDenseSearcherTest extends StdOutStdErrRedirectableLuceneTestCase {
+public class HnswDenseSearcherTest extends SuppresedLoggingLuceneTestCase {
   @BeforeClass
   public static void setupClass() {
     suppressJvmLogging();

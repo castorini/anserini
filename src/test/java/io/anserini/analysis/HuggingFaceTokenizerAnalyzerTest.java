@@ -30,10 +30,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import ai.djl.util.Platform;
-import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
+import io.anserini.SuppresedLoggingLuceneTestCase;
 import junit.framework.JUnit4TestAdapter;
 
-public class HuggingFaceTokenizerAnalyzerTest extends StdOutStdErrRedirectableLuceneTestCase {
+public class HuggingFaceTokenizerAnalyzerTest extends SuppresedLoggingLuceneTestCase {
   @BeforeClass
   public static void setupClass() {
     suppressJvmLogging();

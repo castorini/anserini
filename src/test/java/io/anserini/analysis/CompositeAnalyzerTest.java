@@ -31,10 +31,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import ai.djl.util.Platform;
-import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
+import io.anserini.SuppresedLoggingLuceneTestCase;
 import junit.framework.JUnit4TestAdapter;
 
-public class CompositeAnalyzerTest extends StdOutStdErrRedirectableLuceneTestCase {
+public class CompositeAnalyzerTest extends SuppresedLoggingLuceneTestCase {
   @BeforeClass
   public static void setupClass() {
     suppressJvmLogging();

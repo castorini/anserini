@@ -44,7 +44,7 @@ public class FusionOptionsTest extends StdOutStdErrRedirectableLuceneTestCase {
   }
 
   @After
-  public void cleanUp() throws Exception {
+  public void tearDown() throws Exception {
     restoreStdOut();
     restoreStdErr();
   }

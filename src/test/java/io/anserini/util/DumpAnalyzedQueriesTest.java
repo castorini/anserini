@@ -32,10 +32,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
+import io.anserini.SuppresedLoggingLuceneTestCase;
 import io.anserini.index.IndexCollection;
 
-public class DumpAnalyzedQueriesTest extends StdOutStdErrRedirectableLuceneTestCase {
+public class DumpAnalyzedQueriesTest extends SuppresedLoggingLuceneTestCase {
   @BeforeClass
   public static void setupClass() {
     suppressJvmLogging();

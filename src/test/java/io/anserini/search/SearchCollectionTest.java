@@ -42,7 +42,7 @@ public class SearchCollectionTest extends StdOutStdErrRedirectableLuceneTestCase
   }
 
   @After
-  public void cleanUp() throws Exception {
+  public void tearDown() throws Exception {
     restoreStdOut();
     restoreStdErr();
     super.tearDown();

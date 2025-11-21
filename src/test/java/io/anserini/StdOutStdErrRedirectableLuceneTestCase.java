@@ -16,25 +16,14 @@
 
 package io.anserini;
 
-import org.apache.lucene.tests.util.LuceneTestCase;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-public abstract class StdOutStdErrRedirectableLuceneTestCase extends LuceneTestCase {
+public abstract class StdOutStdErrRedirectableLuceneTestCase extends SuppresedLoggingLuceneTestCase {
   protected final ByteArrayOutputStream out = new ByteArrayOutputStream();
   protected final ByteArrayOutputStream err = new ByteArrayOutputStream();
   protected PrintStream saveOut;
   protected PrintStream saveErr;
-
-  protected static void suppressJvmLogging() {
-    // Suppresses warnings like the following, which is not from Anserini code, but from deeper in the JVM.
-    // WARNING: Java vector incubator module is not readable. For optimal vector performance, pass '--add-modules jdk.incubator.vector' to enable Vector API.
-    java.util.logging.Logger root = java.util.logging.Logger.getLogger("");
-    root.setLevel(java.util.logging.Level.OFF); // suppress INFO and below
-    for (var handler : root.getHandlers()) {
-      handler.setLevel(java.util.logging.Level.OFF);
-    }
-  }
 
   protected void redirectStdErr() {
     saveErr = System.err;

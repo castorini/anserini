@@ -74,7 +74,16 @@ public class PrebuiltIndexHandlerTest {
   }
 
   @After
-  public void cleanUp() throws Exception {
+  public void tearDown() throws Exception {
+    // Delete the index downloaded
+    if (handler.getIndexFolderPath() != null && handler.getIndexFolderPath().toFile().exists()) {
+      handler.getIndexFolderPath().toFile().delete();
+    }
+    
+    if (usingTempHandler && originalIndexPath != null && originalIndexPath.toFile().exists()) {
+      originalIndexPath.toFile().delete();
+    }
+
     restoreStdOut();
     restoreStdErr();
   }
@@ -120,17 +129,4 @@ public class PrebuiltIndexHandlerTest {
       throw new Exception("Failed to decompress index.", e);
     }
   }
-
-  @After
-  public void tearDown() throws Exception {
-    // Delete the index downloaded
-    if (handler.getIndexFolderPath() != null && handler.getIndexFolderPath().toFile().exists()) {
-      handler.getIndexFolderPath().toFile().delete();
-    }
-    
-    if (usingTempHandler && originalIndexPath != null && originalIndexPath.toFile().exists()) {
-      originalIndexPath.toFile().delete();
-    }
-  }
-
 }

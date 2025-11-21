@@ -19,9 +19,9 @@ package io.anserini.search;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
+import io.anserini.SuppresedLoggingLuceneTestCase;
 
-public class SimpleSearcherPrebuiltLucene8Test extends StdOutStdErrRedirectableLuceneTestCase {
+public class SimpleSearcherPrebuiltLucene8Test extends SuppresedLoggingLuceneTestCase {
   @BeforeClass
   public static void setupClass() {
     suppressJvmLogging();

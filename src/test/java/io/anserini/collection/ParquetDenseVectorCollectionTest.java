@@ -44,7 +44,7 @@ public class ParquetDenseVectorCollectionTest extends DocumentCollectionTest<Par
   }
 
   @After
-  public void cleanUp() throws Exception {
+  public void tearDown() throws Exception {
     restoreStdErr();
   }
 
