@@ -32,6 +32,8 @@ import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.store.FSDirectory;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -83,6 +85,18 @@ public class QuerySideBm25QueryGeneratorTest {
     suppressJvmLogging();
 
     Configurator.setLevel(PrebuiltIndexHandler.class.getName(), Level.ERROR);
+  }
+
+  @Before
+  public void setUp() throws Exception {
+    redirectStdOut();
+    redirectStdErr();
+  }
+
+  @After
+  public void tearDown() throws Exception {
+    restoreStdOut();
+    restoreStdErr();
   }
 
   @Test
