@@ -27,11 +27,10 @@ import org.junit.Test;
 import io.anserini.util.PrebuiltIndexHandler;
 
 public class PrebuiltIndexHandlerTest {
-  private PrebuiltIndexHandler handler;
 
   @Test
   public void testDownload() throws Exception {
-    handler = new PrebuiltIndexHandler("cacm");
+    PrebuiltIndexHandler handler = new PrebuiltIndexHandler("cacm");
     handler.fetch();
 
     assertTrue(handler.getIndexFolderPath().toString().contains("lucene-index.cacm"));
@@ -41,7 +40,7 @@ public class PrebuiltIndexHandlerTest {
   public void testCustomCacheDirectory() throws Exception {
     Path tempDir = Files.createTempDirectory("anserini-test-cache");
 
-    handler = new PrebuiltIndexHandler("cacm", tempDir.toString());
+    PrebuiltIndexHandler handler = new PrebuiltIndexHandler("cacm", tempDir.toString());
     handler.fetch();
 
     assertTrue(handler.getIndexFolderPath().toString().contains("lucene-index.cacm"));

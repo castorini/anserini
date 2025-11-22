@@ -3502,7 +3502,7 @@ public enum IndexInfo {
       VectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-cqadupstack-english.flat"),
 
-      BEIR_V1_0_0_CQADUPSTACK_GAMING_BGE_BASE_EN_15_FLAT("beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.flat",
+  BEIR_V1_0_0_CQADUPSTACK_GAMING_BGE_BASE_EN_15_FLAT("beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.flat",
       "Anserini Lucene flat vector index of BEIR collection 'cqadupstack-gaming' encoded by BGE-base-en-v1.5",
       "lucene-flat.beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.20240618.6cf601.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20240618.6cf601.README.md",
@@ -4341,6 +4341,4 @@ public enum IndexInfo {
     }
     throw new IllegalArgumentException("Index name " + indexName + " not found!");
   }
-
-  public static final int DEFAULT_EF_SEARCH = 100;
 }

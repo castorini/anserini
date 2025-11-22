@@ -180,15 +180,15 @@ public class MultiThreadingSearchTest extends EndToEndTest {
       assertTrue(runfile.exists());
 
       // Check the contents of the runs:
-      BufferedReader br = new BufferedReader(new FileReader(runfile));
-      int cnt = 0;
-      String s;
-      while ((s = br.readLine()) != null) {
-        assertEquals(groundTruthRuns.get(run)[cnt], s);
-        cnt++;
+      try (BufferedReader br = new BufferedReader(new FileReader(runfile))) {
+        int cnt = 0;
+        String s;
+        while ((s = br.readLine()) != null) {
+          assertEquals(groundTruthRuns.get(run)[cnt], s);
+          cnt++;
+        }
+        assertEquals(cnt, groundTruthRuns.get(run).length);
       }
-      assertEquals(cnt, groundTruthRuns.get(run).length);
-
       // Add the file to the cleanup list.
       cleanup.add(runfile);
     }

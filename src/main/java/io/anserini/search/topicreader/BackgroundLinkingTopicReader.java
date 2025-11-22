@@ -51,14 +51,9 @@ public class BackgroundLinkingTopicReader extends TopicReader<Integer> {
     super(topicFile);
   }
 
-  private static final Pattern TOP_PATTERN =
-      Pattern.compile("<top(.*?)</top>", Pattern.DOTALL);
-  private static final Pattern NUM_PATTERN =
-      Pattern.compile("<num> Number: (\\d+) </num>", Pattern.DOTALL);
-  private static final Pattern DOCID_PATTERN =
-      Pattern.compile("<docid>\\s*(.*?)\\s*</docid>", Pattern.DOTALL);
-  private static final Pattern URL_PATTERN =
-      Pattern.compile("<url>\\s*(.*?)\\s*</?url>", Pattern.DOTALL);
+  private static final Pattern NUM_PATTERN = Pattern.compile("<num> Number: (\\d+) </num>", Pattern.DOTALL);
+  private static final Pattern DOCID_PATTERN = Pattern.compile("<docid>\\s*(.*?)\\s*</docid>", Pattern.DOTALL);
+  private static final Pattern URL_PATTERN = Pattern.compile("<url>\\s*(.*?)\\s*</?url>", Pattern.DOTALL);
   // Note that some TREC 2018 topics don't properly close the </url> tags.
 
   @Override
@@ -102,6 +97,7 @@ public class BackgroundLinkingTopicReader extends TopicReader<Integer> {
     return map;
   }
   
+  @SuppressWarnings("null")
   public static List<String> extractTerms(IndexReader reader, String docid, int k, Analyzer analyzer)
       throws IOException {
     // Fetch the raw JSON representation of the document.

@@ -19,6 +19,7 @@ package io.anserini.util;
 import io.anserini.index.IndexerWithEmptyDocumentTestBase;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.File;
@@ -31,6 +32,11 @@ import java.util.Random;
 public class ExtractNormsTest extends IndexerWithEmptyDocumentTestBase {
   private static final Random rand = new Random();
   private String randomFileName;
+
+  @BeforeClass
+  public static void setupClass() {
+    suppressJvmLogging();
+  }
 
   @Before
   @Override
@@ -50,20 +56,20 @@ public class ExtractNormsTest extends IndexerWithEmptyDocumentTestBase {
 
   @Test
   public void testEmptyArgs() throws Exception {
-    redirectStderr();
+    redirectStdErr();
     ExtractNorms.main(new String[] {});
-    restoreStderr();
+    restoreStdErr();
 
-    assertTrue(redirectedStderr.toString().startsWith("Option \"-index\" is required"));
+    assertTrue(err.toString().startsWith("Option \"-index\" is required"));
   }
 
   @Test
   public void test() throws Exception {
     // See: https://github.com/castorini/anserini/issues/903
     Locale.setDefault(Locale.US);
-    redirectStdout(); // redirecting to be quiet
+    redirectStdOut(); // redirecting to be quiet
     ExtractNorms.main(new String[] {"-index", tempDir1.toString(), "-output", randomFileName});
-    restoreStdout();
+    restoreStdOut();
 
     List<String> lines = Files.readAllLines(Paths.get(randomFileName));
     assertEquals(5, lines.size());

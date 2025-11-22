@@ -16,20 +16,31 @@
 
 package io.anserini.analysis;
 
-import junit.framework.JUnit4TestAdapter;
-import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.TokenStream;
-import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
-import org.junit.Test;
-
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
-public class HuggingFaceTokenizerAnalyzerTest {
+import ai.djl.util.Platform;
+import io.anserini.SuppresedLoggingLuceneTestCase;
+import junit.framework.JUnit4TestAdapter;
+
+public class HuggingFaceTokenizerAnalyzerTest extends SuppresedLoggingLuceneTestCase {
+  @BeforeClass
+  public static void setupClass() {
+    suppressJvmLogging();
+
+    Configurator.setLevel(Platform.class.getName(), Level.ERROR);
+  }
+
   Object[][] examples = new Object[][]{
       {"Ṣé Wàá Fọkàn sí Àwọn Ohun Tá A Ti Kọ Sílẹ̀?",
       new String[] {"se", "wa", "##a", "fo", "##kan", "si", "awon", "oh", "##un", "ta", "a", "ti", "ko", "sile", "?"} }
