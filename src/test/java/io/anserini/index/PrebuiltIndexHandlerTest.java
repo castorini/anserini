@@ -19,14 +19,16 @@ package io.anserini.index;
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import io.anserini.util.PrebuiltIndexHandler;
@@ -34,10 +36,6 @@ import io.anserini.util.PrebuiltIndexHandler;
 public class PrebuiltIndexHandlerTest {
   // Note, cannot extend StdOutStdErrRedirectableLuceneTestCase due to concurrency issues.
   // So, we have to duplicate code to save/restore stderr/stdout.
-
-  private PrebuiltIndexHandler handler;
-  private Path originalIndexPath;
-  private boolean usingTempHandler = false;
 
   protected final ByteArrayOutputStream out = new ByteArrayOutputStream();
   protected final ByteArrayOutputStream err = new ByteArrayOutputStream();
@@ -64,69 +62,40 @@ public class PrebuiltIndexHandlerTest {
     System.setOut(saveOut);
   }
 
+  @BeforeClass
+  public static void setupClass() {
+    Configurator.setLevel(PrebuiltIndexHandler.class.getName(), Level.ERROR);
+  }
+
   @Before
   public void setUp() throws Exception {
     redirectStdOut();
     redirectStdErr();
-
-    handler = new PrebuiltIndexHandler("cacm"); // we use a lightweight index for testing
-    handler.initialize();
   }
 
   @After
   public void tearDown() throws Exception {
-    // Delete the index downloaded
-    if (handler.getIndexFolderPath() != null && handler.getIndexFolderPath().toFile().exists()) {
-      handler.getIndexFolderPath().toFile().delete();
-    }
-    
-    if (usingTempHandler && originalIndexPath != null && originalIndexPath.toFile().exists()) {
-      originalIndexPath.toFile().delete();
-    }
-
     restoreStdOut();
     restoreStdErr();
   }
 
   @Test
-  public void testHandler() throws Exception {
-    downloadAndDecompressIndex(handler);
+  public void testDownload() throws Exception {
+    PrebuiltIndexHandler handler = new PrebuiltIndexHandler("cacm");
+    handler.fetch();
+
+    assertTrue(handler.getIndexFolderPath().toString().contains("lucene-index.cacm"));
   }
 
   @Test
   public void testCustomCacheDirectory() throws Exception {
     Path tempDir = Files.createTempDirectory("anserini-test-cache");
-    
-    if (handler.getIndexFolderPath() != null) {
-      originalIndexPath = handler.getIndexFolderPath();
-    }
-    
-    handler = new PrebuiltIndexHandler("cacm", tempDir.toString());
-    handler.initialize();
-    usingTempHandler = true;
-    
-    try {
-      downloadAndDecompressIndex(handler);
-      
-      String decompressedPath = handler.getIndexFolderPath().toString();
-      assertTrue(decompressedPath.startsWith(tempDir.toString()));
-      
-    } finally {
-      FileUtils.deleteDirectory(tempDir.toFile());
-      usingTempHandler = false;
-    }
-  }
-  
-  private void downloadAndDecompressIndex(PrebuiltIndexHandler indexHandler) throws Exception {
-    try {
-      indexHandler.download();
-      indexHandler.decompressIndex();
-    } catch (IOException e) {
-      e.printStackTrace();
-      throw new Exception("Failed to download index.", e);
-    } catch (Exception e) {
-      e.printStackTrace();
-      throw new Exception("Failed to decompress index.", e);
-    }
+
+    PrebuiltIndexHandler handler = new PrebuiltIndexHandler("cacm", tempDir.toString());
+    handler.fetch();
+
+    assertTrue(handler.getIndexFolderPath().toString().contains("lucene-index.cacm"));
+
+    FileUtils.deleteDirectory(tempDir.toFile());
   }
 }

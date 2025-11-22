@@ -531,7 +531,7 @@ public enum IndexInfo {
       "MS MARCO V2 Passage",
       "uniCOIL (with doc2query-T5 expansions) zero-shot",
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2-passage.unicoil-0shot.20220808.4d6d2a.tar.gz" },
-      "1949a00bfd5e1f1a230a04bbc1f01539",
+      "69919059e3e9575968edafe168b55b66",
       IndexType.SPARSE_IMPACT,
       UniCoilEncoder.class.getSimpleName(),
       BagOfWordsQueryGenerator.class.getSimpleName(),

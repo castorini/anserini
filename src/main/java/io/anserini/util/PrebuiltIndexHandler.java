@@ -19,11 +19,12 @@ package io.anserini.util;
 import me.tongfei.progressbar.ProgressBar;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.input.BoundedInputStream;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import io.anserini.index.IndexInfo;
 
+import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,204 +36,170 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class PrebuiltIndexHandler {
+  private static final Logger LOG = LogManager.getLogger(PrebuiltIndexHandler.class);
+
   private static final String DEFAULT_CACHE_DIR = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "indexes").toString();
   private static final String CACHE_DIR_PROPERTY = "anserini.index.cache";
   private static final String CACHE_DIR_ENV = "ANSERINI_INDEX_CACHE";
+  private static final int MAX_DOWNLOAD_ATTEMPTS = 3;
+  private static final int DOWNLOAD_BUFFER_SIZE = 1 << 16; // 64 KB
+  private static final int CONNECT_TIMEOUT_MS = 60_000;
+  private static final int READ_TIMEOUT_MS = 120_000;
 
   private String indexName;
-  private String saveRootPath;
-  private IndexInfo info = null;
-  private Path indexFolderPath = null;
-  private boolean initialized = false;
-  private Path savePath;
+  private IndexInfo indexInfo;
 
+  private String cacheDirectory;
+  private Path downloadFilePath;
+  private Path indexFolderPath;
+
+  /**
+   * Creates a <tt>PrebuiltIndexHandler</tt>.
+   * By default, the default cache directory is at <tt>~/.cache/pyserini/indexes</tt>.
+   * Alternatively, a custom, user-specified cache directory can be specified via the environment variable <tt>$ANSERINI_INDEX_CACHE</tt>
+   * or the system property <tt>anserini.index.cache</tt>.
+   *
+   * @param indexName the name of the index
+   */
   public PrebuiltIndexHandler(String indexName) {
-    this.indexName = indexName;
-    this.saveRootPath = getCache();
+    this(indexName, getCache());
   }
   
   /**
-   * Creates a PrebuiltIndexHandler with a custom, user specified cache directory.
-   * This is good if you don't want to use the default cache directory,
-   * at ~/.cache/pyserini/indexes.
-   * Specify it through the environment variable $ANSERINI_INDEX_CACHE.
-   * Alternatively, specify it through the system property $anserini.index.cache.
-   * We recommend specifying it through the environment variable as it's easier to manage:
-   * but if left unset, fallbacks are appropriate.
-   * 
+   * Creates a <tt>PrebuiltIndexHandler</tt> with a custom, user-specified cache directory.
+   *
    * @param indexName the name of the index
-   * @param cacheDir the custom cache directory to use
+   * @param cacheDirectory the custom cache directory to use
    */
-  public PrebuiltIndexHandler(String indexName, String cacheDir) {
+  public PrebuiltIndexHandler(String indexName, String cacheDirectory) {
     this.indexName = indexName;
-    this.saveRootPath = cacheDir;
-  }
+    this.cacheDirectory = cacheDirectory;
 
-  private String getCache() {
-    String cacheDir = System.getProperty(CACHE_DIR_PROPERTY);
-    
-    if (cacheDir == null || cacheDir.isEmpty()) {
-      cacheDir = System.getenv(CACHE_DIR_ENV);
-    }
-    
-    if (cacheDir == null || cacheDir.isEmpty()) {
-      cacheDir = DEFAULT_CACHE_DIR;
-    }
-    
-    return cacheDir;
-  }
-
-  private static boolean checkFileExist(Path path) {
-    return path.toFile().exists();
-  }
-
-  public boolean checkIndexFileExist() {
-    /*
-     * Check if the index file exists. If the index file exists, return true.
-     * Otherwise, return false.
-     */
-    if (checkFileExist(savePath) || checkFileExist(Path.of(savePath.toString().replace(".gz", "")))
-        || checkFileExist(Path.of(savePath.toString().replace(".tar.gz", "")))
-        || checkFileExist(Path.of(savePath.toString() + "." + info.md5))
-        || checkFileExist(Path.of(savePath.toString().replace(".gz", "") + "." + info.md5))
-        || checkFileExist(Path.of(savePath.toString().replace(".tar.gz", "") + "." + info.md5))) {
-      return true;
-    }
-    return false;
-  }
-
-  private static IndexInfo getIndexInfo(String indexName) {
-    /*
-     * Get the index info from the index name.
-     */
     try {
-      return IndexInfo.get(indexName);
+      indexInfo = IndexInfo.get(indexName);
     } catch (IllegalArgumentException e) {
       throw new IllegalArgumentException("Index not found!" + e.getMessage());
     }
-  }
 
-  private static boolean checkMD5(InputStream st, String md5) throws IOException {
-    /*
-     * Check the MD5 checksum of the index file.
-     */
-    String generatedChecksum = DigestUtils.md5Hex(st);
-    return generatedChecksum.equals(md5);
-  }
-
-  public void initialize() {
-    if (initialized) {
-      return;
-    }
-    info = getIndexInfo(indexName);
-    // check if saveRootPath exists
-    if (!checkFileExist(Path.of(saveRootPath))) {
+    if (!Path.of(cacheDirectory).toFile().exists()) {
       try {
-        Files.createDirectories(Path.of(saveRootPath));
+        Files.createDirectories(Path.of(cacheDirectory));
       } catch (IOException e) {
         e.printStackTrace();
       }
     }
-    savePath = Path.of(saveRootPath, info.filename);
-    initialized = true;
+
+    downloadFilePath = Path.of(cacheDirectory, indexInfo.filename);
+    indexFolderPath = Path.of(downloadFilePath.toString().replace(".tar.gz", "") + "." + indexInfo.md5); 
   }
 
-  public void download() throws IOException, URISyntaxException {
-    /*
-     * Download the index file to the save path. If the file already exists, do
-     * nothing. If the file does not exist, download the file and check the MD5
-     * checksum.
-     */
-    if (!initialized) {
-      throw new IllegalStateException("Handler not initialized!");
+  private static String getCache() {
+    String cacheDirectory = System.getProperty(CACHE_DIR_PROPERTY);
+    
+    if (cacheDirectory == null || cacheDirectory.isEmpty()) {
+      cacheDirectory = System.getenv(CACHE_DIR_ENV);
     }
-    if (checkIndexFileExist()) {
-      System.out.println("Index file already exists! Skip downloading.");
+    
+    if (cacheDirectory == null || cacheDirectory.isEmpty()) {
+      cacheDirectory = DEFAULT_CACHE_DIR;
+    }
+    
+    return cacheDirectory;
+  }
+
+  private static boolean verifyChecksum(Path path, String md5) throws IOException {
+    try (InputStream is = Files.newInputStream(path)) {
+      String generatedChecksum = DigestUtils.md5Hex(is);
+      return generatedChecksum.equals(md5);
+    }
+  }
+
+  public void fetch() throws IOException, URISyntaxException, InterruptedException {
+    if (indexFolderPath.toFile().exists()) {
+      LOG.info(String.format("Index already exists at %s: skipping downloading.", indexFolderPath));
       return;
     }
 
-    URL url = new URI(info.urls[0]).toURL();
-    System.out.println("Downloading index from: " + info.urls[0]);
-    HttpURLConnection httpConnection = (HttpURLConnection) (url.openConnection());
-    long completeFileSize = httpConnection.getContentLengthLong();
+    download();
+    decompress();
+  }
 
-    try (InputStream inputStream = url.openStream();
-        BoundedInputStream bis = BoundedInputStream.builder()
-          .setInputStream(inputStream)
-          .setMaxCount(completeFileSize)
-          .get();
-        FileOutputStream fileOS = new FileOutputStream(savePath.toFile());
-        ProgressBar pb = new ProgressBar(indexName, Math.floorDiv(completeFileSize, 1000))) {
-
-      pb.setExtraMessage("Downloading...");
-
-      new Thread(() -> {
+  private void download() throws IOException, URISyntaxException {
+    for (String urlString : indexInfo.urls) {
+      for (int attempt = 1; attempt <= MAX_DOWNLOAD_ATTEMPTS; attempt++) {
+        LOG.info("Downloading index from: " + urlString + " (attempt " + attempt + "/" + MAX_DOWNLOAD_ATTEMPTS + ")");
         try {
-          IOUtils.copyLarge(bis, fileOS);
+          downloadFromUrl(urlString);
+          verifyChecksum(downloadFilePath, indexInfo.md5);
+          return;
         } catch (IOException e) {
-          e.printStackTrace();
+          LOG.error("Download failed: " + e.getMessage());
+          try {
+            Files.deleteIfExists(downloadFilePath);
+          } catch (IOException deleteException) {
+            LOG.error("Unable to remove incomplete download: " + deleteException.getMessage());
+          }
         }
-      }).start();
-
-      while (bis.getCount() < completeFileSize) {
-        pb.stepTo(Math.floorDiv(bis.getCount(), 1000));
-      }
-
-      pb.stepTo(Math.floorDiv(bis.getCount(), 1000));
-      pb.close();
-
-      InputStream is = Files.newInputStream(savePath);
-      if (!checkMD5(is, info.md5)) {
-        throw new IOException("MD5 check failed!");
       }
     }
   }
 
-  public String decompressIndex() throws Exception {
-    /*
-     * Decompress the tar.gz or tar index file to an archive folder. If the folder
-     * already exists, do nothing.
-     */
-    if (!initialized) {
-      throw new IllegalStateException("Handler not initialized!");
-    }
-    if (!checkIndexFileExist()) {
-      throw new Exception("Index file does not exist!");
-    }
+  private void downloadFromUrl(String urlString) throws IOException, URISyntaxException {
+    URL url = new URI(urlString).toURL();
+    HttpURLConnection httpConnection = (HttpURLConnection) (url.openConnection());
+    httpConnection.setConnectTimeout(CONNECT_TIMEOUT_MS);
+    httpConnection.setReadTimeout(READ_TIMEOUT_MS);
+    long completeFileSize = httpConnection.getContentLengthLong();
+    boolean hasKnownSize = completeFileSize > 0;
+    long progressBarMax = hasKnownSize ? Math.max(1, Math.floorDiv(completeFileSize, 1000)) : 1;
 
-    String indexFolder = savePath.toString().replace(".tar.gz", "");
-    if (checkFileExist(Path.of(indexFolder + "." + info.md5))) {
-      System.out.println("Index folder already exists!");
-      return indexFolder + "." + info.md5;
+    try (InputStream inputStream = new BufferedInputStream(httpConnection.getInputStream());
+        FileOutputStream fileOS = new FileOutputStream(downloadFilePath.toFile());
+        ProgressBar pb = new ProgressBar(indexName, progressBarMax)) {
+
+      pb.setExtraMessage("Downloading...");
+
+      byte[] buffer = new byte[DOWNLOAD_BUFFER_SIZE];
+      long downloaded = 0L;
+      int bytesRead;
+      while ((bytesRead = inputStream.read(buffer)) != -1) {
+        fileOS.write(buffer, 0, bytesRead);
+        downloaded += bytesRead;
+        if (hasKnownSize) {
+          pb.stepTo(Math.min(progressBarMax, Math.floorDiv(downloaded, 1000)));
+        }
+      }
+
+      if (hasKnownSize) {
+        pb.stepTo(progressBarMax);
+      }
+
+    } finally {
+      httpConnection.disconnect();
     }
-    System.out.println("Decompressing index...");
+  }
 
-    if (checkFileExist(Path.of(savePath.toString()))) {
-      ProcessBuilder pbGZIP = new ProcessBuilder("gzip", "-d", savePath.toString());
-      Process pGZIP = pbGZIP.start();
-      pGZIP.waitFor();
-    }
+  private void decompress() throws IOException, InterruptedException {
+    LOG.info(String.format("Decompressing index at %s...", downloadFilePath));
 
-    if (checkFileExist(Path.of(savePath.toString().replace(".gz", "")))) {
-      ProcessBuilder pbTAR = new ProcessBuilder("tar", "-xvf",
-          savePath.toString().substring(0, savePath.toString().length() - 3), "-C", saveRootPath);
-      Process pTar = pbTAR.start();
-      pTar.waitFor();
+    if (!downloadFilePath.toFile().exists())
+      throw new IOException(String.format("Unexpected error: %s not found.", downloadFilePath));
 
-      // delete the tar file for saving space
-      Files.delete(Path.of(savePath.toString().replace(".gz", "")));
-    }
+    ProcessBuilder pbGZIP = new ProcessBuilder("gzip", "-d", downloadFilePath.toString());
+    Process pGZIP = pbGZIP.start();
+    pGZIP.waitFor();
 
-    System.out.println("Index decompressed successfully!");
+    ProcessBuilder pbTAR = new ProcessBuilder("tar", "-xvf",
+            downloadFilePath.toString().substring(0, downloadFilePath.toString().length() - 3), "-C", cacheDirectory);
+    Process pTar = pbTAR.start();
+    pTar.waitFor();
 
-    // postpend md5 to decompressed index
-    Path oldIndexPath = Path.of(indexFolder);
-    indexFolder += "." + info.md5;
-    this.indexFolderPath = Path.of(indexFolder);
-    if (!checkFileExist(this.indexFolderPath)) {
-      Files.move(oldIndexPath, this.indexFolderPath);
-    }
-    return indexFolder;
+    // Delete the tar file
+    Files.delete(Path.of(downloadFilePath.toString().replace(".gz", "")));
+    LOG.info("Index decompressed successfully!");
+
+    Files.move(Path.of(downloadFilePath.toString().replace(".tar.gz", "")), this.indexFolderPath);
+    LOG.info(String.format("Final index location at %s", indexFolderPath));
   }
 
   public Path getIndexFolderPath() {
