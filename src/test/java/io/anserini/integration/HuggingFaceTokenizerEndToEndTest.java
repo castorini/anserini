@@ -37,6 +37,7 @@ public class HuggingFaceTokenizerEndToEndTest extends EndToEndTest {
     suppressJvmLogging();
 
     Configurator.setLevel(Platform.class.getName(), Level.ERROR);
+    Configurator.setLevel(HuggingFaceTokenizerEndToEndTest.class.getName(), Level.ERROR);
   }
 
   @Override

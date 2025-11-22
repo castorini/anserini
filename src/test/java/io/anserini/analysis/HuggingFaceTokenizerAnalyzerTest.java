@@ -39,6 +39,7 @@ public class HuggingFaceTokenizerAnalyzerTest extends SuppresedLoggingLuceneTest
     suppressJvmLogging();
 
     Configurator.setLevel(Platform.class.getName(), Level.ERROR);
+    Configurator.setLevel(HuggingFaceTokenizerAnalyzerTest.class.getName(), Level.ERROR);
   }
 
   Object[][] examples = new Object[][]{
