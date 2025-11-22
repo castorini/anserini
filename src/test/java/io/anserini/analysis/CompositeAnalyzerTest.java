@@ -27,6 +27,7 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
+import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -57,6 +58,11 @@ public class CompositeAnalyzerTest extends SuppresedLoggingLuceneTestCase {
 
   @Test
   public void basic() throws Exception {
+    // Not available on x86_64 on Mac, so skip tests
+    // ai.djl.engine.EngineException: Failed to load Huggingface native library.
+    Assume.assumeFalse(System.getProperty("os.arch").equalsIgnoreCase("x86_64")
+        && System.getProperty("os.name").toLowerCase().contains("mac"));
+
     Analyzer analyzer = new CompositeAnalyzer(huggingFaceModelId, new WhitespaceAnalyzer());
 
     for (int i = 0; i < examples.length; i++) {
