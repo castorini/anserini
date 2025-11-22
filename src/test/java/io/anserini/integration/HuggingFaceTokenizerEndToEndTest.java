@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
+import org.junit.Assume;
 import org.junit.BeforeClass;
 
 import com.carrotsearch.randomizedtesting.annotations.ThreadLeakScope;
@@ -53,6 +54,11 @@ public class HuggingFaceTokenizerEndToEndTest extends EndToEndTest {
   
   @Override
   protected void setCheckIndexGroundTruth() {
+    // Not available on x86_64 on Mac, so skip tests
+    // ai.djl.engine.EngineException: Failed to load Huggingface native library.
+    Assume.assumeFalse(System.getProperty("os.arch").equalsIgnoreCase("x86_64")
+        && System.getProperty("os.name").toLowerCase().contains("mac"));
+
     docCount = 2;
     docFieldCount = 3; // id, raw, contents
     
@@ -80,6 +86,11 @@ public class HuggingFaceTokenizerEndToEndTest extends EndToEndTest {
   
   @Override
   protected void setSearchGroundTruth() {
+    // Not available on x86_64 on Mac, so skip tests
+    // ai.djl.engine.EngineException: Failed to load Huggingface native library.
+    Assume.assumeFalse(System.getProperty("os.arch").equalsIgnoreCase("x86_64")
+        && System.getProperty("os.name").toLowerCase().contains("mac"));
+
     topicReader = "TsvInt";
     topicFile = "src/test/resources/sample_topics/json_topics5.tsv";
     SearchCollection.Args searchArg = createDefaultSearchArgs().bm25();
@@ -91,5 +102,4 @@ public class HuggingFaceTokenizerEndToEndTest extends EndToEndTest {
         "1048585 Q0 7187163 2 0.456700 Anserini"
     });
   }
-  
 }

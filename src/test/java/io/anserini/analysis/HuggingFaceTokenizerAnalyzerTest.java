@@ -26,6 +26,7 @@ import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
+import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -49,6 +50,11 @@ public class HuggingFaceTokenizerAnalyzerTest extends SuppresedLoggingLuceneTest
   
   @Test
   public void basic() throws Exception {
+    // Not available on x86_64 on Mac, so skip tests
+    // ai.djl.engine.EngineException: Failed to load Huggingface native library.
+    Assume.assumeFalse(System.getProperty("os.arch").equalsIgnoreCase("x86_64")
+        && System.getProperty("os.name").toLowerCase().contains("mac"));
+
     Analyzer analyzer = new HuggingFaceTokenizerAnalyzer(huggingFaceModelId);
     
     for (int i = 0; i < examples.length; i++) {
