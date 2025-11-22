@@ -25,6 +25,7 @@ import org.junit.BeforeClass;
 import com.carrotsearch.randomizedtesting.annotations.ThreadLeakScope;
 
 import ai.djl.util.Platform;
+import io.anserini.analysis.HuggingFaceTokenizerAnalyzerTest;
 import io.anserini.collection.JsonCollection;
 import io.anserini.index.IndexCollection;
 import io.anserini.index.generator.DefaultLuceneDocumentGenerator;
@@ -37,6 +38,7 @@ public class HuggingFaceTokenizerEndToEndTest extends EndToEndTest {
     suppressJvmLogging();
 
     Configurator.setLevel(Platform.class.getName(), Level.ERROR);
+    Configurator.setLevel(HuggingFaceTokenizerAnalyzerTest.class.getName(), Level.ERROR);
     Configurator.setLevel(HuggingFaceTokenizerEndToEndTest.class.getName(), Level.ERROR);
   }
 
