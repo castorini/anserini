@@ -846,8 +846,8 @@ public class IndexReaderUtils {
   public static Path getIndex(String index) {
     boolean isPrebuiltLabel = false;
     try {
-      PrebuiltIndexHandler handler = new PrebuiltIndexHandler(index);
-      handler.initialize();
+      // Check to see if it's a prebuilt index
+      new PrebuiltIndexHandler(index);
       isPrebuiltLabel = true;
     } catch (Exception e) {
       // isPrebuiltLabel remains false
@@ -864,9 +864,9 @@ public class IndexReaderUtils {
     if (isPrebuiltLabel) {
       try {
         PrebuiltIndexHandler handler = new PrebuiltIndexHandler(index);
-        handler.initialize();
-        handler.download();
-        String indexLocation = handler.decompressIndex();
+        handler.fetch();
+        String indexLocation = handler.getIndexFolderPath().toString();
+
         return Paths.get(indexLocation);
       } catch (Exception e) {
         //Fall through.
