@@ -59,6 +59,7 @@ public class AnalyzerUtils {
     return list;
   }
 
+  // TODO: this method seems to be misnamed: a better name might be extractTfVector
   @SuppressWarnings("null")
   public static Map<String, Long> computeDocumentVector(Analyzer analyzer, String s) {
     Map<String, Long> termFreqMap = new HashMap<>();
@@ -80,6 +81,7 @@ public class AnalyzerUtils {
     return termFreqMap;
   }
 
+  // TODO: this method seems to be misnamed: a better name might be extractTfVectorFromDocument
   @SuppressWarnings("unchecked")
   public static Map<String, Long> computeDocumentVector(Analyzer analyzer, Class<? extends DocumentCollection<?>> clazz, String s) {
     String content = "";
