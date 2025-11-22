@@ -31,8 +31,6 @@ import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.util.BytesRef;
 
-import java.util.Arrays;
-
 /**
  * Converts a {@link SourceDocument} into a Lucene {@link Document}, ready to be indexed.
  *

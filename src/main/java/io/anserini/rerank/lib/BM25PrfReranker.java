@@ -17,6 +17,7 @@
 package io.anserini.rerank.lib;
 
 import io.anserini.analysis.AnalyzerUtils;
+import io.anserini.collection.DocumentCollection;
 import io.anserini.index.Constants;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
@@ -64,12 +65,12 @@ class BM25PrfSimilarity extends BM25Similarity {
   }
 }
 
-public class BM25PrfReranker implements Reranker {
+public class BM25PrfReranker<T> implements Reranker<T> {
   private static final Logger LOG = LogManager.getLogger(BM25PrfReranker.class);
 
   private final int fbDocs;
   private final Analyzer analyzer;
-  private final Class parser;
+  private final Class<? extends DocumentCollection<?>> parser;
   private final String field;
   private final boolean outputQuery;
   private final int fbTerms;
@@ -77,7 +78,7 @@ public class BM25PrfReranker implements Reranker {
   private final float b;
   private final float newTermWeight;
 
-  public BM25PrfReranker(Analyzer analyzer, Class parser, String field, int fbTerms, int fbDocs, float k1, float b, float newTermWeight, boolean outputQuery) {
+  public BM25PrfReranker(Analyzer analyzer, Class<? extends DocumentCollection<?>> parser, String field, int fbTerms, int fbDocs, float k1, float b, float newTermWeight, boolean outputQuery) {
     this.analyzer = analyzer;
     this.parser = parser;
     this.outputQuery = outputQuery;
@@ -89,9 +90,8 @@ public class BM25PrfReranker implements Reranker {
     this.newTermWeight = newTermWeight;
   }
 
-  @SuppressWarnings("unchecked")
   @Override
-  public ScoredDocs rerank(ScoredDocs docs, RerankerContext context) {
+  public ScoredDocs rerank(ScoredDocs docs, RerankerContext<T> context) {
     IndexSearcher existingSearcher = context.getIndexSearcher();
     IndexReader reader = existingSearcher.getIndexReader();
 

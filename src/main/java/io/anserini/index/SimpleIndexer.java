@@ -52,7 +52,7 @@ public class SimpleIndexer {
   private final Path indexPath;
   private final IndexWriter writer;
   private final Analyzer analyzer;
-  private final LuceneDocumentGenerator generator;
+  private final LuceneDocumentGenerator<JsonCollection.Document> generator;
   private final int threads;
 
   private static Args parseArgs(String[] argv) throws CmdLineException {
@@ -105,8 +105,9 @@ public class SimpleIndexer {
     if (!Files.exists(this.indexPath)) {
       Files.createDirectories(this.indexPath);
     }
-    Class generatorClass = Class.forName("io.anserini.index.generator." + args.generatorClass);
-    generator = (LuceneDocumentGenerator) generatorClass.getDeclaredConstructor(Args.class).newInstance(args);
+    Class<? extends LuceneDocumentGenerator<JsonCollection.Document>> generatorClass =
+        (Class<? extends LuceneDocumentGenerator<JsonCollection.Document>>) Class.forName("io.anserini.index.generator." + args.generatorClass);
+    generator = (LuceneDocumentGenerator<JsonCollection.Document>) generatorClass.getDeclaredConstructor(Args.class).newInstance(args);
     analyzer = getAnalyzer(args);
 
     final Directory dir = FSDirectory.open(this.indexPath);
@@ -145,7 +146,6 @@ public class SimpleIndexer {
     }
   }
 
-  @SuppressWarnings("unchecked")
   public boolean addRawDocument(String raw) {
     try {
       JsonCollection.Document doc = JsonCollection.Document.fromString(raw);
@@ -161,7 +161,6 @@ public class SimpleIndexer {
     return true;
   }
 
-  @SuppressWarnings("unchecked")
   public boolean addJsonDocument(JsonCollection.Document doc) {
     try {
       writer.addDocument(generator.createDocument(doc));
@@ -176,7 +175,6 @@ public class SimpleIndexer {
     return true;
   }
 
-  @SuppressWarnings("unchecked")
   public boolean addJsonNode(JsonNode node) {
     try {
       writer.addDocument(generator.createDocument(new JsonCollection.Document(node)));
@@ -191,7 +189,6 @@ public class SimpleIndexer {
     return true;
   }
 
-  @SuppressWarnings("unchecked")
   public int addRawDocuments(String[] docs) throws IOException {
     return addToIndex(docs, (doc) -> {
       try {
@@ -204,7 +201,6 @@ public class SimpleIndexer {
     });
   }
 
-  @SuppressWarnings("unchecked")
   public int addJsonDocuments(JsonCollection.Document[] docs) {
     return addToIndex(docs, Function.identity());
   }
@@ -213,7 +209,6 @@ public class SimpleIndexer {
     return addToIndex(nodes, JsonCollection.Document::new);
   }
 
-  @SuppressWarnings("unchecked")
   private <T> int addToIndex(T[] objects, Function<T, JsonCollection.Document> func) {
     AtomicInteger cnt = new AtomicInteger();
     List<Callable<Void>> tasks = new ArrayList<>(objects.length);
