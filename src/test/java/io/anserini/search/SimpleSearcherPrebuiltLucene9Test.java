@@ -16,11 +16,17 @@
 
 package io.anserini.search;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import io.anserini.SuppresedLoggingLuceneTestCase;
 
-public class SimpleSearcherPrebuiltLucene9Test {
+public class SimpleSearcherPrebuiltLucene9Test extends SuppresedLoggingLuceneTestCase {
+  @BeforeClass
+  public static void setupClass() {
+    suppressJvmLogging();
+  }
+
   @Test
   public void testSearch1() throws Exception {
     try(SimpleSearcher searcher =

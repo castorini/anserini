@@ -50,10 +50,11 @@ public class HtmlCollectionTest {
     List<Path> paths = collection.getSegmentPaths();
 
     assertEquals(1, paths.size());
-    Iterator<HtmlCollection.Document> docIter = new HtmlCollection.Segment(paths.get(0)).iterator();
-
     AtomicInteger cnt = new AtomicInteger();
-    docIter.forEachRemaining(d -> cnt.getAndIncrement());
+    try (HtmlCollection.Segment segment = new HtmlCollection.Segment(paths.get(0))) {
+      Iterator<HtmlCollection.Document> docIter = segment.iterator();
+      docIter.forEachRemaining(d -> cnt.getAndIncrement());
+    }
     assertEquals(3204, cnt.get());
   }
 

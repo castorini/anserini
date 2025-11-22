@@ -26,13 +26,12 @@ import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.FSDirectory;
 
-import java.io.Closeable;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class SimpleGeoSearcher extends SimpleSearcher implements Closeable {
+public class SimpleGeoSearcher extends SimpleSearcher {
   private IndexReader reader;
   private IndexSearcher searcher;
 

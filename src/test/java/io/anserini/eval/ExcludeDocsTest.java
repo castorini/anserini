@@ -19,11 +19,20 @@ package io.anserini.eval;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-
-import io.anserini.eval.ExcludeDocs;
+import org.junit.BeforeClass;
+import io.anserini.fusion.FuseRuns;
 import io.anserini.search.ScoredDoc;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
+
+
 public class ExcludeDocsTest {
+  @BeforeClass
+  public static void setupClass() {
+    Configurator.setLevel(FuseRuns.class.getName(), Level.ERROR);
+  }
+
   @Test
   public void testExcludable() {
     assertEquals(ExcludeDocs.isExcludable("bright-aops"), true);

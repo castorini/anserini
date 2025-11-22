@@ -53,9 +53,9 @@ public final class BenchmarkCollectionReader {
 
   private final class ReaderThread extends Thread {
     final private Path inputFile;
-    final private DocumentCollection collection;
+    final private DocumentCollection<?> collection;
 
-    private ReaderThread(DocumentCollection collection, Path inputFile) {
+    private ReaderThread(DocumentCollection<?> collection, Path inputFile) {
       this.collection = collection;
       this.inputFile = inputFile;
 
@@ -66,7 +66,7 @@ public final class BenchmarkCollectionReader {
     public void run() {
       try {
         @SuppressWarnings("unchecked")
-        FileSegment<SourceDocument> segment = (FileSegment) collection.createFileSegment(inputFile);
+        FileSegment<SourceDocument> segment = (FileSegment<SourceDocument>) collection.createFileSegment(inputFile);
 
         // We're calling these records because the documents may not an indexable.
         AtomicInteger records = new AtomicInteger();
@@ -75,8 +75,11 @@ public final class BenchmarkCollectionReader {
         });
 
         segment.close();
-        LOG.info(inputFile.getParent().getFileName().toString() + File.separator +
-            inputFile.getFileName().toString() + ": " + records.incrementAndGet() + " records processed.");
+        LOG.info(String.format("%s%s%s: %d records processed.",
+            inputFile.getParent().getFileName().toString(),
+            File.separator,
+            inputFile.getFileName().toString(),
+            records.incrementAndGet()));
       } catch (Exception e) {
         LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e);
       }
@@ -85,10 +88,9 @@ public final class BenchmarkCollectionReader {
 
   private final Args args;
   private final Path collectionPath;
-  private final Class collectionClass;
-  private final DocumentCollection collection;
+  private final Class<?> collectionClass;
+  private final DocumentCollection<?> collection;
 
-  @SuppressWarnings("unchecked")
   public BenchmarkCollectionReader(Args args) throws Exception {
     this.args = args;
 
@@ -98,25 +100,24 @@ public final class BenchmarkCollectionReader {
 
     collectionPath = Paths.get(args.input);
     if (!Files.exists(collectionPath) || !Files.isReadable(collectionPath) || !Files.isDirectory(collectionPath)) {
-      throw new RuntimeException("Document directory " + collectionPath.toString() +
-          " does not exist or is not readable, please check the path");
+      throw new RuntimeException(String.format("Document directory %s does not exist or is not readable, please check the path.", collectionPath));
     }
 
     this.collectionClass = Class.forName("io.anserini.collection." + args.collectionClass);
 
     // Initialize the collection.
-    collection = (DocumentCollection) this.collectionClass.getConstructor(Path.class).newInstance(collectionPath);
+    collection = (DocumentCollection<?>) this.collectionClass.getConstructor(Path.class).newInstance(collectionPath);
   }
 
   public void run() {
     final long start = System.nanoTime();
     LOG.info("Starting MapCollections...");
 
-    final List segmentPaths = collection.getSegmentPaths();
+    final List<?> segmentPaths = collection.getSegmentPaths();
     final int segmentCnt = segmentPaths.size();
     AtomicInteger completedTaskCount = new AtomicInteger(0);
 
-    LOG.info(segmentCnt + " files found in " + collectionPath.toString());
+    LOG.info(String.format("%d files found in %s", segmentCnt, collectionPath));
 
     List<Callable<Void>> tasks = new ArrayList<>(segmentCnt);
     for (int i = 0; i < segmentCnt; i++) {
@@ -130,9 +131,8 @@ public final class BenchmarkCollectionReader {
 
     // Work-stealing executor + progress logger
     try (
-            ExecutorService executor = Executors.newWorkStealingPool(args.threads);
-            ScheduledExecutorService monitor = Executors.newSingleThreadScheduledExecutor()
-    ) {
+        ExecutorService executor = Executors.newWorkStealingPool(args.threads);
+        ScheduledExecutorService monitor = Executors.newSingleThreadScheduledExecutor()) {
       // log progress every minute
       monitor.scheduleAtFixedRate(() -> {
         double pct = (double) completedTaskCount.get() / segmentCnt * 100.0d;
@@ -147,12 +147,11 @@ public final class BenchmarkCollectionReader {
     }
 
     if (segmentCnt != completedTaskCount.get()) {
-      throw new RuntimeException("totalFiles = " + segmentCnt +
-          " is not equal to completedTaskCount =  " + completedTaskCount.get());
+      throw new RuntimeException(String.format("totalFiles = %d is not equal to completedTaskCount = %d", segmentCnt, completedTaskCount.get()));
     }
 
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-    System.out.println("Total running time: " + durationMillis + "ms");
+    System.out.println(String.format("Total running time: %dms", durationMillis));
   }
 
   public static void main(String[] args) throws Exception {
@@ -164,8 +163,7 @@ public final class BenchmarkCollectionReader {
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
-      System.err.println("Example: "+ BenchmarkCollectionReader.class.getSimpleName() +
-          parser.printExample(OptionHandlerFilter.REQUIRED));
+      System.err.println(String.format("Example: %s%s", BenchmarkCollectionReader.class.getSimpleName(), parser.printExample(OptionHandlerFilter.REQUIRED)));
       return;
     }
 

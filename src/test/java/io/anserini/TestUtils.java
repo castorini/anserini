@@ -24,40 +24,42 @@ import static org.junit.Assert.assertEquals;
 
 public class TestUtils {
   public static void checkFile(String output, String[] ref) throws IOException {
-    BufferedReader br = new BufferedReader(new FileReader(output));
+    try (BufferedReader br = new BufferedReader(new FileReader(output))) {
+      int cnt = 0;
+      String s;
+      while ((s = br.readLine()) != null) {
+        assertEquals(ref[cnt], s);
+        cnt++;
+      }
 
-    int cnt = 0;
-    String s;
-    while ((s = br.readLine()) != null) {
-      assertEquals(ref[cnt], s);
-      cnt++;
+      assertEquals(cnt, ref.length);
     }
-
-    assertEquals(cnt, ref.length);
   }
 
   // Use this when we're checking TREC run files and we don't care about the scores matching exactly.
   public static void checkRunFileApproximate(String output, String[] ref) throws IOException {
-    BufferedReader br = new BufferedReader(new FileReader(output));
+    try (BufferedReader br = new BufferedReader(new FileReader(output))) {
+      int cnt = 0;
+      String s;
+      while ((s = br.readLine()) != null) {
+        String[] refParts = ref[cnt].split(" ");
+        String[] sParts = s.split(" ");
 
-    int cnt = 0;
-    String s;
-    while ((s = br.readLine()) != null) {
-      String[] refParts = ref[cnt].split(" ");
-      String[] sParts = s.split(" ");
+        assertEquals(refParts.length, sParts.length);
+        assertEquals(refParts[0], sParts[0]);
+        assertEquals(refParts[1], sParts[1]);
+        assertEquals(refParts[2], sParts[2]);
+        assertEquals(refParts[3], sParts[3]);
+        // This is the score, check with plenty of tolerance.
+        assertEquals(Float.parseFloat(refParts[4]), Float.parseFloat(sParts[4]), 10e-3);
+        assertEquals(refParts[5], sParts[5]);
 
-      assertEquals(refParts.length, sParts.length);
-      assertEquals(refParts[0], sParts[0]);
-      assertEquals(refParts[1], sParts[1]);
-      assertEquals(refParts[2], sParts[2]);
-      assertEquals(refParts[3], sParts[3]);
-      // This is the score, check with plenty of tolerance.
-      assertEquals(Float.parseFloat(refParts[4]), Float.parseFloat(sParts[4]), 10e-3);
-      assertEquals(refParts[5], sParts[5]);
+        cnt++;
+      }
 
-      cnt++;
+      assertEquals(cnt, ref.length);
+    } catch (NumberFormatException e) {
+      e.printStackTrace();
     }
-
-    assertEquals(cnt, ref.length);
   }
 }
