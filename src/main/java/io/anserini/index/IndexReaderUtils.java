@@ -846,7 +846,8 @@ public class IndexReaderUtils {
   public static Path getIndex(String index) {
     boolean isPrebuiltLabel = false;
     try {
-      PrebuiltIndexHandler handler = new PrebuiltIndexHandler(index);
+      // Check to see if it's a prebuilt index
+      new PrebuiltIndexHandler(index);
       isPrebuiltLabel = true;
     } catch (Exception e) {
       // isPrebuiltLabel remains false
