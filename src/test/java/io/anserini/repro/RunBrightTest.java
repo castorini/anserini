@@ -16,26 +16,26 @@
 
 package io.anserini.repro;
 
-import io.anserini.StdOutStdErrRedirectableTestCase;
-import io.anserini.reproduce.RunBright;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertTrue;
+import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
+import io.anserini.reproduce.RunBright;
 
-public class RunBrightTest extends StdOutStdErrRedirectableTestCase {
+public class RunBrightTest extends StdOutStdErrRedirectableLuceneTestCase {
   @Before
   public void setUp() throws Exception {
     redirectStdOut();
     redirectStdErr();
+    super.setUp();
   }
 
   @After
-  public void cleanUp() throws Exception {
+  public void tearDown() throws Exception {
     restoreStdOut();
     restoreStdErr();
+    super.tearDown();
   }
 
   @Test

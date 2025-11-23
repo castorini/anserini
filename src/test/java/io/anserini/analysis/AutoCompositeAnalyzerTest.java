@@ -23,6 +23,7 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.junit.After;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -50,9 +51,10 @@ public class AutoCompositeAnalyzerTest extends StdOutStdErrRedirectableLuceneTes
   }
 
   @After
-  public void cleanUp() throws Exception {
+  public void tearDown() throws Exception {
     restoreStdOut();
     restoreStdErr();
+    super.tearDown();
   }
 
   private static final Map<String, Object[][]> examples = new HashMap<>() {
@@ -86,6 +88,11 @@ public class AutoCompositeAnalyzerTest extends StdOutStdErrRedirectableLuceneTes
   
   @Test
   public void case1() throws Exception {
+    // Not available on x86_64 on Mac, so skip tests
+    // ai.djl.engine.EngineException: Failed to load Huggingface native library.
+    Assume.assumeFalse(System.getProperty("os.arch").equalsIgnoreCase("x86_64")
+        && System.getProperty("os.name").toLowerCase().contains("mac"));
+
     String language = "fi";
     Object[][] example = examples.get(language);
     Analyzer analyzer = AutoCompositeAnalyzer.getAnalyzer(language);
@@ -98,6 +105,11 @@ public class AutoCompositeAnalyzerTest extends StdOutStdErrRedirectableLuceneTes
 
   @Test
   public void case2() throws Exception {
+    // Not available on x86_64 on Mac, so skip tests
+    // ai.djl.engine.EngineException: Failed to load Huggingface native library.
+    Assume.assumeFalse(System.getProperty("os.arch").equalsIgnoreCase("x86_64")
+        && System.getProperty("os.name").toLowerCase().contains("mac"));
+
     String language = "yo";
     Object[][] example = examples.get(language);
     Analyzer analyzer = AutoCompositeAnalyzer.getAnalyzer(language);
@@ -109,6 +121,11 @@ public class AutoCompositeAnalyzerTest extends StdOutStdErrRedirectableLuceneTes
 
   @Test
   public void case3() throws Exception {
+    // Not available on x86_64 on Mac, so skip tests
+    // ai.djl.engine.EngineException: Failed to load Huggingface native library.
+    Assume.assumeFalse(System.getProperty("os.arch").equalsIgnoreCase("x86_64")
+        && System.getProperty("os.name").toLowerCase().contains("mac"));
+
     String language = "ha";
     Object[][] example = examples.get(language);
     Analyzer analyzer = AutoCompositeAnalyzer.getAnalyzer(language);
@@ -120,6 +137,11 @@ public class AutoCompositeAnalyzerTest extends StdOutStdErrRedirectableLuceneTes
 
   @Test
   public void case4() throws Exception {
+    // Not available on x86_64 on Mac, so skip tests
+    // ai.djl.engine.EngineException: Failed to load Huggingface native library.
+    Assume.assumeFalse(System.getProperty("os.arch").equalsIgnoreCase("x86_64")
+        && System.getProperty("os.name").toLowerCase().contains("mac"));
+
     String language = "es";
     Analyzer analyzer = AutoCompositeAnalyzer.getAnalyzer(language);
     Object[][] example = examples.get(language);

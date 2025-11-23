@@ -16,34 +16,29 @@
 
 package io.anserini.analysis;
 
-import junit.framework.JUnit4TestAdapter;
-
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.core.config.Configurator;
-import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
-import org.apache.lucene.analysis.TokenStream;
-import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import ai.djl.util.Platform;
-
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
+import org.junit.Assume;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
-public class CompositeAnalyzerTest {
+import ai.djl.util.Platform;
+import io.anserini.SuppresedLoggingLuceneTestCase;
+import junit.framework.JUnit4TestAdapter;
+
+public class CompositeAnalyzerTest extends SuppresedLoggingLuceneTestCase {
   @BeforeClass
   public static void setupClass() {
-    java.util.logging.Logger root = java.util.logging.Logger.getLogger("");
-    root.setLevel(java.util.logging.Level.OFF); // suppress INFO and below
-    for (var handler : root.getHandlers()) {
-      handler.setLevel(java.util.logging.Level.OFF);
-    }
+    suppressJvmLogging();
 
     Configurator.setLevel(Platform.class.getName(), Level.ERROR);
   }
@@ -63,6 +58,11 @@ public class CompositeAnalyzerTest {
 
   @Test
   public void basic() throws Exception {
+    // Not available on x86_64 on Mac, so skip tests
+    // ai.djl.engine.EngineException: Failed to load Huggingface native library.
+    Assume.assumeFalse(System.getProperty("os.arch").equalsIgnoreCase("x86_64")
+        && System.getProperty("os.name").toLowerCase().contains("mac"));
+
     Analyzer analyzer = new CompositeAnalyzer(huggingFaceModelId, new WhitespaceAnalyzer());
 
     for (int i = 0; i < examples.length; i++) {

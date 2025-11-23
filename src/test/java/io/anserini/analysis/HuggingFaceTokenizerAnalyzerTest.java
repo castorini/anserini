@@ -16,8 +16,6 @@
 
 package io.anserini.analysis;
 
-import static org.junit.Assert.assertEquals;
-
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -28,22 +26,21 @@ import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
+import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import ai.djl.util.Platform;
+import io.anserini.SuppresedLoggingLuceneTestCase;
 import junit.framework.JUnit4TestAdapter;
 
-public class HuggingFaceTokenizerAnalyzerTest {
+public class HuggingFaceTokenizerAnalyzerTest extends SuppresedLoggingLuceneTestCase {
   @BeforeClass
   public static void setupClass() {
-    java.util.logging.Logger root = java.util.logging.Logger.getLogger("");
-    root.setLevel(java.util.logging.Level.OFF); // suppress INFO and below
-    for (var handler : root.getHandlers()) {
-      handler.setLevel(java.util.logging.Level.OFF);
-    }
+    suppressJvmLogging();
 
     Configurator.setLevel(Platform.class.getName(), Level.ERROR);
+    Configurator.setLevel(HuggingFaceTokenizerAnalyzerTest.class.getName(), Level.ERROR);
   }
 
   Object[][] examples = new Object[][]{
@@ -54,6 +51,11 @@ public class HuggingFaceTokenizerAnalyzerTest {
   
   @Test
   public void basic() throws Exception {
+    // Not available on x86_64 on Mac, so skip tests
+    // ai.djl.engine.EngineException: Failed to load Huggingface native library.
+    Assume.assumeFalse(System.getProperty("os.arch").equalsIgnoreCase("x86_64")
+        && System.getProperty("os.name").toLowerCase().contains("mac"));
+
     Analyzer analyzer = new HuggingFaceTokenizerAnalyzer(huggingFaceModelId);
     
     for (int i = 0; i < examples.length; i++) {

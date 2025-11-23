@@ -16,15 +16,6 @@
 
 package io.anserini.search;
 
-import io.anserini.index.AbstractIndexer;
-import io.anserini.index.IndexInvertedDenseVectors;
-import io.anserini.search.topicreader.JsonIntVectorTopicReader;
-import io.anserini.search.topicreader.TopicReader;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.core.config.Configurator;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -32,9 +23,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 
-import static org.junit.Assert.assertEquals;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
-public class InvertedDenseSearcherTest {
+import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
+import io.anserini.index.AbstractIndexer;
+import io.anserini.index.IndexInvertedDenseVectors;
+import io.anserini.search.topicreader.JsonIntVectorTopicReader;
+import io.anserini.search.topicreader.TopicReader;
+
+public class InvertedDenseSearcherTest extends StdOutStdErrRedirectableLuceneTestCase {
   @BeforeClass
   public static void setupClass() {
     Configurator.setLevel(AbstractIndexer.class.getName(), Level.ERROR);
