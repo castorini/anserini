@@ -94,6 +94,46 @@ public class ScoredDocsFuserTest {
   }
 
   @Test
+  public void testNormalizeScoresWithSameScores() throws Exception {
+    // Test normalization when all scores for a topic are the same
+    // This tests the edge case where max == min
+    // Expected behavior: when all scores are equal, assign 1.0 to all (highest normalized value)
+    Path path = Paths.get("src/test/resources/sample_runs/run_same_scores");
+    ScoredDocs run = ScoredDocsFuser.readRun(path, false);
+    
+    // Normalize the scores
+    ScoredDocsFuser.normalizeScores(run);
+    
+    // When all scores are the same for a topic, assign 1.0 to all
+    // query1: all scores are 5.0 -> min=5.0, max=5.0 -> assign 1.0 to all
+    // query2: all scores are 10.0 -> min=10.0, max=10.0 -> assign 1.0 to all
+    assertEquals("query1 doc1 should be 1.0 when all scores are equal", 1.0f, run.scores[0], 0.0001f);
+    assertEquals("query1 doc2 should be 1.0 when all scores are equal", 1.0f, run.scores[1], 0.0001f);
+    assertEquals("query1 doc3 should be 1.0 when all scores are equal", 1.0f, run.scores[2], 0.0001f);
+    assertEquals("query2 doc1 should be 1.0 when all scores are equal", 1.0f, run.scores[3], 0.0001f);
+    assertEquals("query2 doc2 should be 1.0 when all scores are equal", 1.0f, run.scores[4], 0.0001f);
+  }
+
+  @Test
+  public void testNormalizeScoresMixed() throws Exception {
+    // Test normalization with mixed case: one topic has same scores, another has different scores
+    Path path = Paths.get("src/test/resources/sample_runs/run_mixed_scores");
+    ScoredDocs run = ScoredDocsFuser.readRun(path, false);
+    
+    // Normalize the scores
+    ScoredDocsFuser.normalizeScores(run);
+    
+    // query1: all scores are 5.0 -> min=5.0, max=5.0 -> assign 1.0 to all
+    // query2: scores [7.0, 6.0, 5.0] -> min=5.0, max=7.0 -> doc1=1.0, doc2=0.5, doc3=0.0
+    assertEquals("query1 doc1 should be 1.0 when all scores are equal", 1.0f, run.scores[0], 0.0001f);
+    assertEquals("query1 doc2 should be 1.0 when all scores are equal", 1.0f, run.scores[1], 0.0001f);
+    assertEquals("query1 doc3 should be 1.0 when all scores are equal", 1.0f, run.scores[2], 0.0001f);
+    assertEquals("query2 doc1 should be normalized to 1.0", 1.0f, run.scores[3], 0.0001f);
+    assertEquals("query2 doc2 should be normalized to 0.5", 0.5f, run.scores[4], 0.0001f);
+    assertEquals("query2 doc3 should be normalized to 0.0", 0.0f, run.scores[5], 0.0001f);
+  }
+
+  @Test
   public void testRescoreMethods() throws Exception {
     Path path = Paths.get("src/test/resources/sample_runs/run1");
     ScoredDocs run = ScoredDocsFuser.readRun(path, false);

@@ -148,10 +148,18 @@ public class ScoredDocsFuser {
         maxScore = Float.max(maxScore, scoredDocs.scores[index]);
       }
 
-      for (int i = 0; i < numRecords; i++) {
-        int index = topicIndices.get(i);
-        float normalizedScore = ((float) scoredDocs.scores[index] - minScore) / (maxScore - minScore);
-        scoredDocs.scores[index] = normalizedScore;
+      // Handle edge case: when all scores are the same (max == min), assign 1.0 to all
+      if (maxScore == minScore) {
+        for (int i = 0; i < numRecords; i++) {
+          int index = topicIndices.get(i);
+          scoredDocs.scores[index] = 1.0f;
+        }
+      } else {
+        for (int i = 0; i < numRecords; i++) {
+          int index = topicIndices.get(i);
+          float normalizedScore = ((float) scoredDocs.scores[index] - minScore) / (maxScore - minScore);
+          scoredDocs.scores[index] = normalizedScore;
+        }
       }
     }
   }
