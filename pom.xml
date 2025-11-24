@@ -112,6 +112,10 @@
               <goal>jar</goal>
             </goals>
             <configuration>
+              <quiet>true</quiet>
+              <additionalJOptions> <!-- suppress javadoc warnings -->
+                <additionalJOption>-Xdoclint:none</additionalJOption>
+              </additionalJOptions>
             </configuration>
           </execution>
         </executions>

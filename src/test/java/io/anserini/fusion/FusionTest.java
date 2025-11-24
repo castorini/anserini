@@ -21,10 +21,17 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.util.Locale;
 import java.io.PrintStream;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 import io.anserini.TestUtils;
 
 public class FusionTest {
@@ -266,6 +273,29 @@ public class FusionTest {
       "query2 Q0 doc6 5 0.015873 anserini.fusion"
     });
     assertTrue(new File("runs/fused_run_rrf_norm.test").delete());
+  }
+
+public class FusionTest extends StdOutStdErrRedirectableLuceneTestCase {
+  @BeforeClass
+  public static void setupClass() {
+    Configurator.setLevel(FuseRuns.class.getName(), Level.ERROR);
+  }
+
+  @Before
+  public void setUp() throws Exception {
+    // Explictly set locale to US so that decimal points use '.' instead of ','
+    Locale.setDefault(Locale.US);
+
+    redirectStdOut();
+    redirectStdErr();
+    super.setUp();
+  }
+
+  @After
+  public void tearDown() throws Exception {
+    restoreStdOut();
+    restoreStdErr();
+    super.tearDown();
   }
 
   @Test

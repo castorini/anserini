@@ -16,16 +16,23 @@
 
 package io.anserini.search;
 
-import io.anserini.index.IndexerWithoutDocvectorsTestBase;
-import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import io.anserini.index.IndexerWithoutDocvectorsTestBase;
+
 // This is a variant of SimpleSearcherTest where we use an index that does not store docvectors.
 // Here, we test that relevance feedback still works using on-the-fly document parsing.
 public class SimpleSearcherWithoutDocvectorsTest extends IndexerWithoutDocvectorsTestBase {
+  @BeforeClass
+  public static void setupClass() {
+    suppressJvmLogging();
+  }
+
   @Test
   public void testSearch5() throws Exception {
     // Counterpart of testSearch5 in SimpleSearcherTest

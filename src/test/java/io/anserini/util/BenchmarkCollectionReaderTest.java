@@ -16,14 +16,21 @@
 
 package io.anserini.util;
 
-import org.junit.Test;
+import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import static org.junit.Assert.assertTrue;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 public class BenchmarkCollectionReaderTest {
+  @BeforeClass
+  public static void setupClass() {
+    Configurator.setLevel(BenchmarkCollectionReader.class.getName(), Level.ERROR);
+  }
 
   @Test
   public void testBenchmarkCollectionReaderOnSampleTrecCollection() throws Exception {
