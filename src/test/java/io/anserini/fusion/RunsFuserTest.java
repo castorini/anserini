@@ -16,8 +16,6 @@
 
 package io.anserini.fusion;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
@@ -28,7 +26,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import io.anserini.TestUtils;
 import io.anserini.search.ScoredDocs;
 
 public class RunsFuserTest {
