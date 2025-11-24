@@ -112,7 +112,6 @@ public class AxiomReranker<T> implements Reranker<T> {
   private final String field; // from which field we look for the expansion terms, e.g. "body"
   private final boolean deterministic;  // whether the expansion terms are deterministically picked
   private final long seed;
-  //private final String originalIndexPath;
   private final String externalIndexPath;  // Axiomatic reranking can opt to use
   // external sources for searching the expansion
   // terms. Typically, we build another index
@@ -146,7 +145,6 @@ public class AxiomReranker<T> implements Reranker<T> {
     this.N = n;
     this.M = top;
     this.beta = beta;
-    //this.originalIndexPath = originalIndexPath;
     this.externalIndexPath = externalIndexPath;
     this.outputQuery = outputQuery;
     this.searchTweets = searchTweets;

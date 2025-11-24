@@ -84,7 +84,9 @@ public class CoreCollection extends DocumentCollection<CoreCollection.Document> 
         InputStreamReader inReader = new InputStreamReader(xzStream);
         bufferedReader = new BufferedReader(inReader);
       } else {
-        bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(path.toString())));
+        FileInputStream fIn = new FileInputStream(path.toString());
+        InputStreamReader inReader = new InputStreamReader(fIn);
+        bufferedReader = new BufferedReader(inReader);
       }
 
       ObjectMapper mapper = new ObjectMapper();
