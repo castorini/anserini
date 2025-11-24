@@ -16,12 +16,6 @@
 
 package io.anserini.collection;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.MappingIterator;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -34,15 +28,16 @@ import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import java.util.zip.GZIPInputStream;
 
-public class NeuClirCollection extends DocumentCollection<NeuClirCollection.Document> {
-  private static final Logger LOG = LogManager.getLogger(JsonCollection.class);
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.MappingIterator;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+public class NeuClirCollection extends DocumentCollection<NeuClirCollection.Document> {
   public NeuClirCollection(Path path) {
     this.path = path;
     this.allowedFileSuffix = new HashSet<>(Arrays.asList(".json", ".jsonl", ".gz"));
@@ -51,16 +46,14 @@ public class NeuClirCollection extends DocumentCollection<NeuClirCollection.Docu
   public NeuClirCollection() {
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public FileSegment<NeuClirCollection.Document> createFileSegment(Path p) throws IOException {
-    return new Segment(p);
+    return new Segment<NeuClirCollection.Document>(p);
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public FileSegment<NeuClirCollection.Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
-    return new Segment(bufferedReader);
+    return new Segment<NeuClirCollection.Document>(bufferedReader);
   }
 
   /**
@@ -68,7 +61,6 @@ public class NeuClirCollection extends DocumentCollection<NeuClirCollection.Docu
    */
   public static class Segment<T extends Document> extends FileSegment<T> {
     private JsonNode node = null;
-    private Iterator<JsonNode> iter = null; // iterator for JSON document array
     private MappingIterator<JsonNode> iterator; // iterator for JSON line objects
 
     public Segment(Path path) throws IOException {

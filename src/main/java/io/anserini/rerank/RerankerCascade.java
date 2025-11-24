@@ -24,8 +24,8 @@ import java.util.List;
 /**
  * Representation of a cascade of rerankers, applied in sequence.
  */
-public class RerankerCascade {
-  final List<Reranker> rerankers = new ArrayList<>();
+public class RerankerCascade<T> {
+  final List<Reranker<T>> rerankers = new ArrayList<>();
   private String tag;
 
   public RerankerCascade() {
@@ -46,7 +46,7 @@ public class RerankerCascade {
    * @param reranker reranker to add
    * @return this cascade for method chaining
    */
-  public RerankerCascade add(Reranker reranker) {
+  public RerankerCascade<T> add(Reranker<T> reranker) {
     rerankers.add(reranker);
     return this;
   }
@@ -58,11 +58,10 @@ public class RerankerCascade {
    * @param context reranker context
    * @return reranked results
    */
-  @SuppressWarnings("unchecked")
-  public ScoredDocs run(ScoredDocs docs, RerankerContext context) {
+  public ScoredDocs run(ScoredDocs docs, RerankerContext<T> context) {
     ScoredDocs results = docs;
 
-    for (Reranker reranker : rerankers) {
+    for (Reranker<T> reranker : rerankers) {
       results = reranker.rerank(results, context);
     }
 

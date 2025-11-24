@@ -17,6 +17,7 @@
 package io.anserini.rerank.lib;
 
 import io.anserini.analysis.AnalyzerUtils;
+import io.anserini.collection.DocumentCollection;
 import io.anserini.index.Constants;
 import io.anserini.index.generator.TweetGenerator;
 import io.anserini.rerank.Reranker;
@@ -111,7 +112,6 @@ public class AxiomReranker<T> implements Reranker<T> {
   private final String field; // from which field we look for the expansion terms, e.g. "body"
   private final boolean deterministic;  // whether the expansion terms are deterministically picked
   private final long seed;
-  private final String originalIndexPath;
   private final String externalIndexPath;  // Axiomatic reranking can opt to use
   // external sources for searching the expansion
   // terms. Typically, we build another index
@@ -130,10 +130,10 @@ public class AxiomReranker<T> implements Reranker<T> {
   private final boolean outputQuery;
   private final boolean searchTweets;
   private final Analyzer analyzer;
-  private final Class parser;
+  private final Class<? extends DocumentCollection<?>> parser;
 
 
-  public AxiomReranker(Analyzer analyzer, Class parser, String originalIndexPath, String externalIndexPath, String field, boolean deterministic,
+  public AxiomReranker(Analyzer analyzer, Class<? extends DocumentCollection<?>> parser, String originalIndexPath, String externalIndexPath, String field, boolean deterministic,
                        long seed, int r, int n, float beta, int top, String docidsCachePath,
                        boolean outputQuery, boolean searchTweets) throws IOException {
     this.analyzer = analyzer;
@@ -145,7 +145,6 @@ public class AxiomReranker<T> implements Reranker<T> {
     this.N = n;
     this.M = top;
     this.beta = beta;
-    this.originalIndexPath = originalIndexPath;
     this.externalIndexPath = externalIndexPath;
     this.outputQuery = outputQuery;
     this.searchTweets = searchTweets;
@@ -590,7 +589,7 @@ public class AxiomReranker<T> implements Reranker<T> {
     Set<Integer> docidsXClone = new HashSet<>(docidsX); // directly operate on docidsX will change it permanently
     docidsXClone.retainAll(docidsY);
     int numXY11 = docidsXClone.size();
-    int numXY10 = numXY10 = x1 - numXY11;    //doc num that x occurs but y doesn't
+    int numXY10 = x1 - numXY11;    //doc num that x occurs but y doesn't
     int numXY01 = y1 - numXY11;    // doc num that y occurs but x doesn't
     int numXY00 = totalDocCount - numXY11 - numXY10 - numXY01; //doc num that neither x nor y occurs
 

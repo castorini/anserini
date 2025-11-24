@@ -16,12 +16,6 @@
 
 package io.anserini.collection;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.MappingIterator;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -32,10 +26,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.zip.GZIPInputStream;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.MappingIterator;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class MsMarcoV2PassageCollection extends DocumentCollection<MsMarcoV2PassageCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(JsonCollection.class);
@@ -47,16 +47,14 @@ public class MsMarcoV2PassageCollection extends DocumentCollection<MsMarcoV2Pass
   public MsMarcoV2PassageCollection() {
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public FileSegment<MsMarcoV2PassageCollection.Document> createFileSegment(Path p) throws IOException {
-    return new Segment(p);
+    return new Segment<MsMarcoV2PassageCollection.Document>(p);
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public FileSegment<MsMarcoV2PassageCollection.Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
-    return new Segment(bufferedReader);
+    return new Segment<MsMarcoV2PassageCollection.Document>(bufferedReader);
   }
 
   /**
