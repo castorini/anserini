@@ -691,7 +691,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     }
 
     public ScoredDocs search(T qid, String queryString,
-                             RerankerCascade cascade,
+                             RerankerCascade<T> cascade,
                              ScoredDocs queryQrels,
                              boolean hasRelDocs) throws IOException {
       Query query;
@@ -725,8 +725,8 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
         } else {//if no relevant documents, only perform score based tie breaking next
           LOG.info("No relevant documents for {}", qid.toString());
           scoredFbDocs = ScoredDocs.fromTopDocs(rs, getIndexSearcher());
-          cascade = new RerankerCascade();
-          cascade.add(new ScoreTiesAdjusterReranker());
+          cascade = new RerankerCascade<T>();
+          cascade.add(new ScoreTiesAdjusterReranker<T>());
         }
       } else {
         scoredFbDocs = ScoredDocs.fromTopDocs(rs, getIndexSearcher());
@@ -735,9 +735,9 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       return cascade.run(scoredFbDocs, context);
     }
 
-    public ScoredDocs searchBackgroundLinking(T qid,
+    public ScoredDocs searchBackgroundLinking(String qid,
                                               String docid,
-                                              RerankerCascade cascade) throws IOException {
+                                              RerankerCascade<String> cascade) throws IOException {
       // Extract a list of analyzed terms from the document to compose a query.
       List<String> terms = BackgroundLinkingTopicReader.extractTerms(reader, docid, args.backgroundLinkingK, analyzer);
       // Since the terms are already analyzed, we just join them together and use the StandardQueryParser.
@@ -767,7 +767,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
             args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
       }
 
-      RerankerContext<T> context = new RerankerContext<>(getIndexSearcher(), qid, query, docid,
+      RerankerContext<String> context = new RerankerContext<>(getIndexSearcher(), qid, query, docid,
           StringUtils.join(", ", terms), terms, null, args);
 
       // Run the existing cascade.
@@ -780,7 +780,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     public ScoredDocs searchTweets(T qid,
                                    String queryString,
                                    long t,
-                                   RerankerCascade cascade,
+                                   RerankerCascade<T> cascade,
                                    ScoredDocs queryQrels,
                                    boolean hasRelDocs) throws IOException {
       Query keywordQuery;
@@ -823,8 +823,8 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
           scoredFbDocs = queryQrels;
         } else {//if no relevant documents, only perform score based tie breaking next
           scoredFbDocs = ScoredDocs.fromTopDocs(rs, getIndexSearcher());
-          cascade = new RerankerCascade();
-          cascade.add(new ScoreTiesAdjusterReranker());
+          cascade = new RerankerCascade<T>();
+          cascade.add(new ScoreTiesAdjusterReranker<T>());
         }
       } else {
         scoredFbDocs = ScoredDocs.fromTopDocs(rs, getIndexSearcher());
@@ -838,14 +838,14 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     final private Searcher<T> searcher;
     final private SortedMap<T, Map<String, String>> topics;
     final private TaggedSimilarity taggedSimilarity;
-    final private RerankerCascade cascade;
+    final private RerankerCascade<T> cascade;
     final private String outputPath;
     final private SparseEncoder queryEncoder;
 
     private SearchWorker(IndexReader reader,
                          SortedMap<T, Map<String, String>> topics,
                          TaggedSimilarity taggedSimilarity,
-                         RerankerCascade cascade,
+                         RerankerCascade<T> cascade,
                          String outputPath) {
       // We need to pass in the topics because for tweets, we need to extract the tweet time.
       this.topics = topics;
@@ -914,7 +914,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
             if (args.searchTweets) {
               docs = searcher.searchTweets(qid, queryString.toString(), Long.parseLong(entry.getValue().get("time")), cascade, queryQrels, hasRelDocs);
             } else if (args.backgroundLinking) {
-              docs = searcher.searchBackgroundLinking(qid, queryString.toString(), cascade);
+              docs = searcher.searchBackgroundLinking((String) qid, queryString.toString(), (RerankerCascade<String>) cascade);
             } else {
               docs = searcher.search(qid, queryString.toString(), cascade, queryQrels, hasRelDocs);
             }
@@ -1007,7 +1007,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
   private final Analyzer analyzer;
   private final Class<? extends DocumentCollection<?>> collectionClass;
   private final List<TaggedSimilarity> similarities;
-  private final List<RerankerCascade> cascades;
+  private final List<RerankerCascade<K>> cascades;
   private final boolean isRerank;
   private final SortedMap<K, Map<String, String>> topics;
   private Map<String, ScoredDocs> qrels;
@@ -1163,8 +1163,8 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     return similarities;
   }
 
-  private List<RerankerCascade> constructRerankers() throws IOException {
-    List<RerankerCascade> cascades = new ArrayList<>();
+  private List<RerankerCascade<K>> constructRerankers() throws IOException {
+    List<RerankerCascade<K>> cascades = new ArrayList<>();
 
     if (args.rm3) {
       for (String fbTerms : args.rm3_fbTerms) {
@@ -1179,11 +1179,11 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
                   fbTerms, fbDocs, originalQueryWeight);
             }
 
-            RerankerCascade cascade = new RerankerCascade(tag);
-            cascade.add(new Rm3Reranker(analyzer, collectionClass, Constants.CONTENTS, Integer.parseInt(fbTerms),
+            RerankerCascade<K> cascade = new RerankerCascade<K>(tag);
+            cascade.add(new Rm3Reranker<K>(analyzer, collectionClass, Constants.CONTENTS, Integer.parseInt(fbTerms),
                 Integer.parseInt(fbDocs), Float.parseFloat(originalQueryWeight), args.rm3_outputQuery,
                 !args.rm3_noTermFilter));
-            cascade.add(new ScoreTiesAdjusterReranker());
+            cascade.add(new ScoreTiesAdjusterReranker<K>());
             cascades.add(cascade);
           }
         }
@@ -1200,12 +1200,12 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
                 } else {
                   tag = String.format("ax(seed=%s,r=%s,n=%s,beta=%s,top=%s)", seed, r, n, beta, top);
                 }
-                RerankerCascade cascade = new RerankerCascade(tag);
+                RerankerCascade<K> cascade = new RerankerCascade<K>(tag);
                 cascade.add(new AxiomReranker<K>(analyzer, collectionClass, args.index, args.axiom_index, Constants.CONTENTS,
                     args.axiom_deterministic, Integer.parseInt(seed), Integer.parseInt(r),
                     Integer.parseInt(n), Float.parseFloat(beta), Integer.parseInt(top),
                     args.axiom_docids, args.axiom_outputQuery, args.searchTweets));
-                cascade.add(new ScoreTiesAdjusterReranker());
+                cascade.add(new ScoreTiesAdjusterReranker<K>());
                 cascades.add(cascade);
               }
             }
@@ -1226,11 +1226,11 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
                   tag = String.format("bm25prf(fbTerms=%s,fbDocs=%s,k1=%s,b=%s,newTermWeight=%s)",
                       fbTerms, fbDocs, k1, b, newTermWeight);
                 }
-                RerankerCascade cascade = new RerankerCascade(tag);
-                cascade.add(new BM25PrfReranker(analyzer, collectionClass, Constants.CONTENTS, Integer.parseInt(fbTerms),
+                RerankerCascade<K> cascade = new RerankerCascade<K>(tag);
+                cascade.add(new BM25PrfReranker<K>(analyzer, collectionClass, Constants.CONTENTS, Integer.parseInt(fbTerms),
                     Integer.parseInt(fbDocs), Float.parseFloat(k1), Float.parseFloat(b), Float.parseFloat(newTermWeight),
                     args.bm25prf_outputQuery));
-                cascade.add(new ScoreTiesAdjusterReranker());
+                cascade.add(new ScoreTiesAdjusterReranker<K>());
                 cascades.add(cascade);
               }
             }
@@ -1254,11 +1254,11 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
                     } else {
                       tag = String.format("rocchio(topFbTerms=%s,topFbDocs=%s,bottomFbTerms=%s,bottomFbDocs=%s,alpha=%s,beta=%s,gamma=%s)", topFbTerms, topFbDocs, bottomFbTerms, bottomFbDocs, alpha, beta, gamma);
                     }
-                    RerankerCascade cascade = new RerankerCascade(tag);
-                    cascade.add(new RocchioReranker(analyzer, collectionClass, Constants.CONTENTS, Integer.parseInt(topFbTerms),
+                    RerankerCascade<K> cascade = new RerankerCascade<K>(tag);
+                    cascade.add(new RocchioReranker<K>(analyzer, collectionClass, Constants.CONTENTS, Integer.parseInt(topFbTerms),
                         Integer.parseInt(topFbDocs), Integer.parseInt(bottomFbTerms), Integer.parseInt(bottomFbDocs),
                         Float.parseFloat(alpha), Float.parseFloat(beta), Float.parseFloat(gamma), args.rocchio_outputQuery, args.rocchio_useNegative));
-                    cascade.add(new ScoreTiesAdjusterReranker());
+                    cascade.add(new ScoreTiesAdjusterReranker<K>());
                     cascades.add(cascade);
                   }
                 }
@@ -1268,8 +1268,8 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
         }
       }
     } else {
-      RerankerCascade cascade = new RerankerCascade();
-      cascade.add(new ScoreTiesAdjusterReranker());
+      RerankerCascade<K> cascade = new RerankerCascade<K>();
+      cascade.add(new ScoreTiesAdjusterReranker<K>());
       cascades.add(cascade);
     }
 
@@ -1360,7 +1360,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     List<Callable<Void>> tasks = new ArrayList<>();
 
     for (TaggedSimilarity taggedSimilarity : similarities) {
-      for (RerankerCascade cascade : cascades) {
+      for (RerankerCascade<K> cascade : cascades) {
         final String outputPath;
 
         if (similarities.size() == 1 && cascades.size() == 1) {
@@ -1375,7 +1375,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
         }
 
         tasks.add (() -> {
-          new SearchWorker<>(reader, topics, taggedSimilarity, cascade, outputPath).run();
+          new SearchWorker<K>(reader, topics, taggedSimilarity, cascade, outputPath).run();
           return null;
         });
       }

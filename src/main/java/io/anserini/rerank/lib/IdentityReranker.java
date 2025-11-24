@@ -20,9 +20,9 @@ import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.search.ScoredDocs;
 
-public class IdentityReranker implements Reranker {
+public class IdentityReranker<T> implements Reranker<T> {
   @Override
-  public ScoredDocs rerank(ScoredDocs docs, RerankerContext context) {
+  public ScoredDocs rerank(ScoredDocs docs, RerankerContext<T> context) {
     return docs;
   }
   

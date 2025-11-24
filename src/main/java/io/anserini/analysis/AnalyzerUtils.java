@@ -42,8 +42,7 @@ public class AnalyzerUtils {
   public static List<String> analyze(Analyzer analyzer, String s) {
     List<String> list = new ArrayList<>();
 
-    try {
-      TokenStream tokenStream = analyzer.tokenStream(null, new StringReader(s));
+    try (TokenStream tokenStream = analyzer.tokenStream(null, new StringReader(s))) {
       CharTermAttribute cattr = tokenStream.addAttribute(CharTermAttribute.class);
       tokenStream.reset();
       while (tokenStream.incrementToken()) {
@@ -53,7 +52,6 @@ public class AnalyzerUtils {
         list.add(cattr.toString());
       }
       tokenStream.end();
-      tokenStream.close();
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -61,11 +59,12 @@ public class AnalyzerUtils {
     return list;
   }
 
+  // TODO: this method seems to be misnamed: a better name might be extractTfVector
+  @SuppressWarnings("null")
   public static Map<String, Long> computeDocumentVector(Analyzer analyzer, String s) {
     Map<String, Long> termFreqMap = new HashMap<>();
 
-    try {
-      TokenStream tokenStream = analyzer.tokenStream(null, new StringReader(s));
+    try (TokenStream tokenStream = analyzer.tokenStream(null, new StringReader(s))) {
       CharTermAttribute cattr = tokenStream.addAttribute(CharTermAttribute.class);
       tokenStream.reset();
       while (tokenStream.incrementToken()) {
@@ -76,28 +75,25 @@ public class AnalyzerUtils {
         termFreqMap.merge(termString, (long) 1, Long::sum);
       }
       tokenStream.end();
-      tokenStream.close();
     } catch (IOException e) {
       e.printStackTrace();
     }
     return termFreqMap;
   }
 
+  // TODO: this method seems to be misnamed: a better name might be extractTfVectorFromDocument
   @SuppressWarnings("unchecked")
-  public static Map<String, Long> computeDocumentVector(Analyzer analyzer, Class<?> parser, String s) {
+  public static Map<String, Long> computeDocumentVector(Analyzer analyzer, Class<? extends DocumentCollection<?>> clazz, String s) {
     String content = "";
 
-    try {
-      DocumentCollection<SourceDocument> collection = (DocumentCollection<SourceDocument>) parser.getConstructor().newInstance();
-      Reader inputString = new StringReader(s);
-      BufferedReader bufferedReader = new BufferedReader(inputString);
-      FileSegment<SourceDocument> segment = collection.createFileSegment(bufferedReader);
+    try (Reader inputString = new StringReader(s);
+        BufferedReader bufferedReader = new BufferedReader(inputString);
+        FileSegment<SourceDocument> segment = ((DocumentCollection<SourceDocument>) clazz.getConstructor().newInstance()).createFileSegment(bufferedReader)) {
       for (SourceDocument d : segment) {
         content = d.contents();
-        // should have only one doc.
+        // Should have only one doc.
         break;
       }
-      segment.close();
     } catch (Exception e) {
       return computeDocumentVector(analyzer, s);
     }
