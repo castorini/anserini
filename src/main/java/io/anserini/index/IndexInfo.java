@@ -531,7 +531,7 @@ public enum IndexInfo {
       "MS MARCO V2 Passage",
       "uniCOIL (with doc2query-T5 expansions) zero-shot",
       new String[] { "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2-passage.unicoil-0shot.20220808.4d6d2a.tar.gz" },
-      "1949a00bfd5e1f1a230a04bbc1f01539",
+      "69919059e3e9575968edafe168b55b66",
       IndexType.SPARSE_IMPACT,
       UniCoilEncoder.class.getSimpleName(),
       BagOfWordsQueryGenerator.class.getSimpleName(),
@@ -3502,7 +3502,7 @@ public enum IndexInfo {
       VectorQueryGenerator.class.getSimpleName(),
       "beir-v1.0.0-cqadupstack-english.flat"),
 
-      BEIR_V1_0_0_CQADUPSTACK_GAMING_BGE_BASE_EN_15_FLAT("beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.flat",
+  BEIR_V1_0_0_CQADUPSTACK_GAMING_BGE_BASE_EN_15_FLAT("beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.flat",
       "Anserini Lucene flat vector index of BEIR collection 'cqadupstack-gaming' encoded by BGE-base-en-v1.5",
       "lucene-flat.beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.20240618.6cf601.tar.gz",
       "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20240618.6cf601.README.md",
@@ -4341,6 +4341,4 @@ public enum IndexInfo {
     }
     throw new IllegalArgumentException("Index name " + indexName + " not found!");
   }
-
-  public static final int DEFAULT_EF_SEARCH = 100;
 }

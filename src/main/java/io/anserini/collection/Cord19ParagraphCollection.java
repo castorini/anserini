@@ -35,7 +35,6 @@ import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * A document collection for the CORD-19 dataset provided by Semantic Scholar.
@@ -94,7 +93,6 @@ public class Cord19ParagraphCollection extends DocumentCollection<Cord19Paragrap
     private Iterator<CSVRecord> iterator = null; // iterator for CSV records
     private Iterator<JsonNode> paragraphIterator = null; // iterator for paragraphs in a CSV record
     private Integer paragraphNumber = 0;
-    private JsonNode node = null;
 
     public Segment(Path path) throws IOException {
       super(path);
@@ -115,11 +113,6 @@ public class Cord19ParagraphCollection extends DocumentCollection<Cord19Paragrap
 
     public Segment(BufferedReader bufferedReader) throws IOException {
       super(bufferedReader);
-
-      String jsonString = bufferedReader.lines().collect(Collectors.joining("\n"));
-
-      ObjectMapper mapper = new ObjectMapper();
-      node = mapper.readTree(jsonString);
     }
 
     @Override

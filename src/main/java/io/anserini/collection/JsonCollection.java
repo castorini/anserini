@@ -19,7 +19,6 @@ package io.anserini.collection;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -36,7 +35,6 @@ import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.zip.GZIPInputStream;
@@ -84,16 +82,14 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
     this.allowedFileSuffix = new HashSet<>(Arrays.asList(".json", ".jsonl", ".gz"));
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public FileSegment<JsonCollection.Document> createFileSegment(Path p) throws IOException {
-    return new Segment(p);
+    return new Segment<JsonCollection.Document>(p);
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public FileSegment<JsonCollection.Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
-    return new Segment(bufferedReader);
+    return new Segment<JsonCollection.Document>(bufferedReader);
   }
 
   /**
@@ -101,7 +97,6 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
    */
   public static class Segment<T extends Document> extends FileSegment<T> {
     private JsonNode node = null;
-    private Iterator<JsonNode> iter = null; // iterator for JSON document array
     private MappingIterator<JsonNode> iterator; // iterator for JSON line objects
 
     public Segment(Path path) throws IOException {
@@ -118,9 +113,6 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
       iterator = mapper.readerFor(JsonNode.class).readValues(bufferedReader);
       if (iterator.hasNext()) {
         node = iterator.next();
-        if (node.isArray()) {
-          iter = node.elements();
-        }
       }
     }
 
@@ -130,9 +122,6 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
       iterator = mapper.readerFor(JsonNode.class).readValues(bufferedReader);
       if (iterator.hasNext()) {
         node = iterator.next();
-        if (node.isArray()) {
-          iter = node.elements();
-        }
       }
     }
 

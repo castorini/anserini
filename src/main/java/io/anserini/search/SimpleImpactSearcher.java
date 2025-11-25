@@ -18,6 +18,7 @@ package io.anserini.search;
 
 import ai.onnxruntime.OrtException;
 import io.anserini.analysis.AnalyzerUtils;
+import io.anserini.collection.DocumentCollection;
 import io.anserini.encoder.sparse.SparseEncoder;
 import io.anserini.index.Constants;
 import io.anserini.index.IndexReaderUtils;
@@ -70,7 +71,7 @@ public class SimpleImpactSearcher implements Closeable {
   protected Similarity similarity;
   protected BagOfWordsQueryGenerator generator;
   protected Analyzer analyzer;
-  protected RerankerCascade cascade;
+  protected RerankerCascade<String> cascade;
   protected IndexSearcher searcher = null;
   protected boolean backwardsCompatibilityLucene8;
   private SparseEncoder queryEncoder = null;
@@ -142,8 +143,8 @@ public class SimpleImpactSearcher implements Closeable {
     this.generator = new BagOfWordsQueryGenerator();
     this.useRM3 = false;
     this.useRocchio = false;
-    cascade = new RerankerCascade();
-    cascade.add(new ScoreTiesAdjusterReranker());
+    cascade = new RerankerCascade<String>();
+    cascade.add(new ScoreTiesAdjusterReranker<String>());
   }
 
   /**
@@ -199,8 +200,8 @@ public class SimpleImpactSearcher implements Closeable {
    */
   public void unset_rm3() {
     this.useRM3 = false;
-    cascade = new RerankerCascade();
-    cascade.add(new ScoreTiesAdjusterReranker());
+    cascade = new RerankerCascade<String>();
+    cascade.add(new ScoreTiesAdjusterReranker<String>());
   }
 
   /**
@@ -258,21 +259,21 @@ public class SimpleImpactSearcher implements Closeable {
    * @param outputQuery flag to print original and expanded queries
    * @param filterTerms whether to filter terms to be English only
    */
+  @SuppressWarnings("unchecked")
   public void set_rm3(String collectionClass, int fbTerms, int fbDocs, float originalQueryWeight, boolean outputQuery, boolean filterTerms) {
-    Class clazz = null;
+    Class<? extends DocumentCollection<?>>  clazz = null;
     try {
       if (collectionClass != null) {
-        clazz = Class.forName("io.anserini.collection." + collectionClass);
+        clazz = (Class<? extends DocumentCollection<?>>) Class.forName("io.anserini.collection." + collectionClass);
       }
     } catch (ClassNotFoundException e) {
       LOG.error("collectionClass: " + collectionClass + " not found!");
     }
 
     useRM3 = true;
-    cascade = new RerankerCascade("rm3");
-    cascade.add(new Rm3Reranker(this.analyzer, clazz, Constants.CONTENTS,
-        fbTerms, fbDocs, originalQueryWeight, outputQuery, filterTerms));
-    cascade.add(new ScoreTiesAdjusterReranker());
+    cascade = new RerankerCascade<String>("rm3");
+    cascade.add(new Rm3Reranker<String>(this.analyzer, clazz, Constants.CONTENTS, fbTerms, fbDocs, originalQueryWeight, outputQuery, filterTerms));
+    cascade.add(new ScoreTiesAdjusterReranker<String>());
   }
 
   /**
@@ -289,8 +290,8 @@ public class SimpleImpactSearcher implements Closeable {
    */
   public void unset_rocchio() {
     this.useRocchio = false;
-    cascade = new RerankerCascade();
-    cascade.add(new ScoreTiesAdjusterReranker());
+    cascade = new RerankerCascade<String>();
+    cascade.add(new ScoreTiesAdjusterReranker<String>());
   }
 
   /**
@@ -331,21 +332,21 @@ public class SimpleImpactSearcher implements Closeable {
    * @param outputQuery flag to print original and expanded queries
    * @param useNegative flag to use negative feedback
    */
+  @SuppressWarnings("unchecked")
   public void set_rocchio(String collectionClass, int topFbTerms, int topFbDocs, int bottomFbTerms, int bottomFbDocs, float alpha, float beta, float gamma, boolean outputQuery, boolean useNegative) {
-    Class clazz = null;
+    Class<? extends DocumentCollection<?>>  clazz = null;
     try {
       if (collectionClass != null) {
-        clazz = Class.forName("io.anserini.collection." + collectionClass);
+        clazz = (Class<? extends DocumentCollection<?>>) Class.forName("io.anserini.collection." + collectionClass);
       }
     } catch (ClassNotFoundException e) {
       LOG.error("collectionClass: " + collectionClass + " not found!");
     }
 
     useRocchio = true;
-    cascade = new RerankerCascade("rocchio");
-    cascade.add(new RocchioReranker(this.analyzer, clazz, Constants.CONTENTS,
-        topFbTerms, topFbDocs, bottomFbTerms, bottomFbDocs, alpha, beta, gamma, outputQuery, useNegative));
-    cascade.add(new ScoreTiesAdjusterReranker());
+    cascade = new RerankerCascade<String>("rocchio");
+    cascade.add(new RocchioReranker<String>(this.analyzer, clazz, Constants.CONTENTS, topFbTerms, topFbDocs, bottomFbTerms, bottomFbDocs, alpha, beta, gamma, outputQuery, useNegative));
+    cascade.add(new ScoreTiesAdjusterReranker<String>());
   }
 
   /**
@@ -515,9 +516,10 @@ public class SimpleImpactSearcher implements Closeable {
    * @throws OrtException if errors encountered during encoding
    * @return encoded query
    */
+  @SuppressWarnings("null")
   public Map<String, Integer> encode_with_onnx(String queryString) throws OrtException {
     // if no query encoder, assume its encoded query split by whitespace
-    if (this.queryEncoder == null){
+    if (this.queryEncoder == null) {
       List<String> queryTokens = AnalyzerUtils.analyze(analyzer, queryString);
       return queryTokens.stream().collect(Collectors.toMap(e->e, (a)->1, Integer::sum));
     }
@@ -616,14 +618,13 @@ public class SimpleImpactSearcher implements Closeable {
     List<String> queryTokens = AnalyzerUtils.analyze(analyzer, encodedQuery);
 
     TopDocs rs;
-    RerankerContext context;
+    RerankerContext<String> context;
     if (this.backwardsCompatibilityLucene8) {
       rs = searcher.search(query, k);
     } else {
       rs = searcher.search(query, k, BREAK_SCORE_TIES_BY_DOCID, true);
     }
-    context = new RerankerContext<>(searcher, null, query, null,
-        encodedQuery, queryTokens, null, searchArgs);
+    context = new RerankerContext<>(searcher, null, query, null, encodedQuery, queryTokens, null, searchArgs);
 
     ScoredDocs hits = cascade.run(ScoredDocs.fromTopDocs(rs, searcher), context);
 

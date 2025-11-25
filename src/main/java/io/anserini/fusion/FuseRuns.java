@@ -52,12 +52,10 @@ public class FuseRuns {
     public boolean resort = false;
   }
 
-  private final Args args;
   private final RunsFuser fuser;
   private final List<ScoredDocs> runs = new ArrayList<ScoredDocs>();
 
   public FuseRuns(Args args) throws IOException {
-    this.args = args;
     this.fuser = new RunsFuser(args);
 
     LOG.info(String.format("============ Initializing %s ============", FuseRuns.class.getSimpleName()));
@@ -118,8 +116,7 @@ public class FuseRuns {
         });
         System.err.printf("\nRequired options are %s\n", required);
       } else {
-        System.err.printf("Error: %s. For help, use \"-options\" to print out information about options.\n",
-          e.getMessage());       
+        System.err.printf("Error: %s. For help, use \"-options\" to print out information about options.\n", e.getMessage());
       }
       return;
     }

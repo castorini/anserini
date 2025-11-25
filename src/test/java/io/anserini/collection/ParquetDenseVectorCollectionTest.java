@@ -16,9 +16,6 @@
 
 package io.anserini.collection;
 
-import org.junit.Before;
-import org.junit.Test;
-
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -26,10 +23,30 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.parquet.io.RecordReader;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
 public class ParquetDenseVectorCollectionTest extends DocumentCollectionTest<ParquetDenseVectorCollection.Document> {
+  @BeforeClass
+  public static void setupClass() {
+    Configurator.setLevel(RecordReader.class.getName(), Level.ERROR);
+  }
+
   @Before
   public void setUp() throws Exception {
+    redirectStdErr();
     super.setUp();
+  }
+
+  @After
+  public void tearDown() throws Exception {
+    restoreStdErr();
+    super.tearDown();
   }
 
   @Override

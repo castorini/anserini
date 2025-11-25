@@ -16,11 +16,6 @@
 
 package io.anserini.util;
 
-import io.anserini.index.IndexerWithEmptyDocumentTestBase;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -28,9 +23,21 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import io.anserini.index.IndexerWithEmptyDocumentTestBase;
+
 public class ExtractTopDfTermsTest extends IndexerWithEmptyDocumentTestBase {
   private static final Random rand = new Random();
   private String randomFileName;
+
+  @BeforeClass
+  public static void setupClass() {
+    suppressJvmLogging();
+  }
 
   @Before
   @Override
@@ -50,20 +57,24 @@ public class ExtractTopDfTermsTest extends IndexerWithEmptyDocumentTestBase {
 
   @Test
   public void testEmptyArgs() throws Exception {
-    redirectStderr();
+    redirectStdOut();
+    redirectStdErr();
     ExtractTopDfTerms.main(new String[] {});
-    restoreStderr();
+    restoreStdOut();
+    restoreStdErr();
 
-    assertTrue(redirectedStderr.toString().startsWith("Option \"-index\" is required"));
+    assertTrue(super.err.toString().startsWith("Option \"-index\" is required"));
   }
 
   @Test
   public void test1() throws Exception {
     // See: https://github.com/castorini/anserini/issues/903
     Locale.setDefault(Locale.US);
-    redirectStdout(); // redirecting to be quiet
+    redirectStdOut(); // redirecting to be quiet
+    redirectStdErr();
     ExtractTopDfTerms.main(new String[] {"-index", tempDir1.toString(), "-output", randomFileName});
-    restoreStdout();
+    restoreStdOut();
+    restoreStdErr();
 
     List<String> lines = Files.readAllLines(Paths.get(randomFileName));
     assertEquals(6, lines.size());
@@ -79,9 +90,11 @@ public class ExtractTopDfTermsTest extends IndexerWithEmptyDocumentTestBase {
   public void test2() throws Exception {
     // See: https://github.com/castorini/anserini/issues/903
     Locale.setDefault(Locale.US);
-    redirectStdout(); // redirecting to be quiet
+    redirectStdOut(); // redirecting to be quiet
+    redirectStdErr();
     ExtractTopDfTerms.main(new String[] {"-index", tempDir1.toString(), "-output", randomFileName, "-k", "1"});
-    restoreStdout();
+    restoreStdOut();
+    restoreStdErr();
 
     List<String> lines = Files.readAllLines(Paths.get(randomFileName));
     assertEquals(1, lines.size());

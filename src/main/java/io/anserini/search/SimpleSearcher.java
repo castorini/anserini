@@ -17,6 +17,7 @@
 package io.anserini.search;
 
 import io.anserini.analysis.AnalyzerUtils;
+import io.anserini.collection.DocumentCollection;
 import io.anserini.index.Constants;
 import io.anserini.index.IndexCollection;
 import io.anserini.index.IndexReaderUtils;
@@ -92,7 +93,7 @@ public class SimpleSearcher implements Closeable {
   protected IndexReader reader;
   protected Similarity similarity;
   protected Analyzer analyzer;
-  protected RerankerCascade cascade;
+  protected RerankerCascade<String> cascade;
   protected QueryGenerator generator = new BagOfWordsQueryGenerator();
   protected boolean useRM3;
   protected boolean useRocchio;
@@ -140,8 +141,8 @@ public class SimpleSearcher implements Closeable {
     this.analyzer = analyzer;
     this.useRM3 = false;
     this.useRocchio = false;
-    cascade = new RerankerCascade();
-    cascade.add(new ScoreTiesAdjusterReranker());
+    cascade = new RerankerCascade<String>();
+    cascade.add(new ScoreTiesAdjusterReranker<String>());
   }
 
   /**
@@ -239,8 +240,8 @@ public class SimpleSearcher implements Closeable {
    */
   public void unset_rm3() {
     this.useRM3 = false;
-    cascade = new RerankerCascade();
-    cascade.add(new ScoreTiesAdjusterReranker());
+    cascade = new RerankerCascade<String>();
+    cascade.add(new ScoreTiesAdjusterReranker<String>());
   }
 
   /**
@@ -296,21 +297,21 @@ public class SimpleSearcher implements Closeable {
    * @param outputQuery flag to print original and expanded queries
    * @param filterTerms whether to filter terms to be English only
    */
+  @SuppressWarnings("unchecked")
   public void set_rm3(String collectionClass, int fbTerms, int fbDocs, float originalQueryWeight, boolean outputQuery, boolean filterTerms) {
-    Class clazz = null;
+    Class<? extends DocumentCollection<?>>  clazz = null;
     try {
       if (collectionClass != null) {
-        clazz = Class.forName("io.anserini.collection." + collectionClass);
+        clazz = (Class<? extends DocumentCollection<?>>) Class.forName("io.anserini.collection." + collectionClass);
       }
     } catch (ClassNotFoundException e) {
       LOG.error("collectionClass: " + collectionClass + " not found!");
     }
 
     useRM3 = true;
-    cascade = new RerankerCascade("rm3");
-    cascade.add(new Rm3Reranker(this.analyzer, clazz, Constants.CONTENTS,
-        fbTerms, fbDocs, originalQueryWeight, outputQuery, filterTerms));
-    cascade.add(new ScoreTiesAdjusterReranker());
+    cascade = new RerankerCascade<String>("rm3");
+    cascade.add(new Rm3Reranker<String>(this.analyzer, clazz, Constants.CONTENTS, fbTerms, fbDocs, originalQueryWeight, outputQuery, filterTerms));
+    cascade.add(new ScoreTiesAdjusterReranker<String>());
   }
 
   /**
@@ -327,8 +328,8 @@ public class SimpleSearcher implements Closeable {
    */
   public void unset_rocchio() {
     this.useRocchio = false;
-    cascade = new RerankerCascade();
-    cascade.add(new ScoreTiesAdjusterReranker());
+    cascade = new RerankerCascade<String>();
+    cascade.add(new ScoreTiesAdjusterReranker<String>());
   }
 
   /**
@@ -369,21 +370,21 @@ public class SimpleSearcher implements Closeable {
    * @param outputQuery flag to print original and expanded queries
    * @param useNegative flag to use negative feedback
    */
+  @SuppressWarnings("unchecked")
   public void set_rocchio(String collectionClass, int topFbTerms, int topFbDocs, int bottomFbTerms, int bottomFbDocs, float alpha, float beta, float gamma, boolean outputQuery, boolean useNegative) {
-    Class clazz = null;
+    Class<? extends DocumentCollection<?>>  clazz = null;
     try {
       if (collectionClass != null) {
-        clazz = Class.forName("io.anserini.collection." + collectionClass);
+        clazz = (Class<? extends DocumentCollection<?>>) Class.forName("io.anserini.collection." + collectionClass);
       }
     } catch (ClassNotFoundException e) {
       LOG.error("collectionClass: " + collectionClass + " not found!");
     }
 
     useRocchio = true;
-    cascade = new RerankerCascade("rocchio");
-    cascade.add(new RocchioReranker(this.analyzer, clazz, Constants.CONTENTS,
-        topFbTerms, topFbDocs, bottomFbTerms, bottomFbDocs, alpha, beta, gamma, outputQuery, useNegative));
-    cascade.add(new ScoreTiesAdjusterReranker());
+    cascade = new RerankerCascade<String>("rocchio");
+    cascade.add(new RocchioReranker<String>(this.analyzer, clazz, Constants.CONTENTS, topFbTerms, topFbDocs, bottomFbTerms, bottomFbDocs, alpha, beta, gamma, outputQuery, useNegative));
+    cascade.add(new ScoreTiesAdjusterReranker<String>());
   }
 
   /**
@@ -630,7 +631,7 @@ public class SimpleSearcher implements Closeable {
     searchArgs.hits = k;
 
     TopDocs rs;
-    RerankerContext context;
+    RerankerContext<String> context;
     if (this.backwardsCompatibilityLucene8) {
       rs = searcher.search(query, useRM3 ? searchArgs.rerankcutoff : k);
     } else {
@@ -668,7 +669,6 @@ public class SimpleSearcher implements Closeable {
 
   // internal implementation:
   // This initial implementation is very janky. We basically still perform retrieval, but just throw away the results.
-  @SuppressWarnings("unchecked")
   protected Map<String, Float> _get_feedback_terms(Query query, List<String> queryTokens, String queryString, int k) throws IOException {
     // Create an IndexSearch only once. Note that the object is thread safe.
     if (searcher == null) {
@@ -681,7 +681,7 @@ public class SimpleSearcher implements Closeable {
     searchArgs.hits = k;
 
     TopDocs rs;
-    RerankerContext context;
+    RerankerContext<String> context;
     if (this.backwardsCompatibilityLucene8) {
       rs = searcher.search(query, useRM3 ? searchArgs.rerankcutoff : k);
     } else {

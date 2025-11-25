@@ -16,12 +16,6 @@
 
 package io.anserini.collection;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.MappingIterator;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -32,11 +26,17 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import java.util.zip.GZIPInputStream;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.MappingIterator;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class MsMarcoV2DocCollection extends DocumentCollection<MsMarcoV2DocCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(JsonCollection.class);
@@ -48,16 +48,14 @@ public class MsMarcoV2DocCollection extends DocumentCollection<MsMarcoV2DocColle
   public MsMarcoV2DocCollection() {
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public FileSegment<MsMarcoV2DocCollection.Document> createFileSegment(Path p) throws IOException {
-    return new Segment(p);
+    return new Segment<MsMarcoV2DocCollection.Document>(p);
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public FileSegment<MsMarcoV2DocCollection.Document> createFileSegment(BufferedReader bufferedReader) throws IOException {
-    return new Segment(bufferedReader);
+    return new Segment<MsMarcoV2DocCollection.Document>(bufferedReader);
   }
 
   /**
@@ -65,7 +63,6 @@ public class MsMarcoV2DocCollection extends DocumentCollection<MsMarcoV2DocColle
    */
   public static class Segment<T extends Document> extends FileSegment<T> {
     private JsonNode node = null;
-    private Iterator<JsonNode> iter = null; // iterator for JSON document array
     private MappingIterator<JsonNode> iterator; // iterator for JSON line objects
 
     public Segment(Path path) throws IOException {

@@ -24,10 +24,9 @@ import io.anserini.search.ScoredDocs;
  * Reranker that perturbs score ties a tiny bit so that the rank order is consistent
  * with the score sort order.
  */
-public class ScoreTiesAdjusterReranker implements Reranker {
+public class ScoreTiesAdjusterReranker<T> implements Reranker<T> {
   @Override
-  public ScoredDocs rerank(ScoredDocs docs, RerankerContext context) {
-
+  public ScoredDocs rerank(ScoredDocs docs, RerankerContext<T> context) {
     if (context != null && context.getSearchArgs().arbitraryScoreTieBreak) {
       return docs;
     }
