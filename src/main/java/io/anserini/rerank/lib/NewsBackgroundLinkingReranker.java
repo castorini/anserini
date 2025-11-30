@@ -56,9 +56,6 @@ public class NewsBackgroundLinkingReranker implements Reranker<Integer> {
 
   @Override
   public ScoredDocs rerank(ScoredDocs docs, RerankerContext<Integer> context) {
-    assert docs != null;
-    assert context != null;
-
     IndexReader reader = context.getIndexSearcher().getIndexReader();
     String queryDocId = context.getQueryDocId();
     final Map<String, Long> queryTermsMap = convertDocVectorToMap(reader, queryDocId);

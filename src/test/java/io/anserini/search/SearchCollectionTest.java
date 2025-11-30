@@ -193,17 +193,122 @@ public class SearchCollectionTest extends StdOutStdErrRedirectableLuceneTestCase
   }
 
   @Test
-  public void testSearchBackgroundLinking() throws Exception {
+  public void testSearchBackgroundLinkingBm25_1() throws Exception {
     SearchCollection.main(new String[] {
-        "-index", "src/test/resources/prebuilt_indexes/index.sample-wapo/",
+        "-index", "src/test/resources/prebuilt_indexes/lucene-inverted.sample-wapo.no-raw_no-docvectors/",
         "-topics", "src/test/resources/sample_topics/bglinking.txt",
         "-topicReader", "BackgroundLinking",
         "-output", "run.test", "-bm25",
         "-backgroundLinking", "-backgroundLinking.k", "100"});
 
+    // Running on index with no raw, no docvectors - should get an error.
+    assertTrue(err.toString().contains("java.lang.RuntimeException: Raw documents not stored!"));
+  }
+
+  @Test
+  public void testSearchBackgroundLinkingBm25_2() throws Exception {
+    SearchCollection.main(new String[] {
+        "-index", "src/test/resources/prebuilt_indexes/lucene-inverted.sample-wapo.no-raw_with-docvectors/",
+        "-topics", "src/test/resources/sample_topics/bglinking.txt",
+        "-topicReader", "BackgroundLinking",
+        "-output", "run.test", "-bm25",
+        "-backgroundLinking", "-backgroundLinking.k", "100"});
+
+    // Running on index with no raw, no docvectors - should get an error.
+    assertTrue(err.toString().contains("java.lang.RuntimeException: Raw documents not stored!"));
+  }
+
+  @Test
+  public void testSearchBackgroundLinkingBm25_3() throws Exception {
+    SearchCollection.main(new String[] {
+        "-index", "src/test/resources/prebuilt_indexes/lucene-inverted.sample-wapo.with-raw_with-docvectors/",
+        "-topics", "src/test/resources/sample_topics/bglinking.txt",
+        "-topicReader", "BackgroundLinking",
+        "-output", "run.test", "-bm25",
+        "-backgroundLinking", "-backgroundLinking.k", "100"});
+
+    // Running on index with raw, with docvectors - should run fine.
     TestUtils.checkFile("run.test", new String[]{
         "321 Q0 eacd327b20aa77a2aa909596ae336497 1 7.792500 Anserini",
         "321 Q0 dafe3110-4a9e-11e6-acbc-4d4870a079da 2 5.247200 Anserini"});
+    assertTrue(new File("run.test").delete());
+  }
+
+  @Test
+  public void testSearchBackgroundLinkingBm25_4() throws Exception {
+    SearchCollection.main(new String[] {
+        "-index", "src/test/resources/prebuilt_indexes/lucene-inverted.sample-wapo.with-raw_no-docvectors/",
+        "-topics", "src/test/resources/sample_topics/bglinking.txt",
+        "-topicReader", "BackgroundLinking",
+        "-output", "run.test", "-bm25",
+        "-backgroundLinking", "-backgroundLinking.k", "100",
+        "-collection", "WashingtonPostCollection"});
+
+    // Running on index with raw, no docvectors - needs -collection WashingtonPostCollection
+    TestUtils.checkFile("run.test", new String[]{
+        "321 Q0 eacd327b20aa77a2aa909596ae336497 1 7.792500 Anserini",
+        "321 Q0 dafe3110-4a9e-11e6-acbc-4d4870a079da 2 5.247200 Anserini"});
+    assertTrue(new File("run.test").delete());
+  }
+
+  @Test
+  public void testSearchBackgroundLinkingBm25Rm3_1() throws Exception {
+    SearchCollection.main(new String[] {
+        "-index", "src/test/resources/prebuilt_indexes/lucene-inverted.sample-wapo.no-raw_no-docvectors/",
+        "-topics", "src/test/resources/sample_topics/bglinking.txt",
+        "-topicReader", "BackgroundLinking",
+        "-output", "run.test", "-bm25", "-rm3",
+        "-backgroundLinking", "-backgroundLinking.k", "100"});
+
+    // Running on index with no raw, no docvectors - should get an error.
+    assertTrue(err.toString().contains("java.lang.RuntimeException: Raw documents not stored!"));
+  }
+
+  @Test
+  public void testSearchBackgroundLinkingBm25Rm3_2() throws Exception {
+    SearchCollection.main(new String[] {
+        "-index", "src/test/resources/prebuilt_indexes/lucene-inverted.sample-wapo.no-raw_with-docvectors/",
+        "-topics", "src/test/resources/sample_topics/bglinking.txt",
+        "-topicReader", "BackgroundLinking",
+        "-output", "run.test", "-bm25", "-rm3",
+        "-backgroundLinking", "-backgroundLinking.k", "100"});
+
+    // Running on index with no raw, no docvectors - should get an error.
+    assertTrue(err.toString().contains("java.lang.RuntimeException: Raw documents not stored!"));
+  }
+
+  @Test
+  public void testSearchBackgroundLinkingBm25Rm3_3() throws Exception {
+    SearchCollection.main(new String[] {
+        "-index", "src/test/resources/prebuilt_indexes/lucene-inverted.sample-wapo.with-raw_with-docvectors/",
+        "-topics", "src/test/resources/sample_topics/bglinking.txt",
+        "-topicReader", "BackgroundLinking",
+        "-output", "run.test", "-bm25", "-rm3",
+        "-backgroundLinking", "-backgroundLinking.k", "100"});
+
+    // Running on index with raw, with docvectors - should run fine.
+    TestUtils.checkFile("run.test", new String[]{
+        "321 Q0 eacd327b20aa77a2aa909596ae336497 1 0.039000 Anserini",
+        "321 Q0 dafe3110-4a9e-11e6-acbc-4d4870a079da 2 0.026200 Anserini",
+        "321 Q0 03049850-58e3-11e6-8b48-0cb344221131 3 0.011300 Anserini"});
+    assertTrue(new File("run.test").delete());
+  }
+
+  @Test
+  public void testSearchBackgroundLinkingBm25Rm3_4() throws Exception {
+    SearchCollection.main(new String[] {
+        "-index", "src/test/resources/prebuilt_indexes/lucene-inverted.sample-wapo.with-raw_no-docvectors/",
+        "-topics", "src/test/resources/sample_topics/bglinking.txt",
+        "-topicReader", "BackgroundLinking",
+        "-output", "run.test", "-bm25", "-rm3",
+        "-backgroundLinking", "-backgroundLinking.k", "100",
+        "-collection", "WashingtonPostCollection"});
+
+    // Running on index with raw, no docvectors - needs -collection WashingtonPostCollection
+    TestUtils.checkFile("run.test", new String[]{
+        "321 Q0 eacd327b20aa77a2aa909596ae336497 1 0.039000 Anserini",
+        "321 Q0 dafe3110-4a9e-11e6-acbc-4d4870a079da 2 0.026200 Anserini",
+        "321 Q0 03049850-58e3-11e6-8b48-0cb344221131 3 0.011300 Anserini"});
     assertTrue(new File("run.test").delete());
   }
 }
