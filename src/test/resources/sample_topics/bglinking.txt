@@ -1,0 +1,5 @@
+<top>
+<num> Number: 321 </num>
+<docid>9171debc316e5e2782e0d2404ca7d09d</docid>
+<url>https://www.washingtonpost.com/news/worldviews/wp/2016/09/01/women-are-half-of-the-world-but-only-22-percent-of-its-parliaments/<url>
+</top>

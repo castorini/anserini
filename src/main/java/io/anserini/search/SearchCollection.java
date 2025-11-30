@@ -735,9 +735,9 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       return cascade.run(scoredFbDocs, context);
     }
 
-    public ScoredDocs searchBackgroundLinking(String qid,
+    public ScoredDocs searchBackgroundLinking(Integer qid,
                                               String docid,
-                                              RerankerCascade<String> cascade) throws IOException {
+                                              RerankerCascade<Integer> cascade) throws IOException {
       // Extract a list of analyzed terms from the document to compose a query.
       List<String> terms = BackgroundLinkingTopicReader.extractTerms(reader, docid, args.backgroundLinkingK, analyzer);
       // Since the terms are already analyzed, we just join them together and use the StandardQueryParser.
@@ -767,7 +767,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
             args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
       }
 
-      RerankerContext<String> context = new RerankerContext<>(getIndexSearcher(), qid, query, docid,
+      RerankerContext<Integer> context = new RerankerContext<>(getIndexSearcher(), qid, query, docid,
           StringUtils.join(", ", terms), terms, null, args);
 
       // Run the existing cascade.
@@ -914,7 +914,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
             if (args.searchTweets) {
               docs = searcher.searchTweets(qid, queryString.toString(), Long.parseLong(entry.getValue().get("time")), cascade, queryQrels, hasRelDocs);
             } else if (args.backgroundLinking) {
-              docs = searcher.searchBackgroundLinking((String) qid, queryString.toString(), (RerankerCascade<String>) cascade);
+              docs = searcher.searchBackgroundLinking((Integer) qid, queryString.toString(), (RerankerCascade<Integer>) cascade);
             } else {
               docs = searcher.search(qid, queryString.toString(), cascade, queryQrels, hasRelDocs);
             }
@@ -931,7 +931,8 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
             if (n % 100 == 0) {
               LOG.info("{}: {} queries processed", desc, n);
             }
-          }  catch (Exception e) {
+          } catch (Exception e) {
+            e.printStackTrace();
             throw new CompletionException(e);
           }
 
