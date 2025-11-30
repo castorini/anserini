@@ -191,4 +191,19 @@ public class SearchCollectionTest extends StdOutStdErrRedirectableLuceneTestCase
     assertTrue(f.exists());
     f.delete();
   }
+
+  @Test
+  public void testSearchBackgroundLinking() throws Exception {
+    SearchCollection.main(new String[] {
+        "-index", "src/test/resources/prebuilt_indexes/index.sample-wapo/",
+        "-topics", "src/test/resources/sample_topics/bglinking.txt",
+        "-topicReader", "BackgroundLinking",
+        "-output", "run.test", "-bm25",
+        "-backgroundLinking", "-backgroundLinking.k", "100"});
+
+    TestUtils.checkFile("run.test", new String[]{
+        "321 Q0 eacd327b20aa77a2aa909596ae336497 1 7.792500 Anserini",
+        "321 Q0 dafe3110-4a9e-11e6-acbc-4d4870a079da 2 5.247200 Anserini"});
+    assertTrue(new File("run.test").delete());
+  }
 }

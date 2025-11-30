@@ -49,9 +49,7 @@ public class NewsBackgroundLinkingReranker implements Reranker<Integer> {
   private final Class<? extends DocumentCollection<?>> parser;
 
   public NewsBackgroundLinkingReranker(Analyzer analyzer, Class<? extends DocumentCollection<?>> parser) {
-    assert analyzer != null;
-    assert parser != null;
-
+    // Note that both can be null, see convertDocVectorToMap
     this.analyzer = analyzer;
     this.parser = parser;
   }

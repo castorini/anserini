@@ -748,7 +748,6 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
         throw new RuntimeException("Unable to create a Lucene query comprised of terms extracted from query document!");
       }
 
-      System.out.println(docQuery);
       // Per track guidelines, no opinion or editorials. Filter out articles of these types.
       Query filter = new TermInSetQuery(
           WashingtonPostGenerator.WashingtonPostField.KICKER.name, new BytesRef("Opinions"),
