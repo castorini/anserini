@@ -44,23 +44,18 @@ import static io.anserini.index.generator.WashingtonPostGenerator.WashingtonPost
  * Near-duplicate documents (similar/same with the query docid) will be removed by comparing
  * their cosine similarity with the query docid.
  */
-public class NewsBackgroundLinkingReranker implements Reranker<String> {
+public class NewsBackgroundLinkingReranker implements Reranker<Integer> {
   private final Analyzer analyzer;
   private final Class<? extends DocumentCollection<?>> parser;
 
   public NewsBackgroundLinkingReranker(Analyzer analyzer, Class<? extends DocumentCollection<?>> parser) {
-    assert analyzer != null;
-    assert parser != null;
-
+    // Note that both can be null, see convertDocVectorToMap
     this.analyzer = analyzer;
     this.parser = parser;
   }
 
   @Override
-  public ScoredDocs rerank(ScoredDocs docs, RerankerContext<String> context) {
-    assert docs != null;
-    assert context != null;
-
+  public ScoredDocs rerank(ScoredDocs docs, RerankerContext<Integer> context) {
     IndexReader reader = context.getIndexSearcher().getIndexReader();
     String queryDocId = context.getQueryDocId();
     final Map<String, Long> queryTermsMap = convertDocVectorToMap(reader, queryDocId);
