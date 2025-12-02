@@ -8,9 +8,9 @@
 + Refactored entire codebase to get rid of all compiler warnings.
 + Refactored unit tests.
 + Refactored `PrebuiltIndexHandler`.
-+ Refactored to elminate `fastutil` dpendency.
-+ Fixed ONNX encoder truncation bug when processing long queries.
-+ Updated dependenices to latest versions (with some exceptionse).
++ Refactored to eliminate `fastutil` dependency.
++ Fixed ONNX encoder truncation bug when processing long queries (affects Arguna results in BEIR).
++ Updated dependencies to latest versions (with some exceptions).
 + Added symbols for MS MARCO prebuilt indexes.
 
 ## Contributors (This Release)
