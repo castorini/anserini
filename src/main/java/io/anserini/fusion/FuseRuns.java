@@ -48,7 +48,7 @@ public class FuseRuns {
         usage = "Path to both run files to fuse")
     public String[] runs;
 
-    @Option (name = "-resort", required = false, metaVar = "[flag]", usage="We Resort the Trec run files or not")
+    @Option(name = "-resort", required = false, metaVar = "[flag]", usage="We Resort the Trec run files or not")
     public boolean resort = false;
   }
 
@@ -67,6 +67,10 @@ public class FuseRuns {
     LOG.info("Max documents to output (k): " + args.k);
     LOG.info("Pool depth: " + args.depth);
     LOG.info("Resort TREC run files: " + args.resort);
+    LOG.info("Min-max normalization: " + args.minMaxNormalization);
+    if (args.weights != null) {
+      LOG.info("Weights: " + args.weights);
+    }
 
     try {
       // Ensure positive depth and k values
