@@ -1,0 +1,5 @@
+query1 Q0 doc1 1 5.0 Anserini
+query1 Q0 doc2 2 5.0 Anserini
+query1 Q0 doc3 3 5.0 Anserini
+query2 Q0 doc1 1 10.0 Anserini
+query2 Q0 doc2 2 10.0 Anserini
