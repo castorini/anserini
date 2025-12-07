@@ -168,7 +168,7 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@xincanfeng](https://github.com/xincanfeng) on 2025-11-18 (commit [`9406dd8`](https://github.com/castorini/anserini/commit/9406dd893e02922cf2b690a8fabf181a14d36bf4))
 + Results reproduced by [@Blank9999](https://github.com/Blank9999) on 2025-11-18 (commit [`9406dd8`](https://github.com/castorini/anserini/commit/9406dd893e02922cf2b690a8fabf181a14d36bf4))
 + Results reproduced by [@ball2004244](https://github.com/ball2004244) on 2025-11-23 (commit [`9aea5f3`](https://github.com/castorini/anserini/commit/9aea5f357c4d1ff50bd8cdf4594c035631ca73a5))
-+ Results reproduced by [@imishrr](https://www.github.com/imishrr) on 2025-12-01 (commit [`79e7777`](https://www.github.com/castorini/anserini/commit/79e77779dcf02c7e69b6e9869fc3c92005e5f2a4))
-+ Results reproduced by [@RudraMantri123](https://github.com/RudraMantri123) on 2025-11-28 (commit [`9aea5f3`](https://github.com/castorini/anserini/commit/9aea5f357c4d1ff50bd8cdf4594c035631ca73a5))
 + Results reproduced by [@Hasebul21](https://github.com/Hasebul21) on 2025-11-27 (commit [`9aea5f3`](https://github.com/castorini/anserini/commit/9aea5f357c4d1ff50bd8cdf4594c035631ca73a5))
++ Results reproduced by [@RudraMantri123](https://github.com/RudraMantri123) on 2025-11-28 (commit [`9aea5f3`](https://github.com/castorini/anserini/commit/9aea5f357c4d1ff50bd8cdf4594c035631ca73a5))
++ Results reproduced by [@imishrr](https://www.github.com/imishrr) on 2025-12-01 (commit [`79e7777`](https://www.github.com/castorini/anserini/commit/79e77779dcf02c7e69b6e9869fc3c92005e5f2a4))
 
