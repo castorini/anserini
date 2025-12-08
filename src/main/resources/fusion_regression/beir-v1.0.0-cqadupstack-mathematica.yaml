@@ -55,6 +55,8 @@ methods:
       R@1000:
         - 0.8781
   - name: average
+    k: 1000
+    depth: 1000
     output: runs/runs.fuse.avg.beir-v1.0.0-cqadupstack-mathematica.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-cqadupstack-mathematica.test.txt
     results:
       nDCG@10:
@@ -65,6 +67,8 @@ methods:
         - 0.7298
   - name: interpolation
     alpha: 0.5
+    k: 1000
+    depth: 1000
     output: runs/runs.fuse.interp.beir-v1.0.0-cqadupstack-mathematica.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-cqadupstack-mathematica.test.txt
     results:      
       nDCG@10:
@@ -73,8 +77,11 @@ methods:
         - 0.5173
       R@1000:
         - 0.7298
-  - name: normalize
-    output: runs/runs.fuse.norm.beir-v1.0.0-cqadupstack-mathematica.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-cqadupstack-mathematica.test.txt
+  - name: average
+    k: 1000
+    depth: 1000
+    min_max_normalization: true
+    output: runs/runs.fuse.avg.minmax.beir-v1.0.0-cqadupstack-mathematica.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-cqadupstack-mathematica.test.txt
     results:      
       nDCG@10:
         - 0.2951
@@ -82,3 +89,15 @@ methods:
         - 0.6725
       R@1000:
         - 0.8787
+  - name: weighted
+    k: 1000
+    depth: 1000
+    weights: "0.5,0.5"
+    output: runs/runs.fuse.weighted.beir-v1.0.0-cqadupstack-mathematica.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-cqadupstack-mathematica.test.txt
+    results:      
+      nDCG@10:
+        - 0.2084
+      R@100:
+        - 0.5173
+      R@1000:
+        - 0.7298

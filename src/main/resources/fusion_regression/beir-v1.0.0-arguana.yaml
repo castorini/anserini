@@ -49,12 +49,14 @@ methods:
     output: runs/runs.fuse.rrf.beir-v1.0.0-arguana.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-arguana.test.txt
     results:
       nDCG@10:
-        - 0.5586
+        - 0.5626
       R@100:
-        - 0.9879
+        - 0.9893
       R@1000:
         - 0.9964
   - name: average
+    k: 1000
+    depth: 1000
     output: runs/runs.fuse.avg.beir-v1.0.0-arguana.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-arguana.test.txt
     results:
       nDCG@10:
@@ -65,6 +67,8 @@ methods:
         - 0.9893
   - name: interpolation
     alpha: 0.5
+    k: 1000
+    depth: 1000
     output: runs/runs.fuse.interp.beir-v1.0.0-arguana.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-arguana.test.txt
     results:      
       nDCG@10:
@@ -73,12 +77,27 @@ methods:
         - 0.9331
       R@1000:
         - 0.9893
-  - name: normalize
-    output: runs/runs.fuse.norm.beir-v1.0.0-arguana.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-arguana.test.txt
+  - name: average
+    k: 1000
+    depth: 1000
+    min_max_normalization: true
+    output: runs/runs.fuse.avg.minmax.beir-v1.0.0-arguana.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-arguana.test.txt
     results:      
       nDCG@10:
-        - 0.5694
+        - 0.5738
       R@100:
         - 0.9879
       R@1000:
         - 0.9964
+  - name: weighted
+    k: 1000
+    depth: 1000
+    weights: "0.5,0.5"
+    output: runs/runs.fuse.weighted.beir-v1.0.0-arguana.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-arguana.test.txt
+    results:      
+      nDCG@10:
+        - 0.3986
+      R@100:
+        - 0.9331
+      R@1000:
+        - 0.9893

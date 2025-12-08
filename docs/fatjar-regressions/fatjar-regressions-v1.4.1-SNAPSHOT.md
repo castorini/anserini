@@ -1,4 +1,4 @@
-# Anserini Fatjar Regresions (v1.4.0)
+# Anserini Fatjar Regresions (v1.4.1-SNAPSHOT)
 
 Fetch the fatjar:
 

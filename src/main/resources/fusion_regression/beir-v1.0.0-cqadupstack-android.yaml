@@ -55,6 +55,8 @@ methods:
       R@1000:
         - 0.9537
   - name: average
+    k: 1000
+    depth: 1000
     output: runs/runs.fuse.avg.beir-v1.0.0-cqadupstack-android.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-cqadupstack-android.test.txt
     results:
       nDCG@10:
@@ -65,6 +67,8 @@ methods:
         - 0.8646
   - name: interpolation
     alpha: 0.5
+    k: 1000
+    depth: 1000
     output: runs/runs.fuse.interp.beir-v1.0.0-cqadupstack-android.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-cqadupstack-android.test.txt
     results:      
       nDCG@10:
@@ -73,8 +77,11 @@ methods:
         - 0.7076
       R@1000:
         - 0.8646
-  - name: normalize
-    output: runs/runs.fuse.norm.beir-v1.0.0-cqadupstack-android.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-cqadupstack-android.test.txt
+  - name: average
+    k: 1000
+    depth: 1000
+    min_max_normalization: true
+    output: runs/runs.fuse.avg.minmax.beir-v1.0.0-cqadupstack-android.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-cqadupstack-android.test.txt
     results:      
       nDCG@10:
         - 0.4868
@@ -82,3 +89,15 @@ methods:
         - 0.8155
       R@1000:
         - 0.9550
+  - name: weighted
+    k: 1000
+    depth: 1000
+    weights: "0.5,0.5"
+    output: runs/runs.fuse.weighted.beir-v1.0.0-cqadupstack-android.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-cqadupstack-android.test.txt
+    results:      
+      nDCG@10:
+        - 0.3872
+      R@100:
+        - 0.7076
+      R@1000:
+        - 0.8646
