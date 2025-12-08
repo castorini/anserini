@@ -28,6 +28,7 @@ fusion_method_ranx = {
     "rrf": "rrf",
     "average": "sum",
     "interpolation": "wsum",
+    "weighted": "wsum",
     "normalize": "sum"
 }
 metrics_ranx = {
@@ -68,8 +69,9 @@ def construct_fusion_commands(yaml_data: dict) -> list:
     Returns:
         list: A list of commands to be executed.
     """
-    return [
-        [
+    commands = []
+    for method in yaml_data['methods']:
+        cmd = [
             FUSE_COMMAND,
             '-runs', ' '.join(run['file'] for run in yaml_data['runs']),
             '-output', method.get('output'),
@@ -79,8 +81,14 @@ def construct_fusion_commands(yaml_data: dict) -> list:
             '-rrf_k', str(method.get('rrf_k', 60)),
             '-alpha', str(method.get('alpha', 0.5))
         ]
-        for method in yaml_data['methods']
-    ]
+        # Add weights for weighted fusion method
+        if method.get('name') == 'weighted' and method.get('weights'):
+            cmd.extend(['-weights', method.get('weights')])
+        # Add min_max_normalization flag if specified
+        if method.get('min_max_normalization', False):
+            cmd.append('-min_max_normalization')
+        commands.append(cmd)
+    return commands
 
 def run_fusion_commands(cmds: list):
     """
@@ -107,15 +115,34 @@ def compare_with_ranx(qrel_file: str, runs: list[str], methods: dict, metrics: l
 
     ranx_results = {}
     for method in methods:
-        ranx_method = fusion_method_ranx[method["name"]]
+        method_name = method["name"]
+        # Use "normalize" as the key for average with min_max_normalization
+        result_key = "normalize" if (method_name == "average" and method.get('min_max_normalization', False)) else method_name
+        
+        # Map method names to ranx methods
+        if result_key in fusion_method_ranx:
+            ranx_method = fusion_method_ranx[result_key]
+        else:
+            ranx_method = "sum"  # default fallback
+        
         best_params = {}
         norm_method = None
         if ranx_method == "wsum":
-            best_params['weights'] = (method.get('alpha', 0.5), 1 - method.get('alpha', 0.5))
+            # For weighted method, parse weights from YAML
+            if method_name == "weighted" and method.get('weights'):
+                weights_str = method.get('weights')
+                weights_list = [float(w.strip()) for w in weights_str.split(',')]
+                best_params['weights'] = tuple(weights_list)
+            else:
+                # For interpolation, use alpha
+                best_params['weights'] = (method.get('alpha', 0.5), 1 - method.get('alpha', 0.5))
         elif ranx_method == "rrf":
             best_params['k'] = method.get('rrf_k', 60)
-        if method["name"] == "normalize":
+        
+        # Check for min_max_normalization flag
+        if method.get('min_max_normalization', False):
             norm_method = "min-max"
+        
         fused = fuse(
             runs=runs,
             norm=norm_method,
@@ -123,7 +150,7 @@ def compare_with_ranx(qrel_file: str, runs: list[str], methods: dict, metrics: l
             params=best_params 
         )
         results = evaluate(qrels, fused, metrics)
-        ranx_results[method["name"]] = results
+        ranx_results[result_key] = results
 
     return ranx_results
 
@@ -172,9 +199,11 @@ def evaluate_and_verify(yaml_data: dict, dry_run: bool):
                 eval_out = out.strip().split(metric['separator'])[metric['parse_index']]
                 expected = round(method['results'][metric['metric']][i], metric['metric_precision'])
                 actual = round(float(eval_out), metric['metric_precision'])
+                # Use "normalize" for display when average has min_max_normalization
+                display_name = "normalize" if (method["name"] == "average" and method.get('min_max_normalization', False)) else method["name"]
                 result_str = (
                     f'expected: {expected:.4f} actual: {actual:.4f} (delta={abs(expected-actual):.4f}) - '
-                    f'metric: {metric["metric"]:<8} method: {method["name"]} topics: {topic_set["id"]}'
+                    f'metric: {metric["metric"]:<8} method: {display_name} topics: {topic_set["id"]}'
                 )
 
                 if is_close(expected, actual) or actual > expected:
@@ -182,9 +211,11 @@ def evaluate_and_verify(yaml_data: dict, dry_run: bool):
                 else:
                     logger.error(fail_str + result_str)
                     failures = True
-                if method["name"] not in results:
-                    results[method["name"]] = {}
-                results[method["name"]][metric["metric"]] = actual
+                # Use "normalize" as the key for average with min_max_normalization
+                result_key = "normalize" if (method["name"] == "average" and method.get('min_max_normalization', False)) else method["name"]
+                if result_key not in results:
+                    results[result_key] = {}
+                results[result_key][metric["metric"]] = actual
 
     end_time = time.time()
     logger.info(f"Total execution time: {end_time - start_time:.2f} seconds")
@@ -201,11 +232,13 @@ def evaluate_and_verify(yaml_data: dict, dry_run: bool):
     for method in yaml_data['methods']:
         for i, topic_set in enumerate(yaml_data['topics']):
             for metric in yaml_data['metrics']:
-                expected = sanity_check[method["name"]][metrics_ranx[metric["metric"]]]
-                actual = results[method["name"]][metric["metric"]]
+                # Use "normalize" as the key for average with min_max_normalization
+                result_key = "normalize" if (method["name"] == "average" and method.get('min_max_normalization', False)) else method["name"]
+                expected = sanity_check[result_key][metrics_ranx[metric["metric"]]]
+                actual = results[result_key][metric["metric"]]
                 result_str = (
                     f'ranx: {expected:.4f} actual: {actual:.4f} (delta={abs(expected-actual):.4f}) - '
-                    f'metric: {metric["metric"]:<8} method: {method["name"]} topics: {topic_set["id"]}'
+                    f'metric: {metric["metric"]:<8} method: {result_key} topics: {topic_set["id"]}'
                 )
                 logger.info(result_str)
     logger.info(f"Total ranx execution time: {time.time() - end_time:.2f} seconds")       
