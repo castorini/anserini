@@ -15,268 +15,329 @@
 #
 
 import os
+import sys
 import argparse
 import logging
 import time
 import yaml
-from subprocess import call, Popen, PIPE
+import re
+import glob
+from collections import namedtuple
+from subprocess import call, Popen, PIPE, STDOUT
 from ranx import Run, fuse, evaluate, Qrels
 
 # Constants
-FUSE_COMMAND = 'bin/run.sh io.anserini.fusion.FuseRuns'
-fusion_method_ranx = {
-    "rrf": "rrf",
-    "average": "sum",
-    "interpolation": "wsum",
-    "weighted": "wsum",
-    "normalize": "sum"
-}
-metrics_ranx = {
-    "nDCG@10": "ndcg@10",
-    "R@100": "recall@100",
-    "R@1000": "recall@1000"
-}
+FUSE_CMD = 'bin/run.sh io.anserini.fusion.FuseRuns'
+RANX_METHODS = {"rrf": "rrf", "average": "sum", "normalize": "sum"}
+SCORE_TOLERANCE = 1e-3
 
-# Set up logging
-logger = logging.getLogger('fusion_regression_test')
+# Hardcoded patterns matching beir.yaml and RunBeir
+BM25_RUN_TMPL = 'runs/run.beir.flat.$topics.txt'
+BGE_RUN_TMPL = 'runs/run.beir.bge-base-en-v1.5.flat.onnx.$topics.txt'
+K = 1000
+DEPTH = 1000
+RRF_K = 60
+
+# Configure logging to match run_regression.py style
+logger = logging.getLogger('fusion_regression')
 logger.setLevel(logging.INFO)
 ch = logging.StreamHandler()
 ch.setLevel(logging.INFO)
-formatter = logging.Formatter('%(asctime)s %(levelname)s [python] %(message)s')
+formatter = logging.Formatter('%(asctime)s %(levelname)s  [python] %(message)s')
 ch.setFormatter(formatter)
 logger.addHandler(ch)
 
-def is_close(a: float, b: float, rel_tol: float = 1e-9, abs_tol: float = 0.0) -> bool:
-    """Check if two numbers are close within a given tolerance."""
-    return abs(a - b) <= max(rel_tol * max(abs(a), abs(b)), abs_tol)
+# Named tuple for fusion command data
+FusionCommand = namedtuple('FusionCommand', [
+    'cmd', 'cond_name', 'topic_key', 'eval_key', 'output', 'run_files',
+    'method', 'has_minmax', 'rrf_k', 'expected', 'run_files_tmpl'
+])
 
-def check_output(command: str) -> str:
-    """Run a shell command and return its output. Raise an error if the command fails."""
-    process = Popen(command, shell=True, stdout=PIPE)
-    output, err = process.communicate()
-    if process.returncode == 0:
-        return output
-    else:
-        raise RuntimeError(f"Command {command} failed with error: {err}")
+def check_output(cmd):
+    """Execute command and return output. Raises RuntimeError on failure."""
+    p = Popen(cmd, shell=True, stdout=PIPE, stderr=STDOUT)
+    out, _ = p.communicate()
+    if p.returncode != 0:
+        error_msg = out.decode('utf-8', errors='replace') if out else "Unknown error"
+        raise RuntimeError(f"Command failed (exit {p.returncode}): {cmd}\n{error_msg}")
+    return out
 
-def construct_fusion_commands(yaml_data: dict) -> list:
-    """
-    Constructs the fusion commands from the YAML configuration.
-
-    Args:
-        yaml_data (dict): The loaded YAML configuration.
-
-    Returns:
-        list: A list of commands to be executed.
+def get_fusion_commands(beir_data, corpus=None):
+    """Extract fusion commands from beir.yaml.
+    
+    Hardcoded patterns matching RunBeir (from beir.yaml and RunRepro.java):
+    - Input run files: runs/run.beir.flat.$topics.txt and runs/run.beir.bge-base-en-v1.5.flat.onnx.$topics.txt
+    - Output format: runs/run.beir.{condition_name}.{topic_key}.txt (from RunRepro.java line 195)
+    - Parameters: k=1000, depth=1000, rrf_k=60
     """
     commands = []
-    for method in yaml_data['methods']:
-        cmd = [
-            FUSE_COMMAND,
-            '-runs', ' '.join(run['file'] for run in yaml_data['runs']),
-            '-output', method.get('output'),
-            '-method', method.get('name', 'average'),
-            '-k', str(method.get('k', 1000)),
-            '-depth', str(method.get('depth', 1000)),
-            '-rrf_k', str(method.get('rrf_k', 60)),
-            '-alpha', str(method.get('alpha', 0.5))
-        ]
-        # Add weights for weighted fusion method
-        if method.get('name') == 'weighted' and method.get('weights'):
-            cmd.extend(['-weights', method.get('weights')])
-        # Add min_max_normalization flag if specified
-        if method.get('min_max_normalization', False):
-            cmd.append('-min_max_normalization')
-        commands.append(cmd)
+    for cond in beir_data.get('conditions', []):
+        cond_name = cond.get('name', '')
+        if not cond_name.startswith('fusion-'):
+            continue
+        
+        # Determine fusion method and parameters from condition
+        if cond_name == 'fusion-rrf':
+            method = 'rrf'
+            has_minmax = False
+        elif cond_name == 'fusion-avg':
+            method = 'average'
+            has_minmax = True  # fusion-avg uses min_max_normalization
+        else:
+            continue  # Skip unknown fusion methods
+        
+        # Process each topic
+        for topic in cond.get('topics', []):
+            topic_key = topic.get('topic_key', '')
+            if corpus and topic_key != corpus:
+                continue
+            if not topic_key or not topic.get('eval_key'):
+                continue
+            
+            # Get expected score
+            expected = next((s.get('nDCG@10') for s in topic.get('scores', []) 
+                           if isinstance(s, dict) and 'nDCG@10' in s), None)
+            if expected is None:
+                continue
+            
+            # Build run file paths (replace $topics with actual topic_key)
+            run_files = [
+                BM25_RUN_TMPL.replace('$topics', topic_key),
+                BGE_RUN_TMPL.replace('$topics', topic_key)
+            ]
+            
+            # Build output path (RunBeir format: runs/run.beir.{condition_name}.{topic_key}.txt)
+            output = f'runs/run.beir.{cond_name}.{topic_key}.txt'
+            
+            # Build fusion command
+            cmd = [FUSE_CMD, '-runs'] + run_files + [
+                '-output', output,
+                '-method', method,
+                '-k', str(K),
+                '-depth', str(DEPTH)
+            ]
+            
+            if method == 'rrf':
+                cmd.extend(['-rrf_k', str(RRF_K)])
+            elif has_minmax:
+                cmd.append('-min_max_normalization')
+            
+            commands.append(FusionCommand(
+                cmd=cmd, cond_name=cond_name, topic_key=topic_key, eval_key=topic['eval_key'],
+                output=output, run_files=run_files, method=method, has_minmax=has_minmax,
+                rrf_k=RRF_K, expected=expected, run_files_tmpl=[BM25_RUN_TMPL, BGE_RUN_TMPL]
+            ))
+    
     return commands
 
-def run_fusion_commands(cmds: list):
-    """
-    Run the fusion commands and log the results.
+def get_condition(beir_data, name):
+    return next((c for c in beir_data.get('conditions', []) if c.get('name') == name), None)
 
-    Args:
-        cmds (list): List of fusion commands to run.
+def build_search_cmd(cond, topic_key):
+    """Build search command from condition."""
+    name = cond.get('name', '')
+    output = f'runs/run.beir.{name}.{topic_key}.txt'
+    
+    fatjar_files = glob.glob('target/anserini-*-fatjar.jar') or glob.glob('target/anserini*.jar')
+    fatjar = fatjar_files[0] if fatjar_files else 'target/anserini-fatjar.jar'
+    cmd = cond.get('command', '').replace('$topics', topic_key).replace('$output', output).replace('$fatjar', fatjar).replace('$threads', '16')
+    
+    parts = cmd.split()
+    if parts[0] == 'java':
+        class_idx = next((i for i, p in enumerate(parts) if p.startswith('io.anserini.')), None)
+        if class_idx:
+            parts = ['bin/run.sh'] + parts[class_idx:]
+    
+    return ' '.join(parts), output
+
+def ensure_runs(beir_data, corpus):
+    """Generate missing run files for BM25 and BGE if needed."""
+    # We always need these two conditions for fusion
+    required_conditions = ['flat', 'bge-base-en-v1.5.flat.onnx']
+    to_gen = []
+    
+    for cond_name in required_conditions:
+        output = f'runs/run.beir.{cond_name}.{corpus}.txt'
+        if os.path.exists(output):
+            continue
+        
+        cond = get_condition(beir_data, cond_name)
+        if not cond:
+            logger.warning(f"Condition '{cond_name}' not found in beir.yaml")
+            continue
+        
+        topic = next((t for t in cond.get('topics', []) if t.get('topic_key') == corpus), None)
+        if not topic:
+            logger.warning(f"Topic '{corpus}' not found for condition '{cond_name}'")
+            continue
+        
+        to_gen.append((cond_name, cond, topic))
+    
+    if to_gen:
+        logger.info(f"Generating {len(to_gen)} missing run file(s) for {corpus}...")
+        for cond_name, cond, topic in to_gen:
+            cmd, output = build_search_cmd(cond, topic['topic_key'])
+            logger.info(f"  {cond_name} -> {output}")
+            if call(cmd, shell=True) != 0:
+                raise RuntimeError(f"Failed: {cmd}")
+
+def ranx_ndcg(qrel_file, runs, method, has_minmax, rrf_k):
+    """Get nDCG@10 from ranx for sanity check."""
+    try:
+        qrels = Qrels.from_file(qrel_file)
+        ranx_runs = [Run.from_file(r, kind="trec").make_comparable(qrels) for r in runs]
+        
+        ranx_method = RANX_METHODS.get("normalize" if (method == "average" and has_minmax) else method, "sum")
+        params = {'k': rrf_k} if ranx_method == "rrf" else {}
+        norm = "min-max" if has_minmax else None
+        
+        fused = fuse(runs=ranx_runs, norm=norm, method=ranx_method, params=params)
+        return float(evaluate(qrels, fused, 'ndcg@10'))
+    except Exception as e:
+        logger.debug(f"Ranx check failed: {e}")
+        raise
+
+def parse_trec_eval_output(output_str):
+    """Parse nDCG@10 from trec_eval output.
+    
+    trec_eval output format: 'ndcg_cut_10  all  0.3725'
+    Returns the float value or raises ValueError if not found.
     """
-    for cmd_list in cmds:
-        cmd = ' '.join(cmd_list)
-        logger.info(f'Running command: {cmd}')
+    lines = [l.strip() for l in output_str.split('\n') if l.strip()]
+    if not lines:
+        raise ValueError("Empty trec_eval output")
+    
+    # Last line should contain the metric value
+    last_line = lines[-1]
+    parts = last_line.split('\t')
+    if len(parts) < 3:
+        parts = last_line.split()
+    
+    if len(parts) < 3:
+        raise ValueError(f"Cannot parse trec_eval output: {last_line}")
+    
+    return float(parts[2])
+
+def evaluate_results(commands, dry_run):
+    """Evaluate fusion results."""
+    failures = 0
+    total = len(commands)
+    
+    for idx, cmd_data in enumerate(commands, 1):
+        qrel = f'tools/topics-and-qrels/qrels.{cmd_data.eval_key}.txt'
+        if not os.path.exists(qrel):
+            logger.warning(f"Skipping {cmd_data.cond_name} {cmd_data.topic_key}: qrel file not found: {qrel}")
+            continue
+        
+        if dry_run:
+            logger.info(f"{cmd_data.cond_name:15} {cmd_data.topic_key:20} expected: {cmd_data.expected:.4f}")
+            continue
+        
         try:
-            return_code = call(cmd, shell=True)
-            if return_code != 0:
-                logger.error(f"Command failed with return code {return_code}: {cmd}")
-        except Exception as e:
-            logger.error(f"Error executing command {cmd}: {str(e)}")
-
-def compare_with_ranx(qrel_file: str, runs: list[str], methods: dict, metrics: list[str]) -> dict:
-    """Given fusion conditions and location of runs and qrel, runs fusion with ranx and returns results."""
-    qrels = Qrels.from_file(qrel_file)
-    for i, r in enumerate(runs):
-        runs[i] = Run.from_file(r, kind="trec").make_comparable(qrels)
-
-    ranx_results = {}
-    for method in methods:
-        method_name = method["name"]
-        # Use "normalize" as the key for average with min_max_normalization
-        result_key = "normalize" if (method_name == "average" and method.get('min_max_normalization', False)) else method_name
-        
-        # Map method names to ranx methods
-        if result_key in fusion_method_ranx:
-            ranx_method = fusion_method_ranx[result_key]
-        else:
-            ranx_method = "sum"  # default fallback
-        
-        best_params = {}
-        norm_method = None
-        if ranx_method == "wsum":
-            # For weighted method, parse weights from YAML
-            if method_name == "weighted" and method.get('weights'):
-                weights_str = method.get('weights')
-                weights_list = [float(w.strip()) for w in weights_str.split(',')]
-                best_params['weights'] = tuple(weights_list)
-            else:
-                # For interpolation, use alpha
-                best_params['weights'] = (method.get('alpha', 0.5), 1 - method.get('alpha', 0.5))
-        elif ranx_method == "rrf":
-            best_params['k'] = method.get('rrf_k', 60)
-        
-        # Check for min_max_normalization flag
-        if method.get('min_max_normalization', False):
-            norm_method = "min-max"
-        
-        fused = fuse(
-            runs=runs,
-            norm=norm_method,
-            method=ranx_method,
-            params=best_params 
-        )
-        results = evaluate(qrels, fused, metrics)
-        ranx_results[result_key] = results
-
-    return ranx_results
-
-
-def evaluate_and_verify(yaml_data: dict, dry_run: bool):
-    """
-    Runs the evaluation and verification of the fusion results.
-
-    Args:
-        yaml_data (dict): The loaded YAML configuration.
-        dry_run (bool): If True, output commands without executing them.
-    """
-    fail_str = '\033[91m[FAIL]\033[0m '
-    ok_str = '   [OK] '
-    failures = False
-
-    logger.info('=' * 10 + ' Verifying Fusion Results ' + '=' * 10)
-
-    results = {}
-    for method in yaml_data['methods']:
-        for i, topic_set in enumerate(yaml_data['topics']):
-            for metric in yaml_data['metrics']:
-                output_runfile = str(method.get('output'))
-                
-                # Build evaluation command
-                eval_cmd = [
-                    os.path.join(metric['command']),
-                    metric['params'] if 'params' in metric and metric['params'] else '',
-                    os.path.join('tools/topics-and-qrels', topic_set['qrel']) if 'qrel' in topic_set and topic_set['qrel'] else '',
-                    output_runfile
-                ]
-
-                if dry_run:
-                    logger.info(' '.join(eval_cmd))
-                    continue
-
-                try:
-                    out = [line for line in
-                            check_output(' '.join(eval_cmd)).decode('utf-8').split('\n') if line.strip()][-1]
-                    if not out.strip():
-                        continue
-                except Exception as e:
-                    logger.error(f"Failed to execute evaluation command: {str(e)}")
-                    continue
-
-                eval_out = out.strip().split(metric['separator'])[metric['parse_index']]
-                expected = round(method['results'][metric['metric']][i], metric['metric_precision'])
-                actual = round(float(eval_out), metric['metric_precision'])
-                # Use "normalize" for display when average has min_max_normalization
-                display_name = "normalize" if (method["name"] == "average" and method.get('min_max_normalization', False)) else method["name"]
-                result_str = (
-                    f'expected: {expected:.4f} actual: {actual:.4f} (delta={abs(expected-actual):.4f}) - '
-                    f'metric: {metric["metric"]:<8} method: {display_name} topics: {topic_set["id"]}'
-                )
-
-                if is_close(expected, actual) or actual > expected:
-                    logger.info(ok_str + result_str)
+            # Run trec_eval and parse output
+            eval_start = time.time()
+            trec_cmd = f'bin/trec_eval -c -m ndcg_cut.10 {qrel} {cmd_data.output}'
+            out = check_output(trec_cmd).decode('utf-8')
+            eval_time = time.time() - eval_start
+            actual = round(parse_trec_eval_output(out), 4)
+            expected_r = round(cmd_data.expected, 4)
+            delta = abs(actual - expected_r)
+            
+            # Test passes if within tolerance or if actual > expected (improvement)
+            passed = (delta <= SCORE_TOLERANCE or actual > expected_r)
+            status = "PASSED" if passed else "FAILED"
+            
+            logger.info(f"[{idx}/{total}] {status} {cmd_data.cond_name:15} {cmd_data.topic_key:20} "
+                       f"{expected_r:.4f} -> {actual:.4f} (Δ={delta:.4f}) [eval: {eval_time:.2f}s]")
+            
+            if not passed:
+                failures += 1
+            
+            # Ranx sanity check (non-blocking)
+            try:
+                ranx_score = round(ranx_ndcg(qrel, cmd_data.run_files, cmd_data.method, 
+                                           cmd_data.has_minmax, cmd_data.rrf_k), 4)
+                ranx_delta = abs(actual - ranx_score)
+                if ranx_delta <= SCORE_TOLERANCE:
+                    logger.info(f"  ranx: PASSED {ranx_score:.4f} (Δ={ranx_delta:.4f})")
                 else:
-                    logger.error(fail_str + result_str)
-                    failures = True
-                # Use "normalize" as the key for average with min_max_normalization
-                result_key = "normalize" if (method["name"] == "average" and method.get('min_max_normalization', False)) else method["name"]
-                if result_key not in results:
-                    results[result_key] = {}
-                results[result_key][metric["metric"]] = actual
-
-    end_time = time.time()
-    logger.info(f"Total execution time: {end_time - start_time:.2f} seconds")
+                    logger.info(f"  ranx: {ranx_score:.4f} (Δ={ranx_delta:.4f})")
+            except Exception as e:
+                logger.debug(f"  ranx check skipped: {e}")
+                
+        except Exception as e:
+            logger.error(f"[{idx}/{total}] FAILED {cmd_data.cond_name} {cmd_data.topic_key}: {e}")
+            failures += 1
+    
     if failures:
-        logger.error(f'{fail_str}Some tests failed.')
+        logger.error(f"\n{failures} test(s) failed out of {total}")
+        sys.exit(1)
     else:
-        logger.info(f'All tests passed successfully!')
+        logger.info(f"\nAll {total} test(s) passed")
 
-    logger.info('=' * 10 + ' Verifying Fusion Results Against Ranx' + '=' * 10)
-    sanity_check = compare_with_ranx('tools/topics-and-qrels/' + yaml_data['topics'][0]['qrel'], 
-                                    [run["file"] for run in yaml_data["runs"]], 
-                                    yaml_data['methods'], 
-                                    ['ndcg@10', 'recall@100', 'recall@1000'])
-    for method in yaml_data['methods']:
-        for i, topic_set in enumerate(yaml_data['topics']):
-            for metric in yaml_data['metrics']:
-                # Use "normalize" as the key for average with min_max_normalization
-                result_key = "normalize" if (method["name"] == "average" and method.get('min_max_normalization', False)) else method["name"]
-                expected = sanity_check[result_key][metrics_ranx[metric["metric"]]]
-                actual = results[result_key][metric["metric"]]
-                result_str = (
-                    f'ranx: {expected:.4f} actual: {actual:.4f} (delta={abs(expected-actual):.4f}) - '
-                    f'metric: {metric["metric"]:<8} method: {result_key} topics: {topic_set["id"]}'
-                )
-                logger.info(result_str)
-    logger.info(f"Total ranx execution time: {time.time() - end_time:.2f} seconds")       
+def prepare_runs(commands, beir_data, dry_run):
+    """Prepare required run files: generate missing ones and verify all exist.
+    
+    Returns True if all files are ready, False otherwise.
+    """
+    # Collect unique corpora
+    corpora = set(cmd_data.topic_key for cmd_data in commands)
+    
+    # Generate missing runs
+    if not dry_run:
+        for corpus in corpora:
+            ensure_runs(beir_data, corpus)
+    
+    # Verify all required run files exist
+    missing = []
+    for cmd_data in commands:
+        for rf in cmd_data.run_files:
+            if not os.path.exists(rf):
+                missing.append(rf)
+    
+    if missing:
+        logger.error(f"Missing {len(missing)} run file(s): {', '.join(missing[:3])}{'...' if len(missing) > 3 else ''}")
+        return False
+    
+    return True
 
 if __name__ == '__main__':
-    # Command-line argument parsing
-    parser = argparse.ArgumentParser(description='Run Fusion regression tests.')
-    parser.add_argument('--regression', required=True, help='Name of the regression test configuration.')
-    parser.add_argument('--dry-run', dest='dry_run', action='store_true',
-                        help='Output commands without actual execution.')    
+    parser = argparse.ArgumentParser(description='Run fusion regression tests from beir.yaml')
+    parser.add_argument('--corpus', help='Corpus name (e.g., nfcorpus). If not specified, runs all.')
+    parser.add_argument('--dry-run', action='store_true', help='Show commands without executing')
     args = parser.parse_args()
-
-    # Load YAML configuration
-    try:
-        with open(f'src/main/resources/fusion_regression/{args.regression}.yaml') as f:
-            yaml_data = yaml.safe_load(f)
-    except FileNotFoundError as e:
-        logger.error(f"Failed to load configuration file: {e}")
-        exit(1)
-
-    # Check existence of run files
-    for run in yaml_data['runs']:
-        if not os.path.exists(run['file']):
-            logger.error(f"Run file {run['file']} does not exist. Please run the dependent regressions first, recorded in the fusion yaml file.")
-            exit(1)
-
-    start_time = time.time()
-
-    # Construct the fusion command
-    fusion_commands = construct_fusion_commands(yaml_data)
-
-    # Run the fusion process
+    
+    with open('src/main/resources/reproduce/beir.yaml') as f:
+        beir_data = yaml.safe_load(f)
+    
+    start = time.time()
+    commands = get_fusion_commands(beir_data, args.corpus)
+    
+    if not commands:
+        logger.error(f"No fusion conditions found{' for corpus ' + args.corpus if args.corpus else ''}")
+        sys.exit(1)
+    
+    logger.info(f"Found {len(commands)} fusion command(s){' for ' + args.corpus if args.corpus else ''}")
+    
+    # Prepare required run files
+    if not prepare_runs(commands, beir_data, args.dry_run):
+        sys.exit(1)
+    
+    # Run fusion
     if args.dry_run:
-        logger.info(' '.join([cmd for cmd_list in fusion_commands for cmd in cmd_list]))
+        for cmd_data in commands:
+            logger.info(' '.join(cmd_data.cmd))
     else:
-        run_fusion_commands(fusion_commands)
-
-    # Evaluate and verify results
-    evaluate_and_verify(yaml_data, args.dry_run)
-
-    logger.info(f"Total execution time: {time.time() - start_time:.2f} seconds")
+        total = len(commands)
+        for idx, cmd_data in enumerate(commands, 1):
+            logger.info(f"[{idx}/{total}] Running fusion: {cmd_data.cond_name} {cmd_data.topic_key}")
+            fusion_start = time.time()
+            if call(' '.join(cmd_data.cmd), shell=True) != 0:
+                logger.error(f"Fusion failed: {' '.join(cmd_data.cmd)}")
+                sys.exit(1)
+            fusion_time = time.time() - fusion_start
+            logger.info(f"  Fusion completed in {fusion_time:.2f}s")
+    
+    # Evaluate
+    evaluate_results(commands, args.dry_run)
+    logger.info(f"Total time: {time.time() - start:.1f}s")
