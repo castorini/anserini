@@ -1,0 +1,17 @@
+python src/main/python/run_fusion_regression.py --corpus nfcorpus  >2.log
+2025-12-09 00:36:45,622 INFO  [python] Found 2 fusion command(s) for nfcorpus
+2025-12-09 00:36:45,622 INFO  [python] [1/2] Running fusion: fusion-rrf nfcorpus
+WARNING: Using incubator modules: jdk.incubator.vector
+2025-12-09 00:36:46,855 INFO  [python]   Fusion completed in 1.23s
+2025-12-09 00:36:46,855 INFO  [python] [2/2] Running fusion: fusion-avg nfcorpus
+WARNING: Using incubator modules: jdk.incubator.vector
+2025-12-09 00:36:48,121 INFO  [python]   Fusion completed in 1.27s
+2025-12-09 00:36:48,371 INFO  [python] [1/2] PASSED fusion-rrf      nfcorpus             0.3725 -> 0.3725 (Δ=0.0000) [eval: 0.25s]
+2025-12-09 00:36:51,123 INFO  [python]   PASSED ranx: 0.3729 -> 0.3725 (Δ=0.0004) [eval: 2.75s]
+2025-12-09 00:36:51,378 INFO  [python] [2/2] PASSED fusion-avg      nfcorpus             0.3782 -> 0.3782 (Δ=0.0000) [eval: 0.25s]
+2025-12-09 00:36:51,951 INFO  [python]   PASSED ranx: 0.3774 -> 0.3782 (Δ=0.0008) [eval: 0.57s]
+2025-12-09 00:36:51,952 INFO  [python]
+All 2 test(s) passed
+2025-12-09 00:36:51,952 INFO  [python] Total time: 6.3s
+
+we can select corpus to run, run all if nothing flagged

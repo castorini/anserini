@@ -255,13 +255,14 @@ def evaluate_results(commands, dry_run):
             
             # Ranx sanity check (non-blocking)
             try:
+                ranx_start = time.time()
                 ranx_score = round(ranx_ndcg(qrel, cmd_data.run_files, cmd_data.method, 
                                            cmd_data.has_minmax, cmd_data.rrf_k), 4)
+                ranx_time = time.time() - ranx_start
                 ranx_delta = abs(actual - ranx_score)
-                if ranx_delta <= SCORE_TOLERANCE:
-                    logger.info(f"  ranx: PASSED {ranx_score:.4f} (Δ={ranx_delta:.4f})")
-                else:
-                    logger.info(f"  ranx: {ranx_score:.4f} (Δ={ranx_delta:.4f})")
+                ranx_passed = ranx_delta <= SCORE_TOLERANCE
+                ranx_status = "PASSED" if ranx_passed else "FAILED"
+                logger.info(f"  {ranx_status} ranx: {ranx_score:.4f} -> {actual:.4f} (Δ={ranx_delta:.4f}) [eval: {ranx_time:.2f}s]")
             except Exception as e:
                 logger.debug(f"  ranx check skipped: {e}")
                 
