@@ -467,3 +467,5 @@ The following command will reproduce runs corresponding to the above models (as 
 ```bash
 java -cp $ANSERINI_JAR io.anserini.reproduce.RunBright
 ```
+
+To print out the commands that will generate runs for all available models (without actually performing the runs), use the options `-dryRun -printCommands`.
