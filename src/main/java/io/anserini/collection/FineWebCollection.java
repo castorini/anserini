@@ -191,7 +191,6 @@ public class FineWebCollection extends DocumentCollection<FineWebCollection.Docu
                 rawBuilder.append("\"").append(fieldName).append("\":\"").append(escapeJson(id)).append("\"");
                 firstField = false;
                 idFound = true;
-                LOG.info("Found ID field: " + fieldName);
                 break;
               } catch (RuntimeException ignored) {
                 // Not a string, try next
@@ -214,7 +213,6 @@ public class FineWebCollection extends DocumentCollection<FineWebCollection.Docu
           rawBuilder.append("\"id\":\"").append(escapeJson(this.id)).append("\"");
         }
         firstField = false;
-        LOG.info("Auto-generated ID for document: " + this.id);
       }
       
       // Extract contents field - try "text" first, then "contents", or use provided field
