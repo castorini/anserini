@@ -129,10 +129,10 @@ The table below reports the effectiveness of the methods with the R@1000 metric:
 
 ❗ Beware, the (automatically downloaded) indexes for running these experiments take up 374 GB in total.
 
-Let's start out by setting the `ANSERINI_JAR` and the `OUTPUT_DIR`. Note that the jar must be post v0.39.0. The following is an example from the root directory of Anserini after building.
+Let's start out by setting the `ANSERINI_JAR` and the `OUTPUT_DIR`. Note that the jar must be post v1.4.1. The following is an example from the root directory of Anserini after building.
 
 ```bash
-export ANSERINI_JAR="./target/anserini-0.39.1-SNAPSHOT-fatjar.jar"
+export ANSERINI_JAR="./target/anserini-1.4.1-SNAPSHOT-fatjar.jar"
 export OUTPUT_DIR="./runs"
 ```
 
@@ -197,6 +197,13 @@ do
     java -cp $ANSERINI_JAR trec_eval -c -m recall.1000 qrels.beir-v1.0.0-${c}.test.txt $OUTPUT_DIR/runs.fuse.norm.beir-v1.0.0-${c}.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-${c}.test.txt
 done
 ```  
+
+We have a 2cr python script to run regression tests for fusion methods.
+```python
+python src/main/python/run_fusion_regression.py
+python src/main/python/run_fusion_regression.py --corpus nfcorpus # to test specified corpus
+python src/main/python/run_fusion_regression.py --dry-run         # Show commands without executing
+```
 
 ## Reproduction Log[*](reproducibility.md)
 

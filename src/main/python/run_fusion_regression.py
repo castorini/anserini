@@ -261,7 +261,7 @@ def evaluate_results(commands, dry_run):
                 ranx_time = time.time() - ranx_start
                 ranx_delta = abs(actual - ranx_score)
                 ranx_passed = ranx_delta <= SCORE_TOLERANCE
-                ranx_status = "PASSED" if ranx_passed else "FAILED"
+                ranx_status = "PASSED" if ranx_passed else "DIFF"
                 logger.info(f"  {ranx_status} ranx: {ranx_score:.4f} -> {actual:.4f} (Δ={ranx_delta:.4f}) [eval: {ranx_time:.2f}s]")
             except Exception as e:
                 logger.debug(f"  ranx check skipped: {e}")

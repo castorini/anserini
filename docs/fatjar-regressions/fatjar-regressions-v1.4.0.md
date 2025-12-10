@@ -1,4 +1,4 @@
-# Anserini Fatjar Regresions (v1.4.0) For code review only
+# Anserini Fatjar Regresions (v1.4.0)
 
 Fetch the fatjar:
 
@@ -421,45 +421,6 @@ java -cp $ANSERINI_JAR io.anserini.reproduce.RunBeir
 ```
 
 To print out the commands that will generate runs for all available models (without actually performing the runs), use the options `-dryRun -printCommands`.
-
-### BEIR Fusion Results
-
-The table below reports fusion results (nDCG@10) combining BM25 (flat) and BGE (flat) runs:
-
-+ **RRF**: Reciprocal Rank Fusion (k=60)
-+ **Average**: Average fusion with min-max normalization
-
-| Corpus                    | BM25 (flat) | BGE (flat) |   RRF  | Average |
-|:--------------------------|:-----------:|:----------:|-------:|--------:|
-| `trec-covid`              |   0.5947    |   0.7815   | 0.8041 |  0.7956 |
-| `bioasq`                  |   0.5225    |   0.4148   | 0.5278 |  0.5427 |
-| `nfcorpus`                |   0.3218    |   0.3735   | 0.3725 |  0.3782 |
-| `nq`                      |   0.3055    |   0.5415   | 0.4831 |  0.5183 |
-| `hotpotqa`                |   0.6330    |   0.7259   | 0.7389 |  0.7658 |
-| `fiqa`                    |   0.2361    |   0.4065   | 0.3671 |  0.3942 |
-| `signal1m`                |   0.3304    |   0.2886   | 0.3533 |  0.3624 |
-| `trec-news`               |   0.3952    |   0.4424   | 0.4855 |  0.5008 |
-| `robust04`                |   0.4070    |   0.4435   | 0.5070 |  0.5127 |
-| `arguana`                 |   0.3970    |   0.6375   | 0.5626 |  0.5738 |
-| `webis-touche2020`        |   0.4422    |   0.2571   | 0.3771 |  0.3755 |
-| `cqadupstack-android`     |   0.3801    |   0.5076   | 0.4652 |  0.4868 |
-| `cqadupstack-english`     |   0.3453    |   0.4857   | 0.4461 |  0.4671 |
-| `cqadupstack-gaming`      |   0.4822    |   0.5967   | 0.5615 |  0.5818 |
-| `cqadupstack-gis`         |   0.2901    |   0.4131   | 0.3679 |  0.3937 |
-| `cqadupstack-mathematica` |   0.2015    |   0.3163   | 0.2751 |  0.2951 |
-| `cqadupstack-physics`     |   0.3214    |   0.4724   | 0.4143 |  0.4375 |
-| `cqadupstack-programmers` |   0.2802    |   0.4238   | 0.3715 |  0.4005 |
-| `cqadupstack-stats`       |   0.2711    |   0.3728   | 0.3414 |  0.3534 |
-| `cqadupstack-tex`         |   0.2244    |   0.3115   | 0.2931 |  0.3090 |
-| `cqadupstack-unix`        |   0.2749    |   0.4220   | 0.3597 |  0.3853 |
-| `cqadupstack-webmasters`  |   0.3059    |   0.4072   | 0.3711 |  0.3857 |
-| `cqadupstack-wordpress`   |   0.2483    |   0.3547   | 0.3353 |  0.3546 |
-| `quora`                   |   0.7886    |   0.8876   | 0.8682 |  0.8859 |
-| `dbpedia-entity`          |   0.3180    |   0.4073   | 0.4190 |  0.4374 |
-| `scidocs`                 |   0.1490    |   0.2172   | 0.1948 |  0.2019 |
-| `fever`                   |   0.6513    |   0.8629   | 0.8108 |  0.8584 |
-| `climate-fever`           |   0.1651    |   0.3117   | 0.2812 |  0.2946 |
-| `scifact`                 |   0.6789    |   0.7408   | 0.7420 |  0.7472 |
 
 ## BRIGHT
 
