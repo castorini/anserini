@@ -7,7 +7,13 @@
   </Appenders>
   <Loggers>
     <Logger name="org.apache.log4j.xml" level="info"/>
-    <Root level="debug">
+    <!-- Suppress verbose Parquet and Hadoop internal logging -->
+    <Logger name="org.apache.parquet" level="error"/>
+    <Logger name="org.apache.parquet.hadoop" level="error"/>
+    <Logger name="parquet" level="error"/>
+    <Logger name="parquet.hadoop" level="error"/>
+    <Logger name="org.apache.hadoop" level="warn"/>
+    <Root level="info">
       <AppenderRef ref="STDOUT"/>
     </Root>
   </Loggers>
