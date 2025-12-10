@@ -1,3 +1,4 @@
-FineWeb sample document 2: another small piece of text for FineWeb tests.
+FineWeb sample document 2: another example text for testing auto-generated IDs.
+
 
 
