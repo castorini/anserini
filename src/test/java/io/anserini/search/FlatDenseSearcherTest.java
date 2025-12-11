@@ -16,15 +16,6 @@
 
 package io.anserini.search;
 
-import io.anserini.index.IndexFlatDenseVectors;
-import io.anserini.search.topicreader.JsonIntVectorTopicReader;
-import io.anserini.search.topicreader.TopicReader;
-import io.anserini.search.topicreader.TsvIntTopicReader;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.core.config.Configurator;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -32,11 +23,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 
-import static org.junit.Assert.assertEquals;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
-public class FlatDenseSearcherTest {
+import io.anserini.SuppresedLoggingLuceneTestCase;
+import io.anserini.index.AbstractIndexer;
+import io.anserini.index.IndexFlatDenseVectors;
+import io.anserini.search.topicreader.JsonIntVectorTopicReader;
+import io.anserini.search.topicreader.TopicReader;
+import io.anserini.search.topicreader.TsvIntTopicReader;
+
+public class FlatDenseSearcherTest extends SuppresedLoggingLuceneTestCase {
   @BeforeClass
   public static void setupClass() {
+    suppressJvmLogging();
+
+    Configurator.setLevel(AbstractIndexer.class.getName(), Level.ERROR);
     Configurator.setLevel(IndexFlatDenseVectors.class.getName(), Level.ERROR);
     Configurator.setLevel(FlatDenseSearcher.class.getName(), Level.ERROR);
   }

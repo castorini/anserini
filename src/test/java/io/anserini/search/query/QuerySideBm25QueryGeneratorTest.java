@@ -16,24 +16,89 @@
 
 package io.anserini.search.query;
 
-import io.anserini.index.IndexCollection;
-import io.anserini.index.IndexReaderUtils;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.nio.file.Path;
+
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.store.FSDirectory;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.io.IOException;
-import java.nio.file.Path;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import io.anserini.index.IndexCollection;
+import io.anserini.index.IndexReaderUtils;
+import io.anserini.util.PrebuiltIndexHandler;
 
 public class QuerySideBm25QueryGeneratorTest {
+  // Note, cannot extend StdOutStdErrRedirectableLuceneTestCase due to concurrency issues.
+  // So, we have to duplicate code to save/restore stderr/stdout.
+
+  protected final ByteArrayOutputStream out = new ByteArrayOutputStream();
+  protected final ByteArrayOutputStream err = new ByteArrayOutputStream();
+  protected PrintStream saveOut;
+  protected PrintStream saveErr;
+
+  protected void redirectStdErr() {
+    saveErr = System.err;
+    err.reset();
+    System.setErr(new PrintStream(err));
+  }
+
+  protected void restoreStdErr() {
+    System.setErr(saveErr);
+  }
+
+  protected void redirectStdOut() {
+    saveOut = System.out;
+    out.reset();
+    System.setOut(new PrintStream(out));
+  }
+
+  protected void restoreStdOut() {
+    System.setOut(saveOut);
+  }
+
+  protected static void suppressJvmLogging() {
+    // Suppresses warnings like the following, which is not from Anserini code, but from deeper in the JVM.
+    // WARNING: Java vector incubator module is not readable. For optimal vector performance, pass '--add-modules jdk.incubator.vector' to enable Vector API.
+    java.util.logging.Logger root = java.util.logging.Logger.getLogger("");
+    root.setLevel(java.util.logging.Level.OFF); // suppress INFO and below
+    for (var handler : root.getHandlers()) {
+      handler.setLevel(java.util.logging.Level.OFF);
+    }
+  }
+
+  @BeforeClass
+  public static void setupClass() {
+    suppressJvmLogging();
+
+    Configurator.setLevel(PrebuiltIndexHandler.class.getName(), Level.ERROR);
+  }
+
+  @Before
+  public void setUp() throws Exception {
+    redirectStdOut();
+    redirectStdErr();
+  }
+
+  @After
+  public void tearDown() throws Exception {
+    restoreStdOut();
+    restoreStdErr();
+  }
+
   @Test
   public void test1() throws IOException {
     String TEST_INDEX = "beir-v1.0.0-nfcorpus.flat";
@@ -55,5 +120,7 @@ public class QuerySideBm25QueryGeneratorTest {
     assertEquals("(contents:do)^2.0192628", (bq.clauses().get(4).getQuery().toString()));
     assertEquals("(contents:breast)^1.6456642", (bq.clauses().get(5).getQuery().toString()));
     assertEquals("(contents:drug)^1.7181631", (bq.clauses().get(6).getQuery().toString()));
+
+    reader.close();
   }
 }

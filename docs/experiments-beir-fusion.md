@@ -7,7 +7,7 @@ Currently, Anserini provides support for the following fusion methods:
 + RRF = Reciprocal Rank Fusion
 + Average = averaging scores on a list of runs, CombSUM
 + Interpolation = Weighted sum of two runs
-+ Normalize = average of scores normalized between [0, 1]
++ Normalize = averaging scores after min-max normalization to [0, 1]
 
 
 ## Results 
@@ -32,8 +32,8 @@ The table below reports the effectiveness of the methods with the nDCG@10 metric
 | `fiqa`                    | 0.3671 |  0.2470 |     0.2470    |   0.3942  | 0.2361 | 0.4065 |
 | `signal1m`                | 0.3533 |  0.3467 |     0.3467    |   0.3624  | 0.3304 | 0.2886 |
 | `trec-news`               | 0.4855 |  0.4162 |     0.4162    |   0.5008  | 0.3952 | 0.4424 |
-| `robust04`                | 0.5087 |  0.4327 |     0.4327    |   0.5127  | 0.4070 | 0.4435 |
-| `arguana`                 | 0.5586 |  0.3986 |     0.3986    |   0.5694  | 0.3970 | 0.6228 |
+| `robust04`                | 0.5070 |  0.4327 |     0.4327    |   0.5127  | 0.4070 | 0.4435 |
+| `arguana`                 | 0.5626 |  0.3986 |     0.3986    |   0.5694  | 0.3970 | 0.6228 |
 | `webis-touche2020`        | 0.3771 |  0.4510 |     0.4510    |   0.3755  | 0.4422 | 0.2571 |
 | `cqadupstack-android`     | 0.4652 |  0.3872 |     0.3872    |   0.4868  | 0.3801 | 0.5076 |
 | `cqadupstack-english`     | 0.4461 |  0.3601 |     0.3601    |   0.4671  | 0.3453 | 0.4857 |
@@ -67,8 +67,8 @@ The table below reports the effectiveness of the methods with the R@100 metric:
 | `fiqa`                    | 0.7160 |  0.5639 |     0.5639    |   0.7041  | 0.5395 | 0.7415 |
 | `signal1m`                | 0.4008 |  0.4077 |     0.4077    |   0.3947  | 0.3703 | 0.3112 |
 | `trec-news`               | 0.5545 |  0.4751 |     0.4751    |   0.5564  | 0.4469 | 0.4992 |
-| `robust04`                | 0.4474 |  0.3963 |     0.3963    |   0.4434  | 0.3746 | 0.3510 |
-| `arguana`                 | 0.9879 |  0.9331 |     0.9331    |   0.9879  | 0.9324 | 0.9716 |
+| `robust04`                | 0.4465 |  0.3963 |     0.3963    |   0.4434  | 0.3746 | 0.3510 |
+| `arguana`                 | 0.9893 |  0.9331 |     0.9331    |   0.9879  | 0.9324 | 0.9716 |
 | `webis-touche2020`        | 0.6169 |  0.5878 |     0.5878    |   0.6039  | 0.5822 | 0.4867 |
 | `cqadupstack-android`     | 0.8203 |  0.7076 |     0.7076    |   0.8155  | 0.6829 | 0.8454 |
 | `cqadupstack-english`     | 0.7520 |  0.6022 |     0.6022    |   0.7429  | 0.5757 | 0.7586 |
@@ -102,7 +102,7 @@ The table below reports the effectiveness of the methods with the R@1000 metric:
 | `fiqa`                    | 0.8979 |  0.7402 |     0.7402    |   0.9011  | 0.7393 | 0.9083 |
 | `signal1m`                | 0.6139 |  0.5642 |     0.5642    |   0.6097  | 0.5642 | 0.5331 |
 | `trec-news`               | 0.8169 |  0.7051 |     0.7051    |   0.8158  | 0.7051 | 0.7875 |
-| `robust04`                | 0.7237 |  0.6345 |     0.6345    |   0.7200  | 0.6345 | 0.5961 |
+| `robust04`                | 0.7219 |  0.6345 |     0.6345    |   0.7200  | 0.6345 | 0.5961 |
 | `arguana`                 | 0.9964 |  0.9893 |     0.9893    |   0.9964  | 0.9872 | 0.9929 |
 | `webis-touche2020`        | 0.8912 |  0.8621 |     0.8621    |   0.8896  | 0.8621 | 0.8298 |
 | `cqadupstack-android`     | 0.9537 |  0.8646 |     0.8646    |   0.9550  | 0.8632 | 0.9611 |
@@ -129,10 +129,10 @@ The table below reports the effectiveness of the methods with the R@1000 metric:
 
 ❗ Beware, the (automatically downloaded) indexes for running these experiments take up 374 GB in total.
 
-Let's start out by setting the `ANSERINI_JAR` and the `OUTPUT_DIR`. Note that the jar must be post v0.39.0. The following is an example from the root directory of Anserini after building.
+Let's start out by setting the `ANSERINI_JAR` and the `OUTPUT_DIR`. Note that the jar must be post v1.4.1. The following is an example from the root directory of Anserini after building.
 
 ```bash
-export ANSERINI_JAR="./target/anserini-0.39.1-SNAPSHOT-fatjar.jar"
+export ANSERINI_JAR="./target/anserini-1.4.1-SNAPSHOT-fatjar.jar"
 export OUTPUT_DIR="./runs"
 ```
 
@@ -157,8 +157,8 @@ do
     # interp fuse
     java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.fusion.FuseRuns -runs $OUTPUT_DIR/run.inverted.beir-v1.0.0-${c}.flat.test.bm25 $OUTPUT_DIR/run.flat.beir-v1.0.0-${c}.bge-base-en-v1.5.test.bge-flat-onnx -output $OUTPUT_DIR/runs.fuse.interp.beir-v1.0.0-${c}.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-${c}.test.txt -method interpolation -k 1000 -depth 1000 -rrf_k 60 -alpha 0.5
 
-    # normalize fuse
-    java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.fusion.FuseRuns -runs $OUTPUT_DIR/run.inverted.beir-v1.0.0-${c}.flat.test.bm25 $OUTPUT_DIR/run.flat.beir-v1.0.0-${c}.bge-base-en-v1.5.test.bge-flat-onnx -output $OUTPUT_DIR/runs.fuse.norm.beir-v1.0.0-${c}.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-${c}.test.txt -method normalize -k 1000 -depth 1000 -rrf_k 60 -alpha 0.5
+    # avg with min-max-normalize fuse
+    java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.fusion.FuseRuns -runs $OUTPUT_DIR/run.inverted.beir-v1.0.0-${c}.flat.test.bm25 $OUTPUT_DIR/run.flat.beir-v1.0.0-${c}.bge-base-en-v1.5.test.bge-flat-onnx -output $OUTPUT_DIR/runs.fuse.norm.beir-v1.0.0-${c}.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-${c}.test.txt -method average -k 1000 -depth 1000 -rrf_k 60 -alpha 0.5 -min_max_normalization
 done
 ```
 
@@ -189,7 +189,7 @@ do
 
     java -cp $ANSERINI_JAR trec_eval -c -m recall.1000 qrels.beir-v1.0.0-${c}.test.txt $OUTPUT_DIR/runs.fuse.interp.beir-v1.0.0-${c}.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-${c}.test.txt
 
-    echo normalize
+    echo avg with min-max-normalization
     java -cp $ANSERINI_JAR trec_eval -c -m ndcg_cut.10 qrels.beir-v1.0.0-${c}.test.txt $OUTPUT_DIR/runs.fuse.norm.beir-v1.0.0-${c}.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-${c}.test.txt
 
     java -cp $ANSERINI_JAR trec_eval -c -m recall.100 qrels.beir-v1.0.0-${c}.test.txt $OUTPUT_DIR/runs.fuse.norm.beir-v1.0.0-${c}.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-${c}.test.txt
@@ -197,6 +197,13 @@ do
     java -cp $ANSERINI_JAR trec_eval -c -m recall.1000 qrels.beir-v1.0.0-${c}.test.txt $OUTPUT_DIR/runs.fuse.norm.beir-v1.0.0-${c}.flat.bm25.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-${c}.test.txt
 done
 ```  
+
+We have a 2cr python script to run regression tests for fusion methods.
+```python
+python src/main/python/run_fusion_regression.py
+python src/main/python/run_fusion_regression.py --corpus nfcorpus # to test specified corpus
+python src/main/python/run_fusion_regression.py --dry-run         # Show commands without executing
+```
 
 ## Reproduction Log[*](reproducibility.md)
 

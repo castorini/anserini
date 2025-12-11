@@ -101,7 +101,8 @@ public class TrecCollection extends DocumentCollection<TrecCollection.Document> 
         FileInputStream fin = new FileInputStream(fileName);
         BufferedInputStream in = new BufferedInputStream(fin);
         ZCompressorInputStream zIn = new ZCompressorInputStream(in);
-        bufferedReader = new BufferedReader(new InputStreamReader(zIn, StandardCharsets.UTF_8));
+        InputStreamReader inReader = new InputStreamReader(zIn, StandardCharsets.UTF_8);
+        bufferedReader = new BufferedReader(inReader);
       } else if (fileName.endsWith(".gz")) { //.gz
         InputStream stream = new GZIPInputStream(
             Files.newInputStream(path, StandardOpenOption.READ), BUFFER_SIZE);
@@ -163,7 +164,7 @@ public class TrecCollection extends DocumentCollection<TrecCollection.Document> 
         }
 
         if (found) {
-          if (line.startsWith("<")) {
+          if (line != null && line.startsWith("<")) {
             if (inTag >= 0 && line.startsWith(Document.endTags[inTag])) {
               builder.append(line).append("\n");
               inTag = -1;
@@ -177,7 +178,7 @@ public class TrecCollection extends DocumentCollection<TrecCollection.Document> 
             }
           }
           if (inTag >= 0) {
-            if (line.endsWith(Document.endTags[inTag])) {
+            if (line != null && line.endsWith(Document.endTags[inTag])) {
               builder.append(line).append("\n");
               inTag = -1;
             } else {
@@ -186,7 +187,7 @@ public class TrecCollection extends DocumentCollection<TrecCollection.Document> 
           }
         }
 
-        if (line.startsWith(Document.TERMINATING_DOC)) {
+        if (line != null && line.startsWith(Document.TERMINATING_DOC)) {
           parseRecord(builder);
           return;
         }

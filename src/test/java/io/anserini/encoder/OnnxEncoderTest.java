@@ -16,15 +16,20 @@
 
 package io.anserini.encoder;
 
-import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
-public class OnnxEncoderTest {
+import io.anserini.SuppresedLoggingLuceneTestCase;
+
+public class OnnxEncoderTest extends SuppresedLoggingLuceneTestCase {
+  @BeforeClass
+  public static void setupClass() {
+    suppressJvmLogging();
+  }
 
   // Tests the convertTokensToIds method with empty query.
   @Test
