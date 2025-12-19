@@ -206,6 +206,24 @@ public enum Qrels {
   BRIGHT_THEOREMQA_THEOREMS("qrels.bright-theoremqa-theorems.txt"),
   BRIGHT_THEOREMQA_QUESTIONS("qrels.bright-theoremqa-questions.txt");
 
+  M_BEIR_CIRR_TASK7_TEST("qrels.m-beir-cirr-task7.test.txt");
+  M_BEIR_FASHIONIQ_TASK7_TEST("qrels.m-beir-fashioniq-task7.test.txt");
+  M_BEIR_MSCOCO_TASK0_TEST("qrels.m-beir-mscoco-task0.test.txt");
+  M_BEIR_MSCOCO_TASK3_TEST("qrels.m-beir-mscoco-task3.test.txt");
+  M_BEIR_VISUALNEWS_TASK0_TEST("qrels.m-beir-visualnews-task0.test.txt");
+  M_BEIR_VISUALNEWS_TASK3_TEST("qrels.m-beir-visualnews-task3.test.txt");
+  M_BEIR_EDIS_TASK2_TEST("qrels.m-beir-edis-task2.test.txt");
+  M_BEIR_INFOSEEK_TASK6_TEST("qrels.m-beir-infoseek-task6.test.txt");
+  M_BEIR_INFOSEEK_TASK8_TEST("qrels.m-beir-infoseek-task8.test.txt");
+  M_BEIR_NIGHTS_TASK4_TEST("qrels.m-beir-nights-task4.test.txt");
+  M_BEIR_OVEN_TASK6_TEST("qrels.m-beir-oven-task6.test.txt");
+  M_BEIR_OVEN_TASK8_TEST("qrels.m-beir-oven-task8.test.txt");
+  M_BEIR_WEBQA_TASK1_TEST("qrels.m-beir-webqa-task1.test.txt");
+  M_BEIR_WEBQA_TASK2_TEST("qrels.m-beir-webqa-task2.test.txt");
+  M_BEIR_FASHION200K_TASK0_TEST("qrels.m-beir-fashion200k-task0.test.txt");
+  M_BEIR_FASHION200K_TASK3_TEST("qrels.m-beir-fashion200k-task3.test.txt");
+
+
   private static final Map<String, String> symbolFileDict = generateSymbolFileDict();
 
   private static HashMap<String, String> generateSymbolFileDict() {
