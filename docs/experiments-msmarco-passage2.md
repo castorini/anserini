@@ -176,3 +176,4 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@MuhammadAli13562](https://github.com/MuhammadAli13562) on 2025-12-18 (commit [`68311a1`](https://github.com/castorini/anserini/commit/68311a10242c77bccc0fa97200b0627f0e223767))
 + Results reproduced by [@Hossein-Molaeian](https://github.com/Hossein-Molaeian) on 2025-12-19 (commit [`b64fba2`](https://github.com/castorini/anserini/commit/b64fba2b603051abc1b2530432c29a367f7e769f))
 + Results reproduced by [@anjanpa](https://github.com/anjanpa) on 2025-12-17 (commit [`1d062ef`](https://github.com/castorini/anserini/commit/1d062ef7461b0da9dd861b5385aa4bbcf61bb272))
++ Results reproduced by [@mhmmdmostafavi](https://github.com/mhmmdmostafavi) on 2025-12-25 (commit [`1c5cd32`](https://github.com/castorini/anserini/commit/1c5cd32b48f03f63eb5752834600ad7c17e5fe7d))
