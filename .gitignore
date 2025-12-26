@@ -82,3 +82,9 @@ tools/topics-and-qrels/qrels.covid-round2-cumulative.txt
 /src/main/python/onnx/models/*
 /src/main/python/parquet/venv*
 
+
+# Local tools
+/pax_global_header
+/trec_eval-9.0.7/
+/trec_eval_bin/
+
