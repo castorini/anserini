@@ -38,7 +38,7 @@ public class TopicReaderTest {
       String path = topic.path;
       assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(path));
     }
-    assertEquals(555, cnt);
+    assertEquals(571, cnt);
   }
 
   @Test
@@ -2188,6 +2188,27 @@ public class TopicReaderTest {
     assertEquals(76, TopicReader.getTopics(Topics.BRIGHT_THEOREMQA_THEOREMS_BGE_LARGE_EN_15).keySet().size());
     assertEquals(194, TopicReader.getTopics(Topics.BRIGHT_THEOREMQA_QUESTIONS_BGE_LARGE_EN_15).keySet().size());
   }
+
+  @Test
+  public void testMBEIRTopics() throws IOException {
+    assertEquals(103, TopicReader.getTopics(Topics.MBEIR_CIRR_TASK7_TEST).keySet().size());
+    assertEquals(116, TopicReader.getTopics(Topics.MBEIR_EDIS_TASK2_TEST).keySet().size());
+    assertEquals(103, TopicReader.getTopics(Topics.MBEIR_FASHION200K_TASK0_TEST).keySet().size());
+    assertEquals(101, TopicReader.getTopics(Topics.MBEIR_FASHION200K_TASK3_TEST).keySet().size());
+    assertEquals(101, TopicReader.getTopics(Topics.MBEIR_FASHIONIQ_TASK7_TEST).keySet().size());
+    assertEquals(117, TopicReader.getTopics(Topics.MBEIR_INFOSEEK_TASK6_TEST).keySet().size());
+    assertEquals(108, TopicReader.getTopics(Topics.MBEIR_INFOSEEK_TASK8_TEST).keySet().size());
+    assertEquals(112, TopicReader.getTopics(Topics.MBEIR_MSCOCO_TASK0_TEST).keySet().size());
+    assertEquals(142, TopicReader.getTopics(Topics.MBEIR_MSCOCO_TASK3_TEST).keySet().size());
+    assertEquals(111, TopicReader.getTopics(Topics.MBEIR_NIGHTS_TASK4_TEST).keySet().size());
+    assertEquals(76, TopicReader.getTopics(Topics.MEIR_OVEN_TASK6_TEST).keySet().size());
+    assertEquals(194, TopicReader.getTopics(Topics.MBEIR_OVEN_TASK8_TEST).keySet().size());
+    assertEquals(142, TopicReader.getTopics(Topics.MBEIR_VISUALNEWS_TASK0_TEST).keySet().size());
+    assertEquals(111, TopicReader.getTopics(Topics.MBEIR_VISUALNEWS_TASK3_TEST).keySet().size());
+    assertEquals(76, TopicReader.getTopics(Topics.MBEIR_WEBQA_TASK1_TEST).keySet().size());
+    assertEquals(194, TopicReader.getTopics(Topics.MBEIR_WEBQA_TASK2_TEST).keySet().size());
+  }
+
 
   @Test
   public void testGetTopicsWithStringIdsFromFileWithTopicReader() {
