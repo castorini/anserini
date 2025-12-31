@@ -42,11 +42,10 @@ public class JsonStringTopicReader extends TopicReader<String> {
     while ((line = reader.readLine()) != null) {
       line = line.trim();
       JsonNode lineNode = mapper.readerFor(JsonNode.class).readTree(line);
-      String topicID = lineNode.get("id").asText();
-
+      String topicID = lineNode.get("id") != null ? lineNode.get("id").asText() : lineNode.get("qid").asText();
       Map<String, String> fields = new HashMap<>();
       lineNode.properties().forEach( e -> {
-	      if ("id".equals(e.getKey())) return; //skip id
+	      if ("id".equals(e.getKey()) || "qid".equals(e.getKey())) return; //skip id
 	      fields.put(e.getKey(), e.getValue().asText());
       });
       map.put(topicID, fields);

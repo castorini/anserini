@@ -38,7 +38,7 @@ public class TopicReaderTest {
       String path = topic.path;
       assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(path));
     }
-    assertEquals(555, cnt);
+    assertEquals(571, cnt);
   }
 
   @Test
@@ -2188,6 +2188,27 @@ public class TopicReaderTest {
     assertEquals(76, TopicReader.getTopics(Topics.BRIGHT_THEOREMQA_THEOREMS_BGE_LARGE_EN_15).keySet().size());
     assertEquals(194, TopicReader.getTopics(Topics.BRIGHT_THEOREMQA_QUESTIONS_BGE_LARGE_EN_15).keySet().size());
   }
+
+  @Test
+  public void testMBEIRTopics() throws IOException {
+    assertEquals(4170, TopicReader.getTopics(Topics.M_BEIR_CIRR_TASK7_TEST).keySet().size());
+    assertEquals(3241, TopicReader.getTopics(Topics.M_BEIR_EDIS_TASK2_TEST).keySet().size());
+    assertEquals(1719, TopicReader.getTopics(Topics.M_BEIR_FASHION200K_TASK0_TEST).keySet().size());
+    assertEquals(4889, TopicReader.getTopics(Topics.M_BEIR_FASHION200K_TASK3_TEST).keySet().size());
+    assertEquals(6003, TopicReader.getTopics(Topics.M_BEIR_FASHIONIQ_TASK7_TEST).keySet().size());
+    assertEquals(11323, TopicReader.getTopics(Topics.M_BEIR_INFOSEEK_TASK6_TEST).keySet().size());
+    assertEquals(17593, TopicReader.getTopics(Topics.M_BEIR_INFOSEEK_TASK8_TEST).keySet().size());
+    assertEquals(24809, TopicReader.getTopics(Topics.M_BEIR_MSCOCO_TASK0_TEST).keySet().size());
+    assertEquals(5000, TopicReader.getTopics(Topics.M_BEIR_MSCOCO_TASK3_TEST).keySet().size());
+    assertEquals(2120, TopicReader.getTopics(Topics.M_BEIR_NIGHTS_TASK4_TEST).keySet().size());
+    assertEquals(50004, TopicReader.getTopics(Topics.M_BEIR_OVEN_TASK6_TEST).keySet().size());
+    assertEquals(14741, TopicReader.getTopics(Topics.M_BEIR_OVEN_TASK8_TEST).keySet().size());
+    assertEquals(19995, TopicReader.getTopics(Topics.M_BEIR_VISUALNEWS_TASK0_TEST).keySet().size());
+    assertEquals(20000, TopicReader.getTopics(Topics.M_BEIR_VISUALNEWS_TASK3_TEST).keySet().size());
+    assertEquals(2455, TopicReader.getTopics(Topics.M_BEIR_WEBQA_TASK1_TEST).keySet().size());
+    assertEquals(2511, TopicReader.getTopics(Topics.M_BEIR_WEBQA_TASK2_TEST).keySet().size());
+  }
+
 
   @Test
   public void testGetTopicsWithStringIdsFromFileWithTopicReader() {
