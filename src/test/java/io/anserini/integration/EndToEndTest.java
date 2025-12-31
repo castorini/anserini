@@ -240,6 +240,7 @@ public abstract class EndToEndTest extends StdOutStdErrRedirectableLuceneTestCas
     CheckIndex checker = new CheckIndex(dir);
     checker.setInfoStream(new PrintStream(bos, false, IOUtils.UTF_8));
     if (VERBOSE) checker.setInfoStream(System.out);
+    checker.setLevel(3);
     CheckIndex.Status indexStatus = checker.checkIndex();
     if (!indexStatus.clean) {
       System.out.println("CheckIndex failed");
@@ -251,24 +252,16 @@ public abstract class EndToEndTest extends StdOutStdErrRedirectableLuceneTestCas
     assertTrue(seg.openReaderPassed);
 
     assertNotNull(seg.diagnostics);
+    assertNotNull(seg.fieldNormStatus);
+    assertNull(seg.fieldNormStatus.error);
+    assertEquals(this.fieldNormStatusTotalFields, seg.fieldNormStatus.totFields);
 
-    if (seg.fieldNormStatus != null) {
-      assertNull(seg.fieldNormStatus.error);
-      assertEquals(this.fieldNormStatusTotalFields, seg.fieldNormStatus.totFields);
-    }
+    assertEquals(this.termIndexStatusTermCount, seg.termIndexStatus.termCount);
+    assertEquals(this.termIndexStatusTotFreq, seg.termIndexStatus.totFreq);
+    assertEquals(this.termIndexStatusTotPos, seg.termIndexStatus.totPos);
 
-    if (seg.termIndexStatus != null) {
-      assertNull(seg.termIndexStatus.error);
-      assertEquals(this.termIndexStatusTermCount, seg.termIndexStatus.termCount);
-      assertEquals(this.termIndexStatusTotFreq, seg.termIndexStatus.totFreq);
-      assertEquals(this.termIndexStatusTotPos, seg.termIndexStatus.totPos);
-    }
-
-    if (seg.storedFieldStatus != null) {
-      assertNull(seg.storedFieldStatus.error);
-      assertEquals(this.storedFieldStatusTotalDocCounts, seg.storedFieldStatus.docCount);
-      assertEquals(this.storedFieldStatusTotFields, seg.storedFieldStatus.totFields);
-    }
+    assertEquals(this.storedFieldStatusTotalDocCounts, seg.storedFieldStatus.docCount);
+    assertEquals(this.storedFieldStatusTotFields, seg.storedFieldStatus.totFields);
 
     assertTrue(seg.diagnostics.size() > 0);
     final List<String> onlySegments = new ArrayList<>();
