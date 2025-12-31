@@ -16,11 +16,9 @@
 
 package io.anserini.index.generator;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import io.anserini.analysis.DefaultEnglishAnalyzer;
-import io.anserini.collection.CoreCollection;
-import io.anserini.index.Constants;
-import io.anserini.index.IndexCollection;
+import java.io.StringReader;
+import java.util.List;
+
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.TokenStream;
@@ -34,8 +32,12 @@ import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.util.BytesRef;
 
-import java.io.StringReader;
-import java.util.List;
+import com.fasterxml.jackson.databind.JsonNode;
+
+import io.anserini.analysis.DefaultEnglishAnalyzer;
+import io.anserini.collection.CoreCollection;
+import io.anserini.index.Constants;
+import io.anserini.index.IndexCollection;
 
 /**
  * Converts a {@link CoreCollection.Document} into a Lucene {@link Document}, ready to be indexed.
@@ -153,13 +155,15 @@ public class CoreGenerator implements LuceneDocumentGenerator<CoreCollection.Doc
     } else if (FIELDS_WITHOUT_STEMMING.contains(key)) {
       // index field without stemming but store original string value
       FieldType nonStemmedType = new FieldType(fieldType);
-      nonStemmedType.setStored(true);
+      nonStemmedType.setStored(false); // TokenStream fields cannot be stored in Lucene 10.1.0
 
-      // token stream to be indexed
+      // Store the original string value as StoredField (add first so getField() returns it for stringValue())
+      doc.add(new StoredField(key, valueText));
+      
+      // token stream to be indexed (add second, but test accesses via getFields() iteration)
       Analyzer nonStemmingAnalyzer = DefaultEnglishAnalyzer.newNonStemmingInstance(CharArraySet.EMPTY_SET);
       TokenStream stream = nonStemmingAnalyzer.tokenStream(null, new StringReader(value.asText()));
-      Field field = new Field(key, valueText, nonStemmedType);
-      field.setTokenStream(stream);
+      Field field = new Field(key, stream, nonStemmedType);
       doc.add(field);
       nonStemmingAnalyzer.close();
     } else if (key == CoreField.YEAR.name) {

@@ -64,9 +64,9 @@ public class BibtexEndToEndTest extends EndToEndTest {
 
     testQueries.put("bm25", createDefaultSearchArgs().bm25());
     referenceRunOutput.put("bm25", new String[]{
-        "1 Q0 article-id 1 0.073800 Anserini",
-        "1 Q0 proceedings-id 2 0.073799 Anserini",
-        "1 Q0 inproceedings-id 3 0.064200 Anserini",
-        "2 Q0 inproceedings-id 1 0.471600 Anserini"});
+        "1 Q0 article-id 1 0.073774 Anserini",
+        "1 Q0 proceedings-id 2 0.073774 Anserini",
+        "1 Q0 inproceedings-id 3 0.064198 Anserini",
+        "2 Q0 inproceedings-id 1 0.471553 Anserini"});
   }
 }

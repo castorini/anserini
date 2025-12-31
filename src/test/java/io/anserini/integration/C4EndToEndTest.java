@@ -16,11 +16,11 @@
 
 package io.anserini.integration;
 
+import java.util.Map;
+
 import io.anserini.collection.C4Collection;
 import io.anserini.index.IndexCollection;
 import io.anserini.index.generator.C4Generator;
-
-import java.util.Map;
 
 public class C4EndToEndTest extends EndToEndTest {
   @Override
@@ -71,6 +71,6 @@ public class C4EndToEndTest extends EndToEndTest {
 
     testQueries.put("bm25", createDefaultSearchArgs().bm25());
     referenceRunOutput.put("bm25", new String[]{
-            "1 Q0 c4-0001-000000 1 0.364800 Anserini"});
+            "1 Q0 c4-0001-000000 1 0.364814 Anserini"});
   }
 }

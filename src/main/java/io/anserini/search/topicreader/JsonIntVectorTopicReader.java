@@ -43,7 +43,8 @@ public class JsonIntVectorTopicReader extends TopicReader<Integer> {
       JsonNode lineNode = mapper.readerFor(JsonNode.class).readTree(line);
       Integer topicID = lineNode.get("qid").asInt();
       Map<String, String> fields = new HashMap<>();
-      fields.put("vector", lineNode.get("vector").toString());
+      // Use writeValueAsString to ensure proper JSON formatting for the vector array
+      fields.put("vector", mapper.writeValueAsString(lineNode.get("vector")));
       map.put(topicID, fields);
     }
     return map;

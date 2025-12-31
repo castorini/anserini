@@ -750,8 +750,9 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
 
       // Per track guidelines, no opinion or editorials. Filter out articles of these types.
       Query filter = new TermInSetQuery(
-          WashingtonPostGenerator.WashingtonPostField.KICKER.name, new BytesRef("Opinions"),
-          new BytesRef("Letters to the Editor"), new BytesRef("The Post's View"));
+          WashingtonPostGenerator.WashingtonPostField.KICKER.name, 
+          Arrays.asList(new BytesRef("Opinions"),
+              new BytesRef("Letters to the Editor"), new BytesRef("The Post's View")));
 
       BooleanQuery.Builder builder = new BooleanQuery.Builder();
       builder.add(filter, BooleanClause.Occur.MUST_NOT);

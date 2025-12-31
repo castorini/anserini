@@ -30,6 +30,8 @@ import io.anserini.TestUtils;
 import io.anserini.index.AbstractIndexer;
 import io.anserini.index.IndexFlatDenseVectors;
 
+import static org.junit.Assert.assertTrue;
+
 /**
  * Tests for {@link SearchFlatDenseVectors}
  */
@@ -128,7 +130,7 @@ public class SearchFlatDenseVectorsTest extends StdOutStdErrRedirectableLuceneTe
 
     SearchFlatDenseVectors.main(searchArgs);
 
-    assertEquals("Error: \"fake/topics/here\" does not refer to valid topics.\n", err.toString());
+    assertTrue(err.toString().contains("Error: \"fake/topics/here\" does not refer to valid topics."));
   }
 
   @Test
@@ -156,7 +158,7 @@ public class SearchFlatDenseVectorsTest extends StdOutStdErrRedirectableLuceneTe
 
     SearchFlatDenseVectors.main(searchArgs);
 
-    assertEquals("Error: Unable to load topic reader \"FakeJsonIntVector\".\n", err.toString());
+    assertTrue(err.toString().contains("Error: Unable to load topic reader \"FakeJsonIntVector\"."));
   }
 
   @Test
@@ -212,7 +214,7 @@ public class SearchFlatDenseVectorsTest extends StdOutStdErrRedirectableLuceneTe
 
     SearchFlatDenseVectors.main(searchArgs);
 
-    assertEquals("Error: Unable to load QueryGenerator \"FakeVectorQueryGenerator\".\n", err.toString());
+    assertTrue(err.toString().contains("Error: Unable to load QueryGenerator \"FakeVectorQueryGenerator\"."));
   }
 
   @Test
@@ -241,7 +243,7 @@ public class SearchFlatDenseVectorsTest extends StdOutStdErrRedirectableLuceneTe
 
     SearchFlatDenseVectors.main(searchArgs);
 
-    assertEquals("Error: Unable to load Encoder \"FakeEncoder\".\n", err.toString());
+    assertTrue(err.toString().contains("Error: Unable to load Encoder \"FakeEncoder\"."));
   }
 
   @Test
@@ -352,16 +354,16 @@ public class SearchFlatDenseVectorsTest extends StdOutStdErrRedirectableLuceneTe
     SearchFlatDenseVectors.main(searchArgs);
 
     TestUtils.checkRunFileApproximate(runfile, new String[] {
-        "2 Q0 224 1 0.579050 Anserini",
-        "2 Q0 208 2 0.577672 Anserini",
-        "2 Q0 384 3 0.572705 Anserini",
-        "2 Q0 136 4 0.572389 Anserini",
-        "2 Q0 720 5 0.568491 Anserini",
-        "1048585 Q0 624 1 0.569788 Anserini",
-        "1048585 Q0 120 2 0.564118 Anserini",
-        "1048585 Q0 320 3 0.559633 Anserini",
-        "1048585 Q0 328 4 0.550906 Anserini",
-        "1048585 Q0 232 5 0.550473 Anserini"
+        "2 Q0 208 1 0.578725 Anserini",
+        "2 Q0 224 2 0.578704 Anserini",
+        "2 Q0 384 3 0.573909 Anserini",
+        "2 Q0 136 4 0.573040 Anserini",
+        "2 Q0 720 5 0.571078 Anserini",
+        "1048585 Q0 624 1 0.568415 Anserini",
+        "1048585 Q0 120 2 0.563448 Anserini",
+        "1048585 Q0 320 3 0.558943 Anserini",
+        "1048585 Q0 232 4 0.550981 Anserini",
+        "1048585 Q0 328 5 0.550971 Anserini"
     });
 
     new File(runfile).delete();

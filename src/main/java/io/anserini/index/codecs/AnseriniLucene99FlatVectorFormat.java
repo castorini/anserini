@@ -16,13 +16,13 @@
 
 package io.anserini.index.codecs;
 
-import org.apache.lucene.codecs.FlatVectorsFormat;
-import org.apache.lucene.codecs.FlatVectorsReader;
-import org.apache.lucene.codecs.FlatVectorsWriter;
+import java.io.IOException;
+
 import org.apache.lucene.codecs.KnnFieldVectorsWriter;
 import org.apache.lucene.codecs.KnnVectorsFormat;
 import org.apache.lucene.codecs.KnnVectorsReader;
 import org.apache.lucene.codecs.KnnVectorsWriter;
+import org.apache.lucene.codecs.hnsw.DefaultFlatVectorScorer;
 import org.apache.lucene.codecs.lucene99.Lucene99FlatVectorsFormat;
 import org.apache.lucene.index.ByteVectorValues;
 import org.apache.lucene.index.FieldInfo;
@@ -31,24 +31,29 @@ import org.apache.lucene.index.MergeState;
 import org.apache.lucene.index.SegmentReadState;
 import org.apache.lucene.index.SegmentWriteState;
 import org.apache.lucene.index.Sorter;
+import org.apache.lucene.search.DocIdSetIterator;
 import org.apache.lucene.search.KnnCollector;
+import org.apache.lucene.search.VectorScorer;
 import org.apache.lucene.util.Bits;
 import org.apache.lucene.util.hnsw.OrdinalTranslatedKnnCollector;
 import org.apache.lucene.util.hnsw.RandomVectorScorer;
-
-import java.io.IOException;
 
 public class AnseriniLucene99FlatVectorFormat extends KnnVectorsFormat {
 
   static final String NAME = "AnseriniLucene99FlatVectorFormat";
 
-  private final FlatVectorsFormat format = new Lucene99FlatVectorsFormat();
+  private final KnnVectorsFormat format = new Lucene99FlatVectorsFormat(new DefaultFlatVectorScorer());
 
   /**
    * Sole constructor
    */
   public AnseriniLucene99FlatVectorFormat() {
     super(NAME);
+  }
+
+  @Override
+  public int getMaxDimensions(String fieldName) {
+    return format.getMaxDimensions(fieldName);
   }
 
   @Override
@@ -63,16 +68,16 @@ public class AnseriniLucene99FlatVectorFormat extends KnnVectorsFormat {
 
   public static class AnseriniLucene99FlatVectorWriter extends KnnVectorsWriter {
 
-    private final FlatVectorsWriter writer;
+    private final KnnVectorsWriter writer;
 
-    public AnseriniLucene99FlatVectorWriter(FlatVectorsWriter writer) {
+    public AnseriniLucene99FlatVectorWriter(KnnVectorsWriter writer) {
       super();
       this.writer = writer;
     }
 
     @Override
     public KnnFieldVectorsWriter<?> addField(FieldInfo fieldInfo) throws IOException {
-      return writer.addField(fieldInfo, null);
+      return writer.addField(fieldInfo);
     }
 
     @Override
@@ -103,9 +108,9 @@ public class AnseriniLucene99FlatVectorFormat extends KnnVectorsFormat {
 
   public static class AnseriniLucene99FlatVectorReader extends KnnVectorsReader {
 
-    private final FlatVectorsReader reader;
+    private final KnnVectorsReader reader;
 
-    public AnseriniLucene99FlatVectorReader(FlatVectorsReader reader) {
+    public AnseriniLucene99FlatVectorReader(KnnVectorsReader reader) {
       super();
       this.reader = reader;
     }
@@ -127,7 +132,18 @@ public class AnseriniLucene99FlatVectorFormat extends KnnVectorsFormat {
 
     @Override
     public void search(String field, float[] target, KnnCollector knnCollector, Bits acceptDocs) throws IOException {
-      collectAllMatchingDocs(knnCollector, acceptDocs, reader.getRandomVectorScorer(field, target));
+      FloatVectorValues vectors = reader.getFloatVectorValues(field);
+      if (vectors == null) {
+        return;
+      }
+      VectorScorer scorer = vectors.scorer(target);
+      DocIdSetIterator it = scorer.iterator();
+      for (int doc = it.nextDoc(); doc != DocIdSetIterator.NO_MORE_DOCS; doc = it.nextDoc()) {
+        if (acceptDocs == null || acceptDocs.get(doc)) {
+          knnCollector.collect(doc, scorer.score());
+        }
+        knnCollector.incVisitedCount(1);
+      }
     }
 
     private void collectAllMatchingDocs(KnnCollector knnCollector, Bits acceptDocs, RandomVectorScorer scorer) throws IOException {
@@ -144,17 +160,23 @@ public class AnseriniLucene99FlatVectorFormat extends KnnVectorsFormat {
 
     @Override
     public void search(String field, byte[] target, KnnCollector knnCollector, Bits acceptDocs) throws IOException {
-      collectAllMatchingDocs(knnCollector, acceptDocs, reader.getRandomVectorScorer(field, target));
+      ByteVectorValues vectors = reader.getByteVectorValues(field);
+      if (vectors == null) {
+        return;
+      }
+      VectorScorer scorer = vectors.scorer(target);
+      DocIdSetIterator it = scorer.iterator();
+      for (int doc = it.nextDoc(); doc != DocIdSetIterator.NO_MORE_DOCS; doc = it.nextDoc()) {
+        if (acceptDocs == null || acceptDocs.get(doc)) {
+          knnCollector.collect(doc, scorer.score());
+        }
+        knnCollector.incVisitedCount(1);
+      }
     }
 
     @Override
     public void close() throws IOException {
       reader.close();
-    }
-
-    @Override
-    public long ramBytesUsed() {
-      return reader.ramBytesUsed();
     }
   }
 }

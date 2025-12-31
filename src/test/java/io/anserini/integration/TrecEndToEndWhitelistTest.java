@@ -69,7 +69,7 @@ public class TrecEndToEndWhitelistTest extends EndToEndTest {
 
     testQueries.put("bm25", createDefaultSearchArgs().bm25());
     referenceRunOutput.put("bm25", new String[]{
-        "1 Q0 DOC222 1 0.372700 Anserini"
+        "1 Q0 DOC222 1 0.372706 Anserini"
     });
   }
 }

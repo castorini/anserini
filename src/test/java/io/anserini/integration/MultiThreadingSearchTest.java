@@ -16,10 +16,6 @@
 
 package io.anserini.integration;
 
-import io.anserini.collection.TrecCollection;
-import io.anserini.index.IndexCollection;
-import io.anserini.search.SearchCollection;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -27,6 +23,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
+import io.anserini.collection.TrecCollection;
+import io.anserini.index.IndexCollection;
+import io.anserini.search.SearchCollection;
 
 public class MultiThreadingSearchTest extends EndToEndTest {
   private Map<String, Set<String>> runsForQuery = new HashMap<>();
@@ -100,13 +100,13 @@ public class MultiThreadingSearchTest extends EndToEndTest {
     runsForQuery.put("bm25",
         Set.of("e2eTestSearchTrec_bm25(k1=0.9,b=0.2)_default", "e2eTestSearchTrec_bm25(k1=0.9,b=0.8)_default"));
     groundTruthRuns.put("e2eTestSearchTrec_bm25(k1=0.9,b=0.2)_default", new String[] {
-        "1 Q0 DOC222 1 0.346600 Anserini",
-        "1 Q0 TREC_DOC_1 2 0.325400 Anserini",
-        "1 Q0 WSJ_1 3 0.069500 Anserini"});
+        "1 Q0 DOC222 1 0.346602 Anserini",
+        "1 Q0 TREC_DOC_1 2 0.325356 Anserini",
+        "1 Q0 WSJ_1 3 0.069457 Anserini"});
     groundTruthRuns.put("e2eTestSearchTrec_bm25(k1=0.9,b=0.8)_default", new String[] {
-        "1 Q0 TREC_DOC_1 1 0.350900 Anserini",
-        "1 Q0 DOC222 2 0.336600 Anserini",
-        "1 Q0 WSJ_1 3 0.067100 Anserini"});
+        "1 Q0 TREC_DOC_1 1 0.350892 Anserini",
+        "1 Q0 DOC222 2 0.336582 Anserini",
+        "1 Q0 WSJ_1 3 0.067101 Anserini"});
 
     searchArgs = createDefaultSearchArgs().bm25();
     searchArgs.bm25_b = new String[] {"0.2", "0.8"};
@@ -117,14 +117,14 @@ public class MultiThreadingSearchTest extends EndToEndTest {
         "e2eTestSearchTrec_bm25(k1=0.9,b=0.8)_rm3(fbTerms=10,fbDocs=10,originalQueryWeight=0.5)"));
     groundTruthRuns.put("e2eTestSearchTrec_bm25(k1=0.9,b=0.2)_rm3(fbTerms=10,fbDocs=10,originalQueryWeight=0.5)",
         new String[] {
-            "1 Q0 DOC222 1 0.086700 Anserini",
-            "1 Q0 TREC_DOC_1 2 0.081300 Anserini",
-            "1 Q0 WSJ_1 3 0.017400 Anserini"});
+            "1 Q0 DOC222 1 0.086651 Anserini",
+            "1 Q0 TREC_DOC_1 2 0.081339 Anserini",
+            "1 Q0 WSJ_1 3 0.017364 Anserini"});
     groundTruthRuns.put("e2eTestSearchTrec_bm25(k1=0.9,b=0.8)_rm3(fbTerms=10,fbDocs=10,originalQueryWeight=0.5)",
         new String[] {
-            "1 Q0 TREC_DOC_1 1 0.087700 Anserini",
-            "1 Q0 DOC222 2 0.084100 Anserini",
-            "1 Q0 WSJ_1 3 0.016800 Anserini"});
+            "1 Q0 TREC_DOC_1 1 0.087723 Anserini",
+            "1 Q0 DOC222 2 0.084146 Anserini",
+            "1 Q0 WSJ_1 3 0.016775 Anserini"});
 
     searchArgs = createDefaultSearchArgs().bm25();
     searchArgs.bm25_b = new String[] {"0.4", "0.5"};
@@ -138,24 +138,24 @@ public class MultiThreadingSearchTest extends EndToEndTest {
         "e2eTestSearchTrec_bm25(k1=0.9,b=0.5)_rm3(fbTerms=10,fbDocs=10,originalQueryWeight=0.9)"));
     groundTruthRuns.put("e2eTestSearchTrec_bm25(k1=0.9,b=0.4)_rm3(fbTerms=10,fbDocs=10,originalQueryWeight=0.2)",
         new String[] {
-            "1 Q0 DOC222 1 0.034300 Anserini",
-            "1 Q0 TREC_DOC_1 2 0.033300 Anserini",
-            "1 Q0 WSJ_1 3 0.006900 Anserini"});
+            "1 Q0 DOC222 1 0.034319 Anserini",
+            "1 Q0 TREC_DOC_1 2 0.033344 Anserini",
+            "1 Q0 WSJ_1 3 0.006865 Anserini"});
     groundTruthRuns.put("e2eTestSearchTrec_bm25(k1=0.9,b=0.4)_rm3(fbTerms=10,fbDocs=10,originalQueryWeight=0.9)",
         new String[] {
-            "1 Q0 DOC222 1 0.154400 Anserini",
-            "1 Q0 TREC_DOC_1 2 0.150100 Anserini",
-            "1 Q0 WSJ_1 3 0.030900 Anserini"});
+            "1 Q0 DOC222 1 0.154436 Anserini",
+            "1 Q0 TREC_DOC_1 2 0.150050 Anserini",
+            "1 Q0 WSJ_1 3 0.030894 Anserini"});
     groundTruthRuns.put("e2eTestSearchTrec_bm25(k1=0.9,b=0.5)_rm3(fbTerms=10,fbDocs=10,originalQueryWeight=0.2)",
         new String[] {
-            "1 Q0 DOC222 1 0.034200 Anserini",
-            "1 Q0 TREC_DOC_1 2 0.033800 Anserini",
-            "1 Q0 WSJ_1 3 0.006800 Anserini"});
+            "1 Q0 DOC222 1 0.034151 Anserini",
+            "1 Q0 TREC_DOC_1 2 0.033764 Anserini",
+            "1 Q0 WSJ_1 3 0.006826 Anserini"});
     groundTruthRuns.put("e2eTestSearchTrec_bm25(k1=0.9,b=0.5)_rm3(fbTerms=10,fbDocs=10,originalQueryWeight=0.9)",
         new String[] {
-            "1 Q0 DOC222 1 0.153700 Anserini",
-            "1 Q0 TREC_DOC_1 2 0.151900 Anserini",
-            "1 Q0 WSJ_1 3 0.030700 Anserini"});
+            "1 Q0 DOC222 1 0.153681 Anserini",
+            "1 Q0 TREC_DOC_1 2 0.151939 Anserini",
+            "1 Q0 WSJ_1 3 0.030716 Anserini"});
 
     searchArgs = createDefaultSearchArgs().qld();
     searchArgs.qld_mu = new String[] {"1000", "2000"};
@@ -163,12 +163,12 @@ public class MultiThreadingSearchTest extends EndToEndTest {
     runsForQuery.put("qld",
         Set.of("e2eTestSearchTrec_qld(mu=1000)_default", "e2eTestSearchTrec_qld(mu=2000)_default"));
     groundTruthRuns.put("e2eTestSearchTrec_qld(mu=1000)_default", new String[] {
-        "1 Q0 DOC222 1 0.002500 Anserini",
-        "1 Q0 TREC_DOC_1 2 0.001700 Anserini",
+        "1 Q0 DOC222 1 0.002482 Anserini",
+        "1 Q0 TREC_DOC_1 2 0.001659 Anserini",
         "1 Q0 WSJ_1 3 0.000000 Anserini"});
     groundTruthRuns.put("e2eTestSearchTrec_qld(mu=2000)_default", new String[] {
-        "1 Q0 DOC222 1 0.001200 Anserini",
-        "1 Q0 TREC_DOC_1 2 0.000800 Anserini",
+        "1 Q0 DOC222 1 0.001245 Anserini",
+        "1 Q0 TREC_DOC_1 2 0.000831 Anserini",
         "1 Q0 WSJ_1 3 0.000000 Anserini"});
   }
 

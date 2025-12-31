@@ -74,13 +74,13 @@ public class FineWebEndToEndTest extends EndToEndTest {
 
     testQueries.put("bm25", createDefaultSearchArgs().bm25());
     referenceRunOutput.put("bm25", new String[]{
-        "1 Q0 fineweb-doc-001 1 3.201400 Anserini",
-        "1 Q0 alt-doc-002 2 0.030600 Anserini",
-        "1 Q0 fineweb-doc-002 3 0.030599 Anserini",
-        "1 Q0 fineweb_no_id_1 4 0.030598 Anserini",
-        "1 Q0 fineweb_no_id_2 5 0.030597 Anserini",
-        "1 Q0 alt-doc-001 6 0.029800 Anserini",
-        "1 Q0 fineweb_no_id_0 7 0.029799 Anserini",
-        "1 Q0 fineweb-doc-003 8 0.028200 Anserini"});
+        "1 Q0 fineweb-doc-001 1 3.201359 Anserini",
+        "1 Q0 alt-doc-002 2 0.030631 Anserini",
+        "1 Q0 fineweb-doc-002 3 0.030631 Anserini",
+        "1 Q0 fineweb_no_id_1 4 0.030631 Anserini",
+        "1 Q0 fineweb_no_id_2 5 0.030631 Anserini",
+        "1 Q0 alt-doc-001 6 0.029764 Anserini",
+        "1 Q0 fineweb_no_id_0 7 0.029764 Anserini",
+        "1 Q0 fineweb-doc-003 8 0.028170 Anserini"});
   }
 }

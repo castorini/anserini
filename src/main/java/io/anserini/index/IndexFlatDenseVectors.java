@@ -16,18 +16,17 @@
 
 package io.anserini.index;
 
-import io.anserini.collection.SourceDocument;
-import io.anserini.collection.ParquetDenseVectorCollection;
-import io.anserini.index.codecs.AnseriniLucene99FlatVectorFormat;
-import io.anserini.index.codecs.AnseriniLucene99ScalarQuantizedVectorsFormat;
-import io.anserini.index.generator.LuceneDocumentGenerator;
-import io.anserini.index.generator.DenseVectorDocumentGenerator;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.codecs.KnnVectorsFormat;
 import org.apache.lucene.codecs.KnnVectorsReader;
 import org.apache.lucene.codecs.KnnVectorsWriter;
-import org.apache.lucene.codecs.lucene99.Lucene99Codec;
+import org.apache.lucene.codecs.lucene101.Lucene101Codec;
 import org.apache.lucene.index.ConcurrentMergeScheduler;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
@@ -40,10 +39,12 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+import io.anserini.collection.ParquetDenseVectorCollection;
+import io.anserini.collection.SourceDocument;
+import io.anserini.index.codecs.AnseriniLucene99FlatVectorFormat;
+import io.anserini.index.codecs.AnseriniLucene99ScalarQuantizedVectorsFormat;
+import io.anserini.index.generator.DenseVectorDocumentGenerator;
+import io.anserini.index.generator.LuceneDocumentGenerator;
 
 public final class IndexFlatDenseVectors extends AbstractIndexer {
   private static final Logger LOG = LogManager.getLogger(IndexFlatDenseVectors.class);
@@ -88,7 +89,7 @@ public final class IndexFlatDenseVectors extends AbstractIndexer {
 
       if (args.quantizeInt8) {
         config = new IndexWriterConfig().setCodec(
-            new Lucene99Codec() {
+            new Lucene101Codec() {
               @Override
               public KnnVectorsFormat getKnnVectorsFormatForField(String field) {
                 return new DelegatingKnnVectorsFormat(new AnseriniLucene99ScalarQuantizedVectorsFormat(), 4096);
@@ -96,7 +97,7 @@ public final class IndexFlatDenseVectors extends AbstractIndexer {
             });
       } else {
         config = new IndexWriterConfig().setCodec(
-            new Lucene99Codec() {
+            new Lucene101Codec() {
               @Override
               public KnnVectorsFormat getKnnVectorsFormatForField(String field) {
                 return new DelegatingKnnVectorsFormat(new AnseriniLucene99FlatVectorFormat(), 4096);
