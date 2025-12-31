@@ -200,9 +200,6 @@ public class FlatDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
   public ScoredDoc[] search(@Nullable K qid, float[] query, int k) throws IOException {
     KnnFloatVectorQuery vectorQuery = new KnnFloatVectorQuery(Constants.VECTOR, query, DUMMY_EF_SEARCH);
     TopDocs topDocs = getIndexSearcher().search(vectorQuery, k, BREAK_SCORE_TIES_BY_DOCID, true);
-    if (topDocs.scoreDocs.length == 0 && reader.numDocs() > 0) {
-      topDocs = bruteForceSearch(query, k);
-    }
 
     return super.processLuceneTopDocs(qid, topDocs);
   }
@@ -239,78 +236,9 @@ public class FlatDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
 
     KnnFloatVectorQuery vectorQuery = generator.buildQuery(Constants.VECTOR, query, DUMMY_EF_SEARCH);
     TopDocs topDocs = getIndexSearcher().search(vectorQuery, k, BREAK_SCORE_TIES_BY_DOCID, true);
-    if (topDocs.scoreDocs.length == 0 && reader.numDocs() > 0) {
-      topDocs = bruteForceSearch(vectorQuery.getTargetCopy(), k);
-    }
+
 
     return super.processLuceneTopDocs(qid, topDocs);
-  }
-
-  private TopDocs bruteForceSearch(float[] query, int k) throws IOException {
-    List<ScoredDocInfo> scored = new ArrayList<>();
-
-    for (LeafReaderContext ctx : reader.leaves()) {
-      LeafReader leaf = ctx.reader();
-      FieldInfo fieldInfo = leaf.getFieldInfos().fieldInfo(Constants.VECTOR);
-      if (fieldInfo == null) {
-        continue;
-      }
-      VectorSimilarityFunction similarity = fieldInfo.getVectorSimilarityFunction();
-
-      var floatVectors = leaf.getFloatVectorValues(Constants.VECTOR);
-      if (floatVectors != null) {
-        if (floatVectors.getClass().getName().contains("QuantizedVectorValues")) {
-          VectorScorer scorer = floatVectors.scorer(query);
-          DocIdSetIterator it = scorer.iterator();
-          for (int doc = it.nextDoc(); doc != DocIdSetIterator.NO_MORE_DOCS; doc = it.nextDoc()) {
-            float score = scorer.score();
-            int globalDoc = doc + ctx.docBase;
-            scored.add(new ScoredDocInfo(globalDoc, score,
-                getIndexSearcher().storedFields().document(globalDoc).get(Constants.ID)));
-          }
-        } else {
-          var it = floatVectors.iterator();
-          for (int doc = it.nextDoc(); doc != DocIdSetIterator.NO_MORE_DOCS; doc = it.nextDoc()) {
-            int ord = it.index();
-            float score = similarity.compare(query, floatVectors.vectorValue(ord));
-            int globalDoc = doc + ctx.docBase;
-            scored.add(new ScoredDocInfo(globalDoc, score,
-                getIndexSearcher().storedFields().document(globalDoc).get(Constants.ID)));
-          }
-        }
-        continue;
-      }
-
-    }
-
-    scored.sort((a, b) -> {
-      int scoreCmp = Float.compare(b.score, a.score);
-      if (scoreCmp != 0) {
-        return scoreCmp;
-      }
-      return a.docid.compareTo(b.docid);
-    });
-
-    int hits = Math.min(k, scored.size());
-    ScoreDoc[] scoreDocs = new ScoreDoc[hits];
-    for (int i = 0; i < hits; i++) {
-      ScoredDocInfo info = scored.get(i);
-      scoreDocs[i] = new ScoreDoc(info.luceneDocid, info.score);
-    }
-
-    return new TopDocs(new TotalHits(scored.size(), TotalHits.Relation.EQUAL_TO), scoreDocs);
-  }
-
-  private static final class ScoredDocInfo {
-    private final int luceneDocid;
-    private final float score;
-    private final String docid;
-
-    private ScoredDocInfo(int luceneDocid, float score, String docid) {
-      this.luceneDocid = luceneDocid;
-      this.score = score;
-      this.docid = docid;
-    }
   }
 
   @Override

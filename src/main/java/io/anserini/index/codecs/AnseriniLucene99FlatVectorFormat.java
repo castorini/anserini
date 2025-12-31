@@ -34,9 +34,9 @@ import org.apache.lucene.index.Sorter;
 import org.apache.lucene.search.DocIdSetIterator;
 import org.apache.lucene.search.KnnCollector;
 import org.apache.lucene.search.VectorScorer;
+import org.apache.lucene.search.AcceptDocs;
 import org.apache.lucene.util.Bits;
-import org.apache.lucene.util.hnsw.OrdinalTranslatedKnnCollector;
-import org.apache.lucene.util.hnsw.RandomVectorScorer;
+
 
 public class AnseriniLucene99FlatVectorFormat extends KnnVectorsFormat {
 
@@ -131,43 +131,33 @@ public class AnseriniLucene99FlatVectorFormat extends KnnVectorsFormat {
     }
 
     @Override
-    public void search(String field, float[] target, KnnCollector knnCollector, Bits acceptDocs) throws IOException {
+    public void search(String field, float[] target, KnnCollector knnCollector, AcceptDocs acceptDocs) throws IOException {
       FloatVectorValues vectors = reader.getFloatVectorValues(field);
       if (vectors == null) {
         return;
       }
       VectorScorer scorer = vectors.scorer(target);
       DocIdSetIterator it = scorer.iterator();
+      Bits bits = acceptDocs == null ? null : acceptDocs.bits();
       for (int doc = it.nextDoc(); doc != DocIdSetIterator.NO_MORE_DOCS; doc = it.nextDoc()) {
-        if (acceptDocs == null || acceptDocs.get(doc)) {
+        if (bits == null || bits.get(doc)) {
           knnCollector.collect(doc, scorer.score());
         }
         knnCollector.incVisitedCount(1);
       }
     }
 
-    private void collectAllMatchingDocs(KnnCollector knnCollector, Bits acceptDocs, RandomVectorScorer scorer) throws IOException {
-      OrdinalTranslatedKnnCollector collector = new OrdinalTranslatedKnnCollector(knnCollector, scorer::ordToDoc);
-      Bits acceptedOrds = scorer.getAcceptOrds(acceptDocs);
-      for (int i = 0; i < scorer.maxOrd(); i++) {
-        if (acceptedOrds == null || acceptedOrds.get(i)) {
-          collector.collect(i, scorer.score(i));
-          collector.incVisitedCount(1);
-        }
-      }
-      assert collector.earlyTerminated() == false;
-    }
-
     @Override
-    public void search(String field, byte[] target, KnnCollector knnCollector, Bits acceptDocs) throws IOException {
+    public void search(String field, byte[] target, KnnCollector knnCollector, AcceptDocs acceptDocs) throws IOException {
       ByteVectorValues vectors = reader.getByteVectorValues(field);
       if (vectors == null) {
         return;
       }
       VectorScorer scorer = vectors.scorer(target);
       DocIdSetIterator it = scorer.iterator();
+      Bits bits = acceptDocs == null ? null : acceptDocs.bits();
       for (int doc = it.nextDoc(); doc != DocIdSetIterator.NO_MORE_DOCS; doc = it.nextDoc()) {
-        if (acceptDocs == null || acceptDocs.get(doc)) {
+        if (bits == null || bits.get(doc)) {
           knnCollector.collect(doc, scorer.score());
         }
         knnCollector.incVisitedCount(1);

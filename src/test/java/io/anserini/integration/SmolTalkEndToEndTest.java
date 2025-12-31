@@ -75,7 +75,7 @@ public class SmolTalkEndToEndTest extends EndToEndTest {
     testQueries.put("bm25", createDefaultSearchArgs().bm25());
     // The search for "capital France Paris" should return the France Q&A document first
     referenceRunOutput.put("bm25", new String[]{
-        "1 Q0 smoltalk_standard_0_0 1 2.813700 Anserini"});
+        "1 Q0 smoltalk_standard_0_0 1 2.813689 Anserini"});
   }
 }
 

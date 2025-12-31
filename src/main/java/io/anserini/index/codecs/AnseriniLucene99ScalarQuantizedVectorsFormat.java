@@ -30,11 +30,10 @@ import org.apache.lucene.index.SegmentReadState;
 import org.apache.lucene.index.SegmentWriteState;
 import org.apache.lucene.index.Sorter;
 import org.apache.lucene.index.VectorSimilarityFunction;
+import org.apache.lucene.search.AcceptDocs;
 import org.apache.lucene.search.DocIdSetIterator;
 import org.apache.lucene.search.KnnCollector;
 import org.apache.lucene.util.Bits;
-import org.apache.lucene.util.hnsw.OrdinalTranslatedKnnCollector;
-import org.apache.lucene.util.hnsw.RandomVectorScorer;
 
 import java.io.IOException;
 
@@ -131,7 +130,7 @@ public class AnseriniLucene99ScalarQuantizedVectorsFormat extends KnnVectorsForm
     }
 
     @Override
-    public void search(String field, float[] target, KnnCollector knnCollector, Bits acceptDocs) throws IOException {
+    public void search(String field, float[] target, KnnCollector knnCollector, AcceptDocs acceptDocs) throws IOException {
       FloatVectorValues vectors = reader.getFloatVectorValues(field);
       if (vectors == null) {
         return;
@@ -139,8 +138,9 @@ public class AnseriniLucene99ScalarQuantizedVectorsFormat extends KnnVectorsForm
       VectorSimilarityFunction similarity = VectorSimilarityFunction.DOT_PRODUCT;
       FloatVectorValues vectorValues = vectors.copy();
       KnnVectorValues.DocIndexIterator it = vectorValues.iterator();
+      Bits bits = acceptDocs == null ? null : acceptDocs.bits();
       for (int doc = it.nextDoc(); doc != DocIdSetIterator.NO_MORE_DOCS; doc = it.nextDoc()) {
-        if (acceptDocs == null || acceptDocs.get(doc)) {
+        if (bits == null || bits.get(doc)) {
           int ord = it.index();
           float score = similarity.compare(target, vectorValues.vectorValue(ord));
           knnCollector.collect(doc, score);
@@ -149,20 +149,8 @@ public class AnseriniLucene99ScalarQuantizedVectorsFormat extends KnnVectorsForm
       }
     }
 
-    private void collectAllMatchingDocs(KnnCollector knnCollector, Bits acceptDocs, RandomVectorScorer scorer) throws IOException {
-      OrdinalTranslatedKnnCollector collector = new OrdinalTranslatedKnnCollector(knnCollector, scorer::ordToDoc);
-      Bits acceptedOrds = scorer.getAcceptOrds(acceptDocs);
-      for (int i = 0; i < scorer.maxOrd(); i++) {
-        if (acceptedOrds == null || acceptedOrds.get(i)) {
-          collector.collect(i, scorer.score(i));
-          collector.incVisitedCount(1);
-        }
-      }
-      assert collector.earlyTerminated() == false;
-    }
-
     @Override
-    public void search(String field, byte[] target, KnnCollector knnCollector, Bits acceptDocs) throws IOException {
+    public void search(String field, byte[] target, KnnCollector knnCollector, AcceptDocs acceptDocs) throws IOException {
       ByteVectorValues vectors = reader.getByteVectorValues(field);
       if (vectors == null) {
         return;
@@ -170,8 +158,9 @@ public class AnseriniLucene99ScalarQuantizedVectorsFormat extends KnnVectorsForm
       VectorSimilarityFunction similarity = VectorSimilarityFunction.DOT_PRODUCT;
       ByteVectorValues vectorValues = vectors.copy();
       KnnVectorValues.DocIndexIterator it = vectorValues.iterator();
+      Bits bits = acceptDocs == null ? null : acceptDocs.bits();
       for (int doc = it.nextDoc(); doc != DocIdSetIterator.NO_MORE_DOCS; doc = it.nextDoc()) {
-        if (acceptDocs == null || acceptDocs.get(doc)) {
+        if (bits == null || bits.get(doc)) {
           int ord = it.index();
           float score = similarity.compare(target, vectorValues.vectorValue(ord));
           knnCollector.collect(doc, score);
