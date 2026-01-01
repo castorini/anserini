@@ -16,9 +16,6 @@
 
 package io.anserini.search.query;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -33,6 +30,8 @@ import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.store.FSDirectory;
 import org.junit.After;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -113,13 +112,13 @@ public class QuerySideBm25QueryGeneratorTest {
 
     BooleanQuery bq = (BooleanQuery) query;
     assertEquals(7, bq.clauses().size());
-    assertEquals("(contents:caus)^1.1822546", (bq.clauses().get(0).getQuery().toString()));
-    assertEquals("(contents:statin)^3.1420643", (bq.clauses().get(1).getQuery().toString()));  
-    assertEquals("(contents:cholesterol)^1.6210032", (bq.clauses().get(2).getQuery().toString()));
-    assertEquals("(contents:cancer)^0.98464656", (bq.clauses().get(3).getQuery().toString()));
-    assertEquals("(contents:do)^2.0192628", (bq.clauses().get(4).getQuery().toString()));
-    assertEquals("(contents:breast)^1.6456642", (bq.clauses().get(5).getQuery().toString()));
-    assertEquals("(contents:drug)^1.7181631", (bq.clauses().get(6).getQuery().toString()));
+    assertEquals("(contents:caus)^1.1822546", (bq.clauses().get(0).query().toString()));
+    assertEquals("(contents:statin)^3.1420643", (bq.clauses().get(1).query().toString()));  
+    assertEquals("(contents:cholesterol)^1.6210032", (bq.clauses().get(2).query().toString()));
+    assertEquals("(contents:cancer)^0.98464656", (bq.clauses().get(3).query().toString()));
+    assertEquals("(contents:do)^2.0192628", (bq.clauses().get(4).query().toString()));
+    assertEquals("(contents:breast)^1.6456642", (bq.clauses().get(5).query().toString()));
+    assertEquals("(contents:drug)^1.7181631", (bq.clauses().get(6).query().toString()));
 
     reader.close();
   }

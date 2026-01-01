@@ -750,8 +750,9 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
 
       // Per track guidelines, no opinion or editorials. Filter out articles of these types.
       Query filter = new TermInSetQuery(
-          WashingtonPostGenerator.WashingtonPostField.KICKER.name, new BytesRef("Opinions"),
-          new BytesRef("Letters to the Editor"), new BytesRef("The Post's View"));
+          WashingtonPostGenerator.WashingtonPostField.KICKER.name, 
+          Arrays.asList(new BytesRef("Opinions"),
+              new BytesRef("Letters to the Editor"), new BytesRef("The Post's View")));
 
       BooleanQuery.Builder builder = new BooleanQuery.Builder();
       builder.add(filter, BooleanClause.Occur.MUST_NOT);
@@ -1070,7 +1071,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     // Fix for index compatibility issue between Lucene 8 and 9: https://github.com/castorini/anserini/issues/1952
     // If we detect an older index version, we turn off consistent tie-breaking, which avoids accessing docvalues,
     // which is the source of the incompatibility.
-    if (!reader.toString().contains("lucene.version=9")) {
+    if (!reader.toString().contains("lucene.version=9") && !reader.toString().contains("lucene.version=10")) {
       args.arbitraryScoreTieBreak = true;
       args.axiom_deterministic = false;
     }

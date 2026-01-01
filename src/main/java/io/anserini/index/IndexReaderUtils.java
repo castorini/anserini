@@ -837,7 +837,7 @@ public class IndexReaderUtils {
 
     FieldInfos fieldInfos = FieldInfos.getMergedFieldInfos(reader);
     for (FieldInfo fi : fieldInfos) {
-      description.put(fi.name, "(" + "indexOption: " + fi.getIndexOptions() + ", hasVectors: " + fi.hasVectors() + ")");
+      description.put(fi.name, "(" + "indexOption: " + fi.getIndexOptions() + ", hasVectors: " + fi.hasTermVectors() + ")");
     }
 
     return description;
