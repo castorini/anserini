@@ -99,7 +99,7 @@ public abstract class EndToEndTest extends StdOutStdErrRedirectableLuceneTestCas
     List<String> args = new ArrayList<>(List.of(
         "-index", indexPath,
         "-input", indexArgs.input,
-        "-threads", "1",
+        "-threads", "2",
         "-language", indexArgs.language,
         "-collection", indexArgs.collectionClass,
         "-generator", indexArgs.generatorClass));
@@ -252,14 +252,19 @@ public abstract class EndToEndTest extends StdOutStdErrRedirectableLuceneTestCas
     assertTrue(seg.openReaderPassed);
 
     assertNotNull(seg.diagnostics);
+
     assertNotNull(seg.fieldNormStatus);
     assertNull(seg.fieldNormStatus.error);
     assertEquals(this.fieldNormStatusTotalFields, seg.fieldNormStatus.totFields);
 
+    assertNotNull(seg.termIndexStatus);
+    assertNull(seg.termIndexStatus.error);
     assertEquals(this.termIndexStatusTermCount, seg.termIndexStatus.termCount);
     assertEquals(this.termIndexStatusTotFreq, seg.termIndexStatus.totFreq);
     assertEquals(this.termIndexStatusTotPos, seg.termIndexStatus.totPos);
 
+    assertNotNull(seg.storedFieldStatus);
+    assertNull(seg.storedFieldStatus.error);
     assertEquals(this.storedFieldStatusTotalDocCounts, seg.storedFieldStatus.docCount);
     assertEquals(this.storedFieldStatusTotFields, seg.storedFieldStatus.totFields);
 

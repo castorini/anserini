@@ -86,8 +86,8 @@ public class AclAnthologyEndToEndTest extends EndToEndTest {
 
     testQueries.put("bm25", createDefaultSearchArgs().bm25());
     referenceRunOutput.put("bm25", new String[]{
-        "1 Q0 C00-1007 1 0.293992 Anserini",
-        "1 Q0 E17-1003 2 0.186060 Anserini",
-        "2 Q0 C00-1003 1 0.622663 Anserini"});
+        "1 Q0 C00-1007 1 0.294000 Anserini",
+        "1 Q0 E17-1003 2 0.186100 Anserini",
+        "2 Q0 C00-1003 1 0.622700 Anserini"});
   }
 }

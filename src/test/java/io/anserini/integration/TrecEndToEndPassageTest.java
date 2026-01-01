@@ -16,13 +16,13 @@
 
 package io.anserini.integration;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-
 import io.anserini.collection.TrecCollection;
 import io.anserini.index.IndexCollection;
 import io.anserini.search.SearchCollection;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 public class TrecEndToEndPassageTest extends EndToEndTest {
   @Override
@@ -98,56 +98,56 @@ public class TrecEndToEndPassageTest extends EndToEndTest {
     args.selectMaxPassage = true;
     testQueries.put("bm25v1", args);
     referenceRunOutput.put("bm25v1", new String[]{
-        "1 Q0 TREC_DOC_1 1 0.343192 Anserini",
-        "1 Q0 WSJ_1 2 0.068654 Anserini"});
+        "1 Q0 TREC_DOC_1 1 0.343200 Anserini",
+        "1 Q0 WSJ_1 2 0.068700 Anserini"});
 
     args = createDefaultSearchArgs().bm25();
     args.selectMaxPassage = true;
     args.selectMaxPassageHits = 1;
     testQueries.put("bm25v2", args);
     referenceRunOutput.put("bm25v2", new String[]{
-        "1 Q0 TREC_DOC_1 1 0.343192 Anserini"});
+        "1 Q0 TREC_DOC_1 1 0.343200 Anserini"});
 
     args = createDefaultSearchArgs().qld();
     args.selectMaxPassage = true;
     testQueries.put("qld", args);
     referenceRunOutput.put("qld", new String[]{
-        "1 Q0 TREC_DOC_1 1 0.002482 Anserini",
+        "1 Q0 TREC_DOC_1 1 0.002500 Anserini",
         "1 Q0 WSJ_1 2 0.000000 Anserini"});
 
     args = createDefaultSearchArgs().qljm();
     args.selectMaxPassage = true;
     testQueries.put("qljm", args);
     referenceRunOutput.put("qljm", new String[]{
-        "1 Q0 TREC_DOC_1 1 4.872331 Anserini",
-        "1 Q0 WSJ_1 2 1.658228 Anserini"});
+        "1 Q0 TREC_DOC_1 1 4.872300 Anserini",
+        "1 Q0 WSJ_1 2 1.658200 Anserini"});
 
     args = createDefaultSearchArgs().inl2();
     args.selectMaxPassage = true;
     testQueries.put("inl2", args);
     referenceRunOutput.put("inl2", new String[]{
-        "1 Q0 TREC_DOC_1 1 0.133179 Anserini",
-        "1 Q0 WSJ_1 2 0.021078 Anserini"});
+        "1 Q0 TREC_DOC_1 1 0.133200 Anserini",
+        "1 Q0 WSJ_1 2 0.021100 Anserini"});
 
     args = createDefaultSearchArgs().spl();
     args.selectMaxPassage = true;
     testQueries.put("spl", args);
     referenceRunOutput.put("spl", new String[]{
-        "1 Q0 TREC_DOC_1 1 0.446093 Anserini",
-        "1 Q0 WSJ_1 2 0.115876 Anserini"});
+        "1 Q0 TREC_DOC_1 1 0.446100 Anserini",
+        "1 Q0 WSJ_1 2 0.115900 Anserini"});
 
     args = createDefaultSearchArgs().f2exp();
     args.selectMaxPassage = true;
     testQueries.put("f2exp", args);
     referenceRunOutput.put("f2exp", new String[]{
-        "1 Q0 TREC_DOC_1 1 1.434657 Anserini",
-        "1 Q0 WSJ_1 2 0.536210 Anserini"});
+        "1 Q0 TREC_DOC_1 1 1.434700 Anserini",
+        "1 Q0 WSJ_1 2 0.536200 Anserini"});
 
     args = createDefaultSearchArgs().f2log();
     args.selectMaxPassage = true;
     testQueries.put("f2log", args);
     referenceRunOutput.put("f2log", new String[]{
-        "1 Q0 TREC_DOC_1 1 0.548514 Anserini",
-        "1 Q0 WSJ_1 2 0.139482 Anserini"});
+        "1 Q0 TREC_DOC_1 1 0.548500 Anserini",
+        "1 Q0 WSJ_1 2 0.139500 Anserini"});
   }
 }

@@ -68,12 +68,12 @@ public class JsonEndToEndMultifieldTest extends EndToEndTest {
     SearchCollection.Args searchArg1 = createDefaultSearchArgs().bm25();
     testQueries.put("bm25-1", searchArg1);
     referenceRunOutput.put("bm25-1", new String[]{
-        "1 Q0 doc1 1 0.095959 Anserini",
-        "1 Q0 doc2 2 0.095959 Anserini",
-        "2 Q0 doc1 1 0.095959 Anserini",
-        "2 Q0 doc2 2 0.095959 Anserini",
-        "3 Q0 doc1 1 0.095959 Anserini",
-        "3 Q0 doc2 2 0.095959 Anserini"});
+        "1 Q0 doc1 1 0.096000 Anserini",
+        "1 Q0 doc2 2 0.095999 Anserini",
+        "2 Q0 doc1 1 0.096000 Anserini",
+        "2 Q0 doc2 2 0.095999 Anserini",
+        "3 Q0 doc1 1 0.096000 Anserini",
+        "3 Q0 doc2 2 0.095999 Anserini"});
 
     topicReader = "TsvInt";
     topicFile = "src/test/resources/sample_topics/json_topics4.tsv";
@@ -81,12 +81,12 @@ public class JsonEndToEndMultifieldTest extends EndToEndTest {
     searchArg2.fields = new String[]{"contents=1.0", "field1=1.0"};
     testQueries.put("bm25-2", searchArg2);
     referenceRunOutput.put("bm25-2", new String[]{
-        "1 Q0 doc1 1 0.191917 Anserini",
-        "1 Q0 doc2 2 0.191917 Anserini",
-        "2 Q0 doc1 1 0.652690 Anserini",
-        "2 Q0 doc2 2 0.287876 Anserini",
-        "3 Q0 doc2 1 0.652690 Anserini",
-        "3 Q0 doc1 2 0.287876 Anserini"});
+        "1 Q0 doc1 1 0.191900 Anserini",
+        "1 Q0 doc2 2 0.191899 Anserini",
+        "2 Q0 doc1 1 0.652700 Anserini",
+        "2 Q0 doc2 2 0.287900 Anserini",
+        "3 Q0 doc2 1 0.652700 Anserini",
+        "3 Q0 doc1 2 0.287900 Anserini"});
 
     topicReader = "TsvInt";
     topicFile = "src/test/resources/sample_topics/json_topics4.tsv";
@@ -94,12 +94,12 @@ public class JsonEndToEndMultifieldTest extends EndToEndTest {
     searchArg3.fields = new String[]{"contents=1.0", "field1=0.5"};
     testQueries.put("bm25-3", searchArg3);
     referenceRunOutput.put("bm25-3", new String[]{
-        "1 Q0 doc1 1 0.143938 Anserini",
-        "1 Q0 doc2 2 0.143938 Anserini",
-        "2 Q0 doc1 1 0.374325 Anserini",
-        "2 Q0 doc2 2 0.191917 Anserini",
-        "3 Q0 doc2 1 0.374325 Anserini",
-        "3 Q0 doc1 2 0.191917 Anserini"});
+        "1 Q0 doc1 1 0.143900 Anserini",
+        "1 Q0 doc2 2 0.143899 Anserini",
+        "2 Q0 doc1 1 0.374300 Anserini",
+        "2 Q0 doc2 2 0.191900 Anserini",
+        "3 Q0 doc2 1 0.374300 Anserini",
+        "3 Q0 doc1 2 0.191900 Anserini"});
 
     topicReader = "TsvInt";
     topicFile = "src/test/resources/sample_topics/json_topics4.tsv";
@@ -107,12 +107,12 @@ public class JsonEndToEndMultifieldTest extends EndToEndTest {
     searchArg4.fields = new String[]{"contents=1.0", "field1=0.5", "field2=0.5"};
     testQueries.put("bm25-4", searchArg4);
     referenceRunOutput.put("bm25-4", new String[]{
-        "1 Q0 doc1 1 0.191917 Anserini",
-        "1 Q0 doc2 2 0.191917 Anserini",
-        "2 Q0 doc1 1 0.652690 Anserini",
-        "2 Q0 doc2 2 0.287876 Anserini",
-        "3 Q0 doc2 1 0.652690 Anserini",
-        "3 Q0 doc1 2 0.287876 Anserini"});
+        "1 Q0 doc1 1 0.191900 Anserini",
+        "1 Q0 doc2 2 0.191899 Anserini",
+        "2 Q0 doc1 1 0.652700 Anserini",
+        "2 Q0 doc2 2 0.287900 Anserini",
+        "3 Q0 doc2 1 0.652700 Anserini",
+        "3 Q0 doc1 2 0.287900 Anserini"});
   }
 
 }

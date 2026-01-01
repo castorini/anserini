@@ -101,8 +101,8 @@ public class HuggingFaceTokenizerEndToEndTest extends EndToEndTest {
     
     testQueries.put("bm25", searchArg);
     referenceRunOutput.put("bm25", new String[]{
-        "1048585 Q0 7546327 1 0.464968 Anserini",
-        "1048585 Q0 7187163 2 0.456653 Anserini"
+        "1048585 Q0 7546327 1 0.465000 Anserini",
+        "1048585 Q0 7187163 2 0.456700 Anserini"
     });
   }
 }

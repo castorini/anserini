@@ -89,7 +89,7 @@ public class TweetEndToEndTest extends EndToEndTest {
 
     testQueries.put("bm25", createDefaultSearchArgs().bm25().searchTweets());
     referenceRunOutput.put("bm25", new String[] {
-        "1 Q0 5 1 0.614272 Anserini",
-        "1 Q0 3 2 0.364814 Anserini" });
+        "1 Q0 5 1 0.614300 Anserini",
+        "1 Q0 3 2 0.364800 Anserini" });
   }
 }

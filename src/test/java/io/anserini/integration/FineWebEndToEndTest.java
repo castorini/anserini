@@ -34,12 +34,14 @@ public class FineWebEndToEndTest extends EndToEndTest {
 
   @Override
   protected void setCheckIndexGroundTruth() {
-    docCount = 4;
+    docCount = 8;
     docFieldCount = -1; // Variable field counts across documents
 
     // Documents from fineweb_standard.parquet
     referenceDocs.put("fineweb-doc-001", Map.of(
         "contents", "This is the first test document for FineWeb collection testing."));
+    referenceDocs.put("fineweb-doc-002", Map.of(
+        "contents", "Second document contains different content for verification."));
     referenceDocs.put("fineweb-doc-003", Map.of(
         "contents", "Third document with special characters: café, naïve, 日本語."));
 
@@ -49,12 +51,20 @@ public class FineWebEndToEndTest extends EndToEndTest {
     referenceDocs.put("alt-doc-002", Map.of(
         "contents", "Another document with docid field instead of id."));
 
+    // Documents from fineweb_no_id.parquet (auto-generated IDs)
+    referenceDocs.put("fineweb_no_id_0", Map.of(
+        "contents", "Document without an ID field - should auto-generate."));
+    referenceDocs.put("fineweb_no_id_1", Map.of(
+        "contents", "Another document that needs an auto-generated ID."));
+    referenceDocs.put("fineweb_no_id_2", Map.of(
+        "contents", "Third document also missing ID field."));
+
     fieldNormStatusTotalFields = 1;
-    termIndexStatusTermCount = 26;
-    termIndexStatusTotFreq = 31;
-    storedFieldStatusTotalDocCounts = 4;
-    termIndexStatusTotPos = 32;
-    storedFieldStatusTotFields = 12;
+    termIndexStatusTermCount = 41;
+    termIndexStatusTotFreq = 60;
+    storedFieldStatusTotalDocCounts = 8;
+    termIndexStatusTotPos = 61;
+    storedFieldStatusTotFields = 24;
   }
 
   @Override
@@ -64,9 +74,13 @@ public class FineWebEndToEndTest extends EndToEndTest {
 
     testQueries.put("bm25", createDefaultSearchArgs().bm25());
     referenceRunOutput.put("bm25", new String[]{
-        "1 Q0 fineweb-doc-001 1 2.204911 Anserini",
-        "1 Q0 alt-doc-002 2 0.056996 Anserini",
-        "1 Q0 alt-doc-001 3 0.055453 Anserini",
-        "1 Q0 fineweb-doc-003 4 0.052605 Anserini"});
+        "1 Q0 fineweb-doc-001 1 3.201400 Anserini",
+        "1 Q0 alt-doc-002 2 0.030600 Anserini",
+        "1 Q0 fineweb-doc-002 3 0.030599 Anserini",
+        "1 Q0 fineweb_no_id_1 4 0.030598 Anserini",
+        "1 Q0 fineweb_no_id_2 5 0.030597 Anserini",
+        "1 Q0 alt-doc-001 6 0.029800 Anserini",
+        "1 Q0 fineweb_no_id_0 7 0.029799 Anserini",
+        "1 Q0 fineweb-doc-003 8 0.028200 Anserini"});
   }
 }

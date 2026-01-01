@@ -134,7 +134,8 @@ public class SimpleSearcher implements Closeable {
     // Fix for index compatibility issue between Lucene 8 and 9: https://github.com/castorini/anserini/issues/1952
     // If we detect an older index version, we turn off consistent tie-breaking, which avoids accessing docvalues,
     // which is the source of the incompatibility.
-    this.backwardsCompatibilityLucene8 = !reader.toString().contains("lucene.version=9");
+    this.backwardsCompatibilityLucene8 = !reader.toString().contains("lucene.version=9")
+        && !reader.toString().contains("lucene.version=10");
 
     // Default to using BM25.
     this.similarity = new BM25Similarity(Float.parseFloat(defaults.bm25_k1[0]), Float.parseFloat(defaults.bm25_b[0]));

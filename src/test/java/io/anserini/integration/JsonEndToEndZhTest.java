@@ -82,7 +82,7 @@ public class JsonEndToEndZhTest extends EndToEndTest {
     queryTokens.get("1").add("滑铁");
     queryTokens.get("1").add("铁卢");
     referenceRunOutput.put("bm25", new String[]{
-        "1 Q0 doc1 1 1.337771 Anserini"
+        "1 Q0 doc1 1 1.337800 Anserini"
     });
   }
 

@@ -16,13 +16,13 @@
 
 package io.anserini.integration;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-
 import io.anserini.collection.TrecCollection;
 import io.anserini.index.IndexCollection;
 import io.anserini.search.SearchCollection;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 public class TrecEndToEndTest extends EndToEndTest {
   @Override
@@ -91,74 +91,74 @@ public class TrecEndToEndTest extends EndToEndTest {
 
     testQueries.put("bm25", createDefaultSearchArgs().bm25());
     referenceRunOutput.put("bm25", new String[]{
-        "1 Q0 DOC222 1 0.343192 Anserini",
-        "1 Q0 TREC_DOC_1 2 0.333445 Anserini",
-        "1 Q0 WSJ_1 3 0.068654 Anserini"});
+        "1 Q0 DOC222 1 0.343200 Anserini",
+        "1 Q0 TREC_DOC_1 2 0.333400 Anserini",
+        "1 Q0 WSJ_1 3 0.068700 Anserini"});
 
     SearchCollection.Args argsRm3 = createDefaultSearchArgs().bm25();
     argsRm3.rm3 = true;
     testQueries.put("bm25.rm3", argsRm3);
     referenceRunOutput.put("bm25.rm3", new String[]{
-        "1 Q0 DOC222 1 0.085798 Anserini",
-        "1 Q0 TREC_DOC_1 2 0.083361 Anserini",
-        "1 Q0 WSJ_1 3 0.017163 Anserini"});
+        "1 Q0 DOC222 1 0.085800 Anserini",
+        "1 Q0 TREC_DOC_1 2 0.083400 Anserini",
+        "1 Q0 WSJ_1 3 0.017200 Anserini"});
 
     SearchCollection.Args argsRocchio = createDefaultSearchArgs().bm25();
     argsRocchio.rocchio = true;
     testQueries.put("bm25.rocchio", argsRocchio);
     referenceRunOutput.put("bm25.rocchio", new String[]{
-        "1 Q0 DOC222 1 0.242673 Anserini",
-        "1 Q0 TREC_DOC_1 2 0.235781 Anserini",
-        "1 Q0 WSJ_1 3 0.048545 Anserini"});
+        "1 Q0 DOC222 1 0.242700 Anserini",
+        "1 Q0 TREC_DOC_1 2 0.235800 Anserini",
+        "1 Q0 WSJ_1 3 0.048500 Anserini"});
 
     SearchCollection.Args argsBM25prf = createDefaultSearchArgs().bm25();
     argsBM25prf.bm25prf = true;
     testQueries.put("bm25.bm25prf", argsBM25prf);
     referenceRunOutput.put("bm25.bm25prf", new String[]{
-        "1 Q0 DOC222 1 1.942508 Anserini",
-        "1 Q0 TREC_DOC_1 2 1.572330 Anserini",
-        "1 Q0 WSJ_1 3 1.200561 Anserini"});
+        "1 Q0 DOC222 1 1.942500 Anserini",
+        "1 Q0 TREC_DOC_1 2 1.572300 Anserini",
+        "1 Q0 WSJ_1 3 1.200600 Anserini"});
 
     testQueries.put("bm25Accurate", createDefaultSearchArgs().bm25Accurate());
     referenceRunOutput.put("bm25Accurate", new String[]{
-        "1 Q0 DOC222 1 0.343192 Anserini",
-        "1 Q0 TREC_DOC_1 2 0.333445 Anserini",
-        "1 Q0 WSJ_1 3 0.068654 Anserini"});
+        "1 Q0 DOC222 1 0.343200 Anserini",
+        "1 Q0 TREC_DOC_1 2 0.333400 Anserini",
+        "1 Q0 WSJ_1 3 0.068700 Anserini"});
 
     testQueries.put("qld", createDefaultSearchArgs().qld());
     referenceRunOutput.put("qld", new String[]{
-        "1 Q0 DOC222 1 0.002482 Anserini",
-        "1 Q0 TREC_DOC_1 2 0.001659 Anserini",
+        "1 Q0 DOC222 1 0.002500 Anserini",
+        "1 Q0 TREC_DOC_1 2 0.001700 Anserini",
         "1 Q0 WSJ_1 3 0.000000 Anserini"});
 
     testQueries.put("qljm", createDefaultSearchArgs().qljm());
     referenceRunOutput.put("qljm", new String[]{
-        "1 Q0 DOC222 1 4.872331 Anserini",
-        "1 Q0 TREC_DOC_1 2 4.619134 Anserini",
-        "1 Q0 WSJ_1 3 1.658228 Anserini"});
+        "1 Q0 DOC222 1 4.872300 Anserini",
+        "1 Q0 TREC_DOC_1 2 4.619100 Anserini",
+        "1 Q0 WSJ_1 3 1.658200 Anserini"});
 
     testQueries.put("inl2", createDefaultSearchArgs().inl2());
     referenceRunOutput.put("inl2", new String[]{
-        "1 Q0 TREC_DOC_1 1 0.133179 Anserini",
-        "1 Q0 DOC222 2 0.126072 Anserini",
-        "1 Q0 WSJ_1 3 0.021078 Anserini"});
+        "1 Q0 TREC_DOC_1 1 0.133200 Anserini",
+        "1 Q0 DOC222 2 0.126100 Anserini",
+        "1 Q0 WSJ_1 3 0.021100 Anserini"});
 
     testQueries.put("spl", createDefaultSearchArgs().spl());
     referenceRunOutput.put("spl", new String[]{
-        "1 Q0 DOC222 1 0.446093 Anserini",
-        "1 Q0 TREC_DOC_1 2 0.354973 Anserini",
-        "1 Q0 WSJ_1 3 0.115876 Anserini"});
+        "1 Q0 DOC222 1 0.446100 Anserini",
+        "1 Q0 TREC_DOC_1 2 0.355000 Anserini",
+        "1 Q0 WSJ_1 3 0.115900 Anserini"});
 
     testQueries.put("f2exp", createDefaultSearchArgs().f2exp());
     referenceRunOutput.put("f2exp", new String[]{
-        "1 Q0 DOC222 1 1.434657 Anserini",
-        "1 Q0 TREC_DOC_1 2 1.269596 Anserini",
-        "1 Q0 WSJ_1 3 0.536210 Anserini"});
+        "1 Q0 DOC222 1 1.434700 Anserini",
+        "1 Q0 TREC_DOC_1 2 1.269600 Anserini",
+        "1 Q0 WSJ_1 3 0.536200 Anserini"});
 
     testQueries.put("f2log", createDefaultSearchArgs().f2log());
     referenceRunOutput.put("f2log", new String[]{
-        "1 Q0 DOC222 1 0.548514 Anserini",
-        "1 Q0 TREC_DOC_1 2 0.523109 Anserini",
-        "1 Q0 WSJ_1 3 0.139482 Anserini"});
+        "1 Q0 DOC222 1 0.548500 Anserini",
+        "1 Q0 TREC_DOC_1 2 0.523100 Anserini",
+        "1 Q0 WSJ_1 3 0.139500 Anserini"});
   }
 }

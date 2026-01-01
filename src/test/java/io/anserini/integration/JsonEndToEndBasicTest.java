@@ -16,11 +16,11 @@
 
 package io.anserini.integration;
 
-import java.util.Map;
-
 import io.anserini.collection.JsonCollection;
 import io.anserini.index.IndexCollection;
 import io.anserini.search.SearchCollection;
+
+import java.util.Map;
 
 public class JsonEndToEndBasicTest extends EndToEndTest {
   @Override
@@ -58,10 +58,10 @@ public class JsonEndToEndBasicTest extends EndToEndTest {
     SearchCollection.Args searchArg1 = createDefaultSearchArgs().bm25();
     testQueries.put("bm25", searchArg1);
     referenceRunOutput.put("bm25", new String[]{
-        "1 Q0 doc1 1 0.364814 Anserini",
-        "2 Q0 doc2 1 0.364814 Anserini",
-        "3 Q0 doc1 1 0.095959 Anserini",
-        "3 Q0 doc2 2 0.095959 Anserini"});
+        "1 Q0 doc1 1 0.364800 Anserini",
+        "2 Q0 doc2 1 0.364800 Anserini",
+        "3 Q0 doc1 1 0.096000 Anserini",
+        "3 Q0 doc2 2 0.095999 Anserini"});
 
     topicReader = "TsvString";
     topicFile = "src/test/resources/sample_topics/json_topics3.tsv";
@@ -69,8 +69,8 @@ public class JsonEndToEndBasicTest extends EndToEndTest {
     searchArg2.removeQuery = true;
     testQueries.put("bm25-rq", searchArg2);
     referenceRunOutput.put("bm25-rq", new String[]{
-        "doc1 Q0 doc2 1 0.095959 Anserini",
-        "doc2 Q0 doc1 1 0.095959 Anserini"});
+        "doc1 Q0 doc2 1 0.095999 Anserini",
+        "doc2 Q0 doc1 1 0.096000 Anserini"});
   }
 
 }

@@ -74,10 +74,10 @@ public class CoreEndToEndTest extends EndToEndTest {
 
     testQueries.put("bm25", createDefaultSearchArgs().bm25());
     referenceRunOutput.put("bm25", new String[]{
-        "1 Q0 coreDoc1 1 0.243182 Anserini",
-        "1 Q0 doi2 2 0.243182 Anserini",
-        "2 Q0 coreDoc1 1 0.243182 Anserini",
-        "2 Q0 doi2 2 0.243182 Anserini",
-        "3 Q0 fullCoreDoc 1 0.534644 Anserini"});
+        "1 Q0 coreDoc1 1 0.243200 Anserini",
+        "1 Q0 doi2 2 0.243199 Anserini",
+        "2 Q0 coreDoc1 1 0.243200 Anserini",
+        "2 Q0 doi2 2 0.243199 Anserini",
+        "3 Q0 fullCoreDoc 1 0.534600 Anserini"});
   }
 }
