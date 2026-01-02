@@ -240,6 +240,7 @@ public abstract class EndToEndTest extends StdOutStdErrRedirectableLuceneTestCas
     CheckIndex checker = new CheckIndex(dir);
     checker.setInfoStream(new PrintStream(bos, false, IOUtils.UTF_8));
     if (VERBOSE) checker.setInfoStream(System.out);
+    checker.setLevel(3);
     CheckIndex.Status indexStatus = checker.checkIndex();
     if (!indexStatus.clean) {
       System.out.println("CheckIndex failed");

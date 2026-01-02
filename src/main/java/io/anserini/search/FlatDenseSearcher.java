@@ -16,33 +16,47 @@
 
 package io.anserini.search;
 
-import ai.onnxruntime.OrtException;
-import io.anserini.encoder.dense.DenseEncoder;
-import io.anserini.index.Constants;
-import io.anserini.index.IndexReaderUtils;
-import io.anserini.search.query.VectorQueryGenerator;
-
-import org.apache.commons.lang3.time.DurationFormatUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.KnnFloatVectorQuery;
-import org.apache.lucene.search.Sort;
-import org.apache.lucene.search.SortField;
-import org.apache.lucene.search.TopDocs;
-import org.apache.lucene.store.FSDirectory;
-import org.kohsuke.args4j.Option;
-
-import javax.annotation.Nullable;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedMap;
-import java.util.concurrent.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CompletionException;
+import java.util.concurrent.ConcurrentSkipListMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import javax.annotation.Nullable;
+
+import org.apache.commons.lang3.time.DurationFormatUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.FieldInfo;
+import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.LeafReader;
+import org.apache.lucene.index.LeafReaderContext;
+import org.apache.lucene.index.VectorSimilarityFunction;
+import org.apache.lucene.search.DocIdSetIterator;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.KnnFloatVectorQuery;
+import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.Sort;
+import org.apache.lucene.search.SortField;
+import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.TotalHits;
+import org.apache.lucene.search.VectorScorer;
+import org.apache.lucene.store.FSDirectory;
+import org.kohsuke.args4j.Option;
+
+import ai.onnxruntime.OrtException;
+import io.anserini.encoder.dense.DenseEncoder;
+import io.anserini.index.Constants;
+import io.anserini.index.IndexReaderUtils;
+import io.anserini.search.query.VectorQueryGenerator;
 
 public class FlatDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> implements AutoCloseable {
   // These are the default tie-breaking rules for documents that end up with the same score with respect to a query.
@@ -222,6 +236,7 @@ public class FlatDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
 
     KnnFloatVectorQuery vectorQuery = generator.buildQuery(Constants.VECTOR, query, DUMMY_EF_SEARCH);
     TopDocs topDocs = getIndexSearcher().search(vectorQuery, k, BREAK_SCORE_TIES_BY_DOCID, true);
+
 
     return super.processLuceneTopDocs(qid, topDocs);
   }

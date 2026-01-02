@@ -30,6 +30,8 @@ import io.anserini.TestUtils;
 import io.anserini.index.AbstractIndexer;
 import io.anserini.index.IndexHnswDenseVectors;
 
+import static org.junit.Assert.assertTrue;
+
 /**
  * Tests for {@link SearchHnswDenseVectors}
  */
@@ -222,7 +224,7 @@ public class SearchHnswDenseVectorsTest extends StdOutStdErrRedirectableLuceneTe
 
     SearchHnswDenseVectors.main(searchArgs);
 
-    assertEquals("Error: Unable to load QueryGenerator \"FakeVectorQueryGenerator\".\n", err.toString());
+    assertTrue(err.toString().contains("Error: Unable to load QueryGenerator \"FakeVectorQueryGenerator\"."));
   }
 
   @Test
@@ -253,7 +255,7 @@ public class SearchHnswDenseVectorsTest extends StdOutStdErrRedirectableLuceneTe
 
     SearchHnswDenseVectors.main(searchArgs);
 
-    assertEquals("Error: Unable to load Encoder \"FakeEncoder\".\n", err.toString());
+    assertTrue(err.toString().contains("Error: Unable to load Encoder \"FakeEncoder\"."));
   }
 
   @Test
@@ -370,16 +372,16 @@ public class SearchHnswDenseVectorsTest extends StdOutStdErrRedirectableLuceneTe
     SearchHnswDenseVectors.main(searchArgs);
 
     TestUtils.checkRunFileApproximate(runfile, new String[] {
-        "2 Q0 224 1 0.579050 Anserini",
-        "2 Q0 208 2 0.577672 Anserini",
-        "2 Q0 384 3 0.572705 Anserini",
-        "2 Q0 136 4 0.572389 Anserini",
-        "2 Q0 720 5 0.568491 Anserini",
-        "1048585 Q0 624 1 0.569788 Anserini",
-        "1048585 Q0 120 2 0.564118 Anserini",
-        "1048585 Q0 320 3 0.559633 Anserini",
-        "1048585 Q0 328 4 0.550906 Anserini",
-        "1048585 Q0 232 5 0.550473 Anserini"
+        "2 Q0 224 1 0.581529 Anserini",
+        "2 Q0 208 2 0.580095 Anserini",
+        "2 Q0 136 3 0.575039 Anserini",
+        "2 Q0 384 4 0.573756 Anserini",
+        "2 Q0 720 5 0.572269 Anserini",
+        "1048585 Q0 624 1 0.569809 Anserini",
+        "1048585 Q0 120 2 0.564281 Anserini",
+        "1048585 Q0 320 3 0.558037 Anserini",
+        "1048585 Q0 232 4 0.553515 Anserini",
+        "1048585 Q0 328 5 0.550803 Anserini"
     });
 
     new File(runfile).delete();

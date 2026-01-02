@@ -16,7 +16,11 @@
 
 package io.anserini.analysis.fw;
 
-import io.anserini.analysis.AnalyzerUtils;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -26,19 +30,15 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queries.CommonTermsQuery;
+import static org.apache.lucene.search.BooleanClause.Occur.SHOULD;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.ByteBuffersDirectory;
 import org.apache.lucene.store.Directory;
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.util.LinkedList;
-import java.util.List;
-
-import static org.apache.lucene.search.BooleanClause.Occur.SHOULD;
-import static org.junit.Assert.assertEquals;
+import io.anserini.analysis.AnalyzerUtils;
 
 public class FakeWordsEncoderAnalyzerTest {
 
@@ -88,7 +88,7 @@ public class FakeWordsEncoderAnalyzerTest {
       simQuery.add(new Term(fieldName, token));
     }
     TopDocs topDocs = searcher.search(simQuery, 1);
-    assertEquals(1, topDocs.totalHits.value);
+    assertEquals(1, topDocs.totalHits.value());
   }
 
   private byte[] toByteArray(List<Double> values) {

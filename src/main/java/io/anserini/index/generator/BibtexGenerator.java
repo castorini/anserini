@@ -145,15 +145,18 @@ public class BibtexGenerator implements LuceneDocumentGenerator<BibtexCollection
       } else if (FIELDS_WITHOUT_STEMMING.contains(fieldKey)) {
         // index field without stemming but store original string value
         FieldType nonStemmedType = new FieldType(fieldType);
-        nonStemmedType.setStored(true);
+        nonStemmedType.setStored(false); // TokenStream fields cannot be stored in Lucene 10.1.0
 
         // token stream to be indexed
         Analyzer nonStemmingAnalyzer = DefaultEnglishAnalyzer.newNonStemmingInstance(CharArraySet.EMPTY_SET);
         StringReader reader = new StringReader(fieldValue);
         TokenStream stream = nonStemmingAnalyzer.tokenStream(null, reader);
 
-        Field field = new Field(fieldKey, fieldValue, nonStemmedType);
-        field.setTokenStream(stream);
+        // Store the original string value as StoredField
+        doc.add(new StoredField(fieldKey, fieldValue));
+        
+        // Create Field with TokenStream for indexing
+        Field field = new Field(fieldKey, stream, nonStemmedType);
         doc.add(field);
 
         nonStemmingAnalyzer.close();
