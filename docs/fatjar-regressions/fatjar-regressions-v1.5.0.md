@@ -1,15 +1,15 @@
-# Anserini Fatjar Regresions (v1.4.0) For code review only
+# Anserini Fatjar Regresions (v1.5.0)
 
 Fetch the fatjar:
 
 ```bash
-wget https://repo1.maven.org/maven2/io/anserini/anserini/1.4.0/anserini-1.4.0-fatjar.jar
+wget https://repo1.maven.org/maven2/io/anserini/anserini/1.5.0/anserini-1.5.0-fatjar.jar
 ```
 
 Let's start out by setting the `ANSERINI_JAR` and the `OUTPUT_DIR`:
 
 ```bash
-export ANSERINI_JAR="anserini-1.4.0-fatjar.jar"
+export ANSERINI_JAR="anserini-1.5.0-fatjar.jar"
 export OUTPUT_DIR="."
 ```
 
@@ -465,7 +465,7 @@ The table below reports fusion results (nDCG@10) combining BM25 (flat) and BGE (
 
 ❗ Beware, running these experiments will automatically download 36 indexes totaling 6.8 GB.
 
-BRIGHT is a retrieval benchmark described [here](https://arxiv.org/abs/2407.12883).
+BRIGHT is a retrieval benchmark described in [this paper](https://arxiv.org/abs/2407.12883).
 The following table reports nDCG@10 scores.
 
 + BM25: bag-of-words BM25
@@ -474,7 +474,6 @@ The following table reports nDCG@10 scores.
 + BGE (flat): BGE-large-en-v1.5 using flat vector indexes with ONNX query encoding
 
 > Yijun Ge, Sahel Sharifymoghaddam, and Jimmy Lin. [Lighting the Way for BRIGHT: Reproducible Baselines with Anserini, Pyserini, and RankLLM.](https://arxiv.org/abs/2509.02558) _arXiv:2509.02558_, 2025.
-
 
 | Corpus                    |    BM25    |   BM25QS   | SPLADE-v3  | BGE (flat) |
 |---------------------------|:----------:|:----------:|:----------:|:----------:|
