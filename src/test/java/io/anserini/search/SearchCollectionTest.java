@@ -156,34 +156,6 @@ public class SearchCollectionTest extends StdOutStdErrRedirectableLuceneTestCase
   }
 
   @Test
-  public void testSearchLucene8() throws Exception {
-    // Skip test if Lucene version doesn't support Lucene 8 indexes
-    // Lucene 10 only supports indexes from Lucene 9.0 and later
-    Assume.assumeTrue("Lucene 8 indexes are not supported in Lucene 10", false);
-    SearchCollection.main(new String[] {
-        "-index", "src/test/resources/prebuilt_indexes/lucene8-index.sample_docs_trec_collection2/",
-        "-topics", "src/test/resources/sample_topics/Trec",
-        "-topicReader", "Trec",
-        "-output", "run.test", "-bm25"});
-
-    TestUtils.checkFile("run.test", new String[]{
-        "1 Q0 DOC222 1 0.343192 Anserini",
-        "1 Q0 TREC_DOC_1 2 0.333445 Anserini",
-        "1 Q0 WSJ_1 3 0.068654 Anserini"});
-    assertTrue(new File("run.test").delete());
-
-    SearchCollection.main(new String[] {
-        "-index", "src/test/resources/prebuilt_indexes/lucene8-index.sample_docs_json_collection_tokenized/",
-        "-topics", "src/test/resources/sample_topics/json_topics1.tsv",
-        "-topicReader", "TsvInt", "-output",
-        "run.test", "-pretokenized", "-impact"});
-
-    TestUtils.checkFile("run.test", new String[]{
-        "1 Q0 2000001 1 4.000000 Anserini",});
-    assertTrue(new File("run.test").delete());
-  }
-
-  @Test
   public void testSpecifyTopicsAsSymbol() throws Exception {
     SearchCollection.main(new String[] {
         "-index", "src/test/resources/prebuilt_indexes/lucene9-index.sample_docs_trec_collection2/",

@@ -21,7 +21,7 @@ import org.junit.Test;
 
 import io.anserini.SuppresedLoggingLuceneTestCase;
 
-public class SimpleSearcherPrebuiltLucene9Test extends SuppresedLoggingLuceneTestCase {
+public class SimpleSearcherPrebuiltTest extends SuppresedLoggingLuceneTestCase {
   @BeforeClass
   public static void setupClass() {
     suppressJvmLogging();
