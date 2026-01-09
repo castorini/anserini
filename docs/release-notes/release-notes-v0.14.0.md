@@ -15,10 +15,10 @@
 Sorted by number of commits:
 
 + Jimmy Lin ([lintool](https://github.com/lintool))
-+ Christopher Akiki ([cakiki](https://github.com/cakiki ))
++ Christopher Akiki ([cakiki](https://github.com/cakiki))
 + Xinyu (Crystina) Zhang ([crystina-z](https://github.com/crystina-z))
 + Kevin Wang ([kevin-wangg](https://github.com/kevin-wangg))
-+ Lingwei Gu ([lingwei-gu ](https://github.com/lingwei-gu ))
++ Lingwei Gu ([lingwei-gu](https://github.com/lingwei-gu))
 + Manveer Tamber ([manveertamber](https://github.com/manveertamber))
 + Mikhail Tsirlin ([mikhail-tsir](https://github.com/mikhail-tsir))
 + Tianhao Yao ([tyao-t](https://github.com/tyao-t))
