@@ -215,7 +215,7 @@ To generate similar output for ArcticEmbed-L, specify the corresponding run file
 
 ## MS MARCO V1 Passages
 
-❗ Beware, running these experiments will automatically download 9 indexes totaling 203 GB.
+❗ Beware, running these experiments will automatically download 10 indexes totaling 204 GB.
 
 Anserini provides support for a variety of models.
 The table below reports the effectiveness (dev in terms of RR@10, DL19 and DL20 in terms of nDCG@10):
@@ -269,7 +269,7 @@ To print out the commands that will generate runs for all available models (with
 
 ## MS MARCO V2 Passages
 
-❗ Beware, running these experiments will automatically download 3 indexes totaling 90 GB.
+❗ Beware, running these experiments will automatically download 4 indexes totaling 109 GB.
 
 Anserini provides support for a variety of models.
 The table below reports the effectiveness of selected models (dev and dev2 in terms of RR@100, DL21-23 in terms of nDCG@10):

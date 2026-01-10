@@ -215,7 +215,7 @@ To generate similar output for ArcticEmbed-L, specify the corresponding run file
 
 ## MS MARCO V1 Passages
 
-❗ Beware, running these experiments will automatically download 9 indexes totaling 203 GB.
+❗ Beware, running these experiments will automatically download 10 indexes totaling 204 GB.
 
 Anserini provides support for a variety of models.
 The table below reports the effectiveness (dev in terms of RR@10, DL19 and DL20 in terms of nDCG@10):
@@ -269,7 +269,7 @@ To print out the commands that will generate runs for all available models (with
 
 ## MS MARCO V2 Passages
 
-❗ Beware, running these experiments will automatically download 3 indexes totaling 90 GB.
+❗ Beware, running these experiments will automatically download 4 indexes totaling 109 GB.
 
 Anserini provides support for a variety of models.
 The table below reports the effectiveness of selected models (dev and dev2 in terms of RR@100, DL21-23 in terms of nDCG@10):
@@ -437,13 +437,13 @@ The table below reports fusion results (nDCG@10) combining BM25 (flat) and BGE (
 | `nq`                      |   0.3055    |   0.5415   | 0.4831 |  0.5183 |
 | `hotpotqa`                |   0.6330    |   0.7259   | 0.7389 |  0.7658 |
 | `fiqa`                    |   0.2361    |   0.4065   | 0.3671 |  0.3942 |
-| `signal1m`                |   0.3304    |   0.2886   | 0.3533 |  0.3624 |
+| `signal1m`                |   0.3304    |   0.2886   | 0.3533 |  0.3626 |
 | `trec-news`               |   0.3952    |   0.4424   | 0.4855 |  0.5008 |
 | `robust04`                |   0.4070    |   0.4435   | 0.5070 |  0.5127 |
 | `arguana`                 |   0.3970    |   0.6375   | 0.5626 |  0.5738 |
 | `webis-touche2020`        |   0.4422    |   0.2571   | 0.3771 |  0.3755 |
 | `cqadupstack-android`     |   0.3801    |   0.5076   | 0.4652 |  0.4868 |
-| `cqadupstack-english`     |   0.3453    |   0.4857   | 0.4461 |  0.4671 |
+| `cqadupstack-english`     |   0.3453    |   0.4857   | 0.4461 |  0.4678 |
 | `cqadupstack-gaming`      |   0.4822    |   0.5967   | 0.5615 |  0.5818 |
 | `cqadupstack-gis`         |   0.2901    |   0.4131   | 0.3679 |  0.3937 |
 | `cqadupstack-mathematica` |   0.2015    |   0.3163   | 0.2751 |  0.2951 |
@@ -454,7 +454,7 @@ The table below reports fusion results (nDCG@10) combining BM25 (flat) and BGE (
 | `cqadupstack-unix`        |   0.2749    |   0.4220   | 0.3597 |  0.3853 |
 | `cqadupstack-webmasters`  |   0.3059    |   0.4072   | 0.3711 |  0.3857 |
 | `cqadupstack-wordpress`   |   0.2483    |   0.3547   | 0.3353 |  0.3546 |
-| `quora`                   |   0.7886    |   0.8876   | 0.8682 |  0.8859 |
+| `quora`                   |   0.7886    |   0.8876   | 0.8682 |  0.8858 |
 | `dbpedia-entity`          |   0.3180    |   0.4073   | 0.4190 |  0.4374 |
 | `scidocs`                 |   0.1490    |   0.2172   | 0.1948 |  0.2019 |
 | `fever`                   |   0.6513    |   0.8629   | 0.8108 |  0.8584 |
