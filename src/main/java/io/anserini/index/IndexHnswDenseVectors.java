@@ -119,60 +119,59 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
             });
       }
 
-      config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
-      config.setRAMBufferSizeMB(args.memoryBuffer);
-      config.setRAMPerThreadHardLimitMB(args.maxThreadMemoryBeforeFlush);
-      config.setUseCompoundFile(false);
-      config.setMergeScheduler(new ConcurrentMergeScheduler());
+      // config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
+      // config.setRAMBufferSizeMB(args.memoryBuffer);
+      // config.setRAMPerThreadHardLimitMB(args.maxThreadMemoryBeforeFlush);
+      // config.setUseCompoundFile(false);
+      // config.setMergeScheduler(new ConcurrentMergeScheduler());
 
-      if (args.noMerge) {
-        config.setMergePolicy(NoMergePolicy.INSTANCE);
-      } else {
-        TieredMergePolicy mergePolicy = new TieredMergePolicy();
-        if (args.optimize) {
-          // If we're going to merge down into a single segment at the end, skip intermediate merges,
-          // since they are a waste of time.
-          mergePolicy.setMaxMergeAtOnce(256);
-          mergePolicy.setSegmentsPerTier(256);
-        } else {
-          mergePolicy.setFloorSegmentMB(1024);
-          mergePolicy.setMaxMergedSegmentMB(args.maxMergedSegmentSize);
-          mergePolicy.setSegmentsPerTier(args.segmentsPerTier);
-          mergePolicy.setMaxMergeAtOnce(args.maxMergeAtOnce);
-        }
-        config.setMergePolicy(mergePolicy);
-      }
+      // if (args.noMerge) {
+      //   config.setMergePolicy(NoMergePolicy.INSTANCE);
+      // } else {
+      //   TieredMergePolicy mergePolicy = new TieredMergePolicy();
+      //   if (args.optimize) {
+      //     // If we're going to merge down into a single segment at the end, skip intermediate merges,
+      //     // since they are a waste of time.
+      //     mergePolicy.setMaxMergeAtOnce(256);
+      //     mergePolicy.setSegmentsPerTier(256);
+      //   } else {
+      //     mergePolicy.setFloorSegmentMB(1024);
+      //     mergePolicy.setMaxMergedSegmentMB(args.maxMergedSegmentSize);
+      //     mergePolicy.setSegmentsPerTier(args.segmentsPerTier);
+      //     mergePolicy.setMaxMergeAtOnce(args.maxMergeAtOnce);
+      //   }
+      //   config.setMergePolicy(mergePolicy);
+      // }
 
       this.writer = new IndexWriter(dir, config);
     } catch (Exception e) {
       throw new IllegalArgumentException(String.format("Unable to create IndexWriter: %s.", e.getMessage()));
     }
 
-    LOG.info("HnswIndexer settings:");
-    LOG.info(" + Generator: " + args.generatorClass);
-    LOG.info(" + M: " + args.M);
-    LOG.info(" + efC: " + args.efC);
-    LOG.info(" + Store document vectors? " + args.storeVectors);
-    LOG.info(" + Int8 quantization? " + args.quantizeInt8);
-    LOG.info(" + Codec: " + this.writer.getConfig().getCodec());
-    LOG.info(" + MemoryBuffer: " + args.memoryBuffer);
-    LOG.info(" + MaxThreadMemoryBeforeFlush: " + args.maxThreadMemoryBeforeFlush);
+    // LOG.info("HnswIndexer settings:");
+    // LOG.info(" + Generator: " + args.generatorClass);
+    // LOG.info(" + M: " + args.M);
+    // LOG.info(" + efC: " + args.efC);
+    // LOG.info(" + Store document vectors? " + args.storeVectors);
+    // LOG.info(" + Int8 quantization? " + args.quantizeInt8);
+    // LOG.info(" + Codec: " + this.writer.getConfig().getCodec());
+    // LOG.info(" + MemoryBuffer: " + args.memoryBuffer);
+    // LOG.info(" + MaxThreadMemoryBeforeFlush: " + args.maxThreadMemoryBeforeFlush);
 
-    if (args.noMerge) {
-      LOG.info(" + MergePolicy: NoMerge");
-    } else if (args.optimize) {
-      LOG.info(" + MergePolicy: TieredMergePolicy (force merge into a single index segment)");
-    } else {
-      LOG.info(" + MergePolicy: TieredMergePolicy");
-      LOG.info(" + MaxMergedSegmentSize: " + args.maxMergedSegmentSize);
-      LOG.info(" + SegmentsPerTier: " + args.segmentsPerTier);
-      LOG.info(" + MaxMergeAtOnce: " + args.maxMergeAtOnce);
-    }
+    // if (args.noMerge) {
+    //   LOG.info(" + MergePolicy: NoMerge");
+    // } else if (args.optimize) {
+    //   LOG.info(" + MergePolicy: TieredMergePolicy (force merge into a single index segment)");
+    // } else {
+    //   LOG.info(" + MergePolicy: TieredMergePolicy");
+    //   LOG.info(" + MaxMergedSegmentSize: " + args.maxMergedSegmentSize);
+    //   LOG.info(" + SegmentsPerTier: " + args.segmentsPerTier);
+    //   LOG.info(" + MaxMergeAtOnce: " + args.maxMergeAtOnce);
+    // }
   }
 
+  // We need this class exists because Lucene99HnswVectorsFormat is final, and so we can't override getMaxDimensions.
   // Solution provided by Solr, see https://www.mail-archive.com/java-user@lucene.apache.org/msg52149.html
-  // This class exists because Lucene95HnswVectorsFormat's getMaxDimensions method is final and we
-  // need to workaround that constraint to allow more than the default number of dimensions.
   private static final class DelegatingKnnVectorsFormat extends KnnVectorsFormat {
     private final KnnVectorsFormat delegate;
     private final int maxDimensions;
