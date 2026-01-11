@@ -225,13 +225,17 @@ public class Cord19Generator implements LuceneDocumentGenerator<Cord19BaseDocume
   // index field without stemming but store original string value
   private void addNonStemmedField(Document doc, String key, String value, FieldType fieldType) {
     FieldType nonStemmedType = new FieldType(fieldType);
-    nonStemmedType.setStored(true);
+    nonStemmedType.setStored(false); // TokenStream fields cannot be stored in Lucene 10.1.0
 
     // token stream to be indexed
     Analyzer nonStemmingAnalyzer = DefaultEnglishAnalyzer.newNonStemmingInstance(CharArraySet.EMPTY_SET);
     TokenStream stream = nonStemmingAnalyzer.tokenStream(null, new StringReader(value));
-    Field field = new Field(key, value, nonStemmedType);
-    field.setTokenStream(stream);
+    
+    // Store the original string value as StoredField
+    doc.add(new StoredField(key, value));
+    
+    // Create Field with TokenStream for indexing
+    Field field = new Field(key, stream, nonStemmedType);
     doc.add(field);
     nonStemmingAnalyzer.close();
   }

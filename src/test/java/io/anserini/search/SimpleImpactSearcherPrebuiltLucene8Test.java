@@ -16,6 +16,7 @@
 
 package io.anserini.search;
 
+import org.junit.Assume;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -26,6 +27,9 @@ import static org.junit.Assert.assertEquals;
 public class SimpleImpactSearcherPrebuiltLucene8Test {
   @Test
   public void testSearch1() throws Exception {
+    // Skip test if Lucene version doesn't support Lucene 8 indexes
+    // Lucene 10 only supports indexes from Lucene 9.0 and later
+    Assume.assumeTrue("Lucene 8 indexes are not supported in Lucene 10", false);
     try(SimpleImpactSearcher searcher = new SimpleImpactSearcher(
         "src/test/resources/prebuilt_indexes/lucene8-index.sample_docs_json_collection_tokenized")) {
       assertEquals(2, searcher.get_total_num_docs());
