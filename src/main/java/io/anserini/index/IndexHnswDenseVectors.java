@@ -66,22 +66,22 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
     @Option(name = "-storeVectors", usage = "Boolean switch to store raw raw vectors.")
     public boolean storeVectors = false;
 
-    @Option(name = "-noMerge", usage = "Do not merge segments (fast indexing, slow retrieval).")
-    public boolean noMerge = false;
+    // @Option(name = "-noMerge", usage = "Do not merge segments (fast indexing, slow retrieval).")
+    // public boolean noMerge = false;
 
-    @Option(name = "-maxThreadMemoryBeforeFlush", metaVar = "[num]", usage = "Maximum memory consumption per thread before triggering a forced flush (in MB); must be smaller than 2048.")
-    public int maxThreadMemoryBeforeFlush = 2047;
-    // This is the most aggressive possible setting; default is 1945.
-    // If the setting is too aggressive, may result in GCLocker issues.
+    // @Option(name = "-maxThreadMemoryBeforeFlush", metaVar = "[num]", usage = "Maximum memory consumption per thread before triggering a forced flush (in MB); must be smaller than 2048.")
+    // public int maxThreadMemoryBeforeFlush = 2047;
+    // // This is the most aggressive possible setting; default is 1945.
+    // // If the setting is too aggressive, may result in GCLocker issues.
 
-    @Option(name = "-maxMergedSegmentSize", metaVar = "[num]", usage = "Maximum sized segment to produce during normal merging (in MB).")
-    public int maxMergedSegmentSize = 1024 * 16;
+    // @Option(name = "-maxMergedSegmentSize", metaVar = "[num]", usage = "Maximum sized segment to produce during normal merging (in MB).")
+    // public int maxMergedSegmentSize = 1024 * 16;
 
-    @Option(name = "-segmentsPerTier", metaVar = "[num]", usage = "Allowed number of segments per tier.")
-    public int segmentsPerTier = 10;
+    // @Option(name = "-segmentsPerTier", metaVar = "[num]", usage = "Allowed number of segments per tier.")
+    // public int segmentsPerTier = 10;
 
-    @Option(name = "-maxMergeAtOnce", metaVar = "[num]", usage = "Maximum number of segments to be merged at a time during \"normal\" merging.")
-    public int maxMergeAtOnce = 10;
+    // @Option(name = "-maxMergeAtOnce", metaVar = "[num]", usage = "Maximum number of segments to be merged at a time during \"normal\" merging.")
+    // public int maxMergeAtOnce = 10;
   }
 
   @SuppressWarnings("unchecked")
@@ -148,12 +148,12 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
       throw new IllegalArgumentException(String.format("Unable to create IndexWriter: %s.", e.getMessage()));
     }
 
-    // LOG.info("HnswIndexer settings:");
-    // LOG.info(" + Generator: " + args.generatorClass);
-    // LOG.info(" + M: " + args.M);
-    // LOG.info(" + efC: " + args.efC);
-    // LOG.info(" + Store document vectors? " + args.storeVectors);
-    // LOG.info(" + Int8 quantization? " + args.quantizeInt8);
+    LOG.info("HnswIndexer settings:");
+    LOG.info(" + Generator: " + args.generatorClass);
+    LOG.info(" + M: " + args.M);
+    LOG.info(" + efC: " + args.efC);
+    LOG.info(" + Store document vectors? " + args.storeVectors);
+    LOG.info(" + Int8 quantization? " + args.quantizeInt8);
     // LOG.info(" + Codec: " + this.writer.getConfig().getCodec());
     // LOG.info(" + MemoryBuffer: " + args.memoryBuffer);
     // LOG.info(" + MaxThreadMemoryBeforeFlush: " + args.maxThreadMemoryBeforeFlush);
