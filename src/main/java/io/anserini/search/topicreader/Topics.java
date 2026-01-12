@@ -616,6 +616,24 @@ public enum Topics {
   BRIGHT_THEOREMQA_THEOREMS_BGE_LARGE_EN_15(JsonStringVectorTopicReader.class, "topics.bright-theoremqa-theorems.bge-large-en-v1.5.jsonl.gz"),
   BRIGHT_THEOREMQA_QUESTIONS_BGE_LARGE_EN_15(JsonStringVectorTopicReader.class, "topics.bright-theoremqa-questions.bge-large-en-v1.5.jsonl.gz"),
 
+  // M-BEIR original queries
+  M_BEIR_CIRR_TASK7_TEST(JsonStringTopicReader.class, "topics.mbeir-cirr_task7.test.jsonl"),
+  M_BEIR_EDIS_TASK2_TEST(JsonStringTopicReader.class, "topics.mbeir-edis_task2.test.jsonl"),
+  M_BEIR_FASHION200K_TASK0_TEST(JsonStringTopicReader.class, "topics.mbeir-fashion200k_task0.test.jsonl"),
+  M_BEIR_FASHION200K_TASK3_TEST(JsonStringTopicReader.class, "topics.mbeir-fashion200k_task3.test.jsonl"),
+  M_BEIR_FASHIONIQ_TASK7_TEST(JsonStringTopicReader.class, "topics.mbeir-fashioniq_task7.test.jsonl"),
+  M_BEIR_INFOSEEK_TASK6_TEST(JsonStringTopicReader.class, "topics.mbeir-infoseek_task6.test.jsonl"),
+  M_BEIR_INFOSEEK_TASK8_TEST(JsonStringTopicReader.class, "topics.mbeir-infoseek_task8.test.jsonl"),
+  M_BEIR_MSCOCO_TASK0_TEST(JsonStringTopicReader.class, "topics.mbeir-mscoco_task0.test.jsonl"),
+  M_BEIR_MSCOCO_TASK3_TEST(JsonStringTopicReader.class, "topics.mbeir-mscoco_task3.test.jsonl"),
+  M_BEIR_NIGHTS_TASK4_TEST(JsonStringTopicReader.class, "topics.mbeir-nights_task4.test.jsonl"),
+  M_BEIR_OVEN_TASK6_TEST(JsonStringTopicReader.class, "topics.mbeir-oven_task6.test.jsonl"),
+  M_BEIR_OVEN_TASK8_TEST(JsonStringTopicReader.class, "topics.mbeir-oven_task8.test.jsonl"),
+  M_BEIR_VISUALNEWS_TASK0_TEST(JsonStringTopicReader.class, "topics.mbeir-visualnews_task0.test.jsonl"),
+  M_BEIR_VISUALNEWS_TASK3_TEST(JsonStringTopicReader.class, "topics.mbeir-visualnews_task3.test.jsonl"),
+  M_BEIR_WEBQA_TASK1_TEST(JsonStringTopicReader.class, "topics.mbeir-webqa_task1.test.jsonl"),
+  M_BEIR_WEBQA_TASK2_TEST(JsonStringTopicReader.class, "topics.mbeir-webqa_task2.test.jsonl"),
+
   // unused topics
   CACM(CacmTopicReader.class,                   "topics.cacm.txt"),
   NTCIR_EN_1(NtcirTopicReader.class,            "topics.www1.english.txt"),
