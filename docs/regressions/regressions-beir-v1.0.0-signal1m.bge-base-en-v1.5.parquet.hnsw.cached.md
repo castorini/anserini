@@ -56,7 +56,7 @@ bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -topics tools/topics-and-qrels/topics.beir-v1.0.0-signal1m.test.bge-base-en-v1.5.jsonl.gz \
   -topicReader JsonStringVector \
   -output runs/run.beir-v1.0.0-signal1m.bge-base-en-v1.5.bge-hnsw-cached.topics.beir-v1.0.0-signal1m.test.bge-base-en-v1.5.jsonl.txt \
-  -hits 1000 -efSearch 2000 -removeQuery -threads 16 &
+  -hits 1000 -efSearch 4000 -removeQuery -threads 16 &
 ```
 
 Evaluation can be performed using `trec_eval`:

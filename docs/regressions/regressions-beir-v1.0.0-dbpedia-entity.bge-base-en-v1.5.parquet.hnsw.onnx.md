@@ -56,7 +56,7 @@ bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -topics tools/topics-and-qrels/topics.beir-v1.0.0-dbpedia-entity.test.tsv.gz \
   -topicReader TsvString \
   -output runs/run.beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.bge-hnsw-onnx.topics.beir-v1.0.0-dbpedia-entity.test.txt \
-  -encoder BgeBaseEn15 -hits 1000 -efSearch 2000 -removeQuery -threads 16 &
+  -encoder BgeBaseEn15 -hits 1000 -efSearch 4000 -removeQuery -threads 16 &
 ```
 
 Evaluation can be performed using `trec_eval`:
