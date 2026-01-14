@@ -33,7 +33,7 @@ Sample indexing command, building HNSW indexes:
 
 ```
 bin/run.sh io.anserini.index.IndexHnswDenseVectors \
-  -threads 16 \
+  -threads 4 \
   -collection ParquetDenseVectorCollection \
   -input /path/to/beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5 \
   -generator DenseVectorDocumentGenerator \

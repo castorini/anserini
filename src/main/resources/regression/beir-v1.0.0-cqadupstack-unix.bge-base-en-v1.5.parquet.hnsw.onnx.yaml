@@ -6,7 +6,7 @@ index_path: indexes/lucene-hnsw.beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5/
 index_type: hnsw
 collection_class: ParquetDenseVectorCollection
 generator_class: DenseVectorDocumentGenerator
-index_threads: 16
+index_threads: 4
 index_options: -M 16 -efC 100
 
 metrics:
