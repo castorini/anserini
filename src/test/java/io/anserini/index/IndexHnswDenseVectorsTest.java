@@ -241,7 +241,7 @@ public class IndexHnswDenseVectorsTest extends StdOutStdErrRedirectableLuceneTes
   }
 
   @Test
-  public void testQuantizedInt8() throws Exception {
+  public void testQuantizedSQV() throws Exception {
     String indexPath = "target/lucene-test-index.hnsw." + System.currentTimeMillis();
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
@@ -249,7 +249,7 @@ public class IndexHnswDenseVectorsTest extends StdOutStdErrRedirectableLuceneTes
         "-index", indexPath,
         "-generator", "DenseVectorDocumentGenerator",
         "-threads", "1",
-        "-M", "16", "-efC", "100", "-quantize.int8"
+        "-M", "16", "-efC", "100", "-quantize.sqv"
     };
 
     IndexHnswDenseVectors.main(indexArgs);

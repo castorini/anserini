@@ -30,8 +30,6 @@ import io.anserini.TestUtils;
 import io.anserini.index.AbstractIndexer;
 import io.anserini.index.IndexHnswDenseVectors;
 
-import static org.junit.Assert.assertTrue;
-
 /**
  * Tests for {@link SearchHnswDenseVectors}
  */
@@ -354,7 +352,7 @@ public class SearchHnswDenseVectorsTest extends StdOutStdErrRedirectableLuceneTe
         "-index", indexPath,
         "-generator", "DenseVectorDocumentGenerator",
         "-threads", "1",
-        "-M", "16", "-efC", "100", "-quantize.int8"
+        "-M", "16", "-efC", "100", "-quantize.sqv"
     };
 
     IndexHnswDenseVectors.main(indexArgs);
