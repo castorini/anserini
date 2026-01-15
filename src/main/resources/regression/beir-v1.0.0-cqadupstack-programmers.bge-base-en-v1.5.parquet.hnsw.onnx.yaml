@@ -7,7 +7,7 @@ index_type: hnsw
 collection_class: ParquetDenseVectorCollection
 generator_class: DenseVectorDocumentGenerator
 index_threads: 4
-index_options: -M 16 -efC 100
+index_options: -M 16 -efC 500
 
 metrics:
   - metric: nDCG@10
