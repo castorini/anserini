@@ -56,7 +56,7 @@ bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -topics tools/topics-and-qrels/topics.beir-v1.0.0-cqadupstack-tex.test.tsv.gz \
   -topicReader TsvString \
   -output runs/run.beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.bge-hnsw-onnx.topics.beir-v1.0.0-cqadupstack-tex.test.txt \
-  -encoder BgeBaseEn15 -hits 1000 -efSearch 1000 -removeQuery -threads 16 &
+  -encoder BgeBaseEn15 -hits 1000 -efSearch 2000 -removeQuery -threads 16 &
 ```
 
 Evaluation can be performed using `trec_eval`:
