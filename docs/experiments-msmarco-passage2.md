@@ -176,7 +176,7 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@anjanpa](https://github.com/anjanpa) on 2025-12-17 (commit [`1d062ef`](https://github.com/castorini/anserini/commit/1d062ef7461b0da9dd861b5385aa4bbcf61bb272))
 + Results reproduced by [@MuhammadAli13562](https://github.com/MuhammadAli13562) on 2025-12-18 (commit [`68311a1`](https://github.com/castorini/anserini/commit/68311a10242c77bccc0fa97200b0627f0e223767))
 + Results reproduced by [@Hossein-Molaeian](https://github.com/Hossein-Molaeian) on 2025-12-19 (commit [`b64fba2`](https://github.com/castorini/anserini/commit/b64fba2b603051abc1b2530432c29a367f7e769f))
-+ Results reproduced by [@nli33](https://github.com/nli33) on 2025-12-22 (commit [`1c5cd32`](https://github.com/castorini/anserini/commit/1c5cd32b48f03f63eb5752834600ad7c17e5fe7d))
 + Results reproduced by [@FayizMohideen](https://github.com/FayizMohideen) on 2025-12-21 (commit [`1c5cd32`](https://github.com/castorini/anserini/commit/1c5cd32b48f03f63eb5752834600ad7c17e5fe7d))
++ Results reproduced by [@nli33](https://github.com/nli33) on 2025-12-22 (commit [`1c5cd32`](https://github.com/castorini/anserini/commit/1c5cd32b48f03f63eb5752834600ad7c17e5fe7d))
 + Results reproduced by [@VarnitOS](https://github.com/VarnitOS) on 2025-12-26 (commit [⁠ 1c5cd32 ⁠](https://github.com/castorini/anserini/commit/1c5cd32b48f03f63eb5752834600ad7c17e5fe7d))
 + Results reproduced by [@zizimind](https://github.com/zizimind) on 2026-01-06 (commit [`d276b57`](https://github.com/castorini/anserini/commit/d276b57e1a5b1d1ba63558588ae88d90190258c3))
