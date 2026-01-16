@@ -23,7 +23,7 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
-public class SimpleImpactSearcherPrebuiltLucene9Test {
+public class SimpleImpactSearcherPrebuiltTest {
   @Test
   public void testSearch1() throws Exception {
     try(SimpleImpactSearcher searcher = new SimpleImpactSearcher(
