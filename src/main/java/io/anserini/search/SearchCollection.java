@@ -704,7 +704,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
       if (!isRerank || (args.rerankcutoff > 0 && args.rf_qrels == null) || (args.rf_qrels != null && !hasRelDocs)) {
         rs = getIndexSearcher().search(query,
-          (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
+            (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
       }
 
       List<String> queryTokens = AnalyzerUtils.analyze(analyzer, queryString);
@@ -751,9 +751,8 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       Query query = builder.build();
 
       // Search using constructed query.
-      TopDocs rs = getIndexSearcher().search(query,
-        isRerank && args.rf_qrels == null ? args.rerankcutoff : args.hits,
-        BREAK_SCORE_TIES_BY_DOCID, true);
+      TopDocs rs = getIndexSearcher().search(query, isRerank && args.rf_qrels == null ? args.rerankcutoff : args.hits,
+          BREAK_SCORE_TIES_BY_DOCID, true);
 
       RerankerContext<Integer> context = new RerankerContext<>(getIndexSearcher(), qid, query, docid,
           StringUtils.join(", ", terms), terms, null, args);
@@ -796,9 +795,8 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
 
       TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
       if (!isRerank || (args.rerankcutoff > 0 && args.rf_qrels == null) || (args.rf_qrels != null && !hasRelDocs)) {
-        rs = getIndexSearcher().search(compositeQuery,
-          isRerank && args.rf_qrels == null ? args.rerankcutoff : args.hits,
-          BREAK_SCORE_TIES_BY_TWEETID, true);
+        rs = getIndexSearcher().search(compositeQuery, isRerank && args.rf_qrels == null ? args.rerankcutoff : args.hits,
+            BREAK_SCORE_TIES_BY_TWEETID, true);
       }
 
       RerankerContext<T> context = new RerankerContext<>(getIndexSearcher(), qid, keywordQuery, null, queryString, queryTokens, filter, args);
