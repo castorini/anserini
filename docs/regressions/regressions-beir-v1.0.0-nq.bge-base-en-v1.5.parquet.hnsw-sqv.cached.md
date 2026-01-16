@@ -37,8 +37,8 @@ bin/run.sh io.anserini.index.IndexHnswDenseVectors \
   -collection ParquetDenseVectorCollection \
   -input /path/to/beir-v1.0.0-nq.bge-base-en-v1.5 \
   -generator DenseVectorDocumentGenerator \
-  -index indexes/lucene-hnsw-int8.beir-v1.0.0-nq.bge-base-en-v1.5/ \
-  -M 16 -efC 500 -quantize.int8 \
+  -index indexes/lucene-hnsw-sqv.beir-v1.0.0-nq.bge-base-en-v1.5/ \
+  -M 16 -efC 500 -quantize.sqv \
   >& logs/log.beir-v1.0.0-nq.bge-base-en-v1.5 &
 ```
 
@@ -52,19 +52,19 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 bin/run.sh io.anserini.search.SearchHnswDenseVectors \
-  -index indexes/lucene-hnsw-int8.beir-v1.0.0-nq.bge-base-en-v1.5/ \
+  -index indexes/lucene-hnsw-sqv.beir-v1.0.0-nq.bge-base-en-v1.5/ \
   -topics tools/topics-and-qrels/topics.beir-v1.0.0-nq.test.bge-base-en-v1.5.jsonl.gz \
   -topicReader JsonStringVector \
-  -output runs/run.beir-v1.0.0-nq.bge-base-en-v1.5.bge-hnsw-int8-cached.topics.beir-v1.0.0-nq.test.bge-base-en-v1.5.jsonl.txt \
-  -hits 1000 -efSearch 2000 -removeQuery -threads 16 &
+  -output runs/run.beir-v1.0.0-nq.bge-base-en-v1.5.bge-hnsw-sqv-cached.topics.beir-v1.0.0-nq.test.bge-base-en-v1.5.jsonl.txt \
+  -hits 1000 -efSearch 4000 -removeQuery -threads 16 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-nq.test.txt runs/run.beir-v1.0.0-nq.bge-base-en-v1.5.bge-hnsw-int8-cached.topics.beir-v1.0.0-nq.test.bge-base-en-v1.5.jsonl.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-nq.test.txt runs/run.beir-v1.0.0-nq.bge-base-en-v1.5.bge-hnsw-int8-cached.topics.beir-v1.0.0-nq.test.bge-base-en-v1.5.jsonl.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-nq.test.txt runs/run.beir-v1.0.0-nq.bge-base-en-v1.5.bge-hnsw-int8-cached.topics.beir-v1.0.0-nq.test.bge-base-en-v1.5.jsonl.txt
+bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-nq.test.txt runs/run.beir-v1.0.0-nq.bge-base-en-v1.5.bge-hnsw-sqv-cached.topics.beir-v1.0.0-nq.test.bge-base-en-v1.5.jsonl.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-nq.test.txt runs/run.beir-v1.0.0-nq.bge-base-en-v1.5.bge-hnsw-sqv-cached.topics.beir-v1.0.0-nq.test.bge-base-en-v1.5.jsonl.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-nq.test.txt runs/run.beir-v1.0.0-nq.bge-base-en-v1.5.bge-hnsw-sqv-cached.topics.beir-v1.0.0-nq.test.bge-base-en-v1.5.jsonl.txt
 ```
 
 ## Effectiveness
