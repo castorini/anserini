@@ -628,7 +628,6 @@ public class SimpleSearcher implements Closeable {
     }
 
     SearchCollection.Args searchArgs = new SearchCollection.Args();
-    searchArgs.arbitraryScoreTieBreak = this.backwardsCompatibilityLucene8;
     searchArgs.hits = k;
 
     TopDocs rs;
@@ -678,17 +677,10 @@ public class SimpleSearcher implements Closeable {
     }
 
     SearchCollection.Args searchArgs = new SearchCollection.Args();
-    searchArgs.arbitraryScoreTieBreak = this.backwardsCompatibilityLucene8;
     searchArgs.hits = k;
 
-    TopDocs rs;
-    RerankerContext<String> context;
-    if (this.backwardsCompatibilityLucene8) {
-      rs = searcher.search(query, useRM3 ? searchArgs.rerankcutoff : k);
-    } else {
-      rs = searcher.search(query, useRM3 ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_DOCID, true);
-    }
-    context = new RerankerContext<>(searcher, null, query, null,
+    TopDocs rs = searcher.search(query, useRM3 ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_DOCID, true);
+    RerankerContext<String> context = new RerankerContext<>(searcher, null, query, null,
         queryString, queryTokens, null, searchArgs);
 
     cascade.run(ScoredDocs.fromTopDocs(rs, searcher), context);

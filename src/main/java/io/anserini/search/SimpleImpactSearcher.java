@@ -57,7 +57,6 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-
 /**
  * Class that exposes basic search functionality, designed specifically to provide the bridge between Java and Python
  * via pyjnius. Note that methods are named according to Python conventions (e.g., snake case instead of camel case).
@@ -73,7 +72,6 @@ public class SimpleImpactSearcher implements Closeable {
   protected Analyzer analyzer;
   protected RerankerCascade<String> cascade;
   protected IndexSearcher searcher = null;
-  protected boolean backwardsCompatibilityLucene8;
   private SparseEncoder queryEncoder = null;
   protected boolean useRM3;
   protected boolean useRocchio;
@@ -131,12 +129,6 @@ public class SimpleImpactSearcher implements Closeable {
     }
 
     this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
-
-    // Fix for index compatibility issue between Lucene 8 and 9: https://github.com/castorini/anserini/issues/1952
-    // If we detect an older index version, we turn off consistent tie-breaking, which avoids accessing docvalues,
-    // which is the source of the incompatibility.
-    this.backwardsCompatibilityLucene8 = !reader.toString().contains("lucene.version=9")
-        && !reader.toString().contains("lucene.version=10");
 
     // Default to using ImpactSimilarity.
     this.similarity = new ImpactSimilarity();
@@ -612,20 +604,13 @@ public class SimpleImpactSearcher implements Closeable {
     }
 
     SearchCollection.Args searchArgs = new SearchCollection.Args();
-    searchArgs.arbitraryScoreTieBreak = this.backwardsCompatibilityLucene8;
     searchArgs.hits = k;
 
     // encoded query can be tokenized using whitespace analyzer
     List<String> queryTokens = AnalyzerUtils.analyze(analyzer, encodedQuery);
 
-    TopDocs rs;
-    RerankerContext<String> context;
-    if (this.backwardsCompatibilityLucene8) {
-      rs = searcher.search(query, k);
-    } else {
-      rs = searcher.search(query, k, BREAK_SCORE_TIES_BY_DOCID, true);
-    }
-    context = new RerankerContext<>(searcher, null, query, null, encodedQuery, queryTokens, null, searchArgs);
+    TopDocs rs = searcher.search(query, k, BREAK_SCORE_TIES_BY_DOCID, true);
+    RerankerContext<String> context = new RerankerContext<>(searcher, null, query, null, encodedQuery, queryTokens, null, searchArgs);
 
     ScoredDocs hits = cascade.run(ScoredDocs.fromTopDocs(rs, searcher), context);
 

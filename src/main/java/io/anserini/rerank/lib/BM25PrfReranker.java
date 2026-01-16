@@ -116,9 +116,7 @@ public class BM25PrfReranker<T> implements Reranker<T> {
 
     try {
       // Figure out how to break the scoring ties.
-      if (context.getSearchArgs().arbitraryScoreTieBreak) {
-        rs = searcher.search(newQuery, context.getSearchArgs().hits);
-      } else if (context.getSearchArgs().searchTweets) {
+      if (context.getSearchArgs().searchTweets) {
         rs = searcher.search(newQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_TWEETID, true);
       } else {
         rs = searcher.search(newQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID, true);
