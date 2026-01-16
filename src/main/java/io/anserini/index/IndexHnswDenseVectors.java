@@ -16,15 +16,17 @@
 
 package io.anserini.index;
 
-import io.anserini.collection.SourceDocument;
-import io.anserini.index.generator.DenseVectorDocumentGenerator;
-import io.anserini.index.generator.LuceneDocumentGenerator;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.codecs.KnnVectorsFormat;
 import org.apache.lucene.codecs.KnnVectorsReader;
 import org.apache.lucene.codecs.KnnVectorsWriter;
-import org.apache.lucene.codecs.lucene99.Lucene99Codec;
+import org.apache.lucene.codecs.lucene103.Lucene103Codec;
 import org.apache.lucene.codecs.lucene99.Lucene99HnswScalarQuantizedVectorsFormat;
 import org.apache.lucene.codecs.lucene99.Lucene99HnswVectorsFormat;
 import org.apache.lucene.index.ConcurrentMergeScheduler;
@@ -41,10 +43,9 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+import io.anserini.collection.SourceDocument;
+import io.anserini.index.generator.DenseVectorDocumentGenerator;
+import io.anserini.index.generator.LuceneDocumentGenerator;
 
 public final class IndexHnswDenseVectors extends AbstractIndexer {
   private static final Logger LOG = LogManager.getLogger(IndexHnswDenseVectors.class);
@@ -100,7 +101,7 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
 
       if (args.quantizeInt8) {
         config = new IndexWriterConfig().setCodec(
-            new Lucene99Codec() {
+            new Lucene103Codec() {
               @Override
               public KnnVectorsFormat getKnnVectorsFormatForField(String field) {
                 return new DelegatingKnnVectorsFormat(
@@ -109,7 +110,7 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
             });
       } else {
         config = new IndexWriterConfig().setCodec(
-            new Lucene99Codec() {
+            new Lucene103Codec() {
               @Override
               public KnnVectorsFormat getKnnVectorsFormatForField(String field) {
                 return new DelegatingKnnVectorsFormat(

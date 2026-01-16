@@ -16,17 +16,17 @@
 
 package io.anserini.search.query;
 
-import io.anserini.index.IndexCollection;
+import java.util.Map;
+
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.BoostQuery;
 import org.apache.lucene.search.Query;
-import org.junit.Test;
-
-import java.util.Map;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import org.junit.Test;
+
+import io.anserini.index.IndexCollection;
 
 public class BagOfWordsQueryGeneratorTest {
   @Test
@@ -40,8 +40,8 @@ public class BagOfWordsQueryGeneratorTest {
 
     BooleanQuery bq = (BooleanQuery) query;
     assertEquals(2, bq.clauses().size());
-    assertEquals("(contents:queri)^1.0", (bq.clauses().get(0).getQuery().toString()));
-    assertEquals("(contents:sampl)^1.0", (bq.clauses().get(1).getQuery().toString()));  }
+    assertEquals("(contents:queri)^1.0", (bq.clauses().get(0).query().toString()));
+    assertEquals("(contents:sampl)^1.0", (bq.clauses().get(1).query().toString()));  }
 
   @Test
   public void test2() {
@@ -54,10 +54,10 @@ public class BagOfWordsQueryGeneratorTest {
 
     BooleanQuery bq = (BooleanQuery) query;
     assertEquals(4, bq.clauses().size());
-    assertEquals("(contents:lamb)^1.0", (bq.clauses().get(0).getQuery().toString()));
-    assertEquals("(contents:mari)^1.0", (bq.clauses().get(1).getQuery().toString()));
-    assertEquals("(contents:had)^1.0", (bq.clauses().get(2).getQuery().toString()));
-    assertEquals("(contents:littl)^1.0", (bq.clauses().get(3).getQuery().toString()));
+    assertEquals("(contents:lamb)^1.0", (bq.clauses().get(0).query().toString()));
+    assertEquals("(contents:mari)^1.0", (bq.clauses().get(1).query().toString()));
+    assertEquals("(contents:had)^1.0", (bq.clauses().get(2).query().toString()));
+    assertEquals("(contents:littl)^1.0", (bq.clauses().get(3).query().toString()));
   }
 
   @Test
@@ -70,9 +70,9 @@ public class BagOfWordsQueryGeneratorTest {
 
     BooleanQuery combinedQuery = (BooleanQuery) query;
     assertEquals(2, combinedQuery.clauses().size());
-    assertTrue(combinedQuery.clauses().get(0).getQuery() instanceof BoostQuery);
+    assertTrue(combinedQuery.clauses().get(0).query() instanceof BoostQuery);
 
-    BoostQuery boostQuery = (BoostQuery) combinedQuery.clauses().get(0).getQuery();
+    BoostQuery boostQuery = (BoostQuery) combinedQuery.clauses().get(0).query();
     assertTrue(boostQuery.getBoost() > 1.0f);
     assertTrue(boostQuery.getQuery() instanceof BooleanQuery);
 
