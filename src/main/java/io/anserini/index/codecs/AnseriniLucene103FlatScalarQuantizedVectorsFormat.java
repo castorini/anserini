@@ -16,60 +16,60 @@
 
 package io.anserini.index.codecs;
 
-import java.io.IOException;
-
 import org.apache.lucene.codecs.KnnFieldVectorsWriter;
 import org.apache.lucene.codecs.KnnVectorsFormat;
 import org.apache.lucene.codecs.KnnVectorsReader;
 import org.apache.lucene.codecs.KnnVectorsWriter;
-import org.apache.lucene.codecs.hnsw.DefaultFlatVectorScorer;
-import org.apache.lucene.codecs.lucene99.Lucene99FlatVectorsFormat;
+import org.apache.lucene.codecs.lucene99.Lucene99ScalarQuantizedVectorsFormat;
 import org.apache.lucene.index.ByteVectorValues;
 import org.apache.lucene.index.FieldInfo;
 import org.apache.lucene.index.FloatVectorValues;
+import org.apache.lucene.index.KnnVectorValues;
 import org.apache.lucene.index.MergeState;
 import org.apache.lucene.index.SegmentReadState;
 import org.apache.lucene.index.SegmentWriteState;
 import org.apache.lucene.index.Sorter;
+import org.apache.lucene.index.VectorSimilarityFunction;
+import org.apache.lucene.search.AcceptDocs;
 import org.apache.lucene.search.DocIdSetIterator;
 import org.apache.lucene.search.KnnCollector;
-import org.apache.lucene.search.VectorScorer;
-import org.apache.lucene.search.AcceptDocs;
 import org.apache.lucene.util.Bits;
 
-public class AnseriniLucene99FlatVectorFormat extends KnnVectorsFormat {
+import java.io.IOException;
 
-  static final String NAME = "AnseriniLucene99FlatVectorFormat";
+public class AnseriniLucene103FlatScalarQuantizedVectorsFormat extends KnnVectorsFormat {
 
-  private final KnnVectorsFormat format = new Lucene99FlatVectorsFormat(new DefaultFlatVectorScorer());
+  static final String NAME = "AnseriniLucene103FlatScalarQuantizedVectorsFormat";
+
+  private final KnnVectorsFormat format = new Lucene99ScalarQuantizedVectorsFormat();
 
   /**
    * Sole constructor
    */
-  public AnseriniLucene99FlatVectorFormat() {
+  public AnseriniLucene103FlatScalarQuantizedVectorsFormat() {
     super(NAME);
   }
 
   @Override
   public int getMaxDimensions(String fieldName) {
-    return format.getMaxDimensions(fieldName);
+    return 4096;
   }
 
   @Override
   public KnnVectorsWriter fieldsWriter(SegmentWriteState state) throws IOException {
-    return new AnseriniLucene99FlatVectorWriter(format.fieldsWriter(state));
+    return new AnseriniLucene99ScalarQuantizedVectorWriter(format.fieldsWriter(state));
   }
 
   @Override
   public KnnVectorsReader fieldsReader(SegmentReadState state) throws IOException {
-    return new AnseriniLucene99FlatVectorReader(format.fieldsReader(state));
+    return new AnseriniLucene99ScalarQuantizedVectorReader(format.fieldsReader(state));
   }
 
-  public static class AnseriniLucene99FlatVectorWriter extends KnnVectorsWriter {
+  public static class AnseriniLucene99ScalarQuantizedVectorWriter extends KnnVectorsWriter {
 
     private final KnnVectorsWriter writer;
 
-    public AnseriniLucene99FlatVectorWriter(KnnVectorsWriter writer) {
+    public AnseriniLucene99ScalarQuantizedVectorWriter(KnnVectorsWriter writer) {
       super();
       this.writer = writer;
     }
@@ -105,11 +105,11 @@ public class AnseriniLucene99FlatVectorFormat extends KnnVectorsFormat {
     }
   }
 
-  public static class AnseriniLucene99FlatVectorReader extends KnnVectorsReader {
+  public static class AnseriniLucene99ScalarQuantizedVectorReader extends KnnVectorsReader {
 
     private final KnnVectorsReader reader;
 
-    public AnseriniLucene99FlatVectorReader(KnnVectorsReader reader) {
+    public AnseriniLucene99ScalarQuantizedVectorReader(KnnVectorsReader reader) {
       super();
       this.reader = reader;
     }
@@ -135,12 +135,15 @@ public class AnseriniLucene99FlatVectorFormat extends KnnVectorsFormat {
       if (vectors == null) {
         return;
       }
-      VectorScorer scorer = vectors.scorer(target);
-      DocIdSetIterator it = scorer.iterator();
+      VectorSimilarityFunction similarity = VectorSimilarityFunction.DOT_PRODUCT;
+      FloatVectorValues vectorValues = vectors.copy();
+      KnnVectorValues.DocIndexIterator it = vectorValues.iterator();
       Bits bits = acceptDocs == null ? null : acceptDocs.bits();
       for (int doc = it.nextDoc(); doc != DocIdSetIterator.NO_MORE_DOCS; doc = it.nextDoc()) {
         if (bits == null || bits.get(doc)) {
-          knnCollector.collect(doc, scorer.score());
+          int ord = it.index();
+          float score = similarity.compare(target, vectorValues.vectorValue(ord));
+          knnCollector.collect(doc, score);
         }
         knnCollector.incVisitedCount(1);
       }
@@ -152,12 +155,15 @@ public class AnseriniLucene99FlatVectorFormat extends KnnVectorsFormat {
       if (vectors == null) {
         return;
       }
-      VectorScorer scorer = vectors.scorer(target);
-      DocIdSetIterator it = scorer.iterator();
+      VectorSimilarityFunction similarity = VectorSimilarityFunction.DOT_PRODUCT;
+      ByteVectorValues vectorValues = vectors.copy();
+      KnnVectorValues.DocIndexIterator it = vectorValues.iterator();
       Bits bits = acceptDocs == null ? null : acceptDocs.bits();
       for (int doc = it.nextDoc(); doc != DocIdSetIterator.NO_MORE_DOCS; doc = it.nextDoc()) {
         if (bits == null || bits.get(doc)) {
-          knnCollector.collect(doc, scorer.score());
+          int ord = it.index();
+          float score = similarity.compare(target, vectorValues.vectorValue(ord));
+          knnCollector.collect(doc, score);
         }
         knnCollector.incVisitedCount(1);
       }

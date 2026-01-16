@@ -16,7 +16,6 @@
 
 package io.anserini.index;
 
-import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,14 +23,11 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.codecs.KnnVectorsFormat;
-import org.apache.lucene.codecs.KnnVectorsReader;
-import org.apache.lucene.codecs.KnnVectorsWriter;
+import org.apache.lucene.codecs.lucene102.Lucene102BinaryQuantizedVectorsFormat;
 import org.apache.lucene.codecs.lucene103.Lucene103Codec;
 import org.apache.lucene.index.ConcurrentMergeScheduler;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.index.SegmentReadState;
-import org.apache.lucene.index.SegmentWriteState;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.kohsuke.args4j.CmdLineException;
@@ -41,8 +37,9 @@ import org.kohsuke.args4j.ParserProperties;
 
 import io.anserini.collection.ParquetDenseVectorCollection;
 import io.anserini.collection.SourceDocument;
-import io.anserini.index.codecs.AnseriniLucene99FlatVectorFormat;
-import io.anserini.index.codecs.AnseriniLucene99ScalarQuantizedVectorsFormat;
+import io.anserini.index.codecs.AnseriniLucene103FlatScalarQuantizedVectorsFormat;
+import io.anserini.index.codecs.AnseriniLucene103FlatVectorsFormat;
+import io.anserini.index.codecs.DelegatingKnnVectorsFormat;
 import io.anserini.index.generator.DenseVectorDocumentGenerator;
 import io.anserini.index.generator.LuceneDocumentGenerator;
 
@@ -53,11 +50,11 @@ public final class IndexFlatDenseVectors extends AbstractIndexer {
     @Option(name = "-generator", metaVar = "[class]", usage = "Document generator class in io.anserini.index.generator.")
     public String generatorClass = DenseVectorDocumentGenerator.class.getSimpleName();
 
-    @Option(name = "-quantize.int8", usage = "Quantize vectors into int8.")
-    public boolean quantizeInt8 = false;
+    @Option(name = "-quantize.sqv", usage = "Quantize vectors using ScalarQuantizedVectors (mutually exclusive with -quantize.bqv).", forbids = "-quantize.bqv")
+    public boolean quantizeSQV = false;
 
-    @Option(name = "-storeVectors", usage = "Boolean switch to store raw raw vectors.")
-    public boolean storeVectors = false;
+    @Option(name = "-quantize.bqv", usage = "Quantize vectors using BinaryQuantizedVectors (mutually exclusive with -quantize.sqv).", forbids = "-quantize.sqv")
+    public boolean quantizeBQV = false;
 
     @Option(name = "-docidField", metaVar = "[name]", usage = "Name of the document ID field in Parquet files.")
     public String docidField = "docid";
@@ -87,12 +84,20 @@ public final class IndexFlatDenseVectors extends AbstractIndexer {
       final Directory dir = FSDirectory.open(Paths.get(args.index));
       final IndexWriterConfig config;
 
-      if (args.quantizeInt8) {
+      if (args.quantizeSQV) {
         config = new IndexWriterConfig().setCodec(
             new Lucene103Codec() {
               @Override
               public KnnVectorsFormat getKnnVectorsFormatForField(String field) {
-                return new DelegatingKnnVectorsFormat(new AnseriniLucene99ScalarQuantizedVectorsFormat(), 4096);
+                return new AnseriniLucene103FlatScalarQuantizedVectorsFormat();
+              }
+            });
+      } else if (args.quantizeBQV) {
+        config = new IndexWriterConfig().setCodec(
+            new Lucene103Codec() {
+              @Override
+              public KnnVectorsFormat getKnnVectorsFormatForField(String field) {
+                return new DelegatingKnnVectorsFormat(new Lucene102BinaryQuantizedVectorsFormat(), 4096);
               }
             });
       } else {
@@ -100,7 +105,7 @@ public final class IndexFlatDenseVectors extends AbstractIndexer {
             new Lucene103Codec() {
               @Override
               public KnnVectorsFormat getKnnVectorsFormatForField(String field) {
-                return new DelegatingKnnVectorsFormat(new AnseriniLucene99FlatVectorFormat(), 4096);
+                return new AnseriniLucene103FlatVectorsFormat();
               }
             });
       }
@@ -115,42 +120,13 @@ public final class IndexFlatDenseVectors extends AbstractIndexer {
       throw new IllegalArgumentException(String.format("Unable to create IndexWriter: %s", e.getMessage()));
     }
 
-    LOG.info("FlatDenseVector settings:");
+    LOG.info("IndexFlatDenseVectors settings:");
     LOG.info(" + Generator: " + args.generatorClass);
-    LOG.info(" + Store document vectors? " + args.storeVectors);
-    LOG.info(" + Int8 quantization? " + args.quantizeInt8);
+    LOG.info(" + ScalarQuantizedVectors? " + args.quantizeSQV);
+    LOG.info(" + BinaryQuantizedVectors? " + args.quantizeBQV);
     LOG.info(" + Document ID field: " + args.docidField);
     LOG.info(" + Vector field: " + args.vectorField);
     LOG.info(" + Normalize vectors? " + args.normalizeVectors);
-  }
-
-  // Solution provided by Solr, see https://www.mail-archive.com/java-user@lucene.apache.org/msg52149.html
-  // This class exists because Lucene95HnswVectorsFormat's getMaxDimensions method is final and we
-  // need to workaround that constraint to allow more than the default number of dimensions.
-  private static final class DelegatingKnnVectorsFormat extends KnnVectorsFormat {
-    private final KnnVectorsFormat delegate;
-    private final int maxDimensions;
-
-    public DelegatingKnnVectorsFormat(KnnVectorsFormat delegate, int maxDimensions) {
-      super(delegate.getName());
-      this.delegate = delegate;
-      this.maxDimensions = maxDimensions;
-    }
-
-    @Override
-    public KnnVectorsWriter fieldsWriter(SegmentWriteState state) throws IOException {
-      return delegate.fieldsWriter(state);
-    }
-
-    @Override
-    public KnnVectorsReader fieldsReader(SegmentReadState state) throws IOException {
-      return delegate.fieldsReader(state);
-    }
-
-    @Override
-    public int getMaxDimensions(String fieldName) {
-      return maxDimensions;
-    }
   }
 
   public static void main(String[] args) throws Exception {

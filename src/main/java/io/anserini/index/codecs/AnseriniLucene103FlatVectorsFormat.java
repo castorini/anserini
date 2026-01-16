@@ -37,22 +37,22 @@ import org.apache.lucene.search.VectorScorer;
 import org.apache.lucene.search.AcceptDocs;
 import org.apache.lucene.util.Bits;
 
-public class AnseriniLucene99FlatVectorFormat extends KnnVectorsFormat {
+public class AnseriniLucene103FlatVectorsFormat extends KnnVectorsFormat {
 
-  static final String NAME = "AnseriniLucene99FlatVectorFormat";
+  static final String NAME = "AnseriniLucene103FlatVectorsFormat";
 
   private final KnnVectorsFormat format = new Lucene99FlatVectorsFormat(new DefaultFlatVectorScorer());
 
   /**
    * Sole constructor
    */
-  public AnseriniLucene99FlatVectorFormat() {
+  public AnseriniLucene103FlatVectorsFormat() {
     super(NAME);
   }
 
   @Override
   public int getMaxDimensions(String fieldName) {
-    return format.getMaxDimensions(fieldName);
+    return 4096;
   }
 
   @Override

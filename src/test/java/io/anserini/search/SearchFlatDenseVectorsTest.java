@@ -337,7 +337,7 @@ public class SearchFlatDenseVectorsTest extends StdOutStdErrRedirectableLuceneTe
         "-input", "src/test/resources/sample_docs/cosdpr-distil/json_vector/",
         "-index", indexPath,
         "-generator", "DenseVectorDocumentGenerator",
-        "-threads", "1", "-quantize.int8"
+        "-threads", "1", "-quantize.sqv"
     };
 
     IndexFlatDenseVectors.main(indexArgs);
