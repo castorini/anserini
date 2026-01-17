@@ -19,8 +19,12 @@ package io.anserini.index;
 import io.anserini.collection.SourceDocument;
 import io.anserini.index.generator.DenseVectorDocumentGenerator;
 import io.anserini.index.generator.LuceneDocumentGenerator;
+import io.anserini.util.LoggingBootstrap;
+
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.lucene.codecs.KnnVectorsFormat;
 import org.apache.lucene.codecs.KnnVectorsReader;
 import org.apache.lucene.codecs.KnnVectorsWriter;
@@ -199,6 +203,8 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
   }
 
   public static void main(String[] args) throws Exception {
+    LoggingBootstrap.installJulToSlf4jBridge();
+
     Args indexArgs = new Args();
     CmdLineParser parser = new CmdLineParser(indexArgs, ParserProperties.defaults().withUsageWidth(120));
 
@@ -222,6 +228,10 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
       }
 
       return;
+    }
+
+    if (indexArgs.quiet) {
+      Configurator.setRootLevel(Level.ERROR);
     }
 
     new IndexHnswDenseVectors(indexArgs).run();
