@@ -50,7 +50,7 @@ Sample indexing command, building quantized HNSW indexes:
 
 ```bash
 bin/run.sh io.anserini.index.IndexHnswDenseVectors \
-  -threads 16 \
+  -threads 4 \
   -collection ParquetDenseVectorCollection \
   -input /path/to/msmarco-passage-cos-dpr-distil.parquet \
   -generator DenseVectorDocumentGenerator \

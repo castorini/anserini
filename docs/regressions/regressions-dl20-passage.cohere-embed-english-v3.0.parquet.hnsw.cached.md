@@ -48,7 +48,7 @@ Sample indexing command, building HNSW indexes:
 
 ```bash
 bin/run.sh io.anserini.index.IndexHnswDenseVectors \
-  -threads 16 \
+  -threads 4 \
   -collection ParquetDenseVectorCollection \
   -input /path/to/msmarco-passage-cohere-embed-english-v3.0.parquet \
   -generator DenseVectorDocumentGenerator \

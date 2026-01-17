@@ -9,7 +9,7 @@ index_path: indexes/lucene-hnsw-int8.msmarco-v1-passage.cos-dpr-distil/
 index_type: hnsw
 collection_class: ParquetDenseVectorCollection
 generator_class: DenseVectorDocumentGenerator
-index_threads: 16
+index_threads: 4
 index_options: -M 16 -efC 100 -quantize.int8
 
 metrics:
