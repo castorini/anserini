@@ -21,6 +21,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import io.anserini.eval.ExcludeDocs;
 import io.anserini.search.topicreader.TopicReader;
 import io.anserini.search.topicreader.Topics;
+import io.anserini.util.LoggingBootstrap;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.kohsuke.args4j.CmdLineException;
@@ -165,6 +167,8 @@ public final class SearchFlatDenseVectors<K extends Comparable<K>> implements Ru
   }
 
   public static void main(String[] args) throws Exception {
+    LoggingBootstrap.installJulToSlf4jBridge();
+
     Args searchArgs = new Args();
     CmdLineParser parser = new CmdLineParser(searchArgs, ParserProperties.defaults().withUsageWidth(120));
 
