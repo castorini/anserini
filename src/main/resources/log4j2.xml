@@ -14,11 +14,14 @@
     <Logger name="parquet.hadoop" level="error"/>
     <Logger name="org.apache.hadoop" level="warn"/>
 
-    <!-- Suppress warning "Using MemorySegmentIndexInput with Java 21; to disable start with -Dorg.apache.lucene.store.MMapDirectory.enableMemorySegments=false" -->
+    <!-- Suppress message "Using MemorySegmentIndexInput with Java 21; to disable start with -Dorg.apache.lucene.store.MMapDirectory.enableMemorySegments=false" -->
     <Logger name="org.apache.lucene.store.MemorySegmentIndexInputProvider" level="WARN"/>
 
-    <!-- Suppress warning "Java vector incubator API enabled; uses preferredBitSize=128" -->
+    <!-- Suppress message "Java vector incubator API enabled; uses preferredBitSize=128" -->
     <Logger name="org.apache.lucene.internal.vectorization.PanamaVectorizationProvider" level="WARN"/>
+
+    <!-- Suppress message "Found matching platform from: ..."-->
+    <Logger name="ai.djl.util.Platform" level="WARN"/>
 
     <Root level="info">
       <AppenderRef ref="STDOUT"/>

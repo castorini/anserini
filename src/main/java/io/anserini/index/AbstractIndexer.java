@@ -70,10 +70,10 @@ public abstract class AbstractIndexer implements Runnable {
     @Option(name = "-threads", metaVar = "[num]", usage = "Number of indexing threads.")
     public int threads = 4;
 
-    @Option(name = "-verbose", forbids = {"-quiet"}, usage = "Enables verbose logging for each indexing thread.")
+    @Option(name = "-verbose", metaVar = "[boolean]", forbids = {"-quiet"}, usage = "Enables verbose logging for each indexing thread.")
     public boolean verbose = false;
 
-    @Option(name = "-quiet", forbids = {"-verbose"}, usage = "Turns off all logging.")
+    @Option(name = "-quiet", metaVar = "[boolean]", forbids = {"-verbose"}, usage = "Turns off all logging.")
     public boolean quiet = false;
 
     @Option(name = "-options", usage = "Print information about options.")
