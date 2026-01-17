@@ -1,16 +1,16 @@
 ---
-corpus: msmarco-passage-bge-base-en-v1.5.parquet
-corpus_path: collections/msmarco/msmarco-passage-bge-base-en-v1.5.parquet/
+corpus: msmarco-passage-openai-ada2.parquet
+corpus_path: collections/msmarco/msmarco-passage-openai-ada2.parquet/
 
-download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-bge-base-en-v1.5.parquet.tar
-download_checksum: a55b3cb338ec4a1b1c36825bf0854648
+download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-openai-ada2.parquet.tar
+download_checksum: a8fddf594c9b8e771637968033b12f6d
 
-index_path: indexes/lucene-hnsw.msmarco-v1-passage.bge-base-en-v1.5/
+index_path: indexes/lucene-hnsw-sqv.msmarco-v1-passage.openai-ada2/
 index_type: hnsw
 collection_class: ParquetDenseVectorCollection
 generator_class: DenseVectorDocumentGenerator
 index_threads: 4
-index_options: -M 16 -efC 500
+index_options: -M 16 -efC 500 -quantize.sqv
 
 metrics:
   - metric: AP@1000
@@ -44,31 +44,31 @@ metrics:
 
 topic_reader: JsonIntVector
 topics:
-  - name: "[DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)"
-    id: dl20
-    path: topics.dl20.bge-base-en-v1.5.jsonl.gz
-    qrel: qrels.dl20-passage.txt
+  - name: "[DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)"
+    id: dl19
+    path: topics.dl19-passage.openai-ada2.jsonl.gz
+    qrel: qrels.dl19-passage.txt
 
 models:
-  - name: bge-hnsw-cached
-    display: BGE-base-en-v1.5
+  - name: openai-ada2-hnsw-sqv-cached
+    display: OpenAI-ada2
     type: hnsw
     params: -hits 1000 -efSearch 2000 -threads 16
     results:
       AP@1000:
-        - 0.4650
+        - 0.4788
       nDCG@10:
-        - 0.6780
+        - 0.7035
       R@100:
-        - 0.7169
+        - 0.6235
       R@1000:
-        - 0.8503
+        - 0.8629
     tolerance:
       AP@1000:
-        - 0.003
+        - 0.015
       nDCG@10:
-        - 0.003
+        - 0.015
       R@100:
-        - 0.009
+        - 0.015
       R@1000:
-        - 0.02
+        - 0.015

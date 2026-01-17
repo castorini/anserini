@@ -1,6 +1,6 @@
 # Anserini Regressions: TREC 2020 Deep Learning Track (Passage)
 
-**Model**: cosDPR-distil with HNSW indexes (using cached queries)
+**Model**: cosDPR-distil with quantized HNSW indexes (using cached queries)
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, using the cosDPR-distil model on the [TREC 2020 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html), as described in the following paper:
 
@@ -11,13 +11,13 @@ In these experiments, we are using cached queries (i.e., cached results of query
 Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 For additional instructions on working with MS MARCO passage collection, refer to [this page](experiments-msmarco-passage.md).
 
-The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/dl20-passage.cos-dpr-distil.parquet.hnsw.cached.yaml).
-Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/dl20-passage.cos-dpr-distil.parquet.hnsw.cached.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
+The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/regression/dl20-passage.cos-dpr-distil.parquet.hnsw-sqv.cached.yaml).
+Note that this page is automatically generated from [this template](../../src/main/resources/docgen/templates/dl20-passage.cos-dpr-distil.parquet.hnsw-sqv.cached.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```bash
-python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.cos-dpr-distil.parquet.hnsw.cached
+python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.cos-dpr-distil.parquet.hnsw-sqv.cached
 ```
 
 We make available a version of the MS MARCO Passage Corpus that has already been encoded with cosDPR-distil.
@@ -25,7 +25,7 @@ We make available a version of the MS MARCO Passage Corpus that has already been
 From any machine, the following command will download the corpus and perform the complete regression, end to end:
 
 ```bash
-python src/main/python/run_regression.py --download --index --verify --search --regression dl20-passage.cos-dpr-distil.parquet.hnsw.cached
+python src/main/python/run_regression.py --download --index --verify --search --regression dl20-passage.cos-dpr-distil.parquet.hnsw-sqv.cached
 ```
 
 The `run_regression.py` script automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same regression results.
@@ -43,13 +43,13 @@ To confirm, `msmarco-passage-cos-dpr-distil.parquet.tar` is 26 GB and has MD5 ch
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
-python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.cos-dpr-distil.parquet.hnsw.cached \
+python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.cos-dpr-distil.parquet.hnsw-sqv.cached \
   --corpus-path collections/msmarco-passage-cos-dpr-distil.parquet
 ```
 
 ## Indexing
 
-Sample indexing command, building HNSW indexes:
+Sample indexing command, building quantized HNSW indexes:
 
 ```bash
 bin/run.sh io.anserini.index.IndexHnswDenseVectors \
@@ -57,8 +57,8 @@ bin/run.sh io.anserini.index.IndexHnswDenseVectors \
   -collection ParquetDenseVectorCollection \
   -input /path/to/msmarco-passage-cos-dpr-distil.parquet \
   -generator DenseVectorDocumentGenerator \
-  -index indexes/lucene-hnsw.msmarco-v1-passage.cos-dpr-distil/ \
-  -M 16 -efC 500 \
+  -index indexes/lucene-hnsw-sqv.msmarco-v1-passage.cos-dpr-distil/ \
+  -M 16 -efC 500 -quantize.sqv \
   >& logs/log.msmarco-passage-cos-dpr-distil.parquet &
 ```
 
@@ -75,20 +75,20 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```bash
 bin/run.sh io.anserini.search.SearchHnswDenseVectors \
-  -index indexes/lucene-hnsw.msmarco-v1-passage.cos-dpr-distil/ \
+  -index indexes/lucene-hnsw-sqv.msmarco-v1-passage.cos-dpr-distil/ \
   -topics tools/topics-and-qrels/topics.dl20.cos-dpr-distil.jsonl.gz \
   -topicReader JsonIntVector \
-  -output runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-hnsw-cached.topics.dl20.cos-dpr-distil.jsonl.txt \
+  -output runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-hnsw-sqv-cached.topics.dl20.cos-dpr-distil.jsonl.txt \
   -hits 1000 -efSearch 2000 -threads 16 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-hnsw-cached.topics.dl20.cos-dpr-distil.jsonl.txt
-bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-hnsw-cached.topics.dl20.cos-dpr-distil.jsonl.txt
-bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-hnsw-cached.topics.dl20.cos-dpr-distil.jsonl.txt
-bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-hnsw-cached.topics.dl20.cos-dpr-distil.jsonl.txt
+bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-hnsw-sqv-cached.topics.dl20.cos-dpr-distil.jsonl.txt
+bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-hnsw-sqv-cached.topics.dl20.cos-dpr-distil.jsonl.txt
+bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-hnsw-sqv-cached.topics.dl20.cos-dpr-distil.jsonl.txt
+bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-hnsw-sqv-cached.topics.dl20.cos-dpr-distil.jsonl.txt
 ```
 
 ## Effectiveness
@@ -106,8 +106,8 @@ With the above commands, you should be able to reproduce the following results:
 | [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.853            |
 
 The above figures are from running brute-force search with cached queries on non-quantized **flat** indexes.
-With cached queries on non-quantized HNSW indexes, observed results are likely to differ; scores may be lower by up to 0.01, sometimes more.
-Note that HNSW indexing is non-deterministic (i.e., results may differ slightly between trials).
+With cached queries on quantized HNSW indexes, observed results are likely to differ; scores may be lower by up to 0.01, sometimes more.
+Note that both HNSW indexing and quantization are non-deterministic (i.e., results may differ slightly between trials).
 
 ❗ Retrieval metrics here are computed to depth 1000 hits per query (as opposed to 100 hits per query for document ranking).
 For computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., AP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).
@@ -115,4 +115,4 @@ The experimental results reported here are directly comparable to the results re
 
 ## Reproduction Log[*](reproducibility.md)
 
-To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/dl20-passage.cos-dpr-distil.parquet.hnsw.cached.template) and run `bin/build.sh` to rebuild the documentation.
+To add to this reproduction log, modify [this template](../../src/main/resources/docgen/templates/dl20-passage.cos-dpr-distil.parquet.hnsw-sqv.cached.template) and run `bin/build.sh` to rebuild the documentation.
