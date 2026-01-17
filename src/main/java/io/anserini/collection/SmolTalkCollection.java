@@ -114,7 +114,7 @@ public class SmolTalkCollection extends DocumentCollection<SmolTalkCollection.Do
         return;
       }
 
-      // Read next row and extract all Q&A pairs
+      // Read next row and extract all Q&amp;A pairs
       try {
         while (true) {
           Group record = reader.read();
@@ -144,7 +144,7 @@ public class SmolTalkCollection extends DocumentCollection<SmolTalkCollection.Do
     }
 
     /**
-     * Extracts user-assistant Q&A pairs from a single Parquet row.
+     * Extracts user-assistant Q&amp;A pairs from a single Parquet row.
      */
     private List<Document> extractDocuments(Group record, long rowNumber) {
       List<Document> documents = new ArrayList<>();
@@ -286,7 +286,7 @@ public class SmolTalkCollection extends DocumentCollection<SmolTalkCollection.Do
     }
     
     /**
-     * Returns the source of this Q&A pair.
+     * Returns the source of this Q&amp;A pair.
      */
     public String getSource() {
       return fields.get("source");
