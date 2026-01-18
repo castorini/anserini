@@ -135,7 +135,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
   private static final Logger LOG = LogManager.getLogger(SearchCollection.class);
 
   public static class Args extends BaseSearchArgs {
-    @Option(name = "-quiet", metaVar = "[boolean]", usage = "Turns off all logging (except for warnings and errors).")
+    @Option(name = "-quiet", metaVar = "[boolean]", usage = "Turns off all logging (except for errors).")
     public boolean quiet = false;
 
     @Option(name = "-options", usage = "Print information about options.")
@@ -1425,8 +1425,8 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     }
 
     if (searchArgs.quiet) {
-      // If quiet mode enabled, only report warnings and above.
-      Configurator.setRootLevel(Level.WARN);
+      // If quiet mode enabled, only report errors and above.
+      Configurator.setRootLevel(Level.ERROR);
     }
 
     final long start = System.nanoTime();

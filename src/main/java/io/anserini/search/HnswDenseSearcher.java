@@ -66,7 +66,7 @@ public class HnswDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
     @Option(name = "-efSearch", metaVar = "[number]", usage = "efSearch parameter for HNSW search")
     public int efSearch = 100;
 
-    @Option(name = "-quiet", metaVar = "[boolean]", usage = "Turns off all logging (except for warnings and errors).")
+    @Option(name = "-quiet", metaVar = "[boolean]", usage = "Turns off all logging (except for errors).")
     public boolean quiet = false;
   }
 
@@ -78,8 +78,8 @@ public class HnswDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
     super(args);
 
     if (args.quiet) {
-      // If quiet mode enabled, only report warnings and above.
-      Configurator.setRootLevel(Level.WARN);
+      // If quiet mode enabled, only report errors and above.
+      Configurator.setRootLevel(Level.ERROR);
     }
 
     Path indexPath = IndexReaderUtils.getIndex(args.index);
