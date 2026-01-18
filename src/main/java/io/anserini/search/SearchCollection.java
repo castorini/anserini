@@ -135,7 +135,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
   private static final Logger LOG = LogManager.getLogger(SearchCollection.class);
 
   public static class Args extends BaseSearchArgs {
-    @Option(name = "-quiet", metaVar = "[boolean]", usage = "Turns off all logging.")
+    @Option(name = "-quiet", metaVar = "[boolean]", usage = "Turns off all logging (except for warnings and errors).")
     public boolean quiet = false;
 
     @Option(name = "-options", usage = "Print information about options.")

@@ -73,7 +73,7 @@ public abstract class AbstractIndexer implements Runnable {
     @Option(name = "-verbose", metaVar = "[boolean]", forbids = {"-quiet"}, usage = "Enables verbose logging for each indexing thread.")
     public boolean verbose = false;
 
-    @Option(name = "-quiet", metaVar = "[boolean]", forbids = {"-verbose"}, usage = "Turns off all logging.")
+    @Option(name = "-quiet", metaVar = "[boolean]", forbids = {"-verbose"}, usage = "Turns off all logging (except for warnings and errors).")
     public boolean quiet = false;
 
     @Option(name = "-options", usage = "Print information about options.")

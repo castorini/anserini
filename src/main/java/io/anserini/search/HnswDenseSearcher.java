@@ -66,7 +66,7 @@ public class HnswDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
     @Option(name = "-efSearch", metaVar = "[number]", usage = "efSearch parameter for HNSW search")
     public int efSearch = 100;
 
-    @Option(name = "-quiet", metaVar = "[boolean]", usage = "Turns off all logging.")
+    @Option(name = "-quiet", metaVar = "[boolean]", usage = "Turns off all logging (except for warnings and errors).")
     public boolean quiet = false;
   }
 

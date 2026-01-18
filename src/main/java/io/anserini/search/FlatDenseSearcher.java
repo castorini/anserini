@@ -65,7 +65,7 @@ public class FlatDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
     @Option(name ="-encoder", metaVar = "[encoder]", usage = "Dense encoder to use.")
     public String encoder = null;
 
-    @Option(name = "-quiet", metaVar = "[boolean]", usage = "Turns off all logging.")
+    @Option(name = "-quiet", metaVar = "[boolean]", usage = "Turns off all logging (except for warnings and errors).")
     public boolean quiet = false;
   }
 
