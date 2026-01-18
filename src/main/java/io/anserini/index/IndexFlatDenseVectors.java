@@ -21,6 +21,7 @@ import io.anserini.collection.ParquetDenseVectorCollection;
 import io.anserini.index.codecs.AnseriniLucene99FlatVectorFormat;
 import io.anserini.index.codecs.AnseriniLucene99ScalarQuantizedVectorsFormat;
 import io.anserini.index.generator.LuceneDocumentGenerator;
+import io.anserini.util.LoggingBootstrap;
 import io.anserini.index.generator.DenseVectorDocumentGenerator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -153,6 +154,8 @@ public final class IndexFlatDenseVectors extends AbstractIndexer {
   }
 
   public static void main(String[] args) throws Exception {
+    LoggingBootstrap.installJulToSlf4jBridge();
+
     Args indexArgs = new Args();
     CmdLineParser parser = new CmdLineParser(indexArgs, ParserProperties.defaults().withUsageWidth(120));
 
