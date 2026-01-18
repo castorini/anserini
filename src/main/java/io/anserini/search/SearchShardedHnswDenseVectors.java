@@ -22,6 +22,8 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.ParserProperties;
 
+import io.anserini.util.LoggingBootstrap;
+
 import java.io.Closeable;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -160,6 +162,8 @@ public final class SearchShardedHnswDenseVectors<K extends Comparable<K>> implem
   }
 
   public static void main(String[] args) throws Exception {
+    LoggingBootstrap.installJulToSlf4jBridge();
+
     Args searchArgs = new Args();
     CmdLineParser parser = new CmdLineParser(searchArgs, ParserProperties.defaults().withUsageWidth(120));
 

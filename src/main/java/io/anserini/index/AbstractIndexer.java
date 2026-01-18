@@ -70,10 +70,10 @@ public abstract class AbstractIndexer implements Runnable {
     @Option(name = "-threads", metaVar = "[num]", usage = "Number of indexing threads.")
     public int threads = 4;
 
-    @Option(name = "-verbose", forbids = {"-quiet"}, usage = "Enables verbose logging for each indexing thread.")
+    @Option(name = "-verbose", metaVar = "[boolean]", forbids = {"-quiet"}, usage = "Enables verbose logging for each indexing thread.")
     public boolean verbose = false;
 
-    @Option(name = "-quiet", forbids = {"-verbose"}, usage = "Turns off all logging.")
+    @Option(name = "-quiet", metaVar = "[boolean]", forbids = {"-verbose"}, usage = "Turns off all logging (except for errors).")
     public boolean quiet = false;
 
     @Option(name = "-options", usage = "Print information about options.")
@@ -200,8 +200,8 @@ public abstract class AbstractIndexer implements Runnable {
       Configurator.setRootLevel(Level.DEBUG);
       LOG.info("Setting log level to " + Level.DEBUG);
     } else if (args.quiet) {
-      // If quiet mode enabled, only report warnings and above.
-      Configurator.setRootLevel(Level.WARN);
+      // If quiet mode enabled, only report errors and above.
+      Configurator.setRootLevel(Level.ERROR);
     } else {
       // Otherwise, we get the standard set of log messages.
       Configurator.setRootLevel(Level.INFO);

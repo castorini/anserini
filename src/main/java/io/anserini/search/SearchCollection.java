@@ -49,12 +49,15 @@ import io.anserini.search.similarity.TaggedSimilarity;
 import io.anserini.search.topicreader.BackgroundLinkingTopicReader;
 import io.anserini.search.topicreader.TopicReader;
 import io.anserini.search.topicreader.Topics;
+import io.anserini.util.LoggingBootstrap;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.LongPoint;
@@ -132,6 +135,9 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
   private static final Logger LOG = LogManager.getLogger(SearchCollection.class);
 
   public static class Args extends BaseSearchArgs {
+    @Option(name = "-quiet", metaVar = "[boolean]", usage = "Turns off all logging (except for errors).")
+    public boolean quiet = false;
+
     @Option(name = "-options", usage = "Print information about options.")
     public Boolean options = false;
 
@@ -1391,6 +1397,8 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
   }
 
   public static void main(String[] args) throws Exception {
+    LoggingBootstrap.installJulToSlf4jBridge();
+
     Args searchArgs = new Args();
     CmdLineParser parser = new CmdLineParser(searchArgs, ParserProperties.defaults().withUsageWidth(120));
 
@@ -1414,6 +1422,11 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       }
 
       return;
+    }
+
+    if (searchArgs.quiet) {
+      // If quiet mode enabled, only report errors and above.
+      Configurator.setRootLevel(Level.ERROR);
     }
 
     final long start = System.nanoTime();
