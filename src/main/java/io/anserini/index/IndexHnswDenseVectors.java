@@ -26,16 +26,14 @@ import org.apache.logging.log4j.Logger;
 import org.apache.lucene.codecs.KnnVectorsFormat;
 import org.apache.lucene.codecs.KnnVectorsReader;
 import org.apache.lucene.codecs.KnnVectorsWriter;
+import org.apache.lucene.codecs.lucene102.Lucene102HnswBinaryQuantizedVectorsFormat;
 import org.apache.lucene.codecs.lucene103.Lucene103Codec;
 import org.apache.lucene.codecs.lucene99.Lucene99HnswScalarQuantizedVectorsFormat;
 import org.apache.lucene.codecs.lucene99.Lucene99HnswVectorsFormat;
-import org.apache.lucene.index.ConcurrentMergeScheduler;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.index.NoMergePolicy;
 import org.apache.lucene.index.SegmentReadState;
 import org.apache.lucene.index.SegmentWriteState;
-import org.apache.lucene.index.TieredMergePolicy;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.kohsuke.args4j.CmdLineException;
@@ -54,34 +52,17 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
     @Option(name = "-generator", metaVar = "[class]", usage = "Document generator class in io.anserini.index.generator.")
     public String generatorClass = DenseVectorDocumentGenerator.class.getSimpleName();
 
-    @Option(name = "-M", metaVar = "[num]", usage = "HNSW parameters M")
+    @Option(name = "-M", metaVar = "[num]", usage = "HNSW parameters M.")
     public int M = 16;
   
-    @Option(name = "-efC", metaVar = "[num]", usage = "HNSW parameters ef Construction")
-    public int efC = 100;
+    @Option(name = "-efC", metaVar = "[num]", usage = "HNSW parameters ef Construction.")
+    public int efC = 500;
 
-    @Option(name = "-quantize.int8", usage = "Quantize vectors into int8.")
-    public boolean quantizeInt8 = false;
+    @Option(name = "-quantize.sqv", usage = "Quantize vectors using ScalarQuantizedVectors (mutually exclusive with -quantize.bqv).", forbids = "-quantize.bqv")
+    public boolean quantizeSQV = false;
 
-    @Option(name = "-storeVectors", usage = "Boolean switch to store raw raw vectors.")
-    public boolean storeVectors = false;
-
-    @Option(name = "-noMerge", usage = "Do not merge segments (fast indexing, slow retrieval).")
-    public boolean noMerge = false;
-
-    @Option(name = "-maxThreadMemoryBeforeFlush", metaVar = "[num]", usage = "Maximum memory consumption per thread before triggering a forced flush (in MB); must be smaller than 2048.")
-    public int maxThreadMemoryBeforeFlush = 2047;
-    // This is the most aggressive possible setting; default is 1945.
-    // If the setting is too aggressive, may result in GCLocker issues.
-
-    @Option(name = "-maxMergedSegmentSize", metaVar = "[num]", usage = "Maximum sized segment to produce during normal merging (in MB).")
-    public int maxMergedSegmentSize = 1024 * 16;
-
-    @Option(name = "-segmentsPerTier", metaVar = "[num]", usage = "Allowed number of segments per tier.")
-    public int segmentsPerTier = 10;
-
-    @Option(name = "-maxMergeAtOnce", metaVar = "[num]", usage = "Maximum number of segments to be merged at a time during \"normal\" merging.")
-    public int maxMergeAtOnce = 10;
+    @Option(name = "-quantize.bqv", usage = "Quantize vectors using BinaryQuantizedVectors (mutually exclusive with -quantize.sqv).", forbids = "-quantize.sqv")
+    public boolean quantizeBQV = false;
   }
 
   @SuppressWarnings("unchecked")
@@ -99,13 +80,22 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
       final Directory dir = FSDirectory.open(Paths.get(args.index));
       final IndexWriterConfig config;
 
-      if (args.quantizeInt8) {
+      if (args.quantizeSQV) {
         config = new IndexWriterConfig().setCodec(
             new Lucene103Codec() {
               @Override
               public KnnVectorsFormat getKnnVectorsFormatForField(String field) {
                 return new DelegatingKnnVectorsFormat(
                     new Lucene99HnswScalarQuantizedVectorsFormat(args.M, args.efC), 4096);
+              }
+            });
+      } else if (args.quantizeBQV) {
+        config = new IndexWriterConfig().setCodec(
+            new Lucene103Codec() {
+              @Override
+              public KnnVectorsFormat getKnnVectorsFormatForField(String field) {
+                return new DelegatingKnnVectorsFormat(
+                    new Lucene102HnswBinaryQuantizedVectorsFormat(args.M, args.efC), 4096);
               }
             });
       } else {
@@ -119,30 +109,6 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
             });
       }
 
-      config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
-      config.setRAMBufferSizeMB(args.memoryBuffer);
-      config.setRAMPerThreadHardLimitMB(args.maxThreadMemoryBeforeFlush);
-      config.setUseCompoundFile(false);
-      config.setMergeScheduler(new ConcurrentMergeScheduler());
-
-      if (args.noMerge) {
-        config.setMergePolicy(NoMergePolicy.INSTANCE);
-      } else {
-        TieredMergePolicy mergePolicy = new TieredMergePolicy();
-        if (args.optimize) {
-          // If we're going to merge down into a single segment at the end, skip intermediate merges,
-          // since they are a waste of time.
-          mergePolicy.setMaxMergeAtOnce(256);
-          mergePolicy.setSegmentsPerTier(256);
-        } else {
-          mergePolicy.setFloorSegmentMB(1024);
-          mergePolicy.setMaxMergedSegmentMB(args.maxMergedSegmentSize);
-          mergePolicy.setSegmentsPerTier(args.segmentsPerTier);
-          mergePolicy.setMaxMergeAtOnce(args.maxMergeAtOnce);
-        }
-        config.setMergePolicy(mergePolicy);
-      }
-
       this.writer = new IndexWriter(dir, config);
     } catch (Exception e) {
       throw new IllegalArgumentException(String.format("Unable to create IndexWriter: %s.", e.getMessage()));
@@ -152,27 +118,12 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
     LOG.info(" + Generator: " + args.generatorClass);
     LOG.info(" + M: " + args.M);
     LOG.info(" + efC: " + args.efC);
-    LOG.info(" + Store document vectors? " + args.storeVectors);
-    LOG.info(" + Int8 quantization? " + args.quantizeInt8);
-    LOG.info(" + Codec: " + this.writer.getConfig().getCodec());
-    LOG.info(" + MemoryBuffer: " + args.memoryBuffer);
-    LOG.info(" + MaxThreadMemoryBeforeFlush: " + args.maxThreadMemoryBeforeFlush);
-
-    if (args.noMerge) {
-      LOG.info(" + MergePolicy: NoMerge");
-    } else if (args.optimize) {
-      LOG.info(" + MergePolicy: TieredMergePolicy (force merge into a single index segment)");
-    } else {
-      LOG.info(" + MergePolicy: TieredMergePolicy");
-      LOG.info(" + MaxMergedSegmentSize: " + args.maxMergedSegmentSize);
-      LOG.info(" + SegmentsPerTier: " + args.segmentsPerTier);
-      LOG.info(" + MaxMergeAtOnce: " + args.maxMergeAtOnce);
-    }
+    LOG.info(" + ScalarQuantizedVectors? " + args.quantizeSQV);
+    LOG.info(" + BinaryQuantizedVectors? " + args.quantizeBQV);
   }
 
+  // We need this class exists because Lucene99HnswVectorsFormat is final, and so we can't override getMaxDimensions.
   // Solution provided by Solr, see https://www.mail-archive.com/java-user@lucene.apache.org/msg52149.html
-  // This class exists because Lucene95HnswVectorsFormat's getMaxDimensions method is final and we
-  // need to workaround that constraint to allow more than the default number of dimensions.
   private static final class DelegatingKnnVectorsFormat extends KnnVectorsFormat {
     private final KnnVectorsFormat delegate;
     private final int maxDimensions;
