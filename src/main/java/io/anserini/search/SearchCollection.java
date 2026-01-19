@@ -212,9 +212,6 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     @Option(name = "-pretokenized", usage = "Boolean switch to accept pre tokenized jsonl.")
     public boolean pretokenized = false;
 
-    @Option(name = "-arbitraryScoreTieBreak", usage = "Break score ties arbitrarily (not recommended)")
-    public boolean arbitraryScoreTieBreak = false;
-
     @Option(name = "-hits", metaVar = "[number]", usage = "max number of hits to return")
     public int hits = 1000;
 
@@ -483,9 +480,6 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     @Option(name = "-axiom.outputQuery", usage = "output original and expanded query")
     public boolean axiom_outputQuery = false;
 
-    @Option(name = "-axiom.deterministic", usage = "make the expansion terms axiomatic reranking results deterministic")
-    public boolean axiom_deterministic = false;
-
     @Option(name = "-axiom.seed", handler = StringArrayOptionHandler.class, usage = "seed for the random generator in axiomatic reranking")
     public String[] axiom_seed = new String[]{"42"};
 
@@ -709,11 +703,8 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
 
       TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
       if (!isRerank || (args.rerankcutoff > 0 && args.rf_qrels == null) || (args.rf_qrels != null && !hasRelDocs)) {
-        if (args.arbitraryScoreTieBreak) {// Figure out how to break the scoring ties.
-          rs = getIndexSearcher().search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits);
-        } else {
-          rs = getIndexSearcher().search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
-        }
+        rs = getIndexSearcher().search(query,
+            (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
       }
 
       List<String> queryTokens = AnalyzerUtils.analyze(analyzer, queryString);
@@ -760,13 +751,8 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       Query query = builder.build();
 
       // Search using constructed query.
-      TopDocs rs;
-      if (args.arbitraryScoreTieBreak) {
-        rs = getIndexSearcher().search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits);
-      } else {
-        rs = getIndexSearcher().search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff :
-            args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
-      }
+      TopDocs rs = getIndexSearcher().search(query, isRerank && args.rf_qrels == null ? args.rerankcutoff : args.hits,
+          BREAK_SCORE_TIES_BY_DOCID, true);
 
       RerankerContext<Integer> context = new RerankerContext<>(getIndexSearcher(), qid, query, docid,
           StringUtils.join(", ", terms), terms, null, args);
@@ -809,12 +795,8 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
 
       TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
       if (!isRerank || (args.rerankcutoff > 0 && args.rf_qrels == null) || (args.rf_qrels != null && !hasRelDocs)) {
-        if (args.arbitraryScoreTieBreak) {// Figure out how to break the scoring ties.
-          rs = getIndexSearcher().search(compositeQuery, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits);
-        } else {
-          rs = getIndexSearcher().search(compositeQuery, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits,
-              BREAK_SCORE_TIES_BY_TWEETID, true);
-        }
+        rs = getIndexSearcher().search(compositeQuery, isRerank && args.rf_qrels == null ? args.rerankcutoff : args.hits,
+            BREAK_SCORE_TIES_BY_TWEETID, true);
       }
 
       RerankerContext<T> context = new RerankerContext<>(getIndexSearcher(), qid, keywordQuery, null, queryString, queryTokens, filter, args);
@@ -1068,14 +1050,6 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       loadQrels(args.rf_qrels);
     }
 
-    // Fix for index compatibility issue between Lucene 8 and 9: https://github.com/castorini/anserini/issues/1952
-    // If we detect an older index version, we turn off consistent tie-breaking, which avoids accessing docvalues,
-    // which is the source of the incompatibility.
-    if (!reader.toString().contains("lucene.version=9") && !reader.toString().contains("lucene.version=10")) {
-      args.arbitraryScoreTieBreak = true;
-      args.axiom_deterministic = false;
-    }
-
     // We might not be able to successfully read topics for a variety of reasons. Gather all possible
     // exceptions together as an unchecked exception to make initialization and error reporting clearer.
     topics = new TreeMap<>();
@@ -1204,7 +1178,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
                 }
                 RerankerCascade<K> cascade = new RerankerCascade<K>(tag);
                 cascade.add(new AxiomReranker<K>(analyzer, collectionClass, args.index, args.axiom_index, Constants.CONTENTS,
-                    args.axiom_deterministic, Integer.parseInt(seed), Integer.parseInt(r),
+                    true, Integer.parseInt(seed), Integer.parseInt(r),
                     Integer.parseInt(n), Float.parseFloat(beta), Integer.parseInt(top),
                     args.axiom_docids, args.axiom_outputQuery, args.searchTweets));
                 cascade.add(new ScoreTiesAdjusterReranker<K>());

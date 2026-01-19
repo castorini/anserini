@@ -123,9 +123,7 @@ public class Rm3Reranker<T> implements Reranker<T> {
       }
 
       // Figure out how to break the scoring ties.
-      if (context.getSearchArgs().arbitraryScoreTieBreak) {
-        rs = searcher.search(finalQuery, context.getSearchArgs().hits);
-      } else if (context.getSearchArgs().searchTweets) {
+      if (context.getSearchArgs().searchTweets) {
         rs = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_TWEETID, true);
       } else {
         rs = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID, true);
