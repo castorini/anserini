@@ -1,4 +1,4 @@
 io.anserini.index.codecs.AnseriniLucene99FlatVectorFormat
 io.anserini.index.codecs.AnseriniLucene99ScalarQuantizedVectorsFormat
-io.anserini.index.codecs.AnseriniLucene103FlatVectorsFormat
-io.anserini.index.codecs.AnseriniLucene103FlatScalarQuantizedVectorsFormat
+io.anserini.index.codecs.Anserini20FlatVectorsFormat
+io.anserini.index.codecs.Anserini20FlatScalarQuantizedVectorsFormat

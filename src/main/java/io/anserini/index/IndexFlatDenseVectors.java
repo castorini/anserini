@@ -37,8 +37,8 @@ import org.kohsuke.args4j.ParserProperties;
 
 import io.anserini.collection.ParquetDenseVectorCollection;
 import io.anserini.collection.SourceDocument;
-import io.anserini.index.codecs.AnseriniLucene103FlatScalarQuantizedVectorsFormat;
-import io.anserini.index.codecs.AnseriniLucene103FlatVectorsFormat;
+import io.anserini.index.codecs.Anserini20FlatScalarQuantizedVectorsFormat;
+import io.anserini.index.codecs.Anserini20FlatVectorsFormat;
 import io.anserini.index.codecs.DelegatingKnnVectorsFormat;
 import io.anserini.index.generator.DenseVectorDocumentGenerator;
 import io.anserini.index.generator.LuceneDocumentGenerator;
@@ -89,7 +89,7 @@ public final class IndexFlatDenseVectors extends AbstractIndexer {
             new Lucene103Codec() {
               @Override
               public KnnVectorsFormat getKnnVectorsFormatForField(String field) {
-                return new AnseriniLucene103FlatScalarQuantizedVectorsFormat();
+                return new Anserini20FlatScalarQuantizedVectorsFormat();
               }
             });
       } else if (args.quantizeBQV) {
@@ -105,7 +105,7 @@ public final class IndexFlatDenseVectors extends AbstractIndexer {
             new Lucene103Codec() {
               @Override
               public KnnVectorsFormat getKnnVectorsFormatForField(String field) {
-                return new AnseriniLucene103FlatVectorsFormat();
+                return new Anserini20FlatVectorsFormat();
               }
             });
       }
