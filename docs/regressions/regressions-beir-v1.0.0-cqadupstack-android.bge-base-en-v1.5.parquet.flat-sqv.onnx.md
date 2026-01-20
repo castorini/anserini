@@ -33,12 +33,12 @@ Sample indexing command, building quantized flat indexes:
 
 ```
 bin/run.sh io.anserini.index.IndexFlatDenseVectors \
-  -threads 16 \
+  -threads 4 \
   -collection ParquetDenseVectorCollection \
   -input /path/to/beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5 \
   -generator DenseVectorDocumentGenerator \
-  -index indexes/lucene-flat-int8.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5/ \
-  -quantize.int8 \
+  -index indexes/lucene-flat-sqv.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5/ \
+  -quantize.sqv \
   >& logs/log.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5 &
 ```
 
@@ -52,19 +52,19 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 bin/run.sh io.anserini.search.SearchFlatDenseVectors \
-  -index indexes/lucene-flat-int8.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5/ \
+  -index indexes/lucene-flat-sqv.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5/ \
   -topics tools/topics-and-qrels/topics.beir-v1.0.0-cqadupstack-android.test.tsv.gz \
   -topicReader TsvString \
-  -output runs/run.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.bge-flat-int8-onnx.topics.beir-v1.0.0-cqadupstack-android.test.txt \
+  -output runs/run.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.bge-flat-sqv-onnx.topics.beir-v1.0.0-cqadupstack-android.test.txt \
   -encoder BgeBaseEn15 -hits 1000 -removeQuery -threads 16 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-android.test.txt runs/run.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.bge-flat-int8-onnx.topics.beir-v1.0.0-cqadupstack-android.test.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-android.test.txt runs/run.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.bge-flat-int8-onnx.topics.beir-v1.0.0-cqadupstack-android.test.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-android.test.txt runs/run.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.bge-flat-int8-onnx.topics.beir-v1.0.0-cqadupstack-android.test.txt
+bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-android.test.txt runs/run.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.bge-flat-sqv-onnx.topics.beir-v1.0.0-cqadupstack-android.test.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-android.test.txt runs/run.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.bge-flat-sqv-onnx.topics.beir-v1.0.0-cqadupstack-android.test.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-android.test.txt runs/run.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.bge-flat-sqv-onnx.topics.beir-v1.0.0-cqadupstack-android.test.txt
 ```
 
 ## Effectiveness
