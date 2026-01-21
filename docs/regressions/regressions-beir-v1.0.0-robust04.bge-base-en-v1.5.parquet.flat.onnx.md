@@ -72,11 +72,11 @@ With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **BGE-base-en-v1.5**|
 |:-------------------------------------------------------------------------------------------------------------|---------------------|
-| BEIR (v1.0.0): Robust04                                                                                      | 0.4465              |
+| BEIR (v1.0.0): Robust04                                                                                      | 0.4435              |
 | **R@100**                                                                                                    | **BGE-base-en-v1.5**|
-| BEIR (v1.0.0): Robust04                                                                                      | 0.3507              |
+| BEIR (v1.0.0): Robust04                                                                                      | 0.3510              |
 | **R@1000**                                                                                                   | **BGE-base-en-v1.5**|
-| BEIR (v1.0.0): Robust04                                                                                      | 0.5981              |
+| BEIR (v1.0.0): Robust04                                                                                      | 0.5961              |
 
 The above figures are from running brute-force search with cached queries on non-quantized flat indexes.
 With ONNX query encoding on non-quantized flat indexes, observed results may differ slightly (typically, lower), but scores should generally be within 0.001 of the results reported above (with some outliers).

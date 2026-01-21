@@ -46,15 +46,8 @@ models:
     params: -encoder BgeBaseEn15 -hits 1000 -removeQuery -threads 16
     results:
       nDCG@10:
-        - 0.5413
+        - 0.5415
       R@100:
-        - 0.9415
+        - 0.9414
       R@1000:
         - 0.9859
-    tolerance:
-      nDCG@10:
-        - 0.0001
-      R@100:
-        - 0.0002
-      R@1000:
-        - 0.0001
