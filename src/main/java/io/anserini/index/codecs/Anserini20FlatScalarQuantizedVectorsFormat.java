@@ -39,7 +39,7 @@ import java.io.IOException;
 
 public class Anserini20FlatScalarQuantizedVectorsFormat extends KnnVectorsFormat {
 
-  static final String NAME = "AnseriniLucene103FlatScalarQuantizedVectorsFormat";
+  static final String NAME = "Anserini20FlatScalarQuantizedVectorsFormat";
 
   private final KnnVectorsFormat format = new Lucene99ScalarQuantizedVectorsFormat();
 
@@ -57,19 +57,19 @@ public class Anserini20FlatScalarQuantizedVectorsFormat extends KnnVectorsFormat
 
   @Override
   public KnnVectorsWriter fieldsWriter(SegmentWriteState state) throws IOException {
-    return new AnseriniLucene99ScalarQuantizedVectorWriter(format.fieldsWriter(state));
+    return new Anserini20FlatScalarQuantizedVectorsWriter(format.fieldsWriter(state));
   }
 
   @Override
   public KnnVectorsReader fieldsReader(SegmentReadState state) throws IOException {
-    return new AnseriniLucene99ScalarQuantizedVectorReader(format.fieldsReader(state));
+    return new Anserini20FlatScalarQuantizedVectorsReader(format.fieldsReader(state));
   }
 
-  public static class AnseriniLucene99ScalarQuantizedVectorWriter extends KnnVectorsWriter {
+  public static class Anserini20FlatScalarQuantizedVectorsWriter extends KnnVectorsWriter {
 
     private final KnnVectorsWriter writer;
 
-    public AnseriniLucene99ScalarQuantizedVectorWriter(KnnVectorsWriter writer) {
+    public Anserini20FlatScalarQuantizedVectorsWriter(KnnVectorsWriter writer) {
       super();
       this.writer = writer;
     }
@@ -105,11 +105,11 @@ public class Anserini20FlatScalarQuantizedVectorsFormat extends KnnVectorsFormat
     }
   }
 
-  public static class AnseriniLucene99ScalarQuantizedVectorReader extends KnnVectorsReader {
+  public static class Anserini20FlatScalarQuantizedVectorsReader extends KnnVectorsReader {
 
     private final KnnVectorsReader reader;
 
-    public AnseriniLucene99ScalarQuantizedVectorReader(KnnVectorsReader reader) {
+    public Anserini20FlatScalarQuantizedVectorsReader(KnnVectorsReader reader) {
       super();
       this.reader = reader;
     }

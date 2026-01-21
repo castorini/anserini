@@ -39,7 +39,7 @@ import org.apache.lucene.util.Bits;
 
 public class Anserini20FlatVectorsFormat extends KnnVectorsFormat {
 
-  static final String NAME = "AnseriniLucene103FlatVectorsFormat";
+  static final String NAME = "Anserini20FlatVectorsFormat";
 
   private final KnnVectorsFormat format = new Lucene99FlatVectorsFormat(new DefaultFlatVectorScorer());
 
@@ -57,19 +57,19 @@ public class Anserini20FlatVectorsFormat extends KnnVectorsFormat {
 
   @Override
   public KnnVectorsWriter fieldsWriter(SegmentWriteState state) throws IOException {
-    return new AnseriniLucene99FlatVectorWriter(format.fieldsWriter(state));
+    return new Anserini20FlatVectorsWriter(format.fieldsWriter(state));
   }
 
   @Override
   public KnnVectorsReader fieldsReader(SegmentReadState state) throws IOException {
-    return new AnseriniLucene99FlatVectorReader(format.fieldsReader(state));
+    return new Anserini20FlatVectorsReader(format.fieldsReader(state));
   }
 
-  public static class AnseriniLucene99FlatVectorWriter extends KnnVectorsWriter {
+  public static class Anserini20FlatVectorsWriter extends KnnVectorsWriter {
 
     private final KnnVectorsWriter writer;
 
-    public AnseriniLucene99FlatVectorWriter(KnnVectorsWriter writer) {
+    public Anserini20FlatVectorsWriter(KnnVectorsWriter writer) {
       super();
       this.writer = writer;
     }
@@ -105,11 +105,11 @@ public class Anserini20FlatVectorsFormat extends KnnVectorsFormat {
     }
   }
 
-  public static class AnseriniLucene99FlatVectorReader extends KnnVectorsReader {
+  public static class Anserini20FlatVectorsReader extends KnnVectorsReader {
 
     private final KnnVectorsReader reader;
 
-    public AnseriniLucene99FlatVectorReader(KnnVectorsReader reader) {
+    public Anserini20FlatVectorsReader(KnnVectorsReader reader) {
       super();
       this.reader = reader;
     }
