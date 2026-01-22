@@ -53,12 +53,12 @@ Sample indexing command, building quantized flat indexes:
 
 ```bash
 bin/run.sh io.anserini.index.IndexFlatDenseVectors \
-  -threads 16 \
+  -threads 4 \
   -collection ParquetDenseVectorCollection \
   -input /path/to/msmarco-passage-cos-dpr-distil.parquet \
   -generator DenseVectorDocumentGenerator \
-  -index indexes/lucene-flat-int8.msmarco-v1-passage.cos-dpr-distil/ \
-  -quantize.int8 \
+  -index indexes/lucene-flat-sqv.msmarco-v1-passage.cos-dpr-distil/ \
+  -quantize.sqv \
   >& logs/log.msmarco-passage-cos-dpr-distil.parquet &
 ```
 
@@ -75,20 +75,20 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```bash
 bin/run.sh io.anserini.search.SearchFlatDenseVectors \
-  -index indexes/lucene-flat-int8.msmarco-v1-passage.cos-dpr-distil/ \
+  -index indexes/lucene-flat-sqv.msmarco-v1-passage.cos-dpr-distil/ \
   -topics tools/topics-and-qrels/topics.dl19-passage.cos-dpr-distil.jsonl.gz \
   -topicReader JsonIntVector \
-  -output runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-flat-int8-cached.topics.dl19-passage.cos-dpr-distil.jsonl.txt \
+  -output runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-flat-sqv-cached.topics.dl19-passage.cos-dpr-distil.jsonl.txt \
   -hits 1000 -threads 16 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-flat-int8-cached.topics.dl19-passage.cos-dpr-distil.jsonl.txt
-bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-flat-int8-cached.topics.dl19-passage.cos-dpr-distil.jsonl.txt
-bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-flat-int8-cached.topics.dl19-passage.cos-dpr-distil.jsonl.txt
-bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-flat-int8-cached.topics.dl19-passage.cos-dpr-distil.jsonl.txt
+bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-flat-sqv-cached.topics.dl19-passage.cos-dpr-distil.jsonl.txt
+bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-flat-sqv-cached.topics.dl19-passage.cos-dpr-distil.jsonl.txt
+bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-flat-sqv-cached.topics.dl19-passage.cos-dpr-distil.jsonl.txt
+bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-flat-sqv-cached.topics.dl19-passage.cos-dpr-distil.jsonl.txt
 ```
 
 ## Effectiveness

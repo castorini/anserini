@@ -50,12 +50,12 @@ Sample indexing command, building quantized flat indexes:
 
 ```bash
 bin/run.sh io.anserini.index.IndexFlatDenseVectors \
-  -threads 16 \
+  -threads 4 \
   -collection ParquetDenseVectorCollection \
   -input /path/to/msmarco-passage-bge-base-en-v1.5.parquet \
   -generator DenseVectorDocumentGenerator \
-  -index indexes/lucene-flat-int8.msmarco-v1-passage.bge-base-en-v1.5/ \
-  -quantize.int8 \
+  -index indexes/lucene-flat-sqv.msmarco-v1-passage.bge-base-en-v1.5/ \
+  -quantize.sqv \
   >& logs/log.msmarco-passage-bge-base-en-v1.5.parquet &
 ```
 
@@ -71,20 +71,20 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```bash
 bin/run.sh io.anserini.search.SearchFlatDenseVectors \
-  -index indexes/lucene-flat-int8.msmarco-v1-passage.bge-base-en-v1.5/ \
+  -index indexes/lucene-flat-sqv.msmarco-v1-passage.bge-base-en-v1.5/ \
   -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
   -topicReader TsvInt \
-  -output runs/run.msmarco-passage-bge-base-en-v1.5.parquet.bge-flat-int8-onnx.topics.msmarco-passage.dev-subset.txt \
+  -output runs/run.msmarco-passage-bge-base-en-v1.5.parquet.bge-flat-sqv-onnx.topics.msmarco-passage.dev-subset.txt \
   -encoder BgeBaseEn15 -hits 1000 -threads 16 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-bge-base-en-v1.5.parquet.bge-flat-int8-onnx.topics.msmarco-passage.dev-subset.txt
-bin/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-bge-base-en-v1.5.parquet.bge-flat-int8-onnx.topics.msmarco-passage.dev-subset.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-bge-base-en-v1.5.parquet.bge-flat-int8-onnx.topics.msmarco-passage.dev-subset.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-bge-base-en-v1.5.parquet.bge-flat-int8-onnx.topics.msmarco-passage.dev-subset.txt
+bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-bge-base-en-v1.5.parquet.bge-flat-sqv-onnx.topics.msmarco-passage.dev-subset.txt
+bin/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-bge-base-en-v1.5.parquet.bge-flat-sqv-onnx.topics.msmarco-passage.dev-subset.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-bge-base-en-v1.5.parquet.bge-flat-sqv-onnx.topics.msmarco-passage.dev-subset.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-bge-base-en-v1.5.parquet.bge-flat-sqv-onnx.topics.msmarco-passage.dev-subset.txt
 ```
 
 ## Effectiveness

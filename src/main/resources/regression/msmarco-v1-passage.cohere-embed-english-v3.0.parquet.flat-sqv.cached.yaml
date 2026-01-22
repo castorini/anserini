@@ -5,12 +5,12 @@ corpus_path: collections/msmarco/msmarco-passage-cohere-embed-english-v3.0.parqu
 download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cohere-embed-english-v3.0.parquet.tar
 download_checksum: 760dfb5ba9e2b0cc6f7e527e518fef03
 
-index_path: indexes/lucene-flat-int8.msmarco-v1-passage.cohere-embed-english-v3.0/
+index_path: indexes/lucene-flat-sqv.msmarco-v1-passage.cohere-embed-english-v3.0/
 index_type: flat
 collection_class: ParquetDenseVectorCollection
 generator_class: DenseVectorDocumentGenerator
-index_threads: 16
-index_options: -quantize.int8
+index_threads: 4
+index_options: -quantize.sqv
 
 metrics:
   - metric: AP@1000
@@ -50,7 +50,7 @@ topics:
     qrel: qrels.msmarco-passage.dev-subset.txt
 
 models:
-  - name: cohere-embed-english-v3.0-flat-int8-cached
+  - name: cohere-embed-english-v3.0-flat-sqv-cached
     display: cohere-embed-english-v3.0
     type: flat
     params: -hits 1000 -threads 16
@@ -63,12 +63,3 @@ models:
         - 0.8935
       R@1000:
         - 0.9786
-    tolerance:
-      AP@1000:
-        - 0.003
-      RR@10:
-        - 0.003
-      R@100:
-        - 0.003
-      R@1000:
-        - 0.009

@@ -5,12 +5,12 @@ corpus_path: collections/msmarco/msmarco-passage-cos-dpr-distil.parquet/
 download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-cos-dpr-distil.parquet.tar
 download_checksum: b9183de205fbd5c799211c21187179e7
 
-index_path: indexes/lucene-flat-int8.msmarco-v1-passage.cos-dpr-distil/
+index_path: indexes/lucene-flat-sqv.msmarco-v1-passage.cos-dpr-distil/
 index_type: flat
 collection_class: ParquetDenseVectorCollection
 generator_class: DenseVectorDocumentGenerator
-index_threads: 16
-index_options: -quantize.int8
+index_threads: 4
+index_options: -quantize.sqv
 
 metrics:
   - metric: AP@1000
@@ -50,7 +50,7 @@ topics:
     qrel: qrels.msmarco-passage.dev-subset.txt
 
 models:
-  - name: cos-dpr-distil-flat-int8-cached
+  - name: cos-dpr-distil-flat-sqv-cached
     display: cosDPR-distil
     type: flat
     params: -hits 1000 -threads 16
@@ -63,12 +63,3 @@ models:
         - 0.9075
       R@1000:
         - 0.9796
-    tolerance:
-      AP@1000:
-        - 0.001
-      RR@10:
-        - 0.001
-      R@100:
-        - 0.002
-      R@1000:
-        - 0.001

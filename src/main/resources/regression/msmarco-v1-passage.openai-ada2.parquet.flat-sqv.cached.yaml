@@ -5,12 +5,12 @@ corpus_path: collections/msmarco/msmarco-passage-openai-ada2.parquet/
 download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-openai-ada2.parquet.tar
 download_checksum: a8fddf594c9b8e771637968033b12f6d
 
-index_path: indexes/lucene-flat-int8.msmarco-v1-passage.openai-ada2/
+index_path: indexes/lucene-flat-sqv.msmarco-v1-passage.openai-ada2/
 index_type: flat
 collection_class: ParquetDenseVectorCollection
 generator_class: DenseVectorDocumentGenerator
-index_threads: 16
-index_options: -quantize.int8
+index_threads: 4
+index_options: -quantize.sqv
 
 metrics:
   - metric: AP@1000
@@ -50,7 +50,7 @@ topics:
     qrel: qrels.msmarco-passage.dev-subset.txt
 
 models:
-  - name: openai-ada2-flat-int8-cached
+  - name: openai-ada2-flat-sqv-cached
     display: OpenAI-ada2
     type: flat
     params: -hits 1000 -threads 16
@@ -63,12 +63,3 @@ models:
         - 0.8996
       R@1000:
         - 0.9858
-    tolerance:
-      AP@1000:
-        - 0.008
-      RR@10:
-        - 0.009
-      R@100:
-        - 0.006
-      R@1000:
-        - 0.002

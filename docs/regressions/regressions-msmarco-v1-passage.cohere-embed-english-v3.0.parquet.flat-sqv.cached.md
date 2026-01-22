@@ -48,12 +48,12 @@ Sample indexing command, building quantized flat indexes:
 
 ```bash
 bin/run.sh io.anserini.index.IndexFlatDenseVectors \
-  -threads 16 \
+  -threads 4 \
   -collection ParquetDenseVectorCollection \
   -input /path/to/msmarco-passage-cohere-embed-english-v3.0.parquet \
   -generator DenseVectorDocumentGenerator \
-  -index indexes/lucene-flat-int8.msmarco-v1-passage.cohere-embed-english-v3.0/ \
-  -quantize.int8 \
+  -index indexes/lucene-flat-sqv.msmarco-v1-passage.cohere-embed-english-v3.0/ \
+  -quantize.sqv \
   >& logs/log.msmarco-passage-cohere-embed-english-v3.0.parquet &
 ```
 
@@ -69,20 +69,20 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```bash
 bin/run.sh io.anserini.search.SearchFlatDenseVectors \
-  -index indexes/lucene-flat-int8.msmarco-v1-passage.cohere-embed-english-v3.0/ \
+  -index indexes/lucene-flat-sqv.msmarco-v1-passage.cohere-embed-english-v3.0/ \
   -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.cohere-embed-english-v3.0.jsonl.gz \
   -topicReader JsonIntVector \
-  -output runs/run.msmarco-passage-cohere-embed-english-v3.0.parquet.cohere-embed-english-v3.0-flat-int8-cached.topics.msmarco-passage.dev-subset.cohere-embed-english-v3.0.jsonl.txt \
+  -output runs/run.msmarco-passage-cohere-embed-english-v3.0.parquet.cohere-embed-english-v3.0-flat-sqv-cached.topics.msmarco-passage.dev-subset.cohere-embed-english-v3.0.jsonl.txt \
   -hits 1000 -threads 16 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.parquet.cohere-embed-english-v3.0-flat-int8-cached.topics.msmarco-passage.dev-subset.cohere-embed-english-v3.0.jsonl.txt
-bin/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.parquet.cohere-embed-english-v3.0-flat-int8-cached.topics.msmarco-passage.dev-subset.cohere-embed-english-v3.0.jsonl.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.parquet.cohere-embed-english-v3.0-flat-int8-cached.topics.msmarco-passage.dev-subset.cohere-embed-english-v3.0.jsonl.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.parquet.cohere-embed-english-v3.0-flat-int8-cached.topics.msmarco-passage.dev-subset.cohere-embed-english-v3.0.jsonl.txt
+bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.parquet.cohere-embed-english-v3.0-flat-sqv-cached.topics.msmarco-passage.dev-subset.cohere-embed-english-v3.0.jsonl.txt
+bin/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.parquet.cohere-embed-english-v3.0-flat-sqv-cached.topics.msmarco-passage.dev-subset.cohere-embed-english-v3.0.jsonl.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.parquet.cohere-embed-english-v3.0-flat-sqv-cached.topics.msmarco-passage.dev-subset.cohere-embed-english-v3.0.jsonl.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cohere-embed-english-v3.0.parquet.cohere-embed-english-v3.0-flat-sqv-cached.topics.msmarco-passage.dev-subset.cohere-embed-english-v3.0.jsonl.txt
 ```
 
 ## Effectiveness
