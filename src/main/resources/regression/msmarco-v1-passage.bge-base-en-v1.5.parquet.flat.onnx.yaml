@@ -56,10 +56,10 @@ models:
     params: -encoder BgeBaseEn15 -hits 1000 -threads 16
     results:
       AP@1000:
-        - 0.3641
+        - 0.3642
       RR@10:
         - 0.3583
       R@100:
-        - 0.9006
+        - 0.9007
       R@1000:
         - 0.9811
