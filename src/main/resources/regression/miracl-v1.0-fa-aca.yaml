@@ -41,6 +41,6 @@ models:
     params: -bm25 -hits 100 -language fa -useAutoCompositeAnalyzer
     results:
       nDCG@10:
-        - 0.3427
+        - 0.3576
       R@100:
-        - 0.7600
+        - 0.7806
