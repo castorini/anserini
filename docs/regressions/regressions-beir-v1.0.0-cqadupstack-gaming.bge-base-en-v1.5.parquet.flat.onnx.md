@@ -33,7 +33,7 @@ Sample indexing command, building flat indexes:
 
 ```
 bin/run.sh io.anserini.index.IndexFlatDenseVectors \
-  -threads 16 \
+  -threads 4 \
   -collection ParquetDenseVectorCollection \
   -input /path/to/beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5 \
   -generator DenseVectorDocumentGenerator \
@@ -72,7 +72,7 @@ With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **BGE-base-en-v1.5**|
 |:-------------------------------------------------------------------------------------------------------------|---------------------|
-| BEIR (v1.0.0): CQADupStack-gaming                                                                            | 0.5965              |
+| BEIR (v1.0.0): CQADupStack-gaming                                                                            | 0.5967              |
 | **R@100**                                                                                                    | **BGE-base-en-v1.5**|
 | BEIR (v1.0.0): CQADupStack-gaming                                                                            | 0.9036              |
 | **R@1000**                                                                                                   | **BGE-base-en-v1.5**|

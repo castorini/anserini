@@ -16,7 +16,6 @@
 
 package io.anserini.index;
 
-import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,16 +23,12 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.codecs.KnnVectorsFormat;
-import org.apache.lucene.codecs.KnnVectorsReader;
-import org.apache.lucene.codecs.KnnVectorsWriter;
 import org.apache.lucene.codecs.lucene102.Lucene102HnswBinaryQuantizedVectorsFormat;
 import org.apache.lucene.codecs.lucene103.Lucene103Codec;
 import org.apache.lucene.codecs.lucene99.Lucene99HnswScalarQuantizedVectorsFormat;
 import org.apache.lucene.codecs.lucene99.Lucene99HnswVectorsFormat;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.index.SegmentReadState;
-import org.apache.lucene.index.SegmentWriteState;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.kohsuke.args4j.CmdLineException;
@@ -42,6 +37,7 @@ import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 
 import io.anserini.collection.SourceDocument;
+import io.anserini.index.codecs.DelegatingKnnVectorsFormat;
 import io.anserini.index.generator.DenseVectorDocumentGenerator;
 import io.anserini.index.generator.LuceneDocumentGenerator;
 
@@ -85,8 +81,7 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
             new Lucene103Codec() {
               @Override
               public KnnVectorsFormat getKnnVectorsFormatForField(String field) {
-                return new DelegatingKnnVectorsFormat(
-                    new Lucene99HnswScalarQuantizedVectorsFormat(args.M, args.efC), 4096);
+                return new DelegatingKnnVectorsFormat(new Lucene99HnswScalarQuantizedVectorsFormat(args.M, args.efC), 4096);
               }
             });
       } else if (args.quantizeBQV) {
@@ -94,8 +89,7 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
             new Lucene103Codec() {
               @Override
               public KnnVectorsFormat getKnnVectorsFormatForField(String field) {
-                return new DelegatingKnnVectorsFormat(
-                    new Lucene102HnswBinaryQuantizedVectorsFormat(args.M, args.efC), 4096);
+                return new DelegatingKnnVectorsFormat(new Lucene102HnswBinaryQuantizedVectorsFormat(args.M, args.efC), 4096);
               }
             });
       } else {
@@ -103,8 +97,7 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
             new Lucene103Codec() {
               @Override
               public KnnVectorsFormat getKnnVectorsFormatForField(String field) {
-                return new DelegatingKnnVectorsFormat(
-                    new Lucene99HnswVectorsFormat(args.M, args.efC), 4096);
+                return new DelegatingKnnVectorsFormat(new Lucene99HnswVectorsFormat(args.M, args.efC), 4096);
               }
             });
       }
@@ -114,40 +107,12 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
       throw new IllegalArgumentException(String.format("Unable to create IndexWriter: %s.", e.getMessage()));
     }
 
-    LOG.info("HnswIndexer settings:");
+    LOG.info("IndexHnswDenseVectors settings:");
     LOG.info(" + Generator: " + args.generatorClass);
     LOG.info(" + M: " + args.M);
     LOG.info(" + efC: " + args.efC);
     LOG.info(" + ScalarQuantizedVectors? " + args.quantizeSQV);
     LOG.info(" + BinaryQuantizedVectors? " + args.quantizeBQV);
-  }
-
-  // We need this class exists because Lucene99HnswVectorsFormat is final, and so we can't override getMaxDimensions.
-  // Solution provided by Solr, see https://www.mail-archive.com/java-user@lucene.apache.org/msg52149.html
-  private static final class DelegatingKnnVectorsFormat extends KnnVectorsFormat {
-    private final KnnVectorsFormat delegate;
-    private final int maxDimensions;
-
-    public DelegatingKnnVectorsFormat(KnnVectorsFormat delegate, int maxDimensions) {
-      super(delegate.getName());
-      this.delegate = delegate;
-      this.maxDimensions = maxDimensions;
-    }
-
-    @Override
-    public KnnVectorsWriter fieldsWriter(SegmentWriteState state) throws IOException {
-      return delegate.fieldsWriter(state);
-    }
-
-    @Override
-    public KnnVectorsReader fieldsReader(SegmentReadState state) throws IOException {
-      return delegate.fieldsReader(state);
-    }
-
-    @Override
-    public int getMaxDimensions(String fieldName) {
-      return maxDimensions;
-    }
   }
 
   public static void main(String[] args) throws Exception {

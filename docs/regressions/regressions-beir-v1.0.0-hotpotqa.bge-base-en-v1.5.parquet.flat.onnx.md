@@ -33,7 +33,7 @@ Sample indexing command, building flat indexes:
 
 ```
 bin/run.sh io.anserini.index.IndexFlatDenseVectors \
-  -threads 16 \
+  -threads 4 \
   -collection ParquetDenseVectorCollection \
   -input /path/to/beir-v1.0.0-hotpotqa.bge-base-en-v1.5 \
   -generator DenseVectorDocumentGenerator \
@@ -74,9 +74,9 @@ With the above commands, you should be able to reproduce the following results:
 |:-------------------------------------------------------------------------------------------------------------|---------------------|
 | BEIR (v1.0.0): HotpotQA                                                                                      | 0.7259              |
 | **R@100**                                                                                                    | **BGE-base-en-v1.5**|
-| BEIR (v1.0.0): HotpotQA                                                                                      | 0.8727              |
+| BEIR (v1.0.0): HotpotQA                                                                                      | 0.8726              |
 | **R@1000**                                                                                                   | **BGE-base-en-v1.5**|
-| BEIR (v1.0.0): HotpotQA                                                                                      | 0.9424              |
+| BEIR (v1.0.0): HotpotQA                                                                                      | 0.9423              |
 
 The above figures are from running brute-force search with cached queries on non-quantized flat indexes.
 With ONNX query encoding on non-quantized flat indexes, observed results may differ slightly (typically, lower), but scores should generally be within 0.001 of the results reported above (with some outliers).

@@ -53,7 +53,7 @@ Sample indexing command, building flat indexes:
 
 ```bash
 bin/run.sh io.anserini.index.IndexFlatDenseVectors \
-  -threads 16 \
+  -threads 4 \
   -collection ParquetDenseVectorCollection \
   -input /path/to/msmarco-passage-cos-dpr-distil.parquet \
   -generator DenseVectorDocumentGenerator \
@@ -102,7 +102,7 @@ With the above commands, you should be able to reproduce the following results:
 | **nDCG@10**                                                                                                  | **cosDPR-distil**|
 | [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7250           |
 | **R@100**                                                                                                    | **cosDPR-distil**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6173           |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6174           |
 | **R@1000**                                                                                                   | **cosDPR-distil**|
 | [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.8201           |
 

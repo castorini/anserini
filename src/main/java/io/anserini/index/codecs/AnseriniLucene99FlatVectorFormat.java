@@ -37,7 +37,6 @@ import org.apache.lucene.search.VectorScorer;
 import org.apache.lucene.search.AcceptDocs;
 import org.apache.lucene.util.Bits;
 
-
 public class AnseriniLucene99FlatVectorFormat extends KnnVectorsFormat {
 
   static final String NAME = "AnseriniLucene99FlatVectorFormat";

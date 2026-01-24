@@ -6,7 +6,7 @@ index_path: indexes/lucene-flat.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5
 index_type: flat
 collection_class: ParquetDenseVectorCollection
 generator_class: DenseVectorDocumentGenerator
-index_threads: 16
+index_threads: 4
 index_options: ""
 
 metrics:

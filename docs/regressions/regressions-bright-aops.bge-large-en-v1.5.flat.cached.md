@@ -35,7 +35,7 @@ Typical indexing command, building flat indexes:
 
 ```
 bin/run.sh io.anserini.index.IndexFlatDenseVectors \
-  -threads 16 \
+  -threads 4 \
   -collection JsonDenseVectorCollection \
   -input /path/to/bright-aops.bge-large-en-v1.5 \
   -generator DenseVectorDocumentGenerator \

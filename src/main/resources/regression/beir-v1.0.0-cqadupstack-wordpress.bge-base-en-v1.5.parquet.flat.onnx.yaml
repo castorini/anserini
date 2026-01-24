@@ -6,7 +6,7 @@ index_path: indexes/lucene-flat.beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1
 index_type: flat
 collection_class: ParquetDenseVectorCollection
 generator_class: DenseVectorDocumentGenerator
-index_threads: 16
+index_threads: 4
 index_options: ""
 
 metrics:
@@ -48,13 +48,6 @@ models:
       nDCG@10:
         - 0.3547
       R@100:
-        - 0.7065
+        - 0.7047
       R@1000:
         - 0.8861
-    tolerance:
-      nDCG@10:
-        - 0.0001
-      R@100:
-        - 0.002
-      R@1000:
-        - 0.0001
