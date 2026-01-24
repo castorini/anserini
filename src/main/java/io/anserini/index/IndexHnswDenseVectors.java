@@ -40,6 +40,7 @@ import io.anserini.collection.SourceDocument;
 import io.anserini.index.codecs.DelegatingKnnVectorsFormat;
 import io.anserini.index.generator.DenseVectorDocumentGenerator;
 import io.anserini.index.generator.LuceneDocumentGenerator;
+import io.anserini.util.LoggingBootstrap;
 
 public final class IndexHnswDenseVectors extends AbstractIndexer {
   private static final Logger LOG = LogManager.getLogger(IndexHnswDenseVectors.class);
@@ -116,6 +117,8 @@ public final class IndexHnswDenseVectors extends AbstractIndexer {
   }
 
   public static void main(String[] args) throws Exception {
+    LoggingBootstrap.installJulToSlf4jBridge();
+
     Args indexArgs = new Args();
     CmdLineParser parser = new CmdLineParser(indexArgs, ParserProperties.defaults().withUsageWidth(120));
 

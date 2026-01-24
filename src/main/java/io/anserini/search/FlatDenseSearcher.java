@@ -32,8 +32,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.time.DurationFormatUtils;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.search.IndexSearcher;
@@ -68,6 +70,9 @@ public class FlatDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
 
     @Option(name ="-encoder", metaVar = "[encoder]", usage = "Dense encoder to use.")
     public String encoder = null;
+
+    @Option(name = "-quiet", metaVar = "[boolean]", usage = "Turns off all logging (except for errors).")
+    public boolean quiet = false;
   }
 
   private final IndexReader reader;
@@ -78,6 +83,11 @@ public class FlatDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
 
   public FlatDenseSearcher(Args args) {
     super(args);
+
+    if (args.quiet) {
+      // If quiet mode enabled, only report errors and above.
+      Configurator.setRootLevel(Level.ERROR);
+    }
 
     Path indexPath = IndexReaderUtils.getIndex(args.index);
 
