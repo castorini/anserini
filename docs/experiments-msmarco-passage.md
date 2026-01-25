@@ -633,4 +633,6 @@ The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to th
 + Results reproduced by [@VarnitOS](https://github.com/VarnitOS) on 2025-12-26 (commit [⁠ 1c5cd32 ⁠](https://github.com/castorini/anserini/commit/1c5cd32b48f03f63eb5752834600ad7c17e5fe7d))
 + Results reproduced by [@zizimind](https://github.com/zizimind) on 2026-01-06 (commit [`d276b57`](https://github.com/castorini/anserini/commit/d276b57e1a5b1d1ba63558588ae88d90190258c3))
 + Results reproduced by [@izzat5233](https://github.com/izzat5233) on 2026-01-17 (commit [`5bda670`](https://github.com/castorini/anserini/commit/5bda6701ebe8cc217ffc66a600d3583671fe299d))
-+ Results reproduced by [@HusamIsied](https://github.com/HusamIsied) on 2026-01-25 (commit [`d00a75f`](https://github.com/HusamIsied/anserini/commit/d00a75f)) using BM25 (k1=0.9, b=0.4) on MS MARCO v1 passage dev and DL19/DL20; evaluation performed with a pure-Python script due to Python 3.12 incompatibility with `pyserini.eval.trec_eval` (MS MARCO dev MRR@10=0.1840, R@1000=0.8526; DL19 nDCG@10=0.5058; DL20 nDCG@10=0.4796).
++ Results reproduced by [@HusamIsied](https://github.com/HusamIsied) on 2026-01-25 (commit [`952ac5e4`](https://github.com/castorini/anserini/commit/952ac5e4573486a255778828b8f26fd892cda854)).
+
+
