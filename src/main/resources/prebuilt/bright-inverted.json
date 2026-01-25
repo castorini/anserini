@@ -1,0 +1,170 @@
+[
+    {
+        "name": "bright-biology",
+        "description": "Anserini Lucene inverted index of BRIGHT collection 'biology'",
+        "filename": "lucene-inverted.bright-biology.20250705.44ae8e.tar.gz",
+        "readme": "lucene-inverted.bright.20250705.44ae8e.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/tf/lucene-inverted.bright-biology.20250705.44ae8e.tar.gz"
+        ],
+        "md5": "28e2dabd2f3e57dec3f627351f8c4b11",
+        "compressed_size": 25111678,
+        "total_terms": 2133799,
+        "documents": 57359,
+        "unique_terms": 77273
+    },
+    {
+        "name": "bright-earth-science",
+        "description": "Anserini Lucene inverted index of BRIGHT collection 'earth-science'",
+        "filename": "lucene-inverted.bright-earth-science.20250705.44ae8e.tar.gz",
+        "readme": "lucene-inverted.bright.20250705.44ae8e.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/tf/lucene-inverted.bright-earth-science.20250705.44ae8e.tar.gz"
+        ],
+        "md5": "beb1d21fcf297de450271361667f2992",
+        "compressed_size": 53415849,
+        "total_terms": 4924837,
+        "documents": 121249,
+        "unique_terms": 300607
+    },
+    {
+        "name": "bright-economics",
+        "description": "Anserini Lucene inverted index of BRIGHT collection 'economics'",
+        "filename": "lucene-inverted.bright-economics.20250705.44ae8e.tar.gz",
+        "readme": "lucene-inverted.bright.20250705.44ae8e.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/tf/lucene-inverted.bright-economics.20250705.44ae8e.tar.gz"
+        ],
+        "md5": "59b9d0751eb933de06c2bd9ca815a620",
+        "compressed_size": 23991405,
+        "total_terms": 2209688,
+        "documents": 50220,
+        "unique_terms": 96651
+    },
+    {
+        "name": "bright-psychology",
+        "description": "Anserini Lucene inverted index of BRIGHT collection 'psychology'",
+        "filename": "lucene-inverted.bright-psychology.20250705.44ae8e.tar.gz",
+        "readme": "lucene-inverted.bright.20250705.44ae8e.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/tf/lucene-inverted.bright-psychology.20250705.44ae8e.tar.gz"
+        ],
+        "md5": "92cfe0528ec00992539c5d71e43132b5",
+        "compressed_size": 25037913,
+        "total_terms": 2206965,
+        "documents": 52835,
+        "unique_terms": 116023
+    },
+    {
+        "name": "bright-robotics",
+        "description": "Anserini Lucene inverted index of BRIGHT collection 'robotics'",
+        "filename": "lucene-inverted.bright-robotics.20250705.44ae8e.tar.gz",
+        "readme": "lucene-inverted.bright.20250705.44ae8e.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/tf/lucene-inverted.bright-robotics.20250705.44ae8e.tar.gz"
+        ],
+        "md5": "798ffdc9f8156f87092dab7222fc7015",
+        "compressed_size": 18420985,
+        "total_terms": 1965313,
+        "documents": 61961,
+        "unique_terms": 108765
+    },
+    {
+        "name": "bright-stackoverflow",
+        "description": "Anserini Lucene inverted index of BRIGHT collection 'stackoverflow'",
+        "filename": "lucene-inverted.bright-stackoverflow.20250705.44ae8e.tar.gz",
+        "readme": "lucene-inverted.bright.20250705.44ae8e.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/tf/lucene-inverted.bright-stackoverflow.20250705.44ae8e.tar.gz"
+        ],
+        "md5": "228efa0a5f694e21ec72b8701cea544d",
+        "compressed_size": 95075014,
+        "total_terms": 12612557,
+        "documents": 107081,
+        "unique_terms": 176923
+    },
+    {
+        "name": "bright-sustainable-living",
+        "description": "Anserini Lucene inverted index of BRIGHT collection 'sustainable-living'",
+        "filename": "lucene-inverted.bright-sustainable-living.20250705.44ae8e.tar.gz",
+        "readme": "lucene-inverted.bright.20250705.44ae8e.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/tf/lucene-inverted.bright-sustainable-living.20250705.44ae8e.tar.gz"
+        ],
+        "md5": "e2bd3276a1a95f899a285199a32ace2e",
+        "compressed_size": 25611841,
+        "total_terms": 2359358,
+        "documents": 60792,
+        "unique_terms": 108048
+    },
+    {
+        "name": "bright-pony",
+        "description": "Anserini Lucene inverted index of BRIGHT collection 'pony'",
+        "filename": "lucene-inverted.bright-pony.20250705.44ae8e.tar.gz",
+        "readme": "lucene-inverted.bright.20250705.44ae8e.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/tf/lucene-inverted.bright-pony.20250705.44ae8e.tar.gz"
+        ],
+        "md5": "3cc53b8606c82f6ccbd1fe03deca42f5",
+        "compressed_size": 2413527,
+        "total_terms": 264645,
+        "documents": 7894,
+        "unique_terms": 10596
+    },
+    {
+        "name": "bright-leetcode",
+        "description": "Anserini Lucene inverted index of BRIGHT collection 'leetcode'",
+        "filename": "lucene-inverted.bright-leetcode.20250705.44ae8e.tar.gz",
+        "readme": "lucene-inverted.bright.20250705.44ae8e.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/tf/lucene-inverted.bright-leetcode.20250705.44ae8e.tar.gz"
+        ],
+        "md5": "8f0c4fdbaf6fac01b3450da1ddfd91bc",
+        "compressed_size": 396178987,
+        "total_terms": 35338566,
+        "documents": 413932,
+        "unique_terms": 1808924
+    },
+    {
+        "name": "bright-aops",
+        "description": "Anserini Lucene inverted index of BRIGHT collection 'aops'",
+        "filename": "lucene-inverted.bright-aops.20250705.44ae8e.tar.gz",
+        "readme": "lucene-inverted.bright.20250705.44ae8e.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/tf/lucene-inverted.bright-aops.20250705.44ae8e.tar.gz"
+        ],
+        "md5": "2427dbdd4e64c27a3fb86901f88ba72f",
+        "compressed_size": 136696992,
+        "total_terms": 20699175,
+        "documents": 188002,
+        "unique_terms": 110945
+    },
+    {
+        "name": "bright-theoremqa-theorems",
+        "description": "Anserini Lucene inverted index of BRIGHT collection 'theoremqa-theorems'",
+        "filename": "lucene-inverted.bright-theoremqa-theorems.20250705.44ae8e.tar.gz",
+        "readme": "lucene-inverted.bright.20250705.44ae8e.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/tf/lucene-inverted.bright-theoremqa-theorems.20250705.44ae8e.tar.gz"
+        ],
+        "md5": "4b576146c71acde1045dbbc502b64a76",
+        "compressed_size": 16754746,
+        "total_terms": 2822888,
+        "documents": 23839,
+        "unique_terms": 17116
+    },
+    {
+        "name": "bright-theoremqa-questions",
+        "description": "Anserini Lucene inverted index of BRIGHT collection 'theoremqa-questions'",
+        "filename": "lucene-inverted.bright-theoremqa-questions.20250705.44ae8e.tar.gz",
+        "readme": "lucene-inverted.bright.20250705.44ae8e.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/tf/lucene-inverted.bright-theoremqa-questions.20250705.44ae8e.tar.gz"
+        ],
+        "md5": "c5754371fb34423abf64c48b22b906d2",
+        "compressed_size": 136697060,
+        "total_terms": 20699175,
+        "documents": 188002,
+        "unique_terms": 110945
+    }
+]

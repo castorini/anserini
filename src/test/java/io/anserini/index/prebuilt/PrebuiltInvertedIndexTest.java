@@ -31,7 +31,6 @@ public class PrebuiltInvertedIndexTest {
 
   @Test
   public void testLookupByName() {
-    assertEquals(2, PrebuiltInvertedIndex.entries().size());
     PrebuiltInvertedIndex.Entry entry;
 
     entry = PrebuiltInvertedIndex.get("msmarco-v1-passage");
@@ -47,5 +46,21 @@ public class PrebuiltInvertedIndexTest {
     assertEquals("f66020a923df6430007bd5718e53de86", entry.md5);
     assertEquals(3213835, entry.documents);
     assertEquals(13736982339L, entry.compressedSize);
+  }
+
+  @Test
+  public void testTotalCount() {
+    assertEquals(14, PrebuiltInvertedIndex.entries().size());
+  }
+
+  @Test
+  public void testTotalCountForBright() {
+    int brightCount = 0;
+    for (PrebuiltInvertedIndex.Entry entry : PrebuiltInvertedIndex.entries()) {
+      if (entry != null && entry.name != null && entry.name.toUpperCase().startsWith("BRIGHT")) {
+        brightCount++;
+      }
+    }
+    assertEquals(12, brightCount);
   }
 }

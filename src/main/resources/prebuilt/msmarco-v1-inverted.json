@@ -5,7 +5,7 @@
         "filename": "lucene-inverted.msmarco-v1-passage.20221004.252b5e.tar.gz",
         "readme": "lucene-inverted.msmarco-v1-passage.20221004.252b5e.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/passage/original/lucene-inverted/tf/lucene-inverted.msmarco-v1-passage.20221004.252b5e.tar.gz",
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/passage/original/lucene-inverted/tf/lucene-inverted.msmarco-v1-passage.20221004.252b5e.tar.gz"
         ],
         "md5": "678876e8c99a89933d553609a0fd8793",
         "compressed_size": 2170758745,
@@ -19,7 +19,7 @@
         "filename": "lucene-inverted.msmarco-v1-doc.20221004.252b5e.tar.gz",
         "readme": "lucene-inverted.msmarco-v1-doc.20221004.252b5e.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/doc/original/lucene-inverted/tf/lucene-inverted.msmarco-v1-doc.20221004.252b5e.tar.gz",
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/doc/original/lucene-inverted/tf/lucene-inverted.msmarco-v1-doc.20221004.252b5e.tar.gz"
         ],
         "md5": "f66020a923df6430007bd5718e53de86",
         "compressed_size": 13736982339,
