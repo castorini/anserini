@@ -31,12 +31,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class InvertedIndex {
+public class PrebuiltInvertedIndex {
   private static final String RESOURCE_PATH = "prebuilt/msmarco-v1-inverted.json";
   private static final ObjectMapper MAPPER = JsonMapper.builder()
       .enable(JsonReadFeature.ALLOW_TRAILING_COMMA)
       .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
       .build();
+
+  private static PrebuiltInvertedIndex INSTANCE;
 
   @JsonIgnoreProperties(ignoreUnknown = true)
   public static class Entry {
@@ -58,8 +60,8 @@ public class InvertedIndex {
     @JsonProperty("md5")
     public String md5;
 
-    @JsonProperty("size compressed (bytes)")
-    public long sizeCompressedBytes;
+    @JsonProperty("compressed_size")
+    public long compressedSize;
 
     @JsonProperty("total_terms")
     public long totalTerms;
@@ -74,8 +76,16 @@ public class InvertedIndex {
   private final List<Entry> entries;
   private final Map<String, Entry> byName;
 
-  private InvertedIndex(List<Entry> entries) {
-    this.entries = Collections.unmodifiableList(entries);
+  private PrebuiltInvertedIndex() {
+    try (InputStream input = PrebuiltInvertedIndex.class.getClassLoader().getResourceAsStream(RESOURCE_PATH)) {
+      if (input == null) {
+        throw new IllegalStateException("Resource not found: " + RESOURCE_PATH);
+      }
+      entries = Collections.unmodifiableList(MAPPER.readValue(input, new TypeReference<List<Entry>>() {}));
+    } catch (IOException e) {
+      throw new IllegalStateException("Failed to read " + RESOURCE_PATH, e);
+    }
+
     Map<String, Entry> map = new HashMap<>(Math.max(16, entries.size() * 2));
     for (Entry entry : entries) {
       if (entry != null && entry.name != null) {
@@ -85,31 +95,18 @@ public class InvertedIndex {
     this.byName = Collections.unmodifiableMap(map);
   }
 
-  public static InvertedIndex load() {
-    return Holder.INSTANCE;
-  }
-
-  public List<Entry> entries() {
-    return entries;
-  }
-
-  public Entry get(String name) {
-    return byName.get(name);
-  }
-
-  private static InvertedIndex loadFromResource() {
-    try (InputStream input = InvertedIndex.class.getClassLoader().getResourceAsStream(RESOURCE_PATH)) {
-      if (input == null) {
-        throw new IllegalStateException("Resource not found: " + RESOURCE_PATH);
-      }
-      List<Entry> entries = MAPPER.readValue(input, new TypeReference<List<Entry>>() {});
-      return new InvertedIndex(entries);
-    } catch (IOException e) {
-      throw new IllegalStateException("Failed to read " + RESOURCE_PATH, e);
+  public static List<Entry> entries() {
+    if (INSTANCE == null) {
+      INSTANCE = new PrebuiltInvertedIndex();
     }
+    return INSTANCE.entries;
   }
 
-  private static class Holder {
-    private static final InvertedIndex INSTANCE = loadFromResource();
+  public static Entry get(String name) {
+    if (INSTANCE == null) {
+      INSTANCE = new PrebuiltInvertedIndex();
+    }
+
+    return INSTANCE.byName.get(name);
   }
 }

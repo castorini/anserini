@@ -23,6 +23,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import io.anserini.index.IndexInfo;
+import io.anserini.index.prebuilt.PrebuiltInvertedIndex;
 
 import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
@@ -46,51 +47,49 @@ public class PrebuiltIndexHandler {
   private static final int CONNECT_TIMEOUT_MS = 60_000;
   private static final int READ_TIMEOUT_MS = 120_000;
 
-  private String indexName;
-  private IndexInfo indexInfo;
+  private final String indexName;
+  private final String filename;
+  private final String md5;
+  private final String[] urls;
 
   private String cacheDirectory;
   private Path downloadFilePath;
   private Path indexFolderPath;
 
   /**
-   * Creates a <tt>PrebuiltIndexHandler</tt>.
-   * By default, the default cache directory is at <tt>~/.cache/pyserini/indexes</tt>.
-   * Alternatively, a custom, user-specified cache directory can be specified via the environment variable <tt>$ANSERINI_INDEX_CACHE</tt>
-   * or the system property <tt>anserini.index.cache</tt>.
-   *
-   * @param indexName the name of the index
+   * Returns a <tt>PrebuiltIndexHandler</tt> for a prebuilt index given its name, otherwise returns <tt>null</tt>.
    */
-  public PrebuiltIndexHandler(String indexName) {
-    this(indexName, getCache());
-  }
-  
-  /**
-   * Creates a <tt>PrebuiltIndexHandler</tt> with a custom, user-specified cache directory.
-   *
-   * @param indexName the name of the index
-   * @param cacheDirectory the custom cache directory to use
-   */
-  public PrebuiltIndexHandler(String indexName, String cacheDirectory) {
-    this.indexName = indexName;
-    this.cacheDirectory = cacheDirectory;
-
+  public static PrebuiltIndexHandler get(String indexName) {
     try {
-      indexInfo = IndexInfo.get(indexName);
+      IndexInfo.get(indexName);
     } catch (IllegalArgumentException e) {
-      throw new IllegalArgumentException("Index not found!" + e.getMessage());
+      return null;
     }
 
-    if (!Path.of(cacheDirectory).toFile().exists()) {
+    return new PrebuiltIndexHandler(indexName);
+  }
+
+  private PrebuiltIndexHandler(String indexName) {
+    if (PrebuiltInvertedIndex.get(indexName) != null) {
+      LOG.info("Using PrebuiltInvertedIndex instead of IndexInfo to fetch prebuilt index.");
+      PrebuiltInvertedIndex.Entry entry = PrebuiltInvertedIndex.get(indexName);
+
+      this.indexName = indexName;
+      this.filename = entry.filename;
+      this.md5 = entry.md5;
+      this.urls = entry.urls;
+    } else {
       try {
-        Files.createDirectories(Path.of(cacheDirectory));
-      } catch (IOException e) {
-        e.printStackTrace();
+        IndexInfo indexInfo = IndexInfo.get(indexName);
+
+        this.indexName = indexName;
+        this.filename = indexInfo.filename;
+        this.md5 = indexInfo.md5;
+        this.urls = indexInfo.urls;
+      } catch (IllegalArgumentException e) {
+        throw new IllegalArgumentException("Index not found!" + e.getMessage());
       }
     }
-
-    downloadFilePath = Path.of(cacheDirectory, indexInfo.filename);
-    indexFolderPath = Path.of(downloadFilePath.toString().replace(".tar.gz", "") + "." + indexInfo.md5); 
   }
 
   private static String getCache() {
@@ -115,6 +114,23 @@ public class PrebuiltIndexHandler {
   }
 
   public void fetch() throws IOException, URISyntaxException, InterruptedException {
+    fetch(getCache());
+  }
+
+  public void fetch(String cacheDirectory) throws IOException, URISyntaxException, InterruptedException {
+    this.cacheDirectory = cacheDirectory;
+
+    if (!Path.of(cacheDirectory).toFile().exists()) {
+      try {
+        Files.createDirectories(Path.of(cacheDirectory));
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+
+    downloadFilePath = Path.of(cacheDirectory, filename);
+    indexFolderPath = Path.of(downloadFilePath.toString().replace(".tar.gz", "") + "." + md5);
+
     if (indexFolderPath.toFile().exists()) {
       LOG.info(String.format("Index already exists at %s: skipping downloading.", indexFolderPath));
       return;
@@ -125,12 +141,12 @@ public class PrebuiltIndexHandler {
   }
 
   private void download() throws IOException, URISyntaxException {
-    for (String urlString : indexInfo.urls) {
+    for (String urlString : urls) {
       for (int attempt = 1; attempt <= MAX_DOWNLOAD_ATTEMPTS; attempt++) {
         LOG.info("Downloading index from: " + urlString + " (attempt " + attempt + "/" + MAX_DOWNLOAD_ATTEMPTS + ")");
         try {
           downloadFromUrl(urlString);
-          verifyChecksum(downloadFilePath, indexInfo.md5);
+          verifyChecksum(downloadFilePath, md5);
           return;
         } catch (IOException e) {
           LOG.error("Download failed: " + e.getMessage());
