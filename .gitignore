@@ -83,3 +83,4 @@ tools/topics-and-qrels/qrels.covid-round2-cumulative.txt
 /src/main/python/parquet/venv*
 
 .venv/
+eval_2cr_pure.py
