@@ -140,34 +140,6 @@ pre[class*="prettyprint"] {
 
 <div class="container my-4">
 
-<h2 class="mt-4">Reproduction Log</h2>
-<p class="text-muted">Community-reported reproductions (add your row via PR). Metrics below correspond to the <b>dev</b> subset evaluation.</p>
-
-<div class="table-responsive">
-  <table class="table table-sm">
-    <thead>
-      <tr>
-        <th scope="col">Name</th>
-        <th scope="col">Environment</th>
-        <th scope="col">Date</th>
-        <th scope="col">RR@10</th>
-        <th scope="col">R@1K</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Husam Isied</td>
-        <td>Ubuntu 22.04 (VirtualBox) • Pyserini 1.5.0 (venv) • Java 21</td>
-        <td>2026-01-24</td>
-        <td>0.1875</td>
-        <td>0.8573</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<hr class="my-4"/>
-
 <!-- p>The two-click<a href="#" data-mdb-toggle="tooltip" title="What are the two clicks, you ask? Copy and paste!"><sup>*</sup></a> reproduction matrix below provides commands for reproducing experimental results reported in a number of papers, denoted by the references in square brackets.
 Instructions for programmatic execution are shown at the bottom of this page (scroll down).</p -->
 
@@ -242,21 +214,21 @@ Instructions for programmatic execution are shown at the bottom of this page (sc
 Command to generate run on TREC 2019 queries:
 
   <blockquote class="mycode">
-<pre><code>python -m pyserini.search.lucene \
-  --threads 16 \
-  --index msmarco-v1-passage \
-  --topics dl19-passage \
-  --output runs/run.msmarco.bm25.dl19.txt \
-  --hits 1000 --bm25 --k1 0.9 --b 0.4
+<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection \
+  -threads 16 \
+  -index msmarco-v1-passage \
+  -topics dl19-passage \
+  -output runs/run.msmarco.bm25.dl19.txt \
+  -hits 1000 -bm25
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl19-passage.txt \
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl19-passage \
   runs/run.msmarco.bm25.dl19.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-passage.txt \
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl19-passage \
   runs/run.msmarco.bm25.dl19.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl19-passage.txt \
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
   runs/run.msmarco.bm25.dl19.txt
 </code></pre>
   </blockquote>
@@ -266,21 +238,21 @@ tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
     Command to generate run on TREC 2020 queries:
 
   <blockquote class="mycode">
-<pre><code>python -m pyserini.search.lucene \
-  --threads 16 \
-  --index msmarco-v1-passage \
-  --topics dl20-passage \
-  --output runs/run.msmarco.bm25.dl20.txt \
-  --hits 1000 --bm25 --k1 0.9 --b 0.4
+<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection \
+  -threads 16 \
+  -index msmarco-v1-passage \
+  -topics dl20-passage \
+  -output runs/run.msmarco.bm25.dl20.txt \
+  -hits 1000 -bm25
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m map tools/topics-and-qrels/qrels.dl20-passage.txt \
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl20-passage \
   runs/run.msmarco.bm25.dl20.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-passage.txt \
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl20-passage \
   runs/run.msmarco.bm25.dl20.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qrels/qrels.dl20-passage.txt \
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
   runs/run.msmarco.bm25.dl20.txt
 </code></pre>
   </blockquote>
@@ -290,21 +262,19 @@ tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 tools/topics-and-qre
     Command to generate run on dev queries:
 
   <blockquote class="mycode">
-<pre><code>python -m pyserini.search.lucene \
-  --threads 16 \
-  --topics msmarco-v1-passage.dev \
-  --index msmarco-v1-passage \
-  --output runs/run.msmarco.bm25.dev.txt \
-  --hits 1000 --bm25 --k1 0.9 --b 0.4
+<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection \
+  -threads 16 \
+  -index msmarco-v1-passage \
+  -topics msmarco-v1-passage.dev \
+  -output runs/run.msmarco.bm25.dev.txt \
+  -hits 1000 -bm25
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.8/trec_eval -c -M 10 -m recip_rank \
-  tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt \
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
   runs/run.msmarco.bm25.dev.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -m recall.1000 \
-  tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt \
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 msmarco-passage.dev \
   runs/run.msmarco.bm25.dev.txt
 </code></pre>
   </blockquote>
@@ -366,11 +336,11 @@ Command to generate run on TREC 2019 queries:
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m map dl19-passage \
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl19-passage \
   runs/run.msmarco.splade-pp-ed.cached.dl19.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -m ndcg_cut.10 dl19-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl19-passage \
   runs/run.msmarco.splade-pp-ed.cached.dl19.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl19-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
   runs/run.msmarco.splade-pp-ed.cached.dl19.txt
 </code></pre>
   </blockquote>
@@ -390,11 +360,11 @@ tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl19-passage \
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m map dl20-passage \
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl20-passage \
   runs/run.msmarco.splade-pp-ed.cached.dl20.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -m ndcg_cut.10 dl20-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl20-passage \
   runs/run.msmarco.splade-pp-ed.cached.dl20.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl20-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
   runs/run.msmarco.splade-pp-ed.cached.dl20.txt
 </code></pre>
   </blockquote>
@@ -414,9 +384,9 @@ tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl20-passage \
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.8/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
   runs/run.msmarco.splade-pp-ed.cached.dev.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -m recall.1000 msmarco-passage.dev \
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 msmarco-passage.dev \
   runs/run.msmarco.splade-pp-ed.cached.dev.txt
 </code></pre>
   </blockquote>
@@ -479,11 +449,11 @@ Command to generate run on TREC 2019 queries:
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m map dl19-passage \
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl19-passage \
   runs/run.msmarco.splade-pp-ed.onnx.dl19.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -m ndcg_cut.10 dl19-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl19-passage \
   runs/run.msmarco.splade-pp-ed.onnx.dl19.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl19-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
   runs/run.msmarco.splade-pp-ed.onnx.dl19.txt
 </code></pre>
   </blockquote>
@@ -504,11 +474,11 @@ tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl19-passage \
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m map dl20-passage \
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl20-passage \
   runs/run.msmarco.splade-pp-ed.onnx.dl20.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -m ndcg_cut.10 dl20-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl20-passage \
   runs/run.msmarco.splade-pp-ed.onnx.dl20.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl20-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
   runs/run.msmarco.splade-pp-ed.onnx.dl20.txt
 </code></pre>
   </blockquote>
@@ -529,9 +499,9 @@ tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl20-passage \
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.8/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
   runs/run.msmarco.splade-pp-ed.onnx.dev.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -m recall.1000 msmarco-passage.dev \
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 msmarco-passage.dev \
   runs/run.msmarco.splade-pp-ed.onnx.dev.txt
 </code></pre>
   </blockquote>
@@ -593,11 +563,11 @@ Command to generate run on TREC 2019 queries:
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m map dl19-passage \
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl19-passage \
   runs/run.msmarco.cosdpr-distil.hnsw.cached.dl19.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -m ndcg_cut.10 dl19-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl19-passage \
   runs/run.msmarco.cosdpr-distil.hnsw.cached.dl19.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl19-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
   runs/run.msmarco.cosdpr-distil.hnsw.cached.dl19.txt
 </code></pre>
   </blockquote>
@@ -617,11 +587,11 @@ tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl19-passage \
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m map dl20-passage \
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl20-passage \
   runs/run.msmarco.cosdpr-distil.hnsw.cached.dl20.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -m ndcg_cut.10 dl20-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl20-passage \
   runs/run.msmarco.cosdpr-distil.hnsw.cached.dl20.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl20-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
   runs/run.msmarco.cosdpr-distil.hnsw.cached.dl20.txt
 </code></pre>
   </blockquote>
@@ -641,9 +611,9 @@ tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl20-passage \
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.8/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
   runs/run.msmarco.cosdpr-distil.hnsw.cached.dev.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -m recall.1000 msmarco-passage.dev \
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 msmarco-passage.dev \
   runs/run.msmarco.cosdpr-distil.hnsw.cached.dev.txt
 </code></pre>
   </blockquote>
@@ -706,11 +676,11 @@ Command to generate run on TREC 2019 queries:
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m map dl19-passage \
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl19-passage \
   runs/run.msmarco.cosdpr-distil.hnsw.onnx.dl19.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -m ndcg_cut.10 dl19-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl19-passage \
   runs/run.msmarco.cosdpr-distil.hnsw.onnx.dl19.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl19-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
   runs/run.msmarco.cosdpr-distil.hnsw.onnx.dl19.txt
 </code></pre>
   </blockquote>
@@ -731,11 +701,11 @@ tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl19-passage \
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m map dl20-passage \
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl20-passage \
   runs/run.msmarco.cosdpr-distil.hnsw.onnx.dl20.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -m ndcg_cut.10 dl20-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl20-passage \
   runs/run.msmarco.cosdpr-distil.hnsw.onnx.dl20.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl20-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
   runs/run.msmarco.cosdpr-distil.hnsw.onnx.dl20.txt
 </code></pre>
   </blockquote>
@@ -756,9 +726,9 @@ tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl20-passage \
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.8/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
   runs/run.msmarco.cosdpr-distil.hnsw.onnx.dev.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -m recall.1000 msmarco-passage.dev \
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 msmarco-passage.dev \
   runs/run.msmarco.cosdpr-distil.hnsw.onnx.dev.txt
 </code></pre>
   </blockquote>
@@ -820,11 +790,11 @@ Command to generate run on TREC 2019 queries:
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m map dl19-passage \
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl19-passage \
   runs/run.msmarco.cosdpr-distil.hnsw-int8.cached.dl19.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -m ndcg_cut.10 dl19-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl19-passage \
   runs/run.msmarco.cosdpr-distil.hnsw-int8.cached.dl19.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl19-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
   runs/run.msmarco.cosdpr-distil.hnsw-int8.cached.dl19.txt
 </code></pre>
   </blockquote>
@@ -844,11 +814,11 @@ tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl19-passage \
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m map dl20-passage \
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl20-passage \
   runs/run.msmarco.cosdpr-distil.hnsw-int8.cached.dl20.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -m ndcg_cut.10 dl20-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl20-passage \
   runs/run.msmarco.cosdpr-distil.hnsw-int8.cached.dl20.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl20-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
   runs/run.msmarco.cosdpr-distil.hnsw-int8.cached.dl20.txt
 </code></pre>
   </blockquote>
@@ -868,9 +838,9 @@ tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl20-passage \
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.8/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
   runs/run.msmarco.cosdpr-distil.hnsw-int8.cached.dev.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -m recall.1000 msmarco-passage.dev \
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 msmarco-passage.dev \
   runs/run.msmarco.cosdpr-distil.hnsw-int8.cached.dev.txt
 </code></pre>
   </blockquote>
@@ -933,11 +903,11 @@ Command to generate run on TREC 2019 queries:
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m map dl19-passage \
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl19-passage \
   runs/run.msmarco.cosdpr-distil.hnsw-int8.onnx.dl19.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -m ndcg_cut.10 dl19-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl19-passage \
   runs/run.msmarco.cosdpr-distil.hnsw-int8.onnx.dl19.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl19-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
   runs/run.msmarco.cosdpr-distil.hnsw-int8.onnx.dl19.txt
 </code></pre>
   </blockquote>
@@ -958,11 +928,11 @@ tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl19-passage \
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m map dl20-passage \
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl20-passage \
   runs/run.msmarco.cosdpr-distil.hnsw-int8.onnx.dl20.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -m ndcg_cut.10 dl20-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl20-passage \
   runs/run.msmarco.cosdpr-distil.hnsw-int8.onnx.dl20.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl20-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
   runs/run.msmarco.cosdpr-distil.hnsw-int8.onnx.dl20.txt
 </code></pre>
   </blockquote>
@@ -983,9 +953,9 @@ tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl20-passage \
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.8/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
   runs/run.msmarco.cosdpr-distil.hnsw-int8.onnx.dev.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -m recall.1000 msmarco-passage.dev \
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 msmarco-passage.dev \
   runs/run.msmarco.cosdpr-distil.hnsw-int8.onnx.dev.txt
 </code></pre>
   </blockquote>
@@ -1047,11 +1017,11 @@ Command to generate run on TREC 2019 queries:
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m map dl19-passage \
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl19-passage \
   runs/run.msmarco.bge-base-en-v1.5.hnsw.cached.dl19.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -m ndcg_cut.10 dl19-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl19-passage \
   runs/run.msmarco.bge-base-en-v1.5.hnsw.cached.dl19.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl19-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
   runs/run.msmarco.bge-base-en-v1.5.hnsw.cached.dl19.txt
 </code></pre>
   </blockquote>
@@ -1071,11 +1041,11 @@ tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl19-passage \
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m map dl20-passage \
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl20-passage \
   runs/run.msmarco.bge-base-en-v1.5.hnsw.cached.dl20.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -m ndcg_cut.10 dl20-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl20-passage \
   runs/run.msmarco.bge-base-en-v1.5.hnsw.cached.dl20.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl20-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
   runs/run.msmarco.bge-base-en-v1.5.hnsw.cached.dl20.txt
 </code></pre>
   </blockquote>
@@ -1095,9 +1065,9 @@ tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl20-passage \
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.8/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
   runs/run.msmarco.bge-base-en-v1.5.hnsw.cached.dev.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -m recall.1000 msmarco-passage.dev \
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 msmarco-passage.dev \
   runs/run.msmarco.bge-base-en-v1.5.hnsw.cached.dev.txt
 </code></pre>
   </blockquote>
@@ -1160,11 +1130,11 @@ Command to generate run on TREC 2019 queries:
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m map dl19-passage \
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl19-passage \
   runs/run.msmarco.bge-base-en-v1.5.hnsw.onnx.dl19.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -m ndcg_cut.10 dl19-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl19-passage \
   runs/run.msmarco.bge-base-en-v1.5.hnsw.onnx.dl19.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl19-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
   runs/run.msmarco.bge-base-en-v1.5.hnsw.onnx.dl19.txt
 </code></pre>
   </blockquote>
@@ -1185,11 +1155,11 @@ tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl19-passage \
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m map dl20-passage \
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl20-passage \
   runs/run.msmarco.bge-base-en-v1.5.hnsw.onnx.dl20.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -m ndcg_cut.10 dl20-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl20-passage \
   runs/run.msmarco.bge-base-en-v1.5.hnsw.onnx.dl20.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl20-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
   runs/run.msmarco.bge-base-en-v1.5.hnsw.onnx.dl20.txt
 </code></pre>
   </blockquote>
@@ -1210,9 +1180,9 @@ tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl20-passage \
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.8/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
   runs/run.msmarco.bge-base-en-v1.5.hnsw.onnx.dev.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -m recall.1000 msmarco-passage.dev \
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 msmarco-passage.dev \
   runs/run.msmarco.bge-base-en-v1.5.hnsw.onnx.dev.txt
 </code></pre>
   </blockquote>
@@ -1274,11 +1244,11 @@ Command to generate run on TREC 2019 queries:
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m map dl19-passage \
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl19-passage \
   runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.cached.dl19.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -m ndcg_cut.10 dl19-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl19-passage \
   runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.cached.dl19.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl19-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
   runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.cached.dl19.txt
 </code></pre>
   </blockquote>
@@ -1298,11 +1268,11 @@ tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl19-passage \
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m map dl20-passage \
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl20-passage \
   runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.cached.dl20.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -m ndcg_cut.10 dl20-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl20-passage \
   runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.cached.dl20.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl20-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
   runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.cached.dl20.txt
 </code></pre>
   </blockquote>
@@ -1322,9 +1292,9 @@ tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl20-passage \
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.8/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
   runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.cached.dev.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -m recall.1000 msmarco-passage.dev \
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 msmarco-passage.dev \
   runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.cached.dev.txt
 </code></pre>
   </blockquote>
@@ -1387,11 +1357,11 @@ Command to generate run on TREC 2019 queries:
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m map dl19-passage \
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl19-passage \
   runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.onnx.dl19.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -m ndcg_cut.10 dl19-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl19-passage \
   runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.onnx.dl19.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl19-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
   runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.onnx.dl19.txt
 </code></pre>
   </blockquote>
@@ -1412,11 +1382,11 @@ tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl19-passage \
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m map dl20-passage \
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl20-passage \
   runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.onnx.dl20.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -m ndcg_cut.10 dl20-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl20-passage \
   runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.onnx.dl20.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl20-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
   runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.onnx.dl20.txt
 </code></pre>
   </blockquote>
@@ -1437,9 +1407,9 @@ tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl20-passage \
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.8/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
   runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.onnx.dev.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -m recall.1000 msmarco-passage.dev \
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 msmarco-passage.dev \
   runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.onnx.dev.txt
 </code></pre>
   </blockquote>
@@ -1501,11 +1471,11 @@ Command to generate run on TREC 2019 queries:
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m map dl19-passage \
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl19-passage \
   runs/run.msmarco.cohere-embed-english-v3.0.hnsw.cached.dl19.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -m ndcg_cut.10 dl19-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl19-passage \
   runs/run.msmarco.cohere-embed-english-v3.0.hnsw.cached.dl19.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl19-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
   runs/run.msmarco.cohere-embed-english-v3.0.hnsw.cached.dl19.txt
 </code></pre>
   </blockquote>
@@ -1525,11 +1495,11 @@ tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl19-passage \
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m map dl20-passage \
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl20-passage \
   runs/run.msmarco.cohere-embed-english-v3.0.hnsw.cached.dl20.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -m ndcg_cut.10 dl20-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl20-passage \
   runs/run.msmarco.cohere-embed-english-v3.0.hnsw.cached.dl20.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl20-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
   runs/run.msmarco.cohere-embed-english-v3.0.hnsw.cached.dl20.txt
 </code></pre>
   </blockquote>
@@ -1549,9 +1519,9 @@ tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl20-passage \
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.8/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
   runs/run.msmarco.cohere-embed-english-v3.0.hnsw.cached.dev.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -m recall.1000 msmarco-passage.dev \
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 msmarco-passage.dev \
   runs/run.msmarco.cohere-embed-english-v3.0.hnsw.cached.dev.txt
 </code></pre>
   </blockquote>
@@ -1613,11 +1583,11 @@ Command to generate run on TREC 2019 queries:
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m map dl19-passage \
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl19-passage \
   runs/run.msmarco.cohere-embed-english-v3.0.hnsw-int8.cached.dl19.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -m ndcg_cut.10 dl19-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl19-passage \
   runs/run.msmarco.cohere-embed-english-v3.0.hnsw-int8.cached.dl19.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl19-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
   runs/run.msmarco.cohere-embed-english-v3.0.hnsw-int8.cached.dl19.txt
 </code></pre>
   </blockquote>
@@ -1637,11 +1607,11 @@ tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl19-passage \
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m map dl20-passage \
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl20-passage \
   runs/run.msmarco.cohere-embed-english-v3.0.hnsw-int8.cached.dl20.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -m ndcg_cut.10 dl20-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl20-passage \
   runs/run.msmarco.cohere-embed-english-v3.0.hnsw-int8.cached.dl20.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl20-passage \
+tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
   runs/run.msmarco.cohere-embed-english-v3.0.hnsw-int8.cached.dl20.txt
 </code></pre>
   </blockquote>
@@ -1661,9 +1631,9 @@ tools/eval/trec_eval.9.0.8/trec_eval -c -l 2 -m recall.1000 dl20-passage \
 Evaluation commands:
 
   <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.8/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
+<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
   runs/run.msmarco.cohere-embed-english-v3.0.hnsw-int8.cached.dev.txt
-tools/eval/trec_eval.9.0.8/trec_eval -c -m recall.1000 msmarco-passage.dev \
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 msmarco-passage.dev \
   runs/run.msmarco.cohere-embed-english-v3.0.hnsw-int8.cached.dev.txt
 </code></pre>
   </blockquote>
