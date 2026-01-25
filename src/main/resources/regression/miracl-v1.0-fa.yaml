@@ -41,6 +41,6 @@ models:
     params: -bm25 -hits 100 -language fa
     results:
       nDCG@10:
-        - 0.3334
+        - 0.3568
       R@100:
-        - 0.7306
+        - 0.7413
