@@ -16,17 +16,8 @@
 
 package io.anserini.index.prebuilt;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.core.json.JsonReadFeature;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.json.JsonMapper;
-
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.JarURLConnection;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.DirectoryStream;
@@ -39,8 +30,14 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.json.JsonReadFeature;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 
 public class PrebuiltInvertedIndex {
   private static final String RESOURCE_DIR = "prebuilt";
@@ -51,6 +48,7 @@ public class PrebuiltInvertedIndex {
       .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
       .build();
 
+  // This is the singleton instance of this class.
   private static PrebuiltInvertedIndex INSTANCE;
 
   @JsonIgnoreProperties(ignoreUnknown = true)
@@ -92,11 +90,10 @@ public class PrebuiltInvertedIndex {
   private PrebuiltInvertedIndex() {
     List<Entry> loadedEntries = new ArrayList<>();
     ClassLoader classLoader = PrebuiltInvertedIndex.class.getClassLoader();
-    boolean foundResource = false;
+
     try {
       Enumeration<URL> urls = classLoader.getResources(RESOURCE_DIR);
       while (urls.hasMoreElements()) {
-        foundResource = true;
         URL url = urls.nextElement();
         String protocol = url.getProtocol();
         if ("file".equals(protocol)) {
@@ -108,22 +105,6 @@ public class PrebuiltInvertedIndex {
               }
             }
           }
-        } else if ("jar".equals(protocol)) {
-          JarURLConnection connection = (JarURLConnection) url.openConnection();
-          try (JarFile jar = connection.getJarFile()) {
-            Enumeration<JarEntry> jarEntries = jar.entries();
-            while (jarEntries.hasMoreElements()) {
-              JarEntry jarEntry = jarEntries.nextElement();
-              String name = jarEntry.getName();
-              if (!jarEntry.isDirectory()
-                  && name.startsWith(RESOURCE_DIR + "/")
-                  && name.endsWith(RESOURCE_SUFFIX)) {
-                try (InputStream input = jar.getInputStream(jarEntry)) {
-                  loadedEntries.addAll(MAPPER.readValue(input, ENTRY_LIST_TYPE));
-                }
-              }
-            }
-          }
         } else {
           throw new IllegalStateException("Unsupported resource protocol: " + protocol);
         }
@@ -131,9 +112,7 @@ public class PrebuiltInvertedIndex {
     } catch (IOException | URISyntaxException e) {
       throw new IllegalStateException("Failed to read resources under " + RESOURCE_DIR, e);
     }
-    if (!foundResource || loadedEntries.isEmpty()) {
-      throw new IllegalStateException("Resource not found: " + RESOURCE_DIR);
-    }
+
     entries = Collections.unmodifiableList(loadedEntries);
 
     Map<String, Entry> map = new HashMap<>(Math.max(16, entries.size() * 2));
@@ -142,17 +121,23 @@ public class PrebuiltInvertedIndex {
         map.put(entry.name, entry);
       }
     }
+
     this.byName = Collections.unmodifiableMap(map);
   }
 
   public static List<Entry> entries() {
+    // Implementation of this class follows the singleton pattern. There should only be one instance.
+    // If it isn't initialized, initialize it; otherwise, return the singleton instance.
     if (INSTANCE == null) {
       INSTANCE = new PrebuiltInvertedIndex();
     }
+
     return INSTANCE.entries;
   }
 
   public static Entry get(String name) {
+    // Implementation of this class follows the singleton pattern. There should only be one instance.
+    // If it isn't initialized, initialize it; otherwise, return the singleton instance.
     if (INSTANCE == null) {
       INSTANCE = new PrebuiltInvertedIndex();
     }
