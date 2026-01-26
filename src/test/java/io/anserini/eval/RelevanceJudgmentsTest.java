@@ -38,7 +38,7 @@ public class RelevanceJudgmentsTest{
 
   @Test
   public void testTotalCount() {
-    assertEquals(200, Qrels.values().length);
+    assertEquals(201, Qrels.values().length);
   }
 
   @Test(expected = IOException.class)
@@ -1718,6 +1718,14 @@ public class RelevanceJudgmentsTest{
     assertNotNull(qrels);
     assertEquals(554, qrels.getQids().size());
     assertEquals(10569, getQrelsCount(qrels));
+  }
+
+  @Test
+  public void testDseQrels() throws IOException {
+    RelevanceJudgments qrels = RelevanceJudgments.fromQrels(Qrels.SLIDEVQA_TEST);
+    assertNotNull(qrels);
+    assertEquals(2214, qrels.getQids().size());
+    assertEquals(2786, getQrelsCount(qrels));
   }
 
   @Test
