@@ -220,7 +220,8 @@ public enum Qrels {
   M_BEIR_WEBQA_TASK1_TEST("qrels.m-beir-webqa-task1.test.txt"),
   M_BEIR_WEBQA_TASK2_TEST("qrels.m-beir-webqa-task2.test.txt"),
   M_BEIR_FASHION200K_TASK0_TEST("qrels.m-beir-fashion200k-task0.test.txt"),
-  M_BEIR_FASHION200K_TASK3_TEST("qrels.m-beir-fashion200k-task3.test.txt");
+  M_BEIR_FASHION200K_TASK3_TEST("qrels.m-beir-fashion200k-task3.test.txt"),
+  SLIDEVQA_TEST("qrels.slidevqa.test.txt");
 
 
   private static final Map<String, String> symbolFileDict = generateSymbolFileDict();

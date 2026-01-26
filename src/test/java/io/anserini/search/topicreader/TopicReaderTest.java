@@ -38,7 +38,7 @@ public class TopicReaderTest {
       String path = topic.path;
       assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(path));
     }
-    assertEquals(571, cnt);
+    assertEquals(573, cnt);
   }
 
   @Test
@@ -130,6 +130,19 @@ public class TopicReaderTest {
     assertEquals("Women in Parliaments", topics.get(topics.firstKey()).get("title"));
     assertEquals(825, (int) topics.lastKey());
     assertEquals("ethanol and food prices", topics.get(topics.lastKey()).get("title"));
+  }
+
+  @Test
+  public void testDseTopics() throws IOException {
+    SortedMap<Integer, Map<String, String>> topics;
+
+    topics = TopicReader.getTopics(Topics.SLIDEVQA_TEST);
+    assertNotNull(topics);
+    assertEquals(2214, topics.size());
+
+    topics = TopicReader.getTopics(Topics.WIKI_SS_NQ_TEST);
+    assertNotNull(topics);
+    assertEquals(3610, topics.size());
   }
   
   @Test
