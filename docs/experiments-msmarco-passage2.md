@@ -42,8 +42,8 @@ We can then evaluate the run with the `trec_eval` tool.
 Let's compute the MRR@10 score, which is the official metric:
 
 ```bash
-bin/trec_eval -c -M 10 -m recip_rank \
-  collections/msmarco-passage/qrels.dev.small.trec \
+bin/run.sh trec_eval -c -M 10 -m recip_rank \
+  msmarco-v1-passage.dev \
   runs/run.msmarco-passage.dev.bm25.txt
 ```
 
@@ -85,9 +85,9 @@ For reference, on a circa 2022 MacBook Air with an Apple M2 processor and 24 GB 
 
 Let's compute the MRR@10 score:
 
-```
-bin/trec_eval -c -M 10 -m recip_rank \
-  collections/msmarco-passage/qrels.dev.small.trec \
+```bash
+bin/run.sh trec_eval -c -M 10 -m recip_rank \
+  msmarco-v1-passage.dev \
   runs/run.msmarco-passage.dev.bge.txt
 ```
 
