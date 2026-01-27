@@ -222,8 +222,7 @@ public class GenerateRerankerRequests<K extends Comparable<K>> implements Closea
       PrebuiltInvertedIndex.Entry entry = PrebuiltInvertedIndex.get(index);
       if (entry != null) {
         resolvedIndex = IndexReaderUtils.getIndex(entry.invertedIndex).toString();
-      }
-      else {
+      } else {
         IndexInfo currentIndex = IndexInfo.get(index);
         resolvedIndex = IndexReaderUtils.getIndex(currentIndex.invertedIndex).toString();
       }
