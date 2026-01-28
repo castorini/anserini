@@ -16,6 +16,7 @@
 
 package io.anserini.index;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
@@ -80,8 +81,15 @@ public class PrebuiltIndexHandlerTest {
   }
 
   @Test
+  public void testInvalidIndex() throws Exception {
+    PrebuiltIndexHandler handler = PrebuiltIndexHandler.get("fake_index");
+
+    assertNull(handler);
+  }
+
+  @Test
   public void testDownload() throws Exception {
-    PrebuiltIndexHandler handler = new PrebuiltIndexHandler("cacm");
+    PrebuiltIndexHandler handler = PrebuiltIndexHandler.get("cacm");
     handler.fetch();
 
     assertTrue(handler.getIndexFolderPath().toString().contains("lucene-index.cacm"));
@@ -91,8 +99,8 @@ public class PrebuiltIndexHandlerTest {
   public void testCustomCacheDirectory() throws Exception {
     Path tempDir = Files.createTempDirectory("anserini-test-cache");
 
-    PrebuiltIndexHandler handler = new PrebuiltIndexHandler("cacm", tempDir.toString());
-    handler.fetch();
+    PrebuiltIndexHandler handler = PrebuiltIndexHandler.get("cacm");
+    handler.fetch(tempDir.toString());
 
     assertTrue(handler.getIndexFolderPath().toString().contains("lucene-index.cacm"));
 

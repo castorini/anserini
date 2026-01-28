@@ -48,6 +48,7 @@ import java.util.TreeMap;
 import io.anserini.index.Constants;
 import io.anserini.index.IndexInfo;
 import io.anserini.index.IndexReaderUtils;
+import io.anserini.index.prebuilt.PrebuiltInvertedIndex;
 import io.anserini.search.ScoredDoc;
 import io.anserini.search.topicreader.TopicReader;
 import io.anserini.search.topicreader.Topics;
@@ -203,6 +204,7 @@ public class GenerateRerankerRequests<K extends Comparable<K>> implements Closea
     }
   }
 
+  // TODO (2026/01/28): This method should really be in IndexReaderUtils and renamed something like getCorpusIndexReader.
   public IndexReader getIndexReader(String index) {
     String resolvedIndex;
 
@@ -218,8 +220,13 @@ public class GenerateRerankerRequests<K extends Comparable<K>> implements Closea
     }
 
     if (isPrebuiltLabel) {
-      IndexInfo currentIndex = IndexInfo.get(index);
-      resolvedIndex = IndexReaderUtils.getIndex(currentIndex.invertedIndex).toString();
+      PrebuiltInvertedIndex.Entry entry = PrebuiltInvertedIndex.get(index);
+      if (entry != null) {
+        resolvedIndex = IndexReaderUtils.getIndex(entry.corpusIndex).toString();
+      } else {
+        IndexInfo currentIndex = IndexInfo.get(index);
+        resolvedIndex = IndexReaderUtils.getIndex(currentIndex.invertedIndex).toString();
+      }
     } else {
       // Not a known prebuilt label; resolve as prebuilt (if any) or local path.
       resolvedIndex = IndexReaderUtils.getIndex(index).toString();
