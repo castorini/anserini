@@ -844,32 +844,23 @@ public class IndexReaderUtils {
   }
 
   public static Path getIndex(String index) {
-    boolean isPrebuiltLabel = false;
-    try {
-      // Check to see if it's a prebuilt index
-      new PrebuiltIndexHandler(index);
-      isPrebuiltLabel = true;
-    } catch (Exception e) {
-      // isPrebuiltLabel remains false
-    }
-    
-    boolean localExists = Files.exists(Paths.get(index));
-    
-    if (isPrebuiltLabel && localExists) {
+    PrebuiltIndexHandler handler = PrebuiltIndexHandler.get(index);
+
+    // Check for the ambiguous case.
+    if (handler != null && Files.exists(Paths.get(index))) {
       throw new IllegalArgumentException(String.format(
-          "Ambiguous index reference \"%s\": both a prebuilt index label and a local path exist. " +
-          "Please disambiguate by specifying a full local path or removing/renaming the local directory.", index));
+          "Ambiguous index reference \"%s\": both a prebuilt index and a local path exist with the same name. " +
+          "Please disambiguate by specifying the full path.", index));
     }
-    
-    if (isPrebuiltLabel) {
+
+    if (handler != null) {
       try {
-        PrebuiltIndexHandler handler = new PrebuiltIndexHandler(index);
         handler.fetch();
         String indexLocation = handler.getIndexFolderPath().toString();
 
         return Paths.get(indexLocation);
       } catch (Exception e) {
-        //Fall through.
+        // Fall through.
       }
     }
     
@@ -878,8 +869,7 @@ public class IndexReaderUtils {
     if (Files.exists(indexPath)) {
       return indexPath;
     }
-    
-    // Path doesn't exist locally + it's not a prebuilt index.
+
     throw new IllegalArgumentException(String.format("\"%s\" does not appear to be a valid index.", index));
   }
 
