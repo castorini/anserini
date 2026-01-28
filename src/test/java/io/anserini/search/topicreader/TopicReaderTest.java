@@ -38,7 +38,7 @@ public class TopicReaderTest {
       String path = topic.path;
       assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(path));
     }
-    assertEquals(573, cnt);
+    assertEquals(600, cnt);
   }
 
   @Test
@@ -2222,6 +2222,35 @@ public class TopicReaderTest {
     assertEquals(2511, TopicReader.getTopics(Topics.M_BEIR_WEBQA_TASK2_TEST).keySet().size());
   }
 
+  @Test public void testMMEBVisDocTopics() throws IOException {
+    assertEquals(500, TopicReader.getTopics(Topics.MMEB_VISDOC_VIDORE_ARXIVQA_TEST).keySet().size());
+    assertEquals(451, TopicReader.getTopics(Topics.MMEB_VISDOC_VIDORE_DOCVQA_TEST).keySet().size());
+    assertEquals(494, TopicReader.getTopics(Topics.MMEB_VISDOC_VIDORE_INFOVQA_TEST).keySet().size());
+    assertEquals(100, TopicReader.getTopics(Topics.MMEB_VISDOC_VIDORE_SHIFTPROJECT_TEST).keySet().size());
+    assertEquals(100, TopicReader.getTopics(Topics.MMEB_VISDOC_VIDORE_SYNTHETIC_DOCQA_ARTIFICIAL_INTELLIGENCE_TEST).keySet().size());
+    assertEquals(100, TopicReader.getTopics(Topics.MMEB_VISDOC_VIDORE_SYNTHETIC_DOCQA_ENERGY_TEST).keySet().size());
+    assertEquals(100, TopicReader.getTopics(Topics.MMEB_VISDOC_VIDORE_SYNTHETIC_DOCQA_GOVERNMENT_REPORTS_TEST).keySet().size());
+    assertEquals(100, TopicReader.getTopics(Topics.MMEB_VISDOC_VIDORE_SYNTHETIC_DOCQA_HEALTHCARE_INDUSTRY_TEST).keySet().size());
+    assertEquals(280, TopicReader.getTopics(Topics.MMEB_VISDOC_VIDORE_TABFQUAD_TEST).keySet().size());
+    assertEquals(1646, TopicReader.getTopics(Topics.MMEB_VISDOC_VIDORE_TATDQA_TEST).keySet().size());
+    assertEquals(160, TopicReader.getTopics(Topics.MMEB_VISDOC_VIDORE_BIOMEDICAL_LECTURES_V2_TEST).keySet().size());
+    assertEquals(640, TopicReader.getTopics(Topics.MMEB_VISDOC_VIDORE_BIOMEDICAL_LECTURES_V2_MULTILINGUAL_TEST).keySet().size());
+    assertEquals(58, TopicReader.getTopics(Topics.MMEB_VISDOC_VIDORE_ECONOMICS_REPORTS_V2_TEST).keySet().size());
+    assertEquals(232, TopicReader.getTopics(Topics.MMEB_VISDOC_VIDORE_ECONOMICS_REPORTS_V2_MULTILINGUAL_TEST).keySet().size());
+    assertEquals(52, TopicReader.getTopics(Topics.MMEB_VISDOC_VIDORE_ESG_REPORTS_HUMAN_LABELED_V2_TEST).keySet().size());
+    assertEquals(57, TopicReader.getTopics(Topics.MMEB_VISDOC_VIDORE_ESG_REPORTS_V2_TEST).keySet().size());
+    assertEquals(228, TopicReader.getTopics(Topics.MMEB_VISDOC_VIDORE_ESG_REPORTS_V2_MULTILINGUAL_TEST).keySet().size());
+    assertEquals(816, TopicReader.getTopics(Topics.MMEB_VISDOC_VISRAG_ARXIVQA_TRAIN).keySet().size());
+    assertEquals(63, TopicReader.getTopics(Topics.MMEB_VISDOC_VISRAG_CHARTQA_TRAIN).keySet().size());
+    assertEquals(718, TopicReader.getTopics(Topics.MMEB_VISDOC_VISRAG_INFOVQA_TRAIN).keySet().size());
+    assertEquals(591, TopicReader.getTopics(Topics.MMEB_VISDOC_VISRAG_MP_DOCVQA_TRAIN).keySet().size());
+    assertEquals(863, TopicReader.getTopics(Topics.MMEB_VISDOC_VISRAG_PLOTQA_TRAIN).keySet().size());
+    assertEquals(556, TopicReader.getTopics(Topics.MMEB_VISDOC_VISRAG_SLIDEVQA_TRAIN).keySet().size());
+    assertEquals(1142, TopicReader.getTopics(Topics.MMEB_VISDOC_VIDOSEEK_DOC_TEST).keySet().size());
+    assertEquals(1142, TopicReader.getTopics(Topics.MMEB_VISDOC_VIDOSEEK_PAGE_TEST).keySet().size());
+    assertEquals(838, TopicReader.getTopics(Topics.MMEB_VISDOC_MMLONGBENCH_DOC_TEST).keySet().size());
+    assertEquals(838, TopicReader.getTopics(Topics.MMEB_VISDOC_MMLONGBENCH_PAGE_TEST).keySet().size());
+  }
 
   @Test
   public void testGetTopicsWithStringIdsFromFileWithTopicReader() {
