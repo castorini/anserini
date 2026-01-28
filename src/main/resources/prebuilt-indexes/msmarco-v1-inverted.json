@@ -1,6 +1,7 @@
 [
     {
         "name": "msmarco-v1-passage",
+        "corpus_index": "msmarco-v1-passage",
         "description": "Lucene index of the MS MARCO V1 passage corpus.",
         "filename": "lucene-inverted.msmarco-v1-passage.20221004.252b5e.tar.gz",
         "readme": "lucene-inverted.msmarco-v1-passage.20221004.252b5e.README.md",
@@ -15,6 +16,7 @@
     },
     {
         "name": "msmarco-v1-doc",
+        "corpus_index": "msmarco-v1-doc",
         "description": "Lucene index of the MS MARCO V1 document corpus.",
         "filename": "lucene-inverted.msmarco-v1-doc.20221004.252b5e.tar.gz",
         "readme": "lucene-inverted.msmarco-v1-doc.20221004.252b5e.README.md",

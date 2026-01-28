@@ -1,6 +1,7 @@
 [
     {
         "name": "bright-biology",
+        "corpus_index": "bright-biology",
         "description": "Anserini Lucene inverted index of BRIGHT collection 'biology'",
         "filename": "lucene-inverted.bright-biology.20250705.44ae8e.tar.gz",
         "readme": "lucene-inverted.bright.20250705.44ae8e.README.md",
@@ -15,6 +16,7 @@
     },
     {
         "name": "bright-earth-science",
+        "corpus_index": "bright-earth-science",
         "description": "Anserini Lucene inverted index of BRIGHT collection 'earth-science'",
         "filename": "lucene-inverted.bright-earth-science.20250705.44ae8e.tar.gz",
         "readme": "lucene-inverted.bright.20250705.44ae8e.README.md",
@@ -29,6 +31,7 @@
     },
     {
         "name": "bright-economics",
+        "corpus_index": "bright-economics",
         "description": "Anserini Lucene inverted index of BRIGHT collection 'economics'",
         "filename": "lucene-inverted.bright-economics.20250705.44ae8e.tar.gz",
         "readme": "lucene-inverted.bright.20250705.44ae8e.README.md",
@@ -43,6 +46,7 @@
     },
     {
         "name": "bright-psychology",
+        "corpus_index": "bright-psychology",
         "description": "Anserini Lucene inverted index of BRIGHT collection 'psychology'",
         "filename": "lucene-inverted.bright-psychology.20250705.44ae8e.tar.gz",
         "readme": "lucene-inverted.bright.20250705.44ae8e.README.md",
@@ -57,6 +61,7 @@
     },
     {
         "name": "bright-robotics",
+        "corpus_index": "bright-robotics",
         "description": "Anserini Lucene inverted index of BRIGHT collection 'robotics'",
         "filename": "lucene-inverted.bright-robotics.20250705.44ae8e.tar.gz",
         "readme": "lucene-inverted.bright.20250705.44ae8e.README.md",
@@ -71,6 +76,7 @@
     },
     {
         "name": "bright-stackoverflow",
+        "corpus_index": "bright-stackoverflow",
         "description": "Anserini Lucene inverted index of BRIGHT collection 'stackoverflow'",
         "filename": "lucene-inverted.bright-stackoverflow.20250705.44ae8e.tar.gz",
         "readme": "lucene-inverted.bright.20250705.44ae8e.README.md",
@@ -85,6 +91,7 @@
     },
     {
         "name": "bright-sustainable-living",
+        "corpus_index": "bright-sustainable-living",
         "description": "Anserini Lucene inverted index of BRIGHT collection 'sustainable-living'",
         "filename": "lucene-inverted.bright-sustainable-living.20250705.44ae8e.tar.gz",
         "readme": "lucene-inverted.bright.20250705.44ae8e.README.md",
@@ -99,6 +106,7 @@
     },
     {
         "name": "bright-pony",
+        "corpus_index": "bright-pony",
         "description": "Anserini Lucene inverted index of BRIGHT collection 'pony'",
         "filename": "lucene-inverted.bright-pony.20250705.44ae8e.tar.gz",
         "readme": "lucene-inverted.bright.20250705.44ae8e.README.md",
@@ -113,6 +121,7 @@
     },
     {
         "name": "bright-leetcode",
+        "corpus_index": "bright-leetcode",
         "description": "Anserini Lucene inverted index of BRIGHT collection 'leetcode'",
         "filename": "lucene-inverted.bright-leetcode.20250705.44ae8e.tar.gz",
         "readme": "lucene-inverted.bright.20250705.44ae8e.README.md",
@@ -127,6 +136,7 @@
     },
     {
         "name": "bright-aops",
+        "corpus_index": "bright-aops",
         "description": "Anserini Lucene inverted index of BRIGHT collection 'aops'",
         "filename": "lucene-inverted.bright-aops.20250705.44ae8e.tar.gz",
         "readme": "lucene-inverted.bright.20250705.44ae8e.README.md",
@@ -141,6 +151,7 @@
     },
     {
         "name": "bright-theoremqa-theorems",
+        "corpus_index": "bright-theoremqa-theorems",
         "description": "Anserini Lucene inverted index of BRIGHT collection 'theoremqa-theorems'",
         "filename": "lucene-inverted.bright-theoremqa-theorems.20250705.44ae8e.tar.gz",
         "readme": "lucene-inverted.bright.20250705.44ae8e.README.md",
@@ -155,6 +166,7 @@
     },
     {
         "name": "bright-theoremqa-questions",
+        "corpus_index": "bright-theoremqa-questions",
         "description": "Anserini Lucene inverted index of BRIGHT collection 'theoremqa-questions'",
         "filename": "lucene-inverted.bright-theoremqa-questions.20250705.44ae8e.tar.gz",
         "readme": "lucene-inverted.bright.20250705.44ae8e.README.md",

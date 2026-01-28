@@ -47,7 +47,7 @@ public class PrebuiltIndexHandler {
   private static final int CONNECT_TIMEOUT_MS = 60_000;
   private static final int READ_TIMEOUT_MS = 120_000;
 
-  private final String indexName;
+  private final String name;
   private final String filename;
   private final String md5;
   private final String[] urls;
@@ -57,32 +57,37 @@ public class PrebuiltIndexHandler {
   private Path indexFolderPath;
 
   /**
-   * Returns a <tt>PrebuiltIndexHandler</tt> for a prebuilt index given its name, otherwise returns <tt>null</tt>.
+   * Returns a <tt>PrebuiltIndexHandler</tt> for a prebuilt index given its name, otherwise returns <tt>null</tt> if it doesn't exist.
+   * By default, the default cache directory is at <tt>~/.cache/pyserini/indexes</tt>.
+   * Alternatively, a custom, user-specified cache directory can be specified via the environment variable <tt>$ANSERINI_INDEX_CACHE</tt>
+   * or the system property <tt>anserini.index.cache</tt>.
+   *
+   * @param name the name of the index
    */
-  public static PrebuiltIndexHandler get(String indexName) {
+  public static PrebuiltIndexHandler get(String name) {
     try {
-      IndexInfo.get(indexName);
+      IndexInfo.get(name);
     } catch (IllegalArgumentException e) {
       return null;
     }
 
-    return new PrebuiltIndexHandler(indexName);
+    return new PrebuiltIndexHandler(name);
   }
 
-  private PrebuiltIndexHandler(String indexName) {
-    if (PrebuiltInvertedIndex.get(indexName) != null) {
+  private PrebuiltIndexHandler(String name) {
+    if (PrebuiltInvertedIndex.get(name) != null) {
       LOG.info("Using PrebuiltInvertedIndex instead of IndexInfo to fetch prebuilt index.");
-      PrebuiltInvertedIndex.Entry entry = PrebuiltInvertedIndex.get(indexName);
+      PrebuiltInvertedIndex.Entry entry = PrebuiltInvertedIndex.get(name);
 
-      this.indexName = indexName;
+      this.name = name;
       this.filename = entry.filename;
       this.md5 = entry.md5;
       this.urls = entry.urls;
     } else {
       try {
-        IndexInfo indexInfo = IndexInfo.get(indexName);
+        IndexInfo indexInfo = IndexInfo.get(name);
 
-        this.indexName = indexName;
+        this.name = name;
         this.filename = indexInfo.filename;
         this.md5 = indexInfo.md5;
         this.urls = indexInfo.urls;
@@ -171,7 +176,7 @@ public class PrebuiltIndexHandler {
 
     try (InputStream inputStream = new BufferedInputStream(httpConnection.getInputStream());
         FileOutputStream fileOS = new FileOutputStream(downloadFilePath.toFile());
-        ProgressBar pb = new ProgressBar(indexName, progressBarMax)) {
+        ProgressBar pb = new ProgressBar(name, progressBarMax)) {
 
       pb.setExtraMessage("Downloading...");
 

@@ -40,7 +40,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 
 public class PrebuiltInvertedIndex {
-  private static final String RESOURCE_DIR = "prebuilt";
+  private static final String RESOURCE_DIR = "prebuilt-indexes";
   private static final String RESOURCE_SUFFIX = ".json";
   private static final TypeReference<List<Entry>> ENTRY_LIST_TYPE = new TypeReference<List<Entry>>() {};
   private static final ObjectMapper MAPPER = JsonMapper.builder()
@@ -55,6 +55,9 @@ public class PrebuiltInvertedIndex {
   public static class Entry {
     @JsonProperty("name")
     public String name;
+
+    @JsonProperty("corpus_index")
+    public String corpusIndex;
 
     @JsonProperty("description")
     public String description;
