@@ -39,7 +39,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 
-public class PrebuiltInvertedIndex {
+public class PrebuiltImpactIndex {
   private static final String RESOURCE_DIR = "prebuilt-indexes";
   private static final String RESOURCE_SUFFIX = ".json";
   private static final TypeReference<List<Entry>> ENTRY_LIST_TYPE = new TypeReference<List<Entry>>() {};
@@ -49,7 +49,7 @@ public class PrebuiltInvertedIndex {
       .build();
 
   // This is the singleton instance of this class.
-  private static PrebuiltInvertedIndex INSTANCE;
+  private static PrebuiltImpactIndex INSTANCE;
 
   @JsonIgnoreProperties(ignoreUnknown = true)
   public static class Entry {
@@ -93,7 +93,7 @@ public class PrebuiltInvertedIndex {
   private final List<Entry> entries;
   private final Map<String, Entry> byName;
 
-  private PrebuiltInvertedIndex() {
+  private PrebuiltImpactIndex() {
     List<Entry> loadedEntries = new ArrayList<>();
     ClassLoader classLoader = PrebuiltInvertedIndex.class.getClassLoader();
 
@@ -109,7 +109,7 @@ public class PrebuiltInvertedIndex {
               try (InputStream input = Files.newInputStream(path)) {
                 List<Entry> entriesInFile = MAPPER.readValue(input, ENTRY_LIST_TYPE);
                 for (Entry entry : entriesInFile) {
-                  if (entry != null && "inverted".equals(entry.type)) {
+                  if (entry != null && "impact".equals(entry.type)) {
                     loadedEntries.add(entry);
                   }
                 }
@@ -140,7 +140,7 @@ public class PrebuiltInvertedIndex {
     // Implementation of this class follows the singleton pattern. There should only be one instance.
     // If it isn't initialized, initialize it; otherwise, return the singleton instance.
     if (INSTANCE == null) {
-      INSTANCE = new PrebuiltInvertedIndex();
+      INSTANCE = new PrebuiltImpactIndex();
     }
 
     return INSTANCE.entries;
@@ -150,7 +150,7 @@ public class PrebuiltInvertedIndex {
     // Implementation of this class follows the singleton pattern. There should only be one instance.
     // If it isn't initialized, initialize it; otherwise, return the singleton instance.
     if (INSTANCE == null) {
-      INSTANCE = new PrebuiltInvertedIndex();
+      INSTANCE = new PrebuiltImpactIndex();
     }
 
     return INSTANCE.byName.get(name);

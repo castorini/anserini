@@ -1,6 +1,7 @@
 [
     {
         "name": "bright-biology",
+        "type": "inverted",
         "corpus_index": "bright-biology",
         "description": "Anserini Lucene inverted index of BRIGHT collection 'biology'",
         "filename": "lucene-inverted.bright-biology.20250705.44ae8e.tar.gz",
@@ -16,6 +17,7 @@
     },
     {
         "name": "bright-earth-science",
+        "type": "inverted",
         "corpus_index": "bright-earth-science",
         "description": "Anserini Lucene inverted index of BRIGHT collection 'earth-science'",
         "filename": "lucene-inverted.bright-earth-science.20250705.44ae8e.tar.gz",
@@ -31,6 +33,7 @@
     },
     {
         "name": "bright-economics",
+        "type": "inverted",
         "corpus_index": "bright-economics",
         "description": "Anserini Lucene inverted index of BRIGHT collection 'economics'",
         "filename": "lucene-inverted.bright-economics.20250705.44ae8e.tar.gz",
@@ -46,6 +49,7 @@
     },
     {
         "name": "bright-psychology",
+        "type": "inverted",
         "corpus_index": "bright-psychology",
         "description": "Anserini Lucene inverted index of BRIGHT collection 'psychology'",
         "filename": "lucene-inverted.bright-psychology.20250705.44ae8e.tar.gz",
@@ -61,6 +65,7 @@
     },
     {
         "name": "bright-robotics",
+        "type": "inverted",
         "corpus_index": "bright-robotics",
         "description": "Anserini Lucene inverted index of BRIGHT collection 'robotics'",
         "filename": "lucene-inverted.bright-robotics.20250705.44ae8e.tar.gz",
@@ -76,6 +81,7 @@
     },
     {
         "name": "bright-stackoverflow",
+        "type": "inverted",
         "corpus_index": "bright-stackoverflow",
         "description": "Anserini Lucene inverted index of BRIGHT collection 'stackoverflow'",
         "filename": "lucene-inverted.bright-stackoverflow.20250705.44ae8e.tar.gz",
@@ -91,6 +97,7 @@
     },
     {
         "name": "bright-sustainable-living",
+        "type": "inverted",
         "corpus_index": "bright-sustainable-living",
         "description": "Anserini Lucene inverted index of BRIGHT collection 'sustainable-living'",
         "filename": "lucene-inverted.bright-sustainable-living.20250705.44ae8e.tar.gz",
@@ -106,6 +113,7 @@
     },
     {
         "name": "bright-pony",
+        "type": "inverted",
         "corpus_index": "bright-pony",
         "description": "Anserini Lucene inverted index of BRIGHT collection 'pony'",
         "filename": "lucene-inverted.bright-pony.20250705.44ae8e.tar.gz",
@@ -121,6 +129,7 @@
     },
     {
         "name": "bright-leetcode",
+        "type": "inverted",
         "corpus_index": "bright-leetcode",
         "description": "Anserini Lucene inverted index of BRIGHT collection 'leetcode'",
         "filename": "lucene-inverted.bright-leetcode.20250705.44ae8e.tar.gz",
@@ -136,6 +145,7 @@
     },
     {
         "name": "bright-aops",
+        "type": "inverted",
         "corpus_index": "bright-aops",
         "description": "Anserini Lucene inverted index of BRIGHT collection 'aops'",
         "filename": "lucene-inverted.bright-aops.20250705.44ae8e.tar.gz",
@@ -151,6 +161,7 @@
     },
     {
         "name": "bright-theoremqa-theorems",
+        "type": "inverted",
         "corpus_index": "bright-theoremqa-theorems",
         "description": "Anserini Lucene inverted index of BRIGHT collection 'theoremqa-theorems'",
         "filename": "lucene-inverted.bright-theoremqa-theorems.20250705.44ae8e.tar.gz",
@@ -166,6 +177,7 @@
     },
     {
         "name": "bright-theoremqa-questions",
+        "type": "inverted",
         "corpus_index": "bright-theoremqa-questions",
         "description": "Anserini Lucene inverted index of BRIGHT collection 'theoremqa-questions'",
         "filename": "lucene-inverted.bright-theoremqa-questions.20250705.44ae8e.tar.gz",
