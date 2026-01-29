@@ -18,6 +18,7 @@ package io.anserini.index.prebuilt;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.JarURLConnection;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.DirectoryStream;
@@ -30,6 +31,8 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -107,6 +110,36 @@ public class PrebuiltInvertedIndex {
           try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir, "*" + RESOURCE_SUFFIX)) {
             for (Path path : stream) {
               try (InputStream input = Files.newInputStream(path)) {
+                List<Entry> entriesInFile = MAPPER.readValue(input, ENTRY_LIST_TYPE);
+                for (Entry entry : entriesInFile) {
+                  if (entry != null && "inverted".equals(entry.type)) {
+                    loadedEntries.add(entry);
+                  }
+                }
+              }
+            }
+          }
+        } else if ("jar".equals(protocol)) {
+          JarURLConnection connection = (JarURLConnection) url.openConnection();
+          String entryPrefix = connection.getEntryName();
+          if (entryPrefix == null) {
+            entryPrefix = RESOURCE_DIR;
+          }
+          if (!entryPrefix.endsWith("/")) {
+            entryPrefix = entryPrefix + "/";
+          }
+          try (JarFile jarFile = connection.getJarFile()) {
+            Enumeration<JarEntry> jarEntries = jarFile.entries();
+            while (jarEntries.hasMoreElements()) {
+              JarEntry jarEntry = jarEntries.nextElement();
+              if (jarEntry.isDirectory()) {
+                continue;
+              }
+              String name = jarEntry.getName();
+              if (!name.startsWith(entryPrefix) || !name.endsWith(RESOURCE_SUFFIX)) {
+                continue;
+              }
+              try (InputStream input = jarFile.getInputStream(jarEntry)) {
                 List<Entry> entriesInFile = MAPPER.readValue(input, ENTRY_LIST_TYPE);
                 for (Entry entry : entriesInFile) {
                   if (entry != null && "inverted".equals(entry.type)) {
