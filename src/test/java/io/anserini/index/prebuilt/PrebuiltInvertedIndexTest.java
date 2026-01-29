@@ -18,9 +18,21 @@ package io.anserini.index.prebuilt;
 
 import org.junit.Test;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+
+import java.lang.reflect.Proxy;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
+import java.util.jar.JarEntry;
+import java.util.jar.JarOutputStream;
 
 public class PrebuiltInvertedIndexTest {
   @Test
@@ -62,5 +74,36 @@ public class PrebuiltInvertedIndexTest {
       }
     }
     assertEquals(12, brightCount);
+  }
+
+    @Test
+  public void testLoadEntriesFromJarProtocol() throws Exception {
+    Path tempDir = Files.createTempDirectory("anserini-prebuilt-inverted-jar");
+
+    Path jarPath = tempDir.resolve("prebuilt-inverted.jar");
+    try (JarOutputStream jarOut = new JarOutputStream(Files.newOutputStream(jarPath))) {
+      JarEntry dirEntry = new JarEntry("prebuilt-indexes/");
+      jarOut.putNextEntry(dirEntry);
+      jarOut.closeEntry();
+
+      JarEntry jsonEntry = new JarEntry("prebuilt-indexes/impact-inverted.json");
+      jarOut.putNextEntry(jsonEntry);
+      jarOut.write("[{\"name\":\"TEST\",\"type\":\"inverted\"}]".getBytes(StandardCharsets.UTF_8));
+      jarOut.closeEntry();
+    }
+
+    URL jarUrl = jarPath.toUri().toURL();
+    try (URLClassLoader jarClassLoader = new URLClassLoader(new URL[] {jarUrl}, null)) {
+      Class<?> jarClass = Proxy.newProxyInstance(
+          jarClassLoader,
+          new Class<?>[] {Runnable.class},
+          (proxy, method, args) -> null).getClass();
+      TypeReference<List<PrebuiltImpactIndex.Entry>> entryListType =
+          new TypeReference<List<PrebuiltImpactIndex.Entry>>() {};
+      List<PrebuiltImpactIndex.Entry> entries =
+          PrebuiltIndex.loadEntries("inverted", entryListType, jarClass);
+      assertEquals(1, entries.size());
+      assertEquals("TEST", entries.get(0).name);
+    }
   }
 }
