@@ -31,7 +31,6 @@ import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -47,7 +46,6 @@ public class PrebuiltIndex {
       .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
       .build();
 
-  @JsonIgnoreProperties(ignoreUnknown = true)
   public static class Entry {
     @JsonProperty("name")
     public String name;

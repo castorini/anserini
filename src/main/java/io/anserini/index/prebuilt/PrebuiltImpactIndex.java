@@ -26,8 +26,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 public class PrebuiltImpactIndex extends PrebuiltIndex {
   private static final TypeReference<List<Entry>> ENTRY_LIST_TYPE = new TypeReference<List<Entry>>() {};
 
-  // This is the singleton instance of this class.
-  private static PrebuiltImpactIndex INSTANCE;
+  // Eager singleton: initialized at class-load time for thread-safety.
+  private static final PrebuiltImpactIndex INSTANCE = new PrebuiltImpactIndex();
 
   public static class Entry extends PrebuiltIndex.Entry {}
 
@@ -49,22 +49,10 @@ public class PrebuiltImpactIndex extends PrebuiltIndex {
   }
 
   public static List<Entry> entries() {
-    // Implementation of this class follows the singleton pattern. There should only be one instance.
-    // If it isn't initialized, initialize it; otherwise, return the singleton instance.
-    if (INSTANCE == null) {
-      INSTANCE = new PrebuiltImpactIndex();
-    }
-
     return INSTANCE.entries;
   }
 
   public static Entry get(String name) {
-    // Implementation of this class follows the singleton pattern. There should only be one instance.
-    // If it isn't initialized, initialize it; otherwise, return the singleton instance.
-    if (INSTANCE == null) {
-      INSTANCE = new PrebuiltImpactIndex();
-    }
-
     return INSTANCE.byName.get(name);
   }
 }
