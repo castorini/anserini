@@ -1,0 +1,73 @@
+package io.anserini.index.prebuilt;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
+import java.lang.reflect.Proxy;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
+import java.util.jar.JarEntry;
+import java.util.jar.JarOutputStream;
+
+import org.junit.Test;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+
+public class PrebuiltFlatIndexTest {
+  @Test
+  public void testInvalidName() {
+    PrebuiltFlatIndex.Entry entry = PrebuiltFlatIndex.get("fake_index");
+    assertNull(entry);
+  }
+
+  @Test
+  public void testTotalCount() {
+    assertEquals(12, PrebuiltFlatIndex.entries().size());
+  }
+
+  @Test
+  public void testTotalCountForBright() {
+    int brightCount = 0;
+    for (PrebuiltFlatIndex.Entry entry : PrebuiltFlatIndex.entries()) {
+      if (entry != null && entry.name != null && entry.name.toUpperCase().startsWith("BRIGHT")) {
+        brightCount++;
+      }
+    }
+    assertEquals(12, brightCount);
+  }
+
+  @Test
+  public void testLoadEntriesFromJarProtocol() throws Exception {
+    Path tempDir = Files.createTempDirectory("anserini-prebuilt-flat-jar");
+
+    Path jarPath = tempDir.resolve("prebuilt-flat.jar");
+    try (JarOutputStream jarOut = new JarOutputStream(Files.newOutputStream(jarPath))) {
+      JarEntry dirEntry = new JarEntry("prebuilt-indexes/");
+      jarOut.putNextEntry(dirEntry);
+      jarOut.closeEntry();
+
+      JarEntry jsonEntry = new JarEntry("prebuilt-indexes/flat-test.json");
+      jarOut.putNextEntry(jsonEntry);
+      jarOut.write("[{\"name\":\"TEST\",\"type\":\"flat\"}]".getBytes(StandardCharsets.UTF_8));
+      jarOut.closeEntry();
+    }
+
+    URL jarUrl = jarPath.toUri().toURL();
+    try (URLClassLoader jarClassLoader = new URLClassLoader(new URL[] {jarUrl}, null)) {
+      Class<?> jarClass = Proxy.newProxyInstance(
+          jarClassLoader,
+          new Class<?>[] {Runnable.class},
+          (proxy, method, args) -> null).getClass();
+      TypeReference<List<PrebuiltFlatIndex.Entry>> entryListType =
+          new TypeReference<List<PrebuiltFlatIndex.Entry>>() {};
+      List<PrebuiltFlatIndex.Entry> entries =
+          PrebuiltIndex.loadEntries(PrebuiltIndex.Type.FLAT, entryListType, jarClass);
+      assertEquals(1, entries.size());
+      assertEquals("TEST", entries.get(0).name);
+    }
+  }
+}

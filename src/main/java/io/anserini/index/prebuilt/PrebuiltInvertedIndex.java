@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 public class PrebuiltInvertedIndex extends PrebuiltIndex {
@@ -29,7 +30,16 @@ public class PrebuiltInvertedIndex extends PrebuiltIndex {
   // This is the singleton instance of this class.
   private static PrebuiltInvertedIndex INSTANCE;
 
-  public static class Entry extends PrebuiltIndex.Entry {}
+  public static class Entry extends PrebuiltIndex.Entry {
+        @JsonProperty("total_terms")
+    public long totalTerms;
+
+    @JsonProperty("documents")
+    public int documents;
+
+    @JsonProperty("unique_terms")
+    public long uniqueTerms;
+  }
 
   private final List<Entry> entries;
   private final Map<String, Entry> byName;

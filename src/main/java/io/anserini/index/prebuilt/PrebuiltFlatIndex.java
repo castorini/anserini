@@ -21,31 +21,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 
-public class PrebuiltImpactIndex extends PrebuiltIndex {
+public class PrebuiltFlatIndex extends PrebuiltIndex {
   private static final TypeReference<List<Entry>> ENTRY_LIST_TYPE = new TypeReference<List<Entry>>() {};
 
   // This is the singleton instance of this class.
-  private static PrebuiltImpactIndex INSTANCE;
+  private static PrebuiltFlatIndex INSTANCE;
 
   public static class Entry extends PrebuiltIndex.Entry {
-    @JsonProperty("total_terms")
-    public long totalTerms;
-
-    @JsonProperty("documents")
-    public int documents;
-
-    @JsonProperty("unique_terms")
-    public long uniqueTerms;
+    // TODO (2026/01/30): currently, there are not special metadata that we track for flat indexes,
+    // but we should circle back and add some checks.
   }
 
   private final List<Entry> entries;
   private final Map<String, Entry> byName;
 
-  private PrebuiltImpactIndex() {
-    List<Entry> loadedEntries = loadEntries(PrebuiltIndex.Type.IMPACT, ENTRY_LIST_TYPE, PrebuiltImpactIndex.class);
+  private PrebuiltFlatIndex() {
+    List<Entry> loadedEntries = loadEntries(PrebuiltIndex.Type.FLAT, ENTRY_LIST_TYPE, PrebuiltImpactIndex.class);
     entries = Collections.unmodifiableList(loadedEntries);
 
     Map<String, Entry> map = new HashMap<>(Math.max(16, entries.size() * 2));
@@ -62,7 +55,7 @@ public class PrebuiltImpactIndex extends PrebuiltIndex {
     // Implementation of this class follows the singleton pattern. There should only be one instance.
     // If it isn't initialized, initialize it; otherwise, return the singleton instance.
     if (INSTANCE == null) {
-      INSTANCE = new PrebuiltImpactIndex();
+      INSTANCE = new PrebuiltFlatIndex();
     }
 
     return INSTANCE.entries;
@@ -72,7 +65,7 @@ public class PrebuiltImpactIndex extends PrebuiltIndex {
     // Implementation of this class follows the singleton pattern. There should only be one instance.
     // If it isn't initialized, initialize it; otherwise, return the singleton instance.
     if (INSTANCE == null) {
-      INSTANCE = new PrebuiltImpactIndex();
+      INSTANCE = new PrebuiltFlatIndex();
     }
 
     return INSTANCE.byName.get(name);
