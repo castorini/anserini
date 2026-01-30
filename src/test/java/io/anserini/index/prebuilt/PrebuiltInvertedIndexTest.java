@@ -65,20 +65,30 @@ public class PrebuiltInvertedIndexTest {
 
   @Test
   public void testTotalCount() {
-    assertEquals(14, PrebuiltInvertedIndex.entries().size());
+    assertEquals(72, PrebuiltInvertedIndex.entries().size());
+  }
+
+  @Test
+  public void testTotalCountForBeir() {
+    int brightCount = 0;
+    for (PrebuiltInvertedIndex.Entry entry : PrebuiltInvertedIndex.entries()) {
+      if (entry != null && entry.name != null && entry.name.startsWith("beir")) {
+        brightCount++;
+      }
+    }
+    assertEquals(58, brightCount);
   }
 
   @Test
   public void testTotalCountForBright() {
     int brightCount = 0;
     for (PrebuiltInvertedIndex.Entry entry : PrebuiltInvertedIndex.entries()) {
-      if (entry != null && entry.name != null && entry.name.toUpperCase().startsWith("BRIGHT")) {
+      if (entry != null && entry.name != null && entry.name.startsWith("bright")) {
         brightCount++;
       }
     }
     assertEquals(12, brightCount);
   }
-
 
   @Test
   public void testUrls() {
