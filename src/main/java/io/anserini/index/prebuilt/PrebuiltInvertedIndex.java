@@ -31,7 +31,7 @@ public class PrebuiltInvertedIndex extends PrebuiltIndex {
   private static PrebuiltInvertedIndex INSTANCE;
 
   public static class Entry extends PrebuiltIndex.Entry {
-        @JsonProperty("total_terms")
+    @JsonProperty("total_terms")
     public long totalTerms;
 
     @JsonProperty("documents")

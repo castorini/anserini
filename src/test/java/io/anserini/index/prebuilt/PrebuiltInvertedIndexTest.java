@@ -24,7 +24,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import java.io.IOException;
 import java.lang.reflect.Proxy;
+import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.charset.StandardCharsets;
@@ -76,7 +79,27 @@ public class PrebuiltInvertedIndexTest {
     assertEquals(12, brightCount);
   }
 
-    @Test
+
+  @Test
+  public void testUrls() {
+    for (PrebuiltInvertedIndex.Entry entry : PrebuiltInvertedIndex.entries()) {
+      for (String url : entry.urls) {
+        // check each url status code is 200
+        try {
+          final URL requestUrl = new URI(url).toURL();
+          final HttpURLConnection con = (HttpURLConnection) requestUrl.openConnection();
+          assertEquals(200, con.getResponseCode());
+          con.disconnect();
+        } catch (IOException e) {
+          throw new RuntimeException("Error connecting to " + url, e);
+        } catch (Exception e) {
+          throw new RuntimeException("Malformed URL: " + url, e);
+        }
+      }
+    }
+  }
+
+  @Test
   public void testLoadEntriesFromJarProtocol() throws Exception {
     Path tempDir = Files.createTempDirectory("anserini-prebuilt-inverted-jar");
 

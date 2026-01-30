@@ -19,7 +19,10 @@ package io.anserini.index.prebuilt;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
+import java.io.IOException;
 import java.lang.reflect.Proxy;
 import java.net.URLClassLoader;
 import java.nio.charset.StandardCharsets;
@@ -30,6 +33,9 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarOutputStream;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+
+import io.anserini.index.IndexInfo;
+
 import org.junit.Test;
 
 public class PrebuiltImpactIndexTest {
@@ -53,6 +59,25 @@ public class PrebuiltImpactIndexTest {
       }
     }
     assertEquals(12, brightCount);
+  }
+
+  @Test
+  public void testUrls() {
+    for (PrebuiltImpactIndex.Entry entry : PrebuiltImpactIndex.entries()) {
+      for (String url : entry.urls) {
+        // check each url status code is 200
+        try {
+          final URL requestUrl = new URI(url).toURL();
+          final HttpURLConnection con = (HttpURLConnection) requestUrl.openConnection();
+          assertEquals(200, con.getResponseCode());
+          con.disconnect();
+        } catch (IOException e) {
+          throw new RuntimeException("Error connecting to " + url, e);
+        } catch (Exception e) {
+          throw new RuntimeException("Malformed URL: " + url, e);
+        }
+      }
+    }
   }
 
   @Test
