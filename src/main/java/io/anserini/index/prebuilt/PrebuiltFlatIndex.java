@@ -26,11 +26,13 @@ import com.fasterxml.jackson.core.type.TypeReference;
 public class PrebuiltFlatIndex extends PrebuiltIndex {
   private static final TypeReference<List<Entry>> ENTRY_LIST_TYPE = new TypeReference<List<Entry>>() {};
 
-  // This is the singleton instance of this class.
-  private static PrebuiltFlatIndex INSTANCE;
+  // This is the singleton instance of this class. Use the holder pattern to ensure thread safety.
+  private static class Holder {
+    private static final PrebuiltFlatIndex INSTANCE = new PrebuiltFlatIndex();
+  }
 
   public static class Entry extends PrebuiltIndex.Entry {
-    // TODO (2026/01/30): currently, there are not special metadata that we track for flat indexes,
+    // TODO (2026/01/30): currently, there are no special metadata that we track for flat indexes,
     // but we should circle back and add some checks.
   }
 
@@ -52,22 +54,10 @@ public class PrebuiltFlatIndex extends PrebuiltIndex {
   }
 
   public static List<Entry> entries() {
-    // Implementation of this class follows the singleton pattern. There should only be one instance.
-    // If it isn't initialized, initialize it; otherwise, return the singleton instance.
-    if (INSTANCE == null) {
-      INSTANCE = new PrebuiltFlatIndex();
-    }
-
-    return INSTANCE.entries;
+    return Holder.INSTANCE.entries;
   }
 
   public static Entry get(String name) {
-    // Implementation of this class follows the singleton pattern. There should only be one instance.
-    // If it isn't initialized, initialize it; otherwise, return the singleton instance.
-    if (INSTANCE == null) {
-      INSTANCE = new PrebuiltFlatIndex();
-    }
-
-    return INSTANCE.byName.get(name);
+    return Holder.INSTANCE.byName.get(name);
   }
 }

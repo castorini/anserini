@@ -16,10 +16,6 @@
 
 package io.anserini.index.prebuilt;
 
-import org.junit.Test;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -36,6 +32,10 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarOutputStream;
+
+import org.junit.Test;
+
+import com.fasterxml.jackson.core.type.TypeReference;
 
 public class PrebuiltInvertedIndexTest {
   @Test

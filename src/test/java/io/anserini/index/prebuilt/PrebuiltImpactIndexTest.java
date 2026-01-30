@@ -19,11 +19,11 @@ package io.anserini.index.prebuilt;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import java.io.IOException;
+import java.lang.reflect.Proxy;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
-import java.io.IOException;
-import java.lang.reflect.Proxy;
 import java.net.URLClassLoader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -32,11 +32,9 @@ import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarOutputStream;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-
-import io.anserini.index.IndexInfo;
-
 import org.junit.Test;
+
+import com.fasterxml.jackson.core.type.TypeReference;
 
 public class PrebuiltImpactIndexTest {
   @Test
