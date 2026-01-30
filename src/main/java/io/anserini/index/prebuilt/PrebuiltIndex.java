@@ -49,7 +49,8 @@ public class PrebuiltIndex {
 
   public enum Type {
     IMPACT("impact"),
-    INVERTED("inverted");
+    INVERTED("inverted"),
+    FLAT("flat");
 
     private final String id;
 
@@ -86,15 +87,6 @@ public class PrebuiltIndex {
 
     @JsonProperty("compressed_size")
     public long compressedSize;
-
-    @JsonProperty("total_terms")
-    public long totalTerms;
-
-    @JsonProperty("documents")
-    public int documents;
-
-    @JsonProperty("unique_terms")
-    public long uniqueTerms;
   }
 
   protected static <T extends PrebuiltIndex.Entry> List<T> loadEntries(

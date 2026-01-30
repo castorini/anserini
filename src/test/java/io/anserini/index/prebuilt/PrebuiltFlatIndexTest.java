@@ -1,19 +1,3 @@
-/*
- * Anserini: A Lucene toolkit for reproducible information retrieval research
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package io.anserini.index.prebuilt;
 
 import static org.junit.Assert.assertEquals;
@@ -36,22 +20,22 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
-public class PrebuiltImpactIndexTest {
+public class PrebuiltFlatIndexTest {
   @Test
   public void testInvalidName() {
-    PrebuiltImpactIndex.Entry entry = PrebuiltImpactIndex.get("fake_index");
+    PrebuiltFlatIndex.Entry entry = PrebuiltFlatIndex.get("fake_index");
     assertNull(entry);
   }
 
   @Test
   public void testTotalCount() {
-    assertEquals(12, PrebuiltImpactIndex.entries().size());
+    assertEquals(12, PrebuiltFlatIndex.entries().size());
   }
 
   @Test
   public void testTotalCountForBright() {
     int brightCount = 0;
-    for (PrebuiltImpactIndex.Entry entry : PrebuiltImpactIndex.entries()) {
+    for (PrebuiltFlatIndex.Entry entry : PrebuiltFlatIndex.entries()) {
       if (entry != null && entry.name != null && entry.name.toUpperCase().startsWith("BRIGHT")) {
         brightCount++;
       }
@@ -61,7 +45,7 @@ public class PrebuiltImpactIndexTest {
 
   @Test
   public void testUrls() {
-    for (PrebuiltImpactIndex.Entry entry : PrebuiltImpactIndex.entries()) {
+    for (PrebuiltFlatIndex.Entry entry : PrebuiltFlatIndex.entries()) {
       for (String url : entry.urls) {
         // check each url status code is 200
         try {
@@ -80,17 +64,17 @@ public class PrebuiltImpactIndexTest {
 
   @Test
   public void testLoadEntriesFromJarProtocol() throws Exception {
-    Path tempDir = Files.createTempDirectory("anserini-prebuilt-impact-jar");
+    Path tempDir = Files.createTempDirectory("anserini-prebuilt-flat-jar");
 
-    Path jarPath = tempDir.resolve("prebuilt-impact.jar");
+    Path jarPath = tempDir.resolve("prebuilt-flat.jar");
     try (JarOutputStream jarOut = new JarOutputStream(Files.newOutputStream(jarPath))) {
       JarEntry dirEntry = new JarEntry("prebuilt-indexes/");
       jarOut.putNextEntry(dirEntry);
       jarOut.closeEntry();
 
-      JarEntry jsonEntry = new JarEntry("prebuilt-indexes/impact-test.json");
+      JarEntry jsonEntry = new JarEntry("prebuilt-indexes/flat-test.json");
       jarOut.putNextEntry(jsonEntry);
-      jarOut.write("[{\"name\":\"TEST\",\"type\":\"impact\"}]".getBytes(StandardCharsets.UTF_8));
+      jarOut.write("[{\"name\":\"TEST\",\"type\":\"flat\"}]".getBytes(StandardCharsets.UTF_8));
       jarOut.closeEntry();
     }
 
@@ -100,10 +84,10 @@ public class PrebuiltImpactIndexTest {
           jarClassLoader,
           new Class<?>[] {Runnable.class},
           (proxy, method, args) -> null).getClass();
-      TypeReference<List<PrebuiltImpactIndex.Entry>> entryListType =
-          new TypeReference<List<PrebuiltImpactIndex.Entry>>() {};
-      List<PrebuiltImpactIndex.Entry> entries =
-          PrebuiltIndex.loadEntries(PrebuiltIndex.Type.IMPACT, entryListType, jarClass);
+      TypeReference<List<PrebuiltFlatIndex.Entry>> entryListType =
+          new TypeReference<List<PrebuiltFlatIndex.Entry>>() {};
+      List<PrebuiltFlatIndex.Entry> entries =
+          PrebuiltIndex.loadEntries(PrebuiltIndex.Type.FLAT, entryListType, jarClass);
       assertEquals(1, entries.size());
       assertEquals("TEST", entries.get(0).name);
     }

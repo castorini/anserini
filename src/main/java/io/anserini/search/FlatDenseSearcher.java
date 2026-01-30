@@ -83,9 +83,8 @@ public class FlatDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
       Configurator.setRootLevel(Level.ERROR);
     }
 
-    Path indexPath = IndexReaderUtils.getIndex(args.index);
-
     try {
+      Path indexPath = IndexReaderUtils.getIndex(args.index);
       this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
     } catch (IOException e) {
       throw new IllegalArgumentException(String.format("\"%s\" does not appear to be a valid index.", args.index));

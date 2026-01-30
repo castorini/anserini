@@ -200,59 +200,6 @@ Therefore, do not modify this page directly; modify the test case instead.
 </dd>
 </dl>
 </details>
-<details>
-<summary>BRIGHT</summary>
-<dl>
-<dt></dt><b><code>bright-biology.bge-large-en-v1.5.flat</code></b>
-[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md">readme</a>]
-<dd>Anserini Lucene flat vector index of BRIGHT collection 'biology' encoded by BGE-large-en-v1.5
-</dd>
-<dt></dt><b><code>bright-earth-science.bge-large-en-v1.5.flat</code></b>
-[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md">readme</a>]
-<dd>Anserini Lucene flat vector index of BRIGHT collection 'earth-science' encoded by BGE-large-en-v1.5
-</dd>
-<dt></dt><b><code>bright-economics.bge-large-en-v1.5.flat</code></b>
-[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md">readme</a>]
-<dd>Anserini Lucene flat vector index of BRIGHT collection 'economics' encoded by BGE-large-en-v1.5
-</dd>
-<dt></dt><b><code>bright-psychology.bge-large-en-v1.5.flat</code></b>
-[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md">readme</a>]
-<dd>Anserini Lucene flat vector index of BRIGHT collection 'psychology' encoded by BGE-large-en-v1.5
-</dd>
-<dt></dt><b><code>bright-robotics.bge-large-en-v1.5.flat</code></b>
-[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md">readme</a>]
-<dd>Anserini Lucene flat vector index of BRIGHT collection 'robotics' encoded by BGE-large-en-v1.5
-</dd>
-<dt></dt><b><code>bright-stackoverflow.bge-large-en-v1.5.flat</code></b>
-[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md">readme</a>]
-<dd>Anserini Lucene flat vector index of BRIGHT collection 'stackoverflow' encoded by BGE-large-en-v1.5
-</dd>
-<dt></dt><b><code>bright-sustainable-living.bge-large-en-v1.5.flat</code></b>
-[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md">readme</a>]
-<dd>Anserini Lucene flat vector index of BRIGHT collection 'sustainable-living' encoded by BGE-large-en-v1.5
-</dd>
-<dt></dt><b><code>bright-pony.bge-large-en-v1.5.flat</code></b>
-[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md">readme</a>]
-<dd>Anserini Lucene flat vector index of BRIGHT collection 'pony' encoded by BGE-large-en-v1.5
-</dd>
-<dt></dt><b><code>bright-leetcode.bge-large-en-v1.5.flat</code></b>
-[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md">readme</a>]
-<dd>Anserini Lucene flat vector index of BRIGHT collection 'leetcode' encoded by BGE-large-en-v1.5
-</dd>
-<dt></dt><b><code>bright-aops.bge-large-en-v1.5.flat</code></b>
-[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md">readme</a>]
-<dd>Anserini Lucene flat vector index of BRIGHT collection 'aops' encoded by BGE-large-en-v1.5
-</dd>
-<dt></dt><b><code>bright-theoremqa-theorems.bge-large-en-v1.5.flat</code></b>
-[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md">readme</a>]
-<dd>Anserini Lucene flat vector index of BRIGHT collection 'theoremqa-theorems' encoded by BGE-large-en-v1.5
-</dd>
-<dt></dt><b><code>bright-theoremqa-questions.bge-large-en-v1.5.flat</code></b>
-[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md">readme</a>]
-<dd>Anserini Lucene flat vector index of BRIGHT collection 'theoremqa-questions' encoded by BGE-large-en-v1.5
-</dd>
-</dl>
-</details>
 
 ### Lucene HNSW Indexes
 <details>
@@ -725,59 +672,6 @@ Therefore, do not modify this page directly; modify the test case instead.
 </dd>
 </dl>
 </details>
-<details>
-<summary>BRIGHT</summary>
-<dl>
-<dt></dt><b><code>bright-biology.splade-v3</code></b>
-[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/splade-v3/lucene-inverted.bright.splade-v3.20250808.c6674a.README.md">readme</a>]
-<dd>Anserini Lucene impact index of BRIGHT collection 'biology' encoded by SPLADE-v3
-</dd>
-<dt></dt><b><code>bright-earth-science.splade-v3</code></b>
-[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/splade-v3/lucene-inverted.bright.splade-v3.20250808.c6674a.README.md">readme</a>]
-<dd>Anserini Lucene impact index of BRIGHT collection 'earth-science' encoded by SPLADE-v3
-</dd>
-<dt></dt><b><code>bright-economics.splade-v3</code></b>
-[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/splade-v3/lucene-inverted.bright.splade-v3.20250808.c6674a.README.md">readme</a>]
-<dd>Anserini Lucene impact index of BRIGHT collection 'economics' encoded by SPLADE-v3
-</dd>
-<dt></dt><b><code>bright-psychology.splade-v3</code></b>
-[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/splade-v3/lucene-inverted.bright.splade-v3.20250808.c6674a.README.md">readme</a>]
-<dd>Anserini Lucene impact index of BRIGHT collection 'psychology' encoded by SPLADE-v3
-</dd>
-<dt></dt><b><code>bright-robotics.splade-v3</code></b>
-[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/splade-v3/lucene-inverted.bright.splade-v3.20250808.c6674a.README.md">readme</a>]
-<dd>Anserini Lucene impact index of BRIGHT collection 'robotics' encoded by SPLADE-v3
-</dd>
-<dt></dt><b><code>bright-stackoverflow.splade-v3</code></b>
-[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/splade-v3/lucene-inverted.bright.splade-v3.20250808.c6674a.README.md">readme</a>]
-<dd>Anserini Lucene impact index of BRIGHT collection 'stackoverflow' encoded by SPLADE-v3
-</dd>
-<dt></dt><b><code>bright-sustainable-living.splade-v3</code></b>
-[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/splade-v3/lucene-inverted.bright.splade-v3.20250808.c6674a.README.md">readme</a>]
-<dd>Anserini Lucene impact index of BRIGHT collection 'sustainable-living' encoded by SPLADE-v3
-</dd>
-<dt></dt><b><code>bright-pony.splade-v3</code></b>
-[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/splade-v3/lucene-inverted.bright.splade-v3.20250808.c6674a.README.md">readme</a>]
-<dd>Anserini Lucene impact index of BRIGHT collection 'pony' encoded by SPLADE-v3
-</dd>
-<dt></dt><b><code>bright-leetcode.splade-v3</code></b>
-[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/splade-v3/lucene-inverted.bright.splade-v3.20250808.c6674a.README.md">readme</a>]
-<dd>Anserini Lucene impact index of BRIGHT collection 'leetcode' encoded by SPLADE-v3
-</dd>
-<dt></dt><b><code>bright-aops.splade-v3</code></b>
-[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/splade-v3/lucene-inverted.bright.splade-v3.20250808.c6674a.README.md">readme</a>]
-<dd>Anserini Lucene impact index of BRIGHT collection 'aops' encoded by SPLADE-v3
-</dd>
-<dt></dt><b><code>bright-theoremqa-theorems.splade-v3</code></b>
-[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/splade-v3/lucene-inverted.bright.splade-v3.20250808.c6674a.README.md">readme</a>]
-<dd>Anserini Lucene impact index of BRIGHT collection 'theoremqa-theorems' encoded by SPLADE-v3
-</dd>
-<dt></dt><b><code>bright-theoremqa-questions.splade-v3</code></b>
-[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/splade-v3/lucene-inverted.bright.splade-v3.20250808.c6674a.README.md">readme</a>]
-<dd>Anserini Lucene impact index of BRIGHT collection 'theoremqa-questions' encoded by SPLADE-v3
-</dd>
-</dl>
-</details>
 
 ### Lucene Inverted Indexes
 <details>
@@ -1163,59 +1057,6 @@ Therefore, do not modify this page directly; modify the test case instead.
 <dt></dt><b><code>msmarco-v2.1-doc-segmented-full</code></b>
 [<a href="https://github.com/castorini/pyserini/blob/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2.1-doc-segmented.20240418.4f9675.README.md">readme</a>]
 <dd>Anserini Lucene inverted index of the MS MARCO V2.1 segmented document corpus ('full' version)
-</dd>
-</dl>
-</details>
-<details>
-<summary>BRIGHT</summary>
-<dl>
-<dt></dt><b><code>bright-biology</code></b>
-[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/tf/lucene-inverted.bright.20250705.44ae8e.README.md">readme</a>]
-<dd>Anserini Lucene inverted index of BRIGHT collection 'biology'
-</dd>
-<dt></dt><b><code>bright-earth-science</code></b>
-[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/tf/lucene-inverted.bright.20250705.44ae8e.README.md">readme</a>]
-<dd>Anserini Lucene inverted index of BRIGHT collection 'earth-science'
-</dd>
-<dt></dt><b><code>bright-economics</code></b>
-[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/tf/lucene-inverted.bright.20250705.44ae8e.README.md">readme</a>]
-<dd>Anserini Lucene inverted index of BRIGHT collection 'economics'
-</dd>
-<dt></dt><b><code>bright-psychology</code></b>
-[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/tf/lucene-inverted.bright.20250705.44ae8e.README.md">readme</a>]
-<dd>Anserini Lucene inverted index of BRIGHT collection 'psychology'
-</dd>
-<dt></dt><b><code>bright-robotics</code></b>
-[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/tf/lucene-inverted.bright.20250705.44ae8e.README.md">readme</a>]
-<dd>Anserini Lucene inverted index of BRIGHT collection 'robotics'
-</dd>
-<dt></dt><b><code>bright-stackoverflow</code></b>
-[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/tf/lucene-inverted.bright.20250705.44ae8e.README.md">readme</a>]
-<dd>Anserini Lucene inverted index of BRIGHT collection 'stackoverflow'
-</dd>
-<dt></dt><b><code>bright-sustainable-living</code></b>
-[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/tf/lucene-inverted.bright.20250705.44ae8e.README.md">readme</a>]
-<dd>Anserini Lucene inverted index of BRIGHT collection 'sustainable-living'
-</dd>
-<dt></dt><b><code>bright-pony</code></b>
-[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/tf/lucene-inverted.bright.20250705.44ae8e.README.md">readme</a>]
-<dd>Anserini Lucene inverted index of BRIGHT collection 'pony'
-</dd>
-<dt></dt><b><code>bright-leetcode</code></b>
-[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/tf/lucene-inverted.bright.20250705.44ae8e.README.md">readme</a>]
-<dd>Anserini Lucene inverted index of BRIGHT collection 'leetcode'
-</dd>
-<dt></dt><b><code>bright-aops</code></b>
-[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/tf/lucene-inverted.bright.20250705.44ae8e.README.md">readme</a>]
-<dd>Anserini Lucene inverted index of BRIGHT collection 'aops'
-</dd>
-<dt></dt><b><code>bright-theoremqa-theorems</code></b>
-[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/tf/lucene-inverted.bright.20250705.44ae8e.README.md">readme</a>]
-<dd>Anserini Lucene inverted index of BRIGHT collection 'theoremqa-theorems'
-</dd>
-<dt></dt><b><code>bright-theoremqa-questions</code></b>
-[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/tf/lucene-inverted.bright.20250705.44ae8e.README.md">readme</a>]
-<dd>Anserini Lucene inverted index of BRIGHT collection 'theoremqa-questions'
 </dd>
 </dl>
 </details>
