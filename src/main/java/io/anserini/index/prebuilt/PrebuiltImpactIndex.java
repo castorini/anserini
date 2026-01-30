@@ -23,19 +23,19 @@ import java.util.Map;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
-public class PrebuiltInvertedIndex extends PrebuiltIndex {
+public class PrebuiltImpactIndex extends PrebuiltIndex {
   private static final TypeReference<List<Entry>> ENTRY_LIST_TYPE = new TypeReference<List<Entry>>() {};
 
   // This is the singleton instance of this class.
-  private static PrebuiltInvertedIndex INSTANCE;
+  private static PrebuiltImpactIndex INSTANCE;
 
   public static class Entry extends PrebuiltIndex.Entry {}
 
   private final List<Entry> entries;
   private final Map<String, Entry> byName;
 
-  private PrebuiltInvertedIndex() {
-    List<Entry> loadedEntries = loadEntries(PrebuiltIndex.Type.INVERTED, ENTRY_LIST_TYPE, PrebuiltInvertedIndex.class);
+  private PrebuiltImpactIndex() {
+    List<Entry> loadedEntries = loadEntries(PrebuiltIndex.Type.IMPACT, ENTRY_LIST_TYPE, PrebuiltImpactIndex.class);
     entries = Collections.unmodifiableList(loadedEntries);
 
     Map<String, Entry> map = new HashMap<>(Math.max(16, entries.size() * 2));
@@ -52,7 +52,7 @@ public class PrebuiltInvertedIndex extends PrebuiltIndex {
     // Implementation of this class follows the singleton pattern. There should only be one instance.
     // If it isn't initialized, initialize it; otherwise, return the singleton instance.
     if (INSTANCE == null) {
-      INSTANCE = new PrebuiltInvertedIndex();
+      INSTANCE = new PrebuiltImpactIndex();
     }
 
     return INSTANCE.entries;
@@ -62,7 +62,7 @@ public class PrebuiltInvertedIndex extends PrebuiltIndex {
     // Implementation of this class follows the singleton pattern. There should only be one instance.
     // If it isn't initialized, initialize it; otherwise, return the singleton instance.
     if (INSTANCE == null) {
-      INSTANCE = new PrebuiltInvertedIndex();
+      INSTANCE = new PrebuiltImpactIndex();
     }
 
     return INSTANCE.byName.get(name);
