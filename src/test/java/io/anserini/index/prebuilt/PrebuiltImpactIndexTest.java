@@ -80,7 +80,7 @@ public class PrebuiltImpactIndexTest {
       TypeReference<List<PrebuiltImpactIndex.Entry>> entryListType =
           new TypeReference<List<PrebuiltImpactIndex.Entry>>() {};
       List<PrebuiltImpactIndex.Entry> entries =
-          PrebuiltIndex.loadEntries("impact", entryListType, jarClass);
+          PrebuiltIndex.loadEntries(PrebuiltIndex.Type.IMPACT, entryListType, jarClass);
       assertEquals(1, entries.size());
       assertEquals("TEST", entries.get(0).name);
     }

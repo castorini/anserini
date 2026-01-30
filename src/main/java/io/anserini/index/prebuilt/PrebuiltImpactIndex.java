@@ -35,7 +35,7 @@ public class PrebuiltImpactIndex extends PrebuiltIndex {
   private final Map<String, Entry> byName;
 
   private PrebuiltImpactIndex() {
-    List<Entry> loadedEntries = loadEntries("impact", ENTRY_LIST_TYPE, PrebuiltImpactIndex.class);
+    List<Entry> loadedEntries = loadEntries(PrebuiltIndex.Type.IMPACT, ENTRY_LIST_TYPE, PrebuiltImpactIndex.class);
     entries = Collections.unmodifiableList(loadedEntries);
 
     Map<String, Entry> map = new HashMap<>(Math.max(16, entries.size() * 2));

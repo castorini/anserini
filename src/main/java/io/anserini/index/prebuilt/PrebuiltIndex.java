@@ -47,6 +47,17 @@ public class PrebuiltIndex {
       .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
       .build();
 
+  public enum Type {
+    IMPACT("impact"),
+    INVERTED("inverted");
+
+    private final String id;
+
+    Type(String id) {
+      this.id = id;
+    }
+  }
+
   @JsonIgnoreProperties(ignoreUnknown = true)
   public static class Entry {
     @JsonProperty("name")
@@ -87,7 +98,7 @@ public class PrebuiltIndex {
   }
 
   protected static <T extends PrebuiltIndex.Entry> List<T> loadEntries(
-      String type,
+      Type type,
       TypeReference<List<T>> entryListType,
       Class<?> resourceClass) {
     List<T> loadedEntries = new ArrayList<>();
@@ -105,7 +116,7 @@ public class PrebuiltIndex {
               try (InputStream input = Files.newInputStream(path)) {
                 List<T> entriesInFile = MAPPER.readValue(input, entryListType);
                 for (T entry : entriesInFile) {
-                  if (entry != null && type.equals(entry.type)) {
+                  if (entry != null && type.id.equals(entry.type)) {
                     loadedEntries.add(entry);
                   }
                 }
@@ -135,7 +146,7 @@ public class PrebuiltIndex {
               try (InputStream input = jarFile.getInputStream(jarEntry)) {
                 List<T> entriesInFile = MAPPER.readValue(input, entryListType);
                 for (T entry : entriesInFile) {
-                  if (entry != null && type.equals(entry.type)) {
+                  if (entry != null && type.id.equals(entry.type)) {
                     loadedEntries.add(entry);
                   }
                 }

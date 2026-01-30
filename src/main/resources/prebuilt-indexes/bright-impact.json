@@ -7,7 +7,7 @@
         "filename": "lucene-inverted.bright-biology.splade-v3.20250808.c6674a.tar.gz",
         "readme": "lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-biology.splade-v3.20250808.c6674a.tar.gz",
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-biology.splade-v3.20250808.c6674a.tar.gz"
         ],
         "md5": "559813ffede15ba7080af05383b64bde",
         "compressed_size": 18830144,
@@ -23,7 +23,7 @@
         "filename": "lucene-inverted.bright-earth-science.splade-v3.20250808.c6674a.tar.gz",
         "readme": "lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-earth-science.splade-v3.20250808.c6674a.tar.gz",
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-earth-science.splade-v3.20250808.c6674a.tar.gz"
         ],
         "md5": "d87652fb3467cb0140c4514d1839d3c3",
         "compressed_size": 45644595,
@@ -39,7 +39,7 @@
         "filename": "lucene-inverted.bright-economics.splade-v3.20250808.c6674a.tar.gz",
         "readme": "lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-economics.splade-v3.20250808.c6674a.tar.gz",
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-economics.splade-v3.20250808.c6674a.tar.gz"
         ],
         "md5": "1df6c938e454c3ac2091a90e00fe51bc",
         "compressed_size": 14026997,
@@ -55,7 +55,7 @@
         "filename": "lucene-inverted.bright-psychology.splade-v3.20250808.c6674a.tar.gz",
         "readme": "lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-psychology.splade-v3.20250808.c6674a.tar.gz",
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-psychology.splade-v3.20250808.c6674a.tar.gz"
         ],
         "md5": "1ecb0fae06945e508da2d6e4f5e7e977",
         "compressed_size": 15406800,
@@ -71,7 +71,7 @@
         "filename": "lucene-inverted.bright-robotics.splade-v3.20250808.c6674a.tar.gz",
         "readme": "lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-robotics.splade-v3.20250808.c6674a.tar.gz",
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-robotics.splade-v3.20250808.c6674a.tar.gz"
         ],
         "md5": "3d63591bbb4393a0eb24f807b37a5f36",
         "compressed_size": 15418918,
@@ -87,7 +87,7 @@
         "filename": "lucene-inverted.bright-stackoverflow.splade-v3.20250808.c6674a.tar.gz",
         "readme": "lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-stackoverflow.splade-v3.20250808.c6674a.tar.gz",
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-stackoverflow.splade-v3.20250808.c6674a.tar.gz"
         ],
         "md5": "a79e44dc17c8150ca2caa78902fd38c8",
         "compressed_size": 39953128,
@@ -103,7 +103,7 @@
         "filename": "lucene-inverted.bright-sustainable-living.splade-v3.20250808.c6674a.tar.gz",
         "readme": "lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-sustainable-living.splade-v3.20250808.c6674a.tar.gz",
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-sustainable-living.splade-v3.20250808.c6674a.tar.gz"
         ],
         "md5": "2a3ed996f75bfa01a4684c446b0bc48f",
         "compressed_size": 16539893,
@@ -119,7 +119,7 @@
         "filename": "lucene-inverted.bright-pony.splade-v3.20250808.c6674a.tar.gz",
         "readme": "lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-pony.splade-v3.20250808.c6674a.tar.gz",
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-pony.splade-v3.20250808.c6674a.tar.gz"
         ],
         "md5": "95040fadfc7eeb594609abe05ab7a694",
         "compressed_size": 2506057,
@@ -135,7 +135,7 @@
         "filename": "lucene-inverted.bright-leetcode.splade-v3.20250808.c6674a.tar.gz",
         "readme": "lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-leetcode.splade-v3.20250808.c6674a.tar.gz",
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-leetcode.splade-v3.20250808.c6674a.tar.gz"
         ],
         "md5": "6e585d1d9012c220b52c6bb9306360f8",
         "compressed_size": 167385110,
@@ -151,7 +151,7 @@
         "filename": "lucene-inverted.bright-aops.splade-v3.20250808.c6674a.tar.gz",
         "readme": "lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-aops.splade-v3.20250808.c6674a.tar.gz",
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-aops.splade-v3.20250808.c6674a.tar.gz"
         ],
         "md5": "294aa5f3dbd9a3a2c435e97e7937ccb1",
         "compressed_size": 58454988,
@@ -167,7 +167,7 @@
         "filename": "lucene-inverted.bright-theoremqa-theorems.splade-v3.20250808.c6674a.tar.gz",
         "readme": "lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-theoremqa-theorems.splade-v3.20250808.c6674a.tar.gz",
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-theoremqa-theorems.splade-v3.20250808.c6674a.tar.gz"
         ],
         "md5": "726c22edd0d50fd9b5b86b69984c3a48",
         "compressed_size": 7615555,
@@ -183,7 +183,7 @@
         "filename": "lucene-inverted.bright-theoremqa-questions.splade-v3.20250808.c6674a.tar.gz",
         "readme": "lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-theoremqa-questions.splade-v3.20250808.c6674a.tar.gz",
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-theoremqa-questions.splade-v3.20250808.c6674a.tar.gz"
         ],
         "md5": "bd21607333fcf7379320363959b02bf4",
         "compressed_size": 58455397,

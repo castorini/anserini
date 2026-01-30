@@ -35,7 +35,7 @@ public class PrebuiltInvertedIndex extends PrebuiltIndex {
   private final Map<String, Entry> byName;
 
   private PrebuiltInvertedIndex() {
-    List<Entry> loadedEntries = loadEntries("inverted", ENTRY_LIST_TYPE, PrebuiltInvertedIndex.class);
+    List<Entry> loadedEntries = loadEntries(PrebuiltIndex.Type.INVERTED, ENTRY_LIST_TYPE, PrebuiltInvertedIndex.class);
     entries = Collections.unmodifiableList(loadedEntries);
 
     Map<String, Entry> map = new HashMap<>(Math.max(16, entries.size() * 2));
