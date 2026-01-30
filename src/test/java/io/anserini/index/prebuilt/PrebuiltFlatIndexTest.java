@@ -29,14 +29,25 @@ public class PrebuiltFlatIndexTest {
 
   @Test
   public void testTotalCount() {
-    assertEquals(12, PrebuiltFlatIndex.entries().size());
+    assertEquals(41, PrebuiltFlatIndex.entries().size());
+  }
+
+  @Test
+  public void testTotalCountForBeir() {
+    int beirCount = 0;
+    for (PrebuiltFlatIndex.Entry entry : PrebuiltFlatIndex.entries()) {
+      if (entry != null && entry.name != null && entry.name.startsWith("beir")) {
+        beirCount++;
+      }
+    }
+    assertEquals(29, beirCount);
   }
 
   @Test
   public void testTotalCountForBright() {
     int brightCount = 0;
     for (PrebuiltFlatIndex.Entry entry : PrebuiltFlatIndex.entries()) {
-      if (entry != null && entry.name != null && entry.name.toUpperCase().startsWith("BRIGHT")) {
+      if (entry != null && entry.name != null && entry.name.startsWith("bright")) {
         brightCount++;
       }
     }

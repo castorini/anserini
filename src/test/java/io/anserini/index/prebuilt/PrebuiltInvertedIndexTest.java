@@ -70,13 +70,13 @@ public class PrebuiltInvertedIndexTest {
 
   @Test
   public void testTotalCountForBeir() {
-    int brightCount = 0;
+    int beirCount = 0;
     for (PrebuiltInvertedIndex.Entry entry : PrebuiltInvertedIndex.entries()) {
       if (entry != null && entry.name != null && entry.name.startsWith("beir")) {
-        brightCount++;
+        beirCount++;
       }
     }
-    assertEquals(58, brightCount);
+    assertEquals(58, beirCount);
   }
 
   @Test

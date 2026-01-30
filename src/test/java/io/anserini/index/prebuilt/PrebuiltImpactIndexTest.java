@@ -45,14 +45,25 @@ public class PrebuiltImpactIndexTest {
 
   @Test
   public void testTotalCount() {
-    assertEquals(12, PrebuiltImpactIndex.entries().size());
+    assertEquals(70, PrebuiltImpactIndex.entries().size());
+  }
+
+  @Test
+  public void testTotalCountForBeir() {
+    int beirCount = 0;
+    for (PrebuiltImpactIndex.Entry entry : PrebuiltImpactIndex.entries()) {
+      if (entry != null && entry.name != null && entry.name.startsWith("beir")) {
+        beirCount++;
+      }
+    }
+    assertEquals(58, beirCount);
   }
 
   @Test
   public void testTotalCountForBright() {
     int brightCount = 0;
     for (PrebuiltImpactIndex.Entry entry : PrebuiltImpactIndex.entries()) {
-      if (entry != null && entry.name != null && entry.name.toUpperCase().startsWith("BRIGHT")) {
+      if (entry != null && entry.name != null && entry.name.startsWith("bright")) {
         brightCount++;
       }
     }
