@@ -21,15 +21,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 public class PrebuiltImpactIndex extends PrebuiltIndex {
   private static final TypeReference<List<Entry>> ENTRY_LIST_TYPE = new TypeReference<List<Entry>>() {};
 
-  // This is the singleton instance of this class.
-  private static PrebuiltImpactIndex INSTANCE;
+  // This is the singleton instance of this class. Use the holder pattern to ensure thread safety.
+  private static class Holder {
+    private static final PrebuiltImpactIndex INSTANCE = new PrebuiltImpactIndex();
+  }
 
-  public static class Entry extends PrebuiltIndex.Entry {}
+  public static class Entry extends PrebuiltIndex.Entry {
+    @JsonProperty("total_terms")
+    public long totalTerms;
+
+    @JsonProperty("documents")
+    public int documents;
+
+    @JsonProperty("unique_terms")
+    public long uniqueTerms;
+  }
 
   private final List<Entry> entries;
   private final Map<String, Entry> byName;
@@ -49,22 +61,10 @@ public class PrebuiltImpactIndex extends PrebuiltIndex {
   }
 
   public static List<Entry> entries() {
-    // Implementation of this class follows the singleton pattern. There should only be one instance.
-    // If it isn't initialized, initialize it; otherwise, return the singleton instance.
-    if (INSTANCE == null) {
-      INSTANCE = new PrebuiltImpactIndex();
-    }
-
-    return INSTANCE.entries;
+    return Holder.INSTANCE.entries;
   }
 
   public static Entry get(String name) {
-    // Implementation of this class follows the singleton pattern. There should only be one instance.
-    // If it isn't initialized, initialize it; otherwise, return the singleton instance.
-    if (INSTANCE == null) {
-      INSTANCE = new PrebuiltImpactIndex();
-    }
-
-    return INSTANCE.byName.get(name);
+    return Holder.INSTANCE.byName.get(name);
   }
 }

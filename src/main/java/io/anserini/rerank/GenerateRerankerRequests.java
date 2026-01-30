@@ -205,7 +205,7 @@ public class GenerateRerankerRequests<K extends Comparable<K>> implements Closea
   }
 
   // TODO (2026/01/28): This method should really be in IndexReaderUtils and renamed something like getCorpusIndexReader.
-  public IndexReader getIndexReader(String index) {
+  public IndexReader getIndexReader(String index) throws IOException {
     String resolvedIndex;
 
     boolean isPrebuiltLabel = IndexInfo.contains(index);

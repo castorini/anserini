@@ -843,7 +843,7 @@ public class IndexReaderUtils {
     return description;
   }
 
-  public static Path getIndex(String index) {
+  public static Path getIndex(String index) throws IOException {
     PrebuiltIndexHandler handler = PrebuiltIndexHandler.get(index);
 
     // Check for the ambiguous case.
@@ -853,17 +853,12 @@ public class IndexReaderUtils {
           "Please disambiguate by specifying the full path.", index));
     }
 
+    // Try fetching prebuilt index: If there are any errors, an IOException will be thrown, to be handled by caller.
     if (handler != null) {
-      try {
-        handler.fetch();
-        String indexLocation = handler.getIndexFolderPath().toString();
-
-        return Paths.get(indexLocation);
-      } catch (Exception e) {
-        // Fall through.
-      }
+      handler.fetch();
+      return handler.getIndexFolderPath();
     }
-    
+
     // Try local path
     Path indexPath = Paths.get(index);
     if (Files.exists(indexPath)) {
