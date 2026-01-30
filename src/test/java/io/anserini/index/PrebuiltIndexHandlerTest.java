@@ -89,8 +89,20 @@ public class PrebuiltIndexHandlerTest {
   }
 
   @Test
-  public void testGet() throws Exception {
+  public void testGetInverted() throws Exception {
     PrebuiltIndexHandler handler = PrebuiltIndexHandler.get("bright-biology");
+    assertNotNull(handler);
+  }
+
+  @Test
+  public void testGetImpact() throws Exception {
+    PrebuiltIndexHandler handler = PrebuiltIndexHandler.get("bright-biology.splade-v3");
+    assertNotNull(handler);
+  }
+
+  @Test
+  public void testGetFlat() throws Exception {
+    PrebuiltIndexHandler handler = PrebuiltIndexHandler.get("bright-biology.bge-large-en-v1.5.flat");
     assertNotNull(handler);
   }
 
