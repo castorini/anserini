@@ -82,9 +82,8 @@ public class HnswDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
       Configurator.setRootLevel(Level.ERROR);
     }
 
-    Path indexPath = IndexReaderUtils.getIndex(args.index);
-
     try {
+      Path indexPath = IndexReaderUtils.getIndex(args.index);
       this.reader = IndexReaderUtils.getReader(indexPath.toString());
     } catch (IOException e) {
       throw new IllegalArgumentException(String.format("\"%s\" does not appear to be a valid index.", args.index));

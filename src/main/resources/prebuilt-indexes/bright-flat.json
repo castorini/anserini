@@ -10,10 +10,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright-biology.bge-large-en-v1.5.20250819.e5ee76.tar.gz"
         ],
         "md5": "662deededd6abd63d0affe6cd721f9bc",
-        "compressed_size": -1,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 218056073
     },
     {
         "name": "bright-earth-science.bge-large-en-v1.5.flat",
@@ -26,10 +23,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright-earth-science.bge-large-en-v1.5.20250819.e5ee76.tar.gz"
         ],
         "md5": "fde5e4a80ff52201562e8ecf26f21b7a",
-        "compressed_size": -1,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 461414541
     },
     {
         "name": "bright-economics.bge-large-en-v1.5.flat",
@@ -42,10 +36,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright-economics.bge-large-en-v1.5.20250819.e5ee76.tar.gz"
         ],
         "md5": "6fde3c800c75d1ff48d210a35116aba7",
-        "compressed_size": -1,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 190321610
     },
     {
         "name": "bright-psychology.bge-large-en-v1.5.flat",
@@ -58,10 +49,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright-psychology.bge-large-en-v1.5.20250819.e5ee76.tar.gz"
         ],
         "md5": "e8d0ad213038c1a17bc6bc89a560f78c",
-        "compressed_size": -1,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 200647537
     },
     {
         "name": "bright-robotics.bge-large-en-v1.5.flat",
@@ -74,10 +62,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright-robotics.bge-large-en-v1.5.20250819.e5ee76.tar.gz"
         ],
         "md5": "b8790e1cfdd5b5223b09cb5c2bc6d755",
-        "compressed_size": -1,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 229535310
     },
     {
         "name": "bright-stackoverflow.bge-large-en-v1.5.flat",
@@ -90,10 +75,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright-stackoverflow.bge-large-en-v1.5.20250819.e5ee76.tar.gz"
         ],
         "md5": "d51501bcfc2ea5f9b6955138af10a8ce",
-        "compressed_size": -1,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 395127337
     },
     {
         "name": "bright-sustainable-living.bge-large-en-v1.5.flat",
@@ -106,10 +88,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright-sustainable-living.bge-large-en-v1.5.20250819.e5ee76.tar.gz"
         ],
         "md5": "74f35492ead2674eba66a593b7d41f9c",
-        "compressed_size": -1,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 229946240
     },
     {
         "name": "bright-pony.bge-large-en-v1.5.flat",
@@ -122,10 +101,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright-pony.bge-large-en-v1.5.20250819.e5ee76.tar.gz"
         ],
         "md5": "9b6936888683c3de913f3dc72850b3bd",
-        "compressed_size": -1,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 29982452
     },
     {
         "name": "bright-leetcode.bge-large-en-v1.5.flat",
@@ -138,10 +114,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright-leetcode.bge-large-en-v1.5.20250819.e5ee76.tar.gz"
         ],
         "md5": "b2a74dbfa98643a02c5c8a8d2f580307",
-        "compressed_size": -1,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 1579962733
     },
     {
         "name": "bright-aops.bge-large-en-v1.5.flat",
@@ -154,10 +127,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright-aops.bge-large-en-v1.5.20250819.e5ee76.tar.gz"
         ],
         "md5": "c1b38e76a91aa8823918171f6882ae66",
-        "compressed_size": -1,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 715791851
     },
     {
         "name": "bright-theoremqa-theorems.bge-large-en-v1.5.flat",
@@ -170,10 +140,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright-theoremqa-theorems.bge-large-en-v1.5.20250819.e5ee76.tar.gz"
         ],
         "md5": "9bbfac0a2a18095c39459cdf9378fe16",
-        "compressed_size": -1,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 90774255
     },
     {
         "name": "bright-theoremqa-questions.bge-large-en-v1.5.flat",
@@ -186,9 +153,6 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright-theoremqa-questions.bge-large-en-v1.5.20250819.e5ee76.tar.gz"
         ],
         "md5": "94c077d896ef6881c8c57e2302bae62d",
-        "compressed_size": -1,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 715791577
     }
 ]

@@ -16,6 +16,7 @@
 
 package io.anserini.index;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
@@ -85,6 +86,12 @@ public class PrebuiltIndexHandlerTest {
     PrebuiltIndexHandler handler = PrebuiltIndexHandler.get("fake_index");
 
     assertNull(handler);
+  }
+
+  @Test
+  public void testGet() throws Exception {
+    PrebuiltIndexHandler handler = PrebuiltIndexHandler.get("bright-biology");
+    assertNotNull(handler);
   }
 
   @Test

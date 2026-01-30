@@ -51,6 +51,7 @@ public class PrebuiltIndexHandler {
   private final String filename;
   private final String md5;
   private final String[] urls;
+  private final long compressedSize;
 
   private String cacheDirectory;
   private Path downloadFilePath;
@@ -64,17 +65,15 @@ public class PrebuiltIndexHandler {
    *
    * @param name the name of the index
    */
-  public static PrebuiltIndexHandler get(String name) {
+  public static PrebuiltIndexHandler get(String name) throws IOException {
     try {
-      IndexInfo.get(name);
-    } catch (IllegalArgumentException e) {
+      return new PrebuiltIndexHandler(name);
+    } catch (Exception e) {
       return null;
     }
-
-    return new PrebuiltIndexHandler(name);
   }
 
-  private PrebuiltIndexHandler(String name) {
+  private PrebuiltIndexHandler(String name) throws IOException {
     if (PrebuiltInvertedIndex.get(name) != null) {
       LOG.info("Using PrebuiltInvertedIndex instead of IndexInfo to fetch prebuilt index.");
       PrebuiltInvertedIndex.Entry entry = PrebuiltInvertedIndex.get(name);
@@ -83,6 +82,7 @@ public class PrebuiltIndexHandler {
       this.filename = entry.filename;
       this.md5 = entry.md5;
       this.urls = entry.urls;
+      this.compressedSize = entry.compressedSize;
     } else {
       try {
         IndexInfo indexInfo = IndexInfo.get(name);
@@ -91,8 +91,11 @@ public class PrebuiltIndexHandler {
         this.filename = indexInfo.filename;
         this.md5 = indexInfo.md5;
         this.urls = indexInfo.urls;
+
+        // If we're still using IndexInfo, don't bother with this field since we're going to deprecate soon.
+        this.compressedSize = -1;
       } catch (IllegalArgumentException e) {
-        throw new IllegalArgumentException("Index not found!" + e.getMessage());
+        throw new IOException("Index not found!" + e.getMessage());
       }
     }
   }
@@ -118,11 +121,11 @@ public class PrebuiltIndexHandler {
     }
   }
 
-  public void fetch() throws IOException, URISyntaxException, InterruptedException {
+  public void fetch() throws IOException {
     fetch(getCache());
   }
 
-  public void fetch(String cacheDirectory) throws IOException, URISyntaxException, InterruptedException {
+  public void fetch(String cacheDirectory) throws IOException {
     this.cacheDirectory = cacheDirectory;
 
     if (!Path.of(cacheDirectory).toFile().exists()) {
@@ -141,8 +144,25 @@ public class PrebuiltIndexHandler {
       return;
     }
 
-    download();
-    decompress();
+    try {
+      download();
+    } catch (URISyntaxException e) {
+      throw new IOException("Invalid URL syntax for index download: " + e.getMessage(), e);
+    }
+
+    if (compressedSize != -1) {
+      long downloadedSize = Files.size(downloadFilePath);
+      if (downloadedSize != compressedSize) {
+        throw new IOException("Downloaded file size mismatch: expected " + compressedSize + " bytes but got " + downloadedSize + " bytes.");
+      }
+    }
+
+    try {
+      decompress();
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new IOException("Decompression interrupted: " + e.getMessage(), e);
+    }
   }
 
   private void download() throws IOException, URISyntaxException {
