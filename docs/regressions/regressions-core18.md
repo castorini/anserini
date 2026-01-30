@@ -62,7 +62,7 @@ bin/run.sh io.anserini.search.SearchCollection \
   -topics tools/topics-and-qrels/topics.core18.txt \
   -topicReader Trec \
   -output runs/run.wapo.v2.bm25+ax.topics.core18.txt \
-  -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
+  -bm25 -axiom -rerankCutoff 20 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
@@ -83,7 +83,7 @@ bin/run.sh io.anserini.search.SearchCollection \
   -topics tools/topics-and-qrels/topics.core18.txt \
   -topicReader Trec \
   -output runs/run.wapo.v2.ql+ax.topics.core18.txt \
-  -qld -axiom -axiom.deterministic -rerankCutoff 20 &
+  -qld -axiom -rerankCutoff 20 &
 ```
 
 Evaluation can be performed using `trec_eval`:

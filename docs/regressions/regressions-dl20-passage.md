@@ -78,7 +78,7 @@ bin/run.sh io.anserini.search.SearchCollection \
   -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-passage.bm25-default+ax.topics.dl20.txt \
-  -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
+  -bm25 -axiom -rerankCutoff 20 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v1-passage/ \
@@ -120,7 +120,7 @@ bin/run.sh io.anserini.search.SearchCollection \
   -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-passage.bm25-tuned+ax.topics.dl20.txt \
-  -bm25 -bm25.k1 0.82 -bm25.b 0.68 -axiom -axiom.deterministic -rerankCutoff 20 &
+  -bm25 -bm25.k1 0.82 -bm25.b 0.68 -axiom -rerankCutoff 20 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v1-passage/ \

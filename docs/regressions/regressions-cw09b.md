@@ -91,19 +91,19 @@ bin/run.sh io.anserini.search.SearchCollection \
   -topics tools/topics-and-qrels/topics.web.51-100.txt \
   -topicReader Webxml \
   -output runs/run.cw09b.bm25+ax.topics.web.51-100.txt \
-  -parallelism 16 -bm25 -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
+  -parallelism 16 -bm25 -axiom -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.cw09b/ \
   -topics tools/topics-and-qrels/topics.web.101-150.txt \
   -topicReader Webxml \
   -output runs/run.cw09b.bm25+ax.topics.web.101-150.txt \
-  -parallelism 16 -bm25 -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
+  -parallelism 16 -bm25 -axiom -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.cw09b/ \
   -topics tools/topics-and-qrels/topics.web.151-200.txt \
   -topicReader Webxml \
   -output runs/run.cw09b.bm25+ax.topics.web.151-200.txt \
-  -parallelism 16 -bm25 -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
+  -parallelism 16 -bm25 -axiom -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.cw09b/ \
@@ -148,19 +148,19 @@ bin/run.sh io.anserini.search.SearchCollection \
   -topics tools/topics-and-qrels/topics.web.51-100.txt \
   -topicReader Webxml \
   -output runs/run.cw09b.ql+ax.topics.web.51-100.txt \
-  -parallelism 16 -qld -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
+  -parallelism 16 -qld -axiom -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.cw09b/ \
   -topics tools/topics-and-qrels/topics.web.101-150.txt \
   -topicReader Webxml \
   -output runs/run.cw09b.ql+ax.topics.web.101-150.txt \
-  -parallelism 16 -qld -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
+  -parallelism 16 -qld -axiom -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.cw09b/ \
   -topics tools/topics-and-qrels/topics.web.151-200.txt \
   -topicReader Webxml \
   -output runs/run.cw09b.ql+ax.topics.web.151-200.txt \
-  -parallelism 16 -qld -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
+  -parallelism 16 -qld -axiom -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
 ```
 
 Evaluation can be performed using `trec_eval` and `gdeval.pl`:
