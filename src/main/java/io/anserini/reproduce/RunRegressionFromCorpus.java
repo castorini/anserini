@@ -205,8 +205,8 @@ public class RunRegressionFromCorpus {
             }
             String stat = parts[0].trim();
             if (stats.has(stat)) {
-              int value = Integer.parseInt(parts[1].trim());
-              int expected = stats.get(stat).asInt();
+              long value = Long.parseLong(parts[1].trim());
+              long expected = stats.get(stat).asLong();
               if (value != expected) {
                 System.out.printf("%s: expected=%d, actual=%d%n", stat, expected, value);
                 throw new AssertionError(stat + " mismatch");
