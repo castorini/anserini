@@ -18,7 +18,6 @@ package io.anserini.index;
 
 import io.anserini.encoder.dense.ArcticEmbedLEncoder;
 import io.anserini.encoder.dense.BgeBaseEn15Encoder;
-import io.anserini.encoder.dense.BgeLargeEn15Encoder;
 import io.anserini.encoder.sparse.SpladePlusPlusEnsembleDistilEncoder;
 import io.anserini.encoder.sparse.SpladeV3Encoder;
 import io.anserini.encoder.sparse.UniCoilEncoder;

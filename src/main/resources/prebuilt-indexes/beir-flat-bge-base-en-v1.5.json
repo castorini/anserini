@@ -11,10 +11,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-trec-covid.bge-base-en-v1.5.20240618.6cf601.tar.gz"
         ],
         "md5": "516748bfd1923a999a56160e93b8daae",
-        "compressed_size": -1,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 492046838
     },
     {
         "name": "beir-v1.0.0-bioasq.bge-base-en-v1.5.flat",
@@ -28,10 +25,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-bioasq.bge-base-en-v1.5.20240618.6cf601.tar.gz"
         ],
         "md5": "b470cc88cdf338a7325f14eb05bf784d",
-        "compressed_size": -1,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 42707657024
     },
     {
         "name": "beir-v1.0.0-nfcorpus.bge-base-en-v1.5.flat",
@@ -45,10 +39,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-nfcorpus.bge-base-en-v1.5.20240618.6cf601.tar.gz"
         ],
         "md5": "9c1d92c88faccc72d0e869439cd28ad5",
-        "compressed_size": -1,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 10368418
     },
     {
         "name": "beir-v1.0.0-nq.bge-base-en-v1.5.flat",
@@ -62,10 +53,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-nq.bge-base-en-v1.5.20240618.6cf601.tar.gz"
         ],
         "md5": "ad668f12f998052ec22b91f808e301e6",
-        "compressed_size": -1,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 7644825921
     },
     {
         "name": "beir-v1.0.0-hotpotqa.bge-base-en-v1.5.flat",
@@ -79,10 +67,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-hotpotqa.bge-base-en-v1.5.20240618.6cf601.tar.gz"
         ],
         "md5": "43422329006eea8648ac2928589a0512",
-        "compressed_size": -1,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 14985912091
     },
     {
         "name": "beir-v1.0.0-fiqa.bge-base-en-v1.5.flat",
@@ -96,10 +81,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-fiqa.bge-base-en-v1.5.20240618.6cf601.tar.gz"
         ],
         "md5": "1b727263a0195430dbc20a3cc412f819",
-        "compressed_size": -1,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 164813002
     },
     {
         "name": "beir-v1.0.0-signal1m.bge-base-en-v1.5.flat",
@@ -113,10 +95,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-signal1m.bge-base-en-v1.5.20240618.6cf601.tar.gz"
         ],
         "md5": "7e3967b5e0326a3e4063fde12ccfd9d0",
-        "compressed_size": -1,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 8228430064
     },
     {
         "name": "beir-v1.0.0-trec-news.bge-base-en-v1.5.flat",
@@ -130,10 +109,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-trec-news.bge-base-en-v1.5.20240618.6cf601.tar.gz"
         ],
         "md5": "3da92ed6d976cd02333dd9078c0220ae",
-        "compressed_size": -1,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 1605108139
     },
     {
         "name": "beir-v1.0.0-robust04.bge-base-en-v1.5.flat",
@@ -147,10 +123,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-robust04.bge-base-en-v1.5.20240618.6cf601.tar.gz"
         ],
         "md5": "7750b4abbc60fe821c5948a81296f1d0",
-        "compressed_size": -1,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 1506316682
     },
     {
         "name": "beir-v1.0.0-arguana.bge-base-en-v1.5.flat",
@@ -164,10 +137,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-arguana.bge-base-en-v1.5.20240618.6cf601.tar.gz"
         ],
         "md5": "ac0f12b71080c92ab752983a0684686e",
-        "compressed_size": -1,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 24845476
     },
     {
         "name": "beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.flat",
@@ -181,10 +151,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.20240618.6cf601.tar.gz"
         ],
         "md5": "d9572d89c85eccbc781d552699fa2e92",
-        "compressed_size": -1,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 1095210780
     },
     {
         "name": "beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.flat",
@@ -198,10 +165,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.20240618.6cf601.tar.gz"
         ],
         "md5": "354f39e9e4cf11eb2f2b99409f672995",
-        "compressed_size": -1,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 65787255
     },
     {
         "name": "beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.flat",
@@ -215,10 +179,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.20240618.6cf601.tar.gz"
         ],
         "md5": "36f72965dcaf9e2dee697152bb38b6d9",
-        "compressed_size": -1,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 115118992
     },
     {
         "name": "beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.flat",
@@ -232,10 +193,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.20240618.6cf601.tar.gz"
         ],
         "md5": "36c47d9387134e88321fa1d4e8f1503e",
-        "compressed_size": -1,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 129625958
     },
     {
         "name": "beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.flat",
@@ -249,10 +207,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.20240618.6cf601.tar.gz"
         ],
         "md5": "74e85b1e2847e13343e3b90b4a28a96e",
-        "compressed_size": -1,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 107668300
     },
     {
         "name": "beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.flat",
@@ -266,10 +221,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.20240618.6cf601.tar.gz"
         ],
         "md5": "e720e0a7351574161570a77908094e73",
-        "compressed_size": -1,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 47801160
     },
     {
         "name": "beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.flat",
@@ -283,10 +235,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.20240618.6cf601.tar.gz"
         ],
         "md5": "026a07c3c331fe7be2a8441b124c9f4f",
-        "compressed_size": -1,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 109652407
     },
     {
         "name": "beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.flat",
@@ -300,10 +249,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.20240618.6cf601.tar.gz"
         ],
         "md5": "4cb595ae05660973d0b381f1791f0c50",
-        "compressed_size": -1,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 92107047
     },
     {
         "name": "beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.flat",
@@ -317,10 +263,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.20240618.6cf601.tar.gz"
         ],
         "md5": "7f0cc4b9036c3d92f82ac86beeb1767e",
-        "compressed_size": -1,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 120939672
     },
     {
         "name": "beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.flat",
@@ -334,10 +277,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.20240618.6cf601.tar.gz"
         ],
         "md5": "7770dfcb197d6a37492c634e5f17beb5",
-        "compressed_size": -1,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 195093442
     },
     {
         "name": "beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.flat",
@@ -351,10 +291,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.20240618.6cf601.tar.gz"
         ],
         "md5": "52f04d06f1d6d8ecdb2b0496ebd99ab8",
-        "compressed_size": -1,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 135567506
     },
     {
         "name": "beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.flat",
@@ -368,10 +305,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.20240618.6cf601.tar.gz"
         ],
         "md5": "7bac4a98b9d3dc95f979bac8beedd648",
-        "compressed_size": -1,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 49806547
     },
     {
         "name": "beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.flat",
@@ -385,10 +319,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.20240618.6cf601.tar.gz"
         ],
         "md5": "5a9802e2fc1eeb06a83723172f19b709",
-        "compressed_size": -1,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 139061233
     },
     {
         "name": "beir-v1.0.0-quora.bge-base-en-v1.5.flat",
@@ -402,10 +333,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-quora.bge-base-en-v1.5.20240618.6cf601.tar.gz"
         ],
         "md5": "21dfce18ce9e4351af900c343556c9e2",
-        "compressed_size": -1,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 1492874209
     },
     {
         "name": "beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.flat",
@@ -419,10 +347,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.20240618.6cf601.tar.gz"
         ],
         "md5": "4158d064d8bb61ed361cea98e6187248",
-        "compressed_size": -1,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 13409854877
     },
     {
         "name": "beir-v1.0.0-scidocs.bge-base-en-v1.5.flat",
@@ -436,10 +361,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-scidocs.bge-base-en-v1.5.20240618.6cf601.tar.gz"
         ],
         "md5": "db316cf58c1f8e44aa0c62d7dcd71ec1",
-        "compressed_size": -1,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 75125544
     },
     {
         "name": "beir-v1.0.0-fever.bge-base-en-v1.5.flat",
@@ -453,10 +375,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-fever.bge-base-en-v1.5.20240618.6cf601.tar.gz"
         ],
         "md5": "e53c73a00737cf069360dc66fdc193f8",
-        "compressed_size": -1,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 15645477632
     },
     {
         "name": "beir-v1.0.0-climate-fever.bge-base-en-v1.5.flat",
@@ -470,10 +389,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-climate-fever.bge-base-en-v1.5.20240618.6cf601.tar.gz"
         ],
         "md5": "bdf55c67f0abba5060fead09ef972d29",
-        "compressed_size": -1,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 15645070209
     },
     {
         "name": "beir-v1.0.0-scifact.bge-base-en-v1.5.flat",
@@ -487,9 +403,6 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-scifact.bge-base-en-v1.5.20240618.6cf601.tar.gz"
         ],
         "md5": "556abd7e9fcffbf06057ce3111cf4cc5",
-        "compressed_size": -1,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 14867286
     }
 ]
