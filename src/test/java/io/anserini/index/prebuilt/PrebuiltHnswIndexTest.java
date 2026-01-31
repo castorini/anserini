@@ -1,3 +1,19 @@
+/*
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.anserini.index.prebuilt;
 
 import static org.junit.Assert.assertEquals;
@@ -44,6 +60,17 @@ public class PrebuiltHnswIndexTest {
   }
 
   @Test
+  public void testTotalCountForBright() {
+    int brightCount = 0;
+    for (PrebuiltHnswIndex.Entry entry : PrebuiltHnswIndex.entries()) {
+      if (entry != null && entry.name != null && entry.name.startsWith("bright")) {
+        brightCount++;
+      }
+    }
+    assertEquals(0, brightCount);
+  }
+
+  @Test
   public void testUrls() {
     for (PrebuiltFlatIndex.Entry entry : PrebuiltFlatIndex.entries()) {
       for (String url : entry.urls) {
@@ -64,30 +91,26 @@ public class PrebuiltHnswIndexTest {
 
   @Test
   public void testLoadEntriesFromJarProtocol() throws Exception {
-    Path tempDir = Files.createTempDirectory("anserini-prebuilt-flat-jar");
+    Path tempDir = Files.createTempDirectory("anserini-prebuilt-hnsw-jar");
 
-    Path jarPath = tempDir.resolve("prebuilt-flat.jar");
+    Path jarPath = tempDir.resolve("prebuilt-hnsw.jar");
     try (JarOutputStream jarOut = new JarOutputStream(Files.newOutputStream(jarPath))) {
       JarEntry dirEntry = new JarEntry("prebuilt-indexes/");
       jarOut.putNextEntry(dirEntry);
       jarOut.closeEntry();
 
-      JarEntry jsonEntry = new JarEntry("prebuilt-indexes/flat-test.json");
+      JarEntry jsonEntry = new JarEntry("prebuilt-indexes/hnsw-test.json");
       jarOut.putNextEntry(jsonEntry);
-      jarOut.write("[{\"name\":\"TEST\",\"type\":\"flat\"}]".getBytes(StandardCharsets.UTF_8));
+      jarOut.write("[{\"name\":\"TEST\",\"type\":\"hnsw\"}]".getBytes(StandardCharsets.UTF_8));
       jarOut.closeEntry();
     }
 
     URL jarUrl = jarPath.toUri().toURL();
     try (URLClassLoader jarClassLoader = new URLClassLoader(new URL[] {jarUrl}, null)) {
-      Class<?> jarClass = Proxy.newProxyInstance(
-          jarClassLoader,
-          new Class<?>[] {Runnable.class},
-          (proxy, method, args) -> null).getClass();
-      TypeReference<List<PrebuiltFlatIndex.Entry>> entryListType =
-          new TypeReference<List<PrebuiltFlatIndex.Entry>>() {};
-      List<PrebuiltFlatIndex.Entry> entries =
-          PrebuiltIndex.loadEntries(PrebuiltIndex.Type.FLAT, entryListType, jarClass);
+      Class<?> jarClass = Proxy.newProxyInstance(jarClassLoader, new Class<?>[] {Runnable.class}, (proxy, method, args) -> null).getClass();
+      TypeReference<List<PrebuiltHnswIndex.Entry>> entryListType = new TypeReference<List<PrebuiltHnswIndex.Entry>>() {};
+      List<PrebuiltHnswIndex.Entry> entries = PrebuiltIndex.loadEntries(PrebuiltIndex.Type.HNSW, entryListType, jarClass);
+
       assertEquals(1, entries.size());
       assertEquals("TEST", entries.get(0).name);
     }
