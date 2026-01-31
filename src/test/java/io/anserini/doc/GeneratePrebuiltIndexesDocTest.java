@@ -28,34 +28,9 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import io.anserini.index.IndexInfo;
-import io.anserini.index.IndexInfo.IndexType;
-
 public class GeneratePrebuiltIndexesDocTest {
   @Test
   public void generateDocs() throws IOException {
-    // Map from IndexType to list of IndexInfo entries
-    Map<IndexType, Map<String, List<IndexInfo>>> grouped = new TreeMap<IndexType, Map<String, List<IndexInfo>>>(Comparator.comparing(IndexType::name));
-    for (IndexInfo info : IndexInfo.values()) {
-      String dataset = "Other";
-      if (info.indexName.contains("msmarco")) {
-        dataset = "MS MARCO";
-      } else if (info.indexName.contains("beir")) {
-        dataset = "BEIR";
-      } else if (info.indexName.contains("bright")) {
-        dataset = "BRIGHT";
-      }
-      IndexType type = info.indexType;
-      if (info.indexType == IndexType.DENSE_HNSW_INT8) {
-        type = IndexType.DENSE_HNSW; 
-      } else if (info.indexType == IndexType.DENSE_FLAT_INT8) {
-        type = IndexType.DENSE_FLAT; 
-      }
-      grouped.computeIfAbsent(type, k -> new HashMap<>());
-      grouped.get(type).computeIfAbsent(dataset, k -> new ArrayList<>());
-      grouped.get(type).get(dataset).add(info);
-    }
-
     StringBuilder md = new StringBuilder();
     md.append("""
     # Anserini: Prebuilt Indexes
@@ -140,31 +115,31 @@ public class GeneratePrebuiltIndexesDocTest {
 
     """);
 
-    for (IndexType type : grouped.keySet()) {
-      String typeHeading = "";
-      if (type == IndexType.SPARSE_INVERTED) {
-        typeHeading = "Lucene Inverted Indexes";
-      } else if (type == IndexType.SPARSE_IMPACT) {
-        typeHeading = "Lucene Impact Indexes";
-      } else if (type == IndexType.DENSE_HNSW) {
-        typeHeading = "Lucene HNSW Indexes";
-      } else if (type == IndexType.DENSE_FLAT) {
-        typeHeading = "Lucene Flat Vector Indexes";
-      }
+    // for (IndexType type : grouped.keySet()) {
+    //   String typeHeading = "";
+    //   if (type == IndexType.SPARSE_INVERTED) {
+    //     typeHeading = "Lucene Inverted Indexes";
+    //   } else if (type == IndexType.SPARSE_IMPACT) {
+    //     typeHeading = "Lucene Impact Indexes";
+    //   } else if (type == IndexType.DENSE_HNSW) {
+    //     typeHeading = "Lucene HNSW Indexes";
+    //   } else if (type == IndexType.DENSE_FLAT) {
+    //     typeHeading = "Lucene Flat Vector Indexes";
+    //   }
 
-      md.append("### ").append(typeHeading).append("\n");
-      for (String dataset : grouped.get(type).keySet()) {
-        md.append("<details>\n");
-        md.append("<summary>").append(dataset).append("</summary>\n").append("<dl>\n");
-        for (IndexInfo info : grouped.get(type).get(dataset)) {
-          md.append("<dt></dt><b><code>").append(info.indexName).append("</code></b>\n");
-          md.append("[<a href=\"").append(info.readme).append("\">readme</a>]\n");   
-          md.append("<dd>").append(info.description).append("\n</dd>\n");
-        }
-        md.append("</dl>\n</details>\n");
-      }
-      md.append("\n");
-    }
+    //   md.append("### ").append(typeHeading).append("\n");
+    //   for (String dataset : grouped.get(type).keySet()) {
+    //     md.append("<details>\n");
+    //     md.append("<summary>").append(dataset).append("</summary>\n").append("<dl>\n");
+    //     for (IndexInfo info : grouped.get(type).get(dataset)) {
+    //       md.append("<dt></dt><b><code>").append(info.indexName).append("</code></b>\n");
+    //       md.append("[<a href=\"").append(info.readme).append("\">readme</a>]\n");   
+    //       md.append("<dd>").append(info.description).append("\n</dd>\n");
+    //     }
+    //     md.append("</dl>\n</details>\n");
+    //   }
+    //   md.append("\n");
+    // }
 
     try (FileWriter writer = new FileWriter("docs/prebuilt-indexes.md")) {
       writer.write(md.toString());

@@ -1,0 +1,36 @@
+[
+    {
+        "name": "msmarco-v2-passage.unicoil-noexp-0shot",
+        "type": "impact",
+        "corpus": "MS MARCO V2 Passage",
+        "corpus_index": "msmarco-v2-passage",
+        "description": "Anserini Lucene impact index of the MS MARCO V2 passage corpus for uniCOIL (noexp)",
+        "filename": "lucene-inverted.msmarco-v2-passage.unicoil-noexp-0shot.20220808.4d6d2a.tar.gz",
+        "readme": "lucene-inverted.msmarco-v2-passage.unicoil-noexp-0shot.20220808.4d6d2a.README.md",
+        "urls": [
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2-passage.unicoil-noexp-0shot.20220808.4d6d2a.tar.gz"
+        ],
+        "md5": "3e0a5be5adca063a112fa2f0978f91cb",
+        "compressed_size": -1,
+        "total_terms": -1,
+        "documents": -1,
+        "unique_terms": -1
+    },
+    {
+        "name": "msmarco-v2-passage.unicoil-0shot",
+        "type": "impact",
+        "corpus": "MS MARCO V2 Passage",
+        "corpus_index": "msmarco-v2-passage",
+        "description": "Anserini Lucene impact index of the MS MARCO V2 passage corpus for uniCOIL",
+        "filename": "lucene-inverted.msmarco-v2-passage.unicoil-0shot.20220808.4d6d2a.tar.gz",
+        "readme": "lucene-inverted.msmarco-v2-passage.unicoil-0shot.20220808.4d6d2a.README.md",
+        "urls": [
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2-passage.unicoil-0shot.20220808.4d6d2a.tar.gz"
+        ],
+        "md5": "69919059e3e9575968edafe168b55b66",
+        "compressed_size": -1,
+        "total_terms": -1,
+        "documents": -1,
+        "unique_terms": -1
+    }
+]

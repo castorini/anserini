@@ -22,10 +22,10 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import io.anserini.index.IndexInfo;
 import io.anserini.index.prebuilt.PrebuiltFlatIndex;
 import io.anserini.index.prebuilt.PrebuiltHnswIndex;
 import io.anserini.index.prebuilt.PrebuiltImpactIndex;
+import io.anserini.index.prebuilt.PrebuiltIndex;
 import io.anserini.index.prebuilt.PrebuiltInvertedIndex;
 
 import java.io.BufferedInputStream;
@@ -77,58 +77,34 @@ public class PrebuiltIndexHandler {
   }
 
   private PrebuiltIndexHandler(String name) throws IOException {
-    // Note that we're currently in an intermediate state where we're using both PrebuiltX and IndexInfo.
-    // This will be refactored and cleaned up when decommission IndexInfo.
-    if (PrebuiltInvertedIndex.get(name) != null) {
-      LOG.info("Using PrebuiltInvertedIndex instead of IndexInfo to fetch prebuilt index.");
-      PrebuiltInvertedIndex.Entry entry = PrebuiltInvertedIndex.get(name);
+    PrebuiltIndex.Entry entry;
 
+    if ((entry = PrebuiltInvertedIndex.get(name)) != null) {
       this.name = name;
       this.filename = entry.filename;
       this.md5 = entry.md5;
       this.urls = entry.urls;
       this.compressedSize = entry.compressedSize;
-    } else if (PrebuiltImpactIndex.get(name) != null) {
-      LOG.info("Using PrebuiltImpactIndex instead of IndexInfo to fetch prebuilt index.");
-      PrebuiltImpactIndex.Entry entry = PrebuiltImpactIndex.get(name);
-
+    } else if ((entry = PrebuiltImpactIndex.get(name)) != null) {
       this.name = name;
       this.filename = entry.filename;
       this.md5 = entry.md5;
       this.urls = entry.urls;
       this.compressedSize = entry.compressedSize;
-    } else if (PrebuiltFlatIndex.get(name) != null) {
-      LOG.info("Using PrebuiltFlatIndex instead of IndexInfo to fetch prebuilt index.");
-      PrebuiltFlatIndex.Entry entry = PrebuiltFlatIndex.get(name);
-
+    } else if ((entry = PrebuiltFlatIndex.get(name)) != null) {
       this.name = name;
       this.filename = entry.filename;
       this.md5 = entry.md5;
       this.urls = entry.urls;
       this.compressedSize = entry.compressedSize;
-    } else if (PrebuiltHnswIndex.get(name) != null) {
-      LOG.info("Using PrebuiltHnswIndex instead of IndexInfo to fetch prebuilt index.");
-      PrebuiltHnswIndex.Entry entry = PrebuiltHnswIndex.get(name);
-
+    } else if ((entry = PrebuiltHnswIndex.get(name)) != null) {
       this.name = name;
       this.filename = entry.filename;
       this.md5 = entry.md5;
       this.urls = entry.urls;
       this.compressedSize = entry.compressedSize;
     } else {
-      try {
-        IndexInfo indexInfo = IndexInfo.get(name);
-
-        this.name = name;
-        this.filename = indexInfo.filename;
-        this.md5 = indexInfo.md5;
-        this.urls = indexInfo.urls;
-
-        // If we're still using IndexInfo, don't bother with this field since we're going to deprecate soon.
-        this.compressedSize = -1;
-      } catch (IllegalArgumentException e) {
-        throw new IOException("Index not found!" + e.getMessage());
-      }
+      throw new IOException("Index not found!");
     }
   }
 
@@ -277,5 +253,17 @@ public class PrebuiltIndexHandler {
 
   public Path getIndexFolderPath() {
     return this.indexFolderPath;
+  }
+
+  public long getCompressedSize() {
+    return compressedSize;
+  }
+
+  public String getFilename() {
+    return filename;
+  }
+
+  public String getMD5() {
+    return md5;
   }
 }

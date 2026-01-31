@@ -1,0 +1,19 @@
+[
+    {
+        "name": "msmarco-v2.1-doc-segmented.splade-v3",
+        "type": "impact",
+        "corpus": "MS MARCO V2.1 Segmented Doc",
+        "corpus_index": "msmarco-v2.1-doc-segmented",
+        "description": "Anserini Lucene impact index of the MS MARCO V2.1 segmented document corpus encoded by SPLADE-v3",
+        "filename": "lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3.20250707.4039c3.tar.gz",
+        "readme": "lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3.20250707.4039c3.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v2.1-doc-segmented/resolve/main/lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3.20250707.4039c3.tar.gz"
+        ],
+        "md5": "75f677301833b4f3bf2c2c286be8879f",
+        "compressed_size": -1,
+        "total_terms": -1,
+        "documents": -1,
+        "unique_terms": -1
+    }
+]
