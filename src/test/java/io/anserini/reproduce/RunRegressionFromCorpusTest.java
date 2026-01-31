@@ -20,17 +20,27 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
+import io.anserini.index.AbstractIndexer;
+import io.anserini.index.IndexCollection;
+import io.anserini.search.SearchCollection;
 
 public class RunRegressionFromCorpusTest extends StdOutStdErrRedirectableLuceneTestCase {
   @BeforeClass
   public static void setupClass() {
     suppressJvmLogging();
+
+    Configurator.setLevel(RunRegressionFromCorpus.class.getName(), Level.ERROR);
+    Configurator.setLevel(AbstractIndexer.class.getName(), Level.ERROR);
+    Configurator.setLevel(IndexCollection.class.getName(), Level.ERROR);
+    Configurator.setLevel(SearchCollection.class.getName(), Level.ERROR);
   }
 
   @Before
@@ -49,45 +59,51 @@ public class RunRegressionFromCorpusTest extends StdOutStdErrRedirectableLuceneT
 
   @Test
   public void testCacmRegressionFromCorpus() throws Exception {
-    // We have a catch-22 here: regression calls bin/run.sh, which requires the fatjar to run.
-    // But the fatjar isn't built until the tests are run.
+    // Note that to avoid a catch-22, RunRegressionFromCorpus **cannot** start a separate process.
+    // Because if it did (e.g., for indexing), the separate process would need to call bin/run.sh,
+    // which requires the fatjar. But the fatjar isn't built until the tests are run.
 
-    // RunRegressionFromCorpus.main(new String[] {
-    //     "--regression", "cacm",
-    //     "--index",
-    //     "--search",
-    // });
+    RunRegressionFromCorpus.main(new String[] {
+        "--regression", "cacm",
+        "--index",
+        "--search",
+    });
 
-    // String[] expectedRuns = {
-    //     "runs/run.index.cacm.cacm.bm25",
-    //     "runs/run.index.cacm.cacm.bm25+rm3",
-    //     "runs/run.index.cacm.cacm.bm25+ax",
-    //     "runs/run.index.cacm.cacm.ql",
-    //     "runs/run.index.cacm.cacm.ql+rm3",
-    //     "runs/run.index.cacm.cacm.ql+ax"
-    // };
+    String[] expectedRuns = {
+        "runs/run.index.cacm.cacm.bm25",
+        "runs/run.index.cacm.cacm.bm25+rm3",
+        "runs/run.index.cacm.cacm.bm25+ax",
+        "runs/run.index.cacm.cacm.ql",
+        "runs/run.index.cacm.cacm.ql+rm3",
+        "runs/run.index.cacm.cacm.ql+ax"
+    };
 
-    // for (String run : expectedRuns) {
-    //   Path path = Paths.get(run);
-    //   assertTrue("Missing run file: " + run, Files.exists(path));
-    //   assertTrue("Empty run file: " + run, Files.size(path) > 0);
-    //   Files.deleteIfExists(path);
-    // }
+    for (String run : expectedRuns) {
+      Path path = Paths.get(run);
+      assertTrue("Missing run file: " + run, Files.exists(path));
+      assertTrue("Empty run file: " + run, Files.size(path) > 0);
+      Files.deleteIfExists(path);
+    }
 
-    // String stdout = out.toString();
-    // int okCount = 0;
-    // int index = 0;
-    // while ((index = stdout.indexOf("[OK]", index)) != -1) {
-    //   okCount++;
-    //   index += 4;
-    // }
-    // assertEquals("Expected 12 instances of [OK] in stdout.", 12, okCount);
+    String stdout = out.toString();
+    int okCount = 0;
+    int index = 0;
+    while ((index = stdout.indexOf("[OK]", index)) != -1) {
+      okCount++;
+      index += 4;
+    }
+    //assertEquals("Expected 12 instances of [OK] in stdout.", 12, okCount);
 
-    // String[] lines = stdout.split("\\R");
-    // String lastLine = lines.length == 0 ? "" : lines[lines.length - 1];
-    // if (lastLine.isEmpty() && lines.length > 1) {
-    //   lastLine = lines[lines.length - 2];
-    // }
-    // assertTrue("Final line should contain \"All Tests Passed!\"", lastLine.contains("All Tests Passed!"));
+    String[] lines = stdout.split("\\R");
+    String lastLine = lines.length == 0 ? "" : lines[lines.length - 1];
+    if (lastLine.isEmpty() && lines.length > 1) {
+      lastLine = lines[lines.length - 2];
+    }
+    //assertTrue("Final line should contain \"All Tests Passed!\"", lastLine.contains("All Tests Passed!"));
+
+    for (String run : expectedRuns) {
+      Path path = Paths.get(run);
+      Files.deleteIfExists(path);
+    }
   }
 }

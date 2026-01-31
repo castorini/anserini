@@ -1,3 +1,4 @@
 #!/bin/sh
 
-java -cp `ls target/*-fatjar.jar` -Xms512M -Xmx64G trec_eval $@
+# java -cp `ls target/*-fatjar.jar` -Xms512M -Xmx64G trec_eval $@
+java -cp 'target/classes:bin/commons-io-2.20.0.jar' -Xms512M -Xmx64G trec_eval $@

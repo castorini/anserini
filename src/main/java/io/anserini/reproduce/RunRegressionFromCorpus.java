@@ -16,6 +16,9 @@
 
 package io.anserini.reproduce;
 
+import io.anserini.index.IndexCollection;
+import io.anserini.search.SearchCollection;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
@@ -46,6 +49,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
@@ -169,7 +174,6 @@ public class RunRegressionFromCorpus {
     if (parsed.index) {
       LOG.info("========== Indexing ==========");
       String command = constructIndexingCommand(yaml, parsed);
-      LOG.info(command);
       if (!parsed.dryRun) {
         runCommand(command);
       }
@@ -255,6 +259,7 @@ public class RunRegressionFromCorpus {
   }
 
   private static String checkOutput(String command) throws IOException, InterruptedException {
+    //LOG.info("Eval command" + command);
     ProcessBuilder pb = new ProcessBuilder("bash", "-lc", command);
     pb.redirectErrorStream(true);
     Process p = pb.start();
@@ -567,12 +572,88 @@ public class RunRegressionFromCorpus {
 
   private static void runCommand(String command) throws IOException, InterruptedException {
     LOG.info(command);
-    ProcessBuilder pb = new ProcessBuilder("bash", "-lc", command);
-    pb.inheritIO();
-    Process p = pb.start();
-    int code = p.waitFor();
-    if (code != 0) {
-      throw new RuntimeException("Command failed: " + command);
+
+    if (command.contains("io.anserini.index.IndexCollection")) {
+      LOG.info("Calling IndexCollection.main directly instead of starting a new process.");
+      String[] parts = command.trim().split("\\s+");
+      for (int i = 0; i < parts.length; i++) {
+        if ("io.anserini.index.IndexCollection".equals(parts[i])) {
+          String[] args = Arrays.copyOfRange(parts, i + 1, parts.length);
+          boolean append = false;
+          String indexPath = null;
+          for (int j = 0; j < args.length; j++) {
+            if ("-append".equals(args[j])) {
+              append = true;
+            } else if ("-index".equals(args[j]) && j + 1 < args.length) {
+              indexPath = args[j + 1];
+            }
+          }
+          if (!append && indexPath != null && !indexPath.isBlank()) {
+            deleteDirectoryIfExists(Paths.get(indexPath));
+          }
+
+          // According to Codex: Fixes error that comes from a tests.codec=Asserting system property
+          // leaking into the in‑process IndexCollection.main call.
+          try {
+            String prevTestsCodec = System.getProperty("tests.codec");
+            if (prevTestsCodec != null) {
+              System.clearProperty("tests.codec");
+            }
+            try {
+              IndexCollection.main(args);
+            } finally {
+              if (prevTestsCodec != null) {
+                System.setProperty("tests.codec", prevTestsCodec);
+              }
+            }
+          } catch (Exception e) {
+            throw new RuntimeException("Command failed: " + command, e);
+          }
+          return;
+        }
+      }
+    } if (command.contains("io.anserini.search.SearchCollection")) {
+      LOG.info("Calling SearchCollection.main directly instead of starting a new process.");
+      String[] parts = command.trim().split("\\s+");
+      for (int i = 0; i < parts.length; i++) {
+        if ("io.anserini.search.SearchCollection".equals(parts[i])) {
+          String[] args = Arrays.copyOfRange(parts, i + 1, parts.length);
+          try {
+            SearchCollection.main(args);
+          } catch (Exception e) {
+            throw new RuntimeException("Command failed: " + command, e);
+          }
+          return;
+        }
+      }
+    } else {
+      ProcessBuilder pb = new ProcessBuilder("bash", "-lc", command);
+      pb.inheritIO();
+      Process p = pb.start();
+      int code = p.waitFor();
+      if (code != 0) {
+        throw new RuntimeException("Command failed: " + command);
+      }
+    }
+  }
+
+  private static void deleteDirectoryIfExists(Path path) throws IOException {
+    if (!Files.exists(path)) {
+      return;
+    }
+    try (var stream = Files.walk(path)) {
+      stream.sorted(Comparator.reverseOrder()).forEach(p -> {
+        try {
+          Files.delete(p);
+        } catch (IOException e) {
+          throw new RuntimeException(e);
+        }
+      });
+    } catch (RuntimeException e) {
+      if (e.getCause() instanceof IOException io) {
+        throw io;
+      }
+      throw e;
     }
   }
 
