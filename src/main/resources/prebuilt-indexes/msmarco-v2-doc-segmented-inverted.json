@@ -96,7 +96,7 @@
             "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2-doc-segmented.unicoil-noexp-0shot.20220808.4d6d2a.tar.gz"
         ],
         "md5": "e3f448f4de46d86953892337fea39ed0",
-        "compressed_size": -1,
+        "compressed_size": 29059154628,
         "total_terms": -1,
         "documents": -1,
         "unique_terms": -1
@@ -113,7 +113,7 @@
             "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2-doc-segmented.unicoil-0shot.20220808.4d6d2a.tar.gz"
         ],
         "md5": "ff12d2001f463460a11ff6f60175190e",
-        "compressed_size": -1,
+        "compressed_size": 33573638017,
         "total_terms": -1,
         "documents": -1,
         "unique_terms": -1

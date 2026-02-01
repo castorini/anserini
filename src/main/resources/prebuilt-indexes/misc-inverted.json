@@ -11,7 +11,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-cacm/resolve/main/lucene-inverted/tf/lucene-index.cacm.20221005.252b5e.tar.gz"
         ],
         "md5": "cfe14d543c6a27f4d742fb2d0099b8e0",
-        "compressed_size": -1,
+        "compressed_size": 2347197,
         "total_terms": -1,
         "documents": -1,
         "unique_terms": -1

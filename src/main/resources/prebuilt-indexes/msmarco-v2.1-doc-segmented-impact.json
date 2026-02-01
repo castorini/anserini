@@ -11,7 +11,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v2.1-doc-segmented/resolve/main/lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3.20250707.4039c3.tar.gz"
         ],
         "md5": "75f677301833b4f3bf2c2c286be8879f",
-        "compressed_size": -1,
+        "compressed_size": 48526928505,
         "total_terms": -1,
         "documents": -1,
         "unique_terms": -1

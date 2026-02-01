@@ -11,7 +11,7 @@
             "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2-passage.unicoil-noexp-0shot.20220808.4d6d2a.tar.gz"
         ],
         "md5": "3e0a5be5adca063a112fa2f0978f91cb",
-        "compressed_size": -1,
+        "compressed_size": 14347304537,
         "total_terms": -1,
         "documents": -1,
         "unique_terms": -1
@@ -28,7 +28,7 @@
             "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2-passage.unicoil-0shot.20220808.4d6d2a.tar.gz"
         ],
         "md5": "69919059e3e9575968edafe168b55b66",
-        "compressed_size": -1,
+        "compressed_size": 21736933019,
         "total_terms": -1,
         "documents": -1,
         "unique_terms": -1
