@@ -50,7 +50,8 @@ public class PrebuiltIndex {
   public enum Type {
     IMPACT("impact"),
     INVERTED("inverted"),
-    FLAT("flat");
+    FLAT("flat"),
+    HNSW("hnsw");
 
     private final String id;
 
