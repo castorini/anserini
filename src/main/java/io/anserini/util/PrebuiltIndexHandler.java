@@ -50,23 +50,20 @@ public class PrebuiltIndexHandler {
   private static final int CONNECT_TIMEOUT_MS = 60_000;
   private static final int READ_TIMEOUT_MS = 120_000;
 
-  private final String name;
-  private final String filename;
-  private final String md5;
-  private final String[] urls;
-  private final long compressedSize;
+  private final PrebuiltIndex.Entry entry;
 
   private String cacheDirectory;
   private Path downloadFilePath;
-  private Path indexFolderPath;
+  private Path indexPath;
 
   /**
-   * Returns a <tt>PrebuiltIndexHandler</tt> for a prebuilt index given its name, otherwise returns <tt>null</tt> if it doesn't exist.
-   * By default, the default cache directory is at <tt>~/.cache/pyserini/indexes</tt>.
-   * Alternatively, a custom, user-specified cache directory can be specified via the environment variable <tt>$ANSERINI_INDEX_CACHE</tt>
+   * Returns a <tt>PrebuiltIndexHandler</tt> for a prebuilt index given its name, or <tt>null</tt> if it doesn't exist.
+   * The default cache directory is <tt>~/.cache/pyserini/indexes</tt>.
+   * Alternatively, a custom cache directory can be specified via the environment variable <tt>$ANSERINI_INDEX_CACHE</tt>
    * or the system property <tt>anserini.index.cache</tt>.
    *
-   * @param name the name of the index
+   * @param name the name of the prebuilt index
+   * @return a <tt>PrebuiltIndexHandler</tt> for a prebuilt index given its name, or <tt>null</tt> if it doesn't exist.
    */
   public static PrebuiltIndexHandler get(String name) throws IOException {
     try {
@@ -80,38 +77,15 @@ public class PrebuiltIndexHandler {
     PrebuiltIndex.Entry entry;
 
     if ((entry = PrebuiltInvertedIndex.get(name)) != null) {
-      this.name = name;
-      this.filename = entry.filename;
-      this.md5 = entry.md5;
-      this.urls = entry.urls;
-      this.compressedSize = entry.compressedSize;
+      this.entry = entry;
     } else if ((entry = PrebuiltImpactIndex.get(name)) != null) {
-      this.name = name;
-      this.filename = entry.filename;
-      this.md5 = entry.md5;
-      this.urls = entry.urls;
-      this.compressedSize = entry.compressedSize;
+      this.entry = entry;
     } else if ((entry = PrebuiltFlatIndex.get(name)) != null) {
-      this.name = name;
-      this.filename = entry.filename;
-      this.md5 = entry.md5;
-      this.urls = entry.urls;
-      this.compressedSize = entry.compressedSize;
+      this.entry = entry;
     } else if ((entry = PrebuiltHnswIndex.get(name)) != null) {
-      this.name = name;
-      this.filename = entry.filename;
-      this.md5 = entry.md5;
-      this.urls = entry.urls;
-      this.compressedSize = entry.compressedSize;
+      this.entry = entry;
     } else if (PrebuiltHnswIndex.get(name) != null) {
-      LOG.info("Using PrebuiltHnswIndex instead of IndexInfo to fetch prebuilt index.");
-      PrebuiltHnswIndex.Entry entry = PrebuiltHnswIndex.get(name);
-
-      this.name = name;
-      this.filename = entry.filename;
-      this.md5 = entry.md5;
-      this.urls = entry.urls;
-      this.compressedSize = entry.compressedSize;
+      this.entry = entry;
     } else {
       throw new IOException("Index not found!");
     }
@@ -153,11 +127,11 @@ public class PrebuiltIndexHandler {
       }
     }
 
-    downloadFilePath = Path.of(cacheDirectory, filename);
-    indexFolderPath = Path.of(downloadFilePath.toString().replace(".tar.gz", "") + "." + md5);
+    downloadFilePath = Path.of(cacheDirectory, this.entry.filename);
+    indexPath = Path.of(downloadFilePath.toString().replace(".tar.gz", "") + "." + this.entry.md5);
 
-    if (indexFolderPath.toFile().exists()) {
-      LOG.info(String.format("Index already exists at %s: skipping downloading.", indexFolderPath));
+    if (indexPath.toFile().exists()) {
+      LOG.info(String.format("Index already exists at %s: skipping downloading.", indexPath));
       return;
     }
 
@@ -167,10 +141,10 @@ public class PrebuiltIndexHandler {
       throw new IOException("Invalid URL syntax for index download: " + e.getMessage(), e);
     }
 
-    if (compressedSize != -1) {
+    if (this.entry.compressedSize != -1) {
       long downloadedSize = Files.size(downloadFilePath);
-      if (downloadedSize != compressedSize) {
-        throw new IOException("Downloaded file size mismatch: expected " + compressedSize + " bytes but got " + downloadedSize + " bytes.");
+      if (downloadedSize != this.entry.compressedSize) {
+        throw new IOException("Downloaded file size mismatch: expected " + this.entry.compressedSize + " bytes but got " + downloadedSize + " bytes.");
       }
     }
 
@@ -183,12 +157,12 @@ public class PrebuiltIndexHandler {
   }
 
   private void download() throws IOException, URISyntaxException {
-    for (String urlString : urls) {
+    for (String urlString : this.entry.urls) {
       for (int attempt = 1; attempt <= MAX_DOWNLOAD_ATTEMPTS; attempt++) {
         LOG.info("Downloading index from: " + urlString + " (attempt " + attempt + "/" + MAX_DOWNLOAD_ATTEMPTS + ")");
         try {
           downloadFromUrl(urlString);
-          verifyChecksum(downloadFilePath, md5);
+          verifyChecksum(downloadFilePath, this.entry.md5);
           return;
         } catch (IOException e) {
           LOG.error("Download failed: " + e.getMessage());
@@ -213,7 +187,7 @@ public class PrebuiltIndexHandler {
 
     try (InputStream inputStream = new BufferedInputStream(httpConnection.getInputStream());
         FileOutputStream fileOS = new FileOutputStream(downloadFilePath.toFile());
-        ProgressBar pb = new ProgressBar(name, progressBarMax)) {
+        ProgressBar pb = new ProgressBar(this.entry.name, progressBarMax)) {
 
       pb.setExtraMessage("Downloading...");
 
@@ -240,8 +214,9 @@ public class PrebuiltIndexHandler {
   private void decompress() throws IOException, InterruptedException {
     LOG.info(String.format("Decompressing index at %s...", downloadFilePath));
 
-    if (!downloadFilePath.toFile().exists())
+    if (!downloadFilePath.toFile().exists()) {
       throw new IOException(String.format("Unexpected error: %s not found.", downloadFilePath));
+    }
 
     ProcessBuilder pbGZIP = new ProcessBuilder("gzip", "-d", downloadFilePath.toString());
     Process pGZIP = pbGZIP.start();
@@ -256,23 +231,23 @@ public class PrebuiltIndexHandler {
     Files.delete(Path.of(downloadFilePath.toString().replace(".gz", "")));
     LOG.info("Index decompressed successfully!");
 
-    Files.move(Path.of(downloadFilePath.toString().replace(".tar.gz", "")), this.indexFolderPath);
-    LOG.info(String.format("Final index location at %s", indexFolderPath));
+    Files.move(Path.of(downloadFilePath.toString().replace(".tar.gz", "")), this.indexPath);
+    LOG.info(String.format("Final index location at %s", indexPath));
   }
 
-  public Path getIndexFolderPath() {
-    return this.indexFolderPath;
+  public Path getIndexPath() {
+    return this.indexPath;
   }
 
   public long getCompressedSize() {
-    return compressedSize;
+    return this.entry.compressedSize;
   }
 
   public String getFilename() {
-    return filename;
+    return this.entry.filename;
   }
 
   public String getMD5() {
-    return md5;
+    return this.entry.md5;
   }
 }

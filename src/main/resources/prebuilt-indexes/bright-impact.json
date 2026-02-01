@@ -5,7 +5,7 @@
         "corpus_index": "bright-biology",
         "description": "Anserini Lucene impact index of BRIGHT collection 'biology' encoded by SPLADE-v3",
         "filename": "lucene-inverted.bright-biology.splade-v3.20250808.c6674a.tar.gz",
-        "readme": "lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/splade-v3/lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-biology.splade-v3.20250808.c6674a.tar.gz"
         ],
@@ -21,7 +21,7 @@
         "corpus_index": "bright-earth-science",
         "description": "Anserini Lucene impact index of BRIGHT collection 'earth-science' encoded by SPLADE-v3",
         "filename": "lucene-inverted.bright-earth-science.splade-v3.20250808.c6674a.tar.gz",
-        "readme": "lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/splade-v3/lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-earth-science.splade-v3.20250808.c6674a.tar.gz"
         ],
@@ -37,7 +37,7 @@
         "corpus_index": "bright-economics",
         "description": "Anserini Lucene impact index of BRIGHT collection 'economics' encoded by SPLADE-v3",
         "filename": "lucene-inverted.bright-economics.splade-v3.20250808.c6674a.tar.gz",
-        "readme": "lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/splade-v3/lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-economics.splade-v3.20250808.c6674a.tar.gz"
         ],
@@ -53,7 +53,7 @@
         "corpus_index": "bright-psychology",
         "description": "Anserini Lucene impact index of BRIGHT collection 'psychology' encoded by SPLADE-v3",
         "filename": "lucene-inverted.bright-psychology.splade-v3.20250808.c6674a.tar.gz",
-        "readme": "lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/splade-v3/lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-psychology.splade-v3.20250808.c6674a.tar.gz"
         ],
@@ -69,7 +69,7 @@
         "corpus_index": "bright-robotics",
         "description": "Anserini Lucene impact index of BRIGHT collection 'robotics' encoded by SPLADE-v3",
         "filename": "lucene-inverted.bright-robotics.splade-v3.20250808.c6674a.tar.gz",
-        "readme": "lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/splade-v3/lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-robotics.splade-v3.20250808.c6674a.tar.gz"
         ],
@@ -85,7 +85,7 @@
         "corpus_index": "bright-stackoverflow",
         "description": "Anserini Lucene impact index of BRIGHT collection 'stackoverflow' encoded by SPLADE-v3",
         "filename": "lucene-inverted.bright-stackoverflow.splade-v3.20250808.c6674a.tar.gz",
-        "readme": "lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/splade-v3/lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-stackoverflow.splade-v3.20250808.c6674a.tar.gz"
         ],
@@ -101,7 +101,7 @@
         "corpus_index": "bright-sustainable-living",
         "description": "Anserini Lucene impact index of BRIGHT collection 'sustainable-living' encoded by SPLADE-v3",
         "filename": "lucene-inverted.bright-sustainable-living.splade-v3.20250808.c6674a.tar.gz",
-        "readme": "lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/splade-v3/lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-sustainable-living.splade-v3.20250808.c6674a.tar.gz"
         ],
@@ -117,7 +117,7 @@
         "corpus_index": "bright-pony",
         "description": "Anserini Lucene impact index of BRIGHT collection 'pony' encoded by SPLADE-v3",
         "filename": "lucene-inverted.bright-pony.splade-v3.20250808.c6674a.tar.gz",
-        "readme": "lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/splade-v3/lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-pony.splade-v3.20250808.c6674a.tar.gz"
         ],
@@ -133,7 +133,7 @@
         "corpus_index": "bright-leetcode",
         "description": "Anserini Lucene impact index of BRIGHT collection 'leetcode' encoded by SPLADE-v3",
         "filename": "lucene-inverted.bright-leetcode.splade-v3.20250808.c6674a.tar.gz",
-        "readme": "lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/splade-v3/lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-leetcode.splade-v3.20250808.c6674a.tar.gz"
         ],
@@ -149,7 +149,7 @@
         "corpus_index": "bright-aops",
         "description": "Anserini Lucene impact index of BRIGHT collection 'aops' encoded by SPLADE-v3",
         "filename": "lucene-inverted.bright-aops.splade-v3.20250808.c6674a.tar.gz",
-        "readme": "lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/splade-v3/lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-aops.splade-v3.20250808.c6674a.tar.gz"
         ],
@@ -165,7 +165,7 @@
         "corpus_index": "bright-theoremqa-theorems",
         "description": "Anserini Lucene impact index of BRIGHT collection 'theoremqa-theorems' encoded by SPLADE-v3",
         "filename": "lucene-inverted.bright-theoremqa-theorems.splade-v3.20250808.c6674a.tar.gz",
-        "readme": "lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/splade-v3/lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-theoremqa-theorems.splade-v3.20250808.c6674a.tar.gz"
         ],
@@ -181,7 +181,7 @@
         "corpus_index": "bright-theoremqa-questions",
         "description": "Anserini Lucene impact index of BRIGHT collection 'theoremqa-questions' encoded by SPLADE-v3",
         "filename": "lucene-inverted.bright-theoremqa-questions.splade-v3.20250808.c6674a.tar.gz",
-        "readme": "lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/splade-v3/lucene-inverted.bright.splade-v3.20250808.c6674a.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-theoremqa-questions.splade-v3.20250808.c6674a.tar.gz"
         ],

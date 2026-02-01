@@ -856,7 +856,7 @@ public class IndexReaderUtils {
     // Try fetching prebuilt index: If there are any errors, an IOException will be thrown, to be handled by caller.
     if (handler != null) {
       handler.fetch();
-      return handler.getIndexFolderPath();
+      return handler.getIndexPath();
     }
 
     // Try local path

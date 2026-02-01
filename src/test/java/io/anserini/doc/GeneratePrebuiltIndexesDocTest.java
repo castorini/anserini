@@ -16,23 +16,93 @@
 
 package io.anserini.doc;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.List;
+import static org.junit.Assert.assertEquals;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 import org.junit.Test;
+
+import io.anserini.index.prebuilt.PrebuiltFlatIndex;
+import io.anserini.index.prebuilt.PrebuiltHnswIndex;
+import io.anserini.index.prebuilt.PrebuiltImpactIndex;
+import io.anserini.index.prebuilt.PrebuiltIndex;
+import io.anserini.index.prebuilt.PrebuiltInvertedIndex;
 
 public class GeneratePrebuiltIndexesDocTest {
   @Test
   public void generateDocs() throws IOException {
-    StringBuilder md = new StringBuilder();
-    md.append("""
+    md.append(renderIndexType("Standard Inverted Indexes", (List<? extends PrebuiltIndex.Entry>) PrebuiltInvertedIndex.entries()));
+    md.append(renderIndexType("Impact Indexes", (List<? extends PrebuiltIndex.Entry>) PrebuiltImpactIndex.entries()));
+    md.append(renderIndexType("Flat Vector Indexes", (List<? extends PrebuiltIndex.Entry>) PrebuiltFlatIndex.entries()));
+    md.append(renderIndexType("HNSW Vector Indexes", (List<? extends PrebuiltIndex.Entry>) PrebuiltHnswIndex.entries()));
+
+    try (FileWriter writer = new FileWriter("docs/prebuilt-indexes.md")) {
+      writer.write(md.toString());
+    }
+  }
+
+  private static int orderBucket(String name) {
+    if (name.startsWith("msmarco-v1") && name.contains("passage")) {
+      return 0;
+    }
+    if (name.startsWith("msmarco-v1") && name.contains("doc")) {
+      return 1;
+    }
+    if (name.startsWith("msmarco-v2")) {
+      return 2;
+    }
+    if (name.startsWith("msmarco-v2") && name.contains("segmented")) {
+      return 3;
+    }
+    if (name.startsWith("msmarco-v2.1")) {
+      return 4;
+    }
+    if (name.startsWith("msmarco-v2.1") && name.contains("segmented")) {
+      return 5;
+    }
+    if (name.startsWith("beir")) {
+      return 6;
+    }
+    if (name.startsWith("bright")) {
+      return 7;
+    }
+    return 8;
+  }
+
+  private String renderIndexType(String type, List<? extends PrebuiltIndex.Entry> entries) {
+    List<PrebuiltIndex.Entry> order = new ArrayList<>(entries);
+    order.sort(Comparator
+        .comparingInt((PrebuiltIndex.Entry entry) -> orderBucket(entry.name))
+        .thenComparing(entry -> entry.name));
+
+    // Make sure we haven't left out any entries.
+    assertEquals(entries.size(), order.size());
+
+    StringBuilder sb = new StringBuilder();
+    sb.append("### " + type + "\n\n");
+    sb.append("<dl>\n");
+    for (PrebuiltIndex.Entry entry : order) {
+      sb.append(renderEntry(entry));
+    }
+    sb.append("</dl>\n\n");
+
+    return sb.toString();
+  }
+
+  public String renderEntry(PrebuiltIndex.Entry entry) {
+    StringBuffer sb = new StringBuffer();
+    sb.append("<dt></dt><b><code>").append(entry.name).append("</code></b>\n");
+    sb.append("[<a href=\"").append(entry.readme).append("\">README</a>]\n");
+    sb.append("<dd>").append(entry.description).append("\n</dd>\n");
+
+    return sb.toString();
+  }
+
+  private final StringBuilder md = new StringBuilder("""
     # Anserini: Prebuilt Indexes
 
     Anserini ships with a number of prebuilt indexes.
@@ -41,7 +111,7 @@ public class GeneratePrebuiltIndexesDocTest {
     Bindings for the available prebuilt indexes are in [`io.anserini.index.IndexInfo`](https://github.com/castorini/anserini/blob/master/src/main/java/io/anserini/index/IndexInfo.java) as Java enums.
     For example, if you specify `-index msmarco-v1-passage`, Anserini will know that you mean the Lucene index of the MS MARCO V1 passage corpus.
     It will then download the index from the specified location(s) and cache locally.
-    All of this happens automagically!
+    All of this happens auto-magically!
 
     ## Getting Started
 
@@ -114,35 +184,4 @@ public class GeneratePrebuiltIndexesDocTest {
     Therefore, do not modify this page directly; modify the test case instead.
 
     """);
-
-    // for (IndexType type : grouped.keySet()) {
-    //   String typeHeading = "";
-    //   if (type == IndexType.SPARSE_INVERTED) {
-    //     typeHeading = "Lucene Inverted Indexes";
-    //   } else if (type == IndexType.SPARSE_IMPACT) {
-    //     typeHeading = "Lucene Impact Indexes";
-    //   } else if (type == IndexType.DENSE_HNSW) {
-    //     typeHeading = "Lucene HNSW Indexes";
-    //   } else if (type == IndexType.DENSE_FLAT) {
-    //     typeHeading = "Lucene Flat Vector Indexes";
-    //   }
-
-    //   md.append("### ").append(typeHeading).append("\n");
-    //   for (String dataset : grouped.get(type).keySet()) {
-    //     md.append("<details>\n");
-    //     md.append("<summary>").append(dataset).append("</summary>\n").append("<dl>\n");
-    //     for (IndexInfo info : grouped.get(type).get(dataset)) {
-    //       md.append("<dt></dt><b><code>").append(info.indexName).append("</code></b>\n");
-    //       md.append("[<a href=\"").append(info.readme).append("\">readme</a>]\n");   
-    //       md.append("<dd>").append(info.description).append("\n</dd>\n");
-    //     }
-    //     md.append("</dl>\n</details>\n");
-    //   }
-    //   md.append("\n");
-    // }
-
-    try (FileWriter writer = new FileWriter("docs/prebuilt-indexes.md")) {
-      writer.write(md.toString());
-    }
-  }
 }
