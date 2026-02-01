@@ -103,6 +103,15 @@ public class PrebuiltIndexHandler {
       this.md5 = entry.md5;
       this.urls = entry.urls;
       this.compressedSize = entry.compressedSize;
+    } else if (PrebuiltHnswIndex.get(name) != null) {
+      LOG.info("Using PrebuiltHnswIndex instead of IndexInfo to fetch prebuilt index.");
+      PrebuiltHnswIndex.Entry entry = PrebuiltHnswIndex.get(name);
+
+      this.name = name;
+      this.filename = entry.filename;
+      this.md5 = entry.md5;
+      this.urls = entry.urls;
+      this.compressedSize = entry.compressedSize;
     } else {
       throw new IOException("Index not found!");
     }
