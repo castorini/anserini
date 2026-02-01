@@ -65,20 +65,30 @@ public class PrebuiltInvertedIndexTest {
 
   @Test
   public void testTotalCount() {
-    assertEquals(14, PrebuiltInvertedIndex.entries().size());
+    assertEquals(72, PrebuiltInvertedIndex.entries().size());
+  }
+
+  @Test
+  public void testTotalCountForBeir() {
+    int beirCount = 0;
+    for (PrebuiltInvertedIndex.Entry entry : PrebuiltInvertedIndex.entries()) {
+      if (entry != null && entry.name != null && entry.name.startsWith("beir")) {
+        beirCount++;
+      }
+    }
+    assertEquals(58, beirCount);
   }
 
   @Test
   public void testTotalCountForBright() {
     int brightCount = 0;
     for (PrebuiltInvertedIndex.Entry entry : PrebuiltInvertedIndex.entries()) {
-      if (entry != null && entry.name != null && entry.name.toUpperCase().startsWith("BRIGHT")) {
+      if (entry != null && entry.name != null && entry.name.startsWith("bright")) {
         brightCount++;
       }
     }
     assertEquals(12, brightCount);
   }
-
 
   @Test
   public void testUrls() {
@@ -117,14 +127,10 @@ public class PrebuiltInvertedIndexTest {
 
     URL jarUrl = jarPath.toUri().toURL();
     try (URLClassLoader jarClassLoader = new URLClassLoader(new URL[] {jarUrl}, null)) {
-      Class<?> jarClass = Proxy.newProxyInstance(
-          jarClassLoader,
-          new Class<?>[] {Runnable.class},
-          (proxy, method, args) -> null).getClass();
-      TypeReference<List<PrebuiltInvertedIndex.Entry>> entryListType =
-          new TypeReference<List<PrebuiltInvertedIndex.Entry>>() {};
-      List<PrebuiltInvertedIndex.Entry> entries =
-          PrebuiltIndex.loadEntries(PrebuiltIndex.Type.INVERTED, entryListType, jarClass);
+      Class<?> jarClass = Proxy.newProxyInstance(jarClassLoader, new Class<?>[] {Runnable.class}, (proxy, method, args) -> null).getClass();
+      TypeReference<List<PrebuiltInvertedIndex.Entry>> entryListType = new TypeReference<List<PrebuiltInvertedIndex.Entry>>() {};
+      List<PrebuiltInvertedIndex.Entry> entries = PrebuiltIndex.loadEntries(PrebuiltIndex.Type.INVERTED, entryListType, jarClass);
+
       assertEquals(1, entries.size());
       assertEquals("TEST", entries.get(0).name);
     }
