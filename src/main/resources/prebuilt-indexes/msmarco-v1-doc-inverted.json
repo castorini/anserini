@@ -6,7 +6,7 @@
         "corpus_index": "msmarco-v1-doc",
         "description": "Anserini Lucene inverted index of the MS MARCO V1 document corpus.",
         "filename": "lucene-inverted.msmarco-v1-doc.20221004.252b5e.tar.gz",
-        "readme": "lucene-inverted.msmarco-v1-doc.20221004.252b5e.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/doc/original/lucene-inverted/tf/lucene-inverted.msmarco-v1-doc.20221004.252b5e.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/doc/original/lucene-inverted/tf/lucene-inverted.msmarco-v1-doc.20221004.252b5e.tar.gz"
         ],
@@ -23,7 +23,7 @@
         "corpus_index": "msmarco-v1-doc",
         "description": "Anserini Lucene inverted index of the MS MARCO V1 document corpus ('slim' version)",
         "filename": "lucene-inverted.msmarco-v1-doc-slim.20221004.252b5e.tar.gz",
-        "readme": "lucene-inverted.msmarco-v1-doc.20221004.252b5e.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/doc/original/lucene-inverted/tf/lucene-inverted.msmarco-v1-doc.20221004.252b5e.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/doc/original/lucene-inverted/tf/lucene-inverted.msmarco-v1-doc-slim.20221004.252b5e.tar.gz"
         ],
@@ -40,7 +40,7 @@
         "corpus_index": "msmarco-v1-doc",
         "description": "Anserini Lucene inverted index of the MS MARCO V1 document corpus ('full' version)",
         "filename": "lucene-inverted.msmarco-v1-doc-full.20221004.252b5e.tar.gz",
-        "readme": "lucene-inverted.msmarco-v1-doc.20221004.252b5e.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/doc/original/lucene-inverted/tf/lucene-inverted.msmarco-v1-doc.20221004.252b5e.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/doc/original/lucene-inverted/tf/lucene-inverted.msmarco-v1-doc-full.20221004.252b5e.tar.gz"
         ],
@@ -57,7 +57,7 @@
         "corpus_index": "msmarco-v1-doc",
         "description": "Anserini Lucene inverted index of the MS MARCO V1 document corpus with doc2query-T5 expansions",
         "filename": "lucene-inverted.msmarco-v1-doc.d2q-t5.20221004.252b5e.tar.gz",
-        "readme": "lucene-inverted.msmarco-v1-doc.d2q-t5.20221004.252b5e.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/doc/d2q-t5/lucene-inverted/tf/lucene-inverted.msmarco-v1-doc.d2q-t5.20221004.252b5e.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/doc/d2q-t5/lucene-inverted/tf/lucene-inverted.msmarco-v1-doc.d2q-t5.20221004.252b5e.tar.gz"
         ],
@@ -74,7 +74,7 @@
         "corpus_index": "msmarco-v1-doc",
         "description": "Anserini Lucene inverted index of the MS MARCO V1 document corpus with doc2query-T5 expansions (with stored docvectors)",
         "filename": "lucene-inverted.msmarco-v1-doc.d2q-t5-docvectors.20221004.252b5e.tar.gz",
-        "readme": "lucene-inverted.msmarco-v1-doc.d2q-t5.20221004.252b5e.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/doc/d2q-t5/lucene-inverted/tf/lucene-inverted.msmarco-v1-doc.d2q-t5.20221004.252b5e.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/doc/d2q-t5/lucene-inverted/tf/lucene-inverted.msmarco-v1-doc.d2q-t5-docvectors.20221004.252b5e.tar.gz"
         ],
@@ -91,7 +91,7 @@
         "corpus_index": "msmarco-v1-doc-segmented",
         "description": "Anserini Lucene inverted index of the MS MARCO V1 segmented document corpus",
         "filename": "lucene-inverted.msmarco-v1-doc-segmented.20221004.252b5e.tar.gz",
-        "readme": "lucene-inverted.msmarco-v1-doc-segmented.20221004.252b5e.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/doc/segmented/lucene-inverted/tf/lucene-inverted.msmarco-v1-doc-segmented.20221004.252b5e.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/doc/segmented/lucene-inverted/tf/lucene-inverted.msmarco-v1-doc-segmented.20221004.252b5e.tar.gz"
         ],
@@ -108,7 +108,7 @@
         "corpus_index": "msmarco-v1-doc-segmented",
         "description": "Anserini Lucene inverted index of the MS MARCO V1 segmented document corpus ('slim' version)",
         "filename": "lucene-inverted.msmarco-v1-doc-segmented-slim.20221004.252b5e.tar.gz",
-        "readme": "lucene-inverted.msmarco-v1-doc-segmented.20221004.252b5e.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/doc/segmented/lucene-inverted/tf/lucene-inverted.msmarco-v1-doc-segmented.20221004.252b5e.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/doc/segmented/lucene-inverted/tf/lucene-inverted.msmarco-v1-doc-segmented-slim.20221004.252b5e.tar.gz"
         ],
@@ -125,7 +125,7 @@
         "corpus_index": "msmarco-v1-doc-segmented",
         "description": "Anserini Lucene inverted index of the MS MARCO V1 segmented document corpus ('full' version)",
         "filename": "lucene-inverted.msmarco-v1-doc-segmented-full.20221004.252b5e.tar.gz",
-        "readme": "lucene-inverted.msmarco-v1-doc-segmented.20221004.252b5e.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/doc/segmented/lucene-inverted/tf/lucene-inverted.msmarco-v1-doc-segmented.20221004.252b5e.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/doc/segmented/lucene-inverted/tf/lucene-inverted.msmarco-v1-doc-segmented-full.20221004.252b5e.tar.gz"
         ],
@@ -142,7 +142,7 @@
         "corpus_index": "msmarco-v1-doc-segmented",
         "description": "Anserini Lucene inverted index of the MS MARCO V1 segmented document corpus with doc2query-T5 expansions",
         "filename": "lucene-inverted.msmarco-v1-doc-segmented.d2q-t5.20221004.252b5e.tar.gz",
-        "readme": "lucene-inverted.msmarco-v1-doc-segmented.d2q-t5.20221004.252b5e.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/doc/segmented-d2q-t5/lucene-inverted/tf/lucene-inverted.msmarco-v1-doc-segmented.d2q-t5.20221004.252b5e.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/doc/segmented-d2q-t5/lucene-inverted/tf/lucene-inverted.msmarco-v1-doc-segmented.d2q-t5.20221004.252b5e.tar.gz"
         ],
@@ -159,7 +159,7 @@
         "corpus_index": "msmarco-v1-doc-segmented",
         "description": "Anserini Lucene inverted index of the MS MARCO V1 segmented document corpus with doc2query-T5 expansions (with stored docvectors)",
         "filename": "lucene-inverted.msmarco-v1-doc-segmented.d2q-t5-docvectors.20221004.252b5e.tar.gz",
-        "readme": "lucene-inverted.msmarco-v1-doc-segmented.d2q-t5.20221004.252b5e.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/doc/segmented-d2q-t5/lucene-inverted/tf/lucene-inverted.msmarco-v1-doc-segmented.d2q-t5.20221004.252b5e.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/doc/segmented-d2q-t5/lucene-inverted/tf/lucene-inverted.msmarco-v1-doc-segmented.d2q-t5-docvectors.20221004.252b5e.tar.gz"
         ],

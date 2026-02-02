@@ -6,7 +6,7 @@
         "corpus_index": "msmarco-v1-passage",
         "description": "Anserini Lucene HNSW index of the MS MARCO V1 passage corpus encoded by cos-DPR Distil",
         "filename": "lucene-hnsw.msmarco-v1-passage.cosdpr-distil.20240108.825148.tar.gz",
-        "readme": "lucene-hnsw.msmarco-v1-passage.cosdpr-distil.20240108.825148.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/passage/original/lucene-hnsw/cosdpr-distil/lucene-hnsw.msmarco-v1-passage.cosdpr-distil.20240108.825148.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/passage/original/lucene-hnsw/cosdpr-distil/lucene-hnsw.msmarco-v1-passage.cosdpr-distil.20240108.825148.tar.gz"
         ],
@@ -20,7 +20,7 @@
         "corpus_index": "msmarco-v1-passage",
         "description": "Anserini Lucene quantized (int8) HNSW index of the MS MARCO V1 passage corpus encoded by cos-DPR Distil",
         "filename": "lucene-hnsw-int8.msmarco-v1-passage.cosdpr-distil.20240108.825148.tar.gz",
-        "readme": "lucene-hnsw.msmarco-v1-passage.cosdpr-distil.20240108.825148.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/passage/original/lucene-hnsw/cosdpr-distil/lucene-hnsw.msmarco-v1-passage.cosdpr-distil.20240108.825148.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/passage/original/lucene-hnsw/cosdpr-distil/lucene-hnsw-int8.msmarco-v1-passage.cosdpr-distil.20240108.825148.tar.gz"
         ],
@@ -34,7 +34,7 @@
         "corpus_index": "msmarco-v1-passage",
         "description": "Anserini Lucene HNSW index of the MS MARCO V1 passage corpus encoded by BGE-base-en-v1.5",
         "filename": "lucene-hnsw.msmarco-v1-passage.bge-base-en-v1.5.20240117.53514b.tar.gz",
-        "readme": "lucene-hnsw.msmarco-v1-passage.bge-base-en-v1.5.20240117.53514b.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/passage/original/lucene-hnsw/bge-base-en-v1.5/lucene-hnsw.msmarco-v1-passage.bge-base-en-v1.5.20240117.53514b.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/passage/original/lucene-hnsw/bge-base-en-v1.5/lucene-hnsw.msmarco-v1-passage.bge-base-en-v1.5.20240117.53514b.tar.gz"
         ],
@@ -48,7 +48,7 @@
         "corpus_index": "msmarco-v1-passage",
         "description": "Anserini Lucene quantized (int8) HNSW index of the MS MARCO V1 passage corpus encoded by BGE-base-en-v1.5",
         "filename": "lucene-hnsw-int8.msmarco-v1-passage.bge-base-en-v1.5.20240117.53514b.tar.gz",
-        "readme": "lucene-hnsw.msmarco-v1-passage.bge-base-en-v1.5.20240117.53514b.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/passage/original/lucene-hnsw/bge-base-en-v1.5/lucene-hnsw.msmarco-v1-passage.bge-base-en-v1.5.20240117.53514b.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/passage/original/lucene-hnsw/bge-base-en-v1.5/lucene-hnsw-int8.msmarco-v1-passage.bge-base-en-v1.5.20240117.53514b.tar.gz"
         ],

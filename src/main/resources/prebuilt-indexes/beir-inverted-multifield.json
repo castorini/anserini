@@ -6,7 +6,7 @@
         "corpus_index": "beir-v1.0.0-trec-covid.multifield",
         "description": "Anserini Lucene inverted 'multifield' index of BEIR collection 'trec-covid'",
         "filename": "lucene-inverted.beir-v1.0.0-trec-covid.multifield.20221116.505594.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-trec-covid.multifield.20221116.505594.tar.gz"
         ],
@@ -23,7 +23,7 @@
         "corpus_index": "beir-v1.0.0-bioasq.multifield",
         "description": "Anserini Lucene inverted 'multifield' index of BEIR collection 'bioasq'",
         "filename": "lucene-inverted.beir-v1.0.0-bioasq.multifield.20221116.505594.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-bioasq.multifield.20221116.505594.tar.gz"
         ],
@@ -40,7 +40,7 @@
         "corpus_index": "beir-v1.0.0-nfcorpus.multifield",
         "description": "Anserini Lucene inverted 'multifield' index of BEIR collection 'nfcorpus'",
         "filename": "lucene-inverted.beir-v1.0.0-nfcorpus.multifield.20221116.505594.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-nfcorpus.multifield.20221116.505594.tar.gz"
         ],
@@ -57,7 +57,7 @@
         "corpus_index": "beir-v1.0.0-nq.multifield",
         "description": "Anserini Lucene inverted 'multifield' index of BEIR collection 'nq'",
         "filename": "lucene-inverted.beir-v1.0.0-nq.multifield.20221116.505594.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-nq.multifield.20221116.505594.tar.gz"
         ],
@@ -74,7 +74,7 @@
         "corpus_index": "beir-v1.0.0-hotpotqa.multifield",
         "description": "Anserini Lucene inverted 'multifield' index of BEIR collection 'hotpotqa'",
         "filename": "lucene-inverted.beir-v1.0.0-hotpotqa.multifield.20221116.505594.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-hotpotqa.multifield.20221116.505594.tar.gz"
         ],
@@ -91,7 +91,7 @@
         "corpus_index": "beir-v1.0.0-fiqa.multifield",
         "description": "Anserini Lucene inverted 'multifield' index of BEIR collection 'fiqa'",
         "filename": "lucene-inverted.beir-v1.0.0-fiqa.multifield.20221116.505594.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-fiqa.multifield.20221116.505594.tar.gz"
         ],
@@ -108,7 +108,7 @@
         "corpus_index": "beir-v1.0.0-signal1m.multifield",
         "description": "Anserini Lucene inverted 'multifield' index of BEIR collection 'signal1m'",
         "filename": "lucene-inverted.beir-v1.0.0-signal1m.multifield.20221116.505594.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-signal1m.multifield.20221116.505594.tar.gz"
         ],
@@ -125,7 +125,7 @@
         "corpus_index": "beir-v1.0.0-trec-news.multifield",
         "description": "Anserini Lucene inverted 'multifield' index of BEIR collection 'trec-news'",
         "filename": "lucene-inverted.beir-v1.0.0-trec-news.multifield.20221116.505594.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-trec-news.multifield.20221116.505594.tar.gz"
         ],
@@ -142,7 +142,7 @@
         "corpus_index": "beir-v1.0.0-robust04.multifield",
         "description": "Anserini Lucene inverted 'multifield' index of BEIR collection 'robust04'",
         "filename": "lucene-inverted.beir-v1.0.0-robust04.multifield.20221116.505594.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-robust04.multifield.20221116.505594.tar.gz"
         ],
@@ -159,7 +159,7 @@
         "corpus_index": "beir-v1.0.0-arguana.multifield",
         "description": "Anserini Lucene inverted 'multifield' index of BEIR collection 'arguana'",
         "filename": "lucene-inverted.beir-v1.0.0-arguana.multifield.20221116.505594.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-arguana.multifield.20221116.505594.tar.gz"
         ],
@@ -176,7 +176,7 @@
         "corpus_index": "beir-v1.0.0-webis-touche2020.multifield",
         "description": "Anserini Lucene inverted 'multifield' index of BEIR collection 'webis-touche2020'",
         "filename": "lucene-inverted.beir-v1.0.0-webis-touche2020.multifield.20221116.505594.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-webis-touche2020.multifield.20221116.505594.tar.gz"
         ],
@@ -193,7 +193,7 @@
         "corpus_index": "beir-v1.0.0-cqadupstack-android.multifield",
         "description": "Anserini Lucene inverted 'multifield' index of BEIR collection 'cqadupstack-android'",
         "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-android.multifield.20221116.505594.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-cqadupstack-android.multifield.20221116.505594.tar.gz"
         ],
@@ -210,7 +210,7 @@
         "corpus_index": "beir-v1.0.0-cqadupstack-english.multifield",
         "description": "Anserini Lucene inverted 'multifield' index of BEIR collection 'cqadupstack-english'",
         "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-english.multifield.20221116.505594.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-cqadupstack-english.multifield.20221116.505594.tar.gz"
         ],
@@ -227,7 +227,7 @@
         "corpus_index": "beir-v1.0.0-cqadupstack-gaming",
         "description": "Anserini Lucene inverted 'multifield' index of BEIR collection 'cqadupstack-gaming'",
         "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-gaming.multifield.20221116.505594.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-cqadupstack-gaming.multifield.20221116.505594.tar.gz"
         ],
@@ -244,7 +244,7 @@
         "corpus_index": "beir-v1.0.0-cqadupstack-gis.multifield",
         "description": "Anserini Lucene inverted 'multifield' index of BEIR collection 'cqadupstack-gis'",
         "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-gis.multifield.20221116.505594.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-cqadupstack-gis.multifield.20221116.505594.tar.gz"
         ],
@@ -261,7 +261,7 @@
         "corpus_index": "beir-v1.0.0-cqadupstack-mathematica.multifield",
         "description": "Anserini Lucene inverted 'multifield' index of BEIR collection 'cqadupstack-mathematica'",
         "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-mathematica.multifield.20221116.505594.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-cqadupstack-mathematica.multifield.20221116.505594.tar.gz"
         ],
@@ -278,7 +278,7 @@
         "corpus_index": "beir-v1.0.0-cqadupstack-physics.multifield",
         "description": "Anserini Lucene inverted 'multifield' index of BEIR collection 'cqadupstack-physics'",
         "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-physics.multifield.20221116.505594.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-cqadupstack-physics.multifield.20221116.505594.tar.gz"
         ],
@@ -295,7 +295,7 @@
         "corpus_index": "beir-v1.0.0-cqadupstack-programmers.multifield",
         "description": "Anserini Lucene inverted 'multifield' index of BEIR collection 'cqadupstack-programmers'",
         "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-programmers.multifield.20221116.505594.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-cqadupstack-programmers.multifield.20221116.505594.tar.gz"
         ],
@@ -312,7 +312,7 @@
         "corpus_index": "beir-v1.0.0-cqadupstack-stats.multifield",
         "description": "Anserini Lucene inverted 'multifield' index of BEIR collection 'cqadupstack-stats'",
         "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-stats.multifield.20221116.505594.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-cqadupstack-stats.multifield.20221116.505594.tar.gz"
         ],
@@ -329,7 +329,7 @@
         "corpus_index": "beir-v1.0.0-cqadupstack-tex.multifield",
         "description": "Anserini Lucene inverted 'multifield' index of BEIR collection 'cqadupstack-tex'",
         "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-tex.multifield.20221116.505594.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-cqadupstack-tex.multifield.20221116.505594.tar.gz"
         ],
@@ -346,7 +346,7 @@
         "corpus_index": "beir-v1.0.0-cqadupstack-unix.multifield",
         "description": "Anserini Lucene inverted 'multifield' index of BEIR collection 'cqadupstack-unix'",
         "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-unix.multifield.20221116.505594.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-cqadupstack-unix.multifield.20221116.505594.tar.gz"
         ],
@@ -363,7 +363,7 @@
         "corpus_index": "beir-v1.0.0-cqadupstack-webmasters.multifield",
         "description": "Anserini Lucene inverted 'multifield' index of BEIR collection 'cqadupstack-webmasters'",
         "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-webmasters.multifield.20221116.505594.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-cqadupstack-webmasters.multifield.20221116.505594.tar.gz"
         ],
@@ -380,7 +380,7 @@
         "corpus_index": "beir-v1.0.0-cqadupstack-wordpress.multifield",
         "description": "Anserini Lucene inverted 'multifield' index of BEIR collection 'cqadupstack-wordpress'",
         "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-wordpress.multifield.20221116.505594.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-cqadupstack-wordpress.multifield.20221116.505594.tar.gz"
         ],
@@ -397,7 +397,7 @@
         "corpus_index": "beir-v1.0.0-quora.multifield",
         "description": "Anserini Lucene inverted 'multifield' index of BEIR collection 'quora'",
         "filename": "lucene-inverted.beir-v1.0.0-quora.multifield.20221116.505594.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-quora.multifield.20221116.505594.tar.gz"
         ],
@@ -414,7 +414,7 @@
         "corpus_index": "beir-v1.0.0-dbpedia-entity.multifield",
         "description": "Anserini Lucene inverted 'multifield' index of BEIR collection 'dbpedia-entity'",
         "filename": "lucene-inverted.beir-v1.0.0-dbpedia-entity.multifield.20221116.505594.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-dbpedia-entity.multifield.20221116.505594.tar.gz"
         ],
@@ -431,7 +431,7 @@
         "corpus_index": "beir-v1.0.0-scidocs.multifield",
         "description": "Anserini Lucene inverted 'multifield' index of BEIR collection 'scidocs'",
         "filename": "lucene-inverted.beir-v1.0.0-scidocs.multifield.20221116.505594.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-scidocs.multifield.20221116.505594.tar.gz"
         ],
@@ -448,7 +448,7 @@
         "corpus_index": "beir-v1.0.0-fever.multifield",
         "description": "Anserini Lucene inverted 'multifield' index of BEIR collection 'fever'",
         "filename": "lucene-inverted.beir-v1.0.0-fever.multifield.20221116.505594.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-fever.multifield.20221116.505594.tar.gz"
         ],
@@ -465,7 +465,7 @@
         "corpus_index": "beir-v1.0.0-climate-fever.multifield",
         "description": "Anserini Lucene inverted 'multifield' index of BEIR collection 'climate-fever'",
         "filename": "lucene-inverted.beir-v1.0.0-climate-fever.multifield.20221116.505594.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-climate-fever.multifield.20221116.505594.tar.gz"
         ],
@@ -482,7 +482,7 @@
         "corpus_index": "beir-v1.0.0-scifact.multifield",
         "description": "Anserini Lucene inverted 'multifield' index of BEIR collection 'scifact'",
         "filename": "lucene-inverted.beir-v1.0.0-scifact.multifield.20221116.505594.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-scifact.multifield.20221116.505594.tar.gz"
         ],

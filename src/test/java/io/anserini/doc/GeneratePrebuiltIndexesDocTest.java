@@ -49,28 +49,31 @@ public class GeneratePrebuiltIndexesDocTest {
     if (name.startsWith("msmarco-v1") && name.contains("passage")) {
       return 0;
     }
-    if (name.startsWith("msmarco-v1") && name.contains("doc")) {
+    if (name.startsWith("msmarco-v1") && name.contains("doc") && !name.contains("segmented")) {
       return 1;
     }
-    if (name.startsWith("msmarco-v2")) {
+    if (name.startsWith("msmarco-v1") && name.contains("doc") && name.contains("segmented")) {
       return 2;
     }
-    if (name.startsWith("msmarco-v2") && name.contains("segmented")) {
+    if (name.startsWith("msmarco-v2")) {
       return 3;
     }
-    if (name.startsWith("msmarco-v2.1")) {
+    if (name.startsWith("msmarco-v2") && name.contains("segmented")) {
       return 4;
     }
-    if (name.startsWith("msmarco-v2.1") && name.contains("segmented")) {
+    if (name.startsWith("msmarco-v2.1")) {
       return 5;
     }
-    if (name.startsWith("beir")) {
+    if (name.startsWith("msmarco-v2.1") && name.contains("segmented")) {
       return 6;
     }
-    if (name.startsWith("bright")) {
+    if (name.startsWith("beir")) {
       return 7;
     }
-    return 8;
+    if (name.startsWith("bright")) {
+      return 8;
+    }
+    return 9;
   }
 
   private String renderIndexType(String type, List<? extends PrebuiltIndex.Entry> entries) {
@@ -96,7 +99,9 @@ public class GeneratePrebuiltIndexesDocTest {
   public String renderEntry(PrebuiltIndex.Entry entry) {
     StringBuffer sb = new StringBuffer();
     sb.append("<dt></dt><b><code>").append(entry.name).append("</code></b>\n");
-    sb.append("[<a href=\"").append(entry.readme).append("\">README</a>]\n");
+    if (entry.readme != "") {
+      sb.append("[<a href=\"").append(entry.readme).append("\">README</a>]\n");
+    }
     sb.append("<dd>").append(entry.description).append("\n</dd>\n");
 
     return sb.toString();
@@ -123,7 +128,7 @@ public class GeneratePrebuiltIndexesDocTest {
 
     The output of the above command will be:
 
-    ```
+    ```text
     Index statistics
     ----------------
     documents:             3204
@@ -144,9 +149,9 @@ public class GeneratePrebuiltIndexesDocTest {
     You can specify a custom cache directory by setting the environment variable `$ANSERINI_INDEX_CACHE` or the system property `anserini.index.cache`.
 
     Another helpful tip is to download and manage the indexes by hand.
-    As an example, from [`IndexInfo`](https://github.com/castorini/anserini/blob/master/src/main/java/io/anserini/index/IndexInfo.java) you can see that `msmarco-v1-passage` can be downloaded from:
+    As an example, from the [metadata](https://github.com/castorini/anserini/blob/master/src/main/resources/prebuilt-indexes/) you can see that `msmarco-v1-passage` can be downloaded from:
 
-    ```
+    ```text
     https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/passage/original/lucene-inverted/tf/lucene-inverted.msmarco-v1-passage.20221004.252b5e.tar.gz
     ```
 
@@ -158,7 +163,7 @@ public class GeneratePrebuiltIndexesDocTest {
     By manually managing indexes, you can share indexes between multiple users to conserve space.
     The schema of the index location in `~/.cache/pyserini/indexes/` is the tarball name (after unpacking), followed by a dot and the checksum, so `msmarco-v1-passage` lives in following location:
 
-    ```
+    ```text
     ~/.cache/pyserini/indexes/lucene-inverted.msmarco-v1-passage.20221004.252b5e.678876e8c99a89933d553609a0fd8793
     ```
 

@@ -6,7 +6,7 @@
         "corpus_index": "beir-v1.0.0-trec-covid.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'trec-covid' collection 'trec-covid' encoded by SPLADE-v3",
         "filename": "lucene-inverted.beir-v1.0.0-trec-covid.splade-v3.20250603.168a2d.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-trec-covid.splade-v3.20250603.168a2d.tar.gz"
         ],
@@ -23,7 +23,7 @@
         "corpus_index": "beir-v1.0.0-bioasq.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'bioasq' encoded by SPLADE-v3",
         "filename": "lucene-inverted.beir-v1.0.0-bioasq.splade-v3.20250603.168a2d.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-bioasq.splade-v3.20250603.168a2d.tar.gz"
         ],
@@ -40,7 +40,7 @@
         "corpus_index": "beir-v1.0.0-nfcorpus.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'nfcorpus' encoded by SPLADE-v3",
         "filename": "lucene-inverted.beir-v1.0.0-nfcorpus.splade-v3.20250603.168a2d.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-nfcorpus.splade-v3.20250603.168a2d.tar.gz"
         ],
@@ -57,7 +57,7 @@
         "corpus_index": "beir-v1.0.0-nq.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'nq' encoded by SPLADE-v3",
         "filename": "lucene-inverted.beir-v1.0.0-nq.splade-v3.20250603.168a2d.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-nq.splade-v3.20250603.168a2d.tar.gz"
         ],
@@ -74,7 +74,7 @@
         "corpus_index": "beir-v1.0.0-hotpotqa.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'hotpotqa' encoded by SPLADE-v3",
         "filename": "lucene-inverted.beir-v1.0.0-hotpotqa.splade-v3.20250603.168a2d.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-hotpotqa.splade-v3.20250603.168a2d.tar.gz"
         ],
@@ -91,7 +91,7 @@
         "corpus_index": "beir-v1.0.0-fiqa.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'fiqa' encoded by SPLADE-v3",
         "filename": "lucene-inverted.beir-v1.0.0-fiqa.splade-v3.20250603.168a2d.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-fiqa.splade-v3.20250603.168a2d.tar.gz"
         ],
@@ -108,7 +108,7 @@
         "corpus_index": "beir-v1.0.0-signal1m.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'signal1m' encoded by SPLADE-v3",
         "filename": "lucene-inverted.beir-v1.0.0-signal1m.splade-v3.20250603.168a2d.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-signal1m.splade-v3.20250603.168a2d.tar.gz"
         ],
@@ -125,7 +125,7 @@
         "corpus_index": "beir-v1.0.0-trec-news.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'trec-news' encoded by SPLADE-v3",
         "filename": "lucene-inverted.beir-v1.0.0-trec-news.splade-v3.20250603.168a2d.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-trec-news.splade-v3.20250603.168a2d.tar.gz"
         ],
@@ -142,7 +142,7 @@
         "corpus_index": "beir-v1.0.0-robust04.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'robust04' encoded by SPLADE-v3",
         "filename": "lucene-inverted.beir-v1.0.0-robust04.splade-v3.20250603.168a2d.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-robust04.splade-v3.20250603.168a2d.tar.gz"
         ],
@@ -159,7 +159,7 @@
         "corpus_index": "beir-v1.0.0-arguana.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'arguana' encoded by SPLADE-v3",
         "filename": "lucene-inverted.beir-v1.0.0-arguana.splade-v3.20250603.168a2d.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-arguana.splade-v3.20250603.168a2d.tar.gz"
         ],
@@ -176,7 +176,7 @@
         "corpus_index": "beir-v1.0.0-webis-touche2020.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'webis-touche2020' encoded by SPLADE-v3",
         "filename": "lucene-inverted.beir-v1.0.0-webis-touche2020.splade-v3.20250603.168a2d.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-webis-touche2020.splade-v3.20250603.168a2d.tar.gz"
         ],
@@ -193,7 +193,7 @@
         "corpus_index": "beir-v1.0.0-cqadupstack-android.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'cqadupstack-android' encoded by SPLADE-v3",
         "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-android.splade-v3.20250603.168a2d.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-cqadupstack-android.splade-v3.20250603.168a2d.tar.gz"
         ],
@@ -210,7 +210,7 @@
         "corpus_index": "beir-v1.0.0-cqadupstack-english.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'cqadupstack-english' encoded by SPLADE-v3",
         "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-english.splade-v3.20250603.168a2d.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-cqadupstack-english.splade-v3.20250603.168a2d.tar.gz"
         ],
@@ -227,7 +227,7 @@
         "corpus_index": "beir-v1.0.0-cqadupstack-gaming.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'cqadupstack-gaming' encoded by SPLADE-v3",
         "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-gaming.splade-v3.20250603.168a2d.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-cqadupstack-gaming.splade-v3.20250603.168a2d.tar.gz"
         ],
@@ -244,7 +244,7 @@
         "corpus_index": "beir-v1.0.0-cqadupstack-gis.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'cqadupstack-gis' encoded by SPLADE-v3",
         "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-gis.splade-v3.20250603.168a2d.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-cqadupstack-gis.splade-v3.20250603.168a2d.tar.gz"
         ],
@@ -261,7 +261,7 @@
         "corpus_index": "beir-v1.0.0-cqadupstack-mathematica.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'cqadupstack-mathematica' encoded by SPLADE-v3",
         "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-mathematica.splade-v3.20250603.168a2d.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-cqadupstack-mathematica.splade-v3.20250603.168a2d.tar.gz"
         ],
@@ -278,7 +278,7 @@
         "corpus_index": "beir-v1.0.0-cqadupstack-physics.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'cqadupstack-physics' encoded by SPLADE-v3",
         "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-physics.splade-v3.20250603.168a2d.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-cqadupstack-physics.splade-v3.20250603.168a2d.tar.gz"
         ],
@@ -295,7 +295,7 @@
         "corpus_index": "beir-v1.0.0-cqadupstack-programmers.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'cqadupstack-programmers' encoded by SPLADE-v3",
         "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-programmers.splade-v3.20250603.168a2d.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-cqadupstack-programmers.splade-v3.20250603.168a2d.tar.gz"
         ],
@@ -312,7 +312,7 @@
         "corpus_index": "beir-v1.0.0-cqadupstack-stats.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'cqadupstack-stats' encoded by SPLADE-v3",
         "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-stats.splade-v3.20250603.168a2d.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-cqadupstack-stats.splade-v3.20250603.168a2d.tar.gz"
         ],
@@ -329,7 +329,7 @@
         "corpus_index": "beir-v1.0.0-cqadupstack-tex.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'cqadupstack-tex' encoded by SPLADE-v3",
         "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-tex.splade-v3.20250603.168a2d.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-cqadupstack-tex.splade-v3.20250603.168a2d.tar.gz"
         ],
@@ -346,7 +346,7 @@
         "corpus_index": "beir-v1.0.0-cqadupstack-unix.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'cqadupstack-unix' encoded by SPLADE-v3",
         "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-unix.splade-v3.20250603.168a2d.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-cqadupstack-unix.splade-v3.20250603.168a2d.tar.gz"
         ],
@@ -363,7 +363,7 @@
         "corpus_index": "beir-v1.0.0-cqadupstack-webmasters.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'cqadupstack-webmasters' encoded by SPLADE-v3",
         "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-webmasters.splade-v3.20250603.168a2d.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-cqadupstack-webmasters.splade-v3.20250603.168a2d.tar.gz"
         ],
@@ -380,7 +380,7 @@
         "corpus_index": "beir-v1.0.0-cqadupstack-wordpress.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'cqadupstack-wordpress' encoded by SPLADE-v3",
         "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-wordpress.splade-v3.20250603.168a2d.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-cqadupstack-wordpress.splade-v3.20250603.168a2d.tar.gz"
         ],
@@ -397,7 +397,7 @@
         "corpus_index": "beir-v1.0.0-quora.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'quora' encoded by SPLADE-v3",
         "filename": "lucene-inverted.beir-v1.0.0-quora.splade-v3.20250603.168a2d.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-quora.splade-v3.20250603.168a2d.tar.gz"
         ],
@@ -414,7 +414,7 @@
         "corpus_index": "beir-v1.0.0-dbpedia-entity.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'dbpedia-entity' encoded by SPLADE-v3",
         "filename": "lucene-inverted.beir-v1.0.0-dbpedia-entity.splade-v3.20250603.168a2d.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-dbpedia-entity.splade-v3.20250603.168a2d.tar.gz"
         ],
@@ -431,7 +431,7 @@
         "corpus_index": "beir-v1.0.0-scidocs.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'scidocs' encoded by SPLADE-v3",
         "filename": "lucene-inverted.beir-v1.0.0-scidocs.splade-v3.20250603.168a2d.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-scidocs.splade-v3.20250603.168a2d.tar.gz"
         ],
@@ -448,7 +448,7 @@
         "corpus_index": "beir-v1.0.0-fever.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'fever' encoded by SPLADE-v3",
         "filename": "lucene-inverted.beir-v1.0.0-fever.splade-v3.20250603.168a2d.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-fever.splade-v3.20250603.168a2d.tar.gz"
         ],
@@ -465,7 +465,7 @@
         "corpus_index": "beir-v1.0.0-climate-fever.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'climate-fever' encoded by SPLADE-v3",
         "filename": "lucene-inverted.beir-v1.0.0-climate-fever.splade-v3.20250603.168a2d.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-climate-fever.splade-v3.20250603.168a2d.tar.gz"
         ],
@@ -482,7 +482,7 @@
         "corpus_index": "beir-v1.0.0-scifact.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'scifact' encoded by SPLADE-v3",
         "filename": "lucene-inverted.beir-v1.0.0-scifact.splade-v3.20250603.168a2d.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-scifact.splade-v3.20250603.168a2d.tar.gz"
         ],
