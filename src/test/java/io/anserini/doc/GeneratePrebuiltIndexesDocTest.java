@@ -55,25 +55,28 @@ public class GeneratePrebuiltIndexesDocTest {
     if (name.startsWith("msmarco-v1") && name.contains("doc") && name.contains("segmented")) {
       return 2;
     }
-    if (name.startsWith("msmarco-v2")) {
+    if (name.startsWith("msmarco-v2") && !name.contains("v2.1") && name.contains("passage")) {
       return 3;
     }
-    if (name.startsWith("msmarco-v2") && name.contains("segmented")) {
+    if (name.startsWith("msmarco-v2") && !name.contains("v2.1") && !name.contains("segmented")) {
       return 4;
     }
-    if (name.startsWith("msmarco-v2.1")) {
+    if (name.startsWith("msmarco-v2") && !name.contains("v2.1") && name.contains("segmented")) {
       return 5;
     }
-    if (name.startsWith("msmarco-v2.1") && name.contains("segmented")) {
+    if (name.startsWith("msmarco-v2.1") && !name.contains("segmented")) {
       return 6;
     }
-    if (name.startsWith("beir")) {
+    if (name.startsWith("msmarco-v2.1") && name.contains("segmented")) {
       return 7;
     }
-    if (name.startsWith("bright")) {
+    if (name.startsWith("beir")) {
       return 8;
     }
-    return 9;
+    if (name.startsWith("bright")) {
+      return 9;
+    }
+    return 10;
   }
 
   private String renderIndexType(String type, List<? extends PrebuiltIndex.Entry> entries) {
@@ -113,7 +116,7 @@ public class GeneratePrebuiltIndexesDocTest {
     Anserini ships with a number of prebuilt indexes.
     This means that various indexes (inverted indexes, HNSW indexes, etc.) for common collections used in NLP and IR research have already been built and just needs to be downloaded (from UWaterloo and Hugging Face servers), which Anserini will handle automatically for you.
 
-    Bindings for the available prebuilt indexes are in [`io.anserini.index.IndexInfo`](https://github.com/castorini/anserini/blob/master/src/main/java/io/anserini/index/IndexInfo.java) as Java enums.
+    Bindings for the available prebuilt indexes are in the package [`io.anserini.index.prebuilt`](https://github.com/castorini/anserini/tree/master/src/main/java/io/anserini/index/prebuilt).
     For example, if you specify `-index msmarco-v1-passage`, Anserini will know that you mean the Lucene index of the MS MARCO V1 passage corpus.
     It will then download the index from the specified location(s) and cache locally.
     All of this happens auto-magically!

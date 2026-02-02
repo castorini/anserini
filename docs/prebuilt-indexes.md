@@ -3,7 +3,7 @@
 Anserini ships with a number of prebuilt indexes.
 This means that various indexes (inverted indexes, HNSW indexes, etc.) for common collections used in NLP and IR research have already been built and just needs to be downloaded (from UWaterloo and Hugging Face servers), which Anserini will handle automatically for you.
 
-Bindings for the available prebuilt indexes are in [`io.anserini.index.IndexInfo`](https://github.com/castorini/anserini/blob/master/src/main/java/io/anserini/index/IndexInfo.java) as Java enums.
+Bindings for the available prebuilt indexes are in the package [`io.anserini.index.prebuilt`](https://github.com/castorini/anserini/tree/master/src/main/java/io/anserini/index/prebuilt).
 For example, if you specify `-index msmarco-v1-passage`, Anserini will know that you mean the Lucene index of the MS MARCO V1 passage corpus.
 It will then download the index from the specified location(s) and cache locally.
 All of this happens auto-magically!
@@ -141,6 +141,26 @@ Therefore, do not modify this page directly; modify the test case instead.
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/doc/segmented-d2q-t5/lucene-inverted/tf/lucene-inverted.msmarco-v1-doc-segmented.d2q-t5.20221004.252b5e.README.md">README</a>]
 <dd>Anserini Lucene inverted index of the MS MARCO V1 segmented document corpus with doc2query-T5 expansions (with stored docvectors)
 </dd>
+<dt></dt><b><code>msmarco-v2-passage</code></b>
+[<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-passage.20220808.4d6d2a.README.md">README</a>]
+<dd>Anserini Lucene inverted index of the MS MARCO V2 passage corpus
+</dd>
+<dt></dt><b><code>msmarco-v2-passage-full</code></b>
+[<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-passage.20220808.4d6d2a.README.md">README</a>]
+<dd>Anserini Lucene inverted index of the MS MARCO V2 passage corpus ('full' version)
+</dd>
+<dt></dt><b><code>msmarco-v2-passage-slim</code></b>
+[<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-passage.20220808.4d6d2a.README.md">README</a>]
+<dd>Anserini Lucene inverted index of the MS MARCO V2 passage corpus ('slim' version)
+</dd>
+<dt></dt><b><code>msmarco-v2-passage.d2q-t5</code></b>
+[<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-passage.d2q-t5.20220808.4d6d2a.README.md">README</a>]
+<dd>Anserini Lucene inverted index of the MS MARCO V2 passage corpus with doc2query-T5 expansions
+</dd>
+<dt></dt><b><code>msmarco-v2-passage.d2q-t5-docvectors</code></b>
+[<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-passage.d2q-t5.20220808.4d6d2a.README.md">README</a>]
+<dd>Anserini Lucene inverted index of the MS MARCO V2 passage corpus with doc2query-T5 expansions (with stored docvectors)
+</dd>
 <dt></dt><b><code>msmarco-v2-doc</code></b>
 [<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-doc.20220808.4d6d2a.README.md">README</a>]
 <dd>Anserini Lucene inverted index of the MS MARCO V2 document corpus
@@ -148,6 +168,18 @@ Therefore, do not modify this page directly; modify the test case instead.
 <dt></dt><b><code>msmarco-v2-doc-full</code></b>
 [<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-doc.20220808.4d6d2a.README.md">README</a>]
 <dd>Anserini Lucene inverted index of the MS MARCO V2 document corpus ('full' version)
+</dd>
+<dt></dt><b><code>msmarco-v2-doc-slim</code></b>
+[<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-doc.20220808.4d6d2a.README.md">README</a>]
+<dd>Anserini Lucene inverted index of the MS MARCO V2 document corpus ('slim' version)
+</dd>
+<dt></dt><b><code>msmarco-v2-doc.d2q-t5</code></b>
+[<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-doc.d2q-t5.20220808.4d6d2a.README.md">README</a>]
+<dd>Anserini Lucene inverted index of the MS MARCO V2 document corpus with doc2query-T5 expansions
+</dd>
+<dt></dt><b><code>msmarco-v2-doc.d2q-t5-docvectors</code></b>
+[<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-doc.d2q-t5.20220808.4d6d2a.README.md">README</a>]
+<dd>Anserini Lucene inverted index of the MS MARCO V2 document corpus with doc2query-T5 expansions (with stored docvectors)
 </dd>
 <dt></dt><b><code>msmarco-v2-doc-segmented</code></b>
 [<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-doc-segmented.20220808.4d6d2a.README.md">README</a>]
@@ -177,38 +209,6 @@ Therefore, do not modify this page directly; modify the test case instead.
 [<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-doc-segmented.unicoil-noexp-0shot.20220808.4d6d2a.README.md">README</a>]
 <dd>Anserini Lucene impact index of the MS MARCO V2 segmented document corpus for uniCOIL (noexp) with title prepended
 </dd>
-<dt></dt><b><code>msmarco-v2-doc-slim</code></b>
-[<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-doc.20220808.4d6d2a.README.md">README</a>]
-<dd>Anserini Lucene inverted index of the MS MARCO V2 document corpus ('slim' version)
-</dd>
-<dt></dt><b><code>msmarco-v2-doc.d2q-t5</code></b>
-[<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-doc.d2q-t5.20220808.4d6d2a.README.md">README</a>]
-<dd>Anserini Lucene inverted index of the MS MARCO V2 document corpus with doc2query-T5 expansions
-</dd>
-<dt></dt><b><code>msmarco-v2-doc.d2q-t5-docvectors</code></b>
-[<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-doc.d2q-t5.20220808.4d6d2a.README.md">README</a>]
-<dd>Anserini Lucene inverted index of the MS MARCO V2 document corpus with doc2query-T5 expansions (with stored docvectors)
-</dd>
-<dt></dt><b><code>msmarco-v2-passage</code></b>
-[<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-passage.20220808.4d6d2a.README.md">README</a>]
-<dd>Anserini Lucene inverted index of the MS MARCO V2 passage corpus
-</dd>
-<dt></dt><b><code>msmarco-v2-passage-full</code></b>
-[<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-passage.20220808.4d6d2a.README.md">README</a>]
-<dd>Anserini Lucene inverted index of the MS MARCO V2 passage corpus ('full' version)
-</dd>
-<dt></dt><b><code>msmarco-v2-passage-slim</code></b>
-[<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-passage.20220808.4d6d2a.README.md">README</a>]
-<dd>Anserini Lucene inverted index of the MS MARCO V2 passage corpus ('slim' version)
-</dd>
-<dt></dt><b><code>msmarco-v2-passage.d2q-t5</code></b>
-[<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-passage.d2q-t5.20220808.4d6d2a.README.md">README</a>]
-<dd>Anserini Lucene inverted index of the MS MARCO V2 passage corpus with doc2query-T5 expansions
-</dd>
-<dt></dt><b><code>msmarco-v2-passage.d2q-t5-docvectors</code></b>
-[<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-passage.d2q-t5.20220808.4d6d2a.README.md">README</a>]
-<dd>Anserini Lucene inverted index of the MS MARCO V2 passage corpus with doc2query-T5 expansions (with stored docvectors)
-</dd>
 <dt></dt><b><code>msmarco-v2.1-doc</code></b>
 [<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2.1-doc.20240418.4f9675.README.md">README</a>]
 <dd>Anserini Lucene inverted index of the MS MARCO V2.1 document corpus
@@ -216,6 +216,10 @@ Therefore, do not modify this page directly; modify the test case instead.
 <dt></dt><b><code>msmarco-v2.1-doc-full</code></b>
 [<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2.1-doc.20240418.4f9675.README.md">README</a>]
 <dd>Anserini Lucene inverted index of the MS MARCO V2.1 document corpus ('full' version)
+</dd>
+<dt></dt><b><code>msmarco-v2.1-doc-slim</code></b>
+[<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2.1-doc.20240418.4f9675.README.md">README</a>]
+<dd>Anserini Lucene inverted index of the MS MARCO V2.1 document corpus ('slim' version)
 </dd>
 <dt></dt><b><code>msmarco-v2.1-doc-segmented</code></b>
 [<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2.1-doc-segmented.20240418.4f9675.README.md">README</a>]
@@ -228,10 +232,6 @@ Therefore, do not modify this page directly; modify the test case instead.
 <dt></dt><b><code>msmarco-v2.1-doc-segmented-slim</code></b>
 [<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2.1-doc-segmented.20240418.4f9675.README.md">README</a>]
 <dd>Anserini Lucene inverted index of the MS MARCO V2.1 segmented document corpus ('slim' version)
-</dd>
-<dt></dt><b><code>msmarco-v2.1-doc-slim</code></b>
-[<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2.1-doc.20240418.4f9675.README.md">README</a>]
-<dd>Anserini Lucene inverted index of the MS MARCO V2.1 document corpus ('slim' version)
 </dd>
 <dt></dt><b><code>beir-v1.0.0-arguana.flat</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md">README</a>]
