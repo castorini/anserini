@@ -12,9 +12,9 @@
         ],
         "md5": "2c008fc36131e27966a72292932358e6",
         "compressed_size": 2102230097,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "documents": 8841823,
+        "total_terms": 52376261130,
+        "unique_terms": 28679
     },
     {
         "name": "msmarco-v1-passage.splade-v3",
@@ -29,8 +29,8 @@
         ],
         "md5": "52f4b59d236547f570555715ed314311",
         "compressed_size": 2813676432,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "documents": 8841823,
+        "total_terms": 46922883529,
+        "unique_terms": 27952
     }
 ]

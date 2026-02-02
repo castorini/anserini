@@ -1,5 +1,5 @@
 [
-     {
+    {
         "name": "msmarco-v1-passage",
         "type": "inverted",
         "corpus": "MS MARCO V1 Passage",
@@ -12,8 +12,8 @@
         ],
         "md5": "678876e8c99a89933d553609a0fd8793",
         "compressed_size": 2170758745,
-        "total_terms": 352316036,
         "documents": 8841823,
+        "total_terms": 352316036,
         "unique_terms": 2660824
     },
     {
@@ -29,8 +29,8 @@
         ],
         "md5": "229c750cc39eaa25f0c37bf69c2c708f",
         "compressed_size": 491451223,
-        "total_terms": 352316036,
         "documents": 8841823,
+        "total_terms": 352316036,
         "unique_terms": 2660824
     },
     {
@@ -46,8 +46,8 @@
         ],
         "md5": "4d2e2e1fdb7ffc7c9758c4c2234261a1",
         "compressed_size": 3720616156,
-        "total_terms": 352316036,
         "documents": 8841823,
+        "total_terms": 352316036,
         "unique_terms": 2660824
     },
     {
@@ -63,8 +63,8 @@
         ],
         "md5": "cfd6acef0912647603457b1e98ca5bc0",
         "compressed_size": 807866520,
-        "total_terms": 1986612263,
         "documents": 8841823,
+        "total_terms": 1986612263,
         "unique_terms": 3929111
     },
     {
@@ -80,8 +80,8 @@
         ],
         "md5": "3be8131464c2d1db23c8d6151c55740e",
         "compressed_size": 4409861674,
-        "total_terms": 1986612263,
         "documents": 8841823,
+        "total_terms": 1986612263,
         "unique_terms": 3929111
     }
 ]

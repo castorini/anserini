@@ -12,8 +12,8 @@
         ],
         "md5": "cfe14d543c6a27f4d742fb2d0099b8e0",
         "compressed_size": 2347197,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "documents": 3204,
+        "total_terms": 320968,
+        "unique_terms": 14363
     }
 ]

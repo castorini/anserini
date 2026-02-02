@@ -12,8 +12,8 @@
         ],
         "md5": "433f65ee0091a0690632e3ef624c7994",
         "compressed_size": 38808093637,
-        "total_terms": 4673266800,
         "documents": 138364198,
+        "total_terms": 4673266800,
         "unique_terms": 11885838
     },
     {
@@ -29,8 +29,8 @@
         ],
         "md5": "e896ee15ffec1c7487a089d345343417",
         "compressed_size": 8170344033,
-        "total_terms": 4673266800,
         "documents": 138364198,
+        "total_terms": 4673266800,
         "unique_terms": 11885838
     },
     {
@@ -46,8 +46,8 @@
         ],
         "md5": "5d517259e639b2d34682231d5fc8a534",
         "compressed_size": 60413586666,
-        "total_terms": 4673266800,
         "documents": 138364198,
+        "total_terms": 4673266800,
         "unique_terms": 11885838
     },
     {
@@ -63,8 +63,8 @@
         ],
         "md5": "3764a6cc79cf8c4ac824aee8859223ad",
         "compressed_size": 14404904837,
-        "total_terms": 16961479264,
         "documents": 138364198,
+        "total_terms": 16961479264,
         "unique_terms": 36651533
     },
     {
@@ -80,8 +80,8 @@
         ],
         "md5": "ef7d7991cd82bc9aa6b063ab71b01e80",
         "compressed_size": 59206476857,
-        "total_terms": 16961479264,
         "documents": 138364198,
+        "total_terms": 16961479264,
         "unique_terms": 36651533
     }
 ]

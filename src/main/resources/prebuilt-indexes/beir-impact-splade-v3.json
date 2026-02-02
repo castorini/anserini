@@ -12,8 +12,8 @@
         ],
         "md5": "b0a77584640e698c2d460b7898b3158f",
         "compressed_size": 73531379,
-        "total_terms": 1548392477,
         "documents": 171332,
+        "total_terms": 1548392477,
         "unique_terms": 27024
     },
     {
@@ -29,8 +29,8 @@
         ],
         "md5": "3a1229c0451000f129f8c35f9cac5fc3",
         "compressed_size": 7239316160,
-        "total_terms": 167919513896,
         "documents": 14914603,
+        "total_terms": 167919513896,
         "unique_terms": 27788
     },
     {
@@ -46,8 +46,8 @@
         ],
         "md5": "5ad00a7ca5206b02b226520f21ec4695",
         "compressed_size": 1915218,
-        "total_terms": 39195836,
         "documents": 3633,
+        "total_terms": 39195836,
         "unique_terms": 18128
     },
     {
@@ -63,8 +63,8 @@
         ],
         "md5": "52c51567831b098020c8f6eddc05d56d",
         "compressed_size": 1006453474,
-        "total_terms": 17935344302,
         "documents": 2681468,
+        "total_terms": 17935344302,
         "unique_terms": 28675
     },
     {
@@ -80,8 +80,8 @@
         ],
         "md5": "55d5635f4af0979d880daa3e8a361440",
         "compressed_size": 1595377712,
-        "total_terms": 29732932047,
         "documents": 5233329,
+        "total_terms": 29732932047,
         "unique_terms": 28662
     },
     {
@@ -97,8 +97,8 @@
         ],
         "md5": "336b97025e03b8c455f01761569e98df",
         "compressed_size": 26049583,
-        "total_terms": 442989145,
         "documents": 57638,
+        "total_terms": 442989145,
         "unique_terms": 26632
     },
     {
@@ -114,8 +114,8 @@
         ],
         "md5": "c16b77fc85dfdd83fad79a7711753000",
         "compressed_size": 660271643,
-        "total_terms": 10156804140,
         "documents": 2866316,
+        "total_terms": 10156804140,
         "unique_terms": 28001
     },
     {
@@ -131,8 +131,8 @@
         ],
         "md5": "f0644e91ad9db51f98cd8ff3d7722e06",
         "compressed_size": 409299564,
-        "total_terms": 8222980312,
         "documents": 594977,
+        "total_terms": 8222980312,
         "unique_terms": 27769
     },
     {
@@ -148,8 +148,8 @@
         ],
         "md5": "01b2fcf50137a89ed33467c17072f0e8",
         "compressed_size": 320606551,
-        "total_terms": 6924308508,
         "documents": 528155,
+        "total_terms": 6924308508,
         "unique_terms": 27680
     },
     {
@@ -165,8 +165,8 @@
         ],
         "md5": "a4133b22f6f7c8cb2340b8b90ed8cf5c",
         "compressed_size": 4793168,
-        "total_terms": 83229245,
         "documents": 8674,
+        "total_terms": 83229245,
         "unique_terms": 23840
     },
     {
@@ -182,8 +182,8 @@
         ],
         "md5": "34587c647bbddcddcb7716de9b7bf792",
         "compressed_size": 181574165,
-        "total_terms": 3291772755,
         "documents": 382545,
+        "total_terms": 3291772755,
         "unique_terms": 27795
     },
     {
@@ -199,8 +199,8 @@
         ],
         "md5": "2f95ef805b0df49b221288a67cfae80b",
         "compressed_size": 6408786,
-        "total_terms": 118906757,
         "documents": 22998,
+        "total_terms": 118906757,
         "unique_terms": 19602
     },
     {
@@ -216,8 +216,8 @@
         ],
         "md5": "70c93304e4a68f023da967abf56c1e1d",
         "compressed_size": 11615140,
-        "total_terms": 183702714,
         "documents": 40221,
+        "total_terms": 183702714,
         "unique_terms": 26771
     },
     {
@@ -233,8 +233,8 @@
         ],
         "md5": "ae8edc3aba66d89de8aa4a7aa2469b24",
         "compressed_size": 14527134,
-        "total_terms": 235971801,
         "documents": 45301,
+        "total_terms": 235971801,
         "unique_terms": 24679
     },
     {
@@ -250,8 +250,8 @@
         ],
         "md5": "01e3065460f48656457a25bb263f7f3c",
         "compressed_size": 13593548,
-        "total_terms": 266939607,
         "documents": 37637,
+        "total_terms": 266939607,
         "unique_terms": 22849
     },
     {
@@ -267,8 +267,8 @@
         ],
         "md5": "06cff58c8240307a22275be3893a567e",
         "compressed_size": 7216217,
-        "total_terms": 134276512,
         "documents": 16705,
+        "total_terms": 134276512,
         "unique_terms": 21280
     },
     {
@@ -284,8 +284,8 @@
         ],
         "md5": "77ee8962b8e5e494241a2466ac32d4be",
         "compressed_size": 13274475,
-        "total_terms": 242953193,
         "documents": 38316,
+        "total_terms": 242953193,
         "unique_terms": 23805
     },
     {
@@ -301,8 +301,8 @@
         ],
         "md5": "c477ae89be665aaf673cdc6db1f23b01",
         "compressed_size": 12599439,
-        "total_terms": 229840281,
         "documents": 32176,
+        "total_terms": 229840281,
         "unique_terms": 23151
     },
     {
@@ -318,8 +318,8 @@
         ],
         "md5": "7133fed6919c6cb6b848b8e2d0d44c82",
         "compressed_size": 15989162,
-        "total_terms": 308708174,
         "documents": 42269,
+        "total_terms": 308708174,
         "unique_terms": 24050
     },
     {
@@ -335,8 +335,8 @@
         ],
         "md5": "cd3d2ed2aeb31a088969165fb574f76a",
         "compressed_size": 30478518,
-        "total_terms": 611849421,
         "documents": 68184,
+        "total_terms": 611849421,
         "unique_terms": 25714
     },
     {
@@ -352,8 +352,8 @@
         ],
         "md5": "a6a1b1e2c3808ed4d5860251f1576f69",
         "compressed_size": 16584888,
-        "total_terms": 322463483,
         "documents": 47382,
+        "total_terms": 322463483,
         "unique_terms": 22825
     },
     {
@@ -369,8 +369,8 @@
         ],
         "md5": "36878f744bc0ed64c3e0aab164d52070",
         "compressed_size": 5958547,
-        "total_terms": 106789811,
         "documents": 17405,
+        "total_terms": 106789811,
         "unique_terms": 20992
     },
     {
@@ -386,8 +386,8 @@
         ],
         "md5": "1a84b32335542036098daff2be27df15",
         "compressed_size": 17681707,
-        "total_terms": 356330872,
         "documents": 48605,
+        "total_terms": 356330872,
         "unique_terms": 22734
     },
     {
@@ -403,8 +403,8 @@
         ],
         "md5": "56bf5c7d42228a38e4edc3d50715f9f4",
         "compressed_size": 43804739,
-        "total_terms": 641802806,
         "documents": 522931,
+        "total_terms": 641802806,
         "unique_terms": 26585
     },
     {
@@ -420,8 +420,8 @@
         ],
         "md5": "b8e9ea5b22afe522c5f3cb0bae992687",
         "compressed_size": 1594431068,
-        "total_terms": 27302589764,
         "documents": 4635922,
+        "total_terms": 27302589764,
         "unique_terms": 28643
     },
     {
@@ -437,8 +437,8 @@
         ],
         "md5": "2e5ac116e11f6db12af8f57b38e1f520",
         "compressed_size": 14133463,
-        "total_terms": 243252787,
         "documents": 25657,
+        "total_terms": 243252787,
         "unique_terms": 25262
     },
     {
@@ -454,8 +454,8 @@
         ],
         "md5": "00914f9f0a5b1847fbed5492c0a9d258",
         "compressed_size": 1986024118,
-        "total_terms": 35174704683,
         "documents": 5416568,
+        "total_terms": 35174704683,
         "unique_terms": 28609
     },
     {
@@ -471,8 +471,8 @@
         ],
         "md5": "abcf3c52400c0e67c5e62d6ce936e25e",
         "compressed_size": 1983184016,
-        "total_terms": 35174945255,
         "documents": 5416593,
+        "total_terms": 35174945255,
         "unique_terms": 28609
     },
     {
@@ -488,8 +488,8 @@
         ],
         "md5": "90c5b05076c0f522c34aa29fe51e7972",
         "compressed_size": 2828089,
-        "total_terms": 59370738,
         "documents": 5183,
+        "total_terms": 59370738,
         "unique_terms": 19362
     }
 ]

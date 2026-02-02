@@ -11,10 +11,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/passage/original/lucene-hnsw/cosdpr-distil/lucene-hnsw.msmarco-v1-passage.cosdpr-distil.20240108.825148.tar.gz"
         ],
         "md5": "df4c60fa1f3804fa409499824d12d035",
-        "compressed_size": 24632173689,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 24632173689
     },
     {
         "name": "msmarco-v1-passage.cosdpr-distil.hnsw-int8",
@@ -28,10 +25,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/passage/original/lucene-hnsw/cosdpr-distil/lucene-hnsw-int8.msmarco-v1-passage.cosdpr-distil.20240108.825148.tar.gz"
         ],
         "md5": "119124ad358bb81e6a203b04d1b99a9c",
-        "compressed_size": 30140494326,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 30140494326
     },
     {
         "name": "msmarco-v1-passage.bge-base-en-v1.5.hnsw",
@@ -45,10 +39,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/passage/original/lucene-hnsw/bge-base-en-v1.5/lucene-hnsw.msmarco-v1-passage.bge-base-en-v1.5.20240117.53514b.tar.gz"
         ],
         "md5": "00a577f689d90f95e6c5611438b0af3d",
-        "compressed_size": 25993352262,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 25993352262
     },
     {
         "name": "msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8",
@@ -62,10 +53,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/passage/original/lucene-hnsw/bge-base-en-v1.5/lucene-hnsw-int8.msmarco-v1-passage.bge-base-en-v1.5.20240117.53514b.tar.gz"
         ],
         "md5": "7830712459cf124c96fd058bb0a405b7",
-        "compressed_size": 31118393425,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 31118393425
     },
     {
         "name": "msmarco-v1-passage.cohere-embed-english-v3.0.hnsw",
@@ -79,10 +67,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/passage/original/lucene-hnsw/cohere-embed-english/lucene-hnsw.msmarco-v1-passage.cohere-embed-english-v3.0.20240228.eacd13.tar.gz"
         ],
         "md5": "c7294ca988ae1b812d427362ffca1ee2",
-        "compressed_size": 22094914552,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 22094914552
     },
     {
         "name": "msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8",
@@ -96,9 +81,6 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/passage/original/lucene-hnsw/cohere-embed-english/lucene-hnsw-int8.msmarco-v1-passage.cohere-embed-english-v3.0.20240228.eacd13.tar.gz"
         ],
         "md5": "dbaca578cc8495f504cdd0a7187f4c36",
-        "compressed_size": 29167754602,
-        "total_terms": -1,
-        "documents": -1,
-        "unique_terms": -1
+        "compressed_size": 29167754602
     }
 ]
