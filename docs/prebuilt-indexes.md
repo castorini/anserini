@@ -3,7 +3,7 @@
 Anserini ships with a number of prebuilt indexes.
 This means that various indexes (inverted indexes, HNSW indexes, etc.) for common collections used in NLP and IR research have already been built and just needs to be downloaded (from UWaterloo and Hugging Face servers), which Anserini will handle automatically for you.
 
-Bindings for the available prebuilt indexes are in the package [`io.anserini.index.prebuilt`](https://github.com/castorini/anserini/tree/master/src/main/java/io/anserini/index/prebuilt).
+Bindings for available prebuilt indexes can be found in the package [`io.anserini.index.prebuilt`](https://github.com/castorini/anserini/tree/master/src/main/java/io/anserini/index/prebuilt) under the right type, e.g., [`PrebuiltInvertedIndex`](https://github.com/castorini/anserini/blob/master/src/main/java/io/anserini/index/prebuilt/PrebuiltInvertedIndex.java) for inverted indexes.
 For example, if you specify `-index msmarco-v1-passage`, Anserini will know that you mean the Lucene index of the MS MARCO V1 passage corpus.
 It will then download the index from the specified location(s) and cache locally.
 All of this happens auto-magically!
@@ -39,7 +39,7 @@ Downloaded indexes are by default stored in `~/.cache/pyserini/indexes/`.
 You can specify a custom cache directory by setting the environment variable `$ANSERINI_INDEX_CACHE` or the system property `anserini.index.cache`.
 
 Another helpful tip is to download and manage the indexes by hand.
-As an example, from the [metadata](https://github.com/castorini/anserini/blob/master/src/main/resources/prebuilt-indexes/) you can see that `msmarco-v1-passage` can be downloaded from:
+As an example, from the metadata in [`msmarco-v1-passage-inverted.json`](https://github.com/castorini/anserini/blob/master/src/main/resources/prebuilt-indexes/msmarco-v1-passage-inverted.json), you can see that `msmarco-v1-passage` can be downloaded from:
 
 ```text
 https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/passage/original/lucene-inverted/tf/lucene-inverted.msmarco-v1-passage.20221004.252b5e.tar.gz
@@ -82,8 +82,6 @@ Therefore, do not modify this page directly; modify the test case instead.
 
 <details>
 <summary>MS MARCO</summary>
-
-#### MS MARCO
 
 <dl>
 <dt></dt><b><code>msmarco-v1-passage</code></b>
@@ -244,8 +242,6 @@ Therefore, do not modify this page directly; modify the test case instead.
 
 <details>
 <summary>BEIR</summary>
-
-#### BEIR
 
 <dl>
 <dt></dt><b><code>beir-v1.0.0-arguana.flat</code></b>
@@ -487,8 +483,6 @@ Therefore, do not modify this page directly; modify the test case instead.
 <details>
 <summary>BRIGHT</summary>
 
-#### BRIGHT
-
 <dl>
 <dt></dt><b><code>bright-aops</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/tf/lucene-inverted.bright.20250705.44ae8e.README.md">README</a>]
@@ -545,8 +539,6 @@ Therefore, do not modify this page directly; modify the test case instead.
 <details>
 <summary>Other</summary>
 
-#### Other
-
 <dl>
 <dt></dt><b><code>cacm</code></b>
 <dd>Anserini Lucene inverted index of the CACM corpus
@@ -559,8 +551,6 @@ Therefore, do not modify this page directly; modify the test case instead.
 
 <details>
 <summary>MS MARCO</summary>
-
-#### MS MARCO
 
 <dl>
 <dt></dt><b><code>msmarco-v1-passage.splade-pp-ed</code></b>
@@ -596,8 +586,6 @@ Therefore, do not modify this page directly; modify the test case instead.
 
 <details>
 <summary>BEIR</summary>
-
-#### BEIR
 
 <dl>
 <dt></dt><b><code>beir-v1.0.0-arguana.splade-pp-ed</code></b>
@@ -839,8 +827,6 @@ Therefore, do not modify this page directly; modify the test case instead.
 <details>
 <summary>BRIGHT</summary>
 
-#### BRIGHT
-
 <dl>
 <dt></dt><b><code>bright-aops.splade-v3</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/splade-v3/lucene-inverted.bright.splade-v3.20250808.c6674a.README.md">README</a>]
@@ -898,8 +884,6 @@ Therefore, do not modify this page directly; modify the test case instead.
 
 <details>
 <summary>BEIR</summary>
-
-#### BEIR
 
 <dl>
 <dt></dt><b><code>beir-v1.0.0-arguana.bge-base-en-v1.5.flat</code></b>
@@ -1025,8 +1009,6 @@ Therefore, do not modify this page directly; modify the test case instead.
 <details>
 <summary>BRIGHT</summary>
 
-#### BRIGHT
-
 <dl>
 <dt></dt><b><code>bright-aops.bge-large-en-v1.5.flat</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md">README</a>]
@@ -1084,8 +1066,6 @@ Therefore, do not modify this page directly; modify the test case instead.
 
 <details>
 <summary>MS MARCO</summary>
-
-#### MS MARCO
 
 <dl>
 <dt></dt><b><code>msmarco-v1-passage.bge-base-en-v1.5.hnsw</code></b>
@@ -1156,8 +1136,6 @@ Therefore, do not modify this page directly; modify the test case instead.
 
 <details>
 <summary>BEIR</summary>
-
-#### BEIR
 
 <dl>
 <dt></dt><b><code>beir-v1.0.0-arguana.bge-base-en-v1.5.hnsw</code></b>

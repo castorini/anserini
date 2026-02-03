@@ -118,7 +118,6 @@ public class GeneratePrebuiltIndexesDocTest {
 
       sb.append("<details>\n");
       sb.append("<summary>").append(section.getKey()).append("</summary>\n\n");
-      sb.append("#### ").append(section.getKey()).append("\n\n");
       sb.append("<dl>\n");
       for (PrebuiltIndex.Entry entry : section.getValue()) {
         sb.append(renderEntry(entry));
@@ -148,7 +147,7 @@ public class GeneratePrebuiltIndexesDocTest {
     Anserini ships with a number of prebuilt indexes.
     This means that various indexes (inverted indexes, HNSW indexes, etc.) for common collections used in NLP and IR research have already been built and just needs to be downloaded (from UWaterloo and Hugging Face servers), which Anserini will handle automatically for you.
 
-    Bindings for the available prebuilt indexes are in the package [`io.anserini.index.prebuilt`](https://github.com/castorini/anserini/tree/master/src/main/java/io/anserini/index/prebuilt).
+    Bindings for available prebuilt indexes can be found in the package [`io.anserini.index.prebuilt`](https://github.com/castorini/anserini/tree/master/src/main/java/io/anserini/index/prebuilt) under the right type, e.g., [`PrebuiltInvertedIndex`](https://github.com/castorini/anserini/blob/master/src/main/java/io/anserini/index/prebuilt/PrebuiltInvertedIndex.java) for inverted indexes.
     For example, if you specify `-index msmarco-v1-passage`, Anserini will know that you mean the Lucene index of the MS MARCO V1 passage corpus.
     It will then download the index from the specified location(s) and cache locally.
     All of this happens auto-magically!
@@ -184,7 +183,7 @@ public class GeneratePrebuiltIndexesDocTest {
     You can specify a custom cache directory by setting the environment variable `$ANSERINI_INDEX_CACHE` or the system property `anserini.index.cache`.
 
     Another helpful tip is to download and manage the indexes by hand.
-    As an example, from the [metadata](https://github.com/castorini/anserini/blob/master/src/main/resources/prebuilt-indexes/) you can see that `msmarco-v1-passage` can be downloaded from:
+    As an example, from the metadata in [`msmarco-v1-passage-inverted.json`](https://github.com/castorini/anserini/blob/master/src/main/resources/prebuilt-indexes/msmarco-v1-passage-inverted.json), you can see that `msmarco-v1-passage` can be downloaded from:
 
     ```text
     https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/passage/original/lucene-inverted/tf/lucene-inverted.msmarco-v1-passage.20221004.252b5e.tar.gz
