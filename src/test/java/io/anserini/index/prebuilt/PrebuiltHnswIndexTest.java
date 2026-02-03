@@ -45,7 +45,40 @@ public class PrebuiltHnswIndexTest {
 
   @Test
   public void testTotalCount() {
-    assertEquals(29, PrebuiltHnswIndex.entries().size());
+    assertEquals(45, PrebuiltHnswIndex.entries().size());
+  }
+
+  @Test
+  public void testTotalCountForMsMarcoV1() {
+    int v1Count = 0;
+    for (PrebuiltHnswIndex.Entry entry : PrebuiltHnswIndex.entries()) {
+      if (entry != null && entry.name != null && entry.name.contains("v1")) {
+        v1Count++;
+      }
+    }
+    assertEquals(35, v1Count);
+  }
+
+  @Test
+  public void testTotalCountForMsMarcoV2() {
+    int v2Count = 0;
+    for (PrebuiltHnswIndex.Entry entry : PrebuiltHnswIndex.entries()) {
+      if (entry != null && entry.name != null && entry.name.contains("v2") && !entry.name.contains("v2.1")) {
+        v2Count++;
+      }
+    }
+    assertEquals(0, v2Count);
+  }
+
+  @Test
+  public void testTotalCountForMsMarcoV2_1() {
+    int v2_1Count = 0;
+    for (PrebuiltHnswIndex.Entry entry : PrebuiltHnswIndex.entries()) {
+      if (entry != null && entry.name != null && entry.name.contains("v2.1")) {
+        v2_1Count++;
+      }
+    }
+    assertEquals(10, v2_1Count);
   }
 
   @Test

@@ -1,0 +1,121 @@
+[
+    {
+        "name": "msmarco-v2-doc-segmented",
+        "type": "inverted",
+        "corpus": "MS MARCO V2 Segmented Doc",
+        "corpus_index": "msmarco-v2-doc-segmented",
+        "description": "Anserini Lucene inverted index of the MS MARCO V2 segmented document corpus",
+        "filename": "lucene-inverted.msmarco-v2-doc-segmented.20220808.4d6d2a.tar.gz",
+        "readme": "https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-doc-segmented.20220808.4d6d2a.README.md",
+        "urls": [
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2-doc-segmented.20220808.4d6d2a.tar.gz"
+        ],
+        "md5": "42a0d23366e3dbdfecba1df2eb163ab2",
+        "compressed_size": 109269075564,
+        "documents": 124131414,
+        "total_terms": 24780918039,
+        "unique_terms": 29265408
+    },
+    {
+        "name": "msmarco-v2-doc-segmented-slim",
+        "type": "inverted",
+        "corpus": "MS MARCO V2 Segmented Doc",
+        "corpus_index": "msmarco-v2-doc-segmented",
+        "description": "Anserini Lucene inverted index of the MS MARCO V2 segmented document corpus ('slim' version)",
+        "filename": "lucene-inverted.msmarco-v2-doc-segmented-slim.20220808.4d6d2a.tar.gz",
+        "readme": "https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-doc-segmented.20220808.4d6d2a.README.md",
+        "urls": [
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2-doc-segmented-slim.20220808.4d6d2a.tar.gz"
+        ],
+        "md5": "b7ffdf1577a6b2001d84893c630e6a92",
+        "compressed_size": 20852485602,
+        "documents": 124131414,
+        "total_terms": 24780918039,
+        "unique_terms": 29265408
+    },
+    {
+        "name": "msmarco-v2-doc-segmented-full",
+        "type": "inverted",
+        "corpus": "MS MARCO V2 Segmented Doc",
+        "corpus_index": "msmarco-v2-doc-segmented",
+        "description": "Anserini Lucene inverted index of the MS MARCO V2 segmented document corpus ('full' version)",
+        "filename": "lucene-inverted.msmarco-v2-doc-segmented-full.20220808.4d6d2a.tar.gz",
+        "readme": "https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-doc-segmented.20220808.4d6d2a.README.md",
+        "urls": [
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2-doc-segmented-full.20220808.4d6d2a.tar.gz"
+        ],
+        "md5": "f2839a7208823ed98ea268404621bf3c",
+        "compressed_size": 201358945369,
+        "documents": 124131414,
+        "total_terms": 24780918039,
+        "unique_terms": 29265408
+    },
+    {
+        "name": "msmarco-v2-doc-segmented.d2q-t5",
+        "type": "inverted",
+        "corpus": "MS MARCO V2 Segmented Doc",
+        "corpus_index": "msmarco-v2-doc-segmented",
+        "description": "Anserini Lucene inverted index of the MS MARCO V2 segmented document corpus with doc2query-T5 expansions",
+        "filename": "lucene-inverted.msmarco-v2-doc-segmented.d2q-t5.20220808.4d6d2a.tar.gz",
+        "readme": "https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-doc-segmented.d2q-t5.20220808.4d6d2a.README.md",
+        "urls": [
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2-doc-segmented.d2q-t5.20220808.4d6d2a.tar.gz"
+        ],
+        "md5": "a2c47e1af47e3a31b130c53f495ab4b4",
+        "compressed_size": 24242748026,
+        "documents": 124131414,
+        "total_terms": 30376034132,
+        "unique_terms": 38932296
+    },
+    {
+        "name": "msmarco-v2-doc-segmented.d2q-t5-docvectors",
+        "type": "inverted",
+        "corpus": "MS MARCO V2 Segmented Doc",
+        "corpus_index": "msmarco-v2-doc-segmented",
+        "description": "Anserini Lucene inverted index of the MS MARCO V2 segmented document corpus with doc2query-T5 expansions (with stored docvectors)",
+        "filename": "lucene-inverted.msmarco-v2-doc-segmented.d2q-t5-docvectors.20220808.4d6d2a.tar.gz",
+        "readme": "https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-doc-segmented.d2q-t5.20220808.4d6d2a.README.md",
+        "urls": [
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2-doc-segmented.d2q-t5-docvectors.20220808.4d6d2a.tar.gz"
+        ],
+        "md5": "6ce4c42ba5aab988f543ef960bae7639",
+        "compressed_size": 114315191005,
+        "documents": 124131414,
+        "total_terms": 30376034132,
+        "unique_terms": 38932296
+    },
+    {
+        "name": "msmarco-v2-doc-segmented.unicoil-noexp-0shot",
+        "type": "inverted",
+        "corpus": "MS MARCO V2 Segmented Doc",
+        "corpus_index": "msmarco-v2-doc-segmented",
+        "description": "Anserini Lucene impact index of the MS MARCO V2 segmented document corpus for uniCOIL (noexp) with title prepended",
+        "filename": "lucene-inverted.msmarco-v2-doc-segmented.unicoil-noexp-0shot.20220808.4d6d2a.tar.gz",
+        "readme": "https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-doc-segmented.unicoil-noexp-0shot.20220808.4d6d2a.README.md",
+        "urls": [
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2-doc-segmented.unicoil-noexp-0shot.20220808.4d6d2a.tar.gz"
+        ],
+        "md5": "e3f448f4de46d86953892337fea39ed0",
+        "compressed_size": 29059154628,
+        "documents": 124131404,
+        "total_terms": 820664704261,
+        "unique_terms": 29172
+    },
+    {
+        "name": "msmarco-v2-doc-segmented.unicoil-0shot",
+        "type": "inverted",
+        "corpus": "MS MARCO V2 Segmented Doc",
+        "corpus_index": "msmarco-v2-doc-segmented",
+        "description": "Anserini Lucene impact index of the MS MARCO V2 segmented document corpus for uniCOIL, with title prepended",
+        "filename": "lucene-inverted.msmarco-v2-doc-segmented.unicoil-0shot.20220808.4d6d2a.tar.gz",
+        "readme": "https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-doc-segmented.unicoil-0shot.20220808.4d6d2a.README.md",
+        "urls": [
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2-doc-segmented.unicoil-0shot.20220808.4d6d2a.tar.gz"
+        ],
+        "md5": "ff12d2001f463460a11ff6f60175190e",
+        "compressed_size": 33573638017,
+        "documents": 124131414,
+        "total_terms": 1204542769110,
+        "unique_terms": 29168
+    }
+]
