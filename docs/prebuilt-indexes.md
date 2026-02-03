@@ -80,6 +80,11 @@ Therefore, do not modify this page directly; modify the test case instead.
 
 ### Standard Inverted Indexes
 
+<details>
+<summary>MS MARCO</summary>
+
+#### MS MARCO
+
 <dl>
 <dt></dt><b><code>msmarco-v1-passage</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/passage/original/lucene-inverted/tf/lucene-inverted.msmarco-v1-passage.20221004.252b5e.README.md">README</a>]
@@ -233,6 +238,16 @@ Therefore, do not modify this page directly; modify the test case instead.
 [<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2.1-doc-segmented.20240418.4f9675.README.md">README</a>]
 <dd>Anserini Lucene inverted index of the MS MARCO V2.1 segmented document corpus ('slim' version)
 </dd>
+</dl>
+
+</details>
+
+<details>
+<summary>BEIR</summary>
+
+#### BEIR
+
+<dl>
 <dt></dt><b><code>beir-v1.0.0-arguana.flat</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md">README</a>]
 <dd>Anserini Lucene inverted 'flat' index of BEIR collection 'arguana'
@@ -465,6 +480,16 @@ Therefore, do not modify this page directly; modify the test case instead.
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/multifield/lucene-inverted.beir-v1.0.0-multifield.20221116.505594.README.md">README</a>]
 <dd>Anserini Lucene inverted 'multifield' index of BEIR collection 'webis-touche2020'
 </dd>
+</dl>
+
+</details>
+
+<details>
+<summary>BRIGHT</summary>
+
+#### BRIGHT
+
+<dl>
 <dt></dt><b><code>bright-aops</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/tf/lucene-inverted.bright.20250705.44ae8e.README.md">README</a>]
 <dd>Anserini Lucene inverted index of BRIGHT collection 'aops'
@@ -513,12 +538,29 @@ Therefore, do not modify this page directly; modify the test case instead.
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/tf/lucene-inverted.bright.20250705.44ae8e.README.md">README</a>]
 <dd>Anserini Lucene inverted index of BRIGHT collection 'theoremqa-theorems'
 </dd>
+</dl>
+
+</details>
+
+<details>
+<summary>Other</summary>
+
+#### Other
+
+<dl>
 <dt></dt><b><code>cacm</code></b>
 <dd>Anserini Lucene inverted index of the CACM corpus
 </dd>
 </dl>
 
+</details>
+
 ### Impact Indexes
+
+<details>
+<summary>MS MARCO</summary>
+
+#### MS MARCO
 
 <dl>
 <dt></dt><b><code>msmarco-v1-passage.splade-pp-ed</code></b>
@@ -548,6 +590,16 @@ Therefore, do not modify this page directly; modify the test case instead.
 <dt></dt><b><code>msmarco-v2.1-doc-segmented.splade-v3</code></b>
 <dd>Anserini Lucene impact index of the MS MARCO V2.1 segmented document corpus encoded by SPLADE-v3
 </dd>
+</dl>
+
+</details>
+
+<details>
+<summary>BEIR</summary>
+
+#### BEIR
+
+<dl>
 <dt></dt><b><code>beir-v1.0.0-arguana.splade-pp-ed</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'arguana' encoded by SPLADE++ CoCondenser-EnsembleDistil
@@ -780,6 +832,16 @@ Therefore, do not modify this page directly; modify the test case instead.
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-v3/lucene-inverted.beir-v1.0.0-splade-v3.20250603.168a2d.README.md">README</a>]
 <dd>Anserini Lucene impact index of BEIR collection 'webis-touche2020' encoded by SPLADE-v3
 </dd>
+</dl>
+
+</details>
+
+<details>
+<summary>BRIGHT</summary>
+
+#### BRIGHT
+
+<dl>
 <dt></dt><b><code>bright-aops.splade-v3</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-inverted/splade-v3/lucene-inverted.bright.splade-v3.20250808.c6674a.README.md">README</a>]
 <dd>Anserini Lucene impact index of BRIGHT collection 'aops' encoded by SPLADE-v3
@@ -830,7 +892,14 @@ Therefore, do not modify this page directly; modify the test case instead.
 </dd>
 </dl>
 
+</details>
+
 ### Flat Vector Indexes
+
+<details>
+<summary>BEIR</summary>
+
+#### BEIR
 
 <dl>
 <dt></dt><b><code>beir-v1.0.0-arguana.bge-base-en-v1.5.flat</code></b>
@@ -949,6 +1018,16 @@ Therefore, do not modify this page directly; modify the test case instead.
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20240618.6cf601.README.md">README</a>]
 <dd>Anserini Lucene flat vector index of BEIR collection 'webis-touche2020' encoded by BGE-base-en-v1.5
 </dd>
+</dl>
+
+</details>
+
+<details>
+<summary>BRIGHT</summary>
+
+#### BRIGHT
+
+<dl>
 <dt></dt><b><code>bright-aops.bge-large-en-v1.5.flat</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md">README</a>]
 <dd>Anserini Lucene flat vector index of BRIGHT collection 'aops' encoded by BGE-large-en-v1.5
@@ -999,7 +1078,14 @@ Therefore, do not modify this page directly; modify the test case instead.
 </dd>
 </dl>
 
+</details>
+
 ### HNSW Vector Indexes
+
+<details>
+<summary>MS MARCO</summary>
+
+#### MS MARCO
 
 <dl>
 <dt></dt><b><code>msmarco-v1-passage.bge-base-en-v1.5.hnsw</code></b>
@@ -1064,6 +1150,16 @@ Therefore, do not modify this page directly; modify the test case instead.
 [<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/faiss-flat.msmarco-v2.1-doc.arctic-embed-l.20240824.README.md">README</a>]
 <dd>Anserini Lucene quantized (int8) HNSW index of the MS MARCO V2.1 segmented document corpus (shard09) encoded by Snowflake's arctic-embed-l model
 </dd>
+</dl>
+
+</details>
+
+<details>
+<summary>BEIR</summary>
+
+#### BEIR
+
+<dl>
 <dt></dt><b><code>beir-v1.0.0-arguana.bge-base-en-v1.5.hnsw</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-hnsw/bge-base-en-v1.5/lucene-hnsw.beir-v1.0.0.bge-base-en-v1.5.20240223.43c9ec.README.md">README</a>]
 <dd>Anserini Lucene HNSW index of BEIR collection 'arguana' encoded by BGE-base-en-v1.5
@@ -1181,4 +1277,6 @@ Therefore, do not modify this page directly; modify the test case instead.
 <dd>Anserini Lucene HNSW index of BEIR collection 'webis-touche2020' encoded by BGE-base-en-v1.5
 </dd>
 </dl>
+
+</details>
 

@@ -22,7 +22,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 
@@ -35,8 +37,6 @@ import io.anserini.index.prebuilt.PrebuiltInvertedIndex;
 public class GeneratePrebuiltIndexesDocTest {
   @Test
   public void generateDocs() throws IOException {
-    // TODO: Instead of long list, break into sections for MS MARCO V1, V2, V2.1, BEIR, etc.
-
     md.append(renderIndexType("Standard Inverted Indexes", (List<? extends PrebuiltIndex.Entry>) PrebuiltInvertedIndex.entries()));
     md.append(renderIndexType("Impact Indexes", (List<? extends PrebuiltIndex.Entry>) PrebuiltImpactIndex.entries()));
     md.append(renderIndexType("Flat Vector Indexes", (List<? extends PrebuiltIndex.Entry>) PrebuiltFlatIndex.entries()));
@@ -92,11 +92,41 @@ public class GeneratePrebuiltIndexesDocTest {
 
     StringBuilder sb = new StringBuilder();
     sb.append("### " + type + "\n\n");
-    sb.append("<dl>\n");
+    Map<String, List<PrebuiltIndex.Entry>> sections = new LinkedHashMap<>();
+    sections.put("MS MARCO", new ArrayList<>());
+    sections.put("BEIR", new ArrayList<>());
+    sections.put("BRIGHT", new ArrayList<>());
+    sections.put("Other", new ArrayList<>());
+
     for (PrebuiltIndex.Entry entry : order) {
-      sb.append(renderEntry(entry));
+      String name = entry.name;
+      if (name.startsWith("msmarco")) {
+        sections.get("MS MARCO").add(entry);
+      } else if (name.startsWith("beir")) {
+        sections.get("BEIR").add(entry);
+      } else if (name.startsWith("bright")) {
+        sections.get("BRIGHT").add(entry);
+      } else {
+        sections.get("Other").add(entry);
+      }
     }
-    sb.append("</dl>\n\n");
+
+    for (Map.Entry<String, List<PrebuiltIndex.Entry>> section : sections.entrySet()) {
+      if (section.getValue().isEmpty()) {
+        continue;
+      }
+
+      sb.append("<details>\n");
+      sb.append("<summary>").append(section.getKey()).append("</summary>\n\n");
+      sb.append("#### ").append(section.getKey()).append("\n\n");
+      sb.append("<dl>\n");
+      for (PrebuiltIndex.Entry entry : section.getValue()) {
+        sb.append(renderEntry(entry));
+      }
+
+      sb.append("</dl>\n\n");
+      sb.append("</details>\n\n");
+    }
 
     return sb.toString();
   }
