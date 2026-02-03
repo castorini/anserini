@@ -33,7 +33,6 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import io.anserini.index.IndexReaderUtils;
-import io.anserini.index.prebuilt.PrebuiltIndex;
 import io.anserini.util.PrebuiltIndexHandler;
 
 import java.nio.file.Paths;
