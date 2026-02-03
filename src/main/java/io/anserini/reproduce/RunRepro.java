@@ -33,7 +33,8 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import io.anserini.index.IndexReaderUtils;
-import io.anserini.index.IndexInfo;
+import io.anserini.util.PrebuiltIndexHandler;
+
 import java.nio.file.Paths;
 import java.nio.file.Path;
 import java.nio.file.Files;
@@ -127,12 +128,12 @@ public class RunRepro {
         String downloadSizeStr = "-";
         String pathStr = "-";
 
-        if (IndexInfo.contains(idx)) {
+        if (PrebuiltIndexHandler.get(idx) != null) {
           // Prebuilt alias
-          IndexInfo info = IndexInfo.get(idx);
-          if (info.size > 0) {
-            downloadSizeStr = IndexReaderUtils.formatSize(info.size);
-            totalDownloadBytes += info.size;
+          PrebuiltIndexHandler indexHandler = PrebuiltIndexHandler.get(idx);
+          if (indexHandler.getCompressedSize() > 0) {
+            downloadSizeStr = IndexReaderUtils.formatSize(indexHandler.getCompressedSize());
+            totalDownloadBytes += indexHandler.getCompressedSize();
           }
           Path prebuiltPath = expectedPrebuiltPath(idx);
           pathStr = prebuiltPath == null ? "-" : prebuiltPath.toAbsolutePath().toString();
@@ -297,15 +298,15 @@ public class RunRepro {
 
   private static Path expectedPrebuiltPath(String indexName) {
     try {
-      IndexInfo info = IndexInfo.get(indexName);
+      PrebuiltIndexHandler handler = PrebuiltIndexHandler.get(indexName);
       String cacheRoot = getCacheRoot();
-      String base = info.filename;
+      String base = handler.getFilename();
       if (base.endsWith(".tar.gz")) {
         base = base.substring(0, base.length() - ".tar.gz".length());
       } else if (base.endsWith(".gz")) {
         base = base.substring(0, base.length() - ".gz".length());
       }
-      return Path.of(cacheRoot, base + "." + info.md5);
+      return Path.of(cacheRoot, base + "." + handler.getMD5());
     } catch (Exception e) {
       return null;
     }

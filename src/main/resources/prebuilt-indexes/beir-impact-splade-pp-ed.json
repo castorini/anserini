@@ -6,14 +6,14 @@
         "corpus_index": "beir-v1.0.0-trec-covid.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'trec-covid' encoded by SPLADE++ CoCondenser-EnsembleDistil",
         "filename": "lucene-inverted.beir-v1.0.0-trec-covid.splade-pp-ed.20231124.a66f86f.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-trec-covid.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "e808ff9d4a1f45de9f0bc292900302b4",
         "compressed_size": 52144690,
-        "total_terms": 1206882333,
         "documents": 171332,
+        "total_terms": 1206882333,
         "unique_terms": 26030
     },
     {
@@ -23,14 +23,14 @@
         "corpus_index": "beir-v1.0.0-bioasq.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'bioasq' encoded by SPLADE++ CoCondenser-EnsembleDistil",
         "filename": "lucene-inverted.beir-v1.0.0-bioasq.splade-pp-ed.20231124.a66f86f.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-bioasq.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "fc661b2c2fa59e24f37c6dfa6de8e682",
         "compressed_size": 4866347210,
-        "total_terms": 127381306317,
         "documents": 14914603,
+        "total_terms": 127381306317,
         "unique_terms": 27606
     },
     {
@@ -40,14 +40,14 @@
         "corpus_index": "beir-v1.0.0-nfcorpus.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'nfcorpus' encoded by SPLADE++ CoCondenser-EnsembleDistil",
         "filename": "lucene-inverted.beir-v1.0.0-nfcorpus.splade-pp-ed.20231124.a66f86f.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-nfcorpus.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "7d6e66cca9d2db8bb7caa3bdf330cdd8",
         "compressed_size": 1352017,
-        "total_terms": 30711150,
         "documents": 3633,
+        "total_terms": 30711150,
         "unique_terms": 15307
     },
     {
@@ -57,14 +57,14 @@
         "corpus_index": "beir-v1.0.0-nq.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'nq' encoded by SPLADE++ CoCondenser-EnsembleDistil",
         "filename": "lucene-inverted.beir-v1.0.0-nq.splade-pp-ed.20231124.a66f86f.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-nq.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "a785d6636df60c861829507c3d806ee6",
         "compressed_size": 737526054,
-        "total_terms": 15061905296,
         "documents": 2681468,
+        "total_terms": 15061905296,
         "unique_terms": 28714
     },
     {
@@ -74,14 +74,14 @@
         "corpus_index": "beir-v1.0.0-hotpotqa.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'hotpotqa' encoded by SPLADE++ CoCondenser-EnsembleDistil",
         "filename": "lucene-inverted.beir-v1.0.0-hotpotqa.splade-pp-ed.20231124.a66f86f.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-hotpotqa.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "b280ed3f7b12034c0cc4b302f92801b9",
         "compressed_size": 1168143910,
-        "total_terms": 23736328387,
         "documents": 5233329,
+        "total_terms": 23736328387,
         "unique_terms": 28654
     },
     {
@@ -91,14 +91,14 @@
         "corpus_index": "beir-v1.0.0-fiqa.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'fiqa' encoded by SPLADE++ CoCondenser-EnsembleDistil",
         "filename": "lucene-inverted.beir-v1.0.0-fiqa.splade-pp-ed.20231124.a66f86f.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-fiqa.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "ea53103c695c0da6cea5b1c8353371b0",
         "compressed_size": 16919422,
-        "total_terms": 342348959,
         "documents": 57638,
+        "total_terms": 342348959,
         "unique_terms": 25136
     },
     {
@@ -108,14 +108,14 @@
         "corpus_index": "beir-v1.0.0-signal1m.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'signal1m' encoded by SPLADE++ CoCondenser-EnsembleDistil",
         "filename": "lucene-inverted.beir-v1.0.0-signal1m.splade-pp-ed.20231124.a66f86f.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-signal1m.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "0b46d71c97eabe9ca424f3ab9b2ddc64",
         "compressed_size": 496739597,
-        "total_terms": 8237410263,
         "documents": 2866316,
+        "total_terms": 8237410263,
         "unique_terms": 28020
     },
     {
@@ -125,14 +125,14 @@
         "corpus_index": "beir-v1.0.0-trec-news.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'trec-news' encoded by SPLADE++ CoCondenser-EnsembleDistil",
         "filename": "lucene-inverted.beir-v1.0.0-trec-news.splade-pp-ed.20231124.a66f86f.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-trec-news.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "ef4fb032b632b80355db46549f08a026",
         "compressed_size": 250744439,
-        "total_terms": 5190619991,
         "documents": 594977,
+        "total_terms": 5190619991,
         "unique_terms": 27774
     },
     {
@@ -142,14 +142,14 @@
         "corpus_index": "beir-v1.0.0-robust04.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'robust04' encoded by SPLADE++ CoCondenser-EnsembleDistil",
         "filename": "lucene-inverted.beir-v1.0.0-robust04.splade-pp-ed.20231124.a66f86f.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-robust04.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "c1a6fd094bb9e34e69e10040d9b0ad2a",
         "compressed_size": 193499509,
-        "total_terms": 4818025575,
         "documents": 528155,
+        "total_terms": 4818025575,
         "unique_terms": 27545
     },
     {
@@ -159,14 +159,14 @@
         "corpus_index": "beir-v1.0.0-arguana.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'arguana' encoded by SPLADE++ CoCondenser-EnsembleDistil",
         "filename": "lucene-inverted.beir-v1.0.0-arguana.splade-pp-ed.20231124.a66f86f.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-arguana.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "c2725b375ca53ff031ee8b4ba8501eb6",
         "compressed_size": 3559009,
-        "total_terms": 71992355,
         "documents": 8674,
+        "total_terms": 71992355,
         "unique_terms": 21501
     },
     {
@@ -176,14 +176,14 @@
         "corpus_index": "beir-v1.0.0-webis-touche2020.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'webis-touche2020' encoded by SPLADE++ CoCondenser-EnsembleDistil",
         "filename": "lucene-inverted.beir-v1.0.0-webis-touche2020.splade-pp-ed.20231124.a66f86f.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-webis-touche2020.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "1abec77feeb741edfb3c9b7565b42964",
         "compressed_size": 119213878,
-        "total_terms": 2275005818,
         "documents": 382545,
+        "total_terms": 2275005818,
         "unique_terms": 27611
     },
     {
@@ -193,14 +193,14 @@
         "corpus_index": "beir-v1.0.0-cqadupstack-android.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'cqadupstack-android' encoded by SPLADE++ CoCondenser-EnsembleDistil",
         "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-android.splade-pp-ed.20231124.a66f86f.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-cqadupstack-android.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "0b6b36417df9095e9ed32e4127bdd2fd",
         "compressed_size": 4789380,
-        "total_terms": 108476959,
         "documents": 22998,
+        "total_terms": 108476959,
         "unique_terms": 16844
     },
     {
@@ -210,14 +210,14 @@
         "corpus_index": "beir-v1.0.0-cqadupstack-english.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'cqadupstack-english' encoded by SPLADE++ CoCondenser-EnsembleDistil",
         "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-english.splade-pp-ed.20231124.a66f86f.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-cqadupstack-english.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "f2a5f68523117638f957bcc353c956c1",
         "compressed_size": 8868099,
-        "total_terms": 158861979,
         "documents": 40221,
+        "total_terms": 158861979,
         "unique_terms": 25618
     },
     {
@@ -227,14 +227,14 @@
         "corpus_index": "beir-v1.0.0-cqadupstack-gaming",
         "description": "Anserini Lucene impact index of BEIR collection 'cqadupstack-gaming' encoded by SPLADE++ CoCondenser-EnsembleDistil",
         "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-gaming.splade-pp-ed.20231124.a66f86f.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-cqadupstack-gaming.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "804851ed2ca5c38464f28263fb664615",
         "compressed_size": 10471910,
-        "total_terms": 197713644,
         "documents": 45301,
+        "total_terms": 197713644,
         "unique_terms": 22854
     },
     {
@@ -244,14 +244,14 @@
         "corpus_index": "beir-v1.0.0-cqadupstack-gis.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'cqadupstack-gis' encoded by SPLADE++ CoCondenser-EnsembleDistil",
         "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-gis.splade-pp-ed.20231124.a66f86f.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-cqadupstack-gis.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "ee53ba7f26e678f39c3db8997785169a",
         "compressed_size": 8652361,
-        "total_terms": 214744014,
         "documents": 37637,
+        "total_terms": 214744014,
         "unique_terms": 20225
     },
     {
@@ -261,14 +261,14 @@
         "corpus_index": "beir-v1.0.0-cqadupstack-mathematica.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'cqadupstack-mathematica' encoded by SPLADE++ CoCondenser-EnsembleDistil",
         "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-mathematica.splade-pp-ed.20231124.a66f86f.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-cqadupstack-mathematica.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "c3dd33ddfd364a0665450691963f9036",
         "compressed_size": 3845630,
-        "total_terms": 90452420,
         "documents": 16705,
+        "total_terms": 90452420,
         "unique_terms": 17697
     },
     {
@@ -278,14 +278,14 @@
         "corpus_index": "beir-v1.0.0-cqadupstack-physics.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'cqadupstack-physics' encoded by SPLADE++ CoCondenser-EnsembleDistil",
         "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-physics.splade-pp-ed.20231124.a66f86f.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-cqadupstack-physics.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "155a130b556072ec0b84788417361228",
         "compressed_size": 9342353,
-        "total_terms": 199892911,
         "documents": 38316,
+        "total_terms": 199892911,
         "unique_terms": 21505
     },
     {
@@ -295,14 +295,14 @@
         "corpus_index": "beir-v1.0.0-cqadupstack-programmers.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'cqadupstack-programmers' encoded by SPLADE++ CoCondenser-EnsembleDistil",
         "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-programmers.splade-pp-ed.20231124.a66f86f.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-cqadupstack-programmers.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "f0923dd88b7d4f050d54ff6f6efcc7f5",
         "compressed_size": 8566346,
-        "total_terms": 182133939,
         "documents": 32176,
+        "total_terms": 182133939,
         "unique_terms": 20985
     },
     {
@@ -312,14 +312,14 @@
         "corpus_index": "beir-v1.0.0-cqadupstack-stats.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'cqadupstack-stats' encoded by SPLADE++ CoCondenser-EnsembleDistil",
         "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-stats.splade-pp-ed.20231124.a66f86f.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-cqadupstack-stats.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "78e62040ed6d44e232e9381e96a56cc7",
         "compressed_size": 10153907,
-        "total_terms": 236361350,
         "documents": 42269,
+        "total_terms": 236361350,
         "unique_terms": 21654
     },
     {
@@ -329,14 +329,14 @@
         "corpus_index": "beir-v1.0.0-cqadupstack-tex.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'cqadupstack-tex' encoded by SPLADE++ CoCondenser-EnsembleDistil",
         "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-tex.splade-pp-ed.20231124.a66f86f.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-cqadupstack-tex.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "402088c62cbffeba3d710fec408226ed",
         "compressed_size": 16238354,
-        "total_terms": 433864313,
         "documents": 68184,
+        "total_terms": 433864313,
         "unique_terms": 23064
     },
     {
@@ -346,14 +346,14 @@
         "corpus_index": "beir-v1.0.0-cqadupstack-unix.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'cqadupstack-unix' encoded by SPLADE++ CoCondenser-EnsembleDistil",
         "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-unix.splade-pp-ed.20231124.a66f86f.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-cqadupstack-unix.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "66e884e446ff183e07973c65ccf32625",
         "compressed_size": 10586092,
-        "total_terms": 260688145,
         "documents": 47382,
+        "total_terms": 260688145,
         "unique_terms": 19773
     },
     {
@@ -363,14 +363,14 @@
         "corpus_index": "beir-v1.0.0-cqadupstack-webmasters.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'cqadupstack-webmasters' encoded by SPLADE++ CoCondenser-EnsembleDistil",
         "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-webmasters.splade-pp-ed.20231124.a66f86f.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-cqadupstack-webmasters.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "17be129cbe65b4e4e64a181f95a56972",
         "compressed_size": 4077803,
-        "total_terms": 89755810,
         "documents": 17405,
+        "total_terms": 89755810,
         "unique_terms": 18246
     },
     {
@@ -380,14 +380,14 @@
         "corpus_index": "beir-v1.0.0-cqadupstack-wordpress.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'cqadupstack-wordpress' encoded by SPLADE++ CoCondenser-EnsembleDistil",
         "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-wordpress.splade-pp-ed.20231124.a66f86f.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-cqadupstack-wordpress.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "f20bacfe92f21bc75360a9978278e690",
         "compressed_size": 9973318,
-        "total_terms": 257594340,
         "documents": 48605,
+        "total_terms": 257594340,
         "unique_terms": 19864
     },
     {
@@ -397,14 +397,14 @@
         "corpus_index": "beir-v1.0.0-quora.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'quora' encoded by SPLADE++ CoCondenser-EnsembleDistil",
         "filename": "lucene-inverted.beir-v1.0.0-quora.splade-pp-ed.20231124.a66f86f.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-quora.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "ce6dbaacf3b7b0e8282020565d324ea5",
         "compressed_size": 62673280,
-        "total_terms": 1064938611,
         "documents": 522931,
+        "total_terms": 1064938611,
         "unique_terms": 26583
     },
     {
@@ -414,14 +414,14 @@
         "corpus_index": "beir-v1.0.0-dbpedia-entity.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'dbpedia-entity' encoded by SPLADE++ CoCondenser-EnsembleDistil",
         "filename": "lucene-inverted.beir-v1.0.0-dbpedia-entity.splade-pp-ed.20231124.a66f86f.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-dbpedia-entity.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "fc9ac8329b6e2c054290791e68e0a0e4",
         "compressed_size": 1224474004,
-        "total_terms": 22302972729,
         "documents": 4635922,
+        "total_terms": 22302972729,
         "unique_terms": 28628
     },
     {
@@ -431,14 +431,14 @@
         "corpus_index": "beir-v1.0.0-scidocs.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'scidocs' encoded by SPLADE++ CoCondenser-EnsembleDistil",
         "filename": "lucene-inverted.beir-v1.0.0-scidocs.splade-pp-ed.20231124.a66f86f.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-scidocs.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "3285b17da7cd88d2e6e62a3bfc465039",
         "compressed_size": 10386053,
-        "total_terms": 192911913,
         "documents": 25657,
+        "total_terms": 192911913,
         "unique_terms": 23225
     },
     {
@@ -448,14 +448,14 @@
         "corpus_index": "beir-v1.0.0-fever.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'fever' encoded by SPLADE++ CoCondenser-EnsembleDistil",
         "filename": "lucene-inverted.beir-v1.0.0-fever.splade-pp-ed.20231124.a66f86f.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-fever.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "22e67800879422840f20c7d0008795a9",
         "compressed_size": 1499855743,
-        "total_terms": 28498465299,
         "documents": 5416593,
+        "total_terms": 28498465299,
         "unique_terms": 28578
     },
     {
@@ -465,14 +465,14 @@
         "corpus_index": "beir-v1.0.0-climate-fever.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'climate-fever' encoded by SPLADE++ CoCondenser-EnsembleDistil",
         "filename": "lucene-inverted.beir-v1.0.0-climate-fever.splade-pp-ed.20231124.a66f86f.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-climate-fever.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "bd5f3c804874ca18f99590037873a1bc",
         "compressed_size": 1500344997,
-        "total_terms": 28498465299,
         "documents": 5416593,
+        "total_terms": 28498465299,
         "unique_terms": 28578
     },
     {
@@ -482,14 +482,14 @@
         "corpus_index": "beir-v1.0.0-scifact.flat",
         "description": "Anserini Lucene impact index of BEIR collection 'scifact' encoded by SPLADE++ CoCondenser-EnsembleDistil",
         "filename": "lucene-inverted.beir-v1.0.0-scifact.splade-pp-ed.20231124.a66f86f.tar.gz",
-        "readme": "lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-splade-pp-ed.20231124.a66f86f.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-scifact.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "3abe52209fcd04f411da438a37254e3a",
         "compressed_size": 1985785,
-        "total_terms": 47317323,
         "documents": 5183,
+        "total_terms": 47317323,
         "unique_terms": 16385
     }
 ]

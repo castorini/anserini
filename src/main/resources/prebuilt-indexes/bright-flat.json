@@ -5,7 +5,7 @@
         "corpus_index": "bright-biology",
         "description": "Anserini Lucene flat vector index of BRIGHT collection 'biology' encoded by BGE-large-en-v1.5",
         "filename": "lucene-flat.bright-biology.bge-large-en-v1.5.20250819.e5ee76.tar.gz",
-        "readme": "lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright-biology.bge-large-en-v1.5.20250819.e5ee76.tar.gz"
         ],
@@ -18,7 +18,7 @@
         "corpus_index": "bright-earth-science",
         "description": "Anserini Lucene flat vector index of BRIGHT collection 'earth-science' encoded by BGE-large-en-v1.5",
         "filename": "lucene-flat.bright-earth-science.bge-large-en-v1.5.20250819.e5ee76.tar.gz",
-        "readme": "lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright-earth-science.bge-large-en-v1.5.20250819.e5ee76.tar.gz"
         ],
@@ -31,7 +31,7 @@
         "corpus_index": "bright-economics",
         "description": "Anserini Lucene flat vector index of BRIGHT collection 'economics' encoded by BGE-large-en-v1.5",
         "filename": "lucene-flat.bright-economics.bge-large-en-v1.5.20250819.e5ee76.tar.gz",
-        "readme": "lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright-economics.bge-large-en-v1.5.20250819.e5ee76.tar.gz"
         ],
@@ -44,7 +44,7 @@
         "corpus_index": "bright-psychology",
         "description": "Anserini Lucene flat vector index of BRIGHT collection 'psychology' encoded by BGE-large-en-v1.5",
         "filename": "lucene-flat.bright-psychology.bge-large-en-v1.5.20250819.e5ee76.tar.gz",
-        "readme": "lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright-psychology.bge-large-en-v1.5.20250819.e5ee76.tar.gz"
         ],
@@ -57,7 +57,7 @@
         "corpus_index": "bright-robotics",
         "description": "Anserini Lucene flat vector index of BRIGHT collection 'robotics' encoded by BGE-large-en-v1.5",
         "filename": "lucene-flat.bright-robotics.bge-large-en-v1.5.20250819.e5ee76.tar.gz",
-        "readme": "lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright-robotics.bge-large-en-v1.5.20250819.e5ee76.tar.gz"
         ],
@@ -70,7 +70,7 @@
         "corpus_index": "bright-stackoverflow",
         "description": "Anserini Lucene flat vector index of BRIGHT collection 'stackoverflow' encoded by BGE-large-en-v1.5",
         "filename": "lucene-flat.bright-stackoverflow.bge-large-en-v1.5.20250819.e5ee76.tar.gz",
-        "readme": "lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright-stackoverflow.bge-large-en-v1.5.20250819.e5ee76.tar.gz"
         ],
@@ -83,7 +83,7 @@
         "corpus_index": "bright-sustainable-living",
         "description": "Anserini Lucene flat vector index of BRIGHT collection 'sustainable-living' encoded by BGE-large-en-v1.5",
         "filename": "lucene-flat.bright-sustainable-living.bge-large-en-v1.5.20250819.e5ee76.tar.gz",
-        "readme": "lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright-sustainable-living.bge-large-en-v1.5.20250819.e5ee76.tar.gz"
         ],
@@ -96,7 +96,7 @@
         "corpus_index": "bright-pony",
         "description": "Anserini Lucene flat vector index of BRIGHT collection 'pony' encoded by BGE-large-en-v1.5",
         "filename": "lucene-flat.bright-pony.bge-large-en-v1.5.20250819.e5ee76.tar.gz",
-        "readme": "lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright-pony.bge-large-en-v1.5.20250819.e5ee76.tar.gz"
         ],
@@ -109,7 +109,7 @@
         "corpus_index": "bright-leetcode",
         "description": "Anserini Lucene flat vector index of BRIGHT collection 'leetcode' encoded by BGE-large-en-v1.5",
         "filename": "lucene-flat.bright-leetcode.bge-large-en-v1.5.20250819.e5ee76.tar.gz",
-        "readme": "lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright-leetcode.bge-large-en-v1.5.20250819.e5ee76.tar.gz"
         ],
@@ -122,7 +122,7 @@
         "corpus_index": "bright-aops",
         "description": "Anserini Lucene flat vector index of BRIGHT collection 'aops' encoded by BGE-large-en-v1.5",
         "filename": "lucene-flat.bright-aops.bge-large-en-v1.5.20250819.e5ee76.tar.gz",
-        "readme": "lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright-aops.bge-large-en-v1.5.20250819.e5ee76.tar.gz"
         ],
@@ -135,7 +135,7 @@
         "corpus_index": "bright-theoremqa-theorems",
         "description": "Anserini Lucene flat vector index of BRIGHT collection 'theoremqa-theorems' encoded by BGE-large-en-v1.5",
         "filename": "lucene-flat.bright-theoremqa-theorems.bge-large-en-v1.5.20250819.e5ee76.tar.gz",
-        "readme": "lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright-theoremqa-theorems.bge-large-en-v1.5.20250819.e5ee76.tar.gz"
         ],
@@ -148,7 +148,7 @@
         "corpus_index": "bright-theoremqa-questions",
         "description": "Anserini Lucene flat vector index of BRIGHT collection 'theoremqa-questions' encoded by BGE-large-en-v1.5",
         "filename": "lucene-flat.bright-theoremqa-questions.bge-large-en-v1.5.20250819.e5ee76.tar.gz",
-        "readme": "lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/blob/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright.bge-large-en-v1.5.20250819.e5ee76.README.md",
         "urls": [
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-flat/bge-large-en-v1.5/lucene-flat.bright-theoremqa-questions.bge-large-en-v1.5.20250819.e5ee76.tar.gz"
         ],

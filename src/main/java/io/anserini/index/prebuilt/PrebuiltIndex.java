@@ -156,4 +156,26 @@ public class PrebuiltIndex {
 
     return loadedEntries;
   }
+
+  /**
+   * Returns the {@link PrebuiltIndex.Entry} corresponding to a prebuilt index or <tt>null</tt> if it doesn't exist.
+   *
+   * @param name prebuilt index
+   * @return the {@link PrebuiltIndex.Entry} corresponding to a prebuilt index or <tt>null</tt> if it doesn't exist
+   */
+  public static PrebuiltIndex.Entry get(String name) {
+    PrebuiltIndex.Entry entry;
+
+    if ((entry = PrebuiltInvertedIndex.get(name)) != null) {
+      return entry;
+    } else if ((entry = PrebuiltImpactIndex.get(name)) != null) {
+      return entry;
+    } else if ((entry = PrebuiltFlatIndex.get(name)) != null) {
+      return entry;
+    } else if ((entry = PrebuiltHnswIndex.get(name)) != null) {
+      return entry;
+    }
+
+    return null;
+  }
 }

@@ -1,0 +1,36 @@
+[
+    {
+        "name": "msmarco-v1-doc-segmented.unicoil-noexp",
+        "type": "impact",
+        "corpus": "MS MARCO V1 Documents",
+        "corpus_index": "msmarco-v1-doc-segmented",
+        "description": "Anserini Lucene impact index of the MS MARCO V1 segmented document corpus for uniCOIL (noexp), with title/segment encoding",
+        "filename": "lucene-inverted.msmarco-v1-doc-segmented.unicoil-noexp.20221005.252b5e.tar.gz",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/doc/segmented/lucene-inverted/unicoil-noexp/lucene-inverted.msmarco-v1-doc-segmented.unicoil-noexp.20221005.252b5e.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/doc/segmented/lucene-inverted/unicoil-noexp/lucene-inverted.msmarco-v1-doc-segmented.unicoil-noexp.20221005.252b5e.tar.gz"
+        ],
+        "md5": "f92d5a2ba22274993b34f69e59427379",
+        "compressed_size": 5323380902,
+        "documents": 20545677,
+        "total_terms": 152323732876,
+        "unique_terms": 29142
+    },
+    {
+        "name": "msmarco-v1-doc-segmented.unicoil",
+        "type": "impact",
+        "corpus": "MS MARCO V1 Documents",
+        "corpus_index": "msmarco-v1-doc-segmented",
+        "description": "Anserini Lucene impact index of the MS MARCO V1 segmented document corpus for uniCOIL, with title/segment encoding",
+        "filename": "lucene-inverted.msmarco-v1-doc-segmented.unicoil.20221005.252b5e.tar.gz",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/doc/segmented/lucene-inverted/unicoil/lucene-inverted.msmarco-v1-doc-segmented.unicoil.20221005.252b5e.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/doc/segmented/lucene-inverted/unicoil/lucene-inverted.msmarco-v1-doc-segmented.unicoil.20221005.252b5e.tar.gz"
+        ],
+        "md5": "7dc32ad22876fbbe0f24f21fd1ea50c0",
+        "compressed_size": 5765257801,
+        "documents": 20545677,
+        "total_terms": 214505277898,
+        "unique_terms": 29142
+    }
+]

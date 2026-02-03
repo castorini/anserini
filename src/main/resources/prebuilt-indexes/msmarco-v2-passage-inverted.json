@@ -1,0 +1,87 @@
+[
+    {
+        "name": "msmarco-v2-passage",
+        "type": "inverted",
+        "corpus": "MS MARCO V2 Passage",
+        "corpus_index": "msmarco-v2-passage",
+        "description": "Anserini Lucene inverted index of the MS MARCO V2 passage corpus",
+        "filename": "lucene-inverted.msmarco-v2-passage.20220808.4d6d2a.tar.gz",
+        "readme": "https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-passage.20220808.4d6d2a.README.md",
+        "urls": [
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2-passage.20220808.4d6d2a.tar.gz"
+        ],
+        "md5": "433f65ee0091a0690632e3ef624c7994",
+        "compressed_size": 38808093637,
+        "documents": 138364198,
+        "total_terms": 4673266800,
+        "unique_terms": 11885838
+    },
+    {
+        "name": "msmarco-v2-passage-slim",
+        "type": "inverted",
+        "corpus": "MS MARCO V2 Passage",
+        "corpus_index": "msmarco-v2-passage",
+        "description": "Anserini Lucene inverted index of the MS MARCO V2 passage corpus ('slim' version)",
+        "filename": "lucene-inverted.msmarco-v2-passage-slim.20220808.4d6d2a.tar.gz",
+        "readme": "https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-passage.20220808.4d6d2a.README.md",
+        "urls": [
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2-passage-slim.20220808.4d6d2a.tar.gz"
+        ],
+        "md5": "e896ee15ffec1c7487a089d345343417",
+        "compressed_size": 8170344033,
+        "documents": 138364198,
+        "total_terms": 4673266800,
+        "unique_terms": 11885838
+    },
+    {
+        "name": "msmarco-v2-passage-full",
+        "type": "inverted",
+        "corpus": "MS MARCO V2 Passage",
+        "corpus_index": "msmarco-v2-passage",
+        "description": "Anserini Lucene inverted index of the MS MARCO V2 passage corpus ('full' version)",
+        "filename": "lucene-inverted.msmarco-v2-passage-full.20220808.4d6d2a.tar.gz",
+        "readme": "https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-passage.20220808.4d6d2a.README.md",
+        "urls": [
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2-passage-full.20220808.4d6d2a.tar.gz"
+        ],
+        "md5": "5d517259e639b2d34682231d5fc8a534",
+        "compressed_size": 60413586666,
+        "documents": 138364198,
+        "total_terms": 4673266800,
+        "unique_terms": 11885838
+    },
+    {
+        "name": "msmarco-v2-passage.d2q-t5",
+        "type": "inverted",
+        "corpus": "MS MARCO V2 Passage",
+        "corpus_index": "msmarco-v2-passage",
+        "description": "Anserini Lucene inverted index of the MS MARCO V2 passage corpus with doc2query-T5 expansions",
+        "filename": "lucene-inverted.msmarco-v2-passage.d2q-t5.20220808.4d6d2a.tar.gz",
+        "readme": "https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-passage.d2q-t5.20220808.4d6d2a.README.md",
+        "urls": [
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2-passage.d2q-t5.20220808.4d6d2a.tar.gz"
+        ],
+        "md5": "3764a6cc79cf8c4ac824aee8859223ad",
+        "compressed_size": 14404904837,
+        "documents": 138364198,
+        "total_terms": 16961479264,
+        "unique_terms": 36651533
+    },
+    {
+        "name": "msmarco-v2-passage.d2q-t5-docvectors",
+        "type": "inverted",
+        "corpus": "MS MARCO V2 Passage",
+        "corpus_index": "msmarco-v2-passage",
+        "description": "Anserini Lucene inverted index of the MS MARCO V2 passage corpus with doc2query-T5 expansions (with stored docvectors)",
+        "filename": "lucene-inverted.msmarco-v2-passage.d2q-t5-docvectors.20220808.4d6d2a.tar.gz",
+        "readme": "https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-passage.d2q-t5.20220808.4d6d2a.README.md",
+        "urls": [
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2-passage.d2q-t5-docvectors.20220808.4d6d2a.tar.gz"
+        ],
+        "md5": "ef7d7991cd82bc9aa6b063ab71b01e80",
+        "compressed_size": 59206476857,
+        "documents": 138364198,
+        "total_terms": 16961479264,
+        "unique_terms": 36651533
+    }
+]

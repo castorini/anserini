@@ -117,7 +117,7 @@ public class PrebuiltIndexHandlerTest {
     PrebuiltIndexHandler handler = PrebuiltIndexHandler.get("cacm");
     handler.fetch();
 
-    assertTrue(handler.getIndexFolderPath().toString().contains("lucene-index.cacm"));
+    assertTrue(handler.getIndexPath().toString().contains("lucene-index.cacm"));
   }
 
   @Test
@@ -127,7 +127,7 @@ public class PrebuiltIndexHandlerTest {
     PrebuiltIndexHandler handler = PrebuiltIndexHandler.get("cacm");
     handler.fetch(tempDir.toString());
 
-    assertTrue(handler.getIndexFolderPath().toString().contains("lucene-index.cacm"));
+    assertTrue(handler.getIndexPath().toString().contains("lucene-index.cacm"));
 
     FileUtils.deleteDirectory(tempDir.toFile());
   }
