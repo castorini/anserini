@@ -131,10 +131,10 @@ public class RunRepro {
 
         if (PrebuiltIndexHandler.get(idx) != null) {
           // Prebuilt alias
-          PrebuiltIndexHandler handler = PrebuiltIndexHandler.get(idx);
-          if (handler.getCompressedSize() > 0) {
-            downloadSizeStr = IndexReaderUtils.formatSize(handler.getCompressedSize());
-            totalDownloadBytes += handler.getCompressedSize();
+          PrebuiltIndexHandler indexHandler = PrebuiltIndexHandler.get(idx);
+          if (indexHandler.getCompressedSize() > 0) {
+            downloadSizeStr = IndexReaderUtils.formatSize(indexHandler.getCompressedSize());
+            totalDownloadBytes += indexHandler.getCompressedSize();
           }
           Path prebuiltPath = expectedPrebuiltPath(idx);
           pathStr = prebuiltPath == null ? "-" : prebuiltPath.toAbsolutePath().toString();

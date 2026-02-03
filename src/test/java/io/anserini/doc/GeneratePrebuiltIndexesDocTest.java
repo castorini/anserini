@@ -35,6 +35,8 @@ import io.anserini.index.prebuilt.PrebuiltInvertedIndex;
 public class GeneratePrebuiltIndexesDocTest {
   @Test
   public void generateDocs() throws IOException {
+    // TODO: Instead of long list, break into sections for MS MARCO V1, V2, V2.1, BEIR, etc.
+
     md.append(renderIndexType("Standard Inverted Indexes", (List<? extends PrebuiltIndex.Entry>) PrebuiltInvertedIndex.entries()));
     md.append(renderIndexType("Impact Indexes", (List<? extends PrebuiltIndex.Entry>) PrebuiltImpactIndex.entries()));
     md.append(renderIndexType("Flat Vector Indexes", (List<? extends PrebuiltIndex.Entry>) PrebuiltFlatIndex.entries()));
