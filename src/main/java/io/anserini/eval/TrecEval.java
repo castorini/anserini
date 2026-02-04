@@ -64,8 +64,9 @@ public class TrecEval {
 
   private static File getTrecEvalBinary() {
     final String resName = getExecName();
-    if (TrecEval.class.getClassLoader().getResource(resName) == null)
+    if (TrecEval.class.getClassLoader().getResource(resName) == null) {
       throw new UnsupportedOperationException("Unsupported os/arch: " + resName);
+    }
 
     File tempExec = null;
     try {
@@ -73,18 +74,19 @@ public class TrecEval {
       tempExecDir.toFile().deleteOnExit();
 
       tempExec = File.createTempFile("trec_eval", "", tempExecDir.toFile());
-      InputStream in = TrecEval.class.getClassLoader().getResourceAsStream(resName);
-      OutputStream out = new BufferedOutputStream(new FileOutputStream(tempExec));
-      IOUtils.copy(in, out);
-      in.close();
-      out.close();
+      try (InputStream in = TrecEval.class.getClassLoader().getResourceAsStream(resName);
+           OutputStream out = new BufferedOutputStream(new FileOutputStream(tempExec))) {
+        if (in == null) {
+          throw new UnsupportedOperationException("Unsupported os/arch: " + resName);
+        }
+        IOUtils.copy(in, out);
+      }
       tempExec.setExecutable(true);
       tempExec.deleteOnExit();
     } catch (Exception e) {
       throw new UnsupportedOperationException(e);
     }
 
-    assert tempExec.exists() : "Exe file " + tempExec.toString() + " does not exist after creation";
     return tempExec;
   }
 
@@ -135,18 +137,23 @@ public class TrecEval {
       ProcessBuilder pb = getBuilder(args);
       pb.redirectError(Redirect.INHERIT);
       Process p = pb.start();
-      InputStream in = p.getInputStream();
-      LineIterator it = IOUtils.lineIterator(new InputStreamReader(in));
-      while (it.hasNext()) {
-        output.add(it.next().split("\\s+"));
+      try (InputStream in = p.getInputStream();
+           InputStreamReader reader = new InputStreamReader(in);
+           LineIterator it = IOUtils.lineIterator(reader)) {
+        while (it.hasNext()) {
+          output.add(it.next().split("\\s+"));
+        }
       }
       p.waitFor();
       exit = p.exitValue();
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
-    if (exit != 0)
-      throw new RuntimeException("trec_eval ended with non-zero exit code (" + exit + ")");
+
+    if (exit != 0) {
+      throw new RuntimeException(String.format("trec_eval ended with non-zero exit code (%d)", exit));
+    }
+
     return output.toArray(new String[output.size()][]);
   }
 

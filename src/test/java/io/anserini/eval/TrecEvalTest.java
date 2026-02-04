@@ -27,7 +27,7 @@ public class TrecEvalTest {
     TrecEval trecEval = new TrecEval();
     String[] args = new String[] {
         "-m", "P.30",
-        "tools/topics-and-qrels/qrels.cacm.txt",
+        "src/test/resources/sample_qrels/cacm/qrels.cacm.txt",
         "src/test/resources/sample_runs/cacm/cacm-bm25.txt"
     };
     String[][] output = trecEval.runAndGetOutput(args);
