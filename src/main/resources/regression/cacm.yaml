@@ -38,7 +38,7 @@ topics:
 
 models:
   - name: bm25
-    params: -bm25
+    params: -bm25 -hits 30
     results:
       MAP:
         - 0.3123
