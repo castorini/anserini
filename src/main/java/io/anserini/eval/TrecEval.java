@@ -33,8 +33,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.LineIterator;
 
 /**
- * The following code is adapted from https://github.com/terrierteam/jtreceval
- * by Craig Macdonald
+ * This class is adapted from https://github.com/terrierteam/jtreceval by Craig Macdonald
  */
 public class TrecEval {
   private final File binary;
@@ -63,7 +62,7 @@ public class TrecEval {
   }
 
   private static File getTrecEvalBinary() {
-    final String resName = getExecName();
+    final String resName = getExecutableName();
     if (TrecEval.class.getClassLoader().getResource(resName) == null) {
       throw new UnsupportedOperationException("Unsupported os/arch: " + resName);
     }
@@ -77,20 +76,20 @@ public class TrecEval {
       try (InputStream in = TrecEval.class.getClassLoader().getResourceAsStream(resName);
            OutputStream out = new BufferedOutputStream(new FileOutputStream(tempExec))) {
         if (in == null) {
-          throw new UnsupportedOperationException("Unsupported os/arch: " + resName);
+          throw new RuntimeException();
         }
         IOUtils.copy(in, out);
       }
       tempExec.setExecutable(true);
       tempExec.deleteOnExit();
     } catch (Exception e) {
-      throw new UnsupportedOperationException(e);
+      throw new RuntimeException(e);
     }
 
     return tempExec;
   }
 
-  protected static String getExecName() {
+  protected static String getExecutableName() {
     return "trec_eval/trec_eval-" + getOsShort() + "-" + System.getProperty("os.arch");
   }
 
@@ -100,6 +99,7 @@ public class TrecEval {
     if (f.exists()) {
       return f.toString();
     }
+
     // If no exact match is found, we are expecting a symbol
     Path filePath;
     try {
@@ -107,6 +107,7 @@ public class TrecEval {
     } catch (IOException e) {
       filePath = Path.of(sym);
     }
+
     return filePath.toString();
   }
 
@@ -158,7 +159,9 @@ public class TrecEval {
   }
 
   /**
-   * @return Exit code of last invocation of trec_eval
+   * Returns the exit code of the last invocation of {@tt trec_eval}.
+   *
+   * @return the exit code of the last invocation of {@tt trec_eval}
    */
   public int getLastExitCode() {
     return exit;
@@ -173,13 +176,11 @@ public class TrecEval {
   public int run(String[] args) {
     try {
       ProcessBuilder pb = getBuilder(args);
+      pb.inheritIO();
 
       Process p = pb.start();
-      p.waitFor();
-
-      exit = p.exitValue();
+      exit = p.waitFor();
     } catch (Exception e) {
-      System.err.println(e);
       e.printStackTrace();
       exit = -1;
     }
@@ -193,6 +194,6 @@ public class TrecEval {
    * @param args trec_eval commandline arguments
    */
   public static void main(String[] args) {
-    System.exit(new TrecEval().run(args));
+    new TrecEval().run(args);
   }
 }

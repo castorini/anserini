@@ -16,6 +16,6 @@
 
 public class trec_eval {
   public static void main( String[] args ) {
-    System.exit(new io.anserini.eval.TrecEval().run(args));
+    new io.anserini.eval.TrecEval().run(args);
   }
 }
