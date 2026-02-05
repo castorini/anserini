@@ -16,6 +16,10 @@
 
 package io.anserini.reproduce;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -33,30 +37,31 @@ import io.anserini.index.AbstractIndexer;
 import io.anserini.index.IndexCollection;
 import io.anserini.search.SearchCollection;
 
-public class RunRegressionFromCorpusTest extends StdOutStdErrRedirectableLuceneTestCase {
-  @BeforeClass
-  public static void setupClass() {
-    suppressJvmLogging();
+public class RunRegressionFromCorpusTest {
+  // extends StdOutStdErrRedirectableLuceneTestCase {
+  // @BeforeClass
+  // public static void setupClass() {
+  //   suppressJvmLogging();
 
-    Configurator.setLevel(RunRegressionFromCorpus.class.getName(), Level.ERROR);
-    Configurator.setLevel(AbstractIndexer.class.getName(), Level.ERROR);
-    Configurator.setLevel(IndexCollection.class.getName(), Level.ERROR);
-    Configurator.setLevel(SearchCollection.class.getName(), Level.ERROR);
-  }
+  //   Configurator.setLevel(RunRegressionFromCorpus.class.getName(), Level.ERROR);
+  //   Configurator.setLevel(AbstractIndexer.class.getName(), Level.ERROR);
+  //   Configurator.setLevel(IndexCollection.class.getName(), Level.ERROR);
+  //   Configurator.setLevel(SearchCollection.class.getName(), Level.ERROR);
+  // }
 
-  @Before
-  public void setUp() throws Exception {
-    redirectStdOut();
-    redirectStdErr();
-    super.setUp();
-  }
+  // @Before
+  // public void setUp() throws Exception {
+  //   redirectStdOut();
+  //   redirectStdErr();
+  //   super.setUp();
+  // }
 
-  @After
-  public void tearDown() throws Exception {
-    restoreStdOut();
-    restoreStdErr();
-    super.tearDown();
-  }
+  // @After
+  // public void tearDown() throws Exception {
+  //   restoreStdOut();
+  //   restoreStdErr();
+  //   super.tearDown();
+  // }
 
   @Test
   public void testCacmRegressionFromCorpus() throws Exception {
