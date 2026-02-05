@@ -28,6 +28,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
+import io.anserini.eval.TrecEval;
 import io.anserini.index.AbstractIndexer;
 import io.anserini.index.IndexCollection;
 import io.anserini.search.SearchCollection;
@@ -59,10 +60,6 @@ public class RunRegressionFromCorpusTest extends StdOutStdErrRedirectableLuceneT
 
   @Test
   public void testCacmRegressionFromCorpus() throws Exception {
-    // Note that to avoid a catch-22, RunRegressionFromCorpus **cannot** start a separate process.
-    // Because if it did (e.g., for indexing), the separate process would need to call bin/run.sh,
-    // which requires the fatjar. But the fatjar isn't built until the tests are run.
-
     RunRegressionFromCorpus.main(new String[] {
         "--regression", "cacm",
         "--index",
@@ -85,25 +82,19 @@ public class RunRegressionFromCorpusTest extends StdOutStdErrRedirectableLuceneT
       Files.deleteIfExists(path);
     }
 
-    String stdout = out.toString();
-    int okCount = 0;
-    int index = 0;
-    while ((index = stdout.indexOf("[OK]", index)) != -1) {
-      okCount++;
-      index += 4;
-    }
-    //assertEquals("Expected 12 instances of [OK] in stdout.", 12, okCount);
+    TrecEval trecEval = new TrecEval();
+    String[] args = new String[] {
+        "-m", "P.30",
+        "src/test/resources/sample_qrels/cacm/qrels.cacm.txt",
+        "src/test/resources/sample_runs/cacm/cacm-bm25.txt"
+    };
+    String[][] output = trecEval.runAndGetOutput(args);
 
-    String[] lines = stdout.split("\\R");
-    String lastLine = lines.length == 0 ? "" : lines[lines.length - 1];
-    if (lastLine.isEmpty() && lines.length > 1) {
-      lastLine = lines[lines.length - 2];
-    }
-    //assertTrue("Final line should contain \"All Tests Passed!\"", lastLine.contains("All Tests Passed!"));
-
-    for (String run : expectedRuns) {
-      Path path = Paths.get(run);
-      Files.deleteIfExists(path);
-    }
+    assertNotNull(output);
+    assertEquals(1, output.length);
+    assertEquals("P_30", output[0][0]);
+    assertEquals("all", output[0][1]);
+    assertEquals("0.1942", output[0][2]);
+    assertEquals(0, trecEval.getLastExitCode());
   }
 }

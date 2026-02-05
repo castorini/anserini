@@ -16,6 +16,7 @@
 
 package io.anserini.reproduce;
 
+import io.anserini.eval.TrecEval;
 import io.anserini.index.IndexCollection;
 import io.anserini.search.SearchCollection;
 
@@ -259,7 +260,31 @@ public class RunRegressionFromCorpus {
   }
 
   private static String checkOutput(String command) throws IOException, InterruptedException {
-    //LOG.info("Eval command" + command);
+    //LOG.info("Eval command: " + command);
+
+    if ( command.contains("trec_eval")) {
+      String[] parts = command.trim().split("\\s+");
+      String[] args = Arrays.copyOfRange(parts, 1, parts.length);
+      //System.out.println(Arrays.toString(args));
+
+      String[][] out = new TrecEval().runAndGetOutput(args);
+      StringBuilder sb = new StringBuilder();
+      for (int i = 0; i < out.length; i++) {
+        if (i > 0) {
+          sb.append('\n');
+        }
+        String[] row = out[i];
+        for (int j = 0; j < row.length; j++) {
+          if (j > 0) {
+            sb.append('\t');
+          }
+          sb.append(row[j]);
+        }
+      }
+      //System.out.println("OUT ---> " + sb.toString());
+      return sb.toString();
+    }
+
     ProcessBuilder pb = new ProcessBuilder("bash", "-lc", command);
     pb.redirectErrorStream(true);
     Process p = pb.start();
