@@ -23,6 +23,8 @@ import static org.junit.Assert.assertTrue;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Map;
+import java.util.SortedMap;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
@@ -36,6 +38,8 @@ import io.anserini.eval.TrecEval;
 import io.anserini.index.AbstractIndexer;
 import io.anserini.index.IndexCollection;
 import io.anserini.search.SearchCollection;
+import io.anserini.search.topicreader.TopicReader;
+import io.anserini.search.topicreader.Topics;
 
 public class RunRegressionFromCorpusTest {
   // extends StdOutStdErrRedirectableLuceneTestCase {
@@ -65,6 +69,9 @@ public class RunRegressionFromCorpusTest {
 
   @Test
   public void testCacmRegressionFromCorpus() throws Exception {
+    SortedMap<Integer, Map<String, String>> topics = TopicReader.getTopics(Topics.CACM);
+    assertNotNull(topics);
+
     RunRegressionFromCorpus.main(new String[] {
         "--regression", "cacm",
         "--index",
