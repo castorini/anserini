@@ -1,3 +1,19 @@
+/*
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.anserini.index.prebuilt;
 
 import static org.junit.Assert.assertEquals;
@@ -29,14 +45,58 @@ public class PrebuiltFlatIndexTest {
 
   @Test
   public void testTotalCount() {
-    assertEquals(12, PrebuiltFlatIndex.entries().size());
+    assertEquals(41, PrebuiltFlatIndex.entries().size());
+  }
+
+  @Test
+  public void testTotalCountForMsMarcoV1() {
+    int v1Count = 0;
+    for (PrebuiltFlatIndex.Entry entry : PrebuiltFlatIndex.entries()) {
+      if (entry != null && entry.name != null && entry.name.contains("v1")) {
+        v1Count++;
+      }
+    }
+    assertEquals(41, v1Count);
+  }
+
+  @Test
+  public void testTotalCountForMsMarcoV2() {
+    int v2Count = 0;
+    for (PrebuiltFlatIndex.Entry entry : PrebuiltFlatIndex.entries()) {
+      if (entry != null && entry.name != null && entry.name.contains("v2") && !entry.name.contains("v2.1")) {
+        v2Count++;
+      }
+    }
+    assertEquals(0, v2Count);
+  }
+
+  @Test
+  public void testTotalCountForMsMarcoV2_1() {
+    int v2_1Count = 0;
+    for (PrebuiltFlatIndex.Entry entry : PrebuiltFlatIndex.entries()) {
+      if (entry != null && entry.name != null && entry.name.contains("v2.1")) {
+        v2_1Count++;
+      }
+    }
+    assertEquals(0, v2_1Count);
+  }
+
+  @Test
+  public void testTotalCountForBeir() {
+    int beirCount = 0;
+    for (PrebuiltFlatIndex.Entry entry : PrebuiltFlatIndex.entries()) {
+      if (entry != null && entry.name != null && entry.name.startsWith("beir")) {
+        beirCount++;
+      }
+    }
+    assertEquals(29, beirCount);
   }
 
   @Test
   public void testTotalCountForBright() {
     int brightCount = 0;
     for (PrebuiltFlatIndex.Entry entry : PrebuiltFlatIndex.entries()) {
-      if (entry != null && entry.name != null && entry.name.toUpperCase().startsWith("BRIGHT")) {
+      if (entry != null && entry.name != null && entry.name.startsWith("bright")) {
         brightCount++;
       }
     }
@@ -80,14 +140,10 @@ public class PrebuiltFlatIndexTest {
 
     URL jarUrl = jarPath.toUri().toURL();
     try (URLClassLoader jarClassLoader = new URLClassLoader(new URL[] {jarUrl}, null)) {
-      Class<?> jarClass = Proxy.newProxyInstance(
-          jarClassLoader,
-          new Class<?>[] {Runnable.class},
-          (proxy, method, args) -> null).getClass();
-      TypeReference<List<PrebuiltFlatIndex.Entry>> entryListType =
-          new TypeReference<List<PrebuiltFlatIndex.Entry>>() {};
-      List<PrebuiltFlatIndex.Entry> entries =
-          PrebuiltIndex.loadEntries(PrebuiltIndex.Type.FLAT, entryListType, jarClass);
+      Class<?> jarClass = Proxy.newProxyInstance(jarClassLoader, new Class<?>[] {Runnable.class}, (proxy, method, args) -> null).getClass();
+      TypeReference<List<PrebuiltFlatIndex.Entry>> entryListType = new TypeReference<List<PrebuiltFlatIndex.Entry>>() {};
+      List<PrebuiltFlatIndex.Entry> entries = PrebuiltIndex.loadEntries(PrebuiltIndex.Type.FLAT, entryListType, jarClass);
+
       assertEquals(1, entries.size());
       assertEquals("TEST", entries.get(0).name);
     }

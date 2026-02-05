@@ -1,0 +1,142 @@
+[
+    {
+        "name": "msmarco-v2.1-doc-segmented-shard00.arctic-embed-l.hnsw-int8",
+        "type": "hnsw",
+        "corpus": "MS MARCO V2.1 Segmented Doc (shard00)",
+        "corpus_index": "msmarco-v2.1-doc-segmented",
+        "description": "Anserini Lucene quantized (int8) HNSW index of the MS MARCO V2.1 segmented document corpus (shard00) encoded by Snowflake's arctic-embed-l model",
+        "filename": "lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard00.arctic-embed-l.20250114.4884f5.tar.gz",
+        "readme": "https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/faiss-flat.msmarco-v2.1-doc.arctic-embed-l.20240824.README.md",
+        "urls": [
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard00.arctic-embed-l.20250114.4884f5.tar.gz"
+        ],
+        "md5": "aab3f8e9aa0563bd0f875584784a0845",
+        "compressed_size": 53424599738
+    },
+    {
+        "name": "msmarco-v2.1-doc-segmented-shard01.arctic-embed-l.hnsw-int8",
+        "type": "hnsw",
+        "corpus": "MS MARCO V2.1 Segmented Doc (shard01)",
+        "corpus_index": "msmarco-v2.1-doc-segmented",
+        "description": "Anserini Lucene quantized (int8) HNSW index of the MS MARCO V2.1 segmented document corpus (shard01) encoded by Snowflake's arctic-embed-l model",
+        "filename": "lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard01.arctic-embed-l.20250114.4884f5.tar.gz",
+        "readme": "https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/faiss-flat.msmarco-v2.1-doc.arctic-embed-l.20240824.README.md",
+        "urls": [
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard01.arctic-embed-l.20250114.4884f5.tar.gz"
+        ],
+        "md5": "34ea30fe72c2bc1795ae83e71b191547",
+        "compressed_size": 48812399312
+    },
+    {
+        "name": "msmarco-v2.1-doc-segmented-shard02.arctic-embed-l.hnsw-int8",
+        "type": "hnsw",
+        "corpus": "MS MARCO V2.1 Segmented Doc (shard02)",
+        "corpus_index": "msmarco-v2.1-doc-segmented",
+        "description": "Anserini Lucene quantized (int8) HNSW index of the MS MARCO V2.1 segmented document corpus (shard02) encoded by Snowflake's arctic-embed-l model",
+        "filename": "lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard02.arctic-embed-l.20250114.4884f5.tar.gz",
+        "readme": "https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/faiss-flat.msmarco-v2.1-doc.arctic-embed-l.20240824.README.md",
+        "urls": [
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard02.arctic-embed-l.20250114.4884f5.tar.gz"
+        ],
+        "md5": "b6271d6db65119977491675f74f466d5",
+        "compressed_size": 60578306486
+    },
+    {
+        "name": "msmarco-v2.1-doc-segmented-shard03.arctic-embed-l.hnsw-int8",
+        "type": "hnsw",
+        "corpus": "MS MARCO V2.1 Segmented Doc (shard03)",
+        "corpus_index": "msmarco-v2.1-doc-segmented",
+        "description": "Anserini Lucene quantized (int8) HNSW index of the MS MARCO V2.1 segmented document corpus (shard03) encoded by Snowflake's arctic-embed-l model",
+        "filename": "lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard03.arctic-embed-l.20250114.4884f5.tar.gz",
+        "readme": "https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/faiss-flat.msmarco-v2.1-doc.arctic-embed-l.20240824.README.md",
+        "urls": [
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard03.arctic-embed-l.20250114.4884f5.tar.gz"
+        ],
+        "md5": "a9cd644eb6037f67d2e9c06a8f60928d",
+        "compressed_size": 58159441800
+    },
+    {
+        "name": "msmarco-v2.1-doc-segmented-shard04.arctic-embed-l.hnsw-int8",
+        "type": "hnsw",
+        "corpus": "MS MARCO V2.1 Segmented Doc (shard04)",
+        "corpus_index": "msmarco-v2.1-doc-segmented",
+        "description": "Anserini Lucene quantized (int8) HNSW index of the MS MARCO V2.1 segmented document corpus (shard04) encoded by Snowflake's arctic-embed-l model",
+        "filename": "lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard04.arctic-embed-l.20250114.4884f5.tar.gz",
+        "readme": "https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/faiss-flat.msmarco-v2.1-doc.arctic-embed-l.20240824.README.md",
+        "urls": [
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard04.arctic-embed-l.20250114.4884f5.tar.gz"
+        ],
+        "md5": "07b7e451e0525d01c1f1f2b1c42b1bd5",
+        "compressed_size": 54822966151
+    },
+    {
+        "name": "msmarco-v2.1-doc-segmented-shard05.arctic-embed-l.hnsw-int8",
+        "type": "hnsw",
+        "corpus": "MS MARCO V2.1 Segmented Doc (shard05)",
+        "corpus_index": "msmarco-v2.1-doc-segmented",
+        "description": "Anserini Lucene quantized (int8) HNSW index of the MS MARCO V2.1 segmented document corpus (shard05) encoded by Snowflake's arctic-embed-l model",
+        "filename": "lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard05.arctic-embed-l.20250114.4884f5.tar.gz",
+        "readme": "https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/faiss-flat.msmarco-v2.1-doc.arctic-embed-l.20240824.README.md",
+        "urls": [
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard05.arctic-embed-l.20250114.4884f5.tar.gz"
+        ],
+        "md5": "2573dce175788981be2f266ebb33c96d",
+        "compressed_size": 53513129252
+    },
+    {
+        "name": "msmarco-v2.1-doc-segmented-shard06.arctic-embed-l.hnsw-int8",
+        "type": "hnsw",
+        "corpus": "MS MARCO V2.1 Segmented Doc (shard06)",
+        "corpus_index": "msmarco-v2.1-doc-segmented",
+        "description": "Anserini Lucene quantized (int8) HNSW index of the MS MARCO V2.1 segmented document corpus (shard06) encoded by Snowflake's arctic-embed-l model",
+        "filename": "lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard06.arctic-embed-l.20250114.4884f5.tar.gz",
+        "readme": "https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/faiss-flat.msmarco-v2.1-doc.arctic-embed-l.20240824.README.md",
+        "urls": [
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard06.arctic-embed-l.20250114.4884f5.tar.gz"
+        ],
+        "md5": "a644aea445a8b78cc9e99d2ce111ff11",
+        "compressed_size": 51622422541
+    },
+    {
+        "name": "msmarco-v2.1-doc-segmented-shard07.arctic-embed-l.hnsw-int8",
+        "type": "hnsw",
+        "corpus": "MS MARCO V2.1 Segmented Doc (shard07)",
+        "corpus_index": "msmarco-v2.1-doc-segmented",
+        "description": "Anserini Lucene quantized (int8) HNSW index of the MS MARCO V2.1 segmented document corpus (shard07) encoded by Snowflake's arctic-embed-l model",
+        "filename": "lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard07.arctic-embed-l.20250114.4884f5.tar.gz",
+        "readme": "https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/faiss-flat.msmarco-v2.1-doc.arctic-embed-l.20240824.README.md",
+        "urls": [
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard07.arctic-embed-l.20250114.4884f5.tar.gz"
+        ],
+        "md5": "402d37deccb44b5fc105049889e8aaea",
+        "compressed_size": 49080886528
+    },
+    {
+        "name": "msmarco-v2.1-doc-segmented-shard08.arctic-embed-l.hnsw-int8",
+        "type": "hnsw",
+        "corpus": "MS MARCO V2.1 Segmented Doc (shard08)",
+        "corpus_index": "msmarco-v2.1-doc-segmented",
+        "description": "Anserini Lucene quantized (int8) HNSW index of the MS MARCO V2.1 segmented document corpus (shard08) encoded by Snowflake's arctic-embed-l model",
+        "filename": "lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard08.arctic-embed-l.20250114.4884f5.tar.gz",
+        "readme": "https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/faiss-flat.msmarco-v2.1-doc.arctic-embed-l.20240824.README.md",
+        "urls": [
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard08.arctic-embed-l.20250114.4884f5.tar.gz"
+        ],
+        "md5": "89ebcd027f7297b26a1edc8ae5726527",
+        "compressed_size": 54877708988
+    },
+    {
+        "name": "msmarco-v2.1-doc-segmented-shard09.arctic-embed-l.hnsw-int8",
+        "type": "hnsw",
+        "corpus": "MS MARCO V2.1 Segmented Doc (shard09)",
+        "corpus_index": "msmarco-v2.1-doc-segmented",
+        "description": "Anserini Lucene quantized (int8) HNSW index of the MS MARCO V2.1 segmented document corpus (shard09) encoded by Snowflake's arctic-embed-l model",
+        "filename": "lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard09.arctic-embed-l.20250114.4884f5.tar.gz",
+        "readme": "https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/faiss-flat.msmarco-v2.1-doc.arctic-embed-l.20240824.README.md",
+        "urls": [
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-hnsw-int8.msmarco-v2.1-doc-segmented-shard09.arctic-embed-l.20250114.4884f5.tar.gz"
+        ],
+        "md5": "5e580bb7eb9ee2bb6bfa492b3430c17d",
+        "compressed_size": 49195410131
+    }
+]

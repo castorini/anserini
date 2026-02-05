@@ -1,0 +1,87 @@
+[
+    {
+        "name": "msmarco-v1-passage",
+        "type": "inverted",
+        "corpus": "MS MARCO V1 Passage",
+        "corpus_index": "msmarco-v1-passage",
+        "description": "Anserini Lucene inverted index of the MS MARCO V1 passage corpus",
+        "filename": "lucene-inverted.msmarco-v1-passage.20221004.252b5e.tar.gz",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/passage/original/lucene-inverted/tf/lucene-inverted.msmarco-v1-passage.20221004.252b5e.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/passage/original/lucene-inverted/tf/lucene-inverted.msmarco-v1-passage.20221004.252b5e.tar.gz"
+        ],
+        "md5": "678876e8c99a89933d553609a0fd8793",
+        "compressed_size": 2170758745,
+        "documents": 8841823,
+        "total_terms": 352316036,
+        "unique_terms": 2660824
+    },
+    {
+        "name": "msmarco-v1-passage-slim",
+        "type": "inverted",
+        "corpus": "MS MARCO V1 Passage",
+        "corpus_index": "msmarco-v1-passage",
+        "description": "Anserini Lucene inverted index of the MS MARCO V1 passage corpus ('slim' version)",
+        "filename": "lucene-inverted.msmarco-v1-passage-slim.20221004.252b5e.tar.gz",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/passage/original/lucene-inverted/tf/lucene-inverted.msmarco-v1-passage.20221004.252b5e.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/passage/original/lucene-inverted/tf/lucene-inverted.msmarco-v1-passage-slim.20221004.252b5e.tar.gz"
+        ],
+        "md5": "229c750cc39eaa25f0c37bf69c2c708f",
+        "compressed_size": 491451223,
+        "documents": 8841823,
+        "total_terms": 352316036,
+        "unique_terms": 2660824
+    },
+    {
+        "name": "msmarco-v1-passage-full",
+        "type": "inverted",
+        "corpus": "MS MARCO V1 Passage",
+        "corpus_index": "msmarco-v1-passage",
+        "description": "Anserini Lucene inverted index of the MS MARCO V1 passage corpus ('full' version)",
+        "filename": "lucene-inverted.msmarco-v1-passage-full.20221004.252b5e.tar.gz",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/passage/original/lucene-inverted/tf/lucene-inverted.msmarco-v1-passage.20221004.252b5e.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/passage/original/lucene-inverted/tf/lucene-inverted.msmarco-v1-passage-full.20221004.252b5e.tar.gz"
+        ],
+        "md5": "4d2e2e1fdb7ffc7c9758c4c2234261a1",
+        "compressed_size": 3720616156,
+        "documents": 8841823,
+        "total_terms": 352316036,
+        "unique_terms": 2660824
+    },
+    {
+        "name": "msmarco-v1-passage.d2q-t5",
+        "type": "inverted",
+        "corpus": "MS MARCO V1 Passage",
+        "corpus_index": "msmarco-v1-passage",
+        "description": "Anserini Lucene inverted index of the MS MARCO V1 passage corpus with doc2query-T5 expansions",
+        "filename": "lucene-inverted.msmarco-v1-passage.d2q-t5.20221004.252b5e.tar.gz",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/passage/d2q-t5/lucene-inverted/tf/lucene-inverted.msmarco-v1-passage.d2q-t5.20221004.252b5e.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/passage/d2q-t5/lucene-inverted/tf/lucene-inverted.msmarco-v1-passage.d2q-t5.20221004.252b5e.tar.gz"
+        ],
+        "md5": "cfd6acef0912647603457b1e98ca5bc0",
+        "compressed_size": 807866520,
+        "documents": 8841823,
+        "total_terms": 1986612263,
+        "unique_terms": 3929111
+    },
+    {
+        "name": "msmarco-v1-passage.d2q-t5-docvectors",
+        "type": "inverted",
+        "corpus": "MS MARCO V1 Passage",
+        "corpus_index": "msmarco-v1-passage",
+        "description": "Anserini Lucene inverted index of the MS MARCO V1 passage corpus with doc2query-T5 expansions (with stored docvectors)",
+        "filename": "lucene-inverted.msmarco-v1-passage.d2q-t5-docvectors.20221004.252b5e.tar.gz",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/passage/d2q-t5/lucene-inverted/tf/lucene-inverted.msmarco-v1-passage.d2q-t5.20221004.252b5e.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/passage/d2q-t5/lucene-inverted/tf/lucene-inverted.msmarco-v1-passage.d2q-t5-docvectors.20221004.252b5e.tar.gz"
+        ],
+        "md5": "3be8131464c2d1db23c8d6151c55740e",
+        "compressed_size": 4409861674,
+        "documents": 8841823,
+        "total_terms": 1986612263,
+        "unique_terms": 3929111
+    }
+]

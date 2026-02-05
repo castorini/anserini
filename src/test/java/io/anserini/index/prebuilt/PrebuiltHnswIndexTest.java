@@ -36,76 +36,76 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
-public class PrebuiltImpactIndexTest {
+public class PrebuiltHnswIndexTest {
   @Test
   public void testInvalidName() {
-    PrebuiltImpactIndex.Entry entry = PrebuiltImpactIndex.get("fake_index");
+    PrebuiltHnswIndex.Entry entry = PrebuiltHnswIndex.get("fake_index");
     assertNull(entry);
   }
 
   @Test
   public void testTotalCount() {
-    assertEquals(77, PrebuiltImpactIndex.entries().size());
+    assertEquals(45, PrebuiltHnswIndex.entries().size());
   }
 
   @Test
   public void testTotalCountForMsMarcoV1() {
     int v1Count = 0;
-    for (PrebuiltImpactIndex.Entry entry : PrebuiltImpactIndex.entries()) {
+    for (PrebuiltHnswIndex.Entry entry : PrebuiltHnswIndex.entries()) {
       if (entry != null && entry.name != null && entry.name.contains("v1")) {
         v1Count++;
       }
     }
-    assertEquals(62, v1Count);
+    assertEquals(35, v1Count);
   }
 
   @Test
   public void testTotalCountForMsMarcoV2() {
     int v2Count = 0;
-    for (PrebuiltImpactIndex.Entry entry : PrebuiltImpactIndex.entries()) {
+    for (PrebuiltHnswIndex.Entry entry : PrebuiltHnswIndex.entries()) {
       if (entry != null && entry.name != null && entry.name.contains("v2") && !entry.name.contains("v2.1")) {
         v2Count++;
       }
     }
-    assertEquals(2, v2Count);
+    assertEquals(0, v2Count);
   }
 
   @Test
   public void testTotalCountForMsMarcoV2_1() {
     int v2_1Count = 0;
-    for (PrebuiltImpactIndex.Entry entry : PrebuiltImpactIndex.entries()) {
+    for (PrebuiltHnswIndex.Entry entry : PrebuiltHnswIndex.entries()) {
       if (entry != null && entry.name != null && entry.name.contains("v2.1")) {
         v2_1Count++;
       }
     }
-    assertEquals(1, v2_1Count);
+    assertEquals(10, v2_1Count);
   }
 
   @Test
   public void testTotalCountForBeir() {
     int beirCount = 0;
-    for (PrebuiltImpactIndex.Entry entry : PrebuiltImpactIndex.entries()) {
+    for (PrebuiltHnswIndex.Entry entry : PrebuiltHnswIndex.entries()) {
       if (entry != null && entry.name != null && entry.name.startsWith("beir")) {
         beirCount++;
       }
     }
-    assertEquals(58, beirCount);
+    assertEquals(29, beirCount);
   }
 
   @Test
   public void testTotalCountForBright() {
     int brightCount = 0;
-    for (PrebuiltImpactIndex.Entry entry : PrebuiltImpactIndex.entries()) {
+    for (PrebuiltHnswIndex.Entry entry : PrebuiltHnswIndex.entries()) {
       if (entry != null && entry.name != null && entry.name.startsWith("bright")) {
         brightCount++;
       }
     }
-    assertEquals(12, brightCount);
+    assertEquals(0, brightCount);
   }
 
   @Test
   public void testUrls() {
-    for (PrebuiltImpactIndex.Entry entry : PrebuiltImpactIndex.entries()) {
+    for (PrebuiltFlatIndex.Entry entry : PrebuiltFlatIndex.entries()) {
       for (String url : entry.urls) {
         // check each url status code is 200
         try {
@@ -124,25 +124,25 @@ public class PrebuiltImpactIndexTest {
 
   @Test
   public void testLoadEntriesFromJarProtocol() throws Exception {
-    Path tempDir = Files.createTempDirectory("anserini-prebuilt-impact-jar");
+    Path tempDir = Files.createTempDirectory("anserini-prebuilt-hnsw-jar");
 
-    Path jarPath = tempDir.resolve("prebuilt-impact.jar");
+    Path jarPath = tempDir.resolve("prebuilt-hnsw.jar");
     try (JarOutputStream jarOut = new JarOutputStream(Files.newOutputStream(jarPath))) {
       JarEntry dirEntry = new JarEntry("prebuilt-indexes/");
       jarOut.putNextEntry(dirEntry);
       jarOut.closeEntry();
 
-      JarEntry jsonEntry = new JarEntry("prebuilt-indexes/impact-test.json");
+      JarEntry jsonEntry = new JarEntry("prebuilt-indexes/hnsw-test.json");
       jarOut.putNextEntry(jsonEntry);
-      jarOut.write("[{\"name\":\"TEST\",\"type\":\"impact\"}]".getBytes(StandardCharsets.UTF_8));
+      jarOut.write("[{\"name\":\"TEST\",\"type\":\"hnsw\"}]".getBytes(StandardCharsets.UTF_8));
       jarOut.closeEntry();
     }
 
     URL jarUrl = jarPath.toUri().toURL();
     try (URLClassLoader jarClassLoader = new URLClassLoader(new URL[] {jarUrl}, null)) {
       Class<?> jarClass = Proxy.newProxyInstance(jarClassLoader, new Class<?>[] {Runnable.class}, (proxy, method, args) -> null).getClass();
-      TypeReference<List<PrebuiltImpactIndex.Entry>> entryListType = new TypeReference<List<PrebuiltImpactIndex.Entry>>() {};
-      List<PrebuiltImpactIndex.Entry> entries = PrebuiltIndex.loadEntries(PrebuiltIndex.Type.IMPACT, entryListType, jarClass);
+      TypeReference<List<PrebuiltHnswIndex.Entry>> entryListType = new TypeReference<List<PrebuiltHnswIndex.Entry>>() {};
+      List<PrebuiltHnswIndex.Entry> entries = PrebuiltIndex.loadEntries(PrebuiltIndex.Type.HNSW, entryListType, jarClass);
 
       assertEquals(1, entries.size());
       assertEquals("TEST", entries.get(0).name);
