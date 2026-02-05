@@ -38,7 +38,7 @@ public class RelevanceJudgmentsTest{
 
   @Test
   public void testTotalCount() {
-    assertEquals(228, Qrels.values().length);
+    assertEquals(229, Qrels.values().length);
   }
 
   @Test(expected = IOException.class)
@@ -51,6 +51,19 @@ public class RelevanceJudgmentsTest{
   public void testNonvalidQrels() throws IOException{
     // Purposely read non-valid qrels.
     new RelevanceJudgments("tools/topics-and-qrels/topics.robust04.txt ");
+  }
+
+  @Test
+  public void testCacm() throws IOException{
+    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.cacm.txt");
+    assertNotNull(qrels);
+    assertEquals(52, qrels.getQids().size());
+    assertEquals(796, getQrelsCount(qrels));
+    assertEquals(1, qrels.getRelevanceGrade("1", "CACM-1410"));
+    assertEquals(0, qrels.getRelevanceGrade("1", "CACM-1410x")); // non-existent docid
+    assertEquals(0, qrels.getRelevanceGrade("xxx", "CACM-1410"));  // non-existent topic
+    assertTrue(qrels.isDocJudged("1", "CACM-1410"));
+    assertNull(qrels.getDocMap("xxx"));
   }
 
   @Test
@@ -1870,6 +1883,9 @@ public class RelevanceJudgmentsTest{
   public void testSymbolExpansion() throws IOException {
     Path expected;
     Path produced;
+
+    expected = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "topics-and-qrels", "qrels.cacm.txt");
+    produced = RelevanceJudgments.getQrelsPath(Path.of("cacm"));
 
     expected = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "topics-and-qrels", "qrels.msmarco-passage.dev-subset.txt");
     produced = RelevanceJudgments.getQrelsPath(Path.of("msmarco-passage.dev-subset"));
