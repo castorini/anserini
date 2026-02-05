@@ -33,7 +33,8 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.LineIterator;
 
 /**
- * This class is adapted from https://github.com/terrierteam/jtreceval by Craig Macdonald
+ * This class provides a Java wrapper around {@code trec_eval} binaries.
+ * Adapted from https://github.com/terrierteam/jtreceval by Craig Macdonald.
  */
 public class TrecEval {
   private final File binary;
@@ -127,10 +128,12 @@ public class TrecEval {
   }
 
   /**
-   * Obtain the output from a trec_eval invocation
+   * Returns the output from a {@code trec_eval} invocation as a string array.
+   * Each row represents the result for a particular metric.
+   * The fields for each row are the metric, the qid (or "all"), and the metric value.
    *
-   * @param args trec_eval commandline arguments
-   * @return first dimension is for each line, second dimension is for each component
+   * @param args {@code trec_eval} command-line arguments
+   * @return the output from a {@code trec_eval} invocation as a string array
    */
   public String[][] runAndGetOutput(String[] args) {
     List<String[]> output = new ArrayList<String[]>();
@@ -159,19 +162,19 @@ public class TrecEval {
   }
 
   /**
-   * Returns the exit code of the last invocation of {@tt trec_eval}.
+   * Returns the exit code of the last invocation of {@code trec_eval}.
    *
-   * @return the exit code of the last invocation of {@tt trec_eval}
+   * @return the exit code of the last invocation of {@code trec_eval}
    */
   public int getLastExitCode() {
     return exit;
   }
 
   /**
-   * Invokes trec_eval and displays the output to this process's STDOUT stream.
+   * Invokes {@code trec_eval} and displays the output to this process's {@code stdout}.
    *
-   * @param args trec_eval commandline arguments
-   * @return exit code of trec_eval
+   * @param args {@code trec_eval} command-line arguments
+   * @return exit code of {@code trec_eval}
    */
   public int run(String[] args) {
     try {
@@ -189,9 +192,9 @@ public class TrecEval {
   }
 
   /**
-   * Directly invokes trec_eval
+   * Invokes {@code trec_eval}.
    *
-   * @param args trec_eval commandline arguments
+   * @param args {@code trec_eval} command-line arguments
    */
   public static void main(String[] args) {
     new TrecEval().run(args);
