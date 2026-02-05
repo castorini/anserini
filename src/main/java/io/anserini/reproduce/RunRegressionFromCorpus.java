@@ -409,10 +409,19 @@ public class RunRegressionFromCorpus {
         }
         String output = constructRunfilePath(yaml.get("index_path").asText(),
             topic.get("id").asText(), model.get("name").asText());
+
+        // Janky special case for now: we run cacm in the test suite, and on GitHub CI tools/topics-and-qrels is not checked out.
+        String topicPath;
+        if ("topics.cacm.txt".equals(topic.get("path").asText())) {
+          topicPath = "cacm";
+        } else {
+          topicPath = Paths.get("tools/topics-and-qrels", topic.get("path").asText()).toString();
+        }
+
         StringBuilder cmd = new StringBuilder();
         cmd.append(rootCmd)
             .append(" -index ").append(constructIndexPath(yaml))
-            .append(" -topics ").append(Paths.get("tools/topics-and-qrels", topic.get("path").asText()))
+            .append(" -topics ").append(topicPath)
             .append(" -topicReader ").append(topicReader)
             .append(" -output ").append(output);
         String params = textOrNull(model.get("params"));
