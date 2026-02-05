@@ -89,19 +89,19 @@ bin/run.sh io.anserini.search.SearchCollection \
   -topics tools/topics-and-qrels/topics.terabyte04.701-750.txt \
   -topicReader Trec \
   -output runs/run.gov2.bm25+ax.topics.terabyte04.701-750.txt \
-  -bm25 -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 &
+  -bm25 -axiom -axiom.beta 0.1 -rerankCutoff 20 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.gov2/ \
   -topics tools/topics-and-qrels/topics.terabyte05.751-800.txt \
   -topicReader Trec \
   -output runs/run.gov2.bm25+ax.topics.terabyte05.751-800.txt \
-  -bm25 -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 &
+  -bm25 -axiom -axiom.beta 0.1 -rerankCutoff 20 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.gov2/ \
   -topics tools/topics-and-qrels/topics.terabyte06.801-850.txt \
   -topicReader Trec \
   -output runs/run.gov2.bm25+ax.topics.terabyte06.801-850.txt \
-  -bm25 -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 &
+  -bm25 -axiom -axiom.beta 0.1 -rerankCutoff 20 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.gov2/ \
@@ -146,19 +146,19 @@ bin/run.sh io.anserini.search.SearchCollection \
   -topics tools/topics-and-qrels/topics.terabyte04.701-750.txt \
   -topicReader Trec \
   -output runs/run.gov2.ql+ax.topics.terabyte04.701-750.txt \
-  -qld -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 &
+  -qld -axiom -axiom.beta 0.1 -rerankCutoff 20 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.gov2/ \
   -topics tools/topics-and-qrels/topics.terabyte05.751-800.txt \
   -topicReader Trec \
   -output runs/run.gov2.ql+ax.topics.terabyte05.751-800.txt \
-  -qld -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 &
+  -qld -axiom -axiom.beta 0.1 -rerankCutoff 20 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.gov2/ \
   -topics tools/topics-and-qrels/topics.terabyte06.801-850.txt \
   -topicReader Trec \
   -output runs/run.gov2.ql+ax.topics.terabyte06.801-850.txt \
-  -qld -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 &
+  -qld -axiom -axiom.beta 0.1 -rerankCutoff 20 &
 ```
 
 Evaluation can be performed using `trec_eval`:

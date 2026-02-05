@@ -83,13 +83,13 @@ bin/run.sh io.anserini.search.SearchCollection \
   -topics tools/topics-and-qrels/topics.microblog2011.txt \
   -topicReader Microblog \
   -output runs/run.mb11.bm25+ax.topics.microblog2011.txt \
-  -searchTweets -bm25 -axiom -axiom.beta 1.0 -axiom.deterministic -rerankCutoff 20 &
+  -searchTweets -bm25 -axiom -axiom.beta 1.0 -rerankCutoff 20 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.mb11/ \
   -topics tools/topics-and-qrels/topics.microblog2012.txt \
   -topicReader Microblog \
   -output runs/run.mb11.bm25+ax.topics.microblog2012.txt \
-  -searchTweets -bm25 -axiom -axiom.beta 1.0 -axiom.deterministic -rerankCutoff 20 &
+  -searchTweets -bm25 -axiom -axiom.beta 1.0 -rerankCutoff 20 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.mb11/ \
@@ -122,13 +122,13 @@ bin/run.sh io.anserini.search.SearchCollection \
   -topics tools/topics-and-qrels/topics.microblog2011.txt \
   -topicReader Microblog \
   -output runs/run.mb11.ql+ax.topics.microblog2011.txt \
-  -searchTweets -qld -axiom -axiom.beta 1.0 -axiom.deterministic -rerankCutoff 20 &
+  -searchTweets -qld -axiom -axiom.beta 1.0 -rerankCutoff 20 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.mb11/ \
   -topics tools/topics-and-qrels/topics.microblog2012.txt \
   -topicReader Microblog \
   -output runs/run.mb11.ql+ax.topics.microblog2012.txt \
-  -searchTweets -qld -axiom -axiom.beta 1.0 -axiom.deterministic -rerankCutoff 20 &
+  -searchTweets -qld -axiom -axiom.beta 1.0 -rerankCutoff 20 &
 ```
 
 Evaluation can be performed using `trec_eval`:

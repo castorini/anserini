@@ -75,13 +75,13 @@ bin/run.sh io.anserini.search.SearchCollection \
   -topics tools/topics-and-qrels/topics.web.201-250.txt \
   -topicReader Webxml \
   -output runs/run.cw12b13.bm25+ax.topics.web.201-250.txt \
-  -bm25 -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
+  -bm25 -axiom -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.cw12b13/ \
   -topics tools/topics-and-qrels/topics.web.251-300.txt \
   -topicReader Webxml \
   -output runs/run.cw12b13.bm25+ax.topics.web.251-300.txt \
-  -bm25 -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
+  -bm25 -axiom -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.cw12b13/ \
@@ -114,13 +114,13 @@ bin/run.sh io.anserini.search.SearchCollection \
   -topics tools/topics-and-qrels/topics.web.201-250.txt \
   -topicReader Webxml \
   -output runs/run.cw12b13.ql+ax.topics.web.201-250.txt \
-  -qld -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
+  -qld -axiom -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.cw12b13/ \
   -topics tools/topics-and-qrels/topics.web.251-300.txt \
   -topicReader Webxml \
   -output runs/run.cw12b13.ql+ax.topics.web.251-300.txt \
-  -qld -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
+  -qld -axiom -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
 ```
 
 Evaluation can be performed using `trec_eval` and `gdeval.pl`:

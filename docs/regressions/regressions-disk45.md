@@ -126,19 +126,19 @@ bin/run.sh io.anserini.search.SearchCollection \
   -topics tools/topics-and-qrels/topics.adhoc.351-400.txt \
   -topicReader Trec \
   -output runs/run.disk45.bm25+ax.topics.adhoc.351-400.txt \
-  -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
+  -bm25 -axiom -rerankCutoff 20 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.disk45/ \
   -topics tools/topics-and-qrels/topics.adhoc.401-450.txt \
   -topicReader Trec \
   -output runs/run.disk45.bm25+ax.topics.adhoc.401-450.txt \
-  -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
+  -bm25 -axiom -rerankCutoff 20 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.disk45/ \
   -topics tools/topics-and-qrels/topics.robust04.txt \
   -topicReader Trec \
   -output runs/run.disk45.bm25+ax.topics.robust04.txt \
-  -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
+  -bm25 -axiom -rerankCutoff 20 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.disk45/ \
@@ -221,19 +221,19 @@ bin/run.sh io.anserini.search.SearchCollection \
   -topics tools/topics-and-qrels/topics.adhoc.351-400.txt \
   -topicReader Trec \
   -output runs/run.disk45.ql+ax.topics.adhoc.351-400.txt \
-  -qld -axiom -axiom.deterministic -rerankCutoff 20 &
+  -qld -axiom -rerankCutoff 20 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.disk45/ \
   -topics tools/topics-and-qrels/topics.adhoc.401-450.txt \
   -topicReader Trec \
   -output runs/run.disk45.ql+ax.topics.adhoc.401-450.txt \
-  -qld -axiom -axiom.deterministic -rerankCutoff 20 &
+  -qld -axiom -rerankCutoff 20 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.disk45/ \
   -topics tools/topics-and-qrels/topics.robust04.txt \
   -topicReader Trec \
   -output runs/run.disk45.ql+ax.topics.robust04.txt \
-  -qld -axiom -axiom.deterministic -rerankCutoff 20 &
+  -qld -axiom -rerankCutoff 20 &
 ```
 
 Evaluation can be performed using `trec_eval`:

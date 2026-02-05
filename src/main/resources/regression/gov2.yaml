@@ -70,7 +70,7 @@ models:
         - 0.5167
   - name: bm25+ax
     display: +Ax
-    params: -bm25 -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20
+    params: -bm25 -axiom -axiom.beta 0.1 -rerankCutoff 20
     results:
       MAP:
         - 0.2716
@@ -106,7 +106,7 @@ models:
         - 0.4867
   - name: ql+ax
     display: +Ax
-    params: -qld -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20
+    params: -qld -axiom -axiom.beta 0.1 -rerankCutoff 20
     results:
       MAP:
         - 0.2714
