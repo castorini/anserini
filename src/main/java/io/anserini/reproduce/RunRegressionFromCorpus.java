@@ -118,9 +118,6 @@ public class RunRegressionFromCorpus {
 
     @Option(name = "--dry-run", usage = "Output commands without execution.")
     public boolean dryRun = false;
-
-    @Option(name = "--lucene8", usage = "Enable more lenient score matching for Lucene 8 index compatibility.")
-    public boolean lucene8 = false;
   }
 
   public static void main(String[] args) throws Exception {
@@ -222,9 +219,6 @@ public class RunRegressionFromCorpus {
 
     if (parsed.search) {
       LOG.info("========== Ranking ==========");
-      if (parsed.lucene8) {
-        LOG.info("Enabling Lucene 8 index compatibility.");
-      }
       List<String> searchCmds = constructSearchCommands(yaml);
       if (parsed.dryRun) {
         for (String cmd : searchCmds) {
@@ -253,10 +247,6 @@ public class RunRegressionFromCorpus {
 
   private static boolean isClose(double a, double b, double relTol, double absTol) {
     return Math.abs(a - b) <= Math.max(relTol * Math.max(Math.abs(a), Math.abs(b)), absTol);
-  }
-
-  private static boolean isCloseLucene8(double a, double b) {
-    return Math.abs(a - b) <= 0.001;
   }
 
   private static String checkOutput(String command) throws IOException, InterruptedException {
@@ -580,13 +570,8 @@ public class RunRegressionFromCorpus {
             LOG.info(okishStr + resultStr);
             okish = true;
           } else {
-            if (args.lucene8 && isCloseLucene8(expected, actual)) {
-              LOG.info(okishStr + resultStr);
-              okish = true;
-            } else {
-              LOG.error(failStr + resultStr);
-              failures = true;
-            }
+            LOG.error(failStr + resultStr);
+            failures = true;
           }
         }
       }
@@ -629,16 +614,16 @@ public class RunRegressionFromCorpus {
           // According to Codex: Fixes error that comes from a tests.codec=Asserting system property
           // leaking into the in‑process IndexCollection.main call.
           try {
-            String prevTestsCodec = System.getProperty("tests.codec");
-            if (prevTestsCodec != null) {
-              System.clearProperty("tests.codec");
-            }
+            // String prevTestsCodec = System.getProperty("tests.codec");
+            // if (prevTestsCodec != null) {
+            //   System.clearProperty("tests.codec");
+            // }
             try {
               IndexCollection.main(args);
             } finally {
-              if (prevTestsCodec != null) {
-                System.setProperty("tests.codec", prevTestsCodec);
-              }
+              // if (prevTestsCodec != null) {
+              //   System.setProperty("tests.codec", prevTestsCodec);
+              // }
             }
           } catch (Exception e) {
             throw new RuntimeException("Command failed: " + command, e);
