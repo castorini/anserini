@@ -51,7 +51,6 @@ import java.security.NoSuchAlgorithmException;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
@@ -361,6 +360,7 @@ public class RunRegressionFromCorpus {
   private static String constructRunfilePath(String index, String id, String modelName) {
     String[] parts = index.split("/");
     String indexPart = index;
+
     if (parts.length > 1) {
       String candidate = parts[1];
       String[] split = candidate.split("-", 2);
@@ -370,6 +370,7 @@ public class RunRegressionFromCorpus {
         indexPart = candidate;
       }
     }
+
     return Paths.get("runs", String.format("run.%s.%s.%s", indexPart, id, modelName)).toString();
   }
 
@@ -377,9 +378,11 @@ public class RunRegressionFromCorpus {
     List<String> cmds = new ArrayList<>();
     JsonNode models = yaml.get("models");
     JsonNode topics = yaml.get("topics");
+
     if (models == null || topics == null) {
-      return cmds;
+      throw new RuntimeException("models and topics cannot be null!");
     }
+
     for (JsonNode model : models) {
       String modelType = textOrNull(model.get("type"));
       String rootCmd;
@@ -392,6 +395,7 @@ public class RunRegressionFromCorpus {
       } else {
         rootCmd = SEARCH_COMMAND;
       }
+
       for (JsonNode topic : topics) {
         String topicReader = textOrNull(topic.get("topic_reader"));
         if (topicReader == null || topicReader.isBlank()) {
@@ -421,6 +425,7 @@ public class RunRegressionFromCorpus {
         cmds.add(cmd.toString());
       }
     }
+
     return cmds;
   }
 
@@ -589,62 +594,42 @@ public class RunRegressionFromCorpus {
     }
   }
 
+  private static String[] extractArgsAfterClass(String clazz, String cmd) {
+    String[] parts = cmd.trim().split("\\s+");
+    for (int i = 0; i < parts.length; i++) {
+      if (clazz.equals(parts[i])) {
+        return Arrays.copyOfRange(parts, i + 1, parts.length);
+      }
+    }
+
+    return null;
+  }
+
   private static void runCommand(String command) throws IOException, InterruptedException {
     LOG.info(command);
 
     if (command.contains("io.anserini.index.IndexCollection")) {
       LOG.info("Calling IndexCollection.main directly instead of starting a new process.");
-      String[] parts = command.trim().split("\\s+");
-      for (int i = 0; i < parts.length; i++) {
-        if ("io.anserini.index.IndexCollection".equals(parts[i])) {
-          String[] args = Arrays.copyOfRange(parts, i + 1, parts.length);
-          boolean append = false;
-          String indexPath = null;
-          for (int j = 0; j < args.length; j++) {
-            if ("-append".equals(args[j])) {
-              append = true;
-            } else if ("-index".equals(args[j]) && j + 1 < args.length) {
-              indexPath = args[j + 1];
-            }
-          }
-          if (!append && indexPath != null && !indexPath.isBlank()) {
-            deleteDirectoryIfExists(Paths.get(indexPath));
-          }
+      String[] args = extractArgsAfterClass("io.anserini.index.IndexCollection", command);
+      LOG.info(Arrays.toString(args));
 
-          // According to Codex: Fixes error that comes from a tests.codec=Asserting system property
-          // leaking into the in‑process IndexCollection.main call.
-          try {
-            // String prevTestsCodec = System.getProperty("tests.codec");
-            // if (prevTestsCodec != null) {
-            //   System.clearProperty("tests.codec");
-            // }
-            try {
-              IndexCollection.main(args);
-            } finally {
-              // if (prevTestsCodec != null) {
-              //   System.setProperty("tests.codec", prevTestsCodec);
-              // }
-            }
-          } catch (Exception e) {
-            throw new RuntimeException("Command failed: " + command, e);
-          }
-          return;
-        }
+      try {
+        IndexCollection.main(args);
+      } catch (Exception e) {
+        throw new RuntimeException("Command failed: " + command, e);
       }
+      return;
     } if (command.contains("io.anserini.search.SearchCollection")) {
       LOG.info("Calling SearchCollection.main directly instead of starting a new process.");
-      String[] parts = command.trim().split("\\s+");
-      for (int i = 0; i < parts.length; i++) {
-        if ("io.anserini.search.SearchCollection".equals(parts[i])) {
-          String[] args = Arrays.copyOfRange(parts, i + 1, parts.length);
-          try {
-            SearchCollection.main(args);
-          } catch (Exception e) {
-            throw new RuntimeException("Command failed: " + command, e);
-          }
-          return;
-        }
+      String[] args = extractArgsAfterClass("io.anserini.search.SearchCollection", command);
+      LOG.info(Arrays.toString(args));
+
+      try {
+        SearchCollection.main(args);
+      } catch (Exception e) {
+        throw new RuntimeException("Command failed: " + command, e);
       }
+      return;
     } else {
       ProcessBuilder pb = new ProcessBuilder("bash", "-lc", command);
       pb.inheritIO();
@@ -653,26 +638,6 @@ public class RunRegressionFromCorpus {
       if (code != 0) {
         throw new RuntimeException("Command failed: " + command);
       }
-    }
-  }
-
-  private static void deleteDirectoryIfExists(Path path) throws IOException {
-    if (!Files.exists(path)) {
-      return;
-    }
-    try (var stream = Files.walk(path)) {
-      stream.sorted(Comparator.reverseOrder()).forEach(p -> {
-        try {
-          Files.delete(p);
-        } catch (IOException e) {
-          throw new RuntimeException(e);
-        }
-      });
-    } catch (RuntimeException e) {
-      if (e.getCause() instanceof IOException io) {
-        throw io;
-      }
-      throw e;
     }
   }
 
@@ -754,11 +719,13 @@ public class RunRegressionFromCorpus {
         // digest updated
       }
     }
+
     byte[] digest = md.digest();
     StringBuilder sb = new StringBuilder();
     for (byte b : digest) {
       sb.append(String.format("%02x", b));
     }
+
     return sb.toString();
   }
 
