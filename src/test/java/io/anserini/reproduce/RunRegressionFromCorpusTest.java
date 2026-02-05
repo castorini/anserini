@@ -79,14 +79,13 @@ public class RunRegressionFromCorpusTest extends StdOutStdErrRedirectableLuceneT
       Path path = Paths.get(run);
       assertTrue("Missing run file: " + run, Files.exists(path));
       assertTrue("Empty run file: " + run, Files.size(path) > 0);
-      Files.deleteIfExists(path);
     }
 
     TrecEval trecEval = new TrecEval();
     String[] args = new String[] {
         "-m", "P.30",
         "src/test/resources/sample_qrels/cacm/qrels.cacm.txt",
-        "src/test/resources/sample_runs/cacm/cacm-bm25.txt"
+        "runs/run.index.cacm.cacm.bm25"
     };
     String[][] output = trecEval.runAndGetOutput(args);
 
@@ -96,5 +95,10 @@ public class RunRegressionFromCorpusTest extends StdOutStdErrRedirectableLuceneT
     assertEquals("all", output[0][1]);
     assertEquals("0.1942", output[0][2]);
     assertEquals(0, trecEval.getLastExitCode());
+
+    for (String run : expectedRuns) {
+      Path path = Paths.get(run);
+      Files.deleteIfExists(path);
+    }
   }
 }
