@@ -53,6 +53,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -178,17 +179,17 @@ public class RunRegressionFromCorpus {
 
     if (parsed.verify) {
       LOG.info("========== Verifying Index ==========");
-      String indexType = textOrNull(yaml.get("index_type"));
-      if ("hnsw".equals(indexType)) {
+      JsonNode indexType = yaml.get("index_type");
+      if (indexType != null && "hnsw".equals(indexType.asText())) {
         LOG.info("Skipping verification step for HNSW dense indexes.");
-      } else if ("flat".equals(indexType)) {
+      } else if (indexType != null && "flat".equals(indexType.asText())) {
         LOG.info("Skipping verification step for flat dense indexes.");
       } else {
         StringBuilder cmd = new StringBuilder();
         cmd.append(INDEX_STATS_COMMAND)
             .append(" -index ").append(constructIndexPath(yaml))
             .append(" -stats");
-        if ("inverted-dense".equals(indexType)) {
+        if (indexType != null && "inverted-dense".equals(indexType.asText())) {
           cmd.append(" -field vector");
         }
         String output = checkOutput(cmd.toString());
@@ -289,10 +290,8 @@ public class RunRegressionFromCorpus {
   }
 
   private static String constructIndexPath(JsonNode yaml) {
-    String indexPath = textOrNull(yaml.get("index_path"));
-    if (indexPath == null) {
-      return "";
-    }
+    String indexPath = Objects.requireNonNull(yaml.get("index_path")).asText();
+
     if (!Files.exists(Paths.get(indexPath))) {
       for (String root : CORPUS_ROOTS) {
         Path candidate = Paths.get(root, indexPath);
@@ -302,6 +301,7 @@ public class RunRegressionFromCorpus {
         }
       }
     }
+
     return indexPath;
   }
 
@@ -312,14 +312,12 @@ public class RunRegressionFromCorpus {
         corpusPath = args.corpusPath;
       }
     } else {
-      String yamlCorpusPath = textOrNull(yaml.get("corpus_path"));
-      if (yamlCorpusPath != null) {
-        for (String root : CORPUS_ROOTS) {
-          Path candidate = Paths.get(root, yamlCorpusPath);
-          if (Files.exists(candidate)) {
-            corpusPath = candidate.toString();
-            break;
-          }
+      String yamlCorpusPath = Objects.requireNonNull(yaml.get("corpus_path")).asText();
+      for (String root : CORPUS_ROOTS) {
+        Path candidate = Paths.get(root, yamlCorpusPath);
+        if (Files.exists(candidate)) {
+          corpusPath = candidate.toString();
+          break;
         }
       }
     }
@@ -328,32 +326,31 @@ public class RunRegressionFromCorpus {
       throw new RuntimeException("Unable to find the corpus!");
     }
 
-    int threads = args.indexThreads != -1 ? args.indexThreads : yaml.get("index_threads").asInt();
+    int threads = args.indexThreads != -1 ? args.indexThreads : Objects.requireNonNull(yaml.get("index_threads")).asInt();
     Files.createDirectories(Paths.get("indexes"));
 
-    String indexType = textOrNull(yaml.get("index_type"));
-    String rootCmd;
-    if ("inverted-dense".equals(indexType)) {
+    JsonNode indexType = yaml.get("index_type");
+    String rootCmd = INDEX_COMMAND;
+    if (indexType != null && "inverted-dense".equals(indexType.asText())) {
       rootCmd = INDEX_INVERTED_DENSE_COMMAND;
-    } else if ("hnsw".equals(indexType)) {
+    } else if (indexType != null && "hnsw".equals(indexType.asText())) {
       rootCmd = INDEX_HNSW_DENSE_COMMAND;
-    } else if ("flat".equals(indexType)) {
+    } else if (indexType != null && "flat".equals(indexType.asText())) {
       rootCmd = INDEX_FLAT_DENSE_COMMAND;
-    } else {
-      rootCmd = INDEX_COMMAND;
     }
 
     StringBuilder cmd = new StringBuilder();
     cmd.append(rootCmd)
-        .append(" -collection ").append(yaml.get("collection_class").asText())
+        .append(" -collection ").append(Objects.requireNonNull(yaml.get("collection_class")).asText())
         .append(" -input ").append(corpusPath)
-        .append(" -generator ").append(yaml.get("generator_class").asText())
-        .append(" -index ").append(yaml.get("index_path").asText())
+        .append(" -generator ").append(Objects.requireNonNull(yaml.get("generator_class")).asText())
+        .append(" -index ").append(Objects.requireNonNull(yaml.get("index_path")).asText())
         .append(" -threads ").append(threads);
-    String indexOptions = textOrNull(yaml.get("index_options"));
-    if (indexOptions != null && !indexOptions.isBlank()) {
-      cmd.append(" ").append(indexOptions.trim());
+    JsonNode indexOptions = yaml.get("index_options");
+    if (indexOptions != null && !indexOptions.asText().isBlank()) {
+      cmd.append(" ").append(indexOptions.asText().trim());
     }
+
     return cmd.toString();
   }
 
@@ -376,12 +373,8 @@ public class RunRegressionFromCorpus {
 
   private static List<String> constructSearchCommands(JsonNode yaml) {
     List<String> cmds = new ArrayList<>();
-    JsonNode models = yaml.get("models");
-    JsonNode topics = yaml.get("topics");
-
-    if (models == null || topics == null) {
-      throw new RuntimeException("models and topics cannot be null!");
-    }
+    JsonNode models = Objects.requireNonNull(yaml.get("models"));
+    JsonNode topics = Objects.requireNonNull(yaml.get("topics"));
 
     for (JsonNode model : models) {
       String modelType = textOrNull(model.get("type"));
@@ -397,12 +390,10 @@ public class RunRegressionFromCorpus {
       }
 
       for (JsonNode topic : topics) {
-        String topicReader = textOrNull(topic.get("topic_reader"));
-        if (topicReader == null || topicReader.isBlank()) {
-          topicReader = yaml.get("topic_reader").asText();
-        }
-        String output = constructRunfilePath(yaml.get("index_path").asText(),
-            topic.get("id").asText(), model.get("name").asText());
+        String topicReader = Objects.requireNonNull(yaml.get("topic_reader")).asText();
+        String output = constructRunfilePath(Objects.requireNonNull(yaml.get("index_path")).asText(),
+            Objects.requireNonNull(topic.get("id")).asText(),
+            Objects.requireNonNull(model.get("name")).asText());
 
         // Janky special case for now: we run cacm in the test suite, and on GitHub CI tools/topics-and-qrels is not checked out.
         String topicPath;
@@ -465,8 +456,7 @@ public class RunRegressionFromCorpus {
     return cmds;
   }
 
-  private static void evaluateAndVerify(JsonNode yaml, Args args, long startNanos)
-      throws IOException, InterruptedException {
+  private static void evaluateAndVerify(JsonNode yaml, Args args, long startNanos) throws IOException, InterruptedException {
     String failStr = RED + "[FAIL]" + RESET + " ";
     String okStr = "   [OK] ";
     String okishStr = "  " + BLUE + "[OK*]" + RESET + " ";
@@ -474,12 +464,9 @@ public class RunRegressionFromCorpus {
     boolean okish = false;
 
     LOG.info("========== Verifying Results: {} ==========", yaml.get("corpus").asText());
-    JsonNode models = yaml.get("models");
-    JsonNode topics = yaml.get("topics");
-    JsonNode metrics = yaml.get("metrics");
-    if (models == null || topics == null || metrics == null) {
-      return;
-    }
+    JsonNode models = Objects.requireNonNull(yaml.get("models"));
+    JsonNode topics = Objects.requireNonNull(yaml.get("topics"));
+    JsonNode metrics = Objects.requireNonNull(yaml.get("metrics"));
 
     for (JsonNode model : models) {
       for (int i = 0; i < topics.size(); i++) {
