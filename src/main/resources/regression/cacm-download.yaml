@@ -1,8 +1,11 @@
 ---
 corpus: cacm
-corpus_path: src/main/resources/cacm/
+corpus_path: collections/cacm/raw/
 
-index_path: indexes/lucene-inverted.cacm/
+download_url: https://github.com/castorini/anserini-data/raw/refs/heads/master/CACM/corpus/raw/cacm-in-folder.tar.gz
+download_checksum: a5978c8f60db907cb7d1ae399b34b626
+
+index_path: indexes/lucene-inverted.cacm.download/
 collection_class: HtmlCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 8

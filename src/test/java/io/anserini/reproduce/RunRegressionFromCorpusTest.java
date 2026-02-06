@@ -16,12 +16,14 @@
 
 package io.anserini.reproduce;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 import java.util.SortedMap;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.junit.After;
@@ -74,12 +76,12 @@ public class RunRegressionFromCorpusTest extends StdOutStdErrRedirectableLuceneT
     });
 
     String[] expectedRuns = {
-        "runs/run.index.cacm.cacm.bm25",
-        "runs/run.index.cacm.cacm.bm25+rm3",
-        "runs/run.index.cacm.cacm.bm25+ax",
-        "runs/run.index.cacm.cacm.ql",
-        "runs/run.index.cacm.cacm.ql+rm3",
-        "runs/run.index.cacm.cacm.ql+ax"
+        "runs/run.inverted.cacm.cacm.bm25",
+        "runs/run.inverted.cacm.cacm.bm25+rm3",
+        "runs/run.inverted.cacm.cacm.bm25+ax",
+        "runs/run.inverted.cacm.cacm.ql",
+        "runs/run.inverted.cacm.cacm.ql+rm3",
+        "runs/run.inverted.cacm.cacm.ql+ax"
     };
 
     for (String run : expectedRuns) {
@@ -92,7 +94,7 @@ public class RunRegressionFromCorpusTest extends StdOutStdErrRedirectableLuceneT
     String[] args = new String[] {
         "-m", "P.30",
         "src/test/resources/sample_qrels/cacm/qrels.cacm.txt",
-        "runs/run.index.cacm.cacm.bm25"
+        "runs/run.inverted.cacm.cacm.bm25"
     };
     String[][] output = trecEval.runAndGetOutput(args);
 
@@ -106,6 +108,64 @@ public class RunRegressionFromCorpusTest extends StdOutStdErrRedirectableLuceneT
     for (String run : expectedRuns) {
       Path path = Paths.get(run);
       Files.deleteIfExists(path);
+    }
+
+    Path indexPath = Paths.get("indexes/lucene-inverted.cacm/");
+    if (Files.exists(indexPath)) {
+      FileUtils.deleteDirectory(new File(indexPath.toString()));
+    }
+  }
+
+  @Test
+  public void testCacmRegressionFromCorpusDownload() throws Exception {
+    SortedMap<Integer, Map<String, String>> topics = TopicReader.getTopics(Topics.CACM);
+    assertNotNull(topics);
+
+    RunRegressionFromCorpus.main(new String[] {
+        "--regression", "cacm-download",
+        "--index",
+        "--search",
+        "--download"
+    });
+
+    String[] expectedRuns = {
+        "runs/run.inverted.cacm.download.cacm.bm25",
+        "runs/run.inverted.cacm.download.cacm.bm25+rm3",
+        "runs/run.inverted.cacm.download.cacm.bm25+ax",
+        "runs/run.inverted.cacm.download.cacm.ql",
+        "runs/run.inverted.cacm.download.cacm.ql+rm3",
+        "runs/run.inverted.cacm.download.cacm.ql+ax"
+    };
+
+    for (String run : expectedRuns) {
+      Path path = Paths.get(run);
+      assertTrue("Missing run file: " + run, Files.exists(path));
+      assertTrue("Empty run file: " + run, Files.size(path) > 0);
+    }
+
+    TrecEval trecEval = new TrecEval();
+    String[] args = new String[] {
+        "-m", "P.30",
+        "src/test/resources/sample_qrels/cacm/qrels.cacm.txt",
+        "runs/run.inverted.cacm.download.cacm.bm25"
+    };
+    String[][] output = trecEval.runAndGetOutput(args);
+
+    assertNotNull(output);
+    assertEquals(1, output.length);
+    assertEquals("P_30", output[0][0]);
+    assertEquals("all", output[0][1]);
+    assertEquals("0.1942", output[0][2]);
+    assertEquals(0, trecEval.getLastExitCode());
+
+    for (String run : expectedRuns) {
+      Path path = Paths.get(run);
+      Files.deleteIfExists(path);
+    }
+
+    Path indexPath = Paths.get("indexes/lucene-inverted.cacm.download/");
+    if (Files.exists(indexPath)) {
+      FileUtils.deleteDirectory(new File(indexPath.toString()));
     }
   }
 }

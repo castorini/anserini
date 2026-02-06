@@ -63,7 +63,7 @@ public class RunRegressionFromCorpus {
   private static final Logger LOG = LogManager.getLogger(RunRegressionFromCorpus.class);
 
   private static final String[] CORPUS_ROOTS = new String[] {
-      "",
+      "./",
       "/collection/",
       "/",
       "/mnt/",
@@ -141,6 +141,7 @@ public class RunRegressionFromCorpus {
     long start = System.nanoTime();
 
     if (parsed.download) {
+      // TODO: If collection already exists, skip.
       LOG.info("========== Downloading Corpus ==========");
       JsonNode downloadUrl = yaml.get("download_url");
       if (downloadUrl == null || downloadUrl.asText().isEmpty()) {
@@ -323,7 +324,8 @@ public class RunRegressionFromCorpus {
     }
 
     if (corpusPath == null) {
-      throw new RuntimeException("Unable to find the corpus!");
+      throw new RuntimeException(String.format("Unable to find the corpus '%s' at %s: looked in %s",
+          yaml.get("corpus").asText(), yaml.get("corpus_path").asText(), Arrays.toString(CORPUS_ROOTS)));
     }
 
     int threads = args.indexThreads != -1 ? args.indexThreads : Objects.requireNonNull(yaml.get("index_threads")).asInt();
