@@ -39,7 +39,7 @@ import java.nio.file.Paths;
 import java.nio.file.Path;
 import java.nio.file.Files;
 
-public class RunRepro {
+public class RunRegressionsFromPrebuiltIndexes {
   // ANSI escape code for red text
   private static final String RED = "\u001B[31m";
   // ANSI escape code for blue text
@@ -70,7 +70,7 @@ public class RunRepro {
     public Boolean computeIndexSize = false;
   }
 
-  public RunRepro(String collection, TrecEvalMetricDefinitions metrics, boolean printCommands, boolean dryRun, boolean computeIndexSize) {
+  public RunRegressionsFromPrebuiltIndexes(String collection, TrecEvalMetricDefinitions metrics, boolean printCommands, boolean dryRun, boolean computeIndexSize) {
     this.collection = collection;
     this.metricDefinitions = metrics;
     this.printCommands = printCommands;
@@ -83,11 +83,11 @@ public class RunRepro {
       new File("runs").mkdir();
     }
 
-    String fatjarPath = new File(RunRepro.class.getProtectionDomain()
+    String fatjarPath = new File(RunRegressionsFromPrebuiltIndexes.class.getProtectionDomain()
         .getCodeSource().getLocation().toURI()).getPath();
 
     final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-    Config config = mapper.readValue(RunRepro.class.getClassLoader()
+    Config config = mapper.readValue(RunRegressionsFromPrebuiltIndexes.class.getClassLoader()
         .getResourceAsStream("reproduce/" + collection + ".yaml"), Config.class);
 
     ProcessBuilder pb;

@@ -21,9 +21,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
-import io.anserini.reproduce.RunMsMarco;
+import io.anserini.reproduce.RunBeirRegressionsFromPrebuiltIndexes;
 
-public class RunMsMarcoTest extends StdOutStdErrRedirectableLuceneTestCase {
+public class RunBeirRegressionsFromPrebuiltIndexesTest extends StdOutStdErrRedirectableLuceneTestCase {
   @Before
   public void setUp() throws Exception {
     redirectStdOut();
@@ -41,15 +41,15 @@ public class RunMsMarcoTest extends StdOutStdErrRedirectableLuceneTestCase {
   @Test
   public void testInvalidOption() throws Exception {
     String[] args = new String[] {"-dry"};
-    RunMsMarco.main(args);
+    RunBeirRegressionsFromPrebuiltIndexes.main(args);
 
-    assertTrue(err.toString().startsWith("Error: \"-dry\" is not a valid option."));
+    assertTrue(err.toString().startsWith("\"-dry\" is not a valid option"));
   }
 
   @Test
   public void test1() throws Exception {
     String[] args = new String[] {"-dryRun"};
-    RunMsMarco.main(args);
+    RunBeirRegressionsFromPrebuiltIndexes.main(args);
 
     assertTrue(out.toString().startsWith("# Running condition"));
   }
@@ -57,7 +57,7 @@ public class RunMsMarcoTest extends StdOutStdErrRedirectableLuceneTestCase {
   @Test
   public void test2() throws Exception {
     String[] args = new String[] {"-dryRun", "-printCommands"};
-    RunMsMarco.main(args);
+    RunBeirRegressionsFromPrebuiltIndexes.main(args);
 
     assertTrue(out.toString().startsWith("# Running condition"));
     assertTrue(out.toString().contains("Retrieval command"));
@@ -67,7 +67,7 @@ public class RunMsMarcoTest extends StdOutStdErrRedirectableLuceneTestCase {
   @Test
   public void testComputeIndexSize() throws Exception {
     String[] args = new String[] {"-dryRun", "-computeIndexSize"};
-    RunMsMarco.main(args);
+    RunBeirRegressionsFromPrebuiltIndexes.main(args);
 
     String s = out.toString();
     assertTrue(s.contains("Indexes referenced by this run"));

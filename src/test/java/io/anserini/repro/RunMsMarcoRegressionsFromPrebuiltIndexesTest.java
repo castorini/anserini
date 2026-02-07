@@ -21,9 +21,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
-import io.anserini.reproduce.RunBright;
+import io.anserini.reproduce.RunMsMarcoRegressionsFromPrebuiltIndexes;
 
-public class RunBrightTest extends StdOutStdErrRedirectableLuceneTestCase {
+public class RunMsMarcoRegressionsFromPrebuiltIndexesTest extends StdOutStdErrRedirectableLuceneTestCase {
   @Before
   public void setUp() throws Exception {
     redirectStdOut();
@@ -41,24 +41,23 @@ public class RunBrightTest extends StdOutStdErrRedirectableLuceneTestCase {
   @Test
   public void testInvalidOption() throws Exception {
     String[] args = new String[] {"-dry"};
-    RunBright.main(args);
+    RunMsMarcoRegressionsFromPrebuiltIndexes.main(args);
 
-    assertTrue(err.toString().startsWith("\"-dry\" is not a valid option"));
+    assertTrue(err.toString().startsWith("Error: \"-dry\" is not a valid option."));
   }
 
   @Test
   public void test1() throws Exception {
     String[] args = new String[] {"-dryRun"};
-    RunBright.main(args);
+    RunMsMarcoRegressionsFromPrebuiltIndexes.main(args);
 
     assertTrue(out.toString().startsWith("# Running condition"));
   }
 
-
   @Test
   public void test2() throws Exception {
     String[] args = new String[] {"-dryRun", "-printCommands"};
-    RunBright.main(args);
+    RunMsMarcoRegressionsFromPrebuiltIndexes.main(args);
 
     assertTrue(out.toString().startsWith("# Running condition"));
     assertTrue(out.toString().contains("Retrieval command"));
@@ -68,7 +67,7 @@ public class RunBrightTest extends StdOutStdErrRedirectableLuceneTestCase {
   @Test
   public void testComputeIndexSize() throws Exception {
     String[] args = new String[] {"-dryRun", "-computeIndexSize"};
-    RunBright.main(args);
+    RunMsMarcoRegressionsFromPrebuiltIndexes.main(args);
 
     String s = out.toString();
     assertTrue(s.contains("Indexes referenced by this run"));

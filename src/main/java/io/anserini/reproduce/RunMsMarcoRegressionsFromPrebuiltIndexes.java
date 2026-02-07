@@ -16,7 +16,7 @@
 
 package io.anserini.reproduce;
 
-import io.anserini.reproduce.RunRepro.TrecEvalMetricDefinitions;
+import io.anserini.reproduce.RunRegressionsFromPrebuiltIndexes.TrecEvalMetricDefinitions;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
@@ -24,8 +24,8 @@ import org.kohsuke.args4j.ParserProperties;
 
 import java.util.*;
 
-public class RunMsMarco {
-  public static class Args extends RunRepro.Args {
+public class RunMsMarcoRegressionsFromPrebuiltIndexes {
+  public static class Args extends RunRegressionsFromPrebuiltIndexes.Args {
     @Option(name = "-collection", usage = "MS MARCO version {'msmarco-v1-passage' (default), 'msmarco-v1-doc', 'msmarco-v2-doc', 'msmarco-v2-passage', 'msmarco-v2.1-doc', 'msmarco-v2.1-doc-segmented'}.")
     public String MsMarcoVersion = "msmarco-v1-passage";
   }
@@ -39,7 +39,7 @@ public class RunMsMarco {
       parser.parseArgument(args);
     } catch (CmdLineException e) {
       if (msmarcoArgs.options) {
-        System.err.printf("Options for %s:\n\n", RunMsMarco.class.getSimpleName());
+        System.err.printf("Options for %s:\n\n", RunMsMarcoRegressionsFromPrebuiltIndexes.class.getSimpleName());
         parser.printUsage(System.err);
 
         List<String> required = new ArrayList<>();
@@ -58,13 +58,13 @@ public class RunMsMarco {
     }
 
     Set<String> allowedVersions = new HashSet<>(
-            Arrays.asList("msmarco-v1-doc", "msmarco-v1-passage", "msmarco-v2-doc", "msmarco-v2-passage", "msmarco-v2.1-doc", "msmarco-v2.1-doc-segmented"));
+            Arrays.asList("msmarco-v1-doc", "msmarco-v1-passage.core", "msmarco-v1-passage.optional", "msmarco-v2-doc", "msmarco-v2-passage", "msmarco-v2.1-doc", "msmarco-v2.1-doc-segmented"));
     if (!allowedVersions.contains(msmarcoArgs.MsMarcoVersion)) {
         System.err.println("Invalid MS MARCO version: " + msmarcoArgs.MsMarcoVersion);
         System.exit(1);
     }
 
-    RunRepro repro = new RunRepro(msmarcoArgs.MsMarcoVersion, new MsMarcoMetricDefinitions(),
+    RunRegressionsFromPrebuiltIndexes repro = new RunRegressionsFromPrebuiltIndexes(msmarcoArgs.MsMarcoVersion, new MsMarcoMetricDefinitions(),
             msmarcoArgs.printCommands, msmarcoArgs.dryRun, msmarcoArgs.computeIndexSize);
     repro.run();
   }

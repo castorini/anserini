@@ -16,8 +16,8 @@
 
 package io.anserini.reproduce;
 
-import io.anserini.reproduce.RunRepro.Args;
-import io.anserini.reproduce.RunRepro.TrecEvalMetricDefinitions;
+import io.anserini.reproduce.RunRegressionsFromPrebuiltIndexes.Args;
+import io.anserini.reproduce.RunRegressionsFromPrebuiltIndexes.TrecEvalMetricDefinitions;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.ParserProperties;
@@ -25,10 +25,10 @@ import org.kohsuke.args4j.ParserProperties;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RunBright {
+public class RunBrightRegressionsFromPrebuiltIndexes {
 
   public static void main(String[] args) throws Exception {
-    Args brightArgs = new RunRepro.Args();
+    Args brightArgs = new RunRegressionsFromPrebuiltIndexes.Args();
     CmdLineParser parser = new CmdLineParser(brightArgs, ParserProperties.defaults().withUsageWidth(120));
 
     try {
@@ -38,7 +38,7 @@ public class RunBright {
       return;
     }
 
-    RunRepro repro = new RunRepro("bright", new BrightMetricDefinitions(), brightArgs.printCommands, brightArgs.dryRun, brightArgs.computeIndexSize);
+    RunRegressionsFromPrebuiltIndexes repro = new RunRegressionsFromPrebuiltIndexes("bright", new BrightMetricDefinitions(), brightArgs.printCommands, brightArgs.dryRun, brightArgs.computeIndexSize);
     repro.run();
   }
 

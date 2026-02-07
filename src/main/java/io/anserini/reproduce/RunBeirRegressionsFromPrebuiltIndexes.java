@@ -16,8 +16,8 @@
 
 package io.anserini.reproduce;
 
-import io.anserini.reproduce.RunRepro.Args;
-import io.anserini.reproduce.RunRepro.TrecEvalMetricDefinitions;
+import io.anserini.reproduce.RunRegressionsFromPrebuiltIndexes.Args;
+import io.anserini.reproduce.RunRegressionsFromPrebuiltIndexes.TrecEvalMetricDefinitions;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.ParserProperties;
@@ -25,10 +25,10 @@ import org.kohsuke.args4j.ParserProperties;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RunBeir {
+public class RunBeirRegressionsFromPrebuiltIndexes {
 
   public static void main(String[] args) throws Exception {
-    Args beirArgs = new RunRepro.Args();
+    Args beirArgs = new RunRegressionsFromPrebuiltIndexes.Args();
     CmdLineParser parser = new CmdLineParser(beirArgs, ParserProperties.defaults().withUsageWidth(120));
 
     try {
@@ -38,7 +38,7 @@ public class RunBeir {
       return;
     }
 
-    RunRepro repro = new RunRepro("beir", new BeirMetricDefinitions(), beirArgs.printCommands, beirArgs.dryRun, beirArgs.computeIndexSize);
+    RunRegressionsFromPrebuiltIndexes repro = new RunRegressionsFromPrebuiltIndexes("beir", new BeirMetricDefinitions(), beirArgs.printCommands, beirArgs.dryRun, beirArgs.computeIndexSize);
     repro.run();
   }
 

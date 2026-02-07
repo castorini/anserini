@@ -30,10 +30,10 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
-import io.anserini.reproduce.RunRepro.Condition;
-import io.anserini.reproduce.RunRepro.Config;
-import io.anserini.reproduce.RunRepro.Topic;
-import io.anserini.reproduce.RunMsMarco.MsMarcoMetricDefinitions;
+import io.anserini.reproduce.RunRegressionsFromPrebuiltIndexes.Condition;
+import io.anserini.reproduce.RunRegressionsFromPrebuiltIndexes.Config;
+import io.anserini.reproduce.RunRegressionsFromPrebuiltIndexes.Topic;
+import io.anserini.reproduce.RunMsMarcoRegressionsFromPrebuiltIndexes.MsMarcoMetricDefinitions;
 
 public class GenerateReproductionDocsTest {
   public final static String YAML_PATH = "src/main/resources/reproduce/msmarco-v1-passage.yaml";
