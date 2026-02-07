@@ -65,6 +65,19 @@ public class RunRegressionFromCorpusTest extends StdOutStdErrRedirectableLuceneT
   }
 
   @Test
+  public void testCacmRegressionDryRun() throws Exception {
+    SortedMap<Integer, Map<String, String>> topics = TopicReader.getTopics(Topics.CACM);
+    assertNotNull(topics);
+
+    RunRegressionFromCorpus.main(new String[] {
+        "--regression", "cacm",
+        "--index",
+        "--search",
+        "--dry-run"
+    });
+  }
+
+  @Test
   public void testCacmRegressionFromCorpus() throws Exception {
     SortedMap<Integer, Map<String, String>> topics = TopicReader.getTopics(Topics.CACM);
     assertNotNull(topics);

@@ -40,7 +40,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URL;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -87,6 +90,10 @@ public class RunRegressionFromCorpus {
   private static final String RED = "\u001B[91m";
   private static final String BLUE = "\u001B[94m";
   private static final String RESET = "\u001B[0m";
+
+  private static final String FAIL = RED + "[FAIL]" + RESET + " ";
+  private static final String OK = "   [OK] ";
+  private static final String OKISH = "  " + BLUE + "[OK*]" + RESET + " ";
 
   public static class Args {
     @Option(name = "--regression", required = true, usage = "Name of the regression test.")
@@ -459,9 +466,6 @@ public class RunRegressionFromCorpus {
   }
 
   private static void evaluateAndVerify(JsonNode yaml, Args args, long startNanos) throws IOException, InterruptedException {
-    String failStr = RED + "[FAIL]" + RESET + " ";
-    String okStr = "   [OK] ";
-    String okishStr = "  " + BLUE + "[OK*]" + RESET + " ";
     boolean failures = false;
     boolean okish = false;
 
@@ -558,13 +562,13 @@ public class RunRegressionFromCorpus {
           if (isClose(expected, actual, 1e-9, 0.0) || actual > expected ||
               (usingFlat && isClose(expected, actual, 1e-9, toleranceOk)) ||
               (usingHnsw && isClose(expected, actual, 1e-9, toleranceOk))) {
-            LOG.info(okStr + resultStr);
+            LOG.info(OK + resultStr);
           } else if ((usingFlat && isClose(expected, actual, 1e-9, toleranceOk * 1.5)) ||
               (usingHnsw && isClose(expected, actual, 1e-9, toleranceOk * 1.5))) {
-            LOG.info(okishStr + resultStr);
+            LOG.info(OKISH + resultStr);
             okish = true;
           } else {
-            LOG.error(failStr + resultStr);
+            LOG.error(FAIL + resultStr);
             failures = true;
           }
         }
@@ -574,9 +578,9 @@ public class RunRegressionFromCorpus {
     if (!args.dryRun) {
       long elapsed = Duration.ofNanos(System.nanoTime() - startNanos).toSeconds();
       if (failures) {
-        LOG.error("{}Total elapsed time: {}s", failStr, elapsed);
+        LOG.error("{}Total elapsed time: {}s", FAIL, elapsed);
       } else if (okish) {
-        LOG.info("{}Total elapsed time: {}s", okishStr, elapsed);
+        LOG.info("{}Total elapsed time: {}s", OKISH, elapsed);
       } else {
         LOG.info("All Tests Passed! Total elapsed time: {}s", elapsed);
       }
@@ -680,14 +684,19 @@ public class RunRegressionFromCorpus {
       Files.delete(destination);
     }
 
-    URL remote = new URL(url);
-    try (InputStream in = new BufferedInputStream(remote.openStream());
-         OutputStream out = new BufferedOutputStream(Files.newOutputStream(destination))) {
-      byte[] buffer = new byte[1024 * 1024];
-      int read;
-      while ((read = in.read(buffer)) >= 0) {
-        out.write(buffer, 0, read);
-      }
+    HttpClient client = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.NORMAL).build();
+    HttpRequest request = HttpRequest.newBuilder(URI.create(url)).GET().build();
+    HttpResponse<Path> response;
+    try {
+      response = client.send(request, HttpResponse.BodyHandlers.ofFile(destination));
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new IOException("Interrupted while downloading " + url, e);
+    }
+    int status = response.statusCode();
+    if (status < 200 || status >= 300) {
+      Files.deleteIfExists(destination);
+      throw new IOException("Failed to download " + url + " (HTTP " + status + ")");
     }
 
     if (md5 != null && !md5.isBlank()) {
@@ -724,7 +733,7 @@ public class RunRegressionFromCorpus {
          TarArchiveInputStream tarIn = new TarArchiveInputStream(compressorIn)) {
       TarArchiveEntry entry;
       byte[] buffer = new byte[1024 * 1024];
-      while ((entry = tarIn.getNextTarEntry()) != null) {
+      while ((entry = (TarArchiveEntry) tarIn.getNextEntry()) != null) {
         Path target = destDir.resolve(entry.getName()).normalize();
         if (!target.startsWith(destDir)) {
           throw new IOException("Blocked suspicious entry: " + entry.getName());
