@@ -9,10 +9,14 @@ conditions:
         eval_key: msmarco-v2-doc.dev
         scores:
           - MRR@100: 0.1572
+        metric_definitions:
+          MRR@100: "-c -M 100 -m recip_rank"
       - topic_key: msmarco-v2-doc.dev2
         eval_key: msmarco-v2-doc.dev2
         scores:
           - MRR@100: 0.1659
+        metric_definitions:
+          MRR@100: "-c -M 100 -m recip_rank"
       - topic_key: dl21
         eval_key: dl21-doc
         scores:
@@ -21,6 +25,12 @@ conditions:
             nDCG@10: 0.5116
             R@100: 0.3195
             R@1K: 0.6739
+        metric_definitions:
+          MAP@100: "-c -M 100 -m map"
+          MRR@100: "-c -M 100 -m recip_rank"
+          nDCG@10: "-c -m ndcg_cut.10"
+          R@100: "-c -m recall.100"
+          R@1K: "-c -m recall.1000"
       - topic_key: dl22
         eval_key: dl22-doc
         scores:
@@ -29,6 +39,12 @@ conditions:
             nDCG@10: 0.2993
             R@100: 0.1756
             R@1K: 0.4107
+        metric_definitions:
+          MAP@100: "-c -M 100 -m map"
+          MRR@100: "-c -M 100 -m recip_rank"
+          nDCG@10: "-c -m ndcg_cut.10"
+          R@100: "-c -m recall.100"
+          R@1K: "-c -m recall.1000"
       - topic_key: dl23
         eval_key: dl23-doc
         scores:
@@ -37,6 +53,12 @@ conditions:
             nDCG@10: 0.2946
             R@100: 0.2422
             R@1K: 0.5262
+        metric_definitions:
+          MAP@100: "-c -M 100 -m map"
+          MRR@100: "-c -M 100 -m recip_rank"
+          nDCG@10: "-c -m ndcg_cut.10"
+          R@100: "-c -m recall.100"
+          R@1K: "-c -m recall.1000"
   - name: bm25-d2q-t5-doc-default
     display: "BM25 completed doc with doc2query-T5 (k1=0.9, b=0.4)"
     display_html: "BM25 with doc2query-T5 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
@@ -47,10 +69,14 @@ conditions:
         eval_key: msmarco-v2-doc.dev
         scores:
           - MRR@100: 0.2011
+        metric_definitions:
+          MRR@100: "-c -M 100 -m recip_rank"
       - topic_key: msmarco-v2-doc.dev2
         eval_key: msmarco-v2-doc.dev2
         scores:
           - MRR@100: 0.2012
+        metric_definitions:
+          MRR@100: "-c -M 100 -m recip_rank"
       - topic_key: dl21
         eval_key: dl21-doc
         scores:
@@ -59,6 +85,12 @@ conditions:
             nDCG@10: 0.5792
             R@100: 0.3443
             R@1K: 0.7066
+        metric_definitions:
+          MAP@100: "-c -M 100 -m map"
+          MRR@100: "-c -M 100 -m recip_rank"
+          nDCG@10: "-c -m ndcg_cut.10"
+          R@100: "-c -m recall.100"
+          R@1K: "-c -m recall.1000"
       - topic_key: dl22
         eval_key: dl22-doc
         scores:
@@ -67,6 +99,12 @@ conditions:
             nDCG@10: 0.3539
             R@100: 0.2041
             R@1K: 0.4301
+        metric_definitions:
+          MAP@100: "-c -M 100 -m map"
+          MRR@100: "-c -M 100 -m recip_rank"
+          nDCG@10: "-c -m ndcg_cut.10"
+          R@100: "-c -m recall.100"
+          R@1K: "-c -m recall.1000"
       - topic_key: dl23
         eval_key: dl23-doc
         scores:
@@ -75,6 +113,12 @@ conditions:
             nDCG@10: 0.3511
             R@100: 0.2773
             R@1K: 0.5549
+        metric_definitions:
+          MAP@100: "-c -M 100 -m map"
+          MRR@100: "-c -M 100 -m recip_rank"
+          nDCG@10: "-c -m ndcg_cut.10"
+          R@100: "-c -m recall.100"
+          R@1K: "-c -m recall.1000"
   - name: bm25-doc-segmented-default
     display: "BM25 segmented doc (k1=0.9, b=0.4)"
     display_html: "BM25 segmented (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
@@ -85,10 +129,14 @@ conditions:
         eval_key: msmarco-v2-doc.dev
         scores:
           - MRR@100: 0.1896
+        metric_definitions:
+          MRR@100: "-c -M 100 -m recip_rank"
       - topic_key: msmarco-v2-doc.dev2
         eval_key: msmarco-v2-doc.dev2
         scores:
           - MRR@100: 0.1930
+        metric_definitions:
+          MRR@100: "-c -M 100 -m recip_rank"
       - topic_key: dl21
         eval_key: dl21-doc
         scores:
@@ -97,6 +145,12 @@ conditions:
             nDCG@10: 0.5776
             R@100: 0.3478
             R@1K: 0.6930
+        metric_definitions:
+          MAP@100: "-c -M 100 -m map"
+          MRR@100: "-c -M 100 -m recip_rank"
+          nDCG@10: "-c -m ndcg_cut.10"
+          R@100: "-c -m recall.100"
+          R@1K: "-c -m recall.1000"
       - topic_key: dl22
         eval_key: dl22-doc
         scores:
@@ -105,6 +159,12 @@ conditions:
             nDCG@10: 0.3618
             R@100: 0.2192
             R@1K: 0.4664
+        metric_definitions:
+          MAP@100: "-c -M 100 -m map"
+          MRR@100: "-c -M 100 -m recip_rank"
+          nDCG@10: "-c -m ndcg_cut.10"
+          R@100: "-c -m recall.100"
+          R@1K: "-c -m recall.1000"
       - topic_key: dl23
         eval_key: dl23-doc
         scores:
@@ -113,6 +173,12 @@ conditions:
             nDCG@10: 0.3405
             R@100: 0.2884
             R@1K: 0.5662
+        metric_definitions:
+          MAP@100: "-c -M 100 -m map"
+          MRR@100: "-c -M 100 -m recip_rank"
+          nDCG@10: "-c -m ndcg_cut.10"
+          R@100: "-c -m recall.100"
+          R@1K: "-c -m recall.1000"
   - name: bm25-d2q-t5-doc-segmented-default
     display: "BM25 segmented doc with doc2query-T5 (k1=0.9, b=0.4)"
     display_html: "BM25 segmented with doc2query-T5 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
@@ -123,10 +189,14 @@ conditions:
         eval_key: msmarco-v2-doc.dev
         scores:
           - MRR@100: 0.2226
+        metric_definitions:
+          MRR@100: "-c -M 100 -m recip_rank"
       - topic_key: msmarco-v2-doc.dev2
         eval_key: msmarco-v2-doc.dev2
         scores:
           - MRR@100: 0.2234
+        metric_definitions:
+          MRR@100: "-c -M 100 -m recip_rank"
       - topic_key: dl21
         eval_key: dl21-doc
         scores:
@@ -135,6 +205,12 @@ conditions:
             nDCG@10: 0.6289
             R@100: 0.3656
             R@1K: 0.7202
+        metric_definitions:
+          MAP@100: "-c -M 100 -m map"
+          MRR@100: "-c -M 100 -m recip_rank"
+          nDCG@10: "-c -m ndcg_cut.10"
+          R@100: "-c -m recall.100"
+          R@1K: "-c -m recall.1000"
       - topic_key: dl22
         eval_key: dl22-doc
         scores:
@@ -143,6 +219,12 @@ conditions:
             nDCG@10: 0.3975
             R@100: 0.2441
             R@1K: 0.4984
+        metric_definitions:
+          MAP@100: "-c -M 100 -m map"
+          MRR@100: "-c -M 100 -m recip_rank"
+          nDCG@10: "-c -m ndcg_cut.10"
+          R@100: "-c -m recall.100"
+          R@1K: "-c -m recall.1000"
       - topic_key: dl23
         eval_key: dl23-doc
         scores:
@@ -151,6 +233,12 @@ conditions:
             nDCG@10: 0.3612
             R@100: 0.3078
             R@1K: 0.5967
+        metric_definitions:
+          MAP@100: "-c -M 100 -m map"
+          MRR@100: "-c -M 100 -m recip_rank"
+          nDCG@10: "-c -m ndcg_cut.10"
+          R@100: "-c -m recall.100"
+          R@1K: "-c -m recall.1000"
   - name: unicoil-noexp.cached
     display: "uniCOIL (noexp): cached queries"
     display_html: "uniCOIL (noexp): cached queries"
@@ -161,10 +249,14 @@ conditions:
         eval_key: msmarco-v2-doc.dev
         scores:
           - MRR@100: 0.2231
+        metric_definitions:
+          MRR@100: "-c -M 100 -m recip_rank"
       - topic_key: msmarco-v2-doc.dev2.unicoil-noexp.0shot
         eval_key: msmarco-v2-doc.dev2
         scores:
           - MRR@100: 0.2314
+        metric_definitions:
+          MRR@100: "-c -M 100 -m recip_rank"
       - topic_key: dl21.unicoil-noexp.0shot
         eval_key: dl21-doc
         scores:
@@ -173,6 +265,12 @@ conditions:
             nDCG@10: 0.6495
             R@100: 0.3563
             R@1K: 0.6787
+        metric_definitions:
+          MAP@100: "-c -M 100 -m map"
+          MRR@100: "-c -M 100 -m recip_rank"
+          nDCG@10: "-c -m ndcg_cut.10"
+          R@100: "-c -m recall.100"
+          R@1K: "-c -m recall.1000"
       - topic_key: dl22.unicoil-noexp.0shot
         eval_key: dl22-doc
         scores:
@@ -181,6 +279,12 @@ conditions:
             nDCG@10: 0.4165
             R@100: 0.2335
             R@1K: 0.4779
+        metric_definitions:
+          MAP@100: "-c -M 100 -m map"
+          MRR@100: "-c -M 100 -m recip_rank"
+          nDCG@10: "-c -m ndcg_cut.10"
+          R@100: "-c -m recall.100"
+          R@1K: "-c -m recall.1000"
       - topic_key: dl23.unicoil-noexp.0shot
         eval_key: dl23-doc
         scores:
@@ -189,6 +293,12 @@ conditions:
             nDCG@10: 0.3898
             R@100: 0.2949
             R@1K: 0.5462
+        metric_definitions:
+          MAP@100: "-c -M 100 -m map"
+          MRR@100: "-c -M 100 -m recip_rank"
+          nDCG@10: "-c -m ndcg_cut.10"
+          R@100: "-c -m recall.100"
+          R@1K: "-c -m recall.1000"
   - name: unicoil.cached
     display: "uniCOIL (with doc2query-T5): cached queries"
     display_html: "uniCOIL (with doc2query-T5): cached queries"
@@ -199,10 +309,14 @@ conditions:
         eval_key: msmarco-v2-doc.dev
         scores:
           - MRR@100: 0.2419
+        metric_definitions:
+          MRR@100: "-c -M 100 -m recip_rank"
       - topic_key: msmarco-v2-doc.dev2.unicoil.0shot
         eval_key: msmarco-v2-doc.dev2
         scores:
           - MRR@100: 0.2445
+        metric_definitions:
+          MRR@100: "-c -M 100 -m recip_rank"
       - topic_key: dl21.unicoil.0shot
         eval_key: dl21-doc
         scores:
@@ -211,6 +325,12 @@ conditions:
             nDCG@10: 0.6783
             R@100: 0.3700
             R@1K: 0.7069
+        metric_definitions:
+          MAP@100: "-c -M 100 -m map"
+          MRR@100: "-c -M 100 -m recip_rank"
+          nDCG@10: "-c -m ndcg_cut.10"
+          R@100: "-c -m recall.100"
+          R@1K: "-c -m recall.1000"
       - topic_key: dl22.unicoil.0shot
         eval_key: dl22-doc
         scores:
@@ -219,6 +339,12 @@ conditions:
             nDCG@10: 0.4451
             R@100: 0.2656
             R@1K: 0.5235
+        metric_definitions:
+          MAP@100: "-c -M 100 -m map"
+          MRR@100: "-c -M 100 -m recip_rank"
+          nDCG@10: "-c -m ndcg_cut.10"
+          R@100: "-c -m recall.100"
+          R@1K: "-c -m recall.1000"
       - topic_key: dl23.unicoil.0shot
         eval_key: dl23-doc
         scores:
@@ -227,6 +353,12 @@ conditions:
             nDCG@10: 0.4149
             R@100: 0.3101
             R@1K: 0.5753
+        metric_definitions:
+          MAP@100: "-c -M 100 -m map"
+          MRR@100: "-c -M 100 -m recip_rank"
+          nDCG@10: "-c -m ndcg_cut.10"
+          R@100: "-c -m recall.100"
+          R@1K: "-c -m recall.1000"
   - name: unicoil.onnx
     display: "uniCOIL (with doc2query-T5): ONNX"
     display_html: "uniCOIL (with doc2query-T5): ONNX"
@@ -237,10 +369,14 @@ conditions:
         eval_key: msmarco-v2-doc.dev
         scores:
           - MRR@100: 0.2419
+        metric_definitions:
+          MRR@100: "-c -M 100 -m recip_rank"
       - topic_key: msmarco-v2-doc.dev2
         eval_key: msmarco-v2-doc.dev2
         scores:
           - MRR@100: 0.2445
+        metric_definitions:
+          MRR@100: "-c -M 100 -m recip_rank"
       - topic_key: dl21
         eval_key: dl21-doc
         scores:
@@ -249,6 +385,12 @@ conditions:
             nDCG@10: 0.6783
             R@100: 0.3700
             R@1K: 0.7069
+        metric_definitions:
+          MAP@100: "-c -M 100 -m map"
+          MRR@100: "-c -M 100 -m recip_rank"
+          nDCG@10: "-c -m ndcg_cut.10"
+          R@100: "-c -m recall.100"
+          R@1K: "-c -m recall.1000"
       - topic_key: dl22
         eval_key: dl22-doc
         scores:
@@ -257,6 +399,12 @@ conditions:
             nDCG@10: 0.4451
             R@100: 0.2656
             R@1K: 0.5235
+        metric_definitions:
+          MAP@100: "-c -M 100 -m map"
+          MRR@100: "-c -M 100 -m recip_rank"
+          nDCG@10: "-c -m ndcg_cut.10"
+          R@100: "-c -m recall.100"
+          R@1K: "-c -m recall.1000"
       - topic_key: dl23
         eval_key: dl23-doc
         scores:
@@ -265,3 +413,9 @@ conditions:
             nDCG@10: 0.4150
             R@100: 0.3101
             R@1K: 0.5753
+        metric_definitions:
+          MAP@100: "-c -M 100 -m map"
+          MRR@100: "-c -M 100 -m recip_rank"
+          nDCG@10: "-c -m ndcg_cut.10"
+          R@100: "-c -m recall.100"
+          R@1K: "-c -m recall.1000"

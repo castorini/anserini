@@ -22,9 +22,6 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.ParserProperties;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class RunBrightRegressionsFromPrebuiltIndexes {
 
   public static void main(String[] args) throws Exception {
@@ -38,28 +35,7 @@ public class RunBrightRegressionsFromPrebuiltIndexes {
       return;
     }
 
-    RunRegressionsFromPrebuiltIndexes repro = new RunRegressionsFromPrebuiltIndexes("bright", new BrightMetricDefinitions(), brightArgs.printCommands, brightArgs.dryRun, brightArgs.computeIndexSize);
+    RunRegressionsFromPrebuiltIndexes repro = new RunRegressionsFromPrebuiltIndexes("bright", new TrecEvalMetricDefinitions(), brightArgs.printCommands, brightArgs.dryRun, brightArgs.computeIndexSize);
     repro.run();
   }
-
-  public static class BrightMetricDefinitions extends TrecEvalMetricDefinitions {
-    public BrightMetricDefinitions() {
-      super();
-      Map<String, Map<String, String>> bright = new HashMap<>();
-      String[] corpora = {
-          "biology", "earth-science", "economics", "psychology", "robotics", "stackoverflow", 
-          "sustainable-living", "leetcode", "pony", "aops", "theoremqa-theorems", "theoremqa-questions"
-      };
-  
-      // Populate the main map with key-value pairs
-      for (String corpus : corpora) {
-        Map<String, String> corpusMap = new HashMap<>();
-        corpusMap.put("nDCG@10", "-c -m ndcg_cut.10");
-        bright.put("bright-" + corpus, corpusMap);
-      }
-  
-      metricDefinitions.put("bright", bright);
-    }
-  }
-
 }

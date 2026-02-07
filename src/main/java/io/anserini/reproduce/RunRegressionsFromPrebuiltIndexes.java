@@ -223,17 +223,24 @@ public class RunRegressionsFromPrebuiltIndexes {
 
         for (Map<String, Double> expected : topic.scores) {
           Map<String, String> evalCommands = new LinkedHashMap<>();
+          Map<String, String> topicMetricDefinitions = topic.metric_definitions;
 
           // Go through and gather the eval commands in a first pass, so that we can print all at once if desired.
           for (String metric : expected.keySet()) {
             String evalKey = topic.eval_key;
-            if (!evalDefinitions.get(evalKey).containsKey(metric)) {
+            String metricDefinition = null;
+            if (topicMetricDefinitions != null && !topicMetricDefinitions.isEmpty()) {
+              metricDefinition = topicMetricDefinitions.get(metric);
+            } else if (evalDefinitions != null && evalDefinitions.containsKey(evalKey)) {
+              metricDefinition = evalDefinitions.get(evalKey).get(metric);
+            }
+            if (metricDefinition == null) {
               throw new RuntimeException("Invalid metric: " + metric);
             }
 
             evalCommands.put(metric, "java -cp $fatjarPath trec_eval $metric $evalKey $output"
                 .replace("$fatjarPath", fatjarPath)
-                .replace("$metric", evalDefinitions.get(evalKey).get(metric))
+                .replace("$metric", metricDefinition)
                 .replace("$evalKey", evalKey)
                 .replace("$output", output));
           }
@@ -392,6 +399,9 @@ public class RunRegressionsFromPrebuiltIndexes {
 
     @JsonProperty
     public List<Map<String, Double>> scores;
+
+    @JsonProperty
+    public Map<String, String> metric_definitions;
   }
 
   public static class TrecEvalMetricDefinitions {

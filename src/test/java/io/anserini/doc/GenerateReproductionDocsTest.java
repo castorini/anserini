@@ -33,27 +33,17 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import io.anserini.reproduce.RunRegressionsFromPrebuiltIndexes.Condition;
 import io.anserini.reproduce.RunRegressionsFromPrebuiltIndexes.Config;
 import io.anserini.reproduce.RunRegressionsFromPrebuiltIndexes.Topic;
-import io.anserini.reproduce.RunMsMarcoRegressionsFromPrebuiltIndexes.MsMarcoMetricDefinitions;
 
 public class GenerateReproductionDocsTest {
-  public final static String YAML_PATH = "src/main/resources/reproduce/msmarco-v1-passage.yaml";
+  public final static String YAML_PATH = "src/main/resources/reproduce/msmarco-v1-passage.core.yaml";
   public final static String HTML_TEMPLATE_PATH = "src/main/resources/reproduce/msmarco_html_v1_passage.template";
   public final static String ROW_TEMPLATE_PATH = "src/main/resources/reproduce/msmarco_html_row_v1.template";
-  public final static String COLLECTION = "msmarco-v1-passage";
   public final static String[] MODELS = {
       "bm25",
-      "splade-pp-ed.cached",
-      "splade-pp-ed.onnx",
-      "cosdpr-distil.hnsw.cached",
       "cosdpr-distil.hnsw.onnx",
-      "cosdpr-distil.hnsw-int8.cached",
       "cosdpr-distil.hnsw-int8.onnx",
-      "bge-base-en-v1.5.hnsw.cached",
       "bge-base-en-v1.5.hnsw.onnx",
-      "bge-base-en-v1.5.hnsw-int8.cached",
       "bge-base-en-v1.5.hnsw-int8.onnx",
-      "cohere-embed-english-v3.0.hnsw.cached",
-      "cohere-embed-english-v3.0.hnsw-int8.cached"
   };
 
   public static String findMsMarcoTableTopicSetKeyV1(String topicKey) {
@@ -93,9 +83,6 @@ public class GenerateReproductionDocsTest {
     final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
     Config config = mapper.readValue(new FileInputStream(YAML_PATH), Config.class);
 
-    Map<String, Map<String, String>> evalCommandMap = new MsMarcoMetricDefinitions().getMetricDefinitions()
-        .get(COLLECTION);
-
     for (Condition cond : config.conditions) {
       final String name = cond.name;
       final String display = cond.display_html;
@@ -123,8 +110,11 @@ public class GenerateReproductionDocsTest {
         tempCommands.put(shortTopicKey, commandString);
         StringBuilder evalCommandString = new StringBuilder();
         for (Entry<String, Double> entry : topic.scores.getFirst().entrySet()) {
+          if (topic.metric_definitions == null || !topic.metric_definitions.containsKey(entry.getKey())) {
+            throw new IllegalStateException("Missing metric definition for " + entry.getKey());
+          }
           final String tempEvalCommand = "tools/eval/trec_eval.9.0.4/trec_eval "
-              + evalCommandMap.get(evalKey).get(entry.getKey()) + " " + evalKey + " " + runFile;
+              + topic.metric_definitions.get(entry.getKey()) + " " + evalKey + " " + runFile;
           evalCommandString.append(tempEvalCommand).append("\n");
           metricScoreMap.put(entry.getKey(), (Double) entry.getValue());
         }

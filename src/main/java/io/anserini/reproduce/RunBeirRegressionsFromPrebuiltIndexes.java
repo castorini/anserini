@@ -22,9 +22,6 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.ParserProperties;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class RunBeirRegressionsFromPrebuiltIndexes {
 
   public static void main(String[] args) throws Exception {
@@ -38,32 +35,7 @@ public class RunBeirRegressionsFromPrebuiltIndexes {
       return;
     }
 
-    RunRegressionsFromPrebuiltIndexes repro = new RunRegressionsFromPrebuiltIndexes("beir", new BeirMetricDefinitions(), beirArgs.printCommands, beirArgs.dryRun, beirArgs.computeIndexSize);
+    RunRegressionsFromPrebuiltIndexes repro = new RunRegressionsFromPrebuiltIndexes("beir", new TrecEvalMetricDefinitions(), beirArgs.printCommands, beirArgs.dryRun, beirArgs.computeIndexSize);
     repro.run();
   }
-
-  public static class BeirMetricDefinitions extends TrecEvalMetricDefinitions {
-    public BeirMetricDefinitions() {
-      super();
-      Map<String, Map<String, String>> beir = new HashMap<>();
-      String[] corpora = {
-          "trec-covid", "bioasq", "nfcorpus", "nq", "hotpotqa", "fiqa", "signal1m", "trec-news",
-          "robust04", "arguana", "webis-touche2020", "cqadupstack-android", "cqadupstack-english",
-          "cqadupstack-gaming", "cqadupstack-gis", "cqadupstack-mathematica", "cqadupstack-physics",
-          "cqadupstack-programmers", "cqadupstack-stats", "cqadupstack-tex", "cqadupstack-unix",
-          "cqadupstack-webmasters", "cqadupstack-wordpress", "quora", "dbpedia-entity", "scidocs",
-          "fever", "climate-fever", "scifact"
-      };
-  
-      // Populate the main map with key-value pairs
-      for (String corpus : corpora) {
-        Map<String, String> corpusMap = new HashMap<>();
-        corpusMap.put("nDCG@10", "-c -m ndcg_cut.10");
-        beir.put("beir-v1.0.0-" + corpus + ".test", corpusMap);
-      }
-  
-      metricDefinitions.put("beir", beir);
-    }
-  }
-
 }
