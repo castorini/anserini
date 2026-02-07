@@ -1,18 +1,18 @@
 /*
-* Anserini: A Lucene toolkit for reproducible information retrieval research
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package io.anserini.reproduce;
 
@@ -35,7 +35,6 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,7 +52,7 @@ public class RunRegressionsFromPrebuiltIndexes {
   private static final String OKAY_ISH = BLUE + "[OK*]" + RESET;
 
   private final String collection;
-  private final TrecEvalMetricDefinitions metricDefinitions;
+  private final Map<String, Map<String, Map<String, String>>> metricDefinitions;
   private final boolean printCommands;
   private final boolean dryRun;
   private final boolean computeIndexSize;
@@ -75,12 +74,12 @@ public class RunRegressionsFromPrebuiltIndexes {
     public Boolean computeIndexSize = false;
   }
 
-  public RunRegressionsFromPrebuiltIndexes(String collection, TrecEvalMetricDefinitions metrics, boolean printCommands, boolean dryRun, boolean computeIndexSize) {
-    this.collection = collection;
-    this.metricDefinitions = metrics;
-    this.printCommands = printCommands;
-    this.dryRun = dryRun;
-    this.computeIndexSize = computeIndexSize;
+  public RunRegressionsFromPrebuiltIndexes(Args args) {
+    this.collection = args.regression;
+    this.metricDefinitions = Map.of();
+    this.printCommands = args.printCommands;
+    this.dryRun = args.dryRun;
+    this.computeIndexSize = args.computeIndexSize;
   }
 
   public static void main(String[] args) throws Exception {
@@ -94,8 +93,7 @@ public class RunRegressionsFromPrebuiltIndexes {
       return;
     }
 
-    RunRegressionsFromPrebuiltIndexes repro = new RunRegressionsFromPrebuiltIndexes(
-        regressionArgs.regression, new TrecEvalMetricDefinitions(), regressionArgs.printCommands, regressionArgs.dryRun, regressionArgs.computeIndexSize);
+    RunRegressionsFromPrebuiltIndexes repro = new RunRegressionsFromPrebuiltIndexes(regressionArgs);
     repro.run();
   }
 
@@ -239,7 +237,7 @@ public class RunRegressionsFromPrebuiltIndexes {
         }
 
         // running the evaluation command
-        Map<String, Map<String, String>> evalDefinitions = metricDefinitions.getMetricDefinitions().get(collection);
+        Map<String, Map<String, String>> evalDefinitions = metricDefinitions.get(collection);
         InputStream stdout;
 
         for (Map<String, Double> expected : topic.scores) {
@@ -383,9 +381,6 @@ public class RunRegressionsFromPrebuiltIndexes {
     return sb.toString();
   }
 
-  // Intentionally no per-column wrapping: keeping path fully visible makes copy/paste easier.
-
-
   public static class Config {
     @JsonProperty
     public List<Condition> conditions;
@@ -425,15 +420,4 @@ public class RunRegressionsFromPrebuiltIndexes {
     public Map<String, String> metric_definitions;
   }
 
-  public static class TrecEvalMetricDefinitions {
-    public Map<String, Map<String, Map<String, String>>> metricDefinitions;
-
-    public TrecEvalMetricDefinitions() {
-      metricDefinitions = new HashMap<>();
-    }
-
-    public Map<String, Map<String, Map<String, String>>> getMetricDefinitions() {
-      return metricDefinitions;
-    }
-  }
 }
