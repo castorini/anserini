@@ -16,28 +16,30 @@
 
 package io.anserini.reproduce;
 
+import io.anserini.index.IndexReaderUtils;
+import io.anserini.util.PrebuiltIndexHandler;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.apache.commons.lang3.time.DurationFormatUtils;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.ParserProperties;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-
-import io.anserini.index.IndexReaderUtils;
-import io.anserini.util.PrebuiltIndexHandler;
-
-import java.nio.file.Paths;
-import java.nio.file.Path;
-import java.nio.file.Files;
 
 public class RunRegressionsFromPrebuiltIndexes {
   // ANSI escape code for red text
@@ -57,6 +59,9 @@ public class RunRegressionsFromPrebuiltIndexes {
   private final boolean computeIndexSize;
 
   public static class Args {
+    @Option(name = "-regression", required = true, usage = "Regression name.")
+    public String regression;
+
     @Option(name = "-printCommands", usage = "Print commands.")
     public Boolean printCommands = false;
 
@@ -76,6 +81,22 @@ public class RunRegressionsFromPrebuiltIndexes {
     this.printCommands = printCommands;
     this.dryRun = dryRun;
     this.computeIndexSize = computeIndexSize;
+  }
+
+  public static void main(String[] args) throws Exception {
+    Args regressionArgs = new Args();
+    CmdLineParser parser = new CmdLineParser(regressionArgs, ParserProperties.defaults().withUsageWidth(120));
+
+    try {
+      parser.parseArgument(args);
+    } catch (CmdLineException exception) {
+      System.err.println(exception.getMessage());
+      return;
+    }
+
+    RunRegressionsFromPrebuiltIndexes repro = new RunRegressionsFromPrebuiltIndexes(
+        regressionArgs.regression, new TrecEvalMetricDefinitions(), regressionArgs.printCommands, regressionArgs.dryRun, regressionArgs.computeIndexSize);
+    repro.run();
   }
 
   public void run() throws IOException, InterruptedException, URISyntaxException {
