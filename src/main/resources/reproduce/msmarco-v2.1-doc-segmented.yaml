@@ -8,9 +8,9 @@ conditions:
       - topic_key: rag24.test
         eval_key: rag24.test-umbrela-all
         scores:
-          - nDCG@20: 0.3198
-            nDCG@100: 0.2563
-            R@100: 0.1395
+          nDCG@20: 0.3198
+          nDCG@100: 0.2563
+          R@100: 0.1395
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -18,9 +18,9 @@ conditions:
       - topic_key: rag24.test
         eval_key: rag24.test
         scores:
-          - nDCG@20: 0.2809
-            nDCG@100: 0.2345
-            R@100: 0.1698
+          nDCG@20: 0.2809
+          nDCG@100: 0.2345
+          R@100: 0.1698
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -34,9 +34,9 @@ conditions:
       - topic_key: rag24.test.snowflake-arctic-embed-l
         eval_key: rag24.test-umbrela-all
         scores:
-          - nDCG@20: 0.3002
-            nDCG@100: 0.1796
-            R@100: 0.0750
+          nDCG@20: 0.3002
+          nDCG@100: 0.1796
+          R@100: 0.0750
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -44,9 +44,9 @@ conditions:
       - topic_key: rag24.test.snowflake-arctic-embed-l
         eval_key: rag24.test
         scores:
-          - nDCG@20: 0.2447
-            nDCG@100: 0.1440
-            R@100: 0.0746
+          nDCG@20: 0.2447
+          nDCG@100: 0.1440
+          R@100: 0.0746
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -60,9 +60,9 @@ conditions:
       - topic_key: rag24.test.snowflake-arctic-embed-l
         eval_key: rag24.test-umbrela-all
         scores:
-          - nDCG@20: 0.2599
-            nDCG@100: 0.1513
-            R@100: 0.0619
+          nDCG@20: 0.2599
+          nDCG@100: 0.1513
+          R@100: 0.0619
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -70,9 +70,9 @@ conditions:
       - topic_key: rag24.test.snowflake-arctic-embed-l
         eval_key: rag24.test
         scores:
-          - nDCG@20: 0.2184
-            nDCG@100: 0.1274
-            R@100: 0.0690
+          nDCG@20: 0.2184
+          nDCG@100: 0.1274
+          R@100: 0.0690
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -86,9 +86,9 @@ conditions:
       - topic_key: rag24.test.snowflake-arctic-embed-l
         eval_key: rag24.test-umbrela-all
         scores:
-          - nDCG@20: 0.2660
-            nDCG@100: 0.1535
-            R@100: 0.0639
+          nDCG@20: 0.2660
+          nDCG@100: 0.1535
+          R@100: 0.0639
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -96,9 +96,9 @@ conditions:
       - topic_key: rag24.test.snowflake-arctic-embed-l
         eval_key: rag24.test
         scores:
-          - nDCG@20: 0.2211
-            nDCG@100: 0.1296
-            R@100: 0.0720
+          nDCG@20: 0.2211
+          nDCG@100: 0.1296
+          R@100: 0.0720
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -112,9 +112,9 @@ conditions:
       - topic_key: rag24.test.snowflake-arctic-embed-l
         eval_key: rag24.test-umbrela-all
         scores:
-          - nDCG@20: 0.2705
-            nDCG@100: 0.1555
-            R@100: 0.0634
+          nDCG@20: 0.2705
+          nDCG@100: 0.1555
+          R@100: 0.0634
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -122,9 +122,9 @@ conditions:
       - topic_key: rag24.test.snowflake-arctic-embed-l
         eval_key: rag24.test
         scores:
-          - nDCG@20: 0.2388
-            nDCG@100: 0.1425
-            R@100: 0.0805
+          nDCG@20: 0.2388
+          nDCG@100: 0.1425
+          R@100: 0.0805
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -138,9 +138,9 @@ conditions:
       - topic_key: rag24.test.snowflake-arctic-embed-l
         eval_key: rag24.test-umbrela-all
         scores:
-          - nDCG@20: 0.2936
-            nDCG@100: 0.1727
-            R@100: 0.0692
+          nDCG@20: 0.2936
+          nDCG@100: 0.1727
+          R@100: 0.0692
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -148,9 +148,9 @@ conditions:
       - topic_key: rag24.test.snowflake-arctic-embed-l
         eval_key: rag24.test
         scores:
-          - nDCG@20: 0.2253
-            nDCG@100: 0.1261
-            R@100: 0.0654
+          nDCG@20: 0.2253
+          nDCG@100: 0.1261
+          R@100: 0.0654
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -164,9 +164,9 @@ conditions:
       - topic_key: rag24.test.snowflake-arctic-embed-l
         eval_key: rag24.test-umbrela-all
         scores:
-          - nDCG@20: 0.2590
-            nDCG@100: 0.1466
-            R@100: 0.0580
+          nDCG@20: 0.2590
+          nDCG@100: 0.1466
+          R@100: 0.0580
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -174,9 +174,9 @@ conditions:
       - topic_key: rag24.test.snowflake-arctic-embed-l
         eval_key: rag24.test
         scores:
-          - nDCG@20: 0.2383
-            nDCG@100: 0.1305
-            R@100: 0.0638
+          nDCG@20: 0.2383
+          nDCG@100: 0.1305
+          R@100: 0.0638
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -190,9 +190,9 @@ conditions:
       - topic_key: rag24.test.snowflake-arctic-embed-l
         eval_key: rag24.test-umbrela-all
         scores:
-          - nDCG@20: 0.2444
-            nDCG@100: 0.1401
-            R@100: 0.0557
+          nDCG@20: 0.2444
+          nDCG@100: 0.1401
+          R@100: 0.0557
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -200,9 +200,9 @@ conditions:
       - topic_key: rag24.test.snowflake-arctic-embed-l
         eval_key: rag24.test
         scores:
-          - nDCG@20: 0.2336
-            nDCG@100: 0.1391
-            R@100: 0.0715
+          nDCG@20: 0.2336
+          nDCG@100: 0.1391
+          R@100: 0.0715
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -216,9 +216,9 @@ conditions:
       - topic_key: rag24.test.snowflake-arctic-embed-l
         eval_key: rag24.test-umbrela-all
         scores:
-          - nDCG@20: 0.2416
-            nDCG@100: 0.1350
-            R@100: 0.0502
+          nDCG@20: 0.2416
+          nDCG@100: 0.1350
+          R@100: 0.0502
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -226,9 +226,9 @@ conditions:
       - topic_key: rag24.test.snowflake-arctic-embed-l
         eval_key: rag24.test
         scores:
-          - nDCG@20: 0.2254
-            nDCG@100: 0.1263
-            R@100: 0.0587
+          nDCG@20: 0.2254
+          nDCG@100: 0.1263
+          R@100: 0.0587
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -242,9 +242,9 @@ conditions:
       - topic_key: rag24.test.snowflake-arctic-embed-l
         eval_key: rag24.test-umbrela-all
         scores:
-          - nDCG@20: 0.2847
-            nDCG@100: 0.1689
-            R@100: 0.0678
+          nDCG@20: 0.2847
+          nDCG@100: 0.1689
+          R@100: 0.0678
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -252,9 +252,9 @@ conditions:
       - topic_key: rag24.test.snowflake-arctic-embed-l
         eval_key: rag24.test
         scores:
-          - nDCG@20: 0.2765
-            nDCG@100: 0.1663
-            R@100: 0.0893
+          nDCG@20: 0.2765
+          nDCG@100: 0.1663
+          R@100: 0.0893
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -268,9 +268,9 @@ conditions:
       - topic_key: rag24.test.snowflake-arctic-embed-l
         eval_key: rag24.test-umbrela-all
         scores:
-          - nDCG@20: 0.2432
-            nDCG@100: 0.1336
-            R@100: 0.0522
+          nDCG@20: 0.2432
+          nDCG@100: 0.1336
+          R@100: 0.0522
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -278,9 +278,9 @@ conditions:
       - topic_key: rag24.test.snowflake-arctic-embed-l
         eval_key: rag24.test
         scores:
-          - nDCG@20: 0.2457
-            nDCG@100: 0.1376
-            R@100: 0.0715
+          nDCG@20: 0.2457
+          nDCG@100: 0.1376
+          R@100: 0.0715
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -294,9 +294,9 @@ conditions:
       - topic_key: rag24.test
         eval_key: rag24.test-umbrela-all
         scores:
-          - nDCG@20: 0.3003
-            nDCG@100: 0.1796
-            R@100: 0.0750
+          nDCG@20: 0.3003
+          nDCG@100: 0.1796
+          R@100: 0.0750
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -304,9 +304,9 @@ conditions:
       - topic_key: rag24.test
         eval_key: rag24.test
         scores:
-          - nDCG@20: 0.2449
-            nDCG@100: 0.1440
-            R@100: 0.0746
+          nDCG@20: 0.2449
+          nDCG@100: 0.1440
+          R@100: 0.0746
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -320,9 +320,9 @@ conditions:
       - topic_key: rag24.test
         eval_key: rag24.test-umbrela-all
         scores:
-          - nDCG@20: 0.2599
-            nDCG@100: 0.1513
-            R@100: 0.0619
+          nDCG@20: 0.2599
+          nDCG@100: 0.1513
+          R@100: 0.0619
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -330,9 +330,9 @@ conditions:
       - topic_key: rag24.test
         eval_key: rag24.test
         scores:
-          - nDCG@20: 0.2184
-            nDCG@100: 0.1274
-            R@100: 0.0690
+          nDCG@20: 0.2184
+          nDCG@100: 0.1274
+          R@100: 0.0690
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -346,9 +346,9 @@ conditions:
       - topic_key: rag24.test
         eval_key: rag24.test-umbrela-all
         scores:
-          - nDCG@20: 0.2661
-            nDCG@100: 0.1535
-            R@100: 0.0639
+          nDCG@20: 0.2661
+          nDCG@100: 0.1535
+          R@100: 0.0639
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -356,9 +356,9 @@ conditions:
       - topic_key: rag24.test
         eval_key: rag24.test
         scores:
-          - nDCG@20: 0.2211
-            nDCG@100: 0.1296
-            R@100: 0.0720
+          nDCG@20: 0.2211
+          nDCG@100: 0.1296
+          R@100: 0.0720
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -372,9 +372,9 @@ conditions:
       - topic_key: rag24.test
         eval_key: rag24.test-umbrela-all
         scores:
-          - nDCG@20: 0.2705
-            nDCG@100: 0.1555
-            R@100: 0.0634
+          nDCG@20: 0.2705
+          nDCG@100: 0.1555
+          R@100: 0.0634
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -382,9 +382,9 @@ conditions:
       - topic_key: rag24.test
         eval_key: rag24.test
         scores:
-          - nDCG@20: 0.2388
-            nDCG@100: 0.1425
-            R@100: 0.0805
+          nDCG@20: 0.2388
+          nDCG@100: 0.1425
+          R@100: 0.0805
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -398,9 +398,9 @@ conditions:
       - topic_key: rag24.test
         eval_key: rag24.test-umbrela-all
         scores:
-          - nDCG@20: 0.2937
-            nDCG@100: 0.1727
-            R@100: 0.0692
+          nDCG@20: 0.2937
+          nDCG@100: 0.1727
+          R@100: 0.0692
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -408,9 +408,9 @@ conditions:
       - topic_key: rag24.test
         eval_key: rag24.test
         scores:
-          - nDCG@20: 0.2253
-            nDCG@100: 0.1261
-            R@100: 0.0654
+          nDCG@20: 0.2253
+          nDCG@100: 0.1261
+          R@100: 0.0654
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -424,9 +424,9 @@ conditions:
       - topic_key: rag24.test
         eval_key: rag24.test-umbrela-all
         scores:
-          - nDCG@20: 0.2590
-            nDCG@100: 0.1466
-            R@100: 0.0580
+          nDCG@20: 0.2590
+          nDCG@100: 0.1466
+          R@100: 0.0580
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -434,9 +434,9 @@ conditions:
       - topic_key: rag24.test
         eval_key: rag24.test
         scores:
-          - nDCG@20: 0.2383
-            nDCG@100: 0.1305
-            R@100: 0.0638
+          nDCG@20: 0.2383
+          nDCG@100: 0.1305
+          R@100: 0.0638
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -450,9 +450,9 @@ conditions:
       - topic_key: rag24.test
         eval_key: rag24.test-umbrela-all
         scores:
-          - nDCG@20: 0.2444
-            nDCG@100: 0.1401
-            R@100: 0.0557
+          nDCG@20: 0.2444
+          nDCG@100: 0.1401
+          R@100: 0.0557
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -460,9 +460,9 @@ conditions:
       - topic_key: rag24.test
         eval_key: rag24.test
         scores:
-          - nDCG@20: 0.2336
-            nDCG@100: 0.1391
-            R@100: 0.0715
+          nDCG@20: 0.2336
+          nDCG@100: 0.1391
+          R@100: 0.0715
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -476,9 +476,9 @@ conditions:
       - topic_key: rag24.test
         eval_key: rag24.test-umbrela-all
         scores:
-          - nDCG@20: 0.2417
-            nDCG@100: 0.1350
-            R@100: 0.0502
+          nDCG@20: 0.2417
+          nDCG@100: 0.1350
+          R@100: 0.0502
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -486,9 +486,9 @@ conditions:
       - topic_key: rag24.test
         eval_key: rag24.test
         scores:
-          - nDCG@20: 0.2255
-            nDCG@100: 0.1263
-            R@100: 0.0587
+          nDCG@20: 0.2255
+          nDCG@100: 0.1263
+          R@100: 0.0587
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -502,9 +502,9 @@ conditions:
       - topic_key: rag24.test
         eval_key: rag24.test-umbrela-all
         scores:
-          - nDCG@20: 0.2847
-            nDCG@100: 0.1689
-            R@100: 0.0678
+          nDCG@20: 0.2847
+          nDCG@100: 0.1689
+          R@100: 0.0678
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -512,9 +512,9 @@ conditions:
       - topic_key: rag24.test
         eval_key: rag24.test
         scores:
-          - nDCG@20: 0.2765
-            nDCG@100: 0.1663
-            R@100: 0.0893
+          nDCG@20: 0.2765
+          nDCG@100: 0.1663
+          R@100: 0.0893
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -528,9 +528,9 @@ conditions:
       - topic_key: rag24.test
         eval_key: rag24.test-umbrela-all
         scores:
-          - nDCG@20: 0.2432
-            nDCG@100: 0.1336
-            R@100: 0.0522
+          nDCG@20: 0.2432
+          nDCG@100: 0.1336
+          R@100: 0.0522
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -538,9 +538,9 @@ conditions:
       - topic_key: rag24.test
         eval_key: rag24.test
         scores:
-          - nDCG@20: 0.2457
-            nDCG@100: 0.1376
-            R@100: 0.0715
+          nDCG@20: 0.2457
+          nDCG@100: 0.1376
+          R@100: 0.0715
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -554,9 +554,9 @@ conditions:
       - topic_key: rag24.test.splade-v3  
         eval_key: rag24.test-umbrela-all  
         scores:  
-          - nDCG@20: 0.5167  
-            nDCG@100: 0.4587  
-            R@100: 0.2437  
+          nDCG@20: 0.5167  
+          nDCG@100: 0.4587  
+          R@100: 0.2437  
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -564,9 +564,9 @@ conditions:
       - topic_key: rag24.test.splade-v3  
         eval_key: rag24.test  
         scores:  
-          - nDCG@20: 0.4642  
-            nDCG@100: 0.4349  
-            R@100: 0.3198
+          nDCG@20: 0.4642  
+          nDCG@100: 0.4349  
+          R@100: 0.3198
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -580,9 +580,9 @@ conditions:
       - topic_key: rag24.test  
         eval_key: rag24.test-umbrela-all  
         scores:  
-          - nDCG@20: 0.5167  
-            nDCG@100: 0.4587  
-            R@100: 0.2437  
+          nDCG@20: 0.5167  
+          nDCG@100: 0.4587  
+          R@100: 0.2437  
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -590,9 +590,9 @@ conditions:
       - topic_key: rag24.test  
         eval_key: rag24.test  
         scores:  
-          - nDCG@20: 0.4642  
-            nDCG@100: 0.4349  
-            R@100: 0.3198
+          nDCG@20: 0.4642  
+          nDCG@100: 0.4349  
+          R@100: 0.3198
         metric_definitions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"

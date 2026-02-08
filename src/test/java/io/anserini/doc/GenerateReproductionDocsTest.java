@@ -1,4 +1,3 @@
-package io.anserini.doc;
 /*
  * Anserini: A Lucene toolkit for reproducible information retrieval research
  *
@@ -15,13 +14,11 @@ package io.anserini.doc;
  * limitations under the License.
  */
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.Map.Entry;
+package io.anserini.doc;
+
+import io.anserini.reproduce.RunRegressionsFromPrebuiltIndexes.Condition;
+import io.anserini.reproduce.RunRegressionsFromPrebuiltIndexes.Config;
+import io.anserini.reproduce.RunRegressionsFromPrebuiltIndexes.Topic;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.text.StringSubstitutor;
@@ -30,9 +27,13 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
-import io.anserini.reproduce.RunRegressionsFromPrebuiltIndexes.Condition;
-import io.anserini.reproduce.RunRegressionsFromPrebuiltIndexes.Config;
-import io.anserini.reproduce.RunRegressionsFromPrebuiltIndexes.Topic;
+import java.io.File;
+import java.io.FileInputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Scanner;
 
 public class GenerateReproductionDocsTest {
   public final static String YAML_PATH = "src/main/resources/reproduce/msmarco-v1-passage.core.yaml";
@@ -40,8 +41,7 @@ public class GenerateReproductionDocsTest {
   public final static String ROW_TEMPLATE_PATH = "src/main/resources/reproduce/msmarco_html_row_v1.template";
   public final static String[] MODELS = {
       "bm25",
-      "cosdpr-distil.hnsw.onnx",
-      "cosdpr-distil.hnsw-int8.onnx",
+      "splade-v3.onnx",
       "bge-base-en-v1.5.hnsw.onnx",
       "bge-base-en-v1.5.hnsw-int8.onnx",
   };
@@ -109,14 +109,14 @@ public class GenerateReproductionDocsTest {
 
         tempCommands.put(shortTopicKey, commandString);
         StringBuilder evalCommandString = new StringBuilder();
-        for (Entry<String, Double> entry : topic.scores.getFirst().entrySet()) {
+        for (Entry<String, Double> entry : topic.scores.entrySet()) {
           if (topic.metric_definitions == null || !topic.metric_definitions.containsKey(entry.getKey())) {
             throw new IllegalStateException("Missing metric definition for " + entry.getKey());
           }
           final String tempEvalCommand = "tools/eval/trec_eval.9.0.4/trec_eval "
               + topic.metric_definitions.get(entry.getKey()) + " " + evalKey + " " + runFile;
           evalCommandString.append(tempEvalCommand).append("\n");
-          metricScoreMap.put(entry.getKey(), (Double) entry.getValue());
+          metricScoreMap.put(entry.getKey(), entry.getValue());
         }
         tempEvalCommands.put(shortTopicKey, evalCommandString.toString());
         topicMetricMap.put(shortTopicKey, metricScoreMap);

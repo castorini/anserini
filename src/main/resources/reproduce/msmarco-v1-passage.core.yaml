@@ -8,17 +8,17 @@ conditions:
       - topic_key: msmarco-v1-passage.dev
         eval_key: msmarco-passage.dev
         scores:
-          - MRR@10: 0.1840
-            R@1K: 0.8526
+          MRR@10: 0.1840
+          R@1K: 0.8526
         metric_definitions:
           MRR@10: "-c -M 10 -m recip_rank"
           R@1K: "-c -m recall.1000"
       - topic_key: dl19-passage
         eval_key: dl19-passage
         scores:
-          - MAP: 0.3013
-            nDCG@10: 0.5058
-            R@1K: 0.7501
+          MAP: 0.3013
+          nDCG@10: 0.5058
+          R@1K: 0.7501
         metric_definitions:
           MAP: "-c -l 2 -m map"
           nDCG@10: "-c -m ndcg_cut.10"
@@ -26,9 +26,9 @@ conditions:
       - topic_key: dl20-passage
         eval_key: dl20-passage
         scores:
-          - MAP: 0.2856
-            nDCG@10: 0.4796
-            R@1K: 0.7863
+          MAP: 0.2856
+          nDCG@10: 0.4796
+          R@1K: 0.7863
         metric_definitions:
           MAP: "-c -l 2 -m map"
           nDCG@10: "-c -m ndcg_cut.10"
@@ -42,17 +42,17 @@ conditions:
       - topic_key: msmarco-v1-passage.dev
         eval_key: msmarco-passage.dev
         scores:
-          - MRR@10: 0.2723
-            R@1K: 0.9470
+          MRR@10: 0.2723
+          R@1K: 0.9470
         metric_definitions:
           MRR@10: "-c -M 10 -m recip_rank"
           R@1K: "-c -m recall.1000"
       - topic_key: dl19-passage
         eval_key: dl19-passage
         scores:
-          - MAP: 0.4034
-            nDCG@10: 0.6417
-            R@1K: 0.8310
+          MAP: 0.4034
+          nDCG@10: 0.6417
+          R@1K: 0.8310
         metric_definitions:
           MAP: "-c -l 2 -m map"
           nDCG@10: "-c -m ndcg_cut.10"
@@ -60,9 +60,9 @@ conditions:
       - topic_key: dl20-passage
         eval_key: dl20-passage
         scores:
-          - MAP: 0.4074
-            nDCG@10: 0.6187
-            R@1K: 0.8452
+          MAP: 0.4074
+          nDCG@10: 0.6187
+          R@1K: 0.8452
         metric_definitions:
           MAP: "-c -l 2 -m map"
           nDCG@10: "-c -m ndcg_cut.10"
@@ -76,17 +76,17 @@ conditions:
       - topic_key: msmarco-v1-passage.dev
         eval_key: msmarco-passage.dev
         scores:
-          - MRR@10: 0.4000
-            R@1K: 0.9868
+          MRR@10: 0.4000
+          R@1K: 0.9868
         metric_definitions:
           MRR@10: "-c -M 10 -m recip_rank"
           R@1K: "-c -m recall.1000"
       - topic_key: dl19-passage
         eval_key: dl19-passage
         scores:
-          - MAP: 0.5232
-            nDCG@10: 0.7264
-            R@1K: 0.8791
+          MAP: 0.5232
+          nDCG@10: 0.7264
+          R@1K: 0.8791
         metric_definitions:
           MAP: "-c -l 2 -m map"
           nDCG@10: "-c -m ndcg_cut.10"
@@ -94,77 +94,9 @@ conditions:
       - topic_key: dl20-passage
         eval_key: dl20-passage
         scores:
-          - MAP: 0.5402
-            nDCG@10: 0.7522
-            R@1K: 0.9039
-        metric_definitions:
-          MAP: "-c -l 2 -m map"
-          nDCG@10: "-c -m ndcg_cut.10"
-          R@1K: "-c -l 2 -m recall.1000"
-  - name: cosdpr-distil.hnsw.onnx
-    display: "cosDPR-distil: HNSW, ONNX"
-    display_html: "cosDPR-distil: HNSW, ONNX"
-    display_row: ""
-    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.cosdpr-distil.hnsw -topics $topics -output $output -efSearch 1000 -hits 1000 -encoder CosDprDistil
-    topics:
-      - topic_key: msmarco-v1-passage.dev
-        eval_key: msmarco-passage.dev
-        scores:
-          - MRR@10: 0.3887
-            R@1K: 0.9765
-        metric_definitions:
-          MRR@10: "-c -M 10 -m recip_rank"
-          R@1K: "-c -m recall.1000"
-      - topic_key: dl19-passage
-        eval_key: dl19-passage
-        scores:
-          - MAP: 0.4660
-            nDCG@10: 0.7250
-            R@1K: 0.8222
-        metric_definitions:
-          MAP: "-c -l 2 -m map"
-          nDCG@10: "-c -m ndcg_cut.10"
-          R@1K: "-c -l 2 -m recall.1000"
-      - topic_key: dl20-passage
-        eval_key: dl20-passage
-        scores:
-          - MAP: 0.4876
-            nDCG@10: 0.7025
-            R@1K: 0.8540
-        metric_definitions:
-          MAP: "-c -l 2 -m map"
-          nDCG@10: "-c -m ndcg_cut.10"
-          R@1K: "-c -l 2 -m recall.1000"
-  - name: cosdpr-distil.hnsw-int8.onnx
-    display: "cosDPR-distil: quantized (int8) HNSW, ONNX"
-    display_html: "cosDPR-distil: quantized (int8) HNSW, ONNX"
-    display_row: ""
-    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.cosdpr-distil.hnsw-int8 -topics $topics -output $output -efSearch 1000 -hits 1000 -encoder CosDprDistil
-    topics:
-      - topic_key: msmarco-v1-passage.dev
-        eval_key: msmarco-passage.dev
-        scores:
-          - MRR@10: 0.3899
-            R@1K: 0.9764
-        metric_definitions:
-          MRR@10: "-c -M 10 -m recip_rank"
-          R@1K: "-c -m recall.1000"
-      - topic_key: dl19-passage
-        eval_key: dl19-passage
-        scores:
-          - MAP: 0.4664
-            nDCG@10: 0.7247
-            R@1K: 0.8218
-        metric_definitions:
-          MAP: "-c -l 2 -m map"
-          nDCG@10: "-c -m ndcg_cut.10"
-          R@1K: "-c -l 2 -m recall.1000"
-      - topic_key: dl20-passage
-        eval_key: dl20-passage
-        scores:
-          - MAP: 0.4871
-            nDCG@10: 0.6996
-            R@1K: 0.8538
+          MAP: 0.5402
+          nDCG@10: 0.7522
+          R@1K: 0.9039
         metric_definitions:
           MAP: "-c -l 2 -m map"
           nDCG@10: "-c -m ndcg_cut.10"
@@ -178,17 +110,17 @@ conditions:
       - topic_key: msmarco-v1-passage.dev
         eval_key: msmarco-passage.dev
         scores:
-          - MRR@10: 0.3575
-            R@1K: 0.9788
+          MRR@10: 0.3575
+          R@1K: 0.9788
         metric_definitions:
           MRR@10: "-c -M 10 -m recip_rank"
           R@1K: "-c -m recall.1000"
       - topic_key: dl19-passage
         eval_key: dl19-passage
         scores:
-          - MAP: 0.4486
-            nDCG@10: 0.7016
-            R@1K: 0.8441
+          MAP: 0.4486
+          nDCG@10: 0.7016
+          R@1K: 0.8441
         metric_definitions:
           MAP: "-c -l 2 -m map"
           nDCG@10: "-c -m ndcg_cut.10"
@@ -196,9 +128,9 @@ conditions:
       - topic_key: dl20-passage
         eval_key: dl20-passage
         scores:
-          - MAP: 0.4626
-            nDCG@10: 0.6768
-            R@1K: 0.8526
+          MAP: 0.4626
+          nDCG@10: 0.6768
+          R@1K: 0.8526
         metric_definitions:
           MAP: "-c -l 2 -m map"
           nDCG@10: "-c -m ndcg_cut.10"
@@ -212,17 +144,17 @@ conditions:
       - topic_key: msmarco-v1-passage.dev
         eval_key: msmarco-passage.dev
         scores:
-          - MRR@10: 0.3575
-            R@1K: 0.9772
+          MRR@10: 0.3575
+          R@1K: 0.9772
         metric_definitions:
           MRR@10: "-c -M 10 -m recip_rank"
           R@1K: "-c -m recall.1000"
       - topic_key: dl19-passage
         eval_key: dl19-passage
         scores:
-          - MAP: 0.4454
-            nDCG@10: 0.7017
-            R@1K: 0.8436
+          MAP: 0.4454
+          nDCG@10: 0.7017
+          R@1K: 0.8436
         metric_definitions:
           MAP: "-c -l 2 -m map"
           nDCG@10: "-c -m ndcg_cut.10"
@@ -230,9 +162,9 @@ conditions:
       - topic_key: dl20-passage
         eval_key: dl20-passage
         scores:
-          - MAP: 0.4596
-            nDCG@10: 0.6767
-            R@1K: 0.8468
+          MAP: 0.4596
+          nDCG@10: 0.6767
+          R@1K: 0.8468
         metric_definitions:
           MAP: "-c -l 2 -m map"
           nDCG@10: "-c -m ndcg_cut.10"

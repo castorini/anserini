@@ -240,70 +240,69 @@ public class RunRegressionsFromPrebuiltIndexes {
         Map<String, Map<String, String>> evalDefinitions = metricDefinitions.get(collection);
         InputStream stdout;
 
-        for (Map<String, Double> expected : topic.scores) {
-          Map<String, String> evalCommands = new LinkedHashMap<>();
-          Map<String, String> topicMetricDefinitions = topic.metric_definitions;
+        Map<String, Double> expected = topic.scores;
+        Map<String, String> evalCommands = new LinkedHashMap<>();
+        Map<String, String> topicMetricDefinitions = topic.metric_definitions;
 
-          // Go through and gather the eval commands in a first pass, so that we can print all at once if desired.
-          for (String metric : expected.keySet()) {
-            String evalKey = topic.eval_key;
-            String metricDefinition = null;
-            if (topicMetricDefinitions != null && !topicMetricDefinitions.isEmpty()) {
-              metricDefinition = topicMetricDefinitions.get(metric);
-            } else if (evalDefinitions != null && evalDefinitions.containsKey(evalKey)) {
-              metricDefinition = evalDefinitions.get(evalKey).get(metric);
-            }
-            if (metricDefinition == null) {
-              throw new RuntimeException("Invalid metric: " + metric);
-            }
-
-            evalCommands.put(metric, "java -cp $fatjarPath trec_eval $metric $evalKey $output"
-                .replace("$fatjarPath", fatjarPath)
-                .replace("$metric", metricDefinition)
-                .replace("$evalKey", evalKey)
-                .replace("$output", output));
+        // Go through and gather the eval commands in a first pass, so that we can print all at once if desired.
+        for (String metric : expected.keySet()) {
+          String evalKey = topic.eval_key;
+          String metricDefinition = null;
+          if (topicMetricDefinitions != null && !topicMetricDefinitions.isEmpty()) {
+            metricDefinition = topicMetricDefinitions.get(metric);
+          } else if (evalDefinitions != null && evalDefinitions.containsKey(evalKey)) {
+            metricDefinition = evalDefinitions.get(evalKey).get(metric);
+          }
+          if (metricDefinition == null) {
+            throw new RuntimeException("Invalid metric: " + metric);
           }
 
-          // Print the commands all at once if desired.
-          if (printCommands) {
-            for (Map.Entry<String, String> entry : evalCommands.entrySet()) {
-              System.out.println("    Eval command: " + entry.getValue());
-            }
-            System.out.println();
-          }
+          evalCommands.put(metric, "java -cp $fatjarPath trec_eval $metric $evalKey $output"
+              .replace("$fatjarPath", fatjarPath)
+              .replace("$metric", metricDefinition)
+              .replace("$evalKey", evalKey)
+              .replace("$output", output));
+        }
 
-          // We've already gathered the eval commands, so just run them now and check.
+        // Print the commands all at once if desired.
+        if (printCommands) {
           for (Map.Entry<String, String> entry : evalCommands.entrySet()) {
-            String metric = entry.getKey();
-            String cmd = entry.getValue();
-
-            if (!dryRun) {
-              pb = new ProcessBuilder(cmd.split(" "));
-              process = pb.start();
-
-              int resultCode = process.waitFor();
-              stdout = process.getInputStream();
-              if (resultCode == 0) {
-                String scoreString = new String(stdout.readAllBytes()).replaceAll(".*?(\\d+\\.\\d+)$", "$1").trim();
-                double score = Double.parseDouble(scoreString);
-                double delta = Math.abs(score - expected.get(metric));
-
-                if (score > expected.get(metric)) {
-                  System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, OKAY_ISH, expected.get(metric));
-                } else if (delta < 0.00001) {
-                  System.out.printf("    %8s: %.4f [OK]%n", metric, score);
-                } else if (delta < 0.0002) {
-                  System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, OKAY_ISH, expected.get(metric));
-                } else {
-                  System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, FAIL, expected.get(metric));
-                }
-              } else {
-                System.out.println("Evaluation command failed for metric: " + metric);
-              }
-            }
+            System.out.println("    Eval command: " + entry.getValue());
           }
           System.out.println();
         }
+
+        // We've already gathered the eval commands, so just run them now and check.
+        for (Map.Entry<String, String> entry : evalCommands.entrySet()) {
+          String metric = entry.getKey();
+          String cmd = entry.getValue();
+
+          if (!dryRun) {
+            pb = new ProcessBuilder(cmd.split(" "));
+            process = pb.start();
+
+            int resultCode = process.waitFor();
+            stdout = process.getInputStream();
+            if (resultCode == 0) {
+              String scoreString = new String(stdout.readAllBytes()).replaceAll(".*?(\\d+\\.\\d+)$", "$1").trim();
+              double score = Double.parseDouble(scoreString);
+              double delta = Math.abs(score - expected.get(metric));
+
+              if (score > expected.get(metric)) {
+                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, OKAY_ISH, expected.get(metric));
+              } else if (delta < 0.00001) {
+                System.out.printf("    %8s: %.4f [OK]%n", metric, score);
+              } else if (delta < 0.0002) {
+                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, OKAY_ISH, expected.get(metric));
+              } else {
+                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, FAIL, expected.get(metric));
+              }
+            } else {
+              System.out.println("Evaluation command failed for metric: " + metric);
+            }
+          }
+        }
+        System.out.println();
       }
     }
 
@@ -414,7 +413,7 @@ public class RunRegressionsFromPrebuiltIndexes {
     public String eval_key;
 
     @JsonProperty
-    public List<Map<String, Double>> scores;
+    public Map<String, Double> scores;
 
     @JsonProperty
     public Map<String, String> metric_definitions;

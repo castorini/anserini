@@ -8,23 +8,23 @@ conditions:
       - topic_key: msmarco-v2-doc.dev
         eval_key: msmarco-v2-doc.dev
         scores:
-          - MRR@100: 0.1572
+          MRR@100: 0.1572
         metric_definitions:
           MRR@100: "-c -M 100 -m recip_rank"
       - topic_key: msmarco-v2-doc.dev2
         eval_key: msmarco-v2-doc.dev2
         scores:
-          - MRR@100: 0.1659
+          MRR@100: 0.1659
         metric_definitions:
           MRR@100: "-c -M 100 -m recip_rank"
       - topic_key: dl21
         eval_key: dl21-doc
         scores:
-          - MAP@100: 0.2126
-            MRR@100: 0.8367
-            nDCG@10: 0.5116
-            R@100: 0.3195
-            R@1K: 0.6739
+          MAP@100: 0.2126
+          MRR@100: 0.8367
+          nDCG@10: 0.5116
+          R@100: 0.3195
+          R@1K: 0.6739
         metric_definitions:
           MAP@100: "-c -M 100 -m map"
           MRR@100: "-c -M 100 -m recip_rank"
@@ -34,11 +34,11 @@ conditions:
       - topic_key: dl22
         eval_key: dl22-doc
         scores:
-          - MAP@100: 0.0801
-            MRR@100: 0.6514
-            nDCG@10: 0.2993
-            R@100: 0.1756
-            R@1K: 0.4107
+          MAP@100: 0.0801
+          MRR@100: 0.6514
+          nDCG@10: 0.2993
+          R@100: 0.1756
+          R@1K: 0.4107
         metric_definitions:
           MAP@100: "-c -M 100 -m map"
           MRR@100: "-c -M 100 -m recip_rank"
@@ -48,11 +48,11 @@ conditions:
       - topic_key: dl23
         eval_key: dl23-doc
         scores:
-          - MAP@100: 0.1046
-            MRR@100: 0.5669
-            nDCG@10: 0.2946
-            R@100: 0.2422
-            R@1K: 0.5262
+          MAP@100: 0.1046
+          MRR@100: 0.5669
+          nDCG@10: 0.2946
+          R@100: 0.2422
+          R@1K: 0.5262
         metric_definitions:
           MAP@100: "-c -M 100 -m map"
           MRR@100: "-c -M 100 -m recip_rank"
@@ -68,23 +68,23 @@ conditions:
       - topic_key: msmarco-v2-doc.dev
         eval_key: msmarco-v2-doc.dev
         scores:
-          - MRR@100: 0.2011
+          MRR@100: 0.2011
         metric_definitions:
           MRR@100: "-c -M 100 -m recip_rank"
       - topic_key: msmarco-v2-doc.dev2
         eval_key: msmarco-v2-doc.dev2
         scores:
-          - MRR@100: 0.2012
+          MRR@100: 0.2012
         metric_definitions:
           MRR@100: "-c -M 100 -m recip_rank"
       - topic_key: dl21
         eval_key: dl21-doc
         scores:
-          - MAP@100: 0.2387
-            MRR@100: 0.8866
-            nDCG@10: 0.5792
-            R@100: 0.3443
-            R@1K: 0.7066
+          MAP@100: 0.2387
+          MRR@100: 0.8866
+          nDCG@10: 0.5792
+          R@100: 0.3443
+          R@1K: 0.7066
         metric_definitions:
           MAP@100: "-c -M 100 -m map"
           MRR@100: "-c -M 100 -m recip_rank"
@@ -94,11 +94,11 @@ conditions:
       - topic_key: dl22
         eval_key: dl22-doc
         scores:
-          - MAP@100: 0.0977
-            MRR@100: 0.6666
-            nDCG@10: 0.3539
-            R@100: 0.2041
-            R@1K: 0.4301
+          MAP@100: 0.0977
+          MRR@100: 0.6666
+          nDCG@10: 0.3539
+          R@100: 0.2041
+          R@1K: 0.4301
         metric_definitions:
           MAP@100: "-c -M 100 -m map"
           MRR@100: "-c -M 100 -m recip_rank"
@@ -108,11 +108,11 @@ conditions:
       - topic_key: dl23
         eval_key: dl23-doc
         scores:
-          - MAP@100: 0.1273
-            MRR@100: 0.6183
-            nDCG@10: 0.3511
-            R@100: 0.2773
-            R@1K: 0.5549
+          MAP@100: 0.1273
+          MRR@100: 0.6183
+          nDCG@10: 0.3511
+          R@100: 0.2773
+          R@1K: 0.5549
         metric_definitions:
           MAP@100: "-c -M 100 -m map"
           MRR@100: "-c -M 100 -m recip_rank"
@@ -128,23 +128,23 @@ conditions:
       - topic_key: msmarco-v2-doc.dev
         eval_key: msmarco-v2-doc.dev
         scores:
-          - MRR@100: 0.1896
+          MRR@100: 0.1896
         metric_definitions:
           MRR@100: "-c -M 100 -m recip_rank"
       - topic_key: msmarco-v2-doc.dev2
         eval_key: msmarco-v2-doc.dev2
         scores:
-          - MRR@100: 0.1930
+          MRR@100: 0.1930
         metric_definitions:
           MRR@100: "-c -M 100 -m recip_rank"
       - topic_key: dl21
         eval_key: dl21-doc
         scores:
-          - MAP@100: 0.2436
-            MRR@100: 0.8937
-            nDCG@10: 0.5776
-            R@100: 0.3478
-            R@1K: 0.6930
+          MAP@100: 0.2436
+          MRR@100: 0.8937
+          nDCG@10: 0.5776
+          R@100: 0.3478
+          R@1K: 0.6930
         metric_definitions:
           MAP@100: "-c -M 100 -m map"
           MRR@100: "-c -M 100 -m recip_rank"
@@ -154,11 +154,11 @@ conditions:
       - topic_key: dl22
         eval_key: dl22-doc
         scores:
-          - MAP@100: 0.1036
-            MRR@100: 0.7163
-            nDCG@10: 0.3618
-            R@100: 0.2192
-            R@1K: 0.4664
+          MAP@100: 0.1036
+          MRR@100: 0.7163
+          nDCG@10: 0.3618
+          R@100: 0.2192
+          R@1K: 0.4664
         metric_definitions:
           MAP@100: "-c -M 100 -m map"
           MRR@100: "-c -M 100 -m recip_rank"
@@ -168,11 +168,11 @@ conditions:
       - topic_key: dl23
         eval_key: dl23-doc
         scores:
-          - MAP@100: 0.1341
-            MRR@100: 0.6477
-            nDCG@10: 0.3405
-            R@100: 0.2884
-            R@1K: 0.5662
+          MAP@100: 0.1341
+          MRR@100: 0.6477
+          nDCG@10: 0.3405
+          R@100: 0.2884
+          R@1K: 0.5662
         metric_definitions:
           MAP@100: "-c -M 100 -m map"
           MRR@100: "-c -M 100 -m recip_rank"
@@ -188,23 +188,23 @@ conditions:
       - topic_key: msmarco-v2-doc.dev
         eval_key: msmarco-v2-doc.dev
         scores:
-          - MRR@100: 0.2226
+          MRR@100: 0.2226
         metric_definitions:
           MRR@100: "-c -M 100 -m recip_rank"
       - topic_key: msmarco-v2-doc.dev2
         eval_key: msmarco-v2-doc.dev2
         scores:
-          - MRR@100: 0.2234
+          MRR@100: 0.2234
         metric_definitions:
           MRR@100: "-c -M 100 -m recip_rank"
       - topic_key: dl21
         eval_key: dl21-doc
         scores:
-          - MAP@100: 0.2683
-            MRR@100: 0.9454
-            nDCG@10: 0.6289
-            R@100: 0.3656
-            R@1K: 0.7202
+          MAP@100: 0.2683
+          MRR@100: 0.9454
+          nDCG@10: 0.6289
+          R@100: 0.3656
+          R@1K: 0.7202
         metric_definitions:
           MAP@100: "-c -M 100 -m map"
           MRR@100: "-c -M 100 -m recip_rank"
@@ -214,11 +214,11 @@ conditions:
       - topic_key: dl22
         eval_key: dl22-doc
         scores:
-          - MAP@100: 0.1203
-            MRR@100: 0.7367
-            nDCG@10: 0.3975
-            R@100: 0.2441
-            R@1K: 0.4984
+          MAP@100: 0.1203
+          MRR@100: 0.7367
+          nDCG@10: 0.3975
+          R@100: 0.2441
+          R@1K: 0.4984
         metric_definitions:
           MAP@100: "-c -M 100 -m map"
           MRR@100: "-c -M 100 -m recip_rank"
@@ -228,11 +228,11 @@ conditions:
       - topic_key: dl23
         eval_key: dl23-doc
         scores:
-          - MAP@100: 0.1460
-            MRR@100: 0.7029
-            nDCG@10: 0.3612
-            R@100: 0.3078
-            R@1K: 0.5967
+          MAP@100: 0.1460
+          MRR@100: 0.7029
+          nDCG@10: 0.3612
+          R@100: 0.3078
+          R@1K: 0.5967
         metric_definitions:
           MAP@100: "-c -M 100 -m map"
           MRR@100: "-c -M 100 -m recip_rank"
@@ -248,23 +248,23 @@ conditions:
       - topic_key: msmarco-v2-doc.dev.unicoil-noexp.0shot
         eval_key: msmarco-v2-doc.dev
         scores:
-          - MRR@100: 0.2231
+          MRR@100: 0.2231
         metric_definitions:
           MRR@100: "-c -M 100 -m recip_rank"
       - topic_key: msmarco-v2-doc.dev2.unicoil-noexp.0shot
         eval_key: msmarco-v2-doc.dev2
         scores:
-          - MRR@100: 0.2314
+          MRR@100: 0.2314
         metric_definitions:
           MRR@100: "-c -M 100 -m recip_rank"
       - topic_key: dl21.unicoil-noexp.0shot
         eval_key: dl21-doc
         scores:
-          - MAP@100: 0.2587
-            MRR@100: 0.9282
-            nDCG@10: 0.6495
-            R@100: 0.3563
-            R@1K: 0.6787
+          MAP@100: 0.2587
+          MRR@100: 0.9282
+          nDCG@10: 0.6495
+          R@100: 0.3563
+          R@1K: 0.6787
         metric_definitions:
           MAP@100: "-c -M 100 -m map"
           MRR@100: "-c -M 100 -m recip_rank"
@@ -274,11 +274,11 @@ conditions:
       - topic_key: dl22.unicoil-noexp.0shot
         eval_key: dl22-doc
         scores:
-          - MAP@100: 0.1180
-            MRR@100: 0.7785
-            nDCG@10: 0.4165
-            R@100: 0.2335
-            R@1K: 0.4779
+          MAP@100: 0.1180
+          MRR@100: 0.7785
+          nDCG@10: 0.4165
+          R@100: 0.2335
+          R@1K: 0.4779
         metric_definitions:
           MAP@100: "-c -M 100 -m map"
           MRR@100: "-c -M 100 -m recip_rank"
@@ -288,11 +288,11 @@ conditions:
       - topic_key: dl23.unicoil-noexp.0shot
         eval_key: dl23-doc
         scores:
-          - MAP@100: 0.1413
-            MRR@100: 0.7712
-            nDCG@10: 0.3898
-            R@100: 0.2949
-            R@1K: 0.5462
+          MAP@100: 0.1413
+          MRR@100: 0.7712
+          nDCG@10: 0.3898
+          R@100: 0.2949
+          R@1K: 0.5462
         metric_definitions:
           MAP@100: "-c -M 100 -m map"
           MRR@100: "-c -M 100 -m recip_rank"
@@ -308,23 +308,23 @@ conditions:
       - topic_key: msmarco-v2-doc.dev.unicoil.0shot
         eval_key: msmarco-v2-doc.dev
         scores:
-          - MRR@100: 0.2419
+          MRR@100: 0.2419
         metric_definitions:
           MRR@100: "-c -M 100 -m recip_rank"
       - topic_key: msmarco-v2-doc.dev2.unicoil.0shot
         eval_key: msmarco-v2-doc.dev2
         scores:
-          - MRR@100: 0.2445
+          MRR@100: 0.2445
         metric_definitions:
           MRR@100: "-c -M 100 -m recip_rank"
       - topic_key: dl21.unicoil.0shot
         eval_key: dl21-doc
         scores:
-          - MAP@100: 0.2718
-            MRR@100: 0.9684
-            nDCG@10: 0.6783
-            R@100: 0.3700
-            R@1K: 0.7069
+          MAP@100: 0.2718
+          MRR@100: 0.9684
+          nDCG@10: 0.6783
+          R@100: 0.3700
+          R@1K: 0.7069
         metric_definitions:
           MAP@100: "-c -M 100 -m map"
           MRR@100: "-c -M 100 -m recip_rank"
@@ -334,11 +334,11 @@ conditions:
       - topic_key: dl22.unicoil.0shot
         eval_key: dl22-doc
         scores:
-          - MAP@100: 0.1400
-            MRR@100: 0.8170
-            nDCG@10: 0.4451
-            R@100: 0.2656
-            R@1K: 0.5235
+          MAP@100: 0.1400
+          MRR@100: 0.8170
+          nDCG@10: 0.4451
+          R@100: 0.2656
+          R@1K: 0.5235
         metric_definitions:
           MAP@100: "-c -M 100 -m map"
           MRR@100: "-c -M 100 -m recip_rank"
@@ -348,11 +348,11 @@ conditions:
       - topic_key: dl23.unicoil.0shot
         eval_key: dl23-doc
         scores:
-          - MAP@100: 0.1554
-            MRR@100: 0.7793
-            nDCG@10: 0.4149
-            R@100: 0.3101
-            R@1K: 0.5753
+          MAP@100: 0.1554
+          MRR@100: 0.7793
+          nDCG@10: 0.4149
+          R@100: 0.3101
+          R@1K: 0.5753
         metric_definitions:
           MAP@100: "-c -M 100 -m map"
           MRR@100: "-c -M 100 -m recip_rank"
@@ -368,23 +368,23 @@ conditions:
       - topic_key: msmarco-v2-doc.dev
         eval_key: msmarco-v2-doc.dev
         scores:
-          - MRR@100: 0.2419
+          MRR@100: 0.2419
         metric_definitions:
           MRR@100: "-c -M 100 -m recip_rank"
       - topic_key: msmarco-v2-doc.dev2
         eval_key: msmarco-v2-doc.dev2
         scores:
-          - MRR@100: 0.2445
+          MRR@100: 0.2445
         metric_definitions:
           MRR@100: "-c -M 100 -m recip_rank"
       - topic_key: dl21
         eval_key: dl21-doc
         scores:
-          - MAP@100: 0.2718
-            MRR@100: 0.9684
-            nDCG@10: 0.6783
-            R@100: 0.3700
-            R@1K: 0.7069
+          MAP@100: 0.2718
+          MRR@100: 0.9684
+          nDCG@10: 0.6783
+          R@100: 0.3700
+          R@1K: 0.7069
         metric_definitions:
           MAP@100: "-c -M 100 -m map"
           MRR@100: "-c -M 100 -m recip_rank"
@@ -394,11 +394,11 @@ conditions:
       - topic_key: dl22
         eval_key: dl22-doc
         scores:
-          - MAP@100: 0.1400
-            MRR@100: 0.8170
-            nDCG@10: 0.4451
-            R@100: 0.2656
-            R@1K: 0.5235
+          MAP@100: 0.1400
+          MRR@100: 0.8170
+          nDCG@10: 0.4451
+          R@100: 0.2656
+          R@1K: 0.5235
         metric_definitions:
           MAP@100: "-c -M 100 -m map"
           MRR@100: "-c -M 100 -m recip_rank"
@@ -408,11 +408,11 @@ conditions:
       - topic_key: dl23
         eval_key: dl23-doc
         scores:
-          - MAP@100: 0.1554
-            MRR@100: 0.7793
-            nDCG@10: 0.4150
-            R@100: 0.3101
-            R@1K: 0.5753
+          MAP@100: 0.1554
+          MRR@100: 0.7793
+          nDCG@10: 0.4150
+          R@100: 0.3101
+          R@1K: 0.5753
         metric_definitions:
           MAP@100: "-c -M 100 -m map"
           MRR@100: "-c -M 100 -m recip_rank"
