@@ -46,12 +46,12 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import io.anserini.index.Constants;
-import io.anserini.index.IndexInfo;
 import io.anserini.index.IndexReaderUtils;
 import io.anserini.index.prebuilt.PrebuiltInvertedIndex;
 import io.anserini.search.ScoredDoc;
 import io.anserini.search.topicreader.TopicReader;
 import io.anserini.search.topicreader.Topics;
+import io.anserini.util.PrebuiltIndexHandler;
 
 public class GenerateRerankerRequests<K extends Comparable<K>> implements Closeable {
   private static final Logger LOG = LogManager.getLogger(GenerateRerankerRequests.class);
@@ -205,27 +205,26 @@ public class GenerateRerankerRequests<K extends Comparable<K>> implements Closea
   }
 
   // TODO (2026/01/28): This method should really be in IndexReaderUtils and renamed something like getCorpusIndexReader.
-  public IndexReader getIndexReader(String index) {
-    String resolvedIndex;
+  public IndexReader getIndexReader(String index) throws IOException {
+    PrebuiltIndexHandler handler = PrebuiltIndexHandler.get(index);
 
-    boolean isPrebuiltLabel = IndexInfo.contains(index);
+    // TODO (2026/01/31): This method is janky, need to refactor.
+    String resolvedIndex = null;
+
     boolean localExists = Files.exists(Paths.get(index));
 
     // If both a prebuilt label and a local path exist, fail fast with
     // a clear error to force disambiguation.
-    if (isPrebuiltLabel && localExists) {
+    if (handler != null && localExists) {
       throw new IllegalArgumentException(String.format(
           "Ambiguous index reference \"%s\": both a prebuilt index label and a local path exist. " +
           "Please disambiguate by specifying a full local path or removing/renaming the local directory.", index));
     }
 
-    if (isPrebuiltLabel) {
+    if (handler != null) {
       PrebuiltInvertedIndex.Entry entry = PrebuiltInvertedIndex.get(index);
       if (entry != null) {
         resolvedIndex = IndexReaderUtils.getIndex(entry.corpusIndex).toString();
-      } else {
-        IndexInfo currentIndex = IndexInfo.get(index);
-        resolvedIndex = IndexReaderUtils.getIndex(currentIndex.invertedIndex).toString();
       }
     } else {
       // Not a known prebuilt label; resolve as prebuilt (if any) or local path.

@@ -21,33 +21,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 
-public class PrebuiltInvertedIndex extends PrebuiltIndex {
+public class PrebuiltHnswIndex extends PrebuiltIndex {
   private static final TypeReference<List<Entry>> ENTRY_LIST_TYPE = new TypeReference<List<Entry>>() {};
 
   // This is the singleton instance of this class. Use the holder pattern to ensure thread safety.
   private static class Holder {
-    private static final PrebuiltInvertedIndex INSTANCE = new PrebuiltInvertedIndex();
+    private static final PrebuiltHnswIndex INSTANCE = new PrebuiltHnswIndex();
   }
 
   public static class Entry extends PrebuiltIndex.Entry {
-    @JsonProperty("total_terms")
-    public long totalTerms;
-
-    @JsonProperty("documents")
-    public int documents;
-
-    @JsonProperty("unique_terms")
-    public long uniqueTerms;
+    // TODO (2026/01/30): currently, there are no special metadata that we track for flat indexes,
+    // but we should circle back and add some checks.
   }
 
   private final List<Entry> entries;
   private final Map<String, Entry> byName;
 
-  private PrebuiltInvertedIndex() {
-    List<Entry> loadedEntries = loadEntries(PrebuiltIndex.Type.INVERTED, ENTRY_LIST_TYPE, PrebuiltInvertedIndex.class);
+  private PrebuiltHnswIndex() {
+    List<Entry> loadedEntries = loadEntries(PrebuiltIndex.Type.HNSW, ENTRY_LIST_TYPE, PrebuiltHnswIndex.class);
     entries = Collections.unmodifiableList(loadedEntries);
 
     Map<String, Entry> map = new HashMap<>(Math.max(16, entries.size() * 2));

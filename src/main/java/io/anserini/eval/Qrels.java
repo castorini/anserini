@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum Qrels {
+  CACM("qrels.cacm.txt"),
   TREC1_ADHOC("qrels.adhoc.51-100.txt"),
   TREC2_ADHOC("qrels.adhoc.101-150.txt"),
   TREC3_ADHOC("qrels.adhoc.151-200.txt"),

@@ -17,7 +17,6 @@
 package io.anserini.index.prebuilt;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.io.IOException;
@@ -37,95 +36,76 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
-public class PrebuiltInvertedIndexTest {
+public class PrebuiltHnswIndexTest {
   @Test
   public void testInvalidName() {
-    PrebuiltInvertedIndex.Entry entry = PrebuiltInvertedIndex.get("fake_index");
+    PrebuiltHnswIndex.Entry entry = PrebuiltHnswIndex.get("fake_index");
     assertNull(entry);
   }
 
   @Test
-  public void testLookupByName() {
-    PrebuiltInvertedIndex.Entry entry;
-
-    entry = PrebuiltInvertedIndex.get("msmarco-v1-passage");
-    assertNotNull(entry);
-    assertEquals("lucene-inverted.msmarco-v1-passage.20221004.252b5e.tar.gz", entry.filename);
-    assertEquals("678876e8c99a89933d553609a0fd8793", entry.md5);
-    assertEquals(8841823, entry.documents);
-    assertEquals(2170758745L, entry.compressedSize);
-
-    entry = PrebuiltInvertedIndex.get("msmarco-v1-doc");
-    assertNotNull(entry);
-    assertEquals("lucene-inverted.msmarco-v1-doc.20221004.252b5e.tar.gz", entry.filename);
-    assertEquals("f66020a923df6430007bd5718e53de86", entry.md5);
-    assertEquals(3213835, entry.documents);
-    assertEquals(13736982339L, entry.compressedSize);
-  }
-
-  @Test
   public void testTotalCount() {
-    assertEquals(109, PrebuiltInvertedIndex.entries().size());
+    assertEquals(45, PrebuiltHnswIndex.entries().size());
   }
 
   @Test
   public void testTotalCountForMsMarcoV1() {
     int v1Count = 0;
-    for (PrebuiltInvertedIndex.Entry entry : PrebuiltInvertedIndex.entries()) {
+    for (PrebuiltHnswIndex.Entry entry : PrebuiltHnswIndex.entries()) {
       if (entry != null && entry.name != null && entry.name.contains("v1")) {
         v1Count++;
       }
     }
-    assertEquals(73, v1Count);
+    assertEquals(35, v1Count);
   }
 
   @Test
   public void testTotalCountForMsMarcoV2() {
     int v2Count = 0;
-    for (PrebuiltInvertedIndex.Entry entry : PrebuiltInvertedIndex.entries()) {
+    for (PrebuiltHnswIndex.Entry entry : PrebuiltHnswIndex.entries()) {
       if (entry != null && entry.name != null && entry.name.contains("v2") && !entry.name.contains("v2.1")) {
         v2Count++;
       }
     }
-    assertEquals(17, v2Count);
+    assertEquals(0, v2Count);
   }
 
   @Test
   public void testTotalCountForMsMarcoV2_1() {
     int v2_1Count = 0;
-    for (PrebuiltInvertedIndex.Entry entry : PrebuiltInvertedIndex.entries()) {
+    for (PrebuiltHnswIndex.Entry entry : PrebuiltHnswIndex.entries()) {
       if (entry != null && entry.name != null && entry.name.contains("v2.1")) {
         v2_1Count++;
       }
     }
-    assertEquals(6, v2_1Count);
+    assertEquals(10, v2_1Count);
   }
 
   @Test
   public void testTotalCountForBeir() {
     int beirCount = 0;
-    for (PrebuiltInvertedIndex.Entry entry : PrebuiltInvertedIndex.entries()) {
+    for (PrebuiltHnswIndex.Entry entry : PrebuiltHnswIndex.entries()) {
       if (entry != null && entry.name != null && entry.name.startsWith("beir")) {
         beirCount++;
       }
     }
-    assertEquals(58, beirCount);
+    assertEquals(29, beirCount);
   }
 
   @Test
   public void testTotalCountForBright() {
     int brightCount = 0;
-    for (PrebuiltInvertedIndex.Entry entry : PrebuiltInvertedIndex.entries()) {
+    for (PrebuiltHnswIndex.Entry entry : PrebuiltHnswIndex.entries()) {
       if (entry != null && entry.name != null && entry.name.startsWith("bright")) {
         brightCount++;
       }
     }
-    assertEquals(12, brightCount);
+    assertEquals(0, brightCount);
   }
 
   @Test
   public void testUrls() {
-    for (PrebuiltInvertedIndex.Entry entry : PrebuiltInvertedIndex.entries()) {
+    for (PrebuiltFlatIndex.Entry entry : PrebuiltFlatIndex.entries()) {
       for (String url : entry.urls) {
         // check each url status code is 200
         try {
@@ -144,25 +124,25 @@ public class PrebuiltInvertedIndexTest {
 
   @Test
   public void testLoadEntriesFromJarProtocol() throws Exception {
-    Path tempDir = Files.createTempDirectory("anserini-prebuilt-inverted-jar");
+    Path tempDir = Files.createTempDirectory("anserini-prebuilt-hnsw-jar");
 
-    Path jarPath = tempDir.resolve("prebuilt-inverted.jar");
+    Path jarPath = tempDir.resolve("prebuilt-hnsw.jar");
     try (JarOutputStream jarOut = new JarOutputStream(Files.newOutputStream(jarPath))) {
       JarEntry dirEntry = new JarEntry("prebuilt-indexes/");
       jarOut.putNextEntry(dirEntry);
       jarOut.closeEntry();
 
-      JarEntry jsonEntry = new JarEntry("prebuilt-indexes/impact-inverted.json");
+      JarEntry jsonEntry = new JarEntry("prebuilt-indexes/hnsw-test.json");
       jarOut.putNextEntry(jsonEntry);
-      jarOut.write("[{\"name\":\"TEST\",\"type\":\"inverted\"}]".getBytes(StandardCharsets.UTF_8));
+      jarOut.write("[{\"name\":\"TEST\",\"type\":\"hnsw\"}]".getBytes(StandardCharsets.UTF_8));
       jarOut.closeEntry();
     }
 
     URL jarUrl = jarPath.toUri().toURL();
     try (URLClassLoader jarClassLoader = new URLClassLoader(new URL[] {jarUrl}, null)) {
       Class<?> jarClass = Proxy.newProxyInstance(jarClassLoader, new Class<?>[] {Runnable.class}, (proxy, method, args) -> null).getClass();
-      TypeReference<List<PrebuiltInvertedIndex.Entry>> entryListType = new TypeReference<List<PrebuiltInvertedIndex.Entry>>() {};
-      List<PrebuiltInvertedIndex.Entry> entries = PrebuiltIndex.loadEntries(PrebuiltIndex.Type.INVERTED, entryListType, jarClass);
+      TypeReference<List<PrebuiltHnswIndex.Entry>> entryListType = new TypeReference<List<PrebuiltHnswIndex.Entry>>() {};
+      List<PrebuiltHnswIndex.Entry> entries = PrebuiltIndex.loadEntries(PrebuiltIndex.Type.HNSW, entryListType, jarClass);
 
       assertEquals(1, entries.size());
       assertEquals("TEST", entries.get(0).name);

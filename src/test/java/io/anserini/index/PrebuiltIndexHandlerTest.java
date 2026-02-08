@@ -16,6 +16,7 @@
 
 package io.anserini.index;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
@@ -88,11 +89,35 @@ public class PrebuiltIndexHandlerTest {
   }
 
   @Test
+  public void testGetInverted() throws Exception {
+    PrebuiltIndexHandler handler = PrebuiltIndexHandler.get("bright-biology");
+    assertNotNull(handler);
+  }
+
+  @Test
+  public void testGetImpact() throws Exception {
+    PrebuiltIndexHandler handler = PrebuiltIndexHandler.get("bright-biology.splade-v3");
+    assertNotNull(handler);
+  }
+
+  @Test
+  public void testGetFlat() throws Exception {
+    PrebuiltIndexHandler handler = PrebuiltIndexHandler.get("bright-biology.bge-large-en-v1.5.flat");
+    assertNotNull(handler);
+  }
+
+  @Test
+  public void testGetHnsw() throws Exception {
+    PrebuiltIndexHandler handler = PrebuiltIndexHandler.get("beir-v1.0.0-nfcorpus.bge-base-en-v1.5.hnsw");
+    assertNotNull(handler);
+  }
+
+  @Test
   public void testDownload() throws Exception {
     PrebuiltIndexHandler handler = PrebuiltIndexHandler.get("cacm");
     handler.fetch();
 
-    assertTrue(handler.getIndexFolderPath().toString().contains("lucene-index.cacm"));
+    assertTrue(handler.getIndexPath().toString().contains("lucene-index.cacm"));
   }
 
   @Test
@@ -102,7 +127,7 @@ public class PrebuiltIndexHandlerTest {
     PrebuiltIndexHandler handler = PrebuiltIndexHandler.get("cacm");
     handler.fetch(tempDir.toString());
 
-    assertTrue(handler.getIndexFolderPath().toString().contains("lucene-index.cacm"));
+    assertTrue(handler.getIndexPath().toString().contains("lucene-index.cacm"));
 
     FileUtils.deleteDirectory(tempDir.toFile());
   }

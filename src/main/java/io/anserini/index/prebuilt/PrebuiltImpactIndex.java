@@ -24,12 +24,12 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 
-public class PrebuiltInvertedIndex extends PrebuiltIndex {
+public class PrebuiltImpactIndex extends PrebuiltIndex {
   private static final TypeReference<List<Entry>> ENTRY_LIST_TYPE = new TypeReference<List<Entry>>() {};
 
   // This is the singleton instance of this class. Use the holder pattern to ensure thread safety.
   private static class Holder {
-    private static final PrebuiltInvertedIndex INSTANCE = new PrebuiltInvertedIndex();
+    private static final PrebuiltImpactIndex INSTANCE = new PrebuiltImpactIndex();
   }
 
   public static class Entry extends PrebuiltIndex.Entry {
@@ -46,8 +46,8 @@ public class PrebuiltInvertedIndex extends PrebuiltIndex {
   private final List<Entry> entries;
   private final Map<String, Entry> byName;
 
-  private PrebuiltInvertedIndex() {
-    List<Entry> loadedEntries = loadEntries(PrebuiltIndex.Type.INVERTED, ENTRY_LIST_TYPE, PrebuiltInvertedIndex.class);
+  private PrebuiltImpactIndex() {
+    List<Entry> loadedEntries = loadEntries(PrebuiltIndex.Type.IMPACT, ENTRY_LIST_TYPE, PrebuiltImpactIndex.class);
     entries = Collections.unmodifiableList(loadedEntries);
 
     Map<String, Entry> map = new HashMap<>(Math.max(16, entries.size() * 2));
