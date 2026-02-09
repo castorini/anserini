@@ -7,19 +7,19 @@ conditions:
     topics:
       - topic_key: msmarco-v2-doc.dev
         eval_key: msmarco-v2.1-doc.dev
-        scores:
+        expected_scores:
           MRR@100: 0.1654
         metric_definitions:
           MRR@100: "-c -M 100 -m recip_rank"
       - topic_key: msmarco-v2-doc.dev2
         eval_key: msmarco-v2.1-doc.dev2
-        scores:
+        expected_scores:
           MRR@100: 0.1732
         metric_definitions:
           MRR@100: "-c -M 100 -m recip_rank"
       - topic_key: dl21-doc
         eval_key: dl21-doc-msmarco-v2.1
-        scores:
+        expected_scores:
           MAP@100: 0.2281
           MRR@100: 0.8466
           nDCG@10: 0.5183
@@ -33,7 +33,7 @@ conditions:
           R@1K: "-c -m recall.1000"
       - topic_key: dl22-doc
         eval_key: dl22-doc-msmarco-v2.1
-        scores:
+        expected_scores:
           MAP@100: 0.0841
           MRR@100: 0.6623
           nDCG@10: 0.2991
@@ -47,7 +47,7 @@ conditions:
           R@1K: "-c -m recall.1000"
       - topic_key: dl23-doc
         eval_key: dl23-doc-msmarco-v2.1
-        scores:
+        expected_scores:
           MAP@100: 0.1089
           MRR@100: 0.5783
           nDCG@10: 0.2914
@@ -61,7 +61,7 @@ conditions:
           R@1K: "-c -m recall.1000"
       - topic_key: rag24.raggy-dev
         eval_key: rag24.raggy-dev
-        scores:
+        expected_scores:
           MAP@100: 0.1251
           MRR@100: 0.7060
           nDCG@10: 0.3631
@@ -81,19 +81,19 @@ conditions:
     topics:
       - topic_key: msmarco-v2-doc.dev
         eval_key: msmarco-v2.1-doc.dev
-        scores:
+        expected_scores:
           MRR@100: 0.1973
         metric_definitions:
           MRR@100: "-c -M 100 -m recip_rank"
       - topic_key: msmarco-v2-doc.dev2
         eval_key: msmarco-v2.1-doc.dev2
-        scores:
+        expected_scores:
           MRR@100: 0.2000
         metric_definitions:
           MRR@100: "-c -M 100 -m recip_rank"
       - topic_key: dl21-doc
         eval_key: dl21-doc-msmarco-v2.1
-        scores:
+        expected_scores:
           MAP@100: 0.2609
           MRR@100: 0.9026
           nDCG@10: 0.5778
@@ -107,7 +107,7 @@ conditions:
           R@1K: "-c -m recall.1000"
       - topic_key: dl22-doc
         eval_key: dl22-doc-msmarco-v2.1
-        scores:
+        expected_scores:
           MAP@100: 0.1079
           MRR@100: 0.7213
           nDCG@10: 0.3576
@@ -121,7 +121,7 @@ conditions:
           R@1K: "-c -m recall.1000"
       - topic_key: dl23-doc
         eval_key: dl23-doc-msmarco-v2.1
-        scores:
+        expected_scores:
           MAP@100: 0.1391
           MRR@100: 0.6519
           nDCG@10: 0.3356
@@ -135,7 +135,7 @@ conditions:
           R@1K: "-c -m recall.1000"
       - topic_key: rag24.raggy-dev
         eval_key: rag24.raggy-dev
-        scores:
+        expected_scores:
           MAP@100: 0.1561
           MRR@100: 0.7465
           nDCG@10: 0.4227

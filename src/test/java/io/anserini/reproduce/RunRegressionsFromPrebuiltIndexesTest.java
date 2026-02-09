@@ -47,7 +47,7 @@ public class RunRegressionsFromPrebuiltIndexesTest extends StdOutStdErrRedirecta
 
   @Test
   public void test1() throws Exception {
-    String[] args = new String[] {"-regression", "beir", "-dryRun"};
+    String[] args = new String[] {"-regression", "beir.core", "-dryRun"};
     RunRegressionsFromPrebuiltIndexes.main(args);
 
     assertTrue(out.toString().startsWith("# Running condition"));
@@ -55,7 +55,7 @@ public class RunRegressionsFromPrebuiltIndexesTest extends StdOutStdErrRedirecta
 
   @Test
   public void test2() throws Exception {
-    String[] args = new String[] {"-regression", "beir", "-dryRun", "-printCommands"};
+    String[] args = new String[] {"-regression", "beir.core", "-dryRun", "-printCommands"};
     RunRegressionsFromPrebuiltIndexes.main(args);
 
     assertTrue(out.toString().startsWith("# Running condition"));
@@ -65,7 +65,7 @@ public class RunRegressionsFromPrebuiltIndexesTest extends StdOutStdErrRedirecta
 
   @Test
   public void testComputeIndexSize() throws Exception {
-    String[] args = new String[] {"-regression", "beir", "-dryRun", "-computeIndexSize"};
+    String[] args = new String[] {"-regression", "beir.core", "-dryRun", "-computeIndexSize"};
     RunRegressionsFromPrebuiltIndexes.main(args);
 
     String s = out.toString();

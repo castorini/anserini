@@ -109,7 +109,7 @@ public class GenerateReproductionDocsTest {
 
         tempCommands.put(shortTopicKey, commandString);
         StringBuilder evalCommandString = new StringBuilder();
-        for (Entry<String, Double> entry : topic.scores.entrySet()) {
+        for (Entry<String, Double> entry : topic.expected_scores.entrySet()) {
           if (topic.metric_definitions == null || !topic.metric_definitions.containsKey(entry.getKey())) {
             throw new IllegalStateException("Missing metric definition for " + entry.getKey());
           }

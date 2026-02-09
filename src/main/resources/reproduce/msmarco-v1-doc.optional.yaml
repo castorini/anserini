@@ -1,19 +1,19 @@
 conditions:
-  - name: bm25-doc-default
+  - name: bm25-doc-default-slim
     display: "BM25 complete doc (k1=0.9, b=0.4)"
     display_html: "BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
     display_row: ""
-    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-doc -topics $topics -output $output -hits 1000 -bm25
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-doc-slim -topics $topics -output $output -hits 1000 -bm25
     topics:
       - topic_key: msmarco-doc.dev
         eval_key: msmarco-doc.dev
-        scores:
+        expected_scores:
           MRR@100: 0.2299
         metric_definitions:
           MRR@100: "-c -M 100 -m recip_rank"
       - topic_key: dl19-doc
         eval_key: dl19-doc
-        scores:
+        expected_scores:
           AP@100: 0.2434
           nDCG@10: 0.5176
           R@1K: 0.6966
@@ -23,7 +23,7 @@ conditions:
           R@1K: "-c -m recall.1000"
       - topic_key: dl20-doc
         eval_key: dl20-doc
-        scores:
+        expected_scores:
           AP@100: 0.3793
           nDCG@10: 0.5286
           R@1K: 0.8085
@@ -31,53 +31,53 @@ conditions:
           AP@100: "-c -M 100 -m map"
           nDCG@10: "-c -m ndcg_cut.10"
           R@1K: "-c -m recall.1000"
-  - name: bm25-d2q-t5-doc-default
-    display: "BM25 complete doc with doc2query-T5 (k1=0.9, b=0.4)"
-    display_html: "BM25 complete doc with doc2query-T5 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
+  - name: bm25-doc-default-full
+    display: "BM25 complete doc (k1=0.9, b=0.4)"
+    display_html: "BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
     display_row: ""
-    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-doc.d2q-t5 -topics $topics -output $output -hits 1000 -bm25
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-doc-full -topics $topics -output $output -hits 1000 -bm25
     topics:
       - topic_key: msmarco-doc.dev
         eval_key: msmarco-doc.dev
-        scores:
-          MRR@100: 0.2880
+        expected_scores:
+          MRR@100: 0.2299
         metric_definitions:
           MRR@100: "-c -M 100 -m recip_rank"
       - topic_key: dl19-doc
         eval_key: dl19-doc
-        scores:
-          AP@100: 0.2700
-          nDCG@10: 0.5968
-          R@1K: 0.7190
+        expected_scores:
+          AP@100: 0.2434
+          nDCG@10: 0.5176
+          R@1K: 0.6966
         metric_definitions:
           AP@100: "-c -M 100 -m map"
           nDCG@10: "-c -m ndcg_cut.10"
           R@1K: "-c -m recall.1000"
       - topic_key: dl20-doc
         eval_key: dl20-doc
-        scores:
-          AP@100: 0.4230
-          nDCG@10: 0.5885
-          R@1K: 0.8403
+        expected_scores:
+          AP@100: 0.3793
+          nDCG@10: 0.5286
+          R@1K: 0.8085
         metric_definitions:
           AP@100: "-c -M 100 -m map"
           nDCG@10: "-c -m ndcg_cut.10"
           R@1K: "-c -m recall.1000"
-  - name: bm25-doc-segmented-default
+  - name: bm25-doc-segmented-default-slim
     display: "BM25 segmented doc (k1=0.9, b=0.4)"
     display_html: "BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
     display_row: ""
-    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-doc-segmented -topics $topics -output $output -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-doc-segmented-slim -topics $topics -output $output -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
     topics:
       - topic_key: msmarco-doc.dev
         eval_key: msmarco-doc.dev
-        scores:
+        expected_scores:
           MRR@100: 0.2684
         metric_definitions:
           MRR@100: "-c -M 100 -m recip_rank"
       - topic_key: dl19-doc
         eval_key: dl19-doc
-        scores:
+        expected_scores:
           AP@100: 0.2449
           nDCG@10: 0.5302
           R@1K: 0.6871
@@ -87,7 +87,7 @@ conditions:
           R@1K: "-c -m recall.1000"
       - topic_key: dl20-doc
         eval_key: dl20-doc
-        scores:
+        expected_scores:
           AP@100: 0.3586
           nDCG@10: 0.5281
           R@1K: 0.7755
@@ -95,34 +95,34 @@ conditions:
           AP@100: "-c -M 100 -m map"
           nDCG@10: "-c -m ndcg_cut.10"
           R@1K: "-c -m recall.1000"
-  - name: bm25-d2q-t5-doc-segmented-default
-    display: "BM25 segmented doc with doc2query-T5 (k1=0.9, b=0.4)"
-    display_html: "BM25 segmented doc with doc2query-T5 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
+  - name: bm25-doc-segmented-default-full
+    display: "BM25 segmented doc (k1=0.9, b=0.4)"
+    display_html: "BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
     display_row: ""
-    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-doc-segmented.d2q-t5 -topics $topics -output $output -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-doc-segmented-full -topics $topics -output $output -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
     topics:
       - topic_key: msmarco-doc.dev
         eval_key: msmarco-doc.dev
-        scores:
-          MRR@100: 0.3179
+        expected_scores:
+          MRR@100: 0.2684
         metric_definitions:
           MRR@100: "-c -M 100 -m recip_rank"
       - topic_key: dl19-doc
         eval_key: dl19-doc
-        scores:
-          AP@100: 0.2798
-          nDCG@10: 0.6119
-          R@1K: 0.7165
+        expected_scores:
+          AP@100: 0.2449
+          nDCG@10: 0.5302
+          R@1K: 0.6871
         metric_definitions:
           AP@100: "-c -M 100 -m map"
           nDCG@10: "-c -m ndcg_cut.10"
           R@1K: "-c -m recall.1000"
       - topic_key: dl20-doc
         eval_key: dl20-doc
-        scores:
-          AP@100: 0.4150
-          nDCG@10: 0.5957
-          R@1K: 0.8046
+        expected_scores:
+          AP@100: 0.3586
+          nDCG@10: 0.5281
+          R@1K: 0.7755
         metric_definitions:
           AP@100: "-c -M 100 -m map"
           nDCG@10: "-c -m ndcg_cut.10"
@@ -135,13 +135,13 @@ conditions:
     topics:
       - topic_key: msmarco-doc.dev.unicoil-noexp
         eval_key: msmarco-doc.dev
-        scores:
+        expected_scores:
           MRR@100: 0.3409
         metric_definitions:
           MRR@100: "-c -M 100 -m recip_rank"
       - topic_key: dl19-doc.unicoil-noexp.0shot
         eval_key: dl19-doc
-        scores:
+        expected_scores:
           AP@100: 0.2665
           nDCG@10: 0.6349
           R@1K: 0.6391
@@ -151,7 +151,7 @@ conditions:
           R@1K: "-c -m recall.1000"
       - topic_key: dl20.unicoil-noexp.0shot
         eval_key: dl20-doc
-        scores:
+        expected_scores:
           AP@100: 0.3698
           nDCG@10: 0.5893
           R@1K: 0.7623
@@ -167,13 +167,13 @@ conditions:
     topics:
       - topic_key: msmarco-doc.dev.unicoil
         eval_key: msmarco-doc.dev
-        scores:
+        expected_scores:
           MRR@100: 0.3531
         metric_definitions:
           MRR@100: "-c -M 100 -m recip_rank"
       - topic_key: dl19-doc.unicoil.0shot
         eval_key: dl19-doc
-        scores:
+        expected_scores:
           AP@100: 0.2789
           nDCG@10: 0.6396
           R@1K: 0.6652
@@ -183,39 +183,7 @@ conditions:
           R@1K: "-c -m recall.1000"
       - topic_key: dl20.unicoil.0shot
         eval_key: dl20-doc
-        scores:
-          AP@100: 0.3882
-          nDCG@10: 0.6033
-          R@1K: 0.7869
-        metric_definitions:
-          AP@100: "-c -M 100 -m map"
-          nDCG@10: "-c -m ndcg_cut.10"
-          R@1K: "-c -m recall.1000"
-  - name: unicoil.onnx
-    display: "uniCOIL (with doc2query-T5): ONNX"
-    display_html: "uniCOIL (with doc2query-T5): ONNX"
-    display_row: ""
-    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-doc-segmented.unicoil -topics $topics -output $output -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000 -encoder UniCoil
-    topics:
-      - topic_key: msmarco-doc.dev
-        eval_key: msmarco-doc.dev
-        scores:
-          MRR@100: 0.3531
-        metric_definitions:
-          MRR@100: "-c -M 100 -m recip_rank"
-      - topic_key: dl19-doc
-        eval_key: dl19-doc
-        scores:
-          AP@100: 0.2789
-          nDCG@10: 0.6396
-          R@1K: 0.6652
-        metric_definitions:
-          AP@100: "-c -M 100 -m map"
-          nDCG@10: "-c -m ndcg_cut.10"
-          R@1K: "-c -m recall.1000"
-      - topic_key: dl20
-        eval_key: dl20-doc
-        scores:
+        expected_scores:
           AP@100: 0.3882
           nDCG@10: 0.6033
           R@1K: 0.7869

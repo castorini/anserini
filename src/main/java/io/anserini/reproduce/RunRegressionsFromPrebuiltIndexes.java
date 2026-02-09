@@ -38,6 +38,7 @@ import java.nio.file.Paths;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class RunRegressionsFromPrebuiltIndexes {
@@ -52,7 +53,6 @@ public class RunRegressionsFromPrebuiltIndexes {
   private static final String OKAY_ISH = BLUE + "[OK*]" + RESET;
 
   private final String collection;
-  private final Map<String, Map<String, Map<String, String>>> metricDefinitions;
   private final boolean printCommands;
   private final boolean dryRun;
   private final boolean computeIndexSize;
@@ -76,7 +76,6 @@ public class RunRegressionsFromPrebuiltIndexes {
 
   public RunRegressionsFromPrebuiltIndexes(Args args) {
     this.collection = args.regression;
-    this.metricDefinitions = Map.of();
     this.printCommands = args.printCommands;
     this.dryRun = args.dryRun;
     this.computeIndexSize = args.computeIndexSize;
@@ -236,26 +235,16 @@ public class RunRegressionsFromPrebuiltIndexes {
           System.out.println();
         }
 
-        // running the evaluation command
-        Map<String, Map<String, String>> evalDefinitions = metricDefinitions.get(collection);
         InputStream stdout;
 
-        Map<String, Double> expected = topic.scores;
+        Map<String, Double> expected = topic.expected_scores;
         Map<String, String> evalCommands = new LinkedHashMap<>();
-        Map<String, String> topicMetricDefinitions = topic.metric_definitions;
+        Map<String, String> metricDefinitions = topic.metric_definitions;
 
         // Go through and gather the eval commands in a first pass, so that we can print all at once if desired.
         for (String metric : expected.keySet()) {
           String evalKey = topic.eval_key;
-          String metricDefinition = null;
-          if (topicMetricDefinitions != null && !topicMetricDefinitions.isEmpty()) {
-            metricDefinition = topicMetricDefinitions.get(metric);
-          } else if (evalDefinitions != null && evalDefinitions.containsKey(evalKey)) {
-            metricDefinition = evalDefinitions.get(evalKey).get(metric);
-          }
-          if (metricDefinition == null) {
-            throw new RuntimeException("Invalid metric: " + metric);
-          }
+          String metricDefinition = Objects.requireNonNull(metricDefinitions.get(metric));
 
           evalCommands.put(metric, "java -cp $fatjarPath trec_eval $metric $evalKey $output"
               .replace("$fatjarPath", fatjarPath)
@@ -413,7 +402,7 @@ public class RunRegressionsFromPrebuiltIndexes {
     public String eval_key;
 
     @JsonProperty
-    public Map<String, Double> scores;
+    public Map<String, Double> expected_scores;
 
     @JsonProperty
     public Map<String, String> metric_definitions;
