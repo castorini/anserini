@@ -1079,12 +1079,11 @@ conditions:
           nDCG@10: 0.7420
         metric_definitions:
           nDCG@10: "-c -m ndcg_cut.10"
-
   - name: fusion-avg
     display: "Fusion: Average (BM25 + BGE) with normalization"
     display_html: "Fusion: Average (BM25 + BGE) with normalization"
     display_row: ""
-    command: java -cp $fatjar io.anserini.fusion.FuseRuns -runs runs/run.beir.flat.$topics.txt runs/run.beir.bge-base-en-v1.5.flat.onnx.$topics.txt -output $output -method average -k 1000 -depth 1000 -min_max_normalization
+    command: java -cp $fatjar io.anserini.fusion.FuseRuns -runs runs/run.beir.core.flat.$topics.txt runs/run.beir.core.bge-base-en-v1.5.flat.onnx.$topics.txt -output $output -method average -k 1000 -depth 1000 -min_max_normalization
     topics:
       - topic_key: trec-covid
         eval_key: beir-v1.0.0-trec-covid.test
