@@ -36,9 +36,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class RunRegressionsFromPrebuiltIndexes {
@@ -58,17 +60,14 @@ public class RunRegressionsFromPrebuiltIndexes {
   private final boolean computeIndexSize;
 
   public static class Args {
-    @Option(name = "-regression", required = true, usage = "Regression name.")
+    @Option(name = "-regression", metaVar = "[config]", required = true, usage = "Regression config name.")
     public String regression;
 
     @Option(name = "-printCommands", usage = "Print commands.")
     public Boolean printCommands = false;
 
-    @Option(name = "-dryRun", usage = "Dry run.")
+    @Option(name = "-dryRun", usage = "Perform dry run.")
     public Boolean dryRun = false;
-
-    @Option(name = "-options", usage = "Print information about options.")
-    public Boolean options = false;
 
     @Option(name = "-computeIndexSize", usage = "Compute total size of all unique indexes referenced by runs.")
     public Boolean computeIndexSize = false;
@@ -88,7 +87,20 @@ public class RunRegressionsFromPrebuiltIndexes {
     try {
       parser.parseArgument(args);
     } catch (CmdLineException exception) {
-      System.err.println(exception.getMessage());
+      System.err.println(String.format("Error: %s", exception.getMessage()));
+
+      System.err.printf("%nOptions for %s:%n%n", RunRegressionsFromPrebuiltIndexes.class.getSimpleName());
+      parser.printUsage(System.err);
+
+      List<String> required = new java.util.ArrayList<>();
+      parser.getOptions().forEach((option) -> {
+        if (option.option.required()) {
+          required.add(option.option.toString());
+        }
+      });
+
+      System.err.printf("%nRequired options: %s%n", required);
+
       return;
     }
 
@@ -114,7 +126,7 @@ public class RunRegressionsFromPrebuiltIndexes {
     final long start = System.nanoTime();
 
     // Pre-scan all commands to gather unique indexes referenced.
-    java.util.Set<String> uniqueIndexNames = new java.util.LinkedHashSet<>();
+    Set<String> uniqueIndexNames = new LinkedHashSet<>();
     for (Condition condition : config.conditions) {
       for (Topic topic : condition.topics) {
         final String output = String.format("runs/run.%s.%s.%s.txt", collection, condition.name, topic.topic_key);

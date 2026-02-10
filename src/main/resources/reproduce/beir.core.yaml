@@ -903,7 +903,7 @@ conditions:
     display: "Fusion: RRF (BM25 + BGE)"
     display_html: "Fusion: RRF (BM25 + BGE)"
     display_row: ""
-    command: java -cp $fatjar io.anserini.fusion.FuseRuns -runs runs/run.beir.flat.$topics.txt runs/run.beir.bge-base-en-v1.5.flat.onnx.$topics.txt -output $output -method rrf -k 1000 -depth 1000 -rrf_k 60
+    command: java -cp $fatjar io.anserini.fusion.FuseRuns -runs runs/run.beir.core.flat.$topics.txt runs/run.beir.core.bge-base-en-v1.5.flat.onnx.$topics.txt -output $output -method rrf -k 1000 -depth 1000 -rrf_k 60
     topics:
       - topic_key: trec-covid
         eval_key: beir-v1.0.0-trec-covid.test

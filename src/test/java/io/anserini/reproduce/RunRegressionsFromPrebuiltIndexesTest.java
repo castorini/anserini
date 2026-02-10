@@ -42,7 +42,7 @@ public class RunRegressionsFromPrebuiltIndexesTest extends StdOutStdErrRedirecta
     String[] args = new String[] {"-dry"};
     RunRegressionsFromPrebuiltIndexes.main(args);
 
-    assertTrue(err.toString().startsWith("\"-dry\" is not a valid option"));
+    assertTrue(err.toString().startsWith("Error: \"-dry\" is not a valid option"));
   }
 
   @Test
