@@ -1,0 +1,901 @@
+conditions:
+  - name: splade-pp-ed.cached
+    display: "SPLADE++ EnsembleDistil (cached queries)"
+    display_html: "SPLADE++ EnsembleDistil (cached queries)"
+    display_row: ""
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.splade-pp-ed -topics beir-$topics.splade-pp-ed -output $output -impact -pretokenized -removeQuery
+    topics:
+    - topic_key: trec-covid
+      eval_key: beir-v1.0.0-trec-covid.test
+      expected_scores:
+        nDCG@10: 0.7274
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: bioasq
+      eval_key: beir-v1.0.0-bioasq.test
+      expected_scores:
+        nDCG@10: 0.4980
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: nfcorpus
+      eval_key: beir-v1.0.0-nfcorpus.test
+      expected_scores:
+        nDCG@10: 0.3470
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: nq
+      eval_key: beir-v1.0.0-nq.test
+      expected_scores:
+        nDCG@10: 0.5378
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: hotpotqa
+      eval_key: beir-v1.0.0-hotpotqa.test
+      expected_scores:
+        nDCG@10: 0.6868
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: fiqa
+      eval_key: beir-v1.0.0-fiqa.test
+      expected_scores:
+        nDCG@10: 0.3475
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: signal1m
+      eval_key: beir-v1.0.0-signal1m.test
+      expected_scores:
+        nDCG@10: 0.3008
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: trec-news
+      eval_key: beir-v1.0.0-trec-news.test
+      expected_scores:
+        nDCG@10: 0.4152
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: robust04
+      eval_key: beir-v1.0.0-robust04.test
+      expected_scores:
+        nDCG@10: 0.4679
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: arguana
+      eval_key: beir-v1.0.0-arguana.test
+      expected_scores:
+        nDCG@10: 0.5203
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: webis-touche2020
+      eval_key: beir-v1.0.0-webis-touche2020.test
+      expected_scores:
+        nDCG@10: 0.2468
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-android
+      eval_key: beir-v1.0.0-cqadupstack-android.test
+      expected_scores:
+        nDCG@10: 0.3904
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-english
+      eval_key: beir-v1.0.0-cqadupstack-english.test
+      expected_scores:
+        nDCG@10: 0.4079
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-gaming
+      eval_key: beir-v1.0.0-cqadupstack-gaming.test
+      expected_scores:
+        nDCG@10: 0.4957
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-gis
+      eval_key: beir-v1.0.0-cqadupstack-gis.test
+      expected_scores:
+        nDCG@10: 0.3150
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-mathematica
+      eval_key: beir-v1.0.0-cqadupstack-mathematica.test
+      expected_scores:
+        nDCG@10: 0.2377
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-physics
+      eval_key: beir-v1.0.0-cqadupstack-physics.test
+      expected_scores:
+        nDCG@10: 0.3599
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-programmers
+      eval_key: beir-v1.0.0-cqadupstack-programmers.test
+      expected_scores:
+        nDCG@10: 0.3401
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-stats
+      eval_key: beir-v1.0.0-cqadupstack-stats.test
+      expected_scores:
+        nDCG@10: 0.2990
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-tex
+      eval_key: beir-v1.0.0-cqadupstack-tex.test
+      expected_scores:
+        nDCG@10: 0.2530
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-unix
+      eval_key: beir-v1.0.0-cqadupstack-unix.test
+      expected_scores:
+        nDCG@10: 0.3167
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-webmasters
+      eval_key: beir-v1.0.0-cqadupstack-webmasters.test
+      expected_scores:
+        nDCG@10: 0.3167
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-wordpress
+      eval_key: beir-v1.0.0-cqadupstack-wordpress.test
+      expected_scores:
+        nDCG@10: 0.2733
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: quora
+      eval_key: beir-v1.0.0-quora.test
+      expected_scores:
+        nDCG@10: 0.8343
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: dbpedia-entity
+      eval_key: beir-v1.0.0-dbpedia-entity.test
+      expected_scores:
+        nDCG@10: 0.4366
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: scidocs
+      eval_key: beir-v1.0.0-scidocs.test
+      expected_scores:
+        nDCG@10: 0.1591
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: fever
+      eval_key: beir-v1.0.0-fever.test
+      expected_scores:
+        nDCG@10: 0.7882
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: climate-fever
+      eval_key: beir-v1.0.0-climate-fever.test
+      expected_scores:
+        nDCG@10: 0.2297
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: scifact
+      eval_key: beir-v1.0.0-scifact.test
+      expected_scores:
+        nDCG@10: 0.7041
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+  - name: splade-pp-ed.onnx
+    display: "SPLADE++ EnsembleDistil (ONNX)"
+    display_html: "SPLADE++ EnsembleDistil (ONNX)"
+    display_row: ""
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.splade-pp-ed -topics beir-$topics -encoder SpladePlusPlusEnsembleDistil -output $output -impact -pretokenized -removeQuery
+    topics:
+    - topic_key: trec-covid
+      eval_key: beir-v1.0.0-trec-covid.test
+      expected_scores:
+        nDCG@10: 0.7270
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: bioasq
+      eval_key: beir-v1.0.0-bioasq.test
+      expected_scores:
+        nDCG@10: 0.4980
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: nfcorpus
+      eval_key: beir-v1.0.0-nfcorpus.test
+      expected_scores:
+        nDCG@10: 0.3473
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: nq
+      eval_key: beir-v1.0.0-nq.test
+      expected_scores:
+        nDCG@10: 0.5372
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: hotpotqa
+      eval_key: beir-v1.0.0-hotpotqa.test
+      expected_scores:
+        nDCG@10: 0.6868
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: fiqa
+      eval_key: beir-v1.0.0-fiqa.test
+      expected_scores:
+        nDCG@10: 0.3473
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: signal1m
+      eval_key: beir-v1.0.0-signal1m.test
+      expected_scores:
+        nDCG@10: 0.3006
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: trec-news
+      eval_key: beir-v1.0.0-trec-news.test
+      expected_scores:
+        nDCG@10: 0.4169
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: robust04
+      eval_key: beir-v1.0.0-robust04.test
+      expected_scores:
+        nDCG@10: 0.4651
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: arguana
+      eval_key: beir-v1.0.0-arguana.test
+      expected_scores:
+        nDCG@10: 0.5278
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: webis-touche2020
+      eval_key: beir-v1.0.0-webis-touche2020.test
+      expected_scores:
+        nDCG@10: 0.2464
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-android
+      eval_key: beir-v1.0.0-cqadupstack-android.test
+      expected_scores:
+        nDCG@10: 0.3898
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-english
+      eval_key: beir-v1.0.0-cqadupstack-english.test
+      expected_scores:
+        nDCG@10: 0.4078
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-gaming
+      eval_key: beir-v1.0.0-cqadupstack-gaming.test
+      expected_scores:
+        nDCG@10: 0.4959
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-gis
+      eval_key: beir-v1.0.0-cqadupstack-gis.test
+      expected_scores:
+        nDCG@10: 0.3148
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-mathematica
+      eval_key: beir-v1.0.0-cqadupstack-mathematica.test
+      expected_scores:
+        nDCG@10: 0.2379
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-physics
+      eval_key: beir-v1.0.0-cqadupstack-physics.test
+      expected_scores:
+        nDCG@10: 0.3597
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-programmers
+      eval_key: beir-v1.0.0-cqadupstack-programmers.test
+      expected_scores:
+        nDCG@10: 0.3399
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-stats
+      eval_key: beir-v1.0.0-cqadupstack-stats.test
+      expected_scores:
+        nDCG@10: 0.2980
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-tex
+      eval_key: beir-v1.0.0-cqadupstack-tex.test
+      expected_scores:
+        nDCG@10: 0.2529
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-unix
+      eval_key: beir-v1.0.0-cqadupstack-unix.test
+      expected_scores:
+        nDCG@10: 0.3170
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-webmasters
+      eval_key: beir-v1.0.0-cqadupstack-webmasters.test
+      expected_scores:
+        nDCG@10: 0.3166
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-wordpress
+      eval_key: beir-v1.0.0-cqadupstack-wordpress.test
+      expected_scores:
+        nDCG@10: 0.2718
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: quora
+      eval_key: beir-v1.0.0-quora.test
+      expected_scores:
+        nDCG@10: 0.8344
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: dbpedia-entity
+      eval_key: beir-v1.0.0-dbpedia-entity.test
+      expected_scores:
+        nDCG@10: 0.4374
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: scidocs
+      eval_key: beir-v1.0.0-scidocs.test
+      expected_scores:
+        nDCG@10: 0.1588
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: fever
+      eval_key: beir-v1.0.0-fever.test
+      expected_scores:
+        nDCG@10: 0.7879
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: climate-fever
+      eval_key: beir-v1.0.0-climate-fever.test
+      expected_scores:
+        nDCG@10: 0.2298
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: scifact
+      eval_key: beir-v1.0.0-scifact.test
+      expected_scores:
+        nDCG@10: 0.7036
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+  - name: splade-v3.cached
+    display: "SPLADE-v3 (cached queries)"
+    display_html: "SPLADE-v3 (cached queries)"
+    display_row: ""
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.splade-v3 -topics beir-$topics.splade-v3 -output $output -impact -pretokenized -removeQuery
+    topics:
+    - topic_key: trec-covid
+      eval_key: beir-v1.0.0-trec-covid.test
+      expected_scores:
+        nDCG@10: 0.7299
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: bioasq
+      eval_key: beir-v1.0.0-bioasq.test
+      expected_scores:
+        nDCG@10: 0.5142
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: nfcorpus
+      eval_key: beir-v1.0.0-nfcorpus.test
+      expected_scores:
+        nDCG@10: 0.3629
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: nq
+      eval_key: beir-v1.0.0-nq.test
+      expected_scores:
+        nDCG@10: 0.5842
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: hotpotqa
+      eval_key: beir-v1.0.0-hotpotqa.test
+      expected_scores:
+        nDCG@10: 0.6884
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: fiqa
+      eval_key: beir-v1.0.0-fiqa.test
+      expected_scores:
+        nDCG@10: 0.3798
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: signal1m
+      eval_key: beir-v1.0.0-signal1m.test
+      expected_scores:
+        nDCG@10: 0.2465
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: trec-news
+      eval_key: beir-v1.0.0-trec-news.test
+      expected_scores:
+        nDCG@10: 0.4365
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: robust04
+      eval_key: beir-v1.0.0-robust04.test
+      expected_scores:
+        nDCG@10: 0.4952
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: arguana
+      eval_key: beir-v1.0.0-arguana.test
+      expected_scores:
+        nDCG@10: 0.4872
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: webis-touche2020
+      eval_key: beir-v1.0.0-webis-touche2020.test
+      expected_scores:
+        nDCG@10: 0.3086
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-android
+      eval_key: beir-v1.0.0-cqadupstack-android.test
+      expected_scores:
+        nDCG@10: 0.4109
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-english
+      eval_key: beir-v1.0.0-cqadupstack-english.test
+      expected_scores:
+        nDCG@10: 0.4255
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-gaming
+      eval_key: beir-v1.0.0-cqadupstack-gaming.test
+      expected_scores:
+        nDCG@10: 0.5193
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-gis
+      eval_key: beir-v1.0.0-cqadupstack-gis.test
+      expected_scores:
+        nDCG@10: 0.3236
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-mathematica
+      eval_key: beir-v1.0.0-cqadupstack-mathematica.test
+      expected_scores:
+        nDCG@10: 0.2445
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-physics
+      eval_key: beir-v1.0.0-cqadupstack-physics.test
+      expected_scores:
+        nDCG@10: 0.3753
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-programmers
+      eval_key: beir-v1.0.0-cqadupstack-programmers.test
+      expected_scores:
+        nDCG@10: 0.3387
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-stats
+      eval_key: beir-v1.0.0-cqadupstack-stats.test
+      expected_scores:
+        nDCG@10: 0.3137
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-tex
+      eval_key: beir-v1.0.0-cqadupstack-tex.test
+      expected_scores:
+        nDCG@10: 0.2493
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-unix
+      eval_key: beir-v1.0.0-cqadupstack-unix.test
+      expected_scores:
+        nDCG@10: 0.3196
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-webmasters
+      eval_key: beir-v1.0.0-cqadupstack-webmasters.test
+      expected_scores:
+        nDCG@10: 0.3250
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-wordpress
+      eval_key: beir-v1.0.0-cqadupstack-wordpress.test
+      expected_scores:
+        nDCG@10: 0.2807
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: quora
+      eval_key: beir-v1.0.0-quora.test
+      expected_scores:
+        nDCG@10: 0.8141
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: dbpedia-entity
+      eval_key: beir-v1.0.0-dbpedia-entity.test
+      expected_scores:
+        nDCG@10: 0.4476
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: scidocs
+      eval_key: beir-v1.0.0-scidocs.test
+      expected_scores:
+        nDCG@10: 0.1567
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: fever
+      eval_key: beir-v1.0.0-fever.test
+      expected_scores:
+        nDCG@10: 0.8015
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: climate-fever
+      eval_key: beir-v1.0.0-climate-fever.test
+      expected_scores:
+        nDCG@10: 0.2625
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: scifact
+      eval_key: beir-v1.0.0-scifact.test
+      expected_scores:
+        nDCG@10: 0.7140
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+  - name: bge-base-en-v1.5.hnsw.cached
+    display: "bge-base-en-v1.5 w/ HNSW indexes (cached queries)"
+    display_html: "bge-base-en-v1.5 w/ HNSW indexes (cached queries)"
+    display_row: ""
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index beir-v1.0.0-$topics.bge-base-en-v1.5.hnsw -topics beir-$topics.bge-base-en-v1.5 -output $output -efSearch 1000 -removeQuery
+    topics:
+    - topic_key: trec-covid
+      eval_key: beir-v1.0.0-trec-covid.test
+      expected_scores:
+        nDCG@10: 0.7834
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: bioasq
+      eval_key: beir-v1.0.0-bioasq.test
+      expected_scores:
+        nDCG@10: 0.4042
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: nfcorpus
+      eval_key: beir-v1.0.0-nfcorpus.test
+      expected_scores:
+        nDCG@10: 0.3735
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: nq
+      eval_key: beir-v1.0.0-nq.test
+      expected_scores:
+        nDCG@10: 0.5413
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: hotpotqa
+      eval_key: beir-v1.0.0-hotpotqa.test
+      expected_scores:
+        nDCG@10: 0.7242
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: fiqa
+      eval_key: beir-v1.0.0-fiqa.test
+      expected_scores:
+        nDCG@10: 0.4065
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: signal1m
+      eval_key: beir-v1.0.0-signal1m.test
+      expected_scores:
+        nDCG@10: 0.2869
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: trec-news
+      eval_key: beir-v1.0.0-trec-news.test
+      expected_scores:
+        nDCG@10: 0.4411
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: robust04
+      eval_key: beir-v1.0.0-robust04.test
+      expected_scores:
+        nDCG@10: 0.4467
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: arguana
+      eval_key: beir-v1.0.0-arguana.test
+      expected_scores:
+        nDCG@10: 0.6361
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: webis-touche2020
+      eval_key: beir-v1.0.0-webis-touche2020.test
+      expected_scores:
+        nDCG@10: 0.2570
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-android
+      eval_key: beir-v1.0.0-cqadupstack-android.test
+      expected_scores:
+        nDCG@10: 0.5075
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-english
+      eval_key: beir-v1.0.0-cqadupstack-english.test
+      expected_scores:
+        nDCG@10: 0.4855
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-gaming
+      eval_key: beir-v1.0.0-cqadupstack-gaming.test
+      expected_scores:
+        nDCG@10: 0.5965
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-gis
+      eval_key: beir-v1.0.0-cqadupstack-gis.test
+      expected_scores:
+        nDCG@10: 0.4129
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-mathematica
+      eval_key: beir-v1.0.0-cqadupstack-mathematica.test
+      expected_scores:
+        nDCG@10: 0.3163
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-physics
+      eval_key: beir-v1.0.0-cqadupstack-physics.test
+      expected_scores:
+        nDCG@10: 0.4722
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-programmers
+      eval_key: beir-v1.0.0-cqadupstack-programmers.test
+      expected_scores:
+        nDCG@10: 0.4242
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-stats
+      eval_key: beir-v1.0.0-cqadupstack-stats.test
+      expected_scores:
+        nDCG@10: 0.3732
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-tex
+      eval_key: beir-v1.0.0-cqadupstack-tex.test
+      expected_scores:
+        nDCG@10: 0.3115
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-unix
+      eval_key: beir-v1.0.0-cqadupstack-unix.test
+      expected_scores:
+        nDCG@10: 0.4219
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-webmasters
+      eval_key: beir-v1.0.0-cqadupstack-webmasters.test
+      expected_scores:
+        nDCG@10: 0.4065
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: cqadupstack-wordpress
+      eval_key: beir-v1.0.0-cqadupstack-wordpress.test
+      expected_scores:
+        nDCG@10: 0.3547
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: quora
+      eval_key: beir-v1.0.0-quora.test
+      expected_scores:
+        nDCG@10: 0.8890
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: dbpedia-entity
+      eval_key: beir-v1.0.0-dbpedia-entity.test
+      expected_scores:
+        nDCG@10: 0.4077
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: scidocs
+      eval_key: beir-v1.0.0-scidocs.test
+      expected_scores:
+        nDCG@10: 0.2170
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: fever
+      eval_key: beir-v1.0.0-fever.test
+      expected_scores:
+        nDCG@10: 0.8620
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: climate-fever
+      eval_key: beir-v1.0.0-climate-fever.test
+      expected_scores:
+        nDCG@10: 0.3119
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+    - topic_key: scifact
+      eval_key: beir-v1.0.0-scifact.test
+      expected_scores:
+        nDCG@10: 0.7408
+      metric_definitions:
+        nDCG@10: "-c -m ndcg_cut.10"
+  - name: bge-base-en-v1.5.flat.cached
+    display: "bge-base-en-v1.5 w/ flat indexes (cached queries)"
+    display_html: "bge-base-en-v1.5 w/ flat indexes (cached queries)"
+    display_row: ""
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchFlatDenseVectors -threads $threads -index beir-v1.0.0-$topics.bge-base-en-v1.5.flat -topics beir-$topics.bge-base-en-v1.5 -output $output -removeQuery
+    topics:
+      - topic_key: trec-covid
+        eval_key: beir-v1.0.0-trec-covid.test
+        expected_scores:
+          nDCG@10: 0.7814
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: bioasq
+        eval_key: beir-v1.0.0-bioasq.test
+        expected_scores:
+          nDCG@10: 0.4149
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: nfcorpus
+        eval_key: beir-v1.0.0-nfcorpus.test
+        expected_scores:
+          nDCG@10: 0.3735
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: nq
+        eval_key: beir-v1.0.0-nq.test
+        expected_scores:
+          nDCG@10: 0.5413
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: hotpotqa
+        eval_key: beir-v1.0.0-hotpotqa.test
+        expected_scores:
+          nDCG@10: 0.7259
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: fiqa
+        eval_key: beir-v1.0.0-fiqa.test
+        expected_scores:
+          nDCG@10: 0.4065
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: signal1m
+        eval_key: beir-v1.0.0-signal1m.test
+        expected_scores:
+          nDCG@10: 0.2886
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: trec-news
+        eval_key: beir-v1.0.0-trec-news.test
+        expected_scores:
+          nDCG@10: 0.4425
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: robust04
+        eval_key: beir-v1.0.0-robust04.test
+        expected_scores:
+          nDCG@10: 0.4465
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: arguana
+        eval_key: beir-v1.0.0-arguana.test
+        expected_scores:
+          nDCG@10: 0.6361
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: webis-touche2020
+        eval_key: beir-v1.0.0-webis-touche2020.test
+        expected_scores:
+          nDCG@10: 0.2570
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: cqadupstack-android
+        eval_key: beir-v1.0.0-cqadupstack-android.test
+        expected_scores:
+          nDCG@10: 0.5075
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: cqadupstack-english
+        eval_key: beir-v1.0.0-cqadupstack-english.test
+        expected_scores:
+          nDCG@10: 0.4857
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: cqadupstack-gaming
+        eval_key: beir-v1.0.0-cqadupstack-gaming.test
+        expected_scores:
+          nDCG@10: 0.5965
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: cqadupstack-gis
+        eval_key: beir-v1.0.0-cqadupstack-gis.test
+        expected_scores:
+          nDCG@10: 0.4127
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: cqadupstack-mathematica
+        eval_key: beir-v1.0.0-cqadupstack-mathematica.test
+        expected_scores:
+          nDCG@10: 0.3163
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: cqadupstack-physics
+        eval_key: beir-v1.0.0-cqadupstack-physics.test
+        expected_scores:
+          nDCG@10: 0.4722
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: cqadupstack-programmers
+        eval_key: beir-v1.0.0-cqadupstack-programmers.test
+        expected_scores:
+          nDCG@10: 0.4242
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: cqadupstack-stats
+        eval_key: beir-v1.0.0-cqadupstack-stats.test
+        expected_scores:
+          nDCG@10: 0.3732
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: cqadupstack-tex
+        eval_key: beir-v1.0.0-cqadupstack-tex.test
+        expected_scores:
+          nDCG@10: 0.3115
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: cqadupstack-unix
+        eval_key: beir-v1.0.0-cqadupstack-unix.test
+        expected_scores:
+          nDCG@10: 0.4219
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: cqadupstack-webmasters
+        eval_key: beir-v1.0.0-cqadupstack-webmasters.test
+        expected_scores:
+          nDCG@10: 0.4065
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: cqadupstack-wordpress
+        eval_key: beir-v1.0.0-cqadupstack-wordpress.test
+        expected_scores:
+          nDCG@10: 0.3547
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: quora
+        eval_key: beir-v1.0.0-quora.test
+        expected_scores:
+          nDCG@10: 0.8890
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: dbpedia-entity
+        eval_key: beir-v1.0.0-dbpedia-entity.test
+        expected_scores:
+          nDCG@10: 0.4074
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: scidocs
+        eval_key: beir-v1.0.0-scidocs.test
+        expected_scores:
+          nDCG@10: 0.2170
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: fever
+        eval_key: beir-v1.0.0-fever.test
+        expected_scores:
+          nDCG@10: 0.8630
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: climate-fever
+        eval_key: beir-v1.0.0-climate-fever.test
+        expected_scores:
+          nDCG@10: 0.3119
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: scifact
+        eval_key: beir-v1.0.0-scifact.test
+        expected_scores:
+          nDCG@10: 0.7408
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"

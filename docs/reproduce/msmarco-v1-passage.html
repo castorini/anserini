@@ -285,21 +285,21 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 msmarco-passage.dev \
 
 </div></td>
 </tr>
-<!-- Condition: SPLADE++ EnsembleDistil: cached queries -->
+<!-- Condition: SPLADE-v3: ONNX -->
 <tr class="accordion-toggle collapsed" id="row2" data-toggle="collapse" data-parent="#row2" href="#collapse2">
 <td class="expand-button"></td>
 <td style="min-width: 85px"></td>
-<td style="min-width: 400px">SPLADE++ EnsembleDistil: cached queries</td>
-<td>0.5053</td>
-<td>0.7317</td>
-<td>0.8726</td>
+<td style="min-width: 400px">SPLADE-v3: ONNX</td>
+<td>0.5232</td>
+<td>0.7264</td>
+<td>0.8791</td>
 <td></td>
-<td>0.5001</td>
-<td>0.7198</td>
-<td>0.8995</td>
+<td>0.5402</td>
+<td>0.7522</td>
+<td>0.9039</td>
 <td></td>
-<td>0.3830</td>
-<td>0.9831</td>
+<td>0.4000</td>
+<td>0.9868</td>
 </tr>
 <tr class="hide-table-padding">
 <td></td>
@@ -328,20 +328,21 @@ Command to generate run on TREC 2019 queries:
   <blockquote class="mycode">
 <pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection \
   -threads 16 \
-  -index msmarco-v1-passage.splade-pp-ed \
-  -topics dl19-passage.splade-pp-ed \
-  -output runs/run.msmarco.splade-pp-ed.cached.dl19.txt \
-  -impact -pretokenized -hits 1000
+  -index msmarco-v1-passage.splade-v3 \
+  -topics dl19-passage \
+  -output runs/run.msmarco.splade-v3.onnx.dl19.txt \
+  -impact -pretokenized -hits 1000 \
+  -encoder SpladeV3
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl19-passage \
-  runs/run.msmarco.splade-pp-ed.cached.dl19.txt
+  runs/run.msmarco.splade-v3.onnx.dl19.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl19-passage \
-  runs/run.msmarco.splade-pp-ed.cached.dl19.txt
+  runs/run.msmarco.splade-v3.onnx.dl19.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
-  runs/run.msmarco.splade-pp-ed.cached.dl19.txt
+  runs/run.msmarco.splade-v3.onnx.dl19.txt
 </code></pre>
   </blockquote>
 
@@ -352,20 +353,21 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
   <blockquote class="mycode">
 <pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection \
   -threads 16 \
-  -index msmarco-v1-passage.splade-pp-ed \
-  -topics dl20-passage.splade-pp-ed \
-  -output runs/run.msmarco.splade-pp-ed.cached.dl20.txt \
-  -impact -pretokenized -hits 1000
+  -index msmarco-v1-passage.splade-v3 \
+  -topics dl20-passage \
+  -output runs/run.msmarco.splade-v3.onnx.dl20.txt \
+  -impact -pretokenized -hits 1000 \
+  -encoder SpladeV3
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl20-passage \
-  runs/run.msmarco.splade-pp-ed.cached.dl20.txt
+  runs/run.msmarco.splade-v3.onnx.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl20-passage \
-  runs/run.msmarco.splade-pp-ed.cached.dl20.txt
+  runs/run.msmarco.splade-v3.onnx.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
-  runs/run.msmarco.splade-pp-ed.cached.dl20.txt
+  runs/run.msmarco.splade-v3.onnx.dl20.txt
 </code></pre>
   </blockquote>
 
@@ -376,18 +378,19 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
   <blockquote class="mycode">
 <pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection \
   -threads 16 \
-  -index msmarco-v1-passage.splade-pp-ed \
-  -topics msmarco-v1-passage.dev.splade-pp-ed \
-  -output runs/run.msmarco.splade-pp-ed.cached.dev.txt \
-  -impact -pretokenized -hits 1000
+  -index msmarco-v1-passage.splade-v3 \
+  -topics msmarco-v1-passage.dev \
+  -output runs/run.msmarco.splade-v3.onnx.dev.txt \
+  -impact -pretokenized -hits 1000 \
+  -encoder SpladeV3
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
-  runs/run.msmarco.splade-pp-ed.cached.dev.txt
+  runs/run.msmarco.splade-v3.onnx.dev.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 msmarco-passage.dev \
-  runs/run.msmarco.splade-pp-ed.cached.dev.txt
+  runs/run.msmarco.splade-v3.onnx.dev.txt
 </code></pre>
   </blockquote>
 
@@ -397,21 +400,21 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 msmarco-passage.dev \
 
 </div></td>
 </tr>
-<!-- Condition: SPLADE++ EnsembleDistil: ONNX -->
+<!-- Condition: bge-base-en-v1.5: HNSW, ONNX -->
 <tr class="accordion-toggle collapsed" id="row3" data-toggle="collapse" data-parent="#row3" href="#collapse3">
 <td class="expand-button"></td>
 <td style="min-width: 85px"></td>
-<td style="min-width: 400px">SPLADE++ EnsembleDistil: ONNX</td>
-<td>0.5050</td>
-<td>0.7308</td>
-<td>0.8728</td>
+<td style="min-width: 400px">bge-base-en-v1.5: HNSW, ONNX</td>
+<td>0.4486</td>
+<td>0.7016</td>
+<td>0.8441</td>
 <td></td>
-<td>0.4999</td>
-<td>0.7197</td>
-<td>0.8998</td>
+<td>0.4626</td>
+<td>0.6768</td>
+<td>0.8526</td>
 <td></td>
-<td>0.3828</td>
-<td>0.9831</td>
+<td>0.3575</td>
+<td>0.9788</td>
 </tr>
 <tr class="hide-table-padding">
 <td></td>
@@ -438,23 +441,23 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 msmarco-passage.dev \
 Command to generate run on TREC 2019 queries:
 
   <blockquote class="mycode">
-<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection \
+<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
-  -index msmarco-v1-passage.splade-pp-ed \
+  -index msmarco-v1-passage.bge-base-en-v1.5.hnsw \
   -topics dl19-passage \
-  -output runs/run.msmarco.splade-pp-ed.onnx.dl19.txt \
-  -impact -pretokenized -hits 1000 \
-  -encoder SpladePlusPlusEnsembleDistil
+  -output runs/run.msmarco.bge-base-en-v1.5.hnsw.onnx.dl19.txt \
+  -efSearch 1000 -hits 1000 \
+  -encoder BgeBaseEn15
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl19-passage \
-  runs/run.msmarco.splade-pp-ed.onnx.dl19.txt
+  runs/run.msmarco.bge-base-en-v1.5.hnsw.onnx.dl19.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl19-passage \
-  runs/run.msmarco.splade-pp-ed.onnx.dl19.txt
+  runs/run.msmarco.bge-base-en-v1.5.hnsw.onnx.dl19.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
-  runs/run.msmarco.splade-pp-ed.onnx.dl19.txt
+  runs/run.msmarco.bge-base-en-v1.5.hnsw.onnx.dl19.txt
 </code></pre>
   </blockquote>
 
@@ -463,23 +466,23 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
     Command to generate run on TREC 2020 queries:
 
   <blockquote class="mycode">
-<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection \
+<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
-  -index msmarco-v1-passage.splade-pp-ed \
+  -index msmarco-v1-passage.bge-base-en-v1.5.hnsw \
   -topics dl20-passage \
-  -output runs/run.msmarco.splade-pp-ed.onnx.dl20.txt \
-  -impact -pretokenized -hits 1000 \
-  -encoder SpladePlusPlusEnsembleDistil
+  -output runs/run.msmarco.bge-base-en-v1.5.hnsw.onnx.dl20.txt \
+  -efSearch 1000 -hits 1000 \
+  -encoder BgeBaseEn15
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl20-passage \
-  runs/run.msmarco.splade-pp-ed.onnx.dl20.txt
+  runs/run.msmarco.bge-base-en-v1.5.hnsw.onnx.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl20-passage \
-  runs/run.msmarco.splade-pp-ed.onnx.dl20.txt
+  runs/run.msmarco.bge-base-en-v1.5.hnsw.onnx.dl20.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
-  runs/run.msmarco.splade-pp-ed.onnx.dl20.txt
+  runs/run.msmarco.bge-base-en-v1.5.hnsw.onnx.dl20.txt
 </code></pre>
   </blockquote>
 
@@ -488,21 +491,21 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
     Command to generate run on dev queries:
 
   <blockquote class="mycode">
-<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection \
+<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
-  -index msmarco-v1-passage.splade-pp-ed \
+  -index msmarco-v1-passage.bge-base-en-v1.5.hnsw \
   -topics msmarco-v1-passage.dev \
-  -output runs/run.msmarco.splade-pp-ed.onnx.dev.txt \
-  -impact -pretokenized -hits 1000 \
-  -encoder SpladePlusPlusEnsembleDistil
+  -output runs/run.msmarco.bge-base-en-v1.5.hnsw.onnx.dev.txt \
+  -efSearch 1000 -hits 1000 \
+  -encoder BgeBaseEn15
 </code></pre></blockquote>
 Evaluation commands:
 
   <blockquote class="mycode">
 <pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
-  runs/run.msmarco.splade-pp-ed.onnx.dev.txt
+  runs/run.msmarco.bge-base-en-v1.5.hnsw.onnx.dev.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 msmarco-passage.dev \
-  runs/run.msmarco.splade-pp-ed.onnx.dev.txt
+  runs/run.msmarco.bge-base-en-v1.5.hnsw.onnx.dev.txt
 </code></pre>
   </blockquote>
 
@@ -512,21 +515,21 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 msmarco-passage.dev \
 
 </div></td>
 </tr>
-<!-- Condition: cosDPR-distil: HNSW, cached queries -->
+<!-- Condition: bge-base-en-v1.5: quantized (int8) HNSW, ONNX -->
 <tr class="accordion-toggle collapsed" id="row4" data-toggle="collapse" data-parent="#row4" href="#collapse4">
 <td class="expand-button"></td>
 <td style="min-width: 85px"></td>
-<td style="min-width: 400px">cosDPR-distil: HNSW, cached queries</td>
-<td>0.4660</td>
-<td>0.7250</td>
-<td>0.8222</td>
+<td style="min-width: 400px">bge-base-en-v1.5: quantized (int8) HNSW, ONNX</td>
+<td>0.4454</td>
+<td>0.7017</td>
+<td>0.8436</td>
 <td></td>
-<td>0.4876</td>
-<td>0.7025</td>
-<td>0.8540</td>
+<td>0.4596</td>
+<td>0.6767</td>
+<td>0.8468</td>
 <td></td>
-<td>0.3887</td>
-<td>0.9764</td>
+<td>0.3575</td>
+<td>0.9772</td>
 </tr>
 <tr class="hide-table-padding">
 <td></td>
@@ -555,799 +558,6 @@ Command to generate run on TREC 2019 queries:
   <blockquote class="mycode">
 <pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
-  -index msmarco-v1-passage.cosdpr-distil.hnsw \
-  -topics dl19-passage.cosdpr-distil \
-  -output runs/run.msmarco.cosdpr-distil.hnsw.cached.dl19.txt \
-  -efSearch 1000 -hits 1000
-</code></pre></blockquote>
-Evaluation commands:
-
-  <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl19-passage \
-  runs/run.msmarco.cosdpr-distil.hnsw.cached.dl19.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl19-passage \
-  runs/run.msmarco.cosdpr-distil.hnsw.cached.dl19.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
-  runs/run.msmarco.cosdpr-distil.hnsw.cached.dl19.txt
-</code></pre>
-  </blockquote>
-
-  </div>
-  <div class="tab-pane fade" id="row4-tab2" role="tabpanel" aria-labelledby="row4-tab2">
-    Command to generate run on TREC 2020 queries:
-
-  <blockquote class="mycode">
-<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors \
-  -threads 16 \
-  -index msmarco-v1-passage.cosdpr-distil.hnsw \
-  -topics dl20-passage.cosdpr-distil \
-  -output runs/run.msmarco.cosdpr-distil.hnsw.cached.dl20.txt \
-  -efSearch 1000 -hits 1000
-</code></pre></blockquote>
-Evaluation commands:
-
-  <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl20-passage \
-  runs/run.msmarco.cosdpr-distil.hnsw.cached.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl20-passage \
-  runs/run.msmarco.cosdpr-distil.hnsw.cached.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
-  runs/run.msmarco.cosdpr-distil.hnsw.cached.dl20.txt
-</code></pre>
-  </blockquote>
-
-  </div>
-  <div class="tab-pane fade" id="row4-tab3" role="tabpanel" aria-labelledby="row4-tab3">
-    Command to generate run on dev queries:
-
-  <blockquote class="mycode">
-<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors \
-  -threads 16 \
-  -index msmarco-v1-passage.cosdpr-distil.hnsw \
-  -topics msmarco-v1-passage.dev.cosdpr-distil \
-  -output runs/run.msmarco.cosdpr-distil.hnsw.cached.dev.txt \
-  -efSearch 1000 -hits 1000
-</code></pre></blockquote>
-Evaluation commands:
-
-  <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
-  runs/run.msmarco.cosdpr-distil.hnsw.cached.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 msmarco-passage.dev \
-  runs/run.msmarco.cosdpr-distil.hnsw.cached.dev.txt
-</code></pre>
-  </blockquote>
-
-  </div>
-</div>
-<!-- Tabs content -->
-
-</div></td>
-</tr>
-<!-- Condition: cosDPR-distil: HNSW, ONNX -->
-<tr class="accordion-toggle collapsed" id="row5" data-toggle="collapse" data-parent="#row5" href="#collapse5">
-<td class="expand-button"></td>
-<td style="min-width: 85px"></td>
-<td style="min-width: 400px">cosDPR-distil: HNSW, ONNX</td>
-<td>0.4660</td>
-<td>0.7250</td>
-<td>0.8222</td>
-<td></td>
-<td>0.4876</td>
-<td>0.7025</td>
-<td>0.8540</td>
-<td></td>
-<td>0.3887</td>
-<td>0.9765</td>
-</tr>
-<tr class="hide-table-padding">
-<td></td>
-<td colspan="11">
-<div id="collapse5" class="collapse in p-3">
-
-<!-- Tabs navs -->
-<ul class="nav nav-tabs mb-3" id="row5-tabs" role="tablist">
-  <li class="nav-item" role="presentation">
-    <a class="nav-link active" id="row5-tab1-header" data-mdb-toggle="tab" href="#row5-tab1" role="tab" aria-controls="row5-tab1" aria-selected="true" style="text-transform:none">TREC 2019</a>
-  </li>
-  <li class="nav-item" role="presentation">
-    <a class="nav-link" id="row5-tab2-header" data-mdb-toggle="tab" href="#row5-tab2" role="tab" aria-controls="row5-tab2" aria-selected="false" style="text-transform:none">TREC 2020</a>
-  </li>
-  <li class="nav-item" role="presentation">
-    <a class="nav-link" id="row5-tab3-header" data-mdb-toggle="tab" href="#row5-tab3" role="tab" aria-controls="row5-tab3" aria-selected="false" style="text-transform:none">dev</a>
-  </li>
-</ul>
-<!-- Tabs navs -->
-
-<!-- Tabs content -->
-<div class="tab-content" id="row5-content">
-  <div class="tab-pane fade show active" id="row5-tab1" role="tabpanel" aria-labelledby="row5-tab1">
-Command to generate run on TREC 2019 queries:
-
-  <blockquote class="mycode">
-<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors \
-  -threads 16 \
-  -index msmarco-v1-passage.cosdpr-distil.hnsw \
-  -topics dl19-passage \
-  -output runs/run.msmarco.cosdpr-distil.hnsw.onnx.dl19.txt \
-  -efSearch 1000 -hits 1000 \
-  -encoder CosDprDistil
-</code></pre></blockquote>
-Evaluation commands:
-
-  <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl19-passage \
-  runs/run.msmarco.cosdpr-distil.hnsw.onnx.dl19.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl19-passage \
-  runs/run.msmarco.cosdpr-distil.hnsw.onnx.dl19.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
-  runs/run.msmarco.cosdpr-distil.hnsw.onnx.dl19.txt
-</code></pre>
-  </blockquote>
-
-  </div>
-  <div class="tab-pane fade" id="row5-tab2" role="tabpanel" aria-labelledby="row5-tab2">
-    Command to generate run on TREC 2020 queries:
-
-  <blockquote class="mycode">
-<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors \
-  -threads 16 \
-  -index msmarco-v1-passage.cosdpr-distil.hnsw \
-  -topics dl20-passage \
-  -output runs/run.msmarco.cosdpr-distil.hnsw.onnx.dl20.txt \
-  -efSearch 1000 -hits 1000 \
-  -encoder CosDprDistil
-</code></pre></blockquote>
-Evaluation commands:
-
-  <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl20-passage \
-  runs/run.msmarco.cosdpr-distil.hnsw.onnx.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl20-passage \
-  runs/run.msmarco.cosdpr-distil.hnsw.onnx.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
-  runs/run.msmarco.cosdpr-distil.hnsw.onnx.dl20.txt
-</code></pre>
-  </blockquote>
-
-  </div>
-  <div class="tab-pane fade" id="row5-tab3" role="tabpanel" aria-labelledby="row5-tab3">
-    Command to generate run on dev queries:
-
-  <blockquote class="mycode">
-<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors \
-  -threads 16 \
-  -index msmarco-v1-passage.cosdpr-distil.hnsw \
-  -topics msmarco-v1-passage.dev \
-  -output runs/run.msmarco.cosdpr-distil.hnsw.onnx.dev.txt \
-  -efSearch 1000 -hits 1000 \
-  -encoder CosDprDistil
-</code></pre></blockquote>
-Evaluation commands:
-
-  <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
-  runs/run.msmarco.cosdpr-distil.hnsw.onnx.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 msmarco-passage.dev \
-  runs/run.msmarco.cosdpr-distil.hnsw.onnx.dev.txt
-</code></pre>
-  </blockquote>
-
-  </div>
-</div>
-<!-- Tabs content -->
-
-</div></td>
-</tr>
-<!-- Condition: cosDPR-distil: quantized (int8) HNSW, cached queries -->
-<tr class="accordion-toggle collapsed" id="row6" data-toggle="collapse" data-parent="#row6" href="#collapse6">
-<td class="expand-button"></td>
-<td style="min-width: 85px"></td>
-<td style="min-width: 400px">cosDPR-distil: quantized (int8) HNSW, cached queries</td>
-<td>0.4662</td>
-<td>0.7240</td>
-<td>0.8219</td>
-<td></td>
-<td>0.4872</td>
-<td>0.7004</td>
-<td>0.8538</td>
-<td></td>
-<td>0.3897</td>
-<td>0.9764</td>
-</tr>
-<tr class="hide-table-padding">
-<td></td>
-<td colspan="11">
-<div id="collapse6" class="collapse in p-3">
-
-<!-- Tabs navs -->
-<ul class="nav nav-tabs mb-3" id="row6-tabs" role="tablist">
-  <li class="nav-item" role="presentation">
-    <a class="nav-link active" id="row6-tab1-header" data-mdb-toggle="tab" href="#row6-tab1" role="tab" aria-controls="row6-tab1" aria-selected="true" style="text-transform:none">TREC 2019</a>
-  </li>
-  <li class="nav-item" role="presentation">
-    <a class="nav-link" id="row6-tab2-header" data-mdb-toggle="tab" href="#row6-tab2" role="tab" aria-controls="row6-tab2" aria-selected="false" style="text-transform:none">TREC 2020</a>
-  </li>
-  <li class="nav-item" role="presentation">
-    <a class="nav-link" id="row6-tab3-header" data-mdb-toggle="tab" href="#row6-tab3" role="tab" aria-controls="row6-tab3" aria-selected="false" style="text-transform:none">dev</a>
-  </li>
-</ul>
-<!-- Tabs navs -->
-
-<!-- Tabs content -->
-<div class="tab-content" id="row6-content">
-  <div class="tab-pane fade show active" id="row6-tab1" role="tabpanel" aria-labelledby="row6-tab1">
-Command to generate run on TREC 2019 queries:
-
-  <blockquote class="mycode">
-<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors \
-  -threads 16 \
-  -index msmarco-v1-passage.cosdpr-distil.hnsw-int8 \
-  -topics dl19-passage.cosdpr-distil \
-  -output runs/run.msmarco.cosdpr-distil.hnsw-int8.cached.dl19.txt \
-  -efSearch 1000 -hits 1000
-</code></pre></blockquote>
-Evaluation commands:
-
-  <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl19-passage \
-  runs/run.msmarco.cosdpr-distil.hnsw-int8.cached.dl19.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl19-passage \
-  runs/run.msmarco.cosdpr-distil.hnsw-int8.cached.dl19.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
-  runs/run.msmarco.cosdpr-distil.hnsw-int8.cached.dl19.txt
-</code></pre>
-  </blockquote>
-
-  </div>
-  <div class="tab-pane fade" id="row6-tab2" role="tabpanel" aria-labelledby="row6-tab2">
-    Command to generate run on TREC 2020 queries:
-
-  <blockquote class="mycode">
-<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors \
-  -threads 16 \
-  -index msmarco-v1-passage.cosdpr-distil.hnsw-int8 \
-  -topics dl20-passage.cosdpr-distil \
-  -output runs/run.msmarco.cosdpr-distil.hnsw-int8.cached.dl20.txt \
-  -efSearch 1000 -hits 1000
-</code></pre></blockquote>
-Evaluation commands:
-
-  <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl20-passage \
-  runs/run.msmarco.cosdpr-distil.hnsw-int8.cached.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl20-passage \
-  runs/run.msmarco.cosdpr-distil.hnsw-int8.cached.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
-  runs/run.msmarco.cosdpr-distil.hnsw-int8.cached.dl20.txt
-</code></pre>
-  </blockquote>
-
-  </div>
-  <div class="tab-pane fade" id="row6-tab3" role="tabpanel" aria-labelledby="row6-tab3">
-    Command to generate run on dev queries:
-
-  <blockquote class="mycode">
-<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors \
-  -threads 16 \
-  -index msmarco-v1-passage.cosdpr-distil.hnsw-int8 \
-  -topics msmarco-v1-passage.dev.cosdpr-distil \
-  -output runs/run.msmarco.cosdpr-distil.hnsw-int8.cached.dev.txt \
-  -efSearch 1000 -hits 1000
-</code></pre></blockquote>
-Evaluation commands:
-
-  <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
-  runs/run.msmarco.cosdpr-distil.hnsw-int8.cached.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 msmarco-passage.dev \
-  runs/run.msmarco.cosdpr-distil.hnsw-int8.cached.dev.txt
-</code></pre>
-  </blockquote>
-
-  </div>
-</div>
-<!-- Tabs content -->
-
-</div></td>
-</tr>
-<!-- Condition: cosDPR-distil: quantized (int8) HNSW, ONNX -->
-<tr class="accordion-toggle collapsed" id="row7" data-toggle="collapse" data-parent="#row7" href="#collapse7">
-<td class="expand-button"></td>
-<td style="min-width: 85px"></td>
-<td style="min-width: 400px">cosDPR-distil: quantized (int8) HNSW, ONNX</td>
-<td>0.4664</td>
-<td>0.7247</td>
-<td>0.8218</td>
-<td></td>
-<td>0.4871</td>
-<td>0.6996</td>
-<td>0.8538</td>
-<td></td>
-<td>0.3899</td>
-<td>0.9764</td>
-</tr>
-<tr class="hide-table-padding">
-<td></td>
-<td colspan="11">
-<div id="collapse7" class="collapse in p-3">
-
-<!-- Tabs navs -->
-<ul class="nav nav-tabs mb-3" id="row7-tabs" role="tablist">
-  <li class="nav-item" role="presentation">
-    <a class="nav-link active" id="row7-tab1-header" data-mdb-toggle="tab" href="#row7-tab1" role="tab" aria-controls="row7-tab1" aria-selected="true" style="text-transform:none">TREC 2019</a>
-  </li>
-  <li class="nav-item" role="presentation">
-    <a class="nav-link" id="row7-tab2-header" data-mdb-toggle="tab" href="#row7-tab2" role="tab" aria-controls="row7-tab2" aria-selected="false" style="text-transform:none">TREC 2020</a>
-  </li>
-  <li class="nav-item" role="presentation">
-    <a class="nav-link" id="row7-tab3-header" data-mdb-toggle="tab" href="#row7-tab3" role="tab" aria-controls="row7-tab3" aria-selected="false" style="text-transform:none">dev</a>
-  </li>
-</ul>
-<!-- Tabs navs -->
-
-<!-- Tabs content -->
-<div class="tab-content" id="row7-content">
-  <div class="tab-pane fade show active" id="row7-tab1" role="tabpanel" aria-labelledby="row7-tab1">
-Command to generate run on TREC 2019 queries:
-
-  <blockquote class="mycode">
-<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors \
-  -threads 16 \
-  -index msmarco-v1-passage.cosdpr-distil.hnsw-int8 \
-  -topics dl19-passage \
-  -output runs/run.msmarco.cosdpr-distil.hnsw-int8.onnx.dl19.txt \
-  -efSearch 1000 -hits 1000 \
-  -encoder CosDprDistil
-</code></pre></blockquote>
-Evaluation commands:
-
-  <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl19-passage \
-  runs/run.msmarco.cosdpr-distil.hnsw-int8.onnx.dl19.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl19-passage \
-  runs/run.msmarco.cosdpr-distil.hnsw-int8.onnx.dl19.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
-  runs/run.msmarco.cosdpr-distil.hnsw-int8.onnx.dl19.txt
-</code></pre>
-  </blockquote>
-
-  </div>
-  <div class="tab-pane fade" id="row7-tab2" role="tabpanel" aria-labelledby="row7-tab2">
-    Command to generate run on TREC 2020 queries:
-
-  <blockquote class="mycode">
-<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors \
-  -threads 16 \
-  -index msmarco-v1-passage.cosdpr-distil.hnsw-int8 \
-  -topics dl20-passage \
-  -output runs/run.msmarco.cosdpr-distil.hnsw-int8.onnx.dl20.txt \
-  -efSearch 1000 -hits 1000 \
-  -encoder CosDprDistil
-</code></pre></blockquote>
-Evaluation commands:
-
-  <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl20-passage \
-  runs/run.msmarco.cosdpr-distil.hnsw-int8.onnx.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl20-passage \
-  runs/run.msmarco.cosdpr-distil.hnsw-int8.onnx.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
-  runs/run.msmarco.cosdpr-distil.hnsw-int8.onnx.dl20.txt
-</code></pre>
-  </blockquote>
-
-  </div>
-  <div class="tab-pane fade" id="row7-tab3" role="tabpanel" aria-labelledby="row7-tab3">
-    Command to generate run on dev queries:
-
-  <blockquote class="mycode">
-<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors \
-  -threads 16 \
-  -index msmarco-v1-passage.cosdpr-distil.hnsw-int8 \
-  -topics msmarco-v1-passage.dev \
-  -output runs/run.msmarco.cosdpr-distil.hnsw-int8.onnx.dev.txt \
-  -efSearch 1000 -hits 1000 \
-  -encoder CosDprDistil
-</code></pre></blockquote>
-Evaluation commands:
-
-  <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
-  runs/run.msmarco.cosdpr-distil.hnsw-int8.onnx.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 msmarco-passage.dev \
-  runs/run.msmarco.cosdpr-distil.hnsw-int8.onnx.dev.txt
-</code></pre>
-  </blockquote>
-
-  </div>
-</div>
-<!-- Tabs content -->
-
-</div></td>
-</tr>
-<!-- Condition: bge-base-en-v1.5: HNSW, cached queries -->
-<tr class="accordion-toggle collapsed" id="row8" data-toggle="collapse" data-parent="#row8" href="#collapse8">
-<td class="expand-button"></td>
-<td style="min-width: 85px"></td>
-<td style="min-width: 400px">bge-base-en-v1.5: HNSW, cached queries</td>
-<td>0.4436</td>
-<td>0.7065</td>
-<td>0.8481</td>
-<td></td>
-<td>0.4648</td>
-<td>0.6780</td>
-<td>0.8483</td>
-<td></td>
-<td>0.3574</td>
-<td>0.9788</td>
-</tr>
-<tr class="hide-table-padding">
-<td></td>
-<td colspan="11">
-<div id="collapse8" class="collapse in p-3">
-
-<!-- Tabs navs -->
-<ul class="nav nav-tabs mb-3" id="row8-tabs" role="tablist">
-  <li class="nav-item" role="presentation">
-    <a class="nav-link active" id="row8-tab1-header" data-mdb-toggle="tab" href="#row8-tab1" role="tab" aria-controls="row8-tab1" aria-selected="true" style="text-transform:none">TREC 2019</a>
-  </li>
-  <li class="nav-item" role="presentation">
-    <a class="nav-link" id="row8-tab2-header" data-mdb-toggle="tab" href="#row8-tab2" role="tab" aria-controls="row8-tab2" aria-selected="false" style="text-transform:none">TREC 2020</a>
-  </li>
-  <li class="nav-item" role="presentation">
-    <a class="nav-link" id="row8-tab3-header" data-mdb-toggle="tab" href="#row8-tab3" role="tab" aria-controls="row8-tab3" aria-selected="false" style="text-transform:none">dev</a>
-  </li>
-</ul>
-<!-- Tabs navs -->
-
-<!-- Tabs content -->
-<div class="tab-content" id="row8-content">
-  <div class="tab-pane fade show active" id="row8-tab1" role="tabpanel" aria-labelledby="row8-tab1">
-Command to generate run on TREC 2019 queries:
-
-  <blockquote class="mycode">
-<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors \
-  -threads 16 \
-  -index msmarco-v1-passage.bge-base-en-v1.5.hnsw \
-  -topics dl19-passage.bge-base-en-v1.5 \
-  -output runs/run.msmarco.bge-base-en-v1.5.hnsw.cached.dl19.txt \
-  -efSearch 1000 -hits 1000
-</code></pre></blockquote>
-Evaluation commands:
-
-  <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl19-passage \
-  runs/run.msmarco.bge-base-en-v1.5.hnsw.cached.dl19.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl19-passage \
-  runs/run.msmarco.bge-base-en-v1.5.hnsw.cached.dl19.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
-  runs/run.msmarco.bge-base-en-v1.5.hnsw.cached.dl19.txt
-</code></pre>
-  </blockquote>
-
-  </div>
-  <div class="tab-pane fade" id="row8-tab2" role="tabpanel" aria-labelledby="row8-tab2">
-    Command to generate run on TREC 2020 queries:
-
-  <blockquote class="mycode">
-<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors \
-  -threads 16 \
-  -index msmarco-v1-passage.bge-base-en-v1.5.hnsw \
-  -topics dl20-passage.bge-base-en-v1.5 \
-  -output runs/run.msmarco.bge-base-en-v1.5.hnsw.cached.dl20.txt \
-  -efSearch 1000 -hits 1000
-</code></pre></blockquote>
-Evaluation commands:
-
-  <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl20-passage \
-  runs/run.msmarco.bge-base-en-v1.5.hnsw.cached.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl20-passage \
-  runs/run.msmarco.bge-base-en-v1.5.hnsw.cached.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
-  runs/run.msmarco.bge-base-en-v1.5.hnsw.cached.dl20.txt
-</code></pre>
-  </blockquote>
-
-  </div>
-  <div class="tab-pane fade" id="row8-tab3" role="tabpanel" aria-labelledby="row8-tab3">
-    Command to generate run on dev queries:
-
-  <blockquote class="mycode">
-<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors \
-  -threads 16 \
-  -index msmarco-v1-passage.bge-base-en-v1.5.hnsw \
-  -topics msmarco-v1-passage.dev.bge-base-en-v1.5 \
-  -output runs/run.msmarco.bge-base-en-v1.5.hnsw.cached.dev.txt \
-  -efSearch 1000 -hits 1000
-</code></pre></blockquote>
-Evaluation commands:
-
-  <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
-  runs/run.msmarco.bge-base-en-v1.5.hnsw.cached.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 msmarco-passage.dev \
-  runs/run.msmarco.bge-base-en-v1.5.hnsw.cached.dev.txt
-</code></pre>
-  </blockquote>
-
-  </div>
-</div>
-<!-- Tabs content -->
-
-</div></td>
-</tr>
-<!-- Condition: bge-base-en-v1.5: HNSW, ONNX -->
-<tr class="accordion-toggle collapsed" id="row9" data-toggle="collapse" data-parent="#row9" href="#collapse9">
-<td class="expand-button"></td>
-<td style="min-width: 85px"></td>
-<td style="min-width: 400px">bge-base-en-v1.5: HNSW, ONNX</td>
-<td>0.4486</td>
-<td>0.7016</td>
-<td>0.8441</td>
-<td></td>
-<td>0.4626</td>
-<td>0.6768</td>
-<td>0.8526</td>
-<td></td>
-<td>0.3575</td>
-<td>0.9788</td>
-</tr>
-<tr class="hide-table-padding">
-<td></td>
-<td colspan="11">
-<div id="collapse9" class="collapse in p-3">
-
-<!-- Tabs navs -->
-<ul class="nav nav-tabs mb-3" id="row9-tabs" role="tablist">
-  <li class="nav-item" role="presentation">
-    <a class="nav-link active" id="row9-tab1-header" data-mdb-toggle="tab" href="#row9-tab1" role="tab" aria-controls="row9-tab1" aria-selected="true" style="text-transform:none">TREC 2019</a>
-  </li>
-  <li class="nav-item" role="presentation">
-    <a class="nav-link" id="row9-tab2-header" data-mdb-toggle="tab" href="#row9-tab2" role="tab" aria-controls="row9-tab2" aria-selected="false" style="text-transform:none">TREC 2020</a>
-  </li>
-  <li class="nav-item" role="presentation">
-    <a class="nav-link" id="row9-tab3-header" data-mdb-toggle="tab" href="#row9-tab3" role="tab" aria-controls="row9-tab3" aria-selected="false" style="text-transform:none">dev</a>
-  </li>
-</ul>
-<!-- Tabs navs -->
-
-<!-- Tabs content -->
-<div class="tab-content" id="row9-content">
-  <div class="tab-pane fade show active" id="row9-tab1" role="tabpanel" aria-labelledby="row9-tab1">
-Command to generate run on TREC 2019 queries:
-
-  <blockquote class="mycode">
-<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors \
-  -threads 16 \
-  -index msmarco-v1-passage.bge-base-en-v1.5.hnsw \
-  -topics dl19-passage \
-  -output runs/run.msmarco.bge-base-en-v1.5.hnsw.onnx.dl19.txt \
-  -efSearch 1000 -hits 1000 \
-  -encoder BgeBaseEn15
-</code></pre></blockquote>
-Evaluation commands:
-
-  <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl19-passage \
-  runs/run.msmarco.bge-base-en-v1.5.hnsw.onnx.dl19.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl19-passage \
-  runs/run.msmarco.bge-base-en-v1.5.hnsw.onnx.dl19.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
-  runs/run.msmarco.bge-base-en-v1.5.hnsw.onnx.dl19.txt
-</code></pre>
-  </blockquote>
-
-  </div>
-  <div class="tab-pane fade" id="row9-tab2" role="tabpanel" aria-labelledby="row9-tab2">
-    Command to generate run on TREC 2020 queries:
-
-  <blockquote class="mycode">
-<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors \
-  -threads 16 \
-  -index msmarco-v1-passage.bge-base-en-v1.5.hnsw \
-  -topics dl20-passage \
-  -output runs/run.msmarco.bge-base-en-v1.5.hnsw.onnx.dl20.txt \
-  -efSearch 1000 -hits 1000 \
-  -encoder BgeBaseEn15
-</code></pre></blockquote>
-Evaluation commands:
-
-  <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl20-passage \
-  runs/run.msmarco.bge-base-en-v1.5.hnsw.onnx.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl20-passage \
-  runs/run.msmarco.bge-base-en-v1.5.hnsw.onnx.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
-  runs/run.msmarco.bge-base-en-v1.5.hnsw.onnx.dl20.txt
-</code></pre>
-  </blockquote>
-
-  </div>
-  <div class="tab-pane fade" id="row9-tab3" role="tabpanel" aria-labelledby="row9-tab3">
-    Command to generate run on dev queries:
-
-  <blockquote class="mycode">
-<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors \
-  -threads 16 \
-  -index msmarco-v1-passage.bge-base-en-v1.5.hnsw \
-  -topics msmarco-v1-passage.dev \
-  -output runs/run.msmarco.bge-base-en-v1.5.hnsw.onnx.dev.txt \
-  -efSearch 1000 -hits 1000 \
-  -encoder BgeBaseEn15
-</code></pre></blockquote>
-Evaluation commands:
-
-  <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
-  runs/run.msmarco.bge-base-en-v1.5.hnsw.onnx.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 msmarco-passage.dev \
-  runs/run.msmarco.bge-base-en-v1.5.hnsw.onnx.dev.txt
-</code></pre>
-  </blockquote>
-
-  </div>
-</div>
-<!-- Tabs content -->
-
-</div></td>
-</tr>
-<!-- Condition: bge-base-en-v1.5: quantized (int8) HNSW, cached queries -->
-<tr class="accordion-toggle collapsed" id="row10" data-toggle="collapse" data-parent="#row10" href="#collapse10">
-<td class="expand-button"></td>
-<td style="min-width: 85px"></td>
-<td style="min-width: 400px">bge-base-en-v1.5: quantized (int8) HNSW, cached queries</td>
-<td>0.4400</td>
-<td>0.7016</td>
-<td>0.8481</td>
-<td></td>
-<td>0.4623</td>
-<td>0.6738</td>
-<td>0.8420</td>
-<td></td>
-<td>0.3572</td>
-<td>0.9774</td>
-</tr>
-<tr class="hide-table-padding">
-<td></td>
-<td colspan="11">
-<div id="collapse10" class="collapse in p-3">
-
-<!-- Tabs navs -->
-<ul class="nav nav-tabs mb-3" id="row10-tabs" role="tablist">
-  <li class="nav-item" role="presentation">
-    <a class="nav-link active" id="row10-tab1-header" data-mdb-toggle="tab" href="#row10-tab1" role="tab" aria-controls="row10-tab1" aria-selected="true" style="text-transform:none">TREC 2019</a>
-  </li>
-  <li class="nav-item" role="presentation">
-    <a class="nav-link" id="row10-tab2-header" data-mdb-toggle="tab" href="#row10-tab2" role="tab" aria-controls="row10-tab2" aria-selected="false" style="text-transform:none">TREC 2020</a>
-  </li>
-  <li class="nav-item" role="presentation">
-    <a class="nav-link" id="row10-tab3-header" data-mdb-toggle="tab" href="#row10-tab3" role="tab" aria-controls="row10-tab3" aria-selected="false" style="text-transform:none">dev</a>
-  </li>
-</ul>
-<!-- Tabs navs -->
-
-<!-- Tabs content -->
-<div class="tab-content" id="row10-content">
-  <div class="tab-pane fade show active" id="row10-tab1" role="tabpanel" aria-labelledby="row10-tab1">
-Command to generate run on TREC 2019 queries:
-
-  <blockquote class="mycode">
-<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors \
-  -threads 16 \
-  -index msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8 \
-  -topics dl19-passage.bge-base-en-v1.5 \
-  -output runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.cached.dl19.txt \
-  -efSearch 1000 -hits 1000
-</code></pre></blockquote>
-Evaluation commands:
-
-  <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl19-passage \
-  runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.cached.dl19.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl19-passage \
-  runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.cached.dl19.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
-  runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.cached.dl19.txt
-</code></pre>
-  </blockquote>
-
-  </div>
-  <div class="tab-pane fade" id="row10-tab2" role="tabpanel" aria-labelledby="row10-tab2">
-    Command to generate run on TREC 2020 queries:
-
-  <blockquote class="mycode">
-<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors \
-  -threads 16 \
-  -index msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8 \
-  -topics dl20-passage.bge-base-en-v1.5 \
-  -output runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.cached.dl20.txt \
-  -efSearch 1000 -hits 1000
-</code></pre></blockquote>
-Evaluation commands:
-
-  <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl20-passage \
-  runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.cached.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl20-passage \
-  runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.cached.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
-  runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.cached.dl20.txt
-</code></pre>
-  </blockquote>
-
-  </div>
-  <div class="tab-pane fade" id="row10-tab3" role="tabpanel" aria-labelledby="row10-tab3">
-    Command to generate run on dev queries:
-
-  <blockquote class="mycode">
-<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors \
-  -threads 16 \
-  -index msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8 \
-  -topics msmarco-v1-passage.dev.bge-base-en-v1.5 \
-  -output runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.cached.dev.txt \
-  -efSearch 1000 -hits 1000
-</code></pre></blockquote>
-Evaluation commands:
-
-  <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
-  runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.cached.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 msmarco-passage.dev \
-  runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.cached.dev.txt
-</code></pre>
-  </blockquote>
-
-  </div>
-</div>
-<!-- Tabs content -->
-
-</div></td>
-</tr>
-<!-- Condition: bge-base-en-v1.5: quantized (int8) HNSW, ONNX -->
-<tr class="accordion-toggle collapsed" id="row11" data-toggle="collapse" data-parent="#row11" href="#collapse11">
-<td class="expand-button"></td>
-<td style="min-width: 85px"></td>
-<td style="min-width: 400px">bge-base-en-v1.5: quantized (int8) HNSW, ONNX</td>
-<td>0.4454</td>
-<td>0.7017</td>
-<td>0.8436</td>
-<td></td>
-<td>0.4596</td>
-<td>0.6767</td>
-<td>0.8468</td>
-<td></td>
-<td>0.3575</td>
-<td>0.9772</td>
-</tr>
-<tr class="hide-table-padding">
-<td></td>
-<td colspan="11">
-<div id="collapse11" class="collapse in p-3">
-
-<!-- Tabs navs -->
-<ul class="nav nav-tabs mb-3" id="row11-tabs" role="tablist">
-  <li class="nav-item" role="presentation">
-    <a class="nav-link active" id="row11-tab1-header" data-mdb-toggle="tab" href="#row11-tab1" role="tab" aria-controls="row11-tab1" aria-selected="true" style="text-transform:none">TREC 2019</a>
-  </li>
-  <li class="nav-item" role="presentation">
-    <a class="nav-link" id="row11-tab2-header" data-mdb-toggle="tab" href="#row11-tab2" role="tab" aria-controls="row11-tab2" aria-selected="false" style="text-transform:none">TREC 2020</a>
-  </li>
-  <li class="nav-item" role="presentation">
-    <a class="nav-link" id="row11-tab3-header" data-mdb-toggle="tab" href="#row11-tab3" role="tab" aria-controls="row11-tab3" aria-selected="false" style="text-transform:none">dev</a>
-  </li>
-</ul>
-<!-- Tabs navs -->
-
-<!-- Tabs content -->
-<div class="tab-content" id="row11-content">
-  <div class="tab-pane fade show active" id="row11-tab1" role="tabpanel" aria-labelledby="row11-tab1">
-Command to generate run on TREC 2019 queries:
-
-  <blockquote class="mycode">
-<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors \
-  -threads 16 \
   -index msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8 \
   -topics dl19-passage \
   -output runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.onnx.dl19.txt \
@@ -1367,7 +577,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
   </blockquote>
 
   </div>
-  <div class="tab-pane fade" id="row11-tab2" role="tabpanel" aria-labelledby="row11-tab2">
+  <div class="tab-pane fade" id="row4-tab2" role="tabpanel" aria-labelledby="row4-tab2">
     Command to generate run on TREC 2020 queries:
 
   <blockquote class="mycode">
@@ -1392,7 +602,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
   </blockquote>
 
   </div>
-  <div class="tab-pane fade" id="row11-tab3" role="tabpanel" aria-labelledby="row11-tab3">
+  <div class="tab-pane fade" id="row4-tab3" role="tabpanel" aria-labelledby="row4-tab3">
     Command to generate run on dev queries:
 
   <blockquote class="mycode">
@@ -1411,230 +621,6 @@ Evaluation commands:
   runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.onnx.dev.txt
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 msmarco-passage.dev \
   runs/run.msmarco.bge-base-en-v1.5.hnsw-int8.onnx.dev.txt
-</code></pre>
-  </blockquote>
-
-  </div>
-</div>
-<!-- Tabs content -->
-
-</div></td>
-</tr>
-<!-- Condition: cohere-embed-english-v3.0: HNSW, cached queries -->
-<tr class="accordion-toggle collapsed" id="row12" data-toggle="collapse" data-parent="#row12" href="#collapse12">
-<td class="expand-button"></td>
-<td style="min-width: 85px"></td>
-<td style="min-width: 400px">cohere-embed-english-v3.0: HNSW, cached queries</td>
-<td>0.4883</td>
-<td>0.6956</td>
-<td>0.8612</td>
-<td></td>
-<td>0.5068</td>
-<td>0.7245</td>
-<td>0.8682</td>
-<td></td>
-<td>0.3647</td>
-<td>0.9751</td>
-</tr>
-<tr class="hide-table-padding">
-<td></td>
-<td colspan="11">
-<div id="collapse12" class="collapse in p-3">
-
-<!-- Tabs navs -->
-<ul class="nav nav-tabs mb-3" id="row12-tabs" role="tablist">
-  <li class="nav-item" role="presentation">
-    <a class="nav-link active" id="row12-tab1-header" data-mdb-toggle="tab" href="#row12-tab1" role="tab" aria-controls="row12-tab1" aria-selected="true" style="text-transform:none">TREC 2019</a>
-  </li>
-  <li class="nav-item" role="presentation">
-    <a class="nav-link" id="row12-tab2-header" data-mdb-toggle="tab" href="#row12-tab2" role="tab" aria-controls="row12-tab2" aria-selected="false" style="text-transform:none">TREC 2020</a>
-  </li>
-  <li class="nav-item" role="presentation">
-    <a class="nav-link" id="row12-tab3-header" data-mdb-toggle="tab" href="#row12-tab3" role="tab" aria-controls="row12-tab3" aria-selected="false" style="text-transform:none">dev</a>
-  </li>
-</ul>
-<!-- Tabs navs -->
-
-<!-- Tabs content -->
-<div class="tab-content" id="row12-content">
-  <div class="tab-pane fade show active" id="row12-tab1" role="tabpanel" aria-labelledby="row12-tab1">
-Command to generate run on TREC 2019 queries:
-
-  <blockquote class="mycode">
-<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors \
-  -threads 16 \
-  -index msmarco-v1-passage.cohere-embed-english-v3.0.hnsw \
-  -topics dl19-passage.cohere-embed-english-v3.0 \
-  -output runs/run.msmarco.cohere-embed-english-v3.0.hnsw.cached.dl19.txt \
-  -efSearch 1000 -hits 1000
-</code></pre></blockquote>
-Evaluation commands:
-
-  <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl19-passage \
-  runs/run.msmarco.cohere-embed-english-v3.0.hnsw.cached.dl19.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl19-passage \
-  runs/run.msmarco.cohere-embed-english-v3.0.hnsw.cached.dl19.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
-  runs/run.msmarco.cohere-embed-english-v3.0.hnsw.cached.dl19.txt
-</code></pre>
-  </blockquote>
-
-  </div>
-  <div class="tab-pane fade" id="row12-tab2" role="tabpanel" aria-labelledby="row12-tab2">
-    Command to generate run on TREC 2020 queries:
-
-  <blockquote class="mycode">
-<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors \
-  -threads 16 \
-  -index msmarco-v1-passage.cohere-embed-english-v3.0.hnsw \
-  -topics dl20-passage.cohere-embed-english-v3.0 \
-  -output runs/run.msmarco.cohere-embed-english-v3.0.hnsw.cached.dl20.txt \
-  -efSearch 1000 -hits 1000
-</code></pre></blockquote>
-Evaluation commands:
-
-  <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl20-passage \
-  runs/run.msmarco.cohere-embed-english-v3.0.hnsw.cached.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl20-passage \
-  runs/run.msmarco.cohere-embed-english-v3.0.hnsw.cached.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
-  runs/run.msmarco.cohere-embed-english-v3.0.hnsw.cached.dl20.txt
-</code></pre>
-  </blockquote>
-
-  </div>
-  <div class="tab-pane fade" id="row12-tab3" role="tabpanel" aria-labelledby="row12-tab3">
-    Command to generate run on dev queries:
-
-  <blockquote class="mycode">
-<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors \
-  -threads 16 \
-  -index msmarco-v1-passage.cohere-embed-english-v3.0.hnsw \
-  -topics msmarco-v1-passage.dev.cohere-embed-english-v3.0 \
-  -output runs/run.msmarco.cohere-embed-english-v3.0.hnsw.cached.dev.txt \
-  -efSearch 1000 -hits 1000
-</code></pre></blockquote>
-Evaluation commands:
-
-  <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
-  runs/run.msmarco.cohere-embed-english-v3.0.hnsw.cached.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 msmarco-passage.dev \
-  runs/run.msmarco.cohere-embed-english-v3.0.hnsw.cached.dev.txt
-</code></pre>
-  </blockquote>
-
-  </div>
-</div>
-<!-- Tabs content -->
-
-</div></td>
-</tr>
-<!-- Condition: cohere-embed-english-v3.0: quantized (int8) HNSW, cached queries -->
-<tr class="accordion-toggle collapsed" id="row13" data-toggle="collapse" data-parent="#row13" href="#collapse13">
-<td class="expand-button"></td>
-<td style="min-width: 85px"></td>
-<td style="min-width: 400px">cohere-embed-english-v3.0: quantized (int8) HNSW, cached queries</td>
-<td>0.4888</td>
-<td>0.6955</td>
-<td>0.8643</td>
-<td></td>
-<td>0.5052</td>
-<td>0.7262</td>
-<td>0.8616</td>
-<td></td>
-<td>0.3656</td>
-<td>0.9752</td>
-</tr>
-<tr class="hide-table-padding">
-<td></td>
-<td colspan="11">
-<div id="collapse13" class="collapse in p-3">
-
-<!-- Tabs navs -->
-<ul class="nav nav-tabs mb-3" id="row13-tabs" role="tablist">
-  <li class="nav-item" role="presentation">
-    <a class="nav-link active" id="row13-tab1-header" data-mdb-toggle="tab" href="#row13-tab1" role="tab" aria-controls="row13-tab1" aria-selected="true" style="text-transform:none">TREC 2019</a>
-  </li>
-  <li class="nav-item" role="presentation">
-    <a class="nav-link" id="row13-tab2-header" data-mdb-toggle="tab" href="#row13-tab2" role="tab" aria-controls="row13-tab2" aria-selected="false" style="text-transform:none">TREC 2020</a>
-  </li>
-  <li class="nav-item" role="presentation">
-    <a class="nav-link" id="row13-tab3-header" data-mdb-toggle="tab" href="#row13-tab3" role="tab" aria-controls="row13-tab3" aria-selected="false" style="text-transform:none">dev</a>
-  </li>
-</ul>
-<!-- Tabs navs -->
-
-<!-- Tabs content -->
-<div class="tab-content" id="row13-content">
-  <div class="tab-pane fade show active" id="row13-tab1" role="tabpanel" aria-labelledby="row13-tab1">
-Command to generate run on TREC 2019 queries:
-
-  <blockquote class="mycode">
-<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors \
-  -threads 16 \
-  -index msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8 \
-  -topics dl19-passage.cohere-embed-english-v3.0 \
-  -output runs/run.msmarco.cohere-embed-english-v3.0.hnsw-int8.cached.dl19.txt \
-  -efSearch 1000 -hits 1000
-</code></pre></blockquote>
-Evaluation commands:
-
-  <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl19-passage \
-  runs/run.msmarco.cohere-embed-english-v3.0.hnsw-int8.cached.dl19.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl19-passage \
-  runs/run.msmarco.cohere-embed-english-v3.0.hnsw-int8.cached.dl19.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
-  runs/run.msmarco.cohere-embed-english-v3.0.hnsw-int8.cached.dl19.txt
-</code></pre>
-  </blockquote>
-
-  </div>
-  <div class="tab-pane fade" id="row13-tab2" role="tabpanel" aria-labelledby="row13-tab2">
-    Command to generate run on TREC 2020 queries:
-
-  <blockquote class="mycode">
-<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors \
-  -threads 16 \
-  -index msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8 \
-  -topics dl20-passage.cohere-embed-english-v3.0 \
-  -output runs/run.msmarco.cohere-embed-english-v3.0.hnsw-int8.cached.dl20.txt \
-  -efSearch 1000 -hits 1000
-</code></pre></blockquote>
-Evaluation commands:
-
-  <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m map dl20-passage \
-  runs/run.msmarco.cohere-embed-english-v3.0.hnsw-int8.cached.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 dl20-passage \
-  runs/run.msmarco.cohere-embed-english-v3.0.hnsw-int8.cached.dl20.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
-  runs/run.msmarco.cohere-embed-english-v3.0.hnsw-int8.cached.dl20.txt
-</code></pre>
-  </blockquote>
-
-  </div>
-  <div class="tab-pane fade" id="row13-tab3" role="tabpanel" aria-labelledby="row13-tab3">
-    Command to generate run on dev queries:
-
-  <blockquote class="mycode">
-<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors \
-  -threads 16 \
-  -index msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8 \
-  -topics msmarco-v1-passage.dev.cohere-embed-english-v3.0 \
-  -output runs/run.msmarco.cohere-embed-english-v3.0.hnsw-int8.cached.dev.txt \
-  -efSearch 1000 -hits 1000
-</code></pre></blockquote>
-Evaluation commands:
-
-  <blockquote class="mycode">
-<pre><code>tools/eval/trec_eval.9.0.4/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev \
-  runs/run.msmarco.cohere-embed-english-v3.0.hnsw-int8.cached.dev.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 msmarco-passage.dev \
-  runs/run.msmarco.cohere-embed-english-v3.0.hnsw-int8.cached.dev.txt
 </code></pre>
   </blockquote>
 

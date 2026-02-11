@@ -1,45 +1,49 @@
 /*
-* Anserini: A Lucene toolkit for reproducible information retrieval research
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package io.anserini.reproduce;
+
+import io.anserini.index.IndexReaderUtils;
+import io.anserini.util.PrebuiltIndexHandler;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.apache.commons.lang3.time.DurationFormatUtils;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.ParserProperties;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
-import java.util.HashMap;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import io.anserini.index.IndexReaderUtils;
-import io.anserini.util.PrebuiltIndexHandler;
-
-import java.nio.file.Paths;
-import java.nio.file.Path;
-import java.nio.file.Files;
-
-public class RunRepro {
+public class RunRegressionsFromPrebuiltIndexes {
   // ANSI escape code for red text
   private static final String RED = "\u001B[31m";
   // ANSI escape code for blue text
@@ -51,31 +55,57 @@ public class RunRepro {
   private static final String OKAY_ISH = BLUE + "[OK*]" + RESET;
 
   private final String collection;
-  private final TrecEvalMetricDefinitions metricDefinitions;
   private final boolean printCommands;
   private final boolean dryRun;
   private final boolean computeIndexSize;
 
   public static class Args {
+    @Option(name = "-regression", metaVar = "[config]", required = true, usage = "Regression config name.")
+    public String regression;
+
     @Option(name = "-printCommands", usage = "Print commands.")
     public Boolean printCommands = false;
 
-    @Option(name = "-dryRun", usage = "Dry run.")
+    @Option(name = "-dryRun", usage = "Perform dry run.")
     public Boolean dryRun = false;
-
-    @Option(name = "-options", usage = "Print information about options.")
-    public Boolean options = false;
 
     @Option(name = "-computeIndexSize", usage = "Compute total size of all unique indexes referenced by runs.")
     public Boolean computeIndexSize = false;
   }
 
-  public RunRepro(String collection, TrecEvalMetricDefinitions metrics, boolean printCommands, boolean dryRun, boolean computeIndexSize) {
-    this.collection = collection;
-    this.metricDefinitions = metrics;
-    this.printCommands = printCommands;
-    this.dryRun = dryRun;
-    this.computeIndexSize = computeIndexSize;
+  public RunRegressionsFromPrebuiltIndexes(Args args) {
+    this.collection = args.regression;
+    this.printCommands = args.printCommands;
+    this.dryRun = args.dryRun;
+    this.computeIndexSize = args.computeIndexSize;
+  }
+
+  public static void main(String[] args) throws Exception {
+    Args regressionArgs = new Args();
+    CmdLineParser parser = new CmdLineParser(regressionArgs, ParserProperties.defaults().withUsageWidth(120));
+
+    try {
+      parser.parseArgument(args);
+    } catch (CmdLineException exception) {
+      System.err.println(String.format("Error: %s", exception.getMessage()));
+
+      System.err.printf("%nOptions for %s:%n%n", RunRegressionsFromPrebuiltIndexes.class.getSimpleName());
+      parser.printUsage(System.err);
+
+      List<String> required = new java.util.ArrayList<>();
+      parser.getOptions().forEach((option) -> {
+        if (option.option.required()) {
+          required.add(option.option.toString());
+        }
+      });
+
+      System.err.printf("%nRequired options: %s%n", required);
+
+      return;
+    }
+
+    RunRegressionsFromPrebuiltIndexes repro = new RunRegressionsFromPrebuiltIndexes(regressionArgs);
+    repro.run();
   }
 
   public void run() throws IOException, InterruptedException, URISyntaxException {
@@ -83,11 +113,11 @@ public class RunRepro {
       new File("runs").mkdir();
     }
 
-    String fatjarPath = new File(RunRepro.class.getProtectionDomain()
+    String fatjarPath = new File(RunRegressionsFromPrebuiltIndexes.class.getProtectionDomain()
         .getCodeSource().getLocation().toURI()).getPath();
 
     final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-    Config config = mapper.readValue(RunRepro.class.getClassLoader()
+    Config config = mapper.readValue(RunRegressionsFromPrebuiltIndexes.class.getClassLoader()
         .getResourceAsStream("reproduce/" + collection + ".yaml"), Config.class);
 
     ProcessBuilder pb;
@@ -96,7 +126,7 @@ public class RunRepro {
     final long start = System.nanoTime();
 
     // Pre-scan all commands to gather unique indexes referenced.
-    java.util.Set<String> uniqueIndexNames = new java.util.LinkedHashSet<>();
+    Set<String> uniqueIndexNames = new LinkedHashSet<>();
     for (Condition condition : config.conditions) {
       for (Topic topic : condition.topics) {
         final String output = String.format("runs/run.%s.%s.%s.txt", collection, condition.name, topic.topic_key);
@@ -217,67 +247,63 @@ public class RunRepro {
           System.out.println();
         }
 
-        // running the evaluation command
-        Map<String, Map<String, String>> evalDefinitions = metricDefinitions.getMetricDefinitions().get(collection);
         InputStream stdout;
 
-        for (Map<String, Double> expected : topic.scores) {
-          Map<String, String> evalCommands = new LinkedHashMap<>();
+        Map<String, Double> expected = topic.expected_scores;
+        Map<String, String> evalCommands = new LinkedHashMap<>();
+        Map<String, String> metricDefinitions = topic.metric_definitions;
 
-          // Go through and gather the eval commands in a first pass, so that we can print all at once if desired.
-          for (String metric : expected.keySet()) {
-            String evalKey = topic.eval_key;
-            if (!evalDefinitions.get(evalKey).containsKey(metric)) {
-              throw new RuntimeException("Invalid metric: " + metric);
-            }
+        // Go through and gather the eval commands in a first pass, so that we can print all at once if desired.
+        for (String metric : expected.keySet()) {
+          String evalKey = topic.eval_key;
+          String metricDefinition = Objects.requireNonNull(metricDefinitions.get(metric));
 
-            evalCommands.put(metric, "java -cp $fatjarPath trec_eval $metric $evalKey $output"
-                .replace("$fatjarPath", fatjarPath)
-                .replace("$metric", evalDefinitions.get(evalKey).get(metric))
-                .replace("$evalKey", evalKey)
-                .replace("$output", output));
-          }
+          evalCommands.put(metric, "java -cp $fatjarPath trec_eval $metric $evalKey $output"
+              .replace("$fatjarPath", fatjarPath)
+              .replace("$metric", metricDefinition)
+              .replace("$evalKey", evalKey)
+              .replace("$output", output));
+        }
 
-          // Print the commands all at once if desired.
-          if (printCommands) {
-            for (Map.Entry<String, String> entry : evalCommands.entrySet()) {
-              System.out.println("    Eval command: " + entry.getValue());
-            }
-            System.out.println();
-          }
-
-          // We've already gathered the eval commands, so just run them now and check.
+        // Print the commands all at once if desired.
+        if (printCommands) {
           for (Map.Entry<String, String> entry : evalCommands.entrySet()) {
-            String metric = entry.getKey();
-            String cmd = entry.getValue();
-
-            if (!dryRun) {
-              pb = new ProcessBuilder(cmd.split(" "));
-              process = pb.start();
-
-              int resultCode = process.waitFor();
-              stdout = process.getInputStream();
-              if (resultCode == 0) {
-                String scoreString = new String(stdout.readAllBytes()).replaceAll(".*?(\\d+\\.\\d+)$", "$1").trim();
-                double score = Double.parseDouble(scoreString);
-                double delta = Math.abs(score - expected.get(metric));
-
-                if (score > expected.get(metric)) {
-                  System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, OKAY_ISH, expected.get(metric));
-                } else if (delta < 0.00001) {
-                  System.out.printf("    %8s: %.4f [OK]%n", metric, score);
-                } else if (delta < 0.0002) {
-                  System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, OKAY_ISH, expected.get(metric));
-                } else {
-                  System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, FAIL, expected.get(metric));
-                }
-              } else {
-                System.out.println("Evaluation command failed for metric: " + metric);
-              }
-            }
+            System.out.println("    Eval command: " + entry.getValue());
           }
           System.out.println();
         }
+
+        // We've already gathered the eval commands, so just run them now and check.
+        for (Map.Entry<String, String> entry : evalCommands.entrySet()) {
+          String metric = entry.getKey();
+          String cmd = entry.getValue();
+
+          if (!dryRun) {
+            pb = new ProcessBuilder(cmd.split(" "));
+            process = pb.start();
+
+            int resultCode = process.waitFor();
+            stdout = process.getInputStream();
+            if (resultCode == 0) {
+              String scoreString = new String(stdout.readAllBytes()).replaceAll(".*?(\\d+\\.\\d+)$", "$1").trim();
+              double score = Double.parseDouble(scoreString);
+              double delta = Math.abs(score - expected.get(metric));
+
+              if (score > expected.get(metric)) {
+                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, OKAY_ISH, expected.get(metric));
+              } else if (delta < 0.00001) {
+                System.out.printf("    %8s: %.4f [OK]%n", metric, score);
+              } else if (delta < 0.0002) {
+                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, OKAY_ISH, expected.get(metric));
+              } else {
+                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, FAIL, expected.get(metric));
+              }
+            } else {
+              System.out.println("Evaluation command failed for metric: " + metric);
+            }
+          }
+        }
+        System.out.println();
       }
     }
 
@@ -355,9 +381,6 @@ public class RunRepro {
     return sb.toString();
   }
 
-  // Intentionally no per-column wrapping: keeping path fully visible makes copy/paste easier.
-
-
   public static class Config {
     @JsonProperty
     public List<Condition> conditions;
@@ -391,18 +414,10 @@ public class RunRepro {
     public String eval_key;
 
     @JsonProperty
-    public List<Map<String, Double>> scores;
+    public Map<String, Double> expected_scores;
+
+    @JsonProperty
+    public Map<String, String> metric_definitions;
   }
 
-  public static class TrecEvalMetricDefinitions {
-    public Map<String, Map<String, Map<String, String>>> metricDefinitions;
-
-    public TrecEvalMetricDefinitions() {
-      metricDefinitions = new HashMap<>();
-    }
-
-    public Map<String, Map<String, Map<String, String>>> getMetricDefinitions() {
-      return metricDefinitions;
-    }
-  }
 }
