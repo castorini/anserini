@@ -62,8 +62,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-public class RunRegressionFromCorpus {
-  private static final Logger LOG = LogManager.getLogger(RunRegressionFromCorpus.class);
+public class RunRegressionsFromCorpus {
+  private static final Logger LOG = LogManager.getLogger(RunRegressionsFromCorpus.class);
 
   private static final String[] CORPUS_ROOTS = new String[] {
       "./",
