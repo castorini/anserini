@@ -19,6 +19,7 @@ package io.anserini.search.topicreader;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.Map;
@@ -69,6 +70,19 @@ public class TopicReaderTest {
     assertEquals("International Organized Crime", topics.get(topics.firstKey()).get("title"));
     assertEquals(700, (int) topics.lastKey());
     assertEquals("gasoline tax U.S.", topics.get(topics.lastKey()).get("title"));
+  }
+
+  @Test
+  public void testCacmTopics() throws IOException {
+    SortedMap<Integer, Map<String, String>> topics;
+
+    topics = TopicReader.getTopics(Topics.CACM);
+    assertNotNull(topics);
+    assertEquals(64, topics.size());
+    assertEquals(1, (int) topics.firstKey());
+    assertTrue(topics.get(topics.firstKey()).get("title").contains("What articles exist which deal with TSS"));
+    assertEquals(64, (int) topics.lastKey());
+    assertTrue(topics.get(topics.lastKey()).get("title").contains("List all articles on EL1 and ECL"));
   }
 
   @Test
