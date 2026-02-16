@@ -17,7 +17,9 @@
 package io.anserini.reproduce;
 
 import io.anserini.eval.TrecEval;
+import io.anserini.index.Constants;
 import io.anserini.index.IndexCollection;
+import io.anserini.index.IndexReaderUtils;
 import io.anserini.search.SearchCollection;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -86,14 +88,6 @@ public class RunRegressionsFromCorpus {
   private static final String SEARCH_FLAT_DENSE_COMMAND = "bin/run.sh io.anserini.search.SearchFlatDenseVectors";
   private static final String SEARCH_HNSW_DENSE_COMMAND = "bin/run.sh io.anserini.search.SearchHnswDenseVectors";
   private static final String SEARCH_INVERTED_DENSE_COMMAND = "bin/run.sh io.anserini.search.SearchInvertedDenseVectors";
-
-  private static final String RED = "\u001B[91m";
-  private static final String BLUE = "\u001B[94m";
-  private static final String RESET = "\u001B[0m";
-
-  private static final String FAIL = RED + "[FAIL]" + RESET + " ";
-  private static final String OK = "   [OK] ";
-  private static final String OKISH = "  " + BLUE + "[OK*]" + RESET + " ";
 
   public static class Args {
     @Option(name = "--regression", required = true, usage = "Name of the regression test.")
@@ -260,7 +254,7 @@ public class RunRegressionsFromCorpus {
   private static String checkOutput(String command) throws IOException, InterruptedException {
     //LOG.info("Eval command: " + command);
 
-    if ( command.contains("trec_eval")) {
+    if (command.contains("trec_eval")) {
       String[] parts = command.trim().split("\\s+");
       String[] args = Arrays.copyOfRange(parts, 1, parts.length);
       //System.out.println(Arrays.toString(args));
@@ -281,6 +275,12 @@ public class RunRegressionsFromCorpus {
       }
       //System.out.println("OUT ---> " + sb.toString());
       return sb.toString();
+    } else if (command.contains("io.anserini.index.IndexReaderUtils")) {
+      LOG.info("Calling IndexReaderUtils directly instead of starting a new process.");
+      String[] args = extractArgsAfterClass("io.anserini.index.IndexReaderUtils", command);
+      LOG.info(Arrays.toString(args));
+
+      return IndexReaderUtils.getIndexStatsSummary(args[1], Constants.CONTENTS);
     }
 
     ProcessBuilder pb = new ProcessBuilder("bash", "-lc", command);
@@ -562,13 +562,13 @@ public class RunRegressionsFromCorpus {
           if (isClose(expected, actual, 1e-9, 0.0) || actual > expected ||
               (usingFlat && isClose(expected, actual, 1e-9, toleranceOk)) ||
               (usingHnsw && isClose(expected, actual, 1e-9, toleranceOk))) {
-            LOG.info(OK + resultStr);
+            LOG.info(RegressionConstants.OK + resultStr);
           } else if ((usingFlat && isClose(expected, actual, 1e-9, toleranceOk * 1.5)) ||
               (usingHnsw && isClose(expected, actual, 1e-9, toleranceOk * 1.5))) {
-            LOG.info(OKISH + resultStr);
+            LOG.info(RegressionConstants.OKISH + resultStr);
             okish = true;
           } else {
-            LOG.error(FAIL + resultStr);
+            LOG.error(RegressionConstants.FAIL + resultStr);
             failures = true;
           }
         }
@@ -578,11 +578,11 @@ public class RunRegressionsFromCorpus {
     if (!args.dryRun) {
       long elapsed = Duration.ofNanos(System.nanoTime() - startNanos).toSeconds();
       if (failures) {
-        LOG.error("{}Total elapsed time: {}s", FAIL, elapsed);
+        LOG.error("{}Total elapsed time: {}s", RegressionConstants.FAIL, elapsed);
       } else if (okish) {
-        LOG.info("{}Total elapsed time: {}s", OKISH, elapsed);
+        LOG.info("{}Total elapsed time: {}s", RegressionConstants.OKISH, elapsed);
       } else {
-        LOG.info("All Tests Passed! Total elapsed time: {}s", elapsed);
+        LOG.info("{}Total elapsed time: {}s", RegressionConstants.OK, elapsed);
       }
     }
   }

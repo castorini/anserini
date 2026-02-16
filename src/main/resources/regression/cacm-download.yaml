@@ -1,9 +1,9 @@
 ---
 corpus: cacm
-corpus_path: collections/cacm/raw/
+corpus_path: collections/cacm/
 
 download_url: https://github.com/castorini/anserini-data/raw/refs/heads/master/CACM/corpus/raw/cacm-in-folder.tar.gz
-download_checksum: a5978c8f60db907cb7d1ae399b34b626
+download_checksum: 8be2ec7cd2ae68b6e891f69df5ef2a5f
 
 index_path: indexes/lucene-inverted.cacm.download/
 collection_class: HtmlCollection
