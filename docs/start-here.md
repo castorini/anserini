@@ -343,9 +343,7 @@ In the description of your pull request, please provide some details on your set
 In addition, also provide some indication of success (e.g., everything worked) or document issues you encountered.
 If you think this guide can be improved in any way (e.g., you caught a typo or think a clarification is warranted), feel free to include it in the pull request.
 
-## Reproduction Log[*](reproducibility.md)
-
-+ Results reproduced by [@dishaprashar64-code](https://github.com/dishaprashar64-code) on 2026-01-30 (commit [`7fd461c`](https://github.com/castorini/anserini/commit/7fd461c)) 
+## Reproduction Log[*](reproducibility.md) 
 
 + Results reproduced by [@sahel-sh](https://github.com/sahel-sh) on 2023-07-21 (commit [`0e759fd`](https://github.com/castorini/anserini/commit/0e759fd3b9161a24f66c56e07f73f16eaf1490c6))
 + Results reproduced by [@Mofetoluwa](https://github.com/Mofetoluwa) on 2023-08-03 (commit [`7314128`](https://github.com/castorini/anserini/commit/73141282b62979e189ac3c87d9a902064f34a1c5))
@@ -545,3 +543,4 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@aaryanshroff](https://github.com/aaryanshroff) on 2026-01-24 (commit [`952ac5e`](https://github.com/castorini/anserini/commit/952ac5e4573486a255778828b8f26fd892cda854))
 + Results reproduced by [@HusamIsied](https://github.com/HusamIsied) on 2026-01-25 (commit [`952ac5e4`](https://github.com/castorini/anserini/commit/952ac5e4573486a255778828b8f26fd892cda854))
 + Results reproduced by [@maherapp](https://github.com/maherapp) on 2026-02-01 (commit [`f0ecf565`](https://github.com/castorini/anserini/commit/f0ecf5655430b3fdccb802cde31e7f8ef821d0de))
++ Results reproduced by [@dishaprashar64-code](https://github.com/dishaprashar64-code) on 2026-01-30 (commit [7fd461c](https://github.com/castorini/anserini/commit/7fd461cb3515fd35b26c66dbf45fac4e7bb62c1c))
