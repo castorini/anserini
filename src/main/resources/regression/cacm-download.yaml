@@ -3,7 +3,7 @@ corpus: cacm
 corpus_path: collections/cacm/raw/
 
 download_url: https://github.com/castorini/anserini-data/raw/refs/heads/master/CACM/corpus/raw/cacm-in-folder.tar.gz
-download_checksum: a5978c8f60db907cb7d1ae399b34b626
+download_checksum: 8be2ec7cd2ae68b6e891f69df5ef2a5f
 
 index_path: indexes/lucene-inverted.cacm.download/
 collection_class: HtmlCollection
@@ -51,7 +51,7 @@ models:
     params: -bm25 -rm3
     results:
       MAP:
-        - 0.3643
+        - 0.3648
       P30:
         - 0.2224
   - name: bm25+ax
@@ -72,9 +72,9 @@ models:
     params: -qld -rm3
     results:
       MAP:
-        - 0.3620
+        - 0.3629
       P30:
-        - 0.2218
+        - 0.2250
   - name: ql+ax
     params: -qld -axiom -axiom.deterministic -rerankCutoff 20
     results:
