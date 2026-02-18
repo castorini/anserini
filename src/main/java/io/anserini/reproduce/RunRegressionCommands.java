@@ -92,6 +92,8 @@ public class RunRegressionCommands {
           loadString, args.load, active.size(), args.max > 0 ? args.max : "unlimited");
       Thread.sleep(args.sleep * 1000L);
     }
+
+    LOG.info("All commands submitted!");
   }
 
   private static List<String> loadCommands(Path path) throws IOException {
