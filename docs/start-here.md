@@ -543,3 +543,4 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@aaryanshroff](https://github.com/aaryanshroff) on 2026-01-24 (commit [`952ac5e`](https://github.com/castorini/anserini/commit/952ac5e4573486a255778828b8f26fd892cda854))
 + Results reproduced by [@HusamIsied](https://github.com/HusamIsied) on 2026-01-25 (commit [`952ac5e4`](https://github.com/castorini/anserini/commit/952ac5e4573486a255778828b8f26fd892cda854))
 + Results reproduced by [@maherapp](https://github.com/maherapp) on 2026-02-01 (commit [`f0ecf565`](https://github.com/castorini/anserini/commit/f0ecf5655430b3fdccb802cde31e7f8ef821d0de))
++ Results reproduced by [@noamatia](https://github.com/noamatia) on 2026-02-14 (commit [`ed1b9e8`](https://github.com/castorini/anserini/commit/ed1b9e842416c61856af15836f10b93d2513564d))
