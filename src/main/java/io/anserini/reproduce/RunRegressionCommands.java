@@ -93,7 +93,7 @@ public class RunRegressionCommands {
       Thread.sleep(args.sleep * 1000L);
     }
 
-    LOG.info("All commands submitted!");
+    LOG.info("All jobs completed!");
   }
 
   private static List<String> loadCommands(Path path) throws IOException {
