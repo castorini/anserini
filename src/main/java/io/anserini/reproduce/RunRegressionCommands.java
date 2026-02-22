@@ -84,7 +84,6 @@ public class RunRegressionCommands {
         LOG.info("Launching: {}", command);
         active.add(launch(command));
         nextCommand++;
-        continue;
       }
 
       String loadString = loadAvailable ? String.format("%.1f", currentLoad) : "N/A";
