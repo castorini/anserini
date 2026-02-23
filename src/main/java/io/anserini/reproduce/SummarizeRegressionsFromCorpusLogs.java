@@ -27,6 +27,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SummarizeRegressionsFromCorpusLogs {
   private static final String RUN_REGRESSIONS_FROM_CORPUS = "RunRegressionsFromCorpus";
@@ -36,6 +38,8 @@ public class SummarizeRegressionsFromCorpusLogs {
       .appendLiteral(',')
       .appendFraction(java.time.temporal.ChronoField.NANO_OF_SECOND, 1, 9, false)
       .toFormatter(Locale.ROOT);
+  private static final Pattern LOG_TIMESTAMP_PATTERN =
+      Pattern.compile("^(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2},\\d{1,9})\\b");
 
   public static void main(String[] args) {
     Path logsDir = Paths.get("logs");
@@ -129,11 +133,11 @@ public class SummarizeRegressionsFromCorpusLogs {
   }
 
   private static String extractTimestamp(String line) {
-    String[] parts = line.trim().split("\\s+");
-    if (parts.length < 2) {
+    Matcher matcher = LOG_TIMESTAMP_PATTERN.matcher(line.trim());
+    if (!matcher.find()) {
       return null;
     }
-    return parts[0] + " " + parts[1];
+    return matcher.group(1);
   }
 
   private static String formatDuration(Duration duration) {
