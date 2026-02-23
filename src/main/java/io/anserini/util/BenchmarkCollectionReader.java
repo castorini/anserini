@@ -33,8 +33,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.LongAdder;
 
 // Simple program to benchmark IO performance, reading collections from disk.
 public final class BenchmarkCollectionReader {
@@ -54,6 +56,7 @@ public final class BenchmarkCollectionReader {
   private final class ReaderThread extends Thread {
     final private Path inputFile;
     final private DocumentCollection<?> collection;
+    private int recordsProcessed = 0;
 
     private ReaderThread(DocumentCollection<?> collection, Path inputFile) {
       this.collection = collection;
@@ -69,20 +72,25 @@ public final class BenchmarkCollectionReader {
         FileSegment<SourceDocument> segment = (FileSegment<SourceDocument>) collection.createFileSegment(inputFile);
 
         // We're calling these records because the documents may not an indexable.
-        AtomicInteger records = new AtomicInteger();
-        segment.iterator().forEachRemaining(d -> {
-          records.incrementAndGet();
-        });
+        int records = 0;
+        for (SourceDocument ignored : segment) {
+          records++;
+        }
+        recordsProcessed = records;
 
         segment.close();
         LOG.info(String.format("%s%s%s: %d records processed.",
             inputFile.getParent().getFileName().toString(),
             File.separator,
             inputFile.getFileName().toString(),
-            records.incrementAndGet()));
+            records));
       } catch (Exception e) {
         LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e);
       }
+    }
+
+    public int getRecordsProcessed() {
+      return recordsProcessed;
     }
   }
 
@@ -116,6 +124,7 @@ public final class BenchmarkCollectionReader {
     final List<?> segmentPaths = collection.getSegmentPaths();
     final int segmentCnt = segmentPaths.size();
     AtomicInteger completedTaskCount = new AtomicInteger(0);
+    LongAdder totalRecordCount = new LongAdder();
 
     LOG.info(String.format("%d files found in %s", segmentCnt, collectionPath));
 
@@ -123,7 +132,9 @@ public final class BenchmarkCollectionReader {
     for (int i = 0; i < segmentCnt; i++) {
       int finalI = i;
       tasks.add(() -> {
-        new ReaderThread(collection, (Path) segmentPaths.get(finalI)).run();
+        ReaderThread reader = new ReaderThread(collection, (Path) segmentPaths.get(finalI));
+        reader.run();
+        totalRecordCount.add(reader.getRecordsProcessed());
         completedTaskCount.incrementAndGet();
         return null;
       });
@@ -146,12 +157,14 @@ public final class BenchmarkCollectionReader {
       Thread.currentThread().interrupt();
     }
 
+    LOG.info("Total records processed: {}", String.format(Locale.US, "%,d", totalRecordCount.sum()));
+
     if (segmentCnt != completedTaskCount.get()) {
       throw new RuntimeException(String.format("totalFiles = %d is not equal to completedTaskCount = %d", segmentCnt, completedTaskCount.get()));
     }
 
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-    System.out.println(String.format("Total running time: %dms", durationMillis));
+    LOG.info("Total running time: {}ms", durationMillis);
   }
 
   public static void main(String[] args) throws Exception {
