@@ -73,7 +73,7 @@ public final class BenchmarkCollectionReader {
 
         // We're calling these records because the documents may not an indexable.
         int records = 0;
-        for (SourceDocument ignored : segment) {
+        for (@SuppressWarnings("unused") SourceDocument ignored : segment) {
           records++;
         }
         recordsProcessed = records;
@@ -98,6 +98,7 @@ public final class BenchmarkCollectionReader {
   private final Path collectionPath;
   private final Class<?> collectionClass;
   private final DocumentCollection<?> collection;
+  private final LongAdder totalRecordCount = new LongAdder();
 
   public BenchmarkCollectionReader(Args args) throws Exception {
     this.args = args;
@@ -120,11 +121,11 @@ public final class BenchmarkCollectionReader {
   public void run() {
     final long start = System.nanoTime();
     LOG.info("Starting MapCollections...");
+    totalRecordCount.reset();
 
     final List<?> segmentPaths = collection.getSegmentPaths();
     final int segmentCnt = segmentPaths.size();
     AtomicInteger completedTaskCount = new AtomicInteger(0);
-    LongAdder totalRecordCount = new LongAdder();
 
     LOG.info(String.format("%d files found in %s", segmentCnt, collectionPath));
 
@@ -165,6 +166,10 @@ public final class BenchmarkCollectionReader {
 
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
     LOG.info("Total running time: {}ms", durationMillis);
+  }
+
+  public long getTotalRecordCount() {
+    return totalRecordCount.sum();
   }
 
   public static void main(String[] args) throws Exception {
