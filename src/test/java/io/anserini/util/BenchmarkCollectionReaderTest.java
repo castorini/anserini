@@ -16,10 +16,7 @@
 
 package io.anserini.util;
 
-import static org.junit.Assert.assertTrue;
-
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+import static org.junit.Assert.assertEquals;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
@@ -41,15 +38,20 @@ public class BenchmarkCollectionReaderTest {
 
     BenchmarkCollectionReader reader = new BenchmarkCollectionReader(args);
 
-    PrintStream originalOut = System.out;
-    ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-    System.setOut(new PrintStream(buffer));
-    try {
-      reader.run();
-    } finally {
-      System.setOut(originalOut);
-    }
+    reader.run();
+    assertEquals(2, reader.getTotalRecordCount());
+  }
 
-    assertTrue(buffer.toString().contains("Total running time:"));
+  @Test
+  public void testBenchmarkCollectionReaderOnCacm() throws Exception {
+    BenchmarkCollectionReader.Args args = new BenchmarkCollectionReader.Args();
+    args.input = "src/main/resources/cacm/";
+    args.threads = 1;
+    args.collectionClass = "HtmlCollection";
+
+    BenchmarkCollectionReader reader = new BenchmarkCollectionReader(args);
+
+    reader.run();
+    assertEquals(3204, reader.getTotalRecordCount());
   }
 }
