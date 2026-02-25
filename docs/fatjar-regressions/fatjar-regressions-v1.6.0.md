@@ -234,14 +234,14 @@ The table below reports the effectiveness of selected models (dev in terms of RR
 | cohere-embed-english-v3.0: HNSW, cached queries                 | 0.3647 | 0.6956 | 0.7245 |
 | cohere-embed-english-v3.0: quantized (int) HNSW, cached queries | 0.3656 | 0.6955 | 0.7262 |
 
-The following commands will reproduce the above experiments:
+The following commands will reproduce runs corresponding to the above models (as well as additional ones not included in the table):
 
 ```bash
 java -cp $ANSERINI_JAR io.anserini.reproduce.RunRegressionsFromPrebuiltIndexes -printCommands -computeIndexSize -regression msmarco-v1-passage.core
 java -cp $ANSERINI_JAR io.anserini.reproduce.RunRegressionsFromPrebuiltIndexes -printCommands -computeIndexSize -regression msmarco-v1-passage.optional
 ```
 
-To print out the commands that will generate the above runs without performing the runs, use the options `-dryRun -printCommands`.
+To print out the commands that will generate the runs without performing the runs, use the options `-dryRun -printCommands`.
 
 ❗ Beware, running `msmarco-v1-passage.core` will automatically download 5 indexes totaling 65.3 GB; `msmarco-v1-passage.optional` will automatically download 10 indexes totaling 205.4 GB.
 
@@ -265,7 +265,7 @@ java -cp $ANSERINI_JAR io.anserini.reproduce.RunRegressionsFromPrebuiltIndexes -
 java -cp $ANSERINI_JAR io.anserini.reproduce.RunRegressionsFromPrebuiltIndexes -printCommands -computeIndexSize -regression msmarco-v1-doc.optional
 ```
 
-To print out the commands that will generate runs for all available models (without actually performing the runs), use the options `-dryRun -printCommands`.
+To print out the commands that will generate the runs without performing the runs, use the options `-dryRun -printCommands`.
 
 ❗ Beware, running `msmarco-v1-doc.core` will automatically download 5 indexes totaling 45.7 GB; `msmarco-v1-doc.optional` will automatically download 6 indexes totaling 77.9 GB.
 
@@ -286,7 +286,7 @@ java -cp $ANSERINI_JAR io.anserini.reproduce.RunRegressionsFromPrebuiltIndexes -
 java -cp $ANSERINI_JAR io.anserini.reproduce.RunRegressionsFromPrebuiltIndexes -printCommands -computeIndexSize -regression msmarco-v2-passage.optional
 ```
 
-To print out the commands that will generate runs for all available models (without actually performing the runs), use the options `-dryRun -printCommands`.
+To print out the commands that will generate the runs without performing the runs, use the options `-dryRun -printCommands`.
 
 ❗ Beware, running `msmarco-v2-passage.core` will automatically download 3 indexes totaling 91.2 GB; `msmarco-v2-passage.optional` will automatically download 4 indexes totaling 127.3 GB.
 
@@ -310,7 +310,7 @@ java -cp $ANSERINI_JAR io.anserini.reproduce.RunRegressionsFromPrebuiltIndexes -
 java -cp $ANSERINI_JAR io.anserini.reproduce.RunRegressionsFromPrebuiltIndexes -printCommands -computeIndexSize -regression msmarco-v2-doc.optional
 ```
 
-To print out the commands that will generate runs for all available models (without actually performing the runs), use the options `-dryRun -printCommands`.
+To print out the commands that will generate the runs without performing the runs, use the options `-dryRun -printCommands`.
 
 ❗ Beware, running `msmarco-v2-doc.core` will automatically download 5 indexes totaling 278.1 GB; `msmarco-v2-doc.optional` will automatically download 2 indexes totaling 68.5 GB.
 
@@ -343,7 +343,7 @@ java -cp $ANSERINI_JAR io.anserini.reproduce.RunRegressionsFromPrebuiltIndexes -
 java -cp $ANSERINI_JAR io.anserini.reproduce.RunRegressionsFromPrebuiltIndexes -printCommands -computeIndexSize -regression msmarco-v2.1-doc-segmented.optional
 ```
 
-To print out the commands that will generate the above runs without performing the runs, use the options `-dryRun -printCommands`.
+To print out the commands that will generate the runs without performing the runs, use the options `-dryRun -printCommands`.
 
 ❗ Beware, running `msmarco-v2.1-doc-segmented.core` will automatically download 12 indexes totaling 698.0 GB; `msmarco-v2.1-doc-segmented.optional` will automatically download 13 indexes totaling 819.9 GB.
 
@@ -368,7 +368,7 @@ java -cp $ANSERINI_JAR io.anserini.reproduce.RunRegressionsFromPrebuiltIndexes -
 java -cp $ANSERINI_JAR io.anserini.reproduce.RunRegressionsFromPrebuiltIndexes -printCommands -computeIndexSize -regression msmarco-v2.1-doc.optional
 ```
 
-To print out the commands that will generate the above runs without performing the runs, use the options `-dryRun -printCommands`.
+To print out the commands that will generate the runs without performing the runs, use the options `-dryRun -printCommands`.
 
 ❗ Beware, running `msmarco-v2.1-doc.core` will automatically download 2 indexes totaling 145.8 GB; `msmarco-v2.1-doc.optional` will automatically download 4 indexes totaling 326.5 GB.
 
@@ -462,7 +462,7 @@ java -cp $ANSERINI_JAR io.anserini.reproduce.RunRegressionsFromPrebuiltIndexes -
 java -cp $ANSERINI_JAR io.anserini.reproduce.RunRegressionsFromPrebuiltIndexes -printCommands -computeIndexSize -regression beir.optional
 ```
 
-To print out the commands that will generate the above runs without performing the runs, use the options `-dryRun -printCommands`.
+To print out the commands that will generate the runs without performing the runs, use the options `-dryRun -printCommands`.
 
 ❗ Beware, running `beir.core` will automatically download 145 indexes totaling 378.5 GB; `beir.optional` will automatically download 116 indexes totaling 289.2 GB.
 
@@ -510,6 +510,6 @@ java -cp $ANSERINI_JAR io.anserini.reproduce.RunRegressionsFromPrebuiltIndexes -
 java -cp $ANSERINI_JAR io.anserini.reproduce.RunRegressionsFromPrebuiltIndexes -printCommands -computeIndexSize -regression bright.optional
 ```
 
-To print out the commands that will generate the above runs without performing the runs, use the options `-dryRun -printCommands`.
+To print out the commands that will generate the runs without performing the runs, use the options `-dryRun -printCommands`.
 
 ❗ Beware, running `bright.core` will automatically download 36 indexes totaling 6.8 GB; `bright.optional` will automatically download 24 indexes totaling 5.7 GB.
