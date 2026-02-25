@@ -16,9 +16,21 @@
 
 package io.anserini.util;
 
-import io.anserini.collection.FileSegment;
-import io.anserini.collection.DocumentCollection;
-import io.anserini.collection.SourceDocument;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.LongAdder;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.kohsuke.args4j.CmdLineException;
@@ -27,16 +39,9 @@ import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
 
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.LongAdder;
+import io.anserini.collection.DocumentCollection;
+import io.anserini.collection.FileSegment;
+import io.anserini.collection.SourceDocument;
 
 // Simple program to benchmark IO performance, reading collections from disk.
 public final class BenchmarkCollectionReader {
@@ -46,7 +51,7 @@ public final class BenchmarkCollectionReader {
     @Option(name = "-input", metaVar = "[Directory]", required = true, usage = "collection directory")
     public String input;
 
-    @Option(name = "-threads", metaVar = "[Number]", required = true, usage = "Number of Threads")
+    @Option(name = "-threads", metaVar = "[Num]", required = true, usage = "Number of Threads")
     public int threads;
 
     @Option(name = "-collection", required = true, usage = "collection class in io.anserini.collection")
@@ -73,7 +78,7 @@ public final class BenchmarkCollectionReader {
 
         // We're calling these records because the documents may not an indexable.
         int records = 0;
-        for (SourceDocument ignored : segment) {
+        for (@SuppressWarnings("unused") SourceDocument ignored : segment) {
           records++;
         }
         recordsProcessed = records;
@@ -98,6 +103,7 @@ public final class BenchmarkCollectionReader {
   private final Path collectionPath;
   private final Class<?> collectionClass;
   private final DocumentCollection<?> collection;
+  private final LongAdder totalRecordCount = new LongAdder();
 
   public BenchmarkCollectionReader(Args args) throws Exception {
     this.args = args;
@@ -120,6 +126,7 @@ public final class BenchmarkCollectionReader {
   public void run() {
     final long start = System.nanoTime();
     LOG.info("Starting MapCollections...");
+    totalRecordCount.reset();
 
     final List<?> segmentPaths = collection.getSegmentPaths();
     final int segmentCnt = segmentPaths.size();
@@ -165,6 +172,10 @@ public final class BenchmarkCollectionReader {
 
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
     LOG.info("Total running time: {}ms", durationMillis);
+  }
+
+  public long getTotalRecordCount() {
+    return totalRecordCount.sum();
   }
 
   public static void main(String[] args) throws Exception {
