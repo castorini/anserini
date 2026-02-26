@@ -16,18 +16,6 @@
 
 package io.anserini.reproduce;
 
-import io.anserini.index.IndexReaderUtils;
-import io.anserini.util.PrebuiltIndexHandler;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import org.apache.commons.lang3.time.DurationFormatUtils;
-import org.kohsuke.args4j.CmdLineException;
-import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.Option;
-import org.kohsuke.args4j.ParserProperties;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,6 +30,19 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+
+import org.apache.commons.lang3.time.DurationFormatUtils;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.ParserProperties;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+
+import io.anserini.index.IndexReaderUtils;
+import io.anserini.util.PrebuiltIndexHandler;
 
 public class RunRegressionsFromPrebuiltIndexes {
   private final String collection;

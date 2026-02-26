@@ -16,31 +16,6 @@
 
 package io.anserini.reproduce;
 
-import io.anserini.eval.TrecEval;
-import io.anserini.index.Constants;
-import io.anserini.index.IndexCollection;
-import io.anserini.index.IndexFlatDenseVectors;
-import io.anserini.index.IndexHnswDenseVectors;
-import io.anserini.index.IndexInvertedDenseVectors;
-import io.anserini.index.IndexReaderUtils;
-import io.anserini.search.SearchCollection;
-import io.anserini.search.SearchFlatDenseVectors;
-import io.anserini.search.SearchHnswDenseVectors;
-import io.anserini.search.SearchInvertedDenseVectors;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
-import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
-import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.kohsuke.args4j.CmdLineException;
-import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.Option;
-import org.kohsuke.args4j.ParserProperties;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -70,6 +45,32 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
+import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
+import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.ParserProperties;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+
+import io.anserini.eval.TrecEval;
+import io.anserini.index.Constants;
+import io.anserini.index.IndexCollection;
+import io.anserini.index.IndexFlatDenseVectors;
+import io.anserini.index.IndexHnswDenseVectors;
+import io.anserini.index.IndexInvertedDenseVectors;
+import io.anserini.index.IndexReaderUtils;
+import io.anserini.search.SearchCollection;
+import io.anserini.search.SearchFlatDenseVectors;
+import io.anserini.search.SearchHnswDenseVectors;
+import io.anserini.search.SearchInvertedDenseVectors;
 
 public class RunRegressionsFromCorpus {
   private static final Logger LOG = LogManager.getLogger(RunRegressionsFromCorpus.class);
@@ -217,7 +218,7 @@ public class RunRegressionsFromCorpus {
         if (indexType != null && "inverted-dense".equals(indexType.asText())) {
           cmd.append(" -field vector");
         }
-        String output = checkOutput(cmd.toString());
+        String output = runCommandAndReturnOutput(cmd.toString());
         String[] lines = output.split("\n");
         JsonNode stats = yaml.get("index_stats");
         if (stats != null && stats.isObject()) {
@@ -272,52 +273,6 @@ public class RunRegressionsFromCorpus {
 
   private static boolean isClose(double a, double b, double relTol, double absTol) {
     return Math.abs(a - b) <= Math.max(relTol * Math.max(Math.abs(a), Math.abs(b)), absTol);
-  }
-
-  private static String checkOutput(String command) throws IOException, InterruptedException {
-    //LOG.info("Eval command: " + command);
-
-    if (command.contains("trec_eval")) {
-      String[] parts = command.trim().split("\\s+");
-      String[] args = Arrays.copyOfRange(parts, 1, parts.length);
-      //System.out.println(Arrays.toString(args));
-
-      String[][] out = new TrecEval().runAndGetOutput(args);
-      StringBuilder sb = new StringBuilder();
-      for (int i = 0; i < out.length; i++) {
-        if (i > 0) {
-          sb.append('\n');
-        }
-        String[] row = out[i];
-        for (int j = 0; j < row.length; j++) {
-          if (j > 0) {
-            sb.append('\t');
-          }
-          sb.append(row[j]);
-        }
-      }
-      //System.out.println("OUT ---> " + sb.toString());
-      return sb.toString();
-    } else if (command.contains("io.anserini.index.IndexReaderUtils")) {
-      LOG.info("Calling IndexReaderUtils directly instead of starting a new process.");
-      String[] args = extractArgsAfterClass("io.anserini.index.IndexReaderUtils", command);
-      LOG.info(Arrays.toString(args));
-
-      return IndexReaderUtils.getIndexStatsSummary(args[1], Constants.CONTENTS);
-    }
-
-    ProcessBuilder pb = new ProcessBuilder("bash", "-lc", command);
-    pb.redirectErrorStream(true);
-    Process p = pb.start();
-    ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-    try (InputStream in = p.getInputStream()) {
-      in.transferTo(buffer);
-    }
-    int code = p.waitFor();
-    if (code != 0) {
-      throw new RuntimeException("Command failed: " + command);
-    }
-    return buffer.toString(StandardCharsets.UTF_8);
   }
 
   private static String constructIndexPath(JsonNode yaml) {
@@ -536,7 +491,7 @@ public class RunRegressionsFromCorpus {
             continue;
           }
 
-          String out = checkOutput(evalCmd.toString());
+          String out = runCommandAndReturnOutput(evalCmd.toString());
           String[] lines = out.split("\n");
           String last = null;
           for (String line : lines) {
@@ -608,6 +563,57 @@ public class RunRegressionsFromCorpus {
         LOG.info("{}Total elapsed time: {}s", RegressionConstants.OK, elapsed);
       }
     }
+  }
+
+  private static String runCommandAndReturnOutput(String command) throws IOException, InterruptedException {
+    if (command.contains("trec_eval")) {
+      String[] parts = command.trim().split("\\s+");
+      String[] args = Arrays.copyOfRange(parts, 1, parts.length);
+
+      String[][] out = new TrecEval().runAndGetOutput(args);
+      StringBuilder sb = new StringBuilder();
+      for (int i = 0; i < out.length; i++) {
+        if (i > 0) {
+          sb.append('\n');
+        }
+        String[] row = out[i];
+        for (int j = 0; j < row.length; j++) {
+          if (j > 0) {
+            sb.append('\t');
+          }
+          sb.append(row[j]);
+        }
+      }
+
+      return sb.toString();
+    } else if (command.contains("io.anserini.index.IndexReaderUtils")) {
+      LOG.info("Calling IndexReaderUtils directly instead of starting a new process.");
+      String[] args = extractArgsAfterClass("io.anserini.index.IndexReaderUtils", command);
+      LOG.info(Arrays.toString(args));
+
+      String field = null;
+      for (int i = 0; i < args.length - 1; i++) {
+        if ("-field".equals(args[i])) {
+          field = args[i + 1];
+          break;
+        }
+      }
+
+      return IndexReaderUtils.getIndexStatsSummary(args[1], field == null ? Constants.CONTENTS : field);
+    }
+
+    ProcessBuilder pb = new ProcessBuilder("bash", "-lc", command);
+    pb.redirectErrorStream(true);
+    Process p = pb.start();
+    ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+    try (InputStream in = p.getInputStream()) {
+      in.transferTo(buffer);
+    }
+    int code = p.waitFor();
+    if (code != 0) {
+      throw new RuntimeException("Command failed: " + command);
+    }
+    return buffer.toString(StandardCharsets.UTF_8);
   }
 
   private static String[] extractArgsAfterClass(String clazz, String cmd) {
