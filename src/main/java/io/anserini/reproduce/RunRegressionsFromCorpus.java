@@ -377,12 +377,13 @@ public class RunRegressionsFromCorpus {
       }
 
       for (JsonNode topic : topics) {
-        String topicReader = Objects.requireNonNull(yaml.get("topic_reader")).asText();
+        // The topic_reader is either a parent (in which case it applies to all topics) or a per-topic override.
+        String topicReader = yaml.get("topic_reader") != null ? yaml.get("topic_reader").asText() : topic.get("topic_reader").asText();
         String output = constructRunfilePath(Objects.requireNonNull(yaml.get("index_path")).asText(),
             Objects.requireNonNull(topic.get("id")).asText(),
             Objects.requireNonNull(model.get("name")).asText());
 
-        // Janky special case for now: we run cacm in the test suite, and on GitHub CI tools/topics-and-qrels is not checked out.
+        // Special case: we run the cacm regression in the test suite, and on GitHub CI tools/topics-and-qrels is not checked out.
         String topicPath;
         if ("topics.cacm.txt".equals(topic.get("path").asText())) {
           topicPath = "cacm";
