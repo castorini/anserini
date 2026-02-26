@@ -566,7 +566,7 @@ public class RunRegressionsFromCorpus {
   }
 
   private static String runCommandAndReturnOutput(String command) throws IOException, InterruptedException {
-    if (command.contains("trec_eval")) {
+    if (command.contains("trec_eval") && !command.contains("pyserini")) {
       String[] parts = command.trim().split("\\s+");
       String[] args = Arrays.copyOfRange(parts, 1, parts.length);
 
