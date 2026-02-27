@@ -577,7 +577,7 @@ public enum Topics {
   CIRAL_V10_SW_DEV_MONO(TsvIntTopicReader.class, "topics.ciral-v1.0-sw-dev-native.tsv"),
   CIRAL_V10_YO_DEV_MONO(TsvIntTopicReader.class, "topics.ciral-v1.0-yo-dev-native.tsv"),
 
-  // BRIGHT original queries
+  // BRIGHT queries converted to tsv format (some spacing changes were made to the original queries)
   BRIGHT_BIOLOGY(TsvStringTopicReader.class, "topics.bright-biology.tsv.gz"),
   BRIGHT_EARTH_SCIENCE(TsvStringTopicReader.class, "topics.bright-earth-science.tsv.gz"),
   BRIGHT_ECONOMICS(TsvStringTopicReader.class, "topics.bright-economics.tsv.gz"),
@@ -590,6 +590,20 @@ public enum Topics {
   BRIGHT_AOPS(TsvStringTopicReader.class, "topics.bright-aops.tsv.gz"),
   BRIGHT_THEOREMQA_THEOREMS(TsvStringTopicReader.class, "topics.bright-theoremqa-theorems.tsv.gz"),
   BRIGHT_THEOREMQA_QUESTIONS(TsvStringTopicReader.class, "topics.bright-theoremqa-questions.tsv.gz"),
+
+  // BRIGHT queries original jsonl format
+  BRIGHT_BIOLOGY_ORIGINAL(JsonStringTopicReader.class, "topics.bright-biology-original.jsonl.gz"),
+  BRIGHT_EARTH_SCIENCE_ORIGINAL(JsonStringTopicReader.class, "topics.bright-earth-science-original.jsonl.gz"),
+  BRIGHT_ECONOMICS_ORIGINAL(JsonStringTopicReader.class, "topics.bright-economics-original.jsonl.gz"),
+  BRIGHT_PSYCHOLOGY_ORIGINAL(JsonStringTopicReader.class, "topics.bright-psychology-original.jsonl.gz"),
+  BRIGHT_ROBOTICS_ORIGINAL(JsonStringTopicReader.class, "topics.bright-robotics-original.jsonl.gz"),
+  BRIGHT_STACKOVERFLOW_ORIGINAL(JsonStringTopicReader.class, "topics.bright-stackoverflow-original.jsonl.gz"),
+  BRIGHT_SUSTAINABLE_LIVING_ORIGINAL(JsonStringTopicReader.class, "topics.bright-sustainable-living-original.jsonl.gz"),
+  BRIGHT_PONY_ORIGINAL(JsonStringTopicReader.class, "topics.bright-pony-original.jsonl.gz"),
+  BRIGHT_LEETCODE_ORIGINAL(JsonStringTopicReader.class, "topics.bright-leetcode-original.jsonl.gz"),
+  BRIGHT_AOPS_ORIGINAL(JsonStringTopicReader.class, "topics.bright-aops-original.jsonl.gz"),
+  BRIGHT_THEOREMQA_THEOREMS_ORIGINAL(JsonStringTopicReader.class, "topics.bright-theoremqa-theorems-original.jsonl.gz"),
+  BRIGHT_THEOREMQA_QUESTIONS_ORIGINAL(JsonStringTopicReader.class, "topics.bright-theoremqa-questions-original.jsonl.gz"),
 
   // BRIGHT: pre-encoded queries for SPLADE-v3
   BRIGHT_BIOLOGY_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-biology.splade-v3.tsv.gz"),
