@@ -43,8 +43,8 @@ public class RunRegressionCommands {
     @Option(name = "--load", metaVar = "[threshold]", usage = "Maximum load threshold (won't launch commands above this load).")
     public int load = 10;
 
-    @Option(name = "--max", metaVar = "[num]", usage = "Maximum number of concurrent jobs (0 means no limit).")
-    public int max = 0;
+    @Option(name = "--max", metaVar = "[num]", usage = "Maximum number of concurrent jobs (defaults to 4).")
+    public int max = 4;
   }
 
   public static void main(String[] argv) throws Exception {
@@ -76,7 +76,7 @@ public class RunRegressionCommands {
 
       double currentLoad = ManagementFactory.getOperatingSystemMXBean().getSystemLoadAverage();
       boolean loadAvailable = currentLoad >= 0;
-      boolean canLaunchByMax = args.max <= 0 || active.size() < args.max;
+      boolean canLaunchByMax = active.size() < args.max;
       boolean canLaunchByLoad = !loadAvailable || currentLoad < args.load;
 
       if (nextCommand < commands.size() && canLaunchByMax && canLaunchByLoad) {
@@ -87,8 +87,7 @@ public class RunRegressionCommands {
       }
 
       String loadString = loadAvailable ? String.format("%.1f", currentLoad) : "N/A";
-      LOG.info("Current load: {} (threshold = {}), active jobs: {} (max = {})",
-          loadString, args.load, active.size(), args.max > 0 ? args.max : "unlimited");
+      LOG.info("Current load: {} (threshold = {}), active jobs: {} (max = {})", loadString, args.load, active.size(), args.max);
       Thread.sleep(args.sleep * 1000L);
     }
 

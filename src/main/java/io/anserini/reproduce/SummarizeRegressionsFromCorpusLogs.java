@@ -25,8 +25,10 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -44,8 +46,11 @@ public class SummarizeRegressionsFromCorpusLogs {
   public static void main(String[] args) {
     Path logsDir = Paths.get("logs");
     int totalRegressions = 0;
-    int passed = 0;
-    int ok = 0;
+    String[] statusLabels = {RegressionConstants.OK, RegressionConstants.OKISH, RegressionConstants.FAIL};
+    Map<String, Integer> statusCounters = new HashMap<>(statusLabels.length * 2);
+    for (String statusLabel : statusLabels) {
+      statusCounters.put(statusLabel, 0);
+    }
 
     LocalDateTime startDate = null;
     LocalDateTime endDate = null;
@@ -76,12 +81,13 @@ public class SummarizeRegressionsFromCorpusLogs {
         if (lastLine == null) {
           continue;
         }
-        if (lastLine.contains(RegressionConstants.OK)) {
-          passed++;
+
+        for (String statusLabel : statusLabels) {
+          if (lastLine.contains(statusLabel)) {
+            statusCounters.put(statusLabel, statusCounters.get(statusLabel) + 1);
+          }
         }
-        if (lastLine.contains(RegressionConstants.OKISH)) {
-          ok++;
-        }
+
         String timestamp = extractTimestamp(lastLine);
         if (timestamp != null) {
           LocalDateTime dt = LocalDateTime.parse(timestamp, DATE_FORMAT);
@@ -96,8 +102,9 @@ public class SummarizeRegressionsFromCorpusLogs {
     }
 
     System.out.printf("Total regressions: %3d%n", totalRegressions);
-    System.out.printf(" - Passed:         %3d%n", passed);
-    System.out.printf(" - OK:             %3d%n", ok);
+    for (String statusLabel : statusLabels) {
+      System.out.printf(" %s %3d%n", statusLabel, statusCounters.get(statusLabel));
+    }
 
     System.out.println();
     System.out.printf("Start time: %s%n", startDateStr == null ? "" : startDateStr);

@@ -568,39 +568,9 @@ public class RunRegressionsFromCorpus {
 
   private static String runCommandAndReturnOutput(String command) throws IOException, InterruptedException {
     if (command.contains("trec_eval") && !command.contains("pyserini")) {
-      String[] parts = command.trim().split("\\s+");
-      String[] args = Arrays.copyOfRange(parts, 1, parts.length);
-
-      String[][] out = new TrecEval().runAndGetOutput(args);
-      StringBuilder sb = new StringBuilder();
-      for (int i = 0; i < out.length; i++) {
-        if (i > 0) {
-          sb.append('\n');
-        }
-        String[] row = out[i];
-        for (int j = 0; j < row.length; j++) {
-          if (j > 0) {
-            sb.append('\t');
-          }
-          sb.append(row[j]);
-        }
-      }
-
-      return sb.toString();
+      return runTrecEvalCommandAndReturnOutput(command);
     } else if (command.contains("io.anserini.index.IndexReaderUtils")) {
-      LOG.info("Calling IndexReaderUtils directly instead of starting a new process.");
-      String[] args = extractArgsAfterClass("io.anserini.index.IndexReaderUtils", command);
-      LOG.info(Arrays.toString(args));
-
-      String field = null;
-      for (int i = 0; i < args.length - 1; i++) {
-        if ("-field".equals(args[i])) {
-          field = args[i + 1];
-          break;
-        }
-      }
-
-      return IndexReaderUtils.getIndexStatsSummary(args[1], field == null ? Constants.CONTENTS : field);
+      return runIndexReaderUtilsCommandAndReturnOutput(command);
     }
 
     ProcessBuilder pb = new ProcessBuilder("bash", "-lc", command);
@@ -617,6 +587,37 @@ public class RunRegressionsFromCorpus {
     return buffer.toString(StandardCharsets.UTF_8);
   }
 
+  private static String runIndexReaderUtilsCommandAndReturnOutput(String command) throws IOException {
+    LOG.info("Calling IndexReaderUtils directly instead of starting a new process.");
+    String[] args = extractArgsAfterClass("io.anserini.index.IndexReaderUtils", command);
+    LOG.info(Arrays.toString(args));
+
+    String field = extractOptionValue(args, "-field");
+    return IndexReaderUtils.getIndexStatsSummary(args[1], field == null ? Constants.CONTENTS : field);
+  }
+
+  private static String runTrecEvalCommandAndReturnOutput(String command) {
+    String[] parts = command.trim().split("\\s+");
+    String[] args = Arrays.copyOfRange(parts, 1, parts.length);
+
+    String[][] out = new TrecEval().runAndGetOutput(args);
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < out.length; i++) {
+      if (i > 0) {
+        sb.append('\n');
+      }
+      String[] row = out[i];
+      for (int j = 0; j < row.length; j++) {
+        if (j > 0) {
+          sb.append('\t');
+        }
+        sb.append(row[j]);
+      }
+    }
+
+    return sb.toString();
+  }
+
   private static String[] extractArgsAfterClass(String clazz, String cmd) {
     // Remove quotes for cases like -selectMaxPassage.delimiter "#"
     // This is a case where the quotes are needed for the shell, but not when calling main directly.
@@ -627,6 +628,18 @@ public class RunRegressionsFromCorpus {
       }
     }
 
+    return null;
+  }
+
+  private static String extractOptionValue(String[] args, String option) {
+    if (args == null || args.length < 2) {
+      return null;
+    }
+    for (int i = 0; i < args.length - 1; i++) {
+      if (option.equals(args[i])) {
+        return args[i + 1];
+      }
+    }
     return null;
   }
 

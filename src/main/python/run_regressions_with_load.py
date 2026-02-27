@@ -60,7 +60,6 @@ if __name__ == '__main__':
             logger.info(f'Launching: {command}')
             active.append(subprocess.Popen(command, shell=True))
             next_command += 1
-            continue
 
         logger.info(
             f'Current load: {load:.1f} (threshold = {args.load}), '
