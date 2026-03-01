@@ -32,8 +32,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class SummarizeRegressionsFromCorpusLogs {
-  private static final String RUN_REGRESSIONS_FROM_CORPUS = "RunRegressionsFromCorpus";
+public class SummarizeRunReproductionFromCorpusLogs {
+  private static final String RUN_REGRESSIONS_FROM_CORPUS = "RunReproductionFromCorpus";
 
   private static final DateTimeFormatter DATE_FORMAT = new DateTimeFormatterBuilder()
       .appendPattern("yyyy-MM-dd HH:mm:ss")
@@ -46,7 +46,7 @@ public class SummarizeRegressionsFromCorpusLogs {
   public static void main(String[] args) {
     Path logsDir = Paths.get("logs");
     int totalRegressions = 0;
-    String[] statusLabels = {RegressionConstants.OK, RegressionConstants.OKISH, RegressionConstants.FAIL};
+    String[] statusLabels = {Constants.OK, Constants.OKISH, Constants.FAIL};
     Map<String, Integer> statusCounters = new HashMap<>(statusLabels.length * 2);
     for (String statusLabel : statusLabels) {
       statusCounters.put(statusLabel, 0);

@@ -44,27 +44,27 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import io.anserini.index.IndexReaderUtils;
 import io.anserini.util.PrebuiltIndexHandler;
 
-public class RunRegressionsFromPrebuiltIndexes {
+public class RunReproductionFromPrebuiltIndexes {
   private final String collection;
   private final boolean printCommands;
   private final boolean dryRun;
   private final boolean computeIndexSize;
 
   public static class Args {
-    @Option(name = "-regression", metaVar = "[config]", required = true, usage = "Regression config name.")
+    @Option(name = "--regression", metaVar = "[config]", required = true, usage = "Regression config name.")
     public String regression;
 
-    @Option(name = "-printCommands", usage = "Print commands.")
+    @Option(name = "--print-commands", usage = "Print commands.")
     public Boolean printCommands = false;
 
-    @Option(name = "-dryRun", usage = "Perform dry run.")
+    @Option(name = "--dry-run", usage = "Perform dry run.")
     public Boolean dryRun = false;
 
-    @Option(name = "-computeIndexSize", usage = "Compute total size of all unique indexes referenced by runs.")
+    @Option(name = "--compute-index-size", usage = "Compute total size of all unique indexes referenced by runs.")
     public Boolean computeIndexSize = false;
   }
 
-  public RunRegressionsFromPrebuiltIndexes(Args args) {
+  public RunReproductionFromPrebuiltIndexes(Args args) {
     this.collection = args.regression;
     this.printCommands = args.printCommands;
     this.dryRun = args.dryRun;
@@ -80,7 +80,7 @@ public class RunRegressionsFromPrebuiltIndexes {
     } catch (CmdLineException exception) {
       System.err.println(String.format("Error: %s", exception.getMessage()));
 
-      System.err.printf("%nOptions for %s:%n%n", RunRegressionsFromPrebuiltIndexes.class.getSimpleName());
+      System.err.printf("%nOptions for %s:%n%n", RunReproductionFromPrebuiltIndexes.class.getSimpleName());
       parser.printUsage(System.err);
 
       List<String> required = new java.util.ArrayList<>();
@@ -95,7 +95,7 @@ public class RunRegressionsFromPrebuiltIndexes {
       return;
     }
 
-    RunRegressionsFromPrebuiltIndexes repro = new RunRegressionsFromPrebuiltIndexes(regressionArgs);
+    RunReproductionFromPrebuiltIndexes repro = new RunReproductionFromPrebuiltIndexes(regressionArgs);
     repro.run();
   }
 
@@ -104,12 +104,12 @@ public class RunRegressionsFromPrebuiltIndexes {
       new File("runs").mkdir();
     }
 
-    String fatjarPath = new File(RunRegressionsFromPrebuiltIndexes.class.getProtectionDomain()
+    String fatjarPath = new File(RunReproductionFromPrebuiltIndexes.class.getProtectionDomain()
         .getCodeSource().getLocation().toURI()).getPath();
 
     final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-    Config config = mapper.readValue(RunRegressionsFromPrebuiltIndexes.class.getClassLoader()
-        .getResourceAsStream("reproduce/" + collection + ".yaml"), Config.class);
+    Config config = mapper.readValue(RunReproductionFromPrebuiltIndexes.class.getClassLoader()
+        .getResourceAsStream("reproduce/from-prebuilt-indexes/configs/" + collection + ".yaml"), Config.class);
 
     ProcessBuilder pb;
     Process process;
@@ -281,13 +281,13 @@ public class RunRegressionsFromPrebuiltIndexes {
               double delta = Math.abs(score - expected.get(metric));
 
               if (score > expected.get(metric)) {
-                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, RegressionConstants.OKISH, expected.get(metric));
+                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, Constants.OKISH, expected.get(metric));
               } else if (delta < 0.00001) {
-                System.out.printf("    %8s: %.4f %s%n", metric, score, RegressionConstants.OK);
+                System.out.printf("    %8s: %.4f %s%n", metric, score, Constants.OK);
               } else if (delta < 0.0002) {
-                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, RegressionConstants.OKISH, expected.get(metric));
+                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, Constants.OKISH, expected.get(metric));
               } else {
-                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, RegressionConstants.FAIL, expected.get(metric));
+                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, Constants.FAIL, expected.get(metric));
               }
             } else {
               System.out.println("Evaluation command failed for metric: " + metric);

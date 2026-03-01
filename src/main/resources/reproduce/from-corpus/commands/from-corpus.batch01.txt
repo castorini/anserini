@@ -1,0 +1,307 @@
+# MS MARCO V2.1 segmented: Arctic
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard00.flat.onnx > logs/log.from-corpus.rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard00.flat.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard01.flat.onnx > logs/log.from-corpus.rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard01.flat.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard02.flat.onnx > logs/log.from-corpus.rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard02.flat.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard03.flat.onnx > logs/log.from-corpus.rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard03.flat.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard04.flat.onnx > logs/log.from-corpus.rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard04.flat.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard05.flat.onnx > logs/log.from-corpus.rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard05.flat.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard06.flat.onnx > logs/log.from-corpus.rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard06.flat.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard07.flat.onnx > logs/log.from-corpus.rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard07.flat.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard08.flat.onnx > logs/log.from-corpus.rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard08.flat.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard09.flat.onnx > logs/log.from-corpus.rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard09.flat.onnx.txt 2>&1
+
+# MS MARCO V2.1, full indexing - build both doc and doc segmented conditions
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression rag24-doc-segmented-test-umbrela > logs/log.from-corpus.rag24-doc-segmented-test-umbrela.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression rag24-doc-raggy-dev > logs/log.from-corpus.rag24-doc-raggy-dev.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression rag24-doc-segmented-test-umbrela.splade-v3.onnx > logs/log.from-corpus.rag24-doc-segmented-test-umbrela.splade-v3.onnx.txt 2>&1
+
+# MS MARCO V1, full indexing
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-passage > logs/log.from-corpus.msmarco-v1-passage.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-passage.bm25-b8 > logs/log.from-corpus.msmarco-v1-passage.bm25-b8.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-passage.wp-tok > logs/log.from-corpus.msmarco-v1-passage.wp-tok.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-passage.wp-hgf > logs/log.from-corpus.msmarco-v1-passage.wp-hgf.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-passage.wp-ca > logs/log.from-corpus.msmarco-v1-passage.wp-ca.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-passage.doc2query > logs/log.from-corpus.msmarco-v1-passage.doc2query.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-passage.docTTTTTquery > logs/log.from-corpus.msmarco-v1-passage.docTTTTTquery.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-passage.deepimpact.cached > logs/log.from-corpus.msmarco-v1-passage.deepimpact.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-passage.unicoil.cached > logs/log.from-corpus.msmarco-v1-passage.unicoil.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-passage.unicoil-noexp.cached > logs/log.from-corpus.msmarco-v1-passage.unicoil-noexp.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-passage.unicoil-tilde-expansion.cached > logs/log.from-corpus.msmarco-v1-passage.unicoil-tilde-expansion.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-passage.distill-splade-max.cached > logs/log.from-corpus.msmarco-v1-passage.distill-splade-max.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-passage.splade-pp-ed.cached > logs/log.from-corpus.msmarco-v1-passage.splade-pp-ed.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-passage.splade-pp-sd.cached > logs/log.from-corpus.msmarco-v1-passage.splade-pp-sd.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-passage.splade-v3.cached > logs/log.from-corpus.msmarco-v1-passage.splade-v3.cached.txt 2>&1
+
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-passage.cos-dpr-distil.parquet.flat.cached > logs/log.from-corpus.msmarco-v1-passage.cos-dpr-distil.parquet.flat.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-passage.cos-dpr-distil.parquet.flat-int8.cached > logs/log.from-corpus.msmarco-v1-passage.cos-dpr-distil.parquet.flat-int8.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-passage.cos-dpr-distil.parquet.hnsw.cached > logs/log.from-corpus.msmarco-v1-passage.cos-dpr-distil.parquet.hnsw.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-passage.cos-dpr-distil.parquet.hnsw-int8.cached > logs/log.from-corpus.msmarco-v1-passage.cos-dpr-distil.parquet.hnsw-int8.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-passage.bge-base-en-v1.5.parquet.flat.cached > logs/log.from-corpus.msmarco-v1-passage.bge-base-en-v1.5.parquet.flat.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-passage.bge-base-en-v1.5.parquet.flat-int8.cached > logs/log.from-corpus.msmarco-v1-passage.bge-base-en-v1.5.parquet.flat-int8.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw.cached > logs/log.from-corpus.msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw-int8.cached > logs/log.from-corpus.msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw-int8.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-passage.openai-ada2.parquet.flat.cached > logs/log.from-corpus.msmarco-v1-passage.openai-ada2.parquet.flat.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-passage.openai-ada2.parquet.flat-int8.cached > logs/log.from-corpus.msmarco-v1-passage.openai-ada2.parquet.flat-int8.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-passage.openai-ada2.parquet.hnsw.cached > logs/log.from-corpus.msmarco-v1-passage.openai-ada2.parquet.hnsw.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-passage.openai-ada2.parquet.hnsw-int8.cached > logs/log.from-corpus.msmarco-v1-passage.openai-ada2.parquet.hnsw-int8.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-passage.cohere-embed-english-v3.0.parquet.flat.cached > logs/log.from-corpus.msmarco-v1-passage.cohere-embed-english-v3.0.parquet.flat.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-passage.cohere-embed-english-v3.0.parquet.flat-int8.cached > logs/log.from-corpus.msmarco-v1-passage.cohere-embed-english-v3.0.parquet.flat-int8.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-passage.cohere-embed-english-v3.0.parquet.hnsw.cached > logs/log.from-corpus.msmarco-v1-passage.cohere-embed-english-v3.0.parquet.hnsw.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-passage.cohere-embed-english-v3.0.parquet.hnsw-int8.cached > logs/log.from-corpus.msmarco-v1-passage.cohere-embed-english-v3.0.parquet.hnsw-int8.cached.txt 2>&1
+
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-passage.cos-dpr-distil.parquet.fw > logs/log.from-corpus.msmarco-v1-passage.cos-dpr-distil.parquet.fw.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-passage.cos-dpr-distil.parquet.lexlsh > logs/log.from-corpus.msmarco-v1-passage.cos-dpr-distil.parquet.lexlsh.txt 2>&1
+
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-doc > logs/log.from-corpus.msmarco-v1-doc.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-doc.wp-tok > logs/log.from-corpus.msmarco-v1-doc.wp-tok.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-doc.wp-hgf > logs/log.from-corpus.msmarco-v1-doc.wp-hgf.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-doc.wp-ca > logs/log.from-corpus.msmarco-v1-doc.wp-ca.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-doc.docTTTTTquery > logs/log.from-corpus.msmarco-v1-doc.docTTTTTquery.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-doc-segmented > logs/log.from-corpus.msmarco-v1-doc-segmented.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-doc-segmented.wp-tok > logs/log.from-corpus.msmarco-v1-doc-segmented.wp-tok.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-doc-segmented.wp-ca > logs/log.from-corpus.msmarco-v1-doc-segmented.wp-ca.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-doc-segmented.docTTTTTquery > logs/log.from-corpus.msmarco-v1-doc-segmented.docTTTTTquery.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-doc-segmented.unicoil.cached > logs/log.from-corpus.msmarco-v1-doc-segmented.unicoil.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v1-doc-segmented.unicoil-noexp.cached > logs/log.from-corpus.msmarco-v1-doc-segmented.unicoil-noexp.cached.txt 2>&1
+
+# MS MARCO V2.1 segmented: Arctic (no indexing)
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard00.flat.onnx > logs/log.from-corpus.rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard00.flat.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard01.flat.onnx > logs/log.from-corpus.rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard01.flat.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard02.flat.onnx > logs/log.from-corpus.rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard02.flat.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard03.flat.onnx > logs/log.from-corpus.rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard03.flat.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard04.flat.onnx > logs/log.from-corpus.rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard04.flat.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard05.flat.onnx > logs/log.from-corpus.rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard05.flat.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard06.flat.onnx > logs/log.from-corpus.rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard06.flat.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard07.flat.onnx > logs/log.from-corpus.rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard07.flat.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard08.flat.onnx > logs/log.from-corpus.rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard08.flat.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard09.flat.onnx > logs/log.from-corpus.rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard09.flat.onnx.txt 2>&1
+
+# MS MARCO V2.1 doc segment:
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression rag24-doc-segmented-test-nist > logs/log.from-corpus.rag24-doc-segmented-test-nist.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression rag24-doc-segmented-test-umbrela.splade-v3.cached > logs/log.from-corpus.rag24-doc-segmented-test-umbrela.splade-v3.cached.txt 2>&1
+
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression rag24-doc-segmented-test-nist.splade-v3.onnx > logs/log.from-corpus.rag24-doc-segmented-test-nist.splade-v3.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression rag24-doc-segmented-test-nist.splade-v3.cached > logs/log.from-corpus.rag24-doc-segmented-test-nist.splade-v3.cached.txt 2>&1
+
+# MS MARCO V2.1 doc:
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression msmarco-v2.1-doc > logs/log.from-corpus.msmarco-v2.1-doc.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression msmarco-v2.1-doc-segmented > logs/log.from-corpus.msmarco-v2.1-doc-segmented.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression msmarco-v2.1-doc-segmented.splade-v3.onnx > logs/log.from-corpus.msmarco-v2.1-doc-segmented.splade-v3.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression msmarco-v2.1-doc-segmented.splade-v3.cached > logs/log.from-corpus.msmarco-v2.1-doc-segmented.splade-v3.cached.txt 2>&1
+
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl21-doc-msmarco-v2.1 > logs/log.from-corpus.dl21-doc-msmarco-v2.1.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl21-doc-segmented-msmarco-v2.1 > logs/log.from-corpus.dl21-doc-segmented-msmarco-v2.1.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl21-doc-segmented-msmarco-v2.1.splade-v3.onnx > logs/log.from-corpus.dl21-doc-segmented-msmarco-v2.1.splade-v3.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl21-doc-segmented-msmarco-v2.1.splade-v3.cached > logs/log.from-corpus.dl21-doc-segmented-msmarco-v2.1.splade-v3.cached.txt 2>&1
+
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl22-doc-msmarco-v2.1 > logs/log.from-corpus.dl22-doc-msmarco-v2.1.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl22-doc-segmented-msmarco-v2.1 > logs/log.from-corpus.dl22-doc-segmented-msmarco-v2.1.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl22-doc-segmented-msmarco-v2.1.splade-v3.onnx > logs/log.from-corpus.dl22-doc-segmented-msmarco-v2.1.splade-v3.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl22-doc-segmented-msmarco-v2.1.splade-v3.cached > logs/log.from-corpus.dl22-doc-segmented-msmarco-v2.1.splade-v3.cached.txt 2>&1
+
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl23-doc-msmarco-v2.1 > logs/log.from-corpus.dl23-doc-msmarco-v2.1.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl23-doc-segmented-msmarco-v2.1 > logs/log.from-corpus.dl23-doc-segmented-msmarco-v2.1.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl23-doc-segmented-msmarco-v2.1.splade-v3.onnx > logs/log.from-corpus.dl23-doc-segmented-msmarco-v2.1.splade-v3.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl23-doc-segmented-msmarco-v2.1.splade-v3.cached > logs/log.from-corpus.dl23-doc-segmented-msmarco-v2.1.splade-v3.cached.txt 2>&1
+
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression rag24-doc-segmented-raggy-dev > logs/log.from-corpus.rag24-doc-segmented-raggy-dev.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression rag24-doc-segmented-raggy-dev.splade-v3.onnx > logs/log.from-corpus.rag24-doc-segmented-raggy-dev.splade-v3.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression rag24-doc-segmented-raggy-dev.splade-v3.cached > logs/log.from-corpus.rag24-doc-segmented-raggy-dev.splade-v3.cached.txt 2>&1
+
+# MS MARCO V2, full indexing
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v2-passage > logs/log.from-corpus.msmarco-v2-passage.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v2-passage.d2q-t5 > logs/log.from-corpus.msmarco-v2-passage.d2q-t5.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v2-passage.unicoil-noexp-0shot.cached > logs/log.from-corpus.msmarco-v2-passage.unicoil-noexp-0shot.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v2-passage.unicoil-0shot.cached > logs/log.from-corpus.msmarco-v2-passage.unicoil-0shot.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v2-passage.splade-pp-ed.cached > logs/log.from-corpus.msmarco-v2-passage.splade-pp-ed.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v2-passage.splade-pp-sd.cached > logs/log.from-corpus.msmarco-v2-passage.splade-pp-sd.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v2-passage-augmented > logs/log.from-corpus.msmarco-v2-passage-augmented.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v2-passage-augmented.d2q-t5 > logs/log.from-corpus.msmarco-v2-passage-augmented.d2q-t5.txt 2>&1
+
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v2-doc > logs/log.from-corpus.msmarco-v2-doc.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v2-doc.d2q-t5 > logs/log.from-corpus.msmarco-v2-doc.d2q-t5.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v2-doc-segmented > logs/log.from-corpus.msmarco-v2-doc-segmented.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v2-doc-segmented.d2q-t5 > logs/log.from-corpus.msmarco-v2-doc-segmented.d2q-t5.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v2-doc-segmented.unicoil-noexp-0shot-v2.cached > logs/log.from-corpus.msmarco-v2-doc-segmented.unicoil-noexp-0shot-v2.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --regression msmarco-v2-doc-segmented.unicoil-0shot-v2.cached > logs/log.from-corpus.msmarco-v2-doc-segmented.unicoil-0shot-v2.cached.txt 2>&1
+
+# Just retrieval
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression msmarco-v1-passage.splade-pp-ed.onnx > logs/log.from-corpus.msmarco-v1-passage.splade-pp-ed.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression msmarco-v1-passage.splade-pp-sd.onnx > logs/log.from-corpus.msmarco-v1-passage.splade-pp-sd.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression msmarco-v1-passage.splade-v3.onnx > logs/log.from-corpus.msmarco-v1-passage.splade-v3.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression msmarco-v1-passage.cos-dpr-distil.parquet.flat.onnx > logs/log.from-corpus.msmarco-v1-passage.cos-dpr-distil.parquet.flat.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression msmarco-v1-passage.cos-dpr-distil.parquet.flat-int8.onnx > logs/log.from-corpus.msmarco-v1-passage.cos-dpr-distil.parquet.flat-int8.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression msmarco-v1-passage.cos-dpr-distil.parquet.hnsw.onnx > logs/log.from-corpus.msmarco-v1-passage.cos-dpr-distil.parquet.hnsw.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression msmarco-v1-passage.cos-dpr-distil.parquet.hnsw-int8.onnx > logs/log.from-corpus.msmarco-v1-passage.cos-dpr-distil.parquet.hnsw-int8.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression msmarco-v1-passage.bge-base-en-v1.5.parquet.flat.onnx > logs/log.from-corpus.msmarco-v1-passage.bge-base-en-v1.5.parquet.flat.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression msmarco-v1-passage.bge-base-en-v1.5.parquet.flat-int8.onnx > logs/log.from-corpus.msmarco-v1-passage.bge-base-en-v1.5.parquet.flat-int8.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw.onnx > logs/log.from-corpus.msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw-int8.onnx > logs/log.from-corpus.msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw-int8.onnx.txt 2>&1
+
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-passage > logs/log.from-corpus.dl19-passage.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-passage.bm25-b8 > logs/log.from-corpus.dl19-passage.bm25-b8.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-passage.wp-tok > logs/log.from-corpus.dl19-passage.wp-tok.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-passage.wp-hgf > logs/log.from-corpus.dl19-passage.wp-hgf.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-passage.wp-ca > logs/log.from-corpus.dl19-passage.wp-ca.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-passage.docTTTTTquery > logs/log.from-corpus.dl19-passage.docTTTTTquery.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-passage.unicoil.cached > logs/log.from-corpus.dl19-passage.unicoil.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-passage.unicoil-noexp.cached > logs/log.from-corpus.dl19-passage.unicoil-noexp.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-passage.splade-pp-ed.cached > logs/log.from-corpus.dl19-passage.splade-pp-ed.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-passage.splade-pp-ed.onnx > logs/log.from-corpus.dl19-passage.splade-pp-ed.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-passage.splade-pp-sd.cached > logs/log.from-corpus.dl19-passage.splade-pp-sd.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-passage.splade-pp-sd.onnx > logs/log.from-corpus.dl19-passage.splade-pp-sd.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-passage.splade-v3.onnx > logs/log.from-corpus.dl19-passage.splade-v3.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-passage.splade-v3.cached > logs/log.from-corpus.dl19-passage.splade-v3.cached.txt 2>&1
+
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-passage.cos-dpr-distil.parquet.flat.cached > logs/log.from-corpus.dl19-passage.cos-dpr-distil.parquet.flat.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-passage.cos-dpr-distil.parquet.flat.onnx > logs/log.from-corpus.dl19-passage.cos-dpr-distil.parquet.flat.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-passage.cos-dpr-distil.parquet.flat-int8.cached > logs/log.from-corpus.dl19-passage.cos-dpr-distil.parquet.flat-int8.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-passage.cos-dpr-distil.parquet.flat-int8.onnx > logs/log.from-corpus.dl19-passage.cos-dpr-distil.parquet.flat-int8.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-passage.cos-dpr-distil.parquet.hnsw.cached > logs/log.from-corpus.dl19-passage.cos-dpr-distil.parquet.hnsw.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-passage.cos-dpr-distil.parquet.hnsw.onnx > logs/log.from-corpus.dl19-passage.cos-dpr-distil.parquet.hnsw.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-passage.cos-dpr-distil.parquet.hnsw-int8.cached > logs/log.from-corpus.dl19-passage.cos-dpr-distil.parquet.hnsw-int8.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-passage.cos-dpr-distil.parquet.hnsw-int8.onnx > logs/log.from-corpus.dl19-passage.cos-dpr-distil.parquet.hnsw-int8.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-passage.bge-base-en-v1.5.parquet.flat.cached > logs/log.from-corpus.dl19-passage.bge-base-en-v1.5.parquet.flat.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-passage.bge-base-en-v1.5.parquet.flat.onnx > logs/log.from-corpus.dl19-passage.bge-base-en-v1.5.parquet.flat.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-passage.bge-base-en-v1.5.parquet.flat-int8.cached > logs/log.from-corpus.dl19-passage.bge-base-en-v1.5.parquet.flat-int8.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-passage.bge-base-en-v1.5.parquet.flat-int8.onnx > logs/log.from-corpus.dl19-passage.bge-base-en-v1.5.parquet.flat-int8.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-passage.bge-base-en-v1.5.parquet.hnsw.cached > logs/log.from-corpus.dl19-passage.bge-base-en-v1.5.parquet.hnsw.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-passage.bge-base-en-v1.5.parquet.hnsw.onnx > logs/log.from-corpus.dl19-passage.bge-base-en-v1.5.parquet.hnsw.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-passage.bge-base-en-v1.5.parquet.hnsw-int8.cached > logs/log.from-corpus.dl19-passage.bge-base-en-v1.5.parquet.hnsw-int8.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-passage.bge-base-en-v1.5.parquet.hnsw-int8.onnx > logs/log.from-corpus.dl19-passage.bge-base-en-v1.5.parquet.hnsw-int8.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-passage.openai-ada2.parquet.flat.cached > logs/log.from-corpus.dl19-passage.openai-ada2.parquet.flat.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-passage.openai-ada2.parquet.flat-int8.cached > logs/log.from-corpus.dl19-passage.openai-ada2.parquet.flat-int8.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-passage.openai-ada2.parquet.hnsw.cached > logs/log.from-corpus.dl19-passage.openai-ada2.parquet.hnsw.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-passage.openai-ada2.parquet.hnsw-int8.cached > logs/log.from-corpus.dl19-passage.openai-ada2.parquet.hnsw-int8.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-passage.cohere-embed-english-v3.0.parquet.flat.cached > logs/log.from-corpus.dl19-passage.cohere-embed-english-v3.0.parquet.flat.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-passage.cohere-embed-english-v3.0.parquet.flat-int8.cached > logs/log.from-corpus.dl19-passage.cohere-embed-english-v3.0.parquet.flat-int8.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-passage.cohere-embed-english-v3.0.parquet.hnsw.cached > logs/log.from-corpus.dl19-passage.cohere-embed-english-v3.0.parquet.hnsw.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-passage.cohere-embed-english-v3.0.parquet.hnsw-int8.cached > logs/log.from-corpus.dl19-passage.cohere-embed-english-v3.0.parquet.hnsw-int8.cached.txt 2>&1
+
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-passage.cos-dpr-distil.parquet.fw > logs/log.from-corpus.dl19-passage.cos-dpr-distil.parquet.fw.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-passage.cos-dpr-distil.parquet.lexlsh > logs/log.from-corpus.dl19-passage.cos-dpr-distil.parquet.lexlsh.txt 2>&1
+
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-doc > logs/log.from-corpus.dl19-doc.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-doc.wp-tok > logs/log.from-corpus.dl19-doc.wp-tok.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-doc.wp-hgf > logs/log.from-corpus.dl19-doc.wp-hgf.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-doc.wp-ca > logs/log.from-corpus.dl19-doc.wp-ca.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-doc.docTTTTTquery > logs/log.from-corpus.dl19-doc.docTTTTTquery.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-doc-segmented > logs/log.from-corpus.dl19-doc-segmented.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-doc-segmented.wp-tok > logs/log.from-corpus.dl19-doc-segmented.wp-tok.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-doc-segmented.wp-ca > logs/log.from-corpus.dl19-doc-segmented.wp-ca.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-doc-segmented.docTTTTTquery > logs/log.from-corpus.dl19-doc-segmented.docTTTTTquery.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-doc-segmented.unicoil.cached > logs/log.from-corpus.dl19-doc-segmented.unicoil.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl19-doc-segmented.unicoil-noexp.cached > logs/log.from-corpus.dl19-doc-segmented.unicoil-noexp.cached.txt 2>&1
+
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-passage > logs/log.from-corpus.dl20-passage.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-passage.bm25-b8 > logs/log.from-corpus.dl20-passage.bm25-b8.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-passage.wp-tok > logs/log.from-corpus.dl20-passage.wp-tok.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-passage.wp-hgf > logs/log.from-corpus.dl20-passage.wp-hgf.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-passage.wp-ca > logs/log.from-corpus.dl20-passage.wp-ca.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-passage.docTTTTTquery > logs/log.from-corpus.dl20-passage.docTTTTTquery.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-passage.unicoil.cached > logs/log.from-corpus.dl20-passage.unicoil.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-passage.unicoil-noexp.cached > logs/log.from-corpus.dl20-passage.unicoil-noexp.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-passage.splade-pp-ed.cached > logs/log.from-corpus.dl20-passage.splade-pp-ed.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-passage.splade-pp-ed.onnx > logs/log.from-corpus.dl20-passage.splade-pp-ed.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-passage.splade-pp-sd.cached > logs/log.from-corpus.dl20-passage.splade-pp-sd.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-passage.splade-pp-sd.onnx > logs/log.from-corpus.dl20-passage.splade-pp-sd.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-passage.splade-v3.onnx > logs/log.from-corpus.dl20-passage.splade-v3.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-passage.splade-v3.cached > logs/log.from-corpus.dl20-passage.splade-v3.cached.txt 2>&1
+
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-passage.cos-dpr-distil.parquet.flat.cached > logs/log.from-corpus.dl20-passage.cos-dpr-distil.parquet.flat.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-passage.cos-dpr-distil.parquet.flat.onnx > logs/log.from-corpus.dl20-passage.cos-dpr-distil.parquet.flat.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-passage.cos-dpr-distil.parquet.flat-int8.cached > logs/log.from-corpus.dl20-passage.cos-dpr-distil.parquet.flat-int8.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-passage.cos-dpr-distil.parquet.flat-int8.onnx > logs/log.from-corpus.dl20-passage.cos-dpr-distil.parquet.flat-int8.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-passage.cos-dpr-distil.parquet.hnsw.cached > logs/log.from-corpus.dl20-passage.cos-dpr-distil.parquet.hnsw.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-passage.cos-dpr-distil.parquet.hnsw.onnx > logs/log.from-corpus.dl20-passage.cos-dpr-distil.parquet.hnsw.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-passage.cos-dpr-distil.parquet.hnsw-int8.cached > logs/log.from-corpus.dl20-passage.cos-dpr-distil.parquet.hnsw-int8.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-passage.cos-dpr-distil.parquet.hnsw-int8.onnx > logs/log.from-corpus.dl20-passage.cos-dpr-distil.parquet.hnsw-int8.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-passage.bge-base-en-v1.5.parquet.flat.cached > logs/log.from-corpus.dl20-passage.bge-base-en-v1.5.parquet.flat.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-passage.bge-base-en-v1.5.parquet.flat.onnx > logs/log.from-corpus.dl20-passage.bge-base-en-v1.5.parquet.flat.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-passage.bge-base-en-v1.5.parquet.flat-int8.cached > logs/log.from-corpus.dl20-passage.bge-base-en-v1.5.parquet.flat-int8.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-passage.bge-base-en-v1.5.parquet.flat-int8.onnx > logs/log.from-corpus.dl20-passage.bge-base-en-v1.5.parquet.flat-int8.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-passage.bge-base-en-v1.5.parquet.hnsw.cached > logs/log.from-corpus.dl20-passage.bge-base-en-v1.5.parquet.hnsw.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-passage.bge-base-en-v1.5.parquet.hnsw.onnx > logs/log.from-corpus.dl20-passage.bge-base-en-v1.5.parquet.hnsw.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-passage.bge-base-en-v1.5.parquet.hnsw-int8.cached > logs/log.from-corpus.dl20-passage.bge-base-en-v1.5.parquet.hnsw-int8.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-passage.bge-base-en-v1.5.parquet.hnsw-int8.onnx > logs/log.from-corpus.dl20-passage.bge-base-en-v1.5.parquet.hnsw-int8.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-passage.openai-ada2.parquet.flat.cached > logs/log.from-corpus.dl20-passage.openai-ada2.parquet.flat.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-passage.openai-ada2.parquet.flat-int8.cached > logs/log.from-corpus.dl20-passage.openai-ada2.parquet.flat-int8.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-passage.openai-ada2.parquet.hnsw.cached > logs/log.from-corpus.dl20-passage.openai-ada2.parquet.hnsw.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-passage.openai-ada2.parquet.hnsw-int8.cached > logs/log.from-corpus.dl20-passage.openai-ada2.parquet.hnsw-int8.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-passage.cohere-embed-english-v3.0.parquet.flat.cached > logs/log.from-corpus.dl20-passage.cohere-embed-english-v3.0.parquet.flat.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-passage.cohere-embed-english-v3.0.parquet.flat-int8.cached > logs/log.from-corpus.dl20-passage.cohere-embed-english-v3.0.parquet.flat-int8.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-passage.cohere-embed-english-v3.0.parquet.hnsw.cached > logs/log.from-corpus.dl20-passage.cohere-embed-english-v3.0.parquet.hnsw.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-passage.cohere-embed-english-v3.0.parquet.hnsw-int8.cached > logs/log.from-corpus.dl20-passage.cohere-embed-english-v3.0.parquet.hnsw-int8.cached.txt 2>&1
+
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-passage.cos-dpr-distil.parquet.fw > logs/log.from-corpus.dl20-passage.cos-dpr-distil.parquet.fw.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-passage.cos-dpr-distil.parquet.lexlsh > logs/log.from-corpus.dl20-passage.cos-dpr-distil.parquet.lexlsh.txt 2>&1
+
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-doc > logs/log.from-corpus.dl20-doc.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-doc.wp-tok > logs/log.from-corpus.dl20-doc.wp-tok.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-doc.wp-hgf > logs/log.from-corpus.dl20-doc.wp-hgf.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-doc.wp-ca > logs/log.from-corpus.dl20-doc.wp-ca.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-doc.docTTTTTquery > logs/log.from-corpus.dl20-doc.docTTTTTquery.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-doc-segmented > logs/log.from-corpus.dl20-doc-segmented.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-doc-segmented.wp-tok > logs/log.from-corpus.dl20-doc-segmented.wp-tok.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-doc-segmented.wp-ca > logs/log.from-corpus.dl20-doc-segmented.wp-ca.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-doc-segmented.docTTTTTquery > logs/log.from-corpus.dl20-doc-segmented.docTTTTTquery.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-doc-segmented.unicoil.cached > logs/log.from-corpus.dl20-doc-segmented.unicoil.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl20-doc-segmented.unicoil-noexp.cached > logs/log.from-corpus.dl20-doc-segmented.unicoil-noexp.cached.txt 2>&1
+
+# Just retrieval
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression msmarco-v2-passage.splade-pp-ed.onnx > logs/log.from-corpus.msmarco-v2-passage.splade-pp-ed.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression msmarco-v2-passage.splade-pp-sd.onnx > logs/log.from-corpus.msmarco-v2-passage.splade-pp-sd.onnx.txt 2>&1
+
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl21-passage > logs/log.from-corpus.dl21-passage.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl21-passage.d2q-t5 > logs/log.from-corpus.dl21-passage.d2q-t5.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl21-passage.unicoil-noexp-0shot.cached > logs/log.from-corpus.dl21-passage.unicoil-noexp-0shot.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl21-passage.unicoil-0shot.cached > logs/log.from-corpus.dl21-passage.unicoil-0shot.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl21-passage.splade-pp-ed.cached > logs/log.from-corpus.dl21-passage.splade-pp-ed.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl21-passage.splade-pp-ed.onnx > logs/log.from-corpus.dl21-passage.splade-pp-ed.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl21-passage.splade-pp-sd.cached > logs/log.from-corpus.dl21-passage.splade-pp-sd.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl21-passage.splade-pp-sd.onnx > logs/log.from-corpus.dl21-passage.splade-pp-sd.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl21-passage-augmented > logs/log.from-corpus.dl21-passage-augmented.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl21-passage-augmented.d2q-t5 > logs/log.from-corpus.dl21-passage-augmented.d2q-t5.txt 2>&1
+
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl21-doc > logs/log.from-corpus.dl21-doc.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl21-doc.d2q-t5 > logs/log.from-corpus.dl21-doc.d2q-t5.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl21-doc-segmented > logs/log.from-corpus.dl21-doc-segmented.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl21-doc-segmented.d2q-t5 > logs/log.from-corpus.dl21-doc-segmented.d2q-t5.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl21-doc-segmented.unicoil-noexp-0shot-v2.cached > logs/log.from-corpus.dl21-doc-segmented.unicoil-noexp-0shot-v2.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl21-doc-segmented.unicoil-0shot-v2.cached > logs/log.from-corpus.dl21-doc-segmented.unicoil-0shot-v2.cached.txt 2>&1
+
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl22-passage > logs/log.from-corpus.dl22-passage.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl22-passage.d2q-t5 > logs/log.from-corpus.dl22-passage.d2q-t5.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl22-passage.unicoil-noexp-0shot.cached > logs/log.from-corpus.dl22-passage.unicoil-noexp-0shot.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl22-passage.unicoil-0shot.cached > logs/log.from-corpus.dl22-passage.unicoil-0shot.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl22-passage.splade-pp-ed.cached > logs/log.from-corpus.dl22-passage.splade-pp-ed.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl22-passage.splade-pp-ed.onnx > logs/log.from-corpus.dl22-passage.splade-pp-ed.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl22-passage.splade-pp-sd.cached > logs/log.from-corpus.dl22-passage.splade-pp-sd.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl22-passage.splade-pp-sd.onnx > logs/log.from-corpus.dl22-passage.splade-pp-sd.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl22-passage-augmented > logs/log.from-corpus.dl22-passage-augmented.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl22-passage-augmented.d2q-t5 > logs/log.from-corpus.dl22-passage-augmented.d2q-t5.txt 2>&1
+
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl22-doc > logs/log.from-corpus.dl22-doc.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl22-doc.d2q-t5 > logs/log.from-corpus.dl22-doc.d2q-t5.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl22-doc-segmented > logs/log.from-corpus.dl22-doc-segmented.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl22-doc-segmented.d2q-t5 > logs/log.from-corpus.dl22-doc-segmented.d2q-t5.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl22-doc-segmented.unicoil-noexp-0shot-v2.cached > logs/log.from-corpus.dl22-doc-segmented.unicoil-noexp-0shot-v2.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl22-doc-segmented.unicoil-0shot-v2.cached > logs/log.from-corpus.dl22-doc-segmented.unicoil-0shot-v2.cached.txt 2>&1
+
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl23-passage > logs/log.from-corpus.dl23-passage.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl23-passage.d2q-t5 > logs/log.from-corpus.dl23-passage.d2q-t5.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl23-passage.unicoil-noexp-0shot.cached > logs/log.from-corpus.dl23-passage.unicoil-noexp-0shot.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl23-passage.unicoil-0shot.cached > logs/log.from-corpus.dl23-passage.unicoil-0shot.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl23-passage.splade-pp-ed.cached > logs/log.from-corpus.dl23-passage.splade-pp-ed.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl23-passage.splade-pp-ed.onnx > logs/log.from-corpus.dl23-passage.splade-pp-ed.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl23-passage.splade-pp-sd.cached > logs/log.from-corpus.dl23-passage.splade-pp-sd.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl23-passage.splade-pp-sd.onnx > logs/log.from-corpus.dl23-passage.splade-pp-sd.onnx.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl23-passage-augmented > logs/log.from-corpus.dl23-passage-augmented.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl23-passage-augmented.d2q-t5 > logs/log.from-corpus.dl23-passage-augmented.d2q-t5.txt 2>&1
+
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl23-doc > logs/log.from-corpus.dl23-doc.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl23-doc.d2q-t5 > logs/log.from-corpus.dl23-doc.d2q-t5.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl23-doc-segmented > logs/log.from-corpus.dl23-doc-segmented.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl23-doc-segmented.d2q-t5 > logs/log.from-corpus.dl23-doc-segmented.d2q-t5.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl23-doc-segmented.unicoil-noexp-0shot-v2.cached > logs/log.from-corpus.dl23-doc-segmented.unicoil-noexp-0shot-v2.cached.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --verify --search --regression dl23-doc-segmented.unicoil-0shot-v2.cached > logs/log.from-corpus.dl23-doc-segmented.unicoil-0shot-v2.cached.txt 2>&1
