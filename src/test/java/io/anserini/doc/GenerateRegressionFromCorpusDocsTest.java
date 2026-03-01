@@ -22,6 +22,8 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.text.StringSubstitutor;
 import org.junit.Test;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.io.File;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -30,11 +32,11 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Scanner;
 
-public class GenerateRegressionDocsTest {
+public class GenerateRegressionFromCorpusDocsTest {
   @Test
   public void generateDocs() throws Exception {
     ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-    URL templatesRoot = GenerateRegressionDocsTest.class.getResource("/docgen/templates/");
+    URL templatesRoot = GenerateRegressionFromCorpusDocsTest.class.getResource("/reproduce/from-corpus/docgen");
 
     assert templatesRoot != null;
     for (final File fileEntry : Objects.requireNonNull(new File(templatesRoot.toURI()).listFiles())) {
@@ -42,7 +44,7 @@ public class GenerateRegressionDocsTest {
       // e.g., multiple topics run on the same collection.
       String testName = fileEntry.getName().replaceAll(".template", "");
 
-      URL yaml = GenerateRegressionDocsTest.class.getResource(String.format("/regression/%s.yaml", testName));
+      URL yaml = GenerateRegressionFromCorpusDocsTest.class.getResource(String.format("/reproduce/from-corpus/configs/%s.yaml", testName));
       DataModel data = mapper.readValue(new File(yaml.toURI()), DataModel.class);
       String corpus = data.getCorpus();
       String download_corpus = data.getDownload_corpus();
@@ -63,8 +65,9 @@ public class GenerateRegressionDocsTest {
       valuesMap.put("effectiveness", data.generateEffectiveness(corpus));
 
       StringSubstitutor sub = new StringSubstitutor(valuesMap);
-      URL template = GenerateRegressionDocsTest.class.getResource(String.format("/docgen/templates/%s.template", testName));
-      assert template != null;
+      URL template = GenerateRegressionFromCorpusDocsTest.class.getResource(String.format("/reproduce/from-corpus/docgen/%s.template", testName));
+      assertNotNull(template);
+
       Scanner scanner = new Scanner(new File(template.toURI()), StandardCharsets.UTF_8);
       String text = scanner.useDelimiter("\\A").next();
       scanner.close();

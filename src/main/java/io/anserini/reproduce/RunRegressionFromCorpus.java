@@ -72,8 +72,8 @@ import io.anserini.search.SearchFlatDenseVectors;
 import io.anserini.search.SearchHnswDenseVectors;
 import io.anserini.search.SearchInvertedDenseVectors;
 
-public class RunRegressionsFromCorpus {
-  private static final Logger LOG = LogManager.getLogger(RunRegressionsFromCorpus.class);
+public class RunRegressionFromCorpus {
+  private static final Logger LOG = LogManager.getLogger(RunRegressionFromCorpus.class);
 
   private static final String[] CORPUS_ROOTS = new String[] {
       "./",
@@ -157,7 +157,7 @@ public class RunRegressionsFromCorpus {
     }
 
     ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-    Path yamlPath = Paths.get("src/main/resources/regression", parsed.regression + ".yaml");
+    Path yamlPath = Paths.get("src/main/resources/reproduce/from-corpus/configs/", parsed.regression + ".yaml");
     if (!Files.exists(yamlPath)) {
       throw new IllegalArgumentException("Missing regression file: " + yamlPath);
     }

@@ -88,7 +88,10 @@ public class RunRegressionCommands {
 
       String loadString = loadAvailable ? String.format("%.1f", currentLoad) : "N/A";
       LOG.info("Current load: {} (threshold = {}), active jobs: {} (max = {})", loadString, args.load, active.size(), args.max);
-      Thread.sleep(args.sleep * 1000L);
+
+      if (active.size() > 0) {
+        Thread.sleep(args.sleep * 1000L);
+      }
     }
 
     LOG.info("All jobs completed!");
