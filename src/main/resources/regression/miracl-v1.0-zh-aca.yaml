@@ -5,7 +5,7 @@ corpus_path: collections/miracl-corpus/miracl-corpus-v1.0-zh
 index_path: indexes/lucene-index.miracl-v1.0-zh-aca/
 collection_class: MrTyDiCollection
 generator_class: DefaultLuceneDocumentGenerator
-index_threads: 1
+index_threads: 8
 index_options: -storePositions -storeDocvectors -storeRaw -language zh -useAutoCompositeAnalyzer
 index_stats:
   documents: 4934368
