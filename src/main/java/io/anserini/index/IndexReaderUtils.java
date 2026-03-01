@@ -810,6 +810,33 @@ public class IndexReaderUtils {
   }
 
   /**
+   * Returns a formatted summary of index statistics.
+   *
+   * @param index index path or prebuilt index identifier
+   * @param field Lucene field
+   * @return formatted index statistics summary
+   * @throws IOException if any errors are encountered
+   */
+  public static String getIndexStatsSummary(String index, String field) throws IOException {
+    Path indexPath = getIndex(index);
+    try (IndexReader reader = getReader(indexPath.toString())) {
+      Map<String, Object> results = getIndexStats(reader, field);
+      long totalSize = findDirectorySize(indexPath);
+
+      StringBuilder summary = new StringBuilder(256);
+      summary.append("Index statistics\n");
+      summary.append("----------------\n");
+      summary.append("documents:             ").append(results.get("documents")).append('\n');
+      summary.append("documents (non-empty): ").append(results.get("non_empty_documents")).append('\n');
+      summary.append("unique terms:          ").append(results.get("unique_terms")).append('\n');
+      summary.append("total terms:           ").append(results.get("total_terms")).append('\n');
+      summary.append("index_path:            ").append(indexPath.toAbsolutePath()).append('\n');
+      summary.append("total_size:            ").append(formatSize(totalSize));
+      return summary.toString();
+    }
+  }
+
+  /**
    * Returns {@code FieldInfo} for indexed fields.
    *
    * @param reader index reader
@@ -868,52 +895,6 @@ public class IndexReaderUtils {
     throw new IllegalArgumentException(String.format("\"%s\" does not appear to be a valid index.", index));
   }
 
-  // This is needed by src/main/python/run_regression.py
-
-  public static final class Args {
-    @Option(name = "-index", metaVar = "[Path]", required = true, usage = "index path")
-    String index;
-
-    @Option(name = "-field", metaVar = "[field]", usage = "field")
-    String field = Constants.CONTENTS;
-
-    @Option(name = "-stats", usage = "print index statistics")
-    boolean stats;
-  }
-
-  public static void main(String[] argv) throws Exception {
-    Args args = new Args();
-    CmdLineParser parser = new CmdLineParser(args, ParserProperties.defaults().withUsageWidth(90));
-    try {
-      parser.parseArgument(argv);
-    } catch (CmdLineException e) {
-      System.err.println(e.getMessage());
-      parser.printUsage(System.err);
-      return;
-    }
-    
-    Path indexPath = IndexReaderUtils.getIndex(args.index);
-    IndexReader reader = IndexReaderUtils.getReader(indexPath.toString());
-    Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, args.field);
-
-    results.put("index_path", indexPath.toAbsolutePath().toString());
-    long totalSize = findDirectorySize(indexPath);
-    results.put("total_size", totalSize);
-
-    if (args.stats) {
-      System.out.println("Index statistics");
-      System.out.println("----------------");
-      System.out.println("documents:             " + results.get("documents"));
-      System.out.println("documents (non-empty): " + results.get("non_empty_documents"));
-      System.out.println("unique terms:          " + results.get("unique_terms"));
-      System.out.println("total terms:           " + results.get("total_terms"));
-      System.out.println("index_path:            " + results.get("index_path"));
-      System.out.println("total_size:            " + formatSize((long) results.get("total_size")));
-    }
-
-    reader.close();
-  }
-
   /**
    * Finds the total size of a directory recursively.
    *
@@ -949,5 +930,34 @@ public class IndexReaderUtils {
       unitIndex = unitIndex + 1;
     }
     return String.format(Locale.US, "%.1f %s", size, units[unitIndex]);
+  }
+
+    // This is needed by src/main/python/run_regression.py
+
+  public static final class Args {
+    @Option(name = "-index", metaVar = "[Path]", required = true, usage = "index path")
+    String index;
+
+    @Option(name = "-field", metaVar = "[field]", usage = "field")
+    String field = Constants.CONTENTS;
+
+    @Option(name = "-stats", usage = "print index statistics")
+    boolean stats;
+  }
+
+  public static void main(String[] argv) throws Exception {
+    Args args = new Args();
+    CmdLineParser parser = new CmdLineParser(args, ParserProperties.defaults().withUsageWidth(90));
+    try {
+      parser.parseArgument(argv);
+    } catch (CmdLineException e) {
+      System.err.println(e.getMessage());
+      parser.printUsage(System.err);
+      return;
+    }
+
+    if (args.stats) {
+      System.out.println(getIndexStatsSummary(args.index, args.field));
+    }
   }
 }

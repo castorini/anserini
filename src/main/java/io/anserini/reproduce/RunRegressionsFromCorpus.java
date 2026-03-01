@@ -16,23 +16,6 @@
 
 package io.anserini.reproduce;
 
-import io.anserini.eval.TrecEval;
-import io.anserini.index.IndexCollection;
-import io.anserini.search.SearchCollection;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
-import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
-import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.kohsuke.args4j.CmdLineException;
-import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.Option;
-import org.kohsuke.args4j.ParserProperties;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -56,11 +39,38 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
+import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
+import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.ParserProperties;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+
+import io.anserini.eval.TrecEval;
+import io.anserini.index.Constants;
+import io.anserini.index.IndexCollection;
+import io.anserini.index.IndexFlatDenseVectors;
+import io.anserini.index.IndexHnswDenseVectors;
+import io.anserini.index.IndexInvertedDenseVectors;
+import io.anserini.index.IndexReaderUtils;
+import io.anserini.search.SearchCollection;
+import io.anserini.search.SearchFlatDenseVectors;
+import io.anserini.search.SearchHnswDenseVectors;
+import io.anserini.search.SearchInvertedDenseVectors;
 
 public class RunRegressionsFromCorpus {
   private static final Logger LOG = LogManager.getLogger(RunRegressionsFromCorpus.class);
@@ -87,13 +97,21 @@ public class RunRegressionsFromCorpus {
   private static final String SEARCH_HNSW_DENSE_COMMAND = "bin/run.sh io.anserini.search.SearchHnswDenseVectors";
   private static final String SEARCH_INVERTED_DENSE_COMMAND = "bin/run.sh io.anserini.search.SearchInvertedDenseVectors";
 
-  private static final String RED = "\u001B[91m";
-  private static final String BLUE = "\u001B[94m";
-  private static final String RESET = "\u001B[0m";
+  private static final Map<String, MainInvoker> MAIN_DISPATCH = Map.of(
+      "io.anserini.index.IndexCollection", IndexCollection::main,
+      "io.anserini.index.IndexFlatDenseVectors", IndexFlatDenseVectors::main,
+      "io.anserini.index.IndexHnswDenseVectors", IndexHnswDenseVectors::main,
+      "io.anserini.index.IndexInvertedDenseVectors", IndexInvertedDenseVectors::main,
+      "io.anserini.search.SearchCollection", SearchCollection::main,
+      "io.anserini.search.SearchFlatDenseVectors", SearchFlatDenseVectors::main,
+      "io.anserini.search.SearchHnswDenseVectors", SearchHnswDenseVectors::main,
+      "io.anserini.search.SearchInvertedDenseVectors", SearchInvertedDenseVectors::main
+  );
 
-  private static final String FAIL = RED + "[FAIL]" + RESET + " ";
-  private static final String OK = "   [OK] ";
-  private static final String OKISH = "  " + BLUE + "[OK*]" + RESET + " ";
+  @FunctionalInterface
+  private interface MainInvoker {
+    void invoke(String[] args) throws Exception;
+  }
 
   public static class Args {
     @Option(name = "--regression", required = true, usage = "Name of the regression test.")
@@ -200,7 +218,7 @@ public class RunRegressionsFromCorpus {
         if (indexType != null && "inverted-dense".equals(indexType.asText())) {
           cmd.append(" -field vector");
         }
-        String output = checkOutput(cmd.toString());
+        String output = runCommandAndReturnOutput(cmd.toString());
         String[] lines = output.split("\n");
         JsonNode stats = yaml.get("index_stats");
         if (stats != null && stats.isObject()) {
@@ -233,7 +251,7 @@ public class RunRegressionsFromCorpus {
           LOG.info(cmd);
         }
       } else {
-        runCommandsInPool(searchCmds, parsed.searchPool);
+        runCommandsInThreadPool(searchCmds, parsed.searchPool);
       }
 
       JsonNode conversions = yaml.get("conversions");
@@ -245,7 +263,7 @@ public class RunRegressionsFromCorpus {
             LOG.info(cmd);
           }
         } else {
-          runCommandsInPool(convertCmds, parsed.convertPool);
+          runCommandsInThreadPool(convertCmds, parsed.convertPool);
         }
       }
 
@@ -255,46 +273,6 @@ public class RunRegressionsFromCorpus {
 
   private static boolean isClose(double a, double b, double relTol, double absTol) {
     return Math.abs(a - b) <= Math.max(relTol * Math.max(Math.abs(a), Math.abs(b)), absTol);
-  }
-
-  private static String checkOutput(String command) throws IOException, InterruptedException {
-    //LOG.info("Eval command: " + command);
-
-    if ( command.contains("trec_eval")) {
-      String[] parts = command.trim().split("\\s+");
-      String[] args = Arrays.copyOfRange(parts, 1, parts.length);
-      //System.out.println(Arrays.toString(args));
-
-      String[][] out = new TrecEval().runAndGetOutput(args);
-      StringBuilder sb = new StringBuilder();
-      for (int i = 0; i < out.length; i++) {
-        if (i > 0) {
-          sb.append('\n');
-        }
-        String[] row = out[i];
-        for (int j = 0; j < row.length; j++) {
-          if (j > 0) {
-            sb.append('\t');
-          }
-          sb.append(row[j]);
-        }
-      }
-      //System.out.println("OUT ---> " + sb.toString());
-      return sb.toString();
-    }
-
-    ProcessBuilder pb = new ProcessBuilder("bash", "-lc", command);
-    pb.redirectErrorStream(true);
-    Process p = pb.start();
-    ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-    try (InputStream in = p.getInputStream()) {
-      in.transferTo(buffer);
-    }
-    int code = p.waitFor();
-    if (code != 0) {
-      throw new RuntimeException("Command failed: " + command);
-    }
-    return buffer.toString(StandardCharsets.UTF_8);
   }
 
   private static String constructIndexPath(JsonNode yaml) {
@@ -399,12 +377,13 @@ public class RunRegressionsFromCorpus {
       }
 
       for (JsonNode topic : topics) {
-        String topicReader = Objects.requireNonNull(yaml.get("topic_reader")).asText();
+        // The topic_reader is either a parent (in which case it applies to all topics) or a per-topic override.
+        String topicReader = yaml.get("topic_reader") != null ? yaml.get("topic_reader").asText() : topic.get("topic_reader").asText();
         String output = constructRunfilePath(Objects.requireNonNull(yaml.get("index_path")).asText(),
             Objects.requireNonNull(topic.get("id")).asText(),
             Objects.requireNonNull(model.get("name")).asText());
 
-        // Janky special case for now: we run cacm in the test suite, and on GitHub CI tools/topics-and-qrels is not checked out.
+        // Special case: we run the cacm regression in the test suite, and on GitHub CI tools/topics-and-qrels is not checked out.
         String topicPath;
         if ("topics.cacm.txt".equals(topic.get("path").asText())) {
           topicPath = "cacm";
@@ -513,7 +492,7 @@ public class RunRegressionsFromCorpus {
             continue;
           }
 
-          String out = checkOutput(evalCmd.toString());
+          String out = runCommandAndReturnOutput(evalCmd.toString());
           String[] lines = out.split("\n");
           String last = null;
           for (String line : lines) {
@@ -562,13 +541,13 @@ public class RunRegressionsFromCorpus {
           if (isClose(expected, actual, 1e-9, 0.0) || actual > expected ||
               (usingFlat && isClose(expected, actual, 1e-9, toleranceOk)) ||
               (usingHnsw && isClose(expected, actual, 1e-9, toleranceOk))) {
-            LOG.info(OK + resultStr);
+            LOG.info(RegressionConstants.OK + resultStr);
           } else if ((usingFlat && isClose(expected, actual, 1e-9, toleranceOk * 1.5)) ||
               (usingHnsw && isClose(expected, actual, 1e-9, toleranceOk * 1.5))) {
-            LOG.info(OKISH + resultStr);
+            LOG.info(RegressionConstants.OKISH + resultStr);
             okish = true;
           } else {
-            LOG.error(FAIL + resultStr);
+            LOG.error(RegressionConstants.FAIL + resultStr);
             failures = true;
           }
         }
@@ -578,17 +557,71 @@ public class RunRegressionsFromCorpus {
     if (!args.dryRun) {
       long elapsed = Duration.ofNanos(System.nanoTime() - startNanos).toSeconds();
       if (failures) {
-        LOG.error("{}Total elapsed time: {}s", FAIL, elapsed);
+        LOG.error("{}Total elapsed time: {}s", RegressionConstants.FAIL, elapsed);
       } else if (okish) {
-        LOG.info("{}Total elapsed time: {}s", OKISH, elapsed);
+        LOG.info("{}Total elapsed time: {}s", RegressionConstants.OKISH, elapsed);
       } else {
-        LOG.info("All Tests Passed! Total elapsed time: {}s", elapsed);
+        LOG.info("{}Total elapsed time: {}s", RegressionConstants.OK, elapsed);
       }
     }
   }
 
+  private static String runCommandAndReturnOutput(String command) throws IOException, InterruptedException {
+    if (command.contains("trec_eval") && !command.contains("pyserini")) {
+      return runTrecEvalCommandAndReturnOutput(command);
+    } else if (command.contains("io.anserini.index.IndexReaderUtils")) {
+      return runIndexReaderUtilsCommandAndReturnOutput(command);
+    }
+
+    ProcessBuilder pb = new ProcessBuilder("bash", "-lc", command);
+    pb.redirectErrorStream(true);
+    Process p = pb.start();
+    ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+    try (InputStream in = p.getInputStream()) {
+      in.transferTo(buffer);
+    }
+    int code = p.waitFor();
+    if (code != 0) {
+      throw new RuntimeException("Command failed: " + command);
+    }
+    return buffer.toString(StandardCharsets.UTF_8);
+  }
+
+  private static String runIndexReaderUtilsCommandAndReturnOutput(String command) throws IOException {
+    LOG.info("Calling IndexReaderUtils directly instead of starting a new process.");
+    String[] args = extractArgsAfterClass("io.anserini.index.IndexReaderUtils", command);
+    LOG.info(Arrays.toString(args));
+
+    String field = extractOptionValue(args, "-field");
+    return IndexReaderUtils.getIndexStatsSummary(args[1], field == null ? Constants.CONTENTS : field);
+  }
+
+  private static String runTrecEvalCommandAndReturnOutput(String command) {
+    String[] parts = command.trim().split("\\s+");
+    String[] args = Arrays.copyOfRange(parts, 1, parts.length);
+
+    String[][] out = new TrecEval().runAndGetOutput(args);
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < out.length; i++) {
+      if (i > 0) {
+        sb.append('\n');
+      }
+      String[] row = out[i];
+      for (int j = 0; j < row.length; j++) {
+        if (j > 0) {
+          sb.append('\t');
+        }
+        sb.append(row[j]);
+      }
+    }
+
+    return sb.toString();
+  }
+
   private static String[] extractArgsAfterClass(String clazz, String cmd) {
-    String[] parts = cmd.trim().split("\\s+");
+    // Remove quotes for cases like -selectMaxPassage.delimiter "#"
+    // This is a case where the quotes are needed for the shell, but not when calling main directly.
+    String[] parts = cmd.trim().replaceAll("\"", "").split("\\s+");
     for (int i = 0; i < parts.length; i++) {
       if (clazz.equals(parts[i])) {
         return Arrays.copyOfRange(parts, i + 1, parts.length);
@@ -598,43 +631,55 @@ public class RunRegressionsFromCorpus {
     return null;
   }
 
+  private static String extractOptionValue(String[] args, String option) {
+    if (args == null || args.length < 2) {
+      return null;
+    }
+    for (int i = 0; i < args.length - 1; i++) {
+      if (option.equals(args[i])) {
+        return args[i + 1];
+      }
+    }
+    return null;
+  }
+
+  private static String extractMainClass(String cmd) {
+    String[] parts = cmd.trim().split("\\s+");
+    for (String part : parts) {
+      if (part.startsWith("io.anserini.")) {
+        return part;
+      }
+    }
+    return null;
+  }
+
   private static void runCommand(String command) throws IOException, InterruptedException {
     LOG.info(command);
 
-    if (command.contains("io.anserini.index.IndexCollection")) {
-      LOG.info("Calling IndexCollection.main directly instead of starting a new process.");
-      String[] args = extractArgsAfterClass("io.anserini.index.IndexCollection", command);
+    String mainClass = extractMainClass(command);
+    MainInvoker mainInvoker = mainClass == null ? null : MAIN_DISPATCH.get(mainClass);
+    if (mainInvoker != null) {
+      LOG.info("Calling {}.main directly instead of starting a new process.", mainClass);
+      String[] args = extractArgsAfterClass(mainClass, command);
       LOG.info(Arrays.toString(args));
-
       try {
-        IndexCollection.main(args);
+        mainInvoker.invoke(args);
       } catch (Exception e) {
         throw new RuntimeException("Command failed: " + command, e);
       }
       return;
-    } if (command.contains("io.anserini.search.SearchCollection")) {
-      LOG.info("Calling SearchCollection.main directly instead of starting a new process.");
-      String[] args = extractArgsAfterClass("io.anserini.search.SearchCollection", command);
-      LOG.info(Arrays.toString(args));
+    }
 
-      try {
-        SearchCollection.main(args);
-      } catch (Exception e) {
-        throw new RuntimeException("Command failed: " + command, e);
-      }
-      return;
-    } else {
-      ProcessBuilder pb = new ProcessBuilder("bash", "-lc", command);
-      pb.inheritIO();
-      Process p = pb.start();
-      int code = p.waitFor();
-      if (code != 0) {
-        throw new RuntimeException("Command failed: " + command);
-      }
+    ProcessBuilder pb = new ProcessBuilder("bash", "-lc", command);
+    pb.inheritIO();
+    Process p = pb.start();
+    int code = p.waitFor();
+    if (code != 0) {
+      throw new RuntimeException("Command failed: " + command);
     }
   }
 
-  private static void runCommandsInPool(List<String> commands, int poolSize) throws InterruptedException {
+  private static void runCommandsInThreadPool(List<String> commands, int poolSize) throws InterruptedException {
     ExecutorService exec = Executors.newFixedThreadPool(poolSize);
     List<Future<?>> futures = new ArrayList<>();
     for (String cmd : commands) {

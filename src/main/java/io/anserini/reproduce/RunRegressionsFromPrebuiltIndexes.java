@@ -16,18 +16,6 @@
 
 package io.anserini.reproduce;
 
-import io.anserini.index.IndexReaderUtils;
-import io.anserini.util.PrebuiltIndexHandler;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import org.apache.commons.lang3.time.DurationFormatUtils;
-import org.kohsuke.args4j.CmdLineException;
-import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.Option;
-import org.kohsuke.args4j.ParserProperties;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,17 +31,20 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.lang3.time.DurationFormatUtils;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.ParserProperties;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+
+import io.anserini.index.IndexReaderUtils;
+import io.anserini.util.PrebuiltIndexHandler;
+
 public class RunRegressionsFromPrebuiltIndexes {
-  // ANSI escape code for red text
-  private static final String RED = "\u001B[31m";
-  // ANSI escape code for blue text
-  private static final String BLUE = "\u001B[94m";
-  // ANSI escape code to reset to the default text color
-  private static final String RESET = "\u001B[0m";
-
-  private static final String FAIL = RED + "[FAIL]" + RESET;
-  private static final String OKAY_ISH = BLUE + "[OK*]" + RESET;
-
   private final String collection;
   private final boolean printCommands;
   private final boolean dryRun;
@@ -290,13 +281,13 @@ public class RunRegressionsFromPrebuiltIndexes {
               double delta = Math.abs(score - expected.get(metric));
 
               if (score > expected.get(metric)) {
-                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, OKAY_ISH, expected.get(metric));
+                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, RegressionConstants.OKISH, expected.get(metric));
               } else if (delta < 0.00001) {
-                System.out.printf("    %8s: %.4f [OK]%n", metric, score);
+                System.out.printf("    %8s: %.4f %s%n", metric, score, RegressionConstants.OK);
               } else if (delta < 0.0002) {
-                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, OKAY_ISH, expected.get(metric));
+                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, RegressionConstants.OKISH, expected.get(metric));
               } else {
-                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, FAIL, expected.get(metric));
+                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, RegressionConstants.FAIL, expected.get(metric));
               }
             } else {
               System.out.println("Evaluation command failed for metric: " + metric);

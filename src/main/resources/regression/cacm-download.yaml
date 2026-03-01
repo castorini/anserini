@@ -1,6 +1,6 @@
 ---
 corpus: cacm
-corpus_path: collections/cacm/raw/
+corpus_path: collections/cacm/
 
 download_url: https://github.com/castorini/anserini-data/raw/refs/heads/master/CACM/corpus/raw/cacm-in-folder.tar.gz
 download_checksum: 8be2ec7cd2ae68b6e891f69df5ef2a5f
