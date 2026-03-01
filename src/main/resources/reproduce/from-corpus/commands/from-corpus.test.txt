@@ -1,1 +1,1 @@
-bin/run.sh io.anserini.reproduce.RunRegressionFromCorpus --download --index --verify --search --regression cacm-download > logs/log.from-corpus.cacm-download.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromCorpus --download --index --verify --search --regression cacm-download > logs/log.from-corpus.cacm-download.txt 2>&1

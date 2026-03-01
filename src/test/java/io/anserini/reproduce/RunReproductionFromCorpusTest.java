@@ -39,12 +39,12 @@ import io.anserini.search.SearchCollection;
 import io.anserini.search.topicreader.TopicReader;
 import io.anserini.search.topicreader.Topics;
 
-public class RunRegressionFromCorpusTest extends StdOutStdErrRedirectableLuceneTestCase {
+public class RunReproductionFromCorpusTest extends StdOutStdErrRedirectableLuceneTestCase {
   @BeforeClass
   public static void setupClass() {
     suppressJvmLogging();
 
-    Configurator.setLevel(RunRegressionFromCorpus.class.getName(), Level.ERROR);
+    Configurator.setLevel(RunReproductionFromCorpus.class.getName(), Level.ERROR);
     Configurator.setLevel(AbstractIndexer.class.getName(), Level.ERROR);
     Configurator.setLevel(IndexCollection.class.getName(), Level.ERROR);
     Configurator.setLevel(SearchCollection.class.getName(), Level.ERROR);
@@ -69,7 +69,7 @@ public class RunRegressionFromCorpusTest extends StdOutStdErrRedirectableLuceneT
     SortedMap<Integer, Map<String, String>> topics = TopicReader.getTopics(Topics.CACM);
     assertNotNull(topics);
 
-    RunRegressionFromCorpus.main(new String[] {
+    RunReproductionFromCorpus.main(new String[] {
         "--regression", "cacm",
         "--index",
         "--search",
@@ -82,7 +82,7 @@ public class RunRegressionFromCorpusTest extends StdOutStdErrRedirectableLuceneT
     SortedMap<Integer, Map<String, String>> topics = TopicReader.getTopics(Topics.CACM);
     assertNotNull(topics);
 
-    RunRegressionFromCorpus.main(new String[] {
+    RunReproductionFromCorpus.main(new String[] {
         "--regression", "cacm",
         "--index",
         "--search",
@@ -134,7 +134,7 @@ public class RunRegressionFromCorpusTest extends StdOutStdErrRedirectableLuceneT
     SortedMap<Integer, Map<String, String>> topics = TopicReader.getTopics(Topics.CACM);
     assertNotNull(topics);
 
-    RunRegressionFromCorpus.main(new String[] {
+    RunReproductionFromCorpus.main(new String[] {
         "--regression", "cacm-download",
         "--index",
         "--search",

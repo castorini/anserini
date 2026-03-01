@@ -61,7 +61,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import io.anserini.eval.TrecEval;
-import io.anserini.index.Constants;
 import io.anserini.index.IndexCollection;
 import io.anserini.index.IndexFlatDenseVectors;
 import io.anserini.index.IndexHnswDenseVectors;
@@ -72,8 +71,8 @@ import io.anserini.search.SearchFlatDenseVectors;
 import io.anserini.search.SearchHnswDenseVectors;
 import io.anserini.search.SearchInvertedDenseVectors;
 
-public class RunRegressionFromCorpus {
-  private static final Logger LOG = LogManager.getLogger(RunRegressionFromCorpus.class);
+public class RunReproductionFromCorpus {
+  private static final Logger LOG = LogManager.getLogger(RunReproductionFromCorpus.class);
 
   private static final String[] CORPUS_ROOTS = new String[] {
       "./",
@@ -541,13 +540,13 @@ public class RunRegressionFromCorpus {
           if (isClose(expected, actual, 1e-9, 0.0) || actual > expected ||
               (usingFlat && isClose(expected, actual, 1e-9, toleranceOk)) ||
               (usingHnsw && isClose(expected, actual, 1e-9, toleranceOk))) {
-            LOG.info(RegressionConstants.OK + resultStr);
+            LOG.info(Constants.OK + resultStr);
           } else if ((usingFlat && isClose(expected, actual, 1e-9, toleranceOk * 1.5)) ||
               (usingHnsw && isClose(expected, actual, 1e-9, toleranceOk * 1.5))) {
-            LOG.info(RegressionConstants.OKISH + resultStr);
+            LOG.info(Constants.OKISH + resultStr);
             okish = true;
           } else {
-            LOG.error(RegressionConstants.FAIL + resultStr);
+            LOG.error(Constants.FAIL + resultStr);
             failures = true;
           }
         }
@@ -557,11 +556,11 @@ public class RunRegressionFromCorpus {
     if (!args.dryRun) {
       long elapsed = Duration.ofNanos(System.nanoTime() - startNanos).toSeconds();
       if (failures) {
-        LOG.error("{}Total elapsed time: {}s", RegressionConstants.FAIL, elapsed);
+        LOG.error("{}Total elapsed time: {}s", Constants.FAIL, elapsed);
       } else if (okish) {
-        LOG.info("{}Total elapsed time: {}s", RegressionConstants.OKISH, elapsed);
+        LOG.info("{}Total elapsed time: {}s", Constants.OKISH, elapsed);
       } else {
-        LOG.info("{}Total elapsed time: {}s", RegressionConstants.OK, elapsed);
+        LOG.info("{}Total elapsed time: {}s", Constants.OK, elapsed);
       }
     }
   }
@@ -593,7 +592,7 @@ public class RunRegressionFromCorpus {
     LOG.info(Arrays.toString(args));
 
     String field = extractOptionValue(args, "-field");
-    return IndexReaderUtils.getIndexStatsSummary(args[1], field == null ? Constants.CONTENTS : field);
+    return IndexReaderUtils.getIndexStatsSummary(args[1], field == null ? io.anserini.index.Constants.CONTENTS : field);
   }
 
   private static String runTrecEvalCommandAndReturnOutput(String command) {

@@ -32,11 +32,11 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Scanner;
 
-public class GenerateRegressionFromCorpusDocsTest {
+public class GenerateReproductionFromCorpusDocsTest {
   @Test
   public void generateDocs() throws Exception {
     ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-    URL templatesRoot = GenerateRegressionFromCorpusDocsTest.class.getResource("/reproduce/from-corpus/docgen");
+    URL templatesRoot = GenerateReproductionFromCorpusDocsTest.class.getResource("/reproduce/from-corpus/docgen");
 
     assert templatesRoot != null;
     for (final File fileEntry : Objects.requireNonNull(new File(templatesRoot.toURI()).listFiles())) {
@@ -44,7 +44,7 @@ public class GenerateRegressionFromCorpusDocsTest {
       // e.g., multiple topics run on the same collection.
       String testName = fileEntry.getName().replaceAll(".template", "");
 
-      URL yaml = GenerateRegressionFromCorpusDocsTest.class.getResource(String.format("/reproduce/from-corpus/configs/%s.yaml", testName));
+      URL yaml = GenerateReproductionFromCorpusDocsTest.class.getResource(String.format("/reproduce/from-corpus/configs/%s.yaml", testName));
       DataModel data = mapper.readValue(new File(yaml.toURI()), DataModel.class);
       String corpus = data.getCorpus();
       String download_corpus = data.getDownload_corpus();
@@ -65,7 +65,7 @@ public class GenerateRegressionFromCorpusDocsTest {
       valuesMap.put("effectiveness", data.generateEffectiveness(corpus));
 
       StringSubstitutor sub = new StringSubstitutor(valuesMap);
-      URL template = GenerateRegressionFromCorpusDocsTest.class.getResource(String.format("/reproduce/from-corpus/docgen/%s.template", testName));
+      URL template = GenerateReproductionFromCorpusDocsTest.class.getResource(String.format("/reproduce/from-corpus/docgen/%s.template", testName));
       assertNotNull(template);
 
       Scanner scanner = new Scanner(new File(template.toURI()), StandardCharsets.UTF_8);

@@ -30,8 +30,8 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 
-public class RunRegressionCommands {
-  private static final Logger LOG = LogManager.getLogger(RunRegressionCommands.class);
+public class RunReproductionCommands {
+  private static final Logger LOG = LogManager.getLogger(RunReproductionCommands.class);
 
   public static class Args {
     @Option(name = "--file", metaVar = "[path]", required = true, usage = "File with regression commands.")

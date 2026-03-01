@@ -22,7 +22,7 @@ import org.junit.Test;
 
 import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 
-public class RunRegressionFromPrebuiltIndexesTest extends StdOutStdErrRedirectableLuceneTestCase {
+public class RunReproductionFromPrebuiltIndexesTest extends StdOutStdErrRedirectableLuceneTestCase {
   @Before
   public void setUp() throws Exception {
     redirectStdOut();
@@ -40,7 +40,7 @@ public class RunRegressionFromPrebuiltIndexesTest extends StdOutStdErrRedirectab
   @Test
   public void testInvalidOption() throws Exception {
     String[] args = new String[] {"-dry"};
-    RunRegressionFromPrebuiltIndexes.main(args);
+    RunReproductionFromPrebuiltIndexes.main(args);
 
     assertTrue(err.toString().startsWith("Error: \"-dry\" is not a valid option"));
   }
@@ -48,7 +48,7 @@ public class RunRegressionFromPrebuiltIndexesTest extends StdOutStdErrRedirectab
   @Test
   public void test1() throws Exception {
     String[] args = new String[] {"--regression", "beir.core", "--dry-run"};
-    RunRegressionFromPrebuiltIndexes.main(args);
+    RunReproductionFromPrebuiltIndexes.main(args);
 
     assertTrue(out.toString().startsWith("# Running condition"));
   }
@@ -56,7 +56,7 @@ public class RunRegressionFromPrebuiltIndexesTest extends StdOutStdErrRedirectab
   @Test
   public void test2() throws Exception {
     String[] args = new String[] {"--regression", "beir.core", "--dry-run", "--print-commands"};
-    RunRegressionFromPrebuiltIndexes.main(args);
+    RunReproductionFromPrebuiltIndexes.main(args);
 
     assertTrue(out.toString().startsWith("# Running condition"));
     assertTrue(out.toString().contains("Retrieval command"));
@@ -66,7 +66,7 @@ public class RunRegressionFromPrebuiltIndexesTest extends StdOutStdErrRedirectab
   @Test
   public void testComputeIndexSize() throws Exception {
     String[] args = new String[] {"--regression", "beir.core", "--dry-run", "--compute-index-size"};
-    RunRegressionFromPrebuiltIndexes.main(args);
+    RunReproductionFromPrebuiltIndexes.main(args);
 
     String s = out.toString();
     assertTrue(s.contains("Indexes referenced by this run"));

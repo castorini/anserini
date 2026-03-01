@@ -1,1 +1,1 @@
-bin/run.sh io.anserini.reproduce.RunRegressionFromPrebuiltIndexes --print-commands --compute-index-size --regression cacm > logs/log.from-prebuilt-indexes.cacm-download.txt 2>&1
+bin/run.sh io.anserini.reproduce.RunReproductionFromPrebuiltIndexes --print-commands --compute-index-size --regression cacm > logs/log.from-prebuilt-indexes.cacm-download.txt 2>&1
