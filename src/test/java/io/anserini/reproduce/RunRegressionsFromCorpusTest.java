@@ -176,9 +176,18 @@ public class RunRegressionsFromCorpusTest extends StdOutStdErrRedirectableLucene
       Files.deleteIfExists(path);
     }
 
+    // Remove the index.
     Path indexPath = Paths.get("indexes/lucene-inverted.cacm.download/");
     if (Files.exists(indexPath)) {
       FileUtils.deleteDirectory(new File(indexPath.toString()));
     }
+
+    // Remove the corpus.
+    Path corpusDirectory = Paths.get("collections/cacm/");
+    if (Files.exists(corpusDirectory)) {
+      FileUtils.deleteDirectory(new File(corpusDirectory.toString()));
+    }
+
+    Files.deleteIfExists(Paths.get("collections/cacm-in-folder.tar.gz"));
   }
 }

@@ -19,7 +19,7 @@ Typical indexing command:
 
 ```
 bin/run.sh io.anserini.index.IndexCollection \
-  -threads 1 \
+  -threads 8 \
   -collection MrTyDiCollection \
   -input /path/to/miracl-v1.0-zh \
   -generator DefaultLuceneDocumentGenerator \
