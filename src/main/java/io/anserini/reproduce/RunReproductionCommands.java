@@ -17,6 +17,9 @@
 package io.anserini.reproduce;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
 import java.lang.management.ManagementFactory;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -34,8 +37,8 @@ public class RunReproductionCommands {
   private static final Logger LOG = LogManager.getLogger(RunReproductionCommands.class);
 
   public static class Args {
-    @Option(name = "--file", metaVar = "[path]", required = true, usage = "File with regression commands.")
-    public String file;
+    @Option(name = "--config", metaVar = "[config]", required = true, usage = "Config file with regression commands.")
+    public String config;
 
     @Option(name = "--sleep", metaVar = "[seconds]", usage = "Sleep interval before checking load.")
     public int sleep = 30;
@@ -62,8 +65,8 @@ public class RunReproductionCommands {
       throw new IllegalArgumentException("--sleep must be non-negative.");
     }
 
-    List<String> commands = loadCommands(Path.of(args.file));
-    LOG.info("Running commands in {}", args.file);
+    List<String> commands = loadCommands(args.config);
+    LOG.info("Running commands in {}", args.config);
     LOG.info("Sleep interval: {}", args.sleep);
     LOG.info("Threshold load: {}", args.load);
     LOG.info("Max concurrent jobs: {}", args.max > 0 ? args.max : "unlimited");
@@ -97,14 +100,51 @@ public class RunReproductionCommands {
     LOG.info("All jobs completed!");
   }
 
-  private static List<String> loadCommands(Path path) throws IOException {
+  private static List<String> loadCommands(String path) throws IOException {
     List<String> commands = new ArrayList<>();
-    for (String line : Files.readAllLines(path)) {
-      String command = line.trim();
-      if (command.isEmpty() || command.startsWith("#")) {
-        continue;
+    Path localPath = Path.of(path);
+    if (Files.exists(localPath)) {
+      for (String line : Files.readAllLines(localPath)) {
+        String command = line.trim();
+        if (command.isEmpty() || command.startsWith("#")) {
+          continue;
+        }
+        commands.add(command);
       }
-      commands.add(command);
+      return commands;
+    }
+
+    InputStream commandStream = null;
+    IllegalArgumentException lastException = null;
+    String[] resourceCandidates = new String[] {
+        path,
+        "reproduce/from-corpus/commands/" + path,
+        "reproduce/from-prebuilt-indexes/commands/" + path
+    };
+
+    for (String resourcePath : resourceCandidates) {
+      try {
+        commandStream = ReproductionUtils.loadResourceStream(resourcePath, RunReproductionCommands.class);
+        break;
+      } catch (IllegalArgumentException e) {
+        lastException = e;
+      }
+    }
+
+    if (commandStream == null && lastException != null) {
+      throw lastException;
+    }
+
+    try (InputStream in = commandStream;
+         BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
+      String line;
+      while ((line = reader.readLine()) != null) {
+        String command = line.trim();
+        if (command.isEmpty() || command.startsWith("#")) {
+          continue;
+        }
+        commands.add(command);
+      }
     }
     return commands;
   }
