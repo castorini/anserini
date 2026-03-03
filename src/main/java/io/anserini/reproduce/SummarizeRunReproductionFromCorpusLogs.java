@@ -33,7 +33,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SummarizeRunReproductionFromCorpusLogs {
-  private static final String RUN_REGRESSIONS_FROM_CORPUS = "RunReproductionFromCorpus";
+  private static final String RUN_REPRODUCTIONS_FROM_CORPUS = "RunReproductionFromCorpus";
 
   private static final DateTimeFormatter DATE_FORMAT = new DateTimeFormatterBuilder()
       .appendPattern("yyyy-MM-dd HH:mm:ss")
@@ -65,7 +65,7 @@ public class SummarizeRunReproductionFromCorpusLogs {
         totalRegressions++;
 
         List<String> logLines = Files.readAllLines(logFile);
-        String firstRunRegressionsLine = firstLineContaining(logLines, RUN_REGRESSIONS_FROM_CORPUS);
+        String firstRunRegressionsLine = firstLineContaining(logLines, RUN_REPRODUCTIONS_FROM_CORPUS);
         if (firstRunRegressionsLine != null) {
           String timestamp = extractTimestamp(firstRunRegressionsLine);
           if (timestamp != null) {
@@ -77,7 +77,7 @@ public class SummarizeRunReproductionFromCorpusLogs {
           }
         }
 
-        String lastLine = lastLineContaining(logLines, RUN_REGRESSIONS_FROM_CORPUS);
+        String lastLine = lastLineContaining(logLines, RUN_REPRODUCTIONS_FROM_CORPUS);
         if (lastLine == null) {
           continue;
         }
