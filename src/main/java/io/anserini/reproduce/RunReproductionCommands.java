@@ -30,8 +30,8 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 
-public class RunRegressionCommands {
-  private static final Logger LOG = LogManager.getLogger(RunRegressionCommands.class);
+public class RunReproductionCommands {
+  private static final Logger LOG = LogManager.getLogger(RunReproductionCommands.class);
 
   public static class Args {
     @Option(name = "--file", metaVar = "[path]", required = true, usage = "File with regression commands.")
@@ -88,7 +88,10 @@ public class RunRegressionCommands {
 
       String loadString = loadAvailable ? String.format("%.1f", currentLoad) : "N/A";
       LOG.info("Current load: {} (threshold = {}), active jobs: {} (max = {})", loadString, args.load, active.size(), args.max);
-      Thread.sleep(args.sleep * 1000L);
+
+      if (active.size() > 0) {
+        Thread.sleep(args.sleep * 1000L);
+      }
     }
 
     LOG.info("All jobs completed!");

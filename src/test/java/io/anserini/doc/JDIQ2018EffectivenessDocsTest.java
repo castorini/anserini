@@ -123,7 +123,7 @@ public class JDIQ2018EffectivenessDocsTest {
     valuesMap.put("results", data.generateEffectiveness());
 
     StringSubstitutor sub = new StringSubstitutor(valuesMap);
-    URL template = GenerateRegressionDocsTest.class.getResource("/jdiq2018/doc.template");
+    URL template = GenerateReproductionFromCorpusDocsTest.class.getResource("/jdiq2018/doc.template");
     assert template != null;
     Scanner scanner = new Scanner(new File(template.toURI()), StandardCharsets.UTF_8);
     String text = scanner.useDelimiter("\\A").next();

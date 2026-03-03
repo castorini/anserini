@@ -16,7 +16,7 @@
 
 package io.anserini.reproduce;
 
-public class RegressionConstants {
+public class Constants {
   // ANSI escape code for red text
   private static final String RED = "\u001B[91m";
 
