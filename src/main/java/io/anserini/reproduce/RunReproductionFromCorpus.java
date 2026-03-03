@@ -74,6 +74,8 @@ import io.anserini.search.SearchInvertedDenseVectors;
 public class RunReproductionFromCorpus {
   private static final Logger LOG = LogManager.getLogger(RunReproductionFromCorpus.class);
 
+  private static final String CONFIG_DIRECTORY = "reproduce/from-corpus/configs";
+
   private static final String[] CORPUS_ROOTS = new String[] {
       "./",
       "/collection/",
@@ -156,11 +158,11 @@ public class RunReproductionFromCorpus {
     }
 
     ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-    Path yamlPath = Paths.get("src/main/resources/reproduce/from-corpus/configs/", parsed.regression + ".yaml");
-    if (!Files.exists(yamlPath)) {
-      throw new IllegalArgumentException("Missing regression file: " + yamlPath);
+    JsonNode yaml;
+    String resourceName = String.format("%s/%s.yaml", CONFIG_DIRECTORY, parsed.regression);
+    try (InputStream yamlStream = ReproductionUtils.loadResourceStream(resourceName, RunReproductionFromCorpus.class)) {
+      yaml = mapper.readTree(yamlStream);
     }
-    JsonNode yaml = mapper.readTree(Files.newInputStream(yamlPath));
 
     long start = System.nanoTime();
 
@@ -243,6 +245,7 @@ public class RunReproductionFromCorpus {
     }
 
     if (parsed.search) {
+      Files.createDirectories(Paths.get("runs"));
       LOG.info("========== Ranking ==========");
       List<String> searchCmds = constructSearchCommands(yaml);
       if (parsed.dryRun) {

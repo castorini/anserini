@@ -45,6 +45,8 @@ import io.anserini.index.IndexReaderUtils;
 import io.anserini.util.PrebuiltIndexHandler;
 
 public class RunReproductionFromPrebuiltIndexes {
+  private static final String CONFIG_DIRECTORY = "reproduce/from-prebuilt-indexes/configs";
+
   private final String collection;
   private final boolean printCommands;
   private final boolean dryRun;
@@ -104,12 +106,14 @@ public class RunReproductionFromPrebuiltIndexes {
       new File("runs").mkdir();
     }
 
-    String fatjarPath = new File(RunReproductionFromPrebuiltIndexes.class.getProtectionDomain()
-        .getCodeSource().getLocation().toURI()).getPath();
+    String fatjarPath = new File(RunReproductionFromPrebuiltIndexes.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
 
     final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-    Config config = mapper.readValue(RunReproductionFromPrebuiltIndexes.class.getClassLoader()
-        .getResourceAsStream("reproduce/from-prebuilt-indexes/configs/" + collection + ".yaml"), Config.class);
+    String resourceName = String.format("%s/%s.yaml", CONFIG_DIRECTORY, collection);
+    Config config;
+    try (InputStream yamlStream = ReproductionUtils.loadResourceStream(resourceName, RunReproductionFromPrebuiltIndexes.class)) {
+      config = mapper.readValue(yamlStream, Config.class);
+    }
 
     ProcessBuilder pb;
     Process process;
@@ -208,6 +212,8 @@ public class RunReproductionFromPrebuiltIndexes {
 
       System.out.printf("%nTotal size across %d of %d indexes: %s%n%n", presentCount, uniqueIndexNames.size(), IndexReaderUtils.formatSize(totalBytes));
     }
+
+    Files.createDirectories(Paths.get("runs"));
 
     for (Condition condition : config.conditions) {
       System.out.printf("# Running condition \"%s\": %s \n%n", condition.name, condition.display);
