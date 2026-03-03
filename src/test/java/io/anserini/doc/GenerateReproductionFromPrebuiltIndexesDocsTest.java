@@ -16,9 +16,9 @@
 
 package io.anserini.doc;
 
-import io.anserini.reproduce.RunRegressionsFromPrebuiltIndexes.Condition;
-import io.anserini.reproduce.RunRegressionsFromPrebuiltIndexes.Config;
-import io.anserini.reproduce.RunRegressionsFromPrebuiltIndexes.Topic;
+import io.anserini.reproduce.RunReproductionFromPrebuiltIndexes.Condition;
+import io.anserini.reproduce.RunReproductionFromPrebuiltIndexes.Config;
+import io.anserini.reproduce.RunReproductionFromPrebuiltIndexes.Topic;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.text.StringSubstitutor;
@@ -35,10 +35,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Scanner;
 
-public class GenerateReproductionDocsTest {
-  public final static String YAML_PATH = "src/main/resources/reproduce/msmarco-v1-passage.core.yaml";
-  public final static String HTML_TEMPLATE_PATH = "src/main/resources/reproduce/msmarco_html_v1_passage.template";
-  public final static String ROW_TEMPLATE_PATH = "src/main/resources/reproduce/msmarco_html_row_v1.template";
+public class GenerateReproductionFromPrebuiltIndexesDocsTest {
+  public final static String YAML_PATH = "src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.core.yaml";
+  public final static String HTML_TEMPLATE_PATH = "src/main/resources/reproduce/from-prebuilt-indexes/docgen/msmarco_html_v1_passage.template";
+  public final static String ROW_TEMPLATE_PATH = "src/main/resources/reproduce/from-prebuilt-indexes/docgen/msmarco_html_row_v1.template";
   public final static String[] MODELS = {
       "bm25",
       "splade-v3.onnx",
