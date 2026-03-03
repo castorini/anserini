@@ -1,0 +1,157 @@
+conditions:
+  - name: splade-v3.cached
+    display: "SPLADE-v3: cached queries"
+    display_html: "SPLADE-v3: cached queries"
+    display_row: ""
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index bright-$topics.splade-v3 -topics bright-$topics.splade-v3 -output $output -impact -pretokenized -removeQuery
+    topics:
+      - topic_key: biology
+        eval_key: bright-biology
+        expected_scores:
+          nDCG@10: 0.2101
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: earth-science
+        eval_key: bright-earth-science
+        expected_scores:
+          nDCG@10: 0.2670
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: economics
+        eval_key: bright-economics
+        expected_scores:
+          nDCG@10: 0.1604
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: psychology
+        eval_key: bright-psychology
+        expected_scores:
+          nDCG@10: 0.1527
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: robotics
+        eval_key: bright-robotics
+        expected_scores:
+          nDCG@10: 0.1580
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: stackoverflow
+        eval_key: bright-stackoverflow
+        expected_scores:
+          nDCG@10: 0.1290
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: sustainable-living
+        eval_key: bright-sustainable-living
+        expected_scores:
+          nDCG@10: 0.1497
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: pony
+        eval_key: bright-pony
+        expected_scores:
+          nDCG@10: 0.1440
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: leetcode
+        eval_key: bright-leetcode
+        expected_scores:
+          nDCG@10: 0.2597
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: aops
+        eval_key: bright-aops
+        expected_scores:
+          nDCG@10: 0.0692
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: theoremqa-questions
+        eval_key: bright-theoremqa-questions
+        expected_scores:
+          nDCG@10: 0.1113
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: theoremqa-theorems
+        eval_key: bright-theoremqa-theorems
+        expected_scores:
+          nDCG@10: 0.0554
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+  - name: bge-large-en-v1.5.flat.cached
+    display: "bge-large-en-v1.5 w/ flat indexes: cached queries"
+    display_html: "bge-large-en-v1.5 w/ flat indexes: cached queries"
+    display_row: ""
+    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchFlatDenseVectors -threads $threads -index bright-$topics.bge-large-en-v1.5.flat -topics bright-$topics.bge-large-en-v1.5 -output $output -removeQuery
+    topics:
+      - topic_key: biology
+        eval_key: bright-biology
+        expected_scores:
+          nDCG@10: 0.1167
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: earth-science
+        eval_key: bright-earth-science
+        expected_scores:
+          nDCG@10: 0.2456
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: economics
+        eval_key: bright-economics
+        expected_scores:
+          nDCG@10: 0.1661
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: psychology
+        eval_key: bright-psychology
+        expected_scores:
+          nDCG@10: 0.1746
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: robotics
+        eval_key: bright-robotics
+        expected_scores:
+          nDCG@10: 0.1171
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: stackoverflow
+        eval_key: bright-stackoverflow
+        expected_scores:
+          nDCG@10: 0.1083
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: sustainable-living
+        eval_key: bright-sustainable-living
+        expected_scores:
+          nDCG@10: 0.1333
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: pony
+        eval_key: bright-pony
+        expected_scores:
+          nDCG@10: 0.0572
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: leetcode
+        eval_key: bright-leetcode
+        expected_scores:
+          nDCG@10: 0.2668
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: aops
+        eval_key: bright-aops
+        expected_scores:
+          nDCG@10: 0.0600
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: theoremqa-questions
+        eval_key: bright-theoremqa-questions
+        expected_scores:
+          nDCG@10: 0.1300
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: theoremqa-theorems
+        eval_key: bright-theoremqa-theorems
+        expected_scores:
+          nDCG@10: 0.0690
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"

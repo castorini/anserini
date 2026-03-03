@@ -1,0 +1,495 @@
+[
+    {
+        "name": "beir-v1.0.0-trec-covid.flat",
+        "type": "inverted",
+        "corpus": "BEIR: TREC-COVID",
+        "corpus_index": "beir-v1.0.0-trec-covid.flat",
+        "description": "Anserini Lucene inverted 'flat' index of BEIR collection 'trec-covid'",
+        "filename": "lucene-inverted.beir-v1.0.0-trec-covid.flat.20221116.505594.tar.gz",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-trec-covid.flat.20221116.505594.tar.gz"
+        ],
+        "md5": "1aaf107b0787aa349deac92cb67d4230",
+        "compressed_size": 226271040,
+        "documents": 171331,
+        "total_terms": 20822821,
+        "unique_terms": 202648
+    },
+    {
+        "name": "beir-v1.0.0-bioasq.flat",
+        "type": "inverted",
+        "corpus": "BEIR: BioASQ",
+        "corpus_index": "beir-v1.0.0-bioasq.flat",
+        "description": "Anserini Lucene inverted 'flat' index of BEIR collection 'bioasq'",
+        "filename": "lucene-inverted.beir-v1.0.0-bioasq.flat.20221116.505594.tar.gz",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-bioasq.flat.20221116.505594.tar.gz"
+        ],
+        "md5": "12728b3629817d352322f18b0cb6199b",
+        "compressed_size": 24821943492,
+        "documents": 14914603,
+        "total_terms": 2257541758,
+        "unique_terms": 4960004
+    },
+    {
+        "name": "beir-v1.0.0-nfcorpus.flat",
+        "type": "inverted",
+        "corpus": "BEIR: NFCorpus",
+        "corpus_index": "beir-v1.0.0-nfcorpus.flat",
+        "description": "Anserini Lucene inverted 'flat' index of BEIR collection 'nfcorpus'",
+        "filename": "lucene-inverted.beir-v1.0.0-nfcorpus.flat.20221116.505594.tar.gz",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-nfcorpus.flat.20221116.505594.tar.gz"
+        ],
+        "md5": "eb7a6f1bb15071c2940bc50752d86626",
+        "compressed_size": 6510365,
+        "documents": 3633,
+        "total_terms": 637485,
+        "unique_terms": 22111
+    },
+    {
+        "name": "beir-v1.0.0-nq.flat",
+        "type": "inverted",
+        "corpus": "BEIR: NQ",
+        "corpus_index": "beir-v1.0.0-nq.flat",
+        "description": "Anserini Lucene inverted 'flat' index of BEIR collection 'nq'",
+        "filename": "lucene-inverted.beir-v1.0.0-nq.flat.20221116.505594.tar.gz",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-nq.flat.20221116.505594.tar.gz"
+        ],
+        "md5": "0ba1ef0412d8a0fb56b4a04ecb13ef0b",
+        "compressed_size": 1645445055,
+        "documents": 2681468,
+        "total_terms": 151249294,
+        "unique_terms": 997027
+    },
+    {
+        "name": "beir-v1.0.0-hotpotqa.flat",
+        "type": "inverted",
+        "corpus": "BEIR: HotpotQA",
+        "corpus_index": "beir-v1.0.0-hotpotqa.flat",
+        "description": "Anserini Lucene inverted 'flat' index of BEIR collection 'hotpotqa'",
+        "filename": "lucene-inverted.beir-v1.0.0-hotpotqa.flat.20221116.505594.tar.gz",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-hotpotqa.flat.20221116.505594.tar.gz"
+        ],
+        "md5": "3f41d640a8ebbcad4f598140750c24f8",
+        "compressed_size": 2019088696,
+        "documents": 5233329,
+        "total_terms": 172477066,
+        "unique_terms": 2644892
+    },
+    {
+        "name": "beir-v1.0.0-fiqa.flat",
+        "type": "inverted",
+        "corpus": "BEIR: FiQA-2018",
+        "corpus_index": "beir-v1.0.0-fiqa.flat",
+        "description": "Anserini Lucene inverted 'flat' index of BEIR collection 'fiqa'",
+        "filename": "lucene-inverted.beir-v1.0.0-fiqa.flat.20221116.505594.tar.gz",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-fiqa.flat.20221116.505594.tar.gz"
+        ],
+        "md5": "d98ee6ebfc234657ecbd04226e8a7849",
+        "compressed_size": 55983760,
+        "documents": 57600,
+        "total_terms": 5288635,
+        "unique_terms": 66977
+    },
+    {
+        "name": "beir-v1.0.0-signal1m.flat",
+        "type": "inverted",
+        "corpus": "BEIR: Signal-1M",
+        "corpus_index": "beir-v1.0.0-signal1m.flat",
+        "description": "Anserini Lucene inverted 'flat' index of BEIR collection 'signal1m'",
+        "filename": "lucene-inverted.beir-v1.0.0-signal1m.flat.20221116.505594.tar.gz",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-signal1m.flat.20221116.505594.tar.gz"
+        ],
+        "md5": "93d901916b473351fbc04fdf12c5ba4f",
+        "compressed_size": 496598928,
+        "documents": 2866315,
+        "total_terms": 32240069,
+        "unique_terms": 796647
+    },
+    {
+        "name": "beir-v1.0.0-trec-news.flat",
+        "type": "inverted",
+        "corpus": "BEIR: TREC-NEWS",
+        "corpus_index": "beir-v1.0.0-trec-news.flat",
+        "description": "Anserini Lucene inverted 'flat' index of BEIR collection 'trec-news'",
+        "filename": "lucene-inverted.beir-v1.0.0-trec-news.flat.20221116.505594.tar.gz",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-trec-news.flat.20221116.505594.tar.gz"
+        ],
+        "md5": "22e7752c3d0122c28013b33e5e2134ae",
+        "compressed_size": 2623562099,
+        "documents": 594589,
+        "total_terms": 275651967,
+        "unique_terms": 729872
+    },
+    {
+        "name": "beir-v1.0.0-robust04.flat",
+        "type": "inverted",
+        "corpus": "BEIR: Robust04",
+        "corpus_index": "beir-v1.0.0-robust04.flat",
+        "description": "Anserini Lucene inverted 'flat' index of BEIR collection 'robust04'",
+        "filename": "lucene-inverted.beir-v1.0.0-robust04.flat.20221116.505594.tar.gz",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-robust04.flat.20221116.505594.tar.gz"
+        ],
+        "md5": "d508fc770002a99a5dc3da3d0fa001b7",
+        "compressed_size": 1728445005,
+        "documents": 528036,
+        "total_terms": 174384263,
+        "unique_terms": 923466
+    },
+    {
+        "name": "beir-v1.0.0-arguana.flat",
+        "type": "inverted",
+        "corpus": "BEIR: ArguAna",
+        "corpus_index": "beir-v1.0.0-arguana.flat",
+        "description": "Anserini Lucene inverted 'flat' index of BEIR collection 'arguana'",
+        "filename": "lucene-inverted.beir-v1.0.0-arguana.flat.20221116.505594.tar.gz",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-arguana.flat.20221116.505594.tar.gz"
+        ],
+        "md5": "db59ef0cb74e9cfeac0ac735827381df",
+        "compressed_size": 10562079,
+        "documents": 8674,
+        "total_terms": 969528,
+        "unique_terms": 23895
+    },
+    {
+        "name": "beir-v1.0.0-webis-touche2020.flat",
+        "type": "inverted",
+        "corpus": "BEIR: Webis-Touche2020",
+        "corpus_index": "beir-v1.0.0-webis-touche2020.flat",
+        "description": "Anserini Lucene inverted 'flat' index of BEIR collection 'webis-touche2020'",
+        "filename": "lucene-inverted.beir-v1.0.0-webis-touche2020.flat.20221116.505594.tar.gz",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-webis-touche2020.flat.20221116.505594.tar.gz"
+        ],
+        "md5": "f6419ddfd53c0bf1d76ea132b1c0c352",
+        "compressed_size": 750402985,
+        "documents": 382545,
+        "total_terms": 76082209,
+        "unique_terms": 525540
+    },
+    {
+        "name": "beir-v1.0.0-cqadupstack-android.flat",
+        "type": "inverted",
+        "corpus": "BEIR: CQADupStack-android",
+        "corpus_index": "beir-v1.0.0-cqadupstack-android.flat",
+        "description": "Anserini Lucene inverted 'flat' index of BEIR collection 'cqadupstack-android'",
+        "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-android.flat.20221116.505594.tar.gz",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-cqadupstack-android.flat.20221116.505594.tar.gz"
+        ],
+        "md5": "443e413b49c39de43a6cece96a7513c0",
+        "compressed_size": 17426545,
+        "documents": 22998,
+        "total_terms": 1760762,
+        "unique_terms": 41456
+    },
+    {
+        "name": "beir-v1.0.0-cqadupstack-english.flat",
+        "type": "inverted",
+        "corpus": "BEIR: CQADupStack-english",
+        "corpus_index": "beir-v1.0.0-cqadupstack-english.flat",
+        "description": "Anserini Lucene inverted 'flat' index of BEIR collection 'cqadupstack-english'",
+        "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-english.flat.20221116.505594.tar.gz",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-cqadupstack-english.flat.20221116.505594.tar.gz"
+        ],
+        "md5": "f7db543f5bb56fa98c3c14224c6b96f2",
+        "compressed_size": 24945030,
+        "documents": 40221,
+        "total_terms": 2236655,
+        "unique_terms": 62517
+    },
+    {
+        "name": "beir-v1.0.0-cqadupstack-gaming.flat",
+        "type": "inverted",
+        "corpus": "BEIR: CQADupStack-gaming",
+        "corpus_index": "beir-v1.0.0-cqadupstack-gaming",
+        "description": "Anserini Lucene inverted 'flat' index of BEIR collection 'cqadupstack-gaming'",
+        "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-gaming.flat.20221116.505594.tar.gz",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-cqadupstack-gaming.flat.20221116.505594.tar.gz"
+        ],
+        "md5": "775169fd863d3e91076e1905799456ea",
+        "compressed_size": 29159238,
+        "documents": 45301,
+        "total_terms": 2827717,
+        "unique_terms": 60070
+    },
+    {
+        "name": "beir-v1.0.0-cqadupstack-gis.flat",
+        "type": "inverted",
+        "corpus": "BEIR: CQADupStack-gis",
+        "corpus_index": "beir-v1.0.0-cqadupstack-gis.flat",
+        "description": "Anserini Lucene inverted 'flat' index of BEIR collection 'cqadupstack-gis'",
+        "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-gis.flat.20221116.505594.tar.gz",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-cqadupstack-gis.flat.20221116.505594.tar.gz"
+        ],
+        "md5": "4c5be1c7026a61ca7866b4f28cac91fe",
+        "compressed_size": 43393675,
+        "documents": 37637,
+        "total_terms": 4048584,
+        "unique_terms": 184133
+    },
+    {
+        "name": "beir-v1.0.0-cqadupstack-mathematica.flat",
+        "type": "inverted",
+        "corpus": "BEIR: CQADupStack-mathematica",
+        "corpus_index": "beir-v1.0.0-cqadupstack-mathematica.flat",
+        "description": "Anserini Lucene inverted 'flat' index of BEIR collection 'cqadupstack-mathematica'",
+        "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-mathematica.flat.20221116.505594.tar.gz",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-cqadupstack-mathematica.flat.20221116.505594.tar.gz"
+        ],
+        "md5": "43e2b33db7ecadc041165005aa5d4b6f",
+        "compressed_size": 21593600,
+        "documents": 16705,
+        "total_terms": 2332642,
+        "unique_terms": 111611
+    },
+    {
+        "name": "beir-v1.0.0-cqadupstack-physics.flat",
+        "type": "inverted",
+        "corpus": "BEIR: CQADupStack-physics",
+        "corpus_index": "beir-v1.0.0-cqadupstack-physics.flat",
+        "description": "Anserini Lucene inverted 'flat' index of BEIR collection 'cqadupstack-physics'",
+        "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-physics.flat.20221116.505594.tar.gz",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-cqadupstack-physics.flat.20221116.505594.tar.gz"
+        ],
+        "md5": "765b8013595962e01600f4f851e8f16d",
+        "compressed_size": 37955556,
+        "documents": 38316,
+        "total_terms": 3785483,
+        "unique_terms": 55950
+    },
+    {
+        "name": "beir-v1.0.0-cqadupstack-programmers.flat",
+        "type": "inverted",
+        "corpus": "BEIR: CQADupStack-programmers",
+        "corpus_index": "beir-v1.0.0-cqadupstack-programmers.flat",
+        "description": "Anserini Lucene inverted 'flat' index of BEIR collection 'cqadupstack-programmers'",
+        "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-programmers.flat.20221116.505594.tar.gz",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-cqadupstack-programmers.flat.20221116.505594.tar.gz"
+        ],
+        "md5": "aa4fc9f29a0436a6e0942656274ceaf5",
+        "compressed_size": 40301156,
+        "documents": 32176,
+        "total_terms": 3905694,
+        "unique_terms": 74195
+    },
+    {
+        "name": "beir-v1.0.0-cqadupstack-stats.flat",
+        "type": "inverted",
+        "corpus": "BEIR: CQADupStack-stats",
+        "corpus_index": "beir-v1.0.0-cqadupstack-stats.flat",
+        "description": "Anserini Lucene inverted 'flat' index of BEIR collection 'cqadupstack-stats'",
+        "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-stats.flat.20221116.505594.tar.gz",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-cqadupstack-stats.flat.20221116.505594.tar.gz"
+        ],
+        "md5": "d56538f56d982ce09961d4b680bd4dc5",
+        "compressed_size": 52213800,
+        "documents": 42269,
+        "total_terms": 5356042,
+        "unique_terms": 183358
+    },
+    {
+        "name": "beir-v1.0.0-cqadupstack-tex.flat",
+        "type": "inverted",
+        "corpus": "BEIR: CQADupStack-tex",
+        "corpus_index": "beir-v1.0.0-cqadupstack-tex.flat",
+        "description": "Anserini Lucene inverted 'flat' index of BEIR collection 'cqadupstack-tex'",
+        "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-tex.flat.20221116.505594.tar.gz",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-cqadupstack-tex.flat.20221116.505594.tar.gz"
+        ],
+        "md5": "36825b8428aa34fdaad7e420e120c101",
+        "compressed_size": 91817321,
+        "documents": 68184,
+        "total_terms": 9556423,
+        "unique_terms": 288088
+    },
+    {
+        "name": "beir-v1.0.0-cqadupstack-unix.flat",
+        "type": "inverted",
+        "corpus": "BEIR: CQADupStack-unix",
+        "corpus_index": "beir-v1.0.0-cqadupstack-unix.flat",
+        "description": "Anserini Lucene inverted 'flat' index of BEIR collection 'cqadupstack-unix'",
+        "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-unix.flat.20221116.505594.tar.gz",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-cqadupstack-unix.flat.20221116.505594.tar.gz"
+        ],
+        "md5": "961e386016c7eb7afa2bc26feb96902c",
+        "compressed_size": 53798364,
+        "documents": 47382,
+        "total_terms": 5767374,
+        "unique_terms": 206323
+    },
+    {
+        "name": "beir-v1.0.0-cqadupstack-webmasters.flat",
+        "type": "inverted",
+        "corpus": "BEIR: CQADupStack-webmasters",
+        "corpus_index": "beir-v1.0.0-cqadupstack-webmasters.flat",
+        "description": "Anserini Lucene inverted 'flat' index of BEIR collection 'cqadupstack-webmasters'",
+        "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-webmasters.flat.20221116.505594.tar.gz",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-cqadupstack-webmasters.flat.20221116.505594.tar.gz"
+        ],
+        "md5": "f31625436dc6efc24b9c2ae1b0f2364e",
+        "compressed_size": 15171145,
+        "documents": 17405,
+        "total_terms": 1482585,
+        "unique_terms": 40547
+    },
+    {
+        "name": "beir-v1.0.0-cqadupstack-wordpress.flat",
+        "type": "inverted",
+        "corpus": "BEIR: CQADupStack-wordpress",
+        "corpus_index": "beir-v1.0.0-cqadupstack-wordpress.flat",
+        "description": "Anserini Lucene inverted 'flat' index of BEIR collection 'cqadupstack-wordpress'",
+        "filename": "lucene-inverted.beir-v1.0.0-cqadupstack-wordpress.flat.20221116.505594.tar.gz",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-cqadupstack-wordpress.flat.20221116.505594.tar.gz"
+        ],
+        "md5": "5a0035fbb6ccabd20fe0eed742dce0d0",
+        "compressed_size": 54809846,
+        "documents": 48605,
+        "total_terms": 5463472,
+        "unique_terms": 125727
+    },
+    {
+        "name": "beir-v1.0.0-quora.flat",
+        "type": "inverted",
+        "corpus": "BEIR: Quora",
+        "corpus_index": "beir-v1.0.0-quora.flat",
+        "description": "Anserini Lucene inverted 'flat' index of BEIR collection 'quora'",
+        "filename": "lucene-inverted.beir-v1.0.0-quora.flat.20221116.505594.tar.gz",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-quora.flat.20221116.505594.tar.gz"
+        ],
+        "md5": "48c95c2da43e24cc603695d3e6bfd779",
+        "compressed_size": 52699889,
+        "documents": 522931,
+        "total_terms": 4390852,
+        "unique_terms": 69597
+    },
+    {
+        "name": "beir-v1.0.0-dbpedia-entity.flat",
+        "type": "inverted",
+        "corpus": "BEIR: DBPedia",
+        "corpus_index": "beir-v1.0.0-dbpedia-entity.flat",
+        "description": "Anserini Lucene inverted 'flat' index of BEIR collection 'dbpedia-entity'",
+        "filename": "lucene-inverted.beir-v1.0.0-dbpedia-entity.flat.20221116.505594.tar.gz",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-dbpedia-entity.flat.20221116.505594.tar.gz"
+        ],
+        "md5": "8ac66272fde08ff10491dc0ec52f17e2",
+        "compressed_size": 2085481920,
+        "documents": 4635922,
+        "total_terms": 164794982,
+        "unique_terms": 3351459
+    },
+    {
+        "name": "beir-v1.0.0-scidocs.flat",
+        "type": "inverted",
+        "corpus": "BEIR: SCIDOCS",
+        "corpus_index": "beir-v1.0.0-scidocs.flat",
+        "description": "Anserini Lucene inverted 'flat' index of BEIR collection 'scidocs'",
+        "filename": "lucene-inverted.beir-v1.0.0-scidocs.flat.20221116.505594.tar.gz",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-scidocs.flat.20221116.505594.tar.gz"
+        ],
+        "md5": "9555ecc5da399a73956d9302a98420fc",
+        "compressed_size": 186568206,
+        "documents": 25657,
+        "total_terms": 3266767,
+        "unique_terms": 63604
+    },
+    {
+        "name": "beir-v1.0.0-fever.flat",
+        "type": "inverted",
+        "corpus": "BEIR: FEVER",
+        "corpus_index": "beir-v1.0.0-fever.flat",
+        "description": "Anserini Lucene inverted 'flat' index of BEIR collection 'fever'",
+        "filename": "lucene-inverted.beir-v1.0.0-fever.flat.20221116.505594.tar.gz",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-fever.flat.20221116.505594.tar.gz"
+        ],
+        "md5": "30b5a338f9f16669ed3dae3bae4e7b32",
+        "compressed_size": 3880157241,
+        "documents": 5416568,
+        "total_terms": 325179165,
+        "unique_terms": 3293639
+    },
+    {
+        "name": "beir-v1.0.0-climate-fever.flat",
+        "type": "inverted",
+        "corpus": "BEIR: Climate-FEVER",
+        "corpus_index": "beir-v1.0.0-climate-fever.flat",
+        "description": "Anserini Lucene inverted 'flat' index of BEIR collection 'climate-fever'",
+        "filename": "lucene-inverted.beir-v1.0.0-climate-fever.flat.20221116.505594.tar.gz",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-climate-fever.flat.20221116.505594.tar.gz"
+        ],
+        "md5": "6e7101f4a5c241ba263bb6a826049826",
+        "compressed_size": 3880210072,
+        "documents": 5416593,
+        "total_terms": 325185072,
+        "unique_terms": 3293621
+    },
+    {
+        "name": "beir-v1.0.0-scifact.flat",
+        "type": "inverted",
+        "corpus": "BEIR: SciFact",
+        "corpus_index": "beir-v1.0.0-scifact.flat",
+        "description": "Anserini Lucene inverted 'flat' index of BEIR collection 'scifact'",
+        "filename": "lucene-inverted.beir-v1.0.0-scifact.flat.20221116.505594.tar.gz",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-flat.20221116.505594.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/flat/lucene-inverted.beir-v1.0.0-scifact.flat.20221116.505594.tar.gz"
+        ],
+        "md5": "59777038fe0539e600658591e322ea57",
+        "compressed_size": 8849995,
+        "documents": 5183,
+        "total_terms": 838128,
+        "unique_terms": 28865
+    }
+]

@@ -13,20 +13,19 @@ Among other goals, our effort aims to be [the opposite of this](http://phdcomics
 Anserini grew out of [a reproducibility study of various open-source retrieval engines in 2016](https://link.springer.com/chapter/10.1007/978-3-319-30671-1_30) (Lin et al., ECIR 2016). 
 See [Yang et al. (SIGIR 2017)](https://dl.acm.org/doi/10.1145/3077136.3080721) and [Yang et al. (JDIQ 2018)](https://dl.acm.org/doi/10.1145/3239571) for overviews.
 
-
 ## 💥 Try It!
 
 Anserini is packaged in a self-contained fatjar, which also provides the simplest way to get started.
 Assuming you've already got Java 21 installed (Yes, you need _exactly_ this version), fetch the fatjar:
 
 ```bash
-wget https://repo1.maven.org/maven2/io/anserini/anserini/1.5.0/anserini-1.5.0-fatjar.jar
+wget https://repo1.maven.org/maven2/io/anserini/anserini/1.6.0/anserini-1.6.0-fatjar.jar
 ```
 
 Do a BM25 run on the venerable MS MARCO passage corpus using the dev queries:
 
 ```bash
-java -cp anserini-1.5.0-fatjar.jar io.anserini.search.SearchCollection \
+java -cp anserini-1.6.0-fatjar.jar io.anserini.search.SearchCollection \
   -index msmarco-v1-passage \
   -topics msmarco-v1-passage.dev \
   -output run.msmarco-v1-passage.dev.bm25.txt \
@@ -36,7 +35,7 @@ java -cp anserini-1.5.0-fatjar.jar io.anserini.search.SearchCollection \
 To evaluate:
 
 ```bash
-java -cp anserini-1.5.0-fatjar.jar trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev \
+java -cp anserini-1.6.0-fatjar.jar trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev \
   run.msmarco-v1-passage.dev.bm25.txt
 ```
 
@@ -50,7 +49,7 @@ Anserini's got you covered.
 For example, same as above (MS MARCO passage, dev queries) using the BGE model (en, v1.5):
 
 ```bash
-java -cp anserini-1.5.0-fatjar.jar io.anserini.search.SearchHnswDenseVectors \
+java -cp anserini-1.6.0-fatjar.jar io.anserini.search.SearchHnswDenseVectors \
   -index msmarco-v1-passage.bge-base-en-v1.5.hnsw \
   -topics msmarco-v1-passage.dev \
   -encoder BgeBaseEn15  \
@@ -61,7 +60,7 @@ java -cp anserini-1.5.0-fatjar.jar io.anserini.search.SearchHnswDenseVectors \
 To evaluate:
 
 ```bash
-java -cp anserini-1.5.0-fatjar.jar trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev \
+java -cp anserini-1.6.0-fatjar.jar trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev \
   run.msmarco-v1-passage.dev.bge.txt
 ```
 
@@ -77,7 +76,7 @@ Anserini's also got you covered.
 For example, same as above (MS MARCO passage, dev queries) using SPLADE-v3:
 
 ```bash
-java -cp anserini-1.5.0-fatjar.jar io.anserini.search.SearchCollection \
+java -cp anserini-1.6.0-fatjar.jar io.anserini.search.SearchCollection \
   -index msmarco-v1-passage.splade-v3 \
   -topics msmarco-v1-passage.dev \
   -encoder SpladeV3 \
@@ -88,7 +87,7 @@ java -cp anserini-1.5.0-fatjar.jar io.anserini.search.SearchCollection \
 To evaluate:
 
 ```bash
-java -cp anserini-1.5.0-fatjar.jar trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev \
+java -cp anserini-1.6.0-fatjar.jar trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev \
   run.msmarco-v1-passage.dev.splade-v3.txt
 ```
 
@@ -96,7 +95,7 @@ You should get an MRR (`recip_rank`) of 0.4000.
 
 </details>
 
-See [detailed instructions](docs/fatjar-regressions/fatjar-regressions-v1.5.0.md) for the current fatjar release of Anserini (v1.5.0) to reproduce regression experiments on the MS MARCO V2.1 corpora for TREC 2024 RAG, on MS MARCO V1 Passage, and on BEIR, all directly from the fatjar!
+See [detailed instructions](docs/fatjar-regressions/fatjar-regressions-v1.6.0.md) for the current fatjar release of Anserini (v1.6.0) to reproduce regression experiments on the MS MARCO V2.1 corpora for TREC 2024 RAG, on MS MARCO V1 Passage, and on BEIR, all directly from the fatjar!
 
 ❗ Beware, Anserini ships with many prebuilt indexes, which are automatically downloaded upon request: these indexes can take up a lot of space.
 See [this guide on prebuilt indexes](docs/prebuilt-indexes.md) for more details.
@@ -104,6 +103,7 @@ See [this guide on prebuilt indexes](docs/prebuilt-indexes.md) for more details.
 <details>
 <summary>Older instructions</summary>
 
++ [Anserini v1.5.0](docs/fatjar-regressions/fatjar-regressions-v1.5.0.md)
 + [Anserini v1.4.0](docs/fatjar-regressions/fatjar-regressions-v1.4.0.md)
 + [Anserini v1.3.0](docs/fatjar-regressions/fatjar-regressions-v1.3.0.md)
 + [Anserini v1.2.2](docs/fatjar-regressions/fatjar-regressions-v1.2.2.md)
@@ -687,6 +687,7 @@ Beyond that, there are always [open issues](https://github.com/castorini/anserin
 
 ## 📜️ Release History
 
++ v1.6.0: February 24, 2026 [[Release Notes](docs/release-notes/release-notes-v1.6.0.md)]
 + v1.5.0: January 9, 2026 [[Release Notes](docs/release-notes/release-notes-v1.5.0.md)]
 + v1.4.0: December 2, 2025 [[Release Notes](docs/release-notes/release-notes-v1.4.0.md)]
 + v1.3.0: September 14, 2025 [[Release Notes](docs/release-notes/release-notes-v1.3.0.md)]

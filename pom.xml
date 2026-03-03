@@ -3,7 +3,7 @@
 
   <groupId>io.anserini</groupId>
   <artifactId>anserini</artifactId>
-  <version>1.5.1-SNAPSHOT</version>
+  <version>1.6.1-SNAPSHOT</version>
   <name>Anserini</name>
   <description>An information retrieval toolkit built on Lucene</description>
   <url>http://anserini.io/</url>
@@ -282,7 +282,7 @@
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-core</artifactId>
-      <version>2.20.0</version>
+      <version>2.21.1</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>

@@ -19,6 +19,7 @@ package io.anserini.search.topicreader;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.Map;
@@ -38,7 +39,7 @@ public class TopicReaderTest {
       String path = topic.path;
       assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(path));
     }
-    assertEquals(571, cnt);
+    assertEquals(612, cnt);
   }
 
   @Test
@@ -69,6 +70,19 @@ public class TopicReaderTest {
     assertEquals("International Organized Crime", topics.get(topics.firstKey()).get("title"));
     assertEquals(700, (int) topics.lastKey());
     assertEquals("gasoline tax U.S.", topics.get(topics.lastKey()).get("title"));
+  }
+
+  @Test
+  public void testCacmTopics() throws IOException {
+    SortedMap<Integer, Map<String, String>> topics;
+
+    topics = TopicReader.getTopics(Topics.CACM);
+    assertNotNull(topics);
+    assertEquals(64, topics.size());
+    assertEquals(1, (int) topics.firstKey());
+    assertTrue(topics.get(topics.firstKey()).get("title").contains("What articles exist which deal with TSS"));
+    assertEquals(64, (int) topics.lastKey());
+    assertTrue(topics.get(topics.lastKey()).get("title").contains("List all articles on EL1 and ECL"));
   }
 
   @Test
@@ -130,6 +144,19 @@ public class TopicReaderTest {
     assertEquals("Women in Parliaments", topics.get(topics.firstKey()).get("title"));
     assertEquals(825, (int) topics.lastKey());
     assertEquals("ethanol and food prices", topics.get(topics.lastKey()).get("title"));
+  }
+
+  @Test
+  public void testDseTopics() throws IOException {
+    SortedMap<Integer, Map<String, String>> topics;
+
+    topics = TopicReader.getTopics(Topics.SLIDEVQA_TEST);
+    assertNotNull(topics);
+    assertEquals(2214, topics.size());
+
+    topics = TopicReader.getTopics(Topics.WIKI_SS_NQ_TEST);
+    assertNotNull(topics);
+    assertEquals(3610, topics.size());
   }
   
   @Test
@@ -2158,6 +2185,22 @@ public class TopicReaderTest {
   }
 
   @Test
+  public void testBrightOriginalTopics() throws IOException {
+    assertEquals(103, TopicReader.getTopics(Topics.BRIGHT_BIOLOGY_ORIGINAL).keySet().size());
+    assertEquals(116, TopicReader.getTopics(Topics.BRIGHT_EARTH_SCIENCE_ORIGINAL).keySet().size());
+    assertEquals(103, TopicReader.getTopics(Topics.BRIGHT_ECONOMICS_ORIGINAL).keySet().size());
+    assertEquals(101, TopicReader.getTopics(Topics.BRIGHT_PSYCHOLOGY_ORIGINAL).keySet().size());
+    assertEquals(101, TopicReader.getTopics(Topics.BRIGHT_ROBOTICS_ORIGINAL).keySet().size());
+    assertEquals(117, TopicReader.getTopics(Topics.BRIGHT_STACKOVERFLOW_ORIGINAL).keySet().size());
+    assertEquals(108, TopicReader.getTopics(Topics.BRIGHT_SUSTAINABLE_LIVING_ORIGINAL).keySet().size());
+    assertEquals(112, TopicReader.getTopics(Topics.BRIGHT_PONY_ORIGINAL).keySet().size());
+    assertEquals(142, TopicReader.getTopics(Topics.BRIGHT_LEETCODE_ORIGINAL).keySet().size());
+    assertEquals(111, TopicReader.getTopics(Topics.BRIGHT_AOPS_ORIGINAL).keySet().size());
+    assertEquals(76, TopicReader.getTopics(Topics.BRIGHT_THEOREMQA_THEOREMS_ORIGINAL).keySet().size());
+    assertEquals(194, TopicReader.getTopics(Topics.BRIGHT_THEOREMQA_QUESTIONS_ORIGINAL).keySet().size());
+  }
+
+  @Test
   public void testBrightSpladeV3Topics() throws IOException {
     assertEquals(103, TopicReader.getTopics(Topics.BRIGHT_BIOLOGY_SPLADE_V3).keySet().size());
     assertEquals(116, TopicReader.getTopics(Topics.BRIGHT_EARTH_SCIENCE_SPLADE_V3).keySet().size());
@@ -2209,6 +2252,35 @@ public class TopicReaderTest {
     assertEquals(2511, TopicReader.getTopics(Topics.M_BEIR_WEBQA_TASK2_TEST).keySet().size());
   }
 
+  @Test public void testMMEBVisDocTopics() throws IOException {
+    assertEquals(500, TopicReader.getTopics(Topics.MMEB_VISDOC_VIDORE_ARXIVQA_TEST).keySet().size());
+    assertEquals(451, TopicReader.getTopics(Topics.MMEB_VISDOC_VIDORE_DOCVQA_TEST).keySet().size());
+    assertEquals(494, TopicReader.getTopics(Topics.MMEB_VISDOC_VIDORE_INFOVQA_TEST).keySet().size());
+    assertEquals(100, TopicReader.getTopics(Topics.MMEB_VISDOC_VIDORE_SHIFTPROJECT_TEST).keySet().size());
+    assertEquals(100, TopicReader.getTopics(Topics.MMEB_VISDOC_VIDORE_SYNTHETIC_DOCQA_ARTIFICIAL_INTELLIGENCE_TEST).keySet().size());
+    assertEquals(100, TopicReader.getTopics(Topics.MMEB_VISDOC_VIDORE_SYNTHETIC_DOCQA_ENERGY_TEST).keySet().size());
+    assertEquals(100, TopicReader.getTopics(Topics.MMEB_VISDOC_VIDORE_SYNTHETIC_DOCQA_GOVERNMENT_REPORTS_TEST).keySet().size());
+    assertEquals(100, TopicReader.getTopics(Topics.MMEB_VISDOC_VIDORE_SYNTHETIC_DOCQA_HEALTHCARE_INDUSTRY_TEST).keySet().size());
+    assertEquals(280, TopicReader.getTopics(Topics.MMEB_VISDOC_VIDORE_TABFQUAD_TEST).keySet().size());
+    assertEquals(1646, TopicReader.getTopics(Topics.MMEB_VISDOC_VIDORE_TATDQA_TEST).keySet().size());
+    assertEquals(160, TopicReader.getTopics(Topics.MMEB_VISDOC_VIDORE_BIOMEDICAL_LECTURES_V2_TEST).keySet().size());
+    assertEquals(640, TopicReader.getTopics(Topics.MMEB_VISDOC_VIDORE_BIOMEDICAL_LECTURES_V2_MULTILINGUAL_TEST).keySet().size());
+    assertEquals(58, TopicReader.getTopics(Topics.MMEB_VISDOC_VIDORE_ECONOMICS_REPORTS_V2_TEST).keySet().size());
+    assertEquals(232, TopicReader.getTopics(Topics.MMEB_VISDOC_VIDORE_ECONOMICS_REPORTS_V2_MULTILINGUAL_TEST).keySet().size());
+    assertEquals(52, TopicReader.getTopics(Topics.MMEB_VISDOC_VIDORE_ESG_REPORTS_HUMAN_LABELED_V2_TEST).keySet().size());
+    assertEquals(57, TopicReader.getTopics(Topics.MMEB_VISDOC_VIDORE_ESG_REPORTS_V2_TEST).keySet().size());
+    assertEquals(228, TopicReader.getTopics(Topics.MMEB_VISDOC_VIDORE_ESG_REPORTS_V2_MULTILINGUAL_TEST).keySet().size());
+    assertEquals(816, TopicReader.getTopics(Topics.MMEB_VISDOC_VISRAG_ARXIVQA_TRAIN).keySet().size());
+    assertEquals(63, TopicReader.getTopics(Topics.MMEB_VISDOC_VISRAG_CHARTQA_TRAIN).keySet().size());
+    assertEquals(718, TopicReader.getTopics(Topics.MMEB_VISDOC_VISRAG_INFOVQA_TRAIN).keySet().size());
+    assertEquals(591, TopicReader.getTopics(Topics.MMEB_VISDOC_VISRAG_MP_DOCVQA_TRAIN).keySet().size());
+    assertEquals(863, TopicReader.getTopics(Topics.MMEB_VISDOC_VISRAG_PLOTQA_TRAIN).keySet().size());
+    assertEquals(556, TopicReader.getTopics(Topics.MMEB_VISDOC_VISRAG_SLIDEVQA_TRAIN).keySet().size());
+    assertEquals(1142, TopicReader.getTopics(Topics.MMEB_VISDOC_VIDOSEEK_DOC_TEST).keySet().size());
+    assertEquals(1142, TopicReader.getTopics(Topics.MMEB_VISDOC_VIDOSEEK_PAGE_TEST).keySet().size());
+    assertEquals(838, TopicReader.getTopics(Topics.MMEB_VISDOC_MMLONGBENCH_DOC_TEST).keySet().size());
+    assertEquals(838, TopicReader.getTopics(Topics.MMEB_VISDOC_MMLONGBENCH_PAGE_TEST).keySet().size());
+  }
 
   @Test
   public void testGetTopicsWithStringIdsFromFileWithTopicReader() {

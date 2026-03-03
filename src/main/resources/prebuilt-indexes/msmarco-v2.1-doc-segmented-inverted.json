@@ -1,0 +1,53 @@
+[
+    {
+        "name": "msmarco-v2.1-doc-segmented",
+        "type": "inverted",
+        "corpus": "MS MARCO V2.1 Segmented Doc",
+        "corpus_index": "msmarco-v2.1-doc-segmented",
+        "description": "Anserini Lucene inverted index of the MS MARCO V2.1 segmented document corpus",
+        "filename": "lucene-inverted.msmarco-v2.1-doc-segmented.20240418.4f9675.tar.gz",
+        "readme": "https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2.1-doc-segmented.20240418.4f9675.README.md",
+        "urls": [
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2.1-doc-segmented.20240418.4f9675.tar.gz"
+        ],
+        "md5": "6ec4cd595c9fe1ad91b43eabb39a637c",
+        "compressed_size": 60071133069,
+        "documents": 113520750,
+        "total_terms": 22707699649,
+        "unique_terms": 29040364
+    },
+    {
+        "name": "msmarco-v2.1-doc-segmented-slim",
+        "type": "inverted",
+        "corpus": "MS MARCO V2.1 Segmented Doc",
+        "corpus_index": "msmarco-v2.1-doc-segmented",
+        "description": "Anserini Lucene inverted index of the MS MARCO V2.1 segmented document corpus ('slim' version)",
+        "filename": "lucene-inverted.msmarco-v2.1-doc-segmented-slim.20240418.4f9675.tar.gz",
+        "readme": "https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2.1-doc-segmented.20240418.4f9675.README.md",
+        "urls": [
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2.1-doc-segmented-slim.20240418.4f9675.tar.gz"
+        ],
+        "md5": "3c6c946c722a201b65903a92f082ea4f",
+        "compressed_size": 15374492909,
+        "documents": 113520750,
+        "total_terms": 22707699649,
+        "unique_terms": 29040364
+    },
+    {
+        "name": "msmarco-v2.1-doc-segmented-full",
+        "type": "inverted",
+        "corpus": "MS MARCO V2.1 Segmented Doc",
+        "corpus_index": "msmarco-v2.1-doc-segmented",
+        "description": "Anserini Lucene inverted index of the MS MARCO V2.1 segmented document corpus ('full' version)",
+        "filename": "lucene-inverted.msmarco-v2.1-doc-segmented-full.20240418.4f9675.tar.gz",
+        "readme": "https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2.1-doc-segmented.20240418.4f9675.README.md",
+        "urls": [
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2.1-doc-segmented-full.20240418.4f9675.tar.gz"
+        ],
+        "md5": "a43d09d31ae4e5dac81f5cfde1a810a7",
+        "compressed_size": 146130406504,
+        "documents": 113520750,
+        "total_terms": 22707699649,
+        "unique_terms": 29040364
+    }
+]

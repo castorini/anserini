@@ -118,6 +118,9 @@ public enum Topics {
   MSMARCO_PASSAGE_DEV_SUBSET_UNICOIL_NOEXP(TsvIntTopicReader.class, "topics.msmarco-passage.dev-subset.unicoil-noexp.tsv.gz"),
   MSMARCO_PASSAGE_DEV_SUBSET_UNICOIL_TILDE(TsvIntTopicReader.class, "topics.msmarco-passage.dev-subset.unicoil-tilde-expansion.tsv.gz"),
   MSMARCO_PASSAGE_DEV_SUBSET_DISTILL_SPLADE_MAX(TsvIntTopicReader.class, "topics.msmarco-passage.dev-subset.distill-splade-max.tsv.gz"),
+  // DSE topics
+  SLIDEVQA_TEST(TsvIntTopicReader.class, "topics.slidevqa.test.tsv"),
+  WIKI_SS_NQ_TEST(TsvIntTopicReader.class, "topics.wiki-ss-nq.test.tsv"),
   MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvIntTopicReader.class, "topics.msmarco-passage.dev-subset.splade_distil_cocodenser_medium.tsv.gz"),
   MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_ED(TsvIntTopicReader.class, "topics.msmarco-passage.dev-subset.splade-pp-ed.tsv.gz"),
   MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_SD(TsvIntTopicReader.class, "topics.msmarco-passage.dev-subset.splade-pp-sd.tsv.gz"),
@@ -574,7 +577,7 @@ public enum Topics {
   CIRAL_V10_SW_DEV_MONO(TsvIntTopicReader.class, "topics.ciral-v1.0-sw-dev-native.tsv"),
   CIRAL_V10_YO_DEV_MONO(TsvIntTopicReader.class, "topics.ciral-v1.0-yo-dev-native.tsv"),
 
-  // BRIGHT original queries
+  // BRIGHT queries converted to tsv format (some spacing changes were made to the original queries)
   BRIGHT_BIOLOGY(TsvStringTopicReader.class, "topics.bright-biology.tsv.gz"),
   BRIGHT_EARTH_SCIENCE(TsvStringTopicReader.class, "topics.bright-earth-science.tsv.gz"),
   BRIGHT_ECONOMICS(TsvStringTopicReader.class, "topics.bright-economics.tsv.gz"),
@@ -587,6 +590,20 @@ public enum Topics {
   BRIGHT_AOPS(TsvStringTopicReader.class, "topics.bright-aops.tsv.gz"),
   BRIGHT_THEOREMQA_THEOREMS(TsvStringTopicReader.class, "topics.bright-theoremqa-theorems.tsv.gz"),
   BRIGHT_THEOREMQA_QUESTIONS(TsvStringTopicReader.class, "topics.bright-theoremqa-questions.tsv.gz"),
+
+  // BRIGHT queries original jsonl format
+  BRIGHT_BIOLOGY_ORIGINAL(JsonStringTopicReader.class, "topics.bright-biology-original.jsonl.gz"),
+  BRIGHT_EARTH_SCIENCE_ORIGINAL(JsonStringTopicReader.class, "topics.bright-earth-science-original.jsonl.gz"),
+  BRIGHT_ECONOMICS_ORIGINAL(JsonStringTopicReader.class, "topics.bright-economics-original.jsonl.gz"),
+  BRIGHT_PSYCHOLOGY_ORIGINAL(JsonStringTopicReader.class, "topics.bright-psychology-original.jsonl.gz"),
+  BRIGHT_ROBOTICS_ORIGINAL(JsonStringTopicReader.class, "topics.bright-robotics-original.jsonl.gz"),
+  BRIGHT_STACKOVERFLOW_ORIGINAL(JsonStringTopicReader.class, "topics.bright-stackoverflow-original.jsonl.gz"),
+  BRIGHT_SUSTAINABLE_LIVING_ORIGINAL(JsonStringTopicReader.class, "topics.bright-sustainable-living-original.jsonl.gz"),
+  BRIGHT_PONY_ORIGINAL(JsonStringTopicReader.class, "topics.bright-pony-original.jsonl.gz"),
+  BRIGHT_LEETCODE_ORIGINAL(JsonStringTopicReader.class, "topics.bright-leetcode-original.jsonl.gz"),
+  BRIGHT_AOPS_ORIGINAL(JsonStringTopicReader.class, "topics.bright-aops-original.jsonl.gz"),
+  BRIGHT_THEOREMQA_THEOREMS_ORIGINAL(JsonStringTopicReader.class, "topics.bright-theoremqa-theorems-original.jsonl.gz"),
+  BRIGHT_THEOREMQA_QUESTIONS_ORIGINAL(JsonStringTopicReader.class, "topics.bright-theoremqa-questions-original.jsonl.gz"),
 
   // BRIGHT: pre-encoded queries for SPLADE-v3
   BRIGHT_BIOLOGY_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-biology.splade-v3.tsv.gz"),
@@ -633,6 +650,35 @@ public enum Topics {
   M_BEIR_VISUALNEWS_TASK3_TEST(JsonStringTopicReader.class, "topics.mbeir-visualnews_task3.test.jsonl"),
   M_BEIR_WEBQA_TASK1_TEST(JsonStringTopicReader.class, "topics.mbeir-webqa_task1.test.jsonl"),
   M_BEIR_WEBQA_TASK2_TEST(JsonStringTopicReader.class, "topics.mbeir-webqa_task2.test.jsonl"),
+
+  // MMEB-VisDoc queries
+  MMEB_VISDOC_VIDORE_ARXIVQA_TEST(JsonStringTopicReader.class, "topics.mmeb-visdoc-ViDoRe_arxivqa.test.jsonl"),
+  MMEB_VISDOC_VIDORE_DOCVQA_TEST(JsonStringTopicReader.class, "topics.mmeb-visdoc-ViDoRe_docvqa.test.jsonl"),
+  MMEB_VISDOC_VIDORE_INFOVQA_TEST(JsonStringTopicReader.class, "topics.mmeb-visdoc-ViDoRe_infovqa.test.jsonl"),
+  MMEB_VISDOC_VIDORE_SHIFTPROJECT_TEST(JsonStringTopicReader.class, "topics.mmeb-visdoc-ViDoRe_shiftproject.test.jsonl"),
+  MMEB_VISDOC_VIDORE_SYNTHETIC_DOCQA_ARTIFICIAL_INTELLIGENCE_TEST(JsonStringTopicReader.class, "topics.mmeb-visdoc-ViDoRe_syntheticDocQA_artificial_intelligence.test.jsonl"),
+  MMEB_VISDOC_VIDORE_SYNTHETIC_DOCQA_ENERGY_TEST(JsonStringTopicReader.class, "topics.mmeb-visdoc-ViDoRe_syntheticDocQA_energy.test.jsonl"),
+  MMEB_VISDOC_VIDORE_SYNTHETIC_DOCQA_GOVERNMENT_REPORTS_TEST(JsonStringTopicReader.class, "topics.mmeb-visdoc-ViDoRe_syntheticDocQA_government_reports.test.jsonl"),
+  MMEB_VISDOC_VIDORE_SYNTHETIC_DOCQA_HEALTHCARE_INDUSTRY_TEST(JsonStringTopicReader.class, "topics.mmeb-visdoc-ViDoRe_syntheticDocQA_healthcare_industry.test.jsonl"),
+  MMEB_VISDOC_VIDORE_TABFQUAD_TEST(JsonStringTopicReader.class, "topics.mmeb-visdoc-ViDoRe_tabfquad.test.jsonl"),
+  MMEB_VISDOC_VIDORE_TATDQA_TEST(JsonStringTopicReader.class, "topics.mmeb-visdoc-ViDoRe_tatdqa.test.jsonl"),
+  MMEB_VISDOC_VIDORE_BIOMEDICAL_LECTURES_V2_TEST(JsonStringTopicReader.class, "topics.mmeb-visdoc-ViDoRe_biomedical_lectures_v2.test.jsonl"),
+  MMEB_VISDOC_VIDORE_BIOMEDICAL_LECTURES_V2_MULTILINGUAL_TEST(JsonStringTopicReader.class, "topics.mmeb-visdoc-ViDoRe_biomedical_lectures_v2_multilingual.test.jsonl"),
+  MMEB_VISDOC_VIDORE_ECONOMICS_REPORTS_V2_TEST(JsonStringTopicReader.class, "topics.mmeb-visdoc-ViDoRe_economics_reports_v2.test.jsonl"),
+  MMEB_VISDOC_VIDORE_ECONOMICS_REPORTS_V2_MULTILINGUAL_TEST(JsonStringTopicReader.class, "topics.mmeb-visdoc-ViDoRe_economics_reports_v2_multilingual.test.jsonl"),
+  MMEB_VISDOC_VIDORE_ESG_REPORTS_HUMAN_LABELED_V2_TEST(JsonStringTopicReader.class, "topics.mmeb-visdoc-ViDoRe_esg_reports_human_labeled_v2.test.jsonl"),
+  MMEB_VISDOC_VIDORE_ESG_REPORTS_V2_TEST(JsonStringTopicReader.class, "topics.mmeb-visdoc-ViDoRe_esg_reports_v2.test.jsonl"),
+  MMEB_VISDOC_VIDORE_ESG_REPORTS_V2_MULTILINGUAL_TEST(JsonStringTopicReader.class, "topics.mmeb-visdoc-ViDoRe_esg_reports_v2_multilingual.test.jsonl"),
+  MMEB_VISDOC_VISRAG_ARXIVQA_TRAIN(JsonStringTopicReader.class, "topics.mmeb-visdoc-VisRAG_ArxivQA.train.jsonl"),
+  MMEB_VISDOC_VISRAG_CHARTQA_TRAIN(JsonStringTopicReader.class, "topics.mmeb-visdoc-VisRAG_ChartQA.train.jsonl"),
+  MMEB_VISDOC_VISRAG_INFOVQA_TRAIN(JsonStringTopicReader.class, "topics.mmeb-visdoc-VisRAG_InfoVQA.train.jsonl"),
+  MMEB_VISDOC_VISRAG_MP_DOCVQA_TRAIN(JsonStringTopicReader.class, "topics.mmeb-visdoc-VisRAG_MP-DocVQA.train.jsonl"),
+  MMEB_VISDOC_VISRAG_PLOTQA_TRAIN(JsonStringTopicReader.class, "topics.mmeb-visdoc-VisRAG_PlotQA.train.jsonl"),
+  MMEB_VISDOC_VISRAG_SLIDEVQA_TRAIN(JsonStringTopicReader.class, "topics.mmeb-visdoc-VisRAG_SlideVQA.train.jsonl"),
+  MMEB_VISDOC_VIDOSEEK_DOC_TEST(JsonStringTopicReader.class, "topics.mmeb-visdoc-ViDoSeek-doc.test.jsonl"),
+  MMEB_VISDOC_VIDOSEEK_PAGE_TEST(JsonStringTopicReader.class, "topics.mmeb-visdoc-ViDoSeek-page.test.jsonl"),
+  MMEB_VISDOC_MMLONGBENCH_DOC_TEST(JsonStringTopicReader.class, "topics.mmeb-visdoc-MMLongBench-doc.test.jsonl"),
+  MMEB_VISDOC_MMLONGBENCH_PAGE_TEST(JsonStringTopicReader.class, "topics.mmeb-visdoc-MMLongBench-page.test.jsonl"),
 
   // unused topics
   CACM(CacmTopicReader.class,                   "topics.cacm.txt"),

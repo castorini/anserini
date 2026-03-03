@@ -38,7 +38,7 @@ public class RelevanceJudgmentsTest{
 
   @Test
   public void testTotalCount() {
-    assertEquals(200, Qrels.values().length);
+    assertEquals(229, Qrels.values().length);
   }
 
   @Test(expected = IOException.class)
@@ -51,6 +51,19 @@ public class RelevanceJudgmentsTest{
   public void testNonvalidQrels() throws IOException{
     // Purposely read non-valid qrels.
     new RelevanceJudgments("tools/topics-and-qrels/topics.robust04.txt ");
+  }
+
+  @Test
+  public void testCacm() throws IOException{
+    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.cacm.txt");
+    assertNotNull(qrels);
+    assertEquals(52, qrels.getQids().size());
+    assertEquals(796, getQrelsCount(qrels));
+    assertEquals(1, qrels.getRelevanceGrade("1", "CACM-1410"));
+    assertEquals(0, qrels.getRelevanceGrade("1", "CACM-1410x")); // non-existent docid
+    assertEquals(0, qrels.getRelevanceGrade("xxx", "CACM-1410"));  // non-existent topic
+    assertTrue(qrels.isDocJudged("1", "CACM-1410"));
+    assertNull(qrels.getDocMap("xxx"));
   }
 
   @Test
@@ -1721,9 +1734,158 @@ public class RelevanceJudgmentsTest{
   }
 
   @Test
+  public void testDseQrels() throws IOException {
+    RelevanceJudgments qrels = RelevanceJudgments.fromQrels(Qrels.SLIDEVQA_TEST);
+    assertNotNull(qrels);
+    assertEquals(2214, qrels.getQids().size());
+    assertEquals(2786, getQrelsCount(qrels));
+  }
+
+  @Test
+  public void testMMEBVisDocQrels() throws IOException {
+    RelevanceJudgments qrels = RelevanceJudgments.fromQrels(Qrels.MMEB_VISDOC_VIDORE_ARXIVQA_TEST);
+    assertNotNull(qrels);
+    assertEquals(500, qrels.getQids().size());
+    assertEquals(500, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MMEB_VISDOC_VIDORE_DOCVQA_TEST);
+    assertNotNull(qrels);
+    assertEquals(451, qrels.getQids().size());
+    assertEquals(500, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MMEB_VISDOC_VIDORE_INFOVQA_TEST);
+    assertNotNull(qrels);
+    assertEquals(494, qrels.getQids().size());
+    assertEquals(500, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MMEB_VISDOC_VIDORE_SHIFTPROJECT_TEST);
+    assertNotNull(qrels);
+    assertEquals(100, qrels.getQids().size());
+    assertEquals(100, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MMEB_VISDOC_VIDORE_SYNTHETIC_DOCQA_ARTIFICIAL_INTELLIGENCE_TEST);
+      assertNotNull(qrels);
+      assertEquals(100, qrels.getQids().size());
+      assertEquals(100, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MMEB_VISDOC_VIDORE_SYNTHETIC_DOCQA_ENERGY_TEST);
+    assertNotNull(qrels);
+    assertEquals(100, qrels.getQids().size());
+    assertEquals(100, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MMEB_VISDOC_VIDORE_SYNTHETIC_DOCQA_GOVERNMENT_REPORTS_TEST);
+    assertNotNull(qrels);
+    assertEquals(100, qrels.getQids().size());
+    assertEquals(100, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MMEB_VISDOC_VIDORE_SYNTHETIC_DOCQA_HEALTHCARE_INDUSTRY_TEST);
+    assertNotNull(qrels);
+    assertEquals(100, qrels.getQids().size());
+    assertEquals(100, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MMEB_VISDOC_VIDORE_TABFQUAD_TEST);
+    assertNotNull(qrels);
+    assertEquals(280, qrels.getQids().size());
+    assertEquals(280, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MMEB_VISDOC_VIDORE_TATDQA_TEST);
+    assertNotNull(qrels);
+    assertEquals(1646, qrels.getQids().size());
+    assertEquals(1663, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MMEB_VISDOC_VIDORE_BIOMEDICAL_LECTURES_V2_TEST);
+    assertNotNull(qrels);
+    assertEquals(640, qrels.getQids().size());
+    assertEquals(2060, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MMEB_VISDOC_VIDORE_BIOMEDICAL_LECTURES_V2_MULTILINGUAL_TEST);
+    assertNotNull(qrels);
+    assertEquals(640, qrels.getQids().size());
+    assertEquals(2060, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MMEB_VISDOC_VIDORE_ECONOMICS_REPORTS_V2_TEST);
+    assertNotNull(qrels);
+    assertEquals(232, qrels.getQids().size());
+    assertEquals(3628, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MMEB_VISDOC_VIDORE_ECONOMICS_REPORTS_V2_MULTILINGUAL_TEST);
+    assertNotNull(qrels);
+    assertEquals(232, qrels.getQids().size());
+    assertEquals(3628, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MMEB_VISDOC_VIDORE_ESG_REPORTS_HUMAN_LABELED_V2_TEST);
+    assertNotNull(qrels);
+    assertEquals(52, qrels.getQids().size());
+    assertEquals(128, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MMEB_VISDOC_VIDORE_ESG_REPORTS_V2_TEST);
+    assertNotNull(qrels);
+    assertEquals(228, qrels.getQids().size());
+    assertEquals(888, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MMEB_VISDOC_VIDORE_ESG_REPORTS_V2_MULTILINGUAL_TEST);
+    assertNotNull(qrels);
+    assertEquals(228, qrels.getQids().size());
+    assertEquals(888, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MMEB_VISDOC_VISRAG_ARXIVQA_TRAIN);
+    assertNotNull(qrels);
+    assertEquals(816, qrels.getQids().size());
+    assertEquals(816, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MMEB_VISDOC_VISRAG_CHARTQA_TRAIN);
+    assertNotNull(qrels);
+    assertEquals(63, qrels.getQids().size());
+    assertEquals(63, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MMEB_VISDOC_VISRAG_INFOVQA_TRAIN);
+    assertNotNull(qrels);
+    assertEquals(718, qrels.getQids().size());
+    assertEquals(718, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MMEB_VISDOC_VISRAG_MP_DOCVQA_TRAIN);
+    assertNotNull(qrels);
+    assertEquals(591, qrels.getQids().size());
+    assertEquals(591, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MMEB_VISDOC_VISRAG_PLOTQA_TRAIN);
+    assertNotNull(qrels);
+    assertEquals(863, qrels.getQids().size());
+    assertEquals(863, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MMEB_VISDOC_VISRAG_SLIDEVQA_TRAIN);
+    assertNotNull(qrels);
+    assertEquals(556, qrels.getQids().size());
+    assertEquals(702, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MMEB_VISDOC_VIDOSEEK_DOC_TEST);
+    assertNotNull(qrels);
+    assertEquals(1142, qrels.getQids().size());
+    assertEquals(21190, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MMEB_VISDOC_VIDOSEEK_PAGE_TEST);
+    assertNotNull(qrels);
+    assertEquals(1142, qrels.getQids().size());
+    assertEquals(1142, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MMEB_VISDOC_MMLONGBENCH_DOC_TEST);
+    assertNotNull(qrels);
+    assertEquals(838, qrels.getQids().size());
+    assertEquals(40850, getQrelsCount(qrels));
+
+    qrels = RelevanceJudgments.fromQrels(Qrels.MMEB_VISDOC_MMLONGBENCH_PAGE_TEST);
+    assertNotNull(qrels);
+    assertEquals(838, qrels.getQids().size());
+    assertEquals(1574, getQrelsCount(qrels));
+  }
+
+  @Test
   public void testSymbolExpansion() throws IOException {
     Path expected;
     Path produced;
+
+    expected = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "topics-and-qrels", "qrels.cacm.txt");
+    produced = RelevanceJudgments.getQrelsPath(Path.of("cacm"));
 
     expected = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "topics-and-qrels", "qrels.msmarco-passage.dev-subset.txt");
     produced = RelevanceJudgments.getQrelsPath(Path.of("msmarco-passage.dev-subset"));
