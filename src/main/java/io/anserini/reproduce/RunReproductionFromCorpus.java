@@ -115,8 +115,8 @@ public class RunReproductionFromCorpus {
   }
 
   public static class Args {
-    @Option(name = "--regression", required = true, usage = "Name of the regression test.")
-    public String regression;
+    @Option(name = "--config", required = true, usage = "Name of the configuration to run.")
+    public String config;
 
     @Option(name = "--corpus-path", usage = "Override corpus path from YAML.")
     public String corpusPath = "";
@@ -159,7 +159,7 @@ public class RunReproductionFromCorpus {
 
     ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
     JsonNode yaml;
-    String resourceName = String.format("%s/%s.yaml", CONFIG_DIRECTORY, parsed.regression);
+    String resourceName = String.format("%s/%s.yaml", CONFIG_DIRECTORY, parsed.config);
     try (InputStream yamlStream = ReproductionUtils.loadResourceStream(resourceName, RunReproductionFromCorpus.class)) {
       yaml = mapper.readTree(yamlStream);
     }

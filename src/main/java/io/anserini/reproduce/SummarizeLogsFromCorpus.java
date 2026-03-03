@@ -32,7 +32,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class SummarizeRunReproductionFromCorpusLogs {
+public class SummarizeLogsFromCorpus {
   private static final String RUN_REPRODUCTIONS_FROM_CORPUS = "RunReproductionFromCorpus";
 
   private static final DateTimeFormatter DATE_FORMAT = new DateTimeFormatterBuilder()

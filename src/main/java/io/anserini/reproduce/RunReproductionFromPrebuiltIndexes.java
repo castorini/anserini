@@ -23,6 +23,9 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -46,14 +49,16 @@ import io.anserini.util.PrebuiltIndexHandler;
 
 public class RunReproductionFromPrebuiltIndexes {
   private static final String CONFIG_DIRECTORY = "reproduce/from-prebuilt-indexes/configs";
+  private static final DateTimeFormatter TIMESTAMP_FORMATTER =
+      DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z").withZone(ZoneId.systemDefault());
 
-  private final String collection;
+  private final String config;
   private final boolean printCommands;
   private final boolean dryRun;
   private final boolean computeIndexSize;
 
   public static class Args {
-    @Option(name = "--regression", metaVar = "[config]", required = true, usage = "Regression config name.")
+    @Option(name = "--config", required = true, usage = "Name of the configuration to run.")
     public String regression;
 
     @Option(name = "--print-commands", usage = "Print commands.")
@@ -67,7 +72,7 @@ public class RunReproductionFromPrebuiltIndexes {
   }
 
   public RunReproductionFromPrebuiltIndexes(Args args) {
-    this.collection = args.regression;
+    this.config = args.regression;
     this.printCommands = args.printCommands;
     this.dryRun = args.dryRun;
     this.computeIndexSize = args.computeIndexSize;
@@ -109,7 +114,7 @@ public class RunReproductionFromPrebuiltIndexes {
     String fatjarPath = new File(RunReproductionFromPrebuiltIndexes.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
 
     final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-    String resourceName = String.format("%s/%s.yaml", CONFIG_DIRECTORY, collection);
+    String resourceName = String.format("%s/%s.yaml", CONFIG_DIRECTORY, config);
     Config config;
     try (InputStream yamlStream = ReproductionUtils.loadResourceStream(resourceName, RunReproductionFromPrebuiltIndexes.class)) {
       config = mapper.readValue(yamlStream, Config.class);
@@ -118,13 +123,14 @@ public class RunReproductionFromPrebuiltIndexes {
     ProcessBuilder pb;
     Process process;
 
+    final Instant startTime = Instant.now();
     final long start = System.nanoTime();
 
     // Pre-scan all commands to gather unique indexes referenced.
     Set<String> uniqueIndexNames = new LinkedHashSet<>();
     for (Condition condition : config.conditions) {
       for (Topic topic : condition.topics) {
-        final String output = String.format("runs/run.%s.%s.%s.txt", collection, condition.name, topic.topic_key);
+        final String output = String.format("runs/run.%s.%s.%s.txt", config, condition.name, topic.topic_key);
         final String command = condition.command
             .replace("$fatjar", fatjarPath)
             .replace("$threads", "16")
@@ -220,7 +226,7 @@ public class RunReproductionFromPrebuiltIndexes {
       for (Topic topic : condition.topics) {
         System.out.println("  - topic_key: " + topic.topic_key + "\n");
 
-        final String output = String.format("runs/run.%s.%s.%s.txt", collection, condition.name, topic.topic_key);
+        final String output = String.format("runs/run.%s.%s.%s.txt", config, condition.name, topic.topic_key);
 
         final String command = condition.command
             .replace("$fatjar", fatjarPath)
@@ -304,8 +310,12 @@ public class RunReproductionFromPrebuiltIndexes {
       }
     }
 
+    final Instant endTime = Instant.now();
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-    System.out.println("Total run time: " + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
+    System.out.println("Start time: " + TIMESTAMP_FORMATTER.format(startTime));
+    System.out.println("End time:   " + TIMESTAMP_FORMATTER.format(endTime));
+    System.out.println("Duration:   " + DurationFormatUtils.formatDurationWords(durationMillis, true, false)
+        + " (" + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss") + ")");
   }
 
   private static String extractIndexPath(String command) {
