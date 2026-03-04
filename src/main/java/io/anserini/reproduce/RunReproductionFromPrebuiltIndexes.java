@@ -23,6 +23,9 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -45,14 +48,18 @@ import io.anserini.index.IndexReaderUtils;
 import io.anserini.util.PrebuiltIndexHandler;
 
 public class RunReproductionFromPrebuiltIndexes {
-  private final String collection;
+  private static final String CONFIG_DIRECTORY = "reproduce/from-prebuilt-indexes/configs";
+  private static final DateTimeFormatter TIMESTAMP_FORMATTER =
+      DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z").withZone(ZoneId.systemDefault());
+
+  private final String configName;
   private final boolean printCommands;
   private final boolean dryRun;
   private final boolean computeIndexSize;
 
   public static class Args {
-    @Option(name = "--regression", metaVar = "[config]", required = true, usage = "Regression config name.")
-    public String regression;
+    @Option(name = "--config", required = true, usage = "Name of the configuration to run.")
+    public String config;
 
     @Option(name = "--print-commands", usage = "Print commands.")
     public Boolean printCommands = false;
@@ -65,7 +72,7 @@ public class RunReproductionFromPrebuiltIndexes {
   }
 
   public RunReproductionFromPrebuiltIndexes(Args args) {
-    this.collection = args.regression;
+    this.configName = args.config;
     this.printCommands = args.printCommands;
     this.dryRun = args.dryRun;
     this.computeIndexSize = args.computeIndexSize;
@@ -104,23 +111,26 @@ public class RunReproductionFromPrebuiltIndexes {
       new File("runs").mkdir();
     }
 
-    String fatjarPath = new File(RunReproductionFromPrebuiltIndexes.class.getProtectionDomain()
-        .getCodeSource().getLocation().toURI()).getPath();
+    String fatjarPath = new File(RunReproductionFromPrebuiltIndexes.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
 
     final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-    Config config = mapper.readValue(RunReproductionFromPrebuiltIndexes.class.getClassLoader()
-        .getResourceAsStream("reproduce/from-prebuilt-indexes/configs/" + collection + ".yaml"), Config.class);
+    String resourceName = String.format("%s/%s.yaml", CONFIG_DIRECTORY, configName);
+    Config config;
+    try (InputStream yamlStream = ReproductionUtils.loadResourceStream(resourceName, RunReproductionFromPrebuiltIndexes.class)) {
+      config = mapper.readValue(yamlStream, Config.class);
+    }
 
     ProcessBuilder pb;
     Process process;
 
+    final Instant startTime = Instant.now();
     final long start = System.nanoTime();
 
     // Pre-scan all commands to gather unique indexes referenced.
     Set<String> uniqueIndexNames = new LinkedHashSet<>();
     for (Condition condition : config.conditions) {
       for (Topic topic : condition.topics) {
-        final String output = String.format("runs/run.%s.%s.%s.txt", collection, condition.name, topic.topic_key);
+        final String output = String.format("runs/run.%s.%s.%s.txt", configName, condition.name, topic.topic_key);
         final String command = condition.command
             .replace("$fatjar", fatjarPath)
             .replace("$threads", "16")
@@ -209,12 +219,14 @@ public class RunReproductionFromPrebuiltIndexes {
       System.out.printf("%nTotal size across %d of %d indexes: %s%n%n", presentCount, uniqueIndexNames.size(), IndexReaderUtils.formatSize(totalBytes));
     }
 
+    Files.createDirectories(Paths.get("runs"));
+
     for (Condition condition : config.conditions) {
       System.out.printf("# Running condition \"%s\": %s \n%n", condition.name, condition.display);
       for (Topic topic : condition.topics) {
         System.out.println("  - topic_key: " + topic.topic_key + "\n");
 
-        final String output = String.format("runs/run.%s.%s.%s.txt", collection, condition.name, topic.topic_key);
+        final String output = String.format("runs/run.%s.%s.%s.txt", config, condition.name, topic.topic_key);
 
         final String command = condition.command
             .replace("$fatjar", fatjarPath)
@@ -298,8 +310,12 @@ public class RunReproductionFromPrebuiltIndexes {
       }
     }
 
+    final Instant endTime = Instant.now();
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-    System.out.println("Total run time: " + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
+    System.out.println("Start time: " + TIMESTAMP_FORMATTER.format(startTime));
+    System.out.println("End time:   " + TIMESTAMP_FORMATTER.format(endTime));
+    System.out.println("Duration:   " + DurationFormatUtils.formatDurationWords(durationMillis, true, false)
+        + " (" + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss") + ")");
   }
 
   private static String extractIndexPath(String command) {
