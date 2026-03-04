@@ -70,7 +70,7 @@ public class RunReproductionFromCorpusTest extends StdOutStdErrRedirectableLucen
     assertNotNull(topics);
 
     RunReproductionFromCorpus.main(new String[] {
-        "--regression", "cacm",
+        "--config", "cacm",
         "--index",
         "--search",
         "--dry-run"
@@ -83,7 +83,7 @@ public class RunReproductionFromCorpusTest extends StdOutStdErrRedirectableLucen
     assertNotNull(topics);
 
     RunReproductionFromCorpus.main(new String[] {
-        "--regression", "cacm",
+        "--config", "cacm",
         "--index",
         "--search",
     });
@@ -135,7 +135,7 @@ public class RunReproductionFromCorpusTest extends StdOutStdErrRedirectableLucen
     assertNotNull(topics);
 
     RunReproductionFromCorpus.main(new String[] {
-        "--regression", "cacm-download",
+        "--config", "cacm-download",
         "--index",
         "--search",
         "--download"

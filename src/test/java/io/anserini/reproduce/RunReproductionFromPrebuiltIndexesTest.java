@@ -47,7 +47,7 @@ public class RunReproductionFromPrebuiltIndexesTest extends StdOutStdErrRedirect
 
   @Test
   public void test1() throws Exception {
-    String[] args = new String[] {"--regression", "beir.core", "--dry-run"};
+    String[] args = new String[] {"--config", "beir.core", "--dry-run"};
     RunReproductionFromPrebuiltIndexes.main(args);
 
     assertTrue(out.toString().startsWith("# Running condition"));
@@ -55,7 +55,7 @@ public class RunReproductionFromPrebuiltIndexesTest extends StdOutStdErrRedirect
 
   @Test
   public void test2() throws Exception {
-    String[] args = new String[] {"--regression", "beir.core", "--dry-run", "--print-commands"};
+    String[] args = new String[] {"--config", "beir.core", "--dry-run", "--print-commands"};
     RunReproductionFromPrebuiltIndexes.main(args);
 
     assertTrue(out.toString().startsWith("# Running condition"));
@@ -65,7 +65,7 @@ public class RunReproductionFromPrebuiltIndexesTest extends StdOutStdErrRedirect
 
   @Test
   public void testComputeIndexSize() throws Exception {
-    String[] args = new String[] {"--regression", "beir.core", "--dry-run", "--compute-index-size"};
+    String[] args = new String[] {"--config", "beir.core", "--dry-run", "--compute-index-size"};
     RunReproductionFromPrebuiltIndexes.main(args);
 
     String s = out.toString();
