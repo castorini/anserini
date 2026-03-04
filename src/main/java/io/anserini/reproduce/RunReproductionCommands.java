@@ -20,7 +20,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
+import java.io.File;
 import java.lang.management.ManagementFactory;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -35,6 +37,9 @@ import org.kohsuke.args4j.ParserProperties;
 
 public class RunReproductionCommands {
   private static final Logger LOG = LogManager.getLogger(RunReproductionCommands.class);
+
+  private static final String JAVA_PREFIX = "java -cp";
+  private static final String JVM_ARGS = "-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector";
 
   public static class Args {
     @Option(name = "--config", metaVar = "[config]", required = true, usage = "Config file with regression commands.")
@@ -100,7 +105,7 @@ public class RunReproductionCommands {
     LOG.info("All jobs completed!");
   }
 
-  private static List<String> loadCommands(String path) throws IOException {
+  private static List<String> loadCommands(String path) throws IOException, URISyntaxException {
     List<String> commands = new ArrayList<>();
     Path localPath = Path.of(path);
     if (Files.exists(localPath)) {
@@ -135,6 +140,8 @@ public class RunReproductionCommands {
       throw lastException;
     }
 
+    String fatjarPath = new File(RunReproductionCommands.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
+
     try (InputStream in = commandStream;
          BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
       String line;
@@ -143,7 +150,7 @@ public class RunReproductionCommands {
         if (command.isEmpty() || command.startsWith("#")) {
           continue;
         }
-        commands.add(command);
+        commands.add(String.format("%s %s %s %s", JAVA_PREFIX, fatjarPath, JVM_ARGS, command));
       }
     }
     return commands;

@@ -1,8 +1,8 @@
-bin/run.sh io.anserini.reproduce.RunReproductionFromPrebuiltIndexes --print-commands --compute-index-size --config bright.optional > logs/log.bright.optional 2>&1
-bin/run.sh io.anserini.reproduce.RunReproductionFromPrebuiltIndexes --print-commands --compute-index-size --config beir.optional > logs/log.beir.optional 2>&1
-bin/run.sh io.anserini.reproduce.RunReproductionFromPrebuiltIndexes --print-commands --compute-index-size --config msmarco-v1-passage.optional > logs/log.msmarco-v1-passage.optional 2>&1
-bin/run.sh io.anserini.reproduce.RunReproductionFromPrebuiltIndexes --print-commands --compute-index-size --config msmarco-v1-doc.optional > logs/log.msmarco-v1-doc.optional 2>&1
-bin/run.sh io.anserini.reproduce.RunReproductionFromPrebuiltIndexes --print-commands --compute-index-size --config msmarco-v2-passage.optional > logs/log.msmarco-v2-passage.optional 2>&1
-bin/run.sh io.anserini.reproduce.RunReproductionFromPrebuiltIndexes --print-commands --compute-index-size --config msmarco-v2-doc.optional > logs/log.msmarco-v2-doc.optional 2>&1
-bin/run.sh io.anserini.reproduce.RunReproductionFromPrebuiltIndexes --print-commands --compute-index-size --config msmarco-v2.1-doc.optional > logs/log.msmarco-v2.1-doc.optional 2>&1
-bin/run.sh io.anserini.reproduce.RunReproductionFromPrebuiltIndexes --print-commands --compute-index-size --config msmarco-v2.1-doc-segmented.optional > logs/log.msmarco-v2.1-doc-segmented.optional 2>&1
+io.anserini.reproduce.RunReproductionFromPrebuiltIndexes --print-commands --compute-index-size --config bright.optional > logs/log.from-prebuilt-indexes.bright.optional 2>&1
+io.anserini.reproduce.RunReproductionFromPrebuiltIndexes --print-commands --compute-index-size --config beir.optional > logs/log.from-prebuilt-indexes.beir.optional 2>&1
+io.anserini.reproduce.RunReproductionFromPrebuiltIndexes --print-commands --compute-index-size --config msmarco-v1-passage.optional > logs/log.from-prebuilt-indexes.msmarco-v1-passage.optional 2>&1
+io.anserini.reproduce.RunReproductionFromPrebuiltIndexes --print-commands --compute-index-size --config msmarco-v1-doc.optional > logs/log.from-prebuilt-indexes.msmarco-v1-doc.optional 2>&1
+io.anserini.reproduce.RunReproductionFromPrebuiltIndexes --print-commands --compute-index-size --config msmarco-v2-passage.optional > logs/log.from-prebuilt-indexes.msmarco-v2-passage.optional 2>&1
+io.anserini.reproduce.RunReproductionFromPrebuiltIndexes --print-commands --compute-index-size --config msmarco-v2-doc.optional > logs/log.from-prebuilt-indexes.msmarco-v2-doc.optional 2>&1
+io.anserini.reproduce.RunReproductionFromPrebuiltIndexes --print-commands --compute-index-size --config msmarco-v2.1-doc.optional > logs/log.from-prebuilt-indexes.msmarco-v2.1-doc.optional 2>&1
+io.anserini.reproduce.RunReproductionFromPrebuiltIndexes --print-commands --compute-index-size --config msmarco-v2.1-doc-segmented.optional > logs/log.from-prebuilt-indexes.msmarco-v2.1-doc-segmented.optional 2>&1
