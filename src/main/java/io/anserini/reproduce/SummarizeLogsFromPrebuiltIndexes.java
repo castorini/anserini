@@ -32,7 +32,7 @@ import java.util.regex.Pattern;
 public class SummarizeLogsFromPrebuiltIndexes {
   private static final Pattern CONDITION_PATTERN = Pattern.compile("^# Running condition \"([^\"]+)\":");
   private static final Pattern DURATION_PATTERN = Pattern.compile("^Duration:\\s+.*\\((\\d{2}:\\d{2}:\\d{2})\\)\\s*$");
-  private static final String LOG_GLOB = "log.from-prebuilt-indexes.*.txt";
+  private static final String LOG_GLOB = "log.from-prebuilt-indexes.*";
   private static final String LOG_PREFIX = "log.from-prebuilt-indexes.";
   private static final String LOG_SUFFIX = ".txt";
 
@@ -42,6 +42,8 @@ public class SummarizeLogsFromPrebuiltIndexes {
 
     try (DirectoryStream<Path> stream = Files.newDirectoryStream(logsDir, LOG_GLOB)) {
       for (Path logFile : stream) {
+                System.out.println("Processing log file: " + logFile);
+
         if (!Files.isRegularFile(logFile)) {
           continue;
         }
@@ -52,6 +54,7 @@ public class SummarizeLogsFromPrebuiltIndexes {
         String duration = "n/a";
         Set<String> conditions = new LinkedHashSet<>();
 
+        System.out.println("Processing log file: " + logFile);
         try (var lines = Files.lines(logFile, StandardCharsets.UTF_8)) {
           for (String line : (Iterable<String>) lines::iterator) {
             if (line.contains("[OK*]")) {

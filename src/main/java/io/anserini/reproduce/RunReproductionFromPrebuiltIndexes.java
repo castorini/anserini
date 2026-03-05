@@ -107,8 +107,9 @@ public class RunReproductionFromPrebuiltIndexes {
   }
 
   public void run() throws IOException, InterruptedException, URISyntaxException {
-    if (!new File("runs").exists()) {
-      new File("runs").mkdir();
+    Path runsDir = Paths.get(Constants.DEFAULT_RUNS_DIRECTORY);
+    if (!Files.exists(runsDir)) {
+      Files.createDirectories(runsDir);
     }
 
     String fatjarPath = new File(RunReproductionFromPrebuiltIndexes.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
@@ -314,8 +315,7 @@ public class RunReproductionFromPrebuiltIndexes {
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
     System.out.println("Start time: " + TIMESTAMP_FORMATTER.format(startTime));
     System.out.println("End time:   " + TIMESTAMP_FORMATTER.format(endTime));
-    System.out.println("Duration:   " + DurationFormatUtils.formatDurationWords(durationMillis, true, false)
-        + " (" + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss") + ")");
+    System.out.println("Duration:   " + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
   }
 
   private static String extractIndexPath(String command) {

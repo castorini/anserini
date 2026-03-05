@@ -25,6 +25,7 @@ import java.lang.management.ManagementFactory;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,11 +71,16 @@ public class RunReproductionCommands {
       throw new IllegalArgumentException("--sleep must be non-negative.");
     }
 
+    Path logsDir = Paths.get(Constants.DEFAULT_LOGS_DIRECTORY);
+    if (!Files.exists(logsDir)) {
+      Files.createDirectories(logsDir);
+    }
+
     List<String> commands = loadCommands(args.config);
     LOG.info("Running commands in {}", args.config);
     LOG.info("Sleep interval: {}", args.sleep);
     LOG.info("Threshold load: {}", args.load);
-    LOG.info("Max concurrent jobs: {}", args.max > 0 ? args.max : "unlimited");
+    LOG.info("Max concurrent jobs: {}", args.max);
 
     List<Process> active = new ArrayList<>();
     int nextCommand = 0;
@@ -105,39 +111,38 @@ public class RunReproductionCommands {
     LOG.info("All jobs completed!");
   }
 
-  private static List<String> loadCommands(String path) throws IOException, URISyntaxException {
+  private static List<String> loadCommands(String resource) throws IOException, URISyntaxException {
     List<String> commands = new ArrayList<>();
-    Path localPath = Path.of(path);
-    if (Files.exists(localPath)) {
-      for (String line : Files.readAllLines(localPath)) {
-        String command = line.trim();
-        if (command.isEmpty() || command.startsWith("#")) {
-          continue;
-        }
-        commands.add(command);
-      }
-      return commands;
-    }
 
     InputStream commandStream = null;
     IllegalArgumentException lastException = null;
-    String[] resourceCandidates = new String[] {
-        path,
-        "reproduce/from-corpus/commands/" + path,
-        "reproduce/from-prebuilt-indexes/commands/" + path
-    };
 
-    for (String resourcePath : resourceCandidates) {
-      try {
-        commandStream = ReproductionUtils.loadResourceStream(resourcePath, RunReproductionCommands.class);
-        break;
-      } catch (IllegalArgumentException e) {
-        lastException = e;
+    Path localPath = Path.of(resource);
+    if (Files.exists(localPath)) {
+      commandStream = Files.newInputStream(localPath);
+    } else {
+      String[] resourceCandidates = new String[] {
+          resource,
+          "reproduce/from-corpus/commands/" + resource + ".txt",
+          "reproduce/from-prebuilt-indexes/commands/" + resource + ".txt"
+      };
+
+      for (String resourcePath : resourceCandidates) {
+        try {
+          commandStream = ReproductionUtils.loadResourceStream(resourcePath, RunReproductionCommands.class);
+          break;
+        } catch (IllegalArgumentException e) {
+          lastException = e;
+        }
       }
     }
 
     if (commandStream == null && lastException != null) {
       throw lastException;
+    }
+
+    if (commandStream == null) {
+      throw new IllegalArgumentException("Could not load command resource: " + resource);
     }
 
     String fatjarPath = new File(RunReproductionCommands.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
@@ -150,9 +155,11 @@ public class RunReproductionCommands {
         if (command.isEmpty() || command.startsWith("#")) {
           continue;
         }
+
         commands.add(String.format("%s %s %s %s", JAVA_PREFIX, fatjarPath, JVM_ARGS, command));
       }
     }
+
     return commands;
   }
 
