@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>io.anserini</groupId>
@@ -113,7 +114,7 @@
             </goals>
             <configuration>
               <quiet>true</quiet>
-              <additionalJOptions> <!-- suppress javadoc warnings -->
+              <additionalJOptions>                <!-- suppress javadoc warnings -->
                 <additionalJOption>-Xdoclint:none</additionalJOption>
               </additionalJOptions>
             </configuration>
@@ -145,14 +146,14 @@
             </goals>
             <configuration>
               <filters>
-                  <filter>
-                      <artifact>*:*</artifact>
-                      <excludes>
-                          <exclude>META-INF/*.SF</exclude>
-                          <exclude>META-INF/*.DSA</exclude>
-                          <exclude>META-INF/*.RSA</exclude>
-                      </excludes>
-                  </filter>
+                <filter>
+                  <artifact>*:*</artifact>
+                  <excludes>
+                    <exclude>META-INF/*.SF</exclude>
+                    <exclude>META-INF/*.DSA</exclude>
+                    <exclude>META-INF/*.RSA</exclude>
+                  </excludes>
+                </filter>
               </filters>
               <createDependencyReducedPom>false</createDependencyReducedPom>
               <!-- See https://maven.apache.org/plugins/maven-shade-plugin/examples/resource-transformers.html
@@ -218,6 +219,27 @@
         <artifactId>maven-resources-plugin</artifactId>
         <version>3.3.1</version>
       </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>appassembler-maven-plugin</artifactId>
+        <version>2.1.0</version>
+        <configuration>
+          <programs>
+            <program>
+              <mainClass>io.anserini.search.SearchCollection</mainClass>
+              <name>search</name>
+            </program>
+            <program>
+              <mainClass>io.anserini.index.IndexCollection</mainClass>
+              <name>index</name>
+            </program>
+            <program>
+              <mainClass>io.anserini.eval.TrecEval</mainClass>
+              <name>eval</name>
+            </program>
+          </programs>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 
@@ -257,18 +279,18 @@
       <artifactId>lucene-analysis-kuromoji</artifactId>
       <version>${lucene.version}</version>
     </dependency>
-    <dependency> <!-- polish and ukrainian -->
+    <dependency>      <!-- polish and ukrainian -->
       <groupId>org.apache.lucene</groupId>
       <artifactId>lucene-analysis-morfologik</artifactId>
       <version>${lucene.version}</version>
     </dependency>
-    <dependency> <!-- only needed for testing -->
+    <dependency>      <!-- only needed for testing -->
       <groupId>org.apache.lucene</groupId>
       <artifactId>lucene-test-framework</artifactId>
       <version>${lucene.version}</version>
       <scope>test</scope>
     </dependency>
-    <dependency> <!-- only needed for testing -->
+    <dependency>      <!-- only needed for testing -->
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.13.2</version>
@@ -342,14 +364,14 @@
       <version>2.1.0-alpha1</version>
     </dependency>
     <dependency>
-    <groupId>org.slf4j</groupId>
+      <groupId>org.slf4j</groupId>
       <artifactId>jul-to-slf4j</artifactId>
       <version>2.0.16</version>
     </dependency>
     <dependency>
-        <groupId>com.carrotsearch</groupId>
-        <artifactId>hppc</artifactId>
-        <version>0.10.0</version>
+      <groupId>com.carrotsearch</groupId>
+      <artifactId>hppc</artifactId>
+      <version>0.10.0</version>
     </dependency>
     <dependency>
       <groupId>org.wikiclean</groupId>
@@ -362,7 +384,7 @@
         </exclusion>
       </exclusions>
     </dependency>
-    <dependency> <!-- needed for CBZip2InputStream -->
+    <dependency>      <!-- needed for CBZip2InputStream -->
       <groupId>org.apache.ant</groupId>
       <artifactId>ant</artifactId>
       <version>1.10.15</version>
