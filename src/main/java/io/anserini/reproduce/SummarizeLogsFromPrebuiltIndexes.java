@@ -23,27 +23,49 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.ParserProperties;
+
 public class SummarizeLogsFromPrebuiltIndexes {
-  private static final Pattern CONDITION_PATTERN = Pattern.compile("^# Running condition \"([^\"]+)\":");
   private static final Pattern DURATION_PATTERN = Pattern.compile("^Duration:\\s+.*\\((\\d{2}:\\d{2}:\\d{2})\\)\\s*$");
   private static final String LOG_GLOB = "log.from-prebuilt-indexes.*";
   private static final String LOG_PREFIX = "log.from-prebuilt-indexes.";
   private static final String LOG_SUFFIX = ".txt";
 
+  public static class Args {
+    @Option(name = "--md", aliases = {"--markdown"}, usage = "Emit output in markdown table format.")
+    public boolean markdown = false;
+
+    @Option(name = "--plain-text", usage = "Emit output in plain text table format.")
+    public boolean plainText = false;
+  }
+
   public static void main(String[] args) {
+    Args parsedArgs = new Args();
+    CmdLineParser parser = new CmdLineParser(parsedArgs, ParserProperties.defaults().withUsageWidth(120));
+    try {
+      parser.parseArgument(args);
+    } catch (CmdLineException e) {
+      System.err.println(e.getMessage());
+      parser.printUsage(System.err);
+      return;
+    }
+
+    if (parsedArgs.markdown && parsedArgs.plainText) {
+      throw new IllegalArgumentException("Only one of --md and --plain-text may be specified.");
+    }
+
     Path logsDir = Paths.get("logs");
     List<String[]> rows = new ArrayList<>();
 
     try (DirectoryStream<Path> stream = Files.newDirectoryStream(logsDir, LOG_GLOB)) {
       for (Path logFile : stream) {
-                System.out.println("Processing log file: " + logFile);
-
         if (!Files.isRegularFile(logFile)) {
           continue;
         }
@@ -52,9 +74,7 @@ public class SummarizeLogsFromPrebuiltIndexes {
         int okishCount = 0;
         int failCount = 0;
         String duration = "n/a";
-        Set<String> conditions = new LinkedHashSet<>();
 
-        System.out.println("Processing log file: " + logFile);
         try (var lines = Files.lines(logFile, StandardCharsets.UTF_8)) {
           for (String line : (Iterable<String>) lines::iterator) {
             if (line.contains("[OK*]")) {
@@ -63,11 +83,6 @@ public class SummarizeLogsFromPrebuiltIndexes {
               okCount++;
             } else if (line.contains("[FAIL]")) {
               failCount++;
-            }
-
-            Matcher conditionMatcher = CONDITION_PATTERN.matcher(line);
-            if (conditionMatcher.find()) {
-              conditions.add(conditionMatcher.group(1));
             }
 
             Matcher durationMatcher = DURATION_PATTERN.matcher(line);
@@ -80,13 +95,15 @@ public class SummarizeLogsFromPrebuiltIndexes {
         }
 
         String fileName = logFile.getFileName().toString();
-        String runId = fileName.startsWith(LOG_PREFIX) && fileName.endsWith(LOG_SUFFIX)
-            ? fileName.substring(LOG_PREFIX.length(), fileName.length() - LOG_SUFFIX.length())
-            : fileName;
-        String condition = conditions.isEmpty() ? "(none)" : String.join(",", conditions);
+        String runId = fileName;
+        if (runId.startsWith(LOG_PREFIX)) {
+          runId = runId.substring(LOG_PREFIX.length());
+        }
+        if (runId.endsWith(LOG_SUFFIX)) {
+          runId = runId.substring(0, runId.length() - LOG_SUFFIX.length());
+        }
         rows.add(new String[]{
             runId,
-            condition,
             Integer.toString(okCount),
             Integer.toString(okishCount),
             Integer.toString(failCount),
@@ -97,7 +114,9 @@ public class SummarizeLogsFromPrebuiltIndexes {
       throw new RuntimeException("Error reading prebuilt-index logs.", e);
     }
 
-    final String[] headers = {"run", "condition", "[OK]", "[OK*]", "[FAIL]", "elapsed"};
+    rows.sort((left, right) -> left[0].compareTo(right[0]));
+
+    final String[] headers = {"run", "[OK]", "[OK*]", "[FAIL]", "elapsed"};
     int[] widths = new int[headers.length];
     for (int i = 0; i < headers.length; i++) {
       widths[i] = headers[i].length();
@@ -107,20 +126,36 @@ public class SummarizeLogsFromPrebuiltIndexes {
         widths[i] = Math.max(widths[i], row[i].length());
       }
     }
+    int statusWidth = Math.max(widths[1], Math.max(widths[2], widths[3]));
+    widths[1] = statusWidth;
+    widths[2] = statusWidth;
+    widths[3] = statusWidth;
 
     StringBuilder sb = new StringBuilder(Math.max(256, rows.size() * 112));
-    appendRow(sb, headers, widths);
+    appendHeaderRow(sb, headers, widths);
     appendSeparator(sb, widths);
     for (String[] row : rows) {
       appendRow(sb, row, widths);
     }
-    System.out.print(sb);
+    System.out.print(parsedArgs.markdown ? sb : stripTableDelimiters(sb));
   }
 
   private static void appendRow(StringBuilder sb, String[] row, int[] widths) {
     sb.append("| ");
     for (int i = 0; i < row.length; i++) {
-      if (i == 2 || i == 3 || i == 4) {
+      if (i >= 1 && i <= 3) {
+        sb.append(" ".repeat(widths[i] - row[i].length())).append(row[i]);
+      } else {
+        sb.append(row[i]).append(" ".repeat(widths[i] - row[i].length()));
+      }
+      sb.append(i == row.length - 1 ? " |\n" : " | ");
+    }
+  }
+
+  private static void appendHeaderRow(StringBuilder sb, String[] row, int[] widths) {
+    sb.append("| ");
+    for (int i = 0; i < row.length; i++) {
+      if (i >= 1 && i <= 3) {
         sb.append(" ".repeat(widths[i] - row[i].length())).append(row[i]);
       } else {
         sb.append(row[i]).append(" ".repeat(widths[i] - row[i].length()));
@@ -132,7 +167,29 @@ public class SummarizeLogsFromPrebuiltIndexes {
   private static void appendSeparator(StringBuilder sb, int[] widths) {
     sb.append("| ");
     for (int i = 0; i < widths.length; i++) {
-      sb.append("-".repeat(widths[i])).append(i == widths.length - 1 ? " |\n" : " | ");
+      if (i >= 1 && i <= 3) {
+        sb.append("-".repeat(Math.max(1, widths[i] - 1))).append(":");
+      } else {
+        sb.append("-".repeat(widths[i]));
+      }
+      sb.append(i == widths.length - 1 ? " |\n" : " | ");
     }
+  }
+
+  private static StringBuilder stripTableDelimiters(StringBuilder sb) {
+    StringBuilder plainText = new StringBuilder();
+    for (String line : sb.toString().split("\\R", -1)) {
+      if (line.isEmpty()) {
+        plainText.append('\n');
+        continue;
+      }
+      String transformed = line.replace('|', ' ');
+      String trimmed = transformed.trim();
+      if (trimmed.startsWith("-")) {
+        transformed = transformed.replaceAll("(-+):(?=\\s|$)", "$1-");
+      }
+      plainText.append(transformed.replaceFirst("^\\s+", "")).append('\n');
+    }
+    return plainText;
   }
 }
