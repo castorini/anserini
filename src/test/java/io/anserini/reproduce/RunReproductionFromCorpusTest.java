@@ -20,8 +20,12 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.LinkedHashSet;
 import java.util.SortedMap;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.Level;
@@ -40,6 +44,26 @@ import io.anserini.search.topicreader.TopicReader;
 import io.anserini.search.topicreader.Topics;
 
 public class RunReproductionFromCorpusTest extends StdOutStdErrRedirectableLuceneTestCase {
+  private static final String[] CACM_IN_REPO_CORPUS_EXPECTED_RUNS = {
+    "runs/run.inverted.cacm.cacm.bm25",
+    "runs/run.inverted.cacm.cacm.bm25+rm3",
+    "runs/run.inverted.cacm.cacm.bm25+ax",
+    "runs/run.inverted.cacm.cacm.ql",
+    "runs/run.inverted.cacm.cacm.ql+rm3",
+    "runs/run.inverted.cacm.cacm.ql+ax"
+  };
+
+  private static final String[] CACM_CORPUS_DOWNLOAD_EXPECTED_RUNS = {
+    "runs/run.inverted.cacm.download.cacm.bm25",
+    "runs/run.inverted.cacm.download.cacm.bm25+rm3",
+    "runs/run.inverted.cacm.download.cacm.bm25+ax",
+    "runs/run.inverted.cacm.download.cacm.ql",
+    "runs/run.inverted.cacm.download.cacm.ql+rm3",
+    "runs/run.inverted.cacm.download.cacm.ql+ax"
+  };
+
+  private static final String CACM_QRELS_PATH = "src/test/resources/sample_qrels/cacm/qrels.cacm.txt";
+
   @BeforeClass
   public static void setupClass() {
     suppressJvmLogging();
@@ -88,45 +112,11 @@ public class RunReproductionFromCorpusTest extends StdOutStdErrRedirectableLucen
         "--search",
     });
 
-    String[] expectedRuns = {
-        "runs/run.inverted.cacm.cacm.bm25",
-        "runs/run.inverted.cacm.cacm.bm25+rm3",
-        "runs/run.inverted.cacm.cacm.bm25+ax",
-        "runs/run.inverted.cacm.cacm.ql",
-        "runs/run.inverted.cacm.cacm.ql+rm3",
-        "runs/run.inverted.cacm.cacm.ql+ax"
-    };
+    assertRunsExistAndNonEmpty(CACM_IN_REPO_CORPUS_EXPECTED_RUNS);
+    assertTrecEvalP30(CACM_QRELS_PATH, "runs/run.inverted.cacm.cacm.bm25", "0.1942");
 
-    for (String run : expectedRuns) {
-      Path path = Paths.get(run);
-      assertTrue("Missing run file: " + run, Files.exists(path));
-      assertTrue("Empty run file: " + run, Files.size(path) > 0);
-    }
-
-    TrecEval trecEval = new TrecEval();
-    String[] args = new String[] {
-        "-m", "P.30",
-        "src/test/resources/sample_qrels/cacm/qrels.cacm.txt",
-        "runs/run.inverted.cacm.cacm.bm25"
-    };
-    String[][] output = trecEval.runAndGetOutput(args);
-
-    assertNotNull(output);
-    assertEquals(1, output.length);
-    assertEquals("P_30", output[0][0]);
-    assertEquals("all", output[0][1]);
-    assertEquals("0.1942", output[0][2]);
-    assertEquals(0, trecEval.getLastExitCode());
-
-    for (String run : expectedRuns) {
-      Path path = Paths.get(run);
-      Files.deleteIfExists(path);
-    }
-
-    Path indexPath = Paths.get("indexes/lucene-inverted.cacm/");
-    if (Files.exists(indexPath)) {
-      FileUtils.deleteDirectory(new File(indexPath.toString()));
-    }
+    deleteRunsIfExists(CACM_IN_REPO_CORPUS_EXPECTED_RUNS);
+    deleteDirectoryIfExists(Paths.get("indexes/lucene-inverted.cacm/"));
   }
 
   @Test
@@ -141,26 +131,80 @@ public class RunReproductionFromCorpusTest extends StdOutStdErrRedirectableLucen
         "--download"
     });
 
-    String[] expectedRuns = {
-        "runs/run.inverted.cacm.download.cacm.bm25",
-        "runs/run.inverted.cacm.download.cacm.bm25+rm3",
-        "runs/run.inverted.cacm.download.cacm.bm25+ax",
-        "runs/run.inverted.cacm.download.cacm.ql",
-        "runs/run.inverted.cacm.download.cacm.ql+rm3",
-        "runs/run.inverted.cacm.download.cacm.ql+ax"
-    };
+    assertRunsExistAndNonEmpty(CACM_CORPUS_DOWNLOAD_EXPECTED_RUNS);
+    assertTrecEvalP30(CACM_QRELS_PATH, "runs/run.inverted.cacm.download.cacm.bm25", "0.1942");
 
-    for (String run : expectedRuns) {
+    deleteRunsIfExists(CACM_CORPUS_DOWNLOAD_EXPECTED_RUNS);
+    deleteDirectoryIfExists(Paths.get("indexes/lucene-inverted.cacm.download/"));
+    deleteDirectoryIfExists(Paths.get("collections/cacm/"));
+
+    Files.deleteIfExists(Paths.get("collections/cacm-in-folder.tar.gz"));
+  }
+
+  @Test
+  public void testCacmRegressionFromCorpusFatjar() throws Exception {
+    SortedMap<Integer, Map<String, String>> topics = TopicReader.getTopics(Topics.CACM);
+    assertNotNull(topics);
+
+    Path classesDir = Paths.get("target/classes");
+    Path testClassesDir = Paths.get("target/test-classes");
+    Set<String> classPathEntries = new LinkedHashSet<>();
+    classPathEntries.add(classesDir.toString());
+    classPathEntries.add(testClassesDir.toString());
+
+    String existingClassPath = System.getProperty("java.class.path");
+    if (existingClassPath != null && !existingClassPath.isBlank()) {
+      for (String element : existingClassPath.split(java.util.regex.Pattern.quote(System.getProperty("path.separator")))) {
+        if (!element.isBlank()) {
+          classPathEntries.add(element);
+        }
+      }
+    }
+    String classPath = String.join(System.getProperty("path.separator"), classPathEntries);
+    assertFalse(classPath.isBlank());
+
+    ArrayList<String> command = new ArrayList<>();
+    command.add(Paths.get(System.getProperty("java.home"), "bin", "java").toString());
+    command.add("-cp");
+    command.add(classPath);
+    command.add("io.anserini.reproduce.RunReproductionFromCorpus");
+    command.add("--index");
+    command.add("--verify");
+    command.add("--search");
+    command.add("--config");
+    command.add("cacm");
+
+    ProcessBuilder builder = new ProcessBuilder(command);
+    builder.redirectErrorStream(true);
+    Path processLog = Paths.get("target", "run-cacm-fatjar.log");
+    Files.createDirectories(processLog.getParent());
+    builder.redirectOutput(processLog.toFile());
+
+    Process process = builder.start();
+    assertTrue("Reproduction command timed out", process.waitFor(10, TimeUnit.MINUTES));
+
+    int exitCode = process.exitValue();
+    assertEquals(0, exitCode);
+
+    assertRunsExistAndNonEmpty(CACM_IN_REPO_CORPUS_EXPECTED_RUNS);
+    deleteRunsIfExists(CACM_IN_REPO_CORPUS_EXPECTED_RUNS);
+    deleteDirectoryIfExists(Paths.get("indexes/lucene-inverted.cacm/"));
+  }
+
+  private void assertRunsExistAndNonEmpty(String[] runs) throws Exception {
+    for (String run : runs) {
       Path path = Paths.get(run);
       assertTrue("Missing run file: " + run, Files.exists(path));
       assertTrue("Empty run file: " + run, Files.size(path) > 0);
     }
+  }
 
+  private void assertTrecEvalP30(String qrelsPath, String runFile, String expectedP30) throws Exception {
     TrecEval trecEval = new TrecEval();
     String[] args = new String[] {
         "-m", "P.30",
-        "src/test/resources/sample_qrels/cacm/qrels.cacm.txt",
-        "runs/run.inverted.cacm.download.cacm.bm25"
+        qrelsPath,
+        runFile
     };
     String[][] output = trecEval.runAndGetOutput(args);
 
@@ -168,26 +212,20 @@ public class RunReproductionFromCorpusTest extends StdOutStdErrRedirectableLucen
     assertEquals(1, output.length);
     assertEquals("P_30", output[0][0]);
     assertEquals("all", output[0][1]);
-    assertEquals("0.1942", output[0][2]);
+    assertEquals(expectedP30, output[0][2]);
     assertEquals(0, trecEval.getLastExitCode());
+  }
 
-    for (String run : expectedRuns) {
+  private void deleteRunsIfExists(String[] runs) throws Exception {
+    for (String run : runs) {
       Path path = Paths.get(run);
       Files.deleteIfExists(path);
     }
+  }
 
-    // Remove the index.
-    Path indexPath = Paths.get("indexes/lucene-inverted.cacm.download/");
-    if (Files.exists(indexPath)) {
-      FileUtils.deleteDirectory(new File(indexPath.toString()));
+  private void deleteDirectoryIfExists(Path directory) throws Exception {
+    if (Files.exists(directory)) {
+      FileUtils.deleteDirectory(new File(directory.toString()));
     }
-
-    // Remove the corpus.
-    Path corpusDirectory = Paths.get("collections/cacm/");
-    if (Files.exists(corpusDirectory)) {
-      FileUtils.deleteDirectory(new File(corpusDirectory.toString()));
-    }
-
-    Files.deleteIfExists(Paths.get("collections/cacm-in-folder.tar.gz"));
   }
 }
