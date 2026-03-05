@@ -52,11 +52,6 @@ public class RunReproductionFromPrebuiltIndexes {
   private static final DateTimeFormatter TIMESTAMP_FORMATTER =
       DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z").withZone(ZoneId.systemDefault());
 
-  private final String configName;
-  private final boolean printCommands;
-  private final boolean dryRun;
-  private final boolean computeIndexSize;
-
   public static class Args {
     @Option(name = "--config", required = true, usage = "Name of the configuration to run.")
     public String config;
@@ -69,13 +64,6 @@ public class RunReproductionFromPrebuiltIndexes {
 
     @Option(name = "--compute-index-size", usage = "Compute total size of all unique indexes referenced by runs.")
     public Boolean computeIndexSize = false;
-  }
-
-  public RunReproductionFromPrebuiltIndexes(Args args) {
-    this.configName = args.config;
-    this.printCommands = args.printCommands;
-    this.dryRun = args.dryRun;
-    this.computeIndexSize = args.computeIndexSize;
   }
 
   public static void main(String[] args) throws Exception {
@@ -102,11 +90,15 @@ public class RunReproductionFromPrebuiltIndexes {
       return;
     }
 
-    RunReproductionFromPrebuiltIndexes repro = new RunReproductionFromPrebuiltIndexes(regressionArgs);
-    repro.run();
+    run(regressionArgs);
   }
 
-  public void run() throws IOException, InterruptedException, URISyntaxException {
+  private static void run(Args regressionArgs) throws IOException, InterruptedException, URISyntaxException {
+    String configName = regressionArgs.config;
+    boolean printCommands = regressionArgs.printCommands;
+    boolean dryRun = regressionArgs.dryRun;
+    boolean computeIndexSize = regressionArgs.computeIndexSize;
+
     Path runsDir = Paths.get(Constants.DEFAULT_RUNS_DIRECTORY);
     if (!Files.exists(runsDir)) {
       Files.createDirectories(runsDir);
@@ -131,13 +123,8 @@ public class RunReproductionFromPrebuiltIndexes {
     Set<String> uniqueIndexNames = new LinkedHashSet<>();
     for (Condition condition : config.conditions) {
       for (Topic topic : condition.topics) {
-        final String output = String.format("runs/run.%s.%s.%s.txt", configName, condition.name, topic.topic_key);
-        final String command = condition.command
-            .replace("$fatjar", fatjarPath)
-            .replace("$threads", "16")
-            .replace("$topics", topic.topic_key)
-            .replace("$output", output);
-        String indexPath = extractIndexPath(command);
+        // Note that we don't need to reconstruct the full command here, but we do need to substitute $topics to get the actual index path.
+        String indexPath = extractIndexPath(condition.command.replace("$topics", topic.topic_key));
         if (indexPath != null) {
           uniqueIndexNames.add(indexPath);
         }
@@ -227,7 +214,7 @@ public class RunReproductionFromPrebuiltIndexes {
       for (Topic topic : condition.topics) {
         System.out.println("  - topic_key: " + topic.topic_key + "\n");
 
-        final String output = String.format("runs/run.%s.%s.%s.txt", config, condition.name, topic.topic_key);
+        final String output = String.format("runs/run.%s.%s.%s.txt", configName, condition.name, topic.topic_key);
 
         final String command = condition.command
             .replace("$fatjar", fatjarPath)

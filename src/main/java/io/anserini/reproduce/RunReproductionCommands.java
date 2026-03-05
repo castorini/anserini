@@ -156,7 +156,19 @@ public class RunReproductionCommands {
           continue;
         }
 
-        commands.add(String.format("%s %s %s %s", JAVA_PREFIX, fatjarPath, JVM_ARGS, command));
+        String configName = null;
+        String[] commandParts = command.split("\\s+");
+        for (int i = 0; i < commandParts.length - 1; i++) {
+          if ("--config".equals(commandParts[i])) {
+            configName = commandParts[i + 1];
+            break;
+          }
+        }
+
+        boolean fromPrebuilt = resource.contains("prebuilt");
+        String logFile = String.format("logs/log.%s.%s.txt", fromPrebuilt ? "from-prebuilt-indexes" : "from-corpus", configName);
+
+        commands.add(String.format("%s %s %s %s > %s 2>&1", JAVA_PREFIX, fatjarPath, JVM_ARGS, command, logFile));
       }
     }
 
