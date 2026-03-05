@@ -39,11 +39,17 @@ public class SummarizeLogsFromPrebuiltIndexes {
   private static final String LOG_SUFFIX = ".txt";
 
   public static class Args {
+    @Option(name = "--logs", usage = "Path to log directory (default: logs).")
+    public String logs = Constants.DEFAULT_LOGS_DIRECTORY;
+
     @Option(name = "--md", aliases = {"--markdown"}, usage = "Emit output in markdown table format.")
     public boolean markdown = false;
 
     @Option(name = "--plain-text", usage = "Emit output in plain text table format.")
     public boolean plainText = false;
+
+    @Option(name = "--json", usage = "Emit output in JSON format.")
+    public boolean json = false;
   }
 
   public static void main(String[] args) {
@@ -57,11 +63,12 @@ public class SummarizeLogsFromPrebuiltIndexes {
       return;
     }
 
-    if (parsedArgs.markdown && parsedArgs.plainText) {
-      throw new IllegalArgumentException("Only one of --md and --plain-text may be specified.");
+    int selectedOutputs = (parsedArgs.markdown ? 1 : 0) + (parsedArgs.plainText ? 1 : 0) + (parsedArgs.json ? 1 : 0);
+    if (selectedOutputs > 1) {
+      throw new IllegalArgumentException("Only one output mode may be specified among --md, --plain-text, and --json.");
     }
 
-    Path logsDir = Paths.get("logs");
+    Path logsDir = Paths.get(parsedArgs.logs);
     List<String[]> rows = new ArrayList<>();
 
     try (DirectoryStream<Path> stream = Files.newDirectoryStream(logsDir, LOG_GLOB)) {
@@ -137,7 +144,13 @@ public class SummarizeLogsFromPrebuiltIndexes {
     for (String[] row : rows) {
       appendRow(sb, row, widths);
     }
-    System.out.print(parsedArgs.markdown ? sb : stripTableDelimiters(sb));
+    if (parsedArgs.json) {
+      System.out.print(rowsToJson(rows));
+    } else if (parsedArgs.markdown) {
+      System.out.print(sb);
+    } else {
+      System.out.print(stripTableDelimiters(sb));
+    }
   }
 
   private static void appendRow(StringBuilder sb, String[] row, int[] widths) {
@@ -191,5 +204,38 @@ public class SummarizeLogsFromPrebuiltIndexes {
       plainText.append(transformed.replaceFirst("^\\s+", "")).append('\n');
     }
     return plainText;
+  }
+
+  private static String rowsToJson(List<String[]> rows) {
+    StringBuilder sb = new StringBuilder();
+    sb.append("[\n");
+    for (int i = 0; i < rows.size(); i++) {
+      String[] row = rows.get(i);
+      sb.append("  {\n")
+          .append("    \"run\": \"").append(escapeJson(row[0])).append("\",\n")
+          .append("    \"[OK]\": ").append(row[1]).append(",\n")
+          .append("    \"[OK*]\": ").append(row[2]).append(",\n")
+          .append("    \"[FAIL]\": ").append(row[3]).append(",\n")
+          .append("    \"elapsed\": \"").append(escapeJson(row[4])).append("\"\n")
+          .append("  }");
+      if (i < rows.size() - 1) {
+        sb.append(",\n");
+      } else {
+        sb.append('\n');
+      }
+    }
+    sb.append("]\n");
+    return sb.toString();
+  }
+
+  private static String escapeJson(String value) {
+    return value
+        .replace("\\", "\\\\")
+        .replace("\"", "\\\"")
+        .replace("\b", "\\b")
+        .replace("\f", "\\f")
+        .replace("\n", "\\n")
+        .replace("\r", "\\r")
+        .replace("\t", "\\t");
   }
 }
