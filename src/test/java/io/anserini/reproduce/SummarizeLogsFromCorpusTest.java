@@ -65,14 +65,14 @@ public class SummarizeLogsFromCorpusTest {
         "2026-03-01 10:00:04,500 RunReproductionFromCorpus" + Constants.FAIL + " completed topic 2"));
 
     String output = runInTempDirectory();
-    assertTrue(output.contains("Total regressions:   2"));
+    assertTrue(Pattern.compile("Total regressions:\\s+2").matcher(output).find());
     assertEquals(1, countForStatusLine(output, Constants.OK));
     assertEquals(0, countForStatusLine(output, Constants.OKISH));
     assertEquals(1, countForStatusLine(output, Constants.FAIL));
 
-    assertTrue(output.contains("Start time: 2026-03-01 10:00:00,100"));
-    assertTrue(output.contains("End time:   2026-03-01 10:00:04,500"));
-    assertTrue(Pattern.compile("Duration: .*~0\\.0h").matcher(output).find());
+    assertTrue(Pattern.compile("(?m)^\\s*Start time:\\s+\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}:\\d{2}(?:,\\d+)?\\s+.+$").matcher(output).find());
+    assertTrue(Pattern.compile("(?m)^\\s*End time:\\s+\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}:\\d{2}(?:,\\d+)?\\s+.+$").matcher(output).find());
+    assertTrue(Pattern.compile("Duration:\\s+00:00:04").matcher(output).find());
   }
 
   @Test
@@ -90,14 +90,14 @@ public class SummarizeLogsFromCorpusTest {
 
     String output = runInTempDirectory();
 
-    assertTrue(output.contains("Total regressions:   2"));
+    assertTrue(Pattern.compile("Total regressions:\\s+2").matcher(output).find());
     assertEquals(0, countForStatusLine(output, Constants.OK));
     assertEquals(0, countForStatusLine(output, Constants.OKISH));
     assertEquals(0, countForStatusLine(output, Constants.FAIL));
 
-    assertTrue(output.contains("Start time: "));
-    assertTrue(output.contains("End time:   "));
-    assertTrue(output.contains("Duration: n/a"));
+    assertTrue(Pattern.compile("Start time:\\s+n/a").matcher(output).find());
+    assertTrue(Pattern.compile("End time:\\s+n/a").matcher(output).find());
+    assertTrue(Pattern.compile("Duration:\\s+n/a").matcher(output).find());
   }
 
   private String runInTempDirectory() throws Exception {

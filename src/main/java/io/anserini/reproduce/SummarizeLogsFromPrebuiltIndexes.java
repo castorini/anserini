@@ -212,11 +212,11 @@ public class SummarizeLogsFromPrebuiltIndexes {
     for (int i = 0; i < rows.size(); i++) {
       String[] row = rows.get(i);
       sb.append("  {\n")
-          .append("    \"run\": \"").append(escapeJson(row[0])).append("\",\n")
+          .append("    \"run\": \"").append(ReproductionUtils.escapeJson(row[0])).append("\",\n")
           .append("    \"[OK]\": ").append(row[1]).append(",\n")
           .append("    \"[OK*]\": ").append(row[2]).append(",\n")
           .append("    \"[FAIL]\": ").append(row[3]).append(",\n")
-          .append("    \"elapsed\": \"").append(escapeJson(row[4])).append("\"\n")
+          .append("    \"elapsed\": \"").append(ReproductionUtils.escapeJson(row[4])).append("\"\n")
           .append("  }");
       if (i < rows.size() - 1) {
         sb.append(",\n");
@@ -228,14 +228,4 @@ public class SummarizeLogsFromPrebuiltIndexes {
     return sb.toString();
   }
 
-  private static String escapeJson(String value) {
-    return value
-        .replace("\\", "\\\\")
-        .replace("\"", "\\\"")
-        .replace("\b", "\\b")
-        .replace("\f", "\\f")
-        .replace("\n", "\\n")
-        .replace("\r", "\\r")
-        .replace("\t", "\\t");
-  }
 }

@@ -24,17 +24,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Instant;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
-
-import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
@@ -49,8 +44,6 @@ import io.anserini.util.PrebuiltIndexHandler;
 
 public class RunReproductionFromPrebuiltIndexes {
   private static final String CONFIG_DIRECTORY = "reproduce/from-prebuilt-indexes/configs";
-  private static final DateTimeFormatter TIMESTAMP_FORMATTER =
-      DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z").withZone(ZoneId.systemDefault());
 
   public static class Args {
     @Option(name = "--config", required = true, usage = "Name of the configuration to run.")
@@ -117,7 +110,6 @@ public class RunReproductionFromPrebuiltIndexes {
     Process process;
 
     final Instant startTime = Instant.now();
-    final long start = System.nanoTime();
 
     // Pre-scan all commands to gather unique indexes referenced.
     Set<String> uniqueIndexNames = new LinkedHashSet<>();
@@ -299,10 +291,11 @@ public class RunReproductionFromPrebuiltIndexes {
     }
 
     final Instant endTime = Instant.now();
-    final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-    System.out.println("Start time: " + TIMESTAMP_FORMATTER.format(startTime));
-    System.out.println("End time:   " + TIMESTAMP_FORMATTER.format(endTime));
-    System.out.println("Duration:   " + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
+    final long durationMillis = endTime.toEpochMilli() - startTime.toEpochMilli();
+
+    System.out.println("Start time: " + ReproductionUtils.formatStartTime(startTime));
+    System.out.println("End time:   " + ReproductionUtils.formatEndTime(endTime));
+    System.out.println("Duration:   " + ReproductionUtils.formatDuration(durationMillis));
   }
 
   private static String extractIndexPath(String command) {
