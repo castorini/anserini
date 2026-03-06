@@ -245,7 +245,11 @@ public class RunReproductionFromCorpus {
     }
 
     if (parsed.search) {
-      Files.createDirectories(Paths.get("runs"));
+      Path runsDir = Paths.get(Constants.DEFAULT_RUNS_DIRECTORY);
+      if (!Files.exists(runsDir)) {
+        Files.createDirectories(runsDir);
+      }
+
       LOG.info("========== Ranking ==========");
       List<String> searchCmds = constructSearchCommands(yaml);
       if (parsed.dryRun) {

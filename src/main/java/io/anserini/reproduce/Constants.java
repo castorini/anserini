@@ -32,4 +32,7 @@ public class Constants {
   public static final String FAIL  = RED   + " [FAIL] " + RESET;
   public static final String OK    = GREEN + "   [OK] " + RESET;
   public static final String OKISH = BLUE  + "  [OK*] " + RESET;
+
+  public static final String DEFAULT_RUNS_DIRECTORY = "runs";
+  public static final String DEFAULT_LOGS_DIRECTORY = "logs";
 }
