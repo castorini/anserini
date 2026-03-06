@@ -54,6 +54,9 @@ public class RunReproductionCommands {
 
     @Option(name = "--max", metaVar = "[num]", usage = "Maximum number of concurrent jobs (defaults to 4).")
     public int max = 4;
+
+    @Option(name = "--dry-run", usage = "Print commands without executing them.")
+    public boolean dryRun = false;
   }
 
   public static void main(String[] argv) throws Exception {
@@ -71,16 +74,24 @@ public class RunReproductionCommands {
       throw new IllegalArgumentException("--sleep must be non-negative.");
     }
 
-    Path logsDir = Paths.get(Constants.DEFAULT_LOGS_DIRECTORY);
-    if (!Files.exists(logsDir)) {
-      Files.createDirectories(logsDir);
-    }
-
     List<String> commands = loadCommands(args.config);
     LOG.info("Running commands in {}", args.config);
     LOG.info("Sleep interval: {}", args.sleep);
     LOG.info("Threshold load: {}", args.load);
     LOG.info("Max concurrent jobs: {}", args.max);
+    LOG.info("Dry run: {}", args.dryRun);
+
+    if (args.dryRun) {
+      for (String command : commands) {
+        LOG.info("Command: {}", command);
+      }
+      return;
+    }
+
+    Path logsDir = Paths.get(Constants.DEFAULT_LOGS_DIRECTORY);
+    if (!Files.exists(logsDir)) {
+      Files.createDirectories(logsDir);
+    }
 
     List<Process> active = new ArrayList<>();
     int nextCommand = 0;
@@ -91,7 +102,8 @@ public class RunReproductionCommands {
       double currentLoad = ManagementFactory.getOperatingSystemMXBean().getSystemLoadAverage();
       boolean loadAvailable = currentLoad >= 0;
       boolean canLaunchByMax = active.size() < args.max;
-      boolean canLaunchByLoad = !loadAvailable || currentLoad < args.load;
+      // Always allow launching when there are no active jobs, otherwise high load can deadlock progress.
+      boolean canLaunchByLoad = !loadAvailable || currentLoad < args.load || active.isEmpty();
 
       if (nextCommand < commands.size() && canLaunchByMax && canLaunchByLoad) {
         String command = commands.get(nextCommand);

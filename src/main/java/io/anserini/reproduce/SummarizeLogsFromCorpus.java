@@ -50,13 +50,13 @@ public class SummarizeLogsFromCorpus {
       Pattern.compile("^(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2},\\d{1,9})\\b");
 
   public static class Args {
-    @Option(name = "--logs", usage = "Path to log directory (default: logs).")
+    @Option(name = "--logs", usage = "Path to logs directory (default: logs).")
     public String logs = Constants.DEFAULT_LOGS_DIRECTORY;
 
-    @Option(name = "--md", aliases = {"--markdown"}, usage = "Emit output in markdown table format.")
+    @Option(name = "--md", aliases = {"--markdown"}, usage = "Emit output in markdown format.")
     public boolean markdown = false;
 
-    @Option(name = "--plain-text", usage = "Emit output in plain text table format.")
+    @Option(name = "--text", aliases = {"--plain-text"}, usage = "Emit output in plain text format.")
     public boolean plainText = false;
 
     @Option(name = "--json", usage = "Emit output in JSON format.")
@@ -76,7 +76,7 @@ public class SummarizeLogsFromCorpus {
 
     int selectedOutputs = (parsedArgs.markdown ? 1 : 0) + (parsedArgs.plainText ? 1 : 0) + (parsedArgs.json ? 1 : 0);
     if (selectedOutputs > 1) {
-      throw new IllegalArgumentException("Only one output mode may be specified among --md, --plain-text, and --json.");
+      throw new IllegalArgumentException("Only one output mode may be specified among --md/--markdown, --text/--plain-text, and --json.");
     }
 
     Path logsDir = Paths.get(parsedArgs.logs);

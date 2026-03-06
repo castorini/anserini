@@ -17,6 +17,8 @@
 package io.anserini.reproduce;
 
 import java.io.File;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -31,6 +33,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.junit.After;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -121,6 +124,8 @@ public class RunReproductionFromCorpusTest extends StdOutStdErrRedirectableLucen
 
   @Test
   public void testCacmRegressionFromCorpusDownload() throws Exception {
+    assumeGithubReachable();
+
     SortedMap<Integer, Map<String, String>> topics = TopicReader.getTopics(Topics.CACM);
     assertNotNull(topics);
 
@@ -139,6 +144,14 @@ public class RunReproductionFromCorpusTest extends StdOutStdErrRedirectableLucen
     deleteDirectoryIfExists(Paths.get("collections/cacm/"));
 
     Files.deleteIfExists(Paths.get("collections/cacm-in-folder.tar.gz"));
+  }
+
+  private void assumeGithubReachable() {
+    try (Socket socket = new Socket()) {
+      socket.connect(new InetSocketAddress("github.com", 443), 2000);
+    } catch (Exception e) {
+      Assume.assumeNoException("Skipping download test because github.com:443 is unreachable.", e);
+    }
   }
 
   @Test

@@ -76,6 +76,57 @@ public class SummarizeLogsFromCorpusTest {
   }
 
   @Test
+  public void testSummarizeLogsFromCorpusJson() throws Exception {
+    Path logsDir = temporaryWorkingDirectory.resolve("logs");
+    Files.createDirectory(logsDir);
+
+    writeLog(logsDir.resolve("log.corpus.1"), List.of(
+        "2026-03-01 10:00:00,100 Starting RunReproductionFromCorpus for topic 1",
+        "2026-03-01 10:00:01,200 RunReproductionFromCorpus" + Constants.OK + " completed topic 1"));
+
+    writeLog(logsDir.resolve("log.corpus.2"), List.of(
+        "2026-03-01 10:00:02,300 Starting RunReproductionFromCorpus for topic 2",
+        "2026-03-01 10:00:04,500 RunReproductionFromCorpus" + Constants.FAIL + " completed topic 2"));
+
+    String output = runInTempDirectory("--json");
+
+    assertTrue(output.contains("\"total_regressions\": 2"));
+    assertTrue(output.contains("\"status_counts\": {"));
+    assertTrue(output.contains("\"[OK]\": 1"));
+    assertTrue(output.contains("\"[OK*]\": 0"));
+    assertTrue(output.contains("\"[FAIL]\": 1"));
+    assertTrue(output.contains("\"start_time\": "));
+    assertTrue(output.contains("\"end_time\": "));
+    assertTrue(output.contains("\"duration\": \"00:00:04\""));
+  }
+
+  @Test
+  public void testSummarizeLogsFromCorpusMarkdown() throws Exception {
+    Path logsDir = temporaryWorkingDirectory.resolve("logs");
+    Files.createDirectory(logsDir);
+
+    writeLog(logsDir.resolve("log.corpus.1"), List.of(
+        "2026-03-01 10:00:00,100 Starting RunReproductionFromCorpus for topic 1",
+        "2026-03-01 10:00:01,200 RunReproductionFromCorpus" + Constants.OK + " completed topic 1"));
+
+    writeLog(logsDir.resolve("log.corpus.2"), List.of(
+        "2026-03-01 10:00:02,300 Starting RunReproductionFromCorpus for topic 2",
+        "2026-03-01 10:00:04,500 RunReproductionFromCorpus" + Constants.FAIL + " completed topic 2"));
+
+    String output = runInTempDirectory("--md");
+
+    assertTrue(Pattern.compile("Total regressions:\\s+2").matcher(output).find());
+    assertTrue(output.contains("| status | count |"));
+    assertTrue(output.contains("| ------ | ----: |"));
+    assertTrue(Pattern.compile("\\| \\[OK\\]\\s+\\|\\s+1 \\|").matcher(output).find());
+    assertTrue(Pattern.compile("\\| \\[OK\\*\\]\\s+\\|\\s+0 \\|").matcher(output).find());
+    assertTrue(Pattern.compile("\\| \\[FAIL\\]\\s+\\|\\s+1 \\|").matcher(output).find());
+    assertTrue(Pattern.compile("(?m)^Start time:").matcher(output).find());
+    assertTrue(Pattern.compile("(?m)^End time:").matcher(output).find());
+    assertTrue(Pattern.compile("Duration:\\s+00:00:04").matcher(output).find());
+  }
+
+  @Test
   public void testSummarizeLogsFromCorpusMissingStatusAndTimestamp() throws Exception {
     Path logsDir = temporaryWorkingDirectory.resolve("logs");
     Files.createDirectory(logsDir);
@@ -100,7 +151,45 @@ public class SummarizeLogsFromCorpusTest {
     assertTrue(Pattern.compile("Duration:\\s+n/a").matcher(output).find());
   }
 
-  private String runInTempDirectory() throws Exception {
+  @Test
+  public void testSummarizeLogsFromCorpusInvalidOptionCombinations() throws Exception {
+    Path logsDir = temporaryWorkingDirectory.resolve("logs");
+    Files.createDirectory(logsDir);
+
+    assertInvalidOption("--json", "--md");
+    assertInvalidOption("--json", "--plain-text");
+    assertInvalidOption("--md", "--plain-text");
+    assertInvalidOption("--json", "--text");
+    assertInvalidOption("--md", "--text");
+    assertInvalidOption("--json", "--md", "--plain-text");
+  }
+
+  @Test
+  public void testSummarizeLogsFromCorpusTextAlias() throws Exception {
+    Path logsDir = temporaryWorkingDirectory.resolve("logs");
+    Files.createDirectory(logsDir);
+
+    writeLog(logsDir.resolve("log.corpus.1"), List.of(
+        "2026-03-01 10:00:00,100 Starting RunReproductionFromCorpus for topic 1",
+        "2026-03-01 10:00:01,200 RunReproductionFromCorpus" + Constants.OK + " completed topic 1"));
+
+    String output = runInTempDirectory("--text");
+    assertTrue(Pattern.compile("Total regressions:\\s+1").matcher(output).find());
+
+    output = runInTempDirectory("--plain-text");
+    assertTrue(Pattern.compile("Total regressions:\\s+1").matcher(output).find());
+  }
+
+  private void assertInvalidOption(String... args) throws Exception {
+    try {
+      runInTempDirectory(args);
+      fail("Expected IllegalArgumentException for invalid output combination");
+    } catch (IllegalArgumentException e) {
+      assertTrue(e.getMessage().contains("Only one output mode may be specified"));
+    }
+  }
+
+  private String runInTempDirectory(String... args) throws Exception {
     PrintStream previousOut = System.out;
     PrintStream previousErr = System.err;
     ByteArrayOutputStream output = new ByteArrayOutputStream();
@@ -119,7 +208,7 @@ public class SummarizeLogsFromCorpusTest {
       System.setOut(redirectedOut);
       System.setErr(redirectedErr);
 
-      SummarizeLogsFromCorpus.main(new String[]{});
+      SummarizeLogsFromCorpus.main(args);
     } finally {
       System.setOut(previousOut);
       System.setErr(previousErr);
