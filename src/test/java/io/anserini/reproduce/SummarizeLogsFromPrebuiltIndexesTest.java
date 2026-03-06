@@ -16,19 +16,17 @@
 
 package io.anserini.reproduce;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.PrintStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.regex.Pattern;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
@@ -82,45 +80,98 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
     assertTrue(output.contains("\"elapsed\": \"01:03:04\""));
   }
 
+  @Test
+  public void testSummarizeLogsFromPrebuiltIndexesMarkdown() throws Exception {
+    Path logsDir = temporaryWorkingDirectory.resolve("logs");
+    Files.createDirectory(logsDir);
+
+    writeLog(logsDir.resolve("log.from-prebuilt-indexes.betaset.txt"), List.of(
+        "Run for beta [OK]",
+        "Second line [OK*]",
+        "Duration: done (01:03:04)"));
+
+    writeLog(logsDir.resolve("log.from-prebuilt-indexes.alpha.txt"), List.of(
+        "Run for alpha [FAIL]",
+        "Failure [FAIL]",
+        "Duration: 00:00:01"));
+
+    String output = runInTempDirectory("--md");
+
+    String[] lines = output.strip().split("\\R");
+    assertTrue(lines[0].startsWith("| run"));
+    assertTrue(lines[1].contains("| -----:"));
+    assertTrue(lines[2].matches("\\|\\s*alpha\\s+\\|\\s+0\\s+\\|\\s+0\\s+\\|\\s+2\\s+\\|\\s+00:00:01\\s+\\|"));
+    assertTrue(lines[3].matches("\\|\\s*betaset\\s+\\|\\s+1\\s+\\|\\s+1\\s+\\|\\s+0\\s+\\|\\s+01:03:04\\s+\\|"));
+    assertTrue(output.indexOf("alpha") < output.indexOf("betaset"));
+  }
+
+  @Test
+  public void testSummarizeLogsFromPrebuiltIndexesPlainText() throws Exception {
+    Path logsDir = temporaryWorkingDirectory.resolve("logs");
+    Files.createDirectory(logsDir);
+
+    writeLog(logsDir.resolve("log.from-prebuilt-indexes.betaset.txt"), List.of(
+        "Run for beta [OK]",
+        "Second line [OK*]",
+        "Duration: done (01:03:04)"));
+
+    writeLog(logsDir.resolve("log.from-prebuilt-indexes.alpha.txt"), List.of(
+        "Run for alpha [FAIL]",
+        "Failure [FAIL]",
+        "Duration: 00:00:01"));
+
+    String output = runInTempDirectory("--plain-text");
+
+    String[] lines = output.strip().split("\\R");
+    assertTrue(lines.length >= 4);
+    assertTrue(!lines[0].contains("|"));
+    assertTrue(!lines[1].contains("|"));
+    assertTrue(lines[0].matches("\\s*run\\s+\\[OK\\]\\s+\\[OK\\*\\]\\s+\\[FAIL\\]\\s+elapsed\\s*"));
+    assertTrue(lines[2].matches("\\s*alpha\\s+0\\s+0\\s+2\\s+00:00:01\\s*"));
+    assertTrue(lines[3].matches("\\s*betaset\\s+1\\s+1\\s+0\\s+01:03:04\\s*"));
+  }
+
+  @Test
+  public void testSummarizeLogsFromPrebuiltIndexesInvalidOptionCombinations() throws Exception {
+    assertInvalidOption("--json", "--md");
+    assertInvalidOption("--json", "--plain-text");
+    assertInvalidOption("--md", "--plain-text");
+    assertInvalidOption("--json", "--md", "--plain-text");
+  }
+
+  private void assertInvalidOption(String... args) throws Exception {
+    try {
+      runInTempDirectory(args);
+      fail("Expected IllegalArgumentException for invalid output combination");
+    } catch (IllegalArgumentException e) {
+      assertTrue(e.getMessage().contains("Only one output mode may be specified"));
+    }
+  }
+
   private String runInTempDirectory(String... args) throws Exception {
-    Path javaExecutable = Paths.get(System.getProperty("java.home"), "bin", "java");
-    Path classesDir = Paths.get("target/classes");
-    Path testClassesDir = Paths.get("target/test-classes");
-    LinkedHashSet<String> classPathEntries = new LinkedHashSet<>();
-    classPathEntries.add(classesDir.toString());
-    classPathEntries.add(testClassesDir.toString());
+    ByteArrayOutputStream stdout = new ByteArrayOutputStream();
+    PrintStream newOut = new PrintStream(stdout);
 
-    String existingClassPath = System.getProperty("java.class.path");
-    if (existingClassPath != null && !existingClassPath.isBlank()) {
-      for (String element : existingClassPath.split(Pattern.quote(System.getProperty("path.separator")))) {
-        if (!element.isBlank()) {
-          classPathEntries.add(element);
-        }
+    PrintStream originalOut = System.out;
+    PrintStream originalErr = System.err;
+
+    try {
+      System.setOut(newOut);
+      System.setErr(newOut);
+      String[] mainArgs = new String[args.length + 2];
+      for (int i = 0; i < args.length; i++) {
+        mainArgs[i] = args[i];
       }
+      mainArgs[args.length] = "--logs";
+      mainArgs[args.length + 1] = temporaryWorkingDirectory.resolve("logs").toString();
+
+      SummarizeLogsFromPrebuiltIndexes.main(mainArgs);
+      return stdout.toString(StandardCharsets.UTF_8);
+    } finally {
+      System.setOut(originalOut);
+      System.setErr(originalErr);
+      newOut.close();
     }
-
-    ArrayList<String> command = new ArrayList<>();
-    command.add(javaExecutable.toString());
-    command.add("-cp");
-    command.add(String.join(System.getProperty("path.separator"), classPathEntries));
-    command.add("io.anserini.reproduce.SummarizeLogsFromPrebuiltIndexes");
-    for (String arg : args) {
-      command.add(arg);
-    }
-    command.add("--logs");
-    command.add("logs");
-
-    Path outputLog = temporaryWorkingDirectory.resolve("summary.log");
-    ProcessBuilder builder = new ProcessBuilder(command);
-    builder.directory(new File(temporaryWorkingDirectory.toString()));
-    builder.redirectErrorStream(true);
-    builder.redirectOutput(outputLog.toFile());
-
-    Process process = builder.start();
-    assertTrue("Summarize command timed out", process.waitFor(1, TimeUnit.MINUTES));
-    assertEquals(0, process.exitValue());
-
-    return Files.readString(outputLog);
   }
 
   private void writeLog(Path path, List<String> lines) throws IOException {

@@ -22,13 +22,13 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
+import java.io.ByteArrayOutputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.FileUtils;
@@ -101,39 +101,37 @@ public class SummarizeLogsFromCorpusTest {
   }
 
   private String runInTempDirectory() throws Exception {
-    Path javaExecutable = Paths.get(System.getProperty("java.home"), "bin", "java");
-    Path classesDir = Paths.get("target/classes");
-    Path testClassesDir = Paths.get("target/test-classes");
-    LinkedHashSet<String> classPathEntries = new LinkedHashSet<>();
-    classPathEntries.add(classesDir.toString());
-    classPathEntries.add(testClassesDir.toString());
+    PrintStream previousOut = System.out;
+    PrintStream previousErr = System.err;
+    ByteArrayOutputStream output = new ByteArrayOutputStream();
+    Path workingDirLogs = Paths.get("logs");
+    Path backupLogs = null;
+    Path sourceLogs = temporaryWorkingDirectory.resolve("logs");
 
-    String existingClassPath = System.getProperty("java.class.path");
-    if (existingClassPath != null && !existingClassPath.isBlank()) {
-      for (String element : existingClassPath.split(Pattern.quote(System.getProperty("path.separator")))) {
-        if (!element.isBlank()) {
-          classPathEntries.add(element);
-        }
+    try (PrintStream redirectedOut = new PrintStream(output, true, StandardCharsets.UTF_8);
+         PrintStream redirectedErr = new PrintStream(output, true, StandardCharsets.UTF_8)) {
+      if (Files.exists(workingDirLogs)) {
+        backupLogs = temporaryWorkingDirectory.resolve("logs-backup-" + System.nanoTime());
+        FileUtils.moveDirectory(workingDirLogs.toFile(), backupLogs.toFile());
+      }
+      FileUtils.copyDirectory(sourceLogs.toFile(), workingDirLogs.toFile());
+
+      System.setOut(redirectedOut);
+      System.setErr(redirectedErr);
+
+      SummarizeLogsFromCorpus.main(new String[]{});
+    } finally {
+      System.setOut(previousOut);
+      System.setErr(previousErr);
+      if (Files.exists(workingDirLogs)) {
+        FileUtils.deleteDirectory(workingDirLogs.toFile());
+      }
+      if (backupLogs != null) {
+        FileUtils.moveDirectory(backupLogs.toFile(), workingDirLogs.toFile());
       }
     }
 
-    ArrayList<String> command = new ArrayList<>();
-    command.add(javaExecutable.toString());
-    command.add("-cp");
-    command.add(String.join(System.getProperty("path.separator"), classPathEntries));
-    command.add("io.anserini.reproduce.SummarizeLogsFromCorpus");
-
-    Path outputLog = temporaryWorkingDirectory.resolve("summary.log");
-    ProcessBuilder builder = new ProcessBuilder(command);
-    builder.directory(new File(temporaryWorkingDirectory.toString()));
-    builder.redirectErrorStream(true);
-    builder.redirectOutput(outputLog.toFile());
-
-    Process process = builder.start();
-    assertTrue("Summarize command timed out", process.waitFor(1, TimeUnit.MINUTES));
-    assertEquals(0, process.exitValue());
-
-    return Files.readString(outputLog);
+    return output.toString(StandardCharsets.UTF_8);
   }
 
   private void writeLog(Path path, List<String> lines) throws IOException {
