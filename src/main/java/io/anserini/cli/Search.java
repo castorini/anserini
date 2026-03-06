@@ -16,20 +16,30 @@
 
 package io.anserini.cli;
 
-import io.anserini.search.ScoredDoc;
-import io.anserini.search.SimpleSearcher;
-import io.anserini.index.IndexReaderUtils;
-import io.anserini.util.LoggingBootstrap;
-
 import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import io.anserini.index.Constants;
+import io.anserini.index.IndexReaderUtils;
+import io.anserini.search.ScoredDoc;
+import io.anserini.search.SimpleSearcher;
+import io.anserini.util.LoggingBootstrap;
 
 /**
  * Minimal CLI wrapper around {@link SimpleSearcher}.
@@ -62,6 +72,8 @@ public final class Search {
     JSON,
     TREC
   }
+
+  private static final ObjectMapper JSON_MAPPER = new ObjectMapper();
 
   private static void run(Args parsed) {
     OutputMode outputMode = parsed.json ? OutputMode.JSON : OutputMode.TREC;
@@ -111,63 +123,49 @@ public final class Search {
     try {
       ScoredDoc[] results = searcher.search(query, hits);
 
-      for (int rank = 0; rank < results.length; rank++) {
-        ScoredDoc hit = results[rank];
-        if (outputMode == OutputMode.TREC) {
+      if (outputMode == OutputMode.TREC) {
+        for (int rank = 0; rank < results.length; rank++) {
+          ScoredDoc hit = results[rank];
           System.out.printf("1 Q0 %s %d %.6f anserini%n", hit.docid, rank + 1, hit.score);
-        } else {
-          System.out.println(toJsonResult(query, rank + 1, hit));
         }
+      } else {
+        Map<String, Object> output = new LinkedHashMap<>();
+        output.put("query", new LinkedHashMap<>(Map.of("text", query)));
+        List<Map<String, Object>> candidates = new ArrayList<>();
+
+        for (ScoredDoc hit : results) {
+          candidates.add(toJsonCandidate(hit));
+        }
+        output.put("candidates", candidates);
+        System.out.println(JSON_MAPPER.writeValueAsString(output));
       }
+    } catch (JsonProcessingException e) {
+      System.err.printf("Error: %s%n", e.getMessage());
     } catch (IOException e) {
       System.err.printf("Error: %s%n", e.getMessage());
     }
   }
 
-  private static String toJsonResult(String query, int rank, ScoredDoc hit) {
-    return String.format("{\"query\":\"%s\",\"rank\":%d,\"docid\":\"%s\",\"score\":%.6f}",
-        escapeJson(query), rank, escapeJson(hit.docid), hit.score);
-  }
+  private static Map<String, Object> toJsonCandidate(ScoredDoc hit) {
+    Map<String, Object> candidate = new LinkedHashMap<>();
+    candidate.put("docid", hit.docid);
+    candidate.put("score", hit.score);
 
-  private static String escapeJson(String value) {
-    if (value == null) {
-      return "";
-    }
-
-    StringBuilder builder = new StringBuilder(value.length() + 8);
-    for (int i = 0; i < value.length(); i++) {
-      char c = value.charAt(i);
-      switch (c) {
-        case '\\':
-          builder.append("\\\\");
-          break;
-        case '\"':
-          builder.append("\\\"");
-          break;
-        case '\b':
-          builder.append("\\b");
-          break;
-        case '\f':
-          builder.append("\\f");
-          break;
-        case '\n':
-          builder.append("\\n");
-          break;
-        case '\r':
-          builder.append("\\r");
-          break;
-        case '\t':
-          builder.append("\\t");
-          break;
-        default:
-          if (c < 0x20) {
-            builder.append(String.format("\\u%04x", (int) c));
-          } else {
-            builder.append(c);
-          }
+    try {
+      String raw = hit.lucene_document == null ? null : hit.lucene_document.get(Constants.RAW);
+      if (raw == null) {
+        candidate.put("doc", null);
+      } else {
+        JsonNode doc = JSON_MAPPER.readTree(raw);
+        candidate.put("doc", doc);
       }
+    } catch (IOException e) {
+      Map<String, Object> rawDoc = new LinkedHashMap<>();
+      String raw = hit.lucene_document == null ? null : hit.lucene_document.get(Constants.RAW);
+      rawDoc.put("raw", raw);
+      candidate.put("doc", rawDoc);
     }
-    return builder.toString();
+    return candidate;
   }
 
   public static void main(String[] args) {
@@ -215,6 +213,9 @@ public final class Search {
     if (parsed.json == parsed.trec) {
       System.err.println("Error: exactly one of --json or --trec must be specified");
       return;
+    }
+    if (parsed.json) {
+      Configurator.setRootLevel(Level.OFF);
     }
 
     run(parsed);
