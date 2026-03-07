@@ -242,6 +242,7 @@ public class RunReproductionFromPrebuiltIndexes {
           String evalKey = topic.eval_key;
           String metricDefinition = Objects.requireNonNull(metricDefinitions.get(metric));
 
+          // For the eval command, running `java -cp fatjar ...` is fine since we're just running trec_eval.
           evalCommands.put(metric, "java -cp $fatjarPath trec_eval $metric $evalKey $output"
               .replace("$fatjarPath", fatjarPath)
               .replace("$metric", metricDefinition)

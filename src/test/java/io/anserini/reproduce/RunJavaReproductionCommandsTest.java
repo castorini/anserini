@@ -77,10 +77,10 @@ public class RunJavaReproductionCommandsTest extends StdOutStdErrRedirectableLuc
           .count();
     }
 
-    Method loadCommands = RunJavaReproductionCommands.class.getDeclaredMethod("loadCommands", String.class);
+    Method loadCommands = RunJavaReproductionCommands.class.getDeclaredMethod("loadCommands", String.class, String.class);
     loadCommands.setAccessible(true);
     @SuppressWarnings("unchecked")
-    int actualCommandCount = ((java.util.List<String>) loadCommands.invoke(null, "from-corpus.batch01")).size();
+    int actualCommandCount = ((java.util.List<String>) loadCommands.invoke(null, "from-corpus.batch01", "logs")).size();
 
     assertEquals(expectedCommandCount, actualCommandCount);
   }

@@ -162,7 +162,7 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
       for (int i = 0; i < args.length; i++) {
         mainArgs[i] = args[i];
       }
-      mainArgs[args.length] = "--logs";
+      mainArgs[args.length] = "--logs-directory";
       mainArgs[args.length + 1] = temporaryWorkingDirectory.resolve("logs").toString();
 
       SummarizeLogsFromPrebuiltIndexes.main(mainArgs);
