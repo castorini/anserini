@@ -39,8 +39,8 @@ public class SummarizeLogsFromPrebuiltIndexes {
   private static final String LOG_SUFFIX = ".txt";
 
   public static class Args {
-    @Option(name = "--logs", usage = "Path to logs directory (default: logs).")
-    public String logs = ReproductionUtils.Constants.DEFAULT_LOGS_DIRECTORY;
+    @Option(name = "--logs-directory", usage = "Path to logs directory (default: logs).")
+    public String logsDirectory = ReproductionUtils.Constants.DEFAULT_LOGS_DIRECTORY;
 
     @Option(name = "--md", aliases = {"--markdown"}, usage = "Emit output in markdown format.")
     public boolean markdown = false;
@@ -68,7 +68,11 @@ public class SummarizeLogsFromPrebuiltIndexes {
       throw new IllegalArgumentException("Only one output mode may be specified among --md/--markdown, --text/--plain-text, and --json.");
     }
 
-    Path logsDir = Paths.get(parsedArgs.logs);
+    Path logsDir = Paths.get(parsedArgs.logsDirectory);
+    if (!Files.exists(logsDir) || !Files.isDirectory(logsDir)) {
+      System.err.println("No logs directory found: " + logsDir);
+      return;
+    }
     List<String[]> rows = new ArrayList<>();
 
     try (DirectoryStream<Path> stream = Files.newDirectoryStream(logsDir, LOG_GLOB)) {
@@ -132,6 +136,10 @@ public class SummarizeLogsFromPrebuiltIndexes {
       for (int i = 0; i < headers.length; i++) {
         widths[i] = Math.max(widths[i], row[i].length());
       }
+    }
+    if (rows.isEmpty()) {
+      System.err.println("No prebuilt-index logs found in: " + logsDir + " (pattern: " + LOG_GLOB + ")");
+      return;
     }
     int statusWidth = Math.max(widths[1], Math.max(widths[2], widths[3]));
     widths[1] = statusWidth;

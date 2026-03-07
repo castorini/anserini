@@ -43,6 +43,9 @@ public class RunJavaReproductionCommands {
     @Option(name = "--config", metaVar = "[config]", required = true, usage = "Config file with regression commands.")
     public String config;
 
+    @Option(name = "--logs-directory", metaVar = "[path]", usage = "Directory for command logs (default: logs).")
+    public String logsDirectory = ReproductionUtils.Constants.DEFAULT_LOGS_DIRECTORY;
+
     @Option(name = "--sleep", metaVar = "[seconds]", usage = "Sleep interval before checking load.")
     public int sleep = 30;
 
@@ -71,8 +74,9 @@ public class RunJavaReproductionCommands {
       throw new IllegalArgumentException("--sleep must be non-negative.");
     }
 
-    List<String> commands = loadCommands(args.config);
+    List<String> commands = loadCommands(args.config, args.logsDirectory);
     LOG.info("Running commands in {}", args.config);
+    LOG.info("Logs directory: {}", args.logsDirectory);
     LOG.info("Sleep interval: {}", args.sleep);
     LOG.info("Threshold load: {}", args.load);
     LOG.info("Max concurrent jobs: {}", args.max);
@@ -85,7 +89,7 @@ public class RunJavaReproductionCommands {
       return;
     }
 
-    Path logsDir = Paths.get(ReproductionUtils.Constants.DEFAULT_LOGS_DIRECTORY);
+    Path logsDir = Paths.get(args.logsDirectory);
     if (!Files.exists(logsDir)) {
       Files.createDirectories(logsDir);
     }
@@ -120,7 +124,7 @@ public class RunJavaReproductionCommands {
     LOG.info("All jobs completed!");
   }
 
-  private static List<String> loadCommands(String resource) throws IOException, URISyntaxException {
+  private static List<String> loadCommands(String resource, String logsDirectory) throws IOException, URISyntaxException {
     List<String> commands = new ArrayList<>();
 
     InputStream commandStream = null;
@@ -175,7 +179,7 @@ public class RunJavaReproductionCommands {
         }
 
         boolean fromPrebuilt = resource.contains("prebuilt");
-        String logFile = String.format("logs/log.%s.%s.txt", fromPrebuilt ? "from-prebuilt-indexes" : "from-corpus", configName);
+        String logFile = Paths.get(logsDirectory, String.format("log.%s.%s.txt", fromPrebuilt ? "from-prebuilt-indexes" : "from-corpus", configName)).toString();
 
         commands.add(String.format("%s %s %s %s > %s 2>&1", ReproductionUtils.Constants.JAVA_PREFIX, fatjarPath, ReproductionUtils.Constants.JVM_ARGS, command, logFile));
       }
