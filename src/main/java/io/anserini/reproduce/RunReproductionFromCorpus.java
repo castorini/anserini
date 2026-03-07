@@ -245,7 +245,7 @@ public class RunReproductionFromCorpus {
     }
 
     if (parsed.search) {
-      Path runsDir = Paths.get(Constants.DEFAULT_RUNS_DIRECTORY);
+      Path runsDir = Paths.get(ReproductionUtils.Constants.DEFAULT_RUNS_DIRECTORY);
       if (!Files.exists(runsDir)) {
         Files.createDirectories(runsDir);
       }
@@ -547,13 +547,13 @@ public class RunReproductionFromCorpus {
           if (isClose(expected, actual, 1e-9, 0.0) || actual > expected ||
               (usingFlat && isClose(expected, actual, 1e-9, toleranceOk)) ||
               (usingHnsw && isClose(expected, actual, 1e-9, toleranceOk))) {
-            LOG.info(Constants.OK + resultStr);
+            LOG.info(ReproductionUtils.Constants.OK + resultStr);
           } else if ((usingFlat && isClose(expected, actual, 1e-9, toleranceOk * 1.5)) ||
               (usingHnsw && isClose(expected, actual, 1e-9, toleranceOk * 1.5))) {
-            LOG.info(Constants.OKISH + resultStr);
+            LOG.info(ReproductionUtils.Constants.OKISH + resultStr);
             okish = true;
           } else {
-            LOG.error(Constants.FAIL + resultStr);
+            LOG.error(ReproductionUtils.Constants.FAIL + resultStr);
             failures = true;
           }
         }
@@ -563,11 +563,11 @@ public class RunReproductionFromCorpus {
     if (!args.dryRun) {
       long elapsed = Duration.ofNanos(System.nanoTime() - startNanos).toSeconds();
       if (failures) {
-        LOG.error("{}Total elapsed time: {}s", Constants.FAIL, elapsed);
+        LOG.error("{}Total elapsed time: {}s", ReproductionUtils.Constants.FAIL, elapsed);
       } else if (okish) {
-        LOG.info("{}Total elapsed time: {}s", Constants.OKISH, elapsed);
+        LOG.info("{}Total elapsed time: {}s", ReproductionUtils.Constants.OKISH, elapsed);
       } else {
-        LOG.info("{}Total elapsed time: {}s", Constants.OK, elapsed);
+        LOG.info("{}Total elapsed time: {}s", ReproductionUtils.Constants.OK, elapsed);
       }
     }
   }

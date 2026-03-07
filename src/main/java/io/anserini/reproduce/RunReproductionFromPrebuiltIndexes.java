@@ -57,6 +57,9 @@ public class RunReproductionFromPrebuiltIndexes {
 
     @Option(name = "--compute-index-size", usage = "Compute total size of all unique indexes referenced by runs.")
     public Boolean computeIndexSize = false;
+
+    @Option(name = "--runs-directory", usage = "Directory for output runs.")
+    public String runsDirectory = ReproductionUtils.Constants.DEFAULT_RUNS_DIRECTORY;
   }
 
   public static void main(String[] args) throws Exception {
@@ -92,7 +95,7 @@ public class RunReproductionFromPrebuiltIndexes {
     boolean dryRun = regressionArgs.dryRun;
     boolean computeIndexSize = regressionArgs.computeIndexSize;
 
-    Path runsDir = Paths.get(Constants.DEFAULT_RUNS_DIRECTORY);
+    Path runsDir = Paths.get(regressionArgs.runsDirectory);
     if (!Files.exists(runsDir)) {
       Files.createDirectories(runsDir);
     }
@@ -199,16 +202,14 @@ public class RunReproductionFromPrebuiltIndexes {
       System.out.printf("%nTotal size across %d of %d indexes: %s%n%n", presentCount, uniqueIndexNames.size(), IndexReaderUtils.formatSize(totalBytes));
     }
 
-    Files.createDirectories(Paths.get("runs"));
-
     for (Condition condition : config.conditions) {
       System.out.printf("# Running condition \"%s\": %s \n%n", condition.name, condition.display);
       for (Topic topic : condition.topics) {
         System.out.println("  - topic_key: " + topic.topic_key + "\n");
 
-        final String output = String.format("runs/run.%s.%s.%s.txt", configName, condition.name, topic.topic_key);
+        final String output = runsDir.resolve(String.format("run.%s.%s.%s.txt", configName, condition.name, topic.topic_key)).toString();
 
-        final String command = condition.command
+        final String command = String.format("%s $fatjar %s %s", ReproductionUtils.Constants.JAVA_PREFIX, ReproductionUtils.Constants.JVM_ARGS, condition.command)
             .replace("$fatjar", fatjarPath)
             .replace("$threads", "16")
             .replace("$topics", topic.topic_key)
@@ -241,6 +242,7 @@ public class RunReproductionFromPrebuiltIndexes {
           String evalKey = topic.eval_key;
           String metricDefinition = Objects.requireNonNull(metricDefinitions.get(metric));
 
+          // For the eval command, running `java -cp fatjar ...` is fine since we're just running trec_eval.
           evalCommands.put(metric, "java -cp $fatjarPath trec_eval $metric $evalKey $output"
               .replace("$fatjarPath", fatjarPath)
               .replace("$metric", metricDefinition)
@@ -273,13 +275,13 @@ public class RunReproductionFromPrebuiltIndexes {
               double delta = Math.abs(score - expected.get(metric));
 
               if (score > expected.get(metric)) {
-                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, Constants.OKISH, expected.get(metric));
+                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, ReproductionUtils.Constants.OKISH, expected.get(metric));
               } else if (delta < 0.00001) {
-                System.out.printf("    %8s: %.4f %s%n", metric, score, Constants.OK);
+                System.out.printf("    %8s: %.4f %s%n", metric, score, ReproductionUtils.Constants.OK);
               } else if (delta < 0.0002) {
-                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, Constants.OKISH, expected.get(metric));
+                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, ReproductionUtils.Constants.OKISH, expected.get(metric));
               } else {
-                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, Constants.FAIL, expected.get(metric));
+                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, ReproductionUtils.Constants.FAIL, expected.get(metric));
               }
             } else {
               System.out.println("Evaluation command failed for metric: " + metric);

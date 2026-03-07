@@ -214,7 +214,7 @@ Instructions for programmatic execution are shown at the bottom of this page (sc
 Command to generate run on TREC 2019 queries:
 
   <blockquote class="mycode">
-<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection \
+<pre><code>io.anserini.search.SearchCollection \
   -threads 16 \
   -index msmarco-v1-passage \
   -topics dl19-passage \
@@ -238,7 +238,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
     Command to generate run on TREC 2020 queries:
 
   <blockquote class="mycode">
-<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection \
+<pre><code>io.anserini.search.SearchCollection \
   -threads 16 \
   -index msmarco-v1-passage \
   -topics dl20-passage \
@@ -262,7 +262,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
     Command to generate run on dev queries:
 
   <blockquote class="mycode">
-<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection \
+<pre><code>io.anserini.search.SearchCollection \
   -threads 16 \
   -index msmarco-v1-passage \
   -topics msmarco-v1-passage.dev \
@@ -326,7 +326,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 msmarco-passage.dev \
 Command to generate run on TREC 2019 queries:
 
   <blockquote class="mycode">
-<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection \
+<pre><code>io.anserini.search.SearchCollection \
   -threads 16 \
   -index msmarco-v1-passage.splade-v3 \
   -topics dl19-passage \
@@ -351,7 +351,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
     Command to generate run on TREC 2020 queries:
 
   <blockquote class="mycode">
-<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection \
+<pre><code>io.anserini.search.SearchCollection \
   -threads 16 \
   -index msmarco-v1-passage.splade-v3 \
   -topics dl20-passage \
@@ -376,7 +376,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
     Command to generate run on dev queries:
 
   <blockquote class="mycode">
-<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection \
+<pre><code>io.anserini.search.SearchCollection \
   -threads 16 \
   -index msmarco-v1-passage.splade-v3 \
   -topics msmarco-v1-passage.dev \
@@ -441,7 +441,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 msmarco-passage.dev \
 Command to generate run on TREC 2019 queries:
 
   <blockquote class="mycode">
-<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors \
+<pre><code>io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
   -index msmarco-v1-passage.bge-base-en-v1.5.hnsw \
   -topics dl19-passage \
@@ -466,7 +466,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
     Command to generate run on TREC 2020 queries:
 
   <blockquote class="mycode">
-<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors \
+<pre><code>io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
   -index msmarco-v1-passage.bge-base-en-v1.5.hnsw \
   -topics dl20-passage \
@@ -491,7 +491,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
     Command to generate run on dev queries:
 
   <blockquote class="mycode">
-<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors \
+<pre><code>io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
   -index msmarco-v1-passage.bge-base-en-v1.5.hnsw \
   -topics msmarco-v1-passage.dev \
@@ -556,7 +556,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 msmarco-passage.dev \
 Command to generate run on TREC 2019 queries:
 
   <blockquote class="mycode">
-<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors \
+<pre><code>io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
   -index msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8 \
   -topics dl19-passage \
@@ -581,7 +581,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl19-passage \
     Command to generate run on TREC 2020 queries:
 
   <blockquote class="mycode">
-<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors \
+<pre><code>io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
   -index msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8 \
   -topics dl20-passage \
@@ -606,7 +606,7 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -l 2 -m recall.1000 dl20-passage \
     Command to generate run on dev queries:
 
   <blockquote class="mycode">
-<pre><code>java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors \
+<pre><code>io.anserini.search.SearchHnswDenseVectors \
   -threads 16 \
   -index msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8 \
   -topics msmarco-v1-passage.dev \
