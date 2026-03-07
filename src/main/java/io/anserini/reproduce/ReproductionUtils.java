@@ -30,12 +30,37 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public final class ReproductionUtils {
-  private static final DateTimeFormatter TIME_FORMATTER =
-      DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z").withZone(ZoneId.systemDefault());
-
   private static final Logger LOG = LogManager.getLogger(ReproductionUtils.class);
 
+  private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z").withZone(ZoneId.systemDefault());
+
   private ReproductionUtils() {}
+
+  public static final class Constants {
+    // ANSI escape code for red text
+    private static final String RED = "\u001B[91m";
+
+    // ANSI escape code for blue text
+    private static final String BLUE = "\u001B[94m";
+
+    // ANSI escape code for green text
+    private static final String GREEN = "\u001b[32m";
+
+    // ANSI escape code to reset to the default text color
+    private static final String RESET = "\u001B[0m";
+
+    public static final String OK = GREEN + "   [OK] " + RESET;
+    public static final String OKISH = BLUE + "  [OK*] " + RESET;
+    public static final String FAIL = RED + " [FAIL] " + RESET;
+
+    public static final String DEFAULT_RUNS_DIRECTORY = "runs";
+    public static final String DEFAULT_LOGS_DIRECTORY = "logs";
+
+    public static final String JAVA_PREFIX = "java -cp";
+    public static final String JVM_ARGS = "-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector";
+
+    private Constants() {}
+  }
 
   public static InputStream loadResourceStream(String resourceName, Class<?> fallbackClass) throws IOException {
     ClassLoader classLoader = Thread.currentThread().getContextClassLoader();

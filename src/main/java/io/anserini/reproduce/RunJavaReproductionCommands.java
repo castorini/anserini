@@ -36,11 +36,8 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 
-public class RunReproductionCommands {
-  private static final Logger LOG = LogManager.getLogger(RunReproductionCommands.class);
-
-  private static final String JAVA_PREFIX = "java -cp";
-  private static final String JVM_ARGS = "-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector";
+public class RunJavaReproductionCommands {
+  private static final Logger LOG = LogManager.getLogger(RunJavaReproductionCommands.class);
 
   public static class Args {
     @Option(name = "--config", metaVar = "[config]", required = true, usage = "Config file with regression commands.")
@@ -88,7 +85,7 @@ public class RunReproductionCommands {
       return;
     }
 
-    Path logsDir = Paths.get(Constants.DEFAULT_LOGS_DIRECTORY);
+    Path logsDir = Paths.get(ReproductionUtils.Constants.DEFAULT_LOGS_DIRECTORY);
     if (!Files.exists(logsDir)) {
       Files.createDirectories(logsDir);
     }
@@ -141,7 +138,7 @@ public class RunReproductionCommands {
 
       for (String resourcePath : resourceCandidates) {
         try {
-          commandStream = ReproductionUtils.loadResourceStream(resourcePath, RunReproductionCommands.class);
+          commandStream = ReproductionUtils.loadResourceStream(resourcePath, RunJavaReproductionCommands.class);
           break;
         } catch (IllegalArgumentException e) {
           lastException = e;
@@ -157,7 +154,7 @@ public class RunReproductionCommands {
       throw new IllegalArgumentException("Could not load command resource: " + resource);
     }
 
-    String fatjarPath = new File(RunReproductionCommands.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
+    String fatjarPath = new File(RunJavaReproductionCommands.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
 
     try (InputStream in = commandStream;
          BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
@@ -180,7 +177,7 @@ public class RunReproductionCommands {
         boolean fromPrebuilt = resource.contains("prebuilt");
         String logFile = String.format("logs/log.%s.%s.txt", fromPrebuilt ? "from-prebuilt-indexes" : "from-corpus", configName);
 
-        commands.add(String.format("%s %s %s %s > %s 2>&1", JAVA_PREFIX, fatjarPath, JVM_ARGS, command, logFile));
+        commands.add(String.format("%s %s %s %s > %s 2>&1", ReproductionUtils.Constants.JAVA_PREFIX, fatjarPath, ReproductionUtils.Constants.JVM_ARGS, command, logFile));
       }
     }
 

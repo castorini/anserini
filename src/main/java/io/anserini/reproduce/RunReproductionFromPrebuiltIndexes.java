@@ -92,7 +92,7 @@ public class RunReproductionFromPrebuiltIndexes {
     boolean dryRun = regressionArgs.dryRun;
     boolean computeIndexSize = regressionArgs.computeIndexSize;
 
-    Path runsDir = Paths.get(Constants.DEFAULT_RUNS_DIRECTORY);
+    Path runsDir = Paths.get(ReproductionUtils.Constants.DEFAULT_RUNS_DIRECTORY);
     if (!Files.exists(runsDir)) {
       Files.createDirectories(runsDir);
     }
@@ -273,13 +273,13 @@ public class RunReproductionFromPrebuiltIndexes {
               double delta = Math.abs(score - expected.get(metric));
 
               if (score > expected.get(metric)) {
-                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, Constants.OKISH, expected.get(metric));
+                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, ReproductionUtils.Constants.OKISH, expected.get(metric));
               } else if (delta < 0.00001) {
-                System.out.printf("    %8s: %.4f %s%n", metric, score, Constants.OK);
+                System.out.printf("    %8s: %.4f %s%n", metric, score, ReproductionUtils.Constants.OK);
               } else if (delta < 0.0002) {
-                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, Constants.OKISH, expected.get(metric));
+                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, ReproductionUtils.Constants.OKISH, expected.get(metric));
               } else {
-                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, Constants.FAIL, expected.get(metric));
+                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, ReproductionUtils.Constants.FAIL, expected.get(metric));
               }
             } else {
               System.out.println("Evaluation command failed for metric: " + metric);

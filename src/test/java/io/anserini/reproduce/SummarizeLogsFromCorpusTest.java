@@ -58,17 +58,17 @@ public class SummarizeLogsFromCorpusTest {
 
     writeLog(logsDir.resolve("log.corpus.1"), List.of(
         "2026-03-01 10:00:00,100 Starting RunReproductionFromCorpus for topic 1",
-        "2026-03-01 10:00:01,200 RunReproductionFromCorpus" + Constants.OK + " completed topic 1"));
+        "2026-03-01 10:00:01,200 RunReproductionFromCorpus" + ReproductionUtils.Constants.OK + " completed topic 1"));
 
     writeLog(logsDir.resolve("log.corpus.2"), List.of(
         "2026-03-01 10:00:02,300 Starting RunReproductionFromCorpus for topic 2",
-        "2026-03-01 10:00:04,500 RunReproductionFromCorpus" + Constants.FAIL + " completed topic 2"));
+        "2026-03-01 10:00:04,500 RunReproductionFromCorpus" + ReproductionUtils.Constants.FAIL + " completed topic 2"));
 
     String output = runInTempDirectory();
     assertTrue(Pattern.compile("Total regressions:\\s+2").matcher(output).find());
-    assertEquals(1, countForStatusLine(output, Constants.OK));
-    assertEquals(0, countForStatusLine(output, Constants.OKISH));
-    assertEquals(1, countForStatusLine(output, Constants.FAIL));
+    assertEquals(1, countForStatusLine(output, ReproductionUtils.Constants.OK));
+    assertEquals(0, countForStatusLine(output, ReproductionUtils.Constants.OKISH));
+    assertEquals(1, countForStatusLine(output, ReproductionUtils.Constants.FAIL));
 
     assertTrue(Pattern.compile("(?m)^\\s*Start time:\\s+\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}:\\d{2}(?:,\\d+)?\\s+.+$").matcher(output).find());
     assertTrue(Pattern.compile("(?m)^\\s*End time:\\s+\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}:\\d{2}(?:,\\d+)?\\s+.+$").matcher(output).find());
@@ -82,11 +82,11 @@ public class SummarizeLogsFromCorpusTest {
 
     writeLog(logsDir.resolve("log.corpus.1"), List.of(
         "2026-03-01 10:00:00,100 Starting RunReproductionFromCorpus for topic 1",
-        "2026-03-01 10:00:01,200 RunReproductionFromCorpus" + Constants.OK + " completed topic 1"));
+        "2026-03-01 10:00:01,200 RunReproductionFromCorpus" + ReproductionUtils.Constants.OK + " completed topic 1"));
 
     writeLog(logsDir.resolve("log.corpus.2"), List.of(
         "2026-03-01 10:00:02,300 Starting RunReproductionFromCorpus for topic 2",
-        "2026-03-01 10:00:04,500 RunReproductionFromCorpus" + Constants.FAIL + " completed topic 2"));
+        "2026-03-01 10:00:04,500 RunReproductionFromCorpus" + ReproductionUtils.Constants.FAIL + " completed topic 2"));
 
     String output = runInTempDirectory("--json");
 
@@ -107,11 +107,11 @@ public class SummarizeLogsFromCorpusTest {
 
     writeLog(logsDir.resolve("log.corpus.1"), List.of(
         "2026-03-01 10:00:00,100 Starting RunReproductionFromCorpus for topic 1",
-        "2026-03-01 10:00:01,200 RunReproductionFromCorpus" + Constants.OK + " completed topic 1"));
+        "2026-03-01 10:00:01,200 RunReproductionFromCorpus" + ReproductionUtils.Constants.OK + " completed topic 1"));
 
     writeLog(logsDir.resolve("log.corpus.2"), List.of(
         "2026-03-01 10:00:02,300 Starting RunReproductionFromCorpus for topic 2",
-        "2026-03-01 10:00:04,500 RunReproductionFromCorpus" + Constants.FAIL + " completed topic 2"));
+        "2026-03-01 10:00:04,500 RunReproductionFromCorpus" + ReproductionUtils.Constants.FAIL + " completed topic 2"));
 
     String output = runInTempDirectory("--md");
 
@@ -142,9 +142,9 @@ public class SummarizeLogsFromCorpusTest {
     String output = runInTempDirectory();
 
     assertTrue(Pattern.compile("Total regressions:\\s+2").matcher(output).find());
-    assertEquals(0, countForStatusLine(output, Constants.OK));
-    assertEquals(0, countForStatusLine(output, Constants.OKISH));
-    assertEquals(0, countForStatusLine(output, Constants.FAIL));
+    assertEquals(0, countForStatusLine(output, ReproductionUtils.Constants.OK));
+    assertEquals(0, countForStatusLine(output, ReproductionUtils.Constants.OKISH));
+    assertEquals(0, countForStatusLine(output, ReproductionUtils.Constants.FAIL));
 
     assertTrue(Pattern.compile("Start time:\\s+n/a").matcher(output).find());
     assertTrue(Pattern.compile("End time:\\s+n/a").matcher(output).find());
@@ -171,7 +171,7 @@ public class SummarizeLogsFromCorpusTest {
 
     writeLog(logsDir.resolve("log.corpus.1"), List.of(
         "2026-03-01 10:00:00,100 Starting RunReproductionFromCorpus for topic 1",
-        "2026-03-01 10:00:01,200 RunReproductionFromCorpus" + Constants.OK + " completed topic 1"));
+        "2026-03-01 10:00:01,200 RunReproductionFromCorpus" + ReproductionUtils.Constants.OK + " completed topic 1"));
 
     String output = runInTempDirectory("--text");
     assertTrue(Pattern.compile("Total regressions:\\s+1").matcher(output).find());

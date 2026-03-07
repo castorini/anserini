@@ -40,7 +40,7 @@ public class SummarizeLogsFromPrebuiltIndexes {
 
   public static class Args {
     @Option(name = "--logs", usage = "Path to logs directory (default: logs).")
-    public String logs = Constants.DEFAULT_LOGS_DIRECTORY;
+    public String logs = ReproductionUtils.Constants.DEFAULT_LOGS_DIRECTORY;
 
     @Option(name = "--md", aliases = {"--markdown"}, usage = "Emit output in markdown format.")
     public boolean markdown = false;

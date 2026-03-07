@@ -25,13 +25,22 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
 import org.junit.After;
+import org.junit.BeforeClass;
 import org.junit.Before;
 import org.junit.Test;
 
 import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 
-public class RunReproductionCommandsTest extends StdOutStdErrRedirectableLuceneTestCase {
+public class RunJavaReproductionCommandsTest extends StdOutStdErrRedirectableLuceneTestCase {
+  @BeforeClass
+  public static void setupClass() {
+    suppressJvmLogging();
+    Configurator.setLevel(RunJavaReproductionCommands.class.getName(), Level.OFF);
+  }
+
   @Before
   public void setUp() throws Exception {
     redirectStdOut();
@@ -49,7 +58,7 @@ public class RunReproductionCommandsTest extends StdOutStdErrRedirectableLuceneT
   @Test
   public void testNegativeSleepValueThrowsException() {
     IllegalArgumentException e = expectThrows(IllegalArgumentException.class, () ->
-        RunReproductionCommands.main(new String[] {
+        RunJavaReproductionCommands.main(new String[] {
             "--config", "ignored-config",
             "--sleep", "-1"
         }));
@@ -60,7 +69,7 @@ public class RunReproductionCommandsTest extends StdOutStdErrRedirectableLuceneT
   public void testDryRunFromCorpusBatch01PrintsAllJavaCommands() throws Exception {
     int expectedCommandCount;
     try (InputStream in = ReproductionUtils.loadResourceStream(
-        "reproduce/from-corpus/commands/from-corpus.batch01.txt", RunReproductionCommands.class);
+        "reproduce/from-corpus/commands/from-corpus.batch01.txt", RunJavaReproductionCommands.class);
          BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
       expectedCommandCount = (int) reader.lines()
           .map(String::trim)
@@ -68,7 +77,7 @@ public class RunReproductionCommandsTest extends StdOutStdErrRedirectableLuceneT
           .count();
     }
 
-    Method loadCommands = RunReproductionCommands.class.getDeclaredMethod("loadCommands", String.class);
+    Method loadCommands = RunJavaReproductionCommands.class.getDeclaredMethod("loadCommands", String.class);
     loadCommands.setAccessible(true);
     @SuppressWarnings("unchecked")
     int actualCommandCount = ((java.util.List<String>) loadCommands.invoke(null, "from-corpus.batch01")).size();
@@ -89,7 +98,7 @@ public class RunReproductionCommandsTest extends StdOutStdErrRedirectableLuceneT
 
     Files.writeString(commandFile, "does.not.Exist --config " + configName + "\n", StandardCharsets.UTF_8);
 
-    RunReproductionCommands.main(new String[] {
+    RunJavaReproductionCommands.main(new String[] {
         "--config", commandFile.toString(),
         "--sleep", "1"
     });
