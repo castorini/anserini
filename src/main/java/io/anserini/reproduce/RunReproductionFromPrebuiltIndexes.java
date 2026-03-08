@@ -213,7 +213,11 @@ public class RunReproductionFromPrebuiltIndexes {
             .replace("$fatjar", fatjarPath)
             .replace("$threads", "16")
             .replace("$topics", topic.topic_key)
-            .replace("$output", output);
+            .replace("$output", output)
+            .replace("$runs_directory", runsDir.toString());
+
+        // Note that there's a hidden dependency for fusion runs, where the command specifies the run to fuse by -runs run1 run2 ...
+        // The runs directory can be set using $runs_directory, but the run names are hard-coded.
 
         if (printCommands) {
           System.out.println("    Retrieval command: " + command);
