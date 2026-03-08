@@ -51,7 +51,7 @@ public class SummarizeLogsFromCorpus {
 
   public static class Args {
     @Option(name = "--logs", usage = "Path to logs directory (default: logs).")
-    public String logs = Constants.DEFAULT_LOGS_DIRECTORY;
+    public String logs = ReproductionUtils.Constants.DEFAULT_LOGS_DIRECTORY;
 
     @Option(name = "--md", aliases = {"--markdown"}, usage = "Emit output in markdown format.")
     public boolean markdown = false;
@@ -81,7 +81,7 @@ public class SummarizeLogsFromCorpus {
 
     Path logsDir = Paths.get(parsedArgs.logs);
     int totalRegressions = 0;
-    String[] statusLabels = {Constants.OK, Constants.OKISH, Constants.FAIL};
+    String[] statusLabels = {ReproductionUtils.Constants.OK, ReproductionUtils.Constants.OKISH, ReproductionUtils.Constants.FAIL};
     String[] rawStatusLabels = {"[OK]", "[OK*]", "[FAIL]"};
     int[] statusCounters = new int[statusLabels.length];
 

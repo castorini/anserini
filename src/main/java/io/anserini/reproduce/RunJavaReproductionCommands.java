@@ -36,11 +36,8 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 
-public class RunReproductionCommands {
-  private static final Logger LOG = LogManager.getLogger(RunReproductionCommands.class);
-
-  private static final String JAVA_PREFIX = "java -cp";
-  private static final String JVM_ARGS = "-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector";
+public class RunJavaReproductionCommands {
+  private static final Logger LOG = LogManager.getLogger(RunJavaReproductionCommands.class);
 
   public static class Args {
     @Option(name = "--config", metaVar = "[config]", required = true, usage = "Config file with regression commands.")
@@ -54,6 +51,12 @@ public class RunReproductionCommands {
 
     @Option(name = "--max", metaVar = "[num]", usage = "Maximum number of concurrent jobs (defaults to 4).")
     public int max = 4;
+
+    @Option(name = "--logs-directory", metaVar = "[path]", usage = "Directory for command logs (default: logs).")
+    public String logsDirectory = ReproductionUtils.Constants.DEFAULT_LOGS_DIRECTORY;
+
+    @Option(name = "--runs-directory", metaVar = "[path]", usage = "Directory for runs (default: runs).")
+    public String runsDirectory = ReproductionUtils.Constants.DEFAULT_RUNS_DIRECTORY;
 
     @Option(name = "--dry-run", usage = "Print commands without executing them.")
     public boolean dryRun = false;
@@ -74,8 +77,10 @@ public class RunReproductionCommands {
       throw new IllegalArgumentException("--sleep must be non-negative.");
     }
 
-    List<String> commands = loadCommands(args.config);
+    List<String> commands = loadCommands(args.config, args.logsDirectory, args.runsDirectory);
     LOG.info("Running commands in {}", args.config);
+    LOG.info("Logs directory: {}", args.logsDirectory);
+    LOG.info("Runs directory: {}", args.runsDirectory);
     LOG.info("Sleep interval: {}", args.sleep);
     LOG.info("Threshold load: {}", args.load);
     LOG.info("Max concurrent jobs: {}", args.max);
@@ -88,7 +93,7 @@ public class RunReproductionCommands {
       return;
     }
 
-    Path logsDir = Paths.get(Constants.DEFAULT_LOGS_DIRECTORY);
+    Path logsDir = Paths.get(args.logsDirectory);
     if (!Files.exists(logsDir)) {
       Files.createDirectories(logsDir);
     }
@@ -123,7 +128,7 @@ public class RunReproductionCommands {
     LOG.info("All jobs completed!");
   }
 
-  private static List<String> loadCommands(String resource) throws IOException, URISyntaxException {
+  private static List<String> loadCommands(String resource, String logsDirectory, String runsDirectory) throws IOException, URISyntaxException {
     List<String> commands = new ArrayList<>();
 
     InputStream commandStream = null;
@@ -141,7 +146,7 @@ public class RunReproductionCommands {
 
       for (String resourcePath : resourceCandidates) {
         try {
-          commandStream = ReproductionUtils.loadResourceStream(resourcePath, RunReproductionCommands.class);
+          commandStream = ReproductionUtils.loadResourceStream(resourcePath, RunJavaReproductionCommands.class);
           break;
         } catch (IllegalArgumentException e) {
           lastException = e;
@@ -157,7 +162,7 @@ public class RunReproductionCommands {
       throw new IllegalArgumentException("Could not load command resource: " + resource);
     }
 
-    String fatjarPath = new File(RunReproductionCommands.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
+    String fatjarPath = new File(RunJavaReproductionCommands.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
 
     try (InputStream in = commandStream;
          BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
@@ -178,9 +183,12 @@ public class RunReproductionCommands {
         }
 
         boolean fromPrebuilt = resource.contains("prebuilt");
-        String logFile = String.format("logs/log.%s.%s.txt", fromPrebuilt ? "from-prebuilt-indexes" : "from-corpus", configName);
+        if (fromPrebuilt && !command.contains("--runs-directory")) {
+          command = String.format("%s --runs-directory %s", command, runsDirectory);
+        }
 
-        commands.add(String.format("%s %s %s %s > %s 2>&1", JAVA_PREFIX, fatjarPath, JVM_ARGS, command, logFile));
+        String logFile = Paths.get(logsDirectory, String.format("log.%s.%s.txt", fromPrebuilt ? "from-prebuilt-indexes" : "from-corpus", configName)).toString();
+        commands.add(String.format("%s %s %s %s > %s 2>&1", ReproductionUtils.Constants.JAVA_PREFIX, fatjarPath, ReproductionUtils.Constants.JVM_ARGS, command, logFile));
       }
     }
 

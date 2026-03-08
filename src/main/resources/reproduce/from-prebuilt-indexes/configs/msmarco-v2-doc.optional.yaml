@@ -3,7 +3,7 @@ conditions:
     display: "uniCOIL (noexp): cached queries"
     display_html: "uniCOIL (noexp): cached queries"
     display_row: ""
-    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v2-doc-segmented.unicoil-noexp-0shot -topics $topics -output $output -parallelism 16 -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
+    command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v2-doc-segmented.unicoil-noexp-0shot -topics $topics -output $output -parallelism 16 -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
     topics:
       - topic_key: msmarco-v2-doc.dev.unicoil-noexp.0shot
         eval_key: msmarco-v2-doc.dev
@@ -63,7 +63,7 @@ conditions:
     display: "uniCOIL (with doc2query-T5): cached queries"
     display_html: "uniCOIL (with doc2query-T5): cached queries"
     display_row: ""
-    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v2-doc-segmented.unicoil-0shot -topics $topics -output $output -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
+    command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v2-doc-segmented.unicoil-0shot -topics $topics -output $output -impact -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
     topics:
       - topic_key: msmarco-v2-doc.dev.unicoil.0shot
         eval_key: msmarco-v2-doc.dev

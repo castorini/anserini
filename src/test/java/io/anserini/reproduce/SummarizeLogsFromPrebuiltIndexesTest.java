@@ -139,6 +139,49 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
     assertInvalidOption("--json", "--md", "--plain-text");
   }
 
+  @Test
+  public void testSummarizeLogsFromPrebuiltIndexesMissingLogsDirectory() throws Exception {
+    Path missingLogsDirectory = temporaryWorkingDirectory.resolve("logs-missing");
+
+    String output = runInTempDirectory(missingLogsDirectory, "--json");
+
+    assertTrue(output.contains("No logs directory found: " + missingLogsDirectory));
+    assertTrue(!output.contains("\"run\""));
+  }
+
+  @Test
+  public void testSummarizeLogsFromPrebuiltIndexesNoMatchingLogs() throws Exception {
+    Path logsDir = temporaryWorkingDirectory.resolve("logs");
+    Files.createDirectory(logsDir);
+    writeLog(logsDir.resolve("unrelated.txt"), List.of("not a prebuilt log"));
+
+    String output = runInTempDirectory(logsDir, "--md");
+
+    assertTrue(output.contains("No prebuilt-index logs found in: " + logsDir + " (pattern: log.from-prebuilt-indexes.*)"));
+    assertTrue(!output.contains("| "));
+  }
+
+  @Test
+  public void testSummarizeLogsFromPrebuiltIndexesMalformedAndUnexpectedContent() throws Exception {
+    Path logsDir = temporaryWorkingDirectory.resolve("logs");
+    Files.createDirectory(logsDir);
+
+    writeLog(logsDir.resolve("log.from-prebuilt-indexes.malformed.txt"), List.of(
+        "Run for malformed [OK]",
+        "Mangled marker [FAILURE] should not count",
+        "Duration: 01:02",
+        "Another token [OK*] and [OKAY]",
+        "No duration value here"));
+
+    String output = runInTempDirectory(logsDir, "--json");
+
+    assertTrue(output.contains("\"run\": \"malformed\""));
+    assertTrue(output.contains("\"[OK]\": 1"));
+    assertTrue(output.contains("\"[OK*]\": 1"));
+    assertTrue(output.contains("\"[FAIL]\": 0"));
+    assertTrue(output.contains("\"elapsed\": \"01:02\""));
+  }
+
   private void assertInvalidOption(String... args) throws Exception {
     try {
       runInTempDirectory(args);
@@ -149,6 +192,10 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
   }
 
   private String runInTempDirectory(String... args) throws Exception {
+    return runInTempDirectory(temporaryWorkingDirectory.resolve("logs"), args);
+  }
+
+  private String runInTempDirectory(Path logsDirectory, String... args) throws Exception {
     ByteArrayOutputStream stdout = new ByteArrayOutputStream();
     PrintStream newOut = new PrintStream(stdout);
 
@@ -162,8 +209,8 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
       for (int i = 0; i < args.length; i++) {
         mainArgs[i] = args[i];
       }
-      mainArgs[args.length] = "--logs";
-      mainArgs[args.length + 1] = temporaryWorkingDirectory.resolve("logs").toString();
+      mainArgs[args.length] = "--logs-directory";
+      mainArgs[args.length + 1] = logsDirectory.toString();
 
       SummarizeLogsFromPrebuiltIndexes.main(mainArgs);
       return stdout.toString(StandardCharsets.UTF_8);
