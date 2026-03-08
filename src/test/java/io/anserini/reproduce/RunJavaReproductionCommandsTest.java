@@ -24,6 +24,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
@@ -56,6 +57,33 @@ public class RunJavaReproductionCommandsTest extends StdOutStdErrRedirectableLuc
   }
 
   @Test
+  public void testInvalidOptionPrintsUsageMessage() throws Exception {
+    RunJavaReproductionCommands.main(new String[] {"--does-not-exist"});
+
+    String output = err.toString(StandardCharsets.UTF_8);
+    assertFalse(output.isEmpty());
+    assertTrue(output, output.contains("--config"));
+  }
+
+  @Test
+  public void testMissingConfigPrintsUsageMessage() throws Exception {
+    RunJavaReproductionCommands.main(new String[] {"--sleep", "1"});
+
+    String output = err.toString(StandardCharsets.UTF_8);
+    assertFalse(output.isEmpty());
+    assertTrue(output, output.contains("--config"));
+  }
+
+  @Test
+  public void testInvalidConfigPrintsUsageMessage() throws Exception {
+    RunJavaReproductionCommands.main(new String[] {"--config"});
+
+    String output = err.toString(StandardCharsets.UTF_8);
+    assertFalse(output.isEmpty());
+    assertTrue(output, output.contains("--config"));
+  }
+
+  @Test
   public void testNegativeSleepValueThrowsException() {
     IllegalArgumentException e = expectThrows(IllegalArgumentException.class, () ->
         RunJavaReproductionCommands.main(new String[] {
@@ -80,13 +108,13 @@ public class RunJavaReproductionCommandsTest extends StdOutStdErrRedirectableLuc
     Method loadCommands = RunJavaReproductionCommands.class.getDeclaredMethod("loadCommands", String.class, String.class, String.class);
     loadCommands.setAccessible(true);
     @SuppressWarnings("unchecked")
-    int actualCommandCount = ((java.util.List<String>) loadCommands.invoke(null, "from-corpus.batch01", "logs", "runs")).size();
+    int actualCommandCount = ((List<String>) loadCommands.invoke(null, "from-corpus.batch01", "logs", "runs")).size();
 
     assertEquals(expectedCommandCount, actualCommandCount);
   }
 
   @Test
-  public void testRunDateCommandAndCheckOutput() throws Exception {
+  public void testRunDummyCommandAndCheckOutput() throws Exception {
     Path targetDir = Paths.get("target");
     Files.createDirectories(targetDir);
 
@@ -111,5 +139,24 @@ public class RunJavaReproductionCommandsTest extends StdOutStdErrRedirectableLuc
 
     Files.deleteIfExists(commandFile);
     Files.deleteIfExists(logFile);
+  }
+
+  @Test
+  public void testRunsDirectoryInjectionForPrebuiltIndexCommands() throws Exception {
+    Path targetDir = Paths.get("target");
+    Files.createDirectories(targetDir);
+
+    Path commandFile = Files.createTempFile(targetDir, "run-reproduction-prebuilt-commands", ".txt");
+    Files.writeString(commandFile, "does.not.Exist --config injected-runs-dir-test\n", StandardCharsets.UTF_8);
+
+    String runsDirectory = "custom-runs-directory";
+    Method loadCommands = RunJavaReproductionCommands.class.getDeclaredMethod("loadCommands", String.class, String.class, String.class);
+    loadCommands.setAccessible(true);
+    @SuppressWarnings("unchecked")
+    List<String> commands = (List<String>) loadCommands.invoke(null, commandFile.toString(), "logs", runsDirectory);
+
+    assertEquals(1, commands.size());
+    assertTrue("Expected runs-directory injection, got: " + commands.get(0), commands.get(0).contains("--runs-directory " + runsDirectory));
+    Files.deleteIfExists(commandFile);
   }
 }
