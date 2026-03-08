@@ -89,7 +89,7 @@ bin/run.sh io.anserini.search.SearchCollection \
   -topics tools/topics-and-qrels/topics.dl19-doc.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-doc.bm25-default+ax.topics.dl19-doc.txt \
-  -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
+  -bm25 -axiom -rerankCutoff 20 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v1-doc/ \
@@ -131,7 +131,7 @@ bin/run.sh io.anserini.search.SearchCollection \
   -topics tools/topics-and-qrels/topics.dl19-doc.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-doc.bm25-tuned+ax.topics.dl19-doc.txt \
-  -bm25 -bm25.k1 3.44 -bm25.b 0.87 -axiom -axiom.deterministic -rerankCutoff 20 &
+  -bm25 -bm25.k1 3.44 -bm25.b 0.87 -axiom -rerankCutoff 20 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v1-doc/ \
@@ -173,7 +173,7 @@ bin/run.sh io.anserini.search.SearchCollection \
   -topics tools/topics-and-qrels/topics.dl19-doc.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-doc.bm25-tuned2+ax.topics.dl19-doc.txt \
-  -bm25 -bm25.k1 4.46 -bm25.b 0.82 -axiom -axiom.deterministic -rerankCutoff 20 &
+  -bm25 -bm25.k1 4.46 -bm25.b 0.82 -axiom -rerankCutoff 20 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v1-doc/ \

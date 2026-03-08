@@ -61,7 +61,7 @@ bin/run.sh io.anserini.search.SearchCollection \
   -topics tools/topics-and-qrels/topics.adhoc.451-550.txt \
   -topicReader Trec \
   -output runs/run.wt10g.bm25+ax.topics.adhoc.451-550.txt \
-  -bm25 -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 &
+  -bm25 -axiom -axiom.beta 0.1 -rerankCutoff 20 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wt10g/ \
@@ -82,7 +82,7 @@ bin/run.sh io.anserini.search.SearchCollection \
   -topics tools/topics-and-qrels/topics.adhoc.451-550.txt \
   -topicReader Trec \
   -output runs/run.wt10g.ql+ax.topics.adhoc.451-550.txt \
-  -qld -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 &
+  -qld -axiom -axiom.beta 0.1 -rerankCutoff 20 &
 ```
 
 Evaluation can be performed using `trec_eval`:
