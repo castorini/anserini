@@ -3,7 +3,7 @@ conditions:
     display: "SPLADE++ EnsembleDistil (cached queries)"
     display_html: "SPLADE++ EnsembleDistil (cached queries)"
     display_row: ""
-    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.splade-pp-ed -topics beir-$topics.splade-pp-ed -output $output -impact -pretokenized -removeQuery
+    command: io.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.splade-pp-ed -topics beir-$topics.splade-pp-ed -output $output -impact -pretokenized -removeQuery
     topics:
     - topic_key: trec-covid
       eval_key: beir-v1.0.0-trec-covid.test
@@ -183,7 +183,7 @@ conditions:
     display: "SPLADE++ EnsembleDistil (ONNX)"
     display_html: "SPLADE++ EnsembleDistil (ONNX)"
     display_row: ""
-    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.splade-pp-ed -topics beir-$topics -encoder SpladePlusPlusEnsembleDistil -output $output -impact -pretokenized -removeQuery
+    command: io.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.splade-pp-ed -topics beir-$topics -encoder SpladePlusPlusEnsembleDistil -output $output -impact -pretokenized -removeQuery
     topics:
     - topic_key: trec-covid
       eval_key: beir-v1.0.0-trec-covid.test
@@ -363,7 +363,7 @@ conditions:
     display: "SPLADE-v3 (cached queries)"
     display_html: "SPLADE-v3 (cached queries)"
     display_row: ""
-    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.splade-v3 -topics beir-$topics.splade-v3 -output $output -impact -pretokenized -removeQuery
+    command: io.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.splade-v3 -topics beir-$topics.splade-v3 -output $output -impact -pretokenized -removeQuery
     topics:
     - topic_key: trec-covid
       eval_key: beir-v1.0.0-trec-covid.test
@@ -543,7 +543,7 @@ conditions:
     display: "bge-base-en-v1.5 w/ HNSW indexes (cached queries)"
     display_html: "bge-base-en-v1.5 w/ HNSW indexes (cached queries)"
     display_row: ""
-    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchHnswDenseVectors -threads $threads -index beir-v1.0.0-$topics.bge-base-en-v1.5.hnsw -topics beir-$topics.bge-base-en-v1.5 -output $output -efSearch 1000 -removeQuery
+    command: io.anserini.search.SearchHnswDenseVectors -threads $threads -index beir-v1.0.0-$topics.bge-base-en-v1.5.hnsw -topics beir-$topics.bge-base-en-v1.5 -output $output -efSearch 1000 -removeQuery
     topics:
     - topic_key: trec-covid
       eval_key: beir-v1.0.0-trec-covid.test
@@ -723,7 +723,7 @@ conditions:
     display: "bge-base-en-v1.5 w/ flat indexes (cached queries)"
     display_html: "bge-base-en-v1.5 w/ flat indexes (cached queries)"
     display_row: ""
-    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchFlatDenseVectors -threads $threads -index beir-v1.0.0-$topics.bge-base-en-v1.5.flat -topics beir-$topics.bge-base-en-v1.5 -output $output -removeQuery
+    command: io.anserini.search.SearchFlatDenseVectors -threads $threads -index beir-v1.0.0-$topics.bge-base-en-v1.5.flat -topics beir-$topics.bge-base-en-v1.5 -output $output -removeQuery
     topics:
       - topic_key: trec-covid
         eval_key: beir-v1.0.0-trec-covid.test

@@ -23,15 +23,13 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Instant;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
-
-import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
@@ -45,14 +43,11 @@ import io.anserini.index.IndexReaderUtils;
 import io.anserini.util.PrebuiltIndexHandler;
 
 public class RunReproductionFromPrebuiltIndexes {
-  private final String collection;
-  private final boolean printCommands;
-  private final boolean dryRun;
-  private final boolean computeIndexSize;
+  private static final String CONFIG_DIRECTORY = "reproduce/from-prebuilt-indexes/configs";
 
   public static class Args {
-    @Option(name = "--regression", metaVar = "[config]", required = true, usage = "Regression config name.")
-    public String regression;
+    @Option(name = "--config", required = true, usage = "Name of the configuration to run.")
+    public String config;
 
     @Option(name = "--print-commands", usage = "Print commands.")
     public Boolean printCommands = false;
@@ -62,13 +57,9 @@ public class RunReproductionFromPrebuiltIndexes {
 
     @Option(name = "--compute-index-size", usage = "Compute total size of all unique indexes referenced by runs.")
     public Boolean computeIndexSize = false;
-  }
 
-  public RunReproductionFromPrebuiltIndexes(Args args) {
-    this.collection = args.regression;
-    this.printCommands = args.printCommands;
-    this.dryRun = args.dryRun;
-    this.computeIndexSize = args.computeIndexSize;
+    @Option(name = "--runs-directory", usage = "Directory for output runs.")
+    public String runsDirectory = ReproductionUtils.Constants.DEFAULT_RUNS_DIRECTORY;
   }
 
   public static void main(String[] args) throws Exception {
@@ -95,38 +86,40 @@ public class RunReproductionFromPrebuiltIndexes {
       return;
     }
 
-    RunReproductionFromPrebuiltIndexes repro = new RunReproductionFromPrebuiltIndexes(regressionArgs);
-    repro.run();
+    run(regressionArgs);
   }
 
-  public void run() throws IOException, InterruptedException, URISyntaxException {
-    if (!new File("runs").exists()) {
-      new File("runs").mkdir();
+  private static void run(Args regressionArgs) throws IOException, InterruptedException, URISyntaxException {
+    String configName = regressionArgs.config;
+    boolean printCommands = regressionArgs.printCommands;
+    boolean dryRun = regressionArgs.dryRun;
+    boolean computeIndexSize = regressionArgs.computeIndexSize;
+
+    Path runsDir = Paths.get(regressionArgs.runsDirectory);
+    if (!Files.exists(runsDir)) {
+      Files.createDirectories(runsDir);
     }
 
-    String fatjarPath = new File(RunReproductionFromPrebuiltIndexes.class.getProtectionDomain()
-        .getCodeSource().getLocation().toURI()).getPath();
+    String fatjarPath = new File(RunReproductionFromPrebuiltIndexes.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
 
     final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-    Config config = mapper.readValue(RunReproductionFromPrebuiltIndexes.class.getClassLoader()
-        .getResourceAsStream("reproduce/from-prebuilt-indexes/configs/" + collection + ".yaml"), Config.class);
+    String resourceName = String.format("%s/%s.yaml", CONFIG_DIRECTORY, configName);
+    Config config;
+    try (InputStream yamlStream = ReproductionUtils.loadResourceStream(resourceName, RunReproductionFromPrebuiltIndexes.class)) {
+      config = mapper.readValue(yamlStream, Config.class);
+    }
 
     ProcessBuilder pb;
     Process process;
 
-    final long start = System.nanoTime();
+    final Instant startTime = Instant.now();
 
     // Pre-scan all commands to gather unique indexes referenced.
     Set<String> uniqueIndexNames = new LinkedHashSet<>();
     for (Condition condition : config.conditions) {
       for (Topic topic : condition.topics) {
-        final String output = String.format("runs/run.%s.%s.%s.txt", collection, condition.name, topic.topic_key);
-        final String command = condition.command
-            .replace("$fatjar", fatjarPath)
-            .replace("$threads", "16")
-            .replace("$topics", topic.topic_key)
-            .replace("$output", output);
-        String indexPath = extractIndexPath(command);
+        // Note that we don't need to reconstruct the full command here, but we do need to substitute $topics to get the actual index path.
+        String indexPath = extractIndexPath(condition.command.replace("$topics", topic.topic_key));
         if (indexPath != null) {
           uniqueIndexNames.add(indexPath);
         }
@@ -214,13 +207,17 @@ public class RunReproductionFromPrebuiltIndexes {
       for (Topic topic : condition.topics) {
         System.out.println("  - topic_key: " + topic.topic_key + "\n");
 
-        final String output = String.format("runs/run.%s.%s.%s.txt", collection, condition.name, topic.topic_key);
+        final String output = runsDir.resolve(String.format("run.%s.%s.%s.txt", configName, condition.name, topic.topic_key)).toString();
 
-        final String command = condition.command
+        final String command = String.format("%s $fatjar %s %s", ReproductionUtils.Constants.JAVA_PREFIX, ReproductionUtils.Constants.JVM_ARGS, condition.command)
             .replace("$fatjar", fatjarPath)
             .replace("$threads", "16")
             .replace("$topics", topic.topic_key)
-            .replace("$output", output);
+            .replace("$output", output)
+            .replace("$runs_directory", runsDir.toString());
+
+        // Note that there's a hidden dependency for fusion runs, where the command specifies the run to fuse by -runs run1 run2 ...
+        // The runs directory can be set using $runs_directory, but the run names are hard-coded.
 
         if (printCommands) {
           System.out.println("    Retrieval command: " + command);
@@ -249,6 +246,7 @@ public class RunReproductionFromPrebuiltIndexes {
           String evalKey = topic.eval_key;
           String metricDefinition = Objects.requireNonNull(metricDefinitions.get(metric));
 
+          // For the eval command, running `java -cp fatjar ...` is fine since we're just running trec_eval.
           evalCommands.put(metric, "java -cp $fatjarPath trec_eval $metric $evalKey $output"
               .replace("$fatjarPath", fatjarPath)
               .replace("$metric", metricDefinition)
@@ -281,13 +279,13 @@ public class RunReproductionFromPrebuiltIndexes {
               double delta = Math.abs(score - expected.get(metric));
 
               if (score > expected.get(metric)) {
-                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, Constants.OKISH, expected.get(metric));
+                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, ReproductionUtils.Constants.OKISH, expected.get(metric));
               } else if (delta < 0.00001) {
-                System.out.printf("    %8s: %.4f %s%n", metric, score, Constants.OK);
+                System.out.printf("    %8s: %.4f %s%n", metric, score, ReproductionUtils.Constants.OK);
               } else if (delta < 0.0002) {
-                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, Constants.OKISH, expected.get(metric));
+                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, ReproductionUtils.Constants.OKISH, expected.get(metric));
               } else {
-                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, Constants.FAIL, expected.get(metric));
+                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, ReproductionUtils.Constants.FAIL, expected.get(metric));
               }
             } else {
               System.out.println("Evaluation command failed for metric: " + metric);
@@ -298,8 +296,12 @@ public class RunReproductionFromPrebuiltIndexes {
       }
     }
 
-    final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-    System.out.println("Total run time: " + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
+    final Instant endTime = Instant.now();
+    final long durationMillis = endTime.toEpochMilli() - startTime.toEpochMilli();
+
+    System.out.println("Start time: " + ReproductionUtils.formatStartTime(startTime));
+    System.out.println("End time:   " + ReproductionUtils.formatEndTime(endTime));
+    System.out.println("Duration:   " + ReproductionUtils.formatDuration(durationMillis));
   }
 
   private static String extractIndexPath(String command) {
