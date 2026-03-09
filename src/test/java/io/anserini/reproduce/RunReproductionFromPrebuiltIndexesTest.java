@@ -16,9 +16,12 @@
 
 package io.anserini.reproduce;
 
+import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 
@@ -43,6 +46,26 @@ public class RunReproductionFromPrebuiltIndexesTest extends StdOutStdErrRedirect
     RunReproductionFromPrebuiltIndexes.main(args);
 
     assertTrue(err.toString().startsWith("Error: \"-dry\" is not a valid option"));
+  }
+
+  @Test
+  public void testHelp() throws Exception {
+    String[] args = new String[] {"--help"};
+    RunReproductionFromPrebuiltIndexes.main(args);
+
+    assertTrue(err.toString().contains("Options for RunReproductionFromPrebuiltIndexes:"));
+    assertTrue(err.toString().contains("--help"));
+  }
+
+  @Test
+  public void testListConfigs() throws Exception {
+    String[] args = new String[] {"--list"};
+    RunReproductionFromPrebuiltIndexes.main(args);
+
+    List<?> outputConfigs = new ObjectMapper().readValue(out.toString(), List.class);
+    List<String> expectedConfigs = ReproductionUtils.listYamlConfigs(
+        RunReproductionFromPrebuiltIndexes.class, "reproduce/from-prebuilt-indexes/configs");
+    assertEquals(expectedConfigs.size(), outputConfigs.size());
   }
 
   @Test

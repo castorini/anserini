@@ -23,10 +23,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.LinkedHashSet;
-import java.util.SortedMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
@@ -37,6 +38,8 @@ import org.junit.Assume;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 import io.anserini.eval.TrecEval;
@@ -92,16 +95,29 @@ public class RunReproductionFromCorpusTest extends StdOutStdErrRedirectableLucen
   }
 
   @Test
+  public void testHelp() throws Exception {
+    RunReproductionFromCorpus.main(new String[] {"--help"});
+
+    assertTrue(err.toString().contains("Options for RunReproductionFromCorpus:"));
+    assertTrue(err.toString().contains("--help"));
+  }
+
+  @Test
+  public void testListConfigs() throws Exception {
+    RunReproductionFromCorpus.main(new String[] {"--list"});
+
+    List<?> outputConfigs = new ObjectMapper().readValue(out.toString(), List.class);
+    List<String> expectedConfigs = ReproductionUtils.listYamlConfigs(
+        RunReproductionFromCorpus.class, "reproduce/from-corpus/configs");
+    assertEquals(expectedConfigs.size(), outputConfigs.size());
+  }
+
+  @Test
   public void testCacmRegressionDryRun() throws Exception {
     SortedMap<Integer, Map<String, String>> topics = TopicReader.getTopics(Topics.CACM);
     assertNotNull(topics);
 
-    RunReproductionFromCorpus.main(new String[] {
-        "--config", "cacm",
-        "--index",
-        "--search",
-        "--dry-run"
-    });
+    RunReproductionFromCorpus.main(new String[] {"--config", "cacm", "--index", "--search", "--dry-run"});
   }
 
   @Test
@@ -109,11 +125,7 @@ public class RunReproductionFromCorpusTest extends StdOutStdErrRedirectableLucen
     SortedMap<Integer, Map<String, String>> topics = TopicReader.getTopics(Topics.CACM);
     assertNotNull(topics);
 
-    RunReproductionFromCorpus.main(new String[] {
-        "--config", "cacm",
-        "--index",
-        "--search",
-    });
+    RunReproductionFromCorpus.main(new String[] {"--config", "cacm", "--index", "--search"});
 
     assertRunsExistAndNonEmpty(CACM_IN_REPO_CORPUS_EXPECTED_RUNS);
     assertTrecEvalP30(CACM_QRELS_PATH, "runs/run.inverted.cacm.cacm.bm25", "0.1942");
@@ -129,12 +141,7 @@ public class RunReproductionFromCorpusTest extends StdOutStdErrRedirectableLucen
     SortedMap<Integer, Map<String, String>> topics = TopicReader.getTopics(Topics.CACM);
     assertNotNull(topics);
 
-    RunReproductionFromCorpus.main(new String[] {
-        "--config", "cacm-download",
-        "--index",
-        "--search",
-        "--download"
-    });
+    RunReproductionFromCorpus.main(new String[] {"--config", "cacm-download", "--download", "--index", "--search"});
 
     assertRunsExistAndNonEmpty(CACM_CORPUS_DOWNLOAD_EXPECTED_RUNS);
     assertTrecEvalP30(CACM_QRELS_PATH, "runs/run.inverted.cacm.download.cacm.bm25", "0.1942");
