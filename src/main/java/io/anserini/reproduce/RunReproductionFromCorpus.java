@@ -229,21 +229,20 @@ public class RunReproductionFromCorpus {
 
       Path path = collectionsDir.resolve(yaml.get("corpus").asText());
       parsedArgs.corpusPath = path.toString();
-      LOG.info("Corpus path is {}", parsedArgs.corpusPath);
-    } else {
-      LOG.info("Corpus path is {}", parsedArgs.corpusPath);
-    }
-
-    String corpusPath = resolveCorpusPath(yaml, parsedArgs);
-    LOG.info("Resolved corpus path is {}", corpusPath);
-
-    if (corpusPath == null) {
-        throw new RuntimeException(String.format("Unable to find the corpus '%s': looked in %s",
-            yaml.get("corpus").asText(), Arrays.toString(CORPUS_ROOTS)));
     }
 
     if (parsedArgs.index) {
       LOG.info("========== Indexing ==========");
+      LOG.info("Corpus path is {}", parsedArgs.corpusPath);
+
+      String corpusPath = resolveCorpusPath(yaml, parsedArgs);
+      LOG.info("Resolved corpus path is {}", corpusPath);
+
+      if (corpusPath == null) {
+        throw new RuntimeException(String.format("Unable to find the corpus '%s': looked in %s",
+            yaml.get("corpus").asText(), Arrays.toString(CORPUS_ROOTS)));
+      }
+
       String command = constructIndexingCommand(yaml, parsedArgs, corpusPath);
       if (!parsedArgs.dryRun) {
         runCommand(command);
