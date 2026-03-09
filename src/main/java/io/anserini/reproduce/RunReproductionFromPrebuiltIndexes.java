@@ -46,56 +46,73 @@ public class RunReproductionFromPrebuiltIndexes {
   private static final String CONFIG_DIRECTORY = "reproduce/from-prebuilt-indexes/configs";
 
   public static class Args {
-    @Option(name = "--config", required = true, usage = "Name of the configuration to run.")
+    @Option(name = "--config", metaVar = "[config]", usage = "Name of the configuration to run.")
     public String config;
 
-    @Option(name = "--print-commands", usage = "Print commands.")
-    public Boolean printCommands = false;
+    @Option(name = "--list", usage = "List available configs as a JSON array and exit.")
+    public boolean list = false;
 
-    @Option(name = "--dry-run", usage = "Perform dry run.")
-    public Boolean dryRun = false;
+    @Option(name = "--runs-directory", metaVar = "[path]", usage = "Directory for output runs.")
+    public String runsDirectory = ReproductionUtils.Constants.DEFAULT_RUNS_DIRECTORY;
 
     @Option(name = "--compute-index-size", usage = "Compute total size of all unique indexes referenced by runs.")
-    public Boolean computeIndexSize = false;
+    public boolean computeIndexSize = false;
 
-    @Option(name = "--runs-directory", usage = "Directory for output runs.")
-    public String runsDirectory = ReproductionUtils.Constants.DEFAULT_RUNS_DIRECTORY;
+    @Option(name = "--print-commands", usage = "Print commands.")
+    public boolean printCommands = false;
+
+    @Option(name = "--dry-run", usage = "Perform dry run.")
+    public boolean dryRun = false;
+
+    @Option(name = "--help", usage = "Print this help message and exit.")
+    public boolean help = false;
   }
 
+  private static final String[] argsOrdering =
+      new String[] {"--config", "--list", "--runs-directory", "--compute-index-size", "--print-commands", "--dry-run", "--help"};
+
   public static void main(String[] args) throws Exception {
-    Args regressionArgs = new Args();
-    CmdLineParser parser = new CmdLineParser(regressionArgs, ParserProperties.defaults().withUsageWidth(120));
+    Args parsedArgs = new Args();
+    CmdLineParser parser = new CmdLineParser(parsedArgs, ParserProperties.defaults().withUsageWidth(120));
+
+    for (String arg : args) {
+      if ("--help".equals(arg)) {
+        ReproductionUtils.printUsage(parser, RunReproductionFromPrebuiltIndexes.class, argsOrdering);
+        return;
+      }
+    }
 
     try {
       parser.parseArgument(args);
     } catch (CmdLineException exception) {
       System.err.println(String.format("Error: %s", exception.getMessage()));
-
-      System.err.printf("%nOptions for %s:%n%n", RunReproductionFromPrebuiltIndexes.class.getSimpleName());
-      parser.printUsage(System.err);
-
-      List<String> required = new java.util.ArrayList<>();
-      parser.getOptions().forEach((option) -> {
-        if (option.option.required()) {
-          required.add(option.option.toString());
-        }
-      });
-
-      System.err.printf("%nRequired options: %s%n", required);
+      ReproductionUtils.printUsage(parser, RunReproductionFromPrebuiltIndexes.class, argsOrdering);
 
       return;
     }
 
-    run(regressionArgs);
+    if (parsedArgs.list) {
+      List<String> configs = ReproductionUtils.listYamlConfigs(RunReproductionFromPrebuiltIndexes.class, CONFIG_DIRECTORY);
+      System.out.println(new ObjectMapper().writeValueAsString(configs));
+      return;
+    }
+
+    if (parsedArgs.config == null || parsedArgs.config.isBlank()) {
+      System.err.println("Error: Option \"--config\" is required unless \"--list\" is specified.");
+      ReproductionUtils.printUsage(parser, RunReproductionFromPrebuiltIndexes.class, argsOrdering);
+      return;
+    }
+
+    run(parsedArgs);
   }
 
-  private static void run(Args regressionArgs) throws IOException, InterruptedException, URISyntaxException {
-    String configName = regressionArgs.config;
-    boolean printCommands = regressionArgs.printCommands;
-    boolean dryRun = regressionArgs.dryRun;
-    boolean computeIndexSize = regressionArgs.computeIndexSize;
+  private static void run(Args args) throws IOException, InterruptedException, URISyntaxException {
+    String configName = args.config;
+    boolean printCommands = args.printCommands;
+    boolean dryRun = args.dryRun;
+    boolean computeIndexSize = args.computeIndexSize;
 
-    Path runsDir = Paths.get(regressionArgs.runsDirectory);
+    Path runsDir = Paths.get(args.runsDirectory);
     if (!Files.exists(runsDir)) {
       Files.createDirectories(runsDir);
     }

@@ -58,7 +58,7 @@ public class RunJavaReproductionCommands {
     @Option(name = "--runs-directory", metaVar = "[path]", usage = "Directory for runs (default: runs).")
     public String runsDirectory = ReproductionUtils.Constants.DEFAULT_RUNS_DIRECTORY;
 
-    @Option(name = "--dry-run", usage = "Print commands without executing them.")
+    @Option(name = "--dry-run", metaVar = "[boolean]", usage = "Print commands without executing them.")
     public boolean dryRun = false;
   }
 
