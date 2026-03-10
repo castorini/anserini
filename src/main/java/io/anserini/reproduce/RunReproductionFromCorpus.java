@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -115,11 +116,11 @@ public class RunReproductionFromCorpus {
   }
 
   public static class Args {
-    @Option(name = "--config", required = true, usage = "Name of the configuration to run.")
+    @Option(name = "--config", metaVar = "[config]", usage = "Name of the configuration to run.")
     public String config;
 
-    @Option(name = "--corpus-path", usage = "Override corpus path from YAML.")
-    public String corpusPath = "";
+    @Option(name = "--list", usage = "List available configs as a JSON array and exit.")
+    public boolean list = false;
 
     @Option(name = "--download", usage = "Download corpus.")
     public boolean download = false;
@@ -127,46 +128,81 @@ public class RunReproductionFromCorpus {
     @Option(name = "--index", usage = "Build index.")
     public boolean index = false;
 
-    @Option(name = "--index-threads", usage = "Override number of indexing threads from YAML.")
-    public int indexThreads = -1;
-
     @Option(name = "--verify", usage = "Verify index statistics.")
     public boolean verify = false;
 
     @Option(name = "--search", usage = "Search and verify results.")
     public boolean search = false;
 
-    @Option(name = "--search-pool", usage = "Number of ranking runs to execute in parallel.")
+    @Option(name = "--corpus-path", metaVar = "[path]", usage = "Override corpus path from YAML.")
+    public String corpusPath;
+
+    @Option(name = "--index-threads", metaVar = "[num]", usage = "Override number of indexing threads from YAML.")
+    public int indexThreads = -1;
+
+    @Option(name = "--search-pool", metaVar = "[num]", usage = "Number of ranking runs to execute in parallel.")
     public int searchPool = 4;
 
-    @Option(name = "--convert-pool", usage = "Number of converting runs to execute in parallel.")
+    @Option(name = "--convert-pool", metaVar = "[num]", usage = "Number of converting runs to execute in parallel.")
     public int convertPool = 4;
 
     @Option(name = "--dry-run", usage = "Output commands without execution.")
     public boolean dryRun = false;
+
+    @Option(name = "--help", usage = "Print this help message and exit.")
+    public boolean help = false;
   }
 
+  private static final String[] argsOrdering = new String[] {
+    "--config", "--list", "--download", "--index", "--verify", "--search",
+    "--corpus-path", "--index-threads", "--search-pool", "--convert-pool", "--dry-run", "--help"};
+
   public static void main(String[] args) throws Exception {
-    Args parsed = new Args();
-    CmdLineParser parser = new CmdLineParser(parsed, ParserProperties.defaults().withUsageWidth(120));
+    Args parsedArgs = new Args();
+    CmdLineParser parser = new CmdLineParser(parsedArgs, ParserProperties.defaults().withUsageWidth(120));
+
+    for (String arg : args) {
+      if ("--help".equals(arg)) {
+        ReproductionUtils.printUsage(parser, RunReproductionFromCorpus.class, argsOrdering);
+        return;
+      }
+    }
+
     try {
       parser.parseArgument(args);
-    } catch (CmdLineException e) {
-      System.err.println(e.getMessage());
-      parser.printUsage(System.err);
+    } catch (CmdLineException exception) {
+      System.err.println(String.format("Error: %s", exception.getMessage()));
+      ReproductionUtils.printUsage(parser, RunReproductionFromCorpus.class, argsOrdering);
+
       return;
     }
 
+    if (parsedArgs.list) {
+      List<String> configs = ReproductionUtils.listYamlConfigs(RunReproductionFromCorpus.class, CONFIG_DIRECTORY);
+      System.out.println(new ObjectMapper().writeValueAsString(configs));
+      return;
+    }
+
+    if (parsedArgs.config == null || parsedArgs.config.isBlank()) {
+      System.err.println("Error: Option \"--config\" is required unless \"--list\" is specified.");
+      ReproductionUtils.printUsage(parser, RunReproductionFromCorpus.class, argsOrdering);
+      return;
+    }
+
+    run(parsedArgs);
+  }
+
+  private static void run(Args parsedArgs) throws IOException, InterruptedException, URISyntaxException, NoSuchAlgorithmException {
     ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
     JsonNode yaml;
-    String resourceName = String.format("%s/%s.yaml", CONFIG_DIRECTORY, parsed.config);
+    String resourceName = String.format("%s/%s.yaml", CONFIG_DIRECTORY, parsedArgs.config);
     try (InputStream yamlStream = ReproductionUtils.loadResourceStream(resourceName, RunReproductionFromCorpus.class)) {
       yaml = mapper.readTree(yamlStream);
     }
 
     long start = System.nanoTime();
 
-    if (parsed.download) {
+    if (parsedArgs.download) {
       // TODO: If collection already exists, skip.
       LOG.info("========== Downloading Corpus ==========");
       JsonNode downloadUrl = yaml.get("download_url");
@@ -192,19 +228,28 @@ public class RunReproductionFromCorpus {
       }
 
       Path path = collectionsDir.resolve(yaml.get("corpus").asText());
-      LOG.info("Corpus path is {}", path);
-      parsed.corpusPath = path.toString();
+      parsedArgs.corpusPath = path.toString();
     }
 
-    if (parsed.index) {
+    if (parsedArgs.index) {
       LOG.info("========== Indexing ==========");
-      String command = constructIndexingCommand(yaml, parsed);
-      if (!parsed.dryRun) {
+      LOG.info("Corpus path is {}", parsedArgs.corpusPath);
+
+      String corpusPath = resolveCorpusPath(yaml, parsedArgs);
+      LOG.info("Resolved corpus path is {}", corpusPath);
+
+      if (corpusPath == null) {
+        throw new RuntimeException(String.format("Unable to find the corpus '%s': looked in %s",
+            yaml.get("corpus").asText(), Arrays.toString(CORPUS_ROOTS)));
+      }
+
+      String command = constructIndexingCommand(yaml, parsedArgs, corpusPath);
+      if (!parsedArgs.dryRun) {
         runCommand(command);
       }
     }
 
-    if (parsed.verify) {
+    if (parsedArgs.verify) {
       LOG.info("========== Verifying Index ==========");
       JsonNode indexType = yaml.get("index_type");
       if (indexType != null && "hnsw".equals(indexType.asText())) {
@@ -244,7 +289,7 @@ public class RunReproductionFromCorpus {
       }
     }
 
-    if (parsed.search) {
+    if (parsedArgs.search) {
       Path runsDir = Paths.get(ReproductionUtils.Constants.DEFAULT_RUNS_DIRECTORY);
       if (!Files.exists(runsDir)) {
         Files.createDirectories(runsDir);
@@ -252,28 +297,28 @@ public class RunReproductionFromCorpus {
 
       LOG.info("========== Ranking ==========");
       List<String> searchCmds = constructSearchCommands(yaml);
-      if (parsed.dryRun) {
+      if (parsedArgs.dryRun) {
         for (String cmd : searchCmds) {
           LOG.info(cmd);
         }
       } else {
-        runCommandsInThreadPool(searchCmds, parsed.searchPool);
+        runCommandsInThreadPool(searchCmds, parsedArgs.searchPool);
       }
 
       JsonNode conversions = yaml.get("conversions");
       if (conversions != null && conversions.isArray() && conversions.size() > 0) {
         LOG.info("========== Converting ==========");
         List<String> convertCmds = constructConvertCommands(yaml);
-        if (parsed.dryRun) {
+        if (parsedArgs.dryRun) {
           for (String cmd : convertCmds) {
             LOG.info(cmd);
           }
         } else {
-          runCommandsInThreadPool(convertCmds, parsed.convertPool);
+          runCommandsInThreadPool(convertCmds, parsedArgs.convertPool);
         }
       }
 
-      evaluateAndVerify(yaml, parsed, start);
+      evaluateAndVerify(yaml, parsedArgs, start);
     }
   }
 
@@ -297,11 +342,11 @@ public class RunReproductionFromCorpus {
     return indexPath;
   }
 
-  private static String constructIndexingCommand(JsonNode yaml, Args args) throws IOException {
+  private static String resolveCorpusPath(JsonNode yaml, Args args) {
     String corpusPath = null;
     if (args.corpusPath != null && !args.corpusPath.isEmpty()) {
       if (Files.exists(Paths.get(args.corpusPath))) {
-        corpusPath = args.corpusPath;
+        return args.corpusPath;
       }
     } else {
       String yamlCorpusPath = Objects.requireNonNull(yaml.get("corpus_path")).asText();
@@ -314,11 +359,10 @@ public class RunReproductionFromCorpus {
       }
     }
 
-    if (corpusPath == null) {
-      throw new RuntimeException(String.format("Unable to find the corpus '%s' at %s: looked in %s",
-          yaml.get("corpus").asText(), yaml.get("corpus_path").asText(), Arrays.toString(CORPUS_ROOTS)));
-    }
+    return corpusPath;
+  }
 
+  private static String constructIndexingCommand(JsonNode yaml, Args args, String corpusPath) throws IOException {
     int threads = args.indexThreads != -1 ? args.indexThreads : Objects.requireNonNull(yaml.get("index_threads")).asInt();
     Files.createDirectories(Paths.get("indexes"));
 

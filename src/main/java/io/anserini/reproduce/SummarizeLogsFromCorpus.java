@@ -50,16 +50,16 @@ public class SummarizeLogsFromCorpus {
       Pattern.compile("^(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2},\\d{1,9})\\b");
 
   public static class Args {
-    @Option(name = "--logs", usage = "Path to logs directory (default: logs).")
+    @Option(name = "--logs", metaVar = "[path]", usage = "Path to logs directory (default: logs).")
     public String logs = ReproductionUtils.Constants.DEFAULT_LOGS_DIRECTORY;
 
-    @Option(name = "--md", aliases = {"--markdown"}, usage = "Emit output in markdown format.")
+    @Option(name = "--md", aliases = {"--markdown"}, metaVar = "[boolean]", usage = "Emit output in markdown format.")
     public boolean markdown = false;
 
-    @Option(name = "--text", aliases = {"--plain-text"}, usage = "Emit output in plain text format.")
+    @Option(name = "--text", aliases = {"--plain-text"}, metaVar = "[boolean]", usage = "Emit output in plain text format.")
     public boolean plainText = false;
 
-    @Option(name = "--json", usage = "Emit output in JSON format.")
+    @Option(name = "--json", metaVar = "[boolean]", usage = "Emit output in JSON format.")
     public boolean json = false;
   }
 
