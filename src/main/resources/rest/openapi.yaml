@@ -1,0 +1,148 @@
+openapi: 3.0.3
+info:
+  title: Anserini REST API
+  version: v1
+  description: |
+    Lightweight REST API for lexical retrieval over Anserini indexes.
+servers:
+  - url: http://localhost:8080
+paths:
+  /v1/{index}/search:
+    get:
+      summary: Search an index
+      operationId: searchV1
+      parameters:
+        - name: index
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Index path or prebuilt index name.
+        - name: query
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Query text.
+        - name: hits
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 10
+          description: Number of hits to return.
+      responses:
+        "200":
+          description: Search results.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SearchResponse"
+        "400":
+          description: Invalid request parameters.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Route not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /v1/{index}/documents/{docid}:
+    get:
+      summary: Fetch a document by docid
+      operationId: getDocumentV1
+      parameters:
+        - name: index
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Index path or prebuilt index name.
+        - name: docid
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Document id in the index.
+      responses:
+        "200":
+          description: Document found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DocumentResponse"
+        "404":
+          description: Document or route not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "400":
+          description: Invalid request parameters.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+components:
+  schemas:
+    Query:
+      type: object
+      properties:
+        text:
+          type: string
+      required: [text]
+    Candidate:
+      type: object
+      properties:
+        docid:
+          type: string
+        score:
+          type: number
+          format: float
+        rank:
+          type: integer
+          minimum: 1
+        doc:
+          description: Parsed raw JSON document or null if unavailable.
+          nullable: true
+      required: [docid, score, rank]
+    SearchResponse:
+      type: object
+      properties:
+        api:
+          type: string
+          example: v1
+        index:
+          type: string
+        query:
+          $ref: "#/components/schemas/Query"
+        candidates:
+          type: array
+          items:
+            $ref: "#/components/schemas/Candidate"
+      required: [api, index, query, candidates]
+    DocumentResponse:
+      type: object
+      properties:
+        api:
+          type: string
+          example: v1
+        index:
+          type: string
+        docid:
+          type: string
+        document:
+          type: object
+          additionalProperties:
+            type: string
+      required: [api, index, docid, document]
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required: [error]
