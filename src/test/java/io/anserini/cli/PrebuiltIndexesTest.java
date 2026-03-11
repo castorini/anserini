@@ -1,0 +1,95 @@
+/*
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package io.anserini.cli;
+
+import java.util.Set;
+import java.util.TreeSet;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
+import io.anserini.index.prebuilt.PrebuiltFlatIndex;
+import io.anserini.index.prebuilt.PrebuiltHnswIndex;
+import io.anserini.index.prebuilt.PrebuiltImpactIndex;
+import io.anserini.index.prebuilt.PrebuiltInvertedIndex;
+
+public class PrebuiltIndexesTest extends StdOutStdErrRedirectableLuceneTestCase {
+  @Before
+  public void setUp() throws Exception {
+    redirectStdOut();
+    redirectStdErr();
+    super.setUp();
+  }
+
+  @After
+  public void tearDown() throws Exception {
+    restoreStdOut();
+    restoreStdErr();
+    super.tearDown();
+  }
+
+  @Test
+  public void testList() throws Exception {
+    PrebuiltIndexes.main(new String[] {"--list"});
+
+    java.util.List<java.util.Map<String, Object>> details =
+        new ObjectMapper().readValue(out.toString(), java.util.List.class);
+
+    int expectedSize = PrebuiltInvertedIndex.entries().size()
+        + PrebuiltImpactIndex.entries().size()
+        + PrebuiltFlatIndex.entries().size()
+        + PrebuiltHnswIndex.entries().size();
+    assertEquals(expectedSize, details.size());
+
+    Set<String> names = new TreeSet<>();
+    for (java.util.Map<String, Object> detail : details) {
+      assertNotNull(detail.get("name"));
+      assertNotNull(detail.get("type"));
+      assertNotNull(detail.get("corpus_index"));
+      names.add((String) detail.get("name"));
+    }
+    assertEquals(expectedSize, names.size());
+  }
+
+  @Test
+  public void testMissingRequiredOption() {
+    PrebuiltIndexes.main(new String[] {});
+    assertTrue(err.toString().contains("Error: --list is required"));
+  }
+
+  @Test
+  public void testListFilterByType() throws Exception {
+    PrebuiltIndexes.main(new String[] {"--list", "--type", "flat"});
+
+    java.util.List<java.util.Map<String, Object>> details =
+        new ObjectMapper().readValue(out.toString(), java.util.List.class);
+
+    assertEquals(PrebuiltFlatIndex.entries().size(), details.size());
+    for (java.util.Map<String, Object> detail : details) {
+      assertEquals("flat", detail.get("type"));
+    }
+  }
+
+  @Test
+  public void testInvalidType() {
+    PrebuiltIndexes.main(new String[] {"--list", "--type", "dense"});
+    assertTrue(err.toString().contains("Error: invalid --type \"dense\""));
+  }
+}
