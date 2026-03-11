@@ -1,9 +1,0 @@
-/**
- * @license lucide-react v0.577.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */
-
-export { default } from './square-centerline-dashed-horizontal.js';
-//# sourceMappingURL=flip-horizontal.js.map
