@@ -145,10 +145,12 @@ public class RunJavaReproductionCommandsTest extends StdOutStdErrRedirectableLuc
   public void testListOptionPrintsUsageMessage() throws Exception {
     RunJavaReproductionCommands.main(new String[] {"--list"});
 
-    String output = err.toString(StandardCharsets.UTF_8);
-    assertFalse(output.isEmpty());
-    assertTrue(output, output.contains("--list"));
-    assertTrue(output, output.contains("--config"));
+    String stdOut = out.toString(StandardCharsets.UTF_8).trim();
+    String stdErr = err.toString(StandardCharsets.UTF_8);
+    assertFalse(stdOut.isEmpty());
+    assertTrue(stdOut, stdOut.startsWith("["));
+    assertTrue(stdOut, stdOut.endsWith("]"));
+    assertTrue(stdErr, stdErr.isEmpty());
   }
 
   @Test
