@@ -32,6 +32,8 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 
+import io.anserini.util.LoggingBootstrap;
+
 public class SummarizeLogsFromPrebuiltIndexes {
   private static final Pattern DURATION_PATTERN = Pattern.compile("^Duration:\\s+.*\\((\\d{2}:\\d{2}:\\d{2})\\)\\s*$");
   private static final String LOG_GLOB = "log.from-prebuilt-indexes.*";
@@ -39,7 +41,7 @@ public class SummarizeLogsFromPrebuiltIndexes {
   private static final String LOG_SUFFIX = ".txt";
 
   public static class Args {
-    @Option(name = "--logs-directory", metaVar = "[path]", usage = "Path to logs directory (default: logs).")
+    @Option(name = "--logs-directory", metaVar = "[path]", usage = "Path to logs directory.")
     public String logsDirectory = ReproductionUtils.Constants.DEFAULT_LOGS_DIRECTORY;
 
     @Option(name = "--md", aliases = {"--markdown"}, metaVar = "[boolean]", usage = "Emit output in markdown format.")
@@ -50,16 +52,32 @@ public class SummarizeLogsFromPrebuiltIndexes {
 
     @Option(name = "--json", metaVar = "[boolean]", usage = "Emit output in JSON format.")
     public boolean json = false;
+
+    @Option(name = "--help", usage = "Print this help message and exit.")
+    public boolean help = false;
   }
 
+  private static final String[] argsOrdering = new String[] {
+      "--logs-directory", "--md", "--text", "--json", "--help"};
+
   public static void main(String[] args) {
+    LoggingBootstrap.installJulToSlf4jBridge();
+
     Args parsedArgs = new Args();
     CmdLineParser parser = new CmdLineParser(parsedArgs, ParserProperties.defaults().withUsageWidth(120));
+
+    for (String arg : args) {
+      if ("--help".equals(arg)) {
+        ReproductionUtils.printUsage(parser, SummarizeLogsFromPrebuiltIndexes.class, argsOrdering);
+        return;
+      }
+    }
+
     try {
       parser.parseArgument(args);
     } catch (CmdLineException e) {
-      System.err.println(e.getMessage());
-      parser.printUsage(System.err);
+      System.err.println(String.format("Error: %s", e.getMessage()));
+      ReproductionUtils.printUsage(parser, SummarizeLogsFromPrebuiltIndexes.class, argsOrdering);
       return;
     }
 
@@ -68,7 +86,11 @@ public class SummarizeLogsFromPrebuiltIndexes {
       throw new IllegalArgumentException("Only one output mode may be specified among --md/--markdown, --text/--plain-text, and --json.");
     }
 
-    Path logsDir = Paths.get(parsedArgs.logsDirectory);
+    run(parsedArgs);
+  }
+
+  private static void run(Args args) {
+    Path logsDir = Paths.get(args.logsDirectory);
     if (!Files.exists(logsDir) || !Files.isDirectory(logsDir)) {
       System.err.println("No logs directory found: " + logsDir);
       return;
@@ -152,9 +174,9 @@ public class SummarizeLogsFromPrebuiltIndexes {
     for (String[] row : rows) {
       appendRow(sb, row, widths);
     }
-    if (parsedArgs.json) {
+    if (args.json) {
       System.out.print(rowsToJson(rows));
-    } else if (parsedArgs.markdown) {
+    } else if (args.markdown) {
       System.out.print(sb);
     } else {
       System.out.print(stripTableDelimiters(sb));

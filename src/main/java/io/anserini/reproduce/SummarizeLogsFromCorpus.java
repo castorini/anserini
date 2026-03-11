@@ -37,6 +37,8 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 
+import io.anserini.util.LoggingBootstrap;
+
 public class SummarizeLogsFromCorpus {
   private static final String RUN_REPRODUCTIONS_FROM_CORPUS = "RunReproductionFromCorpus";
 
@@ -50,8 +52,8 @@ public class SummarizeLogsFromCorpus {
       Pattern.compile("^(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2},\\d{1,9})\\b");
 
   public static class Args {
-    @Option(name = "--logs", metaVar = "[path]", usage = "Path to logs directory (default: logs).")
-    public String logs = ReproductionUtils.Constants.DEFAULT_LOGS_DIRECTORY;
+    @Option(name = "--logs-directory", metaVar = "[path]", usage = "Path to logs directory.")
+    public String logsDirectory = ReproductionUtils.Constants.DEFAULT_LOGS_DIRECTORY;
 
     @Option(name = "--md", aliases = {"--markdown"}, metaVar = "[boolean]", usage = "Emit output in markdown format.")
     public boolean markdown = false;
@@ -61,16 +63,32 @@ public class SummarizeLogsFromCorpus {
 
     @Option(name = "--json", metaVar = "[boolean]", usage = "Emit output in JSON format.")
     public boolean json = false;
+
+    @Option(name = "--help", usage = "Print this help message and exit.")
+    public boolean help = false;
   }
 
-  public static void main(String[] args) {
+  private static final String[] argsOrdering = new String[] {
+      "--logs-directory", "--md", "--text", "--json", "--help"};
+
+  public static void main(String[] args) throws Exception {
+    LoggingBootstrap.installJulToSlf4jBridge();
+
     Args parsedArgs = new Args();
     CmdLineParser parser = new CmdLineParser(parsedArgs, ParserProperties.defaults().withUsageWidth(120));
+
+    for (String arg : args) {
+      if ("--help".equals(arg)) {
+        ReproductionUtils.printUsage(parser, SummarizeLogsFromCorpus.class, argsOrdering);
+        return;
+      }
+    }
+
     try {
       parser.parseArgument(args);
     } catch (CmdLineException e) {
-      System.err.println(e.getMessage());
-      parser.printUsage(System.err);
+      System.err.println(String.format("Error: %s", e.getMessage()));
+      ReproductionUtils.printUsage(parser, SummarizeLogsFromCorpus.class, argsOrdering);
       return;
     }
 
@@ -79,7 +97,11 @@ public class SummarizeLogsFromCorpus {
       throw new IllegalArgumentException("Only one output mode may be specified among --md/--markdown, --text/--plain-text, and --json.");
     }
 
-    Path logsDir = Paths.get(parsedArgs.logs);
+    run(parsedArgs);
+  }
+
+  private static void run(Args args) {
+    Path logsDir = Paths.get(args.logsDirectory);
     int totalRegressions = 0;
     String[] statusLabels = {ReproductionUtils.Constants.OK, ReproductionUtils.Constants.OKISH, ReproductionUtils.Constants.FAIL};
     String[] rawStatusLabels = {"[OK]", "[OK*]", "[FAIL]"};
@@ -146,9 +168,9 @@ public class SummarizeLogsFromCorpus {
       duration = Duration.between(startTime, endTime);
     }
 
-    if (parsedArgs.json) {
+    if (args.json) {
       printSummaryJson(totalRegressions, statusCounters, rawStatusLabels, startTime, endTime, duration);
-    } else if (parsedArgs.markdown) {
+    } else if (args.markdown) {
       printSummaryMarkdown(totalRegressions, statusCounters, rawStatusLabels, startTime, endTime, duration);
     } else {
       printSummaryPlainText(totalRegressions, statusCounters, statusLabels, startTime, endTime, duration);

@@ -18,6 +18,7 @@ package io.anserini.reproduce;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.junit.Assert.assertEquals;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -46,6 +47,33 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
     if (temporaryWorkingDirectory != null) {
       FileUtils.deleteDirectory(new File(temporaryWorkingDirectory.toString()));
     }
+  }
+
+  @Test
+  public void testHelpOutputOptionsAreAligned() throws Exception {
+    String output = runMain("--help");
+    String[] lines = output.split("\\R");
+    int usageColumn = -1;
+
+    for (String line : lines) {
+      if (!line.startsWith("  --")) {
+        continue;
+      }
+
+      int optionStart = line.indexOf("--");
+      int usageStart = findUsageStart(line, optionStart);
+      if (usageStart < 0) {
+        fail("Expected usage text for option line: " + line);
+      }
+
+      if (usageColumn < 0) {
+        usageColumn = usageStart;
+      } else {
+        assertEquals("Misaligned usage text in line: " + line, usageColumn, usageStart);
+      }
+    }
+
+    assertTrue("No option lines found in help output.", usageColumn >= 0);
   }
 
   @Test
@@ -196,6 +224,10 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
   }
 
   private String runInTempDirectory(Path logsDirectory, String... args) throws Exception {
+    return runMain(withLogsDirectoryArg(logsDirectory, args));
+  }
+
+  private String runMain(String... args) throws Exception {
     ByteArrayOutputStream stdout = new ByteArrayOutputStream();
     PrintStream newOut = new PrintStream(stdout);
 
@@ -205,20 +237,33 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
     try {
       System.setOut(newOut);
       System.setErr(newOut);
-      String[] mainArgs = new String[args.length + 2];
-      for (int i = 0; i < args.length; i++) {
-        mainArgs[i] = args[i];
-      }
-      mainArgs[args.length] = "--logs-directory";
-      mainArgs[args.length + 1] = logsDirectory.toString();
-
-      SummarizeLogsFromPrebuiltIndexes.main(mainArgs);
+      SummarizeLogsFromPrebuiltIndexes.main(args);
       return stdout.toString(StandardCharsets.UTF_8);
     } finally {
       System.setOut(originalOut);
       System.setErr(originalErr);
       newOut.close();
     }
+  }
+
+  private String[] withLogsDirectoryArg(Path logsDirectory, String... args) {
+    String[] mainArgs = new String[args.length + 2];
+    System.arraycopy(args, 0, mainArgs, 0, args.length);
+    mainArgs[args.length] = "--logs-directory";
+    mainArgs[args.length + 1] = logsDirectory.toString();
+    return mainArgs;
+  }
+
+  private int findUsageStart(String line, int optionStart) {
+    if (optionStart < 0) {
+      return -1;
+    }
+    for (int i = optionStart + 2; i < line.length() - 2; i++) {
+      if (line.charAt(i) == ' ' && line.charAt(i + 1) == ' ' && line.charAt(i + 2) != ' ') {
+        return i + 2;
+      }
+    }
+    return -1;
   }
 
   private void writeLog(Path path, List<String> lines) throws IOException {

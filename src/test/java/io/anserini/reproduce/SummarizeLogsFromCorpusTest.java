@@ -52,6 +52,19 @@ public class SummarizeLogsFromCorpusTest {
   }
 
   @Test
+  public void testHelpOutputOmitsBooleanMetaVarForAliasedOptions() throws Exception {
+    Files.createDirectory(temporaryWorkingDirectory.resolve("logs"));
+    String output = runInTempDirectory("--help");
+
+    assertTrue(output.contains("--md, --markdown"));
+    assertTrue(output.contains("--text, --plain-text"));
+    assertTrue(output.contains("--json"));
+    assertTrue(!output.contains("--json [boolean]"));
+    assertTrue(!output.contains("--md [boolean], --markdown [boolean]"));
+    assertTrue(!output.contains("--text [boolean], --plain-text [boolean]"));
+  }
+
+  @Test
   public void testSummarizeLogsFromCorpus() throws Exception {
     Path logsDir = temporaryWorkingDirectory.resolve("logs");
     Files.createDirectory(logsDir);

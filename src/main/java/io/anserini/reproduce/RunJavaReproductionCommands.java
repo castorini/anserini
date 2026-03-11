@@ -36,6 +36,8 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 
+import io.anserini.util.LoggingBootstrap;
+
 public class RunJavaReproductionCommands {
   private static final Logger LOG = LogManager.getLogger(RunJavaReproductionCommands.class);
 
@@ -46,37 +48,55 @@ public class RunJavaReproductionCommands {
     @Option(name = "--sleep", metaVar = "[seconds]", usage = "Sleep interval before checking load.")
     public int sleep = 30;
 
-    @Option(name = "--load", metaVar = "[threshold]", usage = "Maximum load threshold (won't launch commands above this load).")
+    @Option(name = "--load", metaVar = "[threshold]", usage = "Maximum load threshold; won't launch commands above this load.")
     public int load = 10;
 
-    @Option(name = "--max", metaVar = "[num]", usage = "Maximum number of concurrent jobs (defaults to 4).")
+    @Option(name = "--max", metaVar = "[num]", usage = "Maximum number of concurrent jobs.")
     public int max = 4;
 
-    @Option(name = "--logs-directory", metaVar = "[path]", usage = "Directory for command logs (default: logs).")
+    @Option(name = "--logs-directory", metaVar = "[path]", usage = "Directory for command logs.")
     public String logsDirectory = ReproductionUtils.Constants.DEFAULT_LOGS_DIRECTORY;
 
-    @Option(name = "--runs-directory", metaVar = "[path]", usage = "Directory for runs (default: runs).")
+    @Option(name = "--runs-directory", metaVar = "[path]", usage = "Directory for runs.")
     public String runsDirectory = ReproductionUtils.Constants.DEFAULT_RUNS_DIRECTORY;
 
     @Option(name = "--dry-run", metaVar = "[boolean]", usage = "Print commands without executing them.")
     public boolean dryRun = false;
+
+    @Option(name = "--help", help = true, usage = "Print this help message and exit.")
+    public boolean help = false;
   }
 
-  public static void main(String[] argv) throws Exception {
-    Args args = new Args();
-    CmdLineParser parser = new CmdLineParser(args, ParserProperties.defaults().withUsageWidth(120));
+  private static final String[] argsOrdering = new String[] {
+      "--config", "--sleep", "--load", "--max", "--logs-directory", "--runs-directory", "--dry-run", "--help"};
+
+  public static void main(String[] args) throws Exception {
+    LoggingBootstrap.installJulToSlf4jBridge();
+
+    Args parsedArgs = new Args();
+    CmdLineParser parser = new CmdLineParser(parsedArgs, ParserProperties.defaults().withUsageWidth(120));
+
     try {
-      parser.parseArgument(argv);
+      parser.parseArgument(args);
     } catch (CmdLineException e) {
-      System.err.println(e.getMessage());
-      parser.printUsage(System.err);
+      System.err.println(String.format("Error: %s", e.getMessage()));
+      ReproductionUtils.printUsage(parser, RunJavaReproductionCommands.class, argsOrdering);
       return;
     }
 
-    if (args.sleep < 0) {
+    if (parsedArgs.help) {
+      ReproductionUtils.printUsage(parser, RunJavaReproductionCommands.class, argsOrdering);
+      return;
+    }
+
+    if (parsedArgs.sleep < 0) {
       throw new IllegalArgumentException("--sleep must be non-negative.");
     }
 
+    run(parsedArgs);
+  }
+
+  private static void run(Args args) throws IOException, URISyntaxException, InterruptedException {
     List<String> commands = loadCommands(args.config, args.logsDirectory, args.runsDirectory);
     LOG.info("Running commands in {}", args.config);
     LOG.info("Logs directory: {}", args.logsDirectory);
