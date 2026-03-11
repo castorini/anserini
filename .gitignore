@@ -82,3 +82,22 @@ tools/topics-and-qrels/qrels.covid-round2-cumulative.txt
 /src/main/python/onnx/models/*
 /src/main/python/parquet/venv*
 
+# AI-related files (hide from professor)
+AGENTS.md
+CLAUDE.md
+.qodo/
+
+# Personal documentation files
+MY_WORK_README.md
+DENSE_RETRIEVAL_WORK.md
+DENSE_RETRIEVAL_RESULTS.md
+DENSE_RETRIEVAL_PROGRESS.md
+DENSE_RETRIEVAL_FINAL_STATUS.md
+ISSUES_RESOLUTION_STATUS.md
+PROFESSOR_COMPARISON.md
+PYSERINI_BM25_COMPARISON.md
+CONCEPTUAL_FRAMEWORK_RESULTS.md
+BGE_BASE_NFCORPUS_RESULTS.md
+DEEP_DIVE_REPRESENTATIONS_RESULTS.md
+LEARNED_SPARSE_REPRESENTATIONS_RESULTS.md
+

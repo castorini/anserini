@@ -78,7 +78,8 @@ public final class BenchmarkCollectionReader {
 
         // We're calling these records because the documents may not an indexable.
         int records = 0;
-        for (@SuppressWarnings("unused") SourceDocument ignored : segment) {
+        for (@SuppressWarnings("unused")
+        SourceDocument ignored : segment) {
           records++;
         }
         recordsProcessed = records;
@@ -114,7 +115,8 @@ public final class BenchmarkCollectionReader {
 
     collectionPath = Paths.get(args.input);
     if (!Files.exists(collectionPath) || !Files.isReadable(collectionPath) || !Files.isDirectory(collectionPath)) {
-      throw new RuntimeException(String.format("Document directory %s does not exist or is not readable, please check the path.", collectionPath));
+      throw new RuntimeException(String
+          .format("Document directory %s does not exist or is not readable, please check the path.", collectionPath));
     }
 
     this.collectionClass = Class.forName("io.anserini.collection." + args.collectionClass);
@@ -147,26 +149,37 @@ public final class BenchmarkCollectionReader {
     }
 
     // Work-stealing executor + progress logger
-    try (
-        ExecutorService executor = Executors.newWorkStealingPool(args.threads);
-        ScheduledExecutorService monitor = Executors.newSingleThreadScheduledExecutor()) {
+    ExecutorService executor = Executors.newWorkStealingPool(args.threads);
+    ScheduledExecutorService monitor = Executors.newSingleThreadScheduledExecutor();
+    try {
       // log progress every minute
       monitor.scheduleAtFixedRate(() -> {
         double pct = (double) completedTaskCount.get() / segmentCnt * 100.0d;
         LOG.info(String.format("%.2f percent completed", pct));
       }, 1, 1, TimeUnit.MINUTES);
 
-      executor.invokeAll(tasks);      // blocks until every task is done
-      monitor.shutdown();             // stop the progress logger
+      executor.invokeAll(tasks); // blocks until every task is done
+      monitor.shutdown(); // stop the progress logger
       monitor.awaitTermination(5, TimeUnit.SECONDS);
     } catch (InterruptedException ie) {
       Thread.currentThread().interrupt();
+    } finally {
+      executor.shutdown();
+      try {
+        if (!executor.awaitTermination(60, TimeUnit.SECONDS)) {
+          executor.shutdownNow();
+        }
+      } catch (InterruptedException ie) {
+        executor.shutdownNow();
+        Thread.currentThread().interrupt();
+      }
     }
 
     LOG.info("Total records processed: {}", String.format(Locale.US, "%,d", totalRecordCount.sum()));
 
     if (segmentCnt != completedTaskCount.get()) {
-      throw new RuntimeException(String.format("totalFiles = %d is not equal to completedTaskCount = %d", segmentCnt, completedTaskCount.get()));
+      throw new RuntimeException(String.format("totalFiles = %d is not equal to completedTaskCount = %d", segmentCnt,
+          completedTaskCount.get()));
     }
 
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
@@ -186,7 +199,8 @@ public final class BenchmarkCollectionReader {
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
-      System.err.println(String.format("Example: %s%s", BenchmarkCollectionReader.class.getSimpleName(), parser.printExample(OptionHandlerFilter.REQUIRED)));
+      System.err.println(String.format("Example: %s%s", BenchmarkCollectionReader.class.getSimpleName(),
+          parser.printExample(OptionHandlerFilter.REQUIRED)));
       return;
     }
 

@@ -82,7 +82,7 @@ public class CloneIndexTest extends IndexerTestBase {
     config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
     IndexWriter writer = new IndexWriter(dir2, config);
 
-    LeafReader leafReader = reader.leaves().getFirst().reader();
+    LeafReader leafReader = reader.leaves().get(0).reader();
     CodecReader codecReader = SlowCodecReaderWrapper.wrap(leafReader);
     writer.addIndexes(new MyFilterCodecReader(codecReader));
     writer.commit();

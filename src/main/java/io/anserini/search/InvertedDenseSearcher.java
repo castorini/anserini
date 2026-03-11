@@ -44,16 +44,20 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static io.anserini.index.IndexInvertedDenseVectors.FW;
 
 public class InvertedDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> implements AutoCloseable {
-  // These are the default tie-breaking rules for documents that end up with the same score with respect to a query.
-  // For most collections, docids are strings, and we break ties by lexicographic sort order.
-  public static final Sort BREAK_SCORE_TIES_BY_DOCID =
-      new Sort(SortField.FIELD_SCORE, new SortField(Constants.ID, SortField.Type.STRING_VAL));
+  // These are the default tie-breaking rules for documents that end up with the
+  // same score with respect to a query.
+  // For most collections, docids are strings, and we break ties by lexicographic
+  // sort order.
+  public static final Sort BREAK_SCORE_TIES_BY_DOCID = new Sort(SortField.FIELD_SCORE,
+      new SortField(Constants.ID, SortField.Type.STRING_VAL));
 
   private static final Logger LOG = LogManager.getLogger(InvertedDenseSearcher.class);
 
   /**
-   * This class holds arguments for configuring the inverted dense searcher. Note that, explicitly, there are no
-   * arguments that define queries and outputs, since this class is meant to be called interactively.
+   * This class holds arguments for configuring the inverted dense searcher. Note
+   * that, explicitly, there are no
+   * arguments that define queries and outputs, since this class is meant to be
+   * called interactively.
    */
   public static class Args extends BaseSearchArgs {
     @Option(name = "-encoding", metaVar = "[word]", required = true, usage = "Encoding, must be one of {fw, lexlsh}")
@@ -84,8 +88,10 @@ public class InvertedDenseSearcher<K extends Comparable<K>> extends BaseSearcher
   public InvertedDenseSearcher(Args args) {
     super(args);
 
-    // We might not be able to successfully create a reader for a variety of reasons, anything from path doesn't exist
-    // to corrupt index. Gather all possible exceptions together as an unchecked exception to make initialization and
+    // We might not be able to successfully create a reader for a variety of
+    // reasons, anything from path doesn't exist
+    // to corrupt index. Gather all possible exceptions together as an unchecked
+    // exception to make initialization and
     // error reporting clearer.
     try {
       this.reader = DirectoryReader.open(FSDirectory.open(Paths.get(args.index)));
@@ -105,8 +111,8 @@ public class InvertedDenseSearcher<K extends Comparable<K>> extends BaseSearcher
    * Searches the collection in batch using multiple threads.
    *
    * @param queries list of queries
-   * @param qids list of unique query ids
-   * @param k number of hits
+   * @param qids    list of unique query ids
+   * @param k       number of hits
    * @param threads number of threads
    * @return a map of query id to search results
    */
@@ -134,15 +140,26 @@ public class InvertedDenseSearcher<K extends Comparable<K>> extends BaseSearcher
         if (n % 100 == 0) {
           LOG.info(String.format("%d queries processed", n));
         }
-        return  null;
+        return null;
       });
     }
 
-    try (ExecutorService executor = Executors.newWorkStealingPool(threads)) {
+    ExecutorService executor = Executors.newWorkStealingPool(threads);
+    try {
       // block until all tasks are completed
       executor.invokeAll(tasks);
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
+    } finally {
+      executor.shutdown();
+      try {
+        if (!executor.awaitTermination(60, TimeUnit.SECONDS)) {
+          executor.shutdownNow();
+        }
+      } catch (InterruptedException e) {
+        executor.shutdownNow();
+        Thread.currentThread().interrupt();
+      }
     }
 
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
@@ -158,7 +175,7 @@ public class InvertedDenseSearcher<K extends Comparable<K>> extends BaseSearcher
    * Searches the collection with a query.
    *
    * @param query query
-   * @param k number of hits
+   * @param k     number of hits
    * @return array of search results
    * @throws IOException if error encountered during search
    */
@@ -169,9 +186,9 @@ public class InvertedDenseSearcher<K extends Comparable<K>> extends BaseSearcher
   /**
    * Searches the collection with a query.
    *
-   * @param qid query id
+   * @param qid   query id
    * @param query query
-   * @param k number of hits
+   * @param k     number of hits
    * @return array of search results
    * @throws IOException if error encountered during search
    */

@@ -47,22 +47,26 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class FlatDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> implements AutoCloseable {
-  // These are the default tie-breaking rules for documents that end up with the same score with respect to a query.
-  // For most collections, docids are strings, and we break ties by lexicographic sort order.
-  public static final Sort BREAK_SCORE_TIES_BY_DOCID =
-      new Sort(SortField.FIELD_SCORE, new SortField(Constants.ID, SortField.Type.STRING_VAL));
+  // These are the default tie-breaking rules for documents that end up with the
+  // same score with respect to a query.
+  // For most collections, docids are strings, and we break ties by lexicographic
+  // sort order.
+  public static final Sort BREAK_SCORE_TIES_BY_DOCID = new Sort(SortField.FIELD_SCORE,
+      new SortField(Constants.ID, SortField.Type.STRING_VAL));
 
   private static final Logger LOG = LogManager.getLogger(FlatDenseSearcher.class);
 
   /**
-   * This class holds arguments for configuring the flat searcher for dense vectors. Note that, explicitly, there are
-   * no arguments that define queries and outputs, since this class is meant to be called interactively.
+   * This class holds arguments for configuring the flat searcher for dense
+   * vectors. Note that, explicitly, there are
+   * no arguments that define queries and outputs, since this class is meant to be
+   * called interactively.
    */
   public static class Args extends BaseSearchArgs {
     @Option(name = "-generator", metaVar = "[class]", usage = "QueryGenerator to use.")
     public String queryGenerator = "VectorQueryGenerator";
 
-    @Option(name ="-encoder", metaVar = "[encoder]", usage = "Dense encoder to use.")
+    @Option(name = "-encoder", metaVar = "[encoder]", usage = "Dense encoder to use.")
     public String encoder = null;
 
     @Option(name = "-quiet", metaVar = "[boolean]", usage = "Turns off all logging (except for errors).")
@@ -103,10 +107,11 @@ public class FlatDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
     if (args.encoder != null) {
       try {
         // If Encoder is part of the name, strip ".Encoder" suffix to normalize the name
-        // This supports both implementations based on a large amount of older code: we can use both.
-        String encoderName = args.encoder.endsWith("Encoder") ?
-            args.encoder.substring(0, args.encoder.length() - "Encoder".length()) :
-            args.encoder;
+        // This supports both implementations based on a large amount of older code: we
+        // can use both.
+        String encoderName = args.encoder.endsWith("Encoder")
+            ? args.encoder.substring(0, args.encoder.length() - "Encoder".length())
+            : args.encoder;
 
         encoder = (DenseEncoder) Class
             .forName(String.format("io.anserini.encoder.dense.%sEncoder", encoderName))
@@ -123,8 +128,8 @@ public class FlatDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
    * Searches the collection in batch using multiple threads.
    *
    * @param queries list of queries
-   * @param qids list of unique query ids
-   * @param k number of hits
+   * @param qids    list of unique query ids
+   * @param k       number of hits
    * @param threads number of threads
    * @return a map of query id to search results
    */
@@ -155,11 +160,22 @@ public class FlatDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
       });
     }
 
-    try (ExecutorService executor = Executors.newWorkStealingPool(threads)) {
+    ExecutorService executor = Executors.newWorkStealingPool(threads);
+    try {
       // block until all tasks are completed
       executor.invokeAll(tasks);
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
+    } finally {
+      executor.shutdown();
+      try {
+        if (!executor.awaitTermination(60, TimeUnit.SECONDS)) {
+          executor.shutdownNow();
+        }
+      } catch (InterruptedException e) {
+        executor.shutdownNow();
+        Thread.currentThread().interrupt();
+      }
     }
 
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
@@ -175,7 +191,7 @@ public class FlatDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
    * Searches the collection with a query vector.
    *
    * @param query query vector
-   * @param k number of hits
+   * @param k     number of hits
    * @return array of search results
    * @throws IOException if error encountered during search
    */
@@ -186,9 +202,9 @@ public class FlatDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
   /**
    * Searches the collection with a query vector.
    *
-   * @param qid query id
+   * @param qid   query id
    * @param query query vector
-   * @param k number of hits
+   * @param k     number of hits
    * @return array of search results
    * @throws IOException if error encountered during search
    */
@@ -200,10 +216,11 @@ public class FlatDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
   }
 
   /**
-   * Searches the collection with a string query that will be encoded by the underlying encoder.
+   * Searches the collection with a string query that will be encoded by the
+   * underlying encoder.
    *
    * @param query query
-   * @param k number of hits
+   * @param k     number of hits
    * @return array of search results
    * @throws IOException if error encountered during search
    */
@@ -212,11 +229,12 @@ public class FlatDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
   }
 
   /**
-   * Searches the collection with a string query that will be encoded by the underlying encoder.
+   * Searches the collection with a string query that will be encoded by the
+   * underlying encoder.
    *
-   * @param qid query id
+   * @param qid   query id
    * @param query query
-   * @param k number of hits
+   * @param k     number of hits
    * @return array of search results
    * @throws IOException if error encountered during search
    */

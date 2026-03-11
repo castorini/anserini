@@ -70,21 +70,21 @@ public abstract class AbstractIndexer implements Runnable {
     @Option(name = "-threads", metaVar = "[num]", usage = "Number of indexing threads.")
     public int threads = 4;
 
-    @Option(name = "-verbose", metaVar = "[boolean]", forbids = {"-quiet"}, usage = "Enables verbose logging for each indexing thread.")
+    @Option(name = "-verbose", metaVar = "[boolean]", forbids = {
+        "-quiet" }, usage = "Enables verbose logging for each indexing thread.")
     public boolean verbose = false;
 
-    @Option(name = "-quiet", metaVar = "[boolean]", forbids = {"-verbose"}, usage = "Turns off all logging (except for errors).")
+    @Option(name = "-quiet", metaVar = "[boolean]", forbids = {
+        "-verbose" }, usage = "Turns off all logging (except for errors).")
     public boolean quiet = false;
 
     @Option(name = "-options", usage = "Print information about options.")
     public Boolean options = false;
 
-    @Option(name = "-shard.count", metaVar = "[n]",
-            usage = "Number of shards to partition the document collection into.")
+    @Option(name = "-shard.count", metaVar = "[n]", usage = "Number of shards to partition the document collection into.")
     public int shardCount = -1;
 
-    @Option(name = "-shard.current", metaVar = "[n]",
-            usage = "The current shard number to generate (indexed from 0).")
+    @Option(name = "-shard.current", metaVar = "[n]", usage = "The current shard number to generate (indexed from 0).")
     public int shardCurrent = -1;
   }
 
@@ -108,10 +108,14 @@ public abstract class AbstractIndexer implements Runnable {
     @Override
     public void run() {
       try (FileSegment<? extends SourceDocument> segment = collection.createFileSegment(inputFile)) {
-        // We keep track of two separate counts: the total count of documents in this file segment (cnt),
-        // and the number of documents in this current "batch" (batch). We update the global counter every
-        // 10k documents: this is so that we get intermediate updates, which is informative if a collection
-        // has only one file segment; see https://github.com/castorini/anserini/issues/683
+        // We keep track of two separate counts: the total count of documents in this
+        // file segment (cnt),
+        // and the number of documents in this current "batch" (batch). We update the
+        // global counter every
+        // 10k documents: this is so that we get intermediate updates, which is
+        // informative if a collection
+        // has only one file segment; see
+        // https://github.com/castorini/anserini/issues/683
         int cnt = 0;
         int batch = 0;
 
@@ -173,7 +177,8 @@ public abstract class AbstractIndexer implements Runnable {
               inputFile.getFileName().toString());
         }
 
-        // Log at the debug level because this can be quite noisy if there are lots of file segments.
+        // Log at the debug level because this can be quite noisy if there are lots of
+        // file segments.
         LOG.debug("{}{}{}: {} docs added.",
             inputFile.getParent().getFileName().toString(), File.separator,
             inputFile.getFileName().toString(), cnt);
@@ -196,7 +201,8 @@ public abstract class AbstractIndexer implements Runnable {
     this.args = args;
 
     if (args.verbose) {
-      // If verbose logging enabled, changed default log level to DEBUG so we get per-thread logging messages.
+      // If verbose logging enabled, changed default log level to DEBUG so we get
+      // per-thread logging messages.
       Configurator.setRootLevel(Level.DEBUG);
       LOG.info("Setting log level to " + Level.DEBUG);
     } else if (args.quiet) {
@@ -216,7 +222,8 @@ public abstract class AbstractIndexer implements Runnable {
     LOG.info(" + Threads: {}", args.threads);
     LOG.info(" + Optimize (merge segments)? {}", args.optimize);
 
-    // Our documentation uses /path/to/foo as a convention: to make copy and paste of the commands work,
+    // Our documentation uses /path/to/foo as a convention: to make copy and paste
+    // of the commands work,
     // we assume collections/ as the path location.
     String pathStr = args.input;
     if (pathStr.startsWith("/path/to")) {
@@ -228,11 +235,12 @@ public abstract class AbstractIndexer implements Runnable {
     }
 
     try {
-      Class<? extends DocumentCollection<?>> collectionClass = (Class<? extends DocumentCollection<?>>)
-          Class.forName("io.anserini.collection." + args.collectionClass);
+      Class<? extends DocumentCollection<?>> collectionClass = (Class<? extends DocumentCollection<?>>) Class
+          .forName("io.anserini.collection." + args.collectionClass);
       this.collection = collectionClass.getConstructor(Path.class).newInstance(collectionPath);
     } catch (Exception e) {
-      throw new IllegalArgumentException(String.format("Unable to load collection class \"%s\".", args.collectionClass));
+      throw new IllegalArgumentException(
+          String.format("Unable to load collection class \"%s\".", args.collectionClass));
     }
   }
 
@@ -241,9 +249,8 @@ public abstract class AbstractIndexer implements Runnable {
     LOG.info("============ Indexing Collection ============");
     final long start = System.nanoTime();
 
-    final List<Path> segmentPaths = args.shardCount > 1 ?
-            collection.getSegmentPaths(args.shardCount, args.shardCurrent) :
-            collection.getSegmentPaths();
+    final List<Path> segmentPaths = args.shardCount > 1 ? collection.getSegmentPaths(args.shardCount, args.shardCurrent)
+        : collection.getSegmentPaths();
     final int segmentCnt = segmentPaths.size();
     AtomicInteger completedTaskCount = new AtomicInteger(0);
 
@@ -251,7 +258,8 @@ public abstract class AbstractIndexer implements Runnable {
     LOG.info(String.format("%,d %s found in %s", segmentCnt, (segmentCnt == 1 ? "file" : "files"), collectionPath));
     LOG.info("Starting to index...");
 
-    // Dispatch to default method to process the segments; subclasses can override this method if desired.
+    // Dispatch to default method to process the segments; subclasses can override
+    // this method if desired.
     processSegments(segmentPaths, completedTaskCount);
 
     if (segmentCnt != completedTaskCount.get()) {
@@ -261,9 +269,12 @@ public abstract class AbstractIndexer implements Runnable {
 
     long numIndexed = writer.getDocStats().maxDoc;
     if (numIndexed != counters.indexed.get()) {
-      // We want to log a warning here, as opposed to throw an exception, because for certain collections,
-      // this might be expected. For example, when indexing tweets - if a tweet is delivered multiple times
-      // (i.e., same docid), with -uniqueDocid we're going to update the doc in the index in place, leading
+      // We want to log a warning here, as opposed to throw an exception, because for
+      // certain collections,
+      // this might be expected. For example, when indexing tweets - if a tweet is
+      // delivered multiple times
+      // (i.e., same docid), with -uniqueDocid we're going to update the doc in the
+      // index in place, leading
       // to differences between the counts.
       LOG.warn("Unexpected difference between number of indexed documents ({}) and index maxDoc ({}).",
           numIndexed, counters.indexed.get());
@@ -301,18 +312,22 @@ public abstract class AbstractIndexer implements Runnable {
     LOG.info(String.format("Total %,d documents indexed in %s", numIndexed,
         DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss")));
   }
-  // Default method to process the segments; subclasses can override this method if desired.
+
+  // Default method to process the segments; subclasses can override this method
+  // if desired.
   protected void processSegments(ThreadPoolExecutor executor, List<Path> segmentPaths) {
     segmentPaths.forEach((segmentPath) -> {
       try {
-        // Each thread gets its own document generator, so we don't need to make any assumptions about its thread safety.
+        // Each thread gets its own document generator, so we don't need to make any
+        // assumptions about its thread safety.
         @SuppressWarnings("unchecked")
-        LuceneDocumentGenerator<SourceDocument> generator = (LuceneDocumentGenerator<SourceDocument>)
-                generatorClass.getDeclaredConstructor((Class<?> []) null).newInstance();
+        LuceneDocumentGenerator<SourceDocument> generator = (LuceneDocumentGenerator<SourceDocument>) generatorClass
+            .getDeclaredConstructor((Class<?>[]) null).newInstance();
 
         executor.execute(new IndexerThread(segmentPath, generator));
       } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-        throw new IllegalArgumentException(String.format("Unable to load LuceneDocumentGenerator \"%s\".", generatorClass.getSimpleName()));
+        throw new IllegalArgumentException(
+            String.format("Unable to load LuceneDocumentGenerator \"%s\".", generatorClass.getSimpleName()));
       }
     });
   }
@@ -323,22 +338,26 @@ public abstract class AbstractIndexer implements Runnable {
     for (Path segmentPath : segmentPaths) {
       tasks.add(() -> {
         try {
-          // Each thread gets its own document generator, so we don't need to make any assumptions about its thread safety.
+          // Each thread gets its own document generator, so we don't need to make any
+          // assumptions about its thread safety.
           @SuppressWarnings("unchecked")
-          LuceneDocumentGenerator<SourceDocument> generator = (LuceneDocumentGenerator<SourceDocument>)
-              generatorClass.getDeclaredConstructor((Class<?>[]) null).newInstance();
+          LuceneDocumentGenerator<SourceDocument> generator = (LuceneDocumentGenerator<SourceDocument>) generatorClass
+              .getDeclaredConstructor((Class<?>[]) null).newInstance();
 
-            new IndexerThread(segmentPath, generator).run();
-            completedTaskCount.incrementAndGet();
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            throw new IllegalArgumentException(String.format("Unable to load LuceneDocumentGenerator \"%s\".", generatorClass.getSimpleName()));
-            }
+          new IndexerThread(segmentPath, generator).run();
+          completedTaskCount.incrementAndGet();
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException
+            | NoSuchMethodException e) {
+          throw new IllegalArgumentException(
+              String.format("Unable to load LuceneDocumentGenerator \"%s\".", generatorClass.getSimpleName()));
+        }
         return null;
       });
     }
 
-    try (ExecutorService executor = Executors.newWorkStealingPool(args.threads);
-         ScheduledExecutorService monitor = Executors.newSingleThreadScheduledExecutor()) {
+    ExecutorService executor = Executors.newWorkStealingPool(args.threads);
+    ScheduledExecutorService monitor = Executors.newSingleThreadScheduledExecutor();
+    try {
       // log progress every minute
       int segmentCnt = segmentPaths.size();
       monitor.scheduleAtFixedRate(() -> {
@@ -347,19 +366,31 @@ public abstract class AbstractIndexer implements Runnable {
         } else {
           double percent = (double) completedTaskCount.get() / segmentCnt * 100.0;
           LOG.info(String.format("%.2f%% of files completed, %,d documents indexed",
-                    percent, counters.indexed.get()));
-          }
-        }, 1, 1, TimeUnit.MINUTES);
+              percent, counters.indexed.get()));
+        }
+      }, 1, 1, TimeUnit.MINUTES);
 
       // block until all tasks are completed
       executor.invokeAll(tasks);
-      monitor.shutdown();
-
-      if (!monitor.awaitTermination(5, TimeUnit.SECONDS)) {
-        monitor.shutdownNow();
-      }
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
+    } finally {
+      // Ensure both executor services are shut down
+      monitor.shutdown();
+      executor.shutdown();
+
+      try {
+        if (!monitor.awaitTermination(5, TimeUnit.SECONDS)) {
+          monitor.shutdownNow();
+        }
+        if (!executor.awaitTermination(5, TimeUnit.SECONDS)) {
+          executor.shutdownNow();
+        }
+      } catch (InterruptedException e) {
+        Thread.currentThread().interrupt();
+        monitor.shutdownNow();
+        executor.shutdownNow();
+      }
     }
   }
 

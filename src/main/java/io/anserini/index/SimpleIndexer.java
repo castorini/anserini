@@ -71,7 +71,7 @@ public class SimpleIndexer {
     this(new String[] {
         "-input", "",
         "-index", indexPath,
-        "-collection", "JsonCollection"});
+        "-collection", "JsonCollection" });
   }
 
   public SimpleIndexer(String indexPath, int threads) throws Exception {
@@ -79,23 +79,23 @@ public class SimpleIndexer {
         "-input", "",
         "-index", indexPath,
         "-collection", "JsonCollection",
-        "-threads", threads + ""});
+        "-threads", threads + "" });
   }
 
   public SimpleIndexer(String indexPath, boolean append) throws Exception {
-    // First line of constructor must be "this", which leads to a slightly awkward implementation.
-    this(append ?
-        new String[] {"-input", "", "-index", indexPath, "-collection", "JsonCollection", "-append"} :
-        new String[] {"-input", "", "-index", indexPath, "-collection", "JsonCollection"});
+    // First line of constructor must be "this", which leads to a slightly awkward
+    // implementation.
+    this(append ? new String[] { "-input", "", "-index", indexPath, "-collection", "JsonCollection", "-append" }
+        : new String[] { "-input", "", "-index", indexPath, "-collection", "JsonCollection" });
   }
 
   public SimpleIndexer(String indexPath, boolean append, int threads) throws Exception {
-    // First line of constructor must be "this", which leads to a slightly awkward implementation.
-    this(append ?
-        new String[] {"-input", "", "-index", indexPath,
-            "-collection", "JsonCollection", "-threads", threads + "", "-append"} :
-        new String[] {"-input", "", "-index", indexPath,
-            "-collection", "JsonCollection", "-threads", threads + ""});
+    // First line of constructor must be "this", which leads to a slightly awkward
+    // implementation.
+    this(append ? new String[] { "-input", "", "-index", indexPath,
+        "-collection", "JsonCollection", "-threads", threads + "", "-append" }
+        : new String[] { "-input", "", "-index", indexPath,
+            "-collection", "JsonCollection", "-threads", threads + "" });
   }
 
   @SuppressWarnings("unchecked")
@@ -105,9 +105,10 @@ public class SimpleIndexer {
     if (!Files.exists(this.indexPath)) {
       Files.createDirectories(this.indexPath);
     }
-    Class<? extends LuceneDocumentGenerator<JsonCollection.Document>> generatorClass =
-        (Class<? extends LuceneDocumentGenerator<JsonCollection.Document>>) Class.forName("io.anserini.index.generator." + args.generatorClass);
-    generator = (LuceneDocumentGenerator<JsonCollection.Document>) generatorClass.getDeclaredConstructor(Args.class).newInstance(args);
+    Class<? extends LuceneDocumentGenerator<JsonCollection.Document>> generatorClass = (Class<? extends LuceneDocumentGenerator<JsonCollection.Document>>) Class
+        .forName("io.anserini.index.generator." + args.generatorClass);
+    generator = (LuceneDocumentGenerator<JsonCollection.Document>) generatorClass.getDeclaredConstructor(Args.class)
+        .newInstance(args);
     analyzer = getAnalyzer(args);
 
     final Directory dir = FSDirectory.open(this.indexPath);
@@ -194,7 +195,8 @@ public class SimpleIndexer {
       try {
         return JsonCollection.Document.fromString(doc);
       } catch (IOException e) {
-        // There's not much we can do here, because we might have partially indexed a batch,
+        // There's not much we can do here, because we might have partially indexed a
+        // batch,
         // so a return value would not be accurate.
         throw new RuntimeException(e);
       }
@@ -225,11 +227,22 @@ public class SimpleIndexer {
       });
     }
 
-    try (ExecutorService executor = Executors.newWorkStealingPool(threads)) {
+    ExecutorService executor = Executors.newWorkStealingPool(threads);
+    try {
       // blocks until all tasks complete
       executor.invokeAll(tasks);
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
+    } finally {
+      executor.shutdown();
+      try {
+        if (!executor.awaitTermination(60, TimeUnit.SECONDS)) {
+          executor.shutdownNow();
+        }
+      } catch (InterruptedException e) {
+        executor.shutdownNow();
+        Thread.currentThread().interrupt();
+      }
     }
 
     return cnt.get();

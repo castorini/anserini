@@ -57,14 +57,15 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-
 /**
- * Class that exposes basic search functionality, designed specifically to provide the bridge between Java and Python
- * via pyjnius. Note that methods are named according to Python conventions (e.g., snake case instead of camel case).
+ * Class that exposes basic search functionality, designed specifically to
+ * provide the bridge between Java and Python
+ * via pyjnius. Note that methods are named according to Python conventions
+ * (e.g., snake case instead of camel case).
  */
 public class SimpleImpactSearcher implements Closeable {
-  private static final Sort BREAK_SCORE_TIES_BY_DOCID =
-      new Sort(SortField.FIELD_SCORE, new SortField(Constants.ID, SortField.Type.STRING_VAL));
+  private static final Sort BREAK_SCORE_TIES_BY_DOCID = new Sort(SortField.FIELD_SCORE,
+      new SortField(Constants.ID, SortField.Type.STRING_VAL));
   private static final Logger LOG = LogManager.getLogger(SimpleImpactSearcher.class);
 
   protected IndexReader reader;
@@ -94,7 +95,7 @@ public class SimpleImpactSearcher implements Closeable {
   /**
    * Creates a {@code SimpleImpactSearcher}.
    *
-   * @param indexDir index directory
+   * @param indexDir     index directory
    * @param queryEncoder query encoder
    * @throws IOException if errors encountered during initialization
    */
@@ -106,9 +107,9 @@ public class SimpleImpactSearcher implements Closeable {
   /**
    * Creates a {@code SimpleImpactSearcher}.
    *
-   * @param indexDir index directory
+   * @param indexDir     index directory
    * @param queryEncoder query encoder
-   * @param analyzer Analyzer
+   * @param analyzer     Analyzer
    * @throws IOException if errors encountered during initialization
    */
   public SimpleImpactSearcher(String indexDir, String queryEncoder, Analyzer analyzer) throws IOException {
@@ -132,8 +133,10 @@ public class SimpleImpactSearcher implements Closeable {
 
     this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
 
-    // Fix for index compatibility issue between Lucene 8 and 9: https://github.com/castorini/anserini/issues/1952
-    // If we detect an older index version, we turn off consistent tie-breaking, which avoids accessing docvalues,
+    // Fix for index compatibility issue between Lucene 8 and 9:
+    // https://github.com/castorini/anserini/issues/1952
+    // If we detect an older index version, we turn off consistent tie-breaking,
+    // which avoids accessing docvalues,
     // which is the source of the incompatibility.
     this.backwardsCompatibilityLucene8 = !reader.toString().contains("lucene.version=9");
 
@@ -161,10 +164,10 @@ public class SimpleImpactSearcher implements Closeable {
       } catch (Exception e) {
         throw new RuntimeException(e);
       }
-    }  
+    }
   }
 
-  private boolean emptyEncoder(){
+  private boolean emptyEncoder() {
     return this.queryEncoder == null;
   }
 
@@ -182,7 +185,7 @@ public class SimpleImpactSearcher implements Closeable {
    *
    * @return analyzed used
    */
-  public Analyzer get_analyzer(){
+  public Analyzer get_analyzer() {
     return this.analyzer;
   }
 
@@ -217,7 +220,8 @@ public class SimpleImpactSearcher implements Closeable {
   /**
    * Enables RM3 query expansion with default parameters.
    *
-   * @param collectionClass class for on-the-fly document parsing if index does not contain docvectors
+   * @param collectionClass class for on-the-fly document parsing if index does
+   *                        not contain docvectors
    */
   @SuppressWarnings("unused")
   public void set_rm3(String collectionClass) {
@@ -229,8 +233,8 @@ public class SimpleImpactSearcher implements Closeable {
   /**
    * Enables RM3 query expansion with specified parameters.
    *
-   * @param fbTerms number of expansion terms
-   * @param fbDocs number of expansion documents
+   * @param fbTerms             number of expansion terms
+   * @param fbDocs              number of expansion documents
    * @param originalQueryWeight weight to assign to the original query
    */
   public void set_rm3(int fbTerms, int fbDocs, float originalQueryWeight) {
@@ -240,9 +244,10 @@ public class SimpleImpactSearcher implements Closeable {
   /**
    * Enables RM3 query expansion with specified parameters.
    *
-   * @param collectionClass class for on-the-fly document parsing if index does not contain docvectors
-   * @param fbTerms number of expansion terms
-   * @param fbDocs number of expansion documents
+   * @param collectionClass     class for on-the-fly document parsing if index
+   *                            does not contain docvectors
+   * @param fbTerms             number of expansion terms
+   * @param fbDocs              number of expansion documents
    * @param originalQueryWeight weight to assign to the original query
    */
   public void set_rm3(String collectionClass, int fbTerms, int fbDocs, float originalQueryWeight) {
@@ -252,16 +257,18 @@ public class SimpleImpactSearcher implements Closeable {
   /**
    * Enables RM3 query expansion with specified parameters.
    *
-   * @param collectionClass class for on-the-fly document parsing if index does not contain docvectors
-   * @param fbTerms number of expansion terms
-   * @param fbDocs number of expansion documents
+   * @param collectionClass     class for on-the-fly document parsing if index
+   *                            does not contain docvectors
+   * @param fbTerms             number of expansion terms
+   * @param fbDocs              number of expansion documents
    * @param originalQueryWeight weight to assign to the original query
-   * @param outputQuery flag to print original and expanded queries
-   * @param filterTerms whether to filter terms to be English only
+   * @param outputQuery         flag to print original and expanded queries
+   * @param filterTerms         whether to filter terms to be English only
    */
   @SuppressWarnings("unchecked")
-  public void set_rm3(String collectionClass, int fbTerms, int fbDocs, float originalQueryWeight, boolean outputQuery, boolean filterTerms) {
-    Class<? extends DocumentCollection<?>>  clazz = null;
+  public void set_rm3(String collectionClass, int fbTerms, int fbDocs, float originalQueryWeight, boolean outputQuery,
+      boolean filterTerms) {
+    Class<? extends DocumentCollection<?>> clazz = null;
     try {
       if (collectionClass != null) {
         clazz = (Class<? extends DocumentCollection<?>>) Class.forName("io.anserini.collection." + collectionClass);
@@ -272,7 +279,8 @@ public class SimpleImpactSearcher implements Closeable {
 
     useRM3 = true;
     cascade = new RerankerCascade<String>("rm3");
-    cascade.add(new Rm3Reranker<String>(this.analyzer, clazz, Constants.CONTENTS, fbTerms, fbDocs, originalQueryWeight, outputQuery, filterTerms));
+    cascade.add(new Rm3Reranker<String>(this.analyzer, clazz, Constants.CONTENTS, fbTerms, fbDocs, originalQueryWeight,
+        outputQuery, filterTerms));
     cascade.add(new ScoreTiesAdjusterReranker<String>());
   }
 
@@ -308,11 +316,13 @@ public class SimpleImpactSearcher implements Closeable {
   /**
    * Enables Rocchio query expansion with default parameters.
    *
-   * @param collectionClass class for on-the-fly document parsing if index does not contain docvectors
+   * @param collectionClass class for on-the-fly document parsing if index does
+   *                        not contain docvectors
    */
   public void set_rocchio(String collectionClass) {
     SearchCollection.Args defaults = new SearchCollection.Args();
-    set_rocchio(collectionClass, Integer.parseInt(defaults.rocchio_topFbTerms[0]), Integer.parseInt(defaults.rocchio_topFbDocs[0]),
+    set_rocchio(collectionClass, Integer.parseInt(defaults.rocchio_topFbTerms[0]),
+        Integer.parseInt(defaults.rocchio_topFbDocs[0]),
         Integer.parseInt(defaults.rocchio_bottomFbTerms[0]), Integer.parseInt(defaults.rocchio_bottomFbDocs[0]),
         Float.parseFloat(defaults.rocchio_alpha[0]), Float.parseFloat(defaults.rocchio_beta[0]),
         Float.parseFloat(defaults.rocchio_gamma[0]), false, false);
@@ -321,20 +331,22 @@ public class SimpleImpactSearcher implements Closeable {
   /**
    * Enables Rocchio query expansion with specified parameters.
    *
-   * @param collectionClass class for on-the-fly document parsing if index does not contain docvectors
-   * @param topFbTerms number of relevant expansion terms
-   * @param topFbDocs number of relevant expansion documents
-   * @param bottomFbTerms number of nonrelevant expansion terms
-   * @param bottomFbDocs number of nonrelevant expansion documents
-   * @param alpha weight to assign to the original query
-   * @param beta weight to assign to the relevant document vectors
-   * @param gamma weight to assign to the nonrelevant document vectors
-   * @param outputQuery flag to print original and expanded queries
-   * @param useNegative flag to use negative feedback
+   * @param collectionClass class for on-the-fly document parsing if index does
+   *                        not contain docvectors
+   * @param topFbTerms      number of relevant expansion terms
+   * @param topFbDocs       number of relevant expansion documents
+   * @param bottomFbTerms   number of nonrelevant expansion terms
+   * @param bottomFbDocs    number of nonrelevant expansion documents
+   * @param alpha           weight to assign to the original query
+   * @param beta            weight to assign to the relevant document vectors
+   * @param gamma           weight to assign to the nonrelevant document vectors
+   * @param outputQuery     flag to print original and expanded queries
+   * @param useNegative     flag to use negative feedback
    */
   @SuppressWarnings("unchecked")
-  public void set_rocchio(String collectionClass, int topFbTerms, int topFbDocs, int bottomFbTerms, int bottomFbDocs, float alpha, float beta, float gamma, boolean outputQuery, boolean useNegative) {
-    Class<? extends DocumentCollection<?>>  clazz = null;
+  public void set_rocchio(String collectionClass, int topFbTerms, int topFbDocs, int bottomFbTerms, int bottomFbDocs,
+      float alpha, float beta, float gamma, boolean outputQuery, boolean useNegative) {
+    Class<? extends DocumentCollection<?>> clazz = null;
     try {
       if (collectionClass != null) {
         clazz = (Class<? extends DocumentCollection<?>>) Class.forName("io.anserini.collection." + collectionClass);
@@ -345,7 +357,8 @@ public class SimpleImpactSearcher implements Closeable {
 
     useRocchio = true;
     cascade = new RerankerCascade<String>("rocchio");
-    cascade.add(new RocchioReranker<String>(this.analyzer, clazz, Constants.CONTENTS, topFbTerms, topFbDocs, bottomFbTerms, bottomFbDocs, alpha, beta, gamma, outputQuery, useNegative));
+    cascade.add(new RocchioReranker<String>(this.analyzer, clazz, Constants.CONTENTS, topFbTerms, topFbDocs,
+        bottomFbTerms, bottomFbDocs, alpha, beta, gamma, outputQuery, useNegative));
     cascade.add(new ScoreTiesAdjusterReranker<String>());
   }
 
@@ -379,10 +392,10 @@ public class SimpleImpactSearcher implements Closeable {
    * @param input map to be transformed
    * @return transformed map
    */
-  private Map<String, Float> intToFloat(Map<String,Integer> input) {
+  private Map<String, Float> intToFloat(Map<String, Integer> input) {
     Map<String, Float> transformed = new HashMap<>();
     for (Map.Entry<String, Integer> entry : input.entrySet()) {
-      transformed.put(entry.getKey(), entry.getValue().floatValue()); 
+      transformed.put(entry.getKey(), entry.getValue().floatValue());
     }
     return transformed;
   }
@@ -403,17 +416,19 @@ public class SimpleImpactSearcher implements Closeable {
    * Searches in batch using multiple threads.
    *
    * @param encoded_queries list of queries
-   * @param qids    list of unique query ids
-   * @param k       number of hits
-   * @param threads number of threads
+   * @param qids            list of unique query ids
+   * @param k               number of hits
+   * @param threads         number of threads
    * @return a map of query id to search results
    */
   public Map<String, ScoredDoc[]> batch_search(List<Map<String, Integer>> encoded_queries,
-                                               List<String> qids,
-                                               int k,
-                                               int threads) {
-    // Create the IndexSearcher here, if needed. We do it here because if we leave the creation to the search
-    // method, we might end up with a race condition as multiple threads try to concurrently create the IndexSearcher.
+      List<String> qids,
+      int k,
+      int threads) {
+    // Create the IndexSearcher here, if needed. We do it here because if we leave
+    // the creation to the search
+    // method, we might end up with a race condition as multiple threads try to
+    // concurrently create the IndexSearcher.
     if (searcher == null) {
       searcher = new IndexSearcher(reader);
       searcher.setSimilarity(similarity);
@@ -423,7 +438,6 @@ public class SimpleImpactSearcher implements Closeable {
     int queryCnt = encoded_queries.size();
     List<Callable<Void>> tasks = new ArrayList<>(queryCnt);
     AtomicInteger completedTaskCount = new AtomicInteger();
-
 
     for (int q = 0; q < queryCnt; ++q) {
       Map<String, Integer> query = encoded_queries.get(q);
@@ -439,11 +453,22 @@ public class SimpleImpactSearcher implements Closeable {
       });
     }
 
-    try (ExecutorService executor = Executors.newWorkStealingPool(threads)) {
+    ExecutorService executor = Executors.newWorkStealingPool(threads);
+    try {
       // block until all tasks are completed
       executor.invokeAll(tasks);
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
+    } finally {
+      executor.shutdown();
+      try {
+        if (!executor.awaitTermination(60, TimeUnit.SECONDS)) {
+          executor.shutdownNow();
+        }
+      } catch (InterruptedException e) {
+        executor.shutdownNow();
+        Thread.currentThread().interrupt();
+      }
     }
 
     if (queryCnt != completedTaskCount.get()) {
@@ -465,11 +490,13 @@ public class SimpleImpactSearcher implements Closeable {
    */
   @SuppressWarnings("unused")
   public Map<String, ScoredDoc[]> batch_search_queries(List<String> queries,
-                                                       List<String> qids,
-                                                       int k,
-                                                       int threads) {
-    // Create the IndexSearcher here, if needed. We do it here because if we leave the creation to the search
-    // method, we might end up with a race condition as multiple threads try to concurrently create the IndexSearcher.
+      List<String> qids,
+      int k,
+      int threads) {
+    // Create the IndexSearcher here, if needed. We do it here because if we leave
+    // the creation to the search
+    // method, we might end up with a race condition as multiple threads try to
+    // concurrently create the IndexSearcher.
     if (searcher == null) {
       searcher = new IndexSearcher(reader);
       searcher.setSimilarity(similarity);
@@ -494,11 +521,22 @@ public class SimpleImpactSearcher implements Closeable {
       });
     }
 
-    try (ExecutorService executor = Executors.newWorkStealingPool()) {
+    ExecutorService executor = Executors.newWorkStealingPool();
+    try {
       // block until all tasks are completed
       executor.invokeAll(tasks);
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
+    } finally {
+      executor.shutdown();
+      try {
+        if (!executor.awaitTermination(60, TimeUnit.SECONDS)) {
+          executor.shutdownNow();
+        }
+      } catch (InterruptedException e) {
+        executor.shutdownNow();
+        Thread.currentThread().interrupt();
+      }
     }
 
     if (queryCnt != completionCount.get()) {
@@ -521,7 +559,7 @@ public class SimpleImpactSearcher implements Closeable {
     // if no query encoder, assume its encoded query split by whitespace
     if (this.queryEncoder == null) {
       List<String> queryTokens = AnalyzerUtils.analyze(analyzer, queryString);
-      return queryTokens.stream().collect(Collectors.toMap(e->e, (a)->1, Integer::sum));
+      return queryTokens.stream().collect(Collectors.toMap(e -> e, (a) -> 1, Integer::sum));
     }
 
     return this.queryEncoder.encode(queryString);
@@ -550,7 +588,7 @@ public class SimpleImpactSearcher implements Closeable {
    *
    * @param encoded_q query
    * @return array of search results
-   * @throws IOException if error encountered during search
+   * @throws IOException  if error encountered during search
    * @throws OrtException if error encountered during search
    */
   public ScoredDoc[] search(Map<String, Integer> encoded_q) throws IOException, OrtException {
@@ -562,7 +600,7 @@ public class SimpleImpactSearcher implements Closeable {
    *
    * @param q raw string query
    * @return array of search results
-   * @throws IOException if error encountered during search
+   * @throws IOException  if error encountered during search
    * @throws OrtException if error encountered during search
    */
   public ScoredDoc[] search(String q) throws IOException, OrtException {
@@ -573,9 +611,9 @@ public class SimpleImpactSearcher implements Closeable {
    * Searches the collection.
    *
    * @param encoded_q query
-   * @param k number of hits
+   * @param k         number of hits
    * @return array of search results
-   * @throws IOException if error encountered during search
+   * @throws IOException  if error encountered during search
    * @throws OrtException if error encountered during search
    */
   public ScoredDoc[] search(Map<String, Integer> encoded_q, int k) throws IOException, OrtException {
@@ -591,7 +629,7 @@ public class SimpleImpactSearcher implements Closeable {
    * @param q string query
    * @param k number of hits
    * @return array of search results
-   * @throws IOException if error encountered during search
+   * @throws IOException  if error encountered during search
    * @throws OrtException if error encountered during search
    */
   public ScoredDoc[] search(String q, int k) throws IOException, OrtException {
@@ -664,12 +702,14 @@ public class SimpleImpactSearcher implements Closeable {
   }
 
   /**
-   * Fetches the Lucene {@link Document} based on some field other than its unique collection docid.
+   * Fetches the Lucene {@link Document} based on some field other than its unique
+   * collection docid.
    * For example, scientific articles might have DOIs.
    *
    * @param field field
    * @param id    unique id
-   * @return corresponding Lucene {@link Document} based on the value of a specific field
+   * @return corresponding Lucene {@link Document} based on the value of a
+   *         specific field
    */
   public Document doc_by_field(String field, String id) {
     return IndexReaderUtils.documentByField(reader, field, id);
@@ -725,4 +765,3 @@ public class SimpleImpactSearcher implements Closeable {
     return IndexReaderUtils.documentRaw(reader, docid);
   }
 }
-  

@@ -122,15 +122,18 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Main entry point for search.
  */
 public final class SearchCollection<K extends Comparable<K>> implements Runnable, Closeable {
-  // These are the default tie-breaking rules for documents that end up with the same score with respect to a query.
-  // For most collections, docids are strings, and we break ties by lexicographic sort order. For tweets, docids are
-  // longs, and we break ties by reverse numerical sort order (i.e., most recent tweet first). This means that searching
-  // tweets requires a slightly different code path, which is enabled by the -searchTweets option in Args.
-  public static final Sort BREAK_SCORE_TIES_BY_DOCID =
-      new Sort(SortField.FIELD_SCORE, new SortField(Constants.ID, SortField.Type.STRING_VAL));
-  public static final Sort BREAK_SCORE_TIES_BY_TWEETID =
-      new Sort(SortField.FIELD_SCORE,
-          new SortField(TweetGenerator.TweetField.ID_LONG.name, SortField.Type.LONG, true));
+  // These are the default tie-breaking rules for documents that end up with the
+  // same score with respect to a query.
+  // For most collections, docids are strings, and we break ties by lexicographic
+  // sort order. For tweets, docids are
+  // longs, and we break ties by reverse numerical sort order (i.e., most recent
+  // tweet first). This means that searching
+  // tweets requires a slightly different code path, which is enabled by the
+  // -searchTweets option in Args.
+  public static final Sort BREAK_SCORE_TIES_BY_DOCID = new Sort(SortField.FIELD_SCORE,
+      new SortField(Constants.ID, SortField.Type.STRING_VAL));
+  public static final Sort BREAK_SCORE_TIES_BY_TWEETID = new Sort(SortField.FIELD_SCORE,
+      new SortField(TweetGenerator.TweetField.ID_LONG.name, SortField.Type.LONG, true));
 
   private static final Logger LOG = LogManager.getLogger(SearchCollection.class);
 
@@ -156,12 +159,11 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     @Option(name = "-topicReader", usage = "TopicReader to use.")
     public String topicReader;
 
-    @Option(name = "-collection", metaVar = "[class]",
-        usage = "If doc vector is not stored in the index, this need to be provided as collection class in package 'io.anserini.collection'.")
+    @Option(name = "-collection", metaVar = "[class]", usage = "If doc vector is not stored in the index, this need to be provided as collection class in package 'io.anserini.collection'.")
     public String collectionClass;
 
     @Option(name = "-fields", metaVar = "[file]", handler = StringArrayOptionHandler.class, usage = "Fields")
-    public String[] fields = new String[]{};
+    public String[] fields = new String[] {};
     public Map<String, Float> fieldsMap = new HashMap<>();
 
     @Option(name = "-parallelism", metaVar = "[int]", usage = "Number of threads to use for each individual parameter configuration.")
@@ -170,16 +172,13 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     @Option(name = "-language", usage = "Analyzer Language")
     public String language = "en";
 
-    @Option(name = "-analyzeWithHuggingFaceTokenizer",
-        usage = "search a collection by tokenizing query with pretrained mbert tokenizer")
+    @Option(name = "-analyzeWithHuggingFaceTokenizer", usage = "search a collection by tokenizing query with pretrained mbert tokenizer")
     public String analyzeWithHuggingFaceTokenizer = null;
 
-    @Option(name = "-useCompositeAnalyzer",
-        usage = "search a collection using a Lucene Analyzer & a pretrained HuggingFace tokenizer")
+    @Option(name = "-useCompositeAnalyzer", usage = "search a collection using a Lucene Analyzer & a pretrained HuggingFace tokenizer")
     public boolean useCompositeAnalyzer = false;
 
-    @Option(name = "-useAutoCompositeAnalyzer",
-        usage="index a collection using the useAutoCompositeAnalyzer")
+    @Option(name = "-useAutoCompositeAnalyzer", usage = "index a collection using the useAutoCompositeAnalyzer")
     public boolean useAutoCompositeAnalyzer = false;
 
     @Option(name = "-topicField", usage = "Which field of the query should be used, default \"title\"." +
@@ -193,15 +192,17 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
         "index created by IndexCollection -collection TweetCollection")
     public Boolean searchTweets = false;
 
-    @Option(name = "-backgroundLinking", forbids = {"-sdm", "-rf.qrels"},
-        usage = "performs the background linking task as part of the TREC News Track")
+    @Option(name = "-backgroundLinking", forbids = { "-sdm",
+        "-rf.qrels" }, usage = "performs the background linking task as part of the TREC News Track")
     public Boolean backgroundLinking = false;
 
-    @Option(name = "-backgroundLinking.k", usage = "extract top k terms from the query document for TREC News Track Background " +
+    @Option(name = "-backgroundLinking.k", usage = "extract top k terms from the query document for TREC News Track Background "
+        +
         "Linking task. The terms are ranked by their tf-idf score from the query document")
     public int backgroundLinkingK = 10;
 
-    @Option(name = "-backgroundLinking.dateFilter", usage = "Boolean switch to filter out articles published after topic article " +
+    @Option(name = "-backgroundLinking.dateFilter", usage = "Boolean switch to filter out articles published after topic article "
+        +
         "for the TREC News Track Background Linking task.")
     public boolean backgroundLinkingDatefilter = false;
 
@@ -211,8 +212,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     @Option(name = "-keepStopwords", usage = "Boolean switch to keep stopwords in the query topics")
     public boolean keepStopwords = false;
 
-    @Option(name = "-stopwords", metaVar = "[file]", forbids = "-keepStopwords",
-        usage = "Path to file with stopwords.")
+    @Option(name = "-stopwords", metaVar = "[file]", forbids = "-keepStopwords", usage = "Path to file with stopwords.")
     public String stopwords = null;
 
     @Option(name = "-pretokenized", usage = "Boolean switch to accept pre tokenized jsonl.")
@@ -245,110 +245,111 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     // ranking model: impact scores (basically, just sum of tf's)
     // ----------------------------------------------------------
 
-    @Option(name = "-impact",
-        forbids = {"-bm25", "-bm25.accurate", "-bm25.querySide", "-qld", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
-        usage = "ranking model: BM25")
+    @Option(name = "-impact", forbids = { "-bm25", "-bm25.accurate", "-bm25.querySide", "-qld", "-qljm", "-inl2",
+        "-spl", "-f2exp", "-f2log" }, usage = "ranking model: BM25")
     public boolean impact = false;
 
     // -------------------
     // ranking model: bm25
     // -------------------
 
-    @Option(name = "-bm25",
-        forbids = {"-impact", "-bm25.accurate", "-bm25.querySide", "-qld", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
-        usage = "ranking model: BM25")
+    @Option(name = "-bm25", forbids = { "-impact", "-bm25.accurate", "-bm25.querySide", "-qld", "-qljm", "-inl2",
+        "-spl", "-f2exp", "-f2log" }, usage = "ranking model: BM25")
     public boolean bm25 = false;
 
-    @Option(name = "-bm25.accurate",
-        forbids = {"-impact", "-bm25", "-bm25.querySide", "-qld", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
-        usage = "BM25: use accurate document lengths")
+    @Option(name = "-bm25.accurate", forbids = { "-impact", "-bm25", "-bm25.querySide", "-qld", "-qljm", "-inl2",
+        "-spl", "-f2exp", "-f2log" }, usage = "BM25: use accurate document lengths")
     public boolean bm25Accurate = false;
 
-    @Option(name = "-bm25.querySide", 
-        forbids = {"-impact", "-bm25", "-bm25.accurate", "-qld", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
-        usage = "boolean switch to apply query-side BM25")
+    @Option(name = "-bm25.querySide", forbids = { "-impact", "-bm25", "-bm25.accurate", "-qld", "-qljm", "-inl2",
+        "-spl", "-f2exp", "-f2log" }, usage = "boolean switch to apply query-side BM25")
     public boolean bm25q = false;
 
-    // BM25 parameters: Robertson et al. (TREC 4) propose the range of 1.0-2.0 for k1 and 0.6-0.75 for b, with k1 = 1.2
-    // and b = 0.75 being a very common setting. Empirically, these values don't work very well for modern collections.
-    // Here, we adopt the defaults recommended by Trotman et al. (SIGIR 2012 OSIR Workshop) of k1 = 0.9 and b = 0.4.
-    // These values come from tuning on the INEX 2008 Wikipedia collection, which is less commonly used, so there isn't
-    // the danger of (inadvertently) training on test data. These settings are used in the ATIRE system and also in
+    // BM25 parameters: Robertson et al. (TREC 4) propose the range of 1.0-2.0 for
+    // k1 and 0.6-0.75 for b, with k1 = 1.2
+    // and b = 0.75 being a very common setting. Empirically, these values don't
+    // work very well for modern collections.
+    // Here, we adopt the defaults recommended by Trotman et al. (SIGIR 2012 OSIR
+    // Workshop) of k1 = 0.9 and b = 0.4.
+    // These values come from tuning on the INEX 2008 Wikipedia collection, which is
+    // less commonly used, so there isn't
+    // the danger of (inadvertently) training on test data. These settings are used
+    // in the ATIRE system and also in
     // Lin et al. (ECIR 2016).
 
     @Option(name = "-bm25.k1", handler = StringArrayOptionHandler.class, usage = "BM25: k1 parameter")
-    public String[] bm25_k1 = new String[]{"0.9"};
+    public String[] bm25_k1 = new String[] { "0.9" };
 
     @Option(name = "-bm25.b", handler = StringArrayOptionHandler.class, usage = "BM25: b parameter")
-    public String[] bm25_b = new String[]{"0.4"};
+    public String[] bm25_b = new String[] { "0.4" };
 
     // --------------------------------------------------------
     // ranking model: query likelihood with Dirichlet smoothing
     // --------------------------------------------------------
 
-    @Option(name = "-qld",
-        forbids = {"-impact", "-bm25", "-bm25.accurate", "-bm25.querySide", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
-        usage = "ranking model: query likelihood with Dirichlet smoothing")
+    @Option(name = "-qld", forbids = { "-impact", "-bm25", "-bm25.accurate", "-bm25.querySide", "-qljm", "-inl2",
+        "-spl", "-f2exp", "-f2log" }, usage = "ranking model: query likelihood with Dirichlet smoothing")
     public boolean qld = false;
 
-    // Why this value? We want to pick a value that corresponds to what the community generally considers to be "good".
-    // Zhai and Lafferty (SIGIR 2001) write "the optimal value of mu appears to have a wide range (500-10000) and
-    // usually is around 2,000. A large value is 'safer', especially for long verbose queries." We might consider
-    // additional evidence from TREC papers: the UMass TREC overview papers from 2002 and 2003 don't specifically
-    // mention query-likelihood as a retrieval model. The UMass overview paper from TREC 2004 mentions setting mu
-    // to 1000; incidentally, this is the first mention of what the community would later call RM3. So, this setting
+    // Why this value? We want to pick a value that corresponds to what the
+    // community generally considers to be "good".
+    // Zhai and Lafferty (SIGIR 2001) write "the optimal value of mu appears to have
+    // a wide range (500-10000) and
+    // usually is around 2,000. A large value is 'safer', especially for long
+    // verbose queries." We might consider
+    // additional evidence from TREC papers: the UMass TREC overview papers from
+    // 2002 and 2003 don't specifically
+    // mention query-likelihood as a retrieval model. The UMass overview paper from
+    // TREC 2004 mentions setting mu
+    // to 1000; incidentally, this is the first mention of what the community would
+    // later call RM3. So, this setting
     // seems reasonable and does not contradict Zhai and Lafferty.
 
     @Option(name = "-qld.mu", handler = StringArrayOptionHandler.class, usage = "qld: mu smoothing parameter")
-    public String[] qld_mu = new String[]{"1000"};
+    public String[] qld_mu = new String[] { "1000" };
 
     // -------------------------------------------------------------
     // ranking model: query likelihood with Jelinek-Mercer smoothing
     // -------------------------------------------------------------
 
-    @Option(name = "-qljm",
-        forbids = {"-impact", "-bm25", "-bm25.accurate", "-bm25.querySide", "-qld", "-inl2", "-spl", "-f2exp", "-f2log"},
-        usage = "ranking model: query likelihood with Jelinek-Mercer smoothing")
+    @Option(name = "-qljm", forbids = { "-impact", "-bm25", "-bm25.accurate", "-bm25.querySide", "-qld", "-inl2",
+        "-spl", "-f2exp", "-f2log" }, usage = "ranking model: query likelihood with Jelinek-Mercer smoothing")
     public boolean qljm = false;
 
     @Option(name = "-qljm.lambda", handler = StringArrayOptionHandler.class, usage = "qljm: lambda smoothing parameter")
-    public String[] qljm_lambda = new String[]{"0.1"};
+    public String[] qljm_lambda = new String[] { "0.1" };
 
     // -----------------------------------------
     // other ranking models (less commonly used)
     // -----------------------------------------
 
-    @Option(name = "-inl2",
-        forbids = {"-impact", "bm25", "-bm25.accurate", "-bm25.querySide", "-qld", "-qljm", "-spl", "-f2exp", "-f2log"},
-        usage = "use I(n)L2 scoring model")
+    @Option(name = "-inl2", forbids = { "-impact", "bm25", "-bm25.accurate", "-bm25.querySide", "-qld", "-qljm", "-spl",
+        "-f2exp", "-f2log" }, usage = "use I(n)L2 scoring model")
     public boolean inl2 = false;
 
     @Option(name = "-inl2.c", metaVar = "[value]", usage = "I(n)L2 c parameter")
-    public String[] inl2_c = new String[]{"0.1"};
+    public String[] inl2_c = new String[] { "0.1" };
 
-    @Option(name = "-spl",
-        forbids = {"-impact", "bm25", "-bm25.accurate", "-bm25.querySide", "-qld", "-qljm", "-inl2", "-f2exp", "-f2log"},
-        usage = "use SPL scoring model")
+    @Option(name = "-spl", forbids = { "-impact", "bm25", "-bm25.accurate", "-bm25.querySide", "-qld", "-qljm", "-inl2",
+        "-f2exp", "-f2log" }, usage = "use SPL scoring model")
     public boolean spl = false;
 
     @Option(name = "-spl.c", metaVar = "[value]", usage = "SPL c parameter")
-    public String[] spl_c = new String[]{"0.1"};
+    public String[] spl_c = new String[] { "0.1" };
 
-    @Option(name = "-f2exp",
-        forbids = {"-impact", "bm25", "-bm25.accurate", "-bm25.querySide", "-qld", "-qljm", "-inl2", "-spl", "-f2log"},
-        usage = "use F2Exp scoring model")
+    @Option(name = "-f2exp", forbids = { "-impact", "bm25", "-bm25.accurate", "-bm25.querySide", "-qld", "-qljm",
+        "-inl2", "-spl", "-f2log" }, usage = "use F2Exp scoring model")
     public boolean f2exp = false;
 
     @Option(name = "-f2exp.s", metaVar = "[value]", usage = "F2Exp s parameter")
-    public String[] f2exp_s = new String[]{"0.5"};
+    public String[] f2exp_s = new String[] { "0.5" };
 
-    @Option(name = "-f2log",
-        forbids = {"-impact", "bm25", "-bm25.accurate", "-bm25.querySide", "-qld", "-qljm", "-inl2", "-spl", "-f2exp"},
-        usage = "use F2Log scoring model")
+    @Option(name = "-f2log", forbids = { "-impact", "bm25", "-bm25.accurate", "-bm25.querySide", "-qld", "-qljm",
+        "-inl2", "-spl", "-f2exp" }, usage = "use F2Log scoring model")
     public boolean f2log = false;
 
     @Option(name = "-f2log.s", metaVar = "[value]", usage = "F2Log s parameter")
-    public String[] f2log_s = new String[]{"0.5"};
+    public String[] f2log_s = new String[] { "0.5" };
 
     // -------------------------------------------
     // options for the sequential dependence model
@@ -373,79 +374,67 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     // Anserini uses the same default options as in Indri.
     // As of v5.13, the defaults in Indri are, from src/RMExpander.cpp:
     //
-    //   int fbDocs = _param.get( "fbDocs" , 10 );
-    //   int fbTerms = _param.get( "fbTerms" , 10 );
-    //   double fbOrigWt = _param.get( "fbOrigWeight", 0.5 );
-    //   double mu = _param.get( "fbMu", 0 );
+    // int fbDocs = _param.get( "fbDocs" , 10 );
+    // int fbTerms = _param.get( "fbTerms" , 10 );
+    // double fbOrigWt = _param.get( "fbOrigWeight", 0.5 );
+    // double mu = _param.get( "fbMu", 0 );
 
     @Option(name = "-rm3", usage = "use RM3 query expansion model")
     public boolean rm3 = false;
 
-    @Option(name = "-rm3.fbTerms", handler = StringArrayOptionHandler.class,
-        usage = "RM3 parameter: number of expansion terms")
-    public String[] rm3_fbTerms = new String[]{"10"};
+    @Option(name = "-rm3.fbTerms", handler = StringArrayOptionHandler.class, usage = "RM3 parameter: number of expansion terms")
+    public String[] rm3_fbTerms = new String[] { "10" };
 
-    @Option(name = "-rm3.fbDocs", handler = StringArrayOptionHandler.class,
-        usage = "RM3 parameter: number of expansion documents")
-    public String[] rm3_fbDocs = new String[]{"10"};
+    @Option(name = "-rm3.fbDocs", handler = StringArrayOptionHandler.class, usage = "RM3 parameter: number of expansion documents")
+    public String[] rm3_fbDocs = new String[] { "10" };
 
-    @Option(name = "-rm3.originalQueryWeight", handler = StringArrayOptionHandler.class,
-        usage = "RM3 parameter: weight to assign to the original query")
-    public String[] rm3_originalQueryWeight = new String[]{"0.5"};
+    @Option(name = "-rm3.originalQueryWeight", handler = StringArrayOptionHandler.class, usage = "RM3 parameter: weight to assign to the original query")
+    public String[] rm3_originalQueryWeight = new String[] { "0.5" };
 
-    @Option(name = "-rm3.outputQuery",
-        usage = "RM3 parameter: flag to print original and expanded queries")
+    @Option(name = "-rm3.outputQuery", usage = "RM3 parameter: flag to print original and expanded queries")
     public boolean rm3_outputQuery = false;
 
-    @Option(name = "-rm3.noTermFilter",
-        usage = "RM3 parameter: turn off English term filter")
+    @Option(name = "-rm3.noTermFilter", usage = "RM3 parameter: turn off English term filter")
     public boolean rm3_noTermFilter = false;
 
     // ------------------------------
     // query expansion model: rocchio
     // ------------------------------
 
-    // Anserini uses as defaults the same topFbTerms, topFbDocs, bottomFbTerms and bottomFbDocs settings as RM3.
-    // For alpha/beta/gamma weights, we use the setting referenced in the Manning et al. textbook:
+    // Anserini uses as defaults the same topFbTerms, topFbDocs, bottomFbTerms and
+    // bottomFbDocs settings as RM3.
+    // For alpha/beta/gamma weights, we use the setting referenced in the Manning et
+    // al. textbook:
     // https://nlp.stanford.edu/IR-book/html/htmledition/the-rocchio71-algorithm-1.html
 
     @Option(name = "-rocchio", usage = "use rocchio query expansion model")
     public boolean rocchio = false;
 
-    @Option(name = "-rocchio.topFbTerms", handler = StringArrayOptionHandler.class,
-        usage = "Rocchio parameter: number of expansion relevant terms")
-    public String[] rocchio_topFbTerms = new String[]{"10"};
+    @Option(name = "-rocchio.topFbTerms", handler = StringArrayOptionHandler.class, usage = "Rocchio parameter: number of expansion relevant terms")
+    public String[] rocchio_topFbTerms = new String[] { "10" };
 
-    @Option(name = "-rocchio.topFbDocs", handler = StringArrayOptionHandler.class,
-        usage = "Rocchio parameter: number of expansion relevant documents")
-    public String[] rocchio_topFbDocs = new String[]{"10"};
+    @Option(name = "-rocchio.topFbDocs", handler = StringArrayOptionHandler.class, usage = "Rocchio parameter: number of expansion relevant documents")
+    public String[] rocchio_topFbDocs = new String[] { "10" };
 
-    @Option(name = "-rocchio.bottomFbTerms", handler = StringArrayOptionHandler.class,
-        usage = "Rocchio parameter: number of expansion nonrelevant terms")
-    public String[] rocchio_bottomFbTerms = new String[]{"10"};
+    @Option(name = "-rocchio.bottomFbTerms", handler = StringArrayOptionHandler.class, usage = "Rocchio parameter: number of expansion nonrelevant terms")
+    public String[] rocchio_bottomFbTerms = new String[] { "10" };
 
-    @Option(name = "-rocchio.bottomFbDocs", handler = StringArrayOptionHandler.class,
-        usage = "Rocchio parameter: number of expansion nonrelevant documents")
-    public String[] rocchio_bottomFbDocs = new String[]{"10"};
+    @Option(name = "-rocchio.bottomFbDocs", handler = StringArrayOptionHandler.class, usage = "Rocchio parameter: number of expansion nonrelevant documents")
+    public String[] rocchio_bottomFbDocs = new String[] { "10" };
 
-    @Option(name = "-rocchio.alpha", handler = StringArrayOptionHandler.class,
-        usage = "Rocchio parameter: weight to assign to the original query")
-    public String[] rocchio_alpha = new String[]{"1"};
+    @Option(name = "-rocchio.alpha", handler = StringArrayOptionHandler.class, usage = "Rocchio parameter: weight to assign to the original query")
+    public String[] rocchio_alpha = new String[] { "1" };
 
-    @Option(name = "-rocchio.beta", handler = StringArrayOptionHandler.class,
-        usage = "Rocchio parameter: weight to assign to the relevant document vectors")
-    public String[] rocchio_beta = new String[]{"0.75"};
+    @Option(name = "-rocchio.beta", handler = StringArrayOptionHandler.class, usage = "Rocchio parameter: weight to assign to the relevant document vectors")
+    public String[] rocchio_beta = new String[] { "0.75" };
 
-    @Option(name = "-rocchio.gamma", handler = StringArrayOptionHandler.class,
-        usage = "Rocchio parameter: weight to assign to the nonrelevant document vectors")
-    public String[] rocchio_gamma = new String[]{"0.15"};
+    @Option(name = "-rocchio.gamma", handler = StringArrayOptionHandler.class, usage = "Rocchio parameter: weight to assign to the nonrelevant document vectors")
+    public String[] rocchio_gamma = new String[] { "0.15" };
 
-    @Option(name = "-rocchio.useNegative",
-        usage = "Rocchio parameter: flag to use nonrelevant document vectors")
+    @Option(name = "-rocchio.useNegative", usage = "Rocchio parameter: flag to use nonrelevant document vectors")
     public boolean rocchio_useNegative = false;
 
-    @Option(name = "-rocchio.outputQuery",
-        usage = "Rocchio parameter: flag to print original and expanded queries")
+    @Option(name = "-rocchio.outputQuery", usage = "Rocchio parameter: flag to print original and expanded queries")
     public boolean rocchio_outputQuery = false;
 
     // ------------------------------
@@ -455,28 +444,22 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     @Option(name = "-bm25prf", usage = "use bm25PRF query expansion model")
     public boolean bm25prf = false;
 
-    @Option(name = "-bm25prf.fbTerms", handler = StringArrayOptionHandler.class,
-        usage = "bm25PRF parameter: number of expansion terms")
-    public String[] bm25prf_fbTerms = new String[]{"20"};
+    @Option(name = "-bm25prf.fbTerms", handler = StringArrayOptionHandler.class, usage = "bm25PRF parameter: number of expansion terms")
+    public String[] bm25prf_fbTerms = new String[] { "20" };
 
-    @Option(name = "-bm25prf.fbDocs", handler = StringArrayOptionHandler.class,
-        usage = "bm25PRF parameter: number of documents")
-    public String[] bm25prf_fbDocs = new String[]{"10"};
+    @Option(name = "-bm25prf.fbDocs", handler = StringArrayOptionHandler.class, usage = "bm25PRF parameter: number of documents")
+    public String[] bm25prf_fbDocs = new String[] { "10" };
 
-    @Option(name = "-bm25prf.k1", handler = StringArrayOptionHandler.class,
-        usage = "bm25PRF parameter: k1")
-    public String[] bm25prf_k1 = new String[]{"0.9"};
+    @Option(name = "-bm25prf.k1", handler = StringArrayOptionHandler.class, usage = "bm25PRF parameter: k1")
+    public String[] bm25prf_k1 = new String[] { "0.9" };
 
-    @Option(name = "-bm25prf.b", handler = StringArrayOptionHandler.class,
-        usage = "bm25PRF parameter: b")
-    public String[] bm25prf_b = new String[]{"0.4"};
+    @Option(name = "-bm25prf.b", handler = StringArrayOptionHandler.class, usage = "bm25PRF parameter: b")
+    public String[] bm25prf_b = new String[] { "0.4" };
 
-    @Option(name = "-bm25prf.newTermWeight", handler = StringArrayOptionHandler.class,
-        usage = "bm25PRF parameter: weight to assign to the expansion terms")
-    public String[] bm25prf_newTermWeight = new String[]{"0.2"};
+    @Option(name = "-bm25prf.newTermWeight", handler = StringArrayOptionHandler.class, usage = "bm25PRF parameter: weight to assign to the expansion terms")
+    public String[] bm25prf_newTermWeight = new String[] { "0.2" };
 
-    @Option(name = "-bm25prf.outputQuery",
-        usage = "bm25PRF parameter: print original and expanded queries")
+    @Option(name = "-bm25prf.outputQuery", usage = "bm25PRF parameter: print original and expanded queries")
     public boolean bm25prf_outputQuery = false;
 
     // --------------------------------------------------
@@ -493,28 +476,30 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     public boolean axiom_deterministic = false;
 
     @Option(name = "-axiom.seed", handler = StringArrayOptionHandler.class, usage = "seed for the random generator in axiomatic reranking")
-    public String[] axiom_seed = new String[]{"42"};
+    public String[] axiom_seed = new String[] { "42" };
 
-    @Option(name = "-axiom.docids", usage = "sorted docids file that for deterministic reranking. this file can be obtained " +
+    @Option(name = "-axiom.docids", usage = "sorted docids file that for deterministic reranking. this file can be obtained "
+        +
         "by running CLI command `IndexUtils -index /path/to/index -dumpAllDocids GZ`")
     public String axiom_docids = null;
 
     @Option(name = "-axiom.r", handler = StringArrayOptionHandler.class, usage = "parameter R in axiomatic reranking")
-    public String[] axiom_r = new String[]{"20"};
+    public String[] axiom_r = new String[] { "20" };
 
     @Option(name = "-axiom.n", handler = StringArrayOptionHandler.class, usage = "parameter N in axiomatic reranking")
-    public String[] axiom_n = new String[]{"30"};
+    public String[] axiom_n = new String[] { "30" };
 
     @Option(name = "-axiom.beta", handler = StringArrayOptionHandler.class, usage = "parameter beta for Axiomatic query expansion model")
-    public String[] axiom_beta = new String[]{"0.4"};
+    public String[] axiom_beta = new String[] { "0.4" };
 
     @Option(name = "-axiom.top", handler = StringArrayOptionHandler.class, usage = "select top M terms from the expansion terms pool")
-    public String[] axiom_top = new String[]{"20"};
+    public String[] axiom_top = new String[] { "20" };
 
     @Option(name = "-axiom.index", usage = "path to the external index for generating the reranking doucments pool")
     public String axiom_index = null;
 
-    // These are convenience methods to support a fluent, method-chaining style of programming.
+    // These are convenience methods to support a fluent, method-chaining style of
+    // programming.
     public Args impact() {
       this.impact = true;
       this.bm25 = false;
@@ -685,7 +670,8 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       getIndexSearcher().setSimilarity(taggedSimilarity.getSimilarity());
 
       this.sdmQueryGenerator = new SdmQueryGenerator(((Args) args).sdm_tw, ((Args) args).sdm_ow, ((Args) args).sdm_uw);
-      this.querySideBm25QueryGenerator = new QuerySideBm25QueryGenerator(Float.parseFloat(args.bm25_k1[0]), Float.parseFloat(args.bm25_b[0]), reader);
+      this.querySideBm25QueryGenerator = new QuerySideBm25QueryGenerator(Float.parseFloat(args.bm25_k1[0]),
+          Float.parseFloat(args.bm25_b[0]), reader);
 
       try {
         generator = (QueryGenerator) Class.forName("io.anserini.search.query." + ((Args) args).queryGenerator)
@@ -697,9 +683,9 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     }
 
     public ScoredDocs search(T qid, String queryString,
-                             RerankerCascade<T> cascade,
-                             ScoredDocs queryQrels,
-                             boolean hasRelDocs) throws IOException {
+        RerankerCascade<T> cascade,
+        ScoredDocs queryQrels,
+        boolean hasRelDocs) throws IOException {
       Query query;
 
       if (args.sdm) {
@@ -707,28 +693,31 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       } else if (args.bm25q) {
         query = querySideBm25QueryGenerator.buildQuery(Constants.CONTENTS, analyzer, queryString);
       } else {
-        // If fieldsMap isn't null, then it means that the -fields option is specified. In this case, we search across
+        // If fieldsMap isn't null, then it means that the -fields option is specified.
+        // In this case, we search across
         // multiple fields with the associated boosts.
-        query = args.fields.length == 0 ? generator.buildQuery(Constants.CONTENTS, analyzer, queryString) :
-            generator.buildQuery(args.fieldsMap, analyzer, queryString);
+        query = args.fields.length == 0 ? generator.buildQuery(Constants.CONTENTS, analyzer, queryString)
+            : generator.buildQuery(args.fieldsMap, analyzer, queryString);
       }
 
-      TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
+      TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[] {});
       if (!isRerank || (args.rerankcutoff > 0 && args.rf_qrels == null) || (args.rf_qrels != null && !hasRelDocs)) {
         if (args.arbitraryScoreTieBreak) {// Figure out how to break the scoring ties.
           rs = getIndexSearcher().search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits);
         } else {
-          rs = getIndexSearcher().search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
+          rs = getIndexSearcher().search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits,
+              BREAK_SCORE_TIES_BY_DOCID, true);
         }
       }
 
       List<String> queryTokens = AnalyzerUtils.analyze(analyzer, queryString);
-      RerankerContext<T> context = new RerankerContext<>(getIndexSearcher(), qid, query, null, queryString, queryTokens, null, args);
+      RerankerContext<T> context = new RerankerContext<>(getIndexSearcher(), qid, query, null, queryString, queryTokens,
+          null, args);
       ScoredDocs scoredFbDocs;
       if (isRerank && args.rf_qrels != null) {
         if (hasRelDocs) {
           scoredFbDocs = queryQrels;
-        } else {//if no relevant documents, only perform score based tie breaking next
+        } else {// if no relevant documents, only perform score based tie breaking next
           LOG.info("No relevant documents for {}", qid.toString());
           scoredFbDocs = ScoredDocs.fromTopDocs(rs, getIndexSearcher());
           cascade = new RerankerCascade<T>();
@@ -742,11 +731,12 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     }
 
     public ScoredDocs searchBackgroundLinking(Integer qid,
-                                              String docid,
-                                              RerankerCascade<Integer> cascade) throws IOException {
+        String docid,
+        RerankerCascade<Integer> cascade) throws IOException {
       // Extract a list of analyzed terms from the document to compose a query.
       List<String> terms = BackgroundLinkingTopicReader.extractTerms(reader, docid, args.backgroundLinkingK, analyzer);
-      // Since the terms are already analyzed, we just join them together and use the StandardQueryParser.
+      // Since the terms are already analyzed, we just join them together and use the
+      // StandardQueryParser.
       Query docQuery;
       try {
         docQuery = new StandardQueryParser().parse(StringUtils.join(terms, " "), Constants.CONTENTS);
@@ -754,7 +744,8 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
         throw new RuntimeException("Unable to create a Lucene query comprised of terms extracted from query document!");
       }
 
-      // Per track guidelines, no opinion or editorials. Filter out articles of these types.
+      // Per track guidelines, no opinion or editorials. Filter out articles of these
+      // types.
       Query filter = new TermInSetQuery(
           WashingtonPostGenerator.WashingtonPostField.KICKER.name, new BytesRef("Opinions"),
           new BytesRef("Letters to the Editor"), new BytesRef("The Post's View"));
@@ -769,8 +760,8 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       if (args.arbitraryScoreTieBreak) {
         rs = getIndexSearcher().search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits);
       } else {
-        rs = getIndexSearcher().search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff :
-            args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
+        rs = getIndexSearcher().search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits,
+            BREAK_SCORE_TIES_BY_DOCID, true);
       }
 
       RerankerContext<Integer> context = new RerankerContext<>(getIndexSearcher(), qid, query, docid,
@@ -784,14 +775,15 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     }
 
     public ScoredDocs searchTweets(T qid,
-                                   String queryString,
-                                   long t,
-                                   RerankerCascade<T> cascade,
-                                   ScoredDocs queryQrels,
-                                   boolean hasRelDocs) throws IOException {
+        String queryString,
+        long t,
+        RerankerCascade<T> cascade,
+        ScoredDocs queryQrels,
+        boolean hasRelDocs) throws IOException {
       Query keywordQuery;
       if (args.sdm) {
-        keywordQuery = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(Constants.CONTENTS, analyzer, queryString);
+        keywordQuery = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(Constants.CONTENTS,
+            analyzer, queryString);
       } else {
         try {
           QueryGenerator generator = (QueryGenerator) Class.forName("io.anserini.search.query." + args.queryGenerator)
@@ -812,22 +804,25 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       builder.add(keywordQuery, BooleanClause.Occur.MUST);
       Query compositeQuery = builder.build();
 
-      TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
+      TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[] {});
       if (!isRerank || (args.rerankcutoff > 0 && args.rf_qrels == null) || (args.rf_qrels != null && !hasRelDocs)) {
         if (args.arbitraryScoreTieBreak) {// Figure out how to break the scoring ties.
-          rs = getIndexSearcher().search(compositeQuery, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits);
+          rs = getIndexSearcher().search(compositeQuery,
+              (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits);
         } else {
-          rs = getIndexSearcher().search(compositeQuery, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits,
+          rs = getIndexSearcher().search(compositeQuery,
+              (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits,
               BREAK_SCORE_TIES_BY_TWEETID, true);
         }
       }
 
-      RerankerContext<T> context = new RerankerContext<>(getIndexSearcher(), qid, keywordQuery, null, queryString, queryTokens, filter, args);
+      RerankerContext<T> context = new RerankerContext<>(getIndexSearcher(), qid, keywordQuery, null, queryString,
+          queryTokens, filter, args);
       ScoredDocs scoredFbDocs;
       if (isRerank && args.rf_qrels != null) {
         if (hasRelDocs) {
           scoredFbDocs = queryQrels;
-        } else {//if no relevant documents, only perform score based tie breaking next
+        } else {// if no relevant documents, only perform score based tie breaking next
           scoredFbDocs = ScoredDocs.fromTopDocs(rs, getIndexSearcher());
           cascade = new RerankerCascade<T>();
           cascade.add(new ScoreTiesAdjusterReranker<T>());
@@ -849,11 +844,12 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     final private SparseEncoder queryEncoder;
 
     private SearchWorker(IndexReader reader,
-                         SortedMap<T, Map<String, String>> topics,
-                         TaggedSimilarity taggedSimilarity,
-                         RerankerCascade<T> cascade,
-                         String outputPath) {
-      // We need to pass in the topics because for tweets, we need to extract the tweet time.
+        SortedMap<T, Map<String, String>> topics,
+        TaggedSimilarity taggedSimilarity,
+        RerankerCascade<T> cascade,
+        String outputPath) {
+      // We need to pass in the topics because for tweets, we need to extract the
+      // tweet time.
       this.topics = topics;
       this.taggedSimilarity = taggedSimilarity;
       this.cascade = cascade;
@@ -918,15 +914,18 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
 
             ScoredDocs docs;
             if (args.searchTweets) {
-              docs = searcher.searchTweets(qid, queryString.toString(), Long.parseLong(entry.getValue().get("time")), cascade, queryQrels, hasRelDocs);
+              docs = searcher.searchTweets(qid, queryString.toString(), Long.parseLong(entry.getValue().get("time")),
+                  cascade, queryQrels, hasRelDocs);
             } else if (args.backgroundLinking) {
-              docs = searcher.searchBackgroundLinking((Integer) qid, queryString.toString(), (RerankerCascade<Integer>) cascade);
+              docs = searcher.searchBackgroundLinking((Integer) qid, queryString.toString(),
+                  (RerankerCascade<Integer>) cascade);
             } else {
               docs = searcher.search(qid, queryString.toString(), cascade, queryQrels, hasRelDocs);
             }
 
             // If JSON output is requested, we retain references to the Lucene documents.
-            // Note we do *not* want to retain references to the Lucene documents unless requested since it's a waste of memory.
+            // Note we do *not* want to retain references to the Lucene documents unless
+            // requested since it's a waste of memory.
             if (args.outputRerankerRequests != null) {
               results.put(qid, searcher.processScoredDocs(qid, docs, true));
             } else {
@@ -946,10 +945,21 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
         });
       }
 
-      try (ExecutorService executor = Executors.newWorkStealingPool(args.threads)) {
+      ExecutorService executor = Executors.newWorkStealingPool(args.threads);
+      try {
         executor.invokeAll(tasks);
       } catch (InterruptedException e) {
         Thread.currentThread().interrupt();
+      } finally {
+        executor.shutdown();
+        try {
+          if (!executor.awaitTermination(60, TimeUnit.SECONDS)) {
+            executor.shutdownNow();
+          }
+        } catch (InterruptedException e) {
+          executor.shutdownNow();
+          Thread.currentThread().interrupt();
+        }
       }
 
       final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
@@ -957,20 +967,28 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       LOG.info("{}: {} queries processed in {}{}", desc, topics.size(),
           DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"),
           String.format(" = ~%.2f q/s", topics.size() / (durationMillis / 1000.0)));
-      
+
       String name = null;
-      if (ExcludeDocs.isExcludable(args.topics[0])){
+      if (ExcludeDocs.isExcludable(args.topics[0])) {
         name = args.topics[0];
       }
       // Now we write the results to a run file.
-      try (RunOutputWriter<T> out = new RunOutputWriter<>(outputPath, args.format, args.runtag, args.outputRerankerRequests, name)) {
-        // Here's a really screwy corner case that we have to manually hack around: for MS MARCO V1, the query file is not
-        // sorted by qid, but the topic representation internally is (i.e., K is a comparable). The original query runner
-        // SearchMsmarco retained the order of the queries; however, this class does not. Thus, the run files list the
-        // results in different orders. Due to the way that the MS MARCO V1 eval scripts are written (they report MRR to
-        // an excessive number of significant digits), different orders yield slightly different metric values (due to
-        // floating point precision issues). Just to retain exactly the same output as SearchMsmarco (which was used to,
-        // for example, generate Anserini leaderboard runs), we add an ugly hack here to dump the results in the order
+      try (RunOutputWriter<T> out = new RunOutputWriter<>(outputPath, args.format, args.runtag,
+          args.outputRerankerRequests, name)) {
+        // Here's a really screwy corner case that we have to manually hack around: for
+        // MS MARCO V1, the query file is not
+        // sorted by qid, but the topic representation internally is (i.e., K is a
+        // comparable). The original query runner
+        // SearchMsmarco retained the order of the queries; however, this class does
+        // not. Thus, the run files list the
+        // results in different orders. Due to the way that the MS MARCO V1 eval scripts
+        // are written (they report MRR to
+        // an excessive number of significant digits), different orders yield slightly
+        // different metric values (due to
+        // floating point precision issues). Just to retain exactly the same output as
+        // SearchMsmarco (which was used to,
+        // for example, generate Anserini leaderboard runs), we add an ugly hack here to
+        // dump the results in the order
         // of the qids in the query files.
         boolean isMSMARCOv1_passage = topics.firstKey().equals(2) &&
             topics.get(2).get("title").equals("Androgen receptor define") &&
@@ -980,9 +998,11 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
             topics.keySet().size() == 5193;
 
         if (isMSMARCOv1_passage || isMAMARCOv1_doc) {
-          try (InputStream inputStream = isMSMARCOv1_passage ?
-                Files.newInputStream(TopicReader.getTopicPath(Path.of(Topics.MSMARCO_PASSAGE_DEV_SUBSET.path)), StandardOpenOption.READ):
-                Files.newInputStream(TopicReader.getTopicPath(Path.of(Topics.MSMARCO_DOC_DEV.path)), StandardOpenOption.READ) ) {
+          try (InputStream inputStream = isMSMARCOv1_passage
+              ? Files.newInputStream(TopicReader.getTopicPath(Path.of(Topics.MSMARCO_PASSAGE_DEV_SUBSET.path)),
+                  StandardOpenOption.READ)
+              : Files.newInputStream(TopicReader.getTopicPath(Path.of(Topics.MSMARCO_DOC_DEV.path)),
+                  StandardOpenOption.READ)) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             String line;
             while ((line = reader.readLine()) != null) {
@@ -994,13 +1014,13 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
             throw new RuntimeException(String.format("Error writing output to %s", outputPath));
           }
         } else {
-            results.forEach((qid, hits) -> {
-              try {
-                out.writeTopic(qid, topics.get(qid).get("title"), results.get(qid));
-              } catch (JsonProcessingException e) {
-                // Handle the exception or rethrow as unchecked.
-                throw new RuntimeException(e);
-              }
+          results.forEach((qid, hits) -> {
+            try {
+              out.writeTopic(qid, topics.get(qid).get("title"), results.get(qid));
+            } catch (JsonProcessingException e) {
+              // Handle the exception or rethrow as unchecked.
+              throw new RuntimeException(e);
+            }
           });
         }
       } catch (IOException e) {
@@ -1032,7 +1052,8 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     LOG.info("Threads: {}", args.threads);
     LOG.info("Fields: {}", Arrays.toString(args.fields));
     if (args.fields.length != 0) {
-      // The -fields argument should be in the form of "field1=weight1 field2=weight2...".
+      // The -fields argument should be in the form of "field1=weight1
+      // field2=weight2...".
       // Try to parse, and throw exception if anything goes wrong.
       try {
         for (String part : args.fields) {
@@ -1054,10 +1075,11 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     // get collection class if available
     if (args.collectionClass != null) {
       try {
-        this.collectionClass = (Class<? extends DocumentCollection<?>>)
-            Class.forName("io.anserini.collection." + args.collectionClass);
+        this.collectionClass = (Class<? extends DocumentCollection<?>>) Class
+            .forName("io.anserini.collection." + args.collectionClass);
       } catch (ClassNotFoundException e) {
-        throw new RuntimeException(String.format("Unable to initialize collection class \"%s\".", args.collectionClass));
+        throw new RuntimeException(
+            String.format("Unable to initialize collection class \"%s\".", args.collectionClass));
       }
     } else {
       this.collectionClass = null;
@@ -1073,16 +1095,20 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       loadQrels(args.rf_qrels);
     }
 
-    // Fix for index compatibility issue between Lucene 8 and 9: https://github.com/castorini/anserini/issues/1952
-    // If we detect an older index version, we turn off consistent tie-breaking, which avoids accessing docvalues,
+    // Fix for index compatibility issue between Lucene 8 and 9:
+    // https://github.com/castorini/anserini/issues/1952
+    // If we detect an older index version, we turn off consistent tie-breaking,
+    // which avoids accessing docvalues,
     // which is the source of the incompatibility.
     if (!reader.toString().contains("lucene.version=9")) {
       args.arbitraryScoreTieBreak = true;
       args.axiom_deterministic = false;
     }
 
-    // We might not be able to successfully read topics for a variety of reasons. Gather all possible
-    // exceptions together as an unchecked exception to make initialization and error reporting clearer.
+    // We might not be able to successfully read topics for a variety of reasons.
+    // Gather all possible
+    // exceptions together as an unchecked exception to make initialization and
+    // error reporting clearer.
     topics = new TreeMap<>();
     for (String topicsFile : args.topics) {
       Path topicsFilePath = Paths.get(topicsFile);
@@ -1156,11 +1182,13 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       }
     } else if (args.f2exp) {
       for (String s : args.f2exp_s) {
-        similarities.add(new TaggedSimilarity(new AxiomaticF2EXP(Float.parseFloat(s)), String.format("f2exp(s=%s)", s)));
+        similarities
+            .add(new TaggedSimilarity(new AxiomaticF2EXP(Float.parseFloat(s)), String.format("f2exp(s=%s)", s)));
       }
     } else if (args.f2log) {
       for (String s : args.f2log_s) {
-        similarities.add(new TaggedSimilarity(new AxiomaticF2LOG(Float.parseFloat(s)), String.format("f2log(s=%s)", s)));
+        similarities
+            .add(new TaggedSimilarity(new AxiomaticF2LOG(Float.parseFloat(s)), String.format("f2log(s=%s)", s)));
       }
     } else if (args.impact) {
       similarities.add(new TaggedSimilarity(new ImpactSimilarity(), "impact()"));
@@ -1208,10 +1236,11 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
                   tag = String.format("ax(seed=%s,r=%s,n=%s,beta=%s,top=%s)", seed, r, n, beta, top);
                 }
                 RerankerCascade<K> cascade = new RerankerCascade<K>(tag);
-                cascade.add(new AxiomReranker<K>(analyzer, collectionClass, args.index, args.axiom_index, Constants.CONTENTS,
-                    args.axiom_deterministic, Integer.parseInt(seed), Integer.parseInt(r),
-                    Integer.parseInt(n), Float.parseFloat(beta), Integer.parseInt(top),
-                    args.axiom_docids, args.axiom_outputQuery, args.searchTweets));
+                cascade.add(
+                    new AxiomReranker<K>(analyzer, collectionClass, args.index, args.axiom_index, Constants.CONTENTS,
+                        args.axiom_deterministic, Integer.parseInt(seed), Integer.parseInt(r),
+                        Integer.parseInt(n), Float.parseFloat(beta), Integer.parseInt(top),
+                        args.axiom_docids, args.axiom_outputQuery, args.searchTweets));
                 cascade.add(new ScoreTiesAdjusterReranker<K>());
                 cascades.add(cascade);
               }
@@ -1234,9 +1263,11 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
                       fbTerms, fbDocs, k1, b, newTermWeight);
                 }
                 RerankerCascade<K> cascade = new RerankerCascade<K>(tag);
-                cascade.add(new BM25PrfReranker<K>(analyzer, collectionClass, Constants.CONTENTS, Integer.parseInt(fbTerms),
-                    Integer.parseInt(fbDocs), Float.parseFloat(k1), Float.parseFloat(b), Float.parseFloat(newTermWeight),
-                    args.bm25prf_outputQuery));
+                cascade.add(
+                    new BM25PrfReranker<K>(analyzer, collectionClass, Constants.CONTENTS, Integer.parseInt(fbTerms),
+                        Integer.parseInt(fbDocs), Float.parseFloat(k1), Float.parseFloat(b),
+                        Float.parseFloat(newTermWeight),
+                        args.bm25prf_outputQuery));
                 cascade.add(new ScoreTiesAdjusterReranker<K>());
                 cascades.add(cascade);
               }
@@ -1257,14 +1288,19 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
                       gamma = "0";
                     }
                     if (this.args.rf_qrels != null) {
-                      tag = String.format("rocchioRf(topFbTerms=%s,bottomFbTerms=%s,alpha=%s,beta=%s,gamma=%s)", topFbTerms, bottomFbTerms, alpha, beta, gamma);
+                      tag = String.format("rocchioRf(topFbTerms=%s,bottomFbTerms=%s,alpha=%s,beta=%s,gamma=%s)",
+                          topFbTerms, bottomFbTerms, alpha, beta, gamma);
                     } else {
-                      tag = String.format("rocchio(topFbTerms=%s,topFbDocs=%s,bottomFbTerms=%s,bottomFbDocs=%s,alpha=%s,beta=%s,gamma=%s)", topFbTerms, topFbDocs, bottomFbTerms, bottomFbDocs, alpha, beta, gamma);
+                      tag = String.format(
+                          "rocchio(topFbTerms=%s,topFbDocs=%s,bottomFbTerms=%s,bottomFbDocs=%s,alpha=%s,beta=%s,gamma=%s)",
+                          topFbTerms, topFbDocs, bottomFbTerms, bottomFbDocs, alpha, beta, gamma);
                     }
                     RerankerCascade<K> cascade = new RerankerCascade<K>(tag);
-                    cascade.add(new RocchioReranker<K>(analyzer, collectionClass, Constants.CONTENTS, Integer.parseInt(topFbTerms),
+                    cascade.add(new RocchioReranker<K>(analyzer, collectionClass, Constants.CONTENTS,
+                        Integer.parseInt(topFbTerms),
                         Integer.parseInt(topFbDocs), Integer.parseInt(bottomFbTerms), Integer.parseInt(bottomFbDocs),
-                        Float.parseFloat(alpha), Float.parseFloat(beta), Float.parseFloat(gamma), args.rocchio_outputQuery, args.rocchio_useNegative));
+                        Float.parseFloat(alpha), Float.parseFloat(beta), Float.parseFloat(gamma),
+                        args.rocchio_outputQuery, args.rocchio_useNegative));
                     cascade.add(new ScoreTiesAdjusterReranker<K>());
                     cascades.add(cascade);
                   }
@@ -1288,7 +1324,8 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     LOG.info("rf_qrels: {}", rf_qrels);
     Path rfQrelsFilePath = Paths.get(rf_qrels);
     if (!Files.exists(rfQrelsFilePath) || !Files.isRegularFile(rfQrelsFilePath) || !Files.isReadable(rfQrelsFilePath)) {
-      throw new IllegalArgumentException("Qrels file : " + rfQrelsFilePath + " does not exist or is not a (readable) file.");
+      throw new IllegalArgumentException(
+          "Qrels file : " + rfQrelsFilePath + " does not exist or is not a (readable) file.");
     }
     Map<String, Map<String, Integer>> qrelsDocs = new HashMap<>();
     this.queriesWithRel = new HashSet<>();
@@ -1329,7 +1366,8 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
         if (AnalyzerMap.analyzerMap.containsKey(args.language)) {
           languageSpecificAnalyzer = AnalyzerMap.getLanguageSpecificAnalyzer(args.language);
         } else if (args.language.equals("en")) {
-          languageSpecificAnalyzer = DefaultEnglishAnalyzer.fromArguments(args.stemmer, args.keepStopwords, args.stopwords);
+          languageSpecificAnalyzer = DefaultEnglishAnalyzer.fromArguments(args.stemmer, args.keepStopwords,
+              args.stopwords);
         } else {
           languageSpecificAnalyzer = new WhitespaceAnalyzer();
         }
@@ -1342,7 +1380,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
         LOG.info("Using language-specific analyzer");
         LOG.info("Language: {}", args.language);
         return AnalyzerMap.getLanguageSpecificAnalyzer(args.language);
-      } else if (Arrays.asList("ha","so","sw","yo").contains(args.language)) {
+      } else if (Arrays.asList("ha", "so", "sw", "yo").contains(args.language)) {
         return new WhitespaceAnalyzer();
       } else if (args.pretokenized) {
         return new WhitespaceAnalyzer();
@@ -1381,18 +1419,30 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
           continue;
         }
 
-        tasks.add (() -> {
+        tasks.add(() -> {
           new SearchWorker<K>(reader, topics, taggedSimilarity, cascade, outputPath).run();
           return null;
         });
       }
     }
 
-    // We want predictable thread count since each of the workers will spawn multiple threads.
-    try (ExecutorService executor = Executors.newFixedThreadPool(args.parallelism)) {
+    // We want predictable thread count since each of the workers will spawn
+    // multiple threads.
+    ExecutorService executor = Executors.newFixedThreadPool(args.parallelism);
+    try {
       executor.invokeAll(tasks);
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
+    } finally {
+      executor.shutdown();
+      try {
+        if (!executor.awaitTermination(60, TimeUnit.SECONDS)) {
+          executor.shutdownNow();
+        }
+      } catch (InterruptedException e) {
+        executor.shutdownNow();
+        Thread.currentThread().interrupt();
+      }
     }
   }
 
@@ -1418,7 +1468,8 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
 
         System.err.printf("\nRequired options are %s\n", required);
       } else {
-        System.err.printf("Error: %s. For help, use \"-options\" to print out information about options.\n", e.getMessage());
+        System.err.printf("Error: %s. For help, use \"-options\" to print out information about options.\n",
+            e.getMessage());
       }
 
       return;
@@ -1431,7 +1482,8 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
 
     final long start = System.nanoTime();
 
-    // We're at top-level already inside a main; makes no sense to propagate exceptions further, so reformat the
+    // We're at top-level already inside a main; makes no sense to propagate
+    // exceptions further, so reformat the
     // exception messages and display on console.
     try (SearchCollection<?> searcher = new SearchCollection<>(searchArgs)) {
       searcher.run();
