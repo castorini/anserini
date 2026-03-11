@@ -64,7 +64,7 @@ public class SummarizeLogsFromCorpus {
     @Option(name = "--json", metaVar = "[boolean]", usage = "Emit output in JSON format.")
     public boolean json = false;
 
-    @Option(name = "--help", usage = "Print this help message and exit.")
+    @Option(name = "--help", help = true, usage = "Print this help message and exit.")
     public boolean help = false;
   }
 
@@ -77,17 +77,15 @@ public class SummarizeLogsFromCorpus {
     Args parsedArgs = new Args();
     CmdLineParser parser = new CmdLineParser(parsedArgs, ParserProperties.defaults().withUsageWidth(120));
 
-    for (String arg : args) {
-      if ("--help".equals(arg)) {
-        ReproductionUtils.printUsage(parser, SummarizeLogsFromCorpus.class, argsOrdering);
-        return;
-      }
-    }
-
     try {
       parser.parseArgument(args);
     } catch (CmdLineException e) {
       System.err.println(String.format("Error: %s", e.getMessage()));
+      ReproductionUtils.printUsage(parser, SummarizeLogsFromCorpus.class, argsOrdering);
+      return;
+    }
+
+    if (parsedArgs.help) {
       ReproductionUtils.printUsage(parser, SummarizeLogsFromCorpus.class, argsOrdering);
       return;
     }

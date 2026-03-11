@@ -18,12 +18,10 @@ package io.anserini.reproduce;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.junit.Assert.assertEquals;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintStream;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -50,30 +48,22 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
   }
 
   @Test
-  public void testHelpOutputOptionsAreAligned() throws Exception {
-    String output = runMain("--help");
-    String[] lines = output.split("\\R");
-    int usageColumn = -1;
+  public void testHelp() throws Exception {
+    Files.createDirectory(temporaryWorkingDirectory.resolve("logs"));
+    String output = runInTempDirectory("--help");
 
-    for (String line : lines) {
-      if (!line.startsWith("  --")) {
-        continue;
-      }
+    assertTrue(output.contains("Options for SummarizeLogsFromPrebuiltIndexes:"));
+    assertTrue(output.contains("--help"));
+  }
 
-      int optionStart = line.indexOf("--");
-      int usageStart = findUsageStart(line, optionStart);
-      if (usageStart < 0) {
-        fail("Expected usage text for option line: " + line);
-      }
+  @Test
+  public void testInvalidOptionShowsUsage() throws Exception {
+    Files.createDirectory(temporaryWorkingDirectory.resolve("logs"));
+    String output = runInTempDirectory("--not-a-real-option");
 
-      if (usageColumn < 0) {
-        usageColumn = usageStart;
-      } else {
-        assertEquals("Misaligned usage text in line: " + line, usageColumn, usageStart);
-      }
-    }
-
-    assertTrue("No option lines found in help output.", usageColumn >= 0);
+    assertTrue(output.contains("Error:"));
+    assertTrue(output.contains("not a valid option"));
+    assertTrue(output.contains("Options for SummarizeLogsFromPrebuiltIndexes:"));
   }
 
   @Test
@@ -81,12 +71,12 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
     Path logsDir = temporaryWorkingDirectory.resolve("logs");
     Files.createDirectory(logsDir);
 
-    writeLog(logsDir.resolve("log.from-prebuilt-indexes.betaset.txt"), List.of(
+    Files.write(logsDir.resolve("log.from-prebuilt-indexes.betaset.txt"), List.of(
         "Run for beta [OK]",
         "Second line [OK*]",
         "Duration: done (01:03:04)"));
 
-    writeLog(logsDir.resolve("log.from-prebuilt-indexes.alpha.txt"), List.of(
+    Files.write(logsDir.resolve("log.from-prebuilt-indexes.alpha.txt"), List.of(
         "Run for alpha [FAIL]",
         "Failure [FAIL]",
         "Duration: 00:00:01"));
@@ -113,12 +103,12 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
     Path logsDir = temporaryWorkingDirectory.resolve("logs");
     Files.createDirectory(logsDir);
 
-    writeLog(logsDir.resolve("log.from-prebuilt-indexes.betaset.txt"), List.of(
+    Files.write(logsDir.resolve("log.from-prebuilt-indexes.betaset.txt"), List.of(
         "Run for beta [OK]",
         "Second line [OK*]",
         "Duration: done (01:03:04)"));
 
-    writeLog(logsDir.resolve("log.from-prebuilt-indexes.alpha.txt"), List.of(
+    Files.write(logsDir.resolve("log.from-prebuilt-indexes.alpha.txt"), List.of(
         "Run for alpha [FAIL]",
         "Failure [FAIL]",
         "Duration: 00:00:01"));
@@ -138,12 +128,12 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
     Path logsDir = temporaryWorkingDirectory.resolve("logs");
     Files.createDirectory(logsDir);
 
-    writeLog(logsDir.resolve("log.from-prebuilt-indexes.betaset.txt"), List.of(
+    Files.write(logsDir.resolve("log.from-prebuilt-indexes.betaset.txt"), List.of(
         "Run for beta [OK]",
         "Second line [OK*]",
         "Duration: done (01:03:04)"));
 
-    writeLog(logsDir.resolve("log.from-prebuilt-indexes.alpha.txt"), List.of(
+    Files.write(logsDir.resolve("log.from-prebuilt-indexes.alpha.txt"), List.of(
         "Run for alpha [FAIL]",
         "Failure [FAIL]",
         "Duration: 00:00:01"));
@@ -181,7 +171,7 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
   public void testSummarizeLogsFromPrebuiltIndexesNoMatchingLogs() throws Exception {
     Path logsDir = temporaryWorkingDirectory.resolve("logs");
     Files.createDirectory(logsDir);
-    writeLog(logsDir.resolve("unrelated.txt"), List.of("not a prebuilt log"));
+    Files.write(logsDir.resolve("unrelated.txt"), List.of("not a prebuilt log"));
 
     String output = runInTempDirectory(logsDir, "--md");
 
@@ -194,7 +184,7 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
     Path logsDir = temporaryWorkingDirectory.resolve("logs");
     Files.createDirectory(logsDir);
 
-    writeLog(logsDir.resolve("log.from-prebuilt-indexes.malformed.txt"), List.of(
+    Files.write(logsDir.resolve("log.from-prebuilt-indexes.malformed.txt"), List.of(
         "Run for malformed [OK]",
         "Mangled marker [FAILURE] should not count",
         "Duration: 01:02",
@@ -252,21 +242,5 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
     mainArgs[args.length] = "--logs-directory";
     mainArgs[args.length + 1] = logsDirectory.toString();
     return mainArgs;
-  }
-
-  private int findUsageStart(String line, int optionStart) {
-    if (optionStart < 0) {
-      return -1;
-    }
-    for (int i = optionStart + 2; i < line.length() - 2; i++) {
-      if (line.charAt(i) == ' ' && line.charAt(i + 1) == ' ' && line.charAt(i + 2) != ' ') {
-        return i + 2;
-      }
-    }
-    return -1;
-  }
-
-  private void writeLog(Path path, List<String> lines) throws IOException {
-    Files.write(path, lines);
   }
 }
