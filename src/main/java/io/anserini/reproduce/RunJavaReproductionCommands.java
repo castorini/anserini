@@ -27,7 +27,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -36,15 +39,24 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import io.anserini.util.LoggingBootstrap;
 
 public class RunJavaReproductionCommands {
   private static final Logger LOG = LogManager.getLogger(RunJavaReproductionCommands.class);
+  private static final String[] COMMAND_CONFIG_DIRECTORIES = new String[] {
+      "reproduce/from-corpus/commands",
+      "reproduce/from-prebuilt-indexes/commands"
+  };
 
   public static class Args {
-    @Option(name = "--config", metaVar = "[config]", required = true, usage = "Config file with regression commands.")
+    @Option(name = "--config", metaVar = "[config]", usage = "Config file with regression commands.")
     public String config;
 
+    @Option(name = "--list", usage = "List available configs as a JSON array and exit.")
+    public boolean list = false;
+  
     @Option(name = "--sleep", metaVar = "[seconds]", usage = "Sleep interval before checking load.")
     public int sleep = 30;
 
@@ -68,7 +80,7 @@ public class RunJavaReproductionCommands {
   }
 
   private static final String[] argsOrdering = new String[] {
-      "--config", "--sleep", "--load", "--max", "--logs-directory", "--runs-directory", "--dry-run", "--help"};
+      "--config", "--list", "--sleep", "--load", "--max", "--logs-directory", "--runs-directory", "--dry-run", "--help"};
 
   public static void main(String[] args) throws Exception {
     LoggingBootstrap.installJulToSlf4jBridge();
@@ -85,6 +97,18 @@ public class RunJavaReproductionCommands {
     }
 
     if (parsedArgs.help) {
+      ReproductionUtils.printUsage(parser, RunJavaReproductionCommands.class, argsOrdering);
+      return;
+    }
+
+    if (parsedArgs.list) {
+      List<String> configs = listCommandConfigs();
+      System.out.println(new ObjectMapper().writeValueAsString(configs));
+      return;
+    }
+
+    if (parsedArgs.config == null || parsedArgs.config.isBlank()) {
+      System.err.println("Error: Option \"--config\" is required unless \"--list\" is specified.");
       ReproductionUtils.printUsage(parser, RunJavaReproductionCommands.class, argsOrdering);
       return;
     }
@@ -146,6 +170,51 @@ public class RunJavaReproductionCommands {
     }
 
     LOG.info("All jobs completed!");
+  }
+
+  private static List<String> listCommandConfigs() throws IOException, URISyntaxException {
+    Path codePath = Paths.get(RunJavaReproductionCommands.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+    Set<String> configs = new LinkedHashSet<>();
+
+    if (Files.isRegularFile(codePath) && codePath.toString().endsWith(".jar")) {
+      try (java.util.jar.JarFile jarFile = new java.util.jar.JarFile(codePath.toFile())) {
+        java.util.Enumeration<java.util.jar.JarEntry> entries = jarFile.entries();
+        while (entries.hasMoreElements()) {
+          java.util.jar.JarEntry entry = entries.nextElement();
+          if (entry.isDirectory()) {
+            continue;
+          }
+          String name = entry.getName();
+          for (String dir : COMMAND_CONFIG_DIRECTORIES) {
+            String prefix = dir + "/";
+            if (name.startsWith(prefix) && name.endsWith(".txt")) {
+              String configName = name.substring(prefix.length(), name.length() - ".txt".length());
+              if (!configName.contains("/")) {
+                configs.add(configName);
+              }
+            }
+          }
+        }
+      }
+    } else {
+      for (String dir : COMMAND_CONFIG_DIRECTORIES) {
+        Path configDir = codePath.resolve(dir);
+        if (!Files.exists(configDir)) {
+          continue;
+        }
+        try (java.util.stream.Stream<Path> paths = Files.list(configDir)) {
+          paths.filter(Files::isRegularFile)
+              .map(path -> path.getFileName().toString())
+              .filter(name -> name.endsWith(".txt"))
+              .map(name -> name.substring(0, name.length() - ".txt".length()))
+              .forEach(configs::add);
+        }
+      }
+    }
+
+    List<String> sortedConfigs = new ArrayList<>(configs);
+    Collections.sort(sortedConfigs);
+    return sortedConfigs;
   }
 
   private static List<String> loadCommands(String resource, String logsDirectory, String runsDirectory) throws IOException, URISyntaxException {
