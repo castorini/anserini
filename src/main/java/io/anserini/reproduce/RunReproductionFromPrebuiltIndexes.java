@@ -24,17 +24,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Instant;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
-
-import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
@@ -49,66 +44,77 @@ import io.anserini.util.PrebuiltIndexHandler;
 
 public class RunReproductionFromPrebuiltIndexes {
   private static final String CONFIG_DIRECTORY = "reproduce/from-prebuilt-indexes/configs";
-  private static final DateTimeFormatter TIMESTAMP_FORMATTER =
-      DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z").withZone(ZoneId.systemDefault());
-
-  private final String configName;
-  private final boolean printCommands;
-  private final boolean dryRun;
-  private final boolean computeIndexSize;
 
   public static class Args {
-    @Option(name = "--config", required = true, usage = "Name of the configuration to run.")
+    @Option(name = "--config", metaVar = "[config]", usage = "Name of the configuration to run.")
     public String config;
 
-    @Option(name = "--print-commands", usage = "Print commands.")
-    public Boolean printCommands = false;
+    @Option(name = "--list", usage = "List available configs as a JSON array and exit.")
+    public boolean list = false;
 
-    @Option(name = "--dry-run", usage = "Perform dry run.")
-    public Boolean dryRun = false;
+    @Option(name = "--runs-directory", metaVar = "[path]", usage = "Directory for output runs.")
+    public String runsDirectory = ReproductionUtils.Constants.DEFAULT_RUNS_DIRECTORY;
 
     @Option(name = "--compute-index-size", usage = "Compute total size of all unique indexes referenced by runs.")
-    public Boolean computeIndexSize = false;
+    public boolean computeIndexSize = false;
+
+    @Option(name = "--print-commands", usage = "Print commands.")
+    public boolean printCommands = false;
+
+    @Option(name = "--dry-run", usage = "Perform dry run.")
+    public boolean dryRun = false;
+
+    @Option(name = "--help", usage = "Print this help message and exit.")
+    public boolean help = false;
   }
 
-  public RunReproductionFromPrebuiltIndexes(Args args) {
-    this.configName = args.config;
-    this.printCommands = args.printCommands;
-    this.dryRun = args.dryRun;
-    this.computeIndexSize = args.computeIndexSize;
-  }
+  private static final String[] argsOrdering =
+      new String[] {"--config", "--list", "--runs-directory", "--compute-index-size", "--print-commands", "--dry-run", "--help"};
 
   public static void main(String[] args) throws Exception {
-    Args regressionArgs = new Args();
-    CmdLineParser parser = new CmdLineParser(regressionArgs, ParserProperties.defaults().withUsageWidth(120));
+    Args parsedArgs = new Args();
+    CmdLineParser parser = new CmdLineParser(parsedArgs, ParserProperties.defaults().withUsageWidth(120));
+
+    for (String arg : args) {
+      if ("--help".equals(arg)) {
+        ReproductionUtils.printUsage(parser, RunReproductionFromPrebuiltIndexes.class, argsOrdering);
+        return;
+      }
+    }
 
     try {
       parser.parseArgument(args);
     } catch (CmdLineException exception) {
       System.err.println(String.format("Error: %s", exception.getMessage()));
-
-      System.err.printf("%nOptions for %s:%n%n", RunReproductionFromPrebuiltIndexes.class.getSimpleName());
-      parser.printUsage(System.err);
-
-      List<String> required = new java.util.ArrayList<>();
-      parser.getOptions().forEach((option) -> {
-        if (option.option.required()) {
-          required.add(option.option.toString());
-        }
-      });
-
-      System.err.printf("%nRequired options: %s%n", required);
+      ReproductionUtils.printUsage(parser, RunReproductionFromPrebuiltIndexes.class, argsOrdering);
 
       return;
     }
 
-    RunReproductionFromPrebuiltIndexes repro = new RunReproductionFromPrebuiltIndexes(regressionArgs);
-    repro.run();
+    if (parsedArgs.list) {
+      List<String> configs = ReproductionUtils.listYamlConfigs(RunReproductionFromPrebuiltIndexes.class, CONFIG_DIRECTORY);
+      System.out.println(new ObjectMapper().writeValueAsString(configs));
+      return;
+    }
+
+    if (parsedArgs.config == null || parsedArgs.config.isBlank()) {
+      System.err.println("Error: Option \"--config\" is required unless \"--list\" is specified.");
+      ReproductionUtils.printUsage(parser, RunReproductionFromPrebuiltIndexes.class, argsOrdering);
+      return;
+    }
+
+    run(parsedArgs);
   }
 
-  public void run() throws IOException, InterruptedException, URISyntaxException {
-    if (!new File("runs").exists()) {
-      new File("runs").mkdir();
+  private static void run(Args args) throws IOException, InterruptedException, URISyntaxException {
+    String configName = args.config;
+    boolean printCommands = args.printCommands;
+    boolean dryRun = args.dryRun;
+    boolean computeIndexSize = args.computeIndexSize;
+
+    Path runsDir = Paths.get(args.runsDirectory);
+    if (!Files.exists(runsDir)) {
+      Files.createDirectories(runsDir);
     }
 
     String fatjarPath = new File(RunReproductionFromPrebuiltIndexes.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
@@ -124,19 +130,13 @@ public class RunReproductionFromPrebuiltIndexes {
     Process process;
 
     final Instant startTime = Instant.now();
-    final long start = System.nanoTime();
 
     // Pre-scan all commands to gather unique indexes referenced.
     Set<String> uniqueIndexNames = new LinkedHashSet<>();
     for (Condition condition : config.conditions) {
       for (Topic topic : condition.topics) {
-        final String output = String.format("runs/run.%s.%s.%s.txt", configName, condition.name, topic.topic_key);
-        final String command = condition.command
-            .replace("$fatjar", fatjarPath)
-            .replace("$threads", "16")
-            .replace("$topics", topic.topic_key)
-            .replace("$output", output);
-        String indexPath = extractIndexPath(command);
+        // Note that we don't need to reconstruct the full command here, but we do need to substitute $topics to get the actual index path.
+        String indexPath = extractIndexPath(condition.command.replace("$topics", topic.topic_key));
         if (indexPath != null) {
           uniqueIndexNames.add(indexPath);
         }
@@ -219,20 +219,22 @@ public class RunReproductionFromPrebuiltIndexes {
       System.out.printf("%nTotal size across %d of %d indexes: %s%n%n", presentCount, uniqueIndexNames.size(), IndexReaderUtils.formatSize(totalBytes));
     }
 
-    Files.createDirectories(Paths.get("runs"));
-
     for (Condition condition : config.conditions) {
       System.out.printf("# Running condition \"%s\": %s \n%n", condition.name, condition.display);
       for (Topic topic : condition.topics) {
         System.out.println("  - topic_key: " + topic.topic_key + "\n");
 
-        final String output = String.format("runs/run.%s.%s.%s.txt", config, condition.name, topic.topic_key);
+        final String output = runsDir.resolve(String.format("run.%s.%s.%s.txt", configName, condition.name, topic.topic_key)).toString();
 
-        final String command = condition.command
+        final String command = String.format("%s $fatjar %s %s", ReproductionUtils.Constants.JAVA_PREFIX, ReproductionUtils.Constants.JVM_ARGS, condition.command)
             .replace("$fatjar", fatjarPath)
             .replace("$threads", "16")
             .replace("$topics", topic.topic_key)
-            .replace("$output", output);
+            .replace("$output", output)
+            .replace("$runs_directory", runsDir.toString());
+
+        // Note that there's a hidden dependency for fusion runs, where the command specifies the run to fuse by -runs run1 run2 ...
+        // The runs directory can be set using $runs_directory, but the run names are hard-coded.
 
         if (printCommands) {
           System.out.println("    Retrieval command: " + command);
@@ -261,6 +263,7 @@ public class RunReproductionFromPrebuiltIndexes {
           String evalKey = topic.eval_key;
           String metricDefinition = Objects.requireNonNull(metricDefinitions.get(metric));
 
+          // For the eval command, running `java -cp fatjar ...` is fine since we're just running trec_eval.
           evalCommands.put(metric, "java -cp $fatjarPath trec_eval $metric $evalKey $output"
               .replace("$fatjarPath", fatjarPath)
               .replace("$metric", metricDefinition)
@@ -293,13 +296,13 @@ public class RunReproductionFromPrebuiltIndexes {
               double delta = Math.abs(score - expected.get(metric));
 
               if (score > expected.get(metric)) {
-                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, Constants.OKISH, expected.get(metric));
+                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, ReproductionUtils.Constants.OKISH, expected.get(metric));
               } else if (delta < 0.00001) {
-                System.out.printf("    %8s: %.4f %s%n", metric, score, Constants.OK);
+                System.out.printf("    %8s: %.4f %s%n", metric, score, ReproductionUtils.Constants.OK);
               } else if (delta < 0.0002) {
-                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, Constants.OKISH, expected.get(metric));
+                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, ReproductionUtils.Constants.OKISH, expected.get(metric));
               } else {
-                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, Constants.FAIL, expected.get(metric));
+                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, ReproductionUtils.Constants.FAIL, expected.get(metric));
               }
             } else {
               System.out.println("Evaluation command failed for metric: " + metric);
@@ -311,11 +314,11 @@ public class RunReproductionFromPrebuiltIndexes {
     }
 
     final Instant endTime = Instant.now();
-    final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-    System.out.println("Start time: " + TIMESTAMP_FORMATTER.format(startTime));
-    System.out.println("End time:   " + TIMESTAMP_FORMATTER.format(endTime));
-    System.out.println("Duration:   " + DurationFormatUtils.formatDurationWords(durationMillis, true, false)
-        + " (" + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss") + ")");
+    final long durationMillis = endTime.toEpochMilli() - startTime.toEpochMilli();
+
+    System.out.println("Start time: " + ReproductionUtils.formatStartTime(startTime));
+    System.out.println("End time:   " + ReproductionUtils.formatEndTime(endTime));
+    System.out.println("Duration:   " + ReproductionUtils.formatDuration(durationMillis));
   }
 
   private static String extractIndexPath(String command) {

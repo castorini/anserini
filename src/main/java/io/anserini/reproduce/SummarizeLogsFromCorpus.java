@@ -17,20 +17,25 @@
 package io.anserini.reproduce;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
-import java.util.HashMap;
-import java.util.List;
+import java.time.ZoneId;
 import java.util.Locale;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.ParserProperties;
 
 public class SummarizeLogsFromCorpus {
   private static final String RUN_REPRODUCTIONS_FROM_CORPUS = "RunReproductionFromCorpus";
@@ -40,22 +45,48 @@ public class SummarizeLogsFromCorpus {
       .appendLiteral(',')
       .appendFraction(java.time.temporal.ChronoField.NANO_OF_SECOND, 1, 9, false)
       .toFormatter(Locale.ROOT);
+
   private static final Pattern LOG_TIMESTAMP_PATTERN =
       Pattern.compile("^(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2},\\d{1,9})\\b");
 
+  public static class Args {
+    @Option(name = "--logs", metaVar = "[path]", usage = "Path to logs directory (default: logs).")
+    public String logs = ReproductionUtils.Constants.DEFAULT_LOGS_DIRECTORY;
+
+    @Option(name = "--md", aliases = {"--markdown"}, metaVar = "[boolean]", usage = "Emit output in markdown format.")
+    public boolean markdown = false;
+
+    @Option(name = "--text", aliases = {"--plain-text"}, metaVar = "[boolean]", usage = "Emit output in plain text format.")
+    public boolean plainText = false;
+
+    @Option(name = "--json", metaVar = "[boolean]", usage = "Emit output in JSON format.")
+    public boolean json = false;
+  }
+
   public static void main(String[] args) {
-    Path logsDir = Paths.get("logs");
-    int totalRegressions = 0;
-    String[] statusLabels = {Constants.OK, Constants.OKISH, Constants.FAIL};
-    Map<String, Integer> statusCounters = new HashMap<>(statusLabels.length * 2);
-    for (String statusLabel : statusLabels) {
-      statusCounters.put(statusLabel, 0);
+    Args parsedArgs = new Args();
+    CmdLineParser parser = new CmdLineParser(parsedArgs, ParserProperties.defaults().withUsageWidth(120));
+    try {
+      parser.parseArgument(args);
+    } catch (CmdLineException e) {
+      System.err.println(e.getMessage());
+      parser.printUsage(System.err);
+      return;
     }
 
-    LocalDateTime startDate = null;
-    LocalDateTime endDate = null;
-    String startDateStr = null;
-    String endDateStr = null;
+    int selectedOutputs = (parsedArgs.markdown ? 1 : 0) + (parsedArgs.plainText ? 1 : 0) + (parsedArgs.json ? 1 : 0);
+    if (selectedOutputs > 1) {
+      throw new IllegalArgumentException("Only one output mode may be specified among --md/--markdown, --text/--plain-text, and --json.");
+    }
+
+    Path logsDir = Paths.get(parsedArgs.logs);
+    int totalRegressions = 0;
+    String[] statusLabels = {ReproductionUtils.Constants.OK, ReproductionUtils.Constants.OKISH, ReproductionUtils.Constants.FAIL};
+    String[] rawStatusLabels = {"[OK]", "[OK*]", "[FAIL]"};
+    int[] statusCounters = new int[statusLabels.length];
+
+    Instant startTime = null;
+    Instant endTime = null;
 
     try (DirectoryStream<Path> stream = Files.newDirectoryStream(logsDir, "log.*")) {
       for (Path logFile : stream) {
@@ -64,36 +95,45 @@ public class SummarizeLogsFromCorpus {
         }
         totalRegressions++;
 
-        List<String> logLines = Files.readAllLines(logFile);
-        String firstRunRegressionsLine = firstLineContaining(logLines, RUN_REPRODUCTIONS_FROM_CORPUS);
+        String firstRunRegressionsLine = null;
+        String lastRunRegressionsLine = null;
+        try (var lines = Files.lines(logFile, StandardCharsets.UTF_8)) {
+          for (String line : (Iterable<String>) lines::iterator) {
+            if (!line.contains(RUN_REPRODUCTIONS_FROM_CORPUS)) {
+              continue;
+            }
+            if (firstRunRegressionsLine == null) {
+              firstRunRegressionsLine = line;
+            }
+            lastRunRegressionsLine = line;
+          }
+        }
+
         if (firstRunRegressionsLine != null) {
           String timestamp = extractTimestamp(firstRunRegressionsLine);
-          if (timestamp != null) {
-            LocalDateTime dt = LocalDateTime.parse(timestamp, DATE_FORMAT);
-            if (startDate == null || dt.isBefore(startDate)) {
-              startDate = dt;
-              startDateStr = timestamp;
+          Instant dt = parseTimestamp(timestamp);
+          if (dt != null) {
+            if (startTime == null || dt.isBefore(startTime)) {
+              startTime = dt;
             }
           }
         }
 
-        String lastLine = lastLineContaining(logLines, RUN_REPRODUCTIONS_FROM_CORPUS);
-        if (lastLine == null) {
+        if (lastRunRegressionsLine == null) {
           continue;
         }
 
-        for (String statusLabel : statusLabels) {
-          if (lastLine.contains(statusLabel)) {
-            statusCounters.put(statusLabel, statusCounters.get(statusLabel) + 1);
+        for (int i = 0; i < statusLabels.length; i++) {
+          if (lastRunRegressionsLine.contains(statusLabels[i])) {
+            statusCounters[i]++;
           }
         }
 
-        String timestamp = extractTimestamp(lastLine);
-        if (timestamp != null) {
-          LocalDateTime dt = LocalDateTime.parse(timestamp, DATE_FORMAT);
-          if (endDate == null || dt.isAfter(endDate)) {
-            endDate = dt;
-            endDateStr = timestamp;
+        String timestamp = extractTimestamp(lastRunRegressionsLine);
+        Instant dt = parseTimestamp(timestamp);
+        if (dt != null) {
+          if (endTime == null || dt.isAfter(endTime)) {
+            endTime = dt;
           }
         }
       }
@@ -101,42 +141,116 @@ public class SummarizeLogsFromCorpus {
       throw new RuntimeException("Error reading log.", e);
     }
 
-    System.out.printf("Total regressions: %3d%n", totalRegressions);
-    for (String statusLabel : statusLabels) {
-      System.out.printf(" %s %3d%n", statusLabel, statusCounters.get(statusLabel));
+    Duration duration = null;
+    if (startTime != null && endTime != null) {
+      duration = Duration.between(startTime, endTime);
     }
 
-    System.out.println();
-    System.out.printf("Start time: %s%n", startDateStr == null ? "" : startDateStr);
-    System.out.printf("End time:   %s%n", endDateStr == null ? "" : endDateStr);
-    System.out.println();
-
-    if (startDate != null && endDate != null) {
-      Duration duration = Duration.between(startDate, endDate);
-      double hours = duration.toMillis() / 3600000.0;
-      System.out.printf("Duration: %s ~%.1fh%n", formatDuration(duration), hours);
+    if (parsedArgs.json) {
+      printSummaryJson(totalRegressions, statusCounters, rawStatusLabels, startTime, endTime, duration);
+    } else if (parsedArgs.markdown) {
+      printSummaryMarkdown(totalRegressions, statusCounters, rawStatusLabels, startTime, endTime, duration);
     } else {
-      System.out.println("Duration: n/a");
+      printSummaryPlainText(totalRegressions, statusCounters, statusLabels, startTime, endTime, duration);
     }
   }
 
-  private static String firstLineContaining(List<String> lines, String target) {
-    for (String line : lines) {
-      if (line.contains(target)) {
-        return line;
-      }
+  private static void printSummaryPlainText(int totalRegressions, int[] statusCounters, String[] statusLabels,
+                                           Instant startTime, Instant endTime, Duration duration) {
+    StringBuilder sb = new StringBuilder(256);
+    sb.append("Total regressions: ");
+    appendThreeWidthRightAligned(sb, totalRegressions);
+    sb.append('\n');
+    for (int i = 0; i < statusLabels.length; i++) {
+      sb.append(' ');
+      sb.append(statusLabels[i]);
+      sb.append(' ');
+      appendThreeWidthRightAligned(sb, statusCounters[i]);
+      sb.append('\n');
     }
-    return null;
+    sb.append('\n');
+    sb.append("Start time: ").append(startTime == null ? "n/a" : ReproductionUtils.formatStartTime(startTime)).append('\n');
+    sb.append("End time:   ").append(endTime == null ? "n/a" : ReproductionUtils.formatEndTime(endTime)).append('\n');
+    sb.append("Duration:   ").append(duration == null ? "n/a" : ReproductionUtils.formatDuration(duration)).append('\n');
+    System.out.print(sb);
   }
 
-  private static String lastLineContaining(List<String> lines, String target) {
-    for (int i = lines.size() - 1; i >= 0; i--) {
-      String line = lines.get(i);
-      if (target == null || line.contains(target)) {
-        return line.trim();
+  private static void appendThreeWidthRightAligned(StringBuilder sb, int value) {
+    String text = Integer.toString(value);
+    int padding = 3 - text.length();
+    while (padding > 0) {
+      sb.append(' ');
+      padding--;
+    }
+    sb.append(text);
+  }
+
+  private static void printSummaryMarkdown(int totalRegressions, int[] statusCounters, String[] rawStatusLabels,
+                                          Instant startTime, Instant endTime, Duration duration) {
+    StringBuilder sb = new StringBuilder(256);
+    int statusWidth = "status".length();
+    int countWidth = "count".length();
+    for (int i = 0; i < rawStatusLabels.length; i++) {
+      if (rawStatusLabels[i].length() > statusWidth) {
+        statusWidth = rawStatusLabels[i].length();
+      }
+      int countDigits = String.valueOf(statusCounters[i]).length();
+      if (countDigits > countWidth) {
+        countWidth = countDigits;
       }
     }
-    return null;
+
+    sb.append(String.format(Locale.ROOT, "Total regressions: %3d%n", totalRegressions));
+    sb.append("\n");
+    sb.append("| ").append("status");
+    if ("status".length() < statusWidth) {
+      sb.append(" ".repeat(statusWidth - "status".length()));
+    }
+    sb.append(" | ").append("count");
+    if ("count".length() < countWidth) {
+      sb.append(" ".repeat(countWidth - "count".length()));
+    }
+    sb.append(" |\n");
+    sb.append("| ").append("-".repeat(statusWidth)).append(" | ");
+    sb.append("-".repeat(Math.max(countWidth - 1, 1))).append(": |\n");
+    for (int i = 0; i < statusCounters.length; i++) {
+      sb.append("| ").append(rawStatusLabels[i]);
+      if (rawStatusLabels[i].length() < statusWidth) {
+        sb.append(" ".repeat(statusWidth - rawStatusLabels[i].length()));
+      }
+      sb.append(" | ")
+          .append(" ".repeat(Math.max(countWidth - String.valueOf(statusCounters[i]).length(), 0)))
+          .append(statusCounters[i]).append(" |\n");
+    }
+    sb.append("\n");
+    sb.append("Start time: ").append(startTime == null ? "n/a" : ReproductionUtils.formatStartTime(startTime)).append("\n");
+    sb.append("End time:   ").append(endTime == null ? "n/a" : ReproductionUtils.formatEndTime(endTime)).append("\n");
+    sb.append("Duration:   ").append(duration == null ? "n/a" : ReproductionUtils.formatDuration(duration.toMillis())).append("\n");
+    System.out.print(sb);
+  }
+
+  private static void printSummaryJson(int totalRegressions, int[] statusCounters, String[] rawStatusLabels,
+                                      Instant startTime, Instant endTime, Duration duration) {
+    System.out.append("{\n");
+    System.out.append("  \"total_regressions\": ").append(String.valueOf(totalRegressions)).append(",\n");
+    System.out.append("  \"status_counts\": {\n");
+    for (int i = 0; i < statusCounters.length; i++) {
+      System.out.append("    \"").append(ReproductionUtils.escapeJson(rawStatusLabels[i]))
+          .append("\": ").append(String.valueOf(statusCounters[i]));
+      if (i + 1 < statusCounters.length) {
+        System.out.append(",\n");
+      } else {
+        System.out.append("\n");
+      }
+    }
+    System.out.append("  },\n");
+    System.out.append("  \"start_time\": \"")
+        .append(ReproductionUtils.escapeJson(startTime == null ? "n/a" : ReproductionUtils.formatStartTime(startTime))).append("\",\n");
+    System.out.append("  \"end_time\": \"")
+        .append(ReproductionUtils.escapeJson(endTime == null ? "n/a" : ReproductionUtils.formatEndTime(endTime))).append("\",\n");
+    System.out.append("  \"duration\": \"")
+        .append(ReproductionUtils.escapeJson(duration == null ? "n/a" : ReproductionUtils.formatDuration(duration.toMillis()))).append("\"\n");
+    System.out.append("}\n");
   }
 
   private static String extractTimestamp(String line) {
@@ -147,13 +261,11 @@ public class SummarizeLogsFromCorpus {
     return matcher.group(1);
   }
 
-  private static String formatDuration(Duration duration) {
-    long seconds = duration.getSeconds();
-    long absSeconds = Math.abs(seconds);
-    long hours = absSeconds / 3600;
-    long minutes = (absSeconds % 3600) / 60;
-    long secs = absSeconds % 60;
-
-    return String.format("%s%d:%02d:%02d", seconds < 0 ? "-" : "", hours, minutes, secs);
+  private static Instant parseTimestamp(String timestamp) {
+    if (timestamp == null) {
+      return null;
+    }
+    return LocalDateTime.parse(timestamp, DATE_FORMAT).atZone(ZoneId.systemDefault()).toInstant();
   }
+
 }

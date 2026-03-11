@@ -3,7 +3,7 @@ conditions:
     display: "BM25 (k1=0.9, b=0.4)"
     display_html: "BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
     display_row: ""
-    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v2-passage-slim -topics $topics -output $output -hits 1000 -bm25
+    command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v2-passage-slim -topics $topics -output $output -hits 1000 -bm25
     topics:
       - topic_key: msmarco-v2-passage.dev
         eval_key: msmarco-v2-passage.dev
@@ -63,7 +63,7 @@ conditions:
     display: "BM25 (k1=0.9, b=0.4)"
     display_html: "BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
     display_row: ""
-    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v2-passage-full -topics $topics -output $output -hits 1000 -bm25
+    command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v2-passage-full -topics $topics -output $output -hits 1000 -bm25
     topics:
       - topic_key: msmarco-v2-passage.dev
         eval_key: msmarco-v2-passage.dev
@@ -123,7 +123,7 @@ conditions:
     display: "uniCOIL (no expansion): cached queries"
     display_html: "uniCOIL (no expansion): cached queries"
     display_row: ""
-    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v2-passage.unicoil-noexp-0shot -topics $topics -output $output -hits 1000 -impact -pretokenized
+    command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v2-passage.unicoil-noexp-0shot -topics $topics -output $output -hits 1000 -impact -pretokenized
     topics:
       - topic_key: msmarco-v2-passage.dev.unicoil-noexp.0shot
         eval_key: msmarco-v2-passage.dev
@@ -183,7 +183,7 @@ conditions:
     display: "uniCOIL (with doc2query-T5): cached queries"
     display_html: "uniCOIL (with doc2query-T5): cached queries"
     display_row: ""
-    command: java -cp $fatjar --add-modules jdk.incubator.vector io.anserini.search.SearchCollection -threads $threads -index msmarco-v2-passage.unicoil-0shot -topics $topics -output $output -hits 1000 -impact -pretokenized
+    command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v2-passage.unicoil-0shot -topics $topics -output $output -hits 1000 -impact -pretokenized
     topics:
       - topic_key: msmarco-v2-passage.dev.unicoil.0shot
         eval_key: msmarco-v2-passage.dev
