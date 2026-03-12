@@ -478,6 +478,64 @@ io.anserini.reproduce.RunReproductionFromCorpus --verify --search --config beir-
 io.anserini.reproduce.RunReproductionFromCorpus --verify --search --config beir-v1.0.0-climate-fever.splade-pp-ed.cached
 io.anserini.reproduce.RunReproductionFromCorpus --verify --search --config beir-v1.0.0-scifact.splade-pp-ed.cached
 
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-ar
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-bn
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-en
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-fi
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-id
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-ja
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-ko
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-ru
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-sw
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-te
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-th
+
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-ar-aca
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-bn-aca
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-en-aca
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-fi-aca
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-id-aca
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-ja-aca
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-ko-aca
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-ru-aca
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-sw-aca
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-te-aca
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-th-aca
+
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-ar
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-bn
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-en
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-es
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-fa
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-fi
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-fr
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-hi
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-id
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-ja
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-ko
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-ru
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-sw
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-te
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-th
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-zh
+
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-ar-aca
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-bn-aca
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-en-aca
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-es-aca
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-fa-aca
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-fi-aca
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-fr-aca
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-hi-aca
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-id-aca
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-ja-aca
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-ko-aca
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-ru-aca
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-sw-aca
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-te-aca
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-th-aca
+io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-zh-aca
+
 io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config bright-aops.bm25qs
 io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config bright-biology.bm25qs
 io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config bright-earth-science.bm25qs
@@ -555,61 +613,3 @@ io.anserini.reproduce.RunReproductionFromCorpus --verify --search --config brigh
 io.anserini.reproduce.RunReproductionFromCorpus --verify --search --config bright-sustainable-living.bge-large-en-v1.5.flat.cached
 io.anserini.reproduce.RunReproductionFromCorpus --verify --search --config bright-theoremqa-questions.bge-large-en-v1.5.flat.cached
 io.anserini.reproduce.RunReproductionFromCorpus --verify --search --config bright-theoremqa-theorems.bge-large-en-v1.5.flat.cached
-
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-ar
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-bn
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-en
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-fi
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-id
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-ja
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-ko
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-ru
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-sw
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-te
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-th
-
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-ar-aca
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-bn-aca
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-en-aca
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-fi-aca
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-id-aca
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-ja-aca
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-ko-aca
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-ru-aca
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-sw-aca
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-te-aca
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config mrtydi-v1.1-th-aca
-
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-ar
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-bn
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-en
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-es
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-fa
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-fi
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-fr
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-hi
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-id
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-ja
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-ko
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-ru
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-sw
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-te
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-th
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-zh
-
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-ar-aca
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-bn-aca
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-en-aca
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-es-aca
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-fa-aca
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-fi-aca
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-fr-aca
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-hi-aca
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-id-aca
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-ja-aca
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-ko-aca
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-ru-aca
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-sw-aca
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-te-aca
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-th-aca
-io.anserini.reproduce.RunReproductionFromCorpus --index --verify --search --config miracl-v1.0-zh-aca
