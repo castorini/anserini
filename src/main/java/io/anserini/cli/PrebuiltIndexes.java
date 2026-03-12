@@ -33,7 +33,6 @@ import io.anserini.index.prebuilt.PrebuiltIndex;
 import io.anserini.index.prebuilt.PrebuiltImpactIndex;
 import io.anserini.index.prebuilt.PrebuiltInvertedIndex;
 import io.anserini.reproduce.ReproductionUtils;
-import io.anserini.reproduce.SummarizeLogsFromCorpus;
 import io.anserini.util.LoggingBootstrap;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -44,7 +43,7 @@ public final class PrebuiltIndexes {
 
   public static class Args {
     @Option(name = "--list", usage = "List available prebuilt indexes.")
-    public Boolean list = false;
+    public boolean list = false;
 
     @Option(name = "--type", metaVar = "[flat|inverted|impact|hnsw]", usage = "Filter prebuilt indexes by type.")
     public String type = null;
@@ -71,6 +70,11 @@ public final class PrebuiltIndexes {
     }
 
     if (parsedArgs.help) {
+      ReproductionUtils.printUsage(parser, PrebuiltIndexes.class, argsOrdering);
+      return;
+    }
+
+    if (!parsedArgs.list) {
       ReproductionUtils.printUsage(parser, PrebuiltIndexes.class, argsOrdering);
       return;
     }

@@ -16,12 +16,15 @@
 
 package io.anserini.cli;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
@@ -31,6 +34,10 @@ import io.anserini.index.prebuilt.PrebuiltImpactIndex;
 import io.anserini.index.prebuilt.PrebuiltInvertedIndex;
 
 public class PrebuiltIndexesTest extends StdOutStdErrRedirectableLuceneTestCase {
+  private static final ObjectMapper MAPPER = new ObjectMapper();
+  private static final TypeReference<List<Map<String, Object>>> DETAIL_LIST_TYPE =
+      new TypeReference<List<Map<String, Object>>>() {};
+
   @Before
   public void setUp() throws Exception {
     redirectStdOut();
@@ -49,8 +56,7 @@ public class PrebuiltIndexesTest extends StdOutStdErrRedirectableLuceneTestCase 
   public void testList() throws Exception {
     PrebuiltIndexes.main(new String[] {"--list"});
 
-    java.util.List<java.util.Map<String, Object>> details =
-        new ObjectMapper().readValue(out.toString(), java.util.List.class);
+    List<Map<String, Object>> details = MAPPER.readValue(out.toString(), DETAIL_LIST_TYPE);
 
     int expectedSize = PrebuiltInvertedIndex.entries().size()
         + PrebuiltImpactIndex.entries().size()
@@ -59,7 +65,7 @@ public class PrebuiltIndexesTest extends StdOutStdErrRedirectableLuceneTestCase 
     assertEquals(expectedSize, details.size());
 
     Set<String> names = new TreeSet<>();
-    for (java.util.Map<String, Object> detail : details) {
+    for (Map<String, Object> detail : details) {
       assertNotNull(detail.get("name"));
       assertNotNull(detail.get("type"));
       assertNotNull(detail.get("corpus_index"));
@@ -69,20 +75,13 @@ public class PrebuiltIndexesTest extends StdOutStdErrRedirectableLuceneTestCase 
   }
 
   @Test
-  public void testMissingRequiredOption() {
-    PrebuiltIndexes.main(new String[] {});
-    assertTrue(err.toString().contains("Error: --list is required"));
-  }
-
-  @Test
   public void testListFilterByType() throws Exception {
     PrebuiltIndexes.main(new String[] {"--list", "--type", "flat"});
 
-    java.util.List<java.util.Map<String, Object>> details =
-        new ObjectMapper().readValue(out.toString(), java.util.List.class);
+    List<Map<String, Object>> details = MAPPER.readValue(out.toString(), DETAIL_LIST_TYPE);
 
     assertEquals(PrebuiltFlatIndex.entries().size(), details.size());
-    for (java.util.Map<String, Object> detail : details) {
+    for (Map<String, Object> detail : details) {
       assertEquals("flat", detail.get("type"));
     }
   }
