@@ -37,26 +37,23 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.anserini.index.Constants;
 import io.anserini.index.IndexReaderUtils;
+import io.anserini.reproduce.ReproductionUtils;
 import io.anserini.search.ScoredDoc;
 import io.anserini.search.SimpleSearcher;
 import io.anserini.util.LoggingBootstrap;
 
-/**
- * Minimal CLI wrapper around {@link SimpleSearcher}.
- */
 public final class Search {
+  private static final ObjectMapper JSON_MAPPER = new ObjectMapper();
+
   public static class Args {
     @Option(name = "--index", metaVar = "[path|name]", required = true, usage = "Path to Lucene index or prebuilt index name")
     public String index;
 
-    @Option(name = "--query", metaVar = "[text]", usage = "Query string")
-    public String query;
-
-    @Option(name = "--hits", metaVar = "[number]", usage = "Number of hits to return")
+    @Option(name = "--hits", metaVar = "[number]", usage = "Number of hits to return,")
     public int hits = 10;
 
-    @Option(name = "--options", usage = "Print information about options.")
-    public Boolean options = false;
+    @Option(name = "--query", metaVar = "[query]", usage = "Query string")
+    public String query;
 
     @Option(name = "--interactive", usage = "Read queries from stdin until user quits.")
     public Boolean interactive = false;
@@ -66,28 +63,74 @@ public final class Search {
 
     @Option(name = "--trec", usage = "Emit TREC output.")
     public Boolean trec = false;
+
+    @Option(name = "--help", help = true, usage = "Print this help message and exit.")
+    public boolean help = false;
   }
+
+  private static final String[] argsOrdering = new String[] {
+      "--index", "--hits", "--query", "--interactive", "--json", "--trec", "--help"};
 
   private enum OutputMode {
     JSON,
     TREC
   }
 
-  private static final ObjectMapper JSON_MAPPER = new ObjectMapper();
+  public static void main(String[] args) {
+    LoggingBootstrap.installJulToSlf4jBridge();
 
-  private static void run(Args parsed) {
-    OutputMode outputMode = parsed.json ? OutputMode.JSON : OutputMode.TREC;
+    Args parsedArgs = new Args();
+    CmdLineParser parser = new CmdLineParser(parsedArgs, ParserProperties.defaults().withUsageWidth(120));
 
-    if (parsed.interactive) {
-      runInteractive(parsed, outputMode);
+    try {
+      parser.parseArgument(args);
+    } catch (CmdLineException e) {
+      System.err.println(String.format("Error: %s", e.getMessage()));
+      ReproductionUtils.printUsage(parser, Search.class, argsOrdering);
+      return;
+    }
+
+    if (parsedArgs.help) {
+      ReproductionUtils.printUsage(parser, Search.class, argsOrdering);
+      return;
+    }
+
+    if (parsedArgs.hits <= 0) {
+      System.err.println("Error: --hits must be positive");
+      return;
+    }
+
+    if (parsedArgs.interactive && parsedArgs.query != null) {
+      System.err.println("Error: --interactive and --query are mutually exclusive");
+      return;
+    }
+
+    if (!parsedArgs.interactive && parsedArgs.query == null) {
+      System.err.println("Error: --query is required when not running in interactive mode");
+      return;
+    }
+    if (parsedArgs.json == parsedArgs.trec) {
+      System.err.println("Error: exactly one of --json or --trec must be specified");
+      return;
+    }
+
+    Configurator.setRootLevel(Level.OFF);
+    run(parsedArgs);
+  }
+
+  private static void run(Args args) {
+    OutputMode outputMode = args.json ? OutputMode.JSON : OutputMode.TREC;
+
+    if (args.interactive) {
+      runInteractive(args, outputMode);
     } else {
-      runSearcher(parsed.query, parsed.hits, parsed.index, outputMode);
+      runSingleQuery(args, outputMode);
     }
   }
 
-  private static void runInteractive(Args parsed, OutputMode outputMode) {
+  private static void runInteractive(Args args, OutputMode outputMode) {
     try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-         SimpleSearcher searcher = new SimpleSearcher(IndexReaderUtils.getIndex(parsed.index).toString())) {
+         SimpleSearcher searcher = new SimpleSearcher(IndexReaderUtils.getIndex(args.index).toString())) {
       String query;
       while (true) {
         query = reader.readLine();
@@ -96,24 +139,21 @@ public final class Search {
         }
 
         query = query.trim();
-        if ("quit".equalsIgnoreCase(query) || "exit".equalsIgnoreCase(query)) {
-          return;
-        }
 
         if (query.isBlank()) {
           continue;
         }
 
-        printResults(searcher, query, parsed.hits, outputMode);
+        printResults(searcher, query, args.hits, outputMode);
       }
     } catch (IOException e) {
       System.err.printf("Error: %s%n", e.getMessage());
     }
   }
 
-  private static void runSearcher(String query, int hits, String index, OutputMode outputMode) {
-    try (SimpleSearcher searcher = new SimpleSearcher(IndexReaderUtils.getIndex(index).toString())) {
-      printResults(searcher, query, hits, outputMode);
+  private static void runSingleQuery(Args parsed, OutputMode outputMode) {
+    try (SimpleSearcher searcher = new SimpleSearcher(IndexReaderUtils.getIndex(parsed.index).toString())) {
+      printResults(searcher, parsed.query, parsed.hits, outputMode);
     } catch (IOException e) {
       System.err.printf("Error: %s%n", e.getMessage());
     }
@@ -134,7 +174,7 @@ public final class Search {
         List<Map<String, Object>> candidates = new ArrayList<>();
 
         for (ScoredDoc hit : results) {
-          candidates.add(toJsonCandidate(hit));
+          candidates.add(toJson(hit));
         }
         output.put("candidates", candidates);
         System.out.println(JSON_MAPPER.writeValueAsString(output));
@@ -146,7 +186,7 @@ public final class Search {
     }
   }
 
-  private static Map<String, Object> toJsonCandidate(ScoredDoc hit) {
+  private static Map<String, Object> toJson(ScoredDoc hit) {
     Map<String, Object> candidate = new LinkedHashMap<>();
     candidate.put("docid", hit.docid);
     candidate.put("score", hit.score);
@@ -166,58 +206,5 @@ public final class Search {
       candidate.put("doc", rawDoc);
     }
     return candidate;
-  }
-
-  public static void main(String[] args) {
-    LoggingBootstrap.installJulToSlf4jBridge();
-
-    Args parsed = new Args();
-    CmdLineParser parser = new CmdLineParser(parsed, ParserProperties.defaults().withUsageWidth(120));
-
-    try {
-      parser.parseArgument(args);
-    } catch (CmdLineException e) {
-      if (parsed.options) {
-        System.err.printf("Options for %s:%n%n", Search.class.getSimpleName());
-        parser.printUsage(System.err);
-
-        List<String> required = new ArrayList<>();
-        parser.getOptions().forEach((option) -> {
-          if (option.option.required()) {
-            required.add(option.option.toString());
-          }
-        });
-
-        System.err.printf("%nRequired options are %s%n", required);
-      } else {
-        System.err.printf("Error: %s%n", e.getMessage());
-        System.err.printf("For help, use \"--options\" to print out information about options.%n");
-      }
-      return;
-    }
-
-    if (parsed.hits <= 0) {
-      System.err.println("Error: --hits must be positive");
-      return;
-    }
-
-    if (parsed.interactive && parsed.query != null) {
-      System.err.println("Error: --interactive and --query are mutually exclusive");
-      return;
-    }
-
-    if (!parsed.interactive && parsed.query == null) {
-      System.err.println("Error: --query is required when not running in interactive mode");
-      return;
-    }
-    if (parsed.json == parsed.trec) {
-      System.err.println("Error: exactly one of --json or --trec must be specified");
-      return;
-    }
-    if (parsed.json) {
-      Configurator.setRootLevel(Level.OFF);
-    }
-
-    run(parsed);
   }
 }

@@ -32,12 +32,13 @@ import io.anserini.index.prebuilt.PrebuiltHnswIndex;
 import io.anserini.index.prebuilt.PrebuiltIndex;
 import io.anserini.index.prebuilt.PrebuiltImpactIndex;
 import io.anserini.index.prebuilt.PrebuiltInvertedIndex;
+import io.anserini.reproduce.ReproductionUtils;
+import io.anserini.reproduce.SummarizeLogsFromCorpus;
+import io.anserini.util.LoggingBootstrap;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-/**
- * Minimal CLI wrapper to list names of all available prebuilt indexes.
- */
 public final class PrebuiltIndexes {
   private static final ObjectMapper JSON_MAPPER = new ObjectMapper();
 
@@ -48,8 +49,52 @@ public final class PrebuiltIndexes {
     @Option(name = "--type", metaVar = "[flat|inverted|impact|hnsw]", usage = "Filter prebuilt indexes by type.")
     public String type = null;
 
-    @Option(name = "--options", usage = "Print information about options.")
-    public Boolean options = false;
+    @Option(name = "--help", help = true, usage = "Print this help message and exit.")
+    public boolean help = false;
+  }
+
+  private static final String[] argsOrdering = new String[] {
+      "--list", "--type", "--help"};
+
+  public static void main(String[] args) {
+    LoggingBootstrap.installJulToSlf4jBridge();
+
+    Args parsedArgs = new Args();
+    CmdLineParser parser = new CmdLineParser(parsedArgs, ParserProperties.defaults().withUsageWidth(120));
+
+    try {
+      parser.parseArgument(args);
+    } catch (CmdLineException e) {
+      System.err.println(String.format("Error: %s", e.getMessage()));
+      ReproductionUtils.printUsage(parser, PrebuiltIndexes.class, argsOrdering);
+      return;
+    }
+
+    if (parsedArgs.help) {
+      ReproductionUtils.printUsage(parser, PrebuiltIndexes.class, argsOrdering);
+      return;
+    }
+
+    run(parsedArgs);
+  }
+
+  private static void run(Args args) {
+    String typeFilter = args.type == null ? null : args.type.toLowerCase(Locale.ROOT);
+    if (typeFilter != null && !isValidType(typeFilter)) {
+      System.err.printf("Error: invalid --type \"%s\" (must be one of: flat, inverted, impact, hnsw)%n", args.type);
+      return;
+    }
+
+    List<PrebuiltIndex.Entry> details = getAllDetails();
+    if (typeFilter != null) {
+      details = details.stream().filter((entry) -> typeFilter.equals(entry.type)).collect(Collectors.toList());
+    }
+
+    try {
+      System.out.println(JSON_MAPPER.writeValueAsString(details));
+    } catch (JsonProcessingException e) {
+      System.err.printf("Error: %s%n", e.getMessage());
+    }
   }
 
   private static List<PrebuiltIndex.Entry> getAllEntries() {
@@ -69,58 +114,5 @@ public final class PrebuiltIndexes {
 
   private static boolean isValidType(String type) {
     return "flat".equals(type) || "inverted".equals(type) || "impact".equals(type) || "hnsw".equals(type);
-  }
-
-  public static void main(String[] args) {
-    Args parsed = new Args();
-    CmdLineParser parser = new CmdLineParser(parsed, ParserProperties.defaults().withUsageWidth(120));
-
-    try {
-      parser.parseArgument(args);
-    } catch (CmdLineException e) {
-      if (parsed.options) {
-        System.err.printf("Options for %s:%n%n", PrebuiltIndexes.class.getSimpleName());
-        parser.printUsage(System.err);
-      } else {
-        System.err.printf("Error: %s%n", e.getMessage());
-        System.err.printf("For help, use \"--options\" to print out information about options.%n");
-      }
-      return;
-    }
-
-    if (!Boolean.TRUE.equals(parsed.list)) {
-      if (parsed.options) {
-        System.err.printf("Options for %s:%n%n", PrebuiltIndexes.class.getSimpleName());
-        parser.printUsage(System.err);
-
-        ArrayList<String> required = new ArrayList<>();
-        parser.getOptions().forEach((option) -> {
-          if (option.option.required()) {
-            required.add(option.option.toString());
-          }
-        });
-        System.err.printf("%nRequired options are %s%n", required);
-      } else {
-        System.err.println("Error: --list is required");
-      }
-      return;
-    }
-
-    String typeFilter = parsed.type == null ? null : parsed.type.toLowerCase(Locale.ROOT);
-    if (typeFilter != null && !isValidType(typeFilter)) {
-      System.err.printf("Error: invalid --type \"%s\" (must be one of: flat, inverted, impact, hnsw)%n", parsed.type);
-      return;
-    }
-
-    List<PrebuiltIndex.Entry> details = getAllDetails();
-    if (typeFilter != null) {
-      details = details.stream().filter((entry) -> typeFilter.equals(entry.type)).collect(Collectors.toList());
-    }
-
-    try {
-      System.out.println(JSON_MAPPER.writeValueAsString(details));
-    } catch (JsonProcessingException e) {
-      System.err.printf("Error: %s%n", e.getMessage());
-    }
   }
 }

@@ -69,15 +69,13 @@ public class SearchTest extends StdOutStdErrRedirectableLuceneTestCase {
     }
   }
 
-  private InputStream savedIn;
-  private Level savedRootLevel;
+  // private InputStream savedIn;
+  // private Level savedRootLevel;
 
   @Before
   public void setUp() throws Exception {
     redirectStdOut();
     redirectStdErr();
-    savedIn = System.in;
-    savedRootLevel = LogManager.getRootLogger().getLevel();
     super.setUp();
   }
 
@@ -85,9 +83,15 @@ public class SearchTest extends StdOutStdErrRedirectableLuceneTestCase {
   public void tearDown() throws Exception {
     restoreStdOut();
     restoreStdErr();
-    System.setIn(savedIn);
-    Configurator.setRootLevel(savedRootLevel);
     super.tearDown();
+  }
+
+  @Test
+  public void testHelpOption() {
+    Search.main(new String[] {"--help"});
+    assertTrue(err.toString().contains("Options for Search:"));
+    assertTrue(err.toString().contains("--help"));
+    assertFalse(err.toString().contains("Option \"--index\" is required"));
   }
 
   @Test
@@ -152,7 +156,7 @@ public class SearchTest extends StdOutStdErrRedirectableLuceneTestCase {
 
   @Test
   public void testInteractiveSearchWithCacm() {
-    String stdin = "information retrieval\nquit\n";
+    String stdin = "information retrieval\n";
     System.setIn(new ByteArrayInputStream(stdin.getBytes(StandardCharsets.UTF_8)));
 
     Search.main(new String[] {"--index", cacmIndexPath.toString(), "--interactive", "--trec", "--hits", "1"});
