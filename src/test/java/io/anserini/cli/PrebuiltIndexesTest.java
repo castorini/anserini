@@ -53,6 +53,26 @@ public class PrebuiltIndexesTest extends StdOutStdErrRedirectableLuceneTestCase 
   }
 
   @Test
+  public void testInvalidOption() {
+    PrebuiltIndexes.main(new String[] {"-invalid"});
+    assertTrue(err.toString().startsWith("Error: \"-invalid\" is not a valid option"));
+  }
+
+  @Test
+  public void testHelp() {
+    PrebuiltIndexes.main(new String[] {"--help"});
+    assertTrue(err.toString().contains("Options for PrebuiltIndexes:"));
+    assertTrue(err.toString().contains("--help"));
+  }
+
+  @Test
+  public void testMissingList() {
+    PrebuiltIndexes.main(new String[0]);
+    assertTrue(err.toString().contains("Options for PrebuiltIndexes:"));
+    assertEquals("", out.toString());
+  }
+
+  @Test
   public void testList() throws Exception {
     PrebuiltIndexes.main(new String[] {"--list"});
 

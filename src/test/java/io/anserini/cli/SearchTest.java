@@ -26,9 +26,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.config.Configurator;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -68,9 +65,6 @@ public class SearchTest extends StdOutStdErrRedirectableLuceneTestCase {
       FileUtils.deleteDirectory(cacmIndexPath.toFile());
     }
   }
-
-  // private InputStream savedIn;
-  // private Level savedRootLevel;
 
   @Before
   public void setUp() throws Exception {
@@ -155,7 +149,7 @@ public class SearchTest extends StdOutStdErrRedirectableLuceneTestCase {
   }
 
   @Test
-  public void testInteractiveSearchWithCacm() {
+  public void testInteractiveSearchTrecOutpuWithCacm() {
     String stdin = "information retrieval\n";
     System.setIn(new ByteArrayInputStream(stdin.getBytes(StandardCharsets.UTF_8)));
 
@@ -164,6 +158,23 @@ public class SearchTest extends StdOutStdErrRedirectableLuceneTestCase {
     List<String> trecLines = extractTrecLines(out.toString());
     assertEquals(1, trecLines.size());
     assertTrue(isValidTrecLine(trecLines.get(0)));
+  }
+
+  @Test
+  public void testInteractiveSearchJsonOutputWithCacm() throws Exception {
+    String query = "information retrieval";
+    String stdin = query + "\n";
+    System.setIn(new ByteArrayInputStream(stdin.getBytes(StandardCharsets.UTF_8)));
+
+    Search.main(new String[] {"--index", cacmIndexPath.toString(), "--interactive", "--json", "--hits", "1"});
+
+    String jsonLine = extractLastNonEmptyLine(out.toString());
+    JsonNode root = MAPPER.readTree(jsonLine);
+    assertEquals(query, root.get("query").get("text").asText());
+    assertEquals(1, root.get("candidates").size());
+    assertTrue(root.get("candidates").get(0).has("docid"));
+    assertTrue(root.get("candidates").get(0).has("score"));
+    assertTrue(root.get("candidates").get(0).has("doc"));
   }
 
   private static List<String> extractTrecLines(String output) {
