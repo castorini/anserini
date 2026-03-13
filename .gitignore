@@ -82,6 +82,10 @@ tools/topics-and-qrels/qrels.covid-round2-cumulative.txt
 /src/main/python/onnx/models/*
 /src/main/python/parquet/venv*
 
+# Large binary files
+*.jar
+anserini-*.jar
+
 # AI-related files (hide from professor)
 AGENTS.md
 CLAUDE.md
