@@ -71,6 +71,7 @@ import io.anserini.search.SearchCollection;
 import io.anserini.search.SearchFlatDenseVectors;
 import io.anserini.search.SearchHnswDenseVectors;
 import io.anserini.search.SearchInvertedDenseVectors;
+import io.anserini.util.LoggingBootstrap;
 
 public class RunReproductionFromCorpus {
   private static final Logger LOG = LogManager.getLogger(RunReproductionFromCorpus.class);
@@ -149,7 +150,7 @@ public class RunReproductionFromCorpus {
     @Option(name = "--dry-run", usage = "Output commands without execution.")
     public boolean dryRun = false;
 
-    @Option(name = "--help", usage = "Print this help message and exit.")
+    @Option(name = "--help", help = true, usage = "Print this help message and exit.")
     public boolean help = false;
   }
 
@@ -158,15 +159,10 @@ public class RunReproductionFromCorpus {
     "--corpus-path", "--index-threads", "--search-pool", "--convert-pool", "--dry-run", "--help"};
 
   public static void main(String[] args) throws Exception {
+    LoggingBootstrap.installJulToSlf4jBridge();
+
     Args parsedArgs = new Args();
     CmdLineParser parser = new CmdLineParser(parsedArgs, ParserProperties.defaults().withUsageWidth(120));
-
-    for (String arg : args) {
-      if ("--help".equals(arg)) {
-        ReproductionUtils.printUsage(parser, RunReproductionFromCorpus.class, argsOrdering);
-        return;
-      }
-    }
 
     try {
       parser.parseArgument(args);
@@ -174,6 +170,11 @@ public class RunReproductionFromCorpus {
       System.err.println(String.format("Error: %s", exception.getMessage()));
       ReproductionUtils.printUsage(parser, RunReproductionFromCorpus.class, argsOrdering);
 
+      return;
+    }
+
+    if (parsedArgs.help) {
+      ReproductionUtils.printUsage(parser, RunReproductionFromCorpus.class, argsOrdering);
       return;
     }
 
@@ -192,17 +193,17 @@ public class RunReproductionFromCorpus {
     run(parsedArgs);
   }
 
-  private static void run(Args parsedArgs) throws IOException, InterruptedException, URISyntaxException, NoSuchAlgorithmException {
+  private static void run(Args args) throws IOException, InterruptedException, URISyntaxException, NoSuchAlgorithmException {
     ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
     JsonNode yaml;
-    String resourceName = String.format("%s/%s.yaml", CONFIG_DIRECTORY, parsedArgs.config);
+    String resourceName = String.format("%s/%s.yaml", CONFIG_DIRECTORY, args.config);
     try (InputStream yamlStream = ReproductionUtils.loadResourceStream(resourceName, RunReproductionFromCorpus.class)) {
       yaml = mapper.readTree(yamlStream);
     }
 
     long start = System.nanoTime();
 
-    if (parsedArgs.download) {
+    if (args.download) {
       // TODO: If collection already exists, skip.
       LOG.info("========== Downloading Corpus ==========");
       JsonNode downloadUrl = yaml.get("download_url");
@@ -228,14 +229,14 @@ public class RunReproductionFromCorpus {
       }
 
       Path path = collectionsDir.resolve(yaml.get("corpus").asText());
-      parsedArgs.corpusPath = path.toString();
+      args.corpusPath = path.toString();
     }
 
-    if (parsedArgs.index) {
+    if (args.index) {
       LOG.info("========== Indexing ==========");
-      LOG.info("Corpus path is {}", parsedArgs.corpusPath);
+      LOG.info("Corpus path is {}", args.corpusPath);
 
-      String corpusPath = resolveCorpusPath(yaml, parsedArgs);
+      String corpusPath = resolveCorpusPath(yaml, args);
       LOG.info("Resolved corpus path is {}", corpusPath);
 
       if (corpusPath == null) {
@@ -243,13 +244,13 @@ public class RunReproductionFromCorpus {
             yaml.get("corpus").asText(), Arrays.toString(CORPUS_ROOTS)));
       }
 
-      String command = constructIndexingCommand(yaml, parsedArgs, corpusPath);
-      if (!parsedArgs.dryRun) {
+      String command = constructIndexingCommand(yaml, args, corpusPath);
+      if (!args.dryRun) {
         runCommand(command);
       }
     }
 
-    if (parsedArgs.verify) {
+    if (args.verify) {
       LOG.info("========== Verifying Index ==========");
       JsonNode indexType = yaml.get("index_type");
       if (indexType != null && "hnsw".equals(indexType.asText())) {
@@ -289,7 +290,7 @@ public class RunReproductionFromCorpus {
       }
     }
 
-    if (parsedArgs.search) {
+    if (args.search) {
       Path runsDir = Paths.get(ReproductionUtils.Constants.DEFAULT_RUNS_DIRECTORY);
       if (!Files.exists(runsDir)) {
         Files.createDirectories(runsDir);
@@ -297,28 +298,28 @@ public class RunReproductionFromCorpus {
 
       LOG.info("========== Ranking ==========");
       List<String> searchCmds = constructSearchCommands(yaml);
-      if (parsedArgs.dryRun) {
+      if (args.dryRun) {
         for (String cmd : searchCmds) {
           LOG.info(cmd);
         }
       } else {
-        runCommandsInThreadPool(searchCmds, parsedArgs.searchPool);
+        runCommandsInThreadPool(searchCmds, args.searchPool);
       }
 
       JsonNode conversions = yaml.get("conversions");
       if (conversions != null && conversions.isArray() && conversions.size() > 0) {
         LOG.info("========== Converting ==========");
         List<String> convertCmds = constructConvertCommands(yaml);
-        if (parsedArgs.dryRun) {
+        if (args.dryRun) {
           for (String cmd : convertCmds) {
             LOG.info(cmd);
           }
         } else {
-          runCommandsInThreadPool(convertCmds, parsedArgs.convertPool);
+          runCommandsInThreadPool(convertCmds, args.convertPool);
         }
       }
 
-      evaluateAndVerify(yaml, parsedArgs, start);
+      evaluateAndVerify(yaml, args, start);
     }
   }
 

@@ -40,6 +40,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import io.anserini.index.IndexReaderUtils;
+import io.anserini.util.LoggingBootstrap;
 import io.anserini.util.PrebuiltIndexHandler;
 
 public class RunReproductionFromPrebuiltIndexes {
@@ -61,10 +62,10 @@ public class RunReproductionFromPrebuiltIndexes {
     @Option(name = "--print-commands", usage = "Print commands.")
     public boolean printCommands = false;
 
-    @Option(name = "--dry-run", usage = "Perform dry run.")
+    @Option(name = "--dry-run", usage = "Output commands without execution.")
     public boolean dryRun = false;
 
-    @Option(name = "--help", usage = "Print this help message and exit.")
+    @Option(name = "--help", help = true, usage = "Print this help message and exit.")
     public boolean help = false;
   }
 
@@ -72,15 +73,10 @@ public class RunReproductionFromPrebuiltIndexes {
       new String[] {"--config", "--list", "--runs-directory", "--compute-index-size", "--print-commands", "--dry-run", "--help"};
 
   public static void main(String[] args) throws Exception {
+    LoggingBootstrap.installJulToSlf4jBridge();
+
     Args parsedArgs = new Args();
     CmdLineParser parser = new CmdLineParser(parsedArgs, ParserProperties.defaults().withUsageWidth(120));
-
-    for (String arg : args) {
-      if ("--help".equals(arg)) {
-        ReproductionUtils.printUsage(parser, RunReproductionFromPrebuiltIndexes.class, argsOrdering);
-        return;
-      }
-    }
 
     try {
       parser.parseArgument(args);
@@ -88,6 +84,11 @@ public class RunReproductionFromPrebuiltIndexes {
       System.err.println(String.format("Error: %s", exception.getMessage()));
       ReproductionUtils.printUsage(parser, RunReproductionFromPrebuiltIndexes.class, argsOrdering);
 
+      return;
+    }
+
+    if (parsedArgs.help) {
+      ReproductionUtils.printUsage(parser, RunReproductionFromPrebuiltIndexes.class, argsOrdering);
       return;
     }
 

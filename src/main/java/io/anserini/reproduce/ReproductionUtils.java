@@ -178,7 +178,8 @@ public final class ReproductionUtils {
 
     List<String> required = new ArrayList<>();
     Map<String, String> optionAliasToCanonical = new LinkedHashMap<>();
-    Map<String, String> optionsToHelp = new LinkedHashMap<>();
+    Map<String, String> optionNames = new LinkedHashMap<>();
+    Map<String, String> optionUsage = new LinkedHashMap<>();
 
     Class<?> optionsClass = resolveOptionsClass(applicationClass);
     Object optionsInstance = instantiateOptionsClass(optionsClass);
@@ -191,7 +192,8 @@ public final class ReproductionUtils {
       String names = buildOptionNames(option);
       String canonical = option.name();
       String usage = appendDefaultValue(option.usage(), field, optionsInstance);
-      optionsToHelp.put(canonical, String.format("  %-24s %s", names, usage));
+      optionNames.put(canonical, names);
+      optionUsage.put(canonical, usage);
       optionAliasToCanonical.put(canonical, canonical);
       for (String alias : option.aliases()) {
         optionAliasToCanonical.put(alias, canonical);
@@ -202,6 +204,12 @@ public final class ReproductionUtils {
       }
     }
 
+    int nameColumnWidth = 0;
+    for (String names : optionNames.values()) {
+      nameColumnWidth = Math.max(nameColumnWidth, names.length());
+    }
+    nameColumnWidth = Math.max(nameColumnWidth, 24);
+
     Set<String> printed = new LinkedHashSet<>();
     if (prioritizedOptions != null) {
       for (String optionName : prioritizedOptions) {
@@ -209,17 +217,18 @@ public final class ReproductionUtils {
         if (canonical == null || printed.contains(canonical)) {
           continue;
         }
-        System.err.println(optionsToHelp.get(canonical));
+        System.err.printf("  %-" + nameColumnWidth + "s  %s%n", optionNames.get(canonical), optionUsage.get(canonical));
         printed.add(canonical);
       }
     }
 
-    for (Map.Entry<String, String> entry : optionsToHelp.entrySet()) {
+    for (Map.Entry<String, String> entry : optionNames.entrySet()) {
       if (printed.contains(entry.getKey())) {
         continue;
       }
-      System.err.println(entry.getValue());
-      printed.add(entry.getKey());
+      String canonical = entry.getKey();
+      System.err.printf("  %-" + nameColumnWidth + "s  %s%n", optionNames.get(canonical), optionUsage.get(canonical));
+      printed.add(canonical);
     }
 
     if (!required.isEmpty()) {
@@ -250,12 +259,13 @@ public final class ReproductionUtils {
   }
 
   private static String buildOptionNames(Option option) {
-    String names = option.metaVar().isEmpty() ? option.name() : option.name() + " " + option.metaVar();
+    boolean omitBooleanMetaVar = isBooleanMetaVar(option.metaVar());
+    String names = (option.metaVar().isEmpty() || omitBooleanMetaVar) ? option.name() : option.name() + " " + option.metaVar();
     if (option.aliases().length == 0) {
       return names;
     }
 
-    if (option.metaVar().isEmpty()) {
+    if (option.metaVar().isEmpty() || omitBooleanMetaVar) {
       return String.format("%s, %s", option.name(), String.join(", ", Arrays.asList(option.aliases())));
     }
 
@@ -268,6 +278,14 @@ public final class ReproductionUtils {
     }
 
     return String.format("%s, %s", names, aliasesWithMetaVar);
+  }
+
+  private static boolean isBooleanMetaVar(String metaVar) {
+    if (metaVar == null || metaVar.isEmpty()) {
+      return false;
+    }
+    String normalized = metaVar.replaceAll("[^A-Za-z]", "").toLowerCase();
+    return "boolean".equals(normalized);
   }
 
   private static String appendDefaultValue(String usage, Field field, Object optionsInstance) {

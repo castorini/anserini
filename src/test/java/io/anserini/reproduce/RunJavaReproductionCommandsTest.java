@@ -142,6 +142,18 @@ public class RunJavaReproductionCommandsTest extends StdOutStdErrRedirectableLuc
   }
 
   @Test
+  public void testListOptionPrintsUsageMessage() throws Exception {
+    RunJavaReproductionCommands.main(new String[] {"--list"});
+
+    String stdOut = out.toString(StandardCharsets.UTF_8).trim();
+    String stdErr = err.toString(StandardCharsets.UTF_8);
+    assertFalse(stdOut.isEmpty());
+    assertTrue(stdOut, stdOut.startsWith("["));
+    assertTrue(stdOut, stdOut.endsWith("]"));
+    assertTrue(stdErr, stdErr.isEmpty());
+  }
+
+  @Test
   public void testRunsDirectoryInjectionForPrebuiltIndexCommands() throws Exception {
     Path targetDir = Paths.get("target");
     Files.createDirectories(targetDir);
