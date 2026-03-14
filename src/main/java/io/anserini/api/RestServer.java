@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.anserini.rest;
+package io.anserini.api;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -34,6 +34,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.apache.lucene.document.Document;
+import org.apache.lucene.index.IndexableField;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
@@ -46,15 +48,11 @@ import com.sun.net.httpserver.HttpServer;
 
 import io.anserini.index.Constants;
 import io.anserini.index.IndexReaderUtils;
+import io.anserini.reproduce.ReproductionUtils;
 import io.anserini.search.ScoredDoc;
 import io.anserini.search.SimpleSearcher;
 import io.anserini.util.LoggingBootstrap;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.index.IndexableField;
 
-/**
- * Minimal REST API server for lexical search.
- */
 public final class RestServer implements Closeable {
   public static class Args {
     @Option(name = "--host", metaVar = "[address]", usage = "Address to bind server to")
@@ -63,9 +61,12 @@ public final class RestServer implements Closeable {
     @Option(name = "--port", metaVar = "[number]", usage = "Port to bind server to")
     public int port = 8080;
 
-    @Option(name = "--options", usage = "Print information about options.")
-    public Boolean options = false;
+    @Option(name = "--help", help = true, usage = "Print this help message and exit.")
+    public boolean help = false;
   }
+
+  private static final String[] argsOrdering = new String[] {
+      "--host", "--port", "--help"};
 
   private static final ObjectMapper JSON_MAPPER = new ObjectMapper();
   private static final int DEFAULT_HITS = 10;
@@ -327,29 +328,33 @@ public final class RestServer implements Closeable {
   public static void main(String[] args) {
     LoggingBootstrap.installJulToSlf4jBridge();
 
-    Args parsed = new Args();
-    CmdLineParser parser = new CmdLineParser(parsed, ParserProperties.defaults().withUsageWidth(120));
+    Args parsedArgs = new Args();
+    CmdLineParser parser = new CmdLineParser(parsedArgs, ParserProperties.defaults().withUsageWidth(120));
 
     try {
       parser.parseArgument(args);
     } catch (CmdLineException e) {
-      if (parsed.options) {
-        System.err.printf("Options for %s:%n%n", RestServer.class.getSimpleName());
-        parser.printUsage(System.err);
-      } else {
-        System.err.printf("Error: %s%n", e.getMessage());
-        System.err.printf("For help, use \"--options\" to print out information about options.%n");
-      }
+      System.err.println(String.format("Error: %s", e.getMessage()));
+      ReproductionUtils.printUsage(parser, RestServer.class, argsOrdering);
       return;
     }
 
-    if (parsed.port <= 0 || parsed.port > 65535) {
+    if (parsedArgs.help) {
+      ReproductionUtils.printUsage(parser, RestServer.class, argsOrdering);
+      return;
+    }
+
+    if (parsedArgs.port <= 0 || parsedArgs.port > 65535) {
       System.err.println("Error: --port must be in [1, 65535]");
       return;
     }
 
+    run(parsedArgs);
+  }
+
+  private static void run(Args args) {
     try {
-      RestServer server = new RestServer(parsed);
+      RestServer server = new RestServer(args);
       Runtime.getRuntime().addShutdownHook(new Thread(() -> {
         try {
           server.close();

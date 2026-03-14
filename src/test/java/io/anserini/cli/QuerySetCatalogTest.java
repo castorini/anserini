@@ -56,6 +56,28 @@ public class QuerySetCatalogTest extends StdOutStdErrRedirectableLuceneTestCase 
   }
 
   @Test
+  public void testInvalidOption() {
+    QuerySetCatalog.main(new String[] {"--invalid"});
+    assertTrue(err.toString().contains("Error:"));
+    assertTrue(err.toString().contains("--invalid"));
+    assertTrue(err.toString().contains("Options for QuerySetCatalog:"));
+  }
+
+  @Test
+  public void testHelp() {
+    QuerySetCatalog.main(new String[] {"--help"});
+    assertTrue(err.toString().contains("Options for QuerySetCatalog:"));
+    assertTrue(err.toString().contains("--help"));
+    assertFalse(err.toString().contains("Error:"));
+  }
+
+  @Test
+  public void testMissingRequiredOption() {
+    QuerySetCatalog.main(new String[] {});
+    assertTrue(err.toString().contains("Error: exactly one of --list or --get must be specified"));
+  }
+
+  @Test
   public void testList() throws Exception {
     QuerySetCatalog.main(new String[] {"--list"});
 
@@ -72,12 +94,6 @@ public class QuerySetCatalogTest extends StdOutStdErrRedirectableLuceneTestCase 
       names.add((String) detail.get("name"));
     }
     assertEquals(expectedSize, names.size());
-  }
-
-  @Test
-  public void testMissingRequiredOption() {
-    QuerySetCatalog.main(new String[] {});
-    assertTrue(err.toString().contains("Error: exactly one of --list or --get must be specified"));
   }
 
   @Test

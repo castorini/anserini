@@ -100,7 +100,7 @@ public final class QuerySetCatalog {
         SortedMap<?, Map<String, String>> queries = getAllQueriesForTopic(args.get);
         if (queries == null) {
           if (Topics.getByName(args.get) == null) {
-            System.err.printf("Error: unknown set of queries name \"%s\"%n", args.get);
+            System.err.printf("Error: unknown query set \"%s\"%n", args.get);
           }
           return;
         }

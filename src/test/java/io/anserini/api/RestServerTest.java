@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.anserini.rest;
+package io.anserini.api;
 
 import java.net.URI;
 import java.net.URLConnection;
@@ -27,9 +27,9 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.anserini.SuppresedLoggingLuceneTestCase;
+import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 
-public class RestServerTest extends SuppresedLoggingLuceneTestCase {
+public class RestServerTest extends StdOutStdErrRedirectableLuceneTestCase {
   private static final ObjectMapper JSON_MAPPER = new ObjectMapper();
 
   private RestServer server;
@@ -57,6 +57,43 @@ public class RestServerTest extends SuppresedLoggingLuceneTestCase {
     } finally {
       super.tearDown();
     }
+  }
+
+  @Test
+  public void testInvalidStartupOptions() throws Exception {
+    redirectStdOut();
+    redirectStdErr();
+    String output;
+    try {
+      RestServer.main(new String[] {"--port", "0"});
+      output = out.toString(StandardCharsets.UTF_8) + err.toString(StandardCharsets.UTF_8);
+    } finally {
+      restoreStdOut();
+      restoreStdErr();
+    }
+
+    assertTrue(output.contains("Error: --port must be in [1, 65535]"));
+    assertFalse(output.contains("Anserini REST server listening on"));
+  }
+
+  @Test
+  public void testHelp() throws Exception {
+    redirectStdOut();
+    redirectStdErr();
+    String output;
+    try {
+      RestServer.main(new String[] {"--help"});
+      output = out.toString(StandardCharsets.UTF_8) + err.toString(StandardCharsets.UTF_8);
+    } finally {
+      restoreStdOut();
+      restoreStdErr();
+    }
+
+    assertTrue(output.contains("Options for RestServer:"));
+    assertTrue(output.contains("--host [address]"));
+    assertTrue(output.contains("--port [number]"));
+    assertTrue(output.contains("--help"));
+    assertFalse(output.contains("Anserini REST server listening on"));
   }
 
   @Test
