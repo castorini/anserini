@@ -19,21 +19,16 @@ package io.anserini.api;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.InetSocketAddress;
-import java.net.URI;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexableField;
 import org.kohsuke.args4j.CmdLineException;
@@ -43,8 +38,6 @@ import org.kohsuke.args4j.ParserProperties;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpServer;
 
 import io.anserini.index.Constants;
 import io.anserini.index.IndexReaderUtils;
@@ -52,6 +45,9 @@ import io.anserini.reproduce.ReproductionUtils;
 import io.anserini.search.ScoredDoc;
 import io.anserini.search.SimpleSearcher;
 import io.anserini.util.LoggingBootstrap;
+import io.javalin.Javalin;
+import io.javalin.http.Context;
+import io.javalin.util.JavalinLogger;
 
 public final class RestServer implements Closeable {
   public static class Args {
@@ -74,100 +70,72 @@ public final class RestServer implements Closeable {
   private static final String DOCS_PATH = "/docs";
   private static final byte[] OPENAPI_SPEC = loadOpenApiSpec();
   private static final byte[] DOCS_PAGE = loadResource("/rest/docs.html");
+  private static final String ROUTE_ERROR = "Expected route /v1/{index}/search or /v1/{index}/documents/{docid}";
+  private static final String CONTEXT_ERROR_MESSAGE = "errorMessage";
 
-  private final HttpServer server;
-  private final ExecutorService executor;
+  private final Javalin app;
+  private final String host;
+  private final int port;
   private final ConcurrentHashMap<String, SimpleSearcher> searchers = new ConcurrentHashMap<>();
 
   RestServer(Args args) throws IOException {
-    this.server = HttpServer.create(new InetSocketAddress(args.host, args.port), 0);
-    this.server.createContext("/", this::handleRequest);
-    this.executor = Executors.newFixedThreadPool(Math.max(2, Runtime.getRuntime().availableProcessors()));
-    this.server.setExecutor(executor);
+    this.host = args.host;
+    this.port = args.port;
+    JavalinLogger.enabled = false;
+    Configurator.setLevel("io.javalin", Level.ERROR);
+    Configurator.setLevel("org.eclipse.jetty", Level.ERROR);
+    this.app = Javalin.create(config -> config.showJavalinBanner = false);
+    registerRoutes();
+    app.exception(Exception.class, (e, ctx) -> writeError(ctx, 500, e.getMessage()));
+    app.error(404, ctx -> writeJson(ctx, 404,
+        Map.of("error", ctx.attribute(CONTEXT_ERROR_MESSAGE) == null ? ROUTE_ERROR : ctx.attribute(CONTEXT_ERROR_MESSAGE))));
+    app.error(405, ctx -> writeJson(ctx, 405, Map.of("error", "Only GET is supported")));
   }
 
   void start() {
-    server.start();
-    System.out.printf("Anserini REST server listening on %s%n", server.getAddress());
+    app.start(host, port);
+    System.out.printf("Anserini REST server listening on %s:%d%n", host, getPort());
     System.out.printf("v1 endpoint: GET /v1/{index}/search?query=...&hits=%d%n", DEFAULT_HITS);
   }
 
   int getPort() {
-    return server.getAddress().getPort();
+    return app.port();
   }
 
-  private void handleRequest(HttpExchange exchange) throws IOException {
-    try {
-      if (!"GET".equalsIgnoreCase(exchange.getRequestMethod())) {
-        writeJson(exchange, 405, Map.of("error", "Only GET is supported"));
-        return;
-      }
-
-      URI uri = exchange.getRequestURI();
-      if (OPENAPI_PATH.equals(uri.getPath())) {
-        writePlainText(exchange, 200, "application/yaml; charset=utf-8", OPENAPI_SPEC);
-        return;
-      }
-      if (DOCS_PATH.equals(uri.getPath())) {
-        writePlainText(exchange, 200, "text/html; charset=utf-8", DOCS_PAGE);
-        return;
-      }
-
-      String[] parts = Arrays.stream(uri.getRawPath().split("/"))
-          .filter(s -> !s.isBlank())
-          .toArray(String[]::new);
-
-      if (parts.length < 3 || !"v1".equals(parts[0])) {
-        writeJson(exchange, 404, Map.of("error", "Expected route /v1/{index}/search or /v1/{index}/documents/{docid}"));
-        return;
-      }
-
-      String index = decode(parts[1]);
-      if (parts.length == 3 && "search".equals(parts[2])) {
-        handleSearch(index, uri, exchange);
-        return;
-      }
-
-      if (parts.length == 4 && "documents".equals(parts[2])) {
-        handleDocumentFetch(index, decode(parts[3]), exchange);
-        return;
-      }
-
-      writeJson(exchange, 404, Map.of("error", "Expected route /v1/{index}/search or /v1/{index}/documents/{docid}"));
-    } catch (Exception e) {
-      writeJson(exchange, 500, Map.of("error", e.getMessage()));
-    } finally {
-      exchange.close();
-    }
+  private void registerRoutes() {
+    app.get(OPENAPI_PATH, ctx -> writePlainText(ctx, "application/yaml; charset=utf-8", OPENAPI_SPEC));
+    app.get(DOCS_PATH, ctx -> writePlainText(ctx, "text/html; charset=utf-8", DOCS_PAGE));
+    app.get("/v1/{index}/search", this::handleSearch);
+    app.get("/v1/{index}/documents/{docid}", this::handleDocumentFetch);
   }
 
-  private void handleSearch(String index, URI uri, HttpExchange exchange) throws IOException {
-    Map<String, String> params = parseQuery(uri.getRawQuery());
-
-    String query = params.get("query");
+  private void handleSearch(Context ctx) throws IOException {
+    String index = decode(ctx.pathParam("index"));
+    String query = ctx.queryParam("query");
     if (query == null || query.isBlank()) {
-      writeJson(exchange, 400, Map.of("error", "Parameter 'query' is required"));
+      writeError(ctx, 400, "Parameter 'query' is required");
       return;
     }
 
     int hits = DEFAULT_HITS;
-    if (params.containsKey("hits")) {
+    String hitsValue = ctx.queryParam("hits");
+    if (hitsValue != null) {
       try {
-        hits = Integer.parseInt(params.get("hits"));
+        hits = Integer.parseInt(hitsValue);
       } catch (NumberFormatException e) {
-        writeJson(exchange, 400, Map.of("error", "Parameter 'hits' must be an integer"));
+        writeError(ctx, 400, "Parameter 'hits' must be an integer");
         return;
       }
     }
 
     if (hits <= 0) {
-      writeJson(exchange, 400, Map.of("error", "Parameter 'hits' must be positive"));
+      writeError(ctx, 400, "Parameter 'hits' must be positive");
       return;
     }
 
     SimpleSearcher searcher = searchers.computeIfAbsent(index, this::createSearcher);
     if (searcher == null) {
-      writeJson(exchange, 400, Map.of("error", "Unable to open index: " + index));
+      writeError(ctx, 400, "Unable to open index: " + index);
       return;
     }
 
@@ -185,18 +153,20 @@ public final class RestServer implements Closeable {
       candidates.add(toJsonCandidate(results[rank], rank + 1));
     }
     response.put("candidates", candidates);
-    writeJson(exchange, 200, response);
+    writeJson(ctx, 200, response);
   }
 
-  private void handleDocumentFetch(String index, String docid, HttpExchange exchange) throws IOException {
+  private void handleDocumentFetch(Context ctx) throws IOException {
+    String index = decode(ctx.pathParam("index"));
+    String docid = decode(ctx.pathParam("docid"));
     if (docid == null || docid.isBlank()) {
-      writeJson(exchange, 400, Map.of("error", "Path parameter 'docid' is required"));
+      writeError(ctx, 400, "Path parameter 'docid' is required");
       return;
     }
 
     SimpleSearcher searcher = searchers.computeIfAbsent(index, this::createSearcher);
     if (searcher == null) {
-      writeJson(exchange, 400, Map.of("error", "Unable to open index: " + index));
+      writeError(ctx, 400, "Unable to open index: " + index);
       return;
     }
 
@@ -206,7 +176,7 @@ public final class RestServer implements Closeable {
     }
 
     if (document == null) {
-      writeJson(exchange, 404, Map.of("error", "Document not found: " + docid));
+      writeError(ctx, 404, "Document not found: " + docid);
       return;
     }
 
@@ -223,7 +193,7 @@ public final class RestServer implements Closeable {
     response.put("index", index);
     response.put("docid", docid);
     response.put("document", fields);
-    writeJson(exchange, 200, response);
+    writeJson(ctx, 200, response);
   }
 
   private SimpleSearcher createSearcher(String index) {
@@ -258,23 +228,6 @@ public final class RestServer implements Closeable {
     return candidate;
   }
 
-  private static Map<String, String> parseQuery(String rawQuery) {
-    Map<String, String> params = new LinkedHashMap<>();
-    if (rawQuery == null || rawQuery.isBlank()) {
-      return params;
-    }
-
-    for (String pair : rawQuery.split("&")) {
-      int idx = pair.indexOf('=');
-      if (idx < 0) {
-        params.put(decode(pair), "");
-      } else {
-        params.put(decode(pair.substring(0, idx)), decode(pair.substring(idx + 1)));
-      }
-    }
-    return params;
-  }
-
   private static String decode(String value) {
     return URLDecoder.decode(value, StandardCharsets.UTF_8);
   }
@@ -301,17 +254,24 @@ public final class RestServer implements Closeable {
     }
   }
 
-  private static void writePlainText(HttpExchange exchange, int status, String contentType, byte[] body) throws IOException {
-    exchange.getResponseHeaders().set("Content-Type", contentType);
-    exchange.sendResponseHeaders(status, body.length);
-    try (OutputStream out = exchange.getResponseBody()) {
-      out.write(Objects.requireNonNull(body));
-    }
+  private static void writePlainText(Context ctx, String contentType, byte[] body) {
+    ctx.contentType(contentType);
+    ctx.result(new String(body, StandardCharsets.UTF_8));
   }
 
-  private static void writeJson(HttpExchange exchange, int status, Map<String, ?> payload) throws IOException {
-    byte[] body = JSON_MAPPER.writeValueAsBytes(payload);
-    writePlainText(exchange, status, "application/json; charset=utf-8", body);
+  private static void writeJson(Context ctx, int status, Map<String, ?> payload) {
+    ctx.status(status);
+    ctx.contentType("application/json; charset=utf-8");
+    ctx.json(payload);
+  }
+
+  private static void writeError(Context ctx, int status, String message) {
+    if (status == 404) {
+      ctx.attribute(CONTEXT_ERROR_MESSAGE, message);
+      ctx.status(404);
+      return;
+    }
+    writeJson(ctx, status, Map.of("error", message));
   }
 
   @Override
@@ -321,8 +281,7 @@ public final class RestServer implements Closeable {
         searcher.close();
       }
     }
-    server.stop(0);
-    executor.shutdownNow();
+    app.stop();
   }
 
   public static void main(String[] args) {

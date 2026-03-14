@@ -117,6 +117,6 @@ public class QuerySetCatalogTest extends StdOutStdErrRedirectableLuceneTestCase 
   @Test
   public void testGetInvalidTopic() {
     QuerySetCatalog.main(new String[] {"--get", "NOT_A_TOPIC"});
-    assertTrue(err.toString().contains("Error: unknown set of queries name \"NOT_A_TOPIC\""));
+    assertTrue(err.toString().contains("Error: unknown query set \"NOT_A_TOPIC\""));
   }
 }
