@@ -33,7 +33,7 @@ import io.anserini.index.prebuilt.PrebuiltHnswIndex;
 import io.anserini.index.prebuilt.PrebuiltImpactIndex;
 import io.anserini.index.prebuilt.PrebuiltInvertedIndex;
 
-public class PrebuiltIndexesTest extends StdOutStdErrRedirectableLuceneTestCase {
+public class PrebuiltIndexCatalogTest extends StdOutStdErrRedirectableLuceneTestCase {
   private static final ObjectMapper MAPPER = new ObjectMapper();
   private static final TypeReference<List<Map<String, Object>>> DETAIL_LIST_TYPE =
       new TypeReference<List<Map<String, Object>>>() {};
@@ -54,27 +54,27 @@ public class PrebuiltIndexesTest extends StdOutStdErrRedirectableLuceneTestCase 
 
   @Test
   public void testInvalidOption() {
-    PrebuiltIndexes.main(new String[] {"-invalid"});
+    PrebuiltIndexCatalog.main(new String[] {"-invalid"});
     assertTrue(err.toString().startsWith("Error: \"-invalid\" is not a valid option"));
   }
 
   @Test
   public void testHelp() {
-    PrebuiltIndexes.main(new String[] {"--help"});
-    assertTrue(err.toString().contains("Options for PrebuiltIndexes:"));
+    PrebuiltIndexCatalog.main(new String[] {"--help"});
+    assertTrue(err.toString().contains("Options for PrebuiltIndexCatalog:"));
     assertTrue(err.toString().contains("--help"));
   }
 
   @Test
   public void testMissingList() {
-    PrebuiltIndexes.main(new String[0]);
-    assertTrue(err.toString().contains("Options for PrebuiltIndexes:"));
+    PrebuiltIndexCatalog.main(new String[0]);
+    assertTrue(err.toString().contains("Options for PrebuiltIndexCatalog:"));
     assertEquals("", out.toString());
   }
 
   @Test
   public void testList() throws Exception {
-    PrebuiltIndexes.main(new String[] {"--list"});
+    PrebuiltIndexCatalog.main(new String[] {"--list"});
 
     List<Map<String, Object>> details = MAPPER.readValue(out.toString(), DETAIL_LIST_TYPE);
 
@@ -96,7 +96,7 @@ public class PrebuiltIndexesTest extends StdOutStdErrRedirectableLuceneTestCase 
 
   @Test
   public void testListFilterByType() throws Exception {
-    PrebuiltIndexes.main(new String[] {"--list", "--type", "flat"});
+    PrebuiltIndexCatalog.main(new String[] {"--list", "--type", "flat"});
 
     List<Map<String, Object>> details = MAPPER.readValue(out.toString(), DETAIL_LIST_TYPE);
 
@@ -108,7 +108,7 @@ public class PrebuiltIndexesTest extends StdOutStdErrRedirectableLuceneTestCase 
 
   @Test
   public void testInvalidType() {
-    PrebuiltIndexes.main(new String[] {"--list", "--type", "dense"});
+    PrebuiltIndexCatalog.main(new String[] {"--list", "--type", "dense"});
     assertTrue(err.toString().contains("Error: invalid --type \"dense\""));
   }
 }

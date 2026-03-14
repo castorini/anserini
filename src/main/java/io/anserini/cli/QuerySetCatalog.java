@@ -31,21 +31,26 @@ import org.kohsuke.args4j.ParserProperties;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.anserini.reproduce.ReproductionUtils;
 import io.anserini.search.topicreader.Topics;
+import io.anserini.util.LoggingBootstrap;
 
-/**
- * Minimal CLI wrapper to list available query topics.
- */
-public final class Queries {
+public final class QuerySetCatalog {
   private static final ObjectMapper JSON_MAPPER = new ObjectMapper();
 
   public static class Args {
-    @Option(name = "--list", usage = "List available query topics.")
-    public Boolean list = false;
+    @Option(name = "--list", usage = "List available query sets.")
+    public boolean list = false;
 
-    @Option(name = "--get", metaVar = "[topic]", usage = "Get all queries for a topic.")
+    @Option(name = "--get", metaVar = "[set]", usage = "Get all queries for set.")
     public String get = null;
+
+    @Option(name = "--help", help = true, usage = "Print this help message and exit.")
+    public boolean help = false;
   }
+
+  private static final String[] argsOrdering = new String[] {
+      "--list", "--get", "--help"};
 
   public static class Entry {
     public final String name;
@@ -56,6 +61,53 @@ public final class Queries {
       this.name = topic.name();
       this.path = topic.path;
       this.reader = topic.readerClass.getSimpleName();
+    }
+  }
+
+  public static void main(String[] args) {
+    LoggingBootstrap.installJulToSlf4jBridge();
+
+    Args parsedArgs = new Args();
+    CmdLineParser parser = new CmdLineParser(parsedArgs, ParserProperties.defaults().withUsageWidth(120));
+
+    try {
+      parser.parseArgument(args);
+    } catch (CmdLineException e) {
+      System.err.println(String.format("Error: %s", e.getMessage()));
+      ReproductionUtils.printUsage(parser, QuerySetCatalog.class, argsOrdering);
+      return;
+    }
+
+    if (parsedArgs.help) {
+      ReproductionUtils.printUsage(parser, QuerySetCatalog.class, argsOrdering);
+      return;
+    }
+
+    if (parsedArgs.list == (parsedArgs.get != null)) {
+      System.err.println("Error: exactly one of --list or --get must be specified");
+      ReproductionUtils.printUsage(parser, QuerySetCatalog.class, argsOrdering);
+      return;
+    }
+
+    run(parsedArgs);
+  }
+
+  private static void run(Args args) {
+    try {
+      if (args.list) {
+        System.out.println(JSON_MAPPER.writeValueAsString(getAllDetails()));
+      } else {
+        SortedMap<?, Map<String, String>> queries = getAllQueriesForTopic(args.get);
+        if (queries == null) {
+          if (Topics.getByName(args.get) == null) {
+            System.err.printf("Error: unknown set of queries name \"%s\"%n", args.get);
+          }
+          return;
+        }
+        System.out.println(JSON_MAPPER.writeValueAsString(queries));
+      }
+    } catch (JsonProcessingException e) {
+      System.err.printf("Error: %s%n", e.getMessage());
     }
   }
 
@@ -77,43 +129,6 @@ public final class Queries {
     } catch (Exception e) {
       System.err.printf("Error: unable to read topic \"%s\": %s%n", topicName, e.getMessage());
       return null;
-    }
-  }
-
-  public static void main(String[] args) {
-    Args parsed = new Args();
-    CmdLineParser parser = new CmdLineParser(parsed, ParserProperties.defaults().withUsageWidth(120));
-
-    try {
-      parser.parseArgument(args);
-    } catch (CmdLineException e) {
-      System.err.printf("Error: %s%n", e.getMessage());
-      System.err.printf("For help, use \"--list\" or \"--get\".%n");
-      return;
-    }
-
-    boolean hasList = Boolean.TRUE.equals(parsed.list);
-    boolean hasGet = parsed.get != null;
-    if (hasList == hasGet) {
-      System.err.println("Error: exactly one of --list or --get must be specified");
-      return;
-    }
-
-    try {
-      if (hasList) {
-        System.out.println(JSON_MAPPER.writeValueAsString(getAllDetails()));
-      } else {
-        SortedMap<?, Map<String, String>> queries = getAllQueriesForTopic(parsed.get);
-        if (queries == null) {
-          if (Topics.getByName(parsed.get) == null) {
-            System.err.printf("Error: unknown topic \"%s\"%n", parsed.get);
-          }
-          return;
-        }
-        System.out.println(JSON_MAPPER.writeValueAsString(queries));
-      }
-    } catch (JsonProcessingException e) {
-      System.err.printf("Error: %s%n", e.getMessage());
     }
   }
 }

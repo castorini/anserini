@@ -19,6 +19,8 @@ package io.anserini.cli;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -26,12 +28,19 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 import io.anserini.search.topicreader.Topics;
 
-public class QueriesTest extends StdOutStdErrRedirectableLuceneTestCase {
+public class QuerySetCatalogTest extends StdOutStdErrRedirectableLuceneTestCase {
+  private static final ObjectMapper MAPPER = new ObjectMapper();
+  private static final TypeReference<List<Map<String, Object>>> DETAIL_LIST_TYPE =
+      new TypeReference<List<Map<String, Object>>>() {};
+  private static final TypeReference<Map<String, Map<String, String>>> QUERY_MAP_TYPE =
+      new TypeReference<Map<String, Map<String, String>>>() {};
+
   @Before
   public void setUp() throws Exception {
     redirectStdOut();
@@ -48,16 +57,15 @@ public class QueriesTest extends StdOutStdErrRedirectableLuceneTestCase {
 
   @Test
   public void testList() throws Exception {
-    Queries.main(new String[] {"--list"});
+    QuerySetCatalog.main(new String[] {"--list"});
 
-    java.util.List<java.util.Map<String, Object>> details =
-        new ObjectMapper().readValue(out.toString(), java.util.List.class);
+    List<Map<String, Object>> details = MAPPER.readValue(out.toString(), DETAIL_LIST_TYPE);
 
     int expectedSize = Topics.values().length;
     assertEquals(expectedSize, details.size());
 
     Set<String> names = new TreeSet<>();
-    for (java.util.Map<String, Object> detail : details) {
+    for (Map<String, Object> detail : details) {
       assertNotNull(detail.get("name"));
       assertNotNull(detail.get("path"));
       assertNotNull(detail.get("reader"));
@@ -68,7 +76,7 @@ public class QueriesTest extends StdOutStdErrRedirectableLuceneTestCase {
 
   @Test
   public void testMissingRequiredOption() {
-    Queries.main(new String[] {});
+    QuerySetCatalog.main(new String[] {});
     assertTrue(err.toString().contains("Error: exactly one of --list or --get must be specified"));
   }
 
@@ -78,10 +86,9 @@ public class QueriesTest extends StdOutStdErrRedirectableLuceneTestCase {
     Files.writeString(topicFile, "1\tquery one\n2\tquery two\n", StandardCharsets.UTF_8);
 
     try {
-      Queries.main(new String[] {"--get", "TREC2019_DL_PASSAGE"});
+      QuerySetCatalog.main(new String[] {"--get", "TREC2019_DL_PASSAGE"});
 
-      java.util.Map<String, java.util.Map<String, String>> queries =
-          new ObjectMapper().readValue(out.toString(), java.util.Map.class);
+      Map<String, Map<String, String>> queries = MAPPER.readValue(out.toString(), QUERY_MAP_TYPE);
 
       assertEquals(2, queries.size());
       assertEquals("query one", queries.get("1").get("title"));
@@ -93,7 +100,7 @@ public class QueriesTest extends StdOutStdErrRedirectableLuceneTestCase {
 
   @Test
   public void testGetInvalidTopic() {
-    Queries.main(new String[] {"--get", "NOT_A_TOPIC"});
-    assertTrue(err.toString().contains("Error: unknown topic \"NOT_A_TOPIC\""));
+    QuerySetCatalog.main(new String[] {"--get", "NOT_A_TOPIC"});
+    assertTrue(err.toString().contains("Error: unknown set of queries name \"NOT_A_TOPIC\""));
   }
 }
