@@ -32,6 +32,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.anserini.reproduce.ReproductionUtils;
+import io.anserini.search.topicreader.TopicReader;
 import io.anserini.search.topicreader.Topics;
 import io.anserini.util.LoggingBootstrap;
 
@@ -125,7 +126,7 @@ public final class QuerySetCatalog {
     }
 
     try {
-      return io.anserini.search.topicreader.TopicReader.getTopics(topic);
+      return TopicReader.getTopics(topic);
     } catch (Exception e) {
       System.err.printf("Error: unable to read topic \"%s\": %s%n", topicName, e.getMessage());
       return null;

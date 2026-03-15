@@ -36,10 +36,6 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import io.anserini.index.Constants;
 import io.anserini.index.IndexReaderUtils;
 import io.anserini.reproduce.ReproductionUtils;
 import io.anserini.search.ScoredDoc;
@@ -64,13 +60,12 @@ public final class RestServer implements Closeable {
   private static final String[] argsOrdering = new String[] {
       "--host", "--port", "--help"};
 
-  private static final ObjectMapper JSON_MAPPER = new ObjectMapper();
   private static final int DEFAULT_HITS = 10;
   private static final String OPENAPI_PATH = "/openapi.yaml";
   private static final String DOCS_PATH = "/docs";
   private static final byte[] OPENAPI_SPEC = loadOpenApiSpec();
   private static final byte[] DOCS_PAGE = loadResource("/rest/docs.html");
-  private static final String ROUTE_ERROR = "Expected route /v1/{index}/search or /v1/{index}/documents/{docid}";
+  private static final String ROUTE_ERROR = "Expected route /v1/{index}/search or /v1/{index}/doc/{docid}";
   private static final String CONTEXT_ERROR_MESSAGE = "errorMessage";
 
   private final Javalin app;
@@ -106,7 +101,7 @@ public final class RestServer implements Closeable {
     app.get(OPENAPI_PATH, ctx -> writePlainText(ctx, "application/yaml; charset=utf-8", OPENAPI_SPEC));
     app.get(DOCS_PATH, ctx -> writePlainText(ctx, "text/html; charset=utf-8", DOCS_PAGE));
     app.get("/v1/{index}/search", this::handleSearch);
-    app.get("/v1/{index}/documents/{docid}", this::handleDocumentFetch);
+    app.get("/v1/{index}/doc/{docid}", this::handleDocumentFetch);
   }
 
   private void handleSearch(Context ctx) throws IOException {
@@ -140,18 +135,18 @@ public final class RestServer implements Closeable {
     }
 
     ScoredDoc[] results;
+    List<Map<String, Object>> candidates = new ArrayList<>();
     synchronized (searcher) {
       results = searcher.search(query, hits);
+      for (int rank = 0; rank < results.length; rank++) {
+        candidates.add(toJsonCandidate(results[rank], rank + 1, searcher.doc(results[rank].docid)));
+      }
     }
 
     Map<String, Object> response = new LinkedHashMap<>();
     response.put("api", "v1");
     response.put("index", index);
     response.put("query", new LinkedHashMap<>(Map.of("text", query)));
-    List<Map<String, Object>> candidates = new ArrayList<>();
-    for (int rank = 0; rank < results.length; rank++) {
-      candidates.add(toJsonCandidate(results[rank], rank + 1));
-    }
     response.put("candidates", candidates);
     writeJson(ctx, 200, response);
   }
@@ -180,19 +175,11 @@ public final class RestServer implements Closeable {
       return;
     }
 
-    Map<String, Object> fields = new LinkedHashMap<>();
-    for (IndexableField field : document.getFields()) {
-      String value = field.stringValue();
-      if (value != null && !fields.containsKey(field.name())) {
-        fields.put(field.name(), value);
-      }
-    }
-
     Map<String, Object> response = new LinkedHashMap<>();
     response.put("api", "v1");
     response.put("index", index);
     response.put("docid", docid);
-    response.put("document", fields);
+    response.put("document", toDocumentJson(document));
     writeJson(ctx, 200, response);
   }
 
@@ -204,28 +191,30 @@ public final class RestServer implements Closeable {
     }
   }
 
-  private static Map<String, Object> toJsonCandidate(ScoredDoc hit, int rank) {
+  private static Map<String, Object> toJsonCandidate(ScoredDoc hit, int rank, Document document) {
     Map<String, Object> candidate = new LinkedHashMap<>();
     candidate.put("docid", hit.docid);
     candidate.put("score", hit.score);
     candidate.put("rank", rank);
-
-    try {
-      String raw = hit.lucene_document == null ? null : hit.lucene_document.get(Constants.RAW);
-      if (raw == null) {
-        candidate.put("doc", null);
-      } else {
-        JsonNode doc = JSON_MAPPER.readTree(raw);
-        candidate.put("doc", doc);
-      }
-    } catch (IOException e) {
-      Map<String, Object> rawDoc = new LinkedHashMap<>();
-      String raw = hit.lucene_document == null ? null : hit.lucene_document.get(Constants.RAW);
-      rawDoc.put("raw", raw);
-      candidate.put("doc", rawDoc);
-    }
+    candidate.put("doc", toDocumentJson(document));
 
     return candidate;
+  }
+
+  private static Map<String, Object> toDocumentJson(Document document) {
+    if (document == null) {
+      return null;
+    }
+
+    Map<String, Object> fields = new LinkedHashMap<>();
+    for (IndexableField field : document.getFields()) {
+      String value = field.stringValue();
+      if (value != null && !fields.containsKey(field.name())) {
+        fields.put(field.name(), value);
+      }
+    }
+
+    return fields;
   }
 
   private static String decode(String value) {

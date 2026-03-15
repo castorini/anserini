@@ -51,7 +51,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-  /v1/{index}/documents/{docid}:
+  /v1/{index}/doc/{docid}:
     get:
       summary: Fetch a document by docid
       operationId: getDocumentV1

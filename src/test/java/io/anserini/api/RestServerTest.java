@@ -60,6 +60,25 @@ public class RestServerTest extends StdOutStdErrRedirectableLuceneTestCase {
   }
 
   @Test
+  public void testInvalidOption() throws Exception {
+    redirectStdOut();
+    redirectStdErr();
+    String output;
+    try {
+      RestServer.main(new String[] {"--invalid"});
+      output = out.toString(StandardCharsets.UTF_8) + err.toString(StandardCharsets.UTF_8);
+    } finally {
+      restoreStdOut();
+      restoreStdErr();
+    }
+
+    assertTrue(output.contains("Error:"));
+    assertTrue(output.contains("\"--invalid\" is not a valid option"));
+    assertTrue(output.contains("Options for RestServer:"));
+    assertFalse(output.contains("Anserini REST server listening on"));
+  }
+
+  @Test
   public void testInvalidStartupOptions() throws Exception {
     redirectStdOut();
     redirectStdErr();
@@ -138,12 +157,31 @@ public class RestServerTest extends StdOutStdErrRedirectableLuceneTestCase {
   }
 
   @Test
+  public void testSearchDocumentMatchesDocumentEndpoint() throws Exception {
+    String rawIndex = "src/test/resources/prebuilt_indexes/lucene9-index.sample_docs_trec_collection2";
+    String index = URLEncoder.encode(rawIndex, StandardCharsets.UTF_8);
+
+    TestResponse searchResponse = sendGet(baseUrl + "/v1/" + index + "/search?query=text&hits=1");
+    assertEquals(200, searchResponse.statusCode);
+    JsonNode searchBody = JSON_MAPPER.readTree(searchResponse.body);
+    JsonNode candidate = searchBody.get("candidates").get(0);
+    String docid = candidate.get("docid").asText();
+
+    TestResponse documentResponse = sendGet(baseUrl + "/v1/" + index + "/doc/" +
+        URLEncoder.encode(docid, StandardCharsets.UTF_8));
+    assertEquals(200, documentResponse.statusCode);
+    JsonNode documentBody = JSON_MAPPER.readTree(documentResponse.body);
+
+    assertEquals(documentBody.get("document"), candidate.get("doc"));
+  }
+
+  @Test
   public void testDocumentEndpoint() throws Exception {
     String index = URLEncoder.encode(
         "src/test/resources/prebuilt_indexes/lucene9-index.sample_docs_trec_collection2",
         StandardCharsets.UTF_8);
     String docid = URLEncoder.encode("DOC222", StandardCharsets.UTF_8);
-    TestResponse response = sendGet(baseUrl + "/v1/" + index + "/documents/" + docid);
+    TestResponse response = sendGet(baseUrl + "/v1/" + index + "/doc/" + docid);
 
     assertEquals(200, response.statusCode);
     JsonNode body = JSON_MAPPER.readTree(response.body);
@@ -158,7 +196,7 @@ public class RestServerTest extends StdOutStdErrRedirectableLuceneTestCase {
         "src/test/resources/prebuilt_indexes/lucene9-index.sample_docs_trec_collection2",
         StandardCharsets.UTF_8);
     String docid = URLEncoder.encode("NOT_A_REAL_DOC", StandardCharsets.UTF_8);
-    TestResponse response = sendGet(baseUrl + "/v1/" + index + "/documents/" + docid);
+    TestResponse response = sendGet(baseUrl + "/v1/" + index + "/doc/" + docid);
 
     assertEquals(404, response.statusCode);
     JsonNode body = JSON_MAPPER.readTree(response.body);
@@ -172,7 +210,7 @@ public class RestServerTest extends StdOutStdErrRedirectableLuceneTestCase {
     assertEquals(200, response.statusCode);
     assertTrue(response.body.contains("openapi: 3.0.3"));
     assertTrue(response.body.contains("/v1/{index}/search:"));
-    assertTrue(response.body.contains("/v1/{index}/documents/{docid}:"));
+    assertTrue(response.body.contains("/v1/{index}/doc/{docid}:"));
   }
 
   @Test
