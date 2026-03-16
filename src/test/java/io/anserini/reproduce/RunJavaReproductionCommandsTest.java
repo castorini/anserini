@@ -97,7 +97,7 @@ public class RunJavaReproductionCommandsTest extends StdOutStdErrRedirectableLuc
   public void testDryRunFromCorpusBatch01PrintsAllJavaCommands() throws Exception {
     int expectedCommandCount;
     try (InputStream in = ReproductionUtils.loadResourceStream(
-        "reproduce/from-corpus/commands/from-corpus.batch01.txt", RunJavaReproductionCommands.class);
+        "reproduce/from-document-collection/commands/from-document-collection.batch01.txt", RunJavaReproductionCommands.class);
          BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
       expectedCommandCount = (int) reader.lines()
           .map(String::trim)
@@ -108,7 +108,7 @@ public class RunJavaReproductionCommandsTest extends StdOutStdErrRedirectableLuc
     Method loadCommands = RunJavaReproductionCommands.class.getDeclaredMethod("loadCommands", String.class, String.class, String.class);
     loadCommands.setAccessible(true);
     @SuppressWarnings("unchecked")
-    int actualCommandCount = ((List<String>) loadCommands.invoke(null, "from-corpus.batch01", "logs", "runs")).size();
+    int actualCommandCount = ((List<String>) loadCommands.invoke(null, "from-document-collection.batch01", "logs", "runs")).size();
 
     assertEquals(expectedCommandCount, actualCommandCount);
   }
@@ -120,7 +120,7 @@ public class RunJavaReproductionCommandsTest extends StdOutStdErrRedirectableLuc
 
     Path commandFile = Files.createTempFile(targetDir, "run-reproduction-commands-", ".txt");
     String configName = "run-reproduction-commands-test";
-    Path logFile = Paths.get("logs", "log.from-corpus." + configName + ".txt");
+    Path logFile = Paths.get("logs", "log.from-document-collection." + configName + ".txt");
 
     Files.deleteIfExists(logFile);
 

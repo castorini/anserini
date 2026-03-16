@@ -73,10 +73,10 @@ import io.anserini.search.SearchHnswDenseVectors;
 import io.anserini.search.SearchInvertedDenseVectors;
 import io.anserini.util.LoggingBootstrap;
 
-public class RunReproductionFromCorpus {
-  private static final Logger LOG = LogManager.getLogger(RunReproductionFromCorpus.class);
+public class ReproduceFromDocumentCollection {
+  private static final Logger LOG = LogManager.getLogger(ReproduceFromDocumentCollection.class);
 
-  private static final String CONFIG_DIRECTORY = "reproduce/from-corpus/configs";
+  private static final String CONFIG_DIRECTORY = "reproduce/from-document-collection/configs";
 
   private static final String[] CORPUS_ROOTS = new String[] {
       "./",
@@ -168,25 +168,25 @@ public class RunReproductionFromCorpus {
       parser.parseArgument(args);
     } catch (CmdLineException exception) {
       System.err.println(String.format("Error: %s", exception.getMessage()));
-      ReproductionUtils.printUsage(parser, RunReproductionFromCorpus.class, argsOrdering);
+      ReproductionUtils.printUsage(parser, ReproduceFromDocumentCollection.class, argsOrdering);
 
       return;
     }
 
     if (parsedArgs.help) {
-      ReproductionUtils.printUsage(parser, RunReproductionFromCorpus.class, argsOrdering);
+      ReproductionUtils.printUsage(parser, ReproduceFromDocumentCollection.class, argsOrdering);
       return;
     }
 
     if (parsedArgs.list) {
-      List<String> configs = ReproductionUtils.listYamlConfigs(RunReproductionFromCorpus.class, CONFIG_DIRECTORY);
+      List<String> configs = ReproductionUtils.listYamlConfigs(ReproduceFromDocumentCollection.class, CONFIG_DIRECTORY);
       System.out.println(new ObjectMapper().writeValueAsString(configs));
       return;
     }
 
     if (parsedArgs.config == null || parsedArgs.config.isBlank()) {
       System.err.println("Error: Option \"--config\" is required unless \"--list\" is specified.");
-      ReproductionUtils.printUsage(parser, RunReproductionFromCorpus.class, argsOrdering);
+      ReproductionUtils.printUsage(parser, ReproduceFromDocumentCollection.class, argsOrdering);
       return;
     }
 
@@ -197,7 +197,7 @@ public class RunReproductionFromCorpus {
     ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
     JsonNode yaml;
     String resourceName = String.format("%s/%s.yaml", CONFIG_DIRECTORY, args.config);
-    try (InputStream yamlStream = ReproductionUtils.loadResourceStream(resourceName, RunReproductionFromCorpus.class)) {
+    try (InputStream yamlStream = ReproductionUtils.loadResourceStream(resourceName, ReproduceFromDocumentCollection.class)) {
       yaml = mapper.readTree(yamlStream);
     }
 

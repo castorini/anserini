@@ -16,9 +16,9 @@
 
 package io.anserini.doc;
 
-import io.anserini.reproduce.RunReproductionFromPrebuiltIndexes.Condition;
-import io.anserini.reproduce.RunReproductionFromPrebuiltIndexes.Config;
-import io.anserini.reproduce.RunReproductionFromPrebuiltIndexes.Topic;
+import io.anserini.reproduce.ReproduceFromPrebuiltIndexes.Condition;
+import io.anserini.reproduce.ReproduceFromPrebuiltIndexes.Config;
+import io.anserini.reproduce.ReproduceFromPrebuiltIndexes.Topic;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.text.StringSubstitutor;
@@ -35,7 +35,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Scanner;
 
-public class GenerateReproductionFromPrebuiltIndexesDocsTest {
+public class GenerateReproductionDocsFromPrebuiltIndexesTest {
   public final static String YAML_PATH = "src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.core.yaml";
   public final static String HTML_TEMPLATE_PATH = "src/main/resources/reproduce/from-prebuilt-indexes/docgen/msmarco_html_v1_passage.template";
   public final static String ROW_TEMPLATE_PATH = "src/main/resources/reproduce/from-prebuilt-indexes/docgen/msmarco_html_row_v1.template";

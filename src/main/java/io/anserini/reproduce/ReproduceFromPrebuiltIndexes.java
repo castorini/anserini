@@ -43,7 +43,7 @@ import io.anserini.index.IndexReaderUtils;
 import io.anserini.util.LoggingBootstrap;
 import io.anserini.util.PrebuiltIndexHandler;
 
-public class RunReproductionFromPrebuiltIndexes {
+public class ReproduceFromPrebuiltIndexes {
   private static final String CONFIG_DIRECTORY = "reproduce/from-prebuilt-indexes/configs";
 
   public static class Args {
@@ -82,25 +82,25 @@ public class RunReproductionFromPrebuiltIndexes {
       parser.parseArgument(args);
     } catch (CmdLineException exception) {
       System.err.println(String.format("Error: %s", exception.getMessage()));
-      ReproductionUtils.printUsage(parser, RunReproductionFromPrebuiltIndexes.class, argsOrdering);
+      ReproductionUtils.printUsage(parser, ReproduceFromPrebuiltIndexes.class, argsOrdering);
 
       return;
     }
 
     if (parsedArgs.help) {
-      ReproductionUtils.printUsage(parser, RunReproductionFromPrebuiltIndexes.class, argsOrdering);
+      ReproductionUtils.printUsage(parser, ReproduceFromPrebuiltIndexes.class, argsOrdering);
       return;
     }
 
     if (parsedArgs.list) {
-      List<String> configs = ReproductionUtils.listYamlConfigs(RunReproductionFromPrebuiltIndexes.class, CONFIG_DIRECTORY);
+      List<String> configs = ReproductionUtils.listYamlConfigs(ReproduceFromPrebuiltIndexes.class, CONFIG_DIRECTORY);
       System.out.println(new ObjectMapper().writeValueAsString(configs));
       return;
     }
 
     if (parsedArgs.config == null || parsedArgs.config.isBlank()) {
       System.err.println("Error: Option \"--config\" is required unless \"--list\" is specified.");
-      ReproductionUtils.printUsage(parser, RunReproductionFromPrebuiltIndexes.class, argsOrdering);
+      ReproductionUtils.printUsage(parser, ReproduceFromPrebuiltIndexes.class, argsOrdering);
       return;
     }
 
@@ -118,12 +118,12 @@ public class RunReproductionFromPrebuiltIndexes {
       Files.createDirectories(runsDir);
     }
 
-    String fatjarPath = new File(RunReproductionFromPrebuiltIndexes.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
+    String fatjarPath = new File(ReproduceFromPrebuiltIndexes.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
 
     final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
     String resourceName = String.format("%s/%s.yaml", CONFIG_DIRECTORY, configName);
     Config config;
-    try (InputStream yamlStream = ReproductionUtils.loadResourceStream(resourceName, RunReproductionFromPrebuiltIndexes.class)) {
+    try (InputStream yamlStream = ReproductionUtils.loadResourceStream(resourceName, ReproduceFromPrebuiltIndexes.class)) {
       config = mapper.readValue(yamlStream, Config.class);
     }
 
