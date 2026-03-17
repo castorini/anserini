@@ -57,16 +57,28 @@ public class RunJavaReproductionCommandsTest extends StdOutStdErrRedirectableLuc
   }
 
   @Test
-  public void testInvalidOptionPrintsUsageMessage() throws Exception {
-    RunJavaReproductionCommands.main(new String[] {"--does-not-exist"});
+  public void testInvalidOption() throws Exception {
+    RunJavaReproductionCommands.main(new String[] {"--invalid"});
 
     String output = err.toString(StandardCharsets.UTF_8);
     assertFalse(output.isEmpty());
-    assertTrue(output, output.contains("--config"));
+    assertTrue(output, output.contains("--invalid"));
   }
 
   @Test
-  public void testMissingConfigPrintsUsageMessage() throws Exception {
+  public void testListOption() throws Exception {
+    RunJavaReproductionCommands.main(new String[] {"--list"});
+
+    String stdOut = out.toString(StandardCharsets.UTF_8).trim();
+    String stdErr = err.toString(StandardCharsets.UTF_8);
+    assertFalse(stdOut.isEmpty());
+    assertTrue(stdOut, stdOut.startsWith("["));
+    assertTrue(stdOut, stdOut.endsWith("]"));
+    assertTrue(stdErr, stdErr.isEmpty());
+  }
+
+  @Test
+  public void testMissingConfig() throws Exception {
     RunJavaReproductionCommands.main(new String[] {"--sleep", "1"});
 
     String output = err.toString(StandardCharsets.UTF_8);
@@ -75,7 +87,7 @@ public class RunJavaReproductionCommandsTest extends StdOutStdErrRedirectableLuc
   }
 
   @Test
-  public void testInvalidConfigPrintsUsageMessage() throws Exception {
+  public void testInvalidConfig() throws Exception {
     RunJavaReproductionCommands.main(new String[] {"--config"});
 
     String output = err.toString(StandardCharsets.UTF_8);
@@ -84,7 +96,7 @@ public class RunJavaReproductionCommandsTest extends StdOutStdErrRedirectableLuc
   }
 
   @Test
-  public void testNegativeSleepValueThrowsException() {
+  public void testNegativeSleepValue() {
     IllegalArgumentException e = expectThrows(IllegalArgumentException.class, () ->
         RunJavaReproductionCommands.main(new String[] {
             "--config", "ignored-config",
@@ -94,7 +106,7 @@ public class RunJavaReproductionCommandsTest extends StdOutStdErrRedirectableLuc
   }
 
   @Test
-  public void testDryRunFromCorpusBatch01PrintsAllJavaCommands() throws Exception {
+  public void testFromTestCollectionDryRun() throws Exception {
     int expectedCommandCount;
     try (InputStream in = ReproductionUtils.loadResourceStream(
         "reproduce/from-document-collection/commands/from-document-collection.batch01.txt", RunJavaReproductionCommands.class);
@@ -142,19 +154,7 @@ public class RunJavaReproductionCommandsTest extends StdOutStdErrRedirectableLuc
   }
 
   @Test
-  public void testListOptionPrintsUsageMessage() throws Exception {
-    RunJavaReproductionCommands.main(new String[] {"--list"});
-
-    String stdOut = out.toString(StandardCharsets.UTF_8).trim();
-    String stdErr = err.toString(StandardCharsets.UTF_8);
-    assertFalse(stdOut.isEmpty());
-    assertTrue(stdOut, stdOut.startsWith("["));
-    assertTrue(stdOut, stdOut.endsWith("]"));
-    assertTrue(stdErr, stdErr.isEmpty());
-  }
-
-  @Test
-  public void testRunsDirectoryInjectionForPrebuiltIndexCommands() throws Exception {
+  public void testRunWithDirectoryInjection() throws Exception {
     Path targetDir = Paths.get("target");
     Files.createDirectories(targetDir);
 

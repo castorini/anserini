@@ -50,7 +50,7 @@ import io.anserini.search.topicreader.TopicReader;
 import io.anserini.search.topicreader.Topics;
 
 public class ReproduceFromDocumentCollectionTest extends StdOutStdErrRedirectableLuceneTestCase {
-  private static final String[] CACM_IN_REPO_CORPUS_EXPECTED_RUNS = {
+  private static final String[] CACM_COLLECTION_IN_REPO_EXPECTED_RUNS = {
     "runs/run.inverted.cacm.cacm.bm25",
     "runs/run.inverted.cacm.cacm.bm25+rm3",
     "runs/run.inverted.cacm.cacm.bm25+ax",
@@ -95,6 +95,22 @@ public class ReproduceFromDocumentCollectionTest extends StdOutStdErrRedirectabl
   }
 
   @Test
+  public void testInvalidOption() throws Exception {
+    ReproduceFromDocumentCollection.main(new String[] {"--invalid"});
+
+    assertTrue(err.toString().startsWith("Error: \"--invalid\" is not a valid option"));
+    assertTrue(err.toString().contains("Options for ReproduceFromDocumentCollection:"));
+  }
+
+  @Test
+  public void testConfigRequiredUnlessListSpecified() throws Exception {
+    ReproduceFromDocumentCollection.main(new String[0]);
+
+    assertTrue(err.toString().contains("Error: Option \"--config\" is required unless \"--list\" is specified."));
+    assertTrue(err.toString().contains("Options for ReproduceFromDocumentCollection:"));
+  }
+
+  @Test
   public void testHelp() throws Exception {
     ReproduceFromDocumentCollection.main(new String[] {"--help"});
 
@@ -121,16 +137,16 @@ public class ReproduceFromDocumentCollectionTest extends StdOutStdErrRedirectabl
   }
 
   @Test
-  public void testCacmRegressionFromCorpus() throws Exception {
+  public void testCacmRegressionInRepo() throws Exception {
     SortedMap<Integer, Map<String, String>> topics = TopicReader.getTopics(Topics.CACM);
     assertNotNull(topics);
 
     ReproduceFromDocumentCollection.main(new String[] {"--config", "cacm", "--index", "--search"});
 
-    assertRunsExistAndNonEmpty(CACM_IN_REPO_CORPUS_EXPECTED_RUNS);
+    assertRunsExistAndNonEmpty(CACM_COLLECTION_IN_REPO_EXPECTED_RUNS);
     assertTrecEvalP30(CACM_QRELS_PATH, "runs/run.inverted.cacm.cacm.bm25", "0.1942");
 
-    deleteRunsIfExists(CACM_IN_REPO_CORPUS_EXPECTED_RUNS);
+    deleteRunsIfExists(CACM_COLLECTION_IN_REPO_EXPECTED_RUNS);
     deleteDirectoryIfExists(Paths.get("indexes/lucene-inverted.cacm/"));
   }
 
@@ -206,8 +222,8 @@ public class ReproduceFromDocumentCollectionTest extends StdOutStdErrRedirectabl
     int exitCode = process.exitValue();
     assertEquals(0, exitCode);
 
-    assertRunsExistAndNonEmpty(CACM_IN_REPO_CORPUS_EXPECTED_RUNS);
-    deleteRunsIfExists(CACM_IN_REPO_CORPUS_EXPECTED_RUNS);
+    assertRunsExistAndNonEmpty(CACM_COLLECTION_IN_REPO_EXPECTED_RUNS);
+    deleteRunsIfExists(CACM_COLLECTION_IN_REPO_EXPECTED_RUNS);
     deleteDirectoryIfExists(Paths.get("indexes/lucene-inverted.cacm/"));
   }
 
