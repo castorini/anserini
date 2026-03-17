@@ -97,20 +97,41 @@ public class GenerateRerankerRequests<K extends Comparable<K>> implements Closea
     getTopics(args.topics);
   }
 
-  public void addCandidate(String docid, float score) throws JsonProcessingException {
+  private Map<String, Object> extractDocumentContent(String docid) throws IOException {
     String raw = IndexReaderUtils.documentRaw(indexReader, docid);
     if (raw == null) {
       throw new IllegalArgumentException("Raw document with docid " + docid + " not found in index.");
     }
-    JsonNode rootNode = mapper.readTree(raw);
-    Map<String, Object> content = mapper.convertValue(rootNode, new TypeReference<Map<String, Object>>() {});
-    content.remove(Constants.ID); // Remove the ID field from the content
-    content.remove("_id");
-    content.remove("docid");
+
+    try {
+      JsonNode rootNode = mapper.readTree(raw);
+      if (rootNode != null && rootNode.isObject()) {
+        Map<String, Object> content = mapper.convertValue(rootNode, new TypeReference<Map<String, Object>>() {});
+        content.remove(Constants.ID);
+        content.remove("_id");
+        content.remove("docid");
+        return content;
+      }
+    } catch (JsonProcessingException e) {
+      // Fall back to a structured wrapper for non-JSON stored raw documents.
+    }
+
+    Map<String, Object> content = new LinkedHashMap<>();
+    content.put("raw", raw);
+
+    String contents = IndexReaderUtils.documentContents(indexReader, docid);
+    if (contents != null && !contents.equals(raw)) {
+      content.put("contents", contents);
+    }
+
+    return content;
+  }
+
+  public void addCandidate(String docid, float score) throws IOException {
     Map<String, Object> candidate = new LinkedHashMap<>();
     candidate.put("docid", docid);
     candidate.put("score", score);
-    candidate.put("doc", content);
+    candidate.put("doc", extractDocumentContent(docid));
     candidates.add(candidate);
   }
 

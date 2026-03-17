@@ -21,6 +21,8 @@ import static org.junit.Assert.assertTrue;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
@@ -185,6 +187,26 @@ public class GenerateRerankerRequestsTest {
         "{\"query\":{\"qid\":\"2\",\"text\":\"hpsg\"},\"candidates\":[{\"docid\":\"doc3\",\"score\":20.0,\"doc\":{\"title\":\"doc3 title\",\"text\":\"doc3 text\"}},{\"docid\":\"doc1\",\"score\":14.0,\"doc\":{\"title\":\"doc1 title\",\"text\":\"doc1 text\"}}]}"
       });
     }
+    assertTrue(new File("test_reranker_requests.jsonl").delete());
+  }
+
+  @Test
+  public void testGenerateWithNonJsonRawDocuments() throws Exception {
+    String[] rerankArgs = new String[] {
+        "-index", "cacm",
+        "-run", "src/test/resources/sample_runs/cacm/cacm-bm25.txt",
+        "-topics", "cacm",
+        "-output", "test_reranker_requests.jsonl"
+    };
+
+    GenerateRerankerRequests.main(rerankArgs);
+    assertTrue(!err.toString().contains("Error: "));
+
+    String output = Files.readString(Paths.get("test_reranker_requests.jsonl"));
+    assertTrue(output.contains("\"docid\":\"CACM-1938\""));
+    assertTrue(output.contains("\"raw\":\"<html>"));
+    assertTrue(output.contains("Time-Sharing System Performance"));
+
     assertTrue(new File("test_reranker_requests.jsonl").delete());
   }
 

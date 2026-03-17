@@ -56,6 +56,36 @@ public class RunOutputWriter<K extends Comparable<K>> implements Closeable {
     this(output, format, runtag, outputRerankerRequests, null);
   }
 
+  private Map<String, Object> extractDocumentContent(ScoredDoc scoredDoc) throws JsonProcessingException {
+    String raw = scoredDoc.lucene_document.get(Constants.RAW);
+    if (raw == null) {
+      throw new IllegalArgumentException("Raw document with docid " + scoredDoc.docid + " not found in index.");
+    }
+
+    try {
+      JsonNode rootNode = mapper.readTree(raw);
+      if (rootNode != null && rootNode.isObject()) {
+        Map<String, Object> content = mapper.convertValue(rootNode, new TypeReference<Map<String, Object>>() {});
+        content.remove(Constants.ID);
+        content.remove("_id");
+        content.remove("docid");
+        return content;
+      }
+    } catch (JsonProcessingException e) {
+      // Fall back to a structured wrapper for non-JSON stored raw documents.
+    }
+
+    Map<String, Object> content = new LinkedHashMap<>();
+    content.put("raw", raw);
+
+    String contents = scoredDoc.lucene_document.get(Constants.CONTENTS);
+    if (contents != null && !contents.equals(raw)) {
+      content.put("contents", contents);
+    }
+
+    return content;
+  }
+
   public void writeTopic(K qid, String query, ScoredDoc[] results) throws JsonProcessingException {
     int rank = 1;
     if (exclude != null) {
@@ -69,14 +99,10 @@ public class RunOutputWriter<K extends Comparable<K>> implements Closeable {
     if (outputRerankerRequests != null) {
       List<Map<String, Object>> candidates = new ArrayList<>();
       for (ScoredDoc r : results) {
-        String raw = r.lucene_document.get(Constants.RAW);
-        JsonNode rootNode = mapper.readTree(raw);
-        Map<String, Object> content = mapper.convertValue(rootNode, new TypeReference<Map<String, Object>>() {});
-        content.remove("docid");
         Map<String, Object> candidate = new LinkedHashMap<>();
         candidate.put("docid", r.docid);
         candidate.put("score", r.score);
-        candidate.put("doc", content);
+        candidate.put("doc", extractDocumentContent(r));
         candidates.add(candidate);
       }
       Map<String, Object> queryMap = new LinkedHashMap<>();
