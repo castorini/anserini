@@ -1005,23 +1005,23 @@ public enum Topics {
     return Topics.getByName(name.replaceAll(regex, "$1"));
   }
 
-  public static <K> SortedMap<K, Map<String, String>> resolve(String topicsFile) {
-    return resolve(topicsFile, null);
+  public static <K> SortedMap<K, Map<String, String>> resolve(String topics) {
+    return resolve(topics, null);
   }
 
   @SuppressWarnings("unchecked")
-  public static <K> SortedMap<K, Map<String, String>> resolve(String topicsFile, String topicReader) {
-    Path topicsFilePath = Paths.get(topicsFile);
-    if (!Files.exists(topicsFilePath) || !Files.isRegularFile(topicsFilePath) || !Files.isReadable(topicsFilePath)) {
-      Topics ref = Topics.getByName(topicsFile);
+  public static <K> SortedMap<K, Map<String, String>> resolve(String topics, String topicReader) {
+    Path topicsPath = Paths.get(topics);
+    if (!Files.exists(topicsPath) || !Files.isRegularFile(topicsPath) || !Files.isReadable(topicsPath)) {
+      Topics ref = Topics.getByName(topics);
       if (ref == null) {
-        throw new IllegalArgumentException(String.format("\"%s\" does not refer to valid topics.", topicsFilePath));
+        throw new IllegalArgumentException(String.format("\"%s\" does not refer to valid topics.", topicsPath));
       }
 
       try {
         return TopicReader.getTopics(ref);
       } catch (Exception e) {
-        throw new IllegalArgumentException(String.format("Unable to read topics \"%s\".", topicsFile), e);
+        throw new IllegalArgumentException(String.format("Unable to read topics \"%s\".", topics), e);
       }
     }
 
@@ -1032,17 +1032,17 @@ public enum Topics {
     try {
       TopicReader<K> tr = (TopicReader<K>) Class
           .forName(String.format("io.anserini.search.topicreader.%sTopicReader", topicReader))
-          .getConstructor(Path.class).newInstance(topicsFilePath);
+          .getConstructor(Path.class).newInstance(topicsPath);
       return tr.read();
     } catch (Exception e) {
       throw new IllegalArgumentException(String.format("Unable to load topic reader \"%s\".", topicReader));
     }
   }
 
-  public static <K> SortedMap<K, Map<String, String>> resolve(String[] topicsFiles, String topicReader) {
+  public static <K> SortedMap<K, Map<String, String>> resolve(String[] topicsArray, String topicReader) {
     SortedMap<K, Map<String, String>> topics = new TreeMap<>();
 
-    for (String topicsFile : topicsFiles) {
+    for (String topicsFile : topicsArray) {
       topics.putAll(resolve(topicsFile, topicReader));
     }
 

@@ -39,6 +39,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
+import io.anserini.cli.CliUtils;
+
 import io.anserini.index.IndexReaderUtils;
 import io.anserini.util.LoggingBootstrap;
 import io.anserini.util.PrebuiltIndexHandler;
@@ -82,13 +84,13 @@ public class ReproduceFromPrebuiltIndexes {
       parser.parseArgument(args);
     } catch (CmdLineException exception) {
       System.err.println(String.format("Error: %s", exception.getMessage()));
-      ReproductionUtils.printUsage(parser, ReproduceFromPrebuiltIndexes.class, argsOrdering);
+      CliUtils.printUsage(parser, ReproduceFromPrebuiltIndexes.class, argsOrdering);
 
       return;
     }
 
     if (parsedArgs.help) {
-      ReproductionUtils.printUsage(parser, ReproduceFromPrebuiltIndexes.class, argsOrdering);
+      CliUtils.printUsage(parser, ReproduceFromPrebuiltIndexes.class, argsOrdering);
       return;
     }
 
@@ -100,7 +102,7 @@ public class ReproduceFromPrebuiltIndexes {
 
     if (parsedArgs.config == null || parsedArgs.config.isBlank()) {
       System.err.println("Error: Option \"--config\" is required unless \"--list\" is specified.");
-      ReproductionUtils.printUsage(parser, ReproduceFromPrebuiltIndexes.class, argsOrdering);
+      CliUtils.printUsage(parser, ReproduceFromPrebuiltIndexes.class, argsOrdering);
       return;
     }
 

@@ -39,6 +39,8 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 
+import io.anserini.cli.CliUtils;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.anserini.util.LoggingBootstrap;
@@ -92,12 +94,12 @@ public class RunJavaReproductionCommands {
       parser.parseArgument(args);
     } catch (CmdLineException e) {
       System.err.println(String.format("Error: %s", e.getMessage()));
-      ReproductionUtils.printUsage(parser, RunJavaReproductionCommands.class, argsOrdering);
+      CliUtils.printUsage(parser, RunJavaReproductionCommands.class, argsOrdering);
       return;
     }
 
     if (parsedArgs.help) {
-      ReproductionUtils.printUsage(parser, RunJavaReproductionCommands.class, argsOrdering);
+      CliUtils.printUsage(parser, RunJavaReproductionCommands.class, argsOrdering);
       return;
     }
 
@@ -109,7 +111,7 @@ public class RunJavaReproductionCommands {
 
     if (parsedArgs.config == null || parsedArgs.config.isBlank()) {
       System.err.println("Error: Option \"--config\" is required unless \"--list\" is specified.");
-      ReproductionUtils.printUsage(parser, RunJavaReproductionCommands.class, argsOrdering);
+      CliUtils.printUsage(parser, RunJavaReproductionCommands.class, argsOrdering);
       return;
     }
 

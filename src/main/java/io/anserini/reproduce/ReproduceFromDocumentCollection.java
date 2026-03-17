@@ -57,6 +57,8 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 
+import io.anserini.cli.CliUtils;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
@@ -168,13 +170,13 @@ public class ReproduceFromDocumentCollection {
       parser.parseArgument(args);
     } catch (CmdLineException exception) {
       System.err.println(String.format("Error: %s", exception.getMessage()));
-      ReproductionUtils.printUsage(parser, ReproduceFromDocumentCollection.class, argsOrdering);
+      CliUtils.printUsage(parser, ReproduceFromDocumentCollection.class, argsOrdering);
 
       return;
     }
 
     if (parsedArgs.help) {
-      ReproductionUtils.printUsage(parser, ReproduceFromDocumentCollection.class, argsOrdering);
+      CliUtils.printUsage(parser, ReproduceFromDocumentCollection.class, argsOrdering);
       return;
     }
 
@@ -186,7 +188,7 @@ public class ReproduceFromDocumentCollection {
 
     if (parsedArgs.config == null || parsedArgs.config.isBlank()) {
       System.err.println("Error: Option \"--config\" is required unless \"--list\" is specified.");
-      ReproductionUtils.printUsage(parser, ReproduceFromDocumentCollection.class, argsOrdering);
+      CliUtils.printUsage(parser, ReproduceFromDocumentCollection.class, argsOrdering);
       return;
     }
 

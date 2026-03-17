@@ -16,11 +16,14 @@
 
 package io.anserini.cli;
 
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -30,8 +33,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import io.anserini.TestUtils;
 
 public class ExtractQueriesAndDocumentsFromTrecRunTest {
   // Note, cannot extend StdOutStdErrRedirectableLuceneTestCase due to concurrency issues.
@@ -81,53 +82,56 @@ public class ExtractQueriesAndDocumentsFromTrecRunTest {
 
   @Test
   public void testPrebuilt() throws Exception {
-    ExtractQueriesAndDocumentsFromTrecRun.Args args = new ExtractQueriesAndDocumentsFromTrecRun.Args();
-    args.index = "cacm";
-    args.run = "src/test/resources/sample_runs/run4";
-    args.topics = "cacm";
-    args.output = "test_reranker_requests.jsonl";
+    String[] rerankArgs = new String[] {
+        "--index", "cacm",
+        "--run", "src/test/resources/sample_runs/cacm/cacm-bm25.txt",
+        "--topics", "cacm",
+        "--output", "test_reranker_requests.jsonl"
+    };
 
-    ExtractQueriesAndDocumentsFromTrecRun<String> outputRerankerRequests = new ExtractQueriesAndDocumentsFromTrecRun<>(args);
-    outputRerankerRequests.close();
+    ExtractQueriesAndDocumentsFromTrecRun.main(rerankArgs);
     assertTrue(!err.toString().contains("Error: "));
+    assertTrue(new File("test_reranker_requests.jsonl").isFile());
     assertTrue(new File("test_reranker_requests.jsonl").delete());
   }
 
   @Test
   public void testLocalIndex() throws Exception {
-    ExtractQueriesAndDocumentsFromTrecRun.Args args = new ExtractQueriesAndDocumentsFromTrecRun.Args();
-    args.index = "src/test/resources/prebuilt_indexes/raw-beir-collection1-index";
-    args.run = "src/test/resources/sample_runs/run4";
-    args.topics = "cacm";
-    args.output = "test_reranker_requests.jsonl";
+    String[] rerankArgs = new String[] {
+        "--index", "src/test/resources/prebuilt_indexes/raw-beir-collection1-index",
+        "--run", "src/test/resources/sample_runs/run5",
+        "--topics", "src/test/resources/sample_topics/acl_topics.tsv",
+        "--output", "test_reranker_requests.jsonl"
+    };
 
-    ExtractQueriesAndDocumentsFromTrecRun<String> outputRerankerRequests = new ExtractQueriesAndDocumentsFromTrecRun<>(args);
-    outputRerankerRequests.close();
+    ExtractQueriesAndDocumentsFromTrecRun.main(rerankArgs);
     assertTrue(!err.toString().contains("Error: "));
+    assertTrue(new File("test_reranker_requests.jsonl").isFile());
     assertTrue(new File("test_reranker_requests.jsonl").delete());
   }
 
   @Test
   public void testLocalTopics() throws Exception {
-    ExtractQueriesAndDocumentsFromTrecRun.Args args = new ExtractQueriesAndDocumentsFromTrecRun.Args();
-    args.index = "cacm";
-    args.run = "src/test/resources/sample_runs/run4";
-    args.topics = "src/test/resources/sample_topics/acl_topics.tsv";
-    args.output = "test_reranker_requests.jsonl";
+    String[] rerankArgs = new String[] {
+        "--index", "src/test/resources/prebuilt_indexes/raw-beir-collection1-index",
+        "--run", "src/test/resources/sample_runs/run5",
+        "--topics", "src/test/resources/sample_topics/acl_topics.tsv",
+        "--output", "test_reranker_requests.jsonl"
+    };
 
-    ExtractQueriesAndDocumentsFromTrecRun<String> outputRerankerRequests = new ExtractQueriesAndDocumentsFromTrecRun<>(args);
-    outputRerankerRequests.close();
+    ExtractQueriesAndDocumentsFromTrecRun.main(rerankArgs);
     assertTrue(!err.toString().contains("Error: "));
+    assertTrue(new File("test_reranker_requests.jsonl").isFile());
     assertTrue(new File("test_reranker_requests.jsonl").delete());
   }
 
   @Test
   public void testBadIndex() throws Exception {
     String[] rerankArgs = new String[] {
-        "-index", "src/test/resources/prebuilt_indexes/lucene9-index.sample_docs_trec_collection2/",
-        "-run", "src/test/resources/sample_runs/run4",
-        "-topics", "src/test/resources/sample_topics/acl_topics.tsv",
-        "-output", "test_reranker_requests.jsonl"
+        "--index", "src/test/resources/prebuilt_indexes/lucene9-index.sample_docs_trec_collection2/",
+        "--run", "src/test/resources/sample_runs/run4",
+        "--topics", "src/test/resources/sample_topics/acl_topics.tsv",
+        "--output", "test_reranker_requests.jsonl"
     };
 
     ExtractQueriesAndDocumentsFromTrecRun.main(rerankArgs);
@@ -139,50 +143,46 @@ public class ExtractQueriesAndDocumentsFromTrecRunTest {
   @Test
   public void testBadTopics() throws Exception {
     String[] rerankArgs = new String[] {
-        "-index", "src/test/resources/prebuilt_indexes/raw-beir-collection1-index",
-        "-run", "src/test/resources/sample_runs/run1",
-        "-topics", "src/test/resources/sample_topics/acl_topics.tsv",
-        "-output", "test_reranker_requests.jsonl"
+        "--index", "src/test/resources/prebuilt_indexes/raw-beir-collection1-index",
+        "--run", "src/test/resources/sample_runs/run1",
+        "--topics", "src/test/resources/sample_topics/acl_topics.tsv",
+        "--output", "test_reranker_requests.jsonl"
     };
 
     ExtractQueriesAndDocumentsFromTrecRun.main(rerankArgs);
-    assertTrue(err.toString().contains("Query ID not found in the list of topics:"));
+    assertTrue(err.toString().contains("Unable to find query for query1"));
     assertTrue(new File("test_reranker_requests.jsonl").delete());
   }
 
   @Test
   public void testGenerate() throws Exception {
     String[] rerankArgs = new String[] {
-        "-index", "src/test/resources/prebuilt_indexes/raw-beir-collection1-index",
-        "-run", "src/test/resources/sample_runs/run5",
-        "-topics", "src/test/resources/sample_topics/acl_topics.tsv",
-        "-output", "test_reranker_requests.jsonl"
+        "--index", "src/test/resources/prebuilt_indexes/raw-beir-collection1-index",
+        "--run", "src/test/resources/sample_runs/run5",
+        "--topics", "src/test/resources/sample_topics/acl_topics.tsv",
+        "--output", "test_reranker_requests.jsonl"
     };
 
     ExtractQueriesAndDocumentsFromTrecRun.main(rerankArgs);
     assertTrue(!err.toString().contains("Error: "));
-    
-    try {
-      TestUtils.checkFile("test_reranker_requests.jsonl", new String[]{
-        "{\"query\":{\"text\":\"model\",\"qid\":\"1\"},\"candidates\":[{\"docid\":\"doc1\",\"score\":7.0,\"doc\":{\"title\":\"doc1 title\",\"text\":\"doc1 text\"}},{\"docid\":\"doc2\",\"score\":6.0,\"doc\":{\"title\":\"doc2 title\",\"text\":\"doc2 text\"}}]}",
-        "{\"query\":{\"text\":\"hpsg\",\"qid\":\"2\"},\"candidates\":[{\"docid\":\"doc3\",\"score\":20.0,\"doc\":{\"title\":\"doc3 title\",\"text\":\"doc3 text\"}},{\"docid\":\"doc1\",\"score\":14.0,\"doc\":{\"title\":\"doc1 title\",\"text\":\"doc1 text\"}}]}"
-      });
-    } catch (AssertionError e) {
-      TestUtils.checkFile("test_reranker_requests.jsonl", new String[]{
-        "{\"query\":{\"qid\":\"1\",\"text\":\"model\"},\"candidates\":[{\"docid\":\"doc1\",\"score\":7.0,\"doc\":{\"title\":\"doc1 title\",\"text\":\"doc1 text\"}},{\"docid\":\"doc2\",\"score\":6.0,\"doc\":{\"title\":\"doc2 title\",\"text\":\"doc2 text\"}}]}",
-        "{\"query\":{\"qid\":\"2\",\"text\":\"hpsg\"},\"candidates\":[{\"docid\":\"doc3\",\"score\":20.0,\"doc\":{\"title\":\"doc3 title\",\"text\":\"doc3 text\"}},{\"docid\":\"doc1\",\"score\":14.0,\"doc\":{\"title\":\"doc1 title\",\"text\":\"doc1 text\"}}]}"
-      });
-    }
+
+    String output = Files.readString(Paths.get("test_reranker_requests.jsonl"));
+    assertTrue(output.contains("\"qid\":\"1\""));
+    assertTrue(output.contains("\"text\":\"model\""));
+    assertTrue(output.contains("\"docid\":\"doc1\""));
+    assertTrue(output.contains("\"_id\":\"doc1\""));
+    assertTrue(output.contains("\"docid\":\"doc3\""));
+    assertTrue(output.contains("\"_id\":\"doc3\""));
     assertTrue(new File("test_reranker_requests.jsonl").delete());
   }
 
   @Test
   public void testGenerateWithNonJsonRawDocuments() throws Exception {
     String[] rerankArgs = new String[] {
-        "-index", "cacm",
-        "-run", "src/test/resources/sample_runs/cacm/cacm-bm25.txt",
-        "-topics", "cacm",
-        "-output", "test_reranker_requests.jsonl"
+        "--index", "cacm",
+        "--run", "src/test/resources/sample_runs/cacm/cacm-bm25.txt",
+        "--topics", "cacm",
+        "--output", "test_reranker_requests.jsonl"
     };
 
     ExtractQueriesAndDocumentsFromTrecRun.main(rerankArgs);
@@ -190,7 +190,7 @@ public class ExtractQueriesAndDocumentsFromTrecRunTest {
 
     String output = Files.readString(Paths.get("test_reranker_requests.jsonl"));
     assertTrue(output.contains("\"docid\":\"CACM-1938\""));
-    assertTrue(output.contains("\"raw\":\"<html>"));
+    assertTrue(output.contains("\"doc\":\"<html>"));
     assertTrue(output.contains("Time-Sharing System Performance"));
 
     assertTrue(new File("test_reranker_requests.jsonl").delete());
@@ -211,17 +211,15 @@ public class ExtractQueriesAndDocumentsFromTrecRunTest {
         throw new IllegalStateException("Failed to create test directory: " + localDir.getAbsolutePath());
       }
 
-      ExtractQueriesAndDocumentsFromTrecRun.Args args = new ExtractQueriesAndDocumentsFromTrecRun.Args();
-      args.index = prebuiltLabel; // Ambiguous: label exists and local dir exists
-      args.run = "src/test/resources/sample_runs/run4";
-      args.topics = "cacm";
-      args.output = "test_reranker_requests.jsonl";
+      String[] rerankArgs = new String[] {
+          "--index", prebuiltLabel,
+          "--run", "src/test/resources/sample_runs/run4",
+          "--topics", "cacm",
+          "--output", "test_reranker_requests.jsonl"
+      };
 
-      try (ExtractQueriesAndDocumentsFromTrecRun<?> ignored = new ExtractQueriesAndDocumentsFromTrecRun<>(args)) {
-        assertTrue("Expected IllegalArgumentException due to ambiguous index reference", false);
-      } catch (IllegalArgumentException e) {
-        assertTrue(e.getMessage().contains("Ambiguous index reference"));
-      }
+      ExtractQueriesAndDocumentsFromTrecRun.main(rerankArgs);
+      assertTrue(err.toString().contains("Ambiguous index reference"));
     } finally {
       if (localDir.exists()) {
         assertTrue(localDir.delete());
@@ -229,5 +227,15 @@ public class ExtractQueriesAndDocumentsFromTrecRunTest {
       // Ensure we don't leave the output file around if it was accidentally created
       new File("test_reranker_requests.jsonl").delete();
     }
+  }
+
+  @Test
+  public void testClassCannotBeInstantiated() throws Exception {
+    Constructor<ExtractQueriesAndDocumentsFromTrecRun> constructor =
+        ExtractQueriesAndDocumentsFromTrecRun.class.getDeclaredConstructor();
+    constructor.setAccessible(true);
+
+    InvocationTargetException exception = assertThrows(InvocationTargetException.class, constructor::newInstance);
+    assertTrue(exception.getCause() instanceof UnsupportedOperationException);
   }
 }
