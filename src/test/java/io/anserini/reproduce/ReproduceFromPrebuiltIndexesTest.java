@@ -25,7 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 
-public class RunReproductionFromPrebuiltIndexesTest extends StdOutStdErrRedirectableLuceneTestCase {
+public class ReproduceFromPrebuiltIndexesTest extends StdOutStdErrRedirectableLuceneTestCase {
   @Before
   public void setUp() throws Exception {
     redirectStdOut();
@@ -40,46 +40,50 @@ public class RunReproductionFromPrebuiltIndexesTest extends StdOutStdErrRedirect
     super.tearDown();
   }
 
-  @Test
+    @Test
   public void testInvalidOption() throws Exception {
-    String[] args = new String[] {"-dry"};
-    RunReproductionFromPrebuiltIndexes.main(args);
+    ReproduceFromPrebuiltIndexes.main(new String[] {"--invalid"});
 
-    assertTrue(err.toString().startsWith("Error: \"-dry\" is not a valid option"));
+    assertTrue(err.toString().startsWith("Error: \"--invalid\" is not a valid option"));
+    assertTrue(err.toString().contains("Options for ReproduceFromPrebuiltIndexes:"));
+  }
+
+  @Test
+  public void testConfigRequiredUnlessListSpecified() throws Exception {
+    ReproduceFromPrebuiltIndexes.main(new String[0]);
+
+    assertTrue(err.toString().contains("Error: Option \"--config\" is required unless \"--list\" is specified."));
+    assertTrue(err.toString().contains("Options for ReproduceFromPrebuiltIndexes:"));
   }
 
   @Test
   public void testHelp() throws Exception {
-    String[] args = new String[] {"--help"};
-    RunReproductionFromPrebuiltIndexes.main(args);
+    ReproduceFromPrebuiltIndexes.main(new String[] {"--help"});
 
-    assertTrue(err.toString().contains("Options for RunReproductionFromPrebuiltIndexes:"));
+    assertTrue(err.toString().contains("Options for ReproduceFromPrebuiltIndexes:"));
     assertTrue(err.toString().contains("--help"));
   }
 
   @Test
   public void testListConfigs() throws Exception {
-    String[] args = new String[] {"--list"};
-    RunReproductionFromPrebuiltIndexes.main(args);
+    ReproduceFromPrebuiltIndexes.main(new String[] {"--list"});
 
     List<?> outputConfigs = new ObjectMapper().readValue(out.toString(), List.class);
     List<String> expectedConfigs = ReproductionUtils.listYamlConfigs(
-        RunReproductionFromPrebuiltIndexes.class, "reproduce/from-prebuilt-indexes/configs");
+        ReproduceFromPrebuiltIndexes.class, "reproduce/from-prebuilt-indexes/configs");
     assertEquals(expectedConfigs.size(), outputConfigs.size());
   }
 
   @Test
-  public void test1() throws Exception {
-    String[] args = new String[] {"--config", "beir.core", "--dry-run"};
-    RunReproductionFromPrebuiltIndexes.main(args);
+  public void testBeirCoreDryRun() throws Exception {
+    ReproduceFromPrebuiltIndexes.main(new String[] {"--config", "beir.core", "--dry-run"});
 
     assertTrue(out.toString().startsWith("# Running condition"));
   }
 
   @Test
-  public void test2() throws Exception {
-    String[] args = new String[] {"--config", "beir.core", "--dry-run", "--print-commands"};
-    RunReproductionFromPrebuiltIndexes.main(args);
+  public void testBeirCorePrintCommandsDryRun() throws Exception {
+    ReproduceFromPrebuiltIndexes.main(new String[] {"--config", "beir.core", "--dry-run", "--print-commands"});
 
     assertTrue(out.toString().startsWith("# Running condition"));
     assertTrue(out.toString().contains("Retrieval command"));
@@ -88,8 +92,7 @@ public class RunReproductionFromPrebuiltIndexesTest extends StdOutStdErrRedirect
 
   @Test
   public void testComputeIndexSize() throws Exception {
-    String[] args = new String[] {"--config", "beir.core", "--dry-run", "--compute-index-size"};
-    RunReproductionFromPrebuiltIndexes.main(args);
+    ReproduceFromPrebuiltIndexes.main(new String[] {"--config", "beir.core", "--dry-run", "--compute-index-size"});
 
     String s = out.toString();
     assertTrue(s.contains("Indexes referenced by this run"));

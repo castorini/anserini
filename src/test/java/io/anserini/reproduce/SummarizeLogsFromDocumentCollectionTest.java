@@ -36,12 +36,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class SummarizeLogsFromCorpusTest {
+public class SummarizeLogsFromDocumentCollectionTest {
   private Path temporaryWorkingDirectory;
 
   @Before
   public void setUp() throws Exception {
-    temporaryWorkingDirectory = Files.createTempDirectory("summarize-logs-from-corpus");
+    temporaryWorkingDirectory = Files.createTempDirectory("summarize-logs-from-document-collection");
   }
 
   @After
@@ -56,7 +56,7 @@ public class SummarizeLogsFromCorpusTest {
     Files.createDirectory(temporaryWorkingDirectory.resolve("logs"));
     String output = runInTempDirectory("--help");
 
-    assertTrue(output.contains("Options for SummarizeLogsFromCorpus:"));
+    assertTrue(output.contains("Options for SummarizeLogsFromDocumentCollection:"));
     assertTrue(output.contains("--help"));
   }
 
@@ -67,7 +67,7 @@ public class SummarizeLogsFromCorpusTest {
 
     assertTrue(output.contains("Error:"));
     assertTrue(output.contains("not a valid option"));
-    assertTrue(output.contains("Options for SummarizeLogsFromCorpus:"));
+    assertTrue(output.contains("Options for SummarizeLogsFromDocumentCollection:"));
   }
 
   @Test
@@ -84,17 +84,17 @@ public class SummarizeLogsFromCorpusTest {
   }
 
   @Test
-  public void testSummarizeLogsFromCorpus() throws Exception {
+  public void testSummarizeLogs() throws Exception {
     Path logsDir = temporaryWorkingDirectory.resolve("logs");
     Files.createDirectory(logsDir);
 
-    writeLog(logsDir.resolve("log.corpus.1"), List.of(
-        "2026-03-01 10:00:00,100 Starting RunReproductionFromCorpus for topic 1",
-        "2026-03-01 10:00:01,200 RunReproductionFromCorpus" + ReproductionUtils.Constants.OK + " completed topic 1"));
+    writeLog(logsDir.resolve("log.from-document-collection.1"), List.of(
+        "2026-03-01 10:00:00,100 Starting ReproduceFromDocumentCollection for topic 1",
+        "2026-03-01 10:00:01,200 ReproduceFromDocumentCollection" + ReproductionUtils.Constants.OK + " completed topic 1"));
 
-    writeLog(logsDir.resolve("log.corpus.2"), List.of(
-        "2026-03-01 10:00:02,300 Starting RunReproductionFromCorpus for topic 2",
-        "2026-03-01 10:00:04,500 RunReproductionFromCorpus" + ReproductionUtils.Constants.FAIL + " completed topic 2"));
+    writeLog(logsDir.resolve("log.from-document-collection.2"), List.of(
+        "2026-03-01 10:00:02,300 Starting ReproduceFromDocumentCollection for topic 2",
+        "2026-03-01 10:00:04,500 ReproduceFromDocumentCollection" + ReproductionUtils.Constants.FAIL + " completed topic 2"));
 
     String output = runInTempDirectory();
     assertTrue(Pattern.compile("Total regressions:\\s+2").matcher(output).find());
@@ -108,17 +108,17 @@ public class SummarizeLogsFromCorpusTest {
   }
 
   @Test
-  public void testSummarizeLogsFromCorpusJson() throws Exception {
+  public void testSummarizeLogsJson() throws Exception {
     Path logsDir = temporaryWorkingDirectory.resolve("logs");
     Files.createDirectory(logsDir);
 
-    writeLog(logsDir.resolve("log.corpus.1"), List.of(
-        "2026-03-01 10:00:00,100 Starting RunReproductionFromCorpus for topic 1",
-        "2026-03-01 10:00:01,200 RunReproductionFromCorpus" + ReproductionUtils.Constants.OK + " completed topic 1"));
+    writeLog(logsDir.resolve("log.from-document-collection.1"), List.of(
+        "2026-03-01 10:00:00,100 Starting ReproduceFromDocumentCollection for topic 1",
+        "2026-03-01 10:00:01,200 ReproduceFromDocumentCollection" + ReproductionUtils.Constants.OK + " completed topic 1"));
 
-    writeLog(logsDir.resolve("log.corpus.2"), List.of(
-        "2026-03-01 10:00:02,300 Starting RunReproductionFromCorpus for topic 2",
-        "2026-03-01 10:00:04,500 RunReproductionFromCorpus" + ReproductionUtils.Constants.FAIL + " completed topic 2"));
+    writeLog(logsDir.resolve("log.from-document-collection.2"), List.of(
+        "2026-03-01 10:00:02,300 Starting ReproduceFromDocumentCollection for topic 2",
+        "2026-03-01 10:00:04,500 ReproduceFromDocumentCollection" + ReproductionUtils.Constants.FAIL + " completed topic 2"));
 
     String output = runInTempDirectory("--json");
 
@@ -133,17 +133,17 @@ public class SummarizeLogsFromCorpusTest {
   }
 
   @Test
-  public void testSummarizeLogsFromCorpusMarkdown() throws Exception {
+  public void testSummarizeLogsMarkdown() throws Exception {
     Path logsDir = temporaryWorkingDirectory.resolve("logs");
     Files.createDirectory(logsDir);
 
-    writeLog(logsDir.resolve("log.corpus.1"), List.of(
-        "2026-03-01 10:00:00,100 Starting RunReproductionFromCorpus for topic 1",
-        "2026-03-01 10:00:01,200 RunReproductionFromCorpus" + ReproductionUtils.Constants.OK + " completed topic 1"));
+    writeLog(logsDir.resolve("log.from-document-collection.1"), List.of(
+        "2026-03-01 10:00:00,100 Starting ReproduceFromDocumentCollection for topic 1",
+        "2026-03-01 10:00:01,200 ReproduceFromDocumentCollection" + ReproductionUtils.Constants.OK + " completed topic 1"));
 
-    writeLog(logsDir.resolve("log.corpus.2"), List.of(
-        "2026-03-01 10:00:02,300 Starting RunReproductionFromCorpus for topic 2",
-        "2026-03-01 10:00:04,500 RunReproductionFromCorpus" + ReproductionUtils.Constants.FAIL + " completed topic 2"));
+    writeLog(logsDir.resolve("log.from-document-collection.2"), List.of(
+        "2026-03-01 10:00:02,300 Starting ReproduceFromDocumentCollection for topic 2",
+        "2026-03-01 10:00:04,500 ReproduceFromDocumentCollection" + ReproductionUtils.Constants.FAIL + " completed topic 2"));
 
     String output = runInTempDirectory("--md");
 
@@ -159,17 +159,17 @@ public class SummarizeLogsFromCorpusTest {
   }
 
   @Test
-  public void testSummarizeLogsFromCorpusMissingStatusAndTimestamp() throws Exception {
+  public void testSummarizeLogsMissingStatusAndTimestamp() throws Exception {
     Path logsDir = temporaryWorkingDirectory.resolve("logs");
     Files.createDirectory(logsDir);
 
-    writeLog(logsDir.resolve("log.corpus.empty"), List.of(
+    writeLog(logsDir.resolve("log.from-document-collection.empty"), List.of(
         "This is not a reproduction line",
         "another non-matching line"));
 
-    writeLog(logsDir.resolve("log.corpus.partial"), List.of(
+    writeLog(logsDir.resolve("log.from-document-collection.partial"), List.of(
         "2026-03-01 10:00:00,100 No timestamp format expected",
-        "RunReproductionFromCorpus without timestamp"));
+        "ReproduceFromDocumentCollection without timestamp"));
 
     String output = runInTempDirectory();
 
@@ -184,7 +184,7 @@ public class SummarizeLogsFromCorpusTest {
   }
 
   @Test
-  public void testSummarizeLogsFromCorpusInvalidOptionCombinations() throws Exception {
+  public void testSummarizeLogsInvalidOptionCombinations() throws Exception {
     Path logsDir = temporaryWorkingDirectory.resolve("logs");
     Files.createDirectory(logsDir);
 
@@ -197,13 +197,13 @@ public class SummarizeLogsFromCorpusTest {
   }
 
   @Test
-  public void testSummarizeLogsFromCorpusTextAlias() throws Exception {
+  public void testSummarizeLogsTextAlias() throws Exception {
     Path logsDir = temporaryWorkingDirectory.resolve("logs");
     Files.createDirectory(logsDir);
 
-    writeLog(logsDir.resolve("log.corpus.1"), List.of(
-        "2026-03-01 10:00:00,100 Starting RunReproductionFromCorpus for topic 1",
-        "2026-03-01 10:00:01,200 RunReproductionFromCorpus" + ReproductionUtils.Constants.OK + " completed topic 1"));
+    writeLog(logsDir.resolve("log.from-document-collection.1"), List.of(
+        "2026-03-01 10:00:00,100 Starting ReproduceFromDocumentCollection for topic 1",
+        "2026-03-01 10:00:01,200 ReproduceFromDocumentCollection" + ReproductionUtils.Constants.OK + " completed topic 1"));
 
     String output = runInTempDirectory("--text");
     assertTrue(Pattern.compile("Total regressions:\\s+1").matcher(output).find());
@@ -240,7 +240,7 @@ public class SummarizeLogsFromCorpusTest {
       System.setOut(redirectedOut);
       System.setErr(redirectedErr);
 
-      SummarizeLogsFromCorpus.main(args);
+      SummarizeLogsFromDocumentCollection.main(args);
     } finally {
       System.setOut(previousOut);
       System.setErr(previousErr);

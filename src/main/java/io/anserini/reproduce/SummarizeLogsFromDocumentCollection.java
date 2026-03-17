@@ -39,8 +39,8 @@ import org.kohsuke.args4j.ParserProperties;
 
 import io.anserini.util.LoggingBootstrap;
 
-public class SummarizeLogsFromCorpus {
-  private static final String RUN_REPRODUCTIONS_FROM_CORPUS = "RunReproductionFromCorpus";
+public class SummarizeLogsFromDocumentCollection {
+  private static final String RUN_REPRODUCTIONS_FROM_COLLECTION = "ReproduceFromDocumentCollection";
 
   private static final DateTimeFormatter DATE_FORMAT = new DateTimeFormatterBuilder()
       .appendPattern("yyyy-MM-dd HH:mm:ss")
@@ -81,12 +81,12 @@ public class SummarizeLogsFromCorpus {
       parser.parseArgument(args);
     } catch (CmdLineException e) {
       System.err.println(String.format("Error: %s", e.getMessage()));
-      ReproductionUtils.printUsage(parser, SummarizeLogsFromCorpus.class, argsOrdering);
+      ReproductionUtils.printUsage(parser, SummarizeLogsFromDocumentCollection.class, argsOrdering);
       return;
     }
 
     if (parsedArgs.help) {
-      ReproductionUtils.printUsage(parser, SummarizeLogsFromCorpus.class, argsOrdering);
+      ReproductionUtils.printUsage(parser, SummarizeLogsFromDocumentCollection.class, argsOrdering);
       return;
     }
 
@@ -119,7 +119,7 @@ public class SummarizeLogsFromCorpus {
         String lastRunRegressionsLine = null;
         try (var lines = Files.lines(logFile, StandardCharsets.UTF_8)) {
           for (String line : (Iterable<String>) lines::iterator) {
-            if (!line.contains(RUN_REPRODUCTIONS_FROM_CORPUS)) {
+            if (!line.contains(RUN_REPRODUCTIONS_FROM_COLLECTION)) {
               continue;
             }
             if (firstRunRegressionsLine == null) {

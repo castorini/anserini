@@ -49,8 +49,8 @@ import io.anserini.search.SearchCollection;
 import io.anserini.search.topicreader.TopicReader;
 import io.anserini.search.topicreader.Topics;
 
-public class RunReproductionFromCorpusTest extends StdOutStdErrRedirectableLuceneTestCase {
-  private static final String[] CACM_IN_REPO_CORPUS_EXPECTED_RUNS = {
+public class ReproduceFromDocumentCollectionTest extends StdOutStdErrRedirectableLuceneTestCase {
+  private static final String[] CACM_COLLECTION_IN_REPO_EXPECTED_RUNS = {
     "runs/run.inverted.cacm.cacm.bm25",
     "runs/run.inverted.cacm.cacm.bm25+rm3",
     "runs/run.inverted.cacm.cacm.bm25+ax",
@@ -59,7 +59,7 @@ public class RunReproductionFromCorpusTest extends StdOutStdErrRedirectableLucen
     "runs/run.inverted.cacm.cacm.ql+ax"
   };
 
-  private static final String[] CACM_CORPUS_DOWNLOAD_EXPECTED_RUNS = {
+  private static final String[] CACM_COLLECTION_DOWNLOAD_EXPECTED_RUNS = {
     "runs/run.inverted.cacm.download.cacm.bm25",
     "runs/run.inverted.cacm.download.cacm.bm25+rm3",
     "runs/run.inverted.cacm.download.cacm.bm25+ax",
@@ -74,7 +74,7 @@ public class RunReproductionFromCorpusTest extends StdOutStdErrRedirectableLucen
   public static void setupClass() {
     suppressJvmLogging();
 
-    Configurator.setLevel(RunReproductionFromCorpus.class.getName(), Level.ERROR);
+    Configurator.setLevel(ReproduceFromDocumentCollection.class.getName(), Level.ERROR);
     Configurator.setLevel(AbstractIndexer.class.getName(), Level.ERROR);
     Configurator.setLevel(IndexCollection.class.getName(), Level.ERROR);
     Configurator.setLevel(SearchCollection.class.getName(), Level.ERROR);
@@ -95,20 +95,36 @@ public class RunReproductionFromCorpusTest extends StdOutStdErrRedirectableLucen
   }
 
   @Test
-  public void testHelp() throws Exception {
-    RunReproductionFromCorpus.main(new String[] {"--help"});
+  public void testInvalidOption() throws Exception {
+    ReproduceFromDocumentCollection.main(new String[] {"--invalid"});
 
-    assertTrue(err.toString().contains("Options for RunReproductionFromCorpus:"));
+    assertTrue(err.toString().startsWith("Error: \"--invalid\" is not a valid option"));
+    assertTrue(err.toString().contains("Options for ReproduceFromDocumentCollection:"));
+  }
+
+  @Test
+  public void testConfigRequiredUnlessListSpecified() throws Exception {
+    ReproduceFromDocumentCollection.main(new String[0]);
+
+    assertTrue(err.toString().contains("Error: Option \"--config\" is required unless \"--list\" is specified."));
+    assertTrue(err.toString().contains("Options for ReproduceFromDocumentCollection:"));
+  }
+
+  @Test
+  public void testHelp() throws Exception {
+    ReproduceFromDocumentCollection.main(new String[] {"--help"});
+
+    assertTrue(err.toString().contains("Options for ReproduceFromDocumentCollection:"));
     assertTrue(err.toString().contains("--help"));
   }
 
   @Test
   public void testListConfigs() throws Exception {
-    RunReproductionFromCorpus.main(new String[] {"--list"});
+    ReproduceFromDocumentCollection.main(new String[] {"--list"});
 
     List<?> outputConfigs = new ObjectMapper().readValue(out.toString(), List.class);
     List<String> expectedConfigs = ReproductionUtils.listYamlConfigs(
-        RunReproductionFromCorpus.class, "reproduce/from-corpus/configs");
+        ReproduceFromDocumentCollection.class, "reproduce/from-document-collection/configs");
     assertEquals(expectedConfigs.size(), outputConfigs.size());
   }
 
@@ -117,36 +133,36 @@ public class RunReproductionFromCorpusTest extends StdOutStdErrRedirectableLucen
     SortedMap<Integer, Map<String, String>> topics = TopicReader.getTopics(Topics.CACM);
     assertNotNull(topics);
 
-    RunReproductionFromCorpus.main(new String[] {"--config", "cacm", "--index", "--search", "--dry-run"});
+    ReproduceFromDocumentCollection.main(new String[] {"--config", "cacm", "--index", "--search", "--dry-run"});
   }
 
   @Test
-  public void testCacmRegressionFromCorpus() throws Exception {
+  public void testCacmRegressionInRepo() throws Exception {
     SortedMap<Integer, Map<String, String>> topics = TopicReader.getTopics(Topics.CACM);
     assertNotNull(topics);
 
-    RunReproductionFromCorpus.main(new String[] {"--config", "cacm", "--index", "--search"});
+    ReproduceFromDocumentCollection.main(new String[] {"--config", "cacm", "--index", "--search"});
 
-    assertRunsExistAndNonEmpty(CACM_IN_REPO_CORPUS_EXPECTED_RUNS);
+    assertRunsExistAndNonEmpty(CACM_COLLECTION_IN_REPO_EXPECTED_RUNS);
     assertTrecEvalP30(CACM_QRELS_PATH, "runs/run.inverted.cacm.cacm.bm25", "0.1942");
 
-    deleteRunsIfExists(CACM_IN_REPO_CORPUS_EXPECTED_RUNS);
+    deleteRunsIfExists(CACM_COLLECTION_IN_REPO_EXPECTED_RUNS);
     deleteDirectoryIfExists(Paths.get("indexes/lucene-inverted.cacm/"));
   }
 
   @Test
-  public void testCacmRegressionFromCorpusDownload() throws Exception {
+  public void testCacmRegressionFromDownload() throws Exception {
     assumeGithubReachable();
 
     SortedMap<Integer, Map<String, String>> topics = TopicReader.getTopics(Topics.CACM);
     assertNotNull(topics);
 
-    RunReproductionFromCorpus.main(new String[] {"--config", "cacm-download", "--download", "--index", "--search"});
+    ReproduceFromDocumentCollection.main(new String[] {"--config", "cacm-download", "--download", "--index", "--search"});
 
-    assertRunsExistAndNonEmpty(CACM_CORPUS_DOWNLOAD_EXPECTED_RUNS);
+    assertRunsExistAndNonEmpty(CACM_COLLECTION_DOWNLOAD_EXPECTED_RUNS);
     assertTrecEvalP30(CACM_QRELS_PATH, "runs/run.inverted.cacm.download.cacm.bm25", "0.1942");
 
-    deleteRunsIfExists(CACM_CORPUS_DOWNLOAD_EXPECTED_RUNS);
+    deleteRunsIfExists(CACM_COLLECTION_DOWNLOAD_EXPECTED_RUNS);
     deleteDirectoryIfExists(Paths.get("indexes/lucene-inverted.cacm.download/"));
     deleteDirectoryIfExists(Paths.get("collections/cacm/"));
 
@@ -162,7 +178,7 @@ public class RunReproductionFromCorpusTest extends StdOutStdErrRedirectableLucen
   }
 
   @Test
-  public void testCacmRegressionFromCorpusFatjar() throws Exception {
+  public void testCacmRegressionFromFatjar() throws Exception {
     SortedMap<Integer, Map<String, String>> topics = TopicReader.getTopics(Topics.CACM);
     assertNotNull(topics);
 
@@ -187,7 +203,7 @@ public class RunReproductionFromCorpusTest extends StdOutStdErrRedirectableLucen
     command.add(Paths.get(System.getProperty("java.home"), "bin", "java").toString());
     command.add("-cp");
     command.add(classPath);
-    command.add("io.anserini.reproduce.RunReproductionFromCorpus");
+    command.add("io.anserini.reproduce.ReproduceFromDocumentCollection");
     command.add("--index");
     command.add("--verify");
     command.add("--search");
@@ -206,8 +222,8 @@ public class RunReproductionFromCorpusTest extends StdOutStdErrRedirectableLucen
     int exitCode = process.exitValue();
     assertEquals(0, exitCode);
 
-    assertRunsExistAndNonEmpty(CACM_IN_REPO_CORPUS_EXPECTED_RUNS);
-    deleteRunsIfExists(CACM_IN_REPO_CORPUS_EXPECTED_RUNS);
+    assertRunsExistAndNonEmpty(CACM_COLLECTION_IN_REPO_EXPECTED_RUNS);
+    deleteRunsIfExists(CACM_COLLECTION_IN_REPO_EXPECTED_RUNS);
     deleteDirectoryIfExists(Paths.get("indexes/lucene-inverted.cacm/"));
   }
 

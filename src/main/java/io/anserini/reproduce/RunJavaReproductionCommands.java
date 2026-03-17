@@ -46,7 +46,7 @@ import io.anserini.util.LoggingBootstrap;
 public class RunJavaReproductionCommands {
   private static final Logger LOG = LogManager.getLogger(RunJavaReproductionCommands.class);
   private static final String[] COMMAND_CONFIG_DIRECTORIES = new String[] {
-      "reproduce/from-corpus/commands",
+      "reproduce/from-document-collection/commands",
       "reproduce/from-prebuilt-indexes/commands"
   };
 
@@ -229,7 +229,7 @@ public class RunJavaReproductionCommands {
     } else {
       String[] resourceCandidates = new String[] {
           resource,
-          "reproduce/from-corpus/commands/" + resource + ".txt",
+          "reproduce/from-document-collection/commands/" + resource + ".txt",
           "reproduce/from-prebuilt-indexes/commands/" + resource + ".txt"
       };
 
@@ -276,7 +276,7 @@ public class RunJavaReproductionCommands {
           command = String.format("%s --runs-directory %s", command, runsDirectory);
         }
 
-        String logFile = Paths.get(logsDirectory, String.format("log.%s.%s.txt", fromPrebuilt ? "from-prebuilt-indexes" : "from-corpus", configName)).toString();
+        String logFile = Paths.get(logsDirectory, String.format("log.%s.%s.txt", fromPrebuilt ? "from-prebuilt-indexes" : "from-document-collection", configName)).toString();
         commands.add(String.format("%s %s %s %s > %s 2>&1", ReproductionUtils.Constants.JAVA_PREFIX, fatjarPath, ReproductionUtils.Constants.JVM_ARGS, command, logFile));
       }
     }
