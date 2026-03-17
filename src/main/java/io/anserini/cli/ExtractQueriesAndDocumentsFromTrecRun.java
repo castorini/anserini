@@ -14,20 +14,7 @@
  * limitations under the License.
  */
 
-package io.anserini.rerank;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.lucene.index.IndexReader;
-import org.kohsuke.args4j.CmdLineException;
-import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.Option;
-import org.kohsuke.args4j.ParserProperties;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+package io.anserini.cli;
 
 import java.io.BufferedReader;
 import java.io.Closeable;
@@ -43,18 +30,29 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
-import java.util.TreeMap;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.lucene.index.IndexReader;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.ParserProperties;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.anserini.index.Constants;
 import io.anserini.index.IndexReaderUtils;
 import io.anserini.index.prebuilt.PrebuiltInvertedIndex;
 import io.anserini.search.ScoredDoc;
-import io.anserini.search.topicreader.TopicReader;
 import io.anserini.search.topicreader.Topics;
 import io.anserini.util.PrebuiltIndexHandler;
 
-public class GenerateRerankerRequests<K extends Comparable<K>> implements Closeable {
-  private static final Logger LOG = LogManager.getLogger(GenerateRerankerRequests.class);
+public class ExtractQueriesAndDocumentsFromTrecRun<K extends Comparable<K>> implements Closeable {
+  private static final Logger LOG = LogManager.getLogger(ExtractQueriesAndDocumentsFromTrecRun.class);
 
   public static class Args {
     @Option(name = "-index", required = true, usage = "Name or path of Lucene index with raw documents")
@@ -89,11 +87,12 @@ public class GenerateRerankerRequests<K extends Comparable<K>> implements Closea
   private IndexReader indexReader;
   private PrintWriter output;
 
-  public GenerateRerankerRequests(Args args) throws IOException {
+  public ExtractQueriesAndDocumentsFromTrecRun(Args args) throws IOException {
     this.args = args;
     this.indexReader = getIndexReader(args.index);
     this.output = new PrintWriter(Files.newBufferedWriter(Paths.get(args.output), StandardCharsets.UTF_8));
     this.candidates = new ArrayList<>();
+
     getTopics(args.topics);
   }
 
@@ -189,29 +188,8 @@ public class GenerateRerankerRequests<K extends Comparable<K>> implements Closea
   }
 
   public void getTopics(String topicsFile) throws IOException {
-    SortedMap<K, Map<String, String>> topics = new TreeMap<>();
-    Path topicsFilePath = Paths.get(topicsFile);
-    if (!Files.exists(topicsFilePath) || !Files.isRegularFile(topicsFilePath) || !Files.isReadable(topicsFilePath)) {
-        Topics ref = Topics.getBaseTopics(topicsFile);
-        if (ref==null) {
-          throw new IllegalArgumentException(String.format("\"%s\" does not refer to valid topics.", topicsFile));
-        } else {
-          LOG.info("Generating reranker requests with raw topics from: " + ref.toString());
-          topics.putAll(TopicReader.getTopics(ref));
-        }
-    } else {
-        try {
-          @SuppressWarnings("unchecked")
-          TopicReader<K> tr = (TopicReader<K>) Class
-              .forName(String.format("io.anserini.search.topicreader.%sTopicReader", args.topicReader))
-              .getConstructor(Path.class).newInstance(topicsFilePath);
-
-          LOG.info("Generating reranker requests with raw topics from: " + topicsFilePath.toString());
-          topics.putAll(tr.read());
-        } catch (Exception e) {
-          throw new IllegalArgumentException(String.format("Unable to load topic reader \"%s\".", args.topicReader));
-        }
-    }
+    SortedMap<K, Map<String, String>> topics = Topics.resolve(topicsFile, args.topicReader);
+    LOG.info("Generating reranker requests with raw topics from: {}", topicsFile);
 
     try {
       topics.forEach((qid, topic) -> {
@@ -276,7 +254,7 @@ public class GenerateRerankerRequests<K extends Comparable<K>> implements Closea
       parser.parseArgument(args);
     } catch (CmdLineException e) {
       if (generateArgs.options) {
-        System.err.printf("Options for %s:\n\n", GenerateRerankerRequests.class.getSimpleName());
+        System.err.printf("Options for %s:\n\n", ExtractQueriesAndDocumentsFromTrecRun.class.getSimpleName());
         parser.printUsage(System.err);
 
         List<String> required = new ArrayList<>();
@@ -294,7 +272,7 @@ public class GenerateRerankerRequests<K extends Comparable<K>> implements Closea
       return;
     }
 
-    try(GenerateRerankerRequests<?> generator = new GenerateRerankerRequests<>(generateArgs)){
+    try(ExtractQueriesAndDocumentsFromTrecRun<?> generator = new ExtractQueriesAndDocumentsFromTrecRun<>(generateArgs)){
       generator.run();
     } catch (Exception e) {
       System.err.printf("Error: %s\n", e.getMessage());

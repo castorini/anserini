@@ -18,6 +18,9 @@ package io.anserini.search.topicreader;
 
 import org.junit.Test;
 
+import java.util.Map;
+import java.util.SortedMap;
+
 import static io.anserini.search.topicreader.Topics.*;
 import static org.junit.Assert.assertEquals;
 
@@ -46,5 +49,27 @@ public class TopicsTest {
     assertEquals(TREC2022_DL, Topics.getByName("dl22-doc"));
     assertEquals(TREC2023_DL, Topics.getByName("dl23-passage"));
     assertEquals(TREC2023_DL, Topics.getByName("dl23-doc"));
+  }
+
+  @Test
+  public void testResolveMsMarcoV1Passage1() {
+    SortedMap<Integer, Map<String, String>> topics = Topics.resolve("msmarco-v1-passage.dev");
+
+    assertEquals(6980, topics.size());
+    assertEquals(Integer.valueOf(2), topics.firstKey());
+    assertEquals("Androgen receptor define", topics.get(topics.firstKey()).get("title"));
+    assertEquals(Integer.valueOf(1102400), topics.lastKey());
+    assertEquals("why do bears hibernate", topics.get(topics.lastKey()).get("title"));
+  }
+
+    @Test
+  public void testResolveMsMarcoV1Passage2() {
+    SortedMap<Integer, Map<String, String>> topics = Topics.resolve("MSMARCO_PASSAGE_DEV_SUBSET");
+
+    assertEquals(6980, topics.size());
+    assertEquals(Integer.valueOf(2), topics.firstKey());
+    assertEquals("Androgen receptor define", topics.get(topics.firstKey()).get("title"));
+    assertEquals(Integer.valueOf(1102400), topics.lastKey());
+    assertEquals("why do bears hibernate", topics.get(topics.lastKey()).get("title"));
   }
 }

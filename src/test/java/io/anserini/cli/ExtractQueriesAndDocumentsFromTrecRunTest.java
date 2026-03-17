@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.anserini.rerank;
+package io.anserini.cli;
 
 import static org.junit.Assert.assertTrue;
 
@@ -33,7 +33,7 @@ import org.junit.Test;
 
 import io.anserini.TestUtils;
 
-public class GenerateRerankerRequestsTest {
+public class ExtractQueriesAndDocumentsFromTrecRunTest {
   // Note, cannot extend StdOutStdErrRedirectableLuceneTestCase due to concurrency issues.
   // So, we have to duplicate code to save/restore stderr/stdout.
 
@@ -64,7 +64,7 @@ public class GenerateRerankerRequestsTest {
 
   @BeforeClass
   public static void setupClass() {
-    Configurator.setLevel(GenerateRerankerRequests.class.getName(), Level.ERROR);
+    Configurator.setLevel(ExtractQueriesAndDocumentsFromTrecRun.class.getName(), Level.ERROR);
   }
 
   @Before
@@ -81,27 +81,13 @@ public class GenerateRerankerRequestsTest {
 
   @Test
   public void testPrebuilt() throws Exception {
-    GenerateRerankerRequests.Args args = new GenerateRerankerRequests.Args();
+    ExtractQueriesAndDocumentsFromTrecRun.Args args = new ExtractQueriesAndDocumentsFromTrecRun.Args();
     args.index = "cacm";
     args.run = "src/test/resources/sample_runs/run4";
     args.topics = "cacm";
     args.output = "test_reranker_requests.jsonl";
 
-    GenerateRerankerRequests<String> outputRerankerRequests = new GenerateRerankerRequests<>(args);
-    outputRerankerRequests.close();
-    assertTrue(!err.toString().contains("Error: "));
-    assertTrue(new File("test_reranker_requests.jsonl").delete());
-  }
-
-  @Test
-  public void testParseTopics() throws Exception {
-    GenerateRerankerRequests.Args args = new GenerateRerankerRequests.Args();
-    args.index = "cacm";
-    args.run = "src/test/resources/sample_runs/run4";
-    args.topics = "cacm.bge-base-en-v1.5";
-    args.output = "test_reranker_requests.jsonl";
-
-    GenerateRerankerRequests<String> outputRerankerRequests = new GenerateRerankerRequests<>(args);
+    ExtractQueriesAndDocumentsFromTrecRun<String> outputRerankerRequests = new ExtractQueriesAndDocumentsFromTrecRun<>(args);
     outputRerankerRequests.close();
     assertTrue(!err.toString().contains("Error: "));
     assertTrue(new File("test_reranker_requests.jsonl").delete());
@@ -109,13 +95,13 @@ public class GenerateRerankerRequestsTest {
 
   @Test
   public void testLocalIndex() throws Exception {
-    GenerateRerankerRequests.Args args = new GenerateRerankerRequests.Args();
+    ExtractQueriesAndDocumentsFromTrecRun.Args args = new ExtractQueriesAndDocumentsFromTrecRun.Args();
     args.index = "src/test/resources/prebuilt_indexes/raw-beir-collection1-index";
     args.run = "src/test/resources/sample_runs/run4";
     args.topics = "cacm";
     args.output = "test_reranker_requests.jsonl";
 
-    GenerateRerankerRequests<String> outputRerankerRequests = new GenerateRerankerRequests<>(args);
+    ExtractQueriesAndDocumentsFromTrecRun<String> outputRerankerRequests = new ExtractQueriesAndDocumentsFromTrecRun<>(args);
     outputRerankerRequests.close();
     assertTrue(!err.toString().contains("Error: "));
     assertTrue(new File("test_reranker_requests.jsonl").delete());
@@ -123,13 +109,13 @@ public class GenerateRerankerRequestsTest {
 
   @Test
   public void testLocalTopics() throws Exception {
-    GenerateRerankerRequests.Args args = new GenerateRerankerRequests.Args();
+    ExtractQueriesAndDocumentsFromTrecRun.Args args = new ExtractQueriesAndDocumentsFromTrecRun.Args();
     args.index = "cacm";
     args.run = "src/test/resources/sample_runs/run4";
     args.topics = "src/test/resources/sample_topics/acl_topics.tsv";
     args.output = "test_reranker_requests.jsonl";
 
-    GenerateRerankerRequests<String> outputRerankerRequests = new GenerateRerankerRequests<>(args);
+    ExtractQueriesAndDocumentsFromTrecRun<String> outputRerankerRequests = new ExtractQueriesAndDocumentsFromTrecRun<>(args);
     outputRerankerRequests.close();
     assertTrue(!err.toString().contains("Error: "));
     assertTrue(new File("test_reranker_requests.jsonl").delete());
@@ -144,7 +130,7 @@ public class GenerateRerankerRequestsTest {
         "-output", "test_reranker_requests.jsonl"
     };
 
-    GenerateRerankerRequests.main(rerankArgs);
+    ExtractQueriesAndDocumentsFromTrecRun.main(rerankArgs);
     assertTrue(err.toString().contains("Raw document with docid "));
     assertTrue(err.toString().contains("not found in index."));
     assertTrue(new File("test_reranker_requests.jsonl").delete());
@@ -159,7 +145,7 @@ public class GenerateRerankerRequestsTest {
         "-output", "test_reranker_requests.jsonl"
     };
 
-    GenerateRerankerRequests.main(rerankArgs);
+    ExtractQueriesAndDocumentsFromTrecRun.main(rerankArgs);
     assertTrue(err.toString().contains("Query ID not found in the list of topics:"));
     assertTrue(new File("test_reranker_requests.jsonl").delete());
   }
@@ -173,7 +159,7 @@ public class GenerateRerankerRequestsTest {
         "-output", "test_reranker_requests.jsonl"
     };
 
-    GenerateRerankerRequests.main(rerankArgs);
+    ExtractQueriesAndDocumentsFromTrecRun.main(rerankArgs);
     assertTrue(!err.toString().contains("Error: "));
     
     try {
@@ -199,7 +185,7 @@ public class GenerateRerankerRequestsTest {
         "-output", "test_reranker_requests.jsonl"
     };
 
-    GenerateRerankerRequests.main(rerankArgs);
+    ExtractQueriesAndDocumentsFromTrecRun.main(rerankArgs);
     assertTrue(!err.toString().contains("Error: "));
 
     String output = Files.readString(Paths.get("test_reranker_requests.jsonl"));
@@ -225,13 +211,13 @@ public class GenerateRerankerRequestsTest {
         throw new IllegalStateException("Failed to create test directory: " + localDir.getAbsolutePath());
       }
 
-      GenerateRerankerRequests.Args args = new GenerateRerankerRequests.Args();
+      ExtractQueriesAndDocumentsFromTrecRun.Args args = new ExtractQueriesAndDocumentsFromTrecRun.Args();
       args.index = prebuiltLabel; // Ambiguous: label exists and local dir exists
       args.run = "src/test/resources/sample_runs/run4";
       args.topics = "cacm";
       args.output = "test_reranker_requests.jsonl";
 
-      try (GenerateRerankerRequests<?> ignored = new GenerateRerankerRequests<>(args)) {
+      try (ExtractQueriesAndDocumentsFromTrecRun<?> ignored = new ExtractQueriesAndDocumentsFromTrecRun<>(args)) {
         assertTrue("Expected IllegalArgumentException due to ambiguous index reference", false);
       } catch (IllegalArgumentException e) {
         assertTrue(e.getMessage().contains("Ambiguous index reference"));

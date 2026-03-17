@@ -114,7 +114,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
-import java.util.TreeMap;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -1081,33 +1080,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       args.axiom_deterministic = false;
     }
 
-    // We might not be able to successfully read topics for a variety of reasons. Gather all possible
-    // exceptions together as an unchecked exception to make initialization and error reporting clearer.
-    topics = new TreeMap<>();
-    for (String topicsFile : args.topics) {
-      Path topicsFilePath = Paths.get(topicsFile);
-      if (!Files.exists(topicsFilePath) || !Files.isRegularFile(topicsFilePath) || !Files.isReadable(topicsFilePath)) {
-        Topics ref = Topics.getByName(topicsFile);
-        if (ref == null) {
-          throw new IllegalArgumentException(String.format("\"%s\" does not refer to valid topics.", topicsFilePath));
-        } else {
-          topics.putAll(TopicReader.getTopics(ref));
-        }
-      } else {
-        if (args.topicReader == null) {
-          throw new IllegalArgumentException("Must specify the topic reader using -topicReader.");
-        }
-        try {
-          TopicReader<K> tr = (TopicReader<K>) Class
-              .forName(String.format("io.anserini.search.topicreader.%sTopicReader", args.topicReader))
-              .getConstructor(Path.class).newInstance(topicsFilePath);
-
-          topics.putAll(tr.read());
-        } catch (Exception e) {
-          throw new IllegalArgumentException(String.format("Unable to load topic reader \"%s\".", args.topicReader));
-        }
-      }
-    }
+    topics = Topics.resolve(args.topics, args.topicReader);
   }
 
   @Override
