@@ -81,15 +81,23 @@ public class ExtractQueriesAndDocumentsFromTrecRunTest {
   }
 
   @Test
-  public void testPrebuilt() throws Exception {
-    String[] rerankArgs = new String[] {
+  public void testHelpOption() throws Exception {
+    ExtractQueriesAndDocumentsFromTrecRun.main(new String[] {"--help"});
+    assertTrue(err.toString().contains("Options for ExtractQueriesAndDocumentsFromTrecRun:"));
+    assertTrue(err.toString().contains("--help"));
+    assertTrue(!err.toString().contains("Option \"--index\" is required"));
+  }
+
+  @Test
+  public void testPrebuiltIndex() throws Exception {
+    String[] args = new String[] {
         "--index", "cacm",
         "--run", "src/test/resources/sample_runs/cacm/cacm-bm25.txt",
         "--topics", "cacm",
         "--output", "test_reranker_requests.jsonl"
     };
 
-    ExtractQueriesAndDocumentsFromTrecRun.main(rerankArgs);
+    ExtractQueriesAndDocumentsFromTrecRun.main(args);
     assertTrue(!err.toString().contains("Error: "));
     assertTrue(new File("test_reranker_requests.jsonl").isFile());
     assertTrue(new File("test_reranker_requests.jsonl").delete());
@@ -97,14 +105,14 @@ public class ExtractQueriesAndDocumentsFromTrecRunTest {
 
   @Test
   public void testLocalIndex() throws Exception {
-    String[] rerankArgs = new String[] {
+    String[] args = new String[] {
         "--index", "src/test/resources/prebuilt_indexes/raw-beir-collection1-index",
         "--run", "src/test/resources/sample_runs/run5",
         "--topics", "src/test/resources/sample_topics/acl_topics.tsv",
         "--output", "test_reranker_requests.jsonl"
     };
 
-    ExtractQueriesAndDocumentsFromTrecRun.main(rerankArgs);
+    ExtractQueriesAndDocumentsFromTrecRun.main(args);
     assertTrue(!err.toString().contains("Error: "));
     assertTrue(new File("test_reranker_requests.jsonl").isFile());
     assertTrue(new File("test_reranker_requests.jsonl").delete());
@@ -112,14 +120,14 @@ public class ExtractQueriesAndDocumentsFromTrecRunTest {
 
   @Test
   public void testLocalTopics() throws Exception {
-    String[] rerankArgs = new String[] {
+    String[] args = new String[] {
         "--index", "src/test/resources/prebuilt_indexes/raw-beir-collection1-index",
         "--run", "src/test/resources/sample_runs/run5",
         "--topics", "src/test/resources/sample_topics/acl_topics.tsv",
         "--output", "test_reranker_requests.jsonl"
     };
 
-    ExtractQueriesAndDocumentsFromTrecRun.main(rerankArgs);
+    ExtractQueriesAndDocumentsFromTrecRun.main(args);
     assertTrue(!err.toString().contains("Error: "));
     assertTrue(new File("test_reranker_requests.jsonl").isFile());
     assertTrue(new File("test_reranker_requests.jsonl").delete());
@@ -127,43 +135,45 @@ public class ExtractQueriesAndDocumentsFromTrecRunTest {
 
   @Test
   public void testBadIndex() throws Exception {
-    String[] rerankArgs = new String[] {
+    String[] args = new String[] {
         "--index", "src/test/resources/prebuilt_indexes/lucene9-index.sample_docs_trec_collection2/",
         "--run", "src/test/resources/sample_runs/run4",
         "--topics", "src/test/resources/sample_topics/acl_topics.tsv",
         "--output", "test_reranker_requests.jsonl"
     };
 
-    ExtractQueriesAndDocumentsFromTrecRun.main(rerankArgs);
-    assertTrue(err.toString().contains("Raw document with docid "));
-    assertTrue(err.toString().contains("not found in index."));
+    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+        () -> ExtractQueriesAndDocumentsFromTrecRun.main(args));
+    assertTrue(exception.getMessage().contains("Raw document with docid "));
+    assertTrue(exception.getMessage().contains("not found in index."));
     assertTrue(new File("test_reranker_requests.jsonl").delete());
   }
 
   @Test
   public void testBadTopics() throws Exception {
-    String[] rerankArgs = new String[] {
+    String[] args = new String[] {
         "--index", "src/test/resources/prebuilt_indexes/raw-beir-collection1-index",
         "--run", "src/test/resources/sample_runs/run1",
         "--topics", "src/test/resources/sample_topics/acl_topics.tsv",
         "--output", "test_reranker_requests.jsonl"
     };
 
-    ExtractQueriesAndDocumentsFromTrecRun.main(rerankArgs);
-    assertTrue(err.toString().contains("Unable to find query for query1"));
+    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+        () -> ExtractQueriesAndDocumentsFromTrecRun.main(args));
+    assertTrue(exception.getMessage().contains("Unable to find query for query1"));
     assertTrue(new File("test_reranker_requests.jsonl").delete());
   }
 
   @Test
   public void testGenerate() throws Exception {
-    String[] rerankArgs = new String[] {
+    String[] args = new String[] {
         "--index", "src/test/resources/prebuilt_indexes/raw-beir-collection1-index",
         "--run", "src/test/resources/sample_runs/run5",
         "--topics", "src/test/resources/sample_topics/acl_topics.tsv",
         "--output", "test_reranker_requests.jsonl"
     };
 
-    ExtractQueriesAndDocumentsFromTrecRun.main(rerankArgs);
+    ExtractQueriesAndDocumentsFromTrecRun.main(args);
     assertTrue(!err.toString().contains("Error: "));
 
     String output = Files.readString(Paths.get("test_reranker_requests.jsonl"));
@@ -178,14 +188,14 @@ public class ExtractQueriesAndDocumentsFromTrecRunTest {
 
   @Test
   public void testGenerateWithNonJsonRawDocuments() throws Exception {
-    String[] rerankArgs = new String[] {
+    String[] args = new String[] {
         "--index", "cacm",
         "--run", "src/test/resources/sample_runs/cacm/cacm-bm25.txt",
         "--topics", "cacm",
         "--output", "test_reranker_requests.jsonl"
     };
 
-    ExtractQueriesAndDocumentsFromTrecRun.main(rerankArgs);
+    ExtractQueriesAndDocumentsFromTrecRun.main(args);
     assertTrue(!err.toString().contains("Error: "));
 
     String output = Files.readString(Paths.get("test_reranker_requests.jsonl"));
@@ -211,15 +221,16 @@ public class ExtractQueriesAndDocumentsFromTrecRunTest {
         throw new IllegalStateException("Failed to create test directory: " + localDir.getAbsolutePath());
       }
 
-      String[] rerankArgs = new String[] {
+      String[] args = new String[] {
           "--index", prebuiltLabel,
           "--run", "src/test/resources/sample_runs/run4",
           "--topics", "cacm",
           "--output", "test_reranker_requests.jsonl"
       };
 
-      ExtractQueriesAndDocumentsFromTrecRun.main(rerankArgs);
-      assertTrue(err.toString().contains("Ambiguous index reference"));
+      IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+          () -> ExtractQueriesAndDocumentsFromTrecRun.main(args));
+      assertTrue(exception.getMessage().contains("Ambiguous index reference"));
     } finally {
       if (localDir.exists()) {
         assertTrue(localDir.delete());

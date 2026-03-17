@@ -17,12 +17,10 @@
 package io.anserini.cli;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -48,6 +46,10 @@ import io.anserini.util.LoggingBootstrap;
 
 public final class ExtractQueriesAndDocumentsFromTrecRun {
   private static final Logger LOG = LogManager.getLogger(ExtractQueriesAndDocumentsFromTrecRun.class);
+
+  private ExtractQueriesAndDocumentsFromTrecRun() {
+    throw new UnsupportedOperationException();
+  }
 
   public static class Args {
     @Option(name = "--index", metaVar = "[index]", required = true, usage = "Lucene index with raw documents.")
@@ -78,116 +80,6 @@ public final class ExtractQueriesAndDocumentsFromTrecRun {
   private static final String[] argsOrdering = new String[] {
     "--index", "--run", "--topics", "--topic-reader", "--topic-field", "--output", "--hits", "--help"};
 
-  private static final class CliContext implements AutoCloseable {
-    private final Args args;
-    private final SortedMap<String, Map<String, String>> topics;
-    private final ObjectMapper mapper = new ObjectMapper();
-    private final IndexReader indexReader;
-    private final PrintWriter output;
-    private List<Map<String, Object>> candidates = new ArrayList<>();
-
-    private CliContext(Args args) throws IOException {
-      this.args = args;
-      this.indexReader = getIndexReader(args.index);
-      this.output = new PrintWriter(Files.newBufferedWriter(Paths.get(args.output), StandardCharsets.UTF_8));
-      this.topics = getTopics(args.topics, args.topicReader);
-    }
-
-    @Override
-    public void close() {
-      output.close();
-    }
-  }
-
-  private static void addCandidate(CliContext context, String docid, float score) throws IOException {
-    String raw = IndexReaderUtils.documentRaw(context.indexReader, docid);
-    if (raw == null) {
-      throw new IllegalArgumentException("Raw document with docid " + docid + " not found in index.");
-    }
-    Map<String, Object> candidate = new LinkedHashMap<>();
-    candidate.put("docid", docid);
-    candidate.put("score", score);
-    Object doc = raw;
-    if (!raw.isEmpty()) {
-      int offset = 0;
-      while (offset < raw.length() && Character.isWhitespace(raw.charAt(offset))) {
-        offset++;
-      }
-      if (offset < raw.length()) {
-        char first = raw.charAt(offset);
-        if (first == '{' || first == '[' || first == '"' || first == '-' || (first >= '0' && first <= '9')
-            || first == 't' || first == 'f' || first == 'n') {
-          try {
-            doc = context.mapper.readValue(raw, Object.class);
-          } catch (JsonProcessingException e) {
-            doc = raw;
-          }
-        }
-      }
-    }
-    candidate.put("doc", doc);
-    context.candidates.add(candidate);
-  }
-
-  private static void writeQuery(CliContext context, String qid) throws JsonProcessingException {
-    Map<String, String> topic = context.topics.get(qid);
-    String query = topic == null ? null : topic.get(context.args.topicField);
-    if (query == null) {
-      throw new IllegalArgumentException("Unable to find query for " + qid);
-    }
-    Map<String, Object> queryMap = new LinkedHashMap<>();
-    queryMap.put("query", new LinkedHashMap<>(Map.of("qid", qid, "text", query)));
-    queryMap.put("candidates", context.candidates);
-    context.output.println(context.mapper.writeValueAsString(queryMap));
-    context.candidates = new ArrayList<>();
-  }
-
-  private static void useRunFile(CliContext context) throws IOException {
-    Path filepath = Paths.get(context.args.run);
-    try (BufferedReader br = new BufferedReader(new FileReader(filepath.toFile()))) {
-      String line, curQid = "";
-      while ((line = br.readLine()) != null) {
-        String[] data = line.split("\\s+");
-        int rank = Integer.parseInt(data[3]);
-        if (rank > context.args.hits) {
-          continue; // Skip if rank exceeds the specified hits
-        }
-        String qid = data[0];
-        if (!curQid.equals(qid)) {
-          if (!curQid.isEmpty()) {
-            writeQuery(context, curQid);
-          }
-          curQid = qid;
-        }
-        String docid = data[2];
-        float score = Float.parseFloat(data[4]);
-        addCandidate(context, docid, score);
-      }
-      writeQuery(context, curQid);
-    }
-  }
-
-  private static SortedMap<String, Map<String, String>> getTopics(String topicsFile, String topicsReader) throws IOException {
-    SortedMap<?, Map<String, String>> resolvedTopics = Topics.resolve(topicsFile, topicsReader);
-    SortedMap<String, Map<String, String>> topics = new TreeMap<>();
-    for (Map.Entry<?, Map<String, String>> entry : resolvedTopics.entrySet()) {
-      topics.put(String.valueOf(entry.getKey()), entry.getValue());
-    }
-
-    return topics;
-  }
-
-  private static IndexReader getIndexReader(String index) throws IOException {
-    String resolvedIndex = IndexReaderUtils.getIndex(index).toString();
-
-    LOG.info("Generating reranker requests with raw documents from index: " + resolvedIndex);
-    try {
-      return IndexReaderUtils.getReader(resolvedIndex);
-    } catch (IOException e) {
-      throw new IllegalArgumentException(String.format("\"%s\" does not appear to have a valid inverted index.", resolvedIndex));
-    }
-  }
-
   public static void main(String[] args) throws IOException {
     LoggingBootstrap.installJulToSlf4jBridge();
 
@@ -212,8 +104,111 @@ public final class ExtractQueriesAndDocumentsFromTrecRun {
   }
 
   private static void run(Args args) throws IOException {
-    try (CliContext context = new CliContext(args)) {
-      useRunFile(context);
+    SortedMap<String, Map<String, String>> topics = getTopics(args.topics, args.topicReader);
+    ObjectMapper mapper = new ObjectMapper();
+    int qidCount = 0;
+    try (IndexReader indexReader = getIndexReader(args.index);
+         PrintWriter output = new PrintWriter(Files.newBufferedWriter(Paths.get(args.output), StandardCharsets.UTF_8));
+         BufferedReader br = Files.newBufferedReader(Paths.get(args.run), StandardCharsets.UTF_8)) {
+      List<Map<String, Object>> candidates = new ArrayList<>();
+      String line;
+      String curQid = "";
+      while ((line = br.readLine()) != null) {
+        String[] data = line.split("\\s+");
+        int rank = Integer.parseInt(data[3]);
+        if (rank > args.hits) {
+          continue;
+        }
+        String qid = data[0];
+        if (!curQid.equals(qid)) {
+          if (!curQid.isEmpty()) {
+            candidates = writeQuery(output, mapper, topics, args.topicField, candidates, curQid);
+            qidCount++;
+          }
+          curQid = qid;
+        }
+        addCandidate(candidates, mapper, indexReader, data[2], Float.parseFloat(data[4]));
+      }
+
+      if (!curQid.isEmpty()) {
+        writeQuery(output, mapper, topics, args.topicField, candidates, curQid);
+        qidCount++;
+      }
+    }
+
+    LOG.info("Processed {} qids.", qidCount);
+  }
+
+  private static void addCandidate(List<Map<String, Object>> candidates, ObjectMapper mapper,
+      IndexReader indexReader, String docid, float score) throws IOException {
+    String raw = IndexReaderUtils.documentRaw(indexReader, docid);
+    if (raw == null) {
+      throw new IllegalArgumentException("Raw document with docid " + docid + " not found in index.");
+    }
+
+    Map<String, Object> candidate = new LinkedHashMap<>();
+    candidate.put("docid", docid);
+    candidate.put("score", score);
+
+    Object doc = raw;
+    if (!raw.isEmpty()) {
+      int offset = 0;
+      while (offset < raw.length() && Character.isWhitespace(raw.charAt(offset))) {
+        offset++;
+      }
+      if (offset < raw.length()) {
+        char first = raw.charAt(offset);
+        if (first == '{' || first == '[' || first == '"' || first == '-' || (first >= '0' && first <= '9')
+            || first == 't' || first == 'f' || first == 'n') {
+          try {
+            doc = mapper.readValue(raw, Object.class);
+          } catch (JsonProcessingException e) {
+            doc = raw;
+          }
+        }
+      }
+    }
+
+    candidate.put("doc", doc);
+    candidates.add(candidate);
+  }
+
+  private static List<Map<String, Object>> writeQuery(PrintWriter output, ObjectMapper mapper,
+      SortedMap<String, Map<String, String>> topics, String topicField, List<Map<String, Object>> candidates,
+      String qid) throws JsonProcessingException {
+    Map<String, String> topic = topics.get(qid);
+    String query = topic == null ? null : topic.get(topicField);
+    if (query == null) {
+      throw new IllegalArgumentException("Unable to find query for " + qid);
+    }
+
+    Map<String, Object> queryMap = new LinkedHashMap<>();
+    queryMap.put("query", new LinkedHashMap<>(Map.of("qid", qid, "text", query)));
+    queryMap.put("candidates", candidates);
+    output.println(mapper.writeValueAsString(queryMap));
+
+    return new ArrayList<>();
+  }
+
+  private static SortedMap<String, Map<String, String>> getTopics(String topics, String topicsReader) throws IOException {
+    SortedMap<?, Map<String, String>> resolvedTopics = Topics.resolve(topics, topicsReader);
+    SortedMap<String, Map<String, String>> convertedTopics = new TreeMap<>();
+    for (Map.Entry<?, Map<String, String>> entry : resolvedTopics.entrySet()) {
+      convertedTopics.put(String.valueOf(entry.getKey()), entry.getValue());
+    }
+    LOG.info("Successfully loaded topics: " + topics);
+
+    return convertedTopics;
+  }
+
+  private static IndexReader getIndexReader(String index) throws IOException {
+    String resolvedIndex = IndexReaderUtils.getIndex(index).toString();
+
+    LOG.info("Fetching raw documents from index: " + resolvedIndex);
+    try {
+      return IndexReaderUtils.getReader(resolvedIndex);
+    } catch (IOException e) {
+      throw new IllegalArgumentException(String.format("\"%s\" does not appear to have a valid inverted index.", resolvedIndex));
     }
   }
 }
