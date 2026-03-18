@@ -35,14 +35,14 @@ import io.anserini.search.topicreader.TopicReader;
 import io.anserini.search.topicreader.Topics;
 import io.anserini.util.LoggingBootstrap;
 
-public final class QuerySetCatalog {
+public final class TopicsCatalog {
   private static final ObjectMapper JSON_MAPPER = new ObjectMapper();
 
   public static class Args {
-    @Option(name = "--list", usage = "List available query sets.")
+    @Option(name = "--list", usage = "List available topics.")
     public boolean list = false;
 
-    @Option(name = "--get", metaVar = "[set]", usage = "Get all queries for set.")
+    @Option(name = "--get", metaVar = "[topics]", usage = "Enumerate topics.")
     public String get = null;
 
     @Option(name = "--help", help = true, usage = "Print this help message and exit.")
@@ -74,18 +74,18 @@ public final class QuerySetCatalog {
       parser.parseArgument(args);
     } catch (CmdLineException e) {
       System.err.println(String.format("Error: %s", e.getMessage()));
-      CliUtils.printUsage(parser, QuerySetCatalog.class, argsOrdering);
+      CliUtils.printUsage(parser, TopicsCatalog.class, argsOrdering);
       return;
     }
 
     if (parsedArgs.help) {
-      CliUtils.printUsage(parser, QuerySetCatalog.class, argsOrdering);
+      CliUtils.printUsage(parser, TopicsCatalog.class, argsOrdering);
       return;
     }
 
     if (parsedArgs.list == (parsedArgs.get != null)) {
       System.err.println("Error: exactly one of --list or --get must be specified");
-      CliUtils.printUsage(parser, QuerySetCatalog.class, argsOrdering);
+      CliUtils.printUsage(parser, TopicsCatalog.class, argsOrdering);
       return;
     }
 
@@ -100,7 +100,7 @@ public final class QuerySetCatalog {
         SortedMap<?, Map<String, String>> queries = getAllQueriesForTopic(args.get);
         if (queries == null) {
           if (Topics.getByName(args.get) == null) {
-            System.err.printf("Error: unknown query set \"%s\"%n", args.get);
+            System.err.printf("Error: unknown topics \"%s\"%n", args.get);
           }
           return;
         }
@@ -127,7 +127,7 @@ public final class QuerySetCatalog {
     try {
       return TopicReader.getTopics(topic);
     } catch (Exception e) {
-      System.err.printf("Error: unable to read topic \"%s\": %s%n", topicName, e.getMessage());
+      System.err.printf("Error: unable to read topics \"%s\": %s%n", topicName, e.getMessage());
       return null;
     }
   }

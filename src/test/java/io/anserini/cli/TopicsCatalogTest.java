@@ -34,7 +34,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 import io.anserini.search.topicreader.Topics;
 
-public class QuerySetCatalogTest extends StdOutStdErrRedirectableLuceneTestCase {
+public class TopicsCatalogTest extends StdOutStdErrRedirectableLuceneTestCase {
   private static final ObjectMapper MAPPER = new ObjectMapper();
   private static final TypeReference<List<Map<String, Object>>> DETAIL_LIST_TYPE =
       new TypeReference<List<Map<String, Object>>>() {};
@@ -57,29 +57,29 @@ public class QuerySetCatalogTest extends StdOutStdErrRedirectableLuceneTestCase 
 
   @Test
   public void testInvalidOption() {
-    QuerySetCatalog.main(new String[] {"--invalid"});
+    TopicsCatalog.main(new String[] {"--invalid"});
     assertTrue(err.toString().contains("Error:"));
     assertTrue(err.toString().contains("--invalid"));
-    assertTrue(err.toString().contains("Options for QuerySetCatalog:"));
+    assertTrue(err.toString().contains("Options for TopicsCatalog:"));
   }
 
   @Test
   public void testHelp() {
-    QuerySetCatalog.main(new String[] {"--help"});
-    assertTrue(err.toString().contains("Options for QuerySetCatalog:"));
+    TopicsCatalog.main(new String[] {"--help"});
+    assertTrue(err.toString().contains("Options for TopicsCatalog:"));
     assertTrue(err.toString().contains("--help"));
     assertFalse(err.toString().contains("Error:"));
   }
 
   @Test
   public void testMissingRequiredOption() {
-    QuerySetCatalog.main(new String[] {});
+    TopicsCatalog.main(new String[] {});
     assertTrue(err.toString().contains("Error: exactly one of --list or --get must be specified"));
   }
 
   @Test
   public void testList() throws Exception {
-    QuerySetCatalog.main(new String[] {"--list"});
+    TopicsCatalog.main(new String[] {"--list"});
 
     List<Map<String, Object>> details = MAPPER.readValue(out.toString(), DETAIL_LIST_TYPE);
 
@@ -102,7 +102,7 @@ public class QuerySetCatalogTest extends StdOutStdErrRedirectableLuceneTestCase 
     Files.writeString(topicFile, "1\tquery one\n2\tquery two\n", StandardCharsets.UTF_8);
 
     try {
-      QuerySetCatalog.main(new String[] {"--get", "TREC2019_DL_PASSAGE"});
+      TopicsCatalog.main(new String[] {"--get", "TREC2019_DL_PASSAGE"});
 
       Map<String, Map<String, String>> queries = MAPPER.readValue(out.toString(), QUERY_MAP_TYPE);
 
@@ -116,7 +116,7 @@ public class QuerySetCatalogTest extends StdOutStdErrRedirectableLuceneTestCase 
 
   @Test
   public void testGetInvalidTopic() {
-    QuerySetCatalog.main(new String[] {"--get", "NOT_A_TOPIC"});
-    assertTrue(err.toString().contains("Error: unknown query set \"NOT_A_TOPIC\""));
+    TopicsCatalog.main(new String[] {"--get", "NOT_A_TOPIC"});
+    assertTrue(err.toString().contains("Error: unknown topics \"NOT_A_TOPIC\""));
   }
 }
