@@ -17,7 +17,7 @@ At the bottom of many pages you'll find a "Reproduction Log", which keeps track 
 Note that we stretch the meaning of "same team" a bit in these logs: we still consider it a successful reproduction if another member of our research group is able to obtain the same results, as long as the person was not the primary author of the code in question.
 
 
-## 2026-03-18 (commit: XXXXXXX)
+## 2026-03-18 (commit: 92380d2)
 
 Successfully reproduced the BM25 baseline for MS MARCO Passage Ranking using both Anserini and Pyserini.
 
