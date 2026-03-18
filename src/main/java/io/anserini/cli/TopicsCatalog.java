@@ -16,12 +16,12 @@
 
 package io.anserini.cli;
 
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
-import java.util.stream.Collectors;
+import java.util.TreeSet;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
@@ -35,14 +35,17 @@ import io.anserini.search.topicreader.TopicReader;
 import io.anserini.search.topicreader.Topics;
 import io.anserini.util.LoggingBootstrap;
 
-public final class QuerySetCatalog {
+public final class TopicsCatalog {
   private static final ObjectMapper JSON_MAPPER = new ObjectMapper();
 
   public static class Args {
-    @Option(name = "--list", usage = "List available query sets.")
+    @Option(name = "--list", usage = "List available topics.")
     public boolean list = false;
 
-    @Option(name = "--get", metaVar = "[set]", usage = "Get all queries for set.")
+    @Option(name = "--filter", metaVar = "[regexp]", usage = "Filter topics by regular expression.")
+    public String filter = null;
+
+    @Option(name = "--get", metaVar = "[topics]", usage = "Enumerate topics.")
     public String get = null;
 
     @Option(name = "--help", help = true, usage = "Print this help message and exit.")
@@ -50,19 +53,7 @@ public final class QuerySetCatalog {
   }
 
   private static final String[] argsOrdering = new String[] {
-      "--list", "--get", "--help"};
-
-  public static class Entry {
-    public final String name;
-    public final String path;
-    public final String reader;
-
-    Entry(Topics topic) {
-      this.name = topic.name();
-      this.path = topic.path;
-      this.reader = topic.readerClass.getSimpleName();
-    }
-  }
+      "--list", "--filter", "--get", "--help"};
 
   public static void main(String[] args) {
     LoggingBootstrap.installJulToSlf4jBridge();
@@ -74,18 +65,24 @@ public final class QuerySetCatalog {
       parser.parseArgument(args);
     } catch (CmdLineException e) {
       System.err.println(String.format("Error: %s", e.getMessage()));
-      CliUtils.printUsage(parser, QuerySetCatalog.class, argsOrdering);
+      CliUtils.printUsage(parser, TopicsCatalog.class, argsOrdering);
       return;
     }
 
     if (parsedArgs.help) {
-      CliUtils.printUsage(parser, QuerySetCatalog.class, argsOrdering);
+      CliUtils.printUsage(parser, TopicsCatalog.class, argsOrdering);
       return;
     }
 
     if (parsedArgs.list == (parsedArgs.get != null)) {
       System.err.println("Error: exactly one of --list or --get must be specified");
-      CliUtils.printUsage(parser, QuerySetCatalog.class, argsOrdering);
+      CliUtils.printUsage(parser, TopicsCatalog.class, argsOrdering);
+      return;
+    }
+
+    if (!parsedArgs.list && parsedArgs.filter != null) {
+      System.err.println("Error: --filter only works with --list");
+      CliUtils.printUsage(parser, TopicsCatalog.class, argsOrdering);
       return;
     }
 
@@ -95,27 +92,38 @@ public final class QuerySetCatalog {
   private static void run(Args args) {
     try {
       if (args.list) {
-        System.out.println(JSON_MAPPER.writeValueAsString(getAllDetails()));
+        TreeSet<String> names = new TreeSet<>(Topics.getSymbolDictionaryKeys());
+        for (Topics topic : Topics.values()) {
+          names.add(topic.name());
+        }
+
+        if (args.filter != null) {
+          Pattern pattern;
+          try {
+            pattern = Pattern.compile(args.filter);
+          } catch (PatternSyntaxException e) {
+            System.err.printf("Error: invalid regular expression \"%s\": %s%n", args.filter, e.getMessage());
+            return;
+          }
+
+          names.removeIf(name -> !pattern.matcher(name).find());
+        }
+
+        System.out.println(JSON_MAPPER.writeValueAsString(List.copyOf(names)));
       } else {
         SortedMap<?, Map<String, String>> queries = getAllQueriesForTopic(args.get);
         if (queries == null) {
           if (Topics.getByName(args.get) == null) {
-            System.err.printf("Error: unknown query set \"%s\"%n", args.get);
+            System.err.printf("Error: unknown topics \"%s\"%n", args.get);
           }
           return;
         }
+
         System.out.println(JSON_MAPPER.writeValueAsString(queries));
       }
     } catch (JsonProcessingException e) {
       System.err.printf("Error: %s%n", e.getMessage());
     }
-  }
-
-  private static List<Entry> getAllDetails() {
-    return Arrays.stream(Topics.values())
-        .map(Entry::new)
-        .sorted(Comparator.comparing((entry) -> entry.name))
-        .collect(Collectors.toList());
   }
 
   private static SortedMap<?, Map<String, String>> getAllQueriesForTopic(String topicName) {
@@ -127,7 +135,7 @@ public final class QuerySetCatalog {
     try {
       return TopicReader.getTopics(topic);
     } catch (Exception e) {
-      System.err.printf("Error: unable to read topic \"%s\": %s%n", topicName, e.getMessage());
+      System.err.printf("Error: unable to read topics \"%s\": %s%n", topicName, e.getMessage());
       return null;
     }
   }

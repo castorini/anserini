@@ -408,7 +408,7 @@ public class ReproduceFromDocumentCollection {
       }
     }
 
-    return Paths.get("runs", String.format("run.%s.%s.%s", indexPart, id, modelName)).toString();
+    return Paths.get("runs", String.format("run.%s.%s.%s.txt", indexPart, id, modelName)).toString();
   }
 
   private static List<String> constructSearchCommands(JsonNode yaml) {

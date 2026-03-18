@@ -34,10 +34,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 import io.anserini.search.topicreader.Topics;
 
-public class QuerySetCatalogTest extends StdOutStdErrRedirectableLuceneTestCase {
+public class TopicsCatalogTest extends StdOutStdErrRedirectableLuceneTestCase {
   private static final ObjectMapper MAPPER = new ObjectMapper();
-  private static final TypeReference<List<Map<String, Object>>> DETAIL_LIST_TYPE =
-      new TypeReference<List<Map<String, Object>>>() {};
+  private static final TypeReference<List<String>> NAME_LIST_TYPE =
+      new TypeReference<List<String>>() {};
   private static final TypeReference<Map<String, Map<String, String>>> QUERY_MAP_TYPE =
       new TypeReference<Map<String, Map<String, String>>>() {};
 
@@ -57,43 +57,68 @@ public class QuerySetCatalogTest extends StdOutStdErrRedirectableLuceneTestCase 
 
   @Test
   public void testInvalidOption() {
-    QuerySetCatalog.main(new String[] {"--invalid"});
+    TopicsCatalog.main(new String[] {"--invalid"});
     assertTrue(err.toString().contains("Error:"));
     assertTrue(err.toString().contains("--invalid"));
-    assertTrue(err.toString().contains("Options for QuerySetCatalog:"));
+    assertTrue(err.toString().contains("Options for TopicsCatalog:"));
   }
 
   @Test
   public void testHelp() {
-    QuerySetCatalog.main(new String[] {"--help"});
-    assertTrue(err.toString().contains("Options for QuerySetCatalog:"));
+    TopicsCatalog.main(new String[] {"--help"});
+    assertTrue(err.toString().contains("Options for TopicsCatalog:"));
     assertTrue(err.toString().contains("--help"));
     assertFalse(err.toString().contains("Error:"));
   }
 
   @Test
+  public void testFilterRequiresList() {
+    TopicsCatalog.main(new String[] {"--get", "TREC2019_DL_PASSAGE", "--filter", "DL"});
+    assertTrue(err.toString().contains("Error: --filter only works with --list"));
+  }
+
+  @Test
+  public void testListWithFilter() throws Exception {
+    TopicsCatalog.main(new String[] {"--list", "--filter", "msmarco"});
+
+    List<String> names = MAPPER.readValue(out.toString(), NAME_LIST_TYPE);
+
+    Set<String> expectedNames = new TreeSet<>(Topics.getSymbolDictionaryKeys());
+    for (Topics topic : Topics.values()) {
+      expectedNames.add(topic.name());
+    }
+    expectedNames.removeIf(name -> !name.contains("msmarco"));
+
+    assertEquals(expectedNames.size(), names.size());
+    assertEquals(expectedNames, new TreeSet<>(names));
+  }
+
+  @Test
+  public void testListWithInvalidFilterRegex() {
+    TopicsCatalog.main(new String[] {"--list", "--filter", "["});
+    assertTrue(err.toString().contains("Error: invalid regular expression \"[\""));
+    assertEquals("", out.toString());
+  }
+
+  @Test
   public void testMissingRequiredOption() {
-    QuerySetCatalog.main(new String[] {});
+    TopicsCatalog.main(new String[] {});
     assertTrue(err.toString().contains("Error: exactly one of --list or --get must be specified"));
   }
 
   @Test
   public void testList() throws Exception {
-    QuerySetCatalog.main(new String[] {"--list"});
+    TopicsCatalog.main(new String[] {"--list"});
 
-    List<Map<String, Object>> details = MAPPER.readValue(out.toString(), DETAIL_LIST_TYPE);
+    List<String> names = MAPPER.readValue(out.toString(), NAME_LIST_TYPE);
 
-    int expectedSize = Topics.values().length;
-    assertEquals(expectedSize, details.size());
-
-    Set<String> names = new TreeSet<>();
-    for (Map<String, Object> detail : details) {
-      assertNotNull(detail.get("name"));
-      assertNotNull(detail.get("path"));
-      assertNotNull(detail.get("reader"));
-      names.add((String) detail.get("name"));
+    Set<String> expectedNames = new TreeSet<>(Topics.getSymbolDictionaryKeys());
+    for (Topics topic : Topics.values()) {
+      expectedNames.add(topic.name());
     }
-    assertEquals(expectedSize, names.size());
+
+    assertEquals(expectedNames.size(), names.size());
+    assertEquals(expectedNames, new TreeSet<>(names));
   }
 
   @Test
@@ -102,7 +127,7 @@ public class QuerySetCatalogTest extends StdOutStdErrRedirectableLuceneTestCase 
     Files.writeString(topicFile, "1\tquery one\n2\tquery two\n", StandardCharsets.UTF_8);
 
     try {
-      QuerySetCatalog.main(new String[] {"--get", "TREC2019_DL_PASSAGE"});
+      TopicsCatalog.main(new String[] {"--get", "TREC2019_DL_PASSAGE"});
 
       Map<String, Map<String, String>> queries = MAPPER.readValue(out.toString(), QUERY_MAP_TYPE);
 
@@ -116,7 +141,7 @@ public class QuerySetCatalogTest extends StdOutStdErrRedirectableLuceneTestCase 
 
   @Test
   public void testGetInvalidTopic() {
-    QuerySetCatalog.main(new String[] {"--get", "NOT_A_TOPIC"});
-    assertTrue(err.toString().contains("Error: unknown query set \"NOT_A_TOPIC\""));
+    TopicsCatalog.main(new String[] {"--get", "NOT_A_TOPIC"});
+    assertTrue(err.toString().contains("Error: unknown topics \"NOT_A_TOPIC\""));
   }
 }

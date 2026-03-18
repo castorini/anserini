@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 import java.util.stream.Collectors;
 
 import org.kohsuke.args4j.CmdLineException;
@@ -44,6 +46,9 @@ public final class PrebuiltIndexCatalog {
     @Option(name = "--list", usage = "List available prebuilt indexes.")
     public boolean list = false;
 
+    @Option(name = "--filter", metaVar = "[regexp]", usage = "Filter prebuilt indexes by regular expression.")
+    public String filter = null;
+
     @Option(name = "--type", metaVar = "[flat|inverted|impact|hnsw]", usage = "Filter prebuilt indexes by type.")
     public String type = null;
 
@@ -52,7 +57,7 @@ public final class PrebuiltIndexCatalog {
   }
 
   private static final String[] argsOrdering = new String[] {
-      "--list", "--type", "--help"};
+      "--list", "--filter", "--type", "--help"};
 
   public static void main(String[] args) {
     LoggingBootstrap.installJulToSlf4jBridge();
@@ -88,9 +93,23 @@ public final class PrebuiltIndexCatalog {
       return;
     }
 
+    Pattern nameFilter = null;
+    if (args.filter != null) {
+      try {
+        nameFilter = Pattern.compile(args.filter);
+      } catch (PatternSyntaxException e) {
+        System.err.printf("Error: invalid regular expression \"%s\": %s%n", args.filter, e.getMessage());
+        return;
+      }
+    }
+
     List<PrebuiltIndex.Entry> details = getAllDetails();
     if (typeFilter != null) {
       details = details.stream().filter((entry) -> typeFilter.equals(entry.type)).collect(Collectors.toList());
+    }
+    if (nameFilter != null) {
+      Pattern finalNameFilter = nameFilter;
+      details = details.stream().filter((entry) -> finalNameFilter.matcher(entry.name).find()).collect(Collectors.toList());
     }
 
     try {
