@@ -16,13 +16,22 @@
 
 package io.anserini.search.topicreader;
 
-import org.junit.Test;
+import static io.anserini.search.topicreader.Topics.MSMARCO_PASSAGE_DEV_SUBSET;
+import static io.anserini.search.topicreader.Topics.TREC2019_DL_PASSAGE;
+import static io.anserini.search.topicreader.Topics.TREC2020_DL;
+import static io.anserini.search.topicreader.Topics.TREC2021_DL;
+import static io.anserini.search.topicreader.Topics.TREC2022_DL;
+import static io.anserini.search.topicreader.Topics.TREC2023_DL;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Map;
 import java.util.SortedMap;
 
-import static io.anserini.search.topicreader.Topics.*;
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 public class TopicsTest {
 
@@ -71,5 +80,31 @@ public class TopicsTest {
     assertEquals("Androgen receptor define", topics.get(topics.firstKey()).get("title"));
     assertEquals(Integer.valueOf(1102400), topics.lastKey());
     assertEquals("why do bears hibernate", topics.get(topics.lastKey()).get("title"));
+  }
+
+  @Test
+  public void testResolveInvalidTopics() {
+    String invalidTopics = "this-is-not-valid-topics";
+
+    try {
+      Topics.resolve(invalidTopics);
+      fail("Expected IllegalArgumentException to be thrown");
+    } catch (IllegalArgumentException e) {
+      assertEquals("\"" + invalidTopics + "\" does not refer to valid topics.", e.getMessage());
+    }
+  }
+
+  @Test
+  public void testResolveFileWithoutTopicReader() throws IOException {
+    Path topicsFile = Files.createTempFile("topics", ".txt");
+
+    try {
+      Topics.resolve(topicsFile.toString());
+      fail("Expected IllegalArgumentException to be thrown");
+    } catch (IllegalArgumentException e) {
+      assertEquals("Must specify the topic reader using -topicReader.", e.getMessage());
+    } finally {
+      Files.deleteIfExists(topicsFile);
+    }
   }
 }

@@ -66,6 +66,15 @@ public class RunJavaReproductionCommandsTest extends StdOutStdErrRedirectableLuc
   }
 
   @Test
+  public void testHelp() throws Exception {
+    RunJavaReproductionCommands.main(new String[] {"--help"});
+
+    String output = err.toString(StandardCharsets.UTF_8);
+    assertFalse(output.isEmpty());
+    assertTrue(output, output.contains("--help"));
+  }
+
+  @Test
   public void testListOption() throws Exception {
     RunJavaReproductionCommands.main(new String[] {"--list"});
 
