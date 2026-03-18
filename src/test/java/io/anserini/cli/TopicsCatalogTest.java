@@ -94,6 +94,13 @@ public class TopicsCatalogTest extends StdOutStdErrRedirectableLuceneTestCase {
   }
 
   @Test
+  public void testListWithInvalidFilterRegex() {
+    TopicsCatalog.main(new String[] {"--list", "--filter", "["});
+    assertTrue(err.toString().contains("Error: invalid regular expression \"[\""));
+    assertEquals("", out.toString());
+  }
+
+  @Test
   public void testMissingRequiredOption() {
     TopicsCatalog.main(new String[] {});
     assertTrue(err.toString().contains("Error: exactly one of --list or --get must be specified"));

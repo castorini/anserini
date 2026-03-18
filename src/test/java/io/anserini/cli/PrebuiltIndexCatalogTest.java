@@ -24,6 +24,7 @@ import java.util.TreeSet;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -104,6 +105,29 @@ public class PrebuiltIndexCatalogTest extends StdOutStdErrRedirectableLuceneTest
     for (Map<String, Object> detail : details) {
       assertEquals("flat", detail.get("type"));
     }
+  }
+
+  @Test
+  public void testListFilterByTypeAndName() throws Exception {
+    PrebuiltIndexCatalog.main(new String[] {"--list", "--type", "inverted", "--filter", "msmarco-v1"});
+
+    List<Map<String, Object>> details = MAPPER.readValue(out.toString(), DETAIL_LIST_TYPE);
+
+    int expectedSize = (int) PrebuiltInvertedIndex.entries().stream()
+        .filter((entry) -> entry.name.contains("msmarco-v1"))
+        .count();
+    assertEquals(expectedSize, details.size());
+    for (Map<String, Object> detail : details) {
+      assertEquals("inverted", detail.get("type"));
+      assertTrue(((String) detail.get("name")).contains("msmarco-v1"));
+    }
+  }
+
+  @Test
+  public void testListWithInvalidFilterRegex() {
+    PrebuiltIndexCatalog.main(new String[] {"--list", "--filter", "["});
+    assertTrue(err.toString().contains("Error: invalid regular expression \"[\""));
+    assertEquals("", out.toString());
   }
 
   @Test
