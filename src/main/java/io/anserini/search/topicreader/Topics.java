@@ -19,9 +19,11 @@ package io.anserini.search.topicreader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedMap;
+import java.util.Set;
 import java.util.TreeMap;
 
 /**
@@ -997,6 +999,10 @@ public enum Topics {
 
       return null;
     }
+  }
+
+  public static Set<String> getSymbolDictionaryKeys() {
+    return Collections.unmodifiableSet(SYMBOL_DICTIONARY.keySet());
   }
 
   public static Topics getBaseTopics(String name) {

@@ -16,12 +16,12 @@
 
 package io.anserini.cli;
 
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
-import java.util.stream.Collectors;
+import java.util.TreeSet;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
@@ -42,6 +42,9 @@ public final class TopicsCatalog {
     @Option(name = "--list", usage = "List available topics.")
     public boolean list = false;
 
+    @Option(name = "--filter", metaVar = "[regexp]", usage = "Filter topics by regular expression.")
+    public String filter = null;
+
     @Option(name = "--get", metaVar = "[topics]", usage = "Enumerate topics.")
     public String get = null;
 
@@ -50,19 +53,7 @@ public final class TopicsCatalog {
   }
 
   private static final String[] argsOrdering = new String[] {
-      "--list", "--get", "--help"};
-
-  public static class Entry {
-    public final String name;
-    public final String path;
-    public final String reader;
-
-    Entry(Topics topic) {
-      this.name = topic.name();
-      this.path = topic.path;
-      this.reader = topic.readerClass.getSimpleName();
-    }
-  }
+      "--list", "--filter", "--get", "--help"};
 
   public static void main(String[] args) {
     LoggingBootstrap.installJulToSlf4jBridge();
@@ -89,13 +80,36 @@ public final class TopicsCatalog {
       return;
     }
 
+    if (!parsedArgs.list && parsedArgs.filter != null) {
+      System.err.println("Error: --filter only works with --list");
+      CliUtils.printUsage(parser, TopicsCatalog.class, argsOrdering);
+      return;
+    }
+
     run(parsedArgs);
   }
 
   private static void run(Args args) {
     try {
       if (args.list) {
-        System.out.println(JSON_MAPPER.writeValueAsString(getAllDetails()));
+        TreeSet<String> names = new TreeSet<>(Topics.getSymbolDictionaryKeys());
+        for (Topics topic : Topics.values()) {
+          names.add(topic.name());
+        }
+
+        if (args.filter != null) {
+          Pattern pattern;
+          try {
+            pattern = Pattern.compile(args.filter);
+          } catch (PatternSyntaxException e) {
+            System.err.printf("Error: invalid regular expression \"%s\": %s%n", args.filter, e.getMessage());
+            return;
+          }
+
+          names.removeIf(name -> !pattern.matcher(name).find());
+        }
+
+        System.out.println(JSON_MAPPER.writeValueAsString(List.copyOf(names)));
       } else {
         SortedMap<?, Map<String, String>> queries = getAllQueriesForTopic(args.get);
         if (queries == null) {
@@ -104,18 +118,12 @@ public final class TopicsCatalog {
           }
           return;
         }
+
         System.out.println(JSON_MAPPER.writeValueAsString(queries));
       }
     } catch (JsonProcessingException e) {
       System.err.printf("Error: %s%n", e.getMessage());
     }
-  }
-
-  private static List<Entry> getAllDetails() {
-    return Arrays.stream(Topics.values())
-        .map(Entry::new)
-        .sorted(Comparator.comparing((entry) -> entry.name))
-        .collect(Collectors.toList());
   }
 
   private static SortedMap<?, Map<String, String>> getAllQueriesForTopic(String topicName) {

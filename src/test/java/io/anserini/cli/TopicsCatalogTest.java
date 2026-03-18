@@ -36,8 +36,8 @@ import io.anserini.search.topicreader.Topics;
 
 public class TopicsCatalogTest extends StdOutStdErrRedirectableLuceneTestCase {
   private static final ObjectMapper MAPPER = new ObjectMapper();
-  private static final TypeReference<List<Map<String, Object>>> DETAIL_LIST_TYPE =
-      new TypeReference<List<Map<String, Object>>>() {};
+  private static final TypeReference<List<String>> NAME_LIST_TYPE =
+      new TypeReference<List<String>>() {};
   private static final TypeReference<Map<String, Map<String, String>>> QUERY_MAP_TYPE =
       new TypeReference<Map<String, Map<String, String>>>() {};
 
@@ -72,6 +72,28 @@ public class TopicsCatalogTest extends StdOutStdErrRedirectableLuceneTestCase {
   }
 
   @Test
+  public void testFilterRequiresList() {
+    TopicsCatalog.main(new String[] {"--get", "TREC2019_DL_PASSAGE", "--filter", "DL"});
+    assertTrue(err.toString().contains("Error: --filter only works with --list"));
+  }
+
+  @Test
+  public void testListWithFilter() throws Exception {
+    TopicsCatalog.main(new String[] {"--list", "--filter", "msmarco"});
+
+    List<String> names = MAPPER.readValue(out.toString(), NAME_LIST_TYPE);
+
+    Set<String> expectedNames = new TreeSet<>(Topics.getSymbolDictionaryKeys());
+    for (Topics topic : Topics.values()) {
+      expectedNames.add(topic.name());
+    }
+    expectedNames.removeIf(name -> !name.contains("msmarco"));
+
+    assertEquals(expectedNames.size(), names.size());
+    assertEquals(expectedNames, new TreeSet<>(names));
+  }
+
+  @Test
   public void testMissingRequiredOption() {
     TopicsCatalog.main(new String[] {});
     assertTrue(err.toString().contains("Error: exactly one of --list or --get must be specified"));
@@ -81,19 +103,15 @@ public class TopicsCatalogTest extends StdOutStdErrRedirectableLuceneTestCase {
   public void testList() throws Exception {
     TopicsCatalog.main(new String[] {"--list"});
 
-    List<Map<String, Object>> details = MAPPER.readValue(out.toString(), DETAIL_LIST_TYPE);
+    List<String> names = MAPPER.readValue(out.toString(), NAME_LIST_TYPE);
 
-    int expectedSize = Topics.values().length;
-    assertEquals(expectedSize, details.size());
-
-    Set<String> names = new TreeSet<>();
-    for (Map<String, Object> detail : details) {
-      assertNotNull(detail.get("name"));
-      assertNotNull(detail.get("path"));
-      assertNotNull(detail.get("reader"));
-      names.add((String) detail.get("name"));
+    Set<String> expectedNames = new TreeSet<>(Topics.getSymbolDictionaryKeys());
+    for (Topics topic : Topics.values()) {
+      expectedNames.add(topic.name());
     }
-    assertEquals(expectedSize, names.size());
+
+    assertEquals(expectedNames.size(), names.size());
+    assertEquals(expectedNames, new TreeSet<>(names));
   }
 
   @Test
