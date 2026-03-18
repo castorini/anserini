@@ -37,7 +37,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.anserini.index.Constants;
 import io.anserini.index.IndexReaderUtils;
-import io.anserini.reproduce.ReproductionUtils;
 import io.anserini.search.ScoredDoc;
 import io.anserini.search.SimpleSearcher;
 import io.anserini.util.LoggingBootstrap;
@@ -86,12 +85,12 @@ public final class Search {
       parser.parseArgument(args);
     } catch (CmdLineException e) {
       System.err.println(String.format("Error: %s", e.getMessage()));
-      ReproductionUtils.printUsage(parser, Search.class, argsOrdering);
+      CliUtils.printUsage(parser, Search.class, argsOrdering);
       return;
     }
 
     if (parsedArgs.help) {
-      ReproductionUtils.printUsage(parser, Search.class, argsOrdering);
+      CliUtils.printUsage(parser, Search.class, argsOrdering);
       return;
     }
 

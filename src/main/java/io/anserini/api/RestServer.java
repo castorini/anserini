@@ -36,6 +36,7 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 
+import io.anserini.cli.CliUtils;
 import io.anserini.index.IndexReaderUtils;
 import io.anserini.reproduce.ReproductionUtils;
 import io.anserini.search.ScoredDoc;
@@ -283,12 +284,12 @@ public final class RestServer implements Closeable {
       parser.parseArgument(args);
     } catch (CmdLineException e) {
       System.err.println(String.format("Error: %s", e.getMessage()));
-      ReproductionUtils.printUsage(parser, RestServer.class, argsOrdering);
+      CliUtils.printUsage(parser, RestServer.class, argsOrdering);
       return;
     }
 
     if (parsedArgs.help) {
-      ReproductionUtils.printUsage(parser, RestServer.class, argsOrdering);
+      CliUtils.printUsage(parser, RestServer.class, argsOrdering);
       return;
     }
 

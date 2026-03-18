@@ -16,8 +16,13 @@
 
 package io.anserini.search.topicreader;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 /**
  * An enumeration comprising standard sets of topics from various evaluations.
@@ -998,5 +1003,49 @@ public enum Topics {
     name = name.replaceFirst("^topics\\.", ""); // Remove "topics." prefix if present
     String regex = "^(.*?)(?:[.-](bge|cohere|splade|unicoil|cosdpr|txt|tsv|v\\d+|v\\d+\\.\\d+)).*"; // Regex to remove model suffixes to get base topi name
     return Topics.getByName(name.replaceAll(regex, "$1"));
+  }
+
+  public static <K> SortedMap<K, Map<String, String>> resolve(String topics) {
+    return resolve(topics, null);
+  }
+
+  @SuppressWarnings("unchecked")
+  public static <K> SortedMap<K, Map<String, String>> resolve(String topics, String topicReader) {
+    Path topicsPath = Paths.get(topics);
+    if (!Files.exists(topicsPath) || !Files.isRegularFile(topicsPath) || !Files.isReadable(topicsPath)) {
+      Topics ref = Topics.getByName(topics);
+      if (ref == null) {
+        throw new IllegalArgumentException(String.format("\"%s\" does not refer to valid topics.", topicsPath));
+      }
+
+      try {
+        return TopicReader.getTopics(ref);
+      } catch (Exception e) {
+        throw new IllegalArgumentException(String.format("Unable to read topics \"%s\".", topics), e);
+      }
+    }
+
+    if (topicReader == null) {
+      throw new IllegalArgumentException("Must specify the topic reader using -topicReader.");
+    }
+
+    try {
+      TopicReader<K> tr = (TopicReader<K>) Class
+          .forName(String.format("io.anserini.search.topicreader.%sTopicReader", topicReader))
+          .getConstructor(Path.class).newInstance(topicsPath);
+      return tr.read();
+    } catch (Exception e) {
+      throw new IllegalArgumentException(String.format("Unable to load topic reader \"%s\".", topicReader));
+    }
+  }
+
+  public static <K> SortedMap<K, Map<String, String>> resolve(String[] topicsArray, String topicReader) {
+    SortedMap<K, Map<String, String>> topics = new TreeMap<>();
+
+    for (String topicsFile : topicsArray) {
+      topics.putAll(resolve(topicsFile, topicReader));
+    }
+
+    return topics;
   }
 }

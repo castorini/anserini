@@ -32,7 +32,6 @@ import io.anserini.index.prebuilt.PrebuiltHnswIndex;
 import io.anserini.index.prebuilt.PrebuiltIndex;
 import io.anserini.index.prebuilt.PrebuiltImpactIndex;
 import io.anserini.index.prebuilt.PrebuiltInvertedIndex;
-import io.anserini.reproduce.ReproductionUtils;
 import io.anserini.util.LoggingBootstrap;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -65,17 +64,17 @@ public final class PrebuiltIndexCatalog {
       parser.parseArgument(args);
     } catch (CmdLineException e) {
       System.err.println(String.format("Error: %s", e.getMessage()));
-      ReproductionUtils.printUsage(parser, PrebuiltIndexCatalog.class, argsOrdering);
+      CliUtils.printUsage(parser, PrebuiltIndexCatalog.class, argsOrdering);
       return;
     }
 
     if (parsedArgs.help) {
-      ReproductionUtils.printUsage(parser, PrebuiltIndexCatalog.class, argsOrdering);
+      CliUtils.printUsage(parser, PrebuiltIndexCatalog.class, argsOrdering);
       return;
     }
 
     if (!parsedArgs.list) {
-      ReproductionUtils.printUsage(parser, PrebuiltIndexCatalog.class, argsOrdering);
+      CliUtils.printUsage(parser, PrebuiltIndexCatalog.class, argsOrdering);
       return;
     }
 

@@ -31,7 +31,6 @@ import org.kohsuke.args4j.ParserProperties;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.anserini.reproduce.ReproductionUtils;
 import io.anserini.search.topicreader.TopicReader;
 import io.anserini.search.topicreader.Topics;
 import io.anserini.util.LoggingBootstrap;
@@ -75,18 +74,18 @@ public final class QuerySetCatalog {
       parser.parseArgument(args);
     } catch (CmdLineException e) {
       System.err.println(String.format("Error: %s", e.getMessage()));
-      ReproductionUtils.printUsage(parser, QuerySetCatalog.class, argsOrdering);
+      CliUtils.printUsage(parser, QuerySetCatalog.class, argsOrdering);
       return;
     }
 
     if (parsedArgs.help) {
-      ReproductionUtils.printUsage(parser, QuerySetCatalog.class, argsOrdering);
+      CliUtils.printUsage(parser, QuerySetCatalog.class, argsOrdering);
       return;
     }
 
     if (parsedArgs.list == (parsedArgs.get != null)) {
       System.err.println("Error: exactly one of --list or --get must be specified");
-      ReproductionUtils.printUsage(parser, QuerySetCatalog.class, argsOrdering);
+      CliUtils.printUsage(parser, QuerySetCatalog.class, argsOrdering);
       return;
     }
 
