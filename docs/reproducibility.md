@@ -49,7 +49,7 @@ Interactive Retrieval:
 - Understood query execution and result inspection
 
 Dense Retrieval:
-- Attempted but not completed due to hardware limitations (memory constraints)
+- Dense retrieval was attempted but not completed due to hardware limitations (process was terminated during indexing/retrieval due to resource constraints).
 - Understood dense retrieval concepts and improvements over BM25
 
 Notes:
