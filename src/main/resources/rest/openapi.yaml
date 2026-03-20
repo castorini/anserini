@@ -2,12 +2,12 @@ openapi: 3.0.3
 info:
   title: Anserini REST API
   version: v1
-  description: |
-    Lightweight REST API for lexical retrieval over Anserini indexes.
+  description: Lightweight REST API for searching Anserini indexes.
 servers:
-  - url: http://localhost:8080
+  - url: /v1
+    description: Local development server
 paths:
-  /v1/{index}/search:
+  /{index}/search:
     get:
       summary: Search an index
       operationId: searchV1
@@ -23,7 +23,7 @@ paths:
           required: true
           schema:
             type: string
-          description: Query text.
+          description: Query.
         - name: hits
           in: query
           required: false
@@ -51,7 +51,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-  /v1/{index}/doc/{docid}:
+  /{index}/doc/{docid}:
     get:
       summary: Fetch a document by docid
       operationId: getDocumentV1
@@ -107,7 +107,7 @@ components:
           type: integer
           minimum: 1
         doc:
-          description: Parsed raw JSON document or null if unavailable.
+          description: Raw document or null if unavailable.
           nullable: true
       required: [docid, score, rank]
     SearchResponse:

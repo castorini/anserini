@@ -209,8 +209,9 @@ public class RestServerTest extends StdOutStdErrRedirectableLuceneTestCase {
 
     assertEquals(200, response.statusCode);
     assertTrue(response.body.contains("openapi: 3.0.3"));
-    assertTrue(response.body.contains("/v1/{index}/search:"));
-    assertTrue(response.body.contains("/v1/{index}/doc/{docid}:"));
+    assertTrue(response.body.contains("url: /v1"));
+    assertTrue(response.body.contains("/{index}/search:"));
+    assertTrue(response.body.contains("/{index}/doc/{docid}:"));
   }
 
   @Test
