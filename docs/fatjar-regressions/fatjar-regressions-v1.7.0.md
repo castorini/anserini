@@ -11,7 +11,7 @@ Let's start out by setting the `JAVA_OPTS` and the `OUTPUT_DIR`:
 
 ```bash
 # for zsh
-export JAVA_OPTS=(-cp `ls target/anserini-1.6.1-SNAPSHOT-fatjar.jar` --add-modules jdk.incubator.vector)
+export JAVA_OPTS=(-cp `ls target/anserini-*-fatjar.jar` --add-modules jdk.incubator.vector)
 
 # for bash
 export JAVA_OPTS="-cp `ls target/anserini-*-fatjar.jar` --add-modules jdk.incubator.vector"
