@@ -182,8 +182,8 @@ The table below reports the effectiveness of selected models (dev in terms of RR
 The following commands will reproduce runs corresponding to the above models (as well as additional ones not included in the table):
 
 ```bash
-java $JAVA_OPTS io.anserini.reproduce.ReproduceFromPrebuiltIndexes --print-commands --compute-index-size --config msmarco-v1-passage.core --dry-run
-java $JAVA_OPTS io.anserini.reproduce.ReproduceFromPrebuiltIndexes --print-commands --compute-index-size --config msmarco-v1-passage.optional --dry-run
+java $JAVA_OPTS io.anserini.reproduce.ReproduceFromPrebuiltIndexes --print-commands --compute-index-size --config msmarco-v1-passage.core
+java $JAVA_OPTS io.anserini.reproduce.ReproduceFromPrebuiltIndexes --print-commands --compute-index-size --config msmarco-v1-passage.optional
 ```
 
 To print out the commands that will generate the runs without performing the runs, use the options `--dry-run --print-commands`.
@@ -206,8 +206,8 @@ The table below reports the effectiveness of selected models (dev in terms of RR
 The following commands will reproduce runs corresponding to the above models (as well as additional ones not included in the table):
 
 ```bash
-java $JAVA_OPTS io.anserini.reproduce.ReproduceFromPrebuiltIndexes --print-commands --compute-index-size --config msmarco-v1-doc.core --dry-run
-java $JAVA_OPTS io.anserini.reproduce.ReproduceFromPrebuiltIndexes --print-commands --compute-index-size --config msmarco-v1-doc.optional --dry-run
+java $JAVA_OPTS io.anserini.reproduce.ReproduceFromPrebuiltIndexes --print-commands --compute-index-size --config msmarco-v1-doc.core
+java $JAVA_OPTS io.anserini.reproduce.ReproduceFromPrebuiltIndexes --print-commands --compute-index-size --config msmarco-v1-doc.optional
 ```
 
 To print out the commands that will generate the runs without performing the runs, use the options `--dry-run --print-commands`.
@@ -227,8 +227,8 @@ The table below reports the effectiveness of selected models (dev and dev2 in te
 The following commands will reproduce runs corresponding to the above models (as well as additional ones not included in the table):
 
 ```bash
-java $JAVA_OPTS io.anserini.reproduce.ReproduceFromPrebuiltIndexes --print-commands --compute-index-size --config msmarco-v2-passage.core --dry-run
-java $JAVA_OPTS io.anserini.reproduce.ReproduceFromPrebuiltIndexes --print-commands --compute-index-size --config msmarco-v2-passage.optional --dry-run
+java $JAVA_OPTS io.anserini.reproduce.ReproduceFromPrebuiltIndexes --print-commands --compute-index-size --config msmarco-v2-passage.core
+java $JAVA_OPTS io.anserini.reproduce.ReproduceFromPrebuiltIndexes --print-commands --compute-index-size --config msmarco-v2-passage.optional
 ```
 
 To print out the commands that will generate the runs without performing the runs, use the options `--dry-run --print-commands`.
@@ -251,8 +251,8 @@ The table below reports the effectiveness of selected models (dev in terms of RR
 The following commands will reproduce runs corresponding to the above models (as well as additional ones not included in the table):
 
 ```bash
-java $JAVA_OPTS io.anserini.reproduce.ReproduceFromPrebuiltIndexes --print-commands --compute-index-size --config msmarco-v2-doc.core --dry-run
-java $JAVA_OPTS io.anserini.reproduce.ReproduceFromPrebuiltIndexes --print-commands --compute-index-size --config msmarco-v2-doc.optional --dry-run
+java $JAVA_OPTS io.anserini.reproduce.ReproduceFromPrebuiltIndexes --print-commands --compute-index-size --config msmarco-v2-doc.core
+java $JAVA_OPTS io.anserini.reproduce.ReproduceFromPrebuiltIndexes --print-commands --compute-index-size --config msmarco-v2-doc.optional
 ```
 
 To print out the commands that will generate the runs without performing the runs, use the options `--dry-run --print-commands`.
@@ -284,8 +284,8 @@ The following table reports nDCG@20 scores for various retrieval conditions:
 The following commands will reproduce runs corresponding to the above models (as well as additional ones not included in the table):
 
 ```bash
-java $JAVA_OPTS io.anserini.reproduce.ReproduceFromPrebuiltIndexes --print-commands --compute-index-size --config msmarco-v2.1-doc-segmented.core --dry-run
-java $JAVA_OPTS io.anserini.reproduce.ReproduceFromPrebuiltIndexes --print-commands --compute-index-size --config msmarco-v2.1-doc-segmented.optional --dry-run
+java $JAVA_OPTS io.anserini.reproduce.ReproduceFromPrebuiltIndexes --print-commands --compute-index-size --config msmarco-v2.1-doc-segmented.core
+java $JAVA_OPTS io.anserini.reproduce.ReproduceFromPrebuiltIndexes --print-commands --compute-index-size --config msmarco-v2.1-doc-segmented.optional
 ```
 
 To print out the commands that will generate the runs without performing the runs, use the options `--dry-run --print-commands`.
@@ -309,8 +309,8 @@ The table below reports effectiveness (dev in terms of RR@10, DL21-DL23, RAGgy i
 The following commands will reproduce runs corresponding to the above models (as well as additional ones not included in the table):
 
 ```bash
-java $JAVA_OPTS io.anserini.reproduce.ReproduceFromPrebuiltIndexes --print-commands --compute-index-size --config msmarco-v2.1-doc.core --dry-run
-java $JAVA_OPTS io.anserini.reproduce.ReproduceFromPrebuiltIndexes --print-commands --compute-index-size --config msmarco-v2.1-doc.optional --dry-run
+java $JAVA_OPTS io.anserini.reproduce.ReproduceFromPrebuiltIndexes --print-commands --compute-index-size --config msmarco-v2.1-doc.core
+java $JAVA_OPTS io.anserini.reproduce.ReproduceFromPrebuiltIndexes --print-commands --compute-index-size --config msmarco-v2.1-doc.optional
 ```
 
 To print out the commands that will generate the runs without performing the runs, use the options `--dry-run --print-commands`.
@@ -403,8 +403,8 @@ The table below reports fusion results (nDCG@10) combining BM25 (flat) and BGE (
 The following commands will reproduce runs corresponding to the above models (as well as additional ones not included in the table):
 
 ```bash
-java $JAVA_OPTS io.anserini.reproduce.ReproduceFromPrebuiltIndexes --print-commands --compute-index-size --config beir.core --dry-run
-java $JAVA_OPTS io.anserini.reproduce.ReproduceFromPrebuiltIndexes --print-commands --compute-index-size --config beir.optional --dry-run
+java $JAVA_OPTS io.anserini.reproduce.ReproduceFromPrebuiltIndexes --print-commands --compute-index-size --config beir.core
+java $JAVA_OPTS io.anserini.reproduce.ReproduceFromPrebuiltIndexes --print-commands --compute-index-size --config beir.optional
 ```
 
 To print out the commands that will generate the runs without performing the runs, use the options `--dry-run --print-commands`.
@@ -451,8 +451,8 @@ The following table reports nDCG@10 scores.
 The following commands will reproduce runs corresponding to the above models (as well as additional ones not included in the table):
 
 ```bash
-java $JAVA_OPTS io.anserini.reproduce.ReproduceFromPrebuiltIndexes --print-commands --compute-index-size --config bright.core --dry-run
-java $JAVA_OPTS io.anserini.reproduce.ReproduceFromPrebuiltIndexes --print-commands --compute-index-size --config bright.optional --dry-run
+java $JAVA_OPTS io.anserini.reproduce.ReproduceFromPrebuiltIndexes --print-commands --compute-index-size --config bright.core
+java $JAVA_OPTS io.anserini.reproduce.ReproduceFromPrebuiltIndexes --print-commands --compute-index-size --config bright.optional
 ```
 
 To print out the commands that will generate the runs without performing the runs, use the options `--dry-run --print-commands`.
