@@ -25,7 +25,7 @@ See [this guide on prebuilt indexes](../prebuilt-indexes.md) for more details.
 
 ## Contents
 
-+ [MS MARCO V2.1 + TREC RAG](#ms-marco-v21--trec-rag)
++ [TREC RAG](#trec-rag)
 + [MS MARCO V1 Passages](#ms-marco-v1-passages)
 + [MS MARCO V1 Documents](#ms-marco-v1-documents)
 + [MS MARCO V2 Passages](#ms-marco-v2-passages)
@@ -35,9 +35,9 @@ See [this guide on prebuilt indexes](../prebuilt-indexes.md) for more details.
 + [BEIR](#beir)
 + [BRIGHT](#bright)
 
-[Extracting Queries and Documents](#extracting-queries-and-documents): converting TREC runs into jsonl structures that include both queries and candidate documents that, for example, feed downstream rerankers.
+[Extracting queries and documents](#extracting-queries-and-documents): converting TREC runs into jsonl structures that include both queries and candidate documents that, for example, feed downstream rerankers.
 
-## MS MARCO V2.1 + TREC RAG
+## TREC RAG
 
 The MS MARCO V2.1 collections were created for the [TREC RAG Track](https://trec-rag.github.io/).
 It was the official corpus used in 2024 and will remain the corpus for 2025.
@@ -79,7 +79,7 @@ See [this guide on prebuilt indexes](../prebuilt-indexes.md) for more details.
 ```bash
 java $JAVA_OPTS io.anserini.search.SearchCollection \
   -index msmarco-v2.1-doc-segmented -topics rag24.test -bm25 -hits 1000 \
-  -output $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.rag24.test.txt \
+  -output $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.rag24.test.txt
 ```
 
 And to evaluate:
@@ -104,7 +104,6 @@ Additional helpful tips are provided below for dealing with space issues.
 Here's how you reproduce results for each shard individually on the TREC 2024 RAG Track test queries, using ONNX to encode queries on the fly (which means you can extend to arbitrary queries):
 
 ```bash
-# RAG24 test
 SHARDS=(00 01 02 03 04 05 06 07 08 09); for shard in "${SHARDS[@]}"
 do
     java $JAVA_OPTS io.anserini.search.SearchHnswDenseVectors -threads 32 -index msmarco-v2.1-doc-segmented-shard${shard}.arctic-embed-l.hnsw-int8 -topics rag24.test -topicReader TsvString -topicField title -encoder ArcticEmbedL -output $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.shard${shard}.txt -hits 250 -efSearch 1000 > $OUTPUT_DIR/log.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.shard${shard}.txt 2>&1
@@ -115,7 +114,6 @@ done
 <summary>Same commands, but using cached queries (faster)</summary>
 
 ```bash
-# RAG24 test
 SHARDS=(00 01 02 03 04 05 06 07 08 09); for shard in "${SHARDS[@]}"
 do
     java $JAVA_OPTS io.anserini.search.SearchHnswDenseVectors -threads 32 -index msmarco-v2.1-doc-segmented-shard${shard}.arctic-embed-l.hnsw-int8 -topics rag24.test.snowflake-arctic-embed-l -output $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.shard${shard}.txt -hits 250 -efSearch 1000 > $OUTPUT_DIR/log.msmarco-v2.1-doc-segmented.arctic-l.rag24.test.shard${shard}.txt 2>&1
@@ -463,23 +461,21 @@ To print out the commands that will generate the runs without performing the run
 
 ## Extracting Queries and Documents
 
-To generate jsonl output containing the raw documents that can be reranked and further processed (for example, using [RankLLM](https://rankllm.ai/)), use the `GenerateRerankerRequests` program on the desired run file.
+To generate jsonl output containing the raw documents that can be reranked and further processed (for example, using [RankLLM](https://rankllm.ai/)), use the `ExtractQueriesAndDocumentsFromTrecRun` CLI on the desired run file.
 For example, to generate for the BM25 retrieval results:
 
 ```bash
-java -cp $ANSERINI_JAR --add-modules jdk.incubator.vector io.anserini.rerank.GenerateRerankerRequests \
-  -index msmarco-v2.1-doc-segmented \
-  -run $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.rag24.test.txt \
-  -topics rag24.test \
-  -output $OUTPUT_DIR/results.msmarco-v2.1-doc-segmented.bm25.rag24.test.jsonl \
-  -hits 20
+java $JAVA_OPTS io.anserini.cli.ExtractQueriesAndDocumentsFromTrecRun \
+  --index msmarco-v2.1-doc-segmented --topics rag24.test --hits 20 \
+  --run $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.rag24.test.txt \
+  --output $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.rag24.test.candidates.jsonl
 ```
 
 In the above command, we only fetch the top-20 hits.
 To examine the output, pipe through `jq` to pretty-print:
 
 ```bash
-$ head -n 1 $OUTPUT_DIR/results.msmarco-v2.1-doc-segmented.bm25.rag24.test.jsonl | jq
+$ head -n 1 $OUTPUT_DIR/run.msmarco-v2.1-doc-segmented.bm25.rag24.test.candidates.jsonl | jq
 {
   "query": {
     "qid": "2024-105741",
@@ -515,4 +511,4 @@ $ head -n 1 $OUTPUT_DIR/results.msmarco-v2.1-doc-segmented.bm25.rag24.test.jsonl
 }
 ```
 
-To generate similar output for ArcticEmbed-L, specify the corresponding run file with `-run`.
+To generate similar output for ArcticEmbed-L, specify the corresponding run file with `--run`.
