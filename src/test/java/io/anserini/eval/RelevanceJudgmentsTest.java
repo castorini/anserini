@@ -471,7 +471,7 @@ public class RelevanceJudgmentsTest{
     // % wc tools/topics-and-qrels/qrels.rag25.test.txt
     //   10284   41136  523909 tools/topics-and-qrels/qrels.rag25.test.txt
 
-    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.rag24.test.txt");
+    RelevanceJudgments qrels = new RelevanceJudgments("tools/topics-and-qrels/qrels.rag25.test.txt");
     assertNotNull(qrels);
     assertEquals(22, qrels.getQids().size());
     assertEquals(10284, getQrelsCount(qrels));
