@@ -17,7 +17,7 @@ At the bottom of many pages you'll find a "Reproduction Log", which keeps track 
 Note that we stretch the meaning of "same team" a bit in these logs: we still consider it a successful reproduction if another member of our research group is able to obtain the same results, as long as the person was not the primary author of the code in question.
 
 
-- @kwamearhinPORTFL (a5393dd): Reproduced BM25 baselines for MS MARCO Passage Ranking using Anserini and Pyserini. Results match expected metrics (MRR@10 ≈ 0.187, MAP ≈ 0.1957, Recall@1000 ≈ 0.8573). Environment: Windows 11 (WSL2 Ubuntu 22.04), OpenJDK 21, Python 3. Some dense retrieval steps were not completed due to hardware limitations.
+- - @kwamearhinPORTFL (a5393dd): Reproduced BM25 baselines for MS MARCO passage ranking. Obtained expected results (MRR@10 ≈ 0.187, MAP ≈ 0.1957, Recall@1000 ≈ 0.8573). Environment: WSL2 Ubuntu 22.04, OpenJDK 21, Python 3. Dense retrieval attempted but not completed due to hardware limitations.
 
 Successfully reproduced the BM25 baseline for MS MARCO Passage Ranking using both Anserini and Pyserini.
 
