@@ -3,20 +3,19 @@
 Fetch the fatjar:
 
 ```bash
-# Will be updated
 wget https://repo1.maven.org/maven2/io/anserini/anserini/1.7.0/anserini-1.7.0-fatjar.jar
 ```
 
-Let's start out by setting the `JAVA_OPTS` and the `OUTPUT_DIR`:
+Start by setting the `OUTPUT_DIR` and `JAVA_OPTS`:
 
 ```bash
+export OUTPUT_DIR="."
+
 # for zsh
 export JAVA_OPTS=(-cp `ls anserini-*-fatjar.jar` --add-modules jdk.incubator.vector)
 
 # for bash
 export JAVA_OPTS="-cp `ls anserini-*-fatjar.jar` --add-modules jdk.incubator.vector"
-
-export OUTPUT_DIR="."
 ```
 
 ❗ Anserini ships with a number of prebuilt indexes, which it'll automagically download for you.
