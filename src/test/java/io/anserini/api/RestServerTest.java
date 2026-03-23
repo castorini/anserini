@@ -20,6 +20,7 @@ import java.net.URI;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 import java.util.Scanner;
 
 import org.junit.Test;
@@ -143,6 +144,15 @@ public class RestServerTest extends StdOutStdErrRedirectableLuceneTestCase {
   }
 
   @Test
+  public void testInvalidParseValidation() throws Exception {
+    TestResponse response = sendGet(baseUrl + "/v1/any-index/search?query=text&parse=maybe");
+
+    assertEquals(400, response.statusCode);
+    JsonNode body = JSON_MAPPER.readTree(response.body);
+    assertTrue(body.get("error").asText().contains("parse"));
+  }
+
+  @Test
   public void testSearchEndpoint() throws Exception {
     String index = URLEncoder.encode(
         "src/test/resources/prebuilt_indexes/lucene9-index.sample_docs_trec_collection2",
@@ -154,10 +164,13 @@ public class RestServerTest extends StdOutStdErrRedirectableLuceneTestCase {
     assertEquals("v1", body.get("api").asText());
     assertEquals(2, body.get("candidates").size());
     assertEquals("DOC222", body.get("candidates").get(0).get("docid").asText());
+    assertTrue(body.get("candidates").get(0).has("doc"));
+    JsonNode doc = body.get("candidates").get(0).get("doc");
+    assertTrue(doc.isTextual() || doc.isObject());
   }
 
   @Test
-  public void testSearchDocumentMatchesDocumentEndpoint() throws Exception {
+  public void testSearchEndpointParseTrueUsesParsedRawJson() throws Exception {
     String rawIndex = "src/test/resources/prebuilt_indexes/lucene9-index.sample_docs_trec_collection2";
     String index = URLEncoder.encode(rawIndex, StandardCharsets.UTF_8);
 
@@ -172,7 +185,24 @@ public class RestServerTest extends StdOutStdErrRedirectableLuceneTestCase {
     assertEquals(200, documentResponse.statusCode);
     JsonNode documentBody = JSON_MAPPER.readTree(documentResponse.body);
 
-    assertEquals(documentBody.get("document"), candidate.get("doc"));
+    JsonNode expected = expectedParsedDocument(documentBody.get("document"));
+    JsonNode actual = candidate.get("doc");
+    assertEquals(expected, actual);
+  }
+
+  @Test
+  public void testSearchEndpointParseFalseUsesStoredFields() throws Exception {
+    String rawIndex = "src/test/resources/prebuilt_indexes/lucene9-index.sample_docs_trec_collection2";
+    String index = URLEncoder.encode(rawIndex, StandardCharsets.UTF_8);
+
+    TestResponse searchResponse = sendGet(baseUrl + "/v1/" + index + "/search?query=text&hits=1&parse=false");
+    assertEquals(200, searchResponse.statusCode);
+    JsonNode searchBody = JSON_MAPPER.readTree(searchResponse.body);
+    JsonNode candidate = searchBody.get("candidates").get(0);
+
+    assertTrue(candidate.get("doc").isObject());
+    assertEquals(candidate.get("docid").asText(), candidate.get("doc").get("id").asText());
+    assertTrue(candidate.get("doc").has("raw"));
   }
 
   @Test
@@ -187,7 +217,26 @@ public class RestServerTest extends StdOutStdErrRedirectableLuceneTestCase {
     JsonNode body = JSON_MAPPER.readTree(response.body);
     assertEquals("v1", body.get("api").asText());
     assertEquals("DOC222", body.get("docid").asText());
-    assertEquals("DOC222", body.get("document").get("id").asText());
+    assertTrue(body.has("document"));
+    assertTrue(body.get("document").isTextual() || body.get("document").isObject());
+  }
+
+  @Test
+  public void testDocumentEndpointUsesNormalizedDocumentShape() throws Exception {
+    String rawIndex = "src/test/resources/prebuilt_indexes/lucene9-index.sample_docs_trec_collection2";
+    String index = URLEncoder.encode(rawIndex, StandardCharsets.UTF_8);
+    TestResponse searchResponse = sendGet(baseUrl + "/v1/" + index + "/search?query=text&hits=1");
+    assertEquals(200, searchResponse.statusCode);
+    JsonNode searchBody = JSON_MAPPER.readTree(searchResponse.body);
+    JsonNode candidate = searchBody.get("candidates").get(0);
+    String docid = candidate.get("docid").asText();
+
+    TestResponse response = sendGet(baseUrl + "/v1/" + index + "/doc/" +
+        URLEncoder.encode(docid, StandardCharsets.UTF_8));
+    assertEquals(200, response.statusCode);
+    JsonNode body = JSON_MAPPER.readTree(response.body);
+
+    assertEquals(candidate.get("doc"), body.get("document"));
   }
 
   @Test
@@ -238,6 +287,38 @@ public class RestServerTest extends StdOutStdErrRedirectableLuceneTestCase {
     }
 
     return new TestResponse(statusCode, body);
+  }
+
+  private static JsonNode expectedParsedDocument(JsonNode document) throws Exception {
+    if (!document.has("raw")) {
+      return document;
+    }
+
+    try {
+      JsonNode rawJson = JSON_MAPPER.readTree(document.get("raw").asText());
+      if (rawJson.isObject()) {
+        Map<String, Object> normalized = new java.util.LinkedHashMap<>();
+        java.util.Iterator<java.util.Map.Entry<String, JsonNode>> fields = rawJson.fields();
+        while (fields.hasNext()) {
+          java.util.Map.Entry<String, JsonNode> field = fields.next();
+          if ("id".equals(field.getKey()) || "_id".equals(field.getKey())) {
+            continue;
+          }
+          JsonNode value = field.getValue();
+          normalized.put(field.getKey(), value.isValueNode() ? value.asText() : JSON_MAPPER.convertValue(value, Object.class));
+        }
+
+        if (normalized.size() == 1) {
+          return JSON_MAPPER.valueToTree(normalized.values().iterator().next());
+        }
+
+        return JSON_MAPPER.valueToTree(normalized);
+      }
+    } catch (Exception e) {
+      // Fall back to stored fields below.
+    }
+
+    return document;
   }
 
   private static class TestResponse {

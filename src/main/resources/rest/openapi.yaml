@@ -32,6 +32,13 @@ paths:
             minimum: 1
             default: 10
           description: Number of hits to return.
+        - name: parse
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: true
+          description: If true, try to return parsed document contents; if false, return the raw stored document string.
       responses:
         "200":
           description: Search results.
@@ -107,7 +114,7 @@ components:
           type: integer
           minimum: 1
         doc:
-          description: Raw document or null if unavailable.
+          description: Stored document fields, or parsed JSON from the raw field when parse=true and raw contains a JSON object.
           nullable: true
       required: [docid, score, rank]
     SearchResponse:
@@ -136,9 +143,7 @@ components:
         docid:
           type: string
         document:
-          type: object
-          additionalProperties:
-            type: string
+          description: Stored document fields normalized from the raw field when possible; may be a string when only one parsed field remains.
       required: [api, index, docid, document]
     ErrorResponse:
       type: object

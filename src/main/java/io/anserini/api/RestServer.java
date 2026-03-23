@@ -16,12 +16,15 @@
 
 package io.anserini.api;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,6 +67,7 @@ public final class RestServer implements Closeable {
   private static final int DEFAULT_HITS = 10;
   private static final String OPENAPI_PATH = "/openapi.yaml";
   private static final String DOCS_PATH = "/docs";
+  private static final ObjectMapper JSON_MAPPER = new ObjectMapper();
   private static final byte[] OPENAPI_SPEC = loadOpenApiSpec();
   private static final byte[] DOCS_PAGE = loadResource("/rest/docs.html");
   private static final String ROUTE_ERROR = "Expected route /v1/{index}/search or /v1/{index}/doc/{docid}";
@@ -129,6 +133,11 @@ public final class RestServer implements Closeable {
       return;
     }
 
+    Boolean parse = parseBooleanQueryParam(ctx, "parse", true);
+    if (parse == null) {
+      return;
+    }
+
     SimpleSearcher searcher = searchers.computeIfAbsent(index, this::createSearcher);
     if (searcher == null) {
       writeError(ctx, 400, "Unable to open index: " + index);
@@ -140,7 +149,7 @@ public final class RestServer implements Closeable {
     synchronized (searcher) {
       results = searcher.search(query, hits);
       for (int rank = 0; rank < results.length; rank++) {
-        candidates.add(toJsonCandidate(results[rank], rank + 1, searcher.doc(results[rank].docid)));
+        candidates.add(toJsonCandidate(results[rank], rank + 1, searcher.doc(results[rank].docid), parse));
       }
     }
 
@@ -180,7 +189,7 @@ public final class RestServer implements Closeable {
     response.put("api", "v1");
     response.put("index", index);
     response.put("docid", docid);
-    response.put("document", toDocumentJson(document));
+    response.put("document", toNormalizedDocumentJson(document));
     writeJson(ctx, 200, response);
   }
 
@@ -192,14 +201,117 @@ public final class RestServer implements Closeable {
     }
   }
 
-  private static Map<String, Object> toJsonCandidate(ScoredDoc hit, int rank, Document document) {
+  private static Map<String, Object> toJsonCandidate(ScoredDoc hit, int rank, Document document, boolean parse) {
     Map<String, Object> candidate = new LinkedHashMap<>();
     candidate.put("docid", hit.docid);
     candidate.put("score", hit.score);
     candidate.put("rank", rank);
-    candidate.put("doc", toDocumentJson(document));
+    candidate.put("doc", toCandidateDocumentJson(document, parse));
 
     return candidate;
+  }
+
+  private static Boolean parseBooleanQueryParam(Context ctx, String name, boolean defaultValue) {
+    String rawValue = ctx.queryParam(name);
+    if (rawValue == null) {
+      return defaultValue;
+    }
+
+    if ("true".equalsIgnoreCase(rawValue)) {
+      return true;
+    }
+
+    if ("false".equalsIgnoreCase(rawValue)) {
+      return false;
+    }
+
+    writeError(ctx, 400, "Parameter '" + name + "' must be 'true' or 'false'");
+    return null;
+  }
+
+  private static Object toCandidateDocumentJson(Document document, boolean parse) {
+    if (document == null) {
+      return null;
+    }
+
+    Map<String, Object> storedFields = toDocumentJson(document);
+    if (!parse) {
+      return storedFields;
+    }
+
+    String raw = document.get("raw");
+    if (raw == null) {
+      return normalizeStoredFields(storedFields);
+    }
+
+    try {
+      JsonNode json = JSON_MAPPER.readTree(raw);
+      if (json.isObject()) {
+        return normalizeParsedDocument(json);
+      }
+    } catch (IOException e) {
+      // Fall back to returning stored fields unchanged.
+    }
+
+    return normalizeStoredFields(storedFields);
+  }
+
+  private static Object toNormalizedDocumentJson(Document document) {
+    if (document == null) {
+      return null;
+    }
+
+    String raw = document.get("raw");
+    if (raw == null) {
+      return toDocumentJson(document);
+    }
+
+    try {
+      JsonNode json = JSON_MAPPER.readTree(raw);
+      if (json.isObject()) {
+        return normalizeParsedDocument(json);
+      }
+    } catch (IOException e) {
+      // Fall back to stored fields unchanged.
+    }
+
+    return normalizeStoredFields(toDocumentJson(document));
+  }
+
+  private static Object normalizeParsedDocument(JsonNode json) {
+    Map<String, Object> parsed = new LinkedHashMap<>();
+    Iterator<Map.Entry<String, JsonNode>> fields = json.fields();
+    while (fields.hasNext()) {
+      Map.Entry<String, JsonNode> field = fields.next();
+      if ("id".equals(field.getKey()) || "_id".equals(field.getKey())) {
+        continue;
+      }
+
+      JsonNode value = field.getValue();
+      parsed.put(field.getKey(), value.isValueNode() ? value.asText() : JSON_MAPPER.convertValue(value, Object.class));
+    }
+
+    if (parsed.size() == 1) {
+      return parsed.values().iterator().next();
+    }
+
+    return parsed;
+  }
+
+  private static Object normalizeStoredFields(Map<String, Object> storedFields) {
+    Map<String, Object> normalized = new LinkedHashMap<>();
+    for (Map.Entry<String, Object> field : storedFields.entrySet()) {
+      if ("id".equals(field.getKey()) || "_id".equals(field.getKey())) {
+        continue;
+      }
+      normalized.put(field.getKey(), field.getValue());
+    }
+
+    if (normalized.size() == 1) {
+      return normalized.values().iterator().next();
+    }
+
+    return normalized;
   }
 
   private static Map<String, Object> toDocumentJson(Document document) {
