@@ -58,6 +58,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+        "405":
+          description: Method not allowed. Only GET is supported.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
   /{index}/doc/{docid}:
     get:
       summary: Fetch a document by docid
@@ -81,7 +93,7 @@ paths:
           schema:
             type: boolean
             default: true
-          description: If true, normalize the document from the raw field when possible; if false, return the raw stored document string.
+          description: If true, try to return parsed document contents; if false, return the raw stored document string.
       responses:
         "200":
           description: Document found.
@@ -90,13 +102,25 @@ paths:
               schema:
                 $ref: "#/components/schemas/DocumentResponse"
         "404":
-          description: Document or route not found.
+          description: Document not found, or route not found.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
         "400":
           description: Invalid request parameters.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "405":
+          description: Method not allowed. Only GET is supported.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal server error.
           content:
             application/json:
               schema:
@@ -121,9 +145,10 @@ components:
           type: integer
           minimum: 1
         doc:
-          description: Stored document fields, or parsed JSON from the raw field when parse=true and raw contains a JSON object.
-          nullable: true
-      required: [docid, score, rank]
+          allOf:
+            - $ref: "#/components/schemas/DocumentPayload"
+          description: Document in JSON or as a string, depending on the "parse" parameter.
+      required: [docid, score, rank, doc]
     SearchResponse:
       type: object
       properties:
@@ -150,8 +175,21 @@ components:
         docid:
           type: string
         doc:
-          description: Stored document fields normalized from the raw field when possible; may be a string when only one parsed field remains.
+          allOf:
+            - $ref: "#/components/schemas/DocumentPayload"
+          description: Document in JSON or as a string, depending on the "parse" parameter.
       required: [api, index, docid, doc]
+    DocumentPayload:
+      description: May be null, a string, or a JSON object depending on index contents and setting of "parse" parameter.
+      nullable: true
+      oneOf:
+        - type: string
+        - type: object
+          additionalProperties: true
+        - type: array
+          items: {}
+        - type: number
+        - type: boolean
     ErrorResponse:
       type: object
       properties:
