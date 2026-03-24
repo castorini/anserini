@@ -75,6 +75,13 @@ paths:
           schema:
             type: string
           description: Document id in the index.
+        - name: parse
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: true
+          description: If true, normalize the document from the raw field when possible; if false, return the raw stored document string.
       responses:
         "200":
           description: Document found.
@@ -142,9 +149,9 @@ components:
           type: string
         docid:
           type: string
-        document:
+        doc:
           description: Stored document fields normalized from the raw field when possible; may be a string when only one parsed field remains.
-      required: [api, index, docid, document]
+      required: [api, index, docid, doc]
     ErrorResponse:
       type: object
       properties:

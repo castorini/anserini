@@ -185,7 +185,7 @@ public class RestServerTest extends StdOutStdErrRedirectableLuceneTestCase {
     assertEquals(200, documentResponse.statusCode);
     JsonNode documentBody = JSON_MAPPER.readTree(documentResponse.body);
 
-    JsonNode expected = expectedParsedDocument(documentBody.get("document"));
+    JsonNode expected = expectedParsedDocument(documentBody.get("doc"));
     JsonNode actual = candidate.get("doc");
     assertEquals(expected, actual);
   }
@@ -200,9 +200,8 @@ public class RestServerTest extends StdOutStdErrRedirectableLuceneTestCase {
     JsonNode searchBody = JSON_MAPPER.readTree(searchResponse.body);
     JsonNode candidate = searchBody.get("candidates").get(0);
 
-    assertTrue(candidate.get("doc").isObject());
-    assertEquals(candidate.get("docid").asText(), candidate.get("doc").get("id").asText());
-    assertTrue(candidate.get("doc").has("raw"));
+    assertTrue(candidate.get("doc").isTextual());
+    assertTrue(candidate.get("doc").asText().contains("<HEAD>HEAD</HEAD>"));
   }
 
   @Test
@@ -217,8 +216,8 @@ public class RestServerTest extends StdOutStdErrRedirectableLuceneTestCase {
     JsonNode body = JSON_MAPPER.readTree(response.body);
     assertEquals("v1", body.get("api").asText());
     assertEquals("DOC222", body.get("docid").asText());
-    assertTrue(body.has("document"));
-    assertTrue(body.get("document").isTextual() || body.get("document").isObject());
+    assertTrue(body.has("doc"));
+    assertTrue(body.get("doc").isTextual() || body.get("doc").isObject());
   }
 
   @Test
@@ -236,7 +235,21 @@ public class RestServerTest extends StdOutStdErrRedirectableLuceneTestCase {
     assertEquals(200, response.statusCode);
     JsonNode body = JSON_MAPPER.readTree(response.body);
 
-    assertEquals(candidate.get("doc"), body.get("document"));
+    assertEquals(candidate.get("doc"), body.get("doc"));
+  }
+
+  @Test
+  public void testDocumentEndpointParseFalseUsesRawString() throws Exception {
+    String index = URLEncoder.encode(
+        "src/test/resources/prebuilt_indexes/lucene9-index.sample_docs_trec_collection2",
+        StandardCharsets.UTF_8);
+    String docid = URLEncoder.encode("DOC222", StandardCharsets.UTF_8);
+    TestResponse response = sendGet(baseUrl + "/v1/" + index + "/doc/" + docid + "?parse=false");
+
+    assertEquals(200, response.statusCode);
+    JsonNode body = JSON_MAPPER.readTree(response.body);
+    assertTrue(body.get("doc").isTextual());
+    assertTrue(body.get("doc").asText().contains("<HEAD>HEAD</HEAD>"));
   }
 
   @Test
@@ -301,7 +314,7 @@ public class RestServerTest extends StdOutStdErrRedirectableLuceneTestCase {
         java.util.Iterator<java.util.Map.Entry<String, JsonNode>> fields = rawJson.fields();
         while (fields.hasNext()) {
           java.util.Map.Entry<String, JsonNode> field = fields.next();
-          if ("id".equals(field.getKey()) || "_id".equals(field.getKey())) {
+          if ("id".equals(field.getKey()) || "_id".equals(field.getKey()) || "docid".equals(field.getKey())) {
             continue;
           }
           JsonNode value = field.getValue();

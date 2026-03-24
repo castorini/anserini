@@ -169,6 +169,11 @@ public final class RestServer implements Closeable {
       return;
     }
 
+    Boolean parse = parseBooleanQueryParam(ctx, "parse", true);
+    if (parse == null) {
+      return;
+    }
+
     SimpleSearcher searcher = searchers.computeIfAbsent(index, this::createSearcher);
     if (searcher == null) {
       writeError(ctx, 400, "Unable to open index: " + index);
@@ -189,7 +194,7 @@ public final class RestServer implements Closeable {
     response.put("api", "v1");
     response.put("index", index);
     response.put("docid", docid);
-    response.put("document", toNormalizedDocumentJson(document));
+    response.put("doc", toDocumentResponseJson(document, parse));
     writeJson(ctx, 200, response);
   }
 
@@ -234,11 +239,12 @@ public final class RestServer implements Closeable {
       return null;
     }
 
-    Map<String, Object> storedFields = toDocumentJson(document);
     if (!parse) {
-      return storedFields;
+      String raw = document.get("raw");
+      return raw != null ? raw : normalizeStoredFields(toDocumentJson(document));
     }
 
+    Map<String, Object> storedFields = toDocumentJson(document);
     String raw = document.get("raw");
     if (raw == null) {
       return normalizeStoredFields(storedFields);
@@ -256,14 +262,19 @@ public final class RestServer implements Closeable {
     return normalizeStoredFields(storedFields);
   }
 
-  private static Object toNormalizedDocumentJson(Document document) {
+  private static Object toDocumentResponseJson(Document document, boolean parse) {
     if (document == null) {
       return null;
     }
 
+    if (!parse) {
+      String raw = document.get("raw");
+      return raw != null ? raw : normalizeStoredFields(toDocumentJson(document));
+    }
+
     String raw = document.get("raw");
     if (raw == null) {
-      return toDocumentJson(document);
+      return normalizeStoredFields(toDocumentJson(document));
     }
 
     try {
@@ -283,7 +294,7 @@ public final class RestServer implements Closeable {
     Iterator<Map.Entry<String, JsonNode>> fields = json.fields();
     while (fields.hasNext()) {
       Map.Entry<String, JsonNode> field = fields.next();
-      if ("id".equals(field.getKey()) || "_id".equals(field.getKey())) {
+      if ("id".equals(field.getKey()) || "_id".equals(field.getKey()) || "docid".equals(field.getKey())) {
         continue;
       }
 
