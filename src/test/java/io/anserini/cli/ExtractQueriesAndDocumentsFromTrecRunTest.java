@@ -19,9 +19,7 @@ package io.anserini.cli;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.PrintStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
@@ -34,34 +32,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class ExtractQueriesAndDocumentsFromTrecRunTest {
-  // Note, cannot extend StdOutStdErrRedirectableLuceneTestCase due to concurrency issues.
-  // So, we have to duplicate code to save/restore stderr/stdout.
+import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 
-  protected final ByteArrayOutputStream out = new ByteArrayOutputStream();
-  protected final ByteArrayOutputStream err = new ByteArrayOutputStream();
-  protected PrintStream saveOut;
-  protected PrintStream saveErr;
-
-  protected void redirectStdErr() {
-    saveErr = System.err;
-    err.reset();
-    System.setErr(new PrintStream(err));
-  }
-
-  protected void restoreStdErr() {
-    System.setErr(saveErr);
-  }
-
-  protected void redirectStdOut() {
-    saveOut = System.out;
-    out.reset();
-    System.setOut(new PrintStream(out));
-  }
-
-  protected void restoreStdOut() {
-    System.setOut(saveOut);
-  }
+public class ExtractQueriesAndDocumentsFromTrecRunTest extends StdOutStdErrRedirectableLuceneTestCase {
 
   @BeforeClass
   public static void setupClass() {
@@ -72,12 +45,14 @@ public class ExtractQueriesAndDocumentsFromTrecRunTest {
   public void setUp() throws Exception {
     redirectStdOut();
     redirectStdErr();
+    super.setUp();
   }
 
   @After
   public void tearDown() throws Exception {
     restoreStdOut();
     restoreStdErr();
+    super.tearDown();
   }
 
   @Test

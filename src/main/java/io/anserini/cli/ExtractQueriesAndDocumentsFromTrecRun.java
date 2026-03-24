@@ -73,15 +73,15 @@ public final class ExtractQueriesAndDocumentsFromTrecRun {
     @Option(name = "--hits", metaVar = "[num]", usage = "Number of candidates to generate.")
     public int hits = 100;
 
-    @Option(name = "--parse", metaVar = "[boolean]", usage = "Parse raw documents as JSON.")
-    public boolean parse = true;
+    @Option(name = "--no-parse", usage = "Do not parse raw documents.")
+    public boolean noParse = false;
 
     @Option(name = "--help", help = true, usage = "Print this help message and exit.")
     public boolean help = false;
   }
 
   private static final String[] argsOrdering = new String[] {
-    "--index", "--run", "--topics", "--topic-reader", "--topic-field", "--output", "--hits", "--parse", "--help"};
+    "--index", "--run", "--topics", "--topic-reader", "--topic-field", "--output", "--hits", "--no-parse", "--help"};
 
   public static void main(String[] args) throws IOException {
     LoggingBootstrap.installJulToSlf4jBridge();
@@ -109,6 +109,7 @@ public final class ExtractQueriesAndDocumentsFromTrecRun {
   private static void run(Args args) throws IOException {
     SortedMap<String, Map<String, String>> topics = getTopics(args.topics, args.topicReader);
     ObjectMapper mapper = new ObjectMapper();
+    boolean parse = !args.noParse;
     int qidCount = 0;
     try (IndexReader indexReader = getIndexReader(args.index);
          PrintWriter output = new PrintWriter(Files.newBufferedWriter(Paths.get(args.output), StandardCharsets.UTF_8));
@@ -130,7 +131,7 @@ public final class ExtractQueriesAndDocumentsFromTrecRun {
           }
           curQid = qid;
         }
-        addCandidate(candidates, mapper, indexReader, data[2], Float.parseFloat(data[4]), args.parse);
+        addCandidate(candidates, mapper, indexReader, data[2], Float.parseFloat(data[4]), parse);
       }
 
       if (!curQid.isEmpty()) {
