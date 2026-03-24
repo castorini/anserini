@@ -180,9 +180,11 @@ public class ExtractQueriesAndDocumentsFromTrecRunTest {
     assertTrue(output.contains("\"qid\":\"1\""));
     assertTrue(output.contains("\"text\":\"model\""));
     assertTrue(output.contains("\"docid\":\"doc1\""));
-    assertTrue(output.contains("\"_id\":\"doc1\""));
+    assertTrue(output.contains("\"title\":\"doc1 title\""));
+    assertTrue(output.contains("\"text\":\"doc1 text\""));
     assertTrue(output.contains("\"docid\":\"doc3\""));
-    assertTrue(output.contains("\"_id\":\"doc3\""));
+    assertTrue(output.contains("\"title\":\"doc3 title\""));
+    assertTrue(output.contains("\"text\":\"doc3 text\""));
     assertTrue(new File("test_reranker_requests.jsonl").delete());
   }
 

@@ -73,12 +73,15 @@ public final class ExtractQueriesAndDocumentsFromTrecRun {
     @Option(name = "--hits", metaVar = "[num]", usage = "Number of candidates to generate.")
     public int hits = 100;
 
+    @Option(name = "--parse", metaVar = "[boolean]", usage = "Parse raw documents as JSON.")
+    public boolean parse = true;
+
     @Option(name = "--help", help = true, usage = "Print this help message and exit.")
     public boolean help = false;
   }
 
   private static final String[] argsOrdering = new String[] {
-    "--index", "--run", "--topics", "--topic-reader", "--topic-field", "--output", "--hits", "--help"};
+    "--index", "--run", "--topics", "--topic-reader", "--topic-field", "--output", "--hits", "--parse", "--help"};
 
   public static void main(String[] args) throws IOException {
     LoggingBootstrap.installJulToSlf4jBridge();
@@ -127,7 +130,7 @@ public final class ExtractQueriesAndDocumentsFromTrecRun {
           }
           curQid = qid;
         }
-        addCandidate(candidates, mapper, indexReader, data[2], Float.parseFloat(data[4]));
+        addCandidate(candidates, mapper, indexReader, data[2], Float.parseFloat(data[4]), args.parse);
       }
 
       if (!curQid.isEmpty()) {
@@ -140,7 +143,7 @@ public final class ExtractQueriesAndDocumentsFromTrecRun {
   }
 
   private static void addCandidate(List<Map<String, Object>> candidates, ObjectMapper mapper,
-      IndexReader indexReader, String docid, float score) throws IOException {
+      IndexReader indexReader, String docid, float score, boolean parse) throws IOException {
     String raw = IndexReaderUtils.documentRaw(indexReader, docid);
     if (raw == null) {
       throw new IllegalArgumentException("Raw document with docid " + docid + " not found in index.");
@@ -150,26 +153,7 @@ public final class ExtractQueriesAndDocumentsFromTrecRun {
     candidate.put("docid", docid);
     candidate.put("score", score);
 
-    Object doc = raw;
-    if (!raw.isEmpty()) {
-      int offset = 0;
-      while (offset < raw.length() && Character.isWhitespace(raw.charAt(offset))) {
-        offset++;
-      }
-      if (offset < raw.length()) {
-        char first = raw.charAt(offset);
-        if (first == '{' || first == '[' || first == '"' || first == '-' || (first >= '0' && first <= '9')
-            || first == 't' || first == 'f' || first == 'n') {
-          try {
-            doc = mapper.readValue(raw, Object.class);
-          } catch (JsonProcessingException e) {
-            doc = raw;
-          }
-        }
-      }
-    }
-
-    candidate.put("doc", doc);
+    candidate.put("doc", CliUtils.formatRawDocument(raw, parse, mapper));
     candidates.add(candidate);
   }
 

@@ -22,7 +22,6 @@ import java.io.InputStream;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +30,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.index.IndexableField;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.kohsuke.args4j.CmdLineException;
@@ -39,7 +37,6 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.anserini.cli.CliUtils;
@@ -237,110 +234,11 @@ public final class RestServer implements Closeable {
   }
 
   private static Object toCandidateDocumentJson(Document document, boolean parse) {
-    if (document == null) {
-      return null;
-    }
-
-    if (!parse) {
-      String raw = document.get("raw");
-      return raw != null ? raw : normalizeStoredFields(toDocumentJson(document));
-    }
-
-    Map<String, Object> storedFields = toDocumentJson(document);
-    String raw = document.get("raw");
-    if (raw == null) {
-      return normalizeStoredFields(storedFields);
-    }
-
-    try {
-      JsonNode json = JSON_MAPPER.readTree(raw);
-      if (json.isObject()) {
-        return normalizeParsedDocument(json);
-      }
-    } catch (IOException e) {
-      // Fall back to returning stored fields unchanged.
-    }
-
-    return normalizeStoredFields(storedFields);
+    return CliUtils.formatDocument(document, parse, JSON_MAPPER);
   }
 
   private static Object toDocumentResponseJson(Document document, boolean parse) {
-    if (document == null) {
-      return null;
-    }
-
-    if (!parse) {
-      String raw = document.get("raw");
-      return raw != null ? raw : normalizeStoredFields(toDocumentJson(document));
-    }
-
-    String raw = document.get("raw");
-    if (raw == null) {
-      return normalizeStoredFields(toDocumentJson(document));
-    }
-
-    try {
-      JsonNode json = JSON_MAPPER.readTree(raw);
-      if (json.isObject()) {
-        return normalizeParsedDocument(json);
-      }
-    } catch (IOException e) {
-      // Fall back to stored fields unchanged.
-    }
-
-    return normalizeStoredFields(toDocumentJson(document));
-  }
-
-  private static Object normalizeParsedDocument(JsonNode json) {
-    Map<String, Object> parsed = new LinkedHashMap<>();
-    Iterator<Map.Entry<String, JsonNode>> fields = json.fields();
-    while (fields.hasNext()) {
-      Map.Entry<String, JsonNode> field = fields.next();
-      if ("id".equals(field.getKey()) || "_id".equals(field.getKey()) || "docid".equals(field.getKey())) {
-        continue;
-      }
-
-      JsonNode value = field.getValue();
-      parsed.put(field.getKey(), value.isValueNode() ? value.asText() : JSON_MAPPER.convertValue(value, Object.class));
-    }
-
-    if (parsed.size() == 1) {
-      return parsed.values().iterator().next();
-    }
-
-    return parsed;
-  }
-
-  private static Object normalizeStoredFields(Map<String, Object> storedFields) {
-    Map<String, Object> normalized = new LinkedHashMap<>();
-    for (Map.Entry<String, Object> field : storedFields.entrySet()) {
-      if ("id".equals(field.getKey()) || "_id".equals(field.getKey())) {
-        continue;
-      }
-      normalized.put(field.getKey(), field.getValue());
-    }
-
-    if (normalized.size() == 1) {
-      return normalized.values().iterator().next();
-    }
-
-    return normalized;
-  }
-
-  private static Map<String, Object> toDocumentJson(Document document) {
-    if (document == null) {
-      return null;
-    }
-
-    Map<String, Object> fields = new LinkedHashMap<>();
-    for (IndexableField field : document.getFields()) {
-      String value = field.stringValue();
-      if (value != null && !fields.containsKey(field.name())) {
-        fields.put(field.name(), value);
-      }
-    }
-
-    return fields;
+    return CliUtils.formatDocument(document, parse, JSON_MAPPER);
   }
 
   private static String decode(String value) {
