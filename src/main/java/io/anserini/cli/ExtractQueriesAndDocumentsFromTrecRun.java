@@ -31,6 +31,7 @@ import java.util.TreeMap;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
@@ -73,12 +74,15 @@ public final class ExtractQueriesAndDocumentsFromTrecRun {
     @Option(name = "--hits", metaVar = "[num]", usage = "Number of candidates to generate.")
     public int hits = 100;
 
+    @Option(name = "--no-parse", usage = "Do not parse raw documents.")
+    public boolean noParse = false;
+
     @Option(name = "--help", help = true, usage = "Print this help message and exit.")
     public boolean help = false;
   }
 
   private static final String[] argsOrdering = new String[] {
-    "--index", "--run", "--topics", "--topic-reader", "--topic-field", "--output", "--hits", "--help"};
+    "--index", "--run", "--topics", "--topic-reader", "--topic-field", "--output", "--hits", "--no-parse", "--help"};
 
   public static void main(String[] args) throws IOException {
     LoggingBootstrap.installJulToSlf4jBridge();
@@ -106,6 +110,7 @@ public final class ExtractQueriesAndDocumentsFromTrecRun {
   private static void run(Args args) throws IOException {
     SortedMap<String, Map<String, String>> topics = getTopics(args.topics, args.topicReader);
     ObjectMapper mapper = new ObjectMapper();
+    boolean parse = !args.noParse;
     int qidCount = 0;
     try (IndexReader indexReader = getIndexReader(args.index);
          PrintWriter output = new PrintWriter(Files.newBufferedWriter(Paths.get(args.output), StandardCharsets.UTF_8));
@@ -127,7 +132,7 @@ public final class ExtractQueriesAndDocumentsFromTrecRun {
           }
           curQid = qid;
         }
-        addCandidate(candidates, mapper, indexReader, data[2], Float.parseFloat(data[4]));
+        addCandidate(candidates, mapper, indexReader, data[2], Float.parseFloat(data[4]), parse);
       }
 
       if (!curQid.isEmpty()) {
@@ -140,36 +145,17 @@ public final class ExtractQueriesAndDocumentsFromTrecRun {
   }
 
   private static void addCandidate(List<Map<String, Object>> candidates, ObjectMapper mapper,
-      IndexReader indexReader, String docid, float score) throws IOException {
-    String raw = IndexReaderUtils.documentRaw(indexReader, docid);
-    if (raw == null) {
-      throw new IllegalArgumentException("Raw document with docid " + docid + " not found in index.");
+      IndexReader indexReader, String docid, float score, boolean parse) throws IOException {
+    Document document = IndexReaderUtils.document(indexReader, docid);
+    if (document == null) {
+      throw new IllegalArgumentException("Document with docid " + docid + " not found in index.");
     }
 
     Map<String, Object> candidate = new LinkedHashMap<>();
     candidate.put("docid", docid);
     candidate.put("score", score);
 
-    Object doc = raw;
-    if (!raw.isEmpty()) {
-      int offset = 0;
-      while (offset < raw.length() && Character.isWhitespace(raw.charAt(offset))) {
-        offset++;
-      }
-      if (offset < raw.length()) {
-        char first = raw.charAt(offset);
-        if (first == '{' || first == '[' || first == '"' || first == '-' || (first >= '0' && first <= '9')
-            || first == 't' || first == 'f' || first == 'n') {
-          try {
-            doc = mapper.readValue(raw, Object.class);
-          } catch (JsonProcessingException e) {
-            doc = raw;
-          }
-        }
-      }
-    }
-
-    candidate.put("doc", doc);
+    candidate.put("doc", CliUtils.formatDocument(document, parse, mapper));
     candidates.add(candidate);
   }
 
