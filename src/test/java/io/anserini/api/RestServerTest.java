@@ -239,6 +239,108 @@ public class RestServerTest extends StdOutStdErrRedirectableLuceneTestCase {
   }
 
   @Test
+  public void testCacmRawParseTrue() throws Exception {
+    String rawIndex = "src/test/resources/prebuilt_indexes/lucene-inverted.sample_cacm.store_raw";
+    String index = URLEncoder.encode(rawIndex, StandardCharsets.UTF_8);
+
+    TestResponse searchResponse = sendGet(baseUrl + "/v1/" + index + "/search?query=preliminary&hits=1");
+    assertEquals(200, searchResponse.statusCode);
+    JsonNode searchBody = JSON_MAPPER.readTree(searchResponse.body);
+    JsonNode candidate = searchBody.get("candidates").get(0);
+
+    System.out.println(candidate);
+    assertEquals("CACM-0001", candidate.get("docid").asText());
+    assertTrue(candidate.get("doc").isTextual());
+    assertTrue(candidate.get("doc").asText().contains("Preliminary Report"));
+
+    TestResponse documentResponse = sendGet(baseUrl + "/v1/" + index + "/doc/" +
+        URLEncoder.encode(candidate.get("docid").asText(), StandardCharsets.UTF_8));
+    assertEquals(200, documentResponse.statusCode);
+    JsonNode documentBody = JSON_MAPPER.readTree(documentResponse.body);
+
+    System.out.println(documentBody);
+    assertEquals(candidate.get("docid"), documentBody.get("docid"));
+    assertEquals(candidate.get("doc"), documentBody.get("doc"));
+  }
+
+  @Test
+  public void testCacmRawParseFalse() throws Exception {
+    String rawIndex = "src/test/resources/prebuilt_indexes/lucene-inverted.sample_cacm.store_raw";
+    String index = URLEncoder.encode(rawIndex, StandardCharsets.UTF_8);
+
+    TestResponse searchResponse = sendGet(baseUrl + "/v1/" + index + "/search?query=preliminary&hits=1&parse=false");
+    assertEquals(200, searchResponse.statusCode);
+    JsonNode searchBody = JSON_MAPPER.readTree(searchResponse.body);
+    JsonNode candidate = searchBody.get("candidates").get(0);
+
+    System.out.println(candidate);
+    assertEquals("CACM-0001", candidate.get("docid").asText());
+    assertTrue(candidate.get("doc").isTextual());
+    assertTrue(candidate.get("doc").asText().contains("Preliminary Report"));
+
+    TestResponse documentResponse = sendGet(baseUrl + "/v1/" + index + "/doc/" +
+        URLEncoder.encode(candidate.get("docid").asText(), StandardCharsets.UTF_8) + "?parse=false");
+    assertEquals(200, documentResponse.statusCode);
+    JsonNode documentBody = JSON_MAPPER.readTree(documentResponse.body);
+
+    System.out.println(documentBody);
+    assertEquals(candidate.get("docid"), documentBody.get("docid"));
+    assertEquals(candidate.get("doc"), documentBody.get("doc"));
+  }
+
+  @Test
+  public void testMsMarcoV1PassageRawParseTrue() throws Exception {
+    String rawIndex = "src/test/resources/prebuilt_indexes/lucene-inverted.sample_msmarco-v1-passage.store_raw";
+    String index = URLEncoder.encode(rawIndex, StandardCharsets.UTF_8);
+
+    TestResponse searchResponse = sendGet(baseUrl + "/v1/" + index + "/search?query=obliterated&hits=1");
+    assertEquals(200, searchResponse.statusCode);
+    JsonNode searchBody = JSON_MAPPER.readTree(searchResponse.body);
+    JsonNode candidate = searchBody.get("candidates").get(0);
+
+    System.out.println(candidate);
+    assertEquals("0", candidate.get("docid").asText());
+    assertTrue(candidate.get("doc").isTextual());
+    assertTrue(candidate.get("doc").asText().contains("hundreds of thousands of innocent lives obliterated"));
+
+    TestResponse documentResponse = sendGet(baseUrl + "/v1/" + index + "/doc/" +
+        URLEncoder.encode(candidate.get("docid").asText(), StandardCharsets.UTF_8));
+    assertEquals(200, documentResponse.statusCode);
+    JsonNode documentBody = JSON_MAPPER.readTree(documentResponse.body);
+
+    System.out.println(documentBody);
+    assertEquals(candidate.get("docid"), documentBody.get("docid"));
+    assertEquals(candidate.get("doc"), documentBody.get("doc"));
+  }
+
+  @Test
+  public void testMsMarcoV1PassageRawParseFalse() throws Exception {
+    String rawIndex = "src/test/resources/prebuilt_indexes/lucene-inverted.sample_msmarco-v1-passage.store_raw";
+    String index = URLEncoder.encode(rawIndex, StandardCharsets.UTF_8);
+
+    TestResponse searchResponse = sendGet(baseUrl + "/v1/" + index + "/search?query=obliterated&hits=1&parse=false");
+    assertEquals(200, searchResponse.statusCode);
+    JsonNode searchBody = JSON_MAPPER.readTree(searchResponse.body);
+    JsonNode candidate = searchBody.get("candidates").get(0);
+
+    System.out.println(candidate);
+    assertEquals("0", candidate.get("docid").asText());
+    assertTrue(candidate.get("doc").isTextual());
+    assertTrue(candidate.get("doc").asText().contains("\"id\""));
+    assertTrue(candidate.get("doc").asText().contains("\"contents\""));
+    assertTrue(candidate.get("doc").asText().contains("hundreds of thousands of innocent lives obliterated"));
+
+    TestResponse documentResponse = sendGet(baseUrl + "/v1/" + index + "/doc/" +
+        URLEncoder.encode(candidate.get("docid").asText(), StandardCharsets.UTF_8) + "?parse=false");
+    assertEquals(200, documentResponse.statusCode);
+    JsonNode documentBody = JSON_MAPPER.readTree(documentResponse.body);
+
+    System.out.println(documentBody);
+    assertEquals(candidate.get("docid"), documentBody.get("docid"));
+    assertEquals(candidate.get("doc"), documentBody.get("doc"));
+  }
+
+  @Test
   public void testDocumentEndpointParseFalseUsesRawString() throws Exception {
     String index = URLEncoder.encode(
         "src/test/resources/prebuilt_indexes/lucene9-index.sample_docs_trec_collection2",
