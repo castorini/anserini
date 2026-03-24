@@ -16,8 +16,6 @@
 
 package io.anserini.api;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,14 +32,18 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexableField;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import io.anserini.cli.CliUtils;
 import io.anserini.index.IndexReaderUtils;
-import io.anserini.reproduce.ReproductionUtils;
 import io.anserini.search.ScoredDoc;
 import io.anserini.search.SimpleSearcher;
 import io.anserini.util.LoggingBootstrap;
@@ -394,7 +396,38 @@ public final class RestServer implements Closeable {
         searcher.close();
       }
     }
+    Server jettyServer = app.jettyServer().server();
     app.stop();
+    try {
+      jettyServer.join();
+      if (jettyServer.getThreadPool() instanceof QueuedThreadPool threadPool) {
+        threadPool.join();
+      }
+      interruptStartupWatchdog();
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new IOException("Interrupted while waiting for REST server shutdown", e);
+    } finally {
+      jettyServer.destroy();
+    }
+  }
+
+  private static void interruptStartupWatchdog() throws InterruptedException {
+    for (Map.Entry<Thread, StackTraceElement[]> entry : Thread.getAllStackTraces().entrySet()) {
+      Thread thread = entry.getKey();
+      if (!thread.isAlive()) {
+        continue;
+      }
+      for (StackTraceElement element : entry.getValue()) {
+        if ("io.javalin.jetty.JettyUtil".equals(element.getClassName())
+            && element.getMethodName().contains("maybeLogIfServerNotStarted")) {
+          thread.setUncaughtExceptionHandler((t, e) -> { });
+          thread.interrupt();
+          thread.join();
+          break;
+        }
+      }
+    }
   }
 
   public static void main(String[] args) {

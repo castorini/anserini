@@ -20,6 +20,7 @@ import java.net.URI;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -490,16 +491,14 @@ public class RestServerTest extends StdOutStdErrRedirectableLuceneTestCase {
     try {
       JsonNode rawJson = JSON_MAPPER.readTree(document.get("raw").asText());
       if (rawJson.isObject()) {
-        Map<String, Object> normalized = new java.util.LinkedHashMap<>();
-        java.util.Iterator<java.util.Map.Entry<String, JsonNode>> fields = rawJson.fields();
-        while (fields.hasNext()) {
-          java.util.Map.Entry<String, JsonNode> field = fields.next();
+        Map<String, Object> normalized = new LinkedHashMap<>();
+        rawJson.properties().forEach(field -> {
           if ("id".equals(field.getKey()) || "_id".equals(field.getKey()) || "docid".equals(field.getKey())) {
-            continue;
+            return;
           }
           JsonNode value = field.getValue();
           normalized.put(field.getKey(), value.isValueNode() ? value.asText() : JSON_MAPPER.convertValue(value, Object.class));
-        }
+        });
 
         if (normalized.size() == 1) {
           return JSON_MAPPER.valueToTree(normalized.values().iterator().next());
