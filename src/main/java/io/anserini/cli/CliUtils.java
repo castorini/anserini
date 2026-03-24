@@ -28,7 +28,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.lucene.document.Document;
-import org.apache.lucene.index.IndexableField;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 
@@ -44,36 +43,24 @@ public final class CliUtils {
       return null;
     }
 
-    Map<String, Object> storedFields = toDocumentJson(document);
     String raw = document.get("raw");
     if (raw != null) {
-      return formatRawDocument(raw, parse, mapper);
-    }
-
-    return normalizeStoredFields(storedFields);
-  }
-
-  public static Object formatRawDocument(String raw, boolean parse, ObjectMapper mapper) {
-    if (raw == null) {
-      return null;
-    }
-    if (!parse) {
-      return raw;
-    }
-
-    try {
-      JsonNode json = mapper.readTree(raw);
-      if (json != null && json.isObject()) {
-        return normalizeParsedDocument(json, mapper);
+      if (!parse) {
+        return raw;
       }
-      return mapper.convertValue(json, Object.class);
-    } catch (JsonProcessingException e) {
-      return raw;
-    }
-  }
 
-  public static Object formatRawDocument(String raw, ObjectMapper mapper) {
-    return formatRawDocument(raw, true, mapper);
+      try {
+        JsonNode json = mapper.readTree(raw);
+        if (json != null && json.isObject()) {
+          return normalizeParsedDocument(json, mapper);
+        }
+        return mapper.convertValue(json, Object.class);
+      } catch (JsonProcessingException e) {
+        return raw;
+      }
+    }
+
+    return null;
   }
 
   private static Object normalizeParsedDocument(JsonNode json, ObjectMapper mapper) {
@@ -94,34 +81,6 @@ public final class CliUtils {
     }
 
     return parsed;
-  }
-
-  private static Object normalizeStoredFields(Map<String, Object> storedFields) {
-    Map<String, Object> normalized = new LinkedHashMap<>();
-    for (Map.Entry<String, Object> field : storedFields.entrySet()) {
-      if ("id".equals(field.getKey()) || "_id".equals(field.getKey())) {
-        continue;
-      }
-      normalized.put(field.getKey(), field.getValue());
-    }
-
-    if (normalized.size() == 1) {
-      return normalized.values().iterator().next();
-    }
-
-    return normalized;
-  }
-
-  private static Map<String, Object> toDocumentJson(Document document) {
-    Map<String, Object> fields = new LinkedHashMap<>();
-    for (IndexableField field : document.getFields()) {
-      String value = field.stringValue();
-      if (value != null && !fields.containsKey(field.name())) {
-        fields.put(field.name(), value);
-      }
-    }
-
-    return fields;
   }
 
   public static void printUsage(CmdLineParser parser, Class<?> applicationClass, String[] prioritizedOptions) {

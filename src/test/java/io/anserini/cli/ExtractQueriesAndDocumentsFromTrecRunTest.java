@@ -123,7 +123,7 @@ public class ExtractQueriesAndDocumentsFromTrecRunTest extends StdOutStdErrRedir
 
     IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
         () -> ExtractQueriesAndDocumentsFromTrecRun.main(args));
-    assertTrue(exception.getMessage().contains("Raw document with docid "));
+    assertTrue(exception.getMessage().contains("Document with docid "));
     assertTrue(exception.getMessage().contains("not found in index."));
     assertTrue(new File("test_reranker_requests.jsonl").delete());
   }

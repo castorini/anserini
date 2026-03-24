@@ -31,6 +31,7 @@ import java.util.TreeMap;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
@@ -145,16 +146,16 @@ public final class ExtractQueriesAndDocumentsFromTrecRun {
 
   private static void addCandidate(List<Map<String, Object>> candidates, ObjectMapper mapper,
       IndexReader indexReader, String docid, float score, boolean parse) throws IOException {
-    String raw = IndexReaderUtils.documentRaw(indexReader, docid);
-    if (raw == null) {
-      throw new IllegalArgumentException("Raw document with docid " + docid + " not found in index.");
+    Document document = IndexReaderUtils.document(indexReader, docid);
+    if (document == null) {
+      throw new IllegalArgumentException("Document with docid " + docid + " not found in index.");
     }
 
     Map<String, Object> candidate = new LinkedHashMap<>();
     candidate.put("docid", docid);
     candidate.put("score", score);
 
-    candidate.put("doc", CliUtils.formatRawDocument(raw, parse, mapper));
+    candidate.put("doc", CliUtils.formatDocument(document, parse, mapper));
     candidates.add(candidate);
   }
 
