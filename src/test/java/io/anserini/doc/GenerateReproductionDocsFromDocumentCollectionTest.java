@@ -27,10 +27,20 @@ import static org.junit.Assert.assertNotNull;
 import java.io.File;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class GenerateReproductionDocsFromDocumentCollectionTest {
   @Test
@@ -77,4 +87,91 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         resolvedString, "UTF-8");
     }
   }
+
+  @Test
+  public void generateOverviewDoc() throws Exception {
+    Path configsPath = Path.of("src/main/resources/reproduce/from-document-collection/configs");
+    List<String> configs = Files.list(configsPath)
+        .filter(path -> path.getFileName().toString().endsWith(".yaml"))
+        .map(path -> path.getFileName().toString().replaceAll("\\.yaml$", ""))
+        .sorted()
+        .toList();
+
+    Map<String, List<String>> ordering = extractOrderingFromRegressions();
+    StringBuilder invocations = new StringBuilder();
+    Set<String> emitted = new LinkedHashSet<>();
+
+    for (Map.Entry<String, List<String>> entry : ordering.entrySet()) {
+      List<String> groupConfigs = new ArrayList<>();
+      for (String regex : entry.getValue()) {
+        Pattern pattern = Pattern.compile(regex);
+        for (String config : configs) {
+          if (!emitted.contains(config) && pattern.matcher(config).matches()) {
+            groupConfigs.add(config);
+            emitted.add(config);
+          }
+        }
+      }
+
+      if (groupConfigs.isEmpty()) {
+        continue;
+      }
+
+      invocations.append("<details>\n");
+      invocations.append("<summary>").append(entry.getKey()).append("</summary>\n\n");
+      for (String config : groupConfigs) {
+        invocations.append("+ [").append(config).append("](reproduce/from-document-collection/")
+            .append(config).append(".md)\n");
+      }
+      invocations.append("\n</details>\n");
+    }
+
+    List<String> remainingConfigs = configs.stream()
+        .filter(config -> !emitted.contains(config))
+        .sorted(Comparator.naturalOrder())
+        .toList();
+    if (!remainingConfigs.isEmpty()) {
+      invocations.append("<details>\n");
+      invocations.append("<summary>Other regressions</summary>\n\n");
+      for (String config : remainingConfigs) {
+        invocations.append("+ [").append(config).append("](reproduce/from-document-collection/")
+            .append(config).append(".md)\n");
+      }
+      invocations.append("\n</details>\n");
+    }
+
+    Map<String, String> valuesMap = new HashMap<>();
+    valuesMap.put("invocations", invocations.toString().trim());
+
+    StringSubstitutor sub = new StringSubstitutor(valuesMap);
+    String text = Files.readString(Path.of("docs/reproduce-from-document-collection.template"), StandardCharsets.UTF_8);
+    String resolvedString = sub.replace(text);
+
+    FileUtils.writeStringToFile(new File("docs/reproduce-from-document-collection.md"), resolvedString, "UTF-8");
+  }
+
+  private static Map<String, List<String>> extractOrderingFromRegressions() throws Exception {
+    String regressions = Files.readString(Path.of("docs/regressions.md"), StandardCharsets.UTF_8);
+    Map<String, List<String>> ordering = new LinkedHashMap<>();
+
+    Pattern sectionPattern = Pattern.compile(
+        "<summary>(.*?)</summary>(.*?)(?=<summary>|$)",
+        Pattern.DOTALL);
+    Pattern regressionPattern = Pattern.compile("--regression\\s+([^\\s]+)");
+    Matcher sectionMatcher = sectionPattern.matcher(regressions);
+
+    while (sectionMatcher.find()) {
+      String group = sectionMatcher.group(1).trim();
+      String body = sectionMatcher.group(2);
+      Matcher regressionMatcher = regressionPattern.matcher(body);
+      List<String> patterns = new ArrayList<>();
+      while (regressionMatcher.find()) {
+        patterns.add(Pattern.quote(regressionMatcher.group(1)));
+      }
+      ordering.put(group, patterns);
+    }
+
+    return ordering;
+  }
+
 }

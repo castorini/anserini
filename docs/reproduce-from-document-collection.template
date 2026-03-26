@@ -1,0 +1,49 @@
+# Anserini Regression Experiments
+
+Regression experiments in Anserini are hooked into a rigorous end-to-end regression framework driven by the [`run_regression.py`](../src/main/python/run_regression.py) script.
+This script automatically runs experiments based on configuration files stored in [`src/main/resources/regression/`](../src/main/resources/regression/), performing the following actions:
+
++ Building the index from scratch.
++ Verifying index statistics (sanity check that the index has been built properly).
++ Performing retrieval runs with standard settings.
++ Evaluating the runs and verifying effectiveness results.
+
+Furthermore, the regression documentation pages are auto-generated based on [raw templates](../src/main/resources/docgen/templates).
+
+Internally at Waterloo, we are continuously running these regression tests to ensure that new commits do not break any existing experimental runs (see below).
+We keep a [change log](regressions-log.md) to document substantive changes.
+
+## The Anserini Reproducibility Promise
+
+It is the highest priority of the project to ensure that all regression experiments are reproducible _all the time_.
+This means that anyone with the document collection should be able to reproduce _exactly_ the effectiveness scores we report in our regression documentation pages.
+
+We hold this ideal in such high esteem and are so dedicated to reproducibility that if you discover a broken regression before we do, Jimmy Lin will buy you a beverage of choice (coffee, beer, etc.) at the next event you see him (e.g., SIGIR, TREC, etc.).
+
+Here's how you can help:
+In the course of reproducing one of our results, please let us know you've been successful by sending a pull request with a simple note, like what appears at the bottom of [the regressions for Disks 4 &amp; 5 page](regressions/regressions-disk45.md).
+Since the regression documentation is auto-generated, pull requests should be sent against the [raw templates](../src/main/resources/docgen/templates).
+In turn, you'll be recognized as a [contributor](https://github.com/castorini/anserini/graphs/contributors).
+
+## Invocations
+
+Internally at Waterloo, we have two machines (`tuna.cs.uwaterloo.ca` and `orca.cs.uwaterloo.ca`) for the development of Anserini and is set up to run the regression experiments.
+
+Copy and paste the following lines into console to run the regressions from the raw collection:
+
+The `--regression` option specifies the regression to run, corresponding to the YAML configuration file in [`src/main/resources/regression/`](../src/main/resources/regression/).
+The three main options are:
+
++ `--index`: Build the index.
++ `--verify`: Verify index statistics.
++ `--search`: Perform retrieval runs and verify effectiveness.
+
+**Watch out!** The full `cw12` regression can take a couple days to run and generates a 12TB index!
+
+Although the regression script is hard-coded to run on Waterloo machines (paths to corpoa are hard-coded), the corpus path can be manually specified from the command line with the `--corpus-path` option, for example:
+
+```bash
+python src/main/python/run_regression.py --index --verify --search --regression disk45 --corpus-path /path/to/corpus
+```
+
+${invocations}
