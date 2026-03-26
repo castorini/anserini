@@ -7,10 +7,10 @@ This page documents regression experiments for the [TREC 2017 Complex Answer Ret
 > Rodrigo Nogueira, Wei Yang, Jimmy Lin, Kyunghyun Cho. [Document Expansion by Query Prediction.](https://arxiv.org/abs/1904.08375) _arxiv:1904.08375_
 
 These experiments are integrated into Anserini's regression testing framework.
-For more complete instructions on how to run end-to-end experiments, refer to [this page](../../docs/experiments-doc2query.md).
+For more complete instructions on how to run end-to-end experiments, refer to [this page](../../../docs/experiments-doc2query.md).
 
-The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/reproduce/from-document-collection/configs/car17v2.0-doc2query.yaml).
-Note that this page is automatically generated from [this template](../../src/main/resources/reproduce/from-document-collection/docgen/car17v2.0-doc2query.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/car17v2.0-doc2query.yaml).
+Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/car17v2.0-doc2query.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
@@ -33,9 +33,9 @@ bin/run.sh io.anserini.index.IndexCollection \
   >& logs/log.car-paragraphCorpus.v2.0-doc2query &
 ```
 
-The directory `/path/to/car17v2.0-doc2query` should be the root directory of Complex Answer Retrieval (CAR) paragraph corpus (v2.0) that has been augmented with the doc2query expansions, i.e., `collection_jsonl_expanded_topk10/` as described in [this page](../../docs/experiments-doc2query.md).
+The directory `/path/to/car17v2.0-doc2query` should be the root directory of Complex Answer Retrieval (CAR) paragraph corpus (v2.0) that has been augmented with the doc2query expansions, i.e., `collection_jsonl_expanded_topk10/` as described in [this page](../../../docs/experiments-doc2query.md).
 
-For additional details, see explanation of [common indexing options](../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
 
 ## Retrieval
 

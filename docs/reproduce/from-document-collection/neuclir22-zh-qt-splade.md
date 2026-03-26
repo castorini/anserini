@@ -6,8 +6,8 @@ This page presents **query translation** regression experiments for the [TREC 20
 + Documents: Original Chinese corpus
 + Model: SPLADE NeuCLIR22
 
-The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/reproduce/from-document-collection/configs/neuclir22-zh-qt-splade.yaml).
-Note that this page is automatically generated from [this template](../../src/main/resources/reproduce/from-document-collection/docgen/neuclir22-zh-qt-splade.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/neuclir22-zh-qt-splade.yaml).
+Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/neuclir22-zh-qt-splade.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 We make available a version of the corpus that has already been encoded with SPLADE NeuCLIR22, i.e., we performed model inference on every document and stored the output sparse vectors.
 Thus, no neural inference is required to reproduce these experiments; see instructions below.
@@ -50,7 +50,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   >& logs/log.neuclir22-zh-splade &
 ```
 
-For additional details, see explanation of [common indexing options](../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
 
 ## Retrieval
 
@@ -282,7 +282,7 @@ With the above commands, you should be able to reproduce the following results:
 | [NeuCLIR 2022 (Chinese): desc (machine-translated queries)](https://neuclir.github.io/)                      | 0.5919    | 0.5919    | 0.6096      |
 | [NeuCLIR 2022 (Chinese): desc+title (machine-translated queries)](https://neuclir.github.io/)                | 0.6312    | 0.6312    | 0.6535      |
 
-## Reproduction Log[*](../../docs/reproducibility.md)
+## Reproduction Log[*](../../../docs/reproducibility.md)
 
-To add to this reproduction log, modify [this template](../../src/main/resources/reproduce/from-document-collection/docgen/neuclir22-zh-qt-splade.template) and run `bin/build.sh` to rebuild the documentation.
+To add to this reproduction log, modify [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/neuclir22-zh-qt-splade.template) and run `bin/build.sh` to rebuild the documentation.
 

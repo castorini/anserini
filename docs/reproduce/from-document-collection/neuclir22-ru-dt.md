@@ -6,8 +6,8 @@ This page presents **document translation** regression experiments for the [TREC
 + Documents: Machine-translated documents from Russian into English (corpus provided by the organizers)
 + Model: BM25
 
-The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/reproduce/from-document-collection/configs/neuclir22-ru-dt.yaml).
-Note that this page is automatically generated from [this template](../../src/main/resources/reproduce/from-document-collection/docgen/neuclir22-ru-dt.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/neuclir22-ru-dt.yaml).
+Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/neuclir22-ru-dt.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
@@ -41,7 +41,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   >& logs/log.neuclir22-ru-en &
 ```
 
-For additional details, see explanation of [common indexing options](../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
 
 ## Retrieval
 
@@ -171,7 +171,7 @@ With the above commands, you should be able to reproduce the following results:
 | [NeuCLIR 2022 (Russian): desc (original English queries)](https://neuclir.github.io/)                        | 0.5780            | 0.6772    | 0.6780      |
 | [NeuCLIR 2022 (Russian): desc+title (original English queries)](https://neuclir.github.io/)                  | 0.7255            | 0.7658    | 0.7798      |
 
-## Reproduction Log[*](../../docs/reproducibility.md)
+## Reproduction Log[*](../../../docs/reproducibility.md)
 
-To add to this reproduction log, modify [this template](../../src/main/resources/reproduce/from-document-collection/docgen/neuclir22-ru-dt.template) and run `bin/build.sh` to rebuild the documentation.
+To add to this reproduction log, modify [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/neuclir22-ru-dt.template) and run `bin/build.sh` to rebuild the documentation.
 

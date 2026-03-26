@@ -9,8 +9,8 @@ The uniCOIL model is described in the following paper:
 
 In these experiments, we are using cached queries (i.e., cached results of query encoding).
 
-The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-dbpedia-entity.unicoil-noexp.cached.yaml).
-Note that this page is automatically generated from [this template](../../src/main/resources/reproduce/from-document-collection/docgen/beir-v1.0.0-dbpedia-entity.unicoil-noexp.cached.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-dbpedia-entity.unicoil-noexp.cached.yaml).
+Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/beir-v1.0.0-dbpedia-entity.unicoil-noexp.cached.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
@@ -43,7 +43,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   >& logs/log.beir-v1.0.0-dbpedia-entity.unicoil-noexp &
 ```
 
-For additional details, see explanation of [common indexing options](../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
 
 ## Retrieval
 

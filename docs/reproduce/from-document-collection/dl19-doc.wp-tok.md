@@ -8,8 +8,8 @@ In general, effectiveness is lower than with "standard" Lucene tokenization for 
 
 Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 
-The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/reproduce/from-document-collection/configs/dl19-doc.wp-tok.yaml).
-Note that this page is automatically generated from [this template](../../src/main/resources/reproduce/from-document-collection/docgen/dl19-doc.wp-tok.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/dl19-doc.wp-tok.yaml).
+Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl19-doc.wp-tok.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
@@ -33,9 +33,9 @@ bin/run.sh io.anserini.index.IndexCollection \
 ```
 
 The directory `/path/to/msmarco-doc/` should be a directory containing the document corpus in Anserini's jsonl format.
-See [this page](../../docs/experiments-msmarco-doc-doc2query-details.md) for how to prepare the corpus.
+See [this page](../../../docs/experiments-msmarco-doc-doc2query-details.md) for how to prepare the corpus.
 
-For additional details, see explanation of [common indexing options](../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
 
 ## Retrieval
 

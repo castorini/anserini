@@ -3,7 +3,7 @@
 **Models**: various bag-of-words approaches on complete documents
 
 This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2021 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2021.html) using the MS MARCO V2 document corpus.
-For additional instructions on working with the MS MARCO V2 document corpus, refer to [this page](../../docs/experiments-msmarco-v2.md).
+For additional instructions on working with the MS MARCO V2 document corpus, refer to [this page](../../../docs/experiments-msmarco-v2.md).
 
 Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 
@@ -12,8 +12,8 @@ Note that there are four different bag-of-words regression conditions for this t
 + **Indexing Condition:** each document in the MS MARCO V2 document corpus is treated as a unit of indexing
 + **Expansion Condition:** none
 
-The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/reproduce/from-document-collection/configs/dl21-doc.yaml).
-Note that this page is automatically generated from [this template](../../src/main/resources/reproduce/from-document-collection/docgen/dl21-doc.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/dl21-doc.yaml).
+Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl21-doc.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
@@ -37,9 +37,9 @@ bin/run.sh io.anserini.index.IndexCollection \
 ```
 
 The value of `-input` should be a directory containing the compressed `jsonl` files that comprise the corpus.
-See [this page](../../docs/experiments-msmarco-v2.md) for additional details.
+See [this page](../../../docs/experiments-msmarco-v2.md) for additional details.
 
-For additional details, see explanation of [common indexing options](../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
 
 ## Retrieval
 

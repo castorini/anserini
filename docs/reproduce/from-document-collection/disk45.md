@@ -3,8 +3,8 @@
 **Models**: various bag-of-words approaches
 
 This page describes regressions for ad hoc topics from TREC 7-8, which use [TREC Disks 4 &amp; 5](https://trec.nist.gov/data/cd45/index.html).
-The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/reproduce/from-document-collection/configs/disk45.yaml).
-Note that this page is automatically generated from [this template](../../src/main/resources/reproduce/from-document-collection/docgen/disk45.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/disk45.yaml).
+Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/disk45.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
@@ -30,7 +30,7 @@ bin/run.sh io.anserini.index.IndexCollection \
 The directory `/path/to/disk45/` should be the root directory of [TREC Disks 4 &amp; 5](https://trec.nist.gov/data/cd45/index.html); inside each there should be subdirectories like `ft`, `fr94`.
 Note that Anserini ignores the `cr` folder when indexing, which is the standard configuration.
 
-For additional details, see explanation of [common indexing options](../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
 
 ## Retrieval
 
@@ -294,7 +294,7 @@ With the above commands, you should be able to reproduce the following results:
 | [TREC-8 Ad Hoc Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.adhoc.401-450.txt)| 0.3560    | 0.3753    | 0.3707      | 0.3713       | 0.3753    | 0.3480    | 0.3713    | 0.3640      | 0.3660       | 0.3500    |
 | [TREC 2004 Robust Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.robust04.txt)| 0.3102    | 0.3349    | 0.3364      | 0.3378       | 0.3333    | 0.3079    | 0.3244    | 0.3237      | 0.3246       | 0.3229    |
 
-## Reproduction Log[*](../../docs/reproducibility.md)
+## Reproduction Log[*](../../../docs/reproducibility.md)
 
 + Results reproduced by [@chriskamphuis](https://github.com/chriskamphuis) on 2018-12-18 (commit [`a15235`](https://github.com/castorini/Anserini/commit/a152359435ac6ae694b39f561343bba5eed8fdc9))
 + Results reproduced by [@kelvin-jiang](https://github.com/kelvin-jiang) on 2019-09-08 (commit [`a1892ae`](https://github.com/castorini/anserini/commit/a1892aec726efe55111a7bc501ab0914afab3a30))

@@ -6,8 +6,8 @@ This page presents **document translation** regression experiments for the [TREC
 + Documents: Machine-translated documents from Chinese into English (corpus provided by the organizers)
 + Model: [SPLADE CoCondenser SelfDistil](https://huggingface.co/naver/splade-cocondenser-selfdistil)
 
-The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/reproduce/from-document-collection/configs/neuclir22-zh-dt-splade.yaml).
-Note that this page is automatically generated from [this template](../../src/main/resources/reproduce/from-document-collection/docgen/neuclir22-zh-dt-splade.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/neuclir22-zh-dt-splade.yaml).
+Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/neuclir22-zh-dt-splade.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 We make available a version of the corpus that has already been encoded with [SPLADE CoCondenser SelfDistil](https://huggingface.co/naver/splade-cocondenser-selfdistil), i.e., we performed model inference on every document and stored the output sparse vectors.
 Thus, no neural inference is required to reproduce these experiments; see instructions below.
@@ -50,7 +50,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   >& logs/log.neuclir22-zh-en-splade &
 ```
 
-For additional details, see explanation of [common indexing options](../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
 
 ## Retrieval
 
@@ -180,7 +180,7 @@ With the above commands, you should be able to reproduce the following results:
 | [NeuCLIR 2022 (Chinese): desc (original English queries)](https://neuclir.github.io/)                        | 0.7597    | 0.6969    | 0.7623      |
 | [NeuCLIR 2022 (Chinese): desc+title (original English queries)](https://neuclir.github.io/)                  | 0.7922    | 0.7481    | 0.8067      |
 
-## Reproduction Log[*](../../docs/reproducibility.md)
+## Reproduction Log[*](../../../docs/reproducibility.md)
 
-To add to this reproduction log, modify [this template](../../src/main/resources/reproduce/from-document-collection/docgen/neuclir22-zh-dt-splade.template) and run `bin/build.sh` to rebuild the documentation.
+To add to this reproduction log, modify [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/neuclir22-zh-dt-splade.template) and run `bin/build.sh` to rebuild the documentation.
 

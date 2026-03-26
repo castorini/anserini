@@ -50,9 +50,9 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
       String download_corpus = data.getDownload_corpus();
 
       Map<String, String> valuesMap = new HashMap<>();
-      valuesMap.put("root_path", "../..");
-      valuesMap.put("yaml", String.format("../../src/main/resources/reproduce/from-document-collection/configs/%s.yaml", testName));
-      valuesMap.put("template", String.format("../../src/main/resources/reproduce/from-document-collection/docgen/%s.template", testName));
+      valuesMap.put("root_path", "../../..");
+      valuesMap.put("yaml", String.format("../../../src/main/resources/reproduce/from-document-collection/configs/%s.yaml", testName));
+      valuesMap.put("template", String.format("../../../src/main/resources/reproduce/from-document-collection/docgen/%s.template", testName));
       valuesMap.put("test_name", testName);
       valuesMap.put("corpus", corpus);
       valuesMap.put("download_url", data.getDownload_url());

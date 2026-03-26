@@ -2,8 +2,8 @@
 
 This page documents BM25 regression experiments for the [FEVER fact verification task](https://fever.ai/), which is integrated into Anserini's regression testing framework.
 
-The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/reproduce/from-document-collection/configs/fever.yaml).
-Note that this page is automatically generated from [this template](../../src/main/resources/reproduce/from-document-collection/docgen/fever.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/fever.yaml).
+Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/fever.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
@@ -26,9 +26,9 @@ bin/run.sh io.anserini.index.IndexCollection \
   >& logs/log.fever &
 ```
 
-The directory `/path/to/fever` should be a directory containing the expanded document collection; see [this page](../../docs/experiments-fever.md) for how to prepare this collection.
+The directory `/path/to/fever` should be a directory containing the expanded document collection; see [this page](../../../docs/experiments-fever.md) for how to prepare this collection.
 
-For additional details, see explanation of [common indexing options](../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
 
 ## Retrieval
 

@@ -3,8 +3,8 @@
 This page documents BM25 regression experiments for [NTCIR-8 ACLIA (IR4QA subtask), monolingual Chinese topics](http://research.nii.ac.jp/ntcir/ntcir-ws8/ws-en.html).
 The description of the document collection can be found in the [NTCIR-8 data page](http://research.nii.ac.jp/ntcir/permission/ntcir-8/perm-en-ACLIA.html).
 
-The exact configurations for these regressions are stored in [this YAML file](../../src/main/resources/reproduce/from-document-collection/configs/ntcir8-zh.yaml).
-Note that this page is automatically generated from [this template](../../src/main/resources/reproduce/from-document-collection/docgen/ntcir8-zh.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/ntcir8-zh.yaml).
+Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/ntcir8-zh.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
@@ -32,7 +32,7 @@ We build the index directly from the raw LDC data:
 the directory `/path/to/ntcir8-zh/` should point to the directory `data/xin_cmn/` from LDC2007T38.
 In that directory, there should be 48 gzipped files matching the pattern `xin_cmn_200[2-5]*`.
 
-For additional details, see explanation of [common indexing options](../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
 
 ## Retrieval
 
