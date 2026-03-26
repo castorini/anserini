@@ -29,9 +29,11 @@ In turn, you'll be recognized as a [contributor](https://github.com/castorini/an
 
 Internally at Waterloo, we have two machines (`tuna.cs.uwaterloo.ca` and `orca.cs.uwaterloo.ca`) for the development of Anserini and is set up to run the regression experiments.
 
-Copy and paste the following lines into console to run the regressions from the raw collection:
+Copy and paste the following lines into console to run the regressions from the document collection:
 
-The `--regression` option specifies the regression to run, corresponding to the YAML configuration file in [`src/main/resources/regression/`](../src/main/resources/regression/).
+${invocations}
+
+The `--config` option specifies the regression to run, corresponding to the YAML configuration file in [`src/main/resources/reproduce/from-document-collection/configs`](../src/main/resources/reproduce/from-document-collection/configs).
 The three main options are:
 
 + `--index`: Build the index.
@@ -43,7 +45,5 @@ The three main options are:
 Although the regression script is hard-coded to run on Waterloo machines (paths to corpoa are hard-coded), the corpus path can be manually specified from the command line with the `--corpus-path` option, for example:
 
 ```bash
-python src/main/python/run_regression.py --index --verify --search --regression disk45 --corpus-path /path/to/corpus
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --regression disk45 --corpus-path /path/to/corpus
 ```
-
-${invocations}

@@ -47,1009 +47,1059 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 ```
 
 <details>
+<summary>CACM tests</summary>
+
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config cacm > logs/log.cacm.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config cacm-download > logs/log.cacm-download.txt 2>&1 &
+```
+
+</details>
+<details>
 <summary>MS MARCO V1 + DL19/DL20 regressions</summary>
 
-+ [msmarco-v1-passage](reproduce/from-document-collection/msmarco-v1-passage.md)
-+ [msmarco-v1-passage.bm25-b8](reproduce/from-document-collection/msmarco-v1-passage.bm25-b8.md)
-+ [msmarco-v1-passage.wp-tok](reproduce/from-document-collection/msmarco-v1-passage.wp-tok.md)
-+ [msmarco-v1-passage.wp-hgf](reproduce/from-document-collection/msmarco-v1-passage.wp-hgf.md)
-+ [msmarco-v1-passage.wp-ca](reproduce/from-document-collection/msmarco-v1-passage.wp-ca.md)
-+ [msmarco-v1-passage.doc2query](reproduce/from-document-collection/msmarco-v1-passage.doc2query.md)
-+ [msmarco-v1-passage.docTTTTTquery](reproduce/from-document-collection/msmarco-v1-passage.docTTTTTquery.md)
-+ [msmarco-v1-passage.deepimpact.cached](reproduce/from-document-collection/msmarco-v1-passage.deepimpact.cached.md)
-+ [msmarco-v1-passage.unicoil.cached](reproduce/from-document-collection/msmarco-v1-passage.unicoil.cached.md)
-+ [msmarco-v1-passage.unicoil-noexp.cached](reproduce/from-document-collection/msmarco-v1-passage.unicoil-noexp.cached.md)
-+ [msmarco-v1-passage.unicoil-tilde-expansion.cached](reproduce/from-document-collection/msmarco-v1-passage.unicoil-tilde-expansion.cached.md)
-+ [msmarco-v1-passage.distill-splade-max.cached](reproduce/from-document-collection/msmarco-v1-passage.distill-splade-max.cached.md)
-+ [msmarco-v1-passage.splade-pp-ed.cached](reproduce/from-document-collection/msmarco-v1-passage.splade-pp-ed.cached.md)
-+ [msmarco-v1-passage.splade-pp-ed.onnx](reproduce/from-document-collection/msmarco-v1-passage.splade-pp-ed.onnx.md)
-+ [msmarco-v1-passage.splade-pp-sd.cached](reproduce/from-document-collection/msmarco-v1-passage.splade-pp-sd.cached.md)
-+ [msmarco-v1-passage.splade-pp-sd.onnx](reproduce/from-document-collection/msmarco-v1-passage.splade-pp-sd.onnx.md)
-+ [msmarco-v1-passage.splade-v3.onnx](reproduce/from-document-collection/msmarco-v1-passage.splade-v3.onnx.md)
-+ [msmarco-v1-passage.splade-v3.cached](reproduce/from-document-collection/msmarco-v1-passage.splade-v3.cached.md)
-+ [msmarco-v1-passage.cos-dpr-distil.parquet.fw](reproduce/from-document-collection/msmarco-v1-passage.cos-dpr-distil.parquet.fw.md)
-+ [msmarco-v1-passage.cos-dpr-distil.parquet.lexlsh](reproduce/from-document-collection/msmarco-v1-passage.cos-dpr-distil.parquet.lexlsh.md)
-+ [msmarco-v1-passage.cos-dpr-distil.parquet.flat.cached](reproduce/from-document-collection/msmarco-v1-passage.cos-dpr-distil.parquet.flat.cached.md)
-+ [msmarco-v1-passage.cos-dpr-distil.parquet.flat.onnx](reproduce/from-document-collection/msmarco-v1-passage.cos-dpr-distil.parquet.flat.onnx.md)
-+ [msmarco-v1-passage.cos-dpr-distil.parquet.flat-int8.cached](reproduce/from-document-collection/msmarco-v1-passage.cos-dpr-distil.parquet.flat-int8.cached.md)
-+ [msmarco-v1-passage.cos-dpr-distil.parquet.flat-int8.onnx](reproduce/from-document-collection/msmarco-v1-passage.cos-dpr-distil.parquet.flat-int8.onnx.md)
-+ [msmarco-v1-passage.cos-dpr-distil.parquet.hnsw.cached](reproduce/from-document-collection/msmarco-v1-passage.cos-dpr-distil.parquet.hnsw.cached.md)
-+ [msmarco-v1-passage.cos-dpr-distil.parquet.hnsw.onnx](reproduce/from-document-collection/msmarco-v1-passage.cos-dpr-distil.parquet.hnsw.onnx.md)
-+ [msmarco-v1-passage.cos-dpr-distil.parquet.hnsw-int8.cached](reproduce/from-document-collection/msmarco-v1-passage.cos-dpr-distil.parquet.hnsw-int8.cached.md)
-+ [msmarco-v1-passage.cos-dpr-distil.parquet.hnsw-int8.onnx](reproduce/from-document-collection/msmarco-v1-passage.cos-dpr-distil.parquet.hnsw-int8.onnx.md)
-+ [msmarco-v1-passage.bge-base-en-v1.5.parquet.flat.cached](reproduce/from-document-collection/msmarco-v1-passage.bge-base-en-v1.5.parquet.flat.cached.md)
-+ [msmarco-v1-passage.bge-base-en-v1.5.parquet.flat.onnx](reproduce/from-document-collection/msmarco-v1-passage.bge-base-en-v1.5.parquet.flat.onnx.md)
-+ [msmarco-v1-passage.bge-base-en-v1.5.parquet.flat-int8.cached](reproduce/from-document-collection/msmarco-v1-passage.bge-base-en-v1.5.parquet.flat-int8.cached.md)
-+ [msmarco-v1-passage.bge-base-en-v1.5.parquet.flat-int8.onnx](reproduce/from-document-collection/msmarco-v1-passage.bge-base-en-v1.5.parquet.flat-int8.onnx.md)
-+ [msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw.cached](reproduce/from-document-collection/msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw.cached.md)
-+ [msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw.onnx](reproduce/from-document-collection/msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw.onnx.md)
-+ [msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw-int8.cached](reproduce/from-document-collection/msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw-int8.cached.md)
-+ [msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw-int8.onnx](reproduce/from-document-collection/msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw-int8.onnx.md)
-+ [msmarco-v1-passage.openai-ada2.parquet.flat.cached](reproduce/from-document-collection/msmarco-v1-passage.openai-ada2.parquet.flat.cached.md)
-+ [msmarco-v1-passage.openai-ada2.parquet.flat-int8.cached](reproduce/from-document-collection/msmarco-v1-passage.openai-ada2.parquet.flat-int8.cached.md)
-+ [msmarco-v1-passage.openai-ada2.parquet.hnsw.cached](reproduce/from-document-collection/msmarco-v1-passage.openai-ada2.parquet.hnsw.cached.md)
-+ [msmarco-v1-passage.openai-ada2.parquet.hnsw-int8.cached](reproduce/from-document-collection/msmarco-v1-passage.openai-ada2.parquet.hnsw-int8.cached.md)
-+ [msmarco-v1-passage.cohere-embed-english-v3.0.parquet.flat.cached](reproduce/from-document-collection/msmarco-v1-passage.cohere-embed-english-v3.0.parquet.flat.cached.md)
-+ [msmarco-v1-passage.cohere-embed-english-v3.0.parquet.flat-int8.cached](reproduce/from-document-collection/msmarco-v1-passage.cohere-embed-english-v3.0.parquet.flat-int8.cached.md)
-+ [msmarco-v1-passage.cohere-embed-english-v3.0.parquet.hnsw.cached](reproduce/from-document-collection/msmarco-v1-passage.cohere-embed-english-v3.0.parquet.hnsw.cached.md)
-+ [msmarco-v1-passage.cohere-embed-english-v3.0.parquet.hnsw-int8.cached](reproduce/from-document-collection/msmarco-v1-passage.cohere-embed-english-v3.0.parquet.hnsw-int8.cached.md)
-+ [msmarco-v1-doc](reproduce/from-document-collection/msmarco-v1-doc.md)
-+ [msmarco-v1-doc.wp-tok](reproduce/from-document-collection/msmarco-v1-doc.wp-tok.md)
-+ [msmarco-v1-doc.wp-hgf](reproduce/from-document-collection/msmarco-v1-doc.wp-hgf.md)
-+ [msmarco-v1-doc.wp-ca](reproduce/from-document-collection/msmarco-v1-doc.wp-ca.md)
-+ [msmarco-v1-doc.docTTTTTquery](reproduce/from-document-collection/msmarco-v1-doc.docTTTTTquery.md)
-+ [msmarco-v1-doc-segmented](reproduce/from-document-collection/msmarco-v1-doc-segmented.md)
-+ [msmarco-v1-doc-segmented.wp-tok](reproduce/from-document-collection/msmarco-v1-doc-segmented.wp-tok.md)
-+ [msmarco-v1-doc-segmented.wp-ca](reproduce/from-document-collection/msmarco-v1-doc-segmented.wp-ca.md)
-+ [msmarco-v1-doc-segmented.docTTTTTquery](reproduce/from-document-collection/msmarco-v1-doc-segmented.docTTTTTquery.md)
-+ [msmarco-v1-doc-segmented.unicoil.cached](reproduce/from-document-collection/msmarco-v1-doc-segmented.unicoil.cached.md)
-+ [msmarco-v1-doc-segmented.unicoil-noexp.cached](reproduce/from-document-collection/msmarco-v1-doc-segmented.unicoil-noexp.cached.md)
-+ [dl19-passage](reproduce/from-document-collection/dl19-passage.md)
-+ [dl19-passage.bm25-b8](reproduce/from-document-collection/dl19-passage.bm25-b8.md)
-+ [dl19-passage.wp-tok](reproduce/from-document-collection/dl19-passage.wp-tok.md)
-+ [dl19-passage.wp-hgf](reproduce/from-document-collection/dl19-passage.wp-hgf.md)
-+ [dl19-passage.wp-ca](reproduce/from-document-collection/dl19-passage.wp-ca.md)
-+ [dl19-passage.docTTTTTquery](reproduce/from-document-collection/dl19-passage.docTTTTTquery.md)
-+ [dl19-passage.unicoil.cached](reproduce/from-document-collection/dl19-passage.unicoil.cached.md)
-+ [dl19-passage.unicoil-noexp.cached](reproduce/from-document-collection/dl19-passage.unicoil-noexp.cached.md)
-+ [dl19-passage.splade-pp-ed.cached](reproduce/from-document-collection/dl19-passage.splade-pp-ed.cached.md)
-+ [dl19-passage.splade-pp-ed.onnx](reproduce/from-document-collection/dl19-passage.splade-pp-ed.onnx.md)
-+ [dl19-passage.splade-pp-sd.cached](reproduce/from-document-collection/dl19-passage.splade-pp-sd.cached.md)
-+ [dl19-passage.splade-pp-sd.onnx](reproduce/from-document-collection/dl19-passage.splade-pp-sd.onnx.md)
-+ [dl19-passage.splade-v3.onnx](reproduce/from-document-collection/dl19-passage.splade-v3.onnx.md)
-+ [dl19-passage.splade-v3.cached](reproduce/from-document-collection/dl19-passage.splade-v3.cached.md)
-+ [dl19-passage.cos-dpr-distil.parquet.fw](reproduce/from-document-collection/dl19-passage.cos-dpr-distil.parquet.fw.md)
-+ [dl19-passage.cos-dpr-distil.parquet.lexlsh](reproduce/from-document-collection/dl19-passage.cos-dpr-distil.parquet.lexlsh.md)
-+ [dl19-passage.cos-dpr-distil.parquet.flat.cached](reproduce/from-document-collection/dl19-passage.cos-dpr-distil.parquet.flat.cached.md)
-+ [dl19-passage.cos-dpr-distil.parquet.flat.onnx](reproduce/from-document-collection/dl19-passage.cos-dpr-distil.parquet.flat.onnx.md)
-+ [dl19-passage.cos-dpr-distil.parquet.flat-int8.cached](reproduce/from-document-collection/dl19-passage.cos-dpr-distil.parquet.flat-int8.cached.md)
-+ [dl19-passage.cos-dpr-distil.parquet.flat-int8.onnx](reproduce/from-document-collection/dl19-passage.cos-dpr-distil.parquet.flat-int8.onnx.md)
-+ [dl19-passage.cos-dpr-distil.parquet.hnsw.cached](reproduce/from-document-collection/dl19-passage.cos-dpr-distil.parquet.hnsw.cached.md)
-+ [dl19-passage.cos-dpr-distil.parquet.hnsw.onnx](reproduce/from-document-collection/dl19-passage.cos-dpr-distil.parquet.hnsw.onnx.md)
-+ [dl19-passage.cos-dpr-distil.parquet.hnsw-int8.cached](reproduce/from-document-collection/dl19-passage.cos-dpr-distil.parquet.hnsw-int8.cached.md)
-+ [dl19-passage.cos-dpr-distil.parquet.hnsw-int8.onnx](reproduce/from-document-collection/dl19-passage.cos-dpr-distil.parquet.hnsw-int8.onnx.md)
-+ [dl19-passage.bge-base-en-v1.5.parquet.flat.cached](reproduce/from-document-collection/dl19-passage.bge-base-en-v1.5.parquet.flat.cached.md)
-+ [dl19-passage.bge-base-en-v1.5.parquet.flat.onnx](reproduce/from-document-collection/dl19-passage.bge-base-en-v1.5.parquet.flat.onnx.md)
-+ [dl19-passage.bge-base-en-v1.5.parquet.flat-int8.cached](reproduce/from-document-collection/dl19-passage.bge-base-en-v1.5.parquet.flat-int8.cached.md)
-+ [dl19-passage.bge-base-en-v1.5.parquet.flat-int8.onnx](reproduce/from-document-collection/dl19-passage.bge-base-en-v1.5.parquet.flat-int8.onnx.md)
-+ [dl19-passage.bge-base-en-v1.5.parquet.hnsw.cached](reproduce/from-document-collection/dl19-passage.bge-base-en-v1.5.parquet.hnsw.cached.md)
-+ [dl19-passage.bge-base-en-v1.5.parquet.hnsw.onnx](reproduce/from-document-collection/dl19-passage.bge-base-en-v1.5.parquet.hnsw.onnx.md)
-+ [dl19-passage.bge-base-en-v1.5.parquet.hnsw-int8.cached](reproduce/from-document-collection/dl19-passage.bge-base-en-v1.5.parquet.hnsw-int8.cached.md)
-+ [dl19-passage.bge-base-en-v1.5.parquet.hnsw-int8.onnx](reproduce/from-document-collection/dl19-passage.bge-base-en-v1.5.parquet.hnsw-int8.onnx.md)
-+ [dl19-passage.openai-ada2.parquet.flat.cached](reproduce/from-document-collection/dl19-passage.openai-ada2.parquet.flat.cached.md)
-+ [dl19-passage.openai-ada2.parquet.flat-int8.cached](reproduce/from-document-collection/dl19-passage.openai-ada2.parquet.flat-int8.cached.md)
-+ [dl19-passage.openai-ada2.parquet.hnsw.cached](reproduce/from-document-collection/dl19-passage.openai-ada2.parquet.hnsw.cached.md)
-+ [dl19-passage.openai-ada2.parquet.hnsw-int8.cached](reproduce/from-document-collection/dl19-passage.openai-ada2.parquet.hnsw-int8.cached.md)
-+ [dl19-passage.cohere-embed-english-v3.0.parquet.flat.cached](reproduce/from-document-collection/dl19-passage.cohere-embed-english-v3.0.parquet.flat.cached.md)
-+ [dl19-passage.cohere-embed-english-v3.0.parquet.flat-int8.cached](reproduce/from-document-collection/dl19-passage.cohere-embed-english-v3.0.parquet.flat-int8.cached.md)
-+ [dl19-passage.cohere-embed-english-v3.0.parquet.hnsw.cached](reproduce/from-document-collection/dl19-passage.cohere-embed-english-v3.0.parquet.hnsw.cached.md)
-+ [dl19-passage.cohere-embed-english-v3.0.parquet.hnsw-int8.cached](reproduce/from-document-collection/dl19-passage.cohere-embed-english-v3.0.parquet.hnsw-int8.cached.md)
-+ [dl19-doc](reproduce/from-document-collection/dl19-doc.md)
-+ [dl19-doc.wp-tok](reproduce/from-document-collection/dl19-doc.wp-tok.md)
-+ [dl19-doc.wp-hgf](reproduce/from-document-collection/dl19-doc.wp-hgf.md)
-+ [dl19-doc.wp-ca](reproduce/from-document-collection/dl19-doc.wp-ca.md)
-+ [dl19-doc.docTTTTTquery](reproduce/from-document-collection/dl19-doc.docTTTTTquery.md)
-+ [dl19-doc-segmented](reproduce/from-document-collection/dl19-doc-segmented.md)
-+ [dl19-doc-segmented.wp-tok](reproduce/from-document-collection/dl19-doc-segmented.wp-tok.md)
-+ [dl19-doc-segmented.wp-ca](reproduce/from-document-collection/dl19-doc-segmented.wp-ca.md)
-+ [dl19-doc-segmented.docTTTTTquery](reproduce/from-document-collection/dl19-doc-segmented.docTTTTTquery.md)
-+ [dl19-doc-segmented.unicoil.cached](reproduce/from-document-collection/dl19-doc-segmented.unicoil.cached.md)
-+ [dl19-doc-segmented.unicoil-noexp.cached](reproduce/from-document-collection/dl19-doc-segmented.unicoil-noexp.cached.md)
-+ [dl20-passage](reproduce/from-document-collection/dl20-passage.md)
-+ [dl20-passage.bm25-b8](reproduce/from-document-collection/dl20-passage.bm25-b8.md)
-+ [dl20-passage.wp-tok](reproduce/from-document-collection/dl20-passage.wp-tok.md)
-+ [dl20-passage.wp-hgf](reproduce/from-document-collection/dl20-passage.wp-hgf.md)
-+ [dl20-passage.wp-ca](reproduce/from-document-collection/dl20-passage.wp-ca.md)
-+ [dl20-passage.docTTTTTquery](reproduce/from-document-collection/dl20-passage.docTTTTTquery.md)
-+ [dl20-passage.unicoil.cached](reproduce/from-document-collection/dl20-passage.unicoil.cached.md)
-+ [dl20-passage.unicoil-noexp.cached](reproduce/from-document-collection/dl20-passage.unicoil-noexp.cached.md)
-+ [dl20-passage.splade-pp-ed.cached](reproduce/from-document-collection/dl20-passage.splade-pp-ed.cached.md)
-+ [dl20-passage.splade-pp-ed.onnx](reproduce/from-document-collection/dl20-passage.splade-pp-ed.onnx.md)
-+ [dl20-passage.splade-pp-sd.cached](reproduce/from-document-collection/dl20-passage.splade-pp-sd.cached.md)
-+ [dl20-passage.splade-pp-sd.onnx](reproduce/from-document-collection/dl20-passage.splade-pp-sd.onnx.md)
-+ [dl20-passage.splade-v3.onnx](reproduce/from-document-collection/dl20-passage.splade-v3.onnx.md)
-+ [dl20-passage.splade-v3.cached](reproduce/from-document-collection/dl20-passage.splade-v3.cached.md)
-+ [dl20-passage.cos-dpr-distil.parquet.fw](reproduce/from-document-collection/dl20-passage.cos-dpr-distil.parquet.fw.md)
-+ [dl20-passage.cos-dpr-distil.parquet.lexlsh](reproduce/from-document-collection/dl20-passage.cos-dpr-distil.parquet.lexlsh.md)
-+ [dl20-passage.cos-dpr-distil.parquet.flat.cached](reproduce/from-document-collection/dl20-passage.cos-dpr-distil.parquet.flat.cached.md)
-+ [dl20-passage.cos-dpr-distil.parquet.flat.onnx](reproduce/from-document-collection/dl20-passage.cos-dpr-distil.parquet.flat.onnx.md)
-+ [dl20-passage.cos-dpr-distil.parquet.flat-int8.cached](reproduce/from-document-collection/dl20-passage.cos-dpr-distil.parquet.flat-int8.cached.md)
-+ [dl20-passage.cos-dpr-distil.parquet.flat-int8.onnx](reproduce/from-document-collection/dl20-passage.cos-dpr-distil.parquet.flat-int8.onnx.md)
-+ [dl20-passage.cos-dpr-distil.parquet.hnsw.cached](reproduce/from-document-collection/dl20-passage.cos-dpr-distil.parquet.hnsw.cached.md)
-+ [dl20-passage.cos-dpr-distil.parquet.hnsw.onnx](reproduce/from-document-collection/dl20-passage.cos-dpr-distil.parquet.hnsw.onnx.md)
-+ [dl20-passage.cos-dpr-distil.parquet.hnsw-int8.cached](reproduce/from-document-collection/dl20-passage.cos-dpr-distil.parquet.hnsw-int8.cached.md)
-+ [dl20-passage.cos-dpr-distil.parquet.hnsw-int8.onnx](reproduce/from-document-collection/dl20-passage.cos-dpr-distil.parquet.hnsw-int8.onnx.md)
-+ [dl20-passage.bge-base-en-v1.5.parquet.flat.cached](reproduce/from-document-collection/dl20-passage.bge-base-en-v1.5.parquet.flat.cached.md)
-+ [dl20-passage.bge-base-en-v1.5.parquet.flat.onnx](reproduce/from-document-collection/dl20-passage.bge-base-en-v1.5.parquet.flat.onnx.md)
-+ [dl20-passage.bge-base-en-v1.5.parquet.flat-int8.cached](reproduce/from-document-collection/dl20-passage.bge-base-en-v1.5.parquet.flat-int8.cached.md)
-+ [dl20-passage.bge-base-en-v1.5.parquet.flat-int8.onnx](reproduce/from-document-collection/dl20-passage.bge-base-en-v1.5.parquet.flat-int8.onnx.md)
-+ [dl20-passage.bge-base-en-v1.5.parquet.hnsw.cached](reproduce/from-document-collection/dl20-passage.bge-base-en-v1.5.parquet.hnsw.cached.md)
-+ [dl20-passage.bge-base-en-v1.5.parquet.hnsw.onnx](reproduce/from-document-collection/dl20-passage.bge-base-en-v1.5.parquet.hnsw.onnx.md)
-+ [dl20-passage.bge-base-en-v1.5.parquet.hnsw-int8.cached](reproduce/from-document-collection/dl20-passage.bge-base-en-v1.5.parquet.hnsw-int8.cached.md)
-+ [dl20-passage.bge-base-en-v1.5.parquet.hnsw-int8.onnx](reproduce/from-document-collection/dl20-passage.bge-base-en-v1.5.parquet.hnsw-int8.onnx.md)
-+ [dl20-passage.openai-ada2.parquet.flat.cached](reproduce/from-document-collection/dl20-passage.openai-ada2.parquet.flat.cached.md)
-+ [dl20-passage.openai-ada2.parquet.flat-int8.cached](reproduce/from-document-collection/dl20-passage.openai-ada2.parquet.flat-int8.cached.md)
-+ [dl20-passage.openai-ada2.parquet.hnsw.cached](reproduce/from-document-collection/dl20-passage.openai-ada2.parquet.hnsw.cached.md)
-+ [dl20-passage.openai-ada2.parquet.hnsw-int8.cached](reproduce/from-document-collection/dl20-passage.openai-ada2.parquet.hnsw-int8.cached.md)
-+ [dl20-passage.cohere-embed-english-v3.0.parquet.flat.cached](reproduce/from-document-collection/dl20-passage.cohere-embed-english-v3.0.parquet.flat.cached.md)
-+ [dl20-passage.cohere-embed-english-v3.0.parquet.flat-int8.cached](reproduce/from-document-collection/dl20-passage.cohere-embed-english-v3.0.parquet.flat-int8.cached.md)
-+ [dl20-passage.cohere-embed-english-v3.0.parquet.hnsw.cached](reproduce/from-document-collection/dl20-passage.cohere-embed-english-v3.0.parquet.hnsw.cached.md)
-+ [dl20-passage.cohere-embed-english-v3.0.parquet.hnsw-int8.cached](reproduce/from-document-collection/dl20-passage.cohere-embed-english-v3.0.parquet.hnsw-int8.cached.md)
-+ [dl20-doc](reproduce/from-document-collection/dl20-doc.md)
-+ [dl20-doc.wp-tok](reproduce/from-document-collection/dl20-doc.wp-tok.md)
-+ [dl20-doc.wp-hgf](reproduce/from-document-collection/dl20-doc.wp-hgf.md)
-+ [dl20-doc.wp-ca](reproduce/from-document-collection/dl20-doc.wp-ca.md)
-+ [dl20-doc.docTTTTTquery](reproduce/from-document-collection/dl20-doc.docTTTTTquery.md)
-+ [dl20-doc-segmented](reproduce/from-document-collection/dl20-doc-segmented.md)
-+ [dl20-doc-segmented.wp-tok](reproduce/from-document-collection/dl20-doc-segmented.wp-tok.md)
-+ [dl20-doc-segmented.wp-ca](reproduce/from-document-collection/dl20-doc-segmented.wp-ca.md)
-+ [dl20-doc-segmented.docTTTTTquery](reproduce/from-document-collection/dl20-doc-segmented.docTTTTTquery.md)
-+ [dl20-doc-segmented.unicoil.cached](reproduce/from-document-collection/dl20-doc-segmented.unicoil.cached.md)
-+ [dl20-doc-segmented.unicoil-noexp.cached](reproduce/from-document-collection/dl20-doc-segmented.unicoil-noexp.cached.md)
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage > logs/log.msmarco-v1-passage.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.bm25-b8 > logs/log.msmarco-v1-passage.bm25-b8.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.wp-tok > logs/log.msmarco-v1-passage.wp-tok.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.wp-hgf > logs/log.msmarco-v1-passage.wp-hgf.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.wp-ca > logs/log.msmarco-v1-passage.wp-ca.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.doc2query > logs/log.msmarco-v1-passage.doc2query.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.docTTTTTquery > logs/log.msmarco-v1-passage.docTTTTTquery.txt 2>&1 &
+
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.deepimpact.cached > logs/log.msmarco-v1-passage.deepimpact.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.unicoil.cached > logs/log.msmarco-v1-passage.unicoil.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.unicoil-noexp.cached > logs/log.msmarco-v1-passage.unicoil-noexp.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.unicoil-tilde-expansion.cached > logs/log.msmarco-v1-passage.unicoil-tilde-expansion.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.distill-splade-max.cached > logs/log.msmarco-v1-passage.distill-splade-max.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.splade-pp-ed.cached > logs/log.msmarco-v1-passage.splade-pp-ed.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.splade-pp-ed.onnx > logs/log.msmarco-v1-passage.splade-pp-ed.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.splade-pp-sd.cached > logs/log.msmarco-v1-passage.splade-pp-sd.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.splade-pp-sd.onnx > logs/log.msmarco-v1-passage.splade-pp-sd.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.splade-v3.onnx > logs/log.msmarco-v1-passage.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.splade-v3.cached > logs/log.msmarco-v1-passage.splade-v3.cached.txt 2>&1 &
+
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.cos-dpr-distil.parquet.fw > logs/log.msmarco-v1-passage.cos-dpr-distil.parquet.fw.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.cos-dpr-distil.parquet.lexlsh > logs/log.msmarco-v1-passage.cos-dpr-distil.parquet.lexlsh.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.cos-dpr-distil.parquet.flat.cached > logs/log.msmarco-v1-passage.cos-dpr-distil.parquet.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.cos-dpr-distil.parquet.flat.onnx > logs/log.msmarco-v1-passage.cos-dpr-distil.parquet.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.cos-dpr-distil.parquet.flat-int8.cached > logs/log.msmarco-v1-passage.cos-dpr-distil.parquet.flat-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.cos-dpr-distil.parquet.flat-int8.onnx > logs/log.msmarco-v1-passage.cos-dpr-distil.parquet.flat-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.cos-dpr-distil.parquet.hnsw.cached > logs/log.msmarco-v1-passage.cos-dpr-distil.parquet.hnsw.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.cos-dpr-distil.parquet.hnsw.onnx > logs/log.msmarco-v1-passage.cos-dpr-distil.parquet.hnsw.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.cos-dpr-distil.parquet.hnsw-int8.cached > logs/log.msmarco-v1-passage.cos-dpr-distil.parquet.hnsw-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.cos-dpr-distil.parquet.hnsw-int8.onnx > logs/log.msmarco-v1-passage.cos-dpr-distil.parquet.hnsw-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.bge-base-en-v1.5.parquet.flat.cached > logs/log.msmarco-v1-passage.bge-base-en-v1.5.parquet.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.bge-base-en-v1.5.parquet.flat.onnx > logs/log.msmarco-v1-passage.bge-base-en-v1.5.parquet.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.bge-base-en-v1.5.parquet.flat-int8.cached > logs/log.msmarco-v1-passage.bge-base-en-v1.5.parquet.flat-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.bge-base-en-v1.5.parquet.flat-int8.onnx > logs/log.msmarco-v1-passage.bge-base-en-v1.5.parquet.flat-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw.cached > logs/log.msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw.onnx > logs/log.msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw-int8.cached > logs/log.msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw-int8.onnx > logs/log.msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.openai-ada2.parquet.flat.cached > logs/log.msmarco-v1-passage.openai-ada2.parquet.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.openai-ada2.parquet.flat-int8.cached > logs/log.msmarco-v1-passage.openai-ada2.parquet.flat-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.openai-ada2.parquet.hnsw.cached > logs/log.msmarco-v1-passage.openai-ada2.parquet.hnsw.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.openai-ada2.parquet.hnsw-int8.cached > logs/log.msmarco-v1-passage.openai-ada2.parquet.hnsw-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.cohere-embed-english-v3.0.parquet.flat.cached > logs/log.msmarco-v1-passage.cohere-embed-english-v3.0.parquet.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.cohere-embed-english-v3.0.parquet.flat-int8.cached > logs/log.msmarco-v1-passage.cohere-embed-english-v3.0.parquet.flat-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.cohere-embed-english-v3.0.parquet.hnsw.cached > logs/log.msmarco-v1-passage.cohere-embed-english-v3.0.parquet.hnsw.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.cohere-embed-english-v3.0.parquet.hnsw-int8.cached > logs/log.msmarco-v1-passage.cohere-embed-english-v3.0.parquet.hnsw-int8.cached.txt 2>&1 &
+
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-doc > logs/log.msmarco-v1-doc.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-doc.wp-tok > logs/log.msmarco-v1-doc.wp-tok.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-doc.wp-hgf > logs/log.msmarco-v1-doc.wp-hgf.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-doc.wp-ca > logs/log.msmarco-v1-doc.wp-ca.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-doc.docTTTTTquery > logs/log.msmarco-v1-doc.docTTTTTquery.txt 2>&1 &
+
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-doc-segmented > logs/log.msmarco-v1-doc-segmented.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-doc-segmented.wp-tok > logs/log.msmarco-v1-doc-segmented.wp-tok.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-doc-segmented.wp-ca > logs/log.msmarco-v1-doc-segmented.wp-ca.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-doc-segmented.docTTTTTquery > logs/log.msmarco-v1-doc-segmented.docTTTTTquery.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-doc-segmented.unicoil.cached > logs/log.msmarco-v1-doc-segmented.unicoil.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-doc-segmented.unicoil-noexp.cached > logs/log.msmarco-v1-doc-segmented.unicoil-noexp.cached.txt 2>&1 &
+
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage > logs/log.dl19-passage.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.bm25-b8 > logs/log.dl19-passage.bm25-b8.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.wp-tok > logs/log.dl19-passage.wp-tok.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.wp-hgf > logs/log.dl19-passage.wp-hgf.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.wp-ca > logs/log.dl19-passage.wp-ca.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.docTTTTTquery > logs/log.dl19-passage.docTTTTTquery.txt 2>&1 &
+
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.unicoil.cached > logs/log.dl19-passage.unicoil.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.unicoil-noexp.cached > logs/log.dl19-passage.unicoil-noexp.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.splade-pp-ed.cached > logs/log.dl19-passage.splade-pp-ed.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.splade-pp-ed.onnx > logs/log.dl19-passage.splade-pp-ed.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.splade-pp-sd.cached > logs/log.dl19-passage.splade-pp-sd.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.splade-pp-sd.onnx > logs/log.dl19-passage.splade-pp-sd.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.splade-v3.onnx > logs/log.dl19-passage.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.splade-v3.cached > logs/log.dl19-passage.splade-v3.cached.txt 2>&1 &
+
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.cos-dpr-distil.parquet.fw > logs/log.dl19-passage.cos-dpr-distil.parquet.fw.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.cos-dpr-distil.parquet.lexlsh > logs/log.dl19-passage.cos-dpr-distil.parquet.lexlsh.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.cos-dpr-distil.parquet.flat.cached > logs/log.dl19-passage.cos-dpr-distil.parquet.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.cos-dpr-distil.parquet.flat.onnx > logs/log.dl19-passage.cos-dpr-distil.parquet.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.cos-dpr-distil.parquet.flat-int8.cached > logs/log.dl19-passage.cos-dpr-distil.parquet.flat-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.cos-dpr-distil.parquet.flat-int8.onnx > logs/log.dl19-passage.cos-dpr-distil.parquet.flat-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.cos-dpr-distil.parquet.hnsw.cached > logs/log.dl19-passage.cos-dpr-distil.parquet.hnsw.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.cos-dpr-distil.parquet.hnsw.onnx > logs/log.dl19-passage.cos-dpr-distil.parquet.hnsw.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.cos-dpr-distil.parquet.hnsw-int8.cached > logs/log.dl19-passage.cos-dpr-distil.parquet.hnsw-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.cos-dpr-distil.parquet.hnsw-int8.onnx > logs/log.dl19-passage.cos-dpr-distil.parquet.hnsw-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.bge-base-en-v1.5.parquet.flat.cached > logs/log.dl19-passage.bge-base-en-v1.5.parquet.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.bge-base-en-v1.5.parquet.flat.onnx > logs/log.dl19-passage.bge-base-en-v1.5.parquet.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.bge-base-en-v1.5.parquet.flat-int8.cached > logs/log.dl19-passage.bge-base-en-v1.5.parquet.flat-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.bge-base-en-v1.5.parquet.flat-int8.onnx > logs/log.dl19-passage.bge-base-en-v1.5.parquet.flat-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.bge-base-en-v1.5.parquet.hnsw.cached > logs/log.dl19-passage.bge-base-en-v1.5.parquet.hnsw.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.bge-base-en-v1.5.parquet.hnsw.onnx > logs/log.dl19-passage.bge-base-en-v1.5.parquet.hnsw.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.bge-base-en-v1.5.parquet.hnsw-int8.cached > logs/log.dl19-passage.bge-base-en-v1.5.parquet.hnsw-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.bge-base-en-v1.5.parquet.hnsw-int8.onnx > logs/log.dl19-passage.bge-base-en-v1.5.parquet.hnsw-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.openai-ada2.parquet.flat.cached > logs/log.dl19-passage.openai-ada2.parquet.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.openai-ada2.parquet.flat-int8.cached > logs/log.dl19-passage.openai-ada2.parquet.flat-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.openai-ada2.parquet.hnsw.cached > logs/log.dl19-passage.openai-ada2.parquet.hnsw.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.openai-ada2.parquet.hnsw-int8.cached > logs/log.dl19-passage.openai-ada2.parquet.hnsw-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.cohere-embed-english-v3.0.parquet.flat.cached > logs/log.dl19-passage.cohere-embed-english-v3.0.parquet.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.cohere-embed-english-v3.0.parquet.flat-int8.cached > logs/log.dl19-passage.cohere-embed-english-v3.0.parquet.flat-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.cohere-embed-english-v3.0.parquet.hnsw.cached > logs/log.dl19-passage.cohere-embed-english-v3.0.parquet.hnsw.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.cohere-embed-english-v3.0.parquet.hnsw-int8.cached > logs/log.dl19-passage.cohere-embed-english-v3.0.parquet.hnsw-int8.cached.txt 2>&1 &
+
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-doc > logs/log.dl19-doc.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-doc.wp-tok > logs/log.dl19-doc.wp-tok.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-doc.wp-hgf > logs/log.dl19-doc.wp-hgf.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-doc.wp-ca > logs/log.dl19-doc.wp-ca.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-doc.docTTTTTquery > logs/log.dl19-doc.docTTTTTquery.txt 2>&1 &
+
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-doc-segmented > logs/log.dl19-doc-segmented.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-doc-segmented.wp-tok > logs/log.dl19-doc-segmented.wp-tok.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-doc-segmented.wp-ca > logs/log.dl19-doc-segmented.wp-ca.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-doc-segmented.docTTTTTquery > logs/log.dl19-doc-segmented.docTTTTTquery.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-doc-segmented.unicoil.cached > logs/log.dl19-doc-segmented.unicoil.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-doc-segmented.unicoil-noexp.cached > logs/log.dl19-doc-segmented.unicoil-noexp.cached.txt 2>&1 &
+
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage > logs/log.dl20-passage.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage.bm25-b8 > logs/log.dl20-passage.bm25-b8.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage.wp-tok > logs/log.dl20-passage.wp-tok.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage.wp-hgf > logs/log.dl20-passage.wp-hgf.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage.wp-ca > logs/log.dl20-passage.wp-ca.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage.docTTTTTquery > logs/log.dl20-passage.docTTTTTquery.txt 2>&1 &
+
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage.unicoil.cached > logs/log.dl20-passage.unicoil.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage.unicoil-noexp.cached > logs/log.dl20-passage.unicoil-noexp.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage.splade-pp-ed.cached > logs/log.dl20-passage.splade-pp-ed.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage.splade-pp-ed.onnx > logs/log.dl20-passage.splade-pp-ed.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage.splade-pp-sd.cached > logs/log.dl20-passage.splade-pp-sd.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage.splade-pp-sd.onnx > logs/log.dl20-passage.splade-pp-sd.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage.splade-v3.onnx > logs/log.dl20-passage.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage.splade-v3.cached > logs/log.dl20-passage.splade-v3.cached.txt 2>&1 &
+
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage.cos-dpr-distil.parquet.fw > logs/log.dl20-passage.cos-dpr-distil.parquet.fw.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage.cos-dpr-distil.parquet.lexlsh > logs/log.dl20-passage.cos-dpr-distil.parquet.lexlsh.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage.cos-dpr-distil.parquet.flat.cached > logs/log.dl20-passage.cos-dpr-distil.parquet.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage.cos-dpr-distil.parquet.flat.onnx > logs/log.dl20-passage.cos-dpr-distil.parquet.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage.cos-dpr-distil.parquet.flat-int8.cached > logs/log.dl20-passage.cos-dpr-distil.parquet.flat-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage.cos-dpr-distil.parquet.flat-int8.onnx > logs/log.dl20-passage.cos-dpr-distil.parquet.flat-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage.cos-dpr-distil.parquet.hnsw.cached > logs/log.dl20-passage.cos-dpr-distil.parquet.hnsw.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage.cos-dpr-distil.parquet.hnsw.onnx > logs/log.dl20-passage.cos-dpr-distil.parquet.hnsw.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage.cos-dpr-distil.parquet.hnsw-int8.cached > logs/log.dl20-passage.cos-dpr-distil.parquet.hnsw-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage.cos-dpr-distil.parquet.hnsw-int8.onnx > logs/log.dl20-passage.cos-dpr-distil.parquet.hnsw-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage.bge-base-en-v1.5.parquet.flat.cached > logs/log.dl20-passage.bge-base-en-v1.5.parquet.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage.bge-base-en-v1.5.parquet.flat.onnx > logs/log.dl20-passage.bge-base-en-v1.5.parquet.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage.bge-base-en-v1.5.parquet.flat-int8.cached > logs/log.dl20-passage.bge-base-en-v1.5.parquet.flat-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage.bge-base-en-v1.5.parquet.flat-int8.onnx > logs/log.dl20-passage.bge-base-en-v1.5.parquet.flat-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage.bge-base-en-v1.5.parquet.hnsw.cached > logs/log.dl20-passage.bge-base-en-v1.5.parquet.hnsw.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage.bge-base-en-v1.5.parquet.hnsw.onnx > logs/log.dl20-passage.bge-base-en-v1.5.parquet.hnsw.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage.bge-base-en-v1.5.parquet.hnsw-int8.cached > logs/log.dl20-passage.bge-base-en-v1.5.parquet.hnsw-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage.bge-base-en-v1.5.parquet.hnsw-int8.onnx > logs/log.dl20-passage.bge-base-en-v1.5.parquet.hnsw-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage.openai-ada2.parquet.flat.cached > logs/log.dl20-passage.openai-ada2.parquet.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage.openai-ada2.parquet.flat-int8.cached > logs/log.dl20-passage.openai-ada2.parquet.flat-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage.openai-ada2.parquet.hnsw.cached > logs/log.dl20-passage.openai-ada2.parquet.hnsw.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage.openai-ada2.parquet.hnsw-int8.cached > logs/log.dl20-passage.openai-ada2.parquet.hnsw-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage.cohere-embed-english-v3.0.parquet.flat.cached > logs/log.dl20-passage.cohere-embed-english-v3.0.parquet.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage.cohere-embed-english-v3.0.parquet.flat-int8.cached > logs/log.dl20-passage.cohere-embed-english-v3.0.parquet.flat-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage.cohere-embed-english-v3.0.parquet.hnsw.cached > logs/log.dl20-passage.cohere-embed-english-v3.0.parquet.hnsw.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage.cohere-embed-english-v3.0.parquet.hnsw-int8.cached > logs/log.dl20-passage.cohere-embed-english-v3.0.parquet.hnsw-int8.cached.txt 2>&1 &
+
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-doc > logs/log.dl20-doc.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-doc.wp-tok > logs/log.dl20-doc.wp-tok.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-doc.wp-hgf > logs/log.dl20-doc.wp-hgf.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-doc.wp-ca > logs/log.dl20-doc.wp-ca.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-doc.docTTTTTquery > logs/log.dl20-doc.docTTTTTquery.txt 2>&1 &
+
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-doc-segmented > logs/log.dl20-doc-segmented.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-doc-segmented.wp-tok > logs/log.dl20-doc-segmented.wp-tok.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-doc-segmented.wp-ca > logs/log.dl20-doc-segmented.wp-ca.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-doc-segmented.docTTTTTquery > logs/log.dl20-doc-segmented.docTTTTTquery.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-doc-segmented.unicoil.cached > logs/log.dl20-doc-segmented.unicoil.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-doc-segmented.unicoil-noexp.cached > logs/log.dl20-doc-segmented.unicoil-noexp.cached.txt 2>&1 &
+```
 
 </details>
 <details>
 <summary>MS MARCO V2 + DL21 regressions</summary>
 
-+ [msmarco-v2-passage](reproduce/from-document-collection/msmarco-v2-passage.md)
-+ [msmarco-v2-passage.d2q-t5](reproduce/from-document-collection/msmarco-v2-passage.d2q-t5.md)
-+ [msmarco-v2-passage.unicoil-noexp-0shot.cached](reproduce/from-document-collection/msmarco-v2-passage.unicoil-noexp-0shot.cached.md)
-+ [msmarco-v2-passage.unicoil-0shot.cached](reproduce/from-document-collection/msmarco-v2-passage.unicoil-0shot.cached.md)
-+ [msmarco-v2-passage.splade-pp-ed.cached](reproduce/from-document-collection/msmarco-v2-passage.splade-pp-ed.cached.md)
-+ [msmarco-v2-passage.splade-pp-ed.onnx](reproduce/from-document-collection/msmarco-v2-passage.splade-pp-ed.onnx.md)
-+ [msmarco-v2-passage.splade-pp-sd.cached](reproduce/from-document-collection/msmarco-v2-passage.splade-pp-sd.cached.md)
-+ [msmarco-v2-passage.splade-pp-sd.onnx](reproduce/from-document-collection/msmarco-v2-passage.splade-pp-sd.onnx.md)
-+ [msmarco-v2-passage-augmented](reproduce/from-document-collection/msmarco-v2-passage-augmented.md)
-+ [msmarco-v2-passage-augmented.d2q-t5](reproduce/from-document-collection/msmarco-v2-passage-augmented.d2q-t5.md)
-+ [msmarco-v2-doc](reproduce/from-document-collection/msmarco-v2-doc.md)
-+ [msmarco-v2-doc.d2q-t5](reproduce/from-document-collection/msmarco-v2-doc.d2q-t5.md)
-+ [msmarco-v2-doc-segmented](reproduce/from-document-collection/msmarco-v2-doc-segmented.md)
-+ [msmarco-v2-doc-segmented.d2q-t5](reproduce/from-document-collection/msmarco-v2-doc-segmented.d2q-t5.md)
-+ [msmarco-v2-doc-segmented.unicoil-noexp-0shot-v2.cached](reproduce/from-document-collection/msmarco-v2-doc-segmented.unicoil-noexp-0shot-v2.cached.md)
-+ [msmarco-v2-doc-segmented.unicoil-0shot-v2.cached](reproduce/from-document-collection/msmarco-v2-doc-segmented.unicoil-0shot-v2.cached.md)
-+ [dl21-passage](reproduce/from-document-collection/dl21-passage.md)
-+ [dl21-passage.d2q-t5](reproduce/from-document-collection/dl21-passage.d2q-t5.md)
-+ [dl21-passage.unicoil-noexp-0shot.cached](reproduce/from-document-collection/dl21-passage.unicoil-noexp-0shot.cached.md)
-+ [dl21-passage.unicoil-0shot.cached](reproduce/from-document-collection/dl21-passage.unicoil-0shot.cached.md)
-+ [dl21-passage.splade-pp-ed.cached](reproduce/from-document-collection/dl21-passage.splade-pp-ed.cached.md)
-+ [dl21-passage.splade-pp-ed.onnx](reproduce/from-document-collection/dl21-passage.splade-pp-ed.onnx.md)
-+ [dl21-passage.splade-pp-sd.cached](reproduce/from-document-collection/dl21-passage.splade-pp-sd.cached.md)
-+ [dl21-passage.splade-pp-sd.onnx](reproduce/from-document-collection/dl21-passage.splade-pp-sd.onnx.md)
-+ [dl21-passage-augmented](reproduce/from-document-collection/dl21-passage-augmented.md)
-+ [dl21-passage-augmented.d2q-t5](reproduce/from-document-collection/dl21-passage-augmented.d2q-t5.md)
-+ [dl21-doc](reproduce/from-document-collection/dl21-doc.md)
-+ [dl21-doc.d2q-t5](reproduce/from-document-collection/dl21-doc.d2q-t5.md)
-+ [dl21-doc-segmented](reproduce/from-document-collection/dl21-doc-segmented.md)
-+ [dl21-doc-segmented.d2q-t5](reproduce/from-document-collection/dl21-doc-segmented.d2q-t5.md)
-+ [dl21-doc-segmented.unicoil-noexp-0shot-v2.cached](reproduce/from-document-collection/dl21-doc-segmented.unicoil-noexp-0shot-v2.cached.md)
-+ [dl21-doc-segmented.unicoil-0shot-v2.cached](reproduce/from-document-collection/dl21-doc-segmented.unicoil-0shot-v2.cached.md)
-+ [dl22-passage](reproduce/from-document-collection/dl22-passage.md)
-+ [dl22-passage.d2q-t5](reproduce/from-document-collection/dl22-passage.d2q-t5.md)
-+ [dl22-passage.unicoil-noexp-0shot.cached](reproduce/from-document-collection/dl22-passage.unicoil-noexp-0shot.cached.md)
-+ [dl22-passage.unicoil-0shot.cached](reproduce/from-document-collection/dl22-passage.unicoil-0shot.cached.md)
-+ [dl22-passage.splade-pp-ed.cached](reproduce/from-document-collection/dl22-passage.splade-pp-ed.cached.md)
-+ [dl22-passage.splade-pp-ed.onnx](reproduce/from-document-collection/dl22-passage.splade-pp-ed.onnx.md)
-+ [dl22-passage.splade-pp-sd.cached](reproduce/from-document-collection/dl22-passage.splade-pp-sd.cached.md)
-+ [dl22-passage.splade-pp-sd.onnx](reproduce/from-document-collection/dl22-passage.splade-pp-sd.onnx.md)
-+ [dl22-passage-augmented](reproduce/from-document-collection/dl22-passage-augmented.md)
-+ [dl22-passage-augmented.d2q-t5](reproduce/from-document-collection/dl22-passage-augmented.d2q-t5.md)
-+ [dl22-doc](reproduce/from-document-collection/dl22-doc.md)
-+ [dl22-doc.d2q-t5](reproduce/from-document-collection/dl22-doc.d2q-t5.md)
-+ [dl22-doc-segmented](reproduce/from-document-collection/dl22-doc-segmented.md)
-+ [dl22-doc-segmented.d2q-t5](reproduce/from-document-collection/dl22-doc-segmented.d2q-t5.md)
-+ [dl22-doc-segmented.unicoil-noexp-0shot-v2.cached](reproduce/from-document-collection/dl22-doc-segmented.unicoil-noexp-0shot-v2.cached.md)
-+ [dl22-doc-segmented.unicoil-0shot-v2.cached](reproduce/from-document-collection/dl22-doc-segmented.unicoil-0shot-v2.cached.md)
-+ [dl23-passage](reproduce/from-document-collection/dl23-passage.md)
-+ [dl23-passage.d2q-t5](reproduce/from-document-collection/dl23-passage.d2q-t5.md)
-+ [dl23-passage.unicoil-noexp-0shot.cached](reproduce/from-document-collection/dl23-passage.unicoil-noexp-0shot.cached.md)
-+ [dl23-passage.unicoil-0shot.cached](reproduce/from-document-collection/dl23-passage.unicoil-0shot.cached.md)
-+ [dl23-passage.splade-pp-ed.cached](reproduce/from-document-collection/dl23-passage.splade-pp-ed.cached.md)
-+ [dl23-passage.splade-pp-ed.onnx](reproduce/from-document-collection/dl23-passage.splade-pp-ed.onnx.md)
-+ [dl23-passage.splade-pp-sd.cached](reproduce/from-document-collection/dl23-passage.splade-pp-sd.cached.md)
-+ [dl23-passage.splade-pp-sd.onnx](reproduce/from-document-collection/dl23-passage.splade-pp-sd.onnx.md)
-+ [dl23-passage-augmented](reproduce/from-document-collection/dl23-passage-augmented.md)
-+ [dl23-passage-augmented.d2q-t5](reproduce/from-document-collection/dl23-passage-augmented.d2q-t5.md)
-+ [dl23-doc](reproduce/from-document-collection/dl23-doc.md)
-+ [dl23-doc.d2q-t5](reproduce/from-document-collection/dl23-doc.d2q-t5.md)
-+ [dl23-doc-segmented](reproduce/from-document-collection/dl23-doc-segmented.md)
-+ [dl23-doc-segmented.d2q-t5](reproduce/from-document-collection/dl23-doc-segmented.d2q-t5.md)
-+ [dl23-doc-segmented.unicoil-noexp-0shot-v2.cached](reproduce/from-document-collection/dl23-doc-segmented.unicoil-noexp-0shot-v2.cached.md)
-+ [dl23-doc-segmented.unicoil-0shot-v2.cached](reproduce/from-document-collection/dl23-doc-segmented.unicoil-0shot-v2.cached.md)
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v2-passage > logs/log.msmarco-v2-passage.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v2-passage.d2q-t5 > logs/log.msmarco-v2-passage.d2q-t5.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v2-passage.unicoil-noexp-0shot.cached > logs/log.msmarco-v2-passage.unicoil-noexp-0shot.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v2-passage.unicoil-0shot.cached > logs/log.msmarco-v2-passage.unicoil-0shot.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v2-passage.splade-pp-ed.cached > logs/log.msmarco-v2-passage.splade-pp-ed.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v2-passage.splade-pp-ed.onnx > logs/log.msmarco-v2-passage.splade-pp-ed.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v2-passage.splade-pp-sd.cached > logs/log.msmarco-v2-passage.splade-pp-sd.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v2-passage.splade-pp-sd.onnx > logs/log.msmarco-v2-passage.splade-pp-sd.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v2-passage-augmented > logs/log.msmarco-v2-passage-augmented.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v2-passage-augmented.d2q-t5 > logs/log.msmarco-v2-passage-augmented.d2q-t5.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v2-doc > logs/log.msmarco-v2-doc.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v2-doc.d2q-t5 > logs/log.msmarco-v2-doc.d2q-t5.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v2-doc-segmented > logs/log.msmarco-v2-doc-segmented.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v2-doc-segmented.d2q-t5 > logs/log.msmarco-v2-doc-segmented.d2q-t5.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v2-doc-segmented.unicoil-noexp-0shot-v2.cached > logs/log.msmarco-v2-doc-segmented.unicoil-noexp-0shot-v2.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v2-doc-segmented.unicoil-0shot-v2.cached > logs/log.msmarco-v2-doc-segmented.unicoil-0shot-v2.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl21-passage > logs/log.dl21-passage.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl21-passage.d2q-t5 > logs/log.dl21-passage.d2q-t5.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl21-passage.unicoil-noexp-0shot.cached > logs/log.dl21-passage.unicoil-noexp-0shot.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl21-passage.unicoil-0shot.cached > logs/log.dl21-passage.unicoil-0shot.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl21-passage.splade-pp-ed.cached > logs/log.dl21-passage.splade-pp-ed.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl21-passage.splade-pp-ed.onnx > logs/log.dl21-passage.splade-pp-ed.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl21-passage.splade-pp-sd.cached > logs/log.dl21-passage.splade-pp-sd.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl21-passage.splade-pp-sd.onnx > logs/log.dl21-passage.splade-pp-sd.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl21-passage-augmented > logs/log.dl21-passage-augmented.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl21-passage-augmented.d2q-t5 > logs/log.dl21-passage-augmented.d2q-t5.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl21-doc > logs/log.dl21-doc.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl21-doc.d2q-t5 > logs/log.dl21-doc.d2q-t5.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl21-doc-segmented > logs/log.dl21-doc-segmented.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl21-doc-segmented.d2q-t5 > logs/log.dl21-doc-segmented.d2q-t5.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl21-doc-segmented.unicoil-noexp-0shot-v2.cached > logs/log.dl21-doc-segmented.unicoil-noexp-0shot-v2.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl21-doc-segmented.unicoil-0shot-v2.cached > logs/log.dl21-doc-segmented.unicoil-0shot-v2.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl22-passage > logs/log.dl22-passage.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl22-passage.d2q-t5 > logs/log.dl22-passage.d2q-t5.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl22-passage.unicoil-noexp-0shot.cached > logs/log.dl22-passage.unicoil-noexp-0shot.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl22-passage.unicoil-0shot.cached > logs/log.dl22-passage.unicoil-0shot.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl22-passage.splade-pp-ed.cached > logs/log.dl22-passage.splade-pp-ed.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl22-passage.splade-pp-ed.onnx > logs/log.dl22-passage.splade-pp-ed.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl22-passage.splade-pp-sd.cached > logs/log.dl22-passage.splade-pp-sd.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl22-passage.splade-pp-sd.onnx > logs/log.dl22-passage.splade-pp-sd.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl22-passage-augmented > logs/log.dl22-passage-augmented.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl22-passage-augmented.d2q-t5 > logs/log.dl22-passage-augmented.d2q-t5.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl22-doc > logs/log.dl22-doc.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl22-doc.d2q-t5 > logs/log.dl22-doc.d2q-t5.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl22-doc-segmented > logs/log.dl22-doc-segmented.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl22-doc-segmented.d2q-t5 > logs/log.dl22-doc-segmented.d2q-t5.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl22-doc-segmented.unicoil-noexp-0shot-v2.cached > logs/log.dl22-doc-segmented.unicoil-noexp-0shot-v2.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl22-doc-segmented.unicoil-0shot-v2.cached > logs/log.dl22-doc-segmented.unicoil-0shot-v2.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl23-passage > logs/log.dl23-passage.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl23-passage.d2q-t5 > logs/log.dl23-passage.d2q-t5.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl23-passage.unicoil-noexp-0shot.cached > logs/log.dl23-passage.unicoil-noexp-0shot.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl23-passage.unicoil-0shot.cached > logs/log.dl23-passage.unicoil-0shot.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl23-passage.splade-pp-ed.cached > logs/log.dl23-passage.splade-pp-ed.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl23-passage.splade-pp-ed.onnx > logs/log.dl23-passage.splade-pp-ed.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl23-passage.splade-pp-sd.cached > logs/log.dl23-passage.splade-pp-sd.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl23-passage.splade-pp-sd.onnx > logs/log.dl23-passage.splade-pp-sd.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl23-passage-augmented > logs/log.dl23-passage-augmented.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl23-passage-augmented.d2q-t5 > logs/log.dl23-passage-augmented.d2q-t5.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl23-doc > logs/log.dl23-doc.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl23-doc.d2q-t5 > logs/log.dl23-doc.d2q-t5.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl23-doc-segmented > logs/log.dl23-doc-segmented.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl23-doc-segmented.d2q-t5 > logs/log.dl23-doc-segmented.d2q-t5.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl23-doc-segmented.unicoil-noexp-0shot-v2.cached > logs/log.dl23-doc-segmented.unicoil-noexp-0shot-v2.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl23-doc-segmented.unicoil-0shot-v2.cached > logs/log.dl23-doc-segmented.unicoil-0shot-v2.cached.txt 2>&1 &
+```
 
 </details>
 <details>
 <summary>MS MARCO V2.1 + RAG24 regressions</summary>
 
-+ [rag24-doc-segmented-test-umbrela](reproduce/from-document-collection/rag24-doc-segmented-test-umbrela.md)
-+ [rag24-doc-segmented-test-umbrela.splade-v3.onnx](reproduce/from-document-collection/rag24-doc-segmented-test-umbrela.splade-v3.onnx.md)
-+ [rag24-doc-segmented-test-umbrela.splade-v3.cached](reproduce/from-document-collection/rag24-doc-segmented-test-umbrela.splade-v3.cached.md)
-+ [rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard00.flat.onnx](reproduce/from-document-collection/rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard00.flat.onnx.md)
-+ [rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard01.flat.onnx](reproduce/from-document-collection/rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard01.flat.onnx.md)
-+ [rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard02.flat.onnx](reproduce/from-document-collection/rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard02.flat.onnx.md)
-+ [rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard03.flat.onnx](reproduce/from-document-collection/rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard03.flat.onnx.md)
-+ [rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard04.flat.onnx](reproduce/from-document-collection/rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard04.flat.onnx.md)
-+ [rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard05.flat.onnx](reproduce/from-document-collection/rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard05.flat.onnx.md)
-+ [rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard06.flat.onnx](reproduce/from-document-collection/rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard06.flat.onnx.md)
-+ [rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard07.flat.onnx](reproduce/from-document-collection/rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard07.flat.onnx.md)
-+ [rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard08.flat.onnx](reproduce/from-document-collection/rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard08.flat.onnx.md)
-+ [rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard09.flat.onnx](reproduce/from-document-collection/rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard09.flat.onnx.md)
-+ [rag24-doc-segmented-test-nist](reproduce/from-document-collection/rag24-doc-segmented-test-nist.md)
-+ [rag24-doc-segmented-test-nist.splade-v3.onnx](reproduce/from-document-collection/rag24-doc-segmented-test-nist.splade-v3.onnx.md)
-+ [rag24-doc-segmented-test-nist.splade-v3.cached](reproduce/from-document-collection/rag24-doc-segmented-test-nist.splade-v3.cached.md)
-+ [rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard00.flat.onnx](reproduce/from-document-collection/rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard00.flat.onnx.md)
-+ [rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard01.flat.onnx](reproduce/from-document-collection/rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard01.flat.onnx.md)
-+ [rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard02.flat.onnx](reproduce/from-document-collection/rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard02.flat.onnx.md)
-+ [rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard03.flat.onnx](reproduce/from-document-collection/rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard03.flat.onnx.md)
-+ [rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard04.flat.onnx](reproduce/from-document-collection/rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard04.flat.onnx.md)
-+ [rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard05.flat.onnx](reproduce/from-document-collection/rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard05.flat.onnx.md)
-+ [rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard06.flat.onnx](reproduce/from-document-collection/rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard06.flat.onnx.md)
-+ [rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard07.flat.onnx](reproduce/from-document-collection/rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard07.flat.onnx.md)
-+ [rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard08.flat.onnx](reproduce/from-document-collection/rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard08.flat.onnx.md)
-+ [rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard09.flat.onnx](reproduce/from-document-collection/rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard09.flat.onnx.md)
-+ [msmarco-v2.1-doc](reproduce/from-document-collection/msmarco-v2.1-doc.md)
-+ [msmarco-v2.1-doc-segmented](reproduce/from-document-collection/msmarco-v2.1-doc-segmented.md)
-+ [msmarco-v2.1-doc-segmented.splade-v3.onnx](reproduce/from-document-collection/msmarco-v2.1-doc-segmented.splade-v3.onnx.md)
-+ [msmarco-v2.1-doc-segmented.splade-v3.cached](reproduce/from-document-collection/msmarco-v2.1-doc-segmented.splade-v3.cached.md)
-+ [dl21-doc-msmarco-v2.1](reproduce/from-document-collection/dl21-doc-msmarco-v2.1.md)
-+ [dl21-doc-segmented-msmarco-v2.1](reproduce/from-document-collection/dl21-doc-segmented-msmarco-v2.1.md)
-+ [dl21-doc-segmented-msmarco-v2.1.splade-v3.onnx](reproduce/from-document-collection/dl21-doc-segmented-msmarco-v2.1.splade-v3.onnx.md)
-+ [dl21-doc-segmented-msmarco-v2.1.splade-v3.cached](reproduce/from-document-collection/dl21-doc-segmented-msmarco-v2.1.splade-v3.cached.md)
-+ [dl22-doc-msmarco-v2.1](reproduce/from-document-collection/dl22-doc-msmarco-v2.1.md)
-+ [dl22-doc-segmented-msmarco-v2.1](reproduce/from-document-collection/dl22-doc-segmented-msmarco-v2.1.md)
-+ [dl22-doc-segmented-msmarco-v2.1.splade-v3.onnx](reproduce/from-document-collection/dl22-doc-segmented-msmarco-v2.1.splade-v3.onnx.md)
-+ [dl22-doc-segmented-msmarco-v2.1.splade-v3.cached](reproduce/from-document-collection/dl22-doc-segmented-msmarco-v2.1.splade-v3.cached.md)
-+ [dl23-doc-msmarco-v2.1](reproduce/from-document-collection/dl23-doc-msmarco-v2.1.md)
-+ [dl23-doc-segmented-msmarco-v2.1](reproduce/from-document-collection/dl23-doc-segmented-msmarco-v2.1.md)
-+ [dl23-doc-segmented-msmarco-v2.1.splade-v3.onnx](reproduce/from-document-collection/dl23-doc-segmented-msmarco-v2.1.splade-v3.onnx.md)
-+ [dl23-doc-segmented-msmarco-v2.1.splade-v3.cached](reproduce/from-document-collection/dl23-doc-segmented-msmarco-v2.1.splade-v3.cached.md)
-+ [rag24-doc-raggy-dev](reproduce/from-document-collection/rag24-doc-raggy-dev.md)
-+ [rag24-doc-segmented-raggy-dev](reproduce/from-document-collection/rag24-doc-segmented-raggy-dev.md)
-+ [rag24-doc-segmented-raggy-dev.splade-v3.onnx](reproduce/from-document-collection/rag24-doc-segmented-raggy-dev.splade-v3.onnx.md)
-+ [rag24-doc-segmented-raggy-dev.splade-v3.cached](reproduce/from-document-collection/rag24-doc-segmented-raggy-dev.splade-v3.cached.md)
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag24-doc-segmented-test-umbrela > logs/log.rag24-doc-segmented-test-umbrela.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag24-doc-segmented-test-umbrela.splade-v3.onnx > logs/log.rag24-doc-segmented-test-umbrela.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag24-doc-segmented-test-umbrela.splade-v3.cached > logs/log.rag24-doc-segmented-test-umbrela.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard00.flat.onnx > logs/log.rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard00.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard01.flat.onnx > logs/log.rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard01.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard02.flat.onnx > logs/log.rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard02.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard03.flat.onnx > logs/log.rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard03.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard04.flat.onnx > logs/log.rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard04.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard05.flat.onnx > logs/log.rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard05.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard06.flat.onnx > logs/log.rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard06.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard07.flat.onnx > logs/log.rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard07.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard08.flat.onnx > logs/log.rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard08.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard09.flat.onnx > logs/log.rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard09.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag24-doc-segmented-test-nist > logs/log.rag24-doc-segmented-test-nist.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag24-doc-segmented-test-nist.splade-v3.onnx > logs/log.rag24-doc-segmented-test-nist.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag24-doc-segmented-test-nist.splade-v3.cached > logs/log.rag24-doc-segmented-test-nist.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard00.flat.onnx > logs/log.rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard00.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard01.flat.onnx > logs/log.rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard01.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard02.flat.onnx > logs/log.rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard02.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard03.flat.onnx > logs/log.rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard03.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard04.flat.onnx > logs/log.rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard04.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard05.flat.onnx > logs/log.rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard05.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard06.flat.onnx > logs/log.rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard06.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard07.flat.onnx > logs/log.rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard07.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard08.flat.onnx > logs/log.rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard08.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard09.flat.onnx > logs/log.rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard09.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v2.1-doc > logs/log.msmarco-v2.1-doc.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v2.1-doc-segmented > logs/log.msmarco-v2.1-doc-segmented.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v2.1-doc-segmented.splade-v3.onnx > logs/log.msmarco-v2.1-doc-segmented.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v2.1-doc-segmented.splade-v3.cached > logs/log.msmarco-v2.1-doc-segmented.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl21-doc-msmarco-v2.1 > logs/log.dl21-doc-msmarco-v2.1.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl21-doc-segmented-msmarco-v2.1 > logs/log.dl21-doc-segmented-msmarco-v2.1.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl21-doc-segmented-msmarco-v2.1.splade-v3.onnx > logs/log.dl21-doc-segmented-msmarco-v2.1.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl21-doc-segmented-msmarco-v2.1.splade-v3.cached > logs/log.dl21-doc-segmented-msmarco-v2.1.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl22-doc-msmarco-v2.1 > logs/log.dl22-doc-msmarco-v2.1.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl22-doc-segmented-msmarco-v2.1 > logs/log.dl22-doc-segmented-msmarco-v2.1.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl22-doc-segmented-msmarco-v2.1.splade-v3.onnx > logs/log.dl22-doc-segmented-msmarco-v2.1.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl22-doc-segmented-msmarco-v2.1.splade-v3.cached > logs/log.dl22-doc-segmented-msmarco-v2.1.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl23-doc-msmarco-v2.1 > logs/log.dl23-doc-msmarco-v2.1.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl23-doc-segmented-msmarco-v2.1 > logs/log.dl23-doc-segmented-msmarco-v2.1.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl23-doc-segmented-msmarco-v2.1.splade-v3.onnx > logs/log.dl23-doc-segmented-msmarco-v2.1.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl23-doc-segmented-msmarco-v2.1.splade-v3.cached > logs/log.dl23-doc-segmented-msmarco-v2.1.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag24-doc-raggy-dev > logs/log.rag24-doc-raggy-dev.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag24-doc-segmented-raggy-dev > logs/log.rag24-doc-segmented-raggy-dev.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag24-doc-segmented-raggy-dev.splade-v3.onnx > logs/log.rag24-doc-segmented-raggy-dev.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag24-doc-segmented-raggy-dev.splade-v3.cached > logs/log.rag24-doc-segmented-raggy-dev.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag25-doc-segmented-test-nist > logs/log.rag25-doc-segmented-test-nist.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag25-doc-segmented-test-umbrela2 > logs/log.rag25-doc-segmented-test-umbrela2.txt 2>&1 &
+```
 
 </details>
 <details>
 <summary>BEIR (v1.0.0): BGE-base-en-v1.5</summary>
 
-+ [beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.flat.cached](reproduce/from-document-collection/beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.flat.cached.md)
-+ [beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.flat.cached](reproduce/from-document-collection/beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.flat.cached.md)
-+ [beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat.cached](reproduce/from-document-collection/beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat.cached.md)
-+ [beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.flat.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.flat.cached.md)
-+ [beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.flat.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.flat.cached.md)
-+ [beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.flat.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.flat.cached.md)
-+ [beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.parquet.flat.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.parquet.flat.cached.md)
-+ [beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.parquet.flat.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.parquet.flat.cached.md)
-+ [beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.parquet.flat.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.parquet.flat.cached.md)
-+ [beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.parquet.flat.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.parquet.flat.cached.md)
-+ [beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.parquet.flat.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.parquet.flat.cached.md)
-+ [beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.flat.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.flat.cached.md)
-+ [beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.flat.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.flat.cached.md)
-+ [beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.flat.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.flat.cached.md)
-+ [beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.flat.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.flat.cached.md)
-+ [beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.flat.cached](reproduce/from-document-collection/beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.flat.cached.md)
-+ [beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat.cached](reproduce/from-document-collection/beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat.cached.md)
-+ [beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.flat.cached](reproduce/from-document-collection/beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.flat.cached.md)
-+ [beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.flat.cached](reproduce/from-document-collection/beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.flat.cached.md)
-+ [beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.flat.cached](reproduce/from-document-collection/beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.flat.cached.md)
-+ [beir-v1.0.0-nq.bge-base-en-v1.5.parquet.flat.cached](reproduce/from-document-collection/beir-v1.0.0-nq.bge-base-en-v1.5.parquet.flat.cached.md)
-+ [beir-v1.0.0-quora.bge-base-en-v1.5.parquet.flat.cached](reproduce/from-document-collection/beir-v1.0.0-quora.bge-base-en-v1.5.parquet.flat.cached.md)
-+ [beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.flat.cached](reproduce/from-document-collection/beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.flat.cached.md)
-+ [beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.flat.cached](reproduce/from-document-collection/beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.flat.cached.md)
-+ [beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat.cached](reproduce/from-document-collection/beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat.cached.md)
-+ [beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.flat.cached](reproduce/from-document-collection/beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.flat.cached.md)
-+ [beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat.cached](reproduce/from-document-collection/beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat.cached.md)
-+ [beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.flat.cached](reproduce/from-document-collection/beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.flat.cached.md)
-+ [beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.flat.cached](reproduce/from-document-collection/beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.flat.cached.md)
-+ [beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.flat.onnx](reproduce/from-document-collection/beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.flat.onnx.md)
-+ [beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.flat.onnx](reproduce/from-document-collection/beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.flat.onnx.md)
-+ [beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat.onnx](reproduce/from-document-collection/beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat.onnx.md)
-+ [beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.flat.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.flat.onnx.md)
-+ [beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.flat.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.flat.onnx.md)
-+ [beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.flat.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.flat.onnx.md)
-+ [beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.parquet.flat.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.parquet.flat.onnx.md)
-+ [beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.parquet.flat.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.parquet.flat.onnx.md)
-+ [beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.parquet.flat.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.parquet.flat.onnx.md)
-+ [beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.parquet.flat.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.parquet.flat.onnx.md)
-+ [beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.parquet.flat.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.parquet.flat.onnx.md)
-+ [beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.flat.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.flat.onnx.md)
-+ [beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.flat.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.flat.onnx.md)
-+ [beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.flat.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.flat.onnx.md)
-+ [beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.flat.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.flat.onnx.md)
-+ [beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.flat.onnx](reproduce/from-document-collection/beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.flat.onnx.md)
-+ [beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat.onnx](reproduce/from-document-collection/beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat.onnx.md)
-+ [beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.flat.onnx](reproduce/from-document-collection/beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.flat.onnx.md)
-+ [beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.flat.onnx](reproduce/from-document-collection/beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.flat.onnx.md)
-+ [beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.flat.onnx](reproduce/from-document-collection/beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.flat.onnx.md)
-+ [beir-v1.0.0-nq.bge-base-en-v1.5.parquet.flat.onnx](reproduce/from-document-collection/beir-v1.0.0-nq.bge-base-en-v1.5.parquet.flat.onnx.md)
-+ [beir-v1.0.0-quora.bge-base-en-v1.5.parquet.flat.onnx](reproduce/from-document-collection/beir-v1.0.0-quora.bge-base-en-v1.5.parquet.flat.onnx.md)
-+ [beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.flat.onnx](reproduce/from-document-collection/beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.flat.onnx.md)
-+ [beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.flat.onnx](reproduce/from-document-collection/beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.flat.onnx.md)
-+ [beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat.onnx](reproduce/from-document-collection/beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat.onnx.md)
-+ [beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.flat.onnx](reproduce/from-document-collection/beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.flat.onnx.md)
-+ [beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat.onnx](reproduce/from-document-collection/beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat.onnx.md)
-+ [beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.flat.onnx](reproduce/from-document-collection/beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.flat.onnx.md)
-+ [beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.flat.onnx](reproduce/from-document-collection/beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.flat.onnx.md)
-+ [beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.flat-int8.cached](reproduce/from-document-collection/beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.flat-int8.cached.md)
-+ [beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.flat-int8.cached](reproduce/from-document-collection/beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.flat-int8.cached.md)
-+ [beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat-int8.cached](reproduce/from-document-collection/beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat-int8.cached.md)
-+ [beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.flat-int8.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.flat-int8.cached.md)
-+ [beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.flat-int8.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.flat-int8.cached.md)
-+ [beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.flat-int8.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.flat-int8.cached.md)
-+ [beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.parquet.flat-int8.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.parquet.flat-int8.cached.md)
-+ [beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.parquet.flat-int8.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.parquet.flat-int8.cached.md)
-+ [beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.parquet.flat-int8.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.parquet.flat-int8.cached.md)
-+ [beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.parquet.flat-int8.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.parquet.flat-int8.cached.md)
-+ [beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.parquet.flat-int8.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.parquet.flat-int8.cached.md)
-+ [beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.flat-int8.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.flat-int8.cached.md)
-+ [beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.flat-int8.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.flat-int8.cached.md)
-+ [beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.flat-int8.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.flat-int8.cached.md)
-+ [beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.flat-int8.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.flat-int8.cached.md)
-+ [beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.flat-int8.cached](reproduce/from-document-collection/beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.flat-int8.cached.md)
-+ [beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat-int8.cached](reproduce/from-document-collection/beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat-int8.cached.md)
-+ [beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.flat-int8.cached](reproduce/from-document-collection/beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.flat-int8.cached.md)
-+ [beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.flat-int8.cached](reproduce/from-document-collection/beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.flat-int8.cached.md)
-+ [beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.flat-int8.cached](reproduce/from-document-collection/beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.flat-int8.cached.md)
-+ [beir-v1.0.0-nq.bge-base-en-v1.5.parquet.flat-int8.cached](reproduce/from-document-collection/beir-v1.0.0-nq.bge-base-en-v1.5.parquet.flat-int8.cached.md)
-+ [beir-v1.0.0-quora.bge-base-en-v1.5.parquet.flat-int8.cached](reproduce/from-document-collection/beir-v1.0.0-quora.bge-base-en-v1.5.parquet.flat-int8.cached.md)
-+ [beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.flat-int8.cached](reproduce/from-document-collection/beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.flat-int8.cached.md)
-+ [beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.flat-int8.cached](reproduce/from-document-collection/beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.flat-int8.cached.md)
-+ [beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat-int8.cached](reproduce/from-document-collection/beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat-int8.cached.md)
-+ [beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.flat-int8.cached](reproduce/from-document-collection/beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.flat-int8.cached.md)
-+ [beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat-int8.cached](reproduce/from-document-collection/beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat-int8.cached.md)
-+ [beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.flat-int8.cached](reproduce/from-document-collection/beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.flat-int8.cached.md)
-+ [beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.flat-int8.cached](reproduce/from-document-collection/beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.flat-int8.cached.md)
-+ [beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.flat-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.flat-int8.onnx.md)
-+ [beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.flat-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.flat-int8.onnx.md)
-+ [beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat-int8.onnx.md)
-+ [beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.flat-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.flat-int8.onnx.md)
-+ [beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.flat-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.flat-int8.onnx.md)
-+ [beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.flat-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.flat-int8.onnx.md)
-+ [beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.parquet.flat-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.parquet.flat-int8.onnx.md)
-+ [beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.parquet.flat-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.parquet.flat-int8.onnx.md)
-+ [beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.parquet.flat-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.parquet.flat-int8.onnx.md)
-+ [beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.parquet.flat-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.parquet.flat-int8.onnx.md)
-+ [beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.parquet.flat-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.parquet.flat-int8.onnx.md)
-+ [beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.flat-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.flat-int8.onnx.md)
-+ [beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.flat-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.flat-int8.onnx.md)
-+ [beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.flat-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.flat-int8.onnx.md)
-+ [beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.flat-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.flat-int8.onnx.md)
-+ [beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.flat-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.flat-int8.onnx.md)
-+ [beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat-int8.onnx.md)
-+ [beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.flat-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.flat-int8.onnx.md)
-+ [beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.flat-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.flat-int8.onnx.md)
-+ [beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.flat-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.flat-int8.onnx.md)
-+ [beir-v1.0.0-nq.bge-base-en-v1.5.parquet.flat-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-nq.bge-base-en-v1.5.parquet.flat-int8.onnx.md)
-+ [beir-v1.0.0-quora.bge-base-en-v1.5.parquet.flat-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-quora.bge-base-en-v1.5.parquet.flat-int8.onnx.md)
-+ [beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.flat-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.flat-int8.onnx.md)
-+ [beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.flat-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.flat-int8.onnx.md)
-+ [beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat-int8.onnx.md)
-+ [beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.flat-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.flat-int8.onnx.md)
-+ [beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat-int8.onnx.md)
-+ [beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.flat-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.flat-int8.onnx.md)
-+ [beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.flat-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.flat-int8.onnx.md)
-+ [beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.hnsw.cached](reproduce/from-document-collection/beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.hnsw.cached.md)
-+ [beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.hnsw.cached](reproduce/from-document-collection/beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.hnsw.cached.md)
-+ [beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.hnsw.cached](reproduce/from-document-collection/beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.hnsw.cached.md)
-+ [beir-v1.0.0-nq.bge-base-en-v1.5.parquet.hnsw.cached](reproduce/from-document-collection/beir-v1.0.0-nq.bge-base-en-v1.5.parquet.hnsw.cached.md)
-+ [beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.hnsw.cached](reproduce/from-document-collection/beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.hnsw.cached.md)
-+ [beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.hnsw.cached](reproduce/from-document-collection/beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.hnsw.cached.md)
-+ [beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.hnsw.cached](reproduce/from-document-collection/beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.hnsw.cached.md)
-+ [beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.hnsw.cached](reproduce/from-document-collection/beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.hnsw.cached.md)
-+ [beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.hnsw.cached](reproduce/from-document-collection/beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.hnsw.cached.md)
-+ [beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.hnsw.cached](reproduce/from-document-collection/beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.hnsw.cached.md)
-+ [beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.hnsw.cached](reproduce/from-document-collection/beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.hnsw.cached.md)
-+ [beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.hnsw.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.hnsw.cached.md)
-+ [beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.hnsw.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.hnsw.cached.md)
-+ [beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.hnsw.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.hnsw.cached.md)
-+ [beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.parquet.hnsw.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.parquet.hnsw.cached.md)
-+ [beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.parquet.hnsw.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.parquet.hnsw.cached.md)
-+ [beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.parquet.hnsw.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.parquet.hnsw.cached.md)
-+ [beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.parquet.hnsw.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.parquet.hnsw.cached.md)
-+ [beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.parquet.hnsw.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.parquet.hnsw.cached.md)
-+ [beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.hnsw.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.hnsw.cached.md)
-+ [beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.hnsw.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.hnsw.cached.md)
-+ [beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.hnsw.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.hnsw.cached.md)
-+ [beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.hnsw.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.hnsw.cached.md)
-+ [beir-v1.0.0-quora.bge-base-en-v1.5.parquet.hnsw.cached](reproduce/from-document-collection/beir-v1.0.0-quora.bge-base-en-v1.5.parquet.hnsw.cached.md)
-+ [beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.hnsw.cached](reproduce/from-document-collection/beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.hnsw.cached.md)
-+ [beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.hnsw.cached](reproduce/from-document-collection/beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.hnsw.cached.md)
-+ [beir-v1.0.0-fever.bge-base-en-v1.5.parquet.hnsw.cached](reproduce/from-document-collection/beir-v1.0.0-fever.bge-base-en-v1.5.parquet.hnsw.cached.md)
-+ [beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.hnsw.cached](reproduce/from-document-collection/beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.hnsw.cached.md)
-+ [beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.hnsw.cached](reproduce/from-document-collection/beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.hnsw.cached.md)
-+ [beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.hnsw.onnx](reproduce/from-document-collection/beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.hnsw.onnx.md)
-+ [beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.hnsw.onnx](reproduce/from-document-collection/beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.hnsw.onnx.md)
-+ [beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.hnsw.onnx](reproduce/from-document-collection/beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.hnsw.onnx.md)
-+ [beir-v1.0.0-nq.bge-base-en-v1.5.parquet.hnsw.onnx](reproduce/from-document-collection/beir-v1.0.0-nq.bge-base-en-v1.5.parquet.hnsw.onnx.md)
-+ [beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.hnsw.onnx](reproduce/from-document-collection/beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.hnsw.onnx.md)
-+ [beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.hnsw.onnx](reproduce/from-document-collection/beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.hnsw.onnx.md)
-+ [beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.hnsw.onnx](reproduce/from-document-collection/beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.hnsw.onnx.md)
-+ [beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.hnsw.onnx](reproduce/from-document-collection/beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.hnsw.onnx.md)
-+ [beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.hnsw.onnx](reproduce/from-document-collection/beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.hnsw.onnx.md)
-+ [beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.hnsw.onnx](reproduce/from-document-collection/beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.hnsw.onnx.md)
-+ [beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.hnsw.onnx](reproduce/from-document-collection/beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.hnsw.onnx.md)
-+ [beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.hnsw.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.hnsw.onnx.md)
-+ [beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.hnsw.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.hnsw.onnx.md)
-+ [beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.hnsw.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.hnsw.onnx.md)
-+ [beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.parquet.hnsw.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.parquet.hnsw.onnx.md)
-+ [beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.parquet.hnsw.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.parquet.hnsw.onnx.md)
-+ [beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.parquet.hnsw.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.parquet.hnsw.onnx.md)
-+ [beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.parquet.hnsw.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.parquet.hnsw.onnx.md)
-+ [beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.parquet.hnsw.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.parquet.hnsw.onnx.md)
-+ [beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.hnsw.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.hnsw.onnx.md)
-+ [beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.hnsw.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.hnsw.onnx.md)
-+ [beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.hnsw.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.hnsw.onnx.md)
-+ [beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.hnsw.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.hnsw.onnx.md)
-+ [beir-v1.0.0-quora.bge-base-en-v1.5.parquet.hnsw.onnx](reproduce/from-document-collection/beir-v1.0.0-quora.bge-base-en-v1.5.parquet.hnsw.onnx.md)
-+ [beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.hnsw.onnx](reproduce/from-document-collection/beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.hnsw.onnx.md)
-+ [beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.hnsw.onnx](reproduce/from-document-collection/beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.hnsw.onnx.md)
-+ [beir-v1.0.0-fever.bge-base-en-v1.5.parquet.hnsw.onnx](reproduce/from-document-collection/beir-v1.0.0-fever.bge-base-en-v1.5.parquet.hnsw.onnx.md)
-+ [beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.hnsw.onnx](reproduce/from-document-collection/beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.hnsw.onnx.md)
-+ [beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.hnsw.onnx](reproduce/from-document-collection/beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.hnsw.onnx.md)
-+ [beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.hnsw-int8.cached](reproduce/from-document-collection/beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.hnsw-int8.cached.md)
-+ [beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.hnsw-int8.cached](reproduce/from-document-collection/beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.hnsw-int8.cached.md)
-+ [beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.hnsw-int8.cached](reproduce/from-document-collection/beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.hnsw-int8.cached.md)
-+ [beir-v1.0.0-nq.bge-base-en-v1.5.parquet.hnsw-int8.cached](reproduce/from-document-collection/beir-v1.0.0-nq.bge-base-en-v1.5.parquet.hnsw-int8.cached.md)
-+ [beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.hnsw-int8.cached](reproduce/from-document-collection/beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.hnsw-int8.cached.md)
-+ [beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.hnsw-int8.cached](reproduce/from-document-collection/beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.hnsw-int8.cached.md)
-+ [beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.hnsw-int8.cached](reproduce/from-document-collection/beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.hnsw-int8.cached.md)
-+ [beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.hnsw-int8.cached](reproduce/from-document-collection/beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.hnsw-int8.cached.md)
-+ [beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.hnsw-int8.cached](reproduce/from-document-collection/beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.hnsw-int8.cached.md)
-+ [beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.hnsw-int8.cached](reproduce/from-document-collection/beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.hnsw-int8.cached.md)
-+ [beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.hnsw-int8.cached](reproduce/from-document-collection/beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.hnsw-int8.cached.md)
-+ [beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.hnsw-int8.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.hnsw-int8.cached.md)
-+ [beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.hnsw-int8.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.hnsw-int8.cached.md)
-+ [beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.hnsw-int8.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.hnsw-int8.cached.md)
-+ [beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.parquet.hnsw-int8.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.parquet.hnsw-int8.cached.md)
-+ [beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.parquet.hnsw-int8.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.parquet.hnsw-int8.cached.md)
-+ [beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.parquet.hnsw-int8.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.parquet.hnsw-int8.cached.md)
-+ [beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.parquet.hnsw-int8.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.parquet.hnsw-int8.cached.md)
-+ [beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.parquet.hnsw-int8.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.parquet.hnsw-int8.cached.md)
-+ [beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.hnsw-int8.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.hnsw-int8.cached.md)
-+ [beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.hnsw-int8.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.hnsw-int8.cached.md)
-+ [beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.hnsw-int8.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.hnsw-int8.cached.md)
-+ [beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.hnsw-int8.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.hnsw-int8.cached.md)
-+ [beir-v1.0.0-quora.bge-base-en-v1.5.parquet.hnsw-int8.cached](reproduce/from-document-collection/beir-v1.0.0-quora.bge-base-en-v1.5.parquet.hnsw-int8.cached.md)
-+ [beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.hnsw-int8.cached](reproduce/from-document-collection/beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.hnsw-int8.cached.md)
-+ [beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.hnsw-int8.cached](reproduce/from-document-collection/beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.hnsw-int8.cached.md)
-+ [beir-v1.0.0-fever.bge-base-en-v1.5.parquet.hnsw-int8.cached](reproduce/from-document-collection/beir-v1.0.0-fever.bge-base-en-v1.5.parquet.hnsw-int8.cached.md)
-+ [beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.hnsw-int8.cached](reproduce/from-document-collection/beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.hnsw-int8.cached.md)
-+ [beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.hnsw-int8.cached](reproduce/from-document-collection/beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.hnsw-int8.cached.md)
-+ [beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.hnsw-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.hnsw-int8.onnx.md)
-+ [beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.hnsw-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.hnsw-int8.onnx.md)
-+ [beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.hnsw-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.hnsw-int8.onnx.md)
-+ [beir-v1.0.0-nq.bge-base-en-v1.5.parquet.hnsw-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-nq.bge-base-en-v1.5.parquet.hnsw-int8.onnx.md)
-+ [beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.hnsw-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.hnsw-int8.onnx.md)
-+ [beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.hnsw-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.hnsw-int8.onnx.md)
-+ [beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.hnsw-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.hnsw-int8.onnx.md)
-+ [beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.hnsw-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.hnsw-int8.onnx.md)
-+ [beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.hnsw-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.hnsw-int8.onnx.md)
-+ [beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.hnsw-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.hnsw-int8.onnx.md)
-+ [beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.hnsw-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.hnsw-int8.onnx.md)
-+ [beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.hnsw-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.hnsw-int8.onnx.md)
-+ [beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.hnsw-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.hnsw-int8.onnx.md)
-+ [beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.hnsw-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.hnsw-int8.onnx.md)
-+ [beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.parquet.hnsw-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.parquet.hnsw-int8.onnx.md)
-+ [beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.parquet.hnsw-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.parquet.hnsw-int8.onnx.md)
-+ [beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.parquet.hnsw-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.parquet.hnsw-int8.onnx.md)
-+ [beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.parquet.hnsw-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.parquet.hnsw-int8.onnx.md)
-+ [beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.parquet.hnsw-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.parquet.hnsw-int8.onnx.md)
-+ [beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.hnsw-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.hnsw-int8.onnx.md)
-+ [beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.hnsw-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.hnsw-int8.onnx.md)
-+ [beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.hnsw-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.hnsw-int8.onnx.md)
-+ [beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.hnsw-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.hnsw-int8.onnx.md)
-+ [beir-v1.0.0-quora.bge-base-en-v1.5.parquet.hnsw-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-quora.bge-base-en-v1.5.parquet.hnsw-int8.onnx.md)
-+ [beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.hnsw-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.hnsw-int8.onnx.md)
-+ [beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.hnsw-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.hnsw-int8.onnx.md)
-+ [beir-v1.0.0-fever.bge-base-en-v1.5.parquet.hnsw-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-fever.bge-base-en-v1.5.parquet.hnsw-int8.onnx.md)
-+ [beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.hnsw-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.hnsw-int8.onnx.md)
-+ [beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.hnsw-int8.onnx](reproduce/from-document-collection/beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.hnsw-int8.onnx.md)
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.flat.cached > logs/log.beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.flat.cached > logs/log.beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat.cached > logs/log.beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.flat.cached > logs/log.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.flat.cached > logs/log.beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.flat.cached > logs/log.beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.parquet.flat.cached > logs/log.beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.parquet.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.parquet.flat.cached > logs/log.beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.parquet.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.parquet.flat.cached > logs/log.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.parquet.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.parquet.flat.cached > logs/log.beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.parquet.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.parquet.flat.cached > logs/log.beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.parquet.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.flat.cached > logs/log.beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.flat.cached > logs/log.beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.flat.cached > logs/log.beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.flat.cached > logs/log.beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.flat.cached > logs/log.beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat.cached > logs/log.beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.flat.cached > logs/log.beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.flat.cached > logs/log.beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.flat.cached > logs/log.beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nq.bge-base-en-v1.5.parquet.flat.cached > logs/log.beir-v1.0.0-nq.bge-base-en-v1.5.parquet.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-quora.bge-base-en-v1.5.parquet.flat.cached > logs/log.beir-v1.0.0-quora.bge-base-en-v1.5.parquet.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.flat.cached > logs/log.beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.flat.cached > logs/log.beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat.cached > logs/log.beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.flat.cached > logs/log.beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat.cached > logs/log.beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.flat.cached > logs/log.beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.flat.cached > logs/log.beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.flat.onnx > logs/log.beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.flat.onnx > logs/log.beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat.onnx > logs/log.beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.flat.onnx > logs/log.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.flat.onnx > logs/log.beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.flat.onnx > logs/log.beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.parquet.flat.onnx > logs/log.beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.parquet.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.parquet.flat.onnx > logs/log.beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.parquet.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.parquet.flat.onnx > logs/log.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.parquet.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.parquet.flat.onnx > logs/log.beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.parquet.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.parquet.flat.onnx > logs/log.beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.parquet.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.flat.onnx > logs/log.beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.flat.onnx > logs/log.beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.flat.onnx > logs/log.beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.flat.onnx > logs/log.beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.flat.onnx > logs/log.beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat.onnx > logs/log.beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.flat.onnx > logs/log.beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.flat.onnx > logs/log.beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.flat.onnx > logs/log.beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nq.bge-base-en-v1.5.parquet.flat.onnx > logs/log.beir-v1.0.0-nq.bge-base-en-v1.5.parquet.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-quora.bge-base-en-v1.5.parquet.flat.onnx > logs/log.beir-v1.0.0-quora.bge-base-en-v1.5.parquet.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.flat.onnx > logs/log.beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.flat.onnx > logs/log.beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat.onnx > logs/log.beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.flat.onnx > logs/log.beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat.onnx > logs/log.beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.flat.onnx > logs/log.beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.flat.onnx > logs/log.beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.flat-int8.cached > logs/log.beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.flat-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.flat-int8.cached > logs/log.beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.flat-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat-int8.cached > logs/log.beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.flat-int8.cached > logs/log.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.flat-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.flat-int8.cached > logs/log.beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.flat-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.flat-int8.cached > logs/log.beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.flat-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.parquet.flat-int8.cached > logs/log.beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.parquet.flat-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.parquet.flat-int8.cached > logs/log.beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.parquet.flat-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.parquet.flat-int8.cached > logs/log.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.parquet.flat-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.parquet.flat-int8.cached > logs/log.beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.parquet.flat-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.parquet.flat-int8.cached > logs/log.beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.parquet.flat-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.flat-int8.cached > logs/log.beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.flat-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.flat-int8.cached > logs/log.beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.flat-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.flat-int8.cached > logs/log.beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.flat-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.flat-int8.cached > logs/log.beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.flat-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.flat-int8.cached > logs/log.beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.flat-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat-int8.cached > logs/log.beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.flat-int8.cached > logs/log.beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.flat-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.flat-int8.cached > logs/log.beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.flat-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.flat-int8.cached > logs/log.beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.flat-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nq.bge-base-en-v1.5.parquet.flat-int8.cached > logs/log.beir-v1.0.0-nq.bge-base-en-v1.5.parquet.flat-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-quora.bge-base-en-v1.5.parquet.flat-int8.cached > logs/log.beir-v1.0.0-quora.bge-base-en-v1.5.parquet.flat-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.flat-int8.cached > logs/log.beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.flat-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.flat-int8.cached > logs/log.beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.flat-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat-int8.cached > logs/log.beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.flat-int8.cached > logs/log.beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.flat-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat-int8.cached > logs/log.beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.flat-int8.cached > logs/log.beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.flat-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.flat-int8.cached > logs/log.beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.flat-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.flat-int8.onnx > logs/log.beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.flat-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.flat-int8.onnx > logs/log.beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.flat-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat-int8.onnx > logs/log.beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.flat-int8.onnx > logs/log.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.flat-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.flat-int8.onnx > logs/log.beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.flat-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.flat-int8.onnx > logs/log.beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.flat-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.parquet.flat-int8.onnx > logs/log.beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.parquet.flat-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.parquet.flat-int8.onnx > logs/log.beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.parquet.flat-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.parquet.flat-int8.onnx > logs/log.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.parquet.flat-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.parquet.flat-int8.onnx > logs/log.beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.parquet.flat-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.parquet.flat-int8.onnx > logs/log.beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.parquet.flat-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.flat-int8.onnx > logs/log.beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.flat-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.flat-int8.onnx > logs/log.beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.flat-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.flat-int8.onnx > logs/log.beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.flat-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.flat-int8.onnx > logs/log.beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.flat-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.flat-int8.onnx > logs/log.beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.flat-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat-int8.onnx > logs/log.beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.flat-int8.onnx > logs/log.beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.flat-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.flat-int8.onnx > logs/log.beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.flat-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.flat-int8.onnx > logs/log.beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.flat-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nq.bge-base-en-v1.5.parquet.flat-int8.onnx > logs/log.beir-v1.0.0-nq.bge-base-en-v1.5.parquet.flat-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-quora.bge-base-en-v1.5.parquet.flat-int8.onnx > logs/log.beir-v1.0.0-quora.bge-base-en-v1.5.parquet.flat-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.flat-int8.onnx > logs/log.beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.flat-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.flat-int8.onnx > logs/log.beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.flat-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat-int8.onnx > logs/log.beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.flat-int8.onnx > logs/log.beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.flat-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat-int8.onnx > logs/log.beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.flat-int8.onnx > logs/log.beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.flat-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.flat-int8.onnx > logs/log.beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.flat-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.hnsw.cached > logs/log.beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.hnsw.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.hnsw.cached > logs/log.beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.hnsw.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.hnsw.cached > logs/log.beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.hnsw.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nq.bge-base-en-v1.5.parquet.hnsw.cached > logs/log.beir-v1.0.0-nq.bge-base-en-v1.5.parquet.hnsw.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.hnsw.cached > logs/log.beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.hnsw.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.hnsw.cached > logs/log.beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.hnsw.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.hnsw.cached > logs/log.beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.hnsw.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.hnsw.cached > logs/log.beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.hnsw.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.hnsw.cached > logs/log.beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.hnsw.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.hnsw.cached > logs/log.beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.hnsw.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.hnsw.cached > logs/log.beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.hnsw.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.hnsw.cached > logs/log.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.hnsw.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.hnsw.cached > logs/log.beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.hnsw.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.hnsw.cached > logs/log.beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.hnsw.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.parquet.hnsw.cached > logs/log.beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.parquet.hnsw.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.parquet.hnsw.cached > logs/log.beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.parquet.hnsw.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.parquet.hnsw.cached > logs/log.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.parquet.hnsw.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.parquet.hnsw.cached > logs/log.beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.parquet.hnsw.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.parquet.hnsw.cached > logs/log.beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.parquet.hnsw.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.hnsw.cached > logs/log.beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.hnsw.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.hnsw.cached > logs/log.beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.hnsw.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.hnsw.cached > logs/log.beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.hnsw.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.hnsw.cached > logs/log.beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.hnsw.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-quora.bge-base-en-v1.5.parquet.hnsw.cached > logs/log.beir-v1.0.0-quora.bge-base-en-v1.5.parquet.hnsw.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.hnsw.cached > logs/log.beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.hnsw.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.hnsw.cached > logs/log.beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.hnsw.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fever.bge-base-en-v1.5.parquet.hnsw.cached > logs/log.beir-v1.0.0-fever.bge-base-en-v1.5.parquet.hnsw.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.hnsw.cached > logs/log.beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.hnsw.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.hnsw.cached > logs/log.beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.hnsw.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.hnsw.onnx > logs/log.beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.hnsw.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.hnsw.onnx > logs/log.beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.hnsw.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.hnsw.onnx > logs/log.beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.hnsw.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nq.bge-base-en-v1.5.parquet.hnsw.onnx > logs/log.beir-v1.0.0-nq.bge-base-en-v1.5.parquet.hnsw.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.hnsw.onnx > logs/log.beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.hnsw.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.hnsw.onnx > logs/log.beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.hnsw.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.hnsw.onnx > logs/log.beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.hnsw.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.hnsw.onnx > logs/log.beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.hnsw.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.hnsw.onnx > logs/log.beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.hnsw.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.hnsw.onnx > logs/log.beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.hnsw.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.hnsw.onnx > logs/log.beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.hnsw.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.hnsw.onnx > logs/log.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.hnsw.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.hnsw.onnx > logs/log.beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.hnsw.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.hnsw.onnx > logs/log.beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.hnsw.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.parquet.hnsw.onnx > logs/log.beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.parquet.hnsw.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.parquet.hnsw.onnx > logs/log.beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.parquet.hnsw.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.parquet.hnsw.onnx > logs/log.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.parquet.hnsw.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.parquet.hnsw.onnx > logs/log.beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.parquet.hnsw.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.parquet.hnsw.onnx > logs/log.beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.parquet.hnsw.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.hnsw.onnx > logs/log.beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.hnsw.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.hnsw.onnx > logs/log.beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.hnsw.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.hnsw.onnx > logs/log.beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.hnsw.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.hnsw.onnx > logs/log.beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.hnsw.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-quora.bge-base-en-v1.5.parquet.hnsw.onnx > logs/log.beir-v1.0.0-quora.bge-base-en-v1.5.parquet.hnsw.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.hnsw.onnx > logs/log.beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.hnsw.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.hnsw.onnx > logs/log.beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.hnsw.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fever.bge-base-en-v1.5.parquet.hnsw.onnx > logs/log.beir-v1.0.0-fever.bge-base-en-v1.5.parquet.hnsw.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.hnsw.onnx > logs/log.beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.hnsw.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.hnsw.onnx > logs/log.beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.hnsw.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.hnsw-int8.cached > logs/log.beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.hnsw-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.hnsw-int8.cached > logs/log.beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.hnsw-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.hnsw-int8.cached > logs/log.beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.hnsw-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nq.bge-base-en-v1.5.parquet.hnsw-int8.cached > logs/log.beir-v1.0.0-nq.bge-base-en-v1.5.parquet.hnsw-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.hnsw-int8.cached > logs/log.beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.hnsw-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.hnsw-int8.cached > logs/log.beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.hnsw-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.hnsw-int8.cached > logs/log.beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.hnsw-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.hnsw-int8.cached > logs/log.beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.hnsw-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.hnsw-int8.cached > logs/log.beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.hnsw-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.hnsw-int8.cached > logs/log.beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.hnsw-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.hnsw-int8.cached > logs/log.beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.hnsw-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.hnsw-int8.cached > logs/log.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.hnsw-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.hnsw-int8.cached > logs/log.beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.hnsw-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.hnsw-int8.cached > logs/log.beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.hnsw-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.parquet.hnsw-int8.cached > logs/log.beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.parquet.hnsw-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.parquet.hnsw-int8.cached > logs/log.beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.parquet.hnsw-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.parquet.hnsw-int8.cached > logs/log.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.parquet.hnsw-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.parquet.hnsw-int8.cached > logs/log.beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.parquet.hnsw-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.parquet.hnsw-int8.cached > logs/log.beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.parquet.hnsw-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.hnsw-int8.cached > logs/log.beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.hnsw-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.hnsw-int8.cached > logs/log.beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.hnsw-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.hnsw-int8.cached > logs/log.beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.hnsw-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.hnsw-int8.cached > logs/log.beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.hnsw-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-quora.bge-base-en-v1.5.parquet.hnsw-int8.cached > logs/log.beir-v1.0.0-quora.bge-base-en-v1.5.parquet.hnsw-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.hnsw-int8.cached > logs/log.beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.hnsw-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.hnsw-int8.cached > logs/log.beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.hnsw-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fever.bge-base-en-v1.5.parquet.hnsw-int8.cached > logs/log.beir-v1.0.0-fever.bge-base-en-v1.5.parquet.hnsw-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.hnsw-int8.cached > logs/log.beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.hnsw-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.hnsw-int8.cached > logs/log.beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.hnsw-int8.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.hnsw-int8.onnx > logs/log.beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.hnsw-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.hnsw-int8.onnx > logs/log.beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.hnsw-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.hnsw-int8.onnx > logs/log.beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.hnsw-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nq.bge-base-en-v1.5.parquet.hnsw-int8.onnx > logs/log.beir-v1.0.0-nq.bge-base-en-v1.5.parquet.hnsw-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.hnsw-int8.onnx > logs/log.beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.hnsw-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.hnsw-int8.onnx > logs/log.beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.hnsw-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.hnsw-int8.onnx > logs/log.beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.hnsw-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.hnsw-int8.onnx > logs/log.beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.hnsw-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.hnsw-int8.onnx > logs/log.beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.hnsw-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.hnsw-int8.onnx > logs/log.beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.hnsw-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.hnsw-int8.onnx > logs/log.beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.hnsw-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.hnsw-int8.onnx > logs/log.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.hnsw-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.hnsw-int8.onnx > logs/log.beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.hnsw-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.hnsw-int8.onnx > logs/log.beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.hnsw-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.parquet.hnsw-int8.onnx > logs/log.beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.parquet.hnsw-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.parquet.hnsw-int8.onnx > logs/log.beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.parquet.hnsw-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.parquet.hnsw-int8.onnx > logs/log.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.parquet.hnsw-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.parquet.hnsw-int8.onnx > logs/log.beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.parquet.hnsw-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.parquet.hnsw-int8.onnx > logs/log.beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.parquet.hnsw-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.hnsw-int8.onnx > logs/log.beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.hnsw-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.hnsw-int8.onnx > logs/log.beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.hnsw-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.hnsw-int8.onnx > logs/log.beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.hnsw-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.hnsw-int8.onnx > logs/log.beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.hnsw-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-quora.bge-base-en-v1.5.parquet.hnsw-int8.onnx > logs/log.beir-v1.0.0-quora.bge-base-en-v1.5.parquet.hnsw-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.hnsw-int8.onnx > logs/log.beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.hnsw-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.hnsw-int8.onnx > logs/log.beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.hnsw-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fever.bge-base-en-v1.5.parquet.hnsw-int8.onnx > logs/log.beir-v1.0.0-fever.bge-base-en-v1.5.parquet.hnsw-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.hnsw-int8.onnx > logs/log.beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.hnsw-int8.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.hnsw-int8.onnx > logs/log.beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.hnsw-int8.onnx.txt 2>&1 &
+```
 
 </details>
 <details>
 <summary>BEIR (v1.0.0): SPLADE-v3</summary>
 
-+ [beir-v1.0.0-trec-covid.splade-v3.cached](reproduce/from-document-collection/beir-v1.0.0-trec-covid.splade-v3.cached.md)
-+ [beir-v1.0.0-bioasq.splade-v3.cached](reproduce/from-document-collection/beir-v1.0.0-bioasq.splade-v3.cached.md)
-+ [beir-v1.0.0-nfcorpus.splade-v3.cached](reproduce/from-document-collection/beir-v1.0.0-nfcorpus.splade-v3.cached.md)
-+ [beir-v1.0.0-nq.splade-v3.cached](reproduce/from-document-collection/beir-v1.0.0-nq.splade-v3.cached.md)
-+ [beir-v1.0.0-hotpotqa.splade-v3.cached](reproduce/from-document-collection/beir-v1.0.0-hotpotqa.splade-v3.cached.md)
-+ [beir-v1.0.0-fiqa.splade-v3.cached](reproduce/from-document-collection/beir-v1.0.0-fiqa.splade-v3.cached.md)
-+ [beir-v1.0.0-signal1m.splade-v3.cached](reproduce/from-document-collection/beir-v1.0.0-signal1m.splade-v3.cached.md)
-+ [beir-v1.0.0-trec-news.splade-v3.cached](reproduce/from-document-collection/beir-v1.0.0-trec-news.splade-v3.cached.md)
-+ [beir-v1.0.0-robust04.splade-v3.cached](reproduce/from-document-collection/beir-v1.0.0-robust04.splade-v3.cached.md)
-+ [beir-v1.0.0-arguana.splade-v3.cached](reproduce/from-document-collection/beir-v1.0.0-arguana.splade-v3.cached.md)
-+ [beir-v1.0.0-webis-touche2020.splade-v3.cached](reproduce/from-document-collection/beir-v1.0.0-webis-touche2020.splade-v3.cached.md)
-+ [beir-v1.0.0-cqadupstack-android.splade-v3.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-android.splade-v3.cached.md)
-+ [beir-v1.0.0-cqadupstack-english.splade-v3.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-english.splade-v3.cached.md)
-+ [beir-v1.0.0-cqadupstack-gaming.splade-v3.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-gaming.splade-v3.cached.md)
-+ [beir-v1.0.0-cqadupstack-gis.splade-v3.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-gis.splade-v3.cached.md)
-+ [beir-v1.0.0-cqadupstack-mathematica.splade-v3.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-mathematica.splade-v3.cached.md)
-+ [beir-v1.0.0-cqadupstack-physics.splade-v3.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-physics.splade-v3.cached.md)
-+ [beir-v1.0.0-cqadupstack-programmers.splade-v3.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-programmers.splade-v3.cached.md)
-+ [beir-v1.0.0-cqadupstack-stats.splade-v3.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-stats.splade-v3.cached.md)
-+ [beir-v1.0.0-cqadupstack-tex.splade-v3.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-tex.splade-v3.cached.md)
-+ [beir-v1.0.0-cqadupstack-unix.splade-v3.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-unix.splade-v3.cached.md)
-+ [beir-v1.0.0-cqadupstack-webmasters.splade-v3.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-webmasters.splade-v3.cached.md)
-+ [beir-v1.0.0-cqadupstack-wordpress.splade-v3.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-wordpress.splade-v3.cached.md)
-+ [beir-v1.0.0-quora.splade-v3.cached](reproduce/from-document-collection/beir-v1.0.0-quora.splade-v3.cached.md)
-+ [beir-v1.0.0-dbpedia-entity.splade-v3.cached](reproduce/from-document-collection/beir-v1.0.0-dbpedia-entity.splade-v3.cached.md)
-+ [beir-v1.0.0-scidocs.splade-v3.cached](reproduce/from-document-collection/beir-v1.0.0-scidocs.splade-v3.cached.md)
-+ [beir-v1.0.0-fever.splade-v3.cached](reproduce/from-document-collection/beir-v1.0.0-fever.splade-v3.cached.md)
-+ [beir-v1.0.0-climate-fever.splade-v3.cached](reproduce/from-document-collection/beir-v1.0.0-climate-fever.splade-v3.cached.md)
-+ [beir-v1.0.0-scifact.splade-v3.cached](reproduce/from-document-collection/beir-v1.0.0-scifact.splade-v3.cached.md)
-+ [beir-v1.0.0-trec-covid.splade-v3.onnx](reproduce/from-document-collection/beir-v1.0.0-trec-covid.splade-v3.onnx.md)
-+ [beir-v1.0.0-bioasq.splade-v3.onnx](reproduce/from-document-collection/beir-v1.0.0-bioasq.splade-v3.onnx.md)
-+ [beir-v1.0.0-nfcorpus.splade-v3.onnx](reproduce/from-document-collection/beir-v1.0.0-nfcorpus.splade-v3.onnx.md)
-+ [beir-v1.0.0-nq.splade-v3.onnx](reproduce/from-document-collection/beir-v1.0.0-nq.splade-v3.onnx.md)
-+ [beir-v1.0.0-hotpotqa.splade-v3.onnx](reproduce/from-document-collection/beir-v1.0.0-hotpotqa.splade-v3.onnx.md)
-+ [beir-v1.0.0-fiqa.splade-v3.onnx](reproduce/from-document-collection/beir-v1.0.0-fiqa.splade-v3.onnx.md)
-+ [beir-v1.0.0-signal1m.splade-v3.onnx](reproduce/from-document-collection/beir-v1.0.0-signal1m.splade-v3.onnx.md)
-+ [beir-v1.0.0-trec-news.splade-v3.onnx](reproduce/from-document-collection/beir-v1.0.0-trec-news.splade-v3.onnx.md)
-+ [beir-v1.0.0-robust04.splade-v3.onnx](reproduce/from-document-collection/beir-v1.0.0-robust04.splade-v3.onnx.md)
-+ [beir-v1.0.0-arguana.splade-v3.onnx](reproduce/from-document-collection/beir-v1.0.0-arguana.splade-v3.onnx.md)
-+ [beir-v1.0.0-webis-touche2020.splade-v3.onnx](reproduce/from-document-collection/beir-v1.0.0-webis-touche2020.splade-v3.onnx.md)
-+ [beir-v1.0.0-cqadupstack-android.splade-v3.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-android.splade-v3.onnx.md)
-+ [beir-v1.0.0-cqadupstack-english.splade-v3.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-english.splade-v3.onnx.md)
-+ [beir-v1.0.0-cqadupstack-gaming.splade-v3.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-gaming.splade-v3.onnx.md)
-+ [beir-v1.0.0-cqadupstack-gis.splade-v3.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-gis.splade-v3.onnx.md)
-+ [beir-v1.0.0-cqadupstack-mathematica.splade-v3.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-mathematica.splade-v3.onnx.md)
-+ [beir-v1.0.0-cqadupstack-physics.splade-v3.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-physics.splade-v3.onnx.md)
-+ [beir-v1.0.0-cqadupstack-programmers.splade-v3.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-programmers.splade-v3.onnx.md)
-+ [beir-v1.0.0-cqadupstack-stats.splade-v3.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-stats.splade-v3.onnx.md)
-+ [beir-v1.0.0-cqadupstack-tex.splade-v3.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-tex.splade-v3.onnx.md)
-+ [beir-v1.0.0-cqadupstack-unix.splade-v3.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-unix.splade-v3.onnx.md)
-+ [beir-v1.0.0-cqadupstack-webmasters.splade-v3.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-webmasters.splade-v3.onnx.md)
-+ [beir-v1.0.0-cqadupstack-wordpress.splade-v3.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-wordpress.splade-v3.onnx.md)
-+ [beir-v1.0.0-quora.splade-v3.onnx](reproduce/from-document-collection/beir-v1.0.0-quora.splade-v3.onnx.md)
-+ [beir-v1.0.0-dbpedia-entity.splade-v3.onnx](reproduce/from-document-collection/beir-v1.0.0-dbpedia-entity.splade-v3.onnx.md)
-+ [beir-v1.0.0-scidocs.splade-v3.onnx](reproduce/from-document-collection/beir-v1.0.0-scidocs.splade-v3.onnx.md)
-+ [beir-v1.0.0-fever.splade-v3.onnx](reproduce/from-document-collection/beir-v1.0.0-fever.splade-v3.onnx.md)
-+ [beir-v1.0.0-climate-fever.splade-v3.onnx](reproduce/from-document-collection/beir-v1.0.0-climate-fever.splade-v3.onnx.md)
-+ [beir-v1.0.0-scifact.splade-v3.onnx](reproduce/from-document-collection/beir-v1.0.0-scifact.splade-v3.onnx.md)
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-covid.splade-v3.cached > logs/log.beir-v1.0.0-trec-covid.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-bioasq.splade-v3.cached > logs/log.beir-v1.0.0-bioasq.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nfcorpus.splade-v3.cached > logs/log.beir-v1.0.0-nfcorpus.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nq.splade-v3.cached > logs/log.beir-v1.0.0-nq.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-hotpotqa.splade-v3.cached > logs/log.beir-v1.0.0-hotpotqa.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fiqa.splade-v3.cached > logs/log.beir-v1.0.0-fiqa.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-signal1m.splade-v3.cached > logs/log.beir-v1.0.0-signal1m.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-news.splade-v3.cached > logs/log.beir-v1.0.0-trec-news.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-robust04.splade-v3.cached > logs/log.beir-v1.0.0-robust04.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-arguana.splade-v3.cached > logs/log.beir-v1.0.0-arguana.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-webis-touche2020.splade-v3.cached > logs/log.beir-v1.0.0-webis-touche2020.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-android.splade-v3.cached > logs/log.beir-v1.0.0-cqadupstack-android.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-english.splade-v3.cached > logs/log.beir-v1.0.0-cqadupstack-english.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gaming.splade-v3.cached > logs/log.beir-v1.0.0-cqadupstack-gaming.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gis.splade-v3.cached > logs/log.beir-v1.0.0-cqadupstack-gis.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-mathematica.splade-v3.cached > logs/log.beir-v1.0.0-cqadupstack-mathematica.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-physics.splade-v3.cached > logs/log.beir-v1.0.0-cqadupstack-physics.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-programmers.splade-v3.cached > logs/log.beir-v1.0.0-cqadupstack-programmers.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-stats.splade-v3.cached > logs/log.beir-v1.0.0-cqadupstack-stats.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-tex.splade-v3.cached > logs/log.beir-v1.0.0-cqadupstack-tex.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-unix.splade-v3.cached > logs/log.beir-v1.0.0-cqadupstack-unix.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-webmasters.splade-v3.cached > logs/log.beir-v1.0.0-cqadupstack-webmasters.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-wordpress.splade-v3.cached > logs/log.beir-v1.0.0-cqadupstack-wordpress.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-quora.splade-v3.cached > logs/log.beir-v1.0.0-quora.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-dbpedia-entity.splade-v3.cached > logs/log.beir-v1.0.0-dbpedia-entity.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scidocs.splade-v3.cached > logs/log.beir-v1.0.0-scidocs.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fever.splade-v3.cached > logs/log.beir-v1.0.0-fever.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-climate-fever.splade-v3.cached > logs/log.beir-v1.0.0-climate-fever.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scifact.splade-v3.cached > logs/log.beir-v1.0.0-scifact.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-covid.splade-v3.onnx > logs/log.beir-v1.0.0-trec-covid.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-bioasq.splade-v3.onnx > logs/log.beir-v1.0.0-bioasq.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nfcorpus.splade-v3.onnx > logs/log.beir-v1.0.0-nfcorpus.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nq.splade-v3.onnx > logs/log.beir-v1.0.0-nq.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-hotpotqa.splade-v3.onnx > logs/log.beir-v1.0.0-hotpotqa.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fiqa.splade-v3.onnx > logs/log.beir-v1.0.0-fiqa.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-signal1m.splade-v3.onnx > logs/log.beir-v1.0.0-signal1m.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-news.splade-v3.onnx > logs/log.beir-v1.0.0-trec-news.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-robust04.splade-v3.onnx > logs/log.beir-v1.0.0-robust04.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-arguana.splade-v3.onnx > logs/log.beir-v1.0.0-arguana.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-webis-touche2020.splade-v3.onnx > logs/log.beir-v1.0.0-webis-touche2020.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-android.splade-v3.onnx > logs/log.beir-v1.0.0-cqadupstack-android.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-english.splade-v3.onnx > logs/log.beir-v1.0.0-cqadupstack-english.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gaming.splade-v3.onnx > logs/log.beir-v1.0.0-cqadupstack-gaming.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gis.splade-v3.onnx > logs/log.beir-v1.0.0-cqadupstack-gis.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-mathematica.splade-v3.onnx > logs/log.beir-v1.0.0-cqadupstack-mathematica.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-physics.splade-v3.onnx > logs/log.beir-v1.0.0-cqadupstack-physics.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-programmers.splade-v3.onnx > logs/log.beir-v1.0.0-cqadupstack-programmers.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-stats.splade-v3.onnx > logs/log.beir-v1.0.0-cqadupstack-stats.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-tex.splade-v3.onnx > logs/log.beir-v1.0.0-cqadupstack-tex.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-unix.splade-v3.onnx > logs/log.beir-v1.0.0-cqadupstack-unix.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-webmasters.splade-v3.onnx > logs/log.beir-v1.0.0-cqadupstack-webmasters.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-wordpress.splade-v3.onnx > logs/log.beir-v1.0.0-cqadupstack-wordpress.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-quora.splade-v3.onnx > logs/log.beir-v1.0.0-quora.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-dbpedia-entity.splade-v3.onnx > logs/log.beir-v1.0.0-dbpedia-entity.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scidocs.splade-v3.onnx > logs/log.beir-v1.0.0-scidocs.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fever.splade-v3.onnx > logs/log.beir-v1.0.0-fever.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-climate-fever.splade-v3.onnx > logs/log.beir-v1.0.0-climate-fever.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scifact.splade-v3.onnx > logs/log.beir-v1.0.0-scifact.splade-v3.onnx.txt 2>&1 &
+```
 
 </details>
 <details>
 <summary>BEIR (v1.0.0): SPLADE++ CoCondenser-EnsembleDistil</summary>
 
-+ [beir-v1.0.0-trec-covid.splade-pp-ed.cached](reproduce/from-document-collection/beir-v1.0.0-trec-covid.splade-pp-ed.cached.md)
-+ [beir-v1.0.0-bioasq.splade-pp-ed.cached](reproduce/from-document-collection/beir-v1.0.0-bioasq.splade-pp-ed.cached.md)
-+ [beir-v1.0.0-nfcorpus.splade-pp-ed.cached](reproduce/from-document-collection/beir-v1.0.0-nfcorpus.splade-pp-ed.cached.md)
-+ [beir-v1.0.0-nq.splade-pp-ed.cached](reproduce/from-document-collection/beir-v1.0.0-nq.splade-pp-ed.cached.md)
-+ [beir-v1.0.0-hotpotqa.splade-pp-ed.cached](reproduce/from-document-collection/beir-v1.0.0-hotpotqa.splade-pp-ed.cached.md)
-+ [beir-v1.0.0-fiqa.splade-pp-ed.cached](reproduce/from-document-collection/beir-v1.0.0-fiqa.splade-pp-ed.cached.md)
-+ [beir-v1.0.0-signal1m.splade-pp-ed.cached](reproduce/from-document-collection/beir-v1.0.0-signal1m.splade-pp-ed.cached.md)
-+ [beir-v1.0.0-trec-news.splade-pp-ed.cached](reproduce/from-document-collection/beir-v1.0.0-trec-news.splade-pp-ed.cached.md)
-+ [beir-v1.0.0-robust04.splade-pp-ed.cached](reproduce/from-document-collection/beir-v1.0.0-robust04.splade-pp-ed.cached.md)
-+ [beir-v1.0.0-arguana.splade-pp-ed.cached](reproduce/from-document-collection/beir-v1.0.0-arguana.splade-pp-ed.cached.md)
-+ [beir-v1.0.0-webis-touche2020.splade-pp-ed.cached](reproduce/from-document-collection/beir-v1.0.0-webis-touche2020.splade-pp-ed.cached.md)
-+ [beir-v1.0.0-cqadupstack-android.splade-pp-ed.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-android.splade-pp-ed.cached.md)
-+ [beir-v1.0.0-cqadupstack-english.splade-pp-ed.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-english.splade-pp-ed.cached.md)
-+ [beir-v1.0.0-cqadupstack-gaming.splade-pp-ed.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-gaming.splade-pp-ed.cached.md)
-+ [beir-v1.0.0-cqadupstack-gis.splade-pp-ed.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-gis.splade-pp-ed.cached.md)
-+ [beir-v1.0.0-cqadupstack-mathematica.splade-pp-ed.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-mathematica.splade-pp-ed.cached.md)
-+ [beir-v1.0.0-cqadupstack-physics.splade-pp-ed.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-physics.splade-pp-ed.cached.md)
-+ [beir-v1.0.0-cqadupstack-programmers.splade-pp-ed.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-programmers.splade-pp-ed.cached.md)
-+ [beir-v1.0.0-cqadupstack-stats.splade-pp-ed.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-stats.splade-pp-ed.cached.md)
-+ [beir-v1.0.0-cqadupstack-tex.splade-pp-ed.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-tex.splade-pp-ed.cached.md)
-+ [beir-v1.0.0-cqadupstack-unix.splade-pp-ed.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-unix.splade-pp-ed.cached.md)
-+ [beir-v1.0.0-cqadupstack-webmasters.splade-pp-ed.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-webmasters.splade-pp-ed.cached.md)
-+ [beir-v1.0.0-cqadupstack-wordpress.splade-pp-ed.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-wordpress.splade-pp-ed.cached.md)
-+ [beir-v1.0.0-quora.splade-pp-ed.cached](reproduce/from-document-collection/beir-v1.0.0-quora.splade-pp-ed.cached.md)
-+ [beir-v1.0.0-dbpedia-entity.splade-pp-ed.cached](reproduce/from-document-collection/beir-v1.0.0-dbpedia-entity.splade-pp-ed.cached.md)
-+ [beir-v1.0.0-scidocs.splade-pp-ed.cached](reproduce/from-document-collection/beir-v1.0.0-scidocs.splade-pp-ed.cached.md)
-+ [beir-v1.0.0-fever.splade-pp-ed.cached](reproduce/from-document-collection/beir-v1.0.0-fever.splade-pp-ed.cached.md)
-+ [beir-v1.0.0-climate-fever.splade-pp-ed.cached](reproduce/from-document-collection/beir-v1.0.0-climate-fever.splade-pp-ed.cached.md)
-+ [beir-v1.0.0-scifact.splade-pp-ed.cached](reproduce/from-document-collection/beir-v1.0.0-scifact.splade-pp-ed.cached.md)
-+ [beir-v1.0.0-trec-covid.splade-pp-ed.onnx](reproduce/from-document-collection/beir-v1.0.0-trec-covid.splade-pp-ed.onnx.md)
-+ [beir-v1.0.0-bioasq.splade-pp-ed.onnx](reproduce/from-document-collection/beir-v1.0.0-bioasq.splade-pp-ed.onnx.md)
-+ [beir-v1.0.0-nfcorpus.splade-pp-ed.onnx](reproduce/from-document-collection/beir-v1.0.0-nfcorpus.splade-pp-ed.onnx.md)
-+ [beir-v1.0.0-nq.splade-pp-ed.onnx](reproduce/from-document-collection/beir-v1.0.0-nq.splade-pp-ed.onnx.md)
-+ [beir-v1.0.0-hotpotqa.splade-pp-ed.onnx](reproduce/from-document-collection/beir-v1.0.0-hotpotqa.splade-pp-ed.onnx.md)
-+ [beir-v1.0.0-fiqa.splade-pp-ed.onnx](reproduce/from-document-collection/beir-v1.0.0-fiqa.splade-pp-ed.onnx.md)
-+ [beir-v1.0.0-signal1m.splade-pp-ed.onnx](reproduce/from-document-collection/beir-v1.0.0-signal1m.splade-pp-ed.onnx.md)
-+ [beir-v1.0.0-trec-news.splade-pp-ed.onnx](reproduce/from-document-collection/beir-v1.0.0-trec-news.splade-pp-ed.onnx.md)
-+ [beir-v1.0.0-robust04.splade-pp-ed.onnx](reproduce/from-document-collection/beir-v1.0.0-robust04.splade-pp-ed.onnx.md)
-+ [beir-v1.0.0-arguana.splade-pp-ed.onnx](reproduce/from-document-collection/beir-v1.0.0-arguana.splade-pp-ed.onnx.md)
-+ [beir-v1.0.0-webis-touche2020.splade-pp-ed.onnx](reproduce/from-document-collection/beir-v1.0.0-webis-touche2020.splade-pp-ed.onnx.md)
-+ [beir-v1.0.0-cqadupstack-android.splade-pp-ed.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-android.splade-pp-ed.onnx.md)
-+ [beir-v1.0.0-cqadupstack-english.splade-pp-ed.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-english.splade-pp-ed.onnx.md)
-+ [beir-v1.0.0-cqadupstack-gaming.splade-pp-ed.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-gaming.splade-pp-ed.onnx.md)
-+ [beir-v1.0.0-cqadupstack-gis.splade-pp-ed.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-gis.splade-pp-ed.onnx.md)
-+ [beir-v1.0.0-cqadupstack-mathematica.splade-pp-ed.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-mathematica.splade-pp-ed.onnx.md)
-+ [beir-v1.0.0-cqadupstack-physics.splade-pp-ed.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-physics.splade-pp-ed.onnx.md)
-+ [beir-v1.0.0-cqadupstack-programmers.splade-pp-ed.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-programmers.splade-pp-ed.onnx.md)
-+ [beir-v1.0.0-cqadupstack-stats.splade-pp-ed.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-stats.splade-pp-ed.onnx.md)
-+ [beir-v1.0.0-cqadupstack-tex.splade-pp-ed.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-tex.splade-pp-ed.onnx.md)
-+ [beir-v1.0.0-cqadupstack-unix.splade-pp-ed.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-unix.splade-pp-ed.onnx.md)
-+ [beir-v1.0.0-cqadupstack-webmasters.splade-pp-ed.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-webmasters.splade-pp-ed.onnx.md)
-+ [beir-v1.0.0-cqadupstack-wordpress.splade-pp-ed.onnx](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-wordpress.splade-pp-ed.onnx.md)
-+ [beir-v1.0.0-quora.splade-pp-ed.onnx](reproduce/from-document-collection/beir-v1.0.0-quora.splade-pp-ed.onnx.md)
-+ [beir-v1.0.0-dbpedia-entity.splade-pp-ed.onnx](reproduce/from-document-collection/beir-v1.0.0-dbpedia-entity.splade-pp-ed.onnx.md)
-+ [beir-v1.0.0-scidocs.splade-pp-ed.onnx](reproduce/from-document-collection/beir-v1.0.0-scidocs.splade-pp-ed.onnx.md)
-+ [beir-v1.0.0-fever.splade-pp-ed.onnx](reproduce/from-document-collection/beir-v1.0.0-fever.splade-pp-ed.onnx.md)
-+ [beir-v1.0.0-climate-fever.splade-pp-ed.onnx](reproduce/from-document-collection/beir-v1.0.0-climate-fever.splade-pp-ed.onnx.md)
-+ [beir-v1.0.0-scifact.splade-pp-ed.onnx](reproduce/from-document-collection/beir-v1.0.0-scifact.splade-pp-ed.onnx.md)
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-covid.splade-pp-ed.cached > logs/log.beir-v1.0.0-trec-covid.splade-pp-ed.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-bioasq.splade-pp-ed.cached > logs/log.beir-v1.0.0-bioasq.splade-pp-ed.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nfcorpus.splade-pp-ed.cached > logs/log.beir-v1.0.0-nfcorpus.splade-pp-ed.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nq.splade-pp-ed.cached > logs/log.beir-v1.0.0-nq.splade-pp-ed.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-hotpotqa.splade-pp-ed.cached > logs/log.beir-v1.0.0-hotpotqa.splade-pp-ed.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fiqa.splade-pp-ed.cached > logs/log.beir-v1.0.0-fiqa.splade-pp-ed.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-signal1m.splade-pp-ed.cached > logs/log.beir-v1.0.0-signal1m.splade-pp-ed.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-news.splade-pp-ed.cached > logs/log.beir-v1.0.0-trec-news.splade-pp-ed.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-robust04.splade-pp-ed.cached > logs/log.beir-v1.0.0-robust04.splade-pp-ed.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-arguana.splade-pp-ed.cached > logs/log.beir-v1.0.0-arguana.splade-pp-ed.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-webis-touche2020.splade-pp-ed.cached > logs/log.beir-v1.0.0-webis-touche2020.splade-pp-ed.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-android.splade-pp-ed.cached > logs/log.beir-v1.0.0-cqadupstack-android.splade-pp-ed.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-english.splade-pp-ed.cached > logs/log.beir-v1.0.0-cqadupstack-english.splade-pp-ed.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gaming.splade-pp-ed.cached > logs/log.beir-v1.0.0-cqadupstack-gaming.splade-pp-ed.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gis.splade-pp-ed.cached > logs/log.beir-v1.0.0-cqadupstack-gis.splade-pp-ed.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-mathematica.splade-pp-ed.cached > logs/log.beir-v1.0.0-cqadupstack-mathematica.splade-pp-ed.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-physics.splade-pp-ed.cached > logs/log.beir-v1.0.0-cqadupstack-physics.splade-pp-ed.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-programmers.splade-pp-ed.cached > logs/log.beir-v1.0.0-cqadupstack-programmers.splade-pp-ed.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-stats.splade-pp-ed.cached > logs/log.beir-v1.0.0-cqadupstack-stats.splade-pp-ed.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-tex.splade-pp-ed.cached > logs/log.beir-v1.0.0-cqadupstack-tex.splade-pp-ed.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-unix.splade-pp-ed.cached > logs/log.beir-v1.0.0-cqadupstack-unix.splade-pp-ed.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-webmasters.splade-pp-ed.cached > logs/log.beir-v1.0.0-cqadupstack-webmasters.splade-pp-ed.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-wordpress.splade-pp-ed.cached > logs/log.beir-v1.0.0-cqadupstack-wordpress.splade-pp-ed.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-quora.splade-pp-ed.cached > logs/log.beir-v1.0.0-quora.splade-pp-ed.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-dbpedia-entity.splade-pp-ed.cached > logs/log.beir-v1.0.0-dbpedia-entity.splade-pp-ed.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scidocs.splade-pp-ed.cached > logs/log.beir-v1.0.0-scidocs.splade-pp-ed.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fever.splade-pp-ed.cached > logs/log.beir-v1.0.0-fever.splade-pp-ed.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-climate-fever.splade-pp-ed.cached > logs/log.beir-v1.0.0-climate-fever.splade-pp-ed.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scifact.splade-pp-ed.cached > logs/log.beir-v1.0.0-scifact.splade-pp-ed.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-covid.splade-pp-ed.onnx > logs/log.beir-v1.0.0-trec-covid.splade-pp-ed.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-bioasq.splade-pp-ed.onnx > logs/log.beir-v1.0.0-bioasq.splade-pp-ed.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nfcorpus.splade-pp-ed.onnx > logs/log.beir-v1.0.0-nfcorpus.splade-pp-ed.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nq.splade-pp-ed.onnx > logs/log.beir-v1.0.0-nq.splade-pp-ed.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-hotpotqa.splade-pp-ed.onnx > logs/log.beir-v1.0.0-hotpotqa.splade-pp-ed.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fiqa.splade-pp-ed.onnx > logs/log.beir-v1.0.0-fiqa.splade-pp-ed.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-signal1m.splade-pp-ed.onnx > logs/log.beir-v1.0.0-signal1m.splade-pp-ed.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-news.splade-pp-ed.onnx > logs/log.beir-v1.0.0-trec-news.splade-pp-ed.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-robust04.splade-pp-ed.onnx > logs/log.beir-v1.0.0-robust04.splade-pp-ed.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-arguana.splade-pp-ed.onnx > logs/log.beir-v1.0.0-arguana.splade-pp-ed.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-webis-touche2020.splade-pp-ed.onnx > logs/log.beir-v1.0.0-webis-touche2020.splade-pp-ed.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-android.splade-pp-ed.onnx > logs/log.beir-v1.0.0-cqadupstack-android.splade-pp-ed.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-english.splade-pp-ed.onnx > logs/log.beir-v1.0.0-cqadupstack-english.splade-pp-ed.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gaming.splade-pp-ed.onnx > logs/log.beir-v1.0.0-cqadupstack-gaming.splade-pp-ed.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gis.splade-pp-ed.onnx > logs/log.beir-v1.0.0-cqadupstack-gis.splade-pp-ed.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-mathematica.splade-pp-ed.onnx > logs/log.beir-v1.0.0-cqadupstack-mathematica.splade-pp-ed.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-physics.splade-pp-ed.onnx > logs/log.beir-v1.0.0-cqadupstack-physics.splade-pp-ed.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-programmers.splade-pp-ed.onnx > logs/log.beir-v1.0.0-cqadupstack-programmers.splade-pp-ed.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-stats.splade-pp-ed.onnx > logs/log.beir-v1.0.0-cqadupstack-stats.splade-pp-ed.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-tex.splade-pp-ed.onnx > logs/log.beir-v1.0.0-cqadupstack-tex.splade-pp-ed.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-unix.splade-pp-ed.onnx > logs/log.beir-v1.0.0-cqadupstack-unix.splade-pp-ed.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-webmasters.splade-pp-ed.onnx > logs/log.beir-v1.0.0-cqadupstack-webmasters.splade-pp-ed.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-wordpress.splade-pp-ed.onnx > logs/log.beir-v1.0.0-cqadupstack-wordpress.splade-pp-ed.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-quora.splade-pp-ed.onnx > logs/log.beir-v1.0.0-quora.splade-pp-ed.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-dbpedia-entity.splade-pp-ed.onnx > logs/log.beir-v1.0.0-dbpedia-entity.splade-pp-ed.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scidocs.splade-pp-ed.onnx > logs/log.beir-v1.0.0-scidocs.splade-pp-ed.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fever.splade-pp-ed.onnx > logs/log.beir-v1.0.0-fever.splade-pp-ed.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-climate-fever.splade-pp-ed.onnx > logs/log.beir-v1.0.0-climate-fever.splade-pp-ed.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scifact.splade-pp-ed.onnx > logs/log.beir-v1.0.0-scifact.splade-pp-ed.onnx.txt 2>&1 &
+```
 
 </details>
 <details>
 <summary>BEIR (v1.0.0): uniCOIL (noexp)</summary>
 
-+ [beir-v1.0.0-trec-covid.unicoil-noexp.cached](reproduce/from-document-collection/beir-v1.0.0-trec-covid.unicoil-noexp.cached.md)
-+ [beir-v1.0.0-bioasq.unicoil-noexp.cached](reproduce/from-document-collection/beir-v1.0.0-bioasq.unicoil-noexp.cached.md)
-+ [beir-v1.0.0-nfcorpus.unicoil-noexp.cached](reproduce/from-document-collection/beir-v1.0.0-nfcorpus.unicoil-noexp.cached.md)
-+ [beir-v1.0.0-nq.unicoil-noexp.cached](reproduce/from-document-collection/beir-v1.0.0-nq.unicoil-noexp.cached.md)
-+ [beir-v1.0.0-hotpotqa.unicoil-noexp.cached](reproduce/from-document-collection/beir-v1.0.0-hotpotqa.unicoil-noexp.cached.md)
-+ [beir-v1.0.0-fiqa.unicoil-noexp.cached](reproduce/from-document-collection/beir-v1.0.0-fiqa.unicoil-noexp.cached.md)
-+ [beir-v1.0.0-signal1m.unicoil-noexp.cached](reproduce/from-document-collection/beir-v1.0.0-signal1m.unicoil-noexp.cached.md)
-+ [beir-v1.0.0-trec-news.unicoil-noexp.cached](reproduce/from-document-collection/beir-v1.0.0-trec-news.unicoil-noexp.cached.md)
-+ [beir-v1.0.0-robust04.unicoil-noexp.cached](reproduce/from-document-collection/beir-v1.0.0-robust04.unicoil-noexp.cached.md)
-+ [beir-v1.0.0-arguana.unicoil-noexp.cached](reproduce/from-document-collection/beir-v1.0.0-arguana.unicoil-noexp.cached.md)
-+ [beir-v1.0.0-webis-touche2020.unicoil-noexp.cached](reproduce/from-document-collection/beir-v1.0.0-webis-touche2020.unicoil-noexp.cached.md)
-+ [beir-v1.0.0-cqadupstack-android.unicoil-noexp.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-android.unicoil-noexp.cached.md)
-+ [beir-v1.0.0-cqadupstack-english.unicoil-noexp.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-english.unicoil-noexp.cached.md)
-+ [beir-v1.0.0-cqadupstack-gaming.unicoil-noexp.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-gaming.unicoil-noexp.cached.md)
-+ [beir-v1.0.0-cqadupstack-gis.unicoil-noexp.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-gis.unicoil-noexp.cached.md)
-+ [beir-v1.0.0-cqadupstack-mathematica.unicoil-noexp.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-mathematica.unicoil-noexp.cached.md)
-+ [beir-v1.0.0-cqadupstack-physics.unicoil-noexp.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-physics.unicoil-noexp.cached.md)
-+ [beir-v1.0.0-cqadupstack-programmers.unicoil-noexp.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-programmers.unicoil-noexp.cached.md)
-+ [beir-v1.0.0-cqadupstack-stats.unicoil-noexp.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-stats.unicoil-noexp.cached.md)
-+ [beir-v1.0.0-cqadupstack-tex.unicoil-noexp.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-tex.unicoil-noexp.cached.md)
-+ [beir-v1.0.0-cqadupstack-unix.unicoil-noexp.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-unix.unicoil-noexp.cached.md)
-+ [beir-v1.0.0-cqadupstack-webmasters.unicoil-noexp.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-webmasters.unicoil-noexp.cached.md)
-+ [beir-v1.0.0-cqadupstack-wordpress.unicoil-noexp.cached](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-wordpress.unicoil-noexp.cached.md)
-+ [beir-v1.0.0-quora.unicoil-noexp.cached](reproduce/from-document-collection/beir-v1.0.0-quora.unicoil-noexp.cached.md)
-+ [beir-v1.0.0-dbpedia-entity.unicoil-noexp.cached](reproduce/from-document-collection/beir-v1.0.0-dbpedia-entity.unicoil-noexp.cached.md)
-+ [beir-v1.0.0-scidocs.unicoil-noexp.cached](reproduce/from-document-collection/beir-v1.0.0-scidocs.unicoil-noexp.cached.md)
-+ [beir-v1.0.0-fever.unicoil-noexp.cached](reproduce/from-document-collection/beir-v1.0.0-fever.unicoil-noexp.cached.md)
-+ [beir-v1.0.0-climate-fever.unicoil-noexp.cached](reproduce/from-document-collection/beir-v1.0.0-climate-fever.unicoil-noexp.cached.md)
-+ [beir-v1.0.0-scifact.unicoil-noexp.cached](reproduce/from-document-collection/beir-v1.0.0-scifact.unicoil-noexp.cached.md)
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-covid.unicoil-noexp.cached > logs/log.beir-v1.0.0-trec-covid.unicoil-noexp.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-bioasq.unicoil-noexp.cached > logs/log.beir-v1.0.0-bioasq.unicoil-noexp.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nfcorpus.unicoil-noexp.cached > logs/log.beir-v1.0.0-nfcorpus.unicoil-noexp.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nq.unicoil-noexp.cached > logs/log.beir-v1.0.0-nq.unicoil-noexp.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-hotpotqa.unicoil-noexp.cached > logs/log.beir-v1.0.0-hotpotqa.unicoil-noexp.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fiqa.unicoil-noexp.cached > logs/log.beir-v1.0.0-fiqa.unicoil-noexp.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-signal1m.unicoil-noexp.cached > logs/log.beir-v1.0.0-signal1m.unicoil-noexp.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-news.unicoil-noexp.cached > logs/log.beir-v1.0.0-trec-news.unicoil-noexp.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-robust04.unicoil-noexp.cached > logs/log.beir-v1.0.0-robust04.unicoil-noexp.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-arguana.unicoil-noexp.cached > logs/log.beir-v1.0.0-arguana.unicoil-noexp.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-webis-touche2020.unicoil-noexp.cached > logs/log.beir-v1.0.0-webis-touche2020.unicoil-noexp.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-android.unicoil-noexp.cached > logs/log.beir-v1.0.0-cqadupstack-android.unicoil-noexp.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-english.unicoil-noexp.cached > logs/log.beir-v1.0.0-cqadupstack-english.unicoil-noexp.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gaming.unicoil-noexp.cached > logs/log.beir-v1.0.0-cqadupstack-gaming.unicoil-noexp.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gis.unicoil-noexp.cached > logs/log.beir-v1.0.0-cqadupstack-gis.unicoil-noexp.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-mathematica.unicoil-noexp.cached > logs/log.beir-v1.0.0-cqadupstack-mathematica.unicoil-noexp.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-physics.unicoil-noexp.cached > logs/log.beir-v1.0.0-cqadupstack-physics.unicoil-noexp.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-programmers.unicoil-noexp.cached > logs/log.beir-v1.0.0-cqadupstack-programmers.unicoil-noexp.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-stats.unicoil-noexp.cached > logs/log.beir-v1.0.0-cqadupstack-stats.unicoil-noexp.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-tex.unicoil-noexp.cached > logs/log.beir-v1.0.0-cqadupstack-tex.unicoil-noexp.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-unix.unicoil-noexp.cached > logs/log.beir-v1.0.0-cqadupstack-unix.unicoil-noexp.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-webmasters.unicoil-noexp.cached > logs/log.beir-v1.0.0-cqadupstack-webmasters.unicoil-noexp.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-wordpress.unicoil-noexp.cached > logs/log.beir-v1.0.0-cqadupstack-wordpress.unicoil-noexp.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-quora.unicoil-noexp.cached > logs/log.beir-v1.0.0-quora.unicoil-noexp.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-dbpedia-entity.unicoil-noexp.cached > logs/log.beir-v1.0.0-dbpedia-entity.unicoil-noexp.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scidocs.unicoil-noexp.cached > logs/log.beir-v1.0.0-scidocs.unicoil-noexp.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fever.unicoil-noexp.cached > logs/log.beir-v1.0.0-fever.unicoil-noexp.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-climate-fever.unicoil-noexp.cached > logs/log.beir-v1.0.0-climate-fever.unicoil-noexp.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scifact.unicoil-noexp.cached > logs/log.beir-v1.0.0-scifact.unicoil-noexp.cached.txt 2>&1 &
+```
 
 </details>
 <details>
 <summary>BEIR (v1.0.0): "flat" baseline</summary>
 
-+ [beir-v1.0.0-trec-covid.flat](reproduce/from-document-collection/beir-v1.0.0-trec-covid.flat.md)
-+ [beir-v1.0.0-bioasq.flat](reproduce/from-document-collection/beir-v1.0.0-bioasq.flat.md)
-+ [beir-v1.0.0-nfcorpus.flat](reproduce/from-document-collection/beir-v1.0.0-nfcorpus.flat.md)
-+ [beir-v1.0.0-nq.flat](reproduce/from-document-collection/beir-v1.0.0-nq.flat.md)
-+ [beir-v1.0.0-hotpotqa.flat](reproduce/from-document-collection/beir-v1.0.0-hotpotqa.flat.md)
-+ [beir-v1.0.0-fiqa.flat](reproduce/from-document-collection/beir-v1.0.0-fiqa.flat.md)
-+ [beir-v1.0.0-signal1m.flat](reproduce/from-document-collection/beir-v1.0.0-signal1m.flat.md)
-+ [beir-v1.0.0-trec-news.flat](reproduce/from-document-collection/beir-v1.0.0-trec-news.flat.md)
-+ [beir-v1.0.0-robust04.flat](reproduce/from-document-collection/beir-v1.0.0-robust04.flat.md)
-+ [beir-v1.0.0-arguana.flat](reproduce/from-document-collection/beir-v1.0.0-arguana.flat.md)
-+ [beir-v1.0.0-webis-touche2020.flat](reproduce/from-document-collection/beir-v1.0.0-webis-touche2020.flat.md)
-+ [beir-v1.0.0-cqadupstack-android.flat](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-android.flat.md)
-+ [beir-v1.0.0-cqadupstack-english.flat](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-english.flat.md)
-+ [beir-v1.0.0-cqadupstack-gaming.flat](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-gaming.flat.md)
-+ [beir-v1.0.0-cqadupstack-gis.flat](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-gis.flat.md)
-+ [beir-v1.0.0-cqadupstack-mathematica.flat](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-mathematica.flat.md)
-+ [beir-v1.0.0-cqadupstack-physics.flat](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-physics.flat.md)
-+ [beir-v1.0.0-cqadupstack-programmers.flat](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-programmers.flat.md)
-+ [beir-v1.0.0-cqadupstack-stats.flat](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-stats.flat.md)
-+ [beir-v1.0.0-cqadupstack-tex.flat](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-tex.flat.md)
-+ [beir-v1.0.0-cqadupstack-unix.flat](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-unix.flat.md)
-+ [beir-v1.0.0-cqadupstack-webmasters.flat](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-webmasters.flat.md)
-+ [beir-v1.0.0-cqadupstack-wordpress.flat](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-wordpress.flat.md)
-+ [beir-v1.0.0-quora.flat](reproduce/from-document-collection/beir-v1.0.0-quora.flat.md)
-+ [beir-v1.0.0-dbpedia-entity.flat](reproduce/from-document-collection/beir-v1.0.0-dbpedia-entity.flat.md)
-+ [beir-v1.0.0-scidocs.flat](reproduce/from-document-collection/beir-v1.0.0-scidocs.flat.md)
-+ [beir-v1.0.0-fever.flat](reproduce/from-document-collection/beir-v1.0.0-fever.flat.md)
-+ [beir-v1.0.0-climate-fever.flat](reproduce/from-document-collection/beir-v1.0.0-climate-fever.flat.md)
-+ [beir-v1.0.0-scifact.flat](reproduce/from-document-collection/beir-v1.0.0-scifact.flat.md)
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-covid.flat > logs/log.beir-v1.0.0-trec-covid.flat.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-bioasq.flat > logs/log.beir-v1.0.0-bioasq.flat.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nfcorpus.flat > logs/log.beir-v1.0.0-nfcorpus.flat.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nq.flat > logs/log.beir-v1.0.0-nq.flat.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-hotpotqa.flat > logs/log.beir-v1.0.0-hotpotqa.flat.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fiqa.flat > logs/log.beir-v1.0.0-fiqa.flat.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-signal1m.flat > logs/log.beir-v1.0.0-signal1m.flat.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-news.flat > logs/log.beir-v1.0.0-trec-news.flat.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-robust04.flat > logs/log.beir-v1.0.0-robust04.flat.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-arguana.flat > logs/log.beir-v1.0.0-arguana.flat.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-webis-touche2020.flat > logs/log.beir-v1.0.0-webis-touche2020.flat.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-android.flat > logs/log.beir-v1.0.0-cqadupstack-android.flat.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-english.flat > logs/log.beir-v1.0.0-cqadupstack-english.flat.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gaming.flat > logs/log.beir-v1.0.0-cqadupstack-gaming.flat.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gis.flat > logs/log.beir-v1.0.0-cqadupstack-gis.flat.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-mathematica.flat > logs/log.beir-v1.0.0-cqadupstack-mathematica.flat.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-physics.flat > logs/log.beir-v1.0.0-cqadupstack-physics.flat.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-programmers.flat > logs/log.beir-v1.0.0-cqadupstack-programmers.flat.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-stats.flat > logs/log.beir-v1.0.0-cqadupstack-stats.flat.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-tex.flat > logs/log.beir-v1.0.0-cqadupstack-tex.flat.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-unix.flat > logs/log.beir-v1.0.0-cqadupstack-unix.flat.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-webmasters.flat > logs/log.beir-v1.0.0-cqadupstack-webmasters.flat.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-wordpress.flat > logs/log.beir-v1.0.0-cqadupstack-wordpress.flat.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-quora.flat > logs/log.beir-v1.0.0-quora.flat.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-dbpedia-entity.flat > logs/log.beir-v1.0.0-dbpedia-entity.flat.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scidocs.flat > logs/log.beir-v1.0.0-scidocs.flat.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fever.flat > logs/log.beir-v1.0.0-fever.flat.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-climate-fever.flat > logs/log.beir-v1.0.0-climate-fever.flat.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scifact.flat > logs/log.beir-v1.0.0-scifact.flat.txt 2>&1 &
+```
 
 </details>
 <details>
 <summary>BEIR (v1.0.0): "flat" baseline with WordPiece tokenization</summary>
 
-+ [beir-v1.0.0-trec-covid.flat-wp](reproduce/from-document-collection/beir-v1.0.0-trec-covid.flat-wp.md)
-+ [beir-v1.0.0-bioasq.flat-wp](reproduce/from-document-collection/beir-v1.0.0-bioasq.flat-wp.md)
-+ [beir-v1.0.0-nfcorpus.flat-wp](reproduce/from-document-collection/beir-v1.0.0-nfcorpus.flat-wp.md)
-+ [beir-v1.0.0-nq.flat-wp](reproduce/from-document-collection/beir-v1.0.0-nq.flat-wp.md)
-+ [beir-v1.0.0-hotpotqa.flat-wp](reproduce/from-document-collection/beir-v1.0.0-hotpotqa.flat-wp.md)
-+ [beir-v1.0.0-fiqa.flat-wp](reproduce/from-document-collection/beir-v1.0.0-fiqa.flat-wp.md)
-+ [beir-v1.0.0-signal1m.flat-wp](reproduce/from-document-collection/beir-v1.0.0-signal1m.flat-wp.md)
-+ [beir-v1.0.0-trec-news.flat-wp](reproduce/from-document-collection/beir-v1.0.0-trec-news.flat-wp.md)
-+ [beir-v1.0.0-robust04.flat-wp](reproduce/from-document-collection/beir-v1.0.0-robust04.flat-wp.md)
-+ [beir-v1.0.0-arguana.flat-wp](reproduce/from-document-collection/beir-v1.0.0-arguana.flat-wp.md)
-+ [beir-v1.0.0-webis-touche2020.flat-wp](reproduce/from-document-collection/beir-v1.0.0-webis-touche2020.flat-wp.md)
-+ [beir-v1.0.0-cqadupstack-android.flat-wp](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-android.flat-wp.md)
-+ [beir-v1.0.0-cqadupstack-english.flat-wp](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-english.flat-wp.md)
-+ [beir-v1.0.0-cqadupstack-gaming.flat-wp](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-gaming.flat-wp.md)
-+ [beir-v1.0.0-cqadupstack-gis.flat-wp](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-gis.flat-wp.md)
-+ [beir-v1.0.0-cqadupstack-mathematica.flat-wp](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-mathematica.flat-wp.md)
-+ [beir-v1.0.0-cqadupstack-physics.flat-wp](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-physics.flat-wp.md)
-+ [beir-v1.0.0-cqadupstack-programmers.flat-wp](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-programmers.flat-wp.md)
-+ [beir-v1.0.0-cqadupstack-stats.flat-wp](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-stats.flat-wp.md)
-+ [beir-v1.0.0-cqadupstack-tex.flat-wp](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-tex.flat-wp.md)
-+ [beir-v1.0.0-cqadupstack-unix.flat-wp](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-unix.flat-wp.md)
-+ [beir-v1.0.0-cqadupstack-webmasters.flat-wp](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-webmasters.flat-wp.md)
-+ [beir-v1.0.0-cqadupstack-wordpress.flat-wp](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-wordpress.flat-wp.md)
-+ [beir-v1.0.0-quora.flat-wp](reproduce/from-document-collection/beir-v1.0.0-quora.flat-wp.md)
-+ [beir-v1.0.0-dbpedia-entity.flat-wp](reproduce/from-document-collection/beir-v1.0.0-dbpedia-entity.flat-wp.md)
-+ [beir-v1.0.0-scidocs.flat-wp](reproduce/from-document-collection/beir-v1.0.0-scidocs.flat-wp.md)
-+ [beir-v1.0.0-fever.flat-wp](reproduce/from-document-collection/beir-v1.0.0-fever.flat-wp.md)
-+ [beir-v1.0.0-climate-fever.flat-wp](reproduce/from-document-collection/beir-v1.0.0-climate-fever.flat-wp.md)
-+ [beir-v1.0.0-scifact.flat-wp](reproduce/from-document-collection/beir-v1.0.0-scifact.flat-wp.md)
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-covid.flat-wp > logs/log.beir-v1.0.0-trec-covid.flat-wp.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-bioasq.flat-wp > logs/log.beir-v1.0.0-bioasq.flat-wp.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nfcorpus.flat-wp > logs/log.beir-v1.0.0-nfcorpus.flat-wp.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nq.flat-wp > logs/log.beir-v1.0.0-nq.flat-wp.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-hotpotqa.flat-wp > logs/log.beir-v1.0.0-hotpotqa.flat-wp.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fiqa.flat-wp > logs/log.beir-v1.0.0-fiqa.flat-wp.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-signal1m.flat-wp > logs/log.beir-v1.0.0-signal1m.flat-wp.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-news.flat-wp > logs/log.beir-v1.0.0-trec-news.flat-wp.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-robust04.flat-wp > logs/log.beir-v1.0.0-robust04.flat-wp.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-arguana.flat-wp > logs/log.beir-v1.0.0-arguana.flat-wp.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-webis-touche2020.flat-wp > logs/log.beir-v1.0.0-webis-touche2020.flat-wp.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-android.flat-wp > logs/log.beir-v1.0.0-cqadupstack-android.flat-wp.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-english.flat-wp > logs/log.beir-v1.0.0-cqadupstack-english.flat-wp.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gaming.flat-wp > logs/log.beir-v1.0.0-cqadupstack-gaming.flat-wp.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gis.flat-wp > logs/log.beir-v1.0.0-cqadupstack-gis.flat-wp.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-mathematica.flat-wp > logs/log.beir-v1.0.0-cqadupstack-mathematica.flat-wp.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-physics.flat-wp > logs/log.beir-v1.0.0-cqadupstack-physics.flat-wp.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-programmers.flat-wp > logs/log.beir-v1.0.0-cqadupstack-programmers.flat-wp.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-stats.flat-wp > logs/log.beir-v1.0.0-cqadupstack-stats.flat-wp.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-tex.flat-wp > logs/log.beir-v1.0.0-cqadupstack-tex.flat-wp.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-unix.flat-wp > logs/log.beir-v1.0.0-cqadupstack-unix.flat-wp.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-webmasters.flat-wp > logs/log.beir-v1.0.0-cqadupstack-webmasters.flat-wp.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-wordpress.flat-wp > logs/log.beir-v1.0.0-cqadupstack-wordpress.flat-wp.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-quora.flat-wp > logs/log.beir-v1.0.0-quora.flat-wp.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-dbpedia-entity.flat-wp > logs/log.beir-v1.0.0-dbpedia-entity.flat-wp.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scidocs.flat-wp > logs/log.beir-v1.0.0-scidocs.flat-wp.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fever.flat-wp > logs/log.beir-v1.0.0-fever.flat-wp.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-climate-fever.flat-wp > logs/log.beir-v1.0.0-climate-fever.flat-wp.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scifact.flat-wp > logs/log.beir-v1.0.0-scifact.flat-wp.txt 2>&1 &
+```
 
 </details>
 <details>
 <summary>BEIR (v1.0.0): "multifield" baseline</summary>
 
-+ [beir-v1.0.0-trec-covid.multifield](reproduce/from-document-collection/beir-v1.0.0-trec-covid.multifield.md)
-+ [beir-v1.0.0-bioasq.multifield](reproduce/from-document-collection/beir-v1.0.0-bioasq.multifield.md)
-+ [beir-v1.0.0-nfcorpus.multifield](reproduce/from-document-collection/beir-v1.0.0-nfcorpus.multifield.md)
-+ [beir-v1.0.0-nq.multifield](reproduce/from-document-collection/beir-v1.0.0-nq.multifield.md)
-+ [beir-v1.0.0-hotpotqa.multifield](reproduce/from-document-collection/beir-v1.0.0-hotpotqa.multifield.md)
-+ [beir-v1.0.0-fiqa.multifield](reproduce/from-document-collection/beir-v1.0.0-fiqa.multifield.md)
-+ [beir-v1.0.0-signal1m.multifield](reproduce/from-document-collection/beir-v1.0.0-signal1m.multifield.md)
-+ [beir-v1.0.0-trec-news.multifield](reproduce/from-document-collection/beir-v1.0.0-trec-news.multifield.md)
-+ [beir-v1.0.0-robust04.multifield](reproduce/from-document-collection/beir-v1.0.0-robust04.multifield.md)
-+ [beir-v1.0.0-arguana.multifield](reproduce/from-document-collection/beir-v1.0.0-arguana.multifield.md)
-+ [beir-v1.0.0-webis-touche2020.multifield](reproduce/from-document-collection/beir-v1.0.0-webis-touche2020.multifield.md)
-+ [beir-v1.0.0-cqadupstack-android.multifield](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-android.multifield.md)
-+ [beir-v1.0.0-cqadupstack-english.multifield](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-english.multifield.md)
-+ [beir-v1.0.0-cqadupstack-gaming.multifield](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-gaming.multifield.md)
-+ [beir-v1.0.0-cqadupstack-gis.multifield](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-gis.multifield.md)
-+ [beir-v1.0.0-cqadupstack-mathematica.multifield](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-mathematica.multifield.md)
-+ [beir-v1.0.0-cqadupstack-physics.multifield](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-physics.multifield.md)
-+ [beir-v1.0.0-cqadupstack-programmers.multifield](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-programmers.multifield.md)
-+ [beir-v1.0.0-cqadupstack-stats.multifield](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-stats.multifield.md)
-+ [beir-v1.0.0-cqadupstack-tex.multifield](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-tex.multifield.md)
-+ [beir-v1.0.0-cqadupstack-unix.multifield](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-unix.multifield.md)
-+ [beir-v1.0.0-cqadupstack-webmasters.multifield](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-webmasters.multifield.md)
-+ [beir-v1.0.0-cqadupstack-wordpress.multifield](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-wordpress.multifield.md)
-+ [beir-v1.0.0-quora.multifield](reproduce/from-document-collection/beir-v1.0.0-quora.multifield.md)
-+ [beir-v1.0.0-dbpedia-entity.multifield](reproduce/from-document-collection/beir-v1.0.0-dbpedia-entity.multifield.md)
-+ [beir-v1.0.0-scidocs.multifield](reproduce/from-document-collection/beir-v1.0.0-scidocs.multifield.md)
-+ [beir-v1.0.0-fever.multifield](reproduce/from-document-collection/beir-v1.0.0-fever.multifield.md)
-+ [beir-v1.0.0-climate-fever.multifield](reproduce/from-document-collection/beir-v1.0.0-climate-fever.multifield.md)
-+ [beir-v1.0.0-scifact.multifield](reproduce/from-document-collection/beir-v1.0.0-scifact.multifield.md)
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-covid.multifield > logs/log.beir-v1.0.0-trec-covid.multifield.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-bioasq.multifield > logs/log.beir-v1.0.0-bioasq.multifield.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nfcorpus.multifield > logs/log.beir-v1.0.0-nfcorpus.multifield.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nq.multifield > logs/log.beir-v1.0.0-nq.multifield.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-hotpotqa.multifield > logs/log.beir-v1.0.0-hotpotqa.multifield.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fiqa.multifield > logs/log.beir-v1.0.0-fiqa.multifield.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-signal1m.multifield > logs/log.beir-v1.0.0-signal1m.multifield.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-news.multifield > logs/log.beir-v1.0.0-trec-news.multifield.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-robust04.multifield > logs/log.beir-v1.0.0-robust04.multifield.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-arguana.multifield > logs/log.beir-v1.0.0-arguana.multifield.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-webis-touche2020.multifield > logs/log.beir-v1.0.0-webis-touche2020.multifield.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-android.multifield > logs/log.beir-v1.0.0-cqadupstack-android.multifield.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-english.multifield > logs/log.beir-v1.0.0-cqadupstack-english.multifield.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gaming.multifield > logs/log.beir-v1.0.0-cqadupstack-gaming.multifield.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gis.multifield > logs/log.beir-v1.0.0-cqadupstack-gis.multifield.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-mathematica.multifield > logs/log.beir-v1.0.0-cqadupstack-mathematica.multifield.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-physics.multifield > logs/log.beir-v1.0.0-cqadupstack-physics.multifield.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-programmers.multifield > logs/log.beir-v1.0.0-cqadupstack-programmers.multifield.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-stats.multifield > logs/log.beir-v1.0.0-cqadupstack-stats.multifield.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-tex.multifield > logs/log.beir-v1.0.0-cqadupstack-tex.multifield.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-unix.multifield > logs/log.beir-v1.0.0-cqadupstack-unix.multifield.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-webmasters.multifield > logs/log.beir-v1.0.0-cqadupstack-webmasters.multifield.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-wordpress.multifield > logs/log.beir-v1.0.0-cqadupstack-wordpress.multifield.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-quora.multifield > logs/log.beir-v1.0.0-quora.multifield.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-dbpedia-entity.multifield > logs/log.beir-v1.0.0-dbpedia-entity.multifield.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scidocs.multifield > logs/log.beir-v1.0.0-scidocs.multifield.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fever.multifield > logs/log.beir-v1.0.0-fever.multifield.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-climate-fever.multifield > logs/log.beir-v1.0.0-climate-fever.multifield.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scifact.multifield > logs/log.beir-v1.0.0-scifact.multifield.txt 2>&1 &
+```
 
 </details>
 <details>
 <summary>Mr.TyDi (v1.1): BM25 regressions</summary>
 
-+ [mrtydi-v1.1-ar](reproduce/from-document-collection/mrtydi-v1.1-ar.md)
-+ [mrtydi-v1.1-bn](reproduce/from-document-collection/mrtydi-v1.1-bn.md)
-+ [mrtydi-v1.1-en](reproduce/from-document-collection/mrtydi-v1.1-en.md)
-+ [mrtydi-v1.1-fi](reproduce/from-document-collection/mrtydi-v1.1-fi.md)
-+ [mrtydi-v1.1-id](reproduce/from-document-collection/mrtydi-v1.1-id.md)
-+ [mrtydi-v1.1-ja](reproduce/from-document-collection/mrtydi-v1.1-ja.md)
-+ [mrtydi-v1.1-ko](reproduce/from-document-collection/mrtydi-v1.1-ko.md)
-+ [mrtydi-v1.1-ru](reproduce/from-document-collection/mrtydi-v1.1-ru.md)
-+ [mrtydi-v1.1-sw](reproduce/from-document-collection/mrtydi-v1.1-sw.md)
-+ [mrtydi-v1.1-te](reproduce/from-document-collection/mrtydi-v1.1-te.md)
-+ [mrtydi-v1.1-th](reproduce/from-document-collection/mrtydi-v1.1-th.md)
-+ [mrtydi-v1.1-ar-aca](reproduce/from-document-collection/mrtydi-v1.1-ar-aca.md)
-+ [mrtydi-v1.1-bn-aca](reproduce/from-document-collection/mrtydi-v1.1-bn-aca.md)
-+ [mrtydi-v1.1-en-aca](reproduce/from-document-collection/mrtydi-v1.1-en-aca.md)
-+ [mrtydi-v1.1-fi-aca](reproduce/from-document-collection/mrtydi-v1.1-fi-aca.md)
-+ [mrtydi-v1.1-id-aca](reproduce/from-document-collection/mrtydi-v1.1-id-aca.md)
-+ [mrtydi-v1.1-ja-aca](reproduce/from-document-collection/mrtydi-v1.1-ja-aca.md)
-+ [mrtydi-v1.1-ko-aca](reproduce/from-document-collection/mrtydi-v1.1-ko-aca.md)
-+ [mrtydi-v1.1-ru-aca](reproduce/from-document-collection/mrtydi-v1.1-ru-aca.md)
-+ [mrtydi-v1.1-sw-aca](reproduce/from-document-collection/mrtydi-v1.1-sw-aca.md)
-+ [mrtydi-v1.1-te-aca](reproduce/from-document-collection/mrtydi-v1.1-te-aca.md)
-+ [mrtydi-v1.1-th-aca](reproduce/from-document-collection/mrtydi-v1.1-th-aca.md)
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config mrtydi-v1.1-ar > logs/log.mrtydi-v1.1-ar.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config mrtydi-v1.1-bn > logs/log.mrtydi-v1.1-bn.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config mrtydi-v1.1-en > logs/log.mrtydi-v1.1-en.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config mrtydi-v1.1-fi > logs/log.mrtydi-v1.1-fi.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config mrtydi-v1.1-id > logs/log.mrtydi-v1.1-id.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config mrtydi-v1.1-ja > logs/log.mrtydi-v1.1-ja.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config mrtydi-v1.1-ko > logs/log.mrtydi-v1.1-ko.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config mrtydi-v1.1-ru > logs/log.mrtydi-v1.1-ru.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config mrtydi-v1.1-sw > logs/log.mrtydi-v1.1-sw.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config mrtydi-v1.1-te > logs/log.mrtydi-v1.1-te.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config mrtydi-v1.1-th > logs/log.mrtydi-v1.1-th.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config mrtydi-v1.1-ar-aca > logs/log.mrtydi-v1.1-ar-aca.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config mrtydi-v1.1-bn-aca > logs/log.mrtydi-v1.1-bn-aca.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config mrtydi-v1.1-en-aca > logs/log.mrtydi-v1.1-en-aca.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config mrtydi-v1.1-fi-aca > logs/log.mrtydi-v1.1-fi-aca.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config mrtydi-v1.1-id-aca > logs/log.mrtydi-v1.1-id-aca.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config mrtydi-v1.1-ja-aca > logs/log.mrtydi-v1.1-ja-aca.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config mrtydi-v1.1-ko-aca > logs/log.mrtydi-v1.1-ko-aca.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config mrtydi-v1.1-ru-aca > logs/log.mrtydi-v1.1-ru-aca.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config mrtydi-v1.1-sw-aca > logs/log.mrtydi-v1.1-sw-aca.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config mrtydi-v1.1-te-aca > logs/log.mrtydi-v1.1-te-aca.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config mrtydi-v1.1-th-aca > logs/log.mrtydi-v1.1-th-aca.txt 2>&1 &
+```
 
 </details>
 <details>
 <summary>MIRACL (v1.0): BM25 regressions</summary>
 
-+ [miracl-v1.0-ar](reproduce/from-document-collection/miracl-v1.0-ar.md)
-+ [miracl-v1.0-bn](reproduce/from-document-collection/miracl-v1.0-bn.md)
-+ [miracl-v1.0-en](reproduce/from-document-collection/miracl-v1.0-en.md)
-+ [miracl-v1.0-es](reproduce/from-document-collection/miracl-v1.0-es.md)
-+ [miracl-v1.0-fa](reproduce/from-document-collection/miracl-v1.0-fa.md)
-+ [miracl-v1.0-fi](reproduce/from-document-collection/miracl-v1.0-fi.md)
-+ [miracl-v1.0-fr](reproduce/from-document-collection/miracl-v1.0-fr.md)
-+ [miracl-v1.0-hi](reproduce/from-document-collection/miracl-v1.0-hi.md)
-+ [miracl-v1.0-id](reproduce/from-document-collection/miracl-v1.0-id.md)
-+ [miracl-v1.0-ja](reproduce/from-document-collection/miracl-v1.0-ja.md)
-+ [miracl-v1.0-ko](reproduce/from-document-collection/miracl-v1.0-ko.md)
-+ [miracl-v1.0-ru](reproduce/from-document-collection/miracl-v1.0-ru.md)
-+ [miracl-v1.0-sw](reproduce/from-document-collection/miracl-v1.0-sw.md)
-+ [miracl-v1.0-te](reproduce/from-document-collection/miracl-v1.0-te.md)
-+ [miracl-v1.0-th](reproduce/from-document-collection/miracl-v1.0-th.md)
-+ [miracl-v1.0-zh](reproduce/from-document-collection/miracl-v1.0-zh.md)
-+ [miracl-v1.0-ar-aca](reproduce/from-document-collection/miracl-v1.0-ar-aca.md)
-+ [miracl-v1.0-bn-aca](reproduce/from-document-collection/miracl-v1.0-bn-aca.md)
-+ [miracl-v1.0-en-aca](reproduce/from-document-collection/miracl-v1.0-en-aca.md)
-+ [miracl-v1.0-es-aca](reproduce/from-document-collection/miracl-v1.0-es-aca.md)
-+ [miracl-v1.0-fa-aca](reproduce/from-document-collection/miracl-v1.0-fa-aca.md)
-+ [miracl-v1.0-fi-aca](reproduce/from-document-collection/miracl-v1.0-fi-aca.md)
-+ [miracl-v1.0-fr-aca](reproduce/from-document-collection/miracl-v1.0-fr-aca.md)
-+ [miracl-v1.0-hi-aca](reproduce/from-document-collection/miracl-v1.0-hi-aca.md)
-+ [miracl-v1.0-id-aca](reproduce/from-document-collection/miracl-v1.0-id-aca.md)
-+ [miracl-v1.0-ja-aca](reproduce/from-document-collection/miracl-v1.0-ja-aca.md)
-+ [miracl-v1.0-ko-aca](reproduce/from-document-collection/miracl-v1.0-ko-aca.md)
-+ [miracl-v1.0-ru-aca](reproduce/from-document-collection/miracl-v1.0-ru-aca.md)
-+ [miracl-v1.0-sw-aca](reproduce/from-document-collection/miracl-v1.0-sw-aca.md)
-+ [miracl-v1.0-te-aca](reproduce/from-document-collection/miracl-v1.0-te-aca.md)
-+ [miracl-v1.0-th-aca](reproduce/from-document-collection/miracl-v1.0-th-aca.md)
-+ [miracl-v1.0-zh-aca](reproduce/from-document-collection/miracl-v1.0-zh-aca.md)
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config miracl-v1.0-ar > logs/log.miracl-v1.0-ar.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config miracl-v1.0-bn > logs/log.miracl-v1.0-bn.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config miracl-v1.0-en > logs/log.miracl-v1.0-en.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config miracl-v1.0-es > logs/log.miracl-v1.0-es.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config miracl-v1.0-fa > logs/log.miracl-v1.0-fa.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config miracl-v1.0-fi > logs/log.miracl-v1.0-fi.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config miracl-v1.0-fr > logs/log.miracl-v1.0-fr.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config miracl-v1.0-hi > logs/log.miracl-v1.0-hi.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config miracl-v1.0-id > logs/log.miracl-v1.0-id.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config miracl-v1.0-ja > logs/log.miracl-v1.0-ja.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config miracl-v1.0-ko > logs/log.miracl-v1.0-ko.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config miracl-v1.0-ru > logs/log.miracl-v1.0-ru.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config miracl-v1.0-sw > logs/log.miracl-v1.0-sw.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config miracl-v1.0-te > logs/log.miracl-v1.0-te.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config miracl-v1.0-th > logs/log.miracl-v1.0-th.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config miracl-v1.0-zh > logs/log.miracl-v1.0-zh.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config miracl-v1.0-ar-aca > logs/log.miracl-v1.0-ar-aca.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config miracl-v1.0-bn-aca > logs/log.miracl-v1.0-bn-aca.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config miracl-v1.0-en-aca > logs/log.miracl-v1.0-en-aca.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config miracl-v1.0-es-aca > logs/log.miracl-v1.0-es-aca.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config miracl-v1.0-fa-aca > logs/log.miracl-v1.0-fa-aca.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config miracl-v1.0-fi-aca > logs/log.miracl-v1.0-fi-aca.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config miracl-v1.0-fr-aca > logs/log.miracl-v1.0-fr-aca.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config miracl-v1.0-hi-aca > logs/log.miracl-v1.0-hi-aca.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config miracl-v1.0-id-aca > logs/log.miracl-v1.0-id-aca.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config miracl-v1.0-ja-aca > logs/log.miracl-v1.0-ja-aca.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config miracl-v1.0-ko-aca > logs/log.miracl-v1.0-ko-aca.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config miracl-v1.0-ru-aca > logs/log.miracl-v1.0-ru-aca.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config miracl-v1.0-sw-aca > logs/log.miracl-v1.0-sw-aca.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config miracl-v1.0-te-aca > logs/log.miracl-v1.0-te-aca.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config miracl-v1.0-th-aca > logs/log.miracl-v1.0-th-aca.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config miracl-v1.0-zh-aca > logs/log.miracl-v1.0-zh-aca.txt 2>&1 &
+```
 
 </details>
 <details>
 <summary>Other cross-lingual and multi-lingual regressions</summary>
 
-+ [ntcir8-zh](reproduce/from-document-collection/ntcir8-zh.md)
-+ [clef06-fr](reproduce/from-document-collection/clef06-fr.md)
-+ [trec02-ar](reproduce/from-document-collection/trec02-ar.md)
-+ [fire12-bn](reproduce/from-document-collection/fire12-bn.md)
-+ [fire12-hi](reproduce/from-document-collection/fire12-hi.md)
-+ [fire12-en](reproduce/from-document-collection/fire12-en.md)
-+ [hc4-v1.0-fa](reproduce/from-document-collection/hc4-v1.0-fa.md)
-+ [hc4-v1.0-ru](reproduce/from-document-collection/hc4-v1.0-ru.md)
-+ [hc4-v1.0-zh](reproduce/from-document-collection/hc4-v1.0-zh.md)
-+ [hc4-neuclir22-fa](reproduce/from-document-collection/hc4-neuclir22-fa.md)
-+ [hc4-neuclir22-ru](reproduce/from-document-collection/hc4-neuclir22-ru.md)
-+ [hc4-neuclir22-zh](reproduce/from-document-collection/hc4-neuclir22-zh.md)
-+ [hc4-neuclir22-fa-en](reproduce/from-document-collection/hc4-neuclir22-fa-en.md)
-+ [hc4-neuclir22-ru-en](reproduce/from-document-collection/hc4-neuclir22-ru-en.md)
-+ [hc4-neuclir22-zh-en](reproduce/from-document-collection/hc4-neuclir22-zh-en.md)
-+ [neuclir22-fa-qt](reproduce/from-document-collection/neuclir22-fa-qt.md)
-+ [neuclir22-fa-dt](reproduce/from-document-collection/neuclir22-fa-dt.md)
-+ [neuclir22-ru-qt](reproduce/from-document-collection/neuclir22-ru-qt.md)
-+ [neuclir22-ru-dt](reproduce/from-document-collection/neuclir22-ru-dt.md)
-+ [neuclir22-zh-qt](reproduce/from-document-collection/neuclir22-zh-qt.md)
-+ [neuclir22-zh-dt](reproduce/from-document-collection/neuclir22-zh-dt.md)
-+ [neuclir22-fa-qt-splade](reproduce/from-document-collection/neuclir22-fa-qt-splade.md)
-+ [neuclir22-fa-dt-splade](reproduce/from-document-collection/neuclir22-fa-dt-splade.md)
-+ [neuclir22-ru-qt-splade](reproduce/from-document-collection/neuclir22-ru-qt-splade.md)
-+ [neuclir22-ru-dt-splade](reproduce/from-document-collection/neuclir22-ru-dt-splade.md)
-+ [neuclir22-zh-qt-splade](reproduce/from-document-collection/neuclir22-zh-qt-splade.md)
-+ [neuclir22-zh-dt-splade](reproduce/from-document-collection/neuclir22-zh-dt-splade.md)
-+ [ciral-v1.0-ha](reproduce/from-document-collection/ciral-v1.0-ha.md)
-+ [ciral-v1.0-so](reproduce/from-document-collection/ciral-v1.0-so.md)
-+ [ciral-v1.0-sw](reproduce/from-document-collection/ciral-v1.0-sw.md)
-+ [ciral-v1.0-yo](reproduce/from-document-collection/ciral-v1.0-yo.md)
-+ [ciral-v1.0-ha-en](reproduce/from-document-collection/ciral-v1.0-ha-en.md)
-+ [ciral-v1.0-so-en](reproduce/from-document-collection/ciral-v1.0-so-en.md)
-+ [ciral-v1.0-sw-en](reproduce/from-document-collection/ciral-v1.0-sw-en.md)
-+ [ciral-v1.0-yo-en](reproduce/from-document-collection/ciral-v1.0-yo-en.md)
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config ntcir8-zh > logs/log.ntcir8-zh.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config clef06-fr > logs/log.clef06-fr.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config trec02-ar > logs/log.trec02-ar.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config fire12-bn > logs/log.fire12-bn.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config fire12-hi > logs/log.fire12-hi.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config fire12-en > logs/log.fire12-en.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config hc4-v1.0-fa > logs/log.hc4-v1.0-fa.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config hc4-v1.0-ru > logs/log.hc4-v1.0-ru.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config hc4-v1.0-zh > logs/log.hc4-v1.0-zh.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config hc4-neuclir22-fa > logs/log.hc4-neuclir22-fa.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config hc4-neuclir22-ru > logs/log.hc4-neuclir22-ru.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config hc4-neuclir22-zh > logs/log.hc4-neuclir22-zh.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config hc4-neuclir22-fa-en > logs/log.hc4-neuclir22-fa-en.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config hc4-neuclir22-ru-en > logs/log.hc4-neuclir22-ru-en.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config hc4-neuclir22-zh-en > logs/log.hc4-neuclir22-zh-en.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config neuclir22-fa-qt > logs/log.neuclir22-fa-qt.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config neuclir22-fa-dt > logs/log.neuclir22-fa-dt.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config neuclir22-ru-qt > logs/log.neuclir22-ru-qt.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config neuclir22-ru-dt > logs/log.neuclir22-ru-dt.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config neuclir22-zh-qt > logs/log.neuclir22-zh-qt.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config neuclir22-zh-dt > logs/log.neuclir22-zh-dt.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config neuclir22-fa-qt-splade > logs/log.neuclir22-fa-qt-splade.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config neuclir22-fa-dt-splade > logs/log.neuclir22-fa-dt-splade.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config neuclir22-ru-qt-splade > logs/log.neuclir22-ru-qt-splade.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config neuclir22-ru-dt-splade > logs/log.neuclir22-ru-dt-splade.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config neuclir22-zh-qt-splade > logs/log.neuclir22-zh-qt-splade.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config neuclir22-zh-dt-splade > logs/log.neuclir22-zh-dt-splade.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config ciral-v1.0-ha > logs/log.ciral-v1.0-ha.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config ciral-v1.0-so > logs/log.ciral-v1.0-so.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config ciral-v1.0-sw > logs/log.ciral-v1.0-sw.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config ciral-v1.0-yo > logs/log.ciral-v1.0-yo.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config ciral-v1.0-ha-en > logs/log.ciral-v1.0-ha-en.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config ciral-v1.0-so-en > logs/log.ciral-v1.0-so-en.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config ciral-v1.0-sw-en > logs/log.ciral-v1.0-sw-en.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config ciral-v1.0-yo-en > logs/log.ciral-v1.0-yo-en.txt 2>&1 &
+```
 
 </details>
 <details>
 <summary>BRIGHT: BM25</summary>
 
-+ [bright-aops](reproduce/from-document-collection/bright-aops.md)
-+ [bright-biology](reproduce/from-document-collection/bright-biology.md)
-+ [bright-earth-science](reproduce/from-document-collection/bright-earth-science.md)
-+ [bright-economics](reproduce/from-document-collection/bright-economics.md)
-+ [bright-leetcode](reproduce/from-document-collection/bright-leetcode.md)
-+ [bright-pony](reproduce/from-document-collection/bright-pony.md)
-+ [bright-psychology](reproduce/from-document-collection/bright-psychology.md)
-+ [bright-robotics](reproduce/from-document-collection/bright-robotics.md)
-+ [bright-stackoverflow](reproduce/from-document-collection/bright-stackoverflow.md)
-+ [bright-sustainable-living](reproduce/from-document-collection/bright-sustainable-living.md)
-+ [bright-theoremqa-questions](reproduce/from-document-collection/bright-theoremqa-questions.md)
-+ [bright-theoremqa-theorems](reproduce/from-document-collection/bright-theoremqa-theorems.md)
-+ [bright-aops.bm25qs](reproduce/from-document-collection/bright-aops.bm25qs.md)
-+ [bright-biology.bm25qs](reproduce/from-document-collection/bright-biology.bm25qs.md)
-+ [bright-earth-science.bm25qs](reproduce/from-document-collection/bright-earth-science.bm25qs.md)
-+ [bright-economics.bm25qs](reproduce/from-document-collection/bright-economics.bm25qs.md)
-+ [bright-leetcode.bm25qs](reproduce/from-document-collection/bright-leetcode.bm25qs.md)
-+ [bright-pony.bm25qs](reproduce/from-document-collection/bright-pony.bm25qs.md)
-+ [bright-psychology.bm25qs](reproduce/from-document-collection/bright-psychology.bm25qs.md)
-+ [bright-robotics.bm25qs](reproduce/from-document-collection/bright-robotics.bm25qs.md)
-+ [bright-stackoverflow.bm25qs](reproduce/from-document-collection/bright-stackoverflow.bm25qs.md)
-+ [bright-sustainable-living.bm25qs](reproduce/from-document-collection/bright-sustainable-living.bm25qs.md)
-+ [bright-theoremqa-questions.bm25qs](reproduce/from-document-collection/bright-theoremqa-questions.bm25qs.md)
-+ [bright-theoremqa-theorems.bm25qs](reproduce/from-document-collection/bright-theoremqa-theorems.bm25qs.md)
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-aops > logs/log.bright-aops.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-biology > logs/log.bright-biology.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-earth-science > logs/log.bright-earth-science.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-economics > logs/log.bright-economics.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-leetcode > logs/log.bright-leetcode.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-pony > logs/log.bright-pony.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-psychology > logs/log.bright-psychology.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-robotics > logs/log.bright-robotics.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-stackoverflow > logs/log.bright-stackoverflow.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-sustainable-living > logs/log.bright-sustainable-living.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-theoremqa-questions > logs/log.bright-theoremqa-questions.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-theoremqa-theorems > logs/log.bright-theoremqa-theorems.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-aops.bm25qs > logs/log.bright-aops.bm25qs.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-biology.bm25qs > logs/log.bright-biology.bm25qs.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-earth-science.bm25qs > logs/log.bright-earth-science.bm25qs.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-economics.bm25qs > logs/log.bright-economics.bm25qs.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-leetcode.bm25qs > logs/log.bright-leetcode.bm25qs.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-pony.bm25qs > logs/log.bright-pony.bm25qs.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-psychology.bm25qs > logs/log.bright-psychology.bm25qs.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-robotics.bm25qs > logs/log.bright-robotics.bm25qs.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-stackoverflow.bm25qs > logs/log.bright-stackoverflow.bm25qs.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-sustainable-living.bm25qs > logs/log.bright-sustainable-living.bm25qs.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-theoremqa-questions.bm25qs > logs/log.bright-theoremqa-questions.bm25qs.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-theoremqa-theorems.bm25qs > logs/log.bright-theoremqa-theorems.bm25qs.txt 2>&1 &
+```
 
 </details>
 <details>
 <summary>BRIGHT: SPLADE-v3</summary>
 
-+ [bright-aops.splade-v3.onnx](reproduce/from-document-collection/bright-aops.splade-v3.onnx.md)
-+ [bright-biology.splade-v3.onnx](reproduce/from-document-collection/bright-biology.splade-v3.onnx.md)
-+ [bright-earth-science.splade-v3.onnx](reproduce/from-document-collection/bright-earth-science.splade-v3.onnx.md)
-+ [bright-economics.splade-v3.onnx](reproduce/from-document-collection/bright-economics.splade-v3.onnx.md)
-+ [bright-leetcode.splade-v3.onnx](reproduce/from-document-collection/bright-leetcode.splade-v3.onnx.md)
-+ [bright-pony.splade-v3.onnx](reproduce/from-document-collection/bright-pony.splade-v3.onnx.md)
-+ [bright-psychology.splade-v3.onnx](reproduce/from-document-collection/bright-psychology.splade-v3.onnx.md)
-+ [bright-robotics.splade-v3.onnx](reproduce/from-document-collection/bright-robotics.splade-v3.onnx.md)
-+ [bright-stackoverflow.splade-v3.onnx](reproduce/from-document-collection/bright-stackoverflow.splade-v3.onnx.md)
-+ [bright-sustainable-living.splade-v3.onnx](reproduce/from-document-collection/bright-sustainable-living.splade-v3.onnx.md)
-+ [bright-theoremqa-questions.splade-v3.onnx](reproduce/from-document-collection/bright-theoremqa-questions.splade-v3.onnx.md)
-+ [bright-theoremqa-theorems.splade-v3.onnx](reproduce/from-document-collection/bright-theoremqa-theorems.splade-v3.onnx.md)
-+ [bright-aops.splade-v3.cached](reproduce/from-document-collection/bright-aops.splade-v3.cached.md)
-+ [bright-biology.splade-v3.cached](reproduce/from-document-collection/bright-biology.splade-v3.cached.md)
-+ [bright-earth-science.splade-v3.cached](reproduce/from-document-collection/bright-earth-science.splade-v3.cached.md)
-+ [bright-economics.splade-v3.cached](reproduce/from-document-collection/bright-economics.splade-v3.cached.md)
-+ [bright-leetcode.splade-v3.cached](reproduce/from-document-collection/bright-leetcode.splade-v3.cached.md)
-+ [bright-pony.splade-v3.cached](reproduce/from-document-collection/bright-pony.splade-v3.cached.md)
-+ [bright-psychology.splade-v3.cached](reproduce/from-document-collection/bright-psychology.splade-v3.cached.md)
-+ [bright-robotics.splade-v3.cached](reproduce/from-document-collection/bright-robotics.splade-v3.cached.md)
-+ [bright-stackoverflow.splade-v3.cached](reproduce/from-document-collection/bright-stackoverflow.splade-v3.cached.md)
-+ [bright-sustainable-living.splade-v3.cached](reproduce/from-document-collection/bright-sustainable-living.splade-v3.cached.md)
-+ [bright-theoremqa-questions.splade-v3.cached](reproduce/from-document-collection/bright-theoremqa-questions.splade-v3.cached.md)
-+ [bright-theoremqa-theorems.splade-v3.cached](reproduce/from-document-collection/bright-theoremqa-theorems.splade-v3.cached.md)
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-aops.splade-v3.onnx > logs/log.bright-aops.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-biology.splade-v3.onnx > logs/log.bright-biology.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-earth-science.splade-v3.onnx > logs/log.bright-earth-science.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-economics.splade-v3.onnx > logs/log.bright-economics.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-leetcode.splade-v3.onnx > logs/log.bright-leetcode.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-pony.splade-v3.onnx > logs/log.bright-pony.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-psychology.splade-v3.onnx > logs/log.bright-psychology.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-robotics.splade-v3.onnx > logs/log.bright-robotics.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-stackoverflow.splade-v3.onnx > logs/log.bright-stackoverflow.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-sustainable-living.splade-v3.onnx > logs/log.bright-sustainable-living.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-theoremqa-questions.splade-v3.onnx > logs/log.bright-theoremqa-questions.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-theoremqa-theorems.splade-v3.onnx > logs/log.bright-theoremqa-theorems.splade-v3.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-aops.splade-v3.cached > logs/log.bright-aops.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-biology.splade-v3.cached > logs/log.bright-biology.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-earth-science.splade-v3.cached > logs/log.bright-earth-science.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-economics.splade-v3.cached > logs/log.bright-economics.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-leetcode.splade-v3.cached > logs/log.bright-leetcode.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-pony.splade-v3.cached > logs/log.bright-pony.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-psychology.splade-v3.cached > logs/log.bright-psychology.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-robotics.splade-v3.cached > logs/log.bright-robotics.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-stackoverflow.splade-v3.cached > logs/log.bright-stackoverflow.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-sustainable-living.splade-v3.cached > logs/log.bright-sustainable-living.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-theoremqa-questions.splade-v3.cached > logs/log.bright-theoremqa-questions.splade-v3.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-theoremqa-theorems.splade-v3.cached > logs/log.bright-theoremqa-theorems.splade-v3.cached.txt 2>&1 &
+```
 
 </details>
 <details>
 <summary>BRIGHT: BGE-large-en-v1.5</summary>
 
-+ [bright-aops.bge-large-en-v1.5.flat.onnx](reproduce/from-document-collection/bright-aops.bge-large-en-v1.5.flat.onnx.md)
-+ [bright-biology.bge-large-en-v1.5.flat.onnx](reproduce/from-document-collection/bright-biology.bge-large-en-v1.5.flat.onnx.md)
-+ [bright-earth-science.bge-large-en-v1.5.flat.onnx](reproduce/from-document-collection/bright-earth-science.bge-large-en-v1.5.flat.onnx.md)
-+ [bright-economics.bge-large-en-v1.5.flat.onnx](reproduce/from-document-collection/bright-economics.bge-large-en-v1.5.flat.onnx.md)
-+ [bright-leetcode.bge-large-en-v1.5.flat.onnx](reproduce/from-document-collection/bright-leetcode.bge-large-en-v1.5.flat.onnx.md)
-+ [bright-pony.bge-large-en-v1.5.flat.onnx](reproduce/from-document-collection/bright-pony.bge-large-en-v1.5.flat.onnx.md)
-+ [bright-psychology.bge-large-en-v1.5.flat.onnx](reproduce/from-document-collection/bright-psychology.bge-large-en-v1.5.flat.onnx.md)
-+ [bright-robotics.bge-large-en-v1.5.flat.onnx](reproduce/from-document-collection/bright-robotics.bge-large-en-v1.5.flat.onnx.md)
-+ [bright-stackoverflow.bge-large-en-v1.5.flat.onnx](reproduce/from-document-collection/bright-stackoverflow.bge-large-en-v1.5.flat.onnx.md)
-+ [bright-sustainable-living.bge-large-en-v1.5.flat.onnx](reproduce/from-document-collection/bright-sustainable-living.bge-large-en-v1.5.flat.onnx.md)
-+ [bright-theoremqa-questions.bge-large-en-v1.5.flat.onnx](reproduce/from-document-collection/bright-theoremqa-questions.bge-large-en-v1.5.flat.onnx.md)
-+ [bright-theoremqa-theorems.bge-large-en-v1.5.flat.onnx](reproduce/from-document-collection/bright-theoremqa-theorems.bge-large-en-v1.5.flat.onnx.md)
-+ [bright-aops.bge-large-en-v1.5.flat.cached](reproduce/from-document-collection/bright-aops.bge-large-en-v1.5.flat.cached.md)
-+ [bright-biology.bge-large-en-v1.5.flat.cached](reproduce/from-document-collection/bright-biology.bge-large-en-v1.5.flat.cached.md)
-+ [bright-earth-science.bge-large-en-v1.5.flat.cached](reproduce/from-document-collection/bright-earth-science.bge-large-en-v1.5.flat.cached.md)
-+ [bright-economics.bge-large-en-v1.5.flat.cached](reproduce/from-document-collection/bright-economics.bge-large-en-v1.5.flat.cached.md)
-+ [bright-leetcode.bge-large-en-v1.5.flat.cached](reproduce/from-document-collection/bright-leetcode.bge-large-en-v1.5.flat.cached.md)
-+ [bright-pony.bge-large-en-v1.5.flat.cached](reproduce/from-document-collection/bright-pony.bge-large-en-v1.5.flat.cached.md)
-+ [bright-psychology.bge-large-en-v1.5.flat.cached](reproduce/from-document-collection/bright-psychology.bge-large-en-v1.5.flat.cached.md)
-+ [bright-robotics.bge-large-en-v1.5.flat.cached](reproduce/from-document-collection/bright-robotics.bge-large-en-v1.5.flat.cached.md)
-+ [bright-stackoverflow.bge-large-en-v1.5.flat.cached](reproduce/from-document-collection/bright-stackoverflow.bge-large-en-v1.5.flat.cached.md)
-+ [bright-sustainable-living.bge-large-en-v1.5.flat.cached](reproduce/from-document-collection/bright-sustainable-living.bge-large-en-v1.5.flat.cached.md)
-+ [bright-theoremqa-questions.bge-large-en-v1.5.flat.cached](reproduce/from-document-collection/bright-theoremqa-questions.bge-large-en-v1.5.flat.cached.md)
-+ [bright-theoremqa-theorems.bge-large-en-v1.5.flat.cached](reproduce/from-document-collection/bright-theoremqa-theorems.bge-large-en-v1.5.flat.cached.md)
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-aops.bge-large-en-v1.5.flat.onnx > logs/log.bright-aops.bge-large-en-v1.5.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-biology.bge-large-en-v1.5.flat.onnx > logs/log.bright-biology.bge-large-en-v1.5.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-earth-science.bge-large-en-v1.5.flat.onnx > logs/log.bright-earth-science.bge-large-en-v1.5.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-economics.bge-large-en-v1.5.flat.onnx > logs/log.bright-economics.bge-large-en-v1.5.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-leetcode.bge-large-en-v1.5.flat.onnx > logs/log.bright-leetcode.bge-large-en-v1.5.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-pony.bge-large-en-v1.5.flat.onnx > logs/log.bright-pony.bge-large-en-v1.5.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-psychology.bge-large-en-v1.5.flat.onnx > logs/log.bright-psychology.bge-large-en-v1.5.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-robotics.bge-large-en-v1.5.flat.onnx > logs/log.bright-robotics.bge-large-en-v1.5.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-stackoverflow.bge-large-en-v1.5.flat.onnx > logs/log.bright-stackoverflow.bge-large-en-v1.5.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-sustainable-living.bge-large-en-v1.5.flat.onnx > logs/log.bright-sustainable-living.bge-large-en-v1.5.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-theoremqa-questions.bge-large-en-v1.5.flat.onnx > logs/log.bright-theoremqa-questions.bge-large-en-v1.5.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-theoremqa-theorems.bge-large-en-v1.5.flat.onnx > logs/log.bright-theoremqa-theorems.bge-large-en-v1.5.flat.onnx.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-aops.bge-large-en-v1.5.flat.cached > logs/log.bright-aops.bge-large-en-v1.5.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-biology.bge-large-en-v1.5.flat.cached > logs/log.bright-biology.bge-large-en-v1.5.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-earth-science.bge-large-en-v1.5.flat.cached > logs/log.bright-earth-science.bge-large-en-v1.5.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-economics.bge-large-en-v1.5.flat.cached > logs/log.bright-economics.bge-large-en-v1.5.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-leetcode.bge-large-en-v1.5.flat.cached > logs/log.bright-leetcode.bge-large-en-v1.5.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-pony.bge-large-en-v1.5.flat.cached > logs/log.bright-pony.bge-large-en-v1.5.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-psychology.bge-large-en-v1.5.flat.cached > logs/log.bright-psychology.bge-large-en-v1.5.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-robotics.bge-large-en-v1.5.flat.cached > logs/log.bright-robotics.bge-large-en-v1.5.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-stackoverflow.bge-large-en-v1.5.flat.cached > logs/log.bright-stackoverflow.bge-large-en-v1.5.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-sustainable-living.bge-large-en-v1.5.flat.cached > logs/log.bright-sustainable-living.bge-large-en-v1.5.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-theoremqa-questions.bge-large-en-v1.5.flat.cached > logs/log.bright-theoremqa-questions.bge-large-en-v1.5.flat.cached.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-theoremqa-theorems.bge-large-en-v1.5.flat.cached > logs/log.bright-theoremqa-theorems.bge-large-en-v1.5.flat.cached.txt 2>&1 &
+```
 
 </details>
 <details>
 <summary>Other regressions</summary>
 
-+ [backgroundlinking18](reproduce/from-document-collection/backgroundlinking18.md)
-+ [backgroundlinking19](reproduce/from-document-collection/backgroundlinking19.md)
-+ [backgroundlinking20](reproduce/from-document-collection/backgroundlinking20.md)
-+ [disk12](reproduce/from-document-collection/disk12.md)
-+ [disk45](reproduce/from-document-collection/disk45.md)
-+ [robust05](reproduce/from-document-collection/robust05.md)
-+ [core17](reproduce/from-document-collection/core17.md)
-+ [core18](reproduce/from-document-collection/core18.md)
-+ [mb11](reproduce/from-document-collection/mb11.md)
-+ [mb13](reproduce/from-document-collection/mb13.md)
-+ [car17v1.5](reproduce/from-document-collection/car17v1.5.md)
-+ [car17v2.0](reproduce/from-document-collection/car17v2.0.md)
-+ [car17v2.0-doc2query](reproduce/from-document-collection/car17v2.0-doc2query.md)
-+ [wt10g](reproduce/from-document-collection/wt10g.md)
-+ [gov2](reproduce/from-document-collection/gov2.md)
-+ [cw09b](reproduce/from-document-collection/cw09b.md)
-+ [cw12b13](reproduce/from-document-collection/cw12b13.md)
-+ [cw12](reproduce/from-document-collection/cw12.md)
-+ [fever](reproduce/from-document-collection/fever.md)
-+ [wikipedia-dpr-100w-bm25](reproduce/from-document-collection/wikipedia-dpr-100w-bm25.md)
-+ [wiki-all-6-3-tamber-bm25](reproduce/from-document-collection/wiki-all-6-3-tamber-bm25.md)
-
-</details>
-<details>
-<summary>Other regressions</summary>
-
-+ [cacm](reproduce/from-document-collection/cacm.md)
-+ [cacm-download](reproduce/from-document-collection/cacm-download.md)
-+ [rag25-doc-segmented-test-nist](reproduce/from-document-collection/rag25-doc-segmented-test-nist.md)
-+ [rag25-doc-segmented-test-umbrela2](reproduce/from-document-collection/rag25-doc-segmented-test-umbrela2.md)
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config backgroundlinking18 > logs/log.backgroundlinking18.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config backgroundlinking19 > logs/log.backgroundlinking19.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config backgroundlinking20 > logs/log.backgroundlinking20.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config disk12 > logs/log.disk12.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config disk45 > logs/log.disk45.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config robust05 > logs/log.robust05.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config core17 > logs/log.core17.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config core18 > logs/log.core18.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config mb11 > logs/log.mb11.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config mb13 > logs/log.mb13.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config car17v1.5 > logs/log.car17v1.5.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config car17v2.0 > logs/log.car17v2.0.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config car17v2.0-doc2query > logs/log.car17v2.0-doc2query.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config wt10g > logs/log.wt10g.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config gov2 > logs/log.gov2.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config cw09b > logs/log.cw09b.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config cw12b13 > logs/log.cw12b13.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config cw12 > logs/log.cw12.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config fever > logs/log.fever.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config wikipedia-dpr-100w-bm25 > logs/log.wikipedia-dpr-100w-bm25.txt 2>&1 &
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config wiki-all-6-3-tamber-bm25 > logs/log.wiki-all-6-3-tamber-bm25.txt 2>&1 &
+```
 
 </details>
