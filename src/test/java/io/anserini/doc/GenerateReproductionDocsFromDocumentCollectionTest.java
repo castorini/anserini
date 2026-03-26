@@ -73,7 +73,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
       scanner.close();
       String resolvedString = sub.replace(text);
 
-      FileUtils.writeStringToFile(new File(String.format("docs/regressions/regressions-%s.md", testName)),
+      FileUtils.writeStringToFile(new File(String.format("docs/reproduce/from-document-collection/%s.md", testName)),
         resolvedString, "UTF-8");
     }
   }
