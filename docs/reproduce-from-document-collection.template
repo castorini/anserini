@@ -3,10 +3,10 @@
 Reproduction experiments in Anserini are coordinated by a rigorous end-to-end framework implemented in [`io.anserini.reproduce.ReproduceFromDocumentCollection`](../src/main/java/io/anserini/reproduce/ReproduceFromDocumentCollection.java).
 The driver automatically runs experiments based on configuration files stored in [`src/main/resources/reproduce/from-document-collection/configs`](../src/main/resources/reproduce/from-document-collection/configs), performing the following actions:
 
-+ Building the index from scratch (i.e., from the raw document collection).
-+ Verifying index statistics (sanity check that the index has been built properly).
-+ Performing retrieval runs with standard settings.
-+ Evaluating the runs and verifying effectiveness results.
++ Build the index from scratch (i.e., from the raw document collection).
++ Verify index statistics (sanity check that the index has been built properly).
++ Perform retrieval runs with different settings.
++ Evaluate the runs and verify effectiveness results.
 
 Furthermore, documentation pages are auto-generated based on [raw templates](../src/main/resources/reproduce/from-document-collection/docgen).
 
