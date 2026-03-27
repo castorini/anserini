@@ -3,6 +3,12 @@
 The following change log details commits to regression tests that alter effectiveness and the addition (or removal) of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### March 25, 2026
+
++ commit [`aaba10`](https://github.com/castorini/anserini/commit/aaba1079c92e629eeff300d398cb3ce50d1adde2)
+
+Added `rag25-doc-segmented-test-nist` and `rag25-doc-segmented-test-umbrela2`.
+
 ### September 5, 2025
 
 + commit [`e394df`](https://github.com/castorini/anserini/commit/e394df0639cd693b278a36ef44cd3ccf9b3e01b3)

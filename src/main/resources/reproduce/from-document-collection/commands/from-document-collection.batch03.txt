@@ -1,3 +1,7 @@
+# CACM
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config cacm
+io.anserini.reproduce.ReproduceFromDocumentCollection --download --index --verify --search --config cacm-download
+
 # CIRAL
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config ciral-v1.0-ha
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config ciral-v1.0-so
