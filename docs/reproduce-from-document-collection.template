@@ -43,8 +43,11 @@ The three main options are:
 
 **Watch out!** The full `cw12` regression can take a couple days to run and generates a 12TB index!
 
-Although the class is hard-coded to run on Waterloo machines (paths to document collections are hard-coded), the corpus path can be manually specified from the command line with the `--corpus-path` option, for example:
+Although the driver is hard-coded to run on Waterloo machines (e.g., hard-coded paths to document collections), the document collection path can be manually specified from the command line with the `--corpus-path` option, for example:
 
 ```bash
-bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --regression disk45 --corpus-path /path/to/corpus
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection \
+  --index --verify --search --config msmarco-v1-passage --corpus-path /path/to/corpus
 ```
+
+For example, `--corpus-path collections/msmarco-passage/collection_jsonl`.

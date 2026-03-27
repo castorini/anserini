@@ -410,9 +410,17 @@ The following configurations (i.e., `--config` settings) are available:
 <details>
 <summary>BEIR (v1.0.0): BGE-base-en-v1.5</summary>
 
-+ [`beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.flat.cached.yaml)
++ [`beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat.cached.yaml)
 + [`beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.flat.cached.yaml)
-+ [`beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat.cached.yaml)
++ [`beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.flat.cached.yaml)
++ [`beir-v1.0.0-nq.bge-base-en-v1.5.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-nq.bge-base-en-v1.5.parquet.flat.cached.yaml)
++ [`beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.flat.cached.yaml)
++ [`beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.flat.cached.yaml)
++ [`beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.flat.cached.yaml)
++ [`beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.flat.cached.yaml)
++ [`beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.flat.cached.yaml)
++ [`beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.flat.cached.yaml)
++ [`beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.flat.cached.yaml)
 + [`beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.flat.cached.yaml)
 + [`beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.flat.cached.yaml)
 + [`beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.flat.cached.yaml)
@@ -425,27 +433,27 @@ The following configurations (i.e., `--config` settings) are available:
 + [`beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.flat.cached.yaml)
 + [`beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.flat.cached.yaml)
 + [`beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.flat.cached.yaml)
-+ [`beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.flat.cached.yaml)
-+ [`beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat.cached.yaml)
-+ [`beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.flat.cached.yaml)
-+ [`beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.flat.cached.yaml)
-+ [`beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.flat.cached.yaml)
-+ [`beir-v1.0.0-nq.bge-base-en-v1.5.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-nq.bge-base-en-v1.5.parquet.flat.cached.yaml)
 + [`beir-v1.0.0-quora.bge-base-en-v1.5.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-quora.bge-base-en-v1.5.parquet.flat.cached.yaml)
-+ [`beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.flat.cached.yaml)
++ [`beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.flat.cached.yaml)
 + [`beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.flat.cached.yaml)
++ [`beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat.cached.yaml)
++ [`beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat.cached.yaml)
 + [`beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat.cached.yaml)
-+ [`beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.flat.cached.yaml)
-+ [`beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat.cached.yaml)
-+ [`beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.flat.cached.yaml)
-+ [`beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.flat.cached.yaml)
 
 
 <div></div>
 
-+ [`beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.flat.onnx.yaml)
++ [`beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat.onnx.yaml)
 + [`beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.flat.onnx.yaml)
-+ [`beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat.onnx.yaml)
++ [`beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.flat.onnx.yaml)
++ [`beir-v1.0.0-nq.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-nq.bge-base-en-v1.5.parquet.flat.onnx.yaml)
++ [`beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.flat.onnx.yaml)
++ [`beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.flat.onnx.yaml)
++ [`beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.flat.onnx.yaml)
++ [`beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.flat.onnx.yaml)
++ [`beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.flat.onnx.yaml)
++ [`beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.flat.onnx.yaml)
++ [`beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.flat.onnx.yaml)
 + [`beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.flat.onnx.yaml)
 + [`beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.flat.onnx.yaml)
 + [`beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.flat.onnx.yaml)
@@ -458,27 +466,27 @@ The following configurations (i.e., `--config` settings) are available:
 + [`beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.flat.onnx.yaml)
 + [`beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.flat.onnx.yaml)
 + [`beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.flat.onnx.yaml)
-+ [`beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.flat.onnx.yaml)
-+ [`beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat.onnx.yaml)
-+ [`beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.flat.onnx.yaml)
-+ [`beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.flat.onnx.yaml)
-+ [`beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.flat.onnx.yaml)
-+ [`beir-v1.0.0-nq.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-nq.bge-base-en-v1.5.parquet.flat.onnx.yaml)
 + [`beir-v1.0.0-quora.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-quora.bge-base-en-v1.5.parquet.flat.onnx.yaml)
-+ [`beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.flat.onnx.yaml)
++ [`beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.flat.onnx.yaml)
 + [`beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.flat.onnx.yaml)
++ [`beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat.onnx.yaml)
++ [`beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat.onnx.yaml)
 + [`beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat.onnx.yaml)
-+ [`beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.flat.onnx.yaml)
-+ [`beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat.onnx.yaml)
-+ [`beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.flat.onnx.yaml)
-+ [`beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.flat.onnx.yaml)
 
 
 <div></div>
 
-+ [`beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.flat-int8.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.flat-int8.cached.yaml)
++ [`beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat-int8.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat-int8.cached.yaml)
 + [`beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.flat-int8.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.flat-int8.cached.yaml)
-+ [`beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat-int8.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat-int8.cached.yaml)
++ [`beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.flat-int8.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.flat-int8.cached.yaml)
++ [`beir-v1.0.0-nq.bge-base-en-v1.5.parquet.flat-int8.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-nq.bge-base-en-v1.5.parquet.flat-int8.cached.yaml)
++ [`beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.flat-int8.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.flat-int8.cached.yaml)
++ [`beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.flat-int8.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.flat-int8.cached.yaml)
++ [`beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.flat-int8.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.flat-int8.cached.yaml)
++ [`beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.flat-int8.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.flat-int8.cached.yaml)
++ [`beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.flat-int8.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.flat-int8.cached.yaml)
++ [`beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.flat-int8.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.flat-int8.cached.yaml)
++ [`beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.flat-int8.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.flat-int8.cached.yaml)
 + [`beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.flat-int8.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.flat-int8.cached.yaml)
 + [`beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.flat-int8.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.flat-int8.cached.yaml)
 + [`beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.flat-int8.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.flat-int8.cached.yaml)
@@ -491,27 +499,27 @@ The following configurations (i.e., `--config` settings) are available:
 + [`beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.flat-int8.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.flat-int8.cached.yaml)
 + [`beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.flat-int8.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.flat-int8.cached.yaml)
 + [`beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.flat-int8.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.flat-int8.cached.yaml)
-+ [`beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.flat-int8.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.flat-int8.cached.yaml)
-+ [`beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat-int8.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat-int8.cached.yaml)
-+ [`beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.flat-int8.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.flat-int8.cached.yaml)
-+ [`beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.flat-int8.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.flat-int8.cached.yaml)
-+ [`beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.flat-int8.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.flat-int8.cached.yaml)
-+ [`beir-v1.0.0-nq.bge-base-en-v1.5.parquet.flat-int8.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-nq.bge-base-en-v1.5.parquet.flat-int8.cached.yaml)
 + [`beir-v1.0.0-quora.bge-base-en-v1.5.parquet.flat-int8.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-quora.bge-base-en-v1.5.parquet.flat-int8.cached.yaml)
-+ [`beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.flat-int8.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.flat-int8.cached.yaml)
++ [`beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.flat-int8.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.flat-int8.cached.yaml)
 + [`beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.flat-int8.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.flat-int8.cached.yaml)
++ [`beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat-int8.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat-int8.cached.yaml)
++ [`beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat-int8.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat-int8.cached.yaml)
 + [`beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat-int8.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat-int8.cached.yaml)
-+ [`beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.flat-int8.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.flat-int8.cached.yaml)
-+ [`beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat-int8.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat-int8.cached.yaml)
-+ [`beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.flat-int8.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.flat-int8.cached.yaml)
-+ [`beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.flat-int8.cached`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.flat-int8.cached.yaml)
 
 
 <div></div>
 
-+ [`beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.flat-int8.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.flat-int8.onnx.yaml)
++ [`beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat-int8.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat-int8.onnx.yaml)
 + [`beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.flat-int8.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.flat-int8.onnx.yaml)
-+ [`beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat-int8.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat-int8.onnx.yaml)
++ [`beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.flat-int8.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.flat-int8.onnx.yaml)
++ [`beir-v1.0.0-nq.bge-base-en-v1.5.parquet.flat-int8.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-nq.bge-base-en-v1.5.parquet.flat-int8.onnx.yaml)
++ [`beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.flat-int8.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.flat-int8.onnx.yaml)
++ [`beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.flat-int8.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.flat-int8.onnx.yaml)
++ [`beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.flat-int8.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.flat-int8.onnx.yaml)
++ [`beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.flat-int8.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.flat-int8.onnx.yaml)
++ [`beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.flat-int8.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.flat-int8.onnx.yaml)
++ [`beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.flat-int8.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.flat-int8.onnx.yaml)
++ [`beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.flat-int8.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.flat-int8.onnx.yaml)
 + [`beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.flat-int8.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.flat-int8.onnx.yaml)
 + [`beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.flat-int8.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.flat-int8.onnx.yaml)
 + [`beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.flat-int8.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.flat-int8.onnx.yaml)
@@ -524,20 +532,12 @@ The following configurations (i.e., `--config` settings) are available:
 + [`beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.flat-int8.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.flat-int8.onnx.yaml)
 + [`beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.flat-int8.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.flat-int8.onnx.yaml)
 + [`beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.flat-int8.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.flat-int8.onnx.yaml)
-+ [`beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.flat-int8.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.flat-int8.onnx.yaml)
-+ [`beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat-int8.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat-int8.onnx.yaml)
-+ [`beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.flat-int8.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.flat-int8.onnx.yaml)
-+ [`beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.flat-int8.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.flat-int8.onnx.yaml)
-+ [`beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.flat-int8.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.flat-int8.onnx.yaml)
-+ [`beir-v1.0.0-nq.bge-base-en-v1.5.parquet.flat-int8.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-nq.bge-base-en-v1.5.parquet.flat-int8.onnx.yaml)
 + [`beir-v1.0.0-quora.bge-base-en-v1.5.parquet.flat-int8.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-quora.bge-base-en-v1.5.parquet.flat-int8.onnx.yaml)
-+ [`beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.flat-int8.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.flat-int8.onnx.yaml)
++ [`beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.flat-int8.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.flat-int8.onnx.yaml)
 + [`beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.flat-int8.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.flat-int8.onnx.yaml)
++ [`beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat-int8.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat-int8.onnx.yaml)
++ [`beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat-int8.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat-int8.onnx.yaml)
 + [`beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat-int8.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat-int8.onnx.yaml)
-+ [`beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.flat-int8.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.flat-int8.onnx.yaml)
-+ [`beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat-int8.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat-int8.onnx.yaml)
-+ [`beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.flat-int8.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.flat-int8.onnx.yaml)
-+ [`beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.flat-int8.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.flat-int8.onnx.yaml)
 
 
 <div></div>
@@ -1166,7 +1166,7 @@ The following configurations (i.e., `--config` settings) are available:
 
 </details>
 <details>
-<summary>Other regressions</summary>
+<summary>Other regressions (TREC, etc.)</summary>
 
 + [`backgroundlinking18`](../src/main/resources/reproduce/from-document-collection/configs/backgroundlinking18.yaml)
 + [`backgroundlinking19`](../src/main/resources/reproduce/from-document-collection/configs/backgroundlinking19.yaml)
@@ -1201,8 +1201,11 @@ The three main options are:
 
 **Watch out!** The full `cw12` regression can take a couple days to run and generates a 12TB index!
 
-Although the class is hard-coded to run on Waterloo machines (paths to document collections are hard-coded), the corpus path can be manually specified from the command line with the `--corpus-path` option, for example:
+Although the driver is hard-coded to run on Waterloo machines (e.g., hard-coded paths to document collections), the document collection path can be manually specified from the command line with the `--corpus-path` option, for example:
 
 ```bash
-bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --regression disk45 --corpus-path /path/to/corpus
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection \
+  --index --verify --search --config msmarco-v1-passage --corpus-path /path/to/corpus
 ```
+
+For example, `--corpus-path collections/msmarco-passage/collection_jsonl`.
