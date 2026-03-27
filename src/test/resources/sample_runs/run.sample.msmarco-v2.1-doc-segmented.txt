@@ -1,0 +1,1 @@
+1 Q0 msmarco_v2.1_doc_01_0#0_0 1 0.627400 anserini

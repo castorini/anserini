@@ -17,41 +17,6 @@ At the bottom of many pages you'll find a "Reproduction Log", which keeps track 
 Note that we stretch the meaning of "same team" a bit in these logs: we still consider it a successful reproduction if another member of our research group is able to obtain the same results, as long as the person was not the primary author of the code in question.
 
 
-- - @kwamearhinPORTFL (a5393dd): Reproduced BM25 baselines for MS MARCO passage ranking. Obtained expected results (MRR@10 ≈ 0.187, MAP ≈ 0.1957, Recall@1000 ≈ 0.8573). Environment: WSL2 Ubuntu 22.04, OpenJDK 21, Python 3. Dense retrieval attempted but not completed due to hardware limitations.
+- @kwamearhinPORTFL (a5393dd): Reproduced BM25 baselines for MS MARCO passage ranking. Obtained expected results (MRR@10 ≈ 0.187, MAP ≈ 0.1957, Recall@1000 ≈ 0.8573). Environment: WSL2 Ubuntu 22.04, OpenJDK 21, Python 3. Dense retrieval attempted but not completed due to hardware limitations.
 
-Successfully reproduced the BM25 baseline for MS MARCO Passage Ranking using both Anserini and Pyserini.
 
-Environment:
-- OS: Windows 11 with WSL2 (Ubuntu 22.04)
-- Java: OpenJDK 21
-- Python: 3.x (pyserini-final environment)
-
-Anserini:
-- Built Lucene index and ran BM25 retrieval (k1=0.82, b=0.68)
-- Evaluated with trec_eval
-- Results:
-  - MRR@10 ≈ 0.1875
-  - MAP ≈ 0.1957
-  - Recall@1000 ≈ 0.8573
-
-Pyserini:
-- Reused Anserini index
-- Ran BM25 retrieval via Python
-- Converted MS MARCO → TREC format
-- Results:
-  - MRR@10 ≈ 0.1874
-  - MAP ≈ 0.1957
-  - Recall@1000 ≈ 0.8573
-
-Interactive Retrieval:
-- Attempted using LuceneSearcher
-- Limited by hardware when loading index
-- Understood query execution and result inspection
-
-Dense Retrieval:
-- Dense retrieval was attempted but not completed due to hardware limitations (process was terminated during indexing/retrieval due to resource constraints).
-- Understood dense retrieval concepts and improvements over BM25
-
-Notes:
-- Avoided redundant steps (e.g., re-indexing)
-- All completed results match expected baselines

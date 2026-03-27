@@ -16,19 +16,6 @@
 
 package io.anserini.search;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-
-import io.anserini.search.topicreader.TopicReader;
-import io.anserini.util.LoggingBootstrap;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.kohsuke.args4j.CmdLineException;
-import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.Option;
-import org.kohsuke.args4j.ParserProperties;
-import org.kohsuke.args4j.spi.StringArrayOptionHandler;
-
 import java.io.Closeable;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -40,6 +27,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.ParserProperties;
+import org.kohsuke.args4j.spi.StringArrayOptionHandler;
+
+import io.anserini.search.topicreader.TopicReader;
+import io.anserini.util.LoggingBootstrap;
 
 /**
  * Main entry point for inverted dense vector search.
@@ -133,12 +131,7 @@ public final class SearchInvertedDenseVectors<K extends Comparable<K>> implement
 
     try(RunOutputWriter<K> out = new RunOutputWriter<>(args.output, args.format, args.runtag, null)) {
      results.forEach((qid, hits) -> {
-        try {
-          out.writeTopic(qid, queries.get(qids.indexOf(qid)), results.get(qid));
-        } catch (JsonProcessingException e) {
-          // Rethrow as unchecked; if we encounter an exception here, the caller should really look into it.
-          throw new RuntimeException(e);
-        }
+        out.writeTopic(qid, queries.get(qids.indexOf(qid)), results.get(qid));
       });
     } catch (IOException e) {
       // Rethrow as unchecked; if we encounter an exception here, the caller should really look into it.

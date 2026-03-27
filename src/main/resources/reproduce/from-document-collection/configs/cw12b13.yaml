@@ -1,0 +1,148 @@
+---
+corpus: cw12b13
+corpus_path: collections/web/ClueWeb12-B13/
+
+index_path: indexes/lucene-index.cw12b13/
+collection_class: ClueWeb12Collection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 44
+index_options: -storeRaw
+index_stats:
+  documents: 52244810
+  documents (non-empty): 52237522
+  total terms: 30661298245
+
+metrics:
+  - metric: MAP
+    command: bin/trec_eval
+    params: -m map
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: P30
+    command: bin/trec_eval
+    params: -m P.30
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: nDCG@20
+    command: tools/eval/gdeval.pl
+    separator: ","
+    parse_index: 2
+    metric_precision: 4
+  - metric: ERR@20
+    command: tools/eval/gdeval.pl
+    separator: ","
+    parse_index: 3
+    metric_precision: 4
+
+topic_reader: Webxml
+topics:
+  - name: "[TREC 2013 Web Track (Topics 201-250)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.web.201-250.txt)"
+    id: trec2013
+    path: topics.web.201-250.txt
+    qrel: qrels.web.201-250.txt
+  - name: "[TREC 2014 Web Track (Topics 251-300)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.web.251-300.txt)"
+    id: trec2014
+    path: topics.web.251-300.txt
+    qrel: qrels.web.251-300.txt
+
+models:
+  - name: bm25
+    display: BM25
+    params: -bm25
+    results:
+      MAP:
+        - 0.0468
+        - 0.0224
+      P30:
+        - 0.2107
+        - 0.1273
+      nDCG@20:
+        - 0.1289
+        - 0.1183
+      ERR@20:
+        - 0.0838
+        - 0.1198
+  - name: bm25+rm3
+    display: +RM3
+    params: -bm25 -rm3 -collection ClueWeb09Collection
+    results:
+      MAP:
+        - 0.0407
+        - 0.0211
+      P30:
+        - 0.1640
+        - 0.1207
+      nDCG@20:
+        - 0.1109
+        - 0.1078
+      ERR@20:
+        - 0.0745
+        - 0.1064
+  - name: bm25+ax
+    display: +Ax
+    params: -bm25 -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection
+    results:
+      MAP:
+        - 0.0424
+        - 0.0179
+      P30:
+        - 0.1733
+        - 0.1140
+      nDCG@20:
+        - 0.1253
+        - 0.0992
+      ERR@20:
+        - 0.0951
+        - 0.0936
+  - name: ql
+    display: QL
+    params: -qld
+    results:
+      MAP:
+        - 0.0397
+        - 0.0235
+      P30:
+        - 0.1773
+        - 0.1373
+      nDCG@20:
+        - 0.1104
+        - 0.1176
+      ERR@20:
+        - 0.0767
+        - 0.1091
+  - name: ql+rm3
+    display: +RM3
+    params: -qld -rm3 -collection ClueWeb09Collection
+    results:
+      MAP:
+        - 0.0321
+        - 0.0200
+      P30:
+        - 0.1513
+        - 0.1173
+      nDCG@20:
+        - 0.0933
+        - 0.1003
+      ERR@20:
+        - 0.0548
+        - 0.0926
+  - name: ql+ax
+    display: +Ax
+    params: -qld -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection
+    results:
+      MAP:
+        - 0.0354
+        - 0.0186
+      P30:
+        - 0.1553
+        - 0.1180
+      nDCG@20:
+        - 0.1116
+        - 0.0975
+      ERR@20:
+        - 0.0761
+        - 0.0911

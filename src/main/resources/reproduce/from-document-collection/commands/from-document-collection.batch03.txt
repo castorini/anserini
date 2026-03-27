@@ -1,0 +1,88 @@
+# CIRAL
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config ciral-v1.0-ha
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config ciral-v1.0-so
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config ciral-v1.0-sw
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config ciral-v1.0-yo
+
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config ciral-v1.0-ha-en
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config ciral-v1.0-so-en
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config ciral-v1.0-sw-en
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config ciral-v1.0-yo-en
+
+# CAR: start with these because the first two are single-threaded and super slow
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config car17v1.5
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config car17v2.0
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config car17v2.0-doc2query
+
+# Newswire
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config disk12
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config disk45
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config robust05
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config core17
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config core18
+
+# HC4 (part 1)
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config hc4-v1.0-fa
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config hc4-v1.0-ru
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config hc4-v1.0-zh
+
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config hc4-neuclir22-fa
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config hc4-neuclir22-ru
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config hc4-neuclir22-zh
+
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config hc4-neuclir22-fa-en
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config hc4-neuclir22-ru-en
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config hc4-neuclir22-zh-en
+
+# Other
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config fever
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config wikipedia-dpr-100w-bm25
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config wiki-all-6-3-tamber-bm25
+
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config mb11
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config mb13
+
+# Other CLIR
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config ntcir8-zh
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config clef06-fr
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config trec02-ar
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config fire12-bn
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config fire12-hi
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config fire12-en
+
+# HC4 (part 2) / NeuCLIR
+# e.g., hc4-neuclir22-ru-en and neuclir22-ru-dt both write to indexes/lucene-index.neuclir22-ru-en so we need to stagger
+
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config neuclir22-fa-qt
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config neuclir22-fa-dt
+
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config neuclir22-ru-qt
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config neuclir22-ru-dt
+
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config neuclir22-zh-qt
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config neuclir22-zh-dt
+
+# NeuCLIR: SPLADE
+
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config neuclir22-fa-qt-splade
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config neuclir22-fa-dt-splade
+
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config neuclir22-ru-qt-splade
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config neuclir22-ru-dt-splade
+
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config neuclir22-zh-qt-splade
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config neuclir22-zh-dt-splade
+
+# Background linking
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config backgroundlinking18
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config backgroundlinking19
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config backgroundlinking20
+
+# Web
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config wt10g
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config gov2
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config cw09b
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config cw12b13
+
+# End with cw12
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config cw12
