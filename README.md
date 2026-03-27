@@ -160,10 +160,10 @@ See [#1121](https://github.com/castorini/pyserini/discussions/1121) for addition
 
 </details>
 
-## ⚗️ Reproduce from Document Collection
+## ⚗️ Reproduce Experimental Results from Document Collections
 
-Anserini is designed to support end-to-end experiments on various standard IR test collections out of the box.
-Each of these [_end-to-end_ regressions](docs/regressions.md) starts from the raw corpus, builds the necessary index, performs retrieval runs, and generates evaluation results.
+Anserini supports end-to-end reproduction experiments on various standard IR test collections out of the box.
+Each of these [_end-to-end_ reproduction experiments](docs/reproduce-from-document-collection.md) starts from the raw document collection, builds the necessary index, performs retrieval runs, and generates evaluation results.
 See individual pages for details.
 
 <details>

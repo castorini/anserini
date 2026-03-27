@@ -238,6 +238,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("msmarco-v2-doc-segmented.d2q-t5"),
         Pattern.quote("msmarco-v2-doc-segmented.unicoil-noexp-0shot-v2.cached"),
         Pattern.quote("msmarco-v2-doc-segmented.unicoil-0shot-v2.cached"),
+        Pattern.quote(""),
         Pattern.quote("dl21-passage"),
         Pattern.quote("dl21-passage.d2q-t5"),
         Pattern.quote("dl21-passage.unicoil-noexp-0shot.cached"),
@@ -254,6 +255,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("dl21-doc-segmented.d2q-t5"),
         Pattern.quote("dl21-doc-segmented.unicoil-noexp-0shot-v2.cached"),
         Pattern.quote("dl21-doc-segmented.unicoil-0shot-v2.cached"),
+        Pattern.quote(""),
         Pattern.quote("dl22-passage"),
         Pattern.quote("dl22-passage.d2q-t5"),
         Pattern.quote("dl22-passage.unicoil-noexp-0shot.cached"),
@@ -270,6 +272,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("dl22-doc-segmented.d2q-t5"),
         Pattern.quote("dl22-doc-segmented.unicoil-noexp-0shot-v2.cached"),
         Pattern.quote("dl22-doc-segmented.unicoil-0shot-v2.cached"),
+        Pattern.quote(""),
         Pattern.quote("dl23-passage"),
         Pattern.quote("dl23-passage.d2q-t5"),
         Pattern.quote("dl23-passage.unicoil-noexp-0shot.cached"),
@@ -314,10 +317,15 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard07.flat.onnx"),
         Pattern.quote("rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard08.flat.onnx"),
         Pattern.quote("rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard09.flat.onnx"),
+        Pattern.quote(""),
+        Pattern.quote("rag25-doc-segmented-test-nist"),
+        Pattern.quote("rag25-doc-segmented-test-umbrela2"),
+        Pattern.quote(""),
         Pattern.quote("msmarco-v2.1-doc"),
         Pattern.quote("msmarco-v2.1-doc-segmented"),
         Pattern.quote("msmarco-v2.1-doc-segmented.splade-v3.onnx"),
         Pattern.quote("msmarco-v2.1-doc-segmented.splade-v3.cached"),
+        Pattern.quote(""),
         Pattern.quote("dl21-doc-msmarco-v2.1"),
         Pattern.quote("dl21-doc-segmented-msmarco-v2.1"),
         Pattern.quote("dl21-doc-segmented-msmarco-v2.1.splade-v3.onnx"),
@@ -330,12 +338,11 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("dl23-doc-segmented-msmarco-v2.1"),
         Pattern.quote("dl23-doc-segmented-msmarco-v2.1.splade-v3.onnx"),
         Pattern.quote("dl23-doc-segmented-msmarco-v2.1.splade-v3.cached"),
+        Pattern.quote(""),
         Pattern.quote("rag24-doc-raggy-dev"),
         Pattern.quote("rag24-doc-segmented-raggy-dev"),
         Pattern.quote("rag24-doc-segmented-raggy-dev.splade-v3.onnx"),
-        Pattern.quote("rag24-doc-segmented-raggy-dev.splade-v3.cached"),
-        Pattern.quote("rag25-doc-segmented-test-nist"),
-        Pattern.quote("rag25-doc-segmented-test-umbrela2")
+        Pattern.quote("rag24-doc-segmented-raggy-dev.splade-v3.cached")
     ));
     ORDERING.put("BEIR (v1.0.0): BGE-base-en-v1.5", List.of(
         Pattern.quote("beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.flat.cached"),
@@ -367,6 +374,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat.cached"),
         Pattern.quote("beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.flat.cached"),
         Pattern.quote("beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.flat.cached"),
+        Pattern.quote(""),
         Pattern.quote("beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.flat.onnx"),
         Pattern.quote("beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.flat.onnx"),
         Pattern.quote("beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat.onnx"),
@@ -396,6 +404,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat.onnx"),
         Pattern.quote("beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.flat.onnx"),
         Pattern.quote("beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.flat.onnx"),
+        Pattern.quote(""),
         Pattern.quote("beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.flat-int8.cached"),
         Pattern.quote("beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.flat-int8.cached"),
         Pattern.quote("beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat-int8.cached"),
@@ -425,6 +434,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat-int8.cached"),
         Pattern.quote("beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.flat-int8.cached"),
         Pattern.quote("beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.flat-int8.cached"),
+        Pattern.quote(""),
         Pattern.quote("beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.flat-int8.onnx"),
         Pattern.quote("beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.flat-int8.onnx"),
         Pattern.quote("beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat-int8.onnx"),
@@ -454,6 +464,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat-int8.onnx"),
         Pattern.quote("beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.flat-int8.onnx"),
         Pattern.quote("beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.flat-int8.onnx"),
+        Pattern.quote(""),
         Pattern.quote("beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.hnsw.cached"),
         Pattern.quote("beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.hnsw.cached"),
         Pattern.quote("beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.hnsw.cached"),
@@ -483,6 +494,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("beir-v1.0.0-fever.bge-base-en-v1.5.parquet.hnsw.cached"),
         Pattern.quote("beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.hnsw.cached"),
         Pattern.quote("beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.hnsw.cached"),
+        Pattern.quote(""),
         Pattern.quote("beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.hnsw.onnx"),
         Pattern.quote("beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.hnsw.onnx"),
         Pattern.quote("beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.hnsw.onnx"),
@@ -512,6 +524,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("beir-v1.0.0-fever.bge-base-en-v1.5.parquet.hnsw.onnx"),
         Pattern.quote("beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.hnsw.onnx"),
         Pattern.quote("beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.hnsw.onnx"),
+        Pattern.quote(""),
         Pattern.quote("beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.hnsw-int8.cached"),
         Pattern.quote("beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.hnsw-int8.cached"),
         Pattern.quote("beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.hnsw-int8.cached"),
@@ -541,6 +554,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("beir-v1.0.0-fever.bge-base-en-v1.5.parquet.hnsw-int8.cached"),
         Pattern.quote("beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.hnsw-int8.cached"),
         Pattern.quote("beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.hnsw-int8.cached"),
+        Pattern.quote(""),
         Pattern.quote("beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.hnsw-int8.onnx"),
         Pattern.quote("beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.hnsw-int8.onnx"),
         Pattern.quote("beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.hnsw-int8.onnx"),
@@ -601,6 +615,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("beir-v1.0.0-fever.splade-v3.cached"),
         Pattern.quote("beir-v1.0.0-climate-fever.splade-v3.cached"),
         Pattern.quote("beir-v1.0.0-scifact.splade-v3.cached"),
+        Pattern.quote(""),
         Pattern.quote("beir-v1.0.0-trec-covid.splade-v3.onnx"),
         Pattern.quote("beir-v1.0.0-bioasq.splade-v3.onnx"),
         Pattern.quote("beir-v1.0.0-nfcorpus.splade-v3.onnx"),
@@ -661,6 +676,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("beir-v1.0.0-fever.splade-pp-ed.cached"),
         Pattern.quote("beir-v1.0.0-climate-fever.splade-pp-ed.cached"),
         Pattern.quote("beir-v1.0.0-scifact.splade-pp-ed.cached"),
+        Pattern.quote(""),
         Pattern.quote("beir-v1.0.0-trec-covid.splade-pp-ed.onnx"),
         Pattern.quote("beir-v1.0.0-bioasq.splade-pp-ed.onnx"),
         Pattern.quote("beir-v1.0.0-nfcorpus.splade-pp-ed.onnx"),
@@ -827,6 +843,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("mrtydi-v1.1-sw"),
         Pattern.quote("mrtydi-v1.1-te"),
         Pattern.quote("mrtydi-v1.1-th"),
+        Pattern.quote(""),
         Pattern.quote("mrtydi-v1.1-ar-aca"),
         Pattern.quote("mrtydi-v1.1-bn-aca"),
         Pattern.quote("mrtydi-v1.1-en-aca"),
@@ -856,6 +873,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("miracl-v1.0-te"),
         Pattern.quote("miracl-v1.0-th"),
         Pattern.quote("miracl-v1.0-zh"),
+        Pattern.quote(""),
         Pattern.quote("miracl-v1.0-ar-aca"),
         Pattern.quote("miracl-v1.0-bn-aca"),
         Pattern.quote("miracl-v1.0-en-aca"),
@@ -880,6 +898,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("fire12-bn"),
         Pattern.quote("fire12-hi"),
         Pattern.quote("fire12-en"),
+        Pattern.quote(""),
         Pattern.quote("hc4-v1.0-fa"),
         Pattern.quote("hc4-v1.0-ru"),
         Pattern.quote("hc4-v1.0-zh"),
@@ -889,6 +908,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("hc4-neuclir22-fa-en"),
         Pattern.quote("hc4-neuclir22-ru-en"),
         Pattern.quote("hc4-neuclir22-zh-en"),
+        Pattern.quote(""),
         Pattern.quote("neuclir22-fa-qt"),
         Pattern.quote("neuclir22-fa-dt"),
         Pattern.quote("neuclir22-ru-qt"),
@@ -901,6 +921,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("neuclir22-ru-dt-splade"),
         Pattern.quote("neuclir22-zh-qt-splade"),
         Pattern.quote("neuclir22-zh-dt-splade"),
+        Pattern.quote(""),
         Pattern.quote("ciral-v1.0-ha"),
         Pattern.quote("ciral-v1.0-so"),
         Pattern.quote("ciral-v1.0-sw"),
@@ -923,6 +944,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("bright-sustainable-living"),
         Pattern.quote("bright-theoremqa-questions"),
         Pattern.quote("bright-theoremqa-theorems"),
+        Pattern.quote(""),
         Pattern.quote("bright-aops.bm25qs"),
         Pattern.quote("bright-biology.bm25qs"),
         Pattern.quote("bright-earth-science.bm25qs"),
@@ -949,6 +971,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("bright-sustainable-living.splade-v3.onnx"),
         Pattern.quote("bright-theoremqa-questions.splade-v3.onnx"),
         Pattern.quote("bright-theoremqa-theorems.splade-v3.onnx"),
+        Pattern.quote(""),
         Pattern.quote("bright-aops.splade-v3.cached"),
         Pattern.quote("bright-biology.splade-v3.cached"),
         Pattern.quote("bright-earth-science.splade-v3.cached"),
@@ -975,6 +998,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("bright-sustainable-living.bge-large-en-v1.5.flat.onnx"),
         Pattern.quote("bright-theoremqa-questions.bge-large-en-v1.5.flat.onnx"),
         Pattern.quote("bright-theoremqa-theorems.bge-large-en-v1.5.flat.onnx"),
+        Pattern.quote(""),
         Pattern.quote("bright-aops.bge-large-en-v1.5.flat.cached"),
         Pattern.quote("bright-biology.bge-large-en-v1.5.flat.cached"),
         Pattern.quote("bright-earth-science.bge-large-en-v1.5.flat.cached"),
@@ -1075,7 +1099,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
       List<String> groupConfigs = new ArrayList<>();
       for (String regex : entry.getValue()) {
         if (regex.equals(Pattern.quote(""))) {
-          groupConfigs.add(" ");
+          groupConfigs.add("");
           continue;
         }
 
@@ -1094,18 +1118,15 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
 
       invocations.append("<details>\n");
       invocations.append("<summary>").append(entry.getKey()).append("</summary>\n\n");
-      invocations.append("```bash\n");
       for (String config : groupConfigs) {
-        if (config.equals(" ")) {
-          invocations.append("\n");
+        if (config.equals("")) {
+          invocations.append("\n\n<div></div>\n\n");
           continue;
         }
 
-        invocations.append("bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection")
-            .append(" --index --verify --search --config ").append(config)
-            .append(" > logs/log.").append(config).append(".txt 2>&1 &\n");
+        invocations.append(String.format("+ [`%s`](../src/main/resources/reproduce/from-document-collection/configs/%s.yaml)\n", config, config));
       }
-      invocations.append("```\n\n</details>\n");
+      invocations.append("\n</details>\n");
     }
 
     Map<String, String> valuesMap = new HashMap<>();
