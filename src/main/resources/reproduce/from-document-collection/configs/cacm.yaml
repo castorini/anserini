@@ -1,0 +1,81 @@
+---
+corpus: cacm
+corpus_path: src/main/resources/cacm/
+
+index_path: indexes/lucene-inverted.cacm/
+collection_class: HtmlCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 8
+index_options: -storePositions -storeDocvectors -storeRaw -optimize
+index_stats:
+  documents: 3204
+  documents (non-empty): 3204
+  unique terms: 14363
+  total terms: 320968
+
+metrics:
+  - metric: MAP
+    command: bin/trec_eval
+    params: -m map
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: P30
+    command: bin/trec_eval
+    params: -m P.30
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+
+topic_reader: Cacm
+topics:
+  - name: "CACM All"
+    id: cacm
+    path: topics.cacm.txt
+    qrel: qrels.cacm.txt
+
+models:
+  - name: bm25
+    params: -bm25
+    results:
+      MAP:
+        - 0.3123
+      P30:
+        - 0.1942
+  - name: bm25+rm3
+    params: -bm25 -rm3
+    results:
+      MAP:
+        - 0.3648
+      P30:
+        - 0.2224
+  - name: bm25+ax
+    params: -bm25 -axiom -axiom.deterministic -rerankCutoff 20
+    results:
+      MAP:
+        - 0.3077
+      P30:
+        - 0.1955
+  - name: ql
+    params: -qld
+    results:
+      MAP:
+        - 0.3265
+      P30:
+        - 0.1942
+  - name: ql+rm3
+    params: -qld -rm3
+    results:
+      MAP:
+        - 0.3629
+      P30:
+        - 0.2250
+  - name: ql+ax
+    params: -qld -axiom -axiom.deterministic -rerankCutoff 20
+    results:
+      MAP:
+        - 0.2907
+      P30:
+        - 0.1840

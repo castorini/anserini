@@ -19,6 +19,7 @@ package io.anserini.search.topicreader;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.Map;
@@ -38,7 +39,7 @@ public class TopicReaderTest {
       String path = topic.path;
       assertEquals(topic.readerClass, TopicReader.getTopicReaderClassByFile(path));
     }
-    assertEquals(600, cnt);
+    assertEquals(612, cnt);
   }
 
   @Test
@@ -69,6 +70,19 @@ public class TopicReaderTest {
     assertEquals("International Organized Crime", topics.get(topics.firstKey()).get("title"));
     assertEquals(700, (int) topics.lastKey());
     assertEquals("gasoline tax U.S.", topics.get(topics.lastKey()).get("title"));
+  }
+
+  @Test
+  public void testCacmTopics() throws IOException {
+    SortedMap<Integer, Map<String, String>> topics;
+
+    topics = TopicReader.getTopics(Topics.CACM);
+    assertNotNull(topics);
+    assertEquals(64, topics.size());
+    assertEquals(1, (int) topics.firstKey());
+    assertTrue(topics.get(topics.firstKey()).get("title").contains("What articles exist which deal with TSS"));
+    assertEquals(64, (int) topics.lastKey());
+    assertTrue(topics.get(topics.lastKey()).get("title").contains("List all articles on EL1 and ECL"));
   }
 
   @Test
@@ -2168,6 +2182,22 @@ public class TopicReaderTest {
     assertEquals(111, TopicReader.getTopics(Topics.BRIGHT_AOPS).keySet().size());
     assertEquals(76, TopicReader.getTopics(Topics.BRIGHT_THEOREMQA_THEOREMS).keySet().size());
     assertEquals(194, TopicReader.getTopics(Topics.BRIGHT_THEOREMQA_QUESTIONS).keySet().size());
+  }
+
+  @Test
+  public void testBrightOriginalTopics() throws IOException {
+    assertEquals(103, TopicReader.getTopics(Topics.BRIGHT_BIOLOGY_ORIGINAL).keySet().size());
+    assertEquals(116, TopicReader.getTopics(Topics.BRIGHT_EARTH_SCIENCE_ORIGINAL).keySet().size());
+    assertEquals(103, TopicReader.getTopics(Topics.BRIGHT_ECONOMICS_ORIGINAL).keySet().size());
+    assertEquals(101, TopicReader.getTopics(Topics.BRIGHT_PSYCHOLOGY_ORIGINAL).keySet().size());
+    assertEquals(101, TopicReader.getTopics(Topics.BRIGHT_ROBOTICS_ORIGINAL).keySet().size());
+    assertEquals(117, TopicReader.getTopics(Topics.BRIGHT_STACKOVERFLOW_ORIGINAL).keySet().size());
+    assertEquals(108, TopicReader.getTopics(Topics.BRIGHT_SUSTAINABLE_LIVING_ORIGINAL).keySet().size());
+    assertEquals(112, TopicReader.getTopics(Topics.BRIGHT_PONY_ORIGINAL).keySet().size());
+    assertEquals(142, TopicReader.getTopics(Topics.BRIGHT_LEETCODE_ORIGINAL).keySet().size());
+    assertEquals(111, TopicReader.getTopics(Topics.BRIGHT_AOPS_ORIGINAL).keySet().size());
+    assertEquals(76, TopicReader.getTopics(Topics.BRIGHT_THEOREMQA_THEOREMS_ORIGINAL).keySet().size());
+    assertEquals(194, TopicReader.getTopics(Topics.BRIGHT_THEOREMQA_QUESTIONS_ORIGINAL).keySet().size());
   }
 
   @Test

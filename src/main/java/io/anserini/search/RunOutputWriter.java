@@ -16,47 +16,30 @@
 
 package io.anserini.search;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import io.anserini.eval.ExcludeDocs;
-import io.anserini.index.Constants;
-
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
+
+import io.anserini.eval.ExcludeDocs;
 
 public class RunOutputWriter<K extends Comparable<K>> implements Closeable {
   private final PrintWriter out;
   private final String format;
   private final String runtag;
-  private final ObjectMapper mapper = new ObjectMapper(); // For JSON serialization
-  private final PrintWriter outputRerankerRequests;
   private final String exclude;
 
-  public RunOutputWriter(String output, String format, String runtag, String outputRerankerRequests, String exclude) throws IOException {
+  public RunOutputWriter(String output, String format, String runtag, String exclude) throws IOException {
     this.out = new PrintWriter(Files.newBufferedWriter(Paths.get(output), StandardCharsets.UTF_8));
     this.format = format;
     this.runtag = runtag;
-    this.outputRerankerRequests = outputRerankerRequests == null ? null : new PrintWriter(Files.newBufferedWriter(Paths.get(outputRerankerRequests), StandardCharsets.UTF_8));
     this.exclude = exclude;
   }
 
-  public RunOutputWriter(String output, String format, String runtag, String outputRerankerRequests) throws IOException {
-    this(output, format, runtag, outputRerankerRequests, null);
-  }
-
-  public void writeTopic(K qid, String query, ScoredDoc[] results) throws JsonProcessingException {
+  public void writeTopic(K qid, String query, ScoredDoc[] results) {
     int rank = 1;
     if (exclude != null) {
       try {
@@ -66,31 +49,13 @@ public class RunOutputWriter<K extends Comparable<K>> implements Closeable {
         System.err.println("Error processing exclude docs: " + e.getMessage());
       }
     }
-    if (outputRerankerRequests != null) {
-      List<Map<String, Object>> candidates = new ArrayList<>();
-      for (ScoredDoc r : results) {
-        String raw = r.lucene_document.get(Constants.RAW);
-        JsonNode rootNode = mapper.readTree(raw);
-        Map<String, Object> content = mapper.convertValue(rootNode, new TypeReference<Map<String, Object>>() {});
-        content.remove("docid");
-        Map<String, Object> candidate = new LinkedHashMap<>();
-        candidate.put("docid", r.docid);
-        candidate.put("score", r.score);
-        candidate.put("doc", content);
-        candidates.add(candidate);
-      }
-      Map<String, Object> queryMap = new LinkedHashMap<>();
-      queryMap.put("query", new LinkedHashMap<>(Map.of("qid", qid, "text", query)));
-      queryMap.put("candidates", candidates);
-      outputRerankerRequests.println(mapper.writeValueAsString(queryMap));
-    }
+
     if ("msmarco".equals(format)) {
       for (ScoredDoc r : results) {
         out.append(String.format(Locale.US, "%s\t%s\t%d\n", qid, r.docid, rank));
         rank++;
       }
     } else {
-
       // Standard TREC format
       // + the first column is the topic number.
       // + the second column is currently unused and should always be "Q0".
@@ -108,8 +73,5 @@ public class RunOutputWriter<K extends Comparable<K>> implements Closeable {
   @Override
   public void close() throws IOException {
     out.close();
-    if (outputRerankerRequests != null) {
-      outputRerankerRequests.close();
-    }
   }
 }
