@@ -1,6 +1,6 @@
 #!/bin/sh
 
-java -cp `ls target/*-fatjar.jar` -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector "$@"
+java -cp `ls target/*-fatjar.jar` -Xms512M -Xmx8G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector "$@"
 # 2>&1 | grep -v "WARNING: Using incubator modules"
 
 # Notes:
