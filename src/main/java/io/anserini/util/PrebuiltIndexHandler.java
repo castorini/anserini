@@ -16,8 +16,6 @@
 
 package io.anserini.util;
 
-import me.tongfei.progressbar.ProgressBar;
-
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -49,6 +47,7 @@ public class PrebuiltIndexHandler {
   private static final int DOWNLOAD_BUFFER_SIZE = 1 << 16; // 64 KB
   private static final int CONNECT_TIMEOUT_MS = 60_000;
   private static final int READ_TIMEOUT_MS = 120_000;
+  private static final int DOWNLOAD_LOG_INTERVAL_PERCENT = 10;
 
   private final PrebuiltIndex.Entry entry;
 
@@ -183,32 +182,59 @@ public class PrebuiltIndexHandler {
     httpConnection.setReadTimeout(READ_TIMEOUT_MS);
     long completeFileSize = httpConnection.getContentLengthLong();
     boolean hasKnownSize = completeFileSize > 0;
-    long progressBarMax = hasKnownSize ? Math.max(1, Math.floorDiv(completeFileSize, 1000)) : 1;
 
     try (InputStream inputStream = new BufferedInputStream(httpConnection.getInputStream());
-        FileOutputStream fileOS = new FileOutputStream(downloadFilePath.toFile());
-        ProgressBar pb = new ProgressBar(this.entry.name, progressBarMax)) {
-
-      pb.setExtraMessage("Downloading...");
+        FileOutputStream fileOS = new FileOutputStream(downloadFilePath.toFile())) {
 
       byte[] buffer = new byte[DOWNLOAD_BUFFER_SIZE];
       long downloaded = 0L;
+      int nextLoggedPercent = DOWNLOAD_LOG_INTERVAL_PERCENT;
       int bytesRead;
       while ((bytesRead = inputStream.read(buffer)) != -1) {
         fileOS.write(buffer, 0, bytesRead);
         downloaded += bytesRead;
         if (hasKnownSize) {
-          pb.stepTo(Math.min(progressBarMax, Math.floorDiv(downloaded, 1000)));
+          nextLoggedPercent = logDownloadProgress(downloaded, completeFileSize, nextLoggedPercent);
         }
       }
 
       if (hasKnownSize) {
-        pb.stepTo(progressBarMax);
+        LOG.info("Finished downloading {} ({}).", this.entry.name, formatSize(downloaded));
+      } else {
+        LOG.info("Finished downloading {}.", this.entry.name);
       }
 
     } finally {
       httpConnection.disconnect();
     }
+  }
+
+  private int logDownloadProgress(long downloaded, long completeFileSize, int nextLoggedPercent) {
+    if (completeFileSize <= 0) {
+      return nextLoggedPercent;
+    }
+
+    long percent = Math.min(100, downloaded * 100 / completeFileSize);
+    while (percent >= nextLoggedPercent && nextLoggedPercent <= 100) {
+      LOG.info("Downloading {}: {}% ({}/{})",
+          this.entry.name, nextLoggedPercent, formatSize(downloaded), formatSize(completeFileSize));
+      nextLoggedPercent += DOWNLOAD_LOG_INTERVAL_PERCENT;
+    }
+
+    return nextLoggedPercent;
+  }
+
+  private static String formatSize(long bytes) {
+    if (bytes < 1024) {
+      return bytes + " B";
+    }
+    if (bytes < 1024 * 1024) {
+      return String.format("%.1f KB", bytes / 1024.0);
+    }
+    if (bytes < 1024L * 1024L * 1024L) {
+      return String.format("%.1f MB", bytes / (1024.0 * 1024.0));
+    }
+    return String.format("%.1f GB", bytes / (1024.0 * 1024.0 * 1024.0));
   }
 
   private void decompress() throws IOException, InterruptedException {

@@ -1,0 +1,53 @@
+# Anserini: Reproduce Experimental Results from Document Collections
+
+Reproduction experiments in Anserini are coordinated by a rigorous end-to-end framework implemented in [`io.anserini.reproduce.ReproduceFromDocumentCollection`](../src/main/java/io/anserini/reproduce/ReproduceFromDocumentCollection.java).
+The driver automatically runs experiments based on configuration files stored in [`src/main/resources/reproduce/from-document-collection/configs`](../src/main/resources/reproduce/from-document-collection/configs), performing the following actions:
+
++ Build the index from scratch (i.e., from the raw document collection).
++ Verify index statistics (sanity check that the index has been built properly).
++ Perform retrieval runs with different settings.
++ Evaluate the runs and verify effectiveness results.
+
+Furthermore, documentation pages are auto-generated based on [raw templates](../src/main/resources/reproduce/from-document-collection/docgen).
+
+Internally at Waterloo, we are continuously running these regression tests to ensure that new commits do not break any existing experimental runs (see below).
+We keep a [change log](regressions-log.md) to document substantive changes.
+
+## The Anserini Reproducibility Promise
+
+It is the highest priority of the project to ensure that all results are reproducible _all the time_.
+This means that anyone with the document collection should be able to reproduce _exactly_ the effectiveness scores we report in our documentation pages.
+
+We hold this ideal in such high esteem and are so dedicated to reproducibility that if you discover a broken regression before we do, Jimmy Lin will buy you a beverage of choice (coffee, beer, etc.) at the next event you see him (e.g., SIGIR, TREC, etc.).
+
+## Invocations
+
+Internally at Waterloo, we have two machines (`tuna.cs.uwaterloo.ca` and `orca.cs.uwaterloo.ca`) for the development of Anserini and is set up to run the regression experiments.
+
+Sample invocation:
+
+```
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config cacm
+```
+
+The following configurations (i.e., `--config` settings) are available:
+
+${invocations}
+
+The `--config` option specifies the experiment to run, corresponding to the YAML configuration file in [`src/main/resources/reproduce/from-document-collection/configs`](../src/main/resources/reproduce/from-document-collection/configs).
+The three main options are:
+
++ `--index`: Build the index.
++ `--verify`: Verify index statistics.
++ `--search`: Perform retrieval runs and verify effectiveness.
+
+**Watch out!** The full `cw12` regression can take a couple days to run and generates a 12TB index!
+
+Although the driver is hard-coded to run on Waterloo machines (e.g., hard-coded paths to document collections), the document collection path can be manually specified from the command line with the `--corpus-path` option, for example:
+
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection \
+  --index --verify --search --config msmarco-v1-passage --corpus-path /path/to/corpus
+```
+
+For example, `--corpus-path collections/msmarco-passage/collection_jsonl`.

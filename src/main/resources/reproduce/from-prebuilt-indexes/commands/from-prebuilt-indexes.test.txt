@@ -1,1 +1,1 @@
-io.anserini.reproduce.RunReproductionFromPrebuiltIndexes --print-commands --compute-index-size --config cacm
+io.anserini.reproduce.ReproduceFromPrebuiltIndexes --print-commands --compute-index-size --config cacm

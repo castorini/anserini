@@ -22,7 +22,6 @@ import static org.junit.Assert.fail;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintStream;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -49,16 +48,35 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
   }
 
   @Test
+  public void testHelp() throws Exception {
+    Files.createDirectory(temporaryWorkingDirectory.resolve("logs"));
+    String output = runInTempDirectory("--help");
+
+    assertTrue(output.contains("Options for SummarizeLogsFromPrebuiltIndexes:"));
+    assertTrue(output.contains("--help"));
+  }
+
+  @Test
+  public void testInvalidOptionShowsUsage() throws Exception {
+    Files.createDirectory(temporaryWorkingDirectory.resolve("logs"));
+    String output = runInTempDirectory("--not-a-real-option");
+
+    assertTrue(output.contains("Error:"));
+    assertTrue(output.contains("not a valid option"));
+    assertTrue(output.contains("Options for SummarizeLogsFromPrebuiltIndexes:"));
+  }
+
+  @Test
   public void testSummarizeLogsFromPrebuiltIndexesJson() throws Exception {
     Path logsDir = temporaryWorkingDirectory.resolve("logs");
     Files.createDirectory(logsDir);
 
-    writeLog(logsDir.resolve("log.from-prebuilt-indexes.betaset.txt"), List.of(
+    Files.write(logsDir.resolve("log.from-prebuilt-indexes.betaset.txt"), List.of(
         "Run for beta [OK]",
         "Second line [OK*]",
         "Duration: done (01:03:04)"));
 
-    writeLog(logsDir.resolve("log.from-prebuilt-indexes.alpha.txt"), List.of(
+    Files.write(logsDir.resolve("log.from-prebuilt-indexes.alpha.txt"), List.of(
         "Run for alpha [FAIL]",
         "Failure [FAIL]",
         "Duration: 00:00:01"));
@@ -85,12 +103,12 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
     Path logsDir = temporaryWorkingDirectory.resolve("logs");
     Files.createDirectory(logsDir);
 
-    writeLog(logsDir.resolve("log.from-prebuilt-indexes.betaset.txt"), List.of(
+    Files.write(logsDir.resolve("log.from-prebuilt-indexes.betaset.txt"), List.of(
         "Run for beta [OK]",
         "Second line [OK*]",
         "Duration: done (01:03:04)"));
 
-    writeLog(logsDir.resolve("log.from-prebuilt-indexes.alpha.txt"), List.of(
+    Files.write(logsDir.resolve("log.from-prebuilt-indexes.alpha.txt"), List.of(
         "Run for alpha [FAIL]",
         "Failure [FAIL]",
         "Duration: 00:00:01"));
@@ -110,12 +128,12 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
     Path logsDir = temporaryWorkingDirectory.resolve("logs");
     Files.createDirectory(logsDir);
 
-    writeLog(logsDir.resolve("log.from-prebuilt-indexes.betaset.txt"), List.of(
+    Files.write(logsDir.resolve("log.from-prebuilt-indexes.betaset.txt"), List.of(
         "Run for beta [OK]",
         "Second line [OK*]",
         "Duration: done (01:03:04)"));
 
-    writeLog(logsDir.resolve("log.from-prebuilt-indexes.alpha.txt"), List.of(
+    Files.write(logsDir.resolve("log.from-prebuilt-indexes.alpha.txt"), List.of(
         "Run for alpha [FAIL]",
         "Failure [FAIL]",
         "Duration: 00:00:01"));
@@ -153,7 +171,7 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
   public void testSummarizeLogsFromPrebuiltIndexesNoMatchingLogs() throws Exception {
     Path logsDir = temporaryWorkingDirectory.resolve("logs");
     Files.createDirectory(logsDir);
-    writeLog(logsDir.resolve("unrelated.txt"), List.of("not a prebuilt log"));
+    Files.write(logsDir.resolve("unrelated.txt"), List.of("not a prebuilt log"));
 
     String output = runInTempDirectory(logsDir, "--md");
 
@@ -166,7 +184,7 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
     Path logsDir = temporaryWorkingDirectory.resolve("logs");
     Files.createDirectory(logsDir);
 
-    writeLog(logsDir.resolve("log.from-prebuilt-indexes.malformed.txt"), List.of(
+    Files.write(logsDir.resolve("log.from-prebuilt-indexes.malformed.txt"), List.of(
         "Run for malformed [OK]",
         "Mangled marker [FAILURE] should not count",
         "Duration: 01:02",
@@ -196,6 +214,10 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
   }
 
   private String runInTempDirectory(Path logsDirectory, String... args) throws Exception {
+    return runMain(withLogsDirectoryArg(logsDirectory, args));
+  }
+
+  private String runMain(String... args) throws Exception {
     ByteArrayOutputStream stdout = new ByteArrayOutputStream();
     PrintStream newOut = new PrintStream(stdout);
 
@@ -205,14 +227,7 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
     try {
       System.setOut(newOut);
       System.setErr(newOut);
-      String[] mainArgs = new String[args.length + 2];
-      for (int i = 0; i < args.length; i++) {
-        mainArgs[i] = args[i];
-      }
-      mainArgs[args.length] = "--logs-directory";
-      mainArgs[args.length + 1] = logsDirectory.toString();
-
-      SummarizeLogsFromPrebuiltIndexes.main(mainArgs);
+      SummarizeLogsFromPrebuiltIndexes.main(args);
       return stdout.toString(StandardCharsets.UTF_8);
     } finally {
       System.setOut(originalOut);
@@ -221,7 +236,11 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
     }
   }
 
-  private void writeLog(Path path, List<String> lines) throws IOException {
-    Files.write(path, lines);
+  private String[] withLogsDirectoryArg(Path logsDirectory, String... args) {
+    String[] mainArgs = new String[args.length + 2];
+    System.arraycopy(args, 0, mainArgs, 0, args.length);
+    mainArgs[args.length] = "--logs-directory";
+    mainArgs[args.length + 1] = logsDirectory.toString();
+    return mainArgs;
   }
 }

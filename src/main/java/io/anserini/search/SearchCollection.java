@@ -16,40 +16,32 @@
 
 package io.anserini.search;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-
-import io.anserini.analysis.AnalyzerMap;
-import io.anserini.analysis.AnalyzerUtils;
-import io.anserini.analysis.AutoCompositeAnalyzer;
-import io.anserini.analysis.CompositeAnalyzer;
-import io.anserini.analysis.DefaultEnglishAnalyzer;
-import io.anserini.analysis.HuggingFaceTokenizerAnalyzer;
-import io.anserini.analysis.TweetAnalyzer;
-import io.anserini.collection.DocumentCollection;
-import io.anserini.encoder.sparse.SparseEncoder;
-import io.anserini.eval.ExcludeDocs;
-import io.anserini.index.Constants;
-import io.anserini.index.IndexReaderUtils;
-import io.anserini.index.generator.TweetGenerator;
-import io.anserini.index.generator.WashingtonPostGenerator;
-import io.anserini.rerank.RerankerCascade;
-import io.anserini.rerank.RerankerContext;
-import io.anserini.rerank.lib.AxiomReranker;
-import io.anserini.rerank.lib.BM25PrfReranker;
-import io.anserini.rerank.lib.NewsBackgroundLinkingReranker;
-import io.anserini.rerank.lib.Rm3Reranker;
-import io.anserini.rerank.lib.RocchioReranker;
-import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
-import io.anserini.search.query.QueryGenerator;
-import io.anserini.search.query.QuerySideBm25QueryGenerator;
-import io.anserini.search.query.SdmQueryGenerator;
-import io.anserini.search.similarity.AccurateBM25Similarity;
-import io.anserini.search.similarity.ImpactSimilarity;
-import io.anserini.search.similarity.TaggedSimilarity;
-import io.anserini.search.topicreader.BackgroundLinkingTopicReader;
-import io.anserini.search.topicreader.TopicReader;
-import io.anserini.search.topicreader.Topics;
-import io.anserini.util.LoggingBootstrap;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.Closeable;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CompletionException;
+import java.util.concurrent.ConcurrentSkipListMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -95,28 +87,38 @@ import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 import org.kohsuke.args4j.spi.StringArrayOptionHandler;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.Closeable;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.TreeMap;
-import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicInteger;
+import io.anserini.analysis.AnalyzerMap;
+import io.anserini.analysis.AnalyzerUtils;
+import io.anserini.analysis.AutoCompositeAnalyzer;
+import io.anserini.analysis.CompositeAnalyzer;
+import io.anserini.analysis.DefaultEnglishAnalyzer;
+import io.anserini.analysis.HuggingFaceTokenizerAnalyzer;
+import io.anserini.analysis.TweetAnalyzer;
+import io.anserini.collection.DocumentCollection;
+import io.anserini.encoder.sparse.SparseEncoder;
+import io.anserini.eval.ExcludeDocs;
+import io.anserini.index.Constants;
+import io.anserini.index.IndexReaderUtils;
+import io.anserini.index.generator.TweetGenerator;
+import io.anserini.index.generator.WashingtonPostGenerator;
+import io.anserini.rerank.RerankerCascade;
+import io.anserini.rerank.RerankerContext;
+import io.anserini.rerank.lib.AxiomReranker;
+import io.anserini.rerank.lib.BM25PrfReranker;
+import io.anserini.rerank.lib.NewsBackgroundLinkingReranker;
+import io.anserini.rerank.lib.Rm3Reranker;
+import io.anserini.rerank.lib.RocchioReranker;
+import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
+import io.anserini.search.query.QueryGenerator;
+import io.anserini.search.query.QuerySideBm25QueryGenerator;
+import io.anserini.search.query.SdmQueryGenerator;
+import io.anserini.search.similarity.AccurateBM25Similarity;
+import io.anserini.search.similarity.ImpactSimilarity;
+import io.anserini.search.similarity.TaggedSimilarity;
+import io.anserini.search.topicreader.BackgroundLinkingTopicReader;
+import io.anserini.search.topicreader.TopicReader;
+import io.anserini.search.topicreader.Topics;
+import io.anserini.util.LoggingBootstrap;
 
 /**
  * Main entry point for search.
@@ -149,9 +151,6 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
 
     @Option(name = "-output", metaVar = "[file]", required = true, usage = "output file")
     public String output;
-
-    @Option(name = "-outputRerankerRequests", metaVar = "[file]", usage = "Output file for reranking")
-    public String outputRerankerRequests;
 
     @Option(name = "-topicReader", usage = "TopicReader to use.")
     public String topicReader;
@@ -908,13 +907,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
               docs = searcher.search(qid, queryString.toString(), cascade, queryQrels, hasRelDocs);
             }
 
-            // If JSON output is requested, we retain references to the Lucene documents.
-            // Note we do *not* want to retain references to the Lucene documents unless requested since it's a waste of memory.
-            if (args.outputRerankerRequests != null) {
-              results.put(qid, searcher.processScoredDocs(qid, docs, true));
-            } else {
-              results.put(qid, searcher.processScoredDocs(qid, docs, false));
-            }
+            results.put(qid, searcher.processScoredDocs(qid, docs, false));
 
             int n = cnt.incrementAndGet();
             if (n % 100 == 0) {
@@ -946,7 +939,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
         name = args.topics[0];
       }
       // Now we write the results to a run file.
-      try (RunOutputWriter<T> out = new RunOutputWriter<>(outputPath, args.format, args.runtag, args.outputRerankerRequests, name)) {
+      try (RunOutputWriter<T> out = new RunOutputWriter<>(outputPath, args.format, args.runtag, name)) {
         // Here's a really screwy corner case that we have to manually hack around: for MS MARCO V1, the query file is not
         // sorted by qid, but the topic representation internally is (i.e., K is a comparable). The original query runner
         // SearchMsmarco retained the order of the queries; however, this class does not. Thus, the run files list the
@@ -978,12 +971,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
           }
         } else {
             results.forEach((qid, hits) -> {
-              try {
-                out.writeTopic(qid, topics.get(qid).get("title"), results.get(qid));
-              } catch (JsonProcessingException e) {
-                // Handle the exception or rethrow as unchecked.
-                throw new RuntimeException(e);
-              }
+              out.writeTopic(qid, topics.get(qid).get("title"), results.get(qid));
           });
         }
       } catch (IOException e) {
@@ -1056,33 +1044,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       loadQrels(args.rf_qrels);
     }
 
-    // We might not be able to successfully read topics for a variety of reasons. Gather all possible
-    // exceptions together as an unchecked exception to make initialization and error reporting clearer.
-    topics = new TreeMap<>();
-    for (String topicsFile : args.topics) {
-      Path topicsFilePath = Paths.get(topicsFile);
-      if (!Files.exists(topicsFilePath) || !Files.isRegularFile(topicsFilePath) || !Files.isReadable(topicsFilePath)) {
-        Topics ref = Topics.getByName(topicsFile);
-        if (ref == null) {
-          throw new IllegalArgumentException(String.format("\"%s\" does not refer to valid topics.", topicsFilePath));
-        } else {
-          topics.putAll(TopicReader.getTopics(ref));
-        }
-      } else {
-        if (args.topicReader == null) {
-          throw new IllegalArgumentException("Must specify the topic reader using -topicReader.");
-        }
-        try {
-          TopicReader<K> tr = (TopicReader<K>) Class
-              .forName(String.format("io.anserini.search.topicreader.%sTopicReader", args.topicReader))
-              .getConstructor(Path.class).newInstance(topicsFilePath);
-
-          topics.putAll(tr.read());
-        } catch (Exception e) {
-          throw new IllegalArgumentException(String.format("Unable to load topic reader \"%s\".", args.topicReader));
-        }
-      }
-    }
+    topics = Topics.resolve(args.topics, args.topicReader);
   }
 
   @Override

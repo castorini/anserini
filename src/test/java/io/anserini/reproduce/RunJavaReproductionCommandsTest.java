@@ -57,16 +57,37 @@ public class RunJavaReproductionCommandsTest extends StdOutStdErrRedirectableLuc
   }
 
   @Test
-  public void testInvalidOptionPrintsUsageMessage() throws Exception {
-    RunJavaReproductionCommands.main(new String[] {"--does-not-exist"});
+  public void testInvalidOption() throws Exception {
+    RunJavaReproductionCommands.main(new String[] {"--invalid"});
 
     String output = err.toString(StandardCharsets.UTF_8);
     assertFalse(output.isEmpty());
-    assertTrue(output, output.contains("--config"));
+    assertTrue(output, output.contains("--invalid"));
   }
 
   @Test
-  public void testMissingConfigPrintsUsageMessage() throws Exception {
+  public void testHelp() throws Exception {
+    RunJavaReproductionCommands.main(new String[] {"--help"});
+
+    String output = err.toString(StandardCharsets.UTF_8);
+    assertFalse(output.isEmpty());
+    assertTrue(output, output.contains("--help"));
+  }
+
+  @Test
+  public void testListOption() throws Exception {
+    RunJavaReproductionCommands.main(new String[] {"--list"});
+
+    String stdOut = out.toString(StandardCharsets.UTF_8).trim();
+    String stdErr = err.toString(StandardCharsets.UTF_8);
+    assertFalse(stdOut.isEmpty());
+    assertTrue(stdOut, stdOut.startsWith("["));
+    assertTrue(stdOut, stdOut.endsWith("]"));
+    assertTrue(stdErr, stdErr.isEmpty());
+  }
+
+  @Test
+  public void testMissingConfig() throws Exception {
     RunJavaReproductionCommands.main(new String[] {"--sleep", "1"});
 
     String output = err.toString(StandardCharsets.UTF_8);
@@ -75,7 +96,7 @@ public class RunJavaReproductionCommandsTest extends StdOutStdErrRedirectableLuc
   }
 
   @Test
-  public void testInvalidConfigPrintsUsageMessage() throws Exception {
+  public void testInvalidConfig() throws Exception {
     RunJavaReproductionCommands.main(new String[] {"--config"});
 
     String output = err.toString(StandardCharsets.UTF_8);
@@ -84,7 +105,7 @@ public class RunJavaReproductionCommandsTest extends StdOutStdErrRedirectableLuc
   }
 
   @Test
-  public void testNegativeSleepValueThrowsException() {
+  public void testNegativeSleepValue() {
     IllegalArgumentException e = expectThrows(IllegalArgumentException.class, () ->
         RunJavaReproductionCommands.main(new String[] {
             "--config", "ignored-config",
@@ -94,10 +115,10 @@ public class RunJavaReproductionCommandsTest extends StdOutStdErrRedirectableLuc
   }
 
   @Test
-  public void testDryRunFromCorpusBatch01PrintsAllJavaCommands() throws Exception {
+  public void testFromTestCollectionDryRun() throws Exception {
     int expectedCommandCount;
     try (InputStream in = ReproductionUtils.loadResourceStream(
-        "reproduce/from-corpus/commands/from-corpus.batch01.txt", RunJavaReproductionCommands.class);
+        "reproduce/from-document-collection/commands/from-document-collection.batch01.txt", RunJavaReproductionCommands.class);
          BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
       expectedCommandCount = (int) reader.lines()
           .map(String::trim)
@@ -108,7 +129,7 @@ public class RunJavaReproductionCommandsTest extends StdOutStdErrRedirectableLuc
     Method loadCommands = RunJavaReproductionCommands.class.getDeclaredMethod("loadCommands", String.class, String.class, String.class);
     loadCommands.setAccessible(true);
     @SuppressWarnings("unchecked")
-    int actualCommandCount = ((List<String>) loadCommands.invoke(null, "from-corpus.batch01", "logs", "runs")).size();
+    int actualCommandCount = ((List<String>) loadCommands.invoke(null, "from-document-collection.batch01", "logs", "runs")).size();
 
     assertEquals(expectedCommandCount, actualCommandCount);
   }
@@ -120,7 +141,7 @@ public class RunJavaReproductionCommandsTest extends StdOutStdErrRedirectableLuc
 
     Path commandFile = Files.createTempFile(targetDir, "run-reproduction-commands-", ".txt");
     String configName = "run-reproduction-commands-test";
-    Path logFile = Paths.get("logs", "log.from-corpus." + configName + ".txt");
+    Path logFile = Paths.get("logs", "log.from-document-collection." + configName + ".txt");
 
     Files.deleteIfExists(logFile);
 
@@ -142,7 +163,7 @@ public class RunJavaReproductionCommandsTest extends StdOutStdErrRedirectableLuc
   }
 
   @Test
-  public void testRunsDirectoryInjectionForPrebuiltIndexCommands() throws Exception {
+  public void testRunWithDirectoryInjection() throws Exception {
     Path targetDir = Paths.get("target");
     Files.createDirectories(targetDir);
 

@@ -27,7 +27,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -36,47 +39,90 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 
+import io.anserini.cli.CliUtils;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import io.anserini.util.LoggingBootstrap;
+
 public class RunJavaReproductionCommands {
   private static final Logger LOG = LogManager.getLogger(RunJavaReproductionCommands.class);
+  private static final String[] COMMAND_CONFIG_DIRECTORIES = new String[] {
+      "reproduce/from-document-collection/commands",
+      "reproduce/from-prebuilt-indexes/commands"
+  };
 
   public static class Args {
-    @Option(name = "--config", metaVar = "[config]", required = true, usage = "Config file with regression commands.")
+    @Option(name = "--config", metaVar = "[config]", usage = "Config file with regression commands.")
     public String config;
 
+    @Option(name = "--list", usage = "List available configs as a JSON array and exit.")
+    public boolean list = false;
+  
     @Option(name = "--sleep", metaVar = "[seconds]", usage = "Sleep interval before checking load.")
     public int sleep = 30;
 
-    @Option(name = "--load", metaVar = "[threshold]", usage = "Maximum load threshold (won't launch commands above this load).")
+    @Option(name = "--load", metaVar = "[threshold]", usage = "Maximum load threshold; won't launch commands above this load.")
     public int load = 10;
 
-    @Option(name = "--max", metaVar = "[num]", usage = "Maximum number of concurrent jobs (defaults to 4).")
+    @Option(name = "--max", metaVar = "[num]", usage = "Maximum number of concurrent jobs.")
     public int max = 4;
 
-    @Option(name = "--logs-directory", metaVar = "[path]", usage = "Directory for command logs (default: logs).")
+    @Option(name = "--logs-directory", metaVar = "[path]", usage = "Directory for command logs.")
     public String logsDirectory = ReproductionUtils.Constants.DEFAULT_LOGS_DIRECTORY;
 
-    @Option(name = "--runs-directory", metaVar = "[path]", usage = "Directory for runs (default: runs).")
+    @Option(name = "--runs-directory", metaVar = "[path]", usage = "Directory for runs.")
     public String runsDirectory = ReproductionUtils.Constants.DEFAULT_RUNS_DIRECTORY;
 
-    @Option(name = "--dry-run", usage = "Print commands without executing them.")
+    @Option(name = "--dry-run", metaVar = "[boolean]", usage = "Print commands without executing them.")
     public boolean dryRun = false;
+
+    @Option(name = "--help", help = true, usage = "Print this help message and exit.")
+    public boolean help = false;
   }
 
-  public static void main(String[] argv) throws Exception {
-    Args args = new Args();
-    CmdLineParser parser = new CmdLineParser(args, ParserProperties.defaults().withUsageWidth(120));
+  private static final String[] argsOrdering = new String[] {
+      "--config", "--list", "--sleep", "--load", "--max", "--logs-directory", "--runs-directory", "--dry-run", "--help"};
+
+  public static void main(String[] args) throws Exception {
+    LoggingBootstrap.installJulToSlf4jBridge();
+
+    Args parsedArgs = new Args();
+    CmdLineParser parser = new CmdLineParser(parsedArgs, ParserProperties.defaults().withUsageWidth(120));
+
     try {
-      parser.parseArgument(argv);
+      parser.parseArgument(args);
     } catch (CmdLineException e) {
-      System.err.println(e.getMessage());
-      parser.printUsage(System.err);
+      System.err.println(String.format("Error: %s", e.getMessage()));
+      CliUtils.printUsage(parser, RunJavaReproductionCommands.class, argsOrdering);
       return;
     }
 
-    if (args.sleep < 0) {
+    if (parsedArgs.help) {
+      CliUtils.printUsage(parser, RunJavaReproductionCommands.class, argsOrdering);
+      return;
+    }
+
+    if (parsedArgs.list) {
+      List<String> configs = listCommandConfigs();
+      System.out.println(new ObjectMapper().writeValueAsString(configs));
+      return;
+    }
+
+    if (parsedArgs.config == null || parsedArgs.config.isBlank()) {
+      System.err.println("Error: Option \"--config\" is required unless \"--list\" is specified.");
+      CliUtils.printUsage(parser, RunJavaReproductionCommands.class, argsOrdering);
+      return;
+    }
+
+    if (parsedArgs.sleep < 0) {
       throw new IllegalArgumentException("--sleep must be non-negative.");
     }
 
+    run(parsedArgs);
+  }
+
+  private static void run(Args args) throws IOException, URISyntaxException, InterruptedException {
     List<String> commands = loadCommands(args.config, args.logsDirectory, args.runsDirectory);
     LOG.info("Running commands in {}", args.config);
     LOG.info("Logs directory: {}", args.logsDirectory);
@@ -128,6 +174,51 @@ public class RunJavaReproductionCommands {
     LOG.info("All jobs completed!");
   }
 
+  private static List<String> listCommandConfigs() throws IOException, URISyntaxException {
+    Path codePath = Paths.get(RunJavaReproductionCommands.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+    Set<String> configs = new LinkedHashSet<>();
+
+    if (Files.isRegularFile(codePath) && codePath.toString().endsWith(".jar")) {
+      try (java.util.jar.JarFile jarFile = new java.util.jar.JarFile(codePath.toFile())) {
+        java.util.Enumeration<java.util.jar.JarEntry> entries = jarFile.entries();
+        while (entries.hasMoreElements()) {
+          java.util.jar.JarEntry entry = entries.nextElement();
+          if (entry.isDirectory()) {
+            continue;
+          }
+          String name = entry.getName();
+          for (String dir : COMMAND_CONFIG_DIRECTORIES) {
+            String prefix = dir + "/";
+            if (name.startsWith(prefix) && name.endsWith(".txt")) {
+              String configName = name.substring(prefix.length(), name.length() - ".txt".length());
+              if (!configName.contains("/")) {
+                configs.add(configName);
+              }
+            }
+          }
+        }
+      }
+    } else {
+      for (String dir : COMMAND_CONFIG_DIRECTORIES) {
+        Path configDir = codePath.resolve(dir);
+        if (!Files.exists(configDir)) {
+          continue;
+        }
+        try (java.util.stream.Stream<Path> paths = Files.list(configDir)) {
+          paths.filter(Files::isRegularFile)
+              .map(path -> path.getFileName().toString())
+              .filter(name -> name.endsWith(".txt"))
+              .map(name -> name.substring(0, name.length() - ".txt".length()))
+              .forEach(configs::add);
+        }
+      }
+    }
+
+    List<String> sortedConfigs = new ArrayList<>(configs);
+    Collections.sort(sortedConfigs);
+    return sortedConfigs;
+  }
+
   private static List<String> loadCommands(String resource, String logsDirectory, String runsDirectory) throws IOException, URISyntaxException {
     List<String> commands = new ArrayList<>();
 
@@ -140,7 +231,7 @@ public class RunJavaReproductionCommands {
     } else {
       String[] resourceCandidates = new String[] {
           resource,
-          "reproduce/from-corpus/commands/" + resource + ".txt",
+          "reproduce/from-document-collection/commands/" + resource + ".txt",
           "reproduce/from-prebuilt-indexes/commands/" + resource + ".txt"
       };
 
@@ -187,7 +278,7 @@ public class RunJavaReproductionCommands {
           command = String.format("%s --runs-directory %s", command, runsDirectory);
         }
 
-        String logFile = Paths.get(logsDirectory, String.format("log.%s.%s.txt", fromPrebuilt ? "from-prebuilt-indexes" : "from-corpus", configName)).toString();
+        String logFile = Paths.get(logsDirectory, String.format("log.%s.%s.txt", fromPrebuilt ? "from-prebuilt-indexes" : "from-document-collection", configName)).toString();
         commands.add(String.format("%s %s %s %s > %s 2>&1", ReproductionUtils.Constants.JAVA_PREFIX, fatjarPath, ReproductionUtils.Constants.JVM_ARGS, command, logFile));
       }
     }

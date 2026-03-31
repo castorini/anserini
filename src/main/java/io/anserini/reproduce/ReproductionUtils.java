@@ -21,10 +21,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.time.Duration;
 import java.time.Instant;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Enumeration;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -109,5 +118,42 @@ public final class ReproductionUtils {
         .replace("\n", "\\n")
         .replace("\r", "\\r")
         .replace("\t", "\\t");
+  }
+
+  public static List<String> listYamlConfigs(Class<?> clazz, String configDirectory) throws IOException, URISyntaxException {
+    Path codePath = Paths.get(clazz.getProtectionDomain().getCodeSource().getLocation().toURI());
+    List<String> configs = new ArrayList<>();
+
+    if (Files.isRegularFile(codePath) && codePath.toString().endsWith(".jar")) {
+      String prefix = configDirectory + "/";
+      try (JarFile jarFile = new JarFile(codePath.toFile())) {
+        Enumeration<JarEntry> entries = jarFile.entries();
+        while (entries.hasMoreElements()) {
+          JarEntry entry = entries.nextElement();
+          String name = entry.getName();
+          if (entry.isDirectory() || !name.startsWith(prefix) || !name.endsWith(".yaml")) {
+            continue;
+          }
+          String configName = name.substring(prefix.length(), name.length() - ".yaml".length());
+          if (!configName.contains("/")) {
+            configs.add(configName);
+          }
+        }
+      }
+    } else {
+      Path configDir = codePath.resolve(configDirectory);
+      if (Files.exists(configDir)) {
+        try (java.util.stream.Stream<Path> paths = Files.list(configDir)) {
+          paths.filter(Files::isRegularFile)
+              .map(path -> path.getFileName().toString())
+              .filter(name -> name.endsWith(".yaml"))
+              .map(name -> name.substring(0, name.length() - ".yaml".length()))
+              .forEach(configs::add);
+        }
+      }
+    }
+
+    Collections.sort(configs);
+    return configs;
   }
 }
