@@ -191,3 +191,4 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@raghav-ai](https://github.com/raghav-ai) on 2026-03-03 (commit [`f496153`](https://github.com/castorini/anserini/commit/f496153681bcc1d78f9b861ccdfd8e0968aebcdf))
 + Results reproduced by [@mahdijaf](https://github.com/mahdijaf) on 2026-03-13 (commit [`61c8beb`](https://github.com/castorini/anserini/commit/61c8beb69a63137067fcf6fdd40abf894aa98059))
 + Results reproduced by [@justin13888](https://github.com/justin13888) on 2026-03-18 (commit [`f2ae641e`](https://github.com/castorini/anserini/commit/f2ae641e18ae64f3ba7c751cfdfdc79b30bf64a1))
++ Results reproduced by [@egekaya1](https://github.com/egekaya1) on 2026-03-29 (commit [`9434de7`](https://github.com/castorini/anserini/commit/9434de77347e3d482c320abde6907522cb7af713))
