@@ -176,6 +176,52 @@ public class SearchTest extends StdOutStdErrRedirectableLuceneTestCase {
     assertTrue(root.get("candidates").get(0).has("doc"));
   }
 
+  @Test
+  public void testSearchOutputWithCacm() throws Exception {
+    assertSearchJsonOutput("src/test/resources/prebuilt_indexes/lucene-inverted.sample_cacm.store_raw", "preliminary");
+  }
+
+  @Test
+  public void testSearchOutputWithMsmarcoV1Passage() throws Exception {
+    assertSearchJsonOutput("src/test/resources/prebuilt_indexes/lucene-inverted.sample_msmarco-v1-passage.store_raw", "obliterated");
+  }
+
+  @Test
+  public void testSearchOutputWithMsmarcoV21DocSegmented() throws Exception {
+    assertSearchJsonOutput("src/test/resources/prebuilt_indexes/lucene-inverted.sample_msmarco-v2.1-doc-segmented.store_raw", "demerara");
+  }
+
+  @Test
+  public void testSearchOutputWithBeirNfcorpus() throws Exception {
+    assertSearchJsonOutput("src/test/resources/prebuilt_indexes/lucene-inverted.sample_beir-nfcorpus.flat.store_raw", "statin");
+  }
+
+  private void assertSearchJsonOutput(String index, String query) throws Exception {
+    for (boolean noParse : new boolean[] {false, true}) {
+      out.reset();
+      err.reset();
+
+      if (noParse) {
+        Search.main(new String[] {"--index", index, "--query", query, "--hits", "1", "--json", "--no-parse"});
+      } else {
+        Search.main(new String[] {"--index", index, "--query", query, "--hits", "1", "--json"});
+      }
+
+      String jsonLine = extractLastNonEmptyLine(out.toString());
+      JsonNode root = MAPPER.readTree(jsonLine);
+      JsonNode candidate = root.get("candidates").get(0);
+
+      assertEquals(query, root.get("query").get("text").asText());
+      assertEquals(1, root.get("candidates").size());
+      assertTrue(candidate.has("docid"));
+      assertTrue(candidate.has("score"));
+      assertTrue(candidate.has("doc"));
+      if (noParse) {
+        assertTrue(candidate.get("doc").isTextual());
+      }
+    }
+  }
+
   private static List<String> extractTrecLines(String output) {
     return Arrays.stream(output.split("\\R"))
         .map(String::trim)

@@ -19,9 +19,7 @@ package io.anserini.cli;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.PrintStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
@@ -34,34 +32,13 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class ExtractQueriesAndDocumentsFromTrecRunTest {
-  // Note, cannot extend StdOutStdErrRedirectableLuceneTestCase due to concurrency issues.
-  // So, we have to duplicate code to save/restore stderr/stdout.
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-  protected final ByteArrayOutputStream out = new ByteArrayOutputStream();
-  protected final ByteArrayOutputStream err = new ByteArrayOutputStream();
-  protected PrintStream saveOut;
-  protected PrintStream saveErr;
+import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 
-  protected void redirectStdErr() {
-    saveErr = System.err;
-    err.reset();
-    System.setErr(new PrintStream(err));
-  }
-
-  protected void restoreStdErr() {
-    System.setErr(saveErr);
-  }
-
-  protected void redirectStdOut() {
-    saveOut = System.out;
-    out.reset();
-    System.setOut(new PrintStream(out));
-  }
-
-  protected void restoreStdOut() {
-    System.setOut(saveOut);
-  }
+public class ExtractQueriesAndDocumentsFromTrecRunTest extends StdOutStdErrRedirectableLuceneTestCase {
+  private static final ObjectMapper JSON_MAPPER = new ObjectMapper();
 
   @BeforeClass
   public static void setupClass() {
@@ -72,12 +49,14 @@ public class ExtractQueriesAndDocumentsFromTrecRunTest {
   public void setUp() throws Exception {
     redirectStdOut();
     redirectStdErr();
+    super.setUp();
   }
 
   @After
   public void tearDown() throws Exception {
     restoreStdOut();
     restoreStdErr();
+    super.tearDown();
   }
 
   @Test
@@ -144,7 +123,7 @@ public class ExtractQueriesAndDocumentsFromTrecRunTest {
 
     IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
         () -> ExtractQueriesAndDocumentsFromTrecRun.main(args));
-    assertTrue(exception.getMessage().contains("Raw document with docid "));
+    assertTrue(exception.getMessage().contains("Document with docid "));
     assertTrue(exception.getMessage().contains("not found in index."));
     assertTrue(new File("test_reranker_requests.jsonl").delete());
   }
@@ -180,9 +159,11 @@ public class ExtractQueriesAndDocumentsFromTrecRunTest {
     assertTrue(output.contains("\"qid\":\"1\""));
     assertTrue(output.contains("\"text\":\"model\""));
     assertTrue(output.contains("\"docid\":\"doc1\""));
-    assertTrue(output.contains("\"_id\":\"doc1\""));
+    assertTrue(output.contains("\"title\":\"doc1 title\""));
+    assertTrue(output.contains("\"text\":\"doc1 text\""));
     assertTrue(output.contains("\"docid\":\"doc3\""));
-    assertTrue(output.contains("\"_id\":\"doc3\""));
+    assertTrue(output.contains("\"title\":\"doc3 title\""));
+    assertTrue(output.contains("\"text\":\"doc3 text\""));
     assertTrue(new File("test_reranker_requests.jsonl").delete());
   }
 
@@ -204,6 +185,177 @@ public class ExtractQueriesAndDocumentsFromTrecRunTest {
     assertTrue(output.contains("Time-Sharing System Performance"));
 
     assertTrue(new File("test_reranker_requests.jsonl").delete());
+  }
+
+  private JsonNode generateQueriesAndDocuments(String index, String run, String topics, String output, boolean noParse)
+      throws Exception {
+    String[] args = noParse ? new String[] {
+        "--index", index,
+        "--run", run,
+        "--topics", topics,
+        "--output", output,
+        "--no-parse"
+    } : new String[] {
+        "--index", index,
+        "--run", run,
+        "--topics", topics,
+        "--output", output
+    };
+
+    try {
+      ExtractQueriesAndDocumentsFromTrecRun.main(args);
+      assertTrue(!err.toString().contains("Error: "));
+      return JSON_MAPPER.readTree(Files.readString(Paths.get(output)));
+    } finally {
+      new File(output).delete();
+    }
+  }
+
+  @Test
+  public void testGenerateCacmParse() throws Exception {
+    JsonNode output = generateQueriesAndDocuments(
+        "src/test/resources/prebuilt_indexes/lucene-inverted.sample_cacm.store_raw",
+        "src/test/resources/sample_runs/run.sample.cacm.txt",
+        "src/test/resources/sample_topics/topics.sample.cacm.txt",
+        "queries_and_docs.cacm.parse.jsonl",
+        false);
+
+    JsonNode candidate = output.get("candidates").get(0);
+    assertTrue(output.get("query").get("qid").asText().equals("1"));
+    assertTrue(output.get("query").get("text").asText().equals("preliminary"));
+    assertTrue(candidate.get("docid").asText().equals("CACM-0001"));
+    assertTrue(candidate.get("doc").isTextual());
+    assertTrue(candidate.get("doc").asText().contains("Preliminary Report"));
+  }
+
+  @Test
+  public void testGenerateCacmNoParse() throws Exception {
+    JsonNode output = generateQueriesAndDocuments(
+        "src/test/resources/prebuilt_indexes/lucene-inverted.sample_cacm.store_raw",
+        "src/test/resources/sample_runs/run.sample.cacm.txt",
+        "src/test/resources/sample_topics/topics.sample.cacm.txt",
+        "queries_and_docs.cacm.no-parse.jsonl",
+        true);
+
+    JsonNode candidate = output.get("candidates").get(0);
+    assertTrue(output.get("query").get("qid").asText().equals("1"));
+    assertTrue(output.get("query").get("text").asText().equals("preliminary"));
+    assertTrue(candidate.get("docid").asText().equals("CACM-0001"));
+    assertTrue(candidate.get("doc").isTextual());
+    assertTrue(candidate.get("doc").asText().contains("Preliminary Report"));
+  }
+
+  @Test
+  public void testGenerateMsMarcoV1PassageParse() throws Exception {
+    JsonNode output = generateQueriesAndDocuments(
+        "src/test/resources/prebuilt_indexes/lucene-inverted.sample_msmarco-v1-passage.store_raw",
+        "src/test/resources/sample_runs/run.sample.msmarco-v1-passage.txt",
+        "src/test/resources/sample_topics/topics.sample.msmarco-v1-passage.txt",
+        "queries_and_docs.msmarco-v1-passage.parse.jsonl",
+        false);
+
+    JsonNode candidate = output.get("candidates").get(0);
+    assertTrue(output.get("query").get("qid").asText().equals("1"));
+    assertTrue(output.get("query").get("text").asText().equals("obliterated"));
+    assertTrue(candidate.get("docid").asText().equals("0"));
+    assertTrue(candidate.get("doc").isTextual());
+    assertTrue(candidate.get("doc").asText().contains("hundreds of thousands of innocent lives obliterated"));
+  }
+
+  @Test
+  public void testGenerateMsMarcoV1PassageNoParse() throws Exception {
+    JsonNode output = generateQueriesAndDocuments(
+        "src/test/resources/prebuilt_indexes/lucene-inverted.sample_msmarco-v1-passage.store_raw",
+        "src/test/resources/sample_runs/run.sample.msmarco-v1-passage.txt",
+        "src/test/resources/sample_topics/topics.sample.msmarco-v1-passage.txt",
+        "queries_and_docs.msmarco-v1-passage.no-parse.jsonl",
+        true);
+
+    JsonNode candidate = output.get("candidates").get(0);
+    assertTrue(output.get("query").get("qid").asText().equals("1"));
+    assertTrue(output.get("query").get("text").asText().equals("obliterated"));
+    assertTrue(candidate.get("docid").asText().equals("0"));
+    assertTrue(candidate.get("doc").isTextual());
+    assertTrue(candidate.get("doc").asText().contains("\"id\""));
+    assertTrue(candidate.get("doc").asText().contains("\"contents\""));
+    assertTrue(candidate.get("doc").asText().contains("hundreds of thousands of innocent lives obliterated"));
+  }
+
+  @Test
+  public void testGenerateMsMarcoV21DocSegmentedParse() throws Exception {
+    JsonNode output = generateQueriesAndDocuments(
+        "src/test/resources/prebuilt_indexes/lucene-inverted.sample_msmarco-v2.1-doc-segmented.store_raw",
+        "src/test/resources/sample_runs/run.sample.msmarco-v2.1-doc-segmented.txt",
+        "src/test/resources/sample_topics/topics.sample.msmarco-v2.1-doc-segmented.txt",
+        "queries_and_docs.msmarco-v2.1-doc-segmented.parse.jsonl",
+        false);
+
+    JsonNode candidate = output.get("candidates").get(0);
+    assertTrue(output.get("query").get("qid").asText().equals("1"));
+    assertTrue(output.get("query").get("text").asText().equals("demerara"));
+    assertTrue(candidate.get("docid").asText().equals("msmarco_v2.1_doc_01_0#0_0"));
+    assertTrue(candidate.get("doc").isObject());
+    assertTrue(candidate.get("doc").get("title").asText().equals(
+        "What’s the difference between golden, brown and demerara sugar? | Edmonton Journal"));
+    assertTrue(candidate.get("doc").get("segment").asText().contains("Not all brown sugars are the same"));
+  }
+
+  @Test
+  public void testGenerateMsMarcoV21DocSegmentedNoParse() throws Exception {
+    JsonNode output = generateQueriesAndDocuments(
+        "src/test/resources/prebuilt_indexes/lucene-inverted.sample_msmarco-v2.1-doc-segmented.store_raw",
+        "src/test/resources/sample_runs/run.sample.msmarco-v2.1-doc-segmented.txt",
+        "src/test/resources/sample_topics/topics.sample.msmarco-v2.1-doc-segmented.txt",
+        "queries_and_docs.msmarco-v2.1-doc-segmented.no-parse.jsonl",
+        true);
+
+    JsonNode candidate = output.get("candidates").get(0);
+    assertTrue(output.get("query").get("qid").asText().equals("1"));
+    assertTrue(output.get("query").get("text").asText().equals("demerara"));
+    assertTrue(candidate.get("docid").asText().equals("msmarco_v2.1_doc_01_0#0_0"));
+    assertTrue(candidate.get("doc").isTextual());
+    assertTrue(candidate.get("doc").asText().contains("\"title\""));
+    assertTrue(candidate.get("doc").asText().contains("\"segment\""));
+    assertTrue(candidate.get("doc").asText().contains("Not all brown sugars are the same"));
+  }
+
+  @Test
+  public void testGenerateBeirNfcorpusParse() throws Exception {
+    JsonNode output = generateQueriesAndDocuments(
+        "src/test/resources/prebuilt_indexes/lucene-inverted.sample_beir-nfcorpus.flat.store_raw",
+        "src/test/resources/sample_runs/run.sample.beir-nfcorpus.flat.txt",
+        "src/test/resources/sample_topics/topics.sample.beir-nfcorpus.flat.txt",
+        "queries_and_docs.beir-nfcorpus.flat.parse.jsonl",
+        false);
+
+    JsonNode candidate = output.get("candidates").get(0);
+    assertTrue(output.get("query").get("qid").asText().equals("1"));
+    assertTrue(output.get("query").get("text").asText().equals("statin"));
+    assertTrue(candidate.get("docid").asText().equals("MED-10"));
+    assertTrue(candidate.get("doc").isObject());
+    assertTrue(candidate.get("doc").get("title").asText().equals(
+        "Statin Use and Breast Cancer Survival: A Nationwide Cohort Study from Finland"));
+    assertTrue(candidate.get("doc").get("text").asText().contains("Recent studies have suggested"));
+  }
+
+  @Test
+  public void testGenerateBeirNfcorpusNoParse() throws Exception {
+    JsonNode output = generateQueriesAndDocuments(
+        "src/test/resources/prebuilt_indexes/lucene-inverted.sample_beir-nfcorpus.flat.store_raw",
+        "src/test/resources/sample_runs/run.sample.beir-nfcorpus.flat.txt",
+        "src/test/resources/sample_topics/topics.sample.beir-nfcorpus.flat.txt",
+        "queries_and_docs.beir-nfcorpus.flat.no-parse.jsonl",
+        true);
+
+    JsonNode candidate = output.get("candidates").get(0);
+    assertTrue(output.get("query").get("qid").asText().equals("1"));
+    assertTrue(output.get("query").get("text").asText().equals("statin"));
+    assertTrue(candidate.get("docid").asText().equals("MED-10"));
+    assertTrue(candidate.get("doc").isTextual());
+    assertTrue(candidate.get("doc").asText().contains("\"_id\""));
+    assertTrue(candidate.get("doc").asText().contains("\"title\""));
+    assertTrue(candidate.get("doc").asText().contains("\"text\""));
+    assertTrue(candidate.get("doc").asText().contains("Statin Use and Breast Cancer Survival"));
   }
 
   @Test

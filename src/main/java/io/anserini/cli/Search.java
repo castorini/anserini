@@ -32,10 +32,8 @@ import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.anserini.index.Constants;
 import io.anserini.index.IndexReaderUtils;
 import io.anserini.search.ScoredDoc;
 import io.anserini.search.SimpleSearcher;
@@ -63,12 +61,15 @@ public final class Search {
     @Option(name = "--trec", usage = "Emit TREC output.")
     public Boolean trec = false;
 
+    @Option(name = "--no-parse", usage = "Do not parse raw documents.")
+    public boolean noParse = false;
+
     @Option(name = "--help", help = true, usage = "Print this help message and exit.")
     public boolean help = false;
   }
 
   private static final String[] argsOrdering = new String[] {
-      "--index", "--hits", "--query", "--interactive", "--json", "--trec", "--help"};
+      "--index", "--hits", "--query", "--interactive", "--json", "--trec", "--no-parse", "--help"};
 
   private enum OutputMode {
     JSON,
@@ -128,6 +129,7 @@ public final class Search {
   }
 
   private static void runInteractive(Args args, OutputMode outputMode) {
+    boolean parse = !args.noParse;
     try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
          SimpleSearcher searcher = new SimpleSearcher(IndexReaderUtils.getIndex(args.index).toString())) {
       String query;
@@ -143,7 +145,7 @@ public final class Search {
           continue;
         }
 
-        printResults(searcher, query, args.hits, outputMode);
+        printResults(searcher, query, args.hits, outputMode, parse);
       }
     } catch (IOException e) {
       System.err.printf("Error: %s%n", e.getMessage());
@@ -151,14 +153,15 @@ public final class Search {
   }
 
   private static void runSingleQuery(Args parsed, OutputMode outputMode) {
+    boolean parse = !parsed.noParse;
     try (SimpleSearcher searcher = new SimpleSearcher(IndexReaderUtils.getIndex(parsed.index).toString())) {
-      printResults(searcher, parsed.query, parsed.hits, outputMode);
+      printResults(searcher, parsed.query, parsed.hits, outputMode, parse);
     } catch (IOException e) {
       System.err.printf("Error: %s%n", e.getMessage());
     }
   }
 
-  private static void printResults(SimpleSearcher searcher, String query, int hits, OutputMode outputMode) {
+  private static void printResults(SimpleSearcher searcher, String query, int hits, OutputMode outputMode, boolean parse) {
     try {
       ScoredDoc[] results = searcher.search(query, hits);
 
@@ -173,7 +176,7 @@ public final class Search {
         List<Map<String, Object>> candidates = new ArrayList<>();
 
         for (ScoredDoc hit : results) {
-          candidates.add(toJson(hit));
+          candidates.add(toJson(hit, parse));
         }
         output.put("candidates", candidates);
         System.out.println(JSON_MAPPER.writeValueAsString(output));
@@ -185,25 +188,11 @@ public final class Search {
     }
   }
 
-  private static Map<String, Object> toJson(ScoredDoc hit) {
+  private static Map<String, Object> toJson(ScoredDoc hit, boolean parse) {
     Map<String, Object> candidate = new LinkedHashMap<>();
     candidate.put("docid", hit.docid);
     candidate.put("score", hit.score);
-
-    try {
-      String raw = hit.lucene_document == null ? null : hit.lucene_document.get(Constants.RAW);
-      if (raw == null) {
-        candidate.put("doc", null);
-      } else {
-        JsonNode doc = JSON_MAPPER.readTree(raw);
-        candidate.put("doc", doc);
-      }
-    } catch (IOException e) {
-      Map<String, Object> rawDoc = new LinkedHashMap<>();
-      String raw = hit.lucene_document == null ? null : hit.lucene_document.get(Constants.RAW);
-      rawDoc.put("raw", raw);
-      candidate.put("doc", rawDoc);
-    }
+    candidate.put("doc", CliUtils.formatDocument(hit.lucene_document, parse, JSON_MAPPER));
     return candidate;
   }
 }

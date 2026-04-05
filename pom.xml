@@ -3,7 +3,7 @@
 
   <groupId>io.anserini</groupId>
   <artifactId>anserini</artifactId>
-  <version>1.6.1-SNAPSHOT</version>
+  <version>1.7.2-SNAPSHOT</version>
   <name>Anserini</name>
   <description>An information retrieval toolkit built on Lucene</description>
   <url>http://anserini.io/</url>
@@ -446,11 +446,6 @@
           <artifactId>jna</artifactId>
         </exclusion>
       </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>me.tongfei</groupId>
-      <artifactId>progressbar</artifactId>
-      <version>0.10.1</version>
     </dependency>
     <dependency>
       <groupId>commons-codec</groupId>

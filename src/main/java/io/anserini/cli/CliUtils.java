@@ -20,17 +20,68 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.lucene.document.Document;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public final class CliUtils {
   private CliUtils() {}
+
+  public static Object formatDocument(Document document, boolean parse, ObjectMapper mapper) {
+    if (document == null) {
+      return null;
+    }
+
+    String raw = document.get("raw");
+    if (raw != null) {
+      if (!parse) {
+        return raw;
+      }
+
+      try {
+        JsonNode json = mapper.readTree(raw);
+        if (json != null && json.isObject()) {
+          return normalizeParsedDocument(json, mapper);
+        }
+        return mapper.convertValue(json, Object.class);
+      } catch (JsonProcessingException e) {
+        return raw;
+      }
+    }
+
+    return null;
+  }
+
+  private static Object normalizeParsedDocument(JsonNode json, ObjectMapper mapper) {
+    Map<String, Object> parsed = new LinkedHashMap<>();
+    Iterator<Map.Entry<String, JsonNode>> fields = json.properties().iterator();
+    while (fields.hasNext()) {
+      Map.Entry<String, JsonNode> field = fields.next();
+      if ("id".equals(field.getKey()) || "_id".equals(field.getKey()) || "docid".equals(field.getKey())) {
+        continue;
+      }
+
+      JsonNode value = field.getValue();
+      parsed.put(field.getKey(), value.isValueNode() ? value.asText() : mapper.convertValue(value, Object.class));
+    }
+
+    if (parsed.size() == 1) {
+      return parsed.values().iterator().next();
+    }
+
+    return parsed;
+  }
 
   public static void printUsage(CmdLineParser parser, Class<?> applicationClass, String[] prioritizedOptions) {
     System.err.printf("%nOptions for %s:%n%n", applicationClass.getSimpleName());

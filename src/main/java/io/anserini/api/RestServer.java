@@ -30,15 +30,17 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.index.IndexableField;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import io.anserini.cli.CliUtils;
 import io.anserini.index.IndexReaderUtils;
-import io.anserini.reproduce.ReproductionUtils;
 import io.anserini.search.ScoredDoc;
 import io.anserini.search.SimpleSearcher;
 import io.anserini.util.LoggingBootstrap;
@@ -64,6 +66,7 @@ public final class RestServer implements Closeable {
   private static final int DEFAULT_HITS = 10;
   private static final String OPENAPI_PATH = "/openapi.yaml";
   private static final String DOCS_PATH = "/docs";
+  private static final ObjectMapper JSON_MAPPER = new ObjectMapper();
   private static final byte[] OPENAPI_SPEC = loadOpenApiSpec();
   private static final byte[] DOCS_PAGE = loadResource("/rest/docs.html");
   private static final String ROUTE_ERROR = "Expected route /v1/{index}/search or /v1/{index}/doc/{docid}";
@@ -129,6 +132,11 @@ public final class RestServer implements Closeable {
       return;
     }
 
+    Boolean parse = parseBooleanQueryParam(ctx, "parse", true);
+    if (parse == null) {
+      return;
+    }
+
     SimpleSearcher searcher = searchers.computeIfAbsent(index, this::createSearcher);
     if (searcher == null) {
       writeError(ctx, 400, "Unable to open index: " + index);
@@ -140,7 +148,7 @@ public final class RestServer implements Closeable {
     synchronized (searcher) {
       results = searcher.search(query, hits);
       for (int rank = 0; rank < results.length; rank++) {
-        candidates.add(toJsonCandidate(results[rank], rank + 1, searcher.doc(results[rank].docid)));
+        candidates.add(toJsonCandidate(results[rank], rank + 1, searcher.doc(results[rank].docid), parse));
       }
     }
 
@@ -157,6 +165,11 @@ public final class RestServer implements Closeable {
     String docid = decode(ctx.pathParam("docid"));
     if (docid == null || docid.isBlank()) {
       writeError(ctx, 400, "Path parameter 'docid' is required");
+      return;
+    }
+
+    Boolean parse = parseBooleanQueryParam(ctx, "parse", true);
+    if (parse == null) {
       return;
     }
 
@@ -180,7 +193,7 @@ public final class RestServer implements Closeable {
     response.put("api", "v1");
     response.put("index", index);
     response.put("docid", docid);
-    response.put("document", toDocumentJson(document));
+    response.put("doc", toDocumentResponseJson(document, parse));
     writeJson(ctx, 200, response);
   }
 
@@ -192,30 +205,40 @@ public final class RestServer implements Closeable {
     }
   }
 
-  private static Map<String, Object> toJsonCandidate(ScoredDoc hit, int rank, Document document) {
+  private static Map<String, Object> toJsonCandidate(ScoredDoc hit, int rank, Document document, boolean parse) {
     Map<String, Object> candidate = new LinkedHashMap<>();
     candidate.put("docid", hit.docid);
     candidate.put("score", hit.score);
     candidate.put("rank", rank);
-    candidate.put("doc", toDocumentJson(document));
+    candidate.put("doc", toCandidateDocumentJson(document, parse));
 
     return candidate;
   }
 
-  private static Map<String, Object> toDocumentJson(Document document) {
-    if (document == null) {
-      return null;
+  private static Boolean parseBooleanQueryParam(Context ctx, String name, boolean defaultValue) {
+    String rawValue = ctx.queryParam(name);
+    if (rawValue == null) {
+      return defaultValue;
     }
 
-    Map<String, Object> fields = new LinkedHashMap<>();
-    for (IndexableField field : document.getFields()) {
-      String value = field.stringValue();
-      if (value != null && !fields.containsKey(field.name())) {
-        fields.put(field.name(), value);
-      }
+    if ("true".equalsIgnoreCase(rawValue)) {
+      return true;
     }
 
-    return fields;
+    if ("false".equalsIgnoreCase(rawValue)) {
+      return false;
+    }
+
+    writeError(ctx, 400, "Parameter '" + name + "' must be 'true' or 'false'");
+    return null;
+  }
+
+  private static Object toCandidateDocumentJson(Document document, boolean parse) {
+    return CliUtils.formatDocument(document, parse, JSON_MAPPER);
+  }
+
+  private static Object toDocumentResponseJson(Document document, boolean parse) {
+    return CliUtils.formatDocument(document, parse, JSON_MAPPER);
   }
 
   private static String decode(String value) {
@@ -271,7 +294,38 @@ public final class RestServer implements Closeable {
         searcher.close();
       }
     }
+    Server jettyServer = app.jettyServer().server();
     app.stop();
+    try {
+      jettyServer.join();
+      if (jettyServer.getThreadPool() instanceof QueuedThreadPool threadPool) {
+        threadPool.join();
+      }
+      interruptStartupWatchdog();
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new IOException("Interrupted while waiting for REST server shutdown", e);
+    } finally {
+      jettyServer.destroy();
+    }
+  }
+
+  private static void interruptStartupWatchdog() throws InterruptedException {
+    for (Map.Entry<Thread, StackTraceElement[]> entry : Thread.getAllStackTraces().entrySet()) {
+      Thread thread = entry.getKey();
+      if (!thread.isAlive()) {
+        continue;
+      }
+      for (StackTraceElement element : entry.getValue()) {
+        if ("io.javalin.jetty.JettyUtil".equals(element.getClassName())
+            && element.getMethodName().contains("maybeLogIfServerNotStarted")) {
+          thread.setUncaughtExceptionHandler((t, e) -> { });
+          thread.interrupt();
+          thread.join();
+          break;
+        }
+      }
+    }
   }
 
   public static void main(String[] args) {
