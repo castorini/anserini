@@ -83,6 +83,9 @@ io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config rag24-doc-segmented-test-nist.splade-v3.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config rag24-doc-segmented-test-nist.splade-v3.cached
 
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config rag25-doc-segmented-test-nist
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config rag25-doc-segmented-test-umbrela2
+
 # MS MARCO V2.1 doc:
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config msmarco-v2.1-doc
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config msmarco-v2.1-doc-segmented
