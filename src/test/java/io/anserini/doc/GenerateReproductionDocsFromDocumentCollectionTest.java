@@ -48,7 +48,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("cacm"),
         Pattern.quote("cacm-download")
     ));
-    ORDERING.put("MS MARCO V1 + DL19/DL20 regressions", List.of(
+    ORDERING.put("MS MARCO V1 + DL19-20 regressions", List.of(
         Pattern.quote("msmarco-v1-passage"),
         Pattern.quote("msmarco-v1-passage.bm25-b8"),
         Pattern.quote("msmarco-v1-passage.wp-tok"),
@@ -221,7 +221,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("dl20-doc-segmented.unicoil.cached"),
         Pattern.quote("dl20-doc-segmented.unicoil-noexp.cached")
     ));
-    ORDERING.put("MS MARCO V2 + DL21 regressions", List.of(
+    ORDERING.put("MS MARCO V2 + DL21-23 regressions", List.of(
         Pattern.quote("msmarco-v2-passage"),
         Pattern.quote("msmarco-v2-passage.d2q-t5"),
         Pattern.quote("msmarco-v2-passage.unicoil-noexp-0shot.cached"),
@@ -290,7 +290,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("dl23-doc-segmented.unicoil-noexp-0shot-v2.cached"),
         Pattern.quote("dl23-doc-segmented.unicoil-0shot-v2.cached")
     ));
-    ORDERING.put("MS MARCO V2.1 + RAG24 regressions", List.of(
+    ORDERING.put("MS MARCO V2.1 + RAG24-25 regressions", List.of(
         Pattern.quote("rag24-doc-segmented-test-umbrela"),
         Pattern.quote("rag24-doc-segmented-test-umbrela.splade-v3.onnx"),
         Pattern.quote("rag24-doc-segmented-test-umbrela.splade-v3.cached"),
@@ -318,8 +318,28 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard08.flat.onnx"),
         Pattern.quote("rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard09.flat.onnx"),
         Pattern.quote(""),
-        Pattern.quote("rag25-doc-segmented-test-nist"),
         Pattern.quote("rag25-doc-segmented-test-umbrela2"),
+        Pattern.quote("rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard00.flat.onnx"),
+        Pattern.quote("rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard01.flat.onnx"),
+        Pattern.quote("rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard02.flat.onnx"),
+        Pattern.quote("rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard03.flat.onnx"),
+        Pattern.quote("rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard04.flat.onnx"),
+        Pattern.quote("rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard05.flat.onnx"),
+        Pattern.quote("rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard06.flat.onnx"),
+        Pattern.quote("rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard07.flat.onnx"),
+        Pattern.quote("rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard08.flat.onnx"),
+        Pattern.quote("rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard09.flat.onnx"),
+        Pattern.quote("rag25-doc-segmented-test-nist"),
+        Pattern.quote("rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard00.flat.onnx"),
+        Pattern.quote("rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard01.flat.onnx"),
+        Pattern.quote("rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard02.flat.onnx"),
+        Pattern.quote("rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard03.flat.onnx"),
+        Pattern.quote("rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard04.flat.onnx"),
+        Pattern.quote("rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard05.flat.onnx"),
+        Pattern.quote("rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard06.flat.onnx"),
+        Pattern.quote("rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard07.flat.onnx"),
+        Pattern.quote("rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard08.flat.onnx"),
+        Pattern.quote("rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard09.flat.onnx"),
         Pattern.quote(""),
         Pattern.quote("msmarco-v2.1-doc"),
         Pattern.quote("msmarco-v2.1-doc-segmented"),

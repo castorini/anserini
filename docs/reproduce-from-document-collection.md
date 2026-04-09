@@ -40,7 +40,7 @@ The following configurations (i.e., `--config` settings) are available:
 
 </details>
 <details>
-<summary>MS MARCO V1 + DL19/DL20 regressions</summary>
+<summary>MS MARCO V1 + DL19-20 regressions</summary>
 
 + [`msmarco-v1-passage`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.md)]
 + [`msmarco-v1-passage.bm25-b8`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.bm25-b8.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.bm25-b8.md)]
@@ -258,7 +258,7 @@ The following configurations (i.e., `--config` settings) are available:
 
 </details>
 <details>
-<summary>MS MARCO V2 + DL21 regressions</summary>
+<summary>MS MARCO V2 + DL21-23 regressions</summary>
 
 + [`msmarco-v2-passage`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-passage.yaml) [[docs](reproduce/from-document-collection/msmarco-v2-passage.md)]
 + [`msmarco-v2-passage.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-passage.d2q-t5.yaml) [[docs](reproduce/from-document-collection/msmarco-v2-passage.d2q-t5.md)]
@@ -339,7 +339,7 @@ The following configurations (i.e., `--config` settings) are available:
 
 </details>
 <details>
-<summary>MS MARCO V2.1 + RAG24 regressions</summary>
+<summary>MS MARCO V2.1 + RAG24-25 regressions</summary>
 
 + [`rag24-doc-segmented-test-umbrela`](../src/main/resources/reproduce/from-document-collection/configs/rag24-doc-segmented-test-umbrela.yaml) [[docs](reproduce/from-document-collection/rag24-doc-segmented-test-umbrela.md)]
 + [`rag24-doc-segmented-test-umbrela.splade-v3.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag24-doc-segmented-test-umbrela.splade-v3.onnx.yaml) [[docs](reproduce/from-document-collection/rag24-doc-segmented-test-umbrela.splade-v3.onnx.md)]
@@ -371,8 +371,28 @@ The following configurations (i.e., `--config` settings) are available:
 
 <div></div>
 
-+ [`rag25-doc-segmented-test-nist`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-nist.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-nist.md)]
 + [`rag25-doc-segmented-test-umbrela2`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-umbrela2.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-umbrela2.md)]
++ [`rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard00.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard00.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard00.flat.onnx.md)]
++ [`rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard01.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard01.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard01.flat.onnx.md)]
++ [`rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard02.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard02.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard02.flat.onnx.md)]
++ [`rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard03.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard03.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard03.flat.onnx.md)]
++ [`rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard04.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard04.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard04.flat.onnx.md)]
++ [`rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard05.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard05.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard05.flat.onnx.md)]
++ [`rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard06.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard06.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard06.flat.onnx.md)]
++ [`rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard07.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard07.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard07.flat.onnx.md)]
++ [`rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard08.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard08.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard08.flat.onnx.md)]
++ [`rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard09.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard09.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard09.flat.onnx.md)]
++ [`rag25-doc-segmented-test-nist`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-nist.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-nist.md)]
++ [`rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard00.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard00.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard00.flat.onnx.md)]
++ [`rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard01.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard01.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard01.flat.onnx.md)]
++ [`rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard02.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard02.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard02.flat.onnx.md)]
++ [`rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard03.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard03.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard03.flat.onnx.md)]
++ [`rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard04.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard04.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard04.flat.onnx.md)]
++ [`rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard05.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard05.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard05.flat.onnx.md)]
++ [`rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard06.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard06.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard06.flat.onnx.md)]
++ [`rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard07.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard07.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard07.flat.onnx.md)]
++ [`rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard08.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard08.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard08.flat.onnx.md)]
++ [`rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard09.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard09.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard09.flat.onnx.md)]
 
 
 <div></div>
