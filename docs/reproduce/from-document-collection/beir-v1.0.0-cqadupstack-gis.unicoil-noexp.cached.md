@@ -14,8 +14,8 @@ Note that this page is automatically generated from [this template](../../../src
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
-```
-python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-gis.unicoil-noexp.cached
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --regression beir-v1.0.0-cqadupstack-gis.unicoil-noexp.cached
 ```
 
 All the BEIR corpora, encoded by the uniCOIL-noexp model, are available for download:
@@ -32,7 +32,7 @@ After download and unpacking the corpora, the `run_regression.py` command above 
 
 Typical indexing command:
 
-```
+```bash
 bin/run.sh io.anserini.index.IndexCollection \
   -threads 16 \
   -collection JsonVectorCollection \
@@ -51,7 +51,7 @@ Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/t
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
-```
+```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.beir-v1.0.0-cqadupstack-gis.unicoil-noexp/ \
   -topics tools/topics-and-qrels/topics.beir-v1.0.0-cqadupstack-gis.test.unicoil-noexp.tsv.gz \
@@ -62,7 +62,7 @@ bin/run.sh io.anserini.search.SearchCollection \
 
 Evaluation can be performed using `trec_eval`:
 
-```
+```bash
 bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-gis.test.txt runs/run.beir-v1.0.0-cqadupstack-gis.unicoil-noexp.unicoil-noexp-cached.topics.beir-v1.0.0-cqadupstack-gis.test.unicoil-noexp.txt
 bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-gis.test.txt runs/run.beir-v1.0.0-cqadupstack-gis.unicoil-noexp.unicoil-noexp-cached.topics.beir-v1.0.0-cqadupstack-gis.test.unicoil-noexp.txt
 bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-gis.test.txt runs/run.beir-v1.0.0-cqadupstack-gis.unicoil-noexp.unicoil-noexp-cached.topics.beir-v1.0.0-cqadupstack-gis.test.unicoil-noexp.txt

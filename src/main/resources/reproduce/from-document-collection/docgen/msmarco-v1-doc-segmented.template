@@ -20,15 +20,15 @@ These new versions yield end-to-end scores that are slightly different, so if nu
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
-```
-python src/main/python/run_regression.py --index --verify --search --regression ${test_name}
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --regression ${test_name}
 ```
 
 ## Indexing
 
 Typical indexing command:
 
-```
+```bash
 ${index_cmds}
 ```
 
@@ -44,13 +44,13 @@ The regression experiments here evaluate on the 5193 dev set questions.
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
-```
+```bash
 ${ranking_cmds}
 ```
 
 Evaluation can be performed using `trec_eval`:
 
-```
+```bash
 ${eval_cmds}
 ```
 
@@ -123,7 +123,7 @@ However, the effectiveness has changed slightly, since we corrected underlying i
 
 For default parameters (`k1=0.9`, `b=0.4`):
 
-```
+```bash
 $ python tools/scripts/msmarco/msmarco_doc_eval.py \
    --judgments tools/topics-and-qrels/qrels.msmarco-doc.dev.txt \
    --run runs/run.msmarco-doc-segmented.bm25-default.txt
@@ -136,7 +136,7 @@ QueriesRanked: 5193
 
 For tuned parameters (`k1=2.16`, `b=0.61`):
 
-```
+```bash
 $ python tools/scripts/msmarco/msmarco_doc_eval.py \
    --judgments tools/topics-and-qrels/qrels.msmarco-doc.dev.txt \
    --run runs/run.msmarco-doc-segmented.bm25-tuned.txt

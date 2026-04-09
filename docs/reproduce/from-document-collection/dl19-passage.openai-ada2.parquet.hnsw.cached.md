@@ -17,7 +17,7 @@ Note that this page is automatically generated from [this template](../../../src
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```bash
-python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.openai-ada2.parquet.hnsw.cached
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --regression dl19-passage.openai-ada2.parquet.hnsw.cached
 ```
 
 We make available a version of the MS MARCO Passage Corpus that has already been encoded with the OpenAI-ada2 embedding model.
@@ -25,7 +25,7 @@ We make available a version of the MS MARCO Passage Corpus that has already been
 From any machine, the following command will download the corpus and perform the complete regression, end to end:
 
 ```bash
-python src/main/python/run_regression.py --download --index --verify --search --regression dl19-passage.openai-ada2.parquet.hnsw.cached
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --download --index --verify --search --regression dl19-passage.openai-ada2.parquet.hnsw.cached
 ```
 
 The `run_regression.py` script automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same regression results.
@@ -43,7 +43,7 @@ To confirm, `msmarco-passage-openai-ada2.parquet.tar` is 51 GB and has MD5 check
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
-python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.openai-ada2.parquet.hnsw.cached \
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --regression dl19-passage.openai-ada2.parquet.hnsw.cached \
   --corpus-path collections/msmarco-passage-openai-ada2.parquet
 ```
 

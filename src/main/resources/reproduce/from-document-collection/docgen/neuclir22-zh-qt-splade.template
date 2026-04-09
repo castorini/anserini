@@ -14,8 +14,8 @@ Thus, no neural inference is required to reproduce these experiments; see instru
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
-```
-python src/main/python/run_regression.py --index --verify --search --regression ${test_name}
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --regression ${test_name}
 ```
 
 ## Corpus Download
@@ -31,7 +31,7 @@ To confirm, `neuclir22-zh-splade.tar` is 5.9 GB and has MD5 checksum `f491137ef8
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
-python src/main/python/run_regression.py --index --verify --search --regression ${test_name} \
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --regression ${test_name} \
   --corpus-path collections/${corpus}
 ```
 
@@ -39,7 +39,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 
 Typical indexing command:
 
-```
+```bash
 ${index_cmds}
 ```
 
@@ -49,13 +49,13 @@ For additional details, see explanation of [common indexing options](${root_path
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
-```
+```bash
 ${ranking_cmds}
 ```
 
 Evaluation can be performed using `trec_eval`:
 
-```
+```bash
 ${eval_cmds}
 ```
 

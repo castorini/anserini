@@ -24,15 +24,15 @@ Note that this page is automatically generated from [this template](../../../src
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
-```
-python src/main/python/run_regression.py --index --verify --search --regression rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard02.flat.onnx
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --regression rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard02.flat.onnx
 ```
 
 ## Indexing
 
 Typical indexing command:
 
-```
+```bash
 bin/run.sh io.anserini.index.IndexFlatDenseVectors \
   -threads 6 \
   -collection ParquetDenseVectorCollection \
@@ -54,7 +54,7 @@ Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/t
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
-```
+```bash
 bin/run.sh io.anserini.search.SearchFlatDenseVectors \
   -index indexes/lucene-flat.msmarco-v2.1-doc-segmented-shard02.arctic-embed-l \
   -topics tools/topics-and-qrels/topics.rag25.test.jsonl \
@@ -65,7 +65,7 @@ bin/run.sh io.anserini.search.SearchFlatDenseVectors \
 
 Evaluation can be performed using `trec_eval`:
 
-```
+```bash
 bin/trec_eval -c -m ndcg_cut.30 tools/topics-and-qrels/qrels.rag25.test-umbrela2.txt runs/run.msmarco-v2.1-doc-segmented-shard02.arctic-embed-l.arctic-embed-l-flat-onnx.topics.rag25.test.jsonl.txt
 bin/trec_eval -c -m ndcg_cut.100 tools/topics-and-qrels/qrels.rag25.test-umbrela2.txt runs/run.msmarco-v2.1-doc-segmented-shard02.arctic-embed-l.arctic-embed-l-flat-onnx.topics.rag25.test.jsonl.txt
 bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.rag25.test-umbrela2.txt runs/run.msmarco-v2.1-doc-segmented-shard02.arctic-embed-l.arctic-embed-l-flat-onnx.topics.rag25.test.jsonl.txt

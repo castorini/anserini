@@ -10,15 +10,15 @@ Note that this page is automatically generated from [this template](../../../src
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
-```
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-passage
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --regression msmarco-v1-passage
 ```
 
 ## Indexing
 
 Typical indexing command:
 
-```
+```bash
 bin/run.sh io.anserini.index.IndexCollection \
   -threads 9 \
   -collection JsonCollection \
@@ -41,7 +41,7 @@ The regression experiments here evaluate on the 6980 dev set questions; see [thi
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
-```
+```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v1-passage/ \
   -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
@@ -59,7 +59,7 @@ bin/run.sh io.anserini.search.SearchCollection \
 
 Evaluation can be performed using `trec_eval`:
 
-```
+```bash
 bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.bm25-default.topics.msmarco-passage.dev-subset.txt
 bin/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.bm25-default.topics.msmarco-passage.dev-subset.txt
 bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage.bm25-default.topics.msmarco-passage.dev-subset.txt
@@ -139,7 +139,7 @@ QueriesRanked: 6980
 As of February 2022, following resolution of [#1730](https://github.com/castorini/anserini/issues/1730), BM25 runs for the MS MARCO leaderboard can be generated with the commands below.
 For default parameters (`k1=0.9`, `b=0.4`):
 
-```
+```bash
 $ sh target/appassembler/bin/SearchCollection \
     -index indexes/lucene-index.msmarco-passage/ \
     -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
@@ -159,7 +159,7 @@ QueriesRanked: 6980
 
 For tuned parameters (`k1=0.82`, `b=0.68`):
 
-```
+```bash
 $ sh target/appassembler/bin/SearchCollection \
     -index indexes/lucene-index.msmarco-passage/ \
     -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \

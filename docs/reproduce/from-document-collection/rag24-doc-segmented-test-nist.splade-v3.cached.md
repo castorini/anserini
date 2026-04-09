@@ -25,8 +25,8 @@ Note that this page is automatically generated from [this template](../../../src
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
-```
-python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test-nist.splade-v3.cached
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --regression rag24-doc-segmented-test-nist.splade-v3.cached
 ```
 
 We make available a version of the MS MARCO V2.1 segmented document corpus that has already been encoded with SPLADE-v3.
@@ -34,7 +34,7 @@ We make available a version of the MS MARCO V2.1 segmented document corpus that 
 From any machine, the following command will download the corpus and perform the complete regression, end to end:
 
 ```bash
-python src/main/python/run_regression.py --download --index --verify --search --regression rag24-doc-segmented-test-nist.splade-v3.cached
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --download --index --verify --search --regression rag24-doc-segmented-test-nist.splade-v3.cached
 ```
 
 The `run_regression.py` script automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same regression results.
@@ -52,7 +52,7 @@ To confirm, `msmarco-v2.1-doc-segmented-splade-v3.tar` is 125 GB and has MD5 che
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
-python src/main/python/run_regression.py --index --verify --search --regression rag24-doc-segmented-test-nist.splade-v3.cached \
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --regression rag24-doc-segmented-test-nist.splade-v3.cached \
   --corpus-path collections/msmarco_v2.1_doc_segmented_splade-v3
 ```
 
@@ -60,7 +60,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 
 Typical indexing command:
 
-```
+```bash
 bin/run.sh io.anserini.index.IndexCollection \
   -threads 24 \
   -collection JsonVectorCollection \
@@ -83,7 +83,7 @@ Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/t
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
-```
+```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3/ \
   -topics tools/topics-and-qrels/topics.rag24.test.splade-v3.tsv.gz \
@@ -94,7 +94,7 @@ bin/run.sh io.anserini.search.SearchCollection \
 
 Evaluation can be performed using `trec_eval`:
 
-```
+```bash
 bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.rag24.test.txt runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-cached.topics.rag24.test.splade-v3.txt
 bin/trec_eval -c -m ndcg_cut.100 tools/topics-and-qrels/qrels.rag24.test.txt runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-cached.topics.rag24.test.splade-v3.txt
 bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.rag24.test.txt runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-cached.topics.rag24.test.splade-v3.txt

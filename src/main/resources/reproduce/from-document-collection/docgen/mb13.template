@@ -8,8 +8,8 @@ Note that this page is automatically generated from [this template](${template})
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
-```
-python src/main/python/run_regression.py --index --verify --search --regression ${test_name}
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --regression ${test_name}
 ```
 
 ## Indexing
@@ -19,7 +19,7 @@ effectiveness results you'll get should be similar, but will likely not be ident
 
 Indexing the Tweets2013 collection:
 
-```
+```bash
 ${index_cmds}
 ```
 
@@ -44,13 +44,13 @@ They are downloaded from NIST:
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
-```
+```bash
 ${ranking_cmds}
 ```
 
 Evaluation can be performed using `trec_eval`:
 
-```
+```bash
 ${eval_cmds}
 ```
 

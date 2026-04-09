@@ -23,15 +23,15 @@ These new versions yield end-to-end scores that are slightly different, so if nu
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
-```
-python src/main/python/run_regression.py --index --verify --search --regression ${test_name}
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --regression ${test_name}
 ```
 
 ## Indexing
 
 Typical indexing command:
 
-```
+```bash
 ${index_cmds}
 ```
 
@@ -48,13 +48,13 @@ The original data can be found [here](https://trec.nist.gov/data/deep2019.html).
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
-```
+```bash
 ${ranking_cmds}
 ```
 
 Evaluation can be performed using `trec_eval`:
 
-```
+```bash
 ${eval_cmds}
 ```
 

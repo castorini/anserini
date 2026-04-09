@@ -10,7 +10,7 @@ Note that this page is automatically generated from [this template](../../../src
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```bash
-python src/main/python/run_regression.py --index --verify --search --regression wikipedia-dpr-100w-bm25
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --regression wikipedia-dpr-100w-bm25
 ```
 
 ## Indexing

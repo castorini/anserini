@@ -7,8 +7,8 @@ Note that this page is automatically generated from [this template](../../../src
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
-```
-python src/main/python/run_regression.py --index --verify --search --regression bright-economics
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --regression bright-economics
 ```
 
 All the BRIGHT corpora are available for download:
@@ -25,7 +25,7 @@ After download and unpacking the corpora, the `run_regression.py` command above 
 
 Typical indexing command:
 
-```
+```bash
 bin/run.sh io.anserini.index.IndexCollection \
   -threads 1 \
   -collection JsonCollection \
@@ -45,7 +45,7 @@ Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/t
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
-```
+```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.bright-economics/ \
   -topics tools/topics-and-qrels/topics.bright-economics.tsv.gz \
@@ -56,7 +56,7 @@ bin/run.sh io.anserini.search.SearchCollection \
 
 Evaluation can be performed using `trec_eval`:
 
-```
+```bash
 bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.bright-economics.txt runs/run.bright-economics.bm25.topics.bright-economics.txt
 bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.bright-economics.txt runs/run.bright-economics.bm25.topics.bright-economics.txt
 bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.bright-economics.txt runs/run.bright-economics.bm25.topics.bright-economics.txt

@@ -13,8 +13,8 @@ Note that this page is automatically generated from [this template](../../../src
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
-```
-python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.parquet.hnsw-sqv.onnx
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --regression beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.parquet.hnsw-sqv.onnx
 ```
 
 All the BEIR corpora, encoded by the BGE-base-en-v1.5 model and stored in Parquet format, are available for download:
@@ -31,7 +31,7 @@ After downloading and unpacking the corpora, the `run_regression.py` command abo
 
 Sample indexing command, building quantized HNSW indexes:
 
-```
+```bash
 bin/run.sh io.anserini.index.IndexHnswDenseVectors \
   -threads 4 \
   -collection ParquetDenseVectorCollection \
@@ -50,7 +50,7 @@ Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/t
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
-```
+```bash
 bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -index indexes/lucene-hnsw-sqv.beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5/ \
   -topics tools/topics-and-qrels/topics.beir-v1.0.0-cqadupstack-mathematica.test.tsv.gz \
@@ -61,7 +61,7 @@ bin/run.sh io.anserini.search.SearchHnswDenseVectors \
 
 Evaluation can be performed using `trec_eval`:
 
-```
+```bash
 bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-mathematica.test.txt runs/run.beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.bge-hnsw-sqv-onnx.topics.beir-v1.0.0-cqadupstack-mathematica.test.txt
 bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-mathematica.test.txt runs/run.beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.bge-hnsw-sqv-onnx.topics.beir-v1.0.0-cqadupstack-mathematica.test.txt
 bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-mathematica.test.txt runs/run.beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.bge-hnsw-sqv-onnx.topics.beir-v1.0.0-cqadupstack-mathematica.test.txt

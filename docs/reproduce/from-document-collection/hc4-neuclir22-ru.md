@@ -9,8 +9,8 @@ Note that this page is automatically generated from [this template](../../../src
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
-```
-python src/main/python/run_regression.py --index --verify --search --regression hc4-neuclir22-ru
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --regression hc4-neuclir22-ru
 ```
 
 ## Corpus Download
@@ -22,7 +22,7 @@ After download, verify that all and only specified documents have been downloade
 With the corpus downloaded, unpack into `collections/` and run the following command to perform the remaining steps below:
 
 ```bash
-python src/main/python/run_regression.py --index --verify --search --regression hc4-neuclir22-ru \
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --regression hc4-neuclir22-ru \
   --corpus-path collections/neuclir22-ru
 ```
 
@@ -31,7 +31,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 
 Typical indexing command:
 
-```
+```bash
 bin/run.sh io.anserini.index.IndexCollection \
   -threads 8 \
   -collection NeuClirCollection \
@@ -49,7 +49,7 @@ For additional details, see explanation of [common indexing options](../../../do
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
-```
+```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-ru \
   -topics tools/topics-and-qrels/topics.hc4-v1.0-ru.test.title.tsv \
@@ -110,7 +110,7 @@ bin/run.sh io.anserini.search.SearchCollection \
 
 Evaluation can be performed using `trec_eval`:
 
-```
+```bash
 bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.hc4-neuclir22-ru.test.txt runs/run.neuclir22-ru.bm25-default.topics.hc4-v1.0-ru.test.title.txt
 python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.hc4-neuclir22-ru.test.txt runs/run.neuclir22-ru.bm25-default.topics.hc4-v1.0-ru.test.title.txt
 bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.hc4-neuclir22-ru.test.txt runs/run.neuclir22-ru.bm25-default.topics.hc4-v1.0-ru.test.title.txt
