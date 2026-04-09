@@ -41,6 +41,7 @@ public class AnseriniLucene99ScalarQuantizedVectorsFormat extends KnnVectorsForm
 
   static final String NAME = "AnseriniLucene99ScalarQuantizedVectorsFormat";
 
+  // Keep the legacy SPI name, but delegate to the Lucene 10.4 implementation.
   private final KnnVectorsFormat format = new Lucene104ScalarQuantizedVectorsFormat();
 
   /**
