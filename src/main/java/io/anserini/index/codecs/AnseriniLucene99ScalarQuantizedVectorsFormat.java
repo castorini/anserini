@@ -16,11 +16,13 @@
 
 package io.anserini.index.codecs;
 
+import java.io.IOException;
+
+import org.apache.lucene.backward_codecs.lucene99.Lucene99ScalarQuantizedVectorsFormat;
 import org.apache.lucene.codecs.KnnFieldVectorsWriter;
 import org.apache.lucene.codecs.KnnVectorsFormat;
 import org.apache.lucene.codecs.KnnVectorsReader;
 import org.apache.lucene.codecs.KnnVectorsWriter;
-import org.apache.lucene.codecs.lucene104.Lucene104ScalarQuantizedVectorsFormat;
 import org.apache.lucene.index.ByteVectorValues;
 import org.apache.lucene.index.FieldInfo;
 import org.apache.lucene.index.FloatVectorValues;
@@ -35,14 +37,11 @@ import org.apache.lucene.search.DocIdSetIterator;
 import org.apache.lucene.search.KnnCollector;
 import org.apache.lucene.util.Bits;
 
-import java.io.IOException;
-
 public class AnseriniLucene99ScalarQuantizedVectorsFormat extends KnnVectorsFormat {
 
   static final String NAME = "AnseriniLucene99ScalarQuantizedVectorsFormat";
 
-  // Keep the legacy SPI name, but delegate to the Lucene 10.4 implementation.
-  private final KnnVectorsFormat format = new Lucene104ScalarQuantizedVectorsFormat();
+  private final KnnVectorsFormat format = new Lucene99ScalarQuantizedVectorsFormat();
 
   /**
    * Sole constructor

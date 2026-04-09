@@ -17,6 +17,7 @@
 package io.anserini.index.codecs;
 
 import java.io.IOException;
+
 import org.apache.lucene.codecs.KnnVectorsFormat;
 import org.apache.lucene.codecs.KnnVectorsReader;
 import org.apache.lucene.codecs.KnnVectorsWriter;
