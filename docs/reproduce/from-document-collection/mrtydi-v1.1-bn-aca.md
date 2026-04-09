@@ -9,15 +9,15 @@ Note that this page is automatically generated from [this template](../../../src
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
-```
-python src/main/python/run_regression.py --index --verify --search --regression mrtydi-v1.1-bn-aca
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config mrtydi-v1.1-bn-aca
 ```
 
 ## Indexing
 
 Typical indexing command:
 
-```
+```bash
 bin/run.sh io.anserini.index.IndexCollection \
   -threads 1 \
   -collection MrTyDiCollection \
@@ -35,7 +35,7 @@ For additional details, see explanation of [common indexing options](../../../do
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
-```
+```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-bengali-aca/ \
   -topics tools/topics-and-qrels/topics.mrtydi-v1.1-bn.train.txt.gz \
@@ -58,7 +58,7 @@ bin/run.sh io.anserini.search.SearchCollection \
 
 Evaluation can be performed using `trec_eval`:
 
-```
+```bash
 bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools/topics-and-qrels/qrels.mrtydi-v1.1-bn.train.txt runs/run.mrtydi-v1.1-bn.bm25.topics.mrtydi-v1.1-bn.train.txt
 bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools/topics-and-qrels/qrels.mrtydi-v1.1-bn.dev.txt runs/run.mrtydi-v1.1-bn.bm25.topics.mrtydi-v1.1-bn.dev.txt
 bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools/topics-and-qrels/qrels.mrtydi-v1.1-bn.test.txt runs/run.mrtydi-v1.1-bn.bm25.topics.mrtydi-v1.1-bn.test.txt

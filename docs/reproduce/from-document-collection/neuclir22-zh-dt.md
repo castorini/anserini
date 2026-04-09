@@ -11,8 +11,8 @@ Note that this page is automatically generated from [this template](../../../src
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
-```
-python src/main/python/run_regression.py --index --verify --search --regression neuclir22-zh-dt
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config neuclir22-zh-dt
 ```
 
 ## Corpus Download
@@ -22,7 +22,7 @@ The NeuCLIR 2022 corpus can be downloaded following the instructions [here](http
 With the corpus downloaded, unpack into `collections/` and run the following command to perform the remaining steps below:
 
 ```bash
-python src/main/python/run_regression.py --index --verify --search --regression neuclir22-zh-dt \
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config neuclir22-zh-dt \
   --corpus-path collections/neuclir22-zh-en
 ```
 
@@ -30,7 +30,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 
 Typical indexing command:
 
-```
+```bash
 bin/run.sh io.anserini.index.IndexCollection \
   -threads 8 \
   -collection NeuClirCollection \
@@ -47,7 +47,7 @@ For additional details, see explanation of [common indexing options](../../../do
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
-```
+```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-zh-en \
   -topics tools/topics-and-qrels/topics.neuclir22-en.original-title.txt \
@@ -108,7 +108,7 @@ bin/run.sh io.anserini.search.SearchCollection \
 
 Evaluation can be performed using `trec_eval`:
 
-```
+```bash
 bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-zh.txt runs/run.neuclir22-zh-en.bm25-default.topics.neuclir22-en.original-title.txt
 python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.neuclir22-zh.txt runs/run.neuclir22-zh-en.bm25-default.topics.neuclir22-en.original-title.txt
 bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-zh.txt runs/run.neuclir22-zh-en.bm25-default.topics.neuclir22-en.original-title.txt

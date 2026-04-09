@@ -8,15 +8,15 @@ Note that this page is automatically generated from [this template](../../../src
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
-```
-python src/main/python/run_regression.py --index --verify --search --regression disk12
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config disk12
 ```
 
 ## Indexing
 
 Typical indexing command:
 
-```
+```bash
 bin/run.sh io.anserini.index.IndexCollection \
   -threads 16 \
   -collection TrecCollection \
@@ -45,7 +45,7 @@ They are downloaded from NIST:
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
-```
+```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.disk12/ \
   -topics tools/topics-and-qrels/topics.adhoc.51-100.txt \
@@ -163,7 +163,7 @@ bin/run.sh io.anserini.search.SearchCollection \
 
 Evaluation can be performed using `trec_eval`:
 
-```
+```bash
 bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.51-100.txt runs/run.disk12.bm25.topics.adhoc.51-100.txt
 bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.101-150.txt runs/run.disk12.bm25.topics.adhoc.101-150.txt
 bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.151-200.txt runs/run.disk12.bm25.topics.adhoc.151-200.txt

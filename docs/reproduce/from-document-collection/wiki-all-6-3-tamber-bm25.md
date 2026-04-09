@@ -13,7 +13,7 @@ Note that this page is automatically generated from [this template](../../../src
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```bash
-python src/main/python/run_regression.py --index --verify --search --regression wiki-all-6-3-tamber-bm25
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config wiki-all-6-3-tamber-bm25
 ```
 
 ## Indexing

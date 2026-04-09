@@ -21,15 +21,15 @@ These new versions yield end-to-end scores that are slightly different, so if nu
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
-```
-python src/main/python/run_regression.py --index --verify --search --regression dl19-doc-segmented.wp-ca
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-doc-segmented.wp-ca
 ```
 
 ## Indexing
 
 Typical indexing command:
 
-```
+```bash
 bin/run.sh io.anserini.index.IndexCollection \
   -threads 16 \
   -collection JsonCollection \
@@ -53,7 +53,7 @@ The original data can be found [here](https://trec.nist.gov/data/deep2019.html).
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
-```
+```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v1-doc-segmented.wp-ca/ \
   -topics tools/topics-and-qrels/topics.dl19-doc.txt \
@@ -64,7 +64,7 @@ bin/run.sh io.anserini.search.SearchCollection \
 
 Evaluation can be performed using `trec_eval`:
 
-```
+```bash
 bin/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented.bm25-default.topics.dl19-doc.txt
 bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented.bm25-default.topics.dl19-doc.txt
 bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl19-doc.txt runs/run.msmarco-doc-segmented.bm25-default.topics.dl19-doc.txt

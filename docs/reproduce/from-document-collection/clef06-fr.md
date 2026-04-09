@@ -8,15 +8,15 @@ Note that this page is automatically generated from [this template](../../../src
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
-```
-python src/main/python/run_regression.py --index --verify --search --regression clef06-fr
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config clef06-fr
 ```
 
 ## Indexing
 
 Typical indexing command:
 
-```
+```bash
 bin/run.sh io.anserini.index.IndexCollection \
   -threads 16 \
   -collection JsonCollection \
@@ -42,7 +42,7 @@ Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/t
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
-```
+```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.clef06-fr/ \
   -topics tools/topics-and-qrels/topics.clef06fr.mono.fr.txt \
@@ -53,7 +53,7 @@ bin/run.sh io.anserini.search.SearchCollection \
 
 Evaluation can be performed using `trec_eval`:
 
-```
+```bash
 bin/trec_eval -m map -m P.20 -m ndcg_cut.20 tools/topics-and-qrels/qrels.clef06fr.txt runs/run.clef06-fr.bm25.topics.clef06fr.mono.fr.txt
 ```
 

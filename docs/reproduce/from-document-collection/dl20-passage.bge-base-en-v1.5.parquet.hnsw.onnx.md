@@ -17,7 +17,7 @@ Note that this page is automatically generated from [this template](../../../src
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```bash
-python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.bge-base-en-v1.5.parquet.hnsw.onnx
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage.bge-base-en-v1.5.parquet.hnsw.onnx
 ```
 
 We make available a version of the MS MARCO Passage Corpus that has already been encoded by the BGE-base-en-v1.5 model.
@@ -25,7 +25,7 @@ We make available a version of the MS MARCO Passage Corpus that has already been
 From any machine, the following command will download the corpus and perform the complete regression, end to end:
 
 ```bash
-python src/main/python/run_regression.py --download --index --verify --search --regression dl20-passage.bge-base-en-v1.5.parquet.hnsw.onnx
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --download --index --verify --search --config dl20-passage.bge-base-en-v1.5.parquet.hnsw.onnx
 ```
 
 The `run_regression.py` script automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same regression results.
@@ -43,7 +43,7 @@ To confirm, `msmarco-passage-bge-base-en-v1.5.parquet.tar` is 26 GB and has MD5 
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
-python src/main/python/run_regression.py --index --verify --search --regression dl20-passage.bge-base-en-v1.5.parquet.hnsw.onnx \
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage.bge-base-en-v1.5.parquet.hnsw.onnx \
   --corpus-path collections/msmarco-passage-bge-base-en-v1.5.parquet
 ```
 

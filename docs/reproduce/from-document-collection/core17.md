@@ -8,15 +8,15 @@ Note that this page is automatically generated from [this template](../../../src
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
-```
-python src/main/python/run_regression.py --index --verify --search --regression core17
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config core17
 ```
 
 ## Indexing
 
 Typical indexing command:
 
-```
+```bash
 bin/run.sh io.anserini.index.IndexCollection \
   -threads 16 \
   -collection NewYorkTimesCollection \
@@ -42,7 +42,7 @@ They are downloaded from NIST:
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
-```
+```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.nyt/ \
   -topics tools/topics-and-qrels/topics.core17.txt \
@@ -88,7 +88,7 @@ bin/run.sh io.anserini.search.SearchCollection \
 
 Evaluation can be performed using `trec_eval`:
 
-```
+```bash
 bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core17.txt runs/run.nyt.bm25.topics.core17.txt
 
 bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core17.txt runs/run.nyt.bm25+rm3.topics.core17.txt

@@ -8,15 +8,15 @@ Note that this page is automatically generated from [this template](../../../src
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
-```
-python src/main/python/run_regression.py --index --verify --search --regression wt10g
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config wt10g
 ```
 
 ## Indexing
 
 Typical indexing command:
 
-```
+```bash
 bin/run.sh io.anserini.index.IndexCollection \
   -threads 16 \
   -collection TrecwebCollection \
@@ -41,7 +41,7 @@ They are downloaded from NIST:
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
-```
+```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wt10g/ \
   -topics tools/topics-and-qrels/topics.adhoc.451-550.txt \
@@ -87,7 +87,7 @@ bin/run.sh io.anserini.search.SearchCollection \
 
 Evaluation can be performed using `trec_eval`:
 
-```
+```bash
 bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.451-550.txt runs/run.wt10g.bm25.topics.adhoc.451-550.txt
 
 bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.451-550.txt runs/run.wt10g.bm25+rm3.topics.adhoc.451-550.txt

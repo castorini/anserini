@@ -14,8 +14,8 @@ Thus, no neural inference is required to reproduce these experiments; see instru
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
-```
-python src/main/python/run_regression.py --index --verify --search --regression neuclir22-ru-qt-splade
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config neuclir22-ru-qt-splade
 ```
 
 ## Corpus Download
@@ -31,7 +31,7 @@ To confirm, `neuclir22-ru-splade.tar` is 11 GB and has MD5 checksum `453a5be6913
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
-python src/main/python/run_regression.py --index --verify --search --regression neuclir22-ru-qt-splade \
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config neuclir22-ru-qt-splade \
   --corpus-path collections/neuclir22-ru-splade
 ```
 
@@ -39,7 +39,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 
 Typical indexing command:
 
-```
+```bash
 bin/run.sh io.anserini.index.IndexCollection \
   -threads 8 \
   -collection JsonVectorCollection \
@@ -56,7 +56,7 @@ For additional details, see explanation of [common indexing options](../../../do
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
-```
+```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-ru-splade \
   -topics tools/topics-and-qrels/topics.neuclir22-ru.splade.ht-title.txt.gz \
@@ -171,7 +171,7 @@ bin/run.sh io.anserini.search.SearchCollection \
 
 Evaluation can be performed using `trec_eval`:
 
-```
+```bash
 bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru-splade.splade.topics.neuclir22-ru.splade.ht-title.txt
 python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru-splade.splade.topics.neuclir22-ru.splade.ht-title.txt
 bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.neuclir22-ru.txt runs/run.neuclir22-ru-splade.splade.topics.neuclir22-ru.splade.ht-title.txt

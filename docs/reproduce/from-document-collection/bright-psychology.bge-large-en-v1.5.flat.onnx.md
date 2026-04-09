@@ -15,8 +15,8 @@ Note that this page is automatically generated from [this template](../../../src
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
-```
-python src/main/python/run_regression.py --index --verify --search --regression bright-psychology.bge-large-en-v1.5.flat.onnx
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-psychology.bge-large-en-v1.5.flat.onnx
 ```
 
 All the BRIGHT corpora, encoded by the BGE-large-en-v1.5 model, are available for download:
@@ -33,7 +33,7 @@ After download and unpacking the corpora, the `run_regression.py` command above 
 
 Typical indexing command, building flat indexes:
 
-```
+```bash
 bin/run.sh io.anserini.index.IndexFlatDenseVectors \
   -threads 4 \
   -collection JsonDenseVectorCollection \
@@ -51,7 +51,7 @@ Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/t
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
-```
+```bash
 bin/run.sh io.anserini.search.SearchFlatDenseVectors \
   -index indexes/lucene-flat.bright-psychology.bge-large-en-v1.5/ \
   -topics tools/topics-and-qrels/topics.bright-psychology.tsv.gz \
@@ -62,7 +62,7 @@ bin/run.sh io.anserini.search.SearchFlatDenseVectors \
 
 Evaluation can be performed using `trec_eval`:
 
-```
+```bash
 bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.bright-psychology.txt runs/run.bright-psychology.bge-large-en-v1.5.bge-flat-onnx.topics.bright-psychology.txt
 bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.bright-psychology.txt runs/run.bright-psychology.bge-large-en-v1.5.bge-flat-onnx.topics.bright-psychology.txt
 bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.bright-psychology.txt runs/run.bright-psychology.bge-large-en-v1.5.bge-flat-onnx.topics.bright-psychology.txt

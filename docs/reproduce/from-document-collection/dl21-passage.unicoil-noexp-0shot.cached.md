@@ -19,7 +19,7 @@ Note that this page is automatically generated from [this template](../../../src
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```bash
-python src/main/python/run_regression.py --index --verify --search --regression dl21-passage.unicoil-noexp-0shot.cached
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl21-passage.unicoil-noexp-0shot.cached
 ```
 
 We make available a version of the corpus that has already been processed with uniCOIL, i.e., we have performed model inference on every document and stored the output sparse vectors.
@@ -28,7 +28,7 @@ Thus, no neural inference is involved.
 From any machine, the following command will download the corpus and perform the complete regression, end to end:
 
 ```bash
-python src/main/python/run_regression.py --download --index --verify --search --regression dl21-passage.unicoil-noexp-0shot.cached
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --download --index --verify --search --config dl21-passage.unicoil-noexp-0shot.cached
 ```
 
 The `run_regression.py` script automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same regression results.
@@ -52,7 +52,7 @@ To confirm, `msmarco_v2_passage_unicoil_noexp_0shot.tar` is 24 GB and has an MD5
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
-python src/main/python/run_regression.py --index --verify --search --regression dl21-passage.unicoil-noexp-0shot.cached \
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl21-passage.unicoil-noexp-0shot.cached \
   --corpus-path collections/msmarco-v2-passage-unicoil-noexp-0shot
 ```
 
@@ -60,7 +60,7 @@ python src/main/python/run_regression.py --index --verify --search --regression 
 
 Sample indexing command:
 
-```
+```bash
 bin/run.sh io.anserini.index.IndexCollection \
   -threads 24 \
   -collection JsonVectorCollection \
@@ -85,7 +85,7 @@ The regression experiments here evaluate on the 53 topics for which NIST has pro
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
-```
+```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2-passage.unicoil-noexp-0shot/ \
   -topics tools/topics-and-qrels/topics.dl21.unicoil-noexp.0shot.tsv.gz \
@@ -110,7 +110,7 @@ bin/run.sh io.anserini.search.SearchCollection \
 
 Evaluation can be performed using `trec_eval`:
 
-```
+```bash
 bin/trec_eval -c -M 100 -m map -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-noexp-0shot.unicoil-noexp-0shot-cached.topics.dl21.unicoil-noexp.0shot.txt
 bin/trec_eval -c -M 100 -m recip_rank -l 2 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-noexp-0shot.unicoil-noexp-0shot-cached.topics.dl21.unicoil-noexp.0shot.txt
 bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl21-passage.txt runs/run.msmarco-v2-passage-unicoil-noexp-0shot.unicoil-noexp-0shot-cached.topics.dl21.unicoil-noexp.0shot.txt

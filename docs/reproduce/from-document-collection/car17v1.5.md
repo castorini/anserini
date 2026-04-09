@@ -8,15 +8,15 @@ Note that this page is automatically generated from [this template](../../../src
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
-```
-python src/main/python/run_regression.py --index --verify --search --regression car17v1.5
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config car17v1.5
 ```
 
 ## Indexing
 
 Typical indexing command:
 
-```
+```bash
 bin/run.sh io.anserini.index.IndexCollection \
   -threads 1 \
   -collection CarCollection \
@@ -43,7 +43,7 @@ Specifically, this is the section-level passage retrieval task with automatic gr
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
-```
+```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.car-paragraphCorpus.v1.5/ \
   -topics tools/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt \
@@ -89,7 +89,7 @@ bin/run.sh io.anserini.search.SearchCollection \
 
 Evaluation can be performed using `trec_eval`:
 
-```
+```bash
 bin/trec_eval -c -m map -c -m recip_rank tools/topics-and-qrels/qrels.car17v1.5.benchmarkY1test.txt runs/run.car-paragraphCorpus.v1.5.bm25.topics.car17v1.5.benchmarkY1test.txt
 
 bin/trec_eval -c -m map -c -m recip_rank tools/topics-and-qrels/qrels.car17v1.5.benchmarkY1test.txt runs/run.car-paragraphCorpus.v1.5.bm25+rm3.topics.car17v1.5.benchmarkY1test.txt

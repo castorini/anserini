@@ -20,15 +20,15 @@ These new versions yield end-to-end scores that are slightly different, so if nu
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
-```
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-v1-doc-segmented
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-doc-segmented
 ```
 
 ## Indexing
 
 Typical indexing command:
 
-```
+```bash
 bin/run.sh io.anserini.index.IndexCollection \
   -threads 16 \
   -collection JsonCollection \
@@ -51,7 +51,7 @@ The regression experiments here evaluate on the 5193 dev set questions.
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
-```
+```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v1-doc-segmented/ \
   -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
@@ -69,7 +69,7 @@ bin/run.sh io.anserini.search.SearchCollection \
 
 Evaluation can be performed using `trec_eval`:
 
-```
+```bash
 bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented.bm25-default.topics.msmarco-doc.dev.txt
 bin/trec_eval -c -M 100 -m recip_rank tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented.bm25-default.topics.msmarco-doc.dev.txt
 bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc-segmented.bm25-default.topics.msmarco-doc.dev.txt
@@ -158,7 +158,7 @@ However, the effectiveness has changed slightly, since we corrected underlying i
 
 For default parameters (`k1=0.9`, `b=0.4`):
 
-```
+```bash
 $ python tools/scripts/msmarco/msmarco_doc_eval.py \
    --judgments tools/topics-and-qrels/qrels.msmarco-doc.dev.txt \
    --run runs/run.msmarco-doc-segmented.bm25-default.txt
@@ -171,7 +171,7 @@ QueriesRanked: 5193
 
 For tuned parameters (`k1=2.16`, `b=0.61`):
 
-```
+```bash
 $ python tools/scripts/msmarco/msmarco_doc_eval.py \
    --judgments tools/topics-and-qrels/qrels.msmarco-doc.dev.txt \
    --run runs/run.msmarco-doc-segmented.bm25-tuned.txt
