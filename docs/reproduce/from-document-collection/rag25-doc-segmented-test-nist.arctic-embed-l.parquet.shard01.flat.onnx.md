@@ -26,7 +26,7 @@ Note that this page is automatically generated from [this template](../../../src
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```bash
-bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --regression rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard01.flat.onnx
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard01.flat.onnx
 ```
 
 ## Indexing

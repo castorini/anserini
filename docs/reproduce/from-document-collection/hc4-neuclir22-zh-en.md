@@ -10,7 +10,7 @@ Note that this page is automatically generated from [this template](../../../src
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```bash
-bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --regression hc4-neuclir22-zh-en
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config hc4-neuclir22-zh-en
 ```
 
 ## Corpus Download
@@ -22,7 +22,7 @@ After download, verify that all and only specified documents have been downloade
 With the corpus downloaded, unpack into `collections/` and run the following command to perform the remaining steps below:
 
 ```bash
-bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --regression hc4-neuclir22-zh-en \
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config hc4-neuclir22-zh-en \
   --corpus-path collections/neuclir22-zh-en
 ```
 

@@ -14,7 +14,7 @@ Note that this page is automatically generated from [this template](../../../src
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```bash
-bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --regression beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.hnsw-sqv.onnx
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.hnsw-sqv.onnx
 ```
 
 All the BEIR corpora, encoded by the BGE-base-en-v1.5 model and stored in Parquet format, are available for download:

@@ -21,7 +21,7 @@ Note that this page is automatically generated from [this template](../../../src
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```bash
-bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --regression dl22-doc-segmented-msmarco-v2.1.splade-v3.onnx
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl22-doc-segmented-msmarco-v2.1.splade-v3.onnx
 ```
 
 We make available a version of the MS MARCO V2.1 segmented document corpus that has already been encoded with SPLADE-v3.
@@ -29,7 +29,7 @@ We make available a version of the MS MARCO V2.1 segmented document corpus that 
 From any machine, the following command will download the corpus and perform the complete regression, end to end:
 
 ```bash
-bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --download --index --verify --search --regression dl22-doc-segmented-msmarco-v2.1.splade-v3.onnx
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --download --index --verify --search --config dl22-doc-segmented-msmarco-v2.1.splade-v3.onnx
 ```
 
 The `run_regression.py` script automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same regression results.
@@ -47,7 +47,7 @@ To confirm, `msmarco-v2.1-doc-segmented-splade-v3.tar` is 125 GB and has MD5 che
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
-bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --regression dl22-doc-segmented-msmarco-v2.1.splade-v3.onnx \
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl22-doc-segmented-msmarco-v2.1.splade-v3.onnx \
   --corpus-path collections/msmarco_v2.1_doc_segmented_splade-v3
 ```
 

@@ -20,7 +20,7 @@ Note that this page is automatically generated from [this template](../../../src
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```bash
-bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --regression dl23-doc
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl23-doc
 ```
 
 ## Indexing

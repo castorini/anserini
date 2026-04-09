@@ -19,7 +19,7 @@ Note that this page is automatically generated from [this template](../../../src
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```bash
-bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --regression dl21-passage.splade-pp-sd.cached
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl21-passage.splade-pp-sd.cached
 ```
 
 We make available a version of the corpus that has already been encoded with SPLADE++ CoCondenser-SelfDistil.
@@ -27,7 +27,7 @@ We make available a version of the corpus that has already been encoded with SPL
 From any machine, the following command will download the corpus and perform the complete regression, end to end:
 
 ```bash
-bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --download --index --verify --search --regression dl21-passage.splade-pp-sd.cached
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --download --index --verify --search --config dl21-passage.splade-pp-sd.cached
 ```
 
 The `run_regression.py` script automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same regression results.
@@ -45,7 +45,7 @@ To confirm, `msmarco_v2_passage_splade_pp_sd.tar` is 76 GB and has MD5 checksum 
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
-bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --regression dl21-passage.splade-pp-sd.cached \
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl21-passage.splade-pp-sd.cached \
   --corpus-path collections/msmarco_v2_passage_splade_pp_sd
 ```
 

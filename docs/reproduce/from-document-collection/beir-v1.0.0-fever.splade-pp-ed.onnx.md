@@ -16,7 +16,7 @@ Note that this page is automatically generated from [this template](../../../src
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```bash
-bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --regression beir-v1.0.0-fever.splade-pp-ed.onnx
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fever.splade-pp-ed.onnx
 ```
 
 All the BEIR corpora, encoded by the SPLADE++ CoCondenser-EnsembleDistil model, are available for download:

@@ -24,7 +24,7 @@ These new versions yield end-to-end scores that are slightly different, so if nu
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```bash
-bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --regression dl20-doc.docTTTTTquery
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-doc.docTTTTTquery
 ```
 
 ## Indexing

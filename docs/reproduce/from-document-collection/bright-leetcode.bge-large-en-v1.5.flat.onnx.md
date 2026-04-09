@@ -16,7 +16,7 @@ Note that this page is automatically generated from [this template](../../../src
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```bash
-bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --regression bright-leetcode.bge-large-en-v1.5.flat.onnx
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-leetcode.bge-large-en-v1.5.flat.onnx
 ```
 
 All the BRIGHT corpora, encoded by the BGE-large-en-v1.5 model, are available for download:

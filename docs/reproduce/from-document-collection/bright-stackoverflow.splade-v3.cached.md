@@ -16,7 +16,7 @@ Note that this page is automatically generated from [this template](../../../src
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```bash
-bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --regression bright-stackoverflow.splade-v3.cached
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-stackoverflow.splade-v3.cached
 ```
 
 All the BRIGHT corpora, encoded by the SPLADE-v3 model, are available for download:

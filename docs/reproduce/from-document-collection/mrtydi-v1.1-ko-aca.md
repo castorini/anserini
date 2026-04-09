@@ -10,7 +10,7 @@ Note that this page is automatically generated from [this template](../../../src
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```bash
-bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --regression mrtydi-v1.1-ko-aca
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config mrtydi-v1.1-ko-aca
 ```
 
 ## Indexing

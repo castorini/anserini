@@ -15,7 +15,7 @@ Thus, no neural inference is required to reproduce these experiments; see instru
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```bash
-bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --regression neuclir22-fa-qt-splade
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config neuclir22-fa-qt-splade
 ```
 
 ## Corpus Download
@@ -31,7 +31,7 @@ To confirm, `neuclir22-fa-splade.tar` is 4.0 GB and has MD5 checksum `10fddf0b2a
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
-bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --regression neuclir22-fa-qt-splade \
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config neuclir22-fa-qt-splade \
   --corpus-path collections/neuclir22-fa-splade
 ```
 

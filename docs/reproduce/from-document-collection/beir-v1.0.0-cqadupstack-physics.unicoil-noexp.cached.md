@@ -15,7 +15,7 @@ Note that this page is automatically generated from [this template](../../../src
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```bash
-bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --regression beir-v1.0.0-cqadupstack-physics.unicoil-noexp.cached
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-physics.unicoil-noexp.cached
 ```
 
 All the BEIR corpora, encoded by the uniCOIL-noexp model, are available for download:

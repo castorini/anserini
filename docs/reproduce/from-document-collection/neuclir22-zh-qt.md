@@ -12,7 +12,7 @@ Note that this page is automatically generated from [this template](../../../src
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```bash
-bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --regression neuclir22-zh-qt
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config neuclir22-zh-qt
 ```
 
 ## Corpus Download
@@ -22,7 +22,7 @@ The NeuCLIR 2022 corpus can be downloaded following the instructions [here](http
 With the corpus downloaded, unpack into `collections/` and run the following command to perform the remaining steps below:
 
 ```bash
-bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --regression neuclir22-zh-qt \
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config neuclir22-zh-qt \
   --corpus-path collections/neuclir22-zh
 ```
 
