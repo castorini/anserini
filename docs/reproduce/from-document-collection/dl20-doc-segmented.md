@@ -90,7 +90,7 @@ bin/run.sh io.anserini.search.SearchCollection \
   -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-doc-segmented.bm25-default+ax.topics.dl20.txt \
-  -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
+  -bm25 -axiom -rerankCutoff 20 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v1-doc-segmented/ \
@@ -132,7 +132,7 @@ bin/run.sh io.anserini.search.SearchCollection \
   -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicReader TsvInt \
   -output runs/run.msmarco-doc-segmented.bm25-tuned+ax.topics.dl20.txt \
-  -bm25 -bm25.k1 2.16 -bm25.b 0.61 -axiom -axiom.deterministic -rerankCutoff 20 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
+  -bm25 -bm25.k1 2.16 -bm25.b 0.61 -axiom -rerankCutoff 20 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v1-doc-segmented/ \

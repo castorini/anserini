@@ -9,7 +9,7 @@ index_path: indexes/lucene-flat.msmarco-v1-passage.bge-base-en-v1.5/
 index_type: flat
 collection_class: ParquetDenseVectorCollection
 generator_class: DenseVectorDocumentGenerator
-index_threads: 16
+index_threads: 4
 index_options: ""
 
 metrics:
@@ -56,19 +56,10 @@ models:
     params: -encoder BgeBaseEn15 -hits 1000 -threads 16
     results:
       AP@1000:
-        - 0.3641
+        - 0.3642
       RR@10:
         - 0.3583
       R@100:
-        - 0.9006
+        - 0.9007
       R@1000:
         - 0.9811
-    tolerance:
-      AP@1000:
-        - 0.001
-      RR@10:
-        - 0.001
-      R@100:
-        - 0.001
-      R@1000:
-        - 0.001

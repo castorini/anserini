@@ -26,8 +26,14 @@ import java.util.ArrayList;
 public class VectorQueryGenerator {
 
   private float[] convertJsonArray(String vectorString) throws JsonProcessingException {
+    if (vectorString == null || vectorString.trim().isEmpty()) {
+      throw new RuntimeException("Vector string is null or empty");
+    }
     ObjectMapper mapper = new ObjectMapper();
-    ArrayList<Float> denseVector = mapper.readValue(vectorString, new TypeReference<>(){});
+    ArrayList<Float> denseVector = mapper.readValue(vectorString, new TypeReference<ArrayList<Float>>(){});
+    if (denseVector == null || denseVector.isEmpty()) {
+      throw new RuntimeException("Vector array is null or empty after parsing");
+    }
     int length = denseVector.size();
     float[] vector = new float[length];
     int i = 0;

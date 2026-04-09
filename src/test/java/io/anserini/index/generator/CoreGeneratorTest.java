@@ -16,26 +16,27 @@
 
 package io.anserini.index.generator;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.IntNode;
-import com.fasterxml.jackson.databind.node.NullNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fasterxml.jackson.databind.node.TextNode;
-import io.anserini.analysis.DefaultEnglishAnalyzer;
-import io.anserini.collection.CoreCollection;
-import io.anserini.index.Constants;
-import io.anserini.index.IndexCollection;
+import java.io.StringReader;
+
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.IntPoint;
 import org.apache.lucene.document.StringField;
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.StringReader;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.IntNode;
+import com.fasterxml.jackson.databind.node.NullNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.node.TextNode;
 
-import static org.junit.Assert.assertEquals;
+import io.anserini.analysis.DefaultEnglishAnalyzer;
+import io.anserini.collection.CoreCollection;
+import io.anserini.index.Constants;
+import io.anserini.index.IndexCollection;
 
 public class CoreGeneratorTest {
   private CoreCollection.Document coreDoc;
@@ -104,8 +105,17 @@ public class CoreGeneratorTest {
     CoreGenerator.FIELDS_WITHOUT_STEMMING.forEach(field -> {
       String fieldString = coreDoc.jsonNode().get(field).toString();
 
+      // In Lucene 10.1.0, fields with TokenStream are separate from StoredFields
+      // Find the Field with TokenStream (not the StoredField)
+      org.apache.lucene.index.IndexableField tokenStreamField = null;
+      for (org.apache.lucene.index.IndexableField f : doc.getFields(field)) {
+        if (f.tokenStream(null, null) != null) {
+          tokenStreamField = f;
+          break;
+        }
+      }
       assertEquals(nonStemmingAnalyzer.tokenStream(null, new StringReader(fieldString)),
-        doc.getField(field).tokenStream(null, null));
+        tokenStreamField.tokenStream(null, null));
     });
     nonStemmingAnalyzer.close();
 

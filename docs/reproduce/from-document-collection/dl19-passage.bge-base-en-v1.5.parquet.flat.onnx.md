@@ -53,7 +53,7 @@ Sample indexing command, building flat indexes:
 
 ```bash
 bin/run.sh io.anserini.index.IndexFlatDenseVectors \
-  -threads 16 \
+  -threads 4 \
   -collection ParquetDenseVectorCollection \
   -input /path/to/msmarco-passage-bge-base-en-v1.5.parquet \
   -generator DenseVectorDocumentGenerator \
@@ -96,13 +96,13 @@ With the above commands, you should be able to reproduce the following results:
 
 | **AP@1000**                                                                                                  | **BGE-base-en-v1.5**|
 |:-------------------------------------------------------------------------------------------------------------|---------------------|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.4435              |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.4485              |
 | **nDCG@10**                                                                                                  | **BGE-base-en-v1.5**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7065              |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7016              |
 | **R@100**                                                                                                    | **BGE-base-en-v1.5**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6171              |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6093              |
 | **R@1000**                                                                                                   | **BGE-base-en-v1.5**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.8472              |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.8427              |
 
 The above figures are from running brute-force search with cached queries on non-quantized indexes.
 With ONNX query encoding on non-quantized indexes, results may differ slightly.

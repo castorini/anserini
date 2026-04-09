@@ -33,7 +33,7 @@ Sample indexing command, building flat indexes:
 
 ```
 bin/run.sh io.anserini.index.IndexFlatDenseVectors \
-  -threads 16 \
+  -threads 4 \
   -collection ParquetDenseVectorCollection \
   -input /path/to/beir-v1.0.0-arguana.bge-base-en-v1.5 \
   -generator DenseVectorDocumentGenerator \
@@ -72,9 +72,9 @@ With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **BGE-base-en-v1.5**|
 |:-------------------------------------------------------------------------------------------------------------|---------------------|
-| BEIR (v1.0.0): ArguAna                                                                                       | 0.6361              |
+| BEIR (v1.0.0): ArguAna                                                                                       | 0.6375              |
 | **R@100**                                                                                                    | **BGE-base-en-v1.5**|
-| BEIR (v1.0.0): ArguAna                                                                                       | 0.9915              |
+| BEIR (v1.0.0): ArguAna                                                                                       | 0.9929              |
 | **R@1000**                                                                                                   | **BGE-base-en-v1.5**|
 | BEIR (v1.0.0): ArguAna                                                                                       | 0.9964              |
 

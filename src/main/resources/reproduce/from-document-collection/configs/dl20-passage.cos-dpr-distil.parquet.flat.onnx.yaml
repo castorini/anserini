@@ -9,7 +9,7 @@ index_path: indexes/lucene-flat.msmarco-v1-passage.cos-dpr-distil/
 index_type: flat
 collection_class: ParquetDenseVectorCollection
 generator_class: DenseVectorDocumentGenerator
-index_threads: 16
+index_threads: 4
 index_options: ""
 
 metrics:
@@ -63,12 +63,3 @@ models:
         - 0.7204
       R@1000:
         - 0.8533
-    tolerance:
-      AP@1000:
-        - 0.001
-      nDCG@10:
-        - 0.001
-      R@100:
-        - 0.001
-      R@1000:
-        - 0.001

@@ -53,12 +53,12 @@ Sample indexing command, building HNSW indexes:
 
 ```bash
 bin/run.sh io.anserini.index.IndexHnswDenseVectors \
-  -threads 16 \
+  -threads 4 \
   -collection ParquetDenseVectorCollection \
   -input /path/to/msmarco-passage-cos-dpr-distil.parquet \
   -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-hnsw.msmarco-v1-passage.cos-dpr-distil/ \
-  -M 16 -efC 100 \
+  -M 16 -efC 500 \
   >& logs/log.msmarco-passage-cos-dpr-distil.parquet &
 ```
 
@@ -79,7 +79,7 @@ bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -topics tools/topics-and-qrels/topics.dl19-passage.cos-dpr-distil.jsonl.gz \
   -topicReader JsonIntVector \
   -output runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-hnsw-cached.topics.dl19-passage.cos-dpr-distil.jsonl.txt \
-  -hits 1000 -efSearch 1000 -threads 16 &
+  -hits 1000 -efSearch 2000 -threads 16 &
 ```
 
 Evaluation can be performed using `trec_eval`:

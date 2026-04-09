@@ -156,12 +156,7 @@ public class RocchioReranker<T> implements Reranker<T> {
         finalQuery = bqBuilder.build();
       }
 
-      // Figure out how to break the scoring ties.
-      if (context.getSearchArgs().arbitraryScoreTieBreak) {
-        results = searcher.search(finalQuery, context.getSearchArgs().hits);
-      } else {
-        results = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID, true);
-      }
+      results = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID, true);
     } catch (IOException e) {
       e.printStackTrace();
       return docs;

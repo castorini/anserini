@@ -33,12 +33,12 @@ Sample indexing command, building HNSW indexes:
 
 ```
 bin/run.sh io.anserini.index.IndexHnswDenseVectors \
-  -threads 16 \
+  -threads 4 \
   -collection ParquetDenseVectorCollection \
   -input /path/to/beir-v1.0.0-trec-news.bge-base-en-v1.5 \
   -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-hnsw.beir-v1.0.0-trec-news.bge-base-en-v1.5/ \
-  -M 16 -efC 100 \
+  -M 16 -efC 1000 \
   >& logs/log.beir-v1.0.0-trec-news.bge-base-en-v1.5 &
 ```
 
@@ -56,7 +56,7 @@ bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -topics tools/topics-and-qrels/topics.beir-v1.0.0-trec-news.test.bge-base-en-v1.5.jsonl.gz \
   -topicReader JsonStringVector \
   -output runs/run.beir-v1.0.0-trec-news.bge-base-en-v1.5.bge-hnsw-cached.topics.beir-v1.0.0-trec-news.test.bge-base-en-v1.5.jsonl.txt \
-  -hits 1000 -efSearch 1000 -removeQuery -threads 16 &
+  -hits 1000 -efSearch 2000 -removeQuery -threads 16 &
 ```
 
 Evaluation can be performed using `trec_eval`:

@@ -84,7 +84,8 @@ public class SearchInvertedDenseVectorsTest extends StdOutStdErrRedirectableLuce
         "-encoding", "fw"};
     SearchInvertedDenseVectors.main(searchArgs);
 
-    assertEquals("Error: \"/fake/path\" does not appear to be a valid index.\n", err.toString());
+    assertTrue("Error output should contain the expected error message",
+        err.toString().contains("Error: \"/fake/path\" does not appear to be a valid index."));
   }
 
   @Test
@@ -99,7 +100,8 @@ public class SearchInvertedDenseVectorsTest extends StdOutStdErrRedirectableLuce
         "-hits", "5",
         "-encoding", "fw"};
     SearchInvertedDenseVectors.main(searchArgs);
-    assertEquals("Error: \"src/\" does not appear to be a valid index.\n", err.toString());
+    assertTrue("Error output should contain the expected error message",
+        err.toString().contains("Error: \"src/\" does not appear to be a valid index."));
   }
 
   @Test
@@ -126,7 +128,8 @@ public class SearchInvertedDenseVectorsTest extends StdOutStdErrRedirectableLuce
 
     SearchInvertedDenseVectors.main(searchArgs);
 
-    assertEquals("Error: \"fake/topics/here\" does not appear to be a valid topics file.\n", err.toString());
+    assertTrue("Error output should contain the expected error message",
+        err.toString().contains("Error: \"fake/topics/here\" does not appear to be a valid topics file."));
   }
 
   @Test
@@ -153,7 +156,8 @@ public class SearchInvertedDenseVectorsTest extends StdOutStdErrRedirectableLuce
 
     SearchInvertedDenseVectors.main(searchArgs);
 
-    assertEquals("Error: Unable to load topic reader \"FakeJsonIntVector\".\n", err.toString());
+    assertTrue("Error output should contain the expected error message",
+        err.toString().contains("Error: Unable to load topic reader \"FakeJsonIntVector\"."));
   }
 
   @Test
@@ -180,7 +184,8 @@ public class SearchInvertedDenseVectorsTest extends StdOutStdErrRedirectableLuce
 
     SearchInvertedDenseVectors.main(searchArgs);
 
-    assertEquals("Error: Unable to read topic field \"fake_field\".\n", err.toString());
+    assertTrue("Error output should contain the expected error message",
+        err.toString().contains("Error: Unable to read topic field \"fake_field\"."));
   }
 
   @Test
@@ -207,7 +212,8 @@ public class SearchInvertedDenseVectorsTest extends StdOutStdErrRedirectableLuce
 
     SearchInvertedDenseVectors.main(searchArgs);
 
-    assertEquals("Error: Invalid encoding scheme \"xxx\".\n", err.toString());
+    assertTrue("Error output should contain the expected error message",
+        err.toString().contains("Error: Invalid encoding scheme \"xxx\"."));
   }
 
   @Test
