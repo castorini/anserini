@@ -370,16 +370,16 @@ public class SearchHnswDenseVectorsTest extends StdOutStdErrRedirectableLuceneTe
     SearchHnswDenseVectors.main(searchArgs);
 
     TestUtils.checkRunFileApproximate(runfile, new String[] {
-        "2 Q0 224 1 0.581529 Anserini",
-        "2 Q0 208 2 0.580095 Anserini",
-        "2 Q0 136 3 0.575039 Anserini",
-        "2 Q0 384 4 0.573756 Anserini",
-        "2 Q0 720 5 0.572269 Anserini",
-        "1048585 Q0 624 1 0.569809 Anserini",
-        "1048585 Q0 120 2 0.564281 Anserini",
-        "1048585 Q0 320 3 0.558037 Anserini",
-        "1048585 Q0 232 4 0.553515 Anserini",
-        "1048585 Q0 328 5 0.550803 Anserini"
+        "2 Q0 208 1 0.578708 Anserini",
+        "2 Q0 224 2 0.578514 Anserini",
+        "2 Q0 384 3 0.573822 Anserini",
+        "2 Q0 136 4 0.572750 Anserini",
+        "2 Q0 720 5 0.571215 Anserini",
+        "1048585 Q0 624 1 0.568440 Anserini",
+        "1048585 Q0 120 2 0.563625 Anserini",
+        "1048585 Q0 320 3 0.558964 Anserini",
+        "1048585 Q0 232 4 0.551182 Anserini",
+        "1048585 Q0 328 5 0.551052 Anserini"
     });
 
     new File(runfile).delete();
@@ -544,7 +544,7 @@ public class SearchHnswDenseVectorsTest extends StdOutStdErrRedirectableLuceneTe
         "45 Q0 44 1 0.861596 Anserini",
         "45 Q0 40 2 0.858651 Anserini",
         "45 Q0 48 3 0.858514 Anserini",
-        "45 Q0 41 4 0.856264 Anserini",
+        "45 Q0 41 4 0.856265 Anserini"
     });
 
     new File(runfile).delete();
@@ -583,12 +583,12 @@ public class SearchHnswDenseVectorsTest extends StdOutStdErrRedirectableLuceneTe
         "160885 Q0 44 1 0.863064 Anserini",
         "160885 Q0 40 2 0.858651 Anserini",
         "160885 Q0 48 3 0.858514 Anserini",
-        "160885 Q0 a 4 0.856264 Anserini",
+        "160885 Q0 a 4 0.856265 Anserini",
         "160885 Q0 46 5 0.849332 Anserini",
-        "867490 Q0 10 1 0.850332 Anserini",
+        "867490 Q0 10 1 0.850331 Anserini",
         "867490 Q0 44 2 0.846281 Anserini",
         "867490 Q0 b 3 0.845013 Anserini",
-        "867490 Q0 40 4 0.837815 Anserini",
+        "867490 Q0 40 4 0.837814 Anserini",
         "867490 Q0 46 5 0.837050 Anserini"
     });
 

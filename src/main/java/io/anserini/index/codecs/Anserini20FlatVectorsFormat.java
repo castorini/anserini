@@ -31,10 +31,10 @@ import org.apache.lucene.index.MergeState;
 import org.apache.lucene.index.SegmentReadState;
 import org.apache.lucene.index.SegmentWriteState;
 import org.apache.lucene.index.Sorter;
+import org.apache.lucene.search.AcceptDocs;
 import org.apache.lucene.search.DocIdSetIterator;
 import org.apache.lucene.search.KnnCollector;
 import org.apache.lucene.search.VectorScorer;
-import org.apache.lucene.search.AcceptDocs;
 import org.apache.lucene.util.Bits;
 
 public class Anserini20FlatVectorsFormat extends KnnVectorsFormat {

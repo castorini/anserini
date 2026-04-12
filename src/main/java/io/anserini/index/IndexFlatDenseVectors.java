@@ -23,8 +23,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.codecs.KnnVectorsFormat;
-import org.apache.lucene.codecs.lucene102.Lucene102BinaryQuantizedVectorsFormat;
-import org.apache.lucene.codecs.lucene103.Lucene103Codec;
+import org.apache.lucene.codecs.lucene104.Lucene104Codec;
 import org.apache.lucene.index.ConcurrentMergeScheduler;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
@@ -39,7 +38,6 @@ import io.anserini.collection.ParquetDenseVectorCollection;
 import io.anserini.collection.SourceDocument;
 import io.anserini.index.codecs.Anserini20FlatScalarQuantizedVectorsFormat;
 import io.anserini.index.codecs.Anserini20FlatVectorsFormat;
-import io.anserini.index.codecs.DelegatingKnnVectorsFormat;
 import io.anserini.index.generator.DenseVectorDocumentGenerator;
 import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.util.LoggingBootstrap;
@@ -51,11 +49,8 @@ public final class IndexFlatDenseVectors extends AbstractIndexer {
     @Option(name = "-generator", metaVar = "[class]", usage = "Document generator class in io.anserini.index.generator.")
     public String generatorClass = DenseVectorDocumentGenerator.class.getSimpleName();
 
-    @Option(name = "-quantize.sqv", usage = "Quantize vectors using ScalarQuantizedVectors (mutually exclusive with -quantize.bqv).", forbids = "-quantize.bqv")
+    @Option(name = "-quantize.sqv", usage = "Quantize vectors using ScalarQuantizedVectors.")
     public boolean quantizeSQV = false;
-
-    @Option(name = "-quantize.bqv", usage = "Quantize vectors using BinaryQuantizedVectors (mutually exclusive with -quantize.sqv).", forbids = "-quantize.sqv")
-    public boolean quantizeBQV = false;
 
     @Option(name = "-docidField", metaVar = "[name]", usage = "Name of the document ID field in Parquet files.")
     public String docidField = "docid";
@@ -87,23 +82,15 @@ public final class IndexFlatDenseVectors extends AbstractIndexer {
 
       if (args.quantizeSQV) {
         config = new IndexWriterConfig().setCodec(
-            new Lucene103Codec() {
+            new Lucene104Codec() {
               @Override
               public KnnVectorsFormat getKnnVectorsFormatForField(String field) {
                 return new Anserini20FlatScalarQuantizedVectorsFormat();
               }
             });
-      } else if (args.quantizeBQV) {
-        config = new IndexWriterConfig().setCodec(
-            new Lucene103Codec() {
-              @Override
-              public KnnVectorsFormat getKnnVectorsFormatForField(String field) {
-                return new DelegatingKnnVectorsFormat(new Lucene102BinaryQuantizedVectorsFormat(), 4096);
-              }
-            });
       } else {
         config = new IndexWriterConfig().setCodec(
-            new Lucene103Codec() {
+            new Lucene104Codec() {
               @Override
               public KnnVectorsFormat getKnnVectorsFormatForField(String field) {
                 return new Anserini20FlatVectorsFormat();
@@ -124,7 +111,6 @@ public final class IndexFlatDenseVectors extends AbstractIndexer {
     LOG.info("IndexFlatDenseVectors settings:");
     LOG.info(" + Generator: " + args.generatorClass);
     LOG.info(" + ScalarQuantizedVectors? " + args.quantizeSQV);
-    LOG.info(" + BinaryQuantizedVectors? " + args.quantizeBQV);
     LOG.info(" + Document ID field: " + args.docidField);
     LOG.info(" + Vector field: " + args.vectorField);
     LOG.info(" + Normalize vectors? " + args.normalizeVectors);
