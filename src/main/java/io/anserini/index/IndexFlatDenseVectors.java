@@ -38,7 +38,6 @@ import io.anserini.collection.ParquetDenseVectorCollection;
 import io.anserini.collection.SourceDocument;
 import io.anserini.index.codecs.Anserini20FlatScalarQuantizedVectorsFormat;
 import io.anserini.index.codecs.Anserini20FlatVectorsFormat;
-import io.anserini.index.codecs.DelegatingKnnVectorsFormat;
 import io.anserini.index.generator.DenseVectorDocumentGenerator;
 import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.util.LoggingBootstrap;
