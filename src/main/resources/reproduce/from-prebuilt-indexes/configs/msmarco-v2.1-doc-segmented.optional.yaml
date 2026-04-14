@@ -337,3 +337,29 @@ conditions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
           R@100: "-c -m recall.100"
+  - name: bm25-slim
+    display: "BM25 segmented doc (k1=0.9, b=0.4)"
+    display_html: "BM25 doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
+    display_row: ""
+    command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v2.1-doc-segmented-slim -topics $topics -output $output -hits 1000 -bm25
+    topics:
+      - topic_key: rag25.test
+        eval_key: rag25.test-umbrela2
+        expected_scores:
+          nDCG@30: 0.3250
+          nDCG@100: 0.2835
+          R@100: 0.1167
+        metric_definitions:
+          nDCG@30: "-c -m ndcg_cut.30"
+          nDCG@100: "-c -m ndcg_cut.100"
+          R@100: "-c -m recall.100"
+      - topic_key: rag25.test
+        eval_key: rag25.test
+        expected_scores:
+          nDCG@30: 0.3468
+          nDCG@100: 0.2900
+          R@100: 0.1107
+        metric_definitions:
+          nDCG@30: "-c -m ndcg_cut.30"
+          nDCG@100: "-c -m ndcg_cut.100"
+          R@100: "-c -m recall.100"

@@ -58,35 +58,35 @@ io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search 
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.flat.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.flat.onnx
 
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.flat-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.flat-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.flat-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.flat-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.flat-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.parquet.flat-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.parquet.flat-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.parquet.flat-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.parquet.flat-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.parquet.flat-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.flat-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.flat-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.flat-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.flat-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.flat-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.flat-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.flat-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.flat-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nq.bge-base-en-v1.5.parquet.flat-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-quora.bge-base-en-v1.5.parquet.flat-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.flat-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.flat-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.flat-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.flat-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.flat-int8.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.flat-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.flat-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.flat-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.flat-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.flat-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.parquet.flat-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.parquet.flat-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.parquet.flat-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.parquet.flat-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.parquet.flat-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.flat-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.flat-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.flat-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.flat-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.flat-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.flat-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.flat-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.flat-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nq.bge-base-en-v1.5.parquet.flat-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-quora.bge-base-en-v1.5.parquet.flat-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.flat-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.flat-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.flat-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.flat-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.flat-sqv.onnx
 
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.hnsw.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.hnsw.onnx
@@ -118,35 +118,35 @@ io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search 
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.hnsw.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.hnsw.onnx
 
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.hnsw-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.hnsw-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.hnsw-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.hnsw-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.hnsw-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.hnsw-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.parquet.hnsw-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.parquet.hnsw-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.parquet.hnsw-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.parquet.hnsw-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.parquet.hnsw-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.hnsw-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.hnsw-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.hnsw-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.hnsw-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.hnsw-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fever.bge-base-en-v1.5.parquet.hnsw-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.hnsw-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.hnsw-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.hnsw-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nq.bge-base-en-v1.5.parquet.hnsw-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-quora.bge-base-en-v1.5.parquet.hnsw-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.hnsw-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.hnsw-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.hnsw-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.hnsw-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.hnsw-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.hnsw-int8.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.hnsw-int8.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.hnsw-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.hnsw-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.hnsw-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.hnsw-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.hnsw-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.hnsw-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.parquet.hnsw-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.parquet.hnsw-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.parquet.hnsw-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.parquet.hnsw-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.parquet.hnsw-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.hnsw-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.hnsw-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.hnsw-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.hnsw-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.hnsw-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fever.bge-base-en-v1.5.parquet.hnsw-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.hnsw-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.hnsw-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.hnsw-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nq.bge-base-en-v1.5.parquet.hnsw-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-quora.bge-base-en-v1.5.parquet.hnsw-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.hnsw-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.hnsw-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.hnsw-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.hnsw-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.hnsw-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.hnsw-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.hnsw-sqv.onnx
 
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.flat.cached
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.flat.cached
@@ -178,35 +178,35 @@ io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.flat.cached
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.flat.cached
 
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.flat-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.flat-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.flat-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.flat-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.flat-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.parquet.flat-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.parquet.flat-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.parquet.flat-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.parquet.flat-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.parquet.flat-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.flat-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.flat-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.flat-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.flat-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.flat-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.flat-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.flat-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.flat-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-nq.bge-base-en-v1.5.parquet.flat-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-quora.bge-base-en-v1.5.parquet.flat-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.flat-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.flat-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.flat-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.flat-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.flat-int8.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.flat-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.flat-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.flat-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.flat-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.flat-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.parquet.flat-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.parquet.flat-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.parquet.flat-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.parquet.flat-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.parquet.flat-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.flat-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.flat-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.flat-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.flat-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.flat-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.flat-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.flat-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.flat-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-nq.bge-base-en-v1.5.parquet.flat-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-quora.bge-base-en-v1.5.parquet.flat-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.flat-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.flat-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.flat-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.flat-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.flat-sqv.cached
 
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.hnsw.cached
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.hnsw.cached
@@ -238,35 +238,35 @@ io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.hnsw.cached
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.hnsw.cached
 
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.hnsw-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.hnsw-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.hnsw-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.hnsw-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.hnsw-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.hnsw-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.parquet.hnsw-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.parquet.hnsw-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.parquet.hnsw-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.parquet.hnsw-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.parquet.hnsw-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.hnsw-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.hnsw-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.hnsw-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.hnsw-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.hnsw-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-fever.bge-base-en-v1.5.parquet.hnsw-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.hnsw-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.hnsw-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.hnsw-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-nq.bge-base-en-v1.5.parquet.hnsw-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-quora.bge-base-en-v1.5.parquet.hnsw-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.hnsw-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.hnsw-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.hnsw-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.hnsw-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.hnsw-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.hnsw-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.hnsw-int8.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-arguana.bge-base-en-v1.5.parquet.hnsw-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.hnsw-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.hnsw-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.hnsw-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.parquet.hnsw-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.parquet.hnsw-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.parquet.hnsw-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.parquet.hnsw-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.parquet.hnsw-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.parquet.hnsw-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.parquet.hnsw-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.parquet.hnsw-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.parquet.hnsw-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.parquet.hnsw-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.parquet.hnsw-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.parquet.hnsw-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-fever.bge-base-en-v1.5.parquet.hnsw-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.hnsw-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-hotpotqa.bge-base-en-v1.5.parquet.hnsw-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.hnsw-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-nq.bge-base-en-v1.5.parquet.hnsw-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-quora.bge-base-en-v1.5.parquet.hnsw-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-robust04.bge-base-en-v1.5.parquet.hnsw-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-scidocs.bge-base-en-v1.5.parquet.hnsw-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.hnsw-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-signal1m.bge-base-en-v1.5.parquet.hnsw-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.hnsw-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.hnsw-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.hnsw-sqv.cached
 
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-covid.splade-pp-ed.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-bioasq.splade-pp-ed.onnx

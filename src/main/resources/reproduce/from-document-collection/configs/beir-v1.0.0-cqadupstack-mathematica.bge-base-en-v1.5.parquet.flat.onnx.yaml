@@ -6,7 +6,7 @@ index_path: indexes/lucene-flat.beir-v1.0.0-cqadupstack-mathematica.bge-base-en-
 index_type: flat
 collection_class: ParquetDenseVectorCollection
 generator_class: DenseVectorDocumentGenerator
-index_threads: 16
+index_threads: 4
 index_options: ""
 
 metrics:
@@ -51,10 +51,3 @@ models:
         - 0.6922
       R@1000:
         - 0.8810
-    tolerance:
-      nDCG@10:
-        - 0.0001
-      R@100:
-        - 0.0001
-      R@1000:
-        - 0.0001

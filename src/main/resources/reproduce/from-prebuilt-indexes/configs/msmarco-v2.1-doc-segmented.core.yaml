@@ -311,3 +311,316 @@ conditions:
           nDCG@20: "-c -m ndcg_cut.20"
           nDCG@100: "-c -m ndcg_cut.100"
           R@100: "-c -m recall.100"
+  - name: bm25
+    display: "BM25 segmented doc (k1=0.9, b=0.4)"
+    display_html: "BM25 doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
+    display_row: ""
+    command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v2.1-doc-segmented -topics $topics -output $output -hits 1000 -bm25
+    topics:
+      - topic_key: rag25.test
+        eval_key: rag25.test-umbrela2
+        expected_scores:
+          nDCG@30: 0.3250
+          nDCG@100: 0.2835
+          R@100: 0.1167
+        metric_definitions:
+          nDCG@30: "-c -m ndcg_cut.30"
+          nDCG@100: "-c -m ndcg_cut.100"
+          R@100: "-c -m recall.100"
+      - topic_key: rag25.test
+        eval_key: rag25.test
+        expected_scores:
+          nDCG@30: 0.3468
+          nDCG@100: 0.2900
+          R@100: 0.1107
+        metric_definitions:
+          nDCG@30: "-c -m ndcg_cut.30"
+          nDCG@100: "-c -m ndcg_cut.100"
+          R@100: "-c -m recall.100"
+  - name: shard00.arctic-l.hnsw-int8.onnx
+    display: "ArcticEmbed-L (shard00): quantized (int8) HNSW, ONNX"
+    display_html: "ArcticEmbed-L (shard00): quantized (int8) HNSW, ONNX"
+    display_row: ""
+    command: io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard00.arctic-embed-l.hnsw-int8 -topics $topics -encoder ArcticEmbedL -output $output -hits 250 -efSearch 1000
+    topics:
+      - topic_key: rag25.test
+        eval_key: rag25.test-umbrela2
+        expected_scores:
+          nDCG@30: 0.2916
+          nDCG@100: 0.1997
+          R@100: 0.0627
+        metric_definitions:
+          nDCG@30: "-c -m ndcg_cut.30"
+          nDCG@100: "-c -m ndcg_cut.100"
+          R@100: "-c -m recall.100"
+      - topic_key: rag25.test
+        eval_key: rag25.test
+        expected_scores:
+          nDCG@30: 0.2793
+          nDCG@100: 0.1874
+          R@100: 0.0605
+        metric_definitions:
+          nDCG@30: "-c -m ndcg_cut.30"
+          nDCG@100: "-c -m ndcg_cut.100"
+          R@100: "-c -m recall.100"
+  - name: shard01.arctic-l.hnsw-int8.onnx
+    display: "ArcticEmbed-L (shard01): quantized (int8) HNSW, ONNX"
+    display_html: "ArcticEmbed-L (shard01): quantized (int8) HNSW, ONNX"
+    display_row: ""
+    command: io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard01.arctic-embed-l.hnsw-int8 -topics $topics -encoder ArcticEmbedL -output $output -hits 250 -efSearch 1000
+    topics:
+      - topic_key: rag25.test
+        eval_key: rag25.test-umbrela2
+        expected_scores:
+          nDCG@30: 0.2581
+          nDCG@100: 0.1675
+          R@100: 0.0500
+        metric_definitions:
+          nDCG@30: "-c -m ndcg_cut.30"
+          nDCG@100: "-c -m ndcg_cut.100"
+          R@100: "-c -m recall.100"
+      - topic_key: rag25.test
+        eval_key: rag25.test
+        expected_scores:
+          nDCG@30: 0.2604
+          nDCG@100: 0.1671
+          R@100: 0.0512
+        metric_definitions:
+          nDCG@30: "-c -m ndcg_cut.30"
+          nDCG@100: "-c -m ndcg_cut.100"
+          R@100: "-c -m recall.100"
+  - name: shard02.arctic-l.hnsw-int8.onnx
+    display: "ArcticEmbed-L (shard02): quantized (int8) HNSW, ONNX"
+    display_html: "ArcticEmbed-L (shard02): quantized (int8) HNSW, ONNX"
+    display_row: ""
+    command: io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard02.arctic-embed-l.hnsw-int8 -topics $topics -encoder ArcticEmbedL -output $output -hits 250 -efSearch 1000
+    topics:
+      - topic_key: rag25.test
+        eval_key: rag25.test-umbrela2
+        expected_scores:
+          nDCG@30: 0.2486
+          nDCG@100: 0.1603
+          R@100: 0.0437
+        metric_definitions:
+          nDCG@30: "-c -m ndcg_cut.30"
+          nDCG@100: "-c -m ndcg_cut.100"
+          R@100: "-c -m recall.100"
+      - topic_key: rag25.test
+        eval_key: rag25.test
+        expected_scores:
+          nDCG@30: 0.2429
+          nDCG@100: 0.1556
+          R@100: 0.0461
+        metric_definitions:
+          nDCG@30: "-c -m ndcg_cut.30"
+          nDCG@100: "-c -m ndcg_cut.100"
+          R@100: "-c -m recall.100"
+  - name: shard03.arctic-l.hnsw-int8.onnx
+    display: "ArcticEmbed-L (shard03): quantized (int8) HNSW, ONNX"
+    display_html: "ArcticEmbed-L (shard03): quantized (int8) HNSW, ONNX"
+    display_row: ""
+    command: io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard03.arctic-embed-l.hnsw-int8 -topics $topics -encoder ArcticEmbedL -output $output -hits 250 -efSearch 1000
+    topics:
+      - topic_key: rag25.test
+        eval_key: rag25.test-umbrela2
+        expected_scores:
+          nDCG@30: 0.2609
+          nDCG@100: 0.1747
+          R@100: 0.0555
+        metric_definitions:
+          nDCG@30: "-c -m ndcg_cut.30"
+          nDCG@100: "-c -m ndcg_cut.100"
+          R@100: "-c -m recall.100"
+      - topic_key: rag25.test
+        eval_key: rag25.test
+        expected_scores:
+          nDCG@30: 0.2874
+          nDCG@100: 0.1848
+          R@100: 0.0564
+        metric_definitions:
+          nDCG@30: "-c -m ndcg_cut.30"
+          nDCG@100: "-c -m ndcg_cut.100"
+          R@100: "-c -m recall.100"
+  - name: shard04.arctic-l.hnsw-int8.onnx
+    display: "ArcticEmbed-L (shard04): quantized (int8) HNSW, ONNX"
+    display_html: "ArcticEmbed-L (shard04): quantized (int8) HNSW, ONNX"
+    display_row: ""
+    command: io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard04.arctic-embed-l.hnsw-int8 -topics $topics -encoder ArcticEmbedL -output $output -hits 250 -efSearch 1000
+    topics:
+      - topic_key: rag25.test
+        eval_key: rag25.test-umbrela2
+        expected_scores:
+          nDCG@30: 0.2737
+          nDCG@100: 0.1899
+          R@100: 0.0605
+        metric_definitions:
+          nDCG@30: "-c -m ndcg_cut.30"
+          nDCG@100: "-c -m ndcg_cut.100"
+          R@100: "-c -m recall.100"
+      - topic_key: rag25.test
+        eval_key: rag25.test
+        expected_scores:
+          nDCG@30: 0.2687
+          nDCG@100: 0.1842
+          R@100: 0.0580
+        metric_definitions:
+          nDCG@30: "-c -m ndcg_cut.30"
+          nDCG@100: "-c -m ndcg_cut.100"
+          R@100: "-c -m recall.100"
+  - name: shard05.arctic-l.hnsw-int8.onnx
+    display: "ArcticEmbed-L (shard05): quantized (int8) HNSW, ONNX"
+    display_html: "ArcticEmbed-L (shard05): quantized (int8) HNSW, ONNX"
+    display_row: ""
+    command: io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard05.arctic-embed-l.hnsw-int8 -topics $topics -encoder ArcticEmbedL -output $output -hits 250 -efSearch 1000
+    topics:
+      - topic_key: rag25.test
+        eval_key: rag25.test-umbrela2
+        expected_scores:
+          nDCG@30: 0.2190
+          nDCG@100: 0.1481
+          R@100: 0.0511
+        metric_definitions:
+          nDCG@30: "-c -m ndcg_cut.30"
+          nDCG@100: "-c -m ndcg_cut.100"
+          R@100: "-c -m recall.100"
+      - topic_key: rag25.test
+        eval_key: rag25.test
+        expected_scores:
+          nDCG@30: 0.2499
+          nDCG@100: 0.1608
+          R@100: 0.0495
+        metric_definitions:
+          nDCG@30: "-c -m ndcg_cut.30"
+          nDCG@100: "-c -m ndcg_cut.100"
+          R@100: "-c -m recall.100"
+  - name: shard06.arctic-l.hnsw-int8.onnx
+    display: "ArcticEmbed-L (shard06): quantized (int8) HNSW, ONNX"
+    display_html: "ArcticEmbed-L (shard06): quantized (int8) HNSW, ONNX"
+    display_row: ""
+    command: io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard06.arctic-embed-l.hnsw-int8 -topics $topics -encoder ArcticEmbedL -output $output -hits 250 -efSearch 1000
+    topics:
+      - topic_key: rag25.test
+        eval_key: rag25.test-umbrela2
+        expected_scores:
+          nDCG@30: 0.1751
+          nDCG@100: 0.1236
+          R@100: 0.0397
+        metric_definitions:
+          nDCG@30: "-c -m ndcg_cut.30"
+          nDCG@100: "-c -m ndcg_cut.100"
+          R@100: "-c -m recall.100"
+      - topic_key: rag25.test
+        eval_key: rag25.test
+        expected_scores:
+          nDCG@30: 0.1783
+          nDCG@100: 0.1233
+          R@100: 0.0401
+        metric_definitions:
+          nDCG@30: "-c -m ndcg_cut.30"
+          nDCG@100: "-c -m ndcg_cut.100"
+          R@100: "-c -m recall.100"
+  - name: shard07.arctic-l.hnsw-int8.onnx
+    display: "ArcticEmbed-L (shard07): quantized (int8) HNSW, ONNX"
+    display_html: "ArcticEmbed-L (shard07): quantized (int8) HNSW, ONNX"
+    display_row: ""
+    command: io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard07.arctic-embed-l.hnsw-int8 -topics $topics -encoder ArcticEmbedL -output $output -hits 250 -efSearch 1000
+    topics:
+      - topic_key: rag25.test
+        eval_key: rag25.test-umbrela2
+        expected_scores:
+          nDCG@30: 0.2178
+          nDCG@100: 0.1427
+          R@100: 0.0413
+        metric_definitions:
+          nDCG@30: "-c -m ndcg_cut.30"
+          nDCG@100: "-c -m ndcg_cut.100"
+          R@100: "-c -m recall.100"
+      - topic_key: rag25.test
+        eval_key: rag25.test
+        expected_scores:
+          nDCG@30: 0.2230
+          nDCG@100: 0.1442
+          R@100: 0.0422
+        metric_definitions:
+          nDCG@30: "-c -m ndcg_cut.30"
+          nDCG@100: "-c -m ndcg_cut.100"
+          R@100: "-c -m recall.100"
+  - name: shard08.arctic-l.hnsw-int8.onnx
+    display: "ArcticEmbed-L (shard08: quantized (int8) HNSW, ONNX"
+    display_html: "ArcticEmbed-L (shard08): quantized (int8) HNSW, ONNX"
+    display_row: ""
+    command: io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard08.arctic-embed-l.hnsw-int8 -topics $topics -encoder ArcticEmbedL -output $output -hits 250 -efSearch 1000
+    topics:
+      - topic_key: rag25.test
+        eval_key: rag25.test-umbrela2
+        expected_scores:
+          nDCG@30: 0.2390
+          nDCG@100: 0.1533
+          R@100: 0.0456
+        metric_definitions:
+          nDCG@30: "-c -m ndcg_cut.30"
+          nDCG@100: "-c -m ndcg_cut.100"
+          R@100: "-c -m recall.100"
+      - topic_key: rag25.test
+        eval_key: rag25.test
+        expected_scores:
+          nDCG@30: 0.2312
+          nDCG@100: 0.1439
+          R@100: 0.0418
+        metric_definitions:
+          nDCG@30: "-c -m ndcg_cut.30"
+          nDCG@100: "-c -m ndcg_cut.100"
+          R@100: "-c -m recall.100"
+  - name: shard09.arctic-l.hnsw-int8.onnx
+    display: "ArcticEmbed-L (shard09): quantized (int8) HNSW, ONNX"
+    display_html: "ArcticEmbed-L (shard09): quantized (int8) HNSW, ONNX"
+    display_row: ""
+    command: io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard09.arctic-embed-l.hnsw-int8 -topics $topics -encoder ArcticEmbedL -output $output -hits 250 -efSearch 1000
+    topics:
+      - topic_key: rag25.test
+        eval_key: rag25.test-umbrela2
+        expected_scores:
+          nDCG@30: 0.2170
+          nDCG@100: 0.1409
+          R@100: 0.0389
+        metric_definitions:
+          nDCG@30: "-c -m ndcg_cut.30"
+          nDCG@100: "-c -m ndcg_cut.100"
+          R@100: "-c -m recall.100"
+      - topic_key: rag25.test
+        eval_key: rag25.test
+        expected_scores:
+          nDCG@30: 0.2182
+          nDCG@100: 0.1386
+          R@100: 0.0418
+        metric_definitions:
+          nDCG@30: "-c -m ndcg_cut.30"
+          nDCG@100: "-c -m ndcg_cut.100"
+          R@100: "-c -m recall.100"
+  - name: splade-v3.onnx  
+    display: "SPLADE-v3: ONNX"
+    display_html: "SPLADE-v3: ONNX"
+    display_row: ""  
+    command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v2.1-doc-segmented.splade-v3 -topics $topics -output $output -impact -pretokenized -removeQuery -hits 1000 -encoder SpladeV3
+    topics:  
+      - topic_key: rag25.test  
+        eval_key: rag25.test-umbrela2  
+        expected_scores:  
+          nDCG@30: 0.5838  
+          nDCG@100: 0.5372  
+          R@100: 0.1992  
+        metric_definitions:
+          nDCG@30: "-c -m ndcg_cut.30"
+          nDCG@100: "-c -m ndcg_cut.100"
+          R@100: "-c -m recall.100"
+      - topic_key: rag25.test  
+        eval_key: rag25.test  
+        expected_scores:  
+          nDCG@30: 0.5957  
+          nDCG@100: 0.5387  
+          R@100: 0.2103
+        metric_definitions:
+          nDCG@30: "-c -m ndcg_cut.30"
+          nDCG@100: "-c -m ndcg_cut.100"
+          R@100: "-c -m recall.100"
+

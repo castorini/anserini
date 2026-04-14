@@ -180,6 +180,7 @@ public final class IndexCollection extends AbstractIndexer {
     } else {
       config.setSimilarity(new BM25Similarity());
     }
+
     config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
     config.setRAMBufferSizeMB(args.memoryBuffer);
     config.setUseCompoundFile(false);
