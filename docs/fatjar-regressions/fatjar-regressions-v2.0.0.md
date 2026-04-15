@@ -1,6 +1,6 @@
 # Reproducing Experimental Results: Anserini Fatjar (v2.0.0)
 
-❗ Anserini was upgraded to Lucene 10.4.0 at [`c6eed6`](https://github.com/castorini/anserini/commit/c6eed686d26d6f39bd75cb44a1fc9385dbbd1b15) (2026/04/12) as part of v2.0.0. The reproductions documented here still use Lucene 9 prebuilt indexes, but will be gradually replaced by newer indexes over time. Scores reported here are identical to those in the v1.7.1 doc, but minor divergences in a small number of cases due to the Lucene upgrade.
+❗ Anserini was upgraded to Lucene 10.4.0 at [`c6eed6`](https://github.com/castorini/anserini/commit/c6eed686d26d6f39bd75cb44a1fc9385dbbd1b15) (2026/04/12) as part of v2.0.0. The reproductions documented here still use Lucene 9 prebuilt indexes, but will be gradually replaced by newer indexes over time. Scores reported here are identical to those in the v1.7.1 doc, but with minor divergences in a small number of cases due to the Lucene upgrade.
 
 Fetch the fatjar:
 
