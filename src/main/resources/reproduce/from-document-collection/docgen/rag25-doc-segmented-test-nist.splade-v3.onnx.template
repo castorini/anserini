@@ -49,7 +49,7 @@ To confirm, `${corpus}.tar` is 125 GB and has MD5 checksum `${download_checksum}
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
-python src/main/python/run_regression.py --index --verify --search --regression ${test_name} \
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config ${test_name} \
   --corpus-path collections/${download_corpus}
 ```
 

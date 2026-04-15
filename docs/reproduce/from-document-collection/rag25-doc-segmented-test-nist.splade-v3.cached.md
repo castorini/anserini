@@ -50,7 +50,7 @@ To confirm, `msmarco-v2.1-doc-segmented-splade-v3.tar` is 125 GB and has MD5 che
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
-python src/main/python/run_regression.py --index --verify --search --regression rag25-doc-segmented-test-nist.splade-v3.cached \
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag25-doc-segmented-test-nist.splade-v3.cached \
   --corpus-path collections/msmarco_v2.1_doc_segmented_splade-v3
 ```
 
