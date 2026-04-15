@@ -27,10 +27,6 @@ import io.anserini.search.ScoredDocs;
 public class ScoreTiesAdjusterReranker<T> implements Reranker<T> {
   @Override
   public ScoredDocs rerank(ScoredDocs docs, RerankerContext<T> context) {
-    if (context != null && context.getSearchArgs().arbitraryScoreTieBreak) {
-      return docs;
-    }
-
     int dup = 0;
     for (int i = 0; i<docs.lucene_documents.length; i++) {
       // Double here because otherwise we might run into overflow issues; this was encountered with SPLADEv2.

@@ -16,7 +16,11 @@
 
 package io.anserini.search;
 
-import io.anserini.index.Constants;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
@@ -27,10 +31,7 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import io.anserini.index.Constants;
 
 /**
  * This class, {@link ScoredDocs} and its cousin {@link ScoredDoc} are closely related and should be discussed in
@@ -84,7 +85,7 @@ public class ScoredDocs {
         TopDocs rs = searcher.search(q, 1);
 
         // If for whatever reason we can't find the doc, then skip.
-        if (rs.totalHits.value > 0) {
+        if (rs.totalHits.value() > 0) {
           lucene_documents.add(storedFields.document(rs.scoreDocs[0].doc));
           lucene_docids.add(rs.scoreDocs[0].doc);
           score.add(Float.valueOf(qrelsDocScorePair.getValue().floatValue()));

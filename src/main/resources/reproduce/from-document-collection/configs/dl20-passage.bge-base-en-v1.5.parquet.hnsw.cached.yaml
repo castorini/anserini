@@ -9,8 +9,8 @@ index_path: indexes/lucene-hnsw.msmarco-v1-passage.bge-base-en-v1.5/
 index_type: hnsw
 collection_class: ParquetDenseVectorCollection
 generator_class: DenseVectorDocumentGenerator
-index_threads: 16
-index_options: -M 16 -efC 100
+index_threads: 4
+index_options: -M 16 -efC 500
 
 metrics:
   - metric: AP@1000
@@ -53,7 +53,7 @@ models:
   - name: bge-hnsw-cached
     display: BGE-base-en-v1.5
     type: hnsw
-    params: -hits 1000 -efSearch 1000 -threads 16
+    params: -hits 1000 -efSearch 2000 -threads 16
     results:
       AP@1000:
         - 0.4650

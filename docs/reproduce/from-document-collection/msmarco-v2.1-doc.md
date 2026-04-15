@@ -12,15 +12,15 @@ Note that this page is automatically generated from [this template](../../../src
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
-```
-python src/main/python/run_regression.py --index --verify --search --regression msmarco-v2.1-doc
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v2.1-doc
 ```
 
 ## Indexing
 
 Typical indexing command:
 
-```
+```bash
 bin/run.sh io.anserini.index.IndexCollection \
   -threads 24 \
   -collection MsMarcoV2DocCollection \
@@ -42,7 +42,7 @@ These evaluation resources are from the original V2 corpus, but have been "proje
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
-```
+```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2.1-doc/ \
   -topics tools/topics-and-qrels/topics.msmarco-v2-doc.dev.txt \
@@ -59,7 +59,7 @@ bin/run.sh io.anserini.search.SearchCollection \
 
 Evaluation can be performed using `trec_eval`:
 
-```
+```bash
 bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-v2.1-doc.dev.txt runs/run.msmarco-v2.1-doc.bm25-default.topics.msmarco-v2-doc.dev.txt
 bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-v2.1-doc.dev.txt runs/run.msmarco-v2.1-doc.bm25-default.topics.msmarco-v2-doc.dev.txt
 bin/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2.1-doc.dev.txt runs/run.msmarco-v2.1-doc.bm25-default.topics.msmarco-v2-doc.dev.txt

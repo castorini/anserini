@@ -8,15 +8,15 @@ Note that this page is automatically generated from [this template](../../../src
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
-```
-python src/main/python/run_regression.py --index --verify --search --regression gov2
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config gov2
 ```
 
 ## Indexing
 
 Typical indexing command:
 
-```
+```bash
 bin/run.sh io.anserini.index.IndexCollection \
   -threads 44 \
   -collection TrecwebCollection \
@@ -45,7 +45,7 @@ They are downloaded from NIST:
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
-```
+```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.gov2/ \
   -topics tools/topics-and-qrels/topics.terabyte04.701-750.txt \
@@ -89,19 +89,19 @@ bin/run.sh io.anserini.search.SearchCollection \
   -topics tools/topics-and-qrels/topics.terabyte04.701-750.txt \
   -topicReader Trec \
   -output runs/run.gov2.bm25+ax.topics.terabyte04.701-750.txt \
-  -bm25 -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 &
+  -bm25 -axiom -axiom.beta 0.1 -rerankCutoff 20 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.gov2/ \
   -topics tools/topics-and-qrels/topics.terabyte05.751-800.txt \
   -topicReader Trec \
   -output runs/run.gov2.bm25+ax.topics.terabyte05.751-800.txt \
-  -bm25 -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 &
+  -bm25 -axiom -axiom.beta 0.1 -rerankCutoff 20 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.gov2/ \
   -topics tools/topics-and-qrels/topics.terabyte06.801-850.txt \
   -topicReader Trec \
   -output runs/run.gov2.bm25+ax.topics.terabyte06.801-850.txt \
-  -bm25 -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 &
+  -bm25 -axiom -axiom.beta 0.1 -rerankCutoff 20 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.gov2/ \
@@ -146,24 +146,24 @@ bin/run.sh io.anserini.search.SearchCollection \
   -topics tools/topics-and-qrels/topics.terabyte04.701-750.txt \
   -topicReader Trec \
   -output runs/run.gov2.ql+ax.topics.terabyte04.701-750.txt \
-  -qld -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 &
+  -qld -axiom -axiom.beta 0.1 -rerankCutoff 20 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.gov2/ \
   -topics tools/topics-and-qrels/topics.terabyte05.751-800.txt \
   -topicReader Trec \
   -output runs/run.gov2.ql+ax.topics.terabyte05.751-800.txt \
-  -qld -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 &
+  -qld -axiom -axiom.beta 0.1 -rerankCutoff 20 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.gov2/ \
   -topics tools/topics-and-qrels/topics.terabyte06.801-850.txt \
   -topicReader Trec \
   -output runs/run.gov2.ql+ax.topics.terabyte06.801-850.txt \
-  -qld -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 &
+  -qld -axiom -axiom.beta 0.1 -rerankCutoff 20 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
-```
+```bash
 bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.terabyte04.701-750.txt runs/run.gov2.bm25.topics.terabyte04.701-750.txt
 bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.terabyte05.751-800.txt runs/run.gov2.bm25.topics.terabyte05.751-800.txt
 bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.terabyte06.801-850.txt runs/run.gov2.bm25.topics.terabyte06.801-850.txt

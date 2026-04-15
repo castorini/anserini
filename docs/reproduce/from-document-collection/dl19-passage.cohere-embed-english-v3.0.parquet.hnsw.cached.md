@@ -12,7 +12,7 @@ Note that this page is automatically generated from [this template](../../../src
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```bash
-python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.cohere-embed-english-v3.0.parquet.hnsw.cached
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.cohere-embed-english-v3.0.parquet.hnsw.cached
 ```
 
 We make available a version of the MS MARCO Passage Corpus that has already been encoded with Cohere embed-english-v3.0.
@@ -20,7 +20,7 @@ We make available a version of the MS MARCO Passage Corpus that has already been
 From any machine, the following command will download the corpus and perform the complete regression, end to end:
 
 ```bash
-python src/main/python/run_regression.py --download --index --verify --search --regression dl19-passage.cohere-embed-english-v3.0.parquet.hnsw.cached
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --download --index --verify --search --config dl19-passage.cohere-embed-english-v3.0.parquet.hnsw.cached
 ```
 
 The `run_regression.py` script automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same regression results.
@@ -38,7 +38,7 @@ To confirm, `msmarco-passage-cohere-embed-english-v3.0.parquet.tar` is 16 GB and
 With the corpus downloaded, the following command will perform the remaining steps below:
 
 ```bash
-python src/main/python/run_regression.py --index --verify --search --regression dl19-passage.cohere-embed-english-v3.0.parquet.hnsw.cached \
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.cohere-embed-english-v3.0.parquet.hnsw.cached \
   --corpus-path collections/msmarco-passage-cohere-embed-english-v3.0.parquet
 ```
 
@@ -48,12 +48,12 @@ Sample indexing command, building HNSW indexes:
 
 ```bash
 bin/run.sh io.anserini.index.IndexHnswDenseVectors \
-  -threads 16 \
+  -threads 4 \
   -collection ParquetDenseVectorCollection \
   -input /path/to/msmarco-passage-cohere-embed-english-v3.0.parquet \
   -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-hnsw.msmarco-v1-passage.cohere-embed-english-v3.0/ \
-  -M 16 -efC 100 \
+  -M 16 -efC 500 \
   >& logs/log.msmarco-passage-cohere-embed-english-v3.0.parquet &
 ```
 
@@ -74,7 +74,7 @@ bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -topics tools/topics-and-qrels/topics.dl19-passage.cohere-embed-english-v3.0.jsonl.gz \
   -topicReader JsonIntVector \
   -output runs/run.msmarco-passage-cohere-embed-english-v3.0.parquet.cohere-embed-english-v3.0-hnsw-cached.topics.dl19-passage.cohere-embed-english-v3.0.jsonl.txt \
-  -hits 1000 -efSearch 1000 -threads 16 &
+  -hits 1000 -efSearch 2000 -threads 16 &
 ```
 
 Evaluation can be performed using `trec_eval`:

@@ -9,7 +9,7 @@ index_path: indexes/lucene-flat.msmarco-v1-passage.openai-ada2/
 index_type: flat
 collection_class: ParquetDenseVectorCollection
 generator_class: DenseVectorDocumentGenerator
-index_threads: 16
+index_threads: 4
 index_options: ""
 
 metrics:

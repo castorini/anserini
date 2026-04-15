@@ -553,3 +553,5 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@KhanShaheb34](https://github.com/KhanShaheb34) on 2026-03-10 (commit [`a64b6e4`](https://github.com/castorini/anserini/commit/a64b6e495f6173f1e3663a541dca82a2f1c00026))
 + Results reproduced by [@egekaya1](https://github.com/egekaya1) on 2026-03-29 (commit [`9434de7`](https://github.com/castorini/anserini/commit/9434de77347e3d482c320abde6907522cb7af713))
 + Results reproduced by [@sibi-ai](https://github.com/sibi-ai) on 2026-04-07 (commit [`295fdbf`](https://github.com/castorini/anserini/commit/295fdbf)) using Google Colab, Java 21, Maven 3.9. All steps completed successfully.
++ Results reproduced by [@ShanaxWorld](https://github.com/ShanaxWorld) on 2026-04-05 (commit [`a6f3d474`](https://github.com/castorini/anserini/commit/a6f3d474837f337dfa19f037e1f727dc8f8fd9cc))
++ Results reproduced by [@h79yan](https://github.com/h79yan) on 2026-04-09 (commit [`e441bc83`](https://github.com/castorini/anserini/commit/e441bc83cc29e4fc1c94491220fa09728be4e6c3))

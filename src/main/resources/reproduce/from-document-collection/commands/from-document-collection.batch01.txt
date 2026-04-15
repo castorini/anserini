@@ -10,6 +10,17 @@ io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search 
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard08.flat.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard09.flat.onnx
 
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard00.flat.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard01.flat.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard02.flat.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard03.flat.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard04.flat.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard05.flat.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard06.flat.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard07.flat.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard08.flat.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard09.flat.onnx
+
 # MS MARCO V2.1, full indexing - build both doc and doc segmented conditions
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag24-doc-segmented-test-umbrela
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag24-doc-raggy-dev
@@ -33,21 +44,21 @@ io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search 
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.splade-v3.cached
 
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.cos-dpr-distil.parquet.flat.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.cos-dpr-distil.parquet.flat-int8.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.cos-dpr-distil.parquet.flat-sqv.cached
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.cos-dpr-distil.parquet.hnsw.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.cos-dpr-distil.parquet.hnsw-int8.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.cos-dpr-distil.parquet.hnsw-sqv.cached
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.bge-base-en-v1.5.parquet.flat.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.bge-base-en-v1.5.parquet.flat-int8.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.bge-base-en-v1.5.parquet.flat-sqv.cached
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw-int8.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw-sqv.cached
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.openai-ada2.parquet.flat.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.openai-ada2.parquet.flat-int8.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.openai-ada2.parquet.flat-sqv.cached
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.openai-ada2.parquet.hnsw.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.openai-ada2.parquet.hnsw-int8.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.openai-ada2.parquet.hnsw-sqv.cached
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.cohere-embed-english-v3.0.parquet.flat.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.cohere-embed-english-v3.0.parquet.flat-int8.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.cohere-embed-english-v3.0.parquet.flat-sqv.cached
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.cohere-embed-english-v3.0.parquet.hnsw.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.cohere-embed-english-v3.0.parquet.hnsw-int8.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.cohere-embed-english-v3.0.parquet.hnsw-sqv.cached
 
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.cos-dpr-distil.parquet.fw
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.cos-dpr-distil.parquet.lexlsh
@@ -75,6 +86,17 @@ io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard07.flat.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard08.flat.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard09.flat.onnx
+
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard00.flat.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard01.flat.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard02.flat.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard03.flat.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard04.flat.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard05.flat.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard06.flat.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard07.flat.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard08.flat.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard09.flat.onnx
 
 # MS MARCO V2.1 doc segment:
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config rag24-doc-segmented-test-nist
@@ -133,13 +155,13 @@ io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config msmarco-v1-passage.splade-pp-sd.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config msmarco-v1-passage.splade-v3.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config msmarco-v1-passage.cos-dpr-distil.parquet.flat.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config msmarco-v1-passage.cos-dpr-distil.parquet.flat-int8.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config msmarco-v1-passage.cos-dpr-distil.parquet.flat-sqv.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config msmarco-v1-passage.cos-dpr-distil.parquet.hnsw.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config msmarco-v1-passage.cos-dpr-distil.parquet.hnsw-int8.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config msmarco-v1-passage.cos-dpr-distil.parquet.hnsw-sqv.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config msmarco-v1-passage.bge-base-en-v1.5.parquet.flat.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config msmarco-v1-passage.bge-base-en-v1.5.parquet.flat-int8.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config msmarco-v1-passage.bge-base-en-v1.5.parquet.flat-sqv.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw-int8.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw-sqv.onnx
 
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.bm25-b8
@@ -158,28 +180,28 @@ io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config
 
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.cos-dpr-distil.parquet.flat.cached
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.cos-dpr-distil.parquet.flat.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.cos-dpr-distil.parquet.flat-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.cos-dpr-distil.parquet.flat-int8.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.cos-dpr-distil.parquet.flat-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.cos-dpr-distil.parquet.flat-sqv.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.cos-dpr-distil.parquet.hnsw.cached
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.cos-dpr-distil.parquet.hnsw.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.cos-dpr-distil.parquet.hnsw-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.cos-dpr-distil.parquet.hnsw-int8.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.cos-dpr-distil.parquet.hnsw-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.cos-dpr-distil.parquet.hnsw-sqv.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.bge-base-en-v1.5.parquet.flat.cached
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.bge-base-en-v1.5.parquet.flat.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.bge-base-en-v1.5.parquet.flat-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.bge-base-en-v1.5.parquet.flat-int8.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.bge-base-en-v1.5.parquet.flat-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.bge-base-en-v1.5.parquet.flat-sqv.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.bge-base-en-v1.5.parquet.hnsw.cached
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.bge-base-en-v1.5.parquet.hnsw.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.bge-base-en-v1.5.parquet.hnsw-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.bge-base-en-v1.5.parquet.hnsw-int8.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.bge-base-en-v1.5.parquet.hnsw-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.bge-base-en-v1.5.parquet.hnsw-sqv.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.openai-ada2.parquet.flat.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.openai-ada2.parquet.flat-int8.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.openai-ada2.parquet.flat-sqv.cached
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.openai-ada2.parquet.hnsw.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.openai-ada2.parquet.hnsw-int8.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.openai-ada2.parquet.hnsw-sqv.cached
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.cohere-embed-english-v3.0.parquet.flat.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.cohere-embed-english-v3.0.parquet.flat-int8.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.cohere-embed-english-v3.0.parquet.flat-sqv.cached
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.cohere-embed-english-v3.0.parquet.hnsw.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.cohere-embed-english-v3.0.parquet.hnsw-int8.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.cohere-embed-english-v3.0.parquet.hnsw-sqv.cached
 
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.cos-dpr-distil.parquet.fw
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.cos-dpr-distil.parquet.lexlsh
@@ -213,28 +235,28 @@ io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config
 
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.cos-dpr-distil.parquet.flat.cached
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.cos-dpr-distil.parquet.flat.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.cos-dpr-distil.parquet.flat-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.cos-dpr-distil.parquet.flat-int8.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.cos-dpr-distil.parquet.flat-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.cos-dpr-distil.parquet.flat-sqv.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.cos-dpr-distil.parquet.hnsw.cached
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.cos-dpr-distil.parquet.hnsw.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.cos-dpr-distil.parquet.hnsw-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.cos-dpr-distil.parquet.hnsw-int8.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.cos-dpr-distil.parquet.hnsw-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.cos-dpr-distil.parquet.hnsw-sqv.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.bge-base-en-v1.5.parquet.flat.cached
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.bge-base-en-v1.5.parquet.flat.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.bge-base-en-v1.5.parquet.flat-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.bge-base-en-v1.5.parquet.flat-int8.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.bge-base-en-v1.5.parquet.flat-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.bge-base-en-v1.5.parquet.flat-sqv.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.bge-base-en-v1.5.parquet.hnsw.cached
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.bge-base-en-v1.5.parquet.hnsw.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.bge-base-en-v1.5.parquet.hnsw-int8.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.bge-base-en-v1.5.parquet.hnsw-int8.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.bge-base-en-v1.5.parquet.hnsw-sqv.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.bge-base-en-v1.5.parquet.hnsw-sqv.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.openai-ada2.parquet.flat.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.openai-ada2.parquet.flat-int8.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.openai-ada2.parquet.flat-sqv.cached
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.openai-ada2.parquet.hnsw.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.openai-ada2.parquet.hnsw-int8.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.openai-ada2.parquet.hnsw-sqv.cached
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.cohere-embed-english-v3.0.parquet.flat.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.cohere-embed-english-v3.0.parquet.flat-int8.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.cohere-embed-english-v3.0.parquet.flat-sqv.cached
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.cohere-embed-english-v3.0.parquet.hnsw.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.cohere-embed-english-v3.0.parquet.hnsw-int8.cached
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.cohere-embed-english-v3.0.parquet.hnsw-sqv.cached
 
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.cos-dpr-distil.parquet.fw
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.cos-dpr-distil.parquet.lexlsh

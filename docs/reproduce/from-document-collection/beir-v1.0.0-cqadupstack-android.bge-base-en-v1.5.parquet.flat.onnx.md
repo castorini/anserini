@@ -13,8 +13,8 @@ Note that this page is automatically generated from [this template](../../../src
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
-```
-python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.flat.onnx
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.parquet.flat.onnx
 ```
 
 All the BEIR corpora, encoded by the BGE-base-en-v1.5 model and stored in Parquet format, are available for download:
@@ -31,9 +31,9 @@ After downloading and unpacking the corpora, the `run_regression.py` command abo
 
 Sample indexing command, building flat indexes:
 
-```
+```bash
 bin/run.sh io.anserini.index.IndexFlatDenseVectors \
-  -threads 16 \
+  -threads 4 \
   -collection ParquetDenseVectorCollection \
   -input /path/to/beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5 \
   -generator DenseVectorDocumentGenerator \
@@ -49,7 +49,7 @@ Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/t
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
-```
+```bash
 bin/run.sh io.anserini.search.SearchFlatDenseVectors \
   -index indexes/lucene-flat.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5/ \
   -topics tools/topics-and-qrels/topics.beir-v1.0.0-cqadupstack-android.test.tsv.gz \
@@ -60,7 +60,7 @@ bin/run.sh io.anserini.search.SearchFlatDenseVectors \
 
 Evaluation can be performed using `trec_eval`:
 
-```
+```bash
 bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-android.test.txt runs/run.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-cqadupstack-android.test.txt
 bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-android.test.txt runs/run.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-cqadupstack-android.test.txt
 bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-android.test.txt runs/run.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-cqadupstack-android.test.txt
@@ -72,7 +72,7 @@ With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                                                                  | **BGE-base-en-v1.5**|
 |:-------------------------------------------------------------------------------------------------------------|---------------------|
-| BEIR (v1.0.0): CQADupStack-android                                                                           | 0.5075              |
+| BEIR (v1.0.0): CQADupStack-android                                                                           | 0.5076              |
 | **R@100**                                                                                                    | **BGE-base-en-v1.5**|
 | BEIR (v1.0.0): CQADupStack-android                                                                           | 0.8454              |
 | **R@1000**                                                                                                   | **BGE-base-en-v1.5**|

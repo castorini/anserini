@@ -8,15 +8,15 @@ Note that this page is automatically generated from [this template](../../../src
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
-```
-python src/main/python/run_regression.py --index --verify --search --regression cw09b
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config cw09b
 ```
 
 ## Indexing
 
 Typical indexing command:
 
-```
+```bash
 bin/run.sh io.anserini.index.IndexCollection \
   -threads 44 \
   -collection ClueWeb09Collection \
@@ -47,7 +47,7 @@ They are downloaded from NIST:
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
-```
+```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.cw09b/ \
   -topics tools/topics-and-qrels/topics.web.51-100.txt \
@@ -91,19 +91,19 @@ bin/run.sh io.anserini.search.SearchCollection \
   -topics tools/topics-and-qrels/topics.web.51-100.txt \
   -topicReader Webxml \
   -output runs/run.cw09b.bm25+ax.topics.web.51-100.txt \
-  -parallelism 16 -bm25 -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
+  -parallelism 16 -bm25 -axiom -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.cw09b/ \
   -topics tools/topics-and-qrels/topics.web.101-150.txt \
   -topicReader Webxml \
   -output runs/run.cw09b.bm25+ax.topics.web.101-150.txt \
-  -parallelism 16 -bm25 -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
+  -parallelism 16 -bm25 -axiom -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.cw09b/ \
   -topics tools/topics-and-qrels/topics.web.151-200.txt \
   -topicReader Webxml \
   -output runs/run.cw09b.bm25+ax.topics.web.151-200.txt \
-  -parallelism 16 -bm25 -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
+  -parallelism 16 -bm25 -axiom -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.cw09b/ \
@@ -148,24 +148,24 @@ bin/run.sh io.anserini.search.SearchCollection \
   -topics tools/topics-and-qrels/topics.web.51-100.txt \
   -topicReader Webxml \
   -output runs/run.cw09b.ql+ax.topics.web.51-100.txt \
-  -parallelism 16 -qld -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
+  -parallelism 16 -qld -axiom -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.cw09b/ \
   -topics tools/topics-and-qrels/topics.web.101-150.txt \
   -topicReader Webxml \
   -output runs/run.cw09b.ql+ax.topics.web.101-150.txt \
-  -parallelism 16 -qld -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
+  -parallelism 16 -qld -axiom -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.cw09b/ \
   -topics tools/topics-and-qrels/topics.web.151-200.txt \
   -topicReader Webxml \
   -output runs/run.cw09b.ql+ax.topics.web.151-200.txt \
-  -parallelism 16 -qld -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
+  -parallelism 16 -qld -axiom -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection &
 ```
 
 Evaluation can be performed using `trec_eval` and `gdeval.pl`:
 
-```
+```bash
 tools/eval/gdeval.pl tools/topics-and-qrels/qrels.web.51-100.txt runs/run.cw09b.bm25.topics.web.51-100.txt
 bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.web.51-100.txt runs/run.cw09b.bm25.topics.web.51-100.txt
 tools/eval/gdeval.pl tools/topics-and-qrels/qrels.web.101-150.txt runs/run.cw09b.bm25.topics.web.101-150.txt

@@ -14,15 +14,15 @@ Note that this page is automatically generated from [this template](../../../src
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
-```
-python src/main/python/run_regression.py --index --verify --search --regression car17v2.0-doc2query
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config car17v2.0-doc2query
 ```
 
 ## Indexing
 
 Typical indexing command:
 
-```
+```bash
 bin/run.sh io.anserini.index.IndexCollection \
   -threads 30 \
   -collection JsonCollection \
@@ -49,7 +49,7 @@ Specifically, this is the section-level passage retrieval task with automatic gr
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
-```
+```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.car-paragraphCorpus.v2.0-doc2query/ \
   -topics tools/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt \
@@ -69,7 +69,7 @@ bin/run.sh io.anserini.search.SearchCollection \
   -topics tools/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt \
   -topicReader Car \
   -output runs/run.car-paragraphCorpus.v2.0-doc2query.bm25+ax.topics.car17v2.0.benchmarkY1test.txt \
-  -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
+  -bm25 -axiom -rerankCutoff 20 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.car-paragraphCorpus.v2.0-doc2query/ \
@@ -90,12 +90,12 @@ bin/run.sh io.anserini.search.SearchCollection \
   -topics tools/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt \
   -topicReader Car \
   -output runs/run.car-paragraphCorpus.v2.0-doc2query.ql+ax.topics.car17v2.0.benchmarkY1test.txt \
-  -qld -axiom -axiom.deterministic -rerankCutoff 20 &
+  -qld -axiom -rerankCutoff 20 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
-```
+```bash
 bin/trec_eval -c -m map -c -m recip_rank tools/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt runs/run.car-paragraphCorpus.v2.0-doc2query.bm25.topics.car17v2.0.benchmarkY1test.txt
 
 bin/trec_eval -c -m map -c -m recip_rank tools/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt runs/run.car-paragraphCorpus.v2.0-doc2query.bm25+rm3.topics.car17v2.0.benchmarkY1test.txt

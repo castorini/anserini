@@ -13,8 +13,8 @@ Note that this page is automatically generated from [this template](../../../src
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
-```
-python src/main/python/run_regression.py --index --verify --search --regression beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.parquet.hnsw.cached
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.parquet.hnsw.cached
 ```
 
 All the BEIR corpora, encoded by the BGE-base-en-v1.5 model and stored in Parquet format, are available for download:
@@ -31,14 +31,14 @@ After downloading and unpacking the corpora, the `run_regression.py` command abo
 
 Sample indexing command, building HNSW indexes:
 
-```
+```bash
 bin/run.sh io.anserini.index.IndexHnswDenseVectors \
-  -threads 16 \
+  -threads 4 \
   -collection ParquetDenseVectorCollection \
   -input /path/to/beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5 \
   -generator DenseVectorDocumentGenerator \
   -index indexes/lucene-hnsw.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5/ \
-  -M 16 -efC 100 \
+  -M 16 -efC 500 \
   >& logs/log.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5 &
 ```
 
@@ -50,18 +50,18 @@ Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/t
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
-```
+```bash
 bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -index indexes/lucene-hnsw.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5/ \
   -topics tools/topics-and-qrels/topics.beir-v1.0.0-cqadupstack-physics.test.bge-base-en-v1.5.jsonl.gz \
   -topicReader JsonStringVector \
   -output runs/run.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.bge-hnsw-cached.topics.beir-v1.0.0-cqadupstack-physics.test.bge-base-en-v1.5.jsonl.txt \
-  -hits 1000 -efSearch 1000 -removeQuery -threads 16 &
+  -hits 1000 -efSearch 2000 -removeQuery -threads 16 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
-```
+```bash
 bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-physics.test.txt runs/run.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.bge-hnsw-cached.topics.beir-v1.0.0-cqadupstack-physics.test.bge-base-en-v1.5.jsonl.txt
 bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-physics.test.txt runs/run.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.bge-hnsw-cached.topics.beir-v1.0.0-cqadupstack-physics.test.bge-base-en-v1.5.jsonl.txt
 bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-physics.test.txt runs/run.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.bge-hnsw-cached.topics.beir-v1.0.0-cqadupstack-physics.test.bge-base-en-v1.5.jsonl.txt
