@@ -16,8 +16,15 @@
 
 package io.anserini.search.topicreader;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.Set;
+import java.util.TreeMap;
 
 /**
  * An enumeration comprising standard sets of topics from various evaluations.
@@ -577,7 +584,7 @@ public enum Topics {
   CIRAL_V10_SW_DEV_MONO(TsvIntTopicReader.class, "topics.ciral-v1.0-sw-dev-native.tsv"),
   CIRAL_V10_YO_DEV_MONO(TsvIntTopicReader.class, "topics.ciral-v1.0-yo-dev-native.tsv"),
 
-  // BRIGHT original queries
+  // BRIGHT queries converted to tsv format (some spacing changes were made to the original queries)
   BRIGHT_BIOLOGY(TsvStringTopicReader.class, "topics.bright-biology.tsv.gz"),
   BRIGHT_EARTH_SCIENCE(TsvStringTopicReader.class, "topics.bright-earth-science.tsv.gz"),
   BRIGHT_ECONOMICS(TsvStringTopicReader.class, "topics.bright-economics.tsv.gz"),
@@ -590,6 +597,20 @@ public enum Topics {
   BRIGHT_AOPS(TsvStringTopicReader.class, "topics.bright-aops.tsv.gz"),
   BRIGHT_THEOREMQA_THEOREMS(TsvStringTopicReader.class, "topics.bright-theoremqa-theorems.tsv.gz"),
   BRIGHT_THEOREMQA_QUESTIONS(TsvStringTopicReader.class, "topics.bright-theoremqa-questions.tsv.gz"),
+
+  // BRIGHT queries original jsonl format
+  BRIGHT_BIOLOGY_ORIGINAL(JsonStringTopicReader.class, "topics.bright-biology-original.jsonl.gz"),
+  BRIGHT_EARTH_SCIENCE_ORIGINAL(JsonStringTopicReader.class, "topics.bright-earth-science-original.jsonl.gz"),
+  BRIGHT_ECONOMICS_ORIGINAL(JsonStringTopicReader.class, "topics.bright-economics-original.jsonl.gz"),
+  BRIGHT_PSYCHOLOGY_ORIGINAL(JsonStringTopicReader.class, "topics.bright-psychology-original.jsonl.gz"),
+  BRIGHT_ROBOTICS_ORIGINAL(JsonStringTopicReader.class, "topics.bright-robotics-original.jsonl.gz"),
+  BRIGHT_STACKOVERFLOW_ORIGINAL(JsonStringTopicReader.class, "topics.bright-stackoverflow-original.jsonl.gz"),
+  BRIGHT_SUSTAINABLE_LIVING_ORIGINAL(JsonStringTopicReader.class, "topics.bright-sustainable-living-original.jsonl.gz"),
+  BRIGHT_PONY_ORIGINAL(JsonStringTopicReader.class, "topics.bright-pony-original.jsonl.gz"),
+  BRIGHT_LEETCODE_ORIGINAL(JsonStringTopicReader.class, "topics.bright-leetcode-original.jsonl.gz"),
+  BRIGHT_AOPS_ORIGINAL(JsonStringTopicReader.class, "topics.bright-aops-original.jsonl.gz"),
+  BRIGHT_THEOREMQA_THEOREMS_ORIGINAL(JsonStringTopicReader.class, "topics.bright-theoremqa-theorems-original.jsonl.gz"),
+  BRIGHT_THEOREMQA_QUESTIONS_ORIGINAL(JsonStringTopicReader.class, "topics.bright-theoremqa-questions-original.jsonl.gz"),
 
   // BRIGHT: pre-encoded queries for SPLADE-v3
   BRIGHT_BIOLOGY_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-biology.splade-v3.tsv.gz"),
@@ -980,9 +1001,57 @@ public enum Topics {
     }
   }
 
+  public static Set<String> getSymbolDictionaryKeys() {
+    return Collections.unmodifiableSet(SYMBOL_DICTIONARY.keySet());
+  }
+
   public static Topics getBaseTopics(String name) {
     name = name.replaceFirst("^topics\\.", ""); // Remove "topics." prefix if present
     String regex = "^(.*?)(?:[.-](bge|cohere|splade|unicoil|cosdpr|txt|tsv|v\\d+|v\\d+\\.\\d+)).*"; // Regex to remove model suffixes to get base topi name
     return Topics.getByName(name.replaceAll(regex, "$1"));
+  }
+
+  public static <K> SortedMap<K, Map<String, String>> resolve(String topics) {
+    return resolve(topics, null);
+  }
+
+  @SuppressWarnings("unchecked")
+  public static <K> SortedMap<K, Map<String, String>> resolve(String topics, String topicReader) {
+    Path topicsPath = Paths.get(topics);
+    if (!Files.exists(topicsPath) || !Files.isRegularFile(topicsPath) || !Files.isReadable(topicsPath)) {
+      Topics ref = Topics.getByName(topics);
+      if (ref == null) {
+        throw new IllegalArgumentException(String.format("\"%s\" does not refer to valid topics.", topicsPath));
+      }
+
+      try {
+        return TopicReader.getTopics(ref);
+      } catch (Exception e) {
+        throw new IllegalArgumentException(String.format("Unable to read topics \"%s\".", topics), e);
+      }
+    }
+
+    if (topicReader == null) {
+      throw new IllegalArgumentException("Must specify the topic reader using -topicReader.");
+    }
+
+    try {
+      TopicReader<K> tr = (TopicReader<K>) Class
+          .forName(String.format("io.anserini.search.topicreader.%sTopicReader", topicReader))
+          .getConstructor(Path.class).newInstance(topicsPath);
+      return tr.read();
+    } catch (Exception e) {
+      throw new IllegalArgumentException(String.format("Unable to load topic reader \"%s\".", topicReader));
+    }
+  }
+
+  public static <K> SortedMap<K, Map<String, String>> resolve(String[] topicsArray, String topicReader) {
+    SortedMap<K, Map<String, String>> topics = new TreeMap<>();
+
+    for (String topicsFile : topicsArray) {
+      topics.putAll(resolve(topicsFile, topicReader));
+    }
+
+    return topics;
   }
 }

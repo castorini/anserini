@@ -1,0 +1,55 @@
+# Anserini Regressions: Gov2
+
+**Models**: various bag-of-words approaches
+
+This page describes regressions for the Terabyte Tracks from TREC 2004 to 2006, which uses the [Gov2 collection](http://ir.dcs.gla.ac.uk/test_collections/gov2-summary.htm).
+The exact configurations for these regressions are stored in [this YAML file](${yaml}).
+Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config ${test_name}
+```
+
+## Indexing
+
+Typical indexing command:
+
+```bash
+${index_cmds}
+```
+
+The directory `/path/to/gov2/` should be the root directory of the [Gov2 collection](http://ir.dcs.gla.ac.uk/test_collections/gov2-summary.htm), i.e., `ls /path/to/gov2/` should bring up a bunch of subdirectories, `GX000` to `GX272`.
+
+For additional details, see explanation of [common indexing options](${root_path}/docs/common-indexing-options.md).
+
+## Retrieval
+
+Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
+They are downloaded from NIST:
+
++ [`topics.terabyte04.701-750.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.terabyte04.701-750.txt): [topics for the TREC 2004 Terabyte Track (Topics 701-750)](http://trec.nist.gov/data/terabyte/04/04topics.701-750.txt)
++ [`topics.terabyte05.751-800.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.terabyte05.751-800.txt): [topics for the TREC 2005 Terabyte Track (Topics 751-800)](http://trec.nist.gov/data/terabyte/05/05.topics.751-800.txt)
++ [`topics.terabyte06.801-850.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.terabyte06.801-850.txt): [topics for the TREC 2006 Terabyte Track (Topics 801-850)](http://trec.nist.gov/data/terabyte/06/06.topics.801-850.txt)
++ [`qrels.terabyte04.701-750.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/qrels.terabyte04.701-750.txt): [qrels for the TREC 2004 Terabyte Track (Topics 701-750)](http://trec.nist.gov/data/terabyte/04/04.qrels.12-Nov-04)
++ [`qrels.terabyte05.751-800.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/qrels.terabyte05.751-800.txt): [qrels for the TREC 2005 Terabyte Track (Topics 751-800)](http://trec.nist.gov/data/terabyte/05/05.adhoc_qrels)
++ [`qrels.terabyte06.801-850.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/qrels.terabyte06.801-850.txt): [qrels for the TREC 2006 Terabyte Track (Topics 801-850)](http://trec.nist.gov/data/terabyte/06/qrels.tb06.top50)
+
+After indexing has completed, you should be able to perform retrieval as follows:
+
+```bash
+${ranking_cmds}
+```
+
+Evaluation can be performed using `trec_eval`:
+
+```bash
+${eval_cmds}
+```
+
+## Effectiveness
+
+With the above commands, you should be able to reproduce the following results:
+
+${effectiveness}

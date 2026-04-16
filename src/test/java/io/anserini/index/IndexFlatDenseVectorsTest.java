@@ -196,7 +196,7 @@ public class IndexFlatDenseVectorsTest extends StdOutStdErrRedirectableLuceneTes
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
         "-index", indexPath,
         "-generator", "DenseVectorDocumentGenerator",
-        "-threads", "1", "-quantize.int8"
+        "-threads", "1", "-quantize.sqv"
     };
 
     IndexFlatDenseVectors.main(indexArgs);

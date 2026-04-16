@@ -149,12 +149,18 @@ public class AclAnthologyGenerator implements LuceneDocumentGenerator<AclAntholo
         doc.add(new StoredField(key, fieldString));
       } else if (FIELDS_WITHOUT_STEMMING.contains(key)) {
         // token stream to be indexed
+        FieldType nonStemmedType = new FieldType(storedFieldType);
+        nonStemmedType.setStored(false); // TokenStream fields cannot be stored in Lucene 10.1.0
+        
         Analyzer nonStemmingAnalyzer = DefaultEnglishAnalyzer.newNonStemmingInstance(CharArraySet.EMPTY_SET);
         StringReader reader = new StringReader(fieldString);
         TokenStream stream = nonStemmingAnalyzer.tokenStream(null, reader);
 
-        Field field = new Field(key, fieldString, storedFieldType);
-        field.setTokenStream(stream);
+        // Store the original string value as StoredField
+        doc.add(new StoredField(key, fieldString));
+        
+        // Create Field with TokenStream for indexing
+        Field field = new Field(key, stream, nonStemmedType);
         doc.add(field);
 
         nonStemmingAnalyzer.close();

@@ -301,6 +301,7 @@ public abstract class AbstractIndexer implements Runnable {
     LOG.info(String.format("Total %,d documents indexed in %s", numIndexed,
         DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss")));
   }
+
   // Default method to process the segments; subclasses can override this method if desired.
   protected void processSegments(ThreadPoolExecutor executor, List<Path> segmentPaths) {
     segmentPaths.forEach((segmentPath) -> {

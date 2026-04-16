@@ -1,0 +1,8 @@
+io.anserini.reproduce.ReproduceFromPrebuiltIndexes --print-commands --compute-index-size --config bright.core
+io.anserini.reproduce.ReproduceFromPrebuiltIndexes --print-commands --compute-index-size --config beir.core
+io.anserini.reproduce.ReproduceFromPrebuiltIndexes --print-commands --compute-index-size --config msmarco-v1-passage.core
+io.anserini.reproduce.ReproduceFromPrebuiltIndexes --print-commands --compute-index-size --config msmarco-v1-doc.core
+io.anserini.reproduce.ReproduceFromPrebuiltIndexes --print-commands --compute-index-size --config msmarco-v2-passage.core
+io.anserini.reproduce.ReproduceFromPrebuiltIndexes --print-commands --compute-index-size --config msmarco-v2-doc.core
+io.anserini.reproduce.ReproduceFromPrebuiltIndexes --print-commands --compute-index-size --config msmarco-v2.1-doc.core
+io.anserini.reproduce.ReproduceFromPrebuiltIndexes --print-commands --compute-index-size --config msmarco-v2.1-doc-segmented.core

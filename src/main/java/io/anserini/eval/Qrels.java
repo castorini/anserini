@@ -59,6 +59,8 @@ public enum Qrels {
   TREC2024_RAG_RAGGY_DEV("qrels.rag24.raggy-dev.txt"),
   TREC2024_RAG_UMBRELA("qrels.rag24.test-umbrela-all.txt"),
   TREC2024_RAG("qrels.rag24.test.txt"),
+  TREC2025_RAG_UMBRELA("qrels.rag25.test-umbrela2.txt"),
+  TREC2025_RAG("qrels.rag25.test.txt"),
   MSMARCO_DOC_DEV("qrels.msmarco-doc.dev.txt"),
   MSMARCO_PASSAGE_DEV_SUBSET("qrels.msmarco-passage.dev-subset.txt"),
   MSMARCO_V2_DOC_DEV("qrels.msmarco-v2-doc.dev.txt"),

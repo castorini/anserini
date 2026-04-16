@@ -16,40 +16,32 @@
 
 package io.anserini.search;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-
-import io.anserini.analysis.AnalyzerMap;
-import io.anserini.analysis.AnalyzerUtils;
-import io.anserini.analysis.AutoCompositeAnalyzer;
-import io.anserini.analysis.CompositeAnalyzer;
-import io.anserini.analysis.DefaultEnglishAnalyzer;
-import io.anserini.analysis.HuggingFaceTokenizerAnalyzer;
-import io.anserini.analysis.TweetAnalyzer;
-import io.anserini.collection.DocumentCollection;
-import io.anserini.encoder.sparse.SparseEncoder;
-import io.anserini.eval.ExcludeDocs;
-import io.anserini.index.Constants;
-import io.anserini.index.IndexReaderUtils;
-import io.anserini.index.generator.TweetGenerator;
-import io.anserini.index.generator.WashingtonPostGenerator;
-import io.anserini.rerank.RerankerCascade;
-import io.anserini.rerank.RerankerContext;
-import io.anserini.rerank.lib.AxiomReranker;
-import io.anserini.rerank.lib.BM25PrfReranker;
-import io.anserini.rerank.lib.NewsBackgroundLinkingReranker;
-import io.anserini.rerank.lib.Rm3Reranker;
-import io.anserini.rerank.lib.RocchioReranker;
-import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
-import io.anserini.search.query.QueryGenerator;
-import io.anserini.search.query.QuerySideBm25QueryGenerator;
-import io.anserini.search.query.SdmQueryGenerator;
-import io.anserini.search.similarity.AccurateBM25Similarity;
-import io.anserini.search.similarity.ImpactSimilarity;
-import io.anserini.search.similarity.TaggedSimilarity;
-import io.anserini.search.topicreader.BackgroundLinkingTopicReader;
-import io.anserini.search.topicreader.TopicReader;
-import io.anserini.search.topicreader.Topics;
-import io.anserini.util.LoggingBootstrap;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.Closeable;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CompletionException;
+import java.util.concurrent.ConcurrentSkipListMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -95,28 +87,38 @@ import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 import org.kohsuke.args4j.spi.StringArrayOptionHandler;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.Closeable;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.TreeMap;
-import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicInteger;
+import io.anserini.analysis.AnalyzerMap;
+import io.anserini.analysis.AnalyzerUtils;
+import io.anserini.analysis.AutoCompositeAnalyzer;
+import io.anserini.analysis.CompositeAnalyzer;
+import io.anserini.analysis.DefaultEnglishAnalyzer;
+import io.anserini.analysis.HuggingFaceTokenizerAnalyzer;
+import io.anserini.analysis.TweetAnalyzer;
+import io.anserini.collection.DocumentCollection;
+import io.anserini.encoder.sparse.SparseEncoder;
+import io.anserini.eval.ExcludeDocs;
+import io.anserini.index.Constants;
+import io.anserini.index.IndexReaderUtils;
+import io.anserini.index.generator.TweetGenerator;
+import io.anserini.index.generator.WashingtonPostGenerator;
+import io.anserini.rerank.RerankerCascade;
+import io.anserini.rerank.RerankerContext;
+import io.anserini.rerank.lib.AxiomReranker;
+import io.anserini.rerank.lib.BM25PrfReranker;
+import io.anserini.rerank.lib.NewsBackgroundLinkingReranker;
+import io.anserini.rerank.lib.Rm3Reranker;
+import io.anserini.rerank.lib.RocchioReranker;
+import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
+import io.anserini.search.query.QueryGenerator;
+import io.anserini.search.query.QuerySideBm25QueryGenerator;
+import io.anserini.search.query.SdmQueryGenerator;
+import io.anserini.search.similarity.AccurateBM25Similarity;
+import io.anserini.search.similarity.ImpactSimilarity;
+import io.anserini.search.similarity.TaggedSimilarity;
+import io.anserini.search.topicreader.BackgroundLinkingTopicReader;
+import io.anserini.search.topicreader.TopicReader;
+import io.anserini.search.topicreader.Topics;
+import io.anserini.util.LoggingBootstrap;
 
 /**
  * Main entry point for search.
@@ -149,9 +151,6 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
 
     @Option(name = "-output", metaVar = "[file]", required = true, usage = "output file")
     public String output;
-
-    @Option(name = "-outputRerankerRequests", metaVar = "[file]", usage = "Output file for reranking")
-    public String outputRerankerRequests;
 
     @Option(name = "-topicReader", usage = "TopicReader to use.")
     public String topicReader;
@@ -217,9 +216,6 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
 
     @Option(name = "-pretokenized", usage = "Boolean switch to accept pre tokenized jsonl.")
     public boolean pretokenized = false;
-
-    @Option(name = "-arbitraryScoreTieBreak", usage = "Break score ties arbitrarily (not recommended)")
-    public boolean arbitraryScoreTieBreak = false;
 
     @Option(name = "-hits", metaVar = "[number]", usage = "max number of hits to return")
     public int hits = 1000;
@@ -489,9 +485,6 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
     @Option(name = "-axiom.outputQuery", usage = "output original and expanded query")
     public boolean axiom_outputQuery = false;
 
-    @Option(name = "-axiom.deterministic", usage = "make the expansion terms axiomatic reranking results deterministic")
-    public boolean axiom_deterministic = false;
-
     @Option(name = "-axiom.seed", handler = StringArrayOptionHandler.class, usage = "seed for the random generator in axiomatic reranking")
     public String[] axiom_seed = new String[]{"42"};
 
@@ -715,11 +708,8 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
 
       TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
       if (!isRerank || (args.rerankcutoff > 0 && args.rf_qrels == null) || (args.rf_qrels != null && !hasRelDocs)) {
-        if (args.arbitraryScoreTieBreak) {// Figure out how to break the scoring ties.
-          rs = getIndexSearcher().search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits);
-        } else {
-          rs = getIndexSearcher().search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
-        }
+        rs = getIndexSearcher().search(query,
+            (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
       }
 
       List<String> queryTokens = AnalyzerUtils.analyze(analyzer, queryString);
@@ -756,8 +746,9 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
 
       // Per track guidelines, no opinion or editorials. Filter out articles of these types.
       Query filter = new TermInSetQuery(
-          WashingtonPostGenerator.WashingtonPostField.KICKER.name, new BytesRef("Opinions"),
-          new BytesRef("Letters to the Editor"), new BytesRef("The Post's View"));
+          WashingtonPostGenerator.WashingtonPostField.KICKER.name, 
+          Arrays.asList(new BytesRef("Opinions"),
+              new BytesRef("Letters to the Editor"), new BytesRef("The Post's View")));
 
       BooleanQuery.Builder builder = new BooleanQuery.Builder();
       builder.add(filter, BooleanClause.Occur.MUST_NOT);
@@ -765,13 +756,8 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       Query query = builder.build();
 
       // Search using constructed query.
-      TopDocs rs;
-      if (args.arbitraryScoreTieBreak) {
-        rs = getIndexSearcher().search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits);
-      } else {
-        rs = getIndexSearcher().search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff :
-            args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
-      }
+      TopDocs rs = getIndexSearcher().search(query, isRerank && args.rf_qrels == null ? args.rerankcutoff : args.hits,
+          BREAK_SCORE_TIES_BY_DOCID, true);
 
       RerankerContext<Integer> context = new RerankerContext<>(getIndexSearcher(), qid, query, docid,
           StringUtils.join(", ", terms), terms, null, args);
@@ -814,12 +800,8 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
 
       TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
       if (!isRerank || (args.rerankcutoff > 0 && args.rf_qrels == null) || (args.rf_qrels != null && !hasRelDocs)) {
-        if (args.arbitraryScoreTieBreak) {// Figure out how to break the scoring ties.
-          rs = getIndexSearcher().search(compositeQuery, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits);
-        } else {
-          rs = getIndexSearcher().search(compositeQuery, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits,
-              BREAK_SCORE_TIES_BY_TWEETID, true);
-        }
+        rs = getIndexSearcher().search(compositeQuery, isRerank && args.rf_qrels == null ? args.rerankcutoff : args.hits,
+            BREAK_SCORE_TIES_BY_TWEETID, true);
       }
 
       RerankerContext<T> context = new RerankerContext<>(getIndexSearcher(), qid, keywordQuery, null, queryString, queryTokens, filter, args);
@@ -925,13 +907,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
               docs = searcher.search(qid, queryString.toString(), cascade, queryQrels, hasRelDocs);
             }
 
-            // If JSON output is requested, we retain references to the Lucene documents.
-            // Note we do *not* want to retain references to the Lucene documents unless requested since it's a waste of memory.
-            if (args.outputRerankerRequests != null) {
-              results.put(qid, searcher.processScoredDocs(qid, docs, true));
-            } else {
-              results.put(qid, searcher.processScoredDocs(qid, docs, false));
-            }
+            results.put(qid, searcher.processScoredDocs(qid, docs, false));
 
             int n = cnt.incrementAndGet();
             if (n % 100 == 0) {
@@ -963,7 +939,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
         name = args.topics[0];
       }
       // Now we write the results to a run file.
-      try (RunOutputWriter<T> out = new RunOutputWriter<>(outputPath, args.format, args.runtag, args.outputRerankerRequests, name)) {
+      try (RunOutputWriter<T> out = new RunOutputWriter<>(outputPath, args.format, args.runtag, name)) {
         // Here's a really screwy corner case that we have to manually hack around: for MS MARCO V1, the query file is not
         // sorted by qid, but the topic representation internally is (i.e., K is a comparable). The original query runner
         // SearchMsmarco retained the order of the queries; however, this class does not. Thus, the run files list the
@@ -995,12 +971,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
           }
         } else {
             results.forEach((qid, hits) -> {
-              try {
-                out.writeTopic(qid, topics.get(qid).get("title"), results.get(qid));
-              } catch (JsonProcessingException e) {
-                // Handle the exception or rethrow as unchecked.
-                throw new RuntimeException(e);
-              }
+              out.writeTopic(qid, topics.get(qid).get("title"), results.get(qid));
           });
         }
       } catch (IOException e) {
@@ -1073,41 +1044,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       loadQrels(args.rf_qrels);
     }
 
-    // Fix for index compatibility issue between Lucene 8 and 9: https://github.com/castorini/anserini/issues/1952
-    // If we detect an older index version, we turn off consistent tie-breaking, which avoids accessing docvalues,
-    // which is the source of the incompatibility.
-    if (!reader.toString().contains("lucene.version=9")) {
-      args.arbitraryScoreTieBreak = true;
-      args.axiom_deterministic = false;
-    }
-
-    // We might not be able to successfully read topics for a variety of reasons. Gather all possible
-    // exceptions together as an unchecked exception to make initialization and error reporting clearer.
-    topics = new TreeMap<>();
-    for (String topicsFile : args.topics) {
-      Path topicsFilePath = Paths.get(topicsFile);
-      if (!Files.exists(topicsFilePath) || !Files.isRegularFile(topicsFilePath) || !Files.isReadable(topicsFilePath)) {
-        Topics ref = Topics.getByName(topicsFile);
-        if (ref == null) {
-          throw new IllegalArgumentException(String.format("\"%s\" does not refer to valid topics.", topicsFilePath));
-        } else {
-          topics.putAll(TopicReader.getTopics(ref));
-        }
-      } else {
-        if (args.topicReader == null) {
-          throw new IllegalArgumentException("Must specify the topic reader using -topicReader.");
-        }
-        try {
-          TopicReader<K> tr = (TopicReader<K>) Class
-              .forName(String.format("io.anserini.search.topicreader.%sTopicReader", args.topicReader))
-              .getConstructor(Path.class).newInstance(topicsFilePath);
-
-          topics.putAll(tr.read());
-        } catch (Exception e) {
-          throw new IllegalArgumentException(String.format("Unable to load topic reader \"%s\".", args.topicReader));
-        }
-      }
-    }
+    topics = Topics.resolve(args.topics, args.topicReader);
   }
 
   @Override
@@ -1209,7 +1146,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
                 }
                 RerankerCascade<K> cascade = new RerankerCascade<K>(tag);
                 cascade.add(new AxiomReranker<K>(analyzer, collectionClass, args.index, args.axiom_index, Constants.CONTENTS,
-                    args.axiom_deterministic, Integer.parseInt(seed), Integer.parseInt(r),
+                    true, Integer.parseInt(seed), Integer.parseInt(r),
                     Integer.parseInt(n), Float.parseFloat(beta), Integer.parseInt(top),
                     args.axiom_docids, args.axiom_outputQuery, args.searchTweets));
                 cascade.add(new ScoreTiesAdjusterReranker<K>());

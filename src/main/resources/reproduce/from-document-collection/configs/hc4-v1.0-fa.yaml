@@ -1,0 +1,168 @@
+---
+corpus: hc4-v1.0-fa
+corpus_path: collections/multilingual/hc4-v1.0-fa/
+
+index_path: indexes/lucene-index.hc4-v1.0-fa
+collection_class: NeuClirCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 8
+index_options: -storePositions -storeDocvectors -storeRaw -language fa
+index_stats:
+  documents: 486486
+  documents (non-empty): 486486
+
+metrics:
+  - metric: MAP
+    command: bin/trec_eval
+    params: -c -m map
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: nDCG@20
+    command: bin/trec_eval
+    params: -c -m ndcg_cut.20
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: J@20
+    command: python -m pyserini.eval.trec_eval
+    params: -c -m judged.20
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: Recall@1000
+    command: bin/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvInt
+topics:
+  - name: "[HC4 (Persian): dev-topic title](https://github.com/hltcoe/HC4)"
+    id: dev_title
+    path: topics.hc4-v1.0-fa.dev.title.tsv
+    qrel: qrels.hc4-v1.0-fa.dev.txt
+  - name: "[HC4 (Persian): dev-topic description](https://github.com/hltcoe/HC4)"
+    id: dev_description
+    path: topics.hc4-v1.0-fa.dev.desc.tsv
+    qrel: qrels.hc4-v1.0-fa.dev.txt
+  - name: "[HC4 (Persian): dev-topic description+title](https://github.com/hltcoe/HC4)"
+    id: dev_description_title
+    path: topics.hc4-v1.0-fa.dev.desc.title.tsv
+    qrel: qrels.hc4-v1.0-fa.dev.txt
+  - name: "[HC4 (Persian): test-topic title](https://github.com/hltcoe/HC4)"
+    id: test_title
+    path: topics.hc4-v1.0-fa.test.title.tsv
+    qrel: qrels.hc4-v1.0-fa.test.txt
+  - name: "[HC4 (Persian): test-topic description](https://github.com/hltcoe/HC4)"
+    id: test_description
+    path: topics.hc4-v1.0-fa.test.desc.tsv
+    qrel: qrels.hc4-v1.0-fa.test.txt
+  - name: "[HC4 (Persian): test-topic description+title](https://github.com/hltcoe/HC4)"
+    id: test_description_title
+    path: topics.hc4-v1.0-fa.test.desc.title.tsv
+    qrel: qrels.hc4-v1.0-fa.test.txt
+
+
+models:
+  - name: bm25-default
+    display: BM25 (default)
+    params: -bm25 -language fa
+    results:
+      MAP:
+        - 0.2818
+        - 0.3128
+        - 0.3343
+        - 0.3059
+        - 0.3108
+        - 0.3437
+      nDCG@20:
+        - 0.3315
+        - 0.3394
+        - 0.3664
+        - 0.4114
+        - 0.4077
+        - 0.4606
+      J@20:
+        - 0.3900
+        - 0.4600
+        - 0.4600
+        - 0.4220
+        - 0.3950
+        - 0.4460
+      Recall@1000:
+        - 0.7745
+        - 0.8433
+        - 0.9128
+        - 0.8405
+        - 0.8581
+        - 0.8799
+  - name: bm25-default+rm3
+    display: +RM3
+    params: -bm25 -rm3 -language fa
+    results:
+      MAP:
+        - 0.2583
+        - 0.2984
+        - 0.2680
+        - 0.3080
+        - 0.2714
+        - 0.3058
+      nDCG@20:
+        - 0.3186
+        - 0.3508
+        - 0.3132
+        - 0.3982
+        - 0.3513
+        - 0.4006
+      J@20:
+        - 0.3500
+        - 0.3300
+        - 0.2900
+        - 0.4030
+        - 0.3410
+        - 0.3980
+      Recall@1000:
+        - 0.7835
+        - 0.7685
+        - 0.8077
+        - 0.7957
+        - 0.7488
+        - 0.8051
+  - name: bm25-default+rocchio
+    display: +Rocchio
+    params: -bm25 -rocchio -language fa
+    results:
+      MAP:
+        - 0.2761
+        - 0.3442
+        - 0.3510
+        - 0.3182
+        - 0.3170
+        - 0.3507
+      nDCG@20:
+        - 0.2806
+        - 0.3599
+        - 0.3490
+        - 0.3958
+        - 0.3942
+        - 0.4341
+      J@20:
+        - 0.3650
+        - 0.4650
+        - 0.4800
+        - 0.4600
+        - 0.4570
+        - 0.4840
+      Recall@1000:
+        - 0.8039
+        - 0.8727
+        - 0.9323
+        - 0.8721
+        - 0.8853
+        - 0.9035
