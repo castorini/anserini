@@ -433,7 +433,7 @@ public final class RestServer implements Closeable {
         }
       }));
       server.start();
-    } catch (IOException e) {
+    } catch (Exception e) {
       System.err.printf("Error: %s%n", e.getMessage());
     }
   }

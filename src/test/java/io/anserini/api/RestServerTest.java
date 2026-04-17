@@ -100,6 +100,28 @@ public class RestServerTest extends StdOutStdErrRedirectableLuceneTestCase {
   }
 
   @Test
+  public void testInvalidIndexConfigStartupOptions() throws Exception {
+    Path config = Files.createTempFile("rest-server-indexes-invalid-main", ".yaml");
+    Files.writeString(config, "indexes:\n" + "  missing: /path/that/does/not/exist\n", StandardCharsets.UTF_8);
+
+    redirectStdOut();
+    redirectStdErr();
+    String output;
+    try {
+      RestServer.main(new String[] {"--index-config", config.toString()});
+      output = out.toString(StandardCharsets.UTF_8) + err.toString(StandardCharsets.UTF_8);
+    } finally {
+      restoreStdOut();
+      restoreStdErr();
+      Files.deleteIfExists(config);
+    }
+
+    assertTrue(output.contains("Error:"));
+    assertTrue(output.contains("missing path"));
+    assertFalse(output.contains("Anserini REST server listening on"));
+  }
+
+  @Test
   public void testHelp() throws Exception {
     redirectStdOut();
     redirectStdErr();
@@ -230,8 +252,7 @@ public class RestServerTest extends StdOutStdErrRedirectableLuceneTestCase {
     JsonNode candidate = searchBody.get("candidates").get(0);
     String docid = candidate.get("docid").asText();
 
-    TestResponse documentResponse = sendGet(baseUrl + "/v1/" + index + "/doc/" +
-        URLEncoder.encode(docid, StandardCharsets.UTF_8));
+    TestResponse documentResponse = sendGet(baseUrl + "/v1/" + index + "/doc/" + URLEncoder.encode(docid, StandardCharsets.UTF_8));
     assertEquals(200, documentResponse.statusCode);
     JsonNode documentBody = JSON_MAPPER.readTree(documentResponse.body);
 
@@ -278,8 +299,7 @@ public class RestServerTest extends StdOutStdErrRedirectableLuceneTestCase {
     JsonNode candidate = searchBody.get("candidates").get(0);
     String docid = candidate.get("docid").asText();
 
-    TestResponse response = sendGet(baseUrl + "/v1/" + index + "/doc/" +
-        URLEncoder.encode(docid, StandardCharsets.UTF_8));
+    TestResponse response = sendGet(baseUrl + "/v1/" + index + "/doc/" + URLEncoder.encode(docid, StandardCharsets.UTF_8));
     assertEquals(200, response.statusCode);
     JsonNode body = JSON_MAPPER.readTree(response.body);
 
@@ -300,8 +320,7 @@ public class RestServerTest extends StdOutStdErrRedirectableLuceneTestCase {
     assertTrue(candidate.get("doc").isTextual());
     assertTrue(candidate.get("doc").asText().contains("Preliminary Report"));
 
-    TestResponse documentResponse = sendGet(baseUrl + "/v1/" + index + "/doc/" +
-        URLEncoder.encode(candidate.get("docid").asText(), StandardCharsets.UTF_8));
+    TestResponse documentResponse = sendGet(baseUrl + "/v1/" + index + "/doc/" + URLEncoder.encode(candidate.get("docid").asText(), StandardCharsets.UTF_8));
     assertEquals(200, documentResponse.statusCode);
     JsonNode documentBody = JSON_MAPPER.readTree(documentResponse.body);
 
