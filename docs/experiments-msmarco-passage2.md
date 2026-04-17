@@ -195,3 +195,4 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@ShanaxWorld](https://github.com/ShanaxWorld) on 2026-03-27 (commit [`aaba107`](https://github.com/castorini/anserini/commit/aaba1079c92e629eeff300d398cb3ce50d1adde2))
 + Results reproduced by [@egekaya1](https://github.com/egekaya1) on 2026-03-29 (commit [`9434de7`](https://github.com/castorini/anserini/commit/9434de77347e3d482c320abde6907522cb7af713))
 + Results reproduced by [@h79yan](https://github.com/h79yan) on 2026-04-10 (commit [`e441bc83`](https://github.com/castorini/anserini/commit/e441bc83cc29e4fc1c94491220fa09728be4e6c3))
++ Results reproduced by [@kwamearhinPORTFL](https://github.com/kwamearhinPORTFL) on 2026-04-15 (commit [`5c51ee5`](https://github.com/castorini/anserini/commit/5c51ee567f5039f97e5de8de17b4052fd34a0498))
