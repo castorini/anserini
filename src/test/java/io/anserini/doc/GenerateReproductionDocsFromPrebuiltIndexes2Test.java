@@ -29,17 +29,44 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class GenerateReproductionDocsFromPrebuiltIndexes2Test {
   public final static String YAML_PATH = "src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.core.yaml";
+  private static final String COMMAND_INDENT = "    ";
+
+  private static String formatCommand(String fatjarPlaceholder, String jvmArgs, String commandTemplate) {
+    List<String> lines = new ArrayList<>();
+    lines.add(ReproductionUtils.Constants.JAVA_PREFIX + " " + fatjarPlaceholder + " " + jvmArgs);
+
+    String[] tokens = commandTemplate.split("\\s+");
+    if (tokens.length > 0) {
+      lines.add(COMMAND_INDENT + tokens[0]);
+    }
+
+    for (int i = 1; i < tokens.length; i++) {
+      String token = tokens[i];
+      if (token.startsWith("-")) {
+        if (i + 1 < tokens.length && !tokens[i + 1].startsWith("-")) {
+          lines.add(COMMAND_INDENT + token + " " + tokens[++i]);
+        } else {
+          lines.add(COMMAND_INDENT + token);
+        }
+      } else {
+        lines.add(COMMAND_INDENT + token);
+      }
+    }
+
+    return String.join(" \\\n", lines);
+  }
 
   private static String buildCommand(String conditionName, String commandTemplate, String topicKey) {
     String output = String.format("%s/run.msmarco-v1-passage.core.%s.%s.txt",
         ReproductionUtils.Constants.DEFAULT_RUNS_DIRECTORY, conditionName, topicKey);
 
-    String command = String.format("%s $fatjar %s %s",
-            ReproductionUtils.Constants.JAVA_PREFIX, ReproductionUtils.Constants.JVM_ARGS, commandTemplate)
+    String command = formatCommand("$fatjar", ReproductionUtils.Constants.JVM_ARGS, commandTemplate)
         .replace("$threads", "16")
         .replace("$topics", topicKey)
         .replace("$output", output)
@@ -66,7 +93,7 @@ public class GenerateReproductionDocsFromPrebuiltIndexes2Test {
 
     StringBuilder builder = new StringBuilder();
     for (Map.Entry<String, Double> entry : topic.expected_scores.entrySet()) {
-      String command = "java -cp $fatjarPath trec_eval $metric $evalKey $output"
+      String command = "java -cp $fatjar trec_eval $metric $evalKey $output"
           .replace("$fatjarPath", "$fatjarPath")
           .replace("$metric", topic.metric_definitions.get(entry.getKey()))
           .replace("$evalKey", topic.eval_key)
@@ -81,33 +108,30 @@ public class GenerateReproductionDocsFromPrebuiltIndexes2Test {
   }
 
   @Test
-  public void generateMsReport() throws Exception {
+  public void generateMsMarcoV1PassageReport() throws Exception {
     Config config = new ObjectMapper(new YAMLFactory()).readValue(new File(YAML_PATH), Config.class);
+    String template = FileUtils.readFileToString(
+        new File("src/main/resources/reproduce/from-prebuilt-indexes/docgen/msmarco-v1-passage.core.template"),
+        StandardCharsets.UTF_8);
 
     File output = new File("docs/reproduce/from-prebuilt-indexes/msmarco-v1-passage.core.md");
     FileUtils.forceMkdirParent(output);
 
     StringBuilder builder = new StringBuilder();
-    builder.append("| # | name | msmarco-doc.dev MRR@100 | dl19-passage nDCG@10 | dl20-passage nDCG@10 |\n");
+    builder.append("| # | name | dev | DL19 | DL20 |\n");
     builder.append("| --- | --- | --- | --- | --- |\n");
 
     int row = 1;
 
     for (Condition condition : config.conditions) {
+      int sectionNumber = row;
       Double devScore = null;
       Double dl19Score = null;
       Double dl20Score = null;
 
       for (Topic topic : condition.topics) {
-        if ("msmarco-doc.dev".equals(topic.topic_key) && topic.expected_scores != null) {
-          devScore = topic.expected_scores.get("MRR@100");
-        }
-
         if ("msmarco-v1-passage.dev".equals(topic.topic_key) && topic.expected_scores != null) {
-          devScore = topic.expected_scores.get("MRR@100");
-          if (devScore == null) {
-            devScore = topic.expected_scores.get("MRR@10");
-          }
+          devScore = topic.expected_scores.get("MRR@10");
         }
 
         if ("dl19-passage".equals(topic.topic_key) && topic.expected_scores != null) {
@@ -120,8 +144,9 @@ public class GenerateReproductionDocsFromPrebuiltIndexes2Test {
       }
 
       builder.append("| ")
-          .append(row++)
-          .append(" | ")
+          .append("[").append(sectionNumber).append("](#condition-").append(sectionNumber).append(")");
+      row++;
+      builder.append(" | ")
           .append(condition.display)
           .append(" | ")
           .append(devScore == null ? "" : String.format("%.4f", devScore))
@@ -136,6 +161,7 @@ public class GenerateReproductionDocsFromPrebuiltIndexes2Test {
 
     row = 1;
     for (Condition condition : config.conditions) {
+      builder.append("<a id=\"condition-").append(row).append("\"></a>\n\n");
       builder.append("### ").append(row++).append(". ").append(condition.display).append("\n\n");
 
       for (Topic topic : condition.topics) {
@@ -151,6 +177,9 @@ public class GenerateReproductionDocsFromPrebuiltIndexes2Test {
       }
     }
 
-    FileUtils.writeStringToFile(output, builder.toString(), StandardCharsets.UTF_8);
+    String configLink = String.format("[%s](../../%s)", new File(YAML_PATH).getName(), YAML_PATH);
+    FileUtils.writeStringToFile(output, template
+        .replace("${config}", configLink)
+        .replace("${contents}", builder.toString()), StandardCharsets.UTF_8);
   }
 }
