@@ -56,16 +56,16 @@ import io.javalin.util.JavalinLogger;
 
 public final class RestServer implements Closeable {
   public static class Args {
-    @Option(name = "--host", metaVar = "[address]", usage = "Address to bind server to")
+    @Option(name = "--host", metaVar = "[address]", usage = "address to bind server to")
     public String host = "0.0.0.0";
 
-    @Option(name = "--port", metaVar = "[number]", usage = "Port to bind server to")
+    @Option(name = "--port", metaVar = "[number]", usage = "port to bind server to")
     public int port = 8080;
 
-    @Option(name = "--index-config", metaVar = "[path]", usage = "Path to YAML config containing REST index aliases")
+    @Option(name = "--index-config", metaVar = "[path]", usage = "path to YAML config containing index aliases")
     public String indexConfig;
 
-    @Option(name = "--help", help = true, usage = "Print this help message and exit.")
+    @Option(name = "--help", help = true, usage = "print this help message and exit")
     public boolean help = false;
   }
 

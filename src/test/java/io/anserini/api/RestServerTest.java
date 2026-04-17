@@ -287,8 +287,7 @@ public class RestServerTest extends StdOutStdErrRedirectableLuceneTestCase {
     JsonNode candidate = searchBody.get("candidates").get(0);
     String docid = candidate.get("docid").asText();
 
-    TestResponse documentResponse =
-        sendGet(String.format("%s/v1/%s/doc/%s", baseUrl, index, URLEncoder.encode(docid, StandardCharsets.UTF_8)));
+    TestResponse documentResponse = sendGet(String.format("%s/v1/%s/doc/%s", baseUrl, index, URLEncoder.encode(docid, StandardCharsets.UTF_8)));
     assertEquals(200, documentResponse.statusCode);
     JsonNode documentBody = JSON_MAPPER.readTree(documentResponse.body);
 
@@ -370,8 +369,7 @@ public class RestServerTest extends StdOutStdErrRedirectableLuceneTestCase {
     String rawIndex = "src/test/resources/prebuilt_indexes/lucene-inverted.sample_cacm.store_raw";
     String index = URLEncoder.encode(rawIndex, StandardCharsets.UTF_8);
 
-    TestResponse searchResponse =
-        sendGet(String.format("%s/v1/%s/search?query=preliminary&hits=1&parse=false", baseUrl, index));
+    TestResponse searchResponse = sendGet(String.format("%s/v1/%s/search?query=preliminary&hits=1&parse=false", baseUrl, index));
     assertEquals(200, searchResponse.statusCode);
     JsonNode searchBody = JSON_MAPPER.readTree(searchResponse.body);
     JsonNode candidate = searchBody.get("candidates").get(0);
@@ -517,8 +515,7 @@ public class RestServerTest extends StdOutStdErrRedirectableLuceneTestCase {
     String rawIndex = "src/test/resources/prebuilt_indexes/lucene-inverted.sample_beir-nfcorpus.flat.store_raw";
     String index = URLEncoder.encode(rawIndex, StandardCharsets.UTF_8);
 
-    TestResponse searchResponse =
-        sendGet(String.format("%s/v1/%s/search?query=statin&hits=1&parse=false", baseUrl, index));
+    TestResponse searchResponse = sendGet(String.format("%s/v1/%s/search?query=statin&hits=1&parse=false", baseUrl, index));
     assertEquals(200, searchResponse.statusCode);
     JsonNode searchBody = JSON_MAPPER.readTree(searchResponse.body);
     JsonNode candidate = searchBody.get("candidates").get(0);
