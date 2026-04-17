@@ -20,6 +20,8 @@ import java.net.URI;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -113,8 +115,57 @@ public class RestServerTest extends StdOutStdErrRedirectableLuceneTestCase {
     assertTrue(output.contains("Options for RestServer:"));
     assertTrue(output.contains("--host [address]"));
     assertTrue(output.contains("--port [number]"));
+    assertTrue(output.contains("--index-config [path]"));
     assertTrue(output.contains("--help"));
     assertFalse(output.contains("Anserini REST server listening on"));
+  }
+
+  @Test
+  public void testIndexAliasFromConfig() throws Exception {
+    Path config = Files.createTempFile("rest-server-indexes", ".yaml");
+    Path indexPath = Path.of("src/test/resources/prebuilt_indexes/lucene9-index.sample_docs_trec_collection2")
+        .toAbsolutePath()
+        .normalize();
+    Files.writeString(config, "indexes:\n" + "  sample: " + indexPath + "\n", StandardCharsets.UTF_8);
+
+    RestServer aliasServer = null;
+    try {
+      RestServer.Args args = new RestServer.Args();
+      args.host = "127.0.0.1";
+      args.port = 0;
+      args.indexConfig = config.toString();
+
+      aliasServer = new RestServer(args);
+      aliasServer.start();
+
+      TestResponse response = sendGet("http://127.0.0.1:" + aliasServer.getPort() + "/v1/sample/search?query=text&hits=1");
+      assertEquals(200, response.statusCode);
+
+      JsonNode body = JSON_MAPPER.readTree(response.body);
+      assertEquals("sample", body.get("index").asText());
+      assertEquals("DOC222", body.get("candidates").get(0).get("docid").asText());
+    } finally {
+      if (aliasServer != null) {
+        aliasServer.close();
+      }
+      Files.deleteIfExists(config);
+    }
+  }
+
+  @Test
+  public void testInvalidIndexConfigFailsFast() throws Exception {
+    Path config = Files.createTempFile("rest-server-indexes-invalid", ".yaml");
+    Files.writeString(config, "indexes:\n" + "  missing: /path/that/does/not/exist\n", StandardCharsets.UTF_8);
+
+    try {
+      RestServer.Args args = new RestServer.Args();
+      args.indexConfig = config.toString();
+
+      IllegalArgumentException exception = expectThrows(IllegalArgumentException.class, () -> new RestServer(args));
+      assertTrue(exception.getMessage().contains("missing"));
+    } finally {
+      Files.deleteIfExists(config);
+    }
   }
 
   @Test
@@ -155,9 +206,7 @@ public class RestServerTest extends StdOutStdErrRedirectableLuceneTestCase {
 
   @Test
   public void testSearchEndpoint() throws Exception {
-    String index = URLEncoder.encode(
-        "src/test/resources/prebuilt_indexes/lucene9-index.sample_docs_trec_collection2",
-        StandardCharsets.UTF_8);
+    String index = URLEncoder.encode("src/test/resources/prebuilt_indexes/lucene9-index.sample_docs_trec_collection2", StandardCharsets.UTF_8);
     TestResponse response = sendGet(baseUrl + "/v1/" + index + "/search?query=text&hits=2");
 
     assertEquals(200, response.statusCode);
@@ -207,9 +256,7 @@ public class RestServerTest extends StdOutStdErrRedirectableLuceneTestCase {
 
   @Test
   public void testDocumentEndpoint() throws Exception {
-    String index = URLEncoder.encode(
-        "src/test/resources/prebuilt_indexes/lucene9-index.sample_docs_trec_collection2",
-        StandardCharsets.UTF_8);
+    String index = URLEncoder.encode("src/test/resources/prebuilt_indexes/lucene9-index.sample_docs_trec_collection2", StandardCharsets.UTF_8);
     String docid = URLEncoder.encode("DOC222", StandardCharsets.UTF_8);
     TestResponse response = sendGet(baseUrl + "/v1/" + index + "/doc/" + docid);
 

@@ -17,11 +17,16 @@
 package io.anserini.api;
 
 import java.io.Closeable;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +43,7 @@ import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import io.anserini.cli.CliUtils;
 import io.anserini.index.IndexReaderUtils;
@@ -56,17 +62,21 @@ public final class RestServer implements Closeable {
     @Option(name = "--port", metaVar = "[number]", usage = "Port to bind server to")
     public int port = 8080;
 
+    @Option(name = "--index-config", metaVar = "[path]", usage = "Path to YAML config containing REST index aliases")
+    public String indexConfig;
+
     @Option(name = "--help", help = true, usage = "Print this help message and exit.")
     public boolean help = false;
   }
 
   private static final String[] argsOrdering = new String[] {
-      "--host", "--port", "--help"};
+      "--host", "--port", "--index-config", "--help"};
 
   private static final int DEFAULT_HITS = 10;
   private static final String OPENAPI_PATH = "/openapi.yaml";
   private static final String DOCS_PATH = "/docs";
   private static final ObjectMapper JSON_MAPPER = new ObjectMapper();
+  private static final ObjectMapper YAML_MAPPER = new ObjectMapper(new YAMLFactory());
   private static final byte[] OPENAPI_SPEC = loadOpenApiSpec();
   private static final byte[] DOCS_PAGE = loadResource("/rest/docs.html");
   private static final String ROUTE_ERROR = "Expected route /v1/{index}/search or /v1/{index}/doc/{docid}";
@@ -75,11 +85,17 @@ public final class RestServer implements Closeable {
   private final Javalin app;
   private final String host;
   private final int port;
+  private final Map<String, String> configuredIndexes;
   private final ConcurrentHashMap<String, SimpleSearcher> searchers = new ConcurrentHashMap<>();
+
+  private static class IndexConfig {
+    public Map<String, String> indexes = Collections.emptyMap();
+  }
 
   RestServer(Args args) throws IOException {
     this.host = args.host;
     this.port = args.port;
+    this.configuredIndexes = loadConfiguredIndexes(args.indexConfig);
     JavalinLogger.enabled = false;
     Configurator.setLevel("io.javalin", Level.ERROR);
     Configurator.setLevel("org.eclipse.jetty", Level.ERROR);
@@ -95,6 +111,9 @@ public final class RestServer implements Closeable {
     app.start(host, port);
     System.out.printf("Anserini REST server listening on %s:%d%n", host, getPort());
     System.out.printf("v1 endpoint: GET /v1/{index}/search?query=...&hits=%d%n", DEFAULT_HITS);
+    if (!configuredIndexes.isEmpty()) {
+      System.out.printf("Configured index aliases: %s%n", String.join(", ", configuredIndexes.keySet()));
+    }
   }
 
   int getPort() {
@@ -199,9 +218,57 @@ public final class RestServer implements Closeable {
 
   private SimpleSearcher createSearcher(String index) {
     try {
-      return new SimpleSearcher(IndexReaderUtils.getIndex(index).toString());
+      return new SimpleSearcher(resolveIndex(index).toString());
     } catch (Exception e) {
       return null;
+    }
+  }
+
+  private Path resolveIndex(String index) throws IOException {
+    String configuredIndex = configuredIndexes.get(index);
+    if (configuredIndex != null) {
+      return Paths.get(configuredIndex);
+    }
+
+    return IndexReaderUtils.getIndex(index);
+  }
+
+  private static Map<String, String> loadConfiguredIndexes(String configPath) throws IOException {
+    if (configPath == null || configPath.isBlank()) {
+      return Map.of();
+    }
+
+    try (InputStream inputStream = new FileInputStream(configPath)) {
+      IndexConfig config = YAML_MAPPER.readValue(inputStream, IndexConfig.class);
+      if (config == null || config.indexes == null || config.indexes.isEmpty()) {
+        return Map.of();
+      }
+
+      LinkedHashMap<String, String> indexes = new LinkedHashMap<>();
+      for (Map.Entry<String, String> entry : config.indexes.entrySet()) {
+        String alias = entry.getKey();
+        String configuredPath = entry.getValue();
+        if (alias == null || alias.isBlank()) {
+          throw new IllegalArgumentException("Index aliases in --index-config must be non-empty");
+        }
+        if (configuredPath == null || configuredPath.isBlank()) {
+          throw new IllegalArgumentException("Index alias \"" + alias + "\" must map to a non-empty path");
+        }
+
+        Path resolvedPath = Paths.get(configuredPath);
+        if (!resolvedPath.isAbsolute()) {
+          Path configParent = Paths.get(configPath).toAbsolutePath().getParent();
+          resolvedPath = (configParent == null ? resolvedPath.toAbsolutePath() : configParent.resolve(resolvedPath)).normalize();
+        }
+        if (!Files.exists(resolvedPath)) {
+          throw new IllegalArgumentException(
+              "Index alias \"" + alias + "\" points to missing path: " + resolvedPath);
+        }
+
+        indexes.put(alias, resolvedPath.toString());
+      }
+
+      return Collections.unmodifiableMap(indexes);
     }
   }
 
