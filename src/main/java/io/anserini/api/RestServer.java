@@ -95,7 +95,7 @@ public final class RestServer implements Closeable {
   RestServer(Args args) throws IOException {
     this.host = args.host;
     this.port = args.port;
-    this.configuredIndexes = loadConfiguredIndexes(args.indexConfig);
+    this.configuredIndexes = loadConfig(args.indexConfig);
     JavalinLogger.enabled = false;
     Configurator.setLevel("io.javalin", Level.ERROR);
     Configurator.setLevel("org.eclipse.jetty", Level.ERROR);
@@ -233,7 +233,7 @@ public final class RestServer implements Closeable {
     return IndexReaderUtils.getIndex(index);
   }
 
-  private static Map<String, String> loadConfiguredIndexes(String configPath) throws IOException {
+  private static Map<String, String> loadConfig(String configPath) throws IOException {
     if (configPath == null || configPath.isBlank()) {
       return Map.of();
     }
@@ -260,9 +260,9 @@ public final class RestServer implements Closeable {
           Path configParent = Paths.get(configPath).toAbsolutePath().getParent();
           resolvedPath = (configParent == null ? resolvedPath.toAbsolutePath() : configParent.resolve(resolvedPath)).normalize();
         }
+
         if (!Files.exists(resolvedPath)) {
-          throw new IllegalArgumentException(
-              "Index alias \"" + alias + "\" points to missing path: " + resolvedPath);
+          throw new IllegalArgumentException("Index alias \"" + alias + "\" points to missing path: " + resolvedPath);
         }
 
         indexes.put(alias, resolvedPath.toString());
