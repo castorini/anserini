@@ -1,6 +1,6 @@
 # MS MARCO V1 Passage
 
-**Config**: [msmarco-v1-passage.core.yaml](../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.core.yaml)
+**Config**: [msmarco-v1-passage.core.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.core.yaml)
 
 The table below summarizes the effectiveness of dev in terms of RR@10; DL19 and DL20 in terms of nDCG@10.
 For more metrics, refer to the config directly.
