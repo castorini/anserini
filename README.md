@@ -163,7 +163,15 @@ See [#1121](https://github.com/castorini/pyserini/discussions/1121) for addition
 
 </details>
 
-## ⚗️ Reproduce Experimental Results from Document Collections
+## ⚗️ Reproductions from Prebuilt Indexes
+
+Anserini ships with many [prebuilt indexes](docs/prebuilt-indexes.md), which allows anyone to reproduce experimental results without needing access to the document collection.
+See individual pages below for details.
+
++ [MS MARCO V1 passage (core)](docs/reproduce/from-prebuilt-indexes/msmarco-v1-passage.core.md)
++ [MS MARCO V1 doc (core)](docs/reproduce/from-prebuilt-indexes/msmarco-v1-passage.doc.md)
+
+## ⚗️ Reproductions from Document Collections
 
 Anserini supports [end-to-end reproduction experiments](docs/reproduce-from-document-collection.md) on various standard IR test collections out of the box.
 Each of these experiments starts from the raw document collection, builds the necessary index, performs retrieval runs, and generates evaluation results.
