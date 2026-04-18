@@ -169,7 +169,7 @@ Anserini ships with many [prebuilt indexes](docs/prebuilt-indexes.md), which all
 See individual pages below for details.
 
 + [MS MARCO V1 passage (core)](docs/reproduce/from-prebuilt-indexes/msmarco-v1-passage.core.md)
-+ [MS MARCO V1 doc (core)](docs/reproduce/from-prebuilt-indexes/msmarco-v1-passage.doc.md)
++ [MS MARCO V1 doc (core)](docs/reproduce/from-prebuilt-indexes/msmarco-v1-doc.core.md)
 
 ## ⚗️ Reproductions from Document Collections
 
