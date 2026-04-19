@@ -46,8 +46,8 @@ models:
     params: -topics rag25.test -topicReader JsonString -topicField title -encoder ArcticEmbedLEncoder
     results:
       nDCG@30:
-        - 0.2820
+        - 0.2702
       nDCG@100:
-        - 0.1972
+        - 0.1803
       R@100:
-        - 0.0642
+        - 0.0567
