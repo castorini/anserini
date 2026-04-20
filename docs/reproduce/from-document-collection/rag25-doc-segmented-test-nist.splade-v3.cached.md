@@ -54,6 +54,19 @@ bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verif
   --corpus-path collections/msmarco_v2.1_doc_segmented_splade-v3
 ```
 
+## Pre-encoding Topics
+
+Following command can be used to pre-encode topics (optional here):
+
+```bash
+bin/run.sh io.anserini.encoder.QueryEncoder \
+  -encoder SpladeV3 \
+  -queries tools/topics-and-qrels/topics.rag25.test.jsonl \
+  -topicReader JsonString \
+  -output encoded-queries/topics.rag25.test.splade-v3.jsonl.gz \
+  -compress
+```
+
 ## Indexing
 
 Typical indexing command:

@@ -86,12 +86,10 @@ public class QueryEncoder {
 
   private static final String TOPIC_READER_PACKAGE = "io.anserini.search.topicreader.";
 
-  /** Dense encoder names supported by this tool. */
   public static final Set<String> DENSE_ENCODER_NAMES = Set.of(
       "ArcticEmbedL", "BgeBaseEn15", "BgeLargeEn15", "CosDprDistil"
   );
 
-  /** Sparse encoder names supported by this tool. */
   public static final Set<String> SPARSE_ENCODER_NAMES = Set.of(
       "SpladePlusPlusEnsembleDistil", "SpladePlusPlusSelfDistil",
       "SpladeV3", "UniCoil"
@@ -174,7 +172,7 @@ public class QueryEncoder {
       return;
     }
 
-    // Use the TopicReader infrastructure, identical to SearchCollection's convention.
+    // Use the TopicReader infrastructure.
     String readerClass = TOPIC_READER_PACKAGE + args.topicReader + "TopicReader";
     Map<String, Map<String, String>> topics =
         TopicReader.getTopicsWithStringIdsFromFileWithTopicReaderClass(readerClass, args.queriesPath);
