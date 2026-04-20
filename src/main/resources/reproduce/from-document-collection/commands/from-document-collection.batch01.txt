@@ -10,16 +10,16 @@ io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search 
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard08.flat.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard09.flat.onnx
 
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard00.flat.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard01.flat.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard02.flat.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard03.flat.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard04.flat.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard05.flat.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard06.flat.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard07.flat.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard08.flat.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard09.flat.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard00.flat.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard01.flat.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard02.flat.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard03.flat.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard04.flat.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard05.flat.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard06.flat.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard07.flat.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard08.flat.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard09.flat.onnx
 
 # MS MARCO V2.1, full indexing - build both doc and doc segmented conditions
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag24-doc-segmented-test-umbrela
