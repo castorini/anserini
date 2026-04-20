@@ -74,15 +74,15 @@ import java.util.Set;
  *
  * <p>Example invocation via fatjar:
  * <pre>
- * bin/run.sh io.anserini.encoder.QueryEncoder \
+ * bin/run.sh io.anserini.encoder.EncodeQuery \
  *   -encoder SpladeV3 \
  *   -queries tools/topics-and-qrels/topics.rag25.test.jsonl \
  *   -topicReader JsonString \
  *   -output encoded-queries/topics.rag25.test.splade-v3.jsonl
  * </pre>
  */
-public class QueryEncoder {
-  private static final Logger LOG = LogManager.getLogger(QueryEncoder.class);
+public class EncodeQuery {
+  private static final Logger LOG = LogManager.getLogger(EncodeQuery.class);
 
   private static final String TOPIC_READER_PACKAGE = "io.anserini.search.topicreader.";
 

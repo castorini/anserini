@@ -59,7 +59,7 @@ bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verif
 Following command can be used to pre-encode topics (optional here):
 
 ```bash
-bin/run.sh io.anserini.encoder.QueryEncoder \
+bin/run.sh io.anserini.encoder.EncodeQuery \
   -encoder SpladeV3 \
   -queries tools/topics-and-qrels/topics.rag25.test.jsonl \
   -topicReader JsonString \
