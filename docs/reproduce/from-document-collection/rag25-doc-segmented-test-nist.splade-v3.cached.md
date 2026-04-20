@@ -84,18 +84,18 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3/ \
-  -topics tools/topics-and-qrels/topics.rag25.test.jsonl \
+  -topics tools/topics-and-qrels/topics.rag25.test.splade-v3.jsonl.gz \
   -topicReader JsonString \
-  -output runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-cached.topics.rag25.test.jsonl.txt \
+  -output runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-cached.topics.rag25.test.splade-v3.jsonl.txt \
   -impact -pretokenized -removeQuery -hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.30 tools/topics-and-qrels/qrels.rag25.test.txt runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-cached.topics.rag25.test.jsonl.txt
-bin/trec_eval -c -m ndcg_cut.100 tools/topics-and-qrels/qrels.rag25.test.txt runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-cached.topics.rag25.test.jsonl.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.rag25.test.txt runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-cached.topics.rag25.test.jsonl.txt
+bin/trec_eval -c -m ndcg_cut.30 tools/topics-and-qrels/qrels.rag25.test.txt runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-cached.topics.rag25.test.splade-v3.jsonl.txt
+bin/trec_eval -c -m ndcg_cut.100 tools/topics-and-qrels/qrels.rag25.test.txt runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-cached.topics.rag25.test.splade-v3.jsonl.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.rag25.test.txt runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-cached.topics.rag25.test.splade-v3.jsonl.txt
 ```
 
 ## Effectiveness
@@ -104,8 +104,8 @@ With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@30**                                                                                                  | **SPLADE-v3**|
 |:-------------------------------------------------------------------------------------------------------------|--------------|
-| RAG 25: Test queries                                                                                         | 0.0150       |
+| RAG 25: Test queries                                                                                         | 0.5957       |
 | **nDCG@100**                                                                                                 | **SPLADE-v3**|
-| RAG 25: Test queries                                                                                         | 0.0209       |
+| RAG 25: Test queries                                                                                         | 0.5387       |
 | **R@100**                                                                                                    | **SPLADE-v3**|
-| RAG 25: Test queries                                                                                         | 0.0096       |
+| RAG 25: Test queries                                                                                         | 0.2103       |

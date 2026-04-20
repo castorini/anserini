@@ -43,7 +43,7 @@ topic_reader: JsonString
 topics:
   - name: "RAG 25: Test queries"
     id: rag25.test
-    path: topics.rag25.test.jsonl
+    path: topics.rag25.test.splade-v3.jsonl.gz
     qrel: qrels.rag25.test-umbrela2.txt
 
 models:
@@ -52,8 +52,8 @@ models:
     params: -impact -pretokenized -removeQuery -hits 1000
     results:
       nDCG@30:
-        - 0.0219
+        - 0.5838
       nDCG@100:
-        - 0.0259
+        - 0.5372
       R@100:
-        - 0.0113
+        - 0.1992
