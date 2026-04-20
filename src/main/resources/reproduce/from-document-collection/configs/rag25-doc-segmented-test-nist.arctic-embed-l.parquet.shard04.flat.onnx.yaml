@@ -1,8 +1,8 @@
 ---
-corpus: msmarco-v2.1-doc-segmented-shard00.arctic-embed-l
-corpus_path: collections/msmarco/msmarco_v2.1_doc_segmented.arctic-embed-l/shard00
+corpus: msmarco-v2.1-doc-segmented-shard04.arctic-embed-l
+corpus_path: collections/msmarco/msmarco_v2.1_doc_segmented.arctic-embed-l/shard04
 
-index_path: indexes/lucene-flat.msmarco-v2.1-doc-segmented-shard00.arctic-embed-l
+index_path: indexes/lucene-flat.msmarco-v2.1-doc-segmented-shard04.arctic-embed-l
 index_type: flat
 collection_class: ParquetDenseVectorCollection
 generator_class: DenseVectorDocumentGenerator
@@ -46,8 +46,8 @@ models:
     params: -topics rag25.test -topicReader JsonString -topicField title -encoder ArcticEmbedLEncoder
     results:
       nDCG@30:
-        - 0.2846
+        - 0.2823
       nDCG@100:
-        - 0.1941
+        - 0.1940
       R@100:
-        - 0.0606
+        - 0.0614
