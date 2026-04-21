@@ -4,6 +4,7 @@ import torch
 import torch.nn as nn
 import torch
 import argparse
+import os
 
 
 class SpladeExportWrapper(nn.Module):
@@ -42,6 +43,7 @@ if __name__ == "__main__":
     attention_mask = dummy_inputs["attention_mask"]
     token_type_ids = torch.zeros_like(input_ids)
 
+    os.makedirs("models", exist_ok=True)
     onnx_path = "models/splade-pp-ed.onnx"
 
     torch.onnx.export(
