@@ -139,7 +139,7 @@ if __name__ == "__main__":
     )
     
     parser = argparse.ArgumentParser(description="Convert Hugging Face model to ONNX")
-    parser.add_argument("--model_name", type=str, help="Name or path of the Hugging Face model")
+    parser.add_argument("--model_name", type=str, help="Name or path of the Hugging Face model", required=True)
     parser.add_argument("--text", type=str, default="what is AI?", help="Test input text for the model")
     args = parser.parse_args()
 
