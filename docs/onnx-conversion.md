@@ -390,16 +390,12 @@ Specifically, this exported model is missing a layer of logic that turns the `la
 Thus, for compatibility with the current Anserini implementation of SPLADE encoders, the script we are about to run was created specifically to convert SPLADE models to ONNX. 
 It was originally designed for SPLADE-v3 (in fact, the ONNX version of SPLADE-v3 used in Anserini *was* exported with this script!), but it should work on all models from the SPLADE family.
 
-For consistency with the previous examples, `naver/splade-cocondenser-ensembledistil` has been hard-coded into the script, so all you need to do is run:
+To run the conversion script, all you need to do is run:
 
 ```bash
-# Begin by going to the appropriate directory
 cd src/main/python/onnx
-# Now run the script
-python splade_to_onnx.py
+python splade_to_onnx.py --model_name naver/splade-cocondenser-ensembledistil
 ```
-
-If you want to try exporting the other SPLADE models, simply change the hard-coded model name.
 
 So what actually happens under the hood? The following sections will discuss the key parts of the above script:
 
