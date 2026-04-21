@@ -11,9 +11,10 @@ def run_onnx_inference(model_path, model_name, text, threshold):
     if 'token_type_ids' not in inputs and any('token_type_ids' in input.name for input in model.get_inputs()):
         inputs['token_type_ids'] = np.zeros_like(inputs['input_ids'])
 
+    model_input_names = {input.name for input in model.get_inputs()}
     outputs = model.run(
         None,
-        {name: inputs[name] for name in inputs if name in [input.name for input in model.get_inputs()]}
+        {name: inputs[name] for name in inputs if name in model_input_names}
     )
 
     sparse_vector = outputs[0]
@@ -25,8 +26,8 @@ def run_onnx_inference(model_path, model_name, text, threshold):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run ONNX model inference")
-    parser.add_argument("--model_path", type=str, help="Path to the ONNX model")
-    parser.add_argument("--model_name", type=str, help="Name of the Hugging Face model")
+    parser.add_argument("--model_path", type=str, help="Path to the ONNX model", required=True)
+    parser.add_argument("--model_name", type=str, help="Name of the Hugging Face model", required=True)
     parser.add_argument("--text", type=str, default="what is AI?", help="Input text for inference")
     parser.add_argument("--threshold", type=float, default=1e-4, help="Threshold for sparse vector")
     args = parser.parse_args()
