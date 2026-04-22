@@ -19,6 +19,7 @@ package io.anserini.reproduce;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -136,7 +137,21 @@ public class ReproduceFromPrebuiltIndexesTest extends StdOutStdErrRedirectableLu
     assertTrue(summary.contains("0.1234"));
     assertTrue(summary.contains("R@1K"));
     assertTrue(summary.contains("0.5678"));
-    assertTrue(summary.contains(System.lineSeparator() + System.lineSeparator() + "cond-b"));
+    List<String> lines = summary.lines().collect(Collectors.toList());
+    int firstConditionLastRow = -1;
+    int secondConditionFirstRow = -1;
+    for (int i = 0; i < lines.size(); i++) {
+      String line = lines.get(i);
+      if (line.startsWith("cond-a")) {
+        firstConditionLastRow = i;
+      } else if (line.startsWith("cond-b")) {
+        secondConditionFirstRow = i;
+        break;
+      }
+    }
+    assertTrue(firstConditionLastRow >= 0);
+    assertTrue(secondConditionFirstRow > firstConditionLastRow + 1);
+    assertEquals("", lines.get(secondConditionFirstRow - 1));
     assertTrue(summary.contains("MAP"));
     assertTrue(summary.contains("0.9876"));
   }

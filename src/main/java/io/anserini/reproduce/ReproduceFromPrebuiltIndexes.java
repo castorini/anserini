@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -426,7 +427,7 @@ public class ReproduceFromPrebuiltIndexes {
               condition.name,
               topic.topic_key,
               entry.getKey(),
-              String.format("%.4f", entry.getValue())
+              String.format(Locale.ROOT, "%.4f", entry.getValue())
           };
           rows.add(row);
           conditionWidth = Math.max(conditionWidth, row[0].length());
