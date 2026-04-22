@@ -4,6 +4,8 @@
 
 **Config**: [msmarco-v1-passage.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.optional.yaml)
 
+## Summary
+
 The table below summarizes the effectiveness of dev in terms of RR@10; DL19 and DL20 in terms of nDCG@10.
 For more metrics, refer to the config directly.
 
@@ -12,8 +14,6 @@ Key:
 + **dev** = msmarco-v1-passage.dev
 + **DL19** = dl19-passage
 + **DL20** = dl19-passage
-
-## Summary
 
 | # | name | dev | DL19 | DL20 |
 | --- | --- | --- | --- | --- |
@@ -35,17 +35,35 @@ Key:
 
 ## Commands
 
+In the commands below:
+
++ Set `$fatjar` to the actual Anserini fatjar.
++ Set JVM args to `-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector`.
+
+Something like:
+
+```bash
+export fatjar=`ls -d {.,target}/anserini-*-fatjar.jar(N)`
+
+# for zsh
+export jvm_args=(-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector)
+
+# for bash
+export jvm_argsS="-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector"
+```
+
 <a id="condition-1"></a>
 
 ### 1. BM25 (k1=0.9, b=0.4)
+
+**Config**: [msmarco-v1-passage.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.optional.yaml)
 
 #### msmarco-v1-passage.dev
 
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchCollection \
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
     -index msmarco-v1-passage-slim \
     -topics msmarco-v1-passage.dev \
@@ -66,8 +84,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 msmarco-passage.dev runs/run.msmarc
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchCollection \
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
     -index msmarco-v1-passage-slim \
     -topics dl19-passage \
@@ -89,8 +106,7 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl19-passage runs/run.msmarco-
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchCollection \
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
     -index msmarco-v1-passage-slim \
     -topics dl20-passage \
@@ -111,13 +127,14 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl20-passage runs/run.msmarco-
 
 ### 2. BM25 (k1=0.9, b=0.4)
 
+**Config**: [msmarco-v1-passage.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.optional.yaml)
+
 #### msmarco-v1-passage.dev
 
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchCollection \
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
     -index msmarco-v1-passage-full \
     -topics msmarco-v1-passage.dev \
@@ -138,8 +155,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 msmarco-passage.dev runs/run.msmarc
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchCollection \
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
     -index msmarco-v1-passage-full \
     -topics dl19-passage \
@@ -161,8 +177,7 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl19-passage runs/run.msmarco-
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchCollection \
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
     -index msmarco-v1-passage-full \
     -topics dl20-passage \
@@ -183,13 +198,14 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl20-passage runs/run.msmarco-
 
 ### 3. SPLADE++ EnsembleDistil: cached queries
 
+**Config**: [msmarco-v1-passage.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.optional.yaml)
+
 #### msmarco-v1-passage.dev.splade-pp-ed
 
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchCollection \
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
     -index msmarco-v1-passage.splade-pp-ed \
     -topics msmarco-v1-passage.dev.splade-pp-ed \
@@ -211,8 +227,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 msmarco-passage.dev runs/run.msmarc
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchCollection \
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
     -index msmarco-v1-passage.splade-pp-ed \
     -topics dl19-passage.splade-pp-ed \
@@ -235,8 +250,7 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl19-passage runs/run.msmarco-
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchCollection \
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
     -index msmarco-v1-passage.splade-pp-ed \
     -topics dl20-passage.splade-pp-ed \
@@ -258,13 +272,14 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl20-passage runs/run.msmarco-
 
 ### 4. SPLADE++ EnsembleDistil: ONNX
 
+**Config**: [msmarco-v1-passage.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.optional.yaml)
+
 #### msmarco-v1-passage.dev
 
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchCollection \
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
     -index msmarco-v1-passage.splade-pp-ed \
     -topics msmarco-v1-passage.dev \
@@ -287,8 +302,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 msmarco-passage.dev runs/run.msmarc
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchCollection \
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
     -index msmarco-v1-passage.splade-pp-ed \
     -topics dl19-passage \
@@ -312,8 +326,7 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl19-passage runs/run.msmarco-
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchCollection \
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
     -index msmarco-v1-passage.splade-pp-ed \
     -topics dl20-passage \
@@ -336,13 +349,14 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl20-passage runs/run.msmarco-
 
 ### 5. SPLADE-v3: cached queries
 
+**Config**: [msmarco-v1-passage.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.optional.yaml)
+
 #### msmarco-v1-passage.dev.splade-v3
 
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchCollection \
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
     -index msmarco-v1-passage.splade-v3 \
     -topics msmarco-v1-passage.dev.splade-v3 \
@@ -364,8 +378,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 msmarco-passage.dev runs/run.msmarc
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchCollection \
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
     -index msmarco-v1-passage.splade-v3 \
     -topics dl19-passage.splade-v3 \
@@ -388,8 +401,7 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl19-passage runs/run.msmarco-
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchCollection \
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
     -index msmarco-v1-passage.splade-v3 \
     -topics dl20-passage.splade-v3 \
@@ -411,13 +423,14 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl20-passage runs/run.msmarco-
 
 ### 6. cosDPR-distil: HNSW, cached queries
 
+**Config**: [msmarco-v1-passage.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.optional.yaml)
+
 #### msmarco-v1-passage.dev.cosdpr-distil
 
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchHnswDenseVectors \
+java -cp $fatjar $jvm_args io.anserini.search.SearchHnswDenseVectors \
     -threads 16 \
     -index msmarco-v1-passage.cosdpr-distil.hnsw \
     -topics msmarco-v1-passage.dev.cosdpr-distil \
@@ -438,8 +451,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 msmarco-passage.dev runs/run.msmarc
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchHnswDenseVectors \
+java -cp $fatjar $jvm_args io.anserini.search.SearchHnswDenseVectors \
     -threads 16 \
     -index msmarco-v1-passage.cosdpr-distil.hnsw \
     -topics dl19-passage.cosdpr-distil \
@@ -461,8 +473,7 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl19-passage runs/run.msmarco-
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchHnswDenseVectors \
+java -cp $fatjar $jvm_args io.anserini.search.SearchHnswDenseVectors \
     -threads 16 \
     -index msmarco-v1-passage.cosdpr-distil.hnsw \
     -topics dl20-passage.cosdpr-distil \
@@ -483,13 +494,14 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl20-passage runs/run.msmarco-
 
 ### 7. cosDPR-distil: HNSW, ONNX
 
+**Config**: [msmarco-v1-passage.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.optional.yaml)
+
 #### msmarco-v1-passage.dev
 
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchHnswDenseVectors \
+java -cp $fatjar $jvm_args io.anserini.search.SearchHnswDenseVectors \
     -threads 16 \
     -index msmarco-v1-passage.cosdpr-distil.hnsw \
     -topics msmarco-v1-passage.dev \
@@ -511,8 +523,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 msmarco-passage.dev runs/run.msmarc
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchHnswDenseVectors \
+java -cp $fatjar $jvm_args io.anserini.search.SearchHnswDenseVectors \
     -threads 16 \
     -index msmarco-v1-passage.cosdpr-distil.hnsw \
     -topics dl19-passage \
@@ -535,8 +546,7 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl19-passage runs/run.msmarco-
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchHnswDenseVectors \
+java -cp $fatjar $jvm_args io.anserini.search.SearchHnswDenseVectors \
     -threads 16 \
     -index msmarco-v1-passage.cosdpr-distil.hnsw \
     -topics dl20-passage \
@@ -558,13 +568,14 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl20-passage runs/run.msmarco-
 
 ### 8. cosDPR-distil: quantized (int8) HNSW, cached queries
 
+**Config**: [msmarco-v1-passage.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.optional.yaml)
+
 #### msmarco-v1-passage.dev.cosdpr-distil
 
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchHnswDenseVectors \
+java -cp $fatjar $jvm_args io.anserini.search.SearchHnswDenseVectors \
     -threads 16 \
     -index msmarco-v1-passage.cosdpr-distil.hnsw-int8 \
     -topics msmarco-v1-passage.dev.cosdpr-distil \
@@ -585,8 +596,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 msmarco-passage.dev runs/run.msmarc
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchHnswDenseVectors \
+java -cp $fatjar $jvm_args io.anserini.search.SearchHnswDenseVectors \
     -threads 16 \
     -index msmarco-v1-passage.cosdpr-distil.hnsw-int8 \
     -topics dl19-passage.cosdpr-distil \
@@ -608,8 +618,7 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl19-passage runs/run.msmarco-
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchHnswDenseVectors \
+java -cp $fatjar $jvm_args io.anserini.search.SearchHnswDenseVectors \
     -threads 16 \
     -index msmarco-v1-passage.cosdpr-distil.hnsw-int8 \
     -topics dl20-passage.cosdpr-distil \
@@ -630,13 +639,14 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl20-passage runs/run.msmarco-
 
 ### 9. cosDPR-distil: quantized (int8) HNSW, ONNX
 
+**Config**: [msmarco-v1-passage.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.optional.yaml)
+
 #### msmarco-v1-passage.dev
 
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchHnswDenseVectors \
+java -cp $fatjar $jvm_args io.anserini.search.SearchHnswDenseVectors \
     -threads 16 \
     -index msmarco-v1-passage.cosdpr-distil.hnsw-int8 \
     -topics msmarco-v1-passage.dev \
@@ -658,8 +668,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 msmarco-passage.dev runs/run.msmarc
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchHnswDenseVectors \
+java -cp $fatjar $jvm_args io.anserini.search.SearchHnswDenseVectors \
     -threads 16 \
     -index msmarco-v1-passage.cosdpr-distil.hnsw-int8 \
     -topics dl19-passage \
@@ -682,8 +691,7 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl19-passage runs/run.msmarco-
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchHnswDenseVectors \
+java -cp $fatjar $jvm_args io.anserini.search.SearchHnswDenseVectors \
     -threads 16 \
     -index msmarco-v1-passage.cosdpr-distil.hnsw-int8 \
     -topics dl20-passage \
@@ -705,13 +713,14 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl20-passage runs/run.msmarco-
 
 ### 10. bge-base-en-v1.5: HNSW, cached queries
 
+**Config**: [msmarco-v1-passage.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.optional.yaml)
+
 #### msmarco-v1-passage.dev.bge-base-en-v1.5
 
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchHnswDenseVectors \
+java -cp $fatjar $jvm_args io.anserini.search.SearchHnswDenseVectors \
     -threads 16 \
     -index msmarco-v1-passage.bge-base-en-v1.5.hnsw \
     -topics msmarco-v1-passage.dev.bge-base-en-v1.5 \
@@ -732,8 +741,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 msmarco-passage.dev runs/run.msmarc
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchHnswDenseVectors \
+java -cp $fatjar $jvm_args io.anserini.search.SearchHnswDenseVectors \
     -threads 16 \
     -index msmarco-v1-passage.bge-base-en-v1.5.hnsw \
     -topics dl19-passage.bge-base-en-v1.5 \
@@ -755,8 +763,7 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl19-passage runs/run.msmarco-
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchHnswDenseVectors \
+java -cp $fatjar $jvm_args io.anserini.search.SearchHnswDenseVectors \
     -threads 16 \
     -index msmarco-v1-passage.bge-base-en-v1.5.hnsw \
     -topics dl20-passage.bge-base-en-v1.5 \
@@ -777,13 +784,14 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl20-passage runs/run.msmarco-
 
 ### 11. bge-base-en-v1.5: quantized (int8) HNSW, cached queries
 
+**Config**: [msmarco-v1-passage.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.optional.yaml)
+
 #### msmarco-v1-passage.dev.bge-base-en-v1.5
 
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchHnswDenseVectors \
+java -cp $fatjar $jvm_args io.anserini.search.SearchHnswDenseVectors \
     -threads 16 \
     -index msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8 \
     -topics msmarco-v1-passage.dev.bge-base-en-v1.5 \
@@ -804,8 +812,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 msmarco-passage.dev runs/run.msmarc
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchHnswDenseVectors \
+java -cp $fatjar $jvm_args io.anserini.search.SearchHnswDenseVectors \
     -threads 16 \
     -index msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8 \
     -topics dl19-passage.bge-base-en-v1.5 \
@@ -827,8 +834,7 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl19-passage runs/run.msmarco-
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchHnswDenseVectors \
+java -cp $fatjar $jvm_args io.anserini.search.SearchHnswDenseVectors \
     -threads 16 \
     -index msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8 \
     -topics dl20-passage.bge-base-en-v1.5 \
@@ -849,13 +855,14 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl20-passage runs/run.msmarco-
 
 ### 12. cohere-embed-english-v3.0: HNSW, cached queries
 
+**Config**: [msmarco-v1-passage.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.optional.yaml)
+
 #### msmarco-v1-passage.dev.cohere-embed-english-v3.0
 
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchHnswDenseVectors \
+java -cp $fatjar $jvm_args io.anserini.search.SearchHnswDenseVectors \
     -threads 16 \
     -index msmarco-v1-passage.cohere-embed-english-v3.0.hnsw \
     -topics msmarco-v1-passage.dev.cohere-embed-english-v3.0 \
@@ -876,8 +883,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 msmarco-passage.dev runs/run.msmarc
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchHnswDenseVectors \
+java -cp $fatjar $jvm_args io.anserini.search.SearchHnswDenseVectors \
     -threads 16 \
     -index msmarco-v1-passage.cohere-embed-english-v3.0.hnsw \
     -topics dl19-passage.cohere-embed-english-v3.0 \
@@ -899,8 +905,7 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl19-passage runs/run.msmarco-
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchHnswDenseVectors \
+java -cp $fatjar $jvm_args io.anserini.search.SearchHnswDenseVectors \
     -threads 16 \
     -index msmarco-v1-passage.cohere-embed-english-v3.0.hnsw \
     -topics dl20-passage.cohere-embed-english-v3.0 \
@@ -921,13 +926,14 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl20-passage runs/run.msmarco-
 
 ### 13. cohere-embed-english-v3.0: quantized (int8) HNSW, cached queries
 
+**Config**: [msmarco-v1-passage.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.optional.yaml)
+
 #### msmarco-v1-passage.dev.cohere-embed-english-v3.0
 
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchHnswDenseVectors \
+java -cp $fatjar $jvm_args io.anserini.search.SearchHnswDenseVectors \
     -threads 16 \
     -index msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8 \
     -topics msmarco-v1-passage.dev.cohere-embed-english-v3.0 \
@@ -948,8 +954,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 msmarco-passage.dev runs/run.msmarc
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchHnswDenseVectors \
+java -cp $fatjar $jvm_args io.anserini.search.SearchHnswDenseVectors \
     -threads 16 \
     -index msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8 \
     -topics dl19-passage.cohere-embed-english-v3.0 \
@@ -971,8 +976,7 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl19-passage runs/run.msmarco-
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchHnswDenseVectors \
+java -cp $fatjar $jvm_args io.anserini.search.SearchHnswDenseVectors \
     -threads 16 \
     -index msmarco-v1-passage.cohere-embed-english-v3.0.hnsw-int8 \
     -topics dl20-passage.cohere-embed-english-v3.0 \

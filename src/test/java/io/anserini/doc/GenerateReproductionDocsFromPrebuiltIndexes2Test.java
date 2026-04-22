@@ -41,11 +41,12 @@ public class GenerateReproductionDocsFromPrebuiltIndexes2Test {
 
   private static String formatCommand(String fatjarPlaceholder, String jvmArgs, String commandTemplate) {
     List<String> lines = new ArrayList<>();
-    lines.add(ReproductionUtils.Constants.JAVA_PREFIX + " " + fatjarPlaceholder + " " + jvmArgs);
 
     String[] tokens = commandTemplate.split("\\s+");
     if (tokens.length > 0) {
-      lines.add(COMMAND_INDENT + tokens[0]);
+      lines.add(ReproductionUtils.Constants.JAVA_PREFIX + " " + fatjarPlaceholder + " " + jvmArgs + " " + tokens[0]);
+    } else {
+      lines.add(ReproductionUtils.Constants.JAVA_PREFIX + " " + fatjarPlaceholder + " " + jvmArgs);
     }
 
     for (int i = 1; i < tokens.length; i++) {
@@ -68,7 +69,7 @@ public class GenerateReproductionDocsFromPrebuiltIndexes2Test {
     String output = String.format("%s/run.%s.%s.%s.txt",
         ReproductionUtils.Constants.DEFAULT_RUNS_DIRECTORY, runTag, conditionName, topicKey);
 
-    String command = formatCommand("$fatjar", ReproductionUtils.Constants.JVM_ARGS, commandTemplate)
+    String command = formatCommand("$fatjar", "$jvm_args", commandTemplate)
         .replace("$threads", "16")
         .replace("$topics", topicKey)
         .replace("$output", output)
@@ -166,10 +167,12 @@ public class GenerateReproductionDocsFromPrebuiltIndexes2Test {
 
     summary.append("\n");
 
+    String configLink = String.format("[%s](../../../%s)", new File(yamlPath).getName(), yamlPath);
     StringBuilder command = new StringBuilder();
     row = 1;
     for (Condition condition : config.conditions) {
       command.append(String.format("<a id=\"condition-%d\"></a>\n\n### %d. %s\n\n", row, row, condition.display));
+      command.append(String.format("**Config**: %s\n\n", configLink));
       row++;
 
       for (Topic topic : condition.topics) {
@@ -181,9 +184,9 @@ public class GenerateReproductionDocsFromPrebuiltIndexes2Test {
       }
     }
 
-    String configLink = String.format("[%s](../../../%s)", new File(yamlPath).getName(), yamlPath);
     FileUtils.writeStringToFile(output, template
         .replace("${config}", configLink)
+        .replace("${jvm_args}", ReproductionUtils.Constants.JVM_ARGS)
         .replace("${summary}", summary.toString())
         .replace("${commands}", command.toString())
         .replace("${command}", command.toString()), StandardCharsets.UTF_8);
@@ -270,6 +273,7 @@ public class GenerateReproductionDocsFromPrebuiltIndexes2Test {
     String configLink = String.format("[%s](../../../%s)", new File(yamlPath).getName(), yamlPath);
     FileUtils.writeStringToFile(output, template
         .replace("${config}", configLink)
+        .replace("${jvm_args}", ReproductionUtils.Constants.JVM_ARGS)
         .replace("${summary}", summary.toString())
         .replace("${commands}", command.toString())
         .replace("${command}", command.toString()), StandardCharsets.UTF_8);

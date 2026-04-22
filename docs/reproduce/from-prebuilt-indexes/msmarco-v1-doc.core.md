@@ -4,6 +4,8 @@
 
 **Config**: [msmarco-v1-doc.core.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.core.yaml)
 
+## Summary
+
 The table below summarizes the effectiveness of dev in terms of RR@100; DL19 and DL20 in terms of nDCG@10.
 For more metrics, refer to the config directly.
 
@@ -12,8 +14,6 @@ Key:
 + **dev** = msmarco-doc.dev
 + **DL19** = dl19-doc
 + **DL20** = dl19-doc
-
-## Summary
 
 | # | name | dev | DL19 | DL20 |
 | --- | --- | --- | --- | --- |
@@ -27,6 +27,23 @@ Key:
 
 ## Commands
 
+In the commands below:
+
++ Set `$fatjar` to the actual Anserini fatjar.
++ Set JVM args to `-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector`.
+
+Something like:
+
+```bash
+export fatjar=`ls -d {.,target}/anserini-*-fatjar.jar(N)`
+
+# for zsh
+export jvm_args=(-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector)
+
+# for bash
+export jvm_argsS="-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector"
+```
+
 <a id="condition-1"></a>
 
 ### 1. BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)
@@ -36,8 +53,7 @@ Key:
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchCollection \
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
     -index msmarco-v1-doc \
     -topics msmarco-doc.dev \
@@ -57,8 +73,7 @@ java -cp $fatjar trec_eval -c -M 100 -m recip_rank msmarco-doc.dev runs/run.msma
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchCollection \
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
     -index msmarco-v1-doc \
     -topics dl19-doc \
@@ -80,8 +95,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 dl19-doc runs/run.msmarco-v1-doc.co
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchCollection \
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
     -index msmarco-v1-doc \
     -topics dl20-doc \
@@ -107,8 +121,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.co
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchCollection \
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
     -index msmarco-v1-doc.d2q-t5 \
     -topics msmarco-doc.dev \
@@ -128,8 +141,7 @@ java -cp $fatjar trec_eval -c -M 100 -m recip_rank msmarco-doc.dev runs/run.msma
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchCollection \
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
     -index msmarco-v1-doc.d2q-t5 \
     -topics dl19-doc \
@@ -151,8 +163,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 dl19-doc runs/run.msmarco-v1-doc.co
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchCollection \
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
     -index msmarco-v1-doc.d2q-t5 \
     -topics dl20-doc \
@@ -178,8 +189,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.co
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchCollection \
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
     -index msmarco-v1-doc-segmented \
     -topics msmarco-doc.dev \
@@ -202,8 +212,7 @@ java -cp $fatjar trec_eval -c -M 100 -m recip_rank msmarco-doc.dev runs/run.msma
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchCollection \
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
     -index msmarco-v1-doc-segmented \
     -topics dl19-doc \
@@ -228,8 +237,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 dl19-doc runs/run.msmarco-v1-doc.co
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchCollection \
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
     -index msmarco-v1-doc-segmented \
     -topics dl20-doc \
@@ -258,8 +266,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.co
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchCollection \
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
     -index msmarco-v1-doc-segmented.d2q-t5 \
     -topics msmarco-doc.dev \
@@ -282,8 +289,7 @@ java -cp $fatjar trec_eval -c -M 100 -m recip_rank msmarco-doc.dev runs/run.msma
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchCollection \
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
     -index msmarco-v1-doc-segmented.d2q-t5 \
     -topics dl19-doc \
@@ -308,8 +314,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 dl19-doc runs/run.msmarco-v1-doc.co
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchCollection \
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
     -index msmarco-v1-doc-segmented.d2q-t5 \
     -topics dl20-doc \
@@ -338,8 +343,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.co
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchCollection \
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
     -index msmarco-v1-doc-segmented.unicoil \
     -topics msmarco-doc.dev \
@@ -364,8 +368,7 @@ java -cp $fatjar trec_eval -c -M 100 -m recip_rank msmarco-doc.dev runs/run.msma
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchCollection \
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
     -index msmarco-v1-doc-segmented.unicoil \
     -topics dl19-doc \
@@ -392,8 +395,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 dl19-doc runs/run.msmarco-v1-doc.co
 Retrieval command:
 
 ```bash
-java -cp $fatjar -Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector \
-    io.anserini.search.SearchCollection \
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
     -index msmarco-v1-doc-segmented.unicoil \
     -topics dl20 \

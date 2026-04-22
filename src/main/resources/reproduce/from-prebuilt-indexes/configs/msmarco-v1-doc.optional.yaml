@@ -1,7 +1,7 @@
 conditions:
   - name: bm25-doc-default-slim
     display: "BM25 complete doc (k1=0.9, b=0.4)"
-    display_html: "BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
+    display_html: "BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) w/ slim index"
     display_row: ""
     command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-doc-slim -topics $topics -output $output -hits 1000 -bm25
     topics:
@@ -33,7 +33,7 @@ conditions:
           R@1K: "-c -m recall.1000"
   - name: bm25-doc-default-full
     display: "BM25 complete doc (k1=0.9, b=0.4)"
-    display_html: "BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
+    display_html: "BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) w/ full index"
     display_row: ""
     command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-doc-full -topics $topics -output $output -hits 1000 -bm25
     topics:
@@ -65,7 +65,7 @@ conditions:
           R@1K: "-c -m recall.1000"
   - name: bm25-doc-segmented-default-slim
     display: "BM25 segmented doc (k1=0.9, b=0.4)"
-    display_html: "BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
+    display_html: "BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) w/ slim index"
     display_row: ""
     command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-doc-segmented-slim -topics $topics -output $output -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
     topics:
@@ -97,7 +97,7 @@ conditions:
           R@1K: "-c -m recall.1000"
   - name: bm25-doc-segmented-default-full
     display: "BM25 segmented doc (k1=0.9, b=0.4)"
-    display_html: "BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
+    display_html: "BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) w/ full index"
     display_row: ""
     command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-doc-segmented-full -topics $topics -output $output -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
     topics:
