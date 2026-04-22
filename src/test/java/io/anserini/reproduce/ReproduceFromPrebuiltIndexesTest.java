@@ -16,6 +16,8 @@
 
 package io.anserini.reproduce;
 
+import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
 import org.junit.After;
 import org.junit.Before;
@@ -97,5 +99,45 @@ public class ReproduceFromPrebuiltIndexesTest extends StdOutStdErrRedirectableLu
     String s = out.toString();
     assertTrue(s.contains("Indexes referenced by this run"));
     assertTrue(s.contains("Total size across"));
+  }
+
+  @Test
+  public void testRenderSummaryTable() {
+    ReproduceFromPrebuiltIndexes.Config config = new ReproduceFromPrebuiltIndexes.Config();
+
+    ReproduceFromPrebuiltIndexes.Condition firstCondition = new ReproduceFromPrebuiltIndexes.Condition();
+    firstCondition.name = "cond-a";
+    ReproduceFromPrebuiltIndexes.Topic firstTopic = new ReproduceFromPrebuiltIndexes.Topic();
+    firstTopic.topic_key = "topic-a";
+    firstTopic.expected_scores = new LinkedHashMap<>();
+    firstTopic.expected_scores.put("MRR@10", 0.1234);
+    firstTopic.expected_scores.put("R@1K", 0.5678);
+    firstCondition.topics = Arrays.asList(firstTopic);
+
+    ReproduceFromPrebuiltIndexes.Condition secondCondition = new ReproduceFromPrebuiltIndexes.Condition();
+    secondCondition.name = "cond-b";
+    ReproduceFromPrebuiltIndexes.Topic secondTopic = new ReproduceFromPrebuiltIndexes.Topic();
+    secondTopic.topic_key = "topic-b";
+    secondTopic.expected_scores = new LinkedHashMap<>();
+    secondTopic.expected_scores.put("MAP", 0.9876);
+    secondCondition.topics = Arrays.asList(secondTopic);
+
+    config.conditions = Arrays.asList(firstCondition, secondCondition);
+
+    String summary = ReproduceFromPrebuiltIndexes.renderSummaryTable(config);
+    assertTrue(summary.startsWith("Summary"));
+    assertTrue(summary.contains("condition"));
+    assertTrue(summary.contains("topic"));
+    assertTrue(summary.contains("metric"));
+    assertTrue(summary.contains("expected"));
+    assertTrue(summary.contains("cond-a"));
+    assertTrue(summary.contains("topic-a"));
+    assertTrue(summary.contains("MRR@10"));
+    assertTrue(summary.contains("0.1234"));
+    assertTrue(summary.contains("R@1K"));
+    assertTrue(summary.contains("0.5678"));
+    assertTrue(summary.contains(System.lineSeparator() + System.lineSeparator() + "cond-b"));
+    assertTrue(summary.contains("MAP"));
+    assertTrue(summary.contains("0.9876"));
   }
 }
