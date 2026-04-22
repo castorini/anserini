@@ -438,13 +438,12 @@ public class ReproduceFromPrebuiltIndexes {
       }
     }
 
-    String summaryFormat = "%-" + conditionWidth + "s  %-" + topicWidth + "s  %-" + metricWidth + "s  %"
-        + expectedWidth + "s%n";
+    String summaryFormat = "%-" + conditionWidth + "s  %-" + topicWidth + "s  %-" + metricWidth + "s  %" + expectedWidth + "s%n";
     StringBuilder summary = new StringBuilder();
     summary.append("Summary").append(System.lineSeparator());
     summary.append(String.format(summaryFormat, "condition", "topic", "metric", "expected"));
-    summary.append(String.format(summaryFormat, repeat('-', conditionWidth), repeat('-', topicWidth), repeat('-', metricWidth),
-        repeat('-', expectedWidth)));
+    summary.append(String.format(summaryFormat,
+      repeat('-', conditionWidth), repeat('-', topicWidth), repeat('-', metricWidth), repeat('-', expectedWidth)));
 
     String previousCondition = null;
     for (String[] row : rows) {
