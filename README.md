@@ -136,7 +136,7 @@ You'll need Java 21 and Maven 3.9+ to build Anserini.
 Clone our repo with the `--recurse-submodules` option to make sure the `eval/` submodule also gets cloned (alternatively, use `git submodule update --init`).
 Then, build using Maven:
 
-```
+```bash
 mvn clean package
 ```
 
@@ -169,7 +169,9 @@ Anserini ships with many [prebuilt indexes](docs/prebuilt-indexes.md), which all
 See individual pages below for details.
 
 + [MS MARCO V1 passage (core)](docs/reproduce/from-prebuilt-indexes/msmarco-v1-passage.core.md)
++ [MS MARCO V1 passage (optional)](docs/reproduce/from-prebuilt-indexes/msmarco-v1-passage.optional.md)
 + [MS MARCO V1 doc (core)](docs/reproduce/from-prebuilt-indexes/msmarco-v1-doc.core.md)
++ [MS MARCO V1 doc (optional)](docs/reproduce/from-prebuilt-indexes/msmarco-v1-doc.optional.md)
 
 ## ⚗️ Reproductions from Document Collections
 

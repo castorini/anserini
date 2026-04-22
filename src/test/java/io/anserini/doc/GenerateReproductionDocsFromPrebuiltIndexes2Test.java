@@ -34,8 +34,10 @@ import java.util.List;
 import java.util.Map;
 
 public class GenerateReproductionDocsFromPrebuiltIndexes2Test {
-  public final static String YAML_PATH = "src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.core.yaml";
   private static final String COMMAND_INDENT = "    ";
+  private static final String CONFIG_DIRECTORY = "src/main/resources/reproduce/from-prebuilt-indexes/configs/";
+  private static final String DOCGEN_TEMPLATE_DIRECTORY = "src/main/resources/reproduce/from-prebuilt-indexes/docgen/";
+  private static final String REPRODUCE_OUTPUT_DIRECTORY = "docs/reproduce/from-prebuilt-indexes/";
 
   private static String formatCommand(String fatjarPlaceholder, String jvmArgs, String commandTemplate) {
     List<String> lines = new ArrayList<>();
@@ -60,10 +62,6 @@ public class GenerateReproductionDocsFromPrebuiltIndexes2Test {
     }
 
     return String.join(" \\\n", lines);
-  }
-
-  private static String buildCommand(String conditionName, String commandTemplate, String topicKey) {
-    return buildCommand("msmarco-v1-passage.core", conditionName, commandTemplate, topicKey);
   }
 
   private static String buildCommand(String runTag, String conditionName, String commandTemplate, String topicKey) {
@@ -92,10 +90,6 @@ public class GenerateReproductionDocsFromPrebuiltIndexes2Test {
     return command;
   }
 
-  private static String buildEvalCommands(String conditionName, Topic topic) {
-    return buildEvalCommands("msmarco-v1-passage.core", conditionName, topic);
-  }
-
   private static String buildEvalCommands(String runTag, String conditionName, Topic topic) {
     String output = String.format("%s/run.%s.%s.%s.txt",
         ReproductionUtils.Constants.DEFAULT_RUNS_DIRECTORY, runTag, conditionName, topic.topic_key);
@@ -116,19 +110,25 @@ public class GenerateReproductionDocsFromPrebuiltIndexes2Test {
     return builder.toString();
   }
 
-  @Test
-  public void generateMsMarcoV1PassageReport() throws Exception {
-    Config config = new ObjectMapper(new YAMLFactory()).readValue(new File(YAML_PATH), Config.class);
-    String template = FileUtils.readFileToString(
-        new File("src/main/resources/reproduce/from-prebuilt-indexes/docgen/msmarco-v1-passage.core.template"),
-        StandardCharsets.UTF_8);
+  private static String yamlPath(String yamlConfig) {
+    return CONFIG_DIRECTORY + yamlConfig;
+  }
 
-    File output = new File("docs/reproduce/from-prebuilt-indexes/msmarco-v1-passage.core.md");
+  private static void generateMsMarcoV1PassageReport(String yamlConfig) throws Exception {
+    String yamlPath = yamlPath(yamlConfig);
+    String runTag = new File(yamlPath).getName().replaceFirst("\\.yaml$", "");
+    String templatePath = DOCGEN_TEMPLATE_DIRECTORY + runTag + ".template";
+    String outputPath = REPRODUCE_OUTPUT_DIRECTORY + runTag + ".md";
+
+    Config config = new ObjectMapper(new YAMLFactory()).readValue(new File(yamlPath), Config.class);
+    String template = FileUtils.readFileToString(new File(templatePath), StandardCharsets.UTF_8);
+
+    File output = new File(outputPath);
     FileUtils.forceMkdirParent(output);
 
-    StringBuilder builder = new StringBuilder();
-    builder.append("| # | name | dev | DL19 | DL20 |\n");
-    builder.append("| --- | --- | --- | --- | --- |\n");
+    StringBuilder summary = new StringBuilder();
+    summary.append("| # | name | dev | DL19 | DL20 |\n");
+    summary.append("| --- | --- | --- | --- | --- |\n");
 
     int row = 1;
 
@@ -139,133 +139,149 @@ public class GenerateReproductionDocsFromPrebuiltIndexes2Test {
       Double dl20Score = null;
 
       for (Topic topic : condition.topics) {
-        if ("msmarco-v1-passage.dev".equals(topic.topic_key) && topic.expected_scores != null) {
+        if (topic.expected_scores == null) {
+          continue;
+        }
+
+        if (topic.topic_key.startsWith("msmarco-v1-passage.dev")) {
           devScore = topic.expected_scores.get("MRR@10");
         }
 
-        if ("dl19-passage".equals(topic.topic_key) && topic.expected_scores != null) {
+        if (topic.topic_key.startsWith("dl19-passage")) {
           dl19Score = topic.expected_scores.get("nDCG@10");
         }
 
-        if ("dl20-passage".equals(topic.topic_key) && topic.expected_scores != null) {
+        if (topic.topic_key.startsWith("dl20-passage")) {
           dl20Score = topic.expected_scores.get("nDCG@10");
         }
       }
 
-      builder.append("| ")
-          .append("[").append(sectionNumber).append("](#condition-").append(sectionNumber).append(")");
+      summary.append(String.format("| [%d](#condition-%d) | %s | %s | %s | %s |\n",
+          sectionNumber, sectionNumber, condition.display,
+          devScore == null ? "" : String.format("%.4f", devScore),
+          dl19Score == null ? "" : String.format("%.4f", dl19Score),
+          dl20Score == null ? "" : String.format("%.4f", dl20Score)));
       row++;
-      builder.append(" | ")
-          .append(condition.display)
-          .append(" | ")
-          .append(devScore == null ? "" : String.format("%.4f", devScore))
-          .append(" | ")
-          .append(dl19Score == null ? "" : String.format("%.4f", dl19Score))
-          .append(" | ")
-          .append(dl20Score == null ? "" : String.format("%.4f", dl20Score))
-          .append(" |\n");
     }
 
-    builder.append("\n");
+    summary.append("\n");
 
+    StringBuilder command = new StringBuilder();
     row = 1;
     for (Condition condition : config.conditions) {
-      builder.append("<a id=\"condition-").append(row).append("\"></a>\n\n");
-      builder.append("### ").append(row++).append(". ").append(condition.display).append("\n\n");
-
-      for (Topic topic : condition.topics) {
-        builder.append("#### ").append(topic.topic_key).append("\n\n");
-        builder.append("Retrieval command:\n\n");
-        builder.append("```bash\n")
-            .append(buildCommand(condition.name, condition.command, topic.topic_key))
-            .append("\n```\n\n");
-        builder.append("Evaluation commands:\n\n");
-        builder.append("```bash\n")
-            .append(buildEvalCommands(condition.name, topic))
-            .append("\n```\n\n");
-      }
-    }
-
-    String configLink = String.format("[%s](../../../%s)", new File(YAML_PATH).getName(), YAML_PATH);
-    FileUtils.writeStringToFile(output, template
-        .replace("${config}", configLink)
-        .replace("${contents}", builder.toString()), StandardCharsets.UTF_8);
-  }
-
-  @Test
-  public void generateMsMarcoV1DocReport() throws Exception {
-    String yamlPath = "src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.core.yaml";
-    Config config = new ObjectMapper(new YAMLFactory()).readValue(new File(yamlPath), Config.class);
-    String template = FileUtils.readFileToString(
-        new File("src/main/resources/reproduce/from-prebuilt-indexes/docgen/msmarco-v1-doc.core.template"),
-        StandardCharsets.UTF_8);
-
-    File output = new File("docs/reproduce/from-prebuilt-indexes/msmarco-v1-doc.core.md");
-    FileUtils.forceMkdirParent(output);
-
-    StringBuilder builder = new StringBuilder();
-    builder.append("| # | name | dev | DL19 | DL20 |\n");
-    builder.append("| --- | --- | --- | --- | --- |\n");
-
-    int row = 1;
-
-    for (Condition condition : config.conditions) {
-      int sectionNumber = row;
-      Double devScore = null;
-      Double dl19Score = null;
-      Double dl20Score = null;
-
-      for (Topic topic : condition.topics) {
-        if ("msmarco-doc.dev".equals(topic.topic_key) && topic.expected_scores != null) {
-          devScore = topic.expected_scores.get("MRR@100");
-        }
-
-        if ("dl19-doc".equals(topic.topic_key) && topic.expected_scores != null) {
-          dl19Score = topic.expected_scores.get("nDCG@10");
-        }
-
-        if (("dl20-doc".equals(topic.topic_key) || "dl20".equals(topic.topic_key)) && topic.expected_scores != null) {
-          dl20Score = topic.expected_scores.get("nDCG@10");
-        }
-      }
-
-      builder.append("| ")
-          .append("[").append(sectionNumber).append("](#condition-").append(sectionNumber).append(")");
+      command.append(String.format("<a id=\"condition-%d\"></a>\n\n### %d. %s\n\n", row, row, condition.display));
       row++;
-      builder.append(" | ")
-          .append(condition.display)
-          .append(" | ")
-          .append(devScore == null ? "" : String.format("%.4f", devScore))
-          .append(" | ")
-          .append(dl19Score == null ? "" : String.format("%.4f", dl19Score))
-          .append(" | ")
-          .append(dl20Score == null ? "" : String.format("%.4f", dl20Score))
-          .append(" |\n");
-    }
-
-    builder.append("\n");
-
-    row = 1;
-    for (Condition condition : config.conditions) {
-      builder.append("<a id=\"condition-").append(row).append("\"></a>\n\n");
-      builder.append("### ").append(row++).append(". ").append(condition.display).append("\n\n");
 
       for (Topic topic : condition.topics) {
-        builder.append("#### ").append(topic.topic_key).append("\n\n");
-        builder.append("Retrieval command:\n\n");
-        builder.append("```bash\n")
-            .append(buildCommand("msmarco-v1-doc.core", condition.name, condition.command, topic.topic_key))
-            .append("\n```\n\n");
-        builder.append("Evaluation commands:\n\n");
-        builder.append("```bash\n")
-            .append(buildEvalCommands("msmarco-v1-doc.core", condition.name, topic))
-            .append("\n```\n\n");
+        command.append(String.format("#### %s\n\n", topic.topic_key));
+        command.append("Retrieval command:\n\n");
+        command.append(String.format("```bash\n%s\n```\n\n", buildCommand(runTag, condition.name, condition.command, topic.topic_key)));
+        command.append("Evaluation commands:\n\n");
+        command.append(String.format("```bash\n%s\n```\n\n", buildEvalCommands(runTag, condition.name, topic)));
       }
     }
 
     String configLink = String.format("[%s](../../../%s)", new File(yamlPath).getName(), yamlPath);
     FileUtils.writeStringToFile(output, template
         .replace("${config}", configLink)
-        .replace("${contents}", builder.toString()), StandardCharsets.UTF_8);
+        .replace("${summary}", summary.toString())
+        .replace("${commands}", command.toString())
+        .replace("${command}", command.toString()), StandardCharsets.UTF_8);
+  }
+
+  @Test
+  public void generateMsMarcoV1PassageCoreReport() throws Exception {
+    generateMsMarcoV1PassageReport("msmarco-v1-passage.core.yaml");
+  }
+
+  @Test
+  public void generateMsMarcoV1PassageOptionalReport() throws Exception {
+    generateMsMarcoV1PassageReport("msmarco-v1-passage.optional.yaml");
+  }
+
+  private static void generateMsMarcoV1DocReport(String yamlConfig) throws Exception {
+    String yamlPath = yamlPath(yamlConfig);
+    String runTag = new File(yamlPath).getName().replaceFirst("\\.yaml$", "");
+    String templatePath = DOCGEN_TEMPLATE_DIRECTORY + runTag + ".template";
+    String outputPath = REPRODUCE_OUTPUT_DIRECTORY + runTag + ".md";
+
+    Config config = new ObjectMapper(new YAMLFactory()).readValue(new File(yamlPath), Config.class);
+    String template = FileUtils.readFileToString(new File(templatePath), StandardCharsets.UTF_8);
+
+    File output = new File(outputPath);
+    FileUtils.forceMkdirParent(output);
+
+    StringBuilder summary = new StringBuilder();
+    summary.append("| # | name | dev | DL19 | DL20 |\n");
+    summary.append("| --- | --- | --- | --- | --- |\n");
+
+    int row = 1;
+
+    for (Condition condition : config.conditions) {
+      int sectionNumber = row;
+      Double devScore = null;
+      Double dl19Score = null;
+      Double dl20Score = null;
+
+      for (Topic topic : condition.topics) {
+        if (topic.expected_scores == null) {
+          continue;
+        }
+
+        if (topic.topic_key.startsWith("msmarco-doc.dev")) {
+          devScore = topic.expected_scores.get("MRR@100");
+        }
+
+        if (topic.topic_key.startsWith("dl19-doc")) {
+          dl19Score = topic.expected_scores.get("nDCG@10");
+        }
+
+        if (topic.topic_key.startsWith("dl20-doc") || topic.topic_key.startsWith("dl20")) {
+          dl20Score = topic.expected_scores.get("nDCG@10");
+        }
+      }
+
+      summary.append(String.format("| [%d](#condition-%d) | %s | %s | %s | %s |\n",
+          sectionNumber, sectionNumber, condition.display,
+          devScore == null ? "" : String.format("%.4f", devScore),
+          dl19Score == null ? "" : String.format("%.4f", dl19Score),
+          dl20Score == null ? "" : String.format("%.4f", dl20Score)));
+      row++;
+    }
+
+    summary.append("\n");
+
+    StringBuilder command = new StringBuilder();
+    row = 1;
+    for (Condition condition : config.conditions) {
+      command.append(String.format("<a id=\"condition-%d\"></a>\n\n### %d. %s\n\n",
+          row, row, condition.display));
+      row++;
+
+      for (Topic topic : condition.topics) {
+        command.append(String.format("#### %s\n\n", topic.topic_key));
+        command.append("Retrieval command:\n\n");
+        command.append(String.format("```bash\n%s\n```\n\n", buildCommand(runTag, condition.name, condition.command, topic.topic_key)));
+        command.append("Evaluation commands:\n\n");
+        command.append(String.format("```bash\n%s\n```\n\n", buildEvalCommands(runTag, condition.name, topic)));
+      }
+    }
+
+    String configLink = String.format("[%s](../../../%s)", new File(yamlPath).getName(), yamlPath);
+    FileUtils.writeStringToFile(output, template
+        .replace("${config}", configLink)
+        .replace("${summary}", summary.toString())
+        .replace("${commands}", command.toString())
+        .replace("${command}", command.toString()), StandardCharsets.UTF_8);
+  }
+
+  @Test
+  public void generateMsMarcoV1DocCoreReport() throws Exception {
+    generateMsMarcoV1DocReport("msmarco-v1-doc.core.yaml");
+  }
+
+  @Test
+  public void generateMsMarcoV1DocOptionalReport() throws Exception {
+    generateMsMarcoV1DocReport("msmarco-v1-doc.optional.yaml");
   }
 }

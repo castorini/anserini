@@ -1,4 +1,6 @@
-# MS MARCO V1 Documents
+# <img src="../../anserini-logo.png" height="30" /> MS MARCO V1 Doc
+
+**Anserini reproductions from prebuilt indexes for the MS MARCO V1 Doc collection (core)**
 
 **Config**: [msmarco-v1-doc.core.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.core.yaml)
 
@@ -11,6 +13,8 @@ Key:
 + **DL19** = dl19-doc
 + **DL20** = dl19-doc
 
+## Summary
+
 | # | name | dev | DL19 | DL20 |
 | --- | --- | --- | --- | --- |
 | [1](#condition-1) | BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.2299 | 0.5176 | 0.5286 |
@@ -18,6 +22,10 @@ Key:
 | [3](#condition-3) | BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.2684 | 0.5302 | 0.5281 |
 | [4](#condition-4) | BM25 segmented doc with doc2query-T5 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.3179 | 0.6119 | 0.5957 |
 | [5](#condition-5) | uniCOIL (with doc2query-T5): ONNX | 0.3531 | 0.6396 | 0.6033 |
+
+
+
+## Commands
 
 <a id="condition-1"></a>
 
@@ -406,4 +414,5 @@ java -cp $fatjar trec_eval -c -M 100 -m map dl20-doc runs/run.msmarco-v1-doc.cor
 java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl20-doc runs/run.msmarco-v1-doc.core.unicoil.onnx.dl20.txt
 java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.core.unicoil.onnx.dl20.txt
 ```
+
 

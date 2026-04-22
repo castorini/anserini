@@ -1,4 +1,6 @@
-# MS MARCO V1 Passage
+# <img src="../../anserini-logo.png" height="30" /> MS MARCO V1 Passage
+
+**Anserini reproductions from prebuilt indexes for the MS MARCO V1 Passage collection (core)**
 
 **Config**: [msmarco-v1-passage.core.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.core.yaml)
 
@@ -11,6 +13,8 @@ Key:
 + **DL19** = dl19-passage
 + **DL20** = dl19-passage
 
+## Summary
+
 | # | name | dev | DL19 | DL20 |
 | --- | --- | --- | --- | --- |
 | [1](#condition-1) | BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.1840 | 0.5058 | 0.4796 |
@@ -18,6 +22,10 @@ Key:
 | [3](#condition-3) | SPLADE-v3: ONNX | 0.4000 | 0.7264 | 0.7522 |
 | [4](#condition-4) | bge-base-en-v1.5: HNSW, ONNX | 0.3575 | 0.7016 | 0.6768 |
 | [5](#condition-5) | bge-base-en-v1.5: quantized (int8) HNSW, ONNX | 0.3575 | 0.7017 | 0.6767 |
+
+
+
+## Commands
 
 <a id="condition-1"></a>
 
@@ -390,4 +398,5 @@ java -cp $fatjar trec_eval -c -l 2 -m map dl20-passage runs/run.msmarco-v1-passa
 java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl20-passage runs/run.msmarco-v1-passage.core.bge-base-en-v1.5.hnsw-int8.onnx.dl20-passage.txt
 java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl20-passage runs/run.msmarco-v1-passage.core.bge-base-en-v1.5.hnsw-int8.onnx.dl20-passage.txt
 ```
+
 
