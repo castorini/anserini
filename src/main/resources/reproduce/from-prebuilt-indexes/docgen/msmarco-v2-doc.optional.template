@@ -1,0 +1,41 @@
+# <img src="../../anserini-logo.png" height="30" /> MS MARCO V2 Doc
+
+**Anserini reproductions from prebuilt indexes for the MS MARCO V2 Doc collection (optional)**
+
+**Config**: ${config}
+
+## Summary
+
+The table below summarizes the effectiveness of dev and dev2 in terms of RR@100; DL21, DL22, and DL23 in terms of nDCG@10.
+For more metrics, refer to the config directly.
+
+Key:
+
++ **dev** = msmarco-v2-doc.dev
++ **dev2** = msmarco-v2-doc.dev2
++ **DL21** = dl21-doc
++ **DL22** = dl22-doc
++ **DL23** = dl23-doc
+
+${summary}
+
+## Commands
+
+In the commands below:
+
++ Set `$fatjar` to the actual Anserini fatjar.
++ Set JVM args to `${jvm_args}`.
+
+Something like:
+
+```bash
+export fatjar=`ls -d {.,target}/anserini-*-fatjar.jar(N)`
+
+# for zsh
+export jvm_args=(${jvm_args})
+
+# for bash
+export jvm_argsS="${jvm_args}"
+```
+
+${commands}
