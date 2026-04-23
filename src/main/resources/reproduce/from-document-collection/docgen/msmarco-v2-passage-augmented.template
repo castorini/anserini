@@ -1,0 +1,51 @@
+# Anserini Regressions: MS MARCO (V2) Passage Ranking
+
+**Models**: various bag-of-words approaches on augmented passages
+
+This page describes regression experiments for passage ranking _on the augmented version_ of the MS MARCO V2 passage corpus using the dev queries, which is integrated into Anserini's regression testing framework.
+Here, we cover bag-of-words baselines.
+For additional instructions on working with the MS MARCO V2 passage corpus, refer to [this page](${root_path}/docs/experiments-msmarco-v2.md).
+
+The exact configurations for these regressions are stored in [this YAML file](${yaml}).
+Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config ${test_name}
+```
+
+## Indexing
+
+Typical indexing command:
+
+```bash
+${index_cmds}
+```
+
+The directory `/path/to/msmarco-v2-passage-augmented/` should be a directory containing the compressed `jsonl` files that comprise the corpus.
+See [this page](${root_path}/docs/experiments-msmarco-v2.md) for additional details.
+
+For additional details, see explanation of [common indexing options](${root_path}/docs/common-indexing-options.md).
+
+## Retrieval
+
+Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
+
+After indexing has completed, you should be able to perform retrieval as follows:
+
+```bash
+${ranking_cmds}
+```
+
+Evaluation can be performed using `trec_eval`:
+
+```bash
+${eval_cmds}
+```
+
+## Effectiveness
+
+With the above commands, you should be able to reproduce the following results:
+
+${effectiveness}

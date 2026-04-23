@@ -91,7 +91,6 @@ public class Iso19115Collection extends DocumentCollection<Iso19115Collection.Do
         }
       } else if (node.isArray()) {
         if (iter != null && iter.hasNext()) {
-          JsonNode json = iter.next();
           bufferedRecord = new Iso19115Collection.Document(node);
         } else {
           throw new NoSuchElementException("Reached end of JsonNode iterator");

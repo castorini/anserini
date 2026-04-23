@@ -18,22 +18,17 @@ package io.anserini.rerank.lib;
 
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
-import io.anserini.rerank.ScoredDocuments;
+import io.anserini.search.ScoredDocs;
 
 /**
  * Reranker that perturbs score ties a tiny bit so that the rank order is consistent
  * with the score sort order.
  */
-public class ScoreTiesAdjusterReranker implements Reranker {
+public class ScoreTiesAdjusterReranker<T> implements Reranker<T> {
   @Override
-  public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
-
-    if (context != null && context.getSearchArgs().arbitraryScoreTieBreak) {
-      return docs;
-    }
-
+  public ScoredDocs rerank(ScoredDocs docs, RerankerContext<T> context) {
     int dup = 0;
-    for (int i=0; i<docs.documents.length; i++) {
+    for (int i = 0; i<docs.lucene_documents.length; i++) {
       // Double here because otherwise we might run into overflow issues; this was encountered with SPLADEv2.
       docs.scores[i] = (float) (Math.round(docs.scores[i] * 1e4d) / 1e4d);
 

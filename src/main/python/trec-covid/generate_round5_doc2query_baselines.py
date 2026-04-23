@@ -96,18 +96,18 @@ def perform_runs():
 
     abstract_index = indexes[0]
     abstract_prefix = 'expanded.anserini.covid-r5.abstract'
-    os.system(f'target/appassembler/bin/SearchCollection -index {abstract_index} ' +
-              f'-topicreader Covid -topics {base_topics} -topicfield query+question ' +
-              f'-removedups -bm25 -hits 10000 ' +
+    os.system(f'bin/run.sh io.anserini.search.SearchCollection -index {abstract_index} ' +
+              f'-topicReader Covid -topics {base_topics} -topicField query+question ' +
+              f'-removeDuplicates -bm25 -hits 10000 ' +
               f'-output runs/{abstract_prefix}.qq.bm25.txt -runtag {abstract_prefix}.qq.bm25.txt')
 
-    os.system(f'target/appassembler/bin/SearchCollection -index {abstract_index} ' +
-              f'-topicreader Covid -topics {udel_topics} -topicfield query ' +
-              f'-removedups -bm25 -hits 10000 ' +
+    os.system(f'bin/run.sh io.anserini.search.SearchCollection -index {abstract_index} ' +
+              f'-topicReader Covid -topics {udel_topics} -topicField query ' +
+              f'-removeDuplicates -bm25 -hits 10000 ' +
               f'-output runs/{abstract_prefix}.qdel.bm25.txt -runtag {abstract_prefix}.qdel.bm25.txt')
 
-    os.system(f'target/appassembler/bin/SearchCollection -index {abstract_index} ' +
-              f'-topicreader Covid -topics {udel_topics} -topicfield query -removedups ' +
+    os.system(f'bin/run.sh io.anserini.search.SearchCollection -index {abstract_index} ' +
+              f'-topicReader Covid -topics {udel_topics} -topicField query -removeDuplicates ' +
               f'-bm25 -rm3 -rm3.fbTerms 100 -hits 10000 ' +
               f'-rf.qrels tools/topics-and-qrels/qrels.covid-round4-cumulative.txt ' +
               f'-output runs/{abstract_prefix}.qdel.bm25+rm3Rf.txt -runtag {abstract_prefix}.qdel.bm25+rm3Rf.txt')
@@ -118,14 +118,14 @@ def perform_runs():
 
     full_text_index = indexes[1]
     full_text_prefix = 'expanded.anserini.covid-r5.full-text'
-    os.system(f'target/appassembler/bin/SearchCollection -index {full_text_index} ' +
-              f'-topicreader Covid -topics {base_topics} -topicfield query+question ' +
-              f'-removedups -bm25 -hits 10000 ' +
+    os.system(f'bin/run.sh io.anserini.search.SearchCollection -index {full_text_index} ' +
+              f'-topicReader Covid -topics {base_topics} -topicField query+question ' +
+              f'-removeDuplicates -bm25 -hits 10000 ' +
               f'-output runs/{full_text_prefix}.qq.bm25.txt -runtag {full_text_prefix}.qq.bm25.txt')
 
-    os.system(f'target/appassembler/bin/SearchCollection -index {full_text_index} ' +
-              f'-topicreader Covid -topics {udel_topics} -topicfield query ' +
-              f'-removedups -bm25 -hits 10000 ' +
+    os.system(f'bin/run.sh io.anserini.search.SearchCollection -index {full_text_index} ' +
+              f'-topicReader Covid -topics {udel_topics} -topicField query ' +
+              f'-removeDuplicates -bm25 -hits 10000 ' +
               f'-output runs/{full_text_prefix}.qdel.bm25.txt -runtag {full_text_prefix}.qdel.bm25.txt')
 
     print('')
@@ -134,13 +134,13 @@ def perform_runs():
 
     paragraph_index = indexes[2]
     paragraph_prefix = 'expanded.anserini.covid-r5.paragraph'
-    os.system(f'target/appassembler/bin/SearchCollection -index {paragraph_index} ' +
-              f'-topicreader Covid -topics {base_topics} -topicfield query+question ' +
+    os.system(f'bin/run.sh io.anserini.search.SearchCollection -index {paragraph_index} ' +
+              f'-topicReader Covid -topics {base_topics} -topicField query+question ' +
               f'-selectMaxPassage -bm25 -hits 50000 ' +
               f'-output runs/{paragraph_prefix}.qq.bm25.txt -runtag {paragraph_prefix}.qq.bm25.txt')
 
-    os.system(f'target/appassembler/bin/SearchCollection -index {paragraph_index} ' +
-              f'-topicreader Covid -topics {udel_topics} -topicfield query ' +
+    os.system(f'bin/run.sh io.anserini.search.SearchCollection -index {paragraph_index} ' +
+              f'-topicReader Covid -topics {udel_topics} -topicField query ' +
               f'-selectMaxPassage -bm25 -hits 50000 ' +
               f'-output runs/{paragraph_prefix}.qdel.bm25.txt -runtag {paragraph_prefix}.qdel.bm25.txt')
 

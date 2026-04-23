@@ -1,0 +1,55 @@
+---
+corpus: bright-aops
+corpus_path: collections/bright/splade-v3/aops
+
+index_path: indexes/lucene-inverted.bright-aops.splade-v3/
+collection_class: JsonVectorCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 16
+index_options: -impact -pretokenized
+index_stats:
+  documents: 188002
+  documents (non-empty): 188002
+  total terms: 1147577304
+
+metrics:
+  - metric: nDCG@10
+    command: bin/trec_eval
+    params: -c -m ndcg_cut.10
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: bin/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: bin/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvString
+topics:
+  - name: "BRIGHT: AoPS"
+    id: topics
+    path: topics.bright-aops.tsv.gz
+    qrel: qrels.bright-aops.txt
+
+models:
+  - name: splade-v3-onnx
+    display: SPLADE-v3
+    params: -impact -pretokenized -removeQuery -hits 1000 -encoder SpladeV3
+    results:
+      nDCG@10:
+        - 0.0692
+      R@100:
+        - 0.2624
+      R@1000:
+        - 0.4656

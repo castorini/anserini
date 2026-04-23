@@ -1,0 +1,55 @@
+---
+corpus: fire12-hi
+corpus_path: collections/fire/hindi/hi.docs.2011/
+
+index_path: indexes/lucene-index.fire12-hi/
+collection_class: CleanTrecCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 16
+index_options: -storePositions -storeDocvectors -storeRaw -language hi
+index_stats:
+  documents: 331599
+  documents (non-empty): 331599
+  total terms: 57038417
+
+metrics:
+  - metric: MAP
+    command: bin/trec_eval
+    params: -m map
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: P20
+    command: bin/trec_eval
+    params: -m P.20
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: nDCG@20
+    command: bin/trec_eval
+    params: -m ndcg_cut.20
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+
+topic_reader: Trec
+topics:
+  - name: "[FIRE 2012 (Monolingual Hindi)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.fire12en.176-225.txt)"
+    id: fire12
+    path: topics.fire12hi.176-225.txt
+    qrel: qrels.fire12hi.176-225.txt
+
+models:
+  - name: bm25
+    display: BM25
+    params: -bm25 -language hi
+    results:
+      MAP:
+        - 0.3867
+      P20:
+        - 0.4470
+      nDCG@20:
+        - 0.5310

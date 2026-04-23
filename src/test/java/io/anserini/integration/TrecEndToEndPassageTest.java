@@ -103,7 +103,7 @@ public class TrecEndToEndPassageTest extends EndToEndTest {
 
     args = createDefaultSearchArgs().bm25();
     args.selectMaxPassage = true;
-    args.selectMaxPassage_hits = 1;
+    args.selectMaxPassageHits = 1;
     testQueries.put("bm25v2", args);
     referenceRunOutput.put("bm25v2", new String[]{
         "1 Q0 TREC_DOC_1 1 0.343200 Anserini"});

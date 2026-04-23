@@ -207,13 +207,13 @@ public class TweetCollection extends DocumentCollection<TweetCollection.Document
       }
       boolean isPresent;
       if (field.getClass() == OptionalLong.class) {
-        isPresent = ((OptionalLong)field).isPresent();
+        isPresent = ((OptionalLong) field).isPresent();
       } else if (field.getClass() == OptionalDouble.class) {
-        isPresent = ((OptionalDouble)field).isPresent();
+        isPresent = ((OptionalDouble) field).isPresent();
       } else if (field.getClass() == OptionalInt.class) {
-        isPresent = ((OptionalInt)field).isPresent();
+        isPresent = ((OptionalInt) field).isPresent();
       } else {
-        isPresent = ((Optional)field).isPresent();
+        isPresent = ((Optional<?>) field).isPresent();
       }
       return isPresent;
     }

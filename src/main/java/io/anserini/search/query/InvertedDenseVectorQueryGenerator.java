@@ -24,8 +24,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.analysis.fw.FakeWordsEncoderAnalyzer;
 import io.anserini.analysis.lexlsh.LexicalLshAnalyzer;
-import io.anserini.index.IndexInvertedDenseVectors;
-import io.anserini.search.SearchInvertedDenseVectors;
+import io.anserini.index.Constants;
+import io.anserini.search.InvertedDenseSearcher;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queries.CommonTermsQuery;
@@ -40,14 +40,14 @@ public class InvertedDenseVectorQueryGenerator {
   private final Analyzer vectorAnalyzer;
   private final boolean jsonConversion;
 
-  public InvertedDenseVectorQueryGenerator(SearchInvertedDenseVectors.Args args, boolean jsonConversion) {
+  public InvertedDenseVectorQueryGenerator(InvertedDenseSearcher.Args args, boolean jsonConversion) {
     this.jsonConversion = jsonConversion;
     if (args.encoding.equalsIgnoreCase(FW)) {
       vectorAnalyzer = new FakeWordsEncoderAnalyzer(args.q);
     } else if (args.encoding.equalsIgnoreCase(LEXLSH)) {
       vectorAnalyzer = new LexicalLshAnalyzer(args.decimals, args.ngrams, args.hashCount, args.bucketCount, args.hashSetSize);
     } else {
-      throw new RuntimeException("unrecognized encoding " + args.encoding);
+      throw new RuntimeException(String.format("Invalid encoding scheme \"%s\".", args.encoding));
     }
   }
 
@@ -74,7 +74,7 @@ public class InvertedDenseVectorQueryGenerator {
     float cutoff = 0.999f;
     CommonTermsQuery simQuery = new CommonTermsQuery(SHOULD, SHOULD, cutoff);
     for (String token : AnalyzerUtils.analyze(vectorAnalyzer, queryText)) {
-      simQuery.add(new Term(IndexInvertedDenseVectors.FIELD_VECTOR, token));
+      simQuery.add(new Term(Constants.VECTOR, token));
     }
     return simQuery;
   }

@@ -1,0 +1,211 @@
+/*
+ * Anserini: A Lucene toolkit for reproducible information retrieval research
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package io.anserini.index;
+
+import java.util.Map;
+
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.lucene.index.IndexReader;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
+
+/**
+ * Tests for {@link IndexFlatDenseVectors}
+ */
+public class IndexFlatDenseVectorsTest extends StdOutStdErrRedirectableLuceneTestCase {
+  @BeforeClass
+  public static void setupClass() {
+    suppressJvmLogging();
+
+    Configurator.setLevel(AbstractIndexer.class.getName(), Level.ERROR);
+    Configurator.setLevel(IndexFlatDenseVectors.class.getName(), Level.ERROR);
+  }
+
+  @Before
+  public void setUp() throws Exception {
+    redirectStdOut();
+    redirectStdErr();
+    super.setUp();
+  }
+
+  @After
+  public void tearDown() throws Exception {
+    restoreStdOut();
+    restoreStdErr();
+    super.tearDown();
+  }
+
+  @Test
+  public void testEmptyInvocation() throws Exception {
+    String[] indexArgs = new String[] {};
+
+    IndexFlatDenseVectors.main(indexArgs);
+    assertTrue(err.toString().contains("Error"));
+    assertTrue(err.toString().contains("is required"));
+  }
+
+  @Test
+  public void testAskForHelp() throws Exception {
+    IndexFlatDenseVectors.main(new String[] {"-options"});
+    assertTrue(err.toString().contains("Options for"));
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testInvalidCollection() throws Exception {
+    String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
+    String[] indexArgs = new String[] {
+        "-collection", "FakeJsonDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
+        "-index", indexPath,
+        "-generator", "DenseVectorDocumentGenerator",
+        "-threads", "1"
+    };
+
+    IndexFlatDenseVectors.main(indexArgs);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testCollectionPath() throws Exception {
+    String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
+    String[] indexArgs = new String[] {
+        "-collection", "JsonDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/openai_ada2/json_vector_fake_path",
+        "-index", indexPath,
+        "-generator", "DenseVectorDocumentGenerator",
+        "-threads", "1"
+    };
+
+    IndexFlatDenseVectors.main(indexArgs);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testInvalidGenerator() throws Exception {
+    String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
+    String[] indexArgs = new String[] {
+        "-collection", "JsonDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
+        "-index", indexPath,
+        "-generator", "FakeDenseVectorDocumentGenerator",
+        "-threads", "1"
+    };
+
+    IndexFlatDenseVectors.main(indexArgs);
+  }
+
+  @Test
+  public void testDefaultGenerator() throws Exception {
+    String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
+    String[] indexArgs = new String[] {
+        "-collection", "JsonDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
+        "-index", indexPath,
+        "-threads", "1"
+    };
+
+    IndexFlatDenseVectors.main(indexArgs);
+    // If this succeeded, then the default -generator of DenseVectorDocumentGenerator must have worked.
+  }
+
+  @Test
+  public void testJsonDenseVectorCollection() throws Exception {
+    String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
+    String[] indexArgs = new String[] {
+        "-collection", "JsonDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
+        "-index", indexPath,
+        "-generator", "DenseVectorDocumentGenerator",
+        "-threads", "1"
+    };
+
+    IndexFlatDenseVectors.main(indexArgs);
+
+    IndexReader reader = IndexReaderUtils.getReader(indexPath);
+    assertNotNull(reader);
+
+    Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, Constants.VECTOR);
+    assertNotNull(results);
+    assertEquals(100, results.get("documents"));
+  }
+
+  @Test
+  public void testParquetFloat() throws Exception {
+    String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
+    String[] indexArgs = new String[] {
+        "-collection", "ParquetDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/parquet/msmarco-passage-bge-base-en-v1.5.parquet-float/",
+        "-index", indexPath,
+        "-generator", "DenseVectorDocumentGenerator",
+        "-threads", "1"
+    };
+
+    IndexFlatDenseVectors.main(indexArgs);
+
+    IndexReader reader = IndexReaderUtils.getReader(indexPath);
+    assertNotNull(reader);
+
+    Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, Constants.VECTOR);
+    assertNotNull(results);
+    assertEquals(10, results.get("documents"));
+  }
+
+  @Test
+  public void testParquetDouble() throws Exception {
+    String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
+    String[] indexArgs = new String[] {
+        "-collection", "ParquetDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/parquet/msmarco-passage-bge-base-en-v1.5.parquet-double/",
+        "-index", indexPath,
+        "-generator", "DenseVectorDocumentGenerator",
+        "-threads", "1"
+    };
+
+    IndexFlatDenseVectors.main(indexArgs);
+
+    IndexReader reader = IndexReaderUtils.getReader(indexPath);
+    assertNotNull(reader);
+
+    Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, Constants.VECTOR);
+    assertNotNull(results);
+    assertEquals(10, results.get("documents"));
+  }
+
+  @Test
+  public void testQuantizedInt8() throws Exception {
+    String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
+    String[] indexArgs = new String[] {
+        "-collection", "JsonDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
+        "-index", indexPath,
+        "-generator", "DenseVectorDocumentGenerator",
+        "-threads", "1", "-quantize.sqv"
+    };
+
+    IndexFlatDenseVectors.main(indexArgs);
+
+    IndexReader reader = IndexReaderUtils.getReader(indexPath);
+    assertNotNull(reader);
+
+    Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, Constants.VECTOR);
+    assertNotNull(results);
+    assertEquals(100, results.get("documents"));
+  }
+}

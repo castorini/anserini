@@ -16,7 +16,6 @@
 
 package io.anserini.analysis;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.anserini.collection.DocumentCollection;
 import io.anserini.collection.FileSegment;
 import io.anserini.collection.SourceDocument;
@@ -36,15 +35,14 @@ import java.util.Map;
 
 public class AnalyzerUtils {
 
-  static public List<String> analyze(String s) {
+  public static List<String> analyze(String s) {
     return analyze(IndexCollection.DEFAULT_ANALYZER, s);
   }
 
-  static public List<String> analyze(Analyzer analyzer, String s) {
+  public static List<String> analyze(Analyzer analyzer, String s) {
     List<String> list = new ArrayList<>();
 
-    try {
-      TokenStream tokenStream = analyzer.tokenStream(null, new StringReader(s));
+    try (TokenStream tokenStream = analyzer.tokenStream(null, new StringReader(s))) {
       CharTermAttribute cattr = tokenStream.addAttribute(CharTermAttribute.class);
       tokenStream.reset();
       while (tokenStream.incrementToken()) {
@@ -54,7 +52,6 @@ public class AnalyzerUtils {
         list.add(cattr.toString());
       }
       tokenStream.end();
-      tokenStream.close();
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -62,11 +59,12 @@ public class AnalyzerUtils {
     return list;
   }
 
-  static public Map<String, Long> computeDocumentVector(Analyzer analyzer, String s) {
+  // TODO: this method seems to be misnamed: a better name might be extractTfVector
+  @SuppressWarnings("null")
+  public static Map<String, Long> computeDocumentVector(Analyzer analyzer, String s) {
     Map<String, Long> termFreqMap = new HashMap<>();
 
-    try {
-      TokenStream tokenStream = analyzer.tokenStream(null, new StringReader(s));
+    try (TokenStream tokenStream = analyzer.tokenStream(null, new StringReader(s))) {
       CharTermAttribute cattr = tokenStream.addAttribute(CharTermAttribute.class);
       tokenStream.reset();
       while (tokenStream.incrementToken()) {
@@ -77,30 +75,25 @@ public class AnalyzerUtils {
         termFreqMap.merge(termString, (long) 1, Long::sum);
       }
       tokenStream.end();
-      tokenStream.close();
     } catch (IOException e) {
       e.printStackTrace();
     }
     return termFreqMap;
   }
 
-  static public Map<String, Long> computeDocumentVector(Analyzer analyzer, Class parser, String s) {
-    ObjectMapper mapper = new ObjectMapper();
+  // TODO: this method seems to be misnamed: a better name might be extractTfVectorFromDocument
+  @SuppressWarnings("unchecked")
+  public static Map<String, Long> computeDocumentVector(Analyzer analyzer, Class<? extends DocumentCollection<?>> clazz, String s) {
     String content = "";
 
-    // TODO: analyze each collection case more carefully to catch as many case as possible
-    try {
-      DocumentCollection collection = (DocumentCollection) parser.getConstructor().newInstance();
-      Reader inputString = new StringReader(s);
-      BufferedReader bufferedReader = new BufferedReader(inputString);
-      FileSegment<SourceDocument> segment = collection.createFileSegment(bufferedReader);
+    try (Reader inputString = new StringReader(s);
+        BufferedReader bufferedReader = new BufferedReader(inputString);
+        FileSegment<SourceDocument> segment = ((DocumentCollection<SourceDocument>) clazz.getConstructor().newInstance()).createFileSegment(bufferedReader)) {
       for (SourceDocument d : segment) {
         content = d.contents();
-        // should have only one doc.
+        // Should have only one doc.
         break;
       }
-      segment.close();
-//      System.out.println("computeDocumentVector: " + content);
     } catch (Exception e) {
       return computeDocumentVector(analyzer, s);
     }

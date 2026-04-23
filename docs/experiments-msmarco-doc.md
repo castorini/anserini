@@ -50,7 +50,7 @@ The dev queries are already stored in our repo:
 target/appassembler/bin/SearchCollection \
   -index indexes/msmarco-doc/lucene-index-msmarco \
   -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-doc.dev.bm25.txt \
   -parallelism 4 \
   -bm25 -hits 1000
@@ -63,7 +63,7 @@ Adjust the parallelism by changing the `-parallelism` argument.
 After the run completes, we can evaluate with `trec_eval`:
 
 ```bash
-$ tools/eval/trec_eval.9.0.4/trec_eval -c -mmap -mrecall.1000 \
+$ target/appassembler/bin/trec_eval -c -mmap -mrecall.1000 \
     tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc.dev.bm25.txt
 map                   	all	0.2309
 recall_1000           	all	0.8856
@@ -81,11 +81,11 @@ Then, run `trec_eval` to compare.
 Note that to be fair, we restrict evaluation to top 100 hits per topic (which is what Microsoft provides):
 
 ```bash
-$ tools/eval/trec_eval.9.0.4/trec_eval -c -mmap -M 100 \
+$ target/appassembler/bin/trec_eval -c -mmap -M 100 \
     tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/msmarco-docdev-top100
 map                   	all	0.2219
 
-$ tools/eval/trec_eval.9.0.4/trec_eval -c -mmap -M 100 \
+$ target/appassembler/bin/trec_eval -c -mmap -M 100 \
     tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc.dev.bm25.txt
 map                   	all	0.2302
 ```
@@ -101,7 +101,7 @@ A few minor details to pay attention to: the official metric is MRR@100, so we w
 target/appassembler/bin/SearchCollection \
   -index indexes/msmarco-doc/lucene-index-msmarco \
   -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-doc.leaderboard-dev.bm25base.txt -format msmarco \
   -parallelism 4 \
   -bm25 -bm25.k1 0.9 -bm25.b 0.4 -hits 100
@@ -128,7 +128,7 @@ Here's the invocation for BM25 with parameters optimized for recall@100 (`k1=4.4
 target/appassembler/bin/SearchCollection \
   -index indexes/msmarco-doc/lucene-index-msmarco \
   -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
-  -topicreader TsvInt \
+  -topicReader TsvInt \
   -output runs/run.msmarco-doc.leaderboard-dev.bm25tuned.txt -format msmarco \
   -parallelism 4 \
   -bm25 -bm25.k1 4.46 -bm25.b 0.82 -hits 100
@@ -181,12 +181,12 @@ So, we need to use different search programs, for example:
 $ target/appassembler/bin/SearchCollection \
     -index indexes/msmarco-doc/lucene-index-msmarco \
     -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
-    -topicreader TsvInt \
+    -topicReader TsvInt \
     -output runs/run.msmarco-doc.dev.opt-mrr.txt \
     -parallelism 4 \
     -bm25 -bm25.k1 3.8 -bm25.b 0.87 -hits 1000
 
-$ tools/eval/trec_eval.9.0.4/trec_eval -c -mmap -mrecall.1000 \
+$ target/appassembler/bin/trec_eval -c -mmap -mrecall.1000 \
     tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc.dev.opt-mrr.txt
 map                   	all	0.2789
 recall_1000           	all	0.9326
@@ -194,7 +194,7 @@ recall_1000           	all	0.9326
 $ target/appassembler/bin/SearchCollection \
     -index indexes/msmarco-doc/lucene-index-msmarco \
     -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
-    -topicreader TsvInt \
+    -topicReader TsvInt \
     -output runs/run.msmarco-doc.leaderboard-dev.opt-mrr.txt -format msmarco \
     -parallelism 4 \
     -bm25 -bm25.k1 3.8 -bm25.b 0.87 -hits 100
@@ -290,5 +290,5 @@ That's it!
 + Results reproduced by [@pratyushpal](https://github.com/pratyushpal) on 2023-07-14 (commit [`17d5fc7`](https://github.com/castorini/anserini/commit/17d5fc7f338b511c4dc49de88e9b2ab7ea27f8aa))
 + Results reproduced by [@Mofetoluwa](https://github.com/Mofetoluwa) on 2023-08-04 (commit [`7314128`](https://github.com/castorini/anserini/commit/73141282b62979e189ac3c87d9a902064f34a1c5))
 + Results reproduced by [@ErrenYeager](https://github.com/ErrenYeager) on 2023-09-02 (commit [`4ae518b`](https://github.com/castorini/anserini/commit/4ae518bb284ebcba0b273a473bc8774735cb7d19))
-
-
++ Results reproduced by [@Minhajul99](https://github.com/Minhajul99) on 2023-12-09 (commit [`f1d6320`](https://github.com/Minhajul99/anserini/commit/f1d6320a0002faeec28f3262cc5bf982c992503b))
++ Results reproduced by [@MariaPonomarenko38](https://github.com/MehrnazSadeghieh) on 2024-07-19 (commit [`1f750c6`](https://github.com/castorini/anserini/commit/1f750c67f42f02820b0a75237579e34a8c676248))

@@ -23,7 +23,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.lang.reflect.Constructor;
-import java.net.URL;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -34,7 +34,10 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.zip.GZIPInputStream;
 
+import io.anserini.search.SearchCollection;
 import org.apache.commons.io.FileUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * A reader of topics, i.e., information needs or queries, in a variety of standard formats.
@@ -42,13 +45,10 @@ import org.apache.commons.io.FileUtils;
  * @param <K> type of the topic id
  */
 public abstract class TopicReader<K> {
-  protected final int BUFFER_SIZE = 1 << 16; // 64K
-  protected Path topicFile;
-  final private static String CACHE_DIR = Paths.get(System.getProperty("user.home"), "/.cache/anserini/topics-and-qrels").toString();
-  final private static String SERVER_PATH = "https://raw.githubusercontent.com/castorini/anserini-tools/master/topics-and-qrels/";
-
-
-  static private final Map<String, Class<? extends TopicReader>> TOPIC_FILE_TO_TYPE = new HashMap<>();
+  private static final Logger LOG = LogManager.getLogger(SearchCollection.class);
+  private static final String CACHE_DIR = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "topics-and-qrels").toString();
+  private static final String SERVER_PATH = "https://raw.githubusercontent.com/castorini/anserini-tools/master/topics-and-qrels/";
+  private static final Map<String, Class<? extends TopicReader<?>>> TOPIC_FILE_TO_TYPE = new HashMap<>();
 
   static {
     // Inverts the "Topic" enum to populate the lookup table that maps topics filename to reader class.
@@ -58,13 +58,16 @@ public abstract class TopicReader<K> {
     }
   }
 
+  protected final int BUFFER_SIZE = 1 << 16; // 64K
+  protected Path topicFile;
+
   /**
    * Returns the {@link TopicReader} class corresponding to a known topics file, or <code>null</code> if unknown.
    *
    * @param file topics file
    * @return the {@link TopicReader} class corresponding to a known topics file, or <code>null</code> if unknown.
    */
-  public static Class<? extends TopicReader> getTopicReaderClassByFile(String file) {
+  public static Class<? extends TopicReader<?>> getTopicReaderClassByFile(String file) {
     // If we're given something that looks like a path with directories, pull out only the file name at the end.
     if (file.contains("/")) {
       String[] parts = file.split("/");
@@ -120,29 +123,19 @@ public abstract class TopicReader<K> {
    * @return evaluation topics
    */
   @SuppressWarnings("unchecked")
-  public static <K> SortedMap<K, Map<String, String>> getTopics(Topics topics) throws IOException{
-    try {
-      String raw;
-      InputStream inputStream;
-      Path topicPath = getTopicPath(Path.of(topics.path));
+  public static <K> SortedMap<K, Map<String, String>> getTopics(Topics topics) throws IOException {
+    Path topicPath = getTopicPath(Path.of(topics.path));
 
-      if (topicPath.toString().endsWith(".gz")) {
-        inputStream = new GZIPInputStream(Files.newInputStream(topicPath, StandardOpenOption.READ));
-      } else {
-        inputStream = Files.newInputStream(topicPath, StandardOpenOption.READ);
-      }
-      raw = new String(inputStream.readAllBytes());
-      inputStream.close();
-
+    try(InputStream inputStream = topicPath.toString().endsWith(".gz") ?
+        new GZIPInputStream(Files.newInputStream(topicPath, StandardOpenOption.READ)) :
+        Files.newInputStream(topicPath, StandardOpenOption.READ)) {
       // Get the constructor
-      Constructor[] ctors = topics.readerClass.getDeclaredConstructors();
+      Constructor<?>[] ctors = topics.readerClass.getDeclaredConstructors();
       // The one we want is always the zero-th one; pass in a dummy Path.
       TopicReader<K> reader = (TopicReader<K>) ctors[0].newInstance(Paths.get("."));
-      return reader.read(raw);
-
+      return reader.read(new BufferedReader(new InputStreamReader(inputStream)));
     } catch (Exception e) {
-      e.printStackTrace();
-      return null;
+      throw new IOException("Unable to read topics: " + topics);
     }
   }
 
@@ -157,7 +150,7 @@ public abstract class TopicReader<K> {
   public static <K> SortedMap<K, Map<String, String>> getTopicsByFile(String file) {
     try {
       // Get the constructor
-      Constructor[] ctors = getTopicReaderClassByFile(file).getDeclaredConstructors();
+      Constructor<?>[] ctors = getTopicReaderClassByFile(file).getDeclaredConstructors();
       // The one we want is always the zero-th one; pass in a dummy Path.
       TopicReader<K> reader = (TopicReader<K>) ctors[0].newInstance(Paths.get(file));
       return reader.read();
@@ -198,8 +191,8 @@ public abstract class TopicReader<K> {
   public static Map<String, Map<String, String>> getTopicsWithStringIdsFromFileWithTopicReaderClass(String className,
                                                                                                     String file) {
     try {
-      Class clazz = Class.forName(className);
-      Constructor[] ctors = clazz.getDeclaredConstructors();
+      Class<?> clazz = Class.forName(className);
+      Constructor<?>[] ctors = clazz.getDeclaredConstructors();
       TopicReader<?> reader = (TopicReader<?>) ctors[0].newInstance(Paths.get(file));
 
       SortedMap<?, Map<String, String>> originalTopics = reader.read();
@@ -231,15 +224,14 @@ public abstract class TopicReader<K> {
    * @return Path to the local copy of the topics
    * @throws IOException if error encountered downloading topics
    */
-  public static Path getTopicsFromCloud(Path topicPath) throws IOException{
+  public static Path downloadTopics(Path topicPath) throws IOException {
     String topicURL = SERVER_PATH + topicPath.getFileName().toString();
-    System.out.println("Downloading topics from " + topicURL);
+    LOG.info("Downloading topics from " + topicURL);
     File topicFile = new File(getCacheDir(), topicPath.getFileName().toString());
-    try{
-      FileUtils.copyURLToFile(new URL(topicURL), topicFile);
-    }catch (Exception e){
-      System.out.println("Error downloading topics from " + topicURL);
-      throw e;
+    try {
+      FileUtils.copyURLToFile(new URI(topicURL).toURL(), topicFile);
+    } catch (Exception e){
+      throw new IOException("Error downloading topics from " + topicURL);
     }
     return topicFile.toPath();
   }
@@ -271,7 +263,7 @@ public abstract class TopicReader<K> {
     
     Path resultPath = getNewTopicsAbsPath(topicPath);
     if (!Files.exists(resultPath)) {
-      resultPath = getTopicsFromCloud(topicPath);
+      resultPath = downloadTopics(topicPath);
     }
     return resultPath;
   }

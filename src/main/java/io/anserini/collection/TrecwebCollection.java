@@ -20,7 +20,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.text.ParseException;
-import java.util.stream.Collectors;
 
 /**
  * A classic TREC web collection (e.g., Gov2).
@@ -58,6 +57,7 @@ public class TrecwebCollection extends DocumentCollection<TrecwebCollection.Docu
       super(bufferedReader);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void readNext() throws IOException, ParseException {
       if (rawContent != null) {

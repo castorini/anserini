@@ -24,6 +24,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -71,7 +72,10 @@ public class CarCollection extends DocumentCollection<CarCollection.Document> {
 
     public Segment(BufferedReader bufferedReader) throws IOException {
       super(bufferedReader);
-      stream = new ReaderInputStream(bufferedReader);
+      stream = ReaderInputStream.builder()
+        .setReader(bufferedReader)
+        .setCharset(StandardCharsets.UTF_8)
+        .get();
       iter = DeserializeData.iterableParagraphs(stream).iterator();
     }
 

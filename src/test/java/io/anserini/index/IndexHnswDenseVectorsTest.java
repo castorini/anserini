@@ -16,63 +16,249 @@
 
 package io.anserini.index;
 
-import io.anserini.CustomAppender;
+import java.util.Map;
+
 import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.Configurator;
-import org.junit.AfterClass;
+import org.apache.lucene.index.IndexReader;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import static org.junit.Assert.assertTrue;
+import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
+import io.anserini.index.generator.DenseVectorDocumentGenerator;
 
 /**
  * Tests for {@link IndexHnswDenseVectors}
  */
-public class IndexHnswDenseVectorsTest {
-  private static final Logger LOGGER = LogManager.getLogger(IndexHnswDenseVectors.class);
-  private static CustomAppender APPENDER;
-
+public class IndexHnswDenseVectorsTest extends StdOutStdErrRedirectableLuceneTestCase {
   @BeforeClass
   public static void setupClass() {
-    APPENDER = new CustomAppender("CustomAppender");
-    APPENDER.start();
+    suppressJvmLogging();
 
-    ((org.apache.logging.log4j.core.Logger) LOGGER).addAppender(APPENDER);
+    Configurator.setLevel(AbstractIndexer.class.getName(), Level.ERROR);
+    Configurator.setLevel(IndexCollection.class.getName(), Level.ERROR);
+    Configurator.setLevel(IndexHnswDenseVectors.class.getName(), Level.ERROR);
+  }
 
-    Configurator.setLevel(IndexHnswDenseVectors.class.getName(), Level.INFO);
+  @Before
+  public void setUp() throws Exception {
+    redirectStdOut();
+    redirectStdErr();
+    super.setUp();
+  }
+
+  @After
+  public void tearDown() throws Exception {
+    restoreStdOut();
+    restoreStdErr();
+    super.tearDown();
   }
 
   @Test
-  public void test1() throws Exception {
-    List<String> args = new LinkedList<>();
-    args.add("-collection");
-    args.add("JsonDenseVectorCollection");
-    args.add("-input");
-    args.add("src/test/resources/sample_docs/openai_ada2/json_vector");
-    args.add("-index");
-    args.add("target/idx-sample-hnsw" + System.currentTimeMillis());
-    args.add("-generator");
-    args.add("LuceneDenseVectorDocumentGenerator");
-    args.add("-threads");
-    args.add("1");
-    args.add("-M");
-    args.add("16");
-    args.add("-efC");
-    args.add("100");
+  public void testEmptyInvocation() throws Exception {
+    String[] indexArgs = new String[] {};
 
-    IndexHnswDenseVectors.main(args.toArray(new String[0]));
-
-    System.out.println(APPENDER.getLastLog());
-    assertTrue(APPENDER.getLastLog().contains("Total 100 documents indexed"));
+    IndexHnswDenseVectors.main(indexArgs);
+    assertTrue(err.toString().contains("Error"));
+    assertTrue(err.toString().contains("is required"));
   }
 
-  @AfterClass
-  public static void teardownClass() {
-    ((org.apache.logging.log4j.core.Logger) LOGGER).removeAppender(APPENDER);
+  @Test
+  public void testAskForHelp() throws Exception {
+    IndexHnswDenseVectors.main(new String[] {"-options"});
+    assertTrue(err.toString().contains("Options for"));
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testInvalidCollection() throws Exception {
+    String indexPath = "target/lucene-test-index.hnsw." + System.currentTimeMillis();
+    String[] indexArgs = new String[] {
+        "-collection", "FakeJsonDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
+        "-index", indexPath,
+        "-generator", "DenseVectorDocumentGenerator",
+        "-threads", "1",
+        "-M", "16", "-efC", "100"
+    };
+
+    IndexHnswDenseVectors.main(indexArgs);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testCollectionPath() throws Exception {
+    String indexPath = "target/lucene-test-index.hnsw." + System.currentTimeMillis();
+    String[] indexArgs = new String[] {
+        "-collection", "JsonDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/openai_ada2/json_vector_fake_path",
+        "-index", indexPath,
+        "-generator", "DenseVectorDocumentGenerator",
+        "-threads", "1",
+        "-M", "16", "-efC", "100"
+    };
+
+    IndexHnswDenseVectors.main(indexArgs);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testInvalidGenerator() throws Exception {
+    String indexPath = "target/lucene-test-index.hnsw." + System.currentTimeMillis();
+    String[] indexArgs = new String[] {
+        "-collection", "JsonDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
+        "-index", indexPath,
+        "-generator", "FakeDenseVectorDocumentGenerator",
+        "-threads", "1",
+        "-M", "16", "-efC", "100"
+    };
+
+    IndexHnswDenseVectors.main(indexArgs);
+  }
+
+  @Test
+  public void testDefaultGenerator() throws Exception {
+    String indexPath = "target/lucene-test-index.hnsw." + System.currentTimeMillis();
+    String[] indexArgs = new String[] {
+        "-collection", "JsonDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
+        "-index", indexPath,
+        "-threads", "1",
+        "-M", "16", "-efC", "100"
+    };
+
+    IndexHnswDenseVectors.main(indexArgs);
+    // If this succeeded, then the default -generator of InvertedDenseVectorDocumentGenerator must have worked.
+  }
+
+  @Test
+  public void testJsonDenseVectorCollection() throws Exception {
+    String indexPath = "target/lucene-test-index.hnsw." + System.currentTimeMillis();
+    String[] indexArgs = new String[] {
+        "-collection", "JsonDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
+        "-index", indexPath,
+        "-generator", "DenseVectorDocumentGenerator",
+        "-threads", "1",
+        "-M", "16", "-efC", "100"
+    };
+
+    IndexHnswDenseVectors.main(indexArgs);
+
+    IndexReader reader = IndexReaderUtils.getReader(indexPath);
+    assertNotNull(reader);
+
+    Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, Constants.VECTOR);
+    assertNotNull(results);
+    assertEquals(100, results.get("documents"));
+  }
+
+  @Test
+  public void testParquetFloat() throws Exception {
+    String indexPath = "target/lucene-test-index.hnsw." + System.currentTimeMillis();
+    String[] indexArgs = new String[] {
+        "-collection", "ParquetDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/parquet/msmarco-passage-bge-base-en-v1.5.parquet-float/",
+        "-index", indexPath,
+        "-generator", "DenseVectorDocumentGenerator",
+        "-threads", "1",
+        "-M", "16", "-efC", "100"
+    };
+
+    IndexHnswDenseVectors.main(indexArgs);
+
+    IndexReader reader = IndexReaderUtils.getReader(indexPath);
+    assertNotNull(reader);
+
+    Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, Constants.VECTOR);
+    assertNotNull(results);
+    assertEquals(10, results.get("documents"));
+  }
+
+  @Test
+  public void testParquetDouble() throws Exception {
+    String indexPath = "target/lucene-test-index.hnsw." + System.currentTimeMillis();
+    String[] indexArgs = new String[] {
+        "-collection", "ParquetDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/parquet/msmarco-passage-bge-base-en-v1.5.parquet-double/",
+        "-index", indexPath,
+        "-generator", "DenseVectorDocumentGenerator",
+        "-threads", "1",
+        "-M", "16", "-efC", "100"
+    };
+
+    IndexHnswDenseVectors.main(indexArgs);
+
+    IndexReader reader = IndexReaderUtils.getReader(indexPath);
+    assertNotNull(reader);
+
+    Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, Constants.VECTOR);
+    assertNotNull(results);
+    assertEquals(10, results.get("documents"));
+  }
+
+  @Test
+  public void testNullVectorDense() throws Exception {
+    String indexPath = "target/lucene-test-index.hnsw." + System.currentTimeMillis();
+    String[] indexArgs = new String[] {
+        "-collection", "JsonDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/openai_ada2/json_vector_null",
+        "-index", indexPath,
+        "-generator", "DenseVectorDocumentGenerator",
+        "-threads", "1",
+        "-M", "16", "-efC", "100"
+    };
+
+    // Since the vector is null, we will specifically trigger the following error:
+    //   Vector data is null or empty for document ID: 1
+    // Explicitly suppress, since this is expected.
+    Configurator.setLevel(DenseVectorDocumentGenerator.class.getName(), Level.OFF);
+
+    IndexHnswDenseVectors.main(indexArgs);
+    IndexReader reader = IndexReaderUtils.getReader(indexPath);
+    assertNotNull(reader);
+    Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, Constants.VECTOR);
+    assertEquals(0, results.get("documents"));
+  }
+
+  @Test
+  public void testNullVectorInverted() throws Exception {
+    String indexPath = "target/lucene-test-index.hnsw." + System.currentTimeMillis();
+    String[] indexArgs = new String[] {
+        "-collection", "JsonDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/openai_ada2/json_vector_null",
+        "-index", indexPath,
+        "-generator", "InvertedDenseVectorDocumentGenerator",
+        "-threads", "1",
+        "-M", "16", "-efC", "100"
+    };
+
+    IndexHnswDenseVectors.main(indexArgs);
+    IndexReader reader = IndexReaderUtils.getReader(indexPath);
+    assertNotNull(reader);
+    Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, Constants.VECTOR);
+    assertEquals(0, results.get("documents"));
+  }
+
+  @Test
+  public void testQuantizedSQV() throws Exception {
+    String indexPath = "target/lucene-test-index.hnsw." + System.currentTimeMillis();
+    String[] indexArgs = new String[] {
+        "-collection", "JsonDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
+        "-index", indexPath,
+        "-generator", "DenseVectorDocumentGenerator",
+        "-threads", "1",
+        "-M", "16", "-efC", "100", "-quantize.sqv"
+    };
+
+    IndexHnswDenseVectors.main(indexArgs);
+
+    IndexReader reader = IndexReaderUtils.getReader(indexPath);
+    assertNotNull(reader);
+
+    Map<String, Object> results = IndexReaderUtils.getIndexStats(reader, Constants.VECTOR);
+    assertNotNull(results);
+    assertEquals(100, results.get("documents"));
   }
 }

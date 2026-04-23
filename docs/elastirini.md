@@ -70,14 +70,14 @@ Run the following command to reproduce Anserini BM25 retrieval:
 ```bash
 sh target/appassembler/bin/SearchElastic \
   -topics tools/topics-and-qrels/topics.robust04.txt \
-  -topicreader Trec -es.index robust04 \
+  -topicReader Trec -es.index robust04 \
   -output runs/run.es.robust04.bm25.topics.robust04.txt
 ```
 
 To evaluate effectiveness:
 
 ```bash
-$ tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 \
+$ target/appassembler/bin/trec_eval -m map -m P.30 \
     tools/topics-and-qrels/qrels.robust04.txt \
     runs/run.es.robust04.bm25.topics.robust04.txt
 
@@ -115,7 +115,7 @@ Retrieval:
 ```bash
 sh target/appassembler/bin/SearchElastic \
   -topics tools/topics-and-qrels/topics.core18.txt \
-  -topicreader Trec \
+  -topicReader Trec \
   -es.index core18 \
   -output runs/run.es.core18.bm25.topics.core18.txt
 ```
@@ -123,7 +123,7 @@ sh target/appassembler/bin/SearchElastic \
 Evaluation:
 
 ```bash
-$ tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 \
+$ target/appassembler/bin/trec_eval -m map -m P.30 \
     tools/topics-and-qrels/qrels.core18.txt \
     runs/run.es.core18.bm25.topics.core18.txt
 
@@ -161,7 +161,7 @@ Retrieval:
 ```bash
 sh target/appassembler/bin/SearchElastic \
   -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
-  -topicreader TsvString \
+  -topicReader TsvString \
   -es.index msmarco-passage \
   -output runs/run.es.msmacro-passage.txt
 ```
@@ -169,7 +169,7 @@ sh target/appassembler/bin/SearchElastic \
 Evaluation:
 
 ```bash
-$ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 -m map \
+$ target/appassembler/bin/trec_eval -c -m recall.1000 -m map \
     tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt \
     runs/run.es.msmacro-passage.txt
 
@@ -207,7 +207,7 @@ Retrieval:
 ```bash
 sh target/appassembler/bin/SearchElastic \
  -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
- -topicreader TsvInt \
+ -topicReader TsvInt \
  -es.index msmarco-doc \
  -output runs/run.es.msmarco-doc.txt
 ```
@@ -217,7 +217,7 @@ This can take potentially longer than `SearchCollection` with Lucene indexes.
 Evaluation:
 
 ```bash
-$ tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 -m map \
+$ target/appassembler/bin/trec_eval -c -m recall.1000 -m map \
     tools/topics-and-qrels/qrels.msmarco-doc.dev.txt \
     runs/run.es.msmarco-doc.txt
 

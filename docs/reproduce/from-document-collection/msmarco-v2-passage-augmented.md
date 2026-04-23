@@ -1,0 +1,86 @@
+# Anserini Regressions: MS MARCO (V2) Passage Ranking
+
+**Models**: various bag-of-words approaches on augmented passages
+
+This page describes regression experiments for passage ranking _on the augmented version_ of the MS MARCO V2 passage corpus using the dev queries, which is integrated into Anserini's regression testing framework.
+Here, we cover bag-of-words baselines.
+For additional instructions on working with the MS MARCO V2 passage corpus, refer to [this page](../../../docs/experiments-msmarco-v2.md).
+
+The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-passage-augmented.yaml).
+Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v2-passage-augmented.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v2-passage-augmented
+```
+
+## Indexing
+
+Typical indexing command:
+
+```bash
+bin/run.sh io.anserini.index.IndexCollection \
+  -threads 24 \
+  -collection MsMarcoV2PassageCollection \
+  -input /path/to/msmarco-v2-passage-augmented \
+  -generator DefaultLuceneDocumentGenerator \
+  -index indexes/lucene-inverted.msmarco-v2-passage-augmented/ \
+  -storeRaw \
+  >& logs/log.msmarco-v2-passage-augmented &
+```
+
+The directory `/path/to/msmarco-v2-passage-augmented/` should be a directory containing the compressed `jsonl` files that comprise the corpus.
+See [this page](../../../docs/experiments-msmarco-v2.md) for additional details.
+
+For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+
+## Retrieval
+
+Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
+
+After indexing has completed, you should be able to perform retrieval as follows:
+
+```bash
+bin/run.sh io.anserini.search.SearchCollection \
+  -index indexes/lucene-inverted.msmarco-v2-passage-augmented/ \
+  -topics tools/topics-and-qrels/topics.msmarco-v2-passage.dev.txt \
+  -topicReader TsvInt \
+  -output runs/run.msmarco-v2-passage-augmented.bm25-default.topics.msmarco-v2-passage.dev.txt \
+  -bm25 &
+bin/run.sh io.anserini.search.SearchCollection \
+  -index indexes/lucene-inverted.msmarco-v2-passage-augmented/ \
+  -topics tools/topics-and-qrels/topics.msmarco-v2-passage.dev2.txt \
+  -topicReader TsvInt \
+  -output runs/run.msmarco-v2-passage-augmented.bm25-default.topics.msmarco-v2-passage.dev2.txt \
+  -bm25 &
+```
+
+Evaluation can be performed using `trec_eval`:
+
+```bash
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage-augmented.bm25-default.topics.msmarco-v2-passage.dev.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage-augmented.bm25-default.topics.msmarco-v2-passage.dev.txt
+bin/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt runs/run.msmarco-v2-passage-augmented.bm25-default.topics.msmarco-v2-passage.dev.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage-augmented.bm25-default.topics.msmarco-v2-passage.dev2.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage-augmented.bm25-default.topics.msmarco-v2-passage.dev2.txt
+bin/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank tools/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt runs/run.msmarco-v2-passage-augmented.bm25-default.topics.msmarco-v2-passage.dev2.txt
+```
+
+## Effectiveness
+
+With the above commands, you should be able to reproduce the following results:
+
+| **MAP@100**                                                                                                  | **BM25 (default)**|
+|:-------------------------------------------------------------------------------------------------------------|-------------------|
+| [MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                      | 0.0863            |
+| [MS MARCO V2 Passage: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                     | 0.0904            |
+| **MRR@100**                                                                                                  | **BM25 (default)**|
+| [MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                      | 0.0872            |
+| [MS MARCO V2 Passage: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                     | 0.0917            |
+| **R@100**                                                                                                    | **BM25 (default)**|
+| [MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                      | 0.4030            |
+| [MS MARCO V2 Passage: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                     | 0.4159            |
+| **R@1000**                                                                                                   | **BM25 (default)**|
+| [MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                      | 0.6925            |
+| [MS MARCO V2 Passage: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)                     | 0.6933            |

@@ -54,12 +54,12 @@ target/appassembler/bin/IndexCollection -collection WashingtonPostCollection \
 **Robust04**:
 
 ``` bash
-target/appassembler/bin/SearchCollection -topicreader Trec \
+target/appassembler/bin/SearchCollection -topicReader Trec \
  -index lucene-index.robust04.pos+docvectors+rawdocs \
  -topics tools/topics-and-qrels/topics.robust04.301-450.601-700.txt \
  -output run.robust04.bm25+rm3.topics.robust04.301-450.601-700.txt -bm25 -rm3 -hits 10000
 
-target/appassembler/bin/SearchCollection -topicreader Trec \
+target/appassembler/bin/SearchCollection -topicReader Trec \
  -index lucene-index.robust04.pos+docvectors+rawdocs \
  -topics tools/topics-and-qrels/topics.robust04.301-450.601-700.txt \
  -output run.robust04.bm25+ax.topics.robust04.301-450.601-700.txt \
@@ -69,12 +69,12 @@ target/appassembler/bin/SearchCollection -topicreader Trec \
 **Robust05**:
 
 ``` bash
-target/appassembler/bin/SearchCollection -topicreader Trec \
+target/appassembler/bin/SearchCollection -topicReader Trec \
  -index lucene-index.robust05.pos+docvectors+rawdocs \
  -topics tools/topics-and-qrels/topics.robust05.txt \
  -output run.robust05.bm25+rm3.topics.robust05.txt -bm25 -rm3 -hits 10000
 
-target/appassembler/bin/SearchCollection -topicreader Trec \
+target/appassembler/bin/SearchCollection -topicReader Trec \
  -index lucene-index.robust05.pos+docvectors+rawdocs \
  -topics tools/topics-and-qrels/topics.robust05.txt \
  -output run.robust05.bm25+ax.topics.robust05.txt \
@@ -84,12 +84,12 @@ target/appassembler/bin/SearchCollection -topicreader Trec \
 **Core17**:
 
 ``` bash
-target/appassembler/bin/SearchCollection -topicreader Trec \
+target/appassembler/bin/SearchCollection -topicReader Trec \
  -index lucene-index.core17.pos+docvectors+rawdocs \
  -topics tools/topics-and-qrels/topics.core17.txt \
  -output run.core17.bm25+rm3.topics.core17.txt -bm25 -rm3 -hits 10000
 
-target/appassembler/bin/SearchCollection -topicreader Trec \
+target/appassembler/bin/SearchCollection -topicReader Trec \
  -index lucene-index.core17.pos+docvectors+rawdocs \
  -topics tools/topics-and-qrels/topics.core17.txt \
  -output run.core17.bm25+ax.topics.core17.txt \
@@ -99,12 +99,12 @@ target/appassembler/bin/SearchCollection -topicreader Trec \
 **Core18**:
 
 ``` bash
-target/appassembler/bin/SearchCollection -topicreader Trec \
+target/appassembler/bin/SearchCollection -topicReader Trec \
  -index lucene-index.core18.pos+docvectors+rawdocs -bm25 \
  -topics tools/topics-and-qrels/topics.core18.txt \
  -output run.core18.bm25+rm3.topics.core18.txt -rm3 -hits 10000
 
-target/appassembler/bin/SearchCollection -topicreader Trec \
+target/appassembler/bin/SearchCollection -topicReader Trec \
  -index lucene-index.core18.pos+docvectors+rawdocs -bm25 \
  -topics tools/topics-and-qrels/topics.core18.txt \
  -output run.core18.bm25+ax.topics.core18.txt -axiom \

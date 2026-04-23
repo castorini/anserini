@@ -21,7 +21,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -32,9 +32,9 @@ import java.util.Set;
 import org.apache.commons.io.FileUtils;
 
 public class RelevanceJudgments {
-  final private Map<String, Map<String, Integer>> qrels;
-  final private static String CACHE_DIR = Paths.get(System.getProperty("user.home"), "/.cache/anserini/topics-and-qrels").toString();
-  final private static String SERVER_PATH = "https://raw.githubusercontent.com/castorini/anserini-tools/master/topics-and-qrels/";
+  private final Map<String, Map<String, Integer>> qrels;
+  private static final String CACHE_DIR = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "topics-and-qrels").toString();
+  private static final String SERVER_PATH = "https://raw.githubusercontent.com/castorini/anserini-tools/master/topics-and-qrels/";
 
   public static RelevanceJudgments fromQrels(Qrels qrels) throws IOException {
     return new RelevanceJudgments("src/main/resources/" + qrels.path);
@@ -139,9 +139,10 @@ public class RelevanceJudgments {
       throw new IOException("Could not get qrels file either from server or local file system!");
     }
 
-    InputStream inputStream = Files.newInputStream(resultPath);
-    String raw = new String(inputStream.readAllBytes());
-    return raw;
+    try (InputStream inputStream = Files.newInputStream(resultPath)) {
+      String raw = new String(inputStream.readAllBytes());
+      return raw;
+    }
   }
 
   /**
@@ -151,17 +152,25 @@ public class RelevanceJudgments {
    * @return qrels path
    * @throws IOException
    */
-  private static Path getQrelsPath(Path qrelsPath) throws IOException {
-    if (!Qrels.contains(qrelsPath)) {
-      // If the topic file is not in the list of known topics, we assume it is a local
-      // file.
+  public static Path getQrelsPath(Path qrelsPath) throws IOException {
+    boolean isContained = Qrels.contains(qrelsPath);
+    boolean isContainedSymbol = false;
+    if (!isContained) {
+      isContainedSymbol = Qrels.containsSymbol(qrelsPath);
+    }
+    if (!isContained && !isContainedSymbol) {
+      // If the topic file is not in the list of known topics, we assume it is a local file.
       Path tempPath = Paths.get(getCacheDir(), qrelsPath.getFileName().toString());
       if (Files.exists(tempPath)) {
-        // if it is a unregistred topic in the Topics Enum, but it is in the cache, we
-        // use it
+        // if it is a unregistred topic in the Topics Enum, but it is in the cache, we use it.
         return tempPath;
       }
       return qrelsPath;
+    }
+
+    // If qrelsPath is a prefix, we should extend it to a full file name
+    if (isContainedSymbol) {
+      qrelsPath = Qrels.extendSymbol(qrelsPath);
     }
 
     Path resultPath = getNewQrelAbsPath(qrelsPath);
@@ -187,11 +196,11 @@ public class RelevanceJudgments {
     String qrelsURL = SERVER_PATH + qrelsPath.getFileName().toString();
     System.out.println("Downloading qrels from " + qrelsURL);
     File qrelsFile = new File(getCacheDir(), qrelsPath.getFileName().toString());
+
     try {
-      FileUtils.copyURLToFile(new URL(qrelsURL), qrelsFile);
+      FileUtils.copyURLToFile(new URI(qrelsURL).toURL(), qrelsFile);
     } catch (Exception e) {
-      System.out.println("Error downloading topics from " + qrelsURL);
-      throw e;
+      throw new IOException("Error downloading topics from " + qrelsURL);
     }
     return qrelsFile.toPath();
   }

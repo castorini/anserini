@@ -16,20 +16,24 @@
 
 package io.anserini.search.query;
 
-import java.util.ArrayList;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.lucene.search.KnnFloatVectorQuery;
 
-import org.apache.lucene.search.KnnVectorQuery;
+import java.util.ArrayList;
 
 public class VectorQueryGenerator {
 
-  private float[] convertJsonArray(String vectorString) throws JsonMappingException, JsonProcessingException {
+  private float[] convertJsonArray(String vectorString) throws JsonProcessingException {
+    if (vectorString == null || vectorString.trim().isEmpty()) {
+      throw new RuntimeException("Vector string is null or empty");
+    }
     ObjectMapper mapper = new ObjectMapper();
     ArrayList<Float> denseVector = mapper.readValue(vectorString, new TypeReference<ArrayList<Float>>(){});
+    if (denseVector == null || denseVector.isEmpty()) {
+      throw new RuntimeException("Vector array is null or empty after parsing");
+    }
     int length = denseVector.size();
     float[] vector = new float[length];
     int i = 0;
@@ -39,10 +43,12 @@ public class VectorQueryGenerator {
     return vector;
   }
   
-  public KnnVectorQuery buildQuery(String field, String queryString, Integer topK) throws JsonMappingException, JsonProcessingException{
-    float[] queryVector;
-    queryVector = convertJsonArray(queryString);
-    KnnVectorQuery knnQuery = new KnnVectorQuery(field, queryVector, topK);
-    return knnQuery;
+  public KnnFloatVectorQuery buildQuery(String field, float[] vector, Integer topK) {
+    return new KnnFloatVectorQuery(field, vector, topK);
+  }
+
+  public KnnFloatVectorQuery buildQuery(String field, String queryString, Integer topK) throws JsonProcessingException {
+    float[] queryVector = convertJsonArray(queryString);
+    return buildQuery(field, queryVector, topK);
   }
 }

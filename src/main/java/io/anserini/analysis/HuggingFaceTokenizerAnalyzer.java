@@ -16,6 +16,13 @@
 
 package io.anserini.analysis;
 
+import ai.djl.huggingface.tokenizers.Encoding;
+import ai.djl.huggingface.tokenizers.HuggingFaceTokenizer;
+import org.apache.commons.io.IOUtils;
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.Tokenizer;
+import org.apache.lucene.analysis.core.WhitespaceTokenizer;
+
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
@@ -25,14 +32,6 @@ import java.nio.file.Paths;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import ai.djl.huggingface.tokenizers.Encoding;
-import ai.djl.huggingface.tokenizers.HuggingFaceTokenizer;
-import org.apache.commons.io.IOUtils;
-import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.Tokenizer;
-import org.apache.lucene.analysis.core.WhitespaceTokenizer;
-
-
 public class HuggingFaceTokenizerAnalyzer extends Analyzer {
   
   private final HuggingFaceTokenizer tokenizer;
@@ -40,14 +39,17 @@ public class HuggingFaceTokenizerAnalyzer extends Analyzer {
   public HuggingFaceTokenizerAnalyzer(String huggingFaceModelId) throws IOException {
     Map<String, String> options = new ConcurrentHashMap<>();
     options.put("addSpecialTokens", "false");
+    // Explicitly setting this below allows us to tokenize arbitrarily long sequences.
+    // Since we're not feeding to a model, we're not limited by model length restrictions.
+    options.put("modelMaxLength", Integer.toString(Integer.MAX_VALUE));
+    options.put("maxLength", Integer.toString(Integer.MAX_VALUE));
+
     Path path = Paths.get(huggingFaceModelId);
-    
-    if(Files.exists(path) == true){
+    if (Files.exists(path)) {
       this.tokenizer = HuggingFaceTokenizer.newInstance(path, options);
     } else {
       this.tokenizer = HuggingFaceTokenizer.newInstance(huggingFaceModelId, options);
     }
-    
   }
   
   

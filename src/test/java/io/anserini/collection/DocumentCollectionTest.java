@@ -16,10 +16,11 @@
 
 package io.anserini.collection;
 
-import org.apache.lucene.tests.util.LuceneTestCase;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -33,9 +34,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Logger;
 
-public abstract class DocumentCollectionTest<T extends SourceDocument> extends LuceneTestCase {
+public abstract class DocumentCollectionTest<T extends SourceDocument> extends StdOutStdErrRedirectableLuceneTestCase {
   Path collectionPath;
   DocumentCollection<T> collection;
 
@@ -190,7 +190,6 @@ public abstract class DocumentCollectionTest<T extends SourceDocument> extends L
       });
     });
   }
-
 
   @After
   public void tearDown() throws Exception {

@@ -42,10 +42,10 @@ class Search(object):
         all_params = []
         if not os.path.exists(os.path.join(output_root, self.run_files_root)):
             os.makedirs(os.path.join(output_root, self.run_files_root))
-        para_str = '-threads %d %s' % (parallelism, model_yaml['fixed_params'])
+        para_str = '-parallelism %d %s' % (parallelism, model_yaml['fixed_params'])
         results_fn = os.path.join(output_root, self.run_files_root, model_yaml['name'])
         for param_name, params in model_yaml['params'].items():
-            para_str += ' -%s' % (param_name)
+            para_str += ' -%s' % param_name
             for p in self.drange(params['lower'], params['upper']+1e-8, params['pace']):
                 is_float = True if params['type'] == 'float' else False
                 para_str += ' %.2f' % (p) if is_float else ' %d' % (p)

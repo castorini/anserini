@@ -1,0 +1,55 @@
+---
+corpus: trec02-ar
+corpus_path: collections/newswire/clir/trec.ar/arabic_newswire_a_ldc2001t55/transcripts/
+
+index_path: indexes/lucene-index.trec02-ar/
+collection_class: CleanTrecCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 16
+index_options: -storePositions -storeDocvectors -storeRaw -language ar
+index_stats:
+  documents: 383872
+  documents (non-empty): 383872
+  total terms: 62378088
+
+metrics:
+  - metric: MAP
+    command: bin/trec_eval
+    params: -m map
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: P20
+    command: bin/trec_eval
+    params: -m P.20
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: nDCG@20
+    command: bin/trec_eval
+    params: -m ndcg_cut.20
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+
+topic_reader: Trec
+topics:
+  - name: "[TREC 2002 (Monolingual Arabic)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.trec02ar-ar.txt)"
+    id: trec02
+    path: topics.trec02ar-ar.txt
+    qrel: qrels.trec02ar.txt
+
+models:
+  - name: bm25
+    display: BM25
+    params: -bm25 -language ar
+    results:
+      MAP:
+        - 0.2932
+      P20:
+        - 0.3610
+      nDCG@20:
+        - 0.4056

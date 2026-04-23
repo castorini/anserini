@@ -18,6 +18,7 @@ package io.anserini.integration;
 
 import io.anserini.collection.TrecCollection;
 import io.anserini.index.IndexCollection;
+import io.anserini.search.SearchCollection;
 
 import java.util.Arrays;
 import java.util.List;
@@ -70,12 +71,9 @@ public class TrecEndToEndTest extends EndToEndTest {
             "text\n" +
             "</TEXT>"));
 
-    referenceDocTokens.put("TREC_DOC_1", Map.of(
-        "contents", Arrays.asList(new String[]{null, null, "head", "veri", "simpl", "text"})));
-    referenceDocTokens.put("WSJ_1", Map.of(
-        "contents", List.of("head", "text", "01", "30", "03", "content")));
-    referenceDocTokens.put("DOC222", Map.of(
-        "contents", List.of("head", "simpl", "enough", "text", "text", "text")));
+    referenceDocTokens.put("TREC_DOC_1", Map.of("contents", Arrays.asList(null, null, "head", "veri", "simpl", "text")));
+    referenceDocTokens.put("WSJ_1", Map.of("contents", List.of("head", "text", "01", "30", "03", "content")));
+    referenceDocTokens.put("DOC222", Map.of("contents", List.of("head", "simpl", "enough", "text", "text", "text")));
 
     fieldNormStatusTotalFields = 1;  // text
     termIndexStatusTermCount = 12;   // Note that standard analyzer ignores stopwords; includes docids.
@@ -93,6 +91,36 @@ public class TrecEndToEndTest extends EndToEndTest {
 
     testQueries.put("bm25", createDefaultSearchArgs().bm25());
     referenceRunOutput.put("bm25", new String[]{
+        "1 Q0 DOC222 1 0.343200 Anserini",
+        "1 Q0 TREC_DOC_1 2 0.333400 Anserini",
+        "1 Q0 WSJ_1 3 0.068700 Anserini"});
+
+    SearchCollection.Args argsRm3 = createDefaultSearchArgs().bm25();
+    argsRm3.rm3 = true;
+    testQueries.put("bm25.rm3", argsRm3);
+    referenceRunOutput.put("bm25.rm3", new String[]{
+        "1 Q0 DOC222 1 0.085800 Anserini",
+        "1 Q0 TREC_DOC_1 2 0.083400 Anserini",
+        "1 Q0 WSJ_1 3 0.017200 Anserini"});
+
+    SearchCollection.Args argsRocchio = createDefaultSearchArgs().bm25();
+    argsRocchio.rocchio = true;
+    testQueries.put("bm25.rocchio", argsRocchio);
+    referenceRunOutput.put("bm25.rocchio", new String[]{
+        "1 Q0 DOC222 1 0.242700 Anserini",
+        "1 Q0 TREC_DOC_1 2 0.235800 Anserini",
+        "1 Q0 WSJ_1 3 0.048500 Anserini"});
+
+    SearchCollection.Args argsBM25prf = createDefaultSearchArgs().bm25();
+    argsBM25prf.bm25prf = true;
+    testQueries.put("bm25.bm25prf", argsBM25prf);
+    referenceRunOutput.put("bm25.bm25prf", new String[]{
+        "1 Q0 DOC222 1 1.942500 Anserini",
+        "1 Q0 TREC_DOC_1 2 1.572300 Anserini",
+        "1 Q0 WSJ_1 3 1.200600 Anserini"});
+
+    testQueries.put("bm25Accurate", createDefaultSearchArgs().bm25Accurate());
+    referenceRunOutput.put("bm25Accurate", new String[]{
         "1 Q0 DOC222 1 0.343200 Anserini",
         "1 Q0 TREC_DOC_1 2 0.333400 Anserini",
         "1 Q0 WSJ_1 3 0.068700 Anserini"});

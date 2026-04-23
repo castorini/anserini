@@ -20,8 +20,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.anserini.collection.FileSegment;
 import io.anserini.collection.JsonCollection;
+import io.anserini.search.ScoredDoc;
 import io.anserini.search.SimpleSearcher;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.lucene.tests.util.LuceneTestCase;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.nio.file.Path;
@@ -30,6 +34,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SimpleIndexerTest extends LuceneTestCase {
+  @BeforeClass
+  public static void setupClass() {
+    Configurator.setLevel(SimpleIndexer.class.getName(), Level.ERROR);
+  }
 
   @Test
   public void testJsonDoc() throws Exception {
@@ -44,6 +52,9 @@ public class SimpleIndexerTest extends LuceneTestCase {
                     .put("id", "0")
                     .put("contents", "Document 0"));
 
+    assertNotNull(doc1);
+    assertNotNull(doc2);
+    assertNotNull(doc3);
     assertEquals(doc1.raw(), doc2.raw());
     assertEquals(doc2.raw(), doc3.raw());
   }
@@ -69,7 +80,7 @@ public class SimpleIndexerTest extends LuceneTestCase {
     assertEquals(2, cnt);
 
     SimpleSearcher searcher = new SimpleSearcher(tempDir.toString());
-    SimpleSearcher.Result[] hits = searcher.search("1", 10);
+    ScoredDoc[] hits = searcher.search("1", 10);
     assertEquals(1, hits.length);
     assertEquals("doc1", hits[0].docid);
     assertEquals(0.3648, hits[0].score, 1e-4);
@@ -98,7 +109,7 @@ public class SimpleIndexerTest extends LuceneTestCase {
     assertEquals(2, cnt);
 
     SimpleSearcher searcher = new SimpleSearcher(tempDir.toString());
-    SimpleSearcher.Result[] hits = searcher.search("1", 10);
+    ScoredDoc[] hits = searcher.search("1", 10);
     assertEquals(1, hits.length);
     assertEquals("doc1", hits[0].docid);
     assertEquals(0.3648, hits[0].score, 1e-4);
@@ -129,7 +140,7 @@ public class SimpleIndexerTest extends LuceneTestCase {
     assertEquals(2, cnt);
 
     SimpleSearcher searcher = new SimpleSearcher(tempDir.toString());
-    SimpleSearcher.Result[] hits = searcher.search("1", 10);
+    ScoredDoc[] hits = searcher.search("1", 10);
     assertEquals(1, hits.length);
     assertEquals("doc1", hits[0].docid);
     assertEquals(0.3648, hits[0].score, 1e-4);
@@ -166,7 +177,7 @@ public class SimpleIndexerTest extends LuceneTestCase {
     SimpleSearcher searcher = new SimpleSearcher(tempDir.toString());
     // Set language to sw so that same Analyzer is used for indexing & searching
     searcher.set_language("sw");
-    SimpleSearcher.Result[] hits = searcher.search("1.", 10);
+    ScoredDoc[] hits = searcher.search("1.", 10);
 
     assertEquals(1, hits.length);
     assertEquals("doc1", hits[0].docid);
@@ -196,7 +207,7 @@ public class SimpleIndexerTest extends LuceneTestCase {
     assertEquals(2, cnt);
 
     SimpleSearcher searcher = new SimpleSearcher(tempDir.toString());
-    SimpleSearcher.Result[] hits = searcher.search("1", 10);
+    ScoredDoc[] hits = searcher.search("1", 10);
     assertEquals(1, hits.length);
     assertEquals("doc1", hits[0].docid);
     assertEquals(0.3648, hits[0].score, 1e-4);
@@ -225,7 +236,7 @@ public class SimpleIndexerTest extends LuceneTestCase {
     assertEquals(2, cnt);
 
     SimpleSearcher searcher = new SimpleSearcher(tempDir.toString());
-    SimpleSearcher.Result[] hits = searcher.search("1", 10);
+    ScoredDoc[] hits = searcher.search("1", 10);
     assertEquals(1, hits.length);
     assertEquals("doc1", hits[0].docid);
     assertEquals(0.3648, hits[0].score, 1e-4);
@@ -255,7 +266,7 @@ public class SimpleIndexerTest extends LuceneTestCase {
     assertEquals(2, cnt);
 
     SimpleSearcher searcher = new SimpleSearcher(tempDir.toString());
-    SimpleSearcher.Result[] hits = searcher.search("1", 10);
+    ScoredDoc[] hits = searcher.search("1", 10);
     assertEquals(1, hits.length);
     assertEquals("doc1", hits[0].docid);
     assertEquals(0.3648, hits[0].score, 1e-4);

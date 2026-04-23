@@ -86,14 +86,14 @@ Run with **per-passage** configuration, BM25 default parameters:
 ```bash
 mkdir runs/bm25pbase/
 
-target/appassembler/bin/SearchCollection -topicreader TsvString -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
+target/appassembler/bin/SearchCollection -topicReader TsvString -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
   -index ~/.cache/pyserini/indexes/index-msmarco-doc-per-passage-20201204-f50dcc.797367406a7542b649cefa6b41cf4c33/ \
   -output runs/bm25pbase/dev.trec.txt \
   -bm25 -bm25.k1 0.9 -bm25.b 0.4 -hits 1000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
 python tools/scripts/msmarco/convert_trec_to_msmarco_run.py --input runs/bm25pbase/dev.trec.txt --output runs/bm25pbase/dev.txt
 
-target/appassembler/bin/SearchCollection -topicreader TsvString -topics tools/topics-and-qrels/topics.msmarco-doc.test.txt \
+target/appassembler/bin/SearchCollection -topicReader TsvString -topics tools/topics-and-qrels/topics.msmarco-doc.test.txt \
   -index ~/.cache/pyserini/indexes/index-msmarco-doc-per-passage-20201204-f50dcc.797367406a7542b649cefa6b41cf4c33/ \
   -output runs/bm25pbase/eval.trec.txt \
   -bm25 -bm25.k1 0.9 -bm25.b 0.4 -hits 1000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
@@ -118,14 +118,14 @@ Run with **per-passage** configuration, BM25 tuned parameters, optimized for rec
 ```bash
 mkdir runs/bm25ptuned/
 
-target/appassembler/bin/SearchCollection -topicreader TsvString -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
+target/appassembler/bin/SearchCollection -topicReader TsvString -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
   -index ~/.cache/pyserini/indexes/index-msmarco-doc-per-passage-20201204-f50dcc.797367406a7542b649cefa6b41cf4c33/ \
   -output runs/bm25ptuned/dev.trec.txt \
   -bm25 -bm25.k1 2.16 -bm25.b 0.61 -hits 1000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
 python tools/scripts/msmarco/convert_trec_to_msmarco_run.py --input runs/bm25ptuned/dev.trec.txt --output runs/bm25ptuned/dev.txt
 
-target/appassembler/bin/SearchCollection -topicreader TsvString -topics tools/topics-and-qrels/topics.msmarco-doc.test.txt \
+target/appassembler/bin/SearchCollection -topicReader TsvString -topics tools/topics-and-qrels/topics.msmarco-doc.test.txt \
   -index ~/.cache/pyserini/indexes/index-msmarco-doc-per-passage-20201204-f50dcc.797367406a7542b649cefa6b41cf4c33/ \
   -output runs/bm25ptuned/eval.trec.txt \
   -bm25 -bm25.k1 2.16 -bm25.b 0.61 -hits 1000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
@@ -193,14 +193,14 @@ Anserini's BM25 + doc2query-T5 expansion (per passage), parameters tuned for rec
 ```bash
 mkdir runs/doc2query-t5-per-passage/
 
-target/appassembler/bin/SearchCollection -topicreader TsvString -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
+target/appassembler/bin/SearchCollection -topicReader TsvString -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
   -index ~/.cache/pyserini/indexes/index-msmarco-doc-expanded-per-passage-20201126-1b4d0a.54ea30c64515edf3c3741291b785be53 \
   -output runs/doc2query-t5-per-passage/dev.trec.txt \
   -bm25 -bm25.k1 2.56 -bm25.b 0.59 -hits 1000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &
 
 python tools/scripts/msmarco/convert_trec_to_msmarco_run.py --input runs/doc2query-t5-per-passage/dev.trec.txt --output runs/doc2query-t5-per-passage/dev.txt
 
-target/appassembler/bin/SearchCollection -topicreader TsvString -topics tools/topics-and-qrels/topics.msmarco-doc.test.txt \
+target/appassembler/bin/SearchCollection -topicReader TsvString -topics tools/topics-and-qrels/topics.msmarco-doc.test.txt \
   -index ~/.cache/pyserini/indexes/index-msmarco-doc-expanded-per-passage-20201126-1b4d0a.54ea30c64515edf3c3741291b785be53 \
   -output runs/doc2query-t5-per-passage/eval.trec.txt \
   -bm25 -bm25.k1 2.56 -bm25.b 0.59 -hits 1000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 100 &

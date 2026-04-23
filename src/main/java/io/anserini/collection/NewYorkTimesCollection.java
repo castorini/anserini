@@ -19,7 +19,6 @@ package io.anserini.collection;
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
-import org.apache.commons.io.input.ReaderInputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.NamedNodeMap;
@@ -40,6 +39,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.text.DateFormat;
@@ -2111,9 +2112,9 @@ public class NewYorkTimesCollection extends DocumentCollection<NewYorkTimesColle
       String urlString = getAttributeValue(node, EX_REF_ATTRIBUTE);
       if (urlString != null) {
         try {
-          URL url = new URL(urlString);
+          URL url = new URI(urlString).toURL();
           ldcDocument.setUrl(url);
-        } catch (MalformedURLException e) {
+        } catch (MalformedURLException | URISyntaxException e) {
           //e.printStackTrace();
           LOG.error("Error parsing url from string " + urlString
               + " in file " + ldcDocument.getSourceFile() + ".");
@@ -2229,7 +2230,7 @@ public class NewYorkTimesCollection extends DocumentCollection<NewYorkTimesColle
         if (name.equals(DSK_ATTRIBUTE)) {
           ldcDocument.setNewsDesk(content);
         } else if (name.equals(ALTERNATE_URL_ATTRIBUTE)) {
-          ldcDocument.setAlternateURL((new URL(content)));
+          ldcDocument.setAlternateURL((new URI(content).toURL()));
         } else if (name.equals(ONLINE_SECTIONS_ATTRIBUTE)) {
           ldcDocument.setOnlineSection(content);
         } else if (name.equals(PRINT_PAGE_NUMBER_ATTRIBUTE)) {
@@ -2260,7 +2261,7 @@ public class NewYorkTimesCollection extends DocumentCollection<NewYorkTimesColle
           ldcDocument.setDayOfWeek(content);
         }
 
-      } catch (MalformedURLException e) {
+      } catch (MalformedURLException | URISyntaxException e) {
         //e.printStackTrace();
         LOG.error("Error parsing url from string " + content
             + " in file " + ldcDocument.getSourceFile() + ".");

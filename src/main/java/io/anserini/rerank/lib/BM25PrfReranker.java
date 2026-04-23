@@ -17,10 +17,11 @@
 package io.anserini.rerank.lib;
 
 import io.anserini.analysis.AnalyzerUtils;
+import io.anserini.collection.DocumentCollection;
 import io.anserini.index.Constants;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
-import io.anserini.rerank.ScoredDocuments;
+import io.anserini.search.ScoredDocs;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
@@ -64,12 +65,12 @@ class BM25PrfSimilarity extends BM25Similarity {
   }
 }
 
-public class BM25PrfReranker implements Reranker {
+public class BM25PrfReranker<T> implements Reranker<T> {
   private static final Logger LOG = LogManager.getLogger(BM25PrfReranker.class);
 
   private final int fbDocs;
   private final Analyzer analyzer;
-  private final Class parser;
+  private final Class<? extends DocumentCollection<?>> parser;
   private final String field;
   private final boolean outputQuery;
   private final int fbTerms;
@@ -77,7 +78,7 @@ public class BM25PrfReranker implements Reranker {
   private final float b;
   private final float newTermWeight;
 
-  public BM25PrfReranker(Analyzer analyzer, Class parser, String field, int fbTerms, int fbDocs, float k1, float b, float newTermWeight, boolean outputQuery) {
+  public BM25PrfReranker(Analyzer analyzer, Class<? extends DocumentCollection<?>> parser, String field, int fbTerms, int fbDocs, float k1, float b, float newTermWeight, boolean outputQuery) {
     this.analyzer = analyzer;
     this.parser = parser;
     this.outputQuery = outputQuery;
@@ -90,7 +91,7 @@ public class BM25PrfReranker implements Reranker {
   }
 
   @Override
-  public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
+  public ScoredDocs rerank(ScoredDocs docs, RerankerContext<T> context) {
     IndexSearcher existingSearcher = context.getIndexSearcher();
     IndexReader reader = existingSearcher.getIndexReader();
 
@@ -101,7 +102,7 @@ public class BM25PrfReranker implements Reranker {
     searcher.setSimilarity(new BM25PrfSimilarity(k1, b));
 
     boolean useRf = (context.getSearchArgs().rf_qrels != null);
-    PrfFeatures fv = expandQuery(context.getQueryTokens(), docs, reader, useRf);
+    PrfFeatures fv = expandQuery((List<String>) context.getQueryTokens(), docs, reader, useRf);
     Query newQuery = fv.toQuery();
 
     if (this.outputQuery) {
@@ -115,9 +116,7 @@ public class BM25PrfReranker implements Reranker {
 
     try {
       // Figure out how to break the scoring ties.
-      if (context.getSearchArgs().arbitraryScoreTieBreak) {
-        rs = searcher.search(newQuery, context.getSearchArgs().hits);
-      } else if (context.getSearchArgs().searchtweets) {
+      if (context.getSearchArgs().searchTweets) {
         rs = searcher.search(newQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_TWEETID, true);
       } else {
         rs = searcher.search(newQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID, true);
@@ -127,10 +126,10 @@ public class BM25PrfReranker implements Reranker {
       return docs;
     }
 
-    return ScoredDocuments.fromTopDocs(rs, searcher);
+    return ScoredDocs.fromTopDocs(rs, searcher);
   }
 
-  private PrfFeatures expandQuery(List<String> originalTerms, ScoredDocuments docs, IndexReader reader, boolean useRf) {
+  private PrfFeatures expandQuery(List<String> originalTerms, ScoredDocs docs, IndexReader reader, boolean useRf) {
     PrfFeatures newFeatures = new PrfFeatures();
 
     Set<String> vocab = new HashSet<>();
@@ -138,9 +137,9 @@ public class BM25PrfReranker implements Reranker {
     Map<Integer, Set<String>> docToTermsMap = new HashMap<>();
     int numFbDocs;
     if (useRf) {
-      numFbDocs = docs.documents.length;
+      numFbDocs = docs.lucene_documents.length;
     } else {
-      numFbDocs = docs.documents.length < fbDocs ? docs.documents.length : fbDocs;
+      numFbDocs = docs.lucene_documents.length < fbDocs ? docs.lucene_documents.length : fbDocs;
     }
     int numDocs = reader.numDocs();
 
@@ -149,18 +148,18 @@ public class BM25PrfReranker implements Reranker {
         if (useRf && docs.scores[i] <= 0) {
           continue;
         }
-        Terms terms = reader.termVectors().get(docs.ids[i], field);
+        Terms terms = reader.termVectors().get(docs.lucene_docids[i], field);
         if (terms != null) {
           Set<String> termsStr = getTermsStr(terms);
-          docToTermsMap.put(docs.ids[i], termsStr);
+          docToTermsMap.put(docs.lucene_docids[i], termsStr);
           vocab.addAll(termsStr);
         } else {
           if (parser == null) {
             throw new NullPointerException("Please provide an index with stored doc vectors or input -collection param");
           }
           Map<String, Long> termFreqMap = AnalyzerUtils.computeDocumentVector(analyzer, parser,
-              reader.storedFields().document(docs.ids[i]).getField(Constants.RAW).stringValue());
-          docToTermsMap.put(docs.ids[i], termFreqMap.keySet());
+              reader.storedFields().document(docs.lucene_docids[i]).getField(Constants.RAW).stringValue());
+          docToTermsMap.put(docs.lucene_docids[i], termFreqMap.keySet());
           vocab.addAll(termFreqMap.keySet());
         }
       } catch (IOException e) {

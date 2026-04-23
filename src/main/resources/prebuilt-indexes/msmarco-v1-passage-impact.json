@@ -1,0 +1,36 @@
+[
+    {
+        "name": "msmarco-v1-passage.splade-pp-ed",
+        "type": "impact",
+        "corpus": "MS MARCO V1 Passage",
+        "corpus_index": "msmarco-v1-passage",
+        "description": "Anserini Lucene impact index of the MS MARCO V1 passage corpus encoded by SPLADE++ CoCondenser-EnsembleDistil",
+        "filename": "lucene-inverted.msmarco-v1-passage.splade-pp-ed.20230524.a59610.tar.gz",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/passage/original/lucene-inverted/splade-pp/lucene-inverted.msmarco-v1-passage.splade-pp.20230524.a59610.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/passage/original/lucene-inverted/splade-pp/lucene-inverted.msmarco-v1-passage.splade-pp-ed.20230524.a59610.tar.gz"
+        ],
+        "md5": "2c008fc36131e27966a72292932358e6",
+        "compressed_size": 2102230097,
+        "documents": 8841823,
+        "total_terms": 52376261130,
+        "unique_terms": 28679
+    },
+    {
+        "name": "msmarco-v1-passage.splade-v3",
+        "type": "impact",
+        "corpus": "MS MARCO V1 Passage",
+        "corpus_index": "msmarco-v1-passage",
+        "description": "Anserini Lucene impact index of the MS MARCO passage corpus encoded by SPLADE-v3",
+        "filename": "lucene-inverted.msmarco-v1-passage.splade-v3.20250329.4f4c68.tar.gz",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/passage/original/lucene-inverted/splade-v3/lucene-inverted.msmarco-v1-passage.splade-v3.20250329.4f4c68.README.md",
+        "urls": [
+            "https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/passage/original/lucene-inverted/splade-v3/lucene-inverted.msmarco-v1-passage.splade-v3.20250329.4f4c68.tar.gz"
+        ],
+        "md5": "52f4b59d236547f570555715ed314311",
+        "compressed_size": 2813676432,
+        "documents": 8841823,
+        "total_terms": 46922883529,
+        "unique_terms": 27952
+    }
+]

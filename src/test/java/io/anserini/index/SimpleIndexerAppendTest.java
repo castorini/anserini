@@ -16,19 +16,29 @@
 
 package io.anserini.index;
 
-import io.anserini.collection.FileSegment;
-import io.anserini.collection.JsonCollection;
-import io.anserini.search.SimpleSearcher;
-import org.apache.lucene.tests.util.LuceneTestCase;
-import org.junit.Test;
-
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class SimpleIndexerAppendTest extends LuceneTestCase {
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
-  private class JsonCollectionWrapper {
+import io.anserini.SuppresedLoggingLuceneTestCase;
+import io.anserini.collection.FileSegment;
+import io.anserini.collection.JsonCollection;
+import io.anserini.search.ScoredDoc;
+import io.anserini.search.SimpleSearcher;
+
+public class SimpleIndexerAppendTest extends SuppresedLoggingLuceneTestCase {
+  @BeforeClass
+  public static void setupClass() {
+    suppressJvmLogging();
+
+    Configurator.setLevel(SimpleIndexer.class.getName(), Level.ERROR);
+  }
+
+  private static class JsonCollectionWrapper {
     JsonCollection collection;
 
     public JsonCollectionWrapper(String collectionPath) {
@@ -56,7 +66,7 @@ public class SimpleIndexerAppendTest extends LuceneTestCase {
     int cnt;
 
     SimpleSearcher searcher;
-    SimpleSearcher.Result[] hits;
+    ScoredDoc[] hits;
 
     indexer = new SimpleIndexer(tempDir.toString());
     cnt = new JsonCollectionWrapper("src/test/resources/sample_docs/json/collection3").indexWith(indexer);
@@ -115,7 +125,7 @@ public class SimpleIndexerAppendTest extends LuceneTestCase {
     int cnt;
 
     SimpleSearcher searcher;
-    SimpleSearcher.Result[] hits;
+    ScoredDoc[] hits;
 
     indexer = new SimpleIndexer(tempDir.toString());
     cnt = new JsonCollectionWrapper("src/test/resources/sample_docs/json/collection3").indexWith(indexer);
@@ -154,7 +164,7 @@ public class SimpleIndexerAppendTest extends LuceneTestCase {
     int cnt;
 
     SimpleSearcher searcher;
-    SimpleSearcher.Result[] hits;
+    ScoredDoc[] hits;
 
     // Make sure appending to a non-existent is okay.
     indexer = new SimpleIndexer(tempDir.toString(), true);
@@ -179,7 +189,7 @@ public class SimpleIndexerAppendTest extends LuceneTestCase {
     int cnt;
 
     SimpleSearcher searcher;
-    SimpleSearcher.Result[] hits;
+    ScoredDoc[] hits;
 
     indexer = new SimpleIndexer(new String[] {
         "-input", "",

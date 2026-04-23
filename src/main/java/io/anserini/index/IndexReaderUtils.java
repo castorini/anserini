@@ -16,10 +16,19 @@
 
 package io.anserini.index;
 
-import io.anserini.analysis.AnalyzerUtils;
-import io.anserini.search.SearchCollection;
-import io.anserini.search.query.BagOfWordsQueryGenerator;
-import io.anserini.search.query.PhraseQueryGenerator;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.stream.Stream;
+
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
@@ -51,14 +60,11 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import io.anserini.analysis.AnalyzerUtils;
+import io.anserini.search.SearchCollection;
+import io.anserini.search.query.BagOfWordsQueryGenerator;
+import io.anserini.search.query.PhraseQueryGenerator;
+import io.anserini.util.PrebuiltIndexHandler;
 
 /**
  * Class containing a bunch of static helper methods for accessing a Lucene inverted index.
@@ -168,7 +174,7 @@ public class IndexReaderUtils {
   }
 
   /**
-   * Creates an {@link IndexReader} given a path.
+   * Creates an {@link IndexReader} given a String path.
    *
    * @param path index path
    * @return index reader
@@ -178,7 +184,7 @@ public class IndexReaderUtils {
     Directory dir = FSDirectory.open(Paths.get(path));
     return DirectoryReader.open(dir);
   }
-
+  
   /**
    * Returns count information on a term or a phrase.
    *
@@ -777,22 +783,57 @@ public class IndexReaderUtils {
    * Returns index statistics.
    *
    * @param reader index reader
+   * @param field Lucene field
    * @return map from name of statistic to its value
    */
-  public static Map<String, Object> getIndexStats(IndexReader reader) {
+  public static Map<String, Object> getIndexStats(IndexReader reader, String field) {
     Map<String, Object> indexStats = new HashMap<>();
     try {
-      Terms terms = MultiTerms.getTerms(reader, Constants.CONTENTS);
 
       indexStats.put("documents", reader.numDocs());
-      indexStats.put("non_empty_documents", reader.getDocCount(Constants.CONTENTS));
-      indexStats.put("unique_terms", terms.size());
-      indexStats.put("total_terms", reader.getSumTotalTermFreq(Constants.CONTENTS));
+      indexStats.put("non_empty_documents", reader.getDocCount(field));
+      indexStats.put("total_terms", reader.getSumTotalTermFreq(field));
+
+      Terms terms = MultiTerms.getTerms(reader, field);
+      if (terms != null) {
+        indexStats.put("unique_terms", terms.size());
+      }
     } catch (IOException e) {
       // Eat any exceptions and just return null.
       return null;
     }
     return indexStats;
+  }
+
+  public static Map<String, Object> getIndexStats(IndexReader reader) {
+    return getIndexStats(reader, Constants.CONTENTS);
+  }
+
+  /**
+   * Returns a formatted summary of index statistics.
+   *
+   * @param index index path or prebuilt index identifier
+   * @param field Lucene field
+   * @return formatted index statistics summary
+   * @throws IOException if any errors are encountered
+   */
+  public static String getIndexStatsSummary(String index, String field) throws IOException {
+    Path indexPath = getIndex(index);
+    try (IndexReader reader = getReader(indexPath.toString())) {
+      Map<String, Object> results = getIndexStats(reader, field);
+      long totalSize = findDirectorySize(indexPath);
+
+      StringBuilder summary = new StringBuilder(256);
+      summary.append("Index statistics\n");
+      summary.append("----------------\n");
+      summary.append("documents:             ").append(results.get("documents")).append('\n');
+      summary.append("documents (non-empty): ").append(results.get("non_empty_documents")).append('\n');
+      summary.append("unique terms:          ").append(results.get("unique_terms")).append('\n');
+      summary.append("total terms:           ").append(results.get("total_terms")).append('\n');
+      summary.append("index_path:            ").append(indexPath.toAbsolutePath()).append('\n');
+      summary.append("total_size:            ").append(formatSize(totalSize));
+      return summary.toString();
+    }
   }
 
   /**
@@ -823,17 +864,82 @@ public class IndexReaderUtils {
 
     FieldInfos fieldInfos = FieldInfos.getMergedFieldInfos(reader);
     for (FieldInfo fi : fieldInfos) {
-      description.put(fi.name, "(" + "indexOption: " + fi.getIndexOptions() + ", hasVectors: " + fi.hasVectors() + ")");
+      description.put(fi.name, "(" + "indexOption: " + fi.getIndexOptions() + ", hasVectors: " + fi.hasTermVectors() + ")");
     }
 
     return description;
   }
 
-  // This is needed by src/main/python/run_regression.py
+  public static Path getIndex(String index) throws IOException {
+    PrebuiltIndexHandler handler = PrebuiltIndexHandler.get(index);
+
+    // Check for the ambiguous case.
+    if (handler != null && Files.exists(Paths.get(index))) {
+      throw new IllegalArgumentException(String.format(
+          "Ambiguous index reference \"%s\": both a prebuilt index and a local path exist with the same name. " +
+          "Please disambiguate by specifying the full path.", index));
+    }
+
+    // Try fetching prebuilt index: If there are any errors, an IOException will be thrown, to be handled by caller.
+    if (handler != null) {
+      handler.fetch();
+      return handler.getIndexPath();
+    }
+
+    // Try local path
+    Path indexPath = Paths.get(index);
+    if (Files.exists(indexPath)) {
+      return indexPath;
+    }
+
+    throw new IllegalArgumentException(String.format("\"%s\" does not appear to be a valid index.", index));
+  }
+
+  /**
+   * Finds the total size of a directory recursively.
+   *
+   * @param path path to the directory
+   * @return total size of the directory in bytes
+   * @throws IOException if an error occurs
+   */
+  public static long findDirectorySize(Path path) throws IOException {
+    try (Stream<Path> walk = Files.walk(path)) {
+      return walk.filter(Files::isRegularFile)
+          .mapToLong(filePath -> {
+            try {
+              return Files.size(filePath);
+            } catch (IOException e) {
+              return 0L;
+            }
+          }).sum();
+    }
+  }
+  
+  /**
+   * Formats the size in bytes into a easily readable string with units (B, KB, MB, GB, TB).
+   *
+   * @param bytes size in bytes
+   * @return formatted size string
+   */
+  public static String formatSize(long bytes) {
+    String[] units = {"B", "KB", "MB", "GB", "TB"};
+    int unitIndex = 0;
+    double size = bytes;
+    while (size >= 1024 && unitIndex < units.length - 1) {
+      size = size / 1024;
+      unitIndex = unitIndex + 1;
+    }
+    return String.format(Locale.US, "%.1f %s", size, units[unitIndex]);
+  }
+
+    // This is needed by src/main/python/run_regression.py
 
   public static final class Args {
     @Option(name = "-index", metaVar = "[Path]", required = true, usage = "index path")
     String index;
+
+    @Option(name = "-field", metaVar = "[field]", usage = "field")
+    String field = Constants.CONTENTS;
 
     @Option(name = "-stats", usage = "print index statistics")
     boolean stats;
@@ -850,20 +956,8 @@ public class IndexReaderUtils {
       return;
     }
 
-    IndexReader reader = IndexReaderUtils.getReader(args.index);
-    Map<String, Object> results = IndexReaderUtils.getIndexStats(reader);
-
     if (args.stats) {
-      Terms terms = MultiTerms.getTerms(reader, Constants.CONTENTS);
-
-      System.out.println("Index statistics");
-      System.out.println("----------------");
-      System.out.println("documents:             " + results.get("documents"));
-      System.out.println("documents (non-empty): " + results.get("non_empty_documents"));
-      System.out.println("unique terms:          " + results.get("unique_terms"));
-      System.out.println("total terms:           " + results.get("total_terms"));
+      System.out.println(getIndexStatsSummary(args.index, args.field));
     }
-
-    reader.close();
   }
 }

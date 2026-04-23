@@ -1,7 +1,237 @@
 # Anserini Regressions Log
 
-The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
+The following change log details commits to regression tests that alter effectiveness and the addition (or removal) of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
+
+### March 25, 2026
+
++ commit [`aaba10`](https://github.com/castorini/anserini/commit/aaba1079c92e629eeff300d398cb3ce50d1adde2)
+
+Added `rag25-doc-segmented-test-nist` and `rag25-doc-segmented-test-umbrela2`.
+
+### September 5, 2025
+
++ commit [`e394df`](https://github.com/castorini/anserini/commit/e394df0639cd693b278a36ef44cd3ccf9b3e01b3)
+
+Added query-side BM25 regressions for BRIGHT.
+
+### August 21, 2025
+
++ commit [`f2f898`](https://github.com/castorini/anserini/commit/f2f89834aceb2ea2fbd6bbfcf440953e29731ddf)
+
+Added BGE (cached query and ONNX) regressions for BRIGHT.
+
+### August 19, 2025
+
++ commit [`0a151c`](https://github.com/castorini/anserini/commit/0a151c703767146e5ef2718f8fd8711d781422ba)
+
+Added SPLADE-v3 cached query regressions for BRIGHT.
+
+### August 16, 2025
+
++ commit [`c3bd64`](https://github.com/castorini/anserini/commit/c3bd645b2051e317185179f8750ce653b9529d1f)
+
+Added SPLADE-v3 ONNX regressions for BRIGHT.
+
+### July 14, 2025
+
++ commit [`d6a8b3`](https://github.com/castorini/anserini/commit/d6a8b36a6bc9a62b70d44412f6ebb2ca0bc709cd)
++ commit [`3a3518`](https://github.com/castorini/anserini/commit/3a3518a159bab3207478422efad5e099656882c8)
+
+Added BM25 regressions for BRIGHT.
+
+### July 9, 2025
+
++ commit [`35ab54`](https://github.com/castorini/anserini/commit/35ab54df4618f167c62d2252ef97b7a3510a4bf8)
+
+Added SPLADE-v3 regressions for MS MARCO v2.1.
+
+### July 5, 2025
+
++ commit [`c42dfa`](https://github.com/castorini/anserini/commit/c42dfa41ab600e32b1a39f09d4b4d087ef27954b)
+
+Added RAG 24 official NIST qrels + associated regressions.
+
+### June 23, 2025
+
++ commit [`1758a3`](https://github.com/castorini/anserini/commit/1758a3610792601679950c55d501d7242e8bd9b9)
++ commit [`a53fc8`](https://github.com/castorini/anserini/commit/a53fc86f7101039d599bcf21fee0d73a8ec668f5)
++ commit [`581324`](https://github.com/castorini/anserini/commit/581324022cd4349d946f5595d2f0658a42c2f6e4)
++ commit [`587ab7`](https://github.com/castorini/anserini/commit/587ab7dce97e3f6d63fbb3151880c2e65c392ad6)
+
+Added SPLADE-v3 regressions for BEIR.
+
+### May 31, 2025
+
++ commit [`e59e25`](https://github.com/castorini/anserini/commit/e59e25a1853f901a513baf7e3ab41ec15fd6640e)
+
+Added ONNX regressions for SPLADE-v3 on MS MARCO V1 Passage.
+
+### April 6, 2025
+
++ commit [`1af285`](https://github.com/castorini/anserini/commit/1af285b610364acd0fb7a692e66b4cf432ddf7df) (2025/04/06)
+
+Detailed in [castorini/pyserini#2270](https://github.com/castorini/anserini/pull/2770).
+Removed the following regressions:
+
++ `msmarco-v2-doc-segmented.unicoil-0shot.cached`
++ `msmarco-v2-doc-segmented.unicoil-noexp-0shot.cached`
++ `dl21-doc-segmented.unicoil-0shot.cached`
++ `dl21-doc-segmented.unicoil-noexp-0shot.cached`
+
+Back from a while ago, we had the following (and related regressions for DL):
+
+```
+msmarco-v2-doc-segmented.unicoil-0shot.cached.yaml
+msmarco-v2-doc-segmented.unicoil-0shot-v2.cached.yaml
+msmarco-v2-doc-segmented.unicoil-noexp-0shot.cached.yaml
+msmarco-v2-doc-segmented.unicoil-noexp-0shot-v2.cached.yaml
+```
+
+This was due to a bug:
+For v1, we only encoded the segment, which we later fixed with v2, encoding both title and segment.
+Until now, we've kept regressions for both v1 and v2.
+Removing the v1 variants, since there's no need to keep around anymore.
+
+### March 5, 2025
+
++ commit [`dcfc4f`](https://github.com/castorini/anserini/commit/dcfc4fc79b78ac2d00c67bf4ed802cbf9aa62ce5) (2025/03/05)
+
+Added ArcticEmbedL regressions for MS MARCO V2.1 RAG 24.
+
+### February 21, 2025
+
++ commit [`e37007`](https://github.com/castorini/anserini/commit/e370075cd57c92c987ebf368ef1b5c549f06feb8) (2025/02/21)
+
+Removed all dense vector regressions using corpora in jsonl format, which has been deprecated.
+This marks the end of a long journey that began in August 2022 when [Xueguang Ma](https://github.com/MXueguang) introduced the jsonl dense vector format to support HNSW indexing directly in Anserini (with [castorini/anserini#1955](https://github.com/castorini/anserini/pull/1955)).
+
+### February 14, 2025
+
++ commit [`d1585e`](https://github.com/castorini/anserini/commit/d1585ed640a11d8d9a6b1af499195525d78a03ae) (2025/02/14)
+
+Installed LexicalLSH and FakeWords Parquet regressions for MS MARCO Passage V1.
+
+### December 7, 2024
+
++ commit [`f9f73c`](https://github.com/castorini/anserini/commit/f9f73c280ed51c9c816418be23f098ab17cf64ee) (2024/12/07)
+
+Installed MS MARCO Passage V1 Parquet regressions.
+
+### November 22, 2024
+
++ commit [`c619dc`](https://github.com/castorini/anserini/commit/c619dc8d9ab28298251964053a927906e9957f51) (2024/12/22)
+
+Added regression for TREC 2024 RAG baselines, with bug fix here at [`c619dc`](https://github.com/castorini/anserini/commit/a90973cf3daac38e5d4a749f26c712d11f1c6b3c).
+
+### June 13, 2024
+
++ commit [`6cf601`](https://github.com/castorini/anserini/commit/6cf60132fa9ec49eac0861f3af8ed6e8d72e6471) (2024/06/13)
+
+Added flat regressions for MS MARCO v1 passage corpus: BGE, Cohere v3, cosDPR, OpenAI Ada2.
+Total of 36 regressions: 12 each for dev, DL19, and DL20.
+
+### June 3, 2024
+
++ commit [`6093e3`](https://github.com/castorini/anserini/commit/6093e301c753e2c6ce00ab37b8df1d7628ba3e1f) (2024/06/03)
++ commit [`215233`](https://github.com/castorini/anserini/commit/215233880bd29a94833b4269308c38bd4ac15bb8) (2024/05/30)
+
+Implemented brute-force search on dense vectors: `AnseriniLucene99FlatVectorFormat` and `AnseriniLucene99ScalarQuantizedVectorsFormat`.
+Added regressions for all BEIR datasets: {cached, ONNX} × {original, int8}.
+
+### April 26, 2024
+
++ commit [`e6b7ea`](https://github.com/castorini/anserini/commit/e6b7ea20a37d1d10636d0553db735e5b2d810735) (2024/04/26)
+
+Added regressions for MS MARCO V2.1 corpora: document + segmented document.
+
+### April 10, 2024
+
++ commit [`0a4dbd`](https://github.com/castorini/anserini/commit/0a4dbdfd082f9a477a4efb275b971fdd9a0a0fc2) (2024/04/10)
+
+Fixed OpenAI ada2 regressions for int8 variants.
+
+### March 27, 2024
+
+At release v0.25.0, completed full matrix of regressions for MS MARCO v2 passage/doc for currently available models.
+
+### February 19, 2024
+
++ commit [`43c9ec`](https://github.com/castorini/anserini/commit/43c9ecca53313ec2f84c8274d88f99ca3ea2e4bd) (2024/02/18)
++ commit [`66cadf`](https://github.com/castorini/anserini/commit/66cadfec1c34e41596566c741577880b9d143011) (2024/02/18)
++ commit [`61433f`](https://github.com/castorini/anserini/commit/61433f6639ca553f1c012c1aaf44cb8a7b5f0e1e) (2024/02/16)
+
+Added new regressions for CIRAL.
+
+### February 14, 2024
+
++ commit [`ce8c2a`](https://github.com/castorini/anserini/commit/ce8c2a901f1104cf0205ac7abdcf36776824c09c) (2024/02/14)
++ commit [`8d4a7f`](https://github.com/castorini/anserini/commit/8d4a7f1a5c85a653b9ec245041e94dc4a62f68ce) (2024/02/14)
++ commit [`9a5bb6`](https://github.com/castorini/anserini/commit/9a5bb6050833daecaa541f045db6b9d64171fd07) (2024/02/12)
++ commit [`57d262`](https://github.com/castorini/anserini/commit/57d2627e57d17121465bd535c8f654877142b9cc) (2024/02/11)
++ commit [`f86a65`](https://github.com/castorini/anserini/commit/f86a65f43eb15d88b7a003a1edf541d9d60c3056) (2024/02/09)
++ commit [`f2e2ac`](https://github.com/castorini/anserini/commit/f2e2ac35a5408d644ad402b75df602b7d929731d) (2024/01/25)
+
+New regressions:
+
++ SPLADE++ ED w/ ONNX for BEIR
++ BGE with original and quantized HNSW indexes for BEIR (only pre-encoded queries)
++ Cohere embed-english-v3 for MS MARCO passage dev (but not DL19 or DL20)
+
+### January 21, 2024
+
++ commit [`ca20dc`](https://github.com/castorini/anserini/commit/ca20dcda6ecf12930092f26416bad715baa861f2) (2024/01/21)
+
+Added BGE + ONNX regressions for MS MARCO v1 passage corpus.
+
+### January 19, 2024
+
++ commit [`edd47a`](https://github.com/castorini/anserini/commit/edd47ad3b8d833fcf834bb50e9735f35f5d9b79b) (2024/01/19)
+
+Removed `splade-distil-cocodenser-medium` regressions to reduce confusion.
+
+### January 13, 2024
+
++ commit [`883539`](https://github.com/castorini/anserini/commit/47876e8f7b5e65b11c19692d7c07a2e87a410533) (2024/01/13)
+
+Added HNSW regressions for the BGE-base-en-v1.5 model on the MS MARCO v1 passage corpus: dev, DL19, and DL20; both original and int8 quantized versions.
+
+### December 19, 2023
+
++ commit [`883539`](https://github.com/castorini/anserini/commit/883539b119e3c4f236f4fda3dd748a3b2d4ff1a1) (12/19/2023)
+
+Upgraded to Lucene 9.9.1, added the following HNSW regressions:
+
++ `msmarco-passage-cos-dpr-distil-hnsw-int8-onnx`
++ `msmarco-passage-cos-dpr-distil-hnsw-int8`
++ `msmarco-passage-openai-ada2-int8`
++ `dl19-passage-cos-dpr-distil-hnsw-int8-onnx`
++ `dl19-passage-cos-dpr-distil-hnsw-int8`
++ `dl19-passage-openai-ada2-int8`
++ `dl20-passage-cos-dpr-distil-hnsw-int8-onnx`
++ `dl20-passage-cos-dpr-distil-hnsw-int8`
++ `dl20-passage-openai-ada2-int8`
+
+Note, however, that we're still having issues with the `openai-ada2-int8` regressions; not fully working yet.
+
+### November 24, 2023
+
++ commit [`d88446`](https://github.com/castorini/anserini/commit/d88446c7e0ef344d2e185a7280a999a28ff70662) (11/24/2023)
+
+Added regressions for SPLADE++ CoCondenser-EnsembleDistil on BEIR (v1.0.0),
+
+### November 18, 2023
+
++ commit [`636918`](https://github.com/castorini/anserini/commit/6369184625c84dfa45b775ddedeb2bc31ceb84c7) (11/18/2023)
+
+Added the following:
+
++ `msmarco-passage-cos-dpr-distil-fw`
++ `dl19-passage-cos-dpr-distil-fw`
++ `dl20-passage-cos-dpr-distil-fw`
++ `msmarco-passage-cos-dpr-distil-lexlsh`
++ `dl19-passage-cos-dpr-distil-lexlsh`
++ `dl20-passage-cos-dpr-distil-lexlsh`
 
 ### November 9, 2023
 

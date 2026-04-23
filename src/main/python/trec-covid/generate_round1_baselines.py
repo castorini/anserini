@@ -62,29 +62,29 @@ def perform_runs():
     print('')
 
     abstract_index = indexes[0]
-    os.system(f'target/appassembler/bin/SearchCollection -index {abstract_index} ' +
-              f'-topicreader Covid -topics {base_topics} -topicfield query ' +
-              f'-removedups -bm25 ' +
+    os.system(f'bin/run.sh io.anserini.search.SearchCollection -index {abstract_index} ' +
+              f'-topicReader Covid -topics {base_topics} -topicField query ' +
+              f'-removeDuplicates -bm25 ' +
               f'-output runs/anserini.covid-r1.abstract.query.bm25.txt')
-    os.system(f'target/appassembler/bin/SearchCollection -index {abstract_index} ' +
-              f'-topicreader Covid -topics {base_topics} -topicfield question ' +
-              f'-removedups -bm25 ' +
+    os.system(f'bin/run.sh io.anserini.search.SearchCollection -index {abstract_index} ' +
+              f'-topicReader Covid -topics {base_topics} -topicField question ' +
+              f'-removeDuplicates -bm25 ' +
               f'-output runs/anserini.covid-r1.abstract.question.bm25.txt')
-    os.system(f'target/appassembler/bin/SearchCollection -index {abstract_index} ' +
-              f'-topicreader Covid -topics {base_topics} -topicfield query+question ' +
-              f'-removedups -bm25 ' +
+    os.system(f'bin/run.sh io.anserini.search.SearchCollection -index {abstract_index} ' +
+              f'-topicReader Covid -topics {base_topics} -topicField query+question ' +
+              f'-removeDuplicates -bm25 ' +
               f'-output runs/anserini.covid-r1.abstract.query+question.bm25.txt')
-    os.system(f'target/appassembler/bin/SearchCollection -index {abstract_index} ' +
-              f'-topicreader Covid -topics {base_topics} -topicfield query+question+narrative ' +
-              f'-removedups -bm25 ' +
+    os.system(f'bin/run.sh io.anserini.search.SearchCollection -index {abstract_index} ' +
+              f'-topicReader Covid -topics {base_topics} -topicField query+question+narrative ' +
+              f'-removeDuplicates -bm25 ' +
               f'-output runs/anserini.covid-r1.abstract.query+question+narrative.bm25.txt')
-    os.system(f'target/appassembler/bin/SearchCollection -index {abstract_index} ' +
-              f'-topicreader Covid -topics {udel_topics} -topicfield query ' +
-              f'-removedups -bm25 ' +
+    os.system(f'bin/run.sh io.anserini.search.SearchCollection -index {abstract_index} ' +
+              f'-topicReader Covid -topics {udel_topics} -topicField query ' +
+              f'-removeDuplicates -bm25 ' +
               f'-output runs/anserini.covid-r1.abstract.query-udel.bm25.txt')
-    os.system(f'target/appassembler/bin/SearchCollection -index {abstract_index} ' +
-              f'-topicreader Covid -topics {base_topics} -topicfield query -querygenerator Covid19QueryGenerator ' +
-              f'-removedups -bm25 ' +
+    os.system(f'bin/run.sh io.anserini.search.SearchCollection -index {abstract_index} ' +
+              f'-topicReader Covid -topics {base_topics} -topicField query -generator Covid19QueryGenerator ' +
+              f'-removeDuplicates -bm25 ' +
               f'-output runs/anserini.covid-r1.abstract.query-covid19.bm25.txt')
 
     print('')
@@ -92,29 +92,29 @@ def perform_runs():
     print('')
 
     full_text_index = indexes[1]
-    os.system(f'target/appassembler/bin/SearchCollection -index {full_text_index} ' +
-              f'-topicreader Covid -topics {base_topics} -topicfield query ' +
-              f'-removedups -bm25 ' +
+    os.system(f'bin/run.sh io.anserini.search.SearchCollection -index {full_text_index} ' +
+              f'-topicReader Covid -topics {base_topics} -topicField query ' +
+              f'-removeDuplicates -bm25 ' +
               f'-output runs/anserini.covid-r1.full-text.query.bm25.txt')
-    os.system(f'target/appassembler/bin/SearchCollection -index {full_text_index} ' +
-              f'-topicreader Covid -topics {base_topics} -topicfield question ' +
-              f'-removedups -bm25 ' +
+    os.system(f'bin/run.sh io.anserini.search.SearchCollection -index {full_text_index} ' +
+              f'-topicReader Covid -topics {base_topics} -topicField question ' +
+              f'-removeDuplicates -bm25 ' +
               f'-output runs/anserini.covid-r1.full-text.question.bm25.txt')
-    os.system(f'target/appassembler/bin/SearchCollection -index {full_text_index} ' +
-              f'-topicreader Covid -topics {base_topics} -topicfield query+question ' +
-              f'-removedups -bm25 ' +
+    os.system(f'bin/run.sh io.anserini.search.SearchCollection -index {full_text_index} ' +
+              f'-topicReader Covid -topics {base_topics} -topicField query+question ' +
+              f'-removeDuplicates -bm25 ' +
               f'-output runs/anserini.covid-r1.full-text.query+question.bm25.txt')
-    os.system(f'target/appassembler/bin/SearchCollection -index {full_text_index} ' +
-              f'-topicreader Covid -topics {base_topics} -topicfield query+question+narrative ' +
-              f'-removedups -bm25 ' +
+    os.system(f'bin/run.sh io.anserini.search.SearchCollection -index {full_text_index} ' +
+              f'-topicReader Covid -topics {base_topics} -topicField query+question+narrative ' +
+              f'-removeDuplicates -bm25 ' +
               f'-output runs/anserini.covid-r1.full-text.query+question+narrative.bm25.txt')
-    os.system(f'target/appassembler/bin/SearchCollection -index {full_text_index} ' +
-              f'-topicreader Covid -topics {udel_topics} -topicfield query ' +
-              f'-removedups -bm25 ' +
+    os.system(f'bin/run.sh io.anserini.search.SearchCollection -index {full_text_index} ' +
+              f'-topicReader Covid -topics {udel_topics} -topicField query ' +
+              f'-removeDuplicates -bm25 ' +
               f'-output runs/anserini.covid-r1.full-text.query-udel.bm25.txt')
-    os.system(f'target/appassembler/bin/SearchCollection -index {full_text_index} ' +
-              f'-topicreader Covid -topics {base_topics} -topicfield query -querygenerator Covid19QueryGenerator ' +
-              f'-removedups -bm25 ' +
+    os.system(f'bin/run.sh io.anserini.search.SearchCollection -index {full_text_index} ' +
+              f'-topicReader Covid -topics {base_topics} -topicField query -generator Covid19QueryGenerator ' +
+              f'-removeDuplicates -bm25 ' +
               f'-output runs/anserini.covid-r1.full-text.query-covid19.bm25.txt')
 
     print('')
@@ -122,29 +122,29 @@ def perform_runs():
     print('')
 
     paragraph_index = indexes[2]
-    os.system(f'target/appassembler/bin/SearchCollection -index {paragraph_index} ' +
-              f'-topicreader Covid -topics {base_topics} -topicfield query ' +
-              f'-removedups -bm25 -selectMaxPassage ' +
+    os.system(f'bin/run.sh io.anserini.search.SearchCollection -index {paragraph_index} ' +
+              f'-topicReader Covid -topics {base_topics} -topicField query ' +
+              f'-removeDuplicates -bm25 -selectMaxPassage ' +
               f'-output runs/anserini.covid-r1.paragraph.query.bm25.txt')
-    os.system(f'target/appassembler/bin/SearchCollection -index {paragraph_index} ' +
-              f'-topicreader Covid -topics {base_topics} -topicfield question ' +
-              f'-removedups -bm25 -selectMaxPassage ' +
+    os.system(f'bin/run.sh io.anserini.search.SearchCollection -index {paragraph_index} ' +
+              f'-topicReader Covid -topics {base_topics} -topicField question ' +
+              f'-removeDuplicates -bm25 -selectMaxPassage ' +
               f'-output runs/anserini.covid-r1.paragraph.question.bm25.txt')
-    os.system(f'target/appassembler/bin/SearchCollection -index {paragraph_index} ' +
-              f'-topicreader Covid -topics {base_topics} -topicfield query+question ' +
-              f'-removedups -bm25 -selectMaxPassage ' +
+    os.system(f'bin/run.sh io.anserini.search.SearchCollection -index {paragraph_index} ' +
+              f'-topicReader Covid -topics {base_topics} -topicField query+question ' +
+              f'-removeDuplicates -bm25 -selectMaxPassage ' +
               f'-output runs/anserini.covid-r1.paragraph.query+question.bm25.txt')
-    os.system(f'target/appassembler/bin/SearchCollection -index {paragraph_index} ' +
-              f'-topicreader Covid -topics {base_topics} -topicfield query+question+narrative ' +
-              f'-removedups -bm25 -selectMaxPassage ' +
+    os.system(f'bin/run.sh io.anserini.search.SearchCollection -index {paragraph_index} ' +
+              f'-topicReader Covid -topics {base_topics} -topicField query+question+narrative ' +
+              f'-removeDuplicates -bm25 -selectMaxPassage ' +
               f'-output runs/anserini.covid-r1.paragraph.query+question+narrative.bm25.txt')
-    os.system(f'target/appassembler/bin/SearchCollection -index {paragraph_index} ' +
-              f'-topicreader Covid -topics {udel_topics} -topicfield query ' +
-              f'-removedups -bm25 -selectMaxPassage ' +
+    os.system(f'bin/run.sh io.anserini.search.SearchCollection -index {paragraph_index} ' +
+              f'-topicReader Covid -topics {udel_topics} -topicField query ' +
+              f'-removeDuplicates -bm25 -selectMaxPassage ' +
               f'-output runs/anserini.covid-r1.paragraph.query-udel.bm25.txt')
-    os.system(f'target/appassembler/bin/SearchCollection -index {paragraph_index} ' +
-              f'-topicreader Covid -topics {base_topics} -topicfield query -querygenerator Covid19QueryGenerator ' +
-              f'-removedups -bm25 -selectMaxPassage ' +
+    os.system(f'bin/run.sh io.anserini.search.SearchCollection -index {paragraph_index} ' +
+              f'-topicReader Covid -topics {base_topics} -topicField query -generator Covid19QueryGenerator ' +
+              f'-removeDuplicates -bm25 -selectMaxPassage ' +
               f'-output runs/anserini.covid-r1.paragraph.query-covid19.bm25.txt')
 
 

@@ -20,12 +20,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import io.anserini.analysis.AnalyzerMap;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.analysis.HuggingFaceTokenizerAnalyzer;
-import io.anserini.collection.FileSegment;
 import io.anserini.collection.JsonCollection;
 import io.anserini.index.IndexCollection.Args;
 import io.anserini.index.generator.GeneratorException;
 import io.anserini.index.generator.LuceneDocumentGenerator;
-import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
@@ -37,17 +35,14 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.OptionHandlerFilter;
-import org.kohsuke.args4j.ParserProperties;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.concurrent.CompletionException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
@@ -57,7 +52,7 @@ public class SimpleIndexer {
   private final Path indexPath;
   private final IndexWriter writer;
   private final Analyzer analyzer;
-  private final LuceneDocumentGenerator generator;
+  private final LuceneDocumentGenerator<JsonCollection.Document> generator;
   private final int threads;
 
   private static Args parseArgs(String[] argv) throws CmdLineException {
@@ -103,14 +98,16 @@ public class SimpleIndexer {
             "-collection", "JsonCollection", "-threads", threads + ""});
   }
 
+  @SuppressWarnings("unchecked")
   public SimpleIndexer(Args args) throws Exception {
     this.threads = args.threads;
     this.indexPath = Paths.get(args.index);
     if (!Files.exists(this.indexPath)) {
       Files.createDirectories(this.indexPath);
     }
-    Class generatorClass = Class.forName("io.anserini.index.generator." + args.generatorClass);
-    generator = (LuceneDocumentGenerator) generatorClass.getDeclaredConstructor(Args.class).newInstance(args);
+    Class<? extends LuceneDocumentGenerator<JsonCollection.Document>> generatorClass =
+        (Class<? extends LuceneDocumentGenerator<JsonCollection.Document>>) Class.forName("io.anserini.index.generator." + args.generatorClass);
+    generator = (LuceneDocumentGenerator<JsonCollection.Document>) generatorClass.getDeclaredConstructor(Args.class).newInstance(args);
     analyzer = getAnalyzer(args);
 
     final Directory dir = FSDirectory.open(this.indexPath);
@@ -149,7 +146,6 @@ public class SimpleIndexer {
     }
   }
 
-  @SuppressWarnings("unchecked")
   public boolean addRawDocument(String raw) {
     try {
       JsonCollection.Document doc = JsonCollection.Document.fromString(raw);
@@ -165,7 +161,6 @@ public class SimpleIndexer {
     return true;
   }
 
-  @SuppressWarnings("unchecked")
   public boolean addJsonDocument(JsonCollection.Document doc) {
     try {
       writer.addDocument(generator.createDocument(doc));
@@ -180,7 +175,6 @@ public class SimpleIndexer {
     return true;
   }
 
-  @SuppressWarnings("unchecked")
   public boolean addJsonNode(JsonNode node) {
     try {
       writer.addDocument(generator.createDocument(new JsonCollection.Document(node)));
@@ -195,7 +189,6 @@ public class SimpleIndexer {
     return true;
   }
 
-  @SuppressWarnings("unchecked")
   public int addRawDocuments(String[] docs) throws IOException {
     return addToIndex(docs, (doc) -> {
       try {
@@ -208,7 +201,6 @@ public class SimpleIndexer {
     });
   }
 
-  @SuppressWarnings("unchecked")
   public int addJsonDocuments(JsonCollection.Document[] docs) {
     return addToIndex(docs, Function.identity());
   }
@@ -218,33 +210,25 @@ public class SimpleIndexer {
   }
 
   private <T> int addToIndex(T[] objects, Function<T, JsonCollection.Document> func) {
-    ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(threads);
     AtomicInteger cnt = new AtomicInteger();
+    List<Callable<Void>> tasks = new ArrayList<>(objects.length);
 
     for (T object : objects) {
-      executor.execute(() -> {
+      tasks.add(() -> {
         try {
           writer.addDocument(generator.createDocument(func.apply(object)));
           cnt.incrementAndGet();
-        } catch (GeneratorException e) {
-          throw new CompletionException(e);
-        } catch (IOException e) {
+        } catch (GeneratorException | IOException e) {
           throw new CompletionException(e);
         }
+        return null;
       });
     }
 
-    executor.shutdown();
-
-    try {
-      // Wait for existing tasks to terminate
-      while (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
-        // Opportunity to perform status logging, but no-op here because logging interferes with Python tqdm
-      }
-    } catch (InterruptedException ie) {
-      // (Re-)Cancel if current thread also interrupted
-      executor.shutdownNow();
-      // Preserve interrupt status
+    try (ExecutorService executor = Executors.newWorkStealingPool(threads)) {
+      // blocks until all tasks complete
+      executor.invokeAll(tasks);
+    } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
     }
 

@@ -1,0 +1,91 @@
+---
+corpus: msmarco-passage-splade-v3
+corpus_path: collections/msmarco/msmarco-passage-splade-v3
+
+download_url: https://rgw.cs.uwaterloo.ca/pyserini/data/msmarco-passage-splade-v3.tar
+download_checksum: b5fbe7c294bd0b1e18f773337f540670
+
+index_path: indexes/lucene-inverted.msmarco-v1-passage.splade-v3/
+collection_class: JsonVectorCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 16
+index_options: -impact -pretokenized -storeDocvectors
+index_stats:
+  documents: 8841823
+  documents (non-empty): 8841823
+  total terms: 46922883529
+
+metrics:
+  - metric: AP@1000
+    command: bin/trec_eval
+    params: -m map -c -l 2
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: nDCG@10
+    command: bin/trec_eval
+    params: -m ndcg_cut.10 -c
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: bin/trec_eval
+    params: -m recall.100 -c -l 2
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: bin/trec_eval
+    params: -m recall.1000 -c -l 2
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvInt
+topics:
+  - name: "[DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)"
+    id: dl19
+    path: topics.dl19-passage.splade-v3.tsv.gz
+    qrel: qrels.dl19-passage.txt
+
+models:
+  - name: splade-v3-onnx
+    display: SPLADEv3
+    params: -impact -pretokenized
+    results:
+      AP@1000:
+        - 0.5231
+      nDCG@10:
+        - 0.7264
+      R@100:
+        - 0.6442
+      R@1000:
+        - 0.8791
+  - name: splade-v3-onnx+rm3
+    display: +RM3
+    params: -impact -pretokenized -rm3
+    results:
+      AP@1000:
+        - 0.5296
+      nDCG@10:
+        - 0.7189
+      R@100:
+        - 0.6504
+      R@1000:
+        - 0.8625
+  - name: splade-v3-onnx+rocchio
+    display: +Rocchio
+    params: -impact -pretokenized -rocchio
+    results:
+      AP@1000:
+        - 0.5374
+      nDCG@10:
+        - 0.7406
+      R@100:
+        - 0.6503
+      R@1000:
+        - 0.8738

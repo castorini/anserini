@@ -17,10 +17,11 @@
 package io.anserini.rerank.lib;
 
 import io.anserini.analysis.AnalyzerUtils;
+import io.anserini.collection.DocumentCollection;
 import io.anserini.index.Constants;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
-import io.anserini.rerank.ScoredDocuments;
+import io.anserini.search.ScoredDocs;
 import io.anserini.util.FeatureVector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -49,11 +50,11 @@ import java.util.Set;
 
 import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_DOCID;
 
-public class RocchioReranker implements Reranker {
+public class RocchioReranker<T> implements Reranker<T> {
   private static final Logger LOG = LogManager.getLogger(RocchioReranker.class);
 
   private final Analyzer analyzer;
-  private final Class parser;
+  private final Class<? extends DocumentCollection<?>> parser;
   private final String field;
 
   private final int topFbTerms;
@@ -66,7 +67,7 @@ public class RocchioReranker implements Reranker {
   private final boolean outputQuery;
   private final boolean useNegative;
 
-  public RocchioReranker(Analyzer analyzer, Class parser, String field, int topFbTerms, int topFbDocs, int bottomFbTerms, int bottomFbDocs, float alpha, float beta, float gamma, boolean outputQuery, boolean useNegative) {
+  public RocchioReranker(Analyzer analyzer, Class<? extends DocumentCollection<?>> parser, String field, int topFbTerms, int topFbDocs, int bottomFbTerms, int bottomFbDocs, float alpha, float beta, float gamma, boolean outputQuery, boolean useNegative) {
     this.analyzer = analyzer;
     this.parser = parser;
     this.field = field;
@@ -82,8 +83,8 @@ public class RocchioReranker implements Reranker {
   }
 
   @Override
-  public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
-    assert (docs.documents.length == docs.scores.length);
+  public ScoredDocs rerank(ScoredDocs docs, RerankerContext<T> context) {
+    assert (docs.lucene_documents.length == docs.scores.length);
 
     IndexSearcher searcher = context.getIndexSearcher();
     IndexReader reader = searcher.getIndexReader();
@@ -99,7 +100,7 @@ public class RocchioReranker implements Reranker {
     boolean relevantFlag;
     try {
       relevantFlag = true;
-      meanRelevantDocumentVector = computeMeanOfDocumentVectors(docs, reader, context.getSearchArgs().searchtweets, topFbTerms, topFbDocs, relevantFlag);
+      meanRelevantDocumentVector = computeMeanOfDocumentVectors(docs, reader, context.getSearchArgs().searchTweets, topFbTerms, topFbDocs, relevantFlag);
     } catch (IOException e) {
       // If we run into any issues, just return the original results - as if we never performed feedback.
       e.printStackTrace();
@@ -111,7 +112,7 @@ public class RocchioReranker implements Reranker {
     if (useNegative != false) {
       try {
         relevantFlag = false;
-        meanNonRelevantDocumentVector = computeMeanOfDocumentVectors(docs, reader, context.getSearchArgs().searchtweets, bottomFbTerms, bottomFbDocs, relevantFlag);
+        meanNonRelevantDocumentVector = computeMeanOfDocumentVectors(docs, reader, context.getSearchArgs().searchTweets, bottomFbTerms, bottomFbDocs, relevantFlag);
       } catch (IOException e) {
         // If we run into any issues, just return the original results - as if we never performed feedback.
         e.printStackTrace();
@@ -136,7 +137,6 @@ public class RocchioReranker implements Reranker {
     Query feedbackQuery = feedbackQueryBuilder.build();
     context.feedbackTerms = feedbackTerms;
 
-
     if (this.outputQuery) {
       LOG.info("QID: " + context.getQueryId());
       LOG.info("Original Query: " + context.getQuery().toString(this.field));
@@ -156,36 +156,31 @@ public class RocchioReranker implements Reranker {
         finalQuery = bqBuilder.build();
       }
 
-      // Figure out how to break the scoring ties.
-      if (context.getSearchArgs().arbitraryScoreTieBreak) {
-        results = searcher.search(finalQuery, context.getSearchArgs().hits);
-      } else {
-        results = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID, true);
-      }
+      results = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID, true);
     } catch (IOException e) {
       e.printStackTrace();
       return docs;
     }
 
-    return ScoredDocuments.fromTopDocs(results, searcher);
+    return ScoredDocs.fromTopDocs(results, searcher);
   }
 
-  private FeatureVector computeMeanOfDocumentVectors(ScoredDocuments docs, IndexReader reader, boolean tweetsearch, int fbTerms, int fbDocs, boolean relevantFlag) throws IOException, NullPointerException {
+  private FeatureVector computeMeanOfDocumentVectors(ScoredDocs docs, IndexReader reader, boolean tweetsearch, int fbTerms, int fbDocs, boolean relevantFlag) throws IOException, NullPointerException {
     FeatureVector f = new FeatureVector();
 
     Set<String> vocab = new HashSet<>();
     int numdocs;
     FeatureVector docVector;
-    numdocs = docs.documents.length < fbDocs ? docs.documents.length : fbDocs;
+    numdocs = docs.lucene_documents.length < fbDocs ? docs.lucene_documents.length : fbDocs;
 
     List<FeatureVector> docvectors = new ArrayList<>();
     StoredFields storedFields = reader.storedFields();
     for (int i = 0; i < numdocs; i++) {
       int docid;
       if (relevantFlag) {
-        docid = docs.ids[i];
+        docid = docs.lucene_docids[i];
       } else {
-        docid = docs.ids[docs.ids.length - i - 1];
+        docid = docs.lucene_docids[docs.lucene_docids.length - i - 1];
       }
       Terms terms = reader.termVectors().get(docid, field);
       if (terms != null) {

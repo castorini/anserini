@@ -17,10 +17,18 @@
 package io.anserini.analysis;
 
 import junit.framework.JUnit4TestAdapter;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
+import org.junit.After;
+import org.junit.Assume;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+
+import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -29,9 +37,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
+public class AutoCompositeAnalyzerTest extends StdOutStdErrRedirectableLuceneTestCase {
+  @BeforeClass
+  public static void setupClass() {
+    Configurator.setLevel(AutoCompositeAnalyzer.class.getName(), Level.ERROR);
+  }
 
-public class AutoCompositeAnalyzerTest {
+  @Before
+  public void setUp() throws Exception {
+    redirectStdOut();
+    redirectStdErr();
+    super.setUp();
+  }
+
+  @After
+  public void tearDown() throws Exception {
+    restoreStdOut();
+    restoreStdErr();
+    super.tearDown();
+  }
+
   private static final Map<String, Object[][]> examples = new HashMap<>() {
     {
       // Case (1): Both Lucene analyzer & monolingual tokenizer exist
@@ -63,19 +88,28 @@ public class AutoCompositeAnalyzerTest {
   
   @Test
   public void case1() throws Exception {
+    // Not available on x86_64 on Mac, so skip tests
+    // ai.djl.engine.EngineException: Failed to load Huggingface native library.
+    Assume.assumeFalse(System.getProperty("os.arch").equalsIgnoreCase("x86_64")
+        && System.getProperty("os.name").toLowerCase().contains("mac"));
+
     String language = "fi";
     Object[][] example = examples.get(language);
     Analyzer analyzer = AutoCompositeAnalyzer.getAnalyzer(language);
 
     for (int i = 0; i < example.length; i++) {
       List<String> tokens = parseKeywords(analyzer, (String) example[i][0]);
-      System.out.println(tokens);
       verify((String[]) example[i][1], tokens);
     }
   }
 
   @Test
   public void case2() throws Exception {
+    // Not available on x86_64 on Mac, so skip tests
+    // ai.djl.engine.EngineException: Failed to load Huggingface native library.
+    Assume.assumeFalse(System.getProperty("os.arch").equalsIgnoreCase("x86_64")
+        && System.getProperty("os.name").toLowerCase().contains("mac"));
+
     String language = "yo";
     Object[][] example = examples.get(language);
     Analyzer analyzer = AutoCompositeAnalyzer.getAnalyzer(language);
@@ -87,6 +121,11 @@ public class AutoCompositeAnalyzerTest {
 
   @Test
   public void case3() throws Exception {
+    // Not available on x86_64 on Mac, so skip tests
+    // ai.djl.engine.EngineException: Failed to load Huggingface native library.
+    Assume.assumeFalse(System.getProperty("os.arch").equalsIgnoreCase("x86_64")
+        && System.getProperty("os.name").toLowerCase().contains("mac"));
+
     String language = "ha";
     Object[][] example = examples.get(language);
     Analyzer analyzer = AutoCompositeAnalyzer.getAnalyzer(language);
@@ -98,6 +137,11 @@ public class AutoCompositeAnalyzerTest {
 
   @Test
   public void case4() throws Exception {
+    // Not available on x86_64 on Mac, so skip tests
+    // ai.djl.engine.EngineException: Failed to load Huggingface native library.
+    Assume.assumeFalse(System.getProperty("os.arch").equalsIgnoreCase("x86_64")
+        && System.getProperty("os.name").toLowerCase().contains("mac"));
+
     String language = "es";
     Analyzer analyzer = AutoCompositeAnalyzer.getAnalyzer(language);
     Object[][] example = examples.get(language);

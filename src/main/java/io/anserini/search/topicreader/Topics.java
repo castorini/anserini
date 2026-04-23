@@ -16,6 +16,16 @@
 
 package io.anserini.search.topicreader;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.Set;
+import java.util.TreeMap;
+
 /**
  * An enumeration comprising standard sets of topics from various evaluations.
  */
@@ -57,23 +67,50 @@ public enum Topics {
   TREC2019_DL_PASSAGE_UNICOIL(TsvIntTopicReader.class,"topics.dl19-passage.unicoil.0shot.tsv.gz"),
   TREC2019_DL_PASSAGE_UNICOIL_NOEXP(TsvIntTopicReader.class,"topics.dl19-passage.unicoil-noexp.0shot.tsv.gz"),
   TREC2019_DL_PASSAGE_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvIntTopicReader.class,"topics.dl19-passage.splade_distil_cocodenser_medium.tsv.gz"),
-  TREC2019_DL_PASSAGE_COS_DPR_DISTIL(JsonIntVectorTopicReader.class, "topics.dl19-passage.cos-dpr-distil.jsonl.gz"),
+  TREC2019_DL_PASSAGE_SPLADE_PP_ED(TsvIntTopicReader.class,"topics.dl19-passage.splade-pp-ed.tsv.gz"),
+  TREC2019_DL_PASSAGE_SPLADE_PP_SD(TsvIntTopicReader.class,"topics.dl19-passage.splade-pp-sd.tsv.gz"),
+  TREC2019_DL_PASSAGE_SPLADE_V3(TsvIntTopicReader.class,"topics.dl19-passage.splade-v3.tsv.gz"),
+  TREC2019_DL_PASSAGE_COSDPR_DISTIL(JsonIntVectorTopicReader.class, "topics.dl19-passage.cosdpr-distil.jsonl.gz"),
+  TREC2019_DL_PASSAGE_BGE_BASE_EN_15(JsonIntVectorTopicReader.class, "topics.dl19-passage.bge-base-en-v1.5.jsonl.gz"),
+  TREC2019_DL_PASSAGE_COHERE_EMBED_ENGLISH_30(JsonIntVectorTopicReader.class, "topics.dl19-passage.cohere-embed-english-v3.0.jsonl.gz"),
   TREC2020_DL(TsvIntTopicReader.class,"topics.dl20.txt"),
   TREC2020_DL_WP(TsvIntTopicReader.class,"topics.dl20.wp.tsv.gz"),
   TREC2020_DL_UNICOIL(TsvIntTopicReader.class,"topics.dl20.unicoil.0shot.tsv.gz"),
   TREC2020_DL_UNICOIL_NOEXP(TsvIntTopicReader.class,"topics.dl20.unicoil-noexp.0shot.tsv.gz"),
   TREC2020_DL_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvIntTopicReader.class,"topics.dl20.splade_distil_cocodenser_medium.tsv.gz"),
-  TREC2020_DL_COS_DPR_DISTIL(JsonIntVectorTopicReader.class, "topics.dl20.cos-dpr-distil.jsonl.gz"),
+  TREC2020_DL_SPLADE_PP_ED(TsvIntTopicReader.class,"topics.dl20.splade-pp-ed.tsv.gz"),
+  TREC2020_DL_SPLADE_PP_SD(TsvIntTopicReader.class,"topics.dl20.splade-pp-sd.tsv.gz"),
+  TREC2020_DL_SPLADE_V3(TsvIntTopicReader.class,"topics.dl20.splade-v3.tsv.gz"),
+  TREC2020_DL_COSDPR_DISTIL(JsonIntVectorTopicReader.class, "topics.dl20.cosdpr-distil.jsonl.gz"),
+  TREC2020_DL_BGE_BASE_EN_15(JsonIntVectorTopicReader.class, "topics.dl20.bge-base-en-v1.5.jsonl.gz"),
+  TREC2020_DL_COHERE_EMBED_ENGLISH_30(JsonIntVectorTopicReader.class, "topics.dl20.cohere-embed-english-v3.0.jsonl.gz"),
   TREC2021_DL(TsvIntTopicReader.class,"topics.dl21.txt"),
   TREC2021_DL_UNICOIL(TsvIntTopicReader.class,"topics.dl21.unicoil.0shot.tsv.gz"),
   TREC2021_DL_UNICOIL_NOEXP(TsvIntTopicReader.class,"topics.dl21.unicoil-noexp.0shot.tsv.gz"),
   TREC2021_DL_SPLADE_PP_ED(TsvIntTopicReader.class,"topics.dl21.splade-pp-ed.tsv.gz"),
   TREC2021_DL_SPLADE_PP_SD(TsvIntTopicReader.class,"topics.dl21.splade-pp-sd.tsv.gz"),
+  TREC2021_DL_SNOWFLAKE_ARCTIC_EMBED_L(JsonIntVectorTopicReader.class, "topics.dl21.snowflake-arctic-embed-l.jsonl.gz"),
   TREC2022_DL(TsvIntTopicReader.class,"topics.dl22.txt"),
   TREC2022_DL_UNICOIL(TsvIntTopicReader.class,"topics.dl22.unicoil.0shot.tsv.gz"),
   TREC2022_DL_UNICOIL_NOEXP(TsvIntTopicReader.class,"topics.dl22.unicoil-noexp.0shot.tsv.gz"),
   TREC2022_DL_SPLADE_PP_ED(TsvIntTopicReader.class,"topics.dl22.splade-pp-ed.tsv.gz"),
   TREC2022_DL_SPLADE_PP_SD(TsvIntTopicReader.class,"topics.dl22.splade-pp-sd.tsv.gz"),
+  TREC2022_DL_SNOWFLAKE_ARCTIC_EMBED_L(JsonIntVectorTopicReader.class, "topics.dl22.snowflake-arctic-embed-l.jsonl.gz"),
+  TREC2023_DL(TsvIntTopicReader.class, "topics.dl23.txt"),
+  TREC2023_DL_UNICOIL(TsvIntTopicReader.class,"topics.dl23.unicoil.0shot.tsv.gz"),
+  TREC2023_DL_UNICOIL_NOEXP(TsvIntTopicReader.class,"topics.dl23.unicoil-noexp.0shot.tsv.gz"),
+  TREC2023_DL_SPLADE_PP_ED(TsvIntTopicReader.class,"topics.dl23.splade-pp-ed.tsv.gz"),
+  TREC2023_DL_SPLADE_PP_SD(TsvIntTopicReader.class,"topics.dl23.splade-pp-sd.tsv.gz"),
+  TREC2023_DL_SNOWFLAKE_ARCTIC_EMBED_L(JsonIntVectorTopicReader.class, "topics.dl23.snowflake-arctic-embed-l.jsonl.gz"),
+
+  TREC2024_RAG_RAGGY_DEV(TsvIntTopicReader.class, "topics.rag24.raggy-dev.txt"),
+  TREC2024_RAG_RAGGY_DEV_SNOWFLAKE_ARCTIC_EMBED_L(JsonIntVectorTopicReader.class, "topics.rag24.raggy-dev.snowflake-arctic-embed-l.jsonl.gz"),
+  TREC2024_RAG_RESEARCHY_DEV(TsvIntTopicReader.class, "topics.rag24.researchy-dev.txt"),
+  TREC2024_RAG_RESEARCHY_DEV_SNOWFLAKE_ARCTIC_EMBED_L(JsonIntVectorTopicReader.class, "topics.rag24.researchy-dev.snowflake-arctic-embed-l.jsonl.gz"),
+  TREC2024_RAG_TEST(TsvStringTopicReader.class, "topics.rag24.test.txt"),
+  TREC2024_RAG_TEST_SNOWFLAKE_ARCTIC_EMBED_L(JsonStringVectorTopicReader.class, "topics.rag24.test.snowflake-arctic-embed-l.jsonl.gz"),
+  TREC2024_RAG_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.rag24.test.splade-v3.tsv.gz"),
+  TREC2025_RAG_TEST(JsonStringTopicReader.class, "topics.rag25.test.jsonl"),
 
   // MS MARCO V1 topics
   MSMARCO_DOC_DEV(TsvIntTopicReader.class,"topics.msmarco-doc.dev.txt"),
@@ -88,17 +125,27 @@ public enum Topics {
   MSMARCO_PASSAGE_DEV_SUBSET_UNICOIL_NOEXP(TsvIntTopicReader.class, "topics.msmarco-passage.dev-subset.unicoil-noexp.tsv.gz"),
   MSMARCO_PASSAGE_DEV_SUBSET_UNICOIL_TILDE(TsvIntTopicReader.class, "topics.msmarco-passage.dev-subset.unicoil-tilde-expansion.tsv.gz"),
   MSMARCO_PASSAGE_DEV_SUBSET_DISTILL_SPLADE_MAX(TsvIntTopicReader.class, "topics.msmarco-passage.dev-subset.distill-splade-max.tsv.gz"),
+  // DSE topics
+  SLIDEVQA_TEST(TsvIntTopicReader.class, "topics.slidevqa.test.tsv"),
+  WIKI_SS_NQ_TEST(TsvIntTopicReader.class, "topics.wiki-ss-nq.test.tsv"),
   MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvIntTopicReader.class, "topics.msmarco-passage.dev-subset.splade_distil_cocodenser_medium.tsv.gz"),
-  MSMARCO_PASSAGE_DEV_SUBSET_COS_DPR_DISTIL(JsonIntVectorTopicReader.class, "topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.gz"),
+  MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_ED(TsvIntTopicReader.class, "topics.msmarco-passage.dev-subset.splade-pp-ed.tsv.gz"),
+  MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_SD(TsvIntTopicReader.class, "topics.msmarco-passage.dev-subset.splade-pp-sd.tsv.gz"),
+  MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_V3(TsvIntTopicReader.class, "topics.msmarco-passage.dev-subset.splade-v3.tsv.gz"),
+  MSMARCO_PASSAGE_DEV_SUBSET_COSDPR_DISTIL(JsonIntVectorTopicReader.class, "topics.msmarco-passage.dev-subset.cosdpr-distil.jsonl.gz"),
+  MSMARCO_PASSAGE_DEV_SUBSET_BGE_BASE_EN_15(JsonIntVectorTopicReader.class, "topics.msmarco-passage.dev-subset.bge-base-en-v1.5.jsonl.gz"),
+  MSMARCO_PASSAGE_DEV_SUBSET_COHERE_EMBED_ENGLISH_30(JsonIntVectorTopicReader.class, "topics.msmarco-passage.dev-subset.cohere-embed-english-v3.0.jsonl.gz"),
   MSMARCO_PASSAGE_TEST_SUBSET(TsvIntTopicReader.class, "topics.msmarco-passage.test-subset.txt"),
 
   // MS MARCO V2 topics
   MSMARCO_V2_DOC_DEV(TsvIntTopicReader.class,"topics.msmarco-v2-doc.dev.txt"),
   MSMARCO_V2_DOC_DEV_UNICOIL(TsvIntTopicReader.class,"topics.msmarco-v2-doc.dev.unicoil.0shot.tsv.gz"),
   MSMARCO_V2_DOC_DEV_UNICOIL_NOEXP(TsvIntTopicReader.class,"topics.msmarco-v2-doc.dev.unicoil-noexp.0shot.tsv.gz"),
+  MSMARCO_V2_DOC_DEV_SNOWFLAKE_ARCTIC_EMBED_L(JsonIntVectorTopicReader.class, "topics.msmarco-v2-doc.dev.snowflake-arctic-embed-l.jsonl.gz"),
   MSMARCO_V2_DOC_DEV2(TsvIntTopicReader.class,"topics.msmarco-v2-doc.dev2.txt"),
   MSMARCO_V2_DOC_DEV2_UNICOIL(TsvIntTopicReader.class,"topics.msmarco-v2-doc.dev2.unicoil.0shot.tsv.gz"),
   MSMARCO_V2_DOC_DEV2_UNICOIL_NOEXP(TsvIntTopicReader.class,"topics.msmarco-v2-doc.dev2.unicoil-noexp.0shot.tsv.gz"),
+  MSMARCO_V2_DOC_DEV2_SNOWFLAKE_ARCTIC_EMBED_L(JsonIntVectorTopicReader.class, "topics.msmarco-v2-doc.dev2.snowflake-arctic-embed-l.jsonl.gz"),
   MSMARCO_V2_PASSAGE_DEV(TsvIntTopicReader.class, "topics.msmarco-v2-passage.dev.txt"),
   MSMARCO_V2_PASSAGE_DEV_UNICOIL(TsvIntTopicReader.class, "topics.msmarco-v2-passage.dev.unicoil.0shot.tsv.gz"),
   MSMARCO_V2_PASSAGE_DEV_UNICOIL_NOEXP(TsvIntTopicReader.class, "topics.msmarco-v2-passage.dev.unicoil-noexp.0shot.tsv.gz"),
@@ -277,6 +324,99 @@ public enum Topics {
   BEIR_V1_0_0_CLIMATE_FEVER_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvStringTopicReader.class, "topics.beir-v1.0.0-climate-fever.test.splade_distil_cocodenser_medium.tsv.gz"),
   BEIR_V1_0_0_SCIFACT_TEST_SPLADE_DISTILL_COCODENSER_MEDIUM(TsvStringTopicReader.class, "topics.beir-v1.0.0-scifact.test.splade_distil_cocodenser_medium.tsv.gz"),
 
+  // BEIR (v1.0.0): pre-encoded queries for SPLADE++ (CoCondenser-EnsembleDistil)
+  BEIR_V1_0_0_TREC_COVID_TEST_SPLADE_PP_ED(TsvStringTopicReader.class, "topics.beir-v1.0.0-trec-covid.test.splade-pp-ed.tsv.gz"),
+  BEIR_V1_0_0_BIOASQ_TEST_SPLADE_PP_ED(TsvStringTopicReader.class, "topics.beir-v1.0.0-bioasq.test.splade-pp-ed.tsv.gz"),
+  BEIR_V1_0_0_NFCORPUS_TEST_SPLADE_PP_ED(TsvStringTopicReader.class, "topics.beir-v1.0.0-nfcorpus.test.splade-pp-ed.tsv.gz"),
+  BEIR_V1_0_0_NQ_TEST_SPLADE_PP_ED(TsvStringTopicReader.class, "topics.beir-v1.0.0-nq.test.splade-pp-ed.tsv.gz"),
+  BEIR_V1_0_0_HOTPOTQA_TEST_SPLADE_PP_ED(TsvStringTopicReader.class, "topics.beir-v1.0.0-hotpotqa.test.splade-pp-ed.tsv.gz"),
+  BEIR_V1_0_0_FIQA_TEST_SPLADE_PP_ED(TsvStringTopicReader.class, "topics.beir-v1.0.0-fiqa.test.splade-pp-ed.tsv.gz"),
+  BEIR_V1_0_0_SIGNAL1M_TEST_SPLADE_PP_ED(TsvStringTopicReader.class, "topics.beir-v1.0.0-signal1m.test.splade-pp-ed.tsv.gz"),
+  BEIR_V1_0_0_TREC_NEWS_TEST_SPLADE_PP_ED(TsvStringTopicReader.class, "topics.beir-v1.0.0-trec-news.test.splade-pp-ed.tsv.gz"),
+  BEIR_V1_0_0_ROBUST04_TEST_SPLADE_PP_ED(TsvStringTopicReader.class, "topics.beir-v1.0.0-robust04.test.splade-pp-ed.tsv.gz"),
+  BEIR_V1_0_0_ARGUANA_TEST_SPLADE_PP_ED(TsvStringTopicReader.class, "topics.beir-v1.0.0-arguana.test.splade-pp-ed.tsv.gz"),
+  BEIR_V1_0_0_WEBIS_TOUCHE2020_TEST_SPLADE_PP_ED(TsvStringTopicReader.class, "topics.beir-v1.0.0-webis-touche2020.test.splade-pp-ed.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_ANDROID_TEST_SPLADE_PP_ED(TsvStringTopicReader.class, "topics.beir-v1.0.0-cqadupstack-android.test.splade-pp-ed.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_ENGLISH_TEST_SPLADE_PP_ED(TsvStringTopicReader.class, "topics.beir-v1.0.0-cqadupstack-english.test.splade-pp-ed.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_GAMING_TEST_SPLADE_PP_ED(TsvStringTopicReader.class, "topics.beir-v1.0.0-cqadupstack-gaming.test.splade-pp-ed.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_GIS_TEST_SPLADE_PP_ED(TsvStringTopicReader.class, "topics.beir-v1.0.0-cqadupstack-gis.test.splade-pp-ed.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_MATHEMATICA_TEST_SPLADE_PP_ED(TsvStringTopicReader.class, "topics.beir-v1.0.0-cqadupstack-mathematica.test.splade-pp-ed.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_PHYSICS_TEST_SPLADE_PP_ED(TsvStringTopicReader.class, "topics.beir-v1.0.0-cqadupstack-physics.test.splade-pp-ed.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_PROGRAMMERS_TEST_SPLADE_PP_ED(TsvStringTopicReader.class, "topics.beir-v1.0.0-cqadupstack-programmers.test.splade-pp-ed.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_STATS_TEST_SPLADE_PP_ED(TsvStringTopicReader.class, "topics.beir-v1.0.0-cqadupstack-stats.test.splade-pp-ed.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_TEX_TEST_SPLADE_PP_ED(TsvStringTopicReader.class, "topics.beir-v1.0.0-cqadupstack-tex.test.splade-pp-ed.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_UNIX_TEST_SPLADE_PP_ED(TsvStringTopicReader.class, "topics.beir-v1.0.0-cqadupstack-unix.test.splade-pp-ed.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_WEBMASTERS_TEST_SPLADE_PP_ED(TsvStringTopicReader.class, "topics.beir-v1.0.0-cqadupstack-webmasters.test.splade-pp-ed.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_WORDPRESS_TEST_SPLADE_PP_ED(TsvStringTopicReader.class, "topics.beir-v1.0.0-cqadupstack-wordpress.test.splade-pp-ed.tsv.gz"),
+  BEIR_V1_0_0_QUORA_TEST_SPLADE_PP_ED(TsvStringTopicReader.class, "topics.beir-v1.0.0-quora.test.splade-pp-ed.tsv.gz"),
+  BEIR_V1_0_0_DBPEDIA_ENTITY_TEST_SPLADE_PP_ED(TsvStringTopicReader.class, "topics.beir-v1.0.0-dbpedia-entity.test.splade-pp-ed.tsv.gz"),
+  BEIR_V1_0_0_SCIDOCS_TEST_SPLADE_PP_ED(TsvStringTopicReader.class, "topics.beir-v1.0.0-scidocs.test.splade-pp-ed.tsv.gz"),
+  BEIR_V1_0_0_FEVER_TEST_SPLADE_PP_ED(TsvStringTopicReader.class, "topics.beir-v1.0.0-fever.test.splade-pp-ed.tsv.gz"),
+  BEIR_V1_0_0_CLIMATE_FEVER_TEST_SPLADE_PP_ED(TsvStringTopicReader.class, "topics.beir-v1.0.0-climate-fever.test.splade-pp-ed.tsv.gz"),
+  BEIR_V1_0_0_SCIFACT_TEST_SPLADE_PP_ED(TsvStringTopicReader.class, "topics.beir-v1.0.0-scifact.test.splade-pp-ed.tsv.gz"),
+
+  // BEIR (v1.0.0): pre-encoded queries for SPLADEv3
+  BEIR_V1_0_0_TREC_COVID_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-trec-covid.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_BIOASQ_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-bioasq.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_NFCORPUS_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-nfcorpus.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_NQ_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-nq.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_HOTPOTQA_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-hotpotqa.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_FIQA_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-fiqa.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_SIGNAL1M_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-signal1m.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_TREC_NEWS_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-trec-news.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_ROBUST04_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-robust04.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_ARGUANA_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-arguana.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_WEBIS_TOUCHE2020_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-webis-touche2020.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_ANDROID_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-cqadupstack-android.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_ENGLISH_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-cqadupstack-english.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_GAMING_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-cqadupstack-gaming.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_GIS_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-cqadupstack-gis.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_MATHEMATICA_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-cqadupstack-mathematica.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_PHYSICS_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-cqadupstack-physics.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_PROGRAMMERS_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-cqadupstack-programmers.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_STATS_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-cqadupstack-stats.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_TEX_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-cqadupstack-tex.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_UNIX_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-cqadupstack-unix.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_WEBMASTERS_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-cqadupstack-webmasters.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_WORDPRESS_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-cqadupstack-wordpress.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_QUORA_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-quora.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_DBPEDIA_ENTITY_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-dbpedia-entity.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_SCIDOCS_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-scidocs.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_FEVER_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-fever.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_CLIMATE_FEVER_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-climate-fever.test.splade-v3.tsv.gz"),
+  BEIR_V1_0_0_SCIFACT_TEST_SPLADE_V3(TsvStringTopicReader.class, "topics.beir-v1.0.0-scifact.test.splade-v3.tsv.gz"),
+
+  // BEIR (v1.0.0): pre-encoded queries for BGE-base-en-v1.5
+  BEIR_V1_0_0_TREC_COVID_TEST_BGE_BASE_EN_15(JsonStringVectorTopicReader.class, "topics.beir-v1.0.0-trec-covid.test.bge-base-en-v1.5.jsonl.gz"),
+  BEIR_V1_0_0_BIOASQ_TEST_BGE_BASE_EN_15(JsonStringVectorTopicReader.class, "topics.beir-v1.0.0-bioasq.test.bge-base-en-v1.5.jsonl.gz"),
+  BEIR_V1_0_0_NFCORPUS_TEST_BGE_BASE_EN_15(JsonStringVectorTopicReader.class, "topics.beir-v1.0.0-nfcorpus.test.bge-base-en-v1.5.jsonl.gz"),
+  BEIR_V1_0_0_NQ_TEST_BGE_BASE_EN_15(JsonStringVectorTopicReader.class, "topics.beir-v1.0.0-nq.test.bge-base-en-v1.5.jsonl.gz"),
+  BEIR_V1_0_0_HOTPOTQA_TEST_BGE_BASE_EN_15(JsonStringVectorTopicReader.class, "topics.beir-v1.0.0-hotpotqa.test.bge-base-en-v1.5.jsonl.gz"),
+  BEIR_V1_0_0_FIQA_TEST_BGE_BASE_EN_15(JsonStringVectorTopicReader.class, "topics.beir-v1.0.0-fiqa.test.bge-base-en-v1.5.jsonl.gz"),
+  BEIR_V1_0_0_SIGNAL1M_TEST_BGE_BASE_EN_15(JsonStringVectorTopicReader.class, "topics.beir-v1.0.0-signal1m.test.bge-base-en-v1.5.jsonl.gz"),
+  BEIR_V1_0_0_TREC_NEWS_TEST_BGE_BASE_EN_15(JsonStringVectorTopicReader.class, "topics.beir-v1.0.0-trec-news.test.bge-base-en-v1.5.jsonl.gz"),
+  BEIR_V1_0_0_ROBUST04_TEST_BGE_BASE_EN_15(JsonStringVectorTopicReader.class, "topics.beir-v1.0.0-robust04.test.bge-base-en-v1.5.jsonl.gz"),
+  BEIR_V1_0_0_ARGUANA_TEST_BGE_BASE_EN_15(JsonStringVectorTopicReader.class, "topics.beir-v1.0.0-arguana.test.bge-base-en-v1.5.jsonl.gz"),
+  BEIR_V1_0_0_WEBIS_TOUCHE2020_TEST_BGE_BASE_EN_15(JsonStringVectorTopicReader.class, "topics.beir-v1.0.0-webis-touche2020.test.bge-base-en-v1.5.jsonl.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_ANDROID_TEST_BGE_BASE_EN_15(JsonStringVectorTopicReader.class, "topics.beir-v1.0.0-cqadupstack-android.test.bge-base-en-v1.5.jsonl.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_ENGLISH_TEST_BGE_BASE_EN_15(JsonStringVectorTopicReader.class, "topics.beir-v1.0.0-cqadupstack-english.test.bge-base-en-v1.5.jsonl.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_GAMING_TEST_BGE_BASE_EN_15(JsonStringVectorTopicReader.class, "topics.beir-v1.0.0-cqadupstack-gaming.test.bge-base-en-v1.5.jsonl.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_GIS_TEST_BGE_BASE_EN_15(JsonStringVectorTopicReader.class, "topics.beir-v1.0.0-cqadupstack-gis.test.bge-base-en-v1.5.jsonl.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_MATHEMATICA_TEST_BGE_BASE_EN_15(JsonStringVectorTopicReader.class, "topics.beir-v1.0.0-cqadupstack-mathematica.test.bge-base-en-v1.5.jsonl.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_PHYSICS_TEST_BGE_BASE_EN_15(JsonStringVectorTopicReader.class, "topics.beir-v1.0.0-cqadupstack-physics.test.bge-base-en-v1.5.jsonl.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_PROGRAMMERS_TEST_BGE_BASE_EN_15(JsonStringVectorTopicReader.class, "topics.beir-v1.0.0-cqadupstack-programmers.test.bge-base-en-v1.5.jsonl.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_STATS_TEST_BGE_BASE_EN_15(JsonStringVectorTopicReader.class, "topics.beir-v1.0.0-cqadupstack-stats.test.bge-base-en-v1.5.jsonl.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_TEX_TEST_BGE_BASE_EN_15(JsonStringVectorTopicReader.class, "topics.beir-v1.0.0-cqadupstack-tex.test.bge-base-en-v1.5.jsonl.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_UNIX_TEST_BGE_BASE_EN_15(JsonStringVectorTopicReader.class, "topics.beir-v1.0.0-cqadupstack-unix.test.bge-base-en-v1.5.jsonl.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_WEBMASTERS_TEST_BGE_BASE_EN_15(JsonStringVectorTopicReader.class, "topics.beir-v1.0.0-cqadupstack-webmasters.test.bge-base-en-v1.5.jsonl.gz"),
+  BEIR_V1_0_0_CQADUPSTACK_WORDPRESS_TEST_BGE_BASE_EN_15(JsonStringVectorTopicReader.class, "topics.beir-v1.0.0-cqadupstack-wordpress.test.bge-base-en-v1.5.jsonl.gz"),
+  BEIR_V1_0_0_QUORA_TEST_BGE_BASE_EN_15(JsonStringVectorTopicReader.class, "topics.beir-v1.0.0-quora.test.bge-base-en-v1.5.jsonl.gz"),
+  BEIR_V1_0_0_DBPEDIA_ENTITY_TEST_BGE_BASE_EN_15(JsonStringVectorTopicReader.class, "topics.beir-v1.0.0-dbpedia-entity.test.bge-base-en-v1.5.jsonl.gz"),
+  BEIR_V1_0_0_SCIDOCS_TEST_BGE_BASE_EN_15(JsonStringVectorTopicReader.class, "topics.beir-v1.0.0-scidocs.test.bge-base-en-v1.5.jsonl.gz"),
+  BEIR_V1_0_0_FEVER_TEST_BGE_BASE_EN_15(JsonStringVectorTopicReader.class, "topics.beir-v1.0.0-fever.test.bge-base-en-v1.5.jsonl.gz"),
+  BEIR_V1_0_0_CLIMATE_FEVER_TEST_BGE_BASE_EN_15(JsonStringVectorTopicReader.class, "topics.beir-v1.0.0-climate-fever.test.bge-base-en-v1.5.jsonl.gz"),
+  BEIR_V1_0_0_SCIFACT_TEST_BGE_BASE_EN_15(JsonStringVectorTopicReader.class, "topics.beir-v1.0.0-scifact.test.bge-base-en-v1.5.jsonl.gz"),
+
   // BEIR (v1.0.0): pre-encoded queries for uniCOIL-noexp
   BEIR_V1_0_0_TREC_COVID_TEST_UNCOIL_NOEXP(TsvStringTopicReader.class, "topics.beir-v1.0.0-trec-covid.test.unicoil-noexp.tsv.gz"),
   BEIR_V1_0_0_BIOASQ_TEST_UNCOIL_NOEXP(TsvStringTopicReader.class, "topics.beir-v1.0.0-bioasq.test.unicoil-noexp.tsv.gz"),
@@ -423,10 +563,129 @@ public enum Topics {
   ATOMIC_V021_FACEBOOK_FLAVA_FULL_IMAGE_VAL(JsonStringTopicReader.class, "topics.atomic.validation.image.facebook.flava-full.jsonl"),
 
   // CIRAL Queries
+  CIRAL_V10_HA_TEST_A(TsvIntTopicReader.class, "topics.ciral-v1.0-ha-test-a.tsv"),
+  CIRAL_V10_SO_TEST_A(TsvIntTopicReader.class, "topics.ciral-v1.0-so-test-a.tsv"),
+  CIRAL_V10_SW_TEST_A(TsvIntTopicReader.class, "topics.ciral-v1.0-sw-test-a.tsv"),
+  CIRAL_V10_YO_TEST_A(TsvIntTopicReader.class, "topics.ciral-v1.0-yo-test-a.tsv"),
+  CIRAL_V10_HA_TEST_B(TsvIntTopicReader.class, "topics.ciral-v1.0-ha-test-b.tsv"),
+  CIRAL_V10_SO_TEST_B(TsvIntTopicReader.class, "topics.ciral-v1.0-so-test-b.tsv"),
+  CIRAL_V10_SW_TEST_B(TsvIntTopicReader.class, "topics.ciral-v1.0-sw-test-b.tsv"),
+  CIRAL_V10_YO_TEST_B(TsvIntTopicReader.class, "topics.ciral-v1.0-yo-test-b.tsv"),
+  CIRAL_V10_HA_TEST_A_NATIVE(TsvIntTopicReader.class, "topics.ciral-v1.0-ha-test-a-native.tsv"),
+  CIRAL_V10_SO_TEST_A_NATIVE(TsvIntTopicReader.class, "topics.ciral-v1.0-so-test-a-native.tsv"),
+  CIRAL_V10_SW_TEST_A_NATIVE(TsvIntTopicReader.class, "topics.ciral-v1.0-sw-test-a-native.tsv"),
+  CIRAL_V10_YO_TEST_A_NATIVE(TsvIntTopicReader.class, "topics.ciral-v1.0-yo-test-a-native.tsv"),
+  CIRAL_V10_HA_TEST_B_NATIVE(TsvIntTopicReader.class, "topics.ciral-v1.0-ha-test-b-native.tsv"),
+  CIRAL_V10_SO_TEST_B_NATIVE(TsvIntTopicReader.class, "topics.ciral-v1.0-so-test-b-native.tsv"),
+  CIRAL_V10_SW_TEST_B_NATIVE(TsvIntTopicReader.class, "topics.ciral-v1.0-sw-test-b-native.tsv"),
+  CIRAL_V10_YO_TEST_B_NATIVE(TsvIntTopicReader.class, "topics.ciral-v1.0-yo-test-b-native.tsv"),
   CIRAL_V10_HA_DEV_MONO(TsvIntTopicReader.class, "topics.ciral-v1.0-ha-dev-native.tsv"),
   CIRAL_V10_SO_DEV_MONO(TsvIntTopicReader.class, "topics.ciral-v1.0-so-dev-native.tsv"),
   CIRAL_V10_SW_DEV_MONO(TsvIntTopicReader.class, "topics.ciral-v1.0-sw-dev-native.tsv"),
   CIRAL_V10_YO_DEV_MONO(TsvIntTopicReader.class, "topics.ciral-v1.0-yo-dev-native.tsv"),
+
+  // BRIGHT queries converted to tsv format (some spacing changes were made to the original queries)
+  BRIGHT_BIOLOGY(TsvStringTopicReader.class, "topics.bright-biology.tsv.gz"),
+  BRIGHT_EARTH_SCIENCE(TsvStringTopicReader.class, "topics.bright-earth-science.tsv.gz"),
+  BRIGHT_ECONOMICS(TsvStringTopicReader.class, "topics.bright-economics.tsv.gz"),
+  BRIGHT_PSYCHOLOGY(TsvStringTopicReader.class, "topics.bright-psychology.tsv.gz"),
+  BRIGHT_ROBOTICS(TsvStringTopicReader.class, "topics.bright-robotics.tsv.gz"),
+  BRIGHT_STACKOVERFLOW(TsvStringTopicReader.class, "topics.bright-stackoverflow.tsv.gz"),
+  BRIGHT_SUSTAINABLE_LIVING(TsvStringTopicReader.class, "topics.bright-sustainable-living.tsv.gz"),
+  BRIGHT_PONY(TsvStringTopicReader.class, "topics.bright-pony.tsv.gz"),
+  BRIGHT_LEETCODE(TsvStringTopicReader.class, "topics.bright-leetcode.tsv.gz"),
+  BRIGHT_AOPS(TsvStringTopicReader.class, "topics.bright-aops.tsv.gz"),
+  BRIGHT_THEOREMQA_THEOREMS(TsvStringTopicReader.class, "topics.bright-theoremqa-theorems.tsv.gz"),
+  BRIGHT_THEOREMQA_QUESTIONS(TsvStringTopicReader.class, "topics.bright-theoremqa-questions.tsv.gz"),
+
+  // BRIGHT queries original jsonl format
+  BRIGHT_BIOLOGY_ORIGINAL(JsonStringTopicReader.class, "topics.bright-biology-original.jsonl.gz"),
+  BRIGHT_EARTH_SCIENCE_ORIGINAL(JsonStringTopicReader.class, "topics.bright-earth-science-original.jsonl.gz"),
+  BRIGHT_ECONOMICS_ORIGINAL(JsonStringTopicReader.class, "topics.bright-economics-original.jsonl.gz"),
+  BRIGHT_PSYCHOLOGY_ORIGINAL(JsonStringTopicReader.class, "topics.bright-psychology-original.jsonl.gz"),
+  BRIGHT_ROBOTICS_ORIGINAL(JsonStringTopicReader.class, "topics.bright-robotics-original.jsonl.gz"),
+  BRIGHT_STACKOVERFLOW_ORIGINAL(JsonStringTopicReader.class, "topics.bright-stackoverflow-original.jsonl.gz"),
+  BRIGHT_SUSTAINABLE_LIVING_ORIGINAL(JsonStringTopicReader.class, "topics.bright-sustainable-living-original.jsonl.gz"),
+  BRIGHT_PONY_ORIGINAL(JsonStringTopicReader.class, "topics.bright-pony-original.jsonl.gz"),
+  BRIGHT_LEETCODE_ORIGINAL(JsonStringTopicReader.class, "topics.bright-leetcode-original.jsonl.gz"),
+  BRIGHT_AOPS_ORIGINAL(JsonStringTopicReader.class, "topics.bright-aops-original.jsonl.gz"),
+  BRIGHT_THEOREMQA_THEOREMS_ORIGINAL(JsonStringTopicReader.class, "topics.bright-theoremqa-theorems-original.jsonl.gz"),
+  BRIGHT_THEOREMQA_QUESTIONS_ORIGINAL(JsonStringTopicReader.class, "topics.bright-theoremqa-questions-original.jsonl.gz"),
+
+  // BRIGHT: pre-encoded queries for SPLADE-v3
+  BRIGHT_BIOLOGY_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-biology.splade-v3.tsv.gz"),
+  BRIGHT_EARTH_SCIENCE_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-earth-science.splade-v3.tsv.gz"),
+  BRIGHT_ECONOMICS_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-economics.splade-v3.tsv.gz"),
+  BRIGHT_PSYCHOLOGY_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-psychology.splade-v3.tsv.gz"),
+  BRIGHT_ROBOTICS_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-robotics.splade-v3.tsv.gz"),
+  BRIGHT_STACKOVERFLOW_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-stackoverflow.splade-v3.tsv.gz"),
+  BRIGHT_SUSTAINABLE_LIVING_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-sustainable-living.splade-v3.tsv.gz"),
+  BRIGHT_PONY_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-pony.splade-v3.tsv.gz"),
+  BRIGHT_LEETCODE_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-leetcode.splade-v3.tsv.gz"),
+  BRIGHT_AOPS_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-aops.splade-v3.tsv.gz"),
+  BRIGHT_THEOREMQA_THEOREMS_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-theoremqa-theorems.splade-v3.tsv.gz"),
+  BRIGHT_THEOREMQA_QUESTIONS_SPLADE_V3(TsvStringTopicReader.class, "topics.bright-theoremqa-questions.splade-v3.tsv.gz"),
+
+  // BRIGHT: pre-encoded queries for BGE-large-en-v1.5
+  BRIGHT_BIOLOGY_BGE_LARGE_EN_15(JsonStringVectorTopicReader.class, "topics.bright-biology.bge-large-en-v1.5.jsonl.gz"),
+  BRIGHT_EARTH_SCIENCE_BGE_LARGE_EN_15(JsonStringVectorTopicReader.class, "topics.bright-earth-science.bge-large-en-v1.5.jsonl.gz"),
+  BRIGHT_ECONOMICS_BGE_LARGE_EN_15(JsonStringVectorTopicReader.class, "topics.bright-economics.bge-large-en-v1.5.jsonl.gz"),
+  BRIGHT_PSYCHOLOGY_BGE_LARGE_EN_15(JsonStringVectorTopicReader.class, "topics.bright-psychology.bge-large-en-v1.5.jsonl.gz"),
+  BRIGHT_ROBOTICS_BGE_LARGE_EN_15(JsonStringVectorTopicReader.class, "topics.bright-robotics.bge-large-en-v1.5.jsonl.gz"),
+  BRIGHT_STACKOVERFLOW_BGE_LARGE_EN_15(JsonStringVectorTopicReader.class, "topics.bright-stackoverflow.bge-large-en-v1.5.jsonl.gz"),
+  BRIGHT_SUSTAINABLE_LIVING_BGE_LARGE_EN_15(JsonStringVectorTopicReader.class, "topics.bright-sustainable-living.bge-large-en-v1.5.jsonl.gz"),
+  BRIGHT_PONY_BGE_LARGE_EN_15(JsonStringVectorTopicReader.class, "topics.bright-pony.bge-large-en-v1.5.jsonl.gz"),
+  BRIGHT_LEETCODE_BGE_LARGE_EN_15(JsonStringVectorTopicReader.class, "topics.bright-leetcode.bge-large-en-v1.5.jsonl.gz"),
+  BRIGHT_AOPS_BGE_LARGE_EN_15(JsonStringVectorTopicReader.class, "topics.bright-aops.bge-large-en-v1.5.jsonl.gz"),
+  BRIGHT_THEOREMQA_THEOREMS_BGE_LARGE_EN_15(JsonStringVectorTopicReader.class, "topics.bright-theoremqa-theorems.bge-large-en-v1.5.jsonl.gz"),
+  BRIGHT_THEOREMQA_QUESTIONS_BGE_LARGE_EN_15(JsonStringVectorTopicReader.class, "topics.bright-theoremqa-questions.bge-large-en-v1.5.jsonl.gz"),
+
+  // M-BEIR original queries
+  M_BEIR_CIRR_TASK7_TEST(JsonStringTopicReader.class, "topics.mbeir-cirr_task7.test.jsonl"),
+  M_BEIR_EDIS_TASK2_TEST(JsonStringTopicReader.class, "topics.mbeir-edis_task2.test.jsonl"),
+  M_BEIR_FASHION200K_TASK0_TEST(JsonStringTopicReader.class, "topics.mbeir-fashion200k_task0.test.jsonl"),
+  M_BEIR_FASHION200K_TASK3_TEST(JsonStringTopicReader.class, "topics.mbeir-fashion200k_task3.test.jsonl"),
+  M_BEIR_FASHIONIQ_TASK7_TEST(JsonStringTopicReader.class, "topics.mbeir-fashioniq_task7.test.jsonl"),
+  M_BEIR_INFOSEEK_TASK6_TEST(JsonStringTopicReader.class, "topics.mbeir-infoseek_task6.test.jsonl"),
+  M_BEIR_INFOSEEK_TASK8_TEST(JsonStringTopicReader.class, "topics.mbeir-infoseek_task8.test.jsonl"),
+  M_BEIR_MSCOCO_TASK0_TEST(JsonStringTopicReader.class, "topics.mbeir-mscoco_task0.test.jsonl"),
+  M_BEIR_MSCOCO_TASK3_TEST(JsonStringTopicReader.class, "topics.mbeir-mscoco_task3.test.jsonl"),
+  M_BEIR_NIGHTS_TASK4_TEST(JsonStringTopicReader.class, "topics.mbeir-nights_task4.test.jsonl"),
+  M_BEIR_OVEN_TASK6_TEST(JsonStringTopicReader.class, "topics.mbeir-oven_task6.test.jsonl"),
+  M_BEIR_OVEN_TASK8_TEST(JsonStringTopicReader.class, "topics.mbeir-oven_task8.test.jsonl"),
+  M_BEIR_VISUALNEWS_TASK0_TEST(JsonStringTopicReader.class, "topics.mbeir-visualnews_task0.test.jsonl"),
+  M_BEIR_VISUALNEWS_TASK3_TEST(JsonStringTopicReader.class, "topics.mbeir-visualnews_task3.test.jsonl"),
+  M_BEIR_WEBQA_TASK1_TEST(JsonStringTopicReader.class, "topics.mbeir-webqa_task1.test.jsonl"),
+  M_BEIR_WEBQA_TASK2_TEST(JsonStringTopicReader.class, "topics.mbeir-webqa_task2.test.jsonl"),
+
+  // MMEB-VisDoc queries
+  MMEB_VISDOC_VIDORE_ARXIVQA_TEST(JsonStringTopicReader.class, "topics.mmeb-visdoc-ViDoRe_arxivqa.test.jsonl"),
+  MMEB_VISDOC_VIDORE_DOCVQA_TEST(JsonStringTopicReader.class, "topics.mmeb-visdoc-ViDoRe_docvqa.test.jsonl"),
+  MMEB_VISDOC_VIDORE_INFOVQA_TEST(JsonStringTopicReader.class, "topics.mmeb-visdoc-ViDoRe_infovqa.test.jsonl"),
+  MMEB_VISDOC_VIDORE_SHIFTPROJECT_TEST(JsonStringTopicReader.class, "topics.mmeb-visdoc-ViDoRe_shiftproject.test.jsonl"),
+  MMEB_VISDOC_VIDORE_SYNTHETIC_DOCQA_ARTIFICIAL_INTELLIGENCE_TEST(JsonStringTopicReader.class, "topics.mmeb-visdoc-ViDoRe_syntheticDocQA_artificial_intelligence.test.jsonl"),
+  MMEB_VISDOC_VIDORE_SYNTHETIC_DOCQA_ENERGY_TEST(JsonStringTopicReader.class, "topics.mmeb-visdoc-ViDoRe_syntheticDocQA_energy.test.jsonl"),
+  MMEB_VISDOC_VIDORE_SYNTHETIC_DOCQA_GOVERNMENT_REPORTS_TEST(JsonStringTopicReader.class, "topics.mmeb-visdoc-ViDoRe_syntheticDocQA_government_reports.test.jsonl"),
+  MMEB_VISDOC_VIDORE_SYNTHETIC_DOCQA_HEALTHCARE_INDUSTRY_TEST(JsonStringTopicReader.class, "topics.mmeb-visdoc-ViDoRe_syntheticDocQA_healthcare_industry.test.jsonl"),
+  MMEB_VISDOC_VIDORE_TABFQUAD_TEST(JsonStringTopicReader.class, "topics.mmeb-visdoc-ViDoRe_tabfquad.test.jsonl"),
+  MMEB_VISDOC_VIDORE_TATDQA_TEST(JsonStringTopicReader.class, "topics.mmeb-visdoc-ViDoRe_tatdqa.test.jsonl"),
+  MMEB_VISDOC_VIDORE_BIOMEDICAL_LECTURES_V2_TEST(JsonStringTopicReader.class, "topics.mmeb-visdoc-ViDoRe_biomedical_lectures_v2.test.jsonl"),
+  MMEB_VISDOC_VIDORE_BIOMEDICAL_LECTURES_V2_MULTILINGUAL_TEST(JsonStringTopicReader.class, "topics.mmeb-visdoc-ViDoRe_biomedical_lectures_v2_multilingual.test.jsonl"),
+  MMEB_VISDOC_VIDORE_ECONOMICS_REPORTS_V2_TEST(JsonStringTopicReader.class, "topics.mmeb-visdoc-ViDoRe_economics_reports_v2.test.jsonl"),
+  MMEB_VISDOC_VIDORE_ECONOMICS_REPORTS_V2_MULTILINGUAL_TEST(JsonStringTopicReader.class, "topics.mmeb-visdoc-ViDoRe_economics_reports_v2_multilingual.test.jsonl"),
+  MMEB_VISDOC_VIDORE_ESG_REPORTS_HUMAN_LABELED_V2_TEST(JsonStringTopicReader.class, "topics.mmeb-visdoc-ViDoRe_esg_reports_human_labeled_v2.test.jsonl"),
+  MMEB_VISDOC_VIDORE_ESG_REPORTS_V2_TEST(JsonStringTopicReader.class, "topics.mmeb-visdoc-ViDoRe_esg_reports_v2.test.jsonl"),
+  MMEB_VISDOC_VIDORE_ESG_REPORTS_V2_MULTILINGUAL_TEST(JsonStringTopicReader.class, "topics.mmeb-visdoc-ViDoRe_esg_reports_v2_multilingual.test.jsonl"),
+  MMEB_VISDOC_VISRAG_ARXIVQA_TRAIN(JsonStringTopicReader.class, "topics.mmeb-visdoc-VisRAG_ArxivQA.train.jsonl"),
+  MMEB_VISDOC_VISRAG_CHARTQA_TRAIN(JsonStringTopicReader.class, "topics.mmeb-visdoc-VisRAG_ChartQA.train.jsonl"),
+  MMEB_VISDOC_VISRAG_INFOVQA_TRAIN(JsonStringTopicReader.class, "topics.mmeb-visdoc-VisRAG_InfoVQA.train.jsonl"),
+  MMEB_VISDOC_VISRAG_MP_DOCVQA_TRAIN(JsonStringTopicReader.class, "topics.mmeb-visdoc-VisRAG_MP-DocVQA.train.jsonl"),
+  MMEB_VISDOC_VISRAG_PLOTQA_TRAIN(JsonStringTopicReader.class, "topics.mmeb-visdoc-VisRAG_PlotQA.train.jsonl"),
+  MMEB_VISDOC_VISRAG_SLIDEVQA_TRAIN(JsonStringTopicReader.class, "topics.mmeb-visdoc-VisRAG_SlideVQA.train.jsonl"),
+  MMEB_VISDOC_VIDOSEEK_DOC_TEST(JsonStringTopicReader.class, "topics.mmeb-visdoc-ViDoSeek-doc.test.jsonl"),
+  MMEB_VISDOC_VIDOSEEK_PAGE_TEST(JsonStringTopicReader.class, "topics.mmeb-visdoc-ViDoSeek-page.test.jsonl"),
+  MMEB_VISDOC_MMLONGBENCH_DOC_TEST(JsonStringTopicReader.class, "topics.mmeb-visdoc-MMLongBench-doc.test.jsonl"),
+  MMEB_VISDOC_MMLONGBENCH_PAGE_TEST(JsonStringTopicReader.class, "topics.mmeb-visdoc-MMLongBench-page.test.jsonl"),
 
   // unused topics
   CACM(CacmTopicReader.class,                   "topics.cacm.txt"),
@@ -436,10 +695,363 @@ public enum Topics {
   NTCIR_8_EN_EVAL(TsvStringTopicReader.class,   "topics.ntcir8en.eval.txt");
 
   public final String path;
-  public final Class<? extends TopicReader> readerClass;
+  public final Class<? extends TopicReader<?>> readerClass;
 
-  Topics(Class<? extends TopicReader> c, String path) {
+  Topics(Class<? extends TopicReader<?>> c, String path) {
     this.readerClass = c;
     this.path = path;
+  }
+
+  private static final Map<String, Topics> SYMBOL_DICTIONARY = generateSymbolDictionary();
+
+  private static Map<String, Topics> generateSymbolDictionary() {
+    Map<String, Topics> m = new HashMap<>();
+    for (Topics t : Topics.values()) {
+      String sym = t.path.replaceFirst("^topics\\.", "");
+      sym = sym.replaceFirst("(\\.tsv|\\.txt|\\.txt\\.gz|\\.jsonl|\\.jsonl\\.gz|\\.tsv\\.gz)$", "");
+      m.put(sym, t);
+    }
+
+    // Additional aliases
+    m.put("msmarco-passage-dev", MSMARCO_PASSAGE_DEV_SUBSET);
+    m.put("msmarco-passage-dev-splade-pp-ed", MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_ED);
+    m.put("msmarco-passage-dev-splade-pp-sd", MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_SD);
+    m.put("msmarco-passage-dev-splade-v3", MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_V3);
+    m.put("msmarco-passage-dev-cosdpr-distil", MSMARCO_PASSAGE_DEV_SUBSET_COSDPR_DISTIL);
+    m.put("msmarco-passage-dev-bge-base-en-v1.5", MSMARCO_PASSAGE_DEV_SUBSET_BGE_BASE_EN_15);
+    m.put("msmarco-passage-dev-cohere-embed-english-v3.0", MSMARCO_PASSAGE_DEV_SUBSET_COHERE_EMBED_ENGLISH_30);
+
+    m.put("msmarco-passage-dev.splade-pp-ed", MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_ED);
+    m.put("msmarco-passage-dev.splade-pp-sd", MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_SD);
+    m.put("msmarco-passage-dev.splade-v3", MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_V3);
+    m.put("msmarco-passage-dev.cosdpr-distil", MSMARCO_PASSAGE_DEV_SUBSET_COSDPR_DISTIL);
+    m.put("msmarco-passage-dev.bge-base-en-v1.5", MSMARCO_PASSAGE_DEV_SUBSET_BGE_BASE_EN_15);
+    m.put("msmarco-passage-dev.cohere-embed-english-v3.0", MSMARCO_PASSAGE_DEV_SUBSET_COHERE_EMBED_ENGLISH_30);
+
+    m.put("msmarco-passage.dev", MSMARCO_PASSAGE_DEV_SUBSET);
+    m.put("msmarco-passage.dev.splade-pp-ed", MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_ED);
+    m.put("msmarco-passage.dev.splade-pp-sd", MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_SD);
+    m.put("msmarco-passage.dev.splade-v3", MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_V3);
+    m.put("msmarco-passage.dev.cosdpr-distil", MSMARCO_PASSAGE_DEV_SUBSET_COSDPR_DISTIL);
+    m.put("msmarco-passage.dev.bge-base-en-v1.5", MSMARCO_PASSAGE_DEV_SUBSET_BGE_BASE_EN_15);
+    m.put("msmarco-passage.dev.cohere-embed-english-v3.0", MSMARCO_PASSAGE_DEV_SUBSET_COHERE_EMBED_ENGLISH_30);
+
+    m.put("msmarco-v1-passage-dev", MSMARCO_PASSAGE_DEV_SUBSET);
+    m.put("msmarco-v1-passage-dev-splade-pp-ed", MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_ED);
+    m.put("msmarco-v1-passage-dev-splade-pp-sd", MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_SD);
+    m.put("msmarco-v1-passage-dev-splade-v3", MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_V3);
+    m.put("msmarco-v1-passage-dev-cosdpr-distil", MSMARCO_PASSAGE_DEV_SUBSET_COSDPR_DISTIL);
+    m.put("msmarco-v1-passage-dev-bge-base-en-v1.5", MSMARCO_PASSAGE_DEV_SUBSET_BGE_BASE_EN_15);
+    m.put("msmarco-v1-passage-dev-cohere-embed-english-v3.0", MSMARCO_PASSAGE_DEV_SUBSET_COHERE_EMBED_ENGLISH_30);
+
+    m.put("msmarco-v1-passage-dev.splade-pp-ed", MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_ED);
+    m.put("msmarco-v1-passage-dev.splade-pp-sd", MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_SD);
+    m.put("msmarco-v1-passage-dev.splade-v3", MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_V3);
+    m.put("msmarco-v1-passage-dev.cosdpr-distil", MSMARCO_PASSAGE_DEV_SUBSET_COSDPR_DISTIL);
+    m.put("msmarco-v1-passage-dev.bge-base-en-v1.5", MSMARCO_PASSAGE_DEV_SUBSET_BGE_BASE_EN_15);
+    m.put("msmarco-v1-passage-dev.cohere-embed-english-v3.0", MSMARCO_PASSAGE_DEV_SUBSET_COHERE_EMBED_ENGLISH_30);
+
+    m.put("msmarco-v1-passage.dev", MSMARCO_PASSAGE_DEV_SUBSET);
+    m.put("msmarco-v1-passage.dev.splade-pp-ed", MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_ED);
+    m.put("msmarco-v1-passage.dev.splade-pp-sd", MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_PP_SD);
+    m.put("msmarco-v1-passage.dev.splade-v3", MSMARCO_PASSAGE_DEV_SUBSET_SPLADE_V3);
+    m.put("msmarco-v1-passage.dev.cosdpr-distil", MSMARCO_PASSAGE_DEV_SUBSET_COSDPR_DISTIL);
+    m.put("msmarco-v1-passage.dev.bge-base-en-v1.5", MSMARCO_PASSAGE_DEV_SUBSET_BGE_BASE_EN_15);
+    m.put("msmarco-v1-passage.dev.cohere-embed-english-v3.0", MSMARCO_PASSAGE_DEV_SUBSET_COHERE_EMBED_ENGLISH_30);
+
+    m.put("dl20-passage", TREC2020_DL);
+    m.put("dl20-doc", TREC2020_DL);
+
+    m.put("dl20-passage.splade-pp-ed", TREC2020_DL_SPLADE_PP_ED);
+    m.put("dl20-passage.splade-pp-sd", TREC2020_DL_SPLADE_PP_SD);
+    m.put("dl20-passage.splade-v3", TREC2020_DL_SPLADE_V3);
+    m.put("dl20-passage.cosdpr-distil", TREC2020_DL_COSDPR_DISTIL);
+    m.put("dl20-passage.bge-base-en-v1.5", TREC2020_DL_BGE_BASE_EN_15);
+    m.put("dl20-passage.cohere-embed-english-v3.0", TREC2020_DL_COHERE_EMBED_ENGLISH_30);
+
+    m.put("dl21-passage", TREC2021_DL);
+    m.put("dl21-doc", TREC2021_DL);
+    m.put("dl22-passage", TREC2022_DL);
+    m.put("dl22-doc", TREC2022_DL);
+    m.put("dl23-passage", TREC2023_DL);
+    m.put("dl23-doc", TREC2023_DL);
+
+    m.put("beir-trec-covid", BEIR_V1_0_0_TREC_COVID_TEST);
+    m.put("beir-bioasq", BEIR_V1_0_0_BIOASQ_TEST);
+    m.put("beir-nfcorpus", BEIR_V1_0_0_NFCORPUS_TEST);
+    m.put("beir-nq", BEIR_V1_0_0_NQ_TEST);
+    m.put("beir-hotpotqa", BEIR_V1_0_0_HOTPOTQA_TEST);
+    m.put("beir-fiqa", BEIR_V1_0_0_FIQA_TEST);
+    m.put("beir-signal1m", BEIR_V1_0_0_SIGNAL1M_TEST);
+    m.put("beir-trec-news", BEIR_V1_0_0_TREC_NEWS_TEST);
+    m.put("beir-robust04", BEIR_V1_0_0_ROBUST04_TEST);
+    m.put("beir-arguana", BEIR_V1_0_0_ARGUANA_TEST);
+    m.put("beir-webis-touche2020", BEIR_V1_0_0_WEBIS_TOUCHE2020_TEST);
+    m.put("beir-cqadupstack-android", BEIR_V1_0_0_CQADUPSTACK_ANDROID_TEST);
+    m.put("beir-cqadupstack-english", BEIR_V1_0_0_CQADUPSTACK_ENGLISH_TEST);
+    m.put("beir-cqadupstack-gaming", BEIR_V1_0_0_CQADUPSTACK_GAMING_TEST);
+    m.put("beir-cqadupstack-gis", BEIR_V1_0_0_CQADUPSTACK_GIS_TEST);
+    m.put("beir-cqadupstack-mathematica", BEIR_V1_0_0_CQADUPSTACK_MATHEMATICA_TEST);
+    m.put("beir-cqadupstack-physics", BEIR_V1_0_0_CQADUPSTACK_PHYSICS_TEST);
+    m.put("beir-cqadupstack-programmers", BEIR_V1_0_0_CQADUPSTACK_PROGRAMMERS_TEST);
+    m.put("beir-cqadupstack-stats", BEIR_V1_0_0_CQADUPSTACK_STATS_TEST);
+    m.put("beir-cqadupstack-tex", BEIR_V1_0_0_CQADUPSTACK_TEX_TEST);
+    m.put("beir-cqadupstack-unix", BEIR_V1_0_0_CQADUPSTACK_UNIX_TEST);
+    m.put("beir-cqadupstack-webmasters", BEIR_V1_0_0_CQADUPSTACK_WEBMASTERS_TEST);
+    m.put("beir-cqadupstack-wordpress", BEIR_V1_0_0_CQADUPSTACK_WORDPRESS_TEST);
+    m.put("beir-quora", BEIR_V1_0_0_QUORA_TEST);
+    m.put("beir-dbpedia-entity", BEIR_V1_0_0_DBPEDIA_ENTITY_TEST);
+    m.put("beir-scidocs", BEIR_V1_0_0_SCIDOCS_TEST);
+    m.put("beir-fever", BEIR_V1_0_0_FEVER_TEST);
+    m.put("beir-climate-fever", BEIR_V1_0_0_CLIMATE_FEVER_TEST);
+    m.put("beir-scifact", BEIR_V1_0_0_SCIFACT_TEST);
+
+    m.put("beir-trec-covid-splade-pp-ed", BEIR_V1_0_0_TREC_COVID_TEST_SPLADE_PP_ED);
+    m.put("beir-bioasq-splade-pp-ed", BEIR_V1_0_0_BIOASQ_TEST_SPLADE_PP_ED);
+    m.put("beir-nfcorpus-splade-pp-ed", BEIR_V1_0_0_NFCORPUS_TEST_SPLADE_PP_ED);
+    m.put("beir-nq-splade-pp-ed", BEIR_V1_0_0_NQ_TEST_SPLADE_PP_ED);
+    m.put("beir-hotpotqa-splade-pp-ed", BEIR_V1_0_0_HOTPOTQA_TEST_SPLADE_PP_ED);
+    m.put("beir-fiqa-splade-pp-ed", BEIR_V1_0_0_FIQA_TEST_SPLADE_PP_ED);
+    m.put("beir-signal1m-splade-pp-ed", BEIR_V1_0_0_SIGNAL1M_TEST_SPLADE_PP_ED);
+    m.put("beir-trec-news-splade-pp-ed", BEIR_V1_0_0_TREC_NEWS_TEST_SPLADE_PP_ED);
+    m.put("beir-robust04-splade-pp-ed", BEIR_V1_0_0_ROBUST04_TEST_SPLADE_PP_ED);
+    m.put("beir-arguana-splade-pp-ed", BEIR_V1_0_0_ARGUANA_TEST_SPLADE_PP_ED);
+    m.put("beir-webis-touche2020-splade-pp-ed", BEIR_V1_0_0_WEBIS_TOUCHE2020_TEST_SPLADE_PP_ED);
+    m.put("beir-cqadupstack-android-splade-pp-ed", BEIR_V1_0_0_CQADUPSTACK_ANDROID_TEST_SPLADE_PP_ED);
+    m.put("beir-cqadupstack-english-splade-pp-ed", BEIR_V1_0_0_CQADUPSTACK_ENGLISH_TEST_SPLADE_PP_ED);
+    m.put("beir-cqadupstack-gaming-splade-pp-ed", BEIR_V1_0_0_CQADUPSTACK_GAMING_TEST_SPLADE_PP_ED);
+    m.put("beir-cqadupstack-gis-splade-pp-ed", BEIR_V1_0_0_CQADUPSTACK_GIS_TEST_SPLADE_PP_ED);
+    m.put("beir-cqadupstack-mathematica-splade-pp-ed", BEIR_V1_0_0_CQADUPSTACK_MATHEMATICA_TEST_SPLADE_PP_ED);
+    m.put("beir-cqadupstack-physics-splade-pp-ed", BEIR_V1_0_0_CQADUPSTACK_PHYSICS_TEST_SPLADE_PP_ED);
+    m.put("beir-cqadupstack-programmers-splade-pp-ed", BEIR_V1_0_0_CQADUPSTACK_PROGRAMMERS_TEST_SPLADE_PP_ED);
+    m.put("beir-cqadupstack-stats-splade-pp-ed", BEIR_V1_0_0_CQADUPSTACK_STATS_TEST_SPLADE_PP_ED);
+    m.put("beir-cqadupstack-tex-splade-pp-ed", BEIR_V1_0_0_CQADUPSTACK_TEX_TEST_SPLADE_PP_ED);
+    m.put("beir-cqadupstack-unix-splade-pp-ed", BEIR_V1_0_0_CQADUPSTACK_UNIX_TEST_SPLADE_PP_ED);
+    m.put("beir-cqadupstack-webmasters-splade-pp-ed", BEIR_V1_0_0_CQADUPSTACK_WEBMASTERS_TEST_SPLADE_PP_ED);
+    m.put("beir-cqadupstack-wordpress-splade-pp-ed", BEIR_V1_0_0_CQADUPSTACK_WORDPRESS_TEST_SPLADE_PP_ED);
+    m.put("beir-quora-splade-pp-ed", BEIR_V1_0_0_QUORA_TEST_SPLADE_PP_ED);
+    m.put("beir-dbpedia-entity-splade-pp-ed", BEIR_V1_0_0_DBPEDIA_ENTITY_TEST_SPLADE_PP_ED);
+    m.put("beir-scidocs-splade-pp-ed", BEIR_V1_0_0_SCIDOCS_TEST_SPLADE_PP_ED);
+    m.put("beir-fever-splade-pp-ed", BEIR_V1_0_0_FEVER_TEST_SPLADE_PP_ED);
+    m.put("beir-climate-fever-splade-pp-ed", BEIR_V1_0_0_CLIMATE_FEVER_TEST_SPLADE_PP_ED);
+    m.put("beir-scifact-splade-pp-ed", BEIR_V1_0_0_SCIFACT_TEST_SPLADE_PP_ED);
+
+    m.put("beir-trec-covid.splade-pp-ed", BEIR_V1_0_0_TREC_COVID_TEST_SPLADE_PP_ED);
+    m.put("beir-bioasq.splade-pp-ed", BEIR_V1_0_0_BIOASQ_TEST_SPLADE_PP_ED);
+    m.put("beir-nfcorpus.splade-pp-ed", BEIR_V1_0_0_NFCORPUS_TEST_SPLADE_PP_ED);
+    m.put("beir-nq.splade-pp-ed", BEIR_V1_0_0_NQ_TEST_SPLADE_PP_ED);
+    m.put("beir-hotpotqa.splade-pp-ed", BEIR_V1_0_0_HOTPOTQA_TEST_SPLADE_PP_ED);
+    m.put("beir-fiqa.splade-pp-ed", BEIR_V1_0_0_FIQA_TEST_SPLADE_PP_ED);
+    m.put("beir-signal1m.splade-pp-ed", BEIR_V1_0_0_SIGNAL1M_TEST_SPLADE_PP_ED);
+    m.put("beir-trec-news.splade-pp-ed", BEIR_V1_0_0_TREC_NEWS_TEST_SPLADE_PP_ED);
+    m.put("beir-robust04.splade-pp-ed", BEIR_V1_0_0_ROBUST04_TEST_SPLADE_PP_ED);
+    m.put("beir-arguana.splade-pp-ed", BEIR_V1_0_0_ARGUANA_TEST_SPLADE_PP_ED);
+    m.put("beir-webis-touche2020.splade-pp-ed", BEIR_V1_0_0_WEBIS_TOUCHE2020_TEST_SPLADE_PP_ED);
+    m.put("beir-cqadupstack-android.splade-pp-ed", BEIR_V1_0_0_CQADUPSTACK_ANDROID_TEST_SPLADE_PP_ED);
+    m.put("beir-cqadupstack-english.splade-pp-ed", BEIR_V1_0_0_CQADUPSTACK_ENGLISH_TEST_SPLADE_PP_ED);
+    m.put("beir-cqadupstack-gaming.splade-pp-ed", BEIR_V1_0_0_CQADUPSTACK_GAMING_TEST_SPLADE_PP_ED);
+    m.put("beir-cqadupstack-gis.splade-pp-ed", BEIR_V1_0_0_CQADUPSTACK_GIS_TEST_SPLADE_PP_ED);
+    m.put("beir-cqadupstack-mathematica.splade-pp-ed", BEIR_V1_0_0_CQADUPSTACK_MATHEMATICA_TEST_SPLADE_PP_ED);
+    m.put("beir-cqadupstack-physics.splade-pp-ed", BEIR_V1_0_0_CQADUPSTACK_PHYSICS_TEST_SPLADE_PP_ED);
+    m.put("beir-cqadupstack-programmers.splade-pp-ed", BEIR_V1_0_0_CQADUPSTACK_PROGRAMMERS_TEST_SPLADE_PP_ED);
+    m.put("beir-cqadupstack-stats.splade-pp-ed", BEIR_V1_0_0_CQADUPSTACK_STATS_TEST_SPLADE_PP_ED);
+    m.put("beir-cqadupstack-tex.splade-pp-ed", BEIR_V1_0_0_CQADUPSTACK_TEX_TEST_SPLADE_PP_ED);
+    m.put("beir-cqadupstack-unix.splade-pp-ed", BEIR_V1_0_0_CQADUPSTACK_UNIX_TEST_SPLADE_PP_ED);
+    m.put("beir-cqadupstack-webmasters.splade-pp-ed", BEIR_V1_0_0_CQADUPSTACK_WEBMASTERS_TEST_SPLADE_PP_ED);
+    m.put("beir-cqadupstack-wordpress.splade-pp-ed", BEIR_V1_0_0_CQADUPSTACK_WORDPRESS_TEST_SPLADE_PP_ED);
+    m.put("beir-quora.splade-pp-ed", BEIR_V1_0_0_QUORA_TEST_SPLADE_PP_ED);
+    m.put("beir-dbpedia-entity.splade-pp-ed", BEIR_V1_0_0_DBPEDIA_ENTITY_TEST_SPLADE_PP_ED);
+    m.put("beir-scidocs.splade-pp-ed", BEIR_V1_0_0_SCIDOCS_TEST_SPLADE_PP_ED);
+    m.put("beir-fever.splade-pp-ed", BEIR_V1_0_0_FEVER_TEST_SPLADE_PP_ED);
+    m.put("beir-climate-fever.splade-pp-ed", BEIR_V1_0_0_CLIMATE_FEVER_TEST_SPLADE_PP_ED);
+    m.put("beir-scifact.splade-pp-ed", BEIR_V1_0_0_SCIFACT_TEST_SPLADE_PP_ED);
+
+    m.put("beir-trec-covid-splade-v3", BEIR_V1_0_0_TREC_COVID_TEST_SPLADE_V3);
+    m.put("beir-bioasq-splade-v3", BEIR_V1_0_0_BIOASQ_TEST_SPLADE_V3);
+    m.put("beir-nfcorpus-splade-v3", BEIR_V1_0_0_NFCORPUS_TEST_SPLADE_V3);
+    m.put("beir-nq-splade-v3", BEIR_V1_0_0_NQ_TEST_SPLADE_V3);
+    m.put("beir-hotpotqa-splade-v3", BEIR_V1_0_0_HOTPOTQA_TEST_SPLADE_V3);
+    m.put("beir-fiqa-splade-v3", BEIR_V1_0_0_FIQA_TEST_SPLADE_V3);
+    m.put("beir-signal1m-splade-v3", BEIR_V1_0_0_SIGNAL1M_TEST_SPLADE_V3);
+    m.put("beir-trec-news-splade-v3", BEIR_V1_0_0_TREC_NEWS_TEST_SPLADE_V3);
+    m.put("beir-robust04-splade-v3", BEIR_V1_0_0_ROBUST04_TEST_SPLADE_V3);
+    m.put("beir-arguana-splade-v3", BEIR_V1_0_0_ARGUANA_TEST_SPLADE_V3);
+    m.put("beir-webis-touche2020-splade-v3", BEIR_V1_0_0_WEBIS_TOUCHE2020_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-android-splade-v3", BEIR_V1_0_0_CQADUPSTACK_ANDROID_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-english-splade-v3", BEIR_V1_0_0_CQADUPSTACK_ENGLISH_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-gaming-splade-v3", BEIR_V1_0_0_CQADUPSTACK_GAMING_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-gis-splade-v3", BEIR_V1_0_0_CQADUPSTACK_GIS_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-mathematica-splade-v3", BEIR_V1_0_0_CQADUPSTACK_MATHEMATICA_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-physics-splade-v3", BEIR_V1_0_0_CQADUPSTACK_PHYSICS_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-programmers-splade-v3", BEIR_V1_0_0_CQADUPSTACK_PROGRAMMERS_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-stats-splade-v3", BEIR_V1_0_0_CQADUPSTACK_STATS_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-tex-splade-v3", BEIR_V1_0_0_CQADUPSTACK_TEX_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-unix-splade-v3", BEIR_V1_0_0_CQADUPSTACK_UNIX_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-webmasters-splade-v3", BEIR_V1_0_0_CQADUPSTACK_WEBMASTERS_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-wordpress-splade-v3", BEIR_V1_0_0_CQADUPSTACK_WORDPRESS_TEST_SPLADE_V3);
+    m.put("beir-quora-splade-v3", BEIR_V1_0_0_QUORA_TEST_SPLADE_V3);
+    m.put("beir-dbpedia-entity-splade-v3", BEIR_V1_0_0_DBPEDIA_ENTITY_TEST_SPLADE_V3);
+    m.put("beir-scidocs-splade-v3", BEIR_V1_0_0_SCIDOCS_TEST_SPLADE_V3);
+    m.put("beir-fever-splade-v3", BEIR_V1_0_0_FEVER_TEST_SPLADE_V3);
+    m.put("beir-climate-fever-splade-v3", BEIR_V1_0_0_CLIMATE_FEVER_TEST_SPLADE_V3);
+    m.put("beir-scifact-splade-v3", BEIR_V1_0_0_SCIFACT_TEST_SPLADE_V3);
+
+    m.put("beir-trec-covid.splade-v3", BEIR_V1_0_0_TREC_COVID_TEST_SPLADE_V3);
+    m.put("beir-bioasq.splade-v3", BEIR_V1_0_0_BIOASQ_TEST_SPLADE_V3);
+    m.put("beir-nfcorpus.splade-v3", BEIR_V1_0_0_NFCORPUS_TEST_SPLADE_V3);
+    m.put("beir-nq.splade-v3", BEIR_V1_0_0_NQ_TEST_SPLADE_V3);
+    m.put("beir-hotpotqa.splade-v3", BEIR_V1_0_0_HOTPOTQA_TEST_SPLADE_V3);
+    m.put("beir-fiqa.splade-v3", BEIR_V1_0_0_FIQA_TEST_SPLADE_V3);
+    m.put("beir-signal1m.splade-v3", BEIR_V1_0_0_SIGNAL1M_TEST_SPLADE_V3);
+    m.put("beir-trec-news.splade-v3", BEIR_V1_0_0_TREC_NEWS_TEST_SPLADE_V3);
+    m.put("beir-robust04.splade-v3", BEIR_V1_0_0_ROBUST04_TEST_SPLADE_V3);
+    m.put("beir-arguana.splade-v3", BEIR_V1_0_0_ARGUANA_TEST_SPLADE_V3);
+    m.put("beir-webis-touche2020.splade-v3", BEIR_V1_0_0_WEBIS_TOUCHE2020_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-android.splade-v3", BEIR_V1_0_0_CQADUPSTACK_ANDROID_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-english.splade-v3", BEIR_V1_0_0_CQADUPSTACK_ENGLISH_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-gaming.splade-v3", BEIR_V1_0_0_CQADUPSTACK_GAMING_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-gis.splade-v3", BEIR_V1_0_0_CQADUPSTACK_GIS_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-mathematica.splade-v3", BEIR_V1_0_0_CQADUPSTACK_MATHEMATICA_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-physics.splade-v3", BEIR_V1_0_0_CQADUPSTACK_PHYSICS_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-programmers.splade-v3", BEIR_V1_0_0_CQADUPSTACK_PROGRAMMERS_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-stats.splade-v3", BEIR_V1_0_0_CQADUPSTACK_STATS_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-tex.splade-v3", BEIR_V1_0_0_CQADUPSTACK_TEX_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-unix.splade-v3", BEIR_V1_0_0_CQADUPSTACK_UNIX_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-webmasters.splade-v3", BEIR_V1_0_0_CQADUPSTACK_WEBMASTERS_TEST_SPLADE_V3);
+    m.put("beir-cqadupstack-wordpress.splade-v3", BEIR_V1_0_0_CQADUPSTACK_WORDPRESS_TEST_SPLADE_V3);
+    m.put("beir-quora.splade-v3", BEIR_V1_0_0_QUORA_TEST_SPLADE_V3);
+    m.put("beir-dbpedia-entity.splade-v3", BEIR_V1_0_0_DBPEDIA_ENTITY_TEST_SPLADE_V3);
+    m.put("beir-scidocs.splade-v3", BEIR_V1_0_0_SCIDOCS_TEST_SPLADE_V3);
+    m.put("beir-fever.splade-v3", BEIR_V1_0_0_FEVER_TEST_SPLADE_V3);
+    m.put("beir-climate-fever.splade-v3", BEIR_V1_0_0_CLIMATE_FEVER_TEST_SPLADE_V3);
+    m.put("beir-scifact.splade-v3", BEIR_V1_0_0_SCIFACT_TEST_SPLADE_V3);
+
+    m.put("beir-trec-covid-bge-base-en-v1.5", BEIR_V1_0_0_TREC_COVID_TEST_BGE_BASE_EN_15);
+    m.put("beir-bioasq-bge-base-en-v1.5", BEIR_V1_0_0_BIOASQ_TEST_BGE_BASE_EN_15);
+    m.put("beir-nfcorpus-bge-base-en-v1.5", BEIR_V1_0_0_NFCORPUS_TEST_BGE_BASE_EN_15);
+    m.put("beir-nq-bge-base-en-v1.5", BEIR_V1_0_0_NQ_TEST_BGE_BASE_EN_15);
+    m.put("beir-hotpotqa-bge-base-en-v1.5", BEIR_V1_0_0_HOTPOTQA_TEST_BGE_BASE_EN_15);
+    m.put("beir-fiqa-bge-base-en-v1.5", BEIR_V1_0_0_FIQA_TEST_BGE_BASE_EN_15);
+    m.put("beir-signal1m-bge-base-en-v1.5", BEIR_V1_0_0_SIGNAL1M_TEST_BGE_BASE_EN_15);
+    m.put("beir-trec-news-bge-base-en-v1.5", BEIR_V1_0_0_TREC_NEWS_TEST_BGE_BASE_EN_15);
+    m.put("beir-robust04-bge-base-en-v1.5", BEIR_V1_0_0_ROBUST04_TEST_BGE_BASE_EN_15);
+    m.put("beir-arguana-bge-base-en-v1.5", BEIR_V1_0_0_ARGUANA_TEST_BGE_BASE_EN_15);
+    m.put("beir-webis-touche2020-bge-base-en-v1.5", BEIR_V1_0_0_WEBIS_TOUCHE2020_TEST_BGE_BASE_EN_15);
+    m.put("beir-cqadupstack-android-bge-base-en-v1.5", BEIR_V1_0_0_CQADUPSTACK_ANDROID_TEST_BGE_BASE_EN_15);
+    m.put("beir-cqadupstack-english-bge-base-en-v1.5", BEIR_V1_0_0_CQADUPSTACK_ENGLISH_TEST_BGE_BASE_EN_15);
+    m.put("beir-cqadupstack-gaming-bge-base-en-v1.5", BEIR_V1_0_0_CQADUPSTACK_GAMING_TEST_BGE_BASE_EN_15);
+    m.put("beir-cqadupstack-gis-bge-base-en-v1.5", BEIR_V1_0_0_CQADUPSTACK_GIS_TEST_BGE_BASE_EN_15);
+    m.put("beir-cqadupstack-mathematica-bge-base-en-v1.5", BEIR_V1_0_0_CQADUPSTACK_MATHEMATICA_TEST_BGE_BASE_EN_15);
+    m.put("beir-cqadupstack-physics-bge-base-en-v1.5", BEIR_V1_0_0_CQADUPSTACK_PHYSICS_TEST_BGE_BASE_EN_15);
+    m.put("beir-cqadupstack-programmers-bge-base-en-v1.5", BEIR_V1_0_0_CQADUPSTACK_PROGRAMMERS_TEST_BGE_BASE_EN_15);
+    m.put("beir-cqadupstack-stats-bge-base-en-v1.5", BEIR_V1_0_0_CQADUPSTACK_STATS_TEST_BGE_BASE_EN_15);
+    m.put("beir-cqadupstack-tex-bge-base-en-v1.5", BEIR_V1_0_0_CQADUPSTACK_TEX_TEST_BGE_BASE_EN_15);
+    m.put("beir-cqadupstack-unix-bge-base-en-v1.5", BEIR_V1_0_0_CQADUPSTACK_UNIX_TEST_BGE_BASE_EN_15);
+    m.put("beir-cqadupstack-webmasters-bge-base-en-v1.5", BEIR_V1_0_0_CQADUPSTACK_WEBMASTERS_TEST_BGE_BASE_EN_15);
+    m.put("beir-cqadupstack-wordpress-bge-base-en-v1.5", BEIR_V1_0_0_CQADUPSTACK_WORDPRESS_TEST_BGE_BASE_EN_15);
+    m.put("beir-quora-bge-base-en-v1.5", BEIR_V1_0_0_QUORA_TEST_BGE_BASE_EN_15);
+    m.put("beir-dbpedia-entity-bge-base-en-v1.5", BEIR_V1_0_0_DBPEDIA_ENTITY_TEST_BGE_BASE_EN_15);
+    m.put("beir-scidocs-bge-base-en-v1.5", BEIR_V1_0_0_SCIDOCS_TEST_BGE_BASE_EN_15);
+    m.put("beir-fever-bge-base-en-v1.5", BEIR_V1_0_0_FEVER_TEST_BGE_BASE_EN_15);
+    m.put("beir-climate-fever-bge-base-en-v1.5", BEIR_V1_0_0_CLIMATE_FEVER_TEST_BGE_BASE_EN_15);
+    m.put("beir-scifact-bge-base-en-v1.5", BEIR_V1_0_0_SCIFACT_TEST_BGE_BASE_EN_15);
+
+    m.put("beir-trec-covid.bge-base-en-v1.5", BEIR_V1_0_0_TREC_COVID_TEST_BGE_BASE_EN_15);
+    m.put("beir-bioasq.bge-base-en-v1.5", BEIR_V1_0_0_BIOASQ_TEST_BGE_BASE_EN_15);
+    m.put("beir-nfcorpus.bge-base-en-v1.5", BEIR_V1_0_0_NFCORPUS_TEST_BGE_BASE_EN_15);
+    m.put("beir-nq.bge-base-en-v1.5", BEIR_V1_0_0_NQ_TEST_BGE_BASE_EN_15);
+    m.put("beir-hotpotqa.bge-base-en-v1.5", BEIR_V1_0_0_HOTPOTQA_TEST_BGE_BASE_EN_15);
+    m.put("beir-fiqa.bge-base-en-v1.5", BEIR_V1_0_0_FIQA_TEST_BGE_BASE_EN_15);
+    m.put("beir-signal1m.bge-base-en-v1.5", BEIR_V1_0_0_SIGNAL1M_TEST_BGE_BASE_EN_15);
+    m.put("beir-trec-news.bge-base-en-v1.5", BEIR_V1_0_0_TREC_NEWS_TEST_BGE_BASE_EN_15);
+    m.put("beir-robust04.bge-base-en-v1.5", BEIR_V1_0_0_ROBUST04_TEST_BGE_BASE_EN_15);
+    m.put("beir-arguana.bge-base-en-v1.5", BEIR_V1_0_0_ARGUANA_TEST_BGE_BASE_EN_15);
+    m.put("beir-webis-touche2020.bge-base-en-v1.5", BEIR_V1_0_0_WEBIS_TOUCHE2020_TEST_BGE_BASE_EN_15);
+    m.put("beir-cqadupstack-android.bge-base-en-v1.5", BEIR_V1_0_0_CQADUPSTACK_ANDROID_TEST_BGE_BASE_EN_15);
+    m.put("beir-cqadupstack-english.bge-base-en-v1.5", BEIR_V1_0_0_CQADUPSTACK_ENGLISH_TEST_BGE_BASE_EN_15);
+    m.put("beir-cqadupstack-gaming.bge-base-en-v1.5", BEIR_V1_0_0_CQADUPSTACK_GAMING_TEST_BGE_BASE_EN_15);
+    m.put("beir-cqadupstack-gis.bge-base-en-v1.5", BEIR_V1_0_0_CQADUPSTACK_GIS_TEST_BGE_BASE_EN_15);
+    m.put("beir-cqadupstack-mathematica.bge-base-en-v1.5", BEIR_V1_0_0_CQADUPSTACK_MATHEMATICA_TEST_BGE_BASE_EN_15);
+    m.put("beir-cqadupstack-physics.bge-base-en-v1.5", BEIR_V1_0_0_CQADUPSTACK_PHYSICS_TEST_BGE_BASE_EN_15);
+    m.put("beir-cqadupstack-programmers.bge-base-en-v1.5", BEIR_V1_0_0_CQADUPSTACK_PROGRAMMERS_TEST_BGE_BASE_EN_15);
+    m.put("beir-cqadupstack-stats.bge-base-en-v1.5", BEIR_V1_0_0_CQADUPSTACK_STATS_TEST_BGE_BASE_EN_15);
+    m.put("beir-cqadupstack-tex.bge-base-en-v1.5", BEIR_V1_0_0_CQADUPSTACK_TEX_TEST_BGE_BASE_EN_15);
+    m.put("beir-cqadupstack-unix.bge-base-en-v1.5", BEIR_V1_0_0_CQADUPSTACK_UNIX_TEST_BGE_BASE_EN_15);
+    m.put("beir-cqadupstack-webmasters.bge-base-en-v1.5", BEIR_V1_0_0_CQADUPSTACK_WEBMASTERS_TEST_BGE_BASE_EN_15);
+    m.put("beir-cqadupstack-wordpress.bge-base-en-v1.5", BEIR_V1_0_0_CQADUPSTACK_WORDPRESS_TEST_BGE_BASE_EN_15);
+    m.put("beir-quora.bge-base-en-v1.5", BEIR_V1_0_0_QUORA_TEST_BGE_BASE_EN_15);
+    m.put("beir-dbpedia-entity.bge-base-en-v1.5", BEIR_V1_0_0_DBPEDIA_ENTITY_TEST_BGE_BASE_EN_15);
+    m.put("beir-scidocs.bge-base-en-v1.5", BEIR_V1_0_0_SCIDOCS_TEST_BGE_BASE_EN_15);
+    m.put("beir-fever.bge-base-en-v1.5", BEIR_V1_0_0_FEVER_TEST_BGE_BASE_EN_15);
+    m.put("beir-climate-fever.bge-base-en-v1.5", BEIR_V1_0_0_CLIMATE_FEVER_TEST_BGE_BASE_EN_15);
+    m.put("beir-scifact.bge-base-en-v1.5", BEIR_V1_0_0_SCIFACT_TEST_BGE_BASE_EN_15);
+
+    return m;
+  }
+
+  public static Topics getByName(String name) {
+    try {
+      return Topics.valueOf(name);
+    } catch (IllegalArgumentException e) {
+      if (SYMBOL_DICTIONARY.containsKey(name)) {
+        return SYMBOL_DICTIONARY.get(name);
+      }
+
+      return null;
+    }
+  }
+
+  public static Set<String> getSymbolDictionaryKeys() {
+    return Collections.unmodifiableSet(SYMBOL_DICTIONARY.keySet());
+  }
+
+  public static Topics getBaseTopics(String name) {
+    name = name.replaceFirst("^topics\\.", ""); // Remove "topics." prefix if present
+    String regex = "^(.*?)(?:[.-](bge|cohere|splade|unicoil|cosdpr|txt|tsv|v\\d+|v\\d+\\.\\d+)).*"; // Regex to remove model suffixes to get base topi name
+    return Topics.getByName(name.replaceAll(regex, "$1"));
+  }
+
+  public static <K> SortedMap<K, Map<String, String>> resolve(String topics) {
+    return resolve(topics, null);
+  }
+
+  @SuppressWarnings("unchecked")
+  public static <K> SortedMap<K, Map<String, String>> resolve(String topics, String topicReader) {
+    Path topicsPath = Paths.get(topics);
+    if (!Files.exists(topicsPath) || !Files.isRegularFile(topicsPath) || !Files.isReadable(topicsPath)) {
+      Topics ref = Topics.getByName(topics);
+      if (ref == null) {
+        throw new IllegalArgumentException(String.format("\"%s\" does not refer to valid topics.", topicsPath));
+      }
+
+      try {
+        return TopicReader.getTopics(ref);
+      } catch (Exception e) {
+        throw new IllegalArgumentException(String.format("Unable to read topics \"%s\".", topics), e);
+      }
+    }
+
+    if (topicReader == null) {
+      throw new IllegalArgumentException("Must specify the topic reader using -topicReader.");
+    }
+
+    try {
+      TopicReader<K> tr = (TopicReader<K>) Class
+          .forName(String.format("io.anserini.search.topicreader.%sTopicReader", topicReader))
+          .getConstructor(Path.class).newInstance(topicsPath);
+      return tr.read();
+    } catch (Exception e) {
+      throw new IllegalArgumentException(String.format("Unable to load topic reader \"%s\".", topicReader));
+    }
+  }
+
+  public static <K> SortedMap<K, Map<String, String>> resolve(String[] topicsArray, String topicReader) {
+    SortedMap<K, Map<String, String>> topics = new TreeMap<>();
+
+    for (String topicsFile : topicsArray) {
+      topics.putAll(resolve(topicsFile, topicReader));
+    }
+
+    return topics;
   }
 }

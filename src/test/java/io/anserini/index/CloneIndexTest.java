@@ -16,7 +16,6 @@
 
 package io.anserini.index;
 
-import io.anserini.IndexerTestBase;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.codecs.FieldsProducer;
 import org.apache.lucene.index.CodecReader;
@@ -31,17 +30,29 @@ import org.apache.lucene.index.Term;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.jetbrains.annotations.NotNull;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.nio.file.Path;
-import java.util.Collection;
 import java.util.Iterator;
 
 public class CloneIndexTest extends IndexerTestBase {
+  private final static PrintStream standardOut = System.out;
+  private final static ByteArrayOutputStream output = new ByteArrayOutputStream();
+
   private static Path tempDir2;
+
+  @BeforeClass
+  public static void setupClass() {
+    System.setOut(new PrintStream(output));
+  }
 
   @Before
   @Override
@@ -71,7 +82,7 @@ public class CloneIndexTest extends IndexerTestBase {
     config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
     IndexWriter writer = new IndexWriter(dir2, config);
 
-    LeafReader leafReader = reader.leaves().get(0).reader();
+    LeafReader leafReader = reader.leaves().getFirst().reader();
     CodecReader codecReader = SlowCodecReaderWrapper.wrap(leafReader);
     writer.addIndexes(new MyFilterCodecReader(codecReader));
     writer.commit();
@@ -135,10 +146,11 @@ public class CloneIndexTest extends IndexerTestBase {
     }
 
     @Override
-    public void checkIntegrity() throws IOException {
+    public void checkIntegrity() {
       fieldsProducer.iterator();
     }
 
+    @NotNull
     @Override
     public Iterator<String> iterator() {
       return fieldsProducer.iterator();
@@ -155,6 +167,10 @@ public class CloneIndexTest extends IndexerTestBase {
     public int size() {
       return fieldsProducer.size();
     }
+  }
 
+  @AfterClass
+  public static void teardownClass() {
+    System.setOut(standardOut);
   }
 }

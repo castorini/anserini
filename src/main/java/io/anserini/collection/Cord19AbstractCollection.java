@@ -21,8 +21,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -38,7 +36,6 @@ import java.util.stream.Collectors;
  * A document collection for the CORD-19 dataset provided by Semantic Scholar.
  */
 public class Cord19AbstractCollection extends DocumentCollection<Cord19AbstractCollection.Document> {
-  private static final Logger LOG = LogManager.getLogger(Cord19AbstractCollection.class);
 
   public Cord19AbstractCollection(Path path) {
     this.path = path;
@@ -71,12 +68,16 @@ public class Cord19AbstractCollection extends DocumentCollection<Cord19AbstractC
       super(path);
       bufferedReader = new BufferedReader(new InputStreamReader(
           new FileInputStream(path.toString())));
+      
+      CSVFormat format = CSVFormat.DEFAULT.builder()
+        .setHeader()
+        .setSkipHeaderRecord(true)
+        .setIgnoreHeaderCase(true)
+        .setTrim(true)
+        .get();
 
-      csvParser = new CSVParser(bufferedReader, CSVFormat.DEFAULT
-          .withFirstRecordAsHeader()
-          .withIgnoreHeaderCase()
-          .withTrim());
-
+      csvParser = format.parse(bufferedReader);
+      
       iterator = csvParser.iterator();
       if (iterator.hasNext()) {
         record = iterator.next();

@@ -17,8 +17,11 @@
 package io.anserini.eval;
 
 import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
 
 public enum Qrels {
+  CACM("qrels.cacm.txt"),
   TREC1_ADHOC("qrels.adhoc.51-100.txt"),
   TREC2_ADHOC("qrels.adhoc.101-150.txt"),
   TREC3_ADHOC("qrels.adhoc.151-200.txt"),
@@ -46,13 +49,26 @@ public enum Qrels {
   TREC2020_DL_PASSAGE("qrels.dl20-passage.txt"),
   TREC2021_DL_DOC("qrels.dl21-doc.txt"),
   TREC2021_DL_PASSAGE("qrels.dl21-passage.txt"),
+  TREC2022_DL_DOC("qrels.dl22-doc.txt"),
   TREC2022_DL_PASSAGE("qrels.dl22-passage.txt"),
+  TREC2023_DL_DOC("qrels.dl23-doc.txt"),
+  TREC2023_DL_PASSAGE("qrels.dl23-passage.txt"),
+  TREC2021_DL_DOC_MSMARCO_V21("qrels.dl21-doc-msmarco-v2.1.txt"),
+  TREC2022_DL_DOC_MSMARCO_V21("qrels.dl22-doc-msmarco-v2.1.txt"),
+  TREC2023_DL_DOC_MSMARCO_V21("qrels.dl23-doc-msmarco-v2.1.txt"),
+  TREC2024_RAG_RAGGY_DEV("qrels.rag24.raggy-dev.txt"),
+  TREC2024_RAG_UMBRELA("qrels.rag24.test-umbrela-all.txt"),
+  TREC2024_RAG("qrels.rag24.test.txt"),
+  TREC2025_RAG_UMBRELA("qrels.rag25.test-umbrela2.txt"),
+  TREC2025_RAG("qrels.rag25.test.txt"),
   MSMARCO_DOC_DEV("qrels.msmarco-doc.dev.txt"),
   MSMARCO_PASSAGE_DEV_SUBSET("qrels.msmarco-passage.dev-subset.txt"),
   MSMARCO_V2_DOC_DEV("qrels.msmarco-v2-doc.dev.txt"),
   MSMARCO_V2_DOC_DEV2("qrels.msmarco-v2-doc.dev2.txt"),
   MSMARCO_V2_PASSAGE_DEV("qrels.msmarco-v2-passage.dev.txt"),
   MSMARCO_V2_PASSAGE_DEV2("qrels.msmarco-v2-passage.dev2.txt"),
+  MSMARCO_V21_DOC_DEV("qrels.msmarco-v2.1-doc.dev.txt"),
+  MSMARCO_V21_DOC_DEV2("qrels.msmarco-v2.1-doc.dev2.txt"),
   NTCIR8_ZH("qrels.ntcir8.eval.txt"),
   CLEF2006_FR("qrels.clef06fr.txt"),
   TREC2002_AR("qrels.trec02ar.txt"),
@@ -163,7 +179,99 @@ public enum Qrels {
   MIRACL_V10_DE_DEV("qrels.miracl-v1.0-de-dev.tsv"),
   MIRACL_V10_YO_DEV("qrels.miracl-v1.0-yo-dev.tsv"),
   ATOMIC_VAL_T2I("qrels.atomic.validation.t2i.trec"),
-  ATOMIC_VAL_I2T("qrels.atomic.validation.i2t.trec");
+  ATOMIC_VAL_I2T("qrels.atomic.validation.i2t.trec"),
+  CIRAL_V10_HA_DEV("qrels.ciral-v1.0-ha-dev.tsv"),
+  CIRAL_V10_SO_DEV("qrels.ciral-v1.0-so-dev.tsv"),
+  CIRAL_V10_SW_DEV("qrels.ciral-v1.0-sw-dev.tsv"),
+  CIRAL_V10_YO_DEV("qrels.ciral-v1.0-yo-dev.tsv"),
+  CIRAL_V10_HA_TEST_A("qrels.ciral-v1.0-ha-test-a.tsv"),
+  CIRAL_V10_SO_TEST_A("qrels.ciral-v1.0-so-test-a.tsv"),
+  CIRAL_V10_SW_TEST_A("qrels.ciral-v1.0-sw-test-a.tsv"),
+  CIRAL_V10_YO_TEST_A("qrels.ciral-v1.0-yo-test-a.tsv"),
+  CIRAL_V10_HA_TEST_A_POOLS("qrels.ciral-v1.0-ha-test-a-pools.tsv"),
+  CIRAL_V10_SO_TEST_A_POOLS("qrels.ciral-v1.0-so-test-a-pools.tsv"),
+  CIRAL_V10_SW_TEST_A_POOLS("qrels.ciral-v1.0-sw-test-a-pools.tsv"),
+  CIRAL_V10_YO_TEST_A_POOLS("qrels.ciral-v1.0-yo-test-a-pools.tsv"),
+  CIRAL_V10_HA_TEST_B("qrels.ciral-v1.0-ha-test-b.tsv"),
+  CIRAL_V10_SO_TEST_B("qrels.ciral-v1.0-so-test-b.tsv"),
+  CIRAL_V10_SW_TEST_B("qrels.ciral-v1.0-sw-test-b.tsv"),
+  CIRAL_V10_YO_TEST_B("qrels.ciral-v1.0-yo-test-b.tsv"),
+  BRIGHT_BIOLOGY("qrels.bright-biology.txt"),
+  BRIGHT_EARTH_SCIENCE("qrels.bright-earth-science.txt"),
+  BRIGHT_ECONOMICS("qrels.bright-economics.txt"),
+  BRIGHT_PSYCHOLOGY("qrels.bright-psychology.txt"),
+  BRIGHT_ROBOTICS("qrels.bright-robotics.txt"),
+  BRIGHT_STACKOVERFLOW("qrels.bright-stackoverflow.txt"),
+  BRIGHT_SUSTAINABLE_LIVING("qrels.bright-sustainable-living.txt"),
+  BRIGHT_PONY("qrels.bright-pony.txt"),
+  BRIGHT_LEETCODE("qrels.bright-leetcode.txt"),
+  BRIGHT_AOPS("qrels.bright-aops.txt"),
+  BRIGHT_THEOREMQA_THEOREMS("qrels.bright-theoremqa-theorems.txt"),
+  BRIGHT_THEOREMQA_QUESTIONS("qrels.bright-theoremqa-questions.txt"),
+  M_BEIR_CIRR_TASK7_TEST("qrels.m-beir-cirr-task7.test.txt"),
+  M_BEIR_FASHIONIQ_TASK7_TEST("qrels.m-beir-fashioniq-task7.test.txt"),
+  M_BEIR_MSCOCO_TASK0_TEST("qrels.m-beir-mscoco-task0.test.txt"),
+  M_BEIR_MSCOCO_TASK3_TEST("qrels.m-beir-mscoco-task3.test.txt"),
+  M_BEIR_VISUALNEWS_TASK0_TEST("qrels.m-beir-visualnews-task0.test.txt"),
+  M_BEIR_VISUALNEWS_TASK3_TEST("qrels.m-beir-visualnews-task3.test.txt"),
+  M_BEIR_EDIS_TASK2_TEST("qrels.m-beir-edis-task2.test.txt"),
+  M_BEIR_INFOSEEK_TASK6_TEST("qrels.m-beir-infoseek-task6.test.txt"),
+  M_BEIR_INFOSEEK_TASK8_TEST("qrels.m-beir-infoseek-task8.test.txt"),
+  M_BEIR_NIGHTS_TASK4_TEST("qrels.m-beir-nights-task4.test.txt"),
+  M_BEIR_OVEN_TASK6_TEST("qrels.m-beir-oven-task6.test.txt"),
+  M_BEIR_OVEN_TASK8_TEST("qrels.m-beir-oven-task8.test.txt"),
+  M_BEIR_WEBQA_TASK1_TEST("qrels.m-beir-webqa-task1.test.txt"),
+  M_BEIR_WEBQA_TASK2_TEST("qrels.m-beir-webqa-task2.test.txt"),
+  M_BEIR_FASHION200K_TASK0_TEST("qrels.m-beir-fashion200k-task0.test.txt"),
+  M_BEIR_FASHION200K_TASK3_TEST("qrels.m-beir-fashion200k-task3.test.txt"),
+  SLIDEVQA_TEST("qrels.slidevqa.test.txt"),
+  MMEB_VISDOC_VIDORE_ARXIVQA_TEST("qrels.mmeb-visdoc-ViDoRe_arxivqa.test.txt"),
+  MMEB_VISDOC_VIDORE_DOCVQA_TEST("qrels.mmeb-visdoc-ViDoRe_docvqa.test.txt"),
+  MMEB_VISDOC_VIDORE_INFOVQA_TEST("qrels.mmeb-visdoc-ViDoRe_infovqa.test.txt"),
+  MMEB_VISDOC_VIDORE_SHIFTPROJECT_TEST("qrels.mmeb-visdoc-ViDoRe_shiftproject.test.txt"),
+  MMEB_VISDOC_VIDORE_SYNTHETIC_DOCQA_ARTIFICIAL_INTELLIGENCE_TEST("qrels.mmeb-visdoc-ViDoRe_syntheticDocQA_artificial_intelligence.test.txt"),
+  MMEB_VISDOC_VIDORE_SYNTHETIC_DOCQA_ENERGY_TEST("qrels.mmeb-visdoc-ViDoRe_syntheticDocQA_energy.test.txt"),
+  MMEB_VISDOC_VIDORE_SYNTHETIC_DOCQA_GOVERNMENT_REPORTS_TEST("qrels.mmeb-visdoc-ViDoRe_syntheticDocQA_government_reports.test.txt"),
+  MMEB_VISDOC_VIDORE_SYNTHETIC_DOCQA_HEALTHCARE_INDUSTRY_TEST("qrels.mmeb-visdoc-ViDoRe_syntheticDocQA_healthcare_industry.test.txt"),
+  MMEB_VISDOC_VIDORE_TABFQUAD_TEST("qrels.mmeb-visdoc-ViDoRe_tabfquad.test.txt"),
+  MMEB_VISDOC_VIDORE_TATDQA_TEST("qrels.mmeb-visdoc-ViDoRe_tatdqa.test.txt"),
+  MMEB_VISDOC_VIDORE_BIOMEDICAL_LECTURES_V2_TEST("qrels.mmeb-visdoc-ViDoRe_biomedical_lectures_v2.test.txt"),
+  MMEB_VISDOC_VIDORE_BIOMEDICAL_LECTURES_V2_MULTILINGUAL_TEST("qrels.mmeb-visdoc-ViDoRe_biomedical_lectures_v2_multilingual.test.txt"),
+  MMEB_VISDOC_VIDORE_ECONOMICS_REPORTS_V2_TEST("qrels.mmeb-visdoc-ViDoRe_economics_reports_v2.test.txt"),
+  MMEB_VISDOC_VIDORE_ECONOMICS_REPORTS_V2_MULTILINGUAL_TEST("qrels.mmeb-visdoc-ViDoRe_economics_reports_v2_multilingual.test.txt"),
+  MMEB_VISDOC_VIDORE_ESG_REPORTS_HUMAN_LABELED_V2_TEST("qrels.mmeb-visdoc-ViDoRe_esg_reports_human_labeled_v2.test.txt"),
+  MMEB_VISDOC_VIDORE_ESG_REPORTS_V2_TEST("qrels.mmeb-visdoc-ViDoRe_esg_reports_v2.test.txt"),
+  MMEB_VISDOC_VIDORE_ESG_REPORTS_V2_MULTILINGUAL_TEST("qrels.mmeb-visdoc-ViDoRe_esg_reports_v2_multilingual.test.txt"),
+  MMEB_VISDOC_VISRAG_ARXIVQA_TRAIN("qrels.mmeb-visdoc-VisRAG_ArxivQA.train.txt"),
+  MMEB_VISDOC_VISRAG_CHARTQA_TRAIN("qrels.mmeb-visdoc-VisRAG_ChartQA.train.txt"),
+  MMEB_VISDOC_VISRAG_INFOVQA_TRAIN("qrels.mmeb-visdoc-VisRAG_InfoVQA.train.txt"),
+  MMEB_VISDOC_VISRAG_MP_DOCVQA_TRAIN("qrels.mmeb-visdoc-VisRAG_MP-DocVQA.train.txt"),
+  MMEB_VISDOC_VISRAG_PLOTQA_TRAIN("qrels.mmeb-visdoc-VisRAG_PlotQA.train.txt"),
+  MMEB_VISDOC_VISRAG_SLIDEVQA_TRAIN("qrels.mmeb-visdoc-VisRAG_SlideVQA.train.txt"),
+  MMEB_VISDOC_VIDOSEEK_DOC_TEST("qrels.mmeb-visdoc-ViDoSeek-doc.test.txt"),
+  MMEB_VISDOC_VIDOSEEK_PAGE_TEST("qrels.mmeb-visdoc-ViDoSeek-page.test.txt"),
+  MMEB_VISDOC_MMLONGBENCH_DOC_TEST("qrels.mmeb-visdoc-MMLongBench-doc.test.txt"),
+  MMEB_VISDOC_MMLONGBENCH_PAGE_TEST("qrels.mmeb-visdoc-MMLongBench-page.test.txt");
+
+
+  private static final Map<String, String> symbolFileDict = generateSymbolFileDict();
+
+  private static HashMap<String, String> generateSymbolFileDict() {
+    HashMap<String, String> m = new HashMap<>();
+    for (Qrels qrels : Qrels.values()) {
+      String sym = qrels.path.substring(qrels.path.indexOf('.') + 1, qrels.path.lastIndexOf('.'));
+      m.put(sym, qrels.path);
+    }
+
+    // Additional aliases
+    m.put("msmarco-passage-dev", "qrels.msmarco-passage.dev-subset.txt");
+    m.put("msmarco-v1-passage-dev", "qrels.msmarco-passage.dev-subset.txt");
+    m.put("msmarco-passage.dev", "qrels.msmarco-passage.dev-subset.txt");
+    m.put("msmarco-v1-passage.dev", "qrels.msmarco-passage.dev-subset.txt");
+    m.put("rag24.test-umbrela", "qrels.rag24.test-umbrela-all.txt");
+
+    return m;
+  }
 
   public final String path;
 
@@ -172,11 +280,18 @@ public enum Qrels {
   }
 
   public static boolean contains(Path topicPath) {
-    for (Qrels c : Qrels.values()) {
-      if (c.path.equals(topicPath.getFileName().toString())) {
-        return true;
-      }
+    return symbolFileDict.containsValue(topicPath.getFileName().toString());
+  }
+
+  public static boolean containsSymbol(Path topicPath) {
+    return symbolFileDict.containsKey(topicPath.getFileName().toString());
+  }
+
+  public static Path extendSymbol(Path symbol) {
+    String returnPath = symbolFileDict.get(symbol.getFileName().toString());
+    if (returnPath == null) {
+      return symbol;
     }
-    return false;
+    return Path.of(returnPath);
   }
 }

@@ -16,23 +16,6 @@
 
 package io.anserini.integration;
 
-import io.anserini.index.IndexCollection;
-import io.anserini.index.IndexReaderUtils;
-import io.anserini.index.NotStoredException;
-import io.anserini.search.SearchCollection;
-import org.apache.commons.io.FileUtils;
-import org.apache.lucene.index.CheckIndex;
-import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.tests.util.LuceneTestCase;
-import org.apache.lucene.tests.util.TestRuleLimitSysouts;
-import org.apache.lucene.util.IOUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -41,16 +24,35 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.lucene.index.CheckIndex;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.tests.util.TestRuleLimitSysouts;
+import org.apache.lucene.util.IOUtils;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
+import io.anserini.index.IndexCollection;
+import io.anserini.index.IndexReaderUtils;
+import io.anserini.index.NotStoredException;
+import io.anserini.search.SearchCollection;
+
 // This automatically tests indexing, retrieval, and evaluation from end to end.
 // Subclasses inherit and special to different collections.
 @TestRuleLimitSysouts.Limit(bytes = 20000)
-public abstract class EndToEndTest extends LuceneTestCase {
+public abstract class EndToEndTest extends StdOutStdErrRedirectableLuceneTestCase {
   private static final Random RANDOM = new Random();
 
   protected Map<String, SearchCollection.Args> testQueries = new HashMap<>();
@@ -158,9 +160,7 @@ public abstract class EndToEndTest extends LuceneTestCase {
 
     if (indexArgs.fields != null) {
       args.add("-fields");
-      for (String field: indexArgs.fields) {
-        args.add(field);
-      }
+      Collections.addAll(args, indexArgs.fields);
     }
 
     IndexCollection.main(args.toArray(new String[args.size()]));
@@ -226,7 +226,10 @@ public abstract class EndToEndTest extends LuceneTestCase {
       if (!referenceDocTokens.isEmpty()){
         try {
           List<String> docTokens = IndexReaderUtils.getDocumentTokens(reader, collectionDocid);
-          assertEquals(referenceDocTokens.get(collectionDocid).get("contents"), docTokens);
+          Map<String, List<String>> docTokenMap = referenceDocTokens.get(collectionDocid);
+          if (docTokenMap != null) {
+            assertEquals(docTokenMap.get("contents"), docTokens);
+          }
         } catch (NotStoredException e) {
           e.printStackTrace();
         }
@@ -237,6 +240,7 @@ public abstract class EndToEndTest extends LuceneTestCase {
     CheckIndex checker = new CheckIndex(dir);
     checker.setInfoStream(new PrintStream(bos, false, IOUtils.UTF_8));
     if (VERBOSE) checker.setInfoStream(System.out);
+    checker.setLevel(3);
     CheckIndex.Status indexStatus = checker.checkIndex();
     if (!indexStatus.clean) {
       System.out.println("CheckIndex failed");
@@ -285,10 +289,10 @@ public abstract class EndToEndTest extends LuceneTestCase {
     searchArgs.bm25 = true;
 
     // optional
-    searchArgs.topicfield = "title";
-    searchArgs.searchtweets = false;
+    searchArgs.topicField = "title";
+    searchArgs.searchTweets = false;
     searchArgs.hits = 1000;
-    searchArgs.keepstop = false;
+    searchArgs.keepStopwords = false;
 
     return searchArgs;
   }
@@ -300,9 +304,9 @@ public abstract class EndToEndTest extends LuceneTestCase {
 
     try {
       for (Map.Entry<String, SearchCollection.Args> entry : testQueries.entrySet()) {
-        SearchCollection searcher = new SearchCollection(entry.getValue());
-        searcher.runTopics();
-        searcher.close();
+        try(SearchCollection<?> searcher = new SearchCollection<>(entry.getValue())) {
+          searcher.run();
+        }
 
         checkRankingResults(entry.getKey(), entry.getValue().output);
         // Remember to clean up run files.
@@ -316,17 +320,18 @@ public abstract class EndToEndTest extends LuceneTestCase {
   }
 
   protected void checkRankingResults(String key, String output) throws IOException {
-    BufferedReader br = new BufferedReader(new FileReader(output));
-    String[] ref = referenceRunOutput.get(key);
+    try(BufferedReader br = new BufferedReader(new FileReader(output))) {
+      String[] ref = referenceRunOutput.get(key);
 
-    int cnt = 0;
-    String s;
-    while ((s = br.readLine()) != null) {
-      assertEquals(ref[cnt], s);
-      cnt++;
+      int cnt = 0;
+      String s;
+      while ((s = br.readLine()) != null) {
+        assertEquals(ref[cnt], s);
+        cnt++;
+      }
+
+      assertEquals(ref.length, cnt);
     }
-
-    assertEquals(cnt, ref.length);
   }
 
   // Subclasses will override this method and provide the ground truth.

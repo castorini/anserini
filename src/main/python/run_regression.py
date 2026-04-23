@@ -25,12 +25,11 @@ import re
 import stat
 import tarfile
 import time
+import yaml
 from multiprocessing import Pool
 from subprocess import call, Popen, PIPE
-from urllib.request import urlretrieve
-
-import yaml
 from tqdm import tqdm
+from urllib.request import urlretrieve
 
 logger = logging.getLogger('regression_test')
 logger.setLevel(logging.INFO)
@@ -47,19 +46,26 @@ logger.addHandler(ch)
 CORPUS_ROOTS = [
     '',                           # here, stored in this directory
     '/collection/',               # on hops
+    '/',                          # on hops (alternate)
     '/mnt/',                      # on tjena
     '/tuna1/',                    # on tuna
     '/store/',                    # on orca
+    '/scratch/',                  # on watgpu608s
+    '/u4/jimmylin/',              # on linux.cs
     '/System/Volumes/Data/store'  # for new organization of directories in macOS Monterey
 ]
 
-INDEX_COMMAND = 'target/appassembler/bin/IndexCollection'
-INDEX_HNSW_COMMAND = 'target/appassembler/bin/IndexHnswDenseVectors'
+INDEX_COMMAND = 'bin/run.sh io.anserini.index.IndexCollection'
+INDEX_FLAT_DENSE_COMMAND = 'bin/run.sh io.anserini.index.IndexFlatDenseVectors'
+INDEX_HNSW_DENSE_COMMAND = 'bin/run.sh io.anserini.index.IndexHnswDenseVectors'
+INDEX_INVERTED_DENSE_COMMAND = 'bin/run.sh io.anserini.index.IndexInvertedDenseVectors'
 
-INDEX_STATS_COMMAND = 'target/appassembler/bin/IndexReaderUtils'
+INDEX_STATS_COMMAND = 'bin/run.sh io.anserini.index.IndexReaderUtils'
 
-SEARCH_COMMAND = 'target/appassembler/bin/SearchCollection'
-SEARCH_HNSW_COMMAND = 'target/appassembler/bin/SearchHnswDenseVectors'
+SEARCH_COMMAND = 'bin/run.sh io.anserini.search.SearchCollection'
+SEARCH_FLAT_DENSE_COMMAND = 'bin/run.sh io.anserini.search.SearchFlatDenseVectors'
+SEARCH_HNSW_DENSE_COMMAND = 'bin/run.sh io.anserini.search.SearchHnswDenseVectors'
+SEARCH_INVERTED_DENSE_COMMAND = 'bin/run.sh io.anserini.search.SearchInvertedDenseVectors'
 
 
 def is_close(a, b, rel_tol=1e-09, abs_tol=0.0):
@@ -115,36 +121,45 @@ def construct_indexing_command(yaml_data, args):
     if not os.path.exists('indexes'):
         os.makedirs('indexes')
 
-    if yaml_data['collection_class'] == 'JsonDenseVectorCollection':
-        root_cmd = INDEX_HNSW_COMMAND
+    if yaml_data.get('index_type') == 'inverted-dense':
+        root_cmd = INDEX_INVERTED_DENSE_COMMAND
+    elif yaml_data.get('index_type') == 'hnsw':
+        root_cmd = INDEX_HNSW_DENSE_COMMAND
+    elif yaml_data.get('index_type') == 'flat':
+        root_cmd = INDEX_FLAT_DENSE_COMMAND
     else:
         root_cmd = INDEX_COMMAND
 
     index_command = [
         root_cmd,
         '-collection', yaml_data['collection_class'],
-        '-generator', yaml_data['generator_class'],
-        '-threads', str(threads),
         '-input', corpus_path,
+        '-generator', yaml_data['generator_class'],
         '-index', yaml_data['index_path'],
+        '-threads', str(threads),
         yaml_data['index_options']
     ]
 
     return index_command
 
 
-def construct_runfile_path(corpus, id, model_name):
-    return os.path.join('runs/', 'run.{0}.{1}.{2}'.format(corpus, id, model_name))
+def construct_runfile_path(index, id, model_name):
+    # If the index is 'indexes/lucene-inverted.msmarco-passage-ca/', we pull out 'inverted.msmarco-passage-ca'.
+    #  'indexes/lucene-hnsw-int8.msmarco-v1-passage.cos-dpr-distil/' -> 'hnsw-int8.msmarco-v1-passage.cos-dpr-distil'
+    #  'indexes/lucene-hnsw.msmarco-v1-passage.cos-dpr-distil/' -> 'hnsw.msmarco-v1-passage.cos-dpr-distil/'
+    # Be careful, for 'indexes/lucene-inverted.mrtydi-v1.1-arabic/', we want to pull out 'inverted.mrtydi-v1.1-arabic'.
+    index_part = index.split('/')[1].split('-', 1)[1]
+    return os.path.join('runs/', 'run.{0}.{1}.{2}'.format(index_part, id, model_name))
 
 
 def construct_search_commands(yaml_data):
     ranking_commands = [
         [
-            SEARCH_HNSW_COMMAND if 'VectorQueryGenerator' in model['params'] else SEARCH_COMMAND,
+            SEARCH_INVERTED_DENSE_COMMAND if model.get('type') == 'inverted-dense' else SEARCH_HNSW_DENSE_COMMAND if model.get('type') == 'hnsw' else SEARCH_FLAT_DENSE_COMMAND if model.get('type') == 'flat' else SEARCH_COMMAND,
             '-index', construct_index_path(yaml_data),
             '-topics', os.path.join('tools/topics-and-qrels', topic_set['path']),
-            '-topicreader', topic_set['topic_reader'] if 'topic_reader' in topic_set and topic_set['topic_reader'] else yaml_data['topic_reader'],
-            '-output', construct_runfile_path(yaml_data['corpus'], topic_set['id'], model['name']),
+            '-topicReader', topic_set['topic_reader'] if 'topic_reader' in topic_set and topic_set['topic_reader'] else yaml_data['topic_reader'],
+            '-output', construct_runfile_path(yaml_data['index_path'], topic_set['id'], model['name']),
             model['params']
         ]
         for (model, topic_set) in list(itertools.product(yaml_data['models'], yaml_data['topics']))
@@ -158,8 +173,8 @@ def construct_convert_commands(yaml_data):
             conversion['command'],
             '--index', construct_index_path(yaml_data),
             '--topics', topic_set['id'],
-            '--input', construct_runfile_path(yaml_data['corpus'], topic_set['id'], model['name']) + conversion['in_file_ext'],
-            '--output', construct_runfile_path(yaml_data['corpus'], topic_set['id'], model['name']) + conversion['out_file_ext'],
+            '--input', construct_runfile_path(yaml_data['index_path'], topic_set['id'], model['name']) + conversion['in_file_ext'],
+            '--output', construct_runfile_path(yaml_data['index_path'], topic_set['id'], model['name']) + conversion['out_file_ext'],
             conversion['params'] if 'params' in conversion and conversion['params'] else '',
             topic_set['convert_params'] if 'convert_params' in topic_set and topic_set['convert_params'] else '',
         ]
@@ -173,6 +188,7 @@ def evaluate_and_verify(yaml_data, dry_run):
     ok_str = '   [OK] '
     okish_str = '  \033[94m[OK*]\033[0m '
     failures = False
+    okish = False
 
     logger.info('='*10 + ' Verifying Results: ' + yaml_data['corpus'] + ' ' + '='*10)
     for model in yaml_data['models']:
@@ -181,7 +197,7 @@ def evaluate_and_verify(yaml_data, dry_run):
                 eval_cmd = [
                   os.path.join(metric['command']), metric['params'] if 'params' in metric and metric['params'] else '',
                   os.path.join('tools/topics-and-qrels', topic_set['qrel']) if 'qrel' in topic_set and topic_set['qrel'] else '',
-                  construct_runfile_path(yaml_data['corpus'], topic_set['id'], model['name']) + (yaml_data['conversions'][-1]['out_file_ext'] if 'conversions' in yaml_data and yaml_data['conversions'][-1]['out_file_ext'] else '')
+                  construct_runfile_path(yaml_data['index_path'], topic_set['id'], model['name']) + (yaml_data['conversions'][-1]['out_file_ext'] if 'conversions' in yaml_data and yaml_data['conversions'][-1]['out_file_ext'] else ''),
                 ]
                 if dry_run:
                     logger.info(' '.join(eval_cmd))
@@ -195,21 +211,33 @@ def evaluate_and_verify(yaml_data, dry_run):
                 expected = round(model['results'][metric['metric']][i], metric['metric_precision'])
                 actual = round(float(eval_out), metric['metric_precision'])
 
-                # For HNSW, we only print to third digit
-                if 'VectorQueryGenerator' in model['params']:
-                    result_str = 'expected: {0:.3f} actual: {1:.3f} - metric: {2:<8} model: {3} topics: {4}'.format(
-                        expected, actual, metric['metric'], model['name'], topic_set['id'])
-                else:
-                    result_str = 'expected: {0:.4f} actual: {1:.4f} - metric: {2:<8} model: {3} topics: {4}'.format(
-                        expected, actual, metric['metric'], model['name'], topic_set['id'])
+                using_hnsw = True if 'type' in model and model['type'] == 'hnsw' else False
+                using_flat = True if 'type' in model and model['type'] == 'flat' else False
 
-                # For inverted indexes, we expect scores to match precisely.
-                # For HNSW, be more tolerant, but as long as the actual score is higher than the expected score,
-                # let the test pass.
-                if is_close(expected, actual) or \
-                        ('VectorQueryGenerator' in model['params'] and is_close(expected, actual, abs_tol=0.006)) or \
-                        ('VectorQueryGenerator' in model['params'] and actual > expected):
+                if 'tolerance' in model:
+                    tolerance_ok = model['tolerance'][metric['metric']][i]
+                else:
+                    tolerance_ok = 0
+
+                if using_flat or using_hnsw:
+                    result_str = (f'expected: {expected:.4f} actual: {actual:.4f} '
+                                  f'(delta={expected-actual:.4f}, tolerance={tolerance_ok:.4f}) - '
+                                  f'metric: {metric["metric"]:<8} model: {model["name"]} topics: {topic_set["id"]}')
+                else:
+                    result_str = (f'expected: {expected:.4f} actual: {actual:.4f} (delta={abs(expected-actual):.4f}) - '
+                                  f'metric: {metric["metric"]:<8} model: {model["name"]} topics: {topic_set["id"]}')
+
+                # For flat and HNSW indexes:
+                #   - to get "OK", we need to be within specified tolerance.
+                #   - to get "OKish", we need to be within 150% of specified tolerance.
+                if is_close(expected, actual) or actual > expected or \
+                        (using_flat and is_close(expected, actual, abs_tol=tolerance_ok)) or \
+                        (using_hnsw and is_close(expected, actual, abs_tol=tolerance_ok)):
                     logger.info(ok_str + result_str)
+                elif (using_flat and is_close(expected, actual, abs_tol=tolerance_ok * 1.5)) or \
+                        (using_hnsw and is_close(expected, actual, abs_tol=tolerance_ok * 1.5)):
+                    logger.info(okish_str + result_str)
+                    okish = True
                 else:
                     if args.lucene8 and is_close_lucene8(expected, actual):
                         logger.info(okish_str + result_str)
@@ -221,7 +249,9 @@ def evaluate_and_verify(yaml_data, dry_run):
 
     if not dry_run:
         if failures:
-            logger.info(f'\033[91mFailed tests!\033[0m Total elapsed time: {end - start:.0f}s')
+            logger.error(f'{fail_str}Total elapsed time: {end - start:.0f}s')
+        elif okish:
+            logger.info(f'{okish_str}Total elapsed time: {end - start:.0f}s')
         else:
             logger.info(f'All Tests Passed! Total elapsed time: {end - start:.0f}s')
 
@@ -361,14 +391,18 @@ if __name__ == '__main__':
     # Verify index statistics.
     if args.verify:
         logger.info('='*10 + ' Verifying Index ' + '='*10)
-        if yaml_data['collection_class'] == 'JsonDenseVectorCollection':
+        if yaml_data.get('index_type') == 'hnsw':
             logger.info('Skipping verification step for HNSW dense indexes.')
+        elif yaml_data.get('index_type') == 'flat':
+            logger.info('Skipping verification step for flat dense indexes.')
         else:
-            index_utils_command = [INDEX_STATS_COMMAND, '-index', construct_index_path(yaml_data), '-stats']
-            verification_command = ' '.join(index_utils_command)
+            verification_command_args = [INDEX_STATS_COMMAND, '-index', construct_index_path(yaml_data), '-stats']
+            if yaml_data.get('index_type') == 'inverted-dense':
+                verification_command_args.extend(['-field', 'vector'])
+            verification_command = ' '.join(verification_command_args)
             logger.info(verification_command)
             if not args.dry_run:
-                out = check_output(' '.join(index_utils_command)).decode('utf-8').split('\n')
+                out = check_output(verification_command).decode('utf-8').split('\n')
                 for line in out:
                     stat = line.split(':')[0]
                     if stat in yaml_data['index_stats']:

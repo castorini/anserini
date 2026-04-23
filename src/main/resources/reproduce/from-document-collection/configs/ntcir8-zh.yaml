@@ -1,0 +1,56 @@
+---
+corpus: ntcir8-zh
+corpus_path: collections/newswire/clir/ntcir.zh/ntcir8-zh/
+
+index_path: indexes/lucene-index.ntcir8-zh/
+collection_class: CleanTrecCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 16
+index_options: -storePositions -storeDocvectors -storeRaw -language zh -uniqueDocid -optimize
+# we need -optimize because without, "documents (non-empty)" would be non-deterministic, failing regression.
+index_stats:
+  documents: 308832
+  documents (non-empty): 308832
+  total terms: 134618634  # on Mac, I seem to get this value instead: 134618027 (no idea why)
+
+metrics:
+  - metric: MAP
+    command: bin/trec_eval
+    params: -m map
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: P20
+    command: bin/trec_eval
+    params: -m P.20
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+  - metric: nDCG@20
+    command: bin/trec_eval
+    params: -m ndcg_cut.20
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: true
+
+topic_reader: TsvString
+topics:
+  - name: "[NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.ntcir8zh.eval.txt)"
+    id: ntcir8
+    path: topics.ntcir8zh.eval.txt
+    qrel: qrels.ntcir8.eval.txt
+
+models:
+  - name: bm25
+    display: BM25
+    params: -bm25 -language zh
+    results:
+      MAP:
+        - 0.4014
+      P20:
+        - 0.3849
+      nDCG@20:
+        - 0.4757

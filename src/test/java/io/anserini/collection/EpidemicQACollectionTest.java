@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EpidemicQACollectionTest  extends DocumentCollectionTest<EpidemicQACollection.Document> {
+
   @Before
   public void setUp() throws Exception {
     super.setUp();

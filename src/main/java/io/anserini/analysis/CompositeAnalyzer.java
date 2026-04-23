@@ -14,28 +14,28 @@
  * limitations under the License.
  */
 
- package io.anserini.analysis;
+package io.anserini.analysis;
 
- import ai.djl.huggingface.tokenizers.HuggingFaceTokenizer;
- import org.apache.commons.io.IOUtils;
- import org.apache.logging.log4j.LogManager;
- import org.apache.logging.log4j.Logger;
- import org.apache.lucene.analysis.Analyzer;
- import org.apache.lucene.analysis.TokenStream;
- import org.apache.lucene.analysis.Tokenizer;
- import org.apache.lucene.analysis.core.WhitespaceTokenizer;
- import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
- 
- import java.io.IOException;
- import java.io.Reader;
- import java.io.StringReader;
- import java.nio.file.Files;
- import java.nio.file.Path;
- import java.nio.file.Paths;
- import java.util.ArrayList;
- import java.util.List;
- import java.util.Map;
- import java.util.concurrent.ConcurrentHashMap;
+import ai.djl.huggingface.tokenizers.HuggingFaceTokenizer;
+import org.apache.commons.io.IOUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.Tokenizer;
+import org.apache.lucene.analysis.core.WhitespaceTokenizer;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
+
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
  
 public class CompositeAnalyzer extends Analyzer {
   private static final Logger LOG = LogManager.getLogger(CompositeAnalyzer.class);
@@ -45,9 +45,13 @@ public class CompositeAnalyzer extends Analyzer {
   private static HuggingFaceTokenizer makeTokenizer(String tokenizerNameOrPath) throws IOException {
     Map<String, String> options = new ConcurrentHashMap<>();
     options.put("addSpecialTokens", "false");
+    // Explicitly setting this below allows us to tokenize arbitrarily long sequences.
+    // Since we're not feeding to a model, we're not limited by model length restrictions.
+    options.put("modelMaxLength", Integer.toString(Integer.MAX_VALUE));
+    options.put("maxLength", Integer.toString(Integer.MAX_VALUE));
+
     Path path = Paths.get(tokenizerNameOrPath);
-    
-    if (Files.exists(path) == true) {
+    if (Files.exists(path)) {
       return HuggingFaceTokenizer.newInstance(path, options);
     } else {
       return HuggingFaceTokenizer.newInstance(tokenizerNameOrPath, options);

@@ -16,20 +16,33 @@
 
 package io.anserini.analysis;
 
-import junit.framework.JUnit4TestAdapter;
-import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.TokenStream;
-import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
-import org.junit.Test;
-
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
+import org.junit.Assume;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
-public class HuggingFaceTokenizerAnalyzerTest {
+import ai.djl.util.Platform;
+import io.anserini.SuppresedLoggingLuceneTestCase;
+import junit.framework.JUnit4TestAdapter;
+
+public class HuggingFaceTokenizerAnalyzerTest extends SuppresedLoggingLuceneTestCase {
+  @BeforeClass
+  public static void setupClass() {
+    suppressJvmLogging();
+
+    Configurator.setLevel(Platform.class.getName(), Level.ERROR);
+    Configurator.setLevel(HuggingFaceTokenizerAnalyzerTest.class.getName(), Level.ERROR);
+  }
+
   Object[][] examples = new Object[][]{
       {"Ṣé Wàá Fọkàn sí Àwọn Ohun Tá A Ti Kọ Sílẹ̀?",
       new String[] {"se", "wa", "##a", "fo", "##kan", "si", "awon", "oh", "##un", "ta", "a", "ti", "ko", "sile", "?"} }
@@ -38,6 +51,11 @@ public class HuggingFaceTokenizerAnalyzerTest {
   
   @Test
   public void basic() throws Exception {
+    // Not available on x86_64 on Mac, so skip tests
+    // ai.djl.engine.EngineException: Failed to load Huggingface native library.
+    Assume.assumeFalse(System.getProperty("os.arch").equalsIgnoreCase("x86_64")
+        && System.getProperty("os.name").toLowerCase().contains("mac"));
+
     Analyzer analyzer = new HuggingFaceTokenizerAnalyzer(huggingFaceModelId);
     
     for (int i = 0; i < examples.length; i++) {
