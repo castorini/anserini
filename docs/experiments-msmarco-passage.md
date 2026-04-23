@@ -351,7 +351,6 @@ The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to th
 
 ## Reproduction Log[*](reproducibility.md)
 
-+ Results reproduced by [@Zixi-Sam-Tang](https://github.com/Zixi-Sam-Tang) on 2026-04-21 (commit [`1e7b470`](https://github.com/castorini/anserini/commit/1e7b4702f0d2fd00752867577c88d8db819d71aa))
 + Results reproduced by [@ronakice](https://github.com/ronakice) on 2019-08-12 (commit [`5b29d16`](https://github.com/castorini/anserini/commit/5b29d1654abc5e8a014c2230da990ab2f91fb340))
 + Results reproduced by [@MathBunny](https://github.com/MathBunny) on 2019-08-12 (commit [`5b29d16`](https://github.com/castorini/anserini/commit/5b29d1654abc5e8a014c2230da990ab2f91fb340))
 + Results reproduced by [@JMMackenzie](https://github.com/JMMackenzie) on 2020-01-08 (commit [`f63cd22`](https://github.com/castorini/anserini/commit/f63cd2275fa5a9d4da2d17e5f983a3308e8b50ce ))
@@ -649,3 +648,4 @@ The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to th
 + Results reproduced by [@egekaya1](https://github.com/egekaya1) on 2026-03-29 (commit [`9434de7`](https://github.com/castorini/anserini/commit/9434de77347e3d482c320abde6907522cb7af713))
 + Results reproduced by [@h79yan](https://github.com/h79yan) on 2026-04-09 (commit [`e441bc83`](https://github.com/castorini/anserini/commit/e441bc83cc29e4fc1c94491220fa09728be4e6c3))
 + Results reproduced by [@kwamearhinPORTFL](https://github.com/kwamearhinPORTFL) on 2026-04-14 (commit [`5c51ee5`](https://github.com/castorini/anserini/commit/5c51ee567f5039f97e5de8de17b4052fd34a0498))
++ Results reproduced by [@Zixi-Sam-Tang](https://github.com/Zixi-Sam-Tang) on 2026-04-21 (commit [`1e7b470`](https://github.com/castorini/anserini/commit/1e7b4702f0d2fd00752867577c88d8db819d71aa))

@@ -106,7 +106,6 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 
 ## Reproduction Log[*](reproducibility.md)
 
-+ Results reproduced by [@Zixi-Sam-Tang](https://github.com/Zixi-Sam-Tang) on 2026-04-21 (commit [`1e7b470`](https://github.com/castorini/anserini/commit/1e7b4702f0d2fd00752867577c88d8db819d71aa))
 + Results reproduced by [@b8zhong](https://github.com/b8zhong) on 2025-02-23 (commit [`daceb40`](https://github.com/castorini/anserini/commit/daceb4084c8e8103e3e86c81a8e0d597d409220e))
 + Results reproduced by [@lilyjge](https://github.com/lilyjge) on 2025-02-23 (commit [`9b13fe4`](https://github.com/castorini/anserini/commit/9b13fe488d3227ba3a271366210eadfed521d0f5))
 + Results reproduced by [@JJGreen0](https://github.com/JJGreen0) on 2025-04-19 (commit [`2d8674c`](https://github.com/castorini/anserini/commit/2d8674c0cd741e1c407e0ac7cce8ea38fdd0bb97))
@@ -197,3 +196,4 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@egekaya1](https://github.com/egekaya1) on 2026-03-29 (commit [`9434de7`](https://github.com/castorini/anserini/commit/9434de77347e3d482c320abde6907522cb7af713))
 + Results reproduced by [@h79yan](https://github.com/h79yan) on 2026-04-10 (commit [`e441bc83`](https://github.com/castorini/anserini/commit/e441bc83cc29e4fc1c94491220fa09728be4e6c3))
 + Results reproduced by [@kwamearhinPORTFL](https://github.com/kwamearhinPORTFL) on 2026-04-15 (commit [`5c51ee5`](https://github.com/castorini/anserini/commit/5c51ee567f5039f97e5de8de17b4052fd34a0498))
++ Results reproduced by [@Zixi-Sam-Tang](https://github.com/Zixi-Sam-Tang) on 2026-04-21 (commit [`1e7b470`](https://github.com/castorini/anserini/commit/1e7b4702f0d2fd00752867577c88d8db819d71aa))
