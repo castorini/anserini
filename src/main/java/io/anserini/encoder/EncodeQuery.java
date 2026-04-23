@@ -201,12 +201,11 @@ public class EncodeQuery {
       Files.createDirectories(outputPath.getParent());
     }
 
-    BufferedWriter writer = args.compress
-        ? new BufferedWriter(new OutputStreamWriter(
-              new GZIPOutputStream(Files.newOutputStream(outputPath)), StandardCharsets.UTF_8))
-        : Files.newBufferedWriter(outputPath);
-
-    try (OnnxEncoder<?> encoder = buildEncoder(args.encoder); writer) {
+    try (OnnxEncoder<?> encoder = buildEncoder(args.encoder);
+         BufferedWriter writer = args.compress
+             ? new BufferedWriter(new OutputStreamWriter(
+                   new GZIPOutputStream(Files.newOutputStream(outputPath)), StandardCharsets.UTF_8))
+             : Files.newBufferedWriter(outputPath)) {
 
       for (Map.Entry<String, Map<String, String>> entry : topics.entrySet()) {
         String queryId   = entry.getKey();
