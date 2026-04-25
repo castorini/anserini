@@ -4,405 +4,405 @@
         "type": "flat",
         "corpus": "BEIR: trec-covid",
         "corpus_index": "beir-v1.0.0-trec-covid.flat",
-        "description": "Anserini Lucene flat vector index of BEIR collection 'trec-covid' encoded by BGE-base-en-v1.5",
-        "filename": "lucene-flat.beir-v1.0.0-trec-covid.bge-base-en-v1.5.20240618.6cf601.tar.gz",
-        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20240618.6cf601.README.md",
+        "description": "Anserini Lucene flat vector index of BEIR collection 'trec-covid' encoded by BGE-base-en-v1.5 (Lucene 10.4.0)",
+        "filename": "lucene-flat.beir-v1.0.0-trec-covid.bge-base-en-v1.5.20260425.bb3d65.tar",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20260425.bb3d65.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-trec-covid.bge-base-en-v1.5.20240618.6cf601.tar.gz"
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-trec-covid.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
-        "md5": "516748bfd1923a999a56160e93b8daae",
-        "compressed_size": 492046838
+        "md5": "45bf4a037c0ad66727fed9ed1709a1d3",
+        "compressed_size": 531056640
     },
     {
         "name": "beir-v1.0.0-bioasq.bge-base-en-v1.5.flat",
         "type": "flat",
         "corpus": "BEIR: bioasq",
         "corpus_index": "beir-v1.0.0-bioasq.flat",
-        "description": "Anserini Lucene flat vector index of BEIR collection 'bioasq' encoded by BGE-base-en-v1.5",
-        "filename": "lucene-flat.beir-v1.0.0-bioasq.bge-base-en-v1.5.20240618.6cf601.tar.gz",
-        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20240618.6cf601.README.md",
+        "description": "Anserini Lucene flat vector index of BEIR collection 'bioasq' encoded by BGE-base-en-v1.5 (Lucene 10.4.0)",
+        "filename": "lucene-flat.beir-v1.0.0-bioasq.bge-base-en-v1.5.20260425.bb3d65.tar",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20260425.bb3d65.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-bioasq.bge-base-en-v1.5.20240618.6cf601.tar.gz"
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-bioasq.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
-        "md5": "b470cc88cdf338a7325f14eb05bf784d",
-        "compressed_size": 42707657024
+        "md5": "1a502f827e447c544354dff9f0a22425",
+        "compressed_size": 46172559360
     },
     {
         "name": "beir-v1.0.0-nfcorpus.bge-base-en-v1.5.flat",
         "type": "flat",
         "corpus": "BEIR: nfcorpus",
         "corpus_index": "beir-v1.0.0-nfcorpus.flat",
-        "description": "Anserini Lucene flat vector index of BEIR collection 'nfcorpus' encoded by BGE-base-en-v1.5",
-        "filename": "lucene-flat.beir-v1.0.0-nfcorpus.bge-base-en-v1.5.20240618.6cf601.tar.gz",
-        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20240618.6cf601.README.md",
+        "description": "Anserini Lucene flat vector index of BEIR collection 'nfcorpus' encoded by BGE-base-en-v1.5 (Lucene 10.4.0)",
+        "filename": "lucene-flat.beir-v1.0.0-nfcorpus.bge-base-en-v1.5.20260425.bb3d65.tar",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20260425.bb3d65.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-nfcorpus.bge-base-en-v1.5.20240618.6cf601.tar.gz"
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-nfcorpus.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
-        "md5": "9c1d92c88faccc72d0e869439cd28ad5",
-        "compressed_size": 10368418
+        "md5": "edd980324023746dd22d723f63dafab1",
+        "compressed_size": 11253760
     },
     {
         "name": "beir-v1.0.0-nq.bge-base-en-v1.5.flat",
         "type": "flat",
         "corpus": "BEIR: nq",
         "corpus_index": "beir-v1.0.0-nq.flat",
-        "description": "Anserini Lucene flat vector index of BEIR collection 'nq' encoded by BGE-base-en-v1.5",
-        "filename": "lucene-flat.beir-v1.0.0-nq.bge-base-en-v1.5.20240618.6cf601.tar.gz",
-        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20240618.6cf601.README.md",
+        "description": "Anserini Lucene flat vector index of BEIR collection 'nq' encoded by BGE-base-en-v1.5 (Lucene 10.4.0)",
+        "filename": "lucene-flat.beir-v1.0.0-nq.bge-base-en-v1.5.20260425.bb3d65.tar",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20260425.bb3d65.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-nq.bge-base-en-v1.5.20240618.6cf601.tar.gz"
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-nq.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
-        "md5": "ad668f12f998052ec22b91f808e301e6",
-        "compressed_size": 7644825921
+        "md5": "a62f94f737c614c8f19675e251abaa3b",
+        "compressed_size": 8302264320
     },
     {
         "name": "beir-v1.0.0-hotpotqa.bge-base-en-v1.5.flat",
         "type": "flat",
         "corpus": "BEIR: hotpotqa",
         "corpus_index": "beir-v1.0.0-hotpotqa.flat",
-        "description": "Anserini Lucene flat vector index of BEIR collection 'hotpotqa' encoded by BGE-base-en-v1.5",
-        "filename": "lucene-flat.beir-v1.0.0-hotpotqa.bge-base-en-v1.5.20240618.6cf601.tar.gz",
-        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20240618.6cf601.README.md",
+        "description": "Anserini Lucene flat vector index of BEIR collection 'hotpotqa' encoded by BGE-base-en-v1.5 (Lucene 10.4.0)",
+        "filename": "lucene-flat.beir-v1.0.0-hotpotqa.bge-base-en-v1.5.20260425.bb3d65.tar",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20260425.bb3d65.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-hotpotqa.bge-base-en-v1.5.20240618.6cf601.tar.gz"
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-hotpotqa.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
-        "md5": "43422329006eea8648ac2928589a0512",
-        "compressed_size": 14985912091
+        "md5": "f910392a2d87c9c15f87634782daed72",
+        "compressed_size": 16201052160
     },
     {
         "name": "beir-v1.0.0-fiqa.bge-base-en-v1.5.flat",
         "type": "flat",
         "corpus": "BEIR: fiqa",
         "corpus_index": "beir-v1.0.0-fiqa.flat",
-        "description": "Anserini Lucene flat vector index of BEIR collection 'fiqa' encoded by BGE-base-en-v1.5",
-        "filename": "lucene-flat.beir-v1.0.0-fiqa.bge-base-en-v1.5.20240618.6cf601.tar.gz",
-        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20240618.6cf601.README.md",
+        "description": "Anserini Lucene flat vector index of BEIR collection 'fiqa' encoded by BGE-base-en-v1.5 (Lucene 10.4.0)",
+        "filename": "lucene-flat.beir-v1.0.0-fiqa.bge-base-en-v1.5.20260425.bb3d65.tar",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20260425.bb3d65.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-fiqa.bge-base-en-v1.5.20240618.6cf601.tar.gz"
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-fiqa.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
-        "md5": "1b727263a0195430dbc20a3cc412f819",
-        "compressed_size": 164813002
+        "md5": "d8239242a8c0da309e5921172c2d3651",
+        "compressed_size": 178227200
     },
     {
         "name": "beir-v1.0.0-signal1m.bge-base-en-v1.5.flat",
         "type": "flat",
         "corpus": "BEIR: signal1m",
         "corpus_index": "beir-v1.0.0-signal1m.flat",
-        "description": "Anserini Lucene flat vector index of BEIR collection 'signal1m' encoded by BGE-base-en-v1.5",
-        "filename": "lucene-flat.beir-v1.0.0-signal1m.bge-base-en-v1.5.20240618.6cf601.tar.gz",
-        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20240618.6cf601.README.md",
+        "description": "Anserini Lucene flat vector index of BEIR collection 'signal1m' encoded by BGE-base-en-v1.5 (Lucene 10.4.0)",
+        "filename": "lucene-flat.beir-v1.0.0-signal1m.bge-base-en-v1.5.20260425.bb3d65.tar",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20260425.bb3d65.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-signal1m.bge-base-en-v1.5.20240618.6cf601.tar.gz"
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-signal1m.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
-        "md5": "7e3967b5e0326a3e4063fde12ccfd9d0",
-        "compressed_size": 8228430064
+        "md5": "6227d86da8f12ab2a29e6f597c519a20",
+        "compressed_size": 8931993600
     },
     {
         "name": "beir-v1.0.0-trec-news.bge-base-en-v1.5.flat",
         "type": "flat",
         "corpus": "BEIR: trec-news",
         "corpus_index": "beir-v1.0.0-trec-news.flat",
-        "description": "Anserini Lucene flat vector index of BEIR collection 'trec-news' encoded by BGE-base-en-v1.5",
-        "filename": "lucene-flat.beir-v1.0.0-trec-news.bge-base-en-v1.5.20240618.6cf601.tar.gz",
-        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20240618.6cf601.README.md",
+        "description": "Anserini Lucene flat vector index of BEIR collection 'trec-news' encoded by BGE-base-en-v1.5 (Lucene 10.4.0)",
+        "filename": "lucene-flat.beir-v1.0.0-trec-news.bge-base-en-v1.5.20260425.bb3d65.tar",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20260425.bb3d65.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-trec-news.bge-base-en-v1.5.20240618.6cf601.tar.gz"
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-trec-news.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
-        "md5": "3da92ed6d976cd02333dd9078c0220ae",
-        "compressed_size": 1605108139
+        "md5": "70a6dc3dba85a6b4a44c3562db21d3a4",
+        "compressed_size": 1882511360
     },
     {
         "name": "beir-v1.0.0-robust04.bge-base-en-v1.5.flat",
         "type": "flat",
         "corpus": "BEIR: robust04",
         "corpus_index": "beir-v1.0.0-robust04.flat",
-        "description": "Anserini Lucene flat vector index of BEIR collection 'robust04' encoded by BGE-base-en-v1.5",
-        "filename": "lucene-flat.beir-v1.0.0-robust04.bge-base-en-v1.5.20240618.6cf601.tar.gz",
-        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20240618.6cf601.README.md",
+        "description": "Anserini Lucene flat vector index of BEIR collection 'robust04' encoded by BGE-base-en-v1.5 (Lucene 10.4.0)",
+        "filename": "lucene-flat.beir-v1.0.0-robust04.bge-base-en-v1.5.20260425.bb3d65.tar",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20260425.bb3d65.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-robust04.bge-base-en-v1.5.20240618.6cf601.tar.gz"
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-robust04.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
-        "md5": "7750b4abbc60fe821c5948a81296f1d0",
-        "compressed_size": 1506316682
+        "md5": "ced86286db3899a3fc8c865d8ef9bf39",
+        "compressed_size": 1635788800
     },
     {
         "name": "beir-v1.0.0-arguana.bge-base-en-v1.5.flat",
         "type": "flat",
         "corpus": "BEIR: arguana",
         "corpus_index": "beir-v1.0.0-arguana.flat",
-        "description": "Anserini Lucene flat vector index of BEIR collection 'arguana' encoded by BGE-base-en-v1.5",
-        "filename": "lucene-flat.beir-v1.0.0-arguana.bge-base-en-v1.5.20240618.6cf601.tar.gz",
-        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20240618.6cf601.README.md",
+        "description": "Anserini Lucene flat vector index of BEIR collection 'arguana' encoded by BGE-base-en-v1.5 (Lucene 10.4.0)",
+        "filename": "lucene-flat.beir-v1.0.0-arguana.bge-base-en-v1.5.20260425.bb3d65.tar",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20260425.bb3d65.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-arguana.bge-base-en-v1.5.20240618.6cf601.tar.gz"
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-arguana.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
-        "md5": "ac0f12b71080c92ab752983a0684686e",
-        "compressed_size": 24845476
+        "md5": "d5a34c972b07b16394a5495fe5a41004",
+        "compressed_size": 27156480
     },
     {
         "name": "beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.flat",
         "type": "flat",
         "corpus": "BEIR: webis-touche2020",
         "corpus_index": "beir-v1.0.0-webis-touche2020.flat",
-        "description": "Anserini Lucene flat vector index of BEIR collection 'webis-touche2020' encoded by BGE-base-en-v1.5",
-        "filename": "lucene-flat.beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.20240618.6cf601.tar.gz",
-        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20240618.6cf601.README.md",
+        "description": "Anserini Lucene flat vector index of BEIR collection 'webis-touche2020' encoded by BGE-base-en-v1.5 (Lucene 10.4.0)",
+        "filename": "lucene-flat.beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.20260425.bb3d65.tar",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20260425.bb3d65.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.20240618.6cf601.tar.gz"
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
-        "md5": "d9572d89c85eccbc781d552699fa2e92",
-        "compressed_size": 1095210780
+        "md5": "09830ab08d175bb7cf60d1d5f1514134",
+        "compressed_size": 1199861760
     },
     {
         "name": "beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.flat",
         "type": "flat",
         "corpus": "BEIR: cqadupstack-android",
         "corpus_index": "beir-v1.0.0-cqadupstack-android.flat",
-        "description": "Anserini Lucene flat vector index of BEIR collection 'cqadupstack-android' encoded by BGE-base-en-v1.5",
-        "filename": "lucene-flat.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.20240618.6cf601.tar.gz",
-        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20240618.6cf601.README.md",
+        "description": "Anserini Lucene flat vector index of BEIR collection 'cqadupstack-android' encoded by BGE-base-en-v1.5 (Lucene 10.4.0)",
+        "filename": "lucene-flat.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.20260425.bb3d65.tar",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20260425.bb3d65.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.20240618.6cf601.tar.gz"
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
-        "md5": "354f39e9e4cf11eb2f2b99409f672995",
-        "compressed_size": 65787255
+        "md5": "37ba502ffe326feec94bc5d9af2d759d",
+        "compressed_size": 71106560
     },
     {
         "name": "beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.flat",
         "type": "flat",
         "corpus": "BEIR: cqadupstack-english",
         "corpus_index": "beir-v1.0.0-cqadupstack-english.flat",
-        "description": "Anserini Lucene flat vector index of BEIR collection 'cqadupstack-english' encoded by BGE-base-en-v1.5",
-        "filename": "lucene-flat.beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.20240618.6cf601.tar.gz",
-        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20240618.6cf601.README.md",
+        "description": "Anserini Lucene flat vector index of BEIR collection 'cqadupstack-english' encoded by BGE-base-en-v1.5 (Lucene 10.4.0)",
+        "filename": "lucene-flat.beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.20260425.bb3d65.tar",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20260425.bb3d65.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.20240618.6cf601.tar.gz"
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
-        "md5": "36f72965dcaf9e2dee697152bb38b6d9",
-        "compressed_size": 115118992
+        "md5": "a5ebe9bc73207a090c461fc4b7d1061b",
+        "compressed_size": 124395520
     },
     {
         "name": "beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.flat",
         "type": "flat",
         "corpus": "BEIR: cqadupstack-gaming",
         "corpus_index": "beir-v1.0.0-cqadupstack-gaming",
-        "description": "Anserini Lucene flat vector index of BEIR collection 'cqadupstack-gaming' encoded by BGE-base-en-v1.5",
-        "filename": "lucene-flat.beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.20240618.6cf601.tar.gz",
-        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20240618.6cf601.README.md",
+        "description": "Anserini Lucene flat vector index of BEIR collection 'cqadupstack-gaming' encoded by BGE-base-en-v1.5 (Lucene 10.4.0)",
+        "filename": "lucene-flat.beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.20260425.bb3d65.tar",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20260425.bb3d65.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.20240618.6cf601.tar.gz"
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
-        "md5": "36c47d9387134e88321fa1d4e8f1503e",
-        "compressed_size": 129625958
+        "md5": "983ccd2f675e4ea08633573145921978",
+        "compressed_size": 140083200
     },
     {
         "name": "beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.flat",
         "type": "flat",
         "corpus": "BEIR: cqadupstack-gis",
         "corpus_index": "beir-v1.0.0-cqadupstack-gis.flat",
-        "description": "Anserini Lucene flat vector index of BEIR collection 'cqadupstack-gis' encoded by BGE-base-en-v1.5",
-        "filename": "lucene-flat.beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.20240618.6cf601.tar.gz",
-        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20240618.6cf601.README.md",
+        "description": "Anserini Lucene flat vector index of BEIR collection 'cqadupstack-gis' encoded by BGE-base-en-v1.5 (Lucene 10.4.0)",
+        "filename": "lucene-flat.beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.20260425.bb3d65.tar",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20260425.bb3d65.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.20240618.6cf601.tar.gz"
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
-        "md5": "74e85b1e2847e13343e3b90b4a28a96e",
-        "compressed_size": 107668300
+        "md5": "215b15b95af007cd2a1429c5c6e1bdaa",
+        "compressed_size": 116357120
     },
     {
         "name": "beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.flat",
         "type": "flat",
         "corpus": "BEIR: cqadupstack-mathematica",
         "corpus_index": "beir-v1.0.0-cqadupstack-mathematica.flat",
-        "description": "Anserini Lucene flat vector index of BEIR collection 'cqadupstack-mathematica' encoded by BGE-base-en-v1.5",
-        "filename": "lucene-flat.beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.20240618.6cf601.tar.gz",
-        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20240618.6cf601.README.md",
+        "description": "Anserini Lucene flat vector index of BEIR collection 'cqadupstack-mathematica' encoded by BGE-base-en-v1.5 (Lucene 10.4.0)",
+        "filename": "lucene-flat.beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.20260425.bb3d65.tar",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20260425.bb3d65.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.20240618.6cf601.tar.gz"
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
-        "md5": "e720e0a7351574161570a77908094e73",
-        "compressed_size": 47801160
+        "md5": "27127a3a8cae9f5ce9d473510be72b02",
+        "compressed_size": 51650560
     },
     {
         "name": "beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.flat",
         "type": "flat",
         "corpus": "BEIR: cqadupstack-physics",
         "corpus_index": "beir-v1.0.0-cqadupstack-physics.flat",
-        "description": "Anserini Lucene flat vector index of BEIR collection 'cqadupstack-physics' encoded by BGE-base-en-v1.5",
-        "filename": "lucene-flat.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.20240618.6cf601.tar.gz",
-        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20240618.6cf601.README.md",
+        "description": "Anserini Lucene flat vector index of BEIR collection 'cqadupstack-physics' encoded by BGE-base-en-v1.5 (Lucene 10.4.0)",
+        "filename": "lucene-flat.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.20260425.bb3d65.tar",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20260425.bb3d65.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.20240618.6cf601.tar.gz"
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
-        "md5": "026a07c3c331fe7be2a8441b124c9f4f",
-        "compressed_size": 109652407
+        "md5": "4126d9bb148a2e95c8df4056ce42720d",
+        "compressed_size": 118466560
     },
     {
         "name": "beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.flat",
         "type": "flat",
         "corpus": "BEIR: cqadupstack-programmers",
         "corpus_index": "beir-v1.0.0-cqadupstack-programmers.flat",
-        "description": "Anserini Lucene flat vector index of BEIR collection 'cqadupstack-programmers' encoded by BGE-base-en-v1.5",
-        "filename": "lucene-flat.beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.20240618.6cf601.tar.gz",
-        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20240618.6cf601.README.md",
+        "description": "Anserini Lucene flat vector index of BEIR collection 'cqadupstack-programmers' encoded by BGE-base-en-v1.5 (Lucene 10.4.0)",
+        "filename": "lucene-flat.beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.20260425.bb3d65.tar",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20260425.bb3d65.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.20240618.6cf601.tar.gz"
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
-        "md5": "4cb595ae05660973d0b381f1791f0c50",
-        "compressed_size": 92107047
+        "md5": "218a3f3068d554738b38b4ee275c0763",
+        "compressed_size": 99532800
     },
     {
         "name": "beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.flat",
         "type": "flat",
         "corpus": "BEIR: cqadupstack-stats",
         "corpus_index": "beir-v1.0.0-cqadupstack-stats.flat",
-        "description": "Anserini Lucene flat vector index of BEIR collection 'cqadupstack-stats' encoded by BGE-base-en-v1.5",
-        "filename": "lucene-flat.beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.20240618.6cf601.tar.gz",
-        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20240618.6cf601.README.md",
+        "description": "Anserini Lucene flat vector index of BEIR collection 'cqadupstack-stats' encoded by BGE-base-en-v1.5 (Lucene 10.4.0)",
+        "filename": "lucene-flat.beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.20260425.bb3d65.tar",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20260425.bb3d65.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.20240618.6cf601.tar.gz"
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
-        "md5": "7f0cc4b9036c3d92f82ac86beeb1767e",
-        "compressed_size": 120939672
+        "md5": "bbb1941163836b0ec98686db2d461784",
+        "compressed_size": 130672640
     },
     {
         "name": "beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.flat",
         "type": "flat",
         "corpus": "BEIR: cqadupstack-tex",
         "corpus_index": "beir-v1.0.0-cqadupstack-tex.flat",
-        "description": "Anserini Lucene flat vector index of BEIR collection 'cqadupstack-tex' encoded by BGE-base-en-v1.5",
-        "filename": "lucene-flat.beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.20240618.6cf601.tar.gz",
-        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20240618.6cf601.README.md",
+        "description": "Anserini Lucene flat vector index of BEIR collection 'cqadupstack-tex' encoded by BGE-base-en-v1.5 (Lucene 10.4.0)",
+        "filename": "lucene-flat.beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.20260425.bb3d65.tar",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20260425.bb3d65.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.20240618.6cf601.tar.gz"
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
-        "md5": "7770dfcb197d6a37492c634e5f17beb5",
-        "compressed_size": 195093442
+        "md5": "fbc8101cb6408cb41c443218c26d1232",
+        "compressed_size": 210831360
     },
     {
         "name": "beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.flat",
         "type": "flat",
         "corpus": "BEIR: cqadupstack-unix",
         "corpus_index": "beir-v1.0.0-cqadupstack-unix.flat",
-        "description": "Anserini Lucene flat vector index of BEIR collection 'cqadupstack-unix' encoded by BGE-base-en-v1.5",
-        "filename": "lucene-flat.beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.20240618.6cf601.tar.gz",
-        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20240618.6cf601.README.md",
+        "description": "Anserini Lucene flat vector index of BEIR collection 'cqadupstack-unix' encoded by BGE-base-en-v1.5 (Lucene 10.4.0)",
+        "filename": "lucene-flat.beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.20260425.bb3d65.tar",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20260425.bb3d65.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.20240618.6cf601.tar.gz"
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
-        "md5": "52f04d06f1d6d8ecdb2b0496ebd99ab8",
-        "compressed_size": 135567506
+        "md5": "2ea67a1edb1abc1786d00c3c935c2183",
+        "compressed_size": 146503680
     },
     {
         "name": "beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.flat",
         "type": "flat",
         "corpus": "BEIR: cqadupstack-webmasters",
         "corpus_index": "beir-v1.0.0-cqadupstack-webmasters.flat",
-        "description": "Anserini Lucene flat vector index of BEIR collection 'cqadupstack-webmasters' encoded by BGE-base-en-v1.5",
-        "filename": "lucene-flat.beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.20240618.6cf601.tar.gz",
-        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20240618.6cf601.README.md",
+        "description": "Anserini Lucene flat vector index of BEIR collection 'cqadupstack-webmasters' encoded by BGE-base-en-v1.5 (Lucene 10.4.0)",
+        "filename": "lucene-flat.beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.20260425.bb3d65.tar",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20260425.bb3d65.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.20240618.6cf601.tar.gz"
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
-        "md5": "7bac4a98b9d3dc95f979bac8beedd648",
-        "compressed_size": 49806547
+        "md5": "9c6a175458515d600e5dc934d3c88bcb",
+        "compressed_size": 53821440
     },
     {
         "name": "beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.flat",
         "type": "flat",
         "corpus": "BEIR: cqadupstack-wordpress",
         "corpus_index": "beir-v1.0.0-cqadupstack-wordpress.flat",
-        "description": "Anserini Lucene flat vector index of BEIR collection 'cqadupstack-wordpress' encoded by BGE-base-en-v1.5",
-        "filename": "lucene-flat.beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.20240618.6cf601.tar.gz",
-        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20240618.6cf601.README.md",
+        "description": "Anserini Lucene flat vector index of BEIR collection 'cqadupstack-wordpress' encoded by BGE-base-en-v1.5 (Lucene 10.4.0)",
+        "filename": "lucene-flat.beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.20260425.bb3d65.tar",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20260425.bb3d65.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.20240618.6cf601.tar.gz"
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
-        "md5": "5a9802e2fc1eeb06a83723172f19b709",
-        "compressed_size": 139061233
+        "md5": "2d076a4ed3fb37fd16e915b0eb2b7af5",
+        "compressed_size": 150282240
     },
     {
         "name": "beir-v1.0.0-quora.bge-base-en-v1.5.flat",
         "type": "flat",
         "corpus": "BEIR: quora",
         "corpus_index": "beir-v1.0.0-quora.flat",
-        "description": "Anserini Lucene flat vector index of BEIR collection 'quora' encoded by BGE-base-en-v1.5",
-        "filename": "lucene-flat.beir-v1.0.0-quora.bge-base-en-v1.5.20240618.6cf601.tar.gz",
-        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20240618.6cf601.README.md",
+        "description": "Anserini Lucene flat vector index of BEIR collection 'quora' encoded by BGE-base-en-v1.5 (Lucene 10.4.0)",
+        "filename": "lucene-flat.beir-v1.0.0-quora.bge-base-en-v1.5.20260425.bb3d65.tar",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20260425.bb3d65.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-quora.bge-base-en-v1.5.20240618.6cf601.tar.gz"
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-quora.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
-        "md5": "21dfce18ce9e4351af900c343556c9e2",
-        "compressed_size": 1492874209
+        "md5": "4a1b46197efc62bf2da54b466af68f4e",
+        "compressed_size": 1616332800
     },
     {
         "name": "beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.flat",
         "type": "flat",
         "corpus": "BEIR: dbpedia-entity",
         "corpus_index": "beir-v1.0.0-dbpedia-entity.flat",
-        "description": "Anserini Lucene flat vector index of BEIR collection 'dbpedia-entity' encoded by BGE-base-en-v1.5",
-        "filename": "lucene-flat.beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.20240618.6cf601.tar.gz",
-        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20240618.6cf601.README.md",
+        "description": "Anserini Lucene flat vector index of BEIR collection 'dbpedia-entity' encoded by BGE-base-en-v1.5 (Lucene 10.4.0)",
+        "filename": "lucene-flat.beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.20260425.bb3d65.tar",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20260425.bb3d65.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.20240618.6cf601.tar.gz"
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
-        "md5": "4158d064d8bb61ed361cea98e6187248",
-        "compressed_size": 13409854877
+        "md5": "6769e0d47dcf814c3af666639e85ec59",
+        "compressed_size": 14571980800
     },
     {
         "name": "beir-v1.0.0-scidocs.bge-base-en-v1.5.flat",
         "type": "flat",
         "corpus": "BEIR: scidocs",
         "corpus_index": "beir-v1.0.0-scidocs.flat",
-        "description": "Anserini Lucene flat vector index of BEIR collection 'scidocs' encoded by BGE-base-en-v1.5",
-        "filename": "lucene-flat.beir-v1.0.0-scidocs.bge-base-en-v1.5.20240618.6cf601.tar.gz",
-        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20240618.6cf601.README.md",
+        "description": "Anserini Lucene flat vector index of BEIR collection 'scidocs' encoded by BGE-base-en-v1.5 (Lucene 10.4.0)",
+        "filename": "lucene-flat.beir-v1.0.0-scidocs.bge-base-en-v1.5.20260425.bb3d65.tar",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20260425.bb3d65.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-scidocs.bge-base-en-v1.5.20240618.6cf601.tar.gz"
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-scidocs.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
-        "md5": "db316cf58c1f8e44aa0c62d7dcd71ec1",
-        "compressed_size": 75125544
+        "md5": "b827df490771df72707887428d31a229",
+        "compressed_size": 81981440
     },
     {
         "name": "beir-v1.0.0-fever.bge-base-en-v1.5.flat",
         "type": "flat",
         "corpus": "BEIR: fever",
         "corpus_index": "beir-v1.0.0-fever.flat",
-        "description": "Anserini Lucene flat vector index of BEIR collection 'fever' encoded by BGE-base-en-v1.5",
-        "filename": "lucene-flat.beir-v1.0.0-fever.bge-base-en-v1.5.20240618.6cf601.tar.gz",
-        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20240618.6cf601.README.md",
+        "description": "Anserini Lucene flat vector index of BEIR collection 'fever' encoded by BGE-base-en-v1.5 (Lucene 10.4.0)",
+        "filename": "lucene-flat.beir-v1.0.0-fever.bge-base-en-v1.5.20260425.bb3d65.tar",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20260425.bb3d65.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-fever.bge-base-en-v1.5.20240618.6cf601.tar.gz"
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-fever.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
-        "md5": "e53c73a00737cf069360dc66fdc193f8",
-        "compressed_size": 15645477632
+        "md5": "2506f3b3d5b4a6738fd142dec77729e2",
+        "compressed_size": 16956354560
     },
     {
         "name": "beir-v1.0.0-climate-fever.bge-base-en-v1.5.flat",
         "type": "flat",
         "corpus": "BEIR: climate-fever",
         "corpus_index": "beir-v1.0.0-climate-fever.flat",
-        "description": "Anserini Lucene flat vector index of BEIR collection 'climate-fever' encoded by BGE-base-en-v1.5",
-        "filename": "lucene-flat.beir-v1.0.0-climate-fever.bge-base-en-v1.5.20240618.6cf601.tar.gz",
-        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20240618.6cf601.README.md",
+        "description": "Anserini Lucene flat vector index of BEIR collection 'climate-fever' encoded by BGE-base-en-v1.5 (Lucene 10.4.0)",
+        "filename": "lucene-flat.beir-v1.0.0-climate-fever.bge-base-en-v1.5.20260425.bb3d65.tar",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20260425.bb3d65.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-climate-fever.bge-base-en-v1.5.20240618.6cf601.tar.gz"
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-climate-fever.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
-        "md5": "bdf55c67f0abba5060fead09ef972d29",
-        "compressed_size": 15645070209
+        "md5": "d2873c04923702539757b860b34fd615",
+        "compressed_size": 16956375040
     },
     {
         "name": "beir-v1.0.0-scifact.bge-base-en-v1.5.flat",
         "type": "flat",
         "corpus": "BEIR: scifact",
         "corpus_index": "beir-v1.0.0-scifact.flat",
-        "description": "Anserini Lucene flat vector index of BEIR collection 'scifact' encoded by BGE-base-en-v1.5",
-        "filename": "lucene-flat.beir-v1.0.0-scifact.bge-base-en-v1.5.20240618.6cf601.tar.gz",
-        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20240618.6cf601.README.md",
+        "description": "Anserini Lucene flat vector index of BEIR collection 'scifact' encoded by BGE-base-en-v1.5 (Lucene 10.4.0)",
+        "filename": "lucene-flat.beir-v1.0.0-scifact.bge-base-en-v1.5.20260425.bb3d65.tar",
+        "readme": "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/blob/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0.bge-base-en-v1.5.20260425.bb3d65.README.md",
         "urls": [
-            "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-flat/bge-base-en-v1.5/lucene-flat.beir-v1.0.0-scifact.bge-base-en-v1.5.20240618.6cf601.tar.gz"
+            "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-scifact.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
-        "md5": "556abd7e9fcffbf06057ce3111cf4cc5",
-        "compressed_size": 14867286
+        "md5": "52ea8c6007ce525f6dd28172c4a6400c",
+        "compressed_size": 16087040
     }
 ]

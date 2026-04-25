@@ -127,7 +127,10 @@ public class PrebuiltIndexHandler {
     }
 
     downloadFilePath = Path.of(cacheDirectory, this.entry.filename);
-    indexPath = Path.of(downloadFilePath.toString().replace(".tar.gz", "") + "." + this.entry.md5);
+    String downloadFilePathString = downloadFilePath.toString();
+    indexPath = Path.of((downloadFilePathString.endsWith(".gz") ?
+        downloadFilePathString.substring(0, downloadFilePathString.length() - ".tar.gz".length()) :
+        downloadFilePathString.substring(0, downloadFilePathString.length() - ".tar".length())) + "." + this.entry.md5);
 
     if (indexPath.toFile().exists()) {
       LOG.info(String.format("Index already exists at %s: skipping downloading.", indexPath));
@@ -244,20 +247,28 @@ public class PrebuiltIndexHandler {
       throw new IOException(String.format("Unexpected error: %s not found.", downloadFilePath));
     }
 
-    ProcessBuilder pbGZIP = new ProcessBuilder("gzip", "-d", downloadFilePath.toString());
-    Process pGZIP = pbGZIP.start();
-    pGZIP.waitFor();
+    String downloadFilePathString = downloadFilePath.toString();
+    boolean gzipped = downloadFilePathString.endsWith(".gz");
+    Path tarFilePath = gzipped ?
+        Path.of(downloadFilePathString.substring(0, downloadFilePathString.length() - ".gz".length())) :
+        downloadFilePath;
 
-    ProcessBuilder pbTAR = new ProcessBuilder("tar", "-xvf",
-            downloadFilePath.toString().substring(0, downloadFilePath.toString().length() - 3), "-C", cacheDirectory);
+    if (gzipped) {
+      ProcessBuilder pbGZIP = new ProcessBuilder("gzip", "-d", downloadFilePathString);
+      Process pGZIP = pbGZIP.start();
+      pGZIP.waitFor();
+    }
+
+    ProcessBuilder pbTAR = new ProcessBuilder("tar", "-xf", tarFilePath.toString(), "-C", cacheDirectory);
     Process pTar = pbTAR.start();
     pTar.waitFor();
 
     // Delete the tar file
-    Files.delete(Path.of(downloadFilePath.toString().replace(".gz", "")));
+    Files.delete(tarFilePath);
     LOG.info("Index decompressed successfully!");
 
-    Files.move(Path.of(downloadFilePath.toString().replace(".tar.gz", "")), this.indexPath);
+    String tarFilePathString = tarFilePath.toString();
+    Files.move(Path.of(tarFilePathString.substring(0, tarFilePathString.length() - ".tar".length())), this.indexPath);
     LOG.info(String.format("Final index location at %s", indexPath));
   }
 
