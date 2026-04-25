@@ -18,6 +18,7 @@ package io.anserini.index;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
@@ -124,11 +125,32 @@ public class PrebuiltIndexHandlerTest {
   public void testCustomCacheDirectory() throws Exception {
     Path tempDir = Files.createTempDirectory("anserini-test-cache");
 
-    PrebuiltIndexHandler handler = PrebuiltIndexHandler.get("cacm");
-    handler.fetch(tempDir.toString());
+    try {
+      PrebuiltIndexHandler handler = PrebuiltIndexHandler.get("cacm");
+      handler.fetch(tempDir.toString());
 
-    assertTrue(handler.getIndexPath().toString().contains("lucene-index.cacm"));
+      assertTrue(handler.getIndexPath().toString().contains("lucene-index.cacm"));
+    } finally {
+      FileUtils.deleteDirectory(tempDir.toFile());
+    }
+  }
 
-    FileUtils.deleteDirectory(tempDir.toFile());
+  @Test
+  public void testDownloadTarArchive() throws Exception {
+    Path tempDir = Files.createTempDirectory("anserini-test-cache");
+
+    try {
+      PrebuiltIndexHandler handler = PrebuiltIndexHandler.get("beir-v1.0.0-trec-covid.bge-base-en-v1.5.flat");
+      assertNotNull(handler);
+      assertTrue("Test index must be a plain tar archive to exercise the tar code path.", handler.getFilename().endsWith(".tar"));
+      assertFalse("Test index must not be gzipped.", handler.getFilename().endsWith(".tar.gz"));
+
+      handler.fetch(tempDir.toString());
+
+      assertTrue(handler.getIndexPath().toString().contains("lucene-flat.beir-v1.0.0-trec-covid.bge-base-en-v1.5"));
+      assertTrue(Files.exists(handler.getIndexPath()));
+    } finally {
+      FileUtils.deleteDirectory(tempDir.toFile());
+    }
   }
 }
