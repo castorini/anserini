@@ -1,0 +1,4 @@
+interface:
+  display_name: "Install Anserini Dev"
+  short_description: "Set up and verify Anserini Java builds"
+  default_prompt: "Use $install-anserini-dev to set up and verify an Anserini development environment."
