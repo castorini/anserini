@@ -56,8 +56,9 @@ mvn clean package
 6. Build evaluation tools when needed:
 
 ```bash
-cd tools/eval && tar xvfz trec_eval.9.0.4.tar.gz && cd trec_eval.9.0.4 && make
-cd ../../ndeval && make
+tar xvfz tools/eval/trec_eval.9.0.4.tar.gz -C tools/eval
+make -C tools/eval/trec_eval.9.0.4
+make -C tools/eval/ndeval
 ```
 
 Use separate shell commands when executing this workflow in Codex so failures are visible at the exact step.
