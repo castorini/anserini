@@ -197,4 +197,4 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@h79yan](https://github.com/h79yan) on 2026-04-10 (commit [`e441bc83`](https://github.com/castorini/anserini/commit/e441bc83cc29e4fc1c94491220fa09728be4e6c3))
 + Results reproduced by [@kwamearhinPORTFL](https://github.com/kwamearhinPORTFL) on 2026-04-15 (commit [`5c51ee5`](https://github.com/castorini/anserini/commit/5c51ee567f5039f97e5de8de17b4052fd34a0498))
 + Results reproduced by [@Zixi-Sam-Tang](https://github.com/Zixi-Sam-Tang) on 2026-04-21 (commit [`1e7b470`](https://github.com/castorini/anserini/commit/1e7b4702f0d2fd00752867577c88d8db819d71aa))
-+ + Results reproduced by [@alex-wang101](https://github.com/alex-wang101) on 2026-04-25 (commit [`112cab45`](https://github.com/castorini/anserini/commit/112cab455eca937f8463feb3374c65412f8c7cca))
++ Results reproduced by [@alex-wang101](https://github.com/alex-wang101) on 2026-04-25 (commit [`112cab45`](https://github.com/castorini/anserini/commit/112cab455eca937f8463feb3374c65412f8c7cca))
