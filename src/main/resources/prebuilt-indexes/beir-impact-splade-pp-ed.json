@@ -11,7 +11,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-trec-covid.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "e808ff9d4a1f45de9f0bc292900302b4",
-        "compressed_size": 52144690,
+        "size": 52144690,
         "note": "Outdated index built using Lucene 9; no longer maintained. Model has been superseded by SPLADE-v3. See following PR for more details: https://github.com/castorini/anserini/pull/3216",
         "documents": 171332,
         "total_terms": 1206882333,
@@ -29,7 +29,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-bioasq.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "fc661b2c2fa59e24f37c6dfa6de8e682",
-        "compressed_size": 4866347210,
+        "size": 4866347210,
         "note": "Outdated index built using Lucene 9; no longer maintained. Model has been superseded by SPLADE-v3. See following PR for more details: https://github.com/castorini/anserini/pull/3216",
         "documents": 14914603,
         "total_terms": 127381306317,
@@ -47,7 +47,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-nfcorpus.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "7d6e66cca9d2db8bb7caa3bdf330cdd8",
-        "compressed_size": 1352017,
+        "size": 1352017,
         "note": "Outdated index built using Lucene 9; no longer maintained. Model has been superseded by SPLADE-v3. See following PR for more details: https://github.com/castorini/anserini/pull/3216",
         "documents": 3633,
         "total_terms": 30711150,
@@ -65,7 +65,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-nq.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "a785d6636df60c861829507c3d806ee6",
-        "compressed_size": 737526054,
+        "size": 737526054,
         "note": "Outdated index built using Lucene 9; no longer maintained. Model has been superseded by SPLADE-v3. See following PR for more details: https://github.com/castorini/anserini/pull/3216",
         "documents": 2681468,
         "total_terms": 15061905296,
@@ -83,7 +83,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-hotpotqa.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "b280ed3f7b12034c0cc4b302f92801b9",
-        "compressed_size": 1168143910,
+        "size": 1168143910,
         "note": "Outdated index built using Lucene 9; no longer maintained. Model has been superseded by SPLADE-v3. See following PR for more details: https://github.com/castorini/anserini/pull/3216",
         "documents": 5233329,
         "total_terms": 23736328387,
@@ -101,7 +101,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-fiqa.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "ea53103c695c0da6cea5b1c8353371b0",
-        "compressed_size": 16919422,
+        "size": 16919422,
         "note": "Outdated index built using Lucene 9; no longer maintained. Model has been superseded by SPLADE-v3. See following PR for more details: https://github.com/castorini/anserini/pull/3216",
         "documents": 57638,
         "total_terms": 342348959,
@@ -119,7 +119,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-signal1m.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "0b46d71c97eabe9ca424f3ab9b2ddc64",
-        "compressed_size": 496739597,
+        "size": 496739597,
         "note": "Outdated index built using Lucene 9; no longer maintained. Model has been superseded by SPLADE-v3. See following PR for more details: https://github.com/castorini/anserini/pull/3216",
         "documents": 2866316,
         "total_terms": 8237410263,
@@ -137,7 +137,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-trec-news.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "ef4fb032b632b80355db46549f08a026",
-        "compressed_size": 250744439,
+        "size": 250744439,
         "note": "Outdated index built using Lucene 9; no longer maintained. Model has been superseded by SPLADE-v3. See following PR for more details: https://github.com/castorini/anserini/pull/3216",
         "documents": 594977,
         "total_terms": 5190619991,
@@ -155,7 +155,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-robust04.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "c1a6fd094bb9e34e69e10040d9b0ad2a",
-        "compressed_size": 193499509,
+        "size": 193499509,
         "note": "Outdated index built using Lucene 9; no longer maintained. Model has been superseded by SPLADE-v3. See following PR for more details: https://github.com/castorini/anserini/pull/3216",
         "documents": 528155,
         "total_terms": 4818025575,
@@ -173,7 +173,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-arguana.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "c2725b375ca53ff031ee8b4ba8501eb6",
-        "compressed_size": 3559009,
+        "size": 3559009,
         "note": "Outdated index built using Lucene 9; no longer maintained. Model has been superseded by SPLADE-v3. See following PR for more details: https://github.com/castorini/anserini/pull/3216",
         "documents": 8674,
         "total_terms": 71992355,
@@ -191,7 +191,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-webis-touche2020.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "1abec77feeb741edfb3c9b7565b42964",
-        "compressed_size": 119213878,
+        "size": 119213878,
         "note": "Outdated index built using Lucene 9; no longer maintained. Model has been superseded by SPLADE-v3. See following PR for more details: https://github.com/castorini/anserini/pull/3216",
         "documents": 382545,
         "total_terms": 2275005818,
@@ -209,7 +209,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-cqadupstack-android.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "0b6b36417df9095e9ed32e4127bdd2fd",
-        "compressed_size": 4789380,
+        "size": 4789380,
         "note": "Outdated index built using Lucene 9; no longer maintained. Model has been superseded by SPLADE-v3. See following PR for more details: https://github.com/castorini/anserini/pull/3216",
         "documents": 22998,
         "total_terms": 108476959,
@@ -227,7 +227,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-cqadupstack-english.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "f2a5f68523117638f957bcc353c956c1",
-        "compressed_size": 8868099,
+        "size": 8868099,
         "note": "Outdated index built using Lucene 9; no longer maintained. Model has been superseded by SPLADE-v3. See following PR for more details: https://github.com/castorini/anserini/pull/3216",
         "documents": 40221,
         "total_terms": 158861979,
@@ -245,7 +245,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-cqadupstack-gaming.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "804851ed2ca5c38464f28263fb664615",
-        "compressed_size": 10471910,
+        "size": 10471910,
         "note": "Outdated index built using Lucene 9; no longer maintained. Model has been superseded by SPLADE-v3. See following PR for more details: https://github.com/castorini/anserini/pull/3216",
         "documents": 45301,
         "total_terms": 197713644,
@@ -263,7 +263,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-cqadupstack-gis.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "ee53ba7f26e678f39c3db8997785169a",
-        "compressed_size": 8652361,
+        "size": 8652361,
         "note": "Outdated index built using Lucene 9; no longer maintained. Model has been superseded by SPLADE-v3. See following PR for more details: https://github.com/castorini/anserini/pull/3216",
         "documents": 37637,
         "total_terms": 214744014,
@@ -281,7 +281,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-cqadupstack-mathematica.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "c3dd33ddfd364a0665450691963f9036",
-        "compressed_size": 3845630,
+        "size": 3845630,
         "note": "Outdated index built using Lucene 9; no longer maintained. Model has been superseded by SPLADE-v3. See following PR for more details: https://github.com/castorini/anserini/pull/3216",
         "documents": 16705,
         "total_terms": 90452420,
@@ -299,7 +299,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-cqadupstack-physics.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "155a130b556072ec0b84788417361228",
-        "compressed_size": 9342353,
+        "size": 9342353,
         "note": "Outdated index built using Lucene 9; no longer maintained. Model has been superseded by SPLADE-v3. See following PR for more details: https://github.com/castorini/anserini/pull/3216",
         "documents": 38316,
         "total_terms": 199892911,
@@ -317,7 +317,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-cqadupstack-programmers.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "f0923dd88b7d4f050d54ff6f6efcc7f5",
-        "compressed_size": 8566346,
+        "size": 8566346,
         "note": "Outdated index built using Lucene 9; no longer maintained. Model has been superseded by SPLADE-v3. See following PR for more details: https://github.com/castorini/anserini/pull/3216",
         "documents": 32176,
         "total_terms": 182133939,
@@ -335,7 +335,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-cqadupstack-stats.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "78e62040ed6d44e232e9381e96a56cc7",
-        "compressed_size": 10153907,
+        "size": 10153907,
         "note": "Outdated index built using Lucene 9; no longer maintained. Model has been superseded by SPLADE-v3. See following PR for more details: https://github.com/castorini/anserini/pull/3216",
         "documents": 42269,
         "total_terms": 236361350,
@@ -353,7 +353,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-cqadupstack-tex.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "402088c62cbffeba3d710fec408226ed",
-        "compressed_size": 16238354,
+        "size": 16238354,
         "note": "Outdated index built using Lucene 9; no longer maintained. Model has been superseded by SPLADE-v3. See following PR for more details: https://github.com/castorini/anserini/pull/3216",
         "documents": 68184,
         "total_terms": 433864313,
@@ -371,7 +371,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-cqadupstack-unix.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "66e884e446ff183e07973c65ccf32625",
-        "compressed_size": 10586092,
+        "size": 10586092,
         "note": "Outdated index built using Lucene 9; no longer maintained. Model has been superseded by SPLADE-v3. See following PR for more details: https://github.com/castorini/anserini/pull/3216",
         "documents": 47382,
         "total_terms": 260688145,
@@ -389,7 +389,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-cqadupstack-webmasters.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "17be129cbe65b4e4e64a181f95a56972",
-        "compressed_size": 4077803,
+        "size": 4077803,
         "note": "Outdated index built using Lucene 9; no longer maintained. Model has been superseded by SPLADE-v3. See following PR for more details: https://github.com/castorini/anserini/pull/3216",
         "documents": 17405,
         "total_terms": 89755810,
@@ -407,7 +407,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-cqadupstack-wordpress.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "f20bacfe92f21bc75360a9978278e690",
-        "compressed_size": 9973318,
+        "size": 9973318,
         "note": "Outdated index built using Lucene 9; no longer maintained. Model has been superseded by SPLADE-v3. See following PR for more details: https://github.com/castorini/anserini/pull/3216",
         "documents": 48605,
         "total_terms": 257594340,
@@ -425,7 +425,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-quora.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "ce6dbaacf3b7b0e8282020565d324ea5",
-        "compressed_size": 62673280,
+        "size": 62673280,
         "note": "Outdated index built using Lucene 9; no longer maintained. Model has been superseded by SPLADE-v3. See following PR for more details: https://github.com/castorini/anserini/pull/3216",
         "documents": 522931,
         "total_terms": 1064938611,
@@ -443,7 +443,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-dbpedia-entity.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "fc9ac8329b6e2c054290791e68e0a0e4",
-        "compressed_size": 1224474004,
+        "size": 1224474004,
         "note": "Outdated index built using Lucene 9; no longer maintained. Model has been superseded by SPLADE-v3. See following PR for more details: https://github.com/castorini/anserini/pull/3216",
         "documents": 4635922,
         "total_terms": 22302972729,
@@ -461,7 +461,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-scidocs.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "3285b17da7cd88d2e6e62a3bfc465039",
-        "compressed_size": 10386053,
+        "size": 10386053,
         "note": "Outdated index built using Lucene 9; no longer maintained. Model has been superseded by SPLADE-v3. See following PR for more details: https://github.com/castorini/anserini/pull/3216",
         "documents": 25657,
         "total_terms": 192911913,
@@ -479,7 +479,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-fever.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "22e67800879422840f20c7d0008795a9",
-        "compressed_size": 1499855743,
+        "size": 1499855743,
         "note": "Outdated index built using Lucene 9; no longer maintained. Model has been superseded by SPLADE-v3. See following PR for more details: https://github.com/castorini/anserini/pull/3216",
         "documents": 5416593,
         "total_terms": 28498465299,
@@ -497,7 +497,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-climate-fever.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "bd5f3c804874ca18f99590037873a1bc",
-        "compressed_size": 1500344997,
+        "size": 1500344997,
         "note": "Outdated index built using Lucene 9; no longer maintained. Model has been superseded by SPLADE-v3. See following PR for more details: https://github.com/castorini/anserini/pull/3216",
         "documents": 5416593,
         "total_terms": 28498465299,
@@ -515,7 +515,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-inverted/splade-pp-ed/lucene-inverted.beir-v1.0.0-scifact.splade-pp-ed.20231124.a66f86f.tar.gz"
         ],
         "md5": "3abe52209fcd04f411da438a37254e3a",
-        "compressed_size": 1985785,
+        "size": 1985785,
         "note": "Outdated index built using Lucene 9; no longer maintained. Model has been superseded by SPLADE-v3. See following PR for more details: https://github.com/castorini/anserini/pull/3216",
         "documents": 5183,
         "total_terms": 47317323,

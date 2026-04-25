@@ -167,9 +167,9 @@ public class ReproduceFromPrebuiltIndexes {
         if (PrebuiltIndexHandler.get(idx) != null) {
           // Prebuilt alias
           PrebuiltIndexHandler indexHandler = PrebuiltIndexHandler.get(idx);
-          if (indexHandler.getCompressedSize() > 0) {
-            downloadSizeStr = IndexReaderUtils.formatSize(indexHandler.getCompressedSize());
-            totalDownloadBytes += indexHandler.getCompressedSize();
+          if (indexHandler.getSize() > 0) {
+            downloadSizeStr = IndexReaderUtils.formatSize(indexHandler.getSize());
+            totalDownloadBytes += indexHandler.getSize();
           }
           Path prebuiltPath = expectedPrebuiltPath(idx);
           pathStr = prebuiltPath == null ? "-" : prebuiltPath.toAbsolutePath().toString();

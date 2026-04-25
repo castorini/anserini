@@ -19,6 +19,7 @@ package io.anserini.index;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
@@ -93,6 +94,7 @@ public class PrebuiltIndexHandlerTest {
   public void testGetInverted() throws Exception {
     PrebuiltIndexHandler handler = PrebuiltIndexHandler.get("bright-biology");
     assertNotNull(handler);
+    assertEquals(25111678L, handler.getSize());
   }
 
   @Test

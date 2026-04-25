@@ -11,7 +11,7 @@
             "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-trec-covid.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
         "md5": "45bf4a037c0ad66727fed9ed1709a1d3",
-        "compressed_size": 531056640
+        "size": 531056640
     },
     {
         "name": "beir-v1.0.0-bioasq.bge-base-en-v1.5.flat",
@@ -25,7 +25,7 @@
             "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-bioasq.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
         "md5": "1a502f827e447c544354dff9f0a22425",
-        "compressed_size": 46172559360
+        "size": 46172559360
     },
     {
         "name": "beir-v1.0.0-nfcorpus.bge-base-en-v1.5.flat",
@@ -39,7 +39,7 @@
             "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-nfcorpus.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
         "md5": "edd980324023746dd22d723f63dafab1",
-        "compressed_size": 11253760
+        "size": 11253760
     },
     {
         "name": "beir-v1.0.0-nq.bge-base-en-v1.5.flat",
@@ -53,7 +53,7 @@
             "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-nq.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
         "md5": "a62f94f737c614c8f19675e251abaa3b",
-        "compressed_size": 8302264320
+        "size": 8302264320
     },
     {
         "name": "beir-v1.0.0-hotpotqa.bge-base-en-v1.5.flat",
@@ -67,7 +67,7 @@
             "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-hotpotqa.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
         "md5": "f910392a2d87c9c15f87634782daed72",
-        "compressed_size": 16201052160
+        "size": 16201052160
     },
     {
         "name": "beir-v1.0.0-fiqa.bge-base-en-v1.5.flat",
@@ -81,7 +81,7 @@
             "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-fiqa.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
         "md5": "d8239242a8c0da309e5921172c2d3651",
-        "compressed_size": 178227200
+        "size": 178227200
     },
     {
         "name": "beir-v1.0.0-signal1m.bge-base-en-v1.5.flat",
@@ -95,7 +95,7 @@
             "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-signal1m.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
         "md5": "6227d86da8f12ab2a29e6f597c519a20",
-        "compressed_size": 8931993600
+        "size": 8931993600
     },
     {
         "name": "beir-v1.0.0-trec-news.bge-base-en-v1.5.flat",
@@ -109,7 +109,7 @@
             "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-trec-news.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
         "md5": "70a6dc3dba85a6b4a44c3562db21d3a4",
-        "compressed_size": 1882511360
+        "size": 1882511360
     },
     {
         "name": "beir-v1.0.0-robust04.bge-base-en-v1.5.flat",
@@ -123,7 +123,7 @@
             "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-robust04.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
         "md5": "ced86286db3899a3fc8c865d8ef9bf39",
-        "compressed_size": 1635788800
+        "size": 1635788800
     },
     {
         "name": "beir-v1.0.0-arguana.bge-base-en-v1.5.flat",
@@ -137,7 +137,7 @@
             "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-arguana.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
         "md5": "d5a34c972b07b16394a5495fe5a41004",
-        "compressed_size": 27156480
+        "size": 27156480
     },
     {
         "name": "beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.flat",
@@ -151,7 +151,7 @@
             "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
         "md5": "09830ab08d175bb7cf60d1d5f1514134",
-        "compressed_size": 1199861760
+        "size": 1199861760
     },
     {
         "name": "beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.flat",
@@ -165,7 +165,7 @@
             "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
         "md5": "37ba502ffe326feec94bc5d9af2d759d",
-        "compressed_size": 71106560
+        "size": 71106560
     },
     {
         "name": "beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.flat",
@@ -179,7 +179,7 @@
             "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
         "md5": "a5ebe9bc73207a090c461fc4b7d1061b",
-        "compressed_size": 124395520
+        "size": 124395520
     },
     {
         "name": "beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.flat",
@@ -193,7 +193,7 @@
             "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
         "md5": "983ccd2f675e4ea08633573145921978",
-        "compressed_size": 140083200
+        "size": 140083200
     },
     {
         "name": "beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.flat",
@@ -207,7 +207,7 @@
             "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
         "md5": "215b15b95af007cd2a1429c5c6e1bdaa",
-        "compressed_size": 116357120
+        "size": 116357120
     },
     {
         "name": "beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.flat",
@@ -221,7 +221,7 @@
             "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
         "md5": "27127a3a8cae9f5ce9d473510be72b02",
-        "compressed_size": 51650560
+        "size": 51650560
     },
     {
         "name": "beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.flat",
@@ -235,7 +235,7 @@
             "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
         "md5": "4126d9bb148a2e95c8df4056ce42720d",
-        "compressed_size": 118466560
+        "size": 118466560
     },
     {
         "name": "beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.flat",
@@ -249,7 +249,7 @@
             "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
         "md5": "218a3f3068d554738b38b4ee275c0763",
-        "compressed_size": 99532800
+        "size": 99532800
     },
     {
         "name": "beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.flat",
@@ -263,7 +263,7 @@
             "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
         "md5": "bbb1941163836b0ec98686db2d461784",
-        "compressed_size": 130672640
+        "size": 130672640
     },
     {
         "name": "beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.flat",
@@ -277,7 +277,7 @@
             "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
         "md5": "fbc8101cb6408cb41c443218c26d1232",
-        "compressed_size": 210831360
+        "size": 210831360
     },
     {
         "name": "beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.flat",
@@ -291,7 +291,7 @@
             "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
         "md5": "2ea67a1edb1abc1786d00c3c935c2183",
-        "compressed_size": 146503680
+        "size": 146503680
     },
     {
         "name": "beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.flat",
@@ -305,7 +305,7 @@
             "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
         "md5": "9c6a175458515d600e5dc934d3c88bcb",
-        "compressed_size": 53821440
+        "size": 53821440
     },
     {
         "name": "beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.flat",
@@ -319,7 +319,7 @@
             "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
         "md5": "2d076a4ed3fb37fd16e915b0eb2b7af5",
-        "compressed_size": 150282240
+        "size": 150282240
     },
     {
         "name": "beir-v1.0.0-quora.bge-base-en-v1.5.flat",
@@ -333,7 +333,7 @@
             "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-quora.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
         "md5": "4a1b46197efc62bf2da54b466af68f4e",
-        "compressed_size": 1616332800
+        "size": 1616332800
     },
     {
         "name": "beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.flat",
@@ -347,7 +347,7 @@
             "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
         "md5": "6769e0d47dcf814c3af666639e85ec59",
-        "compressed_size": 14571980800
+        "size": 14571980800
     },
     {
         "name": "beir-v1.0.0-scidocs.bge-base-en-v1.5.flat",
@@ -361,7 +361,7 @@
             "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-scidocs.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
         "md5": "b827df490771df72707887428d31a229",
-        "compressed_size": 81981440
+        "size": 81981440
     },
     {
         "name": "beir-v1.0.0-fever.bge-base-en-v1.5.flat",
@@ -375,7 +375,7 @@
             "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-fever.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
         "md5": "2506f3b3d5b4a6738fd142dec77729e2",
-        "compressed_size": 16956354560
+        "size": 16956354560
     },
     {
         "name": "beir-v1.0.0-climate-fever.bge-base-en-v1.5.flat",
@@ -389,7 +389,7 @@
             "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-climate-fever.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
         "md5": "d2873c04923702539757b860b34fd615",
-        "compressed_size": 16956375040
+        "size": 16956375040
     },
     {
         "name": "beir-v1.0.0-scifact.bge-base-en-v1.5.flat",
@@ -403,6 +403,6 @@
             "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-flat.beir-v1.0.0-scifact.bge-base-en-v1.5.20260425.bb3d65.tar"
         ],
         "md5": "52ea8c6007ce525f6dd28172c4a6400c",
-        "compressed_size": 16087040
+        "size": 16087040
     }
 ]

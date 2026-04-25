@@ -11,7 +11,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-hnsw/bge-base-en-v1.5/lucene-hnsw.beir-v1.0.0-trec-covid.bge-base-en-v1.5.20240223.43c9ec.tar.gz"
         ],
         "md5": "2c8cba8525f8ec6920dbb4f0b4a2e0a6",
-        "compressed_size": 502047852,
+        "size": 502047852,
         "note": "Outdated index built using Lucene 9; no longer maintained. See following discussion for more details: https://github.com/castorini/anserini/discussions/3206"
     },
     {
@@ -26,7 +26,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-hnsw/bge-base-en-v1.5/lucene-hnsw.beir-v1.0.0-bioasq.bge-base-en-v1.5.20240223.43c9ec.tar.gz"
         ],
         "md5": "2f4cde27ef5ec3be1193e06854fdaae6",
-        "compressed_size": 43839594024,
+        "size": 43839594024,
         "note": "Outdated index built using Lucene 9; no longer maintained. See following discussion for more details: https://github.com/castorini/anserini/discussions/3206"
     },
     {
@@ -41,7 +41,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-hnsw/bge-base-en-v1.5/lucene-hnsw.beir-v1.0.0-nfcorpus.bge-base-en-v1.5.20240223.43c9ec.tar.gz"
         ],
         "md5": "d0aa34bf35b59466e7064c424dd82e2c",
-        "compressed_size": 10483976,
+        "size": 10483976,
         "note": "Outdated index built using Lucene 9; no longer maintained. See following discussion for more details: https://github.com/castorini/anserini/discussions/3206"
     },
     {
@@ -56,7 +56,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-hnsw/bge-base-en-v1.5/lucene-hnsw.beir-v1.0.0-nq.bge-base-en-v1.5.20240223.43c9ec.tar.gz"
         ],
         "md5": "b0bbd85821c734125ffbc0f7ea8f75ae",
-        "compressed_size": 7815863995,
+        "size": 7815863995,
         "note": "Outdated index built using Lucene 9; no longer maintained. See following discussion for more details: https://github.com/castorini/anserini/discussions/3206"
     },
     {
@@ -71,7 +71,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-hnsw/bge-base-en-v1.5/lucene-hnsw.beir-v1.0.0-hotpotqa.bge-base-en-v1.5.20240223.43c9ec.tar.gz"
         ],
         "md5": "83129157f2138a2240b69f8f5404e579",
-        "compressed_size": 15341743151,
+        "size": 15341743151,
         "note": "Outdated index built using Lucene 9; no longer maintained. See following discussion for more details: https://github.com/castorini/anserini/discussions/3206"
     },
     {
@@ -86,7 +86,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-hnsw/bge-base-en-v1.5/lucene-hnsw.beir-v1.0.0-fiqa.bge-base-en-v1.5.20240223.43c9ec.tar.gz"
         ],
         "md5": "f2e3191b9d047b88b4692ec3ac87acd0",
-        "compressed_size": 167944107,
+        "size": 167944107,
         "note": "Outdated index built using Lucene 9; no longer maintained. See following discussion for more details: https://github.com/castorini/anserini/discussions/3206"
     },
     {
@@ -101,7 +101,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-hnsw/bge-base-en-v1.5/lucene-hnsw.beir-v1.0.0-signal1m.bge-base-en-v1.5.20240223.43c9ec.tar.gz"
         ],
         "md5": "86a5dc12806c5e2f5f1e7cf646ef9004",
-        "compressed_size": 8381958068,
+        "size": 8381958068,
         "note": "Outdated index built using Lucene 9; no longer maintained. See following discussion for more details: https://github.com/castorini/anserini/discussions/3206"
     },
     {
@@ -116,7 +116,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-hnsw/bge-base-en-v1.5/lucene-hnsw.beir-v1.0.0-trec-news.bge-base-en-v1.5.20240223.43c9ec.tar.gz"
         ],
         "md5": "fcb8fae8c46c76931bde0ad51ecb86f8",
-        "compressed_size": 1639246400,
+        "size": 1639246400,
         "note": "Outdated index built using Lucene 9; no longer maintained. See following discussion for more details: https://github.com/castorini/anserini/discussions/3206"
     },
     {
@@ -131,7 +131,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-hnsw/bge-base-en-v1.5/lucene-hnsw.beir-v1.0.0-robust04.bge-base-en-v1.5.20240223.43c9ec.tar.gz"
         ],
         "md5": "1b975602bf6b87e0a5815a254eb6e945",
-        "compressed_size": 1538524088,
+        "size": 1538524088,
         "note": "Outdated index built using Lucene 9; no longer maintained. See following discussion for more details: https://github.com/castorini/anserini/discussions/3206"
     },
     {
@@ -146,7 +146,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-hnsw/bge-base-en-v1.5/lucene-hnsw.beir-v1.0.0-arguana.bge-base-en-v1.5.20240223.43c9ec.tar.gz"
         ],
         "md5": "468129157636526a3e96bc9427d62808",
-        "compressed_size": 25168300,
+        "size": 25168300,
         "note": "Outdated index built using Lucene 9; no longer maintained. See following discussion for more details: https://github.com/castorini/anserini/discussions/3206"
     },
     {
@@ -161,7 +161,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-hnsw/bge-base-en-v1.5/lucene-hnsw.beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.20240223.43c9ec.tar.gz"
         ],
         "md5": "4639db80366f755bb552ce4c736c4aea",
-        "compressed_size": 1117550470,
+        "size": 1117550470,
         "note": "Outdated index built using Lucene 9; no longer maintained. See following discussion for more details: https://github.com/castorini/anserini/discussions/3206"
     },
     {
@@ -176,7 +176,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-hnsw/bge-base-en-v1.5/lucene-hnsw.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.20240223.43c9ec.tar.gz"
         ],
         "md5": "f7e1f2e737756a84b0273794dcb1038f",
-        "compressed_size": 66966195,
+        "size": 66966195,
         "note": "Outdated index built using Lucene 9; no longer maintained. See following discussion for more details: https://github.com/castorini/anserini/discussions/3206"
     },
     {
@@ -191,7 +191,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-hnsw/bge-base-en-v1.5/lucene-hnsw.beir-v1.0.0-cqadupstack-english.bge-base-en-v1.5.20240223.43c9ec.tar.gz"
         ],
         "md5": "fcdb3fc633b2ca027111536ba422aaed",
-        "compressed_size": 117359841,
+        "size": 117359841,
         "note": "Outdated index built using Lucene 9; no longer maintained. See following discussion for more details: https://github.com/castorini/anserini/discussions/3206"
     },
     {
@@ -206,7 +206,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-hnsw/bge-base-en-v1.5/lucene-hnsw.beir-v1.0.0-cqadupstack-gaming.bge-base-en-v1.5.20240223.43c9ec.tar.gz"
         ],
         "md5": "d59b216b3df6eb1b724e2f20ceb14407",
-        "compressed_size": 132141785,
+        "size": 132141785,
         "note": "Outdated index built using Lucene 9; no longer maintained. See following discussion for more details: https://github.com/castorini/anserini/discussions/3206"
     },
     {
@@ -221,7 +221,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-hnsw/bge-base-en-v1.5/lucene-hnsw.beir-v1.0.0-cqadupstack-gis.bge-base-en-v1.5.20240223.43c9ec.tar.gz"
         ],
         "md5": "1dd42a28e388b30f42ede02565d445ca",
-        "compressed_size": 109764549,
+        "size": 109764549,
         "note": "Outdated index built using Lucene 9; no longer maintained. See following discussion for more details: https://github.com/castorini/anserini/discussions/3206"
     },
     {
@@ -236,7 +236,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-hnsw/bge-base-en-v1.5/lucene-hnsw.beir-v1.0.0-cqadupstack-mathematica.bge-base-en-v1.5.20240223.43c9ec.tar.gz"
         ],
         "md5": "cda37cb1893409c67908cf3aab1467fe",
-        "compressed_size": 48625971,
+        "size": 48625971,
         "note": "Outdated index built using Lucene 9; no longer maintained. See following discussion for more details: https://github.com/castorini/anserini/discussions/3206"
     },
     {
@@ -251,7 +251,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-hnsw/bge-base-en-v1.5/lucene-hnsw.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.20240223.43c9ec.tar.gz"
         ],
         "md5": "82f71e086930c7d8c5fe423173b9bc2e",
-        "compressed_size": 111753684,
+        "size": 111753684,
         "note": "Outdated index built using Lucene 9; no longer maintained. See following discussion for more details: https://github.com/castorini/anserini/discussions/3206"
     },
     {
@@ -266,7 +266,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-hnsw/bge-base-en-v1.5/lucene-hnsw.beir-v1.0.0-cqadupstack-programmers.bge-base-en-v1.5.20240223.43c9ec.tar.gz"
         ],
         "md5": "a7a8e17dcef7b40fde2492436aab1458",
-        "compressed_size": 93833538,
+        "size": 93833538,
         "note": "Outdated index built using Lucene 9; no longer maintained. See following discussion for more details: https://github.com/castorini/anserini/discussions/3206"
     },
     {
@@ -281,7 +281,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-hnsw/bge-base-en-v1.5/lucene-hnsw.beir-v1.0.0-cqadupstack-stats.bge-base-en-v1.5.20240223.43c9ec.tar.gz"
         ],
         "md5": "7a304fa64332256976bed5049392605b",
-        "compressed_size": 123327452,
+        "size": 123327452,
         "note": "Outdated index built using Lucene 9; no longer maintained. See following discussion for more details: https://github.com/castorini/anserini/discussions/3206"
     },
     {
@@ -296,7 +296,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-hnsw/bge-base-en-v1.5/lucene-hnsw.beir-v1.0.0-cqadupstack-tex.bge-base-en-v1.5.20240223.43c9ec.tar.gz"
         ],
         "md5": "bc5b41b294528611982615c0fcb7ebc7",
-        "compressed_size": 199129610,
+        "size": 199129610,
         "note": "Outdated index built using Lucene 9; no longer maintained. See following discussion for more details: https://github.com/castorini/anserini/discussions/3206"
     },
     {
@@ -311,7 +311,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-hnsw/bge-base-en-v1.5/lucene-hnsw.beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.20240223.43c9ec.tar.gz"
         ],
         "md5": "e42e7b6f46239211f9e9a3ed521d30eb",
-        "compressed_size": 138303509,
+        "size": 138303509,
         "note": "Outdated index built using Lucene 9; no longer maintained. See following discussion for more details: https://github.com/castorini/anserini/discussions/3206"
     },
     {
@@ -326,7 +326,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-hnsw/bge-base-en-v1.5/lucene-hnsw.beir-v1.0.0-cqadupstack-webmasters.bge-base-en-v1.5.20240223.43c9ec.tar.gz"
         ],
         "md5": "21987ab658ba062397095226eb62aaf1",
-        "compressed_size": 50651130,
+        "size": 50651130,
         "note": "Outdated index built using Lucene 9; no longer maintained. See following discussion for more details: https://github.com/castorini/anserini/discussions/3206"
     },
     {
@@ -341,7 +341,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-hnsw/bge-base-en-v1.5/lucene-hnsw.beir-v1.0.0-cqadupstack-wordpress.bge-base-en-v1.5.20240223.43c9ec.tar.gz"
         ],
         "md5": "4e80be8087e8f282c42c2b57e377bb65",
-        "compressed_size": 141836782,
+        "size": 141836782,
         "note": "Outdated index built using Lucene 9; no longer maintained. See following discussion for more details: https://github.com/castorini/anserini/discussions/3206"
     },
     {
@@ -356,7 +356,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-hnsw/bge-base-en-v1.5/lucene-hnsw.beir-v1.0.0-quora.bge-base-en-v1.5.20240223.43c9ec.tar.gz"
         ],
         "md5": "064d785db557b011649d5f8b07237eb4",
-        "compressed_size": 1531015838,
+        "size": 1531015838,
         "note": "Outdated index built using Lucene 9; no longer maintained. See following discussion for more details: https://github.com/castorini/anserini/discussions/3206"
     },
     {
@@ -371,7 +371,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-hnsw/bge-base-en-v1.5/lucene-hnsw.beir-v1.0.0-dbpedia-entity.bge-base-en-v1.5.20240223.43c9ec.tar.gz"
         ],
         "md5": "323d47f84a54894ba5e6ca215999a533",
-        "compressed_size": 13741743313,
+        "size": 13741743313,
         "note": "Outdated index built using Lucene 9; no longer maintained. See following discussion for more details: https://github.com/castorini/anserini/discussions/3206"
     },
     {
@@ -386,7 +386,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-hnsw/bge-base-en-v1.5/lucene-hnsw.beir-v1.0.0-scidocs.bge-base-en-v1.5.20240223.43c9ec.tar.gz"
         ],
         "md5": "50668564faa9723160b1dba37afbf6d9",
-        "compressed_size": 76359052,
+        "size": 76359052,
         "note": "Outdated index built using Lucene 9; no longer maintained. See following discussion for more details: https://github.com/castorini/anserini/discussions/3206"
     },
     {
@@ -401,7 +401,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-hnsw/bge-base-en-v1.5/lucene-hnsw.beir-v1.0.0-fever.bge-base-en-v1.5.20240223.43c9ec.tar.gz"
         ],
         "md5": "33f67e73786a41b454bf88ac2a7c21c7",
-        "compressed_size": 16037419967,
+        "size": 16037419967,
         "note": "Outdated index built using Lucene 9; no longer maintained. See following discussion for more details: https://github.com/castorini/anserini/discussions/3206"
     },
     {
@@ -416,7 +416,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-hnsw/bge-base-en-v1.5/lucene-hnsw.beir-v1.0.0-climate-fever.bge-base-en-v1.5.20240223.43c9ec.tar.gz"
         ],
         "md5": "412337f9f8182e8ec6417bc3cd48288f",
-        "compressed_size": 16027859113,
+        "size": 16027859113,
         "note": "Outdated index built using Lucene 9; no longer maintained. See following discussion for more details: https://github.com/castorini/anserini/discussions/3206"
     },
     {
@@ -431,7 +431,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-beir/resolve/main/lucene-hnsw/bge-base-en-v1.5/lucene-hnsw.beir-v1.0.0-scifact.bge-base-en-v1.5.20240223.43c9ec.tar.gz"
         ],
         "md5": "6de5a41a301575933fa9932f9ecb404d",
-        "compressed_size": 15055611,
+        "size": 15055611,
         "note": "Outdated index built using Lucene 9; no longer maintained. See following discussion for more details: https://github.com/castorini/anserini/discussions/3206"
     }
 ]

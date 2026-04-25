@@ -143,20 +143,20 @@ public class PrebuiltIndexHandler {
       throw new IOException(String.format("Invalid URL syntax for index download: %s", e.getMessage()), e);
     }
 
-    if (this.entry.compressedSize != -1) {
+    if (this.entry.size != -1) {
       long downloadedSize = Files.size(downloadFilePath);
-      if (downloadedSize != this.entry.compressedSize) {
-        throw new IOException(String.format("Downloaded file size mismatch: expected %s bytes but got %s bytes.",
-            this.entry.compressedSize, downloadedSize));
+      if (downloadedSize != this.entry.size) {
+        throw new IOException(String.format("Downloaded size mismatch: expected %s bytes but got %s bytes.",
+            this.entry.size, downloadedSize));
       }
-      LOG.info("Verified downloaded file size for {}: {}.", this.entry.name, formatSize(downloadedSize));
+      LOG.info("Verified downloaded size for {}: {}.", this.entry.name, formatSize(downloadedSize));
     }
 
     try {
       decompress();
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
-      throw new IOException(String.format("Decompression interrupted: %s", e.getMessage()), e);
+      throw new IOException(String.format("Unpacking interrupted: %s", e.getMessage()), e);
     }
   }
 
@@ -195,16 +195,16 @@ public class PrebuiltIndexHandler {
     HttpURLConnection httpConnection = (HttpURLConnection) (url.openConnection());
     httpConnection.setConnectTimeout(CONNECT_TIMEOUT_MS);
     httpConnection.setReadTimeout(READ_TIMEOUT_MS);
-    long completeFileSize = httpConnection.getContentLengthLong();
-    boolean hasKnownSize = completeFileSize > 0;
+    long size = httpConnection.getContentLengthLong();
+    boolean hasKnownSize = size > 0;
 
     try (InputStream inputStream = new BufferedInputStream(httpConnection.getInputStream());
         FileOutputStream fileOS = new FileOutputStream(downloadFilePath.toFile())) {
 
       if (hasKnownSize) {
-        LOG.info("Starting download of {} ({} compressed).", this.entry.name, formatSize(completeFileSize));
+        LOG.info("Starting download of {} (size: {}).", this.entry.name, formatSize(size));
       } else {
-        LOG.info("Starting download of {} (compressed size unknown).", this.entry.name);
+        LOG.info("Starting download of {} (size unknown).", this.entry.name);
       }
 
       byte[] buffer = new byte[DOWNLOAD_BUFFER_SIZE];
@@ -215,7 +215,7 @@ public class PrebuiltIndexHandler {
         fileOS.write(buffer, 0, bytesRead);
         downloaded += bytesRead;
         if (hasKnownSize) {
-          nextLoggedPercent = logDownloadProgress(downloaded, completeFileSize, nextLoggedPercent);
+          nextLoggedPercent = logDownloadProgress(downloaded, size, nextLoggedPercent);
         }
       }
 
@@ -230,14 +230,14 @@ public class PrebuiltIndexHandler {
     }
   }
 
-  private int logDownloadProgress(long downloaded, long completeFileSize, int nextLoggedPercent) {
-    if (completeFileSize <= 0) {
+  private int logDownloadProgress(long downloaded, long size, int nextLoggedPercent) {
+    if (size <= 0) {
       return nextLoggedPercent;
     }
 
-    long percent = Math.min(100, downloaded * 100 / completeFileSize);
+    long percent = Math.min(100, downloaded * 100 / size);
     while (percent >= nextLoggedPercent && nextLoggedPercent <= 100) {
-      LOG.info("Downloading {}: {}% ({}/{})", this.entry.name, nextLoggedPercent, formatSize(downloaded), formatSize(completeFileSize));
+      LOG.info("Downloading {}: {}% ({}/{})", this.entry.name, nextLoggedPercent, formatSize(downloaded), formatSize(size));
       nextLoggedPercent += DOWNLOAD_LOG_INTERVAL_PERCENT;
     }
 
@@ -290,9 +290,9 @@ public class PrebuiltIndexHandler {
     }
     LOG.info("Finished extracting tar archive {}.", tarFilePath);
 
-    LOG.info("Removing downloaded archive {}.", tarFilePath);
+    LOG.info("Removing tar archive {}.", tarFilePath);
     Files.delete(tarFilePath);
-    LOG.info("Removed downloaded archive {}.", tarFilePath);
+    LOG.info("Removed tar archive {}.", tarFilePath);
 
     String tarFilePathString = tarFilePath.toString();
     Path unpackedIndexPath = Path.of(tarFilePathString.substring(0, tarFilePathString.length() - ".tar".length()));
@@ -305,8 +305,8 @@ public class PrebuiltIndexHandler {
     return this.indexPath;
   }
 
-  public long getCompressedSize() {
-    return this.entry.compressedSize;
+  public long getSize() {
+    return this.entry.size;
   }
 
   public String getFilename() {
