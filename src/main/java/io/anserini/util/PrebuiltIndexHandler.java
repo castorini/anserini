@@ -170,8 +170,7 @@ public class PrebuiltIndexHandler {
           downloadFromUrl(urlString);
           LOG.info("Verifying checksum for {} at {}.", this.entry.name, downloadFilePath);
           if (!verifyChecksum(downloadFilePath, this.entry.md5)) {
-            throw new IOException(String.format("Downloaded file checksum mismatch: expected md5 %s.",
-                this.entry.md5));
+            throw new IOException(String.format("Downloaded file checksum mismatch: expected md5 %s.", this.entry.md5));
           }
           LOG.info("Verified checksum for {}: md5 {}.", this.entry.name, this.entry.md5);
           return;
@@ -238,8 +237,7 @@ public class PrebuiltIndexHandler {
 
     long percent = Math.min(100, downloaded * 100 / completeFileSize);
     while (percent >= nextLoggedPercent && nextLoggedPercent <= 100) {
-      LOG.info("Downloading {}: {}% ({}/{})",
-          this.entry.name, nextLoggedPercent, formatSize(downloaded), formatSize(completeFileSize));
+      LOG.info("Downloading {}: {}% ({}/{})", this.entry.name, nextLoggedPercent, formatSize(downloaded), formatSize(completeFileSize));
       nextLoggedPercent += DOWNLOAD_LOG_INTERVAL_PERCENT;
     }
 
@@ -278,8 +276,7 @@ public class PrebuiltIndexHandler {
       Process pGZIP = pbGZIP.start();
       int exitCode = pGZIP.waitFor();
       if (exitCode != 0) {
-        throw new IOException(String.format("gzip failed while expanding %s with exit code %s.",
-            downloadFilePath, exitCode));
+        throw new IOException(String.format("gzip failed while expanding %s with exit code %s.", downloadFilePath, exitCode));
       }
       LOG.info("Finished expanding gzip archive to {}.", tarFilePath);
     }
@@ -289,8 +286,7 @@ public class PrebuiltIndexHandler {
     Process pTar = pbTAR.start();
     int exitCode = pTar.waitFor();
     if (exitCode != 0) {
-      throw new IOException(String.format("tar failed while extracting %s with exit code %s.",
-          tarFilePath, exitCode));
+      throw new IOException(String.format("tar failed while extracting %s with exit code %s.", tarFilePath, exitCode));
     }
     LOG.info("Finished extracting tar archive {}.", tarFilePath);
 
