@@ -151,6 +151,8 @@
                           <exclude>META-INF/*.SF</exclude>
                           <exclude>META-INF/*.DSA</exclude>
                           <exclude>META-INF/*.RSA</exclude>
+                          <exclude>ai/onnxruntime/native/**/*.pdb</exclude>
+                          <exclude>ai/onnxruntime/native/**/*.dSYM/**</exclude>
                       </excludes>
                   </filter>
               </filters>
