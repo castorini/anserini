@@ -1,3 +1,5 @@
+.venv/
+venv/
 .DS_Store
 .classpath
 .project
@@ -80,5 +82,4 @@ tools/topics-and-qrels/qrels.covid-round2-cumulative.txt
 /src/main/frontend/*.tsbuildinfo
 /src/main/frontend/next-env.d.ts
 /src/main/python/onnx/models/*
-/src/main/python/parquet/venv*
 

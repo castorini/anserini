@@ -1,5 +1,5 @@
 # End to End ONNX Conversion for Neural Retrieval Models
-This MD file will describe steps to convert particular PyTorch models (i.e., [SPLADE++](https://doi.org/10.1145/3477495.3531857)) to ONNX models and options to further optimize compute graph for transformer-based models. For more details on how does ONNX Conversion work and how to optimize the compute graph, please refer to [ONNX Tutorials](https://github.com/onnx/tutorials#services).
+This MD file will describe steps to convert particular PyTorch models (i.e., [SPLADE++](https://doi.org/10.1145/3477495.3531857)) to ONNX models and options to further optimize the compute graph for transformer-based models. For more details on how ONNX conversion works and how to optimize the compute graph, please refer to [ONNX Tutorials](https://github.com/onnx/tutorials#services).
 
 The SPLADE model takes a text input and generates sparse token-level representations as output, where each token is assigned a weight, enabling efficient information retrieval. A more in depth explantation can be found [here](https://www.pinecone.io/learn/splade/).
 
@@ -14,7 +14,7 @@ The following tutorial will be using the scripts available in the above director
 
 pip requirements:
 ```bash
-pip install torch transformers onnx onnxruntime onnxoptimizer
+pip install torch transformers onnx onnxruntime onnxoptimizer onnxscript
 ```
 
 versions tested:
@@ -29,7 +29,7 @@ The following sections will describe how to convert a transformer-based model to
 We use the SPLADE++ model as an example. The steps are as follows:  
 
 ### Run the End to End PyTorch to ONNX Conversion with Validation
-Loading and running is done easily with argparse in the following script:
+Loading and running is done in the following script:
 
 ```
 src/main/python/onnx/convert_hf_model_to_onnx.py
@@ -147,7 +147,7 @@ torch.onnx.export(
 
 ### Adding Metadata
 
-As the final step for completing a successful export of the transformer ONNX model, we need to provide some metadata which is actually used to retrieve important information for the optimization step we will see later. Here is how the metadata is provided in the script:
+The final step for exporting the transformer ONNX model is to provide some metadata, which is actually used to retrieve important information for the optimization step we will see later. Here is how the metadata is provided in the script:
 
 ```python
 # First we begin by collecting the necessary information from the model's configuration
@@ -195,7 +195,7 @@ In the following section, we won't be discussing the specifics of the optimizati
 
 ### Run the End to End ONNX Model Optimization Pipeline
 
-Loading and running is done easily with argparse in the following script:
+Loading and running is done in the following script:
 ```
 src/main/python/onnx/optimize_onnx_model.py
 ```
@@ -265,7 +265,7 @@ Up until this point, we have mainly covered the steps to generating an optimized
 
 ### Run the End to End Inference
 
-Loading and running is done easily with argparse in the following script:
+Loading and running is done in the following script:
 ```
 src/main/python/onnx/run_onnx_model_inference.py
 ```
@@ -343,7 +343,7 @@ All of these definitions are modularized in ```run_onnx_inference(model_path, mo
 
 ### Run End-to-End Quantization
 
-Loading and running is done easily with argparse in the following script:
+Loading and running is done in the following script:
 ```
 src/main/python/onnx/quantize_onnx_model.py
 ```
@@ -390,16 +390,12 @@ Specifically, this exported model is missing a layer of logic that turns the `la
 Thus, for compatibility with the current Anserini implementation of SPLADE encoders, the script we are about to run was created specifically to convert SPLADE models to ONNX. 
 It was originally designed for SPLADE-v3 (in fact, the ONNX version of SPLADE-v3 used in Anserini *was* exported with this script!), but it should work on all models from the SPLADE family.
 
-For consistency with the previous examples, `naver/splade-cocondenser-ensembledistil` has been hard-coded into the script, so all you need to do is run:
+To run the conversion script, all you need to do is run:
 
 ```bash
-# Begin by going to the appropriate directory
 cd src/main/python/onnx
-# Now run the script
-python splade_to_onnx.py
+python splade_to_onnx.py --model_name naver/splade-cocondenser-ensembledistil
 ```
-
-If you want to try exporting the other SPLADE models, simply change the hard-coded model name.
 
 So what actually happens under the hood? The following sections will discuss the key parts of the above script:
 
@@ -456,3 +452,4 @@ Finally, we can run the end to end regression as seen in the previously mentione
 + Results reproduced by [@b8zhong](https://github.com/b8zhong) on 2025-01-16 (commit [`7c1de0e`](https://github.com/castorini/anserini/commit/7c1de0eb94781e5868ee9962d9019e4474bd1ce7))
 + Results reproduced by [@lilyjge](https://github.com/lilyjge) on 2025-06-03 (commit [`b216a5f`](https://github.com/castorini/anserini/commit/b216a5f715f3a6e947389459fef3c2711b85b46e))
 + Results reproduced by [@wu-ming233](https://github.com/wu-ming233) on 2025-06-13 (commit [`4d9e082`](https://github.com/castorini/anserini/commit/4d9e08201051b3a158fddd6e419683fc0da9be9c))
++ Results reproduced by [@nli33](https://github.com/nli33) on 2026-04-21 (commit [`b0023c2`](https://github.com/castorini/anserini/commit/b0023c20d46bf606cb8cb09dbbe8fff04a35aaa5))

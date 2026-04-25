@@ -36,11 +36,11 @@ Typical indexing command:
 bin/run.sh io.anserini.index.IndexFlatDenseVectors \
   -threads 6 \
   -collection ParquetDenseVectorCollection \
-  -input /path/to/msmarco-v2.1-doc-segmented-shard00.arctic-embed-l \
+  -input /path/to/msmarco-v2.1-doc-segmented-shard04.arctic-embed-l \
   -generator DenseVectorDocumentGenerator \
-  -index indexes/lucene-flat.msmarco-v2.1-doc-segmented-shard00.arctic-embed-l \
+  -index indexes/lucene-flat.msmarco-v2.1-doc-segmented-shard04.arctic-embed-l \
   -docidField doc_id -vectorField embedding -normalizeVectors \
-  >& logs/log.msmarco-v2.1-doc-segmented-shard00.arctic-embed-l &
+  >& logs/log.msmarco-v2.1-doc-segmented-shard04.arctic-embed-l &
 ```
 
 The setting of `-input` should be a directory containing the compressed `jsonl` files that comprise the corpus.
@@ -56,19 +56,19 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```bash
 bin/run.sh io.anserini.search.SearchFlatDenseVectors \
-  -index indexes/lucene-flat.msmarco-v2.1-doc-segmented-shard00.arctic-embed-l \
+  -index indexes/lucene-flat.msmarco-v2.1-doc-segmented-shard04.arctic-embed-l \
   -topics tools/topics-and-qrels/topics.rag25.test.jsonl \
   -topicReader JsonString \
-  -output runs/run.msmarco-v2.1-doc-segmented-shard00.arctic-embed-l.arctic-embed-l-flat-onnx.topics.rag25.test.jsonl.txt \
+  -output runs/run.msmarco-v2.1-doc-segmented-shard04.arctic-embed-l.arctic-embed-l-flat-onnx.topics.rag25.test.jsonl.txt \
   -topics rag25.test -topicReader JsonString -topicField title -encoder ArcticEmbedLEncoder &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.30 tools/topics-and-qrels/qrels.rag25.test-umbrela2.txt runs/run.msmarco-v2.1-doc-segmented-shard00.arctic-embed-l.arctic-embed-l-flat-onnx.topics.rag25.test.jsonl.txt
-bin/trec_eval -c -m ndcg_cut.100 tools/topics-and-qrels/qrels.rag25.test-umbrela2.txt runs/run.msmarco-v2.1-doc-segmented-shard00.arctic-embed-l.arctic-embed-l-flat-onnx.topics.rag25.test.jsonl.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.rag25.test-umbrela2.txt runs/run.msmarco-v2.1-doc-segmented-shard00.arctic-embed-l.arctic-embed-l-flat-onnx.topics.rag25.test.jsonl.txt
+bin/trec_eval -c -m ndcg_cut.30 tools/topics-and-qrels/qrels.rag25.test-umbrela2.txt runs/run.msmarco-v2.1-doc-segmented-shard04.arctic-embed-l.arctic-embed-l-flat-onnx.topics.rag25.test.jsonl.txt
+bin/trec_eval -c -m ndcg_cut.100 tools/topics-and-qrels/qrels.rag25.test-umbrela2.txt runs/run.msmarco-v2.1-doc-segmented-shard04.arctic-embed-l.arctic-embed-l-flat-onnx.topics.rag25.test.jsonl.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.rag25.test-umbrela2.txt runs/run.msmarco-v2.1-doc-segmented-shard04.arctic-embed-l.arctic-embed-l-flat-onnx.topics.rag25.test.jsonl.txt
 ```
 
 ## Effectiveness

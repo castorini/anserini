@@ -40,6 +40,7 @@ def optimize_onnx_model(model_path, print_stats=False):
     model_name = model_path.rsplit(".onnx", 1)[0]
     optimized_model_path = f'{model_name}-optimized.onnx'
     optimized_model.save_model_to_file(optimized_model_path)
+    onnx.checker.check_model(optimized_model_path)
     print(f"ONNX model optimization successful. Saved to {optimized_model_path}")
 
     if print_stats:
@@ -66,7 +67,7 @@ def print_model_stats(original_path, optimized_path):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Optimize ONNX model")
-    parser.add_argument("--model_path", type=str, help="Path to the ONNX model to optimize")
+    parser.add_argument("--model_path", type=str, help="Path to the ONNX model to optimize", required=True)
     parser.add_argument("--stats", action="store_true", help="Print model statistics")
     args = parser.parse_args()
 

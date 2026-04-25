@@ -24,9 +24,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -332,6 +334,10 @@ public class ReproduceFromPrebuiltIndexes {
     final Instant endTime = Instant.now();
     final long durationMillis = endTime.toEpochMilli() - startTime.toEpochMilli();
 
+    if (!config.conditions.isEmpty()) {
+      System.out.print(renderSummaryTable(config));
+    }
+
     System.out.println("Start time: " + ReproductionUtils.formatStartTime(startTime));
     System.out.println("End time:   " + ReproductionUtils.formatEndTime(endTime));
     System.out.println("Duration:   " + ReproductionUtils.formatDuration(durationMillis));
@@ -405,6 +411,50 @@ public class ReproduceFromPrebuiltIndexes {
     StringBuilder sb = new StringBuilder(n);
     for (int i = 0; i < n; i++) sb.append(c);
     return sb.toString();
+  }
+
+  static String renderSummaryTable(Config config) {
+    int conditionWidth = "condition".length();
+    int topicWidth = "topic".length();
+    int metricWidth = "metric".length();
+    int expectedWidth = "expected".length();
+
+    List<String[]> rows = new ArrayList<>();
+    for (Condition condition : config.conditions) {
+      for (Topic topic : condition.topics) {
+        for (Map.Entry<String, Double> entry : topic.expected_scores.entrySet()) {
+          String[] row = new String[] {
+              condition.name,
+              topic.topic_key,
+              entry.getKey(),
+              String.format(Locale.ROOT, "%.4f", entry.getValue())
+          };
+          rows.add(row);
+          conditionWidth = Math.max(conditionWidth, row[0].length());
+          topicWidth = Math.max(topicWidth, row[1].length());
+          metricWidth = Math.max(metricWidth, row[2].length());
+          expectedWidth = Math.max(expectedWidth, row[3].length());
+        }
+      }
+    }
+
+    String summaryFormat = "%-" + conditionWidth + "s  %-" + topicWidth + "s  %-" + metricWidth + "s  %" + expectedWidth + "s%n";
+    StringBuilder summary = new StringBuilder();
+    summary.append("Summary").append(System.lineSeparator());
+    summary.append(String.format(summaryFormat, "condition", "topic", "metric", "expected"));
+    summary.append(String.format(summaryFormat,
+      repeat('-', conditionWidth), repeat('-', topicWidth), repeat('-', metricWidth), repeat('-', expectedWidth)));
+
+    String previousCondition = null;
+    for (String[] row : rows) {
+      if (previousCondition != null && !row[0].equals(previousCondition)) {
+        summary.append(System.lineSeparator());
+      }
+      summary.append(String.format(summaryFormat, row[0], row[1], row[2], row[3]));
+      previousCondition = row[0];
+    }
+    summary.append(System.lineSeparator());
+    return summary.toString();
   }
 
   public static class Config {
