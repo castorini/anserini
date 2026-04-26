@@ -560,7 +560,7 @@ conditions:
       - topic_key: nfcorpus
         eval_key: beir-v1.0.0-nfcorpus.test
         expected_scores:
-          nDCG@10: 0.3735
+          nDCG@10: 0.3738
         metric_definitions:
           nDCG@10: "-c -m ndcg_cut.10"
       - topic_key: nq
@@ -914,13 +914,13 @@ conditions:
       - topic_key: bioasq
         eval_key: beir-v1.0.0-bioasq.test
         expected_scores:
-          nDCG@10: 0.5427
+          nDCG@10: 0.5428
         metric_definitions:
           nDCG@10: "-c -m ndcg_cut.10"
       - topic_key: nfcorpus
         eval_key: beir-v1.0.0-nfcorpus.test
         expected_scores:
-          nDCG@10: 0.3782
+          nDCG@10: 0.3785
         metric_definitions:
           nDCG@10: "-c -m ndcg_cut.10"
       - topic_key: nq
