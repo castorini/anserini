@@ -1,9 +1,9 @@
 ---
-name: install-anserini-dev
+name: install-anserini-dev-env
 description: Set up and verify Anserini source-development environments. Use for JDK 21, Maven 3.9+, submodules, Anserini build scripts, smoke tests, and Java/Maven troubleshooting in castorini/anserini.
 ---
 
-# Install Anserini Dev
+# Install Anserini Dev Env
 
 ## Overview
 
