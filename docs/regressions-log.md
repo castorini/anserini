@@ -3,6 +3,12 @@
 The following change log details commits to regression tests that alter effectiveness and the addition (or removal) of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### April 25, 2026
+
++ commit [`4638a6`](https://github.com/castorini/anserini/commit/4638a67f5213fef2e5c7261956025176d46c3e20)
+
+Added SPLADE-v3 reproductions for RAG 25.
+
 ### March 25, 2026
 
 + commit [`aaba10`](https://github.com/castorini/anserini/commit/aaba1079c92e629eeff300d398cb3ce50d1adde2)
