@@ -1,6 +1,6 @@
 ---
 name: install-anserini-dev
-description: Set up and verify a local development environment for the castorini/anserini Java project. Use when Codex needs to clone Anserini, prepare submodules, install or select JDK 21, ensure Maven 3.9+, build Anserini from source with bin/build.sh or bin/qbuild.sh, run smoke tests, or troubleshoot Java/Maven environment issues for Anserini development.
+description: Set up and verify Anserini source-development environments. Use for JDK 21, Maven 3.9+, submodules, Anserini build scripts, smoke tests, and Java/Maven troubleshooting in castorini/anserini.
 ---
 
 # Install Anserini Dev
