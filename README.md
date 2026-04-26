@@ -13,6 +13,28 @@ Among other goals, our effort aims to be [the opposite of this](http://phdcomics
 Anserini grew out of [a reproducibility study of various open-source retrieval engines in 2016](https://link.springer.com/chapter/10.1007/978-3-319-30671-1_30) (Lin et al., ECIR 2016).
 See [Yang et al. (SIGIR 2017)](https://dl.acm.org/doi/10.1145/3077136.3080721) and [Yang et al. (JDIQ 2018)](https://dl.acm.org/doi/10.1145/3239571) for overviews.
 
+**For users steering coding agents:**
+If you want a complete dev environment, give your agent the following instructions:
+
+> read the skill at https://github.com/castorini/anserini/tree/master/.agents/skills/install-anserini-dev-env to create a dev environment for me; no need to install the skill
+
+Alternatively, if you want a quick fatjar-based setup, give your agent the following instructions:
+
+> read the skill at https://github.com/castorini/anserini/tree/master/.agents/skills/install-anserini-fatjar to download the fatjar for me; no need to install the skill
+
+<details>
+<summary>Rationale...</summary>
+
+> ❓ **Why the above instructions?**
+> If you just tell the agent to install Anserini, it'll likely figure everything out by itself, but there are some choice points it might get confused by, like whether to do a full clone for a dev environment, or just fetch the fatjar.
+> The skills make this clear and provide instructions that make the installation process more token-efficient.
+> If you don't _explicitly_ point your agent at the skills, it may be overeager and wander around...
+>
+> Also, tell the agent not to install the skill locally, since you only need it once.
+> Otherwise, it may do unnecessary work.
+
+</details>
+
 > **For coding agents:** When setting up Anserini, ask whether the user wants a dev environment or a quick fatjar-based setup. Use [`.agents/skills/install-anserini-dev-env/SKILL.md`](.agents/skills/install-anserini-dev-env/SKILL.md) for the dev environment and [`.agents/skills/install-anserini-fatjar/SKILL.md`](.agents/skills/install-anserini-fatjar/SKILL.md) for the fatjar setup.
 > For command-line usage after setup, use [`.agents/skills/use-anserini-cli/SKILL.md`](.agents/skills/use-anserini-cli/SKILL.md) for catalogs, topics, search, and REST workflows.
 
