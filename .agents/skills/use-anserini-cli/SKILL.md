@@ -183,7 +183,7 @@ This REST workflow is most useful when users want to query the same prebuilt ind
 
 ## Troubleshooting
 
-- No fatjar found: use `$install-anserini-fatjar` to resolve or build `target/anserini-*-fatjar.jar`.
+- No fatjar found: use `$install-anserini-fatjar` to download a released Maven Central fatjar, or `$install-anserini-dev-env` if the user needs a jar built from the source checkout.
 - Missing `bin/run.sh`: use `$install-anserini-dev-env` from an Anserini checkout.
 - `ClassNotFoundException`: confirm the jar or checkout was built from the expected Anserini version.
 - `RestServer` reports `Port already in use` for unused ports in a sandboxed Codex session: local socket binding may be blocked by sandbox permissions. Rerun the server command with escalation, and use an available high local port if the documented port is occupied.
