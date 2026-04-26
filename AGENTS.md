@@ -9,7 +9,7 @@
 
 ## Task-Specific Skills
 - Use `$install-anserini-dev-env` when the user needs source checkout setup, Java/Maven verification, submodules, full or quick builds, Maven troubleshooting, or eval tool setup.
-- Use `$install-anserini-fatjar` when the user only needs to resolve or build a local `target/anserini-*-fatjar.jar` and run fatjar smoke tests.
+- Use `$install-anserini-fatjar` when the user only needs to download a released Maven Central fatjar and run fatjar smoke tests, without cloning or building the source repository.
 - Use `$use-anserini-cli` only after Anserini is available, for catalog, topics, search, run output, and REST server commands.
 - If a task spans setup and CLI usage, use the relevant setup skill first, then `$use-anserini-cli`.
 
