@@ -53,14 +53,14 @@ public class PrebuiltInvertedIndexTest {
     assertEquals("lucene-inverted.msmarco-v1-passage.20221004.252b5e.tar.gz", entry.filename);
     assertEquals("678876e8c99a89933d553609a0fd8793", entry.md5);
     assertEquals(8841823, entry.documents);
-    assertEquals(2170758745L, entry.compressedSize);
+    assertEquals(2170758745L, entry.size);
 
     entry = PrebuiltInvertedIndex.get("msmarco-v1-doc");
     assertNotNull(entry);
     assertEquals("lucene-inverted.msmarco-v1-doc.20221004.252b5e.tar.gz", entry.filename);
     assertEquals("f66020a923df6430007bd5718e53de86", entry.md5);
     assertEquals(3213835, entry.documents);
-    assertEquals(13736982339L, entry.compressedSize);
+    assertEquals(13736982339L, entry.size);
   }
 
   @Test

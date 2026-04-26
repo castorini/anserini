@@ -10,7 +10,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-biology.splade-v3.20250808.c6674a.tar.gz"
         ],
         "md5": "559813ffede15ba7080af05383b64bde",
-        "compressed_size": 18830144,
+        "size": 18830144,
         "documents": 57359,
         "total_terms": 294823882,
         "unique_terms": 26750
@@ -26,7 +26,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-earth-science.splade-v3.20250808.c6674a.tar.gz"
         ],
         "md5": "d87652fb3467cb0140c4514d1839d3c3",
-        "compressed_size": 45644595,
+        "size": 45644595,
         "documents": 121249,
         "total_terms": 797796096,
         "unique_terms": 27253
@@ -42,7 +42,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-economics.splade-v3.20250808.c6674a.tar.gz"
         ],
         "md5": "1df6c938e454c3ac2091a90e00fe51bc",
-        "compressed_size": 14026997,
+        "size": 14026997,
         "documents": 50220,
         "total_terms": 212608445,
         "unique_terms": 26090
@@ -58,7 +58,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-psychology.splade-v3.20250808.c6674a.tar.gz"
         ],
         "md5": "1ecb0fae06945e508da2d6e4f5e7e977",
-        "compressed_size": 15406800,
+        "size": 15406800,
         "documents": 52835,
         "total_terms": 227752034,
         "unique_terms": 26816
@@ -74,7 +74,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-robotics.splade-v3.20250808.c6674a.tar.gz"
         ],
         "md5": "3d63591bbb4393a0eb24f807b37a5f36",
-        "compressed_size": 15418918,
+        "size": 15418918,
         "documents": 61961,
         "total_terms": 242244304,
         "unique_terms": 22946
@@ -90,7 +90,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-stackoverflow.splade-v3.20250808.c6674a.tar.gz"
         ],
         "md5": "a79e44dc17c8150ca2caa78902fd38c8",
-        "compressed_size": 39953128,
+        "size": 39953128,
         "documents": 107081,
         "total_terms": 717750817,
         "unique_terms": 23690
@@ -106,7 +106,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-sustainable-living.splade-v3.20250808.c6674a.tar.gz"
         ],
         "md5": "2a3ed996f75bfa01a4684c446b0bc48f",
-        "compressed_size": 16539893,
+        "size": 16539893,
         "documents": 60792,
         "total_terms": 249302496,
         "unique_terms": 26205
@@ -122,7 +122,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-pony.splade-v3.20250808.c6674a.tar.gz"
         ],
         "md5": "95040fadfc7eeb594609abe05ab7a694",
-        "compressed_size": 2506057,
+        "size": 2506057,
         "documents": 7894,
         "total_terms": 43713211,
         "unique_terms": 13008
@@ -138,7 +138,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-leetcode.splade-v3.20250808.c6674a.tar.gz"
         ],
         "md5": "6e585d1d9012c220b52c6bb9306360f8",
-        "compressed_size": 167385110,
+        "size": 167385110,
         "documents": 413932,
         "total_terms": 3613110024,
         "unique_terms": 26119
@@ -154,7 +154,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-aops.splade-v3.20250808.c6674a.tar.gz"
         ],
         "md5": "294aa5f3dbd9a3a2c435e97e7937ccb1",
-        "compressed_size": 58454988,
+        "size": 58454988,
         "documents": 188002,
         "total_terms": 1147577304,
         "unique_terms": 24799
@@ -170,7 +170,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-theoremqa-theorems.splade-v3.20250808.c6674a.tar.gz"
         ],
         "md5": "726c22edd0d50fd9b5b86b69984c3a48",
-        "compressed_size": 7615555,
+        "size": 7615555,
         "documents": 23839,
         "total_terms": 158764845,
         "unique_terms": 18049
@@ -186,7 +186,7 @@
             "https://huggingface.co/datasets/castorini/prebuilt-indexes-bright/resolve/main/lucene-inverted/splade-v3/lucene-inverted.bright-theoremqa-questions.splade-v3.20250808.c6674a.tar.gz"
         ],
         "md5": "bd21607333fcf7379320363959b02bf4",
-        "compressed_size": 58455397,
+        "size": 58455397,
         "documents": 188002,
         "total_terms": 1147577304,
         "unique_terms": 24799
