@@ -27,6 +27,7 @@ java -version
 Require:
 
 - Java available on PATH
+- Java major version `21`, matching Anserini's current runtime/build requirement
 
 ## 2. Resolve Fatjar
 
@@ -43,6 +44,8 @@ All subsequent commands assume `ANSERINI_JAR` points to the resolved fatjar. If 
 bin/qbuild.sh
 ANSERINI_JAR="$(ls -t target/anserini-*-fatjar.jar | head -n 1)"
 ```
+
+If `bin/qbuild.sh` fails because Java, Maven, submodules, or dependency setup is missing, switch to `$install-anserini-dev-env` instead of debugging the fatjar workflow here.
 
 ## 3. Smoke Test
 

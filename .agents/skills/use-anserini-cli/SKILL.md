@@ -7,7 +7,7 @@ description: Run Anserini command-line and REST workflows from either a built fa
 
 ## Overview
 
-Use this skill when Anserini is already available through either a resolved fatjar or a source checkout. It covers command usage, not environment setup. If setup is missing, use `$install-anserini-fatjar` or `$install-anserini-dev-env` first.
+Use this skill when Anserini is already available through either a resolved fatjar or a source checkout. This skill covers command usage, not environment setup or builds. If no usable fatjar or checkout is present, use `$install-anserini-fatjar` or `$install-anserini-dev-env` first.
 
 Prefer the invocation form that matches the user's environment:
 
@@ -176,7 +176,7 @@ Sample requests against the popular `msmarco-v1-passage` index:
 
 ```bash
 curl "http://localhost:8081/v1/msmarco-v1-passage/search?query=what%20is%20anserini&hits=5"
-curl "http://localhost:8081/v1/msmarco-v1-passage/documents/2161721"
+curl "http://localhost:8081/v1/msmarco-v1-passage/doc/2161721"
 ```
 
 This REST workflow is most useful when users want to query the same prebuilt indexes exposed by the CLI, especially `msmarco-v1-passage`.
@@ -186,4 +186,5 @@ This REST workflow is most useful when users want to query the same prebuilt ind
 - No fatjar found: use `$install-anserini-fatjar` to resolve or build `target/anserini-*-fatjar.jar`.
 - Missing `bin/run.sh`: use `$install-anserini-dev-env` from an Anserini checkout.
 - `ClassNotFoundException`: confirm the jar or checkout was built from the expected Anserini version.
+- `RestServer` reports `Port already in use` for unused ports in a sandboxed Codex session: local socket binding may be blocked by sandbox permissions. Rerun the server command with escalation, and use an available high local port if the documented port is occupied.
 - Large downloads: prebuilt indexes can download on demand; avoid commands that trigger large retrieval assets unless the user explicitly asks.
