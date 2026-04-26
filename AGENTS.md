@@ -8,9 +8,10 @@
 - Required runtime/build versions: **Java 21** and Maven **3.9+**.
 
 ## Task-Specific Skills
-- Use `$install-anserini-dev-env` for setting up or verifying a source-development environment, including Java/Maven requirements, submodules, builds, and eval tools.
-- Use `$install-anserini-fatjar` for resolving or building `target/anserini-*-fatjar.jar` and smoke-testing fatjar execution.
-- Use `$use-anserini-cli` for Anserini CLI, catalog, topics, search, and REST server workflows.
+- Use `$install-anserini-dev-env` when the user needs source checkout setup, Java/Maven verification, submodules, full or quick builds, Maven troubleshooting, or eval tool setup.
+- Use `$install-anserini-fatjar` when the user only needs to resolve or build a local `target/anserini-*-fatjar.jar` and run fatjar smoke tests.
+- Use `$use-anserini-cli` only after Anserini is available, for catalog, topics, search, run output, and REST server commands.
+- If a task spans setup and CLI usage, use the relevant setup skill first, then `$use-anserini-cli`.
 
 ## Repository Layout
 - `src/main/java`: core indexing/search/eval/reranking implementations.
@@ -23,13 +24,14 @@
 - `tools/`: git submodule (`anserini-tools`) containing eval scripts/assets.
 
 ## Build, Test, and Run
-- Full build (default local and CI path):
+- For source builds, prefer checked-in scripts:
+  - quick build: `bin/qbuild.sh`
+  - full build: `bin/build.sh`
+- Use Maven directly when requested or when scripts are unavailable:
   - `mvn clean package`
-- Fast local build (skip tests/javadocs):
-  - `bin/qbuild.sh`
-- Run a main class from the source checkout:
-  - `bin/run.sh io.anserini.search.SearchCollection [args...]`
-- For fatjar execution and CLI recipes, use `$install-anserini-fatjar` and `$use-anserini-cli`.
+- Run main classes from checkout with:
+  - `bin/run.sh <main-class> [args...]`
+- For fatjar setup and command examples, use `$install-anserini-fatjar` then `$use-anserini-cli`.
 - CI workflow (`.github/workflows/maven.yml`) runs:
   - `mvn -B package --file pom.xml`
 

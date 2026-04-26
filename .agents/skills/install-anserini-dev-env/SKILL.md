@@ -27,6 +27,12 @@ Use this skill to prepare Anserini for source development, not just fatjar execu
 git clone --recurse-submodules https://github.com/castorini/anserini.git
 ```
 
+If the user has already provided an empty destination directory and wants the checkout there, clone into the current directory:
+
+```bash
+git clone --recurse-submodules https://github.com/castorini/anserini.git .
+```
+
 For an existing checkout, run:
 
 ```bash
@@ -41,6 +47,8 @@ bin/qbuild.sh
 
 Use `bin/qbuild.sh` for a quick build; it skips tests and Javadocs.
 
+After a successful quick build, expect the shaded artifact at `target/anserini-*-fatjar.jar`.
+
 ```bash
 bin/build.sh
 ```
@@ -53,7 +61,7 @@ If a script is unavailable or the user explicitly asks for Maven, use:
 mvn clean package
 ```
 
-6. Build evaluation tools when needed:
+6. Build evaluation tools only when needed for evaluation workflows:
 
 ```bash
 tar xvfz tools/eval/trec_eval.9.0.4.tar.gz -C tools/eval
@@ -65,13 +73,22 @@ Use separate shell commands when executing this workflow in Codex so failures ar
 
 ## Verification
 
-After setup, run the check script again and then run `bin/qbuild.sh`, `bin/build.sh`, or a targeted test requested by the user. If dependency downloads fail because network access is sandboxed, rerun the build command with escalation instead of changing project files.
+After setup, run the check script again. Then run the lightest verification that matches the user's goal: `bin/qbuild.sh` for a build-ready checkout, `bin/build.sh` for full validation, or targeted Maven tests for a code change. If dependency downloads fail because network access is sandboxed, rerun the build command with escalation instead of changing project files.
+
+If a build was run, a concise final sanity check is:
+
+```bash
+git status --short --branch --ignored
+git submodule status --recursive
+ls -lh target/*fatjar.jar
+```
 
 For search, prebuilt-index catalog, topics catalog, or REST server examples after setup, use `$use-anserini-cli`.
 
 ## Troubleshooting
 
 - If `java -version` and `mvn -v` disagree about Java versions, fix `JAVA_HOME` and `PATH` so Maven uses JDK 21.
+- On macOS, `trec_eval` and `ndeval` may emit warnings from older C code, including `bzero` or `bcopy` macro redefinitions, deprecated non-prototype functions, or `printf` format-security warnings. Treat these as expected if `make` exits successfully and the binaries are produced.
 - On Windows, use WSL2 for Anserini builds.
 - Avoid commands that trigger large prebuilt index downloads unless the user explicitly asks for retrieval experiments; Anserini can download large indexes on demand.
 - Treat Anserini's current README as the source of truth for version requirements if it differs from this skill.
