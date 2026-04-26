@@ -67,6 +67,8 @@ Use separate shell commands when executing this workflow in Codex so failures ar
 
 After setup, run the check script again and then run `bin/qbuild.sh`, `bin/build.sh`, or a targeted test requested by the user. If dependency downloads fail because network access is sandboxed, rerun the build command with escalation instead of changing project files.
 
+For search, prebuilt-index catalog, topics catalog, or REST server examples after setup, use `$use-anserini-cli`.
+
 ## Troubleshooting
 
 - If `java -version` and `mvn -v` disagree about Java versions, fix `JAVA_HOME` and `PATH` so Maven uses JDK 21.
