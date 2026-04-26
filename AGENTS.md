@@ -7,6 +7,11 @@
 - Build system: Maven (`pom.xml`), artifact includes both thin jar and shaded `-fatjar`.
 - Required runtime/build versions: **Java 21** and Maven **3.9+**.
 
+## Task-Specific Skills
+- Use `$install-anserini-dev-env` for setting up or verifying a source-development environment, including Java/Maven requirements, submodules, builds, and eval tools.
+- Use `$install-anserini-fatjar` for resolving or building `target/anserini-*-fatjar.jar` and smoke-testing fatjar execution.
+- Use `$use-anserini-cli` for Anserini CLI, catalog, topics, search, and REST server workflows.
+
 ## Repository Layout
 - `src/main/java`: core indexing/search/eval/reranking implementations.
 - `src/test/java`: JUnit/Lucene test framework tests, including end-to-end integration tests.
@@ -22,8 +27,9 @@
   - `mvn clean package`
 - Fast local build (skip tests/javadocs):
   - `bin/qbuild.sh`
-- Run a main class from fatjar:
+- Run a main class from the source checkout:
   - `bin/run.sh io.anserini.search.SearchCollection [args...]`
+- For fatjar execution and CLI recipes, use `$install-anserini-fatjar` and `$use-anserini-cli`.
 - CI workflow (`.github/workflows/maven.yml`) runs:
   - `mvn -B package --file pom.xml`
 
@@ -39,7 +45,7 @@
 ## Submodules and External Tools
 - `tools/` is a required git submodule. After clone:
   - `git submodule update --init --recursive`
-- If evaluation binaries are needed locally, build as documented in README (`tools/eval` and `tools/eval/ndeval`).
+- If evaluation binaries are needed locally, use `$install-anserini-dev-env`; it contains the exact checked setup steps for `tools/eval`.
 
 ## Editing and Contribution Guardrails
 - Prefer minimal, behavior-preserving changes unless behavior change is explicitly intended.
@@ -54,7 +60,7 @@
 - Coverage is collected with JaCoCo and uploaded in CI.
 
 ## Practical Workflow for Changes
-1. Confirm Java 21 + submodule state.
+1. Confirm Java 21, Maven 3.9+, and submodule state; use `$install-anserini-dev-env` for detailed setup checks.
 2. Implement focused code/doc/template updates.
 3. Run targeted Maven tests for impacted classes/packages.
 4. Run broader `mvn test`/`mvn package` if change scope warrants.

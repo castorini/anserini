@@ -1,4 +1,4 @@
 interface:
   display_name: "Install Anserini Fatjar"
-  short_description: "Install and run Anserini from a locally built fatjar"
-  default_prompt: "Set up Anserini quickly from the current checkout by resolving target/anserini-*-fatjar.jar dynamically, verify Java runtime, and run smoke test/help commands."
+  short_description: "Install and verify Anserini from a locally built fatjar"
+  default_prompt: "Set up Anserini quickly from the current checkout by resolving target/anserini-*-fatjar.jar dynamically, verify Java runtime, and run smoke test/help commands. Use $use-anserini-cli for search, catalog, topics, or REST commands after setup."
