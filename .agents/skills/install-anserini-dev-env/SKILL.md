@@ -83,7 +83,7 @@ git submodule status --recursive
 ls -lh target/*fatjar.jar
 ```
 
-For search, prebuilt-index catalog, topics catalog, or REST server examples after setup, use `$use-anserini-cli`.
+For search, prebuilt-index registry, topics registry, or REST server examples after setup, use `$use-anserini-cli`.
 
 ## Troubleshooting
 
