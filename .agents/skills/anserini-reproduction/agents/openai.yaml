@@ -1,0 +1,3 @@
+display_name: Anserini Reproduction
+short_description: Reproduce experimental results with Anserini.
+default_prompt: Use Anserini to reproduce experimental results.
