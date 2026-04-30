@@ -1,5 +1,6 @@
 ---
 name: anserini-reproduction
+version: v0.1.0
 description: Reproduce experimental results with Anserini. Use when Codex needs to run or explain Anserini reproduction workflows for published or reported results, including reproductions with prebuilt indexes, reproductions from raw document collections, reproduction YAMLs, run generation, evaluation, and metric verification.
 ---
 

@@ -1,5 +1,6 @@
 ---
 name: install-anserini-fatjar
+version: v0.1.0
 description: Install and verify Anserini quickly by downloading the published fatjar from Maven Central instead of cloning or building the source repository. Use when users want fast setup, smoke tests, or CLI examples from a released Anserini jar.
 ---
 
