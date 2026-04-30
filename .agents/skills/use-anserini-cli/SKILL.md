@@ -1,6 +1,6 @@
 ---
 name: use-anserini-cli
-description: Run Anserini command-line and REST workflows from either a built fatjar or an Anserini source checkout. Use for PrebuiltIndexCatalog, TopicsCatalog, ad hoc search, interactive search, output formats, and RestServer examples.
+description: Run Anserini command-line and REST workflows from either a built fatjar or an Anserini source checkout. Use for PrebuiltIndexRegistry, TopicsRegistry, ad hoc search, interactive search, output formats, and RestServer examples.
 ---
 
 # Use Anserini CLI
@@ -52,18 +52,18 @@ bin/run.sh io.anserini.search.SearchCollection -options
 
 Current jars reject `-help` for `SearchCollection`; use `-options`.
 
-## Prebuilt Index Catalog
+## Prebuilt Index Registry
 
-To inspect prebuilt indexes exposed by `io.anserini.cli.PrebuiltIndexCatalog`, run:
+To inspect prebuilt indexes exposed by `io.anserini.cli.PrebuiltIndexRegistry`, run:
 
 ```bash
-java -cp "$ANSERINI_JAR" io.anserini.cli.PrebuiltIndexCatalog --list
+java -cp "$ANSERINI_JAR" io.anserini.cli.PrebuiltIndexRegistry --list
 ```
 
 or:
 
 ```bash
-bin/run.sh io.anserini.cli.PrebuiltIndexCatalog --list
+bin/run.sh io.anserini.cli.PrebuiltIndexRegistry --list
 ```
 
 `--list` emits JSON in current jars, so prefer `--filter` and `jq` instead of grepping raw output.
@@ -74,7 +74,7 @@ Recommended lookup for the standard MS MARCO V1 passage inverted index:
 
 ```bash
 java -cp "$ANSERINI_JAR" \
-  io.anserini.cli.PrebuiltIndexCatalog \
+  io.anserini.cli.PrebuiltIndexRegistry \
   --list --filter '^msmarco-v1-passage$' \
 | jq '.[0] | {name, type, description, filename}'
 ```
@@ -82,28 +82,28 @@ java -cp "$ANSERINI_JAR" \
 Useful variants:
 
 ```bash
-java -cp "$ANSERINI_JAR" io.anserini.cli.PrebuiltIndexCatalog --help
-java -cp "$ANSERINI_JAR" io.anserini.cli.PrebuiltIndexCatalog --list --filter 'msmarco.*passage' | jq '.[].name'
-java -cp "$ANSERINI_JAR" io.anserini.cli.PrebuiltIndexCatalog --type flat --list
-java -cp "$ANSERINI_JAR" io.anserini.cli.PrebuiltIndexCatalog --type inverted --list
-java -cp "$ANSERINI_JAR" io.anserini.cli.PrebuiltIndexCatalog --type impact --list
-java -cp "$ANSERINI_JAR" io.anserini.cli.PrebuiltIndexCatalog --type hnsw --list
+java -cp "$ANSERINI_JAR" io.anserini.cli.PrebuiltIndexRegistry --help
+java -cp "$ANSERINI_JAR" io.anserini.cli.PrebuiltIndexRegistry --list --filter 'msmarco.*passage' | jq '.[].name'
+java -cp "$ANSERINI_JAR" io.anserini.cli.PrebuiltIndexRegistry --type flat --list
+java -cp "$ANSERINI_JAR" io.anserini.cli.PrebuiltIndexRegistry --type inverted --list
+java -cp "$ANSERINI_JAR" io.anserini.cli.PrebuiltIndexRegistry --type impact --list
+java -cp "$ANSERINI_JAR" io.anserini.cli.PrebuiltIndexRegistry --type hnsw --list
 ```
 
-Translate the examples to `bin/run.sh io.anserini.cli.PrebuiltIndexCatalog ...` when working from a checkout without `ANSERINI_JAR`.
+Translate the examples to `bin/run.sh io.anserini.cli.PrebuiltIndexRegistry ...` when working from a checkout without `ANSERINI_JAR`.
 
-## Topics Catalog
+## Topics Registry
 
-To inspect topics exposed by `io.anserini.cli.TopicsCatalog`, run:
+To inspect topics exposed by `io.anserini.cli.TopicsRegistry`, run:
 
 ```bash
-java -cp "$ANSERINI_JAR" io.anserini.cli.TopicsCatalog --list
+java -cp "$ANSERINI_JAR" io.anserini.cli.TopicsRegistry --list
 ```
 
 or:
 
 ```bash
-bin/run.sh io.anserini.cli.TopicsCatalog --list
+bin/run.sh io.anserini.cli.TopicsRegistry --list
 ```
 
 `--list` emits JSON in current jars, so prefer `--filter` and `jq` to locate the exact symbol.
@@ -111,7 +111,7 @@ bin/run.sh io.anserini.cli.TopicsCatalog --list
 To print all topics for a specific set, run:
 
 ```bash
-java -cp "$ANSERINI_JAR" io.anserini.cli.TopicsCatalog --get <set>
+java -cp "$ANSERINI_JAR" io.anserini.cli.TopicsRegistry --get <set>
 ```
 
 For the standard MS MARCO V1 passage queries that pair with the `msmarco-v1-passage` prebuilt index, use `msmarco-v1-passage.dev`.
@@ -120,7 +120,7 @@ Recommended lookup:
 
 ```bash
 java -cp "$ANSERINI_JAR" \
-  io.anserini.cli.TopicsCatalog \
+  io.anserini.cli.TopicsRegistry \
   --list --filter '^msmarco(-v1)?-passage(\\.dev|-dev)$' \
 | jq '.'
 ```
