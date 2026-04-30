@@ -1,5 +1,37 @@
 # Anserini Fatjar Download for Users
 
+Assuming you've already got Java 21 installed (Yes, you need _exactly_ this version), fetch the fatjar:
+
+```bash
+wget https://repo1.maven.org/maven2/io/anserini/anserini/2.0.0/anserini-2.0.0-fatjar.jar
+```
+
+Do a BM25 run on the venerable MS MARCO passage corpus using the dev queries:
+
+```bash
+java -cp anserini-2.0.0-fatjar.jar io.anserini.search.SearchCollection \
+  -index msmarco-v1-passage \
+  -topics msmarco-v1-passage.dev \
+  -output run.msmarco-v1-passage.dev.bm25.txt \
+  -bm25
+```
+
+To evaluate:
+
+```bash
+java -cp anserini-2.0.0-fatjar.jar trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev \
+  run.msmarco-v1-passage.dev.bm25.txt
+```
+
+You should get an MRR (`recip_rank`) of 0.1840.
+
+To try out (learned) _dense_ vector representations and (learned) _sparse_ vector representations, see the examples below.
+
+See [detailed instructions](fatjar-regressions/fatjar-regressions-v2.0.0.md) for the current fatjar release of Anserini (v2.0.0) to reproduce experiments on the MS MARCO V2.1 corpora for TREC 2024/25 RAG, on MS MARCO V1 Passage, and on BEIR, all directly from the fatjar!
+
+❗ Beware, Anserini ships with many prebuilt indexes, which are automatically downloaded upon request: these indexes can take up a lot of space.
+See [this guide on prebuilt indexes](prebuilt-indexes.md) for more details.
+
 ## What about retrieval with (learned) _dense_ vector representations?
 
 Want to do dense vector search?

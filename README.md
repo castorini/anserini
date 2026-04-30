@@ -46,37 +46,7 @@ Alternatively, if you want a quick fatjar-based setup, give your agent the follo
 > This section is intended for users. If you are a coding agent, stop reading and skip the rest of this section.
 
 Anserini is packaged in a self-contained fatjar, which also provides the simplest way to get started.
-Assuming you've already got Java 21 installed (Yes, you need _exactly_ this version), fetch the fatjar:
-
-```bash
-wget https://repo1.maven.org/maven2/io/anserini/anserini/2.0.0/anserini-2.0.0-fatjar.jar
-```
-
-Do a BM25 run on the venerable MS MARCO passage corpus using the dev queries:
-
-```bash
-java -cp anserini-2.0.0-fatjar.jar io.anserini.search.SearchCollection \
-  -index msmarco-v1-passage \
-  -topics msmarco-v1-passage.dev \
-  -output run.msmarco-v1-passage.dev.bm25.txt \
-  -bm25
-```
-
-To evaluate:
-
-```bash
-java -cp anserini-2.0.0-fatjar.jar trec_eval -c -M 10 -m recip_rank msmarco-v1-passage.dev \
-  run.msmarco-v1-passage.dev.bm25.txt
-```
-
-You should get an MRR (`recip_rank`) of 0.1840.
-
-To try out (learned) _dense_ vector representations and (learned) _sparse_ vector representations, see [this page](docs/installation-fatjar.md).
-
-See [detailed instructions](docs/fatjar-regressions/fatjar-regressions-v2.0.0.md) for the current fatjar release of Anserini (v2.0.0) to reproduce experiments on the MS MARCO V2.1 corpora for TREC 2024/25 RAG, on MS MARCO V1 Passage, and on BEIR, all directly from the fatjar!
-
-❗ Beware, Anserini ships with many prebuilt indexes, which are automatically downloaded upon request: these indexes can take up a lot of space.
-See [this guide on prebuilt indexes](docs/prebuilt-indexes.md) for more details.
+See [this page](docs/installation-fatjar.md) for instructions.
 
 ## 🎬 Installation (Dev Environment for Users)
 
@@ -84,8 +54,9 @@ See [this guide on prebuilt indexes](docs/prebuilt-indexes.md) for more details.
 
 Most Anserini features are exposed in the [Pyserini](http://pyserini.io/) Python interface.
 If you're more comfortable with Python, start there, although Anserini forms an important building block of Pyserini, so it remains worthwhile to learn about Anserini.
-
 See [this page](docs/installation-dev.md) for information on setting up a dev environment for Anserini.
+
+The onboarding path for Anserini starts [here](docs/start-here.md)!
 
 ## ⚗️ Reproduce Experimental Results from Document Collections
 

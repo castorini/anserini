@@ -17,7 +17,6 @@ cd tools/eval/ndeval && make && cd ../../..
 ```
 
 With that, you should be ready to go.
-The onboarding path for Anserini starts [here](docs/start-here.md)!
 
 <details>
 <summary>Windows tips</summary>
