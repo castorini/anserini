@@ -1,3 +1,4 @@
-display_name: Anserini Reproduction
-short_description: Reproduce experimental results with Anserini.
-default_prompt: Use Anserini to reproduce experimental results.
+interface:
+  display_name: "Anserini Reproduction"
+  short_description: "Reproduce experimental results with Anserini"
+  default_prompt: "Use $anserini-reproduction to reproduce experimental results with Anserini, including workflows with prebuilt indexes or raw document collections."

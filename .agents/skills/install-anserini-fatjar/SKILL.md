@@ -7,7 +7,7 @@ description: Install and verify Anserini quickly by downloading the published fa
 
 ## Overview
 
-Use this skill to install and verify Anserini quickly from a published fatjar. Do not clone the repository and do not build from source in this workflow. Fatjar regression workflows are designed to run directly from the Maven Central fatjar, so a source checkout is not required. Download the released `anserini-*-fatjar.jar` from Maven Central, set `ANSERINI_JAR` to the downloaded file, and smoke test it.
+Use this skill to install and verify Anserini quickly from a published fatjar. Do not clone the repository and do not build from source in this workflow. Fatjar reproduction workflows are designed to run directly from the Maven Central fatjar, so a source checkout is not required. Download the released `anserini-*-fatjar.jar` from Maven Central, set `ANSERINI_JAR` to the downloaded file, and smoke test it.
 
 If the user needs source development, local code changes, or a snapshot jar built from the current checkout, use `$install-anserini-dev-env` instead.
 
