@@ -34,7 +34,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 import io.anserini.search.topicreader.Topics;
 
-public class TopicsCatalogTest extends StdOutStdErrRedirectableLuceneTestCase {
+public class TopicsRegistryTest extends StdOutStdErrRedirectableLuceneTestCase {
   private static final ObjectMapper MAPPER = new ObjectMapper();
   private static final TypeReference<List<String>> NAME_LIST_TYPE =
       new TypeReference<List<String>>() {};
@@ -57,29 +57,29 @@ public class TopicsCatalogTest extends StdOutStdErrRedirectableLuceneTestCase {
 
   @Test
   public void testInvalidOption() {
-    TopicsCatalog.main(new String[] {"--invalid"});
+    TopicsRegistry.main(new String[] {"--invalid"});
     assertTrue(err.toString().contains("Error:"));
     assertTrue(err.toString().contains("--invalid"));
-    assertTrue(err.toString().contains("Options for TopicsCatalog:"));
+    assertTrue(err.toString().contains("Options for TopicsRegistry:"));
   }
 
   @Test
   public void testHelp() {
-    TopicsCatalog.main(new String[] {"--help"});
-    assertTrue(err.toString().contains("Options for TopicsCatalog:"));
+    TopicsRegistry.main(new String[] {"--help"});
+    assertTrue(err.toString().contains("Options for TopicsRegistry:"));
     assertTrue(err.toString().contains("--help"));
     assertFalse(err.toString().contains("Error:"));
   }
 
   @Test
   public void testFilterRequiresList() {
-    TopicsCatalog.main(new String[] {"--get", "TREC2019_DL_PASSAGE", "--filter", "DL"});
+    TopicsRegistry.main(new String[] {"--get", "TREC2019_DL_PASSAGE", "--filter", "DL"});
     assertTrue(err.toString().contains("Error: --filter only works with --list"));
   }
 
   @Test
   public void testListWithFilter() throws Exception {
-    TopicsCatalog.main(new String[] {"--list", "--filter", "msmarco"});
+    TopicsRegistry.main(new String[] {"--list", "--filter", "msmarco"});
 
     List<String> names = MAPPER.readValue(out.toString(), NAME_LIST_TYPE);
 
@@ -95,20 +95,20 @@ public class TopicsCatalogTest extends StdOutStdErrRedirectableLuceneTestCase {
 
   @Test
   public void testListWithInvalidFilterRegex() {
-    TopicsCatalog.main(new String[] {"--list", "--filter", "["});
+    TopicsRegistry.main(new String[] {"--list", "--filter", "["});
     assertTrue(err.toString().contains("Error: invalid regular expression \"[\""));
     assertEquals("", out.toString());
   }
 
   @Test
   public void testMissingRequiredOption() {
-    TopicsCatalog.main(new String[] {});
+    TopicsRegistry.main(new String[] {});
     assertTrue(err.toString().contains("Error: exactly one of --list or --get must be specified"));
   }
 
   @Test
   public void testList() throws Exception {
-    TopicsCatalog.main(new String[] {"--list"});
+    TopicsRegistry.main(new String[] {"--list"});
 
     List<String> names = MAPPER.readValue(out.toString(), NAME_LIST_TYPE);
 
@@ -127,7 +127,7 @@ public class TopicsCatalogTest extends StdOutStdErrRedirectableLuceneTestCase {
     Files.writeString(topicFile, "1\tquery one\n2\tquery two\n", StandardCharsets.UTF_8);
 
     try {
-      TopicsCatalog.main(new String[] {"--get", "TREC2019_DL_PASSAGE"});
+      TopicsRegistry.main(new String[] {"--get", "TREC2019_DL_PASSAGE"});
 
       Map<String, Map<String, String>> queries = MAPPER.readValue(out.toString(), QUERY_MAP_TYPE);
 
@@ -141,7 +141,7 @@ public class TopicsCatalogTest extends StdOutStdErrRedirectableLuceneTestCase {
 
   @Test
   public void testGetInvalidTopic() {
-    TopicsCatalog.main(new String[] {"--get", "NOT_A_TOPIC"});
+    TopicsRegistry.main(new String[] {"--get", "NOT_A_TOPIC"});
     assertTrue(err.toString().contains("Error: unknown topics \"NOT_A_TOPIC\""));
   }
 }
