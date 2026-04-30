@@ -31,9 +31,10 @@ import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
 
+import io.anserini.util.CacheDirectoryResolver;
+
 public class RelevanceJudgments {
   private final Map<String, Map<String, Integer>> qrels;
-  private static final String CACHE_DIR = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "topics-and-qrels").toString();
   private static final String SERVER_PATH = "https://raw.githubusercontent.com/castorini/anserini-tools/master/topics-and-qrels/";
 
   public static RelevanceJudgments fromQrels(Qrels qrels) throws IOException {
@@ -117,9 +118,9 @@ public class RelevanceJudgments {
   }
 
   private static String getCacheDir() {
-    File cacheDir = new File(CACHE_DIR);
+    File cacheDir = CacheDirectoryResolver.getTopicsAndQrelsCachePath().toFile();
     if (!cacheDir.exists()) {
-      cacheDir.mkdir();
+      cacheDir.mkdirs();
     }
     return cacheDir.getPath();
   }

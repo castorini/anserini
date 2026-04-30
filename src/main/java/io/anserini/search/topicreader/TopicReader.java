@@ -34,6 +34,7 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.zip.GZIPInputStream;
 
+import io.anserini.util.CacheDirectoryResolver;
 import io.anserini.search.SearchCollection;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
@@ -46,7 +47,6 @@ import org.apache.logging.log4j.Logger;
  */
 public abstract class TopicReader<K> {
   private static final Logger LOG = LogManager.getLogger(SearchCollection.class);
-  private static final String CACHE_DIR = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "topics-and-qrels").toString();
   private static final String SERVER_PATH = "https://raw.githubusercontent.com/castorini/anserini-tools/master/topics-and-qrels/";
   private static final Map<String, Class<? extends TopicReader<?>>> TOPIC_FILE_TO_TYPE = new HashMap<>();
 
@@ -211,9 +211,9 @@ public abstract class TopicReader<K> {
   }
 
   private static String getCacheDir() {
-    File cacheDir = new File(CACHE_DIR);
+    File cacheDir = CacheDirectoryResolver.getTopicsAndQrelsCachePath().toFile();
     if (!cacheDir.exists()) {
-      cacheDir.mkdir();
+      cacheDir.mkdirs();
     }
     return cacheDir.getPath();
   }

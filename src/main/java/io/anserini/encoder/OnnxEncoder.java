@@ -26,6 +26,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
+import io.anserini.util.CacheDirectoryResolver;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -35,8 +37,6 @@ import java.util.List;
 
 public abstract class OnnxEncoder<T> implements AutoCloseable {
   private static final Logger LOG = LogManager.getLogger(OnnxEncoder.class);
-
-  private static final String CACHE_DIR = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "encoders").toString();
 
   private static final String BASE_CONFIG_NAME = "config.json";
 
@@ -90,10 +90,10 @@ public abstract class OnnxEncoder<T> implements AutoCloseable {
 
   @SuppressWarnings("ResultOfMethodCallIgnored")
   public String getCacheDir() {
-    File cacheDir = new File(CACHE_DIR);
+    File cacheDir = CacheDirectoryResolver.getEncodersCachePath().toFile();
 
     if (!cacheDir.exists()) {
-      cacheDir.mkdir();
+      cacheDir.mkdirs();
     }
     return cacheDir.getPath();
   }

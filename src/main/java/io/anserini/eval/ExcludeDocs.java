@@ -23,13 +23,13 @@ import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
 
 import io.anserini.search.ScoredDoc;
+import io.anserini.util.CacheDirectoryResolver;
 
 public class ExcludeDocs {
   private static final String BRIGHT_AOPS = "bright-aops";
@@ -38,7 +38,6 @@ public class ExcludeDocs {
   private static final String PREFIX = "exclude.";
   private static final String SUFFIX = ".txt";
 
-  private static final String CACHE_DIR = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "topics-and-qrels").toString();
   private static final String SERVER_PATH = "https://raw.githubusercontent.com/castorini/anserini-tools/master/topics-and-qrels/";
 
   private HashMap<String, Set<String>> excludeDocs = new HashMap<>();
@@ -60,7 +59,7 @@ public class ExcludeDocs {
     }
     file = PREFIX + file + SUFFIX;
 
-    Path local = Paths.get(CACHE_DIR, file);
+    Path local = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve(file);
     if (local == null || !Files.exists(local)) {
       String URL = SERVER_PATH + file;
       // TODO: Should probably change this to a log statement.
@@ -68,6 +67,7 @@ public class ExcludeDocs {
       if (local == null) {
         throw new IOException("Error downloading exclusion ids from " + URL);
       }
+      Files.createDirectories(local.getParent());
       File qrelsFile = new File(local.toString());  
       try {
         FileUtils.copyURLToFile(new URI(URL).toURL(), qrelsFile);
