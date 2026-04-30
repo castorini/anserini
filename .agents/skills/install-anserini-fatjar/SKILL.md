@@ -16,7 +16,7 @@ If the user needs source development, local code changes, or a snapshot jar buil
 1. Verify runtime tools.
 2. Download the released fatjar from Maven Central.
 3. Run smoke test/help command.
-4. Hand off to `$use-anserini-cli` for search, registry, topics, or REST commands.
+4. Hand off to `$use-anserini-cli` for search, prebuilt-index registry, topics registry, or REST commands.
 
 ## 1. Verify Runtime Tools
 

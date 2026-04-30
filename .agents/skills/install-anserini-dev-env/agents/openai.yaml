@@ -1,4 +1,4 @@
 interface:
   display_name: "Install Anserini Dev Env"
   short_description: "Set up and verify Anserini dev environments"
-  default_prompt: "Use $install-anserini-dev-env to set up and verify an Anserini development environment. Use $use-anserini-cli for search, registry, topics, or REST commands after setup."
+  default_prompt: "Use $install-anserini-dev-env to set up and verify an Anserini development environment. Use $use-anserini-cli for search, prebuilt-index registry, topics registry, or REST commands after setup."
