@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -57,14 +58,11 @@ public class ReproduceFromPrebuiltIndexes {
     @Option(name = "--list", usage = "List available configs as a JSON array and exit.")
     public boolean list = false;
 
+    @Option(name = "--show", usage = "Print the specified config and exit.")
+    public boolean show = false;
+
     @Option(name = "--runs-directory", metaVar = "[path]", usage = "Directory for output runs.")
     public String runsDirectory = ReproductionUtils.Constants.DEFAULT_RUNS_DIRECTORY;
-
-    @Option(name = "--compute-index-size", usage = "Compute total size of all unique indexes referenced by runs.")
-    public boolean computeIndexSize = false;
-
-    @Option(name = "--print-commands", usage = "Print commands.")
-    public boolean printCommands = false;
 
     @Option(name = "--dry-run", usage = "Output commands without execution.")
     public boolean dryRun = false;
@@ -74,7 +72,7 @@ public class ReproduceFromPrebuiltIndexes {
   }
 
   private static final String[] argsOrdering =
-      new String[] {"--config", "--list", "--runs-directory", "--compute-index-size", "--print-commands", "--dry-run", "--help"};
+      new String[] {"--list", "--config", "--show", "--runs-directory", "--dry-run", "--help"};
 
   public static void main(String[] args) throws Exception {
     LoggingBootstrap.installJulToSlf4jBridge();
@@ -108,14 +106,20 @@ public class ReproduceFromPrebuiltIndexes {
       return;
     }
 
+    if (parsedArgs.show) {
+      String resourceName = String.format("%s/%s.yaml", CONFIG_DIRECTORY, parsedArgs.config);
+      try (InputStream yamlStream = ReproductionUtils.loadResourceStream(resourceName, ReproduceFromPrebuiltIndexes.class)) {
+        System.out.print(new String(yamlStream.readAllBytes(), StandardCharsets.UTF_8));
+      }
+      return;
+    }
+
     run(parsedArgs);
   }
 
   private static void run(Args args) throws IOException, InterruptedException, URISyntaxException {
     String configName = args.config;
-    boolean printCommands = args.printCommands;
     boolean dryRun = args.dryRun;
-    boolean computeIndexSize = args.computeIndexSize;
 
     Path runsDir = Paths.get(args.runsDirectory);
     if (!Files.exists(runsDir)) {
@@ -148,8 +152,7 @@ public class ReproduceFromPrebuiltIndexes {
       }
     }
 
-    // If requested, print index summary before any runs.
-    if (computeIndexSize && !uniqueIndexNames.isEmpty()) {
+    if (!uniqueIndexNames.isEmpty()) {
       System.out.printf("Indexes referenced by this run (%d total):%n", uniqueIndexNames.size());
 
       // First pass: compute rows and totals so we can size columns dynamically.
@@ -254,9 +257,7 @@ public class ReproduceFromPrebuiltIndexes {
         // Note that there's a hidden dependency for fusion runs, where the command specifies the run to fuse by -runs run1 run2 ...
         // The runs directory can be set using $runs_directory, but the run names are hard-coded.
 
-        if (printCommands) {
-          System.out.println("    Retrieval command: " + command);
-        }
+        System.out.println("    Retrieval command: " + command);
 
         if (!dryRun) {
           pb = new ProcessBuilder(command.split(" "));
@@ -289,13 +290,10 @@ public class ReproduceFromPrebuiltIndexes {
               .replace("$output", output));
         }
 
-        // Print the commands all at once if desired.
-        if (printCommands) {
-          for (Map.Entry<String, String> entry : evalCommands.entrySet()) {
-            System.out.println("    Eval command: " + entry.getValue());
-          }
-          System.out.println();
+        for (Map.Entry<String, String> entry : evalCommands.entrySet()) {
+          System.out.println("    Eval command: " + entry.getValue());
         }
+        System.out.println();
 
         // We've already gathered the eval commands, so just run them now and check.
         for (Map.Entry<String, String> entry : evalCommands.entrySet()) {

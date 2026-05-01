@@ -43,7 +43,7 @@ public class ReproduceFromPrebuiltIndexesTest extends StdOutStdErrRedirectableLu
     super.tearDown();
   }
 
-    @Test
+  @Test
   public void testInvalidOption() throws Exception {
     ReproduceFromPrebuiltIndexes.main(new String[] {"--invalid"});
 
@@ -78,28 +78,23 @@ public class ReproduceFromPrebuiltIndexesTest extends StdOutStdErrRedirectableLu
   }
 
   @Test
+  public void testShowConfig() throws Exception {
+    ReproduceFromPrebuiltIndexes.main(new String[] {"--config", "cacm", "--show"});
+
+    assertTrue(out.toString().startsWith("conditions:"));
+    assertTrue(out.toString().contains("name: bm25"));
+    assertTrue(out.toString().contains("index cacm"));
+  }
+
+  @Test
   public void testBeirCoreDryRun() throws Exception {
     ReproduceFromPrebuiltIndexes.main(new String[] {"--config", "beir.core", "--dry-run"});
 
-    assertTrue(out.toString().startsWith("# Running condition"));
-  }
-
-  @Test
-  public void testBeirCorePrintCommandsDryRun() throws Exception {
-    ReproduceFromPrebuiltIndexes.main(new String[] {"--config", "beir.core", "--dry-run", "--print-commands"});
-
-    assertTrue(out.toString().startsWith("# Running condition"));
+    assertTrue(out.toString().startsWith("Indexes referenced by this run"));
+    assertTrue(out.toString().contains("Total size across"));
+    assertTrue(out.toString().contains("# Running condition"));
     assertTrue(out.toString().contains("Retrieval command"));
     assertTrue(out.toString().contains("Eval command"));
-  }
-
-  @Test
-  public void testComputeIndexSize() throws Exception {
-    ReproduceFromPrebuiltIndexes.main(new String[] {"--config", "beir.core", "--dry-run", "--compute-index-size"});
-
-    String s = out.toString();
-    assertTrue(s.contains("Indexes referenced by this run"));
-    assertTrue(s.contains("Total size across"));
   }
 
   @Test

@@ -1,6 +1,6 @@
 ---
 name: use-anserini-cli
-version: v0.1.0
+version: v0.2.0
 description: Run Anserini command-line and REST workflows from either a built fatjar or an Anserini source checkout. Use for PrebuiltIndexRegistry, TopicsRegistry, ad hoc search, interactive search, output formats, and RestServer examples.
 ---
 
@@ -8,7 +8,13 @@ description: Run Anserini command-line and REST workflows from either a built fa
 
 ## Overview
 
-Use this skill when Anserini is already available through either a resolved fatjar or a source checkout. This skill covers command usage, not environment setup or builds. If no usable fatjar or checkout is present, use `$install-anserini-fatjar` or `$install-anserini-dev-env` first.
+Use this skill when Anserini is already available through either a resolved
+fatjar or a source checkout. This skill covers command usage, not environment
+setup or builds. If no usable fatjar or checkout is present, use
+`$install-anserini-fatjar` or `$install-anserini-dev-env` first.
+
+Do not run commands that trigger large prebuilt-index downloads unless the user
+explicitly asks for retrieval experiments or index downloads.
 
 Prefer the invocation form that matches the user's environment:
 
@@ -26,7 +32,8 @@ Keep commands pinned to the same jar or checkout unless the user asks to change 
 
 ## Runtime Check
 
-For a fatjar workflow, confirm `ANSERINI_JAR` is set and points to an existing jar:
+For a fatjar workflow, confirm `ANSERINI_JAR` is set and points to an existing
+jar:
 
 ```bash
 test -n "$ANSERINI_JAR"
@@ -55,7 +62,8 @@ Current jars reject `-help` for `SearchCollection`; use `-options`.
 
 ## Prebuilt Index Registry
 
-To inspect prebuilt indexes exposed by `io.anserini.cli.PrebuiltIndexRegistry`, run:
+To inspect prebuilt indexes exposed by `io.anserini.cli.PrebuiltIndexRegistry`,
+run:
 
 ```bash
 java -cp "$ANSERINI_JAR" io.anserini.cli.PrebuiltIndexRegistry --list
@@ -67,9 +75,12 @@ or:
 bin/run.sh io.anserini.cli.PrebuiltIndexRegistry --list
 ```
 
-`--list` emits JSON in current jars, so prefer `--filter` and `jq` instead of grepping raw output.
+`--list` emits JSON in current jars, so prefer `--filter` and `jq` instead of
+grepping raw output. If `jq` is not available, ask the user whether it should be
+installed before relying on `jq` examples.
 
-`msmarco-v1-passage` is a common choice and should be called out when users ask about available prebuilt indexes or MS MARCO passage retrieval setup.
+`msmarco-v1-passage` is a common choice and should be called out when users ask
+about available prebuilt indexes or MS MARCO passage retrieval setup.
 
 Recommended lookup for the standard MS MARCO V1 passage inverted index:
 
@@ -91,7 +102,9 @@ java -cp "$ANSERINI_JAR" io.anserini.cli.PrebuiltIndexRegistry --type impact --l
 java -cp "$ANSERINI_JAR" io.anserini.cli.PrebuiltIndexRegistry --type hnsw --list
 ```
 
-Translate the examples to `bin/run.sh io.anserini.cli.PrebuiltIndexRegistry ...` when working from a checkout without `ANSERINI_JAR`.
+Translate the examples to
+`bin/run.sh io.anserini.cli.PrebuiltIndexRegistry ...` when working from a
+checkout without `ANSERINI_JAR`.
 
 ## Topics Registry
 
@@ -107,7 +120,9 @@ or:
 bin/run.sh io.anserini.cli.TopicsRegistry --list
 ```
 
-`--list` emits JSON in current jars, so prefer `--filter` and `jq` to locate the exact symbol.
+`--list` emits JSON in current jars, so prefer `--filter` and `jq` to locate the
+exact symbol. If `jq` is not available, ask the user whether it should be
+installed before relying on `jq` examples.
 
 To print all topics for a specific set, run:
 
@@ -115,7 +130,8 @@ To print all topics for a specific set, run:
 java -cp "$ANSERINI_JAR" io.anserini.cli.TopicsRegistry --get <set>
 ```
 
-For the standard MS MARCO V1 passage queries that pair with the `msmarco-v1-passage` prebuilt index, use `msmarco-v1-passage.dev`.
+For the standard MS MARCO V1 passage queries that pair with the
+`msmarco-v1-passage` prebuilt index, use `msmarco-v1-passage.dev`.
 
 Recommended lookup:
 
@@ -126,11 +142,13 @@ java -cp "$ANSERINI_JAR" \
 | jq '.'
 ```
 
-Use `--list` first to discover the exact set name, then `--get` to inspect its contents.
+Use `--list` first to discover the exact set name, then `--get` to inspect its
+contents.
 
 ## Search CLI
 
-Use `io.anserini.cli.Search` for ad hoc retrieval against either a local Lucene index path or a prebuilt index name.
+Use `io.anserini.cli.Search` for ad hoc retrieval against either a local Lucene
+index path or a prebuilt index name.
 
 Example using the popular `msmarco-v1-passage` prebuilt index:
 
@@ -180,12 +198,18 @@ curl "http://localhost:8081/v1/msmarco-v1-passage/search?query=what%20is%20anser
 curl "http://localhost:8081/v1/msmarco-v1-passage/doc/2161721"
 ```
 
-This REST workflow is most useful when users want to query the same prebuilt indexes exposed by the CLI, especially `msmarco-v1-passage`.
+This REST workflow is most useful when users want to query the same prebuilt
+indexes exposed by the CLI, especially `msmarco-v1-passage`.
 
 ## Troubleshooting
 
-- No fatjar found: use `$install-anserini-fatjar` to download a released Maven Central fatjar, or `$install-anserini-dev-env` if the user needs a jar built from the source checkout.
+- No fatjar found: use `$install-anserini-fatjar` to download a released Maven
+  Central fatjar, or `$install-anserini-dev-env` if the user needs a jar built
+  from the source checkout.
 - Missing `bin/run.sh`: use `$install-anserini-dev-env` from an Anserini checkout.
-- `ClassNotFoundException`: confirm the jar or checkout was built from the expected Anserini version.
-- `RestServer` reports `Port already in use` for unused ports in a sandboxed Codex session: local socket binding may be blocked by sandbox permissions. Rerun the server command with escalation, and use an available high local port if the documented port is occupied.
-- Large downloads: prebuilt indexes can download on demand; avoid commands that trigger large retrieval assets unless the user explicitly asks.
+- `ClassNotFoundException`: confirm the jar or checkout was built from the
+  expected Anserini version.
+- `RestServer` reports `Port already in use` for unused ports in a sandboxed
+  Codex session: local socket binding may be blocked by sandbox permissions.
+  Rerun the server command with escalation, and use an available high local port
+  if the documented port is occupied.
