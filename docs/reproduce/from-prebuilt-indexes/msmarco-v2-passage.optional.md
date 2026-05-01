@@ -19,10 +19,10 @@ Key:
 
 | # | name | dev | dev2 | DL21 | DL22 | DL23 |
 | --- | --- | --- | --- | --- | --- | --- |
-| [1](#condition-1) | BM25 (k1=0.9, b=0.4) | 0.0802 |  | 0.4458 | 0.2692 | 0.2627 |
-| [2](#condition-2) | BM25 (k1=0.9, b=0.4) | 0.0802 |  | 0.4458 | 0.2692 | 0.2627 |
-| [3](#condition-3) | uniCOIL (no expansion): cached queries | 0.1385 |  | 0.5756 | 0.4077 | 0.3262 |
-| [4](#condition-4) | uniCOIL (with doc2query-T5): cached queries | 0.1577 |  | 0.6159 | 0.4614 | 0.3855 |
+| [1](#condition-1) | BM25 (k1=0.9, b=0.4) | 0.0719 | 0.0802 | 0.4458 | 0.2692 | 0.2627 |
+| [2](#condition-2) | BM25 (k1=0.9, b=0.4) | 0.0719 | 0.0802 | 0.4458 | 0.2692 | 0.2627 |
+| [3](#condition-3) | uniCOIL (no expansion): cached queries | 0.1342 | 0.1385 | 0.5756 | 0.4077 | 0.3262 |
+| [4](#condition-4) | uniCOIL (with doc2query-T5): cached queries | 0.1499 | 0.1577 | 0.6159 | 0.4614 | 0.3855 |
 
 
 
@@ -42,7 +42,7 @@ export fatjar=`ls -d {.,target}/anserini-*-fatjar.jar(N)`
 export jvm_args=(-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector)
 
 # for bash
-export jvm_argsS="-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector"
+export jvm_args="-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector"
 ```
 
 <a id="condition-1"></a>

@@ -50,7 +50,7 @@ export fatjar=`ls -d {.,target}/anserini-*-fatjar.jar(N)`
 export jvm_args=(-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector)
 
 # for bash
-export jvm_argsS="-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector"
+export jvm_args="-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector"
 ```
 
 <a id="condition-1"></a>

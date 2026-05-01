@@ -19,9 +19,9 @@ Key:
 
 | # | name | dev | dev2 | DL21 | DL22 | DL23 |
 | --- | --- | --- | --- | --- | --- | --- |
-| [1](#condition-1) | BM25 (k1=0.9, b=0.4) | 0.0802 |  | 0.4458 | 0.2692 | 0.2627 |
-| [2](#condition-2) | BM25 with doc2query-T5 (k1=0.9, b=0.4) | 0.1123 |  | 0.4816 | 0.3599 | 0.3156 |
-| [3](#condition-3) | uniCOIL (with doc2query-T5): ONNX | 0.1577 |  | 0.6159 | 0.4614 | 0.3855 |
+| [1](#condition-1) | BM25 (k1=0.9, b=0.4) | 0.0719 | 0.0802 | 0.4458 | 0.2692 | 0.2627 |
+| [2](#condition-2) | BM25 with doc2query-T5 (k1=0.9, b=0.4) | 0.1072 | 0.1123 | 0.4816 | 0.3599 | 0.3156 |
+| [3](#condition-3) | uniCOIL (with doc2query-T5): ONNX | 0.1499 | 0.1577 | 0.6159 | 0.4614 | 0.3855 |
 
 
 
@@ -41,7 +41,7 @@ export fatjar=`ls -d {.,target}/anserini-*-fatjar.jar(N)`
 export jvm_args=(-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector)
 
 # for bash
-export jvm_argsS="-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector"
+export jvm_args="-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector"
 ```
 
 <a id="condition-1"></a>

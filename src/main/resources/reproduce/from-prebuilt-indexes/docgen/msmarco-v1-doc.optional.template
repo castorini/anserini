@@ -33,7 +33,7 @@ export fatjar=`ls -d {.,target}/anserini-*-fatjar.jar(N)`
 export jvm_args=(${jvm_args})
 
 # for bash
-export jvm_argsS="${jvm_args}"
+export jvm_args="${jvm_args}"
 ```
 
 ${commands}

@@ -115,6 +115,10 @@ public class GenerateReproductionDocsFromPrebuiltIndexes2Test {
     return CONFIG_DIRECTORY + yamlConfig;
   }
 
+  private static boolean matchesTopicPrefix(String topicKey, String prefix) {
+    return topicKey.equals(prefix) || topicKey.startsWith(prefix + ".");
+  }
+
   private static void generateMsMarcoV1PassageReport(String yamlConfig) throws Exception {
     String yamlPath = yamlPath(yamlConfig);
     String runTag = new File(yamlPath).getName().replaceFirst("\\.yaml$", "");
@@ -320,8 +324,12 @@ public class GenerateReproductionDocsFromPrebuiltIndexes2Test {
           continue;
         }
 
-        if (topic.topic_key.startsWith("msmarco-v2-passage.dev")) {
+        if (matchesTopicPrefix(topic.topic_key, "msmarco-v2-passage.dev")) {
           devScore = topic.expected_scores.get("MRR@100");
+        }
+
+        if (matchesTopicPrefix(topic.topic_key, "msmarco-v2-passage.dev2")) {
+          dev2Score = topic.expected_scores.get("MRR@100");
         }
 
         if (topic.topic_key.startsWith("dl21")) {
@@ -415,8 +423,12 @@ public class GenerateReproductionDocsFromPrebuiltIndexes2Test {
           continue;
         }
 
-        if (topic.topic_key.startsWith("msmarco-v2-doc.dev")) {
+        if (matchesTopicPrefix(topic.topic_key, "msmarco-v2-doc.dev")) {
           devScore = topic.expected_scores.get("MRR@100");
+        }
+
+        if (matchesTopicPrefix(topic.topic_key, "msmarco-v2-doc.dev2")) {
+          dev2Score = topic.expected_scores.get("MRR@100");
         }
 
         if (topic.topic_key.startsWith("dl21")) {

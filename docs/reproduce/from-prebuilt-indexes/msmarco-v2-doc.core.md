@@ -19,11 +19,11 @@ Key:
 
 | # | name | dev | dev2 | DL21 | DL22 | DL23 |
 | --- | --- | --- | --- | --- | --- | --- |
-| [1](#condition-1) | BM25 complete doc (k1=0.9, b=0.4) | 0.1659 |  | 0.5116 | 0.2993 | 0.2946 |
-| [2](#condition-2) | BM25 completed doc with doc2query-T5 (k1=0.9, b=0.4) | 0.2012 |  | 0.5792 | 0.3539 | 0.3511 |
-| [3](#condition-3) | BM25 segmented doc (k1=0.9, b=0.4) | 0.1930 |  | 0.5776 | 0.3618 | 0.3405 |
-| [4](#condition-4) | BM25 segmented doc with doc2query-T5 (k1=0.9, b=0.4) | 0.2234 |  | 0.6289 | 0.3975 | 0.3612 |
-| [5](#condition-5) | uniCOIL (with doc2query-T5): ONNX | 0.2445 |  | 0.6783 | 0.4451 | 0.4150 |
+| [1](#condition-1) | BM25 complete doc (k1=0.9, b=0.4) | 0.1572 | 0.1659 | 0.5116 | 0.2993 | 0.2946 |
+| [2](#condition-2) | BM25 completed doc with doc2query-T5 (k1=0.9, b=0.4) | 0.2011 | 0.2012 | 0.5792 | 0.3539 | 0.3511 |
+| [3](#condition-3) | BM25 segmented doc (k1=0.9, b=0.4) | 0.1896 | 0.1930 | 0.5776 | 0.3618 | 0.3405 |
+| [4](#condition-4) | BM25 segmented doc with doc2query-T5 (k1=0.9, b=0.4) | 0.2226 | 0.2234 | 0.6289 | 0.3975 | 0.3612 |
+| [5](#condition-5) | uniCOIL (with doc2query-T5): ONNX | 0.2419 | 0.2445 | 0.6783 | 0.4451 | 0.4150 |
 
 
 
@@ -43,7 +43,7 @@ export fatjar=`ls -d {.,target}/anserini-*-fatjar.jar(N)`
 export jvm_args=(-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector)
 
 # for bash
-export jvm_argsS="-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector"
+export jvm_args="-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules jdk.incubator.vector"
 ```
 
 <a id="condition-1"></a>
