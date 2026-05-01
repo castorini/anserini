@@ -17,7 +17,6 @@
 package io.anserini.search.topicreader;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -210,14 +209,6 @@ public abstract class TopicReader<K> {
     }
   }
 
-  private static String getCacheDir() {
-    File cacheDir = CacheDirectoryResolver.getTopicsAndQrelsCachePath().toFile();
-    if (!cacheDir.exists()) {
-      cacheDir.mkdirs();
-    }
-    return cacheDir.getPath();
-  }
-
   /**
    * Downloads the topics from the cloud and returns the path to the local copy
    * @param topicPath Path to the topics
@@ -227,17 +218,17 @@ public abstract class TopicReader<K> {
   public static Path downloadTopics(Path topicPath) throws IOException {
     String topicURL = SERVER_PATH + topicPath.getFileName().toString();
     LOG.info("Downloading topics from " + topicURL);
-    File topicFile = new File(getCacheDir(), topicPath.getFileName().toString());
+    Path localTopicPath = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve(topicPath.getFileName());
     try {
-      FileUtils.copyURLToFile(new URI(topicURL).toURL(), topicFile);
+      FileUtils.copyURLToFile(new URI(topicURL).toURL(), localTopicPath.toFile());
     } catch (Exception e){
       throw new IOException("Error downloading topics from " + topicURL);
     }
-    return topicFile.toPath();
+    return localTopicPath;
   }
 
   public static Path getNewTopicsAbsPath(Path topicPath){
-    return Paths.get(getCacheDir(), topicPath.getFileName().toString());
+    return CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve(topicPath.getFileName());
   }
 
   /**
@@ -252,7 +243,7 @@ public abstract class TopicReader<K> {
     } else {
       if (!TOPIC_FILE_TO_TYPE.containsKey(topicPath.getFileName().toString())) {
         // If the topic file is not in the list of known topics, we assume it is a local file.
-        Path tempPath = Paths.get(getCacheDir(), topicPath.getFileName().toString());
+        Path tempPath = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve(topicPath.getFileName());
         if (Files.exists(tempPath)) {
           // if it is an unregistred topic, but it is in the cache, we use it
           return tempPath;

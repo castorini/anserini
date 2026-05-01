@@ -80,7 +80,7 @@ public abstract class OnnxEncoder<T> implements AutoCloseable {
   }
 
   public Path getVocabPath() throws URISyntaxException, IOException {
-    File vocabFile = new File(getCacheDir(), vocabName);
+    File vocabFile = CacheDirectoryResolver.getEncodersCachePath().resolve(vocabName).toFile();
     if (!vocabFile.exists()) {
       FileUtils.copyURLToFile(new URI(vocabUrl).toURL(), vocabFile);
     }
@@ -88,22 +88,13 @@ public abstract class OnnxEncoder<T> implements AutoCloseable {
     return vocabFile.toPath();
   }
 
-  @SuppressWarnings("ResultOfMethodCallIgnored")
-  public String getCacheDir() {
-    File cacheDir = CacheDirectoryResolver.getEncodersCachePath().toFile();
-
-    if (!cacheDir.exists()) {
-      cacheDir.mkdirs();
-    }
-    return cacheDir.getPath();
-  }
-
   public Path getModelPath() throws IOException, URISyntaxException {
-    File modelFile = new File(getCacheDir(), modelName);
+    Path cachePath = CacheDirectoryResolver.getEncodersCachePath();
+    File modelFile = cachePath.resolve(modelName).toFile();
     if (!modelFile.exists()) {
       FileUtils.copyURLToFile(new URI(modelUrl).toURL(), modelFile);
       if (configUrl != null) {
-        File configFile = new File(getCacheDir(), this.getClass().getSimpleName() + '-' + BASE_CONFIG_NAME);
+        File configFile = cachePath.resolve(this.getClass().getSimpleName() + '-' + BASE_CONFIG_NAME).toFile();
         FileUtils.copyURLToFile(new URI(configUrl).toURL(), configFile);
       }
     }

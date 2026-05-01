@@ -54,11 +54,11 @@ public class PrebuiltIndexHandler {
 
   /**
    * Returns a <tt>PrebuiltIndexHandler</tt> for a prebuilt index given its name, or <tt>null</tt> if it doesn't exist.
-   * The default cache directory is <tt>~/.cache/pyserini/indexes</tt>, or <tt>index</tt> in the current working
-   * directory if it exists. If <tt>index</tt> does not exist, a custom base cache directory can be specified via the
-   * environment variable <tt>$ANSERINI_CACHE</tt> or the system property <tt>anserini.cache</tt>. If no custom base
-   * cache directory is specified and <tt>.cache</tt> exists in the current working directory, indexes are stored in
-   * <tt>.cache/pyserini/indexes</tt> under the current working directory.
+   * Downloaded indexes are stored in <tt>indexes</tt> under the base cache directory specified by the system property
+   * <tt>pyserini.cache</tt>. If the property is not set, the environment variable <tt>$PYSERINI_CACHE</tt> specifies
+   * the base cache directory. If neither is set and <tt>.cache</tt> exists in the current working directory, indexes are
+   * stored in <tt>.cache/pyserini/indexes</tt> under the current working directory. Otherwise, indexes are stored in
+   * <tt>~/.cache/pyserini/indexes</tt>.
    *
    * @param name the name of the prebuilt index
    * @return a <tt>PrebuiltIndexHandler</tt> for a prebuilt index given its name, or <tt>null</tt> if it doesn't exist.

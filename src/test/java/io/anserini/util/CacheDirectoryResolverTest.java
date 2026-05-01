@@ -17,8 +17,10 @@
 package io.anserini.util;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -33,18 +35,22 @@ public class CacheDirectoryResolverTest {
   public TemporaryFolder tempFolder = new TemporaryFolder();
 
   private String userDir;
+  private String userHome;
   private String cacheProperty;
 
   @Before
-  public void setUp() {
+  public void setUp() throws IOException {
     userDir = System.getProperty("user.dir");
+    userHome = System.getProperty("user.home");
     cacheProperty = System.getProperty(CacheDirectoryResolver.CACHE_PROPERTY);
+    System.setProperty("user.home", tempFolder.newFolder("home").toString());
     System.clearProperty(CacheDirectoryResolver.CACHE_PROPERTY);
   }
 
   @After
   public void tearDown() {
     System.setProperty("user.dir", userDir);
+    System.setProperty("user.home", userHome);
     if (cacheProperty == null) {
       System.clearProperty(CacheDirectoryResolver.CACHE_PROPERTY);
     } else {
@@ -57,7 +63,9 @@ public class CacheDirectoryResolverTest {
     Path cwd = tempFolder.newFolder("no-local-cache").toPath();
     System.setProperty("user.dir", cwd.toString());
 
-    assertEquals(Path.of(System.getProperty("user.home"), ".cache", "pyserini"), CacheDirectoryResolver.getBasePath());
+    Path base = Path.of(System.getProperty("user.home"), ".cache", "pyserini");
+    assertEquals(base, CacheDirectoryResolver.getBasePath());
+    assertTrue(Files.isDirectory(base));
   }
 
   @Test
@@ -69,6 +77,9 @@ public class CacheDirectoryResolverTest {
     assertEquals(base.resolve("indexes"), CacheDirectoryResolver.getIndexCachePath());
     assertEquals(base.resolve("topics-and-qrels"), CacheDirectoryResolver.getTopicsAndQrelsCachePath());
     assertEquals(base.resolve("encoders"), CacheDirectoryResolver.getEncodersCachePath());
+    assertTrue(Files.isDirectory(base.resolve("indexes")));
+    assertTrue(Files.isDirectory(base.resolve("topics-and-qrels")));
+    assertTrue(Files.isDirectory(base.resolve("encoders")));
   }
 
   @Test
@@ -82,30 +93,10 @@ public class CacheDirectoryResolverTest {
     assertEquals(base.resolve("indexes"), CacheDirectoryResolver.getIndexCachePath());
     assertEquals(base.resolve("topics-and-qrels"), CacheDirectoryResolver.getTopicsAndQrelsCachePath());
     assertEquals(base.resolve("encoders"), CacheDirectoryResolver.getEncodersCachePath());
-  }
-
-  @Test
-  public void testLocalIndexDirectory() throws IOException {
-    Path cwd = tempFolder.newFolder("local-index").toPath();
-    Files.createDirectory(cwd.resolve("index"));
-    System.setProperty("user.dir", cwd.toString());
-
-    assertEquals(cwd.resolve("index"), CacheDirectoryResolver.getIndexCachePath());
-  }
-
-  @Test
-  public void testLocalIndexDirectoryOverridesCacheProperty() throws IOException {
-    Path cwd = tempFolder.newFolder("local-index-with-override").toPath();
-    Files.createDirectory(cwd.resolve("index"));
-    System.setProperty("user.dir", cwd.toString());
-
-    Path override = tempFolder.newFolder("cache").toPath();
-    System.setProperty(CacheDirectoryResolver.CACHE_PROPERTY, override.toString());
-
-    assertEquals(cwd.resolve("index"), CacheDirectoryResolver.getIndexCachePath());
-    assertEquals(override, CacheDirectoryResolver.getBasePath());
-    assertEquals(override.resolve("topics-and-qrels"), CacheDirectoryResolver.getTopicsAndQrelsCachePath());
-    assertEquals(override.resolve("encoders"), CacheDirectoryResolver.getEncodersCachePath());
+    assertTrue(Files.isDirectory(base));
+    assertTrue(Files.isDirectory(base.resolve("indexes")));
+    assertTrue(Files.isDirectory(base.resolve("topics-and-qrels")));
+    assertTrue(Files.isDirectory(base.resolve("encoders")));
   }
 
   @Test
@@ -121,5 +112,20 @@ public class CacheDirectoryResolverTest {
     assertEquals(override.resolve("indexes"), CacheDirectoryResolver.getIndexCachePath());
     assertEquals(override.resolve("topics-and-qrels"), CacheDirectoryResolver.getTopicsAndQrelsCachePath());
     assertEquals(override.resolve("encoders"), CacheDirectoryResolver.getEncodersCachePath());
+    assertTrue(Files.isDirectory(override));
+    assertTrue(Files.isDirectory(override.resolve("indexes")));
+    assertTrue(Files.isDirectory(override.resolve("topics-and-qrels")));
+    assertTrue(Files.isDirectory(override.resolve("encoders")));
+  }
+
+  @Test(expected = UncheckedIOException.class)
+  public void testDirectoryCreationFailure() throws IOException {
+    Path cwd = tempFolder.newFolder("creation-failure").toPath();
+    System.setProperty("user.dir", cwd.toString());
+
+    Path file = tempFolder.newFile("cache-file").toPath();
+    System.setProperty(CacheDirectoryResolver.CACHE_PROPERTY, file.toString());
+
+    CacheDirectoryResolver.getBasePath();
   }
 }

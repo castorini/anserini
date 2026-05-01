@@ -17,14 +17,12 @@
 package io.anserini.eval;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -117,14 +115,6 @@ public class RelevanceJudgments {
     }
   }
 
-  private static String getCacheDir() {
-    File cacheDir = CacheDirectoryResolver.getTopicsAndQrelsCachePath().toFile();
-    if (!cacheDir.exists()) {
-      cacheDir.mkdirs();
-    }
-    return cacheDir.getPath();
-  }
-
   /**
    * Method will return the qrels file as a string
    * 
@@ -161,7 +151,7 @@ public class RelevanceJudgments {
     }
     if (!isContained && !isContainedSymbol) {
       // If the topic file is not in the list of known topics, we assume it is a local file.
-      Path tempPath = Paths.get(getCacheDir(), qrelsPath.getFileName().toString());
+      Path tempPath = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve(qrelsPath.getFileName());
       if (Files.exists(tempPath)) {
         // if it is a unregistred topic in the Topics Enum, but it is in the cache, we use it.
         return tempPath;
@@ -182,7 +172,7 @@ public class RelevanceJudgments {
   }
 
   public static Path getNewQrelAbsPath(Path qrelsPath) {
-    return Paths.get(getCacheDir(), qrelsPath.getFileName().toString());
+    return CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve(qrelsPath.getFileName());
   }
 
   /**
@@ -196,13 +186,13 @@ public class RelevanceJudgments {
   public static Path downloadQrels(Path qrelsPath) throws IOException {
     String qrelsURL = SERVER_PATH + qrelsPath.getFileName().toString();
     System.out.println("Downloading qrels from " + qrelsURL);
-    File qrelsFile = new File(getCacheDir(), qrelsPath.getFileName().toString());
+    Path localQrelsPath = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve(qrelsPath.getFileName());
 
     try {
-      FileUtils.copyURLToFile(new URI(qrelsURL).toURL(), qrelsFile);
+      FileUtils.copyURLToFile(new URI(qrelsURL).toURL(), localQrelsPath.toFile());
     } catch (Exception e) {
       throw new IOException("Error downloading topics from " + qrelsURL);
     }
-    return qrelsFile.toPath();
+    return localQrelsPath;
   }
 }

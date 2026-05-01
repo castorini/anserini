@@ -358,7 +358,7 @@ public class ReproduceFromPrebuiltIndexes {
   private static Path expectedPrebuiltPath(String indexName) {
     try {
       PrebuiltIndexHandler handler = PrebuiltIndexHandler.get(indexName);
-      String cacheRoot = getCacheRoot();
+      String cacheRoot = CacheDirectoryResolver.getIndexCachePath().toString();
       String base = handler.getFilename();
       if (base.endsWith(".tar.gz")) {
         base = base.substring(0, base.length() - ".tar.gz".length());
@@ -395,10 +395,6 @@ public class ReproduceFromPrebuiltIndexes {
       }
     }
     return pathForSize;
-  }
-
-  private static String getCacheRoot() {
-    return CacheDirectoryResolver.getIndexCachePath().toString();
   }
 
   private static String repeat(char c, int n) {

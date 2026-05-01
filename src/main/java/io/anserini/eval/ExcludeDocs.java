@@ -60,14 +60,10 @@ public class ExcludeDocs {
     file = PREFIX + file + SUFFIX;
 
     Path local = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve(file);
-    if (local == null || !Files.exists(local)) {
+    if (!Files.exists(local)) {
       String URL = SERVER_PATH + file;
       // TODO: Should probably change this to a log statement.
       System.out.println("Downloading exclusion ids from " + URL);
-      if (local == null) {
-        throw new IOException("Error downloading exclusion ids from " + URL);
-      }
-      Files.createDirectories(local.getParent());
       File qrelsFile = new File(local.toString());  
       try {
         FileUtils.copyURLToFile(new URI(URL).toURL(), qrelsFile);
