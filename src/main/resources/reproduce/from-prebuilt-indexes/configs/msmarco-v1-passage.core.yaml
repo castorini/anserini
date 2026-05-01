@@ -1,6 +1,6 @@
 conditions:
   - name: bm25
-    display: "BM25 (k1=0.9, b=0.4)"
+    display: "BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
     display_html: "BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
     display_row: ""
     command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-passage -topics $topics -output $output -hits 1000 -bm25
@@ -34,7 +34,7 @@ conditions:
           nDCG@10: "-c -m ndcg_cut.10"
           R@1K: "-c -l 2 -m recall.1000"
   - name: bm25-d2q-t5
-    display: "BM25 with doc2query-T5 (k1=0.9, b=0.4)"
+    display: "BM25 with doc2query-T5  (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
     display_html: "BM25 with doc2query-T5  (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
     display_row: ""
     command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-passage.d2q-t5 -topics $topics -output $output -hits 1000 -bm25
