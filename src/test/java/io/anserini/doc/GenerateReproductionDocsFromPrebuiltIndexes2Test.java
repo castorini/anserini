@@ -98,7 +98,6 @@ public class GenerateReproductionDocsFromPrebuiltIndexes2Test {
     StringBuilder builder = new StringBuilder();
     for (Map.Entry<String, Double> entry : topic.expected_scores.entrySet()) {
       String command = "java -cp $fatjar trec_eval $metric $evalKey $output"
-          .replace("$fatjarPath", "$fatjarPath")
           .replace("$metric", topic.metric_definitions.get(entry.getKey()))
           .replace("$evalKey", topic.eval_key)
           .replace("$output", output);
