@@ -71,6 +71,7 @@ public class SearchShardedHnswDenseVectorsTest {
     assertTrue("Topic file doesn't exist: " + topicFile, Files.exists(Paths.get(topicFile)));
 
     String runfile = SHARDED_RUN;
+    deleteRunFiles(runfile);
 
     // Create parent directory for output if it doesn't exist
     Files.createDirectories(Paths.get(runfile).getParent());
@@ -88,6 +89,7 @@ public class SearchShardedHnswDenseVectorsTest {
 
     SearchShardedHnswDenseVectors.main(searchArgs);
 
+    assertRunFileExistsAndNonEmpty(runfile);
     assertRunFileExistsAndNonEmpty(runfile + ".shard00");
     assertRunFileExistsAndNonEmpty(runfile + ".shard01");
   }
@@ -106,6 +108,7 @@ public class SearchShardedHnswDenseVectorsTest {
     assertTrue("Topic file doesn't exist: " + topicFile, Files.exists(Paths.get(topicFile)));
 
     String runfile = SHARDED_VECTORS_RUN;
+    deleteRunFiles(runfile);
 
     // Create parent directory for output if it doesn't exist
     Files.createDirectories(Paths.get(runfile).getParent());
@@ -123,6 +126,7 @@ public class SearchShardedHnswDenseVectorsTest {
 
     SearchShardedHnswDenseVectors.main(searchArgs);
 
+    assertRunFileExistsAndNonEmpty(runfile);
     assertRunFileExistsAndNonEmpty(runfile + ".shard00");
     assertRunFileExistsAndNonEmpty(runfile + ".shard01");
   }

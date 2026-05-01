@@ -64,6 +64,15 @@ public class TrecEvalTest {
   }
 
   @Test
+  public void testRunWithMainInvalidQrels() {
+    TrecEval.main(new String[] {
+        "-m", "P.30",
+        "fake",
+        "src/test/resources/sample_runs/cacm/cacm-bm25.txt"
+    });
+  }
+
+  @Test
   public void testRunAndGetOutputCacm() {
     assertNotNull(TrecEval.getExecutableName());
 
