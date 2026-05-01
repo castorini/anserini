@@ -1,0 +1,4 @@
+interface:
+  display_name: "Install Anserini Fatjar"
+  short_description: "Install and verify Anserini from a Maven Central fatjar"
+  default_prompt: "Set up Anserini quickly by downloading the published fatjar from Maven Central, verify Java runtime, and run smoke test/help commands. Do not clone or build the source repository for this workflow. Use $use-anserini-cli for search, prebuilt-index registry, topics registry, or REST commands after setup."
