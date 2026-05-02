@@ -16,7 +16,7 @@ bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verif
 ```
 
 > :warning: Building the index from scratch reads ~325 GB of Parquet data and takes many hours; the resulting index is also ~325 GB.
-> If the index already exists at `indexes/lucene-inverted.nanoknow-v1.0/`, omit `--index` and just run `--verify --search`.
+> If the index already exists at `indexes/fineweb-edu-100b-official-index/`, omit `--index` and just run `--verify --search`.
 > A pre-built index is also available for download from [LingweiGu/NanoKnow-Fineweb-Edu-Index](https://huggingface.co/datasets/LingweiGu/NanoKnow-Fineweb-Edu-Index).
 
 ## Indexing
@@ -27,14 +27,14 @@ Typical indexing command:
 bin/run.sh io.anserini.index.IndexCollection \
   -threads 32 \
   -collection FineWebCollection \
-  -input /path/to/nanoknow-v1.0 \
+  -input /path/to/fineweb-edu-100b-karpathy \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-inverted.nanoknow-v1.0/ \
+  -index indexes/fineweb-edu-100b-official-index/ \
   -storeRaw \
-  >& logs/log.nanoknow-v1.0 &
+  >& logs/log.fineweb-edu-100b-karpathy &
 ```
 
-The directory `/path/to/nanoknow-v1.0/` should contain the Parquet shards from the [karpathy/fineweb-edu-100b-shuffle](https://huggingface.co/datasets/karpathy/fineweb-edu-100b-shuffle) dataset (~97M documents, ~100B tokens).
+The directory `/path/to/fineweb-edu-100b-karpathy/` should contain the Parquet shards from the [karpathy/fineweb-edu-100b-shuffle](https://huggingface.co/datasets/karpathy/fineweb-edu-100b-shuffle) dataset (~97M documents, ~100B tokens).
 
 For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
 
@@ -51,17 +51,17 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-inverted.nanoknow-v1.0/ \
+  -index indexes/fineweb-edu-100b-official-index/ \
   -topics tools/topics-and-qrels/topics.nanoknow-v1.0-nq.supported.tsv \
   -topicReader TsvInt \
-  -output runs/run.nanoknow-v1.0.bm25.topics.nanoknow-v1.0-nq.supported.txt \
+  -output runs/run.fineweb-edu-100b-karpathy.bm25.topics.nanoknow-v1.0-nq.supported.txt \
   -bm25 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m recall.20 tools/topics-and-qrels/qrels.nanoknow-v1.0-nq.supported.txt runs/run.nanoknow-v1.0.bm25.topics.nanoknow-v1.0-nq.supported.txt
+bin/trec_eval -c -m recall.20 tools/topics-and-qrels/qrels.nanoknow-v1.0-nq.supported.txt runs/run.fineweb-edu-100b-karpathy.bm25.topics.nanoknow-v1.0-nq.supported.txt
 ```
 
 ## Effectiveness
@@ -74,4 +74,4 @@ With the above commands, you should be able to reproduce the following results:
 
 The reported metric is **R@20** (Recall at 20). Because NanoKnow v1.0 qrels are themselves drawn from the BM25 top-100 over this exact index, R@100 is ~1.0 by construction and is not an interesting signal. R@20 instead measures what fraction of the verified answer-bearing documents BM25 ranks in the top-20; this number is sensitive to changes in the BM25 implementation, the index, or the topics, and so serves as a meaningful regression signal for the retrieval pipeline.
 
-This is intended to be a fully reproducible release regression: with the same Anserini code, the same `indexes/lucene-inverted.nanoknow-v1.0/` index, and the same NanoKnow v1.0 topics and qrels from `anserini-tools`, the reported R@20 value should remain unchanged across repeated runs.
+This is intended to be a fully reproducible release regression: with the same Anserini code, the same `indexes/fineweb-edu-100b-official-index/` index, and the same NanoKnow v1.0 topics and qrels from `anserini-tools`, the reported R@20 value should remain unchanged across repeated runs.
