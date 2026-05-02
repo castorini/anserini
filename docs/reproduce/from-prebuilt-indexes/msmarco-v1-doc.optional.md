@@ -20,8 +20,8 @@ Key:
 | --- | --- | --- | --- | --- |
 | [1](#condition-1) | BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index | 0.2299 | 0.5176 | 0.5286 |
 | [2](#condition-2) | BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), full index | 0.2299 | 0.5176 | 0.5286 |
-| [3](#condition-3) | BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) w/ slim index | 0.2684 | 0.5302 | 0.5281 |
-| [4](#condition-4) | BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) w/ full index | 0.2684 | 0.5302 | 0.5281 |
+| [3](#condition-3) | BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index | 0.2684 | 0.5302 | 0.5281 |
+| [4](#condition-4) | BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), full index | 0.2684 | 0.5302 | 0.5281 |
 | [5](#condition-5) | uniCOIL noexp (cached queries) | 0.3409 | 0.6349 | 0.5893 |
 | [6](#condition-6) | uniCOIL with doc2query-T5 (cached queries) | 0.3531 | 0.6396 | 0.6033 |
 
@@ -184,7 +184,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.op
 
 <a id="condition-3"></a>
 
-### 3. BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) w/ slim index
+### 3. BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index
 
 #### msmarco-doc.dev
 
@@ -261,7 +261,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.op
 
 <a id="condition-4"></a>
 
-### 4. BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) w/ full index
+### 4. BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), full index
 
 #### msmarco-doc.dev
 

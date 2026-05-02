@@ -28,7 +28,7 @@ bin/run.sh io.anserini.index.IndexCollection \
 ```
 
 The collection comprises news articles from ATS (SDA) and Le Monde totaling 177,452 documents.
-Since the original distribution is in a format that's slightly different from standard TREC collections, we used a [preprocessing script](../src/main/python/clir/document_preprocess.py) to convert the collection into Anserini's JSON line format (we also applied a bit of light data cleaning using a script that has been lost; if you have problems reproducing our results, get in touch directly).
+Since the original distribution is in a format that's slightly different from standard TREC collections, we used a [preprocessing script](../../../src/main/python/clir/document_preprocess.py) to convert the collection into Anserini's JSON line format (we also applied a bit of light data cleaning using a script that has been lost; if you have problems reproducing our results, get in touch directly).
 The directory `/path/to/clef06-fr/` should point to the location of the processed collection.
 
 For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).

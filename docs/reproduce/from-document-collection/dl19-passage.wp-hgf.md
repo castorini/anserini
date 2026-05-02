@@ -81,6 +81,6 @@ With the above commands, you should be able to reproduce the following results:
 For computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., AP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).
 The experimental results reported here are directly comparable to the results reported in the [track overview paper](https://arxiv.org/abs/2003.07820).
 
-## Reproduction Log[*](reproducibility.md)
+## Reproduction Log[*](../../reproducibility.md)
 
 To add to this reproduction log, modify [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl19-passage.wp-hgf.template) and run `bin/build.sh` to rebuild the documentation.

@@ -60,7 +60,7 @@ conditions:
           nDCG@10: "-c -m ndcg_cut.10"
           R@1K: "-c -m recall.1000"
   - name: bm25-doc-segmented-default-slim
-    display: "BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) w/ slim index"
+    display: "BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index"
     command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-doc-segmented-slim -topics $topics -output $output -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
     topics:
       - topic_key: msmarco-doc.dev
@@ -90,7 +90,7 @@ conditions:
           nDCG@10: "-c -m ndcg_cut.10"
           R@1K: "-c -m recall.1000"
   - name: bm25-doc-segmented-default-full
-    display: "BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) w/ full index"
+    display: "BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), full index"
     command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-doc-segmented-full -topics $topics -output $output -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
     topics:
       - topic_key: msmarco-doc.dev
