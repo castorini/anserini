@@ -44,6 +44,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import io.anserini.cli.CliUtils;
 
 import io.anserini.index.IndexReaderUtils;
+import io.anserini.util.CacheDirectoryResolver;
 import io.anserini.util.LoggingBootstrap;
 import io.anserini.util.PrebuiltIndexHandler;
 
@@ -357,7 +358,7 @@ public class ReproduceFromPrebuiltIndexes {
   private static Path expectedPrebuiltPath(String indexName) {
     try {
       PrebuiltIndexHandler handler = PrebuiltIndexHandler.get(indexName);
-      String cacheRoot = getCacheRoot();
+      String cacheRoot = CacheDirectoryResolver.getIndexCachePath().toString();
       String base = handler.getFilename();
       if (base.endsWith(".tar.gz")) {
         base = base.substring(0, base.length() - ".tar.gz".length());
@@ -394,17 +395,6 @@ public class ReproduceFromPrebuiltIndexes {
       }
     }
     return pathForSize;
-  }
-
-  private static String getCacheRoot() {
-    String cacheDir = System.getProperty("anserini.index.cache");
-    if (cacheDir == null || cacheDir.isEmpty()) {
-      cacheDir = System.getenv("ANSERINI_INDEX_CACHE");
-    }
-    if (cacheDir == null || cacheDir.isEmpty()) {
-      cacheDir = java.nio.file.Path.of(System.getProperty("user.home"), ".cache", "pyserini", "indexes").toString();
-    }
-    return cacheDir;
   }
 
   private static String repeat(char c, int n) {

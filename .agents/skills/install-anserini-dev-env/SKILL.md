@@ -1,5 +1,6 @@
 ---
 name: install-anserini-dev-env
+version: v0.1.0
 description: Set up and verify Anserini source-development environments. Use for JDK 21, Maven 3.9+, submodules, Anserini build scripts, smoke tests, and Java/Maven troubleshooting in castorini/anserini.
 ---
 
@@ -83,7 +84,7 @@ git submodule status --recursive
 ls -lh target/*fatjar.jar
 ```
 
-For search, prebuilt-index catalog, topics catalog, or REST server examples after setup, use `$use-anserini-cli`.
+For search, prebuilt-index registry, topics registry, or REST server examples after setup, use `$use-anserini-cli`.
 
 ## Troubleshooting
 

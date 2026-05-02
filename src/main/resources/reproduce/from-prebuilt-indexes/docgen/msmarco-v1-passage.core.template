@@ -1,0 +1,39 @@
+# <img src="../../anserini-logo.png" height="30" /> MS MARCO V1 Passage
+
+**Anserini reproductions from prebuilt indexes for the MS MARCO V1 Passage collection (core)**
+
+**Config**: ${config}
+
+## Summary
+
+The table below summarizes the effectiveness of dev in terms of RR@10; DL19 and DL20 in terms of nDCG@10.
+For more metrics, refer to the config directly.
+
+Key:
+
++ **dev** = msmarco-v1-passage.dev
++ **DL19** = dl19-passage
++ **DL20** = dl19-passage
+
+${summary}
+
+## Commands
+
+In the commands below:
+
++ Set `$fatjar` to the actual Anserini fatjar.
++ Set JVM args to `${jvm_args}`.
+
+Something like:
+
+```bash
+export fatjar=`ls -d {.,target}/anserini-*-fatjar.jar(N)`
+
+# for zsh
+export jvm_args=(${jvm_args})
+
+# for bash
+export jvm_args="${jvm_args}"
+```
+
+${commands}

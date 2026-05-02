@@ -39,7 +39,7 @@ import io.anserini.util.LoggingBootstrap;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public final class PrebuiltIndexCatalog {
+public final class PrebuiltIndexRegistry {
   private static final ObjectMapper JSON_MAPPER = new ObjectMapper();
 
   public static class Args {
@@ -69,17 +69,17 @@ public final class PrebuiltIndexCatalog {
       parser.parseArgument(args);
     } catch (CmdLineException e) {
       System.err.println(String.format("Error: %s", e.getMessage()));
-      CliUtils.printUsage(parser, PrebuiltIndexCatalog.class, argsOrdering);
+      CliUtils.printUsage(parser, PrebuiltIndexRegistry.class, argsOrdering);
       return;
     }
 
     if (parsedArgs.help) {
-      CliUtils.printUsage(parser, PrebuiltIndexCatalog.class, argsOrdering);
+      CliUtils.printUsage(parser, PrebuiltIndexRegistry.class, argsOrdering);
       return;
     }
 
     if (!parsedArgs.list) {
-      CliUtils.printUsage(parser, PrebuiltIndexCatalog.class, argsOrdering);
+      CliUtils.printUsage(parser, PrebuiltIndexRegistry.class, argsOrdering);
       return;
     }
 

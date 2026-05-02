@@ -1,5 +1,6 @@
 ---
 name: install-anserini-fatjar
+version: v0.1.0
 description: Install and verify Anserini quickly by downloading the published fatjar from Maven Central instead of cloning or building the source repository. Use when users want fast setup, smoke tests, or CLI examples from a released Anserini jar.
 ---
 
@@ -7,7 +8,7 @@ description: Install and verify Anserini quickly by downloading the published fa
 
 ## Overview
 
-Use this skill to install and verify Anserini quickly from a published fatjar. Do not clone the repository and do not build from source in this workflow. Fatjar regression workflows are designed to run directly from the Maven Central fatjar, so a source checkout is not required. Download the released `anserini-*-fatjar.jar` from Maven Central, set `ANSERINI_JAR` to the downloaded file, and smoke test it.
+Use this skill to install and verify Anserini quickly from a published fatjar. Do not clone the repository and do not build from source in this workflow. Fatjar reproduction workflows are designed to run directly from the Maven Central fatjar, so a source checkout is not required. Download the released `anserini-*-fatjar.jar` from Maven Central, set `ANSERINI_JAR` to the downloaded file, and smoke test it.
 
 If the user needs source development, local code changes, or a snapshot jar built from the current checkout, use `$install-anserini-dev-env` instead.
 
@@ -16,7 +17,7 @@ If the user needs source development, local code changes, or a snapshot jar buil
 1. Verify runtime tools.
 2. Download the released fatjar from Maven Central.
 3. Run smoke test/help command.
-4. Hand off to `$use-anserini-cli` for search, catalog, topics, or REST commands.
+4. Hand off to `$use-anserini-cli` for search, prebuilt-index registry, topics registry, or REST commands.
 
 ## 1. Verify Runtime Tools
 
@@ -87,7 +88,7 @@ java -cp "$ANSERINI_JAR" <main-class> <args>
 
 Keep all commands pinned to the same jar version unless the user asks to change versions.
 
-For search, prebuilt-index catalog, topics catalog, or REST server examples, use `$use-anserini-cli`.
+For search, prebuilt-index registry, topics registry, or REST server examples, use `$use-anserini-cli`.
 
 ## Troubleshooting
 

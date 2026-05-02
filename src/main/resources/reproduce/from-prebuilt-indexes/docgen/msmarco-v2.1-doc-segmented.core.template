@@ -1,0 +1,40 @@
+# <img src="../../anserini-logo.png" height="30" /> MS MARCO V2.1 Segmented Doc
+
+**Anserini reproductions from prebuilt indexes for the MS MARCO V2.1 Segmented Doc collection (core)**
+
+**Config**: ${config}
+
+## Summary
+
+The table below summarizes the effectiveness of RAG24 Umbrela-all and RAG24 test in terms of nDCG@20, and RAG25 Umbrela2 and RAG25 test in terms of nDCG@30.
+For more metrics, refer to the config directly.
+
+Key:
+
++ **RAG24 ☂️** = rag24.test-umbrela-all
++ **RAG24 NIST** = rag24.test
++ **RAG25 ☂️** = rag25.test-umbrela2
++ **RAG25 NIST** = rag25.test
+
+${summary}
+
+## Commands
+
+In the commands below:
+
++ Set `$fatjar` to the actual Anserini fatjar.
++ Set JVM args to `${jvm_args}`.
+
+Something like:
+
+```bash
+export fatjar=`ls -d {.,target}/anserini-*-fatjar.jar(N)`
+
+# for zsh
+export jvm_args=(${jvm_args})
+
+# for bash
+export jvm_args="${jvm_args}"
+```
+
+${commands}

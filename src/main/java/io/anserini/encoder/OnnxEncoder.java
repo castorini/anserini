@@ -26,6 +26,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
+import io.anserini.util.CacheDirectoryResolver;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -35,8 +37,6 @@ import java.util.List;
 
 public abstract class OnnxEncoder<T> implements AutoCloseable {
   private static final Logger LOG = LogManager.getLogger(OnnxEncoder.class);
-
-  private static final String CACHE_DIR = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "encoders").toString();
 
   private static final String BASE_CONFIG_NAME = "config.json";
 
@@ -80,7 +80,7 @@ public abstract class OnnxEncoder<T> implements AutoCloseable {
   }
 
   public Path getVocabPath() throws URISyntaxException, IOException {
-    File vocabFile = new File(getCacheDir(), vocabName);
+    File vocabFile = CacheDirectoryResolver.getEncodersCachePath().resolve(vocabName).toFile();
     if (!vocabFile.exists()) {
       FileUtils.copyURLToFile(new URI(vocabUrl).toURL(), vocabFile);
     }
@@ -88,22 +88,13 @@ public abstract class OnnxEncoder<T> implements AutoCloseable {
     return vocabFile.toPath();
   }
 
-  @SuppressWarnings("ResultOfMethodCallIgnored")
-  public String getCacheDir() {
-    File cacheDir = new File(CACHE_DIR);
-
-    if (!cacheDir.exists()) {
-      cacheDir.mkdir();
-    }
-    return cacheDir.getPath();
-  }
-
   public Path getModelPath() throws IOException, URISyntaxException {
-    File modelFile = new File(getCacheDir(), modelName);
+    Path cachePath = CacheDirectoryResolver.getEncodersCachePath();
+    File modelFile = cachePath.resolve(modelName).toFile();
     if (!modelFile.exists()) {
       FileUtils.copyURLToFile(new URI(modelUrl).toURL(), modelFile);
       if (configUrl != null) {
-        File configFile = new File(getCacheDir(), this.getClass().getSimpleName() + '-' + BASE_CONFIG_NAME);
+        File configFile = cachePath.resolve(this.getClass().getSimpleName() + '-' + BASE_CONFIG_NAME).toFile();
         FileUtils.copyURLToFile(new URI(configUrl).toURL(), configFile);
       }
     }

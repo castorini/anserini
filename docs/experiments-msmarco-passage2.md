@@ -201,3 +201,4 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@Seun-Ajayi](https://github.com/Seun-Ajayi) on 2026-04-25 (commit [`2896644`](https://github.com/castorini/anserini/commit/28966448532d560267be1f45f9f2d2ec3eb96ef4))
 + Results reproduced by [@TahseenSust](https://github.com/TahseenSust) on 2026-04-28 (commit [`912d7c3`](https://github.com/castorini/anserini/commit/912d7c308559d6a86b9e57a80204a2d4598efc32))
 + Results reproduced by [@blissuche90](https://github.com/blissuche90) on 2026-05-01 (commit [`5d9b7cd`](https://github.com/castorini/anserini/commit/5d9b7cd8304b9aa99abb8c7421e96c35d22899fa))
++ Results reproduced by [@xiandadu](https://github.com/xiandadu) on 2026-05-01 (commit [`67e9fc4`](https://github.com/castorini/anserini/commit/67e9fc4356f84b2852dee2c0170aca194028c806))
