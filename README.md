@@ -68,7 +68,7 @@ Go to [this reference](docs/ref-reproduce-from-prebuilt-indexes.md) for details 
 
 > This section is intended for both users and coding agents.
 
-Go to [this reference](docs/ref-reproduce-from-prebuilt-indexes.md) for details on reproducing experimental results from the raw document collections.
+Go to [this reference](docs/ref-reproduce-from-document-collections.md) for details on reproducing experimental results from the raw document collections.
 
 ## 📃 Additional Documentation (for Users)
 
