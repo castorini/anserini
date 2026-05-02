@@ -24,6 +24,7 @@ import java.nio.file.Paths;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
+import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -33,6 +34,8 @@ import org.junit.Test;
 public class SearchShardedHnswDenseVectorsTest {
   // Note, cannot extend StdOutStdErrRedirectableLuceneTestCase due to concurrency issues.
   // As a result, we cannot just call suppressJvmLogging() - must duplicate code below.
+  private static final String SHARDED_RUN = "target/run-sharded-test";
+  private static final String SHARDED_VECTORS_RUN = "target/run-sharded-vectors-test";
 
   @BeforeClass
   public static void setupClass() {
@@ -48,6 +51,12 @@ public class SearchShardedHnswDenseVectorsTest {
     Configurator.setLevel(HnswDenseSearcher.class.getName(), Level.ERROR);
   }
 
+  @After
+  public void tearDown() {
+    deleteRunFiles(SHARDED_RUN);
+    deleteRunFiles(SHARDED_VECTORS_RUN);
+  }
+
   @Test
   public void testBasicShardedSearch() throws Exception {
     // Verify the paths exist before running test
@@ -61,8 +70,8 @@ public class SearchShardedHnswDenseVectorsTest {
     String topicFile = "src/test/resources/sample_topics/arctic.tsv";
     assertTrue("Topic file doesn't exist: " + topicFile, Files.exists(Paths.get(topicFile)));
 
-    String timestamp = String.valueOf(System.currentTimeMillis());
-    String runfile = "target/run-sharded-" + timestamp;
+    String runfile = SHARDED_RUN;
+    deleteRunFiles(runfile);
 
     // Create parent directory for output if it doesn't exist
     Files.createDirectories(Paths.get(runfile).getParent());
@@ -80,11 +89,9 @@ public class SearchShardedHnswDenseVectorsTest {
 
     SearchShardedHnswDenseVectors.main(searchArgs);
 
-    File f = new File(runfile);
-    assertTrue("Output file doesn't exist: " + runfile, f.exists());
-    assertTrue("Output file is empty: " + runfile, f.length() > 0);
-
-    f.delete();
+    assertRunFileExistsAndNonEmpty(runfile);
+    assertRunFileExistsAndNonEmpty(runfile + ".shard00");
+    assertRunFileExistsAndNonEmpty(runfile + ".shard01");
   }
 
   @Test
@@ -100,8 +107,8 @@ public class SearchShardedHnswDenseVectorsTest {
     String topicFile = "src/test/resources/sample_topics/arctic.jsonl";
     assertTrue("Topic file doesn't exist: " + topicFile, Files.exists(Paths.get(topicFile)));
 
-    String timestamp = String.valueOf(System.currentTimeMillis());
-    String runfile = "target/run-sharded-vectors-" + timestamp;
+    String runfile = SHARDED_VECTORS_RUN;
+    deleteRunFiles(runfile);
 
     // Create parent directory for output if it doesn't exist
     Files.createDirectories(Paths.get(runfile).getParent());
@@ -119,10 +126,20 @@ public class SearchShardedHnswDenseVectorsTest {
 
     SearchShardedHnswDenseVectors.main(searchArgs);
 
+    assertRunFileExistsAndNonEmpty(runfile);
+    assertRunFileExistsAndNonEmpty(runfile + ".shard00");
+    assertRunFileExistsAndNonEmpty(runfile + ".shard01");
+  }
+
+  private static void assertRunFileExistsAndNonEmpty(String runfile) {
     File f = new File(runfile);
     assertTrue("Output file doesn't exist: " + runfile, f.exists());
     assertTrue("Output file is empty: " + runfile, f.length() > 0);
+  }
 
-    f.delete();
+  private static void deleteRunFiles(String runfile) {
+    new File(runfile).delete();
+    new File(runfile + ".shard00").delete();
+    new File(runfile + ".shard01").delete();
   }
 }
