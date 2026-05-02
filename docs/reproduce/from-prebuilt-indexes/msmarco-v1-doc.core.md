@@ -14,7 +14,7 @@ Key:
 
 + **dev** = msmarco-doc.dev
 + **DL19** = dl19-doc
-+ **DL20** = dl19-doc
++ **DL20** = dl20-doc
 
 | # | name | dev | DL19 | DL20 |
 | --- | --- | --- | --- | --- |

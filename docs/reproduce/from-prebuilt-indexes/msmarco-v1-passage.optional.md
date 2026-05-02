@@ -14,7 +14,7 @@ Key:
 
 + **dev** = msmarco-v1-passage.dev
 + **DL19** = dl19-passage
-+ **DL20** = dl19-passage
++ **DL20** = dl20-passage
 
 | # | name | dev | DL19 | DL20 |
 | --- | --- | --- | --- | --- |
