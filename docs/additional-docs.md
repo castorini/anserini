@@ -1,10 +1,9 @@
-# 📃 Additional Documentation
+# Additional Anserini Documentation
+
+## 📃 More Guides
 
 The experiments described below are not associated with rigorous end-to-end reproduction testing and thus provide a lower standard of reproducibility.
 For the most part, manual copying and pasting of commands into a shell is required to reproduce our results.
-
-<details>
-<summary>MS MARCO V1</summary>
 
 ### MS MARCO V1
 
@@ -15,27 +14,15 @@ For the most part, manual copying and pasting of commands into a shell is requir
 + Reproducing [docTTTTTquery results](docs/experiments-docTTTTTquery.md) (MS MARCO Passage and Document Ranking)
 + Notes about reproduction issues with [MS MARCO Document Ranking w/ docTTTTTquery](docs/experiments-msmarco-doc-doc2query-details.md)
 
-</details>
-<details>
-<summary>MS MARCO V2</summary>
-
 ### MS MARCO V2
 
 + Reproducing [BM25 baselines on the MS MARCO V2 Collections](docs/experiments-msmarco-v2.md)
-
-</details>
-<details>
-<summary>TREC-COVID and CORD-19</summary>
 
 ### TREC-COVID and CORD-19
 
 + [Indexing AI2's COVID-19 Open Research Dataset](docs/experiments-cord19.md)
 + [Baselines for the TREC-COVID Challenge](docs/experiments-covid.md)
 + [Baselines for the TREC-COVID Challenge using doc2query](docs/experiments-covid-doc2query.md)
-
-</details>
-<details>
-<summary>Other Experiments and Features</summary>
 
 ### Other Experiments and Features
 
@@ -48,22 +35,6 @@ For the most part, manual copying and pasting of commands into a shell is requir
 + Runbook for [ECIR 2019 paper on axiomatic semantic term matching](docs/runbook-ecir2019-axiomatic.md)
 + Runbook for [ECIR 2019 paper on cross-collection relevance feedback](docs/runbook-ecir2019-ccrf.md)
 + Support for [approximate nearest-neighbor search](docs/approximate-nearestneighbor.md) on dense vectors with inverted indexes
-
-</details>
-
-## 🙋 How Can I Contribute?
-
-If you've found Anserini to be helpful, we have a simple request for you to contribute back.
-In the course of [reproducing](docs/reproducibility.md) baseline results on standard test collections, please let us know if you're successful by sending us a pull request with a simple note, like what appears at the bottom of [the page for Disks 4 &amp; 5](docs/reproduce/from-document-collection/disk45.md).
-Reproducibility is important to us, and we'd like to know about successes as well as failures.
-Since the reproduction documentation is auto-generated, pull requests should be
-sent against the reproduction definitions and doc templates under
-[`src/main/resources/reproduce`](src/main/resources/reproduce).
-Then the reproduction documentation can be generated using the
-[`bin/build.sh`](bin/build.sh) script.
-In turn, you'll be recognized as a [contributor](https://github.com/castorini/anserini/graphs/contributors).
-
-Beyond that, there are always [open issues](https://github.com/castorini/anserini/issues) we would appreciate help on!
 
 ## 📜️ Release History
 
@@ -80,10 +51,6 @@ Beyond that, there are always [open issues](https://github.com/castorini/anserin
 + v1.1.1: July 1, 2025 [[Release Notes](docs/release-notes/release-notes-v1.1.1.md)]
 + v1.1.0: July 1, 2025 [[Release Notes](docs/release-notes/release-notes-v1.1.0.md)] [[Known Issues](docs/known-issues/known-issues-v1.1.0.md)]
 + v1.0.0: April 25, 2025 [[Release Notes](docs/release-notes/release-notes-v1.0.0.md)]
-
-<details>
-<summary>older... (and historic notes)</summary>
-
 + v0.39.0: January 12, 2025 [[Release Notes](docs/release-notes/release-notes-v0.39.0.md)]
 + v0.38.0: September 6, 2024 [[Release Notes](docs/release-notes/release-notes-v0.38.0.md)]
 + v0.37.0: August 22, 2024 [[Release Notes](docs/release-notes/release-notes-v0.37.0.md)]
@@ -152,14 +119,6 @@ Maven 3.3+ is also required.
 Based on [preliminary experiments](docs/lucene7-vs-lucene8.md), query evaluation latency has been much improved in Lucene 8.
 As a result of this upgrade, results of all reproductions have changed slightly.
 To reproducible old results from Lucene 7.6, use [v0.5.1](https://github.com/castorini/anserini/releases).
-
-</details>
-
-## ✨ References
-
-+ Jimmy Lin, Matt Crane, Andrew Trotman, Jamie Callan, Ishan Chattopadhyaya, John Foley, Grant Ingersoll, Craig Macdonald, Sebastiano Vigna. [Toward Reproducible Baselines: The Open-Source IR Reproducibility Challenge.](https://link.springer.com/chapter/10.1007/978-3-319-30671-1_30) _ECIR 2016_.
-+ Peilin Yang, Hui Fang, and Jimmy Lin. [Anserini: Enabling the Use of Lucene for Information Retrieval Research.](https://dl.acm.org/doi/10.1145/3077136.3080721) _SIGIR 2017_.
-+ Peilin Yang, Hui Fang, and Jimmy Lin. [Anserini: Reproducible Ranking Baselines Using Lucene.](https://dl.acm.org/doi/10.1145/3239571) _Journal of Data and Information Quality_, 10(4), Article 16, 2018.
 
 ## 🙏 Acknowledgments
 

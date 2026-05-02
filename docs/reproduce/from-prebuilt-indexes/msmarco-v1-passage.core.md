@@ -20,9 +20,9 @@ Key:
 | --- | --- | --- | --- | --- |
 | [1](#condition-1) | BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.1840 | 0.5058 | 0.4796 |
 | [2](#condition-2) | BM25 with doc2query-T5  (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.2723 | 0.6417 | 0.6187 |
-| [3](#condition-3) | SPLADE-v3: ONNX | 0.4000 | 0.7264 | 0.7522 |
-| [4](#condition-4) | bge-base-en-v1.5: HNSW, ONNX | 0.3575 | 0.7016 | 0.6768 |
-| [5](#condition-5) | bge-base-en-v1.5: quantized (int8) HNSW, ONNX | 0.3575 | 0.7017 | 0.6767 |
+| [3](#condition-3) | SPLADE-v3 (ONNX) | 0.4000 | 0.7264 | 0.7522 |
+| [4](#condition-4) | bge-base-en-v1.5 with HNSW (ONNX) | 0.3575 | 0.7016 | 0.6768 |
+| [5](#condition-5) | bge-base-en-v1.5 with quantized HNSW (ONNX) | 0.3575 | 0.7017 | 0.6767 |
 
 
 
@@ -189,7 +189,7 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl20-passage runs/run.msmarco-
 
 <a id="condition-3"></a>
 
-### 3. SPLADE-v3: ONNX
+### 3. SPLADE-v3 (ONNX)
 
 **Config**: [msmarco-v1-passage.core.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.core.yaml)
 
@@ -266,7 +266,7 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl20-passage runs/run.msmarco-
 
 <a id="condition-4"></a>
 
-### 4. bge-base-en-v1.5: HNSW, ONNX
+### 4. bge-base-en-v1.5 with HNSW (ONNX)
 
 **Config**: [msmarco-v1-passage.core.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.core.yaml)
 
@@ -340,7 +340,7 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl20-passage runs/run.msmarco-
 
 <a id="condition-5"></a>
 
-### 5. bge-base-en-v1.5: quantized (int8) HNSW, ONNX
+### 5. bge-base-en-v1.5 with quantized HNSW (ONNX)
 
 **Config**: [msmarco-v1-passage.core.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.core.yaml)
 

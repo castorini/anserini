@@ -328,10 +328,10 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
 
   private static void generateMsMarcoV21SegmentedDocReport(String yamlConfig) throws Exception {
     generateReport(yamlConfig, List.of(
-        new SummaryColumn("RAG24 ☂️", topic -> score(topic, "rag24.test-umbrela-all".equals(topic.eval_key), "nDCG@20")),
-        new SummaryColumn("RAG24 NIST", topic -> score(topic, "rag24.test".equals(topic.eval_key), "nDCG@20")),
-        new SummaryColumn("RAG25 ☂️", topic -> score(topic, "rag25.test-umbrela2".equals(topic.eval_key), "nDCG@30")),
-        new SummaryColumn("RAG25 NIST", topic -> score(topic, "rag25.test".equals(topic.eval_key), "nDCG@30"))),
+        new SummaryColumn("RAG24 ☂️", topic -> score(topic, topic.eval_key.equals("rag24.test-umbrela-all"), "nDCG@20")),
+        new SummaryColumn("RAG24 NIST", topic -> score(topic, topic.eval_key.equals("rag24.test"), "nDCG@20")),
+        new SummaryColumn("RAG25 ☂️", topic -> score(topic, topic.eval_key.equals("rag25.test-umbrela2"), "nDCG@30")),
+        new SummaryColumn("RAG25 NIST", topic -> score(topic, topic.eval_key.equals("rag25.test"), "nDCG@30"))),
         true, (topic, condition) -> String.format("%s / %s", topic.topic_key, topic.eval_key));
   }
 

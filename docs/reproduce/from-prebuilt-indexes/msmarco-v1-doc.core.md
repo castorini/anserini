@@ -22,7 +22,7 @@ Key:
 | [2](#condition-2) | BM25 complete doc with doc2query-T5 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.2880 | 0.5968 | 0.5885 |
 | [3](#condition-3) | BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.2684 | 0.5302 | 0.5281 |
 | [4](#condition-4) | BM25 segmented doc with doc2query-T5 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.3179 | 0.6119 | 0.5957 |
-| [5](#condition-5) | uniCOIL (with doc2query-T5): ONNX | 0.3531 | 0.6396 | 0.6033 |
+| [5](#condition-5) | uniCOIL with doc2query-T5 (ONNX) | 0.3531 | 0.6396 | 0.6033 |
 
 
 
@@ -337,7 +337,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.co
 
 <a id="condition-5"></a>
 
-### 5. uniCOIL (with doc2query-T5): ONNX
+### 5. uniCOIL with doc2query-T5 (ONNX)
 
 #### msmarco-doc.dev
 

@@ -21,8 +21,8 @@ Key:
 
 | # | name | dev | dev2 | DL21 | DL22 | DL23 | RAG24 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| [1](#condition-1) | BM25 doc (k1=0.9, b=0.4) | 0.1654 | 0.1732 | 0.5183 | 0.2991 | 0.2914 | 0.3631 |
-| [2](#condition-2) | BM25 segmented doc (k1=0.9, b=0.4) | 0.1973 | 0.2000 | 0.5778 | 0.3576 | 0.3356 | 0.4227 |
+| [1](#condition-1) | BM25 doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.1654 | 0.1732 | 0.5183 | 0.2991 | 0.2914 | 0.3631 |
+| [2](#condition-2) | BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.1973 | 0.2000 | 0.5778 | 0.3576 | 0.3356 | 0.4227 |
 
 
 
@@ -47,7 +47,7 @@ export jvm_args="-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules
 
 <a id="condition-1"></a>
 
-### 1. BM25 doc (k1=0.9, b=0.4)
+### 1. BM25 doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)
 
 **Config**: [msmarco-v2.1-doc.core.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc.core.yaml)
 
@@ -189,7 +189,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 rag24.raggy-dev runs/run.msmarco-v2
 
 <a id="condition-2"></a>
 
-### 2. BM25 segmented doc (k1=0.9, b=0.4)
+### 2. BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)
 
 **Config**: [msmarco-v2.1-doc.core.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc.core.yaml)
 

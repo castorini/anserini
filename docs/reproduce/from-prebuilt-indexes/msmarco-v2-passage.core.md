@@ -20,9 +20,9 @@ Key:
 
 | # | name | dev | dev2 | DL21 | DL22 | DL23 |
 | --- | --- | --- | --- | --- | --- | --- |
-| [1](#condition-1) | BM25 (k1=0.9, b=0.4) | 0.0719 | 0.0802 | 0.4458 | 0.2692 | 0.2627 |
-| [2](#condition-2) | BM25 with doc2query-T5 (k1=0.9, b=0.4) | 0.1072 | 0.1123 | 0.4816 | 0.3599 | 0.3156 |
-| [3](#condition-3) | uniCOIL (with doc2query-T5): ONNX | 0.1499 | 0.1577 | 0.6159 | 0.4614 | 0.3855 |
+| [1](#condition-1) | BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.0719 | 0.0802 | 0.4458 | 0.2692 | 0.2627 |
+| [2](#condition-2) | BM25 with doc2query-T5 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.1072 | 0.1123 | 0.4816 | 0.3599 | 0.3156 |
+| [3](#condition-3) | uniCOIL with doc2query-T5 (ONNX) | 0.1499 | 0.1577 | 0.6159 | 0.4614 | 0.3855 |
 
 
 
@@ -47,7 +47,7 @@ export jvm_args="-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules
 
 <a id="condition-1"></a>
 
-### 1. BM25 (k1=0.9, b=0.4)
+### 1. BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)
 
 **Config**: [msmarco-v2-passage.core.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-passage.core.yaml)
 
@@ -165,7 +165,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 -l 2 dl23-passage runs/run.msmarco-
 
 <a id="condition-2"></a>
 
-### 2. BM25 with doc2query-T5 (k1=0.9, b=0.4)
+### 2. BM25 with doc2query-T5 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)
 
 **Config**: [msmarco-v2-passage.core.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-passage.core.yaml)
 
@@ -283,7 +283,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 -l 2 dl23-passage runs/run.msmarco-
 
 <a id="condition-3"></a>
 
-### 3. uniCOIL (with doc2query-T5): ONNX
+### 3. uniCOIL with doc2query-T5 (ONNX)
 
 **Config**: [msmarco-v2-passage.core.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-passage.core.yaml)
 

@@ -18,19 +18,19 @@ Key:
 
 | # | name | dev | DL19 | DL20 |
 | --- | --- | --- | --- | --- |
-| [1](#condition-1) | BM25 (k1=0.9, b=0.4) | 0.1840 | 0.5058 | 0.4796 |
-| [2](#condition-2) | BM25 (k1=0.9, b=0.4) | 0.1840 | 0.5058 | 0.4796 |
-| [3](#condition-3) | SPLADE++ EnsembleDistil: cached queries | 0.3830 | 0.7317 | 0.7198 |
-| [4](#condition-4) | SPLADE++ EnsembleDistil: ONNX | 0.3828 | 0.7308 | 0.7197 |
-| [5](#condition-5) | SPLADE-v3: cached queries | 0.3999 | 0.7264 | 0.7522 |
-| [6](#condition-6) | cosDPR-distil: HNSW, cached queries | 0.3887 | 0.7250 | 0.7025 |
-| [7](#condition-7) | cosDPR-distil: HNSW, ONNX | 0.3887 | 0.7250 | 0.7025 |
-| [8](#condition-8) | cosDPR-distil: quantized (int8) HNSW, cached queries | 0.3897 | 0.7240 | 0.7004 |
-| [9](#condition-9) | cosDPR-distil: quantized (int8) HNSW, ONNX | 0.3899 | 0.7247 | 0.6996 |
-| [10](#condition-10) | bge-base-en-v1.5: HNSW, cached queries | 0.3574 | 0.7065 | 0.6780 |
-| [11](#condition-11) | bge-base-en-v1.5: quantized (int8) HNSW, cached queries | 0.3572 | 0.7016 | 0.6738 |
-| [12](#condition-12) | cohere-embed-english-v3.0: HNSW, cached queries | 0.3647 | 0.6956 | 0.7245 |
-| [13](#condition-13) | cohere-embed-english-v3.0: quantized (int8) HNSW, cached queries | 0.3656 | 0.6955 | 0.7262 |
+| [1](#condition-1) | BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index | 0.1840 | 0.5058 | 0.4796 |
+| [2](#condition-2) | BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), full index | 0.1840 | 0.5058 | 0.4796 |
+| [3](#condition-3) | SPLADE++ EnsembleDistil (cached queries) | 0.3830 | 0.7317 | 0.7198 |
+| [4](#condition-4) | SPLADE++ EnsembleDistil (ONNX) | 0.3828 | 0.7308 | 0.7197 |
+| [5](#condition-5) | SPLADE-v3 (cached queries) | 0.3999 | 0.7264 | 0.7522 |
+| [6](#condition-6) | cosDPR-distil with HNSW (cached queries) | 0.3887 | 0.7250 | 0.7025 |
+| [7](#condition-7) | cosDPR-distil with HNSW (ONNX) | 0.3887 | 0.7250 | 0.7025 |
+| [8](#condition-8) | cosDPR-distil with quantized HNSW (cached queries) | 0.3897 | 0.7240 | 0.7004 |
+| [9](#condition-9) | cosDPR-distil with quantized HNSW (ONNX) | 0.3899 | 0.7247 | 0.6996 |
+| [10](#condition-10) | bge-base-en-v1.5 with HNSW (cached queries) | 0.3574 | 0.7065 | 0.6780 |
+| [11](#condition-11) | bge-base-en-v1.5 with quantized HNSW (cached queries) | 0.3572 | 0.7016 | 0.6738 |
+| [12](#condition-12) | cohere-embed-english-v3.0 with HNSW (cached queries) | 0.3647 | 0.6956 | 0.7245 |
+| [13](#condition-13) | cohere-embed-english-v3.0 with quantized HNSW (cached queries) | 0.3656 | 0.6955 | 0.7262 |
 
 
 
@@ -55,7 +55,7 @@ export jvm_args="-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules
 
 <a id="condition-1"></a>
 
-### 1. BM25 (k1=0.9, b=0.4)
+### 1. BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index
 
 **Config**: [msmarco-v1-passage.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.optional.yaml)
 
@@ -126,7 +126,7 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl20-passage runs/run.msmarco-
 
 <a id="condition-2"></a>
 
-### 2. BM25 (k1=0.9, b=0.4)
+### 2. BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), full index
 
 **Config**: [msmarco-v1-passage.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.optional.yaml)
 
@@ -197,7 +197,7 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl20-passage runs/run.msmarco-
 
 <a id="condition-3"></a>
 
-### 3. SPLADE++ EnsembleDistil: cached queries
+### 3. SPLADE++ EnsembleDistil (cached queries)
 
 **Config**: [msmarco-v1-passage.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.optional.yaml)
 
@@ -271,7 +271,7 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl20-passage runs/run.msmarco-
 
 <a id="condition-4"></a>
 
-### 4. SPLADE++ EnsembleDistil: ONNX
+### 4. SPLADE++ EnsembleDistil (ONNX)
 
 **Config**: [msmarco-v1-passage.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.optional.yaml)
 
@@ -348,7 +348,7 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl20-passage runs/run.msmarco-
 
 <a id="condition-5"></a>
 
-### 5. SPLADE-v3: cached queries
+### 5. SPLADE-v3 (cached queries)
 
 **Config**: [msmarco-v1-passage.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.optional.yaml)
 
@@ -422,7 +422,7 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl20-passage runs/run.msmarco-
 
 <a id="condition-6"></a>
 
-### 6. cosDPR-distil: HNSW, cached queries
+### 6. cosDPR-distil with HNSW (cached queries)
 
 **Config**: [msmarco-v1-passage.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.optional.yaml)
 
@@ -493,7 +493,7 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl20-passage runs/run.msmarco-
 
 <a id="condition-7"></a>
 
-### 7. cosDPR-distil: HNSW, ONNX
+### 7. cosDPR-distil with HNSW (ONNX)
 
 **Config**: [msmarco-v1-passage.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.optional.yaml)
 
@@ -567,7 +567,7 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl20-passage runs/run.msmarco-
 
 <a id="condition-8"></a>
 
-### 8. cosDPR-distil: quantized (int8) HNSW, cached queries
+### 8. cosDPR-distil with quantized HNSW (cached queries)
 
 **Config**: [msmarco-v1-passage.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.optional.yaml)
 
@@ -638,7 +638,7 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl20-passage runs/run.msmarco-
 
 <a id="condition-9"></a>
 
-### 9. cosDPR-distil: quantized (int8) HNSW, ONNX
+### 9. cosDPR-distil with quantized HNSW (ONNX)
 
 **Config**: [msmarco-v1-passage.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.optional.yaml)
 
@@ -712,7 +712,7 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl20-passage runs/run.msmarco-
 
 <a id="condition-10"></a>
 
-### 10. bge-base-en-v1.5: HNSW, cached queries
+### 10. bge-base-en-v1.5 with HNSW (cached queries)
 
 **Config**: [msmarco-v1-passage.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.optional.yaml)
 
@@ -783,7 +783,7 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl20-passage runs/run.msmarco-
 
 <a id="condition-11"></a>
 
-### 11. bge-base-en-v1.5: quantized (int8) HNSW, cached queries
+### 11. bge-base-en-v1.5 with quantized HNSW (cached queries)
 
 **Config**: [msmarco-v1-passage.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.optional.yaml)
 
@@ -854,7 +854,7 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl20-passage runs/run.msmarco-
 
 <a id="condition-12"></a>
 
-### 12. cohere-embed-english-v3.0: HNSW, cached queries
+### 12. cohere-embed-english-v3.0 with HNSW (cached queries)
 
 **Config**: [msmarco-v1-passage.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.optional.yaml)
 
@@ -925,7 +925,7 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl20-passage runs/run.msmarco-
 
 <a id="condition-13"></a>
 
-### 13. cohere-embed-english-v3.0: quantized (int8) HNSW, cached queries
+### 13. cohere-embed-english-v3.0 with quantized HNSW (cached queries)
 
 **Config**: [msmarco-v1-passage.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.optional.yaml)
 
