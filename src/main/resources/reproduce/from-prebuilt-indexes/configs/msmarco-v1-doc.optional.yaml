@@ -149,7 +149,7 @@ conditions:
           AP@100: "-c -M 100 -m map"
           nDCG@10: "-c -m ndcg_cut.10"
           R@1K: "-c -m recall.1000"
-      - topic_key: dl20.unicoil-noexp.0shot
+      - topic_key: dl20-doc.unicoil-noexp.0shot
         eval_key: dl20-doc
         expected_scores:
           AP@100: 0.3698
@@ -181,7 +181,7 @@ conditions:
           AP@100: "-c -M 100 -m map"
           nDCG@10: "-c -m ndcg_cut.10"
           R@1K: "-c -m recall.1000"
-      - topic_key: dl20.unicoil.0shot
+      - topic_key: dl20-doc.unicoil.0shot
         eval_key: dl20-doc
         expected_scores:
           AP@100: 0.3882

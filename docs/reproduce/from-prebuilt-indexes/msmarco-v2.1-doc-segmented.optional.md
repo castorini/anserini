@@ -1,8 +1,9 @@
 # <img src="../../anserini-logo.png" height="30" /> MS MARCO V2.1 Segmented Doc
 
-**Anserini reproductions from prebuilt indexes for the MS MARCO V2.1 Segmented Doc collection (optional)**
+**Anserini reproductions from prebuilt indexes**
 
-**Config**: [msmarco-v2.1-doc-segmented.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc-segmented.optional.yaml)
++ **Corpus**: MS MARCO V2.1 Segmented Doc
++ **Config**: [msmarco-v2.1-doc-segmented.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc-segmented.optional.yaml)
 
 ## Summary
 

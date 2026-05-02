@@ -1,8 +1,9 @@
 # <img src="../../anserini-logo.png" height="30" /> MS MARCO V1 Passage
 
-**Anserini reproductions from prebuilt indexes for the MS MARCO V1 Passage collection (optional)**
+**Anserini reproductions from prebuilt indexes**
 
-**Config**: [msmarco-v1-passage.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.optional.yaml)
++ **Corpus**: MS MARCO V1 Passage
++ **Config**: [msmarco-v1-passage.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.optional.yaml)
 
 ## Summary
 

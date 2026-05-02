@@ -1,8 +1,9 @@
 # <img src="../../anserini-logo.png" height="30" /> MS MARCO V1 Doc
 
-**Anserini reproductions from prebuilt indexes for the MS MARCO V1 Doc collection (optional)**
+**Anserini reproductions from prebuilt indexes**
 
-**Config**: [msmarco-v1-doc.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.optional.yaml)
++ **Corpus**: MS MARCO V1 Doc
++ **Config**: [msmarco-v1-doc.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.optional.yaml)
 
 ## Summary
 
@@ -389,7 +390,7 @@ java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl19-doc runs/run.msmarco-v1-doc.op
 java -cp $fatjar trec_eval -c -m recall.1000 dl19-doc runs/run.msmarco-v1-doc.optional.unicoil-noexp.cached.dl19-doc.unicoil-noexp.0shot.txt
 ```
 
-#### dl20.unicoil-noexp.0shot
+#### dl20-doc.unicoil-noexp.0shot
 
 Retrieval command:
 
@@ -397,8 +398,8 @@ Retrieval command:
 java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
     -index msmarco-v1-doc-segmented.unicoil-noexp \
-    -topics dl20.unicoil-noexp.0shot \
-    -output runs/run.msmarco-v1-doc.optional.unicoil-noexp.cached.dl20.unicoil-noexp.0shot.txt \
+    -topics dl20-doc.unicoil-noexp.0shot \
+    -output runs/run.msmarco-v1-doc.optional.unicoil-noexp.cached.dl20-doc.unicoil-noexp.0shot.txt \
     -impact \
     -pretokenized \
     -hits 10000 \
@@ -410,9 +411,9 @@ java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
 Evaluation commands:
 
 ```bash
-java -cp $fatjar trec_eval -c -M 100 -m map dl20-doc runs/run.msmarco-v1-doc.optional.unicoil-noexp.cached.dl20.unicoil-noexp.0shot.txt
-java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl20-doc runs/run.msmarco-v1-doc.optional.unicoil-noexp.cached.dl20.unicoil-noexp.0shot.txt
-java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.optional.unicoil-noexp.cached.dl20.unicoil-noexp.0shot.txt
+java -cp $fatjar trec_eval -c -M 100 -m map dl20-doc runs/run.msmarco-v1-doc.optional.unicoil-noexp.cached.dl20-doc.unicoil-noexp.0shot.txt
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl20-doc runs/run.msmarco-v1-doc.optional.unicoil-noexp.cached.dl20-doc.unicoil-noexp.0shot.txt
+java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.optional.unicoil-noexp.cached.dl20-doc.unicoil-noexp.0shot.txt
 ```
 
 <a id="condition-6"></a>
@@ -469,7 +470,7 @@ java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl19-doc runs/run.msmarco-v1-doc.op
 java -cp $fatjar trec_eval -c -m recall.1000 dl19-doc runs/run.msmarco-v1-doc.optional.unicoil.cached.dl19-doc.unicoil.0shot.txt
 ```
 
-#### dl20.unicoil.0shot
+#### dl20-doc.unicoil.0shot
 
 Retrieval command:
 
@@ -477,8 +478,8 @@ Retrieval command:
 java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
     -index msmarco-v1-doc-segmented.unicoil \
-    -topics dl20.unicoil.0shot \
-    -output runs/run.msmarco-v1-doc.optional.unicoil.cached.dl20.unicoil.0shot.txt \
+    -topics dl20-doc.unicoil.0shot \
+    -output runs/run.msmarco-v1-doc.optional.unicoil.cached.dl20-doc.unicoil.0shot.txt \
     -impact \
     -pretokenized \
     -hits 10000 \
@@ -490,9 +491,9 @@ java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
 Evaluation commands:
 
 ```bash
-java -cp $fatjar trec_eval -c -M 100 -m map dl20-doc runs/run.msmarco-v1-doc.optional.unicoil.cached.dl20.unicoil.0shot.txt
-java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl20-doc runs/run.msmarco-v1-doc.optional.unicoil.cached.dl20.unicoil.0shot.txt
-java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.optional.unicoil.cached.dl20.unicoil.0shot.txt
+java -cp $fatjar trec_eval -c -M 100 -m map dl20-doc runs/run.msmarco-v1-doc.optional.unicoil.cached.dl20-doc.unicoil.0shot.txt
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl20-doc runs/run.msmarco-v1-doc.optional.unicoil.cached.dl20-doc.unicoil.0shot.txt
+java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.optional.unicoil.cached.dl20-doc.unicoil.0shot.txt
 ```
 
 

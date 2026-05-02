@@ -149,7 +149,7 @@ conditions:
           AP@100: "-c -M 100 -m map"
           nDCG@10: "-c -m ndcg_cut.10"
           R@1K: "-c -m recall.1000"
-      - topic_key: dl20
+      - topic_key: dl20-doc
         eval_key: dl20-doc
         expected_scores:
           AP@100: 0.3882
