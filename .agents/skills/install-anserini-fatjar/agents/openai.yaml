@@ -3,4 +3,4 @@ interface:
   short_description: "Install and verify Anserini from a Maven Central fatjar"
   default_prompt: "Use $install-anserini-fatjar to download and verify a released Anserini fatjar from Maven Central."
 policy:
-  allow_implicit_invocation: true
+  allow_implicit_invocation: false

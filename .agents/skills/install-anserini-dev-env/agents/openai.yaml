@@ -3,4 +3,4 @@ interface:
   short_description: "Set up and verify Anserini dev environments"
   default_prompt: "Use $install-anserini-dev-env to set up and verify an Anserini source-development environment."
 policy:
-  allow_implicit_invocation: true
+  allow_implicit_invocation: false

@@ -19,11 +19,18 @@ use the checkout when local code, tests, or snapshots matter.
 ## Workflow
 
 1. Verify requirements first:
-   - Run this skill's `scripts/check_anserini_dev_env.sh` when checking an
-     existing machine.
    - Require `java` to report major version `21`.
    - Require `mvn` to report version `3.9` or newer.
    - Check for `git` and `make`; `make` is needed for bundled evaluation tools.
+
+```bash
+java -version
+mvn -v
+git --version
+make --version
+git submodule status --recursive
+test -d tools/eval
+```
 2. If Java is missing or not exactly 21, select or install JDK 21 with the
    user's existing version manager when possible:
    - Prefer `mise`, `sdkman`, `asdf`, or `jenv` if already present.
@@ -95,11 +102,11 @@ visible at the exact step.
 
 ## Verification
 
-After setup, run the check script again. Then run the lightest verification that
-matches the user's goal: `bin/qbuild.sh` for a build-ready checkout,
-`bin/build.sh` for full validation, or targeted Maven tests for a code change.
-If dependency downloads fail because network access is sandboxed, rerun the
-build command with escalation instead of changing project files.
+After setup, re-run the explicit requirement checks. Then run the lightest
+verification that matches the user's goal: `bin/qbuild.sh` for a build-ready
+checkout, `bin/build.sh` for full validation, or targeted Maven tests for a code
+change. If dependency downloads fail because network access is sandboxed, rerun
+the build command with escalation instead of changing project files.
 
 If a build was run, a concise final sanity check is:
 
