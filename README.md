@@ -49,7 +49,7 @@ Alternatively, if you want a quick fatjar-based setup, give your agent the follo
 Anserini is packaged in a self-contained fatjar, which provides the simplest way to get started: just `curl` the fatjar and you're good to go!
 See [this page](docs/installation-fatjar.md) for detailed instructions.
 
-Alternatively, if you want to clone this repo and set up a full dev environment for Anserini, see [this page](docs/installation-dev.md).
+Alternatively, if you want to clone this repo and set up a full dev environment for Anserini, see [this page](docs/installation-dev.md) for instructions.
 Most Anserini features are exposed in the [Pyserini](http://pyserini.io/) Python interface, so if you're more comfortable with Python, start there.
 
 The onboarding path for Anserini starts [here](docs/start-here.md)!
