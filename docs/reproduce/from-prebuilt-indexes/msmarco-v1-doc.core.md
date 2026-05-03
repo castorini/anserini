@@ -1,8 +1,9 @@
 # <img src="../../anserini-logo.png" height="30" /> MS MARCO V1 Doc
 
-**Anserini reproductions from prebuilt indexes for the MS MARCO V1 Doc collection (core)**
+**Anserini reproductions from prebuilt indexes**
 
-**Config**: [msmarco-v1-doc.core.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.core.yaml)
++ **Corpus**: MS MARCO V1 Doc
++ **Config**: [msmarco-v1-doc.core.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.core.yaml)
 
 ## Summary
 
@@ -13,7 +14,7 @@ Key:
 
 + **dev** = msmarco-doc.dev
 + **DL19** = dl19-doc
-+ **DL20** = dl19-doc
++ **DL20** = dl20-doc
 
 | # | name | dev | DL19 | DL20 |
 | --- | --- | --- | --- | --- |
@@ -21,7 +22,7 @@ Key:
 | [2](#condition-2) | BM25 complete doc with doc2query-T5 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.2880 | 0.5968 | 0.5885 |
 | [3](#condition-3) | BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.2684 | 0.5302 | 0.5281 |
 | [4](#condition-4) | BM25 segmented doc with doc2query-T5 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.3179 | 0.6119 | 0.5957 |
-| [5](#condition-5) | uniCOIL (with doc2query-T5): ONNX | 0.3531 | 0.6396 | 0.6033 |
+| [5](#condition-5) | uniCOIL with doc2query-T5 (ONNX) | 0.3531 | 0.6396 | 0.6033 |
 
 
 
@@ -336,7 +337,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.co
 
 <a id="condition-5"></a>
 
-### 5. uniCOIL (with doc2query-T5): ONNX
+### 5. uniCOIL with doc2query-T5 (ONNX)
 
 #### msmarco-doc.dev
 
@@ -390,7 +391,7 @@ java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl19-doc runs/run.msmarco-v1-doc.co
 java -cp $fatjar trec_eval -c -m recall.1000 dl19-doc runs/run.msmarco-v1-doc.core.unicoil.onnx.dl19-doc.txt
 ```
 
-#### dl20
+#### dl20-doc
 
 Retrieval command:
 
@@ -398,8 +399,8 @@ Retrieval command:
 java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
     -index msmarco-v1-doc-segmented.unicoil \
-    -topics dl20 \
-    -output runs/run.msmarco-v1-doc.core.unicoil.onnx.dl20.txt \
+    -topics dl20-doc \
+    -output runs/run.msmarco-v1-doc.core.unicoil.onnx.dl20-doc.txt \
     -impact \
     -pretokenized \
     -hits 10000 \
@@ -412,9 +413,9 @@ java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
 Evaluation commands:
 
 ```bash
-java -cp $fatjar trec_eval -c -M 100 -m map dl20-doc runs/run.msmarco-v1-doc.core.unicoil.onnx.dl20.txt
-java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl20-doc runs/run.msmarco-v1-doc.core.unicoil.onnx.dl20.txt
-java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.core.unicoil.onnx.dl20.txt
+java -cp $fatjar trec_eval -c -M 100 -m map dl20-doc runs/run.msmarco-v1-doc.core.unicoil.onnx.dl20-doc.txt
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl20-doc runs/run.msmarco-v1-doc.core.unicoil.onnx.dl20-doc.txt
+java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.core.unicoil.onnx.dl20-doc.txt
 ```
 
 

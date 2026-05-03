@@ -32,7 +32,7 @@ bin/run.sh io.anserini.index.IndexCollection \
 The directory `/path/to/msmarco-passage/` should be a directory containing `jsonl` files converted from the official passage collection, which is in `tsv` format.
 [This page](../../../docs/experiments-msmarco-passage.md) explains how to perform this conversion.
 
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 

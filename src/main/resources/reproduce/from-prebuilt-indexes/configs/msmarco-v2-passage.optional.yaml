@@ -1,8 +1,6 @@
 conditions:
   - name: bm25-slim
-    display: "BM25 (k1=0.9, b=0.4)"
-    display_html: "BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
-    display_row: ""
+    display: "BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index"
     command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v2-passage-slim -topics $topics -output $output -hits 1000 -bm25
     topics:
       - topic_key: msmarco-v2-passage.dev
@@ -60,9 +58,7 @@ conditions:
           R@100: "-c -m recall.100 -l 2"
           R@1K: "-c -m recall.1000 -l 2"
   - name: bm25-full
-    display: "BM25 (k1=0.9, b=0.4)"
-    display_html: "BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
-    display_row: ""
+    display: "BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), full index"
     command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v2-passage-full -topics $topics -output $output -hits 1000 -bm25
     topics:
       - topic_key: msmarco-v2-passage.dev
@@ -120,9 +116,7 @@ conditions:
           R@100: "-c -m recall.100 -l 2"
           R@1K: "-c -m recall.1000 -l 2"
   - name: unicoil-noexp.cached
-    display: "uniCOIL (no expansion): cached queries"
-    display_html: "uniCOIL (no expansion): cached queries"
-    display_row: ""
+    display: "uniCOIL noexp (cached queries)"
     command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v2-passage.unicoil-noexp-0shot -topics $topics -output $output -hits 1000 -impact -pretokenized
     topics:
       - topic_key: msmarco-v2-passage.dev.unicoil-noexp.0shot
@@ -180,9 +174,7 @@ conditions:
           R@100: "-c -m recall.100 -l 2"
           R@1K: "-c -m recall.1000 -l 2"
   - name: unicoil.cached
-    display: "uniCOIL (with doc2query-T5): cached queries"
-    display_html: "uniCOIL (with doc2query-T5): cached queries"
-    display_row: ""
+    display: "uniCOIL with doc2query-T5 (cached queries)"
     command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v2-passage.unicoil-0shot -topics $topics -output $output -hits 1000 -impact -pretokenized
     topics:
       - topic_key: msmarco-v2-passage.dev.unicoil.0shot

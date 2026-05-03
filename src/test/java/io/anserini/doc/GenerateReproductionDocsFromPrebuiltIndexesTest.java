@@ -19,155 +19,329 @@ package io.anserini.doc;
 import io.anserini.reproduce.ReproduceFromPrebuiltIndexes.Condition;
 import io.anserini.reproduce.ReproduceFromPrebuiltIndexes.Config;
 import io.anserini.reproduce.ReproduceFromPrebuiltIndexes.Topic;
+import io.anserini.reproduce.ReproductionUtils;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.text.StringSubstitutor;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Scanner;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 public class GenerateReproductionDocsFromPrebuiltIndexesTest {
-  public final static String YAML_PATH = "src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.core.yaml";
-  public final static String HTML_TEMPLATE_PATH = "src/main/resources/reproduce/from-prebuilt-indexes/docgen/msmarco_html_v1_passage.template";
-  public final static String ROW_TEMPLATE_PATH = "src/main/resources/reproduce/from-prebuilt-indexes/docgen/msmarco_html_row_v1.template";
-  public final static String[] MODELS = {
-      "bm25",
-      "splade-v3.onnx",
-      "bge-base-en-v1.5.hnsw.onnx",
-      "bge-base-en-v1.5.hnsw-int8.onnx",
-  };
+  private static final String COMMAND_INDENT = "    ";
+  private static final String CONFIG_DIRECTORY = "src/main/resources/reproduce/from-prebuilt-indexes/configs/";
+  private static final String DOCGEN_TEMPLATE_DIRECTORY = "src/main/resources/reproduce/from-prebuilt-indexes/docgen/";
+  private static final String REPRODUCE_OUTPUT_DIRECTORY = "docs/reproduce/from-prebuilt-indexes/";
+  private static final ObjectMapper YAML_MAPPER = new ObjectMapper(new YAMLFactory());
 
-  public static String findMsMarcoTableTopicSetKeyV1(String topicKey) {
-    String key = "";
-    if (topicKey.startsWith("dl19")) {
-      key = "dl19";
-    } else if (topicKey.startsWith("dl20")) {
-      key = "dl20";
-    } else if (topicKey.contains("dev")) {
-      key = "dev";
+  private record ReportContext(String yamlPath, String runTag, Config config, String template, File output, String configLink) {}
+
+  private record SummaryColumn(String label, Function<Topic, Double> scoreExtractor) {}
+
+  private static String formatCommand(String fatjarPlaceholder, String jvmArgs, String commandTemplate) {
+    List<String> lines = new ArrayList<>();
+
+    String[] tokens = commandTemplate.split("\\s+");
+    if (tokens.length > 0) {
+      lines.add(ReproductionUtils.Constants.JAVA_PREFIX + " " + fatjarPlaceholder + " " + jvmArgs + " " + tokens[0]);
+    } else {
+      lines.add(ReproductionUtils.Constants.JAVA_PREFIX + " " + fatjarPlaceholder + " " + jvmArgs);
     }
-    return key;
+
+    for (int i = 1; i < tokens.length; i++) {
+      String token = tokens[i];
+      if (token.startsWith("-")) {
+        if (i + 1 < tokens.length && !tokens[i + 1].startsWith("-")) {
+          lines.add(COMMAND_INDENT + token + " " + tokens[++i]);
+        } else {
+          lines.add(COMMAND_INDENT + token);
+        }
+      } else {
+        lines.add(COMMAND_INDENT + token);
+      }
+    }
+
+    return String.join(" \\\n", lines);
   }
 
-  public static String formatCommand(String command) {
-    return command.replace("-topics", "\\\n  -topics")
-        .replace("-threads", "\\\n  -threads")
-        .replace("-index", "\\\n  -index")
-        .replace("-output ", "\\\n  -output ")
-        .replace("-encoder", "\\\n  -encoder")
-        .replace(".txt ", ".txt \\\n  ");
+  private static String buildCommand(String runTag, String conditionName, String commandTemplate, String topicKey) {
+    String command = formatCommand("$fatjar", "$jvm_args", commandTemplate)
+        .replace("$threads", "16")
+        .replace("$topics", topicKey)
+        .replace("$output", runOutputPath(runTag, conditionName, topicKey))
+        .replace("$runs_directory", ReproductionUtils.Constants.DEFAULT_RUNS_DIRECTORY);
+
+    if ("bge-base-en-v1.5.hnsw.onnx".equals(conditionName) || "bge-base-en-v1.5.hnsw.cached".equals(conditionName)) {
+      String efSearch = switch (topicKey) {
+        case "bioasq" -> "11000";
+        case "nq" -> "2000";
+        case "hotpotqa", "fever" -> "6000";
+        default -> null;
+      };
+
+      if (efSearch != null) {
+        command = command.replaceFirst("(?<=\\s-efSearch\\s)\\d+", efSearch);
+      }
+    }
+
+    return command;
   }
 
-  public static String formatEvalCommand(String command) {
-    return command.replace("runs/", "\\\n  runs/");
+  private static String buildEvalCommands(String runTag, String conditionName, Topic topic) {
+    StringBuilder builder = new StringBuilder();
+    for (Map.Entry<String, Double> entry : topic.expected_scores.entrySet()) {
+      String command = "java -cp $fatjar trec_eval $metric $evalKey $output"
+          .replace("$metric", topic.metric_definitions.get(entry.getKey()))
+          .replace("$evalKey", topic.eval_key)
+          .replace("$output", runOutputPath(runTag, conditionName, topic.topic_key));
+      if (builder.length() > 0) {
+        builder.append("\n");
+      }
+      builder.append(command);
+    }
+
+    return builder.toString();
+  }
+
+  private static String runOutputPath(String runTag, String conditionName, String topicKey) {
+    return String.format("%s/run.%s.%s.%s.txt", ReproductionUtils.Constants.DEFAULT_RUNS_DIRECTORY, runTag, conditionName, topicKey);
+  }
+
+  private static String yamlPath(String yamlConfig) {
+    return CONFIG_DIRECTORY + yamlConfig;
+  }
+
+  private static boolean matchesTopicPrefix(String topicKey, String prefix) {
+    return topicKey.equals(prefix) || topicKey.startsWith(prefix + ".");
+  }
+
+  private static ReportContext loadReportContext(String yamlConfig) throws Exception {
+    String yamlPath = yamlPath(yamlConfig);
+    String runTag = new File(yamlPath).getName().replaceFirst("\\.yaml$", "");
+    String templatePath = DOCGEN_TEMPLATE_DIRECTORY + runTag + ".template";
+    String outputPath = REPRODUCE_OUTPUT_DIRECTORY + runTag + ".md";
+
+    Config config = YAML_MAPPER.readValue(new File(yamlPath), Config.class);
+    String template = FileUtils.readFileToString(new File(templatePath), StandardCharsets.UTF_8);
+
+    File output = new File(outputPath);
+    FileUtils.forceMkdirParent(output);
+
+    String configLink = String.format("[%s](../../../%s)", new File(yamlPath).getName(), yamlPath);
+    return new ReportContext(yamlPath, runTag, config, template, output, configLink);
+  }
+
+  private static String buildSummary(Config config, List<SummaryColumn> columns) {
+    StringBuilder summary = new StringBuilder();
+    summary.append("| # | name");
+    for (SummaryColumn column : columns) {
+      summary.append(" | ").append(column.label());
+    }
+    summary.append(" |\n");
+
+    summary.append("| --- | ---");
+    for (int i = 0; i < columns.size(); i++) {
+      summary.append(" | ---");
+    }
+    summary.append(" |\n");
+
+    int row = 1;
+
+    for (Condition condition : config.conditions) {
+      int sectionNumber = row;
+      List<Double> scores = new ArrayList<>();
+      for (int i = 0; i < columns.size(); i++) {
+        scores.add(null);
+      }
+
+      for (Topic topic : condition.topics) {
+        if (topic.expected_scores == null) {
+          continue;
+        }
+
+        for (int i = 0; i < columns.size(); i++) {
+          Double score = columns.get(i).scoreExtractor().apply(topic);
+          if (score != null) {
+            scores.set(i, score);
+          }
+        }
+      }
+
+      summary.append(String.format("| [%d](#condition-%d) | %s", sectionNumber, sectionNumber, condition.display));
+      for (Double score : scores) {
+        summary.append(" | ").append(score == null ? "" : String.format("%.4f", score));
+      }
+      summary.append(" |\n");
+      row++;
+    }
+
+    summary.append("\n");
+    return summary.toString();
+  }
+
+  private static String buildCommandSections(ReportContext context, boolean includeConfigPerCondition,
+      BiFunction<Topic, Condition, String> topicHeading) {
+    StringBuilder command = new StringBuilder();
+    int row = 1;
+    for (Condition condition : context.config().conditions) {
+      command.append(String.format("<a id=\"condition-%d\"></a>\n\n### %d. %s\n\n", row, row, condition.display));
+      if (includeConfigPerCondition) {
+        command.append(String.format("**Config**: %s\n\n", context.configLink()));
+      }
+      row++;
+
+      for (Topic topic : condition.topics) {
+        command.append(String.format("#### %s\n\n", topicHeading.apply(topic, condition)));
+        command.append("Retrieval command:\n\n");
+        command.append(String.format("```bash\n%s\n```\n\n",
+            buildCommand(context.runTag(), condition.name, condition.command, topic.topic_key)));
+        command.append("Evaluation commands:\n\n");
+        command.append(String.format("```bash\n%s\n```\n\n",
+            buildEvalCommands(context.runTag(), condition.name, topic)));
+      }
+    }
+
+    return command.toString();
+  }
+
+  private static Double score(Topic topic, boolean matches, String metric) {
+    return matches ? topic.expected_scores.get(metric) : null;
+  }
+
+  private static void generateReport(String yamlConfig, List<SummaryColumn> columns, boolean includeConfigPerCondition,
+      BiFunction<Topic, Condition, String> topicHeading) throws Exception {
+    ReportContext context = loadReportContext(yamlConfig);
+    String commands = buildCommandSections(context, includeConfigPerCondition, topicHeading);
+
+    FileUtils.writeStringToFile(context.output(), context.template()
+        .replace("${config}", context.configLink())
+        .replace("${jvm_args}", ReproductionUtils.Constants.JVM_ARGS)
+        .replace("${summary}", buildSummary(context.config(), columns))
+        .replace("${commands}", commands)
+        .replace("${command}", commands), StandardCharsets.UTF_8);
+  }
+
+  private static void generateMsMarcoV1PassageReport(String yamlConfig) throws Exception {
+    generateReport(yamlConfig, List.of(
+        new SummaryColumn("dev", topic -> score(topic, topic.topic_key.startsWith("msmarco-v1-passage.dev"), "MRR@10")),
+        new SummaryColumn("DL19", topic -> score(topic, topic.topic_key.startsWith("dl19-passage"), "nDCG@10")),
+        new SummaryColumn("DL20", topic -> score(topic, topic.topic_key.startsWith("dl20-passage"), "nDCG@10"))),
+        true, (topic, condition) -> topic.topic_key);
   }
 
   @Test
-  public void generateReport() throws Exception {
-    Map<String, Map<String, Map<String, Double>>> table = new HashMap<>();
-    Map<String, Map<String, String>> commands = new HashMap<>();
-    Map<String, Map<String, String>> evalCommands = new HashMap<>();
+  public void generateMsMarcoV1PassageCoreReport() throws Exception {
+    generateMsMarcoV1PassageReport("msmarco-v1-passage.core.yaml");
+  }
 
-    Map<String, String> tableKeys = new HashMap<>();
-    Map<String, String> rowIds = new HashMap<>();
+  @Test
+  public void generateMsMarcoV1PassageOptionalReport() throws Exception {
+    generateMsMarcoV1PassageReport("msmarco-v1-passage.optional.yaml");
+  }
 
-    final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-    Config config = mapper.readValue(new FileInputStream(YAML_PATH), Config.class);
+  private static void generateMsMarcoV1DocReport(String yamlConfig) throws Exception {
+    generateReport(yamlConfig, List.of(
+        new SummaryColumn("dev", topic -> score(topic, topic.topic_key.startsWith("msmarco-doc.dev"), "MRR@100")),
+        new SummaryColumn("DL19", topic -> score(topic, topic.topic_key.startsWith("dl19-doc"), "nDCG@10")),
+        new SummaryColumn("DL20", topic -> score(topic, topic.topic_key.startsWith("dl20-doc"), "nDCG@10"))),
+        false, (topic, condition) -> topic.topic_key);
+  }
 
-    for (Condition cond : config.conditions) {
-      final String name = cond.name;
-      final String display = cond.display_html;
-      final String rowId = cond.display_row;
-      final String cmdTemplate = cond.command;
+  @Test
+  public void generateMsMarcoV1DocCoreReport() throws Exception {
+    generateMsMarcoV1DocReport("msmarco-v1-doc.core.yaml");
+  }
 
-      rowIds.put(name, rowId);
-      tableKeys.put(name, display);
+  @Test
+  public void generateMsMarcoV1DocOptionalReport() throws Exception {
+    generateMsMarcoV1DocReport("msmarco-v1-doc.optional.yaml");
+  }
 
-      Map<String, String> tempCommands = new HashMap<>();
-      Map<String, String> tempEvalCommands = new HashMap<>();
-      Map<String, Map<String, Double>> topicMetricMap = new HashMap<>();
+  private static void generateMsMarcoV2PassageReport(String yamlConfig) throws Exception {
+    generateReport(yamlConfig, List.of(
+        new SummaryColumn("dev", topic -> score(topic, matchesTopicPrefix(topic.topic_key, "msmarco-v2-passage.dev"), "MRR@100")),
+        new SummaryColumn("dev2", topic -> score(topic, matchesTopicPrefix(topic.topic_key, "msmarco-v2-passage.dev2"), "MRR@100")),
+        new SummaryColumn("DL21", topic -> score(topic, topic.topic_key.startsWith("dl21"), "nDCG@10")),
+        new SummaryColumn("DL22", topic -> score(topic, topic.topic_key.startsWith("dl22"), "nDCG@10")),
+        new SummaryColumn("DL23", topic -> score(topic, topic.topic_key.startsWith("dl23"), "nDCG@10"))),
+        true, (topic, condition) -> topic.topic_key);
+  }
 
-      for (Topic topic : cond.topics) {
-        Map<String, Double> metricScoreMap = new HashMap<>();
-        final String topicKey = topic.topic_key;
-        final String evalKey = topic.eval_key;
-        final String shortTopicKey = findMsMarcoTableTopicSetKeyV1(topicKey);
-        final String runFile = "runs/run." + "msmarco." + name + "." + shortTopicKey + ".txt";
-        final String commandString = cmdTemplate
-            .replace("$threads", "16")
-            .replace("$topics", topicKey)
-            .replace("$output", runFile);
+  @Test
+  public void generateMsMarcoV2PassageCoreReport() throws Exception {
+    generateMsMarcoV2PassageReport("msmarco-v2-passage.core.yaml");
+  }
 
-        tempCommands.put(shortTopicKey, commandString);
-        StringBuilder evalCommandString = new StringBuilder();
-        for (Entry<String, Double> entry : topic.expected_scores.entrySet()) {
-          if (topic.metric_definitions == null || !topic.metric_definitions.containsKey(entry.getKey())) {
-            throw new IllegalStateException("Missing metric definition for " + entry.getKey());
-          }
-          final String tempEvalCommand = "tools/eval/trec_eval.9.0.4/trec_eval "
-              + topic.metric_definitions.get(entry.getKey()) + " " + evalKey + " " + runFile;
-          evalCommandString.append(tempEvalCommand).append("\n");
-          metricScoreMap.put(entry.getKey(), entry.getValue());
-        }
-        tempEvalCommands.put(shortTopicKey, evalCommandString.toString());
-        topicMetricMap.put(shortTopicKey, metricScoreMap);
+  @Test
+  public void generateMsMarcoV2PassageOptionalReport() throws Exception {
+    generateMsMarcoV2PassageReport("msmarco-v2-passage.optional.yaml");
+  }
 
-      }
-      commands.put(name, tempCommands);
-      evalCommands.put(name, tempEvalCommands);
-      table.put(name, topicMetricMap);
-    }
+  private static void generateMsMarcoV2DocReport(String yamlConfig) throws Exception {
+    generateReport(yamlConfig, List.of(
+        new SummaryColumn("dev", topic -> score(topic, matchesTopicPrefix(topic.topic_key, "msmarco-v2-doc.dev"), "MRR@100")),
+        new SummaryColumn("dev2", topic -> score(topic, matchesTopicPrefix(topic.topic_key, "msmarco-v2-doc.dev2"), "MRR@100")),
+        new SummaryColumn("DL21", topic -> score(topic, topic.topic_key.startsWith("dl21"), "nDCG@10")),
+        new SummaryColumn("DL22", topic -> score(topic, topic.topic_key.startsWith("dl22"), "nDCG@10")),
+        new SummaryColumn("DL23", topic -> score(topic, topic.topic_key.startsWith("dl23"), "nDCG@10"))),
+        true, (topic, condition) -> topic.topic_key);
+  }
 
-    // Additional logic to generate report
-    int rowCounter = 1;
-    StringBuilder htmlString = new StringBuilder();
-    Scanner rowScanner = new Scanner(new File(ROW_TEMPLATE_PATH), StandardCharsets.UTF_8);
-    String rowTemplateString = rowScanner.useDelimiter("\\A").next();
-    rowScanner.close();
+  @Test
+  public void generateMsMarcoV2DocCoreReport() throws Exception {
+    generateMsMarcoV2DocReport("msmarco-v2-doc.core.yaml");
+  }
 
-    for (String model : MODELS) {
-      Map<String, String> valuesMap = new HashMap<>();
-      valuesMap.put("row_cnt", String.valueOf(rowCounter));
-      valuesMap.put("condition_name", tableKeys.get(model));
-      valuesMap.put("row", rowIds.get(model));
-      valuesMap.put("s1", String.format("%.4f", table.get(model).get("dl19").get("MAP")));
-      valuesMap.put("s2", String.format("%.4f", table.get(model).get("dl19").get("nDCG@10")));
-      valuesMap.put("s3", String.format("%.4f", table.get(model).get("dl19").get("R@1K")));
-      valuesMap.put("s4", String.format("%.4f", table.get(model).get("dl20").get("MAP")));
-      valuesMap.put("s5", String.format("%.4f", table.get(model).get("dl20").get("nDCG@10")));
-      valuesMap.put("s6", String.format("%.4f", table.get(model).get("dl20").get("R@1K")));
-      valuesMap.put("s7", String.format("%.4f", table.get(model).get("dev").get("MRR@10")));
-      valuesMap.put("s8", String.format("%.4f", table.get(model).get("dev").get("R@1K")));
-      valuesMap.put("cmd1", formatCommand(commands.get(model).get("dl19")));
-      valuesMap.put("cmd2", formatCommand(commands.get(model).get("dl20")));
-      valuesMap.put("cmd3", formatCommand(commands.get(model).get("dev")));
-      valuesMap.put("eval_cmd1", formatEvalCommand(evalCommands.get(model).get("dl19")));
-      valuesMap.put("eval_cmd2", formatEvalCommand(evalCommands.get(model).get("dl20")));
-      valuesMap.put("eval_cmd3", formatEvalCommand(evalCommands.get(model).get("dev")));
+  @Test
+  public void generateMsMarcoV2DocOptionalReport() throws Exception {
+    generateMsMarcoV2DocReport("msmarco-v2-doc.optional.yaml");
+  }
 
-      StringSubstitutor sub = new StringSubstitutor(valuesMap);
-      htmlString.append(sub.replace(rowTemplateString)).append("\n");
-      rowCounter++;
-    }
-    Scanner htmlScanner = new Scanner(new File(HTML_TEMPLATE_PATH), StandardCharsets.UTF_8);
-    String htmlTemplateString = htmlScanner.useDelimiter("\\A").next();
-    htmlScanner.close();
+  private static void generateMsMarcoV21DocReport(String yamlConfig) throws Exception {
+    generateReport(yamlConfig, List.of(
+        new SummaryColumn("dev", topic -> score(topic, topic.topic_key.equals("msmarco-v2-doc.dev"), "MRR@100")),
+        new SummaryColumn("dev2", topic -> score(topic, topic.topic_key.equals("msmarco-v2-doc.dev2"), "MRR@100")),
+        new SummaryColumn("DL21", topic -> score(topic, topic.topic_key.startsWith("dl21-doc"), "nDCG@10")),
+        new SummaryColumn("DL22", topic -> score(topic, topic.topic_key.startsWith("dl22-doc"), "nDCG@10")),
+        new SummaryColumn("DL23", topic -> score(topic, topic.topic_key.startsWith("dl23-doc"), "nDCG@10")),
+        new SummaryColumn("RAGgy", topic -> score(topic, topic.topic_key.startsWith("rag24"), "nDCG@10"))),
+        true, (topic, condition) -> topic.topic_key);
+  }
 
-    Map<String, String> outputValuesMap = new HashMap<>();
-    outputValuesMap.put("title", "MS MARCO V1 Passage");
-    outputValuesMap.put("rows", htmlString.toString());
+  @Test
+  public void generateMsMarcoV21DocCoreReport() throws Exception {
+    generateMsMarcoV21DocReport("msmarco-v2.1-doc.core.yaml");
+  }
 
-    StringSubstitutor sub = new StringSubstitutor(outputValuesMap);
-    String resolvedString = sub.replace(htmlTemplateString);
-    FileUtils.writeStringToFile(new File("docs/reproduce/msmarco-v1-passage.html"), resolvedString, "UTF-8");
+  @Test
+  public void generateMsMarcoV21DocOptionalReport() throws Exception {
+    generateMsMarcoV21DocReport("msmarco-v2.1-doc.optional.yaml");
+  }
+
+  private static void generateMsMarcoV21SegmentedDocReport(String yamlConfig) throws Exception {
+    generateReport(yamlConfig, List.of(
+        new SummaryColumn("RAG24 ☂️", topic -> score(topic, topic.eval_key.equals("rag24.test-umbrela-all"), "nDCG@20")),
+        new SummaryColumn("RAG24 NIST", topic -> score(topic, topic.eval_key.equals("rag24.test"), "nDCG@20")),
+        new SummaryColumn("RAG25 ☂️", topic -> score(topic, topic.eval_key.equals("rag25.test-umbrela2"), "nDCG@30")),
+        new SummaryColumn("RAG25 NIST", topic -> score(topic, topic.eval_key.equals("rag25.test"), "nDCG@30"))),
+        true, (topic, condition) -> String.format("%s / %s", topic.topic_key, topic.eval_key));
+  }
+
+  @Test
+  public void generateMsMarcoV21SegmentedDocCoreReport() throws Exception {
+    generateMsMarcoV21SegmentedDocReport("msmarco-v2.1-doc-segmented.core.yaml");
+  }
+
+  @Test
+  public void generateMsMarcoV21SegmentedDocOptionalReport() throws Exception {
+    generateMsMarcoV21SegmentedDocReport("msmarco-v2.1-doc-segmented.optional.yaml");
   }
 }

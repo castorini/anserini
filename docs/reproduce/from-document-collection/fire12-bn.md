@@ -30,7 +30,7 @@ bin/run.sh io.anserini.index.IndexCollection \
 The directory `/path/to/fire12-bn/` should be a directory containing the collection, containing `bn_ABP` and `bn_BDNews24` directories.
 There should be 500,122 documents in total.
 
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 

@@ -1,8 +1,9 @@
 # <img src="../../anserini-logo.png" height="30" /> MS MARCO V1 Doc
 
-**Anserini reproductions from prebuilt indexes for the MS MARCO V1 Doc collection (optional)**
+**Anserini reproductions from prebuilt indexes**
 
-**Config**: [msmarco-v1-doc.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.optional.yaml)
++ **Corpus**: MS MARCO V1 Doc
++ **Config**: [msmarco-v1-doc.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.optional.yaml)
 
 ## Summary
 
@@ -13,16 +14,16 @@ Key:
 
 + **dev** = msmarco-doc.dev
 + **DL19** = dl19-doc
-+ **DL20** = dl19-doc
++ **DL20** = dl20-doc
 
 | # | name | dev | DL19 | DL20 |
 | --- | --- | --- | --- | --- |
-| [1](#condition-1) | BM25 complete doc (k1=0.9, b=0.4) | 0.2299 | 0.5176 | 0.5286 |
-| [2](#condition-2) | BM25 complete doc (k1=0.9, b=0.4) | 0.2299 | 0.5176 | 0.5286 |
-| [3](#condition-3) | BM25 segmented doc (k1=0.9, b=0.4) | 0.2684 | 0.5302 | 0.5281 |
-| [4](#condition-4) | BM25 segmented doc (k1=0.9, b=0.4) | 0.2684 | 0.5302 | 0.5281 |
-| [5](#condition-5) | uniCOIL (no expansions): cached queries | 0.3409 | 0.6349 | 0.5893 |
-| [6](#condition-6) | uniCOIL (with doc2query-T5): cached queries | 0.3531 | 0.6396 | 0.6033 |
+| [1](#condition-1) | BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index | 0.2299 | 0.5176 | 0.5286 |
+| [2](#condition-2) | BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), full index | 0.2299 | 0.5176 | 0.5286 |
+| [3](#condition-3) | BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index | 0.2684 | 0.5302 | 0.5281 |
+| [4](#condition-4) | BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), full index | 0.2684 | 0.5302 | 0.5281 |
+| [5](#condition-5) | uniCOIL noexp (cached queries) | 0.3409 | 0.6349 | 0.5893 |
+| [6](#condition-6) | uniCOIL with doc2query-T5 (cached queries) | 0.3531 | 0.6396 | 0.6033 |
 
 
 
@@ -47,7 +48,7 @@ export jvm_args="-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules
 
 <a id="condition-1"></a>
 
-### 1. BM25 complete doc (k1=0.9, b=0.4)
+### 1. BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index
 
 #### msmarco-doc.dev
 
@@ -115,7 +116,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.op
 
 <a id="condition-2"></a>
 
-### 2. BM25 complete doc (k1=0.9, b=0.4)
+### 2. BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), full index
 
 #### msmarco-doc.dev
 
@@ -183,7 +184,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.op
 
 <a id="condition-3"></a>
 
-### 3. BM25 segmented doc (k1=0.9, b=0.4)
+### 3. BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index
 
 #### msmarco-doc.dev
 
@@ -260,7 +261,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.op
 
 <a id="condition-4"></a>
 
-### 4. BM25 segmented doc (k1=0.9, b=0.4)
+### 4. BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), full index
 
 #### msmarco-doc.dev
 
@@ -337,7 +338,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.op
 
 <a id="condition-5"></a>
 
-### 5. uniCOIL (no expansions): cached queries
+### 5. uniCOIL noexp (cached queries)
 
 #### msmarco-doc.dev.unicoil-noexp
 
@@ -389,7 +390,7 @@ java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl19-doc runs/run.msmarco-v1-doc.op
 java -cp $fatjar trec_eval -c -m recall.1000 dl19-doc runs/run.msmarco-v1-doc.optional.unicoil-noexp.cached.dl19-doc.unicoil-noexp.0shot.txt
 ```
 
-#### dl20.unicoil-noexp.0shot
+#### dl20-doc.unicoil-noexp.0shot
 
 Retrieval command:
 
@@ -397,8 +398,8 @@ Retrieval command:
 java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
     -index msmarco-v1-doc-segmented.unicoil-noexp \
-    -topics dl20.unicoil-noexp.0shot \
-    -output runs/run.msmarco-v1-doc.optional.unicoil-noexp.cached.dl20.unicoil-noexp.0shot.txt \
+    -topics dl20-doc.unicoil-noexp.0shot \
+    -output runs/run.msmarco-v1-doc.optional.unicoil-noexp.cached.dl20-doc.unicoil-noexp.0shot.txt \
     -impact \
     -pretokenized \
     -hits 10000 \
@@ -410,14 +411,14 @@ java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
 Evaluation commands:
 
 ```bash
-java -cp $fatjar trec_eval -c -M 100 -m map dl20-doc runs/run.msmarco-v1-doc.optional.unicoil-noexp.cached.dl20.unicoil-noexp.0shot.txt
-java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl20-doc runs/run.msmarco-v1-doc.optional.unicoil-noexp.cached.dl20.unicoil-noexp.0shot.txt
-java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.optional.unicoil-noexp.cached.dl20.unicoil-noexp.0shot.txt
+java -cp $fatjar trec_eval -c -M 100 -m map dl20-doc runs/run.msmarco-v1-doc.optional.unicoil-noexp.cached.dl20-doc.unicoil-noexp.0shot.txt
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl20-doc runs/run.msmarco-v1-doc.optional.unicoil-noexp.cached.dl20-doc.unicoil-noexp.0shot.txt
+java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.optional.unicoil-noexp.cached.dl20-doc.unicoil-noexp.0shot.txt
 ```
 
 <a id="condition-6"></a>
 
-### 6. uniCOIL (with doc2query-T5): cached queries
+### 6. uniCOIL with doc2query-T5 (cached queries)
 
 #### msmarco-doc.dev.unicoil
 
@@ -469,7 +470,7 @@ java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl19-doc runs/run.msmarco-v1-doc.op
 java -cp $fatjar trec_eval -c -m recall.1000 dl19-doc runs/run.msmarco-v1-doc.optional.unicoil.cached.dl19-doc.unicoil.0shot.txt
 ```
 
-#### dl20.unicoil.0shot
+#### dl20-doc.unicoil.0shot
 
 Retrieval command:
 
@@ -477,8 +478,8 @@ Retrieval command:
 java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
     -index msmarco-v1-doc-segmented.unicoil \
-    -topics dl20.unicoil.0shot \
-    -output runs/run.msmarco-v1-doc.optional.unicoil.cached.dl20.unicoil.0shot.txt \
+    -topics dl20-doc.unicoil.0shot \
+    -output runs/run.msmarco-v1-doc.optional.unicoil.cached.dl20-doc.unicoil.0shot.txt \
     -impact \
     -pretokenized \
     -hits 10000 \
@@ -490,9 +491,9 @@ java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
 Evaluation commands:
 
 ```bash
-java -cp $fatjar trec_eval -c -M 100 -m map dl20-doc runs/run.msmarco-v1-doc.optional.unicoil.cached.dl20.unicoil.0shot.txt
-java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl20-doc runs/run.msmarco-v1-doc.optional.unicoil.cached.dl20.unicoil.0shot.txt
-java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.optional.unicoil.cached.dl20.unicoil.0shot.txt
+java -cp $fatjar trec_eval -c -M 100 -m map dl20-doc runs/run.msmarco-v1-doc.optional.unicoil.cached.dl20-doc.unicoil.0shot.txt
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl20-doc runs/run.msmarco-v1-doc.optional.unicoil.cached.dl20-doc.unicoil.0shot.txt
+java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.optional.unicoil.cached.dl20-doc.unicoil.0shot.txt
 ```
 
 

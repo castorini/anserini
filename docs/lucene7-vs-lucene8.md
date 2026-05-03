@@ -10,4 +10,3 @@ Hits       | Lucene 7.6 | Lucene 8.0 | speedup |
 1000 hits  |      5691s |      4050s |    ~1.4 |
 
 Results are averaged over three trials, after discarding a warmup run.
-

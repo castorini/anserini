@@ -1,8 +1,6 @@
 conditions:
   - name: bm25
     display: "BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
-    display_html: "BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
-    display_row: ""
     command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-passage -topics $topics -output $output -hits 1000 -bm25
     topics:
       - topic_key: msmarco-v1-passage.dev
@@ -35,8 +33,6 @@ conditions:
           R@1K: "-c -l 2 -m recall.1000"
   - name: bm25-d2q-t5
     display: "BM25 with doc2query-T5  (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
-    display_html: "BM25 with doc2query-T5  (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
-    display_row: ""
     command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-passage.d2q-t5 -topics $topics -output $output -hits 1000 -bm25
     topics:
       - topic_key: msmarco-v1-passage.dev
@@ -68,9 +64,7 @@ conditions:
           nDCG@10: "-c -m ndcg_cut.10"
           R@1K: "-c -l 2 -m recall.1000"
   - name: splade-v3.onnx
-    display: "SPLADE-v3: ONNX"
-    display_html: "SPLADE-v3: ONNX"
-    display_row: ""
+    display: "SPLADE-v3 (ONNX)"
     command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-passage.splade-v3 -topics $topics -output $output -impact -pretokenized -hits 1000 -encoder SpladeV3
     topics:
       - topic_key: msmarco-v1-passage.dev
@@ -102,9 +96,7 @@ conditions:
           nDCG@10: "-c -m ndcg_cut.10"
           R@1K: "-c -l 2 -m recall.1000"
   - name: bge-base-en-v1.5.hnsw.onnx
-    display: "bge-base-en-v1.5: HNSW, ONNX"
-    display_html: "bge-base-en-v1.5: HNSW, ONNX"
-    display_row: ""
+    display: "bge-base-en-v1.5 with HNSW (ONNX)"
     command: io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.bge-base-en-v1.5.hnsw -topics $topics -output $output -efSearch 1000 -hits 1000 -encoder BgeBaseEn15
     topics:
       - topic_key: msmarco-v1-passage.dev
@@ -136,9 +128,7 @@ conditions:
           nDCG@10: "-c -m ndcg_cut.10"
           R@1K: "-c -l 2 -m recall.1000"
   - name: bge-base-en-v1.5.hnsw-int8.onnx
-    display: "bge-base-en-v1.5: quantized (int8) HNSW, ONNX"
-    display_html: "bge-base-en-v1.5: quantized (int8) HNSW, ONNX"
-    display_row: ""
+    display: "bge-base-en-v1.5 with quantized HNSW (ONNX)"
     command: io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8 -topics $topics -output $output -efSearch 1000 -hits 1000 -encoder BgeBaseEn15
     topics:
       - topic_key: msmarco-v1-passage.dev

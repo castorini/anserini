@@ -1,8 +1,6 @@
 conditions:
   - name: bm25
-    display: "BM25 (k1=0.9, b=0.4)"
-    display_html: "BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
-    display_row: ""
+    display: "BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
     command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v2-passage -topics $topics -output $output -hits 1000 -bm25
     topics:
       - topic_key: msmarco-v2-passage.dev
@@ -60,9 +58,7 @@ conditions:
           R@100: "-c -m recall.100 -l 2"
           R@1K: "-c -m recall.1000 -l 2"
   - name: bm25-d2q-t5
-    display: "BM25 with doc2query-T5 (k1=0.9, b=0.4)"
-    display_html: "BM25 with doc2query-T5 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
-    display_row: ""
+    display: "BM25 with doc2query-T5 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
     command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v2-passage.d2q-t5 -topics $topics -output $output -hits 1000 -bm25
     topics:
       - topic_key: msmarco-v2-passage.dev
@@ -120,9 +116,7 @@ conditions:
           R@100: "-c -m recall.100 -l 2"
           R@1K: "-c -m recall.1000 -l 2"
   - name: unicoil.onnx
-    display: "uniCOIL (with doc2query-T5): ONNX"
-    display_html: "uniCOIL (with doc2query-T5): ONNX"
-    display_row: ""
+    display: "uniCOIL with doc2query-T5 (ONNX)"
     command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v2-passage.unicoil-0shot -topics $topics -output $output -hits 1000 -impact -pretokenized -encoder UniCoil
     topics:
       - topic_key: msmarco-v2-passage.dev
