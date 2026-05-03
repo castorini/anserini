@@ -19,6 +19,13 @@ Each of these experiments starts from the raw document collection, builds the ne
 
 ## MS MARCO V1 Passage
 
+Key:
+
++ 🔑 = keyword queries
++ "full" = full 32-bit floating precision
++ "int8" = quantized 8-bit precision
++ 🫙 = cached queries, 🅾️ = query encoding with ONNX
+
 |                                            |                                                                                                                                                                                                   dev                                                                                                                                                                                                    |                                                                                                                                                                                      DL19                                                                                                                                                                                       |                                                                                                                                                                                      DL20                                                                                                                                                                                       |
 |--------------------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
 | **Unsupervised Sparse**                    |                                                                                                                                                                                                                                                                                                                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                 |                                                                                                                                                                                                                                                                                                                                                                                 |
@@ -52,13 +59,6 @@ Each of these experiments starts from the raw document collection, builds the ne
 | **Learned Dense** (Inverted; experimental) |                                                                                                                                                                                                                                                                                                                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                 |                                                                                                                                                                                                                                                                                                                                                                                 |
 | cosDPR-distil w/ "fake words"              |                                                                                                                                                            [🫙](reproduce/from-document-collection/msmarco-v1-passage.cos-dpr-distil.parquet.fw.md)                                                                                                                                                            |                                                                                                                                                  [🫙](reproduce/from-document-collection/dl19-passage.cos-dpr-distil.parquet.fw.md)                                                                                                                                                   |                                                                                                                                                  [🫙](reproduce/from-document-collection/dl20-passage.cos-dpr-distil.parquet.fw.md)                                                                                                                                                   |
 | cosDPR-distil w/ "LexLSH"                  |                                                                                                                                                          [🫙](reproduce/from-document-collection/msmarco-v1-passage.cos-dpr-distil.parquet.lexlsh.md)                                                                                                                                                          |                                                                                                                                                [🫙](reproduce/from-document-collection/dl19-passage.cos-dpr-distil.parquet.lexlsh.md)                                                                                                                                                 |                                                                                                                                                [🫙](reproduce/from-document-collection/dl20-passage.cos-dpr-distil.parquet.lexlsh.md)                                                                                                                                                 |
-
-Key:
-
-+ 🔑 = keyword queries
-+ "full" = full 32-bit floating precision
-+ "int8" = quantized 8-bit precision
-+ 🫙 = cached queries, 🅾️ = query encoding with ONNX
 
 ### Available Corpora for Download
 
@@ -158,6 +158,12 @@ The MS MARCO V2.1 corpora (documents and segmented documents) were derived from 
 Instructions for downloading the corpus can be found [here](https://trec-rag.github.io/annoucements/2024-corpus-finalization/).
 The experiments below capture topics and _passage-level_ qrels for the V2.1 segmented documents corpus.
 
+Key:
+
++ ☂️ = [UMBRELA](https://github.com/castorini/umbrela) for RAG24, [UMBRELA 2.0](https://github.com/castorini/umbrela) for RAG25
++ 🔑 = keyword queries
++ 🫙 = cached queries, 🅾️ = query encoding with ONNX
+
 |                            | RAG24 ☂️ | RAG 24 NIST | RAG25 ☂️ | RAG25 NIST |
 |----------------------------|:---:|:---:|:---:|:---:|
 | baselines                  | [🔑](reproduce/from-document-collection/rag24-doc-segmented-test-umbrela.md) | [🔑](reproduce/from-document-collection/rag24-doc-segmented-test-nist.md) | [🔑](reproduce/from-document-collection/rag25-doc-segmented-test-umbrela2.md) | [🔑](reproduce/from-document-collection/rag25-doc-segmented-test-nist.md) |
@@ -175,12 +181,6 @@ The experiments below capture topics and _passage-level_ qrels for the V2.1 segm
 
 Note that all Arctic-embed-l shards use flat vector indexes.
 
-Key:
-
-+ ☂️ = [UMBRELA](https://github.com/castorini/umbrela) for RAG24, [UMBRELA 2.0](https://github.com/castorini/umbrela) for RAG25
-+ 🔑 = keyword queries
-+ 🫙 = cached queries, 🅾️ = query encoding with ONNX
-
 ### Available Corpora for Download
 
 | Corpora                                                                                         |   Size | Checksum                           |
@@ -195,6 +195,11 @@ The experiments below capture topics and _document-level_ qrels originally targe
 These should be treated like dev topics for the TREC 2024 RAG Track; actual qrels for that track were generated at the passage level.
 There are no plans to generate addition _document-level_ qrels beyond these.
 
+Key:
+
++ 🔑 = keyword queries
++ 🫙 = cached queries, 🅾️ = query encoding with ONNX
+
 |                                         |                                                                                dev                                                                                 |                                                                                     DL21                                                                                     |                                                                                     DL22                                                                                     |                                                                                     DL23                                                                                     |                                                                                RAGgy dev                                                                                 |
 |-----------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
 | **Unsupervised Lexical, Complete Doc**  |                                                                                                                                                                    |                                                                                                                                                                              |                                                                                                                                                                              |                                                                                                                                                                              |                                                                                                                                                                          |
@@ -202,11 +207,6 @@ There are no plans to generate addition _document-level_ qrels beyond these.
 | **Unsupervised Lexical, Segmented Doc** |                                                                                                                                                                    |                                                                                                                                                                              |                                                                                                                                                                              |                                                                                                                                                                              |                                                                                                                                                                          |
 | baselines                               |                                                  [🔑](reproduce/from-document-collection/msmarco-v2.1-doc-segmented.md)                                                  |                                                    [🔑](reproduce/from-document-collection/dl21-doc-segmented-msmarco-v2.1.md)                                                     |                                                    [🔑](reproduce/from-document-collection/dl22-doc-segmented-msmarco-v2.1.md)                                                     |                                                    [🔑](reproduce/from-document-collection/dl23-doc-segmented-msmarco-v2.1.md)                                                     |                                                   [🔑](reproduce/from-document-collection/rag24-doc-segmented-raggy-dev.md)                                                    |
 | SPLADE-v3                               | [🫙](reproduce/from-document-collection/msmarco-v2.1-doc-segmented.splade-v3.cached.md) [🅾️](reproduce/from-document-collection/msmarco-v2.1-doc-segmented.splade-v3.onnx.md) | [🫙](reproduce/from-document-collection/dl21-doc-segmented-msmarco-v2.1.splade-v3.cached.md) [🅾️](reproduce/from-document-collection/dl21-doc-segmented-msmarco-v2.1.splade-v3.onnx.md) | [🫙](reproduce/from-document-collection/dl22-doc-segmented-msmarco-v2.1.splade-v3.cached.md) [🅾️](reproduce/from-document-collection/dl22-doc-segmented-msmarco-v2.1.splade-v3.onnx.md) | [🫙](reproduce/from-document-collection/dl23-doc-segmented-msmarco-v2.1.splade-v3.cached.md) [🅾️](reproduce/from-document-collection/dl23-doc-segmented-msmarco-v2.1.splade-v3.onnx.md) | [🫙](reproduce/from-document-collection/rag24-doc-segmented-raggy-dev.splade-v3.cached.md) [🅾️](reproduce/from-document-collection/rag24-doc-segmented-raggy-dev.splade-v3.onnx.md) |
-
-Key:
-
-+ 🔑 = keyword queries
-+ 🫙 = cached queries, 🅾️ = query encoding with ONNX
 
 ## BEIR (v1.0.0)
 
@@ -220,8 +220,6 @@ Key:
 + U1 = uniCOIL (noexp), cached queries (🫙)
 + Spp = SPLADE++ CoCondenser-EnsembleDistil: cached queries (🫙), ONNX (🅾️)
 + Sv3 = SPLADE-v3: cached queries (🫙), ONNX (🅾️)
-
-See instructions below the table for how to reproduce results programmatically.
 
 | Corpus                  |                                       F1                                       |                                        F2                                         |                                          MF                                          |                                               U1                                               |                                                                                            Spp                                                                                            |                                                                                         Sv3                                                                                         |
 |-------------------------|:------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
@@ -266,8 +264,6 @@ Key:
   + original (float32) indexes: cached queries (🫙), ONNX (🅾️)
   + quantized (int8) indexes: cached queries (🫙), ONNX (🅾️)
 
-See instructions below the table for how to reproduce results programmatically.
-
 | Corpus                  |                                                                                                                                                                                                                                 BGE (flat)                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                 BGE (HNSW)                                                                                                                                                                                                                                  |
 |-------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
 | TREC-COVID              |              full:[🫙](reproduce/from-document-collection/beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat.cached.md)[🅾️](reproduce/from-document-collection/beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat.onnx.md)                           int8:[🫙](reproduce/from-document-collection/beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat-sqv.cached.md)[🅾️](reproduce/from-document-collection/beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat-sqv.onnx.md)              |              full:[🫙](reproduce/from-document-collection/beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.hnsw.cached.md)[🅾️](reproduce/from-document-collection/beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.hnsw.onnx.md)                           int8:[🫙](reproduce/from-document-collection/beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.hnsw-sqv.cached.md)[🅾️](reproduce/from-document-collection/beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.hnsw-sqv.onnx.md)              |
@@ -300,16 +296,9 @@ See instructions below the table for how to reproduce results programmatically.
 | Climate-FEVER           |           full:[🫙](reproduce/from-document-collection/beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat.cached.md)[🅾️](reproduce/from-document-collection/beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat.onnx.md)                     int8:[🫙](reproduce/from-document-collection/beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat-sqv.cached.md)[🅾️](reproduce/from-document-collection/beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat-sqv.onnx.md)           |           full:[🫙](reproduce/from-document-collection/beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.hnsw.cached.md)[🅾️](reproduce/from-document-collection/beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.hnsw.onnx.md)                     int8:[🫙](reproduce/from-document-collection/beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.hnsw-sqv.cached.md)[🅾️](reproduce/from-document-collection/beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.hnsw-sqv.onnx.md)           |
 | SciFact                 |                 full:[🫙](reproduce/from-document-collection/beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat.cached.md)[🅾️](reproduce/from-document-collection/beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat.onnx.md)                                 int8:[🫙](reproduce/from-document-collection/beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat-sqv.cached.md)[🅾️](reproduce/from-document-collection/beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat-sqv.onnx.md)                 |                 full:[🫙](reproduce/from-document-collection/beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.hnsw.cached.md)[🅾️](reproduce/from-document-collection/beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.hnsw.onnx.md)                                 int8:[🫙](reproduce/from-document-collection/beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.hnsw-sqv.cached.md)[🅾️](reproduce/from-document-collection/beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.hnsw-sqv.onnx.md)                 |
 
-To reproduce the above results programmatically, use the following commands to download and unpack the data:
+### Available Corpora for Download
 
-```bash
-wget https://rgw.cs.uwaterloo.ca/pyserini/data/$COLLECTION -P collections/
-tar xvf collections/$COLLECTION -C collections/
-```
-
-Substitute the appropriate `$COLLECTION` from the table below.
-
-| `$COLLECTION`                              |   Size | Checksum                           |
+| Corpus.                                    |   Size | Checksum                           |
 |:-------------------------------------------|-------:|:-----------------------------------|
 | `beir-v1.0.0-corpus.tar`                   |  14 GB | `faefd5281b662c72ce03d22021e4ff6b` |
 | `beir-v1.0.0-corpus-wp.tar`                |  13 GB | `3cf8f3dcdcadd49362965dd4466e6ff2` |
@@ -318,33 +307,11 @@ Substitute the appropriate `$COLLECTION` from the table below.
 | `beir-v1.0.0-splade-v3.tar`                |  55 GB | `37f294610af763ce48eed03afd9455df` |
 | `beir-v1.0.0-bge-base-en-v1.5.parquet.tar` | 127 GB | `5f8dce18660cc8ac0318500bea5993ac` |
 
-Once you've unpacked the data, follow the linked reproduction pages above to
-run and verify the desired BEIR corpus/model combinations.
-
-Substitute the appropriate `$MODEL` from the table below.
-
-| Key                      | `$MODEL`                                   |
-|:-------------------------|:-------------------------------------------|
-| F1                       | `flat`                                     |
-| F2                       | `flat-wp`                                  |
-| MF                       | `multifield`                               |
-| U1 (cached)              | `unicoil-noexp.cached`                     |
-| Spp (cached)             | `splade-pp-ed.cached`                      |
-| Spp (ONNX)               | `splade-pp-ed.onnx`                        |
-| Sv3 (cached)             | `splade-v3.cached`                         |
-| Sv3 (ONNX)               | `splade-v3.onnx`                           |
-| BGE (flat, full; cached) | `bge-base-en-v1.5.parquet.flat.cached`     |
-| BGE (flat, int8; cached) | `bge-base-en-v1.5.parquet.flat-sqv.cached` |
-| BGE (HNSW, full; cached) | `bge-base-en-v1.5.parquet.hnsw.cached`     |
-| BGE (HNSW, int8; cached) | `bge-base-en-v1.5.parquet.hnsw-sqv.cached` |
-| BGE (flat, full; ONNX)   | `bge-base-en-v1.5.parquet.flat.onnx`       |
-| BGE (flat, int8; ONNX)   | `bge-base-en-v1.5.parquet.flat-sqv.onnx`   |
-| BGE (HNSW, full; ONNX)   | `bge-base-en-v1.5.parquet.hnsw.onnx`       |
-| BGE (HNSW, int8; ONNX)   | `bge-base-en-v1.5.parquet.hnsw-sqv.onnx`   |
-
 ## BRIGHT Reproductions
 
 BRIGHT is a retrieval benchmark described [here](https://arxiv.org/abs/2407.12883).
+
+Key:
 
 + BM25
 + SPLADE-v3 = SPLADE-v3: cached queries (🫙), ONNX (🅾️)
