@@ -19,7 +19,7 @@ Key:
 + **DL23** = dl23-doc-msmarco-v2.1
 + **RAG24** = rag24.raggy-dev
 
-| # | name | dev | dev2 | DL21 | DL22 | DL23 | RAG24 |
+| # | name | dev | dev2 | DL21 | DL22 | DL23 | RAGgy |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | [1](#condition-1) | BM25 doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index | 0.1654 | 0.1732 | 0.5183 | 0.2991 | 0.2914 | 0.3631 |
 | [2](#condition-2) | BM25 doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), full index | 0.1654 | 0.1732 | 0.5183 | 0.2991 | 0.2914 | 0.3631 |

@@ -17,7 +17,7 @@ Key:
 + **DL21** = dl21-doc-msmarco-v2.1
 + **DL22** = dl22-doc-msmarco-v2.1
 + **DL23** = dl23-doc-msmarco-v2.1
-+ **RAG24** = rag24.raggy-dev
++ **RAGgy** = rag24.raggy-dev
 
 ${summary}
 

@@ -312,7 +312,7 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
         new SummaryColumn("DL21", topic -> score(topic, topic.topic_key.startsWith("dl21-doc"), "nDCG@10")),
         new SummaryColumn("DL22", topic -> score(topic, topic.topic_key.startsWith("dl22-doc"), "nDCG@10")),
         new SummaryColumn("DL23", topic -> score(topic, topic.topic_key.startsWith("dl23-doc"), "nDCG@10")),
-        new SummaryColumn("RAG24", topic -> score(topic, topic.topic_key.startsWith("rag24"), "nDCG@10"))),
+        new SummaryColumn("RAGgy", topic -> score(topic, topic.topic_key.startsWith("rag24"), "nDCG@10"))),
         true, (topic, condition) -> topic.topic_key);
   }
 
