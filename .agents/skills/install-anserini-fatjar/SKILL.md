@@ -23,7 +23,7 @@ built from the current checkout, use `$install-anserini-dev-env` instead.
 
 1. Verify runtime tools.
 2. Download the released fatjar from Maven Central.
-3. Run smoke test/help command.
+3. Run the CACM prebuilt-index smoke test.
 4. Use `$use-anserini-cli` for CLI examples after setup.
 
 ## 1. Verify Runtime Tools
@@ -86,11 +86,50 @@ Keep commands pinned to this jar unless the user asks to change versions.
 Run:
 
 ```bash
-java -cp "$ANSERINI_JAR" io.anserini.search.SearchCollection -options
+java -cp "$ANSERINI_JAR" io.anserini.search.SearchCollection \
+  -threads 1 \
+  -index cacm \
+  -topics cacm \
+  -output run.cacm.bm25.txt \
+  -hits 1000 \
+  -bm25
 ```
 
-Treat options output as proof the runtime is ready. Note that current jars
-reject `-help` for `SearchCollection` and require `-options` instead.
+Treat a successful run and generated `run.cacm.bm25.txt` file as proof the
+runtime is ready. This command follows the CACM prebuilt-index reproduction
+config and may download the small CACM prebuilt index and topics on first use.
+
+Then evaluate the run with Anserini's Java `trec_eval` wrapper:
+
+```bash
+java -cp "$ANSERINI_JAR" io.anserini.eval.TrecEval \
+  -c \
+  -m map \
+  -m P.30 \
+  cacm \
+  run.cacm.bm25.txt
+```
+
+Expected scores are:
+
+```text
+map     all     0.3123
+P_30    all     0.1942
+```
+
+To verify them mechanically:
+
+```bash
+java -cp "$ANSERINI_JAR" io.anserini.eval.TrecEval \
+  -c \
+  -m map \
+  -m P.30 \
+  cacm \
+  run.cacm.bm25.txt | tee eval.cacm.bm25.txt
+
+grep -q $'map\tall\t0.3123' eval.cacm.bm25.txt
+grep -q $'P_30\tall\t0.1942' eval.cacm.bm25.txt
+```
 
 ## 4. Command Execution
 
@@ -117,5 +156,7 @@ versions.
 Treat setup as complete when all are true:
 
 - `ANSERINI_JAR` points to an existing downloaded `anserini-*-fatjar.jar`.
-- `SearchCollection -options` executes successfully.
+- The CACM `SearchCollection` smoke test executes successfully and writes
+  `run.cacm.bm25.txt`.
+- Java `TrecEval` verifies MAP `0.3123` and P30 `0.1942` for the CACM run.
 - The user can run target commands via `java -cp ...`.

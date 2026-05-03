@@ -53,11 +53,11 @@ public class ReproduceFromPrebuiltIndexes {
   private static final String CONFIG_DIRECTORY = "reproduce/from-prebuilt-indexes/configs";
 
   public static class Args {
-    @Option(name = "--config", metaVar = "[config]", usage = "Name of the configuration to run.")
-    public String config;
-
     @Option(name = "--list", usage = "List available configs as a JSON array and exit.")
     public boolean list = false;
+
+    @Option(name = "--config", metaVar = "[config]", usage = "Name of the configuration to run.")
+    public String config;
 
     @Option(name = "--show", usage = "Print the specified config and exit.")
     public boolean show = false;
@@ -278,7 +278,7 @@ public class ReproduceFromPrebuiltIndexes {
         Map<String, String> evalCommands = new LinkedHashMap<>();
         Map<String, String> metricDefinitions = topic.metric_definitions;
 
-        // Go through and gather the eval commands in a first pass, so that we can print all at once if desired.
+        // Go through and gather the eval commands in a first pass so they can be printed together.
         for (String metric : expected.keySet()) {
           String evalKey = topic.eval_key;
           String metricDefinition = Objects.requireNonNull(metricDefinitions.get(metric));

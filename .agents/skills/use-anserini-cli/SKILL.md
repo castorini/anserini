@@ -46,19 +46,31 @@ For a checkout workflow, confirm `bin/run.sh` is available:
 test -x bin/run.sh
 ```
 
-A useful smoke test is:
+A useful functional smoke test is:
 
 ```bash
-java -cp "$ANSERINI_JAR" io.anserini.search.SearchCollection -options
+java -cp "$ANSERINI_JAR" io.anserini.search.SearchCollection \
+  -threads 1 \
+  -index cacm \
+  -topics cacm \
+  -output run.cacm.bm25.txt \
+  -hits 1000 \
+  -bm25
 ```
 
 or:
 
 ```bash
-bin/run.sh io.anserini.search.SearchCollection -options
+bin/run.sh io.anserini.search.SearchCollection \
+  -threads 1 \
+  -index cacm \
+  -topics cacm \
+  -output run.cacm.bm25.txt \
+  -hits 1000 \
+  -bm25
 ```
 
-Current jars reject `-help` for `SearchCollection`; use `-options`.
+This command may download the small CACM prebuilt index and topics on first use.
 
 ## Prebuilt Index Registry
 
@@ -144,6 +156,76 @@ java -cp "$ANSERINI_JAR" \
 
 Use `--list` first to discover the exact set name, then `--get` to inspect its
 contents.
+
+## SearchCollection
+
+Use `io.anserini.search.SearchCollection` for batch retrieval over a topic set.
+It writes TREC run files and supports retrieval-model flags such as `-bm25`,
+`-rm3`, `-rocchio`, `-hits`, and `-threads`. Use `io.anserini.cli.Search` instead
+for single-query or interactive inspection.
+
+Canonical CACM example using a prebuilt index and built-in topic symbol:
+
+```bash
+java -cp "$ANSERINI_JAR" io.anserini.search.SearchCollection \
+  -index cacm \
+  -topics cacm \
+  -output run.cacm.bm25.txt \
+  -hits 1000 \
+  -bm25
+```
+
+Checkout equivalent:
+
+```bash
+bin/run.sh io.anserini.search.SearchCollection \
+  -index cacm \
+  -topics cacm \
+  -output run.cacm.bm25.txt \
+  -hits 1000 \
+  -bm25
+```
+
+Evaluate the CACM run with Anserini's Java `trec_eval` wrapper:
+
+```bash
+java -cp "$ANSERINI_JAR" io.anserini.eval.TrecEval \
+  -c \
+  -m map \
+  -m P.30 \
+  cacm \
+  run.cacm.bm25.txt
+```
+
+or:
+
+```bash
+bin/run.sh io.anserini.eval.TrecEval \
+  -c \
+  -m map \
+  -m P.30 \
+  cacm \
+  run.cacm.bm25.txt
+```
+
+Expected scores are MAP `0.3123` and P30 `0.1942`.
+
+To verify them mechanically:
+
+```bash
+java -cp "$ANSERINI_JAR" io.anserini.eval.TrecEval \
+  -c \
+  -m map \
+  -m P.30 \
+  cacm \
+  run.cacm.bm25.txt | tee eval.cacm.bm25.txt
+
+grep -q $'map\tall\t0.3123' eval.cacm.bm25.txt
+grep -q $'P_30\tall\t0.1942' eval.cacm.bm25.txt
+```
+
+Translate the verification command to `bin/run.sh io.anserini.eval.TrecEval ...`
+when working from a checkout without `ANSERINI_JAR`.
 
 ## Search CLI
 

@@ -119,11 +119,11 @@ public class ReproduceFromDocumentCollection {
   }
 
   public static class Args {
-    @Option(name = "--config", metaVar = "[config]", usage = "Name of the configuration to run.")
-    public String config;
-
     @Option(name = "--list", usage = "List available configs as a JSON array and exit.")
     public boolean list = false;
+
+    @Option(name = "--config", metaVar = "[config]", usage = "Name of the configuration to run.")
+    public String config;
 
     @Option(name = "--show", usage = "Print the specified config and exit.")
     public boolean show = false;

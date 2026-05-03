@@ -49,18 +49,16 @@ Use main class `io.anserini.reproduce.ReproduceFromPrebuiltIndexes` for
 reproductions that start from Anserini prebuilt indexes rather than rebuilding
 indexes from raw document collections.
 
-Configs are bundled with Anserini and grouped around families of runs.
+For current source-checkout workflows, the latest supported configs, generated
+reproduction pages, and command guidance are maintained at:
 
-The main config families are:
+```text
+https://github.com/castorini/anserini/blob/master/docs/ref-reproduce-from-prebuilt-indexes.md
+```
 
-- `msmarco-v1-passage`
-- `msmarco-v1-doc`
-- `msmarco-v2-passage`
-- `msmarco-v2-doc`
-- `msmarco-v2.1-doc`
-- `msmarco-v2.1-doc-segmented`
-- `beir`
-- `bright`
+Consult that page before giving detailed config lists, exact commands, or
+dataset/model coverage. For pinned release or fatjar workflows, prefer the docs
+bundled with or tagged for that release when they differ from `master`.
 
 Useful commands:
 
@@ -101,6 +99,17 @@ High-level behavior:
 Use main class `io.anserini.reproduce.ReproduceFromDocumentCollection` for
 reproductions that start from raw document collections and build indexes
 locally.
+
+For current source-checkout workflows, the latest supported configs, generated
+reproduction pages, and command guidance are maintained at:
+
+```text
+https://github.com/castorini/anserini/blob/master/docs/ref-reproduce-from-document-collections.md
+```
+
+Consult that page before giving detailed config lists, exact commands, or
+dataset/model coverage. For pinned release or fatjar workflows, prefer the docs
+bundled with or tagged for that release when they differ from `master`.
 
 High-level behavior:
 

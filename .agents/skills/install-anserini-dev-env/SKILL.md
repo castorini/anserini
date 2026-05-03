@@ -116,6 +116,55 @@ git submodule status --recursive
 ls -lh target/*fatjar.jar
 ```
 
+For a functional smoke test after a successful build, run the CACM prebuilt-index
+reproduction command:
+
+```bash
+bin/run.sh io.anserini.search.SearchCollection \
+  -index cacm \
+  -topics cacm \
+  -output run.cacm.bm25.txt \
+  -hits 1000 \
+  -bm25
+```
+
+Treat a successful run and generated `run.cacm.bm25.txt` file as proof that the
+checkout can execute Anserini search end to end. This command may download the
+small CACM prebuilt index and topics on first use, so skip it when the user only
+wants a local build check.
+
+Then evaluate the run with Anserini's Java `trec_eval` wrapper:
+
+```bash
+bin/run.sh io.anserini.eval.TrecEval \
+  -c \
+  -m map \
+  -m P.30 \
+  cacm \
+  run.cacm.bm25.txt
+```
+
+Expected scores are:
+
+```text
+map     all     0.3123
+P_30    all     0.1942
+```
+
+To verify them mechanically:
+
+```bash
+bin/run.sh io.anserini.eval.TrecEval \
+  -c \
+  -m map \
+  -m P.30 \
+  cacm \
+  run.cacm.bm25.txt | tee eval.cacm.bm25.txt
+
+grep -q $'map\tall\t0.3123' eval.cacm.bm25.txt
+grep -q $'P_30\tall\t0.1942' eval.cacm.bm25.txt
+```
+
 For CLI examples after setup, use `$use-anserini-cli`.
 
 ## Troubleshooting
