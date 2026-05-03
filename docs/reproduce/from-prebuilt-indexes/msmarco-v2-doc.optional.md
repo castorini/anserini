@@ -20,8 +20,8 @@ Key:
 
 | # | name | dev | dev2 | DL21 | DL22 | DL23 |
 | --- | --- | --- | --- | --- | --- | --- |
-| [1](#condition-1) | uniCOIL noexp (cached queries) |  |  | 0.6495 | 0.4165 | 0.3898 |
-| [2](#condition-2) | uniCOIL with doc2query-T5 (cached queries) |  |  | 0.6783 | 0.4451 | 0.4149 |
+| [1](#condition-1) | uniCOIL noexp (cached queries) | 0.2231 | 0.2314 | 0.6495 | 0.4165 | 0.3898 |
+| [2](#condition-2) | uniCOIL with doc2query-T5 (cached queries) | 0.2419 | 0.2445 | 0.6783 | 0.4451 | 0.4149 |
 
 
 

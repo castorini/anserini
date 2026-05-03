@@ -287,8 +287,8 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
 
   private static void generateMsMarcoV2DocReport(String yamlConfig) throws Exception {
     generateReport(yamlConfig, List.of(
-        new SummaryColumn("dev", topic -> score(topic, topic.topic_key.equals("msmarco-v2-doc.dev"), "MRR@100")),
-        new SummaryColumn("dev2", topic -> score(topic, topic.topic_key.equals("msmarco-v2-doc.dev2"), "MRR@100")),
+        new SummaryColumn("dev", topic -> score(topic, matchesTopicPrefix(topic.topic_key, "msmarco-v2-doc.dev"), "MRR@100")),
+        new SummaryColumn("dev2", topic -> score(topic, matchesTopicPrefix(topic.topic_key, "msmarco-v2-doc.dev2"), "MRR@100")),
         new SummaryColumn("DL21", topic -> score(topic, topic.topic_key.startsWith("dl21"), "nDCG@10")),
         new SummaryColumn("DL22", topic -> score(topic, topic.topic_key.startsWith("dl22"), "nDCG@10")),
         new SummaryColumn("DL23", topic -> score(topic, topic.topic_key.startsWith("dl23"), "nDCG@10"))),

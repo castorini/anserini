@@ -34,7 +34,7 @@ bin/run.sh io.anserini.index.IndexCollection \
 The value of `-input` should be a directory containing the compressed `jsonl` files that comprise the corpus.
 See [this page](../../../docs/experiments-msmarco-v2.md) for additional details.
 
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 
