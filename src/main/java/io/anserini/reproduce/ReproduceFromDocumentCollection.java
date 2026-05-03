@@ -119,22 +119,25 @@ public class ReproduceFromDocumentCollection {
   }
 
   public static class Args {
-    @Option(name = "--config", metaVar = "[config]", usage = "Name of the configuration to run.")
-    public String config;
-
     @Option(name = "--list", usage = "List available configs as a JSON array and exit.")
     public boolean list = false;
 
-    @Option(name = "--download", usage = "Download corpus.")
+    @Option(name = "--config", metaVar = "[config]", usage = "Name of the configuration to run.")
+    public String config;
+
+    @Option(name = "--show", usage = "Print the specified config and exit.")
+    public boolean show = false;
+
+    @Option(name = "--download", usage = "[Workflow Stage] Download corpus.")
     public boolean download = false;
 
-    @Option(name = "--index", usage = "Build index.")
+    @Option(name = "--index", usage = "[Workflow Stage] Build index.")
     public boolean index = false;
 
-    @Option(name = "--verify", usage = "Verify index statistics.")
+    @Option(name = "--verify", usage = "[Workflow Stage] Verify index statistics.")
     public boolean verify = false;
 
-    @Option(name = "--search", usage = "Search and verify results.")
+    @Option(name = "--search", usage = "[Workflow Stage] Search and verify results.")
     public boolean search = false;
 
     @Option(name = "--corpus-path", metaVar = "[path]", usage = "Override corpus path from YAML.")
@@ -157,7 +160,7 @@ public class ReproduceFromDocumentCollection {
   }
 
   private static final String[] argsOrdering = new String[] {
-    "--config", "--list", "--download", "--index", "--verify", "--search",
+    "--list", "--config", "--show", "--download", "--index", "--verify", "--search",
     "--corpus-path", "--index-threads", "--search-pool", "--convert-pool", "--dry-run", "--help"};
 
   public static void main(String[] args) throws Exception {
@@ -188,6 +191,20 @@ public class ReproduceFromDocumentCollection {
 
     if (parsedArgs.config == null || parsedArgs.config.isBlank()) {
       System.err.println("Error: Option \"--config\" is required unless \"--list\" is specified.");
+      CliUtils.printUsage(parser, ReproduceFromDocumentCollection.class, argsOrdering);
+      return;
+    }
+
+    if (parsedArgs.show) {
+      String resourceName = String.format("%s/%s.yaml", CONFIG_DIRECTORY, parsedArgs.config);
+      try (InputStream yamlStream = ReproductionUtils.loadResourceStream(resourceName, ReproduceFromDocumentCollection.class)) {
+        System.out.print(new String(yamlStream.readAllBytes(), StandardCharsets.UTF_8));
+      }
+      return;
+    }
+
+    if (!parsedArgs.download && !parsedArgs.index && !parsedArgs.verify && !parsedArgs.search) {
+      System.err.println("Error: Select at least one workflow stage: --download, --index, --verify, --search.");
       CliUtils.printUsage(parser, ReproduceFromDocumentCollection.class, argsOrdering);
       return;
     }

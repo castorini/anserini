@@ -117,8 +117,15 @@ public class ReproduceFromDocumentCollectionTest extends StdOutStdErrRedirectabl
   public void testHelp() throws Exception {
     ReproduceFromDocumentCollection.main(new String[] {"--help"});
 
-    assertTrue(err.toString().contains("Options for ReproduceFromDocumentCollection:"));
-    assertTrue(err.toString().contains("--help"));
+    String usage = err.toString();
+    assertTrue(usage.contains("Options for ReproduceFromDocumentCollection:"));
+    assertTrue(usage.indexOf("--list") < usage.indexOf("--config"));
+    assertTrue(usage.indexOf("--config") < usage.indexOf("--show"));
+    assertTrue(usage.contains("[Workflow Stage] Download corpus."));
+    assertTrue(usage.contains("[Workflow Stage] Build index."));
+    assertTrue(usage.contains("[Workflow Stage] Verify index statistics."));
+    assertTrue(usage.contains("[Workflow Stage] Search and verify results."));
+    assertTrue(usage.contains("--help"));
   }
 
   @Test
@@ -129,6 +136,25 @@ public class ReproduceFromDocumentCollectionTest extends StdOutStdErrRedirectabl
     List<String> expectedConfigs = ReproductionUtils.listYamlConfigs(
         ReproduceFromDocumentCollection.class, "reproduce/from-document-collection/configs");
     assertEquals(expectedConfigs.size(), outputConfigs.size());
+  }
+
+  @Test
+  public void testShowConfig() throws Exception {
+    ReproduceFromDocumentCollection.main(new String[] {"--config", "cacm", "--show"});
+
+    assertTrue(out.toString().startsWith("---"));
+    assertTrue(out.toString().contains("corpus: cacm"));
+    assertTrue(out.toString().contains("collection_class: HtmlCollection"));
+    assertTrue(out.toString().contains("models:"));
+  }
+
+  @Test
+  public void testWorkflowStageRequired() throws Exception {
+    ReproduceFromDocumentCollection.main(new String[] {"--config", "cacm", "--dry-run"});
+
+    assertTrue(err.toString().contains(
+        "Error: Select at least one workflow stage: --download, --index, --verify, --search."));
+    assertTrue(err.toString().contains("Options for ReproduceFromDocumentCollection:"));
   }
 
   @Test

@@ -2,3 +2,5 @@ interface:
   display_name: "Use Anserini CLI"
   short_description: "Run Anserini CLI and REST workflows"
   default_prompt: "Use $use-anserini-cli to run Anserini commands from either a resolved fatjar or a source checkout, including PrebuiltIndexRegistry, TopicsRegistry, Search, and RestServer workflows."
+policy:
+  allow_implicit_invocation: true
