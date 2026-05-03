@@ -50,6 +50,8 @@ import io.anserini.search.topicreader.TopicReader;
 import io.anserini.search.topicreader.Topics;
 
 public class ReproduceFromDocumentCollectionTest extends StdOutStdErrRedirectableLuceneTestCase {
+  private static final Path CACM_FATJAR_LOG = Paths.get("target", "run-cacm-fatjar.log");
+
   private static final String[] CACM_COLLECTION_IN_REPO_EXPECTED_RUNS = {
     "runs/run.inverted.cacm.cacm.bm25.txt",
     "runs/run.inverted.cacm.cacm.bm25+rm3.txt",
@@ -91,6 +93,7 @@ public class ReproduceFromDocumentCollectionTest extends StdOutStdErrRedirectabl
   public void tearDown() throws Exception {
     restoreStdOut();
     restoreStdErr();
+    Files.deleteIfExists(CACM_FATJAR_LOG);
     super.tearDown();
   }
 
@@ -238,9 +241,8 @@ public class ReproduceFromDocumentCollectionTest extends StdOutStdErrRedirectabl
 
     ProcessBuilder builder = new ProcessBuilder(command);
     builder.redirectErrorStream(true);
-    Path processLog = Paths.get("target", "run-cacm-fatjar.log");
-    Files.createDirectories(processLog.getParent());
-    builder.redirectOutput(processLog.toFile());
+    Files.createDirectories(CACM_FATJAR_LOG.getParent());
+    builder.redirectOutput(CACM_FATJAR_LOG.toFile());
 
     Process process = builder.start();
     assertTrue("Reproduction command timed out", process.waitFor(10, TimeUnit.MINUTES));

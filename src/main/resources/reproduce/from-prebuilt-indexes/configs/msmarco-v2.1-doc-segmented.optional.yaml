@@ -1,8 +1,6 @@
 conditions:
   - name: bm25-slim
-    display: "BM25 segmented doc (k1=0.9, b=0.4)"
-    display_html: "BM25 doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
-    display_row: ""
+    display: "BM25 doc segmented (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index"
     command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v2.1-doc-segmented-slim -topics $topics -output $output -hits 1000 -bm25
     topics:
       - topic_key: rag24.test
@@ -46,9 +44,7 @@ conditions:
           nDCG@100: "-c -m ndcg_cut.100"
           R@100: "-c -m recall.100"
   - name: bm25-full
-    display: "BM25 segmented doc (k1=0.9, b=0.4)"
-    display_html: "BM25 doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
-    display_row: ""
+    display: "BM25 doc segmented (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), full index"
     command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v2.1-doc-segmented-full -topics $topics -output $output -hits 1000 -bm25
     topics:
       - topic_key: rag24.test
@@ -92,9 +88,7 @@ conditions:
           nDCG@100: "-c -m ndcg_cut.100"
           R@100: "-c -m recall.100"
   - name: splade-v3.cached
-    display: "SPLADE-v3: cached queries"
-    display_html: "SPLADE-v3: cached queries"
-    display_row: ""
+    display: "SPLADE-v3 (cached queries)"
     command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v2.1-doc-segmented.splade-v3 -topics $topics -output $output -impact -pretokenized -removeQuery -hits 1000
     topics:
       - topic_key: rag24.test.splade-v3
@@ -138,9 +132,7 @@ conditions:
           nDCG@100: "-c -m ndcg_cut.100"
           R@100: "-c -m recall.100"
   - name: shard00.arctic-l.hnsw-int8.cached
-    display: "ArcticEmbed-L (shard00): quantized (int8) HNSW, cached queries"
-    display_html: "ArcticEmbed-L (shard00): quantized (int8) HNSW, cached queries"
-    display_row: ""
+    display: "ArcticEmbed-L (shard00) with quantized HNSW (cached queries)"
     command: io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard00.arctic-embed-l.hnsw-int8 -topics $topics -output $output -hits 250 -efSearch 1000
     topics:
       - topic_key: rag24.test.snowflake-arctic-embed-l
@@ -164,9 +156,7 @@ conditions:
           nDCG@100: "-c -m ndcg_cut.100"
           R@100: "-c -m recall.100"
   - name: shard01.arctic-l.hnsw-int8.cached
-    display: "ArcticEmbed-L (shard01): quantized (int8) HNSW, cached queries"
-    display_html: "ArcticEmbed-L (shard01): quantized (int8) HNSW, cached queries"
-    display_row: ""
+    display: "ArcticEmbed-L (shard01) with quantized HNSW (cached queries)"
     command: io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard01.arctic-embed-l.hnsw-int8 -topics $topics -output $output -hits 250 -efSearch 1000
     topics:
       - topic_key: rag24.test.snowflake-arctic-embed-l
@@ -190,9 +180,7 @@ conditions:
           nDCG@100: "-c -m ndcg_cut.100"
           R@100: "-c -m recall.100"
   - name: shard02.arctic-l.hnsw-int8.cached
-    display: "ArcticEmbed-L (shard02): quantized (int8) HNSW, cached queries"
-    display_html: "ArcticEmbed-L (shard02): quantized (int8) HNSW, cached queries"
-    display_row: ""
+    display: "ArcticEmbed-L (shard02) with quantized HNSW (cached queries)"
     command: io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard02.arctic-embed-l.hnsw-int8 -topics $topics -output $output -hits 250 -efSearch 1000
     topics:
       - topic_key: rag24.test.snowflake-arctic-embed-l
@@ -216,9 +204,7 @@ conditions:
           nDCG@100: "-c -m ndcg_cut.100"
           R@100: "-c -m recall.100"
   - name: shard03.arctic-l.hnsw-int8.cached
-    display: "ArcticEmbed-L (shard03): quantized (int8) HNSW, cached queries"
-    display_html: "ArcticEmbed-L (shard03): quantized (int8) HNSW, cached queries"
-    display_row: ""
+    display: "ArcticEmbed-L (shard03) with quantized HNSW (cached queries)"
     command: io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard03.arctic-embed-l.hnsw-int8 -topics $topics -output $output -hits 250 -efSearch 1000
     topics:
       - topic_key: rag24.test.snowflake-arctic-embed-l
@@ -242,9 +228,7 @@ conditions:
           nDCG@100: "-c -m ndcg_cut.100"
           R@100: "-c -m recall.100"
   - name: shard04.arctic-l.hnsw-int8.cached
-    display: "ArcticEmbed-L (shard04): quantized (int8) HNSW, cached queries"
-    display_html: "ArcticEmbed-L (shard04): quantized (int8) HNSW, cached queries"
-    display_row: ""
+    display: "ArcticEmbed-L (shard04) with quantized HNSW (cached queries)"
     command: io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard04.arctic-embed-l.hnsw-int8 -topics $topics -output $output -hits 250 -efSearch 1000
     topics:
       - topic_key: rag24.test.snowflake-arctic-embed-l
@@ -268,9 +252,7 @@ conditions:
           nDCG@100: "-c -m ndcg_cut.100"
           R@100: "-c -m recall.100"
   - name: shard05.arctic-l.hnsw-int8.cached
-    display: "ArcticEmbed-L (shard05): quantized (int8) HNSW, cached queries"
-    display_html: "ArcticEmbed-L (shard05): quantized (int8) HNSW, cached queries"
-    display_row: ""
+    display: "ArcticEmbed-L (shard05) with quantized HNSW (cached queries)"
     command: io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard05.arctic-embed-l.hnsw-int8 -topics $topics -output $output -hits 250 -efSearch 1000
     topics:
       - topic_key: rag24.test.snowflake-arctic-embed-l
@@ -294,9 +276,7 @@ conditions:
           nDCG@100: "-c -m ndcg_cut.100"
           R@100: "-c -m recall.100"
   - name: shard06.arctic-l.hnsw-int8.cached
-    display: "ArcticEmbed-L (shard06): quantized (int8) HNSW, cached queries"
-    display_html: "ArcticEmbed-L (shard06): quantized (int8) HNSW, cached queries"
-    display_row: ""
+    display: "ArcticEmbed-L (shard06) with quantized HNSW (cached queries)"
     command: io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard06.arctic-embed-l.hnsw-int8 -topics $topics -output $output -hits 250 -efSearch 1000
     topics:
       - topic_key: rag24.test.snowflake-arctic-embed-l
@@ -320,9 +300,7 @@ conditions:
           nDCG@100: "-c -m ndcg_cut.100"
           R@100: "-c -m recall.100"
   - name: shard07.arctic-l.hnsw-int8.cached
-    display: "ArcticEmbed-L (shard07): quantized (int8) HNSW, cached queries"
-    display_html: "ArcticEmbed-L (shard07): quantized (int8) HNSW, cached queries"
-    display_row: ""
+    display: "ArcticEmbed-L (shard07) with quantized HNSW (cached queries)"
     command: io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard07.arctic-embed-l.hnsw-int8 -topics $topics -output $output -hits 250 -efSearch 1000
     topics:
       - topic_key: rag24.test.snowflake-arctic-embed-l
@@ -346,9 +324,7 @@ conditions:
           nDCG@100: "-c -m ndcg_cut.100"
           R@100: "-c -m recall.100"
   - name: shard08.arctic-l.hnsw-int8.cached
-    display: "ArcticEmbed-L (shard08): quantized (int8) HNSW, cached queries"
-    display_html: "ArcticEmbed-L (shard08): quantized (int8) HNSW, cached queries"
-    display_row: ""
+    display: "ArcticEmbed-L (shard08) with quantized HNSW (cached queries)"
     command: io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard08.arctic-embed-l.hnsw-int8 -topics $topics -output $output -hits 250 -efSearch 1000
     topics:
       - topic_key: rag24.test.snowflake-arctic-embed-l
@@ -372,9 +348,7 @@ conditions:
           nDCG@100: "-c -m ndcg_cut.100"
           R@100: "-c -m recall.100"
   - name: shard09.arctic-l.hnsw-int8.cached
-    display: "ArcticEmbed-L (shard09): quantized (int8) HNSW, cached queries"
-    display_html: "ArcticEmbed-L (shard09): quantized (int8) HNSW, cached queries"
-    display_row: ""
+    display: "ArcticEmbed-L (shard09) with quantized HNSW (cached queries)"
     command: io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v2.1-doc-segmented-shard09.arctic-embed-l.hnsw-int8 -topics $topics -output $output -hits 250 -efSearch 1000
     topics:
       - topic_key: rag24.test.snowflake-arctic-embed-l

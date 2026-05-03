@@ -1,8 +1,6 @@
 conditions:
   - name: bm25-doc
-    display: "BM25 doc (k1=0.9, b=0.4)"
-    display_html: "BM25 doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
-    display_row: ""
+    display: "BM25 doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
     command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v2.1-doc -topics $topics -output $output -hits 1000 -bm25
     topics:
       - topic_key: msmarco-v2-doc.dev
@@ -74,9 +72,7 @@ conditions:
           R@100: "-c -m recall.100"
           R@1K: "-c -m recall.1000"
   - name: bm25-segmented-doc
-    display: "BM25 segmented doc (k1=0.9, b=0.4)"
-    display_html: "BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
-    display_row: ""
+    display: "BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
     command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v2.1-doc-segmented -topics $topics -output $output -hits 10000 -bm25 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
     topics:
       - topic_key: msmarco-v2-doc.dev

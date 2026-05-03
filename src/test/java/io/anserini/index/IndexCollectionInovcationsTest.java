@@ -16,6 +16,11 @@
 
 package io.anserini.index;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.lucene.tests.util.TestRuleLimitSysouts;
@@ -28,6 +33,7 @@ import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 
 @TestRuleLimitSysouts.Limit(bytes = 64 * 1024L)
 public class IndexCollectionInovcationsTest extends StdOutStdErrRedirectableLuceneTestCase {
+  private final List<String> indexPaths = new ArrayList<>();
 
   @BeforeClass
   public static void setupClass() {
@@ -45,7 +51,17 @@ public class IndexCollectionInovcationsTest extends StdOutStdErrRedirectableLuce
   public void tearDown() throws Exception {
     restoreStdOut();
     restoreStdErr();
+    for (String indexPath : indexPaths) {
+      FileUtils.deleteDirectory(new File(indexPath));
+    }
+    indexPaths.clear();
     super.tearDown();
+  }
+
+  private String newIndexPath(String prefix) {
+    String indexPath = prefix + System.currentTimeMillis();
+    indexPaths.add(indexPath);
+    return indexPath;
   }
 
   @Test
@@ -68,7 +84,7 @@ public class IndexCollectionInovcationsTest extends StdOutStdErrRedirectableLuce
     String[] indexArgs = new String[] {
         "-collection", "FakeTrecCollection",
         "-input", "src/test/resources/sample_docs/trec/collection2",
-        "-index", "target/idx-sample-trec-index" + System.currentTimeMillis(),
+        "-index", newIndexPath("target/idx-sample-trec-index"),
         "-generator", "DefaultLuceneDocumentGenerator",
     };
 
@@ -80,7 +96,7 @@ public class IndexCollectionInovcationsTest extends StdOutStdErrRedirectableLuce
     String[] indexArgs = new String[] {
         "-collection", "TrecCollection",
         "-input", "src/test/resources/sample_docs/trec/collection2_fake_path",
-        "-index", "target/idx-sample-trec-index" + System.currentTimeMillis(),
+        "-index", newIndexPath("target/idx-sample-trec-index"),
         "-generator", "DefaultLuceneDocumentGenerator",
     };
 
@@ -92,7 +108,7 @@ public class IndexCollectionInovcationsTest extends StdOutStdErrRedirectableLuce
     String[] indexArgs = new String[] {
         "-collection", "TrecCollection",
         "-input", "src/test/resources/sample_docs/trec/collection2",
-        "-index", "target/idx-sample-trec-index" + System.currentTimeMillis(),
+        "-index", newIndexPath("target/idx-sample-trec-index"),
         "-generator", "FakeDefaultLuceneDocumentGenerator",
     };
 
@@ -104,7 +120,7 @@ public class IndexCollectionInovcationsTest extends StdOutStdErrRedirectableLuce
     String[] indexArgs = new String[] {
         "-collection", "TrecCollection",
         "-input", "src/test/resources/sample_docs/trec/collection2",
-        "-index", "target/idx-sample-trec-index" + System.currentTimeMillis()
+        "-index", newIndexPath("target/idx-sample-trec-index")
     };
 
     IndexCollection.main(indexArgs);
