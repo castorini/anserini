@@ -1,8 +1,9 @@
 # <img src="../../anserini-logo.png" height="30" /> MS MARCO V2 Passage
 
-**Anserini reproductions from prebuilt indexes for the MS MARCO V2 Passage collection (optional)**
+**Anserini reproductions from prebuilt indexes**
 
-**Config**: [msmarco-v2-passage.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-passage.optional.yaml)
++ **Corpus**: MS MARCO V2 Passage
++ **Config**: [msmarco-v2-passage.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-passage.optional.yaml)
 
 ## Summary
 
@@ -19,10 +20,10 @@ Key:
 
 | # | name | dev | dev2 | DL21 | DL22 | DL23 |
 | --- | --- | --- | --- | --- | --- | --- |
-| [1](#condition-1) | BM25 (k1=0.9, b=0.4) | 0.0719 | 0.0802 | 0.4458 | 0.2692 | 0.2627 |
-| [2](#condition-2) | BM25 (k1=0.9, b=0.4) | 0.0719 | 0.0802 | 0.4458 | 0.2692 | 0.2627 |
-| [3](#condition-3) | uniCOIL (no expansion): cached queries | 0.1342 | 0.1385 | 0.5756 | 0.4077 | 0.3262 |
-| [4](#condition-4) | uniCOIL (with doc2query-T5): cached queries | 0.1499 | 0.1577 | 0.6159 | 0.4614 | 0.3855 |
+| [1](#condition-1) | BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index | 0.0719 | 0.0802 | 0.4458 | 0.2692 | 0.2627 |
+| [2](#condition-2) | BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), full index | 0.0719 | 0.0802 | 0.4458 | 0.2692 | 0.2627 |
+| [3](#condition-3) | uniCOIL noexp (cached queries) | 0.1342 | 0.1385 | 0.5756 | 0.4077 | 0.3262 |
+| [4](#condition-4) | uniCOIL with doc2query-T5 (cached queries) | 0.1499 | 0.1577 | 0.6159 | 0.4614 | 0.3855 |
 
 
 
@@ -47,7 +48,7 @@ export jvm_args="-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules
 
 <a id="condition-1"></a>
 
-### 1. BM25 (k1=0.9, b=0.4)
+### 1. BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index
 
 **Config**: [msmarco-v2-passage.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-passage.optional.yaml)
 
@@ -165,7 +166,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 -l 2 dl23-passage runs/run.msmarco-
 
 <a id="condition-2"></a>
 
-### 2. BM25 (k1=0.9, b=0.4)
+### 2. BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), full index
 
 **Config**: [msmarco-v2-passage.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-passage.optional.yaml)
 
@@ -283,7 +284,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 -l 2 dl23-passage runs/run.msmarco-
 
 <a id="condition-3"></a>
 
-### 3. uniCOIL (no expansion): cached queries
+### 3. uniCOIL noexp (cached queries)
 
 **Config**: [msmarco-v2-passage.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-passage.optional.yaml)
 
@@ -406,7 +407,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 -l 2 dl23-passage runs/run.msmarco-
 
 <a id="condition-4"></a>
 
-### 4. uniCOIL (with doc2query-T5): cached queries
+### 4. uniCOIL with doc2query-T5 (cached queries)
 
 **Config**: [msmarco-v2-passage.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-passage.optional.yaml)
 

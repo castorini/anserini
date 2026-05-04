@@ -239,7 +239,7 @@ To print out the commands that will generate the runs without performing the run
 ## MS MARCO V2 Documents
 
 Anserini provides support for a variety of models.
-The table below reports the effectiveness of selected models (dev in terms of RR@10, DL19 and DL20 in terms of nDCG@10):
+The table below reports the effectiveness of selected models (dev and dev2 in terms of RR@100, DL21-23 in terms of nDCG@10):
 
 |                                                                            |    dev |   dev2 |   DL21 |   DL22 |   DL23 |
 |:---------------------------------------------------------------------------|-------:|-------:|-------:|-------:|-------:|

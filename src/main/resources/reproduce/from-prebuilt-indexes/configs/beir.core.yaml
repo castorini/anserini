@@ -1,8 +1,6 @@
 conditions:
   - name: flat
     display: "BM25, flat bag-of-words baseline"
-    display_html: "BM25, flat bag-of-words baseline"
-    display_row: ""
     command: io.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.flat -topics beir-$topics -output $output -bm25 -removeQuery
     topics:
       - topic_key: trec-covid
@@ -181,8 +179,6 @@ conditions:
           nDCG@10: "-c -m ndcg_cut.10"
   - name: multifield
     display: "BM25, multifield bag-of-words baseline"
-    display_html: "BM25, multifield bag-of-words baseline"
-    display_row: ""
     command: io.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.multifield -topics beir-$topics -output $output -bm25 -removeQuery -fields contents=1.0 title=1.0
     topics:
       - topic_key: trec-covid
@@ -361,8 +357,6 @@ conditions:
           nDCG@10: "-c -m ndcg_cut.10"
   - name: splade-v3.onnx
     display: "SPLADE-v3 (ONNX)"
-    display_html: "SPLADE-v3 (ONNX)"
-    display_row: ""
     command: io.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.splade-v3 -topics beir-$topics -encoder SpladeV3 -output $output -impact -pretokenized -removeQuery
     topics:
     - topic_key: trec-covid
@@ -541,8 +535,6 @@ conditions:
         nDCG@10: "-c -m ndcg_cut.10"
   - name: bge-base-en-v1.5.flat.onnx
     display: "bge-base-en-v1.5 w/ flat indexes (ONNX)"
-    display_html: "bge-base-en-v1.5 w/ flat indexes (ONNX)"
-    display_row: ""
     command: io.anserini.search.SearchFlatDenseVectors -threads $threads -index beir-v1.0.0-$topics.bge-base-en-v1.5.flat -topics beir-$topics -encoder BgeBaseEn15 -output $output -removeQuery
     topics:
       - topic_key: trec-covid
@@ -721,8 +713,6 @@ conditions:
           nDCG@10: "-c -m ndcg_cut.10"
   - name: fusion-rrf
     display: "Fusion: RRF (BM25 + BGE)"
-    display_html: "Fusion: RRF (BM25 + BGE)"
-    display_row: ""
     command: io.anserini.fusion.FuseRuns -runs $runs_directory/run.beir.core.flat.$topics.txt $runs_directory/run.beir.core.bge-base-en-v1.5.flat.onnx.$topics.txt -output $output -method rrf -k 1000 -depth 1000 -rrf_k 60
     topics:
       - topic_key: trec-covid
@@ -901,8 +891,6 @@ conditions:
           nDCG@10: "-c -m ndcg_cut.10"
   - name: fusion-avg
     display: "Fusion: Average (BM25 + BGE) with normalization"
-    display_html: "Fusion: Average (BM25 + BGE) with normalization"
-    display_row: ""
     command: io.anserini.fusion.FuseRuns -runs $runs_directory/run.beir.core.flat.$topics.txt $runs_directory/run.beir.core.bge-base-en-v1.5.flat.onnx.$topics.txt -output $output -method average -k 1000 -depth 1000 -min_max_normalization
     topics:
       - topic_key: trec-covid

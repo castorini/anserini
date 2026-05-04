@@ -36,7 +36,7 @@ bin/run.sh io.anserini.index.IndexCollection \
 The directory `/path/to/msmarco-passage-doc2query` should be a directory containing `jsonl` files containing the expanded passage collection.
 [This page](../../../docs/experiments-doc2query.md) explains how to perform this data preparation.
 
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 

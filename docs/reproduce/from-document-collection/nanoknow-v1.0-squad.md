@@ -36,7 +36,7 @@ bin/run.sh io.anserini.index.IndexCollection \
 
 The directory `/path/to/fineweb-edu-100b-karpathy/` should contain the Parquet shards from the [karpathy/fineweb-edu-100b-shuffle](https://huggingface.co/datasets/karpathy/fineweb-edu-100b-shuffle) dataset (~97M documents, ~100B tokens).
 
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 

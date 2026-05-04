@@ -1,8 +1,6 @@
 conditions:
   - name: splade-v3.cached
-    display: "SPLADE-v3: cached queries"
-    display_html: "SPLADE-v3: cached queries"
-    display_row: ""
+    display: "SPLADE-v3 (cached queries)"
     command: io.anserini.search.SearchCollection -threads $threads -index bright-$topics.splade-v3 -topics bright-$topics.splade-v3 -output $output -impact -pretokenized -removeQuery
     topics:
       - topic_key: biology
@@ -78,9 +76,7 @@ conditions:
         metric_definitions:
           nDCG@10: "-c -m ndcg_cut.10"
   - name: bge-large-en-v1.5.flat.cached
-    display: "bge-large-en-v1.5 w/ flat indexes: cached queries"
-    display_html: "bge-large-en-v1.5 w/ flat indexes: cached queries"
-    display_row: ""
+    display: "bge-large-en-v1.5 w/ flat indexes (cached queries)"
     command: io.anserini.search.SearchFlatDenseVectors -threads $threads -index bright-$topics.bge-large-en-v1.5.flat -topics bright-$topics.bge-large-en-v1.5 -output $output -removeQuery
     topics:
       - topic_key: biology

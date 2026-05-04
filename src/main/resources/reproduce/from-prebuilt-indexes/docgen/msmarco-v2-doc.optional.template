@@ -1,8 +1,9 @@
 # <img src="../../anserini-logo.png" height="30" /> MS MARCO V2 Doc
 
-**Anserini reproductions from prebuilt indexes for the MS MARCO V2 Doc collection (optional)**
+**Anserini reproductions from prebuilt indexes**
 
-**Config**: ${config}
++ **Corpus**: MS MARCO V2 Doc
++ **Config**: ${config}
 
 ## Summary
 

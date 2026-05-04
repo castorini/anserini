@@ -1,8 +1,9 @@
 # <img src="../../anserini-logo.png" height="30" /> MS MARCO V2 Doc
 
-**Anserini reproductions from prebuilt indexes for the MS MARCO V2 Doc collection (core)**
+**Anserini reproductions from prebuilt indexes**
 
-**Config**: [msmarco-v2-doc.core.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-doc.core.yaml)
++ **Corpus**: MS MARCO V2 Doc
++ **Config**: [msmarco-v2-doc.core.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-doc.core.yaml)
 
 ## Summary
 
@@ -19,11 +20,11 @@ Key:
 
 | # | name | dev | dev2 | DL21 | DL22 | DL23 |
 | --- | --- | --- | --- | --- | --- | --- |
-| [1](#condition-1) | BM25 complete doc (k1=0.9, b=0.4) | 0.1572 | 0.1659 | 0.5116 | 0.2993 | 0.2946 |
-| [2](#condition-2) | BM25 completed doc with doc2query-T5 (k1=0.9, b=0.4) | 0.2011 | 0.2012 | 0.5792 | 0.3539 | 0.3511 |
-| [3](#condition-3) | BM25 segmented doc (k1=0.9, b=0.4) | 0.1896 | 0.1930 | 0.5776 | 0.3618 | 0.3405 |
-| [4](#condition-4) | BM25 segmented doc with doc2query-T5 (k1=0.9, b=0.4) | 0.2226 | 0.2234 | 0.6289 | 0.3975 | 0.3612 |
-| [5](#condition-5) | uniCOIL (with doc2query-T5): ONNX | 0.2419 | 0.2445 | 0.6783 | 0.4451 | 0.4150 |
+| [1](#condition-1) | BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.1572 | 0.1659 | 0.5116 | 0.2993 | 0.2946 |
+| [2](#condition-2) | BM25 with doc2query-T5 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.2011 | 0.2012 | 0.5792 | 0.3539 | 0.3511 |
+| [3](#condition-3) | BM25 segmented (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.1896 | 0.1930 | 0.5776 | 0.3618 | 0.3405 |
+| [4](#condition-4) | BM25 segmented with doc2query-T5 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.2226 | 0.2234 | 0.6289 | 0.3975 | 0.3612 |
+| [5](#condition-5) | uniCOIL with doc2query-T5 (ONNX) | 0.2419 | 0.2445 | 0.6783 | 0.4451 | 0.4150 |
 
 
 
@@ -48,7 +49,7 @@ export jvm_args="-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules
 
 <a id="condition-1"></a>
 
-### 1. BM25 complete doc (k1=0.9, b=0.4)
+### 1. BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)
 
 **Config**: [msmarco-v2-doc.core.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-doc.core.yaml)
 
@@ -166,7 +167,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 dl23-doc runs/run.msmarco-v2-doc.co
 
 <a id="condition-2"></a>
 
-### 2. BM25 completed doc with doc2query-T5 (k1=0.9, b=0.4)
+### 2. BM25 with doc2query-T5 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)
 
 **Config**: [msmarco-v2-doc.core.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-doc.core.yaml)
 
@@ -284,7 +285,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 dl23-doc runs/run.msmarco-v2-doc.co
 
 <a id="condition-3"></a>
 
-### 3. BM25 segmented doc (k1=0.9, b=0.4)
+### 3. BM25 segmented (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)
 
 **Config**: [msmarco-v2-doc.core.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-doc.core.yaml)
 
@@ -417,7 +418,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 dl23-doc runs/run.msmarco-v2-doc.co
 
 <a id="condition-4"></a>
 
-### 4. BM25 segmented doc with doc2query-T5 (k1=0.9, b=0.4)
+### 4. BM25 segmented with doc2query-T5 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)
 
 **Config**: [msmarco-v2-doc.core.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-doc.core.yaml)
 
@@ -550,7 +551,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 dl23-doc runs/run.msmarco-v2-doc.co
 
 <a id="condition-5"></a>
 
-### 5. uniCOIL (with doc2query-T5): ONNX
+### 5. uniCOIL with doc2query-T5 (ONNX)
 
 **Config**: [msmarco-v2-doc.core.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-doc.core.yaml)
 

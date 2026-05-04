@@ -1,8 +1,6 @@
 conditions:
   - name: bge-base-en-v1.5.flat.cached
     display: "bge-base-en-v1.5 w/ flat indexes (cached queries)"
-    display_html: "bge-base-en-v1.5 w/ flat indexes (cached queries)"
-    display_row: ""
     command: io.anserini.search.SearchFlatDenseVectors -threads $threads -index beir-v1.0.0-$topics.bge-base-en-v1.5.flat -topics beir-$topics.bge-base-en-v1.5 -output $output -removeQuery
     topics:
       - topic_key: trec-covid

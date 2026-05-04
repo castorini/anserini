@@ -1,8 +1,6 @@
 conditions:
   - name: bm25
     display: "BM25, bag-of-words baseline"
-    display_html: "BM25, bag-of-words baseline"
-    display_row: ""
     command: io.anserini.search.SearchCollection -threads $threads -index bright-$topics -topics bright-$topics -output $output -bm25 -removeQuery
     topics:
       - topic_key: biology
@@ -78,8 +76,7 @@ conditions:
         metric_definitions:
           nDCG@10: "-c -m ndcg_cut.10"
   - name: bm25qs
-    display_html: "BM25, query-side BM25 baseline"
-    display_row: ""
+    display: "BM25, query-side BM25 baseline"
     command: io.anserini.search.SearchCollection -threads $threads -index bright-$topics -topics bright-$topics -output $output -bm25.querySide -removeQuery
     topics:
       - topic_key: biology
@@ -155,9 +152,7 @@ conditions:
         metric_definitions:
           nDCG@10: "-c -m ndcg_cut.10"
   - name: splade-v3.onnx
-    display: "SPLADE-v3: ONNX"
-    display_html: "SPLADE-v3: ONNX"
-    display_row: ""
+    display: "SPLADE-v3 (ONNX)"
     command: io.anserini.search.SearchCollection -threads $threads -index bright-$topics.splade-v3 -topics bright-$topics -encoder SpladeV3 -output $output -impact -pretokenized -removeQuery
     topics:
       - topic_key: biology
@@ -233,9 +228,7 @@ conditions:
         metric_definitions:
           nDCG@10: "-c -m ndcg_cut.10"
   - name: bge-large-en-v1.5.flat.onnx
-    display: "bge-large-en-v1.5 w/ flat indexes: ONNX"
-    display_html: "bge-large-en-v1.5 w/ flat indexes: ONNX"
-    display_row: ""
+    display: "bge-large-en-v1.5 w/ flat indexes (ONNX)"
     command: io.anserini.search.SearchFlatDenseVectors -threads $threads -index bright-$topics.bge-large-en-v1.5.flat -topics bright-$topics -encoder BgeLargeEn15 -output $output -removeQuery
     topics:
       - topic_key: biology

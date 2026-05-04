@@ -1,8 +1,9 @@
 # <img src="../../anserini-logo.png" height="30" /> MS MARCO V2 Doc
 
-**Anserini reproductions from prebuilt indexes for the MS MARCO V2 Doc collection (optional)**
+**Anserini reproductions from prebuilt indexes**
 
-**Config**: [msmarco-v2-doc.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-doc.optional.yaml)
++ **Corpus**: MS MARCO V2 Doc
++ **Config**: [msmarco-v2-doc.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-doc.optional.yaml)
 
 ## Summary
 
@@ -19,8 +20,8 @@ Key:
 
 | # | name | dev | dev2 | DL21 | DL22 | DL23 |
 | --- | --- | --- | --- | --- | --- | --- |
-| [1](#condition-1) | uniCOIL (noexp): cached queries | 0.2231 | 0.2314 | 0.6495 | 0.4165 | 0.3898 |
-| [2](#condition-2) | uniCOIL (with doc2query-T5): cached queries | 0.2419 | 0.2445 | 0.6783 | 0.4451 | 0.4149 |
+| [1](#condition-1) | uniCOIL noexp (cached queries) | 0.2231 | 0.2314 | 0.6495 | 0.4165 | 0.3898 |
+| [2](#condition-2) | uniCOIL with doc2query-T5 (cached queries) | 0.2419 | 0.2445 | 0.6783 | 0.4451 | 0.4149 |
 
 
 
@@ -45,7 +46,7 @@ export jvm_args="-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules
 
 <a id="condition-1"></a>
 
-### 1. uniCOIL (noexp): cached queries
+### 1. uniCOIL noexp (cached queries)
 
 **Config**: [msmarco-v2-doc.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-doc.optional.yaml)
 
@@ -188,7 +189,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 dl23-doc runs/run.msmarco-v2-doc.op
 
 <a id="condition-2"></a>
 
-### 2. uniCOIL (with doc2query-T5): cached queries
+### 2. uniCOIL with doc2query-T5 (cached queries)
 
 **Config**: [msmarco-v2-doc.optional.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-doc.optional.yaml)
 
