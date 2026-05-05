@@ -114,7 +114,7 @@ public final class GetDocument {
           System.err.printf("Error: %s%n", e.getMessage());
         }
       }
-    } catch (IOException e) {
+    } catch (IllegalArgumentException | IOException e) {
       System.err.printf("Error: %s%n", e.getMessage());
     }
   }

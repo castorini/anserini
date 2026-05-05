@@ -151,6 +151,15 @@ public class GetDocumentTest extends StdOutStdErrRedirectableLuceneTestCase {
   }
 
   @Test
+  public void testInteractiveInvalidIndex() {
+    Path missingIndexPath = cacmIndexPath.resolveSibling("anserini-get-document-test-missing-index");
+    GetDocument.main(new String[] {"--index", missingIndexPath.toString(), "--interactive"});
+
+    assertTrue(out.toString().isEmpty());
+    assertTrue(err.toString().contains("Error:"));
+  }
+
+  @Test
   public void testDocumentNotFound() {
     GetDocument.main(new String[] {"--index", cacmIndexPath.toString(), "--docid", "CACM-9999"});
     assertTrue(out.toString().isEmpty());
