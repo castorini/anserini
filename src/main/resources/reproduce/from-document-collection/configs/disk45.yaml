@@ -68,7 +68,7 @@ models:
         - 0.3407
         - 0.3753
         - 0.3349
-  - name: bm25+bm25prf
+  - name: bm25prf
     display: +BM25PRF
     params: -bm25 -bm25prf
     results:
