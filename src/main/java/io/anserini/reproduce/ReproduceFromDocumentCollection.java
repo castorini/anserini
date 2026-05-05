@@ -73,6 +73,7 @@ import io.anserini.search.SearchCollection;
 import io.anserini.search.SearchFlatDenseVectors;
 import io.anserini.search.SearchHnswDenseVectors;
 import io.anserini.search.SearchInvertedDenseVectors;
+import io.anserini.util.CacheDirectoryResolver;
 import io.anserini.util.LoggingBootstrap;
 
 public class ReproduceFromDocumentCollection {
@@ -243,7 +244,7 @@ public class ReproduceFromDocumentCollection {
 
       if (corpusPath == null) {
         throw new RuntimeException(String.format("Unable to find the corpus '%s': looked in %s",
-            yaml.get("corpus").asText(), Arrays.toString(CORPUS_ROOTS)));
+            yaml.get("corpus").asText(), getCorpusRoots()));
       }
 
       String command = constructIndexingCommand(yaml, args, corpusPath);
@@ -353,16 +354,37 @@ public class ReproduceFromDocumentCollection {
       }
     } else {
       String yamlCorpusPath = Objects.requireNonNull(yaml.get("corpus_path")).asText();
-      for (String root : CORPUS_ROOTS) {
-        Path candidate = Paths.get(root, yamlCorpusPath);
-        if (Files.exists(candidate)) {
-          corpusPath = candidate.toString();
-          break;
+      Path cachedCandidate = getCachedCorpusPath(yamlCorpusPath);
+      if (Files.exists(cachedCandidate)) {
+        corpusPath = cachedCandidate.toString();
+      } else {
+        for (String root : CORPUS_ROOTS) {
+          Path candidate = Paths.get(root, yamlCorpusPath);
+          if (Files.exists(candidate)) {
+            corpusPath = candidate.toString();
+            break;
+          }
         }
       }
     }
 
     return corpusPath;
+  }
+
+  private static List<String> getCorpusRoots() {
+    List<String> roots = new ArrayList<>();
+    roots.add(CacheDirectoryResolver.getCollectionCachePath().toString());
+    roots.addAll(Arrays.asList(CORPUS_ROOTS));
+    return roots;
+  }
+
+  private static Path getCachedCorpusPath(String yamlCorpusPath) {
+    Path corpusPath = Paths.get(yamlCorpusPath);
+    if (corpusPath.getNameCount() > 0 && "collections".equals(corpusPath.getName(0).toString())) {
+      corpusPath = corpusPath.subpath(1, corpusPath.getNameCount());
+    }
+
+    return CacheDirectoryResolver.getCollectionCachePath().resolve(corpusPath);
   }
 
   private static String constructIndexingCommand(JsonNode yaml, Args args, String corpusPath) throws IOException {

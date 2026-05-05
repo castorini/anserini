@@ -77,9 +77,11 @@ public class CacheDirectoryResolverTest {
     assertEquals(base.resolve("indexes"), CacheDirectoryResolver.getIndexCachePath());
     assertEquals(base.resolve("topics-and-qrels"), CacheDirectoryResolver.getTopicsAndQrelsCachePath());
     assertEquals(base.resolve("encoders"), CacheDirectoryResolver.getEncodersCachePath());
+    assertEquals(base.resolve("collections"), CacheDirectoryResolver.getCollectionCachePath());
     assertTrue(Files.isDirectory(base.resolve("indexes")));
     assertTrue(Files.isDirectory(base.resolve("topics-and-qrels")));
     assertTrue(Files.isDirectory(base.resolve("encoders")));
+    assertTrue(Files.isDirectory(base.resolve("collections")));
   }
 
   @Test
@@ -93,10 +95,12 @@ public class CacheDirectoryResolverTest {
     assertEquals(base.resolve("indexes"), CacheDirectoryResolver.getIndexCachePath());
     assertEquals(base.resolve("topics-and-qrels"), CacheDirectoryResolver.getTopicsAndQrelsCachePath());
     assertEquals(base.resolve("encoders"), CacheDirectoryResolver.getEncodersCachePath());
+    assertEquals(base.resolve("collections"), CacheDirectoryResolver.getCollectionCachePath());
     assertTrue(Files.isDirectory(base));
     assertTrue(Files.isDirectory(base.resolve("indexes")));
     assertTrue(Files.isDirectory(base.resolve("topics-and-qrels")));
     assertTrue(Files.isDirectory(base.resolve("encoders")));
+    assertTrue(Files.isDirectory(base.resolve("collections")));
   }
 
   @Test
@@ -112,10 +116,12 @@ public class CacheDirectoryResolverTest {
     assertEquals(override.resolve("indexes"), CacheDirectoryResolver.getIndexCachePath());
     assertEquals(override.resolve("topics-and-qrels"), CacheDirectoryResolver.getTopicsAndQrelsCachePath());
     assertEquals(override.resolve("encoders"), CacheDirectoryResolver.getEncodersCachePath());
+    assertEquals(override.resolve("collections"), CacheDirectoryResolver.getCollectionCachePath());
     assertTrue(Files.isDirectory(override));
     assertTrue(Files.isDirectory(override.resolve("indexes")));
     assertTrue(Files.isDirectory(override.resolve("topics-and-qrels")));
     assertTrue(Files.isDirectory(override.resolve("encoders")));
+    assertTrue(Files.isDirectory(override.resolve("collections")));
   }
 
   @Test(expected = UncheckedIOException.class)

@@ -68,6 +68,18 @@ models:
         - 0.3407
         - 0.3753
         - 0.3349
+  - name: bm25+bm25prf
+    display: +BM25PRF
+    params: -bm25 -bm25prf
+    results:
+      MAP:
+        - 0.2394
+        - 0.2791
+        - 0.2928
+      P30:
+        - 0.3473
+        - 0.3807
+        - 0.3438
   - name: bm25+rocchio
     display: +Rocchio
     params: -bm25 -rocchio

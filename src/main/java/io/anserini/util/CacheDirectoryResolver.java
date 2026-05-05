@@ -26,8 +26,8 @@ import java.nio.file.Path;
  * {@code pyserini.cache} system property and {@code PYSERINI_CACHE} environment variable override the base cache path.
  * If neither override is set and a {@code .cache} directory exists in the current working directory, the base cache path
  * is {@code <cwd>/.cache/pyserini}. Indexes are stored under {@code <base>/indexes}. Topics and qrels are stored
- * together under {@code <base>/topics-and-qrels}. Encoders are stored under {@code <base>/encoders}. All public
- * accessors create the resolved directory before returning it.
+ * together under {@code <base>/topics-and-qrels}. Encoders are stored under {@code <base>/encoders}. Collections are
+ * stored under {@code <base>/collections}. All public accessors create the resolved directory before returning it.
  */
 public final class CacheDirectoryResolver {
   public static final String CACHE_PROPERTY = "pyserini.cache";
@@ -39,6 +39,7 @@ public final class CacheDirectoryResolver {
   private static final String INDEXES_DIR = "indexes";
   private static final String TOPICS_AND_QRELS_DIR = "topics-and-qrels";
   private static final String ENCODERS_DIR = "encoders";
+  private static final String COLLECTIONS_DIR = "collections";
 
   private CacheDirectoryResolver() {
   }
@@ -57,6 +58,10 @@ public final class CacheDirectoryResolver {
 
   public static Path getEncodersCachePath() {
     return createDirectories(resolveBasePath().resolve(ENCODERS_DIR));
+  }
+
+  public static Path getCollectionCachePath() {
+    return createDirectories(resolveBasePath().resolve(COLLECTIONS_DIR));
   }
 
   private static Path resolveBasePath() {

@@ -17,6 +17,7 @@
 package io.anserini.reproduce;
 
 import java.io.File;
+import java.lang.reflect.Method;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.nio.file.Files;
@@ -40,6 +41,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 import io.anserini.eval.TrecEval;
@@ -48,6 +50,7 @@ import io.anserini.index.IndexCollection;
 import io.anserini.search.SearchCollection;
 import io.anserini.search.topicreader.TopicReader;
 import io.anserini.search.topicreader.Topics;
+import io.anserini.util.CacheDirectoryResolver;
 
 public class ReproduceFromDocumentCollectionTest extends StdOutStdErrRedirectableLuceneTestCase {
   private static final Path CACM_FATJAR_LOG = Paths.get("target", "run-cacm-fatjar.log");
@@ -170,6 +173,37 @@ public class ReproduceFromDocumentCollectionTest extends StdOutStdErrRedirectabl
     deleteDirectoryIfExists(Paths.get("collections/cacm/"));
 
     Files.deleteIfExists(Paths.get("collections/cacm-in-folder.tar.gz"));
+  }
+
+  @Test
+  public void testResolveCorpusPathPrefersCollectionCache() throws Exception {
+    Path cache = createTempDir("collection-cache");
+    String cacheProperty = System.getProperty(CacheDirectoryResolver.CACHE_PROPERTY);
+    System.setProperty(CacheDirectoryResolver.CACHE_PROPERTY, cache.toString());
+
+    try {
+      Path cachedCollection = CacheDirectoryResolver.getCollectionCachePath().resolve("newswire/disk45");
+      Files.createDirectories(cachedCollection);
+
+      ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+      ReproduceFromDocumentCollection.Args args = new ReproduceFromDocumentCollection.Args();
+      Method resolveCorpusPath = ReproduceFromDocumentCollection.class.getDeclaredMethod(
+          "resolveCorpusPath", com.fasterxml.jackson.databind.JsonNode.class, ReproduceFromDocumentCollection.Args.class);
+      resolveCorpusPath.setAccessible(true);
+
+      String resolved = (String) resolveCorpusPath.invoke(null, mapper.readTree("""
+          corpus: disk45
+          corpus_path: collections/newswire/disk45/
+          """), args);
+
+      assertEquals(cachedCollection.toString(), resolved);
+    } finally {
+      if (cacheProperty == null) {
+        System.clearProperty(CacheDirectoryResolver.CACHE_PROPERTY);
+      } else {
+        System.setProperty(CacheDirectoryResolver.CACHE_PROPERTY, cacheProperty);
+      }
+    }
   }
 
   private void assumeGithubReachable() {
