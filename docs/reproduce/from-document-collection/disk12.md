@@ -88,19 +88,19 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.disk12/ \
   -topics tools/topics-and-qrels/topics.adhoc.51-100.txt \
   -topicReader Trec \
-  -output runs/run.disk12.bm25+bm25prf.topics.adhoc.51-100.txt \
+  -output runs/run.disk12.bm25prf.topics.adhoc.51-100.txt \
   -bm25 -bm25prf &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.disk12/ \
   -topics tools/topics-and-qrels/topics.adhoc.101-150.txt \
   -topicReader Trec \
-  -output runs/run.disk12.bm25+bm25prf.topics.adhoc.101-150.txt \
+  -output runs/run.disk12.bm25prf.topics.adhoc.101-150.txt \
   -bm25 -bm25prf &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.disk12/ \
   -topics tools/topics-and-qrels/topics.adhoc.151-200.txt \
   -topicReader Trec \
-  -output runs/run.disk12.bm25+bm25prf.topics.adhoc.151-200.txt \
+  -output runs/run.disk12.bm25prf.topics.adhoc.151-200.txt \
   -bm25 -bm25prf &
 
 bin/run.sh io.anserini.search.SearchCollection \
@@ -210,9 +210,9 @@ bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.51-100.txt runs/
 bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.101-150.txt runs/run.disk12.bm25+rm3.topics.adhoc.101-150.txt
 bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.151-200.txt runs/run.disk12.bm25+rm3.topics.adhoc.151-200.txt
 
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.51-100.txt runs/run.disk12.bm25+bm25prf.topics.adhoc.51-100.txt
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.101-150.txt runs/run.disk12.bm25+bm25prf.topics.adhoc.101-150.txt
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.151-200.txt runs/run.disk12.bm25+bm25prf.topics.adhoc.151-200.txt
+bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.51-100.txt runs/run.disk12.bm25prf.topics.adhoc.51-100.txt
+bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.101-150.txt runs/run.disk12.bm25prf.topics.adhoc.101-150.txt
+bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.151-200.txt runs/run.disk12.bm25prf.topics.adhoc.151-200.txt
 
 bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.51-100.txt runs/run.disk12.bm25+rocchio.topics.adhoc.51-100.txt
 bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.101-150.txt runs/run.disk12.bm25+rocchio.topics.adhoc.101-150.txt

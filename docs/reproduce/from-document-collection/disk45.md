@@ -87,19 +87,19 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.disk45/ \
   -topics tools/topics-and-qrels/topics.adhoc.351-400.txt \
   -topicReader Trec \
-  -output runs/run.disk45.bm25+bm25prf.topics.adhoc.351-400.txt \
+  -output runs/run.disk45.bm25prf.topics.adhoc.351-400.txt \
   -bm25 -bm25prf &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.disk45/ \
   -topics tools/topics-and-qrels/topics.adhoc.401-450.txt \
   -topicReader Trec \
-  -output runs/run.disk45.bm25+bm25prf.topics.adhoc.401-450.txt \
+  -output runs/run.disk45.bm25prf.topics.adhoc.401-450.txt \
   -bm25 -bm25prf &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.disk45/ \
   -topics tools/topics-and-qrels/topics.robust04.txt \
   -topicReader Trec \
-  -output runs/run.disk45.bm25+bm25prf.topics.robust04.txt \
+  -output runs/run.disk45.bm25prf.topics.robust04.txt \
   -bm25 -bm25prf &
 
 bin/run.sh io.anserini.search.SearchCollection \
@@ -266,9 +266,9 @@ bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.351-400.txt runs
 bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.401-450.txt runs/run.disk45.bm25+rm3.topics.adhoc.401-450.txt
 bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.robust04.txt runs/run.disk45.bm25+rm3.topics.robust04.txt
 
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.351-400.txt runs/run.disk45.bm25+bm25prf.topics.adhoc.351-400.txt
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.401-450.txt runs/run.disk45.bm25+bm25prf.topics.adhoc.401-450.txt
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.robust04.txt runs/run.disk45.bm25+bm25prf.topics.robust04.txt
+bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.351-400.txt runs/run.disk45.bm25prf.topics.adhoc.351-400.txt
+bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.401-450.txt runs/run.disk45.bm25prf.topics.adhoc.401-450.txt
+bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.robust04.txt runs/run.disk45.bm25prf.topics.robust04.txt
 
 bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.351-400.txt runs/run.disk45.bm25+rocchio.topics.adhoc.351-400.txt
 bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.401-450.txt runs/run.disk45.bm25+rocchio.topics.adhoc.401-450.txt
