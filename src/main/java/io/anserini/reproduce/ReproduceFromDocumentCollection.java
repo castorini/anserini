@@ -723,9 +723,12 @@ public class ReproduceFromDocumentCollection {
       return;
     }
 
-    ProcessBuilder pb = new ProcessBuilder("bash", "-lc", command);
-    pb.inheritIO();
-    Process p = pb.start();
+    Process p = new ProcessBuilder("bash", "-lc", command)
+        .redirectInput(ProcessBuilder.Redirect.PIPE)
+        .redirectOutput(ProcessBuilder.Redirect.DISCARD)
+        .redirectError(ProcessBuilder.Redirect.DISCARD)
+        .start();
+    p.getOutputStream().close();
     int code = p.waitFor();
     if (code != 0) {
       throw new RuntimeException("Command failed: " + command);

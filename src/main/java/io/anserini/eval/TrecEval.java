@@ -178,10 +178,12 @@ public class TrecEval {
    */
   public int run(String[] args) {
     try {
-      ProcessBuilder pb = getBuilder(args);
-      pb.inheritIO();
-
+      ProcessBuilder pb = getBuilder(args)
+          .redirectInput(ProcessBuilder.Redirect.PIPE)
+          .redirectErrorStream(true);
       Process p = pb.start();
+      p.getOutputStream().close();
+      p.getInputStream().transferTo(System.out);
       exit = p.waitFor();
     } catch (Exception e) {
       e.printStackTrace();
