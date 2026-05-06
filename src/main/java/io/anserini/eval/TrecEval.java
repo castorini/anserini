@@ -167,8 +167,7 @@ public class TrecEval {
     if (exit != 0) {
       String stderrMessage = stderr.toString(StandardCharsets.UTF_8).trim();
       if (!stderrMessage.isEmpty()) {
-        throw new RuntimeException(String.format("trec_eval ended with non-zero exit code (%d): %s",
-            exit, stderrMessage));
+        throw new RuntimeException(String.format("trec_eval ended with non-zero exit code (%d): %s", exit, stderrMessage));
       }
       throw new RuntimeException(String.format("trec_eval ended with non-zero exit code (%d)", exit));
     }
