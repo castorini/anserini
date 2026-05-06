@@ -85,7 +85,7 @@
         <configuration>
           <!-- Need to add @{argLine} for JaCoCo to work; see
           https://stackoverflow.com/questions/71568474/getting-skipping-jacoco-execution-due-to-missing-execution-data-file-with-jaco -->
-          <argLine>@{argLine} -Xmx8192m</argLine>
+          <argLine>@{argLine} -Xmx8192m --enable-native-access=ALL-UNNAMED</argLine>
         </configuration>
       </plugin>
       <plugin>
