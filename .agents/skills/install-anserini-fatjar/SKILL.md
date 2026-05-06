@@ -1,7 +1,8 @@
 ---
 name: install-anserini-fatjar
-version: v0.2.0
 description: Install and verify Anserini quickly by downloading the published fatjar from Maven Central instead of cloning or building the source repository. Use when users want fast setup, smoke tests, or CLI examples from a released Anserini jar.
+metadata:
+  version: v0.2.0
 ---
 
 # Install Anserini Fatjar
@@ -24,7 +25,7 @@ built from the current checkout, use `$install-anserini-dev-env` instead.
 1. Verify runtime tools.
 2. Download the released fatjar from Maven Central.
 3. Run the CACM prebuilt-index smoke test.
-4. Use `$use-anserini-cli` for CLI examples after setup.
+4. Use `$anserini-cli` for CLI examples after setup.
 
 ## 1. Verify Runtime Tools
 

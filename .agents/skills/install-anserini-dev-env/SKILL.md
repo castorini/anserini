@@ -1,7 +1,8 @@
 ---
 name: install-anserini-dev-env
-version: v0.2.0
 description: Set up and verify Anserini source-development environments. Use for JDK 21, Maven 3.9+, submodules, Anserini build scripts, smoke tests, and Java/Maven troubleshooting in castorini/anserini.
+metadata:
+  version: v0.2.0
 ---
 
 # Install Anserini Dev Env
@@ -165,7 +166,7 @@ grep -q $'map\tall\t0.3123' eval.cacm.bm25.txt
 grep -q $'P_30\tall\t0.1942' eval.cacm.bm25.txt
 ```
 
-For CLI examples after setup, use `$use-anserini-cli`.
+For CLI examples after setup, use `$anserini-cli`.
 
 ## Troubleshooting
 

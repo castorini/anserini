@@ -1,7 +1,8 @@
 ---
-name: use-anserini-cli
-version: v0.2.0
+name: anserini-cli
 description: Run Anserini command-line and REST workflows from either a built fatjar or an Anserini source checkout. Use for PrebuiltIndexRegistry, TopicsRegistry, ad hoc search, interactive search, output formats, and RestServer examples.
+metadata:
+  version: v0.2.0
 ---
 
 # Use Anserini CLI
@@ -16,13 +17,14 @@ setup or builds. If no usable fatjar or checkout is present, use
 Do not run commands that trigger large prebuilt-index downloads unless the user
 explicitly asks for retrieval experiments or index downloads.
 
-Prefer the invocation form that matches the user's environment:
+Examples below use the fatjar form:
 
 ```bash
 java -cp "$ANSERINI_JAR" <main-class> <args>
 ```
 
-or, from an Anserini checkout:
+From an Anserini source checkout, replace `java -cp "$ANSERINI_JAR"` with
+`bin/run.sh`:
 
 ```bash
 bin/run.sh <main-class> <args>
@@ -58,18 +60,6 @@ java -cp "$ANSERINI_JAR" io.anserini.search.SearchCollection \
   -bm25
 ```
 
-or:
-
-```bash
-bin/run.sh io.anserini.search.SearchCollection \
-  -threads 1 \
-  -index cacm \
-  -topics cacm \
-  -output run.cacm.bm25.txt \
-  -hits 1000 \
-  -bm25
-```
-
 This command may download the small CACM prebuilt index and topics on first use.
 
 ## Prebuilt Index Registry
@@ -79,12 +69,6 @@ run:
 
 ```bash
 java -cp "$ANSERINI_JAR" io.anserini.cli.PrebuiltIndexRegistry --list
-```
-
-or:
-
-```bash
-bin/run.sh io.anserini.cli.PrebuiltIndexRegistry --list
 ```
 
 `--list` emits JSON in current jars, so prefer `--filter` and `jq` instead of
@@ -114,22 +98,12 @@ java -cp "$ANSERINI_JAR" io.anserini.cli.PrebuiltIndexRegistry --type impact --l
 java -cp "$ANSERINI_JAR" io.anserini.cli.PrebuiltIndexRegistry --type hnsw --list
 ```
 
-Translate the examples to
-`bin/run.sh io.anserini.cli.PrebuiltIndexRegistry ...` when working from a
-checkout without `ANSERINI_JAR`.
-
 ## Topics Registry
 
 To inspect topics exposed by `io.anserini.cli.TopicsRegistry`, run:
 
 ```bash
 java -cp "$ANSERINI_JAR" io.anserini.cli.TopicsRegistry --list
-```
-
-or:
-
-```bash
-bin/run.sh io.anserini.cli.TopicsRegistry --list
 ```
 
 `--list` emits JSON in current jars, so prefer `--filter` and `jq` to locate the
@@ -157,6 +131,50 @@ java -cp "$ANSERINI_JAR" \
 Use `--list` first to discover the exact set name, then `--get` to inspect its
 contents.
 
+## Search CLI
+
+Use `io.anserini.cli.Search` for ad hoc retrieval against either a local Lucene
+index path or a prebuilt index name.
+
+Example using the popular `msmarco-v1-passage` prebuilt index:
+
+```bash
+java -cp "$ANSERINI_JAR" io.anserini.cli.Search --index msmarco-v1-passage --query "what is a lobster roll" --hits 10
+```
+
+Interactive mode:
+
+```bash
+java -cp "$ANSERINI_JAR" io.anserini.cli.Search --index msmarco-v1-passage --interactive
+```
+
+Useful output variants:
+
+```bash
+java -cp "$ANSERINI_JAR" io.anserini.cli.Search --index msmarco-v1-passage --query "what is a lobster roll" --json
+java -cp "$ANSERINI_JAR" io.anserini.cli.Search --index msmarco-v1-passage --query "what is a lobster roll" --trec
+```
+
+## Get Document CLI
+
+Use `io.anserini.cli.GetDocument` to fetch the stored raw document for a
+collection docid from either a local Lucene index path or a prebuilt index name.
+
+Example using the popular `msmarco-v1-passage` prebuilt index:
+
+```bash
+java -cp "$ANSERINI_JAR" io.anserini.cli.GetDocument --index msmarco-v1-passage --docid 2161721
+```
+
+Interactive mode reads docids from stdin:
+
+```bash
+java -cp "$ANSERINI_JAR" io.anserini.cli.GetDocument --index msmarco-v1-passage --interactive
+```
+
+This command prints the document's stored raw field. It reports an error when
+the docid is not found or when the index does not store raw documents.
+
 ## SearchCollection
 
 Use `io.anserini.search.SearchCollection` for batch retrieval over a topic set.
@@ -175,32 +193,10 @@ java -cp "$ANSERINI_JAR" io.anserini.search.SearchCollection \
   -bm25
 ```
 
-Checkout equivalent:
-
-```bash
-bin/run.sh io.anserini.search.SearchCollection \
-  -index cacm \
-  -topics cacm \
-  -output run.cacm.bm25.txt \
-  -hits 1000 \
-  -bm25
-```
-
 Evaluate the CACM run with Anserini's Java `trec_eval` wrapper:
 
 ```bash
 java -cp "$ANSERINI_JAR" io.anserini.eval.TrecEval \
-  -c \
-  -m map \
-  -m P.30 \
-  cacm \
-  run.cacm.bm25.txt
-```
-
-or:
-
-```bash
-bin/run.sh io.anserini.eval.TrecEval \
   -c \
   -m map \
   -m P.30 \
@@ -224,39 +220,6 @@ grep -q $'map\tall\t0.3123' eval.cacm.bm25.txt
 grep -q $'P_30\tall\t0.1942' eval.cacm.bm25.txt
 ```
 
-Translate the verification command to `bin/run.sh io.anserini.eval.TrecEval ...`
-when working from a checkout without `ANSERINI_JAR`.
-
-## Search CLI
-
-Use `io.anserini.cli.Search` for ad hoc retrieval against either a local Lucene
-index path or a prebuilt index name.
-
-Example using the popular `msmarco-v1-passage` prebuilt index:
-
-```bash
-java -cp "$ANSERINI_JAR" io.anserini.cli.Search --index msmarco-v1-passage --query "what is a lobster roll" --hits 10
-```
-
-Checkout equivalent:
-
-```bash
-bin/run.sh io.anserini.cli.Search --index msmarco-v1-passage --query "what is a lobster roll" --hits 10
-```
-
-Interactive mode:
-
-```bash
-java -cp "$ANSERINI_JAR" io.anserini.cli.Search --index msmarco-v1-passage --interactive
-```
-
-Useful output variants:
-
-```bash
-java -cp "$ANSERINI_JAR" io.anserini.cli.Search --index msmarco-v1-passage --query "what is a lobster roll" --json
-java -cp "$ANSERINI_JAR" io.anserini.cli.Search --index msmarco-v1-passage --query "what is a lobster roll" --trec
-```
-
 ## REST API Server
 
 Use `io.anserini.api.RestServer` to expose search and document lookup over HTTP.
@@ -265,12 +228,6 @@ Fatjar invocation:
 
 ```bash
 java -cp "$ANSERINI_JAR" io.anserini.api.RestServer --port 8081
-```
-
-Checkout invocation:
-
-```bash
-bin/run.sh io.anserini.api.RestServer --port 8081
 ```
 
 Sample requests against the popular `msmarco-v1-passage` index:

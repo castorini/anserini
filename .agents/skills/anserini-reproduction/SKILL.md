@@ -1,7 +1,8 @@
 ---
 name: anserini-reproduction
-version: v0.2.0
 description: Reproduce experimental results with Anserini. Use when Codex needs to run or explain Anserini reproduction workflows for published or reported results, including reproductions with prebuilt indexes, reproductions from raw document collections, reproduction YAMLs, run generation, evaluation, and metric verification.
+metadata:
+  version: v0.2.0
 ---
 
 # Anserini Reproduction
@@ -37,7 +38,7 @@ implementation details until the user chooses a type or asks for more detail.
 2. Confirm the environment is ready:
    - use `$install-anserini-dev-env` for source builds, submodules, and evaluation tools
    - use `$install-anserini-fatjar` for released fatjar-only reproduction
-   - use `$use-anserini-cli` for command syntax, catalog lookup, search, and REST examples
+   - use `$anserini-cli` for command syntax, catalog lookup, search, and REST examples
 3. Prefer checked reproduction definitions bundled with Anserini when available.
 4. Run the reproduction, capture the run output path, evaluate with the
    appropriate tool, and compare against expected metrics.
@@ -111,6 +112,39 @@ Consult that page before giving detailed config lists, exact commands, or
 dataset/model coverage. For pinned release or fatjar workflows, prefer the docs
 bundled with or tagged for that release when they differ from `master`.
 
+Config discovery:
+
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --list
+```
+
+The list is emitted as JSON. Use `jq` to browse or filter it, for example:
+
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --list | jq -r '.[]'
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --list | jq -r '.[] | select(test("msmarco-v1-passage"))'
+```
+
+Document pages deterministically map from config name to:
+
+```text
+https://github.com/castorini/anserini/blob/master/docs/reproduce/from-document-collection/<config>.md
+```
+
+For example, config `msmarco-v1-passage` maps to:
+
+```text
+https://github.com/castorini/anserini/blob/master/docs/reproduce/from-document-collection/msmarco-v1-passage.md
+```
+
+Useful commands:
+
+- Run with `--help` to inspect the current command-line options.
+- `--config <config> --show`: print a specific config.
+- Use `--dry-run` before expensive indexing, search, or download work.
+- Combine workflow stages such as `--download`, `--index`, `--verify`, and
+  `--search` as needed.
+
 High-level behavior:
 
 - Loads a YAML config.
@@ -127,15 +161,6 @@ High-level behavior:
 - Compares observed scores against expected values and reports whether each
   metric matches, is close, or fails.
 - Reports total elapsed time for non-dry-run executions.
-
-Useful commands:
-
-- Run with `--help` to inspect the current command-line options.
-- `--list`: enumerate available configs.
-- `--config <config> --show`: print a specific config.
-- Use `--dry-run` before expensive indexing, search, or download work.
-- Combine workflow stages such as `--download`, `--index`, `--verify`, and
-  `--search` as needed.
 
 Operational guidance:
 
