@@ -17,13 +17,14 @@
 package io.anserini.eval;
 
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.lang.ProcessBuilder.Redirect;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -137,10 +138,18 @@ public class TrecEval {
    */
   public String[][] runAndGetOutput(String[] args) {
     List<String[]> output = new ArrayList<String[]>();
+    ByteArrayOutputStream stderr = new ByteArrayOutputStream();
     try {
       ProcessBuilder pb = getBuilder(args);
-      pb.redirectError(Redirect.INHERIT);
       Process p = pb.start();
+      Thread stderrReader = new Thread(() -> {
+        try (InputStream err = p.getErrorStream()) {
+          err.transferTo(stderr);
+        } catch (IOException e) {
+          throw new RuntimeException(e);
+        }
+      });
+      stderrReader.start();
       try (InputStream in = p.getInputStream();
            InputStreamReader reader = new InputStreamReader(in);
            LineIterator it = IOUtils.lineIterator(reader)) {
@@ -149,12 +158,17 @@ public class TrecEval {
         }
       }
       p.waitFor();
+      stderrReader.join();
       exit = p.exitValue();
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
 
     if (exit != 0) {
+      String stderrMessage = stderr.toString(StandardCharsets.UTF_8).trim();
+      if (!stderrMessage.isEmpty()) {
+        throw new RuntimeException(String.format("trec_eval ended with non-zero exit code (%d): %s", exit, stderrMessage));
+      }
       throw new RuntimeException(String.format("trec_eval ended with non-zero exit code (%d)", exit));
     }
 
