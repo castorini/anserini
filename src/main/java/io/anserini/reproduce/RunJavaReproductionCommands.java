@@ -287,8 +287,12 @@ public class RunJavaReproductionCommands {
   }
 
   private static Process launch(String command) throws IOException {
-    return new ProcessBuilder("bash", "-lc", command)
-        .inheritIO()
+    Process process = new ProcessBuilder("bash", "-lc", command)
+        .redirectInput(ProcessBuilder.Redirect.PIPE)
+        .redirectOutput(ProcessBuilder.Redirect.DISCARD)
+        .redirectError(ProcessBuilder.Redirect.DISCARD)
         .start();
+    process.getOutputStream().close();
+    return process;
   }
 }
