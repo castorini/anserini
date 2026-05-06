@@ -84,6 +84,7 @@ public class GetDocumentTest extends StdOutStdErrRedirectableLuceneTestCase {
 
   @After
   public void tearDown() throws Exception {
+    restoreStdIn();
     restoreStdOut();
     restoreStdErr();
     super.tearDown();
@@ -140,7 +141,7 @@ public class GetDocumentTest extends StdOutStdErrRedirectableLuceneTestCase {
   @Test
   public void testInteractiveGetDocumentWithCacm() {
     String stdin = "CACM-0001\n\nCACM-0002\n";
-    System.setIn(new ByteArrayInputStream(stdin.getBytes(StandardCharsets.UTF_8)));
+    redirectStdIn(new ByteArrayInputStream(stdin.getBytes(StandardCharsets.UTF_8)));
 
     GetDocument.main(new String[] {"--index", cacmIndexPath.toString(), "--interactive"});
 
@@ -153,6 +154,8 @@ public class GetDocumentTest extends StdOutStdErrRedirectableLuceneTestCase {
   @Test
   public void testInteractiveInvalidIndex() {
     Path missingIndexPath = cacmIndexPath.resolveSibling("anserini-get-document-test-missing-index");
+    redirectStdIn(new ByteArrayInputStream(new byte[0]));
+
     GetDocument.main(new String[] {"--index", missingIndexPath.toString(), "--interactive"});
 
     assertTrue(out.toString().isEmpty());

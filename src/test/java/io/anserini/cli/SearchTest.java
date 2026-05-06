@@ -74,6 +74,7 @@ public class SearchTest extends StdOutStdErrRedirectableLuceneTestCase {
 
   @After
   public void tearDown() throws Exception {
+    restoreStdIn();
     restoreStdOut();
     restoreStdErr();
     super.tearDown();
@@ -150,7 +151,7 @@ public class SearchTest extends StdOutStdErrRedirectableLuceneTestCase {
   @Test
   public void testInteractiveSearchTrecOutpuWithCacm() {
     String stdin = "information retrieval\n";
-    System.setIn(new ByteArrayInputStream(stdin.getBytes(StandardCharsets.UTF_8)));
+    redirectStdIn(new ByteArrayInputStream(stdin.getBytes(StandardCharsets.UTF_8)));
 
     Search.main(new String[] {"--index", cacmIndexPath.toString(), "--interactive", "--trec", "--hits", "1"});
 
@@ -163,7 +164,7 @@ public class SearchTest extends StdOutStdErrRedirectableLuceneTestCase {
   public void testInteractiveSearchJsonOutputWithCacm() throws Exception {
     String query = "information retrieval";
     String stdin = query + "\n";
-    System.setIn(new ByteArrayInputStream(stdin.getBytes(StandardCharsets.UTF_8)));
+    redirectStdIn(new ByteArrayInputStream(stdin.getBytes(StandardCharsets.UTF_8)));
 
     Search.main(new String[] {"--index", cacmIndexPath.toString(), "--interactive", "--json", "--hits", "1"});
 
