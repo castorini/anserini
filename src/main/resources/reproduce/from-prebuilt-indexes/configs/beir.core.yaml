@@ -1,8 +1,6 @@
 conditions:
   - name: flat
     display: "BM25, flat bag-of-words baseline"
-    display_html: "BM25, flat bag-of-words baseline"
-    display_row: ""
     command: io.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.flat -topics beir-$topics -output $output -bm25 -removeQuery
     topics:
       - topic_key: trec-covid
@@ -181,8 +179,6 @@ conditions:
           nDCG@10: "-c -m ndcg_cut.10"
   - name: multifield
     display: "BM25, multifield bag-of-words baseline"
-    display_html: "BM25, multifield bag-of-words baseline"
-    display_row: ""
     command: io.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.multifield -topics beir-$topics -output $output -bm25 -removeQuery -fields contents=1.0 title=1.0
     topics:
       - topic_key: trec-covid
@@ -361,8 +357,6 @@ conditions:
           nDCG@10: "-c -m ndcg_cut.10"
   - name: splade-v3.onnx
     display: "SPLADE-v3 (ONNX)"
-    display_html: "SPLADE-v3 (ONNX)"
-    display_row: ""
     command: io.anserini.search.SearchCollection -threads $threads -index beir-v1.0.0-$topics.splade-v3 -topics beir-$topics -encoder SpladeV3 -output $output -impact -pretokenized -removeQuery
     topics:
     - topic_key: trec-covid
@@ -539,190 +533,8 @@ conditions:
         nDCG@10: 0.7140
       metric_definitions:
         nDCG@10: "-c -m ndcg_cut.10"
-  - name: bge-base-en-v1.5.hnsw.onnx
-    display: "bge-base-en-v1.5 w/ HNSW indexes (ONNX)"
-    display_html: "bge-base-en-v1.5 w/ HNSW indexes (ONNX)"
-    display_row: ""
-    command: io.anserini.search.SearchHnswDenseVectors -threads $threads -index beir-v1.0.0-$topics.bge-base-en-v1.5.hnsw -topics beir-$topics -encoder BgeBaseEn15 -output $output -efSearch 1000 -removeQuery
-    topics:
-    - topic_key: trec-covid
-      eval_key: beir-v1.0.0-trec-covid.test
-      expected_scores:
-        nDCG@10: 0.7835
-      metric_definitions:
-        nDCG@10: "-c -m ndcg_cut.10"
-    - topic_key: bioasq
-      eval_key: beir-v1.0.0-bioasq.test
-      expected_scores:
-        nDCG@10: 0.4042
-      metric_definitions:
-        nDCG@10: "-c -m ndcg_cut.10"
-    - topic_key: nfcorpus
-      eval_key: beir-v1.0.0-nfcorpus.test
-      expected_scores:
-        nDCG@10: 0.3735
-      metric_definitions:
-        nDCG@10: "-c -m ndcg_cut.10"
-    - topic_key: nq
-      eval_key: beir-v1.0.0-nq.test
-      expected_scores:
-        nDCG@10: 0.5415
-      metric_definitions:
-        nDCG@10: "-c -m ndcg_cut.10"
-    - topic_key: hotpotqa
-      eval_key: beir-v1.0.0-hotpotqa.test
-      expected_scores:
-        nDCG@10: 0.7241
-      metric_definitions:
-        nDCG@10: "-c -m ndcg_cut.10"
-    - topic_key: fiqa
-      eval_key: beir-v1.0.0-fiqa.test
-      expected_scores:
-        nDCG@10: 0.4065
-      metric_definitions:
-        nDCG@10: "-c -m ndcg_cut.10"
-    - topic_key: signal1m
-      eval_key: beir-v1.0.0-signal1m.test
-      expected_scores:
-        nDCG@10: 0.2869
-      metric_definitions:
-        nDCG@10: "-c -m ndcg_cut.10"
-    - topic_key: trec-news
-      eval_key: beir-v1.0.0-trec-news.test
-      expected_scores:
-        nDCG@10: 0.4410
-      metric_definitions:
-        nDCG@10: "-c -m ndcg_cut.10"
-    - topic_key: robust04
-      eval_key: beir-v1.0.0-robust04.test
-      expected_scores:
-        nDCG@10: 0.4437
-      metric_definitions:
-        nDCG@10: "-c -m ndcg_cut.10"
-    - topic_key: arguana
-      eval_key: beir-v1.0.0-arguana.test
-      expected_scores:
-        nDCG@10: 0.6375
-      metric_definitions:
-        nDCG@10: "-c -m ndcg_cut.10"
-    - topic_key: webis-touche2020
-      eval_key: beir-v1.0.0-webis-touche2020.test
-      expected_scores:
-        nDCG@10: 0.2571
-      metric_definitions:
-        nDCG@10: "-c -m ndcg_cut.10"
-    - topic_key: cqadupstack-android
-      eval_key: beir-v1.0.0-cqadupstack-android.test
-      expected_scores:
-        nDCG@10: 0.5076
-      metric_definitions:
-        nDCG@10: "-c -m ndcg_cut.10"
-    - topic_key: cqadupstack-english
-      eval_key: beir-v1.0.0-cqadupstack-english.test
-      expected_scores:
-        nDCG@10: 0.4855
-      metric_definitions:
-        nDCG@10: "-c -m ndcg_cut.10"
-    - topic_key: cqadupstack-gaming
-      eval_key: beir-v1.0.0-cqadupstack-gaming.test
-      expected_scores:
-        nDCG@10: 0.5967
-      metric_definitions:
-        nDCG@10: "-c -m ndcg_cut.10"
-    - topic_key: cqadupstack-gis
-      eval_key: beir-v1.0.0-cqadupstack-gis.test
-      expected_scores:
-        nDCG@10: 0.4133
-      metric_definitions:
-        nDCG@10: "-c -m ndcg_cut.10"
-    - topic_key: cqadupstack-mathematica
-      eval_key: beir-v1.0.0-cqadupstack-mathematica.test
-      expected_scores:
-        nDCG@10: 0.3163
-      metric_definitions:
-        nDCG@10: "-c -m ndcg_cut.10"
-    - topic_key: cqadupstack-physics
-      eval_key: beir-v1.0.0-cqadupstack-physics.test
-      expected_scores:
-        nDCG@10: 0.4724
-      metric_definitions:
-        nDCG@10: "-c -m ndcg_cut.10"
-    - topic_key: cqadupstack-programmers
-      eval_key: beir-v1.0.0-cqadupstack-programmers.test
-      expected_scores:
-        nDCG@10: 0.4238
-      metric_definitions:
-        nDCG@10: "-c -m ndcg_cut.10"
-    - topic_key: cqadupstack-stats
-      eval_key: beir-v1.0.0-cqadupstack-stats.test
-      expected_scores:
-        nDCG@10: 0.3728
-      metric_definitions:
-        nDCG@10: "-c -m ndcg_cut.10"
-    - topic_key: cqadupstack-tex
-      eval_key: beir-v1.0.0-cqadupstack-tex.test
-      expected_scores:
-        nDCG@10: 0.3115
-      metric_definitions:
-        nDCG@10: "-c -m ndcg_cut.10"
-    - topic_key: cqadupstack-unix
-      eval_key: beir-v1.0.0-cqadupstack-unix.test
-      expected_scores:
-        nDCG@10: 0.4220
-      metric_definitions:
-        nDCG@10: "-c -m ndcg_cut.10"
-    - topic_key: cqadupstack-webmasters
-      eval_key: beir-v1.0.0-cqadupstack-webmasters.test
-      expected_scores:
-        nDCG@10: 0.4072
-      metric_definitions:
-        nDCG@10: "-c -m ndcg_cut.10"
-    - topic_key: cqadupstack-wordpress
-      eval_key: beir-v1.0.0-cqadupstack-wordpress.test
-      expected_scores:
-        nDCG@10: 0.3547
-      metric_definitions:
-        nDCG@10: "-c -m ndcg_cut.10"
-    - topic_key: quora
-      eval_key: beir-v1.0.0-quora.test
-      expected_scores:
-        nDCG@10: 0.8876
-      metric_definitions:
-        nDCG@10: "-c -m ndcg_cut.10"
-    - topic_key: dbpedia-entity
-      eval_key: beir-v1.0.0-dbpedia-entity.test
-      expected_scores:
-        nDCG@10: 0.4076
-      metric_definitions:
-        nDCG@10: "-c -m ndcg_cut.10"
-    - topic_key: scidocs
-      eval_key: beir-v1.0.0-scidocs.test
-      expected_scores:
-        nDCG@10: 0.2172
-      metric_definitions:
-        nDCG@10: "-c -m ndcg_cut.10"
-    - topic_key: fever
-      eval_key: beir-v1.0.0-fever.test
-      expected_scores:
-        nDCG@10: 0.8620
-      metric_definitions:
-        nDCG@10: "-c -m ndcg_cut.10"
-    - topic_key: climate-fever
-      eval_key: beir-v1.0.0-climate-fever.test
-      expected_scores:
-        nDCG@10: 0.3117
-      metric_definitions:
-        nDCG@10: "-c -m ndcg_cut.10"
-    - topic_key: scifact
-      eval_key: beir-v1.0.0-scifact.test
-      expected_scores:
-        nDCG@10: 0.7408
-      metric_definitions:
-        nDCG@10: "-c -m ndcg_cut.10"
   - name: bge-base-en-v1.5.flat.onnx
     display: "bge-base-en-v1.5 w/ flat indexes (ONNX)"
-    display_html: "bge-base-en-v1.5 w/ flat indexes (ONNX)"
-    display_row: ""
     command: io.anserini.search.SearchFlatDenseVectors -threads $threads -index beir-v1.0.0-$topics.bge-base-en-v1.5.flat -topics beir-$topics -encoder BgeBaseEn15 -output $output -removeQuery
     topics:
       - topic_key: trec-covid
@@ -740,7 +552,7 @@ conditions:
       - topic_key: nfcorpus
         eval_key: beir-v1.0.0-nfcorpus.test
         expected_scores:
-          nDCG@10: 0.3735
+          nDCG@10: 0.3738
         metric_definitions:
           nDCG@10: "-c -m ndcg_cut.10"
       - topic_key: nq
@@ -901,8 +713,6 @@ conditions:
           nDCG@10: "-c -m ndcg_cut.10"
   - name: fusion-rrf
     display: "Fusion: RRF (BM25 + BGE)"
-    display_html: "Fusion: RRF (BM25 + BGE)"
-    display_row: ""
     command: io.anserini.fusion.FuseRuns -runs $runs_directory/run.beir.core.flat.$topics.txt $runs_directory/run.beir.core.bge-base-en-v1.5.flat.onnx.$topics.txt -output $output -method rrf -k 1000 -depth 1000 -rrf_k 60
     topics:
       - topic_key: trec-covid
@@ -1081,8 +891,6 @@ conditions:
           nDCG@10: "-c -m ndcg_cut.10"
   - name: fusion-avg
     display: "Fusion: Average (BM25 + BGE) with normalization"
-    display_html: "Fusion: Average (BM25 + BGE) with normalization"
-    display_row: ""
     command: io.anserini.fusion.FuseRuns -runs $runs_directory/run.beir.core.flat.$topics.txt $runs_directory/run.beir.core.bge-base-en-v1.5.flat.onnx.$topics.txt -output $output -method average -k 1000 -depth 1000 -min_max_normalization
     topics:
       - topic_key: trec-covid
@@ -1094,13 +902,13 @@ conditions:
       - topic_key: bioasq
         eval_key: beir-v1.0.0-bioasq.test
         expected_scores:
-          nDCG@10: 0.5427
+          nDCG@10: 0.5428
         metric_definitions:
           nDCG@10: "-c -m ndcg_cut.10"
       - topic_key: nfcorpus
         eval_key: beir-v1.0.0-nfcorpus.test
         expected_scores:
-          nDCG@10: 0.3782
+          nDCG@10: 0.3785
         metric_definitions:
           nDCG@10: "-c -m ndcg_cut.10"
       - topic_key: nq

@@ -178,9 +178,14 @@ public class GeneratePrebuiltIndexesDocTest {
 
     ## Managing Indexes
 
-    Downloaded indexes are by default stored in `~/.cache/pyserini/indexes/`.
-    (Yes, `pyserini`, that's not a bug &mdash; this is so prebuilt indexes can be shared between Pyserini and Anserini.)
-    You can specify a custom cache directory by setting the environment variable `$ANSERINI_INDEX_CACHE` or the system property `anserini.index.cache`.
+    Downloaded indexes are stored in the first matching cache location:
+
+    1. If the system property `pyserini.cache` is set, downloaded indexes are stored in `indexes/` under that base cache directory.
+    2. Otherwise, if the environment variable `$PYSERINI_CACHE` is set, downloaded indexes are stored in `indexes/` under that base cache directory.
+    3. Otherwise, if a `.cache/` directory exists in the current working directory, downloaded indexes are stored in `.cache/pyserini/indexes/` under the current working directory.
+    4. Otherwise, downloaded indexes are stored in `~/.cache/pyserini/indexes/`.
+
+    Yes, `pyserini`, that's not a bug &mdash; this is so prebuilt indexes can be shared between Pyserini and Anserini.
 
     Another helpful tip is to download and manage the indexes by hand.
     As an example, from the metadata in [`msmarco-v1-passage-inverted.json`](https://github.com/castorini/anserini/blob/master/src/main/resources/prebuilt-indexes/msmarco-v1-passage-inverted.json), you can see that `msmarco-v1-passage` can be downloaded from:

@@ -34,7 +34,7 @@ bin/run.sh io.anserini.index.IndexCollection \
 The directory `/path/to/msmarco-passage/` should be a directory containing `jsonl` files converted from the official passage collection, which is in `tsv` format.
 [This page](../../../docs/experiments-msmarco-passage.md) explains how to perform this conversion.
 
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 
@@ -226,6 +226,6 @@ Some of these regressions correspond to official TREC 2020 Deep Learning Track s
 
 Note this regression was revamped as part of [#1730](https://github.com/castorini/anserini/issues/1730), but the results did not change.
 
-## Reproduction Log[*](reproducibility.md)
+## Reproduction Log[*](../../reproducibility.md)
 
 To add to this reproduction log, modify [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl20-passage.template) and run `bin/build.sh` to rebuild the documentation.

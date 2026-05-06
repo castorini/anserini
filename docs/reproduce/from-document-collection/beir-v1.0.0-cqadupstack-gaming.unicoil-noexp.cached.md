@@ -43,7 +43,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   >& logs/log.beir-v1.0.0-cqadupstack-gaming.unicoil-noexp &
 ```
 
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 

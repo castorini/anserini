@@ -1,8 +1,8 @@
 ---
-corpus: nanoknow-v1.0
-corpus_path: collections/nanoknow-v1.0/
+corpus: fineweb-edu-100b-karpathy
+corpus_path: collections/fineweb-edu-100b-karpathy/
 
-index_path: indexes/lucene-inverted.nanoknow-v1.0/
+index_path: indexes/fineweb-edu-100b-official-index/
 collection_class: FineWebCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 32

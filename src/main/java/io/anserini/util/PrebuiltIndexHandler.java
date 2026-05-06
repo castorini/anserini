@@ -40,9 +40,6 @@ import java.nio.file.Path;
 public class PrebuiltIndexHandler {
   private static final Logger LOG = LogManager.getLogger(PrebuiltIndexHandler.class);
 
-  private static final String DEFAULT_CACHE_DIR = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "indexes").toString();
-  private static final String CACHE_DIR_PROPERTY = "anserini.index.cache";
-  private static final String CACHE_DIR_ENV = "ANSERINI_INDEX_CACHE";
   private static final int MAX_DOWNLOAD_ATTEMPTS = 3;
   private static final int DOWNLOAD_BUFFER_SIZE = 1 << 16; // 64 KB
   private static final int CONNECT_TIMEOUT_MS = 60_000;
@@ -57,9 +54,11 @@ public class PrebuiltIndexHandler {
 
   /**
    * Returns a <tt>PrebuiltIndexHandler</tt> for a prebuilt index given its name, or <tt>null</tt> if it doesn't exist.
-   * The default cache directory is <tt>~/.cache/pyserini/indexes</tt>.
-   * Alternatively, a custom cache directory can be specified via the environment variable <tt>$ANSERINI_INDEX_CACHE</tt>
-   * or the system property <tt>anserini.index.cache</tt>.
+   * Downloaded indexes are stored in <tt>indexes</tt> under the base cache directory specified by the system property
+   * <tt>pyserini.cache</tt>. If the property is not set, the environment variable <tt>$PYSERINI_CACHE</tt> specifies
+   * the base cache directory. If neither is set and <tt>.cache</tt> exists in the current working directory, indexes are
+   * stored in <tt>.cache/pyserini/indexes</tt> under the current working directory. Otherwise, indexes are stored in
+   * <tt>~/.cache/pyserini/indexes</tt>.
    *
    * @param name the name of the prebuilt index
    * @return a <tt>PrebuiltIndexHandler</tt> for a prebuilt index given its name, or <tt>null</tt> if it doesn't exist.
@@ -90,20 +89,6 @@ public class PrebuiltIndexHandler {
     }
   }
 
-  private static String getCache() {
-    String cacheDirectory = System.getProperty(CACHE_DIR_PROPERTY);
-    
-    if (cacheDirectory == null || cacheDirectory.isEmpty()) {
-      cacheDirectory = System.getenv(CACHE_DIR_ENV);
-    }
-    
-    if (cacheDirectory == null || cacheDirectory.isEmpty()) {
-      cacheDirectory = DEFAULT_CACHE_DIR;
-    }
-    
-    return cacheDirectory;
-  }
-
   private static boolean verifyChecksum(Path path, String md5) throws IOException {
     try (InputStream is = Files.newInputStream(path)) {
       String generatedChecksum = DigestUtils.md5Hex(is);
@@ -112,7 +97,7 @@ public class PrebuiltIndexHandler {
   }
 
   public void fetch() throws IOException {
-    fetch(getCache());
+    fetch(CacheDirectoryResolver.getIndexCachePath().toString());
   }
 
   public void fetch(String cacheDirectory) throws IOException {
@@ -127,7 +112,10 @@ public class PrebuiltIndexHandler {
     }
 
     downloadFilePath = Path.of(cacheDirectory, this.entry.filename);
-    indexPath = Path.of(downloadFilePath.toString().replace(".tar.gz", "") + "." + this.entry.md5);
+    String downloadFilePathString = downloadFilePath.toString();
+    indexPath = Path.of((downloadFilePathString.endsWith(".gz") ?
+        downloadFilePathString.substring(0, downloadFilePathString.length() - ".tar.gz".length()) :
+        downloadFilePathString.substring(0, downloadFilePathString.length() - ".tar".length())) + "." + this.entry.md5);
 
     if (indexPath.toFile().exists()) {
       LOG.info(String.format("Index already exists at %s: skipping downloading.", indexPath));
@@ -137,33 +125,42 @@ public class PrebuiltIndexHandler {
     try {
       download();
     } catch (URISyntaxException e) {
-      throw new IOException("Invalid URL syntax for index download: " + e.getMessage(), e);
+      throw new IOException(String.format("Invalid URL syntax for index download: %s", e.getMessage()), e);
     }
 
-    if (this.entry.compressedSize != -1) {
+    if (this.entry.size != -1) {
       long downloadedSize = Files.size(downloadFilePath);
-      if (downloadedSize != this.entry.compressedSize) {
-        throw new IOException("Downloaded file size mismatch: expected " + this.entry.compressedSize + " bytes but got " + downloadedSize + " bytes.");
+      if (downloadedSize != this.entry.size) {
+        throw new IOException(String.format("Downloaded size mismatch: expected %s bytes but got %s bytes.",
+            this.entry.size, downloadedSize));
       }
+      LOG.info("Verified downloaded size for {}: {}.", this.entry.name, formatSize(downloadedSize));
     }
 
     try {
       decompress();
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
-      throw new IOException("Decompression interrupted: " + e.getMessage(), e);
+      throw new IOException(String.format("Unpacking interrupted: %s", e.getMessage()), e);
     }
   }
 
   private void download() throws IOException, URISyntaxException {
+    IOException lastException = null;
     for (String urlString : this.entry.urls) {
       for (int attempt = 1; attempt <= MAX_DOWNLOAD_ATTEMPTS; attempt++) {
-        LOG.info("Downloading index from: " + urlString + " (attempt " + attempt + "/" + MAX_DOWNLOAD_ATTEMPTS + ")");
+        LOG.info("Downloading index {} from {} to {} (attempt {}/{}).",
+            this.entry.name, urlString, downloadFilePath, attempt, MAX_DOWNLOAD_ATTEMPTS);
         try {
           downloadFromUrl(urlString);
-          verifyChecksum(downloadFilePath, this.entry.md5);
+          LOG.info("Verifying checksum for {} at {}.", this.entry.name, downloadFilePath);
+          if (!verifyChecksum(downloadFilePath, this.entry.md5)) {
+            throw new IOException(String.format("Downloaded file checksum mismatch: expected md5 %s.", this.entry.md5));
+          }
+          LOG.info("Verified checksum for {}: md5 {}.", this.entry.name, this.entry.md5);
           return;
         } catch (IOException e) {
+          lastException = e;
           LOG.error("Download failed: " + e.getMessage());
           try {
             Files.deleteIfExists(downloadFilePath);
@@ -173,6 +170,9 @@ public class PrebuiltIndexHandler {
         }
       }
     }
+
+    throw new IOException(String.format("Unable to download index %s after trying %s URL(s) with %s attempt(s) each.",
+        this.entry.name, this.entry.urls.length, MAX_DOWNLOAD_ATTEMPTS), lastException);
   }
 
   private void downloadFromUrl(String urlString) throws IOException, URISyntaxException {
@@ -180,11 +180,17 @@ public class PrebuiltIndexHandler {
     HttpURLConnection httpConnection = (HttpURLConnection) (url.openConnection());
     httpConnection.setConnectTimeout(CONNECT_TIMEOUT_MS);
     httpConnection.setReadTimeout(READ_TIMEOUT_MS);
-    long completeFileSize = httpConnection.getContentLengthLong();
-    boolean hasKnownSize = completeFileSize > 0;
+    long size = httpConnection.getContentLengthLong();
+    boolean hasKnownSize = size > 0;
 
     try (InputStream inputStream = new BufferedInputStream(httpConnection.getInputStream());
         FileOutputStream fileOS = new FileOutputStream(downloadFilePath.toFile())) {
+
+      if (hasKnownSize) {
+        LOG.info("Starting download of {} (size: {}).", this.entry.name, formatSize(size));
+      } else {
+        LOG.info("Starting download of {} (size unknown).", this.entry.name);
+      }
 
       byte[] buffer = new byte[DOWNLOAD_BUFFER_SIZE];
       long downloaded = 0L;
@@ -194,7 +200,7 @@ public class PrebuiltIndexHandler {
         fileOS.write(buffer, 0, bytesRead);
         downloaded += bytesRead;
         if (hasKnownSize) {
-          nextLoggedPercent = logDownloadProgress(downloaded, completeFileSize, nextLoggedPercent);
+          nextLoggedPercent = logDownloadProgress(downloaded, size, nextLoggedPercent);
         }
       }
 
@@ -209,15 +215,14 @@ public class PrebuiltIndexHandler {
     }
   }
 
-  private int logDownloadProgress(long downloaded, long completeFileSize, int nextLoggedPercent) {
-    if (completeFileSize <= 0) {
+  private int logDownloadProgress(long downloaded, long size, int nextLoggedPercent) {
+    if (size <= 0) {
       return nextLoggedPercent;
     }
 
-    long percent = Math.min(100, downloaded * 100 / completeFileSize);
+    long percent = Math.min(100, downloaded * 100 / size);
     while (percent >= nextLoggedPercent && nextLoggedPercent <= 100) {
-      LOG.info("Downloading {}: {}% ({}/{})",
-          this.entry.name, nextLoggedPercent, formatSize(downloaded), formatSize(completeFileSize));
+      LOG.info("Downloading {}: {}% ({}/{})", this.entry.name, nextLoggedPercent, formatSize(downloaded), formatSize(size));
       nextLoggedPercent += DOWNLOAD_LOG_INTERVAL_PERCENT;
     }
 
@@ -238,35 +243,55 @@ public class PrebuiltIndexHandler {
   }
 
   private void decompress() throws IOException, InterruptedException {
-    LOG.info(String.format("Decompressing index at %s...", downloadFilePath));
+    LOG.info("Preparing to unpack {} from {} into cache directory {}.", this.entry.name, downloadFilePath, cacheDirectory);
 
     if (!downloadFilePath.toFile().exists()) {
       throw new IOException(String.format("Unexpected error: %s not found.", downloadFilePath));
     }
 
-    ProcessBuilder pbGZIP = new ProcessBuilder("gzip", "-d", downloadFilePath.toString());
-    Process pGZIP = pbGZIP.start();
-    pGZIP.waitFor();
+    String downloadFilePathString = downloadFilePath.toString();
+    boolean gzipped = downloadFilePathString.endsWith(".gz");
+    Path tarFilePath = gzipped ?
+        Path.of(downloadFilePathString.substring(0, downloadFilePathString.length() - ".gz".length())) :
+        downloadFilePath;
 
-    ProcessBuilder pbTAR = new ProcessBuilder("tar", "-xvf",
-            downloadFilePath.toString().substring(0, downloadFilePath.toString().length() - 3), "-C", cacheDirectory);
+    if (gzipped) {
+      LOG.info("Expanding gzip archive {}.", downloadFilePath);
+      ProcessBuilder pbGZIP = new ProcessBuilder("gzip", "-d", downloadFilePathString);
+      Process pGZIP = pbGZIP.start();
+      int exitCode = pGZIP.waitFor();
+      if (exitCode != 0) {
+        throw new IOException(String.format("gzip failed while expanding %s with exit code %s.", downloadFilePath, exitCode));
+      }
+      LOG.info("Finished expanding gzip archive to {}.", tarFilePath);
+    }
+
+    LOG.info("Extracting tar archive {} into {}.", tarFilePath, cacheDirectory);
+    ProcessBuilder pbTAR = new ProcessBuilder("tar", "-xf", tarFilePath.toString(), "-C", cacheDirectory);
     Process pTar = pbTAR.start();
-    pTar.waitFor();
+    int exitCode = pTar.waitFor();
+    if (exitCode != 0) {
+      throw new IOException(String.format("tar failed while extracting %s with exit code %s.", tarFilePath, exitCode));
+    }
+    LOG.info("Finished extracting tar archive {}.", tarFilePath);
 
-    // Delete the tar file
-    Files.delete(Path.of(downloadFilePath.toString().replace(".gz", "")));
-    LOG.info("Index decompressed successfully!");
+    LOG.info("Removing tar archive {}.", tarFilePath);
+    Files.delete(tarFilePath);
+    LOG.info("Removed tar archive {}.", tarFilePath);
 
-    Files.move(Path.of(downloadFilePath.toString().replace(".tar.gz", "")), this.indexPath);
-    LOG.info(String.format("Final index location at %s", indexPath));
+    String tarFilePathString = tarFilePath.toString();
+    Path unpackedIndexPath = Path.of(tarFilePathString.substring(0, tarFilePathString.length() - ".tar".length()));
+    LOG.info("Moving unpacked index from {} to {}.", unpackedIndexPath, this.indexPath);
+    Files.move(unpackedIndexPath, this.indexPath);
+    LOG.info("Finished unpacking {}. Final index location: {}.", this.entry.name, indexPath);
   }
 
   public Path getIndexPath() {
     return this.indexPath;
   }
 
-  public long getCompressedSize() {
-    return this.entry.compressedSize;
+  public long getSize() {
+    return this.entry.size;
   }
 
   public String getFilename() {

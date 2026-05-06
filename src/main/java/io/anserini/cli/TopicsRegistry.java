@@ -35,7 +35,7 @@ import io.anserini.search.topicreader.TopicReader;
 import io.anserini.search.topicreader.Topics;
 import io.anserini.util.LoggingBootstrap;
 
-public final class TopicsCatalog {
+public final class TopicsRegistry {
   private static final ObjectMapper JSON_MAPPER = new ObjectMapper();
 
   public static class Args {
@@ -65,24 +65,24 @@ public final class TopicsCatalog {
       parser.parseArgument(args);
     } catch (CmdLineException e) {
       System.err.println(String.format("Error: %s", e.getMessage()));
-      CliUtils.printUsage(parser, TopicsCatalog.class, argsOrdering);
+      CliUtils.printUsage(parser, TopicsRegistry.class, argsOrdering);
       return;
     }
 
     if (parsedArgs.help) {
-      CliUtils.printUsage(parser, TopicsCatalog.class, argsOrdering);
+      CliUtils.printUsage(parser, TopicsRegistry.class, argsOrdering);
       return;
     }
 
     if (parsedArgs.list == (parsedArgs.get != null)) {
       System.err.println("Error: exactly one of --list or --get must be specified");
-      CliUtils.printUsage(parser, TopicsCatalog.class, argsOrdering);
+      CliUtils.printUsage(parser, TopicsRegistry.class, argsOrdering);
       return;
     }
 
     if (!parsedArgs.list && parsedArgs.filter != null) {
       System.err.println("Error: --filter only works with --list");
-      CliUtils.printUsage(parser, TopicsCatalog.class, argsOrdering);
+      CliUtils.printUsage(parser, TopicsRegistry.class, argsOrdering);
       return;
     }
 

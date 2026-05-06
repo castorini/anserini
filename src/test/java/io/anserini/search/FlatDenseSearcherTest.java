@@ -16,6 +16,7 @@
 
 package io.anserini.search;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -23,8 +24,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
+import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -36,6 +39,8 @@ import io.anserini.search.topicreader.TopicReader;
 import io.anserini.search.topicreader.TsvIntTopicReader;
 
 public class FlatDenseSearcherTest extends SuppresedLoggingLuceneTestCase {
+  private final List<String> indexPaths = new ArrayList<>();
+
   @BeforeClass
   public static void setupClass() {
     suppressJvmLogging();
@@ -45,9 +50,24 @@ public class FlatDenseSearcherTest extends SuppresedLoggingLuceneTestCase {
     Configurator.setLevel(FlatDenseSearcher.class.getName(), Level.ERROR);
   }
 
+  @After
+  public void tearDown() throws Exception {
+    for (String indexPath : indexPaths) {
+      FileUtils.deleteDirectory(new File(indexPath));
+    }
+    indexPaths.clear();
+    super.tearDown();
+  }
+
+  private String newIndexPath(String prefix) {
+    String indexPath = prefix + System.currentTimeMillis();
+    indexPaths.add(indexPath);
+    return indexPath;
+  }
+
   @Test
   public void testAda2() throws Exception {
-    String indexPath = "target/idx-sample-hnsw" + System.currentTimeMillis();
+    String indexPath = newIndexPath("target/idx-sample-hnsw");
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
@@ -136,7 +156,7 @@ public class FlatDenseSearcherTest extends SuppresedLoggingLuceneTestCase {
 
   @Test
   public void testAda2Batch() throws Exception {
-    String indexPath = "target/idx-sample-hnsw" + System.currentTimeMillis();
+    String indexPath = newIndexPath("target/idx-sample-hnsw");
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
@@ -200,7 +220,7 @@ public class FlatDenseSearcherTest extends SuppresedLoggingLuceneTestCase {
 
   @Test
   public void testCosDpr() throws Exception {
-    String indexPath = "target/idx-sample-hnsw" + System.currentTimeMillis();
+    String indexPath = newIndexPath("target/idx-sample-hnsw");
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/cosdpr-distil/json_vector/",
@@ -289,7 +309,7 @@ public class FlatDenseSearcherTest extends SuppresedLoggingLuceneTestCase {
 
   @Test
   public void testCosDprWithOnnx() throws Exception {
-    String indexPath = "target/idx-sample-hnsw" + System.currentTimeMillis();
+    String indexPath = newIndexPath("target/idx-sample-hnsw");
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/cosdpr-distil/json_vector/",
@@ -379,7 +399,7 @@ public class FlatDenseSearcherTest extends SuppresedLoggingLuceneTestCase {
 
   @Test
   public void testCosDprBatchWithOnnx() throws Exception {
-    String indexPath = "target/idx-sample-hnsw" + System.currentTimeMillis();
+    String indexPath = newIndexPath("target/idx-sample-hnsw");
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/cosdpr-distil/json_vector/",

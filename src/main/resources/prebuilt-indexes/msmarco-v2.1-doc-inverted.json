@@ -11,7 +11,7 @@
             "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2.1-doc.20240418.4f9675.tar.gz"
         ],
         "md5": "cecd55856c34afa82f1a499705c9df02",
-        "compressed_size": 54190811494,
+        "size": 54190811494,
         "documents": 10960555,
         "total_terms": 12710796540,
         "unique_terms": 44599151
@@ -28,7 +28,7 @@
             "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2.1-doc-slim.20240418.4f9675.tar.gz"
         ],
         "md5": "2c31a8c0a7133eb6ea04c91ceffa7e08",
-        "compressed_size": 6191736133,
+        "size": 6191736133,
         "documents": 10960555,
         "total_terms": 12710796540,
         "unique_terms": 44599151
@@ -45,7 +45,7 @@
             "https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-inverted.msmarco-v2.1-doc-full.20240418.4f9675.tar.gz"
         ],
         "md5": "794708c9cf8fc6eafff07c5485e934b9",
-        "compressed_size": 102997532522,
+        "size": 102997532522,
         "documents": 10960555,
         "total_terms": 12710796540,
         "unique_terms": 44599151

@@ -16,6 +16,7 @@
 
 package io.anserini.search;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -23,8 +24,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
+import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -35,6 +38,8 @@ import io.anserini.search.topicreader.JsonIntVectorTopicReader;
 import io.anserini.search.topicreader.TopicReader;
 
 public class InvertedDenseSearcherTest extends StdOutStdErrRedirectableLuceneTestCase {
+  private final List<String> indexPaths = new ArrayList<>();
+
   @BeforeClass
   public static void setupClass() {
     Configurator.setLevel(AbstractIndexer.class.getName(), Level.ERROR);
@@ -42,9 +47,24 @@ public class InvertedDenseSearcherTest extends StdOutStdErrRedirectableLuceneTes
     Configurator.setLevel(InvertedDenseSearcher.class.getName(), Level.ERROR);
   }
 
+  @After
+  public void tearDown() throws Exception {
+    for (String indexPath : indexPaths) {
+      FileUtils.deleteDirectory(new File(indexPath));
+    }
+    indexPaths.clear();
+    super.tearDown();
+  }
+
+  private String newIndexPath(String prefix) {
+    String indexPath = prefix + System.currentTimeMillis();
+    indexPaths.add(indexPath);
+    return indexPath;
+  }
+
   @Test
   public void searchAda2FWTest() throws Exception {
-    String indexPath = "target/idx-sample-fw-vector-" + System.currentTimeMillis();
+    String indexPath = newIndexPath("target/idx-sample-fw-vector-");
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
@@ -132,7 +152,7 @@ public class InvertedDenseSearcherTest extends StdOutStdErrRedirectableLuceneTes
 
   @Test
   public void searchAda2FWBatchTest() throws Exception {
-    String indexPath = "target/idx-sample-fw-vector-" + System.currentTimeMillis();
+    String indexPath = newIndexPath("target/idx-sample-fw-vector-");
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
@@ -196,7 +216,7 @@ public class InvertedDenseSearcherTest extends StdOutStdErrRedirectableLuceneTes
 
   @Test
   public void searchAda2LLTest() throws Exception {
-    String indexPath = "target/idx-sample-fw-vector-" + System.currentTimeMillis();
+    String indexPath = newIndexPath("target/idx-sample-fw-vector-");
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
@@ -284,7 +304,7 @@ public class InvertedDenseSearcherTest extends StdOutStdErrRedirectableLuceneTes
 
   @Test
   public void searchAda2LLBatchTest() throws Exception {
-    String indexPath = "target/idx-sample-fw-vector-" + System.currentTimeMillis();
+    String indexPath = newIndexPath("target/idx-sample-fw-vector-");
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",

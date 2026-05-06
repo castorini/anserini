@@ -30,6 +30,8 @@ import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 import io.anserini.TestUtils;
 
 public class SearchCollectionTest extends StdOutStdErrRedirectableLuceneTestCase {
+  private static final String RUN_TEST = "target/run-search-collection-test";
+
   @BeforeClass
   public static void setupClass() {
     Configurator.setLevel(SearchCollection.class.getName(), Level.ERROR);
@@ -46,6 +48,7 @@ public class SearchCollectionTest extends StdOutStdErrRedirectableLuceneTestCase
   public void tearDown() throws Exception {
     restoreStdOut();
     restoreStdErr();
+    new File(RUN_TEST).delete();
     super.tearDown();
   }
 
@@ -114,7 +117,7 @@ public class SearchCollectionTest extends StdOutStdErrRedirectableLuceneTestCase
         "-index", "src/test/resources/prebuilt_indexes/lucene9-index.sample_docs_trec_collection2/",
         "-topics", "src/test/resources/sample_topics/Trec",
         "-topicReader", "FakeTrec",
-        "-output", "run.test", "-bm25"});
+        "-output", RUN_TEST, "-bm25"});
     assertTrue(err.toString().contains("Unable to load topic reader"));
   }
 
@@ -125,7 +128,7 @@ public class SearchCollectionTest extends StdOutStdErrRedirectableLuceneTestCase
         "-topics", "src/test/resources/sample_topics/Trec",
         "-topicReader", "Trec",
         "-fields", "field1=a",
-        "-output", "run.test", "-bm25"});
+        "-output", RUN_TEST, "-bm25"});
     assertTrue(err.toString().contains("Error parsing -fields"));
   }
 
@@ -135,24 +138,24 @@ public class SearchCollectionTest extends StdOutStdErrRedirectableLuceneTestCase
         "-index", "src/test/resources/prebuilt_indexes/lucene9-index.sample_docs_trec_collection2/",
         "-topics", "src/test/resources/sample_topics/Trec",
         "-topicReader", "Trec",
-        "-output", "run.test", "-bm25"});
+        "-output", RUN_TEST, "-bm25"});
 
-    TestUtils.checkFile("run.test", new String[]{
+    TestUtils.checkFile(RUN_TEST, new String[]{
         "1 Q0 DOC222 1 0.343200 Anserini",
         "1 Q0 TREC_DOC_1 2 0.333400 Anserini",
         "1 Q0 WSJ_1 3 0.068700 Anserini"});
-    assertTrue(new File("run.test").delete());
+    assertTrue(new File(RUN_TEST).delete());
 
     SearchCollection.main(new String[] {
         "-index", "src/test/resources/prebuilt_indexes/lucene9-index.sample_docs_json_collection_tokenized/",
         "-topics", "src/test/resources/sample_topics/json_topics1.tsv",
         "-topicReader", "TsvInt",
-        "-output", "run.test",
+        "-output", RUN_TEST,
         "-pretokenized", "-impact"});
 
-    TestUtils.checkFile("run.test", new String[]{
+    TestUtils.checkFile(RUN_TEST, new String[]{
         "1 Q0 2000001 1 4.000000 Anserini",});
-    assertTrue(new File("run.test").delete());
+    assertTrue(new File(RUN_TEST).delete());
   }
 
   @Test
@@ -160,10 +163,10 @@ public class SearchCollectionTest extends StdOutStdErrRedirectableLuceneTestCase
     SearchCollection.main(new String[] {
         "-index", "src/test/resources/prebuilt_indexes/lucene9-index.sample_docs_trec_collection2/",
         "-topics", "TREC2019_DL_PASSAGE",
-        "-output", "run.test", "-bm25"});
+        "-output", RUN_TEST, "-bm25"});
 
     // Not checking content, just checking if the topics were loaded successfully.
-    File f = new File("run.test");
+    File f = new File(RUN_TEST);
     assertTrue(f.exists());
     f.delete();
   }
@@ -174,7 +177,7 @@ public class SearchCollectionTest extends StdOutStdErrRedirectableLuceneTestCase
         "-index", "src/test/resources/prebuilt_indexes/lucene-inverted.sample-wapo.no-raw_no-docvectors/",
         "-topics", "src/test/resources/sample_topics/bglinking.txt",
         "-topicReader", "BackgroundLinking",
-        "-output", "run.test", "-bm25",
+        "-output", RUN_TEST, "-bm25",
         "-backgroundLinking", "-backgroundLinking.k", "100"});
 
     // Running on index with no raw, no docvectors - should get an error.
@@ -187,7 +190,7 @@ public class SearchCollectionTest extends StdOutStdErrRedirectableLuceneTestCase
         "-index", "src/test/resources/prebuilt_indexes/lucene-inverted.sample-wapo.no-raw_with-docvectors/",
         "-topics", "src/test/resources/sample_topics/bglinking.txt",
         "-topicReader", "BackgroundLinking",
-        "-output", "run.test", "-bm25",
+        "-output", RUN_TEST, "-bm25",
         "-backgroundLinking", "-backgroundLinking.k", "100"});
 
     // Running on index with no raw, no docvectors - should get an error.
@@ -200,14 +203,14 @@ public class SearchCollectionTest extends StdOutStdErrRedirectableLuceneTestCase
         "-index", "src/test/resources/prebuilt_indexes/lucene-inverted.sample-wapo.with-raw_with-docvectors/",
         "-topics", "src/test/resources/sample_topics/bglinking.txt",
         "-topicReader", "BackgroundLinking",
-        "-output", "run.test", "-bm25",
+        "-output", RUN_TEST, "-bm25",
         "-backgroundLinking", "-backgroundLinking.k", "100"});
 
     // Running on index with raw, with docvectors - should run fine.
-    TestUtils.checkFile("run.test", new String[]{
+    TestUtils.checkFile(RUN_TEST, new String[]{
         "321 Q0 eacd327b20aa77a2aa909596ae336497 1 7.792500 Anserini",
         "321 Q0 dafe3110-4a9e-11e6-acbc-4d4870a079da 2 5.247200 Anserini"});
-    assertTrue(new File("run.test").delete());
+    assertTrue(new File(RUN_TEST).delete());
   }
 
   @Test
@@ -216,15 +219,15 @@ public class SearchCollectionTest extends StdOutStdErrRedirectableLuceneTestCase
         "-index", "src/test/resources/prebuilt_indexes/lucene-inverted.sample-wapo.with-raw_no-docvectors/",
         "-topics", "src/test/resources/sample_topics/bglinking.txt",
         "-topicReader", "BackgroundLinking",
-        "-output", "run.test", "-bm25",
+        "-output", RUN_TEST, "-bm25",
         "-backgroundLinking", "-backgroundLinking.k", "100",
         "-collection", "WashingtonPostCollection"});
 
     // Running on index with raw, no docvectors - needs -collection WashingtonPostCollection
-    TestUtils.checkFile("run.test", new String[]{
+    TestUtils.checkFile(RUN_TEST, new String[]{
         "321 Q0 eacd327b20aa77a2aa909596ae336497 1 7.792500 Anserini",
         "321 Q0 dafe3110-4a9e-11e6-acbc-4d4870a079da 2 5.247200 Anserini"});
-    assertTrue(new File("run.test").delete());
+    assertTrue(new File(RUN_TEST).delete());
   }
 
   @Test
@@ -233,7 +236,7 @@ public class SearchCollectionTest extends StdOutStdErrRedirectableLuceneTestCase
         "-index", "src/test/resources/prebuilt_indexes/lucene-inverted.sample-wapo.no-raw_no-docvectors/",
         "-topics", "src/test/resources/sample_topics/bglinking.txt",
         "-topicReader", "BackgroundLinking",
-        "-output", "run.test", "-bm25", "-rm3",
+        "-output", RUN_TEST, "-bm25", "-rm3",
         "-backgroundLinking", "-backgroundLinking.k", "100"});
 
     // Running on index with no raw, no docvectors - should get an error.
@@ -246,7 +249,7 @@ public class SearchCollectionTest extends StdOutStdErrRedirectableLuceneTestCase
         "-index", "src/test/resources/prebuilt_indexes/lucene-inverted.sample-wapo.no-raw_with-docvectors/",
         "-topics", "src/test/resources/sample_topics/bglinking.txt",
         "-topicReader", "BackgroundLinking",
-        "-output", "run.test", "-bm25", "-rm3",
+        "-output", RUN_TEST, "-bm25", "-rm3",
         "-backgroundLinking", "-backgroundLinking.k", "100"});
 
     // Running on index with no raw, no docvectors - should get an error.
@@ -259,15 +262,15 @@ public class SearchCollectionTest extends StdOutStdErrRedirectableLuceneTestCase
         "-index", "src/test/resources/prebuilt_indexes/lucene-inverted.sample-wapo.with-raw_with-docvectors/",
         "-topics", "src/test/resources/sample_topics/bglinking.txt",
         "-topicReader", "BackgroundLinking",
-        "-output", "run.test", "-bm25", "-rm3",
+        "-output", RUN_TEST, "-bm25", "-rm3",
         "-backgroundLinking", "-backgroundLinking.k", "100"});
 
     // Running on index with raw, with docvectors - should run fine.
-    TestUtils.checkFile("run.test", new String[]{
+    TestUtils.checkFile(RUN_TEST, new String[]{
         "321 Q0 eacd327b20aa77a2aa909596ae336497 1 0.039000 Anserini",
         "321 Q0 dafe3110-4a9e-11e6-acbc-4d4870a079da 2 0.026200 Anserini",
         "321 Q0 03049850-58e3-11e6-8b48-0cb344221131 3 0.011300 Anserini"});
-    assertTrue(new File("run.test").delete());
+    assertTrue(new File(RUN_TEST).delete());
   }
 
   @Test
@@ -276,15 +279,15 @@ public class SearchCollectionTest extends StdOutStdErrRedirectableLuceneTestCase
         "-index", "src/test/resources/prebuilt_indexes/lucene-inverted.sample-wapo.with-raw_no-docvectors/",
         "-topics", "src/test/resources/sample_topics/bglinking.txt",
         "-topicReader", "BackgroundLinking",
-        "-output", "run.test", "-bm25", "-rm3",
+        "-output", RUN_TEST, "-bm25", "-rm3",
         "-backgroundLinking", "-backgroundLinking.k", "100",
         "-collection", "WashingtonPostCollection"});
 
     // Running on index with raw, no docvectors - needs -collection WashingtonPostCollection
-    TestUtils.checkFile("run.test", new String[]{
+    TestUtils.checkFile(RUN_TEST, new String[]{
         "321 Q0 eacd327b20aa77a2aa909596ae336497 1 0.039000 Anserini",
         "321 Q0 dafe3110-4a9e-11e6-acbc-4d4870a079da 2 0.026200 Anserini",
         "321 Q0 03049850-58e3-11e6-8b48-0cb344221131 3 0.011300 Anserini"});
-    assertTrue(new File("run.test").delete());
+    assertTrue(new File(RUN_TEST).delete());
   }
 }

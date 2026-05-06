@@ -17,7 +17,10 @@
 package io.anserini.search;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.junit.After;
@@ -36,6 +39,8 @@ import static org.junit.Assert.assertTrue;
  * Tests for {@link SearchFlatDenseVectors}
  */
 public class SearchFlatDenseVectorsTest extends StdOutStdErrRedirectableLuceneTestCase {
+  private final List<String> indexPaths = new ArrayList<>();
+
   @BeforeClass
   public static void setupClass() {
     suppressJvmLogging();
@@ -57,7 +62,17 @@ public class SearchFlatDenseVectorsTest extends StdOutStdErrRedirectableLuceneTe
   public void tearDown() throws Exception {
     restoreStdOut();
     restoreStdErr();
+    for (String indexPath : indexPaths) {
+      FileUtils.deleteDirectory(new File(indexPath));
+    }
+    indexPaths.clear();
     super.tearDown();
+  }
+
+  private String newIndexPath(String prefix) {
+    String indexPath = prefix + System.currentTimeMillis();
+    indexPaths.add(indexPath);
+    return indexPath;
   }
 
   @Test
@@ -107,7 +122,7 @@ public class SearchFlatDenseVectorsTest extends StdOutStdErrRedirectableLuceneTe
 
   @Test
   public void searchInvalidTopics() throws Exception {
-    String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
+    String indexPath = newIndexPath("target/lucene-test-index.flat.");
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
@@ -135,7 +150,7 @@ public class SearchFlatDenseVectorsTest extends StdOutStdErrRedirectableLuceneTe
 
   @Test
   public void searchInvalidReader() throws Exception {
-    String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
+    String indexPath = newIndexPath("target/lucene-test-index.flat.");
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
@@ -163,7 +178,7 @@ public class SearchFlatDenseVectorsTest extends StdOutStdErrRedirectableLuceneTe
 
   @Test
   public void searchInvalidTopicField() throws Exception {
-    String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
+    String indexPath = newIndexPath("target/lucene-test-index.flat.");
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
@@ -191,7 +206,7 @@ public class SearchFlatDenseVectorsTest extends StdOutStdErrRedirectableLuceneTe
 
   @Test
   public void searchInvalidGenerator() throws Exception {
-    String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
+    String indexPath = newIndexPath("target/lucene-test-index.flat.");
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
@@ -219,7 +234,7 @@ public class SearchFlatDenseVectorsTest extends StdOutStdErrRedirectableLuceneTe
 
   @Test
   public void searchInvalidEncoder() throws Exception {
-    String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
+    String indexPath = newIndexPath("target/lucene-test-index.flat.");
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
@@ -249,7 +264,7 @@ public class SearchFlatDenseVectorsTest extends StdOutStdErrRedirectableLuceneTe
   @Test
   @SuppressWarnings("ResultOfMethodCallIgnored")
   public void testBasicAda2() throws Exception {
-    String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
+    String indexPath = newIndexPath("target/lucene-test-index.flat.");
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
@@ -290,7 +305,7 @@ public class SearchFlatDenseVectorsTest extends StdOutStdErrRedirectableLuceneTe
   @Test
   @SuppressWarnings("ResultOfMethodCallIgnored")
   public void testBasicCosDpr() throws Exception {
-    String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
+    String indexPath = newIndexPath("target/lucene-test-index.flat.");
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/cosdpr-distil/json_vector/",
@@ -331,7 +346,7 @@ public class SearchFlatDenseVectorsTest extends StdOutStdErrRedirectableLuceneTe
   @Test
   @SuppressWarnings("ResultOfMethodCallIgnored")
   public void testBasicCosDprQuantized() throws Exception {
-    String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
+    String indexPath = newIndexPath("target/lucene-test-index.flat.");
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/cosdpr-distil/json_vector/",
@@ -372,7 +387,7 @@ public class SearchFlatDenseVectorsTest extends StdOutStdErrRedirectableLuceneTe
   @Test
   @SuppressWarnings("ResultOfMethodCallIgnored")
   public void testBasicCosDprSpecifyTopicsAsSymbol() throws Exception {
-    String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
+    String indexPath = newIndexPath("target/lucene-test-index.flat.");
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/cosdpr-distil/json_vector/",
@@ -414,7 +429,7 @@ public class SearchFlatDenseVectorsTest extends StdOutStdErrRedirectableLuceneTe
   @Test
   @SuppressWarnings("ResultOfMethodCallIgnored")
   public void testBasicWithOnnx() throws Exception {
-    String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
+    String indexPath = newIndexPath("target/lucene-test-index.flat.");
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/cosdpr-distil/json_vector/",
@@ -489,7 +504,7 @@ public class SearchFlatDenseVectorsTest extends StdOutStdErrRedirectableLuceneTe
   @Test
   @SuppressWarnings("ResultOfMethodCallIgnored")
   public void testRemoveQuery() throws Exception {
-    String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
+    String indexPath = newIndexPath("target/lucene-test-index.flat.");
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector/",
@@ -529,7 +544,7 @@ public class SearchFlatDenseVectorsTest extends StdOutStdErrRedirectableLuceneTe
   @Test
   @SuppressWarnings("ResultOfMethodCallIgnored")
   public void testPassage() throws Exception {
-    String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
+    String indexPath = newIndexPath("target/lucene-test-index.flat.");
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector2",

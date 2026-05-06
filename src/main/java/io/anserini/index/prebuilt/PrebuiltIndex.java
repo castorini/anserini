@@ -86,8 +86,8 @@ public class PrebuiltIndex {
     @JsonProperty("md5")
     public String md5;
 
-    @JsonProperty("compressed_size")
-    public long compressedSize;
+    @JsonProperty("size")
+    public long size;
   }
 
   protected static <T extends PrebuiltIndex.Entry> List<T> loadEntries(

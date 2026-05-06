@@ -16,8 +16,12 @@
 
 package io.anserini.index;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.lucene.index.IndexReader;
@@ -32,6 +36,8 @@ import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
  * Tests for {@link IndexFlatDenseVectors}
  */
 public class IndexFlatDenseVectorsTest extends StdOutStdErrRedirectableLuceneTestCase {
+  private final List<String> indexPaths = new ArrayList<>();
+
   @BeforeClass
   public static void setupClass() {
     suppressJvmLogging();
@@ -51,7 +57,17 @@ public class IndexFlatDenseVectorsTest extends StdOutStdErrRedirectableLuceneTes
   public void tearDown() throws Exception {
     restoreStdOut();
     restoreStdErr();
+    for (String indexPath : indexPaths) {
+      FileUtils.deleteDirectory(new File(indexPath));
+    }
+    indexPaths.clear();
     super.tearDown();
+  }
+
+  private String newIndexPath(String prefix) {
+    String indexPath = prefix + System.currentTimeMillis();
+    indexPaths.add(indexPath);
+    return indexPath;
   }
 
   @Test
@@ -71,7 +87,7 @@ public class IndexFlatDenseVectorsTest extends StdOutStdErrRedirectableLuceneTes
 
   @Test(expected = IllegalArgumentException.class)
   public void testInvalidCollection() throws Exception {
-    String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
+    String indexPath = newIndexPath("target/lucene-test-index.flat.");
     String[] indexArgs = new String[] {
         "-collection", "FakeJsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
@@ -85,7 +101,7 @@ public class IndexFlatDenseVectorsTest extends StdOutStdErrRedirectableLuceneTes
 
   @Test(expected = IllegalArgumentException.class)
   public void testCollectionPath() throws Exception {
-    String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
+    String indexPath = newIndexPath("target/lucene-test-index.flat.");
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector_fake_path",
@@ -99,7 +115,7 @@ public class IndexFlatDenseVectorsTest extends StdOutStdErrRedirectableLuceneTes
 
   @Test(expected = IllegalArgumentException.class)
   public void testInvalidGenerator() throws Exception {
-    String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
+    String indexPath = newIndexPath("target/lucene-test-index.flat.");
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
@@ -113,7 +129,7 @@ public class IndexFlatDenseVectorsTest extends StdOutStdErrRedirectableLuceneTes
 
   @Test
   public void testDefaultGenerator() throws Exception {
-    String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
+    String indexPath = newIndexPath("target/lucene-test-index.flat.");
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
@@ -127,7 +143,7 @@ public class IndexFlatDenseVectorsTest extends StdOutStdErrRedirectableLuceneTes
 
   @Test
   public void testJsonDenseVectorCollection() throws Exception {
-    String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
+    String indexPath = newIndexPath("target/lucene-test-index.flat.");
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
@@ -148,7 +164,7 @@ public class IndexFlatDenseVectorsTest extends StdOutStdErrRedirectableLuceneTes
 
   @Test
   public void testParquetFloat() throws Exception {
-    String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
+    String indexPath = newIndexPath("target/lucene-test-index.flat.");
     String[] indexArgs = new String[] {
         "-collection", "ParquetDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/parquet/msmarco-passage-bge-base-en-v1.5.parquet-float/",
@@ -169,7 +185,7 @@ public class IndexFlatDenseVectorsTest extends StdOutStdErrRedirectableLuceneTes
 
   @Test
   public void testParquetDouble() throws Exception {
-    String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
+    String indexPath = newIndexPath("target/lucene-test-index.flat.");
     String[] indexArgs = new String[] {
         "-collection", "ParquetDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/parquet/msmarco-passage-bge-base-en-v1.5.parquet-double/",
@@ -190,7 +206,7 @@ public class IndexFlatDenseVectorsTest extends StdOutStdErrRedirectableLuceneTes
 
   @Test
   public void testQuantizedInt8() throws Exception {
-    String indexPath = "target/lucene-test-index.flat." + System.currentTimeMillis();
+    String indexPath = newIndexPath("target/lucene-test-index.flat.");
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
