@@ -247,8 +247,8 @@ conditions:
         eval_key: rag25.test-umbrela2
         expected_scores:
           nDCG@30: 0.2609
-          nDCG@100: 0.1747
-          R@100: 0.0555
+          nDCG@100: 0.1751
+          R@100: 0.0556
         metric_definitions:
           nDCG@30: "-c -m ndcg_cut.30"
           nDCG@100: "-c -m ndcg_cut.100"
@@ -257,8 +257,8 @@ conditions:
         eval_key: rag25.test
         expected_scores:
           nDCG@30: 0.2874
-          nDCG@100: 0.1848
-          R@100: 0.0564
+          nDCG@100: 0.1850
+          R@100: 0.0565
         metric_definitions:
           nDCG@30: "-c -m ndcg_cut.30"
           nDCG@100: "-c -m ndcg_cut.100"

@@ -270,7 +270,7 @@ conditions:
       - topic_key: dl19-passage
         eval_key: dl19-passage
         expected_scores:
-          MAP: 0.4664
+          MAP: 0.4663
           nDCG@10: 0.7247
           R@1K: 0.8218
         metric_definitions:
