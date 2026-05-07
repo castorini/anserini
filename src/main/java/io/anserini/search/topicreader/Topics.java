@@ -769,6 +769,8 @@ public enum Topics {
     m.put("dl20-passage.cosdpr-distil", TREC2020_DL_COSDPR_DISTIL);
     m.put("dl20-passage.bge-base-en-v1.5", TREC2020_DL_BGE_BASE_EN_15);
     m.put("dl20-passage.cohere-embed-english-v3.0", TREC2020_DL_COHERE_EMBED_ENGLISH_30);
+    m.put("dl20-passage.unicoil.0shot", TREC2020_DL_UNICOIL);
+    m.put("dl20-passage.unicoil-noexp.0shot", TREC2020_DL_UNICOIL_NOEXP);
 
     m.put("dl20-doc.splade-pp-ed", TREC2020_DL_SPLADE_PP_ED);
     m.put("dl20-doc.splade-pp-sd", TREC2020_DL_SPLADE_PP_SD);
@@ -776,6 +778,8 @@ public enum Topics {
     m.put("dl20-doc.cosdpr-distil", TREC2020_DL_COSDPR_DISTIL);
     m.put("dl20-doc.bge-base-en-v1.5", TREC2020_DL_BGE_BASE_EN_15);
     m.put("dl20-doc.cohere-embed-english-v3.0", TREC2020_DL_COHERE_EMBED_ENGLISH_30);
+    m.put("dl20-doc.unicoil.0shot", TREC2020_DL_UNICOIL);
+    m.put("dl20-doc.unicoil-noexp.0shot", TREC2020_DL_UNICOIL_NOEXP);
 
     m.put("dl21-passage", TREC2021_DL);
     m.put("dl21-doc", TREC2021_DL);
