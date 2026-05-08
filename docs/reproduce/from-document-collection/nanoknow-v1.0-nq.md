@@ -68,9 +68,9 @@ bin/trec_eval -c -m recall.20 tools/topics-and-qrels/qrels.nanoknow-v1.0-nq.supp
 
 With the above commands, you should be able to reproduce the following results:
 
-| **R@20**                                                                                                     | **BM25 (default)**|
-|:-------------------------------------------------------------------------------------------------------------|-------------------|
-| [NanoKnow v1.0: NQ-Open Validation](https://github.com/castorini/NanoKnow)                                   | 0.3282            |
+| **R@20**                                                                   | **BM25 (default)** |
+|:---------------------------------------------------------------------------|:------------------:|
+| [NanoKnow v1.0: NQ-Open Validation](https://github.com/castorini/NanoKnow) | 0.3282             |
 
 The reported metric is **R@20** (Recall at 20). Because NanoKnow v1.0 qrels are themselves drawn from the BM25 top-100 over this exact index, R@100 is ~1.0 by construction and is not an interesting signal. R@20 instead measures what fraction of the verified answer-bearing documents BM25 ranks in the top-20; this number is sensitive to changes in the BM25 implementation, the index, or the topics, and so serves as a meaningful regression signal for the retrieval pipeline.
 

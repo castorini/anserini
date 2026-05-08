@@ -67,10 +67,10 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadups
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@10**                                                                                                  | **BM25**  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): CQADupStack-gis                                                                               | 0.2904    |
-| **R@100**                                                                                                    | **BM25**  |
-| BEIR (v1.0.0): CQADupStack-gis                                                                               | 0.6458    |
-| **R@1000**                                                                                                   | **BM25**  |
-| BEIR (v1.0.0): CQADupStack-gis                                                                               | 0.8248    |
+| **nDCG@10**                    | **BM25**   |
+|:-------------------------------|:----------:|
+| BEIR (v1.0.0): CQADupStack-gis | 0.2904     |
+| **R@100**                      | **BM25**   |
+| BEIR (v1.0.0): CQADupStack-gis | 0.6458     |
+| **R@1000**                     | **BM25**   |
+| BEIR (v1.0.0): CQADupStack-gis | 0.8248     |

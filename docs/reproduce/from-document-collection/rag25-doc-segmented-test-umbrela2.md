@@ -92,10 +92,10 @@ bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.rag25.test-umbrela2.
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@30**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-|:-------------------------------------------------------------------------------------------------------------|-------------------|-----------|-------------|
-| RAG 25: Test queries                                                                                         | 0.3250            | 0.2736    | 0.3306      |
-| **nDCG@100**                                                                                                 | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| RAG 25: Test queries                                                                                         | 0.2835            | 0.2345    | 0.2767      |
-| **R@100**                                                                                                    | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| RAG 25: Test queries                                                                                         | 0.1167            | 0.0909    | 0.1092      |
+| **nDCG@30**          | **BM25 (default)** | **+RM3**   | **+Rocchio** |
+|:---------------------|:------------------:|:----------:|:------------:|
+| RAG 25: Test queries | 0.3250             | 0.2736     | 0.3306       |
+| **nDCG@100**         | **BM25 (default)** | **+RM3**   | **+Rocchio** |
+| RAG 25: Test queries | 0.2835             | 0.2345     | 0.2767       |
+| **R@100**            | **BM25 (default)** | **+RM3**   | **+Rocchio** |
+| RAG 25: Test queries | 0.1167             | 0.0909     | 0.1092       |

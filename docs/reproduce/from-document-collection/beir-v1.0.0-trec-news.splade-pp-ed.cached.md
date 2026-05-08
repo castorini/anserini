@@ -74,10 +74,10 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-trec-ne
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@10**                                                                                                  | **SPLADE++ (CoCondenser-EnsembleDistil)**|
-|:-------------------------------------------------------------------------------------------------------------|------------------------------------------|
-| BEIR (v1.0.0): TREC-NEWS                                                                                     | 0.4152                                   |
-| **R@100**                                                                                                    | **SPLADE++ (CoCondenser-EnsembleDistil)**|
-| BEIR (v1.0.0): TREC-NEWS                                                                                     | 0.4414                                   |
-| **R@1000**                                                                                                   | **SPLADE++ (CoCondenser-EnsembleDistil)**|
-| BEIR (v1.0.0): TREC-NEWS                                                                                     | 0.7060                                   |
+| **nDCG@10**              | **SPLADE++ (CoCondenser-EnsembleDistil)** |
+|:-------------------------|:-----------------------------------------:|
+| BEIR (v1.0.0): TREC-NEWS | 0.4152                                    |
+| **R@100**                | **SPLADE++ (CoCondenser-EnsembleDistil)** |
+| BEIR (v1.0.0): TREC-NEWS | 0.4414                                    |
+| **R@1000**               | **SPLADE++ (CoCondenser-EnsembleDistil)** |
+| BEIR (v1.0.0): TREC-NEWS | 0.7060                                    |

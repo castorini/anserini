@@ -216,12 +216,12 @@ bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.151-200.txt runs
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MAP**                                                                                                      | **BM25**  | **+RM3**  | **+BM25PRF**| **+Rocchio**| **+Ax**   | **QL**    | **+RM3**  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-------------|-------------|-----------|-----------|-----------|
-| [TREC-1 Ad Hoc Topics 51-100](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.adhoc.51-100.txt)| 0.2277    | 0.2614    | 0.2682      | 0.2627      | 0.2648    | 0.2188    | 0.2464    |
-| [TREC-2 Ad Hoc Topics 101-150](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.adhoc.101-150.txt)| 0.2003    | 0.2579    | 0.2581      | 0.2587      | 0.2698    | 0.2010    | 0.2424    |
-| [TREC-3 Ad Hoc Topics 151-200](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.adhoc.151-200.txt)| 0.2634    | 0.3345    | 0.3370      | 0.3407      | 0.3407    | 0.2580    | 0.3029    |
-| **P30**                                                                                                      | **BM25**  | **+RM3**  | **+BM25PRF**| **+Rocchio**| **+Ax**   | **QL**    | **+RM3**  |
-| [TREC-1 Ad Hoc Topics 51-100](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.adhoc.51-100.txt)| 0.4540    | 0.4927    | 0.5233      | 0.4913      | 0.5127    | 0.4553    | 0.4673    |
-| [TREC-2 Ad Hoc Topics 101-150](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.adhoc.101-150.txt)| 0.4253    | 0.4580    | 0.4720      | 0.4593      | 0.4720    | 0.4193    | 0.4427    |
-| [TREC-3 Ad Hoc Topics 151-200](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.adhoc.151-200.txt)| 0.4860    | 0.5293    | 0.5393      | 0.5353      | 0.5273    | 0.4753    | 0.5000    |
+| **MAP**                                                                                                                           | **BM25**   | **+RM3**   | **+BM25PRF** | **+Rocchio** | **+Ax**    | **QL**     | **+RM3**   |
+|:----------------------------------------------------------------------------------------------------------------------------------|:----------:|:----------:|:------------:|:------------:|:----------:|:----------:|:----------:|
+| [TREC-1 Ad Hoc Topics 51-100](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.adhoc.51-100.txt)   | 0.2277     | 0.2614     | 0.2682       | 0.2627       | 0.2648     | 0.2188     | 0.2464     |
+| [TREC-2 Ad Hoc Topics 101-150](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.adhoc.101-150.txt) | 0.2003     | 0.2579     | 0.2581       | 0.2587       | 0.2698     | 0.2010     | 0.2424     |
+| [TREC-3 Ad Hoc Topics 151-200](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.adhoc.151-200.txt) | 0.2634     | 0.3345     | 0.3370       | 0.3407       | 0.3407     | 0.2580     | 0.3029     |
+| **P30**                                                                                                                           | **BM25**   | **+RM3**   | **+BM25PRF** | **+Rocchio** | **+Ax**    | **QL**     | **+RM3**   |
+| [TREC-1 Ad Hoc Topics 51-100](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.adhoc.51-100.txt)   | 0.4540     | 0.4927     | 0.5233       | 0.4913       | 0.5127     | 0.4553     | 0.4673     |
+| [TREC-2 Ad Hoc Topics 101-150](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.adhoc.101-150.txt) | 0.4253     | 0.4580     | 0.4720       | 0.4593       | 0.4720     | 0.4193     | 0.4427     |
+| [TREC-3 Ad Hoc Topics 151-200](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.adhoc.151-200.txt) | 0.4860     | 0.5293     | 0.5393       | 0.5353       | 0.5273     | 0.4753     | 0.5000     |

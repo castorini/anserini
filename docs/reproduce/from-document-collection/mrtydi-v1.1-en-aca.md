@@ -68,12 +68,12 @@ bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools/topics-and-qrels/qr
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MRR@100**                                                                                                  | **BM25**  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [Mr. TyDi (English): train](https://github.com/castorini/mr.tydi)                                            | 0.1624    |
-| [Mr. TyDi (English): dev](https://github.com/castorini/mr.tydi)                                              | 0.1786    |
-| [Mr. TyDi (English): test](https://github.com/castorini/mr.tydi)                                             | 0.1482    |
-| **R@100**                                                                                                    | **BM25**  |
-| [Mr. TyDi (English): train](https://github.com/castorini/mr.tydi)                                            | 0.5904    |
-| [Mr. TyDi (English): dev](https://github.com/castorini/mr.tydi)                                              | 0.6253    |
-| [Mr. TyDi (English): test](https://github.com/castorini/mr.tydi)                                             | 0.5464    |
+| **MRR@100**                                                       | **BM25**   |
+|:------------------------------------------------------------------|:----------:|
+| [Mr. TyDi (English): train](https://github.com/castorini/mr.tydi) | 0.1624     |
+| [Mr. TyDi (English): dev](https://github.com/castorini/mr.tydi)   | 0.1786     |
+| [Mr. TyDi (English): test](https://github.com/castorini/mr.tydi)  | 0.1482     |
+| **R@100**                                                         | **BM25**   |
+| [Mr. TyDi (English): train](https://github.com/castorini/mr.tydi) | 0.5904     |
+| [Mr. TyDi (English): dev](https://github.com/castorini/mr.tydi)   | 0.6253     |
+| [Mr. TyDi (English): test](https://github.com/castorini/mr.tydi)  | 0.5464     |

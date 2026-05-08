@@ -89,15 +89,15 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev
 
 With the above commands, you should be able to reproduce the following results:
 
-| **AP@1000**                                                                                                  | **cohere-embed-english-v3.0**|
-|:-------------------------------------------------------------------------------------------------------------|------------------------------|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3716                       |
-| **RR@10**                                                                                                    | **cohere-embed-english-v3.0**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3658                       |
-| **R@100**                                                                                                    | **cohere-embed-english-v3.0**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.8935                       |
-| **R@1000**                                                                                                   | **cohere-embed-english-v3.0**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9786                       |
+| **AP@1000**                                                                   | **cohere-embed-english-v3.0** |
+|:------------------------------------------------------------------------------|:-----------------------------:|
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking) | 0.3716                        |
+| **RR@10**                                                                     | **cohere-embed-english-v3.0** |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking) | 0.3658                        |
+| **R@100**                                                                     | **cohere-embed-english-v3.0** |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking) | 0.8935                        |
+| **R@1000**                                                                    | **cohere-embed-english-v3.0** |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking) | 0.9786                        |
 
 The above figures are from running brute-force search with cached queries on non-quantized indexes.
 With cached queries on quantized indexes, results may differ slightly.

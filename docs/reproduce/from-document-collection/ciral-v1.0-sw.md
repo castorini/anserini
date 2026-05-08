@@ -69,12 +69,12 @@ bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.ciral-v1.0-sw-test-b
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@20**                                                                                                  | **BM25 (default)**|
-|:-------------------------------------------------------------------------------------------------------------|-------------------|
-| [CIRAL Swahili: Test Set A (Shallow Judgements)](https://huggingface.co/datasets/CIRAL/ciral)                | 0.1720            |
-| [CIRAL Swahili: Test Set A (Pools)](https://huggingface.co/datasets/CIRAL/ciral)                             | 0.1500            |
-| [CIRAL Swahili: Test Set B](https://huggingface.co/datasets/CIRAL/ciral)                                     | 0.1727            |
-| **R@100**                                                                                                    | **BM25 (default)**|
-| [CIRAL Swahili: Test Set A (Shallow Judgements)](https://huggingface.co/datasets/CIRAL/ciral)                | 0.4161            |
-| [CIRAL Swahili: Test Set A (Pools)](https://huggingface.co/datasets/CIRAL/ciral)                             | 0.2430            |
-| [CIRAL Swahili: Test Set B](https://huggingface.co/datasets/CIRAL/ciral)                                     | 0.4166            |
+| **nDCG@20**                                                                                   | **BM25 (default)** |
+|:----------------------------------------------------------------------------------------------|:------------------:|
+| [CIRAL Swahili: Test Set A (Shallow Judgements)](https://huggingface.co/datasets/CIRAL/ciral) | 0.1720             |
+| [CIRAL Swahili: Test Set A (Pools)](https://huggingface.co/datasets/CIRAL/ciral)              | 0.1500             |
+| [CIRAL Swahili: Test Set B](https://huggingface.co/datasets/CIRAL/ciral)                      | 0.1727             |
+| **R@100**                                                                                     | **BM25 (default)** |
+| [CIRAL Swahili: Test Set A (Shallow Judgements)](https://huggingface.co/datasets/CIRAL/ciral) | 0.4161             |
+| [CIRAL Swahili: Test Set A (Pools)](https://huggingface.co/datasets/CIRAL/ciral)              | 0.2430             |
+| [CIRAL Swahili: Test Set B](https://huggingface.co/datasets/CIRAL/ciral)                      | 0.4166             |

@@ -68,10 +68,10 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.bright-stackoverflo
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@10**                                                                                                  | **query-side-BM25**|
-|:-------------------------------------------------------------------------------------------------------------|--------------------|
-| BRIGHT: Stack Overflow                                                                                       | 0.1855             |
-| **R@100**                                                                                                    | **query-side-BM25**|
-| BRIGHT: Stack Overflow                                                                                       | 0.4631             |
-| **R@1000**                                                                                                   | **query-side-BM25**|
-| BRIGHT: Stack Overflow                                                                                       | 0.7414             |
+| **nDCG@10**            | **query-side-BM25** |
+|:-----------------------|:-------------------:|
+| BRIGHT: Stack Overflow | 0.1855              |
+| **R@100**              | **query-side-BM25** |
+| BRIGHT: Stack Overflow | 0.4631              |
+| **R@1000**             | **query-side-BM25** |
+| BRIGHT: Stack Overflow | 0.7414              |

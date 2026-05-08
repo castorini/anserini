@@ -68,12 +68,12 @@ bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools/topics-and-qrels/qr
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MRR@100**                                                                                                  | **BM25**  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [Mr. TyDi (Thai): train](https://github.com/castorini/mr.tydi)                                               | 0.3780    |
-| [Mr. TyDi (Thai): dev](https://github.com/castorini/mr.tydi)                                                 | 0.4034    |
-| [Mr. TyDi (Thai): test](https://github.com/castorini/mr.tydi)                                                | 0.4468    |
-| **R@100**                                                                                                    | **BM25**  |
-| [Mr. TyDi (Thai): train](https://github.com/castorini/mr.tydi)                                               | 0.8690    |
-| [Mr. TyDi (Thai): dev](https://github.com/castorini/mr.tydi)                                                 | 0.8751    |
-| [Mr. TyDi (Thai): test](https://github.com/castorini/mr.tydi)                                                | 0.8772    |
+| **MRR@100**                                                    | **BM25**   |
+|:---------------------------------------------------------------|:----------:|
+| [Mr. TyDi (Thai): train](https://github.com/castorini/mr.tydi) | 0.3780     |
+| [Mr. TyDi (Thai): dev](https://github.com/castorini/mr.tydi)   | 0.4034     |
+| [Mr. TyDi (Thai): test](https://github.com/castorini/mr.tydi)  | 0.4468     |
+| **R@100**                                                      | **BM25**   |
+| [Mr. TyDi (Thai): train](https://github.com/castorini/mr.tydi) | 0.8690     |
+| [Mr. TyDi (Thai): dev](https://github.com/castorini/mr.tydi)   | 0.8751     |
+| [Mr. TyDi (Thai): test](https://github.com/castorini/mr.tydi)  | 0.8772     |

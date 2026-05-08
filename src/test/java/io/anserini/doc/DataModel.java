@@ -418,35 +418,50 @@ public class DataModel {
   }
 
   public String generateEffectiveness(String collection) {
+    int rightPadding = 1;
+    int firstColumnWidth = 0;
+    for (Metric eval : getMetrics()) {
+      firstColumnWidth = Math.max(firstColumnWidth, eval.getMetric().length() + 4 + rightPadding);
+    }
+    for (Topic topic : getTopics()) {
+      firstColumnWidth = Math.max(firstColumnWidth, topic.getName().length() + rightPadding);
+    }
+
     int cnt = 0;
     StringBuilder builder = new StringBuilder();
     for (Metric eval : getMetrics()) {
-      builder.append(String.format("| %1$-109s|", String.format("**%s**", eval.getMetric())));
+      builder.append("| ").append(StringUtils.rightPad("**" + eval.getMetric() + "**", firstColumnWidth)).append("|");
       for (Model model : getModels()) {
+        String display = model.getDisplay() == null ? model.getName() : model.getDisplay();
+        int width = Math.max(display.length() + 6, 12);
         if (model.getDisplay() == null) {
-          builder.append(String.format(" %1$-10s|", String.format("**%s**", model.getName())));
+          builder.append(String.format(" %1$-" + (width - 1) + "s|", String.format("**%s**", model.getName())));
         } else {
-          builder.append(String.format(" %1$-10s|", String.format("**%s**", model.getDisplay())));
+          builder.append(String.format(" %1$-" + (width - 1) + "s|", String.format("**%s**", model.getDisplay())));
         }
       }
       builder.append("\n");
       // Only print for the first "block" of the table.
       if (cnt == 0) {
-        builder.append("|:").append(StringUtils.repeat("-", 109)).append("|");
+        builder.append("|:").append(StringUtils.repeat("-", firstColumnWidth)).append("|");
         for (Model model : getModels()) {
-          builder.append(StringUtils.repeat("-", Math.max(model.getDisplay().length() + 5, 11))).append("|");
+          String display = model.getDisplay() == null ? model.getName() : model.getDisplay();
+          int width = Math.max(display.length() + 6, 12);
+          builder.append(":").append(StringUtils.repeat("-", width - 2)).append(":|");
         }
         builder.append("\n");
       }
       for (int i = 0; i < topics.size(); i++) {
         Topic topic = getTopics().get(i);
-        builder.append(String.format("| %1$-109s|", topic.getName()));
+        builder.append("| ").append(StringUtils.rightPad(topic.getName(), firstColumnWidth)).append("|");
         for (Model model : getModels()) {
+          String display = model.getDisplay() == null ? model.getName() : model.getDisplay();
+          int width = Math.max(display.length() + 5, 11);
           // 3 digits for HNSW, 4 otherwise:
           if ("hnsw".equals(getIndex_type())) {
-            builder.append(String.format(" %-" + Math.max(model.getDisplay().length() + 4, 10) + ".3f|", model.getResults().get(eval.getMetric()).get(i)));
+            builder.append(String.format(" %-" + width + ".3f|", model.getResults().get(eval.getMetric()).get(i)));
           } else {
-            builder.append(String.format(" %-" + Math.max(model.getDisplay().length() + 4, 10) + ".4f|", model.getResults().get(eval.getMetric()).get(i)));
+            builder.append(String.format(" %-" + width + ".4f|", model.getResults().get(eval.getMetric()).get(i)));
           }
         }
         builder.append("\n");

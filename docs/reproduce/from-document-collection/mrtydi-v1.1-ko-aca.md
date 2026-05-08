@@ -68,12 +68,12 @@ bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools/topics-and-qrels/qr
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MRR@100**                                                                                                  | **BM25**  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [Mr. TyDi (Korean): train](https://github.com/castorini/mr.tydi)                                             | 0.2694    |
-| [Mr. TyDi (Korean): dev](https://github.com/castorini/mr.tydi)                                               | 0.3100    |
-| [Mr. TyDi (Korean): test](https://github.com/castorini/mr.tydi)                                              | 0.2907    |
-| **R@100**                                                                                                    | **BM25**  |
-| [Mr. TyDi (Korean): train](https://github.com/castorini/mr.tydi)                                             | 0.6483    |
-| [Mr. TyDi (Korean): dev](https://github.com/castorini/mr.tydi)                                               | 0.6898    |
-| [Mr. TyDi (Korean): test](https://github.com/castorini/mr.tydi)                                              | 0.6433    |
+| **MRR@100**                                                      | **BM25**   |
+|:-----------------------------------------------------------------|:----------:|
+| [Mr. TyDi (Korean): train](https://github.com/castorini/mr.tydi) | 0.2694     |
+| [Mr. TyDi (Korean): dev](https://github.com/castorini/mr.tydi)   | 0.3100     |
+| [Mr. TyDi (Korean): test](https://github.com/castorini/mr.tydi)  | 0.2907     |
+| **R@100**                                                        | **BM25**   |
+| [Mr. TyDi (Korean): train](https://github.com/castorini/mr.tydi) | 0.6483     |
+| [Mr. TyDi (Korean): dev](https://github.com/castorini/mr.tydi)   | 0.6898     |
+| [Mr. TyDi (Korean): test](https://github.com/castorini/mr.tydi)  | 0.6433     |

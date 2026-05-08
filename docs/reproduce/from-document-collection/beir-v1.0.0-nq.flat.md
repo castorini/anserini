@@ -66,10 +66,10 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-nq.test
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@10**                                                                                                  | **BM25**  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): NQ                                                                                            | 0.3055    |
-| **R@100**                                                                                                    | **BM25**  |
-| BEIR (v1.0.0): NQ                                                                                            | 0.7513    |
-| **R@1000**                                                                                                   | **BM25**  |
-| BEIR (v1.0.0): NQ                                                                                            | 0.8958    |
+| **nDCG@10**       | **BM25**   |
+|:------------------|:----------:|
+| BEIR (v1.0.0): NQ | 0.3055     |
+| **R@100**         | **BM25**   |
+| BEIR (v1.0.0): NQ | 0.7513     |
+| **R@1000**        | **BM25**   |
+| BEIR (v1.0.0): NQ | 0.8958     |

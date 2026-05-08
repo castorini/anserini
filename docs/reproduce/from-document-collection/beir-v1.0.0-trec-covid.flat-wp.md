@@ -67,10 +67,10 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-trec-co
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@10**                                                                                                  | **BM25**  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): TREC-COVID                                                                                    | 0.5645    |
-| **R@100**                                                                                                    | **BM25**  |
-| BEIR (v1.0.0): TREC-COVID                                                                                    | 0.1001    |
-| **R@1000**                                                                                                   | **BM25**  |
-| BEIR (v1.0.0): TREC-COVID                                                                                    | 0.3621    |
+| **nDCG@10**               | **BM25**   |
+|:--------------------------|:----------:|
+| BEIR (v1.0.0): TREC-COVID | 0.5645     |
+| **R@100**                 | **BM25**   |
+| BEIR (v1.0.0): TREC-COVID | 0.1001     |
+| **R@1000**                | **BM25**   |
+| BEIR (v1.0.0): TREC-COVID | 0.3621     |

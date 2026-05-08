@@ -66,10 +66,10 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.bright-sustainable-
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@10**                                                                                                  | **BM25**  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BRIGHT: Sustainable Living                                                                                   | 0.1613    |
-| **R@100**                                                                                                    | **BM25**  |
-| BRIGHT: Sustainable Living                                                                                   | 0.4200    |
-| **R@1000**                                                                                                   | **BM25**  |
-| BRIGHT: Sustainable Living                                                                                   | 0.7424    |
+| **nDCG@10**                | **BM25**   |
+|:---------------------------|:----------:|
+| BRIGHT: Sustainable Living | 0.1613     |
+| **R@100**                  | **BM25**   |
+| BRIGHT: Sustainable Living | 0.4200     |
+| **R@1000**                 | **BM25**   |
+| BRIGHT: Sustainable Living | 0.7424     |

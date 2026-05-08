@@ -67,10 +67,10 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-signal1
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@10**                                                                                                  | **BM25**  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): Signal-1M                                                                                     | 0.3503    |
-| **R@100**                                                                                                    | **BM25**  |
-| BEIR (v1.0.0): Signal-1M                                                                                     | 0.3811    |
-| **R@1000**                                                                                                   | **BM25**  |
-| BEIR (v1.0.0): Signal-1M                                                                                     | 0.5690    |
+| **nDCG@10**              | **BM25**   |
+|:-------------------------|:----------:|
+| BEIR (v1.0.0): Signal-1M | 0.3503     |
+| **R@100**                | **BM25**   |
+| BEIR (v1.0.0): Signal-1M | 0.3811     |
+| **R@1000**               | **BM25**   |
+| BEIR (v1.0.0): Signal-1M | 0.5690     |

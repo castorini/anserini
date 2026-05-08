@@ -55,8 +55,8 @@ bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.miracl-v1.0-ar-dev.t
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@10**                                                                                                  | **BM25**  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [MIRACL (Arabic): dev](https://github.com/project-miracl/miracl)                                             | 0.4968    |
-| **R@100**                                                                                                    | **BM25**  |
-| [MIRACL (Arabic): dev](https://github.com/project-miracl/miracl)                                             | 0.8980    |
+| **nDCG@10**                                                      | **BM25**   |
+|:-----------------------------------------------------------------|:----------:|
+| [MIRACL (Arabic): dev](https://github.com/project-miracl/miracl) | 0.4968     |
+| **R@100**                                                        | **BM25**   |
+| [MIRACL (Arabic): dev](https://github.com/project-miracl/miracl) | 0.8980     |

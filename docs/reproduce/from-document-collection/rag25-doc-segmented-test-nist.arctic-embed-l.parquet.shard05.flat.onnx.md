@@ -76,10 +76,10 @@ bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.rag25.test.txt runs/
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@30**                                                                                                  | **ArcticEmbedL**|
-|:-------------------------------------------------------------------------------------------------------------|-----------------|
-| RAG 25: Test queries                                                                                         | 0.2383          |
-| **nDCG@100**                                                                                                 | **ArcticEmbedL**|
-| RAG 25: Test queries                                                                                         | 0.1562          |
-| **R@100**                                                                                                    | **ArcticEmbedL**|
-| RAG 25: Test queries                                                                                         | 0.0481          |
+| **nDCG@30**          | **ArcticEmbedL** |
+|:---------------------|:----------------:|
+| RAG 25: Test queries | 0.2383           |
+| **nDCG@100**         | **ArcticEmbedL** |
+| RAG 25: Test queries | 0.1562           |
+| **R@100**            | **ArcticEmbedL** |
+| RAG 25: Test queries | 0.0481           |

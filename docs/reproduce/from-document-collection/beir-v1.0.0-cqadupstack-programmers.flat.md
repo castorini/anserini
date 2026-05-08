@@ -66,10 +66,10 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadups
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@10**                                                                                                  | **BM25**  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): CQADupStack-programmers                                                                       | 0.2802    |
-| **R@100**                                                                                                    | **BM25**  |
-| BEIR (v1.0.0): CQADupStack-programmers                                                                       | 0.5588    |
-| **R@1000**                                                                                                   | **BM25**  |
-| BEIR (v1.0.0): CQADupStack-programmers                                                                       | 0.7734    |
+| **nDCG@10**                            | **BM25**   |
+|:---------------------------------------|:----------:|
+| BEIR (v1.0.0): CQADupStack-programmers | 0.2802     |
+| **R@100**                              | **BM25**   |
+| BEIR (v1.0.0): CQADupStack-programmers | 0.5588     |
+| **R@1000**                             | **BM25**   |
+| BEIR (v1.0.0): CQADupStack-programmers | 0.7734     |

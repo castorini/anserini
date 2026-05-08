@@ -104,10 +104,10 @@ bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.rag24.test.txt runs/
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@20**                                                                                                  | **SPLADE-v3**|
-|:-------------------------------------------------------------------------------------------------------------|--------------|
-| RAG 24: Test queries                                                                                         | 0.4642       |
-| **nDCG@100**                                                                                                 | **SPLADE-v3**|
-| RAG 24: Test queries                                                                                         | 0.4349       |
-| **R@100**                                                                                                    | **SPLADE-v3**|
-| RAG 24: Test queries                                                                                         | 0.3198       |
+| **nDCG@20**          | **SPLADE-v3** |
+|:---------------------|:-------------:|
+| RAG 24: Test queries | 0.4642        |
+| **nDCG@100**         | **SPLADE-v3** |
+| RAG 24: Test queries | 0.4349        |
+| **R@100**            | **SPLADE-v3** |
+| RAG 24: Test queries | 0.3198        |

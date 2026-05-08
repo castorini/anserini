@@ -66,10 +66,10 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-fiqa.te
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@10**                                                                                                  | **BM25**  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): FiQA-2018                                                                                     | 0.2361    |
-| **R@100**                                                                                                    | **BM25**  |
-| BEIR (v1.0.0): FiQA-2018                                                                                     | 0.5395    |
-| **R@1000**                                                                                                   | **BM25**  |
-| BEIR (v1.0.0): FiQA-2018                                                                                     | 0.7393    |
+| **nDCG@10**              | **BM25**   |
+|:-------------------------|:----------:|
+| BEIR (v1.0.0): FiQA-2018 | 0.2361     |
+| **R@100**                | **BM25**   |
+| BEIR (v1.0.0): FiQA-2018 | 0.5395     |
+| **R@1000**               | **BM25**   |
+| BEIR (v1.0.0): FiQA-2018 | 0.7393     |

@@ -66,12 +66,12 @@ bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools/topics-and-qrels/qr
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MRR@100**                                                                                                  | **BM25**  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [Mr. TyDi (Japanese): train](https://github.com/castorini/mr.tydi)                                           | 0.2262    |
-| [Mr. TyDi (Japanese): dev](https://github.com/castorini/mr.tydi)                                             | 0.2250    |
-| [Mr. TyDi (Japanese): test](https://github.com/castorini/mr.tydi)                                            | 0.2125    |
-| **R@100**                                                                                                    | **BM25**  |
-| [Mr. TyDi (Japanese): train](https://github.com/castorini/mr.tydi)                                           | 0.7290    |
-| [Mr. TyDi (Japanese): dev](https://github.com/castorini/mr.tydi)                                             | 0.7252    |
-| [Mr. TyDi (Japanese): test](https://github.com/castorini/mr.tydi)                                            | 0.6431    |
+| **MRR@100**                                                        | **BM25**   |
+|:-------------------------------------------------------------------|:----------:|
+| [Mr. TyDi (Japanese): train](https://github.com/castorini/mr.tydi) | 0.2262     |
+| [Mr. TyDi (Japanese): dev](https://github.com/castorini/mr.tydi)   | 0.2250     |
+| [Mr. TyDi (Japanese): test](https://github.com/castorini/mr.tydi)  | 0.2125     |
+| **R@100**                                                          | **BM25**   |
+| [Mr. TyDi (Japanese): train](https://github.com/castorini/mr.tydi) | 0.7290     |
+| [Mr. TyDi (Japanese): dev](https://github.com/castorini/mr.tydi)   | 0.7252     |
+| [Mr. TyDi (Japanese): test](https://github.com/castorini/mr.tydi)  | 0.6431     |

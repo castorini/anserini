@@ -67,10 +67,10 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-fever.t
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@10**                                                                                                  | **BM25**  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): FEVER                                                                                         | 0.6583    |
-| **R@100**                                                                                                    | **BM25**  |
-| BEIR (v1.0.0): FEVER                                                                                         | 0.9212    |
-| **R@1000**                                                                                                   | **BM25**  |
-| BEIR (v1.0.0): FEVER                                                                                         | 0.9622    |
+| **nDCG@10**          | **BM25**   |
+|:---------------------|:----------:|
+| BEIR (v1.0.0): FEVER | 0.6583     |
+| **R@100**            | **BM25**   |
+| BEIR (v1.0.0): FEVER | 0.9212     |
+| **R@1000**           | **BM25**   |
+| BEIR (v1.0.0): FEVER | 0.9622     |

@@ -92,10 +92,10 @@ bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.rag25.test.txt runs/
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@30**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-|:-------------------------------------------------------------------------------------------------------------|-------------------|-----------|-------------|
-| RAG 25: Test queries                                                                                         | 0.3468            | 0.3096    | 0.3634      |
-| **nDCG@100**                                                                                                 | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| RAG 25: Test queries                                                                                         | 0.2900            | 0.2426    | 0.2831      |
-| **R@100**                                                                                                    | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| RAG 25: Test queries                                                                                         | 0.1107            | 0.0876    | 0.1056      |
+| **nDCG@30**          | **BM25 (default)** | **+RM3**   | **+Rocchio** |
+|:---------------------|:------------------:|:----------:|:------------:|
+| RAG 25: Test queries | 0.3468             | 0.3096     | 0.3634       |
+| **nDCG@100**         | **BM25 (default)** | **+RM3**   | **+Rocchio** |
+| RAG 25: Test queries | 0.2900             | 0.2426     | 0.2831       |
+| **R@100**            | **BM25 (default)** | **+RM3**   | **+Rocchio** |
+| RAG 25: Test queries | 0.1107             | 0.0876     | 0.1056       |

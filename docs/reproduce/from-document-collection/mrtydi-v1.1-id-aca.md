@@ -68,12 +68,12 @@ bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools/topics-and-qrels/qr
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MRR@100**                                                                                                  | **BM25**  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [Mr. TyDi (Indonesian): train](https://github.com/castorini/mr.tydi)                                         | 0.2948    |
-| [Mr. TyDi (Indonesian): dev](https://github.com/castorini/mr.tydi)                                           | 0.2868    |
-| [Mr. TyDi (Indonesian): test](https://github.com/castorini/mr.tydi)                                          | 0.3824    |
-| **R@100**                                                                                                    | **BM25**  |
-| [Mr. TyDi (Indonesian): train](https://github.com/castorini/mr.tydi)                                         | 0.7962    |
-| [Mr. TyDi (Indonesian): dev](https://github.com/castorini/mr.tydi)                                           | 0.7990    |
-| [Mr. TyDi (Indonesian): test](https://github.com/castorini/mr.tydi)                                          | 0.8504    |
+| **MRR@100**                                                          | **BM25**   |
+|:---------------------------------------------------------------------|:----------:|
+| [Mr. TyDi (Indonesian): train](https://github.com/castorini/mr.tydi) | 0.2948     |
+| [Mr. TyDi (Indonesian): dev](https://github.com/castorini/mr.tydi)   | 0.2868     |
+| [Mr. TyDi (Indonesian): test](https://github.com/castorini/mr.tydi)  | 0.3824     |
+| **R@100**                                                            | **BM25**   |
+| [Mr. TyDi (Indonesian): train](https://github.com/castorini/mr.tydi) | 0.7962     |
+| [Mr. TyDi (Indonesian): dev](https://github.com/castorini/mr.tydi)   | 0.7990     |
+| [Mr. TyDi (Indonesian): test](https://github.com/castorini/mr.tydi)  | 0.8504     |

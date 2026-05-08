@@ -74,10 +74,10 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-nfcorpu
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@10**                                                                                                  | **SPLADE-v3**|
-|:-------------------------------------------------------------------------------------------------------------|--------------|
-| BEIR (v1.0.0): NFCorpus                                                                                      | 0.3629       |
-| **R@100**                                                                                                    | **SPLADE-v3**|
-| BEIR (v1.0.0): NFCorpus                                                                                      | 0.2976       |
-| **R@1000**                                                                                                   | **SPLADE-v3**|
-| BEIR (v1.0.0): NFCorpus                                                                                      | 0.6179       |
+| **nDCG@10**             | **SPLADE-v3** |
+|:------------------------|:-------------:|
+| BEIR (v1.0.0): NFCorpus | 0.3629        |
+| **R@100**               | **SPLADE-v3** |
+| BEIR (v1.0.0): NFCorpus | 0.2976        |
+| **R@1000**              | **SPLADE-v3** |
+| BEIR (v1.0.0): NFCorpus | 0.6179        |

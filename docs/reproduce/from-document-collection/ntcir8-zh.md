@@ -63,10 +63,10 @@ bin/trec_eval -m map -m P.20 -m ndcg_cut.20 tools/topics-and-qrels/qrels.ntcir8.
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MAP**                                                                                                      | **BM25**  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.ntcir8zh.eval.txt)| 0.4014    |
-| **P20**                                                                                                      | **BM25**  |
-| [NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.ntcir8zh.eval.txt)| 0.3849    |
-| **nDCG@20**                                                                                                  | **BM25**  |
-| [NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.ntcir8zh.eval.txt)| 0.4757    |
+| **MAP**                                                                                                                                                 | **BM25**   |
+|:--------------------------------------------------------------------------------------------------------------------------------------------------------|:----------:|
+| [NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.ntcir8zh.eval.txt) | 0.4014     |
+| **P20**                                                                                                                                                 | **BM25**   |
+| [NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.ntcir8zh.eval.txt) | 0.3849     |
+| **nDCG@20**                                                                                                                                             | **BM25**   |
+| [NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.ntcir8zh.eval.txt) | 0.4757     |

@@ -95,15 +95,15 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev
 
 With the above commands, you should be able to reproduce the following results:
 
-| **AP@1000**                                                                                                  | **SPLADE++ CoCondenser-EnsembleDistil**|
-|:-------------------------------------------------------------------------------------------------------------|----------------------------------------|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3883                                 |
-| **RR@10**                                                                                                    | **SPLADE++ CoCondenser-EnsembleDistil**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3828                                 |
-| **R@100**                                                                                                    | **SPLADE++ CoCondenser-EnsembleDistil**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9092                                 |
-| **R@1000**                                                                                                   | **SPLADE++ CoCondenser-EnsembleDistil**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9831                                 |
+| **AP@1000**                                                                   | **SPLADE++ CoCondenser-EnsembleDistil** |
+|:------------------------------------------------------------------------------|:---------------------------------------:|
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking) | 0.3883                                  |
+| **RR@10**                                                                     | **SPLADE++ CoCondenser-EnsembleDistil** |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking) | 0.3828                                  |
+| **R@100**                                                                     | **SPLADE++ CoCondenser-EnsembleDistil** |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking) | 0.9092                                  |
+| **R@1000**                                                                    | **SPLADE++ CoCondenser-EnsembleDistil** |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking) | 0.9831                                  |
 
 ## Reproduction Log[*](../../../docs/reproducibility.md)
 

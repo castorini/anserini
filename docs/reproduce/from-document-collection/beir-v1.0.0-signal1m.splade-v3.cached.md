@@ -74,10 +74,10 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-signal1
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@10**                                                                                                  | **SPLADE-v3**|
-|:-------------------------------------------------------------------------------------------------------------|--------------|
-| BEIR (v1.0.0): Signal-1M                                                                                     | 0.2465       |
-| **R@100**                                                                                                    | **SPLADE-v3**|
-| BEIR (v1.0.0): Signal-1M                                                                                     | 0.2979       |
-| **R@1000**                                                                                                   | **SPLADE-v3**|
-| BEIR (v1.0.0): Signal-1M                                                                                     | 0.5136       |
+| **nDCG@10**              | **SPLADE-v3** |
+|:-------------------------|:-------------:|
+| BEIR (v1.0.0): Signal-1M | 0.2465        |
+| **R@100**                | **SPLADE-v3** |
+| BEIR (v1.0.0): Signal-1M | 0.2979        |
+| **R@1000**               | **SPLADE-v3** |
+| BEIR (v1.0.0): Signal-1M | 0.5136        |

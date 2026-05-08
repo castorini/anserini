@@ -97,14 +97,14 @@ bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 tools/topics-and-qrels/q
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MAP@100**                                                                                                  | **SPLADE-v3**|
-|:-------------------------------------------------------------------------------------------------------------|--------------|
-| RAG 24: RAGgy dev queries                                                                                    | 0.2295       |
-| **MRR@100**                                                                                                  | **SPLADE-v3**|
-| RAG 24: RAGgy dev queries                                                                                    | 0.8738       |
-| **nDCG@10**                                                                                                  | **SPLADE-v3**|
-| RAG 24: RAGgy dev queries                                                                                    | 0.5536       |
-| **R@100**                                                                                                    | **SPLADE-v3**|
-| RAG 24: RAGgy dev queries                                                                                    | 0.3657       |
-| **R@1000**                                                                                                   | **SPLADE-v3**|
-| RAG 24: RAGgy dev queries                                                                                    | 0.6787       |
+| **MAP@100**               | **SPLADE-v3** |
+|:--------------------------|:-------------:|
+| RAG 24: RAGgy dev queries | 0.2295        |
+| **MRR@100**               | **SPLADE-v3** |
+| RAG 24: RAGgy dev queries | 0.8738        |
+| **nDCG@10**               | **SPLADE-v3** |
+| RAG 24: RAGgy dev queries | 0.5536        |
+| **R@100**                 | **SPLADE-v3** |
+| RAG 24: RAGgy dev queries | 0.3657        |
+| **R@1000**                | **SPLADE-v3** |
+| RAG 24: RAGgy dev queries | 0.6787        |

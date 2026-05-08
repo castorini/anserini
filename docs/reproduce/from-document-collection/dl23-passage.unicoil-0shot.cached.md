@@ -134,14 +134,14 @@ bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl23-passage.t
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MAP@100**                                                                                                  | **uniCOIL (with doc2query-T5) zero-shot**| **+RM3**  | **+Rocchio**|
-|:-------------------------------------------------------------------------------------------------------------|------------------------------------------|-----------|-------------|
-| [DL23 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.1437                                   | 0.1363    | 0.1491      |
-| **MRR@100**                                                                                                  | **uniCOIL (with doc2query-T5) zero-shot**| **+RM3**  | **+Rocchio**|
-| [DL23 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.6424                                   | 0.5697    | 0.6385      |
-| **nDCG@10**                                                                                                  | **uniCOIL (with doc2query-T5) zero-shot**| **+RM3**  | **+Rocchio**|
-| [DL23 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.3855                                   | 0.3776    | 0.3938      |
-| **R@100**                                                                                                    | **uniCOIL (with doc2query-T5) zero-shot**| **+RM3**  | **+Rocchio**|
-| [DL23 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.3293                                   | 0.3126    | 0.3351      |
-| **R@1000**                                                                                                   | **uniCOIL (with doc2query-T5) zero-shot**| **+RM3**  | **+Rocchio**|
-| [DL23 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.5541                                   | 0.5541    | 0.5742      |
+| **MAP@100**                                                              | **uniCOIL (with doc2query-T5) zero-shot** | **+RM3**   | **+Rocchio** |
+|:-------------------------------------------------------------------------|:-----------------------------------------:|:----------:|:------------:|
+| [DL23 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning) | 0.1437                                    | 0.1363     | 0.1491       |
+| **MRR@100**                                                              | **uniCOIL (with doc2query-T5) zero-shot** | **+RM3**   | **+Rocchio** |
+| [DL23 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning) | 0.6424                                    | 0.5697     | 0.6385       |
+| **nDCG@10**                                                              | **uniCOIL (with doc2query-T5) zero-shot** | **+RM3**   | **+Rocchio** |
+| [DL23 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning) | 0.3855                                    | 0.3776     | 0.3938       |
+| **R@100**                                                                | **uniCOIL (with doc2query-T5) zero-shot** | **+RM3**   | **+Rocchio** |
+| [DL23 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning) | 0.3293                                    | 0.3126     | 0.3351       |
+| **R@1000**                                                               | **uniCOIL (with doc2query-T5) zero-shot** | **+RM3**   | **+Rocchio** |
+| [DL23 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning) | 0.5541                                    | 0.5541     | 0.5742       |

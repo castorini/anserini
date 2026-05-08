@@ -215,15 +215,15 @@ bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.robust04.txt runs/run.
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MAP**                                                                                                      | **BM25**  | **+RM3**  | **+BM25PRF**| **+Rocchio**| **+Ax**   | **QL**    | **+RM3**  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-------------|-------------|-----------|-----------|-----------|
-| [TREC-7 Ad Hoc Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.adhoc.351-400.txt)| 0.1862    | 0.2354    | 0.2394      | 0.2397      | 0.2431    | 0.1843    | 0.2146    |
-| [TREC-8 Ad Hoc Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.adhoc.401-450.txt)| 0.2515    | 0.2746    | 0.2791      | 0.2743      | 0.2812    | 0.2460    | 0.2686    |
-| [TREC 2004 Robust Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.robust04.txt)| 0.2531    | 0.2908    | 0.2928      | 0.2924      | 0.2896    | 0.2467    | 0.2744    |
-| **P30**                                                                                                      | **BM25**  | **+RM3**  | **+BM25PRF**| **+Rocchio**| **+Ax**   | **QL**    | **+RM3**  |
-| [TREC-7 Ad Hoc Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.adhoc.351-400.txt)| 0.3093    | 0.3407    | 0.3473      | 0.3527      | 0.3287    | 0.3073    | 0.3307    |
-| [TREC-8 Ad Hoc Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.adhoc.401-450.txt)| 0.3560    | 0.3753    | 0.3807      | 0.3707      | 0.3753    | 0.3480    | 0.3713    |
-| [TREC 2004 Robust Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.robust04.txt)| 0.3102    | 0.3349    | 0.3438      | 0.3364      | 0.3333    | 0.3079    | 0.3244    |
+| **MAP**                                                                                                                       | **BM25**   | **+RM3**   | **+BM25PRF** | **+Rocchio** | **+Ax**    | **QL**     | **+RM3**   |
+|:------------------------------------------------------------------------------------------------------------------------------|:----------:|:----------:|:------------:|:------------:|:----------:|:----------:|:----------:|
+| [TREC-7 Ad Hoc Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.adhoc.351-400.txt)     | 0.1862     | 0.2354     | 0.2394       | 0.2397       | 0.2431     | 0.1843     | 0.2146     |
+| [TREC-8 Ad Hoc Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.adhoc.401-450.txt)     | 0.2515     | 0.2746     | 0.2791       | 0.2743       | 0.2812     | 0.2460     | 0.2686     |
+| [TREC 2004 Robust Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.robust04.txt) | 0.2531     | 0.2908     | 0.2928       | 0.2924       | 0.2896     | 0.2467     | 0.2744     |
+| **P30**                                                                                                                       | **BM25**   | **+RM3**   | **+BM25PRF** | **+Rocchio** | **+Ax**    | **QL**     | **+RM3**   |
+| [TREC-7 Ad Hoc Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.adhoc.351-400.txt)     | 0.3093     | 0.3407     | 0.3473       | 0.3527       | 0.3287     | 0.3073     | 0.3307     |
+| [TREC-8 Ad Hoc Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.adhoc.401-450.txt)     | 0.3560     | 0.3753     | 0.3807       | 0.3707       | 0.3753     | 0.3480     | 0.3713     |
+| [TREC 2004 Robust Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.robust04.txt) | 0.3102     | 0.3349     | 0.3438       | 0.3364       | 0.3333     | 0.3079     | 0.3244     |
 
 ## Reproduction Log[*](../../../docs/reproducibility.md)
 

@@ -99,15 +99,15 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-doc.dev.txt
 
 With the above commands, you should be able to reproduce the following results:
 
-| **AP@1000**                                                                                                  | **uniCOIL (no expansions)**|
-|:-------------------------------------------------------------------------------------------------------------|----------------------------|
-| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.3413                     |
-| **RR@100**                                                                                                   | **uniCOIL (no expansions)**|
-| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.3409                     |
-| **R@100**                                                                                                    | **uniCOIL (no expansions)**|
-| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.8639                     |
-| **R@1000**                                                                                                   | **uniCOIL (no expansions)**|
-| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.9420                     |
+| **AP@1000**                                                                | **uniCOIL (no expansions)** |
+|:---------------------------------------------------------------------------|:---------------------------:|
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking) | 0.3413                      |
+| **RR@100**                                                                 | **uniCOIL (no expansions)** |
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking) | 0.3409                      |
+| **R@100**                                                                  | **uniCOIL (no expansions)** |
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking) | 0.8639                      |
+| **R@1000**                                                                 | **uniCOIL (no expansions)** |
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking) | 0.9420                      |
 
 ## Additional Notes
 
