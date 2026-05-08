@@ -16,22 +16,24 @@
 
 package io.anserini.index;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.anserini.collection.FileSegment;
-import io.anserini.collection.JsonCollection;
-import io.anserini.search.ScoredDoc;
-import io.anserini.search.SimpleSearcher;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.lucene.tests.util.LuceneTestCase;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import io.anserini.collection.FileSegment;
+import io.anserini.collection.JsonCollection;
+import io.anserini.search.ScoredDoc;
+import io.anserini.search.SimpleSearcher;
 
 public class SimpleIndexerTest extends LuceneTestCase {
   @BeforeClass

@@ -16,14 +16,14 @@
 
 package io.anserini.analysis;
 
-import org.apache.lucene.analysis.CharArraySet;
-import org.apache.lucene.analysis.en.EnglishAnalyzer;
-import org.junit.Test;
+import static io.anserini.analysis.DefaultEnglishAnalyzer.fromArguments;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 
-import static io.anserini.analysis.DefaultEnglishAnalyzer.fromArguments;
-import static org.junit.Assert.assertEquals;
+import org.apache.lucene.analysis.CharArraySet;
+import org.apache.lucene.analysis.en.EnglishAnalyzer;
+import org.junit.Test;
 
 public class DefaultEnglishAnalyzerTest {
 

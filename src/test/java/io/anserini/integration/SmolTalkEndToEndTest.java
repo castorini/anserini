@@ -16,10 +16,10 @@
 
 package io.anserini.integration;
 
+import java.util.Map;
+
 import io.anserini.collection.SmolTalkCollection;
 import io.anserini.index.IndexCollection;
-
-import java.util.Map;
 
 /**
  * End-to-end test for {@link SmolTalkCollection}.

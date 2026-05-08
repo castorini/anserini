@@ -16,11 +16,10 @@
 
 package io.anserini.search;
 
-import io.anserini.index.Constants;
-import io.anserini.index.IndexCollection;
-import io.anserini.index.IndexerTestBase;
-import io.anserini.search.query.BagOfWordsQueryGenerator;
-import io.anserini.search.query.QueryGenerator;
+import java.nio.file.Paths;
+import java.util.Map;
+import java.util.TreeMap;
+
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
@@ -32,9 +31,11 @@ import org.apache.lucene.search.similarities.Similarity;
 import org.apache.lucene.store.FSDirectory;
 import org.junit.Test;
 
-import java.nio.file.Paths;
-import java.util.Map;
-import java.util.TreeMap;
+import io.anserini.index.Constants;
+import io.anserini.index.IndexCollection;
+import io.anserini.index.IndexerTestBase;
+import io.anserini.search.query.BagOfWordsQueryGenerator;
+import io.anserini.search.query.QueryGenerator;
 
 public class ScoredDocsTest extends IndexerTestBase {
   @Test

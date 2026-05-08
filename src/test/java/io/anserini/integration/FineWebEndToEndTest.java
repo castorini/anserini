@@ -16,10 +16,10 @@
 
 package io.anserini.integration;
 
+import java.util.Map;
+
 import io.anserini.collection.FineWebCollection;
 import io.anserini.index.IndexCollection;
-
-import java.util.Map;
 
 public class FineWebEndToEndTest extends EndToEndTest {
   @Override

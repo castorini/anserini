@@ -16,14 +16,15 @@
 
 package io.anserini.collection;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import org.junit.Before;
-
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.junit.Before;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 public class CoreCollectionTest extends DocumentCollectionTest<CoreCollection.Document> {
   List<Map<String, JsonNode>> expectedJsonFields;

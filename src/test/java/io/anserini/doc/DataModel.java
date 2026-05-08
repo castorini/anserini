@@ -16,13 +16,13 @@
 
 package io.anserini.doc;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
 
 public class DataModel {
   private static final String INDEX_COMMAND = "bin/run.sh io.anserini.index.IndexCollection";

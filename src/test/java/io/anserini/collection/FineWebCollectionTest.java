@@ -16,14 +16,7 @@
 
 package io.anserini.collection;
 
-import org.apache.lucene.tests.util.LuceneTestCase;
-import org.apache.parquet.example.data.Group;
-import org.apache.parquet.example.data.simple.SimpleGroup;
-import org.apache.parquet.schema.LogicalTypeAnnotation;
-import org.apache.parquet.schema.MessageType;
-import org.apache.parquet.schema.PrimitiveType.PrimitiveTypeName;
-import org.apache.parquet.schema.Types;
-import org.junit.Test;
+import static org.apache.parquet.schema.Type.Repetition.REQUIRED;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -35,7 +28,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.apache.parquet.schema.Type.Repetition.REQUIRED;
+import org.apache.lucene.tests.util.LuceneTestCase;
+import org.apache.parquet.example.data.Group;
+import org.apache.parquet.example.data.simple.SimpleGroup;
+import org.apache.parquet.schema.LogicalTypeAnnotation;
+import org.apache.parquet.schema.MessageType;
+import org.apache.parquet.schema.PrimitiveType.PrimitiveTypeName;
+import org.apache.parquet.schema.Types;
+import org.junit.Test;
 
 /**
  * Unit tests and integration tests for {@link FineWebCollection}.

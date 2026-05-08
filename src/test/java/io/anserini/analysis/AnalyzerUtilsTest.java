@@ -16,12 +16,9 @@
 
 package io.anserini.analysis;
 
-import io.anserini.collection.FileSegment;
-import io.anserini.collection.HtmlCollection;
-import io.anserini.collection.JsonCollection;
-import io.anserini.index.IndexCollection;
-import org.apache.lucene.analysis.Analyzer;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -30,9 +27,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.apache.lucene.analysis.Analyzer;
+import org.junit.Test;
+
+import io.anserini.collection.FileSegment;
+import io.anserini.collection.HtmlCollection;
+import io.anserini.collection.JsonCollection;
+import io.anserini.index.IndexCollection;
 
 public class AnalyzerUtilsTest {
   private String loadFirstCacmDocumentContents() throws IOException {

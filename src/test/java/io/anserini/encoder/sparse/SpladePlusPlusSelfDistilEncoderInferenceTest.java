@@ -16,15 +16,16 @@
 
 package io.anserini.encoder.sparse;
 
-import ai.onnxruntime.OrtException;
-import org.junit.Test;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertTrue;
+import org.junit.Test;
+
+import ai.onnxruntime.OrtException;
 
 public class SpladePlusPlusSelfDistilEncoderInferenceTest extends BaseSparseEncoderInferenceTest {
 

@@ -16,12 +16,6 @@
 
 package io.anserini.doc;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.text.StringSubstitutor;
-import org.junit.Test;
-
 import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
@@ -36,9 +30,16 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.regex.Pattern;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.text.StringSubstitutor;
+import org.junit.Test;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 public class GenerateReproductionDocsFromDocumentCollectionTest {
   private static final Map<String, List<String>> ORDERING = new LinkedHashMap<>();

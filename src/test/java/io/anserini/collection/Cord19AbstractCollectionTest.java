@@ -16,14 +16,15 @@
 
 package io.anserini.collection;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Before;
-
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.junit.Before;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Cord19AbstractCollectionTest extends DocumentCollectionTest<Cord19AbstractCollection.Document> {
 

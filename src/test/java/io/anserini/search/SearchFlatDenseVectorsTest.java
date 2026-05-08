@@ -33,8 +33,6 @@ import io.anserini.TestUtils;
 import io.anserini.index.AbstractIndexer;
 import io.anserini.index.IndexFlatDenseVectors;
 
-import static org.junit.Assert.assertTrue;
-
 /**
  * Tests for {@link SearchFlatDenseVectors}
  */

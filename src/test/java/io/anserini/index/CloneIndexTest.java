@@ -16,6 +16,12 @@
 
 package io.anserini.index;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.nio.file.Path;
+import java.util.Iterator;
+
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.codecs.FieldsProducer;
 import org.apache.lucene.index.CodecReader;
@@ -36,12 +42,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.nio.file.Path;
-import java.util.Iterator;
 
 public class CloneIndexTest extends IndexerTestBase {
   private final static PrintStream standardOut = System.out;

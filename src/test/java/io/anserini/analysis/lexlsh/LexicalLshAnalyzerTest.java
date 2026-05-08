@@ -16,6 +16,9 @@
 
 package io.anserini.analysis.lexlsh;
 
+import static org.apache.lucene.search.BooleanClause.Occur.SHOULD;
+import static org.junit.Assert.assertEquals;
+
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.LinkedList;
@@ -29,12 +32,10 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queries.CommonTermsQuery;
-import static org.apache.lucene.search.BooleanClause.Occur.SHOULD;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.ByteBuffersDirectory;
 import org.apache.lucene.store.Directory;
-import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import io.anserini.analysis.AnalyzerUtils;

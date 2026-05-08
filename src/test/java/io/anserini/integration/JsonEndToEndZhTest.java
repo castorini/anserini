@@ -16,13 +16,13 @@
 
 package io.anserini.integration;
 
+import java.util.ArrayList;
+import java.util.Map;
+
 import io.anserini.collection.JsonCollection;
 import io.anserini.index.IndexCollection;
 import io.anserini.index.generator.DefaultLuceneDocumentGenerator;
 import io.anserini.search.SearchCollection;
-
-import java.util.ArrayList;
-import java.util.Map;
 
 public class JsonEndToEndZhTest extends EndToEndTest {
   @Override

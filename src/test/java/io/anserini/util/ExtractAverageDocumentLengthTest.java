@@ -16,12 +16,12 @@
 
 package io.anserini.util;
 
-import io.anserini.index.IndexerWithEmptyDocumentTestBase;
+import java.util.Locale;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.util.Locale;
+import io.anserini.index.IndexerWithEmptyDocumentTestBase;
 
 public class ExtractAverageDocumentLengthTest extends IndexerWithEmptyDocumentTestBase {
   @BeforeClass

@@ -16,13 +16,13 @@
 
 package io.anserini.integration;
 
-import io.anserini.collection.TrecCollection;
-import io.anserini.index.IndexCollection;
-import io.anserini.search.SearchCollection;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
+import io.anserini.collection.TrecCollection;
+import io.anserini.index.IndexCollection;
+import io.anserini.search.SearchCollection;
 
 public class TrecEndToEndPassageTest extends EndToEndTest {
   @Override

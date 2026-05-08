@@ -16,7 +16,7 @@
 
 package io.anserini.search.topicreader;
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -24,7 +24,7 @@ import java.nio.file.Paths;
 import java.util.Map;
 import java.util.SortedMap;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 public class PrioritizedWebTopicReaderTest {
   @Test

@@ -16,12 +16,6 @@
 
 package io.anserini.collection;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
-import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -34,6 +28,12 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 
 public abstract class DocumentCollectionTest<T extends SourceDocument> extends StdOutStdErrRedirectableLuceneTestCase {
   Path collectionPath;

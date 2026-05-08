@@ -16,17 +16,6 @@
 
 package io.anserini.doc;
 
-import io.anserini.reproduce.ReproduceFromPrebuiltIndexes.Condition;
-import io.anserini.reproduce.ReproduceFromPrebuiltIndexes.Config;
-import io.anserini.reproduce.ReproduceFromPrebuiltIndexes.Topic;
-import io.anserini.reproduce.ReproductionUtils;
-
-import org.apache.commons.io.FileUtils;
-import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -34,6 +23,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+
+import org.apache.commons.io.FileUtils;
+import org.junit.Test;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+
+import io.anserini.reproduce.ReproduceFromPrebuiltIndexes.Condition;
+import io.anserini.reproduce.ReproduceFromPrebuiltIndexes.Config;
+import io.anserini.reproduce.ReproduceFromPrebuiltIndexes.Topic;
+import io.anserini.reproduce.ReproductionUtils;
 
 public class GenerateReproductionDocsFromPrebuiltIndexesTest {
   private static final String COMMAND_INDENT = "    ";

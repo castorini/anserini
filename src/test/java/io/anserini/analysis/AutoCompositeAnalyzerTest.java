@@ -16,7 +16,13 @@
 
 package io.anserini.analysis;
 
-import junit.framework.JUnit4TestAdapter;
+import java.io.IOException;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.lucene.analysis.Analyzer;
@@ -29,13 +35,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
-
-import java.io.IOException;
-import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import junit.framework.JUnit4TestAdapter;
 
 public class AutoCompositeAnalyzerTest extends StdOutStdErrRedirectableLuceneTestCase {
   @BeforeClass

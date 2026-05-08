@@ -1,6 +1,5 @@
 package io.anserini.search;
 
-import io.anserini.index.GeoIndexerTestBase;
 import org.apache.lucene.document.LatLonDocValuesField;
 import org.apache.lucene.document.LatLonShape;
 import org.apache.lucene.document.ShapeField;
@@ -9,6 +8,8 @@ import org.apache.lucene.geo.Line;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Sort;
 import org.junit.Test;
+
+import io.anserini.index.GeoIndexerTestBase;
 
 public class SimpleGeoSearcherTest extends GeoIndexerTestBase {
   @Test
