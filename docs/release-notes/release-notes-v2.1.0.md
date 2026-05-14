@@ -8,7 +8,7 @@
 + Upgraded BEIR to prebuilt BGE flat vector indexes with Lucene 10.4.0.
 + Reorganized documentation to increase legibility to agents.
 + Reorganized resolution of cache directory.
-+ Reorganized and improved agent skills
++ Reorganized and improved agent skills.
 + Refactored and cleaned up tests.
 + Added `GetDocument` CLI.
 + Added `EncodeQuery` CLI to encode queries.
