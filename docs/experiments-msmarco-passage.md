@@ -1,4 +1,3 @@
-
 # Anserini: BM25 Baselines for MS MARCO Passage Ranking
 
 This page contains instructions for running BM25 baselines on the [MS MARCO *passage* ranking task](https://microsoft.github.io/msmarco/).
