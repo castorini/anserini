@@ -11,7 +11,7 @@
 + Reorganized and improved agent skills.
 + Refactored and cleaned up tests.
 + Added `GetDocument` CLI.
-+ Added `EncodeQuery` CLI to encode queries.
++ Added `EncodeQuery` CLI.
 + Added REST index alias configuration support.
 + Added support for NanoKnow.
 + Added support for RAG 25.
