@@ -26,6 +26,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -44,6 +45,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import io.anserini.cli.CliUtils;
 
+import io.anserini.eval.TrecEval;
 import io.anserini.index.IndexReaderUtils;
 import io.anserini.util.CacheDirectoryResolver;
 import io.anserini.util.LoggingBootstrap;
@@ -260,6 +262,7 @@ public class ReproduceFromPrebuiltIndexes {
 
         System.out.println("    Retrieval command: " + command);
 
+        boolean retrievalSucceeded = true;
         if (!dryRun) {
           pb = new ProcessBuilder(command.split(" "));
           process = pb.start();
@@ -268,11 +271,10 @@ public class ReproduceFromPrebuiltIndexes {
             System.out.println("    Run successfully completed!");
           } else {
             System.out.println("    Run failed!");
+            retrievalSucceeded = false;
           }
           System.out.println();
         }
-
-        InputStream stdout;
 
         Map<String, Double> expected = topic.expected_scores;
         Map<String, String> evalCommands = new LinkedHashMap<>();
@@ -296,20 +298,25 @@ public class ReproduceFromPrebuiltIndexes {
         }
         System.out.println();
 
+        if (!dryRun && !retrievalSucceeded) {
+          System.out.println("    Skipping evaluation because retrieval failed.");
+          System.out.println();
+          continue;
+        }
+
+        if (!dryRun && !Files.exists(Paths.get(output))) {
+          System.out.println("    Skipping evaluation because run file was not created: " + output);
+          System.out.println();
+          continue;
+        }
+
         // We've already gathered the eval commands, so just run them now and check.
         for (Map.Entry<String, String> entry : evalCommands.entrySet()) {
           String metric = entry.getKey();
-          String cmd = entry.getValue();
 
           if (!dryRun) {
-            pb = new ProcessBuilder(cmd.split(" "));
-            process = pb.start();
-
-            int resultCode = process.waitFor();
-            stdout = process.getInputStream();
-            if (resultCode == 0) {
-              String scoreString = new String(stdout.readAllBytes()).replaceAll(".*?(\\d+\\.\\d+)$", "$1").trim();
-              double score = Double.parseDouble(scoreString);
+            try {
+              double score = runTrecEvalAndGetScore(metricDefinitions.get(metric), topic.eval_key, output);
               double delta = Math.abs(score - expected.get(metric));
 
               if (score > expected.get(metric)) {
@@ -321,8 +328,9 @@ public class ReproduceFromPrebuiltIndexes {
               } else {
                 System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, ReproductionUtils.Constants.FAIL, expected.get(metric));
               }
-            } else {
-              System.out.println("Evaluation command failed for metric: " + metric);
+            } catch (RuntimeException e) {
+              System.out.println("    Evaluation command failed for metric: " + metric);
+              System.out.println("    " + e.getMessage());
             }
           }
         }
@@ -340,6 +348,20 @@ public class ReproduceFromPrebuiltIndexes {
     System.out.println("Start time: " + ReproductionUtils.formatStartTime(startTime));
     System.out.println("End time:   " + ReproductionUtils.formatEndTime(endTime));
     System.out.println("Duration:   " + ReproductionUtils.formatDuration(durationMillis));
+  }
+
+  private static double runTrecEvalAndGetScore(String metricDefinition, String evalKey, String output) {
+    List<String> args = new ArrayList<>();
+    args.addAll(Arrays.asList(metricDefinition.trim().split("\\s+")));
+    args.add(evalKey);
+    args.add(output);
+
+    String[][] rows = new TrecEval().runAndGetOutput(args.toArray(new String[0]));
+    if (rows.length == 0 || rows[rows.length - 1].length < 3) {
+      throw new RuntimeException("trec_eval produced no parseable metric rows.");
+    }
+
+    return Double.parseDouble(rows[rows.length - 1][2]);
   }
 
   private static String extractIndexPath(String command) {
