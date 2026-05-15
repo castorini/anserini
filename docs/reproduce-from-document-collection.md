@@ -430,10 +430,6 @@ The following configurations (i.e., `--config` settings) are available:
 <details>
 <summary>BEIR (v1.0.0): BGE-base-en-v1.5</summary>
 
-
-
-<div></div>
-
 + [`beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat.onnx.md)]
 + [`beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.flat.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.flat.onnx.md)]
 + [`beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.flat.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.flat.onnx.md)]
@@ -463,10 +459,6 @@ The following configurations (i.e., `--config` settings) are available:
 + [`beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat.onnx.md)]
 + [`beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat.onnx.md)]
 + [`beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat.onnx.md)]
-
-
-<div></div>
-
 
 
 <div></div>
@@ -504,10 +496,6 @@ The following configurations (i.e., `--config` settings) are available:
 
 <div></div>
 
-
-
-<div></div>
-
 + [`beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.hnsw.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.hnsw.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.hnsw.onnx.md)]
 + [`beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.hnsw.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.hnsw.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.hnsw.onnx.md)]
 + [`beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.hnsw.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.hnsw.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.hnsw.onnx.md)]
@@ -537,10 +525,6 @@ The following configurations (i.e., `--config` settings) are available:
 + [`beir-v1.0.0-fever.bge-base-en-v1.5.parquet.hnsw.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-fever.bge-base-en-v1.5.parquet.hnsw.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-fever.bge-base-en-v1.5.parquet.hnsw.onnx.md)]
 + [`beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.hnsw.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.hnsw.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.hnsw.onnx.md)]
 + [`beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.hnsw.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.hnsw.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.hnsw.onnx.md)]
-
-
-<div></div>
-
 
 
 <div></div>
@@ -579,10 +563,6 @@ The following configurations (i.e., `--config` settings) are available:
 <details>
 <summary>BEIR (v1.0.0): SPLADE-v3</summary>
 
-
-
-<div></div>
-
 + [`beir-v1.0.0-trec-covid.splade-v3.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-trec-covid.splade-v3.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-trec-covid.splade-v3.onnx.md)]
 + [`beir-v1.0.0-bioasq.splade-v3.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-bioasq.splade-v3.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-bioasq.splade-v3.onnx.md)]
 + [`beir-v1.0.0-nfcorpus.splade-v3.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-nfcorpus.splade-v3.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-nfcorpus.splade-v3.onnx.md)]
@@ -616,10 +596,6 @@ The following configurations (i.e., `--config` settings) are available:
 </details>
 <details>
 <summary>BEIR (v1.0.0): SPLADE++ CoCondenser-EnsembleDistil</summary>
-
-
-
-<div></div>
 
 + [`beir-v1.0.0-trec-covid.splade-pp-ed.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-trec-covid.splade-pp-ed.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-trec-covid.splade-pp-ed.onnx.md)]
 + [`beir-v1.0.0-bioasq.splade-pp-ed.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-bioasq.splade-pp-ed.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-bioasq.splade-pp-ed.onnx.md)]
