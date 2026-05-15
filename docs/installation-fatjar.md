@@ -1,5 +1,11 @@
 # Anserini Fatjar Download for Users
 
+> This page is intended for users. If you are a coding agent, stop reading. Nothing here is applicable to you.
+
+The preferred way to use the Anserini fatjar is via agent skills in [`../.agents/skills/`](../.agents/skills/).
+This documentation is provided for users who wish to play with the fatjar "by hand".
+The most recent version of the fatjar is v2.1.0: additional information is provided in [this brief guide](release-notes/fatjar-reproduction-notes-v2.1.0.md).
+
 Assuming you've already got Java 21 installed (Yes, you need _exactly_ this version), fetch the fatjar:
 
 ```bash
@@ -78,7 +84,7 @@ java -cp anserini-2.1.0-fatjar.jar trec_eval -c -M 10 -m recip_rank msmarco-v1-p
 
 You should get an MRR (`recip_rank`) of 0.4000.
 
-## Older instructions
+## Older Documentation
 
 + [Anserini v2.0.0](fatjar-regressions/fatjar-regressions-v2.0.0.md)
 + [Anserini v1.7.1](fatjar-regressions/fatjar-regressions-v1.7.1.md)
