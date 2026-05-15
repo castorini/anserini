@@ -130,6 +130,7 @@ public class ReproduceFromPrebuiltIndexes {
     }
 
     String fatjarPath = new File(ReproduceFromPrebuiltIndexes.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
+    String classpath = Files.isDirectory(Paths.get(fatjarPath)) ? System.getProperty("java.class.path") : fatjarPath;
 
     final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
     String resourceName = String.format("%s/%s.yaml", CONFIG_DIRECTORY, configName);
@@ -238,7 +239,7 @@ public class ReproduceFromPrebuiltIndexes {
         final String output = runsDir.resolve(String.format("run.%s.%s.%s.txt", configName, condition.name, topic.topic_key)).toString();
 
         String command = String.format("%s $fatjar %s %s", ReproductionUtils.Constants.JAVA_PREFIX, ReproductionUtils.Constants.JVM_ARGS, condition.command)
-            .replace("$fatjar", fatjarPath)
+            .replace("$fatjar", classpath)
             .replace("$threads", "16")
             .replace("$topics", topic.topic_key)
             .replace("$output", output)
@@ -285,9 +286,9 @@ public class ReproduceFromPrebuiltIndexes {
           String evalKey = topic.eval_key;
           String metricDefinition = Objects.requireNonNull(metricDefinitions.get(metric));
 
-          // For the eval command, running `java -cp fatjar ...` is fine since we're just running trec_eval.
+          // For the eval command, running `java -cp ...` is fine since we're just running trec_eval.
           evalCommands.put(metric, "java -cp $fatjarPath trec_eval $metric $evalKey $output"
-              .replace("$fatjarPath", fatjarPath)
+              .replace("$fatjarPath", classpath)
               .replace("$metric", metricDefinition)
               .replace("$evalKey", evalKey)
               .replace("$output", output));

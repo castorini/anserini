@@ -1,0 +1,21 @@
+conditions:
+  - name: retrieval-fails
+    display: "Retrieval command exits nonzero"
+    command: no.such.Class -output $output
+    topics:
+      - topic_key: cacm
+        eval_key: cacm
+        expected_scores:
+          MAP: 0.3123
+        metric_definitions:
+          MAP: "-c -m map"
+  - name: missing-run-file
+    display: "Retrieval command exits zero without writing a run file"
+    command: io.anserini.reproduce.ReproduceFromPrebuiltIndexes --help
+    topics:
+      - topic_key: cacm
+        eval_key: cacm
+        expected_scores:
+          MAP: 0.3123
+        metric_definitions:
+          MAP: "-c -m map"

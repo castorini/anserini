@@ -16,6 +16,8 @@
 
 package io.anserini.reproduce;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -96,6 +98,44 @@ public class ReproduceFromPrebuiltIndexesTest extends StdOutStdErrRedirectableLu
     assertTrue(out.toString().contains("# Running condition"));
     assertTrue(out.toString().contains("Retrieval command"));
     assertTrue(out.toString().contains("Eval command"));
+  }
+
+  @Test
+  public void testCacmEndToEnd() throws Exception {
+    Path runsDirectory = createTempDir("runs");
+
+    ReproduceFromPrebuiltIndexes.main(new String[] {
+        "--config", "cacm",
+        "--runs-directory", runsDirectory.toString()
+    });
+
+    String output = out.toString();
+    assertTrue(output, output.contains("Run successfully completed!"));
+    assertTrue(output, output.matches("(?s).*MAP: 0[.,]3123.*"));
+    assertTrue(output, output.matches("(?s).*P30: 0[.,]1942.*"));
+    assertFalse(output.contains("NumberFormatException"));
+    assertTrue(Files.exists(runsDirectory.resolve("run.cacm.bm25.cacm.txt")));
+  }
+
+  @Test
+  public void testFaultyConfigSkipsEvaluation() throws Exception {
+    Path runsDirectory = createTempDir("runs");
+
+    ReproduceFromPrebuiltIndexes.main(new String[] {
+        "--config", "faulty",
+        "--runs-directory", runsDirectory.toString()
+    });
+
+    String output = out.toString();
+    assertTrue(output, output.contains("# Running condition \"retrieval-fails\""));
+    assertTrue(output, output.contains("Run failed!"));
+    assertTrue(output, output.contains("Skipping evaluation because retrieval failed."));
+    assertTrue(output, output.contains("# Running condition \"missing-run-file\""));
+    assertTrue(output, output.contains("Run successfully completed!"));
+    assertTrue(output, output.contains("Skipping evaluation because run file was not created: " + runsDirectory.resolve("run.faulty.missing-run-file.cacm.txt")));
+    assertFalse(output.contains("NumberFormatException"));
+    assertFalse(Files.exists(runsDirectory.resolve("run.faulty.retrieval-fails.cacm.txt")));
+    assertFalse(Files.exists(runsDirectory.resolve("run.faulty.missing-run-file.cacm.txt")));
   }
 
   @Test
