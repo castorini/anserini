@@ -18,13 +18,13 @@ Repo `HEAD` may have diverged from this specific release, so if you need _exactl
 Anserini ships with "batteries included": it'll automatically download prebuilt indexes, topics, and qrels on demand.
 The base cache path is `~/.cache/pyserini` by default.
 The `pyserini.cache` system property and `PYSERINI_CACHE` environment variable override the base cache path.
-If neither override is set and a `.cache` directory exists in the current working directory, the base cache path `<cwd>/.cache/pyserini`.
+If neither override is set and a `.cache` directory exists in the current working directory, the base cache path is `.cache/pyserini` in the current directory.
 
 ## Reproductions from Prebuilt Indexes
 
-With Anserini, you can reproduce many runs on standard IR benchmark datasets.
-Run the following commands for more details.
-With `--dry-run`, Anserini won't actually perform the runs, but provide an overview of what's available:
+Using Anserini, you can easily reproduce many retrieval runs on standard IR benchmark datasets.
+The following commands provide more details.
+With the `--dry-run` option, Anserini won't actually perform the runs, but provide an overview of what's available:
 
 ```bash
 java -cp `ls *-fatjar.jar` io.anserini.reproduce.ReproduceFromPrebuiltIndexes --dry-run --config beir.core
