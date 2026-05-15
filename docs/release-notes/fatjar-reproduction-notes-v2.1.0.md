@@ -1,4 +1,4 @@
-# Anserini Fatjar Release (v2.1.0)
+# Anserini Fatjar Reproduction Notes (v2.1.0)
 
 The Anserini fatjar v2.1.0 release occurred at the following commit:
 

@@ -4,7 +4,7 @@
 
 The preferred way to use the Anserini fatjar is via agent skills in [`../.agents/skills/`](../.agents/skills/).
 This documentation is provided for users who wish to play with the fatjar "by hand".
-The most recent version of the fatjar is v2.1.0: additional information is provided in  [this brief guide](release-notes/fatjar-release-doc-v2.1.0.md).
+The most recent version of the fatjar is v2.1.0: additional information is provided in [this brief guide](release-notes/fatjar-reproduction-notes-v2.1.0.md).
 
 Assuming you've already got Java 21 installed (Yes, you need _exactly_ this version), fetch the fatjar:
 
