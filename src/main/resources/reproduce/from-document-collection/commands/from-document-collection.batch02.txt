@@ -148,10 +148,6 @@ io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search 
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-news.bge-base-en-v1.5.parquet.hnsw-sqv.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.parquet.hnsw-sqv.onnx
 
-
-
-
-
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-covid.splade-pp-ed.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-bioasq.splade-pp-ed.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-nfcorpus.splade-pp-ed.onnx
@@ -181,7 +177,6 @@ io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search 
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fever.splade-pp-ed.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-climate-fever.splade-pp-ed.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scifact.splade-pp-ed.onnx
-
 
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-trec-covid.flat
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-bioasq.flat
@@ -272,8 +267,6 @@ io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search 
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-fever.multifield
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-climate-fever.multifield
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config beir-v1.0.0-scifact.multifield
-
-
 
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config mrtydi-v1.1-ar
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config mrtydi-v1.1-bn
