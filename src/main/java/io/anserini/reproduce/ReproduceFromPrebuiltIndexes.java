@@ -26,6 +26,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -44,6 +45,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import io.anserini.cli.CliUtils;
 
+import io.anserini.eval.TrecEval;
 import io.anserini.index.IndexReaderUtils;
 import io.anserini.util.CacheDirectoryResolver;
 import io.anserini.util.LoggingBootstrap;
@@ -128,6 +130,8 @@ public class ReproduceFromPrebuiltIndexes {
     }
 
     String fatjarPath = new File(ReproduceFromPrebuiltIndexes.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
+    String classpath = Files.isDirectory(Paths.get(fatjarPath)) ? System.getProperty("java.class.path") : fatjarPath;
+    String guardedClasspath = classpath.contains(" ") ? String.format("\"%s\"", classpath) : classpath;
 
     final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
     String resourceName = String.format("%s/%s.yaml", CONFIG_DIRECTORY, configName);
@@ -236,43 +240,30 @@ public class ReproduceFromPrebuiltIndexes {
         final String output = runsDir.resolve(String.format("run.%s.%s.%s.txt", configName, condition.name, topic.topic_key)).toString();
 
         String command = String.format("%s $fatjar %s %s", ReproductionUtils.Constants.JAVA_PREFIX, ReproductionUtils.Constants.JVM_ARGS, condition.command)
-            .replace("$fatjar", fatjarPath)
+            .replace("$fatjar", guardedClasspath)
             .replace("$threads", "16")
             .replace("$topics", topic.topic_key)
             .replace("$output", output)
             .replace("$runs_directory", runsDir.toString());
-
-        // These are hard-coded special cases for BEIR so that tests pass with Lucene 10 retrieval working on Lucene 9 prebuilt indexes.
-        if ("bge-base-en-v1.5.hnsw.onnx".equals(condition.name) || "bge-base-en-v1.5.hnsw.cached".equals(condition.name)) {
-          String efSearch = switch (topic.topic_key) {
-            case "bioasq" -> "11000";
-            case "nq" -> "2000";
-            case "hotpotqa", "fever" -> "6000";
-            default -> null;
-          };
-          if (efSearch != null) {
-            command = command.replaceFirst("(?<=\\s-efSearch\\s)\\d+", efSearch);
-          }
-        }
 
         // Note that there's a hidden dependency for fusion runs, where the command specifies the run to fuse by -runs run1 run2 ...
         // The runs directory can be set using $runs_directory, but the run names are hard-coded.
 
         System.out.println("    Retrieval command: " + command);
 
+        boolean retrievalSucceeded = true;
         if (!dryRun) {
-          pb = new ProcessBuilder(command.split(" "));
+          pb = new ProcessBuilder(splitCommand(command));
           process = pb.start();
           int resultCode = process.waitFor();
           if (resultCode == 0) {
             System.out.println("    Run successfully completed!");
           } else {
             System.out.println("    Run failed!");
+            retrievalSucceeded = false;
           }
           System.out.println();
         }
-
-        InputStream stdout;
 
         Map<String, Double> expected = topic.expected_scores;
         Map<String, String> evalCommands = new LinkedHashMap<>();
@@ -283,9 +274,9 @@ public class ReproduceFromPrebuiltIndexes {
           String evalKey = topic.eval_key;
           String metricDefinition = Objects.requireNonNull(metricDefinitions.get(metric));
 
-          // For the eval command, running `java -cp fatjar ...` is fine since we're just running trec_eval.
+          // For the eval command, running `java -cp ...` is fine since we're just running trec_eval.
           evalCommands.put(metric, "java -cp $fatjarPath trec_eval $metric $evalKey $output"
-              .replace("$fatjarPath", fatjarPath)
+              .replace("$fatjarPath", guardedClasspath)
               .replace("$metric", metricDefinition)
               .replace("$evalKey", evalKey)
               .replace("$output", output));
@@ -296,20 +287,25 @@ public class ReproduceFromPrebuiltIndexes {
         }
         System.out.println();
 
+        if (!dryRun && !retrievalSucceeded) {
+          System.out.println("    Skipping evaluation because retrieval failed.");
+          System.out.println();
+          continue;
+        }
+
+        if (!dryRun && !Files.exists(Paths.get(output))) {
+          System.out.println("    Skipping evaluation because run file was not created: " + output);
+          System.out.println();
+          continue;
+        }
+
         // We've already gathered the eval commands, so just run them now and check.
         for (Map.Entry<String, String> entry : evalCommands.entrySet()) {
           String metric = entry.getKey();
-          String cmd = entry.getValue();
 
           if (!dryRun) {
-            pb = new ProcessBuilder(cmd.split(" "));
-            process = pb.start();
-
-            int resultCode = process.waitFor();
-            stdout = process.getInputStream();
-            if (resultCode == 0) {
-              String scoreString = new String(stdout.readAllBytes()).replaceAll(".*?(\\d+\\.\\d+)$", "$1").trim();
-              double score = Double.parseDouble(scoreString);
+            try {
+              double score = runTrecEvalAndGetScore(metricDefinitions.get(metric), topic.eval_key, output);
               double delta = Math.abs(score - expected.get(metric));
 
               if (score > expected.get(metric)) {
@@ -321,8 +317,9 @@ public class ReproduceFromPrebuiltIndexes {
               } else {
                 System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, ReproductionUtils.Constants.FAIL, expected.get(metric));
               }
-            } else {
-              System.out.println("Evaluation command failed for metric: " + metric);
+            } catch (RuntimeException e) {
+              System.out.println("    Evaluation command failed for metric: " + metric);
+              System.out.println("    " + e.getMessage());
             }
           }
         }
@@ -340,6 +337,46 @@ public class ReproduceFromPrebuiltIndexes {
     System.out.println("Start time: " + ReproductionUtils.formatStartTime(startTime));
     System.out.println("End time:   " + ReproductionUtils.formatEndTime(endTime));
     System.out.println("Duration:   " + ReproductionUtils.formatDuration(durationMillis));
+  }
+
+  private static double runTrecEvalAndGetScore(String metricDefinition, String evalKey, String output) {
+    List<String> args = new ArrayList<>();
+    args.addAll(Arrays.asList(metricDefinition.trim().split("\\s+")));
+    args.add(evalKey);
+    args.add(output);
+
+    String[][] rows = new TrecEval().runAndGetOutput(args.toArray(new String[0]));
+    if (rows.length == 0 || rows[rows.length - 1].length < 3) {
+      throw new RuntimeException("trec_eval produced no parseable metric rows.");
+    }
+
+    return Double.parseDouble(rows[rows.length - 1][2]);
+  }
+
+  private static List<String> splitCommand(String command) {
+    List<String> tokens = new ArrayList<>();
+    StringBuilder token = new StringBuilder();
+    boolean inQuotes = false;
+
+    for (int i = 0; i < command.length(); i++) {
+      char c = command.charAt(i);
+      if (c == '"') {
+        inQuotes = !inQuotes;
+      } else if (Character.isWhitespace(c) && !inQuotes) {
+        if (token.length() > 0) {
+          tokens.add(token.toString());
+          token.setLength(0);
+        }
+      } else {
+        token.append(c);
+      }
+    }
+
+    if (token.length() > 0) {
+      tokens.add(token.toString());
+    }
+
+    return tokens;
   }
 
   private static String extractIndexPath(String command) {
