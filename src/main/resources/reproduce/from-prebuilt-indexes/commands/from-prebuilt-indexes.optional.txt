@@ -1,5 +1,4 @@
 io.anserini.reproduce.ReproduceFromPrebuiltIndexes --config bright.optional
-io.anserini.reproduce.ReproduceFromPrebuiltIndexes --config beir.optional
 io.anserini.reproduce.ReproduceFromPrebuiltIndexes --config msmarco-v1-passage.optional
 io.anserini.reproduce.ReproduceFromPrebuiltIndexes --config msmarco-v1-doc.optional
 io.anserini.reproduce.ReproduceFromPrebuiltIndexes --config msmarco-v2-passage.optional
