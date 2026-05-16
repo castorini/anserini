@@ -131,6 +131,7 @@ public class ReproduceFromPrebuiltIndexes {
 
     String fatjarPath = new File(ReproduceFromPrebuiltIndexes.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
     String classpath = Files.isDirectory(Paths.get(fatjarPath)) ? System.getProperty("java.class.path") : fatjarPath;
+    String guardedClasspath = classpath.contains(" ") ? String.format("\"%s\"", classpath) : classpath;
 
     final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
     String resourceName = String.format("%s/%s.yaml", CONFIG_DIRECTORY, configName);
@@ -239,24 +240,11 @@ public class ReproduceFromPrebuiltIndexes {
         final String output = runsDir.resolve(String.format("run.%s.%s.%s.txt", configName, condition.name, topic.topic_key)).toString();
 
         String command = String.format("%s $fatjar %s %s", ReproductionUtils.Constants.JAVA_PREFIX, ReproductionUtils.Constants.JVM_ARGS, condition.command)
-            .replace("$fatjar", classpath)
+            .replace("$fatjar", guardedClasspath)
             .replace("$threads", "16")
             .replace("$topics", topic.topic_key)
             .replace("$output", output)
             .replace("$runs_directory", runsDir.toString());
-
-        // These are hard-coded special cases for BEIR so that tests pass with Lucene 10 retrieval working on Lucene 9 prebuilt indexes.
-        if ("bge-base-en-v1.5.hnsw.onnx".equals(condition.name) || "bge-base-en-v1.5.hnsw.cached".equals(condition.name)) {
-          String efSearch = switch (topic.topic_key) {
-            case "bioasq" -> "11000";
-            case "nq" -> "2000";
-            case "hotpotqa", "fever" -> "6000";
-            default -> null;
-          };
-          if (efSearch != null) {
-            command = command.replaceFirst("(?<=\\s-efSearch\\s)\\d+", efSearch);
-          }
-        }
 
         // Note that there's a hidden dependency for fusion runs, where the command specifies the run to fuse by -runs run1 run2 ...
         // The runs directory can be set using $runs_directory, but the run names are hard-coded.
@@ -265,7 +253,7 @@ public class ReproduceFromPrebuiltIndexes {
 
         boolean retrievalSucceeded = true;
         if (!dryRun) {
-          pb = new ProcessBuilder(command.split(" "));
+          pb = new ProcessBuilder(splitCommand(command));
           process = pb.start();
           int resultCode = process.waitFor();
           if (resultCode == 0) {
@@ -288,7 +276,7 @@ public class ReproduceFromPrebuiltIndexes {
 
           // For the eval command, running `java -cp ...` is fine since we're just running trec_eval.
           evalCommands.put(metric, "java -cp $fatjarPath trec_eval $metric $evalKey $output"
-              .replace("$fatjarPath", classpath)
+              .replace("$fatjarPath", guardedClasspath)
               .replace("$metric", metricDefinition)
               .replace("$evalKey", evalKey)
               .replace("$output", output));
@@ -363,6 +351,32 @@ public class ReproduceFromPrebuiltIndexes {
     }
 
     return Double.parseDouble(rows[rows.length - 1][2]);
+  }
+
+  private static List<String> splitCommand(String command) {
+    List<String> tokens = new ArrayList<>();
+    StringBuilder token = new StringBuilder();
+    boolean inQuotes = false;
+
+    for (int i = 0; i < command.length(); i++) {
+      char c = command.charAt(i);
+      if (c == '"') {
+        inQuotes = !inQuotes;
+      } else if (Character.isWhitespace(c) && !inQuotes) {
+        if (token.length() > 0) {
+          tokens.add(token.toString());
+          token.setLength(0);
+        }
+      } else {
+        token.append(c);
+      }
+    }
+
+    if (token.length() > 0) {
+      tokens.add(token.toString());
+    }
+
+    return tokens;
   }
 
   private static String extractIndexPath(String command) {
