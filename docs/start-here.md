@@ -566,3 +566,4 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@mazleon](https://github.com/mazleon) on 2026-05-03 (commit [`a74898d`](https://github.com/castorini/anserini/commit/a74898de2d1596990663d0ecef21330521b858aa))
 + Results reproduced by [@VanshJain4](https://github.com/VanshJain4) on 2026-05-09 (commit [`deb4c7b`](https://github.com/castorini/anserini/commit/deb4c7bbfaba1ae36d8d7b07d2b7da84f5ab662d))
 + Results reproduced by [@Adebara123](https://github.com/Adebara123) on 2026-05-15 (commit [`4d16490`](https://github.com/castorini/anserini/commit/4d1649025fa16c2b2c0941983d850ba187554804))
++ Results reproduced by [@david23131](https://github.com/david23131) on 2026-05-16 (commit [`ced49181`](https://github.com/castorini/anserini/commit/ced49181906437191253faf474dcc33ac78e3a7f))
