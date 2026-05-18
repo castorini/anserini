@@ -2,7 +2,7 @@
 name: install-anserini-fatjar
 description: Install and verify Anserini quickly by downloading the published fatjar from Maven Central instead of cloning or building the source repository. Use when users want fast setup, smoke tests, or CLI examples from a released Anserini jar.
 metadata:
-  version: v0.2.0
+  version: v0.2.1
 ---
 
 # Install Anserini Fatjar
@@ -142,6 +142,21 @@ java -cp "$ANSERINI_JAR" <main-class> <args>
 
 Keep all commands pinned to the same jar version unless the user asks to change
 versions.
+
+## Related Skills
+
+Canonical Anserini skills live at:
+
+```text
+https://github.com/castorini/anserini/tree/master/.agents/skills
+```
+
+After fatjar setup:
+
+- Use `$anserini-cli` for command-line usage, registry lookup, search, and REST examples.
+- Use `$anserini-reproduction` for reproduction workflows and result verification.
+- Do not use `$install-anserini-dev-env` unless the user needs a source checkout,
+  local code changes, or a jar built from source.
 
 ## Troubleshooting
 
