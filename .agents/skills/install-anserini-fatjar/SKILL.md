@@ -143,6 +143,21 @@ java -cp "$ANSERINI_JAR" <main-class> <args>
 Keep all commands pinned to the same jar version unless the user asks to change
 versions.
 
+## Related Skills
+
+Canonical Anserini skills live at:
+
+```text
+https://github.com/castorini/anserini/tree/master/.agents/skills
+```
+
+After fatjar setup:
+
+- Use `$anserini-cli` for command-line usage, registry lookup, search, and REST examples.
+- Use `$anserini-reproduction` for reproduction workflows and result verification.
+- Do not use `$install-anserini-dev-env` unless the user needs a source checkout,
+  local code changes, or a jar built from source.
+
 ## Troubleshooting
 
 - No fatjar found: download the release fatjar from Maven Central and set
