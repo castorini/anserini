@@ -21,6 +21,7 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import org.junit.After;
@@ -103,16 +104,25 @@ public class ReproduceFromPrebuiltIndexesTest extends StdOutStdErrRedirectableLu
   @Test
   public void testCacmEndToEnd() throws Exception {
     Path runsDirectory = createTempDir("runs");
+    Locale previousLocale = Locale.getDefault();
 
-    ReproduceFromPrebuiltIndexes.main(new String[] {
-        "--config", "cacm",
-        "--runs-directory", runsDirectory.toString()
-    });
+    try {
+      Locale.setDefault(Locale.forLanguageTag("ar-LB"));
+      ReproduceFromPrebuiltIndexes.main(new String[] {
+          "--config", "cacm",
+          "--runs-directory", runsDirectory.toString()
+      });
+    } finally {
+      Locale.setDefault(previousLocale);
+    }
 
     String output = out.toString();
     assertTrue(output, output.contains("Run successfully completed!"));
-    assertTrue(output, output.matches("(?s).*MAP: 0[.,]3123.*"));
-    assertTrue(output, output.matches("(?s).*P30: 0[.,]1942.*"));
+    assertTrue(output, output.contains("Indexes referenced by this run (1 total):"));
+    assertTrue(output, output.contains("Total size across 1 of 1 indexes:"));
+    assertTrue(output, output.contains("MAP: 0.3123"));
+    assertTrue(output, output.contains("P30: 0.1942"));
+    assertTrue(output, output.matches("(?s).*Duration:\\s+[0-9]{2}:[0-9]{2}:[0-9]{2}.*"));
     assertFalse(output.contains("NumberFormatException"));
     assertTrue(Files.exists(runsDirectory.resolve("run.cacm.bm25.cacm.txt")));
   }

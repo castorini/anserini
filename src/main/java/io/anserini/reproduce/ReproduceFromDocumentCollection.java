@@ -173,7 +173,7 @@ public class ReproduceFromDocumentCollection {
     try {
       parser.parseArgument(args);
     } catch (CmdLineException exception) {
-      System.err.println(String.format("Error: %s", exception.getMessage()));
+      System.err.println(String.format(Locale.ROOT, "Error: %s", exception.getMessage()));
       CliUtils.printUsage(parser, ReproduceFromDocumentCollection.class, argsOrdering);
 
       return;
@@ -197,7 +197,7 @@ public class ReproduceFromDocumentCollection {
     }
 
     if (parsedArgs.show) {
-      String resourceName = String.format("%s/%s.yaml", CONFIG_DIRECTORY, parsedArgs.config);
+      String resourceName = String.format(Locale.ROOT, "%s/%s.yaml", CONFIG_DIRECTORY, parsedArgs.config);
       try (InputStream yamlStream = ReproductionUtils.loadResourceStream(resourceName, ReproduceFromDocumentCollection.class)) {
         System.out.print(new String(yamlStream.readAllBytes(), StandardCharsets.UTF_8));
       }
@@ -216,7 +216,7 @@ public class ReproduceFromDocumentCollection {
   private static void run(Args args) throws IOException, InterruptedException, URISyntaxException, NoSuchAlgorithmException {
     ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
     JsonNode yaml;
-    String resourceName = String.format("%s/%s.yaml", CONFIG_DIRECTORY, args.config);
+    String resourceName = String.format(Locale.ROOT, "%s/%s.yaml", CONFIG_DIRECTORY, args.config);
     try (InputStream yamlStream = ReproductionUtils.loadResourceStream(resourceName, ReproduceFromDocumentCollection.class)) {
       yaml = mapper.readTree(yamlStream);
     }
@@ -260,7 +260,7 @@ public class ReproduceFromDocumentCollection {
       LOG.info("Resolved corpus path is {}", corpusPath);
 
       if (corpusPath == null) {
-        throw new RuntimeException(String.format("Unable to find the corpus '%s': looked in %s",
+        throw new RuntimeException(String.format(Locale.ROOT, "Unable to find the corpus '%s': looked in %s",
             yaml.get("corpus").asText(), getCorpusRoots()));
       }
 
@@ -299,7 +299,7 @@ public class ReproduceFromDocumentCollection {
               long value = Long.parseLong(parts[1].trim());
               long expected = stats.get(stat).asLong();
               if (value != expected) {
-                System.out.printf("%s: expected=%d, actual=%d%n", stat, expected, value);
+                System.out.printf(Locale.ROOT, "%s: expected=%d, actual=%d%n", stat, expected, value);
                 throw new AssertionError(stat + " mismatch");
               }
               LOG.info(line);
@@ -447,7 +447,7 @@ public class ReproduceFromDocumentCollection {
       }
     }
 
-    return Paths.get("runs", String.format("run.%s.%s.%s.txt", indexPart, id, modelName)).toString();
+    return Paths.get("runs", String.format(Locale.ROOT, "run.%s.%s.%s.txt", indexPart, id, modelName)).toString();
   }
 
   private static List<String> constructSearchCommands(JsonNode yaml) {
@@ -861,7 +861,7 @@ public class ReproduceFromDocumentCollection {
     byte[] digest = md.digest();
     StringBuilder sb = new StringBuilder();
     for (byte b : digest) {
-      sb.append(String.format("%02x", b));
+      sb.append(String.format(Locale.ROOT, "%02x", b));
     }
 
     return sb.toString();

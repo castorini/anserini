@@ -86,7 +86,7 @@ public class ReproduceFromPrebuiltIndexes {
     try {
       parser.parseArgument(args);
     } catch (CmdLineException exception) {
-      System.err.println(String.format("Error: %s", exception.getMessage()));
+      System.err.println(String.format(Locale.ROOT, "Error: %s", exception.getMessage()));
       CliUtils.printUsage(parser, ReproduceFromPrebuiltIndexes.class, argsOrdering);
 
       return;
@@ -110,7 +110,7 @@ public class ReproduceFromPrebuiltIndexes {
     }
 
     if (parsedArgs.show) {
-      String resourceName = String.format("%s/%s.yaml", CONFIG_DIRECTORY, parsedArgs.config);
+      String resourceName = String.format(Locale.ROOT, "%s/%s.yaml", CONFIG_DIRECTORY, parsedArgs.config);
       try (InputStream yamlStream = ReproductionUtils.loadResourceStream(resourceName, ReproduceFromPrebuiltIndexes.class)) {
         System.out.print(new String(yamlStream.readAllBytes(), StandardCharsets.UTF_8));
       }
@@ -131,10 +131,10 @@ public class ReproduceFromPrebuiltIndexes {
 
     String fatjarPath = new File(ReproduceFromPrebuiltIndexes.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
     String classpath = Files.isDirectory(Paths.get(fatjarPath)) ? System.getProperty("java.class.path") : fatjarPath;
-    String guardedClasspath = classpath.contains(" ") ? String.format("\"%s\"", classpath) : classpath;
+    String guardedClasspath = classpath.contains(" ") ? String.format(Locale.ROOT, "\"%s\"", classpath) : classpath;
 
     final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-    String resourceName = String.format("%s/%s.yaml", CONFIG_DIRECTORY, configName);
+    String resourceName = String.format(Locale.ROOT, "%s/%s.yaml", CONFIG_DIRECTORY, configName);
     Config config;
     try (InputStream yamlStream = ReproductionUtils.loadResourceStream(resourceName, ReproduceFromPrebuiltIndexes.class)) {
       config = mapper.readValue(yamlStream, Config.class);
@@ -158,7 +158,7 @@ public class ReproduceFromPrebuiltIndexes {
     }
 
     if (!uniqueIndexNames.isEmpty()) {
-      System.out.printf("Indexes referenced by this run (%d total):%n", uniqueIndexNames.size());
+      System.out.printf(Locale.ROOT, "Indexes referenced by this run (%d total):%n", uniqueIndexNames.size());
 
       // First pass: compute rows and totals so we can size columns dynamically.
       long totalBytes = 0L;
@@ -220,26 +220,26 @@ public class ReproduceFromPrebuiltIndexes {
       }
 
       final String fmt = "%-" + nameWidth + "s  %12s  %12s  %-" + pathWidth + "s%n";
-      System.out.printf(fmt, "name", "size on disk", "download size", "path");
-      System.out.printf(fmt, repeat('-', nameWidth), repeat('-', 12), repeat('-', 12), repeat('-', pathWidth));
+      System.out.printf(Locale.ROOT, fmt, "name", "size on disk", "download size", "path");
+      System.out.printf(Locale.ROOT, fmt, repeat('-', nameWidth), repeat('-', 12), repeat('-', 12), repeat('-', pathWidth));
 
       for (String[] r : rows) {
-        System.out.printf(fmt, r[0], r[1], r[2], r[3]);
+        System.out.printf(Locale.ROOT, fmt, r[0], r[1], r[2], r[3]);
       }
       // Add total row at the end with no path.
-      System.out.printf(fmt, "total", IndexReaderUtils.formatSize(totalBytes), IndexReaderUtils.formatSize(totalDownloadBytes), "-");
+      System.out.printf(Locale.ROOT, fmt, "total", IndexReaderUtils.formatSize(totalBytes), IndexReaderUtils.formatSize(totalDownloadBytes), "-");
 
-      System.out.printf("%nTotal size across %d of %d indexes: %s%n%n", presentCount, uniqueIndexNames.size(), IndexReaderUtils.formatSize(totalBytes));
+      System.out.printf(Locale.ROOT, "%nTotal size across %d of %d indexes: %s%n%n", presentCount, uniqueIndexNames.size(), IndexReaderUtils.formatSize(totalBytes));
     }
 
     for (Condition condition : config.conditions) {
-      System.out.printf("# Running condition \"%s\": %s \n%n", condition.name, condition.display);
+      System.out.printf(Locale.ROOT, "# Running condition \"%s\": %s \n%n", condition.name, condition.display);
       for (Topic topic : condition.topics) {
         System.out.println("  - topic_key: " + topic.topic_key + "\n");
 
-        final String output = runsDir.resolve(String.format("run.%s.%s.%s.txt", configName, condition.name, topic.topic_key)).toString();
+        final String output = runsDir.resolve(String.format(Locale.ROOT, "run.%s.%s.%s.txt", configName, condition.name, topic.topic_key)).toString();
 
-        String command = String.format("%s $fatjar %s %s", ReproductionUtils.Constants.JAVA_PREFIX, ReproductionUtils.Constants.JVM_ARGS, condition.command)
+        String command = String.format(Locale.ROOT, "%s $fatjar %s %s", ReproductionUtils.Constants.JAVA_PREFIX, ReproductionUtils.Constants.JVM_ARGS, condition.command)
             .replace("$fatjar", guardedClasspath)
             .replace("$threads", "16")
             .replace("$topics", topic.topic_key)
@@ -309,13 +309,13 @@ public class ReproduceFromPrebuiltIndexes {
               double delta = Math.abs(score - expected.get(metric));
 
               if (score > expected.get(metric)) {
-                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, ReproductionUtils.Constants.OKISH, expected.get(metric));
+                System.out.printf(Locale.ROOT, "    %8s: %.4f %s expected %.4f%n", metric, score, ReproductionUtils.Constants.OKISH, expected.get(metric));
               } else if (delta < 0.00001) {
-                System.out.printf("    %8s: %.4f %s%n", metric, score, ReproductionUtils.Constants.OK);
+                System.out.printf(Locale.ROOT, "    %8s: %.4f %s%n", metric, score, ReproductionUtils.Constants.OK);
               } else if (delta < 0.0002) {
-                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, ReproductionUtils.Constants.OKISH, expected.get(metric));
+                System.out.printf(Locale.ROOT, "    %8s: %.4f %s expected %.4f%n", metric, score, ReproductionUtils.Constants.OKISH, expected.get(metric));
               } else {
-                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, ReproductionUtils.Constants.FAIL, expected.get(metric));
+                System.out.printf(Locale.ROOT, "    %8s: %.4f %s expected %.4f%n", metric, score, ReproductionUtils.Constants.FAIL, expected.get(metric));
               }
             } catch (RuntimeException e) {
               System.out.println("    Evaluation command failed for metric: " + metric);
@@ -466,8 +466,8 @@ public class ReproduceFromPrebuiltIndexes {
     String summaryFormat = "%-" + conditionWidth + "s  %-" + topicWidth + "s  %-" + metricWidth + "s  %" + expectedWidth + "s%n";
     StringBuilder summary = new StringBuilder();
     summary.append("Summary").append(System.lineSeparator());
-    summary.append(String.format(summaryFormat, "condition", "topic", "metric", "expected"));
-    summary.append(String.format(summaryFormat,
+    summary.append(String.format(Locale.ROOT, summaryFormat, "condition", "topic", "metric", "expected"));
+    summary.append(String.format(Locale.ROOT, summaryFormat,
       repeat('-', conditionWidth), repeat('-', topicWidth), repeat('-', metricWidth), repeat('-', expectedWidth)));
 
     String previousCondition = null;
@@ -475,7 +475,7 @@ public class ReproduceFromPrebuiltIndexes {
       if (previousCondition != null && !row[0].equals(previousCondition)) {
         summary.append(System.lineSeparator());
       }
-      summary.append(String.format(summaryFormat, row[0], row[1], row[2], row[3]));
+      summary.append(String.format(Locale.ROOT, summaryFormat, row[0], row[1], row[2], row[3]));
       previousCondition = row[0];
     }
     summary.append(System.lineSeparator());

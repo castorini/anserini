@@ -81,7 +81,7 @@ public class SummarizeLogsFromDocumentCollection {
     try {
       parser.parseArgument(args);
     } catch (CmdLineException e) {
-      System.err.println(String.format("Error: %s", e.getMessage()));
+      System.err.println(String.format(Locale.ROOT, "Error: %s", e.getMessage()));
       CliUtils.printUsage(parser, SummarizeLogsFromDocumentCollection.class, argsOrdering);
       return;
     }

@@ -32,6 +32,7 @@ import java.util.Enumeration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -41,7 +42,7 @@ import org.apache.logging.log4j.Logger;
 public final class ReproductionUtils {
   private static final Logger LOG = LogManager.getLogger(ReproductionUtils.class);
 
-  private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z").withZone(ZoneId.systemDefault());
+  private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z", Locale.ROOT).withZone(ZoneId.systemDefault());
 
   private ReproductionUtils() {}
 
@@ -106,7 +107,7 @@ public final class ReproductionUtils {
     long hours = seconds / 3600;
     long minutes = (seconds % 3600) / 60;
     long secs = seconds % 60;
-    return String.format("%s%02d:%02d:%02d", duration.isNegative() ? "-" : "", hours, minutes, secs);
+    return String.format(Locale.ROOT, "%s%02d:%02d:%02d", duration.isNegative() ? "-" : "", hours, minutes, secs);
   }
 
   public static String escapeJson(String value) {
