@@ -76,19 +76,19 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v1-passage.splade-v3/ \
-  -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.splade-v3.tsv.gz \
+  -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
   -topicReader TsvInt \
-  -output runs/run.msmarco-passage-splade-v3.splade-v3-onnx.topics.msmarco-passage.dev-subset.splade-v3.txt \
-  -impact -pretokenized &
+  -output runs/run.msmarco-passage-splade-v3.splade-v3-onnx.topics.msmarco-passage.dev-subset.txt \
+  -impact -pretokenized -encoder SpladeV3 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-v3.splade-v3-onnx.topics.msmarco-passage.dev-subset.splade-v3.txt
-bin/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-v3.splade-v3-onnx.topics.msmarco-passage.dev-subset.splade-v3.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-v3.splade-v3-onnx.topics.msmarco-passage.dev-subset.splade-v3.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-v3.splade-v3-onnx.topics.msmarco-passage.dev-subset.splade-v3.txt
+bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-v3.splade-v3-onnx.topics.msmarco-passage.dev-subset.txt
+bin/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-v3.splade-v3-onnx.topics.msmarco-passage.dev-subset.txt
+bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-v3.splade-v3-onnx.topics.msmarco-passage.dev-subset.txt
+bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-splade-v3.splade-v3-onnx.topics.msmarco-passage.dev-subset.txt
 ```
 
 ## Effectiveness
