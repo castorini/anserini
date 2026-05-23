@@ -42,7 +42,7 @@ public class AnalyzerMap {
       put("id", "org.apache.lucene.analysis.id.IndonesianAnalyzer");
       put("it", "org.apache.lucene.analysis.it.ItalianAnalyzer");
       put("ja", "org.apache.lucene.analysis.ja.JapaneseAnalyzer");
-      put("ko", "org.apache.lucene.analysis.cjk.CJKAnalyzer");
+      put("ko", "org.apache.lucene.analysis.ko.KoreanAnalyzer");
       put("nl", "org.apache.lucene.analysis.nl.DutchAnalyzer");
       put("no", "org.apache.lucene.analysis.no.NorwegianAnalyzer");
       put("pl", "org.apache.lucene.analysis.morfologik.MorfologikAnalyzer");
