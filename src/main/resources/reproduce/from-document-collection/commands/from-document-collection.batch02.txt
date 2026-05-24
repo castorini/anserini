@@ -377,29 +377,3 @@ io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-sustainable-living
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-theoremqa-questions
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-theoremqa-theorems
-
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-aops.splade-v3.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-biology.splade-v3.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-earth-science.splade-v3.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-economics.splade-v3.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-leetcode.splade-v3.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-pony.splade-v3.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-psychology.splade-v3.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-robotics.splade-v3.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-stackoverflow.splade-v3.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-sustainable-living.splade-v3.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-theoremqa-questions.splade-v3.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-theoremqa-theorems.splade-v3.cached
-
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-aops.bge-large-en-v1.5.flat.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-biology.bge-large-en-v1.5.flat.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-earth-science.bge-large-en-v1.5.flat.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-economics.bge-large-en-v1.5.flat.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-leetcode.bge-large-en-v1.5.flat.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-pony.bge-large-en-v1.5.flat.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-psychology.bge-large-en-v1.5.flat.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-robotics.bge-large-en-v1.5.flat.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-stackoverflow.bge-large-en-v1.5.flat.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-sustainable-living.bge-large-en-v1.5.flat.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-theoremqa-questions.bge-large-en-v1.5.flat.cached
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config bright-theoremqa-theorems.bge-large-en-v1.5.flat.cached
