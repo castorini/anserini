@@ -79,7 +79,7 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
         .replace("$output", runOutputPath(runTag, conditionName, topicKey))
         .replace("$runs_directory", ReproductionUtils.Constants.DEFAULT_RUNS_DIRECTORY);
 
-    if ("bge-base-en-v1.5.hnsw.onnx".equals(conditionName) || "bge-base-en-v1.5.hnsw.cached".equals(conditionName)) {
+    if ("bge-base-en-v1.5.hnsw.onnx".equals(conditionName)) {
       String efSearch = switch (topicKey) {
         case "bioasq" -> "11000";
         case "nq" -> "2000";
@@ -238,13 +238,8 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
   }
 
   @Test
-  public void generateMsMarcoV1PassageCoreReport() throws Exception {
-    generateMsMarcoV1PassageReport("msmarco-v1-passage.core.yaml");
-  }
-
-  @Test
-  public void generateMsMarcoV1PassageOptionalReport() throws Exception {
-    generateMsMarcoV1PassageReport("msmarco-v1-passage.optional.yaml");
+  public void generateMsMarcoV1PassageReport() throws Exception {
+    generateMsMarcoV1PassageReport("msmarco-v1-passage.yaml");
   }
 
   private static void generateMsMarcoV1DocReport(String yamlConfig) throws Exception {
@@ -256,13 +251,8 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
   }
 
   @Test
-  public void generateMsMarcoV1DocCoreReport() throws Exception {
-    generateMsMarcoV1DocReport("msmarco-v1-doc.core.yaml");
-  }
-
-  @Test
-  public void generateMsMarcoV1DocOptionalReport() throws Exception {
-    generateMsMarcoV1DocReport("msmarco-v1-doc.optional.yaml");
+  public void generateMsMarcoV1DocReport() throws Exception {
+    generateMsMarcoV1DocReport("msmarco-v1-doc.yaml");
   }
 
   private static void generateMsMarcoV2PassageReport(String yamlConfig) throws Exception {
@@ -276,13 +266,8 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
   }
 
   @Test
-  public void generateMsMarcoV2PassageCoreReport() throws Exception {
-    generateMsMarcoV2PassageReport("msmarco-v2-passage.core.yaml");
-  }
-
-  @Test
-  public void generateMsMarcoV2PassageOptionalReport() throws Exception {
-    generateMsMarcoV2PassageReport("msmarco-v2-passage.optional.yaml");
+  public void generateMsMarcoV2PassageReport() throws Exception {
+    generateMsMarcoV2PassageReport("msmarco-v2-passage.yaml");
   }
 
   private static void generateMsMarcoV2DocReport(String yamlConfig) throws Exception {
@@ -296,13 +281,8 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
   }
 
   @Test
-  public void generateMsMarcoV2DocCoreReport() throws Exception {
-    generateMsMarcoV2DocReport("msmarco-v2-doc.core.yaml");
-  }
-
-  @Test
-  public void generateMsMarcoV2DocOptionalReport() throws Exception {
-    generateMsMarcoV2DocReport("msmarco-v2-doc.optional.yaml");
+  public void generateMsMarcoV2DocReport() throws Exception {
+    generateMsMarcoV2DocReport("msmarco-v2-doc.yaml");
   }
 
   private static void generateMsMarcoV21DocReport(String yamlConfig) throws Exception {
@@ -317,13 +297,8 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
   }
 
   @Test
-  public void generateMsMarcoV21DocCoreReport() throws Exception {
-    generateMsMarcoV21DocReport("msmarco-v2.1-doc.core.yaml");
-  }
-
-  @Test
-  public void generateMsMarcoV21DocOptionalReport() throws Exception {
-    generateMsMarcoV21DocReport("msmarco-v2.1-doc.optional.yaml");
+  public void generateMsMarcoV21DocReport() throws Exception {
+    generateMsMarcoV21DocReport("msmarco-v2.1-doc.yaml");
   }
 
   private static void generateMsMarcoV21SegmentedDocReport(String yamlConfig) throws Exception {
@@ -336,12 +311,7 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
   }
 
   @Test
-  public void generateMsMarcoV21SegmentedDocCoreReport() throws Exception {
-    generateMsMarcoV21SegmentedDocReport("msmarco-v2.1-doc-segmented.core.yaml");
-  }
-
-  @Test
-  public void generateMsMarcoV21SegmentedDocOptionalReport() throws Exception {
-    generateMsMarcoV21SegmentedDocReport("msmarco-v2.1-doc-segmented.optional.yaml");
+  public void generateMsMarcoV21SegmentedDocReport() throws Exception {
+    generateMsMarcoV21SegmentedDocReport("msmarco-v2.1-doc-segmented.yaml");
   }
 }

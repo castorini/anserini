@@ -90,8 +90,8 @@ public class ReproduceFromPrebuiltIndexesTest extends StdOutStdErrRedirectableLu
   }
 
   @Test
-  public void testBeirCoreDryRun() throws Exception {
-    ReproduceFromPrebuiltIndexes.main(new String[] {"--config", "beir.core", "--dry-run"});
+  public void testBeirDryRun() throws Exception {
+    ReproduceFromPrebuiltIndexes.main(new String[] {"--config", "beir", "--dry-run"});
 
     assertTrue(out.toString().startsWith("Indexes referenced by this run"));
     assertTrue(out.toString().contains("Total size across"));

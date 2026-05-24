@@ -713,7 +713,7 @@ conditions:
           nDCG@10: "-c -m ndcg_cut.10"
   - name: fusion-rrf
     display: "Fusion: RRF (BM25 + BGE)"
-    command: io.anserini.fusion.FuseRuns -runs $runs_directory/run.beir.core.flat.$topics.txt $runs_directory/run.beir.core.bge-base-en-v1.5.flat.onnx.$topics.txt -output $output -method rrf -k 1000 -depth 1000 -rrf_k 60
+    command: io.anserini.fusion.FuseRuns -runs $runs_directory/run.beir.flat.$topics.txt $runs_directory/run.beir.bge-base-en-v1.5.flat.onnx.$topics.txt -output $output -method rrf -k 1000 -depth 1000 -rrf_k 60
     topics:
       - topic_key: trec-covid
         eval_key: beir-v1.0.0-trec-covid.test
@@ -891,7 +891,7 @@ conditions:
           nDCG@10: "-c -m ndcg_cut.10"
   - name: fusion-avg
     display: "Fusion: Average (BM25 + BGE) with normalization"
-    command: io.anserini.fusion.FuseRuns -runs $runs_directory/run.beir.core.flat.$topics.txt $runs_directory/run.beir.core.bge-base-en-v1.5.flat.onnx.$topics.txt -output $output -method average -k 1000 -depth 1000 -min_max_normalization
+    command: io.anserini.fusion.FuseRuns -runs $runs_directory/run.beir.flat.$topics.txt $runs_directory/run.beir.bge-base-en-v1.5.flat.onnx.$topics.txt -output $output -method average -k 1000 -depth 1000 -min_max_normalization
     topics:
       - topic_key: trec-covid
         eval_key: beir-v1.0.0-trec-covid.test

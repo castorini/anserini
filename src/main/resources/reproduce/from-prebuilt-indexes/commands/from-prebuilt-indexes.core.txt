@@ -1,8 +1,0 @@
-io.anserini.reproduce.ReproduceFromPrebuiltIndexes --config bright.core
-io.anserini.reproduce.ReproduceFromPrebuiltIndexes --config beir.core
-io.anserini.reproduce.ReproduceFromPrebuiltIndexes --config msmarco-v1-passage.core
-io.anserini.reproduce.ReproduceFromPrebuiltIndexes --config msmarco-v1-doc.core
-io.anserini.reproduce.ReproduceFromPrebuiltIndexes --config msmarco-v2-passage.core
-io.anserini.reproduce.ReproduceFromPrebuiltIndexes --config msmarco-v2-doc.core
-io.anserini.reproduce.ReproduceFromPrebuiltIndexes --config msmarco-v2.1-doc.core
-io.anserini.reproduce.ReproduceFromPrebuiltIndexes --config msmarco-v2.1-doc-segmented.core
