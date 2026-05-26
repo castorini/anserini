@@ -27,6 +27,18 @@ io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search 
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.cos-dpr-distil.parquet.fw
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.cos-dpr-distil.parquet.lexlsh
 
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.splade-pp-ed.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.splade-pp-sd.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.splade-v3.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.cos-dpr-distil.parquet.flat.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.cos-dpr-distil.parquet.flat-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.cos-dpr-distil.parquet.hnsw.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.cos-dpr-distil.parquet.hnsw-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.bge-base-en-v1.5.parquet.flat.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.bge-base-en-v1.5.parquet.flat-sqv.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw-sqv.onnx
+
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-doc
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-doc.wp-tok
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-doc.wp-hgf
@@ -104,24 +116,15 @@ io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search 
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v2-passage-augmented
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v2-passage-augmented.d2q-t5
 
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v2-passage.splade-pp-ed.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v2-passage.splade-pp-sd.onnx
+
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v2-doc
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v2-doc.d2q-t5
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v2-doc-segmented
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v2-doc-segmented.d2q-t5
 
 # Just retrieval
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config msmarco-v1-passage.splade-pp-ed.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config msmarco-v1-passage.splade-pp-sd.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config msmarco-v1-passage.splade-v3.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config msmarco-v1-passage.cos-dpr-distil.parquet.flat.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config msmarco-v1-passage.cos-dpr-distil.parquet.flat-sqv.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config msmarco-v1-passage.cos-dpr-distil.parquet.hnsw.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config msmarco-v1-passage.cos-dpr-distil.parquet.hnsw-sqv.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config msmarco-v1-passage.bge-base-en-v1.5.parquet.flat.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config msmarco-v1-passage.bge-base-en-v1.5.parquet.flat-sqv.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw-sqv.onnx
-
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.bm25-b8
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.wp-tok
@@ -187,9 +190,6 @@ io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-doc-segmented.docTTTTTquery
 
 # Just retrieval
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config msmarco-v2-passage.splade-pp-ed.onnx
-io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config msmarco-v2-passage.splade-pp-sd.onnx
-
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl21-passage
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl21-passage.d2q-t5
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl21-passage.splade-pp-ed.onnx
