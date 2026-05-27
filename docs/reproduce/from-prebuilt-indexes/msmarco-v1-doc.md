@@ -53,6 +53,8 @@ export jvm_args="-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules
 
 ### 1. BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)
 
+**Config**: [msmarco-v1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.yaml)
+
 #### msmarco-doc.dev
 
 Retrieval command:
@@ -121,6 +123,8 @@ java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.bm
 
 ### 2. BM25 complete doc with doc2query-T5 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)
 
+**Config**: [msmarco-v1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.yaml)
+
 #### msmarco-doc.dev
 
 Retrieval command:
@@ -188,6 +192,8 @@ java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.bm
 <a id="condition-3"></a>
 
 ### 3. BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)
+
+**Config**: [msmarco-v1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.yaml)
 
 #### msmarco-doc.dev
 
@@ -266,6 +272,8 @@ java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.bm
 
 ### 4. BM25 segmented doc with doc2query-T5 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)
 
+**Config**: [msmarco-v1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.yaml)
+
 #### msmarco-doc.dev
 
 Retrieval command:
@@ -342,6 +350,8 @@ java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.bm
 <a id="condition-5"></a>
 
 ### 5. uniCOIL with doc2query-T5 (ONNX)
+
+**Config**: [msmarco-v1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.yaml)
 
 #### msmarco-doc.dev
 
@@ -426,6 +436,8 @@ java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.un
 
 ### 6. BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index
 
+**Config**: [msmarco-v1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.yaml)
+
 #### msmarco-doc.dev
 
 Retrieval command:
@@ -494,6 +506,8 @@ java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.bm
 
 ### 7. BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), full index
 
+**Config**: [msmarco-v1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.yaml)
+
 #### msmarco-doc.dev
 
 Retrieval command:
@@ -561,6 +575,8 @@ java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.bm
 <a id="condition-8"></a>
 
 ### 8. BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index
+
+**Config**: [msmarco-v1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.yaml)
 
 #### msmarco-doc.dev
 
@@ -638,6 +654,8 @@ java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.bm
 <a id="condition-9"></a>
 
 ### 9. BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), full index
+
+**Config**: [msmarco-v1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.yaml)
 
 #### msmarco-doc.dev
 
