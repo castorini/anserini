@@ -231,7 +231,7 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
     return command.toString();
   }
 
-  private static Double score(Topic topic, boolean matches, String metric) {
+  private static Double extractExpectedScore(Topic topic, boolean matches, String metric) {
     return matches ? topic.expected_scores.get(metric) : null;
   }
 
@@ -261,62 +261,62 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
   @Test
   public void generateMsMarcoV1PassageReport() throws Exception {
     generateReportInRows("msmarco-v1-passage.yaml", List.of(
-        new SummaryColumn("dev", topic -> score(topic, topic.topic_key.startsWith("msmarco-v1-passage.dev"), "MRR@10")),
-        new SummaryColumn("DL19", topic -> score(topic, topic.topic_key.startsWith("dl19-passage"), "nDCG@10")),
-        new SummaryColumn("DL20", topic -> score(topic, topic.topic_key.startsWith("dl20-passage"), "nDCG@10"))),
+        new SummaryColumn("dev", topic -> extractExpectedScore(topic, topic.topic_key.startsWith("msmarco-v1-passage.dev"), "MRR@10")),
+        new SummaryColumn("DL19", topic -> extractExpectedScore(topic, topic.topic_key.startsWith("dl19-passage"), "nDCG@10")),
+        new SummaryColumn("DL20", topic -> extractExpectedScore(topic, topic.topic_key.startsWith("dl20-passage"), "nDCG@10"))),
         (topic, condition) -> topic.topic_key);
   }
 
   @Test
   public void generateMsMarcoV1DocReport() throws Exception {
     generateReportInRows("msmarco-v1-doc.yaml", List.of(
-        new SummaryColumn("dev", topic -> score(topic, topic.topic_key.startsWith("msmarco-doc.dev"), "MRR@100")),
-        new SummaryColumn("DL19", topic -> score(topic, topic.topic_key.startsWith("dl19-doc"), "nDCG@10")),
-        new SummaryColumn("DL20", topic -> score(topic, topic.topic_key.startsWith("dl20-doc"), "nDCG@10"))),
+        new SummaryColumn("dev", topic -> extractExpectedScore(topic, topic.topic_key.startsWith("msmarco-doc.dev"), "MRR@100")),
+        new SummaryColumn("DL19", topic -> extractExpectedScore(topic, topic.topic_key.startsWith("dl19-doc"), "nDCG@10")),
+        new SummaryColumn("DL20", topic -> extractExpectedScore(topic, topic.topic_key.startsWith("dl20-doc"), "nDCG@10"))),
         (topic, condition) -> topic.topic_key);
   }
 
   @Test
   public void generateMsMarcoV2PassageReport() throws Exception {
     generateReportInRows("msmarco-v2-passage.yaml", List.of(
-        new SummaryColumn("dev", topic -> score(topic, matchesTopicPrefix(topic.topic_key, "msmarco-v2-passage.dev"), "MRR@100")),
-        new SummaryColumn("dev2", topic -> score(topic, matchesTopicPrefix(topic.topic_key, "msmarco-v2-passage.dev2"), "MRR@100")),
-        new SummaryColumn("DL21", topic -> score(topic, topic.topic_key.startsWith("dl21"), "nDCG@10")),
-        new SummaryColumn("DL22", topic -> score(topic, topic.topic_key.startsWith("dl22"), "nDCG@10")),
-        new SummaryColumn("DL23", topic -> score(topic, topic.topic_key.startsWith("dl23"), "nDCG@10"))),
+        new SummaryColumn("dev", topic -> extractExpectedScore(topic, matchesTopicPrefix(topic.topic_key, "msmarco-v2-passage.dev"), "MRR@100")),
+        new SummaryColumn("dev2", topic -> extractExpectedScore(topic, matchesTopicPrefix(topic.topic_key, "msmarco-v2-passage.dev2"), "MRR@100")),
+        new SummaryColumn("DL21", topic -> extractExpectedScore(topic, topic.topic_key.startsWith("dl21"), "nDCG@10")),
+        new SummaryColumn("DL22", topic -> extractExpectedScore(topic, topic.topic_key.startsWith("dl22"), "nDCG@10")),
+        new SummaryColumn("DL23", topic -> extractExpectedScore(topic, topic.topic_key.startsWith("dl23"), "nDCG@10"))),
         (topic, condition) -> topic.topic_key);
   }
 
   @Test
   public void generateMsMarcoV2DocReport() throws Exception {
     generateReportInRows("msmarco-v2-doc.yaml", List.of(
-        new SummaryColumn("dev", topic -> score(topic, matchesTopicPrefix(topic.topic_key, "msmarco-v2-doc.dev"), "MRR@100")),
-        new SummaryColumn("dev2", topic -> score(topic, matchesTopicPrefix(topic.topic_key, "msmarco-v2-doc.dev2"), "MRR@100")),
-        new SummaryColumn("DL21", topic -> score(topic, topic.topic_key.startsWith("dl21"), "nDCG@10")),
-        new SummaryColumn("DL22", topic -> score(topic, topic.topic_key.startsWith("dl22"), "nDCG@10")),
-        new SummaryColumn("DL23", topic -> score(topic, topic.topic_key.startsWith("dl23"), "nDCG@10"))),
+        new SummaryColumn("dev", topic -> extractExpectedScore(topic, matchesTopicPrefix(topic.topic_key, "msmarco-v2-doc.dev"), "MRR@100")),
+        new SummaryColumn("dev2", topic -> extractExpectedScore(topic, matchesTopicPrefix(topic.topic_key, "msmarco-v2-doc.dev2"), "MRR@100")),
+        new SummaryColumn("DL21", topic -> extractExpectedScore(topic, topic.topic_key.startsWith("dl21"), "nDCG@10")),
+        new SummaryColumn("DL22", topic -> extractExpectedScore(topic, topic.topic_key.startsWith("dl22"), "nDCG@10")),
+        new SummaryColumn("DL23", topic -> extractExpectedScore(topic, topic.topic_key.startsWith("dl23"), "nDCG@10"))),
         (topic, condition) -> topic.topic_key);
   }
 
   @Test
   public void generateMsMarcoV21DocReport() throws Exception {
     generateReportInRows("msmarco-v2.1-doc.yaml", List.of(
-        new SummaryColumn("dev", topic -> score(topic, topic.topic_key.equals("msmarco-v2-doc.dev"), "MRR@100")),
-        new SummaryColumn("dev2", topic -> score(topic, topic.topic_key.equals("msmarco-v2-doc.dev2"), "MRR@100")),
-        new SummaryColumn("DL21", topic -> score(topic, topic.topic_key.startsWith("dl21-doc"), "nDCG@10")),
-        new SummaryColumn("DL22", topic -> score(topic, topic.topic_key.startsWith("dl22-doc"), "nDCG@10")),
-        new SummaryColumn("DL23", topic -> score(topic, topic.topic_key.startsWith("dl23-doc"), "nDCG@10")),
-        new SummaryColumn("RAGgy", topic -> score(topic, topic.topic_key.startsWith("rag24"), "nDCG@10"))),
+        new SummaryColumn("dev", topic -> extractExpectedScore(topic, topic.topic_key.equals("msmarco-v2-doc.dev"), "MRR@100")),
+        new SummaryColumn("dev2", topic -> extractExpectedScore(topic, topic.topic_key.equals("msmarco-v2-doc.dev2"), "MRR@100")),
+        new SummaryColumn("DL21", topic -> extractExpectedScore(topic, topic.topic_key.startsWith("dl21-doc"), "nDCG@10")),
+        new SummaryColumn("DL22", topic -> extractExpectedScore(topic, topic.topic_key.startsWith("dl22-doc"), "nDCG@10")),
+        new SummaryColumn("DL23", topic -> extractExpectedScore(topic, topic.topic_key.startsWith("dl23-doc"), "nDCG@10")),
+        new SummaryColumn("RAGgy", topic -> extractExpectedScore(topic, topic.topic_key.startsWith("rag24"), "nDCG@10"))),
         (topic, condition) -> topic.topic_key);
   }
 
   @Test
   public void generateMsMarcoV21SegmentedDocReport() throws Exception {
     generateReportInRows("msmarco-v2.1-doc-segmented.yaml", List.of(
-        new SummaryColumn("RAG24 ☂️", topic -> score(topic, topic.eval_key.equals("rag24.test-umbrela-all"), "nDCG@20")),
-        new SummaryColumn("RAG24 NIST", topic -> score(topic, topic.eval_key.equals("rag24.test"), "nDCG@20")),
-        new SummaryColumn("RAG25 ☂️", topic -> score(topic, topic.eval_key.equals("rag25.test-umbrela2"), "nDCG@30")),
-        new SummaryColumn("RAG25 NIST", topic -> score(topic, topic.eval_key.equals("rag25.test"), "nDCG@30"))),
+        new SummaryColumn("RAG24 ☂️", topic -> extractExpectedScore(topic, topic.eval_key.equals("rag24.test-umbrela-all"), "nDCG@20")),
+        new SummaryColumn("RAG24 NIST", topic -> extractExpectedScore(topic, topic.eval_key.equals("rag24.test"), "nDCG@20")),
+        new SummaryColumn("RAG25 ☂️", topic -> extractExpectedScore(topic, topic.eval_key.equals("rag25.test-umbrela2"), "nDCG@30")),
+        new SummaryColumn("RAG25 NIST", topic -> extractExpectedScore(topic, topic.eval_key.equals("rag25.test"), "nDCG@30"))),
         (topic, condition) -> String.format("%s / %s", topic.topic_key, topic.eval_key));
   }
 
