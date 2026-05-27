@@ -174,11 +174,13 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
     return summary.toString();
   }
 
-  private static String buildSummaryInColumns(Config config, String metric, Function<Condition, String> conditionHeading) {
+  private static String buildSummaryInColumns(Config config, String metric) {
     StringBuilder summary = new StringBuilder();
     summary.append("| corpus");
     for (int i = 0; i < config.conditions.size(); i++) {
-      summary.append(" | ").append(String.format("[%s](#condition-%d)", conditionHeading.apply(config.conditions.get(i)), i + 1));
+      Condition condition = config.conditions.get(i);
+      String heading = condition.short_name == null ? condition.display : condition.short_name;
+      summary.append(" | ").append(String.format("[%s](#condition-%d)", heading, i + 1));
     }
     summary.append(" |\n");
 
@@ -236,10 +238,6 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
     return matches ? topic.expected_scores.get(metric) : null;
   }
 
-  private static String shortNameOrDisplay(Condition condition) {
-    return condition.short_name == null ? condition.display : condition.short_name;
-  }
-
   private static void generateReportInRows(String yamlConfig, List<SummaryColumn> columns, boolean includeConfigPerCondition,
       BiFunction<Topic, Condition, String> topicHeading) throws Exception {
     ReportContext context = loadReportContext(yamlConfig);
@@ -247,11 +245,11 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
     writeReport(context, buildSummaryInRows(context.config(), columns), commands);
   }
 
-  private static void generateReportInColumns(String yamlConfig, String metric, Function<Condition, String> conditionHeading,
-      boolean includeConfigPerCondition, BiFunction<Topic, Condition, String> topicHeading) throws Exception {
+  private static void generateReportInColumns(String yamlConfig, String metric, boolean includeConfigPerCondition,
+      BiFunction<Topic, Condition, String> topicHeading) throws Exception {
     ReportContext context = loadReportContext(yamlConfig);
     String commands = buildCommandSections(context, includeConfigPerCondition, topicHeading);
-    writeReport(context, buildSummaryInColumns(context.config(), metric, conditionHeading), commands);
+    writeReport(context, buildSummaryInColumns(context.config(), metric), commands);
   }
 
   private static void writeReport(ReportContext context, String summary, String commands) throws Exception {
@@ -327,15 +325,13 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
 
   @Test
   public void generateBrightReport() throws Exception {
-    generateReportInColumns("bright.yaml", "nDCG@10",
-        GenerateReproductionDocsFromPrebuiltIndexesTest::shortNameOrDisplay, true,
+    generateReportInColumns("bright.yaml", "nDCG@10", true,
         (topic, condition) -> topic.topic_key);
   }
 
   @Test
   public void generateBeirReport() throws Exception {
-    generateReportInColumns("beir.yaml", "nDCG@10",
-        GenerateReproductionDocsFromPrebuiltIndexesTest::shortNameOrDisplay, true,
+    generateReportInColumns("beir.yaml", "nDCG@10", true,
         (topic, condition) -> topic.topic_key);
   }
 }
