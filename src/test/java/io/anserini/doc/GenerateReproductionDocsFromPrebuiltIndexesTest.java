@@ -79,19 +79,6 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
         .replace("$output", runOutputPath(runTag, conditionName, topicKey))
         .replace("$runs_directory", ReproductionUtils.Constants.DEFAULT_RUNS_DIRECTORY);
 
-    if ("bge-base-en-v1.5.hnsw.onnx".equals(conditionName)) {
-      String efSearch = switch (topicKey) {
-        case "bioasq" -> "11000";
-        case "nq" -> "2000";
-        case "hotpotqa", "fever" -> "6000";
-        default -> null;
-      };
-
-      if (efSearch != null) {
-        command = command.replaceFirst("(?<=\\s-efSearch\\s)\\d+", efSearch);
-      }
-    }
-
     return command;
   }
 
@@ -139,7 +126,7 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
     return new ReportContext(yamlPath, runTag, config, template, output, configLink);
   }
 
-  private static String buildSummary(Config config, List<SummaryColumn> columns) {
+  private static String buildSummaryInRows(Config config, List<SummaryColumn> columns) {
     StringBuilder summary = new StringBuilder();
     summary.append("| # | name");
     for (SummaryColumn column : columns) {
@@ -187,6 +174,39 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
     return summary.toString();
   }
 
+  private static String buildSummaryInColumns(Config config, String metric, Function<Condition, String> conditionHeading) {
+    StringBuilder summary = new StringBuilder();
+    summary.append("| corpus");
+    for (int i = 0; i < config.conditions.size(); i++) {
+      summary.append(" | ").append(String.format("[%s](#condition-%d)", conditionHeading.apply(config.conditions.get(i)), i + 1));
+    }
+    summary.append(" |\n");
+
+    summary.append("| ---");
+    for (int i = 0; i < config.conditions.size(); i++) {
+      summary.append(" | ---");
+    }
+    summary.append(" |\n");
+
+    for (Topic topic : config.conditions.get(0).topics) {
+      summary.append(String.format("| %s", topic.topic_key));
+      for (Condition condition : config.conditions) {
+        Double score = null;
+        for (Topic conditionTopic : condition.topics) {
+          if (conditionTopic.topic_key.equals(topic.topic_key) && conditionTopic.expected_scores != null) {
+            score = conditionTopic.expected_scores.get(metric);
+            break;
+          }
+        }
+        summary.append(" | ").append(score == null ? "" : String.format("%.4f", score));
+      }
+      summary.append(" |\n");
+    }
+
+    summary.append("\n");
+    return summary.toString();
+  }
+
   private static String buildCommandSections(ReportContext context, boolean includeConfigPerCondition,
       BiFunction<Topic, Condition, String> topicHeading) {
     StringBuilder command = new StringBuilder();
@@ -216,21 +236,35 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
     return matches ? topic.expected_scores.get(metric) : null;
   }
 
-  private static void generateReport(String yamlConfig, List<SummaryColumn> columns, boolean includeConfigPerCondition,
+  private static String shortNameOrDisplay(Condition condition) {
+    return condition.short_name == null ? condition.display : condition.short_name;
+  }
+
+  private static void generateReportInRows(String yamlConfig, List<SummaryColumn> columns, boolean includeConfigPerCondition,
       BiFunction<Topic, Condition, String> topicHeading) throws Exception {
     ReportContext context = loadReportContext(yamlConfig);
     String commands = buildCommandSections(context, includeConfigPerCondition, topicHeading);
+    writeReport(context, buildSummaryInRows(context.config(), columns), commands);
+  }
 
+  private static void generateReportInColumns(String yamlConfig, String metric, Function<Condition, String> conditionHeading,
+      boolean includeConfigPerCondition, BiFunction<Topic, Condition, String> topicHeading) throws Exception {
+    ReportContext context = loadReportContext(yamlConfig);
+    String commands = buildCommandSections(context, includeConfigPerCondition, topicHeading);
+    writeReport(context, buildSummaryInColumns(context.config(), metric, conditionHeading), commands);
+  }
+
+  private static void writeReport(ReportContext context, String summary, String commands) throws Exception {
     FileUtils.writeStringToFile(context.output(), context.template()
         .replace("${config}", context.configLink())
         .replace("${jvm_args}", ReproductionUtils.Constants.JVM_ARGS)
-        .replace("${summary}", buildSummary(context.config(), columns))
+        .replace("${summary}", summary)
         .replace("${commands}", commands)
         .replace("${command}", commands), StandardCharsets.UTF_8);
   }
 
   private static void generateMsMarcoV1PassageReport(String yamlConfig) throws Exception {
-    generateReport(yamlConfig, List.of(
+    generateReportInRows(yamlConfig, List.of(
         new SummaryColumn("dev", topic -> score(topic, topic.topic_key.startsWith("msmarco-v1-passage.dev"), "MRR@10")),
         new SummaryColumn("DL19", topic -> score(topic, topic.topic_key.startsWith("dl19-passage"), "nDCG@10")),
         new SummaryColumn("DL20", topic -> score(topic, topic.topic_key.startsWith("dl20-passage"), "nDCG@10"))),
@@ -243,7 +277,7 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
   }
 
   private static void generateMsMarcoV1DocReport(String yamlConfig) throws Exception {
-    generateReport(yamlConfig, List.of(
+    generateReportInRows(yamlConfig, List.of(
         new SummaryColumn("dev", topic -> score(topic, topic.topic_key.startsWith("msmarco-doc.dev"), "MRR@100")),
         new SummaryColumn("DL19", topic -> score(topic, topic.topic_key.startsWith("dl19-doc"), "nDCG@10")),
         new SummaryColumn("DL20", topic -> score(topic, topic.topic_key.startsWith("dl20-doc"), "nDCG@10"))),
@@ -256,7 +290,7 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
   }
 
   private static void generateMsMarcoV2PassageReport(String yamlConfig) throws Exception {
-    generateReport(yamlConfig, List.of(
+    generateReportInRows(yamlConfig, List.of(
         new SummaryColumn("dev", topic -> score(topic, matchesTopicPrefix(topic.topic_key, "msmarco-v2-passage.dev"), "MRR@100")),
         new SummaryColumn("dev2", topic -> score(topic, matchesTopicPrefix(topic.topic_key, "msmarco-v2-passage.dev2"), "MRR@100")),
         new SummaryColumn("DL21", topic -> score(topic, topic.topic_key.startsWith("dl21"), "nDCG@10")),
@@ -271,7 +305,7 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
   }
 
   private static void generateMsMarcoV2DocReport(String yamlConfig) throws Exception {
-    generateReport(yamlConfig, List.of(
+    generateReportInRows(yamlConfig, List.of(
         new SummaryColumn("dev", topic -> score(topic, matchesTopicPrefix(topic.topic_key, "msmarco-v2-doc.dev"), "MRR@100")),
         new SummaryColumn("dev2", topic -> score(topic, matchesTopicPrefix(topic.topic_key, "msmarco-v2-doc.dev2"), "MRR@100")),
         new SummaryColumn("DL21", topic -> score(topic, topic.topic_key.startsWith("dl21"), "nDCG@10")),
@@ -286,7 +320,7 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
   }
 
   private static void generateMsMarcoV21DocReport(String yamlConfig) throws Exception {
-    generateReport(yamlConfig, List.of(
+    generateReportInRows(yamlConfig, List.of(
         new SummaryColumn("dev", topic -> score(topic, topic.topic_key.equals("msmarco-v2-doc.dev"), "MRR@100")),
         new SummaryColumn("dev2", topic -> score(topic, topic.topic_key.equals("msmarco-v2-doc.dev2"), "MRR@100")),
         new SummaryColumn("DL21", topic -> score(topic, topic.topic_key.startsWith("dl21-doc"), "nDCG@10")),
@@ -302,7 +336,7 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
   }
 
   private static void generateMsMarcoV21SegmentedDocReport(String yamlConfig) throws Exception {
-    generateReport(yamlConfig, List.of(
+    generateReportInRows(yamlConfig, List.of(
         new SummaryColumn("RAG24 ☂️", topic -> score(topic, topic.eval_key.equals("rag24.test-umbrela-all"), "nDCG@20")),
         new SummaryColumn("RAG24 NIST", topic -> score(topic, topic.eval_key.equals("rag24.test"), "nDCG@20")),
         new SummaryColumn("RAG25 ☂️", topic -> score(topic, topic.eval_key.equals("rag25.test-umbrela2"), "nDCG@30")),
@@ -313,5 +347,27 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
   @Test
   public void generateMsMarcoV21SegmentedDocReport() throws Exception {
     generateMsMarcoV21SegmentedDocReport("msmarco-v2.1-doc-segmented.yaml");
+  }
+
+  private static void generateBrightReport(String yamlConfig) throws Exception {
+    generateReportInColumns(yamlConfig, "nDCG@10",
+        GenerateReproductionDocsFromPrebuiltIndexesTest::shortNameOrDisplay, true,
+        (topic, condition) -> topic.topic_key);
+  }
+
+  @Test
+  public void generateBrightReport() throws Exception {
+    generateBrightReport("bright.yaml");
+  }
+
+  private static void generateBeirReport(String yamlConfig) throws Exception {
+    generateReportInColumns(yamlConfig, "nDCG@10",
+        GenerateReproductionDocsFromPrebuiltIndexesTest::shortNameOrDisplay, true,
+        (topic, condition) -> topic.topic_key);
+  }
+
+  @Test
+  public void generateBeirReport() throws Exception {
+    generateBeirReport("beir.yaml");
   }
 }

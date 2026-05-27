@@ -1,0 +1,43 @@
+# <img src="../../anserini-logo.png" height="30" /> BEIR
+
+**Anserini reproductions from prebuilt indexes**
+
++ **Corpus**: BEIR
++ **Config**: ${config}
+
+## Summary
+
+The table below summarizes effectiveness in terms of nDCG@10.
+For more metrics, refer to the config directly.
+
+Key:
+
++ **BM25f** = BM25, flat bag-of-words baseline
++ **BM25mf** = BM25, multifield bag-of-words baseline
++ **SPLADE** = SPLADE-v3 (ONNX)
++ **BGE** = bge-base-en-v1.5 w/ flat indexes (ONNX)
++ **RRF** = Fusion: RRF (BM25 + BGE)
++ **Avg** = Fusion: Average (BM25 + BGE) with normalization
+
+${summary}
+
+## Commands
+
+In the commands below:
+
++ Set `$fatjar` to the actual Anserini fatjar.
++ Set JVM args to `${jvm_args}`.
+
+Something like:
+
+```bash
+export fatjar=`ls -d {.,target}/anserini-*-fatjar.jar(N)`
+
+# for zsh
+export jvm_args=(${jvm_args})
+
+# for bash
+export jvm_args="${jvm_args}"
+```
+
+${commands}

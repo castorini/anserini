@@ -495,6 +495,9 @@ public class ReproduceFromPrebuiltIndexes {
     public String display;
 
     @JsonProperty
+    public String short_name;
+
+    @JsonProperty
     public String display_html;
 
     @JsonProperty
