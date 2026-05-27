@@ -263,8 +263,9 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
         .replace("${command}", commands), StandardCharsets.UTF_8);
   }
 
-  private static void generateMsMarcoV1PassageReport(String yamlConfig) throws Exception {
-    generateReportInRows(yamlConfig, List.of(
+  @Test
+  public void generateMsMarcoV1PassageReport() throws Exception {
+    generateReportInRows("msmarco-v1-passage.yaml", List.of(
         new SummaryColumn("dev", topic -> score(topic, topic.topic_key.startsWith("msmarco-v1-passage.dev"), "MRR@10")),
         new SummaryColumn("DL19", topic -> score(topic, topic.topic_key.startsWith("dl19-passage"), "nDCG@10")),
         new SummaryColumn("DL20", topic -> score(topic, topic.topic_key.startsWith("dl20-passage"), "nDCG@10"))),
@@ -272,12 +273,8 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
   }
 
   @Test
-  public void generateMsMarcoV1PassageReport() throws Exception {
-    generateMsMarcoV1PassageReport("msmarco-v1-passage.yaml");
-  }
-
-  private static void generateMsMarcoV1DocReport(String yamlConfig) throws Exception {
-    generateReportInRows(yamlConfig, List.of(
+  public void generateMsMarcoV1DocReport() throws Exception {
+    generateReportInRows("msmarco-v1-doc.yaml", List.of(
         new SummaryColumn("dev", topic -> score(topic, topic.topic_key.startsWith("msmarco-doc.dev"), "MRR@100")),
         new SummaryColumn("DL19", topic -> score(topic, topic.topic_key.startsWith("dl19-doc"), "nDCG@10")),
         new SummaryColumn("DL20", topic -> score(topic, topic.topic_key.startsWith("dl20-doc"), "nDCG@10"))),
@@ -285,12 +282,8 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
   }
 
   @Test
-  public void generateMsMarcoV1DocReport() throws Exception {
-    generateMsMarcoV1DocReport("msmarco-v1-doc.yaml");
-  }
-
-  private static void generateMsMarcoV2PassageReport(String yamlConfig) throws Exception {
-    generateReportInRows(yamlConfig, List.of(
+  public void generateMsMarcoV2PassageReport() throws Exception {
+    generateReportInRows("msmarco-v2-passage.yaml", List.of(
         new SummaryColumn("dev", topic -> score(topic, matchesTopicPrefix(topic.topic_key, "msmarco-v2-passage.dev"), "MRR@100")),
         new SummaryColumn("dev2", topic -> score(topic, matchesTopicPrefix(topic.topic_key, "msmarco-v2-passage.dev2"), "MRR@100")),
         new SummaryColumn("DL21", topic -> score(topic, topic.topic_key.startsWith("dl21"), "nDCG@10")),
@@ -300,12 +293,8 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
   }
 
   @Test
-  public void generateMsMarcoV2PassageReport() throws Exception {
-    generateMsMarcoV2PassageReport("msmarco-v2-passage.yaml");
-  }
-
-  private static void generateMsMarcoV2DocReport(String yamlConfig) throws Exception {
-    generateReportInRows(yamlConfig, List.of(
+  public void generateMsMarcoV2DocReport() throws Exception {
+    generateReportInRows("msmarco-v2-doc.yaml", List.of(
         new SummaryColumn("dev", topic -> score(topic, matchesTopicPrefix(topic.topic_key, "msmarco-v2-doc.dev"), "MRR@100")),
         new SummaryColumn("dev2", topic -> score(topic, matchesTopicPrefix(topic.topic_key, "msmarco-v2-doc.dev2"), "MRR@100")),
         new SummaryColumn("DL21", topic -> score(topic, topic.topic_key.startsWith("dl21"), "nDCG@10")),
@@ -315,12 +304,8 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
   }
 
   @Test
-  public void generateMsMarcoV2DocReport() throws Exception {
-    generateMsMarcoV2DocReport("msmarco-v2-doc.yaml");
-  }
-
-  private static void generateMsMarcoV21DocReport(String yamlConfig) throws Exception {
-    generateReportInRows(yamlConfig, List.of(
+  public void generateMsMarcoV21DocReport() throws Exception {
+    generateReportInRows("msmarco-v2.1-doc.yaml", List.of(
         new SummaryColumn("dev", topic -> score(topic, topic.topic_key.equals("msmarco-v2-doc.dev"), "MRR@100")),
         new SummaryColumn("dev2", topic -> score(topic, topic.topic_key.equals("msmarco-v2-doc.dev2"), "MRR@100")),
         new SummaryColumn("DL21", topic -> score(topic, topic.topic_key.startsWith("dl21-doc"), "nDCG@10")),
@@ -331,12 +316,8 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
   }
 
   @Test
-  public void generateMsMarcoV21DocReport() throws Exception {
-    generateMsMarcoV21DocReport("msmarco-v2.1-doc.yaml");
-  }
-
-  private static void generateMsMarcoV21SegmentedDocReport(String yamlConfig) throws Exception {
-    generateReportInRows(yamlConfig, List.of(
+  public void generateMsMarcoV21SegmentedDocReport() throws Exception {
+    generateReportInRows("msmarco-v2.1-doc-segmented.yaml", List.of(
         new SummaryColumn("RAG24 ☂️", topic -> score(topic, topic.eval_key.equals("rag24.test-umbrela-all"), "nDCG@20")),
         new SummaryColumn("RAG24 NIST", topic -> score(topic, topic.eval_key.equals("rag24.test"), "nDCG@20")),
         new SummaryColumn("RAG25 ☂️", topic -> score(topic, topic.eval_key.equals("rag25.test-umbrela2"), "nDCG@30")),
@@ -345,29 +326,16 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
   }
 
   @Test
-  public void generateMsMarcoV21SegmentedDocReport() throws Exception {
-    generateMsMarcoV21SegmentedDocReport("msmarco-v2.1-doc-segmented.yaml");
-  }
-
-  private static void generateBrightReport(String yamlConfig) throws Exception {
-    generateReportInColumns(yamlConfig, "nDCG@10",
-        GenerateReproductionDocsFromPrebuiltIndexesTest::shortNameOrDisplay, true,
-        (topic, condition) -> topic.topic_key);
-  }
-
-  @Test
   public void generateBrightReport() throws Exception {
-    generateBrightReport("bright.yaml");
-  }
-
-  private static void generateBeirReport(String yamlConfig) throws Exception {
-    generateReportInColumns(yamlConfig, "nDCG@10",
+    generateReportInColumns("bright.yaml", "nDCG@10",
         GenerateReproductionDocsFromPrebuiltIndexesTest::shortNameOrDisplay, true,
         (topic, condition) -> topic.topic_key);
   }
 
   @Test
   public void generateBeirReport() throws Exception {
-    generateBeirReport("beir.yaml");
+    generateReportInColumns("beir.yaml", "nDCG@10",
+        GenerateReproductionDocsFromPrebuiltIndexesTest::shortNameOrDisplay, true,
+        (topic, condition) -> topic.topic_key);
   }
 }
