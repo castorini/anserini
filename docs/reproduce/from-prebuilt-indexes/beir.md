@@ -16,8 +16,8 @@ Key:
 + **BM25mf** = BM25, multifield bag-of-words baseline
 + **SPLADE** = SPLADE-v3 (ONNX)
 + **BGE** = bge-base-en-v1.5 w/ flat indexes (ONNX)
-+ **RRF** = Fusion: RRF (BM25 + BGE)
-+ **Avg** = Fusion: Average (BM25 + BGE) with normalization
++ **RRF** = Fusion: RRF (BM25f + BGE)
++ **Avg** = Fusion: Average (BM25f + BGE) with normalization
 
 | corpus | [BM25f](#condition-1) | [BM25mf](#condition-2) | [SPLADE](#condition-3) | [BGE](#condition-4) | [RRF](#condition-5) | [Avg](#condition-6) |
 | --- | --- | --- | --- | --- | --- | --- |
