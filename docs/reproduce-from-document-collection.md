@@ -53,47 +53,23 @@ The following configurations (i.e., `--config` settings) are available:
 
 <div></div>
 
-+ [`msmarco-v1-passage.deepimpact.cached`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.deepimpact.cached.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.deepimpact.cached.md)]
-+ [`msmarco-v1-passage.unicoil.cached`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.unicoil.cached.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.unicoil.cached.md)]
-+ [`msmarco-v1-passage.unicoil-noexp.cached`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.unicoil-noexp.cached.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.unicoil-noexp.cached.md)]
-+ [`msmarco-v1-passage.unicoil-tilde-expansion.cached`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.unicoil-tilde-expansion.cached.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.unicoil-tilde-expansion.cached.md)]
-+ [`msmarco-v1-passage.distill-splade-max.cached`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.distill-splade-max.cached.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.distill-splade-max.cached.md)]
-+ [`msmarco-v1-passage.splade-pp-ed.cached`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.splade-pp-ed.cached.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.splade-pp-ed.cached.md)]
 + [`msmarco-v1-passage.splade-pp-ed.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.splade-pp-ed.onnx.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.splade-pp-ed.onnx.md)]
-+ [`msmarco-v1-passage.splade-pp-sd.cached`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.splade-pp-sd.cached.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.splade-pp-sd.cached.md)]
 + [`msmarco-v1-passage.splade-pp-sd.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.splade-pp-sd.onnx.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.splade-pp-sd.onnx.md)]
 + [`msmarco-v1-passage.splade-v3.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.splade-v3.onnx.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.splade-v3.onnx.md)]
-+ [`msmarco-v1-passage.splade-v3.cached`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.splade-v3.cached.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.splade-v3.cached.md)]
 
 
 <div></div>
 
 + [`msmarco-v1-passage.cos-dpr-distil.parquet.fw`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.cos-dpr-distil.parquet.fw.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.cos-dpr-distil.parquet.fw.md)]
 + [`msmarco-v1-passage.cos-dpr-distil.parquet.lexlsh`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.cos-dpr-distil.parquet.lexlsh.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.cos-dpr-distil.parquet.lexlsh.md)]
-+ [`msmarco-v1-passage.cos-dpr-distil.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.cos-dpr-distil.parquet.flat.cached.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.cos-dpr-distil.parquet.flat.cached.md)]
 + [`msmarco-v1-passage.cos-dpr-distil.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.cos-dpr-distil.parquet.flat.onnx.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.cos-dpr-distil.parquet.flat.onnx.md)]
-+ [`msmarco-v1-passage.cos-dpr-distil.parquet.flat-sqv.cached`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.cos-dpr-distil.parquet.flat-sqv.cached.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.cos-dpr-distil.parquet.flat-sqv.cached.md)]
 + [`msmarco-v1-passage.cos-dpr-distil.parquet.flat-sqv.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.cos-dpr-distil.parquet.flat-sqv.onnx.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.cos-dpr-distil.parquet.flat-sqv.onnx.md)]
-+ [`msmarco-v1-passage.cos-dpr-distil.parquet.hnsw.cached`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.cos-dpr-distil.parquet.hnsw.cached.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.cos-dpr-distil.parquet.hnsw.cached.md)]
 + [`msmarco-v1-passage.cos-dpr-distil.parquet.hnsw.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.cos-dpr-distil.parquet.hnsw.onnx.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.cos-dpr-distil.parquet.hnsw.onnx.md)]
-+ [`msmarco-v1-passage.cos-dpr-distil.parquet.hnsw-sqv.cached`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.cos-dpr-distil.parquet.hnsw-sqv.cached.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.cos-dpr-distil.parquet.hnsw-sqv.cached.md)]
 + [`msmarco-v1-passage.cos-dpr-distil.parquet.hnsw-sqv.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.cos-dpr-distil.parquet.hnsw-sqv.onnx.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.cos-dpr-distil.parquet.hnsw-sqv.onnx.md)]
-+ [`msmarco-v1-passage.bge-base-en-v1.5.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.bge-base-en-v1.5.parquet.flat.cached.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.bge-base-en-v1.5.parquet.flat.cached.md)]
 + [`msmarco-v1-passage.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.bge-base-en-v1.5.parquet.flat.onnx.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.bge-base-en-v1.5.parquet.flat.onnx.md)]
-+ [`msmarco-v1-passage.bge-base-en-v1.5.parquet.flat-sqv.cached`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.bge-base-en-v1.5.parquet.flat-sqv.cached.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.bge-base-en-v1.5.parquet.flat-sqv.cached.md)]
 + [`msmarco-v1-passage.bge-base-en-v1.5.parquet.flat-sqv.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.bge-base-en-v1.5.parquet.flat-sqv.onnx.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.bge-base-en-v1.5.parquet.flat-sqv.onnx.md)]
-+ [`msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw.cached`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw.cached.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw.cached.md)]
 + [`msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw.onnx.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw.onnx.md)]
-+ [`msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw-sqv.cached`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw-sqv.cached.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw-sqv.cached.md)]
 + [`msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw-sqv.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw-sqv.onnx.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw-sqv.onnx.md)]
-+ [`msmarco-v1-passage.openai-ada2.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.openai-ada2.parquet.flat.cached.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.openai-ada2.parquet.flat.cached.md)]
-+ [`msmarco-v1-passage.openai-ada2.parquet.flat-sqv.cached`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.openai-ada2.parquet.flat-sqv.cached.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.openai-ada2.parquet.flat-sqv.cached.md)]
-+ [`msmarco-v1-passage.openai-ada2.parquet.hnsw.cached`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.openai-ada2.parquet.hnsw.cached.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.openai-ada2.parquet.hnsw.cached.md)]
-+ [`msmarco-v1-passage.openai-ada2.parquet.hnsw-sqv.cached`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.openai-ada2.parquet.hnsw-sqv.cached.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.openai-ada2.parquet.hnsw-sqv.cached.md)]
-+ [`msmarco-v1-passage.cohere-embed-english-v3.0.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.cohere-embed-english-v3.0.parquet.flat.cached.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.cohere-embed-english-v3.0.parquet.flat.cached.md)]
-+ [`msmarco-v1-passage.cohere-embed-english-v3.0.parquet.flat-sqv.cached`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.cohere-embed-english-v3.0.parquet.flat-sqv.cached.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.cohere-embed-english-v3.0.parquet.flat-sqv.cached.md)]
-+ [`msmarco-v1-passage.cohere-embed-english-v3.0.parquet.hnsw.cached`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.cohere-embed-english-v3.0.parquet.hnsw.cached.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.cohere-embed-english-v3.0.parquet.hnsw.cached.md)]
-+ [`msmarco-v1-passage.cohere-embed-english-v3.0.parquet.hnsw-sqv.cached`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.cohere-embed-english-v3.0.parquet.hnsw-sqv.cached.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.cohere-embed-english-v3.0.parquet.hnsw-sqv.cached.md)]
 
 
 <div></div>
@@ -111,8 +87,6 @@ The following configurations (i.e., `--config` settings) are available:
 + [`msmarco-v1-doc-segmented.wp-tok`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc-segmented.wp-tok.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-doc-segmented.wp-tok.md)]
 + [`msmarco-v1-doc-segmented.wp-ca`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc-segmented.wp-ca.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-doc-segmented.wp-ca.md)]
 + [`msmarco-v1-doc-segmented.docTTTTTquery`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc-segmented.docTTTTTquery.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-doc-segmented.docTTTTTquery.md)]
-+ [`msmarco-v1-doc-segmented.unicoil.cached`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc-segmented.unicoil.cached.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-doc-segmented.unicoil.cached.md)]
-+ [`msmarco-v1-doc-segmented.unicoil-noexp.cached`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc-segmented.unicoil-noexp.cached.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-doc-segmented.unicoil-noexp.cached.md)]
 
 
 <div></div>
@@ -127,44 +101,23 @@ The following configurations (i.e., `--config` settings) are available:
 
 <div></div>
 
-+ [`dl19-passage.unicoil.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.unicoil.cached.yaml) [[docs](reproduce/from-document-collection/dl19-passage.unicoil.cached.md)]
-+ [`dl19-passage.unicoil-noexp.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.unicoil-noexp.cached.yaml) [[docs](reproduce/from-document-collection/dl19-passage.unicoil-noexp.cached.md)]
-+ [`dl19-passage.splade-pp-ed.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.splade-pp-ed.cached.yaml) [[docs](reproduce/from-document-collection/dl19-passage.splade-pp-ed.cached.md)]
 + [`dl19-passage.splade-pp-ed.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.splade-pp-ed.onnx.yaml) [[docs](reproduce/from-document-collection/dl19-passage.splade-pp-ed.onnx.md)]
-+ [`dl19-passage.splade-pp-sd.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.splade-pp-sd.cached.yaml) [[docs](reproduce/from-document-collection/dl19-passage.splade-pp-sd.cached.md)]
 + [`dl19-passage.splade-pp-sd.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.splade-pp-sd.onnx.yaml) [[docs](reproduce/from-document-collection/dl19-passage.splade-pp-sd.onnx.md)]
 + [`dl19-passage.splade-v3.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.splade-v3.onnx.yaml) [[docs](reproduce/from-document-collection/dl19-passage.splade-v3.onnx.md)]
-+ [`dl19-passage.splade-v3.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.splade-v3.cached.yaml) [[docs](reproduce/from-document-collection/dl19-passage.splade-v3.cached.md)]
 
 
 <div></div>
 
 + [`dl19-passage.cos-dpr-distil.parquet.fw`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.cos-dpr-distil.parquet.fw.yaml) [[docs](reproduce/from-document-collection/dl19-passage.cos-dpr-distil.parquet.fw.md)]
 + [`dl19-passage.cos-dpr-distil.parquet.lexlsh`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.cos-dpr-distil.parquet.lexlsh.yaml) [[docs](reproduce/from-document-collection/dl19-passage.cos-dpr-distil.parquet.lexlsh.md)]
-+ [`dl19-passage.cos-dpr-distil.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.cos-dpr-distil.parquet.flat.cached.yaml) [[docs](reproduce/from-document-collection/dl19-passage.cos-dpr-distil.parquet.flat.cached.md)]
 + [`dl19-passage.cos-dpr-distil.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.cos-dpr-distil.parquet.flat.onnx.yaml) [[docs](reproduce/from-document-collection/dl19-passage.cos-dpr-distil.parquet.flat.onnx.md)]
-+ [`dl19-passage.cos-dpr-distil.parquet.flat-sqv.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.cos-dpr-distil.parquet.flat-sqv.cached.yaml) [[docs](reproduce/from-document-collection/dl19-passage.cos-dpr-distil.parquet.flat-sqv.cached.md)]
 + [`dl19-passage.cos-dpr-distil.parquet.flat-sqv.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.cos-dpr-distil.parquet.flat-sqv.onnx.yaml) [[docs](reproduce/from-document-collection/dl19-passage.cos-dpr-distil.parquet.flat-sqv.onnx.md)]
-+ [`dl19-passage.cos-dpr-distil.parquet.hnsw.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.cos-dpr-distil.parquet.hnsw.cached.yaml) [[docs](reproduce/from-document-collection/dl19-passage.cos-dpr-distil.parquet.hnsw.cached.md)]
 + [`dl19-passage.cos-dpr-distil.parquet.hnsw.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.cos-dpr-distil.parquet.hnsw.onnx.yaml) [[docs](reproduce/from-document-collection/dl19-passage.cos-dpr-distil.parquet.hnsw.onnx.md)]
-+ [`dl19-passage.cos-dpr-distil.parquet.hnsw-sqv.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.cos-dpr-distil.parquet.hnsw-sqv.cached.yaml) [[docs](reproduce/from-document-collection/dl19-passage.cos-dpr-distil.parquet.hnsw-sqv.cached.md)]
 + [`dl19-passage.cos-dpr-distil.parquet.hnsw-sqv.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.cos-dpr-distil.parquet.hnsw-sqv.onnx.yaml) [[docs](reproduce/from-document-collection/dl19-passage.cos-dpr-distil.parquet.hnsw-sqv.onnx.md)]
-+ [`dl19-passage.bge-base-en-v1.5.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.bge-base-en-v1.5.parquet.flat.cached.yaml) [[docs](reproduce/from-document-collection/dl19-passage.bge-base-en-v1.5.parquet.flat.cached.md)]
 + [`dl19-passage.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.bge-base-en-v1.5.parquet.flat.onnx.yaml) [[docs](reproduce/from-document-collection/dl19-passage.bge-base-en-v1.5.parquet.flat.onnx.md)]
-+ [`dl19-passage.bge-base-en-v1.5.parquet.flat-sqv.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.bge-base-en-v1.5.parquet.flat-sqv.cached.yaml) [[docs](reproduce/from-document-collection/dl19-passage.bge-base-en-v1.5.parquet.flat-sqv.cached.md)]
 + [`dl19-passage.bge-base-en-v1.5.parquet.flat-sqv.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.bge-base-en-v1.5.parquet.flat-sqv.onnx.yaml) [[docs](reproduce/from-document-collection/dl19-passage.bge-base-en-v1.5.parquet.flat-sqv.onnx.md)]
-+ [`dl19-passage.bge-base-en-v1.5.parquet.hnsw.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.bge-base-en-v1.5.parquet.hnsw.cached.yaml) [[docs](reproduce/from-document-collection/dl19-passage.bge-base-en-v1.5.parquet.hnsw.cached.md)]
 + [`dl19-passage.bge-base-en-v1.5.parquet.hnsw.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.bge-base-en-v1.5.parquet.hnsw.onnx.yaml) [[docs](reproduce/from-document-collection/dl19-passage.bge-base-en-v1.5.parquet.hnsw.onnx.md)]
-+ [`dl19-passage.bge-base-en-v1.5.parquet.hnsw-sqv.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.bge-base-en-v1.5.parquet.hnsw-sqv.cached.yaml) [[docs](reproduce/from-document-collection/dl19-passage.bge-base-en-v1.5.parquet.hnsw-sqv.cached.md)]
 + [`dl19-passage.bge-base-en-v1.5.parquet.hnsw-sqv.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.bge-base-en-v1.5.parquet.hnsw-sqv.onnx.yaml) [[docs](reproduce/from-document-collection/dl19-passage.bge-base-en-v1.5.parquet.hnsw-sqv.onnx.md)]
-+ [`dl19-passage.openai-ada2.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.openai-ada2.parquet.flat.cached.yaml) [[docs](reproduce/from-document-collection/dl19-passage.openai-ada2.parquet.flat.cached.md)]
-+ [`dl19-passage.openai-ada2.parquet.flat-sqv.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.openai-ada2.parquet.flat-sqv.cached.yaml) [[docs](reproduce/from-document-collection/dl19-passage.openai-ada2.parquet.flat-sqv.cached.md)]
-+ [`dl19-passage.openai-ada2.parquet.hnsw.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.openai-ada2.parquet.hnsw.cached.yaml) [[docs](reproduce/from-document-collection/dl19-passage.openai-ada2.parquet.hnsw.cached.md)]
-+ [`dl19-passage.openai-ada2.parquet.hnsw-sqv.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.openai-ada2.parquet.hnsw-sqv.cached.yaml) [[docs](reproduce/from-document-collection/dl19-passage.openai-ada2.parquet.hnsw-sqv.cached.md)]
-+ [`dl19-passage.cohere-embed-english-v3.0.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.cohere-embed-english-v3.0.parquet.flat.cached.yaml) [[docs](reproduce/from-document-collection/dl19-passage.cohere-embed-english-v3.0.parquet.flat.cached.md)]
-+ [`dl19-passage.cohere-embed-english-v3.0.parquet.flat-sqv.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.cohere-embed-english-v3.0.parquet.flat-sqv.cached.yaml) [[docs](reproduce/from-document-collection/dl19-passage.cohere-embed-english-v3.0.parquet.flat-sqv.cached.md)]
-+ [`dl19-passage.cohere-embed-english-v3.0.parquet.hnsw.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.cohere-embed-english-v3.0.parquet.hnsw.cached.yaml) [[docs](reproduce/from-document-collection/dl19-passage.cohere-embed-english-v3.0.parquet.hnsw.cached.md)]
-+ [`dl19-passage.cohere-embed-english-v3.0.parquet.hnsw-sqv.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.cohere-embed-english-v3.0.parquet.hnsw-sqv.cached.yaml) [[docs](reproduce/from-document-collection/dl19-passage.cohere-embed-english-v3.0.parquet.hnsw-sqv.cached.md)]
 
 
 <div></div>
@@ -182,8 +135,6 @@ The following configurations (i.e., `--config` settings) are available:
 + [`dl19-doc-segmented.wp-tok`](../src/main/resources/reproduce/from-document-collection/configs/dl19-doc-segmented.wp-tok.yaml) [[docs](reproduce/from-document-collection/dl19-doc-segmented.wp-tok.md)]
 + [`dl19-doc-segmented.wp-ca`](../src/main/resources/reproduce/from-document-collection/configs/dl19-doc-segmented.wp-ca.yaml) [[docs](reproduce/from-document-collection/dl19-doc-segmented.wp-ca.md)]
 + [`dl19-doc-segmented.docTTTTTquery`](../src/main/resources/reproduce/from-document-collection/configs/dl19-doc-segmented.docTTTTTquery.yaml) [[docs](reproduce/from-document-collection/dl19-doc-segmented.docTTTTTquery.md)]
-+ [`dl19-doc-segmented.unicoil.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl19-doc-segmented.unicoil.cached.yaml) [[docs](reproduce/from-document-collection/dl19-doc-segmented.unicoil.cached.md)]
-+ [`dl19-doc-segmented.unicoil-noexp.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl19-doc-segmented.unicoil-noexp.cached.yaml) [[docs](reproduce/from-document-collection/dl19-doc-segmented.unicoil-noexp.cached.md)]
 
 
 <div></div>
@@ -198,44 +149,23 @@ The following configurations (i.e., `--config` settings) are available:
 
 <div></div>
 
-+ [`dl20-passage.unicoil.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.unicoil.cached.yaml) [[docs](reproduce/from-document-collection/dl20-passage.unicoil.cached.md)]
-+ [`dl20-passage.unicoil-noexp.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.unicoil-noexp.cached.yaml) [[docs](reproduce/from-document-collection/dl20-passage.unicoil-noexp.cached.md)]
-+ [`dl20-passage.splade-pp-ed.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.splade-pp-ed.cached.yaml) [[docs](reproduce/from-document-collection/dl20-passage.splade-pp-ed.cached.md)]
 + [`dl20-passage.splade-pp-ed.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.splade-pp-ed.onnx.yaml) [[docs](reproduce/from-document-collection/dl20-passage.splade-pp-ed.onnx.md)]
-+ [`dl20-passage.splade-pp-sd.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.splade-pp-sd.cached.yaml) [[docs](reproduce/from-document-collection/dl20-passage.splade-pp-sd.cached.md)]
 + [`dl20-passage.splade-pp-sd.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.splade-pp-sd.onnx.yaml) [[docs](reproduce/from-document-collection/dl20-passage.splade-pp-sd.onnx.md)]
 + [`dl20-passage.splade-v3.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.splade-v3.onnx.yaml) [[docs](reproduce/from-document-collection/dl20-passage.splade-v3.onnx.md)]
-+ [`dl20-passage.splade-v3.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.splade-v3.cached.yaml) [[docs](reproduce/from-document-collection/dl20-passage.splade-v3.cached.md)]
 
 
 <div></div>
 
 + [`dl20-passage.cos-dpr-distil.parquet.fw`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.cos-dpr-distil.parquet.fw.yaml) [[docs](reproduce/from-document-collection/dl20-passage.cos-dpr-distil.parquet.fw.md)]
 + [`dl20-passage.cos-dpr-distil.parquet.lexlsh`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.cos-dpr-distil.parquet.lexlsh.yaml) [[docs](reproduce/from-document-collection/dl20-passage.cos-dpr-distil.parquet.lexlsh.md)]
-+ [`dl20-passage.cos-dpr-distil.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.cos-dpr-distil.parquet.flat.cached.yaml) [[docs](reproduce/from-document-collection/dl20-passage.cos-dpr-distil.parquet.flat.cached.md)]
 + [`dl20-passage.cos-dpr-distil.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.cos-dpr-distil.parquet.flat.onnx.yaml) [[docs](reproduce/from-document-collection/dl20-passage.cos-dpr-distil.parquet.flat.onnx.md)]
-+ [`dl20-passage.cos-dpr-distil.parquet.flat-sqv.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.cos-dpr-distil.parquet.flat-sqv.cached.yaml) [[docs](reproduce/from-document-collection/dl20-passage.cos-dpr-distil.parquet.flat-sqv.cached.md)]
 + [`dl20-passage.cos-dpr-distil.parquet.flat-sqv.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.cos-dpr-distil.parquet.flat-sqv.onnx.yaml) [[docs](reproduce/from-document-collection/dl20-passage.cos-dpr-distil.parquet.flat-sqv.onnx.md)]
-+ [`dl20-passage.cos-dpr-distil.parquet.hnsw.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.cos-dpr-distil.parquet.hnsw.cached.yaml) [[docs](reproduce/from-document-collection/dl20-passage.cos-dpr-distil.parquet.hnsw.cached.md)]
 + [`dl20-passage.cos-dpr-distil.parquet.hnsw.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.cos-dpr-distil.parquet.hnsw.onnx.yaml) [[docs](reproduce/from-document-collection/dl20-passage.cos-dpr-distil.parquet.hnsw.onnx.md)]
-+ [`dl20-passage.cos-dpr-distil.parquet.hnsw-sqv.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.cos-dpr-distil.parquet.hnsw-sqv.cached.yaml) [[docs](reproduce/from-document-collection/dl20-passage.cos-dpr-distil.parquet.hnsw-sqv.cached.md)]
 + [`dl20-passage.cos-dpr-distil.parquet.hnsw-sqv.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.cos-dpr-distil.parquet.hnsw-sqv.onnx.yaml) [[docs](reproduce/from-document-collection/dl20-passage.cos-dpr-distil.parquet.hnsw-sqv.onnx.md)]
-+ [`dl20-passage.bge-base-en-v1.5.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.bge-base-en-v1.5.parquet.flat.cached.yaml) [[docs](reproduce/from-document-collection/dl20-passage.bge-base-en-v1.5.parquet.flat.cached.md)]
 + [`dl20-passage.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.bge-base-en-v1.5.parquet.flat.onnx.yaml) [[docs](reproduce/from-document-collection/dl20-passage.bge-base-en-v1.5.parquet.flat.onnx.md)]
-+ [`dl20-passage.bge-base-en-v1.5.parquet.flat-sqv.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.bge-base-en-v1.5.parquet.flat-sqv.cached.yaml) [[docs](reproduce/from-document-collection/dl20-passage.bge-base-en-v1.5.parquet.flat-sqv.cached.md)]
 + [`dl20-passage.bge-base-en-v1.5.parquet.flat-sqv.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.bge-base-en-v1.5.parquet.flat-sqv.onnx.yaml) [[docs](reproduce/from-document-collection/dl20-passage.bge-base-en-v1.5.parquet.flat-sqv.onnx.md)]
-+ [`dl20-passage.bge-base-en-v1.5.parquet.hnsw.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.bge-base-en-v1.5.parquet.hnsw.cached.yaml) [[docs](reproduce/from-document-collection/dl20-passage.bge-base-en-v1.5.parquet.hnsw.cached.md)]
 + [`dl20-passage.bge-base-en-v1.5.parquet.hnsw.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.bge-base-en-v1.5.parquet.hnsw.onnx.yaml) [[docs](reproduce/from-document-collection/dl20-passage.bge-base-en-v1.5.parquet.hnsw.onnx.md)]
-+ [`dl20-passage.bge-base-en-v1.5.parquet.hnsw-sqv.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.bge-base-en-v1.5.parquet.hnsw-sqv.cached.yaml) [[docs](reproduce/from-document-collection/dl20-passage.bge-base-en-v1.5.parquet.hnsw-sqv.cached.md)]
 + [`dl20-passage.bge-base-en-v1.5.parquet.hnsw-sqv.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.bge-base-en-v1.5.parquet.hnsw-sqv.onnx.yaml) [[docs](reproduce/from-document-collection/dl20-passage.bge-base-en-v1.5.parquet.hnsw-sqv.onnx.md)]
-+ [`dl20-passage.openai-ada2.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.openai-ada2.parquet.flat.cached.yaml) [[docs](reproduce/from-document-collection/dl20-passage.openai-ada2.parquet.flat.cached.md)]
-+ [`dl20-passage.openai-ada2.parquet.flat-sqv.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.openai-ada2.parquet.flat-sqv.cached.yaml) [[docs](reproduce/from-document-collection/dl20-passage.openai-ada2.parquet.flat-sqv.cached.md)]
-+ [`dl20-passage.openai-ada2.parquet.hnsw.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.openai-ada2.parquet.hnsw.cached.yaml) [[docs](reproduce/from-document-collection/dl20-passage.openai-ada2.parquet.hnsw.cached.md)]
-+ [`dl20-passage.openai-ada2.parquet.hnsw-sqv.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.openai-ada2.parquet.hnsw-sqv.cached.yaml) [[docs](reproduce/from-document-collection/dl20-passage.openai-ada2.parquet.hnsw-sqv.cached.md)]
-+ [`dl20-passage.cohere-embed-english-v3.0.parquet.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.cohere-embed-english-v3.0.parquet.flat.cached.yaml) [[docs](reproduce/from-document-collection/dl20-passage.cohere-embed-english-v3.0.parquet.flat.cached.md)]
-+ [`dl20-passage.cohere-embed-english-v3.0.parquet.flat-sqv.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.cohere-embed-english-v3.0.parquet.flat-sqv.cached.yaml) [[docs](reproduce/from-document-collection/dl20-passage.cohere-embed-english-v3.0.parquet.flat-sqv.cached.md)]
-+ [`dl20-passage.cohere-embed-english-v3.0.parquet.hnsw.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.cohere-embed-english-v3.0.parquet.hnsw.cached.yaml) [[docs](reproduce/from-document-collection/dl20-passage.cohere-embed-english-v3.0.parquet.hnsw.cached.md)]
-+ [`dl20-passage.cohere-embed-english-v3.0.parquet.hnsw-sqv.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.cohere-embed-english-v3.0.parquet.hnsw-sqv.cached.yaml) [[docs](reproduce/from-document-collection/dl20-passage.cohere-embed-english-v3.0.parquet.hnsw-sqv.cached.md)]
 
 
 <div></div>
@@ -253,8 +183,6 @@ The following configurations (i.e., `--config` settings) are available:
 + [`dl20-doc-segmented.wp-tok`](../src/main/resources/reproduce/from-document-collection/configs/dl20-doc-segmented.wp-tok.yaml) [[docs](reproduce/from-document-collection/dl20-doc-segmented.wp-tok.md)]
 + [`dl20-doc-segmented.wp-ca`](../src/main/resources/reproduce/from-document-collection/configs/dl20-doc-segmented.wp-ca.yaml) [[docs](reproduce/from-document-collection/dl20-doc-segmented.wp-ca.md)]
 + [`dl20-doc-segmented.docTTTTTquery`](../src/main/resources/reproduce/from-document-collection/configs/dl20-doc-segmented.docTTTTTquery.yaml) [[docs](reproduce/from-document-collection/dl20-doc-segmented.docTTTTTquery.md)]
-+ [`dl20-doc-segmented.unicoil.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl20-doc-segmented.unicoil.cached.yaml) [[docs](reproduce/from-document-collection/dl20-doc-segmented.unicoil.cached.md)]
-+ [`dl20-doc-segmented.unicoil-noexp.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl20-doc-segmented.unicoil-noexp.cached.yaml) [[docs](reproduce/from-document-collection/dl20-doc-segmented.unicoil-noexp.cached.md)]
 
 </details>
 <details>
@@ -262,11 +190,7 @@ The following configurations (i.e., `--config` settings) are available:
 
 + [`msmarco-v2-passage`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-passage.yaml) [[docs](reproduce/from-document-collection/msmarco-v2-passage.md)]
 + [`msmarco-v2-passage.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-passage.d2q-t5.yaml) [[docs](reproduce/from-document-collection/msmarco-v2-passage.d2q-t5.md)]
-+ [`msmarco-v2-passage.unicoil-noexp-0shot.cached`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-passage.unicoil-noexp-0shot.cached.yaml) [[docs](reproduce/from-document-collection/msmarco-v2-passage.unicoil-noexp-0shot.cached.md)]
-+ [`msmarco-v2-passage.unicoil-0shot.cached`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-passage.unicoil-0shot.cached.yaml) [[docs](reproduce/from-document-collection/msmarco-v2-passage.unicoil-0shot.cached.md)]
-+ [`msmarco-v2-passage.splade-pp-ed.cached`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-passage.splade-pp-ed.cached.yaml) [[docs](reproduce/from-document-collection/msmarco-v2-passage.splade-pp-ed.cached.md)]
 + [`msmarco-v2-passage.splade-pp-ed.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-passage.splade-pp-ed.onnx.yaml) [[docs](reproduce/from-document-collection/msmarco-v2-passage.splade-pp-ed.onnx.md)]
-+ [`msmarco-v2-passage.splade-pp-sd.cached`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-passage.splade-pp-sd.cached.yaml) [[docs](reproduce/from-document-collection/msmarco-v2-passage.splade-pp-sd.cached.md)]
 + [`msmarco-v2-passage.splade-pp-sd.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-passage.splade-pp-sd.onnx.yaml) [[docs](reproduce/from-document-collection/msmarco-v2-passage.splade-pp-sd.onnx.md)]
 + [`msmarco-v2-passage-augmented`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-passage-augmented.yaml) [[docs](reproduce/from-document-collection/msmarco-v2-passage-augmented.md)]
 + [`msmarco-v2-passage-augmented.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-passage-augmented.d2q-t5.yaml) [[docs](reproduce/from-document-collection/msmarco-v2-passage-augmented.d2q-t5.md)]
@@ -274,19 +198,13 @@ The following configurations (i.e., `--config` settings) are available:
 + [`msmarco-v2-doc.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-doc.d2q-t5.yaml) [[docs](reproduce/from-document-collection/msmarco-v2-doc.d2q-t5.md)]
 + [`msmarco-v2-doc-segmented`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-doc-segmented.yaml) [[docs](reproduce/from-document-collection/msmarco-v2-doc-segmented.md)]
 + [`msmarco-v2-doc-segmented.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-doc-segmented.d2q-t5.yaml) [[docs](reproduce/from-document-collection/msmarco-v2-doc-segmented.d2q-t5.md)]
-+ [`msmarco-v2-doc-segmented.unicoil-noexp-0shot-v2.cached`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-doc-segmented.unicoil-noexp-0shot-v2.cached.yaml) [[docs](reproduce/from-document-collection/msmarco-v2-doc-segmented.unicoil-noexp-0shot-v2.cached.md)]
-+ [`msmarco-v2-doc-segmented.unicoil-0shot-v2.cached`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-doc-segmented.unicoil-0shot-v2.cached.yaml) [[docs](reproduce/from-document-collection/msmarco-v2-doc-segmented.unicoil-0shot-v2.cached.md)]
 
 
 <div></div>
 
 + [`dl21-passage`](../src/main/resources/reproduce/from-document-collection/configs/dl21-passage.yaml) [[docs](reproduce/from-document-collection/dl21-passage.md)]
 + [`dl21-passage.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/dl21-passage.d2q-t5.yaml) [[docs](reproduce/from-document-collection/dl21-passage.d2q-t5.md)]
-+ [`dl21-passage.unicoil-noexp-0shot.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl21-passage.unicoil-noexp-0shot.cached.yaml) [[docs](reproduce/from-document-collection/dl21-passage.unicoil-noexp-0shot.cached.md)]
-+ [`dl21-passage.unicoil-0shot.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl21-passage.unicoil-0shot.cached.yaml) [[docs](reproduce/from-document-collection/dl21-passage.unicoil-0shot.cached.md)]
-+ [`dl21-passage.splade-pp-ed.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl21-passage.splade-pp-ed.cached.yaml) [[docs](reproduce/from-document-collection/dl21-passage.splade-pp-ed.cached.md)]
 + [`dl21-passage.splade-pp-ed.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl21-passage.splade-pp-ed.onnx.yaml) [[docs](reproduce/from-document-collection/dl21-passage.splade-pp-ed.onnx.md)]
-+ [`dl21-passage.splade-pp-sd.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl21-passage.splade-pp-sd.cached.yaml) [[docs](reproduce/from-document-collection/dl21-passage.splade-pp-sd.cached.md)]
 + [`dl21-passage.splade-pp-sd.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl21-passage.splade-pp-sd.onnx.yaml) [[docs](reproduce/from-document-collection/dl21-passage.splade-pp-sd.onnx.md)]
 + [`dl21-passage-augmented`](../src/main/resources/reproduce/from-document-collection/configs/dl21-passage-augmented.yaml) [[docs](reproduce/from-document-collection/dl21-passage-augmented.md)]
 + [`dl21-passage-augmented.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/dl21-passage-augmented.d2q-t5.yaml) [[docs](reproduce/from-document-collection/dl21-passage-augmented.d2q-t5.md)]
@@ -294,19 +212,13 @@ The following configurations (i.e., `--config` settings) are available:
 + [`dl21-doc.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/dl21-doc.d2q-t5.yaml) [[docs](reproduce/from-document-collection/dl21-doc.d2q-t5.md)]
 + [`dl21-doc-segmented`](../src/main/resources/reproduce/from-document-collection/configs/dl21-doc-segmented.yaml) [[docs](reproduce/from-document-collection/dl21-doc-segmented.md)]
 + [`dl21-doc-segmented.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/dl21-doc-segmented.d2q-t5.yaml) [[docs](reproduce/from-document-collection/dl21-doc-segmented.d2q-t5.md)]
-+ [`dl21-doc-segmented.unicoil-noexp-0shot-v2.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl21-doc-segmented.unicoil-noexp-0shot-v2.cached.yaml) [[docs](reproduce/from-document-collection/dl21-doc-segmented.unicoil-noexp-0shot-v2.cached.md)]
-+ [`dl21-doc-segmented.unicoil-0shot-v2.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl21-doc-segmented.unicoil-0shot-v2.cached.yaml) [[docs](reproduce/from-document-collection/dl21-doc-segmented.unicoil-0shot-v2.cached.md)]
 
 
 <div></div>
 
 + [`dl22-passage`](../src/main/resources/reproduce/from-document-collection/configs/dl22-passage.yaml) [[docs](reproduce/from-document-collection/dl22-passage.md)]
 + [`dl22-passage.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/dl22-passage.d2q-t5.yaml) [[docs](reproduce/from-document-collection/dl22-passage.d2q-t5.md)]
-+ [`dl22-passage.unicoil-noexp-0shot.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl22-passage.unicoil-noexp-0shot.cached.yaml) [[docs](reproduce/from-document-collection/dl22-passage.unicoil-noexp-0shot.cached.md)]
-+ [`dl22-passage.unicoil-0shot.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl22-passage.unicoil-0shot.cached.yaml) [[docs](reproduce/from-document-collection/dl22-passage.unicoil-0shot.cached.md)]
-+ [`dl22-passage.splade-pp-ed.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl22-passage.splade-pp-ed.cached.yaml) [[docs](reproduce/from-document-collection/dl22-passage.splade-pp-ed.cached.md)]
 + [`dl22-passage.splade-pp-ed.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl22-passage.splade-pp-ed.onnx.yaml) [[docs](reproduce/from-document-collection/dl22-passage.splade-pp-ed.onnx.md)]
-+ [`dl22-passage.splade-pp-sd.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl22-passage.splade-pp-sd.cached.yaml) [[docs](reproduce/from-document-collection/dl22-passage.splade-pp-sd.cached.md)]
 + [`dl22-passage.splade-pp-sd.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl22-passage.splade-pp-sd.onnx.yaml) [[docs](reproduce/from-document-collection/dl22-passage.splade-pp-sd.onnx.md)]
 + [`dl22-passage-augmented`](../src/main/resources/reproduce/from-document-collection/configs/dl22-passage-augmented.yaml) [[docs](reproduce/from-document-collection/dl22-passage-augmented.md)]
 + [`dl22-passage-augmented.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/dl22-passage-augmented.d2q-t5.yaml) [[docs](reproduce/from-document-collection/dl22-passage-augmented.d2q-t5.md)]
@@ -314,19 +226,13 @@ The following configurations (i.e., `--config` settings) are available:
 + [`dl22-doc.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/dl22-doc.d2q-t5.yaml) [[docs](reproduce/from-document-collection/dl22-doc.d2q-t5.md)]
 + [`dl22-doc-segmented`](../src/main/resources/reproduce/from-document-collection/configs/dl22-doc-segmented.yaml) [[docs](reproduce/from-document-collection/dl22-doc-segmented.md)]
 + [`dl22-doc-segmented.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/dl22-doc-segmented.d2q-t5.yaml) [[docs](reproduce/from-document-collection/dl22-doc-segmented.d2q-t5.md)]
-+ [`dl22-doc-segmented.unicoil-noexp-0shot-v2.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl22-doc-segmented.unicoil-noexp-0shot-v2.cached.yaml) [[docs](reproduce/from-document-collection/dl22-doc-segmented.unicoil-noexp-0shot-v2.cached.md)]
-+ [`dl22-doc-segmented.unicoil-0shot-v2.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl22-doc-segmented.unicoil-0shot-v2.cached.yaml) [[docs](reproduce/from-document-collection/dl22-doc-segmented.unicoil-0shot-v2.cached.md)]
 
 
 <div></div>
 
 + [`dl23-passage`](../src/main/resources/reproduce/from-document-collection/configs/dl23-passage.yaml) [[docs](reproduce/from-document-collection/dl23-passage.md)]
 + [`dl23-passage.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/dl23-passage.d2q-t5.yaml) [[docs](reproduce/from-document-collection/dl23-passage.d2q-t5.md)]
-+ [`dl23-passage.unicoil-noexp-0shot.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl23-passage.unicoil-noexp-0shot.cached.yaml) [[docs](reproduce/from-document-collection/dl23-passage.unicoil-noexp-0shot.cached.md)]
-+ [`dl23-passage.unicoil-0shot.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl23-passage.unicoil-0shot.cached.yaml) [[docs](reproduce/from-document-collection/dl23-passage.unicoil-0shot.cached.md)]
-+ [`dl23-passage.splade-pp-ed.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl23-passage.splade-pp-ed.cached.yaml) [[docs](reproduce/from-document-collection/dl23-passage.splade-pp-ed.cached.md)]
 + [`dl23-passage.splade-pp-ed.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl23-passage.splade-pp-ed.onnx.yaml) [[docs](reproduce/from-document-collection/dl23-passage.splade-pp-ed.onnx.md)]
-+ [`dl23-passage.splade-pp-sd.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl23-passage.splade-pp-sd.cached.yaml) [[docs](reproduce/from-document-collection/dl23-passage.splade-pp-sd.cached.md)]
 + [`dl23-passage.splade-pp-sd.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl23-passage.splade-pp-sd.onnx.yaml) [[docs](reproduce/from-document-collection/dl23-passage.splade-pp-sd.onnx.md)]
 + [`dl23-passage-augmented`](../src/main/resources/reproduce/from-document-collection/configs/dl23-passage-augmented.yaml) [[docs](reproduce/from-document-collection/dl23-passage-augmented.md)]
 + [`dl23-passage-augmented.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/dl23-passage-augmented.d2q-t5.yaml) [[docs](reproduce/from-document-collection/dl23-passage-augmented.d2q-t5.md)]
@@ -334,8 +240,6 @@ The following configurations (i.e., `--config` settings) are available:
 + [`dl23-doc.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/dl23-doc.d2q-t5.yaml) [[docs](reproduce/from-document-collection/dl23-doc.d2q-t5.md)]
 + [`dl23-doc-segmented`](../src/main/resources/reproduce/from-document-collection/configs/dl23-doc-segmented.yaml) [[docs](reproduce/from-document-collection/dl23-doc-segmented.md)]
 + [`dl23-doc-segmented.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/dl23-doc-segmented.d2q-t5.yaml) [[docs](reproduce/from-document-collection/dl23-doc-segmented.d2q-t5.md)]
-+ [`dl23-doc-segmented.unicoil-noexp-0shot-v2.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl23-doc-segmented.unicoil-noexp-0shot-v2.cached.yaml) [[docs](reproduce/from-document-collection/dl23-doc-segmented.unicoil-noexp-0shot-v2.cached.md)]
-+ [`dl23-doc-segmented.unicoil-0shot-v2.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl23-doc-segmented.unicoil-0shot-v2.cached.yaml) [[docs](reproduce/from-document-collection/dl23-doc-segmented.unicoil-0shot-v2.cached.md)]
 
 </details>
 <details>
@@ -343,7 +247,6 @@ The following configurations (i.e., `--config` settings) are available:
 
 + [`rag24-doc-segmented-test-umbrela`](../src/main/resources/reproduce/from-document-collection/configs/rag24-doc-segmented-test-umbrela.yaml) [[docs](reproduce/from-document-collection/rag24-doc-segmented-test-umbrela.md)]
 + [`rag24-doc-segmented-test-umbrela.splade-v3.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag24-doc-segmented-test-umbrela.splade-v3.onnx.yaml) [[docs](reproduce/from-document-collection/rag24-doc-segmented-test-umbrela.splade-v3.onnx.md)]
-+ [`rag24-doc-segmented-test-umbrela.splade-v3.cached`](../src/main/resources/reproduce/from-document-collection/configs/rag24-doc-segmented-test-umbrela.splade-v3.cached.yaml) [[docs](reproduce/from-document-collection/rag24-doc-segmented-test-umbrela.splade-v3.cached.md)]
 + [`rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard00.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard00.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard00.flat.onnx.md)]
 + [`rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard01.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard01.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard01.flat.onnx.md)]
 + [`rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard02.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard02.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard02.flat.onnx.md)]
@@ -356,7 +259,6 @@ The following configurations (i.e., `--config` settings) are available:
 + [`rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard09.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard09.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard09.flat.onnx.md)]
 + [`rag24-doc-segmented-test-nist`](../src/main/resources/reproduce/from-document-collection/configs/rag24-doc-segmented-test-nist.yaml) [[docs](reproduce/from-document-collection/rag24-doc-segmented-test-nist.md)]
 + [`rag24-doc-segmented-test-nist.splade-v3.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag24-doc-segmented-test-nist.splade-v3.onnx.yaml) [[docs](reproduce/from-document-collection/rag24-doc-segmented-test-nist.splade-v3.onnx.md)]
-+ [`rag24-doc-segmented-test-nist.splade-v3.cached`](../src/main/resources/reproduce/from-document-collection/configs/rag24-doc-segmented-test-nist.splade-v3.cached.yaml) [[docs](reproduce/from-document-collection/rag24-doc-segmented-test-nist.splade-v3.cached.md)]
 + [`rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard00.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard00.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard00.flat.onnx.md)]
 + [`rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard01.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard01.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard01.flat.onnx.md)]
 + [`rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard02.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard02.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard02.flat.onnx.md)]
@@ -400,7 +302,6 @@ The following configurations (i.e., `--config` settings) are available:
 + [`msmarco-v2.1-doc`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2.1-doc.yaml) [[docs](reproduce/from-document-collection/msmarco-v2.1-doc.md)]
 + [`msmarco-v2.1-doc-segmented`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2.1-doc-segmented.yaml) [[docs](reproduce/from-document-collection/msmarco-v2.1-doc-segmented.md)]
 + [`msmarco-v2.1-doc-segmented.splade-v3.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2.1-doc-segmented.splade-v3.onnx.yaml) [[docs](reproduce/from-document-collection/msmarco-v2.1-doc-segmented.splade-v3.onnx.md)]
-+ [`msmarco-v2.1-doc-segmented.splade-v3.cached`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2.1-doc-segmented.splade-v3.cached.yaml) [[docs](reproduce/from-document-collection/msmarco-v2.1-doc-segmented.splade-v3.cached.md)]
 
 
 <div></div>
@@ -408,15 +309,12 @@ The following configurations (i.e., `--config` settings) are available:
 + [`dl21-doc-msmarco-v2.1`](../src/main/resources/reproduce/from-document-collection/configs/dl21-doc-msmarco-v2.1.yaml) [[docs](reproduce/from-document-collection/dl21-doc-msmarco-v2.1.md)]
 + [`dl21-doc-segmented-msmarco-v2.1`](../src/main/resources/reproduce/from-document-collection/configs/dl21-doc-segmented-msmarco-v2.1.yaml) [[docs](reproduce/from-document-collection/dl21-doc-segmented-msmarco-v2.1.md)]
 + [`dl21-doc-segmented-msmarco-v2.1.splade-v3.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl21-doc-segmented-msmarco-v2.1.splade-v3.onnx.yaml) [[docs](reproduce/from-document-collection/dl21-doc-segmented-msmarco-v2.1.splade-v3.onnx.md)]
-+ [`dl21-doc-segmented-msmarco-v2.1.splade-v3.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl21-doc-segmented-msmarco-v2.1.splade-v3.cached.yaml) [[docs](reproduce/from-document-collection/dl21-doc-segmented-msmarco-v2.1.splade-v3.cached.md)]
 + [`dl22-doc-msmarco-v2.1`](../src/main/resources/reproduce/from-document-collection/configs/dl22-doc-msmarco-v2.1.yaml) [[docs](reproduce/from-document-collection/dl22-doc-msmarco-v2.1.md)]
 + [`dl22-doc-segmented-msmarco-v2.1`](../src/main/resources/reproduce/from-document-collection/configs/dl22-doc-segmented-msmarco-v2.1.yaml) [[docs](reproduce/from-document-collection/dl22-doc-segmented-msmarco-v2.1.md)]
 + [`dl22-doc-segmented-msmarco-v2.1.splade-v3.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl22-doc-segmented-msmarco-v2.1.splade-v3.onnx.yaml) [[docs](reproduce/from-document-collection/dl22-doc-segmented-msmarco-v2.1.splade-v3.onnx.md)]
-+ [`dl22-doc-segmented-msmarco-v2.1.splade-v3.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl22-doc-segmented-msmarco-v2.1.splade-v3.cached.yaml) [[docs](reproduce/from-document-collection/dl22-doc-segmented-msmarco-v2.1.splade-v3.cached.md)]
 + [`dl23-doc-msmarco-v2.1`](../src/main/resources/reproduce/from-document-collection/configs/dl23-doc-msmarco-v2.1.yaml) [[docs](reproduce/from-document-collection/dl23-doc-msmarco-v2.1.md)]
 + [`dl23-doc-segmented-msmarco-v2.1`](../src/main/resources/reproduce/from-document-collection/configs/dl23-doc-segmented-msmarco-v2.1.yaml) [[docs](reproduce/from-document-collection/dl23-doc-segmented-msmarco-v2.1.md)]
 + [`dl23-doc-segmented-msmarco-v2.1.splade-v3.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl23-doc-segmented-msmarco-v2.1.splade-v3.onnx.yaml) [[docs](reproduce/from-document-collection/dl23-doc-segmented-msmarco-v2.1.splade-v3.onnx.md)]
-+ [`dl23-doc-segmented-msmarco-v2.1.splade-v3.cached`](../src/main/resources/reproduce/from-document-collection/configs/dl23-doc-segmented-msmarco-v2.1.splade-v3.cached.yaml) [[docs](reproduce/from-document-collection/dl23-doc-segmented-msmarco-v2.1.splade-v3.cached.md)]
 
 
 <div></div>
@@ -424,7 +322,6 @@ The following configurations (i.e., `--config` settings) are available:
 + [`rag24-doc-raggy-dev`](../src/main/resources/reproduce/from-document-collection/configs/rag24-doc-raggy-dev.yaml) [[docs](reproduce/from-document-collection/rag24-doc-raggy-dev.md)]
 + [`rag24-doc-segmented-raggy-dev`](../src/main/resources/reproduce/from-document-collection/configs/rag24-doc-segmented-raggy-dev.yaml) [[docs](reproduce/from-document-collection/rag24-doc-segmented-raggy-dev.md)]
 + [`rag24-doc-segmented-raggy-dev.splade-v3.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag24-doc-segmented-raggy-dev.splade-v3.onnx.yaml) [[docs](reproduce/from-document-collection/rag24-doc-segmented-raggy-dev.splade-v3.onnx.md)]
-+ [`rag24-doc-segmented-raggy-dev.splade-v3.cached`](../src/main/resources/reproduce/from-document-collection/configs/rag24-doc-segmented-raggy-dev.splade-v3.cached.yaml) [[docs](reproduce/from-document-collection/rag24-doc-segmented-raggy-dev.splade-v3.cached.md)]
 
 </details>
 <details>
@@ -906,18 +803,6 @@ The following configurations (i.e., `--config` settings) are available:
 
 <div></div>
 
-+ [`bright-aops.splade-v3.cached`](../src/main/resources/reproduce/from-document-collection/configs/bright-aops.splade-v3.cached.yaml) [[docs](reproduce/from-document-collection/bright-aops.splade-v3.cached.md)]
-+ [`bright-biology.splade-v3.cached`](../src/main/resources/reproduce/from-document-collection/configs/bright-biology.splade-v3.cached.yaml) [[docs](reproduce/from-document-collection/bright-biology.splade-v3.cached.md)]
-+ [`bright-earth-science.splade-v3.cached`](../src/main/resources/reproduce/from-document-collection/configs/bright-earth-science.splade-v3.cached.yaml) [[docs](reproduce/from-document-collection/bright-earth-science.splade-v3.cached.md)]
-+ [`bright-economics.splade-v3.cached`](../src/main/resources/reproduce/from-document-collection/configs/bright-economics.splade-v3.cached.yaml) [[docs](reproduce/from-document-collection/bright-economics.splade-v3.cached.md)]
-+ [`bright-leetcode.splade-v3.cached`](../src/main/resources/reproduce/from-document-collection/configs/bright-leetcode.splade-v3.cached.yaml) [[docs](reproduce/from-document-collection/bright-leetcode.splade-v3.cached.md)]
-+ [`bright-pony.splade-v3.cached`](../src/main/resources/reproduce/from-document-collection/configs/bright-pony.splade-v3.cached.yaml) [[docs](reproduce/from-document-collection/bright-pony.splade-v3.cached.md)]
-+ [`bright-psychology.splade-v3.cached`](../src/main/resources/reproduce/from-document-collection/configs/bright-psychology.splade-v3.cached.yaml) [[docs](reproduce/from-document-collection/bright-psychology.splade-v3.cached.md)]
-+ [`bright-robotics.splade-v3.cached`](../src/main/resources/reproduce/from-document-collection/configs/bright-robotics.splade-v3.cached.yaml) [[docs](reproduce/from-document-collection/bright-robotics.splade-v3.cached.md)]
-+ [`bright-stackoverflow.splade-v3.cached`](../src/main/resources/reproduce/from-document-collection/configs/bright-stackoverflow.splade-v3.cached.yaml) [[docs](reproduce/from-document-collection/bright-stackoverflow.splade-v3.cached.md)]
-+ [`bright-sustainable-living.splade-v3.cached`](../src/main/resources/reproduce/from-document-collection/configs/bright-sustainable-living.splade-v3.cached.yaml) [[docs](reproduce/from-document-collection/bright-sustainable-living.splade-v3.cached.md)]
-+ [`bright-theoremqa-questions.splade-v3.cached`](../src/main/resources/reproduce/from-document-collection/configs/bright-theoremqa-questions.splade-v3.cached.yaml) [[docs](reproduce/from-document-collection/bright-theoremqa-questions.splade-v3.cached.md)]
-+ [`bright-theoremqa-theorems.splade-v3.cached`](../src/main/resources/reproduce/from-document-collection/configs/bright-theoremqa-theorems.splade-v3.cached.yaml) [[docs](reproduce/from-document-collection/bright-theoremqa-theorems.splade-v3.cached.md)]
 
 </details>
 <details>
@@ -939,18 +824,6 @@ The following configurations (i.e., `--config` settings) are available:
 
 <div></div>
 
-+ [`bright-aops.bge-large-en-v1.5.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/bright-aops.bge-large-en-v1.5.flat.cached.yaml) [[docs](reproduce/from-document-collection/bright-aops.bge-large-en-v1.5.flat.cached.md)]
-+ [`bright-biology.bge-large-en-v1.5.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/bright-biology.bge-large-en-v1.5.flat.cached.yaml) [[docs](reproduce/from-document-collection/bright-biology.bge-large-en-v1.5.flat.cached.md)]
-+ [`bright-earth-science.bge-large-en-v1.5.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/bright-earth-science.bge-large-en-v1.5.flat.cached.yaml) [[docs](reproduce/from-document-collection/bright-earth-science.bge-large-en-v1.5.flat.cached.md)]
-+ [`bright-economics.bge-large-en-v1.5.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/bright-economics.bge-large-en-v1.5.flat.cached.yaml) [[docs](reproduce/from-document-collection/bright-economics.bge-large-en-v1.5.flat.cached.md)]
-+ [`bright-leetcode.bge-large-en-v1.5.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/bright-leetcode.bge-large-en-v1.5.flat.cached.yaml) [[docs](reproduce/from-document-collection/bright-leetcode.bge-large-en-v1.5.flat.cached.md)]
-+ [`bright-pony.bge-large-en-v1.5.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/bright-pony.bge-large-en-v1.5.flat.cached.yaml) [[docs](reproduce/from-document-collection/bright-pony.bge-large-en-v1.5.flat.cached.md)]
-+ [`bright-psychology.bge-large-en-v1.5.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/bright-psychology.bge-large-en-v1.5.flat.cached.yaml) [[docs](reproduce/from-document-collection/bright-psychology.bge-large-en-v1.5.flat.cached.md)]
-+ [`bright-robotics.bge-large-en-v1.5.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/bright-robotics.bge-large-en-v1.5.flat.cached.yaml) [[docs](reproduce/from-document-collection/bright-robotics.bge-large-en-v1.5.flat.cached.md)]
-+ [`bright-stackoverflow.bge-large-en-v1.5.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/bright-stackoverflow.bge-large-en-v1.5.flat.cached.yaml) [[docs](reproduce/from-document-collection/bright-stackoverflow.bge-large-en-v1.5.flat.cached.md)]
-+ [`bright-sustainable-living.bge-large-en-v1.5.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/bright-sustainable-living.bge-large-en-v1.5.flat.cached.yaml) [[docs](reproduce/from-document-collection/bright-sustainable-living.bge-large-en-v1.5.flat.cached.md)]
-+ [`bright-theoremqa-questions.bge-large-en-v1.5.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/bright-theoremqa-questions.bge-large-en-v1.5.flat.cached.yaml) [[docs](reproduce/from-document-collection/bright-theoremqa-questions.bge-large-en-v1.5.flat.cached.md)]
-+ [`bright-theoremqa-theorems.bge-large-en-v1.5.flat.cached`](../src/main/resources/reproduce/from-document-collection/configs/bright-theoremqa-theorems.bge-large-en-v1.5.flat.cached.yaml) [[docs](reproduce/from-document-collection/bright-theoremqa-theorems.bge-large-en-v1.5.flat.cached.md)]
 
 </details>
 <details>
