@@ -28,6 +28,9 @@
   - `mvn clean package`
 - Run main classes from checkout with:
   - `bin/run.sh <main-class> [args...]`
+- Java Heap Memory Configuration:
+  - Java applications executed in this project rely on the JVM heap memory setting (-Xmx), which defines the maximum amount of memory allocated to the program during execution. This parameter plays a critical role in balancing runtime performance and system stability. If the heap size is set too high relative to the available physical memory, the system may become unstable or terminate the process with an OutOfMemoryError, especially when other background applications are consuming resources. Conversely, setting the heap size too low can significantly increase execution time, as the JVM will perform more frequent garbage collection cycles to manage limited memory, introducing computational overhead.
+  In practice, selecting an appropriate heap size depends on the total RAM available on the machine. As a general guideline, allocating approximately 40–60% of available system memory tends to provide a good balance between performance and safety, although the optimal value may vary depending on workload intensity and concurrent system usage. If the -Xmx flag is not explicitly set, the JVM automatically assigns a default maximum heap size. However, on macOS systems, this default is often conservative (e.g., around 2GB on an 8GB machine), which can lead to noticeably slower execution for memory-intensive tasks such as indexing or dense retrieval.
 
 ## Testing Expectations
 - Unit/integration tests run via Maven Surefire; do not assume changes are safe without at least targeted tests.
@@ -35,6 +38,9 @@
   - `mvn -Dtest=ClassName test`
   - `mvn test`
 - Reproducibility is a core project contract; for reproductions or result verification, use `$anserini-reproduction`.
+- Locale Configuration and Output Consistency:
+  - Java locale settings can affect numeric formatting in logs and evaluation outputs, such as using commas instead of periods for decimal values. This does not change the actual computations, but it can lead to inconsistencies when comparing results across environments or parsing outputs. To ensure reproducibility, the locale should be explicitly set to a consistent standard (e.g., en_US) so that all runs produce uniform formatting regardless of the underlying operating system settings.
+  
 
 ## Submodules and External Tools
 - `tools/` is a required git submodule. After clone:
