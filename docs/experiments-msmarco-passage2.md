@@ -210,6 +210,7 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@Adebara123](https://github.com/Adebara123) on 2026-05-15 (commit [`4d16490`](https://github.com/castorini/anserini/commit/4d1649025fa16c2b2c0941983d850ba187554804))
 + Results reproduced by [@david23131](https://github.com/david23131) on 2026-05-17 (commit [`ced4918`](https://github.com/castorini/anserini/commit/ced49181906437191253faf474dcc33ac78e3a7f))
 + Results reproduced by [@masud70](https://github.com/masud70) on 2026-05-23 (commit [`878b97d`](https://github.com/castorini/anserini/commit/878b97da258ea6350c1cb3693f684ae337fc5e56))
++ Results reproduced by [@Hayanaanaa](https://github.com/Hayanaanaa) on 2026-05-28 (commit [`8533ce6`](https://github.com/castorini/anserini/commit/8533ce6c7a7e4b9f58cbcafd29766c886347904b))
 + Results reproduced by [@ibot1](https://github.com/ibot1) on 2026-05-23 (commit [`878b97d`](https://github.com/castorini/anserini/commit/878b97da258ea6350c1cb3693f684ae337fc5e56))
 + Results reproduced by [@ReyhanehAhani](https://github.com/ReyhanehAhani) on 2026-05-25 (commit [`11703ed`](https://github.com/castorini/anserini/commit/11703ed8f9354fb4ea0dc4960cee1b5e14ee6561))
 + Results reproduced by [@grf932](https://github.com/grf932) on 2026-05-29 (commit [`6663a15`](https://github.com/castorini/anserini/commit/6663a15bffe0242e927c53744e5b140ce1a0bcba))
