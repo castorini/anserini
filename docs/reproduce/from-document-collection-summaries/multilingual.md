@@ -1,0 +1,24 @@
+# ⚗️ Anserini: Reproductions from Document Collections
+
+[<< Main Landing Page for Reproductions from Document Collections](../../ref-reproduce-from-document-collections.md)
+
+Anserini supports end-to-end reproduction experiments on various standard IR test collections out of the box.
+Each of these experiments starts from the raw document collection, builds the necessary index, performs retrieval runs, and generates evaluation results.
+
+## Multilingual Test Collections
+
++ Reproductions for Mr. TyDi (v1.1) baselines: [ar](../from-document-collection/mrtydi-v1.1-ar.md), [bn](../from-document-collection/mrtydi-v1.1-bn.md), [en](../from-document-collection/mrtydi-v1.1-en.md), [fi](../from-document-collection/mrtydi-v1.1-fi.md), [id](../from-document-collection/mrtydi-v1.1-id.md), [ja](../from-document-collection/mrtydi-v1.1-ja.md), [ko](../from-document-collection/mrtydi-v1.1-ko.md), [ru](../from-document-collection/mrtydi-v1.1-ru.md), [sw](../from-document-collection/mrtydi-v1.1-sw.md), [te](../from-document-collection/mrtydi-v1.1-te.md), [th](../from-document-collection/mrtydi-v1.1-th.md)
++ Reproductions for MIRACL (v1.0) baselines: [ar](../from-document-collection/miracl-v1.0-ar.md), [bn](../from-document-collection/miracl-v1.0-bn.md), [en](../from-document-collection/miracl-v1.0-en.md), [es](../from-document-collection/miracl-v1.0-es.md), [fa](../from-document-collection/miracl-v1.0-fa.md), [fi](../from-document-collection/miracl-v1.0-fi.md), [fr](../from-document-collection/miracl-v1.0-fr.md), [hi](../from-document-collection/miracl-v1.0-hi.md), [id](../from-document-collection/miracl-v1.0-id.md), [ja](../from-document-collection/miracl-v1.0-ja.md), [ko](../from-document-collection/miracl-v1.0-ko.md), [ru](../from-document-collection/miracl-v1.0-ru.md), [sw](../from-document-collection/miracl-v1.0-sw.md), [te](../from-document-collection/miracl-v1.0-te.md), [th](../from-document-collection/miracl-v1.0-th.md), [zh](../from-document-collection/miracl-v1.0-zh.md)
++ Reproductions for TREC 2022 NeuCLIR Track BM25 (query translation): [Persian](../from-document-collection/neuclir22-fa-qt.md), [Russian](../from-document-collection/neuclir22-ru-qt.md), [Chinese](../from-document-collection/neuclir22-zh-qt.md)
++ Reproductions for TREC 2022 NeuCLIR Track BM25 (document translation): [Persian](../from-document-collection/neuclir22-fa-dt.md), [Russian](../from-document-collection/neuclir22-ru-dt.md), [Chinese](../from-document-collection/neuclir22-zh-dt.md)
++ Reproductions for TREC 2022 NeuCLIR Track SPLADE (query translation): [Persian](../from-document-collection/neuclir22-fa-qt-splade.md), [Russian](../from-document-collection/neuclir22-ru-qt-splade.md), [Chinese](../from-document-collection/neuclir22-zh-qt-splade.md)
++ Reproductions for TREC 2022 NeuCLIR Track SPLADE (document translation): [Persian](../from-document-collection/neuclir22-fa-dt-splade.md), [Russian](../from-document-collection/neuclir22-ru-dt-splade.md), [Chinese](../from-document-collection/neuclir22-zh-dt-splade.md)
++ Reproductions for HC4 (v1.0) baselines on HC4 corpora: [Persian](../from-document-collection/hc4-v1.0-fa.md), [Russian](../from-document-collection/hc4-v1.0-ru.md), [Chinese](../from-document-collection/hc4-v1.0-zh.md)
++ Reproductions for HC4 (v1.0) baselines on original NeuCLIR22 corpora: [Persian](../from-document-collection/hc4-neuclir22-fa.md), [Russian](../from-document-collection/hc4-neuclir22-ru.md), [Chinese](../from-document-collection/hc4-neuclir22-zh.md)
++ Reproductions for HC4 (v1.0) baselines on translated NeuCLIR22 corpora: [Persian](../from-document-collection/hc4-neuclir22-fa-en.md), [Russian](../from-document-collection/hc4-neuclir22-ru-en.md), [Chinese](../from-document-collection/hc4-neuclir22-zh-en.md)
++ Reproductions for [NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](../from-document-collection/ntcir8-zh.md)
++ Reproductions for [CLEF 2006 Monolingual French](../from-document-collection/clef06-fr.md)
++ Reproductions for [TREC 2002 Monolingual Arabic](../from-document-collection/trec02-ar.md)
++ Reproductions for FIRE 2012 monolingual baselines: [Bengali](../from-document-collection/fire12-bn.md), [Hindi](../from-document-collection/fire12-hi.md), [English](../from-document-collection/fire12-en.md)
++ Reproductions for CIRAL (v1.0) BM25 (query translation): [Hausa](../from-document-collection/ciral-v1.0-ha.md), [Somali](../from-document-collection/ciral-v1.0-so.md), [Swahili](../from-document-collection/ciral-v1.0-sw.md), [Yoruba](../from-document-collection/ciral-v1.0-yo.md)
++ Reproductions for CIRAL (v1.0) BM25 (document translation): [Hausa](../from-document-collection/ciral-v1.0-ha-en.md), [Somali](../from-document-collection/ciral-v1.0-so-en.md), [Swahili](../from-document-collection/ciral-v1.0-sw-en.md), [Yoruba](../from-document-collection/ciral-v1.0-yo-en.md)

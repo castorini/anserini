@@ -2,7 +2,9 @@
 # ⚗️ Anserini: Reproductions from Prebuilt Indexes
 
 Anserini ships with many [prebuilt indexes](prebuilt-indexes.md), which allows anyone to reproduce experimental results without needing access to the document collection.
-These experiments are grouped around configs, each of which focus on a specific corpus:
+These experiments are grouped around configs, each of which focus on a specific corpus.
+
+## Table of Contents
 
 + [BEIR](reproduce/from-prebuilt-indexes/beir.md)
 + [BRIGHT](reproduce/from-prebuilt-indexes/bright.md)
