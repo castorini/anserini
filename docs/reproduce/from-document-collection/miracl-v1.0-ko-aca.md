@@ -57,6 +57,6 @@ With the above commands, you should be able to reproduce the following results:
 
 | **nDCG@10**                                                      | **BM25**   |
 |:-----------------------------------------------------------------|:----------:|
-| [MIRACL (Korean): dev](https://github.com/project-miracl/miracl) | 0.4485     |
+| [MIRACL (Korean): dev](https://github.com/project-miracl/miracl) | 0.4857     |
 | **R@100**                                                        | **BM25**   |
-| [MIRACL (Korean): dev](https://github.com/project-miracl/miracl) | 0.8218     |
+| [MIRACL (Korean): dev](https://github.com/project-miracl/miracl) | 0.8528     |
