@@ -16,13 +16,14 @@
 
 package io.anserini.doc;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
@@ -32,6 +33,8 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import io.anserini.reproduce.ReproduceFromPrebuiltIndexes.Condition;
 import io.anserini.reproduce.ReproduceFromPrebuiltIndexes.Config;
+import io.anserini.reproduce.ReproduceFromPrebuiltIndexes.Docgen;
+import io.anserini.reproduce.ReproduceFromPrebuiltIndexes.DocgenSummaryColumn;
 import io.anserini.reproduce.ReproduceFromPrebuiltIndexes.Topic;
 import io.anserini.reproduce.ReproductionUtils;
 
@@ -44,7 +47,27 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
 
   private record ReportContext(String yamlPath, String runTag, Config config, String template, File output, String configLink) {}
 
-  private record SummaryColumn(String label, Function<Topic, Double> scoreExtractor) {}
+  private record SummaryColumn(String label, String topicKey, String evalKey, String metric) {
+    private boolean matches(Topic topic) {
+      if (topicKey != null) {
+        return topicKey.equals(topic.topic_key);
+      }
+
+      if (evalKey != null) {
+        return evalKey.equals(topic.eval_key);
+      }
+
+      return true;
+    }
+
+    private Double score(Topic topic) {
+      if (!matches(topic) || topic.expected_scores == null || metric == null) {
+        return null;
+      }
+
+      return topic.expected_scores.get(metric);
+    }
+  }
 
   private static String formatCommand(String fatjarPlaceholder, String jvmArgs, String commandTemplate) {
     List<String> lines = new ArrayList<>();
@@ -106,8 +129,102 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
     return CONFIG_DIRECTORY + yamlConfig;
   }
 
-  private static boolean matchesTopicPrefix(String topicKey, String prefix) {
-    return topicKey.equals(prefix) || topicKey.startsWith(prefix + ".");
+  private static String firstMetric(Topic topic) {
+    if (topic.expected_scores == null || topic.expected_scores.isEmpty()) {
+      return null;
+    }
+
+    return topic.expected_scores.keySet().iterator().next();
+  }
+
+  private static boolean isBlank(String value) {
+    return value == null || value.isBlank();
+  }
+
+  private static List<Topic> topics(Condition condition) {
+    return condition.topics == null ? List.of() : condition.topics;
+  }
+
+  private static List<Condition> conditions(Config config) {
+    return config.conditions == null ? List.of() : config.conditions;
+  }
+
+  private static String defaultMetric(Config config) {
+    for (Condition condition : conditions(config)) {
+      for (Topic topic : topics(condition)) {
+        String metric = firstMetric(topic);
+        if (metric != null) {
+          return metric;
+        }
+      }
+    }
+
+    return null;
+  }
+
+  private static String columnLabel(DocgenSummaryColumn column) {
+    if (!isBlank(column.label)) {
+      return column.label;
+    }
+
+    if (!isBlank(column.topic_key)) {
+      return column.topic_key;
+    }
+
+    if (!isBlank(column.eval_key)) {
+      return column.eval_key;
+    }
+
+    return column.metric;
+  }
+
+  private static boolean matchesColumn(Topic topic, DocgenSummaryColumn column) {
+    if (!isBlank(column.topic_key)) {
+      return column.topic_key.equals(topic.topic_key);
+    }
+
+    if (!isBlank(column.eval_key)) {
+      return column.eval_key.equals(topic.eval_key);
+    }
+
+    return true;
+  }
+
+  private static String columnMetric(Config config, DocgenSummaryColumn column) {
+    if (!isBlank(column.metric)) {
+      return column.metric;
+    }
+
+    for (Condition condition : conditions(config)) {
+      for (Topic topic : topics(condition)) {
+        if (matchesColumn(topic, column)) {
+          return firstMetric(topic);
+        }
+      }
+    }
+
+    return defaultMetric(config);
+  }
+
+  private static List<SummaryColumn> summaryColumns(Config config) {
+    Docgen docgen = config.docgen;
+    if (docgen != null && docgen.columns != null && !docgen.columns.isEmpty()) {
+      List<SummaryColumn> columns = new ArrayList<>();
+      for (DocgenSummaryColumn column : docgen.columns) {
+        columns.add(new SummaryColumn(columnLabel(column), column.topic_key, column.eval_key, columnMetric(config, column)));
+      }
+
+      return columns;
+    }
+
+    List<SummaryColumn> columns = new ArrayList<>();
+    if (!conditions(config).isEmpty()) {
+      for (Topic topic : topics(conditions(config).get(0))) {
+        columns.add(new SummaryColumn(topic.topic_key, topic.topic_key, null, firstMetric(topic)));
+      }
+    }
+
+    return columns;
   }
 
   private static ReportContext loadReportContext(String yamlConfig) throws Exception {
@@ -142,20 +259,20 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
 
     int row = 1;
 
-    for (Condition condition : config.conditions) {
+    for (Condition condition : conditions(config)) {
       int sectionNumber = row;
       List<Double> scores = new ArrayList<>();
       for (int i = 0; i < columns.size(); i++) {
         scores.add(null);
       }
 
-      for (Topic topic : condition.topics) {
+      for (Topic topic : topics(condition)) {
         if (topic.expected_scores == null) {
           continue;
         }
 
         for (int i = 0; i < columns.size(); i++) {
-          Double score = columns.get(i).scoreExtractor().apply(topic);
+          Double score = columns.get(i).score(topic);
           if (score != null) {
             scores.set(i, score);
           }
@@ -177,24 +294,29 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
   private static String buildSummaryInColumns(Config config, String metric) {
     StringBuilder summary = new StringBuilder();
     summary.append("| corpus");
-    for (int i = 0; i < config.conditions.size(); i++) {
-      Condition condition = config.conditions.get(i);
+    for (int i = 0; i < conditions(config).size(); i++) {
+      Condition condition = conditions(config).get(i);
       String heading = condition.short_name == null ? condition.display : condition.short_name;
       summary.append(" | ").append(String.format("[%s](#condition-%d)", heading, i + 1));
     }
     summary.append(" |\n");
 
     summary.append("| ---");
-    for (int i = 0; i < config.conditions.size(); i++) {
+    for (int i = 0; i < conditions(config).size(); i++) {
       summary.append(" | ---");
     }
     summary.append(" |\n");
 
-    for (Topic topic : config.conditions.get(0).topics) {
+    if (conditions(config).isEmpty()) {
+      summary.append("\n");
+      return summary.toString();
+    }
+
+    for (Topic topic : topics(conditions(config).get(0))) {
       summary.append(String.format("| %s", topic.topic_key));
-      for (Condition condition : config.conditions) {
+      for (Condition condition : conditions(config)) {
         Double score = null;
-        for (Topic conditionTopic : condition.topics) {
+        for (Topic conditionTopic : topics(condition)) {
           if (conditionTopic.topic_key.equals(topic.topic_key) && conditionTopic.expected_scores != null) {
             score = conditionTopic.expected_scores.get(metric);
             break;
@@ -209,16 +331,27 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
     return summary.toString();
   }
 
-  private static String buildCommandSections(ReportContext context, BiFunction<Topic, Condition, String> topicHeading) {
+  private static String topicHeading(Topic topic, Condition condition) {
+    long duplicateTopicKeys = topics(condition).stream()
+        .filter(conditionTopic -> topic.topic_key.equals(conditionTopic.topic_key))
+        .count();
+    if (duplicateTopicKeys > 1) {
+      return String.format("%s / %s", topic.topic_key, topic.eval_key);
+    }
+
+    return topic.topic_key;
+  }
+
+  private static String buildCommandSections(ReportContext context) {
     StringBuilder command = new StringBuilder();
     int row = 1;
-    for (Condition condition : context.config().conditions) {
+    for (Condition condition : conditions(context.config())) {
       command.append(String.format("<a id=\"condition-%d\"></a>\n\n### %d. %s\n\n", row, row, condition.display));
       command.append(String.format("**Config**: %s\n\n", context.configLink()));
       row++;
 
-      for (Topic topic : condition.topics) {
-        command.append(String.format("#### %s\n\n", topicHeading.apply(topic, condition)));
+      for (Topic topic : topics(condition)) {
+        command.append(String.format("#### %s\n\n", topicHeading(topic, condition)));
         command.append("Retrieval command:\n\n");
         command.append(String.format("```bash\n%s\n```\n\n",
             buildCommand(context.runTag(), condition.name, condition.command, topic.topic_key)));
@@ -231,22 +364,24 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
     return command.toString();
   }
 
-  private static Double extractExpectedScore(Topic topic, boolean matches, String metric) {
-    return matches ? topic.expected_scores.get(metric) : null;
+  private static String buildSummary(Config config) {
+    Docgen docgen = config.docgen;
+    String summary = docgen == null || isBlank(docgen.summary) ? "rows" : docgen.summary;
+    if ("rows".equals(summary)) {
+      return buildSummaryInRows(config, summaryColumns(config));
+    }
+
+    if ("columns".equals(summary)) {
+      String metric = docgen == null || isBlank(docgen.summary_metric) ? defaultMetric(config) : docgen.summary_metric;
+      return buildSummaryInColumns(config, metric);
+    }
+
+    throw new IllegalArgumentException(String.format("Unsupported docgen summary: %s", summary));
   }
 
-  private static void generateReportInRows(String yamlConfig, List<SummaryColumn> columns,
-      BiFunction<Topic, Condition, String> topicHeading) throws Exception {
+  private static void generateReport(String yamlConfig) throws Exception {
     ReportContext context = loadReportContext(yamlConfig);
-    String commands = buildCommandSections(context, topicHeading);
-    writeReport(context, buildSummaryInRows(context.config(), columns), commands);
-  }
-
-  private static void generateReportInColumns(String yamlConfig, String metric,
-      BiFunction<Topic, Condition, String> topicHeading) throws Exception {
-    ReportContext context = loadReportContext(yamlConfig);
-    String commands = buildCommandSections(context, topicHeading);
-    writeReport(context, buildSummaryInColumns(context.config(), metric), commands);
+    writeReport(context, buildSummary(context.config()), buildCommandSections(context));
   }
 
   private static void writeReport(ReportContext context, String summary, String commands) throws Exception {
@@ -260,75 +395,69 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
 
   @Test
   public void generateMsMarcoV1PassageReport() throws Exception {
-    generateReportInRows("msmarco-v1-passage.yaml", List.of(
-        new SummaryColumn("dev", topic -> extractExpectedScore(topic, topic.topic_key.startsWith("msmarco-v1-passage.dev"), "MRR@10")),
-        new SummaryColumn("DL19", topic -> extractExpectedScore(topic, topic.topic_key.startsWith("dl19-passage"), "nDCG@10")),
-        new SummaryColumn("DL20", topic -> extractExpectedScore(topic, topic.topic_key.startsWith("dl20-passage"), "nDCG@10"))),
-        (topic, condition) -> topic.topic_key);
+    generateReport("msmarco-v1-passage.yaml");
   }
 
   @Test
   public void generateMsMarcoV1DocReport() throws Exception {
-    generateReportInRows("msmarco-v1-doc.yaml", List.of(
-        new SummaryColumn("dev", topic -> extractExpectedScore(topic, topic.topic_key.startsWith("msmarco-doc.dev"), "MRR@100")),
-        new SummaryColumn("DL19", topic -> extractExpectedScore(topic, topic.topic_key.startsWith("dl19-doc"), "nDCG@10")),
-        new SummaryColumn("DL20", topic -> extractExpectedScore(topic, topic.topic_key.startsWith("dl20-doc"), "nDCG@10"))),
-        (topic, condition) -> topic.topic_key);
+    generateReport("msmarco-v1-doc.yaml");
   }
 
   @Test
   public void generateMsMarcoV2PassageReport() throws Exception {
-    generateReportInRows("msmarco-v2-passage.yaml", List.of(
-        new SummaryColumn("dev", topic -> extractExpectedScore(topic, matchesTopicPrefix(topic.topic_key, "msmarco-v2-passage.dev"), "MRR@100")),
-        new SummaryColumn("dev2", topic -> extractExpectedScore(topic, matchesTopicPrefix(topic.topic_key, "msmarco-v2-passage.dev2"), "MRR@100")),
-        new SummaryColumn("DL21", topic -> extractExpectedScore(topic, topic.topic_key.startsWith("dl21"), "nDCG@10")),
-        new SummaryColumn("DL22", topic -> extractExpectedScore(topic, topic.topic_key.startsWith("dl22"), "nDCG@10")),
-        new SummaryColumn("DL23", topic -> extractExpectedScore(topic, topic.topic_key.startsWith("dl23"), "nDCG@10"))),
-        (topic, condition) -> topic.topic_key);
+    generateReport("msmarco-v2-passage.yaml");
   }
 
   @Test
   public void generateMsMarcoV2DocReport() throws Exception {
-    generateReportInRows("msmarco-v2-doc.yaml", List.of(
-        new SummaryColumn("dev", topic -> extractExpectedScore(topic, matchesTopicPrefix(topic.topic_key, "msmarco-v2-doc.dev"), "MRR@100")),
-        new SummaryColumn("dev2", topic -> extractExpectedScore(topic, matchesTopicPrefix(topic.topic_key, "msmarco-v2-doc.dev2"), "MRR@100")),
-        new SummaryColumn("DL21", topic -> extractExpectedScore(topic, topic.topic_key.startsWith("dl21"), "nDCG@10")),
-        new SummaryColumn("DL22", topic -> extractExpectedScore(topic, topic.topic_key.startsWith("dl22"), "nDCG@10")),
-        new SummaryColumn("DL23", topic -> extractExpectedScore(topic, topic.topic_key.startsWith("dl23"), "nDCG@10"))),
-        (topic, condition) -> topic.topic_key);
+    generateReport("msmarco-v2-doc.yaml");
   }
 
   @Test
   public void generateMsMarcoV21DocReport() throws Exception {
-    generateReportInRows("msmarco-v2.1-doc.yaml", List.of(
-        new SummaryColumn("dev", topic -> extractExpectedScore(topic, topic.topic_key.equals("msmarco-v2-doc.dev"), "MRR@100")),
-        new SummaryColumn("dev2", topic -> extractExpectedScore(topic, topic.topic_key.equals("msmarco-v2-doc.dev2"), "MRR@100")),
-        new SummaryColumn("DL21", topic -> extractExpectedScore(topic, topic.topic_key.startsWith("dl21-doc"), "nDCG@10")),
-        new SummaryColumn("DL22", topic -> extractExpectedScore(topic, topic.topic_key.startsWith("dl22-doc"), "nDCG@10")),
-        new SummaryColumn("DL23", topic -> extractExpectedScore(topic, topic.topic_key.startsWith("dl23-doc"), "nDCG@10")),
-        new SummaryColumn("RAGgy", topic -> extractExpectedScore(topic, topic.topic_key.startsWith("rag24"), "nDCG@10"))),
-        (topic, condition) -> topic.topic_key);
+    generateReport("msmarco-v2.1-doc.yaml");
   }
 
   @Test
   public void generateMsMarcoV21SegmentedDocReport() throws Exception {
-    generateReportInRows("msmarco-v2.1-doc-segmented.yaml", List.of(
-        new SummaryColumn("RAG24 ☂️", topic -> extractExpectedScore(topic, topic.eval_key.equals("rag24.test-umbrela-all"), "nDCG@20")),
-        new SummaryColumn("RAG24 NIST", topic -> extractExpectedScore(topic, topic.eval_key.equals("rag24.test"), "nDCG@20")),
-        new SummaryColumn("RAG25 ☂️", topic -> extractExpectedScore(topic, topic.eval_key.equals("rag25.test-umbrela2"), "nDCG@30")),
-        new SummaryColumn("RAG25 NIST", topic -> extractExpectedScore(topic, topic.eval_key.equals("rag25.test"), "nDCG@30"))),
-        (topic, condition) -> String.format("%s / %s", topic.topic_key, topic.eval_key));
+    generateReport("msmarco-v2.1-doc-segmented.yaml");
   }
 
   @Test
   public void generateBrightReport() throws Exception {
-    generateReportInColumns("bright.yaml", "nDCG@10",
-        (topic, condition) -> topic.topic_key);
+    generateReport("bright.yaml");
   }
 
   @Test
   public void generateBeirReport() throws Exception {
-    generateReportInColumns("beir.yaml", "nDCG@10",
-        (topic, condition) -> topic.topic_key);
+    generateReport("beir.yaml");
+  }
+
+  @Test
+  public void generateDefaultSummaryWhenDocgenMetadataIsAbsent() {
+    Config config = new Config();
+
+    Condition condition = new Condition();
+    condition.display = "default condition";
+
+    Topic topic = new Topic();
+    topic.topic_key = "default-topic";
+    topic.expected_scores = Map.of("MAP", 0.1234);
+    condition.topics = List.of(topic);
+    config.conditions = List.of(condition);
+
+    String summary = buildSummary(config);
+    assertTrue(summary.contains("| # | name | default-topic |"));
+    assertTrue(summary.contains("| [1](#condition-1) | default condition | 0.1234 |"));
+  }
+
+  @Test
+  public void generateMissingConfigFailsClearly() throws Exception {
+    try {
+      generateReport("missing.yaml");
+      fail("Expected missing config to fail");
+    } catch (Exception e) {
+      assertTrue(e.getMessage().contains("missing.yaml"));
+    }
   }
 }

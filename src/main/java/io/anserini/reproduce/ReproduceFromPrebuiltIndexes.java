@@ -485,6 +485,34 @@ public class ReproduceFromPrebuiltIndexes {
   public static class Config {
     @JsonProperty
     public List<Condition> conditions;
+
+    @JsonProperty
+    public Docgen docgen;
+  }
+
+  public static class Docgen {
+    @JsonProperty
+    public String summary;
+
+    @JsonProperty
+    public String summary_metric;
+
+    @JsonProperty
+    public List<DocgenSummaryColumn> columns;
+  }
+
+  public static class DocgenSummaryColumn {
+    @JsonProperty
+    public String label;
+
+    @JsonProperty
+    public String topic_key;
+
+    @JsonProperty
+    public String eval_key;
+
+    @JsonProperty
+    public String metric;
   }
 
   public static class Condition {

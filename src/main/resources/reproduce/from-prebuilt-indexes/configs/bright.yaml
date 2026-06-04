@@ -1,3 +1,6 @@
+docgen:
+  summary: columns
+  summary_metric: nDCG@10
 conditions:
   - name: bm25
     display: "BM25, bag-of-words baseline"

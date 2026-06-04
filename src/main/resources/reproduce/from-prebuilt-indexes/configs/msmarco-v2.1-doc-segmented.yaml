@@ -1,3 +1,10 @@
+docgen:
+  summary: rows
+  columns:
+    - {label: "RAG24 ☂️", eval_key: rag24.test-umbrela-all, metric: nDCG@20}
+    - {label: RAG24 NIST, eval_key: rag24.test, metric: nDCG@20}
+    - {label: "RAG25 ☂️", eval_key: rag25.test-umbrela2, metric: nDCG@30}
+    - {label: RAG25 NIST, eval_key: rag25.test, metric: nDCG@30}
 conditions:
   - name: bm25
     display: "BM25 doc segmented (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"

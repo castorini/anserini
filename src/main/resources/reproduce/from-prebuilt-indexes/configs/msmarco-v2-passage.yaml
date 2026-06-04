@@ -1,3 +1,11 @@
+docgen:
+  summary: rows
+  columns:
+    - {label: dev, topic_key: msmarco-v2-passage.dev, metric: MRR@100}
+    - {label: dev2, topic_key: msmarco-v2-passage.dev2, metric: MRR@100}
+    - {label: DL21, topic_key: dl21, metric: nDCG@10}
+    - {label: DL22, topic_key: dl22, metric: nDCG@10}
+    - {label: DL23, topic_key: dl23, metric: nDCG@10}
 conditions:
   - name: bm25
     display: "BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
