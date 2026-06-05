@@ -1,21 +1,19 @@
 # ⚗️ Anserini: Reproductions from Document Collections: Catalog of Invocations
 
-## Table of Contents
-
-${table_of_contents}
-
 All invocations of reproductions from raw document collections have the following form:
 
-```
+```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config cacm
 ```
 
 The `--config` option specifies the experiment to run, corresponding to the YAML configuration file in [`src/main/resources/reproduce/from-document-collection/configs`](../src/main/resources/reproduce/from-document-collection/configs).
-The three main options are:
+See below for an enumeration of available configurations.
 
-+ `--index`: Build the index.
-+ `--verify`: Verify index statistics.
-+ `--search`: Perform retrieval runs and verify effectiveness.
+The three main phases of the driver program are:
+
++ `--index`: build the index.
++ `--verify`: verify index statistics.
++ `--search`: perform retrieval runs and verify effectiveness.
 
 Although the driver is hard-coded to run on Waterloo machines (e.g., hard-coded paths to document collections), the document collection path can be manually specified from the command line with the `--corpus-path` option, for example:
 
@@ -25,6 +23,8 @@ bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verif
 
 For example, `--corpus-path collections/msmarco-passage/collection_jsonl`.
 
-The following configurations (i.e., `--config` settings) are available:
+Here are all the available configurations:
+
+${table_of_contents}
 
 ${invocations}

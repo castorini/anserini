@@ -1,9 +1,10 @@
 
 # ⚗️ Anserini: Reproductions from Document Collections
 
-Anserini supports end-to-end reproduction experiments on various standard IR test collections out of the box.
-Each of these experiments starts from the raw document collection, builds the necessary index, performs retrieval runs, and generates evaluation results.
-This [catalog](./ref-reproduce-from-document-collections-catalog.md) enumerates all available configs.
+Anserini supports end-to-end reproductions on various standard IR test collections out of the box.
+Each of these experiments starts from the raw document collection, builds the necessary index, performs retrieval runs, generates evaluation results, and validates expected scores.
+See [this overview](./ref-reproduce-from-document-collections-overview.md) for a description of the entire pipeline.
+This [catalog](./ref-reproduce-from-document-collections-catalog.md) enumerates all available configs, summarized below into natural groupings.
 
 ## Table of Contents
 

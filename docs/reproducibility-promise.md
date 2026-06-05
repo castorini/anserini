@@ -1,8 +1,10 @@
 # ⚗️ Anserini: Reproductions from Document Collections: Catalog of Invocations
 
+## Table of Contents
+
 All invocations of reproductions from raw document collections have the following form:
 
-```bash
+```
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config cacm
 ```
 
@@ -25,10 +27,10 @@ For example, `--corpus-path collections/msmarco-passage/collection_jsonl`.
 
 Here are all the available configurations:
 
-+ [CACM](#cacm)
-+ [MS MARCO V1 + DL19-20](#ms-marco-v1-dl19-20)
-+ [MS MARCO V2 + DL21-23](#ms-marco-v2-dl21-23)
-+ [MS MARCO V2.1 + RAG24-25](#ms-marco-v2-1-rag24-25)
++ [CACM tests](#cacm-tests)
++ [MS MARCO V1 + DL19-20 regressions](#ms-marco-v1-dl19-20-regressions)
++ [MS MARCO V2 + DL21-23 regressions](#ms-marco-v2-dl21-23-regressions)
++ [MS MARCO V2.1 + RAG24-25 regressions](#ms-marco-v2-1-rag24-25-regressions)
 + [BEIR (v1.0.0): BGE-base-en-v1.5](#beir-v1-0-0-bge-base-en-v1-5)
 + [BEIR (v1.0.0): SPLADE-v3](#beir-v1-0-0-splade-v3)
 + [BEIR (v1.0.0): SPLADE++ CoCondenser-EnsembleDistil](#beir-v1-0-0-splade-cocondenser-ensembledistil)
@@ -44,16 +46,16 @@ Here are all the available configurations:
 + [BRIGHT: BGE-large-en-v1.5](#bright-bge-large-en-v1-5)
 + [Other regressions (TREC, etc.)](#other-regressions-trec-etc)
 
-<a id="cacm"></a>
+<a id="cacm-tests"></a>
 
-## CACM
+## CACM tests
 
 + [`cacm`](../src/main/resources/reproduce/from-document-collection/configs/cacm.yaml)
 + [`cacm-download`](../src/main/resources/reproduce/from-document-collection/configs/cacm-download.yaml)
 
-<a id="ms-marco-v1-dl19-20"></a>
+<a id="ms-marco-v1-dl19-20-regressions"></a>
 
-## MS MARCO V1 + DL19-20
+## MS MARCO V1 + DL19-20 regressions
 
 + [`msmarco-v1-passage`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.md)]
 + [`msmarco-v1-passage.bm25-b8`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.bm25-b8.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.bm25-b8.md)]
@@ -147,9 +149,9 @@ Here are all the available configurations:
 + [`dl20-doc-segmented.docTTTTTquery`](../src/main/resources/reproduce/from-document-collection/configs/dl20-doc-segmented.docTTTTTquery.yaml) [[docs](reproduce/from-document-collection/dl20-doc-segmented.docTTTTTquery.md)]
 + [`dl20-doc-segmented.unicoil.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl20-doc-segmented.unicoil.onnx.yaml)
 
-<a id="ms-marco-v2-dl21-23"></a>
+<a id="ms-marco-v2-dl21-23-regressions"></a>
 
-## MS MARCO V2 + DL21-23
+## MS MARCO V2 + DL21-23 regressions
 
 + [`msmarco-v2-passage`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-passage.yaml) [[docs](reproduce/from-document-collection/msmarco-v2-passage.md)]
 + [`msmarco-v2-passage.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-passage.d2q-t5.yaml) [[docs](reproduce/from-document-collection/msmarco-v2-passage.d2q-t5.md)]
@@ -200,9 +202,9 @@ Here are all the available configurations:
 + [`dl23-doc-segmented.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/dl23-doc-segmented.d2q-t5.yaml) [[docs](reproduce/from-document-collection/dl23-doc-segmented.d2q-t5.md)]
 + [`dl23-doc-segmented.unicoil.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl23-doc-segmented.unicoil.onnx.yaml)
 
-<a id="ms-marco-v2-1-rag24-25"></a>
+<a id="ms-marco-v2-1-rag24-25-regressions"></a>
 
-## MS MARCO V2.1 + RAG24-25
+## MS MARCO V2.1 + RAG24-25 regressions
 
 + [`rag24-doc-segmented-test-umbrela`](../src/main/resources/reproduce/from-document-collection/configs/rag24-doc-segmented-test-umbrela.yaml) [[docs](reproduce/from-document-collection/rag24-doc-segmented-test-umbrela.md)]
 + [`rag24-doc-segmented-test-umbrela.splade-v3.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag24-doc-segmented-test-umbrela.splade-v3.onnx.yaml) [[docs](reproduce/from-document-collection/rag24-doc-segmented-test-umbrela.splade-v3.onnx.md)]

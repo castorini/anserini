@@ -46,11 +46,11 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
   private static final Map<String, List<String>> ORDERING = new LinkedHashMap<>();
 
   static {
-    ORDERING.put("CACM tests", List.of(
+    ORDERING.put("CACM", List.of(
         Pattern.quote("cacm"),
         Pattern.quote("cacm-download")
     ));
-    ORDERING.put("MS MARCO V1 + DL19-20 regressions", List.of(
+    ORDERING.put("MS MARCO V1 + DL19-20", List.of(
         Pattern.quote("msmarco-v1-passage"),
         Pattern.quote("msmarco-v1-passage.bm25-b8"),
         Pattern.quote("msmarco-v1-passage.wp-tok"),
@@ -157,7 +157,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("dl20-doc-segmented.docTTTTTquery"),
         Pattern.quote("dl20-doc-segmented.unicoil.onnx")
     ));
-    ORDERING.put("MS MARCO V2 + DL21-23 regressions", List.of(
+    ORDERING.put("MS MARCO V2 + DL21-23", List.of(
         Pattern.quote("msmarco-v2-passage"),
         Pattern.quote("msmarco-v2-passage.d2q-t5"),
         Pattern.quote("msmarco-v2-passage.unicoil.onnx"),
@@ -214,7 +214,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("dl23-doc-segmented.d2q-t5"),
         Pattern.quote("dl23-doc-segmented.unicoil.onnx")
     ));
-    ORDERING.put("MS MARCO V2.1 + RAG24-25 regressions", List.of(
+    ORDERING.put("MS MARCO V2.1 + RAG24-25", List.of(
         Pattern.quote("rag24-doc-segmented-test-umbrela"),
         Pattern.quote("rag24-doc-segmented-test-umbrela.splade-v3.onnx"),
         Pattern.quote("rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard00.flat.onnx"),
@@ -797,7 +797,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
   }
 
   @Test
-  public void generateOverviewDoc() throws Exception {
+  public void generateCatalog() throws Exception {
     Path configsPath = Path.of("src/main/resources/reproduce/from-document-collection/configs");
     List<String> configs = Files.list(configsPath)
         .filter(path -> path.getFileName().toString().endsWith(".yaml"))
@@ -813,7 +813,6 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
       List<String> groupConfigs = new ArrayList<>();
       for (String regex : entry.getValue()) {
         if (regex.equals(Pattern.quote(""))) {
-          groupConfigs.add("");
           continue;
         }
 
@@ -845,11 +844,6 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
       invocations.append(String.format("<a id=\"%s\"></a>\n\n", anchor));
       invocations.append(String.format("## %s\n\n", entry.getKey()));
       for (String config : groupConfigs) {
-        if (config.equals("")) {
-          invocations.append("\n");
-          continue;
-        }
-
         Path docPath = Path.of(String.format("docs/reproduce/from-document-collection/%s.md", config));
         String docLink = Files.exists(docPath) ? String.format(" [[docs](reproduce/from-document-collection/%s.md)]", config) : "";
         invocations.append(String.format("+ [`%s`](../src/main/resources/reproduce/from-document-collection/configs/%s.yaml)%s\n", config, config, docLink));
