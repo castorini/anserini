@@ -53,6 +53,7 @@ The following configurations (i.e., `--config` settings) are available:
 
 <div></div>
 
++ [`msmarco-v1-passage.unicoil.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.unicoil.onnx.yaml)
 + [`msmarco-v1-passage.splade-pp-ed.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.splade-pp-ed.onnx.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.splade-pp-ed.onnx.md)]
 + [`msmarco-v1-passage.splade-pp-sd.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.splade-pp-sd.onnx.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.splade-pp-sd.onnx.md)]
 + [`msmarco-v1-passage.splade-v3.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.splade-v3.onnx.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.splade-v3.onnx.md)]
@@ -87,6 +88,7 @@ The following configurations (i.e., `--config` settings) are available:
 + [`msmarco-v1-doc-segmented.wp-tok`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc-segmented.wp-tok.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-doc-segmented.wp-tok.md)]
 + [`msmarco-v1-doc-segmented.wp-ca`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc-segmented.wp-ca.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-doc-segmented.wp-ca.md)]
 + [`msmarco-v1-doc-segmented.docTTTTTquery`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc-segmented.docTTTTTquery.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-doc-segmented.docTTTTTquery.md)]
++ [`msmarco-v1-doc-segmented.unicoil.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc-segmented.unicoil.onnx.yaml)
 
 
 <div></div>
@@ -101,6 +103,7 @@ The following configurations (i.e., `--config` settings) are available:
 
 <div></div>
 
++ [`dl19-passage.unicoil.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.unicoil.onnx.yaml)
 + [`dl19-passage.splade-pp-ed.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.splade-pp-ed.onnx.yaml) [[docs](reproduce/from-document-collection/dl19-passage.splade-pp-ed.onnx.md)]
 + [`dl19-passage.splade-pp-sd.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.splade-pp-sd.onnx.yaml) [[docs](reproduce/from-document-collection/dl19-passage.splade-pp-sd.onnx.md)]
 + [`dl19-passage.splade-v3.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.splade-v3.onnx.yaml) [[docs](reproduce/from-document-collection/dl19-passage.splade-v3.onnx.md)]
@@ -135,6 +138,7 @@ The following configurations (i.e., `--config` settings) are available:
 + [`dl19-doc-segmented.wp-tok`](../src/main/resources/reproduce/from-document-collection/configs/dl19-doc-segmented.wp-tok.yaml) [[docs](reproduce/from-document-collection/dl19-doc-segmented.wp-tok.md)]
 + [`dl19-doc-segmented.wp-ca`](../src/main/resources/reproduce/from-document-collection/configs/dl19-doc-segmented.wp-ca.yaml) [[docs](reproduce/from-document-collection/dl19-doc-segmented.wp-ca.md)]
 + [`dl19-doc-segmented.docTTTTTquery`](../src/main/resources/reproduce/from-document-collection/configs/dl19-doc-segmented.docTTTTTquery.yaml) [[docs](reproduce/from-document-collection/dl19-doc-segmented.docTTTTTquery.md)]
++ [`dl19-doc-segmented.unicoil.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl19-doc-segmented.unicoil.onnx.yaml)
 
 
 <div></div>
@@ -149,6 +153,7 @@ The following configurations (i.e., `--config` settings) are available:
 
 <div></div>
 
++ [`dl20-passage.unicoil.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.unicoil.onnx.yaml)
 + [`dl20-passage.splade-pp-ed.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.splade-pp-ed.onnx.yaml) [[docs](reproduce/from-document-collection/dl20-passage.splade-pp-ed.onnx.md)]
 + [`dl20-passage.splade-pp-sd.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.splade-pp-sd.onnx.yaml) [[docs](reproduce/from-document-collection/dl20-passage.splade-pp-sd.onnx.md)]
 + [`dl20-passage.splade-v3.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.splade-v3.onnx.yaml) [[docs](reproduce/from-document-collection/dl20-passage.splade-v3.onnx.md)]
@@ -183,6 +188,7 @@ The following configurations (i.e., `--config` settings) are available:
 + [`dl20-doc-segmented.wp-tok`](../src/main/resources/reproduce/from-document-collection/configs/dl20-doc-segmented.wp-tok.yaml) [[docs](reproduce/from-document-collection/dl20-doc-segmented.wp-tok.md)]
 + [`dl20-doc-segmented.wp-ca`](../src/main/resources/reproduce/from-document-collection/configs/dl20-doc-segmented.wp-ca.yaml) [[docs](reproduce/from-document-collection/dl20-doc-segmented.wp-ca.md)]
 + [`dl20-doc-segmented.docTTTTTquery`](../src/main/resources/reproduce/from-document-collection/configs/dl20-doc-segmented.docTTTTTquery.yaml) [[docs](reproduce/from-document-collection/dl20-doc-segmented.docTTTTTquery.md)]
++ [`dl20-doc-segmented.unicoil.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl20-doc-segmented.unicoil.onnx.yaml)
 
 </details>
 <details>
@@ -190,56 +196,80 @@ The following configurations (i.e., `--config` settings) are available:
 
 + [`msmarco-v2-passage`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-passage.yaml) [[docs](reproduce/from-document-collection/msmarco-v2-passage.md)]
 + [`msmarco-v2-passage.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-passage.d2q-t5.yaml) [[docs](reproduce/from-document-collection/msmarco-v2-passage.d2q-t5.md)]
++ [`msmarco-v2-passage.unicoil.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-passage.unicoil.onnx.yaml)
 + [`msmarco-v2-passage.splade-pp-ed.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-passage.splade-pp-ed.onnx.yaml) [[docs](reproduce/from-document-collection/msmarco-v2-passage.splade-pp-ed.onnx.md)]
 + [`msmarco-v2-passage.splade-pp-sd.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-passage.splade-pp-sd.onnx.yaml) [[docs](reproduce/from-document-collection/msmarco-v2-passage.splade-pp-sd.onnx.md)]
 + [`msmarco-v2-passage-augmented`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-passage-augmented.yaml) [[docs](reproduce/from-document-collection/msmarco-v2-passage-augmented.md)]
 + [`msmarco-v2-passage-augmented.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-passage-augmented.d2q-t5.yaml) [[docs](reproduce/from-document-collection/msmarco-v2-passage-augmented.d2q-t5.md)]
+
+
+<div></div>
+
 + [`msmarco-v2-doc`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-doc.yaml) [[docs](reproduce/from-document-collection/msmarco-v2-doc.md)]
 + [`msmarco-v2-doc.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-doc.d2q-t5.yaml) [[docs](reproduce/from-document-collection/msmarco-v2-doc.d2q-t5.md)]
 + [`msmarco-v2-doc-segmented`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-doc-segmented.yaml) [[docs](reproduce/from-document-collection/msmarco-v2-doc-segmented.md)]
 + [`msmarco-v2-doc-segmented.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-doc-segmented.d2q-t5.yaml) [[docs](reproduce/from-document-collection/msmarco-v2-doc-segmented.d2q-t5.md)]
++ [`msmarco-v2-doc-segmented.unicoil.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-doc-segmented.unicoil.onnx.yaml)
 
 
 <div></div>
 
 + [`dl21-passage`](../src/main/resources/reproduce/from-document-collection/configs/dl21-passage.yaml) [[docs](reproduce/from-document-collection/dl21-passage.md)]
 + [`dl21-passage.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/dl21-passage.d2q-t5.yaml) [[docs](reproduce/from-document-collection/dl21-passage.d2q-t5.md)]
++ [`dl21-passage.unicoil.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl21-passage.unicoil.onnx.yaml)
 + [`dl21-passage.splade-pp-ed.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl21-passage.splade-pp-ed.onnx.yaml) [[docs](reproduce/from-document-collection/dl21-passage.splade-pp-ed.onnx.md)]
 + [`dl21-passage.splade-pp-sd.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl21-passage.splade-pp-sd.onnx.yaml) [[docs](reproduce/from-document-collection/dl21-passage.splade-pp-sd.onnx.md)]
 + [`dl21-passage-augmented`](../src/main/resources/reproduce/from-document-collection/configs/dl21-passage-augmented.yaml) [[docs](reproduce/from-document-collection/dl21-passage-augmented.md)]
 + [`dl21-passage-augmented.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/dl21-passage-augmented.d2q-t5.yaml) [[docs](reproduce/from-document-collection/dl21-passage-augmented.d2q-t5.md)]
+
+
+<div></div>
+
 + [`dl21-doc`](../src/main/resources/reproduce/from-document-collection/configs/dl21-doc.yaml) [[docs](reproduce/from-document-collection/dl21-doc.md)]
 + [`dl21-doc.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/dl21-doc.d2q-t5.yaml) [[docs](reproduce/from-document-collection/dl21-doc.d2q-t5.md)]
 + [`dl21-doc-segmented`](../src/main/resources/reproduce/from-document-collection/configs/dl21-doc-segmented.yaml) [[docs](reproduce/from-document-collection/dl21-doc-segmented.md)]
 + [`dl21-doc-segmented.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/dl21-doc-segmented.d2q-t5.yaml) [[docs](reproduce/from-document-collection/dl21-doc-segmented.d2q-t5.md)]
++ [`dl21-doc-segmented.unicoil.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl21-doc-segmented.unicoil.onnx.yaml)
 
 
 <div></div>
 
 + [`dl22-passage`](../src/main/resources/reproduce/from-document-collection/configs/dl22-passage.yaml) [[docs](reproduce/from-document-collection/dl22-passage.md)]
 + [`dl22-passage.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/dl22-passage.d2q-t5.yaml) [[docs](reproduce/from-document-collection/dl22-passage.d2q-t5.md)]
++ [`dl22-passage.unicoil.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl22-passage.unicoil.onnx.yaml)
 + [`dl22-passage.splade-pp-ed.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl22-passage.splade-pp-ed.onnx.yaml) [[docs](reproduce/from-document-collection/dl22-passage.splade-pp-ed.onnx.md)]
 + [`dl22-passage.splade-pp-sd.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl22-passage.splade-pp-sd.onnx.yaml) [[docs](reproduce/from-document-collection/dl22-passage.splade-pp-sd.onnx.md)]
 + [`dl22-passage-augmented`](../src/main/resources/reproduce/from-document-collection/configs/dl22-passage-augmented.yaml) [[docs](reproduce/from-document-collection/dl22-passage-augmented.md)]
 + [`dl22-passage-augmented.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/dl22-passage-augmented.d2q-t5.yaml) [[docs](reproduce/from-document-collection/dl22-passage-augmented.d2q-t5.md)]
+
+
+<div></div>
+
 + [`dl22-doc`](../src/main/resources/reproduce/from-document-collection/configs/dl22-doc.yaml) [[docs](reproduce/from-document-collection/dl22-doc.md)]
 + [`dl22-doc.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/dl22-doc.d2q-t5.yaml) [[docs](reproduce/from-document-collection/dl22-doc.d2q-t5.md)]
 + [`dl22-doc-segmented`](../src/main/resources/reproduce/from-document-collection/configs/dl22-doc-segmented.yaml) [[docs](reproduce/from-document-collection/dl22-doc-segmented.md)]
 + [`dl22-doc-segmented.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/dl22-doc-segmented.d2q-t5.yaml) [[docs](reproduce/from-document-collection/dl22-doc-segmented.d2q-t5.md)]
++ [`dl22-doc-segmented.unicoil.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl22-doc-segmented.unicoil.onnx.yaml)
 
 
 <div></div>
 
 + [`dl23-passage`](../src/main/resources/reproduce/from-document-collection/configs/dl23-passage.yaml) [[docs](reproduce/from-document-collection/dl23-passage.md)]
 + [`dl23-passage.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/dl23-passage.d2q-t5.yaml) [[docs](reproduce/from-document-collection/dl23-passage.d2q-t5.md)]
++ [`dl23-passage.unicoil.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl23-passage.unicoil.onnx.yaml)
 + [`dl23-passage.splade-pp-ed.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl23-passage.splade-pp-ed.onnx.yaml) [[docs](reproduce/from-document-collection/dl23-passage.splade-pp-ed.onnx.md)]
 + [`dl23-passage.splade-pp-sd.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl23-passage.splade-pp-sd.onnx.yaml) [[docs](reproduce/from-document-collection/dl23-passage.splade-pp-sd.onnx.md)]
 + [`dl23-passage-augmented`](../src/main/resources/reproduce/from-document-collection/configs/dl23-passage-augmented.yaml) [[docs](reproduce/from-document-collection/dl23-passage-augmented.md)]
 + [`dl23-passage-augmented.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/dl23-passage-augmented.d2q-t5.yaml) [[docs](reproduce/from-document-collection/dl23-passage-augmented.d2q-t5.md)]
+
+
+<div></div>
+
 + [`dl23-doc`](../src/main/resources/reproduce/from-document-collection/configs/dl23-doc.yaml) [[docs](reproduce/from-document-collection/dl23-doc.md)]
 + [`dl23-doc.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/dl23-doc.d2q-t5.yaml) [[docs](reproduce/from-document-collection/dl23-doc.d2q-t5.md)]
 + [`dl23-doc-segmented`](../src/main/resources/reproduce/from-document-collection/configs/dl23-doc-segmented.yaml) [[docs](reproduce/from-document-collection/dl23-doc-segmented.md)]
 + [`dl23-doc-segmented.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/dl23-doc-segmented.d2q-t5.yaml) [[docs](reproduce/from-document-collection/dl23-doc-segmented.d2q-t5.md)]
++ [`dl23-doc-segmented.unicoil.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl23-doc-segmented.unicoil.onnx.yaml)
 
 </details>
 <details>
@@ -274,6 +304,7 @@ The following configurations (i.e., `--config` settings) are available:
 <div></div>
 
 + [`rag25-doc-segmented-test-umbrela2`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-umbrela2.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-umbrela2.md)]
++ [`rag25-doc-segmented-test-umbrela2.splade-v3.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-umbrela2.splade-v3.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-umbrela2.splade-v3.onnx.md)]
 + [`rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard00.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard00.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard00.flat.onnx.md)]
 + [`rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard01.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard01.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard01.flat.onnx.md)]
 + [`rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard02.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard02.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard02.flat.onnx.md)]
@@ -285,6 +316,7 @@ The following configurations (i.e., `--config` settings) are available:
 + [`rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard08.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard08.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard08.flat.onnx.md)]
 + [`rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard09.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard09.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard09.flat.onnx.md)]
 + [`rag25-doc-segmented-test-nist`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-nist.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-nist.md)]
++ [`rag25-doc-segmented-test-nist.splade-v3.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-nist.splade-v3.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-nist.splade-v3.onnx.md)]
 + [`rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard00.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard00.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard00.flat.onnx.md)]
 + [`rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard01.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard01.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard01.flat.onnx.md)]
 + [`rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard02.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard02.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard02.flat.onnx.md)]
@@ -697,6 +729,13 @@ The following configurations (i.e., `--config` settings) are available:
 + [`miracl-v1.0-te-aca`](../src/main/resources/reproduce/from-document-collection/configs/miracl-v1.0-te-aca.yaml) [[docs](reproduce/from-document-collection/miracl-v1.0-te-aca.md)]
 + [`miracl-v1.0-th-aca`](../src/main/resources/reproduce/from-document-collection/configs/miracl-v1.0-th-aca.yaml) [[docs](reproduce/from-document-collection/miracl-v1.0-th-aca.md)]
 + [`miracl-v1.0-zh-aca`](../src/main/resources/reproduce/from-document-collection/configs/miracl-v1.0-zh-aca.yaml) [[docs](reproduce/from-document-collection/miracl-v1.0-zh-aca.md)]
+
+</details>
+<details>
+<summary>NanoKnow</summary>
+
++ [`nanoknow-v1.0-nq`](../src/main/resources/reproduce/from-document-collection/configs/nanoknow-v1.0-nq.yaml) [[docs](reproduce/from-document-collection/nanoknow-v1.0-nq.md)]
++ [`nanoknow-v1.0-squad`](../src/main/resources/reproduce/from-document-collection/configs/nanoknow-v1.0-squad.yaml) [[docs](reproduce/from-document-collection/nanoknow-v1.0-squad.md)]
 
 </details>
 <details>

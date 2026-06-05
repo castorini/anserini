@@ -58,44 +58,21 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("msmarco-v1-passage.doc2query"),
         Pattern.quote("msmarco-v1-passage.docTTTTTquery"),
         Pattern.quote(""),
-        Pattern.quote("msmarco-v1-passage.deepimpact.cached"),
-        Pattern.quote("msmarco-v1-passage.unicoil.cached"),
-        Pattern.quote("msmarco-v1-passage.unicoil-noexp.cached"),
-        Pattern.quote("msmarco-v1-passage.unicoil-tilde-expansion.cached"),
-        Pattern.quote("msmarco-v1-passage.distill-splade-max.cached"),
-        Pattern.quote("msmarco-v1-passage.splade-pp-ed.cached"),
+        Pattern.quote("msmarco-v1-passage.unicoil.onnx"),
         Pattern.quote("msmarco-v1-passage.splade-pp-ed.onnx"),
-        Pattern.quote("msmarco-v1-passage.splade-pp-sd.cached"),
         Pattern.quote("msmarco-v1-passage.splade-pp-sd.onnx"),
         Pattern.quote("msmarco-v1-passage.splade-v3.onnx"),
-        Pattern.quote("msmarco-v1-passage.splade-v3.cached"),
         Pattern.quote(""),
         Pattern.quote("msmarco-v1-passage.cos-dpr-distil.parquet.fw"),
         Pattern.quote("msmarco-v1-passage.cos-dpr-distil.parquet.lexlsh"),
-        Pattern.quote("msmarco-v1-passage.cos-dpr-distil.parquet.flat.cached"),
         Pattern.quote("msmarco-v1-passage.cos-dpr-distil.parquet.flat.onnx"),
-        Pattern.quote("msmarco-v1-passage.cos-dpr-distil.parquet.flat-sqv.cached"),
         Pattern.quote("msmarco-v1-passage.cos-dpr-distil.parquet.flat-sqv.onnx"),
-        Pattern.quote("msmarco-v1-passage.cos-dpr-distil.parquet.hnsw.cached"),
         Pattern.quote("msmarco-v1-passage.cos-dpr-distil.parquet.hnsw.onnx"),
-        Pattern.quote("msmarco-v1-passage.cos-dpr-distil.parquet.hnsw-sqv.cached"),
         Pattern.quote("msmarco-v1-passage.cos-dpr-distil.parquet.hnsw-sqv.onnx"),
-        Pattern.quote("msmarco-v1-passage.bge-base-en-v1.5.parquet.flat.cached"),
         Pattern.quote("msmarco-v1-passage.bge-base-en-v1.5.parquet.flat.onnx"),
-        Pattern.quote("msmarco-v1-passage.bge-base-en-v1.5.parquet.flat-sqv.cached"),
         Pattern.quote("msmarco-v1-passage.bge-base-en-v1.5.parquet.flat-sqv.onnx"),
-        Pattern.quote("msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw.cached"),
         Pattern.quote("msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw.onnx"),
-        Pattern.quote("msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw-sqv.cached"),
         Pattern.quote("msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw-sqv.onnx"),
-        Pattern.quote("msmarco-v1-passage.openai-ada2.parquet.flat.cached"),
-        Pattern.quote("msmarco-v1-passage.openai-ada2.parquet.flat-sqv.cached"),
-        Pattern.quote("msmarco-v1-passage.openai-ada2.parquet.hnsw.cached"),
-        Pattern.quote("msmarco-v1-passage.openai-ada2.parquet.hnsw-sqv.cached"),
-        Pattern.quote("msmarco-v1-passage.cohere-embed-english-v3.0.parquet.flat.cached"),
-        Pattern.quote("msmarco-v1-passage.cohere-embed-english-v3.0.parquet.flat-sqv.cached"),
-        Pattern.quote("msmarco-v1-passage.cohere-embed-english-v3.0.parquet.hnsw.cached"),
-        Pattern.quote("msmarco-v1-passage.cohere-embed-english-v3.0.parquet.hnsw-sqv.cached"),
         Pattern.quote(""),
         Pattern.quote("msmarco-v1-doc"),
         Pattern.quote("msmarco-v1-doc.wp-tok"),
@@ -107,8 +84,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("msmarco-v1-doc-segmented.wp-tok"),
         Pattern.quote("msmarco-v1-doc-segmented.wp-ca"),
         Pattern.quote("msmarco-v1-doc-segmented.docTTTTTquery"),
-        Pattern.quote("msmarco-v1-doc-segmented.unicoil.cached"),
-        Pattern.quote("msmarco-v1-doc-segmented.unicoil-noexp.cached"),
+        Pattern.quote("msmarco-v1-doc-segmented.unicoil.onnx"),
         Pattern.quote(""),
         Pattern.quote("dl19-passage"),
         Pattern.quote("dl19-passage.bm25-b8"),
@@ -117,41 +93,21 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("dl19-passage.wp-ca"),
         Pattern.quote("dl19-passage.docTTTTTquery"),
         Pattern.quote(""),
-        Pattern.quote("dl19-passage.unicoil.cached"),
-        Pattern.quote("dl19-passage.unicoil-noexp.cached"),
-        Pattern.quote("dl19-passage.splade-pp-ed.cached"),
+        Pattern.quote("dl19-passage.unicoil.onnx"),
         Pattern.quote("dl19-passage.splade-pp-ed.onnx"),
-        Pattern.quote("dl19-passage.splade-pp-sd.cached"),
         Pattern.quote("dl19-passage.splade-pp-sd.onnx"),
         Pattern.quote("dl19-passage.splade-v3.onnx"),
-        Pattern.quote("dl19-passage.splade-v3.cached"),
         Pattern.quote(""),
         Pattern.quote("dl19-passage.cos-dpr-distil.parquet.fw"),
         Pattern.quote("dl19-passage.cos-dpr-distil.parquet.lexlsh"),
-        Pattern.quote("dl19-passage.cos-dpr-distil.parquet.flat.cached"),
         Pattern.quote("dl19-passage.cos-dpr-distil.parquet.flat.onnx"),
-        Pattern.quote("dl19-passage.cos-dpr-distil.parquet.flat-sqv.cached"),
         Pattern.quote("dl19-passage.cos-dpr-distil.parquet.flat-sqv.onnx"),
-        Pattern.quote("dl19-passage.cos-dpr-distil.parquet.hnsw.cached"),
         Pattern.quote("dl19-passage.cos-dpr-distil.parquet.hnsw.onnx"),
-        Pattern.quote("dl19-passage.cos-dpr-distil.parquet.hnsw-sqv.cached"),
         Pattern.quote("dl19-passage.cos-dpr-distil.parquet.hnsw-sqv.onnx"),
-        Pattern.quote("dl19-passage.bge-base-en-v1.5.parquet.flat.cached"),
         Pattern.quote("dl19-passage.bge-base-en-v1.5.parquet.flat.onnx"),
-        Pattern.quote("dl19-passage.bge-base-en-v1.5.parquet.flat-sqv.cached"),
         Pattern.quote("dl19-passage.bge-base-en-v1.5.parquet.flat-sqv.onnx"),
-        Pattern.quote("dl19-passage.bge-base-en-v1.5.parquet.hnsw.cached"),
         Pattern.quote("dl19-passage.bge-base-en-v1.5.parquet.hnsw.onnx"),
-        Pattern.quote("dl19-passage.bge-base-en-v1.5.parquet.hnsw-sqv.cached"),
         Pattern.quote("dl19-passage.bge-base-en-v1.5.parquet.hnsw-sqv.onnx"),
-        Pattern.quote("dl19-passage.openai-ada2.parquet.flat.cached"),
-        Pattern.quote("dl19-passage.openai-ada2.parquet.flat-sqv.cached"),
-        Pattern.quote("dl19-passage.openai-ada2.parquet.hnsw.cached"),
-        Pattern.quote("dl19-passage.openai-ada2.parquet.hnsw-sqv.cached"),
-        Pattern.quote("dl19-passage.cohere-embed-english-v3.0.parquet.flat.cached"),
-        Pattern.quote("dl19-passage.cohere-embed-english-v3.0.parquet.flat-sqv.cached"),
-        Pattern.quote("dl19-passage.cohere-embed-english-v3.0.parquet.hnsw.cached"),
-        Pattern.quote("dl19-passage.cohere-embed-english-v3.0.parquet.hnsw-sqv.cached"),
         Pattern.quote(""),
         Pattern.quote("dl19-doc"),
         Pattern.quote("dl19-doc.wp-tok"),
@@ -163,8 +119,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("dl19-doc-segmented.wp-tok"),
         Pattern.quote("dl19-doc-segmented.wp-ca"),
         Pattern.quote("dl19-doc-segmented.docTTTTTquery"),
-        Pattern.quote("dl19-doc-segmented.unicoil.cached"),
-        Pattern.quote("dl19-doc-segmented.unicoil-noexp.cached"),
+        Pattern.quote("dl19-doc-segmented.unicoil.onnx"),
         Pattern.quote(""),
         Pattern.quote("dl20-passage"),
         Pattern.quote("dl20-passage.bm25-b8"),
@@ -173,41 +128,21 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("dl20-passage.wp-ca"),
         Pattern.quote("dl20-passage.docTTTTTquery"),
         Pattern.quote(""),
-        Pattern.quote("dl20-passage.unicoil.cached"),
-        Pattern.quote("dl20-passage.unicoil-noexp.cached"),
-        Pattern.quote("dl20-passage.splade-pp-ed.cached"),
+        Pattern.quote("dl20-passage.unicoil.onnx"),
         Pattern.quote("dl20-passage.splade-pp-ed.onnx"),
-        Pattern.quote("dl20-passage.splade-pp-sd.cached"),
         Pattern.quote("dl20-passage.splade-pp-sd.onnx"),
         Pattern.quote("dl20-passage.splade-v3.onnx"),
-        Pattern.quote("dl20-passage.splade-v3.cached"),
         Pattern.quote(""),
         Pattern.quote("dl20-passage.cos-dpr-distil.parquet.fw"),
         Pattern.quote("dl20-passage.cos-dpr-distil.parquet.lexlsh"),
-        Pattern.quote("dl20-passage.cos-dpr-distil.parquet.flat.cached"),
         Pattern.quote("dl20-passage.cos-dpr-distil.parquet.flat.onnx"),
-        Pattern.quote("dl20-passage.cos-dpr-distil.parquet.flat-sqv.cached"),
         Pattern.quote("dl20-passage.cos-dpr-distil.parquet.flat-sqv.onnx"),
-        Pattern.quote("dl20-passage.cos-dpr-distil.parquet.hnsw.cached"),
         Pattern.quote("dl20-passage.cos-dpr-distil.parquet.hnsw.onnx"),
-        Pattern.quote("dl20-passage.cos-dpr-distil.parquet.hnsw-sqv.cached"),
         Pattern.quote("dl20-passage.cos-dpr-distil.parquet.hnsw-sqv.onnx"),
-        Pattern.quote("dl20-passage.bge-base-en-v1.5.parquet.flat.cached"),
         Pattern.quote("dl20-passage.bge-base-en-v1.5.parquet.flat.onnx"),
-        Pattern.quote("dl20-passage.bge-base-en-v1.5.parquet.flat-sqv.cached"),
         Pattern.quote("dl20-passage.bge-base-en-v1.5.parquet.flat-sqv.onnx"),
-        Pattern.quote("dl20-passage.bge-base-en-v1.5.parquet.hnsw.cached"),
         Pattern.quote("dl20-passage.bge-base-en-v1.5.parquet.hnsw.onnx"),
-        Pattern.quote("dl20-passage.bge-base-en-v1.5.parquet.hnsw-sqv.cached"),
         Pattern.quote("dl20-passage.bge-base-en-v1.5.parquet.hnsw-sqv.onnx"),
-        Pattern.quote("dl20-passage.openai-ada2.parquet.flat.cached"),
-        Pattern.quote("dl20-passage.openai-ada2.parquet.flat-sqv.cached"),
-        Pattern.quote("dl20-passage.openai-ada2.parquet.hnsw.cached"),
-        Pattern.quote("dl20-passage.openai-ada2.parquet.hnsw-sqv.cached"),
-        Pattern.quote("dl20-passage.cohere-embed-english-v3.0.parquet.flat.cached"),
-        Pattern.quote("dl20-passage.cohere-embed-english-v3.0.parquet.flat-sqv.cached"),
-        Pattern.quote("dl20-passage.cohere-embed-english-v3.0.parquet.hnsw.cached"),
-        Pattern.quote("dl20-passage.cohere-embed-english-v3.0.parquet.hnsw-sqv.cached"),
         Pattern.quote(""),
         Pattern.quote("dl20-doc"),
         Pattern.quote("dl20-doc.wp-tok"),
@@ -219,82 +154,68 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("dl20-doc-segmented.wp-tok"),
         Pattern.quote("dl20-doc-segmented.wp-ca"),
         Pattern.quote("dl20-doc-segmented.docTTTTTquery"),
-        Pattern.quote("dl20-doc-segmented.unicoil.cached"),
-        Pattern.quote("dl20-doc-segmented.unicoil-noexp.cached")
+        Pattern.quote("dl20-doc-segmented.unicoil.onnx")
     ));
     ORDERING.put("MS MARCO V2 + DL21-23 regressions", List.of(
         Pattern.quote("msmarco-v2-passage"),
         Pattern.quote("msmarco-v2-passage.d2q-t5"),
-        Pattern.quote("msmarco-v2-passage.unicoil-noexp-0shot.cached"),
-        Pattern.quote("msmarco-v2-passage.unicoil-0shot.cached"),
-        Pattern.quote("msmarco-v2-passage.splade-pp-ed.cached"),
+        Pattern.quote("msmarco-v2-passage.unicoil.onnx"),
         Pattern.quote("msmarco-v2-passage.splade-pp-ed.onnx"),
-        Pattern.quote("msmarco-v2-passage.splade-pp-sd.cached"),
         Pattern.quote("msmarco-v2-passage.splade-pp-sd.onnx"),
         Pattern.quote("msmarco-v2-passage-augmented"),
         Pattern.quote("msmarco-v2-passage-augmented.d2q-t5"),
+        Pattern.quote(""),
         Pattern.quote("msmarco-v2-doc"),
         Pattern.quote("msmarco-v2-doc.d2q-t5"),
         Pattern.quote("msmarco-v2-doc-segmented"),
         Pattern.quote("msmarco-v2-doc-segmented.d2q-t5"),
-        Pattern.quote("msmarco-v2-doc-segmented.unicoil-noexp-0shot-v2.cached"),
-        Pattern.quote("msmarco-v2-doc-segmented.unicoil-0shot-v2.cached"),
+        Pattern.quote("msmarco-v2-doc-segmented.unicoil.onnx"),
         Pattern.quote(""),
         Pattern.quote("dl21-passage"),
         Pattern.quote("dl21-passage.d2q-t5"),
-        Pattern.quote("dl21-passage.unicoil-noexp-0shot.cached"),
-        Pattern.quote("dl21-passage.unicoil-0shot.cached"),
-        Pattern.quote("dl21-passage.splade-pp-ed.cached"),
+        Pattern.quote("dl21-passage.unicoil.onnx"),
         Pattern.quote("dl21-passage.splade-pp-ed.onnx"),
-        Pattern.quote("dl21-passage.splade-pp-sd.cached"),
         Pattern.quote("dl21-passage.splade-pp-sd.onnx"),
         Pattern.quote("dl21-passage-augmented"),
         Pattern.quote("dl21-passage-augmented.d2q-t5"),
+        Pattern.quote(""),
         Pattern.quote("dl21-doc"),
         Pattern.quote("dl21-doc.d2q-t5"),
         Pattern.quote("dl21-doc-segmented"),
         Pattern.quote("dl21-doc-segmented.d2q-t5"),
-        Pattern.quote("dl21-doc-segmented.unicoil-noexp-0shot-v2.cached"),
-        Pattern.quote("dl21-doc-segmented.unicoil-0shot-v2.cached"),
+        Pattern.quote("dl21-doc-segmented.unicoil.onnx"),
         Pattern.quote(""),
         Pattern.quote("dl22-passage"),
         Pattern.quote("dl22-passage.d2q-t5"),
-        Pattern.quote("dl22-passage.unicoil-noexp-0shot.cached"),
-        Pattern.quote("dl22-passage.unicoil-0shot.cached"),
-        Pattern.quote("dl22-passage.splade-pp-ed.cached"),
+        Pattern.quote("dl22-passage.unicoil.onnx"),
         Pattern.quote("dl22-passage.splade-pp-ed.onnx"),
-        Pattern.quote("dl22-passage.splade-pp-sd.cached"),
         Pattern.quote("dl22-passage.splade-pp-sd.onnx"),
         Pattern.quote("dl22-passage-augmented"),
         Pattern.quote("dl22-passage-augmented.d2q-t5"),
+        Pattern.quote(""),
         Pattern.quote("dl22-doc"),
         Pattern.quote("dl22-doc.d2q-t5"),
         Pattern.quote("dl22-doc-segmented"),
         Pattern.quote("dl22-doc-segmented.d2q-t5"),
-        Pattern.quote("dl22-doc-segmented.unicoil-noexp-0shot-v2.cached"),
-        Pattern.quote("dl22-doc-segmented.unicoil-0shot-v2.cached"),
+        Pattern.quote("dl22-doc-segmented.unicoil.onnx"),
         Pattern.quote(""),
         Pattern.quote("dl23-passage"),
         Pattern.quote("dl23-passage.d2q-t5"),
-        Pattern.quote("dl23-passage.unicoil-noexp-0shot.cached"),
-        Pattern.quote("dl23-passage.unicoil-0shot.cached"),
-        Pattern.quote("dl23-passage.splade-pp-ed.cached"),
+        Pattern.quote("dl23-passage.unicoil.onnx"),
         Pattern.quote("dl23-passage.splade-pp-ed.onnx"),
-        Pattern.quote("dl23-passage.splade-pp-sd.cached"),
         Pattern.quote("dl23-passage.splade-pp-sd.onnx"),
         Pattern.quote("dl23-passage-augmented"),
         Pattern.quote("dl23-passage-augmented.d2q-t5"),
+        Pattern.quote(""),
         Pattern.quote("dl23-doc"),
         Pattern.quote("dl23-doc.d2q-t5"),
         Pattern.quote("dl23-doc-segmented"),
         Pattern.quote("dl23-doc-segmented.d2q-t5"),
-        Pattern.quote("dl23-doc-segmented.unicoil-noexp-0shot-v2.cached"),
-        Pattern.quote("dl23-doc-segmented.unicoil-0shot-v2.cached")
+        Pattern.quote("dl23-doc-segmented.unicoil.onnx")
     ));
     ORDERING.put("MS MARCO V2.1 + RAG24-25 regressions", List.of(
         Pattern.quote("rag24-doc-segmented-test-umbrela"),
         Pattern.quote("rag24-doc-segmented-test-umbrela.splade-v3.onnx"),
-        Pattern.quote("rag24-doc-segmented-test-umbrela.splade-v3.cached"),
         Pattern.quote("rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard00.flat.onnx"),
         Pattern.quote("rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard01.flat.onnx"),
         Pattern.quote("rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard02.flat.onnx"),
@@ -307,7 +228,6 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("rag24-doc-segmented-test-umbrela.arctic-embed-l.parquet.shard09.flat.onnx"),
         Pattern.quote("rag24-doc-segmented-test-nist"),
         Pattern.quote("rag24-doc-segmented-test-nist.splade-v3.onnx"),
-        Pattern.quote("rag24-doc-segmented-test-nist.splade-v3.cached"),
         Pattern.quote("rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard00.flat.onnx"),
         Pattern.quote("rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard01.flat.onnx"),
         Pattern.quote("rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard02.flat.onnx"),
@@ -320,6 +240,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard09.flat.onnx"),
         Pattern.quote(""),
         Pattern.quote("rag25-doc-segmented-test-umbrela2"),
+        Pattern.quote("rag25-doc-segmented-test-umbrela2.splade-v3.onnx"),
         Pattern.quote("rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard00.flat.onnx"),
         Pattern.quote("rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard01.flat.onnx"),
         Pattern.quote("rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard02.flat.onnx"),
@@ -331,6 +252,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard08.flat.onnx"),
         Pattern.quote("rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard09.flat.onnx"),
         Pattern.quote("rag25-doc-segmented-test-nist"),
+        Pattern.quote("rag25-doc-segmented-test-nist.splade-v3.onnx"),
         Pattern.quote("rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard00.flat.onnx"),
         Pattern.quote("rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard01.flat.onnx"),
         Pattern.quote("rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard02.flat.onnx"),
@@ -345,25 +267,20 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("msmarco-v2.1-doc"),
         Pattern.quote("msmarco-v2.1-doc-segmented"),
         Pattern.quote("msmarco-v2.1-doc-segmented.splade-v3.onnx"),
-        Pattern.quote("msmarco-v2.1-doc-segmented.splade-v3.cached"),
         Pattern.quote(""),
         Pattern.quote("dl21-doc-msmarco-v2.1"),
         Pattern.quote("dl21-doc-segmented-msmarco-v2.1"),
         Pattern.quote("dl21-doc-segmented-msmarco-v2.1.splade-v3.onnx"),
-        Pattern.quote("dl21-doc-segmented-msmarco-v2.1.splade-v3.cached"),
         Pattern.quote("dl22-doc-msmarco-v2.1"),
         Pattern.quote("dl22-doc-segmented-msmarco-v2.1"),
         Pattern.quote("dl22-doc-segmented-msmarco-v2.1.splade-v3.onnx"),
-        Pattern.quote("dl22-doc-segmented-msmarco-v2.1.splade-v3.cached"),
         Pattern.quote("dl23-doc-msmarco-v2.1"),
         Pattern.quote("dl23-doc-segmented-msmarco-v2.1"),
         Pattern.quote("dl23-doc-segmented-msmarco-v2.1.splade-v3.onnx"),
-        Pattern.quote("dl23-doc-segmented-msmarco-v2.1.splade-v3.cached"),
         Pattern.quote(""),
         Pattern.quote("rag24-doc-raggy-dev"),
         Pattern.quote("rag24-doc-segmented-raggy-dev"),
-        Pattern.quote("rag24-doc-segmented-raggy-dev.splade-v3.onnx"),
-        Pattern.quote("rag24-doc-segmented-raggy-dev.splade-v3.cached")
+        Pattern.quote("rag24-doc-segmented-raggy-dev.splade-v3.onnx")
     ));
     ORDERING.put("BEIR (v1.0.0): BGE-base-en-v1.5", List.of(
         Pattern.quote("beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat.onnx"),
@@ -701,6 +618,10 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("miracl-v1.0-th-aca"),
         Pattern.quote("miracl-v1.0-zh-aca")
     ));
+    ORDERING.put("NanoKnow", List.of(
+        Pattern.quote("nanoknow-v1.0-nq"),
+        Pattern.quote("nanoknow-v1.0-squad")
+    ));
     ORDERING.put("Other cross-lingual and multi-lingual regressions", List.of(
         Pattern.quote("ntcir8-zh"),
         Pattern.quote("clef06-fr"),
@@ -781,19 +702,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("bright-sustainable-living.splade-v3.onnx"),
         Pattern.quote("bright-theoremqa-questions.splade-v3.onnx"),
         Pattern.quote("bright-theoremqa-theorems.splade-v3.onnx"),
-        Pattern.quote(""),
-        Pattern.quote("bright-aops.splade-v3.cached"),
-        Pattern.quote("bright-biology.splade-v3.cached"),
-        Pattern.quote("bright-earth-science.splade-v3.cached"),
-        Pattern.quote("bright-economics.splade-v3.cached"),
-        Pattern.quote("bright-leetcode.splade-v3.cached"),
-        Pattern.quote("bright-pony.splade-v3.cached"),
-        Pattern.quote("bright-psychology.splade-v3.cached"),
-        Pattern.quote("bright-robotics.splade-v3.cached"),
-        Pattern.quote("bright-stackoverflow.splade-v3.cached"),
-        Pattern.quote("bright-sustainable-living.splade-v3.cached"),
-        Pattern.quote("bright-theoremqa-questions.splade-v3.cached"),
-        Pattern.quote("bright-theoremqa-theorems.splade-v3.cached")
+        Pattern.quote("")
     ));
     ORDERING.put("BRIGHT: BGE-large-en-v1.5", List.of(
         Pattern.quote("bright-aops.bge-large-en-v1.5.flat.onnx"),
@@ -808,19 +717,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("bright-sustainable-living.bge-large-en-v1.5.flat.onnx"),
         Pattern.quote("bright-theoremqa-questions.bge-large-en-v1.5.flat.onnx"),
         Pattern.quote("bright-theoremqa-theorems.bge-large-en-v1.5.flat.onnx"),
-        Pattern.quote(""),
-        Pattern.quote("bright-aops.bge-large-en-v1.5.flat.cached"),
-        Pattern.quote("bright-biology.bge-large-en-v1.5.flat.cached"),
-        Pattern.quote("bright-earth-science.bge-large-en-v1.5.flat.cached"),
-        Pattern.quote("bright-economics.bge-large-en-v1.5.flat.cached"),
-        Pattern.quote("bright-leetcode.bge-large-en-v1.5.flat.cached"),
-        Pattern.quote("bright-pony.bge-large-en-v1.5.flat.cached"),
-        Pattern.quote("bright-psychology.bge-large-en-v1.5.flat.cached"),
-        Pattern.quote("bright-robotics.bge-large-en-v1.5.flat.cached"),
-        Pattern.quote("bright-stackoverflow.bge-large-en-v1.5.flat.cached"),
-        Pattern.quote("bright-sustainable-living.bge-large-en-v1.5.flat.cached"),
-        Pattern.quote("bright-theoremqa-questions.bge-large-en-v1.5.flat.cached"),
-        Pattern.quote("bright-theoremqa-theorems.bge-large-en-v1.5.flat.cached")
+        Pattern.quote("")
     ));
     ORDERING.put("Other regressions (TREC, etc.)", List.of(
         Pattern.quote("backgroundlinking18"),
@@ -860,6 +757,11 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
       String testName = fileEntry.getName().replaceAll(".template", "");
 
       URL yaml = GenerateReproductionDocsFromDocumentCollectionTest.class.getResource(String.format("/reproduce/from-document-collection/configs/%s.yaml", testName));
+      if (yaml == null) {
+        System.err.printf("WARNING: No reproduction config found for template '%s.template'%n", testName);
+        continue;
+      }
+
       DataModel data = mapper.readValue(new File(yaml.toURI()), DataModel.class);
       String corpus = data.getCorpus();
       String download_corpus = data.getDownload_corpus();
@@ -914,11 +816,20 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         }
 
         Pattern pattern = Pattern.compile(regex);
+        boolean configExists = false;
         for (String config : configs) {
-          if (!emitted.contains(config) && pattern.matcher(config).matches()) {
-            groupConfigs.add(config);
-            emitted.add(config);
+          if (pattern.matcher(config).matches()) {
+            configExists = true;
+            if (!emitted.contains(config)) {
+              groupConfigs.add(config);
+              emitted.add(config);
+            }
           }
+        }
+
+        if (!configExists) {
+          System.err.printf("WARNING: No reproduction config found for ordering entry '%s' in group '%s'%n",
+              displayOrderingEntry(regex), entry.getKey());
         }
       }
 
@@ -941,15 +852,27 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
       invocations.append("\n</details>\n");
     }
 
+    for (String config : configs) {
+      if (!emitted.contains(config)) {
+        System.err.printf("WARNING: No ordering entry found for reproduction config '%s'%n", config);
+      }
+    }
+
     Map<String, String> valuesMap = new HashMap<>();
     valuesMap.put("invocations", invocations.toString().trim());
 
     StringSubstitutor sub = new StringSubstitutor(valuesMap);
-    String text = Files.readString(Path.of("docs/reproduce-from-document-collection.template"), StandardCharsets.UTF_8);
+    String text = Files.readString(Path.of("docs/ref-reproduce-from-document-collections-catalog.template"), StandardCharsets.UTF_8);
     String resolvedString = sub.replace(text);
 
-    FileUtils.writeStringToFile(new File("docs/reproduce-from-document-collection.md"), resolvedString, "UTF-8");
+    FileUtils.writeStringToFile(new File("docs/ref-reproduce-from-document-collections-catalog.md"), resolvedString, "UTF-8");
   }
 
+  private String displayOrderingEntry(String regex) {
+    if (regex.startsWith("\\Q") && regex.endsWith("\\E")) {
+      return regex.substring(2, regex.length() - 2);
+    }
+    return regex;
+  }
 
 }

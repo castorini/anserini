@@ -1,3 +1,6 @@
+# Nanoknow
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config nanoknow-v1.0-nq
+
 # CACM
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config cacm
 io.anserini.reproduce.ReproduceFromDocumentCollection --download --index --verify --search --config cacm-download
@@ -87,6 +90,9 @@ io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search 
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config gov2
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config cw09b
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config cw12b13
+
+# Nanoknow (no indexing)
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config nanoknow-v1.0-squad
 
 # End with cw12
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config cw12
