@@ -1,4 +1,4 @@
-# ⚗️ Anserini: Reproductions from Document Collections: Catalog of Invocations
+# ⚗️ Anserini: Reproductions from Document Collections: Catalog
 
 All invocations of reproductions from raw document collections have the following form:
 

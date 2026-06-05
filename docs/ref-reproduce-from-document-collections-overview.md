@@ -1,4 +1,4 @@
-# ⚗️ Anserini: Reproductions from Document Collections: Overview of Pipeline
+# ⚗️ Anserini: Reproductions from Document Collections: Pipeline
 
 Reproduction experiments in Anserini are coordinated by a rigorous end-to-end framework implemented in [`io.anserini.reproduce.ReproduceFromDocumentCollection`](../src/main/java/io/anserini/reproduce/ReproduceFromDocumentCollection.java).
 The driver automatically runs experiments based on configuration files stored in [`src/main/resources/reproduce/from-document-collection/configs`](../src/main/resources/reproduce/from-document-collection/configs), performing the following actions:
