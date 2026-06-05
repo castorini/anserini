@@ -40,4 +40,4 @@ For the complete list of configurations (i.e., `--config` settings), see [this c
 
 Internally at Waterloo, we have two machines (`tuna.cs.uwaterloo.ca` and `orca.cs.uwaterloo.ca`) for the development of Anserini.
 They are both set up to run these reproductions, and we are continuously running these reproductions to ensure that new commits do not break any existing features.
-We keep a [change log](regressions-log.md) to document substantive changes.
+We keep a [change log](./ref-reproduce-from-document-collections-log.md) to document substantive changes.
