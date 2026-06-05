@@ -3,6 +3,29 @@
 The following change log details commits to regression tests that alter effectiveness and the addition (or removal) of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### June 5, 2026
+
+Catching up on a bunch of recent changes:
+
+Update effectiveness numbers from `ko` analyzer update for Mr.TyDi and MIRACL
+
++ commit [`cb55ecc`](https://github.com/castorini/anserini/commit/cb55eccc53b2f02c82fbf96b83932c48360d3cbd) (2026/06/03),
++ commit [`3c06361`](https://github.com/castorini/anserini/commit/3c06361db7f7466b2f646e60c20433ec6ae16ae0) (2026/05/23): the new `ko` analyzer was merged
+
+Per [`anserini#3268`](https://github.com/castorini/anserini/discussions/3268), decided to remove cached queries.
+
++ commit [`3f6262b`](https://github.com/castorini/anserini/commit/3f6262b12a0a9fcc59ffedfc458ee31e652bee16) (2026/05/28)
++ commit [`43e90b0`](https://github.com/castorini/anserini/commit/43e90b01156c1c4e1e7972192dd64bc779251efa) (2026/05/16)
+
+Added uniCOIL ONNX reproductions:
+
++ commit [`11703ed`](https://github.com/castorini/anserini/commit/11703ed8f9354fb4ea0dc4960cee1b5e14ee6561) (2026/05/24)
+
+Added NanoKnow reproductions:
+
++ commit [`8605a47`](https://github.com/castorini/anserini/commit/8605a4710ac85e3b83023ba062a259a794c0d4da) (2026/05/02)
++ commit [`3036586`](https://github.com/castorini/anserini/commit/30365861682d84408fc3221ca74d4ce6486c14ba) (2026/04/25)
+
 ### April 25, 2026
 
 + commit [`4638a6`](https://github.com/castorini/anserini/commit/4638a67f5213fef2e5c7261956025176d46c3e20)
