@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Scanner;
@@ -805,6 +806,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         .toList();
 
     StringBuilder invocations = new StringBuilder();
+    StringBuilder tableOfContents = new StringBuilder();
     Set<String> emitted = new LinkedHashSet<>();
 
     for (Map.Entry<String, List<String>> entry : ORDERING.entrySet()) {
@@ -837,11 +839,14 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         continue;
       }
 
-      invocations.append("<details>\n");
-      invocations.append("<summary>").append(entry.getKey()).append("</summary>\n\n");
+      String anchor = markdownAnchor(entry.getKey());
+      tableOfContents.append(String.format("+ [%s](#%s)\n", entry.getKey(), anchor));
+
+      invocations.append(String.format("<a id=\"%s\"></a>\n\n", anchor));
+      invocations.append(String.format("## %s\n\n", entry.getKey()));
       for (String config : groupConfigs) {
         if (config.equals("")) {
-          invocations.append("\n\n<div></div>\n\n");
+          invocations.append("\n");
           continue;
         }
 
@@ -849,7 +854,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         String docLink = Files.exists(docPath) ? String.format(" [[docs](reproduce/from-document-collection/%s.md)]", config) : "";
         invocations.append(String.format("+ [`%s`](../src/main/resources/reproduce/from-document-collection/configs/%s.yaml)%s\n", config, config, docLink));
       }
-      invocations.append("\n</details>\n");
+      invocations.append("\n");
     }
 
     for (String config : configs) {
@@ -859,6 +864,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
     }
 
     Map<String, String> valuesMap = new HashMap<>();
+    valuesMap.put("table_of_contents", tableOfContents.toString().trim());
     valuesMap.put("invocations", invocations.toString().trim());
 
     StringSubstitutor sub = new StringSubstitutor(valuesMap);
@@ -873,6 +879,12 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
       return regex.substring(2, regex.length() - 2);
     }
     return regex;
+  }
+
+  private String markdownAnchor(String heading) {
+    return heading.toLowerCase(Locale.ROOT)
+        .replaceAll("[^a-z0-9]+", "-")
+        .replaceAll("(^-|-$)", "");
   }
 
 }
