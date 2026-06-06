@@ -102,6 +102,19 @@ bin/run.sh io.anserini.index.IndexCollection \
 
 In this case, Lucene creates what is known as an **inverted index**.
 
+For sparse retrieval (like in BM25), the unit of matching is the term/token. So the index inverts the natural "document -> terms in the document" relation into "term -> documents containing the term":
+
+ "panthers"  -> [doc7, doc42, doc1031, ...]
+ "score"     -> [doc7, doc99, doc1031, ...]
+ "yesterday" -> [doc7, doc500, ...]
+
+At query time, you tokenize the query, look up each term's doc list, intersect/union them, and score the candidate docs with BM25. It's fast because most terms appear in only a tiny fraction of docs, so you don't touch the corpus. Instead, you only touch a handful of doc lists.
+
+This is the structure Lucene builds (and what Anserini uses). It only works because of two assumptions:
+
+ 1. Discrete tokens (you can hash "panthers").
+ 2. Exact term overlap matters (you only score docs that share ≥1 term with the query).
+
 Upon completion, we should have an index with 8,841,823 documents.
 The indexing speed may vary;
 On a modern desktop with an SSD, indexing takes a couple of minutes.
