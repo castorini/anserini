@@ -38,6 +38,7 @@ For the most part, manual copying and pasting of commands into a shell is requir
 
 ## 📜️ Release History
 
++ v2.2.0: June 7, 2026 [[Release Notes](release-notes/release-notes-v2.2.0.md)]
 + v2.1.1: May 16, 2026 [[Release Notes](release-notes/release-notes-v2.1.1.md)]
 + v2.1.0: May 14, 2026 [[Release Notes](release-notes/release-notes-v2.1.0.md)]
 + v2.0.0: April 14, 2026 [[Release Notes](release-notes/release-notes-v2.0.0.md)]
