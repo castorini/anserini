@@ -73,6 +73,7 @@ import io.anserini.search.SearchCollection;
 import io.anserini.search.SearchFlatDenseVectors;
 import io.anserini.search.SearchHnswDenseVectors;
 import io.anserini.search.SearchInvertedDenseVectors;
+import io.anserini.util.CacheDirectoryResolver;
 import io.anserini.util.LoggingBootstrap;
 
 public class ReproduceFromDocumentCollection {
@@ -119,22 +120,25 @@ public class ReproduceFromDocumentCollection {
   }
 
   public static class Args {
-    @Option(name = "--config", metaVar = "[config]", usage = "Name of the configuration to run.")
-    public String config;
-
     @Option(name = "--list", usage = "List available configs as a JSON array and exit.")
     public boolean list = false;
 
-    @Option(name = "--download", usage = "Download corpus.")
+    @Option(name = "--config", metaVar = "[config]", usage = "Name of the configuration to run.")
+    public String config;
+
+    @Option(name = "--show", usage = "Print the specified config and exit.")
+    public boolean show = false;
+
+    @Option(name = "--download", usage = "[Workflow Stage] Download corpus.")
     public boolean download = false;
 
-    @Option(name = "--index", usage = "Build index.")
+    @Option(name = "--index", usage = "[Workflow Stage] Build index.")
     public boolean index = false;
 
-    @Option(name = "--verify", usage = "Verify index statistics.")
+    @Option(name = "--verify", usage = "[Workflow Stage] Verify index statistics.")
     public boolean verify = false;
 
-    @Option(name = "--search", usage = "Search and verify results.")
+    @Option(name = "--search", usage = "[Workflow Stage] Search and verify results.")
     public boolean search = false;
 
     @Option(name = "--corpus-path", metaVar = "[path]", usage = "Override corpus path from YAML.")
@@ -157,7 +161,7 @@ public class ReproduceFromDocumentCollection {
   }
 
   private static final String[] argsOrdering = new String[] {
-    "--config", "--list", "--download", "--index", "--verify", "--search",
+    "--list", "--config", "--show", "--download", "--index", "--verify", "--search",
     "--corpus-path", "--index-threads", "--search-pool", "--convert-pool", "--dry-run", "--help"};
 
   public static void main(String[] args) throws Exception {
@@ -169,7 +173,7 @@ public class ReproduceFromDocumentCollection {
     try {
       parser.parseArgument(args);
     } catch (CmdLineException exception) {
-      System.err.println(String.format("Error: %s", exception.getMessage()));
+      System.err.println(String.format(Locale.ROOT, "Error: %s", exception.getMessage()));
       CliUtils.printUsage(parser, ReproduceFromDocumentCollection.class, argsOrdering);
 
       return;
@@ -192,13 +196,27 @@ public class ReproduceFromDocumentCollection {
       return;
     }
 
+    if (parsedArgs.show) {
+      String resourceName = String.format(Locale.ROOT, "%s/%s.yaml", CONFIG_DIRECTORY, parsedArgs.config);
+      try (InputStream yamlStream = ReproductionUtils.loadResourceStream(resourceName, ReproduceFromDocumentCollection.class)) {
+        System.out.print(new String(yamlStream.readAllBytes(), StandardCharsets.UTF_8));
+      }
+      return;
+    }
+
+    if (!parsedArgs.download && !parsedArgs.index && !parsedArgs.verify && !parsedArgs.search) {
+      System.err.println("Error: Select at least one workflow stage: --download, --index, --verify, --search.");
+      CliUtils.printUsage(parser, ReproduceFromDocumentCollection.class, argsOrdering);
+      return;
+    }
+
     run(parsedArgs);
   }
 
   private static void run(Args args) throws IOException, InterruptedException, URISyntaxException, NoSuchAlgorithmException {
     ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
     JsonNode yaml;
-    String resourceName = String.format("%s/%s.yaml", CONFIG_DIRECTORY, args.config);
+    String resourceName = String.format(Locale.ROOT, "%s/%s.yaml", CONFIG_DIRECTORY, args.config);
     try (InputStream yamlStream = ReproductionUtils.loadResourceStream(resourceName, ReproduceFromDocumentCollection.class)) {
       yaml = mapper.readTree(yamlStream);
     }
@@ -242,8 +260,8 @@ public class ReproduceFromDocumentCollection {
       LOG.info("Resolved corpus path is {}", corpusPath);
 
       if (corpusPath == null) {
-        throw new RuntimeException(String.format("Unable to find the corpus '%s': looked in %s",
-            yaml.get("corpus").asText(), Arrays.toString(CORPUS_ROOTS)));
+        throw new RuntimeException(String.format(Locale.ROOT, "Unable to find the corpus '%s': looked in %s",
+            yaml.get("corpus").asText(), getCorpusRoots()));
       }
 
       String command = constructIndexingCommand(yaml, args, corpusPath);
@@ -281,7 +299,7 @@ public class ReproduceFromDocumentCollection {
               long value = Long.parseLong(parts[1].trim());
               long expected = stats.get(stat).asLong();
               if (value != expected) {
-                System.out.printf("%s: expected=%d, actual=%d%n", stat, expected, value);
+                System.out.printf(Locale.ROOT, "%s: expected=%d, actual=%d%n", stat, expected, value);
                 throw new AssertionError(stat + " mismatch");
               }
               LOG.info(line);
@@ -353,16 +371,37 @@ public class ReproduceFromDocumentCollection {
       }
     } else {
       String yamlCorpusPath = Objects.requireNonNull(yaml.get("corpus_path")).asText();
-      for (String root : CORPUS_ROOTS) {
-        Path candidate = Paths.get(root, yamlCorpusPath);
-        if (Files.exists(candidate)) {
-          corpusPath = candidate.toString();
-          break;
+      Path cachedCandidate = getCachedCorpusPath(yamlCorpusPath);
+      if (Files.exists(cachedCandidate)) {
+        corpusPath = cachedCandidate.toString();
+      } else {
+        for (String root : CORPUS_ROOTS) {
+          Path candidate = Paths.get(root, yamlCorpusPath);
+          if (Files.exists(candidate)) {
+            corpusPath = candidate.toString();
+            break;
+          }
         }
       }
     }
 
     return corpusPath;
+  }
+
+  private static List<String> getCorpusRoots() {
+    List<String> roots = new ArrayList<>();
+    roots.add(CacheDirectoryResolver.getCollectionCachePath().toString());
+    roots.addAll(Arrays.asList(CORPUS_ROOTS));
+    return roots;
+  }
+
+  private static Path getCachedCorpusPath(String yamlCorpusPath) {
+    Path corpusPath = Paths.get(yamlCorpusPath);
+    if (corpusPath.getNameCount() > 0 && "collections".equals(corpusPath.getName(0).toString())) {
+      corpusPath = corpusPath.subpath(1, corpusPath.getNameCount());
+    }
+
+    return CacheDirectoryResolver.getCollectionCachePath().resolve(corpusPath);
   }
 
   private static String constructIndexingCommand(JsonNode yaml, Args args, String corpusPath) throws IOException {
@@ -408,7 +447,7 @@ public class ReproduceFromDocumentCollection {
       }
     }
 
-    return Paths.get("runs", String.format("run.%s.%s.%s.txt", indexPart, id, modelName)).toString();
+    return Paths.get("runs", String.format(Locale.ROOT, "run.%s.%s.%s.txt", indexPart, id, modelName)).toString();
   }
 
   private static List<String> constructSearchCommands(JsonNode yaml) {
@@ -723,9 +762,12 @@ public class ReproduceFromDocumentCollection {
       return;
     }
 
-    ProcessBuilder pb = new ProcessBuilder("bash", "-lc", command);
-    pb.inheritIO();
-    Process p = pb.start();
+    Process p = new ProcessBuilder("bash", "-lc", command)
+        .redirectInput(ProcessBuilder.Redirect.PIPE)
+        .redirectOutput(ProcessBuilder.Redirect.DISCARD)
+        .redirectError(ProcessBuilder.Redirect.DISCARD)
+        .start();
+    p.getOutputStream().close();
     int code = p.waitFor();
     if (code != 0) {
       throw new RuntimeException("Command failed: " + command);
@@ -819,7 +861,7 @@ public class ReproduceFromDocumentCollection {
     byte[] digest = md.digest();
     StringBuilder sb = new StringBuilder();
     for (byte b : digest) {
-      sb.append(String.format("%02x", b));
+      sb.append(String.format(Locale.ROOT, "%02x", b));
     }
 
     return sb.toString();

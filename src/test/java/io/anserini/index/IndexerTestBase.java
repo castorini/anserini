@@ -16,6 +16,10 @@
 
 package io.anserini.index;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.Locale;
+
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.document.BinaryDocValuesField;
@@ -34,10 +38,6 @@ import org.junit.After;
 import org.junit.Before;
 
 import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
-
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.Locale;
 
 public class IndexerTestBase extends StdOutStdErrRedirectableLuceneTestCase {
   protected Path tempDir1;

@@ -16,10 +16,6 @@
 
 package io.anserini.integration;
 
-import io.anserini.collection.TrecCollection;
-import io.anserini.index.IndexCollection;
-import io.anserini.search.SearchCollection;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -27,6 +23,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
+import io.anserini.collection.TrecCollection;
+import io.anserini.index.IndexCollection;
+import io.anserini.search.SearchCollection;
 
 public class MultiThreadingSearchTest extends EndToEndTest {
   private Map<String, Set<String>> runsForQuery = new HashMap<>();

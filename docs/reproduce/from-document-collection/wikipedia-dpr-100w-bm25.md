@@ -30,7 +30,7 @@ bin/run.sh io.anserini.index.IndexCollection \
 
 The directory `/path/to/wikipedia-dpr-100w/`should be a directory containing the wikipedia-dpr-100w passages collection retrieved from [here](https://dl.fbaipublicfiles.com/dpr/wikipedia_split/psgs_w100.tsv.gz).
 
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 
@@ -139,21 +139,21 @@ python -m pyserini.eval.evaluate_dpr_retrieval --topk 100 --retrieval runs/run.w
 
 With the above commands, you should be able to reproduce the following results:
 
-| **top_20_accuracy**                                                                                          | **BM25 (default parameters)**|
-|:-------------------------------------------------------------------------------------------------------------|------------------------------|
-| [DPR: Natural Questions Test](https://github.com/facebookresearch/DPR)                                       | 0.6294                       |
-| [DPR: TriviaQA Test](https://github.com/facebookresearch/DPR)                                                | 0.7641                       |
-| [DPR: SQuAD Test](https://github.com/facebookresearch/DPR)                                                   | 0.7109                       |
-| [DPR: WebQuestions Test](https://github.com/facebookresearch/DPR)                                            | 0.6240                       |
-| [DPR: CuratedTREC Test](https://github.com/facebookresearch/DPR)                                             | 0.8069                       |
-| [EfficientQA: Natural Questions Test](https://efficientqa.github.io/)                                        | 0.6399                       |
-| **top_100_accuracy**                                                                                         | **BM25 (default parameters)**|
-| [DPR: Natural Questions Test](https://github.com/facebookresearch/DPR)                                       | 0.7825                       |
-| [DPR: TriviaQA Test](https://github.com/facebookresearch/DPR)                                                | 0.8315                       |
-| [DPR: SQuAD Test](https://github.com/facebookresearch/DPR)                                                   | 0.8184                       |
-| [DPR: WebQuestions Test](https://github.com/facebookresearch/DPR)                                            | 0.7549                       |
-| [DPR: CuratedTREC Test](https://github.com/facebookresearch/DPR)                                             | 0.8991                       |
-| [EfficientQA: Natural Questions Test](https://efficientqa.github.io/)                                        | 0.7922                       |
+| **top_20_accuracy**                                                    | **BM25 (default parameters)** |
+|:-----------------------------------------------------------------------|:-----------------------------:|
+| [DPR: Natural Questions Test](https://github.com/facebookresearch/DPR) | 0.6294                        |
+| [DPR: TriviaQA Test](https://github.com/facebookresearch/DPR)          | 0.7641                        |
+| [DPR: SQuAD Test](https://github.com/facebookresearch/DPR)             | 0.7109                        |
+| [DPR: WebQuestions Test](https://github.com/facebookresearch/DPR)      | 0.6240                        |
+| [DPR: CuratedTREC Test](https://github.com/facebookresearch/DPR)       | 0.8069                        |
+| [EfficientQA: Natural Questions Test](https://efficientqa.github.io/)  | 0.6399                        |
+| **top_100_accuracy**                                                   | **BM25 (default parameters)** |
+| [DPR: Natural Questions Test](https://github.com/facebookresearch/DPR) | 0.7825                        |
+| [DPR: TriviaQA Test](https://github.com/facebookresearch/DPR)          | 0.8315                        |
+| [DPR: SQuAD Test](https://github.com/facebookresearch/DPR)             | 0.8184                        |
+| [DPR: WebQuestions Test](https://github.com/facebookresearch/DPR)      | 0.7549                        |
+| [DPR: CuratedTREC Test](https://github.com/facebookresearch/DPR)       | 0.8991                        |
+| [EfficientQA: Natural Questions Test](https://efficientqa.github.io/)  | 0.7922                        |
 
 ## Reproduction Log[*](../../../docs/reproducibility.md)
 

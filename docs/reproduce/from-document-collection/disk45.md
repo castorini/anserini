@@ -30,7 +30,7 @@ bin/run.sh io.anserini.index.IndexCollection \
 The directory `/path/to/disk45/` should be the root directory of [TREC Disks 4 &amp; 5](https://trec.nist.gov/data/cd45/index.html); inside each there should be subdirectories like `ft`, `fr94`.
 Note that Anserini ignores the `cr` folder when indexing, which is the standard configuration.
 
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 
@@ -87,6 +87,25 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.disk45/ \
   -topics tools/topics-and-qrels/topics.adhoc.351-400.txt \
   -topicReader Trec \
+  -output runs/run.disk45.bm25prf.topics.adhoc.351-400.txt \
+  -bm25 -bm25prf &
+bin/run.sh io.anserini.search.SearchCollection \
+  -index indexes/lucene-index.disk45/ \
+  -topics tools/topics-and-qrels/topics.adhoc.401-450.txt \
+  -topicReader Trec \
+  -output runs/run.disk45.bm25prf.topics.adhoc.401-450.txt \
+  -bm25 -bm25prf &
+bin/run.sh io.anserini.search.SearchCollection \
+  -index indexes/lucene-index.disk45/ \
+  -topics tools/topics-and-qrels/topics.robust04.txt \
+  -topicReader Trec \
+  -output runs/run.disk45.bm25prf.topics.robust04.txt \
+  -bm25 -bm25prf &
+
+bin/run.sh io.anserini.search.SearchCollection \
+  -index indexes/lucene-index.disk45/ \
+  -topics tools/topics-and-qrels/topics.adhoc.351-400.txt \
+  -topicReader Trec \
   -output runs/run.disk45.bm25+rocchio.topics.adhoc.351-400.txt \
   -bm25 -rocchio &
 bin/run.sh io.anserini.search.SearchCollection \
@@ -101,25 +120,6 @@ bin/run.sh io.anserini.search.SearchCollection \
   -topicReader Trec \
   -output runs/run.disk45.bm25+rocchio.topics.robust04.txt \
   -bm25 -rocchio &
-
-bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.disk45/ \
-  -topics tools/topics-and-qrels/topics.adhoc.351-400.txt \
-  -topicReader Trec \
-  -output runs/run.disk45.bm25+rocchio-neg.topics.adhoc.351-400.txt \
-  -bm25 -rocchio -rocchio.useNegative -rerankCutoff 1000 &
-bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.disk45/ \
-  -topics tools/topics-and-qrels/topics.adhoc.401-450.txt \
-  -topicReader Trec \
-  -output runs/run.disk45.bm25+rocchio-neg.topics.adhoc.401-450.txt \
-  -bm25 -rocchio -rocchio.useNegative -rerankCutoff 1000 &
-bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.disk45/ \
-  -topics tools/topics-and-qrels/topics.robust04.txt \
-  -topicReader Trec \
-  -output runs/run.disk45.bm25+rocchio-neg.topics.robust04.txt \
-  -bm25 -rocchio -rocchio.useNegative -rerankCutoff 1000 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.disk45/ \
@@ -177,63 +177,6 @@ bin/run.sh io.anserini.search.SearchCollection \
   -topicReader Trec \
   -output runs/run.disk45.ql+rm3.topics.robust04.txt \
   -qld -rm3 &
-
-bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.disk45/ \
-  -topics tools/topics-and-qrels/topics.adhoc.351-400.txt \
-  -topicReader Trec \
-  -output runs/run.disk45.qld+rocchio.topics.adhoc.351-400.txt \
-  -qld -rocchio &
-bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.disk45/ \
-  -topics tools/topics-and-qrels/topics.adhoc.401-450.txt \
-  -topicReader Trec \
-  -output runs/run.disk45.qld+rocchio.topics.adhoc.401-450.txt \
-  -qld -rocchio &
-bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.disk45/ \
-  -topics tools/topics-and-qrels/topics.robust04.txt \
-  -topicReader Trec \
-  -output runs/run.disk45.qld+rocchio.topics.robust04.txt \
-  -qld -rocchio &
-
-bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.disk45/ \
-  -topics tools/topics-and-qrels/topics.adhoc.351-400.txt \
-  -topicReader Trec \
-  -output runs/run.disk45.qld+rocchio-neg.topics.adhoc.351-400.txt \
-  -qld -rocchio -rocchio.useNegative -rerankCutoff 1000 &
-bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.disk45/ \
-  -topics tools/topics-and-qrels/topics.adhoc.401-450.txt \
-  -topicReader Trec \
-  -output runs/run.disk45.qld+rocchio-neg.topics.adhoc.401-450.txt \
-  -qld -rocchio -rocchio.useNegative -rerankCutoff 1000 &
-bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.disk45/ \
-  -topics tools/topics-and-qrels/topics.robust04.txt \
-  -topicReader Trec \
-  -output runs/run.disk45.qld+rocchio-neg.topics.robust04.txt \
-  -qld -rocchio -rocchio.useNegative -rerankCutoff 1000 &
-
-bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.disk45/ \
-  -topics tools/topics-and-qrels/topics.adhoc.351-400.txt \
-  -topicReader Trec \
-  -output runs/run.disk45.ql+ax.topics.adhoc.351-400.txt \
-  -qld -axiom -rerankCutoff 20 &
-bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.disk45/ \
-  -topics tools/topics-and-qrels/topics.adhoc.401-450.txt \
-  -topicReader Trec \
-  -output runs/run.disk45.ql+ax.topics.adhoc.401-450.txt \
-  -qld -axiom -rerankCutoff 20 &
-bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.disk45/ \
-  -topics tools/topics-and-qrels/topics.robust04.txt \
-  -topicReader Trec \
-  -output runs/run.disk45.ql+ax.topics.robust04.txt \
-  -qld -axiom -rerankCutoff 20 &
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -247,13 +190,13 @@ bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.351-400.txt runs
 bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.401-450.txt runs/run.disk45.bm25+rm3.topics.adhoc.401-450.txt
 bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.robust04.txt runs/run.disk45.bm25+rm3.topics.robust04.txt
 
+bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.351-400.txt runs/run.disk45.bm25prf.topics.adhoc.351-400.txt
+bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.401-450.txt runs/run.disk45.bm25prf.topics.adhoc.401-450.txt
+bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.robust04.txt runs/run.disk45.bm25prf.topics.robust04.txt
+
 bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.351-400.txt runs/run.disk45.bm25+rocchio.topics.adhoc.351-400.txt
 bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.401-450.txt runs/run.disk45.bm25+rocchio.topics.adhoc.401-450.txt
 bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.robust04.txt runs/run.disk45.bm25+rocchio.topics.robust04.txt
-
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.351-400.txt runs/run.disk45.bm25+rocchio-neg.topics.adhoc.351-400.txt
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.401-450.txt runs/run.disk45.bm25+rocchio-neg.topics.adhoc.401-450.txt
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.robust04.txt runs/run.disk45.bm25+rocchio-neg.topics.robust04.txt
 
 bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.351-400.txt runs/run.disk45.bm25+ax.topics.adhoc.351-400.txt
 bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.401-450.txt runs/run.disk45.bm25+ax.topics.adhoc.401-450.txt
@@ -266,33 +209,21 @@ bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.robust04.txt runs/run.
 bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.351-400.txt runs/run.disk45.ql+rm3.topics.adhoc.351-400.txt
 bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.401-450.txt runs/run.disk45.ql+rm3.topics.adhoc.401-450.txt
 bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.robust04.txt runs/run.disk45.ql+rm3.topics.robust04.txt
-
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.351-400.txt runs/run.disk45.qld+rocchio.topics.adhoc.351-400.txt
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.401-450.txt runs/run.disk45.qld+rocchio.topics.adhoc.401-450.txt
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.robust04.txt runs/run.disk45.qld+rocchio.topics.robust04.txt
-
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.351-400.txt runs/run.disk45.qld+rocchio-neg.topics.adhoc.351-400.txt
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.401-450.txt runs/run.disk45.qld+rocchio-neg.topics.adhoc.401-450.txt
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.robust04.txt runs/run.disk45.qld+rocchio-neg.topics.robust04.txt
-
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.351-400.txt runs/run.disk45.ql+ax.topics.adhoc.351-400.txt
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.401-450.txt runs/run.disk45.ql+ax.topics.adhoc.401-450.txt
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.robust04.txt runs/run.disk45.ql+ax.topics.robust04.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MAP**                                                                                                      | **BM25**  | **+RM3**  | **+Rocchio**| **+Rocchio***| **+Ax**   | **QL**    | **+RM3**  | **+Rocchio**| **+Rocchio***| **+Ax**   |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-------------|--------------|-----------|-----------|-----------|-------------|--------------|-----------|
-| [TREC-7 Ad Hoc Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.adhoc.351-400.txt)| 0.1862    | 0.2354    | 0.2397      | 0.2391       | 0.2431    | 0.1843    | 0.2146    | 0.2189      | 0.2202       | 0.2298    |
-| [TREC-8 Ad Hoc Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.adhoc.401-450.txt)| 0.2515    | 0.2746    | 0.2743      | 0.2751       | 0.2812    | 0.2460    | 0.2686    | 0.2709      | 0.2708       | 0.2647    |
-| [TREC 2004 Robust Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.robust04.txt)| 0.2531    | 0.2908    | 0.2924      | 0.2932       | 0.2896    | 0.2467    | 0.2744    | 0.2756      | 0.2773       | 0.2774    |
-| **P30**                                                                                                      | **BM25**  | **+RM3**  | **+Rocchio**| **+Rocchio***| **+Ax**   | **QL**    | **+RM3**  | **+Rocchio**| **+Rocchio***| **+Ax**   |
-| [TREC-7 Ad Hoc Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.adhoc.351-400.txt)| 0.3093    | 0.3407    | 0.3527      | 0.3500       | 0.3287    | 0.3073    | 0.3307    | 0.3293      | 0.3300       | 0.3193    |
-| [TREC-8 Ad Hoc Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.adhoc.401-450.txt)| 0.3560    | 0.3753    | 0.3707      | 0.3713       | 0.3753    | 0.3480    | 0.3713    | 0.3640      | 0.3660       | 0.3500    |
-| [TREC 2004 Robust Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.robust04.txt)| 0.3102    | 0.3349    | 0.3364      | 0.3378       | 0.3333    | 0.3079    | 0.3244    | 0.3237      | 0.3246       | 0.3229    |
+| **MAP**                                                                                                                       | **BM25**   | **+RM3**   | **+BM25PRF** | **+Rocchio** | **+Ax**    | **QL**     | **+RM3**   |
+|:------------------------------------------------------------------------------------------------------------------------------|:----------:|:----------:|:------------:|:------------:|:----------:|:----------:|:----------:|
+| [TREC-7 Ad Hoc Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.adhoc.351-400.txt)     | 0.1862     | 0.2354     | 0.2394       | 0.2397       | 0.2431     | 0.1843     | 0.2146     |
+| [TREC-8 Ad Hoc Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.adhoc.401-450.txt)     | 0.2515     | 0.2746     | 0.2791       | 0.2743       | 0.2812     | 0.2460     | 0.2686     |
+| [TREC 2004 Robust Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.robust04.txt) | 0.2531     | 0.2908     | 0.2928       | 0.2924       | 0.2896     | 0.2467     | 0.2744     |
+| **P30**                                                                                                                       | **BM25**   | **+RM3**   | **+BM25PRF** | **+Rocchio** | **+Ax**    | **QL**     | **+RM3**   |
+| [TREC-7 Ad Hoc Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.adhoc.351-400.txt)     | 0.3093     | 0.3407     | 0.3473       | 0.3527       | 0.3287     | 0.3073     | 0.3307     |
+| [TREC-8 Ad Hoc Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.adhoc.401-450.txt)     | 0.3560     | 0.3753     | 0.3807       | 0.3707       | 0.3753     | 0.3480     | 0.3713     |
+| [TREC 2004 Robust Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.robust04.txt) | 0.3102     | 0.3349     | 0.3438       | 0.3364       | 0.3333     | 0.3079     | 0.3244     |
 
 ## Reproduction Log[*](../../../docs/reproducibility.md)
 

@@ -58,7 +58,7 @@ bin/run.sh io.anserini.index.IndexCollection \
 
 The directory `/path/to/msmarco-passage-bm25-b8/` should be a directory containing `jsonl` files containing quantized BM25 vectors for every document
 
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 
@@ -90,15 +90,15 @@ bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.t
 
 With the above commands, you should be able to reproduce the following results:
 
-| **AP@1000**                                                                                                  | **BM25 (default parameters, quantized 8 bits)**|
-|:-------------------------------------------------------------------------------------------------------------|------------------------------------------------|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.2911                                         |
-| **nDCG@10**                                                                                                  | **BM25 (default parameters, quantized 8 bits)**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.4852                                         |
-| **R@100**                                                                                                    | **BM25 (default parameters, quantized 8 bits)**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.5673                                         |
-| **R@1000**                                                                                                   | **BM25 (default parameters, quantized 8 bits)**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.8119                                         |
+| **AP@1000**                                                | **BM25 (default parameters, quantized 8 bits)** |
+|:-----------------------------------------------------------|:-----------------------------------------------:|
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html) | 0.2911                                          |
+| **nDCG@10**                                                | **BM25 (default parameters, quantized 8 bits)** |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html) | 0.4852                                          |
+| **R@100**                                                  | **BM25 (default parameters, quantized 8 bits)** |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html) | 0.5673                                          |
+| **R@1000**                                                 | **BM25 (default parameters, quantized 8 bits)** |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html) | 0.8119                                          |
 
 ❗ Retrieval metrics here are computed to depth 1000 hits per query (as opposed to 100 hits per query for document ranking).
 For computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., AP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).

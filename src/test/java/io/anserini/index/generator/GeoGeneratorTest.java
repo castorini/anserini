@@ -16,12 +16,8 @@
 
 package io.anserini.index.generator;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fasterxml.jackson.databind.node.TextNode;
-import io.anserini.collection.JsonCollection;
-import io.anserini.index.Constants;
-import io.anserini.index.IndexCollection;
+import static org.junit.Assert.assertEquals;
+
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.DoublePoint;
 import org.apache.lucene.document.LatLonDocValuesField;
@@ -31,7 +27,13 @@ import org.apache.lucene.index.IndexableField;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.node.TextNode;
+
+import io.anserini.collection.JsonCollection;
+import io.anserini.index.Constants;
+import io.anserini.index.IndexCollection;
 
 public class GeoGeneratorTest {
   private JsonCollection.Document geoDoc;

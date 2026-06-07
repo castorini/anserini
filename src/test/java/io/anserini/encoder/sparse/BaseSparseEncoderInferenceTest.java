@@ -16,11 +16,11 @@
 
 package io.anserini.encoder.sparse;
 
-import ai.onnxruntime.OrtException;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
+import ai.onnxruntime.OrtException;
 
 public class BaseSparseEncoderInferenceTest {
   public void testExamples(SparseExampleOutputPair[] examples, SparseEncoder encoder) throws OrtException {

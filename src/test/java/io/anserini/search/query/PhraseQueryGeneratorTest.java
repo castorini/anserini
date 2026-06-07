@@ -16,14 +16,15 @@
 
 package io.anserini.search.query;
 
-import io.anserini.index.IndexCollection;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.search.PhraseQuery;
 import org.apache.lucene.search.Query;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import io.anserini.index.IndexCollection;
 
 public class PhraseQueryGeneratorTest {
   @Test

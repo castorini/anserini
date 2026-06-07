@@ -37,7 +37,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   >& logs/log.beir-v1.0.0-dbpedia-entity.flat &
 ```
 
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 
@@ -66,10 +66,10 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-dbpedia
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@10**                                                                                                  | **BM25**  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): DBPedia                                                                                       | 0.3180    |
-| **R@100**                                                                                                    | **BM25**  |
-| BEIR (v1.0.0): DBPedia                                                                                       | 0.4682    |
-| **R@1000**                                                                                                   | **BM25**  |
-| BEIR (v1.0.0): DBPedia                                                                                       | 0.6760    |
+| **nDCG@10**            | **BM25**   |
+|:-----------------------|:----------:|
+| BEIR (v1.0.0): DBPedia | 0.3180     |
+| **R@100**              | **BM25**   |
+| BEIR (v1.0.0): DBPedia | 0.4682     |
+| **R@1000**             | **BM25**   |
+| BEIR (v1.0.0): DBPedia | 0.6760     |

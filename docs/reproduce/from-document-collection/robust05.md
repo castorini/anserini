@@ -29,7 +29,7 @@ bin/run.sh io.anserini.index.IndexCollection \
 
 The directory `/path/to/aquaint/` should be the root directory of the [AQUAINT collection](https://tac.nist.gov//data/data_desc.html#AQUAINT); under subdirectory `disk1/` there should be `NYT/` and under subdirectory `disk2/` there should be `APW/` and `XIE/`.
 
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 
@@ -105,8 +105,8 @@ bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.robust05.txt runs/run.
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MAP**                                                                                                      | **BM25**  | **+RM3**  | **+Ax**   | **QL**    | **+RM3**  | **+Ax**   |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-| [TREC 2005 Robust Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.robust05.txt)| 0.2032    | 0.2624    | 0.2587    | 0.2028    | 0.2484    | 0.2476    |
-| **P30**                                                                                                      | **BM25**  | **+RM3**  | **+Ax**   | **QL**    | **+RM3**  | **+Ax**   |
-| [TREC 2005 Robust Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.robust05.txt)| 0.3693    | 0.4200    | 0.4120    | 0.3653    | 0.4080    | 0.4113    |
+| **MAP**                                                                                                                       | **BM25**   | **+RM3**   | **+Ax**    | **QL**     | **+RM3**   | **+Ax**    |
+|:------------------------------------------------------------------------------------------------------------------------------|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|
+| [TREC 2005 Robust Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.robust05.txt) | 0.2032     | 0.2624     | 0.2587     | 0.2028     | 0.2484     | 0.2476     |
+| **P30**                                                                                                                       | **BM25**   | **+RM3**   | **+Ax**    | **QL**     | **+RM3**   | **+Ax**    |
+| [TREC 2005 Robust Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.robust05.txt) | 0.3693     | 0.4200     | 0.4120     | 0.3653     | 0.4080     | 0.4113     |

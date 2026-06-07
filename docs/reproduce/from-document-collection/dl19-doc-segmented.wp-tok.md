@@ -36,7 +36,7 @@ bin/run.sh io.anserini.index.IndexCollection \
 The directory `/path/to/msmarco-doc-segmented/` should be a directory containing the segmented corpus in Anserini's jsonl format.
 See [this page](../../../docs/experiments-msmarco-doc-doc2query-details.md) for how to prepare the corpus.
 
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 
@@ -68,12 +68,12 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl19-doc.txt runs/r
 
 With the above commands, you should be able to reproduce the following results:
 
-| **AP@100**                                                                                                   | **BM25 (default)**|
-|:-------------------------------------------------------------------------------------------------------------|-------------------|
-| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.2269            |
-| **nDCG@10**                                                                                                  | **BM25 (default)**|
-| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.5206            |
-| **R@100**                                                                                                    | **BM25 (default)**|
-| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.3708            |
-| **R@1000**                                                                                                   | **BM25 (default)**|
-| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.6476            |
+| **AP@100**                                             | **BM25 (default)** |
+|:-------------------------------------------------------|:------------------:|
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html) | 0.2269             |
+| **nDCG@10**                                            | **BM25 (default)** |
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html) | 0.5206             |
+| **R@100**                                              | **BM25 (default)** |
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html) | 0.3708             |
+| **R@1000**                                             | **BM25 (default)** |
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html) | 0.6476             |

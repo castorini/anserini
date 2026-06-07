@@ -35,7 +35,7 @@ bin/run.sh io.anserini.index.IndexCollection \
 
 The directory `/path/to/car17v2.0-doc2query` should be the root directory of Complex Answer Retrieval (CAR) paragraph corpus (v2.0) that has been augmented with the doc2query expansions, i.e., `collection_jsonl_expanded_topk10/` as described in [this page](../../../docs/experiments-doc2query.md).
 
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 
@@ -113,8 +113,8 @@ bin/trec_eval -c -m map -c -m recip_rank tools/topics-and-qrels/qrels.car17v2.0.
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MAP**                                                                                                      | **BM25**  | **+RM3**  | **+Ax**   | **QL**    | **+RM3**  | **+Ax**   |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-| [TREC 2017 CAR: benchmarkY1test (v2.0)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt)| 0.1807    | 0.1529    | 0.1470    | 0.1752    | 0.1447    | 0.1339    |
-| **MRR**                                                                                                      | **BM25**  | **+RM3**  | **+Ax**   | **QL**    | **+RM3**  | **+Ax**   |
-| [TREC 2017 CAR: benchmarkY1test (v2.0)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt)| 0.2750    | 0.2289    | 0.2186    | 0.2653    | 0.2144    | 0.1981    |
+| **MAP**                                                                                                                                                | **BM25**   | **+RM3**   | **+Ax**    | **QL**     | **+RM3**   | **+Ax**    |
+|:-------------------------------------------------------------------------------------------------------------------------------------------------------|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|
+| [TREC 2017 CAR: benchmarkY1test (v2.0)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt) | 0.1807     | 0.1529     | 0.1470     | 0.1752     | 0.1447     | 0.1339     |
+| **MRR**                                                                                                                                                | **BM25**   | **+RM3**   | **+Ax**    | **QL**     | **+RM3**   | **+Ax**    |
+| [TREC 2017 CAR: benchmarkY1test (v2.0)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt) | 0.2750     | 0.2289     | 0.2186     | 0.2653     | 0.2144     | 0.1981     |

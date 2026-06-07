@@ -16,13 +16,13 @@
 
 package io.anserini.analysis;
 
-import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.CharArraySet;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.CharArraySet;
+import org.junit.Test;
 
 public class EnglishStemmingAnalyzerTest {
   private static final String INPUT = "City buses are running on schedule.";

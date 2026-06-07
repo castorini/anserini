@@ -29,7 +29,7 @@ bin/run.sh io.anserini.index.IndexCollection \
 ```
 
 See [this page](https://github.com/castorini/mr.tydi) for more details about the Mr. TyDi corpus.
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 
@@ -68,12 +68,12 @@ bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools/topics-and-qrels/qr
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MRR@100**                                                                                                  | **BM25**  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [Mr. TyDi (Korean): train](https://github.com/castorini/mr.tydi)                                             | 0.2694    |
-| [Mr. TyDi (Korean): dev](https://github.com/castorini/mr.tydi)                                               | 0.3100    |
-| [Mr. TyDi (Korean): test](https://github.com/castorini/mr.tydi)                                              | 0.2907    |
-| **R@100**                                                                                                    | **BM25**  |
-| [Mr. TyDi (Korean): train](https://github.com/castorini/mr.tydi)                                             | 0.6483    |
-| [Mr. TyDi (Korean): dev](https://github.com/castorini/mr.tydi)                                               | 0.6898    |
-| [Mr. TyDi (Korean): test](https://github.com/castorini/mr.tydi)                                              | 0.6433    |
+| **MRR@100**                                                      | **BM25**   |
+|:-----------------------------------------------------------------|:----------:|
+| [Mr. TyDi (Korean): train](https://github.com/castorini/mr.tydi) | 0.3030     |
+| [Mr. TyDi (Korean): dev](https://github.com/castorini/mr.tydi)   | 0.3317     |
+| [Mr. TyDi (Korean): test](https://github.com/castorini/mr.tydi)  | 0.3074     |
+| **R@100**                                                        | **BM25**   |
+| [Mr. TyDi (Korean): train](https://github.com/castorini/mr.tydi) | 0.7077     |
+| [Mr. TyDi (Korean): dev](https://github.com/castorini/mr.tydi)   | 0.7409     |
+| [Mr. TyDi (Korean): test](https://github.com/castorini/mr.tydi)  | 0.6928     |

@@ -18,13 +18,13 @@ package io.anserini.eval;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Test;
-import org.junit.BeforeClass;
-import io.anserini.fusion.FuseRuns;
-import io.anserini.search.ScoredDoc;
-
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import io.anserini.fusion.FuseRuns;
+import io.anserini.search.ScoredDoc;
 
 
 public class ExcludeDocsTest {

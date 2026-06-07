@@ -69,7 +69,7 @@ The path `/path/to/msmarco-v2-passage-splade-pp-sd/` should point to the corpus 
 The important indexing options to note here are `-impact -pretokenized`: the first tells Anserini not to encode BM25 doc lengths into Lucene's norms (which is the default) and the second option says not to apply any additional tokenization on the pre-encoded tokens.
 Upon completion, we should have an index with 138,364,198 documents.
 
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 
@@ -127,14 +127,14 @@ bin/trec_eval -c -m recall.1000 -l 2 tools/topics-and-qrels/qrels.dl23-passage.t
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MAP@100**                                                                                                  | **SPLADE++ CoCondenser-SelfDistil**| **+RM3**  | **+Rocchio**|
-|:-------------------------------------------------------------------------------------------------------------|------------------------------------|-----------|-------------|
-| [DL23 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.1963                             | 0.1938    | 0.2065      |
-| **MRR@100**                                                                                                  | **SPLADE++ CoCondenser-SelfDistil**| **+RM3**  | **+Rocchio**|
-| [DL23 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.6985                             | 0.6273    | 0.7100      |
-| **nDCG@10**                                                                                                  | **SPLADE++ CoCondenser-SelfDistil**| **+RM3**  | **+Rocchio**|
-| [DL23 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.4768                             | 0.4487    | 0.4774      |
-| **R@100**                                                                                                    | **SPLADE++ CoCondenser-SelfDistil**| **+RM3**  | **+Rocchio**|
-| [DL23 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.4137                             | 0.3892    | 0.4226      |
-| **R@1000**                                                                                                   | **SPLADE++ CoCondenser-SelfDistil**| **+RM3**  | **+Rocchio**|
-| [DL23 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                     | 0.6731                             | 0.6486    | 0.7056      |
+| **MAP@100**                                                              | **SPLADE++ CoCondenser-SelfDistil** | **+RM3**   | **+Rocchio** |
+|:-------------------------------------------------------------------------|:-----------------------------------:|:----------:|:------------:|
+| [DL23 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning) | 0.1963                              | 0.1938     | 0.2065       |
+| **MRR@100**                                                              | **SPLADE++ CoCondenser-SelfDistil** | **+RM3**   | **+Rocchio** |
+| [DL23 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning) | 0.6985                              | 0.6273     | 0.7100       |
+| **nDCG@10**                                                              | **SPLADE++ CoCondenser-SelfDistil** | **+RM3**   | **+Rocchio** |
+| [DL23 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning) | 0.4768                              | 0.4487     | 0.4774       |
+| **R@100**                                                                | **SPLADE++ CoCondenser-SelfDistil** | **+RM3**   | **+Rocchio** |
+| [DL23 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning) | 0.4137                              | 0.3892     | 0.4226       |
+| **R@1000**                                                               | **SPLADE++ CoCondenser-SelfDistil** | **+RM3**   | **+Rocchio** |
+| [DL23 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning) | 0.6731                              | 0.6486     | 0.7056       |

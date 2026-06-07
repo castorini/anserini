@@ -16,11 +16,11 @@
 
 package io.anserini.collection;
 
-import org.junit.Before;
-
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
+
+import org.junit.Before;
 
 public class MrTyDiCollectionBnTest extends DocumentCollectionTest<MrTyDiCollection.Document> {
 

@@ -39,7 +39,7 @@ bin/run.sh io.anserini.index.IndexCollection \
 ```
 
 The path `/path/to/bright-theoremqa-theorems/` should point to the corpus downloaded above.
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 
@@ -68,10 +68,10 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.bright-theoremqa-th
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@10**                                                                                                  | **query-side-BM25**|
-|:-------------------------------------------------------------------------------------------------------------|--------------------|
-| BRIGHT: TheoremQA-T                                                                                          | 0.0492             |
-| **R@100**                                                                                                    | **query-side-BM25**|
-| BRIGHT: TheoremQA-T                                                                                          | 0.1842             |
-| **R@1000**                                                                                                   | **query-side-BM25**|
-| BRIGHT: TheoremQA-T                                                                                          | 0.4200             |
+| **nDCG@10**         | **query-side-BM25** |
+|:--------------------|:-------------------:|
+| BRIGHT: TheoremQA-T | 0.0492              |
+| **R@100**           | **query-side-BM25** |
+| BRIGHT: TheoremQA-T | 0.1842              |
+| **R@1000**          | **query-side-BM25** |
+| BRIGHT: TheoremQA-T | 0.4200              |

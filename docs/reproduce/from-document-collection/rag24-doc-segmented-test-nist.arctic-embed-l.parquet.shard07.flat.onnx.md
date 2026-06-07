@@ -47,7 +47,7 @@ bin/run.sh io.anserini.index.IndexFlatDenseVectors \
 
 The setting of `-input` should be a directory containing the compressed `jsonl` files that comprise the corpus.
 
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 
@@ -77,10 +77,10 @@ bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.rag24.test.txt runs/
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@20**                                                                                                  | **ArcticEmbedL**|
-|:-------------------------------------------------------------------------------------------------------------|-----------------|
-| RAG 24: Test queries                                                                                         | 0.2290          |
-| **nDCG@100**                                                                                                 | **ArcticEmbedL**|
-| RAG 24: Test queries                                                                                         | 0.1266          |
-| **R@100**                                                                                                    | **ArcticEmbedL**|
-| RAG 24: Test queries                                                                                         | 0.0606          |
+| **nDCG@20**          | **ArcticEmbedL** |
+|:---------------------|:----------------:|
+| RAG 24: Test queries | 0.2290           |
+| **nDCG@100**         | **ArcticEmbedL** |
+| RAG 24: Test queries | 0.1266           |
+| **R@100**            | **ArcticEmbedL** |
+| RAG 24: Test queries | 0.0606           |

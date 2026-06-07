@@ -16,6 +16,9 @@
 
 package io.anserini.index.generator;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import java.io.StringReader;
 
 import org.apache.lucene.analysis.Analyzer;
@@ -23,7 +26,6 @@ import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.IntPoint;
 import org.apache.lucene.document.StringField;
-import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -114,6 +116,7 @@ public class CoreGeneratorTest {
           break;
         }
       }
+      assertNotNull(tokenStreamField);
       assertEquals(nonStemmingAnalyzer.tokenStream(null, new StringReader(fieldString)),
         tokenStreamField.tokenStream(null, null));
     });

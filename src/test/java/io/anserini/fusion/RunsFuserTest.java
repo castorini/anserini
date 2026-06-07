@@ -16,11 +16,11 @@
 
 package io.anserini.fusion;
 
-import java.util.Locale;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
@@ -29,9 +29,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import io.anserini.search.ScoredDocs;
-
 import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
+import io.anserini.search.ScoredDocs;
 
 public class RunsFuserTest extends StdOutStdErrRedirectableLuceneTestCase {
   @BeforeClass

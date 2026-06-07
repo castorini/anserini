@@ -16,16 +16,16 @@
 
 package io.anserini.integration;
 
-import io.anserini.collection.CoreCollection;
-import io.anserini.index.AbstractIndexer;
-import io.anserini.index.IndexCollection;
-import io.anserini.index.generator.CoreGenerator;
-
 import java.util.Map;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.junit.BeforeClass;
+
+import io.anserini.collection.CoreCollection;
+import io.anserini.index.AbstractIndexer;
+import io.anserini.index.IndexCollection;
+import io.anserini.index.generator.CoreGenerator;
 
 public class CoreEndToEndTest extends EndToEndTest {
   @BeforeClass

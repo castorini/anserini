@@ -69,7 +69,7 @@ bin/run.sh io.anserini.index.IndexCollection \
 The setting of `-input` should be a directory containing the compressed `jsonl` files that comprise the corpus.
 
 The important indexing options to note here are `-impact -pretokenized`: the first tells Anserini not to encode BM25 doclengths into Lucene's norms (which is the default) and the second option says not to apply any additional tokenization on the pre-encoded tokens.
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 
@@ -100,14 +100,14 @@ bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 tools/topics-and-qrels/q
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MAP@100**                                                                                                  | **SPLADE-v3**|
-|:-------------------------------------------------------------------------------------------------------------|--------------|
-| [DL22 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.1858       |
-| **MRR@100**                                                                                                  | **SPLADE-v3**|
-| [DL22 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.8766       |
-| **nDCG@10**                                                                                                  | **SPLADE-v3**|
-| [DL22 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.5294       |
-| **R@100**                                                                                                    | **SPLADE-v3**|
-| [DL22 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.3184       |
-| **R@1000**                                                                                                   | **SPLADE-v3**|
-| [DL22 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.6024       |
+| **MAP@100**                                                          | **SPLADE-v3** |
+|:---------------------------------------------------------------------|:-------------:|
+| [DL22 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning) | 0.1858        |
+| **MRR@100**                                                          | **SPLADE-v3** |
+| [DL22 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning) | 0.8766        |
+| **nDCG@10**                                                          | **SPLADE-v3** |
+| [DL22 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning) | 0.5294        |
+| **R@100**                                                            | **SPLADE-v3** |
+| [DL22 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning) | 0.3184        |
+| **R@1000**                                                           | **SPLADE-v3** |
+| [DL22 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning) | 0.6024        |

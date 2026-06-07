@@ -16,9 +16,9 @@
 
 package io.anserini.encoder.dense;
 
-import ai.onnxruntime.OrtException;
-
 import static org.junit.Assert.assertArrayEquals;
+
+import ai.onnxruntime.OrtException;
 
 public class DenseEncoderInferenceTest {
   public void testExamples(DenseExampleOutputPair[] examples, DenseEncoder encoder) throws OrtException {

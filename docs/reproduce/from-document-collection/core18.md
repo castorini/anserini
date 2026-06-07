@@ -30,7 +30,7 @@ bin/run.sh io.anserini.index.IndexCollection \
 The directory `/path/to/core18/` should be the root directory of the [TREC Washington Post Corpus](https://trec.nist.gov/data/wapost/), i.e., `ls /path/to/core18/`
 should bring up a single JSON file.
 
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 
@@ -106,11 +106,11 @@ bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core18.txt runs/run.wa
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MAP**                                                                                                      | **BM25**  | **+RM3**  | **+Ax**   | **QL**    | **+RM3**  | **+Ax**   |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-| [TREC 2018 Common Core Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.core18.txt)| 0.2496    | 0.3129    | 0.2840    | 0.2527    | 0.3077    | 0.2920    |
-| **P30**                                                                                                      | **BM25**  | **+RM3**  | **+Ax**   | **QL**    | **+RM3**  | **+Ax**   |
-| [TREC 2018 Common Core Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.core18.txt)| 0.3573    | 0.4167    | 0.3947    | 0.3653    | 0.4007    | 0.4013    |
+| **MAP**                                                                                                                          | **BM25**   | **+RM3**   | **+Ax**    | **QL**     | **+RM3**   | **+Ax**    |
+|:---------------------------------------------------------------------------------------------------------------------------------|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|
+| [TREC 2018 Common Core Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.core18.txt) | 0.2496     | 0.3129     | 0.2840     | 0.2527     | 0.3077     | 0.2920     |
+| **P30**                                                                                                                          | **BM25**   | **+RM3**   | **+Ax**    | **QL**     | **+RM3**   | **+Ax**    |
+| [TREC 2018 Common Core Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.core18.txt) | 0.3573     | 0.4167     | 0.3947     | 0.3653     | 0.4007     | 0.4013     |
 
 ## Reproduction Log[*](../../../docs/reproducibility.md)
 

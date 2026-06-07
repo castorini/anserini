@@ -16,9 +16,7 @@
 
 package io.anserini.search.topicreader;
 
-import io.anserini.analysis.AnalyzerUtils;
-import io.anserini.index.IndexCollection;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -26,7 +24,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+
+import io.anserini.analysis.AnalyzerUtils;
+import io.anserini.index.IndexCollection;
 
 public class CarTopicReaderTest {
 

@@ -41,7 +41,7 @@ bin/run.sh io.anserini.index.IndexCollection \
 
 The setting of `-input` should be a directory containing the compressed `jsonl` files that comprise the corpus.
 
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 
@@ -93,10 +93,10 @@ bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.rag24.test-umbrela-a
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@20**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-|:-------------------------------------------------------------------------------------------------------------|-------------------|-----------|-------------|
-| RAG 24: Test queries                                                                                         | 0.3198            | 0.3063    | 0.3196      |
-| **nDCG@100**                                                                                                 | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| RAG 24: Test queries                                                                                         | 0.2563            | 0.2410    | 0.2527      |
-| **R@100**                                                                                                    | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| RAG 24: Test queries                                                                                         | 0.1395            | 0.1318    | 0.1384      |
+| **nDCG@20**          | **BM25 (default)** | **+RM3**   | **+Rocchio** |
+|:---------------------|:------------------:|:----------:|:------------:|
+| RAG 24: Test queries | 0.3198             | 0.3063     | 0.3196       |
+| **nDCG@100**         | **BM25 (default)** | **+RM3**   | **+Rocchio** |
+| RAG 24: Test queries | 0.2563             | 0.2410     | 0.2527       |
+| **R@100**            | **BM25 (default)** | **+RM3**   | **+Rocchio** |
+| RAG 24: Test queries | 0.1395             | 0.1318     | 0.1384       |

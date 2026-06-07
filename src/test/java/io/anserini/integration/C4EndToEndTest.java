@@ -16,11 +16,11 @@
 
 package io.anserini.integration;
 
+import java.util.Map;
+
 import io.anserini.collection.C4Collection;
 import io.anserini.index.IndexCollection;
 import io.anserini.index.generator.C4Generator;
-
-import java.util.Map;
 
 public class C4EndToEndTest extends EndToEndTest {
   @Override

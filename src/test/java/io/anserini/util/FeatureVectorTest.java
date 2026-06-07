@@ -16,11 +16,11 @@
 
 package io.anserini.util;
 
-import org.apache.lucene.tests.util.LuceneTestCase;
-import org.junit.Test;
-
 import java.util.Arrays;
 import java.util.HashSet;
+
+import org.apache.lucene.tests.util.LuceneTestCase;
+import org.junit.Test;
 
 public class FeatureVectorTest extends LuceneTestCase {
   private final FeatureVector createAndAddFeatureWeights1() {

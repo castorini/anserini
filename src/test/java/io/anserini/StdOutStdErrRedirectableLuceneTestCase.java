@@ -17,11 +17,13 @@
 package io.anserini;
 
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.io.PrintStream;
 
 public abstract class StdOutStdErrRedirectableLuceneTestCase extends SuppresedLoggingLuceneTestCase {
   protected final ByteArrayOutputStream out = new ByteArrayOutputStream();
   protected final ByteArrayOutputStream err = new ByteArrayOutputStream();
+  protected InputStream saveIn;
   protected PrintStream saveOut;
   protected PrintStream saveErr;
 
@@ -43,5 +45,17 @@ public abstract class StdOutStdErrRedirectableLuceneTestCase extends SuppresedLo
 
   protected void restoreStdOut() {
     System.setOut(saveOut);
+  }
+
+  protected void redirectStdIn(InputStream input) {
+    saveIn = System.in;
+    System.setIn(input);
+  }
+
+  protected void restoreStdIn() {
+    if (saveIn != null) {
+      System.setIn(saveIn);
+      saveIn = null;
+    }
   }
 }

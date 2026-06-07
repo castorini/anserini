@@ -30,7 +30,7 @@ bin/run.sh io.anserini.index.IndexCollection \
 The directory `/path/to/core18/` should be the root directory of the [TREC Washington Post Corpus](https://trec.nist.gov/data/wapost/), i.e., `ls /path/to/core18/`
 should bring up a single JSON file.
 
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 
@@ -79,9 +79,9 @@ bin/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 tools/topics-and-qrels/qr
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MAP**                                                                                                      | **BM25**  | **+RM3**  | **+RM3+DF**|
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|------------|
-| [TREC 2019 Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.backgroundlinking19.txt)| 0.3029    | 0.3787    | 0.3160     |
-| **nDCG@5**                                                                                                   | **BM25**  | **+RM3**  | **+RM3+DF**|
-| [TREC 2019 Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.backgroundlinking19.txt)| 0.4785    | 0.5200    | 0.5018     |
+| **MAP**                                                                                                                     | **BM25**   | **+RM3**   | **+RM3+DF** |
+|:----------------------------------------------------------------------------------------------------------------------------|:----------:|:----------:|:-----------:|
+| [TREC 2019 Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.backgroundlinking19.txt) | 0.3029     | 0.3787     | 0.3160      |
+| **nDCG@5**                                                                                                                  | **BM25**   | **+RM3**   | **+RM3+DF** |
+| [TREC 2019 Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.backgroundlinking19.txt) | 0.4785     | 0.5200     | 0.5018      |
 

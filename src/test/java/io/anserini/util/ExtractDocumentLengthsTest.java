@@ -16,18 +16,19 @@
 
 package io.anserini.util;
 
-import io.anserini.index.IndexerWithEmptyDocumentTestBase;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import io.anserini.index.IndexerWithEmptyDocumentTestBase;
 
 public class ExtractDocumentLengthsTest extends IndexerWithEmptyDocumentTestBase {
   private static final Random rand = new Random();

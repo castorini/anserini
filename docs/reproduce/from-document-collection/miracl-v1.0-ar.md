@@ -27,7 +27,7 @@ bin/run.sh io.anserini.index.IndexCollection \
 ```
 
 See [this page](https://github.com/project-miracl/miracl) for more details about the MIRACL corpus.
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 
@@ -53,8 +53,8 @@ bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.miracl-v1.0-ar-dev.t
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@10**                                                                                                  | **BM25**  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [MIRACL (Arabic): dev](https://github.com/project-miracl/miracl)                                             | 0.4809    |
-| **R@100**                                                                                                    | **BM25**  |
-| [MIRACL (Arabic): dev](https://github.com/project-miracl/miracl)                                             | 0.8885    |
+| **nDCG@10**                                                      | **BM25**   |
+|:-----------------------------------------------------------------|:----------:|
+| [MIRACL (Arabic): dev](https://github.com/project-miracl/miracl) | 0.4809     |
+| **R@100**                                                        | **BM25**   |
+| [MIRACL (Arabic): dev](https://github.com/project-miracl/miracl) | 0.8885     |

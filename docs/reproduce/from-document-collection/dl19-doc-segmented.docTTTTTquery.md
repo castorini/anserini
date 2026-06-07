@@ -46,7 +46,7 @@ bin/run.sh io.anserini.index.IndexCollection \
 The directory `/path/to/msmarco-doc-segmented-docTTTTTquery/` should be a directory containing the expanded segmented corpus in Anserini's jsonl format.
 See [this page](../../../docs/experiments-msmarco-doc-doc2query-details.md) for how to prepare the corpus.
 
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 
@@ -138,15 +138,15 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl19-doc.txt runs/r
 
 With the above commands, you should be able to reproduce the following results:
 
-| **AP@100**                                                                                                   | **BM25 (default)**| **+RM3**  | **+Rocchio**| **BM25 (tuned)**| **+RM3**  | **+Rocchio**|
-|:-------------------------------------------------------------------------------------------------------------|-------------------|-----------|-------------|-----------------|-----------|-------------|
-| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.2798            | 0.3030    | 0.3071      | 0.2658          | 0.2892    | 0.2913      |
-| **nDCG@10**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**| **BM25 (tuned)**| **+RM3**  | **+Rocchio**|
-| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.6119            | 0.6290    | 0.6294      | 0.6273          | 0.6247    | 0.6244      |
-| **R@100**                                                                                                    | **BM25 (default)**| **+RM3**  | **+Rocchio**| **BM25 (tuned)**| **+RM3**  | **+Rocchio**|
-| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.4093            | 0.4402    | 0.4483      | 0.4026          | 0.4242    | 0.4271      |
-| **R@1000**                                                                                                   | **BM25 (default)**| **+RM3**  | **+Rocchio**| **BM25 (tuned)**| **+RM3**  | **+Rocchio**|
-| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)                                                       | 0.7165            | 0.7483    | 0.7503      | 0.6707          | 0.7069    | 0.7189      |
+| **AP@100**                                             | **BM25 (default)** | **+RM3**   | **+Rocchio** | **BM25 (tuned)** | **+RM3**   | **+Rocchio** |
+|:-------------------------------------------------------|:------------------:|:----------:|:------------:|:----------------:|:----------:|:------------:|
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html) | 0.2798             | 0.3030     | 0.3071       | 0.2658           | 0.2892     | 0.2913       |
+| **nDCG@10**                                            | **BM25 (default)** | **+RM3**   | **+Rocchio** | **BM25 (tuned)** | **+RM3**   | **+Rocchio** |
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html) | 0.6119             | 0.6290     | 0.6294       | 0.6273           | 0.6247     | 0.6244       |
+| **R@100**                                              | **BM25 (default)** | **+RM3**   | **+Rocchio** | **BM25 (tuned)** | **+RM3**   | **+Rocchio** |
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html) | 0.4093             | 0.4402     | 0.4483       | 0.4026           | 0.4242     | 0.4271       |
+| **R@1000**                                             | **BM25 (default)** | **+RM3**   | **+Rocchio** | **BM25 (tuned)** | **+RM3**   | **+Rocchio** |
+| [DL19 (Doc)](https://trec.nist.gov/data/deep2019.html) | 0.7165             | 0.7483     | 0.7503       | 0.6707           | 0.7069     | 0.7189       |
 
 Explanation of settings:
 

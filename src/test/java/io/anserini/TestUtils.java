@@ -16,11 +16,11 @@
 
 package io.anserini;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
 
 public class TestUtils {
   public static void checkFile(String output, String[] ref) throws IOException {

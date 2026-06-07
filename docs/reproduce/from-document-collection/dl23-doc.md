@@ -41,7 +41,7 @@ bin/run.sh io.anserini.index.IndexCollection \
 The value of `-input` should be a directory containing the compressed `jsonl` files that comprise the corpus.
 See [this page](../../../docs/experiments-msmarco-v2.md) for additional details.
 
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 
@@ -96,14 +96,14 @@ bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 tools/topics-and-qrels/q
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MAP@100**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-|:-------------------------------------------------------------------------------------------------------------|-------------------|-----------|-------------|
-| [DL23 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.1046            | 0.1174    | 0.1219      |
-| **MRR@100**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [DL23 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.5669            | 0.4518    | 0.5045      |
-| **nDCG@10**                                                                                                  | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [DL23 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.2946            | 0.2462    | 0.2619      |
-| **R@100**                                                                                                    | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [DL23 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.2422            | 0.2585    | 0.2651      |
-| **R@1000**                                                                                                   | **BM25 (default)**| **+RM3**  | **+Rocchio**|
-| [DL23 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)                                         | 0.5262            | 0.5232    | 0.5385      |
+| **MAP@100**                                                          | **BM25 (default)** | **+RM3**   | **+Rocchio** |
+|:---------------------------------------------------------------------|:------------------:|:----------:|:------------:|
+| [DL23 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning) | 0.1046             | 0.1174     | 0.1219       |
+| **MRR@100**                                                          | **BM25 (default)** | **+RM3**   | **+Rocchio** |
+| [DL23 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning) | 0.5669             | 0.4518     | 0.5045       |
+| **nDCG@10**                                                          | **BM25 (default)** | **+RM3**   | **+Rocchio** |
+| [DL23 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning) | 0.2946             | 0.2462     | 0.2619       |
+| **R@100**                                                            | **BM25 (default)** | **+RM3**   | **+Rocchio** |
+| [DL23 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning) | 0.2422             | 0.2585     | 0.2651       |
+| **R@1000**                                                           | **BM25 (default)** | **+RM3**   | **+Rocchio** |
+| [DL23 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning) | 0.5262             | 0.5232     | 0.5385       |

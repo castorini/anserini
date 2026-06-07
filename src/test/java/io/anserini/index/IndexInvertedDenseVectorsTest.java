@@ -16,8 +16,12 @@
 
 package io.anserini.index;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.lucene.index.IndexReader;
@@ -32,6 +36,8 @@ import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
  * Tests for {@link IndexInvertedDenseVectors}
  */
 public class IndexInvertedDenseVectorsTest extends StdOutStdErrRedirectableLuceneTestCase {
+  private final List<String> indexPaths = new ArrayList<>();
+
   @BeforeClass
   public static void setupClass() {
     Configurator.setLevel(AbstractIndexer.class.getName(), Level.ERROR);
@@ -49,7 +55,17 @@ public class IndexInvertedDenseVectorsTest extends StdOutStdErrRedirectableLucen
   public void tearDown() throws Exception {
     restoreStdOut();
     restoreStdErr();
+    for (String indexPath : indexPaths) {
+      FileUtils.deleteDirectory(new File(indexPath));
+    }
+    indexPaths.clear();
     super.tearDown();
+  }
+
+  private String newIndexPath(String prefix) {
+    String indexPath = prefix + System.currentTimeMillis();
+    indexPaths.add(indexPath);
+    return indexPath;
   }
 
   @Test
@@ -73,7 +89,7 @@ public class IndexInvertedDenseVectorsTest extends StdOutStdErrRedirectableLucen
         "-collection", "FakeCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
         "-generator", "InvertedDenseVectorDocumentGenerator",
-        "-index", "target/idx-sample-ll-vector" + System.currentTimeMillis(),
+        "-index", newIndexPath("target/idx-sample-ll-vector"),
         "-encoding", "lexlsh"
     };
 
@@ -86,7 +102,7 @@ public class IndexInvertedDenseVectorsTest extends StdOutStdErrRedirectableLucen
         "-collection", "JsonDenseVectorCollection",
         "-input", "invalid/path",
         "-generator", "InvertedDenseVectorDocumentGenerator",
-        "-index", "target/idx-sample-ll-vector" + System.currentTimeMillis(),
+        "-index", newIndexPath("target/idx-sample-ll-vector"),
         "-encoding", "lexlsh"
     };
 
@@ -99,7 +115,7 @@ public class IndexInvertedDenseVectorsTest extends StdOutStdErrRedirectableLucen
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
         "-generator", "FakeGenerator",
-        "-index", "target/idx-sample-ll-vector" + System.currentTimeMillis(),
+        "-index", newIndexPath("target/idx-sample-ll-vector"),
         "-encoding", "lexlsh"
     };
 
@@ -111,7 +127,7 @@ public class IndexInvertedDenseVectorsTest extends StdOutStdErrRedirectableLucen
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
-        "-index", "target/idx-sample-ll-vector" + System.currentTimeMillis(),
+        "-index", newIndexPath("target/idx-sample-ll-vector"),
         "-encoding", "lexlsh"
     };
 
@@ -125,7 +141,7 @@ public class IndexInvertedDenseVectorsTest extends StdOutStdErrRedirectableLucen
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
         "-generator", "InvertedDenseVectorDocumentGenerator",
-        "-index", "target/idx-sample-ll-vector" + System.currentTimeMillis(),
+        "-index", newIndexPath("target/idx-sample-ll-vector"),
         "-encoding", "xxx"
     };
 
@@ -134,7 +150,7 @@ public class IndexInvertedDenseVectorsTest extends StdOutStdErrRedirectableLucen
 
   @Test
   public void testLLCollection() throws Exception {
-    String indexPath = "target/idx-sample-ll-vector" + System.currentTimeMillis();
+    String indexPath = newIndexPath("target/idx-sample-ll-vector");
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
@@ -158,7 +174,7 @@ public class IndexInvertedDenseVectorsTest extends StdOutStdErrRedirectableLucen
 
   @Test
   public void testFWCollection() throws Exception {
-    String indexPath = "target/idx-sample-fw-vector" + System.currentTimeMillis();
+    String indexPath = newIndexPath("target/idx-sample-fw-vector");
     String[] indexArgs = new String[] {
         "-collection", "JsonDenseVectorCollection",
         "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",

@@ -16,7 +16,8 @@
 
 package io.anserini.collection;
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -25,8 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import org.junit.Test;
 
 // Since the CACM collection is checked into our repo, we can directly test against it.
 public class HtmlCollectionTest {

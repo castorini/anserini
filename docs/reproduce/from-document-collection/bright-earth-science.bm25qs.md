@@ -39,7 +39,7 @@ bin/run.sh io.anserini.index.IndexCollection \
 ```
 
 The path `/path/to/bright-earth-science/` should point to the corpus downloaded above.
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 
@@ -68,10 +68,10 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.bright-earth-scienc
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@10**                                                                                                  | **query-side-BM25**|
-|:-------------------------------------------------------------------------------------------------------------|--------------------|
-| BRIGHT: Earth Science                                                                                        | 0.2789             |
-| **R@100**                                                                                                    | **query-side-BM25**|
-| BRIGHT: Earth Science                                                                                        | 0.6013             |
-| **R@1000**                                                                                                   | **query-side-BM25**|
-| BRIGHT: Earth Science                                                                                        | 0.8418             |
+| **nDCG@10**           | **query-side-BM25** |
+|:----------------------|:-------------------:|
+| BRIGHT: Earth Science | 0.2789              |
+| **R@100**             | **query-side-BM25** |
+| BRIGHT: Earth Science | 0.6013              |
+| **R@1000**            | **query-side-BM25** |
+| BRIGHT: Earth Science | 0.8418              |

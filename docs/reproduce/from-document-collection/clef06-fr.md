@@ -28,10 +28,10 @@ bin/run.sh io.anserini.index.IndexCollection \
 ```
 
 The collection comprises news articles from ATS (SDA) and Le Monde totaling 177,452 documents.
-Since the original distribution is in a format that's slightly different from standard TREC collections, we used a [preprocessing script](../src/main/python/clir/document_preprocess.py) to convert the collection into Anserini's JSON line format (we also applied a bit of light data cleaning using a script that has been lost; if you have problems reproducing our results, get in touch directly).
+Since the original distribution is in a format that's slightly different from standard TREC collections, we used a [preprocessing script](../../../src/main/python/clir/document_preprocess.py) to convert the collection into Anserini's JSON line format (we also applied a bit of light data cleaning using a script that has been lost; if you have problems reproducing our results, get in touch directly).
 The directory `/path/to/clef06-fr/` should point to the location of the processed collection.
 
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 
@@ -61,10 +61,10 @@ bin/trec_eval -m map -m P.20 -m ndcg_cut.20 tools/topics-and-qrels/qrels.clef06f
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MAP**                                                                                                      | **BM25**  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [CLEF 2006 (Monolingual French)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.clef06fr.mono.fr.txt)| 0.3115    |
-| **P20**                                                                                                      | **BM25**  |
-| [CLEF 2006 (Monolingual French)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.clef06fr.mono.fr.txt)| 0.3184    |
-| **nDCG@20**                                                                                                  | **BM25**  |
-| [CLEF 2006 (Monolingual French)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.clef06fr.mono.fr.txt)| 0.4457    |
+| **MAP**                                                                                                                                | **BM25**   |
+|:---------------------------------------------------------------------------------------------------------------------------------------|:----------:|
+| [CLEF 2006 (Monolingual French)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.clef06fr.mono.fr.txt) | 0.3115     |
+| **P20**                                                                                                                                | **BM25**   |
+| [CLEF 2006 (Monolingual French)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.clef06fr.mono.fr.txt) | 0.3184     |
+| **nDCG@20**                                                                                                                            | **BM25**   |
+| [CLEF 2006 (Monolingual French)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.clef06fr.mono.fr.txt) | 0.4457     |

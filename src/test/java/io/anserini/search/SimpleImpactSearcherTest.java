@@ -16,13 +16,15 @@
 
 package io.anserini.search;
 
-import io.anserini.index.IndexerTestBase;
-import io.anserini.index.Constants;
-import org.junit.Test;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.junit.Test;
+
+import io.anserini.index.Constants;
+import io.anserini.index.IndexerTestBase;
 
 public class SimpleImpactSearcherTest extends IndexerTestBase {
   private static final Map<String, Integer> EXPECTED_ENCODED_QUERY = new HashMap<>();

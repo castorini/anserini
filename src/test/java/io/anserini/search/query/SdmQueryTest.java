@@ -16,6 +16,9 @@
 
 package io.anserini.search.query;
 
+import java.io.IOException;
+import java.nio.file.Path;
+
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.document.Document;
@@ -40,9 +43,6 @@ import org.apache.lucene.tests.util.LuceneTestCase;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.IOException;
-import java.nio.file.Path;
 
 public class SdmQueryTest extends LuceneTestCase {
 

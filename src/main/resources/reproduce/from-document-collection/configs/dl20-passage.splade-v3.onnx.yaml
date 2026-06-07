@@ -49,13 +49,13 @@ topic_reader: TsvInt
 topics:
   - name: "[DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)"
     id: dl20
-    path: topics.dl20.splade-v3.tsv.gz
+    path: topics.dl20.txt
     qrel: qrels.dl20-passage.txt
 
 models:
   - name: splade-v3-onnx
     display: SPLADEv3
-    params: -impact -pretokenized
+    params: -impact -pretokenized -encoder SpladeV3
     results:
       AP@1000:
         - 0.5402
@@ -67,7 +67,7 @@ models:
         - 0.9039
   - name: splade-v3-onnx+rm3
     display: +RM3
-    params: -impact -pretokenized -rm3
+    params: -impact -pretokenized -rm3 -encoder SpladeV3
     results:
       AP@1000:
         - 0.5493
@@ -79,7 +79,7 @@ models:
         - 0.9316
   - name: splade-v3-onnx+rocchio
     display: +Rocchio
-    params: -impact -pretokenized -rocchio
+    params: -impact -pretokenized -rocchio -encoder SpladeV3
     results:
       AP@1000:
         - 0.5456

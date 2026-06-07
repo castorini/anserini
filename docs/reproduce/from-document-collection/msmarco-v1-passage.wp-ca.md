@@ -31,7 +31,7 @@ bin/run.sh io.anserini.index.IndexCollection \
 
 The directory `/path/to/msmarco-passage-wp/` should be a directory containing the corpus in Anserini's jsonl format.
 
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 
@@ -62,12 +62,12 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev
 
 With the above commands, you should be able to reproduce the following results:
 
-| **AP@1000**                                                                                                  | **BM25 (default)**|
-|:-------------------------------------------------------------------------------------------------------------|-------------------|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.1968            |
-| **RR@10**                                                                                                    | **BM25 (default)**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.1881            |
-| **R@100**                                                                                                    | **BM25 (default)**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.6623            |
-| **R@1000**                                                                                                   | **BM25 (default)**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.8607            |
+| **AP@1000**                                                                   | **BM25 (default)** |
+|:------------------------------------------------------------------------------|:------------------:|
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking) | 0.1968             |
+| **RR@10**                                                                     | **BM25 (default)** |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking) | 0.1881             |
+| **R@100**                                                                     | **BM25 (default)** |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking) | 0.6623             |
+| **R@1000**                                                                    | **BM25 (default)** |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking) | 0.8607             |

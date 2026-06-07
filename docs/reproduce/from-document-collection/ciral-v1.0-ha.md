@@ -27,7 +27,7 @@ bin/run.sh io.anserini.index.IndexCollection \
 ```
 
 See [this page](https://github.com/ciralproject/ciral) for more details about the CIRAL corpus.
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 
@@ -69,12 +69,12 @@ bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.ciral-v1.0-ha-test-b
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@20**                                                                                                  | **BM25 (default)**|
-|:-------------------------------------------------------------------------------------------------------------|-------------------|
-| [CIRAL Hausa: Test Set A (Shallow Judgements)](https://huggingface.co/datasets/CIRAL/ciral)                  | 0.1656            |
-| [CIRAL Hausa: Test Set A (Pools)](https://huggingface.co/datasets/CIRAL/ciral)                               | 0.1161            |
-| [CIRAL Hausa: Test Set B](https://huggingface.co/datasets/CIRAL/ciral)                                       | 0.2121            |
-| **R@100**                                                                                                    | **BM25 (default)**|
-| [CIRAL Hausa: Test Set A (Shallow Judgements)](https://huggingface.co/datasets/CIRAL/ciral)                  | 0.2874            |
-| [CIRAL Hausa: Test Set A (Pools)](https://huggingface.co/datasets/CIRAL/ciral)                               | 0.1916            |
-| [CIRAL Hausa: Test Set B](https://huggingface.co/datasets/CIRAL/ciral)                                       | 0.3800            |
+| **nDCG@20**                                                                                 | **BM25 (default)** |
+|:--------------------------------------------------------------------------------------------|:------------------:|
+| [CIRAL Hausa: Test Set A (Shallow Judgements)](https://huggingface.co/datasets/CIRAL/ciral) | 0.1656             |
+| [CIRAL Hausa: Test Set A (Pools)](https://huggingface.co/datasets/CIRAL/ciral)              | 0.1161             |
+| [CIRAL Hausa: Test Set B](https://huggingface.co/datasets/CIRAL/ciral)                      | 0.2121             |
+| **R@100**                                                                                   | **BM25 (default)** |
+| [CIRAL Hausa: Test Set A (Shallow Judgements)](https://huggingface.co/datasets/CIRAL/ciral) | 0.2874             |
+| [CIRAL Hausa: Test Set A (Pools)](https://huggingface.co/datasets/CIRAL/ciral)              | 0.1916             |
+| [CIRAL Hausa: Test Set B](https://huggingface.co/datasets/CIRAL/ciral)                      | 0.3800             |

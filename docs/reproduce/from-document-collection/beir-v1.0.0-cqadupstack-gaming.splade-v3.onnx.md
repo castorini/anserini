@@ -45,7 +45,7 @@ bin/run.sh io.anserini.index.IndexCollection \
 ```
 
 The important indexing options to note here are `-impact -pretokenized`: the first tells Anserini not to encode BM25 doclengths into Lucene's norms (which is the default) and the second option says not to apply any additional tokenization on the pre-encoded tokens.
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 
@@ -74,10 +74,10 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadups
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@10**                                                                                                  | **SPLADE-v3**|
-|:-------------------------------------------------------------------------------------------------------------|--------------|
-| BEIR (v1.0.0): CQADupStack-gaming                                                                            | 0.5193       |
-| **R@100**                                                                                                    | **SPLADE-v3**|
-| BEIR (v1.0.0): CQADupStack-gaming                                                                            | 0.8249       |
-| **R@1000**                                                                                                   | **SPLADE-v3**|
-| BEIR (v1.0.0): CQADupStack-gaming                                                                            | 0.9338       |
+| **nDCG@10**                       | **SPLADE-v3** |
+|:----------------------------------|:-------------:|
+| BEIR (v1.0.0): CQADupStack-gaming | 0.5193        |
+| **R@100**                         | **SPLADE-v3** |
+| BEIR (v1.0.0): CQADupStack-gaming | 0.8249        |
+| **R@1000**                        | **SPLADE-v3** |
+| BEIR (v1.0.0): CQADupStack-gaming | 0.9338        |

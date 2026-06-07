@@ -18,16 +18,21 @@ package io.anserini.eval;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.Test;
 
 public class TrecEvalTest {
   @Test
-  public void testRunWithMainCacmBm25() {
+  public void testRunWithMainCacmBm25() throws Exception {
     assertNotNull(TrecEval.getExecutableName());
 
     String[] args = new String[] {
@@ -36,7 +41,35 @@ public class TrecEvalTest {
         "src/test/resources/sample_runs/cacm/cacm-bm25.txt"
     };
 
-    TrecEval.main(args);
+    ArrayList<String> command = new ArrayList<>();
+    command.add(Paths.get(System.getProperty("java.home"), "bin", "java").toString());
+    command.add("-cp");
+    command.add(System.getProperty("java.class.path"));
+    command.add(TrecEval.class.getName());
+    for (String arg : args) {
+      command.add(arg);
+    }
+
+    ProcessBuilder builder = new ProcessBuilder(command);
+    builder.redirectErrorStream(true);
+
+    Process process = builder.start();
+    assertTrue("trec_eval command timed out", process.waitFor(30, TimeUnit.SECONDS));
+
+    String output = new String(process.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+    assertEquals(output, 0, process.exitValue());
+    assertTrue(output.contains("P_30"));
+    assertTrue(output.contains("all"));
+    assertTrue(output.contains("0.1942"));
+  }
+
+  @Test
+  public void testRunWithMainInvalidQrels() {
+    TrecEval.main(new String[] {
+        "-m", "P.30",
+        "fake",
+        "src/test/resources/sample_runs/cacm/cacm-bm25.txt"
+    });
   }
 
   @Test

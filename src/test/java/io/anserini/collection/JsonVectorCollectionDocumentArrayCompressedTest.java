@@ -16,11 +16,11 @@
 
 package io.anserini.collection;
 
-import org.junit.Before;
-
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
+
+import org.junit.Before;
 
 // A file in a JsonVectorCollection can either be:
 // (1) A single JSON object (i.e., a single document)

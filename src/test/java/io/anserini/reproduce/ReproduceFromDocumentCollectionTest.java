@@ -17,6 +17,7 @@
 package io.anserini.reproduce;
 
 import java.io.File;
+import java.lang.reflect.Method;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.nio.file.Files;
@@ -40,6 +41,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 import io.anserini.eval.TrecEval;
@@ -48,8 +50,11 @@ import io.anserini.index.IndexCollection;
 import io.anserini.search.SearchCollection;
 import io.anserini.search.topicreader.TopicReader;
 import io.anserini.search.topicreader.Topics;
+import io.anserini.util.CacheDirectoryResolver;
 
 public class ReproduceFromDocumentCollectionTest extends StdOutStdErrRedirectableLuceneTestCase {
+  private static final Path CACM_FATJAR_LOG = Paths.get("target", "run-cacm-fatjar.log");
+
   private static final String[] CACM_COLLECTION_IN_REPO_EXPECTED_RUNS = {
     "runs/run.inverted.cacm.cacm.bm25.txt",
     "runs/run.inverted.cacm.cacm.bm25+rm3.txt",
@@ -91,6 +96,7 @@ public class ReproduceFromDocumentCollectionTest extends StdOutStdErrRedirectabl
   public void tearDown() throws Exception {
     restoreStdOut();
     restoreStdErr();
+    Files.deleteIfExists(CACM_FATJAR_LOG);
     super.tearDown();
   }
 
@@ -114,8 +120,15 @@ public class ReproduceFromDocumentCollectionTest extends StdOutStdErrRedirectabl
   public void testHelp() throws Exception {
     ReproduceFromDocumentCollection.main(new String[] {"--help"});
 
-    assertTrue(err.toString().contains("Options for ReproduceFromDocumentCollection:"));
-    assertTrue(err.toString().contains("--help"));
+    String usage = err.toString();
+    assertTrue(usage.contains("Options for ReproduceFromDocumentCollection:"));
+    assertTrue(usage.indexOf("--list") < usage.indexOf("--config"));
+    assertTrue(usage.indexOf("--config") < usage.indexOf("--show"));
+    assertTrue(usage.contains("[Workflow Stage] Download corpus."));
+    assertTrue(usage.contains("[Workflow Stage] Build index."));
+    assertTrue(usage.contains("[Workflow Stage] Verify index statistics."));
+    assertTrue(usage.contains("[Workflow Stage] Search and verify results."));
+    assertTrue(usage.contains("--help"));
   }
 
   @Test
@@ -126,6 +139,25 @@ public class ReproduceFromDocumentCollectionTest extends StdOutStdErrRedirectabl
     List<String> expectedConfigs = ReproductionUtils.listYamlConfigs(
         ReproduceFromDocumentCollection.class, "reproduce/from-document-collection/configs");
     assertEquals(expectedConfigs.size(), outputConfigs.size());
+  }
+
+  @Test
+  public void testShowConfig() throws Exception {
+    ReproduceFromDocumentCollection.main(new String[] {"--config", "cacm", "--show"});
+
+    assertTrue(out.toString().startsWith("---"));
+    assertTrue(out.toString().contains("corpus: cacm"));
+    assertTrue(out.toString().contains("collection_class: HtmlCollection"));
+    assertTrue(out.toString().contains("models:"));
+  }
+
+  @Test
+  public void testWorkflowStageRequired() throws Exception {
+    ReproduceFromDocumentCollection.main(new String[] {"--config", "cacm", "--dry-run"});
+
+    assertTrue(err.toString().contains(
+        "Error: Select at least one workflow stage: --download, --index, --verify, --search."));
+    assertTrue(err.toString().contains("Options for ReproduceFromDocumentCollection:"));
   }
 
   @Test
@@ -167,6 +199,37 @@ public class ReproduceFromDocumentCollectionTest extends StdOutStdErrRedirectabl
     deleteDirectoryIfExists(Paths.get("collections/cacm/"));
 
     Files.deleteIfExists(Paths.get("collections/cacm-in-folder.tar.gz"));
+  }
+
+  @Test
+  public void testResolveCorpusPathPrefersCollectionCache() throws Exception {
+    Path cache = createTempDir("collection-cache");
+    String cacheProperty = System.getProperty(CacheDirectoryResolver.CACHE_PROPERTY);
+    System.setProperty(CacheDirectoryResolver.CACHE_PROPERTY, cache.toString());
+
+    try {
+      Path cachedCollection = CacheDirectoryResolver.getCollectionCachePath().resolve("newswire/disk45");
+      Files.createDirectories(cachedCollection);
+
+      ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+      ReproduceFromDocumentCollection.Args args = new ReproduceFromDocumentCollection.Args();
+      Method resolveCorpusPath = ReproduceFromDocumentCollection.class.getDeclaredMethod(
+          "resolveCorpusPath", com.fasterxml.jackson.databind.JsonNode.class, ReproduceFromDocumentCollection.Args.class);
+      resolveCorpusPath.setAccessible(true);
+
+      String resolved = (String) resolveCorpusPath.invoke(null, mapper.readTree("""
+          corpus: disk45
+          corpus_path: collections/newswire/disk45/
+          """), args);
+
+      assertEquals(cachedCollection.toString(), resolved);
+    } finally {
+      if (cacheProperty == null) {
+        System.clearProperty(CacheDirectoryResolver.CACHE_PROPERTY);
+      } else {
+        System.setProperty(CacheDirectoryResolver.CACHE_PROPERTY, cacheProperty);
+      }
+    }
   }
 
   private void assumeGithubReachable() {
@@ -212,9 +275,8 @@ public class ReproduceFromDocumentCollectionTest extends StdOutStdErrRedirectabl
 
     ProcessBuilder builder = new ProcessBuilder(command);
     builder.redirectErrorStream(true);
-    Path processLog = Paths.get("target", "run-cacm-fatjar.log");
-    Files.createDirectories(processLog.getParent());
-    builder.redirectOutput(processLog.toFile());
+    Files.createDirectories(CACM_FATJAR_LOG.getParent());
+    builder.redirectOutput(CACM_FATJAR_LOG.toFile());
 
     Process process = builder.start();
     assertTrue("Reproduction command timed out", process.waitFor(10, TimeUnit.MINUTES));

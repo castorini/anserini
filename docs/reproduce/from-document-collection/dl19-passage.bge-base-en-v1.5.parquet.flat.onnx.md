@@ -9,7 +9,7 @@ This page describes regression experiments, integrated into Anserini's regressio
 In these experiments, we are performing query inference "on-the-fly" with ONNX.
 
 Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
-For additional instructions on working with MS MARCO passage collection, refer to [this page](experiments-msmarco-passage.md).
+For additional instructions on working with MS MARCO passage collection, refer to [this page](../../experiments-msmarco-passage.md).
 
 The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.bge-base-en-v1.5.parquet.flat.onnx.yaml).
 Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl19-passage.bge-base-en-v1.5.parquet.flat.onnx.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
@@ -94,15 +94,15 @@ bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.t
 
 With the above commands, you should be able to reproduce the following results:
 
-| **AP@1000**                                                                                                  | **BGE-base-en-v1.5**|
-|:-------------------------------------------------------------------------------------------------------------|---------------------|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.4485              |
-| **nDCG@10**                                                                                                  | **BGE-base-en-v1.5**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7016              |
-| **R@100**                                                                                                    | **BGE-base-en-v1.5**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.6093              |
-| **R@1000**                                                                                                   | **BGE-base-en-v1.5**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.8427              |
+| **AP@1000**                                                | **BGE-base-en-v1.5** |
+|:-----------------------------------------------------------|:--------------------:|
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html) | 0.4485               |
+| **nDCG@10**                                                | **BGE-base-en-v1.5** |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html) | 0.7016               |
+| **R@100**                                                  | **BGE-base-en-v1.5** |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html) | 0.6093               |
+| **R@1000**                                                 | **BGE-base-en-v1.5** |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2020.html) | 0.8427               |
 
 The above figures are from running brute-force search with cached queries on non-quantized indexes.
 With ONNX query encoding on non-quantized indexes, results may differ slightly.
@@ -111,6 +111,6 @@ With ONNX query encoding on non-quantized indexes, results may differ slightly.
 For computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., AP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).
 The experimental results reported here are directly comparable to the results reported in the [track overview paper](https://arxiv.org/abs/2003.07820).
 
-## Reproduction Log[*](reproducibility.md)
+## Reproduction Log[*](../../reproducibility.md)
 
 To add to this reproduction log, modify [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl19-passage.bge-base-en-v1.5.parquet.flat.onnx.template) and run `bin/build.sh` to rebuild the documentation.

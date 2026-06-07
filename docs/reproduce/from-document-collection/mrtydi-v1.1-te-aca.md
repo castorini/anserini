@@ -29,7 +29,7 @@ bin/run.sh io.anserini.index.IndexCollection \
 ```
 
 See [this page](https://github.com/castorini/mr.tydi) for more details about the Mr. TyDi corpus.
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 
@@ -68,12 +68,12 @@ bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools/topics-and-qrels/qr
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MRR@100**                                                                                                  | **BM25**  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [Mr. TyDi (Telugu): train](https://github.com/castorini/mr.tydi)                                             | 0.4063    |
-| [Mr. TyDi (Telugu): dev](https://github.com/castorini/mr.tydi)                                               | 0.4131    |
-| [Mr. TyDi (Telugu): test](https://github.com/castorini/mr.tydi)                                              | 0.5096    |
-| **R@100**                                                                                                    | **BM25**  |
-| [Mr. TyDi (Telugu): train](https://github.com/castorini/mr.tydi)                                             | 0.8379    |
-| [Mr. TyDi (Telugu): dev](https://github.com/castorini/mr.tydi)                                               | 0.8332    |
-| [Mr. TyDi (Telugu): test](https://github.com/castorini/mr.tydi)                                              | 0.9110    |
+| **MRR@100**                                                      | **BM25**   |
+|:-----------------------------------------------------------------|:----------:|
+| [Mr. TyDi (Telugu): train](https://github.com/castorini/mr.tydi) | 0.4063     |
+| [Mr. TyDi (Telugu): dev](https://github.com/castorini/mr.tydi)   | 0.4131     |
+| [Mr. TyDi (Telugu): test](https://github.com/castorini/mr.tydi)  | 0.5096     |
+| **R@100**                                                        | **BM25**   |
+| [Mr. TyDi (Telugu): train](https://github.com/castorini/mr.tydi) | 0.8379     |
+| [Mr. TyDi (Telugu): dev](https://github.com/castorini/mr.tydi)   | 0.8332     |
+| [Mr. TyDi (Telugu): test](https://github.com/castorini/mr.tydi)  | 0.9110     |

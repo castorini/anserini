@@ -32,7 +32,7 @@ Inside the LDC2007T38 distribution, there should be a directory named `transcrip
 The path above `/path/to/trec02-ar/` should point to this `transcripts/` directory.
 The collection contains 383,872 documents.
 
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 
@@ -63,10 +63,10 @@ bin/trec_eval -m map -m P.20 -m ndcg_cut.20 tools/topics-and-qrels/qrels.trec02a
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MAP**                                                                                                      | **BM25**  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [TREC 2002 (Monolingual Arabic)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.trec02ar-ar.txt)| 0.2932    |
-| **P20**                                                                                                      | **BM25**  |
-| [TREC 2002 (Monolingual Arabic)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.trec02ar-ar.txt)| 0.3610    |
-| **nDCG@20**                                                                                                  | **BM25**  |
-| [TREC 2002 (Monolingual Arabic)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.trec02ar-ar.txt)| 0.4056    |
+| **MAP**                                                                                                                           | **BM25**   |
+|:----------------------------------------------------------------------------------------------------------------------------------|:----------:|
+| [TREC 2002 (Monolingual Arabic)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.trec02ar-ar.txt) | 0.2932     |
+| **P20**                                                                                                                           | **BM25**   |
+| [TREC 2002 (Monolingual Arabic)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.trec02ar-ar.txt) | 0.3610     |
+| **nDCG@20**                                                                                                                       | **BM25**   |
+| [TREC 2002 (Monolingual Arabic)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.trec02ar-ar.txt) | 0.4056     |

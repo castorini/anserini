@@ -30,7 +30,7 @@ bin/run.sh io.anserini.index.IndexCollection \
 The directory `/path/to/fire12-hi/` should be a directory containing the collection, containing `hi_AmarUjala` and `hi_NavbharatTimes` directories.
 There should be 331,599 documents in total.
 
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 
@@ -61,10 +61,10 @@ bin/trec_eval -m map -m P.20 -m ndcg_cut.20 tools/topics-and-qrels/qrels.fire12h
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MAP**                                                                                                      | **BM25**  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [FIRE 2012 (Monolingual Hindi)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.fire12en.176-225.txt)| 0.3867    |
-| **P20**                                                                                                      | **BM25**  |
-| [FIRE 2012 (Monolingual Hindi)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.fire12en.176-225.txt)| 0.4470    |
-| **nDCG@20**                                                                                                  | **BM25**  |
-| [FIRE 2012 (Monolingual Hindi)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.fire12en.176-225.txt)| 0.5310    |
+| **MAP**                                                                                                                               | **BM25**   |
+|:--------------------------------------------------------------------------------------------------------------------------------------|:----------:|
+| [FIRE 2012 (Monolingual Hindi)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.fire12en.176-225.txt) | 0.3867     |
+| **P20**                                                                                                                               | **BM25**   |
+| [FIRE 2012 (Monolingual Hindi)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.fire12en.176-225.txt) | 0.4470     |
+| **nDCG@20**                                                                                                                           | **BM25**   |
+| [FIRE 2012 (Monolingual Hindi)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.fire12en.176-225.txt) | 0.5310     |

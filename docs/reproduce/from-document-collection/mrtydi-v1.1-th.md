@@ -27,7 +27,7 @@ bin/run.sh io.anserini.index.IndexCollection \
 ```
 
 See [this page](https://github.com/castorini/mr.tydi) for more details about the Mr. TyDi corpus.
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 
@@ -66,12 +66,12 @@ bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools/topics-and-qrels/qr
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MRR@100**                                                                                                  | **BM25**  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [Mr. TyDi (Thai): train](https://github.com/castorini/mr.tydi)                                               | 0.3543    |
-| [Mr. TyDi (Thai): dev](https://github.com/castorini/mr.tydi)                                                 | 0.3586    |
-| [Mr. TyDi (Thai): test](https://github.com/castorini/mr.tydi)                                                | 0.4012    |
-| **R@100**                                                                                                    | **BM25**  |
-| [Mr. TyDi (Thai): train](https://github.com/castorini/mr.tydi)                                               | 0.8349    |
-| [Mr. TyDi (Thai): dev](https://github.com/castorini/mr.tydi)                                                 | 0.8536    |
-| [Mr. TyDi (Thai): test](https://github.com/castorini/mr.tydi)                                                | 0.8529    |
+| **MRR@100**                                                    | **BM25**   |
+|:---------------------------------------------------------------|:----------:|
+| [Mr. TyDi (Thai): train](https://github.com/castorini/mr.tydi) | 0.3543     |
+| [Mr. TyDi (Thai): dev](https://github.com/castorini/mr.tydi)   | 0.3586     |
+| [Mr. TyDi (Thai): test](https://github.com/castorini/mr.tydi)  | 0.4012     |
+| **R@100**                                                      | **BM25**   |
+| [Mr. TyDi (Thai): train](https://github.com/castorini/mr.tydi) | 0.8349     |
+| [Mr. TyDi (Thai): dev](https://github.com/castorini/mr.tydi)   | 0.8536     |
+| [Mr. TyDi (Thai): test](https://github.com/castorini/mr.tydi)  | 0.8529     |

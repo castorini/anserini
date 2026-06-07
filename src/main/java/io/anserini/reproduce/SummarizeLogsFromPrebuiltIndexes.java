@@ -24,6 +24,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -70,7 +71,7 @@ public class SummarizeLogsFromPrebuiltIndexes {
     try {
       parser.parseArgument(args);
     } catch (CmdLineException e) {
-      System.err.println(String.format("Error: %s", e.getMessage()));
+      System.err.println(String.format(Locale.ROOT, "Error: %s", e.getMessage()));
       CliUtils.printUsage(parser, SummarizeLogsFromPrebuiltIndexes.class, argsOrdering);
       return;
     }

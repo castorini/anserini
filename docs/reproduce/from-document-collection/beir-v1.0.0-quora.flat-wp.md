@@ -38,7 +38,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   >& logs/log.beir-v1.0.0-quora.flat-wp &
 ```
 
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 
@@ -67,10 +67,10 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-quora.t
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@10**                                                                                                  | **BM25**  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BEIR (v1.0.0): Quora                                                                                         | 0.7295    |
-| **R@100**                                                                                                    | **BM25**  |
-| BEIR (v1.0.0): Quora                                                                                         | 0.9459    |
-| **R@1000**                                                                                                   | **BM25**  |
-| BEIR (v1.0.0): Quora                                                                                         | 0.9872    |
+| **nDCG@10**          | **BM25**   |
+|:---------------------|:----------:|
+| BEIR (v1.0.0): Quora | 0.7295     |
+| **R@100**            | **BM25**   |
+| BEIR (v1.0.0): Quora | 0.9459     |
+| **R@1000**           | **BM25**   |
+| BEIR (v1.0.0): Quora | 0.9872     |

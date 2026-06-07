@@ -35,7 +35,7 @@ bin/run.sh io.anserini.index.IndexCollection \
 
 The directory `/path/to/msmarco-passage-wp/` should be a directory containing the corpus in Anserini's jsonl format.
 
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 
@@ -67,20 +67,20 @@ bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.t
 
 With the above commands, you should be able to reproduce the following results:
 
-| **AP@1000**                                                                                                  | **BM25 (default)**|
-|:-------------------------------------------------------------------------------------------------------------|-------------------|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)                                                   | 0.2367            |
-| **nDCG@10**                                                                                                  | **BM25 (default)**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)                                                   | 0.4375            |
-| **R@100**                                                                                                    | **BM25 (default)**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)                                                   | 0.4552            |
-| **R@1000**                                                                                                   | **BM25 (default)**|
-| [DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)                                                   | 0.7111            |
+| **AP@1000**                                                | **BM25 (default)** |
+|:-----------------------------------------------------------|:------------------:|
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2019.html) | 0.2367             |
+| **nDCG@10**                                                | **BM25 (default)** |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2019.html) | 0.4375             |
+| **R@100**                                                  | **BM25 (default)** |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2019.html) | 0.4552             |
+| **R@1000**                                                 | **BM25 (default)** |
+| [DL19 (Passage)](https://trec.nist.gov/data/deep2019.html) | 0.7111             |
 
 ❗ Retrieval metrics here are computed to depth 1000 hits per query (as opposed to 100 hits per query for document ranking).
 For computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., AP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).
 The experimental results reported here are directly comparable to the results reported in the [track overview paper](https://arxiv.org/abs/2003.07820).
 
-## Reproduction Log[*](reproducibility.md)
+## Reproduction Log[*](../../reproducibility.md)
 
 To add to this reproduction log, modify [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl19-passage.wp-tok.template) and run `bin/build.sh` to rebuild the documentation.

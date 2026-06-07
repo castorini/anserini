@@ -16,9 +16,11 @@
 
 package io.anserini.index;
 
-import io.anserini.analysis.AnalyzerUtils;
-import io.anserini.collection.DocumentCollection;
-import io.anserini.collection.JsonCollection;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
@@ -52,11 +54,9 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.util.HashMap;
-import java.util.Map;
+import io.anserini.analysis.AnalyzerUtils;
+import io.anserini.collection.DocumentCollection;
+import io.anserini.collection.JsonCollection;
 
 public class BasicIndexOperationsTest extends IndexerTestBase {
   private final static PrintStream standardOut = System.out;

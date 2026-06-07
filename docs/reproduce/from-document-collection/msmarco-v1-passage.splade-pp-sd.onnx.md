@@ -64,7 +64,7 @@ The path `/path/to/msmarco-passage-splade-pp-sd/` should point to the corpus dow
 The important indexing options to note here are `-impact -pretokenized`: the first tells Anserini not to encode BM25 doc lengths into Lucene's norms (which is the default) and the second option says not to apply any additional tokenization on the pre-encoded tokens.
 Upon completion, we should have an index with 8,841,823 documents.
 
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 
@@ -95,15 +95,15 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev
 
 With the above commands, you should be able to reproduce the following results:
 
-| **AP@1000**                                                                                                  | **SPLADE++ CoCondenser-SelfDistil**|
-|:-------------------------------------------------------------------------------------------------------------|------------------------------------|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3835                             |
-| **RR@10**                                                                                                    | **SPLADE++ CoCondenser-SelfDistil**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.3776                             |
-| **R@100**                                                                                                    | **SPLADE++ CoCondenser-SelfDistil**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9118                             |
-| **R@1000**                                                                                                   | **SPLADE++ CoCondenser-SelfDistil**|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)                                | 0.9846                             |
+| **AP@1000**                                                                   | **SPLADE++ CoCondenser-SelfDistil** |
+|:------------------------------------------------------------------------------|:-----------------------------------:|
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking) | 0.3835                              |
+| **RR@10**                                                                     | **SPLADE++ CoCondenser-SelfDistil** |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking) | 0.3776                              |
+| **R@100**                                                                     | **SPLADE++ CoCondenser-SelfDistil** |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking) | 0.9118                              |
+| **R@1000**                                                                    | **SPLADE++ CoCondenser-SelfDistil** |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking) | 0.9846                              |
 
 ## Reproduction Log[*](../../../docs/reproducibility.md)
 

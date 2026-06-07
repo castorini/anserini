@@ -16,11 +16,11 @@
 
 package io.anserini.collection;
 
-import org.junit.Before;
-import org.junit.Test;
-
 import java.io.IOException;
 import java.nio.file.Paths;
+
+import org.junit.Before;
+import org.junit.Test;
 
 // A file in a JsonCollection might not have the required fields that
 // we expect. This tests whether the appropriate error is thrown.

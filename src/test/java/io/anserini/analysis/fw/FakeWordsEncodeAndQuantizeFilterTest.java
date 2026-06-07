@@ -16,16 +16,17 @@
 
 package io.anserini.analysis.fw;
 
-import io.anserini.analysis.FeatureVectorsTokenizer;
-import org.apache.lucene.analysis.Tokenizer;
-import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 import java.io.StringReader;
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import org.apache.lucene.analysis.Tokenizer;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
+import org.junit.Test;
+
+import io.anserini.analysis.FeatureVectorsTokenizer;
 
 /**
  * Tests for {@link FakeWordsEncodeAndQuantizeFilter}

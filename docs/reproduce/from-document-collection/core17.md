@@ -30,7 +30,7 @@ bin/run.sh io.anserini.index.IndexCollection \
 The directory `/path/to/nyt_corpus/` should be the root directory of the [New York Times Annotated Corpus](https://catalog.ldc.upenn.edu/LDC2008T19), i.e., `ls /path/to/nyt_corpus/`
 should bring up a bunch of subdirectories, `1987` to `2007`.
 
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 
@@ -106,11 +106,11 @@ bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core17.txt runs/run.ny
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MAP**                                                                                                      | **BM25**  | **+RM3**  | **+Ax**   | **QL**    | **+RM3**  | **+Ax**   |
-|:-------------------------------------------------------------------------------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-| [TREC 2017 Common Core Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.core17.txt)| 0.2087    | 0.2798    | 0.2739    | 0.2032    | 0.2593    | 0.2579    |
-| **P30**                                                                                                      | **BM25**  | **+RM3**  | **+Ax**   | **QL**    | **+RM3**  | **+Ax**   |
-| [TREC 2017 Common Core Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.core17.txt)| 0.4293    | 0.5027    | 0.4940    | 0.4467    | 0.4827    | 0.4893    |
+| **MAP**                                                                                                                          | **BM25**   | **+RM3**   | **+Ax**    | **QL**     | **+RM3**   | **+Ax**    |
+|:---------------------------------------------------------------------------------------------------------------------------------|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|
+| [TREC 2017 Common Core Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.core17.txt) | 0.2087     | 0.2798     | 0.2739     | 0.2032     | 0.2593     | 0.2579     |
+| **P30**                                                                                                                          | **BM25**   | **+RM3**   | **+Ax**    | **QL**     | **+RM3**   | **+Ax**    |
+| [TREC 2017 Common Core Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.core17.txt) | 0.4293     | 0.5027     | 0.4940     | 0.4467     | 0.4827     | 0.4893     |
 
 ## Reproduction Log[*](../../../docs/reproducibility.md)
 

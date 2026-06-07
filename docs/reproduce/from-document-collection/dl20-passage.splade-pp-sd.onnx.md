@@ -67,7 +67,7 @@ The path `/path/to/msmarco-passage-splade-pp-sd/` should point to the corpus dow
 The important indexing options to note here are `-impact -pretokenized`: the first tells Anserini not to encode BM25 doc lengths into Lucene's norms (which is the default) and the second option says not to apply any additional tokenization on the pre-encoded tokens.
 Upon completion, we should have an index with 8,841,823 documents.
 
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 
@@ -123,15 +123,15 @@ bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.t
 
 With the above commands, you should be able to reproduce the following results:
 
-| **AP@1000**                                                                                                  | **SPLADE++ CoCondenser-SelfDistil**| **+RM3**  | **+Rocchio**|
-|:-------------------------------------------------------------------------------------------------------------|------------------------------------|-----------|-------------|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.5139                             | 0.5266    | 0.5335      |
-| **nDCG@10**                                                                                                  | **SPLADE++ CoCondenser-SelfDistil**| **+RM3**  | **+Rocchio**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7282                             | 0.7227    | 0.7388      |
-| **R@100**                                                                                                    | **SPLADE++ CoCondenser-SelfDistil**| **+RM3**  | **+Rocchio**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7512                             | 0.7648    | 0.7656      |
-| **R@1000**                                                                                                   | **SPLADE++ CoCondenser-SelfDistil**| **+RM3**  | **+Rocchio**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.9024                             | 0.9174    | 0.9120      |
+| **AP@1000**                                                | **SPLADE++ CoCondenser-SelfDistil** | **+RM3**   | **+Rocchio** |
+|:-----------------------------------------------------------|:-----------------------------------:|:----------:|:------------:|
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html) | 0.5139                              | 0.5266     | 0.5335       |
+| **nDCG@10**                                                | **SPLADE++ CoCondenser-SelfDistil** | **+RM3**   | **+Rocchio** |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html) | 0.7282                              | 0.7227     | 0.7388       |
+| **R@100**                                                  | **SPLADE++ CoCondenser-SelfDistil** | **+RM3**   | **+Rocchio** |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html) | 0.7512                              | 0.7648     | 0.7656       |
+| **R@1000**                                                 | **SPLADE++ CoCondenser-SelfDistil** | **+RM3**   | **+Rocchio** |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html) | 0.9024                              | 0.9174     | 0.9120       |
 
 ❗ Retrieval metrics here are computed to depth 1000 hits per query (as opposed to 100 hits per query for document ranking).
 For computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., AP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).

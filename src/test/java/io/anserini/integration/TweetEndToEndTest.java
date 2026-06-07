@@ -16,15 +16,16 @@
 
 package io.anserini.integration;
 
-import io.anserini.collection.TweetCollection;
-import io.anserini.index.AbstractIndexer;
-import io.anserini.index.IndexCollection;
-import io.anserini.index.generator.TweetGenerator;
+import java.util.Map;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.junit.BeforeClass;
 
-import java.util.Map;
+import io.anserini.collection.TweetCollection;
+import io.anserini.index.AbstractIndexer;
+import io.anserini.index.IndexCollection;
+import io.anserini.index.generator.TweetGenerator;
 
 public class TweetEndToEndTest extends EndToEndTest {
   @BeforeClass

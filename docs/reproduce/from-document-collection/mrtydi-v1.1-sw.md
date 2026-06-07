@@ -27,7 +27,7 @@ bin/run.sh io.anserini.index.IndexCollection \
 ```
 
 See [this page](https://github.com/castorini/mr.tydi) for more details about the Mr. TyDi corpus.
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 
@@ -66,12 +66,12 @@ bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools/topics-and-qrels/qr
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MRR@100**                                                                                                  | **BM25**  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [Mr. TyDi (Swahili): train](https://github.com/castorini/mr.tydi)                                            | 0.2610    |
-| [Mr. TyDi (Swahili): dev](https://github.com/castorini/mr.tydi)                                              | 0.2693    |
-| [Mr. TyDi (Swahili): test](https://github.com/castorini/mr.tydi)                                             | 0.3893    |
-| **R@100**                                                                                                    | **BM25**  |
-| [Mr. TyDi (Swahili): train](https://github.com/castorini/mr.tydi)                                            | 0.5903    |
-| [Mr. TyDi (Swahili): dev](https://github.com/castorini/mr.tydi)                                              | 0.5789    |
-| [Mr. TyDi (Swahili): test](https://github.com/castorini/mr.tydi)                                             | 0.7642    |
+| **MRR@100**                                                       | **BM25**   |
+|:------------------------------------------------------------------|:----------:|
+| [Mr. TyDi (Swahili): train](https://github.com/castorini/mr.tydi) | 0.2610     |
+| [Mr. TyDi (Swahili): dev](https://github.com/castorini/mr.tydi)   | 0.2693     |
+| [Mr. TyDi (Swahili): test](https://github.com/castorini/mr.tydi)  | 0.3893     |
+| **R@100**                                                         | **BM25**   |
+| [Mr. TyDi (Swahili): train](https://github.com/castorini/mr.tydi) | 0.5903     |
+| [Mr. TyDi (Swahili): dev](https://github.com/castorini/mr.tydi)   | 0.5789     |
+| [Mr. TyDi (Swahili): test](https://github.com/castorini/mr.tydi)  | 0.7642     |

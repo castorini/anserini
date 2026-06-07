@@ -37,7 +37,7 @@ bin/run.sh io.anserini.index.IndexCollection \
 ```
 
 The path `/path/to/bright-aops/` should point to the corpus downloaded above.
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 
@@ -66,10 +66,10 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.bright-aops.txt run
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@10**                                                                                                  | **BM25**  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| BRIGHT: AoPS                                                                                                 | 0.0645    |
-| **R@100**                                                                                                    | **BM25**  |
-| BRIGHT: AoPS                                                                                                 | 0.1965    |
-| **R@1000**                                                                                                   | **BM25**  |
-| BRIGHT: AoPS                                                                                                 | 0.3630    |
+| **nDCG@10**  | **BM25**   |
+|:-------------|:----------:|
+| BRIGHT: AoPS | 0.0645     |
+| **R@100**    | **BM25**   |
+| BRIGHT: AoPS | 0.1965     |
+| **R@1000**   | **BM25**   |
+| BRIGHT: AoPS | 0.3630     |

@@ -3,7 +3,7 @@
 
   <groupId>io.anserini</groupId>
   <artifactId>anserini</artifactId>
-  <version>2.0.1-SNAPSHOT</version>
+  <version>2.1.2-SNAPSHOT</version>
   <name>Anserini</name>
   <description>An information retrieval toolkit built on Lucene</description>
   <url>http://anserini.io/</url>
@@ -35,7 +35,7 @@
     <connection>scm:git:git@github.com:castorini/anserini.git</connection>
     <developerConnection>scm:git:git@github.com:castorini/anserini.git</developerConnection>
     <url>git@github.com:castorini/anserini.git</url>
-    <tag>HEAD</tag>
+    <tag>anserini-2.1.1</tag>
   </scm>
 
   <repositories>
@@ -81,11 +81,11 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.1.0</version>
+        <version>3.5.5</version>
         <configuration>
           <!-- Need to add @{argLine} for JaCoCo to work; see
           https://stackoverflow.com/questions/71568474/getting-skipping-jacoco-execution-due-to-missing-execution-data-file-with-jaco -->
-          <argLine>@{argLine} -Xmx8192m</argLine>
+          <argLine>@{argLine} -Xmx8192m --enable-native-access=ALL-UNNAMED</argLine>
         </configuration>
       </plugin>
       <plugin>
@@ -262,6 +262,11 @@
     <dependency> <!-- polish and ukrainian -->
       <groupId>org.apache.lucene</groupId>
       <artifactId>lucene-analysis-morfologik</artifactId>
+      <version>${lucene.version}</version>
+    </dependency>
+    <dependency> <!-- Korean -->
+      <groupId>org.apache.lucene</groupId>
+      <artifactId>lucene-analysis-nori</artifactId>
       <version>${lucene.version}</version>
     </dependency>
     <dependency> <!-- only needed for testing -->

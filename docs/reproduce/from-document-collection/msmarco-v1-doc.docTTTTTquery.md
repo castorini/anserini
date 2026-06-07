@@ -41,7 +41,7 @@ bin/run.sh io.anserini.index.IndexCollection \
 The directory `/path/to/msmarco-doc-docTTTTTquery/` should be a directory containing the expanded document corpus in Anserini's jsonl format.
 See [this page](../../../docs/experiments-msmarco-doc-doc2query-details.md) for how to prepare the corpus.
 
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 
@@ -84,15 +84,15 @@ bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-doc.dev.txt
 
 With the above commands, you should be able to reproduce the following results:
 
-| **AP@1000**                                                                                                  | **BM25 (default)**| **BM25 (tuned)**|
-|:-------------------------------------------------------------------------------------------------------------|-------------------|-----------------|
-| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.2886            | 0.3273          |
-| **RR@100**                                                                                                   | **BM25 (default)**| **BM25 (tuned)**|
-| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.2880            | 0.3269          |
-| **R@100**                                                                                                    | **BM25 (default)**| **BM25 (tuned)**|
-| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.7993            | 0.8612          |
-| **R@1000**                                                                                                   | **BM25 (default)**| **BM25 (tuned)**|
-| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)                                   | 0.9259            | 0.9553          |
+| **AP@1000**                                                                | **BM25 (default)** | **BM25 (tuned)** |
+|:---------------------------------------------------------------------------|:------------------:|:----------------:|
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking) | 0.2886             | 0.3273           |
+| **RR@100**                                                                 | **BM25 (default)** | **BM25 (tuned)** |
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking) | 0.2880             | 0.3269           |
+| **R@100**                                                                  | **BM25 (default)** | **BM25 (tuned)** |
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking) | 0.7993             | 0.8612           |
+| **R@1000**                                                                 | **BM25 (default)** | **BM25 (tuned)** |
+| [MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking) | 0.9259             | 0.9553           |
 
 Explanation of settings:
 

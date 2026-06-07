@@ -17,6 +17,7 @@
 package io.anserini.collection;
 
 import java.util.Map;
+
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.JsonNode;

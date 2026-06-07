@@ -16,13 +16,14 @@
 
 package io.anserini.encoder.dense;
 
-import ai.onnxruntime.OrtException;
-import org.junit.Test;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-import static org.junit.Assert.assertTrue;
+import org.junit.Test;
+
+import ai.onnxruntime.OrtException;
 
 public class BgeBaseEn15EncoderInferenceTest extends DenseEncoderInferenceTest {
   private static final DenseExampleOutputPair[] EXAMPLES = {

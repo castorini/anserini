@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
@@ -93,7 +94,7 @@ public class RunJavaReproductionCommands {
     try {
       parser.parseArgument(args);
     } catch (CmdLineException e) {
-      System.err.println(String.format("Error: %s", e.getMessage()));
+      System.err.println(String.format(Locale.ROOT, "Error: %s", e.getMessage()));
       CliUtils.printUsage(parser, RunJavaReproductionCommands.class, argsOrdering);
       return;
     }
@@ -163,7 +164,7 @@ public class RunJavaReproductionCommands {
         nextCommand++;
       }
 
-      String loadString = loadAvailable ? String.format("%.1f", currentLoad) : "N/A";
+      String loadString = loadAvailable ? String.format(Locale.ROOT, "%.1f", currentLoad) : "N/A";
       LOG.info("Current load: {} (threshold = {}), active jobs: {} (max = {})", loadString, args.load, active.size(), args.max);
 
       if (active.size() > 0) {
@@ -275,11 +276,11 @@ public class RunJavaReproductionCommands {
 
         boolean fromPrebuilt = resource.contains("prebuilt");
         if (fromPrebuilt && !command.contains("--runs-directory")) {
-          command = String.format("%s --runs-directory %s", command, runsDirectory);
+          command = String.format(Locale.ROOT, "%s --runs-directory %s", command, runsDirectory);
         }
 
-        String logFile = Paths.get(logsDirectory, String.format("log.%s.%s.txt", fromPrebuilt ? "from-prebuilt-indexes" : "from-document-collection", configName)).toString();
-        commands.add(String.format("%s %s %s %s > %s 2>&1", ReproductionUtils.Constants.JAVA_PREFIX, fatjarPath, ReproductionUtils.Constants.JVM_ARGS, command, logFile));
+        String logFile = Paths.get(logsDirectory, String.format(Locale.ROOT, "log.%s.%s.txt", fromPrebuilt ? "from-prebuilt-indexes" : "from-document-collection", configName)).toString();
+        commands.add(String.format(Locale.ROOT, "%s %s %s %s > %s 2>&1", ReproductionUtils.Constants.JAVA_PREFIX, fatjarPath, ReproductionUtils.Constants.JVM_ARGS, command, logFile));
       }
     }
 
@@ -287,8 +288,12 @@ public class RunJavaReproductionCommands {
   }
 
   private static Process launch(String command) throws IOException {
-    return new ProcessBuilder("bash", "-lc", command)
-        .inheritIO()
+    Process process = new ProcessBuilder("bash", "-lc", command)
+        .redirectInput(ProcessBuilder.Redirect.PIPE)
+        .redirectOutput(ProcessBuilder.Redirect.DISCARD)
+        .redirectError(ProcessBuilder.Redirect.DISCARD)
         .start();
+    process.getOutputStream().close();
+    return process;
   }
 }

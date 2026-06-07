@@ -68,6 +68,30 @@ models:
         - 0.4927
         - 0.4580
         - 0.5293
+  - name: bm25prf
+    display: +BM25PRF
+    params: -bm25 -bm25prf
+    results:
+      MAP:
+        - 0.2682
+        - 0.2581
+        - 0.3370
+      P30:
+        - 0.5233
+        - 0.4720
+        - 0.5393
+  - name: bm25+rocchio
+    display: +Rocchio
+    params: -bm25 -rocchio
+    results:
+      MAP:
+        - 0.2627
+        - 0.2587
+        - 0.3407
+      P30:
+        - 0.4913
+        - 0.4593
+        - 0.5353
   - name: bm25+ax
     display: +Ax
     params: -bm25 -axiom -rerankCutoff 20
@@ -104,15 +128,3 @@ models:
         - 0.4673
         - 0.4427
         - 0.5000
-  - name: ql+ax
-    display: +Ax
-    params: -qld -axiom -rerankCutoff 20
-    results:
-      MAP:
-        - 0.2502
-        - 0.2596
-        - 0.3129
-      P30:
-        - 0.4947
-        - 0.4760
-        - 0.5187

@@ -40,9 +40,6 @@ import java.nio.file.Path;
 public class PrebuiltIndexHandler {
   private static final Logger LOG = LogManager.getLogger(PrebuiltIndexHandler.class);
 
-  private static final String DEFAULT_CACHE_DIR = Path.of(System.getProperty("user.home"), ".cache", "pyserini", "indexes").toString();
-  private static final String CACHE_DIR_PROPERTY = "anserini.index.cache";
-  private static final String CACHE_DIR_ENV = "ANSERINI_INDEX_CACHE";
   private static final int MAX_DOWNLOAD_ATTEMPTS = 3;
   private static final int DOWNLOAD_BUFFER_SIZE = 1 << 16; // 64 KB
   private static final int CONNECT_TIMEOUT_MS = 60_000;
@@ -57,9 +54,11 @@ public class PrebuiltIndexHandler {
 
   /**
    * Returns a <tt>PrebuiltIndexHandler</tt> for a prebuilt index given its name, or <tt>null</tt> if it doesn't exist.
-   * The default cache directory is <tt>~/.cache/pyserini/indexes</tt>.
-   * Alternatively, a custom cache directory can be specified via the environment variable <tt>$ANSERINI_INDEX_CACHE</tt>
-   * or the system property <tt>anserini.index.cache</tt>.
+   * Downloaded indexes are stored in <tt>indexes</tt> under the base cache directory specified by the system property
+   * <tt>pyserini.cache</tt>. If the property is not set, the environment variable <tt>$PYSERINI_CACHE</tt> specifies
+   * the base cache directory. If neither is set and <tt>.cache</tt> exists in the current working directory, indexes are
+   * stored in <tt>.cache/pyserini/indexes</tt> under the current working directory. Otherwise, indexes are stored in
+   * <tt>~/.cache/pyserini/indexes</tt>.
    *
    * @param name the name of the prebuilt index
    * @return a <tt>PrebuiltIndexHandler</tt> for a prebuilt index given its name, or <tt>null</tt> if it doesn't exist.
@@ -90,20 +89,6 @@ public class PrebuiltIndexHandler {
     }
   }
 
-  private static String getCache() {
-    String cacheDirectory = System.getProperty(CACHE_DIR_PROPERTY);
-    
-    if (cacheDirectory == null || cacheDirectory.isEmpty()) {
-      cacheDirectory = System.getenv(CACHE_DIR_ENV);
-    }
-    
-    if (cacheDirectory == null || cacheDirectory.isEmpty()) {
-      cacheDirectory = DEFAULT_CACHE_DIR;
-    }
-    
-    return cacheDirectory;
-  }
-
   private static boolean verifyChecksum(Path path, String md5) throws IOException {
     try (InputStream is = Files.newInputStream(path)) {
       String generatedChecksum = DigestUtils.md5Hex(is);
@@ -112,7 +97,7 @@ public class PrebuiltIndexHandler {
   }
 
   public void fetch() throws IOException {
-    fetch(getCache());
+    fetch(CacheDirectoryResolver.getIndexCachePath().toString());
   }
 
   public void fetch(String cacheDirectory) throws IOException {

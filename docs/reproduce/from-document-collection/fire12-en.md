@@ -30,7 +30,7 @@ bin/run.sh io.anserini.index.IndexCollection \
 The directory `/path/to/fire12-en/` should be a directory containing the collection, containing `en_BDNews24` and `en_TheTelegraph_2001-2010` directories.
 There should be 392,577 documents in total.
 
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 
@@ -61,10 +61,10 @@ bin/trec_eval -m map -m P.20 -m ndcg_cut.20 tools/topics-and-qrels/qrels.fire12e
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MAP**                                                                                                      | **BM25**  |
-|:-------------------------------------------------------------------------------------------------------------|-----------|
-| [FIRE 2012 (Monolingual English)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.fire12en.176-225.txt)| 0.3713    |
-| **P20**                                                                                                      | **BM25**  |
-| [FIRE 2012 (Monolingual English)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.fire12en.176-225.txt)| 0.4970    |
-| **nDCG@20**                                                                                                  | **BM25**  |
-| [FIRE 2012 (Monolingual English)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.fire12en.176-225.txt)| 0.5420    |
+| **MAP**                                                                                                                                 | **BM25**   |
+|:----------------------------------------------------------------------------------------------------------------------------------------|:----------:|
+| [FIRE 2012 (Monolingual English)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.fire12en.176-225.txt) | 0.3713     |
+| **P20**                                                                                                                                 | **BM25**   |
+| [FIRE 2012 (Monolingual English)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.fire12en.176-225.txt) | 0.4970     |
+| **nDCG@20**                                                                                                                             | **BM25**   |
+| [FIRE 2012 (Monolingual English)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.fire12en.176-225.txt) | 0.5420     |

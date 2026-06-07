@@ -67,7 +67,7 @@ The path `/path/to/msmarco-passage-splade-v3/` should point to the corpus downlo
 The important indexing options to note here are `-impact -pretokenized`: the first tells Anserini not to encode BM25 doc lengths into Lucene's norms (which is the default) and the second option says not to apply any additional tokenization on the pre-encoded tokens.
 Upon completion, we should have an index with 8,841,823 documents.
 
-For additional details, see explanation of [common indexing options](../../../docs/common-indexing-options.md).
+For additional details, see explanation of [common indexing options](../../common-indexing-options.md).
 
 ## Retrieval
 
@@ -80,58 +80,58 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v1-passage.splade-v3/ \
-  -topics tools/topics-and-qrels/topics.dl20.splade-v3.tsv.gz \
+  -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicReader TsvInt \
-  -output runs/run.msmarco-passage-splade-v3.splade-v3-onnx.topics.dl20.splade-v3.txt \
-  -impact -pretokenized &
+  -output runs/run.msmarco-passage-splade-v3.splade-v3-onnx.topics.dl20.txt \
+  -impact -pretokenized -encoder SpladeV3 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v1-passage.splade-v3/ \
-  -topics tools/topics-and-qrels/topics.dl20.splade-v3.tsv.gz \
+  -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicReader TsvInt \
-  -output runs/run.msmarco-passage-splade-v3.splade-v3-onnx+rm3.topics.dl20.splade-v3.txt \
-  -impact -pretokenized -rm3 &
+  -output runs/run.msmarco-passage-splade-v3.splade-v3-onnx+rm3.topics.dl20.txt \
+  -impact -pretokenized -rm3 -encoder SpladeV3 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v1-passage.splade-v3/ \
-  -topics tools/topics-and-qrels/topics.dl20.splade-v3.tsv.gz \
+  -topics tools/topics-and-qrels/topics.dl20.txt \
   -topicReader TsvInt \
-  -output runs/run.msmarco-passage-splade-v3.splade-v3-onnx+rocchio.topics.dl20.splade-v3.txt \
-  -impact -pretokenized -rocchio &
+  -output runs/run.msmarco-passage-splade-v3.splade-v3-onnx+rocchio.topics.dl20.txt \
+  -impact -pretokenized -rocchio -encoder SpladeV3 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-v3.splade-v3-onnx.topics.dl20.splade-v3.txt
-bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-v3.splade-v3-onnx.topics.dl20.splade-v3.txt
-bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-v3.splade-v3-onnx.topics.dl20.splade-v3.txt
-bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-v3.splade-v3-onnx.topics.dl20.splade-v3.txt
+bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-v3.splade-v3-onnx.topics.dl20.txt
+bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-v3.splade-v3-onnx.topics.dl20.txt
+bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-v3.splade-v3-onnx.topics.dl20.txt
+bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-v3.splade-v3-onnx.topics.dl20.txt
 
-bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-v3.splade-v3-onnx+rm3.topics.dl20.splade-v3.txt
-bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-v3.splade-v3-onnx+rm3.topics.dl20.splade-v3.txt
-bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-v3.splade-v3-onnx+rm3.topics.dl20.splade-v3.txt
-bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-v3.splade-v3-onnx+rm3.topics.dl20.splade-v3.txt
+bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-v3.splade-v3-onnx+rm3.topics.dl20.txt
+bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-v3.splade-v3-onnx+rm3.topics.dl20.txt
+bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-v3.splade-v3-onnx+rm3.topics.dl20.txt
+bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-v3.splade-v3-onnx+rm3.topics.dl20.txt
 
-bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-v3.splade-v3-onnx+rocchio.topics.dl20.splade-v3.txt
-bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-v3.splade-v3-onnx+rocchio.topics.dl20.splade-v3.txt
-bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-v3.splade-v3-onnx+rocchio.topics.dl20.splade-v3.txt
-bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-v3.splade-v3-onnx+rocchio.topics.dl20.splade-v3.txt
+bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-v3.splade-v3-onnx+rocchio.topics.dl20.txt
+bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-v3.splade-v3-onnx+rocchio.topics.dl20.txt
+bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-v3.splade-v3-onnx+rocchio.topics.dl20.txt
+bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-splade-v3.splade-v3-onnx+rocchio.topics.dl20.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| **AP@1000**                                                                                                  | **SPLADEv3**| **+RM3**  | **+Rocchio**|
-|:-------------------------------------------------------------------------------------------------------------|-------------|-----------|-------------|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.5402      | 0.5493    | 0.5456      |
-| **nDCG@10**                                                                                                  | **SPLADEv3**| **+RM3**  | **+Rocchio**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7522      | 0.7280    | 0.7487      |
-| **R@100**                                                                                                    | **SPLADEv3**| **+RM3**  | **+Rocchio**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.7671      | 0.7685    | 0.7764      |
-| **R@1000**                                                                                                   | **SPLADEv3**| **+RM3**  | **+Rocchio**|
-| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)                                                   | 0.9039      | 0.9316    | 0.9258      |
+| **AP@1000**                                                | **SPLADEv3** | **+RM3**   | **+Rocchio** |
+|:-----------------------------------------------------------|:------------:|:----------:|:------------:|
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html) | 0.5402       | 0.5493     | 0.5456       |
+| **nDCG@10**                                                | **SPLADEv3** | **+RM3**   | **+Rocchio** |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html) | 0.7522       | 0.7280     | 0.7487       |
+| **R@100**                                                  | **SPLADEv3** | **+RM3**   | **+Rocchio** |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html) | 0.7671       | 0.7685     | 0.7764       |
+| **R@1000**                                                 | **SPLADEv3** | **+RM3**   | **+Rocchio** |
+| [DL20 (Passage)](https://trec.nist.gov/data/deep2020.html) | 0.9039       | 0.9316     | 0.9258       |
 
 ❗ Retrieval metrics here are computed to depth 1000 hits per query (as opposed to 100 hits per query for document ranking).
 For computing nDCG, remember that we keep qrels of _all_ relevance grades, whereas for other metrics (e.g., AP), relevance grade 1 is considered not relevant (i.e., use the `-l 2` option in `trec_eval`).

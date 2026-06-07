@@ -20,11 +20,13 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -43,7 +45,9 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import io.anserini.cli.CliUtils;
 
+import io.anserini.eval.TrecEval;
 import io.anserini.index.IndexReaderUtils;
+import io.anserini.util.CacheDirectoryResolver;
 import io.anserini.util.LoggingBootstrap;
 import io.anserini.util.PrebuiltIndexHandler;
 
@@ -51,20 +55,17 @@ public class ReproduceFromPrebuiltIndexes {
   private static final String CONFIG_DIRECTORY = "reproduce/from-prebuilt-indexes/configs";
 
   public static class Args {
-    @Option(name = "--config", metaVar = "[config]", usage = "Name of the configuration to run.")
-    public String config;
-
     @Option(name = "--list", usage = "List available configs as a JSON array and exit.")
     public boolean list = false;
 
+    @Option(name = "--config", metaVar = "[config]", usage = "Name of the configuration to run.")
+    public String config;
+
+    @Option(name = "--show", usage = "Print the specified config and exit.")
+    public boolean show = false;
+
     @Option(name = "--runs-directory", metaVar = "[path]", usage = "Directory for output runs.")
     public String runsDirectory = ReproductionUtils.Constants.DEFAULT_RUNS_DIRECTORY;
-
-    @Option(name = "--compute-index-size", usage = "Compute total size of all unique indexes referenced by runs.")
-    public boolean computeIndexSize = false;
-
-    @Option(name = "--print-commands", usage = "Print commands.")
-    public boolean printCommands = false;
 
     @Option(name = "--dry-run", usage = "Output commands without execution.")
     public boolean dryRun = false;
@@ -74,7 +75,7 @@ public class ReproduceFromPrebuiltIndexes {
   }
 
   private static final String[] argsOrdering =
-      new String[] {"--config", "--list", "--runs-directory", "--compute-index-size", "--print-commands", "--dry-run", "--help"};
+      new String[] {"--list", "--config", "--show", "--runs-directory", "--dry-run", "--help"};
 
   public static void main(String[] args) throws Exception {
     LoggingBootstrap.installJulToSlf4jBridge();
@@ -85,7 +86,7 @@ public class ReproduceFromPrebuiltIndexes {
     try {
       parser.parseArgument(args);
     } catch (CmdLineException exception) {
-      System.err.println(String.format("Error: %s", exception.getMessage()));
+      System.err.println(String.format(Locale.ROOT, "Error: %s", exception.getMessage()));
       CliUtils.printUsage(parser, ReproduceFromPrebuiltIndexes.class, argsOrdering);
 
       return;
@@ -108,14 +109,20 @@ public class ReproduceFromPrebuiltIndexes {
       return;
     }
 
+    if (parsedArgs.show) {
+      String resourceName = String.format(Locale.ROOT, "%s/%s.yaml", CONFIG_DIRECTORY, parsedArgs.config);
+      try (InputStream yamlStream = ReproductionUtils.loadResourceStream(resourceName, ReproduceFromPrebuiltIndexes.class)) {
+        System.out.print(new String(yamlStream.readAllBytes(), StandardCharsets.UTF_8));
+      }
+      return;
+    }
+
     run(parsedArgs);
   }
 
   private static void run(Args args) throws IOException, InterruptedException, URISyntaxException {
     String configName = args.config;
-    boolean printCommands = args.printCommands;
     boolean dryRun = args.dryRun;
-    boolean computeIndexSize = args.computeIndexSize;
 
     Path runsDir = Paths.get(args.runsDirectory);
     if (!Files.exists(runsDir)) {
@@ -123,9 +130,11 @@ public class ReproduceFromPrebuiltIndexes {
     }
 
     String fatjarPath = new File(ReproduceFromPrebuiltIndexes.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
+    String classpath = Files.isDirectory(Paths.get(fatjarPath)) ? System.getProperty("java.class.path") : fatjarPath;
+    String guardedClasspath = classpath.contains(" ") ? String.format(Locale.ROOT, "\"%s\"", classpath) : classpath;
 
     final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-    String resourceName = String.format("%s/%s.yaml", CONFIG_DIRECTORY, configName);
+    String resourceName = String.format(Locale.ROOT, "%s/%s.yaml", CONFIG_DIRECTORY, configName);
     Config config;
     try (InputStream yamlStream = ReproductionUtils.loadResourceStream(resourceName, ReproduceFromPrebuiltIndexes.class)) {
       config = mapper.readValue(yamlStream, Config.class);
@@ -148,9 +157,8 @@ public class ReproduceFromPrebuiltIndexes {
       }
     }
 
-    // If requested, print index summary before any runs.
-    if (computeIndexSize && !uniqueIndexNames.isEmpty()) {
-      System.out.printf("Indexes referenced by this run (%d total):%n", uniqueIndexNames.size());
+    if (!uniqueIndexNames.isEmpty()) {
+      System.out.printf(Locale.ROOT, "Indexes referenced by this run (%d total):%n", uniqueIndexNames.size());
 
       // First pass: compute rows and totals so we can size columns dynamically.
       long totalBytes = 0L;
@@ -212,118 +220,106 @@ public class ReproduceFromPrebuiltIndexes {
       }
 
       final String fmt = "%-" + nameWidth + "s  %12s  %12s  %-" + pathWidth + "s%n";
-      System.out.printf(fmt, "name", "size on disk", "download size", "path");
-      System.out.printf(fmt, repeat('-', nameWidth), repeat('-', 12), repeat('-', 12), repeat('-', pathWidth));
+      System.out.printf(Locale.ROOT, fmt, "name", "size on disk", "download size", "path");
+      System.out.printf(Locale.ROOT, fmt, repeat('-', nameWidth), repeat('-', 12), repeat('-', 12), repeat('-', pathWidth));
 
       for (String[] r : rows) {
-        System.out.printf(fmt, r[0], r[1], r[2], r[3]);
+        System.out.printf(Locale.ROOT, fmt, r[0], r[1], r[2], r[3]);
       }
       // Add total row at the end with no path.
-      System.out.printf(fmt, "total", IndexReaderUtils.formatSize(totalBytes), IndexReaderUtils.formatSize(totalDownloadBytes), "-");
+      System.out.printf(Locale.ROOT, fmt, "total", IndexReaderUtils.formatSize(totalBytes), IndexReaderUtils.formatSize(totalDownloadBytes), "-");
 
-      System.out.printf("%nTotal size across %d of %d indexes: %s%n%n", presentCount, uniqueIndexNames.size(), IndexReaderUtils.formatSize(totalBytes));
+      System.out.printf(Locale.ROOT, "%nTotal size across %d of %d indexes: %s%n%n", presentCount, uniqueIndexNames.size(), IndexReaderUtils.formatSize(totalBytes));
     }
 
     for (Condition condition : config.conditions) {
-      System.out.printf("# Running condition \"%s\": %s \n%n", condition.name, condition.display);
+      System.out.printf(Locale.ROOT, "# Running condition \"%s\": %s \n%n", condition.name, condition.display);
       for (Topic topic : condition.topics) {
         System.out.println("  - topic_key: " + topic.topic_key + "\n");
 
-        final String output = runsDir.resolve(String.format("run.%s.%s.%s.txt", configName, condition.name, topic.topic_key)).toString();
+        final String output = runsDir.resolve(String.format(Locale.ROOT, "run.%s.%s.%s.txt", configName, condition.name, topic.topic_key)).toString();
 
-        String command = String.format("%s $fatjar %s %s", ReproductionUtils.Constants.JAVA_PREFIX, ReproductionUtils.Constants.JVM_ARGS, condition.command)
-            .replace("$fatjar", fatjarPath)
+        String command = String.format(Locale.ROOT, "%s $fatjar %s %s", ReproductionUtils.Constants.JAVA_PREFIX, ReproductionUtils.Constants.JVM_ARGS, condition.command)
+            .replace("$fatjar", guardedClasspath)
             .replace("$threads", "16")
             .replace("$topics", topic.topic_key)
             .replace("$output", output)
             .replace("$runs_directory", runsDir.toString());
 
-        // These are hard-coded special cases for BEIR so that tests pass with Lucene 10 retrieval working on Lucene 9 prebuilt indexes.
-        if ("bge-base-en-v1.5.hnsw.onnx".equals(condition.name) || "bge-base-en-v1.5.hnsw.cached".equals(condition.name)) {
-          String efSearch = switch (topic.topic_key) {
-            case "bioasq" -> "11000";
-            case "nq" -> "2000";
-            case "hotpotqa", "fever" -> "6000";
-            default -> null;
-          };
-          if (efSearch != null) {
-            command = command.replaceFirst("(?<=\\s-efSearch\\s)\\d+", efSearch);
-          }
-        }
-
         // Note that there's a hidden dependency for fusion runs, where the command specifies the run to fuse by -runs run1 run2 ...
         // The runs directory can be set using $runs_directory, but the run names are hard-coded.
 
-        if (printCommands) {
-          System.out.println("    Retrieval command: " + command);
-        }
+        System.out.println("    Retrieval command: " + command);
 
+        boolean retrievalSucceeded = true;
         if (!dryRun) {
-          pb = new ProcessBuilder(command.split(" "));
+          pb = new ProcessBuilder(splitCommand(command));
           process = pb.start();
           int resultCode = process.waitFor();
           if (resultCode == 0) {
             System.out.println("    Run successfully completed!");
           } else {
             System.out.println("    Run failed!");
+            retrievalSucceeded = false;
           }
           System.out.println();
         }
-
-        InputStream stdout;
 
         Map<String, Double> expected = topic.expected_scores;
         Map<String, String> evalCommands = new LinkedHashMap<>();
         Map<String, String> metricDefinitions = topic.metric_definitions;
 
-        // Go through and gather the eval commands in a first pass, so that we can print all at once if desired.
+        // Go through and gather the eval commands in a first pass so they can be printed together.
         for (String metric : expected.keySet()) {
           String evalKey = topic.eval_key;
           String metricDefinition = Objects.requireNonNull(metricDefinitions.get(metric));
 
-          // For the eval command, running `java -cp fatjar ...` is fine since we're just running trec_eval.
+          // For the eval command, running `java -cp ...` is fine since we're just running trec_eval.
           evalCommands.put(metric, "java -cp $fatjarPath trec_eval $metric $evalKey $output"
-              .replace("$fatjarPath", fatjarPath)
+              .replace("$fatjarPath", guardedClasspath)
               .replace("$metric", metricDefinition)
               .replace("$evalKey", evalKey)
               .replace("$output", output));
         }
 
-        // Print the commands all at once if desired.
-        if (printCommands) {
-          for (Map.Entry<String, String> entry : evalCommands.entrySet()) {
-            System.out.println("    Eval command: " + entry.getValue());
-          }
+        for (Map.Entry<String, String> entry : evalCommands.entrySet()) {
+          System.out.println("    Eval command: " + entry.getValue());
+        }
+        System.out.println();
+
+        if (!dryRun && !retrievalSucceeded) {
+          System.out.println("    Skipping evaluation because retrieval failed.");
           System.out.println();
+          continue;
+        }
+
+        if (!dryRun && !Files.exists(Paths.get(output))) {
+          System.out.println("    Skipping evaluation because run file was not created: " + output);
+          System.out.println();
+          continue;
         }
 
         // We've already gathered the eval commands, so just run them now and check.
         for (Map.Entry<String, String> entry : evalCommands.entrySet()) {
           String metric = entry.getKey();
-          String cmd = entry.getValue();
 
           if (!dryRun) {
-            pb = new ProcessBuilder(cmd.split(" "));
-            process = pb.start();
-
-            int resultCode = process.waitFor();
-            stdout = process.getInputStream();
-            if (resultCode == 0) {
-              String scoreString = new String(stdout.readAllBytes()).replaceAll(".*?(\\d+\\.\\d+)$", "$1").trim();
-              double score = Double.parseDouble(scoreString);
+            try {
+              double score = runTrecEvalAndGetScore(metricDefinitions.get(metric), topic.eval_key, output);
               double delta = Math.abs(score - expected.get(metric));
 
               if (score > expected.get(metric)) {
-                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, ReproductionUtils.Constants.OKISH, expected.get(metric));
+                System.out.printf(Locale.ROOT, "    %8s: %.4f %s expected %.4f%n", metric, score, ReproductionUtils.Constants.OKISH, expected.get(metric));
               } else if (delta < 0.00001) {
-                System.out.printf("    %8s: %.4f %s%n", metric, score, ReproductionUtils.Constants.OK);
+                System.out.printf(Locale.ROOT, "    %8s: %.4f %s%n", metric, score, ReproductionUtils.Constants.OK);
               } else if (delta < 0.0002) {
-                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, ReproductionUtils.Constants.OKISH, expected.get(metric));
+                System.out.printf(Locale.ROOT, "    %8s: %.4f %s expected %.4f%n", metric, score, ReproductionUtils.Constants.OKISH, expected.get(metric));
               } else {
-                System.out.printf("    %8s: %.4f %s expected %.4f%n", metric, score, ReproductionUtils.Constants.FAIL, expected.get(metric));
+                System.out.printf(Locale.ROOT, "    %8s: %.4f %s expected %.4f%n", metric, score, ReproductionUtils.Constants.FAIL, expected.get(metric));
               }
-            } else {
-              System.out.println("Evaluation command failed for metric: " + metric);
+            } catch (RuntimeException e) {
+              System.out.println("    Evaluation command failed for metric: " + metric);
+              System.out.println("    " + e.getMessage());
             }
           }
         }
@@ -343,6 +339,46 @@ public class ReproduceFromPrebuiltIndexes {
     System.out.println("Duration:   " + ReproductionUtils.formatDuration(durationMillis));
   }
 
+  private static double runTrecEvalAndGetScore(String metricDefinition, String evalKey, String output) {
+    List<String> args = new ArrayList<>();
+    args.addAll(Arrays.asList(metricDefinition.trim().split("\\s+")));
+    args.add(evalKey);
+    args.add(output);
+
+    String[][] rows = new TrecEval().runAndGetOutput(args.toArray(new String[0]));
+    if (rows.length == 0 || rows[rows.length - 1].length < 3) {
+      throw new RuntimeException("trec_eval produced no parseable metric rows.");
+    }
+
+    return Double.parseDouble(rows[rows.length - 1][2]);
+  }
+
+  private static List<String> splitCommand(String command) {
+    List<String> tokens = new ArrayList<>();
+    StringBuilder token = new StringBuilder();
+    boolean inQuotes = false;
+
+    for (int i = 0; i < command.length(); i++) {
+      char c = command.charAt(i);
+      if (c == '"') {
+        inQuotes = !inQuotes;
+      } else if (Character.isWhitespace(c) && !inQuotes) {
+        if (token.length() > 0) {
+          tokens.add(token.toString());
+          token.setLength(0);
+        }
+      } else {
+        token.append(c);
+      }
+    }
+
+    if (token.length() > 0) {
+      tokens.add(token.toString());
+    }
+
+    return tokens;
+  }
+
   private static String extractIndexPath(String command) {
     // Split on whitespace and find token after '-index'.
     String[] parts = command.split(" ");
@@ -357,7 +393,7 @@ public class ReproduceFromPrebuiltIndexes {
   private static Path expectedPrebuiltPath(String indexName) {
     try {
       PrebuiltIndexHandler handler = PrebuiltIndexHandler.get(indexName);
-      String cacheRoot = getCacheRoot();
+      String cacheRoot = CacheDirectoryResolver.getIndexCachePath().toString();
       String base = handler.getFilename();
       if (base.endsWith(".tar.gz")) {
         base = base.substring(0, base.length() - ".tar.gz".length());
@@ -396,17 +432,6 @@ public class ReproduceFromPrebuiltIndexes {
     return pathForSize;
   }
 
-  private static String getCacheRoot() {
-    String cacheDir = System.getProperty("anserini.index.cache");
-    if (cacheDir == null || cacheDir.isEmpty()) {
-      cacheDir = System.getenv("ANSERINI_INDEX_CACHE");
-    }
-    if (cacheDir == null || cacheDir.isEmpty()) {
-      cacheDir = java.nio.file.Path.of(System.getProperty("user.home"), ".cache", "pyserini", "indexes").toString();
-    }
-    return cacheDir;
-  }
-
   private static String repeat(char c, int n) {
     StringBuilder sb = new StringBuilder(n);
     for (int i = 0; i < n; i++) sb.append(c);
@@ -441,8 +466,8 @@ public class ReproduceFromPrebuiltIndexes {
     String summaryFormat = "%-" + conditionWidth + "s  %-" + topicWidth + "s  %-" + metricWidth + "s  %" + expectedWidth + "s%n";
     StringBuilder summary = new StringBuilder();
     summary.append("Summary").append(System.lineSeparator());
-    summary.append(String.format(summaryFormat, "condition", "topic", "metric", "expected"));
-    summary.append(String.format(summaryFormat,
+    summary.append(String.format(Locale.ROOT, summaryFormat, "condition", "topic", "metric", "expected"));
+    summary.append(String.format(Locale.ROOT, summaryFormat,
       repeat('-', conditionWidth), repeat('-', topicWidth), repeat('-', metricWidth), repeat('-', expectedWidth)));
 
     String previousCondition = null;
@@ -450,7 +475,7 @@ public class ReproduceFromPrebuiltIndexes {
       if (previousCondition != null && !row[0].equals(previousCondition)) {
         summary.append(System.lineSeparator());
       }
-      summary.append(String.format(summaryFormat, row[0], row[1], row[2], row[3]));
+      summary.append(String.format(Locale.ROOT, summaryFormat, row[0], row[1], row[2], row[3]));
       previousCondition = row[0];
     }
     summary.append(System.lineSeparator());
@@ -468,6 +493,9 @@ public class ReproduceFromPrebuiltIndexes {
 
     @JsonProperty
     public String display;
+
+    @JsonProperty
+    public String short_name;
 
     @JsonProperty
     public String display_html;
