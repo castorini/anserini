@@ -31,6 +31,8 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
+import io.anserini.util.CacheDirectoryResolver;
+import io.anserini.util.PrebuiltIndexHandler;
 
 public class ReproduceFromPrebuiltIndexesTest extends StdOutStdErrRedirectableLuceneTestCase {
   @Before
@@ -99,6 +101,36 @@ public class ReproduceFromPrebuiltIndexesTest extends StdOutStdErrRedirectableLu
     assertTrue(out.toString().contains("# Running condition"));
     assertTrue(out.toString().contains("Retrieval command"));
     assertTrue(out.toString().contains("Eval command"));
+  }
+
+  @Test
+  public void testBeirDryRunReportsPlainTarIndexSize() throws Exception {
+    Path cacheDirectory = createTempDir("pyserini-cache");
+    String previousCacheDirectory = System.getProperty(CacheDirectoryResolver.CACHE_PROPERTY);
+    PrebuiltIndexHandler handler = PrebuiltIndexHandler.get("beir-v1.0.0-trec-covid.bge-base-en-v1.5.flat");
+    assertNotNull(handler);
+    assertTrue(handler.getFilename().endsWith(".tar"));
+
+    String filenameBase = handler.getFilename().substring(0, handler.getFilename().length() - ".tar".length());
+    Path indexDirectory = cacheDirectory.resolve("indexes").resolve(filenameBase + "." + handler.getMD5());
+
+    try {
+      System.setProperty(CacheDirectoryResolver.CACHE_PROPERTY, cacheDirectory.toString());
+      Files.createDirectories(indexDirectory);
+      Files.writeString(indexDirectory.resolve("marker"), "marker");
+
+      ReproduceFromPrebuiltIndexes.main(new String[] {"--config", "beir", "--dry-run"});
+    } finally {
+      if (previousCacheDirectory == null) {
+        System.clearProperty(CacheDirectoryResolver.CACHE_PROPERTY);
+      } else {
+        System.setProperty(CacheDirectoryResolver.CACHE_PROPERTY, previousCacheDirectory);
+      }
+    }
+
+    String output = out.toString();
+    assertTrue(output, output.contains("beir-v1.0.0-trec-covid.bge-base-en-v1.5.flat"));
+    assertTrue(output, output.matches("(?s).*beir-v1\\.0\\.0-trec-covid\\.bge-base-en-v1\\.5\\.flat\\s+6\\.0 B\\s+506\\.5 MB.*"));
   }
 
   @Test

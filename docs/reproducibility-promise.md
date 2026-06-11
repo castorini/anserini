@@ -1,46 +1,61 @@
-# Anserini: Reproduce Experimental Results from Document Collections
+# ⚗️ Anserini: Reproductions from Document Collections: Catalog of Invocations
 
-Reproduction experiments in Anserini are coordinated by a rigorous end-to-end framework implemented in [`io.anserini.reproduce.ReproduceFromDocumentCollection`](../src/main/java/io/anserini/reproduce/ReproduceFromDocumentCollection.java).
-The driver automatically runs experiments based on configuration files stored in [`src/main/resources/reproduce/from-document-collection/configs`](../src/main/resources/reproduce/from-document-collection/configs), performing the following actions:
+## Table of Contents
 
-+ Build the index from scratch (i.e., from the raw document collection).
-+ Verify index statistics (sanity check that the index has been built properly).
-+ Perform retrieval runs with different settings.
-+ Evaluate the runs and verify effectiveness results.
-
-Furthermore, documentation pages are auto-generated based on [raw templates](../src/main/resources/reproduce/from-document-collection/docgen).
-
-Internally at Waterloo, we are continuously running these regression tests to ensure that new commits do not break any existing experimental runs (see below).
-We keep a [change log](regressions-log.md) to document substantive changes.
-
-## The Anserini Reproducibility Promise
-
-It is the highest priority of the project to ensure that all results are reproducible _all the time_.
-This means that anyone with the document collection should be able to reproduce _exactly_ the effectiveness scores we report in our documentation pages.
-
-We hold this ideal in such high esteem and are so dedicated to reproducibility that if you discover a broken regression before we do, Jimmy Lin will buy you a beverage of choice (coffee, beer, etc.) at the next event you see him (e.g., SIGIR, TREC, etc.).
-
-## Invocations
-
-Internally at Waterloo, we have two machines (`tuna.cs.uwaterloo.ca` and `orca.cs.uwaterloo.ca`) for the development of Anserini and is set up to run the regression experiments.
-
-Sample invocation:
+All invocations of reproductions from raw document collections have the following form:
 
 ```
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config cacm
 ```
 
-The following configurations (i.e., `--config` settings) are available:
+The `--config` option specifies the experiment to run, corresponding to the YAML configuration file in [`src/main/resources/reproduce/from-document-collection/configs`](../src/main/resources/reproduce/from-document-collection/configs).
+See below for an enumeration of available configurations.
 
-<details>
-<summary>CACM tests</summary>
+The three main phases of the driver program are:
+
++ `--index`: build the index.
++ `--verify`: verify index statistics.
++ `--search`: perform retrieval runs and verify effectiveness.
+
+Although the driver is hard-coded to run on Waterloo machines (e.g., hard-coded paths to document collections), the document collection path can be manually specified from the command line with the `--corpus-path` option, for example:
+
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage --corpus-path /path/to/corpus
+```
+
+For example, `--corpus-path collections/msmarco-passage/collection_jsonl`.
+
+Here are all the available configurations:
+
++ [CACM tests](#cacm-tests)
++ [MS MARCO V1 + DL19-20 regressions](#ms-marco-v1-dl19-20-regressions)
++ [MS MARCO V2 + DL21-23 regressions](#ms-marco-v2-dl21-23-regressions)
++ [MS MARCO V2.1 + RAG24-25 regressions](#ms-marco-v2-1-rag24-25-regressions)
++ [BEIR (v1.0.0): BGE-base-en-v1.5](#beir-v1-0-0-bge-base-en-v1-5)
++ [BEIR (v1.0.0): SPLADE-v3](#beir-v1-0-0-splade-v3)
++ [BEIR (v1.0.0): SPLADE++ CoCondenser-EnsembleDistil](#beir-v1-0-0-splade-cocondenser-ensembledistil)
++ [BEIR (v1.0.0): "flat" baseline](#beir-v1-0-0-flat-baseline)
++ [BEIR (v1.0.0): "flat" baseline with WordPiece tokenization](#beir-v1-0-0-flat-baseline-with-wordpiece-tokenization)
++ [BEIR (v1.0.0): "multifield" baseline](#beir-v1-0-0-multifield-baseline)
++ [Mr.TyDi (v1.1): BM25 regressions](#mr-tydi-v1-1-bm25-regressions)
++ [MIRACL (v1.0): BM25 regressions](#miracl-v1-0-bm25-regressions)
++ [NanoKnow](#nanoknow)
++ [Other cross-lingual and multi-lingual regressions](#other-cross-lingual-and-multi-lingual-regressions)
++ [BRIGHT: BM25](#bright-bm25)
++ [BRIGHT: SPLADE-v3](#bright-splade-v3)
++ [BRIGHT: BGE-large-en-v1.5](#bright-bge-large-en-v1-5)
++ [Other regressions (TREC, etc.)](#other-regressions-trec-etc)
+
+<a id="cacm-tests"></a>
+
+## CACM tests
 
 + [`cacm`](../src/main/resources/reproduce/from-document-collection/configs/cacm.yaml)
 + [`cacm-download`](../src/main/resources/reproduce/from-document-collection/configs/cacm-download.yaml)
 
-</details>
-<details>
-<summary>MS MARCO V1 + DL19-20 regressions</summary>
+<a id="ms-marco-v1-dl19-20-regressions"></a>
+
+## MS MARCO V1 + DL19-20 regressions
 
 + [`msmarco-v1-passage`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.md)]
 + [`msmarco-v1-passage.bm25-b8`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.bm25-b8.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.bm25-b8.md)]
@@ -49,17 +64,10 @@ The following configurations (i.e., `--config` settings) are available:
 + [`msmarco-v1-passage.wp-ca`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.wp-ca.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.wp-ca.md)]
 + [`msmarco-v1-passage.doc2query`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.doc2query.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.doc2query.md)]
 + [`msmarco-v1-passage.docTTTTTquery`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.docTTTTTquery.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.docTTTTTquery.md)]
-
-
-<div></div>
-
++ [`msmarco-v1-passage.unicoil.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.unicoil.onnx.yaml)
 + [`msmarco-v1-passage.splade-pp-ed.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.splade-pp-ed.onnx.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.splade-pp-ed.onnx.md)]
 + [`msmarco-v1-passage.splade-pp-sd.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.splade-pp-sd.onnx.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.splade-pp-sd.onnx.md)]
 + [`msmarco-v1-passage.splade-v3.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.splade-v3.onnx.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.splade-v3.onnx.md)]
-
-
-<div></div>
-
 + [`msmarco-v1-passage.cos-dpr-distil.parquet.fw`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.cos-dpr-distil.parquet.fw.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.cos-dpr-distil.parquet.fw.md)]
 + [`msmarco-v1-passage.cos-dpr-distil.parquet.lexlsh`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.cos-dpr-distil.parquet.lexlsh.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.cos-dpr-distil.parquet.lexlsh.md)]
 + [`msmarco-v1-passage.cos-dpr-distil.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.cos-dpr-distil.parquet.flat.onnx.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.cos-dpr-distil.parquet.flat.onnx.md)]
@@ -70,44 +78,26 @@ The following configurations (i.e., `--config` settings) are available:
 + [`msmarco-v1-passage.bge-base-en-v1.5.parquet.flat-sqv.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.bge-base-en-v1.5.parquet.flat-sqv.onnx.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.bge-base-en-v1.5.parquet.flat-sqv.onnx.md)]
 + [`msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw.onnx.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw.onnx.md)]
 + [`msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw-sqv.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw-sqv.onnx.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.bge-base-en-v1.5.parquet.hnsw-sqv.onnx.md)]
-
-
-<div></div>
-
 + [`msmarco-v1-doc`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-doc.md)]
 + [`msmarco-v1-doc.wp-tok`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc.wp-tok.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-doc.wp-tok.md)]
 + [`msmarco-v1-doc.wp-hgf`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc.wp-hgf.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-doc.wp-hgf.md)]
 + [`msmarco-v1-doc.wp-ca`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc.wp-ca.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-doc.wp-ca.md)]
 + [`msmarco-v1-doc.docTTTTTquery`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc.docTTTTTquery.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-doc.docTTTTTquery.md)]
-
-
-<div></div>
-
 + [`msmarco-v1-doc-segmented`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc-segmented.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-doc-segmented.md)]
 + [`msmarco-v1-doc-segmented.wp-tok`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc-segmented.wp-tok.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-doc-segmented.wp-tok.md)]
 + [`msmarco-v1-doc-segmented.wp-ca`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc-segmented.wp-ca.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-doc-segmented.wp-ca.md)]
 + [`msmarco-v1-doc-segmented.docTTTTTquery`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc-segmented.docTTTTTquery.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-doc-segmented.docTTTTTquery.md)]
-
-
-<div></div>
-
++ [`msmarco-v1-doc-segmented.unicoil.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc-segmented.unicoil.onnx.yaml)
 + [`dl19-passage`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.yaml) [[docs](reproduce/from-document-collection/dl19-passage.md)]
 + [`dl19-passage.bm25-b8`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.bm25-b8.yaml) [[docs](reproduce/from-document-collection/dl19-passage.bm25-b8.md)]
 + [`dl19-passage.wp-tok`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.wp-tok.yaml) [[docs](reproduce/from-document-collection/dl19-passage.wp-tok.md)]
 + [`dl19-passage.wp-hgf`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.wp-hgf.yaml) [[docs](reproduce/from-document-collection/dl19-passage.wp-hgf.md)]
 + [`dl19-passage.wp-ca`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.wp-ca.yaml) [[docs](reproduce/from-document-collection/dl19-passage.wp-ca.md)]
 + [`dl19-passage.docTTTTTquery`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.docTTTTTquery.yaml) [[docs](reproduce/from-document-collection/dl19-passage.docTTTTTquery.md)]
-
-
-<div></div>
-
++ [`dl19-passage.unicoil.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.unicoil.onnx.yaml)
 + [`dl19-passage.splade-pp-ed.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.splade-pp-ed.onnx.yaml) [[docs](reproduce/from-document-collection/dl19-passage.splade-pp-ed.onnx.md)]
 + [`dl19-passage.splade-pp-sd.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.splade-pp-sd.onnx.yaml) [[docs](reproduce/from-document-collection/dl19-passage.splade-pp-sd.onnx.md)]
 + [`dl19-passage.splade-v3.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.splade-v3.onnx.yaml) [[docs](reproduce/from-document-collection/dl19-passage.splade-v3.onnx.md)]
-
-
-<div></div>
-
 + [`dl19-passage.cos-dpr-distil.parquet.fw`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.cos-dpr-distil.parquet.fw.yaml) [[docs](reproduce/from-document-collection/dl19-passage.cos-dpr-distil.parquet.fw.md)]
 + [`dl19-passage.cos-dpr-distil.parquet.lexlsh`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.cos-dpr-distil.parquet.lexlsh.yaml) [[docs](reproduce/from-document-collection/dl19-passage.cos-dpr-distil.parquet.lexlsh.md)]
 + [`dl19-passage.cos-dpr-distil.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.cos-dpr-distil.parquet.flat.onnx.yaml) [[docs](reproduce/from-document-collection/dl19-passage.cos-dpr-distil.parquet.flat.onnx.md)]
@@ -118,44 +108,26 @@ The following configurations (i.e., `--config` settings) are available:
 + [`dl19-passage.bge-base-en-v1.5.parquet.flat-sqv.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.bge-base-en-v1.5.parquet.flat-sqv.onnx.yaml) [[docs](reproduce/from-document-collection/dl19-passage.bge-base-en-v1.5.parquet.flat-sqv.onnx.md)]
 + [`dl19-passage.bge-base-en-v1.5.parquet.hnsw.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.bge-base-en-v1.5.parquet.hnsw.onnx.yaml) [[docs](reproduce/from-document-collection/dl19-passage.bge-base-en-v1.5.parquet.hnsw.onnx.md)]
 + [`dl19-passage.bge-base-en-v1.5.parquet.hnsw-sqv.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.bge-base-en-v1.5.parquet.hnsw-sqv.onnx.yaml) [[docs](reproduce/from-document-collection/dl19-passage.bge-base-en-v1.5.parquet.hnsw-sqv.onnx.md)]
-
-
-<div></div>
-
 + [`dl19-doc`](../src/main/resources/reproduce/from-document-collection/configs/dl19-doc.yaml) [[docs](reproduce/from-document-collection/dl19-doc.md)]
 + [`dl19-doc.wp-tok`](../src/main/resources/reproduce/from-document-collection/configs/dl19-doc.wp-tok.yaml) [[docs](reproduce/from-document-collection/dl19-doc.wp-tok.md)]
 + [`dl19-doc.wp-hgf`](../src/main/resources/reproduce/from-document-collection/configs/dl19-doc.wp-hgf.yaml) [[docs](reproduce/from-document-collection/dl19-doc.wp-hgf.md)]
 + [`dl19-doc.wp-ca`](../src/main/resources/reproduce/from-document-collection/configs/dl19-doc.wp-ca.yaml) [[docs](reproduce/from-document-collection/dl19-doc.wp-ca.md)]
 + [`dl19-doc.docTTTTTquery`](../src/main/resources/reproduce/from-document-collection/configs/dl19-doc.docTTTTTquery.yaml) [[docs](reproduce/from-document-collection/dl19-doc.docTTTTTquery.md)]
-
-
-<div></div>
-
 + [`dl19-doc-segmented`](../src/main/resources/reproduce/from-document-collection/configs/dl19-doc-segmented.yaml) [[docs](reproduce/from-document-collection/dl19-doc-segmented.md)]
 + [`dl19-doc-segmented.wp-tok`](../src/main/resources/reproduce/from-document-collection/configs/dl19-doc-segmented.wp-tok.yaml) [[docs](reproduce/from-document-collection/dl19-doc-segmented.wp-tok.md)]
 + [`dl19-doc-segmented.wp-ca`](../src/main/resources/reproduce/from-document-collection/configs/dl19-doc-segmented.wp-ca.yaml) [[docs](reproduce/from-document-collection/dl19-doc-segmented.wp-ca.md)]
 + [`dl19-doc-segmented.docTTTTTquery`](../src/main/resources/reproduce/from-document-collection/configs/dl19-doc-segmented.docTTTTTquery.yaml) [[docs](reproduce/from-document-collection/dl19-doc-segmented.docTTTTTquery.md)]
-
-
-<div></div>
-
++ [`dl19-doc-segmented.unicoil.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl19-doc-segmented.unicoil.onnx.yaml)
 + [`dl20-passage`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.yaml) [[docs](reproduce/from-document-collection/dl20-passage.md)]
 + [`dl20-passage.bm25-b8`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.bm25-b8.yaml) [[docs](reproduce/from-document-collection/dl20-passage.bm25-b8.md)]
 + [`dl20-passage.wp-tok`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.wp-tok.yaml) [[docs](reproduce/from-document-collection/dl20-passage.wp-tok.md)]
 + [`dl20-passage.wp-hgf`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.wp-hgf.yaml) [[docs](reproduce/from-document-collection/dl20-passage.wp-hgf.md)]
 + [`dl20-passage.wp-ca`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.wp-ca.yaml) [[docs](reproduce/from-document-collection/dl20-passage.wp-ca.md)]
 + [`dl20-passage.docTTTTTquery`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.docTTTTTquery.yaml) [[docs](reproduce/from-document-collection/dl20-passage.docTTTTTquery.md)]
-
-
-<div></div>
-
++ [`dl20-passage.unicoil.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.unicoil.onnx.yaml)
 + [`dl20-passage.splade-pp-ed.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.splade-pp-ed.onnx.yaml) [[docs](reproduce/from-document-collection/dl20-passage.splade-pp-ed.onnx.md)]
 + [`dl20-passage.splade-pp-sd.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.splade-pp-sd.onnx.yaml) [[docs](reproduce/from-document-collection/dl20-passage.splade-pp-sd.onnx.md)]
 + [`dl20-passage.splade-v3.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.splade-v3.onnx.yaml) [[docs](reproduce/from-document-collection/dl20-passage.splade-v3.onnx.md)]
-
-
-<div></div>
-
 + [`dl20-passage.cos-dpr-distil.parquet.fw`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.cos-dpr-distil.parquet.fw.yaml) [[docs](reproduce/from-document-collection/dl20-passage.cos-dpr-distil.parquet.fw.md)]
 + [`dl20-passage.cos-dpr-distil.parquet.lexlsh`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.cos-dpr-distil.parquet.lexlsh.yaml) [[docs](reproduce/from-document-collection/dl20-passage.cos-dpr-distil.parquet.lexlsh.md)]
 + [`dl20-passage.cos-dpr-distil.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.cos-dpr-distil.parquet.flat.onnx.yaml) [[docs](reproduce/from-document-collection/dl20-passage.cos-dpr-distil.parquet.flat.onnx.md)]
@@ -166,30 +138,24 @@ The following configurations (i.e., `--config` settings) are available:
 + [`dl20-passage.bge-base-en-v1.5.parquet.flat-sqv.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.bge-base-en-v1.5.parquet.flat-sqv.onnx.yaml) [[docs](reproduce/from-document-collection/dl20-passage.bge-base-en-v1.5.parquet.flat-sqv.onnx.md)]
 + [`dl20-passage.bge-base-en-v1.5.parquet.hnsw.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.bge-base-en-v1.5.parquet.hnsw.onnx.yaml) [[docs](reproduce/from-document-collection/dl20-passage.bge-base-en-v1.5.parquet.hnsw.onnx.md)]
 + [`dl20-passage.bge-base-en-v1.5.parquet.hnsw-sqv.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.bge-base-en-v1.5.parquet.hnsw-sqv.onnx.yaml) [[docs](reproduce/from-document-collection/dl20-passage.bge-base-en-v1.5.parquet.hnsw-sqv.onnx.md)]
-
-
-<div></div>
-
 + [`dl20-doc`](../src/main/resources/reproduce/from-document-collection/configs/dl20-doc.yaml) [[docs](reproduce/from-document-collection/dl20-doc.md)]
 + [`dl20-doc.wp-tok`](../src/main/resources/reproduce/from-document-collection/configs/dl20-doc.wp-tok.yaml) [[docs](reproduce/from-document-collection/dl20-doc.wp-tok.md)]
 + [`dl20-doc.wp-hgf`](../src/main/resources/reproduce/from-document-collection/configs/dl20-doc.wp-hgf.yaml) [[docs](reproduce/from-document-collection/dl20-doc.wp-hgf.md)]
 + [`dl20-doc.wp-ca`](../src/main/resources/reproduce/from-document-collection/configs/dl20-doc.wp-ca.yaml) [[docs](reproduce/from-document-collection/dl20-doc.wp-ca.md)]
 + [`dl20-doc.docTTTTTquery`](../src/main/resources/reproduce/from-document-collection/configs/dl20-doc.docTTTTTquery.yaml) [[docs](reproduce/from-document-collection/dl20-doc.docTTTTTquery.md)]
-
-
-<div></div>
-
 + [`dl20-doc-segmented`](../src/main/resources/reproduce/from-document-collection/configs/dl20-doc-segmented.yaml) [[docs](reproduce/from-document-collection/dl20-doc-segmented.md)]
 + [`dl20-doc-segmented.wp-tok`](../src/main/resources/reproduce/from-document-collection/configs/dl20-doc-segmented.wp-tok.yaml) [[docs](reproduce/from-document-collection/dl20-doc-segmented.wp-tok.md)]
 + [`dl20-doc-segmented.wp-ca`](../src/main/resources/reproduce/from-document-collection/configs/dl20-doc-segmented.wp-ca.yaml) [[docs](reproduce/from-document-collection/dl20-doc-segmented.wp-ca.md)]
 + [`dl20-doc-segmented.docTTTTTquery`](../src/main/resources/reproduce/from-document-collection/configs/dl20-doc-segmented.docTTTTTquery.yaml) [[docs](reproduce/from-document-collection/dl20-doc-segmented.docTTTTTquery.md)]
++ [`dl20-doc-segmented.unicoil.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl20-doc-segmented.unicoil.onnx.yaml)
 
-</details>
-<details>
-<summary>MS MARCO V2 + DL21-23 regressions</summary>
+<a id="ms-marco-v2-dl21-23-regressions"></a>
+
+## MS MARCO V2 + DL21-23 regressions
 
 + [`msmarco-v2-passage`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-passage.yaml) [[docs](reproduce/from-document-collection/msmarco-v2-passage.md)]
 + [`msmarco-v2-passage.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-passage.d2q-t5.yaml) [[docs](reproduce/from-document-collection/msmarco-v2-passage.d2q-t5.md)]
++ [`msmarco-v2-passage.unicoil.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-passage.unicoil.onnx.yaml)
 + [`msmarco-v2-passage.splade-pp-ed.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-passage.splade-pp-ed.onnx.yaml) [[docs](reproduce/from-document-collection/msmarco-v2-passage.splade-pp-ed.onnx.md)]
 + [`msmarco-v2-passage.splade-pp-sd.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-passage.splade-pp-sd.onnx.yaml) [[docs](reproduce/from-document-collection/msmarco-v2-passage.splade-pp-sd.onnx.md)]
 + [`msmarco-v2-passage-augmented`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-passage-augmented.yaml) [[docs](reproduce/from-document-collection/msmarco-v2-passage-augmented.md)]
@@ -198,12 +164,10 @@ The following configurations (i.e., `--config` settings) are available:
 + [`msmarco-v2-doc.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-doc.d2q-t5.yaml) [[docs](reproduce/from-document-collection/msmarco-v2-doc.d2q-t5.md)]
 + [`msmarco-v2-doc-segmented`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-doc-segmented.yaml) [[docs](reproduce/from-document-collection/msmarco-v2-doc-segmented.md)]
 + [`msmarco-v2-doc-segmented.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-doc-segmented.d2q-t5.yaml) [[docs](reproduce/from-document-collection/msmarco-v2-doc-segmented.d2q-t5.md)]
-
-
-<div></div>
-
++ [`msmarco-v2-doc-segmented.unicoil.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-doc-segmented.unicoil.onnx.yaml)
 + [`dl21-passage`](../src/main/resources/reproduce/from-document-collection/configs/dl21-passage.yaml) [[docs](reproduce/from-document-collection/dl21-passage.md)]
 + [`dl21-passage.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/dl21-passage.d2q-t5.yaml) [[docs](reproduce/from-document-collection/dl21-passage.d2q-t5.md)]
++ [`dl21-passage.unicoil.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl21-passage.unicoil.onnx.yaml)
 + [`dl21-passage.splade-pp-ed.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl21-passage.splade-pp-ed.onnx.yaml) [[docs](reproduce/from-document-collection/dl21-passage.splade-pp-ed.onnx.md)]
 + [`dl21-passage.splade-pp-sd.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl21-passage.splade-pp-sd.onnx.yaml) [[docs](reproduce/from-document-collection/dl21-passage.splade-pp-sd.onnx.md)]
 + [`dl21-passage-augmented`](../src/main/resources/reproduce/from-document-collection/configs/dl21-passage-augmented.yaml) [[docs](reproduce/from-document-collection/dl21-passage-augmented.md)]
@@ -212,12 +176,10 @@ The following configurations (i.e., `--config` settings) are available:
 + [`dl21-doc.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/dl21-doc.d2q-t5.yaml) [[docs](reproduce/from-document-collection/dl21-doc.d2q-t5.md)]
 + [`dl21-doc-segmented`](../src/main/resources/reproduce/from-document-collection/configs/dl21-doc-segmented.yaml) [[docs](reproduce/from-document-collection/dl21-doc-segmented.md)]
 + [`dl21-doc-segmented.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/dl21-doc-segmented.d2q-t5.yaml) [[docs](reproduce/from-document-collection/dl21-doc-segmented.d2q-t5.md)]
-
-
-<div></div>
-
++ [`dl21-doc-segmented.unicoil.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl21-doc-segmented.unicoil.onnx.yaml)
 + [`dl22-passage`](../src/main/resources/reproduce/from-document-collection/configs/dl22-passage.yaml) [[docs](reproduce/from-document-collection/dl22-passage.md)]
 + [`dl22-passage.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/dl22-passage.d2q-t5.yaml) [[docs](reproduce/from-document-collection/dl22-passage.d2q-t5.md)]
++ [`dl22-passage.unicoil.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl22-passage.unicoil.onnx.yaml)
 + [`dl22-passage.splade-pp-ed.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl22-passage.splade-pp-ed.onnx.yaml) [[docs](reproduce/from-document-collection/dl22-passage.splade-pp-ed.onnx.md)]
 + [`dl22-passage.splade-pp-sd.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl22-passage.splade-pp-sd.onnx.yaml) [[docs](reproduce/from-document-collection/dl22-passage.splade-pp-sd.onnx.md)]
 + [`dl22-passage-augmented`](../src/main/resources/reproduce/from-document-collection/configs/dl22-passage-augmented.yaml) [[docs](reproduce/from-document-collection/dl22-passage-augmented.md)]
@@ -226,12 +188,10 @@ The following configurations (i.e., `--config` settings) are available:
 + [`dl22-doc.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/dl22-doc.d2q-t5.yaml) [[docs](reproduce/from-document-collection/dl22-doc.d2q-t5.md)]
 + [`dl22-doc-segmented`](../src/main/resources/reproduce/from-document-collection/configs/dl22-doc-segmented.yaml) [[docs](reproduce/from-document-collection/dl22-doc-segmented.md)]
 + [`dl22-doc-segmented.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/dl22-doc-segmented.d2q-t5.yaml) [[docs](reproduce/from-document-collection/dl22-doc-segmented.d2q-t5.md)]
-
-
-<div></div>
-
++ [`dl22-doc-segmented.unicoil.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl22-doc-segmented.unicoil.onnx.yaml)
 + [`dl23-passage`](../src/main/resources/reproduce/from-document-collection/configs/dl23-passage.yaml) [[docs](reproduce/from-document-collection/dl23-passage.md)]
 + [`dl23-passage.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/dl23-passage.d2q-t5.yaml) [[docs](reproduce/from-document-collection/dl23-passage.d2q-t5.md)]
++ [`dl23-passage.unicoil.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl23-passage.unicoil.onnx.yaml)
 + [`dl23-passage.splade-pp-ed.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl23-passage.splade-pp-ed.onnx.yaml) [[docs](reproduce/from-document-collection/dl23-passage.splade-pp-ed.onnx.md)]
 + [`dl23-passage.splade-pp-sd.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl23-passage.splade-pp-sd.onnx.yaml) [[docs](reproduce/from-document-collection/dl23-passage.splade-pp-sd.onnx.md)]
 + [`dl23-passage-augmented`](../src/main/resources/reproduce/from-document-collection/configs/dl23-passage-augmented.yaml) [[docs](reproduce/from-document-collection/dl23-passage-augmented.md)]
@@ -240,10 +200,11 @@ The following configurations (i.e., `--config` settings) are available:
 + [`dl23-doc.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/dl23-doc.d2q-t5.yaml) [[docs](reproduce/from-document-collection/dl23-doc.d2q-t5.md)]
 + [`dl23-doc-segmented`](../src/main/resources/reproduce/from-document-collection/configs/dl23-doc-segmented.yaml) [[docs](reproduce/from-document-collection/dl23-doc-segmented.md)]
 + [`dl23-doc-segmented.d2q-t5`](../src/main/resources/reproduce/from-document-collection/configs/dl23-doc-segmented.d2q-t5.yaml) [[docs](reproduce/from-document-collection/dl23-doc-segmented.d2q-t5.md)]
++ [`dl23-doc-segmented.unicoil.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl23-doc-segmented.unicoil.onnx.yaml)
 
-</details>
-<details>
-<summary>MS MARCO V2.1 + RAG24-25 regressions</summary>
+<a id="ms-marco-v2-1-rag24-25-regressions"></a>
+
+## MS MARCO V2.1 + RAG24-25 regressions
 
 + [`rag24-doc-segmented-test-umbrela`](../src/main/resources/reproduce/from-document-collection/configs/rag24-doc-segmented-test-umbrela.yaml) [[docs](reproduce/from-document-collection/rag24-doc-segmented-test-umbrela.md)]
 + [`rag24-doc-segmented-test-umbrela.splade-v3.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag24-doc-segmented-test-umbrela.splade-v3.onnx.yaml) [[docs](reproduce/from-document-collection/rag24-doc-segmented-test-umbrela.splade-v3.onnx.md)]
@@ -269,11 +230,8 @@ The following configurations (i.e., `--config` settings) are available:
 + [`rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard07.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard07.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard07.flat.onnx.md)]
 + [`rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard08.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard08.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard08.flat.onnx.md)]
 + [`rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard09.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard09.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard09.flat.onnx.md)]
-
-
-<div></div>
-
 + [`rag25-doc-segmented-test-umbrela2`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-umbrela2.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-umbrela2.md)]
++ [`rag25-doc-segmented-test-umbrela2.splade-v3.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-umbrela2.splade-v3.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-umbrela2.splade-v3.onnx.md)]
 + [`rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard00.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard00.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard00.flat.onnx.md)]
 + [`rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard01.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard01.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard01.flat.onnx.md)]
 + [`rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard02.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard02.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard02.flat.onnx.md)]
@@ -285,6 +243,7 @@ The following configurations (i.e., `--config` settings) are available:
 + [`rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard08.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard08.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard08.flat.onnx.md)]
 + [`rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard09.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard09.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard09.flat.onnx.md)]
 + [`rag25-doc-segmented-test-nist`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-nist.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-nist.md)]
++ [`rag25-doc-segmented-test-nist.splade-v3.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-nist.splade-v3.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-nist.splade-v3.onnx.md)]
 + [`rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard00.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard00.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard00.flat.onnx.md)]
 + [`rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard01.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard01.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard01.flat.onnx.md)]
 + [`rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard02.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard02.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard02.flat.onnx.md)]
@@ -295,17 +254,9 @@ The following configurations (i.e., `--config` settings) are available:
 + [`rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard07.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard07.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard07.flat.onnx.md)]
 + [`rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard08.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard08.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard08.flat.onnx.md)]
 + [`rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard09.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard09.flat.onnx.yaml) [[docs](reproduce/from-document-collection/rag25-doc-segmented-test-nist.arctic-embed-l.parquet.shard09.flat.onnx.md)]
-
-
-<div></div>
-
 + [`msmarco-v2.1-doc`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2.1-doc.yaml) [[docs](reproduce/from-document-collection/msmarco-v2.1-doc.md)]
 + [`msmarco-v2.1-doc-segmented`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2.1-doc-segmented.yaml) [[docs](reproduce/from-document-collection/msmarco-v2.1-doc-segmented.md)]
 + [`msmarco-v2.1-doc-segmented.splade-v3.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2.1-doc-segmented.splade-v3.onnx.yaml) [[docs](reproduce/from-document-collection/msmarco-v2.1-doc-segmented.splade-v3.onnx.md)]
-
-
-<div></div>
-
 + [`dl21-doc-msmarco-v2.1`](../src/main/resources/reproduce/from-document-collection/configs/dl21-doc-msmarco-v2.1.yaml) [[docs](reproduce/from-document-collection/dl21-doc-msmarco-v2.1.md)]
 + [`dl21-doc-segmented-msmarco-v2.1`](../src/main/resources/reproduce/from-document-collection/configs/dl21-doc-segmented-msmarco-v2.1.yaml) [[docs](reproduce/from-document-collection/dl21-doc-segmented-msmarco-v2.1.md)]
 + [`dl21-doc-segmented-msmarco-v2.1.splade-v3.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl21-doc-segmented-msmarco-v2.1.splade-v3.onnx.yaml) [[docs](reproduce/from-document-collection/dl21-doc-segmented-msmarco-v2.1.splade-v3.onnx.md)]
@@ -315,17 +266,13 @@ The following configurations (i.e., `--config` settings) are available:
 + [`dl23-doc-msmarco-v2.1`](../src/main/resources/reproduce/from-document-collection/configs/dl23-doc-msmarco-v2.1.yaml) [[docs](reproduce/from-document-collection/dl23-doc-msmarco-v2.1.md)]
 + [`dl23-doc-segmented-msmarco-v2.1`](../src/main/resources/reproduce/from-document-collection/configs/dl23-doc-segmented-msmarco-v2.1.yaml) [[docs](reproduce/from-document-collection/dl23-doc-segmented-msmarco-v2.1.md)]
 + [`dl23-doc-segmented-msmarco-v2.1.splade-v3.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl23-doc-segmented-msmarco-v2.1.splade-v3.onnx.yaml) [[docs](reproduce/from-document-collection/dl23-doc-segmented-msmarco-v2.1.splade-v3.onnx.md)]
-
-
-<div></div>
-
 + [`rag24-doc-raggy-dev`](../src/main/resources/reproduce/from-document-collection/configs/rag24-doc-raggy-dev.yaml) [[docs](reproduce/from-document-collection/rag24-doc-raggy-dev.md)]
 + [`rag24-doc-segmented-raggy-dev`](../src/main/resources/reproduce/from-document-collection/configs/rag24-doc-segmented-raggy-dev.yaml) [[docs](reproduce/from-document-collection/rag24-doc-segmented-raggy-dev.md)]
 + [`rag24-doc-segmented-raggy-dev.splade-v3.onnx`](../src/main/resources/reproduce/from-document-collection/configs/rag24-doc-segmented-raggy-dev.splade-v3.onnx.yaml) [[docs](reproduce/from-document-collection/rag24-doc-segmented-raggy-dev.splade-v3.onnx.md)]
 
-</details>
-<details>
-<summary>BEIR (v1.0.0): BGE-base-en-v1.5</summary>
+<a id="beir-v1-0-0-bge-base-en-v1-5"></a>
+
+## BEIR (v1.0.0): BGE-base-en-v1.5
 
 + [`beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat.onnx.md)]
 + [`beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.flat.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.flat.onnx.md)]
@@ -356,10 +303,6 @@ The following configurations (i.e., `--config` settings) are available:
 + [`beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat.onnx.md)]
 + [`beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat.onnx.md)]
 + [`beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat.onnx.md)]
-
-
-<div></div>
-
 + [`beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat-sqv.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat-sqv.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.flat-sqv.onnx.md)]
 + [`beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.flat-sqv.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.flat-sqv.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.flat-sqv.onnx.md)]
 + [`beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.flat-sqv.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.flat-sqv.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.flat-sqv.onnx.md)]
@@ -389,10 +332,6 @@ The following configurations (i.e., `--config` settings) are available:
 + [`beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat-sqv.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat-sqv.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-fever.bge-base-en-v1.5.parquet.flat-sqv.onnx.md)]
 + [`beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat-sqv.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat-sqv.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.flat-sqv.onnx.md)]
 + [`beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat-sqv.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat-sqv.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.flat-sqv.onnx.md)]
-
-
-<div></div>
-
 + [`beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.hnsw.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.hnsw.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.hnsw.onnx.md)]
 + [`beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.hnsw.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.hnsw.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.hnsw.onnx.md)]
 + [`beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.hnsw.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.hnsw.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.hnsw.onnx.md)]
@@ -422,10 +361,6 @@ The following configurations (i.e., `--config` settings) are available:
 + [`beir-v1.0.0-fever.bge-base-en-v1.5.parquet.hnsw.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-fever.bge-base-en-v1.5.parquet.hnsw.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-fever.bge-base-en-v1.5.parquet.hnsw.onnx.md)]
 + [`beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.hnsw.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.hnsw.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.hnsw.onnx.md)]
 + [`beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.hnsw.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.hnsw.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.hnsw.onnx.md)]
-
-
-<div></div>
-
 + [`beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.hnsw-sqv.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.hnsw-sqv.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-trec-covid.bge-base-en-v1.5.parquet.hnsw-sqv.onnx.md)]
 + [`beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.hnsw-sqv.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.hnsw-sqv.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-bioasq.bge-base-en-v1.5.parquet.hnsw-sqv.onnx.md)]
 + [`beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.hnsw-sqv.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.hnsw-sqv.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-nfcorpus.bge-base-en-v1.5.parquet.hnsw-sqv.onnx.md)]
@@ -456,9 +391,9 @@ The following configurations (i.e., `--config` settings) are available:
 + [`beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.hnsw-sqv.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.hnsw-sqv.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.hnsw-sqv.onnx.md)]
 + [`beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.hnsw-sqv.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.hnsw-sqv.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.hnsw-sqv.onnx.md)]
 
-</details>
-<details>
-<summary>BEIR (v1.0.0): SPLADE-v3</summary>
+<a id="beir-v1-0-0-splade-v3"></a>
+
+## BEIR (v1.0.0): SPLADE-v3
 
 + [`beir-v1.0.0-trec-covid.splade-v3.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-trec-covid.splade-v3.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-trec-covid.splade-v3.onnx.md)]
 + [`beir-v1.0.0-bioasq.splade-v3.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-bioasq.splade-v3.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-bioasq.splade-v3.onnx.md)]
@@ -490,9 +425,9 @@ The following configurations (i.e., `--config` settings) are available:
 + [`beir-v1.0.0-climate-fever.splade-v3.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-climate-fever.splade-v3.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-climate-fever.splade-v3.onnx.md)]
 + [`beir-v1.0.0-scifact.splade-v3.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-scifact.splade-v3.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-scifact.splade-v3.onnx.md)]
 
-</details>
-<details>
-<summary>BEIR (v1.0.0): SPLADE++ CoCondenser-EnsembleDistil</summary>
+<a id="beir-v1-0-0-splade-cocondenser-ensembledistil"></a>
+
+## BEIR (v1.0.0): SPLADE++ CoCondenser-EnsembleDistil
 
 + [`beir-v1.0.0-trec-covid.splade-pp-ed.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-trec-covid.splade-pp-ed.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-trec-covid.splade-pp-ed.onnx.md)]
 + [`beir-v1.0.0-bioasq.splade-pp-ed.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-bioasq.splade-pp-ed.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-bioasq.splade-pp-ed.onnx.md)]
@@ -524,9 +459,9 @@ The following configurations (i.e., `--config` settings) are available:
 + [`beir-v1.0.0-climate-fever.splade-pp-ed.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-climate-fever.splade-pp-ed.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-climate-fever.splade-pp-ed.onnx.md)]
 + [`beir-v1.0.0-scifact.splade-pp-ed.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-scifact.splade-pp-ed.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-scifact.splade-pp-ed.onnx.md)]
 
-</details>
-<details>
-<summary>BEIR (v1.0.0): "flat" baseline</summary>
+<a id="beir-v1-0-0-flat-baseline"></a>
+
+## BEIR (v1.0.0): "flat" baseline
 
 + [`beir-v1.0.0-trec-covid.flat`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-trec-covid.flat.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-trec-covid.flat.md)]
 + [`beir-v1.0.0-bioasq.flat`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-bioasq.flat.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-bioasq.flat.md)]
@@ -558,9 +493,9 @@ The following configurations (i.e., `--config` settings) are available:
 + [`beir-v1.0.0-climate-fever.flat`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-climate-fever.flat.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-climate-fever.flat.md)]
 + [`beir-v1.0.0-scifact.flat`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-scifact.flat.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-scifact.flat.md)]
 
-</details>
-<details>
-<summary>BEIR (v1.0.0): "flat" baseline with WordPiece tokenization</summary>
+<a id="beir-v1-0-0-flat-baseline-with-wordpiece-tokenization"></a>
+
+## BEIR (v1.0.0): "flat" baseline with WordPiece tokenization
 
 + [`beir-v1.0.0-trec-covid.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-trec-covid.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-trec-covid.flat-wp.md)]
 + [`beir-v1.0.0-bioasq.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-bioasq.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-bioasq.flat-wp.md)]
@@ -592,9 +527,9 @@ The following configurations (i.e., `--config` settings) are available:
 + [`beir-v1.0.0-climate-fever.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-climate-fever.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-climate-fever.flat-wp.md)]
 + [`beir-v1.0.0-scifact.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-scifact.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-scifact.flat-wp.md)]
 
-</details>
-<details>
-<summary>BEIR (v1.0.0): "multifield" baseline</summary>
+<a id="beir-v1-0-0-multifield-baseline"></a>
+
+## BEIR (v1.0.0): "multifield" baseline
 
 + [`beir-v1.0.0-trec-covid.multifield`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-trec-covid.multifield.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-trec-covid.multifield.md)]
 + [`beir-v1.0.0-bioasq.multifield`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-bioasq.multifield.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-bioasq.multifield.md)]
@@ -626,9 +561,9 @@ The following configurations (i.e., `--config` settings) are available:
 + [`beir-v1.0.0-climate-fever.multifield`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-climate-fever.multifield.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-climate-fever.multifield.md)]
 + [`beir-v1.0.0-scifact.multifield`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-scifact.multifield.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-scifact.multifield.md)]
 
-</details>
-<details>
-<summary>Mr.TyDi (v1.1): BM25 regressions</summary>
+<a id="mr-tydi-v1-1-bm25-regressions"></a>
+
+## Mr.TyDi (v1.1): BM25 regressions
 
 + [`mrtydi-v1.1-ar`](../src/main/resources/reproduce/from-document-collection/configs/mrtydi-v1.1-ar.yaml) [[docs](reproduce/from-document-collection/mrtydi-v1.1-ar.md)]
 + [`mrtydi-v1.1-bn`](../src/main/resources/reproduce/from-document-collection/configs/mrtydi-v1.1-bn.yaml) [[docs](reproduce/from-document-collection/mrtydi-v1.1-bn.md)]
@@ -641,10 +576,6 @@ The following configurations (i.e., `--config` settings) are available:
 + [`mrtydi-v1.1-sw`](../src/main/resources/reproduce/from-document-collection/configs/mrtydi-v1.1-sw.yaml) [[docs](reproduce/from-document-collection/mrtydi-v1.1-sw.md)]
 + [`mrtydi-v1.1-te`](../src/main/resources/reproduce/from-document-collection/configs/mrtydi-v1.1-te.yaml) [[docs](reproduce/from-document-collection/mrtydi-v1.1-te.md)]
 + [`mrtydi-v1.1-th`](../src/main/resources/reproduce/from-document-collection/configs/mrtydi-v1.1-th.yaml) [[docs](reproduce/from-document-collection/mrtydi-v1.1-th.md)]
-
-
-<div></div>
-
 + [`mrtydi-v1.1-ar-aca`](../src/main/resources/reproduce/from-document-collection/configs/mrtydi-v1.1-ar-aca.yaml) [[docs](reproduce/from-document-collection/mrtydi-v1.1-ar-aca.md)]
 + [`mrtydi-v1.1-bn-aca`](../src/main/resources/reproduce/from-document-collection/configs/mrtydi-v1.1-bn-aca.yaml) [[docs](reproduce/from-document-collection/mrtydi-v1.1-bn-aca.md)]
 + [`mrtydi-v1.1-en-aca`](../src/main/resources/reproduce/from-document-collection/configs/mrtydi-v1.1-en-aca.yaml) [[docs](reproduce/from-document-collection/mrtydi-v1.1-en-aca.md)]
@@ -657,9 +588,9 @@ The following configurations (i.e., `--config` settings) are available:
 + [`mrtydi-v1.1-te-aca`](../src/main/resources/reproduce/from-document-collection/configs/mrtydi-v1.1-te-aca.yaml) [[docs](reproduce/from-document-collection/mrtydi-v1.1-te-aca.md)]
 + [`mrtydi-v1.1-th-aca`](../src/main/resources/reproduce/from-document-collection/configs/mrtydi-v1.1-th-aca.yaml) [[docs](reproduce/from-document-collection/mrtydi-v1.1-th-aca.md)]
 
-</details>
-<details>
-<summary>MIRACL (v1.0): BM25 regressions</summary>
+<a id="miracl-v1-0-bm25-regressions"></a>
+
+## MIRACL (v1.0): BM25 regressions
 
 + [`miracl-v1.0-ar`](../src/main/resources/reproduce/from-document-collection/configs/miracl-v1.0-ar.yaml) [[docs](reproduce/from-document-collection/miracl-v1.0-ar.md)]
 + [`miracl-v1.0-bn`](../src/main/resources/reproduce/from-document-collection/configs/miracl-v1.0-bn.yaml) [[docs](reproduce/from-document-collection/miracl-v1.0-bn.md)]
@@ -677,10 +608,6 @@ The following configurations (i.e., `--config` settings) are available:
 + [`miracl-v1.0-te`](../src/main/resources/reproduce/from-document-collection/configs/miracl-v1.0-te.yaml) [[docs](reproduce/from-document-collection/miracl-v1.0-te.md)]
 + [`miracl-v1.0-th`](../src/main/resources/reproduce/from-document-collection/configs/miracl-v1.0-th.yaml) [[docs](reproduce/from-document-collection/miracl-v1.0-th.md)]
 + [`miracl-v1.0-zh`](../src/main/resources/reproduce/from-document-collection/configs/miracl-v1.0-zh.yaml) [[docs](reproduce/from-document-collection/miracl-v1.0-zh.md)]
-
-
-<div></div>
-
 + [`miracl-v1.0-ar-aca`](../src/main/resources/reproduce/from-document-collection/configs/miracl-v1.0-ar-aca.yaml) [[docs](reproduce/from-document-collection/miracl-v1.0-ar-aca.md)]
 + [`miracl-v1.0-bn-aca`](../src/main/resources/reproduce/from-document-collection/configs/miracl-v1.0-bn-aca.yaml) [[docs](reproduce/from-document-collection/miracl-v1.0-bn-aca.md)]
 + [`miracl-v1.0-en-aca`](../src/main/resources/reproduce/from-document-collection/configs/miracl-v1.0-en-aca.yaml) [[docs](reproduce/from-document-collection/miracl-v1.0-en-aca.md)]
@@ -698,9 +625,16 @@ The following configurations (i.e., `--config` settings) are available:
 + [`miracl-v1.0-th-aca`](../src/main/resources/reproduce/from-document-collection/configs/miracl-v1.0-th-aca.yaml) [[docs](reproduce/from-document-collection/miracl-v1.0-th-aca.md)]
 + [`miracl-v1.0-zh-aca`](../src/main/resources/reproduce/from-document-collection/configs/miracl-v1.0-zh-aca.yaml) [[docs](reproduce/from-document-collection/miracl-v1.0-zh-aca.md)]
 
-</details>
-<details>
-<summary>Other cross-lingual and multi-lingual regressions</summary>
+<a id="nanoknow"></a>
+
+## NanoKnow
+
++ [`nanoknow-v1.0-nq`](../src/main/resources/reproduce/from-document-collection/configs/nanoknow-v1.0-nq.yaml) [[docs](reproduce/from-document-collection/nanoknow-v1.0-nq.md)]
++ [`nanoknow-v1.0-squad`](../src/main/resources/reproduce/from-document-collection/configs/nanoknow-v1.0-squad.yaml) [[docs](reproduce/from-document-collection/nanoknow-v1.0-squad.md)]
+
+<a id="other-cross-lingual-and-multi-lingual-regressions"></a>
+
+## Other cross-lingual and multi-lingual regressions
 
 + [`ntcir8-zh`](../src/main/resources/reproduce/from-document-collection/configs/ntcir8-zh.yaml) [[docs](reproduce/from-document-collection/ntcir8-zh.md)]
 + [`clef06-fr`](../src/main/resources/reproduce/from-document-collection/configs/clef06-fr.yaml) [[docs](reproduce/from-document-collection/clef06-fr.md)]
@@ -708,10 +642,6 @@ The following configurations (i.e., `--config` settings) are available:
 + [`fire12-bn`](../src/main/resources/reproduce/from-document-collection/configs/fire12-bn.yaml) [[docs](reproduce/from-document-collection/fire12-bn.md)]
 + [`fire12-hi`](../src/main/resources/reproduce/from-document-collection/configs/fire12-hi.yaml) [[docs](reproduce/from-document-collection/fire12-hi.md)]
 + [`fire12-en`](../src/main/resources/reproduce/from-document-collection/configs/fire12-en.yaml) [[docs](reproduce/from-document-collection/fire12-en.md)]
-
-
-<div></div>
-
 + [`hc4-v1.0-fa`](../src/main/resources/reproduce/from-document-collection/configs/hc4-v1.0-fa.yaml) [[docs](reproduce/from-document-collection/hc4-v1.0-fa.md)]
 + [`hc4-v1.0-ru`](../src/main/resources/reproduce/from-document-collection/configs/hc4-v1.0-ru.yaml) [[docs](reproduce/from-document-collection/hc4-v1.0-ru.md)]
 + [`hc4-v1.0-zh`](../src/main/resources/reproduce/from-document-collection/configs/hc4-v1.0-zh.yaml) [[docs](reproduce/from-document-collection/hc4-v1.0-zh.md)]
@@ -721,10 +651,6 @@ The following configurations (i.e., `--config` settings) are available:
 + [`hc4-neuclir22-fa-en`](../src/main/resources/reproduce/from-document-collection/configs/hc4-neuclir22-fa-en.yaml) [[docs](reproduce/from-document-collection/hc4-neuclir22-fa-en.md)]
 + [`hc4-neuclir22-ru-en`](../src/main/resources/reproduce/from-document-collection/configs/hc4-neuclir22-ru-en.yaml) [[docs](reproduce/from-document-collection/hc4-neuclir22-ru-en.md)]
 + [`hc4-neuclir22-zh-en`](../src/main/resources/reproduce/from-document-collection/configs/hc4-neuclir22-zh-en.yaml) [[docs](reproduce/from-document-collection/hc4-neuclir22-zh-en.md)]
-
-
-<div></div>
-
 + [`neuclir22-fa-qt`](../src/main/resources/reproduce/from-document-collection/configs/neuclir22-fa-qt.yaml) [[docs](reproduce/from-document-collection/neuclir22-fa-qt.md)]
 + [`neuclir22-fa-dt`](../src/main/resources/reproduce/from-document-collection/configs/neuclir22-fa-dt.yaml) [[docs](reproduce/from-document-collection/neuclir22-fa-dt.md)]
 + [`neuclir22-ru-qt`](../src/main/resources/reproduce/from-document-collection/configs/neuclir22-ru-qt.yaml) [[docs](reproduce/from-document-collection/neuclir22-ru-qt.md)]
@@ -737,10 +663,6 @@ The following configurations (i.e., `--config` settings) are available:
 + [`neuclir22-ru-dt-splade`](../src/main/resources/reproduce/from-document-collection/configs/neuclir22-ru-dt-splade.yaml) [[docs](reproduce/from-document-collection/neuclir22-ru-dt-splade.md)]
 + [`neuclir22-zh-qt-splade`](../src/main/resources/reproduce/from-document-collection/configs/neuclir22-zh-qt-splade.yaml) [[docs](reproduce/from-document-collection/neuclir22-zh-qt-splade.md)]
 + [`neuclir22-zh-dt-splade`](../src/main/resources/reproduce/from-document-collection/configs/neuclir22-zh-dt-splade.yaml) [[docs](reproduce/from-document-collection/neuclir22-zh-dt-splade.md)]
-
-
-<div></div>
-
 + [`ciral-v1.0-ha`](../src/main/resources/reproduce/from-document-collection/configs/ciral-v1.0-ha.yaml) [[docs](reproduce/from-document-collection/ciral-v1.0-ha.md)]
 + [`ciral-v1.0-so`](../src/main/resources/reproduce/from-document-collection/configs/ciral-v1.0-so.yaml) [[docs](reproduce/from-document-collection/ciral-v1.0-so.md)]
 + [`ciral-v1.0-sw`](../src/main/resources/reproduce/from-document-collection/configs/ciral-v1.0-sw.yaml) [[docs](reproduce/from-document-collection/ciral-v1.0-sw.md)]
@@ -750,9 +672,9 @@ The following configurations (i.e., `--config` settings) are available:
 + [`ciral-v1.0-sw-en`](../src/main/resources/reproduce/from-document-collection/configs/ciral-v1.0-sw-en.yaml) [[docs](reproduce/from-document-collection/ciral-v1.0-sw-en.md)]
 + [`ciral-v1.0-yo-en`](../src/main/resources/reproduce/from-document-collection/configs/ciral-v1.0-yo-en.yaml) [[docs](reproduce/from-document-collection/ciral-v1.0-yo-en.md)]
 
-</details>
-<details>
-<summary>BRIGHT: BM25</summary>
+<a id="bright-bm25"></a>
+
+## BRIGHT: BM25
 
 + [`bright-aops`](../src/main/resources/reproduce/from-document-collection/configs/bright-aops.yaml) [[docs](reproduce/from-document-collection/bright-aops.md)]
 + [`bright-biology`](../src/main/resources/reproduce/from-document-collection/configs/bright-biology.yaml) [[docs](reproduce/from-document-collection/bright-biology.md)]
@@ -766,10 +688,6 @@ The following configurations (i.e., `--config` settings) are available:
 + [`bright-sustainable-living`](../src/main/resources/reproduce/from-document-collection/configs/bright-sustainable-living.yaml) [[docs](reproduce/from-document-collection/bright-sustainable-living.md)]
 + [`bright-theoremqa-questions`](../src/main/resources/reproduce/from-document-collection/configs/bright-theoremqa-questions.yaml) [[docs](reproduce/from-document-collection/bright-theoremqa-questions.md)]
 + [`bright-theoremqa-theorems`](../src/main/resources/reproduce/from-document-collection/configs/bright-theoremqa-theorems.yaml) [[docs](reproduce/from-document-collection/bright-theoremqa-theorems.md)]
-
-
-<div></div>
-
 + [`bright-aops.bm25qs`](../src/main/resources/reproduce/from-document-collection/configs/bright-aops.bm25qs.yaml) [[docs](reproduce/from-document-collection/bright-aops.bm25qs.md)]
 + [`bright-biology.bm25qs`](../src/main/resources/reproduce/from-document-collection/configs/bright-biology.bm25qs.yaml) [[docs](reproduce/from-document-collection/bright-biology.bm25qs.md)]
 + [`bright-earth-science.bm25qs`](../src/main/resources/reproduce/from-document-collection/configs/bright-earth-science.bm25qs.yaml) [[docs](reproduce/from-document-collection/bright-earth-science.bm25qs.md)]
@@ -783,9 +701,9 @@ The following configurations (i.e., `--config` settings) are available:
 + [`bright-theoremqa-questions.bm25qs`](../src/main/resources/reproduce/from-document-collection/configs/bright-theoremqa-questions.bm25qs.yaml) [[docs](reproduce/from-document-collection/bright-theoremqa-questions.bm25qs.md)]
 + [`bright-theoremqa-theorems.bm25qs`](../src/main/resources/reproduce/from-document-collection/configs/bright-theoremqa-theorems.bm25qs.yaml) [[docs](reproduce/from-document-collection/bright-theoremqa-theorems.bm25qs.md)]
 
-</details>
-<details>
-<summary>BRIGHT: SPLADE-v3</summary>
+<a id="bright-splade-v3"></a>
+
+## BRIGHT: SPLADE-v3
 
 + [`bright-aops.splade-v3.onnx`](../src/main/resources/reproduce/from-document-collection/configs/bright-aops.splade-v3.onnx.yaml) [[docs](reproduce/from-document-collection/bright-aops.splade-v3.onnx.md)]
 + [`bright-biology.splade-v3.onnx`](../src/main/resources/reproduce/from-document-collection/configs/bright-biology.splade-v3.onnx.yaml) [[docs](reproduce/from-document-collection/bright-biology.splade-v3.onnx.md)]
@@ -800,13 +718,9 @@ The following configurations (i.e., `--config` settings) are available:
 + [`bright-theoremqa-questions.splade-v3.onnx`](../src/main/resources/reproduce/from-document-collection/configs/bright-theoremqa-questions.splade-v3.onnx.yaml) [[docs](reproduce/from-document-collection/bright-theoremqa-questions.splade-v3.onnx.md)]
 + [`bright-theoremqa-theorems.splade-v3.onnx`](../src/main/resources/reproduce/from-document-collection/configs/bright-theoremqa-theorems.splade-v3.onnx.yaml) [[docs](reproduce/from-document-collection/bright-theoremqa-theorems.splade-v3.onnx.md)]
 
+<a id="bright-bge-large-en-v1-5"></a>
 
-<div></div>
-
-
-</details>
-<details>
-<summary>BRIGHT: BGE-large-en-v1.5</summary>
+## BRIGHT: BGE-large-en-v1.5
 
 + [`bright-aops.bge-large-en-v1.5.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/bright-aops.bge-large-en-v1.5.flat.onnx.yaml) [[docs](reproduce/from-document-collection/bright-aops.bge-large-en-v1.5.flat.onnx.md)]
 + [`bright-biology.bge-large-en-v1.5.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/bright-biology.bge-large-en-v1.5.flat.onnx.yaml) [[docs](reproduce/from-document-collection/bright-biology.bge-large-en-v1.5.flat.onnx.md)]
@@ -821,13 +735,9 @@ The following configurations (i.e., `--config` settings) are available:
 + [`bright-theoremqa-questions.bge-large-en-v1.5.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/bright-theoremqa-questions.bge-large-en-v1.5.flat.onnx.yaml) [[docs](reproduce/from-document-collection/bright-theoremqa-questions.bge-large-en-v1.5.flat.onnx.md)]
 + [`bright-theoremqa-theorems.bge-large-en-v1.5.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/bright-theoremqa-theorems.bge-large-en-v1.5.flat.onnx.yaml) [[docs](reproduce/from-document-collection/bright-theoremqa-theorems.bge-large-en-v1.5.flat.onnx.md)]
 
+<a id="other-regressions-trec-etc"></a>
 
-<div></div>
-
-
-</details>
-<details>
-<summary>Other regressions (TREC, etc.)</summary>
+## Other regressions (TREC, etc.)
 
 + [`backgroundlinking18`](../src/main/resources/reproduce/from-document-collection/configs/backgroundlinking18.yaml) [[docs](reproduce/from-document-collection/backgroundlinking18.md)]
 + [`backgroundlinking19`](../src/main/resources/reproduce/from-document-collection/configs/backgroundlinking19.yaml) [[docs](reproduce/from-document-collection/backgroundlinking19.md)]
@@ -850,23 +760,3 @@ The following configurations (i.e., `--config` settings) are available:
 + [`fever`](../src/main/resources/reproduce/from-document-collection/configs/fever.yaml) [[docs](reproduce/from-document-collection/fever.md)]
 + [`wikipedia-dpr-100w-bm25`](../src/main/resources/reproduce/from-document-collection/configs/wikipedia-dpr-100w-bm25.yaml) [[docs](reproduce/from-document-collection/wikipedia-dpr-100w-bm25.md)]
 + [`wiki-all-6-3-tamber-bm25`](../src/main/resources/reproduce/from-document-collection/configs/wiki-all-6-3-tamber-bm25.yaml) [[docs](reproduce/from-document-collection/wiki-all-6-3-tamber-bm25.md)]
-
-</details>
-
-The `--config` option specifies the experiment to run, corresponding to the YAML configuration file in [`src/main/resources/reproduce/from-document-collection/configs`](../src/main/resources/reproduce/from-document-collection/configs).
-The three main options are:
-
-+ `--index`: Build the index.
-+ `--verify`: Verify index statistics.
-+ `--search`: Perform retrieval runs and verify effectiveness.
-
-**Watch out!** The full `cw12` regression can take a couple days to run and generates a 12TB index!
-
-Although the driver is hard-coded to run on Waterloo machines (e.g., hard-coded paths to document collections), the document collection path can be manually specified from the command line with the `--corpus-path` option, for example:
-
-```bash
-bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection \
-  --index --verify --search --config msmarco-v1-passage --corpus-path /path/to/corpus
-```
-
-For example, `--corpus-path collections/msmarco-passage/collection_jsonl`.
