@@ -108,7 +108,7 @@ On a modern desktop with an SSD, indexing takes a couple of minutes.
 On a circa 2022 MacBook Air with an Apple M2 processor and 24 GB RAM, indexing takes around 3 minutes.
 YMMV.
 
-If you run into out-of-memory issues, you might need dial down `-threads` (i.e., use fewer threads).
+If you run into out-of-memory issues, you might need to dial down `-threads` (i.e., use fewer threads).
 Or you might need to go into modify `run.sh` and tweak the `-Xms` and `-Xmx` memory settings.
 
 The inverted index consumes around 4 GB:
@@ -204,7 +204,7 @@ Since the first column indicates the `qid`, it means that the file contains rank
 
 ## Evaluation
 
-Finally, we can evaluate the retrieved documents using this the official MS MARCO evaluation script:
+Finally, we can evaluate the retrieved documents using the official MS MARCO evaluation script:
 
 ```bash
 python tools/scripts/msmarco/msmarco_passage_eval.py \
