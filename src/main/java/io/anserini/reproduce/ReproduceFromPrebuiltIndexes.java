@@ -397,6 +397,8 @@ public class ReproduceFromPrebuiltIndexes {
       String base = handler.getFilename();
       if (base.endsWith(".tar.gz")) {
         base = base.substring(0, base.length() - ".tar.gz".length());
+      } else if (base.endsWith(".tar")) {
+        base = base.substring(0, base.length() - ".tar".length());
       } else if (base.endsWith(".gz")) {
         base = base.substring(0, base.length() - ".gz".length());
       }
@@ -493,6 +495,9 @@ public class ReproduceFromPrebuiltIndexes {
 
     @JsonProperty
     public String display;
+
+    @JsonProperty
+    public String short_name;
 
     @JsonProperty
     public String display_html;

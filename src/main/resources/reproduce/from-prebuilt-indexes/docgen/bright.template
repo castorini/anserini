@@ -1,0 +1,41 @@
+# <img src="../../anserini-logo.png" height="30" /> BRIGHT
+
+**Anserini reproductions from prebuilt indexes**
+
++ **Corpus**: BRIGHT
++ **Config**: ${config}
+
+## Summary
+
+The table below summarizes effectiveness in terms of nDCG@10.
+For more metrics, refer to the config directly.
+
+Key:
+
++ **BM25** = BM25, bag-of-words baseline
++ **BM25qs** = BM25, query-side BM25 baseline
++ **SPLADE** = SPLADE-v3 (ONNX)
++ **BGE** = bge-large-en-v1.5 w/ flat indexes (ONNX)
+
+${summary}
+
+## Commands
+
+In the commands below:
+
++ Set `$fatjar` to the actual Anserini fatjar.
++ Set JVM args to `${jvm_args}`.
+
+Something like:
+
+```bash
+export fatjar=`ls -d {.,target}/anserini-*-fatjar.jar(N)`
+
+# for zsh
+export jvm_args=(${jvm_args})
+
+# for bash
+export jvm_args="${jvm_args}"
+```
+
+${commands}

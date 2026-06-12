@@ -571,4 +571,10 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@masud70](https://github.com/masud70) on 2026-05-23 (commit [`878b97d`](https://github.com/castorini/anserini/commit/878b97da258ea6350c1cb3693f684ae337fc5e56))
 + Results reproduced by [@ibot1](https://github.com/ibot1) on 2026-05-23 (commit [`878b97d`](https://github.com/castorini/anserini/commit/878b97da258ea6350c1cb3693f684ae337fc5e56))
 + Results reproduced by [@ReyhanehAhani](https://github.com/ReyhanehAhani) on 2026-05-25 (commit [`11703ed`](https://github.com/castorini/anserini/commit/11703ed8f9354fb4ea0dc4960cee1b5e14ee6561))
++ Results reproduced by [@grf932](https://github.com/grf932) on 2026-05-29 (commit [`6663a15`](https://github.com/castorini/anserini/commit/6663a15bffe0242e927c53744e5b140ce1a0bcba))
++ Results reproduced by [@amulyabenarji777](https://github.com/amulyabenarji777) on 2026-05-30 (commit [`6663a15`](https://github.com/castorini/anserini/commit/6663a15bffe0242e927c53744e5b140ce1a0bcba))
++ Results reproduced by [@Maroibo](https://github.com/Maroibo) on 2026-06-01 (commit [`996836f`](https://github.com/castorini/anserini/commit/996836f12034eb5dfd1bfada72debf63fa059849))
 + Results reproduced by [@Hayanaanaa](https://github.com/Hayanaanaa) on 2026-06-01 (commit[`ecbe48a`](https://github.com/castorini/anserini/commit/ecbe48ad3b40d77630fdffe9c53e3bab5f0c3b5d))
++ Results reproduced by [@zxtomw](https://github.com/zxtomw) on 2026-06-06 (commit [`c96de33`](https://github.com/castorini/anserini/commit/c96de33cb1096e4294a4005a3a88324b2c8ef518))
++ Results reproduced by [@rhea2801](https://github.com/rhea2801) on 2026-06-06 (commit [`147521d`](https://github.com/castorini/anserini/commit/147521da48a3b71cf359fd35e32c0fff7fe86eb8))
+
