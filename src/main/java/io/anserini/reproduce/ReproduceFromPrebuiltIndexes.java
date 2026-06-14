@@ -226,7 +226,7 @@ public class ReproduceFromPrebuiltIndexes {
         System.out.printf(Locale.ROOT, fmt, r[0], r[1], r[2], r[3]);
       }
       // Add total row at the end with no path.
-      System.out.printf(Locale.ROOT, fmt, "total", IndexReaderUtils.formatSize(totalDownloadBytes), IndexReaderUtils.formatSize(totalBytes), "-");
+      System.out.printf(Locale.ROOT, fmt, "total", IndexReaderUtils.formatSize(totalDownloadBytes), IndexReaderUtils.formatSize(totalBytes), "");
 
       System.out.printf(Locale.ROOT, "%nTotal size across %d of %d indexes: %s%n%n", presentCount, uniqueIndexNames.size(), IndexReaderUtils.formatSize(totalBytes));
     }
