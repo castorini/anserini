@@ -47,7 +47,6 @@ import io.anserini.cli.CliUtils;
 
 import io.anserini.eval.TrecEval;
 import io.anserini.index.IndexReaderUtils;
-import io.anserini.util.CacheDirectoryResolver;
 import io.anserini.util.LoggingBootstrap;
 import io.anserini.util.PrebuiltIndexHandler;
 
@@ -164,7 +163,7 @@ public class ReproduceFromPrebuiltIndexes {
       long totalBytes = 0L;
       long totalDownloadBytes = 0L;
       int presentCount = 0;
-      java.util.List<String[]> rows = new java.util.ArrayList<>(); // [name, sizeOnDisk, downloadSize, path]
+      java.util.List<String[]> rows = new java.util.ArrayList<>(); // [name, downloadSize, sizeOnDisk, path]
 
       for (String idx : uniqueIndexNames) {
         String name = idx;
@@ -179,10 +178,10 @@ public class ReproduceFromPrebuiltIndexes {
             downloadSizeStr = IndexReaderUtils.formatSize(indexHandler.getSize());
             totalDownloadBytes += indexHandler.getSize();
           }
-          Path prebuiltPath = expectedPrebuiltPath(idx);
-          pathStr = prebuiltPath == null ? "-" : prebuiltPath.toAbsolutePath().toString();
+          Path prebuiltPath = indexHandler.getIndexPath();
           long sz = -1L;
           if (prebuiltPath != null && Files.exists(prebuiltPath)) {
+            pathStr = prebuiltPath.toAbsolutePath().toString();
             // Ignore symlinks per request; measure directory as-is
             sz = IndexReaderUtils.findDirectorySize(prebuiltPath);
           }
@@ -208,26 +207,26 @@ public class ReproduceFromPrebuiltIndexes {
           }
         }
 
-        rows.add(new String[] { name, sizeOnDiskStr, downloadSizeStr, pathStr });
+        rows.add(new String[] { name, downloadSizeStr, sizeOnDiskStr, pathStr });
       }
 
       // Compute dynamic widths for first and last columns.
       int nameWidth = Math.max("name".length(), uniqueIndexNames.stream().mapToInt(String::length).max().orElse(4));
       nameWidth = Math.max(nameWidth, "total".length());
-      int pathWidth = "path".length();
+      int pathWidth = "local path".length();
       for (String[] r : rows) {
         if (r[3] != null) pathWidth = Math.max(pathWidth, r[3].length());
       }
 
       final String fmt = "%-" + nameWidth + "s  %12s  %12s  %-" + pathWidth + "s%n";
-      System.out.printf(Locale.ROOT, fmt, "name", "size on disk", "download size", "path");
+      System.out.printf(Locale.ROOT, fmt, "name", "download size", "size on disk", "local path");
       System.out.printf(Locale.ROOT, fmt, repeat('-', nameWidth), repeat('-', 12), repeat('-', 12), repeat('-', pathWidth));
 
       for (String[] r : rows) {
         System.out.printf(Locale.ROOT, fmt, r[0], r[1], r[2], r[3]);
       }
       // Add total row at the end with no path.
-      System.out.printf(Locale.ROOT, fmt, "total", IndexReaderUtils.formatSize(totalBytes), IndexReaderUtils.formatSize(totalDownloadBytes), "-");
+      System.out.printf(Locale.ROOT, fmt, "total", IndexReaderUtils.formatSize(totalDownloadBytes), IndexReaderUtils.formatSize(totalBytes), "-");
 
       System.out.printf(Locale.ROOT, "%nTotal size across %d of %d indexes: %s%n%n", presentCount, uniqueIndexNames.size(), IndexReaderUtils.formatSize(totalBytes));
     }
@@ -388,24 +387,6 @@ public class ReproduceFromPrebuiltIndexes {
       }
     }
     return null;
-  }
-
-  private static Path expectedPrebuiltPath(String indexName) {
-    try {
-      PrebuiltIndexHandler handler = PrebuiltIndexHandler.get(indexName);
-      String cacheRoot = CacheDirectoryResolver.getIndexCachePath().toString();
-      String base = handler.getFilename();
-      if (base.endsWith(".tar.gz")) {
-        base = base.substring(0, base.length() - ".tar.gz".length());
-      } else if (base.endsWith(".tar")) {
-        base = base.substring(0, base.length() - ".tar".length());
-      } else if (base.endsWith(".gz")) {
-        base = base.substring(0, base.length() - ".gz".length());
-      }
-      return Path.of(cacheRoot, base + "." + handler.getMD5());
-    } catch (Exception e) {
-      return null;
-    }
   }
 
   private static Path resolveSingleSymlinkChild(Path p) throws IOException {

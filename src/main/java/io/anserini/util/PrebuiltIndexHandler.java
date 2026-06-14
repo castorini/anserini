@@ -101,8 +101,6 @@ public class PrebuiltIndexHandler {
   }
 
   public void fetch(String cacheDirectory) throws IOException {
-    this.cacheDirectory = cacheDirectory;
-
     if (!Path.of(cacheDirectory).toFile().exists()) {
       try {
         Files.createDirectories(Path.of(cacheDirectory));
@@ -111,11 +109,7 @@ public class PrebuiltIndexHandler {
       }
     }
 
-    downloadFilePath = Path.of(cacheDirectory, this.entry.filename);
-    String downloadFilePathString = downloadFilePath.toString();
-    indexPath = Path.of((downloadFilePathString.endsWith(".gz") ?
-        downloadFilePathString.substring(0, downloadFilePathString.length() - ".tar.gz".length()) :
-        downloadFilePathString.substring(0, downloadFilePathString.length() - ".tar".length())) + "." + this.entry.md5);
+    setCachePaths(cacheDirectory);
 
     if (indexPath.toFile().exists()) {
       LOG.info(String.format("Index already exists at %s: skipping downloading.", indexPath));
@@ -286,7 +280,30 @@ public class PrebuiltIndexHandler {
     LOG.info("Finished unpacking {}. Final index location: {}.", this.entry.name, indexPath);
   }
 
+  private void setCachePaths(String cacheDirectory) {
+    this.cacheDirectory = cacheDirectory;
+    downloadFilePath = Path.of(cacheDirectory, this.entry.filename);
+    String downloadFilePathString = downloadFilePath.toString();
+    indexPath = Path.of(stripArchiveSuffix(downloadFilePathString) + "." + this.entry.md5);
+  }
+
+  private static String stripArchiveSuffix(String path) {
+    if (path.endsWith(".tar.gz")) {
+      return path.substring(0, path.length() - ".tar.gz".length());
+    } else if (path.endsWith(".tar")) {
+      return path.substring(0, path.length() - ".tar".length());
+    } else if (path.endsWith(".gz")) {
+      return path.substring(0, path.length() - ".gz".length());
+    }
+
+    return path;
+  }
+
   public Path getIndexPath() {
+    if (indexPath == null) {
+      setCachePaths(CacheDirectoryResolver.getIndexCachePath().toString());
+    }
+
     return this.indexPath;
   }
 
