@@ -109,7 +109,7 @@ public class PrebuiltIndexHandler {
       }
     }
 
-    setCachePaths(cacheDirectory);
+    resolveCachePaths(cacheDirectory);
 
     if (indexPath.toFile().exists()) {
       LOG.info(String.format("Index already exists at %s: skipping downloading.", indexPath));
@@ -280,7 +280,7 @@ public class PrebuiltIndexHandler {
     LOG.info("Finished unpacking {}. Final index location: {}.", this.entry.name, indexPath);
   }
 
-  private void setCachePaths(String cacheDirectory) {
+  private void resolveCachePaths(String cacheDirectory) {
     this.cacheDirectory = cacheDirectory;
     downloadFilePath = Path.of(cacheDirectory, this.entry.filename);
     String downloadFilePathString = downloadFilePath.toString();
@@ -301,7 +301,7 @@ public class PrebuiltIndexHandler {
 
   public Path getIndexPath() {
     if (indexPath == null) {
-      setCachePaths(CacheDirectoryResolver.getIndexCachePath().toString());
+      resolveCachePaths(CacheDirectoryResolver.getIndexCachePath().toString());
     }
 
     return this.indexPath;
