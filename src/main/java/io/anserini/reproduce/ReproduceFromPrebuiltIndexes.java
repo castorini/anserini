@@ -34,6 +34,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Stream;
+
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
@@ -44,7 +46,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import io.anserini.cli.CliUtils;
-
 import io.anserini.eval.TrecEval;
 import io.anserini.index.IndexReaderUtils;
 import io.anserini.util.LoggingBootstrap;
@@ -163,7 +164,7 @@ public class ReproduceFromPrebuiltIndexes {
       long totalBytes = 0L;
       long totalDownloadBytes = 0L;
       int presentCount = 0;
-      java.util.List<String[]> rows = new java.util.ArrayList<>(); // [name, downloadSize, sizeOnDisk, path]
+      List<String[]> rows = new ArrayList<>(); // [name, downloadSize, sizeOnDisk, path]
 
       for (String idx : uniqueIndexNames) {
         String name = idx;
@@ -392,8 +393,8 @@ public class ReproduceFromPrebuiltIndexes {
   private static Path resolveSingleSymlinkChild(Path p) throws IOException {
     Path pathForSize = p;
     if (Files.isDirectory(p)) {
-      try (java.util.stream.Stream<Path> children = Files.list(p)) {
-        java.util.List<Path> entries = children.toList();
+      try (Stream<Path> children = Files.list(p)) {
+        List<Path> entries = children.toList();
         if (entries.size() == 1 && Files.isSymbolicLink(entries.get(0))) {
           Path link = entries.get(0);
           // Try to resolve to an absolute path using toRealPath if possible.
