@@ -1100,12 +1100,18 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
         similarities.add(new TaggedSimilarity(new AxiomaticF2LOG(Float.parseFloat(s)), String.format("f2log(s=%s)", s)));
       }
     } else if (args.impact) {
-      similarities.add(new TaggedSimilarity(new ImpactSimilarity(), "impact()"));
-    } else {
-      throw new IllegalArgumentException("Error: Must specify scoring model!");
-    }
-    return similarities;
-  }
+  similarities.add(new TaggedSimilarity(new ImpactSimilarity(), "impact()"));
+} else {
+  System.out.println("[WARNING] No scoring model specified. Defaulting to BM25.");
+  args.bm25 = true;
+  similarities.add(new TaggedSimilarity(
+      new BM25Similarity(0.9f, 0.4f),
+      "bm25(k1=0.9,b=0.4)"
+  ));
+}
+
+return similarities;
+}
 
   private List<RerankerCascade<K>> constructRerankers() throws IOException {
     List<RerankerCascade<K>> cascades = new ArrayList<>();
