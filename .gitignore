@@ -82,4 +82,18 @@ tools/topics-and-qrels/qrels.covid-round2-cumulative.txt
 /src/main/frontend/*.tsbuildinfo
 /src/main/frontend/next-env.d.ts
 /src/main/python/onnx/models/*
+/src/main/frontend/next-env.d.ts
+/src/main/python/onnx/models/*
 
+# local experiments (safe to ignore)
+anserini-data/
+runs/
+logs/
+indexes/
+
+# generated outputs
+results*.txt
+topics*.txt
+
+# temporary scripts
+test_*.py
