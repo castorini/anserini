@@ -1,6 +1,38 @@
 conditions:
+  - name: bm25-slim
+    display: "BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index"
+    command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-passage-slim -topics $topics -output $output -hits 1000 -bm25
+    topics:
+      - topic_key: msmarco-v1-passage.dev
+        eval_key: msmarco-passage.dev
+        expected_scores:
+          MRR@10: 0.1840
+          R@1K: 0.8526
+        metric_definitions:
+          MRR@10: "-c -M 10 -m recip_rank"
+          R@1K: "-c -m recall.1000"
+      - topic_key: dl19-passage
+        eval_key: dl19-passage
+        expected_scores:
+          MAP: 0.3013
+          nDCG@10: 0.5058
+          R@1K: 0.7501
+        metric_definitions:
+          MAP: "-c -l 2 -m map"
+          nDCG@10: "-c -m ndcg_cut.10"
+          R@1K: "-c -l 2 -m recall.1000"
+      - topic_key: dl20-passage
+        eval_key: dl20-passage
+        expected_scores:
+          MAP: 0.2856
+          nDCG@10: 0.4796
+          R@1K: 0.7863
+        metric_definitions:
+          MAP: "-c -l 2 -m map"
+          nDCG@10: "-c -m ndcg_cut.10"
+          R@1K: "-c -l 2 -m recall.1000"
   - name: bm25
-    display: "BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
+    display: "BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), regular index"
     command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-passage -topics $topics -output $output -hits 1000 -bm25
     topics:
       - topic_key: msmarco-v1-passage.dev
@@ -27,6 +59,30 @@ conditions:
           MAP: 0.2856
           nDCG@10: 0.4796
           R@1K: 0.7863
+        metric_definitions:
+          MAP: "-c -l 2 -m map"
+          nDCG@10: "-c -m ndcg_cut.10"
+          R@1K: "-c -l 2 -m recall.1000"
+  - name: bm25-rocchio
+    display: "BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) + Rocchio, regular index"
+    command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-passage -topics $topics -output $output -hits 1000 -bm25 -rocchio -collection JsonCollection
+    topics:
+      - topic_key: dl19-passage
+        eval_key: dl19-passage
+        expected_scores:
+          MAP: 0.3474
+          nDCG@10: 0.5275
+          R@1K: 0.8007
+        metric_definitions:
+          MAP: "-c -l 2 -m map"
+          nDCG@10: "-c -m ndcg_cut.10"
+          R@1K: "-c -l 2 -m recall.1000"
+      - topic_key: dl20-passage
+        eval_key: dl20-passage
+        expected_scores:
+          MAP: 0.3115
+          nDCG@10: 0.4910
+          R@1K: 0.8156
         metric_definitions:
           MAP: "-c -l 2 -m map"
           nDCG@10: "-c -m ndcg_cut.10"
@@ -155,70 +211,6 @@ conditions:
           MAP: 0.4596
           nDCG@10: 0.6767
           R@1K: 0.8468
-        metric_definitions:
-          MAP: "-c -l 2 -m map"
-          nDCG@10: "-c -m ndcg_cut.10"
-          R@1K: "-c -l 2 -m recall.1000"
-  - name: bm25-slim
-    display: "BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index"
-    command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-passage-slim -topics $topics -output $output -hits 1000 -bm25
-    topics:
-      - topic_key: msmarco-v1-passage.dev
-        eval_key: msmarco-passage.dev
-        expected_scores:
-          MRR@10: 0.1840
-          R@1K: 0.8526
-        metric_definitions:
-          MRR@10: "-c -M 10 -m recip_rank"
-          R@1K: "-c -m recall.1000"
-      - topic_key: dl19-passage
-        eval_key: dl19-passage
-        expected_scores:
-          MAP: 0.3013
-          nDCG@10: 0.5058
-          R@1K: 0.7501
-        metric_definitions:
-          MAP: "-c -l 2 -m map"
-          nDCG@10: "-c -m ndcg_cut.10"
-          R@1K: "-c -l 2 -m recall.1000"
-      - topic_key: dl20-passage
-        eval_key: dl20-passage
-        expected_scores:
-          MAP: 0.2856
-          nDCG@10: 0.4796
-          R@1K: 0.7863
-        metric_definitions:
-          MAP: "-c -l 2 -m map"
-          nDCG@10: "-c -m ndcg_cut.10"
-          R@1K: "-c -l 2 -m recall.1000"
-  - name: bm25-full
-    display: "BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), full index"
-    command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-passage-full -topics $topics -output $output -hits 1000 -bm25
-    topics:
-      - topic_key: msmarco-v1-passage.dev
-        eval_key: msmarco-passage.dev
-        expected_scores:
-          MRR@10: 0.1840
-          R@1K: 0.8526
-        metric_definitions:
-          MRR@10: "-c -M 10 -m recip_rank"
-          R@1K: "-c -m recall.1000"
-      - topic_key: dl19-passage
-        eval_key: dl19-passage
-        expected_scores:
-          MAP: 0.3013
-          nDCG@10: 0.5058
-          R@1K: 0.7501
-        metric_definitions:
-          MAP: "-c -l 2 -m map"
-          nDCG@10: "-c -m ndcg_cut.10"
-          R@1K: "-c -l 2 -m recall.1000"
-      - topic_key: dl20-passage
-        eval_key: dl20-passage
-        expected_scores:
-          MAP: 0.2856
-          nDCG@10: 0.4796
-          R@1K: 0.7863
         metric_definitions:
           MAP: "-c -l 2 -m map"
           nDCG@10: "-c -m ndcg_cut.10"

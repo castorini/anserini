@@ -18,17 +18,19 @@ Key:
 
 | # | name | dev | DL19 | DL20 |
 | --- | --- | --- | --- | --- |
-| [1](#condition-1) | BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.2299 | 0.5176 | 0.5286 |
-| [2](#condition-2) | BM25 complete doc with doc2query-T5 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.2880 | 0.5968 | 0.5885 |
-| [3](#condition-3) | BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.2684 | 0.5302 | 0.5281 |
-| [4](#condition-4) | BM25 segmented doc with doc2query-T5 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.3179 | 0.6119 | 0.5957 |
-| [5](#condition-5) | uniCOIL with doc2query-T5 (ONNX) | 0.3531 | 0.6396 | 0.6033 |
-| [6](#condition-6) | BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index | 0.2299 | 0.5176 | 0.5286 |
-| [7](#condition-7) | BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), full index | 0.2299 | 0.5176 | 0.5286 |
-| [8](#condition-8) | BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index | 0.2684 | 0.5302 | 0.5281 |
-| [9](#condition-9) | BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), full index | 0.2684 | 0.5302 | 0.5281 |
+| [1](#condition-1) | BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index | 0.2299 | 0.5176 | 0.5286 |
+| [2](#condition-2) | BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), regular index | 0.2299 | 0.5176 | 0.5286 |
+| [3](#condition-3) | BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) + Rocchio, regular index |  | 0.5256 | 0.5192 |
+| [4](#condition-4) | BM25 complete doc with doc2query-T5 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.2880 | 0.5968 | 0.5885 |
+| [5](#condition-5) | BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index | 0.2684 | 0.5302 | 0.5281 |
+| [6](#condition-6) | BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), regular index | 0.2684 | 0.5302 | 0.5281 |
+| [7](#condition-7) | BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) + Rocchio, regular index |  | 0.5570 | 0.5226 |
+| [8](#condition-8) | BM25 segmented doc with doc2query-T5 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.3179 | 0.6119 | 0.5957 |
+| [9](#condition-9) | uniCOIL with doc2query-T5 (ONNX) | 0.3531 | 0.6396 | 0.6033 |
 
 
+
+The BM25 "slim index" does not contain the document texts, whereas the BM25 "regular index" does contain document texts (and hence supports pseudo-relevance feedback with on-the-fly document parsing).
 
 ## Commands
 
@@ -51,7 +53,77 @@ export jvm_args="-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules
 
 <a id="condition-1"></a>
 
-### 1. BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)
+### 1. BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index
+
+**Config**: [msmarco-v1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.yaml)
+
+#### msmarco-doc.dev
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index msmarco-v1-doc-slim \
+    -topics msmarco-doc.dev \
+    -output runs/run.msmarco-v1-doc.bm25-doc-default-slim.msmarco-doc.dev.txt \
+    -hits 1000 \
+    -bm25
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -M 100 -m recip_rank msmarco-doc.dev runs/run.msmarco-v1-doc.bm25-doc-default-slim.msmarco-doc.dev.txt
+```
+
+#### dl19-doc
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index msmarco-v1-doc-slim \
+    -topics dl19-doc \
+    -output runs/run.msmarco-v1-doc.bm25-doc-default-slim.dl19-doc.txt \
+    -hits 1000 \
+    -bm25
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -M 100 -m map dl19-doc runs/run.msmarco-v1-doc.bm25-doc-default-slim.dl19-doc.txt
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl19-doc runs/run.msmarco-v1-doc.bm25-doc-default-slim.dl19-doc.txt
+java -cp $fatjar trec_eval -c -m recall.1000 dl19-doc runs/run.msmarco-v1-doc.bm25-doc-default-slim.dl19-doc.txt
+```
+
+#### dl20-doc
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index msmarco-v1-doc-slim \
+    -topics dl20-doc \
+    -output runs/run.msmarco-v1-doc.bm25-doc-default-slim.dl20-doc.txt \
+    -hits 1000 \
+    -bm25
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -M 100 -m map dl20-doc runs/run.msmarco-v1-doc.bm25-doc-default-slim.dl20-doc.txt
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl20-doc runs/run.msmarco-v1-doc.bm25-doc-default-slim.dl20-doc.txt
+java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.bm25-doc-default-slim.dl20-doc.txt
+```
+
+<a id="condition-2"></a>
+
+### 2. BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), regular index
 
 **Config**: [msmarco-v1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.yaml)
 
@@ -119,9 +191,63 @@ java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl20-doc runs/run.msmarco-v1-doc.bm
 java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.bm25-doc-default.dl20-doc.txt
 ```
 
-<a id="condition-2"></a>
+<a id="condition-3"></a>
 
-### 2. BM25 complete doc with doc2query-T5 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)
+### 3. BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) + Rocchio, regular index
+
+**Config**: [msmarco-v1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.yaml)
+
+#### dl19-doc
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index msmarco-v1-doc \
+    -topics dl19-doc \
+    -output runs/run.msmarco-v1-doc.bm25-doc-default-rocchio.dl19-doc.txt \
+    -hits 1000 \
+    -bm25 \
+    -rocchio \
+    -collection JsonCollection
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -M 100 -m map dl19-doc runs/run.msmarco-v1-doc.bm25-doc-default-rocchio.dl19-doc.txt
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl19-doc runs/run.msmarco-v1-doc.bm25-doc-default-rocchio.dl19-doc.txt
+java -cp $fatjar trec_eval -c -m recall.1000 dl19-doc runs/run.msmarco-v1-doc.bm25-doc-default-rocchio.dl19-doc.txt
+```
+
+#### dl20-doc
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index msmarco-v1-doc \
+    -topics dl20-doc \
+    -output runs/run.msmarco-v1-doc.bm25-doc-default-rocchio.dl20-doc.txt \
+    -hits 1000 \
+    -bm25 \
+    -rocchio \
+    -collection JsonCollection
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -M 100 -m map dl20-doc runs/run.msmarco-v1-doc.bm25-doc-default-rocchio.dl20-doc.txt
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl20-doc runs/run.msmarco-v1-doc.bm25-doc-default-rocchio.dl20-doc.txt
+java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.bm25-doc-default-rocchio.dl20-doc.txt
+```
+
+<a id="condition-4"></a>
+
+### 4. BM25 complete doc with doc2query-T5 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)
 
 **Config**: [msmarco-v1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.yaml)
 
@@ -189,9 +315,94 @@ java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl20-doc runs/run.msmarco-v1-doc.bm
 java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.bm25-d2q-t5-doc-default.dl20-doc.txt
 ```
 
-<a id="condition-3"></a>
+<a id="condition-5"></a>
 
-### 3. BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)
+### 5. BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index
+
+**Config**: [msmarco-v1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.yaml)
+
+#### msmarco-doc.dev
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index msmarco-v1-doc-segmented-slim \
+    -topics msmarco-doc.dev \
+    -output runs/run.msmarco-v1-doc.bm25-doc-segmented-default-slim.msmarco-doc.dev.txt \
+    -bm25 \
+    -rocchio \
+    -collection JsonCollection \
+    -hits 10000 \
+    -selectMaxPassage \
+    -selectMaxPassage.delimiter \# \
+    -selectMaxPassage.hits 1000
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -M 100 -m recip_rank msmarco-doc.dev runs/run.msmarco-v1-doc.bm25-doc-segmented-default-slim.msmarco-doc.dev.txt
+```
+
+#### dl19-doc
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index msmarco-v1-doc-segmented-slim \
+    -topics dl19-doc \
+    -output runs/run.msmarco-v1-doc.bm25-doc-segmented-default-slim.dl19-doc.txt \
+    -bm25 \
+    -rocchio \
+    -collection JsonCollection \
+    -hits 10000 \
+    -selectMaxPassage \
+    -selectMaxPassage.delimiter \# \
+    -selectMaxPassage.hits 1000
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -M 100 -m map dl19-doc runs/run.msmarco-v1-doc.bm25-doc-segmented-default-slim.dl19-doc.txt
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl19-doc runs/run.msmarco-v1-doc.bm25-doc-segmented-default-slim.dl19-doc.txt
+java -cp $fatjar trec_eval -c -m recall.1000 dl19-doc runs/run.msmarco-v1-doc.bm25-doc-segmented-default-slim.dl19-doc.txt
+```
+
+#### dl20-doc
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index msmarco-v1-doc-segmented-slim \
+    -topics dl20-doc \
+    -output runs/run.msmarco-v1-doc.bm25-doc-segmented-default-slim.dl20-doc.txt \
+    -bm25 \
+    -rocchio \
+    -collection JsonCollection \
+    -hits 10000 \
+    -selectMaxPassage \
+    -selectMaxPassage.delimiter \# \
+    -selectMaxPassage.hits 1000
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -M 100 -m map dl20-doc runs/run.msmarco-v1-doc.bm25-doc-segmented-default-slim.dl20-doc.txt
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl20-doc runs/run.msmarco-v1-doc.bm25-doc-segmented-default-slim.dl20-doc.txt
+java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.bm25-doc-segmented-default-slim.dl20-doc.txt
+```
+
+<a id="condition-6"></a>
+
+### 6. BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), regular index
 
 **Config**: [msmarco-v1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.yaml)
 
@@ -268,9 +479,65 @@ java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl20-doc runs/run.msmarco-v1-doc.bm
 java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.bm25-doc-segmented-default.dl20-doc.txt
 ```
 
-<a id="condition-4"></a>
+<a id="condition-7"></a>
 
-### 4. BM25 segmented doc with doc2query-T5 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)
+### 7. BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) + Rocchio, regular index
+
+**Config**: [msmarco-v1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.yaml)
+
+#### dl19-doc
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index msmarco-v1-doc-segmented \
+    -topics dl19-doc \
+    -output runs/run.msmarco-v1-doc.bm25-doc-segmented-default.dl19-doc.txt \
+    -bm25 \
+    -hits 10000 \
+    -selectMaxPassage \
+    -selectMaxPassage.delimiter \# \
+    -selectMaxPassage.hits 1000
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -M 100 -m map dl19-doc runs/run.msmarco-v1-doc.bm25-doc-segmented-default.dl19-doc.txt
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl19-doc runs/run.msmarco-v1-doc.bm25-doc-segmented-default.dl19-doc.txt
+java -cp $fatjar trec_eval -c -m recall.1000 dl19-doc runs/run.msmarco-v1-doc.bm25-doc-segmented-default.dl19-doc.txt
+```
+
+#### dl20-doc
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index msmarco-v1-doc-segmented \
+    -topics dl20-doc \
+    -output runs/run.msmarco-v1-doc.bm25-doc-segmented-default.dl20-doc.txt \
+    -bm25 \
+    -hits 10000 \
+    -selectMaxPassage \
+    -selectMaxPassage.delimiter \# \
+    -selectMaxPassage.hits 1000
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -M 100 -m map dl20-doc runs/run.msmarco-v1-doc.bm25-doc-segmented-default.dl20-doc.txt
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl20-doc runs/run.msmarco-v1-doc.bm25-doc-segmented-default.dl20-doc.txt
+java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.bm25-doc-segmented-default.dl20-doc.txt
+```
+
+<a id="condition-8"></a>
+
+### 8. BM25 segmented doc with doc2query-T5 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)
 
 **Config**: [msmarco-v1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.yaml)
 
@@ -347,9 +614,9 @@ java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl20-doc runs/run.msmarco-v1-doc.bm
 java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.bm25-d2q-t5-doc-segmented-default.dl20-doc.txt
 ```
 
-<a id="condition-5"></a>
+<a id="condition-9"></a>
 
-### 5. uniCOIL with doc2query-T5 (ONNX)
+### 9. uniCOIL with doc2query-T5 (ONNX)
 
 **Config**: [msmarco-v1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.yaml)
 
@@ -430,304 +697,6 @@ Evaluation commands:
 java -cp $fatjar trec_eval -c -M 100 -m map dl20-doc runs/run.msmarco-v1-doc.unicoil.onnx.dl20-doc.txt
 java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl20-doc runs/run.msmarco-v1-doc.unicoil.onnx.dl20-doc.txt
 java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.unicoil.onnx.dl20-doc.txt
-```
-
-<a id="condition-6"></a>
-
-### 6. BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index
-
-**Config**: [msmarco-v1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.yaml)
-
-#### msmarco-doc.dev
-
-Retrieval command:
-
-```bash
-java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
-    -threads 16 \
-    -index msmarco-v1-doc-slim \
-    -topics msmarco-doc.dev \
-    -output runs/run.msmarco-v1-doc.bm25-doc-default-slim.msmarco-doc.dev.txt \
-    -hits 1000 \
-    -bm25
-```
-
-Evaluation commands:
-
-```bash
-java -cp $fatjar trec_eval -c -M 100 -m recip_rank msmarco-doc.dev runs/run.msmarco-v1-doc.bm25-doc-default-slim.msmarco-doc.dev.txt
-```
-
-#### dl19-doc
-
-Retrieval command:
-
-```bash
-java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
-    -threads 16 \
-    -index msmarco-v1-doc-slim \
-    -topics dl19-doc \
-    -output runs/run.msmarco-v1-doc.bm25-doc-default-slim.dl19-doc.txt \
-    -hits 1000 \
-    -bm25
-```
-
-Evaluation commands:
-
-```bash
-java -cp $fatjar trec_eval -c -M 100 -m map dl19-doc runs/run.msmarco-v1-doc.bm25-doc-default-slim.dl19-doc.txt
-java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl19-doc runs/run.msmarco-v1-doc.bm25-doc-default-slim.dl19-doc.txt
-java -cp $fatjar trec_eval -c -m recall.1000 dl19-doc runs/run.msmarco-v1-doc.bm25-doc-default-slim.dl19-doc.txt
-```
-
-#### dl20-doc
-
-Retrieval command:
-
-```bash
-java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
-    -threads 16 \
-    -index msmarco-v1-doc-slim \
-    -topics dl20-doc \
-    -output runs/run.msmarco-v1-doc.bm25-doc-default-slim.dl20-doc.txt \
-    -hits 1000 \
-    -bm25
-```
-
-Evaluation commands:
-
-```bash
-java -cp $fatjar trec_eval -c -M 100 -m map dl20-doc runs/run.msmarco-v1-doc.bm25-doc-default-slim.dl20-doc.txt
-java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl20-doc runs/run.msmarco-v1-doc.bm25-doc-default-slim.dl20-doc.txt
-java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.bm25-doc-default-slim.dl20-doc.txt
-```
-
-<a id="condition-7"></a>
-
-### 7. BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), full index
-
-**Config**: [msmarco-v1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.yaml)
-
-#### msmarco-doc.dev
-
-Retrieval command:
-
-```bash
-java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
-    -threads 16 \
-    -index msmarco-v1-doc-full \
-    -topics msmarco-doc.dev \
-    -output runs/run.msmarco-v1-doc.bm25-doc-default-full.msmarco-doc.dev.txt \
-    -hits 1000 \
-    -bm25
-```
-
-Evaluation commands:
-
-```bash
-java -cp $fatjar trec_eval -c -M 100 -m recip_rank msmarco-doc.dev runs/run.msmarco-v1-doc.bm25-doc-default-full.msmarco-doc.dev.txt
-```
-
-#### dl19-doc
-
-Retrieval command:
-
-```bash
-java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
-    -threads 16 \
-    -index msmarco-v1-doc-full \
-    -topics dl19-doc \
-    -output runs/run.msmarco-v1-doc.bm25-doc-default-full.dl19-doc.txt \
-    -hits 1000 \
-    -bm25
-```
-
-Evaluation commands:
-
-```bash
-java -cp $fatjar trec_eval -c -M 100 -m map dl19-doc runs/run.msmarco-v1-doc.bm25-doc-default-full.dl19-doc.txt
-java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl19-doc runs/run.msmarco-v1-doc.bm25-doc-default-full.dl19-doc.txt
-java -cp $fatjar trec_eval -c -m recall.1000 dl19-doc runs/run.msmarco-v1-doc.bm25-doc-default-full.dl19-doc.txt
-```
-
-#### dl20-doc
-
-Retrieval command:
-
-```bash
-java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
-    -threads 16 \
-    -index msmarco-v1-doc-full \
-    -topics dl20-doc \
-    -output runs/run.msmarco-v1-doc.bm25-doc-default-full.dl20-doc.txt \
-    -hits 1000 \
-    -bm25
-```
-
-Evaluation commands:
-
-```bash
-java -cp $fatjar trec_eval -c -M 100 -m map dl20-doc runs/run.msmarco-v1-doc.bm25-doc-default-full.dl20-doc.txt
-java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl20-doc runs/run.msmarco-v1-doc.bm25-doc-default-full.dl20-doc.txt
-java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.bm25-doc-default-full.dl20-doc.txt
-```
-
-<a id="condition-8"></a>
-
-### 8. BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index
-
-**Config**: [msmarco-v1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.yaml)
-
-#### msmarco-doc.dev
-
-Retrieval command:
-
-```bash
-java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
-    -threads 16 \
-    -index msmarco-v1-doc-segmented-slim \
-    -topics msmarco-doc.dev \
-    -output runs/run.msmarco-v1-doc.bm25-doc-segmented-default-slim.msmarco-doc.dev.txt \
-    -bm25 \
-    -hits 10000 \
-    -selectMaxPassage \
-    -selectMaxPassage.delimiter \# \
-    -selectMaxPassage.hits 1000
-```
-
-Evaluation commands:
-
-```bash
-java -cp $fatjar trec_eval -c -M 100 -m recip_rank msmarco-doc.dev runs/run.msmarco-v1-doc.bm25-doc-segmented-default-slim.msmarco-doc.dev.txt
-```
-
-#### dl19-doc
-
-Retrieval command:
-
-```bash
-java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
-    -threads 16 \
-    -index msmarco-v1-doc-segmented-slim \
-    -topics dl19-doc \
-    -output runs/run.msmarco-v1-doc.bm25-doc-segmented-default-slim.dl19-doc.txt \
-    -bm25 \
-    -hits 10000 \
-    -selectMaxPassage \
-    -selectMaxPassage.delimiter \# \
-    -selectMaxPassage.hits 1000
-```
-
-Evaluation commands:
-
-```bash
-java -cp $fatjar trec_eval -c -M 100 -m map dl19-doc runs/run.msmarco-v1-doc.bm25-doc-segmented-default-slim.dl19-doc.txt
-java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl19-doc runs/run.msmarco-v1-doc.bm25-doc-segmented-default-slim.dl19-doc.txt
-java -cp $fatjar trec_eval -c -m recall.1000 dl19-doc runs/run.msmarco-v1-doc.bm25-doc-segmented-default-slim.dl19-doc.txt
-```
-
-#### dl20-doc
-
-Retrieval command:
-
-```bash
-java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
-    -threads 16 \
-    -index msmarco-v1-doc-segmented-slim \
-    -topics dl20-doc \
-    -output runs/run.msmarco-v1-doc.bm25-doc-segmented-default-slim.dl20-doc.txt \
-    -bm25 \
-    -hits 10000 \
-    -selectMaxPassage \
-    -selectMaxPassage.delimiter \# \
-    -selectMaxPassage.hits 1000
-```
-
-Evaluation commands:
-
-```bash
-java -cp $fatjar trec_eval -c -M 100 -m map dl20-doc runs/run.msmarco-v1-doc.bm25-doc-segmented-default-slim.dl20-doc.txt
-java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl20-doc runs/run.msmarco-v1-doc.bm25-doc-segmented-default-slim.dl20-doc.txt
-java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.bm25-doc-segmented-default-slim.dl20-doc.txt
-```
-
-<a id="condition-9"></a>
-
-### 9. BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), full index
-
-**Config**: [msmarco-v1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.yaml)
-
-#### msmarco-doc.dev
-
-Retrieval command:
-
-```bash
-java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
-    -threads 16 \
-    -index msmarco-v1-doc-segmented-full \
-    -topics msmarco-doc.dev \
-    -output runs/run.msmarco-v1-doc.bm25-doc-segmented-default-full.msmarco-doc.dev.txt \
-    -bm25 \
-    -hits 10000 \
-    -selectMaxPassage \
-    -selectMaxPassage.delimiter \# \
-    -selectMaxPassage.hits 1000
-```
-
-Evaluation commands:
-
-```bash
-java -cp $fatjar trec_eval -c -M 100 -m recip_rank msmarco-doc.dev runs/run.msmarco-v1-doc.bm25-doc-segmented-default-full.msmarco-doc.dev.txt
-```
-
-#### dl19-doc
-
-Retrieval command:
-
-```bash
-java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
-    -threads 16 \
-    -index msmarco-v1-doc-segmented-full \
-    -topics dl19-doc \
-    -output runs/run.msmarco-v1-doc.bm25-doc-segmented-default-full.dl19-doc.txt \
-    -bm25 \
-    -hits 10000 \
-    -selectMaxPassage \
-    -selectMaxPassage.delimiter \# \
-    -selectMaxPassage.hits 1000
-```
-
-Evaluation commands:
-
-```bash
-java -cp $fatjar trec_eval -c -M 100 -m map dl19-doc runs/run.msmarco-v1-doc.bm25-doc-segmented-default-full.dl19-doc.txt
-java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl19-doc runs/run.msmarco-v1-doc.bm25-doc-segmented-default-full.dl19-doc.txt
-java -cp $fatjar trec_eval -c -m recall.1000 dl19-doc runs/run.msmarco-v1-doc.bm25-doc-segmented-default-full.dl19-doc.txt
-```
-
-#### dl20-doc
-
-Retrieval command:
-
-```bash
-java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
-    -threads 16 \
-    -index msmarco-v1-doc-segmented-full \
-    -topics dl20-doc \
-    -output runs/run.msmarco-v1-doc.bm25-doc-segmented-default-full.dl20-doc.txt \
-    -bm25 \
-    -hits 10000 \
-    -selectMaxPassage \
-    -selectMaxPassage.delimiter \# \
-    -selectMaxPassage.hits 1000
-```
-
-Evaluation commands:
-
-```bash
-java -cp $fatjar trec_eval -c -M 100 -m map dl20-doc runs/run.msmarco-v1-doc.bm25-doc-segmented-default-full.dl20-doc.txt
-java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl20-doc runs/run.msmarco-v1-doc.bm25-doc-segmented-default-full.dl20-doc.txt
-java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.bm25-doc-segmented-default-full.dl20-doc.txt
 ```
 
 
