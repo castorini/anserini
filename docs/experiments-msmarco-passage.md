@@ -108,7 +108,7 @@ On a modern desktop with an SSD, indexing takes a couple of minutes.
 On a circa 2022 MacBook Air with an Apple M2 processor and 24 GB RAM, indexing takes around 3 minutes.
 YMMV.
 
-If you run into out-of-memory issues, you might need dial down `-threads` (i.e., use fewer threads).
+If you run into out-of-memory issues, you might need to dial down `-threads` (i.e., use fewer threads).
 Or you might need to go into modify `run.sh` and tweak the `-Xms` and `-Xmx` memory settings.
 
 The inverted index consumes around 4 GB:
@@ -204,7 +204,7 @@ Since the first column indicates the `qid`, it means that the file contains rank
 
 ## Evaluation
 
-Finally, we can evaluate the retrieved documents using this the official MS MARCO evaluation script:
+Finally, we can evaluate the retrieved documents using the official MS MARCO evaluation script:
 
 ```bash
 python tools/scripts/msmarco/msmarco_passage_eval.py \
@@ -670,4 +670,6 @@ The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to th
 + Results reproduced by [@Hayanaanaa](https://github.com/Hayanaanaa) on 2026-06-01 (commit[`e67bf09`](https://github.com/castorini/anserini/commit/e67bf09934dd4d348b2578d1517475dc5defb18b))
 + Results reproduced by [@zxtomw](https://github.com/zxtomw) on 2026-06-06 (commit [`c96de33`](https://github.com/castorini/anserini/commit/c96de33cb1096e4294a4005a3a88324b2c8ef518))
 + Results reproduced by [@rhea2801](https://github.com/rhea2801) on 2026-06-06 (commit [`147521d`](https://github.com/castorini/anserini/commit/147521da48a3b71cf359fd35e32c0fff7fe86eb8))
++ Results reproduced by [@kenoi1](https://github.com/kenoi1) on 2026-06-11 (commit [`6663a15`](https://github.com/castorini/anserini/commit/6663a15bffe0242e927c53744e5b140ce1a0bcba))
++ Results reproduced by [@nayanananto](https://github.com/nayanananto) on 2026-06-12 (commit [`6caf7e8`](https://github.com/castorini/anserini/commit/6caf7e863b6d5758e96d326ca69c45e16ec2decb))
 

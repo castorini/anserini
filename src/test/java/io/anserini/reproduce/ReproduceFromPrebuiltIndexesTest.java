@@ -104,6 +104,29 @@ public class ReproduceFromPrebuiltIndexesTest extends StdOutStdErrRedirectableLu
   }
 
   @Test
+  public void testDryRunOmitsPathForMissingPrebuiltIndex() throws Exception {
+    Path cacheDirectory = createTempDir("pyserini-cache");
+    String previousCacheDirectory = System.getProperty(CacheDirectoryResolver.CACHE_PROPERTY);
+
+    try {
+      System.setProperty(CacheDirectoryResolver.CACHE_PROPERTY, cacheDirectory.toString());
+
+      ReproduceFromPrebuiltIndexes.main(new String[] {"--config", "cacm", "--dry-run"});
+    } finally {
+      if (previousCacheDirectory == null) {
+        System.clearProperty(CacheDirectoryResolver.CACHE_PROPERTY);
+      } else {
+        System.setProperty(CacheDirectoryResolver.CACHE_PROPERTY, previousCacheDirectory);
+      }
+    }
+
+    String output = out.toString();
+    assertTrue(output, output.contains("Indexes referenced by this run (1 total):"));
+    assertTrue(output, output.matches("(?s).*\\ncacm\\s+[0-9.]+ [A-Z]+B\\s+-\\s+-\\s*\\n.*"));
+    assertFalse(output, output.contains(cacheDirectory.resolve("indexes").toString()));
+  }
+
+  @Test
   public void testBeirDryRunReportsPlainTarIndexSize() throws Exception {
     Path cacheDirectory = createTempDir("pyserini-cache");
     String previousCacheDirectory = System.getProperty(CacheDirectoryResolver.CACHE_PROPERTY);
@@ -130,7 +153,8 @@ public class ReproduceFromPrebuiltIndexesTest extends StdOutStdErrRedirectableLu
 
     String output = out.toString();
     assertTrue(output, output.contains("beir-v1.0.0-trec-covid.bge-base-en-v1.5.flat"));
-    assertTrue(output, output.matches("(?s).*beir-v1\\.0\\.0-trec-covid\\.bge-base-en-v1\\.5\\.flat\\s+6\\.0 B\\s+506\\.5 MB.*"));
+    assertTrue(output, output.matches("(?s).*beir-v1\\.0\\.0-trec-covid\\.bge-base-en-v1\\.5\\.flat\\s+506\\.5 MB\\s+6\\.0 B.*"));
+    assertTrue(output, output.contains(indexDirectory.toAbsolutePath().toString()));
   }
 
   @Test
