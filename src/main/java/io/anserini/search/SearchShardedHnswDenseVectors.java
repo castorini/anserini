@@ -118,14 +118,19 @@ public final class SearchShardedHnswDenseVectors<K extends Comparable<K>> implem
   public void run() {
     LOG.info("============ Running Sharded Search ============");
 
-    List<String> shardOutputPaths = new ArrayList<>();
+    List<String> shardOutputPaths = IntStream.range(0, searchers.size())
+        .mapToObj(i -> {
+          String shardSuffix = ".shard" + String.format("%02d", i);
+          if (args.output.endsWith(".txt")) {
+            return args.output.substring(0, args.output.length() - ".txt".length()) + shardSuffix + ".txt";
+          }
+          return args.output + shardSuffix;
+        })
+        .toList();
+
     IntStream.range(0, searchers.size()).parallel().forEach(i -> {
       SearchHnswDenseVectors<K> searcher = searchers.get(i);
-      String shardOutputPath = args.output.replaceFirst("\\.txt$", ".shard" + String.format("%02d", i) + ".txt");
-      if (!args.output.endsWith(".txt")) {
-        shardOutputPath = args.output + ".shard" + String.format("%02d", i);
-      }
-      shardOutputPaths.add(shardOutputPath);
+      String shardOutputPath = shardOutputPaths.get(i);
       LOG.info("Processing shard {} -> {}", i, shardOutputPath);
 
       searcher.args.output = shardOutputPath;
