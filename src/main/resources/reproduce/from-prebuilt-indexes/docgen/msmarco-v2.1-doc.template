@@ -21,6 +21,8 @@ Key:
 
 ${summary}
 
+The BM25 "slim index" does not contain the document texts, whereas the BM25 "regular index" does contain document texts (and hence supports pseudo-relevance feedback with on-the-fly document parsing).
+
 ## Commands
 
 In the commands below:

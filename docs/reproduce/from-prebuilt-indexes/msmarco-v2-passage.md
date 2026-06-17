@@ -20,13 +20,14 @@ Key:
 
 | # | name | dev | dev2 | DL21 | DL22 | DL23 |
 | --- | --- | --- | --- | --- | --- | --- |
-| [1](#condition-1) | BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.0719 | 0.0802 | 0.4458 | 0.2692 | 0.2627 |
-| [2](#condition-2) | BM25 with doc2query-T5 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.1072 | 0.1123 | 0.4816 | 0.3599 | 0.3156 |
-| [3](#condition-3) | uniCOIL with doc2query-T5 (ONNX) | 0.1499 | 0.1577 | 0.6159 | 0.4614 | 0.3855 |
-| [4](#condition-4) | BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index | 0.0719 | 0.0802 | 0.4458 | 0.2692 | 0.2627 |
-| [5](#condition-5) | BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), full index | 0.0719 | 0.0802 | 0.4458 | 0.2692 | 0.2627 |
+| [1](#condition-1) | BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index | 0.0719 | 0.0802 | 0.4458 | 0.2692 | 0.2627 |
+| [2](#condition-2) | BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), regular index | 0.0719 | 0.0802 | 0.4458 | 0.2692 | 0.2627 |
+| [3](#condition-3) | BM25 with doc2query-T5 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.1072 | 0.1123 | 0.4816 | 0.3599 | 0.3156 |
+| [4](#condition-4) | uniCOIL with doc2query-T5 (ONNX) | 0.1499 | 0.1577 | 0.6159 | 0.4614 | 0.3855 |
 
 
+
+The BM25 "slim index" does not contain the document texts, whereas the BM25 "regular index" does contain document texts (and hence supports pseudo-relevance feedback with on-the-fly document parsing).
 
 ## Commands
 
@@ -49,7 +50,125 @@ export jvm_args="-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules
 
 <a id="condition-1"></a>
 
-### 1. BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)
+### 1. BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index
+
+**Config**: [msmarco-v2-passage.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-passage.yaml)
+
+#### msmarco-v2-passage.dev
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index msmarco-v2-passage-slim \
+    -topics msmarco-v2-passage.dev \
+    -output runs/run.msmarco-v2-passage.bm25-slim.msmarco-v2-passage.dev.txt \
+    -hits 1000 \
+    -bm25
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -M 100 -m recip_rank msmarco-v2-passage.dev runs/run.msmarco-v2-passage.bm25-slim.msmarco-v2-passage.dev.txt
+```
+
+#### msmarco-v2-passage.dev2
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index msmarco-v2-passage-slim \
+    -topics msmarco-v2-passage.dev2 \
+    -output runs/run.msmarco-v2-passage.bm25-slim.msmarco-v2-passage.dev2.txt \
+    -hits 1000 \
+    -bm25
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -M 100 -m recip_rank msmarco-v2-passage.dev2 runs/run.msmarco-v2-passage.bm25-slim.msmarco-v2-passage.dev2.txt
+```
+
+#### dl21
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index msmarco-v2-passage-slim \
+    -topics dl21 \
+    -output runs/run.msmarco-v2-passage.bm25-slim.dl21.txt \
+    -hits 1000 \
+    -bm25
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -M 100 -m map -l 2 dl21-passage runs/run.msmarco-v2-passage.bm25-slim.dl21.txt
+java -cp $fatjar trec_eval -c -M 100 -m recip_rank -l 2 dl21-passage runs/run.msmarco-v2-passage.bm25-slim.dl21.txt
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl21-passage runs/run.msmarco-v2-passage.bm25-slim.dl21.txt
+java -cp $fatjar trec_eval -c -m recall.100 -l 2 dl21-passage runs/run.msmarco-v2-passage.bm25-slim.dl21.txt
+java -cp $fatjar trec_eval -c -m recall.1000 -l 2 dl21-passage runs/run.msmarco-v2-passage.bm25-slim.dl21.txt
+```
+
+#### dl22
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index msmarco-v2-passage-slim \
+    -topics dl22 \
+    -output runs/run.msmarco-v2-passage.bm25-slim.dl22.txt \
+    -hits 1000 \
+    -bm25
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -M 100 -m map -l 2 dl22-passage runs/run.msmarco-v2-passage.bm25-slim.dl22.txt
+java -cp $fatjar trec_eval -c -M 100 -m recip_rank -l 2 dl22-passage runs/run.msmarco-v2-passage.bm25-slim.dl22.txt
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl22-passage runs/run.msmarco-v2-passage.bm25-slim.dl22.txt
+java -cp $fatjar trec_eval -c -m recall.100 -l 2 dl22-passage runs/run.msmarco-v2-passage.bm25-slim.dl22.txt
+java -cp $fatjar trec_eval -c -m recall.1000 -l 2 dl22-passage runs/run.msmarco-v2-passage.bm25-slim.dl22.txt
+```
+
+#### dl23
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index msmarco-v2-passage-slim \
+    -topics dl23 \
+    -output runs/run.msmarco-v2-passage.bm25-slim.dl23.txt \
+    -hits 1000 \
+    -bm25
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -M 100 -m map -l 2 dl23-passage runs/run.msmarco-v2-passage.bm25-slim.dl23.txt
+java -cp $fatjar trec_eval -c -M 100 -m recip_rank -l 2 dl23-passage runs/run.msmarco-v2-passage.bm25-slim.dl23.txt
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl23-passage runs/run.msmarco-v2-passage.bm25-slim.dl23.txt
+java -cp $fatjar trec_eval -c -m recall.100 -l 2 dl23-passage runs/run.msmarco-v2-passage.bm25-slim.dl23.txt
+java -cp $fatjar trec_eval -c -m recall.1000 -l 2 dl23-passage runs/run.msmarco-v2-passage.bm25-slim.dl23.txt
+```
+
+<a id="condition-2"></a>
+
+### 2. BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), regular index
 
 **Config**: [msmarco-v2-passage.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-passage.yaml)
 
@@ -165,9 +284,9 @@ java -cp $fatjar trec_eval -c -m recall.100 -l 2 dl23-passage runs/run.msmarco-v
 java -cp $fatjar trec_eval -c -m recall.1000 -l 2 dl23-passage runs/run.msmarco-v2-passage.bm25.dl23.txt
 ```
 
-<a id="condition-2"></a>
+<a id="condition-3"></a>
 
-### 2. BM25 with doc2query-T5 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)
+### 3. BM25 with doc2query-T5 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)
 
 **Config**: [msmarco-v2-passage.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-passage.yaml)
 
@@ -283,9 +402,9 @@ java -cp $fatjar trec_eval -c -m recall.100 -l 2 dl23-passage runs/run.msmarco-v
 java -cp $fatjar trec_eval -c -m recall.1000 -l 2 dl23-passage runs/run.msmarco-v2-passage.bm25-d2q-t5.dl23.txt
 ```
 
-<a id="condition-3"></a>
+<a id="condition-4"></a>
 
-### 3. uniCOIL with doc2query-T5 (ONNX)
+### 4. uniCOIL with doc2query-T5 (ONNX)
 
 **Config**: [msmarco-v2-passage.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-passage.yaml)
 
@@ -409,242 +528,6 @@ java -cp $fatjar trec_eval -c -M 100 -m recip_rank -l 2 dl23-passage runs/run.ms
 java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl23-passage runs/run.msmarco-v2-passage.unicoil.onnx.dl23.txt
 java -cp $fatjar trec_eval -c -m recall.100 -l 2 dl23-passage runs/run.msmarco-v2-passage.unicoil.onnx.dl23.txt
 java -cp $fatjar trec_eval -c -m recall.1000 -l 2 dl23-passage runs/run.msmarco-v2-passage.unicoil.onnx.dl23.txt
-```
-
-<a id="condition-4"></a>
-
-### 4. BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index
-
-**Config**: [msmarco-v2-passage.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-passage.yaml)
-
-#### msmarco-v2-passage.dev
-
-Retrieval command:
-
-```bash
-java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
-    -threads 16 \
-    -index msmarco-v2-passage-slim \
-    -topics msmarco-v2-passage.dev \
-    -output runs/run.msmarco-v2-passage.bm25-slim.msmarco-v2-passage.dev.txt \
-    -hits 1000 \
-    -bm25
-```
-
-Evaluation commands:
-
-```bash
-java -cp $fatjar trec_eval -c -M 100 -m recip_rank msmarco-v2-passage.dev runs/run.msmarco-v2-passage.bm25-slim.msmarco-v2-passage.dev.txt
-```
-
-#### msmarco-v2-passage.dev2
-
-Retrieval command:
-
-```bash
-java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
-    -threads 16 \
-    -index msmarco-v2-passage-slim \
-    -topics msmarco-v2-passage.dev2 \
-    -output runs/run.msmarco-v2-passage.bm25-slim.msmarco-v2-passage.dev2.txt \
-    -hits 1000 \
-    -bm25
-```
-
-Evaluation commands:
-
-```bash
-java -cp $fatjar trec_eval -c -M 100 -m recip_rank msmarco-v2-passage.dev2 runs/run.msmarco-v2-passage.bm25-slim.msmarco-v2-passage.dev2.txt
-```
-
-#### dl21
-
-Retrieval command:
-
-```bash
-java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
-    -threads 16 \
-    -index msmarco-v2-passage-slim \
-    -topics dl21 \
-    -output runs/run.msmarco-v2-passage.bm25-slim.dl21.txt \
-    -hits 1000 \
-    -bm25
-```
-
-Evaluation commands:
-
-```bash
-java -cp $fatjar trec_eval -c -M 100 -m map -l 2 dl21-passage runs/run.msmarco-v2-passage.bm25-slim.dl21.txt
-java -cp $fatjar trec_eval -c -M 100 -m recip_rank -l 2 dl21-passage runs/run.msmarco-v2-passage.bm25-slim.dl21.txt
-java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl21-passage runs/run.msmarco-v2-passage.bm25-slim.dl21.txt
-java -cp $fatjar trec_eval -c -m recall.100 -l 2 dl21-passage runs/run.msmarco-v2-passage.bm25-slim.dl21.txt
-java -cp $fatjar trec_eval -c -m recall.1000 -l 2 dl21-passage runs/run.msmarco-v2-passage.bm25-slim.dl21.txt
-```
-
-#### dl22
-
-Retrieval command:
-
-```bash
-java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
-    -threads 16 \
-    -index msmarco-v2-passage-slim \
-    -topics dl22 \
-    -output runs/run.msmarco-v2-passage.bm25-slim.dl22.txt \
-    -hits 1000 \
-    -bm25
-```
-
-Evaluation commands:
-
-```bash
-java -cp $fatjar trec_eval -c -M 100 -m map -l 2 dl22-passage runs/run.msmarco-v2-passage.bm25-slim.dl22.txt
-java -cp $fatjar trec_eval -c -M 100 -m recip_rank -l 2 dl22-passage runs/run.msmarco-v2-passage.bm25-slim.dl22.txt
-java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl22-passage runs/run.msmarco-v2-passage.bm25-slim.dl22.txt
-java -cp $fatjar trec_eval -c -m recall.100 -l 2 dl22-passage runs/run.msmarco-v2-passage.bm25-slim.dl22.txt
-java -cp $fatjar trec_eval -c -m recall.1000 -l 2 dl22-passage runs/run.msmarco-v2-passage.bm25-slim.dl22.txt
-```
-
-#### dl23
-
-Retrieval command:
-
-```bash
-java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
-    -threads 16 \
-    -index msmarco-v2-passage-slim \
-    -topics dl23 \
-    -output runs/run.msmarco-v2-passage.bm25-slim.dl23.txt \
-    -hits 1000 \
-    -bm25
-```
-
-Evaluation commands:
-
-```bash
-java -cp $fatjar trec_eval -c -M 100 -m map -l 2 dl23-passage runs/run.msmarco-v2-passage.bm25-slim.dl23.txt
-java -cp $fatjar trec_eval -c -M 100 -m recip_rank -l 2 dl23-passage runs/run.msmarco-v2-passage.bm25-slim.dl23.txt
-java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl23-passage runs/run.msmarco-v2-passage.bm25-slim.dl23.txt
-java -cp $fatjar trec_eval -c -m recall.100 -l 2 dl23-passage runs/run.msmarco-v2-passage.bm25-slim.dl23.txt
-java -cp $fatjar trec_eval -c -m recall.1000 -l 2 dl23-passage runs/run.msmarco-v2-passage.bm25-slim.dl23.txt
-```
-
-<a id="condition-5"></a>
-
-### 5. BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), full index
-
-**Config**: [msmarco-v2-passage.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-passage.yaml)
-
-#### msmarco-v2-passage.dev
-
-Retrieval command:
-
-```bash
-java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
-    -threads 16 \
-    -index msmarco-v2-passage-full \
-    -topics msmarco-v2-passage.dev \
-    -output runs/run.msmarco-v2-passage.bm25-full.msmarco-v2-passage.dev.txt \
-    -hits 1000 \
-    -bm25
-```
-
-Evaluation commands:
-
-```bash
-java -cp $fatjar trec_eval -c -M 100 -m recip_rank msmarco-v2-passage.dev runs/run.msmarco-v2-passage.bm25-full.msmarco-v2-passage.dev.txt
-```
-
-#### msmarco-v2-passage.dev2
-
-Retrieval command:
-
-```bash
-java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
-    -threads 16 \
-    -index msmarco-v2-passage-full \
-    -topics msmarco-v2-passage.dev2 \
-    -output runs/run.msmarco-v2-passage.bm25-full.msmarco-v2-passage.dev2.txt \
-    -hits 1000 \
-    -bm25
-```
-
-Evaluation commands:
-
-```bash
-java -cp $fatjar trec_eval -c -M 100 -m recip_rank msmarco-v2-passage.dev2 runs/run.msmarco-v2-passage.bm25-full.msmarco-v2-passage.dev2.txt
-```
-
-#### dl21
-
-Retrieval command:
-
-```bash
-java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
-    -threads 16 \
-    -index msmarco-v2-passage-full \
-    -topics dl21 \
-    -output runs/run.msmarco-v2-passage.bm25-full.dl21.txt \
-    -hits 1000 \
-    -bm25
-```
-
-Evaluation commands:
-
-```bash
-java -cp $fatjar trec_eval -c -M 100 -m map -l 2 dl21-passage runs/run.msmarco-v2-passage.bm25-full.dl21.txt
-java -cp $fatjar trec_eval -c -M 100 -m recip_rank -l 2 dl21-passage runs/run.msmarco-v2-passage.bm25-full.dl21.txt
-java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl21-passage runs/run.msmarco-v2-passage.bm25-full.dl21.txt
-java -cp $fatjar trec_eval -c -m recall.100 -l 2 dl21-passage runs/run.msmarco-v2-passage.bm25-full.dl21.txt
-java -cp $fatjar trec_eval -c -m recall.1000 -l 2 dl21-passage runs/run.msmarco-v2-passage.bm25-full.dl21.txt
-```
-
-#### dl22
-
-Retrieval command:
-
-```bash
-java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
-    -threads 16 \
-    -index msmarco-v2-passage-full \
-    -topics dl22 \
-    -output runs/run.msmarco-v2-passage.bm25-full.dl22.txt \
-    -hits 1000 \
-    -bm25
-```
-
-Evaluation commands:
-
-```bash
-java -cp $fatjar trec_eval -c -M 100 -m map -l 2 dl22-passage runs/run.msmarco-v2-passage.bm25-full.dl22.txt
-java -cp $fatjar trec_eval -c -M 100 -m recip_rank -l 2 dl22-passage runs/run.msmarco-v2-passage.bm25-full.dl22.txt
-java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl22-passage runs/run.msmarco-v2-passage.bm25-full.dl22.txt
-java -cp $fatjar trec_eval -c -m recall.100 -l 2 dl22-passage runs/run.msmarco-v2-passage.bm25-full.dl22.txt
-java -cp $fatjar trec_eval -c -m recall.1000 -l 2 dl22-passage runs/run.msmarco-v2-passage.bm25-full.dl22.txt
-```
-
-#### dl23
-
-Retrieval command:
-
-```bash
-java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
-    -threads 16 \
-    -index msmarco-v2-passage-full \
-    -topics dl23 \
-    -output runs/run.msmarco-v2-passage.bm25-full.dl23.txt \
-    -hits 1000 \
-    -bm25
-```
-
-Evaluation commands:
-
-```bash
-java -cp $fatjar trec_eval -c -M 100 -m map -l 2 dl23-passage runs/run.msmarco-v2-passage.bm25-full.dl23.txt
-java -cp $fatjar trec_eval -c -M 100 -m recip_rank -l 2 dl23-passage runs/run.msmarco-v2-passage.bm25-full.dl23.txt
-java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl23-passage runs/run.msmarco-v2-passage.bm25-full.dl23.txt
-java -cp $fatjar trec_eval -c -m recall.100 -l 2 dl23-passage runs/run.msmarco-v2-passage.bm25-full.dl23.txt
-java -cp $fatjar trec_eval -c -m recall.1000 -l 2 dl23-passage runs/run.msmarco-v2-passage.bm25-full.dl23.txt
 ```
 
 

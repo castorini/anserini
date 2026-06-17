@@ -332,8 +332,6 @@ java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -topics msmarco-doc.dev \
     -output runs/run.msmarco-v1-doc.bm25-doc-segmented-default-slim.msmarco-doc.dev.txt \
     -bm25 \
-    -rocchio \
-    -collection JsonCollection \
     -hits 10000 \
     -selectMaxPassage \
     -selectMaxPassage.delimiter \# \
@@ -357,8 +355,6 @@ java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -topics dl19-doc \
     -output runs/run.msmarco-v1-doc.bm25-doc-segmented-default-slim.dl19-doc.txt \
     -bm25 \
-    -rocchio \
-    -collection JsonCollection \
     -hits 10000 \
     -selectMaxPassage \
     -selectMaxPassage.delimiter \# \
@@ -384,8 +380,6 @@ java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -topics dl20-doc \
     -output runs/run.msmarco-v1-doc.bm25-doc-segmented-default-slim.dl20-doc.txt \
     -bm25 \
-    -rocchio \
-    -collection JsonCollection \
     -hits 10000 \
     -selectMaxPassage \
     -selectMaxPassage.delimiter \# \
@@ -494,8 +488,10 @@ java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
     -index msmarco-v1-doc-segmented \
     -topics dl19-doc \
-    -output runs/run.msmarco-v1-doc.bm25-doc-segmented-default.dl19-doc.txt \
+    -output runs/run.msmarco-v1-doc.bm25-doc-segmented-default-rocchio.dl19-doc.txt \
     -bm25 \
+    -rocchio \
+    -collection JsonCollection \
     -hits 10000 \
     -selectMaxPassage \
     -selectMaxPassage.delimiter \# \
@@ -505,9 +501,9 @@ java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
 Evaluation commands:
 
 ```bash
-java -cp $fatjar trec_eval -c -M 100 -m map dl19-doc runs/run.msmarco-v1-doc.bm25-doc-segmented-default.dl19-doc.txt
-java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl19-doc runs/run.msmarco-v1-doc.bm25-doc-segmented-default.dl19-doc.txt
-java -cp $fatjar trec_eval -c -m recall.1000 dl19-doc runs/run.msmarco-v1-doc.bm25-doc-segmented-default.dl19-doc.txt
+java -cp $fatjar trec_eval -c -M 100 -m map dl19-doc runs/run.msmarco-v1-doc.bm25-doc-segmented-default-rocchio.dl19-doc.txt
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl19-doc runs/run.msmarco-v1-doc.bm25-doc-segmented-default-rocchio.dl19-doc.txt
+java -cp $fatjar trec_eval -c -m recall.1000 dl19-doc runs/run.msmarco-v1-doc.bm25-doc-segmented-default-rocchio.dl19-doc.txt
 ```
 
 #### dl20-doc
@@ -519,8 +515,10 @@ java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
     -index msmarco-v1-doc-segmented \
     -topics dl20-doc \
-    -output runs/run.msmarco-v1-doc.bm25-doc-segmented-default.dl20-doc.txt \
+    -output runs/run.msmarco-v1-doc.bm25-doc-segmented-default-rocchio.dl20-doc.txt \
     -bm25 \
+    -rocchio \
+    -collection JsonCollection \
     -hits 10000 \
     -selectMaxPassage \
     -selectMaxPassage.delimiter \# \
@@ -530,9 +528,9 @@ java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
 Evaluation commands:
 
 ```bash
-java -cp $fatjar trec_eval -c -M 100 -m map dl20-doc runs/run.msmarco-v1-doc.bm25-doc-segmented-default.dl20-doc.txt
-java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl20-doc runs/run.msmarco-v1-doc.bm25-doc-segmented-default.dl20-doc.txt
-java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.bm25-doc-segmented-default.dl20-doc.txt
+java -cp $fatjar trec_eval -c -M 100 -m map dl20-doc runs/run.msmarco-v1-doc.bm25-doc-segmented-default-rocchio.dl20-doc.txt
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl20-doc runs/run.msmarco-v1-doc.bm25-doc-segmented-default-rocchio.dl20-doc.txt
+java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.bm25-doc-segmented-default-rocchio.dl20-doc.txt
 ```
 
 <a id="condition-8"></a>

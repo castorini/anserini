@@ -115,7 +115,7 @@ conditions:
           R@1K: "-c -m recall.1000"
   - name: bm25-doc-segmented-default-slim
     display: "BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index"
-    command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-doc-segmented-slim -topics $topics -output $output -bm25 -rocchio -collection JsonCollection -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
+    command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-doc-segmented-slim -topics $topics -output $output -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
     topics:
       - topic_key: msmarco-doc.dev
         eval_key: msmarco-doc.dev
@@ -173,9 +173,9 @@ conditions:
           AP@100: "-c -M 100 -m map"
           nDCG@10: "-c -m ndcg_cut.10"
           R@1K: "-c -m recall.1000"
-  - name: bm25-doc-segmented-default
+  - name: bm25-doc-segmented-default-rocchio
     display: "BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) + Rocchio, regular index"
-    command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-doc-segmented -topics $topics -output $output -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
+    command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-doc-segmented -topics $topics -output $output -bm25 -rocchio -collection JsonCollection -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter \# -selectMaxPassage.hits 1000
     topics:
       - topic_key: dl19-doc
         eval_key: dl19-doc
