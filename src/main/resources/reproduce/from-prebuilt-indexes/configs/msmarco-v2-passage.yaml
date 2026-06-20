@@ -1,6 +1,64 @@
 conditions:
+  - name: bm25-slim
+    display: "BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index"
+    command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v2-passage-slim -topics $topics -output $output -hits 1000 -bm25
+    topics:
+      - topic_key: msmarco-v2-passage.dev
+        eval_key: msmarco-v2-passage.dev
+        expected_scores:
+          MRR@100: 0.0719
+        metric_definitions:
+          MRR@100: "-c -M 100 -m recip_rank"
+      - topic_key: msmarco-v2-passage.dev2
+        eval_key: msmarco-v2-passage.dev2
+        expected_scores:
+          MRR@100: 0.0802
+        metric_definitions:
+          MRR@100: "-c -M 100 -m recip_rank"
+      - topic_key: dl21
+        eval_key: dl21-passage
+        expected_scores:
+          MAP@100: 0.1357
+          MRR@100: 0.5060
+          nDCG@10: 0.4458
+          R@100: 0.3261
+          R@1K: 0.6149
+        metric_definitions:
+          MAP@100: "-c -M 100 -m map -l 2"
+          MRR@100: "-c -M 100 -m recip_rank -l 2"
+          nDCG@10: "-c -m ndcg_cut.10"
+          R@100: "-c -m recall.100 -l 2"
+          R@1K: "-c -m recall.1000 -l 2"
+      - topic_key: dl22
+        eval_key: dl22-passage
+        expected_scores:
+          MAP@100: 0.0325
+          MRR@100: 0.3256
+          nDCG@10: 0.2692
+          R@100: 0.1382
+          R@1K: 0.3321
+        metric_definitions:
+          MAP@100: "-c -M 100 -m map -l 2"
+          MRR@100: "-c -M 100 -m recip_rank -l 2"
+          nDCG@10: "-c -m ndcg_cut.10"
+          R@100: "-c -m recall.100 -l 2"
+          R@1K: "-c -m recall.1000 -l 2"
+      - topic_key: dl23
+        eval_key: dl23-passage
+        expected_scores:
+          MAP@100: 0.0793
+          MRR@100: 0.3803
+          nDCG@10: 0.2627
+          R@100: 0.2329
+          R@1K: 0.4346
+        metric_definitions:
+          MAP@100: "-c -M 100 -m map -l 2"
+          MRR@100: "-c -M 100 -m recip_rank -l 2"
+          nDCG@10: "-c -m ndcg_cut.10"
+          R@100: "-c -m recall.100 -l 2"
+          R@1K: "-c -m recall.1000 -l 2"
   - name: bm25
-    display: "BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)"
+    display: "BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), regular index"
     command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v2-passage -topics $topics -output $output -hits 1000 -bm25
     topics:
       - topic_key: msmarco-v2-passage.dev
@@ -167,122 +225,6 @@ conditions:
           nDCG@10: 0.3855
           R@100: 0.3293
           R@1K: 0.5541
-        metric_definitions:
-          MAP@100: "-c -M 100 -m map -l 2"
-          MRR@100: "-c -M 100 -m recip_rank -l 2"
-          nDCG@10: "-c -m ndcg_cut.10"
-          R@100: "-c -m recall.100 -l 2"
-          R@1K: "-c -m recall.1000 -l 2"
-  - name: bm25-slim
-    display: "BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index"
-    command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v2-passage-slim -topics $topics -output $output -hits 1000 -bm25
-    topics:
-      - topic_key: msmarco-v2-passage.dev
-        eval_key: msmarco-v2-passage.dev
-        expected_scores:
-          MRR@100: 0.0719
-        metric_definitions:
-          MRR@100: "-c -M 100 -m recip_rank"
-      - topic_key: msmarco-v2-passage.dev2
-        eval_key: msmarco-v2-passage.dev2
-        expected_scores:
-          MRR@100: 0.0802
-        metric_definitions:
-          MRR@100: "-c -M 100 -m recip_rank"
-      - topic_key: dl21
-        eval_key: dl21-passage
-        expected_scores:
-          MAP@100: 0.1357
-          MRR@100: 0.5060
-          nDCG@10: 0.4458
-          R@100: 0.3261
-          R@1K: 0.6149
-        metric_definitions:
-          MAP@100: "-c -M 100 -m map -l 2"
-          MRR@100: "-c -M 100 -m recip_rank -l 2"
-          nDCG@10: "-c -m ndcg_cut.10"
-          R@100: "-c -m recall.100 -l 2"
-          R@1K: "-c -m recall.1000 -l 2"
-      - topic_key: dl22
-        eval_key: dl22-passage
-        expected_scores:
-          MAP@100: 0.0325
-          MRR@100: 0.3256
-          nDCG@10: 0.2692
-          R@100: 0.1382
-          R@1K: 0.3321
-        metric_definitions:
-          MAP@100: "-c -M 100 -m map -l 2"
-          MRR@100: "-c -M 100 -m recip_rank -l 2"
-          nDCG@10: "-c -m ndcg_cut.10"
-          R@100: "-c -m recall.100 -l 2"
-          R@1K: "-c -m recall.1000 -l 2"
-      - topic_key: dl23
-        eval_key: dl23-passage
-        expected_scores:
-          MAP@100: 0.0793
-          MRR@100: 0.3803
-          nDCG@10: 0.2627
-          R@100: 0.2329
-          R@1K: 0.4346
-        metric_definitions:
-          MAP@100: "-c -M 100 -m map -l 2"
-          MRR@100: "-c -M 100 -m recip_rank -l 2"
-          nDCG@10: "-c -m ndcg_cut.10"
-          R@100: "-c -m recall.100 -l 2"
-          R@1K: "-c -m recall.1000 -l 2"
-  - name: bm25-full
-    display: "BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), full index"
-    command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v2-passage-full -topics $topics -output $output -hits 1000 -bm25
-    topics:
-      - topic_key: msmarco-v2-passage.dev
-        eval_key: msmarco-v2-passage.dev
-        expected_scores:
-          MRR@100: 0.0719
-        metric_definitions:
-          MRR@100: "-c -M 100 -m recip_rank"
-      - topic_key: msmarco-v2-passage.dev2
-        eval_key: msmarco-v2-passage.dev2
-        expected_scores:
-          MRR@100: 0.0802
-        metric_definitions:
-          MRR@100: "-c -M 100 -m recip_rank"
-      - topic_key: dl21
-        eval_key: dl21-passage
-        expected_scores:
-          MAP@100: 0.1357
-          MRR@100: 0.5060
-          nDCG@10: 0.4458
-          R@100: 0.3261
-          R@1K: 0.6149
-        metric_definitions:
-          MAP@100: "-c -M 100 -m map -l 2"
-          MRR@100: "-c -M 100 -m recip_rank -l 2"
-          nDCG@10: "-c -m ndcg_cut.10"
-          R@100: "-c -m recall.100 -l 2"
-          R@1K: "-c -m recall.1000 -l 2"
-      - topic_key: dl22
-        eval_key: dl22-passage
-        expected_scores:
-          MAP@100: 0.0325
-          MRR@100: 0.3256
-          nDCG@10: 0.2692
-          R@100: 0.1382
-          R@1K: 0.3321
-        metric_definitions:
-          MAP@100: "-c -M 100 -m map -l 2"
-          MRR@100: "-c -M 100 -m recip_rank -l 2"
-          nDCG@10: "-c -m ndcg_cut.10"
-          R@100: "-c -m recall.100 -l 2"
-          R@1K: "-c -m recall.1000 -l 2"
-      - topic_key: dl23
-        eval_key: dl23-passage
-        expected_scores:
-          MAP@100: 0.0793
-          MRR@100: 0.3803
-          nDCG@10: 0.2627
-          R@100: 0.2329
-          R@1K: 0.4346
         metric_definitions:
           MAP@100: "-c -M 100 -m map -l 2"
           MRR@100: "-c -M 100 -m recip_rank -l 2"

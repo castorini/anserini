@@ -21,14 +21,14 @@ Key:
 
 | # | name | dev | dev2 | DL21 | DL22 | DL23 | RAGgy |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| [1](#condition-1) | BM25 doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.1654 | 0.1732 | 0.5183 | 0.2991 | 0.2914 | 0.3631 |
-| [2](#condition-2) | BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.1973 | 0.2000 | 0.5778 | 0.3576 | 0.3356 | 0.4227 |
-| [3](#condition-3) | BM25 doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index | 0.1654 | 0.1732 | 0.5183 | 0.2991 | 0.2914 | 0.3631 |
-| [4](#condition-4) | BM25 doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), full index | 0.1654 | 0.1732 | 0.5183 | 0.2991 | 0.2914 | 0.3631 |
-| [5](#condition-5) | BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index | 0.1973 | 0.2000 | 0.5778 | 0.3576 | 0.3356 | 0.4227 |
-| [6](#condition-6) | BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), full index | 0.1973 | 0.2000 | 0.5778 | 0.3576 | 0.3356 | 0.4227 |
+| [1](#condition-1) | BM25 doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index | 0.1654 | 0.1732 | 0.5183 | 0.2991 | 0.2914 | 0.3631 |
+| [2](#condition-2) | BM25 doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), regular index | 0.1654 | 0.1732 | 0.5183 | 0.2991 | 0.2914 | 0.3631 |
+| [3](#condition-3) | BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index | 0.1973 | 0.2000 | 0.5778 | 0.3576 | 0.3356 | 0.4227 |
+| [4](#condition-4) | BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), regular index | 0.1973 | 0.2000 | 0.5778 | 0.3576 | 0.3356 | 0.4227 |
 
 
+
+The BM25 "slim index" does not contain the document texts, whereas the BM25 "regular index" does contain document texts (and hence supports pseudo-relevance feedback with on-the-fly document parsing).
 
 ## Commands
 
@@ -51,309 +51,7 @@ export jvm_args="-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules
 
 <a id="condition-1"></a>
 
-### 1. BM25 doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)
-
-**Config**: [msmarco-v2.1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc.yaml)
-
-#### msmarco-v2-doc.dev
-
-Retrieval command:
-
-```bash
-java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
-    -threads 16 \
-    -index msmarco-v2.1-doc \
-    -topics msmarco-v2-doc.dev \
-    -output runs/run.msmarco-v2.1-doc.bm25-doc.msmarco-v2-doc.dev.txt \
-    -hits 1000 \
-    -bm25
-```
-
-Evaluation commands:
-
-```bash
-java -cp $fatjar trec_eval -c -M 100 -m recip_rank msmarco-v2.1-doc.dev runs/run.msmarco-v2.1-doc.bm25-doc.msmarco-v2-doc.dev.txt
-```
-
-#### msmarco-v2-doc.dev2
-
-Retrieval command:
-
-```bash
-java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
-    -threads 16 \
-    -index msmarco-v2.1-doc \
-    -topics msmarco-v2-doc.dev2 \
-    -output runs/run.msmarco-v2.1-doc.bm25-doc.msmarco-v2-doc.dev2.txt \
-    -hits 1000 \
-    -bm25
-```
-
-Evaluation commands:
-
-```bash
-java -cp $fatjar trec_eval -c -M 100 -m recip_rank msmarco-v2.1-doc.dev2 runs/run.msmarco-v2.1-doc.bm25-doc.msmarco-v2-doc.dev2.txt
-```
-
-#### dl21-doc
-
-Retrieval command:
-
-```bash
-java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
-    -threads 16 \
-    -index msmarco-v2.1-doc \
-    -topics dl21-doc \
-    -output runs/run.msmarco-v2.1-doc.bm25-doc.dl21-doc.txt \
-    -hits 1000 \
-    -bm25
-```
-
-Evaluation commands:
-
-```bash
-java -cp $fatjar trec_eval -c -M 100 -m map dl21-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc.dl21-doc.txt
-java -cp $fatjar trec_eval -c -M 100 -m recip_rank dl21-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc.dl21-doc.txt
-java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl21-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc.dl21-doc.txt
-java -cp $fatjar trec_eval -c -m recall.100 dl21-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc.dl21-doc.txt
-java -cp $fatjar trec_eval -c -m recall.1000 dl21-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc.dl21-doc.txt
-```
-
-#### dl22-doc
-
-Retrieval command:
-
-```bash
-java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
-    -threads 16 \
-    -index msmarco-v2.1-doc \
-    -topics dl22-doc \
-    -output runs/run.msmarco-v2.1-doc.bm25-doc.dl22-doc.txt \
-    -hits 1000 \
-    -bm25
-```
-
-Evaluation commands:
-
-```bash
-java -cp $fatjar trec_eval -c -M 100 -m map dl22-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc.dl22-doc.txt
-java -cp $fatjar trec_eval -c -M 100 -m recip_rank dl22-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc.dl22-doc.txt
-java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl22-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc.dl22-doc.txt
-java -cp $fatjar trec_eval -c -m recall.100 dl22-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc.dl22-doc.txt
-java -cp $fatjar trec_eval -c -m recall.1000 dl22-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc.dl22-doc.txt
-```
-
-#### dl23-doc
-
-Retrieval command:
-
-```bash
-java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
-    -threads 16 \
-    -index msmarco-v2.1-doc \
-    -topics dl23-doc \
-    -output runs/run.msmarco-v2.1-doc.bm25-doc.dl23-doc.txt \
-    -hits 1000 \
-    -bm25
-```
-
-Evaluation commands:
-
-```bash
-java -cp $fatjar trec_eval -c -M 100 -m map dl23-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc.dl23-doc.txt
-java -cp $fatjar trec_eval -c -M 100 -m recip_rank dl23-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc.dl23-doc.txt
-java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl23-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc.dl23-doc.txt
-java -cp $fatjar trec_eval -c -m recall.100 dl23-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc.dl23-doc.txt
-java -cp $fatjar trec_eval -c -m recall.1000 dl23-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc.dl23-doc.txt
-```
-
-#### rag24.raggy-dev
-
-Retrieval command:
-
-```bash
-java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
-    -threads 16 \
-    -index msmarco-v2.1-doc \
-    -topics rag24.raggy-dev \
-    -output runs/run.msmarco-v2.1-doc.bm25-doc.rag24.raggy-dev.txt \
-    -hits 1000 \
-    -bm25
-```
-
-Evaluation commands:
-
-```bash
-java -cp $fatjar trec_eval -c -M 100 -m map rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-doc.rag24.raggy-dev.txt
-java -cp $fatjar trec_eval -c -M 100 -m recip_rank rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-doc.rag24.raggy-dev.txt
-java -cp $fatjar trec_eval -c -m ndcg_cut.10 rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-doc.rag24.raggy-dev.txt
-java -cp $fatjar trec_eval -c -m recall.100 rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-doc.rag24.raggy-dev.txt
-java -cp $fatjar trec_eval -c -m recall.1000 rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-doc.rag24.raggy-dev.txt
-```
-
-<a id="condition-2"></a>
-
-### 2. BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)
-
-**Config**: [msmarco-v2.1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc.yaml)
-
-#### msmarco-v2-doc.dev
-
-Retrieval command:
-
-```bash
-java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
-    -threads 16 \
-    -index msmarco-v2.1-doc-segmented \
-    -topics msmarco-v2-doc.dev \
-    -output runs/run.msmarco-v2.1-doc.bm25-segmented-doc.msmarco-v2-doc.dev.txt \
-    -hits 10000 \
-    -bm25 \
-    -selectMaxPassage \
-    -selectMaxPassage.delimiter \# \
-    -selectMaxPassage.hits 1000
-```
-
-Evaluation commands:
-
-```bash
-java -cp $fatjar trec_eval -c -M 100 -m recip_rank msmarco-v2.1-doc.dev runs/run.msmarco-v2.1-doc.bm25-segmented-doc.msmarco-v2-doc.dev.txt
-```
-
-#### msmarco-v2-doc.dev2
-
-Retrieval command:
-
-```bash
-java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
-    -threads 16 \
-    -index msmarco-v2.1-doc-segmented \
-    -topics msmarco-v2-doc.dev2 \
-    -output runs/run.msmarco-v2.1-doc.bm25-segmented-doc.msmarco-v2-doc.dev2.txt \
-    -hits 10000 \
-    -bm25 \
-    -selectMaxPassage \
-    -selectMaxPassage.delimiter \# \
-    -selectMaxPassage.hits 1000
-```
-
-Evaluation commands:
-
-```bash
-java -cp $fatjar trec_eval -c -M 100 -m recip_rank msmarco-v2.1-doc.dev2 runs/run.msmarco-v2.1-doc.bm25-segmented-doc.msmarco-v2-doc.dev2.txt
-```
-
-#### dl21-doc
-
-Retrieval command:
-
-```bash
-java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
-    -threads 16 \
-    -index msmarco-v2.1-doc-segmented \
-    -topics dl21-doc \
-    -output runs/run.msmarco-v2.1-doc.bm25-segmented-doc.dl21-doc.txt \
-    -hits 10000 \
-    -bm25 \
-    -selectMaxPassage \
-    -selectMaxPassage.delimiter \# \
-    -selectMaxPassage.hits 1000
-```
-
-Evaluation commands:
-
-```bash
-java -cp $fatjar trec_eval -c -M 100 -m map dl21-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc.dl21-doc.txt
-java -cp $fatjar trec_eval -c -M 100 -m recip_rank dl21-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc.dl21-doc.txt
-java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl21-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc.dl21-doc.txt
-java -cp $fatjar trec_eval -c -m recall.100 dl21-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc.dl21-doc.txt
-java -cp $fatjar trec_eval -c -m recall.1000 dl21-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc.dl21-doc.txt
-```
-
-#### dl22-doc
-
-Retrieval command:
-
-```bash
-java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
-    -threads 16 \
-    -index msmarco-v2.1-doc-segmented \
-    -topics dl22-doc \
-    -output runs/run.msmarco-v2.1-doc.bm25-segmented-doc.dl22-doc.txt \
-    -hits 10000 \
-    -bm25 \
-    -selectMaxPassage \
-    -selectMaxPassage.delimiter \# \
-    -selectMaxPassage.hits 1000
-```
-
-Evaluation commands:
-
-```bash
-java -cp $fatjar trec_eval -c -M 100 -m map dl22-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc.dl22-doc.txt
-java -cp $fatjar trec_eval -c -M 100 -m recip_rank dl22-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc.dl22-doc.txt
-java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl22-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc.dl22-doc.txt
-java -cp $fatjar trec_eval -c -m recall.100 dl22-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc.dl22-doc.txt
-java -cp $fatjar trec_eval -c -m recall.1000 dl22-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc.dl22-doc.txt
-```
-
-#### dl23-doc
-
-Retrieval command:
-
-```bash
-java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
-    -threads 16 \
-    -index msmarco-v2.1-doc-segmented \
-    -topics dl23-doc \
-    -output runs/run.msmarco-v2.1-doc.bm25-segmented-doc.dl23-doc.txt \
-    -hits 10000 \
-    -bm25 \
-    -selectMaxPassage \
-    -selectMaxPassage.delimiter \# \
-    -selectMaxPassage.hits 1000
-```
-
-Evaluation commands:
-
-```bash
-java -cp $fatjar trec_eval -c -M 100 -m map dl23-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc.dl23-doc.txt
-java -cp $fatjar trec_eval -c -M 100 -m recip_rank dl23-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc.dl23-doc.txt
-java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl23-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc.dl23-doc.txt
-java -cp $fatjar trec_eval -c -m recall.100 dl23-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc.dl23-doc.txt
-java -cp $fatjar trec_eval -c -m recall.1000 dl23-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc.dl23-doc.txt
-```
-
-#### rag24.raggy-dev
-
-Retrieval command:
-
-```bash
-java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
-    -threads 16 \
-    -index msmarco-v2.1-doc-segmented \
-    -topics rag24.raggy-dev \
-    -output runs/run.msmarco-v2.1-doc.bm25-segmented-doc.rag24.raggy-dev.txt \
-    -hits 10000 \
-    -bm25 \
-    -selectMaxPassage \
-    -selectMaxPassage.delimiter \# \
-    -selectMaxPassage.hits 1000
-```
-
-Evaluation commands:
-
-```bash
-java -cp $fatjar trec_eval -c -M 100 -m map rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-segmented-doc.rag24.raggy-dev.txt
-java -cp $fatjar trec_eval -c -M 100 -m recip_rank rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-segmented-doc.rag24.raggy-dev.txt
-java -cp $fatjar trec_eval -c -m ndcg_cut.10 rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-segmented-doc.rag24.raggy-dev.txt
-java -cp $fatjar trec_eval -c -m recall.100 rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-segmented-doc.rag24.raggy-dev.txt
-java -cp $fatjar trec_eval -c -m recall.1000 rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-segmented-doc.rag24.raggy-dev.txt
-```
-
-<a id="condition-3"></a>
-
-### 3. BM25 doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index
+### 1. BM25 doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index
 
 **Config**: [msmarco-v2.1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc.yaml)
 
@@ -493,9 +191,9 @@ java -cp $fatjar trec_eval -c -m recall.100 rag24.raggy-dev runs/run.msmarco-v2.
 java -cp $fatjar trec_eval -c -m recall.1000 rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-doc-slim.rag24.raggy-dev.txt
 ```
 
-<a id="condition-4"></a>
+<a id="condition-2"></a>
 
-### 4. BM25 doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), full index
+### 2. BM25 doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), regular index
 
 **Config**: [msmarco-v2.1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc.yaml)
 
@@ -506,9 +204,9 @@ Retrieval command:
 ```bash
 java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
-    -index msmarco-v2.1-doc-full \
+    -index msmarco-v2.1-doc \
     -topics msmarco-v2-doc.dev \
-    -output runs/run.msmarco-v2.1-doc.bm25-doc-full.msmarco-v2-doc.dev.txt \
+    -output runs/run.msmarco-v2.1-doc.bm25-doc.msmarco-v2-doc.dev.txt \
     -hits 1000 \
     -bm25
 ```
@@ -516,7 +214,7 @@ java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
 Evaluation commands:
 
 ```bash
-java -cp $fatjar trec_eval -c -M 100 -m recip_rank msmarco-v2.1-doc.dev runs/run.msmarco-v2.1-doc.bm25-doc-full.msmarco-v2-doc.dev.txt
+java -cp $fatjar trec_eval -c -M 100 -m recip_rank msmarco-v2.1-doc.dev runs/run.msmarco-v2.1-doc.bm25-doc.msmarco-v2-doc.dev.txt
 ```
 
 #### msmarco-v2-doc.dev2
@@ -526,9 +224,9 @@ Retrieval command:
 ```bash
 java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
-    -index msmarco-v2.1-doc-full \
+    -index msmarco-v2.1-doc \
     -topics msmarco-v2-doc.dev2 \
-    -output runs/run.msmarco-v2.1-doc.bm25-doc-full.msmarco-v2-doc.dev2.txt \
+    -output runs/run.msmarco-v2.1-doc.bm25-doc.msmarco-v2-doc.dev2.txt \
     -hits 1000 \
     -bm25
 ```
@@ -536,7 +234,7 @@ java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
 Evaluation commands:
 
 ```bash
-java -cp $fatjar trec_eval -c -M 100 -m recip_rank msmarco-v2.1-doc.dev2 runs/run.msmarco-v2.1-doc.bm25-doc-full.msmarco-v2-doc.dev2.txt
+java -cp $fatjar trec_eval -c -M 100 -m recip_rank msmarco-v2.1-doc.dev2 runs/run.msmarco-v2.1-doc.bm25-doc.msmarco-v2-doc.dev2.txt
 ```
 
 #### dl21-doc
@@ -546,9 +244,9 @@ Retrieval command:
 ```bash
 java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
-    -index msmarco-v2.1-doc-full \
+    -index msmarco-v2.1-doc \
     -topics dl21-doc \
-    -output runs/run.msmarco-v2.1-doc.bm25-doc-full.dl21-doc.txt \
+    -output runs/run.msmarco-v2.1-doc.bm25-doc.dl21-doc.txt \
     -hits 1000 \
     -bm25
 ```
@@ -556,11 +254,11 @@ java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
 Evaluation commands:
 
 ```bash
-java -cp $fatjar trec_eval -c -M 100 -m map dl21-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc-full.dl21-doc.txt
-java -cp $fatjar trec_eval -c -M 100 -m recip_rank dl21-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc-full.dl21-doc.txt
-java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl21-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc-full.dl21-doc.txt
-java -cp $fatjar trec_eval -c -m recall.100 dl21-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc-full.dl21-doc.txt
-java -cp $fatjar trec_eval -c -m recall.1000 dl21-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc-full.dl21-doc.txt
+java -cp $fatjar trec_eval -c -M 100 -m map dl21-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc.dl21-doc.txt
+java -cp $fatjar trec_eval -c -M 100 -m recip_rank dl21-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc.dl21-doc.txt
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl21-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc.dl21-doc.txt
+java -cp $fatjar trec_eval -c -m recall.100 dl21-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc.dl21-doc.txt
+java -cp $fatjar trec_eval -c -m recall.1000 dl21-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc.dl21-doc.txt
 ```
 
 #### dl22-doc
@@ -570,9 +268,9 @@ Retrieval command:
 ```bash
 java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
-    -index msmarco-v2.1-doc-full \
+    -index msmarco-v2.1-doc \
     -topics dl22-doc \
-    -output runs/run.msmarco-v2.1-doc.bm25-doc-full.dl22-doc.txt \
+    -output runs/run.msmarco-v2.1-doc.bm25-doc.dl22-doc.txt \
     -hits 1000 \
     -bm25
 ```
@@ -580,11 +278,11 @@ java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
 Evaluation commands:
 
 ```bash
-java -cp $fatjar trec_eval -c -M 100 -m map dl22-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc-full.dl22-doc.txt
-java -cp $fatjar trec_eval -c -M 100 -m recip_rank dl22-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc-full.dl22-doc.txt
-java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl22-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc-full.dl22-doc.txt
-java -cp $fatjar trec_eval -c -m recall.100 dl22-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc-full.dl22-doc.txt
-java -cp $fatjar trec_eval -c -m recall.1000 dl22-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc-full.dl22-doc.txt
+java -cp $fatjar trec_eval -c -M 100 -m map dl22-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc.dl22-doc.txt
+java -cp $fatjar trec_eval -c -M 100 -m recip_rank dl22-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc.dl22-doc.txt
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl22-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc.dl22-doc.txt
+java -cp $fatjar trec_eval -c -m recall.100 dl22-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc.dl22-doc.txt
+java -cp $fatjar trec_eval -c -m recall.1000 dl22-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc.dl22-doc.txt
 ```
 
 #### dl23-doc
@@ -594,9 +292,9 @@ Retrieval command:
 ```bash
 java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
-    -index msmarco-v2.1-doc-full \
+    -index msmarco-v2.1-doc \
     -topics dl23-doc \
-    -output runs/run.msmarco-v2.1-doc.bm25-doc-full.dl23-doc.txt \
+    -output runs/run.msmarco-v2.1-doc.bm25-doc.dl23-doc.txt \
     -hits 1000 \
     -bm25
 ```
@@ -604,11 +302,11 @@ java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
 Evaluation commands:
 
 ```bash
-java -cp $fatjar trec_eval -c -M 100 -m map dl23-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc-full.dl23-doc.txt
-java -cp $fatjar trec_eval -c -M 100 -m recip_rank dl23-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc-full.dl23-doc.txt
-java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl23-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc-full.dl23-doc.txt
-java -cp $fatjar trec_eval -c -m recall.100 dl23-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc-full.dl23-doc.txt
-java -cp $fatjar trec_eval -c -m recall.1000 dl23-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc-full.dl23-doc.txt
+java -cp $fatjar trec_eval -c -M 100 -m map dl23-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc.dl23-doc.txt
+java -cp $fatjar trec_eval -c -M 100 -m recip_rank dl23-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc.dl23-doc.txt
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl23-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc.dl23-doc.txt
+java -cp $fatjar trec_eval -c -m recall.100 dl23-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc.dl23-doc.txt
+java -cp $fatjar trec_eval -c -m recall.1000 dl23-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-doc.dl23-doc.txt
 ```
 
 #### rag24.raggy-dev
@@ -618,9 +316,9 @@ Retrieval command:
 ```bash
 java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
-    -index msmarco-v2.1-doc-full \
+    -index msmarco-v2.1-doc \
     -topics rag24.raggy-dev \
-    -output runs/run.msmarco-v2.1-doc.bm25-doc-full.rag24.raggy-dev.txt \
+    -output runs/run.msmarco-v2.1-doc.bm25-doc.rag24.raggy-dev.txt \
     -hits 1000 \
     -bm25
 ```
@@ -628,16 +326,16 @@ java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
 Evaluation commands:
 
 ```bash
-java -cp $fatjar trec_eval -c -M 100 -m map rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-doc-full.rag24.raggy-dev.txt
-java -cp $fatjar trec_eval -c -M 100 -m recip_rank rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-doc-full.rag24.raggy-dev.txt
-java -cp $fatjar trec_eval -c -m ndcg_cut.10 rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-doc-full.rag24.raggy-dev.txt
-java -cp $fatjar trec_eval -c -m recall.100 rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-doc-full.rag24.raggy-dev.txt
-java -cp $fatjar trec_eval -c -m recall.1000 rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-doc-full.rag24.raggy-dev.txt
+java -cp $fatjar trec_eval -c -M 100 -m map rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-doc.rag24.raggy-dev.txt
+java -cp $fatjar trec_eval -c -M 100 -m recip_rank rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-doc.rag24.raggy-dev.txt
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-doc.rag24.raggy-dev.txt
+java -cp $fatjar trec_eval -c -m recall.100 rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-doc.rag24.raggy-dev.txt
+java -cp $fatjar trec_eval -c -m recall.1000 rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-doc.rag24.raggy-dev.txt
 ```
 
-<a id="condition-5"></a>
+<a id="condition-3"></a>
 
-### 5. BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index
+### 3. BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index
 
 **Config**: [msmarco-v2.1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc.yaml)
 
@@ -795,9 +493,9 @@ java -cp $fatjar trec_eval -c -m recall.100 rag24.raggy-dev runs/run.msmarco-v2.
 java -cp $fatjar trec_eval -c -m recall.1000 rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-segmented-doc-slim.rag24.raggy-dev.txt
 ```
 
-<a id="condition-6"></a>
+<a id="condition-4"></a>
 
-### 6. BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), full index
+### 4. BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), regular index
 
 **Config**: [msmarco-v2.1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc.yaml)
 
@@ -808,9 +506,9 @@ Retrieval command:
 ```bash
 java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
-    -index msmarco-v2.1-doc-segmented-full \
+    -index msmarco-v2.1-doc-segmented \
     -topics msmarco-v2-doc.dev \
-    -output runs/run.msmarco-v2.1-doc.bm25-segmented-doc-full.msmarco-v2-doc.dev.txt \
+    -output runs/run.msmarco-v2.1-doc.bm25-segmented-doc.msmarco-v2-doc.dev.txt \
     -hits 10000 \
     -bm25 \
     -selectMaxPassage \
@@ -821,7 +519,7 @@ java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
 Evaluation commands:
 
 ```bash
-java -cp $fatjar trec_eval -c -M 100 -m recip_rank msmarco-v2.1-doc.dev runs/run.msmarco-v2.1-doc.bm25-segmented-doc-full.msmarco-v2-doc.dev.txt
+java -cp $fatjar trec_eval -c -M 100 -m recip_rank msmarco-v2.1-doc.dev runs/run.msmarco-v2.1-doc.bm25-segmented-doc.msmarco-v2-doc.dev.txt
 ```
 
 #### msmarco-v2-doc.dev2
@@ -831,9 +529,9 @@ Retrieval command:
 ```bash
 java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
-    -index msmarco-v2.1-doc-segmented-full \
+    -index msmarco-v2.1-doc-segmented \
     -topics msmarco-v2-doc.dev2 \
-    -output runs/run.msmarco-v2.1-doc.bm25-segmented-doc-full.msmarco-v2-doc.dev2.txt \
+    -output runs/run.msmarco-v2.1-doc.bm25-segmented-doc.msmarco-v2-doc.dev2.txt \
     -hits 10000 \
     -bm25 \
     -selectMaxPassage \
@@ -844,7 +542,7 @@ java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
 Evaluation commands:
 
 ```bash
-java -cp $fatjar trec_eval -c -M 100 -m recip_rank msmarco-v2.1-doc.dev2 runs/run.msmarco-v2.1-doc.bm25-segmented-doc-full.msmarco-v2-doc.dev2.txt
+java -cp $fatjar trec_eval -c -M 100 -m recip_rank msmarco-v2.1-doc.dev2 runs/run.msmarco-v2.1-doc.bm25-segmented-doc.msmarco-v2-doc.dev2.txt
 ```
 
 #### dl21-doc
@@ -854,9 +552,9 @@ Retrieval command:
 ```bash
 java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
-    -index msmarco-v2.1-doc-segmented-full \
+    -index msmarco-v2.1-doc-segmented \
     -topics dl21-doc \
-    -output runs/run.msmarco-v2.1-doc.bm25-segmented-doc-full.dl21-doc.txt \
+    -output runs/run.msmarco-v2.1-doc.bm25-segmented-doc.dl21-doc.txt \
     -hits 10000 \
     -bm25 \
     -selectMaxPassage \
@@ -867,11 +565,11 @@ java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
 Evaluation commands:
 
 ```bash
-java -cp $fatjar trec_eval -c -M 100 -m map dl21-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc-full.dl21-doc.txt
-java -cp $fatjar trec_eval -c -M 100 -m recip_rank dl21-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc-full.dl21-doc.txt
-java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl21-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc-full.dl21-doc.txt
-java -cp $fatjar trec_eval -c -m recall.100 dl21-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc-full.dl21-doc.txt
-java -cp $fatjar trec_eval -c -m recall.1000 dl21-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc-full.dl21-doc.txt
+java -cp $fatjar trec_eval -c -M 100 -m map dl21-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc.dl21-doc.txt
+java -cp $fatjar trec_eval -c -M 100 -m recip_rank dl21-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc.dl21-doc.txt
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl21-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc.dl21-doc.txt
+java -cp $fatjar trec_eval -c -m recall.100 dl21-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc.dl21-doc.txt
+java -cp $fatjar trec_eval -c -m recall.1000 dl21-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc.dl21-doc.txt
 ```
 
 #### dl22-doc
@@ -881,9 +579,9 @@ Retrieval command:
 ```bash
 java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
-    -index msmarco-v2.1-doc-segmented-full \
+    -index msmarco-v2.1-doc-segmented \
     -topics dl22-doc \
-    -output runs/run.msmarco-v2.1-doc.bm25-segmented-doc-full.dl22-doc.txt \
+    -output runs/run.msmarco-v2.1-doc.bm25-segmented-doc.dl22-doc.txt \
     -hits 10000 \
     -bm25 \
     -selectMaxPassage \
@@ -894,11 +592,11 @@ java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
 Evaluation commands:
 
 ```bash
-java -cp $fatjar trec_eval -c -M 100 -m map dl22-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc-full.dl22-doc.txt
-java -cp $fatjar trec_eval -c -M 100 -m recip_rank dl22-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc-full.dl22-doc.txt
-java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl22-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc-full.dl22-doc.txt
-java -cp $fatjar trec_eval -c -m recall.100 dl22-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc-full.dl22-doc.txt
-java -cp $fatjar trec_eval -c -m recall.1000 dl22-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc-full.dl22-doc.txt
+java -cp $fatjar trec_eval -c -M 100 -m map dl22-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc.dl22-doc.txt
+java -cp $fatjar trec_eval -c -M 100 -m recip_rank dl22-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc.dl22-doc.txt
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl22-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc.dl22-doc.txt
+java -cp $fatjar trec_eval -c -m recall.100 dl22-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc.dl22-doc.txt
+java -cp $fatjar trec_eval -c -m recall.1000 dl22-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc.dl22-doc.txt
 ```
 
 #### dl23-doc
@@ -908,9 +606,9 @@ Retrieval command:
 ```bash
 java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
-    -index msmarco-v2.1-doc-segmented-full \
+    -index msmarco-v2.1-doc-segmented \
     -topics dl23-doc \
-    -output runs/run.msmarco-v2.1-doc.bm25-segmented-doc-full.dl23-doc.txt \
+    -output runs/run.msmarco-v2.1-doc.bm25-segmented-doc.dl23-doc.txt \
     -hits 10000 \
     -bm25 \
     -selectMaxPassage \
@@ -921,11 +619,11 @@ java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
 Evaluation commands:
 
 ```bash
-java -cp $fatjar trec_eval -c -M 100 -m map dl23-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc-full.dl23-doc.txt
-java -cp $fatjar trec_eval -c -M 100 -m recip_rank dl23-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc-full.dl23-doc.txt
-java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl23-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc-full.dl23-doc.txt
-java -cp $fatjar trec_eval -c -m recall.100 dl23-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc-full.dl23-doc.txt
-java -cp $fatjar trec_eval -c -m recall.1000 dl23-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc-full.dl23-doc.txt
+java -cp $fatjar trec_eval -c -M 100 -m map dl23-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc.dl23-doc.txt
+java -cp $fatjar trec_eval -c -M 100 -m recip_rank dl23-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc.dl23-doc.txt
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl23-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc.dl23-doc.txt
+java -cp $fatjar trec_eval -c -m recall.100 dl23-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc.dl23-doc.txt
+java -cp $fatjar trec_eval -c -m recall.1000 dl23-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc.bm25-segmented-doc.dl23-doc.txt
 ```
 
 #### rag24.raggy-dev
@@ -935,9 +633,9 @@ Retrieval command:
 ```bash
 java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
     -threads 16 \
-    -index msmarco-v2.1-doc-segmented-full \
+    -index msmarco-v2.1-doc-segmented \
     -topics rag24.raggy-dev \
-    -output runs/run.msmarco-v2.1-doc.bm25-segmented-doc-full.rag24.raggy-dev.txt \
+    -output runs/run.msmarco-v2.1-doc.bm25-segmented-doc.rag24.raggy-dev.txt \
     -hits 10000 \
     -bm25 \
     -selectMaxPassage \
@@ -948,11 +646,11 @@ java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
 Evaluation commands:
 
 ```bash
-java -cp $fatjar trec_eval -c -M 100 -m map rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-segmented-doc-full.rag24.raggy-dev.txt
-java -cp $fatjar trec_eval -c -M 100 -m recip_rank rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-segmented-doc-full.rag24.raggy-dev.txt
-java -cp $fatjar trec_eval -c -m ndcg_cut.10 rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-segmented-doc-full.rag24.raggy-dev.txt
-java -cp $fatjar trec_eval -c -m recall.100 rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-segmented-doc-full.rag24.raggy-dev.txt
-java -cp $fatjar trec_eval -c -m recall.1000 rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-segmented-doc-full.rag24.raggy-dev.txt
+java -cp $fatjar trec_eval -c -M 100 -m map rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-segmented-doc.rag24.raggy-dev.txt
+java -cp $fatjar trec_eval -c -M 100 -m recip_rank rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-segmented-doc.rag24.raggy-dev.txt
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-segmented-doc.rag24.raggy-dev.txt
+java -cp $fatjar trec_eval -c -m recall.100 rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-segmented-doc.rag24.raggy-dev.txt
+java -cp $fatjar trec_eval -c -m recall.1000 rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-segmented-doc.rag24.raggy-dev.txt
 ```
 
 
