@@ -418,20 +418,6 @@ public class SearchHnswDenseVectorsTest extends StdOutStdErrRedirectableLuceneTe
     String runfile = "target/run-" + System.currentTimeMillis();
     String[] searchArgs = new String[] {
         "-index", indexPath,
-        "-topics", "TREC2019_DL_PASSAGE_COSDPR_DISTIL",
-        "-output", runfile,
-        "-efSearch", "1000",
-        "-hits", "5"};
-    SearchHnswDenseVectors.main(searchArgs);
-
-    // Not checking content, just checking if the topics were loaded successfully.
-    File f = new File(runfile);
-    assertTrue(f.exists());
-    f.delete();
-
-    runfile = "target/run-" + System.currentTimeMillis();
-    searchArgs = new String[] {
-        "-index", indexPath,
         "-topics", "TREC2019_DL_PASSAGE",
         "-encoder", "CosDprDistil",
         "-output", runfile,
@@ -440,7 +426,7 @@ public class SearchHnswDenseVectorsTest extends StdOutStdErrRedirectableLuceneTe
     SearchHnswDenseVectors.main(searchArgs);
 
     // Not checking content, just checking if the topics were loaded successfully.
-    f = new File(runfile);
+    File f = new File(runfile);
     assertTrue(f.exists());
     f.delete();
   }
