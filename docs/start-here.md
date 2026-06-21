@@ -579,4 +579,4 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@rhea2801](https://github.com/rhea2801) on 2026-06-06 (commit [`147521d`](https://github.com/castorini/anserini/commit/147521da48a3b71cf359fd35e32c0fff7fe86eb8))
 + Results reproduced by [@nayanananto](https://github.com/nayanananto) on 2026-06-07 (commit [`cc9d3cd`](https://github.com/castorini/anserini/commit/cc9d3cd76ef0bf1cffbd15547546bd85398b2437))
 + Results reproduced by [@kenoi1](https://github.com/kenoi1) on 2026-06-11 (commit [`6663a15`](https://github.com/castorini/anserini/commit/6663a15bffe0242e927c53744e5b140ce1a0bcba))
-
++ Results reproduced by [@Quaden2307](https://github.com/Quaden2307) on 2026-06-18 (commit [`420530f`](https://github.com/castorini/anserini/commit/420530fd8e2163e86e12c909930995d8b1259329))
