@@ -24,7 +24,7 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -44,8 +44,8 @@ public class Qrels {
   private static final ObjectMapper mapper = new ObjectMapper();
   private static volatile Map<String, String> registryCache;
 
-  public final String name;
-  public final Path path;
+  private final String name;
+  private final Path path;
   private final Map<String, Map<String, Integer>> qrels;
 
   protected Qrels(String file) throws IOException {
@@ -59,13 +59,8 @@ public class Qrels {
   }
 
   private static Map<String, Map<String, Integer>> loadQrels(Path file) throws IOException {
-    Map<String, Map<String, Integer>> qrels = new HashMap<>();
-    Path qrelsPath = file;
-    try {
-      qrelsPath = resolveQrelsPath(file.toString());
-    } catch (IOException e) {
-      System.out.println("Qrels file not found at " + qrelsPath);
-    }
+    Map<String, Map<String, Integer>> qrels = new LinkedHashMap<>();
+    Path qrelsPath = resolveQrelsPath(file.toString());
 
     try (BufferedReader br = new BufferedReader(new FileReader(qrelsPath.toString()))) {
       String line;
@@ -78,13 +73,13 @@ public class Qrels {
         if (qrels.containsKey(qid)) {
           qrels.get(qid).put(docno, grade);
         } else {
-          Map<String, Integer> t = new HashMap<>();
+          Map<String, Integer> t = new LinkedHashMap<>();
           t.put(docno, grade);
           qrels.put(qid, t);
         }
       }
     } catch (IOException e) {
-      throw new IOException("Could not read qrels file!");
+      throw new IOException("Could not read qrels file: " + file + " (resolved to " + qrelsPath + ")", e);
     }
     return qrels;
   }
@@ -119,12 +114,6 @@ public class Qrels {
     return registry().keySet();
   }
 
-  public static void refresh() {
-    synchronized (Qrels.class) {
-      registryCache = loadRegistry();
-    }
-  }
-
   private static Map<String, String> loadRegistry() {
     try (InputStream inputStream = new URI(DEFAULT_METADATA_URL).toURL().openStream()) {
       Map<String, String> registry = mapper.readValue(inputStream, new TypeReference<>() {});
@@ -154,7 +143,7 @@ public class Qrels {
     }
   }
 
-  public <K> int getRelevanceGrade(K qid, String docid) {
+  public int getRelevanceGrade(String qid, String docid) {
     if (!qrels.containsKey(qid)) {
       return 0;
     }

@@ -57,11 +57,24 @@ public class QrelsTest{
     Qrels.loadFromFile("tools/topics-and-qrels/topics.robust04.txt ");
   }
 
+  @Test(expected = IllegalArgumentException.class)
+  public void testUnknownQrelsName() throws IOException{
+    Qrels.get("this-qrels-name-does-not-exist");
+  }
+
+  @Test
+  public void testName() throws IOException{
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.cacm.txt");
+    assertEquals("qrels.cacm.txt", qrels.name());
+
+    qrels = Qrels.get("cacm");
+    assertEquals("cacm", qrels.name());
+  }
+
   @Test
   public void testCacm() throws IOException{
     Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.cacm.txt");
     assertNotNull(qrels);
-    assertEquals("qrels.cacm.txt", qrels.name);
     assertEquals("qrels.cacm.txt", qrels.name());
     assertEquals(52, qrels.getQids().size());
     assertEquals(796, getQrelsCount(qrels));
@@ -87,7 +100,6 @@ public class QrelsTest{
 
     qrels = Qrels.get("robust04");
     assertNotNull(qrels);
-    assertEquals("robust04", qrels.name);
     assertEquals("robust04", qrels.name());
     assertEquals(249, qrels.getQids().size());
     assertEquals(311410, getQrelsCount(qrels));
