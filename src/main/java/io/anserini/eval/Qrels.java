@@ -37,94 +37,111 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.anserini.util.CacheDirectoryResolver;
 
 public class Qrels {
-  public static final String METADATA_URL_PROPERTY = "anserini.qrels.metadata.url";
-  public static final String DEFAULT_METADATA_URL =
-      "https://raw.githubusercontent.com/castorini/anserini-tools/master/topics-and-qrels/_metadata_qrels.json";
-  private static final String SERVER_PATH = "https://raw.githubusercontent.com/castorini/anserini-tools/master/topics-and-qrels/";
+  private static final String TOPICS_AND_QRELS_URL = "https://raw.githubusercontent.com/castorini/anserini-tools/master/topics-and-qrels/";
+  public static final String DEFAULT_METADATA_URL = TOPICS_AND_QRELS_URL + "_metadata_qrels.json";
+  private static final String SERVER_PATH = TOPICS_AND_QRELS_URL;
 
   private static final ObjectMapper mapper = new ObjectMapper();
-  private static volatile Map<String, String> symbolFileDict;
+  private static volatile Map<String, String> registryCache;
 
-  public final String symbol;
-  public final String path;
+  public final String name;
+  public final Path path;
   private final Map<String, Map<String, Integer>> qrels;
 
-  public Qrels(String file) throws IOException {
-    this(null, file);
+  protected Qrels(String file) throws IOException {
+    this(null, Path.of(file));
   }
 
-  protected Qrels(String symbol, String path) throws IOException {
-    this.symbol = symbol;
+  protected Qrels(String name, Path path) throws IOException {
+    this.name = name == null ? path.getFileName().toString() : name;
     this.path = path;
     this.qrels = loadQrels(path);
   }
 
-  public static Qrels get(String symbol) throws IOException {
-    String path = registry().get(symbol);
-    if (path == null) {
-      throw new IllegalArgumentException("Unknown qrels symbol: " + symbol);
+  private static Map<String, Map<String, Integer>> loadQrels(Path file) throws IOException {
+    Map<String, Map<String, Integer>> qrels = new HashMap<>();
+    Path qrelsPath = file;
+    try {
+      qrelsPath = resolveQrelsPath(file.toString());
+    } catch (IOException e) {
+      System.out.println("Qrels file not found at " + qrelsPath);
     }
-    return new Qrels(symbol, path);
-  }
 
-  public static Qrels fromQrels(String symbol) throws IOException {
-    return get(symbol);
-  }
-
-  public static Qrels fromQrels(Qrels qrels) throws IOException {
+    try (BufferedReader br = new BufferedReader(new FileReader(qrelsPath.toString()))) {
+      String line;
+      String[] arr;
+      while ((line = br.readLine()) != null) {
+        arr = line.split("[\\s\\t]+");
+        String qid = arr[0];
+        String docno = arr[2];
+        int grade = Integer.parseInt(arr[3]);
+        if (qrels.containsKey(qid)) {
+          qrels.get(qid).put(docno, grade);
+        } else {
+          Map<String, Integer> t = new HashMap<>();
+          t.put(docno, grade);
+          qrels.put(qid, t);
+        }
+      }
+    } catch (IOException e) {
+      throw new IOException("Could not read qrels file!");
+    }
     return qrels;
   }
 
+  public static Qrels get(String name) throws IOException {
+    String path = registry().get(name);
+    if (path == null) {
+      throw new IllegalArgumentException("Unknown qrels name: " + name);
+    }
+    return new Qrels(name, Path.of(path));
+  }
+
+  public static Qrels loadFromFile(String file) throws IOException {
+    return new Qrels(file);
+  }
+
   public static Map<String, String> registry() {
-    Map<String, String> registry = symbolFileDict;
+    Map<String, String> registry = registryCache;
     if (registry == null) {
       synchronized (Qrels.class) {
-        registry = symbolFileDict;
+        registry = registryCache;
         if (registry == null) {
           registry = loadRegistry();
-          symbolFileDict = registry;
+          registryCache = registry;
         }
       }
     }
     return registry;
   }
 
-  public static Set<String> symbols() {
+  public static Set<String> names() {
     return registry().keySet();
   }
 
   public static void refresh() {
     synchronized (Qrels.class) {
-      symbolFileDict = loadRegistry();
+      registryCache = loadRegistry();
     }
   }
 
   private static Map<String, String> loadRegistry() {
-    String metadataUrl = System.getProperty(METADATA_URL_PROPERTY, DEFAULT_METADATA_URL);
-    try (InputStream inputStream = new URI(metadataUrl).toURL().openStream()) {
+    try (InputStream inputStream = new URI(DEFAULT_METADATA_URL).toURL().openStream()) {
       Map<String, String> registry = mapper.readValue(inputStream, new TypeReference<>() {});
       return Collections.unmodifiableMap(new TreeMap<>(registry));
     } catch (Exception e) {
-      throw new IllegalStateException("Failed to load qrels metadata from " + metadataUrl, e);
+      throw new IllegalStateException("Failed to load qrels metadata from " + DEFAULT_METADATA_URL, e);
     }
   }
 
-  public String symbol() {
-    return symbol;
+  public String name() {
+    return name;
   }
 
-  public String path() {
+  public Path path() {
     return path;
   }
 
-  /**
-   * Method will return whether this docId for this qid is judged or not
-   * Note that if qid is invalid this will always return false
-   * 
-   * @param qid   qid
-   * @param docid docid
-   * @return true if docId is judged against qid false otherwise
-   */
   public boolean isDocJudged(String qid, String docid) {
     if (!qrels.containsKey(qid)) {
       return false;
@@ -163,72 +180,33 @@ public class Qrels {
     }
   }
 
-  private static Map<String, Map<String, Integer>> loadQrels(String file) throws IOException {
-    Map<String, Map<String, Integer>> qrels = new HashMap<>();
-    Path qrelsPath = Path.of(file);
-    try {
-      qrelsPath = getQrelsPath(qrelsPath);
-    } catch (IOException e) {
-      System.out.println("Qrels file not found at " + qrelsPath);
-    }
-
-    try (BufferedReader br = new BufferedReader(new FileReader(qrelsPath.toString()))) {
-      String line;
-      String[] arr;
-      while ((line = br.readLine()) != null) {
-        arr = line.split("[\\s\\t]+");
-        String qid = arr[0];
-        String docno = arr[2];
-        int grade = Integer.parseInt(arr[3]);
-        if (qrels.containsKey(qid)) {
-          qrels.get(qid).put(docno, grade);
-        } else {
-          Map<String, Integer> t = new HashMap<>();
-          t.put(docno, grade);
-          qrels.put(qid, t);
-        }
-      }
-    } catch (IOException e) {
-      throw new IOException("Could not read qrels file!");
-    }
-    return qrels;
-  }
-
   /**
-   * Method will return the qrels file as a string
-   * 
-   * @param qrelsPath path to qrels file
-   * @return qrels file as a string
-   * @throws IOException if qrels file is not found
+   * Resolves a qrels reference to a local path.
+   *
+   * <p>The {@code qrels} argument may be a local path, a registered qrels name, a registered qrels filename, or an
+   * unregistered filename already present in the local topics-and-qrels cache. Registered qrels are downloaded into the
+   * cache if needed. Unknown qrels are returned as paths unchanged, leaving the caller to handle any missing-file
+   * failure.</p>
+   *
+   * @param qrels qrels name, filename, or path
+   * @return local path for the qrels reference
+   * @throws IOException if a registered qrels file cannot be downloaded
    */
-  public static String getQrelsResource(Path qrelsPath) throws IOException {
-    Path resultPath = qrelsPath;
-    try {
-      resultPath = getQrelsPath(qrelsPath);
-    } catch (Exception e) {
-      throw new IOException("Could not get qrels file either from server or local file system!");
+  public static Path resolveQrelsPath(String qrels) throws IOException {
+    Path qrelsPath = Path.of(qrels);
+    if (Files.exists(qrelsPath)) {
+      return qrelsPath;
     }
 
-    try (InputStream inputStream = Files.newInputStream(resultPath)) {
-      String raw = new String(inputStream.readAllBytes());
-      return raw;
-    }
-  }
+    Map<String, String> registry = registry();
+    String qrelsFileName = qrelsPath.getFileName().toString();
+    String registeredPath = registry.get(qrels);
 
-  /**
-   * Method will look for the absolute qrels path and return it as a Path object
-   * 
-   * @param qrelsPath path to qrels file
-   * @return qrels path
-   * @throws IOException
-   */
-  public static Path getQrelsPath(Path qrelsPath) throws IOException {
-    boolean isContained = Qrels.contains(qrelsPath);
-    boolean isContainedSymbol = false;
-    if (!isContained) {
-      isContainedSymbol = Qrels.containsSymbol(qrelsPath);
-    }
-    if (!isContained && !isContainedSymbol) {
+    if (registeredPath != null) {
+      qrelsPath = Path.of(registeredPath);
+    } else if (registry.containsValue(qrelsFileName)) {
+      qrelsPath = Path.of(qrelsFileName);
+    } else {
       // If the qrels file is not in the list of known qrels, we assume it is a local file.
       Path tempPath = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve(qrelsPath.getFileName());
       if (Files.exists(tempPath)) {
@@ -238,30 +216,13 @@ public class Qrels {
       return qrelsPath;
     }
 
-    // If qrelsPath is a prefix, we should extend it to a full file name
-    if (isContainedSymbol) {
-      qrelsPath = Qrels.extendSymbol(qrelsPath);
-    }
-
-    Path resultPath = getNewQrelAbsPath(qrelsPath);
+    Path resultPath = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve(qrelsPath.getFileName());
     if (!Files.exists(resultPath)) {
       resultPath = downloadQrels(qrelsPath);
     }
     return resultPath;
   }
 
-  public static Path getNewQrelAbsPath(Path qrelsPath) {
-    return CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve(qrelsPath.getFileName());
-  }
-
-  /**
-   * Method will download the qrels file from the cloud and return the path to the
-   * file
-   * 
-   * @param qrelsPath path to qrels file
-   * @return path to qrels file
-   * @throws IOException if qrels file is not found
-   */
   public static Path downloadQrels(Path qrelsPath) throws IOException {
     String qrelsURL = SERVER_PATH + qrelsPath.getFileName().toString();
     System.out.println("Downloading qrels from " + qrelsURL);
@@ -273,21 +234,5 @@ public class Qrels {
       throw new IOException("Error downloading qrels from " + qrelsURL);
     }
     return localQrelsPath;
-  }
-
-  public static boolean contains(Path qrelsPath) {
-    return registry().containsValue(qrelsPath.getFileName().toString());
-  }
-
-  public static boolean containsSymbol(Path qrelsPath) {
-    return registry().containsKey(qrelsPath.getFileName().toString());
-  }
-
-  public static Path extendSymbol(Path symbol) {
-    String returnPath = registry().get(symbol.getFileName().toString());
-    if (returnPath == null) {
-      return symbol;
-    }
-    return Path.of(returnPath);
   }
 }

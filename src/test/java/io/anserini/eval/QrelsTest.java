@@ -25,18 +25,11 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.HashSet;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import io.anserini.util.CacheDirectoryResolver;
 
 public class QrelsTest{
-
-  @BeforeClass
-  public static void setUpQrelsMetadata() {
-    System.setProperty(Qrels.METADATA_URL_PROPERTY, Path.of("tools/topics-and-qrels/_metadata_qrels.json").toUri().toString());
-    Qrels.refresh();
-  }
 
   public int getQrelsCount(Qrels qrels) throws IOException{
     int count = 0;
@@ -55,19 +48,21 @@ public class QrelsTest{
   @Test(expected = IOException.class)
   public void testFileNotFound() throws IOException{
     // Purposely read non-existent file.
-    new Qrels("tools/topics-and-qrels/qrels.xxx.txt");
+    Qrels.loadFromFile("tools/topics-and-qrels/qrels.xxx.txt");
   }
 
   @Test(expected = IOException.class)
   public void testNonvalidQrels() throws IOException{
     // Purposely read non-valid qrels.
-    new Qrels("tools/topics-and-qrels/topics.robust04.txt ");
+    Qrels.loadFromFile("tools/topics-and-qrels/topics.robust04.txt ");
   }
 
   @Test
   public void testCacm() throws IOException{
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.cacm.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.cacm.txt");
     assertNotNull(qrels);
+    assertEquals("qrels.cacm.txt", qrels.name);
+    assertEquals("qrels.cacm.txt", qrels.name());
     assertEquals(52, qrels.getQids().size());
     assertEquals(796, getQrelsCount(qrels));
     assertEquals(1, qrels.getRelevanceGrade("1", "CACM-1410"));
@@ -79,7 +74,7 @@ public class QrelsTest{
 
   @Test
   public void testRobust04() throws IOException{
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.robust04.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.robust04.txt");
     assertNotNull(qrels);
     assertEquals(249, qrels.getQids().size());
     assertEquals(311410, getQrelsCount(qrels));
@@ -92,6 +87,8 @@ public class QrelsTest{
 
     qrels = Qrels.get("robust04");
     assertNotNull(qrels);
+    assertEquals("robust04", qrels.name);
+    assertEquals("robust04", qrels.name());
     assertEquals(249, qrels.getQids().size());
     assertEquals(311410, getQrelsCount(qrels));
     assertEquals(1, qrels.getRelevanceGrade("301", "FBIS3-10082"));
@@ -101,12 +98,11 @@ public class QrelsTest{
     assertTrue(qrels.isDocJudged("301", "FBIS3-10082"));
     assertNull(qrels.getDocMap("xxx"));
 
-    assertEquals(6543541, Qrels.getQrelsResource(Path.of("tools/topics-and-qrels/qrels.robust04.txt")).length());
   }
 
   @Test
   public void testRobust05() throws IOException{
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.robust05.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.robust05.txt");
     assertNotNull(qrels);
     assertEquals(50, qrels.getQids().size());
     assertEquals(37798, getQrelsCount(qrels));
@@ -123,7 +119,7 @@ public class QrelsTest{
 
   @Test
   public void testTrec19DLDoc() throws IOException{
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.dl19-doc.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.dl19-doc.txt");
     assertNotNull(qrels);
     assertEquals(43, qrels.getQids().size());
     assertEquals(16258, getQrelsCount(qrels));
@@ -140,7 +136,7 @@ public class QrelsTest{
 
   @Test
   public void testTrec19DLPassage() throws IOException{
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.dl19-passage.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.dl19-passage.txt");
     assertNotNull(qrels);
     assertEquals(43, qrels.getQids().size());
     assertEquals(9260, getQrelsCount(qrels));
@@ -157,7 +153,7 @@ public class QrelsTest{
 
   @Test
   public void testTrec20DLDoc() throws IOException{
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.dl20-doc.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.dl20-doc.txt");
     assertNotNull(qrels);
     assertEquals(45, qrels.getQids().size());
     assertEquals(9098, getQrelsCount(qrels));
@@ -174,7 +170,7 @@ public class QrelsTest{
 
   @Test
   public void testTrec20DLPassage() throws IOException{
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.dl20-passage.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.dl20-passage.txt");
     assertNotNull(qrels);
     assertEquals(54, qrels.getQids().size());
     assertEquals(11386, getQrelsCount(qrels));
@@ -196,7 +192,7 @@ public class QrelsTest{
     // % wc tools/topics-and-qrels/qrels.dl21-doc.txt
     //    13058   52232  478328 tools/topics-and-qrels/qrels.dl21-doc.txt
 
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.dl21-doc.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.dl21-doc.txt");
     assertNotNull(qrels);
     assertEquals(57, qrels.getQids().size());
     assertEquals(13058, getQrelsCount(qrels));
@@ -218,7 +214,7 @@ public class QrelsTest{
     // % wc tools/topics-and-qrels/qrels.dl21-passage.txt
     //    10828   43312  433887 tools/topics-and-qrels/qrels.dl21-passage.txt
 
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.dl21-passage.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.dl21-passage.txt");
     assertNotNull(qrels);
     assertEquals(53, qrels.getQids().size());
     assertEquals(10828, getQrelsCount(qrels));
@@ -240,7 +236,7 @@ public class QrelsTest{
     // % wc tools/topics-and-qrels/qrels.dl21-doc-msmarco-v2.1.txt
     //    10973   43892  456277 tools/topics-and-qrels/qrels.dl21-doc-msmarco-v2.1.txt
 
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.dl21-doc-msmarco-v2.1.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.dl21-doc-msmarco-v2.1.txt");
     assertNotNull(qrels);
     assertEquals(57, qrels.getQids().size());
     assertEquals(10973, getQrelsCount(qrels));
@@ -262,7 +258,7 @@ public class QrelsTest{
     // % wc tools/topics-and-qrels/qrels.dl22-doc.txt
     //   369638 1478552 13808681 tools/topics-and-qrels/qrels.dl22-doc.txt
 
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.dl22-doc.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.dl22-doc.txt");
     assertNotNull(qrels);
     assertEquals(76, qrels.getQids().size());
     assertEquals(369638, getQrelsCount(qrels));
@@ -284,7 +280,7 @@ public class QrelsTest{
     // % wc tools/topics-and-qrels/qrels.dl22-passage.txt
     //  386416 1545664 15800539 tools/topics-and-qrels/qrels.dl22-passage.txt
 
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.dl22-passage.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.dl22-passage.txt");
     assertNotNull(qrels);
     assertEquals(76, qrels.getQids().size());
     assertEquals(386416, getQrelsCount(qrels));
@@ -306,7 +302,7 @@ public class QrelsTest{
     // % wc tools/topics-and-qrels/qrels.dl22-doc-msmarco-v2.1.txt
     //   349541 1398164 14786970 tools/topics-and-qrels/qrels.dl22-doc-msmarco-v2.1.txt
 
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.dl22-doc-msmarco-v2.1.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.dl22-doc-msmarco-v2.1.txt");
     assertNotNull(qrels);
     assertEquals(76, qrels.getQids().size());
     assertEquals(349541, getQrelsCount(qrels));
@@ -328,7 +324,7 @@ public class QrelsTest{
     // % wc tools/topics-and-qrels/qrels.dl23-doc.txt
     //    18034   72136  675015 tools/topics-and-qrels/qrels.dl23-doc.txt
 
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.dl23-doc.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.dl23-doc.txt");
     assertNotNull(qrels);
     assertEquals(82, qrels.getQids().size());
     assertEquals(18034, getQrelsCount(qrels));
@@ -350,7 +346,7 @@ public class QrelsTest{
     // % wc tools/topics-and-qrels/qrels.dl23-passage.txt
     //   22327   89308  912450 tools/topics-and-qrels/qrels.dl23-passage.txt
 
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.dl23-passage.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.dl23-passage.txt");
     assertNotNull(qrels);
     assertEquals(82, qrels.getQids().size());
     assertEquals(22327, getQrelsCount(qrels));
@@ -372,7 +368,7 @@ public class QrelsTest{
     // % wc tools/topics-and-qrels/qrels.dl23-doc-msmarco-v2.1.txt
     //    15995   63980  677618 tools/topics-and-qrels/qrels.dl23-doc-msmarco-v2.1.txt
 
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.dl23-doc-msmarco-v2.1.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.dl23-doc-msmarco-v2.1.txt");
     assertNotNull(qrels);
     assertEquals(82, qrels.getQids().size());
     assertEquals(15995, getQrelsCount(qrels));
@@ -394,7 +390,7 @@ public class QrelsTest{
     // % wc tools/topics-and-qrels/qrels.rag24.raggy-dev.txt
     //   147328  589312 6377570 tools/topics-and-qrels/qrels.rag24.raggy-dev.txt
 
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.rag24.raggy-dev.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.rag24.raggy-dev.txt");
     assertNotNull(qrels);
     assertEquals(120, qrels.getQids().size());
     assertEquals(147328, getQrelsCount(qrels));
@@ -416,7 +412,7 @@ public class QrelsTest{
     // % wc tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt
     //   108479  433916 6475451 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt
 
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt");
     assertNotNull(qrels);
     assertEquals(301, qrels.getQids().size());
     assertEquals(108479, getQrelsCount(qrels));
@@ -438,7 +434,7 @@ public class QrelsTest{
     // % wc tools/topics-and-qrels/qrels.rag24.test.txt
     //   20429   81716 1201033 tools/topics-and-qrels/qrels.rag24.test.txt
 
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.rag24.test.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.rag24.test.txt");
     assertNotNull(qrels);
     assertEquals(89, qrels.getQids().size());
     assertEquals(20429, getQrelsCount(qrels));
@@ -460,7 +456,7 @@ public class QrelsTest{
     // % wc tools/topics-and-qrels/qrels.rag25.test-umbrela2.txt
     //   10284   41136  534193 tools/topics-and-qrels/qrels.rag25.test-umbrela2.txt
 
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.rag25.test-umbrela2.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.rag25.test-umbrela2.txt");
     assertNotNull(qrels);
     assertEquals(22, qrels.getQids().size());
     assertEquals(10284, getQrelsCount(qrels));
@@ -482,7 +478,7 @@ public class QrelsTest{
     // % wc tools/topics-and-qrels/qrels.rag25.test.txt
     //   10284   41136  523909 tools/topics-and-qrels/qrels.rag25.test.txt
 
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.rag25.test.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.rag25.test.txt");
     assertNotNull(qrels);
     assertEquals(22, qrels.getQids().size());
     assertEquals(10284, getQrelsCount(qrels));
@@ -499,7 +495,7 @@ public class QrelsTest{
 
   @Test
   public void testMsmarcoDocDev() throws IOException{
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.msmarco-doc.dev.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.msmarco-doc.dev.txt");
     assertNotNull(qrels);
     assertEquals(5193, qrels.getQids().size());
     assertEquals(5193, getQrelsCount(qrels));
@@ -516,7 +512,7 @@ public class QrelsTest{
 
   @Test
   public void testMsmarcoPassageDevSubset() throws IOException{
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt");
     assertNotNull(qrels);
     assertEquals(6980, qrels.getQids().size());
     assertEquals(7437, getQrelsCount(qrels));
@@ -533,7 +529,7 @@ public class QrelsTest{
 
   @Test
   public void testMsmarcoV2DocDevMsMarcoV21() throws IOException{
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.msmarco-v2.1-doc.dev.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.msmarco-v2.1-doc.dev.txt");
     assertNotNull(qrels);
     assertEquals(4552, qrels.getQids().size());
     assertEquals(4702, getQrelsCount(qrels));
@@ -550,7 +546,7 @@ public class QrelsTest{
 
   @Test
   public void testMsmarcoV2DocDev2MsMarcoV21() throws IOException{
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.msmarco-v2.1-doc.dev2.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.msmarco-v2.1-doc.dev2.txt");
     assertNotNull(qrels);
     assertEquals(5000, qrels.getQids().size());
     assertEquals(5177, getQrelsCount(qrels));
@@ -567,7 +563,7 @@ public class QrelsTest{
 
   @Test
   public void testMsmarcoV2DocPassage() throws IOException{
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.msmarco-v2-passage.dev.txt");
     assertNotNull(qrels);
     assertEquals(3903, qrels.getQids().size());
     assertEquals(4009, getQrelsCount(qrels));
@@ -584,7 +580,7 @@ public class QrelsTest{
 
   @Test
   public void testMsmarcoV2DocPassage2() throws IOException{
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.msmarco-v2-passage.dev2.txt");
     assertNotNull(qrels);
     assertEquals(4281, qrels.getQids().size());
     assertEquals(4411, getQrelsCount(qrels));
@@ -601,7 +597,7 @@ public class QrelsTest{
 
   @Test
   public void testMsmarcoV2DocDev() throws IOException{
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.msmarco-v2-doc.dev.txt");
     assertNotNull(qrels);
     assertEquals(4552, qrels.getQids().size());
     assertEquals(4702, getQrelsCount(qrels));
@@ -618,7 +614,7 @@ public class QrelsTest{
 
   @Test
   public void testMsmarcoV2DocDev2() throws IOException{
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.msmarco-v2-doc.dev2.txt");
     assertNotNull(qrels);
     assertEquals(5000, qrels.getQids().size());
     assertEquals(5178, getQrelsCount(qrels));
@@ -635,7 +631,7 @@ public class QrelsTest{
 
   @Test
   public void testCore17() throws IOException{
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.core17.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.core17.txt");
     assertNotNull(qrels);
     assertEquals(50, qrels.getQids().size());
     assertEquals(30030, getQrelsCount(qrels));
@@ -652,7 +648,7 @@ public class QrelsTest{
 
   @Test
   public void testCore18() throws IOException{
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.core18.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.core18.txt");
     assertNotNull(qrels);
     assertEquals(50, qrels.getQids().size());
     assertEquals(26233, getQrelsCount(qrels));
@@ -669,7 +665,7 @@ public class QrelsTest{
 
   @Test
   public void testCar15() throws IOException{
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.car17v1.5.benchmarkY1test.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.car17v1.5.benchmarkY1test.txt");
     assertNotNull(qrels);
     assertEquals(2125, qrels.getQids().size());
     assertEquals(5820, getQrelsCount(qrels));
@@ -690,7 +686,7 @@ public class QrelsTest{
 
   @Test
   public void testCar20() throws IOException{
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt");
     assertNotNull(qrels);
     assertEquals(2254, qrels.getQids().size());
     assertEquals(6192, getQrelsCount(qrels));
@@ -709,7 +705,7 @@ public class QrelsTest{
 
   @Test
   public void testTrec2018BL() throws IOException{
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.backgroundlinking18.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.backgroundlinking18.txt");
     assertNotNull(qrels);
     assertEquals(50, qrels.getQids().size());
     assertEquals(8508, getQrelsCount(qrels));
@@ -726,7 +722,7 @@ public class QrelsTest{
 
   @Test
   public void testTrec2019BL() throws IOException{
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.backgroundlinking19.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.backgroundlinking19.txt");
     assertNotNull(qrels);
     assertEquals(57, qrels.getQids().size());
     assertEquals(15655, getQrelsCount(qrels));
@@ -743,7 +739,7 @@ public class QrelsTest{
 
   @Test
   public void testTrec2020BL() throws IOException{
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.backgroundlinking20.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.backgroundlinking20.txt");
     assertNotNull(qrels);
     assertEquals(49, qrels.getQids().size());
     assertEquals(17764, getQrelsCount(qrels));
@@ -760,7 +756,7 @@ public class QrelsTest{
 
   @Test
   public void testCovidRound1() throws IOException{
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.covid-round1.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.covid-round1.txt");
     assertNotNull(qrels);
     assertEquals(30, qrels.getQids().size());
     assertEquals(8691, getQrelsCount(qrels));
@@ -777,7 +773,7 @@ public class QrelsTest{
 
   @Test
   public void testCovidRound2() throws IOException{
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.covid-round2.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.covid-round2.txt");
     assertNotNull(qrels);
     assertEquals(35, qrels.getQids().size());
     assertEquals(12037, getQrelsCount(qrels));
@@ -794,7 +790,7 @@ public class QrelsTest{
 
   @Test
   public void testCovidRound3() throws IOException{
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.covid-round3.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.covid-round3.txt");
     assertNotNull(qrels);
     assertEquals(40, qrels.getQids().size());
     assertEquals(12713, getQrelsCount(qrels));
@@ -811,7 +807,7 @@ public class QrelsTest{
 
   @Test
   public void testCovidRound4() throws IOException{
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.covid-round4.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.covid-round4.txt");
     assertNotNull(qrels);
     assertEquals(45, qrels.getQids().size());
     assertEquals(13262, getQrelsCount(qrels));
@@ -828,7 +824,7 @@ public class QrelsTest{
 
   @Test
   public void testCovidRound5() throws IOException{
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.covid-round5.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.covid-round5.txt");
     assertNotNull(qrels);
     assertEquals(50, qrels.getQids().size());
     assertEquals(23151, getQrelsCount(qrels));
@@ -845,7 +841,7 @@ public class QrelsTest{
 
   @Test
   public void testCovidRound3Cumulative() throws IOException{
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.covid-round3-cumulative.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.covid-round3-cumulative.txt");
     assertNotNull(qrels);
     assertEquals(40, qrels.getQids().size());
     assertEquals(33068, getQrelsCount(qrels));
@@ -862,7 +858,7 @@ public class QrelsTest{
 
   @Test
   public void testCovidRound4Cumulative() throws IOException{
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.covid-round4-cumulative.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.covid-round4-cumulative.txt");
     assertNotNull(qrels);
     assertEquals(45, qrels.getQids().size());
     assertEquals(46203, getQrelsCount(qrels));
@@ -879,7 +875,7 @@ public class QrelsTest{
 
   @Test
   public void testCovidComplete() throws IOException{
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.covid-complete.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.covid-complete.txt");
     assertNotNull(qrels);
     assertEquals(50, qrels.getQids().size());
     assertEquals(69318, getQrelsCount(qrels));
@@ -896,7 +892,7 @@ public class QrelsTest{
 
   @Test
   public void testNtcir8Zh() throws IOException{
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.ntcir8.eval.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.ntcir8.eval.txt");
     assertNotNull(qrels);
     assertEquals(100, qrels.getQids().size());
     assertEquals(110213, getQrelsCount(qrels));
@@ -913,7 +909,7 @@ public class QrelsTest{
 
   @Test
   public void testClef2006Fr() throws IOException{
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.clef06fr.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.clef06fr.txt");
     assertNotNull(qrels);
     assertEquals(49, qrels.getQids().size());
     assertEquals(17882, getQrelsCount(qrels));
@@ -930,7 +926,7 @@ public class QrelsTest{
 
   @Test
   public void testTrec2002Ar() throws IOException{
-    Qrels qrels = new Qrels("tools/topics-and-qrels/qrels.trec02ar.txt");
+    Qrels qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.trec02ar.txt");
     assertNotNull(qrels);
     assertEquals(50, qrels.getQids().size());
     assertEquals(38432, getQrelsCount(qrels));
@@ -949,7 +945,7 @@ public class QrelsTest{
   public void testMrTyDiAr() throws IOException{
     Qrels qrels;
 
-    qrels = new Qrels("tools/topics-and-qrels/qrels.mrtydi-v1.1-ar.train.txt");
+    qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.mrtydi-v1.1-ar.train.txt");
     assertNotNull(qrels);
     assertEquals(12377, qrels.getQids().size());
     assertEquals(12377, getQrelsCount(qrels));
@@ -959,7 +955,7 @@ public class QrelsTest{
     assertEquals(12377, qrels.getQids().size());
     assertEquals(12377, getQrelsCount(qrels));
 
-    qrels = new Qrels("tools/topics-and-qrels/qrels.mrtydi-v1.1-ar.dev.txt");
+    qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.mrtydi-v1.1-ar.dev.txt");
     assertNotNull(qrels);
     assertEquals(3115, qrels.getQids().size());
     assertEquals(3115, getQrelsCount(qrels));
@@ -969,7 +965,7 @@ public class QrelsTest{
     assertEquals(3115, qrels.getQids().size());
     assertEquals(3115, getQrelsCount(qrels));
 
-    qrels = new Qrels("tools/topics-and-qrels/qrels.mrtydi-v1.1-ar.test.txt");
+    qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.mrtydi-v1.1-ar.test.txt");
     assertNotNull(qrels);
     assertEquals(1081, qrels.getQids().size());
     assertEquals(1257, getQrelsCount(qrels));
@@ -984,7 +980,7 @@ public class QrelsTest{
   public void testMrTyDiBn() throws IOException{
     Qrels qrels;
 
-    qrels = new Qrels("tools/topics-and-qrels/qrels.mrtydi-v1.1-bn.train.txt");
+    qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.mrtydi-v1.1-bn.train.txt");
     assertNotNull(qrels);
     assertEquals(1713, qrels.getQids().size());
     assertEquals(1719, getQrelsCount(qrels));
@@ -994,7 +990,7 @@ public class QrelsTest{
     assertEquals(1713, qrels.getQids().size());
     assertEquals(1719, getQrelsCount(qrels));
 
-    qrels = new Qrels("tools/topics-and-qrels/qrels.mrtydi-v1.1-bn.dev.txt");
+    qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.mrtydi-v1.1-bn.dev.txt");
     assertNotNull(qrels);
     assertEquals(440, qrels.getQids().size());
     assertEquals(443, getQrelsCount(qrels));
@@ -1004,7 +1000,7 @@ public class QrelsTest{
     assertEquals(440, qrels.getQids().size());
     assertEquals(443, getQrelsCount(qrels));
 
-    qrels = new Qrels("tools/topics-and-qrels/qrels.mrtydi-v1.1-bn.test.txt");
+    qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.mrtydi-v1.1-bn.test.txt");
     assertNotNull(qrels);
     assertEquals(111, qrels.getQids().size());
     assertEquals(130, getQrelsCount(qrels));
@@ -1019,7 +1015,7 @@ public class QrelsTest{
   public void testMrTyDiEn() throws IOException{
     Qrels qrels;
 
-    qrels = new Qrels("tools/topics-and-qrels/qrels.mrtydi-v1.1-en.train.txt");
+    qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.mrtydi-v1.1-en.train.txt");
     assertNotNull(qrels);
     assertEquals(3547, qrels.getQids().size());
     assertEquals(3547, getQrelsCount(qrels));
@@ -1029,7 +1025,7 @@ public class QrelsTest{
     assertEquals(3547, qrels.getQids().size());
     assertEquals(3547, getQrelsCount(qrels));
 
-    qrels = new Qrels("tools/topics-and-qrels/qrels.mrtydi-v1.1-en.dev.txt");
+    qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.mrtydi-v1.1-en.dev.txt");
     assertNotNull(qrels);
     assertEquals(878, qrels.getQids().size());
     assertEquals(878, getQrelsCount(qrels));
@@ -1039,7 +1035,7 @@ public class QrelsTest{
     assertEquals(878, qrels.getQids().size());
     assertEquals(878, getQrelsCount(qrels));
 
-    qrels = new Qrels("tools/topics-and-qrels/qrels.mrtydi-v1.1-en.test.txt");
+    qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.mrtydi-v1.1-en.test.txt");
     assertNotNull(qrels);
     assertEquals(744, qrels.getQids().size());
     assertEquals(935, getQrelsCount(qrels));
@@ -1054,7 +1050,7 @@ public class QrelsTest{
   public void testMrTyDiFi() throws IOException{
     Qrels qrels;
 
-    qrels = new Qrels("tools/topics-and-qrels/qrels.mrtydi-v1.1-fi.train.txt");
+    qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.mrtydi-v1.1-fi.train.txt");
     assertNotNull(qrels);
     assertEquals(6561, qrels.getQids().size());
     assertEquals(6561, getQrelsCount(qrels));
@@ -1064,7 +1060,7 @@ public class QrelsTest{
     assertEquals(6561, qrels.getQids().size());
     assertEquals(6561, getQrelsCount(qrels));
 
-    qrels = new Qrels("tools/topics-and-qrels/qrels.mrtydi-v1.1-fi.dev.txt");
+    qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.mrtydi-v1.1-fi.dev.txt");
     assertNotNull(qrels);
     assertEquals(1738, qrels.getQids().size());
     assertEquals(1738, getQrelsCount(qrels));
@@ -1074,7 +1070,7 @@ public class QrelsTest{
     assertEquals(1738, qrels.getQids().size());
     assertEquals(1738, getQrelsCount(qrels));
 
-    qrels = new Qrels("tools/topics-and-qrels/qrels.mrtydi-v1.1-fi.test.txt");
+    qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.mrtydi-v1.1-fi.test.txt");
     assertNotNull(qrels);
     assertEquals(1254, qrels.getQids().size());
     assertEquals(1451, getQrelsCount(qrels));
@@ -1089,7 +1085,7 @@ public class QrelsTest{
   public void testMrTyDiId() throws IOException{
     Qrels qrels;
 
-    qrels = new Qrels("tools/topics-and-qrels/qrels.mrtydi-v1.1-id.train.txt");
+    qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.mrtydi-v1.1-id.train.txt");
     assertNotNull(qrels);
     assertEquals(4902, qrels.getQids().size());
     assertEquals(4902, getQrelsCount(qrels));
@@ -1099,7 +1095,7 @@ public class QrelsTest{
     assertEquals(4902, qrels.getQids().size());
     assertEquals(4902, getQrelsCount(qrels));
 
-    qrels = new Qrels("tools/topics-and-qrels/qrels.mrtydi-v1.1-id.dev.txt");
+    qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.mrtydi-v1.1-id.dev.txt");
     assertNotNull(qrels);
     assertEquals(1224, qrels.getQids().size());
     assertEquals(1224, getQrelsCount(qrels));
@@ -1109,7 +1105,7 @@ public class QrelsTest{
     assertEquals(1224, qrels.getQids().size());
     assertEquals(1224, getQrelsCount(qrels));
 
-    qrels = new Qrels("tools/topics-and-qrels/qrels.mrtydi-v1.1-id.test.txt");
+    qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.mrtydi-v1.1-id.test.txt");
     assertNotNull(qrels);
     assertEquals(829, qrels.getQids().size());
     assertEquals(961, getQrelsCount(qrels));
@@ -1124,7 +1120,7 @@ public class QrelsTest{
   public void testMrTyDiJa() throws IOException{
     Qrels qrels;
 
-    qrels = new Qrels("tools/topics-and-qrels/qrels.mrtydi-v1.1-ja.train.txt");
+    qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.mrtydi-v1.1-ja.train.txt");
     assertNotNull(qrels);
     assertEquals(3697, qrels.getQids().size());
     assertEquals(3697, getQrelsCount(qrels));
@@ -1134,7 +1130,7 @@ public class QrelsTest{
     assertEquals(3697, qrels.getQids().size());
     assertEquals(3697, getQrelsCount(qrels));
 
-    qrels = new Qrels("tools/topics-and-qrels/qrels.mrtydi-v1.1-ja.dev.txt");
+    qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.mrtydi-v1.1-ja.dev.txt");
     assertNotNull(qrels);
     assertEquals(928, qrels.getQids().size());
     assertEquals(928, getQrelsCount(qrels));
@@ -1144,7 +1140,7 @@ public class QrelsTest{
     assertEquals(928, qrels.getQids().size());
     assertEquals(928, getQrelsCount(qrels));
 
-    qrels = new Qrels("tools/topics-and-qrels/qrels.mrtydi-v1.1-ja.test.txt");
+    qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.mrtydi-v1.1-ja.test.txt");
     assertNotNull(qrels);
     assertEquals(720, qrels.getQids().size());
     assertEquals(923, getQrelsCount(qrels));
@@ -1159,7 +1155,7 @@ public class QrelsTest{
   public void testMrTyDiKo() throws IOException{
     Qrels qrels;
 
-    qrels = new Qrels("tools/topics-and-qrels/qrels.mrtydi-v1.1-ko.train.txt");
+    qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.mrtydi-v1.1-ko.train.txt");
     assertNotNull(qrels);
     assertEquals(1295, qrels.getQids().size());
     assertEquals(1317, getQrelsCount(qrels));
@@ -1169,7 +1165,7 @@ public class QrelsTest{
     assertEquals(1295, qrels.getQids().size());
     assertEquals(1317, getQrelsCount(qrels));
 
-    qrels = new Qrels("tools/topics-and-qrels/qrels.mrtydi-v1.1-ko.dev.txt");
+    qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.mrtydi-v1.1-ko.dev.txt");
     assertNotNull(qrels);
     assertEquals(303, qrels.getQids().size());
     assertEquals(307, getQrelsCount(qrels));
@@ -1179,7 +1175,7 @@ public class QrelsTest{
     assertEquals(303, qrels.getQids().size());
     assertEquals(307, getQrelsCount(qrels));
 
-    qrels = new Qrels("tools/topics-and-qrels/qrels.mrtydi-v1.1-ko.test.txt");
+    qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.mrtydi-v1.1-ko.test.txt");
     assertNotNull(qrels);
     assertEquals(421, qrels.getQids().size());
     assertEquals(492, getQrelsCount(qrels));
@@ -1194,7 +1190,7 @@ public class QrelsTest{
   public void testMrTyDiRu() throws IOException{
     Qrels qrels;
 
-    qrels = new Qrels("tools/topics-and-qrels/qrels.mrtydi-v1.1-ru.train.txt");
+    qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.mrtydi-v1.1-ru.train.txt");
     assertNotNull(qrels);
     assertEquals(5366, qrels.getQids().size());
     assertEquals(5366, getQrelsCount(qrels));
@@ -1204,7 +1200,7 @@ public class QrelsTest{
     assertEquals(5366, qrels.getQids().size());
     assertEquals(5366, getQrelsCount(qrels));
 
-    qrels = new Qrels("tools/topics-and-qrels/qrels.mrtydi-v1.1-ru.dev.txt");
+    qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.mrtydi-v1.1-ru.dev.txt");
     assertNotNull(qrels);
     assertEquals(1375, qrels.getQids().size());
     assertEquals(1375, getQrelsCount(qrels));
@@ -1214,7 +1210,7 @@ public class QrelsTest{
     assertEquals(1375, qrels.getQids().size());
     assertEquals(1375, getQrelsCount(qrels));
 
-    qrels = new Qrels("tools/topics-and-qrels/qrels.mrtydi-v1.1-ru.test.txt");
+    qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.mrtydi-v1.1-ru.test.txt");
     assertNotNull(qrels);
     assertEquals(995, qrels.getQids().size());
     assertEquals(1168, getQrelsCount(qrels));
@@ -1229,7 +1225,7 @@ public class QrelsTest{
   public void testMrTyDiSw() throws IOException{
     Qrels qrels;
 
-    qrels = new Qrels("tools/topics-and-qrels/qrels.mrtydi-v1.1-sw.train.txt");
+    qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.mrtydi-v1.1-sw.train.txt");
     assertNotNull(qrels);
     assertEquals(2072, qrels.getQids().size());
     assertEquals(2401, getQrelsCount(qrels));
@@ -1239,7 +1235,7 @@ public class QrelsTest{
     assertEquals(2072, qrels.getQids().size());
     assertEquals(2401, getQrelsCount(qrels));
 
-    qrels = new Qrels("tools/topics-and-qrels/qrels.mrtydi-v1.1-sw.dev.txt");
+    qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.mrtydi-v1.1-sw.dev.txt");
     assertNotNull(qrels);
     assertEquals(526, qrels.getQids().size());
     assertEquals(623, getQrelsCount(qrels));
@@ -1249,7 +1245,7 @@ public class QrelsTest{
     assertEquals(526, qrels.getQids().size());
     assertEquals(623, getQrelsCount(qrels));
 
-    qrels = new Qrels("tools/topics-and-qrels/qrels.mrtydi-v1.1-sw.test.txt");
+    qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.mrtydi-v1.1-sw.test.txt");
     assertNotNull(qrels);
     assertEquals(670, qrels.getQids().size());
     assertEquals(743, getQrelsCount(qrels));
@@ -1264,7 +1260,7 @@ public class QrelsTest{
   public void testMrTyDiTe() throws IOException{
     Qrels qrels;
 
-    qrels = new Qrels("tools/topics-and-qrels/qrels.mrtydi-v1.1-te.train.txt");
+    qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.mrtydi-v1.1-te.train.txt");
     assertNotNull(qrels);
     assertEquals(3880, qrels.getQids().size());
     assertEquals(3880, getQrelsCount(qrels));
@@ -1274,7 +1270,7 @@ public class QrelsTest{
     assertEquals(3880, qrels.getQids().size());
     assertEquals(3880, getQrelsCount(qrels));
 
-    qrels = new Qrels("tools/topics-and-qrels/qrels.mrtydi-v1.1-te.dev.txt");
+    qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.mrtydi-v1.1-te.dev.txt");
     assertNotNull(qrels);
     assertEquals(983, qrels.getQids().size());
     assertEquals(983, getQrelsCount(qrels));
@@ -1284,7 +1280,7 @@ public class QrelsTest{
     assertEquals(983, qrels.getQids().size());
     assertEquals(983, getQrelsCount(qrels));
 
-    qrels = new Qrels("tools/topics-and-qrels/qrels.mrtydi-v1.1-te.test.txt");
+    qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.mrtydi-v1.1-te.test.txt");
     assertNotNull(qrels);
     assertEquals(646, qrels.getQids().size());
     assertEquals(677, getQrelsCount(qrels));
@@ -1302,7 +1298,7 @@ public class QrelsTest{
   public void testMrTyDiTh() throws IOException{
     Qrels qrels;
 
-    qrels = new Qrels("tools/topics-and-qrels/qrels.mrtydi-v1.1-th.train.txt");
+    qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.mrtydi-v1.1-th.train.txt");
     assertNotNull(qrels);
     assertEquals(3319, qrels.getQids().size());
     assertEquals(3360, getQrelsCount(qrels));
@@ -1312,7 +1308,7 @@ public class QrelsTest{
     assertEquals(3319, qrels.getQids().size());
     assertEquals(3360, getQrelsCount(qrels));
 
-    qrels = new Qrels("tools/topics-and-qrels/qrels.mrtydi-v1.1-th.dev.txt");
+    qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.mrtydi-v1.1-th.dev.txt");
     assertNotNull(qrels);
     assertEquals(807, qrels.getQids().size());
     assertEquals(817, getQrelsCount(qrels));
@@ -1322,7 +1318,7 @@ public class QrelsTest{
     assertEquals(807, qrels.getQids().size());
     assertEquals(817, getQrelsCount(qrels));
 
-    qrels = new Qrels("tools/topics-and-qrels/qrels.mrtydi-v1.1-th.test.txt");
+    qrels = Qrels.loadFromFile("tools/topics-and-qrels/qrels.mrtydi-v1.1-th.test.txt");
     assertNotNull(qrels);
     assertEquals(1190, qrels.getQids().size());
     assertEquals(1368, getQrelsCount(qrels));
@@ -1616,6 +1612,41 @@ public class QrelsTest{
     assertNotNull(qrels);
     assertEquals(49, qrels.getQids().size());
     assertEquals(36575, getQrelsCount(qrels));
+  }
+
+  @Test
+  public void testHc4NeuClir2022() throws IOException{
+    Qrels qrels;
+
+    // % cut -f 1 -d ' ' tools/topics-and-qrels/qrels.hc4-neuclir22-fa.test.txt | uniq | wc
+    //      50      50     150
+    // % wc tools/topics-and-qrels/qrels.hc4-neuclir22-fa.test.txt
+    //    2041    8164   83026 tools/topics-and-qrels/qrels.hc4-neuclir22-fa.test.txt
+
+    qrels = Qrels.get("hc4-neuclir22-fa-test");
+    assertNotNull(qrels);
+    assertEquals(50, qrels.getQids().size());
+    assertEquals(2041, getQrelsCount(qrels));
+
+    // % cut -f 1 -d ' ' tools/topics-and-qrels/qrels.hc4-neuclir22-ru.test.txt | uniq | wc
+    //      50      50     150
+    // % wc tools/topics-and-qrels/qrels.hc4-neuclir22-ru.test.txt
+    //     625    2500   27384 tools/topics-and-qrels/qrels.hc4-neuclir22-ru.test.txt
+
+    qrels = Qrels.get("hc4-neuclir22-ru-test");
+    assertNotNull(qrels);
+    assertEquals(50, qrels.getQids().size());
+    assertEquals(625, getQrelsCount(qrels));
+
+    // % cut -f 1 -d ' ' tools/topics-and-qrels/qrels.hc4-neuclir22-zh.test.txt | uniq | wc
+    //      60      60     180
+    // % wc tools/topics-and-qrels/qrels.hc4-neuclir22-zh.test.txt
+    //    2573   10292  104451 tools/topics-and-qrels/qrels.hc4-neuclir22-zh.test.txt
+
+    qrels = Qrels.get("hc4-neuclir22-zh-test");
+    assertNotNull(qrels);
+    assertEquals(60, qrels.getQids().size());
+    assertEquals(2573, getQrelsCount(qrels));
   }
 
   @Test
@@ -1935,58 +1966,63 @@ public class QrelsTest{
   }
 
   @Test
-  public void testSymbolExpansion() throws IOException {
+  public void testPathResolution() throws IOException {
     Path expected;
     Path produced;
 
     expected = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve("qrels.cacm.txt");
-    produced = Qrels.getQrelsPath(Path.of("cacm"));
+    produced = Qrels.resolveQrelsPath("cacm");
+    assertNotNull(produced);
+    assertEquals(expected, produced);
+
+    expected = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve("qrels.robust04.txt");
+    produced = Qrels.resolveQrelsPath("qrels.robust04.txt");
     assertNotNull(produced);
     assertEquals(expected, produced);
 
     expected = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve("qrels.msmarco-passage.dev-subset.txt");
-    produced = Qrels.getQrelsPath(Path.of("msmarco-passage-dev-subset"));
+    produced = Qrels.resolveQrelsPath("qrels.msmarco-passage.dev-subset.txt");
     assertNotNull(produced);
     assertEquals(expected, produced);
 
     expected = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve("qrels.msmarco-v2-passage.dev2.txt");
-    produced = Qrels.getQrelsPath(Path.of("msmarco-v2-passage-dev2"));
+    produced = Qrels.resolveQrelsPath("qrels.msmarco-v2-passage.dev2.txt");
     assertNotNull(produced);
     assertEquals(expected, produced);
 
     expected = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve("qrels.miracl-v1.0-en-dev.tsv");
-    produced = Qrels.getQrelsPath(Path.of("miracl-v1.0-en-dev"));
+    produced = Qrels.resolveQrelsPath("qrels.miracl-v1.0-en-dev.tsv");
     assertNotNull(produced);
     assertEquals(expected, produced);
 
     expected = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve("qrels.covid-round3.txt");
-    produced = Qrels.getQrelsPath(Path.of("covid-round3"));
+    produced = Qrels.resolveQrelsPath("qrels.covid-round3.txt");
     assertNotNull(produced);
     assertEquals(expected, produced);
     
     expected = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve("qrels.ciral-v1.0-yo-test-a-pools.tsv");
-    produced = Qrels.getQrelsPath(Path.of("ciral-v1.0-yo-test-a-pools"));
+    produced = Qrels.resolveQrelsPath("qrels.ciral-v1.0-yo-test-a-pools.tsv");
     assertNotNull(produced);
     assertEquals(expected, produced);
 
     expected = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve("qrels.adhoc.151-200.txt");
-    produced = Qrels.getQrelsPath(Path.of("trec3-adhoc"));
+    produced = Qrels.resolveQrelsPath("qrels.adhoc.151-200.txt");
     assertNotNull(produced);
     assertEquals(expected, produced);
 
     expected = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve("qrels.microblog2012.txt");
-    produced = Qrels.getQrelsPath(Path.of("mb12"));
+    produced = Qrels.resolveQrelsPath("qrels.microblog2012.txt");
     assertNotNull(produced);
     assertEquals(expected, produced);
 
     expected = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve("qrels.terabyte04.701-750.txt");
-    produced = Qrels.getQrelsPath(Path.of("trec2004-terabyte"));
+    produced = Qrels.resolveQrelsPath("qrels.terabyte04.701-750.txt");
     assertNotNull(produced);
     assertEquals(expected, produced);
 
-    // Test for non valid symbols
+    // Test for non valid paths
     expected = Path.of("thisdoesnotexist");
-    produced = Qrels.getQrelsPath(Path.of("thisdoesnotexist"));
+    produced = Qrels.resolveQrelsPath("thisdoesnotexist");
     assertNotNull(produced);
     assertEquals(expected, produced);
   }
