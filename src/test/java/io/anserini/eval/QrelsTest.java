@@ -17,13 +17,18 @@
 package io.anserini.eval;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 
@@ -45,6 +50,34 @@ public class QrelsTest{
     assertEquals(233, new HashSet<>(Qrels.registry().values()).size());
   }
 
+  @Test
+  public void testLoadAliasesMissingCanonicalName() {
+    IllegalStateException exception = assertThrows(IllegalStateException.class, () ->
+        Qrels.loadAliases(Map.of("known", "qrels.known.txt"), Map.of("missing", List.of("missing-alias"))));
+    assertEquals("Qrels alias canonical name is not registered: missing", exception.getMessage());
+  }
+
+  @Test
+  public void testLoadAliasesRegisteredAliasName() {
+    Map<String, String> registry =
+        Map.of("known", "qrels.known.txt", "registered-alias", "qrels.registered-alias.txt");
+
+    IllegalStateException exception = assertThrows(IllegalStateException.class, () ->
+        Qrels.loadAliases(registry, Map.of("known", List.of("registered-alias"))));
+    assertEquals("Qrels alias is already registered as a canonical name: registered-alias", exception.getMessage());
+  }
+
+  @Test
+  public void testLoadAliasesDuplicateAliasName() {
+    Map<String, List<String>> aliases = new LinkedHashMap<>();
+    aliases.put("known1", List.of("shared-alias"));
+    aliases.put("known2", List.of("shared-alias"));
+
+    IllegalStateException exception = assertThrows(IllegalStateException.class, () ->
+        Qrels.loadAliases(Map.of("known1", "qrels.known1.txt", "known2", "qrels.known2.txt"), aliases));
+    assertEquals("Qrels alias shared-alias maps to both known1 and known2", exception.getMessage());
+  }
+
   @Test(expected = IOException.class)
   public void testFileNotFound() throws IOException {
     // Purposely read non-existent file.
@@ -55,6 +88,47 @@ public class QrelsTest{
   public void testNonvalidQrels() throws IOException {
     // Purposely read non-valid qrels.
     Qrels.loadFromFile("tools/topics-and-qrels/topics.robust04.txt ");
+  }
+
+  @Test
+  public void testLoadFromFile() throws IOException {
+    Qrels qrels = Qrels.loadFromFile("src/test/resources/sample_qrels/Trec");
+    assertNotNull(qrels);
+    assertEquals("Trec", qrels.name());
+    assertEquals(Path.of("src/test/resources/sample_qrels/Trec"), qrels.path());
+    assertEquals(1, qrels.getQids().size());
+    assertEquals(3, getQrelsCount(qrels));
+    assertEquals(0, qrels.getRelevanceGrade("1", "TREC_DOC_1"));
+    assertEquals(1, qrels.getRelevanceGrade("1", "DOC222"));
+    assertEquals(1, qrels.getRelevanceGrade("1", "WSJ_1"));
+    assertTrue(qrels.isDocJudged("1", "TREC_DOC_1"));
+    assertTrue(qrels.isDocJudged("1", "DOC222"));
+    assertEquals(3, qrels.getDocMap("1").size());
+    assertEquals(0, qrels.getRelevanceGrade("1", "DOC333"));
+    assertEquals(0, qrels.getRelevanceGrade("2", "DOC222"));
+    assertNull(qrels.getDocMap("2"));
+    assertFalse(qrels.isDocJudged("1", "DOC333"));
+    assertFalse(qrels.isDocJudged("2", "DOC222"));
+  }
+
+  @Test
+  public void testLoadFromFileMicroblog() throws IOException {
+    Qrels qrels = Qrels.loadFromFile("src/test/resources/sample_qrels/Microblog");
+    assertNotNull(qrels);
+    assertEquals(1, qrels.getQids().size());
+    assertEquals(6, getQrelsCount(qrels));
+    assertEquals(0, qrels.getRelevanceGrade("1", "1"));
+    assertEquals(1, qrels.getRelevanceGrade("1", "3"));
+    assertEquals(1, qrels.getRelevanceGrade("1", "8"));
+    assertEquals(1, qrels.getRelevanceGrade("1", "10"));
+    assertTrue(qrels.isDocJudged("1", "1"));
+    assertTrue(qrels.isDocJudged("1", "3"));
+    assertEquals(6, qrels.getDocMap("1").size());
+    assertEquals(0, qrels.getRelevanceGrade("1", "2"));
+    assertEquals(0, qrels.getRelevanceGrade("2", "3"));
+    assertNull(qrels.getDocMap("2"));
+    assertFalse(qrels.isDocJudged("1", "2"));
+    assertFalse(qrels.isDocJudged("2", "3"));
   }
 
   @Test(expected = IllegalArgumentException.class)

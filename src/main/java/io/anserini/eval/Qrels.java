@@ -141,32 +141,36 @@ public class Qrels {
   }
 
   private static Map<String, String> loadAliases() {
-    Map<String, String> registry = registry();
-    Map<String, String> aliases = new LinkedHashMap<>();
-
+    Map<String, List<String>> canonicalToAliases;
     try (InputStream inputStream = new URI(DEFAULT_ALIASES_METADATA_URL).toURL().openStream()) {
-      Map<String, List<String>> canonicalToAliases = mapper.readValue(inputStream, new TypeReference<>() {});
-      for (Map.Entry<String, List<String>> entry : canonicalToAliases.entrySet()) {
-        String canonicalName = entry.getKey();
-        if (!registry.containsKey(canonicalName)) {
-          throw new IllegalStateException("Qrels alias canonical name is not registered: " + canonicalName);
-        }
-
-        for (String alias : entry.getValue()) {
-          if (registry.containsKey(alias)) {
-            throw new IllegalStateException("Qrels alias is already registered as a canonical name: " + alias);
-          }
-
-          String existingCanonicalName = aliases.put(alias, canonicalName);
-          if (existingCanonicalName != null) {
-            throw new IllegalStateException("Qrels alias " + alias + " maps to both " + existingCanonicalName + " and " + canonicalName);
-          }
-        }
-      }
-      return Collections.unmodifiableMap(aliases);
+      canonicalToAliases = mapper.readValue(inputStream, new TypeReference<>() {});
     } catch (Exception e) {
       throw new IllegalStateException("Failed to load qrels aliases metadata from " + DEFAULT_ALIASES_METADATA_URL, e);
     }
+    return loadAliases(registry(), canonicalToAliases);
+  }
+
+  static Map<String, String> loadAliases(Map<String, String> registry, Map<String, List<String>> canonicalToAliases) {
+    Map<String, String> aliases = new LinkedHashMap<>();
+
+    for (Map.Entry<String, List<String>> entry : canonicalToAliases.entrySet()) {
+      String canonicalName = entry.getKey();
+      if (!registry.containsKey(canonicalName)) {
+        throw new IllegalStateException("Qrels alias canonical name is not registered: " + canonicalName);
+      }
+
+      for (String alias : entry.getValue()) {
+        if (registry.containsKey(alias)) {
+          throw new IllegalStateException("Qrels alias is already registered as a canonical name: " + alias);
+        }
+
+        String existingCanonicalName = aliases.put(alias, canonicalName);
+        if (existingCanonicalName != null) {
+          throw new IllegalStateException("Qrels alias " + alias + " maps to both " + existingCanonicalName + " and " + canonicalName);
+        }
+      }
+    }
+    return Collections.unmodifiableMap(aliases);
   }
 
   private static String resolveAlias(String name) {
