@@ -105,7 +105,7 @@ public class TrecEval {
     // If no exact match is found, we are expecting a symbol
     Path filePath;
     try {
-      filePath = RelevanceJudgments.getQrelsPath(Path.of(sym));
+      filePath = Qrels.getQrelsPath(Path.of(sym));
     } catch (IOException e) {
       filePath = Path.of(sym);
     }

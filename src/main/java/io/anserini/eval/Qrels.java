@@ -16,279 +16,275 @@
 
 package io.anserini.eval;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
-public enum Qrels {
-  CACM("qrels.cacm.txt"),
-  TREC1_ADHOC("qrels.adhoc.51-100.txt"),
-  TREC2_ADHOC("qrels.adhoc.101-150.txt"),
-  TREC3_ADHOC("qrels.adhoc.151-200.txt"),
-  ROBUST04("qrels.robust04.txt"),
-  ROBUST05("qrels.robust05.txt"),
-  CORE17("qrels.core17.txt"),
-  CORE18("qrels.core18.txt"),
-  WT10G("qrels.adhoc.451-550.txt"),
-  TREC2004_TERABYTE("qrels.terabyte04.701-750.txt"),
-  TREC2005_TERABYTE("qrels.terabyte05.751-800.txt"),
-  TREC2006_TERABYTE("qrels.terabyte06.801-850.txt"),
-  TREC2011_WEB("qrels.web.101-150.txt"),
-  TREC2012_WEB("qrels.web.151-200.txt"),
-  TREC2013_WEB("qrels.web.201-250.txt"),
-  TREC2014_WEB("qrels.web.251-300.txt"),
-  MB11("qrels.microblog2011.txt"),
-  MB12("qrels.microblog2012.txt"),
-  MB13("qrels.microblog2013.txt"),
-  MB14("qrels.microblog2014.txt"),
-  CAR17V15_BENCHMARK_Y1_TEST("qrels.car17v1.5.benchmarkY1test.txt"),
-  CAR17V20_BENCHMARK_Y1_TEST("qrels.car17v2.0.benchmarkY1test.txt"),
-  TREC2019_DL_DOC("qrels.dl19-doc.txt"),
-  TREC2019_DL_PASSAGE("qrels.dl19-passage.txt"),
-  TREC2020_DL_DOC("qrels.dl20-doc.txt"),
-  TREC2020_DL_PASSAGE("qrels.dl20-passage.txt"),
-  TREC2021_DL_DOC("qrels.dl21-doc.txt"),
-  TREC2021_DL_PASSAGE("qrels.dl21-passage.txt"),
-  TREC2022_DL_DOC("qrels.dl22-doc.txt"),
-  TREC2022_DL_PASSAGE("qrels.dl22-passage.txt"),
-  TREC2023_DL_DOC("qrels.dl23-doc.txt"),
-  TREC2023_DL_PASSAGE("qrels.dl23-passage.txt"),
-  TREC2021_DL_DOC_MSMARCO_V21("qrels.dl21-doc-msmarco-v2.1.txt"),
-  TREC2022_DL_DOC_MSMARCO_V21("qrels.dl22-doc-msmarco-v2.1.txt"),
-  TREC2023_DL_DOC_MSMARCO_V21("qrels.dl23-doc-msmarco-v2.1.txt"),
-  TREC2024_RAG_RAGGY_DEV("qrels.rag24.raggy-dev.txt"),
-  TREC2024_RAG_UMBRELA("qrels.rag24.test-umbrela-all.txt"),
-  TREC2024_RAG("qrels.rag24.test.txt"),
-  TREC2025_RAG_UMBRELA("qrels.rag25.test-umbrela2.txt"),
-  TREC2025_RAG("qrels.rag25.test.txt"),
-  MSMARCO_DOC_DEV("qrels.msmarco-doc.dev.txt"),
-  MSMARCO_PASSAGE_DEV_SUBSET("qrels.msmarco-passage.dev-subset.txt"),
-  MSMARCO_V2_DOC_DEV("qrels.msmarco-v2-doc.dev.txt"),
-  MSMARCO_V2_DOC_DEV2("qrels.msmarco-v2-doc.dev2.txt"),
-  MSMARCO_V2_PASSAGE_DEV("qrels.msmarco-v2-passage.dev.txt"),
-  MSMARCO_V2_PASSAGE_DEV2("qrels.msmarco-v2-passage.dev2.txt"),
-  MSMARCO_V21_DOC_DEV("qrels.msmarco-v2.1-doc.dev.txt"),
-  MSMARCO_V21_DOC_DEV2("qrels.msmarco-v2.1-doc.dev2.txt"),
-  NTCIR8_ZH("qrels.ntcir8.eval.txt"),
-  CLEF2006_FR("qrels.clef06fr.txt"),
-  TREC2002_AR("qrels.trec02ar.txt"),
-  FIRE2012_BN("qrels.fire12bn.176-225.txt"),
-  FIRE2012_HI("qrels.fire12hi.176-225.txt"),
-  FIRE2012_EN("qrels.fire12en.176-225.txt"),
-  COVID_COMPLETE("qrels.covid-complete.txt"),
-  COVID_ROUND1("qrels.covid-round1.txt"),
-  COVID_ROUND2("qrels.covid-round2.txt"),
-  COVID_ROUND3("qrels.covid-round3.txt"),
-  COVID_ROUND3_CUMULATIVE("qrels.covid-round3-cumulative.txt"),
-  COVID_ROUND4("qrels.covid-round4.txt"),
-  COVID_ROUND4_CUMULATIVE("qrels.covid-round4-cumulative.txt"),
-  COVID_ROUND5("qrels.covid-round5.txt"),
-  TREC2018_BL("qrels.backgroundlinking18.txt"),
-  TREC2019_BL("qrels.backgroundlinking19.txt"),
-  TREC2020_BL("qrels.backgroundlinking20.txt"),
-  MRTYDI_V11_AR_TRAIN("qrels.mrtydi-v1.1-ar.train.txt"),
-  MRTYDI_V11_AR_DEV("qrels.mrtydi-v1.1-ar.dev.txt"),
-  MRTYDI_V11_AR_TEST("qrels.mrtydi-v1.1-ar.test.txt"),
-  MRTYDI_V11_BN_TRAIN("qrels.mrtydi-v1.1-bn.train.txt"),
-  MRTYDI_V11_BN_DEV("qrels.mrtydi-v1.1-bn.dev.txt"),
-  MRTYDI_V11_BN_TEST("qrels.mrtydi-v1.1-bn.test.txt"),
-  MRTYDI_V11_EN_TRAIN("qrels.mrtydi-v1.1-en.train.txt"),
-  MRTYDI_V11_EN_DEV("qrels.mrtydi-v1.1-en.dev.txt"),
-  MRTYDI_V11_EN_TEST("qrels.mrtydi-v1.1-en.test.txt"),
-  MRTYDI_V11_FI_TRAIN("qrels.mrtydi-v1.1-fi.train.txt"),
-  MRTYDI_V11_FI_DEV("qrels.mrtydi-v1.1-fi.dev.txt"),
-  MRTYDI_V11_FI_TEST("qrels.mrtydi-v1.1-fi.test.txt"),
-  MRTYDI_V11_ID_TRAIN("qrels.mrtydi-v1.1-id.train.txt"),
-  MRTYDI_V11_ID_DEV("qrels.mrtydi-v1.1-id.dev.txt"),
-  MRTYDI_V11_ID_TEST("qrels.mrtydi-v1.1-id.test.txt"),
-  MRTYDI_V11_JA_TRAIN("qrels.mrtydi-v1.1-ja.train.txt"),
-  MRTYDI_V11_JA_DEV("qrels.mrtydi-v1.1-ja.dev.txt"),
-  MRTYDI_V11_JA_TEST("qrels.mrtydi-v1.1-ja.test.txt"),
-  MRTYDI_V11_KO_TRAIN("qrels.mrtydi-v1.1-ko.train.txt"),
-  MRTYDI_V11_KO_DEV("qrels.mrtydi-v1.1-ko.dev.txt"),
-  MRTYDI_V11_KO_TEST("qrels.mrtydi-v1.1-ko.test.txt"),
-  MRTYDI_V11_RU_TRAIN("qrels.mrtydi-v1.1-ru.train.txt"),
-  MRTYDI_V11_RU_DEV("qrels.mrtydi-v1.1-ru.dev.txt"),
-  MRTYDI_V11_RU_TEST("qrels.mrtydi-v1.1-ru.test.txt"),
-  MRTYDI_V11_SW_TRAIN("qrels.mrtydi-v1.1-sw.train.txt"),
-  MRTYDI_V11_SW_DEV("qrels.mrtydi-v1.1-sw.dev.txt"),
-  MRTYDI_V11_SW_TEST("qrels.mrtydi-v1.1-sw.test.txt"),
-  MRTYDI_V11_TE_TRAIN("qrels.mrtydi-v1.1-te.train.txt"),
-  MRTYDI_V11_TE_DEV("qrels.mrtydi-v1.1-te.dev.txt"),
-  MRTYDI_V11_TE_TEST("qrels.mrtydi-v1.1-te.test.txt"),
-  MRTYDI_V11_TH_TRAIN("qrels.mrtydi-v1.1-th.train.txt"),
-  MRTYDI_V11_TH_DEV("qrels.mrtydi-v1.1-th.dev.txt"),
-  MRTYDI_V11_TH_TEST("qrels.mrtydi-v1.1-th.test.txt"),
-  BEIR_V1_0_0_TREC_COVID_TEST("qrels.beir-v1.0.0-trec-covid.test.txt"),
-  BEIR_V1_0_0_BIOASQ_TEST("qrels.beir-v1.0.0-bioasq.test.txt"),
-  BEIR_V1_0_0_NFCORPUS_TEST("qrels.beir-v1.0.0-nfcorpus.test.txt"),
-  BEIR_V1_0_0_NQ_TEST("qrels.beir-v1.0.0-nq.test.txt"),
-  BEIR_V1_0_0_HOTPOTQA_TEST("qrels.beir-v1.0.0-hotpotqa.test.txt"),
-  BEIR_V1_0_0_FIQA_TEST("qrels.beir-v1.0.0-fiqa.test.txt"),
-  BEIR_V1_0_0_SIGNAL1M_TEST("qrels.beir-v1.0.0-signal1m.test.txt"),
-  BEIR_V1_0_0_TREC_NEWS_TEST("qrels.beir-v1.0.0-trec-news.test.txt"),
-  BEIR_V1_0_0_ROBUST04_TEST("qrels.beir-v1.0.0-robust04.test.txt"),
-  BEIR_V1_0_0_ARGUANA_TEST("qrels.beir-v1.0.0-arguana.test.txt"),
-  BEIR_V1_0_0_WEBIS_TOUCHE2020_TEST("qrels.beir-v1.0.0-webis-touche2020.test.txt"),
-  BEIR_V1_0_0_CQADUPSTACK_ANDROID_TEST("qrels.beir-v1.0.0-cqadupstack-android.test.txt"),
-  BEIR_V1_0_0_CQADUPSTACK_ENGLISH_TEST("qrels.beir-v1.0.0-cqadupstack-english.test.txt"),
-  BEIR_V1_0_0_CQADUPSTACK_GAMING_TEST("qrels.beir-v1.0.0-cqadupstack-gaming.test.txt"),
-  BEIR_V1_0_0_CQADUPSTACK_GIS_TEST("qrels.beir-v1.0.0-cqadupstack-gis.test.txt"),
-  BEIR_V1_0_0_CQADUPSTACK_MATHEMATICA_TEST("qrels.beir-v1.0.0-cqadupstack-mathematica.test.txt"),
-  BEIR_V1_0_0_CQADUPSTACK_PHYSICS_TEST("qrels.beir-v1.0.0-cqadupstack-physics.test.txt"),
-  BEIR_V1_0_0_CQADUPSTACK_PROGRAMMERS_TEST("qrels.beir-v1.0.0-cqadupstack-programmers.test.txt"),
-  BEIR_V1_0_0_CQADUPSTACK_STATS_TEST("qrels.beir-v1.0.0-cqadupstack-stats.test.txt"),
-  BEIR_V1_0_0_CQADUPSTACK_TEX_TEST("qrels.beir-v1.0.0-cqadupstack-tex.test.txt"),
-  BEIR_V1_0_0_CQADUPSTACK_UNIX_TEST("qrels.beir-v1.0.0-cqadupstack-unix.test.txt"),
-  BEIR_V1_0_0_CQADUPSTACK_WEBMASTERS_TEST("qrels.beir-v1.0.0-cqadupstack-webmasters.test.txt"),
-  BEIR_V1_0_0_CQADUPSTACK_WORDPRESS_TEST("qrels.beir-v1.0.0-cqadupstack-wordpress.test.txt"),
-  BEIR_V1_0_0_QUORA_TEST("qrels.beir-v1.0.0-quora.test.txt"),
-  BEIR_V1_0_0_DBPEDIA_ENTITY_TEST("qrels.beir-v1.0.0-dbpedia-entity.test.txt"),
-  BEIR_V1_0_0_SCIDOCS_TEST("qrels.beir-v1.0.0-scidocs.test.txt"),
-  BEIR_V1_0_0_FEVER_TEST("qrels.beir-v1.0.0-fever.test.txt"),
-  BEIR_V1_0_0_CLIMATE_FEVER_TEST("qrels.beir-v1.0.0-climate-fever.test.txt"),
-  BEIR_V1_0_0_SCIFACT_TEST("qrels.beir-v1.0.0-scifact.test.txt"),
-  HC4_V1_0_FA_DEV("qrels.hc4-v1.0-fa.dev.txt"),
-  HC4_V1_0_FA_TEST("qrels.hc4-v1.0-fa.test.txt"),
-  HC4_V1_0_RU_DEV("qrels.hc4-v1.0-ru.dev.txt"),
-  HC4_V1_0_RU_TEST("qrels.hc4-v1.0-ru.test.txt"),
-  HC4_V1_0_ZH_DEV("qrels.hc4-v1.0-zh.dev.txt"),
-  HC4_V1_0_ZH_TEST("qrels.hc4-v1.0-zh.test.txt"),
-  HC4_NEUCLIR22_FA_TEST("qrels.hc4-neuclir22-fa.test.txt"),
-  HC4_NEUCLIR22_RU_TEST("qrels.hc4-neuclir22-ru.test.txt"),
-  HC4_NEUCLIR22_ZH_TEST("qrels.hc4-neuclir22-zh.test.txt"),
-  NEUCLIR22_FA("qrels.neuclir22-fa.txt"),
-  NEUCLIR22_RU("qrels.neuclir22-ru.txt"),
-  NEUCLIR22_ZH("qrels.neuclir22-zh.txt"),
-  MIRACL_V10_AR_DEV("qrels.miracl-v1.0-ar-dev.tsv"),
-  MIRACL_V10_BN_DEV("qrels.miracl-v1.0-bn-dev.tsv"),
-  MIRACL_V10_EN_DEV("qrels.miracl-v1.0-en-dev.tsv"),
-  MIRACL_V10_ES_DEV("qrels.miracl-v1.0-es-dev.tsv"),
-  MIRACL_V10_FA_DEV("qrels.miracl-v1.0-fa-dev.tsv"),
-  MIRACL_V10_FI_DEV("qrels.miracl-v1.0-fi-dev.tsv"),
-  MIRACL_V10_FR_DEV("qrels.miracl-v1.0-fr-dev.tsv"),
-  MIRACL_V10_HI_DEV("qrels.miracl-v1.0-hi-dev.tsv"),
-  MIRACL_V10_ID_DEV("qrels.miracl-v1.0-id-dev.tsv"),
-  MIRACL_V10_JA_DEV("qrels.miracl-v1.0-ja-dev.tsv"),
-  MIRACL_V10_KO_DEV("qrels.miracl-v1.0-ko-dev.tsv"),
-  MIRACL_V10_RU_DEV("qrels.miracl-v1.0-ru-dev.tsv"),
-  MIRACL_V10_SW_DEV("qrels.miracl-v1.0-sw-dev.tsv"),
-  MIRACL_V10_TE_DEV("qrels.miracl-v1.0-te-dev.tsv"),
-  MIRACL_V10_TH_DEV("qrels.miracl-v1.0-th-dev.tsv"),
-  MIRACL_V10_ZH_DEV("qrels.miracl-v1.0-zh-dev.tsv"),
-  MIRACL_V10_DE_DEV("qrels.miracl-v1.0-de-dev.tsv"),
-  MIRACL_V10_YO_DEV("qrels.miracl-v1.0-yo-dev.tsv"),
-  ATOMIC_VAL_T2I("qrels.atomic.validation.t2i.trec"),
-  ATOMIC_VAL_I2T("qrels.atomic.validation.i2t.trec"),
-  CIRAL_V10_HA_DEV("qrels.ciral-v1.0-ha-dev.tsv"),
-  CIRAL_V10_SO_DEV("qrels.ciral-v1.0-so-dev.tsv"),
-  CIRAL_V10_SW_DEV("qrels.ciral-v1.0-sw-dev.tsv"),
-  CIRAL_V10_YO_DEV("qrels.ciral-v1.0-yo-dev.tsv"),
-  CIRAL_V10_HA_TEST_A("qrels.ciral-v1.0-ha-test-a.tsv"),
-  CIRAL_V10_SO_TEST_A("qrels.ciral-v1.0-so-test-a.tsv"),
-  CIRAL_V10_SW_TEST_A("qrels.ciral-v1.0-sw-test-a.tsv"),
-  CIRAL_V10_YO_TEST_A("qrels.ciral-v1.0-yo-test-a.tsv"),
-  CIRAL_V10_HA_TEST_A_POOLS("qrels.ciral-v1.0-ha-test-a-pools.tsv"),
-  CIRAL_V10_SO_TEST_A_POOLS("qrels.ciral-v1.0-so-test-a-pools.tsv"),
-  CIRAL_V10_SW_TEST_A_POOLS("qrels.ciral-v1.0-sw-test-a-pools.tsv"),
-  CIRAL_V10_YO_TEST_A_POOLS("qrels.ciral-v1.0-yo-test-a-pools.tsv"),
-  CIRAL_V10_HA_TEST_B("qrels.ciral-v1.0-ha-test-b.tsv"),
-  CIRAL_V10_SO_TEST_B("qrels.ciral-v1.0-so-test-b.tsv"),
-  CIRAL_V10_SW_TEST_B("qrels.ciral-v1.0-sw-test-b.tsv"),
-  CIRAL_V10_YO_TEST_B("qrels.ciral-v1.0-yo-test-b.tsv"),
-  BRIGHT_BIOLOGY("qrels.bright-biology.txt"),
-  BRIGHT_EARTH_SCIENCE("qrels.bright-earth-science.txt"),
-  BRIGHT_ECONOMICS("qrels.bright-economics.txt"),
-  BRIGHT_PSYCHOLOGY("qrels.bright-psychology.txt"),
-  BRIGHT_ROBOTICS("qrels.bright-robotics.txt"),
-  BRIGHT_STACKOVERFLOW("qrels.bright-stackoverflow.txt"),
-  BRIGHT_SUSTAINABLE_LIVING("qrels.bright-sustainable-living.txt"),
-  BRIGHT_PONY("qrels.bright-pony.txt"),
-  BRIGHT_LEETCODE("qrels.bright-leetcode.txt"),
-  BRIGHT_AOPS("qrels.bright-aops.txt"),
-  BRIGHT_THEOREMQA_THEOREMS("qrels.bright-theoremqa-theorems.txt"),
-  BRIGHT_THEOREMQA_QUESTIONS("qrels.bright-theoremqa-questions.txt"),
-  M_BEIR_CIRR_TASK7_TEST("qrels.m-beir-cirr-task7.test.txt"),
-  M_BEIR_FASHIONIQ_TASK7_TEST("qrels.m-beir-fashioniq-task7.test.txt"),
-  M_BEIR_MSCOCO_TASK0_TEST("qrels.m-beir-mscoco-task0.test.txt"),
-  M_BEIR_MSCOCO_TASK3_TEST("qrels.m-beir-mscoco-task3.test.txt"),
-  M_BEIR_VISUALNEWS_TASK0_TEST("qrels.m-beir-visualnews-task0.test.txt"),
-  M_BEIR_VISUALNEWS_TASK3_TEST("qrels.m-beir-visualnews-task3.test.txt"),
-  M_BEIR_EDIS_TASK2_TEST("qrels.m-beir-edis-task2.test.txt"),
-  M_BEIR_INFOSEEK_TASK6_TEST("qrels.m-beir-infoseek-task6.test.txt"),
-  M_BEIR_INFOSEEK_TASK8_TEST("qrels.m-beir-infoseek-task8.test.txt"),
-  M_BEIR_NIGHTS_TASK4_TEST("qrels.m-beir-nights-task4.test.txt"),
-  M_BEIR_OVEN_TASK6_TEST("qrels.m-beir-oven-task6.test.txt"),
-  M_BEIR_OVEN_TASK8_TEST("qrels.m-beir-oven-task8.test.txt"),
-  M_BEIR_WEBQA_TASK1_TEST("qrels.m-beir-webqa-task1.test.txt"),
-  M_BEIR_WEBQA_TASK2_TEST("qrels.m-beir-webqa-task2.test.txt"),
-  M_BEIR_FASHION200K_TASK0_TEST("qrels.m-beir-fashion200k-task0.test.txt"),
-  M_BEIR_FASHION200K_TASK3_TEST("qrels.m-beir-fashion200k-task3.test.txt"),
-  SLIDEVQA_TEST("qrels.slidevqa.test.txt"),
-  MMEB_VISDOC_VIDORE_ARXIVQA_TEST("qrels.mmeb-visdoc-ViDoRe_arxivqa.test.txt"),
-  MMEB_VISDOC_VIDORE_DOCVQA_TEST("qrels.mmeb-visdoc-ViDoRe_docvqa.test.txt"),
-  MMEB_VISDOC_VIDORE_INFOVQA_TEST("qrels.mmeb-visdoc-ViDoRe_infovqa.test.txt"),
-  MMEB_VISDOC_VIDORE_SHIFTPROJECT_TEST("qrels.mmeb-visdoc-ViDoRe_shiftproject.test.txt"),
-  MMEB_VISDOC_VIDORE_SYNTHETIC_DOCQA_ARTIFICIAL_INTELLIGENCE_TEST("qrels.mmeb-visdoc-ViDoRe_syntheticDocQA_artificial_intelligence.test.txt"),
-  MMEB_VISDOC_VIDORE_SYNTHETIC_DOCQA_ENERGY_TEST("qrels.mmeb-visdoc-ViDoRe_syntheticDocQA_energy.test.txt"),
-  MMEB_VISDOC_VIDORE_SYNTHETIC_DOCQA_GOVERNMENT_REPORTS_TEST("qrels.mmeb-visdoc-ViDoRe_syntheticDocQA_government_reports.test.txt"),
-  MMEB_VISDOC_VIDORE_SYNTHETIC_DOCQA_HEALTHCARE_INDUSTRY_TEST("qrels.mmeb-visdoc-ViDoRe_syntheticDocQA_healthcare_industry.test.txt"),
-  MMEB_VISDOC_VIDORE_TABFQUAD_TEST("qrels.mmeb-visdoc-ViDoRe_tabfquad.test.txt"),
-  MMEB_VISDOC_VIDORE_TATDQA_TEST("qrels.mmeb-visdoc-ViDoRe_tatdqa.test.txt"),
-  MMEB_VISDOC_VIDORE_BIOMEDICAL_LECTURES_V2_TEST("qrels.mmeb-visdoc-ViDoRe_biomedical_lectures_v2.test.txt"),
-  MMEB_VISDOC_VIDORE_BIOMEDICAL_LECTURES_V2_MULTILINGUAL_TEST("qrels.mmeb-visdoc-ViDoRe_biomedical_lectures_v2_multilingual.test.txt"),
-  MMEB_VISDOC_VIDORE_ECONOMICS_REPORTS_V2_TEST("qrels.mmeb-visdoc-ViDoRe_economics_reports_v2.test.txt"),
-  MMEB_VISDOC_VIDORE_ECONOMICS_REPORTS_V2_MULTILINGUAL_TEST("qrels.mmeb-visdoc-ViDoRe_economics_reports_v2_multilingual.test.txt"),
-  MMEB_VISDOC_VIDORE_ESG_REPORTS_HUMAN_LABELED_V2_TEST("qrels.mmeb-visdoc-ViDoRe_esg_reports_human_labeled_v2.test.txt"),
-  MMEB_VISDOC_VIDORE_ESG_REPORTS_V2_TEST("qrels.mmeb-visdoc-ViDoRe_esg_reports_v2.test.txt"),
-  MMEB_VISDOC_VIDORE_ESG_REPORTS_V2_MULTILINGUAL_TEST("qrels.mmeb-visdoc-ViDoRe_esg_reports_v2_multilingual.test.txt"),
-  MMEB_VISDOC_VISRAG_ARXIVQA_TRAIN("qrels.mmeb-visdoc-VisRAG_ArxivQA.train.txt"),
-  MMEB_VISDOC_VISRAG_CHARTQA_TRAIN("qrels.mmeb-visdoc-VisRAG_ChartQA.train.txt"),
-  MMEB_VISDOC_VISRAG_INFOVQA_TRAIN("qrels.mmeb-visdoc-VisRAG_InfoVQA.train.txt"),
-  MMEB_VISDOC_VISRAG_MP_DOCVQA_TRAIN("qrels.mmeb-visdoc-VisRAG_MP-DocVQA.train.txt"),
-  MMEB_VISDOC_VISRAG_PLOTQA_TRAIN("qrels.mmeb-visdoc-VisRAG_PlotQA.train.txt"),
-  MMEB_VISDOC_VISRAG_SLIDEVQA_TRAIN("qrels.mmeb-visdoc-VisRAG_SlideVQA.train.txt"),
-  MMEB_VISDOC_VIDOSEEK_DOC_TEST("qrels.mmeb-visdoc-ViDoSeek-doc.test.txt"),
-  MMEB_VISDOC_VIDOSEEK_PAGE_TEST("qrels.mmeb-visdoc-ViDoSeek-page.test.txt"),
-  MMEB_VISDOC_MMLONGBENCH_DOC_TEST("qrels.mmeb-visdoc-MMLongBench-doc.test.txt"),
-  MMEB_VISDOC_MMLONGBENCH_PAGE_TEST("qrels.mmeb-visdoc-MMLongBench-page.test.txt");
+import org.apache.commons.io.FileUtils;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-  private static final Map<String, String> symbolFileDict = generateSymbolFileDict();
+import io.anserini.util.CacheDirectoryResolver;
 
-  private static HashMap<String, String> generateSymbolFileDict() {
-    HashMap<String, String> m = new HashMap<>();
-    for (Qrels qrels : Qrels.values()) {
-      String sym = qrels.path.substring(qrels.path.indexOf('.') + 1, qrels.path.lastIndexOf('.'));
-      m.put(sym, qrels.path);
+public class Qrels {
+  public static final String METADATA_URL_PROPERTY = "anserini.qrels.metadata.url";
+  public static final String DEFAULT_METADATA_URL =
+      "https://raw.githubusercontent.com/castorini/anserini-tools/master/topics-and-qrels/_metadata_qrels.json";
+  private static final String SERVER_PATH = "https://raw.githubusercontent.com/castorini/anserini-tools/master/topics-and-qrels/";
+
+  private static final ObjectMapper mapper = new ObjectMapper();
+  private static volatile Map<String, String> symbolFileDict;
+
+  public final String symbol;
+  public final String path;
+  private final Map<String, Map<String, Integer>> qrels;
+
+  public Qrels(String file) throws IOException {
+    this(null, file);
+  }
+
+  protected Qrels(String symbol, String path) throws IOException {
+    this.symbol = symbol;
+    this.path = path;
+    this.qrels = loadQrels(path);
+  }
+
+  public static Qrels get(String symbol) throws IOException {
+    String path = registry().get(symbol);
+    if (path == null) {
+      throw new IllegalArgumentException("Unknown qrels symbol: " + symbol);
+    }
+    return new Qrels(symbol, path);
+  }
+
+  public static Qrels fromQrels(String symbol) throws IOException {
+    return get(symbol);
+  }
+
+  public static Qrels fromQrels(Qrels qrels) throws IOException {
+    return qrels;
+  }
+
+  public static Map<String, String> registry() {
+    Map<String, String> registry = symbolFileDict;
+    if (registry == null) {
+      synchronized (Qrels.class) {
+        registry = symbolFileDict;
+        if (registry == null) {
+          registry = loadRegistry();
+          symbolFileDict = registry;
+        }
+      }
+    }
+    return registry;
+  }
+
+  public static Set<String> symbols() {
+    return registry().keySet();
+  }
+
+  public static void refresh() {
+    synchronized (Qrels.class) {
+      symbolFileDict = loadRegistry();
+    }
+  }
+
+  private static Map<String, String> loadRegistry() {
+    String metadataUrl = System.getProperty(METADATA_URL_PROPERTY, DEFAULT_METADATA_URL);
+    try (InputStream inputStream = new URI(metadataUrl).toURL().openStream()) {
+      Map<String, String> registry = mapper.readValue(inputStream, new TypeReference<>() {});
+      return Collections.unmodifiableMap(new TreeMap<>(registry));
+    } catch (Exception e) {
+      throw new IllegalStateException("Failed to load qrels metadata from " + metadataUrl, e);
+    }
+  }
+
+  public String symbol() {
+    return symbol;
+  }
+
+  public String path() {
+    return path;
+  }
+
+  /**
+   * Method will return whether this docId for this qid is judged or not
+   * Note that if qid is invalid this will always return false
+   * 
+   * @param qid   qid
+   * @param docid docid
+   * @return true if docId is judged against qid false otherwise
+   */
+  public boolean isDocJudged(String qid, String docid) {
+    if (!qrels.containsKey(qid)) {
+      return false;
     }
 
-    // Additional aliases
-    m.put("msmarco-passage-dev", "qrels.msmarco-passage.dev-subset.txt");
-    m.put("msmarco-v1-passage-dev", "qrels.msmarco-passage.dev-subset.txt");
-    m.put("msmarco-passage.dev", "qrels.msmarco-passage.dev-subset.txt");
-    m.put("msmarco-v1-passage.dev", "qrels.msmarco-passage.dev-subset.txt");
-    m.put("rag24.test-umbrela", "qrels.rag24.test-umbrela-all.txt");
-
-    return m;
+    if (!qrels.get(qid).containsKey(docid)) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
-  public final String path;
+  public <K> int getRelevanceGrade(K qid, String docid) {
+    if (!qrels.containsKey(qid)) {
+      return 0;
+    }
 
-  Qrels(String path) {
-    this.path = path;
+    if (!qrels.get(qid).containsKey(docid)) {
+      return 0;
+    }
+
+    if (qrels.get(qid).get(docid) <= 0)
+      return 0;
+    return qrels.get(qid).get(docid);
   }
 
-  public static boolean contains(Path topicPath) {
-    return symbolFileDict.containsValue(topicPath.getFileName().toString());
+  public Set<String> getQids() {
+    return this.qrels.keySet();
   }
 
-  public static boolean containsSymbol(Path topicPath) {
-    return symbolFileDict.containsKey(topicPath.getFileName().toString());
+  public Map<String, Integer> getDocMap(String qid) {
+    if (this.qrels.containsKey(qid)) {
+      return this.qrels.get(qid);
+    } else {
+      return null;
+    }
+  }
+
+  private static Map<String, Map<String, Integer>> loadQrels(String file) throws IOException {
+    Map<String, Map<String, Integer>> qrels = new HashMap<>();
+    Path qrelsPath = Path.of(file);
+    try {
+      qrelsPath = getQrelsPath(qrelsPath);
+    } catch (IOException e) {
+      System.out.println("Qrels file not found at " + qrelsPath);
+    }
+
+    try (BufferedReader br = new BufferedReader(new FileReader(qrelsPath.toString()))) {
+      String line;
+      String[] arr;
+      while ((line = br.readLine()) != null) {
+        arr = line.split("[\\s\\t]+");
+        String qid = arr[0];
+        String docno = arr[2];
+        int grade = Integer.parseInt(arr[3]);
+        if (qrels.containsKey(qid)) {
+          qrels.get(qid).put(docno, grade);
+        } else {
+          Map<String, Integer> t = new HashMap<>();
+          t.put(docno, grade);
+          qrels.put(qid, t);
+        }
+      }
+    } catch (IOException e) {
+      throw new IOException("Could not read qrels file!");
+    }
+    return qrels;
+  }
+
+  /**
+   * Method will return the qrels file as a string
+   * 
+   * @param qrelsPath path to qrels file
+   * @return qrels file as a string
+   * @throws IOException if qrels file is not found
+   */
+  public static String getQrelsResource(Path qrelsPath) throws IOException {
+    Path resultPath = qrelsPath;
+    try {
+      resultPath = getQrelsPath(qrelsPath);
+    } catch (Exception e) {
+      throw new IOException("Could not get qrels file either from server or local file system!");
+    }
+
+    try (InputStream inputStream = Files.newInputStream(resultPath)) {
+      String raw = new String(inputStream.readAllBytes());
+      return raw;
+    }
+  }
+
+  /**
+   * Method will look for the absolute qrels path and return it as a Path object
+   * 
+   * @param qrelsPath path to qrels file
+   * @return qrels path
+   * @throws IOException
+   */
+  public static Path getQrelsPath(Path qrelsPath) throws IOException {
+    boolean isContained = Qrels.contains(qrelsPath);
+    boolean isContainedSymbol = false;
+    if (!isContained) {
+      isContainedSymbol = Qrels.containsSymbol(qrelsPath);
+    }
+    if (!isContained && !isContainedSymbol) {
+      // If the qrels file is not in the list of known qrels, we assume it is a local file.
+      Path tempPath = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve(qrelsPath.getFileName());
+      if (Files.exists(tempPath)) {
+        // if it is an unregistered qrels in the Qrels registry, but it is in the cache, we use it.
+        return tempPath;
+      }
+      return qrelsPath;
+    }
+
+    // If qrelsPath is a prefix, we should extend it to a full file name
+    if (isContainedSymbol) {
+      qrelsPath = Qrels.extendSymbol(qrelsPath);
+    }
+
+    Path resultPath = getNewQrelAbsPath(qrelsPath);
+    if (!Files.exists(resultPath)) {
+      resultPath = downloadQrels(qrelsPath);
+    }
+    return resultPath;
+  }
+
+  public static Path getNewQrelAbsPath(Path qrelsPath) {
+    return CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve(qrelsPath.getFileName());
+  }
+
+  /**
+   * Method will download the qrels file from the cloud and return the path to the
+   * file
+   * 
+   * @param qrelsPath path to qrels file
+   * @return path to qrels file
+   * @throws IOException if qrels file is not found
+   */
+  public static Path downloadQrels(Path qrelsPath) throws IOException {
+    String qrelsURL = SERVER_PATH + qrelsPath.getFileName().toString();
+    System.out.println("Downloading qrels from " + qrelsURL);
+    Path localQrelsPath = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve(qrelsPath.getFileName());
+
+    try {
+      FileUtils.copyURLToFile(new URI(qrelsURL).toURL(), localQrelsPath.toFile());
+    } catch (Exception e) {
+      throw new IOException("Error downloading qrels from " + qrelsURL);
+    }
+    return localQrelsPath;
+  }
+
+  public static boolean contains(Path qrelsPath) {
+    return registry().containsValue(qrelsPath.getFileName().toString());
+  }
+
+  public static boolean containsSymbol(Path qrelsPath) {
+    return registry().containsKey(qrelsPath.getFileName().toString());
   }
 
   public static Path extendSymbol(Path symbol) {
-    String returnPath = symbolFileDict.get(symbol.getFileName().toString());
+    String returnPath = registry().get(symbol.getFileName().toString());
     if (returnPath == null) {
       return symbol;
     }
