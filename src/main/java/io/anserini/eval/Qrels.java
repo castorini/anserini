@@ -25,9 +25,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 
 import org.apache.commons.io.FileUtils;
 
@@ -39,10 +39,12 @@ import io.anserini.util.CacheDirectoryResolver;
 public class Qrels {
   private static final String TOPICS_AND_QRELS_URL = "https://raw.githubusercontent.com/castorini/anserini-tools/master/topics-and-qrels/";
   public static final String DEFAULT_METADATA_URL = TOPICS_AND_QRELS_URL + "_metadata_qrels.json";
+  public static final String DEFAULT_ALIASES_METADATA_URL = TOPICS_AND_QRELS_URL + "_metadata_qrels_aliases.json";
   private static final String SERVER_PATH = TOPICS_AND_QRELS_URL;
 
   private static final ObjectMapper mapper = new ObjectMapper();
   private static volatile Map<String, String> registryCache;
+  private static volatile Map<String, String> aliasesCache;
 
   private final String name;
   private final Path path;
@@ -85,11 +87,12 @@ public class Qrels {
   }
 
   public static Qrels get(String name) throws IOException {
-    String path = registry().get(name);
+    String canonicalName = resolveAlias(name);
+    String path = registry().get(canonicalName);
     if (path == null) {
       throw new IllegalArgumentException("Unknown qrels name: " + name);
     }
-    return new Qrels(name, Path.of(path));
+    return new Qrels(canonicalName, Path.of(path));
   }
 
   public static Qrels loadFromFile(String file) throws IOException {
@@ -117,10 +120,60 @@ public class Qrels {
   private static Map<String, String> loadRegistry() {
     try (InputStream inputStream = new URI(DEFAULT_METADATA_URL).toURL().openStream()) {
       Map<String, String> registry = mapper.readValue(inputStream, new TypeReference<>() {});
-      return Collections.unmodifiableMap(new TreeMap<>(registry));
+      return Collections.unmodifiableMap(new LinkedHashMap<>(registry));
     } catch (Exception e) {
       throw new IllegalStateException("Failed to load qrels metadata from " + DEFAULT_METADATA_URL, e);
     }
+  }
+
+  private static Map<String, String> aliases() {
+    Map<String, String> aliases = aliasesCache;
+    if (aliases == null) {
+      synchronized (Qrels.class) {
+        aliases = aliasesCache;
+        if (aliases == null) {
+          aliases = loadAliases();
+          aliasesCache = aliases;
+        }
+      }
+    }
+    return aliases;
+  }
+
+  private static Map<String, String> loadAliases() {
+    Map<String, String> registry = registry();
+    Map<String, String> aliases = new LinkedHashMap<>();
+
+    try (InputStream inputStream = new URI(DEFAULT_ALIASES_METADATA_URL).toURL().openStream()) {
+      Map<String, List<String>> canonicalToAliases = mapper.readValue(inputStream, new TypeReference<>() {});
+      for (Map.Entry<String, List<String>> entry : canonicalToAliases.entrySet()) {
+        String canonicalName = entry.getKey();
+        if (!registry.containsKey(canonicalName)) {
+          throw new IllegalStateException("Qrels alias canonical name is not registered: " + canonicalName);
+        }
+
+        for (String alias : entry.getValue()) {
+          if (registry.containsKey(alias)) {
+            throw new IllegalStateException("Qrels alias is already registered as a canonical name: " + alias);
+          }
+
+          String existingCanonicalName = aliases.put(alias, canonicalName);
+          if (existingCanonicalName != null) {
+            throw new IllegalStateException("Qrels alias " + alias + " maps to both " + existingCanonicalName + " and " + canonicalName);
+          }
+        }
+      }
+      return Collections.unmodifiableMap(aliases);
+    } catch (Exception e) {
+      throw new IllegalStateException("Failed to load qrels aliases metadata from " + DEFAULT_ALIASES_METADATA_URL, e);
+    }
+  }
+
+  private static String resolveAlias(String name) {
+    if (registry().containsKey(name)) {
+      return name;
+    }
+    return aliases().getOrDefault(name, name);
   }
 
   public String name() {
@@ -189,7 +242,7 @@ public class Qrels {
 
     Map<String, String> registry = registry();
     String qrelsFileName = qrelsPath.getFileName().toString();
-    String registeredPath = registry.get(qrels);
+    String registeredPath = registry.get(resolveAlias(qrels));
 
     if (registeredPath != null) {
       qrelsPath = Path.of(registeredPath);

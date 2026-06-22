@@ -41,8 +41,8 @@ public class QrelsTest{
 
   @Test
   public void testTotalCount() {
-    assertEquals(264, Qrels.registry().size());
-    assertEquals(231, new HashSet<>(Qrels.registry().values()).size());
+    assertEquals(233, Qrels.registry().size());
+    assertEquals(233, new HashSet<>(Qrels.registry().values()).size());
   }
 
   @Test(expected = IOException.class)
@@ -66,6 +66,9 @@ public class QrelsTest{
   public void testName() throws IOException {
     Qrels qrels = Qrels.get("cacm");
     assertEquals("cacm", qrels.name());
+
+    qrels = Qrels.get("beir-v1.0.0-arguana-test");
+    assertEquals("beir-v1.0.0-arguana", qrels.name());
   }
 
   @Test
