@@ -44,7 +44,7 @@ Downloaded indexes are stored in the first matching cache location:
 Yes, `pyserini`, that's not a bug &mdash; this is so prebuilt indexes can be shared between Pyserini and Anserini.
 
 Another helpful tip is to download and manage the indexes by hand.
-As an example, from the metadata in [`msmarco-v1-passage-inverted.json`](https://github.com/castorini/anserini/blob/master/src/main/resources/prebuilt-indexes/msmarco-v1-passage-inverted.json), you can see that `msmarco-v1-passage` can be downloaded from:
+As an example, from the metadata in [`msmarco-v1-passage-inverted.json`](https://github.com/castorini/prebuilt-indexes/blob/main/lucene/msmarco-v1-passage-inverted.json), you can see that `msmarco-v1-passage` can be downloaded from:
 
 ```text
 https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/passage/original/lucene-inverted/tf/lucene-inverted.msmarco-v1-passage.20221004.252b5e.tar.gz
