@@ -342,6 +342,15 @@ public class QrelsTest{
   }
 
   @Test
+  public void testMsmarcoDocDevAlias() throws IOException {
+    Qrels qrels = Qrels.get("msmarco-doc.dev");
+    assertNotNull(qrels);
+    assertEquals("msmarco-doc.dev", qrels.name());
+    assertEquals(5193, qrels.getQids().size());
+    assertEquals(5193, getQrelsCount(qrels));
+  }
+
+  @Test
   public void testMsmarcoPassageDevSubset() throws IOException {
     Qrels qrels = Qrels.get("msmarco-passage-dev");
     assertNotNull(qrels);

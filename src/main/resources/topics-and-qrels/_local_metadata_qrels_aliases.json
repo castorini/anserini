@@ -2,6 +2,9 @@
   "rag24.test-umbrela": [
     "rag24.test-umbrela-all"
   ],
+  "msmarco-doc-dev": [
+    "msmarco-doc.dev"
+  ],
   "msmarco-v2-doc-dev": [
     "msmarco-v2-doc.dev"
   ],
