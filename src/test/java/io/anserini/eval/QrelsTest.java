@@ -20,15 +20,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 import org.junit.Test;
 
@@ -46,36 +42,8 @@ public class QrelsTest{
 
   @Test
   public void testTotalCount() {
-    assertEquals(233, Qrels.registry().size());
+    assertTrue(Qrels.registry().size() > 233);
     assertEquals(233, new HashSet<>(Qrels.registry().values()).size());
-  }
-
-  @Test
-  public void testLoadAliasesMissingCanonicalName() {
-    IllegalStateException exception = assertThrows(IllegalStateException.class, () ->
-        Qrels.loadAliases(Map.of("known", "qrels.known.txt"), Map.of("missing", List.of("missing-alias"))));
-    assertEquals("Qrels alias canonical name is not registered: missing", exception.getMessage());
-  }
-
-  @Test
-  public void testLoadAliasesRegisteredAliasName() {
-    Map<String, String> registry =
-        Map.of("known", "qrels.known.txt", "registered-alias", "qrels.registered-alias.txt");
-
-    IllegalStateException exception = assertThrows(IllegalStateException.class, () ->
-        Qrels.loadAliases(registry, Map.of("known", List.of("registered-alias"))));
-    assertEquals("Qrels alias is already registered as a canonical name: registered-alias", exception.getMessage());
-  }
-
-  @Test
-  public void testLoadAliasesDuplicateAliasName() {
-    Map<String, List<String>> aliases = new LinkedHashMap<>();
-    aliases.put("known1", List.of("shared-alias"));
-    aliases.put("known2", List.of("shared-alias"));
-
-    IllegalStateException exception = assertThrows(IllegalStateException.class, () ->
-        Qrels.loadAliases(Map.of("known1", "qrels.known1.txt", "known2", "qrels.known2.txt"), aliases));
-    assertEquals("Qrels alias shared-alias maps to both known1 and known2", exception.getMessage());
   }
 
   @Test(expected = IOException.class)
@@ -142,7 +110,7 @@ public class QrelsTest{
     assertEquals("cacm", qrels.name());
 
     qrels = Qrels.get("beir-v1.0.0-arguana-test");
-    assertEquals("beir-v1.0.0-arguana", qrels.name());
+    assertEquals("beir-v1.0.0-arguana-test", qrels.name());
   }
 
   @Test
@@ -414,6 +382,15 @@ public class QrelsTest{
   }
 
   @Test
+  public void testMsmarcoV2DocPassageAlias() throws IOException {
+    Qrels qrels = Qrels.get("msmarco-v2-passage.dev");
+    assertNotNull(qrels);
+    assertEquals("msmarco-v2-passage.dev", qrels.name());
+    assertEquals(3903, qrels.getQids().size());
+    assertEquals(4009, getQrelsCount(qrels));
+  }
+
+  @Test
   public void testMsmarcoV2DocPassage2() throws IOException {
     Qrels qrels = Qrels.get("msmarco-v2-passage-dev2");
     assertNotNull(qrels);
@@ -421,6 +398,15 @@ public class QrelsTest{
     assertEquals(4411, getQrelsCount(qrels));
     assertEquals(1, qrels.getRelevanceGrade("419507", "msmarco_passage_04_254301507"));
     assertEquals(1, qrels.getRelevanceGrade("961297", "msmarco_passage_18_858458289"));
+  }
+
+  @Test
+  public void testMsmarcoV2DocPassage2Alias() throws IOException {
+    Qrels qrels = Qrels.get("msmarco-v2-passage.dev2");
+    assertNotNull(qrels);
+    assertEquals("msmarco-v2-passage.dev2", qrels.name());
+    assertEquals(4281, qrels.getQids().size());
+    assertEquals(4411, getQrelsCount(qrels));
   }
 
   @Test
@@ -434,6 +420,15 @@ public class QrelsTest{
   }
 
   @Test
+  public void testMsmarcoV2DocDevAlias() throws IOException {
+    Qrels qrels = Qrels.get("msmarco-v2-doc.dev");
+    assertNotNull(qrels);
+    assertEquals("msmarco-v2-doc.dev", qrels.name());
+    assertEquals(4552, qrels.getQids().size());
+    assertEquals(4702, getQrelsCount(qrels));
+  }
+
+  @Test
   public void testMsmarcoV2DocDev2() throws IOException {
     Qrels qrels = Qrels.get("msmarco-v2-doc-dev2");
     assertNotNull(qrels);
@@ -441,6 +436,15 @@ public class QrelsTest{
     assertEquals(5178, getQrelsCount(qrels));
     assertEquals(1, qrels.getRelevanceGrade("1000202", "msmarco_doc_08_73026062"));
     assertEquals(1, qrels.getRelevanceGrade("999937", "msmarco_doc_05_319743607"));
+  }
+
+  @Test
+  public void testMsmarcoV2DocDev2Alias() throws IOException {
+    Qrels qrels = Qrels.get("msmarco-v2-doc.dev2");
+    assertNotNull(qrels);
+    assertEquals("msmarco-v2-doc.dev2", qrels.name());
+    assertEquals(5000, qrels.getQids().size());
+    assertEquals(5178, getQrelsCount(qrels));
   }
 
   @Test
