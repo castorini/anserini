@@ -149,20 +149,20 @@ public class Qrels {
     }
   }
 
-  private static void addAliasesToRegistry(Map<String, String> registry, Map<String, List<String>> canonicalToAliases) {
+  private static void addAliasesToRegistry(Map<String, String> registryWithAliases, Map<String, List<String>> canonicalToAliases) {
     for (Map.Entry<String, List<String>> entry : canonicalToAliases.entrySet()) {
       String canonicalName = entry.getKey();
-      if (!registry.containsKey(canonicalName)) {
+      if (!registryWithAliases.containsKey(canonicalName)) {
         throw new IllegalStateException("Qrels alias canonical name is not registered: " + canonicalName);
       }
 
+      String qrelsPath = registryWithAliases.get(canonicalName);
       for (String alias : entry.getValue()) {
-        String qrelsPath = registry.get(canonicalName);
-        String existingQrelsPath = registry.get(alias);
+        String existingQrelsPath = registryWithAliases.get(alias);
         if (existingQrelsPath != null && !existingQrelsPath.equals(qrelsPath)) {
           throw new IllegalStateException("Qrels alias maps to conflicting qrels: " + alias);
         }
-        registry.put(alias, qrelsPath);
+        registryWithAliases.put(alias, qrelsPath);
       }
     }
   }
