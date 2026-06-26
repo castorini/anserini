@@ -22,11 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
-
 public class PrebuiltImpactIndex extends PrebuiltIndex {
-  private static final TypeReference<List<Entry>> ENTRY_LIST_TYPE = new TypeReference<List<Entry>>() {};
-
   // This is the singleton instance of this class. Use the holder pattern to ensure thread safety.
   private static class Holder {
     private static final PrebuiltImpactIndex INSTANCE = new PrebuiltImpactIndex();
@@ -47,7 +43,7 @@ public class PrebuiltImpactIndex extends PrebuiltIndex {
   private final Map<String, Entry> byName;
 
   private PrebuiltImpactIndex() {
-    List<Entry> loadedEntries = loadEntries(PrebuiltIndex.Type.IMPACT, ENTRY_LIST_TYPE, PrebuiltImpactIndex.class);
+    List<Entry> loadedEntries = loadEntries(PrebuiltIndex.IndexType.IMPACT, Entry.class);
     entries = Collections.unmodifiableList(loadedEntries);
 
     Map<String, Entry> map = new HashMap<>(Math.max(16, entries.size() * 2));

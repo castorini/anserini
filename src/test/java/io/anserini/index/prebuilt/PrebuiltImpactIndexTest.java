@@ -20,21 +20,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 import java.io.IOException;
-import java.lang.reflect.Proxy;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
-import java.net.URLClassLoader;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
-import java.util.jar.JarEntry;
-import java.util.jar.JarOutputStream;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.core.type.TypeReference;
 
 public class PrebuiltImpactIndexTest {
   @Test
@@ -123,29 +114,11 @@ public class PrebuiltImpactIndexTest {
   }
 
   @Test
-  public void testLoadEntriesFromJarProtocol() throws Exception {
-    Path tempDir = Files.createTempDirectory("anserini-prebuilt-impact-jar");
+  public void testParseEntriesFromMetadataFile() throws Exception {
+    List<PrebuiltImpactIndex.Entry> entries = PrebuiltIndex.parseEntriesFromJson(PrebuiltIndex.IndexType.IMPACT, PrebuiltImpactIndex.Entry.class,
+        "[{\"name\":\"TEST\",\"type\":\"impact\"},{\"name\":\"SKIP\",\"type\":\"inverted\"}]");
 
-    Path jarPath = tempDir.resolve("prebuilt-impact.jar");
-    try (JarOutputStream jarOut = new JarOutputStream(Files.newOutputStream(jarPath))) {
-      JarEntry dirEntry = new JarEntry("prebuilt-indexes/");
-      jarOut.putNextEntry(dirEntry);
-      jarOut.closeEntry();
-
-      JarEntry jsonEntry = new JarEntry("prebuilt-indexes/impact-test.json");
-      jarOut.putNextEntry(jsonEntry);
-      jarOut.write("[{\"name\":\"TEST\",\"type\":\"impact\"}]".getBytes(StandardCharsets.UTF_8));
-      jarOut.closeEntry();
-    }
-
-    URL jarUrl = jarPath.toUri().toURL();
-    try (URLClassLoader jarClassLoader = new URLClassLoader(new URL[] {jarUrl}, null)) {
-      Class<?> jarClass = Proxy.newProxyInstance(jarClassLoader, new Class<?>[] {Runnable.class}, (proxy, method, args) -> null).getClass();
-      TypeReference<List<PrebuiltImpactIndex.Entry>> entryListType = new TypeReference<List<PrebuiltImpactIndex.Entry>>() {};
-      List<PrebuiltImpactIndex.Entry> entries = PrebuiltIndex.loadEntries(PrebuiltIndex.Type.IMPACT, entryListType, jarClass);
-
-      assertEquals(1, entries.size());
-      assertEquals("TEST", entries.get(0).name);
-    }
+    assertEquals(1, entries.size());
+    assertEquals("TEST", entries.get(0).name);
   }
 }
