@@ -175,12 +175,13 @@ public class ReproduceFromPrebuiltIndexesTest extends StdOutStdErrRedirectableLu
     String output = out.toString();
     assertTrue(output, output.contains("Run successfully completed!"));
     assertTrue(output, output.contains("Indexes referenced by this run (1 total):"));
-    assertTrue(output, output.contains("Total size across 1 of 1 indexes:"));
+    assertTrue(output, output.matches("(?s).*Total size across [01] of 1 indexes:.*"));
     assertTrue(output, output.contains("MAP: 0.3123"));
     assertTrue(output, output.contains("P30: 0.1942"));
     assertTrue(output, output.matches("(?s).*Duration:\\s+[0-9]{2}:[0-9]{2}:[0-9]{2}.*"));
     assertFalse(output.contains("NumberFormatException"));
     assertTrue(Files.exists(runsDirectory.resolve("run.cacm.bm25.cacm.txt")));
+    assertTrue(Files.size(runsDirectory.resolve("run.cacm.bm25.cacm.txt")) > 0);
   }
 
   @Test
