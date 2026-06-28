@@ -581,5 +581,6 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@kenoi1](https://github.com/kenoi1) on 2026-06-11 (commit [`6663a15`](https://github.com/castorini/anserini/commit/6663a15bffe0242e927c53744e5b140ce1a0bcba))
 + Results reproduced by [@Quaden2307](https://github.com/Quaden2307) on 2026-06-18 (commit [`420530f`](https://github.com/castorini/anserini/commit/420530fd8e2163e86e12c909930995d8b1259329))
 + Results reproduced by [@MasrurAjhor](https://github.com/MasrurAjhor) on 2026-06-21 (commit [`70faa6e`](https://github.com/castorini/anserini/commit/70faa6e69d7faaf307b99a235b1f44f8614b88d5))
-+ Results reproduced by [@krumawu2-ai](https://github.com/krumawu2-ai) on 2026-06-28 (commit: 2018181). Successfully reproduced BM25, dense (BGE), and SPLADE retrieval pipelines on NFCorpus. For SPLADE, achieved nDCG@10 = 0.3562, consistent with expected results (~0.36). During reproduction, resolved several environment and system issues including Python version compatibility (3.12 for SPLADE), Java runtime mismatch (upgraded to Java 21), HuggingFace gated model access, and qrels formatting for evaluation. All stages of the pipeline (encoding, indexing, retrieval, evaluation) executed successfully.
++ Results reproduced by [@krumawu2-ai](https://github.com/krumawu2-ai) on 2026-06-28 (commit [`2018181`](https://github.com/castorini/anserini/commit/2018181))
+  
 
