@@ -178,3 +178,10 @@ QueriesRanked: 6980
 ```
 
 Note that the resolution of [#1730](https://github.com/castorini/anserini/issues/1730) did not change the results.
+
+
+## Reproduction Log
+
+| Date | Contributor | Link | Notes |
+|------|---|---|---|
+| 2026-06-24 | Dana Mohammad Abu Alkhair | [GitHub](https://github.com/Dana18-Mohammed) | map=0.1926, recip_rank=0.1960 |
