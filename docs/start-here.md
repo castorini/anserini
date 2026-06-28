@@ -581,3 +581,5 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@kenoi1](https://github.com/kenoi1) on 2026-06-11 (commit [`6663a15`](https://github.com/castorini/anserini/commit/6663a15bffe0242e927c53744e5b140ce1a0bcba))
 + Results reproduced by [@Quaden2307](https://github.com/Quaden2307) on 2026-06-18 (commit [`420530f`](https://github.com/castorini/anserini/commit/420530fd8e2163e86e12c909930995d8b1259329))
 + Results reproduced by [@MasrurAjhor](https://github.com/MasrurAjhor) on 2026-06-21 (commit [`70faa6e`](https://github.com/castorini/anserini/commit/70faa6e69d7faaf307b99a235b1f44f8614b88d5))
++ Results reproduced by [@krumawu2-ai](https://github.com/krumawu2-ai) on 2026-06-28 (commit: 2018181). Successfully ran BM25 (MRR@10 ≈ 0.184/0.1874) and dense retrieval on NFCorpus (expected nDCG@10 ≈ 0.38). Encountered minor macOS evaluation issues but retrieval pipeline executed successfully.
+
