@@ -223,3 +223,4 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@Quaden2307](https://github.com/Quaden2307) on 2026-06-19 (commit [`420530f`](https://github.com/castorini/anserini/commit/420530fd8e2163e86e12c909930995d8b1259329))
 + Results reproduced by [@MasrurAjhor](https://github.com/MasrurAjhor) on 2026-06-21 (commit [`70faa6e`](https://github.com/castorini/anserini/commit/70faa6e69d7faaf307b99a235b1f44f8614b88d5))
 + Results reproduced by [@farhadmoradi66](https://github.com/farhadmoradi66) on 2026-06-20 (commit [`1f4e592`](https://github.com/castorini/anserini/commit/1f4e592cbe8dc456986af022490d44cfb36c8d9e))
++ Results reproduced by [@k22mitta](https://github.com/k22mitta) on 2026-06-27 (commit [`78e7e16`](https://github.com/castorini/anserini/commit/78e7e16bdc5c04085da3b0b2fcd5c06c9292d00e))
