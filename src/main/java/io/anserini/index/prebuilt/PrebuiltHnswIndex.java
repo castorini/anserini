@@ -21,11 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-
 public class PrebuiltHnswIndex extends PrebuiltIndex {
-  private static final TypeReference<List<Entry>> ENTRY_LIST_TYPE = new TypeReference<List<Entry>>() {};
-
   // This is the singleton instance of this class. Use the holder pattern to ensure thread safety.
   private static class Holder {
     private static final PrebuiltHnswIndex INSTANCE = new PrebuiltHnswIndex();
@@ -40,7 +36,7 @@ public class PrebuiltHnswIndex extends PrebuiltIndex {
   private final Map<String, Entry> byName;
 
   private PrebuiltHnswIndex() {
-    List<Entry> loadedEntries = loadEntries(PrebuiltIndex.Type.HNSW, ENTRY_LIST_TYPE, PrebuiltHnswIndex.class);
+    List<Entry> loadedEntries = loadEntries(PrebuiltIndex.IndexType.HNSW, Entry.class);
     entries = Collections.unmodifiableList(loadedEntries);
 
     Map<String, Entry> map = new HashMap<>(Math.max(16, entries.size() * 2));

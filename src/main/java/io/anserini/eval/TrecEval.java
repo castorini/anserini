@@ -95,31 +95,21 @@ public class TrecEval {
     return "trec_eval/trec_eval-" + getOsShort() + "-" + System.getProperty("os.arch");
   }
 
-  private String potentiallyExpandSymbol(String sym) {
-    File f = new File(sym);
-    // Check for exact match
-    if (f.exists()) {
-      return f.toString();
-    }
-
-    // If no exact match is found, we are expecting a symbol
-    Path filePath;
+  private String resolveQrelsArgument(String qrels) {
     try {
-      filePath = RelevanceJudgments.getQrelsPath(Path.of(sym));
+      return Qrels.resolveQrelsPath(qrels).toString();
     } catch (IOException e) {
-      filePath = Path.of(sym);
+      return qrels;
     }
-
-    return filePath.toString();
   }
 
   private ProcessBuilder getBuilder(String[] args) {
     List<String> cmd = new ArrayList<String>();
     cmd.add(binary.getAbsolutePath().toString());
     for (int i = 0; i < args.length; i++) {
-      // Special case for symbol expansion
+      // Special case for qrels argument expansion
       if (i == args.length - 2) {
-        cmd.add(potentiallyExpandSymbol(args[i]));
+        cmd.add(resolveQrelsArgument(args[i]));
       } else {
         cmd.add(args[i]);
       }

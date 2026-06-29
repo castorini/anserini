@@ -99,7 +99,7 @@ public class TrecEvalTest {
     TrecEval trecEval = new TrecEval();
     String[] args = new String[] {
         "-m", "P.30",
-        "cacm", // This is a symbol, should resolve to actual path auto-magically.
+        "cacm",
         "src/test/resources/sample_runs/cacm/cacm-bm25.txt"
     };
     String[][] output = trecEval.runAndGetOutput(args);
@@ -109,6 +109,16 @@ public class TrecEvalTest {
     assertEquals("P_30", output[0][0]);
     assertEquals("all", output[0][1]);
     assertEquals("0.1942", output[0][2]);
+  }
+
+  @Test
+  public void testResolveQrelsArgumentRegisteredFilename() throws Exception {
+    TrecEval trecEval = new TrecEval();
+    Method method = TrecEval.class.getDeclaredMethod("resolveQrelsArgument", String.class);
+    method.setAccessible(true);
+
+    String resolved = (String) method.invoke(trecEval, "qrels.cacm.txt");
+    assertTrue(resolved.endsWith("qrels.cacm.txt"));
   }
 
   @Test(expected = RuntimeException.class)
