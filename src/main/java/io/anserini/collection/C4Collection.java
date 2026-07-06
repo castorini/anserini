@@ -82,7 +82,7 @@ public class C4Collection extends DocumentCollection<C4Collection.Document> {
   @Override
   public List<Path> getSegmentPaths(int shardCount, int currShard) {
     List<Path> segments = super.getSegmentPaths();
-    return segments.stream().filter(x -> getFileNumber(x.toString()) % shardCount == currShard).collect(Collectors.toList());
+    return segments.stream().filter(x -> Math.floorMod(getFileNumber(x.toString()), shardCount) == currShard).collect(Collectors.toList());
   }
 
   public static class Segment extends FileSegment<C4Collection.Document> {

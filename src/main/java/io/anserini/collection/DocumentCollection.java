@@ -172,7 +172,7 @@ public abstract class DocumentCollection<T extends SourceDocument> implements It
    */
   public List<Path> getSegmentPaths(int shardCount, int currShard) {
     List<Path> segments = discover(this.path);
-    return segments.stream().filter(x -> x.toString().hashCode() % shardCount == currShard).collect(Collectors.toList());
+    return segments.stream().filter(x -> Math.floorMod(x.toString().hashCode(), shardCount) == currShard).collect(Collectors.toList());
   }
 
   // Private method for walking a path.
