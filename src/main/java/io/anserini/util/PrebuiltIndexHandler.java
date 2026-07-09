@@ -66,7 +66,10 @@ public class PrebuiltIndexHandler {
   public static PrebuiltIndexHandler get(String name) throws IOException {
     try {
       return new PrebuiltIndexHandler(name);
-    } catch (Exception e) {
+    } catch (Exception | LinkageError e) {
+      // A transient failure fetching the prebuilt-index registry (e.g. GitHub HTTP 429) happens inside a static
+      // initializer, so it surfaces as ExceptionInInitializerError/NoClassDefFoundError (a LinkageError, not an
+      // Exception). Treat it like "not a prebuilt index" so callers gracefully fall back to a local index path.
       return null;
     }
   }
