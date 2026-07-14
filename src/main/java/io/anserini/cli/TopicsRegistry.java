@@ -92,10 +92,7 @@ public final class TopicsRegistry {
   private static void run(Args args) {
     try {
       if (args.list) {
-        TreeSet<String> names = new TreeSet<>(Topics.getSymbolDictionaryKeys());
-        for (Topics topic : Topics.values()) {
-          names.add(topic.name());
-        }
+        TreeSet<String> names = new TreeSet<>(Topics.names());
 
         if (args.filter != null) {
           Pattern pattern;
@@ -113,7 +110,7 @@ public final class TopicsRegistry {
       } else {
         SortedMap<?, Map<String, String>> queries = getAllQueriesForTopic(args.get);
         if (queries == null) {
-          if (Topics.getByName(args.get) == null) {
+          if (Topics.get(args.get) == null) {
             System.err.printf("Error: unknown topics \"%s\"%n", args.get);
           }
           return;
@@ -127,7 +124,7 @@ public final class TopicsRegistry {
   }
 
   private static SortedMap<?, Map<String, String>> getAllQueriesForTopic(String topicName) {
-    Topics topic = Topics.getByName(topicName);
+    Topics topic = Topics.get(topicName);
     if (topic == null) {
       return null;
     }

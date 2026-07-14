@@ -957,8 +957,8 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
 
         if (isMSMARCOv1_passage || isMAMARCOv1_doc) {
           try (InputStream inputStream = isMSMARCOv1_passage ?
-                Files.newInputStream(TopicReader.getTopicPath(Path.of(Topics.MSMARCO_PASSAGE_DEV_SUBSET.path)), StandardOpenOption.READ):
-                Files.newInputStream(TopicReader.getTopicPath(Path.of(Topics.MSMARCO_DOC_DEV.path)), StandardOpenOption.READ) ) {
+                Files.newInputStream(TopicReader.getTopicPath(Path.of(Topics.get("msmarco-passage.dev-subset").path)), StandardOpenOption.READ):
+                Files.newInputStream(TopicReader.getTopicPath(Path.of(Topics.get("msmarco-doc.dev").path)), StandardOpenOption.READ) ) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             String line;
             while ((line = reader.readLine()) != null) {

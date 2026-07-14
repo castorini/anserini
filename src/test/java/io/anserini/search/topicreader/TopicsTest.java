@@ -16,12 +16,6 @@
 
 package io.anserini.search.topicreader;
 
-import static io.anserini.search.topicreader.Topics.MSMARCO_PASSAGE_DEV_SUBSET;
-import static io.anserini.search.topicreader.Topics.TREC2019_DL_PASSAGE;
-import static io.anserini.search.topicreader.Topics.TREC2020_DL;
-import static io.anserini.search.topicreader.Topics.TREC2021_DL;
-import static io.anserini.search.topicreader.Topics.TREC2022_DL;
-import static io.anserini.search.topicreader.Topics.TREC2023_DL;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
@@ -38,26 +32,26 @@ public class TopicsTest {
   @Test
   public void testBasic() {
     // Not intended to be exhaustive, just spot checks.
-    assertEquals(MSMARCO_PASSAGE_DEV_SUBSET, Topics.getByName("MSMARCO_PASSAGE_DEV_SUBSET"));
-    assertEquals(TREC2019_DL_PASSAGE, Topics.getByName("TREC2019_DL_PASSAGE"));
-    assertEquals(TREC2020_DL, Topics.getByName("TREC2020_DL"));
+    assertEquals("topics.msmarco-passage.dev-subset.txt", Topics.get("msmarco-passage.dev-subset").path);
+    assertEquals("topics.dl19-passage.txt", Topics.get("dl19-passage").path);
+    assertEquals("topics.dl20.txt", Topics.get("dl20").path);
   }
 
   @Test
   public void testSymbols() {
     // Not practical to exhaustively test all aliases, just spot checks.
-    assertEquals(MSMARCO_PASSAGE_DEV_SUBSET, Topics.getByName("msmarco-passage-dev"));
-    assertEquals(MSMARCO_PASSAGE_DEV_SUBSET, Topics.getByName("msmarco-v1-passage-dev"));
-    assertEquals(MSMARCO_PASSAGE_DEV_SUBSET, Topics.getByName("msmarco-v1-passage.dev"));
+    assertEquals(Topics.get("msmarco-passage.dev-subset"), Topics.get("msmarco-passage-dev"));
+    assertEquals(Topics.get("msmarco-passage.dev-subset"), Topics.get("msmarco-v1-passage-dev"));
+    assertEquals(Topics.get("msmarco-passage.dev-subset"), Topics.get("msmarco-v1-passage.dev"));
 
-    assertEquals(TREC2020_DL, Topics.getByName("dl20-passage"));
-    assertEquals(TREC2020_DL, Topics.getByName("dl20-doc"));
-    assertEquals(TREC2021_DL, Topics.getByName("dl21-passage"));
-    assertEquals(TREC2021_DL, Topics.getByName("dl21-doc"));
-    assertEquals(TREC2022_DL, Topics.getByName("dl22-passage"));
-    assertEquals(TREC2022_DL, Topics.getByName("dl22-doc"));
-    assertEquals(TREC2023_DL, Topics.getByName("dl23-passage"));
-    assertEquals(TREC2023_DL, Topics.getByName("dl23-doc"));
+    assertEquals(Topics.get("dl20"), Topics.get("dl20-passage"));
+    assertEquals(Topics.get("dl20"), Topics.get("dl20-doc"));
+    assertEquals(Topics.get("dl21"), Topics.get("dl21-passage"));
+    assertEquals(Topics.get("dl21"), Topics.get("dl21-doc"));
+    assertEquals(Topics.get("dl22"), Topics.get("dl22-passage"));
+    assertEquals(Topics.get("dl22"), Topics.get("dl22-doc"));
+    assertEquals(Topics.get("dl23"), Topics.get("dl23-passage"));
+    assertEquals(Topics.get("dl23"), Topics.get("dl23-doc"));
   }
 
   @Test
@@ -73,7 +67,7 @@ public class TopicsTest {
 
     @Test
   public void testResolveMsMarcoV1Passage2() {
-    SortedMap<Integer, Map<String, String>> topics = Topics.resolve("MSMARCO_PASSAGE_DEV_SUBSET");
+    SortedMap<Integer, Map<String, String>> topics = Topics.resolve("msmarco-passage.dev-subset");
 
     assertEquals(6980, topics.size());
     assertEquals(Integer.valueOf(2), topics.firstKey());

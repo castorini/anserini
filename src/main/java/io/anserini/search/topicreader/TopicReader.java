@@ -51,7 +51,7 @@ public abstract class TopicReader<K> {
 
   static {
     // Inverts the "Topic" enum to populate the lookup table that maps topics filename to reader class.
-    for (Topics topic : Topics.values()) {
+    for (Topics topic : Topics.registry().values()) {
       String path = topic.path;
       TOPIC_FILE_TO_TYPE.put(path, topic.readerClass);
     }

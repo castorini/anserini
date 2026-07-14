@@ -93,7 +93,7 @@ public final class SearchHnswDenseVectors<K extends Comparable<K>> implements Ru
     for (String topicsFile : args.topics) {
       Path topicsFilePath = Paths.get(topicsFile);
       if (!Files.exists(topicsFilePath) || !Files.isRegularFile(topicsFilePath) || !Files.isReadable(topicsFilePath)) {
-        Topics ref = Topics.getByName(topicsFile);
+        Topics ref = Topics.get(topicsFile);
         if (ref==null) {
           throw new IllegalArgumentException(String.format("\"%s\" does not refer to valid topics.", topicsFilePath));
         } else {
