@@ -418,7 +418,7 @@ public class SearchHnswDenseVectorsTest extends StdOutStdErrRedirectableLuceneTe
     String runfile = "target/run-" + System.currentTimeMillis();
     String[] searchArgs = new String[] {
         "-index", indexPath,
-        "-topics", "TREC2019_DL_PASSAGE",
+        "-topics", "dl19-passage",
         "-encoder", "CosDprDistil",
         "-output", runfile,
         "-efSearch", "1000",

@@ -130,7 +130,7 @@ public final class TopicsRegistry {
     }
 
     try {
-      return TopicReader.getTopics(topic);
+      return TopicReader.load(topic);
     } catch (Exception e) {
       System.err.printf("Error: unable to read topics \"%s\": %s%n", topicName, e.getMessage());
       return null;

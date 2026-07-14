@@ -17,16 +17,13 @@
 package io.anserini.search.topicreader;
 
 import java.io.InputStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
-import java.util.TreeMap;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -56,68 +53,34 @@ public final class Topics {
   }
 
   public static Topics get(String name) {
-    return registryData().get(name);
+    return registry().get(name);
   }
 
-  public static Map<String, Topics> registry() {
-    return registryData().canonical;
+  public static Map<String, Topics> entries() {
+    return registry().canonical;
   }
 
   public static Set<String> names() {
-    return Collections.unmodifiableSet(registryData().lookup.keySet());
+    return Collections.unmodifiableSet(registry().lookup.keySet());
   }
 
-  public static Topics getBaseTopics(String name) {
-    name = name.replaceFirst("^topics\\.", "");
-    String regex = "^(.*?)(?:[.-](bge|cohere|splade|unicoil|cosdpr|txt|tsv|v\\d+|v\\d+\\.\\d+)).*";
-    return Topics.get(name.replaceAll(regex, "$1"));
-  }
-
-  public static <K> SortedMap<K, Map<String, String>> resolve(String topics) {
-    return resolve(topics, null);
-  }
-
-  @SuppressWarnings("unchecked")
-  public static <K> SortedMap<K, Map<String, String>> resolve(String topics, String topicReader) {
-    Path topicsPath = Paths.get(topics);
-    if (!Files.exists(topicsPath) || !Files.isRegularFile(topicsPath) || !Files.isReadable(topicsPath)) {
-      Topics ref = Topics.get(topics);
-      if (ref == null) {
-        throw new IllegalArgumentException(String.format("\"%s\" does not refer to valid topics.", topicsPath));
-      }
-
-      try {
-        return TopicReader.getTopics(ref);
-      } catch (Exception e) {
-        throw new IllegalArgumentException(String.format("Unable to read topics \"%s\".", topics), e);
-      }
+  public static <K> SortedMap<K, Map<String, String>> load(String topics) {
+    Topics ref = Topics.get(topics);
+    if (ref == null) {
+      throw new IllegalArgumentException(String.format("\"%s\" does not refer to valid topics.", topics));
     }
+    return load(ref);
+  }
 
-    if (topicReader == null) {
-      throw new IllegalArgumentException("Must specify the topic reader using -topicReader.");
-    }
-
+  public static <K> SortedMap<K, Map<String, String>> load(Topics topics) {
     try {
-      TopicReader<K> tr = (TopicReader<K>) Class
-          .forName(String.format("io.anserini.search.topicreader.%sTopicReader", topicReader))
-          .getConstructor(Path.class).newInstance(topicsPath);
-      return tr.read();
+      return TopicReader.load(topics);
     } catch (Exception e) {
-      throw new IllegalArgumentException(String.format("Unable to load topic reader \"%s\".", topicReader));
+      throw new IllegalArgumentException(String.format("Unable to read topics \"%s\".", topics.name()), e);
     }
   }
 
-  public static <K> SortedMap<K, Map<String, String>> resolve(String[] topicsArray, String topicReader) {
-    SortedMap<K, Map<String, String>> topics = new TreeMap<>();
-
-    for (String topicsFile : topicsArray) {
-      topics.putAll(resolve(topicsFile, topicReader));
-    }
-
-    return topics;
-  }
-
-  private static Registry registryData() {
+  private static Registry registry() {
     Registry registry = registryCache;
     if (registry == null) {
       synchronized (Topics.class) {
@@ -149,9 +112,9 @@ public final class Topics {
 
       Topics topic = new Topics(name, loadReaderClass(value.reader_class), value.path);
       canonical.put(name, topic);
-      addLookup(lookup, name, topic);
-      addLookup(lookup, value.path, topic);
-      addLookup(lookup, Path.of(value.path).getFileName().toString(), topic);
+      addLookupEntry(lookup, name, topic);
+      addLookupEntry(lookup, value.path, topic);
+      addLookupEntry(lookup, Path.of(value.path).getFileName().toString(), topic);
     }
 
     for (Map.Entry<String, List<String>> entry : aliases.entrySet()) {
@@ -160,7 +123,7 @@ public final class Topics {
         throw new IllegalStateException("Topic alias canonical name is not registered: " + entry.getKey());
       }
       for (String alias : entry.getValue()) {
-        addLookup(lookup, alias, topic);
+        addLookupEntry(lookup, alias, topic);
       }
     }
 
@@ -202,7 +165,7 @@ public final class Topics {
     }
   }
 
-  private static void addLookup(Map<String, Topics> lookup, String name, Topics topic) {
+  private static void addLookupEntry(Map<String, Topics> lookup, String name, Topics topic) {
     Topics existing = lookup.get(name);
     if (existing != null && existing != topic) {
       throw new IllegalStateException("Topic name maps to conflicting topics: " + name);

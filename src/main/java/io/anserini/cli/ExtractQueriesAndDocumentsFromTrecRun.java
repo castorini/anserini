@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -42,6 +43,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.anserini.index.IndexReaderUtils;
+import io.anserini.search.topicreader.TopicReader;
 import io.anserini.search.topicreader.Topics;
 import io.anserini.util.LoggingBootstrap;
 
@@ -177,12 +179,13 @@ public final class ExtractQueriesAndDocumentsFromTrecRun {
   }
 
   private static SortedMap<String, Map<String, String>> getTopics(String topics, String topicsReader) throws IOException {
-    SortedMap<?, Map<String, String>> resolvedTopics = Topics.resolve(topics, topicsReader);
+    Path topicsPath = Paths.get(topics);
+    SortedMap<?, Map<String, String>> resolvedTopics =
+        Files.exists(topicsPath) && Files.isRegularFile(topicsPath) && Files.isReadable(topicsPath) ?
+        TopicReader.load(topics, topicsReader) : Topics.load(topics);
     SortedMap<String, Map<String, String>> convertedTopics = new TreeMap<>();
-    for (Map.Entry<?, Map<String, String>> entry : resolvedTopics.entrySet()) {
-      convertedTopics.put(String.valueOf(entry.getKey()), entry.getValue());
-    }
-    LOG.info("Successfully loaded topics: " + topics);
+    resolvedTopics.forEach((key, value) -> convertedTopics.put(String.valueOf(key), value));
+    LOG.info("Successfully loaded topics: {}", topics);
 
     return convertedTopics;
   }

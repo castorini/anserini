@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.ConcurrentSkipListMap;
@@ -1044,7 +1045,15 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       loadQrels(args.rf_qrels);
     }
 
-    topics = Topics.resolve(args.topics, args.topicReader);
+    topics = new TreeMap<>();
+    for (String topicsFile : args.topics) {
+      Path topicsPath = Paths.get(topicsFile);
+      if (Files.exists(topicsPath) && Files.isRegularFile(topicsPath) && Files.isReadable(topicsPath)) {
+        topics.putAll(TopicReader.load(topicsFile, args.topicReader));
+      } else {
+        topics.putAll(Topics.load(topicsFile));
+      }
+    }
   }
 
   @Override

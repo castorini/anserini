@@ -51,7 +51,7 @@ public abstract class TopicReader<K> {
 
   static {
     // Inverts the "Topic" enum to populate the lookup table that maps topics filename to reader class.
-    for (Topics topic : Topics.registry().values()) {
+    for (Topics topic : Topics.entries().values()) {
       String path = topic.path;
       TOPIC_FILE_TO_TYPE.put(path, topic.readerClass);
     }
@@ -114,15 +114,15 @@ public abstract class TopicReader<K> {
   abstract public SortedMap<K, Map<String, String>> read(BufferedReader bRdr) throws IOException;
 
   /**
-   * Returns a standard set of evaluation topics.
+   * Loads topics from a registered {@link Topics} entry.
    *
-   * @param topics topics
+   * @param topics registered topics entry
    * @param <K> type of topic id
-   * @throws IOException if error encountered reading topics
    * @return evaluation topics
+   * @throws IOException if error encountered reading topics
    */
   @SuppressWarnings("unchecked")
-  public static <K> SortedMap<K, Map<String, String>> getTopics(Topics topics) throws IOException {
+  public static <K> SortedMap<K, Map<String, String>> load(Topics topics) throws IOException {
     Path topicPath = getTopicPath(Path.of(topics.path));
 
     try(InputStream inputStream = topicPath.toString().endsWith(".gz") ?
@@ -135,6 +135,32 @@ public abstract class TopicReader<K> {
       return reader.read(new BufferedReader(new InputStreamReader(inputStream)));
     } catch (Exception e) {
       throw new IOException("Unable to read topics: " + topics);
+    }
+  }
+
+  /**
+   * Loads topics from a local file using a caller-specified {@code TopicReader} class name.
+   *
+   * @param file topics file
+   * @param topicReader {@code TopicReader} class name without the {@code TopicReader} suffix
+   * @param <K> type of topic id
+   * @return evaluation topics
+   * @throws IllegalArgumentException if the topic reader is missing or cannot be loaded
+   */
+  @SuppressWarnings("unchecked")
+  public static <K> SortedMap<K, Map<String, String>> load(String file, String topicReader) {
+    if (topicReader == null) {
+      throw new IllegalArgumentException("Must specify the topic reader using -topicReader.");
+    }
+
+    try {
+      TopicReader<K> tr = (TopicReader<K>) Class
+          .forName(String.format("io.anserini.search.topicreader.%sTopicReader", topicReader))
+          .getConstructor(Path.class).newInstance(Paths.get(file));
+      return tr.read();
+    } catch (Exception e) {
+      throw new IllegalArgumentException(
+        String.format("Unable to load topic reader \"%s\" as fully-qualified class io.anserini.search.topicreader.%sTopicReader.", topicReader, topicReader));
     }
   }
 
@@ -167,7 +193,7 @@ public abstract class TopicReader<K> {
    * @throws IOException if error encountered reading topics
    */
   public static Map<String, Map<String, String>> getTopicsWithStringIds(Topics topics) throws IOException {
-    SortedMap<?, Map<String, String>> originalTopics = getTopics(topics);
+    SortedMap<?, Map<String, String>> originalTopics = load(topics);
     if (originalTopics == null)
       return null;
 
@@ -187,8 +213,7 @@ public abstract class TopicReader<K> {
    * @param file topics file
    * @return evaluation topics, with strings as topic ids
    */
-  public static Map<String, Map<String, String>> getTopicsWithStringIdsFromFileWithTopicReaderClass(String className,
-                                                                                                    String file) {
+  public static Map<String, Map<String, String>> getTopicsWithStringIdsFromFileWithTopicReaderClass(String className, String file) {
     try {
       Class<?> clazz = Class.forName(className);
       Constructor<?>[] ctors = clazz.getDeclaredConstructors();
@@ -210,7 +235,8 @@ public abstract class TopicReader<K> {
   }
 
   /**
-   * Downloads the topics from the cloud and returns the path to the local copy
+   * Downloads the topics from server and returns the path to the local copy.
+   *
    * @param topicPath Path to the topics
    * @return Path to the local copy of the topics
    * @throws IOException if error encountered downloading topics
@@ -227,12 +253,9 @@ public abstract class TopicReader<K> {
     return localTopicPath;
   }
 
-  public static Path getNewTopicsAbsPath(Path topicPath){
-    return CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve(topicPath.getFileName());
-  }
-
   /**
    * Returns the path to the topic file. If the topic file is not in the list of known topics, we assume it is a local file.
+   *
    * @param topicPath Path to the topic file
    * @return Path to the topic file
    * @throws IOException if error encountered reading topics
@@ -245,14 +268,14 @@ public abstract class TopicReader<K> {
         // If the topic file is not in the list of known topics, we assume it is a local file.
         Path tempPath = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve(topicPath.getFileName());
         if (Files.exists(tempPath)) {
-          // if it is an unregistred topic, but it is in the cache, we use it
+          // if it is an unregistered topic, but it is in the cache, we use it
           return tempPath;
         }
         return topicPath;
       }
     }
     
-    Path resultPath = getNewTopicsAbsPath(topicPath);
+    Path resultPath = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve(topicPath.getFileName());
     if (!Files.exists(resultPath)) {
       resultPath = downloadTopics(topicPath);
     }

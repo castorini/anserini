@@ -161,7 +161,7 @@ public class SearchCollectionTest extends StdOutStdErrRedirectableLuceneTestCase
   public void testSpecifyTopicsAsSymbol() throws Exception {
     SearchCollection.main(new String[] {
         "-index", "src/test/resources/prebuilt_indexes/lucene9-index.sample_docs_trec_collection2/",
-        "-topics", "TREC2019_DL_PASSAGE",
+        "-topics", "dl19-passage",
         "-output", RUN_TEST, "-bm25"});
 
     // Not checking content, just checking if the topics were loaded successfully.

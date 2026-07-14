@@ -97,7 +97,7 @@ public final class SearchHnswDenseVectors<K extends Comparable<K>> implements Ru
         if (ref==null) {
           throw new IllegalArgumentException(String.format("\"%s\" does not refer to valid topics.", topicsFilePath));
         } else {
-          topics.putAll(TopicReader.getTopics(ref));
+          topics.putAll(TopicReader.load(ref));
         }
       } else {
         try {

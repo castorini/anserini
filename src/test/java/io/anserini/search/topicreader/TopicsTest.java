@@ -19,9 +19,6 @@ package io.anserini.search.topicreader;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Map;
 import java.util.SortedMap;
 
@@ -55,19 +52,8 @@ public class TopicsTest {
   }
 
   @Test
-  public void testResolveMsMarcoV1Passage1() {
-    SortedMap<Integer, Map<String, String>> topics = Topics.resolve("msmarco-v1-passage.dev");
-
-    assertEquals(6980, topics.size());
-    assertEquals(Integer.valueOf(2), topics.firstKey());
-    assertEquals("Androgen receptor define", topics.get(topics.firstKey()).get("title"));
-    assertEquals(Integer.valueOf(1102400), topics.lastKey());
-    assertEquals("why do bears hibernate", topics.get(topics.lastKey()).get("title"));
-  }
-
-    @Test
-  public void testResolveMsMarcoV1Passage2() {
-    SortedMap<Integer, Map<String, String>> topics = Topics.resolve("msmarco-passage.dev-subset");
+  public void testLoadMsMarcoV1Passage1() {
+    SortedMap<Integer, Map<String, String>> topics = Topics.load("msmarco-v1-passage.dev");
 
     assertEquals(6980, topics.size());
     assertEquals(Integer.valueOf(2), topics.firstKey());
@@ -77,28 +63,36 @@ public class TopicsTest {
   }
 
   @Test
-  public void testResolveInvalidTopics() {
+  public void testLoadMsMarcoV1Passage2() {
+    SortedMap<Integer, Map<String, String>> topics = Topics.load("msmarco-passage.dev-subset");
+
+    assertEquals(6980, topics.size());
+    assertEquals(Integer.valueOf(2), topics.firstKey());
+    assertEquals("Androgen receptor define", topics.get(topics.firstKey()).get("title"));
+    assertEquals(Integer.valueOf(1102400), topics.lastKey());
+    assertEquals("why do bears hibernate", topics.get(topics.lastKey()).get("title"));
+  }
+
+  @Test
+  public void testLoadFromTopic() {
+    SortedMap<Integer, Map<String, String>> topics = Topics.load(Topics.get("msmarco-passage.dev-subset"));
+
+    assertEquals(6980, topics.size());
+    assertEquals(Integer.valueOf(2), topics.firstKey());
+    assertEquals("Androgen receptor define", topics.get(topics.firstKey()).get("title"));
+    assertEquals(Integer.valueOf(1102400), topics.lastKey());
+    assertEquals("why do bears hibernate", topics.get(topics.lastKey()).get("title"));
+  }
+
+  @Test
+  public void testLoadInvalidTopics() {
     String invalidTopics = "this-is-not-valid-topics";
 
     try {
-      Topics.resolve(invalidTopics);
+      Topics.load(invalidTopics);
       fail("Expected IllegalArgumentException to be thrown");
     } catch (IllegalArgumentException e) {
       assertEquals("\"" + invalidTopics + "\" does not refer to valid topics.", e.getMessage());
-    }
-  }
-
-  @Test
-  public void testResolveFileWithoutTopicReader() throws IOException {
-    Path topicsFile = Files.createTempFile("topics", ".txt");
-
-    try {
-      Topics.resolve(topicsFile.toString());
-      fail("Expected IllegalArgumentException to be thrown");
-    } catch (IllegalArgumentException e) {
-      assertEquals("Must specify the topic reader using -topicReader.", e.getMessage());
-    } finally {
-      Files.deleteIfExists(topicsFile);
     }
   }
 }
