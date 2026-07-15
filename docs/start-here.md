@@ -99,7 +99,7 @@ Well, imagine if you had a list of "real-world" queries, and someone told you wh
 Amazingly, these artifacts exist, and they're called **relevance judgments** or **qrels**.
 Conceptually, they're triples along these lines:
 
-```
+```text
 q1 doc23 0
 q1 doc452 1
 q1 doc536 0
@@ -158,6 +158,7 @@ Bringing together everything we've discussed so far, a test collection consists 
 Here, we're going to introduce the [MS MARCO passage ranking test collection](https://microsoft.github.io/msmarco/).
 
 If you haven't cloned the [anserini](https://github.com/castorini/anserini) repository already, clone it and get its `tools` submodule:
+
 ```bash
 git clone https://github.com/castorini/anserini.git
 cd anserini
@@ -335,13 +336,18 @@ But that's for some other time....
 Okay, go back and look at the learning outcomes at the top of this page.
 By now you should be able to connect the concepts we introduced to how they manifest in the MS MARCO passage ranking test collection.
 
-From here, you're now ready to proceed to try and reproduce the [BM25 Baselines for MS MARCO Passage Ranking
-](experiments-msmarco-passage.md).
+From here, you're now ready to proceed to try and reproduce the [BM25 Baselines for MS MARCO Passage Ranking](experiments-msmarco-passage.md).
 
-Before you move on, however, add an entry in the "Reproduction Log" at the bottom of this page, following the same format: use `yyyy-mm-dd`, make sure you're using a commit id that's on the main trunk of Anserini, and use its 7-hexadecimal prefix for the link anchor text.
-In the description of your pull request, please provide some details on your setup (e.g., operating system, environment and configuration, etc.).
-In addition, also provide some indication of success (e.g., everything worked) or document issues you encountered.
-If you think this guide can be improved in any way (e.g., you caught a typo or think a clarification is warranted), feel free to include it in the pull request.
+Before you move on, however, add an entry in the "Reproduction Log" at the bottom of this page:
+
++ Follow the same format as the existing entries: make sure you use a commit id that's on the main trunk of Anserini. Use its 7-hexadecimal prefix for the link anchor text (but the URL should contain the full commit hash).
++ Provide some details about your setup in the description of your pull request (e.g., operating system, environment and configuration, etc.).
++ Provide some indication of success (e.g., everything worked) or document issues you encountered.
++ Confirm that your new entry is chronologically sorted.
++ Include additional edits in the pull request if you think this exercise can be improved (e.g., you caught a typo or think a clarification is warranted).
+
+Do not send a separate pull request for each exercise in the onboarding path; instead, send a single pull request for all edits to the Anserini repository.
+If you have any questions, look at previous pull requests for examples.
 
 ## Reproduction Log[*](reproducibility.md)
 
@@ -514,7 +520,7 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@yazdanzv](https://github.com/yazdanzv) on 2025-10-15 (commit [`e011b38`](https://github.com/castorini/anserini/commit/e011b386423df6e089efae6210e19bc1abbca317))
 + Results reproduced by [@Raptors65](https://github.com/Raptors65) on 2025-10-23 (commit [`7302ce9`](https://github.com/castorini/anserini/commit/7302ce9d9e832d2d7158e3000973e1a99bf23a24))
 + Results reproduced by [@royary](https://github.com/royary) on 2025-10-23 (commit [`7302ce9`](https://github.com/castorini/anserini/commit/7302ce9d9e832d2d7158e3000973e1a99bf23a24))
-+ Results reproduced by [@LiHuua258](https://github.com/LiHuua258) on 2025-10-24 (commit [`7302ce9 `](https://github.com/castorini/anserini/commit/7302ce9d9e832d2d7158e3000973e1a99bf23a24))
++ Results reproduced by [@LiHuua258](https://github.com/LiHuua258) on 2025-10-24 (commit [`7302ce9`](https://github.com/castorini/anserini/commit/7302ce9d9e832d2d7158e3000973e1a99bf23a24))
 + Results reproduced by [@RichHene](https://github.com/RichHene) on 2025-10-24 (commit [`7302ce9`](https://github.com/castorini/anserini/commit/7302ce9d9e832d2d7158e3000973e1a99bf23a24))
 + Results reproduced by [@ivan-0862](https://github.com/ivan-0862) on 2025-10-25 (commit [`7fc1b57`](https://github.com/castorini/anserini/commit/7fc1b57c2a11ad605ae26e9609bd5da451a6430d))
 + Results reproduced by [@brandonzhou2002](https://github.com/brandonzhou2002) on 2025-10-26 (commit [`5c7d986`](https://github.com/castorini/anserini/commit/5c7d9866918f7ec45bf9ba4ccc60d589b6ea244c))
@@ -584,8 +590,8 @@ If you think this guide can be improved in any way (e.g., you caught a typo or t
 + Results reproduced by [@farhadmoradi66](https://github.com/farhadmoradi66) on 2026-06-20 (commit [`1f4e592`](https://github.com/castorini/anserini/commit/1f4e592cbe8dc456986af022490d44cfb36c8d9e))
 + Results reproduced by [@k22mitta](https://github.com/k22mitta) on 2026-06-27 (commit [`78e7e16`](https://github.com/castorini/anserini/commit/78e7e16bdc5c04085da3b0b2fcd5c06c9292d00e))
 + Results reproduced by [@sparshshah19](https://github.com/sparshshah19) on 2026-06-25 (commit [`77ec7ef`](https://github.com/castorini/anserini/commit/77ec7ef73ae3cec88c41ee0992133f5c751224f8))
++ Results reproduced by [@JonHolman](https://github.com/JonHolman) on 2026-06-27 (commit [`78e7e16`](https://github.com/castorini/anserini/commit/78e7e16bdc5c04085da3b0b2fcd5c06c9292d00e))
 + Results reproduced by [@Fustigate8933](https://github.com/Fustigate8933) on 2026-07-01 (commit [`77ec7ef`](https://github.com/castorini/anserini/commit/77ec7ef73ae3cec88c41ee0992133f5c751224f8))
 + Results reproduced by [@muhammad-ali-arshad](https://github.com/muhammad-ali-arshad) on 2026-07-02 (commit [`77ec7ef`](https://github.com/castorini/anserini/commit/77ec7ef73ae3cec88c41ee0992133f5c751224f8))
 + Results reproduced by [@yashs33244](https://github.com/yashs33244) on 2026-07-05 (commit [`77ec7ef`](https://github.com/castorini/anserini/commit/77ec7ef73ae3cec88c41ee0992133f5c751224f8))
 + Results reproduced by [@abubinfahd](https://github.com/abubinfahd) on 2026-07-13 (commit [`b98b8fb`](https://github.com/castorini/anserini/commit/b98b8fb7c874cfda814daddbaa429dc2b8d6f982))
-+ Results reproduced by [@JonHolman](https://github.com/JonHolman) on 2026-06-27 (commit [`78e7e16`](https://github.com/castorini/anserini/commit/78e7e16bdc5c04085da3b0b2fcd5c06c9292d00e))

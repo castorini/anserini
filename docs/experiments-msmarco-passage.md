@@ -213,7 +213,7 @@ python tools/scripts/msmarco/msmarco_passage_eval.py \
 
 And the output should be like this:
 
-```
+```text
 #####################
 MRR @10: 0.18741227770955546
 QueriesRanked: 6980
@@ -264,7 +264,7 @@ bin/trec_eval -c -mrecall.1000 -mmap \
 
 The output should be:
 
-```
+```text
 map                   	all	0.1957
 recall_1000           	all	0.8573
 ```
@@ -273,7 +273,7 @@ In many retrieval applications, average precision and recall@1000 are the two me
 
 You can use `trec_eval` to compute the MRR@10 also, which gives results identical to above (just fewer digits of precision):
 
-```
+```bash
 bin/trec_eval -c -M 10 -m recip_rank \
   collections/msmarco-passage/qrels.dev.small.trec \
   runs/run.msmarco-passage.dev.bm25.trec
@@ -282,7 +282,7 @@ bin/trec_eval -c -M 10 -m recip_rank \
 It's a different command-line incantation of `trec_eval` to compute MRR@10.
 And if you add `-q`, the tool will spit out the MRR@10 _per query_ (for all 6980 queries, in addition to the final average).
 
-```
+```bash
 bin/trec_eval -q -c -M 10 -m recip_rank \
   collections/msmarco-passage/qrels.dev.small.trec \
   runs/run.msmarco-passage.dev.bm25.trec
@@ -298,7 +298,7 @@ bin/trec_eval -q -c -M 10 -m recip_rank \
 
 Which is:
 
-```
+```text
 recip_rank            	1048585	1.0000
 ```
 
@@ -317,10 +317,16 @@ That's it for this lesson.
 At this time, look back through the learning outcomes again and make sure you're good.
 As a next step in the onboarding path, move on to explore [dense retrieval](experiments-msmarco-passage2.md).
 
-Before you move on, however, add an entry in the "Reproduction Log" at the bottom of this page, following the same format: use `yyyy-mm-dd`, make sure you're using a commit id that's on the main trunk of Anserini, and use its 7-hexadecimal prefix for the link anchor text.
-In the description of your pull request, please provide some details on your setup (e.g., operating system, environment and configuration, etc.).
-In addition, also provide some indication of success (e.g., everything worked) or document issues you encountered.
-If you think this guide can be improved in any way (e.g., you caught a typo or think a clarification is warranted), feel free to include it in the pull request.
+Before you move on, however, add an entry in the "Reproduction Log" at the bottom of this page:
+
++ Follow the same format as the existing entries: make sure you use a commit id that's on the main trunk of Anserini. Use its 7-hexadecimal prefix for the link anchor text (but the URL should contain the full commit hash).
++ Provide some details about your setup in the description of your pull request (e.g., operating system, environment and configuration, etc.).
++ Provide some indication of success (e.g., everything worked) or document issues you encountered.
++ Confirm that your new entry is chronologically sorted.
++ Include additional edits in the pull request if you think this exercise can be improved (e.g., you caught a typo or think a clarification is warranted).
+
+Do not send a separate pull request for each exercise in the onboarding path; instead, send a single pull request for all edits to the Anserini repository.
+If you have any questions, look at previous pull requests for examples.
 
 ## BM25 Tuning
 
@@ -606,7 +612,7 @@ The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to th
 + Results reproduced by [@henry4516](https://github.com/henry4516) on 2025-10-14 (commit [`338ac0e`](https://github.com/castorini/anserini/commit/338ac0e333204a7cb2bb625be11ce6846ff8f170))
 + Results reproduced by [@yazdanzv](https://github.com/yazdanzv) on 2025-10-15 (commit [`e011b38`](https://github.com/castorini/anserini/commit/e011b386423df6e089efae6210e19bc1abbca317))
 + Results reproduced by [@Raptors65](https://github.com/Raptors65) on 2025-10-23 (commit [`7302ce9`](https://github.com/castorini/anserini/commit/7302ce9d9e832d2d7158e3000973e1a99bf23a24))
-+ Results reproduced by [@LiHuua258](https://github.com/LiHuua258) on 2025-10-24 (commit [`7302ce9 `](https://github.com/castorini/anserini/commit/7302ce9d9e832d2d7158e3000973e1a99bf23a24))
++ Results reproduced by [@LiHuua258](https://github.com/LiHuua258) on 2025-10-24 (commit [`7302ce9`](https://github.com/castorini/anserini/commit/7302ce9d9e832d2d7158e3000973e1a99bf23a24))
 + Results reproduced by [@RichHene](https://github.com/RichHene) on 2025-10-24 (commit [`7302ce9`](https://github.com/castorini/anserini/commit/7302ce9d9e832d2d7158e3000973e1a99bf23a24))
 + Results reproduced by [@ivan-0862](https://github.com/ivan-0862) on 2025-10-25 (commit [`7fc1b57`](https://github.com/castorini/anserini/commit/7fc1b57c2a11ad605ae26e9609bd5da451a6430d))
 + Results reproduced by [@royary](https://github.com/royary) on 2025-10-25 (commit [`7302ce9`](https://github.com/castorini/anserini/commit/7302ce9d9e832d2d7158e3000973e1a99bf23a24))
@@ -677,8 +683,8 @@ The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to th
 + Results reproduced by [@farhadmoradi66](https://github.com/farhadmoradi66) on 2026-06-20 (commit [`1f4e592`](https://github.com/castorini/anserini/commit/1f4e592cbe8dc456986af022490d44cfb36c8d9e))
 + Results reproduced by [@k22mitta](https://github.com/k22mitta) on 2026-06-27 (commit [`78e7e16`](https://github.com/castorini/anserini/commit/78e7e16bdc5c04085da3b0b2fcd5c06c9292d00e))
 + Results reproduced by [@sparshshah19](https://github.com/sparshshah19) on 2026-06-25 (commit [`2f3ac67`](https://github.com/castorini/anserini/commit/2f3ac67c9e94f0b184f4fa82927dc1b29c41713b))
++ Results reproduced by [@JonHolman](https://github.com/JonHolman) on 2026-06-27 (commit [`78e7e16`](https://github.com/castorini/anserini/commit/78e7e16bdc5c04085da3b0b2fcd5c06c9292d00e))
 + Results reproduced by [@Fustigate8933](https://github.com/Fustigate8933) on 2026-07-01 (commit [`77ec7ef`](https://github.com/castorini/anserini/commit/77ec7ef73ae3cec88c41ee0992133f5c751224f8))
 + Results reproduced by [@muhammad-ali-arshad](https://github.com/muhammad-ali-arshad) on 2026-07-02 (commit [`77ec7ef`](https://github.com/castorini/anserini/commit/77ec7ef73ae3cec88c41ee0992133f5c751224f8))
 + Results reproduced by [@yashs33244](https://github.com/yashs33244) on 2026-07-05 (commit [`77ec7ef`](https://github.com/castorini/anserini/commit/77ec7ef73ae3cec88c41ee0992133f5c751224f8))
 + Results reproduced by [@abubinfahd](https://github.com/abubinfahd) on 2026-07-13 (commit [`b98b8fb`](https://github.com/castorini/anserini/commit/b98b8fb7c874cfda814daddbaa429dc2b8d6f982))
-+ Results reproduced by [@JonHolman](https://github.com/JonHolman) on 2026-06-27 (commit [`78e7e16`](https://github.com/castorini/anserini/commit/78e7e16bdc5c04085da3b0b2fcd5c06c9292d00e))
