@@ -177,7 +177,7 @@ public class SearchHnswDenseVectorsTest extends StdOutStdErrRedirectableLuceneTe
 
     SearchHnswDenseVectors.main(searchArgs);
 
-    assertEquals("Error: Unable to load topic reader \"FakeJsonIntVector\".\n", err.toString());
+    assertTrue(err.toString().contains("Error: Unable to load topic reader \"FakeJsonIntVector\""));
   }
 
   @Test

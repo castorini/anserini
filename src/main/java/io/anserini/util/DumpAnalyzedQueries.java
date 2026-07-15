@@ -20,6 +20,7 @@ import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.analysis.AnalyzerMap;
 import io.anserini.index.IndexCollection;
 import io.anserini.search.topicreader.TopicReader;
+import io.anserini.search.topicreader.Topics;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.commons.lang3.StringUtils;
@@ -96,7 +97,7 @@ public class DumpAnalyzedQueries {
 
     TopicReader<?> tr;
     try {
-      Class<? extends TopicReader<?>> clazz = (Class<? extends TopicReader<?>>) TopicReader.getTopicReaderClassByFile(args.topicsFile.toString());
+      Class<? extends TopicReader<?>> clazz = (Class<? extends TopicReader<?>>) Topics.getTopicReaderClassForPath(args.topicsFile.toString());
       if (clazz != null) {
         LOG.warn(String.format("Inferring %s has TopicReader class %s.", args.topicsFile, clazz));
       } else {
@@ -108,8 +109,7 @@ public class DumpAnalyzedQueries {
           System.exit(-1);
         }
 
-        clazz = (Class<? extends TopicReader<?>>) Class.forName(
-            "io.anserini.search.topicreader." + args.topicReader + "TopicReader");
+        clazz = (Class<? extends TopicReader<?>>) Class.forName("io.anserini.search.topicreader." + args.topicReader + "TopicReader");
       }
 
       tr = (TopicReader<?>) clazz.getConstructor(Path.class).newInstance(args.topicsFile);

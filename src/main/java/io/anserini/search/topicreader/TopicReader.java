@@ -34,7 +34,6 @@ import java.util.SortedMap;
 import java.util.zip.GZIPInputStream;
 
 import io.anserini.util.CacheDirectoryResolver;
-import io.anserini.search.SearchCollection;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -45,40 +44,11 @@ import org.apache.logging.log4j.Logger;
  * @param <K> type of the topic id
  */
 public abstract class TopicReader<K> {
-  private static final Logger LOG = LogManager.getLogger(SearchCollection.class);
+  private static final Logger LOG = LogManager.getLogger(TopicReader.class);
   private static final String SERVER_PATH = "https://raw.githubusercontent.com/castorini/anserini-tools/master/topics-and-qrels/";
-  private static final Map<String, Class<? extends TopicReader<?>>> TOPIC_FILE_TO_TYPE = new HashMap<>();
-
-  static {
-    // Inverts the "Topic" enum to populate the lookup table that maps topics filename to reader class.
-    for (Topics topic : Topics.entries().values()) {
-      String path = topic.path;
-      TOPIC_FILE_TO_TYPE.put(path, topic.readerClass);
-    }
-  }
 
   protected final int BUFFER_SIZE = 1 << 16; // 64K
   protected Path topicFile;
-
-  /**
-   * Returns the {@link TopicReader} class corresponding to a known topics file, or <code>null</code> if unknown.
-   *
-   * @param file topics file
-   * @return the {@link TopicReader} class corresponding to a known topics file, or <code>null</code> if unknown.
-   */
-  public static Class<? extends TopicReader<?>> getTopicReaderClassByFile(String file) {
-    // If we're given something that looks like a path with directories, pull out only the file name at the end.
-    if (file.contains("/")) {
-      String[] parts = file.split("/");
-      file = parts[parts.length-1];
-    }
-
-    if (TOPIC_FILE_TO_TYPE.containsKey(file)) {
-      return TOPIC_FILE_TO_TYPE.get(file);
-    }
-
-    return null;
-  }
 
   public TopicReader(Path topicFile) throws IOException {
     this.topicFile = getTopicPath(topicFile);
@@ -175,7 +145,7 @@ public abstract class TopicReader<K> {
   public static <K> SortedMap<K, Map<String, String>> getTopicsByFile(String file) {
     try {
       // Get the constructor
-      Constructor<?>[] ctors = getTopicReaderClassByFile(file).getDeclaredConstructors();
+      Constructor<?>[] ctors = Topics.getTopicReaderClassForPath(file).getDeclaredConstructors();
       // The one we want is always the zero-th one; pass in a dummy Path.
       TopicReader<K> reader = (TopicReader<K>) ctors[0].newInstance(Paths.get(file));
       return reader.read();
@@ -264,7 +234,7 @@ public abstract class TopicReader<K> {
     if (Files.exists(topicPath)) {
       return topicPath;
     } else {
-      if (!TOPIC_FILE_TO_TYPE.containsKey(topicPath.getFileName().toString())) {
+      if (Topics.getTopicReaderClassForPath(topicPath.getFileName().toString()) == null) {
         // If the topic file is not in the list of known topics, we assume it is a local file.
         Path tempPath = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve(topicPath.getFileName());
         if (Files.exists(tempPath)) {

@@ -171,7 +171,7 @@ public class SearchFlatDenseVectorsTest extends StdOutStdErrRedirectableLuceneTe
 
     SearchFlatDenseVectors.main(searchArgs);
 
-    assertTrue(err.toString().contains("Error: Unable to load topic reader \"FakeJsonIntVector\"."));
+    assertTrue(err.toString().contains("Error: Unable to load topic reader \"FakeJsonIntVector\""));
   }
 
   @Test

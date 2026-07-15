@@ -61,7 +61,15 @@ public final class Topics {
   }
 
   public static Set<String> names() {
-    return Collections.unmodifiableSet(registry().lookup.keySet());
+    return Collections.unmodifiableSet(registry().canonical.keySet());
+  }
+
+  public static Class<? extends TopicReader<?>> getTopicReaderClassForPath(String path) {
+    Topics topic = Topics.get(path);
+    if (topic == null) {
+      topic = Topics.get(Path.of(path).getFileName().toString());
+    }
+    return topic == null ? null : topic.readerClass;
   }
 
   public static <K> SortedMap<K, Map<String, String>> load(String topics) {

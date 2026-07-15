@@ -88,6 +88,8 @@ public class TopicsRegistryTest extends StdOutStdErrRedirectableLuceneTestCase {
 
     assertEquals(expectedNames.size(), names.size());
     assertEquals(expectedNames, new TreeSet<>(names));
+    assertTrue(names.contains("msmarco-passage.dev-subset"));
+    assertFalse(names.contains("topics.msmarco-passage.dev-subset.txt"));
   }
 
   @Test
@@ -113,6 +115,8 @@ public class TopicsRegistryTest extends StdOutStdErrRedirectableLuceneTestCase {
 
     assertEquals(expectedNames.size(), names.size());
     assertEquals(expectedNames, new TreeSet<>(names));
+    assertTrue(names.contains("dl19-passage"));
+    assertFalse(names.contains("topics.dl19-passage.txt"));
   }
 
   @Test

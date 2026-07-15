@@ -91,25 +91,11 @@ public final class SearchHnswDenseVectors<K extends Comparable<K>> implements Ru
     // exceptions together as an unchecked exception to make initialization and error reporting clearer.
     SortedMap<K, Map<String, String>> topics = new TreeMap<>();
     for (String topicsFile : args.topics) {
-      Path topicsFilePath = Paths.get(topicsFile);
-      if (!Files.exists(topicsFilePath) || !Files.isRegularFile(topicsFilePath) || !Files.isReadable(topicsFilePath)) {
-        Topics ref = Topics.get(topicsFile);
-        if (ref==null) {
-          throw new IllegalArgumentException(String.format("\"%s\" does not refer to valid topics.", topicsFilePath));
-        } else {
-          topics.putAll(TopicReader.load(ref));
-        }
+      Path topicsPath = Paths.get(topicsFile);
+      if (Files.exists(topicsPath) && Files.isRegularFile(topicsPath) && Files.isReadable(topicsPath)) {
+        topics.putAll(TopicReader.load(topicsFile, args.topicReader));
       } else {
-        try {
-          @SuppressWarnings("unchecked")
-          TopicReader<K> tr = (TopicReader<K>) Class
-              .forName(String.format("io.anserini.search.topicreader.%sTopicReader", args.topicReader))
-              .getConstructor(Path.class).newInstance(topicsFilePath);
-
-          topics.putAll(tr.read());
-        } catch (Exception e) {
-          throw new IllegalArgumentException(String.format("Unable to load topic reader \"%s\".", args.topicReader));
-        }
+        topics.putAll(Topics.load(topicsFile));
       }
     }
 
