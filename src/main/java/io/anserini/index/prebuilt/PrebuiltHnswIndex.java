@@ -28,7 +28,7 @@ public class PrebuiltHnswIndex extends PrebuiltIndex {
   }
 
   public static class Entry extends PrebuiltIndex.Entry {
-    // TODO (2026/01/30): currently, there are no special metadata that we track for flat indexes,
+    // TODO (2026/01/30): currently, there are no special metadata that we track for HNSW indexes,
     // but we should circle back and add some checks.
   }
 

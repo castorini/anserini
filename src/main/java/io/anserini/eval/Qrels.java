@@ -37,7 +37,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.anserini.util.CacheDirectoryResolver;
 
 public class Qrels {
-  private static final String TOPICS_AND_QRELS_URL = "https://raw.githubusercontent.com/castorini/anserini-tools/master/topics-and-qrels/";
+  private static final String TOPICS_AND_QRELS_COMMIT = "12982126736f2ed7dc45bf30acb2af9fed13c0ef";
+  private static final String TOPICS_AND_QRELS_URL = "https://raw.githubusercontent.com/castorini/anserini-tools/" + TOPICS_AND_QRELS_COMMIT + "/topics-and-qrels/";
   private static final String DEFAULT_METADATA_URL = TOPICS_AND_QRELS_URL + "_metadata_qrels.json";
   private static final String DEFAULT_ALIASES_METADATA_URL = TOPICS_AND_QRELS_URL + "_metadata_qrels_aliases.json";
   private static final String SERVER_PATH = TOPICS_AND_QRELS_URL;

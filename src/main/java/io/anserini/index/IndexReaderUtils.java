@@ -871,6 +871,9 @@ public class IndexReaderUtils {
   }
 
   public static Path getIndex(String index) throws IOException {
+    // Note that we always check for the ambiguous case below, so as a result we always read the prebuilt
+    // index metadata from GitHub. This means that this method will fail if there's an issue with GitHub.
+    // However, the prebuilt index metadata is cached in memory, per JVM, via the static holder singletons.
     PrebuiltIndexHandler handler = PrebuiltIndexHandler.get(index);
 
     // Check for the ambiguous case.
