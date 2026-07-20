@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class PrebuiltInvertedIndex extends PrebuiltIndex {
   // This is the singleton instance of this class. Use the holder pattern to ensure thread safety.
   private static class Holder {

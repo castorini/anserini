@@ -37,7 +37,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 
 public class PrebuiltIndex {
-  protected static final String DEFAULT_METADATA_URL = "https://api.github.com/repos/castorini/prebuilt-indexes/contents/lucene?ref=main";
+  protected static final String METADATA_COMMIT = "eb2a94de2029b3e9234ffd7445ab74991b6b0137";
+  protected static final String DEFAULT_METADATA_URL = "https://api.github.com/repos/castorini/prebuilt-indexes/contents/lucene?ref=" + METADATA_COMMIT;
   protected static final String METADATA_SUFFIX = ".json";
   private static final Duration HTTP_TIMEOUT = Duration.ofSeconds(60);
   private static final String USER_AGENT = "anserini-prebuilt-index-loader";
