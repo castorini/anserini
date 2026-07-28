@@ -241,6 +241,5 @@ If you have any questions, look at previous pull requests for examples.
 + Results reproduced by [@abubinfahd](https://github.com/abubinfahd) on 2026-07-13 (commit [`b98b8fb`](https://github.com/castorini/anserini/commit/b98b8fb7c874cfda814daddbaa429dc2b8d6f982))
 + Results reproduced by [@mfrashidi](https://github.com/mfrashidi) on 2026-07-15 (commit [`6f6b00d`](https://github.com/castorini/anserini/commit/6f6b00d0ecb160557514ed0e00f8767831d16f3a))
 + Results reproduced by [@Leonoaix](https://github.com/Leonoaix) on 2026-07-16 (commit [`c1fc59c`](https://github.com/castorini/anserini/commit/c1fc59ca973eb3dab0126cdb5d08fded64869431))
-+ Results reproduced by [@mihiit](https://github.com/mihiit) on 2026-07-23 (commit [`45118b9`](https://github.com/castorini/anserini/commit/45118b90c8bc90c31cddc2b206f8cd59f2d497d1))
-
 + Results reproduced by [@carlosp2001](https://github.com/carlosp2001) on 2026-07-18 (commit [`92f0bba`](https://github.com/castorini/anserini/commit/92f0bbac97ac1a658f9be2d02124a543c0b134e3))
++ Results reproduced by [@mihiit](https://github.com/mihiit) on 2026-07-23 (commit [`45118b9`](https://github.com/castorini/anserini/commit/45118b90c8bc90c31cddc2b206f8cd59f2d497d1))
