@@ -605,3 +605,4 @@ If you have any questions, look at previous pull requests for examples.
 + Results reproduced by [@mihiit](https://github.com/mihiit) on 2026-07-21 (commit [`45118b9`](https://github.com/castorini/anserini/commit/45118b90c8bc90c31cddc2b206f8cd59f2d497d1))
 + Results reproduced by [@BakaryGibba](https://github.com/BakaryGibba) on 2026-07-26 (commit [`45118b9`](https://github.com/castorini/anserini/commit/45118b90c8bc90c31cddc2b206f8cd59f2d497d1))
 + Results reproduced by [@niloy-biswas](https://github.com/niloy-biswas) on 2026-07-30 (commit [`02f25de`](https://github.com/castorini/anserini/commit/02f25dea042ee651085340d60ffbe9bc9820169b))
++ Results reproduced by [@Evan-Lowry](https://github.com/Evan-Lowry) on 2026-07-29 (commit [`ff848cb`](https://github.com/castorini/anserini/commit/ff848cb5872b42ee5305dbb1e27d72d2602aeade))
