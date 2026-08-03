@@ -18,15 +18,11 @@ package io.anserini.search;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
-import java.util.TreeMap;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,7 +34,6 @@ import org.kohsuke.args4j.spi.StringArrayOptionHandler;
 
 import io.anserini.eval.ExcludeDocs;
 import io.anserini.search.topicreader.TopicReader;
-import io.anserini.search.topicreader.Topics;
 import io.anserini.util.LoggingBootstrap;
 
 /**
@@ -91,29 +86,7 @@ public final class SearchFlatDenseVectors<K extends Comparable<K>> implements Ru
 
     // We might not be able to successfully read topics for a variety of reasons. Gather all possible
     // exceptions together as an unchecked exception to make initialization and error reporting clearer.
-    SortedMap<K, Map<String, String>> topics = new TreeMap<>();
-    for (String topicsFile : args.topics) {
-      Path topicsFilePath = Paths.get(topicsFile);
-      if (!Files.exists(topicsFilePath) || !Files.isRegularFile(topicsFilePath) || !Files.isReadable(topicsFilePath)) {
-        Topics ref = Topics.getByName(topicsFile);
-        if (ref==null) {
-          throw new IllegalArgumentException(String.format("\"%s\" does not refer to valid topics.", topicsFilePath));
-        } else {
-          topics.putAll(TopicReader.getTopics(ref));
-        }
-      } else {
-        try {
-          @SuppressWarnings("unchecked")
-          TopicReader<K> tr = (TopicReader<K>) Class
-              .forName(String.format("io.anserini.search.topicreader.%sTopicReader", args.topicReader))
-              .getConstructor(Path.class).newInstance(topicsFilePath);
-
-          topics.putAll(tr.read());
-        } catch (Exception e) {
-          throw new IllegalArgumentException(String.format("Unable to load topic reader \"%s\".", args.topicReader));
-        }
-      }
-    }
+    SortedMap<K, Map<String, String>> topics = TopicReader.load(args.topics, args.topicReader);
 
     // Now iterate through all the topics to pick out the right field with proper exception handling.
     try {

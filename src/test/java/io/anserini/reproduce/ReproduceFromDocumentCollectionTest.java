@@ -162,7 +162,7 @@ public class ReproduceFromDocumentCollectionTest extends StdOutStdErrRedirectabl
 
   @Test
   public void testCacmRegressionDryRun() throws Exception {
-    SortedMap<Integer, Map<String, String>> topics = TopicReader.getTopics(Topics.CACM);
+    SortedMap<Integer, Map<String, String>> topics = TopicReader.load(Topics.get("cacm"));
     assertNotNull(topics);
 
     ReproduceFromDocumentCollection.main(new String[] {"--config", "cacm", "--index", "--search", "--dry-run"});
@@ -170,7 +170,7 @@ public class ReproduceFromDocumentCollectionTest extends StdOutStdErrRedirectabl
 
   @Test
   public void testCacmRegressionInRepo() throws Exception {
-    SortedMap<Integer, Map<String, String>> topics = TopicReader.getTopics(Topics.CACM);
+    SortedMap<Integer, Map<String, String>> topics = TopicReader.load(Topics.get("cacm"));
     assertNotNull(topics);
 
     ReproduceFromDocumentCollection.main(new String[] {"--config", "cacm", "--index", "--search"});
@@ -186,7 +186,7 @@ public class ReproduceFromDocumentCollectionTest extends StdOutStdErrRedirectabl
   public void testCacmRegressionFromDownload() throws Exception {
     assumeGithubReachable();
 
-    SortedMap<Integer, Map<String, String>> topics = TopicReader.getTopics(Topics.CACM);
+    SortedMap<Integer, Map<String, String>> topics = TopicReader.load(Topics.get("cacm"));
     assertNotNull(topics);
 
     ReproduceFromDocumentCollection.main(new String[] {"--config", "cacm-download", "--download", "--index", "--search"});
@@ -242,7 +242,7 @@ public class ReproduceFromDocumentCollectionTest extends StdOutStdErrRedirectabl
 
   @Test
   public void testCacmRegressionFromFatjar() throws Exception {
-    SortedMap<Integer, Map<String, String>> topics = TopicReader.getTopics(Topics.CACM);
+    SortedMap<Integer, Map<String, String>> topics = TopicReader.load(Topics.get("cacm"));
     assertNotNull(topics);
 
     Path classesDir = Paths.get("target/classes");

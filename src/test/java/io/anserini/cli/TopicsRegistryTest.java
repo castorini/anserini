@@ -83,14 +83,13 @@ public class TopicsRegistryTest extends StdOutStdErrRedirectableLuceneTestCase {
 
     List<String> names = MAPPER.readValue(out.toString(), NAME_LIST_TYPE);
 
-    Set<String> expectedNames = new TreeSet<>(Topics.getSymbolDictionaryKeys());
-    for (Topics topic : Topics.values()) {
-      expectedNames.add(topic.name());
-    }
+    Set<String> expectedNames = new TreeSet<>(Topics.names());
     expectedNames.removeIf(name -> !name.contains("msmarco"));
 
     assertEquals(expectedNames.size(), names.size());
     assertEquals(expectedNames, new TreeSet<>(names));
+    assertTrue(names.contains("msmarco-passage.dev-subset"));
+    assertFalse(names.contains("topics.msmarco-passage.dev-subset.txt"));
   }
 
   @Test
@@ -112,13 +111,12 @@ public class TopicsRegistryTest extends StdOutStdErrRedirectableLuceneTestCase {
 
     List<String> names = MAPPER.readValue(out.toString(), NAME_LIST_TYPE);
 
-    Set<String> expectedNames = new TreeSet<>(Topics.getSymbolDictionaryKeys());
-    for (Topics topic : Topics.values()) {
-      expectedNames.add(topic.name());
-    }
+    Set<String> expectedNames = new TreeSet<>(Topics.names());
 
     assertEquals(expectedNames.size(), names.size());
     assertEquals(expectedNames, new TreeSet<>(names));
+    assertTrue(names.contains("dl19-passage"));
+    assertFalse(names.contains("topics.dl19-passage.txt"));
   }
 
   @Test
@@ -127,7 +125,7 @@ public class TopicsRegistryTest extends StdOutStdErrRedirectableLuceneTestCase {
     Files.writeString(topicFile, "1\tquery one\n2\tquery two\n", StandardCharsets.UTF_8);
 
     try {
-      TopicsRegistry.main(new String[] {"--get", "TREC2019_DL_PASSAGE"});
+      TopicsRegistry.main(new String[] {"--get", "dl19-passage"});
 
       Map<String, Map<String, String>> queries = MAPPER.readValue(out.toString(), QUERY_MAP_TYPE);
 

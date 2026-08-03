@@ -16,18 +16,9 @@
 
 package io.anserini.search.topicreader;
 
-import static io.anserini.search.topicreader.Topics.MSMARCO_PASSAGE_DEV_SUBSET;
-import static io.anserini.search.topicreader.Topics.TREC2019_DL_PASSAGE;
-import static io.anserini.search.topicreader.Topics.TREC2020_DL;
-import static io.anserini.search.topicreader.Topics.TREC2021_DL;
-import static io.anserini.search.topicreader.Topics.TREC2022_DL;
-import static io.anserini.search.topicreader.Topics.TREC2023_DL;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Map;
 import java.util.SortedMap;
 
@@ -38,42 +29,31 @@ public class TopicsTest {
   @Test
   public void testBasic() {
     // Not intended to be exhaustive, just spot checks.
-    assertEquals(MSMARCO_PASSAGE_DEV_SUBSET, Topics.getByName("MSMARCO_PASSAGE_DEV_SUBSET"));
-    assertEquals(TREC2019_DL_PASSAGE, Topics.getByName("TREC2019_DL_PASSAGE"));
-    assertEquals(TREC2020_DL, Topics.getByName("TREC2020_DL"));
+    assertEquals("topics.msmarco-passage.dev-subset.txt", Topics.get("msmarco-passage.dev-subset").path);
+    assertEquals("topics.dl19-passage.txt", Topics.get("dl19-passage").path);
+    assertEquals("topics.dl20.txt", Topics.get("dl20").path);
   }
 
   @Test
   public void testSymbols() {
     // Not practical to exhaustively test all aliases, just spot checks.
-    assertEquals(MSMARCO_PASSAGE_DEV_SUBSET, Topics.getByName("msmarco-passage-dev"));
-    assertEquals(MSMARCO_PASSAGE_DEV_SUBSET, Topics.getByName("msmarco-v1-passage-dev"));
-    assertEquals(MSMARCO_PASSAGE_DEV_SUBSET, Topics.getByName("msmarco-v1-passage.dev"));
+    assertEquals(Topics.get("msmarco-passage.dev-subset"), Topics.get("msmarco-passage-dev"));
+    assertEquals(Topics.get("msmarco-passage.dev-subset"), Topics.get("msmarco-v1-passage-dev"));
+    assertEquals(Topics.get("msmarco-passage.dev-subset"), Topics.get("msmarco-v1-passage.dev"));
 
-    assertEquals(TREC2020_DL, Topics.getByName("dl20-passage"));
-    assertEquals(TREC2020_DL, Topics.getByName("dl20-doc"));
-    assertEquals(TREC2021_DL, Topics.getByName("dl21-passage"));
-    assertEquals(TREC2021_DL, Topics.getByName("dl21-doc"));
-    assertEquals(TREC2022_DL, Topics.getByName("dl22-passage"));
-    assertEquals(TREC2022_DL, Topics.getByName("dl22-doc"));
-    assertEquals(TREC2023_DL, Topics.getByName("dl23-passage"));
-    assertEquals(TREC2023_DL, Topics.getByName("dl23-doc"));
+    assertEquals(Topics.get("dl20"), Topics.get("dl20-passage"));
+    assertEquals(Topics.get("dl20"), Topics.get("dl20-doc"));
+    assertEquals(Topics.get("dl21"), Topics.get("dl21-passage"));
+    assertEquals(Topics.get("dl21"), Topics.get("dl21-doc"));
+    assertEquals(Topics.get("dl22"), Topics.get("dl22-passage"));
+    assertEquals(Topics.get("dl22"), Topics.get("dl22-doc"));
+    assertEquals(Topics.get("dl23"), Topics.get("dl23-passage"));
+    assertEquals(Topics.get("dl23"), Topics.get("dl23-doc"));
   }
 
   @Test
-  public void testResolveMsMarcoV1Passage1() {
-    SortedMap<Integer, Map<String, String>> topics = Topics.resolve("msmarco-v1-passage.dev");
-
-    assertEquals(6980, topics.size());
-    assertEquals(Integer.valueOf(2), topics.firstKey());
-    assertEquals("Androgen receptor define", topics.get(topics.firstKey()).get("title"));
-    assertEquals(Integer.valueOf(1102400), topics.lastKey());
-    assertEquals("why do bears hibernate", topics.get(topics.lastKey()).get("title"));
-  }
-
-    @Test
-  public void testResolveMsMarcoV1Passage2() {
-    SortedMap<Integer, Map<String, String>> topics = Topics.resolve("MSMARCO_PASSAGE_DEV_SUBSET");
+  public void testLoadMsMarcoV1Passage1() {
+    SortedMap<Integer, Map<String, String>> topics = Topics.load("msmarco-v1-passage.dev");
 
     assertEquals(6980, topics.size());
     assertEquals(Integer.valueOf(2), topics.firstKey());
@@ -83,28 +63,36 @@ public class TopicsTest {
   }
 
   @Test
-  public void testResolveInvalidTopics() {
+  public void testLoadMsMarcoV1Passage2() {
+    SortedMap<Integer, Map<String, String>> topics = Topics.load("msmarco-passage.dev-subset");
+
+    assertEquals(6980, topics.size());
+    assertEquals(Integer.valueOf(2), topics.firstKey());
+    assertEquals("Androgen receptor define", topics.get(topics.firstKey()).get("title"));
+    assertEquals(Integer.valueOf(1102400), topics.lastKey());
+    assertEquals("why do bears hibernate", topics.get(topics.lastKey()).get("title"));
+  }
+
+  @Test
+  public void testLoadFromTopic() {
+    SortedMap<Integer, Map<String, String>> topics = Topics.load(Topics.get("msmarco-passage.dev-subset"));
+
+    assertEquals(6980, topics.size());
+    assertEquals(Integer.valueOf(2), topics.firstKey());
+    assertEquals("Androgen receptor define", topics.get(topics.firstKey()).get("title"));
+    assertEquals(Integer.valueOf(1102400), topics.lastKey());
+    assertEquals("why do bears hibernate", topics.get(topics.lastKey()).get("title"));
+  }
+
+  @Test
+  public void testLoadInvalidTopics() {
     String invalidTopics = "this-is-not-valid-topics";
 
     try {
-      Topics.resolve(invalidTopics);
+      Topics.load(invalidTopics);
       fail("Expected IllegalArgumentException to be thrown");
     } catch (IllegalArgumentException e) {
       assertEquals("\"" + invalidTopics + "\" does not refer to valid topics.", e.getMessage());
-    }
-  }
-
-  @Test
-  public void testResolveFileWithoutTopicReader() throws IOException {
-    Path topicsFile = Files.createTempFile("topics", ".txt");
-
-    try {
-      Topics.resolve(topicsFile.toString());
-      fail("Expected IllegalArgumentException to be thrown");
-    } catch (IllegalArgumentException e) {
-      assertEquals("Must specify the topic reader using -topicReader.", e.getMessage());
-    } finally {
-      Files.deleteIfExists(topicsFile);
     }
   }
 }

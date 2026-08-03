@@ -1,0 +1,790 @@
+{
+  "adhoc.101-150": [
+    "trec2-adhoc"
+  ],
+  "adhoc.151-200": [
+    "trec3-adhoc"
+  ],
+  "adhoc.451-550": [
+    "wt10g"
+  ],
+  "adhoc.51-100": [
+    "trec1-adhoc"
+  ],
+  "atomic.validation.image.Salesforce.blip-itm-base-coco": [
+    "atomic-v0.2-Salesforce.blip-itm-base-coco-image-validation"
+  ],
+  "atomic.validation.image.Salesforce.blip-itm-large-coco": [
+    "atomic-v0.2-Salesforce.blip-itm-large-coco-image-validation"
+  ],
+  "atomic.validation.image.ViT-B-32.laion2b_e16": [
+    "atomic-v0.2-ViT-B-32.laion2b_e16-image-validation"
+  ],
+  "atomic.validation.image.ViT-B-32.laion400m_e32": [
+    "atomic-v0.2-ViT-B-32.laion400m_e32-image-validation"
+  ],
+  "atomic.validation.image.ViT-H-14.laion2b_s32b_b79k": [
+    "atomic-v0.2-ViT-H-14.laion2b_s32b_b79k-image-validation"
+  ],
+  "atomic.validation.image.ViT-L-14.laion2b_s32b_b82k": [
+    "atomic-v0.2-ViT-L-14.laion2b_s32b_b82k-image-validation"
+  ],
+  "atomic.validation.image.ViT-bigG-14.laion2b_s39b_b160k": [
+    "atomic-v0.2-ViT-bigG-14.laion2b_s39b_b160k-image-validation"
+  ],
+  "atomic.validation.image.facebook.flava-full": [
+    "atomic-v0.2-facebook.flava-full-image-validation"
+  ],
+  "atomic.validation.image.openai.clip-vit-base-patch32": [
+    "atomic-v0.2-openai.clip-vit-base-patch32-image-validation"
+  ],
+  "atomic.validation.image.openai.clip-vit-large-patch14": [
+    "atomic-v0.2-openai.clip-vit-large-patch14-image-validation"
+  ],
+  "atomic.validation.text.Salesforce.blip-itm-base-coco": [
+    "atomic-v0.2.1-Salesforce.blip-itm-base-coco-text-validation"
+  ],
+  "atomic.validation.text.Salesforce.blip-itm-large-coco": [
+    "atomic-v0.2.1-Salesforce.blip-itm-large-coco-text-validation"
+  ],
+  "atomic.validation.text.ViT-B-32.laion2b_e16": [
+    "atomic-v0.2.1-ViT-B-32.laion2b_e16-text-validation"
+  ],
+  "atomic.validation.text.ViT-B-32.laion400m_e32": [
+    "atomic-v0.2.1-ViT-B-32.laion400m_e32-text-validation"
+  ],
+  "atomic.validation.text.ViT-H-14.laion2b_s32b_b79k": [
+    "atomic-v0.2.1-ViT-H-14.laion2b_s32b_b79k-text-validation"
+  ],
+  "atomic.validation.text.ViT-L-14.laion2b_s32b_b82k": [
+    "atomic-v0.2.1-ViT-L-14.laion2b_s32b_b82k-text-validation"
+  ],
+  "atomic.validation.text.ViT-bigG-14.laion2b_s39b_b160k": [
+    "atomic-v0.2.1-ViT-bigG-14.laion2b_s39b_b160k-text-validation"
+  ],
+  "atomic.validation.text.facebook.flava-full": [
+    "atomic-v0.2.1-facebook.flava-full-text-validation"
+  ],
+  "atomic.validation.text.openai.clip-vit-base-patch32": [
+    "atomic-v0.2.1-openai.clip-vit-base-patch32-text-validation"
+  ],
+  "atomic.validation.text.openai.clip-vit-large-patch14": [
+    "atomic-v0.2.1-openai.clip-vit-large-patch14-text-validation"
+  ],
+  "beir-v1.0.0-arguana.test": [
+    "beir-v1.0.0-arguana",
+    "beir-v1.0.0-arguana-test",
+    "beir-arguana"
+  ],
+  "beir-v1.0.0-bioasq.test": [
+    "beir-v1.0.0-bioasq",
+    "beir-v1.0.0-bioasq-test",
+    "beir-bioasq"
+  ],
+  "beir-v1.0.0-climate-fever.test": [
+    "beir-v1.0.0-climate-fever",
+    "beir-v1.0.0-climate-fever-test",
+    "beir-climate-fever"
+  ],
+  "beir-v1.0.0-cqadupstack-android.test": [
+    "beir-v1.0.0-cqadupstack-android",
+    "beir-v1.0.0-cqadupstack-android-test",
+    "beir-cqadupstack-android"
+  ],
+  "beir-v1.0.0-cqadupstack-english.test": [
+    "beir-v1.0.0-cqadupstack-english",
+    "beir-v1.0.0-cqadupstack-english-test",
+    "beir-cqadupstack-english"
+  ],
+  "beir-v1.0.0-cqadupstack-gaming.test": [
+    "beir-v1.0.0-cqadupstack-gaming",
+    "beir-v1.0.0-cqadupstack-gaming-test",
+    "beir-cqadupstack-gaming"
+  ],
+  "beir-v1.0.0-cqadupstack-gis.test": [
+    "beir-v1.0.0-cqadupstack-gis",
+    "beir-v1.0.0-cqadupstack-gis-test",
+    "beir-cqadupstack-gis"
+  ],
+  "beir-v1.0.0-cqadupstack-mathematica.test": [
+    "beir-v1.0.0-cqadupstack-mathematica",
+    "beir-v1.0.0-cqadupstack-mathematica-test",
+    "beir-cqadupstack-mathematica"
+  ],
+  "beir-v1.0.0-cqadupstack-physics.test": [
+    "beir-v1.0.0-cqadupstack-physics",
+    "beir-v1.0.0-cqadupstack-physics-test",
+    "beir-cqadupstack-physics"
+  ],
+  "beir-v1.0.0-cqadupstack-programmers.test": [
+    "beir-v1.0.0-cqadupstack-programmers",
+    "beir-v1.0.0-cqadupstack-programmers-test",
+    "beir-cqadupstack-programmers"
+  ],
+  "beir-v1.0.0-cqadupstack-stats.test": [
+    "beir-v1.0.0-cqadupstack-stats",
+    "beir-v1.0.0-cqadupstack-stats-test",
+    "beir-cqadupstack-stats"
+  ],
+  "beir-v1.0.0-cqadupstack-tex.test": [
+    "beir-v1.0.0-cqadupstack-tex",
+    "beir-v1.0.0-cqadupstack-tex-test",
+    "beir-cqadupstack-tex"
+  ],
+  "beir-v1.0.0-cqadupstack-unix.test": [
+    "beir-v1.0.0-cqadupstack-unix",
+    "beir-v1.0.0-cqadupstack-unix-test",
+    "beir-cqadupstack-unix"
+  ],
+  "beir-v1.0.0-cqadupstack-webmasters.test": [
+    "beir-v1.0.0-cqadupstack-webmasters",
+    "beir-v1.0.0-cqadupstack-webmasters-test",
+    "beir-cqadupstack-webmasters"
+  ],
+  "beir-v1.0.0-cqadupstack-wordpress.test": [
+    "beir-v1.0.0-cqadupstack-wordpress",
+    "beir-v1.0.0-cqadupstack-wordpress-test",
+    "beir-cqadupstack-wordpress"
+  ],
+  "beir-v1.0.0-dbpedia-entity.test": [
+    "beir-v1.0.0-dbpedia-entity",
+    "beir-v1.0.0-dbpedia-entity-test",
+    "beir-dbpedia-entity"
+  ],
+  "beir-v1.0.0-fever.test": [
+    "beir-v1.0.0-fever",
+    "beir-v1.0.0-fever-test",
+    "beir-fever"
+  ],
+  "beir-v1.0.0-fiqa.test": [
+    "beir-v1.0.0-fiqa",
+    "beir-v1.0.0-fiqa-test",
+    "beir-fiqa"
+  ],
+  "beir-v1.0.0-hotpotqa.test": [
+    "beir-v1.0.0-hotpotqa",
+    "beir-v1.0.0-hotpotqa-test",
+    "beir-hotpotqa"
+  ],
+  "beir-v1.0.0-nfcorpus.test": [
+    "beir-v1.0.0-nfcorpus",
+    "beir-v1.0.0-nfcorpus-test",
+    "beir-nfcorpus"
+  ],
+  "beir-v1.0.0-nq.test": [
+    "beir-v1.0.0-nq",
+    "beir-v1.0.0-nq-test",
+    "beir-nq"
+  ],
+  "beir-v1.0.0-quora.test": [
+    "beir-v1.0.0-quora",
+    "beir-v1.0.0-quora-test",
+    "beir-quora"
+  ],
+  "beir-v1.0.0-robust04.test": [
+    "beir-v1.0.0-robust04",
+    "beir-v1.0.0-robust04-test",
+    "beir-robust04"
+  ],
+  "beir-v1.0.0-scidocs.test": [
+    "beir-v1.0.0-scidocs",
+    "beir-v1.0.0-scidocs-test",
+    "beir-scidocs"
+  ],
+  "beir-v1.0.0-scifact.test": [
+    "beir-v1.0.0-scifact",
+    "beir-v1.0.0-scifact-test",
+    "beir-scifact"
+  ],
+  "beir-v1.0.0-signal1m.test": [
+    "beir-v1.0.0-signal1m",
+    "beir-v1.0.0-signal1m-test",
+    "beir-signal1m"
+  ],
+  "beir-v1.0.0-trec-covid.test": [
+    "beir-v1.0.0-trec-covid",
+    "beir-v1.0.0-trec-covid-test",
+    "beir-trec-covid"
+  ],
+  "beir-v1.0.0-trec-news.test": [
+    "beir-v1.0.0-trec-news",
+    "beir-v1.0.0-trec-news-test",
+    "beir-trec-news"
+  ],
+  "beir-v1.0.0-webis-touche2020.test": [
+    "beir-v1.0.0-webis-touche2020",
+    "beir-v1.0.0-webis-touche2020-test",
+    "beir-webis-touche2020"
+  ],
+  "car17v1.5.benchmarkY1test": [
+    "car17v1.5-benchmarkY1test"
+  ],
+  "car17v2.0.benchmarkY1test": [
+    "car17v2.0-benchmarkY1test"
+  ],
+  "clef06fr.mono.fr": [
+    "clef2006-fr"
+  ],
+  "dl20": [
+    "dl20-passage",
+    "dl20-doc"
+  ],
+  "dl20.cohere-embed-english-v3.0": [
+    "dl20-cohere-embed-english-v3.0",
+    "dl20-passage.cohere-embed-english-v3.0",
+    "dl20-doc.cohere-embed-english-v3.0"
+  ],
+  "dl21": [
+    "dl21-doc",
+    "dl21-passage"
+  ],
+  "dl22": [
+    "dl22-doc",
+    "dl22-passage"
+  ],
+  "dl23": [
+    "dl23-doc",
+    "dl23-passage"
+  ],
+  "dpr.curated.test": [
+    "dpr-curated-test"
+  ],
+  "dpr.nq.dev": [
+    "dpr-nq-dev"
+  ],
+  "dpr.nq.test": [
+    "dpr-nq-test"
+  ],
+  "dpr.squad.test": [
+    "dpr-squad-test"
+  ],
+  "dpr.trivia.dev": [
+    "dpr-trivia-dev"
+  ],
+  "dpr.trivia.test": [
+    "dpr-trivia-test"
+  ],
+  "dpr.trivia.test.gar-t5.all": [
+    "dpr-trivia-test-gar-t5-all"
+  ],
+  "dpr.trivia.test.gar-t5.answers": [
+    "dpr-trivia-test-gar-t5-answers"
+  ],
+  "dpr.trivia.test.gar-t5.sentences": [
+    "dpr-trivia-test-gar-t5-sentences"
+  ],
+  "dpr.trivia.test.gar-t5.titles": [
+    "dpr-trivia-test-gar-t5-titles"
+  ],
+  "dpr.wq.test": [
+    "dpr-wq-test"
+  ],
+  "epidemic-qa.consumer.prelim": [
+    "epidemic-qa-consumer-prelim"
+  ],
+  "epidemic-qa.expert.prelim": [
+    "epidemic-qa-expert-prelim"
+  ],
+  "fire12bn.176-225": [
+    "fire2012-bn"
+  ],
+  "fire12en.176-225": [
+    "fire2012-en"
+  ],
+  "fire12hi.176-225": [
+    "fire2012-hi"
+  ],
+  "hc4-v1.0-fa.dev.desc": [
+    "hc4-v1.0-fa-dev-desc"
+  ],
+  "hc4-v1.0-fa.dev.desc.title": [
+    "hc4-v1.0-fa-dev-desc-title"
+  ],
+  "hc4-v1.0-fa.dev.title": [
+    "hc4-v1.0-fa-dev-title"
+  ],
+  "hc4-v1.0-fa.en.test.desc": [
+    "hc4-v1.0-fa-en-test-desc"
+  ],
+  "hc4-v1.0-fa.en.test.desc.title": [
+    "hc4-v1.0-fa-en-test-desc-title"
+  ],
+  "hc4-v1.0-fa.en.test.title": [
+    "hc4-v1.0-fa-en-test-title"
+  ],
+  "hc4-v1.0-fa.test.desc": [
+    "hc4-v1.0-fa-test-desc"
+  ],
+  "hc4-v1.0-fa.test.desc.title": [
+    "hc4-v1.0-fa-test-desc-title"
+  ],
+  "hc4-v1.0-fa.test.title": [
+    "hc4-v1.0-fa-test-title"
+  ],
+  "hc4-v1.0-ru.dev.desc": [
+    "hc4-v1.0-ru-dev-desc"
+  ],
+  "hc4-v1.0-ru.dev.desc.title": [
+    "hc4-v1.0-ru-dev-desc-title"
+  ],
+  "hc4-v1.0-ru.dev.title": [
+    "hc4-v1.0-ru-dev-title"
+  ],
+  "hc4-v1.0-ru.en.test.desc": [
+    "hc4-v1.0-ru-en-test-desc"
+  ],
+  "hc4-v1.0-ru.en.test.desc.title": [
+    "hc4-v1.0-ru-en-test-desc-title"
+  ],
+  "hc4-v1.0-ru.en.test.title": [
+    "hc4-v1.0-ru-en-test-title"
+  ],
+  "hc4-v1.0-ru.test.desc": [
+    "hc4-v1.0-ru-test-desc"
+  ],
+  "hc4-v1.0-ru.test.desc.title": [
+    "hc4-v1.0-ru-test-desc-title"
+  ],
+  "hc4-v1.0-ru.test.title": [
+    "hc4-v1.0-ru-test-title"
+  ],
+  "hc4-v1.0-zh.dev.desc": [
+    "hc4-v1.0-zh-dev-desc"
+  ],
+  "hc4-v1.0-zh.dev.desc.title": [
+    "hc4-v1.0-zh-dev-desc-title"
+  ],
+  "hc4-v1.0-zh.dev.title": [
+    "hc4-v1.0-zh-dev-title"
+  ],
+  "hc4-v1.0-zh.en.test.desc": [
+    "hc4-v1.0-zh-en-test-desc"
+  ],
+  "hc4-v1.0-zh.en.test.desc.title": [
+    "hc4-v1.0-zh-en-test-desc-title"
+  ],
+  "hc4-v1.0-zh.en.test.title": [
+    "hc4-v1.0-zh-en-test-title"
+  ],
+  "hc4-v1.0-zh.test.desc": [
+    "hc4-v1.0-zh-test-desc"
+  ],
+  "hc4-v1.0-zh.test.desc.title": [
+    "hc4-v1.0-zh-test-desc-title"
+  ],
+  "hc4-v1.0-zh.test.title": [
+    "hc4-v1.0-zh-test-title"
+  ],
+  "mbeir-cirr_task7.test": [
+    "m-beir-cirr_task7-test"
+  ],
+  "mbeir-edis_task2.test": [
+    "m-beir-edis_task2-test"
+  ],
+  "mbeir-fashion200k_task0.test": [
+    "m-beir-fashion200k_task0-test"
+  ],
+  "mbeir-fashion200k_task3.test": [
+    "m-beir-fashion200k_task3-test"
+  ],
+  "mbeir-fashioniq_task7.test": [
+    "m-beir-fashioniq_task7-test"
+  ],
+  "mbeir-infoseek_task6.test": [
+    "m-beir-infoseek_task6-test"
+  ],
+  "mbeir-infoseek_task8.test": [
+    "m-beir-infoseek_task8-test"
+  ],
+  "mbeir-mscoco_task0.test": [
+    "m-beir-mscoco_task0-test"
+  ],
+  "mbeir-mscoco_task3.test": [
+    "m-beir-mscoco_task3-test"
+  ],
+  "mbeir-nights_task4.test": [
+    "m-beir-nights_task4-test"
+  ],
+  "mbeir-oven_task6.test": [
+    "m-beir-oven_task6-test"
+  ],
+  "mbeir-oven_task8.test": [
+    "m-beir-oven_task8-test"
+  ],
+  "mbeir-visualnews_task0.test": [
+    "m-beir-visualnews_task0-test"
+  ],
+  "mbeir-visualnews_task3.test": [
+    "m-beir-visualnews_task3-test"
+  ],
+  "mbeir-webqa_task1.test": [
+    "m-beir-webqa_task1-test"
+  ],
+  "mbeir-webqa_task2.test": [
+    "m-beir-webqa_task2-test"
+  ],
+  "microblog2011": [
+    "mb11"
+  ],
+  "microblog2012": [
+    "mb12"
+  ],
+  "microblog2013": [
+    "mb13"
+  ],
+  "microblog2014": [
+    "mb14"
+  ],
+  "mmeb-visdoc-MMLongBench-doc.test": [
+    "mmeb-visdoc-MMLongBench-doc-test"
+  ],
+  "mmeb-visdoc-MMLongBench-page.test": [
+    "mmeb-visdoc-MMLongBench-page-test"
+  ],
+  "mmeb-visdoc-ViDoRe_arxivqa.test": [
+    "mmeb-visdoc-ViDoRe_arxivqa-test"
+  ],
+  "mmeb-visdoc-ViDoRe_biomedical_lectures_v2.test": [
+    "mmeb-visdoc-ViDoRe_biomedical_lectures_v2-test"
+  ],
+  "mmeb-visdoc-ViDoRe_biomedical_lectures_v2_multilingual.test": [
+    "mmeb-visdoc-ViDoRe_biomedical_lectures_v2_multilingual-test"
+  ],
+  "mmeb-visdoc-ViDoRe_docvqa.test": [
+    "mmeb-visdoc-ViDoRe_docvqa-test"
+  ],
+  "mmeb-visdoc-ViDoRe_economics_reports_v2.test": [
+    "mmeb-visdoc-ViDoRe_economics_reports_v2_test"
+  ],
+  "mmeb-visdoc-ViDoRe_economics_reports_v2_multilingual.test": [
+    "mmeb-visdoc-ViDoRe_economics_reports_v2_multilingual-test"
+  ],
+  "mmeb-visdoc-ViDoRe_esg_reports_human_labeled_v2.test": [
+    "mmeb-visdoc-ViDoRe_esg_reports_human_labeled_v2-test"
+  ],
+  "mmeb-visdoc-ViDoRe_esg_reports_v2.test": [
+    "mmeb-visdoc-ViDoRe_esg_reports_v2-test"
+  ],
+  "mmeb-visdoc-ViDoRe_esg_reports_v2_multilingual.test": [
+    "mmeb-visdoc-ViDoRe_esg_reports_v2_multilingual-test"
+  ],
+  "mmeb-visdoc-ViDoRe_infovqa.test": [
+    "mmeb-visdoc-ViDoRe_infovqa-test"
+  ],
+  "mmeb-visdoc-ViDoRe_shiftproject.test": [
+    "mmeb-visdoc-ViDoRe_shiftproject-test"
+  ],
+  "mmeb-visdoc-ViDoRe_syntheticDocQA_artificial_intelligence.test": [
+    "mmeb-visdoc-ViDoRe_syntheticDocQA_artificial_intelligence-test"
+  ],
+  "mmeb-visdoc-ViDoRe_syntheticDocQA_energy.test": [
+    "mmeb-visdoc-ViDoRe_syntheticDocQA_energy-test"
+  ],
+  "mmeb-visdoc-ViDoRe_syntheticDocQA_government_reports.test": [
+    "mmeb-visdoc-ViDoRe_syntheticDocQA_government_reports-test"
+  ],
+  "mmeb-visdoc-ViDoRe_syntheticDocQA_healthcare_industry.test": [
+    "mmeb-visdoc-ViDoRe_syntheticDocQA_healthcare_industry-test"
+  ],
+  "mmeb-visdoc-ViDoRe_tabfquad.test": [
+    "mmeb-visdoc-ViDoRe_tabfquad-test"
+  ],
+  "mmeb-visdoc-ViDoRe_tatdqa.test": [
+    "mmeb-visdoc-ViDoRe_tatdqa-test"
+  ],
+  "mmeb-visdoc-ViDoSeek-doc.test": [
+    "mmeb-visdoc-ViDoSeek-doc-test"
+  ],
+  "mmeb-visdoc-ViDoSeek-page.test": [
+    "mmeb-visdoc-ViDoSeek-page-test"
+  ],
+  "mmeb-visdoc-VisRAG_ArxivQA.train": [
+    "mmeb-visdoc-VisRAG_ArxivQA-train"
+  ],
+  "mmeb-visdoc-VisRAG_ChartQA.train": [
+    "mmeb-visdoc-VisRAG_ChartQA-train"
+  ],
+  "mmeb-visdoc-VisRAG_InfoVQA.train": [
+    "mmeb-visdoc-VisRAG_InfoVQA-train"
+  ],
+  "mmeb-visdoc-VisRAG_MP-DocVQA.train": [
+    "mmeb-visdoc-VisRAG_MP-DocVQA-train"
+  ],
+  "mmeb-visdoc-VisRAG_PlotQA.train": [
+    "mmeb-visdoc-VisRAG_PlotQA-train"
+  ],
+  "mmeb-visdoc-VisRAG_SlideVQA.train": [
+    "mmeb-visdoc-VisRAG_SlideVQA-train"
+  ],
+  "mq.1-10000": [
+    "trec2007-million-query"
+  ],
+  "mq.10001-20000": [
+    "trec2008-million-query"
+  ],
+  "mq.20001-60000": [
+    "trec2009-million-query"
+  ],
+  "mrtydi-v1.1-ar.dev": [
+    "mrtydi-v1.1-arabic-dev"
+  ],
+  "mrtydi-v1.1-ar.test": [
+    "mrtydi-v1.1-arabic-test"
+  ],
+  "mrtydi-v1.1-ar.train": [
+    "mrtydi-v1.1-arabic-train"
+  ],
+  "mrtydi-v1.1-bn.dev": [
+    "mrtydi-v1.1-bengali-dev"
+  ],
+  "mrtydi-v1.1-bn.test": [
+    "mrtydi-v1.1-bengali-test"
+  ],
+  "mrtydi-v1.1-bn.train": [
+    "mrtydi-v1.1-bengali-train"
+  ],
+  "mrtydi-v1.1-en.dev": [
+    "mrtydi-v1.1-english-dev"
+  ],
+  "mrtydi-v1.1-en.test": [
+    "mrtydi-v1.1-english-test"
+  ],
+  "mrtydi-v1.1-en.train": [
+    "mrtydi-v1.1-english-train"
+  ],
+  "mrtydi-v1.1-fi.dev": [
+    "mrtydi-v1.1-finnish-dev"
+  ],
+  "mrtydi-v1.1-fi.test": [
+    "mrtydi-v1.1-finnish-test"
+  ],
+  "mrtydi-v1.1-fi.train": [
+    "mrtydi-v1.1-finnish-train"
+  ],
+  "mrtydi-v1.1-id.dev": [
+    "mrtydi-v1.1-indonesian-dev"
+  ],
+  "mrtydi-v1.1-id.test": [
+    "mrtydi-v1.1-indonesian-test"
+  ],
+  "mrtydi-v1.1-id.train": [
+    "mrtydi-v1.1-indonesian-train"
+  ],
+  "mrtydi-v1.1-ja.dev": [
+    "mrtydi-v1.1-japanese-dev"
+  ],
+  "mrtydi-v1.1-ja.test": [
+    "mrtydi-v1.1-japanese-test"
+  ],
+  "mrtydi-v1.1-ja.train": [
+    "mrtydi-v1.1-japanese-train"
+  ],
+  "mrtydi-v1.1-ko.dev": [
+    "mrtydi-v1.1-korean-dev"
+  ],
+  "mrtydi-v1.1-ko.test": [
+    "mrtydi-v1.1-korean-test"
+  ],
+  "mrtydi-v1.1-ko.train": [
+    "mrtydi-v1.1-korean-train"
+  ],
+  "mrtydi-v1.1-ru.dev": [
+    "mrtydi-v1.1-russian-dev"
+  ],
+  "mrtydi-v1.1-ru.test": [
+    "mrtydi-v1.1-russian-test"
+  ],
+  "mrtydi-v1.1-ru.train": [
+    "mrtydi-v1.1-russian-train"
+  ],
+  "mrtydi-v1.1-sw.dev": [
+    "mrtydi-v1.1-swahili-dev"
+  ],
+  "mrtydi-v1.1-sw.test": [
+    "mrtydi-v1.1-swahili-test"
+  ],
+  "mrtydi-v1.1-sw.train": [
+    "mrtydi-v1.1-swahili-train"
+  ],
+  "mrtydi-v1.1-te.dev": [
+    "mrtydi-v1.1-telugu-dev"
+  ],
+  "mrtydi-v1.1-te.test": [
+    "mrtydi-v1.1-telugu-test"
+  ],
+  "mrtydi-v1.1-te.train": [
+    "mrtydi-v1.1-telugu-train"
+  ],
+  "mrtydi-v1.1-th.dev": [
+    "mrtydi-v1.1-thai-dev"
+  ],
+  "mrtydi-v1.1-th.test": [
+    "mrtydi-v1.1-thai-test"
+  ],
+  "mrtydi-v1.1-th.train": [
+    "mrtydi-v1.1-thai-train"
+  ],
+  "msmarco-doc.dev": [
+    "msmarco-doc-dev"
+  ],
+  "msmarco-doc.test": [
+    "msmarco-doc-test"
+  ],
+  "msmarco-passage.dev-subset": [
+    "msmarco-passage-dev-subset",
+    "msmarco-passage-dev",
+    "msmarco-passage.dev",
+    "msmarco-v1-passage-dev",
+    "msmarco-v1-passage.dev"
+  ],
+  "msmarco-passage.dev-subset.cohere-embed-english-v3.0": [
+    "msmarco-passage-dev-subset-cohere-embed-english-v3.0",
+    "msmarco-passage-dev-cohere-embed-english-v3.0",
+    "msmarco-passage-dev.cohere-embed-english-v3.0",
+    "msmarco-passage.dev.cohere-embed-english-v3.0",
+    "msmarco-v1-passage-dev-cohere-embed-english-v3.0",
+    "msmarco-v1-passage-dev.cohere-embed-english-v3.0",
+    "msmarco-v1-passage.dev.cohere-embed-english-v3.0"
+  ],
+  "msmarco-passage.dev-subset.deepimpact": [
+    "msmarco-passage-dev-subset-deepimpact",
+    "msmarco-passage-dev-subset.deepimpact",
+    "msmarco-passage-dev.deepimpact",
+    "msmarco-passage.dev.deepimpact",
+    "msmarco-v1-passage-dev-deepimpact",
+    "msmarco-v1-passage-dev.deepimpact",
+    "msmarco-v1-passage.dev.deepimpact"
+  ],
+  "msmarco-passage.test-subset": [
+    "msmarco-passage-test-subset"
+  ],
+  "msmarco-v2-doc.dev": [
+    "msmarco-v2-doc-dev"
+  ],
+  "msmarco-v2-doc.dev2": [
+    "msmarco-v2-doc-dev2"
+  ],
+  "msmarco-v2-passage.dev": [
+    "msmarco-v2-passage-dev"
+  ],
+  "msmarco-v2-passage.dev2": [
+    "msmarco-v2-passage-dev2"
+  ],
+  "neuclir22-en.original-desc": [
+    "neuclir22-en-desc"
+  ],
+  "neuclir22-en.original-desc_title": [
+    "neuclir22-en-desc-title"
+  ],
+  "neuclir22-en.original-title": [
+    "neuclir22-en-title"
+  ],
+  "neuclir22-fa.ht-desc": [
+    "neuclir22-fa-ht-desc"
+  ],
+  "neuclir22-fa.ht-desc_title": [
+    "neuclir22-fa-ht-desc-title"
+  ],
+  "neuclir22-fa.ht-title": [
+    "neuclir22-fa-ht-title"
+  ],
+  "neuclir22-fa.mt-desc": [
+    "neuclir22-fa-mt-desc"
+  ],
+  "neuclir22-fa.mt-desc_title": [
+    "neuclir22-fa-mt-desc-title"
+  ],
+  "neuclir22-fa.mt-title": [
+    "neuclir22-fa-mt-title"
+  ],
+  "neuclir22-ru.ht-desc": [
+    "neuclir22-ru-ht-desc"
+  ],
+  "neuclir22-ru.ht-desc_title": [
+    "neuclir22-ru-ht-desc-title"
+  ],
+  "neuclir22-ru.ht-title": [
+    "neuclir22-ru-ht-title"
+  ],
+  "neuclir22-ru.mt-desc": [
+    "neuclir22-ru-mt-desc"
+  ],
+  "neuclir22-ru.mt-desc_title": [
+    "neuclir22-ru-mt-desc-title"
+  ],
+  "neuclir22-ru.mt-title": [
+    "neuclir22-ru-mt-title"
+  ],
+  "neuclir22-zh.ht-desc": [
+    "neuclir22-zh-ht-desc"
+  ],
+  "neuclir22-zh.ht-desc_title": [
+    "neuclir22-zh-ht-desc-title"
+  ],
+  "neuclir22-zh.ht-title": [
+    "neuclir22-zh-ht-title"
+  ],
+  "neuclir22-zh.mt-desc": [
+    "neuclir22-zh-mt-desc"
+  ],
+  "neuclir22-zh.mt-desc_title": [
+    "neuclir22-zh-mt-desc-title"
+  ],
+  "neuclir22-zh.mt-title": [
+    "neuclir22-zh-mt-title"
+  ],
+  "nq.dev": [
+    "nq-dev"
+  ],
+  "nq.test": [
+    "nq-test"
+  ],
+  "nq.test.gar-t5.all": [
+    "nq-test-gar-t5-all"
+  ],
+  "nq.test.gar-t5.answers": [
+    "nq-test-gar-t5-answers"
+  ],
+  "nq.test.gar-t5.sentences": [
+    "nq-test-gar-t5-sentences"
+  ],
+  "nq.test.gar-t5.titles": [
+    "nq-test-gar-t5-titles"
+  ],
+  "ntcir8zh.eval": [
+    "ntcir8-zh"
+  ],
+  "slidevqa.test": [
+    "slidevqa"
+  ],
+  "terabyte04.701-750": [
+    "trec2004-terabyte"
+  ],
+  "terabyte05.751-800": [
+    "trec2005-terabyte"
+  ],
+  "terabyte06.801-850": [
+    "trec2006-terabyte"
+  ],
+  "trec02ar-ar": [
+    "trec2002-ar"
+  ],
+  "web.101-150": [
+    "trec2011-web"
+  ],
+  "web.151-200": [
+    "trec2012-web"
+  ],
+  "web.201-250": [
+    "trec2013-web"
+  ],
+  "web.251-300": [
+    "trec2014-web"
+  ],
+  "web.51-100": [
+    "trec2010-web"
+  ],
+  "wiki-ss-nq.test": [
+    "wiki-ss-nq"
+  ]
+}
