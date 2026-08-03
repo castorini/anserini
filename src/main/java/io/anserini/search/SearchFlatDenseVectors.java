@@ -18,15 +18,11 @@ package io.anserini.search;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
-import java.util.TreeMap;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,7 +34,6 @@ import org.kohsuke.args4j.spi.StringArrayOptionHandler;
 
 import io.anserini.eval.ExcludeDocs;
 import io.anserini.search.topicreader.TopicReader;
-import io.anserini.search.topicreader.Topics;
 import io.anserini.util.LoggingBootstrap;
 
 /**
@@ -91,15 +86,7 @@ public final class SearchFlatDenseVectors<K extends Comparable<K>> implements Ru
 
     // We might not be able to successfully read topics for a variety of reasons. Gather all possible
     // exceptions together as an unchecked exception to make initialization and error reporting clearer.
-    SortedMap<K, Map<String, String>> topics = new TreeMap<>();
-    for (String topicsFile : args.topics) {
-      Path topicsPath = Paths.get(topicsFile);
-      if (Files.exists(topicsPath) && Files.isRegularFile(topicsPath) && Files.isReadable(topicsPath)) {
-        topics.putAll(TopicReader.load(topicsFile, args.topicReader));
-      } else {
-        topics.putAll(Topics.load(topicsFile));
-      }
-    }
+    SortedMap<K, Map<String, String>> topics = TopicReader.load(args.topics, args.topicReader);
 
     // Now iterate through all the topics to pick out the right field with proper exception handling.
     try {

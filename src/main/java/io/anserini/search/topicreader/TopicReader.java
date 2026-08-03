@@ -31,6 +31,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.zip.GZIPInputStream;
 
 import io.anserini.util.CacheDirectoryResolver;
@@ -132,6 +133,28 @@ public abstract class TopicReader<K> {
       throw new IllegalArgumentException(
         String.format("Unable to load topic reader \"%s\" as fully-qualified class io.anserini.search.topicreader.%sTopicReader.", topicReader, topicReader));
     }
+  }
+
+  /**
+   * Loads and merges topics from registered topic names or local files. Local files are read using the
+   * caller-specified {@code TopicReader}; registered topics use the reader in the topics registry.
+   *
+   * @param topics registered topic names or local topic files
+   * @param topicReader {@code TopicReader} class name without the {@code TopicReader} suffix for local files
+   * @param <K> type of topic id
+   * @return merged evaluation topics
+   */
+  public static <K> SortedMap<K, Map<String, String>> load(String[] topics, String topicReader) {
+    SortedMap<K, Map<String, String>> mergedTopics = new TreeMap<>();
+    for (String topic : topics) {
+      Path topicPath = Paths.get(topic);
+      if (Files.exists(topicPath) && Files.isRegularFile(topicPath) && Files.isReadable(topicPath)) {
+        mergedTopics.putAll(load(topic, topicReader));
+      } else {
+        mergedTopics.putAll(Topics.load(topic));
+      }
+    }
+    return mergedTopics;
   }
 
   /**
