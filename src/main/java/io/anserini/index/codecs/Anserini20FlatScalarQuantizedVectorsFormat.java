@@ -36,6 +36,7 @@ import org.apache.lucene.search.AcceptDocs;
 import org.apache.lucene.search.DocIdSetIterator;
 import org.apache.lucene.search.KnnCollector;
 import org.apache.lucene.util.Bits;
+import org.apache.lucene.util.IORunnable;
 
 public class Anserini20FlatScalarQuantizedVectorsFormat extends KnnVectorsFormat {
 
@@ -100,8 +101,8 @@ public class Anserini20FlatScalarQuantizedVectorsFormat extends KnnVectorsFormat
     }
 
     @Override
-    public void mergeOneField(FieldInfo fieldInfo, MergeState mergeState) throws IOException {
-      writer.mergeOneField(fieldInfo, mergeState);
+    public IORunnable mergeOneField(FieldInfo fieldInfo, MergeState mergeState) throws IOException {
+      return writer.mergeOneField(fieldInfo, mergeState);
     }
   }
 
