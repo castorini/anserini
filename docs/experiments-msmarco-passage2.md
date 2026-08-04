@@ -36,7 +36,12 @@ Instead of passing the path to an index in the `-index` parameter, we specify th
 Anserini downloads the index from a known location on UWaterloo servers, and stores a copy in `~/.cache/pyserini/indexes`.
 Go ahead and confirm it's there.
 
-The complete list of prebuilt indexes (and where to find them) is in the class [`IndexInfo`](https://github.com/castorini/anserini/blob/master/src/main/java/io/anserini/index/IndexInfo.java).
+The complete list of prebuilt indexes (and where to find them) is in the class [`PrebuiltIndex`](https://github.com/castorini/anserini/blob/master/src/main/java/io/anserini/index/prebuilt/PrebuiltIndex.java).
+You can also list them from the command line:
+
+```bash
+bin/run.sh io.anserini.cli.PrebuiltIndexRegistry --list --filter msmarco-v1-passage
+```
 
 We can then evaluate the run with the `trec_eval` tool.
 Let's compute the MRR@10 score, which is the official metric:
@@ -247,3 +252,4 @@ If you have any questions, look at previous pull requests for examples.
 + Results reproduced by [@niloy-biswas](https://github.com/niloy-biswas) on 2026-07-30 (commit [`02f25de`](https://github.com/castorini/anserini/commit/02f25dea042ee651085340d60ffbe9bc9820169b))
 + Results reproduced by [@dawoodkhandev](https://github.com/dawoodkhandev) on 2026-08-02 (commit [`ff848cb`](https://github.com/castorini/anserini/commit/ff848cb5872b42ee5305dbb1e27d72d2602aeade))
 + Results reproduced by [@Hamza-Nadif](https://github.com/Hamza-Nadif) on 2026-08-03 (commit [`3a52e64`](https://github.com/castorini/anserini/commit/3a52e64fa331ade3de312b47b3674117aad399c4))
++ Results reproduced by [@mahimairaja](https://github.com/mahimairaja) on 2026-08-04 (commit [`5b3e896`](https://github.com/castorini/anserini/commit/5b3e896e262caf07be1d3c6cb7768eafc839197b))
