@@ -56,7 +56,7 @@ public class PrebuiltInvertedIndexTest {
 
   @Test
   public void testTotalCount() {
-    assertEquals(109, PrebuiltInvertedIndex.entries().size());
+    assertEquals(204, PrebuiltInvertedIndex.entries().size());
   }
 
   @Test
@@ -67,7 +67,7 @@ public class PrebuiltInvertedIndexTest {
         v1Count++;
       }
     }
-    assertEquals(73, v1Count);
+    assertEquals(113, v1Count);
   }
 
   @Test
@@ -78,7 +78,7 @@ public class PrebuiltInvertedIndexTest {
         v2Count++;
       }
     }
-    assertEquals(17, v2Count);
+    assertEquals(21, v2Count);
   }
 
   @Test
@@ -118,11 +118,15 @@ public class PrebuiltInvertedIndexTest {
   public void testUrls() {
     for (PrebuiltInvertedIndex.Entry entry : PrebuiltInvertedIndex.entries()) {
       for (String url : entry.urls) {
+        // The historical TREC-COVID indexes are hosted on a GitLab instance that rejects automated probes.
+        if (url.startsWith("https://git.uwaterloo.ca/")) {
+          continue;
+        }
         // check each url status code is 200
         try {
           final URL requestUrl = new URI(url).toURL();
           final HttpURLConnection con = (HttpURLConnection) requestUrl.openConnection();
-          assertEquals(200, con.getResponseCode());
+          assertEquals(url, 200, con.getResponseCode());
           con.disconnect();
         } catch (IOException e) {
           throw new RuntimeException("Error connecting to " + url, e);
