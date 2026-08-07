@@ -120,8 +120,6 @@ public final class Topics {
   private static Map<String, Topics> loadRegistry() {
     Map<String, TopicMetadata> metadata = loadMetadata();
     metadata.putAll(loadLocalMetadata());
-    Map<String, List<String>> aliases = loadAliasesMetadata(DEFAULT_ALIASES_METADATA_URL);
-    aliases.putAll(loadLocalAliasesMetadata());
     Map<String, Topics> canonical = new LinkedHashMap<>();
     Map<String, Topics> lookup = new LinkedHashMap<>();
 
@@ -142,6 +140,15 @@ public final class Topics {
       addLookupEntry(lookup, Path.of(value.path).getFileName().toString(), topic);
     }
 
+    addAliasesToRegistry(canonical, lookup, loadAliasesMetadata(DEFAULT_ALIASES_METADATA_URL));
+    addAliasesToRegistry(canonical, lookup, loadLocalAliasesMetadata());
+
+    canonicalRegistryCache = Collections.unmodifiableMap(canonical);
+    return Collections.unmodifiableMap(lookup);
+  }
+
+  private static void addAliasesToRegistry(Map<String, Topics> canonical, Map<String, Topics> lookup,
+      Map<String, List<String>> aliases) {
     for (Map.Entry<String, List<String>> entry : aliases.entrySet()) {
       Topics topic = canonical.get(entry.getKey());
       if (topic == null) {
@@ -151,9 +158,6 @@ public final class Topics {
         addLookupEntry(lookup, alias, topic);
       }
     }
-
-    canonicalRegistryCache = Collections.unmodifiableMap(canonical);
-    return Collections.unmodifiableMap(lookup);
   }
 
   private static Map<String, TopicMetadata> loadMetadata() {

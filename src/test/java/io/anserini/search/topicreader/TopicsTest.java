@@ -59,6 +59,13 @@ public class TopicsTest {
   }
 
   @Test
+  public void testLocalAliasesExtendExternalAliases() {
+    Topics canonical = Topics.get("msmarco-passage.dev-subset");
+    assertEquals(canonical, Topics.get("msmarco-passage-dev"));
+    assertEquals(canonical, Topics.get("dummy.msmarco-passage.dev-subset"));
+  }
+
+  @Test
   public void testLocalBindings() {
     // Canonical should be in names().
     assertTrue(Topics.names().contains("dummy"));
