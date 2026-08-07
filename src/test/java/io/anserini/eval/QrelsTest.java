@@ -60,6 +60,13 @@ public class QrelsTest{
     assertDummyQrels("dummy.2");
   }
 
+  @Test
+  public void testLocalAliasesExtendExternalAliases() throws IOException {
+    Qrels canonical = Qrels.get("msmarco-doc-dev");
+    assertEquals(canonical.path(), Qrels.get("msmarco-doc.dev").path());
+    assertEquals(canonical.path(), Qrels.get("dummy.msmarco-doc-dev").path());
+  }
+
   private void assertDummyQrels(String name) throws IOException {
     Qrels qrels = Qrels.get(name);
     assertEquals(name, qrels.name());
