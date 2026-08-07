@@ -153,6 +153,26 @@ Therefore, do not modify this page directly; modify the test case instead.
 [<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-passage.20220808.4d6d2a.README.md">README</a>]
 <dd>Anserini Lucene inverted index of the MS MARCO V2 passage corpus
 </dd>
+<dt></dt><b><code>msmarco-v2-passage-augmented</code></b>
+[<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-passage-augmented.20220808.4d6d2a.README.md">README</a>]
+<dd>Anserini Lucene inverted index of the MS MARCO V2 augmented passage corpus
+</dd>
+<dt></dt><b><code>msmarco-v2-passage-augmented-full</code></b>
+[<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-passage-augmented.20220808.4d6d2a.README.md">README</a>]
+<dd>Anserini Lucene inverted index of the MS MARCO V2 augmented passage corpus ('full' version)
+</dd>
+<dt></dt><b><code>msmarco-v2-passage-augmented-slim</code></b>
+[<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-passage-augmented.20220808.4d6d2a.README.md">README</a>]
+<dd>Anserini Lucene inverted index of the MS MARCO V2 augmented passage corpus ('slim' version)
+</dd>
+<dt></dt><b><code>msmarco-v2-passage-augmented.d2q-t5</code></b>
+[<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-passage-augmented.d2q-t5.20220808.4d6d2a.README.md">README</a>]
+<dd>Anserini Lucene inverted index of the MS MARCO V2 augmented passage corpus with doc2query-T5 expansions
+</dd>
+<dt></dt><b><code>msmarco-v2-passage-augmented.d2q-t5-docvectors</code></b>
+[<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-passage-augmented.d2q-t5.20220808.4d6d2a.README.md">README</a>]
+<dd>Anserini Lucene inverted index of the MS MARCO V2 augmented passage corpus with doc2query-T5 expansions (with stored docvectors)
+</dd>
 <dt></dt><b><code>msmarco-v2-passage-full</code></b>
 [<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-passage.20220808.4d6d2a.README.md">README</a>]
 <dd>Anserini Lucene inverted index of the MS MARCO V2 passage corpus ('full' version)
@@ -208,14 +228,6 @@ Therefore, do not modify this page directly; modify the test case instead.
 <dt></dt><b><code>msmarco-v2-doc-segmented.d2q-t5-docvectors</code></b>
 [<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-doc-segmented.d2q-t5.20220808.4d6d2a.README.md">README</a>]
 <dd>Anserini Lucene inverted index of the MS MARCO V2 segmented document corpus with doc2query-T5 expansions (with stored docvectors)
-</dd>
-<dt></dt><b><code>msmarco-v2-doc-segmented.unicoil-0shot</code></b>
-[<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-doc-segmented.unicoil-0shot.20220808.4d6d2a.README.md">README</a>]
-<dd>Anserini Lucene impact index of the MS MARCO V2 segmented document corpus for uniCOIL, with title prepended
-</dd>
-<dt></dt><b><code>msmarco-v2-doc-segmented.unicoil-noexp-0shot</code></b>
-[<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-doc-segmented.unicoil-noexp-0shot.20220808.4d6d2a.README.md">README</a>]
-<dd>Anserini Lucene impact index of the MS MARCO V2 segmented document corpus for uniCOIL (noexp) with title prepended
 </dd>
 <dt></dt><b><code>msmarco-v2.1-doc</code></b>
 [<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2.1-doc.20240418.4f9675.README.md">README</a>]
@@ -545,8 +557,376 @@ Therefore, do not modify this page directly; modify the test case instead.
 <summary>Other</summary>
 
 <dl>
+<dt></dt><b><code>aquaint</code></b>
+[<a href="lucene-inverted.aquaint.20240803.36f7e3.README.md">README</a>]
+<dd>Lucene index of the AQUAINT collection, used in the TREC 2005 Robust Track.
+</dd>
+<dt></dt><b><code>atomic_image_v0.2_base</code></b>
+[<a href="lucene-index.atomic.20231018.ae6ff6.README.md">README</a>]
+<dd>Lucene index for AToMiC Images v0.2 base setting on validation set
+</dd>
+<dt></dt><b><code>atomic_image_v0.2_large</code></b>
+[<a href="lucene-index.atomic.20231018.ae6ff6.README.md">README</a>]
+<dd>Lucene index for AToMiC Images v0.2 large setting on validation set
+</dd>
+<dt></dt><b><code>atomic_image_v0.2_small_validation</code></b>
+[<a href="lucene-index.atomic.20231018.ae6ff6.README.md">README</a>]
+<dd>Lucene index for AToMiC Images v0.2 small setting on validation set
+</dd>
+<dt></dt><b><code>atomic_text_v0.2.1_base</code></b>
+[<a href="lucene-index.atomic.20231018.ae6ff6.README.md">README</a>]
+<dd>Lucene index for AToMiC Text v0.2.1 base setting on validation set
+</dd>
+<dt></dt><b><code>atomic_text_v0.2.1_large</code></b>
+[<a href="lucene-index.atomic.20231018.ae6ff6.README.md">README</a>]
+<dd>Lucene index for AToMiC Text v0.2.1 large setting on validation set
+</dd>
+<dt></dt><b><code>atomic_text_v0.2.1_small_validation</code></b>
+[<a href="lucene-index.atomic.20231018.ae6ff6.README.md">README</a>]
+<dd>Lucene index for AToMiC Text v0.2.1 small setting on validation set
+</dd>
 <dt></dt><b><code>cacm</code></b>
 <dd>Anserini Lucene inverted index of the CACM corpus
+</dd>
+<dt></dt><b><code>cast2019</code></b>
+[<a href="null">README</a>]
+<dd>Lucene index for TREC 2019 CaST
+</dd>
+<dt></dt><b><code>ciral-v1.0-ha</code></b>
+[<a href="lucene-index.ciral-v1.0.20230721.e850ea.README.md">README</a>]
+<dd>Lucene index for CIRAL v1.0 (Hausa).
+</dd>
+<dt></dt><b><code>ciral-v1.0-ha-en</code></b>
+[<a href="lucene-index.ciral-v1.0-en.20240212.2154e7.README.md">README</a>]
+<dd>Lucene index for CIRAL v1.0 English Translations (Hausa).
+</dd>
+<dt></dt><b><code>ciral-v1.0-so</code></b>
+[<a href="lucene-index.ciral-v1.0.20230721.e850ea.README.md">README</a>]
+<dd>Lucene index for CIRAL v1.0 (Somali).
+</dd>
+<dt></dt><b><code>ciral-v1.0-so-en</code></b>
+[<a href="lucene-index.ciral-v1.0-en.20240212.2154e7.README.md">README</a>]
+<dd>Lucene index for CIRAL v1.0 English Translations (Somali).
+</dd>
+<dt></dt><b><code>ciral-v1.0-sw</code></b>
+[<a href="lucene-index.ciral-v1.0.20230721.e850ea.README.md">README</a>]
+<dd>Lucene index for CIRAL v1.0 (Swahili).
+</dd>
+<dt></dt><b><code>ciral-v1.0-sw-en</code></b>
+[<a href="lucene-index.ciral-v1.0-en.20240212.2154e7.README.md">README</a>]
+<dd>Lucene index for CIRAL v1.0 English Translations (Swahili).
+</dd>
+<dt></dt><b><code>ciral-v1.0-yo</code></b>
+[<a href="lucene-index.ciral-v1.0.20230721.e850ea.README.md">README</a>]
+<dd>Lucene index for CIRAL v1.0 (Yoruba).
+</dd>
+<dt></dt><b><code>ciral-v1.0-yo-en</code></b>
+[<a href="lucene-index.ciral-v1.0-en.20240212.2154e7.README.md">README</a>]
+<dd>Lucene index for CIRAL v1.0 English Translations (Yoruba).
+</dd>
+<dt></dt><b><code>disk45</code></b>
+[<a href="lucene-inverted.disk45.20240803.36f7e3.README.md">README</a>]
+<dd>Lucene index of TREC Disks 4 & 5 (minus Congressional Records), used in the TREC 2004 Robust Track.
+</dd>
+<dt></dt><b><code>enwiki-paragraphs</code></b>
+[<a href="null">README</a>]
+<dd>Lucene index of English Wikipedia for BERTserini
+</dd>
+<dt></dt><b><code>hc4-v1.0-fa</code></b>
+[<a href="lucene-index.hc4-v1.0.20221025.c4a8d0.README.md">README</a>]
+<dd>Lucene index for HC4 v1.0 (Persian).
+</dd>
+<dt></dt><b><code>hc4-v1.0-ru</code></b>
+[<a href="lucene-index.hc4-v1.0.20221025.c4a8d0.README.md">README</a>]
+<dd>Lucene index for HC4 v1.0 (Russian).
+</dd>
+<dt></dt><b><code>hc4-v1.0-zh</code></b>
+[<a href="lucene-index.hc4-v1.0.20221025.c4a8d0.README.md">README</a>]
+<dd>Lucene index for HC4 v1.0 (Chinese).
+</dd>
+<dt></dt><b><code>m-beir-cirr_task7</code></b>
+[<a href="lucene-inverted.m-beir.20251227.1c5cd3.README.md">README</a>]
+<dd>Lucene index for M-BEIR CIRR task 7 corpus.
+</dd>
+<dt></dt><b><code>m-beir-edis_task2</code></b>
+[<a href="lucene-inverted.m-beir.20251227.1c5cd3.README.md">README</a>]
+<dd>Lucene index for M-BEIR EDIS task 2 corpus.
+</dd>
+<dt></dt><b><code>m-beir-fashion200k_task0</code></b>
+[<a href="lucene-inverted.m-beir.20251227.1c5cd3.README.md">README</a>]
+<dd>Lucene index for M-BEIR Fashion200K task 0 corpus.
+</dd>
+<dt></dt><b><code>m-beir-fashion200k_task3</code></b>
+[<a href="lucene-inverted.m-beir.20251227.1c5cd3.README.md">README</a>]
+<dd>Lucene index for M-BEIR Fashion200K task 3 corpus.
+</dd>
+<dt></dt><b><code>m-beir-fashioniq_task7</code></b>
+[<a href="lucene-inverted.m-beir.20251227.1c5cd3.README.md">README</a>]
+<dd>Lucene index for M-BEIR FashionIQ task 7 corpus.
+</dd>
+<dt></dt><b><code>m-beir-infoseek_task6</code></b>
+[<a href="lucene-inverted.m-beir.20251227.1c5cd3.README.md">README</a>]
+<dd>Lucene index for M-BEIR InfoSeek task 6 corpus.
+</dd>
+<dt></dt><b><code>m-beir-infoseek_task8</code></b>
+[<a href="lucene-inverted.m-beir.20251227.1c5cd3.README.md">README</a>]
+<dd>Lucene index for M-BEIR InfoSeek task 8 corpus.
+</dd>
+<dt></dt><b><code>m-beir-mscoco_task0</code></b>
+[<a href="lucene-inverted.m-beir.20251227.1c5cd3.README.md">README</a>]
+<dd>Lucene index for M-BEIR MSCOCO task 0 corpus.
+</dd>
+<dt></dt><b><code>m-beir-mscoco_task3</code></b>
+[<a href="lucene-inverted.m-beir.20251227.1c5cd3.README.md">README</a>]
+<dd>Lucene index for M-BEIR MSCOCO task 3 corpus.
+</dd>
+<dt></dt><b><code>m-beir-nights_task4</code></b>
+[<a href="lucene-inverted.m-beir.20251227.1c5cd3.README.md">README</a>]
+<dd>Lucene index for M-BEIR NIGHTS task 4 corpus.
+</dd>
+<dt></dt><b><code>m-beir-oven_task6</code></b>
+[<a href="lucene-inverted.m-beir.20251227.1c5cd3.README.md">README</a>]
+<dd>Lucene index for M-BEIR OVEN task 6 corpus.
+</dd>
+<dt></dt><b><code>m-beir-oven_task8</code></b>
+[<a href="lucene-inverted.m-beir.20251227.1c5cd3.README.md">README</a>]
+<dd>Lucene index for M-BEIR OVEN task 8 corpus.
+</dd>
+<dt></dt><b><code>m-beir-visualnews_task0</code></b>
+[<a href="lucene-inverted.m-beir.20251227.1c5cd3.README.md">README</a>]
+<dd>Lucene index for M-BEIR VisualNews task 0 corpus.
+</dd>
+<dt></dt><b><code>m-beir-visualnews_task3</code></b>
+[<a href="lucene-inverted.m-beir.20251227.1c5cd3.README.md">README</a>]
+<dd>Lucene index for M-BEIR VisualNews task 3 corpus.
+</dd>
+<dt></dt><b><code>m-beir-webqa_task1</code></b>
+[<a href="lucene-inverted.m-beir.20251227.1c5cd3.README.md">README</a>]
+<dd>Lucene index for M-BEIR WebQA task 1 corpus.
+</dd>
+<dt></dt><b><code>m-beir-webqa_task2</code></b>
+[<a href="lucene-inverted.m-beir.20251227.1c5cd3.README.md">README</a>]
+<dd>Lucene index for M-BEIR WebQA task 2 corpus.
+</dd>
+<dt></dt><b><code>miracl-v1.0-ar</code></b>
+[<a href="lucene-inverted.miracl-v1.0.20260604.558ae2c.README.md">README</a>]
+<dd>Lucene index for MIRACL v1.0 - Arabic (Lucene 10.4.0)
+</dd>
+<dt></dt><b><code>miracl-v1.0-bn</code></b>
+[<a href="lucene-inverted.miracl-v1.0.20260604.558ae2c.README.md">README</a>]
+<dd>Lucene index for MIRACL v1.0 - Bengali (Lucene 10.4.0)
+</dd>
+<dt></dt><b><code>miracl-v1.0-de</code></b>
+[<a href="lucene-inverted.miracl-v1.0.20260604.558ae2c.README.md">README</a>]
+<dd>Lucene index for MIRACL v1.0 - German (Lucene 10.4.0)
+</dd>
+<dt></dt><b><code>miracl-v1.0-en</code></b>
+[<a href="lucene-inverted.miracl-v1.0.20260604.558ae2c.README.md">README</a>]
+<dd>Lucene index for MIRACL v1.0 - English (Lucene 10.4.0)
+</dd>
+<dt></dt><b><code>miracl-v1.0-es</code></b>
+[<a href="lucene-inverted.miracl-v1.0.20260604.558ae2c.README.md">README</a>]
+<dd>Lucene index for MIRACL v1.0 - Spanish (Lucene 10.4.0)
+</dd>
+<dt></dt><b><code>miracl-v1.0-fa</code></b>
+[<a href="lucene-inverted.miracl-v1.0.20260604.558ae2c.README.md">README</a>]
+<dd>Lucene index for MIRACL v1.0 - Persian (Lucene 10.4.0)
+</dd>
+<dt></dt><b><code>miracl-v1.0-fi</code></b>
+[<a href="lucene-inverted.miracl-v1.0.20260604.558ae2c.README.md">README</a>]
+<dd>Lucene index for MIRACL v1.0 - Finnish (Lucene 10.4.0)
+</dd>
+<dt></dt><b><code>miracl-v1.0-fr</code></b>
+[<a href="lucene-inverted.miracl-v1.0.20260604.558ae2c.README.md">README</a>]
+<dd>Lucene index for MIRACL v1.0 - French (Lucene 10.4.0)
+</dd>
+<dt></dt><b><code>miracl-v1.0-hi</code></b>
+[<a href="lucene-inverted.miracl-v1.0.20260604.558ae2c.README.md">README</a>]
+<dd>Lucene index for MIRACL v1.0 - Hindi (Lucene 10.4.0)
+</dd>
+<dt></dt><b><code>miracl-v1.0-id</code></b>
+[<a href="lucene-inverted.miracl-v1.0.20260604.558ae2c.README.md">README</a>]
+<dd>Lucene index for MIRACL v1.0 - Indonesian (Lucene 10.4.0)
+</dd>
+<dt></dt><b><code>miracl-v1.0-ja</code></b>
+[<a href="lucene-inverted.miracl-v1.0.20260604.558ae2c.README.md">README</a>]
+<dd>Lucene index for MIRACL v1.0 - Japanese (Lucene 10.4.0)
+</dd>
+<dt></dt><b><code>miracl-v1.0-ko</code></b>
+[<a href="lucene-inverted.miracl-v1.0.20260604.558ae2c.README.md">README</a>]
+<dd>Lucene index for MIRACL v1.0 - Korean (Lucene 10.4.0)
+</dd>
+<dt></dt><b><code>miracl-v1.0-ru</code></b>
+[<a href="lucene-inverted.miracl-v1.0.20260604.558ae2c.README.md">README</a>]
+<dd>Lucene index for MIRACL v1.0 - Russian (Lucene 10.4.0)
+</dd>
+<dt></dt><b><code>miracl-v1.0-sw</code></b>
+[<a href="lucene-inverted.miracl-v1.0.20260604.558ae2c.README.md">README</a>]
+<dd>Lucene index for MIRACL v1.0 - Swahili (Lucene 10.4.0)
+</dd>
+<dt></dt><b><code>miracl-v1.0-te</code></b>
+[<a href="lucene-inverted.miracl-v1.0.20260604.558ae2c.README.md">README</a>]
+<dd>Lucene index for MIRACL v1.0 - Telugu (Lucene 10.4.0)
+</dd>
+<dt></dt><b><code>miracl-v1.0-th</code></b>
+[<a href="lucene-inverted.miracl-v1.0.20260604.558ae2c.README.md">README</a>]
+<dd>Lucene index for MIRACL v1.0 - Thai (Lucene 10.4.0)
+</dd>
+<dt></dt><b><code>miracl-v1.0-yo</code></b>
+[<a href="lucene-inverted.miracl-v1.0.20260604.558ae2c.README.md">README</a>]
+<dd>Lucene index for MIRACL v1.0 - Yoruba (Lucene 10.4.0)
+</dd>
+<dt></dt><b><code>miracl-v1.0-zh</code></b>
+[<a href="lucene-inverted.miracl-v1.0.20260604.558ae2c.README.md">README</a>]
+<dd>Lucene index for MIRACL v1.0 - Chinese (Lucene 10.4.0)
+</dd>
+<dt></dt><b><code>mrtydi-v1.1-ar</code></b>
+[<a href="lucene-inverted.mrtydi-v1.1.20260604.558ae2c.README.md">README</a>]
+<dd>Lucene index for Mr.TyDi v1.1 - Arabic (Lucene 10.4.0)
+</dd>
+<dt></dt><b><code>mrtydi-v1.1-bn</code></b>
+[<a href="lucene-inverted.mrtydi-v1.1.20260604.558ae2c.README.md">README</a>]
+<dd>Lucene index for Mr.TyDi v1.1 - Bengali (Lucene 10.4.0)
+</dd>
+<dt></dt><b><code>mrtydi-v1.1-en</code></b>
+[<a href="lucene-inverted.mrtydi-v1.1.20260604.558ae2c.README.md">README</a>]
+<dd>Lucene index for Mr.TyDi v1.1 - English (Lucene 10.4.0)
+</dd>
+<dt></dt><b><code>mrtydi-v1.1-fi</code></b>
+[<a href="lucene-inverted.mrtydi-v1.1.20260604.558ae2c.README.md">README</a>]
+<dd>Lucene index for Mr.TyDi v1.1 - Finnish (Lucene 10.4.0)
+</dd>
+<dt></dt><b><code>mrtydi-v1.1-id</code></b>
+[<a href="lucene-inverted.mrtydi-v1.1.20260604.558ae2c.README.md">README</a>]
+<dd>Lucene index for Mr.TyDi v1.1 - Indonesian (Lucene 10.4.0)
+</dd>
+<dt></dt><b><code>mrtydi-v1.1-ja</code></b>
+[<a href="lucene-inverted.mrtydi-v1.1.20260604.558ae2c.README.md">README</a>]
+<dd>Lucene index for Mr.TyDi v1.1 - Japanese (Lucene 10.4.0)
+</dd>
+<dt></dt><b><code>mrtydi-v1.1-ko</code></b>
+[<a href="lucene-inverted.mrtydi-v1.1.20260604.558ae2c.README.md">README</a>]
+<dd>Lucene index for Mr.TyDi v1.1 - Korean (Lucene 10.4.0)
+</dd>
+<dt></dt><b><code>mrtydi-v1.1-ru</code></b>
+[<a href="lucene-inverted.mrtydi-v1.1.20260604.558ae2c.README.md">README</a>]
+<dd>Lucene index for Mr.TyDi v1.1 - Russian (Lucene 10.4.0)
+</dd>
+<dt></dt><b><code>mrtydi-v1.1-sw</code></b>
+[<a href="lucene-inverted.mrtydi-v1.1.20260604.558ae2c.README.md">README</a>]
+<dd>Lucene index for Mr.TyDi v1.1 - Swahili (Lucene 10.4.0)
+</dd>
+<dt></dt><b><code>mrtydi-v1.1-te</code></b>
+[<a href="lucene-inverted.mrtydi-v1.1.20260604.558ae2c.README.md">README</a>]
+<dd>Lucene index for Mr.TyDi v1.1 - Telugu (Lucene 10.4.0)
+</dd>
+<dt></dt><b><code>mrtydi-v1.1-th</code></b>
+[<a href="lucene-inverted.mrtydi-v1.1.20260604.558ae2c.README.md">README</a>]
+<dd>Lucene index for Mr.TyDi v1.1 - Thai (Lucene 10.4.0)
+</dd>
+<dt></dt><b><code>neuclir22-fa</code></b>
+[<a href="lucene-index.neuclir22.20221025.c4a8d0.README.md">README</a>]
+<dd>Lucene index for NeuCLIR 2022 corpus (Persian).
+</dd>
+<dt></dt><b><code>neuclir22-fa-en</code></b>
+[<a href="lucene-index.neuclir22-en.20221025.c4a8d0.README.md">README</a>]
+<dd>Lucene index for NeuCLIR 2022 corpus (official English translation from Persian).
+</dd>
+<dt></dt><b><code>neuclir22-ru</code></b>
+[<a href="lucene-index.neuclir22.20221025.c4a8d0.README.md">README</a>]
+<dd>Lucene index for NeuCLIR 2022 corpus (Russian).
+</dd>
+<dt></dt><b><code>neuclir22-ru-en</code></b>
+[<a href="lucene-index.neuclir22-en.20221025.c4a8d0.README.md">README</a>]
+<dd>Lucene index for NeuCLIR 2022 corpus (official English translation from Russian).
+</dd>
+<dt></dt><b><code>neuclir22-zh</code></b>
+[<a href="lucene-index.neuclir22.20221025.c4a8d0.README.md">README</a>]
+<dd>Lucene index for NeuCLIR 2022 corpus (Chinese).
+</dd>
+<dt></dt><b><code>neuclir22-zh-en</code></b>
+[<a href="lucene-index.neuclir22-en.20221025.c4a8d0.README.md">README</a>]
+<dd>Lucene index for NeuCLIR 2022 corpus (official English translation from Chinese).
+</dd>
+<dt></dt><b><code>nyt</code></b>
+[<a href="lucene-inverted.nyt.20240803.36f7e3.README.md">README</a>]
+<dd>Lucene index of the New York Times Annotated Corpus, used in the TREC 2017 Common Core Track.
+</dd>
+<dt></dt><b><code>trec-covid-r1-abstract</code></b>
+[<a href="null">README</a>]
+<dd>Lucene index for TREC-COVID Round 1: abstract index
+</dd>
+<dt></dt><b><code>trec-covid-r1-full-text</code></b>
+[<a href="null">README</a>]
+<dd>Lucene index for TREC-COVID Round 1: full-text index
+</dd>
+<dt></dt><b><code>trec-covid-r1-paragraph</code></b>
+[<a href="null">README</a>]
+<dd>Lucene index for TREC-COVID Round 1: paragraph index
+</dd>
+<dt></dt><b><code>trec-covid-r2-abstract</code></b>
+[<a href="null">README</a>]
+<dd>Lucene index for TREC-COVID Round 2: abstract index
+</dd>
+<dt></dt><b><code>trec-covid-r2-full-text</code></b>
+[<a href="null">README</a>]
+<dd>Lucene index for TREC-COVID Round 2: full-text index
+</dd>
+<dt></dt><b><code>trec-covid-r2-paragraph</code></b>
+[<a href="null">README</a>]
+<dd>Lucene index for TREC-COVID Round 2: paragraph index
+</dd>
+<dt></dt><b><code>trec-covid-r3-abstract</code></b>
+[<a href="null">README</a>]
+<dd>Lucene index for TREC-COVID Round 3: abstract index
+</dd>
+<dt></dt><b><code>trec-covid-r3-full-text</code></b>
+[<a href="null">README</a>]
+<dd>Lucene index for TREC-COVID Round 3: full-text index
+</dd>
+<dt></dt><b><code>trec-covid-r3-paragraph</code></b>
+[<a href="null">README</a>]
+<dd>Lucene index for TREC-COVID Round 3: paragraph index
+</dd>
+<dt></dt><b><code>trec-covid-r4-abstract</code></b>
+[<a href="null">README</a>]
+<dd>Lucene index for TREC-COVID Round 4: abstract index
+</dd>
+<dt></dt><b><code>trec-covid-r4-full-text</code></b>
+[<a href="null">README</a>]
+<dd>Lucene index for TREC-COVID Round 4: full-text index
+</dd>
+<dt></dt><b><code>trec-covid-r4-paragraph</code></b>
+[<a href="null">README</a>]
+<dd>Lucene index for TREC-COVID Round 4: paragraph index
+</dd>
+<dt></dt><b><code>trec-covid-r5-abstract</code></b>
+[<a href="null">README</a>]
+<dd>Lucene index for TREC-COVID Round 5: abstract index
+</dd>
+<dt></dt><b><code>trec-covid-r5-full-text</code></b>
+[<a href="null">README</a>]
+<dd>Lucene index for TREC-COVID Round 5: full-text index
+</dd>
+<dt></dt><b><code>trec-covid-r5-paragraph</code></b>
+[<a href="null">README</a>]
+<dd>Lucene index for TREC-COVID Round 5: paragraph index
+</dd>
+<dt></dt><b><code>wapo.v2</code></b>
+[<a href="lucene-inverted.wapo.v2.20240803.36f7e3.README.md">README</a>]
+<dd>Lucene index of the TREC Washington Post Corpus, used in the TREC 2018 Common Core Track.
+</dd>
+<dt></dt><b><code>wiki-all-6-3-tamber</code></b>
+[<a href="null">README</a>]
+<dd>Lucene index of wiki-all-6-3-tamber from castorini/odqa-wiki-corpora on Huggingface Datasets (Lucene 10.4.0)
+</dd>
+<dt></dt><b><code>wikipedia-dpr-100w</code></b>
+[<a href="null">README</a>]
+<dd>Lucene index of Wikipedia with DPR 100-word splits (Lucene 10.4.0)
+</dd>
+<dt></dt><b><code>zhwiki-paragraphs</code></b>
+[<a href="null">README</a>]
+<dd>Lucene index of Chinese Wikipedia for BERTserini
 </dd>
 </dl>
 
@@ -558,13 +938,69 @@ Therefore, do not modify this page directly; modify the test case instead.
 <summary>MS MARCO</summary>
 
 <dl>
+<dt></dt><b><code>msmarco-v1-passage.deepimpact</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/passage/original/lucene-inverted/deepimpact/lucene-inverted.msmarco-v1-passage.deepimpact.20221005.252b5e.README.md">README</a>]
+<dd>Lucene impact index of the MS MARCO V1 passage corpus encoded by DeepImpact.
+</dd>
+<dt></dt><b><code>msmarco-v1-passage.distill-splade-max</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/passage/original/lucene-inverted/distill-splade-max/lucene-inverted.msmarco-v1-passage.distill-splade-max.20221005.252b5e.README.md">README</a>]
+<dd>Lucene impact index of the MS MARCO V1 passage corpus encoded by distill-splade-max.
+</dd>
+<dt></dt><b><code>msmarco-v1-passage.slimr</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/passage/original/lucene-inverted/slimr/lucene-inverted.msmarco-v1-passage.slimr.20230925.md">README</a>]
+<dd>Anserini Lucene impact index of the MS MARCO V1 passage corpus encoded by SLIM trained with BM25 negatives
+</dd>
+<dt></dt><b><code>msmarco-v1-passage.slimr-pp</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/passage/original/lucene-inverted/slimr-pp/lucene-inverted.msmarco-v1-passage.slimr-pp.20230925.md">README</a>]
+<dd>Anserini Lucene impact index of the MS MARCO V1 passage corpus encoded by SLIM trained with cross-encoder distillation and hard-negative mining
+</dd>
 <dt></dt><b><code>msmarco-v1-passage.splade-pp-ed</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/passage/original/lucene-inverted/splade-pp/lucene-inverted.msmarco-v1-passage.splade-pp.20230524.a59610.README.md">README</a>]
 <dd>Anserini Lucene impact index of the MS MARCO V1 passage corpus encoded by SPLADE++ CoCondenser-EnsembleDistil
 </dd>
+<dt></dt><b><code>msmarco-v1-passage.splade-pp-ed-docvectors</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/passage/original/lucene-inverted/splade-pp/lucene-inverted.msmarco-v1-passage.splade-pp.20230524.a59610.README.md">README</a>]
+<dd>Lucene impact index (with docvectors) of the MS MARCO passage corpus encoded by SPLADE++ CoCondenser-EnsembleDistil.
+</dd>
+<dt></dt><b><code>msmarco-v1-passage.splade-pp-ed-text</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/passage/original/lucene-inverted/splade-pp/lucene-inverted.msmarco-v1-passage.splade-pp.20230524.a59610.README.md">README</a>]
+<dd>Lucene impact index (with text) of the MS MARCO passage corpus encoded by SPLADE++ CoCondenser-EnsembleDistil.
+</dd>
+<dt></dt><b><code>msmarco-v1-passage.splade-pp-sd</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/passage/original/lucene-inverted/splade-pp/lucene-inverted.msmarco-v1-passage.splade-pp.20230524.a59610.README.md">README</a>]
+<dd>Lucene impact index of the MS MARCO passage corpus encoded by SPLADE++ CoCondenser-SelfDistil.
+</dd>
+<dt></dt><b><code>msmarco-v1-passage.splade-pp-sd-docvectors</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/passage/original/lucene-inverted/splade-pp/lucene-inverted.msmarco-v1-passage.splade-pp.20230524.a59610.README.md">README</a>]
+<dd>Lucene impact index (with docvectors) of the MS MARCO passage corpus encoded by SPLADE++ CoCondenser-SelfDistil.
+</dd>
+<dt></dt><b><code>msmarco-v1-passage.splade-pp-sd-text</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/passage/original/lucene-inverted/splade-pp/lucene-inverted.msmarco-v1-passage.splade-pp.20230524.a59610.README.md">README</a>]
+<dd>Lucene impact index (with text) of the MS MARCO passage corpus encoded by SPLADE++ CoCondenser-SelfDistil.
+</dd>
 <dt></dt><b><code>msmarco-v1-passage.splade-v3</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/passage/original/lucene-inverted/splade-v3/lucene-inverted.msmarco-v1-passage.splade-v3.20250329.4f4c68.README.md">README</a>]
 <dd>Anserini Lucene impact index of the MS MARCO passage corpus encoded by SPLADE-v3
+</dd>
+<dt></dt><b><code>msmarco-v1-passage.splade-v3-docvectors</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/passage/original/lucene-inverted/splade-v3/lucene-inverted.msmarco-v1-passage.splade-v3.20250329.4f4c68.README.md">README</a>]
+<dd>Lucene impact index (with docvectors) of the MS MARCO passage corpus encoded by SPLADEv3.
+</dd>
+<dt></dt><b><code>msmarco-v1-passage.splade-v3-text</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/passage/original/lucene-inverted/splade-v3/lucene-inverted.msmarco-v1-passage.splade-v3.20250329.4f4c68.README.md">README</a>]
+<dd>Lucene impact index (with text) of the MS MARCO passage corpus encoded by SPLADEv3.
+</dd>
+<dt></dt><b><code>msmarco-v1-passage.unicoil</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/passage/original/lucene-inverted/unicoil/lucene-inverted.msmarco-v1-passage.unicoil.20221005.252b5e.README.md">README</a>]
+<dd>Lucene impact index of the MS MARCO V1 passage corpus for uniCOIL.
+</dd>
+<dt></dt><b><code>msmarco-v1-passage.unicoil-noexp</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/passage/original/lucene-inverted/unicoil-noexp/lucene-inverted.msmarco-v1-passage.unicoil-noexp.20221005.252b5e.README.md">README</a>]
+<dd>Lucene impact index of the MS MARCO V1 passage corpus for uniCOIL (noexp).
+</dd>
+<dt></dt><b><code>msmarco-v1-passage.unicoil-tilde</code></b>
+[<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/passage/original/lucene-inverted/unicoil-tilde/lucene-inverted.msmarco-v1-passage.unicoil-tilde.20221005.252b5e.README.md">README</a>]
+<dd>Lucene impact index of the MS MARCO V1 passage corpus encoded by uniCOIL-TILDE.
 </dd>
 <dt></dt><b><code>msmarco-v1-doc-segmented.unicoil</code></b>
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/doc/segmented/lucene-inverted/unicoil/lucene-inverted.msmarco-v1-doc-segmented.unicoil.20221005.252b5e.README.md">README</a>]
@@ -574,6 +1010,10 @@ Therefore, do not modify this page directly; modify the test case instead.
 [<a href="https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/blob/main/doc/segmented/lucene-inverted/unicoil-noexp/lucene-inverted.msmarco-v1-doc-segmented.unicoil-noexp.20221005.252b5e.README.md">README</a>]
 <dd>Anserini Lucene impact index of the MS MARCO V1 segmented document corpus for uniCOIL (noexp), with title/segment encoding
 </dd>
+<dt></dt><b><code>msmarco-v2-passage.slimr-pp</code></b>
+[<a href="null">README</a>]
+<dd>Lucene impact index of the MS MARCO V2 passage corpus encoded by SLIM (norefine) trained with cross-encoder distillation and hard-negative mining.
+</dd>
 <dt></dt><b><code>msmarco-v2-passage.unicoil-0shot</code></b>
 [<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-passage.unicoil-0shot.20220808.4d6d2a.README.md">README</a>]
 <dd>Anserini Lucene impact index of the MS MARCO V2 passage corpus for uniCOIL
@@ -581,6 +1021,14 @@ Therefore, do not modify this page directly; modify the test case instead.
 <dt></dt><b><code>msmarco-v2-passage.unicoil-noexp-0shot</code></b>
 [<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-passage.unicoil-noexp-0shot.20220808.4d6d2a.README.md">README</a>]
 <dd>Anserini Lucene impact index of the MS MARCO V2 passage corpus for uniCOIL (noexp)
+</dd>
+<dt></dt><b><code>msmarco-v2-doc-segmented.unicoil-0shot</code></b>
+[<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-doc-segmented.unicoil-0shot.20220808.4d6d2a.README.md">README</a>]
+<dd>Anserini Lucene impact index of the MS MARCO V2 segmented document corpus for uniCOIL, with title prepended
+</dd>
+<dt></dt><b><code>msmarco-v2-doc-segmented.unicoil-noexp-0shot</code></b>
+[<a href="https://github.com/castorini/pyserini/tree/master/pyserini/resources/index-metadata/lucene-inverted.msmarco-v2-doc-segmented.unicoil-noexp-0shot.20220808.4d6d2a.README.md">README</a>]
+<dd>Anserini Lucene impact index of the MS MARCO V2 segmented document corpus for uniCOIL (noexp) with title prepended
 </dd>
 <dt></dt><b><code>msmarco-v2.1-doc-segmented.splade-v3</code></b>
 <dd>Anserini Lucene impact index of the MS MARCO V2.1 segmented document corpus encoded by SPLADE-v3

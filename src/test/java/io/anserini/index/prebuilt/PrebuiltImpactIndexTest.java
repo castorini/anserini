@@ -36,7 +36,7 @@ public class PrebuiltImpactIndexTest {
 
   @Test
   public void testTotalCount() {
-    assertEquals(77, PrebuiltImpactIndex.entries().size());
+    assertEquals(94, PrebuiltImpactIndex.entries().size());
   }
 
   @Test
@@ -47,7 +47,7 @@ public class PrebuiltImpactIndexTest {
         v1Count++;
       }
     }
-    assertEquals(62, v1Count);
+    assertEquals(76, v1Count);
   }
 
   @Test
@@ -58,7 +58,7 @@ public class PrebuiltImpactIndexTest {
         v2Count++;
       }
     }
-    assertEquals(2, v2Count);
+    assertEquals(5, v2Count);
   }
 
   @Test
@@ -102,7 +102,7 @@ public class PrebuiltImpactIndexTest {
         try {
           final URL requestUrl = new URI(url).toURL();
           final HttpURLConnection con = (HttpURLConnection) requestUrl.openConnection();
-          assertEquals(200, con.getResponseCode());
+          assertEquals(url, 200, con.getResponseCode());
           con.disconnect();
         } catch (IOException e) {
           throw new RuntimeException("Error connecting to " + url, e);
