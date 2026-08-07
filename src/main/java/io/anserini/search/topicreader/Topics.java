@@ -33,17 +33,23 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * A registry entry for a standard set of topics from various evaluations.
  */
 public final class Topics {
-  private static final String TOPICS_AND_QRELS_COMMIT = "45ccac48dd896cca047cfea4dea1291c16f5f266";
-  static final String TOPICS_AND_QRELS_URL = "https://raw.githubusercontent.com/castorini/anserini-tools/" + TOPICS_AND_QRELS_COMMIT + "/topics-and-qrels/";
-  private static final String DEFAULT_METADATA_URL = TOPICS_AND_QRELS_URL + "_metadata_topics.json";
-  private static final String DEFAULT_ALIASES_METADATA_URL = TOPICS_AND_QRELS_URL + "_metadata_topics_aliases.json";
+  private static final String COMMIT_ID = "45ccac48dd896cca047cfea4dea1291c16f5f266";
+  public static final String URL = "https://raw.githubusercontent.com/castorini/anserini-tools/" + COMMIT_ID + "/topics-and-qrels/";
+
+  private static final String DEFAULT_METADATA_URL = URL + "_metadata_topics.json";
+  private static final String DEFAULT_ALIASES_METADATA_URL = URL + "_metadata_topics_aliases.json";
 
   // Staging area before merging into external GitHub repo; keep "dummy" for testing.
   private static final String LOCAL_METADATA_RESOURCE = "topics-and-qrels/_local_metadata_topics.json";
   private static final String LOCAL_ALIASES_METADATA_RESOURCE = "topics-and-qrels/_local_metadata_topics_aliases.json";
 
   private static final ObjectMapper MAPPER = new ObjectMapper();
-  private static volatile Registry registryCache;
+
+  // Contains only canonical topic names; used for enumeration by entries() and names().
+  private static volatile Map<String, Topics> canonicalRegistryCache;
+
+  // Contains every accepted lookup key, including canonical names, aliases, paths, and filenames; used by get().
+  private static volatile Map<String, Topics> registryCache;
 
   public final String path;
   public final Class<? extends TopicReader<?>> readerClass;
@@ -65,11 +71,12 @@ public final class Topics {
   }
 
   public static Map<String, Topics> entries() {
-    return registry().canonical;
+    registry();
+    return canonicalRegistryCache;
   }
 
   public static Set<String> names() {
-    return Collections.unmodifiableSet(registry().canonical.keySet());
+    return entries().keySet();
   }
 
   public static Class<? extends TopicReader<?>> getTopicReaderClassForPath(String path) {
@@ -96,8 +103,8 @@ public final class Topics {
     }
   }
 
-  private static Registry registry() {
-    Registry registry = registryCache;
+  private static Map<String, Topics> registry() {
+    Map<String, Topics> registry = registryCache;
     if (registry == null) {
       synchronized (Topics.class) {
         registry = registryCache;
@@ -110,7 +117,7 @@ public final class Topics {
     return registry;
   }
 
-  private static Registry loadRegistry() {
+  private static Map<String, Topics> loadRegistry() {
     Map<String, TopicMetadata> metadata = loadMetadata();
     metadata.putAll(loadLocalMetadata());
     Map<String, List<String>> aliases = loadAliasesMetadata(DEFAULT_ALIASES_METADATA_URL);
@@ -145,7 +152,8 @@ public final class Topics {
       }
     }
 
-    return new Registry(Collections.unmodifiableMap(canonical), Collections.unmodifiableMap(lookup));
+    canonicalRegistryCache = Collections.unmodifiableMap(canonical);
+    return Collections.unmodifiableMap(lookup);
   }
 
   private static Map<String, TopicMetadata> loadMetadata() {
@@ -205,20 +213,6 @@ public final class Topics {
       throw new IllegalStateException("Topic name maps to conflicting topics: " + name);
     }
     lookup.put(name, topic);
-  }
-
-  private static final class Registry {
-    private final Map<String, Topics> canonical;
-    private final Map<String, Topics> lookup;
-
-    private Registry(Map<String, Topics> canonical, Map<String, Topics> lookup) {
-      this.canonical = canonical;
-      this.lookup = lookup;
-    }
-
-    private Topics get(String name) {
-      return lookup.get(name);
-    }
   }
 
   private static class TopicMetadata {

@@ -37,17 +37,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.anserini.util.CacheDirectoryResolver;
 
 public class Qrels {
-  private static final String TOPICS_AND_QRELS_COMMIT = "45ccac48dd896cca047cfea4dea1291c16f5f266";
-  private static final String TOPICS_AND_QRELS_URL = "https://raw.githubusercontent.com/castorini/anserini-tools/" + TOPICS_AND_QRELS_COMMIT + "/topics-and-qrels/";
-  private static final String DEFAULT_METADATA_URL = TOPICS_AND_QRELS_URL + "_metadata_qrels.json";
-  private static final String DEFAULT_ALIASES_METADATA_URL = TOPICS_AND_QRELS_URL + "_metadata_qrels_aliases.json";
+  private static final String COMMIT_ID = "45ccac48dd896cca047cfea4dea1291c16f5f266";
+  public static final String URL = "https://raw.githubusercontent.com/castorini/anserini-tools/" + COMMIT_ID + "/topics-and-qrels/";
+
+  private static final String DEFAULT_METADATA_URL = URL + "_metadata_qrels.json";
+  private static final String DEFAULT_ALIASES_METADATA_URL = URL + "_metadata_qrels_aliases.json";
 
   // Staging area before merging into external GitHub repo; keep "dummy" for testing.
   private static final String LOCAL_METADATA_RESOURCE = "topics-and-qrels/_local_metadata_qrels.json";
   private static final String LOCAL_ALIASES_METADATA_RESOURCE = "topics-and-qrels/_local_metadata_qrels_aliases.json";
 
   private static final ObjectMapper mapper = new ObjectMapper();
-  private static volatile Map<String, String> registryCache;
+  private static volatile Registry registryCache;
 
   private final String name;
   private final Path path;
@@ -90,7 +91,7 @@ public class Qrels {
   }
 
   public static Qrels get(String name) throws IOException {
-    String path = registry().get(name);
+    String path = registry().lookup.get(name);
     if (path == null) {
       throw new IllegalArgumentException("Unknown qrels name: " + name);
     }
@@ -101,8 +102,8 @@ public class Qrels {
     return new Qrels(file);
   }
 
-  public static Map<String, String> registry() {
-    Map<String, String> registry = registryCache;
+  private static Registry registry() {
+    Registry registry = registryCache;
     if (registry == null) {
       synchronized (Qrels.class) {
         registry = registryCache;
@@ -116,17 +117,18 @@ public class Qrels {
   }
 
   public static Set<String> names() {
-    return registry().keySet();
+    return registry().canonical.keySet();
   }
 
-  private static Map<String, String> loadRegistry() {
+  private static Registry loadRegistry() {
     try (InputStream inputStream = new URI(DEFAULT_METADATA_URL).toURL().openStream()) {
       Map<String, String> registry = mapper.readValue(inputStream, new TypeReference<>() {});
-      Map<String, String> registryWithAliases = new LinkedHashMap<>(registry);
-      registryWithAliases.putAll(loadLocalMetadata());
-      addAliasesToRegistry(registryWithAliases, loadAliasesMetadata(DEFAULT_ALIASES_METADATA_URL));
-      addAliasesToRegistry(registryWithAliases, loadLocalAliasesMetadata());
-      return Collections.unmodifiableMap(registryWithAliases);
+      registry.putAll(loadLocalMetadata());
+      Map<String, String> canonical = Collections.unmodifiableMap(new LinkedHashMap<>(registry));
+      Map<String, String> lookup = new LinkedHashMap<>(canonical);
+      addAliasesToRegistry(lookup, loadAliasesMetadata(DEFAULT_ALIASES_METADATA_URL));
+      addAliasesToRegistry(lookup, loadLocalAliasesMetadata());
+      return new Registry(canonical, Collections.unmodifiableMap(lookup));
     } catch (Exception e) {
       throw new IllegalStateException("Failed to load qrels metadata from " + DEFAULT_METADATA_URL, e);
     }
@@ -244,7 +246,7 @@ public class Qrels {
       return qrelsPath;
     }
 
-    Map<String, String> registry = registry();
+    Map<String, String> registry = registry().lookup;
     String qrelsFileName = qrelsPath.getFileName().toString();
     String registeredPath = registry.get(qrels);
 
@@ -270,7 +272,7 @@ public class Qrels {
   }
 
   public static Path downloadQrels(Path qrelsPath) throws IOException {
-    String qrelsURL = TOPICS_AND_QRELS_URL + qrelsPath.getFileName().toString();
+    String qrelsURL = URL + qrelsPath.getFileName().toString();
     System.out.println("Downloading qrels from " + qrelsURL);
     Path localQrelsPath = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve(qrelsPath.getFileName());
 
@@ -280,5 +282,15 @@ public class Qrels {
       throw new IOException("Error downloading qrels from " + qrelsURL);
     }
     return localQrelsPath;
+  }
+
+  private static final class Registry {
+    private final Map<String, String> canonical;
+    private final Map<String, String> lookup;
+
+    private Registry(Map<String, String> canonical, Map<String, String> lookup) {
+      this.canonical = canonical;
+      this.lookup = lookup;
+    }
   }
 }

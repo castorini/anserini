@@ -24,7 +24,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.HashSet;
 
 import org.junit.Test;
 
@@ -42,11 +41,38 @@ public class QrelsTest{
 
   @Test
   public void testTotalCount() {
-    assertTrue(Qrels.registry().size() > 233);
-    assertEquals(234, new HashSet<>(Qrels.registry().values()).size());
-    assertEquals("qrels.dummy.txt", Qrels.registry().get("dummy"));
-    assertEquals("qrels.dummy.txt", Qrels.registry().get("dummy.1"));
-    assertEquals("qrels.dummy.txt", Qrels.registry().get("dummy.2"));
+    assertEquals(234, Qrels.names().size());
+    assertFalse(Qrels.names().contains("this-qrels-name-does-not-exist"));
+  }
+
+  @Test
+  public void testLocalBindings() throws IOException {
+    // Canonical should be in names().
+    assertTrue(Qrels.names().contains("dummy"));
+    assertDummyQrels("dummy");
+
+    // Aliases shouldn't be in names().
+    assertFalse(Qrels.names().contains("dummy.1"));
+    assertFalse(Qrels.names().contains("dummy.2"));
+
+    // But they should be available via get.
+    assertDummyQrels("dummy.1");
+    assertDummyQrels("dummy.2");
+  }
+
+  private void assertDummyQrels(String name) throws IOException {
+    Qrels qrels = Qrels.get(name);
+    assertEquals(name, qrels.name());
+    assertEquals(2, qrels.getQids().size());
+    assertEquals(4, getQrelsCount(qrels));
+    assertTrue(qrels.isDocJudged("1", "DOC1"));
+    assertTrue(qrels.isDocJudged("1", "DOC2"));
+    assertEquals(1, qrels.getRelevanceGrade("1", "DOC1"));
+    assertEquals(0, qrels.getRelevanceGrade("1", "DOC2"));
+    assertTrue(qrels.isDocJudged("2", "DOC3"));
+    assertTrue(qrels.isDocJudged("2", "DOC4"));
+    assertEquals(1, qrels.getRelevanceGrade("2", "DOC3"));
+    assertEquals(0, qrels.getRelevanceGrade("2", "DOC4"));
   }
 
   @Test(expected = IOException.class)

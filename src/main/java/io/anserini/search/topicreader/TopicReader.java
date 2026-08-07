@@ -234,7 +234,7 @@ public abstract class TopicReader<K> {
    * @throws IOException if error encountered downloading topics
    */
   public static Path downloadTopics(Path topicPath) throws IOException {
-    String topicURL = Topics.TOPICS_AND_QRELS_URL + topicPath.getFileName().toString();
+    String topicURL = Topics.URL + topicPath.getFileName().toString();
     LOG.info("Downloading topics from " + topicURL);
     Path localTopicPath = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve(topicPath.getFileName());
     try {
