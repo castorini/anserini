@@ -46,7 +46,6 @@ import org.apache.logging.log4j.Logger;
  */
 public abstract class TopicReader<K> {
   private static final Logger LOG = LogManager.getLogger(TopicReader.class);
-  private static final String SERVER_PATH = "https://raw.githubusercontent.com/castorini/anserini-tools/master/topics-and-qrels/";
 
   protected final int BUFFER_SIZE = 1 << 16; // 64K
   protected Path topicFile;
@@ -235,7 +234,7 @@ public abstract class TopicReader<K> {
    * @throws IOException if error encountered downloading topics
    */
   public static Path downloadTopics(Path topicPath) throws IOException {
-    String topicURL = SERVER_PATH + topicPath.getFileName().toString();
+    String topicURL = Topics.TOPICS_AND_QRELS_URL + topicPath.getFileName().toString();
     LOG.info("Downloading topics from " + topicURL);
     Path localTopicPath = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve(topicPath.getFileName());
     try {

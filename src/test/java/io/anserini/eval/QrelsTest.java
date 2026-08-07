@@ -43,7 +43,10 @@ public class QrelsTest{
   @Test
   public void testTotalCount() {
     assertTrue(Qrels.registry().size() > 233);
-    assertEquals(233, new HashSet<>(Qrels.registry().values()).size());
+    assertEquals(234, new HashSet<>(Qrels.registry().values()).size());
+    assertEquals("qrels.dummy.txt", Qrels.registry().get("dummy"));
+    assertEquals("qrels.dummy.txt", Qrels.registry().get("dummy.1"));
+    assertEquals("qrels.dummy.txt", Qrels.registry().get("dummy.2"));
   }
 
   @Test(expected = IOException.class)

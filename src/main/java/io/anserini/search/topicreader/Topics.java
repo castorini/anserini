@@ -17,6 +17,7 @@
 package io.anserini.search.topicreader;
 
 import java.io.InputStream;
+import java.net.URI;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -32,8 +33,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * A registry entry for a standard set of topics from various evaluations.
  */
 public final class Topics {
+  private static final String TOPICS_AND_QRELS_COMMIT = "45ccac48dd896cca047cfea4dea1291c16f5f266";
+  static final String TOPICS_AND_QRELS_URL = "https://raw.githubusercontent.com/castorini/anserini-tools/" + TOPICS_AND_QRELS_COMMIT + "/topics-and-qrels/";
+  private static final String DEFAULT_METADATA_URL = TOPICS_AND_QRELS_URL + "_metadata_topics.json";
+  private static final String DEFAULT_ALIASES_METADATA_URL = TOPICS_AND_QRELS_URL + "_metadata_topics_aliases.json";
+
+  // Staging area before merging into external GitHub repo; keep "dummy" for testing.
   private static final String LOCAL_METADATA_RESOURCE = "topics-and-qrels/_local_metadata_topics.json";
   private static final String LOCAL_ALIASES_METADATA_RESOURCE = "topics-and-qrels/_local_metadata_topics_aliases.json";
+
   private static final ObjectMapper MAPPER = new ObjectMapper();
   private static volatile Registry registryCache;
 
@@ -104,7 +112,9 @@ public final class Topics {
 
   private static Registry loadRegistry() {
     Map<String, TopicMetadata> metadata = loadMetadata();
-    Map<String, List<String>> aliases = loadAliasesMetadata();
+    metadata.putAll(loadLocalMetadata());
+    Map<String, List<String>> aliases = loadAliasesMetadata(DEFAULT_ALIASES_METADATA_URL);
+    aliases.putAll(loadLocalAliasesMetadata());
     Map<String, Topics> canonical = new LinkedHashMap<>();
     Map<String, Topics> lookup = new LinkedHashMap<>();
 
@@ -139,9 +149,17 @@ public final class Topics {
   }
 
   private static Map<String, TopicMetadata> loadMetadata() {
+    try (InputStream inputStream = new URI(DEFAULT_METADATA_URL).toURL().openStream()) {
+      return MAPPER.readValue(inputStream, new TypeReference<>() {});
+    } catch (Exception e) {
+      throw new IllegalStateException("Failed to load topic metadata from " + DEFAULT_METADATA_URL, e);
+    }
+  }
+
+  private static Map<String, TopicMetadata> loadLocalMetadata() {
     try (InputStream inputStream = Topics.class.getClassLoader().getResourceAsStream(LOCAL_METADATA_RESOURCE)) {
       if (inputStream == null) {
-        throw new IllegalStateException("Topic metadata resource not found: " + LOCAL_METADATA_RESOURCE);
+        return Map.of();
       }
       return MAPPER.readValue(inputStream, new TypeReference<>() {});
     } catch (Exception e) {
@@ -149,7 +167,15 @@ public final class Topics {
     }
   }
 
-  private static Map<String, List<String>> loadAliasesMetadata() {
+  private static Map<String, List<String>> loadAliasesMetadata(String url) {
+    try (InputStream inputStream = new URI(url).toURL().openStream()) {
+      return MAPPER.readValue(inputStream, new TypeReference<>() {});
+    } catch (Exception e) {
+      throw new IllegalStateException("Failed to load topic aliases metadata from " + url, e);
+    }
+  }
+
+  private static Map<String, List<String>> loadLocalAliasesMetadata() {
     try (InputStream inputStream = Topics.class.getClassLoader().getResourceAsStream(LOCAL_ALIASES_METADATA_RESOURCE)) {
       if (inputStream == null) {
         return Map.of();

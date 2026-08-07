@@ -37,13 +37,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.anserini.util.CacheDirectoryResolver;
 
 public class Qrels {
-  private static final String TOPICS_AND_QRELS_COMMIT = "12982126736f2ed7dc45bf30acb2af9fed13c0ef";
+  private static final String TOPICS_AND_QRELS_COMMIT = "45ccac48dd896cca047cfea4dea1291c16f5f266";
   private static final String TOPICS_AND_QRELS_URL = "https://raw.githubusercontent.com/castorini/anserini-tools/" + TOPICS_AND_QRELS_COMMIT + "/topics-and-qrels/";
   private static final String DEFAULT_METADATA_URL = TOPICS_AND_QRELS_URL + "_metadata_qrels.json";
   private static final String DEFAULT_ALIASES_METADATA_URL = TOPICS_AND_QRELS_URL + "_metadata_qrels_aliases.json";
-  private static final String SERVER_PATH = TOPICS_AND_QRELS_URL;
 
-  // Staging area for aliases that will eventually be moved into separate GitHub repo.
+  // Staging area before merging into external GitHub repo; keep "dummy" for testing.
+  private static final String LOCAL_METADATA_RESOURCE = "topics-and-qrels/_local_metadata_qrels.json";
   private static final String LOCAL_ALIASES_METADATA_RESOURCE = "topics-and-qrels/_local_metadata_qrels_aliases.json";
 
   private static final ObjectMapper mapper = new ObjectMapper();
@@ -123,11 +123,23 @@ public class Qrels {
     try (InputStream inputStream = new URI(DEFAULT_METADATA_URL).toURL().openStream()) {
       Map<String, String> registry = mapper.readValue(inputStream, new TypeReference<>() {});
       Map<String, String> registryWithAliases = new LinkedHashMap<>(registry);
+      registryWithAliases.putAll(loadLocalMetadata());
       addAliasesToRegistry(registryWithAliases, loadAliasesMetadata(DEFAULT_ALIASES_METADATA_URL));
       addAliasesToRegistry(registryWithAliases, loadLocalAliasesMetadata());
       return Collections.unmodifiableMap(registryWithAliases);
     } catch (Exception e) {
       throw new IllegalStateException("Failed to load qrels metadata from " + DEFAULT_METADATA_URL, e);
+    }
+  }
+
+  private static Map<String, String> loadLocalMetadata() {
+    try (InputStream inputStream = Qrels.class.getClassLoader().getResourceAsStream(LOCAL_METADATA_RESOURCE)) {
+      if (inputStream == null) {
+        return Map.of();
+      }
+      return mapper.readValue(inputStream, new TypeReference<>() {});
+    } catch (Exception e) {
+      throw new IllegalStateException("Failed to load qrels metadata from " + LOCAL_METADATA_RESOURCE, e);
     }
   }
 
@@ -258,7 +270,7 @@ public class Qrels {
   }
 
   public static Path downloadQrels(Path qrelsPath) throws IOException {
-    String qrelsURL = SERVER_PATH + qrelsPath.getFileName().toString();
+    String qrelsURL = TOPICS_AND_QRELS_URL + qrelsPath.getFileName().toString();
     System.out.println("Downloading qrels from " + qrelsURL);
     Path localQrelsPath = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve(qrelsPath.getFileName());
 
