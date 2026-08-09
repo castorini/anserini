@@ -33,15 +33,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * A registry entry for a standard set of topics from various evaluations.
  */
 public final class Topics {
-  private static final String COMMIT_ID = "04cd1df032ad078a0a7cb2a9aa84eb743c2eaa25";
-  public static final String URL = "https://raw.githubusercontent.com/castorini/anserini-tools/" + COMMIT_ID + "/topics-and-qrels/";
+  private static final String COMMIT_ID = "43add835e20bd66b48f9a640be9bad95a4762d82";
+  public static final String URL = "https://raw.githubusercontent.com/castorini/eval/" + COMMIT_ID + "/topics/";
 
-  private static final String DEFAULT_METADATA_URL = URL + "_metadata_topics.json";
-  private static final String DEFAULT_ALIASES_METADATA_URL = URL + "_metadata_topics_aliases.json";
+  private static final String TOPICS_URL = "https://raw.githubusercontent.com/castorini/eval/" + COMMIT_ID + "/topics.json";
+  private static final String TOPICS_ALIASES_URL = "https://raw.githubusercontent.com/castorini/eval/" + COMMIT_ID + "/topics-aliases.json";
 
   // Staging area before merging into external GitHub repo; keep "dummy" for testing.
-  private static final String LOCAL_METADATA_RESOURCE = "topics-and-qrels/_local_metadata_topics.json";
-  private static final String LOCAL_ALIASES_METADATA_RESOURCE = "topics-and-qrels/_local_metadata_topics_aliases.json";
+  private static final String LOCAL_TOPICS = "topics/local-topics.json";
+  private static final String LOCAL_TOPICS_ALIASES = "topics/local-topics-aliases.json";
 
   private static final ObjectMapper MAPPER = new ObjectMapper();
 
@@ -140,7 +140,7 @@ public final class Topics {
       addLookupEntry(lookup, Path.of(value.path).getFileName().toString(), topic);
     }
 
-    addAliasesToRegistry(canonical, lookup, loadAliasesMetadata(DEFAULT_ALIASES_METADATA_URL));
+    addAliasesToRegistry(canonical, lookup, loadAliasesMetadata(TOPICS_ALIASES_URL));
     addAliasesToRegistry(canonical, lookup, loadLocalAliasesMetadata());
 
     canonicalRegistryCache = Collections.unmodifiableMap(canonical);
@@ -161,21 +161,21 @@ public final class Topics {
   }
 
   private static Map<String, TopicMetadata> loadMetadata() {
-    try (InputStream inputStream = new URI(DEFAULT_METADATA_URL).toURL().openStream()) {
+    try (InputStream inputStream = new URI(TOPICS_URL).toURL().openStream()) {
       return MAPPER.readValue(inputStream, new TypeReference<>() {});
     } catch (Exception e) {
-      throw new IllegalStateException("Failed to load topic metadata from " + DEFAULT_METADATA_URL, e);
+      throw new IllegalStateException("Failed to load topic metadata from " + TOPICS_URL, e);
     }
   }
 
   private static Map<String, TopicMetadata> loadLocalMetadata() {
-    try (InputStream inputStream = Topics.class.getClassLoader().getResourceAsStream(LOCAL_METADATA_RESOURCE)) {
+    try (InputStream inputStream = Topics.class.getClassLoader().getResourceAsStream(LOCAL_TOPICS)) {
       if (inputStream == null) {
         return Map.of();
       }
       return MAPPER.readValue(inputStream, new TypeReference<>() {});
     } catch (Exception e) {
-      throw new IllegalStateException("Failed to load topic metadata from " + LOCAL_METADATA_RESOURCE, e);
+      throw new IllegalStateException("Failed to load topic metadata from " + LOCAL_TOPICS, e);
     }
   }
 
@@ -188,13 +188,13 @@ public final class Topics {
   }
 
   private static Map<String, List<String>> loadLocalAliasesMetadata() {
-    try (InputStream inputStream = Topics.class.getClassLoader().getResourceAsStream(LOCAL_ALIASES_METADATA_RESOURCE)) {
+    try (InputStream inputStream = Topics.class.getClassLoader().getResourceAsStream(LOCAL_TOPICS_ALIASES)) {
       if (inputStream == null) {
         return Map.of();
       }
       return MAPPER.readValue(inputStream, new TypeReference<>() {});
     } catch (Exception e) {
-      throw new IllegalStateException("Failed to load topic aliases metadata from " + LOCAL_ALIASES_METADATA_RESOURCE, e);
+      throw new IllegalStateException("Failed to load topic aliases metadata from " + LOCAL_TOPICS_ALIASES, e);
     }
   }
 

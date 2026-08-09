@@ -37,15 +37,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.anserini.util.CacheDirectoryResolver;
 
 public class Qrels {
-  private static final String COMMIT_ID = "04cd1df032ad078a0a7cb2a9aa84eb743c2eaa25";
-  public static final String URL = "https://raw.githubusercontent.com/castorini/anserini-tools/" + COMMIT_ID + "/topics-and-qrels/";
+  private static final String COMMIT_ID = "43add835e20bd66b48f9a640be9bad95a4762d82";
+  public static final String URL = "https://raw.githubusercontent.com/castorini/eval/" + COMMIT_ID + "/qrels/";
 
-  private static final String DEFAULT_METADATA_URL = URL + "_metadata_qrels.json";
-  private static final String DEFAULT_ALIASES_METADATA_URL = URL + "_metadata_qrels_aliases.json";
+  private static final String QRELS_URL = "https://raw.githubusercontent.com/castorini/eval/" + COMMIT_ID + "/qrels.json";
+  private static final String QREL_ALIASES_URL = "https://raw.githubusercontent.com/castorini/eval/" + COMMIT_ID + "/qrels-aliases.json";
 
   // Staging area before merging into external GitHub repo; keep "dummy" for testing.
-  private static final String LOCAL_METADATA_RESOURCE = "topics-and-qrels/_local_metadata_qrels.json";
-  private static final String LOCAL_ALIASES_METADATA_RESOURCE = "topics-and-qrels/_local_metadata_qrels_aliases.json";
+  private static final String LOCAL_QRELS = "qrels/local-qrels.json";
+  private static final String LOCAL_QRELS_ALIASES = "qrels/local-qrels-aliases.json";
 
   private static final ObjectMapper mapper = new ObjectMapper();
   private static volatile Registry registryCache;
@@ -121,27 +121,27 @@ public class Qrels {
   }
 
   private static Registry loadRegistry() {
-    try (InputStream inputStream = new URI(DEFAULT_METADATA_URL).toURL().openStream()) {
+    try (InputStream inputStream = new URI(QRELS_URL).toURL().openStream()) {
       Map<String, String> registry = mapper.readValue(inputStream, new TypeReference<>() {});
       registry.putAll(loadLocalMetadata());
       Map<String, String> canonical = Collections.unmodifiableMap(new LinkedHashMap<>(registry));
       Map<String, String> lookup = new LinkedHashMap<>(canonical);
-      addAliasesToRegistry(lookup, loadAliasesMetadata(DEFAULT_ALIASES_METADATA_URL));
+      addAliasesToRegistry(lookup, loadAliasesMetadata(QREL_ALIASES_URL));
       addAliasesToRegistry(lookup, loadLocalAliasesMetadata());
       return new Registry(canonical, Collections.unmodifiableMap(lookup));
     } catch (Exception e) {
-      throw new IllegalStateException("Failed to load qrels metadata from " + DEFAULT_METADATA_URL, e);
+      throw new IllegalStateException("Failed to load qrels metadata from " + QRELS_URL, e);
     }
   }
 
   private static Map<String, String> loadLocalMetadata() {
-    try (InputStream inputStream = Qrels.class.getClassLoader().getResourceAsStream(LOCAL_METADATA_RESOURCE)) {
+    try (InputStream inputStream = Qrels.class.getClassLoader().getResourceAsStream(LOCAL_QRELS)) {
       if (inputStream == null) {
         return Map.of();
       }
       return mapper.readValue(inputStream, new TypeReference<>() {});
     } catch (Exception e) {
-      throw new IllegalStateException("Failed to load qrels metadata from " + LOCAL_METADATA_RESOURCE, e);
+      throw new IllegalStateException("Failed to load qrels metadata from " + LOCAL_QRELS, e);
     }
   }
 
@@ -154,13 +154,13 @@ public class Qrels {
   }
 
   private static Map<String, List<String>> loadLocalAliasesMetadata() {
-    try (InputStream inputStream = Qrels.class.getClassLoader().getResourceAsStream(LOCAL_ALIASES_METADATA_RESOURCE)) {
+    try (InputStream inputStream = Qrels.class.getClassLoader().getResourceAsStream(LOCAL_QRELS_ALIASES)) {
       if (inputStream == null) {
         return Map.of();
       }
       return mapper.readValue(inputStream, new TypeReference<>() {});
     } catch (Exception e) {
-      throw new IllegalStateException("Failed to load qrels aliases metadata from " + LOCAL_ALIASES_METADATA_RESOURCE, e);
+      throw new IllegalStateException("Failed to load qrels aliases metadata from " + LOCAL_QRELS_ALIASES, e);
     }
   }
 
