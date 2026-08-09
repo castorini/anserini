@@ -38,7 +38,8 @@ public class ExcludeDocs {
   private static final String PREFIX = "exclude.";
   private static final String SUFFIX = ".txt";
 
-  private static final String SERVER_PATH = "https://raw.githubusercontent.com/castorini/anserini-tools/master/topics-and-qrels/";
+  private static final String COMMIT_ID = "43add835e20bd66b48f9a640be9bad95a4762d82";
+  private static final String BASE_URL = "https://raw.githubusercontent.com/castorini/eval/" + COMMIT_ID + "/qrels/";
 
   private HashMap<String, Set<String>> excludeDocs = new HashMap<>();
 
@@ -61,9 +62,7 @@ public class ExcludeDocs {
 
     Path local = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve(file);
     if (!Files.exists(local)) {
-      String URL = SERVER_PATH + file;
-      // TODO: Should probably change this to a log statement.
-      System.out.println("Downloading exclusion ids from " + URL);
+      String URL = BASE_URL + file;
       File qrelsFile = new File(local.toString());  
       try {
         FileUtils.copyURLToFile(new URI(URL).toURL(), qrelsFile);
