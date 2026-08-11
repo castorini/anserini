@@ -110,6 +110,17 @@ public final class ReproductionUtils {
     return String.format(Locale.ROOT, "%s%02d:%02d:%02d", duration.isNegative() ? "-" : "", hours, minutes, secs);
   }
 
+  public static String constructRunfilePath(String corpus, String modelName, String topicPath) {
+    String topicPart = topicPath;
+    for (String suffix : List.of(".gz", ".txt", ".tsv")) {
+      if (topicPart.endsWith(suffix)) {
+        topicPart = topicPart.substring(0, topicPart.length() - suffix.length());
+      }
+    }
+    return Paths.get(Constants.DEFAULT_RUNS_DIRECTORY,
+        String.format(Locale.ROOT, "run.%s.%s.%s.txt", corpus, modelName, topicPart)).toString();
+  }
+
   public static String escapeJson(String value) {
     return value
         .replace("\\", "\\\\")

@@ -31,17 +31,14 @@ metrics:
 topic_reader: Trec
 topics:
   - name: "[TREC-7 Ad Hoc Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.adhoc.351-400.txt)"
-    id: trec7
-    path: topics.adhoc.351-400.txt
-    qrel: qrels.adhoc.351-400.txt
+    id: adhoc.351-400
+    qrels: adhoc.351-400
   - name: "[TREC-8 Ad Hoc Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.adhoc.401-450.txt)"
-    id: trec8
-    path: topics.adhoc.401-450.txt
-    qrel: qrels.adhoc.401-450.txt
+    id: adhoc.401-450
+    qrels: adhoc.401-450
   - name: "[TREC 2004 Robust Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.robust04.txt)"
     id: robust04
-    path: topics.robust04.txt
-    qrel: qrels.robust04.txt
+    qrels: robust04
 
 models:
   - name: bm25

@@ -141,7 +141,9 @@ public final class Topics {
     }
 
     addAliasesToRegistry(canonical, lookup, loadAliasesMetadata(TOPICS_ALIASES_URL));
-    addAliasesToRegistry(canonical, lookup, loadLocalAliasesMetadata());
+    Map<String, List<String>> localAliases = loadLocalAliasesMetadata();
+    addAliasesToRegistry(canonical, lookup, localAliases);
+    localAliases.values().forEach(aliases -> aliases.forEach(canonical::remove));
 
     canonicalRegistryCache = Collections.unmodifiableMap(canonical);
     return Collections.unmodifiableMap(lookup);

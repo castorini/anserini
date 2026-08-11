@@ -67,6 +67,19 @@ public class QrelsTest{
     assertEquals(canonical.path(), Qrels.get("dummy.msmarco-doc-dev").path());
   }
 
+  @Test
+  public void testAdhocAliases() throws IOException {
+    Qrels canonical = Qrels.get("adhoc.351-400");
+    assertTrue(Qrels.names().contains("adhoc.351-400"));
+    assertFalse(Qrels.names().contains("trec7-adhoc"));
+    assertEquals(canonical.path(), Qrels.get("trec7-adhoc").path());
+
+    canonical = Qrels.get("adhoc.401-450");
+    assertTrue(Qrels.names().contains("adhoc.401-450"));
+    assertFalse(Qrels.names().contains("trec8-adhoc"));
+    assertEquals(canonical.path(), Qrels.get("trec8-adhoc").path());
+  }
+
   private void assertDummyQrels(String name) throws IOException {
     Qrels qrels = Qrels.get(name);
     assertEquals(name, qrels.name());

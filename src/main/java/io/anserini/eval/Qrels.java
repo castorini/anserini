@@ -124,10 +124,13 @@ public class Qrels {
     try (InputStream inputStream = new URI(QRELS_URL).toURL().openStream()) {
       Map<String, String> registry = mapper.readValue(inputStream, new TypeReference<>() {});
       registry.putAll(loadLocalMetadata());
-      Map<String, String> canonical = Collections.unmodifiableMap(new LinkedHashMap<>(registry));
-      Map<String, String> lookup = new LinkedHashMap<>(canonical);
+      Map<String, List<String>> localAliases = loadLocalAliasesMetadata();
+      Map<String, String> canonicalRegistry = new LinkedHashMap<>(registry);
+      localAliases.values().forEach(aliases -> aliases.forEach(canonicalRegistry::remove));
+      Map<String, String> canonical = Collections.unmodifiableMap(canonicalRegistry);
+      Map<String, String> lookup = new LinkedHashMap<>(registry);
       addAliasesToRegistry(lookup, loadAliasesMetadata(QREL_ALIASES_URL));
-      addAliasesToRegistry(lookup, loadLocalAliasesMetadata());
+      addAliasesToRegistry(lookup, localAliases);
       return new Registry(canonical, Collections.unmodifiableMap(lookup));
     } catch (Exception e) {
       throw new IllegalStateException("Failed to load qrels metadata from " + QRELS_URL, e);

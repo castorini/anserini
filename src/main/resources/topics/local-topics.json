@@ -2,5 +2,13 @@
   "dummy": {
     "path": "topics.dummy.tsv",
     "reader_class": "io.anserini.search.topicreader.TsvStringTopicReader"
+  },
+  "adhoc.351-400": {
+    "path": "topics.adhoc.351-400.txt",
+    "reader_class": "io.anserini.search.topicreader.TrecTopicReader"
+  },
+  "adhoc.401-450": {
+    "path": "topics.adhoc.401-450.txt",
+    "reader_class": "io.anserini.search.topicreader.TrecTopicReader"
   }
 }

@@ -5,5 +5,11 @@
   ],
   "msmarco-doc-dev": [
     "dummy.msmarco-doc-dev"
+  ],
+  "adhoc.351-400": [
+    "trec7-adhoc"
+  ],
+  "adhoc.401-450": [
+    "trec8-adhoc"
   ]
 }
