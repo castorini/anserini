@@ -49,8 +49,7 @@ topic_reader: TsvInt
 topics:
   - name: "[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)"
     id: dl20
-    path: topics.dl20.txt
-    qrel: qrels.dl20-doc.txt
+    qrels: dl20-doc
 
 models:
   - name: unicoil

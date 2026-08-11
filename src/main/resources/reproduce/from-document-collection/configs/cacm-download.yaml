@@ -36,8 +36,7 @@ topic_reader: Cacm
 topics:
   - name: "CACM All"
     id: cacm
-    path: topics.cacm.txt
-    qrel: qrels.cacm.txt
+    qrels: cacm
 
 models:
   - name: bm25

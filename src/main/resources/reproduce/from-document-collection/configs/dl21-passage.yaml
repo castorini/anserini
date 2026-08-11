@@ -53,8 +53,7 @@ topic_reader: TsvInt
 topics:
   - name: "[DL21 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)"
     id: dl21
-    path: topics.dl21.txt
-    qrel: qrels.dl21-passage.txt
+    qrels: dl21-passage
 
 models:
   - name: bm25-default

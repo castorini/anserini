@@ -58,7 +58,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchFlatDenseVectors \
   -index indexes/lucene-flat.msmarco-v2.1-doc-segmented-shard00.arctic-embed-l \
-  -topics tools/topics-and-qrels/topics.rag24.test.txt \
+  -topics rag24.test \
   -topicReader TsvString \
   -output runs/run.msmarco-v2.1-doc-segmented-shard00.arctic-embed-l.arctic-embed-l-flat-onnx.topics.rag24.test.txt \
   -topics rag24.test -topicReader TsvString -topicField title -encoder ArcticEmbedLEncoder &
@@ -67,9 +67,9 @@ bin/run.sh io.anserini.search.SearchFlatDenseVectors \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented-shard00.arctic-embed-l.arctic-embed-l-flat-onnx.topics.rag24.test.txt
-bin/trec_eval -c -m ndcg_cut.100 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented-shard00.arctic-embed-l.arctic-embed-l-flat-onnx.topics.rag24.test.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.rag24.test-umbrela-all.txt runs/run.msmarco-v2.1-doc-segmented-shard00.arctic-embed-l.arctic-embed-l-flat-onnx.topics.rag24.test.txt
+bin/trec_eval -c -m ndcg_cut.20 rag24.test-umbrela-all runs/run.msmarco-v2.1-doc-segmented-shard00.arctic-embed-l.arctic-embed-l-flat-onnx.topics.rag24.test.txt
+bin/trec_eval -c -m ndcg_cut.100 rag24.test-umbrela-all runs/run.msmarco-v2.1-doc-segmented-shard00.arctic-embed-l.arctic-embed-l-flat-onnx.topics.rag24.test.txt
+bin/trec_eval -c -m recall.100 rag24.test-umbrela-all runs/run.msmarco-v2.1-doc-segmented-shard00.arctic-embed-l.arctic-embed-l-flat-onnx.topics.rag24.test.txt
 ```
 
 ## Effectiveness

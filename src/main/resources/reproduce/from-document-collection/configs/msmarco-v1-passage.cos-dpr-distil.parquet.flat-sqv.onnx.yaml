@@ -45,9 +45,8 @@ metrics:
 topic_reader: TsvInt
 topics:
   - name: "[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)"
-    id: dev
-    path: topics.msmarco-passage.dev-subset.txt
-    qrel: qrels.msmarco-passage.dev-subset.txt
+    id: msmarco-passage.dev-subset
+    qrels: msmarco-passage.dev-subset
 
 models:
   - name: cos-dpr-distil-flat-sqv-onnx

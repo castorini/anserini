@@ -35,9 +35,8 @@ metrics:
 topic_reader: TsvString
 topics:
   - name: "BEIR (v1.0.0): Quora"
-    id: test
-    path: topics.beir-v1.0.0-quora.test.tsv.gz
-    qrel: qrels.beir-v1.0.0-quora.test.txt
+    id: beir-v1.0.0-quora.test
+    qrels: beir-v1.0.0-quora.test
 
 models:
   - name: bge-flat-onnx

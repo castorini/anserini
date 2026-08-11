@@ -54,7 +54,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchFlatDenseVectors \
   -index indexes/lucene-flat.bright-earth-science.bge-large-en-v1.5/ \
-  -topics tools/topics-and-qrels/topics.bright-earth-science.tsv.gz \
+  -topics bright-earth-science \
   -topicReader TsvString \
   -output runs/run.bright-earth-science.bge-large-en-v1.5.bge-flat-onnx.topics.bright-earth-science.txt \
   -encoder BgeLargeEn15 -hits 1000 -removeQuery -threads 16 &
@@ -63,9 +63,9 @@ bin/run.sh io.anserini.search.SearchFlatDenseVectors \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.bright-earth-science.txt runs/run.bright-earth-science.bge-large-en-v1.5.bge-flat-onnx.topics.bright-earth-science.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.bright-earth-science.txt runs/run.bright-earth-science.bge-large-en-v1.5.bge-flat-onnx.topics.bright-earth-science.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.bright-earth-science.txt runs/run.bright-earth-science.bge-large-en-v1.5.bge-flat-onnx.topics.bright-earth-science.txt
+bin/trec_eval -c -m ndcg_cut.10 bright-earth-science runs/run.bright-earth-science.bge-large-en-v1.5.bge-flat-onnx.topics.bright-earth-science.txt
+bin/trec_eval -c -m recall.100 bright-earth-science runs/run.bright-earth-science.bge-large-en-v1.5.bge-flat-onnx.topics.bright-earth-science.txt
+bin/trec_eval -c -m recall.1000 bright-earth-science runs/run.bright-earth-science.bge-large-en-v1.5.bge-flat-onnx.topics.bright-earth-science.txt
 ```
 
 ## Effectiveness

@@ -31,9 +31,8 @@ metrics:
 topic_reader: TsvInt
 topics:
   - name: "[MIRACL (Finnish): dev](https://github.com/project-miracl/miracl)"
-    id: dev
-    path: topics.miracl-v1.0-fi-dev.tsv
-    qrel: qrels.miracl-v1.0-fi-dev.tsv
+    id: miracl-v1.0-fi-dev.tsv
+    qrels: miracl-v1.0-fi-dev.tsv
 
 models:
   - name: bm25

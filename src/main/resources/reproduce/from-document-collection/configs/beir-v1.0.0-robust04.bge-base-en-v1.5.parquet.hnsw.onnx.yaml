@@ -35,9 +35,8 @@ metrics:
 topic_reader: TsvString
 topics:
   - name: "BEIR (v1.0.0): Robust04"
-    id: test
-    path: topics.beir-v1.0.0-robust04.test.tsv.gz
-    qrel: qrels.beir-v1.0.0-robust04.test.txt
+    id: beir-v1.0.0-robust04.test
+    qrels: beir-v1.0.0-robust04.test
 
 models:
   - name: bge-hnsw-onnx

@@ -31,17 +31,14 @@ metrics:
 topic_reader: TsvInt
 topics:
   - name: "[Mr. TyDi (Finnish): train](https://github.com/castorini/mr.tydi)"
-    id: train
-    path: topics.mrtydi-v1.1-fi.train.txt.gz
-    qrel: qrels.mrtydi-v1.1-fi.train.txt
+    id: mrtydi-v1.1-fi.train.txt.gz
+    qrels: mrtydi-v1.1-fi.train
   - name: "[Mr. TyDi (Finnish): dev](https://github.com/castorini/mr.tydi)"
-    id: dev
-    path: topics.mrtydi-v1.1-fi.dev.txt.gz
-    qrel: qrels.mrtydi-v1.1-fi.dev.txt
+    id: mrtydi-v1.1-fi.dev.txt.gz
+    qrels: mrtydi-v1.1-fi.dev
   - name: "[Mr. TyDi (Finnish): test](https://github.com/castorini/mr.tydi)"
-    id: test
-    path: topics.mrtydi-v1.1-fi.test.txt.gz
-    qrel: qrels.mrtydi-v1.1-fi.test.txt
+    id: mrtydi-v1.1-fi.test.txt.gz
+    qrels: mrtydi-v1.1-fi.test
 
 models:
   - name: bm25

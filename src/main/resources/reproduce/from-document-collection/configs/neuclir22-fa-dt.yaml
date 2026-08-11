@@ -44,17 +44,14 @@ metrics:
 topic_reader: TsvInt
 topics:
   - name: "[NeuCLIR 2022 (Persian): title (original English queries)](https://neuclir.github.io/)"
-    id: title
-    path: topics.neuclir22-en.original-title.txt
-    qrel: qrels.neuclir22-fa.txt
+    id: neuclir22-en.original-title
+    qrels: neuclir22-fa
   - name: "[NeuCLIR 2022 (Persian): desc (original English queries)](https://neuclir.github.io/)"
-    id: desc
-    path: topics.neuclir22-en.original-desc.txt
-    qrel: qrels.neuclir22-fa.txt
+    id: neuclir22-en.original-desc
+    qrels: neuclir22-fa
   - name: "[NeuCLIR 2022 (Persian): desc+title (original English queries)](https://neuclir.github.io/)"
-    id: desc_title
-    path: topics.neuclir22-en.original-desc_title.txt
-    qrel: qrels.neuclir22-fa.txt
+    id: neuclir22-en.original-desc_title
+    qrels: neuclir22-fa
 
 models:
   - name: bm25-default

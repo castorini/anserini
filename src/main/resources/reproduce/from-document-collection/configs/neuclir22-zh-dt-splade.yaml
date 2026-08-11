@@ -44,17 +44,14 @@ metrics:
 topic_reader: TsvInt
 topics:
   - name: "[NeuCLIR 2022 (Chinese): title (original English queries)](https://neuclir.github.io/)"
-    id: title
-    path: topics.neuclir22-en.splade.original-title.txt.gz
-    qrel: qrels.neuclir22-zh.txt
+    id: neuclir22-en.splade.original-title.txt.gz
+    qrels: neuclir22-zh
   - name: "[NeuCLIR 2022 (Chinese): desc (original English queries)](https://neuclir.github.io/)"
-    id: desc
-    path: topics.neuclir22-en.splade.original-desc.txt.gz
-    qrel: qrels.neuclir22-zh.txt
+    id: neuclir22-en.splade.original-desc.txt.gz
+    qrels: neuclir22-zh
   - name: "[NeuCLIR 2022 (Chinese): desc+title (original English queries)](https://neuclir.github.io/)"
-    id: desc_title
-    path: topics.neuclir22-en.splade.original-desc_title.txt.gz
-    qrel: qrels.neuclir22-zh.txt
+    id: neuclir22-en.splade.original-desc_title.txt.gz
+    qrels: neuclir22-zh
 
 models:
   - name: splade

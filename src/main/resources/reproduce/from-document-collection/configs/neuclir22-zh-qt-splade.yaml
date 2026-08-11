@@ -44,29 +44,23 @@ metrics:
 topic_reader: TsvInt
 topics:
   - name: "[NeuCLIR 2022 (Chinese): title (human-translated queries)](https://neuclir.github.io/)"
-    id: ht-title
-    path: topics.neuclir22-zh.splade.ht-title.txt.gz
-    qrel: qrels.neuclir22-zh.txt
+    id: neuclir22-zh.splade.ht-title.txt.gz
+    qrels: neuclir22-zh
   - name: "[NeuCLIR 2022 (Chinese): desc (human-translated queries)](https://neuclir.github.io/)"
-    id: ht-desc
-    path: topics.neuclir22-zh.splade.ht-desc.txt.gz
-    qrel: qrels.neuclir22-zh.txt
+    id: neuclir22-zh.splade.ht-desc.txt.gz
+    qrels: neuclir22-zh
   - name: "[NeuCLIR 2022 (Chinese): desc+title (human-translated queries)](https://neuclir.github.io/)"
-    id: ht-desc_title
-    path: topics.neuclir22-zh.splade.ht-desc_title.txt.gz
-    qrel: qrels.neuclir22-zh.txt
+    id: neuclir22-zh.splade.ht-desc_title.txt.gz
+    qrels: neuclir22-zh
   - name: "[NeuCLIR 2022 (Chinese): title (machine-translated queries)](https://neuclir.github.io/)"
-    id: mt-title
-    path: topics.neuclir22-zh.splade.mt-title.txt.gz
-    qrel: qrels.neuclir22-zh.txt
+    id: neuclir22-zh.splade.mt-title.txt.gz
+    qrels: neuclir22-zh
   - name: "[NeuCLIR 2022 (Chinese): desc (machine-translated queries)](https://neuclir.github.io/)"
-    id: mt-desc
-    path: topics.neuclir22-zh.splade.mt-desc.txt.gz
-    qrel: qrels.neuclir22-zh.txt
+    id: neuclir22-zh.splade.mt-desc.txt.gz
+    qrels: neuclir22-zh
   - name: "[NeuCLIR 2022 (Chinese): desc+title (machine-translated queries)](https://neuclir.github.io/)"
-    id: mt-desc_title
-    path: topics.neuclir22-zh.splade.mt-desc_title.txt.gz
-    qrel: qrels.neuclir22-zh.txt
+    id: neuclir22-zh.splade.mt-desc_title.txt.gz
+    qrels: neuclir22-zh
 
 models:
   - name: splade

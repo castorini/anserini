@@ -45,9 +45,8 @@ metrics:
 topic_reader: TsvInt
 topics:
   - name: "[DL20 (Doc)](https://trec.nist.gov/data/deep2020.html)"
-    id: dl20
-    path: topics.dl20.wp.tsv.gz
-    qrel: qrels.dl20-doc.txt
+    id: dl20.wp
+    qrels: dl20-doc
 
 models:
   - name: bm25-default

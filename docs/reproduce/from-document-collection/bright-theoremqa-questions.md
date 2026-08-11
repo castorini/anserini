@@ -48,7 +48,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.bright-theoremqa-questions/ \
-  -topics tools/topics-and-qrels/topics.bright-theoremqa-questions.tsv.gz \
+  -topics bright-theoremqa-questions \
   -topicReader TsvString \
   -output runs/run.bright-theoremqa-questions.bm25.topics.bright-theoremqa-questions.txt \
   -bm25 -removeQuery -hits 1000 &
@@ -57,9 +57,9 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.bright-theoremqa-questions.txt runs/run.bright-theoremqa-questions.bm25.topics.bright-theoremqa-questions.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.bright-theoremqa-questions.txt runs/run.bright-theoremqa-questions.bm25.topics.bright-theoremqa-questions.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.bright-theoremqa-questions.txt runs/run.bright-theoremqa-questions.bm25.topics.bright-theoremqa-questions.txt
+bin/trec_eval -c -m ndcg_cut.10 bright-theoremqa-questions runs/run.bright-theoremqa-questions.bm25.topics.bright-theoremqa-questions.txt
+bin/trec_eval -c -m recall.100 bright-theoremqa-questions runs/run.bright-theoremqa-questions.bm25.topics.bright-theoremqa-questions.txt
+bin/trec_eval -c -m recall.1000 bright-theoremqa-questions runs/run.bright-theoremqa-questions.bm25.topics.bright-theoremqa-questions.txt
 ```
 
 ## Effectiveness

@@ -52,7 +52,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/fineweb-edu-100b-official-index/ \
-  -topics tools/topics-and-qrels/topics.nanoknow-v1.0-nq.supported.tsv \
+  -topics nanoknow-v1.0-nq.supported.tsv \
   -topicReader TsvInt \
   -output runs/run.fineweb-edu-100b-karpathy.bm25.topics.nanoknow-v1.0-nq.supported.txt \
   -bm25 &
@@ -61,7 +61,7 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m recall.20 tools/topics-and-qrels/qrels.nanoknow-v1.0-nq.supported.txt runs/run.fineweb-edu-100b-karpathy.bm25.topics.nanoknow-v1.0-nq.supported.txt
+bin/trec_eval -c -m recall.20 nanoknow-v1.0-nq.supported runs/run.fineweb-edu-100b-karpathy.bm25.topics.nanoknow-v1.0-nq.supported.txt
 ```
 
 ## Effectiveness

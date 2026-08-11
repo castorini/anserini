@@ -36,29 +36,23 @@ metrics:
     
 topics:
   - name: "[DPR: Natural Questions Test](https://github.com/facebookresearch/DPR)"
-    id: dpr-nq-test
-    path: topics.dpr.nq.test.txt
+    id: dpr.nq.test
     topic_reader: DprNq
   - name: "[DPR: TriviaQA Test](https://github.com/facebookresearch/DPR)"
-    id: dpr-trivia-test
-    path: topics.dpr.trivia.test.txt
+    id: dpr.trivia.test
     topic_reader: DprNq
   - name: "[DPR: SQuAD Test](https://github.com/facebookresearch/DPR)"
-    id: dpr-squad-test
-    path: topics.dpr.squad.test.txt
+    id: dpr.squad.test
     topic_reader: DprJsonl
   - name: "[DPR: WebQuestions Test](https://github.com/facebookresearch/DPR)"
-    id: dpr-wq-test
-    path: topics.dpr.wq.test.txt
+    id: dpr.wq.test
     topic_reader: DprJsonl
   - name: "[DPR: CuratedTREC Test](https://github.com/facebookresearch/DPR)"
-    id: dpr-curated-test
-    path: topics.dpr.curated.test.txt
+    id: dpr.curated.test
     topic_reader: DprJsonl
     convert_params: --regex
   - name: "[EfficientQA: Natural Questions Test](https://efficientqa.github.io/)"
-    id: nq-test
-    path: topics.nq.test.txt
+    id: nq.test
     topic_reader: DprNq
 
 models:

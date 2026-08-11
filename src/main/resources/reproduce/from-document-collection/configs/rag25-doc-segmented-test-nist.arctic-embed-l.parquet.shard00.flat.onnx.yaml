@@ -35,9 +35,8 @@ metrics:
 topic_reader: JsonString
 topics:
   - name: "RAG 25: Test queries"
-    id: rag25.test
-    path: topics.rag25.test.jsonl
-    qrel: qrels.rag25.test.txt
+    id: rag25.test.jsonl
+    qrels: rag25.test
 
 models:
   - name: arctic-embed-l-flat-onnx

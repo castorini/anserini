@@ -35,9 +35,8 @@ metrics:
 topic_reader: TsvString
 topics:
   - name: "BRIGHT: Economics"
-    id: topics
-    path: topics.bright-economics.tsv.gz
-    qrel: qrels.bright-economics.txt
+    id: bright-economics
+    qrels: bright-economics
 
 models:
   - name: bge-flat-onnx

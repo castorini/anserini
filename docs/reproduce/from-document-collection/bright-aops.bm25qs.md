@@ -50,7 +50,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.bright-aops/ \
-  -topics tools/topics-and-qrels/topics.bright-aops.tsv.gz \
+  -topics bright-aops \
   -topicReader TsvString \
   -output runs/run.bright-aops.bm25qs.topics.bright-aops.txt \
   -bm25.querySide -removeQuery -hits 1000 &
@@ -59,9 +59,9 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.bright-aops.txt runs/run.bright-aops.bm25qs.topics.bright-aops.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.bright-aops.txt runs/run.bright-aops.bm25qs.topics.bright-aops.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.bright-aops.txt runs/run.bright-aops.bm25qs.topics.bright-aops.txt
+bin/trec_eval -c -m ndcg_cut.10 bright-aops runs/run.bright-aops.bm25qs.topics.bright-aops.txt
+bin/trec_eval -c -m recall.100 bright-aops runs/run.bright-aops.bm25qs.topics.bright-aops.txt
+bin/trec_eval -c -m recall.1000 bright-aops runs/run.bright-aops.bm25qs.topics.bright-aops.txt
 ```
 
 ## Effectiveness

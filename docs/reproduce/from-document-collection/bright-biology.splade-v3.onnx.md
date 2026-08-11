@@ -57,7 +57,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.bright-biology.splade-v3/ \
-  -topics tools/topics-and-qrels/topics.bright-biology.tsv.gz \
+  -topics bright-biology \
   -topicReader TsvString \
   -output runs/run.bright-biology.splade-v3-onnx.topics.bright-biology.txt \
   -impact -pretokenized -removeQuery -hits 1000 -encoder SpladeV3 &
@@ -66,9 +66,9 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.bright-biology.txt runs/run.bright-biology.splade-v3-onnx.topics.bright-biology.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.bright-biology.txt runs/run.bright-biology.splade-v3-onnx.topics.bright-biology.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.bright-biology.txt runs/run.bright-biology.splade-v3-onnx.topics.bright-biology.txt
+bin/trec_eval -c -m ndcg_cut.10 bright-biology runs/run.bright-biology.splade-v3-onnx.topics.bright-biology.txt
+bin/trec_eval -c -m recall.100 bright-biology runs/run.bright-biology.splade-v3-onnx.topics.bright-biology.txt
+bin/trec_eval -c -m recall.1000 bright-biology runs/run.bright-biology.splade-v3-onnx.topics.bright-biology.txt
 ```
 
 ## Effectiveness

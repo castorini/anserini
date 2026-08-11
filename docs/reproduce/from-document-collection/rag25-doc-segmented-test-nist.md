@@ -52,21 +52,21 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2.1-doc-segmented/ \
-  -topics tools/topics-and-qrels/topics.rag25.test.jsonl \
+  -topics rag25.test.jsonl \
   -topicReader JsonString \
   -output runs/run.msmarco-v2.1-doc-segmented.bm25-default.topics.rag25.test.jsonl.txt \
   -bm25 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2.1-doc-segmented/ \
-  -topics tools/topics-and-qrels/topics.rag25.test.jsonl \
+  -topics rag25.test.jsonl \
   -topicReader JsonString \
   -output runs/run.msmarco-v2.1-doc-segmented.bm25-default+rm3.topics.rag25.test.jsonl.txt \
   -bm25 -rm3 -collection MsMarcoV2DocCollection &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2.1-doc-segmented/ \
-  -topics tools/topics-and-qrels/topics.rag25.test.jsonl \
+  -topics rag25.test.jsonl \
   -topicReader JsonString \
   -output runs/run.msmarco-v2.1-doc-segmented.bm25-default+rocchio.topics.rag25.test.jsonl.txt \
   -bm25 -rocchio -collection MsMarcoV2DocCollection &
@@ -75,17 +75,17 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.30 tools/topics-and-qrels/qrels.rag25.test.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default.topics.rag25.test.jsonl.txt
-bin/trec_eval -c -m ndcg_cut.100 tools/topics-and-qrels/qrels.rag25.test.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default.topics.rag25.test.jsonl.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.rag25.test.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default.topics.rag25.test.jsonl.txt
+bin/trec_eval -c -m ndcg_cut.30 rag25.test runs/run.msmarco-v2.1-doc-segmented.bm25-default.topics.rag25.test.jsonl.txt
+bin/trec_eval -c -m ndcg_cut.100 rag25.test runs/run.msmarco-v2.1-doc-segmented.bm25-default.topics.rag25.test.jsonl.txt
+bin/trec_eval -c -m recall.100 rag25.test runs/run.msmarco-v2.1-doc-segmented.bm25-default.topics.rag25.test.jsonl.txt
 
-bin/trec_eval -c -m ndcg_cut.30 tools/topics-and-qrels/qrels.rag25.test.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rm3.topics.rag25.test.jsonl.txt
-bin/trec_eval -c -m ndcg_cut.100 tools/topics-and-qrels/qrels.rag25.test.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rm3.topics.rag25.test.jsonl.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.rag25.test.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rm3.topics.rag25.test.jsonl.txt
+bin/trec_eval -c -m ndcg_cut.30 rag25.test runs/run.msmarco-v2.1-doc-segmented.bm25-default+rm3.topics.rag25.test.jsonl.txt
+bin/trec_eval -c -m ndcg_cut.100 rag25.test runs/run.msmarco-v2.1-doc-segmented.bm25-default+rm3.topics.rag25.test.jsonl.txt
+bin/trec_eval -c -m recall.100 rag25.test runs/run.msmarco-v2.1-doc-segmented.bm25-default+rm3.topics.rag25.test.jsonl.txt
 
-bin/trec_eval -c -m ndcg_cut.30 tools/topics-and-qrels/qrels.rag25.test.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rocchio.topics.rag25.test.jsonl.txt
-bin/trec_eval -c -m ndcg_cut.100 tools/topics-and-qrels/qrels.rag25.test.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rocchio.topics.rag25.test.jsonl.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.rag25.test.txt runs/run.msmarco-v2.1-doc-segmented.bm25-default+rocchio.topics.rag25.test.jsonl.txt
+bin/trec_eval -c -m ndcg_cut.30 rag25.test runs/run.msmarco-v2.1-doc-segmented.bm25-default+rocchio.topics.rag25.test.jsonl.txt
+bin/trec_eval -c -m ndcg_cut.100 rag25.test runs/run.msmarco-v2.1-doc-segmented.bm25-default+rocchio.topics.rag25.test.jsonl.txt
+bin/trec_eval -c -m recall.100 rag25.test runs/run.msmarco-v2.1-doc-segmented.bm25-default+rocchio.topics.rag25.test.jsonl.txt
 ```
 
 ## Effectiveness
