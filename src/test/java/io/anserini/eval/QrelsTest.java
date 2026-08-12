@@ -41,7 +41,7 @@ public class QrelsTest{
 
   @Test
   public void testTotalCount() {
-    assertEquals(234, Qrels.names().size());
+    assertEquals(250, Qrels.names().size());
     assertFalse(Qrels.names().contains("this-qrels-name-does-not-exist"));
   }
 
