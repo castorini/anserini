@@ -8,9 +8,9 @@ generator_class: DefaultLuceneDocumentGenerator
 index_threads: 44
 index_options: -storeRaw
 index_stats:
-  documents: 50220186
-  documents (non-empty): 50220156
-  total terms: 31303110383
+  documents: 50219783
+  documents (non-empty): 50219665
+  total terms: 31345664606
 
 metrics:
   - metric: MAP
@@ -60,117 +60,117 @@ models:
     results:
       MAP:
         - 0.1126
-        - 0.1094
-        - 0.1105
+        - 0.1096
+        - 0.1103
       P30:
-        - 0.2688
+        - 0.2660
         - 0.2513
-        - 0.2167
+        - 0.2153
       nDCG@20:
-        - 0.1351
-        - 0.1894
-        - 0.1014
+        - 0.1365
+        - 0.1895
+        - 0.1016
       ERR@20:
         - 0.0733
-        - 0.0959
-        - 0.1304
+        - 0.0960
+        - 0.1324
   - name: bm25+rm3
     display: +RM3
     params: -parallelism 16 -bm25 -rm3 -collection ClueWeb09Collection
     results:
       MAP:
-        - 0.0929
-        - 0.1080
-        - 0.1108
+        - 0.0932
+        - 0.1081
+        - 0.1110
       P30:
         - 0.2375
-        - 0.2433
-        - 0.1920
+        - 0.2447
+        - 0.1967
       nDCG@20:
-        - 0.1371
-        - 0.1922
-        - 0.0918
+        - 0.1403
+        - 0.1935
+        - 0.0923
       ERR@20:
-        - 0.0756
-        - 0.0970
-        - 0.1491
+        - 0.0773
+        - 0.0976
+        - 0.1508
   - name: bm25+ax
     display: +Ax
     params: -parallelism 16 -bm25 -axiom -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection
     results:
       MAP:
-        - 0.0961
-        - 0.0986
-        - 0.1355
+        - 0.0953
+        - 0.0942
+        - 0.1346
       P30:
-        - 0.2528
-        - 0.2367
-        - 0.2547
+        - 0.2465
+        - 0.2220
+        - 0.2527
       nDCG@20:
-        - 0.1767
-        - 0.1854
-        - 0.1388
+        - 0.1735
+        - 0.1657
+        - 0.1403
       ERR@20:
-        - 0.1019
-        - 0.0950
-        - 0.2399
+        - 0.1015
+        - 0.1041
+        - 0.2393
   - name: ql
     display: QL
     params: -parallelism 16 -qld
     results:
       MAP:
-        - 0.1060
-        - 0.0959
-        - 0.1070
+        - 0.1056
+        - 0.0960
+        - 0.1069
       P30:
-        - 0.2438
-        - 0.2147
-        - 0.2080
+        - 0.2424
+        - 0.2153
+        - 0.2067
       nDCG@20:
-        - 0.1143
+        - 0.1137
         - 0.1631
-        - 0.0876
+        - 0.0880
       ERR@20:
-        - 0.0599
+        - 0.0597
         - 0.0850
-        - 0.1306
+        - 0.1337
   - name: ql+rm3
     display: +RM3
     params: -parallelism 16 -qld -rm3 -collection ClueWeb09Collection
     results:
       MAP:
-        - 0.1018
+        - 0.1021
         - 0.0835
-        - 0.1057
+        - 0.1055
       P30:
-        - 0.2306
-        - 0.2047
-        - 0.1973
+        - 0.2299
+        - 0.2060
+        - 0.2007
       nDCG@20:
-        - 0.1181
-        - 0.1444
+        - 0.1186
+        - 0.1432
         - 0.0896
       ERR@20:
         - 0.0591
-        - 0.0781
-        - 0.1333
+        - 0.0779
+        - 0.1330
   - name: ql+ax
     display: +Ax
     params: -parallelism 16 -qld -axiom -axiom.beta 0.1 -rerankCutoff 20 -collection ClueWeb09Collection
     results:
       MAP:
-        - 0.1088
-        - 0.0860
-        - 0.1224
+        - 0.1084
+        - 0.0856
+        - 0.1246
       P30:
-        - 0.2625
-        - 0.2120
-        - 0.2220
+        - 0.2611
+        - 0.2127
+        - 0.2287
       nDCG@20:
-        - 0.1495
-        - 0.1537
-        - 0.1091
+        - 0.1453
+        - 0.1521
+        - 0.1075
       ERR@20:
-        - 0.0751
-        - 0.0861
-        - 0.1564
+        - 0.0707
+        - 0.0809
+        - 0.1537

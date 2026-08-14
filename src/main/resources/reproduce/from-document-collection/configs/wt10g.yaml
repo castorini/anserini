@@ -8,9 +8,9 @@ generator_class: DefaultLuceneDocumentGenerator
 index_threads: 16
 index_options: -storePositions -storeDocvectors -storeRaw
 index_stats:
-  documents: 1688408
-  documents (non-empty): 1688317
-  total terms: 752809069
+  documents: 1688001
+  documents (non-empty): 1687898
+  total terms: 746443752
 
 metrics:
   - metric: MAP
@@ -41,15 +41,15 @@ models:
     params: -bm25
     results:
       MAP:
-        - 0.1991
+        - 0.1952
       P30:
-        - 0.2211
+        - 0.2214
   - name: bm25+rm3
     display: +RM3
     params: -bm25 -rm3
     results:
       MAP:
-        - 0.2243
+        - 0.2219
       P30:
         - 0.2381
   - name: bm25+ax
@@ -57,30 +57,30 @@ models:
     params: -bm25 -axiom -axiom.beta 0.1 -rerankCutoff 20
     results:
       MAP:
-        - 0.2134
+        - 0.2187
       P30:
-        - 0.2463
+        - 0.2439
   - name: ql
     display: QL
     params: -qld
     results:
       MAP:
-        - 0.2021
+        - 0.1977
       P30:
-        - 0.2180
+        - 0.2177
   - name: ql+rm3
     display: +RM3
     params: -qld -rm3
     results:
       MAP:
-        - 0.2190
+        - 0.2149
       P30:
-        - 0.2310
+        - 0.2316
   - name: ql+ax
     display: +Ax
     params: -qld -axiom -axiom.beta 0.1 -rerankCutoff 20
     results:
       MAP:
-        - 0.2266
+        - 0.2231
       P30:
-        - 0.2459
+        - 0.2497
