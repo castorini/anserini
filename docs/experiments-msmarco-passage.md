@@ -4,7 +4,7 @@ This page contains instructions for running BM25 baselines on the [MS MARCO *pas
 Note that there is a separate [MS MARCO *document* ranking task](experiments-msmarco-doc.md).
 This exercise will require a machine with at least 8 GB RAM and at least 15 GB free disk space.
 
-If you're a Waterloo student traversing the [onboarding path](https://github.com/lintool/guide/blob/master/ura.md), [start here](start-here.md).
+If you're a Waterloo student traversing the [onboarding path](https://github.com/castorini/onboarding/blob/master/ura.md), [start here](start-here.md).
 In general, don't try to rush through this guide by just blindly copying and pasting commands into a shell;
 that's what I call [cargo culting](https://en.wikipedia.org/wiki/Cargo_cult_programming).
 Instead, really try to understand what's going on.
