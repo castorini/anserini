@@ -455,7 +455,7 @@ public class ReproduceFromDocumentCollection {
         // The topic_reader is either a parent (in which case it applies to all topics) or a per-topic override.
         String topicReader = yaml.get("topic_reader") != null ? yaml.get("topic_reader").asText() : topic.get("topic_reader").asText();
         String output = ReproductionUtils.constructRunfilePath(yaml.get("corpus").asText(),
-            model.get("name").asText(), constructTopicRunfileName(topic));
+            model.get("name").asText(), "topics." + topic.get("id").asText());
 
         StringBuilder cmd = new StringBuilder();
         cmd.append(rootCmd)
@@ -474,11 +474,6 @@ public class ReproduceFromDocumentCollection {
     return cmds;
   }
 
-  private static String constructTopicRunfileName(JsonNode topic) {
-    String path = textOrNull(topic.get("path"));
-    return path == null ? "topics." + topic.get("id").asText() : path;
-  }
-
   private static List<String> constructConvertCommands(JsonNode yaml) {
     List<String> cmds = new ArrayList<>();
     JsonNode models = yaml.get("models");
@@ -491,9 +486,9 @@ public class ReproduceFromDocumentCollection {
       for (JsonNode topic : topics) {
         for (JsonNode conversion : conversions) {
           String inFile = ReproductionUtils.constructRunfilePath(yaml.get("corpus").asText(),
-              model.get("name").asText(), constructTopicRunfileName(topic)) + conversion.get("in_file_ext").asText();
+              model.get("name").asText(), "topics." + topic.get("id").asText()) + conversion.get("in_file_ext").asText();
           String outFile = ReproductionUtils.constructRunfilePath(yaml.get("corpus").asText(),
-              model.get("name").asText(), constructTopicRunfileName(topic)) + conversion.get("out_file_ext").asText();
+              model.get("name").asText(), "topics." + topic.get("id").asText()) + conversion.get("out_file_ext").asText();
           StringBuilder cmd = new StringBuilder();
           cmd.append(conversion.get("command").asText())
               .append(" --index ").append(constructIndexPath(yaml))
@@ -540,7 +535,7 @@ public class ReproduceFromDocumentCollection {
           }
 
           String outputPath = ReproductionUtils.constructRunfilePath(yaml.get("corpus").asText(),
-              model.get("name").asText(), constructTopicRunfileName(topic));
+              model.get("name").asText(), "topics." + topic.get("id").asText());
           JsonNode conversions = yaml.get("conversions");
           if (conversions != null && conversions.isArray() && conversions.size() > 0) {
             JsonNode last = conversions.get(conversions.size() - 1);
