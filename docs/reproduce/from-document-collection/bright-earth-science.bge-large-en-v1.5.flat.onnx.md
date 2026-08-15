@@ -47,7 +47,7 @@ The path `/path/to/bright-earth-science.bge-large-en-v1.5/` should point to the 
 
 ## Retrieval
 
-Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
+Topics and qrels are stored in a [centralized repo containing evaluation data](https://github.com/castorini/eval).
 
 After indexing has completed, you should be able to perform retrieval as follows:
 

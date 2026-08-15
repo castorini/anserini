@@ -46,7 +46,7 @@ For additional details, see explanation of [common indexing options](../../commo
 
 ## Retrieval
 
-Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
+Topics and qrels are stored in a [centralized repo containing evaluation data](https://github.com/castorini/eval).
 The regression experiments here evaluate on the 5193 dev set questions.
 
 After indexing has completed, you should be able to perform retrieval as follows:

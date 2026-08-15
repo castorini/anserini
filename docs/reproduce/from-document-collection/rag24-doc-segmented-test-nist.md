@@ -47,7 +47,7 @@ For additional details, see explanation of [common indexing options](../../commo
 ## Retrieval
 
 Here, we are using 89 test topics from the TREC 2024 RAG Track with manual relevance judgments from NIST assessors.
-Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
+Topics and qrels are stored in a [centralized repo containing evaluation data](https://github.com/castorini/eval).
 
 After indexing has completed, you should be able to perform retrieval as follows:
 

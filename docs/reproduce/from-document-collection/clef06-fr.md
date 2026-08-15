@@ -35,7 +35,7 @@ For additional details, see explanation of [common indexing options](../../commo
 
 ## Retrieval
 
-Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
+Topics and qrels are stored in a [centralized repo containing evaluation data](https://github.com/castorini/eval).
 
 + [`topics.clef06fr.mono.fr.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.clef06fr.mono.fr.txt): CLEF 2006 ad hoc track topics in French
 + [`qrels.clef06fr.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/qrels.clef06fr.txt): CLEF 2006 ad hoc track French relevance judgements
