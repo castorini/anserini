@@ -16,10 +16,12 @@
 
 package io.anserini.reproduce;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -33,7 +35,14 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Appender;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.appender.OutputStreamAppender;
+import org.apache.logging.log4j.core.config.Configuration;
 import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.logging.log4j.core.config.LoggerConfig;
+import org.apache.logging.log4j.core.layout.PatternLayout;
 import org.junit.After;
 import org.junit.Assume;
 import org.junit.Before;
@@ -165,7 +174,25 @@ public class ReproduceFromDocumentCollectionTest extends StdOutStdErrRedirectabl
     SortedMap<Integer, Map<String, String>> topics = TopicReader.load(Topics.get("cacm"));
     assertNotNull(topics);
 
-    ReproduceFromDocumentCollection.main(new String[] {"--config", "cacm", "--index", "--search", "--dry-run"});
+    ByteArrayOutputStream logOutput = new ByteArrayOutputStream();
+    LoggerContext context = (LoggerContext) LogManager.getContext(false);
+    Configuration configuration = context.getConfiguration();
+    Appender appender = OutputStreamAppender.createAppender(
+        PatternLayout.createDefaultLayout(configuration), null, logOutput, "dryRun", false, true);
+    appender.start();
+    Configurator.setLevel(ReproduceFromDocumentCollection.class.getName(), Level.INFO);
+    LoggerConfig loggerConfig = configuration.getLoggerConfig(ReproduceFromDocumentCollection.class.getName());
+    loggerConfig.addAppender(appender, Level.INFO, null);
+    try {
+      ReproduceFromDocumentCollection.main(new String[] {"--config", "cacm", "--index", "--search", "--dry-run"});
+    } finally {
+      loggerConfig.removeAppender(appender.getName());
+      appender.stop();
+      Configurator.setLevel(ReproduceFromDocumentCollection.class.getName(), Level.ERROR);
+    }
+
+    assertTrue(logOutput.toString(StandardCharsets.UTF_8)
+        .contains("bin/trec_eval -m map cacm runs/run.cacm.bm25.topics.cacm.txt"));
   }
 
   @Test

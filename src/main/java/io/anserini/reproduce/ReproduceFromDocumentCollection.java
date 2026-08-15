@@ -559,6 +559,7 @@ public class ReproduceFromDocumentCollection {
           evalCmd.append(" ").append(outputPath);
 
           if (args.dryRun) {
+            LOG.info(evalCmd);
             continue;
           }
 
