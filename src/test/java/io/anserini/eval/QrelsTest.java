@@ -1519,52 +1519,52 @@ public class QrelsTest{
     Path expected;
     Path produced;
 
-    expected = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve("qrels.cacm.txt");
+    expected = CacheDirectoryResolver.getQrelsCachePath().resolve("qrels.cacm.txt");
     produced = Qrels.resolveQrelsPath("cacm");
     assertNotNull(produced);
     assertEquals(expected, produced);
 
-    expected = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve("qrels.robust04.txt");
+    expected = CacheDirectoryResolver.getQrelsCachePath().resolve("qrels.robust04.txt");
     produced = Qrels.resolveQrelsPath("qrels.robust04.txt");
     assertNotNull(produced);
     assertEquals(expected, produced);
 
-    expected = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve("qrels.msmarco-passage.dev-subset.txt");
+    expected = CacheDirectoryResolver.getQrelsCachePath().resolve("qrels.msmarco-passage.dev-subset.txt");
     produced = Qrels.resolveQrelsPath("qrels.msmarco-passage.dev-subset.txt");
     assertNotNull(produced);
     assertEquals(expected, produced);
 
-    expected = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve("qrels.msmarco-v2-passage.dev2.txt");
+    expected = CacheDirectoryResolver.getQrelsCachePath().resolve("qrels.msmarco-v2-passage.dev2.txt");
     produced = Qrels.resolveQrelsPath("qrels.msmarco-v2-passage.dev2.txt");
     assertNotNull(produced);
     assertEquals(expected, produced);
 
-    expected = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve("qrels.miracl-v1.0-en-dev.tsv");
+    expected = CacheDirectoryResolver.getQrelsCachePath().resolve("qrels.miracl-v1.0-en-dev.tsv");
     produced = Qrels.resolveQrelsPath("qrels.miracl-v1.0-en-dev.tsv");
     assertNotNull(produced);
     assertEquals(expected, produced);
 
-    expected = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve("qrels.covid-round3.txt");
+    expected = CacheDirectoryResolver.getQrelsCachePath().resolve("qrels.covid-round3.txt");
     produced = Qrels.resolveQrelsPath("qrels.covid-round3.txt");
     assertNotNull(produced);
     assertEquals(expected, produced);
     
-    expected = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve("qrels.ciral-v1.0-yo-test-a-pools.tsv");
+    expected = CacheDirectoryResolver.getQrelsCachePath().resolve("qrels.ciral-v1.0-yo-test-a-pools.tsv");
     produced = Qrels.resolveQrelsPath("qrels.ciral-v1.0-yo-test-a-pools.tsv");
     assertNotNull(produced);
     assertEquals(expected, produced);
 
-    expected = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve("qrels.adhoc.151-200.txt");
+    expected = CacheDirectoryResolver.getQrelsCachePath().resolve("qrels.adhoc.151-200.txt");
     produced = Qrels.resolveQrelsPath("qrels.adhoc.151-200.txt");
     assertNotNull(produced);
     assertEquals(expected, produced);
 
-    expected = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve("qrels.microblog2012.txt");
+    expected = CacheDirectoryResolver.getQrelsCachePath().resolve("qrels.microblog2012.txt");
     produced = Qrels.resolveQrelsPath("qrels.microblog2012.txt");
     assertNotNull(produced);
     assertEquals(expected, produced);
 
-    expected = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve("qrels.terabyte04.701-750.txt");
+    expected = CacheDirectoryResolver.getQrelsCachePath().resolve("qrels.terabyte04.701-750.txt");
     produced = Qrels.resolveQrelsPath("qrels.terabyte04.701-750.txt");
     assertNotNull(produced);
     assertEquals(expected, produced);

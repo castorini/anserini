@@ -235,7 +235,7 @@ public class Qrels {
    * Resolves a qrels reference to a local path.
    *
    * <p>The {@code qrels} argument may be a local path, a registered qrels name, a registered qrels filename, or an
-   * unregistered filename already present in the local topics-and-qrels cache. Registered qrels are downloaded into the
+   * unregistered filename already present in the local qrels cache. Registered qrels are downloaded into the
    * cache if needed. Unknown qrels are returned as paths unchanged, leaving the caller to handle any missing-file
    * failure.</p>
    *
@@ -259,7 +259,7 @@ public class Qrels {
       qrelsPath = Path.of(qrelsFileName);
     } else {
       // If the qrels file is not in the list of known qrels, we assume it is a local file.
-      Path tempPath = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve(qrelsPath.getFileName());
+      Path tempPath = CacheDirectoryResolver.getQrelsCachePath().resolve(qrelsPath.getFileName());
       if (Files.exists(tempPath)) {
         // if it is an unregistered qrels in the Qrels registry, but it is in the cache, we use it.
         return tempPath;
@@ -267,7 +267,7 @@ public class Qrels {
       return qrelsPath;
     }
 
-    Path resultPath = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve(qrelsPath.getFileName());
+    Path resultPath = CacheDirectoryResolver.getQrelsCachePath().resolve(qrelsPath.getFileName());
     if (!Files.exists(resultPath)) {
       resultPath = downloadQrels(qrelsPath);
     }
@@ -277,7 +277,7 @@ public class Qrels {
   public static Path downloadQrels(Path qrelsPath) throws IOException {
     String qrelsURL = URL + qrelsPath.getFileName().toString();
     System.out.println("Downloading qrels from " + qrelsURL);
-    Path localQrelsPath = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve(qrelsPath.getFileName());
+    Path localQrelsPath = CacheDirectoryResolver.getQrelsCachePath().resolve(qrelsPath.getFileName());
 
     try {
       FileUtils.copyURLToFile(new URI(qrelsURL).toURL(), localQrelsPath.toFile());

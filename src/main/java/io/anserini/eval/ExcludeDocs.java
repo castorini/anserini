@@ -60,7 +60,7 @@ public class ExcludeDocs {
     }
     file = PREFIX + file + SUFFIX;
 
-    Path local = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve(file);
+    Path local = CacheDirectoryResolver.getQrelsCachePath().resolve(file);
     if (!Files.exists(local)) {
       String URL = BASE_URL + file;
       File qrelsFile = new File(local.toString());  
