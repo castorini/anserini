@@ -1,5 +1,3 @@
 {
-  "dummy": "qrels.dummy.txt",
-  "adhoc.351-400": "qrels.adhoc.351-400.txt",
-  "adhoc.401-450": "qrels.adhoc.401-450.txt"
+  "dummy": "qrels.dummy.txt"
 }
