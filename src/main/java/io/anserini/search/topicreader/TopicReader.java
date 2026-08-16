@@ -201,11 +201,11 @@ public abstract class TopicReader<K> {
    * Returns a set of evaluation topics, reading from a file using a particular {@code TopicReader} class (as String).
    * This ridiculous method name is necessary for proper Python bindings via Pyjnius.
    *
-   * @param className {@code TopicReader} class
    * @param file topics file
+   * @param className {@code TopicReader} class
    * @return evaluation topics, with strings as topic ids
    */
-  public static Map<String, Map<String, String>> getTopicsWithStringIdsFromFileWithTopicReaderClass(String className, String file) {
+  public static Map<String, Map<String, String>> getTopicsWithStringIdsFromFileWithTopicReaderClass(String file, String className) {
     try {
       Class<?> clazz = Class.forName(className);
       Constructor<?>[] ctors = clazz.getDeclaredConstructors();
