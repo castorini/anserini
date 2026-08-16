@@ -33,8 +33,7 @@ public class CarTopicReaderTest {
 
   @Test
   public void test() throws IOException {
-    TopicReader<String> reader = new CarTopicReader(
-        Paths.get("tools/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt"));
+    TopicReader<String> reader = new CarTopicReader(Paths.get("topics.car17v2.0.benchmarkY1test.txt"));
 
     SortedMap<String, Map<String, String>> topics = reader.read();
 

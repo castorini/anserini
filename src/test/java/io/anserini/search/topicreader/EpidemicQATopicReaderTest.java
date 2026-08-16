@@ -28,9 +28,7 @@ import org.junit.Test;
 public class EpidemicQATopicReaderTest {
   @Test
   public void test() throws IOException {
-    TopicReader<Integer> consumerReader =
-        new EpidemicQATopicReader(
-            Paths.get("tools/topics-and-qrels/topics.epidemic-qa.consumer.prelim.json"));
+    TopicReader<Integer> consumerReader = new EpidemicQATopicReader(Paths.get("topics.epidemic-qa.consumer.prelim.json"));
 
     SortedMap<Integer, Map<String, String>> consumerTopics = consumerReader.read();
 
@@ -55,9 +53,7 @@ public class EpidemicQATopicReaderTest {
                  "COVID-19 effect on mental health and pre-existing conditions",
                  consumerTopics.get(consumerTopics.lastKey()).get("background"));
 
-    TopicReader<Integer> expertReader =
-        new EpidemicQATopicReader(
-            Paths.get("tools/topics-and-qrels/topics.epidemic-qa.expert.prelim.json"));
+    TopicReader<Integer> expertReader = new EpidemicQATopicReader(Paths.get("topics.epidemic-qa.expert.prelim.json"));
 
     SortedMap<Integer, Map<String, String>> expertTopics = expertReader.read();
 
