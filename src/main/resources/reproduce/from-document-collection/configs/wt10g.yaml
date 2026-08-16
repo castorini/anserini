@@ -30,7 +30,7 @@ metrics:
 
 topic_reader: Trec
 topics:
-  - name: "[Wt10g (Topics 451-550)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.adhoc.451-550.txt)"
+  - name: "[Wt10g (Topics 451-550)](https://github.com/castorini/eval/tree/master/topics/topics.adhoc.451-550.txt)"
     id: adhoc.451-550
     qrels: adhoc.451-550
 

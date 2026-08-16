@@ -33,11 +33,11 @@ For additional details, see explanation of [common indexing options](../../commo
 
 ## Retrieval
 
-The "benchmarkY1-test" topics and qrels (v2.0) are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
+The "benchmarkY1-test" [topics](https://github.com/castorini/eval/tree/master/topics) and [qrels](https://github.com/castorini/eval/tree/master/qrels) (v2.0) are stored in the `castorini/eval` repository.
 They are downloaded from [the CAR website](http://trec-car.cs.unh.edu/datareleases/):
 
-+ [`topics.car17v2.0.benchmarkY1test.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt)
-+ [`qrels.car17v2.0.benchmarkY1test.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt)
++ [`topics.car17v2.0.benchmarkY1test.txt`](https://github.com/castorini/eval/tree/master/topics/topics.car17v2.0.benchmarkY1test.txt)
++ [`qrels.car17v2.0.benchmarkY1test.txt`](https://github.com/castorini/eval/tree/master/qrels/qrels.car17v2.0.benchmarkY1test.txt)
 
 Specifically, this is the section-level passage retrieval task with automatic ground truth.
 
@@ -107,8 +107,8 @@ bin/trec_eval -c -m map -c -m recip_rank car17v2.0.benchmarkY1test runs/run.car-
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MAP**                                                                                                                                                | **BM25**   | **+RM3**   | **+Ax**    | **QL**     | **+RM3**   | **+Ax**    |
-|:-------------------------------------------------------------------------------------------------------------------------------------------------------|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|
-| [TREC 2017 CAR: benchmarkY1test (v2.0)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt) | 0.1545     | 0.1308     | 0.1364     | 0.1371     | 0.1083     | 0.1077     |
-| **MRR**                                                                                                                                                | **BM25**   | **+RM3**   | **+Ax**    | **QL**     | **+RM3**   | **+Ax**    |
-| [TREC 2017 CAR: benchmarkY1test (v2.0)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt) | 0.2321     | 0.1940     | 0.1978     | 0.2013     | 0.1608     | 0.1588     |
+| **MAP**                                                                                                                            | **BM25**   | **+RM3**   | **+Ax**    | **QL**     | **+RM3**   | **+Ax**    |
+|:-----------------------------------------------------------------------------------------------------------------------------------|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|
+| [TREC 2017 CAR: benchmarkY1test (v2.0)](https://github.com/castorini/eval/tree/master/topics/topics.car17v2.0.benchmarkY1test.txt) | 0.1545     | 0.1308     | 0.1364     | 0.1371     | 0.1083     | 0.1077     |
+| **MRR**                                                                                                                            | **BM25**   | **+RM3**   | **+Ax**    | **QL**     | **+RM3**   | **+Ax**    |
+| [TREC 2017 CAR: benchmarkY1test (v2.0)](https://github.com/castorini/eval/tree/master/topics/topics.car17v2.0.benchmarkY1test.txt) | 0.2321     | 0.1940     | 0.1978     | 0.2013     | 0.1608     | 0.1588     |

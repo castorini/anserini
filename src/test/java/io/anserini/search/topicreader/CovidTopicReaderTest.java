@@ -29,8 +29,7 @@ public class CovidTopicReaderTest {
 
   @Test
   public void test1() throws IOException {
-    TopicReader<Integer> reader = new CovidTopicReader(
-        Paths.get("tools/topics-and-qrels/topics.covid-round1.xml"));
+    TopicReader<Integer> reader = new CovidTopicReader(Paths.get("topics.covid-round1.xml"));
 
     SortedMap<Integer, Map<String, String>> topics = reader.read();
 
@@ -54,8 +53,7 @@ public class CovidTopicReaderTest {
 
   @Test
   public void test2() throws IOException {
-    TopicReader<Integer> reader = new CovidTopicReader(
-        Paths.get("tools/topics-and-qrels/topics.covid-round2.xml"));
+    TopicReader<Integer> reader = new CovidTopicReader(Paths.get("topics.covid-round2.xml"));
 
     SortedMap<Integer, Map<String, String>> topics = reader.read();
 
@@ -81,8 +79,7 @@ public class CovidTopicReaderTest {
   @Test
   public void test3() throws IOException {
     // Make sure we can read the UDel variants also, which only have query fields.
-    TopicReader<Integer> reader = new CovidTopicReader(
-        Paths.get("tools/topics-and-qrels/topics.covid-round1-udel.xml"));
+    TopicReader<Integer> reader = new CovidTopicReader(Paths.get("topics.covid-round1-udel.xml"));
 
     SortedMap<Integer, Map<String, String>> topics = reader.read();
 
@@ -102,8 +99,7 @@ public class CovidTopicReaderTest {
   @Test
   public void test4() throws IOException {
     // Make sure we can read the UDel variants also, which only have query fields.
-    TopicReader<Integer> reader = new CovidTopicReader(
-        Paths.get("tools/topics-and-qrels/topics.covid-round2-udel.xml"));
+    TopicReader<Integer> reader = new CovidTopicReader(Paths.get("topics.covid-round2-udel.xml"));
 
     SortedMap<Integer, Map<String, String>> topics = reader.read();
 

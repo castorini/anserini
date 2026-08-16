@@ -76,7 +76,7 @@ import java.util.Set;
  * <pre>
  * bin/run.sh io.anserini.encoder.EncodeQuery \
  *   -encoder SpladeV3 \
- *   -queries tools/topics-and-qrels/topics.rag25.test.jsonl \
+ *   -queries topics.rag25.test.jsonl \
  *   -topicReader JsonString \
  *   -output encoded-queries/topics.rag25.test.splade-v3.jsonl
  * </pre>

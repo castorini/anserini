@@ -48,10 +48,7 @@ public class TopicReaderTest {
 
   @Test
   public void testTopicReaderClassLookup() {
-    assertEquals(TrecTopicReader.class, Topics.getTopicReaderClassForPath("tools/topics-and-qrels/topics.robust04.txt"));
     assertEquals(TrecTopicReader.class, Topics.getTopicReaderClassForPath("topics.robust04.txt"));
-
-    assertEquals(CovidTopicReader.class, Topics.getTopicReaderClassForPath("tools/topics-and-qrels/topics.covid-round1.xml"));
     assertEquals(CovidTopicReader.class, Topics.getTopicReaderClassForPath("topics.covid-round1.xml"));
 
     // Unknown TopicReader class.
@@ -94,7 +91,7 @@ public class TopicReaderTest {
 
   @Test
   public void testGetTopicsByFile() {
-    SortedMap<Object, Map<String, String>> topics = TopicReader.getTopicsByFile("tools/topics-and-qrels/topics.robust04.txt");
+    SortedMap<Object, Map<String, String>> topics = TopicReader.getTopicsByFile("topics.robust04.txt");
 
     assertNotNull(topics);
     assertEquals(250, topics.size());
@@ -1703,13 +1700,13 @@ public class TopicReaderTest {
   public void testGetTopicsWithStringIdsFromFileWithTopicReader() {
     Map<String, Map<String, String>> topics;
 
-    topics = TopicReader.getTopicsWithStringIdsFromFileWithTopicReaderClass("tools/topics-and-qrels/topics.robust04.txt", TrecTopicReader.class.getName());
+    topics = TopicReader.getTopicsWithStringIdsFromFileWithTopicReaderClass("topics.robust04.txt", TrecTopicReader.class.getName());
     assertNotNull(topics);
     assertEquals(250, topics.size());
     assertEquals("International Organized Crime", topics.get("301").get("title"));
     assertEquals("gasoline tax U.S.", topics.get("700").get("title"));
 
-    topics = TopicReader.getTopicsWithStringIdsFromFileWithTopicReaderClass("tools/topics-and-qrels/topics.msmarco-doc.dev.txt", TsvIntTopicReader.class.getName());
+    topics = TopicReader.getTopicsWithStringIdsFromFileWithTopicReaderClass("topics.msmarco-doc.dev.txt", TsvIntTopicReader.class.getName());
     assertNotNull(topics);
     assertEquals(5193, topics.size());
     assertEquals("androgen receptor define", topics.get("2").get("title"));

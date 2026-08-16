@@ -37,8 +37,8 @@ For additional details, see explanation of [common indexing options](../../commo
 Topics and qrels are stored in a [centralized repo containing evaluation data](https://github.com/castorini/eval).
 They are downloaded from the [FIRE data page](http://fire.irsi.res.in/fire/static/data):
 
-+ [`topics.fire12bn.176-225.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.fire12bn.176-225.txt): topics for FIRE 2012 Monolingual Bengali (176 to 225)
-+ [`qrels.fire12bn.176-225.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/qrels.fire12bn.176-225.txt): qrels (version II) for FIRE 2012 Monolingual Bengali (176 to 225)
++ [`topics.fire12bn.176-225.txt`](https://github.com/castorini/eval/tree/master/topics/topics.fire12bn.176-225.txt): topics for FIRE 2012 Monolingual Bengali (176 to 225)
++ [`qrels.fire12bn.176-225.txt`](https://github.com/castorini/eval/tree/master/qrels/qrels.fire12bn.176-225.txt): qrels (version II) for FIRE 2012 Monolingual Bengali (176 to 225)
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
@@ -61,10 +61,10 @@ bin/trec_eval -m map -m P.20 -m ndcg_cut.20 fire12bn.176-225 runs/run.fire12-bn.
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MAP**                                                                                                                                 | **BM25**   |
-|:----------------------------------------------------------------------------------------------------------------------------------------|:----------:|
-| [FIRE 2012 (Monolingual Bengali)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.fire12bn.176-225.txt) | 0.2881     |
-| **P20**                                                                                                                                 | **BM25**   |
-| [FIRE 2012 (Monolingual Bengali)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.fire12bn.176-225.txt) | 0.3740     |
-| **nDCG@20**                                                                                                                             | **BM25**   |
-| [FIRE 2012 (Monolingual Bengali)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.fire12bn.176-225.txt) | 0.4261     |
+| **MAP**                                                                                                             | **BM25**   |
+|:--------------------------------------------------------------------------------------------------------------------|:----------:|
+| [FIRE 2012 (Monolingual Bengali)](https://github.com/castorini/eval/tree/master/topics/topics.fire12bn.176-225.txt) | 0.2881     |
+| **P20**                                                                                                             | **BM25**   |
+| [FIRE 2012 (Monolingual Bengali)](https://github.com/castorini/eval/tree/master/topics/topics.fire12bn.176-225.txt) | 0.3740     |
+| **nDCG@20**                                                                                                         | **BM25**   |
+| [FIRE 2012 (Monolingual Bengali)](https://github.com/castorini/eval/tree/master/topics/topics.fire12bn.176-225.txt) | 0.4261     |
