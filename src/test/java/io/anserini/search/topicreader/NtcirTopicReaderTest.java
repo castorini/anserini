@@ -19,7 +19,6 @@ package io.anserini.search.topicreader;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 import java.util.SortedMap;
@@ -30,9 +29,7 @@ public class NtcirTopicReaderTest {
 
   @Test
   public void test_www1_en() throws IOException {
-
-    Path path1 = Paths.get("topics.www1.english.txt");
-    TopicReader<Integer> reader1 = new NtcirTopicReader(path1);
+    TopicReader<Integer> reader1 = new NtcirTopicReader(Paths.get("topics.www1.english.txt"));
 
     SortedMap<Integer, Map<String, String>> topics1 = reader1.read();
 
@@ -47,8 +44,7 @@ public class NtcirTopicReaderTest {
 
   @Test
   public void test_www2_en() throws IOException {
-    Path path = Paths.get("topics.www2.english.txt");
-    TopicReader<Integer> reader = new NtcirTopicReader(path);
+    TopicReader<Integer> reader = new NtcirTopicReader(Paths.get("topics.www2.english.txt"));
 
     SortedMap<Integer, Map<String, String>> topics = reader.read();
 
