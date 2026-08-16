@@ -44,29 +44,23 @@ metrics:
 topic_reader: TsvInt
 topics:
   - name: "[HC4 (Persian): dev-topic title](https://github.com/hltcoe/HC4)"
-    id: dev_title
-    path: topics.hc4-v1.0-fa.dev.title.tsv
-    qrel: qrels.hc4-v1.0-fa.dev.txt
+    id: hc4-v1.0-fa.dev.title.tsv
+    qrels: hc4-v1.0-fa.dev
   - name: "[HC4 (Persian): dev-topic description](https://github.com/hltcoe/HC4)"
-    id: dev_description
-    path: topics.hc4-v1.0-fa.dev.desc.tsv
-    qrel: qrels.hc4-v1.0-fa.dev.txt
+    id: hc4-v1.0-fa.dev.desc.tsv
+    qrels: hc4-v1.0-fa.dev
   - name: "[HC4 (Persian): dev-topic description+title](https://github.com/hltcoe/HC4)"
-    id: dev_description_title
-    path: topics.hc4-v1.0-fa.dev.desc.title.tsv
-    qrel: qrels.hc4-v1.0-fa.dev.txt
+    id: hc4-v1.0-fa.dev.desc.title.tsv
+    qrels: hc4-v1.0-fa.dev
   - name: "[HC4 (Persian): test-topic title](https://github.com/hltcoe/HC4)"
-    id: test_title
-    path: topics.hc4-v1.0-fa.test.title.tsv
-    qrel: qrels.hc4-v1.0-fa.test.txt
+    id: hc4-v1.0-fa.test.title.tsv
+    qrels: hc4-v1.0-fa.test
   - name: "[HC4 (Persian): test-topic description](https://github.com/hltcoe/HC4)"
-    id: test_description
-    path: topics.hc4-v1.0-fa.test.desc.tsv
-    qrel: qrels.hc4-v1.0-fa.test.txt
+    id: hc4-v1.0-fa.test.desc.tsv
+    qrels: hc4-v1.0-fa.test
   - name: "[HC4 (Persian): test-topic description+title](https://github.com/hltcoe/HC4)"
-    id: test_description_title
-    path: topics.hc4-v1.0-fa.test.desc.title.tsv
-    qrel: qrels.hc4-v1.0-fa.test.txt
+    id: hc4-v1.0-fa.test.desc.title.tsv
+    qrels: hc4-v1.0-fa.test
 
 
 models:

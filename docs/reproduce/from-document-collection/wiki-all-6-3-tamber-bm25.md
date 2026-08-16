@@ -37,7 +37,7 @@ For additional details, see explanation of [common indexing options](../../commo
 
 ## Retrieval
 
-Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
+Topics and qrels are stored in a [centralized repo containing evaluation data](https://github.com/castorini/eval).
 The regression experiments here evaluate on the test sets of Natural Questions, TriviaQA, SQuAD, and WebQuestions.
 
 After indexing has completed, you should be able to perform retrieval as follows:
@@ -45,37 +45,37 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wiki-all-6-3-tamber/ \
-  -topics tools/topics-and-qrels/topics.dpr.nq.test.txt \
+  -topics dpr.nq.test \
   -topicReader DprNq \
   -output runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.nq.test.txt \
   -bm25 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wiki-all-6-3-tamber/ \
-  -topics tools/topics-and-qrels/topics.dpr.trivia.test.txt \
+  -topics dpr.trivia.test \
   -topicReader DprNq \
   -output runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.trivia.test.txt \
   -bm25 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wiki-all-6-3-tamber/ \
-  -topics tools/topics-and-qrels/topics.dpr.squad.test.txt \
+  -topics dpr.squad.test \
   -topicReader DprJsonl \
   -output runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.squad.test.txt \
   -bm25 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wiki-all-6-3-tamber/ \
-  -topics tools/topics-and-qrels/topics.dpr.wq.test.txt \
+  -topics dpr.wq.test \
   -topicReader DprJsonl \
   -output runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.wq.test.txt \
   -bm25 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wiki-all-6-3-tamber/ \
-  -topics tools/topics-and-qrels/topics.dpr.curated.test.txt \
+  -topics dpr.curated.test \
   -topicReader DprJsonl \
   -output runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.curated.test.txt \
   -bm25 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wiki-all-6-3-tamber/ \
-  -topics tools/topics-and-qrels/topics.nq.test.txt \
+  -topics nq.test \
   -topicReader DprNq \
   -output runs/run.wiki-all-6-3-tamber.bm25.topics.nq.test.txt \
   -bm25 &
@@ -85,37 +85,37 @@ The trec format will need to be converted to DPR's JSON format for evaluation:
 ```bash
 python -m pyserini.eval.convert_trec_run_to_dpr_retrieval_run \
   --index indexes/lucene-index.wiki-all-6-3-tamber/ \
-  --topics dpr-nq-test \
+  --topics dpr.nq.test \
   --input runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.nq.test.txt \
   --output runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.nq.test.txt.json \
   --combine-title-text &
 python -m pyserini.eval.convert_trec_run_to_dpr_retrieval_run \
   --index indexes/lucene-index.wiki-all-6-3-tamber/ \
-  --topics dpr-trivia-test \
+  --topics dpr.trivia.test \
   --input runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.trivia.test.txt \
   --output runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.trivia.test.txt.json \
   --combine-title-text &
 python -m pyserini.eval.convert_trec_run_to_dpr_retrieval_run \
   --index indexes/lucene-index.wiki-all-6-3-tamber/ \
-  --topics dpr-squad-test \
+  --topics dpr.squad.test \
   --input runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.squad.test.txt \
   --output runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.squad.test.txt.json \
   --combine-title-text &
 python -m pyserini.eval.convert_trec_run_to_dpr_retrieval_run \
   --index indexes/lucene-index.wiki-all-6-3-tamber/ \
-  --topics dpr-wq-test \
+  --topics dpr.wq.test \
   --input runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.wq.test.txt \
   --output runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.wq.test.txt.json \
   --combine-title-text &
 python -m pyserini.eval.convert_trec_run_to_dpr_retrieval_run \
   --index indexes/lucene-index.wiki-all-6-3-tamber/ \
-  --topics dpr-curated-test \
+  --topics dpr.curated.test \
   --input runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.curated.test.txt \
   --output runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.curated.test.txt.json \
   --combine-title-text  --regex &
 python -m pyserini.eval.convert_trec_run_to_dpr_retrieval_run \
   --index indexes/lucene-index.wiki-all-6-3-tamber/ \
-  --topics nq-test \
+  --topics nq.test \
   --input runs/run.wiki-all-6-3-tamber.bm25.topics.nq.test.txt \
   --output runs/run.wiki-all-6-3-tamber.bm25.topics.nq.test.txt.json \
   --combine-title-text &

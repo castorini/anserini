@@ -40,7 +40,7 @@ For additional details, see explanation of [common indexing options](../../commo
 
 ## Retrieval
 
-Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
+Topics and qrels are stored in a [centralized repo containing evaluation data](https://github.com/castorini/eval).
 The regression experiments here evaluate on the 45 topics for which NIST has provided judgments as part of the TREC 2020 Deep Learning Track.
 The original data can be found [here](https://trec.nist.gov/data/deep2020.html).
 
@@ -49,7 +49,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v1-doc-segmented.wp-tok/ \
-  -topics tools/topics-and-qrels/topics.dl20.wp.tsv.gz \
+  -topics dl20.wp \
   -topicReader TsvInt \
   -output runs/run.msmarco-doc-segmented-wp.bm25-default.topics.dl20.wp.txt \
   -bm25 -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
@@ -58,10 +58,10 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-wp.bm25-default.topics.dl20.wp.txt
-bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-wp.bm25-default.topics.dl20.wp.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-wp.bm25-default.topics.dl20.wp.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl20-doc.txt runs/run.msmarco-doc-segmented-wp.bm25-default.topics.dl20.wp.txt
+bin/trec_eval -c -M 100 -m map dl20-doc runs/run.msmarco-doc-segmented-wp.bm25-default.topics.dl20.wp.txt
+bin/trec_eval -c -m ndcg_cut.10 dl20-doc runs/run.msmarco-doc-segmented-wp.bm25-default.topics.dl20.wp.txt
+bin/trec_eval -c -m recall.100 dl20-doc runs/run.msmarco-doc-segmented-wp.bm25-default.topics.dl20.wp.txt
+bin/trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-doc-segmented-wp.bm25-default.topics.dl20.wp.txt
 ```
 
 ## Effectiveness

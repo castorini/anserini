@@ -33,7 +33,7 @@ For additional details, see explanation of [common indexing options](../../commo
 
 ## Retrieval
 
-Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
+Topics and qrels are stored in a [centralized repo containing evaluation data](https://github.com/castorini/eval).
 They are downloaded from NIST:
 
 + [`topics.adhoc.451-550.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.adhoc.451-550.txt): topics for the [TREC-9 Web Track](http://trec.nist.gov/data/topics_eng/topics.451-500.gz) and the [TREC 2001 Web Track](http://trec.nist.gov/data/topics_eng/topics.501-550.txt)
@@ -44,42 +44,42 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wt10g/ \
-  -topics tools/topics-and-qrels/topics.adhoc.451-550.txt \
+  -topics adhoc.451-550 \
   -topicReader Trec \
   -output runs/run.wt10g.bm25.topics.adhoc.451-550.txt \
   -bm25 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wt10g/ \
-  -topics tools/topics-and-qrels/topics.adhoc.451-550.txt \
+  -topics adhoc.451-550 \
   -topicReader Trec \
   -output runs/run.wt10g.bm25+rm3.topics.adhoc.451-550.txt \
   -bm25 -rm3 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wt10g/ \
-  -topics tools/topics-and-qrels/topics.adhoc.451-550.txt \
+  -topics adhoc.451-550 \
   -topicReader Trec \
   -output runs/run.wt10g.bm25+ax.topics.adhoc.451-550.txt \
   -bm25 -axiom -axiom.beta 0.1 -rerankCutoff 20 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wt10g/ \
-  -topics tools/topics-and-qrels/topics.adhoc.451-550.txt \
+  -topics adhoc.451-550 \
   -topicReader Trec \
   -output runs/run.wt10g.ql.topics.adhoc.451-550.txt \
   -qld &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wt10g/ \
-  -topics tools/topics-and-qrels/topics.adhoc.451-550.txt \
+  -topics adhoc.451-550 \
   -topicReader Trec \
   -output runs/run.wt10g.ql+rm3.topics.adhoc.451-550.txt \
   -qld -rm3 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wt10g/ \
-  -topics tools/topics-and-qrels/topics.adhoc.451-550.txt \
+  -topics adhoc.451-550 \
   -topicReader Trec \
   -output runs/run.wt10g.ql+ax.topics.adhoc.451-550.txt \
   -qld -axiom -axiom.beta 0.1 -rerankCutoff 20 &
@@ -88,17 +88,17 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.451-550.txt runs/run.wt10g.bm25.topics.adhoc.451-550.txt
+bin/trec_eval -m map -m P.30 adhoc.451-550 runs/run.wt10g.bm25.topics.adhoc.451-550.txt
 
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.451-550.txt runs/run.wt10g.bm25+rm3.topics.adhoc.451-550.txt
+bin/trec_eval -m map -m P.30 adhoc.451-550 runs/run.wt10g.bm25+rm3.topics.adhoc.451-550.txt
 
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.451-550.txt runs/run.wt10g.bm25+ax.topics.adhoc.451-550.txt
+bin/trec_eval -m map -m P.30 adhoc.451-550 runs/run.wt10g.bm25+ax.topics.adhoc.451-550.txt
 
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.451-550.txt runs/run.wt10g.ql.topics.adhoc.451-550.txt
+bin/trec_eval -m map -m P.30 adhoc.451-550 runs/run.wt10g.ql.topics.adhoc.451-550.txt
 
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.451-550.txt runs/run.wt10g.ql+rm3.topics.adhoc.451-550.txt
+bin/trec_eval -m map -m P.30 adhoc.451-550 runs/run.wt10g.ql+rm3.topics.adhoc.451-550.txt
 
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.adhoc.451-550.txt runs/run.wt10g.ql+ax.topics.adhoc.451-550.txt
+bin/trec_eval -m map -m P.30 adhoc.451-550 runs/run.wt10g.ql+ax.topics.adhoc.451-550.txt
 ```
 
 ## Effectiveness

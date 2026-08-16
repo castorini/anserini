@@ -46,14 +46,14 @@ The path `/path/to/beir-v1.0.0-webis-touche2020.bge-base-en-v1.5/` should point 
 
 ## Retrieval
 
-Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
+Topics and qrels are stored in a [centralized repo containing evaluation data](https://github.com/castorini/eval).
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```bash
 bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -index indexes/lucene-hnsw.beir-v1.0.0-webis-touche2020.bge-base-en-v1.5/ \
-  -topics tools/topics-and-qrels/topics.beir-v1.0.0-webis-touche2020.test.tsv.gz \
+  -topics beir-v1.0.0-webis-touche2020.test \
   -topicReader TsvString \
   -output runs/run.beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.bge-hnsw-onnx.topics.beir-v1.0.0-webis-touche2020.test.txt \
   -encoder BgeBaseEn15 -hits 1000 -efSearch 2000 -removeQuery -threads 16 &
@@ -62,9 +62,9 @@ bin/run.sh io.anserini.search.SearchHnswDenseVectors \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-webis-touche2020.test.txt runs/run.beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.bge-hnsw-onnx.topics.beir-v1.0.0-webis-touche2020.test.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-webis-touche2020.test.txt runs/run.beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.bge-hnsw-onnx.topics.beir-v1.0.0-webis-touche2020.test.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-webis-touche2020.test.txt runs/run.beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.bge-hnsw-onnx.topics.beir-v1.0.0-webis-touche2020.test.txt
+bin/trec_eval -c -m ndcg_cut.10 beir-v1.0.0-webis-touche2020.test runs/run.beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.bge-hnsw-onnx.topics.beir-v1.0.0-webis-touche2020.test.txt
+bin/trec_eval -c -m recall.100 beir-v1.0.0-webis-touche2020.test runs/run.beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.bge-hnsw-onnx.topics.beir-v1.0.0-webis-touche2020.test.txt
+bin/trec_eval -c -m recall.1000 beir-v1.0.0-webis-touche2020.test runs/run.beir-v1.0.0-webis-touche2020.bge-base-en-v1.5.bge-hnsw-onnx.topics.beir-v1.0.0-webis-touche2020.test.txt
 ```
 
 ## Effectiveness

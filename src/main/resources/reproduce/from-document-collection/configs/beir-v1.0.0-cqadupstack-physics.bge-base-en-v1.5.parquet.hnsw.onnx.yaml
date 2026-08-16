@@ -35,9 +35,8 @@ metrics:
 topic_reader: TsvString
 topics:
   - name: "BEIR (v1.0.0): CQADupStack-physics"
-    id: test
-    path: topics.beir-v1.0.0-cqadupstack-physics.test.tsv.gz
-    qrel: qrels.beir-v1.0.0-cqadupstack-physics.test.txt
+    id: beir-v1.0.0-cqadupstack-physics.test
+    qrels: beir-v1.0.0-cqadupstack-physics.test
 
 models:
   - name: bge-hnsw-onnx

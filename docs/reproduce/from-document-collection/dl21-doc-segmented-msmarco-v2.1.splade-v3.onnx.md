@@ -71,7 +71,7 @@ For additional details, see explanation of [common indexing options](../../commo
 
 ## Retrieval
 
-Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
+Topics and qrels are stored in a [centralized repo containing evaluation data](https://github.com/castorini/eval).
 The regression experiments here evaluate on the 57 topics for which NIST has provided judgments as part of the [TREC 2021 Deep Learning Track](https://trec.nist.gov/data/deep2021.html), but projected over to the V2.1 version of the corpus.
 
 After indexing has completed, you should be able to perform retrieval as follows:
@@ -79,7 +79,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3/ \
-  -topics tools/topics-and-qrels/topics.dl21.txt \
+  -topics dl21 \
   -topicReader TsvString \
   -output runs/run.msmarco-v2.1-doc-segmented.splade-v3-onnx.topics.dl21.txt \
   -impact -pretokenized -removeQuery -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -encoder SpladeV3 &
@@ -88,10 +88,10 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -M 100 -m map tools/topics-and-qrels/qrels.dl21-doc-msmarco-v2.1.txt runs/run.msmarco-v2.1-doc-segmented.splade-v3-onnx.topics.dl21.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.dl21-doc-msmarco-v2.1.txt runs/run.msmarco-v2.1-doc-segmented.splade-v3-onnx.topics.dl21.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.dl21-doc-msmarco-v2.1.txt runs/run.msmarco-v2.1-doc-segmented.splade-v3-onnx.topics.dl21.txt
-bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.dl21-doc-msmarco-v2.1.txt runs/run.msmarco-v2.1-doc-segmented.splade-v3-onnx.topics.dl21.txt
+bin/trec_eval -c -M 100 -m map dl21-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc-segmented.splade-v3-onnx.topics.dl21.txt
+bin/trec_eval -c -m recall.100 dl21-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc-segmented.splade-v3-onnx.topics.dl21.txt
+bin/trec_eval -c -m recall.1000 dl21-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc-segmented.splade-v3-onnx.topics.dl21.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 dl21-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc-segmented.splade-v3-onnx.topics.dl21.txt
 ```
 
 ## Effectiveness

@@ -31,9 +31,8 @@ metrics:
 topic_reader: TsvInt
 topics:
   - name: "[FEVER Paper Development Dataset](https://s3-eu-west-1.amazonaws.com/fever.public/paper_dev.jsonl)"
-    id: dev
-    path: topics.fever.dev.txt
-    qrel: qrels.fever.dev.txt
+    id: fever.dev
+    qrels: fever.dev
 
 models:
   - name: bm25-default

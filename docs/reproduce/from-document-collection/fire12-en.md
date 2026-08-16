@@ -34,7 +34,7 @@ For additional details, see explanation of [common indexing options](../../commo
 
 ## Retrieval
 
-Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
+Topics and qrels are stored in a [centralized repo containing evaluation data](https://github.com/castorini/eval).
 They are downloaded from the [FIRE data page](http://fire.irsi.res.in/fire/static/data):
 
 + [`topics.fire12en.176-225.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.fire12en.176-225.txt): topics for FIRE 2012 Monolingual English (176 to 225)
@@ -45,7 +45,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.fire12-en/ \
-  -topics tools/topics-and-qrels/topics.fire12en.176-225.txt \
+  -topics fire12en.176-225 \
   -topicReader Trec \
   -output runs/run.fire12-en.bm25.topics.fire12en.176-225.txt \
   -bm25 -language en &
@@ -54,7 +54,7 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -m map -m P.20 -m ndcg_cut.20 tools/topics-and-qrels/qrels.fire12en.176-225.txt runs/run.fire12-en.bm25.topics.fire12en.176-225.txt
+bin/trec_eval -m map -m P.20 -m ndcg_cut.20 fire12en.176-225 runs/run.fire12-en.bm25.topics.fire12en.176-225.txt
 ```
 
 ## Effectiveness

@@ -57,8 +57,7 @@ topic_reader: TsvInt
 topics:
   - name: "[DL22 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)"
     id: dl22
-    path: topics.dl22.txt
-    qrel: qrels.dl22-doc.txt
+    qrels: dl22-doc
 
 models:
   - name: unicoil

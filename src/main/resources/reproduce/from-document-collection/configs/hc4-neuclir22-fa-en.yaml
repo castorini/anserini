@@ -44,17 +44,14 @@ metrics:
 topic_reader: TsvInt
 topics:
   - name: "[HC4 (Persian): test-topic title](https://github.com/hltcoe/HC4)"
-    id: test_title
-    path: topics.hc4-v1.0-fa.en.test.title.tsv
-    qrel: qrels.hc4-neuclir22-fa.test.txt
+    id: hc4-v1.0-fa.en.test.title.tsv
+    qrels: hc4-neuclir22-fa.test
   - name: "[HC4 (Persian): test-topic description](https://github.com/hltcoe/HC4)"
-    id: test_description
-    path: topics.hc4-v1.0-fa.en.test.desc.tsv
-    qrel: qrels.hc4-neuclir22-fa.test.txt
+    id: hc4-v1.0-fa.en.test.desc.tsv
+    qrels: hc4-neuclir22-fa.test
   - name: "[HC4 (Persian): test-topic description+title](https://github.com/hltcoe/HC4)"
-    id: test_description_title
-    path: topics.hc4-v1.0-fa.en.test.desc.title.tsv
-    qrel: qrels.hc4-neuclir22-fa.test.txt
+    id: hc4-v1.0-fa.en.test.desc.title.tsv
+    qrels: hc4-neuclir22-fa.test
 
 models:
   - name: bm25-default

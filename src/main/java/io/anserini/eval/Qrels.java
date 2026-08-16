@@ -37,7 +37,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.anserini.util.CacheDirectoryResolver;
 
 public class Qrels {
-  private static final String COMMIT_ID = "43add835e20bd66b48f9a640be9bad95a4762d82";
+  private static final String COMMIT_ID = "1662f7ac99fe594b896b2562f06341b34daa50a0";
   public static final String URL = "https://raw.githubusercontent.com/castorini/eval/" + COMMIT_ID + "/qrels/";
 
   private static final String QRELS_URL = "https://raw.githubusercontent.com/castorini/eval/" + COMMIT_ID + "/qrels.json";
@@ -124,10 +124,13 @@ public class Qrels {
     try (InputStream inputStream = new URI(QRELS_URL).toURL().openStream()) {
       Map<String, String> registry = mapper.readValue(inputStream, new TypeReference<>() {});
       registry.putAll(loadLocalMetadata());
-      Map<String, String> canonical = Collections.unmodifiableMap(new LinkedHashMap<>(registry));
-      Map<String, String> lookup = new LinkedHashMap<>(canonical);
+      Map<String, List<String>> localAliases = loadLocalAliasesMetadata();
+      Map<String, String> canonicalRegistry = new LinkedHashMap<>(registry);
+      localAliases.values().forEach(aliases -> aliases.forEach(canonicalRegistry::remove));
+      Map<String, String> canonical = Collections.unmodifiableMap(canonicalRegistry);
+      Map<String, String> lookup = new LinkedHashMap<>(registry);
       addAliasesToRegistry(lookup, loadAliasesMetadata(QREL_ALIASES_URL));
-      addAliasesToRegistry(lookup, loadLocalAliasesMetadata());
+      addAliasesToRegistry(lookup, localAliases);
       return new Registry(canonical, Collections.unmodifiableMap(lookup));
     } catch (Exception e) {
       throw new IllegalStateException("Failed to load qrels metadata from " + QRELS_URL, e);
@@ -232,7 +235,7 @@ public class Qrels {
    * Resolves a qrels reference to a local path.
    *
    * <p>The {@code qrels} argument may be a local path, a registered qrels name, a registered qrels filename, or an
-   * unregistered filename already present in the local topics-and-qrels cache. Registered qrels are downloaded into the
+   * unregistered filename already present in the local qrels cache. Registered qrels are downloaded into the
    * cache if needed. Unknown qrels are returned as paths unchanged, leaving the caller to handle any missing-file
    * failure.</p>
    *
@@ -256,7 +259,7 @@ public class Qrels {
       qrelsPath = Path.of(qrelsFileName);
     } else {
       // If the qrels file is not in the list of known qrels, we assume it is a local file.
-      Path tempPath = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve(qrelsPath.getFileName());
+      Path tempPath = CacheDirectoryResolver.getQrelsCachePath().resolve(qrelsPath.getFileName());
       if (Files.exists(tempPath)) {
         // if it is an unregistered qrels in the Qrels registry, but it is in the cache, we use it.
         return tempPath;
@@ -264,7 +267,7 @@ public class Qrels {
       return qrelsPath;
     }
 
-    Path resultPath = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve(qrelsPath.getFileName());
+    Path resultPath = CacheDirectoryResolver.getQrelsCachePath().resolve(qrelsPath.getFileName());
     if (!Files.exists(resultPath)) {
       resultPath = downloadQrels(qrelsPath);
     }
@@ -274,7 +277,7 @@ public class Qrels {
   public static Path downloadQrels(Path qrelsPath) throws IOException {
     String qrelsURL = URL + qrelsPath.getFileName().toString();
     System.out.println("Downloading qrels from " + qrelsURL);
-    Path localQrelsPath = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve(qrelsPath.getFileName());
+    Path localQrelsPath = CacheDirectoryResolver.getQrelsCachePath().resolve(qrelsPath.getFileName());
 
     try {
       FileUtils.copyURLToFile(new URI(qrelsURL).toURL(), localQrelsPath.toFile());

@@ -38,9 +38,8 @@ metrics:
 topic_reader: TsvString
 topics:
   - name: "BRIGHT: Stack Overflow"
-    id: topics
-    path: topics.bright-stackoverflow.tsv.gz
-    qrel: qrels.bright-stackoverflow.txt
+    id: bright-stackoverflow
+    qrels: bright-stackoverflow
 
 models:
   - name: bm25

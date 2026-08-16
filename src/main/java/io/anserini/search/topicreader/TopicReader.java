@@ -236,7 +236,7 @@ public abstract class TopicReader<K> {
   public static Path downloadTopics(Path topicPath) throws IOException {
     String topicURL = Topics.URL + topicPath.getFileName().toString();
     LOG.info("Downloading topics from " + topicURL);
-    Path localTopicPath = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve(topicPath.getFileName());
+    Path localTopicPath = CacheDirectoryResolver.getTopicCachePath().resolve(topicPath.getFileName());
     try {
       FileUtils.copyURLToFile(new URI(topicURL).toURL(), localTopicPath.toFile());
     } catch (Exception e){
@@ -258,7 +258,7 @@ public abstract class TopicReader<K> {
     } else {
       if (Topics.getTopicReaderClassForPath(topicPath.getFileName().toString()) == null) {
         // If the topic file is not in the list of known topics, we assume it is a local file.
-        Path tempPath = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve(topicPath.getFileName());
+        Path tempPath = CacheDirectoryResolver.getTopicCachePath().resolve(topicPath.getFileName());
         if (Files.exists(tempPath)) {
           // if it is an unregistered topic, but it is in the cache, we use it
           return tempPath;
@@ -267,7 +267,7 @@ public abstract class TopicReader<K> {
       }
     }
     
-    Path resultPath = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve(topicPath.getFileName());
+    Path resultPath = CacheDirectoryResolver.getTopicCachePath().resolve(topicPath.getFileName());
     if (!Files.exists(resultPath)) {
       resultPath = downloadTopics(topicPath);
     }

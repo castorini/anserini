@@ -35,9 +35,8 @@ metrics:
 topic_reader: TsvString
 topics:
   - name: "BRIGHT: Psychology"
-    id: topics
-    path: topics.bright-psychology.tsv.gz
-    qrel: qrels.bright-psychology.txt
+    id: bright-psychology
+    qrels: bright-psychology
 
 models:
   - name: bge-flat-onnx

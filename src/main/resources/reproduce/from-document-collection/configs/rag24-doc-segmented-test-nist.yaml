@@ -39,8 +39,7 @@ topic_reader: TsvString
 topics:
   - name: "RAG 24: Test queries"
     id: rag24.test
-    path: topics.rag24.test.txt
-    qrel: qrels.rag24.test.txt
+    qrels: rag24.test
 
 models:
   - name: bm25-default

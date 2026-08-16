@@ -34,7 +34,7 @@ For additional details, see explanation of [common indexing options](../../commo
 
 ## Retrieval
 
-Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
+Topics and qrels are stored in a [centralized repo containing evaluation data](https://github.com/castorini/eval).
 They are downloaded from NIST:
 
 + [`topics.core17.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.core17.txt): [topics for the TREC 2017 Common Core Track](https://trec.nist.gov/data/core/core_nist.txt)
@@ -45,42 +45,42 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.nyt/ \
-  -topics tools/topics-and-qrels/topics.core17.txt \
+  -topics core17 \
   -topicReader Trec \
   -output runs/run.nyt.bm25.topics.core17.txt \
   -bm25 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.nyt/ \
-  -topics tools/topics-and-qrels/topics.core17.txt \
+  -topics core17 \
   -topicReader Trec \
   -output runs/run.nyt.bm25+rm3.topics.core17.txt \
   -bm25 -rm3 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.nyt/ \
-  -topics tools/topics-and-qrels/topics.core17.txt \
+  -topics core17 \
   -topicReader Trec \
   -output runs/run.nyt.bm25+ax.topics.core17.txt \
   -bm25 -axiom -rerankCutoff 20 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.nyt/ \
-  -topics tools/topics-and-qrels/topics.core17.txt \
+  -topics core17 \
   -topicReader Trec \
   -output runs/run.nyt.ql.topics.core17.txt \
   -qld &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.nyt/ \
-  -topics tools/topics-and-qrels/topics.core17.txt \
+  -topics core17 \
   -topicReader Trec \
   -output runs/run.nyt.ql+rm3.topics.core17.txt \
   -qld -rm3 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.nyt/ \
-  -topics tools/topics-and-qrels/topics.core17.txt \
+  -topics core17 \
   -topicReader Trec \
   -output runs/run.nyt.ql+ax.topics.core17.txt \
   -qld -axiom -rerankCutoff 20 &
@@ -89,17 +89,17 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core17.txt runs/run.nyt.bm25.topics.core17.txt
+bin/trec_eval -m map -m P.30 core17 runs/run.nyt.bm25.topics.core17.txt
 
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core17.txt runs/run.nyt.bm25+rm3.topics.core17.txt
+bin/trec_eval -m map -m P.30 core17 runs/run.nyt.bm25+rm3.topics.core17.txt
 
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core17.txt runs/run.nyt.bm25+ax.topics.core17.txt
+bin/trec_eval -m map -m P.30 core17 runs/run.nyt.bm25+ax.topics.core17.txt
 
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core17.txt runs/run.nyt.ql.topics.core17.txt
+bin/trec_eval -m map -m P.30 core17 runs/run.nyt.ql.topics.core17.txt
 
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core17.txt runs/run.nyt.ql+rm3.topics.core17.txt
+bin/trec_eval -m map -m P.30 core17 runs/run.nyt.ql+rm3.topics.core17.txt
 
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.core17.txt runs/run.nyt.ql+ax.topics.core17.txt
+bin/trec_eval -m map -m P.30 core17 runs/run.nyt.ql+ax.topics.core17.txt
 ```
 
 ## Effectiveness

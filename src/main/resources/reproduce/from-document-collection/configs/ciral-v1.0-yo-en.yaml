@@ -31,17 +31,14 @@ metrics:
 topic_reader: TsvInt
 topics:
   - name: "[CIRAL Yoruba: Test Set A (Shallow Judgements)](https://huggingface.co/datasets/CIRAL/ciral)"
-    id: test-a-shallow
-    path: topics.ciral-v1.0-yo-test-a.tsv
-    qrel: qrels.ciral-v1.0-yo-test-a.tsv
+    id: ciral-v1.0-yo-test-a.tsv
+    qrels: ciral-v1.0-yo-test-a.tsv
   - name: "[CIRAL Yoruba: Test Set A (Pools)](https://huggingface.co/datasets/CIRAL/ciral)"
-    id: test-a-pools
-    path: topics.ciral-v1.0-yo-test-a.tsv
-    qrel: qrels.ciral-v1.0-yo-test-a-pools.tsv
+    id: ciral-v1.0-yo-test-a.tsv
+    qrels: ciral-v1.0-yo-test-a-pools.tsv
   - name: "[CIRAL Yoruba: Test Set B](https://huggingface.co/datasets/CIRAL/ciral)"
-    id: test-b-shallow
-    path: topics.ciral-v1.0-yo-test-b.tsv
-    qrel: qrels.ciral-v1.0-yo-test-b.tsv
+    id: ciral-v1.0-yo-test-b.tsv
+    qrels: ciral-v1.0-yo-test-b.tsv
 
 models:
   - name: bm25-default

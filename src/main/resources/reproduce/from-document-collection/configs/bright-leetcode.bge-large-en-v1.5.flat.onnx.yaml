@@ -35,9 +35,8 @@ metrics:
 topic_reader: TsvString
 topics:
   - name: "BRIGHT: LeetCode"
-    id: topics
-    path: topics.bright-leetcode.tsv.gz
-    qrel: qrels.bright-leetcode.txt
+    id: bright-leetcode
+    qrels: bright-leetcode
 
 models:
   - name: bge-flat-onnx

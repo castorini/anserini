@@ -38,9 +38,8 @@ metrics:
 topic_reader: TsvString
 topics:
   - name: "BRIGHT: Pony"
-    id: topics
-    path: topics.bright-pony.tsv.gz
-    qrel: qrels.bright-pony.txt
+    id: bright-pony
+    qrels: bright-pony
 
 models:
   - name: splade-v3-onnx

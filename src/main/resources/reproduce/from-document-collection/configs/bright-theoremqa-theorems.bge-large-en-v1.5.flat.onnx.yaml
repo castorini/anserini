@@ -35,9 +35,8 @@ metrics:
 topic_reader: TsvString
 topics:
   - name: "BRIGHT: TheoremQA-T"
-    id: topics
-    path: topics.bright-theoremqa-theorems.tsv.gz
-    qrel: qrels.bright-theoremqa-theorems.txt
+    id: bright-theoremqa-theorems
+    qrels: bright-theoremqa-theorems
 
 models:
   - name: bge-flat-onnx

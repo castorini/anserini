@@ -49,14 +49,14 @@ For additional details, see explanation of [common indexing options](../../commo
 
 ## Retrieval
 
-Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
+Topics and qrels are stored in a [centralized repo containing evaluation data](https://github.com/castorini/eval).
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.beir-v1.0.0-cqadupstack-webmasters.splade-v3/ \
-  -topics tools/topics-and-qrels/topics.beir-v1.0.0-cqadupstack-webmasters.test.tsv.gz \
+  -topics beir-v1.0.0-cqadupstack-webmasters.test \
   -topicReader TsvString \
   -output runs/run.beir-v1.0.0-cqadupstack-webmasters.splade-v3.splade-v3-onnx.topics.beir-v1.0.0-cqadupstack-webmasters.test.txt \
   -impact -pretokenized -removeQuery -hits 1000 -encoder SpladeV3 &
@@ -65,9 +65,9 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-webmasters.test.txt runs/run.beir-v1.0.0-cqadupstack-webmasters.splade-v3.splade-v3-onnx.topics.beir-v1.0.0-cqadupstack-webmasters.test.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-webmasters.test.txt runs/run.beir-v1.0.0-cqadupstack-webmasters.splade-v3.splade-v3-onnx.topics.beir-v1.0.0-cqadupstack-webmasters.test.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.beir-v1.0.0-cqadupstack-webmasters.test.txt runs/run.beir-v1.0.0-cqadupstack-webmasters.splade-v3.splade-v3-onnx.topics.beir-v1.0.0-cqadupstack-webmasters.test.txt
+bin/trec_eval -c -m ndcg_cut.10 beir-v1.0.0-cqadupstack-webmasters.test runs/run.beir-v1.0.0-cqadupstack-webmasters.splade-v3.splade-v3-onnx.topics.beir-v1.0.0-cqadupstack-webmasters.test.txt
+bin/trec_eval -c -m recall.100 beir-v1.0.0-cqadupstack-webmasters.test runs/run.beir-v1.0.0-cqadupstack-webmasters.splade-v3.splade-v3-onnx.topics.beir-v1.0.0-cqadupstack-webmasters.test.txt
+bin/trec_eval -c -m recall.1000 beir-v1.0.0-cqadupstack-webmasters.test runs/run.beir-v1.0.0-cqadupstack-webmasters.splade-v3.splade-v3-onnx.topics.beir-v1.0.0-cqadupstack-webmasters.test.txt
 ```
 
 ## Effectiveness

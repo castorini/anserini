@@ -36,7 +36,7 @@ For additional details, see explanation of [common indexing options](../../commo
 
 ## Retrieval
 
-Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
+Topics and qrels are stored in a [centralized repo containing evaluation data](https://github.com/castorini/eval).
 They are downloaded from NIST's page for [non-English topics](https://trec.nist.gov/data/topics_noneng/index.html) and [non-English relevance judgments](https://trec.nist.gov/data/qrels_noneng/index.html):
 
 + [`topics.trec02ar-ar.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.trec02ar-ar.txt): TREC 2002 cross language topics in Arabic
@@ -47,7 +47,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.trec02-ar/ \
-  -topics tools/topics-and-qrels/topics.trec02ar-ar.txt \
+  -topics trec02ar-ar \
   -topicReader Trec \
   -output runs/run.trec02-ar.bm25.topics.trec02ar-ar.txt \
   -bm25 -language ar &
@@ -56,7 +56,7 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -m map -m P.20 -m ndcg_cut.20 tools/topics-and-qrels/qrels.trec02ar.txt runs/run.trec02-ar.bm25.topics.trec02ar-ar.txt
+bin/trec_eval -m map -m P.20 -m ndcg_cut.20 trec02ar runs/run.trec02-ar.bm25.topics.trec02ar-ar.txt
 ```
 
 ## Effectiveness

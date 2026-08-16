@@ -50,14 +50,14 @@ For additional details, see explanation of [common indexing options](../../commo
 ## Retrieval
 
 Here, we are using all 22 test topics from the TREC 2025 RAG Track with (automatically generated) UMBRELA relevance judgments.
-Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
+Topics and qrels are stored in a [centralized repo containing evaluation data](https://github.com/castorini/eval).
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```bash
 bin/run.sh io.anserini.search.SearchFlatDenseVectors \
   -index indexes/lucene-flat.msmarco-v2.1-doc-segmented-shard04.arctic-embed-l \
-  -topics tools/topics-and-qrels/topics.rag25.test.jsonl \
+  -topics rag25.test.jsonl \
   -topicReader JsonString \
   -output runs/run.msmarco-v2.1-doc-segmented-shard04.arctic-embed-l.arctic-embed-l-flat-onnx.topics.rag25.test.jsonl.txt \
   -topics rag25.test -topicReader JsonString -topicField title -encoder ArcticEmbedLEncoder &
@@ -66,9 +66,9 @@ bin/run.sh io.anserini.search.SearchFlatDenseVectors \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.30 tools/topics-and-qrels/qrels.rag25.test-umbrela2.txt runs/run.msmarco-v2.1-doc-segmented-shard04.arctic-embed-l.arctic-embed-l-flat-onnx.topics.rag25.test.jsonl.txt
-bin/trec_eval -c -m ndcg_cut.100 tools/topics-and-qrels/qrels.rag25.test-umbrela2.txt runs/run.msmarco-v2.1-doc-segmented-shard04.arctic-embed-l.arctic-embed-l-flat-onnx.topics.rag25.test.jsonl.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.rag25.test-umbrela2.txt runs/run.msmarco-v2.1-doc-segmented-shard04.arctic-embed-l.arctic-embed-l-flat-onnx.topics.rag25.test.jsonl.txt
+bin/trec_eval -c -m ndcg_cut.30 rag25.test-umbrela2 runs/run.msmarco-v2.1-doc-segmented-shard04.arctic-embed-l.arctic-embed-l-flat-onnx.topics.rag25.test.jsonl.txt
+bin/trec_eval -c -m ndcg_cut.100 rag25.test-umbrela2 runs/run.msmarco-v2.1-doc-segmented-shard04.arctic-embed-l.arctic-embed-l-flat-onnx.topics.rag25.test.jsonl.txt
+bin/trec_eval -c -m recall.100 rag25.test-umbrela2 runs/run.msmarco-v2.1-doc-segmented-shard04.arctic-embed-l.arctic-embed-l-flat-onnx.topics.rag25.test.jsonl.txt
 ```
 
 ## Effectiveness

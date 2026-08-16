@@ -36,7 +36,7 @@ For additional details, see explanation of [common indexing options](../../commo
 
 ## Retrieval
 
-Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
+Topics and qrels are stored in a [centralized repo containing evaluation data](https://github.com/castorini/eval).
 They are downloaded from the [NTCIR Test Collection page](https://www.nii.ac.jp/dsc/idr/en/ntcir/ntcir.html):
 
 + [`topics.ntcir8zh.eval.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.ntcir8zh.eval.txt): NTCIR-8 ACLIA (IR4QA subtask), monolingual Chinese topics
@@ -47,7 +47,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.ntcir8-zh/ \
-  -topics tools/topics-and-qrels/topics.ntcir8zh.eval.txt \
+  -topics ntcir8zh.eval \
   -topicReader TsvString \
   -output runs/run.ntcir8-zh.bm25.topics.ntcir8zh.eval.txt \
   -bm25 -language zh &
@@ -56,7 +56,7 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -m map -m P.20 -m ndcg_cut.20 tools/topics-and-qrels/qrels.ntcir8.eval.txt runs/run.ntcir8-zh.bm25.topics.ntcir8zh.eval.txt
+bin/trec_eval -m map -m P.20 -m ndcg_cut.20 ntcir8.eval runs/run.ntcir8-zh.bm25.topics.ntcir8zh.eval.txt
 ```
 
 ## Effectiveness

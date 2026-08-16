@@ -24,9 +24,8 @@ metrics:
 topic_reader: TsvInt
 topics:
   - name: "[NanoKnow v1.0: SQuAD Validation](https://github.com/castorini/NanoKnow)"
-    id: squad
-    path: topics.nanoknow-v1.0-squad.supported.tsv
-    qrel: qrels.nanoknow-v1.0-squad.supported.txt
+    id: nanoknow-v1.0-squad.supported.tsv
+    qrels: nanoknow-v1.0-squad.supported
 
 models:
   - name: bm25

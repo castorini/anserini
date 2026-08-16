@@ -48,9 +48,8 @@ metrics:
 topic_reader: TsvInt
 topics:
   - name: "[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)"
-    id: dl19
-    path: topics.dl19-doc.txt
-    qrel: qrels.dl19-doc.txt
+    id: dl19-doc
+    qrels: dl19-doc
 
 models:
   - name: unicoil

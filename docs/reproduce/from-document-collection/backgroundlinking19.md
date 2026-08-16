@@ -34,7 +34,7 @@ For additional details, see explanation of [common indexing options](../../commo
 
 ## Retrieval
 
-Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
+Topics and qrels are stored in a [centralized repo containing evaluation data](https://github.com/castorini/eval).
 They are downloaded from NIST:
 
 + [`topics.backgroundlinking19.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.backgroundlinking19.txt): topics for the background linking task of the TREC 2019 News Track
@@ -45,21 +45,21 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
-  -topics tools/topics-and-qrels/topics.backgroundlinking19.txt \
+  -topics backgroundlinking19 \
   -topicReader BackgroundLinking \
   -output runs/run.wapo.v2.bm25.topics.backgroundlinking19.txt \
   -backgroundLinking -backgroundLinking.k 100 -bm25 -hits 100 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
-  -topics tools/topics-and-qrels/topics.backgroundlinking19.txt \
+  -topics backgroundlinking19 \
   -topicReader BackgroundLinking \
   -output runs/run.wapo.v2.bm25+rm3.topics.backgroundlinking19.txt \
   -backgroundLinking -backgroundLinking.k 100 -bm25 -rm3 -hits 100 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.wapo.v2/ \
-  -topics tools/topics-and-qrels/topics.backgroundlinking19.txt \
+  -topics backgroundlinking19 \
   -topicReader BackgroundLinking \
   -output runs/run.wapo.v2.bm25+rm3+df.topics.backgroundlinking19.txt \
   -backgroundLinking -backgroundLinking.dateFilter -backgroundLinking.k 100 -bm25 -rm3 -hits 100 &
@@ -68,11 +68,11 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 tools/topics-and-qrels/qrels.backgroundlinking19.txt runs/run.wapo.v2.bm25.topics.backgroundlinking19.txt
+bin/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 backgroundlinking19 runs/run.wapo.v2.bm25.topics.backgroundlinking19.txt
 
-bin/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 tools/topics-and-qrels/qrels.backgroundlinking19.txt runs/run.wapo.v2.bm25+rm3.topics.backgroundlinking19.txt
+bin/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 backgroundlinking19 runs/run.wapo.v2.bm25+rm3.topics.backgroundlinking19.txt
 
-bin/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 tools/topics-and-qrels/qrels.backgroundlinking19.txt runs/run.wapo.v2.bm25+rm3+df.topics.backgroundlinking19.txt
+bin/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 backgroundlinking19 runs/run.wapo.v2.bm25+rm3+df.topics.backgroundlinking19.txt
 ```
 
 ## Effectiveness

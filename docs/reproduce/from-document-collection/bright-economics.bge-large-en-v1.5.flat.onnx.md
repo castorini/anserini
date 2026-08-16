@@ -47,14 +47,14 @@ The path `/path/to/bright-economics.bge-large-en-v1.5/` should point to the corp
 
 ## Retrieval
 
-Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
+Topics and qrels are stored in a [centralized repo containing evaluation data](https://github.com/castorini/eval).
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```bash
 bin/run.sh io.anserini.search.SearchFlatDenseVectors \
   -index indexes/lucene-flat.bright-economics.bge-large-en-v1.5/ \
-  -topics tools/topics-and-qrels/topics.bright-economics.tsv.gz \
+  -topics bright-economics \
   -topicReader TsvString \
   -output runs/run.bright-economics.bge-large-en-v1.5.bge-flat-onnx.topics.bright-economics.txt \
   -encoder BgeLargeEn15 -hits 1000 -removeQuery -threads 16 &
@@ -63,9 +63,9 @@ bin/run.sh io.anserini.search.SearchFlatDenseVectors \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.bright-economics.txt runs/run.bright-economics.bge-large-en-v1.5.bge-flat-onnx.topics.bright-economics.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.bright-economics.txt runs/run.bright-economics.bge-large-en-v1.5.bge-flat-onnx.topics.bright-economics.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.bright-economics.txt runs/run.bright-economics.bge-large-en-v1.5.bge-flat-onnx.topics.bright-economics.txt
+bin/trec_eval -c -m ndcg_cut.10 bright-economics runs/run.bright-economics.bge-large-en-v1.5.bge-flat-onnx.topics.bright-economics.txt
+bin/trec_eval -c -m recall.100 bright-economics runs/run.bright-economics.bge-large-en-v1.5.bge-flat-onnx.topics.bright-economics.txt
+bin/trec_eval -c -m recall.1000 bright-economics runs/run.bright-economics.bge-large-en-v1.5.bge-flat-onnx.topics.bright-economics.txt
 ```
 
 ## Effectiveness

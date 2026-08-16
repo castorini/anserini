@@ -38,7 +38,7 @@ public class ExcludeDocs {
   private static final String PREFIX = "exclude.";
   private static final String SUFFIX = ".txt";
 
-  private static final String COMMIT_ID = "43add835e20bd66b48f9a640be9bad95a4762d82";
+  private static final String COMMIT_ID = "1662f7ac99fe594b896b2562f06341b34daa50a0";
   private static final String BASE_URL = "https://raw.githubusercontent.com/castorini/eval/" + COMMIT_ID + "/qrels/";
 
   private HashMap<String, Set<String>> excludeDocs = new HashMap<>();
@@ -60,7 +60,7 @@ public class ExcludeDocs {
     }
     file = PREFIX + file + SUFFIX;
 
-    Path local = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve(file);
+    Path local = CacheDirectoryResolver.getQrelsCachePath().resolve(file);
     if (!Files.exists(local)) {
       String URL = BASE_URL + file;
       File qrelsFile = new File(local.toString());  
