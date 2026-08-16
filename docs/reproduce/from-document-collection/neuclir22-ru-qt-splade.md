@@ -59,111 +59,111 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-ru-splade \
-  -topics neuclir22-ru.splade.ht-title.txt.gz \
+  -topics neuclir22-ru.splade.ht-title \
   -topicReader TsvInt \
   -output runs/run.neuclir22-ru-splade.splade.topics.neuclir22-ru.splade.ht-title.txt \
   -impact -pretokenized &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-ru-splade \
-  -topics neuclir22-ru.splade.ht-desc.txt.gz \
+  -topics neuclir22-ru.splade.ht-desc \
   -topicReader TsvInt \
   -output runs/run.neuclir22-ru-splade.splade.topics.neuclir22-ru.splade.ht-desc.txt \
   -impact -pretokenized &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-ru-splade \
-  -topics neuclir22-ru.splade.ht-desc_title.txt.gz \
+  -topics neuclir22-ru.splade.ht-desc_title \
   -topicReader TsvInt \
   -output runs/run.neuclir22-ru-splade.splade.topics.neuclir22-ru.splade.ht-desc_title.txt \
   -impact -pretokenized &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-ru-splade \
-  -topics neuclir22-ru.splade.mt-title.txt.gz \
+  -topics neuclir22-ru.splade.mt-title \
   -topicReader TsvInt \
   -output runs/run.neuclir22-ru-splade.splade.topics.neuclir22-ru.splade.mt-title.txt \
   -impact -pretokenized &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-ru-splade \
-  -topics neuclir22-ru.splade.mt-desc.txt.gz \
+  -topics neuclir22-ru.splade.mt-desc \
   -topicReader TsvInt \
   -output runs/run.neuclir22-ru-splade.splade.topics.neuclir22-ru.splade.mt-desc.txt \
   -impact -pretokenized &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-ru-splade \
-  -topics neuclir22-ru.splade.mt-desc_title.txt.gz \
+  -topics neuclir22-ru.splade.mt-desc_title \
   -topicReader TsvInt \
   -output runs/run.neuclir22-ru-splade.splade.topics.neuclir22-ru.splade.mt-desc_title.txt \
   -impact -pretokenized &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-ru-splade \
-  -topics neuclir22-ru.splade.ht-title.txt.gz \
+  -topics neuclir22-ru.splade.ht-title \
   -topicReader TsvInt \
   -output runs/run.neuclir22-ru-splade.splade+rm3.topics.neuclir22-ru.splade.ht-title.txt \
   -impact -pretokenized -rm3 -collection JsonVectorCollection &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-ru-splade \
-  -topics neuclir22-ru.splade.ht-desc.txt.gz \
+  -topics neuclir22-ru.splade.ht-desc \
   -topicReader TsvInt \
   -output runs/run.neuclir22-ru-splade.splade+rm3.topics.neuclir22-ru.splade.ht-desc.txt \
   -impact -pretokenized -rm3 -collection JsonVectorCollection &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-ru-splade \
-  -topics neuclir22-ru.splade.ht-desc_title.txt.gz \
+  -topics neuclir22-ru.splade.ht-desc_title \
   -topicReader TsvInt \
   -output runs/run.neuclir22-ru-splade.splade+rm3.topics.neuclir22-ru.splade.ht-desc_title.txt \
   -impact -pretokenized -rm3 -collection JsonVectorCollection &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-ru-splade \
-  -topics neuclir22-ru.splade.mt-title.txt.gz \
+  -topics neuclir22-ru.splade.mt-title \
   -topicReader TsvInt \
   -output runs/run.neuclir22-ru-splade.splade+rm3.topics.neuclir22-ru.splade.mt-title.txt \
   -impact -pretokenized -rm3 -collection JsonVectorCollection &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-ru-splade \
-  -topics neuclir22-ru.splade.mt-desc.txt.gz \
+  -topics neuclir22-ru.splade.mt-desc \
   -topicReader TsvInt \
   -output runs/run.neuclir22-ru-splade.splade+rm3.topics.neuclir22-ru.splade.mt-desc.txt \
   -impact -pretokenized -rm3 -collection JsonVectorCollection &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-ru-splade \
-  -topics neuclir22-ru.splade.mt-desc_title.txt.gz \
+  -topics neuclir22-ru.splade.mt-desc_title \
   -topicReader TsvInt \
   -output runs/run.neuclir22-ru-splade.splade+rm3.topics.neuclir22-ru.splade.mt-desc_title.txt \
   -impact -pretokenized -rm3 -collection JsonVectorCollection &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-ru-splade \
-  -topics neuclir22-ru.splade.ht-title.txt.gz \
+  -topics neuclir22-ru.splade.ht-title \
   -topicReader TsvInt \
   -output runs/run.neuclir22-ru-splade.splade+rocchio.topics.neuclir22-ru.splade.ht-title.txt \
   -impact -pretokenized -rocchio -collection JsonVectorCollection &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-ru-splade \
-  -topics neuclir22-ru.splade.ht-desc.txt.gz \
+  -topics neuclir22-ru.splade.ht-desc \
   -topicReader TsvInt \
   -output runs/run.neuclir22-ru-splade.splade+rocchio.topics.neuclir22-ru.splade.ht-desc.txt \
   -impact -pretokenized -rocchio -collection JsonVectorCollection &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-ru-splade \
-  -topics neuclir22-ru.splade.ht-desc_title.txt.gz \
+  -topics neuclir22-ru.splade.ht-desc_title \
   -topicReader TsvInt \
   -output runs/run.neuclir22-ru-splade.splade+rocchio.topics.neuclir22-ru.splade.ht-desc_title.txt \
   -impact -pretokenized -rocchio -collection JsonVectorCollection &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-ru-splade \
-  -topics neuclir22-ru.splade.mt-title.txt.gz \
+  -topics neuclir22-ru.splade.mt-title \
   -topicReader TsvInt \
   -output runs/run.neuclir22-ru-splade.splade+rocchio.topics.neuclir22-ru.splade.mt-title.txt \
   -impact -pretokenized -rocchio -collection JsonVectorCollection &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-ru-splade \
-  -topics neuclir22-ru.splade.mt-desc.txt.gz \
+  -topics neuclir22-ru.splade.mt-desc \
   -topicReader TsvInt \
   -output runs/run.neuclir22-ru-splade.splade+rocchio.topics.neuclir22-ru.splade.mt-desc.txt \
   -impact -pretokenized -rocchio -collection JsonVectorCollection &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-ru-splade \
-  -topics neuclir22-ru.splade.mt-desc_title.txt.gz \
+  -topics neuclir22-ru.splade.mt-desc_title \
   -topicReader TsvInt \
   -output runs/run.neuclir22-ru-splade.splade+rocchio.topics.neuclir22-ru.splade.mt-desc_title.txt \
   -impact -pretokenized -rocchio -collection JsonVectorCollection &

@@ -36,19 +36,19 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.ciral-v1.0-sw/ \
-  -topics ciral-v1.0-sw-test-a-native.tsv \
+  -topics ciral-v1.0-sw-test-a-native \
   -topicReader TsvInt \
   -output runs/run.ciral-swahili.bm25-default.topics.ciral-v1.0-sw-test-a-native.txt \
   -bm25 -hits 1000 -language sw &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.ciral-v1.0-sw/ \
-  -topics ciral-v1.0-sw-test-a-native.tsv \
+  -topics ciral-v1.0-sw-test-a-native \
   -topicReader TsvInt \
   -output runs/run.ciral-swahili.bm25-default.topics.ciral-v1.0-sw-test-a-native.txt \
   -bm25 -hits 1000 -language sw &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.ciral-v1.0-sw/ \
-  -topics ciral-v1.0-sw-test-b-native.tsv \
+  -topics ciral-v1.0-sw-test-b-native \
   -topicReader TsvInt \
   -output runs/run.ciral-swahili.bm25-default.topics.ciral-v1.0-sw-test-b-native.txt \
   -bm25 -hits 1000 -language sw &

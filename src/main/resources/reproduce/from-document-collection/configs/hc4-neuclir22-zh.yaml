@@ -44,13 +44,13 @@ metrics:
 topic_reader: TsvInt
 topics:
   - name: "[HC4 (Chinese): test-topic title](https://github.com/hltcoe/HC4)"
-    id: hc4-v1.0-zh.test.title.tsv
+    id: hc4-v1.0-zh.test.title
     qrels: hc4-neuclir22-zh.test
   - name: "[HC4 (Chinese): test-topic description](https://github.com/hltcoe/HC4)"
-    id: hc4-v1.0-zh.test.desc.tsv
+    id: hc4-v1.0-zh.test.desc
     qrels: hc4-neuclir22-zh.test
   - name: "[HC4 (Chinese): test-topic description+title](https://github.com/hltcoe/HC4)"
-    id: hc4-v1.0-zh.test.desc.title.tsv
+    id: hc4-v1.0-zh.test.desc.title
     qrels: hc4-neuclir22-zh.test
 
 models:

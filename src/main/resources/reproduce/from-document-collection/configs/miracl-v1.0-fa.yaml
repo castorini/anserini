@@ -31,7 +31,7 @@ metrics:
 topic_reader: TsvString
 topics:
   - name: "[MIRACL (Persian): dev](https://github.com/project-miracl/miracl)"
-    id: miracl-v1.0-fa-dev.tsv
+    id: miracl-v1.0-fa-dev
     qrels: miracl-v1.0-fa-dev.tsv
 
 models:

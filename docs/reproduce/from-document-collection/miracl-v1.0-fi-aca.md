@@ -38,7 +38,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.miracl-v1.0-fi-aca/ \
-  -topics miracl-v1.0-fi-dev.tsv \
+  -topics miracl-v1.0-fi-dev \
   -topicReader TsvInt \
   -output runs/run.miracl-v1.0-fi.bm25.topics.miracl-v1.0-fi-dev.txt \
   -bm25 -hits 100 -language fi -useAutoCompositeAnalyzer &

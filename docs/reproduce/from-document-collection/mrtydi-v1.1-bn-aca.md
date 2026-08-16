@@ -38,19 +38,19 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-bengali-aca/ \
-  -topics mrtydi-v1.1-bn.train.txt.gz \
+  -topics mrtydi-v1.1-bn.train \
   -topicReader TsvInt \
   -output runs/run.mrtydi-v1.1-bn.bm25.topics.mrtydi-v1.1-bn.train.txt \
   -bm25 -hits 100 -language bn -useAutoCompositeAnalyzer &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-bengali-aca/ \
-  -topics mrtydi-v1.1-bn.dev.txt.gz \
+  -topics mrtydi-v1.1-bn.dev \
   -topicReader TsvInt \
   -output runs/run.mrtydi-v1.1-bn.bm25.topics.mrtydi-v1.1-bn.dev.txt \
   -bm25 -hits 100 -language bn -useAutoCompositeAnalyzer &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-bengali-aca/ \
-  -topics mrtydi-v1.1-bn.test.txt.gz \
+  -topics mrtydi-v1.1-bn.test \
   -topicReader TsvInt \
   -output runs/run.mrtydi-v1.1-bn.bm25.topics.mrtydi-v1.1-bn.test.txt \
   -bm25 -hits 100 -language bn -useAutoCompositeAnalyzer &

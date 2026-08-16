@@ -36,19 +36,19 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.ciral-v1.0-ha-en/ \
-  -topics ciral-v1.0-ha-test-a.tsv \
+  -topics ciral-v1.0-ha-test-a \
   -topicReader TsvInt \
   -output runs/run.ciral-hausa-english.bm25-default.topics.ciral-v1.0-ha-test-a.txt \
   -bm25 -hits 1000 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.ciral-v1.0-ha-en/ \
-  -topics ciral-v1.0-ha-test-a.tsv \
+  -topics ciral-v1.0-ha-test-a \
   -topicReader TsvInt \
   -output runs/run.ciral-hausa-english.bm25-default.topics.ciral-v1.0-ha-test-a.txt \
   -bm25 -hits 1000 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.ciral-v1.0-ha-en/ \
-  -topics ciral-v1.0-ha-test-b.tsv \
+  -topics ciral-v1.0-ha-test-b \
   -topicReader TsvInt \
   -output runs/run.ciral-hausa-english.bm25-default.topics.ciral-v1.0-ha-test-b.txt \
   -bm25 -hits 1000 &
