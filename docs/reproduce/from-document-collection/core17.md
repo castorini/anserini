@@ -37,8 +37,8 @@ For additional details, see explanation of [common indexing options](../../commo
 Topics and qrels are stored in a [centralized repo containing evaluation data](https://github.com/castorini/eval).
 They are downloaded from NIST:
 
-+ [`topics.core17.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.core17.txt): [topics for the TREC 2017 Common Core Track](https://trec.nist.gov/data/core/core_nist.txt)
-+ [`qrels.core17.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/qrels.core17.txt): [qrels for the TREC 2017 Common Core Track](https://trec.nist.gov/data/core/qrels.txt)
++ [`topics.core17.txt`](https://github.com/castorini/eval/tree/master/topics/topics.core17.txt): [topics for the TREC 2017 Common Core Track](https://trec.nist.gov/data/core/core_nist.txt)
++ [`qrels.core17.txt`](https://github.com/castorini/eval/tree/master/qrels/qrels.core17.txt): [qrels for the TREC 2017 Common Core Track](https://trec.nist.gov/data/core/qrels.txt)
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
@@ -106,11 +106,11 @@ bin/trec_eval -m map -m P.30 core17 runs/run.nyt.ql+ax.topics.core17.txt
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MAP**                                                                                                                          | **BM25**   | **+RM3**   | **+Ax**    | **QL**     | **+RM3**   | **+Ax**    |
-|:---------------------------------------------------------------------------------------------------------------------------------|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|
-| [TREC 2017 Common Core Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.core17.txt) | 0.2087     | 0.2798     | 0.2739     | 0.2032     | 0.2593     | 0.2579     |
-| **P30**                                                                                                                          | **BM25**   | **+RM3**   | **+Ax**    | **QL**     | **+RM3**   | **+Ax**    |
-| [TREC 2017 Common Core Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.core17.txt) | 0.4293     | 0.5027     | 0.4940     | 0.4467     | 0.4827     | 0.4893     |
+| **MAP**                                                                                                      | **BM25**   | **+RM3**   | **+Ax**    | **QL**     | **+RM3**   | **+Ax**    |
+|:-------------------------------------------------------------------------------------------------------------|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|
+| [TREC 2017 Common Core Track Topics](https://github.com/castorini/eval/tree/master/topics/topics.core17.txt) | 0.2087     | 0.2798     | 0.2739     | 0.2032     | 0.2593     | 0.2579     |
+| **P30**                                                                                                      | **BM25**   | **+RM3**   | **+Ax**    | **QL**     | **+RM3**   | **+Ax**    |
+| [TREC 2017 Common Core Track Topics](https://github.com/castorini/eval/tree/master/topics/topics.core17.txt) | 0.4293     | 0.5027     | 0.4940     | 0.4467     | 0.4827     | 0.4893     |
 
 ## Reproduction Log[*](../../../docs/reproducibility.md)
 

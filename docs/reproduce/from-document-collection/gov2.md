@@ -36,12 +36,12 @@ For additional details, see explanation of [common indexing options](../../commo
 Topics and qrels are stored in a [centralized repo containing evaluation data](https://github.com/castorini/eval).
 They are downloaded from NIST:
 
-+ [`topics.terabyte04.701-750.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.terabyte04.701-750.txt): [topics for the TREC 2004 Terabyte Track (Topics 701-750)](http://trec.nist.gov/data/terabyte/04/04topics.701-750.txt)
-+ [`topics.terabyte05.751-800.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.terabyte05.751-800.txt): [topics for the TREC 2005 Terabyte Track (Topics 751-800)](http://trec.nist.gov/data/terabyte/05/05.topics.751-800.txt)
-+ [`topics.terabyte06.801-850.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.terabyte06.801-850.txt): [topics for the TREC 2006 Terabyte Track (Topics 801-850)](http://trec.nist.gov/data/terabyte/06/06.topics.801-850.txt)
-+ [`qrels.terabyte04.701-750.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/qrels.terabyte04.701-750.txt): [qrels for the TREC 2004 Terabyte Track (Topics 701-750)](http://trec.nist.gov/data/terabyte/04/04.qrels.12-Nov-04)
-+ [`qrels.terabyte05.751-800.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/qrels.terabyte05.751-800.txt): [qrels for the TREC 2005 Terabyte Track (Topics 751-800)](http://trec.nist.gov/data/terabyte/05/05.adhoc_qrels)
-+ [`qrels.terabyte06.801-850.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/qrels.terabyte06.801-850.txt): [qrels for the TREC 2006 Terabyte Track (Topics 801-850)](http://trec.nist.gov/data/terabyte/06/qrels.tb06.top50)
++ [`topics.terabyte04.701-750.txt`](https://github.com/castorini/eval/tree/master/topics/topics.terabyte04.701-750.txt): [topics for the TREC 2004 Terabyte Track (Topics 701-750)](http://trec.nist.gov/data/terabyte/04/04topics.701-750.txt)
++ [`topics.terabyte05.751-800.txt`](https://github.com/castorini/eval/tree/master/topics/topics.terabyte05.751-800.txt): [topics for the TREC 2005 Terabyte Track (Topics 751-800)](http://trec.nist.gov/data/terabyte/05/05.topics.751-800.txt)
++ [`topics.terabyte06.801-850.txt`](https://github.com/castorini/eval/tree/master/topics/topics.terabyte06.801-850.txt): [topics for the TREC 2006 Terabyte Track (Topics 801-850)](http://trec.nist.gov/data/terabyte/06/06.topics.801-850.txt)
++ [`qrels.terabyte04.701-750.txt`](https://github.com/castorini/eval/tree/master/qrels/qrels.terabyte04.701-750.txt): [qrels for the TREC 2004 Terabyte Track (Topics 701-750)](http://trec.nist.gov/data/terabyte/04/04.qrels.12-Nov-04)
++ [`qrels.terabyte05.751-800.txt`](https://github.com/castorini/eval/tree/master/qrels/qrels.terabyte05.751-800.txt): [qrels for the TREC 2005 Terabyte Track (Topics 751-800)](http://trec.nist.gov/data/terabyte/05/05.adhoc_qrels)
++ [`qrels.terabyte06.801-850.txt`](https://github.com/castorini/eval/tree/master/qrels/qrels.terabyte06.801-850.txt): [qrels for the TREC 2006 Terabyte Track (Topics 801-850)](http://trec.nist.gov/data/terabyte/06/qrels.tb06.top50)
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
@@ -193,12 +193,12 @@ bin/trec_eval -m map -m P.30 terabyte06.801-850 runs/run.gov2.ql+ax.topics.terab
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MAP**                                                                                                                                             | **BM25**   | **+RM3**   | **+Ax**    | **QL**     | **+RM3**   | **+Ax**    |
-|:----------------------------------------------------------------------------------------------------------------------------------------------------|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|
-| [TREC 2004 Terabyte Track (Topics 701-750)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.terabyte04.701-750.txt) | 0.2689     | 0.2840     | 0.2716     | 0.2681     | 0.2699     | 0.2714     |
-| [TREC 2005 Terabyte Track (Topics 751-800)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.terabyte05.751-800.txt) | 0.3391     | 0.3814     | 0.3664     | 0.3304     | 0.3555     | 0.3620     |
-| [TREC 2006 Terabyte Track (Topics 801-850)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.terabyte06.801-850.txt) | 0.3081     | 0.3372     | 0.3088     | 0.2998     | 0.3159     | 0.3075     |
-| **P30**                                                                                                                                             | **BM25**   | **+RM3**   | **+Ax**    | **QL**     | **+RM3**   | **+Ax**    |
-| [TREC 2004 Terabyte Track (Topics 701-750)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.terabyte04.701-750.txt) | 0.4864     | 0.5156     | 0.5109     | 0.4755     | 0.4939     | 0.4973     |
-| [TREC 2005 Terabyte Track (Topics 751-800)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.terabyte05.751-800.txt) | 0.5540     | 0.5933     | 0.5967     | 0.5347     | 0.5580     | 0.5887     |
-| [TREC 2006 Terabyte Track (Topics 801-850)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.terabyte06.801-850.txt) | 0.4907     | 0.5167     | 0.5107     | 0.4727     | 0.4867     | 0.5027     |
+| **MAP**                                                                                                                         | **BM25**   | **+RM3**   | **+Ax**    | **QL**     | **+RM3**   | **+Ax**    |
+|:--------------------------------------------------------------------------------------------------------------------------------|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|
+| [TREC 2004 Terabyte Track (Topics 701-750)](https://github.com/castorini/eval/tree/master/topics/topics.terabyte04.701-750.txt) | 0.2689     | 0.2840     | 0.2716     | 0.2681     | 0.2699     | 0.2714     |
+| [TREC 2005 Terabyte Track (Topics 751-800)](https://github.com/castorini/eval/tree/master/topics/topics.terabyte05.751-800.txt) | 0.3391     | 0.3814     | 0.3664     | 0.3304     | 0.3555     | 0.3620     |
+| [TREC 2006 Terabyte Track (Topics 801-850)](https://github.com/castorini/eval/tree/master/topics/topics.terabyte06.801-850.txt) | 0.3081     | 0.3372     | 0.3088     | 0.2998     | 0.3159     | 0.3075     |
+| **P30**                                                                                                                         | **BM25**   | **+RM3**   | **+Ax**    | **QL**     | **+RM3**   | **+Ax**    |
+| [TREC 2004 Terabyte Track (Topics 701-750)](https://github.com/castorini/eval/tree/master/topics/topics.terabyte04.701-750.txt) | 0.4864     | 0.5156     | 0.5109     | 0.4755     | 0.4939     | 0.4973     |
+| [TREC 2005 Terabyte Track (Topics 751-800)](https://github.com/castorini/eval/tree/master/topics/topics.terabyte05.751-800.txt) | 0.5540     | 0.5933     | 0.5967     | 0.5347     | 0.5580     | 0.5887     |
+| [TREC 2006 Terabyte Track (Topics 801-850)](https://github.com/castorini/eval/tree/master/topics/topics.terabyte06.801-850.txt) | 0.4907     | 0.5167     | 0.5107     | 0.4727     | 0.4867     | 0.5027     |

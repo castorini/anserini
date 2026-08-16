@@ -39,8 +39,8 @@ For additional details, see explanation of [common indexing options](../../commo
 Topics and qrels are stored in a [centralized repo containing evaluation data](https://github.com/castorini/eval).
 They are downloaded from NIST's page for [non-English topics](https://trec.nist.gov/data/topics_noneng/index.html) and [non-English relevance judgments](https://trec.nist.gov/data/qrels_noneng/index.html):
 
-+ [`topics.trec02ar-ar.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.trec02ar-ar.txt): TREC 2002 cross language topics in Arabic
-+ [`qrels.trec02ar.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/qrels.trec02ar.txt): TREC 2002 cross language relevance judgements
++ [`topics.trec02ar-ar.txt`](https://github.com/castorini/eval/tree/master/topics/topics.trec02ar-ar.txt): TREC 2002 cross language topics in Arabic
++ [`qrels.trec02ar.txt`](https://github.com/castorini/eval/tree/master/qrels/qrels.trec02ar.txt): TREC 2002 cross language relevance judgements
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
@@ -63,10 +63,10 @@ bin/trec_eval -m map -m P.20 -m ndcg_cut.20 trec02ar runs/run.trec02-ar.bm25.top
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MAP**                                                                                                                           | **BM25**   |
-|:----------------------------------------------------------------------------------------------------------------------------------|:----------:|
-| [TREC 2002 (Monolingual Arabic)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.trec02ar-ar.txt) | 0.2932     |
-| **P20**                                                                                                                           | **BM25**   |
-| [TREC 2002 (Monolingual Arabic)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.trec02ar-ar.txt) | 0.3610     |
-| **nDCG@20**                                                                                                                       | **BM25**   |
-| [TREC 2002 (Monolingual Arabic)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.trec02ar-ar.txt) | 0.4056     |
+| **MAP**                                                                                                       | **BM25**   |
+|:--------------------------------------------------------------------------------------------------------------|:----------:|
+| [TREC 2002 (Monolingual Arabic)](https://github.com/castorini/eval/tree/master/topics/topics.trec02ar-ar.txt) | 0.2932     |
+| **P20**                                                                                                       | **BM25**   |
+| [TREC 2002 (Monolingual Arabic)](https://github.com/castorini/eval/tree/master/topics/topics.trec02ar-ar.txt) | 0.3610     |
+| **nDCG@20**                                                                                                   | **BM25**   |
+| [TREC 2002 (Monolingual Arabic)](https://github.com/castorini/eval/tree/master/topics/topics.trec02ar-ar.txt) | 0.4056     |

@@ -98,13 +98,13 @@ public class QrelsTest{
   @Test(expected = IOException.class)
   public void testFileNotFound() throws IOException {
     // Purposely read non-existent file.
-    Qrels.loadFromFile("tools/topics-and-qrels/qrels.xxx.txt");
+    Qrels.loadFromFile("qrels.xxx.txt");
   }
 
-  @Test(expected = IOException.class)
+  @Test(expected = ArrayIndexOutOfBoundsException.class)
   public void testNonvalidQrels() throws IOException {
     // Purposely read non-valid qrels.
-    Qrels.loadFromFile("tools/topics-and-qrels/topics.robust04.txt ");
+    Qrels.loadFromFile("src/test/resources/sample_topics/Trec");
   }
 
   @Test

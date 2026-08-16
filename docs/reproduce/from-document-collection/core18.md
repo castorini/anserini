@@ -37,8 +37,8 @@ For additional details, see explanation of [common indexing options](../../commo
 Topics and qrels are stored in a [centralized repo containing evaluation data](https://github.com/castorini/eval).
 They are downloaded from NIST:
 
-+ [`topics.core18.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.core18.txt): [topics for the TREC 2018 Common Core Track](https://trec.nist.gov/data/core/topics2018.txt)
-+ [`qrels.core18.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/qrels.core18.txt): [qrels for the TREC 2018 Common Core Track](https://trec.nist.gov/data/core/qrels2018.txt)
++ [`topics.core18.txt`](https://github.com/castorini/eval/tree/master/topics/topics.core18.txt): [topics for the TREC 2018 Common Core Track](https://trec.nist.gov/data/core/topics2018.txt)
++ [`qrels.core18.txt`](https://github.com/castorini/eval/tree/master/qrels/qrels.core18.txt): [qrels for the TREC 2018 Common Core Track](https://trec.nist.gov/data/core/qrels2018.txt)
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
@@ -106,11 +106,11 @@ bin/trec_eval -m map -m P.30 core18 runs/run.wapo.v2.ql+ax.topics.core18.txt
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MAP**                                                                                                                          | **BM25**   | **+RM3**   | **+Ax**    | **QL**     | **+RM3**   | **+Ax**    |
-|:---------------------------------------------------------------------------------------------------------------------------------|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|
-| [TREC 2018 Common Core Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.core18.txt) | 0.2496     | 0.3129     | 0.2840     | 0.2527     | 0.3077     | 0.2920     |
-| **P30**                                                                                                                          | **BM25**   | **+RM3**   | **+Ax**    | **QL**     | **+RM3**   | **+Ax**    |
-| [TREC 2018 Common Core Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.core18.txt) | 0.3573     | 0.4167     | 0.3947     | 0.3653     | 0.4007     | 0.4013     |
+| **MAP**                                                                                                      | **BM25**   | **+RM3**   | **+Ax**    | **QL**     | **+RM3**   | **+Ax**    |
+|:-------------------------------------------------------------------------------------------------------------|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|
+| [TREC 2018 Common Core Track Topics](https://github.com/castorini/eval/tree/master/topics/topics.core18.txt) | 0.2496     | 0.3129     | 0.2840     | 0.2527     | 0.3077     | 0.2920     |
+| **P30**                                                                                                      | **BM25**   | **+RM3**   | **+Ax**    | **QL**     | **+RM3**   | **+Ax**    |
+| [TREC 2018 Common Core Track Topics](https://github.com/castorini/eval/tree/master/topics/topics.core18.txt) | 0.3573     | 0.4167     | 0.3947     | 0.3653     | 0.4007     | 0.4013     |
 
 ## Reproduction Log[*](../../../docs/reproducibility.md)
 

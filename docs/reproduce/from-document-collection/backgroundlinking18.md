@@ -37,8 +37,8 @@ For additional details, see explanation of [common indexing options](../../commo
 Topics and qrels are stored in a [centralized repo containing evaluation data](https://github.com/castorini/eval).
 They are downloaded from NIST:
 
-+ [`topics.backgroundlinking18.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.backgroundlinking18.txt): [topics for the background linking task of the TREC 2018 News Track](https://trec.nist.gov/data/news/2018/newsir18-topics.txt)
-+ [`qrels.backgroundlinking18.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/qrels.backgroundlinking18.txt): [qrels for the background linking task of the TREC 2018 News Track](https://trec.nist.gov/data/news/2018/bqrels.exp-gains.txt)
++ [`topics.backgroundlinking18.txt`](https://github.com/castorini/eval/tree/master/topics/topics.backgroundlinking18.txt): [topics for the background linking task of the TREC 2018 News Track](https://trec.nist.gov/data/news/2018/newsir18-topics.txt)
++ [`qrels.backgroundlinking18.txt`](https://github.com/castorini/eval/tree/master/qrels/qrels.backgroundlinking18.txt): [qrels for the background linking task of the TREC 2018 News Track](https://trec.nist.gov/data/news/2018/bqrels.exp-gains.txt)
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
@@ -79,9 +79,9 @@ bin/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 backgroundlinking18 runs/
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MAP**                                                                                                                     | **BM25**   | **+RM3**   | **+RM3+DF** |
-|:----------------------------------------------------------------------------------------------------------------------------|:----------:|:----------:|:-----------:|
-| [TREC 2018 Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.backgroundlinking18.txt) | 0.2490     | 0.2661     | 0.2679      |
-| **nDCG@5**                                                                                                                  | **BM25**   | **+RM3**   | **+RM3+DF** |
-| [TREC 2018 Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.backgroundlinking18.txt) | 0.3293     | 0.3436     | 0.4027      |
+| **MAP**                                                                                                 | **BM25**   | **+RM3**   | **+RM3+DF** |
+|:--------------------------------------------------------------------------------------------------------|:----------:|:----------:|:-----------:|
+| [TREC 2018 Topics](https://github.com/castorini/eval/tree/master/topics/topics.backgroundlinking18.txt) | 0.2490     | 0.2661     | 0.2679      |
+| **nDCG@5**                                                                                              | **BM25**   | **+RM3**   | **+RM3+DF** |
+| [TREC 2018 Topics](https://github.com/castorini/eval/tree/master/topics/topics.backgroundlinking18.txt) | 0.3293     | 0.3436     | 0.4027      |
 

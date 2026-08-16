@@ -37,8 +37,8 @@ For additional details, see explanation of [common indexing options](../../commo
 
 Topics and qrels are stored in a [centralized repo containing evaluation data](https://github.com/castorini/eval).
 
-+ [`topics.clef06fr.mono.fr.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.clef06fr.mono.fr.txt): CLEF 2006 ad hoc track topics in French
-+ [`qrels.clef06fr.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/qrels.clef06fr.txt): CLEF 2006 ad hoc track French relevance judgements
++ [`topics.clef06fr.mono.fr.txt`](https://github.com/castorini/eval/tree/master/topics/topics.clef06fr.mono.fr.txt): CLEF 2006 ad hoc track topics in French
++ [`qrels.clef06fr.txt`](https://github.com/castorini/eval/tree/master/qrels/qrels.clef06fr.txt): CLEF 2006 ad hoc track French relevance judgements
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
@@ -61,10 +61,10 @@ bin/trec_eval -m map -m P.20 -m ndcg_cut.20 clef06fr runs/run.clef06-fr.bm25.top
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MAP**                                                                                                                                | **BM25**   |
-|:---------------------------------------------------------------------------------------------------------------------------------------|:----------:|
-| [CLEF 2006 (Monolingual French)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.clef06fr.mono.fr.txt) | 0.3115     |
-| **P20**                                                                                                                                | **BM25**   |
-| [CLEF 2006 (Monolingual French)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.clef06fr.mono.fr.txt) | 0.3184     |
-| **nDCG@20**                                                                                                                            | **BM25**   |
-| [CLEF 2006 (Monolingual French)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.clef06fr.mono.fr.txt) | 0.4457     |
+| **MAP**                                                                                                            | **BM25**   |
+|:-------------------------------------------------------------------------------------------------------------------|:----------:|
+| [CLEF 2006 (Monolingual French)](https://github.com/castorini/eval/tree/master/topics/topics.clef06fr.mono.fr.txt) | 0.3115     |
+| **P20**                                                                                                            | **BM25**   |
+| [CLEF 2006 (Monolingual French)](https://github.com/castorini/eval/tree/master/topics/topics.clef06fr.mono.fr.txt) | 0.3184     |
+| **nDCG@20**                                                                                                        | **BM25**   |
+| [CLEF 2006 (Monolingual French)](https://github.com/castorini/eval/tree/master/topics/topics.clef06fr.mono.fr.txt) | 0.4457     |

@@ -1,19 +1,11 @@
 # Anserini Dev Environment Installation for Users
 
 You'll need Java 21 and Maven 3.9+ to build Anserini.
-Clone our repo with the `--recurse-submodules` option to make sure the `eval/` submodule also gets cloned (alternatively, use `git submodule update --init`).
-Then, build using Maven:
+Clone our repo then build with `bin/build.sh`.
+The script is just a wrapper around Maven:
 
 ```bash
 mvn clean package
-```
-
-The `tools/` directory, which contains evaluation tools and other scripts, is actually [this repo](https://github.com/castorini/anserini-tools), integrated as a [Git submodule](https://git-scm.com/book/en/v2/Git-Tools-Submodules) (so that it can be shared across related projects).
-Build as follows (you might get warnings, but okay to ignore):
-
-```bash
-cd tools/eval && tar xvfz trec_eval.9.0.4.tar.gz && cd trec_eval.9.0.4 && make && cd ../../..
-cd tools/eval/ndeval && make && cd ../../..
 ```
 
 With that, you should be ready to go.
