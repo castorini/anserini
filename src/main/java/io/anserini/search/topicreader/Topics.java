@@ -33,7 +33,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * A registry entry for a standard set of topics from various evaluations.
  */
 public final class Topics {
-  private static final String COMMIT_ID = "9b1c80887bbda7998021e78f3c36f1ee707fb0bb";
+  private static final String COMMIT_ID = "c1b4a7c56b98bbd8ab2986cb2f806e3ad2021f03";
   public static final String URL = "https://raw.githubusercontent.com/castorini/eval/" + COMMIT_ID + "/topics/";
 
   private static final String TOPICS_URL = "https://raw.githubusercontent.com/castorini/eval/" + COMMIT_ID + "/topics.json";

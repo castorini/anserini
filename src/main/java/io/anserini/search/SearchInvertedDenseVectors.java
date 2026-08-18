@@ -88,23 +88,7 @@ public final class SearchInvertedDenseVectors<K extends Comparable<K>> implement
 
     // We might not be able to successfully read topics for a variety of reasons. Gather all possible
     // exceptions together as an unchecked exception to make initialization and error reporting clearer.
-    SortedMap<K, Map<String, String>> topics = new TreeMap<>();
-    for (String topicsFile : args.topics) {
-      Path topicsFilePath = Paths.get(topicsFile);
-      if (!Files.exists(topicsFilePath) || !Files.isRegularFile(topicsFilePath) || !Files.isReadable(topicsFilePath)) {
-        throw new IllegalArgumentException(String.format("\"%s\" does not appear to be a valid topics file.", topicsFilePath));
-      }
-      try {
-        @SuppressWarnings("unchecked")
-        TopicReader<K> tr = (TopicReader<K>) Class
-            .forName(String.format("io.anserini.search.topicreader.%sTopicReader", args.topicReader))
-            .getConstructor(Path.class).newInstance(topicsFilePath);
-
-        topics.putAll(tr.read());
-      } catch (Exception e) {
-        throw new IllegalArgumentException(String.format("Unable to load topic reader \"%s\".", args.topicReader));
-      }
-    }
+    SortedMap<K, Map<String, String>> topics = TopicReader.load(args.topics, args.topicReader);
 
     // Now iterate through all the topics to pick out the right field with proper exception handling.
     try {

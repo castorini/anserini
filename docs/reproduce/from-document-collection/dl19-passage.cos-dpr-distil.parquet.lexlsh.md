@@ -74,19 +74,19 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchInvertedDenseVectors \
   -index indexes/lucene-inverted.msmarco-v1-passage.cos-dpr-distil.lexlsh-600/ \
-  -topics dl19-passage.cos-dpr-distil.jsonl.gz \
+  -topics dl19-passage.cos-dpr-distil \
   -topicReader JsonIntVector \
-  -output runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-lexlsh-600-cached_q.topics.dl19-passage.cos-dpr-distil.jsonl.txt \
+  -output runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-lexlsh-600-cached_q.topics.dl19-passage.cos-dpr-distil.txt \
   -topicField vector -threads 16 -encoding lexlsh -lexlsh.b 600 -hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -m map -c -l 2 dl19-passage runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-lexlsh-600-cached_q.topics.dl19-passage.cos-dpr-distil.jsonl.txt
-bin/trec_eval -m ndcg_cut.10 -c dl19-passage runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-lexlsh-600-cached_q.topics.dl19-passage.cos-dpr-distil.jsonl.txt
-bin/trec_eval -m recall.100 -c -l 2 dl19-passage runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-lexlsh-600-cached_q.topics.dl19-passage.cos-dpr-distil.jsonl.txt
-bin/trec_eval -m recall.1000 -c -l 2 dl19-passage runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-lexlsh-600-cached_q.topics.dl19-passage.cos-dpr-distil.jsonl.txt
+bin/trec_eval -m map -c -l 2 dl19-passage runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-lexlsh-600-cached_q.topics.dl19-passage.cos-dpr-distil.txt
+bin/trec_eval -m ndcg_cut.10 -c dl19-passage runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-lexlsh-600-cached_q.topics.dl19-passage.cos-dpr-distil.txt
+bin/trec_eval -m recall.100 -c -l 2 dl19-passage runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-lexlsh-600-cached_q.topics.dl19-passage.cos-dpr-distil.txt
+bin/trec_eval -m recall.1000 -c -l 2 dl19-passage runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-lexlsh-600-cached_q.topics.dl19-passage.cos-dpr-distil.txt
 ```
 
 ## Effectiveness
