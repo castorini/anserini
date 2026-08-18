@@ -45,8 +45,8 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.10 miracl-v1.0-fi-dev.tsv runs/run.miracl-v1.0-fi.bm25.topics.miracl-v1.0-fi-dev.txt
-bin/trec_eval -c -m recall.100 miracl-v1.0-fi-dev.tsv runs/run.miracl-v1.0-fi.bm25.topics.miracl-v1.0-fi-dev.txt
+bin/trec_eval -c -m ndcg_cut.10 miracl-v1.0-fi-dev runs/run.miracl-v1.0-fi.bm25.topics.miracl-v1.0-fi-dev.txt
+bin/trec_eval -c -m recall.100 miracl-v1.0-fi-dev runs/run.miracl-v1.0-fi.bm25.topics.miracl-v1.0-fi-dev.txt
 ```
 
 ## Effectiveness

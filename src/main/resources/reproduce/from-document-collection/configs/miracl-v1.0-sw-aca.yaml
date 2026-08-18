@@ -32,7 +32,7 @@ topic_reader: TsvInt
 topics:
   - name: "[MIRACL (Swahili): dev](https://github.com/project-miracl/miracl)"
     id: miracl-v1.0-sw-dev
-    qrels: miracl-v1.0-sw-dev.tsv
+    qrels: miracl-v1.0-sw-dev
 
 models:
   - name: bm25
