@@ -57,17 +57,17 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v1-doc-segmented.wp-ca/ \
   -topics msmarco-doc.dev \
   -topicReader TsvInt \
-  -output runs/run.msmarco-doc-segmented.bm25-default.topics.msmarco-doc.dev.txt \
+  -output runs/run.lucene-inverted.msmarco-v1-doc-segmented.wp-ca.model-bm25-default.topics-msmarco-doc.dev.txt \
   -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -analyzeWithHuggingFaceTokenizer bert-base-uncased -useCompositeAnalyzer &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m map msmarco-doc.dev runs/run.msmarco-doc-segmented.bm25-default.topics.msmarco-doc.dev.txt
-bin/trec_eval -c -M 100 -m recip_rank msmarco-doc.dev runs/run.msmarco-doc-segmented.bm25-default.topics.msmarco-doc.dev.txt
-bin/trec_eval -c -m recall.100 msmarco-doc.dev runs/run.msmarco-doc-segmented.bm25-default.topics.msmarco-doc.dev.txt
-bin/trec_eval -c -m recall.1000 msmarco-doc.dev runs/run.msmarco-doc-segmented.bm25-default.topics.msmarco-doc.dev.txt
+bin/trec_eval -c -m map msmarco-doc.dev runs/run.lucene-inverted.msmarco-v1-doc-segmented.wp-ca.model-bm25-default.topics-msmarco-doc.dev.txt
+bin/trec_eval -c -M 100 -m recip_rank msmarco-doc.dev runs/run.lucene-inverted.msmarco-v1-doc-segmented.wp-ca.model-bm25-default.topics-msmarco-doc.dev.txt
+bin/trec_eval -c -m recall.100 msmarco-doc.dev runs/run.lucene-inverted.msmarco-v1-doc-segmented.wp-ca.model-bm25-default.topics-msmarco-doc.dev.txt
+bin/trec_eval -c -m recall.1000 msmarco-doc.dev runs/run.lucene-inverted.msmarco-v1-doc-segmented.wp-ca.model-bm25-default.topics-msmarco-doc.dev.txt
 ```
 
 ## Effectiveness

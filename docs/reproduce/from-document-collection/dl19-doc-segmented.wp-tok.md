@@ -51,17 +51,17 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v1-doc-segmented.wp-tok/ \
   -topics dl19-doc.wp \
   -topicReader TsvInt \
-  -output runs/run.msmarco-doc-segmented-wp.bm25-default.topics.dl19-doc.wp.txt \
+  -output runs/run.lucene-inverted.msmarco-v1-doc-segmented.wp-tok.model-bm25-default.topics-dl19-doc.wp.txt \
   -bm25 -pretokenized -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -M 100 -m map dl19-doc runs/run.msmarco-doc-segmented-wp.bm25-default.topics.dl19-doc.wp.txt
-bin/trec_eval -c -m ndcg_cut.10 dl19-doc runs/run.msmarco-doc-segmented-wp.bm25-default.topics.dl19-doc.wp.txt
-bin/trec_eval -c -m recall.100 dl19-doc runs/run.msmarco-doc-segmented-wp.bm25-default.topics.dl19-doc.wp.txt
-bin/trec_eval -c -m recall.1000 dl19-doc runs/run.msmarco-doc-segmented-wp.bm25-default.topics.dl19-doc.wp.txt
+bin/trec_eval -c -M 100 -m map dl19-doc runs/run.lucene-inverted.msmarco-v1-doc-segmented.wp-tok.model-bm25-default.topics-dl19-doc.wp.txt
+bin/trec_eval -c -m ndcg_cut.10 dl19-doc runs/run.lucene-inverted.msmarco-v1-doc-segmented.wp-tok.model-bm25-default.topics-dl19-doc.wp.txt
+bin/trec_eval -c -m recall.100 dl19-doc runs/run.lucene-inverted.msmarco-v1-doc-segmented.wp-tok.model-bm25-default.topics-dl19-doc.wp.txt
+bin/trec_eval -c -m recall.1000 dl19-doc runs/run.lucene-inverted.msmarco-v1-doc-segmented.wp-tok.model-bm25-default.topics-dl19-doc.wp.txt
 ```
 
 ## Effectiveness

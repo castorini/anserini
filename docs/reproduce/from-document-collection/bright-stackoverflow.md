@@ -50,16 +50,16 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.bright-stackoverflow/ \
   -topics bright-stackoverflow \
   -topicReader TsvString \
-  -output runs/run.bright-stackoverflow.bm25.topics.bright-stackoverflow.txt \
+  -output runs/run.lucene-inverted.bright-stackoverflow.model-bm25.topics-bright-stackoverflow.txt \
   -bm25 -removeQuery -hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.10 bright-stackoverflow runs/run.bright-stackoverflow.bm25.topics.bright-stackoverflow.txt
-bin/trec_eval -c -m recall.100 bright-stackoverflow runs/run.bright-stackoverflow.bm25.topics.bright-stackoverflow.txt
-bin/trec_eval -c -m recall.1000 bright-stackoverflow runs/run.bright-stackoverflow.bm25.topics.bright-stackoverflow.txt
+bin/trec_eval -c -m ndcg_cut.10 bright-stackoverflow runs/run.lucene-inverted.bright-stackoverflow.model-bm25.topics-bright-stackoverflow.txt
+bin/trec_eval -c -m recall.100 bright-stackoverflow runs/run.lucene-inverted.bright-stackoverflow.model-bm25.topics-bright-stackoverflow.txt
+bin/trec_eval -c -m recall.1000 bright-stackoverflow runs/run.lucene-inverted.bright-stackoverflow.model-bm25.topics-bright-stackoverflow.txt
 ```
 
 ## Effectiveness

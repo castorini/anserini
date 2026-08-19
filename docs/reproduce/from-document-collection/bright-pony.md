@@ -50,16 +50,16 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.bright-pony/ \
   -topics bright-pony \
   -topicReader TsvString \
-  -output runs/run.bright-pony.bm25.topics.bright-pony.txt \
+  -output runs/run.lucene-inverted.bright-pony.model-bm25.topics-bright-pony.txt \
   -bm25 -removeQuery -hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.10 bright-pony runs/run.bright-pony.bm25.topics.bright-pony.txt
-bin/trec_eval -c -m recall.100 bright-pony runs/run.bright-pony.bm25.topics.bright-pony.txt
-bin/trec_eval -c -m recall.1000 bright-pony runs/run.bright-pony.bm25.topics.bright-pony.txt
+bin/trec_eval -c -m ndcg_cut.10 bright-pony runs/run.lucene-inverted.bright-pony.model-bm25.topics-bright-pony.txt
+bin/trec_eval -c -m recall.100 bright-pony runs/run.lucene-inverted.bright-pony.model-bm25.topics-bright-pony.txt
+bin/trec_eval -c -m recall.1000 bright-pony runs/run.lucene-inverted.bright-pony.model-bm25.topics-bright-pony.txt
 ```
 
 ## Effectiveness

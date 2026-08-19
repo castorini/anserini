@@ -26,7 +26,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection MrTyDiCollection \
   -input /path/to/wiki-all-6-3-tamber \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.wiki-all-6-3-tamber/ \
+  -index indexes/lucene-inverted.wiki-all-6-3-tamber/ \
   -storeRaw \
   >& logs/log.wiki-all-6-3-tamber &
 ```
@@ -44,98 +44,98 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.wiki-all-6-3-tamber/ \
+  -index indexes/lucene-inverted.wiki-all-6-3-tamber/ \
   -topics dpr.nq.test \
   -topicReader DprNq \
-  -output runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.nq.test.txt \
+  -output runs/run.lucene-inverted.wiki-all-6-3-tamber.model-bm25.topics-dpr.nq.test.txt \
   -bm25 &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.wiki-all-6-3-tamber/ \
+  -index indexes/lucene-inverted.wiki-all-6-3-tamber/ \
   -topics dpr.trivia.test \
   -topicReader DprNq \
-  -output runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.trivia.test.txt \
+  -output runs/run.lucene-inverted.wiki-all-6-3-tamber.model-bm25.topics-dpr.trivia.test.txt \
   -bm25 &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.wiki-all-6-3-tamber/ \
+  -index indexes/lucene-inverted.wiki-all-6-3-tamber/ \
   -topics dpr.squad.test \
   -topicReader DprJsonl \
-  -output runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.squad.test.txt \
+  -output runs/run.lucene-inverted.wiki-all-6-3-tamber.model-bm25.topics-dpr.squad.test.txt \
   -bm25 &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.wiki-all-6-3-tamber/ \
+  -index indexes/lucene-inverted.wiki-all-6-3-tamber/ \
   -topics dpr.wq.test \
   -topicReader DprJsonl \
-  -output runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.wq.test.txt \
+  -output runs/run.lucene-inverted.wiki-all-6-3-tamber.model-bm25.topics-dpr.wq.test.txt \
   -bm25 &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.wiki-all-6-3-tamber/ \
+  -index indexes/lucene-inverted.wiki-all-6-3-tamber/ \
   -topics dpr.curated.test \
   -topicReader DprJsonl \
-  -output runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.curated.test.txt \
+  -output runs/run.lucene-inverted.wiki-all-6-3-tamber.model-bm25.topics-dpr.curated.test.txt \
   -bm25 &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.wiki-all-6-3-tamber/ \
+  -index indexes/lucene-inverted.wiki-all-6-3-tamber/ \
   -topics nq.test \
   -topicReader DprNq \
-  -output runs/run.wiki-all-6-3-tamber.bm25.topics.nq.test.txt \
+  -output runs/run.lucene-inverted.wiki-all-6-3-tamber.model-bm25.topics-nq.test.txt \
   -bm25 &
 ```
 
 The trec format will need to be converted to DPR's JSON format for evaluation:
 ```bash
 python -m pyserini.eval.convert_trec_run_to_dpr_retrieval_run \
-  --index indexes/lucene-index.wiki-all-6-3-tamber/ \
+  --index indexes/lucene-inverted.wiki-all-6-3-tamber/ \
   --topics dpr.nq.test \
-  --input runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.nq.test.txt \
-  --output runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.nq.test.txt.json \
+  --input runs/run.lucene-inverted.wiki-all-6-3-tamber.model-bm25.topics-dpr.nq.test.txt \
+  --output runs/run.lucene-inverted.wiki-all-6-3-tamber.model-bm25.topics-dpr.nq.test.txt.json \
   --combine-title-text &
 python -m pyserini.eval.convert_trec_run_to_dpr_retrieval_run \
-  --index indexes/lucene-index.wiki-all-6-3-tamber/ \
+  --index indexes/lucene-inverted.wiki-all-6-3-tamber/ \
   --topics dpr.trivia.test \
-  --input runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.trivia.test.txt \
-  --output runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.trivia.test.txt.json \
+  --input runs/run.lucene-inverted.wiki-all-6-3-tamber.model-bm25.topics-dpr.trivia.test.txt \
+  --output runs/run.lucene-inverted.wiki-all-6-3-tamber.model-bm25.topics-dpr.trivia.test.txt.json \
   --combine-title-text &
 python -m pyserini.eval.convert_trec_run_to_dpr_retrieval_run \
-  --index indexes/lucene-index.wiki-all-6-3-tamber/ \
+  --index indexes/lucene-inverted.wiki-all-6-3-tamber/ \
   --topics dpr.squad.test \
-  --input runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.squad.test.txt \
-  --output runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.squad.test.txt.json \
+  --input runs/run.lucene-inverted.wiki-all-6-3-tamber.model-bm25.topics-dpr.squad.test.txt \
+  --output runs/run.lucene-inverted.wiki-all-6-3-tamber.model-bm25.topics-dpr.squad.test.txt.json \
   --combine-title-text &
 python -m pyserini.eval.convert_trec_run_to_dpr_retrieval_run \
-  --index indexes/lucene-index.wiki-all-6-3-tamber/ \
+  --index indexes/lucene-inverted.wiki-all-6-3-tamber/ \
   --topics dpr.wq.test \
-  --input runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.wq.test.txt \
-  --output runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.wq.test.txt.json \
+  --input runs/run.lucene-inverted.wiki-all-6-3-tamber.model-bm25.topics-dpr.wq.test.txt \
+  --output runs/run.lucene-inverted.wiki-all-6-3-tamber.model-bm25.topics-dpr.wq.test.txt.json \
   --combine-title-text &
 python -m pyserini.eval.convert_trec_run_to_dpr_retrieval_run \
-  --index indexes/lucene-index.wiki-all-6-3-tamber/ \
+  --index indexes/lucene-inverted.wiki-all-6-3-tamber/ \
   --topics dpr.curated.test \
-  --input runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.curated.test.txt \
-  --output runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.curated.test.txt.json \
+  --input runs/run.lucene-inverted.wiki-all-6-3-tamber.model-bm25.topics-dpr.curated.test.txt \
+  --output runs/run.lucene-inverted.wiki-all-6-3-tamber.model-bm25.topics-dpr.curated.test.txt.json \
   --combine-title-text  --regex &
 python -m pyserini.eval.convert_trec_run_to_dpr_retrieval_run \
-  --index indexes/lucene-index.wiki-all-6-3-tamber/ \
+  --index indexes/lucene-inverted.wiki-all-6-3-tamber/ \
   --topics nq.test \
-  --input runs/run.wiki-all-6-3-tamber.bm25.topics.nq.test.txt \
-  --output runs/run.wiki-all-6-3-tamber.bm25.topics.nq.test.txt.json \
+  --input runs/run.lucene-inverted.wiki-all-6-3-tamber.model-bm25.topics-nq.test.txt \
+  --output runs/run.lucene-inverted.wiki-all-6-3-tamber.model-bm25.topics-nq.test.txt.json \
   --combine-title-text &
 ```
 
 Evaluation can be performed using scripts from pyserini:
 
 ```bash
-python -m pyserini.eval.evaluate_dpr_retrieval --topk 20 --retrieval runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.nq.test.txt.json
-python -m pyserini.eval.evaluate_dpr_retrieval --topk 100 --retrieval runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.nq.test.txt.json
-python -m pyserini.eval.evaluate_dpr_retrieval --topk 20 --retrieval runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.trivia.test.txt.json
-python -m pyserini.eval.evaluate_dpr_retrieval --topk 100 --retrieval runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.trivia.test.txt.json
-python -m pyserini.eval.evaluate_dpr_retrieval --topk 20 --retrieval runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.squad.test.txt.json
-python -m pyserini.eval.evaluate_dpr_retrieval --topk 100 --retrieval runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.squad.test.txt.json
-python -m pyserini.eval.evaluate_dpr_retrieval --topk 20 --retrieval runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.wq.test.txt.json
-python -m pyserini.eval.evaluate_dpr_retrieval --topk 100 --retrieval runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.wq.test.txt.json
-python -m pyserini.eval.evaluate_dpr_retrieval --topk 20 --retrieval runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.curated.test.txt.json
-python -m pyserini.eval.evaluate_dpr_retrieval --topk 100 --retrieval runs/run.wiki-all-6-3-tamber.bm25.topics.dpr.curated.test.txt.json
-python -m pyserini.eval.evaluate_dpr_retrieval --topk 20 --retrieval runs/run.wiki-all-6-3-tamber.bm25.topics.nq.test.txt.json
-python -m pyserini.eval.evaluate_dpr_retrieval --topk 100 --retrieval runs/run.wiki-all-6-3-tamber.bm25.topics.nq.test.txt.json
+python -m pyserini.eval.evaluate_dpr_retrieval --topk 20 --retrieval runs/run.lucene-inverted.wiki-all-6-3-tamber.model-bm25.topics-dpr.nq.test.txt.json
+python -m pyserini.eval.evaluate_dpr_retrieval --topk 100 --retrieval runs/run.lucene-inverted.wiki-all-6-3-tamber.model-bm25.topics-dpr.nq.test.txt.json
+python -m pyserini.eval.evaluate_dpr_retrieval --topk 20 --retrieval runs/run.lucene-inverted.wiki-all-6-3-tamber.model-bm25.topics-dpr.trivia.test.txt.json
+python -m pyserini.eval.evaluate_dpr_retrieval --topk 100 --retrieval runs/run.lucene-inverted.wiki-all-6-3-tamber.model-bm25.topics-dpr.trivia.test.txt.json
+python -m pyserini.eval.evaluate_dpr_retrieval --topk 20 --retrieval runs/run.lucene-inverted.wiki-all-6-3-tamber.model-bm25.topics-dpr.squad.test.txt.json
+python -m pyserini.eval.evaluate_dpr_retrieval --topk 100 --retrieval runs/run.lucene-inverted.wiki-all-6-3-tamber.model-bm25.topics-dpr.squad.test.txt.json
+python -m pyserini.eval.evaluate_dpr_retrieval --topk 20 --retrieval runs/run.lucene-inverted.wiki-all-6-3-tamber.model-bm25.topics-dpr.wq.test.txt.json
+python -m pyserini.eval.evaluate_dpr_retrieval --topk 100 --retrieval runs/run.lucene-inverted.wiki-all-6-3-tamber.model-bm25.topics-dpr.wq.test.txt.json
+python -m pyserini.eval.evaluate_dpr_retrieval --topk 20 --retrieval runs/run.lucene-inverted.wiki-all-6-3-tamber.model-bm25.topics-dpr.curated.test.txt.json
+python -m pyserini.eval.evaluate_dpr_retrieval --topk 100 --retrieval runs/run.lucene-inverted.wiki-all-6-3-tamber.model-bm25.topics-dpr.curated.test.txt.json
+python -m pyserini.eval.evaluate_dpr_retrieval --topk 20 --retrieval runs/run.lucene-inverted.wiki-all-6-3-tamber.model-bm25.topics-nq.test.txt.json
+python -m pyserini.eval.evaluate_dpr_retrieval --topk 100 --retrieval runs/run.lucene-inverted.wiki-all-6-3-tamber.model-bm25.topics-nq.test.txt.json
 ```
 
 ## Effectiveness

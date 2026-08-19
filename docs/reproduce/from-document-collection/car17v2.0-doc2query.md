@@ -28,7 +28,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection JsonCollection \
   -input /path/to/car-paragraphCorpus.v2.0-doc2query \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.car-paragraphCorpus.v2.0-doc2query/ \
+  -index indexes/lucene-inverted.car-paragraphCorpus.v2.0-doc2query/ \
   -storePositions -storeDocvectors -storeRaw \
   >& logs/log.car-paragraphCorpus.v2.0-doc2query &
 ```
@@ -51,62 +51,62 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.car-paragraphCorpus.v2.0-doc2query/ \
+  -index indexes/lucene-inverted.car-paragraphCorpus.v2.0-doc2query/ \
   -topics car17v2.0.benchmarkY1test \
   -topicReader Car \
-  -output runs/run.car-paragraphCorpus.v2.0-doc2query.bm25.topics.car17v2.0.benchmarkY1test.txt \
+  -output runs/run.lucene-inverted.car-paragraphCorpus.v2.0-doc2query.model-bm25.topics-car17v2.0.benchmarkY1test.txt \
   -bm25 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.car-paragraphCorpus.v2.0-doc2query/ \
+  -index indexes/lucene-inverted.car-paragraphCorpus.v2.0-doc2query/ \
   -topics car17v2.0.benchmarkY1test \
   -topicReader Car \
-  -output runs/run.car-paragraphCorpus.v2.0-doc2query.bm25+rm3.topics.car17v2.0.benchmarkY1test.txt \
+  -output runs/run.lucene-inverted.car-paragraphCorpus.v2.0-doc2query.model-bm25+rm3.topics-car17v2.0.benchmarkY1test.txt \
   -bm25 -rm3 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.car-paragraphCorpus.v2.0-doc2query/ \
+  -index indexes/lucene-inverted.car-paragraphCorpus.v2.0-doc2query/ \
   -topics car17v2.0.benchmarkY1test \
   -topicReader Car \
-  -output runs/run.car-paragraphCorpus.v2.0-doc2query.bm25+ax.topics.car17v2.0.benchmarkY1test.txt \
+  -output runs/run.lucene-inverted.car-paragraphCorpus.v2.0-doc2query.model-bm25+ax.topics-car17v2.0.benchmarkY1test.txt \
   -bm25 -axiom -rerankCutoff 20 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.car-paragraphCorpus.v2.0-doc2query/ \
+  -index indexes/lucene-inverted.car-paragraphCorpus.v2.0-doc2query/ \
   -topics car17v2.0.benchmarkY1test \
   -topicReader Car \
-  -output runs/run.car-paragraphCorpus.v2.0-doc2query.ql.topics.car17v2.0.benchmarkY1test.txt \
+  -output runs/run.lucene-inverted.car-paragraphCorpus.v2.0-doc2query.model-ql.topics-car17v2.0.benchmarkY1test.txt \
   -qld &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.car-paragraphCorpus.v2.0-doc2query/ \
+  -index indexes/lucene-inverted.car-paragraphCorpus.v2.0-doc2query/ \
   -topics car17v2.0.benchmarkY1test \
   -topicReader Car \
-  -output runs/run.car-paragraphCorpus.v2.0-doc2query.ql+rm3.topics.car17v2.0.benchmarkY1test.txt \
+  -output runs/run.lucene-inverted.car-paragraphCorpus.v2.0-doc2query.model-ql+rm3.topics-car17v2.0.benchmarkY1test.txt \
   -qld -rm3 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.car-paragraphCorpus.v2.0-doc2query/ \
+  -index indexes/lucene-inverted.car-paragraphCorpus.v2.0-doc2query/ \
   -topics car17v2.0.benchmarkY1test \
   -topicReader Car \
-  -output runs/run.car-paragraphCorpus.v2.0-doc2query.ql+ax.topics.car17v2.0.benchmarkY1test.txt \
+  -output runs/run.lucene-inverted.car-paragraphCorpus.v2.0-doc2query.model-ql+ax.topics-car17v2.0.benchmarkY1test.txt \
   -qld -axiom -rerankCutoff 20 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m map -c -m recip_rank car17v2.0.benchmarkY1test runs/run.car-paragraphCorpus.v2.0-doc2query.bm25.topics.car17v2.0.benchmarkY1test.txt
+bin/trec_eval -c -m map -c -m recip_rank car17v2.0.benchmarkY1test runs/run.lucene-inverted.car-paragraphCorpus.v2.0-doc2query.model-bm25.topics-car17v2.0.benchmarkY1test.txt
 
-bin/trec_eval -c -m map -c -m recip_rank car17v2.0.benchmarkY1test runs/run.car-paragraphCorpus.v2.0-doc2query.bm25+rm3.topics.car17v2.0.benchmarkY1test.txt
+bin/trec_eval -c -m map -c -m recip_rank car17v2.0.benchmarkY1test runs/run.lucene-inverted.car-paragraphCorpus.v2.0-doc2query.model-bm25+rm3.topics-car17v2.0.benchmarkY1test.txt
 
-bin/trec_eval -c -m map -c -m recip_rank car17v2.0.benchmarkY1test runs/run.car-paragraphCorpus.v2.0-doc2query.bm25+ax.topics.car17v2.0.benchmarkY1test.txt
+bin/trec_eval -c -m map -c -m recip_rank car17v2.0.benchmarkY1test runs/run.lucene-inverted.car-paragraphCorpus.v2.0-doc2query.model-bm25+ax.topics-car17v2.0.benchmarkY1test.txt
 
-bin/trec_eval -c -m map -c -m recip_rank car17v2.0.benchmarkY1test runs/run.car-paragraphCorpus.v2.0-doc2query.ql.topics.car17v2.0.benchmarkY1test.txt
+bin/trec_eval -c -m map -c -m recip_rank car17v2.0.benchmarkY1test runs/run.lucene-inverted.car-paragraphCorpus.v2.0-doc2query.model-ql.topics-car17v2.0.benchmarkY1test.txt
 
-bin/trec_eval -c -m map -c -m recip_rank car17v2.0.benchmarkY1test runs/run.car-paragraphCorpus.v2.0-doc2query.ql+rm3.topics.car17v2.0.benchmarkY1test.txt
+bin/trec_eval -c -m map -c -m recip_rank car17v2.0.benchmarkY1test runs/run.lucene-inverted.car-paragraphCorpus.v2.0-doc2query.model-ql+rm3.topics-car17v2.0.benchmarkY1test.txt
 
-bin/trec_eval -c -m map -c -m recip_rank car17v2.0.benchmarkY1test runs/run.car-paragraphCorpus.v2.0-doc2query.ql+ax.topics.car17v2.0.benchmarkY1test.txt
+bin/trec_eval -c -m map -c -m recip_rank car17v2.0.benchmarkY1test runs/run.lucene-inverted.car-paragraphCorpus.v2.0-doc2query.model-ql+ax.topics-car17v2.0.benchmarkY1test.txt
 ```
 
 ## Effectiveness

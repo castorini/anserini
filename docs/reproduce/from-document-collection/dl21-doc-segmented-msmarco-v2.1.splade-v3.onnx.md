@@ -81,17 +81,17 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3/ \
   -topics dl21 \
   -topicReader TsvString \
-  -output runs/run.msmarco-v2.1-doc-segmented.splade-v3-onnx.topics.dl21.txt \
+  -output runs/run.lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3.model-splade-v3-onnx.topics-dl21.txt \
   -impact -pretokenized -removeQuery -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -encoder SpladeV3 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -M 100 -m map dl21-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc-segmented.splade-v3-onnx.topics.dl21.txt
-bin/trec_eval -c -m recall.100 dl21-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc-segmented.splade-v3-onnx.topics.dl21.txt
-bin/trec_eval -c -m recall.1000 dl21-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc-segmented.splade-v3-onnx.topics.dl21.txt
-bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 dl21-doc-msmarco-v2.1 runs/run.msmarco-v2.1-doc-segmented.splade-v3-onnx.topics.dl21.txt
+bin/trec_eval -c -M 100 -m map dl21-doc-msmarco-v2.1 runs/run.lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3.model-splade-v3-onnx.topics-dl21.txt
+bin/trec_eval -c -m recall.100 dl21-doc-msmarco-v2.1 runs/run.lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3.model-splade-v3-onnx.topics-dl21.txt
+bin/trec_eval -c -m recall.1000 dl21-doc-msmarco-v2.1 runs/run.lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3.model-splade-v3-onnx.topics-dl21.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 dl21-doc-msmarco-v2.1 runs/run.lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3.model-splade-v3-onnx.topics-dl21.txt
 ```
 
 ## Effectiveness

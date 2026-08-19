@@ -60,16 +60,16 @@ bin/run.sh io.anserini.search.SearchFlatDenseVectors \
   -index indexes/lucene-flat.msmarco-v2.1-doc-segmented-shard01.arctic-embed-l \
   -topics rag24.test \
   -topicReader TsvString \
-  -output runs/run.msmarco-v2.1-doc-segmented-shard01.arctic-embed-l.arctic-embed-l-flat-onnx.topics.rag24.test.txt \
+  -output runs/run.lucene-flat.msmarco-v2.1-doc-segmented-shard01.arctic-embed-l.model-arctic-embed-l-flat-onnx.topics-rag24.test.txt \
   -topics rag24.test -topicReader TsvString -topicField title -encoder ArcticEmbedLEncoder &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.20 rag24.test-umbrela-all runs/run.msmarco-v2.1-doc-segmented-shard01.arctic-embed-l.arctic-embed-l-flat-onnx.topics.rag24.test.txt
-bin/trec_eval -c -m ndcg_cut.100 rag24.test-umbrela-all runs/run.msmarco-v2.1-doc-segmented-shard01.arctic-embed-l.arctic-embed-l-flat-onnx.topics.rag24.test.txt
-bin/trec_eval -c -m recall.100 rag24.test-umbrela-all runs/run.msmarco-v2.1-doc-segmented-shard01.arctic-embed-l.arctic-embed-l-flat-onnx.topics.rag24.test.txt
+bin/trec_eval -c -m ndcg_cut.20 rag24.test-umbrela-all runs/run.lucene-flat.msmarco-v2.1-doc-segmented-shard01.arctic-embed-l.model-arctic-embed-l-flat-onnx.topics-rag24.test.txt
+bin/trec_eval -c -m ndcg_cut.100 rag24.test-umbrela-all runs/run.lucene-flat.msmarco-v2.1-doc-segmented-shard01.arctic-embed-l.model-arctic-embed-l-flat-onnx.topics-rag24.test.txt
+bin/trec_eval -c -m recall.100 rag24.test-umbrela-all runs/run.lucene-flat.msmarco-v2.1-doc-segmented-shard01.arctic-embed-l.model-arctic-embed-l-flat-onnx.topics-rag24.test.txt
 ```
 
 ## Effectiveness

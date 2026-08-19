@@ -51,16 +51,16 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.beir-v1.0.0-cqadupstack-gaming.multifield/ \
   -topics beir-v1.0.0-cqadupstack-gaming.test \
   -topicReader TsvString \
-  -output runs/run.beir-v1.0.0-cqadupstack-gaming.multifield.bm25.topics.beir-v1.0.0-cqadupstack-gaming.test.txt \
+  -output runs/run.lucene-inverted.beir-v1.0.0-cqadupstack-gaming.multifield.model-bm25.topics-beir-v1.0.0-cqadupstack-gaming.test.txt \
   -bm25 -removeQuery -hits 1000 -fields contents=1.0 title=1.0 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.10 beir-v1.0.0-cqadupstack-gaming.test runs/run.beir-v1.0.0-cqadupstack-gaming.multifield.bm25.topics.beir-v1.0.0-cqadupstack-gaming.test.txt
-bin/trec_eval -c -m recall.100 beir-v1.0.0-cqadupstack-gaming.test runs/run.beir-v1.0.0-cqadupstack-gaming.multifield.bm25.topics.beir-v1.0.0-cqadupstack-gaming.test.txt
-bin/trec_eval -c -m recall.1000 beir-v1.0.0-cqadupstack-gaming.test runs/run.beir-v1.0.0-cqadupstack-gaming.multifield.bm25.topics.beir-v1.0.0-cqadupstack-gaming.test.txt
+bin/trec_eval -c -m ndcg_cut.10 beir-v1.0.0-cqadupstack-gaming.test runs/run.lucene-inverted.beir-v1.0.0-cqadupstack-gaming.multifield.model-bm25.topics-beir-v1.0.0-cqadupstack-gaming.test.txt
+bin/trec_eval -c -m recall.100 beir-v1.0.0-cqadupstack-gaming.test runs/run.lucene-inverted.beir-v1.0.0-cqadupstack-gaming.multifield.model-bm25.topics-beir-v1.0.0-cqadupstack-gaming.test.txt
+bin/trec_eval -c -m recall.1000 beir-v1.0.0-cqadupstack-gaming.test runs/run.lucene-inverted.beir-v1.0.0-cqadupstack-gaming.multifield.model-bm25.topics-beir-v1.0.0-cqadupstack-gaming.test.txt
 ```
 
 ## Effectiveness

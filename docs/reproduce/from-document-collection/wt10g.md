@@ -22,7 +22,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection TrecwebCollection \
   -input /path/to/wt10g \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.wt10g/ \
+  -index indexes/lucene-inverted.wt10g/ \
   -storePositions -storeDocvectors -storeRaw \
   >& logs/log.wt10g &
 ```
@@ -43,62 +43,62 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.wt10g/ \
+  -index indexes/lucene-inverted.wt10g/ \
   -topics adhoc.451-550 \
   -topicReader Trec \
-  -output runs/run.wt10g.bm25.topics.adhoc.451-550.txt \
+  -output runs/run.lucene-inverted.wt10g.model-bm25.topics-adhoc.451-550.txt \
   -bm25 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.wt10g/ \
+  -index indexes/lucene-inverted.wt10g/ \
   -topics adhoc.451-550 \
   -topicReader Trec \
-  -output runs/run.wt10g.bm25+rm3.topics.adhoc.451-550.txt \
+  -output runs/run.lucene-inverted.wt10g.model-bm25+rm3.topics-adhoc.451-550.txt \
   -bm25 -rm3 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.wt10g/ \
+  -index indexes/lucene-inverted.wt10g/ \
   -topics adhoc.451-550 \
   -topicReader Trec \
-  -output runs/run.wt10g.bm25+ax.topics.adhoc.451-550.txt \
+  -output runs/run.lucene-inverted.wt10g.model-bm25+ax.topics-adhoc.451-550.txt \
   -bm25 -axiom -axiom.beta 0.1 -rerankCutoff 20 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.wt10g/ \
+  -index indexes/lucene-inverted.wt10g/ \
   -topics adhoc.451-550 \
   -topicReader Trec \
-  -output runs/run.wt10g.ql.topics.adhoc.451-550.txt \
+  -output runs/run.lucene-inverted.wt10g.model-ql.topics-adhoc.451-550.txt \
   -qld &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.wt10g/ \
+  -index indexes/lucene-inverted.wt10g/ \
   -topics adhoc.451-550 \
   -topicReader Trec \
-  -output runs/run.wt10g.ql+rm3.topics.adhoc.451-550.txt \
+  -output runs/run.lucene-inverted.wt10g.model-ql+rm3.topics-adhoc.451-550.txt \
   -qld -rm3 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.wt10g/ \
+  -index indexes/lucene-inverted.wt10g/ \
   -topics adhoc.451-550 \
   -topicReader Trec \
-  -output runs/run.wt10g.ql+ax.topics.adhoc.451-550.txt \
+  -output runs/run.lucene-inverted.wt10g.model-ql+ax.topics-adhoc.451-550.txt \
   -qld -axiom -axiom.beta 0.1 -rerankCutoff 20 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -m map -m P.30 adhoc.451-550 runs/run.wt10g.bm25.topics.adhoc.451-550.txt
+bin/trec_eval -m map -m P.30 adhoc.451-550 runs/run.lucene-inverted.wt10g.model-bm25.topics-adhoc.451-550.txt
 
-bin/trec_eval -m map -m P.30 adhoc.451-550 runs/run.wt10g.bm25+rm3.topics.adhoc.451-550.txt
+bin/trec_eval -m map -m P.30 adhoc.451-550 runs/run.lucene-inverted.wt10g.model-bm25+rm3.topics-adhoc.451-550.txt
 
-bin/trec_eval -m map -m P.30 adhoc.451-550 runs/run.wt10g.bm25+ax.topics.adhoc.451-550.txt
+bin/trec_eval -m map -m P.30 adhoc.451-550 runs/run.lucene-inverted.wt10g.model-bm25+ax.topics-adhoc.451-550.txt
 
-bin/trec_eval -m map -m P.30 adhoc.451-550 runs/run.wt10g.ql.topics.adhoc.451-550.txt
+bin/trec_eval -m map -m P.30 adhoc.451-550 runs/run.lucene-inverted.wt10g.model-ql.topics-adhoc.451-550.txt
 
-bin/trec_eval -m map -m P.30 adhoc.451-550 runs/run.wt10g.ql+rm3.topics.adhoc.451-550.txt
+bin/trec_eval -m map -m P.30 adhoc.451-550 runs/run.lucene-inverted.wt10g.model-ql+rm3.topics-adhoc.451-550.txt
 
-bin/trec_eval -m map -m P.30 adhoc.451-550 runs/run.wt10g.ql+ax.topics.adhoc.451-550.txt
+bin/trec_eval -m map -m P.30 adhoc.451-550 runs/run.lucene-inverted.wt10g.model-ql+ax.topics-adhoc.451-550.txt
 ```
 
 ## Effectiveness

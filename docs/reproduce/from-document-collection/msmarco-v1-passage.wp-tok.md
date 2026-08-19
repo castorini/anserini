@@ -46,17 +46,17 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v1-passage.wp-tok/ \
   -topics msmarco-passage.dev-subset.wp \
   -topicReader TsvInt \
-  -output runs/run.msmarco-passage-wp.bm25-default.topics.msmarco-passage.dev-subset.wp.txt \
+  -output runs/run.lucene-inverted.msmarco-v1-passage.wp-tok.model-bm25-default.topics-msmarco-passage.dev-subset.wp.txt \
   -bm25 -pretokenized &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m map msmarco-passage.dev-subset runs/run.msmarco-passage-wp.bm25-default.topics.msmarco-passage.dev-subset.wp.txt
-bin/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev-subset runs/run.msmarco-passage-wp.bm25-default.topics.msmarco-passage.dev-subset.wp.txt
-bin/trec_eval -c -m recall.100 msmarco-passage.dev-subset runs/run.msmarco-passage-wp.bm25-default.topics.msmarco-passage.dev-subset.wp.txt
-bin/trec_eval -c -m recall.1000 msmarco-passage.dev-subset runs/run.msmarco-passage-wp.bm25-default.topics.msmarco-passage.dev-subset.wp.txt
+bin/trec_eval -c -m map msmarco-passage.dev-subset runs/run.lucene-inverted.msmarco-v1-passage.wp-tok.model-bm25-default.topics-msmarco-passage.dev-subset.wp.txt
+bin/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev-subset runs/run.lucene-inverted.msmarco-v1-passage.wp-tok.model-bm25-default.topics-msmarco-passage.dev-subset.wp.txt
+bin/trec_eval -c -m recall.100 msmarco-passage.dev-subset runs/run.lucene-inverted.msmarco-v1-passage.wp-tok.model-bm25-default.topics-msmarco-passage.dev-subset.wp.txt
+bin/trec_eval -c -m recall.1000 msmarco-passage.dev-subset runs/run.lucene-inverted.msmarco-v1-passage.wp-tok.model-bm25-default.topics-msmarco-passage.dev-subset.wp.txt
 ```
 
 ## Effectiveness

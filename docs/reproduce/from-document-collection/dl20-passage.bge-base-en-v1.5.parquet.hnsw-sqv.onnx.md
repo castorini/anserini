@@ -78,17 +78,17 @@ bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -index indexes/lucene-hnsw-sqv.msmarco-v1-passage.bge-base-en-v1.5/ \
   -topics dl20 \
   -topicReader TsvInt \
-  -output runs/run.msmarco-passage-bge-base-en-v1.5.parquet.bge-hnsw-sqv-onnx.topics.dl20.txt \
+  -output runs/run.lucene-hnsw-sqv.msmarco-v1-passage.bge-base-en-v1.5.model-bge-hnsw-sqv-onnx.topics-dl20.txt \
   -encoder BgeBaseEn15 -hits 1000 -efSearch 2000 -threads 16 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -m map -c -l 2 dl20-passage runs/run.msmarco-passage-bge-base-en-v1.5.parquet.bge-hnsw-sqv-onnx.topics.dl20.txt
-bin/trec_eval -m ndcg_cut.10 -c dl20-passage runs/run.msmarco-passage-bge-base-en-v1.5.parquet.bge-hnsw-sqv-onnx.topics.dl20.txt
-bin/trec_eval -m recall.100 -c -l 2 dl20-passage runs/run.msmarco-passage-bge-base-en-v1.5.parquet.bge-hnsw-sqv-onnx.topics.dl20.txt
-bin/trec_eval -m recall.1000 -c -l 2 dl20-passage runs/run.msmarco-passage-bge-base-en-v1.5.parquet.bge-hnsw-sqv-onnx.topics.dl20.txt
+bin/trec_eval -m map -c -l 2 dl20-passage runs/run.lucene-hnsw-sqv.msmarco-v1-passage.bge-base-en-v1.5.model-bge-hnsw-sqv-onnx.topics-dl20.txt
+bin/trec_eval -m ndcg_cut.10 -c dl20-passage runs/run.lucene-hnsw-sqv.msmarco-v1-passage.bge-base-en-v1.5.model-bge-hnsw-sqv-onnx.topics-dl20.txt
+bin/trec_eval -m recall.100 -c -l 2 dl20-passage runs/run.lucene-hnsw-sqv.msmarco-v1-passage.bge-base-en-v1.5.model-bge-hnsw-sqv-onnx.topics-dl20.txt
+bin/trec_eval -m recall.1000 -c -l 2 dl20-passage runs/run.lucene-hnsw-sqv.msmarco-v1-passage.bge-base-en-v1.5.model-bge-hnsw-sqv-onnx.topics-dl20.txt
 ```
 
 ## Effectiveness

@@ -59,16 +59,16 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.bright-leetcode.splade-v3/ \
   -topics bright-leetcode \
   -topicReader TsvString \
-  -output runs/run.bright-leetcode.splade-v3-onnx.topics.bright-leetcode.txt \
+  -output runs/run.lucene-inverted.bright-leetcode.splade-v3.model-splade-v3-onnx.topics-bright-leetcode.txt \
   -impact -pretokenized -removeQuery -hits 1000 -encoder SpladeV3 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.10 bright-leetcode runs/run.bright-leetcode.splade-v3-onnx.topics.bright-leetcode.txt
-bin/trec_eval -c -m recall.100 bright-leetcode runs/run.bright-leetcode.splade-v3-onnx.topics.bright-leetcode.txt
-bin/trec_eval -c -m recall.1000 bright-leetcode runs/run.bright-leetcode.splade-v3-onnx.topics.bright-leetcode.txt
+bin/trec_eval -c -m ndcg_cut.10 bright-leetcode runs/run.lucene-inverted.bright-leetcode.splade-v3.model-splade-v3-onnx.topics-bright-leetcode.txt
+bin/trec_eval -c -m recall.100 bright-leetcode runs/run.lucene-inverted.bright-leetcode.splade-v3.model-splade-v3-onnx.topics-bright-leetcode.txt
+bin/trec_eval -c -m recall.1000 bright-leetcode runs/run.lucene-inverted.bright-leetcode.splade-v3.model-splade-v3-onnx.topics-bright-leetcode.txt
 ```
 
 ## Effectiveness

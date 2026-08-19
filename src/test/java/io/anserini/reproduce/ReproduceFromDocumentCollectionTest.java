@@ -56,21 +56,21 @@ public class ReproduceFromDocumentCollectionTest extends StdOutStdErrRedirectabl
   private static final Path CACM_FATJAR_LOG = Paths.get("target", "run-cacm-fatjar.log");
 
   private static final String[] CACM_COLLECTION_IN_REPO_EXPECTED_RUNS = {
-    "runs/run.cacm.bm25.topics.cacm.txt",
-    "runs/run.cacm.bm25+rm3.topics.cacm.txt",
-    "runs/run.cacm.bm25+ax.topics.cacm.txt",
-    "runs/run.cacm.ql.topics.cacm.txt",
-    "runs/run.cacm.ql+rm3.topics.cacm.txt",
-    "runs/run.cacm.ql+ax.topics.cacm.txt"
+    "runs/run.lucene-inverted.cacm.model-bm25.topics-cacm.txt",
+    "runs/run.lucene-inverted.cacm.model-bm25+rm3.topics-cacm.txt",
+    "runs/run.lucene-inverted.cacm.model-bm25+ax.topics-cacm.txt",
+    "runs/run.lucene-inverted.cacm.model-ql.topics-cacm.txt",
+    "runs/run.lucene-inverted.cacm.model-ql+rm3.topics-cacm.txt",
+    "runs/run.lucene-inverted.cacm.model-ql+ax.topics-cacm.txt"
   };
 
   private static final String[] CACM_COLLECTION_DOWNLOAD_EXPECTED_RUNS = {
-    "runs/run.cacm.bm25.topics.cacm.txt",
-    "runs/run.cacm.bm25+rm3.topics.cacm.txt",
-    "runs/run.cacm.bm25+ax.topics.cacm.txt",
-    "runs/run.cacm.ql.topics.cacm.txt",
-    "runs/run.cacm.ql+rm3.topics.cacm.txt",
-    "runs/run.cacm.ql+ax.topics.cacm.txt"
+    "runs/run.lucene-inverted.cacm.download.model-bm25.topics-cacm.txt",
+    "runs/run.lucene-inverted.cacm.download.model-bm25+rm3.topics-cacm.txt",
+    "runs/run.lucene-inverted.cacm.download.model-bm25+ax.topics-cacm.txt",
+    "runs/run.lucene-inverted.cacm.download.model-ql.topics-cacm.txt",
+    "runs/run.lucene-inverted.cacm.download.model-ql+rm3.topics-cacm.txt",
+    "runs/run.lucene-inverted.cacm.download.model-ql+ax.topics-cacm.txt"
   };
 
   private static final String CACM_QRELS_PATH = "src/test/resources/sample_qrels/cacm/qrels.cacm.txt";
@@ -176,7 +176,7 @@ public class ReproduceFromDocumentCollectionTest extends StdOutStdErrRedirectabl
     ReproduceFromDocumentCollection.main(new String[] {"--config", "cacm", "--index", "--search"});
 
     assertRunsExistAndNonEmpty(CACM_COLLECTION_IN_REPO_EXPECTED_RUNS);
-    assertTrecEvalP30(CACM_QRELS_PATH, "runs/run.cacm.bm25.topics.cacm.txt", "0.1942");
+    assertTrecEvalP30(CACM_QRELS_PATH, "runs/run.lucene-inverted.cacm.model-bm25.topics-cacm.txt", "0.1942");
 
     deleteRunsIfExists(CACM_COLLECTION_IN_REPO_EXPECTED_RUNS);
     deleteDirectoryIfExists(Paths.get("indexes/lucene-inverted.cacm/"));
@@ -192,7 +192,7 @@ public class ReproduceFromDocumentCollectionTest extends StdOutStdErrRedirectabl
     ReproduceFromDocumentCollection.main(new String[] {"--config", "cacm-download", "--download", "--index", "--search"});
 
     assertRunsExistAndNonEmpty(CACM_COLLECTION_DOWNLOAD_EXPECTED_RUNS);
-    assertTrecEvalP30(CACM_QRELS_PATH, "runs/run.cacm.bm25.topics.cacm.txt", "0.1942");
+    assertTrecEvalP30(CACM_QRELS_PATH, "runs/run.lucene-inverted.cacm.download.model-bm25.topics-cacm.txt", "0.1942");
 
     deleteRunsIfExists(CACM_COLLECTION_DOWNLOAD_EXPECTED_RUNS);
     deleteDirectoryIfExists(Paths.get("indexes/lucene-inverted.cacm.download/"));

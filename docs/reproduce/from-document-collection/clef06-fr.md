@@ -22,7 +22,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection JsonCollection \
   -input /path/to/clef06-fr \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.clef06-fr/ \
+  -index indexes/lucene-inverted.clef06-fr/ \
   -storePositions -storeDocvectors -storeRaw -language fr \
   >& logs/log.clef06-fr &
 ```
@@ -44,17 +44,17 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.clef06-fr/ \
+  -index indexes/lucene-inverted.clef06-fr/ \
   -topics clef06fr.mono.fr \
   -topicReader TsvString \
-  -output runs/run.clef06-fr.bm25.topics.clef06fr.mono.fr.txt \
+  -output runs/run.lucene-inverted.clef06-fr.model-bm25.topics-clef06fr.mono.fr.txt \
   -bm25 -language fr &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -m map -m P.20 -m ndcg_cut.20 clef06fr runs/run.clef06-fr.bm25.topics.clef06fr.mono.fr.txt
+bin/trec_eval -m map -m P.20 -m ndcg_cut.20 clef06fr runs/run.lucene-inverted.clef06-fr.model-bm25.topics-clef06fr.mono.fr.txt
 ```
 
 ## Effectiveness

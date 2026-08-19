@@ -76,17 +76,17 @@ bin/run.sh io.anserini.search.SearchInvertedDenseVectors \
   -index indexes/lucene-inverted.msmarco-v1-passage.cos-dpr-distil.fw-40/ \
   -topics dl20.cos-dpr-distil \
   -topicReader JsonIntVector \
-  -output runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-fw-40-cached_q.topics.dl20.cos-dpr-distil.txt \
+  -output runs/run.lucene-inverted.msmarco-v1-passage.cos-dpr-distil.fw-40.model-cos-dpr-distil-fw-40-cached_q.topics-dl20.cos-dpr-distil.txt \
   -topicField vector -threads 16 -encoding fw -fw.q 40 -hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -m map -c -l 2 dl20-passage runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-fw-40-cached_q.topics.dl20.cos-dpr-distil.txt
-bin/trec_eval -m ndcg_cut.10 -c dl20-passage runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-fw-40-cached_q.topics.dl20.cos-dpr-distil.txt
-bin/trec_eval -m recall.100 -c -l 2 dl20-passage runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-fw-40-cached_q.topics.dl20.cos-dpr-distil.txt
-bin/trec_eval -m recall.1000 -c -l 2 dl20-passage runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-fw-40-cached_q.topics.dl20.cos-dpr-distil.txt
+bin/trec_eval -m map -c -l 2 dl20-passage runs/run.lucene-inverted.msmarco-v1-passage.cos-dpr-distil.fw-40.model-cos-dpr-distil-fw-40-cached_q.topics-dl20.cos-dpr-distil.txt
+bin/trec_eval -m ndcg_cut.10 -c dl20-passage runs/run.lucene-inverted.msmarco-v1-passage.cos-dpr-distil.fw-40.model-cos-dpr-distil-fw-40-cached_q.topics-dl20.cos-dpr-distil.txt
+bin/trec_eval -m recall.100 -c -l 2 dl20-passage runs/run.lucene-inverted.msmarco-v1-passage.cos-dpr-distil.fw-40.model-cos-dpr-distil-fw-40-cached_q.topics-dl20.cos-dpr-distil.txt
+bin/trec_eval -m recall.1000 -c -l 2 dl20-passage runs/run.lucene-inverted.msmarco-v1-passage.cos-dpr-distil.fw-40.model-cos-dpr-distil-fw-40-cached_q.topics-dl20.cos-dpr-distil.txt
 ```
 
 ## Effectiveness

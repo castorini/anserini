@@ -49,17 +49,17 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v1-passage.wp-ca/ \
   -topics dl20 \
   -topicReader TsvInt \
-  -output runs/run.msmarco-passage.bm25-default.topics.dl20.txt \
+  -output runs/run.lucene-inverted.msmarco-v1-passage.wp-ca.model-bm25-default.topics-dl20.txt \
   -bm25 -analyzeWithHuggingFaceTokenizer bert-base-uncased -useCompositeAnalyzer &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -m map -c -l 2 dl20-passage runs/run.msmarco-passage.bm25-default.topics.dl20.txt
-bin/trec_eval -m ndcg_cut.10 -c dl20-passage runs/run.msmarco-passage.bm25-default.topics.dl20.txt
-bin/trec_eval -m recall.100 -c -l 2 dl20-passage runs/run.msmarco-passage.bm25-default.topics.dl20.txt
-bin/trec_eval -m recall.1000 -c -l 2 dl20-passage runs/run.msmarco-passage.bm25-default.topics.dl20.txt
+bin/trec_eval -m map -c -l 2 dl20-passage runs/run.lucene-inverted.msmarco-v1-passage.wp-ca.model-bm25-default.topics-dl20.txt
+bin/trec_eval -m ndcg_cut.10 -c dl20-passage runs/run.lucene-inverted.msmarco-v1-passage.wp-ca.model-bm25-default.topics-dl20.txt
+bin/trec_eval -m recall.100 -c -l 2 dl20-passage runs/run.lucene-inverted.msmarco-v1-passage.wp-ca.model-bm25-default.topics-dl20.txt
+bin/trec_eval -m recall.1000 -c -l 2 dl20-passage runs/run.lucene-inverted.msmarco-v1-passage.wp-ca.model-bm25-default.topics-dl20.txt
 ```
 
 ## Effectiveness

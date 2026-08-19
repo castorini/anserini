@@ -21,7 +21,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection MrTyDiCollection \
   -input /path/to/ciral-somali \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.ciral-v1.0-so/ \
+  -index indexes/lucene-inverted.ciral-v1.0-so/ \
   -storePositions -storeDocvectors -storeRaw -language so \
   >& logs/log.ciral-somali &
 ```
@@ -35,34 +35,34 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.ciral-v1.0-so/ \
+  -index indexes/lucene-inverted.ciral-v1.0-so/ \
   -topics ciral-v1.0-so-test-a-native \
   -topicReader TsvInt \
-  -output runs/run.ciral-somali.bm25-default.topics.ciral-v1.0-so-test-a-native.txt \
+  -output runs/run.lucene-inverted.ciral-v1.0-so.model-bm25-default.topics-ciral-v1.0-so-test-a-native.txt \
   -bm25 -hits 1000 -language so &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.ciral-v1.0-so/ \
+  -index indexes/lucene-inverted.ciral-v1.0-so/ \
   -topics ciral-v1.0-so-test-a-native \
   -topicReader TsvInt \
-  -output runs/run.ciral-somali.bm25-default.topics.ciral-v1.0-so-test-a-native.txt \
+  -output runs/run.lucene-inverted.ciral-v1.0-so.model-bm25-default.topics-ciral-v1.0-so-test-a-native.txt \
   -bm25 -hits 1000 -language so &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.ciral-v1.0-so/ \
+  -index indexes/lucene-inverted.ciral-v1.0-so/ \
   -topics ciral-v1.0-so-test-b-native \
   -topicReader TsvInt \
-  -output runs/run.ciral-somali.bm25-default.topics.ciral-v1.0-so-test-b-native.txt \
+  -output runs/run.lucene-inverted.ciral-v1.0-so.model-bm25-default.topics-ciral-v1.0-so-test-b-native.txt \
   -bm25 -hits 1000 -language so &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.20 ciral-v1.0-so-test-a runs/run.ciral-somali.bm25-default.topics.ciral-v1.0-so-test-a-native.txt
-bin/trec_eval -c -m recall.100 ciral-v1.0-so-test-a runs/run.ciral-somali.bm25-default.topics.ciral-v1.0-so-test-a-native.txt
-bin/trec_eval -c -m ndcg_cut.20 ciral-v1.0-so-test-a-pools runs/run.ciral-somali.bm25-default.topics.ciral-v1.0-so-test-a-native.txt
-bin/trec_eval -c -m recall.100 ciral-v1.0-so-test-a-pools runs/run.ciral-somali.bm25-default.topics.ciral-v1.0-so-test-a-native.txt
-bin/trec_eval -c -m ndcg_cut.20 ciral-v1.0-so-test-b runs/run.ciral-somali.bm25-default.topics.ciral-v1.0-so-test-b-native.txt
-bin/trec_eval -c -m recall.100 ciral-v1.0-so-test-b runs/run.ciral-somali.bm25-default.topics.ciral-v1.0-so-test-b-native.txt
+bin/trec_eval -c -m ndcg_cut.20 ciral-v1.0-so-test-a runs/run.lucene-inverted.ciral-v1.0-so.model-bm25-default.topics-ciral-v1.0-so-test-a-native.txt
+bin/trec_eval -c -m recall.100 ciral-v1.0-so-test-a runs/run.lucene-inverted.ciral-v1.0-so.model-bm25-default.topics-ciral-v1.0-so-test-a-native.txt
+bin/trec_eval -c -m ndcg_cut.20 ciral-v1.0-so-test-a-pools runs/run.lucene-inverted.ciral-v1.0-so.model-bm25-default.topics-ciral-v1.0-so-test-a-native.txt
+bin/trec_eval -c -m recall.100 ciral-v1.0-so-test-a-pools runs/run.lucene-inverted.ciral-v1.0-so.model-bm25-default.topics-ciral-v1.0-so-test-a-native.txt
+bin/trec_eval -c -m ndcg_cut.20 ciral-v1.0-so-test-b runs/run.lucene-inverted.ciral-v1.0-so.model-bm25-default.topics-ciral-v1.0-so-test-b-native.txt
+bin/trec_eval -c -m recall.100 ciral-v1.0-so-test-b runs/run.lucene-inverted.ciral-v1.0-so.model-bm25-default.topics-ciral-v1.0-so-test-b-native.txt
 ```
 
 ## Effectiveness

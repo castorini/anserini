@@ -21,7 +21,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection MrTyDiCollection \
   -input /path/to/ciral-swahili \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.ciral-v1.0-sw/ \
+  -index indexes/lucene-inverted.ciral-v1.0-sw/ \
   -storePositions -storeDocvectors -storeRaw -language sw \
   >& logs/log.ciral-swahili &
 ```
@@ -35,34 +35,34 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.ciral-v1.0-sw/ \
+  -index indexes/lucene-inverted.ciral-v1.0-sw/ \
   -topics ciral-v1.0-sw-test-a-native \
   -topicReader TsvInt \
-  -output runs/run.ciral-swahili.bm25-default.topics.ciral-v1.0-sw-test-a-native.txt \
+  -output runs/run.lucene-inverted.ciral-v1.0-sw.model-bm25-default.topics-ciral-v1.0-sw-test-a-native.txt \
   -bm25 -hits 1000 -language sw &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.ciral-v1.0-sw/ \
+  -index indexes/lucene-inverted.ciral-v1.0-sw/ \
   -topics ciral-v1.0-sw-test-a-native \
   -topicReader TsvInt \
-  -output runs/run.ciral-swahili.bm25-default.topics.ciral-v1.0-sw-test-a-native.txt \
+  -output runs/run.lucene-inverted.ciral-v1.0-sw.model-bm25-default.topics-ciral-v1.0-sw-test-a-native.txt \
   -bm25 -hits 1000 -language sw &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.ciral-v1.0-sw/ \
+  -index indexes/lucene-inverted.ciral-v1.0-sw/ \
   -topics ciral-v1.0-sw-test-b-native \
   -topicReader TsvInt \
-  -output runs/run.ciral-swahili.bm25-default.topics.ciral-v1.0-sw-test-b-native.txt \
+  -output runs/run.lucene-inverted.ciral-v1.0-sw.model-bm25-default.topics-ciral-v1.0-sw-test-b-native.txt \
   -bm25 -hits 1000 -language sw &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.20 ciral-v1.0-sw-test-a runs/run.ciral-swahili.bm25-default.topics.ciral-v1.0-sw-test-a-native.txt
-bin/trec_eval -c -m recall.100 ciral-v1.0-sw-test-a runs/run.ciral-swahili.bm25-default.topics.ciral-v1.0-sw-test-a-native.txt
-bin/trec_eval -c -m ndcg_cut.20 ciral-v1.0-sw-test-a-pools runs/run.ciral-swahili.bm25-default.topics.ciral-v1.0-sw-test-a-native.txt
-bin/trec_eval -c -m recall.100 ciral-v1.0-sw-test-a-pools runs/run.ciral-swahili.bm25-default.topics.ciral-v1.0-sw-test-a-native.txt
-bin/trec_eval -c -m ndcg_cut.20 ciral-v1.0-sw-test-b runs/run.ciral-swahili.bm25-default.topics.ciral-v1.0-sw-test-b-native.txt
-bin/trec_eval -c -m recall.100 ciral-v1.0-sw-test-b runs/run.ciral-swahili.bm25-default.topics.ciral-v1.0-sw-test-b-native.txt
+bin/trec_eval -c -m ndcg_cut.20 ciral-v1.0-sw-test-a runs/run.lucene-inverted.ciral-v1.0-sw.model-bm25-default.topics-ciral-v1.0-sw-test-a-native.txt
+bin/trec_eval -c -m recall.100 ciral-v1.0-sw-test-a runs/run.lucene-inverted.ciral-v1.0-sw.model-bm25-default.topics-ciral-v1.0-sw-test-a-native.txt
+bin/trec_eval -c -m ndcg_cut.20 ciral-v1.0-sw-test-a-pools runs/run.lucene-inverted.ciral-v1.0-sw.model-bm25-default.topics-ciral-v1.0-sw-test-a-native.txt
+bin/trec_eval -c -m recall.100 ciral-v1.0-sw-test-a-pools runs/run.lucene-inverted.ciral-v1.0-sw.model-bm25-default.topics-ciral-v1.0-sw-test-a-native.txt
+bin/trec_eval -c -m ndcg_cut.20 ciral-v1.0-sw-test-b runs/run.lucene-inverted.ciral-v1.0-sw.model-bm25-default.topics-ciral-v1.0-sw-test-b-native.txt
+bin/trec_eval -c -m recall.100 ciral-v1.0-sw-test-b runs/run.lucene-inverted.ciral-v1.0-sw.model-bm25-default.topics-ciral-v1.0-sw-test-b-native.txt
 ```
 
 ## Effectiveness

@@ -51,16 +51,16 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.beir-v1.0.0-signal1m.flat-wp/ \
   -topics beir-v1.0.0-signal1m.test.wp \
   -topicReader TsvString \
-  -output runs/run.beir-v1.0.0-signal1m.flat-wp.bm25.topics.beir-v1.0.0-signal1m.test.wp.txt \
+  -output runs/run.lucene-inverted.beir-v1.0.0-signal1m.flat-wp.model-bm25.topics-beir-v1.0.0-signal1m.test.wp.txt \
   -bm25 -removeQuery -pretokenized &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.10 beir-v1.0.0-signal1m.test runs/run.beir-v1.0.0-signal1m.flat-wp.bm25.topics.beir-v1.0.0-signal1m.test.wp.txt
-bin/trec_eval -c -m recall.100 beir-v1.0.0-signal1m.test runs/run.beir-v1.0.0-signal1m.flat-wp.bm25.topics.beir-v1.0.0-signal1m.test.wp.txt
-bin/trec_eval -c -m recall.1000 beir-v1.0.0-signal1m.test runs/run.beir-v1.0.0-signal1m.flat-wp.bm25.topics.beir-v1.0.0-signal1m.test.wp.txt
+bin/trec_eval -c -m ndcg_cut.10 beir-v1.0.0-signal1m.test runs/run.lucene-inverted.beir-v1.0.0-signal1m.flat-wp.model-bm25.topics-beir-v1.0.0-signal1m.test.wp.txt
+bin/trec_eval -c -m recall.100 beir-v1.0.0-signal1m.test runs/run.lucene-inverted.beir-v1.0.0-signal1m.flat-wp.model-bm25.topics-beir-v1.0.0-signal1m.test.wp.txt
+bin/trec_eval -c -m recall.1000 beir-v1.0.0-signal1m.test runs/run.lucene-inverted.beir-v1.0.0-signal1m.flat-wp.model-bm25.topics-beir-v1.0.0-signal1m.test.wp.txt
 ```
 
 ## Effectiveness

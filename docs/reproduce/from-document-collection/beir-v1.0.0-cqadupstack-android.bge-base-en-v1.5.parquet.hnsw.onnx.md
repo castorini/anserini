@@ -55,16 +55,16 @@ bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -index indexes/lucene-hnsw.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5/ \
   -topics beir-v1.0.0-cqadupstack-android.test \
   -topicReader TsvString \
-  -output runs/run.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.bge-hnsw-onnx.topics.beir-v1.0.0-cqadupstack-android.test.txt \
+  -output runs/run.lucene-hnsw.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.model-bge-hnsw-onnx.topics-beir-v1.0.0-cqadupstack-android.test.txt \
   -encoder BgeBaseEn15 -hits 1000 -efSearch 2000 -removeQuery -threads 16 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.10 beir-v1.0.0-cqadupstack-android.test runs/run.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.bge-hnsw-onnx.topics.beir-v1.0.0-cqadupstack-android.test.txt
-bin/trec_eval -c -m recall.100 beir-v1.0.0-cqadupstack-android.test runs/run.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.bge-hnsw-onnx.topics.beir-v1.0.0-cqadupstack-android.test.txt
-bin/trec_eval -c -m recall.1000 beir-v1.0.0-cqadupstack-android.test runs/run.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.bge-hnsw-onnx.topics.beir-v1.0.0-cqadupstack-android.test.txt
+bin/trec_eval -c -m ndcg_cut.10 beir-v1.0.0-cqadupstack-android.test runs/run.lucene-hnsw.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.model-bge-hnsw-onnx.topics-beir-v1.0.0-cqadupstack-android.test.txt
+bin/trec_eval -c -m recall.100 beir-v1.0.0-cqadupstack-android.test runs/run.lucene-hnsw.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.model-bge-hnsw-onnx.topics-beir-v1.0.0-cqadupstack-android.test.txt
+bin/trec_eval -c -m recall.1000 beir-v1.0.0-cqadupstack-android.test runs/run.lucene-hnsw.beir-v1.0.0-cqadupstack-android.bge-base-en-v1.5.model-bge-hnsw-onnx.topics-beir-v1.0.0-cqadupstack-android.test.txt
 ```
 
 ## Effectiveness

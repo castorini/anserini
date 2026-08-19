@@ -45,25 +45,25 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2-passage-augmented.d2q-t5/ \
   -topics msmarco-v2-passage.dev \
   -topicReader TsvInt \
-  -output runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default.topics.msmarco-v2-passage.dev.txt \
+  -output runs/run.lucene-inverted.msmarco-v2-passage-augmented.d2q-t5.model-bm25-default.topics-msmarco-v2-passage.dev.txt \
   -bm25 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2-passage-augmented.d2q-t5/ \
   -topics msmarco-v2-passage.dev2 \
   -topicReader TsvInt \
-  -output runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default.topics.msmarco-v2-passage.dev2.txt \
+  -output runs/run.lucene-inverted.msmarco-v2-passage-augmented.d2q-t5.model-bm25-default.topics-msmarco-v2-passage.dev2.txt \
   -bm25 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m recall.100 msmarco-v2-passage.dev runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default.topics.msmarco-v2-passage.dev.txt
-bin/trec_eval -c -m recall.1000 msmarco-v2-passage.dev runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default.topics.msmarco-v2-passage.dev.txt
-bin/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank msmarco-v2-passage.dev runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default.topics.msmarco-v2-passage.dev.txt
-bin/trec_eval -c -m recall.100 msmarco-v2-passage.dev2 runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default.topics.msmarco-v2-passage.dev2.txt
-bin/trec_eval -c -m recall.1000 msmarco-v2-passage.dev2 runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default.topics.msmarco-v2-passage.dev2.txt
-bin/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank msmarco-v2-passage.dev2 runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default.topics.msmarco-v2-passage.dev2.txt
+bin/trec_eval -c -m recall.100 msmarco-v2-passage.dev runs/run.lucene-inverted.msmarco-v2-passage-augmented.d2q-t5.model-bm25-default.topics-msmarco-v2-passage.dev.txt
+bin/trec_eval -c -m recall.1000 msmarco-v2-passage.dev runs/run.lucene-inverted.msmarco-v2-passage-augmented.d2q-t5.model-bm25-default.topics-msmarco-v2-passage.dev.txt
+bin/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank msmarco-v2-passage.dev runs/run.lucene-inverted.msmarco-v2-passage-augmented.d2q-t5.model-bm25-default.topics-msmarco-v2-passage.dev.txt
+bin/trec_eval -c -m recall.100 msmarco-v2-passage.dev2 runs/run.lucene-inverted.msmarco-v2-passage-augmented.d2q-t5.model-bm25-default.topics-msmarco-v2-passage.dev2.txt
+bin/trec_eval -c -m recall.1000 msmarco-v2-passage.dev2 runs/run.lucene-inverted.msmarco-v2-passage-augmented.d2q-t5.model-bm25-default.topics-msmarco-v2-passage.dev2.txt
+bin/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank msmarco-v2-passage.dev2 runs/run.lucene-inverted.msmarco-v2-passage-augmented.d2q-t5.model-bm25-default.topics-msmarco-v2-passage.dev2.txt
 ```
 
 ## Effectiveness

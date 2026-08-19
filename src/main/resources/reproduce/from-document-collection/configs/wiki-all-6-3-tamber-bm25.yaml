@@ -2,7 +2,7 @@
 corpus: wiki-all-6-3-tamber
 corpus_path: collections/wikipedia/wiki-all-6-3-tamber
 
-index_path: indexes/lucene-index.wiki-all-6-3-tamber/
+index_path: indexes/lucene-inverted.wiki-all-6-3-tamber/
 collection_class: MrTyDiCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 20

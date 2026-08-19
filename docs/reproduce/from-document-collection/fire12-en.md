@@ -22,7 +22,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection CleanTrecCollection \
   -input /path/to/fire12-en \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.fire12-en/ \
+  -index indexes/lucene-inverted.fire12-en/ \
   -storePositions -storeDocvectors -storeRaw -language en \
   >& logs/log.fire12-en &
 ```
@@ -44,17 +44,17 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.fire12-en/ \
+  -index indexes/lucene-inverted.fire12-en/ \
   -topics fire12en.176-225 \
   -topicReader Trec \
-  -output runs/run.fire12-en.bm25.topics.fire12en.176-225.txt \
+  -output runs/run.lucene-inverted.fire12-en.model-bm25.topics-fire12en.176-225.txt \
   -bm25 -language en &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -m map -m P.20 -m ndcg_cut.20 fire12en.176-225 runs/run.fire12-en.bm25.topics.fire12en.176-225.txt
+bin/trec_eval -m map -m P.20 -m ndcg_cut.20 fire12en.176-225 runs/run.lucene-inverted.fire12-en.model-bm25.topics-fire12en.176-225.txt
 ```
 
 ## Effectiveness

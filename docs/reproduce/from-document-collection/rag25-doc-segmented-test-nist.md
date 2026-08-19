@@ -54,38 +54,38 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2.1-doc-segmented/ \
   -topics rag25.test \
   -topicReader JsonString \
-  -output runs/run.msmarco-v2.1-doc-segmented.bm25-default.topics.rag25.test.txt \
+  -output runs/run.lucene-inverted.msmarco-v2.1-doc-segmented.model-bm25-default.topics-rag25.test.txt \
   -bm25 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2.1-doc-segmented/ \
   -topics rag25.test \
   -topicReader JsonString \
-  -output runs/run.msmarco-v2.1-doc-segmented.bm25-default+rm3.topics.rag25.test.txt \
+  -output runs/run.lucene-inverted.msmarco-v2.1-doc-segmented.model-bm25-default+rm3.topics-rag25.test.txt \
   -bm25 -rm3 -collection MsMarcoV2DocCollection &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2.1-doc-segmented/ \
   -topics rag25.test \
   -topicReader JsonString \
-  -output runs/run.msmarco-v2.1-doc-segmented.bm25-default+rocchio.topics.rag25.test.txt \
+  -output runs/run.lucene-inverted.msmarco-v2.1-doc-segmented.model-bm25-default+rocchio.topics-rag25.test.txt \
   -bm25 -rocchio -collection MsMarcoV2DocCollection &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.30 rag25.test runs/run.msmarco-v2.1-doc-segmented.bm25-default.topics.rag25.test.txt
-bin/trec_eval -c -m ndcg_cut.100 rag25.test runs/run.msmarco-v2.1-doc-segmented.bm25-default.topics.rag25.test.txt
-bin/trec_eval -c -m recall.100 rag25.test runs/run.msmarco-v2.1-doc-segmented.bm25-default.topics.rag25.test.txt
+bin/trec_eval -c -m ndcg_cut.30 rag25.test runs/run.lucene-inverted.msmarco-v2.1-doc-segmented.model-bm25-default.topics-rag25.test.txt
+bin/trec_eval -c -m ndcg_cut.100 rag25.test runs/run.lucene-inverted.msmarco-v2.1-doc-segmented.model-bm25-default.topics-rag25.test.txt
+bin/trec_eval -c -m recall.100 rag25.test runs/run.lucene-inverted.msmarco-v2.1-doc-segmented.model-bm25-default.topics-rag25.test.txt
 
-bin/trec_eval -c -m ndcg_cut.30 rag25.test runs/run.msmarco-v2.1-doc-segmented.bm25-default+rm3.topics.rag25.test.txt
-bin/trec_eval -c -m ndcg_cut.100 rag25.test runs/run.msmarco-v2.1-doc-segmented.bm25-default+rm3.topics.rag25.test.txt
-bin/trec_eval -c -m recall.100 rag25.test runs/run.msmarco-v2.1-doc-segmented.bm25-default+rm3.topics.rag25.test.txt
+bin/trec_eval -c -m ndcg_cut.30 rag25.test runs/run.lucene-inverted.msmarco-v2.1-doc-segmented.model-bm25-default+rm3.topics-rag25.test.txt
+bin/trec_eval -c -m ndcg_cut.100 rag25.test runs/run.lucene-inverted.msmarco-v2.1-doc-segmented.model-bm25-default+rm3.topics-rag25.test.txt
+bin/trec_eval -c -m recall.100 rag25.test runs/run.lucene-inverted.msmarco-v2.1-doc-segmented.model-bm25-default+rm3.topics-rag25.test.txt
 
-bin/trec_eval -c -m ndcg_cut.30 rag25.test runs/run.msmarco-v2.1-doc-segmented.bm25-default+rocchio.topics.rag25.test.txt
-bin/trec_eval -c -m ndcg_cut.100 rag25.test runs/run.msmarco-v2.1-doc-segmented.bm25-default+rocchio.topics.rag25.test.txt
-bin/trec_eval -c -m recall.100 rag25.test runs/run.msmarco-v2.1-doc-segmented.bm25-default+rocchio.topics.rag25.test.txt
+bin/trec_eval -c -m ndcg_cut.30 rag25.test runs/run.lucene-inverted.msmarco-v2.1-doc-segmented.model-bm25-default+rocchio.topics-rag25.test.txt
+bin/trec_eval -c -m ndcg_cut.100 rag25.test runs/run.lucene-inverted.msmarco-v2.1-doc-segmented.model-bm25-default+rocchio.topics-rag25.test.txt
+bin/trec_eval -c -m recall.100 rag25.test runs/run.lucene-inverted.msmarco-v2.1-doc-segmented.model-bm25-default+rocchio.topics-rag25.test.txt
 ```
 
 ## Effectiveness

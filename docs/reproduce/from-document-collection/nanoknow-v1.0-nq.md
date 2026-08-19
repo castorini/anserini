@@ -54,14 +54,14 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/fineweb-edu-100b-official-index/ \
   -topics nanoknow-v1.0-nq.supported.tsv \
   -topicReader TsvInt \
-  -output runs/run.fineweb-edu-100b-karpathy.bm25.topics.nanoknow-v1.0-nq.supported.txt \
+  -output runs/run.fineweb-edu-100b-official-index.model-bm25.topics-nanoknow-v1.0-nq.supported.tsv.txt \
   -bm25 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m recall.20 nanoknow-v1.0-nq.supported runs/run.fineweb-edu-100b-karpathy.bm25.topics.nanoknow-v1.0-nq.supported.txt
+bin/trec_eval -c -m recall.20 nanoknow-v1.0-nq.supported runs/run.fineweb-edu-100b-official-index.model-bm25.topics-nanoknow-v1.0-nq.supported.tsv.txt
 ```
 
 ## Effectiveness

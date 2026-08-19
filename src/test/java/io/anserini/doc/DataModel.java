@@ -16,6 +16,7 @@
 
 package io.anserini.doc;
 
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -304,8 +305,9 @@ public class DataModel {
   }
 
   private String generateRunFile(Model model, Topic topic) {
-    String topicPath = topic.getPath() == null ? "topics." + topic.getId() : topic.getPath();
-    return ReproductionUtils.constructRunfilePath(getCorpus(), model.getName(), topicPath);
+    String topics = topic.getPath() == null ? "topics-" + topic.getId() : topic.getPath();
+    String indexName = Paths.get(getIndex_path()).normalize().getFileName().toString();
+    return ReproductionUtils.constructRunfilePath(indexName, "model-" + model.getName(), topics);
   }
 
   public String generateRankingCommand(String collection) {
