@@ -36,19 +36,19 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.ciral-v1.0-so/ \
-  -topics ciral-v1.0-so-test-a-native.tsv \
+  -topics ciral-v1.0-so-test-a-native \
   -topicReader TsvInt \
   -output runs/run.ciral-somali.bm25-default.topics.ciral-v1.0-so-test-a-native.txt \
   -bm25 -hits 1000 -language so &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.ciral-v1.0-so/ \
-  -topics ciral-v1.0-so-test-a-native.tsv \
+  -topics ciral-v1.0-so-test-a-native \
   -topicReader TsvInt \
   -output runs/run.ciral-somali.bm25-default.topics.ciral-v1.0-so-test-a-native.txt \
   -bm25 -hits 1000 -language so &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.ciral-v1.0-so/ \
-  -topics ciral-v1.0-so-test-b-native.tsv \
+  -topics ciral-v1.0-so-test-b-native \
   -topicReader TsvInt \
   -output runs/run.ciral-somali.bm25-default.topics.ciral-v1.0-so-test-b-native.txt \
   -bm25 -hits 1000 -language so &
@@ -57,12 +57,12 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.20 ciral-v1.0-so-test-a.tsv runs/run.ciral-somali.bm25-default.topics.ciral-v1.0-so-test-a-native.txt
-bin/trec_eval -c -m recall.100 ciral-v1.0-so-test-a.tsv runs/run.ciral-somali.bm25-default.topics.ciral-v1.0-so-test-a-native.txt
-bin/trec_eval -c -m ndcg_cut.20 ciral-v1.0-so-test-a-pools.tsv runs/run.ciral-somali.bm25-default.topics.ciral-v1.0-so-test-a-native.txt
-bin/trec_eval -c -m recall.100 ciral-v1.0-so-test-a-pools.tsv runs/run.ciral-somali.bm25-default.topics.ciral-v1.0-so-test-a-native.txt
-bin/trec_eval -c -m ndcg_cut.20 ciral-v1.0-so-test-b.tsv runs/run.ciral-somali.bm25-default.topics.ciral-v1.0-so-test-b-native.txt
-bin/trec_eval -c -m recall.100 ciral-v1.0-so-test-b.tsv runs/run.ciral-somali.bm25-default.topics.ciral-v1.0-so-test-b-native.txt
+bin/trec_eval -c -m ndcg_cut.20 ciral-v1.0-so-test-a runs/run.ciral-somali.bm25-default.topics.ciral-v1.0-so-test-a-native.txt
+bin/trec_eval -c -m recall.100 ciral-v1.0-so-test-a runs/run.ciral-somali.bm25-default.topics.ciral-v1.0-so-test-a-native.txt
+bin/trec_eval -c -m ndcg_cut.20 ciral-v1.0-so-test-a-pools runs/run.ciral-somali.bm25-default.topics.ciral-v1.0-so-test-a-native.txt
+bin/trec_eval -c -m recall.100 ciral-v1.0-so-test-a-pools runs/run.ciral-somali.bm25-default.topics.ciral-v1.0-so-test-a-native.txt
+bin/trec_eval -c -m ndcg_cut.20 ciral-v1.0-so-test-b runs/run.ciral-somali.bm25-default.topics.ciral-v1.0-so-test-b-native.txt
+bin/trec_eval -c -m recall.100 ciral-v1.0-so-test-b runs/run.ciral-somali.bm25-default.topics.ciral-v1.0-so-test-b-native.txt
 ```
 
 ## Effectiveness

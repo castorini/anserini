@@ -31,13 +31,13 @@ metrics:
 topic_reader: TsvInt
 topics:
   - name: "[Mr. TyDi (Telugu): train](https://github.com/castorini/mr.tydi)"
-    id: mrtydi-v1.1-te.train.txt.gz
+    id: mrtydi-v1.1-te.train
     qrels: mrtydi-v1.1-te.train
   - name: "[Mr. TyDi (Telugu): dev](https://github.com/castorini/mr.tydi)"
-    id: mrtydi-v1.1-te.dev.txt.gz
+    id: mrtydi-v1.1-te.dev
     qrels: mrtydi-v1.1-te.dev
   - name: "[Mr. TyDi (Telugu): test](https://github.com/castorini/mr.tydi)"
-    id: mrtydi-v1.1-te.test.txt.gz
+    id: mrtydi-v1.1-te.test
     qrels: mrtydi-v1.1-te.test
 
 models:

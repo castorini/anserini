@@ -44,22 +44,22 @@ metrics:
 topic_reader: TsvInt
 topics:
   - name: "[NeuCLIR 2022 (Russian): title (human-translated queries)](https://neuclir.github.io/)"
-    id: neuclir22-ru.splade.ht-title.txt.gz
+    id: neuclir22-ru.splade.ht-title
     qrels: neuclir22-ru
   - name: "[NeuCLIR 2022 (Russian): desc (human-translated queries)](https://neuclir.github.io/)"
-    id: neuclir22-ru.splade.ht-desc.txt.gz
+    id: neuclir22-ru.splade.ht-desc
     qrels: neuclir22-ru
   - name: "[NeuCLIR 2022 (Russian): desc+title (human-translated queries)](https://neuclir.github.io/)"
-    id: neuclir22-ru.splade.ht-desc_title.txt.gz
+    id: neuclir22-ru.splade.ht-desc_title
     qrels: neuclir22-ru
   - name: "[NeuCLIR 2022 (Russian): title (machine-translated queries)](https://neuclir.github.io/)"
-    id: neuclir22-ru.splade.mt-title.txt.gz
+    id: neuclir22-ru.splade.mt-title
     qrels: neuclir22-ru
   - name: "[NeuCLIR 2022 (Russian): desc (machine-translated queries)](https://neuclir.github.io/)"
-    id: neuclir22-ru.splade.mt-desc.txt.gz
+    id: neuclir22-ru.splade.mt-desc
     qrels: neuclir22-ru
   - name: "[NeuCLIR 2022 (Russian): desc+title (machine-translated queries)](https://neuclir.github.io/)"
-    id: neuclir22-ru.splade.mt-desc_title.txt.gz
+    id: neuclir22-ru.splade.mt-desc_title
     qrels: neuclir22-ru
 
 models:

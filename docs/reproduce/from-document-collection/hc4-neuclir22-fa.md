@@ -51,57 +51,57 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-fa \
-  -topics hc4-v1.0-fa.test.title.tsv \
+  -topics hc4-v1.0-fa.test.title \
   -topicReader TsvInt \
   -output runs/run.neuclir22-fa.bm25-default.topics.hc4-v1.0-fa.test.title.txt \
   -bm25 -language fa &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-fa \
-  -topics hc4-v1.0-fa.test.desc.tsv \
+  -topics hc4-v1.0-fa.test.desc \
   -topicReader TsvInt \
   -output runs/run.neuclir22-fa.bm25-default.topics.hc4-v1.0-fa.test.desc.txt \
   -bm25 -language fa &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-fa \
-  -topics hc4-v1.0-fa.test.desc.title.tsv \
+  -topics hc4-v1.0-fa.test.desc.title \
   -topicReader TsvInt \
   -output runs/run.neuclir22-fa.bm25-default.topics.hc4-v1.0-fa.test.desc.title.txt \
   -bm25 -language fa &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-fa \
-  -topics hc4-v1.0-fa.test.title.tsv \
+  -topics hc4-v1.0-fa.test.title \
   -topicReader TsvInt \
   -output runs/run.neuclir22-fa.bm25-default+rm3.topics.hc4-v1.0-fa.test.title.txt \
   -bm25 -rm3 -language fa &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-fa \
-  -topics hc4-v1.0-fa.test.desc.tsv \
+  -topics hc4-v1.0-fa.test.desc \
   -topicReader TsvInt \
   -output runs/run.neuclir22-fa.bm25-default+rm3.topics.hc4-v1.0-fa.test.desc.txt \
   -bm25 -rm3 -language fa &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-fa \
-  -topics hc4-v1.0-fa.test.desc.title.tsv \
+  -topics hc4-v1.0-fa.test.desc.title \
   -topicReader TsvInt \
   -output runs/run.neuclir22-fa.bm25-default+rm3.topics.hc4-v1.0-fa.test.desc.title.txt \
   -bm25 -rm3 -language fa &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-fa \
-  -topics hc4-v1.0-fa.test.title.tsv \
+  -topics hc4-v1.0-fa.test.title \
   -topicReader TsvInt \
   -output runs/run.neuclir22-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.test.title.txt \
   -bm25 -rocchio -language fa &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-fa \
-  -topics hc4-v1.0-fa.test.desc.tsv \
+  -topics hc4-v1.0-fa.test.desc \
   -topicReader TsvInt \
   -output runs/run.neuclir22-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.test.desc.txt \
   -bm25 -rocchio -language fa &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.neuclir22-fa \
-  -topics hc4-v1.0-fa.test.desc.title.tsv \
+  -topics hc4-v1.0-fa.test.desc.title \
   -topicReader TsvInt \
   -output runs/run.neuclir22-fa.bm25-default+rocchio.topics.hc4-v1.0-fa.test.desc.title.txt \
   -bm25 -rocchio -language fa &

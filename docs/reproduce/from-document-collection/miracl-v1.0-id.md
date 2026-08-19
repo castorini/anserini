@@ -36,7 +36,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.miracl-v1.0-id/ \
-  -topics miracl-v1.0-id-dev.tsv \
+  -topics miracl-v1.0-id-dev \
   -topicReader TsvInt \
   -output runs/run.miracl-v1.0-id.bm25.topics.miracl-v1.0-id-dev.txt \
   -bm25 -hits 100 -language id &
@@ -45,8 +45,8 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.10 miracl-v1.0-id-dev.tsv runs/run.miracl-v1.0-id.bm25.topics.miracl-v1.0-id-dev.txt
-bin/trec_eval -c -m recall.100 miracl-v1.0-id-dev.tsv runs/run.miracl-v1.0-id.bm25.topics.miracl-v1.0-id-dev.txt
+bin/trec_eval -c -m ndcg_cut.10 miracl-v1.0-id-dev runs/run.miracl-v1.0-id.bm25.topics.miracl-v1.0-id-dev.txt
+bin/trec_eval -c -m recall.100 miracl-v1.0-id-dev runs/run.miracl-v1.0-id.bm25.topics.miracl-v1.0-id-dev.txt
 ```
 
 ## Effectiveness

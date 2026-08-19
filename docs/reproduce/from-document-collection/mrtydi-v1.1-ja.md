@@ -36,19 +36,19 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-japanese/ \
-  -topics mrtydi-v1.1-ja.train.txt.gz \
+  -topics mrtydi-v1.1-ja.train \
   -topicReader TsvInt \
   -output runs/run.mrtydi-v1.1-ja.bm25.topics.mrtydi-v1.1-ja.train.txt \
   -bm25 -hits 100 -language ja &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-japanese/ \
-  -topics mrtydi-v1.1-ja.dev.txt.gz \
+  -topics mrtydi-v1.1-ja.dev \
   -topicReader TsvInt \
   -output runs/run.mrtydi-v1.1-ja.bm25.topics.mrtydi-v1.1-ja.dev.txt \
   -bm25 -hits 100 -language ja &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-index.mrtydi-v1.1-japanese/ \
-  -topics mrtydi-v1.1-ja.test.txt.gz \
+  -topics mrtydi-v1.1-ja.test \
   -topicReader TsvInt \
   -output runs/run.mrtydi-v1.1-ja.bm25.topics.mrtydi-v1.1-ja.test.txt \
   -bm25 -hits 100 -language ja &
