@@ -55,41 +55,41 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2-doc-segmented.d2q-t5/ \
   -topics dl23 \
   -topicReader TsvInt \
-  -output runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default.topics.dl23.txt \
+  -output runs/run.lucene-inverted.msmarco-v2-doc-segmented.d2q-t5.model-bm25-default.topics-dl23.txt \
   -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -bm25 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2-doc-segmented.d2q-t5/ \
   -topics dl23 \
   -topicReader TsvInt \
-  -output runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default+rm3.topics.dl23.txt \
+  -output runs/run.lucene-inverted.msmarco-v2-doc-segmented.d2q-t5.model-bm25-default+rm3.topics-dl23.txt \
   -bm25 -rm3 -collection MsMarcoV2DocCollection -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2-doc-segmented.d2q-t5/ \
   -topics dl23 \
   -topicReader TsvInt \
-  -output runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default+rocchio.topics.dl23.txt \
+  -output runs/run.lucene-inverted.msmarco-v2-doc-segmented.d2q-t5.model-bm25-default+rocchio.topics-dl23.txt \
   -bm25 -rocchio -collection MsMarcoV2DocCollection -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -M 100 -m map dl23-doc runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default.topics.dl23.txt
-bin/trec_eval -c -m recall.100 dl23-doc runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default.topics.dl23.txt
-bin/trec_eval -c -m recall.1000 dl23-doc runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default.topics.dl23.txt
-bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 dl23-doc runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default.topics.dl23.txt
+bin/trec_eval -c -M 100 -m map dl23-doc runs/run.lucene-inverted.msmarco-v2-doc-segmented.d2q-t5.model-bm25-default.topics-dl23.txt
+bin/trec_eval -c -m recall.100 dl23-doc runs/run.lucene-inverted.msmarco-v2-doc-segmented.d2q-t5.model-bm25-default.topics-dl23.txt
+bin/trec_eval -c -m recall.1000 dl23-doc runs/run.lucene-inverted.msmarco-v2-doc-segmented.d2q-t5.model-bm25-default.topics-dl23.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 dl23-doc runs/run.lucene-inverted.msmarco-v2-doc-segmented.d2q-t5.model-bm25-default.topics-dl23.txt
 
-bin/trec_eval -c -M 100 -m map dl23-doc runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default+rm3.topics.dl23.txt
-bin/trec_eval -c -m recall.100 dl23-doc runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default+rm3.topics.dl23.txt
-bin/trec_eval -c -m recall.1000 dl23-doc runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default+rm3.topics.dl23.txt
-bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 dl23-doc runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default+rm3.topics.dl23.txt
+bin/trec_eval -c -M 100 -m map dl23-doc runs/run.lucene-inverted.msmarco-v2-doc-segmented.d2q-t5.model-bm25-default+rm3.topics-dl23.txt
+bin/trec_eval -c -m recall.100 dl23-doc runs/run.lucene-inverted.msmarco-v2-doc-segmented.d2q-t5.model-bm25-default+rm3.topics-dl23.txt
+bin/trec_eval -c -m recall.1000 dl23-doc runs/run.lucene-inverted.msmarco-v2-doc-segmented.d2q-t5.model-bm25-default+rm3.topics-dl23.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 dl23-doc runs/run.lucene-inverted.msmarco-v2-doc-segmented.d2q-t5.model-bm25-default+rm3.topics-dl23.txt
 
-bin/trec_eval -c -M 100 -m map dl23-doc runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default+rocchio.topics.dl23.txt
-bin/trec_eval -c -m recall.100 dl23-doc runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default+rocchio.topics.dl23.txt
-bin/trec_eval -c -m recall.1000 dl23-doc runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default+rocchio.topics.dl23.txt
-bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 dl23-doc runs/run.msmarco-v2-doc-segmented-d2q-t5.bm25-default+rocchio.topics.dl23.txt
+bin/trec_eval -c -M 100 -m map dl23-doc runs/run.lucene-inverted.msmarco-v2-doc-segmented.d2q-t5.model-bm25-default+rocchio.topics-dl23.txt
+bin/trec_eval -c -m recall.100 dl23-doc runs/run.lucene-inverted.msmarco-v2-doc-segmented.d2q-t5.model-bm25-default+rocchio.topics-dl23.txt
+bin/trec_eval -c -m recall.1000 dl23-doc runs/run.lucene-inverted.msmarco-v2-doc-segmented.d2q-t5.model-bm25-default+rocchio.topics-dl23.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 dl23-doc runs/run.lucene-inverted.msmarco-v2-doc-segmented.d2q-t5.model-bm25-default+rocchio.topics-dl23.txt
 ```
 
 ## Effectiveness

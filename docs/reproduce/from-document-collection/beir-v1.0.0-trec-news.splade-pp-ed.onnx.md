@@ -58,16 +58,16 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.beir-v1.0.0-trec-news.splade-pp-ed/ \
   -topics beir-v1.0.0-trec-news.test \
   -topicReader TsvString \
-  -output runs/run.beir-v1.0.0-trec-news.splade-pp-ed.splade-pp-ed-onnx.topics.beir-v1.0.0-trec-news.test.txt \
+  -output runs/run.lucene-inverted.beir-v1.0.0-trec-news.splade-pp-ed.model-splade-pp-ed-onnx.topics-beir-v1.0.0-trec-news.test.txt \
   -impact -pretokenized -removeQuery -hits 1000 -encoder SpladePlusPlusEnsembleDistil &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.10 beir-v1.0.0-trec-news.test runs/run.beir-v1.0.0-trec-news.splade-pp-ed.splade-pp-ed-onnx.topics.beir-v1.0.0-trec-news.test.txt
-bin/trec_eval -c -m recall.100 beir-v1.0.0-trec-news.test runs/run.beir-v1.0.0-trec-news.splade-pp-ed.splade-pp-ed-onnx.topics.beir-v1.0.0-trec-news.test.txt
-bin/trec_eval -c -m recall.1000 beir-v1.0.0-trec-news.test runs/run.beir-v1.0.0-trec-news.splade-pp-ed.splade-pp-ed-onnx.topics.beir-v1.0.0-trec-news.test.txt
+bin/trec_eval -c -m ndcg_cut.10 beir-v1.0.0-trec-news.test runs/run.lucene-inverted.beir-v1.0.0-trec-news.splade-pp-ed.model-splade-pp-ed-onnx.topics-beir-v1.0.0-trec-news.test.txt
+bin/trec_eval -c -m recall.100 beir-v1.0.0-trec-news.test runs/run.lucene-inverted.beir-v1.0.0-trec-news.splade-pp-ed.model-splade-pp-ed-onnx.topics-beir-v1.0.0-trec-news.test.txt
+bin/trec_eval -c -m recall.1000 beir-v1.0.0-trec-news.test runs/run.lucene-inverted.beir-v1.0.0-trec-news.splade-pp-ed.model-splade-pp-ed-onnx.topics-beir-v1.0.0-trec-news.test.txt
 ```
 
 ## Effectiveness

@@ -24,6 +24,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -757,8 +758,9 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
     assertNotNull(yaml);
 
     DataModel data = mapper.readValue(new File(yaml.toURI()), DataModel.class);
+    String indexName = Paths.get(data.getIndex_path()).normalize().getFileName().toString();
     String runfile = ReproductionUtils.constructRunfilePath(
-        data.getCorpus(), data.getModels().get(0).getName(), "topics." + data.getTopics().get(0).getId());
+        indexName, "model-" + data.getModels().get(0).getName(), "topics-" + data.getTopics().get(0).getId());
 
     assertTrue(data.generateRankingCommand(data.getCorpus()).contains("-output " + runfile));
     assertTrue(data.generateEvalCommand(data.getCorpus()).contains(" " + runfile));

@@ -21,7 +21,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection MrTyDiCollection \
   -input /path/to/ciral-hausa-english \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.ciral-v1.0-ha-en/ \
+  -index indexes/lucene-inverted.ciral-v1.0-ha-en/ \
   -storePositions -storeDocvectors -storeRaw \
   >& logs/log.ciral-hausa-english &
 ```
@@ -35,34 +35,34 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.ciral-v1.0-ha-en/ \
+  -index indexes/lucene-inverted.ciral-v1.0-ha-en/ \
   -topics ciral-v1.0-ha-test-a \
   -topicReader TsvInt \
-  -output runs/run.ciral-hausa-english.bm25-default.topics.ciral-v1.0-ha-test-a.txt \
+  -output runs/run.lucene-inverted.ciral-v1.0-ha-en.model-bm25-default.topics-ciral-v1.0-ha-test-a.txt \
   -bm25 -hits 1000 &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.ciral-v1.0-ha-en/ \
+  -index indexes/lucene-inverted.ciral-v1.0-ha-en/ \
   -topics ciral-v1.0-ha-test-a \
   -topicReader TsvInt \
-  -output runs/run.ciral-hausa-english.bm25-default.topics.ciral-v1.0-ha-test-a.txt \
+  -output runs/run.lucene-inverted.ciral-v1.0-ha-en.model-bm25-default.topics-ciral-v1.0-ha-test-a.txt \
   -bm25 -hits 1000 &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.ciral-v1.0-ha-en/ \
+  -index indexes/lucene-inverted.ciral-v1.0-ha-en/ \
   -topics ciral-v1.0-ha-test-b \
   -topicReader TsvInt \
-  -output runs/run.ciral-hausa-english.bm25-default.topics.ciral-v1.0-ha-test-b.txt \
+  -output runs/run.lucene-inverted.ciral-v1.0-ha-en.model-bm25-default.topics-ciral-v1.0-ha-test-b.txt \
   -bm25 -hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.20 ciral-v1.0-ha-test-a runs/run.ciral-hausa-english.bm25-default.topics.ciral-v1.0-ha-test-a.txt
-bin/trec_eval -c -m recall.100 ciral-v1.0-ha-test-a runs/run.ciral-hausa-english.bm25-default.topics.ciral-v1.0-ha-test-a.txt
-bin/trec_eval -c -m ndcg_cut.20 ciral-v1.0-ha-test-a-pools runs/run.ciral-hausa-english.bm25-default.topics.ciral-v1.0-ha-test-a.txt
-bin/trec_eval -c -m recall.100 ciral-v1.0-ha-test-a-pools runs/run.ciral-hausa-english.bm25-default.topics.ciral-v1.0-ha-test-a.txt
-bin/trec_eval -c -m ndcg_cut.20 ciral-v1.0-ha-test-b runs/run.ciral-hausa-english.bm25-default.topics.ciral-v1.0-ha-test-b.txt
-bin/trec_eval -c -m recall.100 ciral-v1.0-ha-test-b runs/run.ciral-hausa-english.bm25-default.topics.ciral-v1.0-ha-test-b.txt
+bin/trec_eval -c -m ndcg_cut.20 ciral-v1.0-ha-test-a runs/run.lucene-inverted.ciral-v1.0-ha-en.model-bm25-default.topics-ciral-v1.0-ha-test-a.txt
+bin/trec_eval -c -m recall.100 ciral-v1.0-ha-test-a runs/run.lucene-inverted.ciral-v1.0-ha-en.model-bm25-default.topics-ciral-v1.0-ha-test-a.txt
+bin/trec_eval -c -m ndcg_cut.20 ciral-v1.0-ha-test-a-pools runs/run.lucene-inverted.ciral-v1.0-ha-en.model-bm25-default.topics-ciral-v1.0-ha-test-a.txt
+bin/trec_eval -c -m recall.100 ciral-v1.0-ha-test-a-pools runs/run.lucene-inverted.ciral-v1.0-ha-en.model-bm25-default.topics-ciral-v1.0-ha-test-a.txt
+bin/trec_eval -c -m ndcg_cut.20 ciral-v1.0-ha-test-b runs/run.lucene-inverted.ciral-v1.0-ha-en.model-bm25-default.topics-ciral-v1.0-ha-test-b.txt
+bin/trec_eval -c -m recall.100 ciral-v1.0-ha-test-b runs/run.lucene-inverted.ciral-v1.0-ha-en.model-bm25-default.topics-ciral-v1.0-ha-test-b.txt
 ```
 
 ## Effectiveness

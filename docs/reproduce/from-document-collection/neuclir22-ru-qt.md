@@ -36,7 +36,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection NeuClirCollection \
   -input /path/to/neuclir22-ru \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.neuclir22-ru \
+  -index indexes/lucene-inverted.neuclir22-ru \
   -storePositions -storeDocvectors -storeRaw -language ru \
   >& logs/log.neuclir22-ru &
 ```
@@ -49,194 +49,194 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.neuclir22-ru \
+  -index indexes/lucene-inverted.neuclir22-ru \
   -topics neuclir22-ru.ht-title \
   -topicReader TsvInt \
-  -output runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.ht-title.txt \
+  -output runs/run.lucene-inverted.neuclir22-ru.model-bm25-default.topics-neuclir22-ru.ht-title.txt \
   -bm25 -language ru &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.neuclir22-ru \
+  -index indexes/lucene-inverted.neuclir22-ru \
   -topics neuclir22-ru.ht-desc \
   -topicReader TsvInt \
-  -output runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.ht-desc.txt \
+  -output runs/run.lucene-inverted.neuclir22-ru.model-bm25-default.topics-neuclir22-ru.ht-desc.txt \
   -bm25 -language ru &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.neuclir22-ru \
+  -index indexes/lucene-inverted.neuclir22-ru \
   -topics neuclir22-ru.ht-desc_title \
   -topicReader TsvInt \
-  -output runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.ht-desc_title.txt \
+  -output runs/run.lucene-inverted.neuclir22-ru.model-bm25-default.topics-neuclir22-ru.ht-desc_title.txt \
   -bm25 -language ru &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.neuclir22-ru \
+  -index indexes/lucene-inverted.neuclir22-ru \
   -topics neuclir22-ru.mt-title \
   -topicReader TsvInt \
-  -output runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.mt-title.txt \
+  -output runs/run.lucene-inverted.neuclir22-ru.model-bm25-default.topics-neuclir22-ru.mt-title.txt \
   -bm25 -language ru &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.neuclir22-ru \
+  -index indexes/lucene-inverted.neuclir22-ru \
   -topics neuclir22-ru.mt-desc \
   -topicReader TsvInt \
-  -output runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.mt-desc.txt \
+  -output runs/run.lucene-inverted.neuclir22-ru.model-bm25-default.topics-neuclir22-ru.mt-desc.txt \
   -bm25 -language ru &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.neuclir22-ru \
+  -index indexes/lucene-inverted.neuclir22-ru \
   -topics neuclir22-ru.mt-desc_title \
   -topicReader TsvInt \
-  -output runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.mt-desc_title.txt \
+  -output runs/run.lucene-inverted.neuclir22-ru.model-bm25-default.topics-neuclir22-ru.mt-desc_title.txt \
   -bm25 -language ru &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.neuclir22-ru \
+  -index indexes/lucene-inverted.neuclir22-ru \
   -topics neuclir22-ru.ht-title \
   -topicReader TsvInt \
-  -output runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.ht-title.txt \
+  -output runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rm3.topics-neuclir22-ru.ht-title.txt \
   -bm25 -rm3 -language ru &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.neuclir22-ru \
+  -index indexes/lucene-inverted.neuclir22-ru \
   -topics neuclir22-ru.ht-desc \
   -topicReader TsvInt \
-  -output runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.ht-desc.txt \
+  -output runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rm3.topics-neuclir22-ru.ht-desc.txt \
   -bm25 -rm3 -language ru &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.neuclir22-ru \
+  -index indexes/lucene-inverted.neuclir22-ru \
   -topics neuclir22-ru.ht-desc_title \
   -topicReader TsvInt \
-  -output runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.ht-desc_title.txt \
+  -output runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rm3.topics-neuclir22-ru.ht-desc_title.txt \
   -bm25 -rm3 -language ru &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.neuclir22-ru \
+  -index indexes/lucene-inverted.neuclir22-ru \
   -topics neuclir22-ru.mt-title \
   -topicReader TsvInt \
-  -output runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.mt-title.txt \
+  -output runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rm3.topics-neuclir22-ru.mt-title.txt \
   -bm25 -rm3 -language ru &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.neuclir22-ru \
+  -index indexes/lucene-inverted.neuclir22-ru \
   -topics neuclir22-ru.mt-desc \
   -topicReader TsvInt \
-  -output runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.mt-desc.txt \
+  -output runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rm3.topics-neuclir22-ru.mt-desc.txt \
   -bm25 -rm3 -language ru &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.neuclir22-ru \
+  -index indexes/lucene-inverted.neuclir22-ru \
   -topics neuclir22-ru.mt-desc_title \
   -topicReader TsvInt \
-  -output runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.mt-desc_title.txt \
+  -output runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rm3.topics-neuclir22-ru.mt-desc_title.txt \
   -bm25 -rm3 -language ru &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.neuclir22-ru \
+  -index indexes/lucene-inverted.neuclir22-ru \
   -topics neuclir22-ru.ht-title \
   -topicReader TsvInt \
-  -output runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.ht-title.txt \
+  -output runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rocchio.topics-neuclir22-ru.ht-title.txt \
   -bm25 -rocchio -language ru &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.neuclir22-ru \
+  -index indexes/lucene-inverted.neuclir22-ru \
   -topics neuclir22-ru.ht-desc \
   -topicReader TsvInt \
-  -output runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.ht-desc.txt \
+  -output runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rocchio.topics-neuclir22-ru.ht-desc.txt \
   -bm25 -rocchio -language ru &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.neuclir22-ru \
+  -index indexes/lucene-inverted.neuclir22-ru \
   -topics neuclir22-ru.ht-desc_title \
   -topicReader TsvInt \
-  -output runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.ht-desc_title.txt \
+  -output runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rocchio.topics-neuclir22-ru.ht-desc_title.txt \
   -bm25 -rocchio -language ru &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.neuclir22-ru \
+  -index indexes/lucene-inverted.neuclir22-ru \
   -topics neuclir22-ru.mt-title \
   -topicReader TsvInt \
-  -output runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.mt-title.txt \
+  -output runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rocchio.topics-neuclir22-ru.mt-title.txt \
   -bm25 -rocchio -language ru &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.neuclir22-ru \
+  -index indexes/lucene-inverted.neuclir22-ru \
   -topics neuclir22-ru.mt-desc \
   -topicReader TsvInt \
-  -output runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.mt-desc.txt \
+  -output runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rocchio.topics-neuclir22-ru.mt-desc.txt \
   -bm25 -rocchio -language ru &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.neuclir22-ru \
+  -index indexes/lucene-inverted.neuclir22-ru \
   -topics neuclir22-ru.mt-desc_title \
   -topicReader TsvInt \
-  -output runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.mt-desc_title.txt \
+  -output runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rocchio.topics-neuclir22-ru.mt-desc_title.txt \
   -bm25 -rocchio -language ru &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.20 neuclir22-ru runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.ht-title.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-ru runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.ht-title.txt
-bin/trec_eval -c -m recall.1000 neuclir22-ru runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.ht-title.txt
-bin/trec_eval -c -m map neuclir22-ru runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.ht-title.txt
-bin/trec_eval -c -m ndcg_cut.20 neuclir22-ru runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.ht-desc.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-ru runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.ht-desc.txt
-bin/trec_eval -c -m recall.1000 neuclir22-ru runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.ht-desc.txt
-bin/trec_eval -c -m map neuclir22-ru runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.ht-desc.txt
-bin/trec_eval -c -m ndcg_cut.20 neuclir22-ru runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.ht-desc_title.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-ru runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.ht-desc_title.txt
-bin/trec_eval -c -m recall.1000 neuclir22-ru runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.ht-desc_title.txt
-bin/trec_eval -c -m map neuclir22-ru runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.ht-desc_title.txt
-bin/trec_eval -c -m ndcg_cut.20 neuclir22-ru runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.mt-title.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-ru runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.mt-title.txt
-bin/trec_eval -c -m recall.1000 neuclir22-ru runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.mt-title.txt
-bin/trec_eval -c -m map neuclir22-ru runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.mt-title.txt
-bin/trec_eval -c -m ndcg_cut.20 neuclir22-ru runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.mt-desc.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-ru runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.mt-desc.txt
-bin/trec_eval -c -m recall.1000 neuclir22-ru runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.mt-desc.txt
-bin/trec_eval -c -m map neuclir22-ru runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.mt-desc.txt
-bin/trec_eval -c -m ndcg_cut.20 neuclir22-ru runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.mt-desc_title.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-ru runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.mt-desc_title.txt
-bin/trec_eval -c -m recall.1000 neuclir22-ru runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.mt-desc_title.txt
-bin/trec_eval -c -m map neuclir22-ru runs/run.neuclir22-ru.bm25-default.topics.neuclir22-ru.mt-desc_title.txt
+bin/trec_eval -c -m ndcg_cut.20 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default.topics-neuclir22-ru.ht-title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default.topics-neuclir22-ru.ht-title.txt
+bin/trec_eval -c -m recall.1000 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default.topics-neuclir22-ru.ht-title.txt
+bin/trec_eval -c -m map neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default.topics-neuclir22-ru.ht-title.txt
+bin/trec_eval -c -m ndcg_cut.20 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default.topics-neuclir22-ru.ht-desc.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default.topics-neuclir22-ru.ht-desc.txt
+bin/trec_eval -c -m recall.1000 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default.topics-neuclir22-ru.ht-desc.txt
+bin/trec_eval -c -m map neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default.topics-neuclir22-ru.ht-desc.txt
+bin/trec_eval -c -m ndcg_cut.20 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default.topics-neuclir22-ru.ht-desc_title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default.topics-neuclir22-ru.ht-desc_title.txt
+bin/trec_eval -c -m recall.1000 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default.topics-neuclir22-ru.ht-desc_title.txt
+bin/trec_eval -c -m map neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default.topics-neuclir22-ru.ht-desc_title.txt
+bin/trec_eval -c -m ndcg_cut.20 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default.topics-neuclir22-ru.mt-title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default.topics-neuclir22-ru.mt-title.txt
+bin/trec_eval -c -m recall.1000 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default.topics-neuclir22-ru.mt-title.txt
+bin/trec_eval -c -m map neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default.topics-neuclir22-ru.mt-title.txt
+bin/trec_eval -c -m ndcg_cut.20 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default.topics-neuclir22-ru.mt-desc.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default.topics-neuclir22-ru.mt-desc.txt
+bin/trec_eval -c -m recall.1000 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default.topics-neuclir22-ru.mt-desc.txt
+bin/trec_eval -c -m map neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default.topics-neuclir22-ru.mt-desc.txt
+bin/trec_eval -c -m ndcg_cut.20 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default.topics-neuclir22-ru.mt-desc_title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default.topics-neuclir22-ru.mt-desc_title.txt
+bin/trec_eval -c -m recall.1000 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default.topics-neuclir22-ru.mt-desc_title.txt
+bin/trec_eval -c -m map neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default.topics-neuclir22-ru.mt-desc_title.txt
 
-bin/trec_eval -c -m ndcg_cut.20 neuclir22-ru runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.ht-title.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-ru runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.ht-title.txt
-bin/trec_eval -c -m recall.1000 neuclir22-ru runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.ht-title.txt
-bin/trec_eval -c -m map neuclir22-ru runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.ht-title.txt
-bin/trec_eval -c -m ndcg_cut.20 neuclir22-ru runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.ht-desc.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-ru runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.ht-desc.txt
-bin/trec_eval -c -m recall.1000 neuclir22-ru runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.ht-desc.txt
-bin/trec_eval -c -m map neuclir22-ru runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.ht-desc.txt
-bin/trec_eval -c -m ndcg_cut.20 neuclir22-ru runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.ht-desc_title.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-ru runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.ht-desc_title.txt
-bin/trec_eval -c -m recall.1000 neuclir22-ru runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.ht-desc_title.txt
-bin/trec_eval -c -m map neuclir22-ru runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.ht-desc_title.txt
-bin/trec_eval -c -m ndcg_cut.20 neuclir22-ru runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.mt-title.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-ru runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.mt-title.txt
-bin/trec_eval -c -m recall.1000 neuclir22-ru runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.mt-title.txt
-bin/trec_eval -c -m map neuclir22-ru runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.mt-title.txt
-bin/trec_eval -c -m ndcg_cut.20 neuclir22-ru runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.mt-desc.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-ru runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.mt-desc.txt
-bin/trec_eval -c -m recall.1000 neuclir22-ru runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.mt-desc.txt
-bin/trec_eval -c -m map neuclir22-ru runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.mt-desc.txt
-bin/trec_eval -c -m ndcg_cut.20 neuclir22-ru runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.mt-desc_title.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-ru runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.mt-desc_title.txt
-bin/trec_eval -c -m recall.1000 neuclir22-ru runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.mt-desc_title.txt
-bin/trec_eval -c -m map neuclir22-ru runs/run.neuclir22-ru.bm25-default+rm3.topics.neuclir22-ru.mt-desc_title.txt
+bin/trec_eval -c -m ndcg_cut.20 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rm3.topics-neuclir22-ru.ht-title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rm3.topics-neuclir22-ru.ht-title.txt
+bin/trec_eval -c -m recall.1000 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rm3.topics-neuclir22-ru.ht-title.txt
+bin/trec_eval -c -m map neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rm3.topics-neuclir22-ru.ht-title.txt
+bin/trec_eval -c -m ndcg_cut.20 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rm3.topics-neuclir22-ru.ht-desc.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rm3.topics-neuclir22-ru.ht-desc.txt
+bin/trec_eval -c -m recall.1000 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rm3.topics-neuclir22-ru.ht-desc.txt
+bin/trec_eval -c -m map neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rm3.topics-neuclir22-ru.ht-desc.txt
+bin/trec_eval -c -m ndcg_cut.20 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rm3.topics-neuclir22-ru.ht-desc_title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rm3.topics-neuclir22-ru.ht-desc_title.txt
+bin/trec_eval -c -m recall.1000 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rm3.topics-neuclir22-ru.ht-desc_title.txt
+bin/trec_eval -c -m map neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rm3.topics-neuclir22-ru.ht-desc_title.txt
+bin/trec_eval -c -m ndcg_cut.20 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rm3.topics-neuclir22-ru.mt-title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rm3.topics-neuclir22-ru.mt-title.txt
+bin/trec_eval -c -m recall.1000 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rm3.topics-neuclir22-ru.mt-title.txt
+bin/trec_eval -c -m map neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rm3.topics-neuclir22-ru.mt-title.txt
+bin/trec_eval -c -m ndcg_cut.20 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rm3.topics-neuclir22-ru.mt-desc.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rm3.topics-neuclir22-ru.mt-desc.txt
+bin/trec_eval -c -m recall.1000 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rm3.topics-neuclir22-ru.mt-desc.txt
+bin/trec_eval -c -m map neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rm3.topics-neuclir22-ru.mt-desc.txt
+bin/trec_eval -c -m ndcg_cut.20 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rm3.topics-neuclir22-ru.mt-desc_title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rm3.topics-neuclir22-ru.mt-desc_title.txt
+bin/trec_eval -c -m recall.1000 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rm3.topics-neuclir22-ru.mt-desc_title.txt
+bin/trec_eval -c -m map neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rm3.topics-neuclir22-ru.mt-desc_title.txt
 
-bin/trec_eval -c -m ndcg_cut.20 neuclir22-ru runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.ht-title.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-ru runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.ht-title.txt
-bin/trec_eval -c -m recall.1000 neuclir22-ru runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.ht-title.txt
-bin/trec_eval -c -m map neuclir22-ru runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.ht-title.txt
-bin/trec_eval -c -m ndcg_cut.20 neuclir22-ru runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.ht-desc.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-ru runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.ht-desc.txt
-bin/trec_eval -c -m recall.1000 neuclir22-ru runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.ht-desc.txt
-bin/trec_eval -c -m map neuclir22-ru runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.ht-desc.txt
-bin/trec_eval -c -m ndcg_cut.20 neuclir22-ru runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.ht-desc_title.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-ru runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.ht-desc_title.txt
-bin/trec_eval -c -m recall.1000 neuclir22-ru runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.ht-desc_title.txt
-bin/trec_eval -c -m map neuclir22-ru runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.ht-desc_title.txt
-bin/trec_eval -c -m ndcg_cut.20 neuclir22-ru runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.mt-title.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-ru runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.mt-title.txt
-bin/trec_eval -c -m recall.1000 neuclir22-ru runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.mt-title.txt
-bin/trec_eval -c -m map neuclir22-ru runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.mt-title.txt
-bin/trec_eval -c -m ndcg_cut.20 neuclir22-ru runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.mt-desc.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-ru runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.mt-desc.txt
-bin/trec_eval -c -m recall.1000 neuclir22-ru runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.mt-desc.txt
-bin/trec_eval -c -m map neuclir22-ru runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.mt-desc.txt
-bin/trec_eval -c -m ndcg_cut.20 neuclir22-ru runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.mt-desc_title.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-ru runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.mt-desc_title.txt
-bin/trec_eval -c -m recall.1000 neuclir22-ru runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.mt-desc_title.txt
-bin/trec_eval -c -m map neuclir22-ru runs/run.neuclir22-ru.bm25-default+rocchio.topics.neuclir22-ru.mt-desc_title.txt
+bin/trec_eval -c -m ndcg_cut.20 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rocchio.topics-neuclir22-ru.ht-title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rocchio.topics-neuclir22-ru.ht-title.txt
+bin/trec_eval -c -m recall.1000 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rocchio.topics-neuclir22-ru.ht-title.txt
+bin/trec_eval -c -m map neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rocchio.topics-neuclir22-ru.ht-title.txt
+bin/trec_eval -c -m ndcg_cut.20 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rocchio.topics-neuclir22-ru.ht-desc.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rocchio.topics-neuclir22-ru.ht-desc.txt
+bin/trec_eval -c -m recall.1000 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rocchio.topics-neuclir22-ru.ht-desc.txt
+bin/trec_eval -c -m map neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rocchio.topics-neuclir22-ru.ht-desc.txt
+bin/trec_eval -c -m ndcg_cut.20 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rocchio.topics-neuclir22-ru.ht-desc_title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rocchio.topics-neuclir22-ru.ht-desc_title.txt
+bin/trec_eval -c -m recall.1000 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rocchio.topics-neuclir22-ru.ht-desc_title.txt
+bin/trec_eval -c -m map neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rocchio.topics-neuclir22-ru.ht-desc_title.txt
+bin/trec_eval -c -m ndcg_cut.20 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rocchio.topics-neuclir22-ru.mt-title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rocchio.topics-neuclir22-ru.mt-title.txt
+bin/trec_eval -c -m recall.1000 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rocchio.topics-neuclir22-ru.mt-title.txt
+bin/trec_eval -c -m map neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rocchio.topics-neuclir22-ru.mt-title.txt
+bin/trec_eval -c -m ndcg_cut.20 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rocchio.topics-neuclir22-ru.mt-desc.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rocchio.topics-neuclir22-ru.mt-desc.txt
+bin/trec_eval -c -m recall.1000 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rocchio.topics-neuclir22-ru.mt-desc.txt
+bin/trec_eval -c -m map neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rocchio.topics-neuclir22-ru.mt-desc.txt
+bin/trec_eval -c -m ndcg_cut.20 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rocchio.topics-neuclir22-ru.mt-desc_title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rocchio.topics-neuclir22-ru.mt-desc_title.txt
+bin/trec_eval -c -m recall.1000 neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rocchio.topics-neuclir22-ru.mt-desc_title.txt
+bin/trec_eval -c -m map neuclir22-ru runs/run.lucene-inverted.neuclir22-ru.model-bm25-default+rocchio.topics-neuclir22-ru.mt-desc_title.txt
 ```
 
 ## Effectiveness

@@ -79,25 +79,25 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3/ \
   -topics msmarco-v2-doc.dev \
   -topicReader TsvString \
-  -output runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-onnx.topics.msmarco-v2-doc.dev.txt \
+  -output runs/run.lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3.model-splade-v3-onnx.topics-msmarco-v2-doc.dev.txt \
   -impact -pretokenized -removeQuery -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -encoder SpladeV3 &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3/ \
   -topics msmarco-v2-doc.dev2 \
   -topicReader TsvString \
-  -output runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-onnx.topics.msmarco-v2-doc.dev2.txt \
+  -output runs/run.lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3.model-splade-v3-onnx.topics-msmarco-v2-doc.dev2.txt \
   -impact -pretokenized -removeQuery -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -encoder SpladeV3 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m recall.100 msmarco-v2.1-doc.dev runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-onnx.topics.msmarco-v2-doc.dev.txt
-bin/trec_eval -c -m recall.1000 msmarco-v2.1-doc.dev runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-onnx.topics.msmarco-v2-doc.dev.txt
-bin/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank msmarco-v2.1-doc.dev runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-onnx.topics.msmarco-v2-doc.dev.txt
-bin/trec_eval -c -m recall.100 msmarco-v2.1-doc.dev2 runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-onnx.topics.msmarco-v2-doc.dev2.txt
-bin/trec_eval -c -m recall.1000 msmarco-v2.1-doc.dev2 runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-onnx.topics.msmarco-v2-doc.dev2.txt
-bin/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank msmarco-v2.1-doc.dev2 runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-onnx.topics.msmarco-v2-doc.dev2.txt
+bin/trec_eval -c -m recall.100 msmarco-v2.1-doc.dev runs/run.lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3.model-splade-v3-onnx.topics-msmarco-v2-doc.dev.txt
+bin/trec_eval -c -m recall.1000 msmarco-v2.1-doc.dev runs/run.lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3.model-splade-v3-onnx.topics-msmarco-v2-doc.dev.txt
+bin/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank msmarco-v2.1-doc.dev runs/run.lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3.model-splade-v3-onnx.topics-msmarco-v2-doc.dev.txt
+bin/trec_eval -c -m recall.100 msmarco-v2.1-doc.dev2 runs/run.lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3.model-splade-v3-onnx.topics-msmarco-v2-doc.dev2.txt
+bin/trec_eval -c -m recall.1000 msmarco-v2.1-doc.dev2 runs/run.lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3.model-splade-v3-onnx.topics-msmarco-v2-doc.dev2.txt
+bin/trec_eval -c -M 100 -m map -c -M 100 -m recip_rank msmarco-v2.1-doc.dev2 runs/run.lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3.model-splade-v3-onnx.topics-msmarco-v2-doc.dev2.txt
 ```
 
 ## Effectiveness

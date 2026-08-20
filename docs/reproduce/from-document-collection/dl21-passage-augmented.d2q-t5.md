@@ -48,44 +48,44 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2-passage-augmented.d2q-t5/ \
   -topics dl21 \
   -topicReader TsvInt \
-  -output runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default.topics.dl21.txt \
+  -output runs/run.lucene-inverted.msmarco-v2-passage-augmented.d2q-t5.model-bm25-default.topics-dl21.txt \
   -bm25 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2-passage-augmented.d2q-t5/ \
   -topics dl21 \
   -topicReader TsvInt \
-  -output runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default+rm3.topics.dl21.txt \
+  -output runs/run.lucene-inverted.msmarco-v2-passage-augmented.d2q-t5.model-bm25-default+rm3.topics-dl21.txt \
   -bm25 -rm3 -collection MsMarcoV2PassageCollection &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2-passage-augmented.d2q-t5/ \
   -topics dl21 \
   -topicReader TsvInt \
-  -output runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default+rocchio.topics.dl21.txt \
+  -output runs/run.lucene-inverted.msmarco-v2-passage-augmented.d2q-t5.model-bm25-default+rocchio.topics-dl21.txt \
   -bm25 -rocchio -collection MsMarcoV2PassageCollection &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -M 100 -m map -l 2 dl21-passage runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default.topics.dl21.txt
-bin/trec_eval -c -M 100 -m recip_rank -l 2 dl21-passage runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default.topics.dl21.txt
-bin/trec_eval -c -m ndcg_cut.10 dl21-passage runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default.topics.dl21.txt
-bin/trec_eval -c -m recall.100 -l 2 dl21-passage runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default.topics.dl21.txt
-bin/trec_eval -c -m recall.1000 -l 2 dl21-passage runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default.topics.dl21.txt
+bin/trec_eval -c -M 100 -m map -l 2 dl21-passage runs/run.lucene-inverted.msmarco-v2-passage-augmented.d2q-t5.model-bm25-default.topics-dl21.txt
+bin/trec_eval -c -M 100 -m recip_rank -l 2 dl21-passage runs/run.lucene-inverted.msmarco-v2-passage-augmented.d2q-t5.model-bm25-default.topics-dl21.txt
+bin/trec_eval -c -m ndcg_cut.10 dl21-passage runs/run.lucene-inverted.msmarco-v2-passage-augmented.d2q-t5.model-bm25-default.topics-dl21.txt
+bin/trec_eval -c -m recall.100 -l 2 dl21-passage runs/run.lucene-inverted.msmarco-v2-passage-augmented.d2q-t5.model-bm25-default.topics-dl21.txt
+bin/trec_eval -c -m recall.1000 -l 2 dl21-passage runs/run.lucene-inverted.msmarco-v2-passage-augmented.d2q-t5.model-bm25-default.topics-dl21.txt
 
-bin/trec_eval -c -M 100 -m map -l 2 dl21-passage runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default+rm3.topics.dl21.txt
-bin/trec_eval -c -M 100 -m recip_rank -l 2 dl21-passage runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default+rm3.topics.dl21.txt
-bin/trec_eval -c -m ndcg_cut.10 dl21-passage runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default+rm3.topics.dl21.txt
-bin/trec_eval -c -m recall.100 -l 2 dl21-passage runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default+rm3.topics.dl21.txt
-bin/trec_eval -c -m recall.1000 -l 2 dl21-passage runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default+rm3.topics.dl21.txt
+bin/trec_eval -c -M 100 -m map -l 2 dl21-passage runs/run.lucene-inverted.msmarco-v2-passage-augmented.d2q-t5.model-bm25-default+rm3.topics-dl21.txt
+bin/trec_eval -c -M 100 -m recip_rank -l 2 dl21-passage runs/run.lucene-inverted.msmarco-v2-passage-augmented.d2q-t5.model-bm25-default+rm3.topics-dl21.txt
+bin/trec_eval -c -m ndcg_cut.10 dl21-passage runs/run.lucene-inverted.msmarco-v2-passage-augmented.d2q-t5.model-bm25-default+rm3.topics-dl21.txt
+bin/trec_eval -c -m recall.100 -l 2 dl21-passage runs/run.lucene-inverted.msmarco-v2-passage-augmented.d2q-t5.model-bm25-default+rm3.topics-dl21.txt
+bin/trec_eval -c -m recall.1000 -l 2 dl21-passage runs/run.lucene-inverted.msmarco-v2-passage-augmented.d2q-t5.model-bm25-default+rm3.topics-dl21.txt
 
-bin/trec_eval -c -M 100 -m map -l 2 dl21-passage runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default+rocchio.topics.dl21.txt
-bin/trec_eval -c -M 100 -m recip_rank -l 2 dl21-passage runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default+rocchio.topics.dl21.txt
-bin/trec_eval -c -m ndcg_cut.10 dl21-passage runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default+rocchio.topics.dl21.txt
-bin/trec_eval -c -m recall.100 -l 2 dl21-passage runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default+rocchio.topics.dl21.txt
-bin/trec_eval -c -m recall.1000 -l 2 dl21-passage runs/run.msmarco-v2-passage-augmented-d2q-t5.bm25-default+rocchio.topics.dl21.txt
+bin/trec_eval -c -M 100 -m map -l 2 dl21-passage runs/run.lucene-inverted.msmarco-v2-passage-augmented.d2q-t5.model-bm25-default+rocchio.topics-dl21.txt
+bin/trec_eval -c -M 100 -m recip_rank -l 2 dl21-passage runs/run.lucene-inverted.msmarco-v2-passage-augmented.d2q-t5.model-bm25-default+rocchio.topics-dl21.txt
+bin/trec_eval -c -m ndcg_cut.10 dl21-passage runs/run.lucene-inverted.msmarco-v2-passage-augmented.d2q-t5.model-bm25-default+rocchio.topics-dl21.txt
+bin/trec_eval -c -m recall.100 -l 2 dl21-passage runs/run.lucene-inverted.msmarco-v2-passage-augmented.d2q-t5.model-bm25-default+rocchio.topics-dl21.txt
+bin/trec_eval -c -m recall.1000 -l 2 dl21-passage runs/run.lucene-inverted.msmarco-v2-passage-augmented.d2q-t5.model-bm25-default+rocchio.topics-dl21.txt
 ```
 
 ## Effectiveness

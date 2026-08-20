@@ -55,41 +55,41 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v1-doc/ \
   -topics msmarco-doc.dev \
   -topicReader TsvInt \
-  -output runs/run.msmarco-doc.bm25-default.topics.msmarco-doc.dev.txt \
+  -output runs/run.lucene-inverted.msmarco-v1-doc.model-bm25-default.topics-msmarco-doc.dev.txt \
   -bm25 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v1-doc/ \
   -topics msmarco-doc.dev \
   -topicReader TsvInt \
-  -output runs/run.msmarco-doc.bm25-tuned.topics.msmarco-doc.dev.txt \
+  -output runs/run.lucene-inverted.msmarco-v1-doc.model-bm25-tuned.topics-msmarco-doc.dev.txt \
   -bm25 -bm25.k1 3.44 -bm25.b 0.87 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v1-doc/ \
   -topics msmarco-doc.dev \
   -topicReader TsvInt \
-  -output runs/run.msmarco-doc.bm25-tuned2.topics.msmarco-doc.dev.txt \
+  -output runs/run.lucene-inverted.msmarco-v1-doc.model-bm25-tuned2.topics-msmarco-doc.dev.txt \
   -bm25 -bm25.k1 4.46 -bm25.b 0.82 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m map msmarco-doc.dev runs/run.msmarco-doc.bm25-default.topics.msmarco-doc.dev.txt
-bin/trec_eval -c -M 100 -m recip_rank msmarco-doc.dev runs/run.msmarco-doc.bm25-default.topics.msmarco-doc.dev.txt
-bin/trec_eval -c -m recall.100 msmarco-doc.dev runs/run.msmarco-doc.bm25-default.topics.msmarco-doc.dev.txt
-bin/trec_eval -c -m recall.1000 msmarco-doc.dev runs/run.msmarco-doc.bm25-default.topics.msmarco-doc.dev.txt
+bin/trec_eval -c -m map msmarco-doc.dev runs/run.lucene-inverted.msmarco-v1-doc.model-bm25-default.topics-msmarco-doc.dev.txt
+bin/trec_eval -c -M 100 -m recip_rank msmarco-doc.dev runs/run.lucene-inverted.msmarco-v1-doc.model-bm25-default.topics-msmarco-doc.dev.txt
+bin/trec_eval -c -m recall.100 msmarco-doc.dev runs/run.lucene-inverted.msmarco-v1-doc.model-bm25-default.topics-msmarco-doc.dev.txt
+bin/trec_eval -c -m recall.1000 msmarco-doc.dev runs/run.lucene-inverted.msmarco-v1-doc.model-bm25-default.topics-msmarco-doc.dev.txt
 
-bin/trec_eval -c -m map msmarco-doc.dev runs/run.msmarco-doc.bm25-tuned.topics.msmarco-doc.dev.txt
-bin/trec_eval -c -M 100 -m recip_rank msmarco-doc.dev runs/run.msmarco-doc.bm25-tuned.topics.msmarco-doc.dev.txt
-bin/trec_eval -c -m recall.100 msmarco-doc.dev runs/run.msmarco-doc.bm25-tuned.topics.msmarco-doc.dev.txt
-bin/trec_eval -c -m recall.1000 msmarco-doc.dev runs/run.msmarco-doc.bm25-tuned.topics.msmarco-doc.dev.txt
+bin/trec_eval -c -m map msmarco-doc.dev runs/run.lucene-inverted.msmarco-v1-doc.model-bm25-tuned.topics-msmarco-doc.dev.txt
+bin/trec_eval -c -M 100 -m recip_rank msmarco-doc.dev runs/run.lucene-inverted.msmarco-v1-doc.model-bm25-tuned.topics-msmarco-doc.dev.txt
+bin/trec_eval -c -m recall.100 msmarco-doc.dev runs/run.lucene-inverted.msmarco-v1-doc.model-bm25-tuned.topics-msmarco-doc.dev.txt
+bin/trec_eval -c -m recall.1000 msmarco-doc.dev runs/run.lucene-inverted.msmarco-v1-doc.model-bm25-tuned.topics-msmarco-doc.dev.txt
 
-bin/trec_eval -c -m map msmarco-doc.dev runs/run.msmarco-doc.bm25-tuned2.topics.msmarco-doc.dev.txt
-bin/trec_eval -c -M 100 -m recip_rank msmarco-doc.dev runs/run.msmarco-doc.bm25-tuned2.topics.msmarco-doc.dev.txt
-bin/trec_eval -c -m recall.100 msmarco-doc.dev runs/run.msmarco-doc.bm25-tuned2.topics.msmarco-doc.dev.txt
-bin/trec_eval -c -m recall.1000 msmarco-doc.dev runs/run.msmarco-doc.bm25-tuned2.topics.msmarco-doc.dev.txt
+bin/trec_eval -c -m map msmarco-doc.dev runs/run.lucene-inverted.msmarco-v1-doc.model-bm25-tuned2.topics-msmarco-doc.dev.txt
+bin/trec_eval -c -M 100 -m recip_rank msmarco-doc.dev runs/run.lucene-inverted.msmarco-v1-doc.model-bm25-tuned2.topics-msmarco-doc.dev.txt
+bin/trec_eval -c -m recall.100 msmarco-doc.dev runs/run.lucene-inverted.msmarco-v1-doc.model-bm25-tuned2.topics-msmarco-doc.dev.txt
+bin/trec_eval -c -m recall.1000 msmarco-doc.dev runs/run.lucene-inverted.msmarco-v1-doc.model-bm25-tuned2.topics-msmarco-doc.dev.txt
 ```
 
 ## Effectiveness

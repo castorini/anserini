@@ -50,16 +50,16 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.bright-earth-science/ \
   -topics bright-earth-science \
   -topicReader TsvString \
-  -output runs/run.bright-earth-science.bm25.topics.bright-earth-science.txt \
+  -output runs/run.lucene-inverted.bright-earth-science.model-bm25.topics-bright-earth-science.txt \
   -bm25 -removeQuery -hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.10 bright-earth-science runs/run.bright-earth-science.bm25.topics.bright-earth-science.txt
-bin/trec_eval -c -m recall.100 bright-earth-science runs/run.bright-earth-science.bm25.topics.bright-earth-science.txt
-bin/trec_eval -c -m recall.1000 bright-earth-science runs/run.bright-earth-science.bm25.topics.bright-earth-science.txt
+bin/trec_eval -c -m ndcg_cut.10 bright-earth-science runs/run.lucene-inverted.bright-earth-science.model-bm25.topics-bright-earth-science.txt
+bin/trec_eval -c -m recall.100 bright-earth-science runs/run.lucene-inverted.bright-earth-science.model-bm25.topics-bright-earth-science.txt
+bin/trec_eval -c -m recall.1000 bright-earth-science runs/run.lucene-inverted.bright-earth-science.model-bm25.topics-bright-earth-science.txt
 ```
 
 ## Effectiveness

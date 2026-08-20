@@ -73,17 +73,17 @@ bin/run.sh io.anserini.search.SearchFlatDenseVectors \
   -index indexes/lucene-flat.msmarco-v1-passage.bge-base-en-v1.5/ \
   -topics msmarco-passage.dev-subset \
   -topicReader TsvInt \
-  -output runs/run.msmarco-passage-bge-base-en-v1.5.parquet.bge-flat-onnx.topics.msmarco-passage.dev-subset.txt \
+  -output runs/run.lucene-flat.msmarco-v1-passage.bge-base-en-v1.5.model-bge-flat-onnx.topics-msmarco-passage.dev-subset.txt \
   -encoder BgeBaseEn15 -hits 1000 -threads 16 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m map msmarco-passage.dev-subset runs/run.msmarco-passage-bge-base-en-v1.5.parquet.bge-flat-onnx.topics.msmarco-passage.dev-subset.txt
-bin/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev-subset runs/run.msmarco-passage-bge-base-en-v1.5.parquet.bge-flat-onnx.topics.msmarco-passage.dev-subset.txt
-bin/trec_eval -c -m recall.100 msmarco-passage.dev-subset runs/run.msmarco-passage-bge-base-en-v1.5.parquet.bge-flat-onnx.topics.msmarco-passage.dev-subset.txt
-bin/trec_eval -c -m recall.1000 msmarco-passage.dev-subset runs/run.msmarco-passage-bge-base-en-v1.5.parquet.bge-flat-onnx.topics.msmarco-passage.dev-subset.txt
+bin/trec_eval -c -m map msmarco-passage.dev-subset runs/run.lucene-flat.msmarco-v1-passage.bge-base-en-v1.5.model-bge-flat-onnx.topics-msmarco-passage.dev-subset.txt
+bin/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev-subset runs/run.lucene-flat.msmarco-v1-passage.bge-base-en-v1.5.model-bge-flat-onnx.topics-msmarco-passage.dev-subset.txt
+bin/trec_eval -c -m recall.100 msmarco-passage.dev-subset runs/run.lucene-flat.msmarco-v1-passage.bge-base-en-v1.5.model-bge-flat-onnx.topics-msmarco-passage.dev-subset.txt
+bin/trec_eval -c -m recall.1000 msmarco-passage.dev-subset runs/run.lucene-flat.msmarco-v1-passage.bge-base-en-v1.5.model-bge-flat-onnx.topics-msmarco-passage.dev-subset.txt
 ```
 
 ## Effectiveness

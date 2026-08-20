@@ -22,7 +22,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection WashingtonPostCollection \
   -input /path/to/wapo.v3 \
   -generator WashingtonPostGenerator \
-  -index indexes/lucene-index.wapo.v3/ \
+  -index indexes/lucene-inverted.wapo.v3/ \
   -storePositions -storeDocvectors -storeRaw \
   >& logs/log.wapo.v3 &
 ```
@@ -44,35 +44,35 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.wapo.v3/ \
+  -index indexes/lucene-inverted.wapo.v3/ \
   -topics backgroundlinking20 \
   -topicReader BackgroundLinking \
-  -output runs/run.wapo.v3.bm25.topics.backgroundlinking20.txt \
+  -output runs/run.lucene-inverted.wapo.v3.model-bm25.topics-backgroundlinking20.txt \
   -backgroundLinking -backgroundLinking.k 100 -bm25 -hits 100 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.wapo.v3/ \
+  -index indexes/lucene-inverted.wapo.v3/ \
   -topics backgroundlinking20 \
   -topicReader BackgroundLinking \
-  -output runs/run.wapo.v3.bm25+rm3.topics.backgroundlinking20.txt \
+  -output runs/run.lucene-inverted.wapo.v3.model-bm25+rm3.topics-backgroundlinking20.txt \
   -backgroundLinking -backgroundLinking.k 100 -bm25 -rm3 -hits 100 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.wapo.v3/ \
+  -index indexes/lucene-inverted.wapo.v3/ \
   -topics backgroundlinking20 \
   -topicReader BackgroundLinking \
-  -output runs/run.wapo.v3.bm25+rm3+df.topics.backgroundlinking20.txt \
+  -output runs/run.lucene-inverted.wapo.v3.model-bm25+rm3+df.topics-backgroundlinking20.txt \
   -backgroundLinking -backgroundLinking.dateFilter -backgroundLinking.k 100 -bm25 -rm3 -hits 100 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 backgroundlinking20 runs/run.wapo.v3.bm25.topics.backgroundlinking20.txt
+bin/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 backgroundlinking20 runs/run.lucene-inverted.wapo.v3.model-bm25.topics-backgroundlinking20.txt
 
-bin/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 backgroundlinking20 runs/run.wapo.v3.bm25+rm3.topics.backgroundlinking20.txt
+bin/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 backgroundlinking20 runs/run.lucene-inverted.wapo.v3.model-bm25+rm3.topics-backgroundlinking20.txt
 
-bin/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 backgroundlinking20 runs/run.wapo.v3.bm25+rm3+df.topics.backgroundlinking20.txt
+bin/trec_eval -c -M1000 -m map -c -M1000 -m ndcg_cut.5 backgroundlinking20 runs/run.lucene-inverted.wapo.v3.model-bm25+rm3+df.topics-backgroundlinking20.txt
 ```
 
 ## Effectiveness

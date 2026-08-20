@@ -50,16 +50,16 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.bright-psychology/ \
   -topics bright-psychology \
   -topicReader TsvString \
-  -output runs/run.bright-psychology.bm25.topics.bright-psychology.txt \
+  -output runs/run.lucene-inverted.bright-psychology.model-bm25.topics-bright-psychology.txt \
   -bm25 -removeQuery -hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.10 bright-psychology runs/run.bright-psychology.bm25.topics.bright-psychology.txt
-bin/trec_eval -c -m recall.100 bright-psychology runs/run.bright-psychology.bm25.topics.bright-psychology.txt
-bin/trec_eval -c -m recall.1000 bright-psychology runs/run.bright-psychology.bm25.topics.bright-psychology.txt
+bin/trec_eval -c -m ndcg_cut.10 bright-psychology runs/run.lucene-inverted.bright-psychology.model-bm25.topics-bright-psychology.txt
+bin/trec_eval -c -m recall.100 bright-psychology runs/run.lucene-inverted.bright-psychology.model-bm25.topics-bright-psychology.txt
+bin/trec_eval -c -m recall.1000 bright-psychology runs/run.lucene-inverted.bright-psychology.model-bm25.topics-bright-psychology.txt
 ```
 
 ## Effectiveness

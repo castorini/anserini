@@ -2,7 +2,7 @@
 corpus: neuclir22-ru
 corpus_path: collections/multilingual/neuclir22-ru/
 
-index_path: indexes/lucene-index.neuclir22-ru
+index_path: indexes/lucene-inverted.neuclir22-ru
 collection_class: NeuClirCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 8

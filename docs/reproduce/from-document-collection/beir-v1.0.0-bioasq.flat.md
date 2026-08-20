@@ -50,16 +50,16 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.beir-v1.0.0-bioasq.flat/ \
   -topics beir-v1.0.0-bioasq.test \
   -topicReader TsvString \
-  -output runs/run.beir-v1.0.0-bioasq.flat.bm25.topics.beir-v1.0.0-bioasq.test.txt \
+  -output runs/run.lucene-inverted.beir-v1.0.0-bioasq.flat.model-bm25.topics-beir-v1.0.0-bioasq.test.txt \
   -bm25 -removeQuery -hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.10 beir-v1.0.0-bioasq.test runs/run.beir-v1.0.0-bioasq.flat.bm25.topics.beir-v1.0.0-bioasq.test.txt
-bin/trec_eval -c -m recall.100 beir-v1.0.0-bioasq.test runs/run.beir-v1.0.0-bioasq.flat.bm25.topics.beir-v1.0.0-bioasq.test.txt
-bin/trec_eval -c -m recall.1000 beir-v1.0.0-bioasq.test runs/run.beir-v1.0.0-bioasq.flat.bm25.topics.beir-v1.0.0-bioasq.test.txt
+bin/trec_eval -c -m ndcg_cut.10 beir-v1.0.0-bioasq.test runs/run.lucene-inverted.beir-v1.0.0-bioasq.flat.model-bm25.topics-beir-v1.0.0-bioasq.test.txt
+bin/trec_eval -c -m recall.100 beir-v1.0.0-bioasq.test runs/run.lucene-inverted.beir-v1.0.0-bioasq.flat.model-bm25.topics-beir-v1.0.0-bioasq.test.txt
+bin/trec_eval -c -m recall.1000 beir-v1.0.0-bioasq.test runs/run.lucene-inverted.beir-v1.0.0-bioasq.flat.model-bm25.topics-beir-v1.0.0-bioasq.test.txt
 ```
 
 ## Effectiveness

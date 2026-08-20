@@ -21,7 +21,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection FeverParagraphCollection \
   -input /path/to/fever \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.fever-paragraph/ \
+  -index indexes/lucene-inverted.fever-paragraph/ \
   -storePositions -storeDocvectors -storeRaw \
   >& logs/log.fever &
 ```
@@ -40,26 +40,26 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.fever-paragraph/ \
+  -index indexes/lucene-inverted.fever-paragraph/ \
   -topics fever.dev \
   -topicReader TsvInt \
-  -output runs/run.fever.bm25-default.topics.fever.dev.txt \
+  -output runs/run.lucene-inverted.fever-paragraph.model-bm25-default.topics-fever.dev.txt \
   -bm25 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.fever-paragraph/ \
+  -index indexes/lucene-inverted.fever-paragraph/ \
   -topics fever.dev \
   -topicReader TsvInt \
-  -output runs/run.fever.bm25-tuned.topics.fever.dev.txt \
+  -output runs/run.lucene-inverted.fever-paragraph.model-bm25-tuned.topics-fever.dev.txt \
   -bm25 -bm25.k1 0.9 -bm25.b 0.1 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m recall.100 -c -m recall.1000 fever.dev runs/run.fever.bm25-default.topics.fever.dev.txt
+bin/trec_eval -c -m recall.100 -c -m recall.1000 fever.dev runs/run.lucene-inverted.fever-paragraph.model-bm25-default.topics-fever.dev.txt
 
-bin/trec_eval -c -m recall.100 -c -m recall.1000 fever.dev runs/run.fever.bm25-tuned.topics.fever.dev.txt
+bin/trec_eval -c -m recall.100 -c -m recall.1000 fever.dev runs/run.lucene-inverted.fever-paragraph.model-bm25-tuned.topics-fever.dev.txt
 ```
 
 ## Effectiveness

@@ -22,7 +22,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection CleanTrecCollection \
   -input /path/to/trec02-ar \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.trec02-ar/ \
+  -index indexes/lucene-inverted.trec02-ar/ \
   -storePositions -storeDocvectors -storeRaw -language ar \
   >& logs/log.trec02-ar &
 ```
@@ -46,17 +46,17 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.trec02-ar/ \
+  -index indexes/lucene-inverted.trec02-ar/ \
   -topics trec02ar-ar \
   -topicReader Trec \
-  -output runs/run.trec02-ar.bm25.topics.trec02ar-ar.txt \
+  -output runs/run.lucene-inverted.trec02-ar.model-bm25.topics-trec02ar-ar.txt \
   -bm25 -language ar &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -m map -m P.20 -m ndcg_cut.20 trec02ar runs/run.trec02-ar.bm25.topics.trec02ar-ar.txt
+bin/trec_eval -m map -m P.20 -m ndcg_cut.20 trec02ar runs/run.lucene-inverted.trec02-ar.model-bm25.topics-trec02ar-ar.txt
 ```
 
 ## Effectiveness

@@ -2,7 +2,7 @@
 corpus: mrtydi-v1.1-ja
 corpus_path: collections/mr-tydi-corpus/mrtydi-v1.1-japanese/
 
-index_path: indexes/lucene-index.mrtydi-v1.1-japanese-aca/
+index_path: indexes/lucene-inverted.mrtydi-v1.1-japanese-aca/
 collection_class: MrTyDiCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 1

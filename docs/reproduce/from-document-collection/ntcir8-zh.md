@@ -22,7 +22,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection CleanTrecCollection \
   -input /path/to/ntcir8-zh \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.ntcir8-zh/ \
+  -index indexes/lucene-inverted.ntcir8-zh/ \
   -storePositions -storeDocvectors -storeRaw -language zh -uniqueDocid -optimize \
   >& logs/log.ntcir8-zh &
 ```
@@ -46,17 +46,17 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.ntcir8-zh/ \
+  -index indexes/lucene-inverted.ntcir8-zh/ \
   -topics ntcir8zh.eval \
   -topicReader TsvString \
-  -output runs/run.ntcir8-zh.bm25.topics.ntcir8zh.eval.txt \
+  -output runs/run.lucene-inverted.ntcir8-zh.model-bm25.topics-ntcir8zh.eval.txt \
   -bm25 -language zh &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -m map -m P.20 -m ndcg_cut.20 ntcir8.eval runs/run.ntcir8-zh.bm25.topics.ntcir8zh.eval.txt
+bin/trec_eval -m map -m P.20 -m ndcg_cut.20 ntcir8.eval runs/run.lucene-inverted.ntcir8-zh.model-bm25.topics-ntcir8zh.eval.txt
 ```
 
 ## Effectiveness

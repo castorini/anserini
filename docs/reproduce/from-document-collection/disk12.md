@@ -22,7 +22,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection TrecCollection \
   -input /path/to/disk12 \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.disk12/ \
+  -index indexes/lucene-inverted.disk12/ \
   -storePositions -storeDocvectors -storeRaw \
   >& logs/log.disk12 &
 ```
@@ -47,169 +47,169 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.disk12/ \
+  -index indexes/lucene-inverted.disk12/ \
   -topics adhoc.51-100 \
   -topicReader Trec \
-  -output runs/run.disk12.bm25.topics.adhoc.51-100.txt \
+  -output runs/run.lucene-inverted.disk12.model-bm25.topics-adhoc.51-100.txt \
   -bm25 &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.disk12/ \
+  -index indexes/lucene-inverted.disk12/ \
   -topics adhoc.101-150 \
   -topicReader Trec \
-  -output runs/run.disk12.bm25.topics.adhoc.101-150.txt \
+  -output runs/run.lucene-inverted.disk12.model-bm25.topics-adhoc.101-150.txt \
   -bm25 &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.disk12/ \
+  -index indexes/lucene-inverted.disk12/ \
   -topics adhoc.151-200 \
   -topicReader Trec \
-  -output runs/run.disk12.bm25.topics.adhoc.151-200.txt \
+  -output runs/run.lucene-inverted.disk12.model-bm25.topics-adhoc.151-200.txt \
   -bm25 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.disk12/ \
+  -index indexes/lucene-inverted.disk12/ \
   -topics adhoc.51-100 \
   -topicReader Trec \
-  -output runs/run.disk12.bm25+rm3.topics.adhoc.51-100.txt \
+  -output runs/run.lucene-inverted.disk12.model-bm25+rm3.topics-adhoc.51-100.txt \
   -bm25 -rm3 &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.disk12/ \
+  -index indexes/lucene-inverted.disk12/ \
   -topics adhoc.101-150 \
   -topicReader Trec \
-  -output runs/run.disk12.bm25+rm3.topics.adhoc.101-150.txt \
+  -output runs/run.lucene-inverted.disk12.model-bm25+rm3.topics-adhoc.101-150.txt \
   -bm25 -rm3 &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.disk12/ \
+  -index indexes/lucene-inverted.disk12/ \
   -topics adhoc.151-200 \
   -topicReader Trec \
-  -output runs/run.disk12.bm25+rm3.topics.adhoc.151-200.txt \
+  -output runs/run.lucene-inverted.disk12.model-bm25+rm3.topics-adhoc.151-200.txt \
   -bm25 -rm3 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.disk12/ \
+  -index indexes/lucene-inverted.disk12/ \
   -topics adhoc.51-100 \
   -topicReader Trec \
-  -output runs/run.disk12.bm25prf.topics.adhoc.51-100.txt \
+  -output runs/run.lucene-inverted.disk12.model-bm25prf.topics-adhoc.51-100.txt \
   -bm25 -bm25prf &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.disk12/ \
+  -index indexes/lucene-inverted.disk12/ \
   -topics adhoc.101-150 \
   -topicReader Trec \
-  -output runs/run.disk12.bm25prf.topics.adhoc.101-150.txt \
+  -output runs/run.lucene-inverted.disk12.model-bm25prf.topics-adhoc.101-150.txt \
   -bm25 -bm25prf &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.disk12/ \
+  -index indexes/lucene-inverted.disk12/ \
   -topics adhoc.151-200 \
   -topicReader Trec \
-  -output runs/run.disk12.bm25prf.topics.adhoc.151-200.txt \
+  -output runs/run.lucene-inverted.disk12.model-bm25prf.topics-adhoc.151-200.txt \
   -bm25 -bm25prf &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.disk12/ \
+  -index indexes/lucene-inverted.disk12/ \
   -topics adhoc.51-100 \
   -topicReader Trec \
-  -output runs/run.disk12.bm25+rocchio.topics.adhoc.51-100.txt \
+  -output runs/run.lucene-inverted.disk12.model-bm25+rocchio.topics-adhoc.51-100.txt \
   -bm25 -rocchio &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.disk12/ \
+  -index indexes/lucene-inverted.disk12/ \
   -topics adhoc.101-150 \
   -topicReader Trec \
-  -output runs/run.disk12.bm25+rocchio.topics.adhoc.101-150.txt \
+  -output runs/run.lucene-inverted.disk12.model-bm25+rocchio.topics-adhoc.101-150.txt \
   -bm25 -rocchio &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.disk12/ \
+  -index indexes/lucene-inverted.disk12/ \
   -topics adhoc.151-200 \
   -topicReader Trec \
-  -output runs/run.disk12.bm25+rocchio.topics.adhoc.151-200.txt \
+  -output runs/run.lucene-inverted.disk12.model-bm25+rocchio.topics-adhoc.151-200.txt \
   -bm25 -rocchio &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.disk12/ \
+  -index indexes/lucene-inverted.disk12/ \
   -topics adhoc.51-100 \
   -topicReader Trec \
-  -output runs/run.disk12.bm25+ax.topics.adhoc.51-100.txt \
+  -output runs/run.lucene-inverted.disk12.model-bm25+ax.topics-adhoc.51-100.txt \
   -bm25 -axiom -rerankCutoff 20 &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.disk12/ \
+  -index indexes/lucene-inverted.disk12/ \
   -topics adhoc.101-150 \
   -topicReader Trec \
-  -output runs/run.disk12.bm25+ax.topics.adhoc.101-150.txt \
+  -output runs/run.lucene-inverted.disk12.model-bm25+ax.topics-adhoc.101-150.txt \
   -bm25 -axiom -rerankCutoff 20 &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.disk12/ \
+  -index indexes/lucene-inverted.disk12/ \
   -topics adhoc.151-200 \
   -topicReader Trec \
-  -output runs/run.disk12.bm25+ax.topics.adhoc.151-200.txt \
+  -output runs/run.lucene-inverted.disk12.model-bm25+ax.topics-adhoc.151-200.txt \
   -bm25 -axiom -rerankCutoff 20 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.disk12/ \
+  -index indexes/lucene-inverted.disk12/ \
   -topics adhoc.51-100 \
   -topicReader Trec \
-  -output runs/run.disk12.ql.topics.adhoc.51-100.txt \
+  -output runs/run.lucene-inverted.disk12.model-ql.topics-adhoc.51-100.txt \
   -qld &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.disk12/ \
+  -index indexes/lucene-inverted.disk12/ \
   -topics adhoc.101-150 \
   -topicReader Trec \
-  -output runs/run.disk12.ql.topics.adhoc.101-150.txt \
+  -output runs/run.lucene-inverted.disk12.model-ql.topics-adhoc.101-150.txt \
   -qld &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.disk12/ \
+  -index indexes/lucene-inverted.disk12/ \
   -topics adhoc.151-200 \
   -topicReader Trec \
-  -output runs/run.disk12.ql.topics.adhoc.151-200.txt \
+  -output runs/run.lucene-inverted.disk12.model-ql.topics-adhoc.151-200.txt \
   -qld &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.disk12/ \
+  -index indexes/lucene-inverted.disk12/ \
   -topics adhoc.51-100 \
   -topicReader Trec \
-  -output runs/run.disk12.ql+rm3.topics.adhoc.51-100.txt \
+  -output runs/run.lucene-inverted.disk12.model-ql+rm3.topics-adhoc.51-100.txt \
   -qld -rm3 &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.disk12/ \
+  -index indexes/lucene-inverted.disk12/ \
   -topics adhoc.101-150 \
   -topicReader Trec \
-  -output runs/run.disk12.ql+rm3.topics.adhoc.101-150.txt \
+  -output runs/run.lucene-inverted.disk12.model-ql+rm3.topics-adhoc.101-150.txt \
   -qld -rm3 &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.disk12/ \
+  -index indexes/lucene-inverted.disk12/ \
   -topics adhoc.151-200 \
   -topicReader Trec \
-  -output runs/run.disk12.ql+rm3.topics.adhoc.151-200.txt \
+  -output runs/run.lucene-inverted.disk12.model-ql+rm3.topics-adhoc.151-200.txt \
   -qld -rm3 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -m map -m P.30 adhoc.51-100 runs/run.disk12.bm25.topics.adhoc.51-100.txt
-bin/trec_eval -m map -m P.30 adhoc.101-150 runs/run.disk12.bm25.topics.adhoc.101-150.txt
-bin/trec_eval -m map -m P.30 adhoc.151-200 runs/run.disk12.bm25.topics.adhoc.151-200.txt
+bin/trec_eval -m map -m P.30 adhoc.51-100 runs/run.lucene-inverted.disk12.model-bm25.topics-adhoc.51-100.txt
+bin/trec_eval -m map -m P.30 adhoc.101-150 runs/run.lucene-inverted.disk12.model-bm25.topics-adhoc.101-150.txt
+bin/trec_eval -m map -m P.30 adhoc.151-200 runs/run.lucene-inverted.disk12.model-bm25.topics-adhoc.151-200.txt
 
-bin/trec_eval -m map -m P.30 adhoc.51-100 runs/run.disk12.bm25+rm3.topics.adhoc.51-100.txt
-bin/trec_eval -m map -m P.30 adhoc.101-150 runs/run.disk12.bm25+rm3.topics.adhoc.101-150.txt
-bin/trec_eval -m map -m P.30 adhoc.151-200 runs/run.disk12.bm25+rm3.topics.adhoc.151-200.txt
+bin/trec_eval -m map -m P.30 adhoc.51-100 runs/run.lucene-inverted.disk12.model-bm25+rm3.topics-adhoc.51-100.txt
+bin/trec_eval -m map -m P.30 adhoc.101-150 runs/run.lucene-inverted.disk12.model-bm25+rm3.topics-adhoc.101-150.txt
+bin/trec_eval -m map -m P.30 adhoc.151-200 runs/run.lucene-inverted.disk12.model-bm25+rm3.topics-adhoc.151-200.txt
 
-bin/trec_eval -m map -m P.30 adhoc.51-100 runs/run.disk12.bm25prf.topics.adhoc.51-100.txt
-bin/trec_eval -m map -m P.30 adhoc.101-150 runs/run.disk12.bm25prf.topics.adhoc.101-150.txt
-bin/trec_eval -m map -m P.30 adhoc.151-200 runs/run.disk12.bm25prf.topics.adhoc.151-200.txt
+bin/trec_eval -m map -m P.30 adhoc.51-100 runs/run.lucene-inverted.disk12.model-bm25prf.topics-adhoc.51-100.txt
+bin/trec_eval -m map -m P.30 adhoc.101-150 runs/run.lucene-inverted.disk12.model-bm25prf.topics-adhoc.101-150.txt
+bin/trec_eval -m map -m P.30 adhoc.151-200 runs/run.lucene-inverted.disk12.model-bm25prf.topics-adhoc.151-200.txt
 
-bin/trec_eval -m map -m P.30 adhoc.51-100 runs/run.disk12.bm25+rocchio.topics.adhoc.51-100.txt
-bin/trec_eval -m map -m P.30 adhoc.101-150 runs/run.disk12.bm25+rocchio.topics.adhoc.101-150.txt
-bin/trec_eval -m map -m P.30 adhoc.151-200 runs/run.disk12.bm25+rocchio.topics.adhoc.151-200.txt
+bin/trec_eval -m map -m P.30 adhoc.51-100 runs/run.lucene-inverted.disk12.model-bm25+rocchio.topics-adhoc.51-100.txt
+bin/trec_eval -m map -m P.30 adhoc.101-150 runs/run.lucene-inverted.disk12.model-bm25+rocchio.topics-adhoc.101-150.txt
+bin/trec_eval -m map -m P.30 adhoc.151-200 runs/run.lucene-inverted.disk12.model-bm25+rocchio.topics-adhoc.151-200.txt
 
-bin/trec_eval -m map -m P.30 adhoc.51-100 runs/run.disk12.bm25+ax.topics.adhoc.51-100.txt
-bin/trec_eval -m map -m P.30 adhoc.101-150 runs/run.disk12.bm25+ax.topics.adhoc.101-150.txt
-bin/trec_eval -m map -m P.30 adhoc.151-200 runs/run.disk12.bm25+ax.topics.adhoc.151-200.txt
+bin/trec_eval -m map -m P.30 adhoc.51-100 runs/run.lucene-inverted.disk12.model-bm25+ax.topics-adhoc.51-100.txt
+bin/trec_eval -m map -m P.30 adhoc.101-150 runs/run.lucene-inverted.disk12.model-bm25+ax.topics-adhoc.101-150.txt
+bin/trec_eval -m map -m P.30 adhoc.151-200 runs/run.lucene-inverted.disk12.model-bm25+ax.topics-adhoc.151-200.txt
 
-bin/trec_eval -m map -m P.30 adhoc.51-100 runs/run.disk12.ql.topics.adhoc.51-100.txt
-bin/trec_eval -m map -m P.30 adhoc.101-150 runs/run.disk12.ql.topics.adhoc.101-150.txt
-bin/trec_eval -m map -m P.30 adhoc.151-200 runs/run.disk12.ql.topics.adhoc.151-200.txt
+bin/trec_eval -m map -m P.30 adhoc.51-100 runs/run.lucene-inverted.disk12.model-ql.topics-adhoc.51-100.txt
+bin/trec_eval -m map -m P.30 adhoc.101-150 runs/run.lucene-inverted.disk12.model-ql.topics-adhoc.101-150.txt
+bin/trec_eval -m map -m P.30 adhoc.151-200 runs/run.lucene-inverted.disk12.model-ql.topics-adhoc.151-200.txt
 
-bin/trec_eval -m map -m P.30 adhoc.51-100 runs/run.disk12.ql+rm3.topics.adhoc.51-100.txt
-bin/trec_eval -m map -m P.30 adhoc.101-150 runs/run.disk12.ql+rm3.topics.adhoc.101-150.txt
-bin/trec_eval -m map -m P.30 adhoc.151-200 runs/run.disk12.ql+rm3.topics.adhoc.151-200.txt
+bin/trec_eval -m map -m P.30 adhoc.51-100 runs/run.lucene-inverted.disk12.model-ql+rm3.topics-adhoc.51-100.txt
+bin/trec_eval -m map -m P.30 adhoc.101-150 runs/run.lucene-inverted.disk12.model-ql+rm3.topics-adhoc.101-150.txt
+bin/trec_eval -m map -m P.30 adhoc.151-200 runs/run.lucene-inverted.disk12.model-ql+rm3.topics-adhoc.151-200.txt
 ```
 
 ## Effectiveness

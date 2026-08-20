@@ -56,16 +56,16 @@ bin/run.sh io.anserini.search.SearchFlatDenseVectors \
   -index indexes/lucene-flat.bright-psychology.bge-large-en-v1.5/ \
   -topics bright-psychology \
   -topicReader TsvString \
-  -output runs/run.bright-psychology.bge-large-en-v1.5.bge-flat-onnx.topics.bright-psychology.txt \
+  -output runs/run.lucene-flat.bright-psychology.bge-large-en-v1.5.model-bge-flat-onnx.topics-bright-psychology.txt \
   -encoder BgeLargeEn15 -hits 1000 -removeQuery -threads 16 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.10 bright-psychology runs/run.bright-psychology.bge-large-en-v1.5.bge-flat-onnx.topics.bright-psychology.txt
-bin/trec_eval -c -m recall.100 bright-psychology runs/run.bright-psychology.bge-large-en-v1.5.bge-flat-onnx.topics.bright-psychology.txt
-bin/trec_eval -c -m recall.1000 bright-psychology runs/run.bright-psychology.bge-large-en-v1.5.bge-flat-onnx.topics.bright-psychology.txt
+bin/trec_eval -c -m ndcg_cut.10 bright-psychology runs/run.lucene-flat.bright-psychology.bge-large-en-v1.5.model-bge-flat-onnx.topics-bright-psychology.txt
+bin/trec_eval -c -m recall.100 bright-psychology runs/run.lucene-flat.bright-psychology.bge-large-en-v1.5.model-bge-flat-onnx.topics-bright-psychology.txt
+bin/trec_eval -c -m recall.1000 bright-psychology runs/run.lucene-flat.bright-psychology.bge-large-en-v1.5.model-bge-flat-onnx.topics-bright-psychology.txt
 ```
 
 ## Effectiveness

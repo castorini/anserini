@@ -59,16 +59,16 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.bright-stackoverflow.splade-v3/ \
   -topics bright-stackoverflow \
   -topicReader TsvString \
-  -output runs/run.bright-stackoverflow.splade-v3-onnx.topics.bright-stackoverflow.txt \
+  -output runs/run.lucene-inverted.bright-stackoverflow.splade-v3.model-splade-v3-onnx.topics-bright-stackoverflow.txt \
   -impact -pretokenized -removeQuery -hits 1000 -encoder SpladeV3 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.10 bright-stackoverflow runs/run.bright-stackoverflow.splade-v3-onnx.topics.bright-stackoverflow.txt
-bin/trec_eval -c -m recall.100 bright-stackoverflow runs/run.bright-stackoverflow.splade-v3-onnx.topics.bright-stackoverflow.txt
-bin/trec_eval -c -m recall.1000 bright-stackoverflow runs/run.bright-stackoverflow.splade-v3-onnx.topics.bright-stackoverflow.txt
+bin/trec_eval -c -m ndcg_cut.10 bright-stackoverflow runs/run.lucene-inverted.bright-stackoverflow.splade-v3.model-splade-v3-onnx.topics-bright-stackoverflow.txt
+bin/trec_eval -c -m recall.100 bright-stackoverflow runs/run.lucene-inverted.bright-stackoverflow.splade-v3.model-splade-v3-onnx.topics-bright-stackoverflow.txt
+bin/trec_eval -c -m recall.1000 bright-stackoverflow runs/run.lucene-inverted.bright-stackoverflow.splade-v3.model-splade-v3-onnx.topics-bright-stackoverflow.txt
 ```
 
 ## Effectiveness

@@ -83,44 +83,44 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2-passage.splade-pp-sd/ \
   -topics dl23 \
   -topicReader TsvInt \
-  -output runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-onnx.topics.dl23.txt \
+  -output runs/run.lucene-inverted.msmarco-v2-passage.splade-pp-sd.model-splade-pp-sd-onnx.topics-dl23.txt \
   -parallelism 16 -impact -pretokenized -encoder SpladePlusPlusSelfDistil &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2-passage.splade-pp-sd/ \
   -topics dl23 \
   -topicReader TsvInt \
-  -output runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-onnx+rm3.topics.dl23.txt \
+  -output runs/run.lucene-inverted.msmarco-v2-passage.splade-pp-sd.model-splade-pp-sd-onnx+rm3.topics-dl23.txt \
   -parallelism 16 -impact -pretokenized -encoder SpladePlusPlusSelfDistil -rm3 -collection JsonVectorCollection &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2-passage.splade-pp-sd/ \
   -topics dl23 \
   -topicReader TsvInt \
-  -output runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-onnx+rocchio.topics.dl23.txt \
+  -output runs/run.lucene-inverted.msmarco-v2-passage.splade-pp-sd.model-splade-pp-sd-onnx+rocchio.topics-dl23.txt \
   -parallelism 16 -impact -pretokenized -encoder SpladePlusPlusSelfDistil -rocchio -collection JsonVectorCollection &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -M 100 -m map -l 2 dl23-passage runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-onnx.topics.dl23.txt
-bin/trec_eval -c -M 100 -m recip_rank -l 2 dl23-passage runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-onnx.topics.dl23.txt
-bin/trec_eval -c -m ndcg_cut.10 dl23-passage runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-onnx.topics.dl23.txt
-bin/trec_eval -c -m recall.100 -l 2 dl23-passage runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-onnx.topics.dl23.txt
-bin/trec_eval -c -m recall.1000 -l 2 dl23-passage runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-onnx.topics.dl23.txt
+bin/trec_eval -c -M 100 -m map -l 2 dl23-passage runs/run.lucene-inverted.msmarco-v2-passage.splade-pp-sd.model-splade-pp-sd-onnx.topics-dl23.txt
+bin/trec_eval -c -M 100 -m recip_rank -l 2 dl23-passage runs/run.lucene-inverted.msmarco-v2-passage.splade-pp-sd.model-splade-pp-sd-onnx.topics-dl23.txt
+bin/trec_eval -c -m ndcg_cut.10 dl23-passage runs/run.lucene-inverted.msmarco-v2-passage.splade-pp-sd.model-splade-pp-sd-onnx.topics-dl23.txt
+bin/trec_eval -c -m recall.100 -l 2 dl23-passage runs/run.lucene-inverted.msmarco-v2-passage.splade-pp-sd.model-splade-pp-sd-onnx.topics-dl23.txt
+bin/trec_eval -c -m recall.1000 -l 2 dl23-passage runs/run.lucene-inverted.msmarco-v2-passage.splade-pp-sd.model-splade-pp-sd-onnx.topics-dl23.txt
 
-bin/trec_eval -c -M 100 -m map -l 2 dl23-passage runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-onnx+rm3.topics.dl23.txt
-bin/trec_eval -c -M 100 -m recip_rank -l 2 dl23-passage runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-onnx+rm3.topics.dl23.txt
-bin/trec_eval -c -m ndcg_cut.10 dl23-passage runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-onnx+rm3.topics.dl23.txt
-bin/trec_eval -c -m recall.100 -l 2 dl23-passage runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-onnx+rm3.topics.dl23.txt
-bin/trec_eval -c -m recall.1000 -l 2 dl23-passage runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-onnx+rm3.topics.dl23.txt
+bin/trec_eval -c -M 100 -m map -l 2 dl23-passage runs/run.lucene-inverted.msmarco-v2-passage.splade-pp-sd.model-splade-pp-sd-onnx+rm3.topics-dl23.txt
+bin/trec_eval -c -M 100 -m recip_rank -l 2 dl23-passage runs/run.lucene-inverted.msmarco-v2-passage.splade-pp-sd.model-splade-pp-sd-onnx+rm3.topics-dl23.txt
+bin/trec_eval -c -m ndcg_cut.10 dl23-passage runs/run.lucene-inverted.msmarco-v2-passage.splade-pp-sd.model-splade-pp-sd-onnx+rm3.topics-dl23.txt
+bin/trec_eval -c -m recall.100 -l 2 dl23-passage runs/run.lucene-inverted.msmarco-v2-passage.splade-pp-sd.model-splade-pp-sd-onnx+rm3.topics-dl23.txt
+bin/trec_eval -c -m recall.1000 -l 2 dl23-passage runs/run.lucene-inverted.msmarco-v2-passage.splade-pp-sd.model-splade-pp-sd-onnx+rm3.topics-dl23.txt
 
-bin/trec_eval -c -M 100 -m map -l 2 dl23-passage runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-onnx+rocchio.topics.dl23.txt
-bin/trec_eval -c -M 100 -m recip_rank -l 2 dl23-passage runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-onnx+rocchio.topics.dl23.txt
-bin/trec_eval -c -m ndcg_cut.10 dl23-passage runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-onnx+rocchio.topics.dl23.txt
-bin/trec_eval -c -m recall.100 -l 2 dl23-passage runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-onnx+rocchio.topics.dl23.txt
-bin/trec_eval -c -m recall.1000 -l 2 dl23-passage runs/run.msmarco-v2-passage-splade-pp-sd.splade-pp-sd-onnx+rocchio.topics.dl23.txt
+bin/trec_eval -c -M 100 -m map -l 2 dl23-passage runs/run.lucene-inverted.msmarco-v2-passage.splade-pp-sd.model-splade-pp-sd-onnx+rocchio.topics-dl23.txt
+bin/trec_eval -c -M 100 -m recip_rank -l 2 dl23-passage runs/run.lucene-inverted.msmarco-v2-passage.splade-pp-sd.model-splade-pp-sd-onnx+rocchio.topics-dl23.txt
+bin/trec_eval -c -m ndcg_cut.10 dl23-passage runs/run.lucene-inverted.msmarco-v2-passage.splade-pp-sd.model-splade-pp-sd-onnx+rocchio.topics-dl23.txt
+bin/trec_eval -c -m recall.100 -l 2 dl23-passage runs/run.lucene-inverted.msmarco-v2-passage.splade-pp-sd.model-splade-pp-sd-onnx+rocchio.topics-dl23.txt
+bin/trec_eval -c -m recall.1000 -l 2 dl23-passage runs/run.lucene-inverted.msmarco-v2-passage.splade-pp-sd.model-splade-pp-sd-onnx+rocchio.topics-dl23.txt
 ```
 
 ## Effectiveness

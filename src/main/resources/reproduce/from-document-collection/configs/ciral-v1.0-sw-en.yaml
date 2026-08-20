@@ -2,7 +2,7 @@
 corpus: ciral-swahili-english
 corpus_path: collections/ciral/ciral-passages-swahili-english/
 
-index_path: indexes/lucene-index.ciral-v1.0-sw-en/
+index_path: indexes/lucene-inverted.ciral-v1.0-sw-en/
 collection_class: MrTyDiCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 16

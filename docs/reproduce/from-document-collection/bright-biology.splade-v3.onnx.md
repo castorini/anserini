@@ -59,16 +59,16 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.bright-biology.splade-v3/ \
   -topics bright-biology \
   -topicReader TsvString \
-  -output runs/run.bright-biology.splade-v3-onnx.topics.bright-biology.txt \
+  -output runs/run.lucene-inverted.bright-biology.splade-v3.model-splade-v3-onnx.topics-bright-biology.txt \
   -impact -pretokenized -removeQuery -hits 1000 -encoder SpladeV3 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.10 bright-biology runs/run.bright-biology.splade-v3-onnx.topics.bright-biology.txt
-bin/trec_eval -c -m recall.100 bright-biology runs/run.bright-biology.splade-v3-onnx.topics.bright-biology.txt
-bin/trec_eval -c -m recall.1000 bright-biology runs/run.bright-biology.splade-v3-onnx.topics.bright-biology.txt
+bin/trec_eval -c -m ndcg_cut.10 bright-biology runs/run.lucene-inverted.bright-biology.splade-v3.model-splade-v3-onnx.topics-bright-biology.txt
+bin/trec_eval -c -m recall.100 bright-biology runs/run.lucene-inverted.bright-biology.splade-v3.model-splade-v3-onnx.topics-bright-biology.txt
+bin/trec_eval -c -m recall.1000 bright-biology runs/run.lucene-inverted.bright-biology.splade-v3.model-splade-v3-onnx.topics-bright-biology.txt
 ```
 
 ## Effectiveness

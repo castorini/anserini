@@ -56,16 +56,16 @@ bin/run.sh io.anserini.search.SearchFlatDenseVectors \
   -index indexes/lucene-flat.bright-sustainable-living.bge-large-en-v1.5/ \
   -topics bright-sustainable-living \
   -topicReader TsvString \
-  -output runs/run.bright-sustainable-living.bge-large-en-v1.5.bge-flat-onnx.topics.bright-sustainable-living.txt \
+  -output runs/run.lucene-flat.bright-sustainable-living.bge-large-en-v1.5.model-bge-flat-onnx.topics-bright-sustainable-living.txt \
   -encoder BgeLargeEn15 -hits 1000 -removeQuery -threads 16 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.10 bright-sustainable-living runs/run.bright-sustainable-living.bge-large-en-v1.5.bge-flat-onnx.topics.bright-sustainable-living.txt
-bin/trec_eval -c -m recall.100 bright-sustainable-living runs/run.bright-sustainable-living.bge-large-en-v1.5.bge-flat-onnx.topics.bright-sustainable-living.txt
-bin/trec_eval -c -m recall.1000 bright-sustainable-living runs/run.bright-sustainable-living.bge-large-en-v1.5.bge-flat-onnx.topics.bright-sustainable-living.txt
+bin/trec_eval -c -m ndcg_cut.10 bright-sustainable-living runs/run.lucene-flat.bright-sustainable-living.bge-large-en-v1.5.model-bge-flat-onnx.topics-bright-sustainable-living.txt
+bin/trec_eval -c -m recall.100 bright-sustainable-living runs/run.lucene-flat.bright-sustainable-living.bge-large-en-v1.5.model-bge-flat-onnx.topics-bright-sustainable-living.txt
+bin/trec_eval -c -m recall.1000 bright-sustainable-living runs/run.lucene-flat.bright-sustainable-living.bge-large-en-v1.5.model-bge-flat-onnx.topics-bright-sustainable-living.txt
 ```
 
 ## Effectiveness

@@ -2,7 +2,7 @@
 corpus: wikipedia-dpr-100w
 corpus_path: collections/wikipedia/wikipedia-dpr-100w
 
-index_path: indexes/lucene-index.wikipedia-dpr-100w/
+index_path: indexes/lucene-inverted.wikipedia-dpr-100w/
 collection_class: JsonCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 43

@@ -50,16 +50,16 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.bright-robotics/ \
   -topics bright-robotics \
   -topicReader TsvString \
-  -output runs/run.bright-robotics.bm25.topics.bright-robotics.txt \
+  -output runs/run.lucene-inverted.bright-robotics.model-bm25.topics-bright-robotics.txt \
   -bm25 -removeQuery -hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.10 bright-robotics runs/run.bright-robotics.bm25.topics.bright-robotics.txt
-bin/trec_eval -c -m recall.100 bright-robotics runs/run.bright-robotics.bm25.topics.bright-robotics.txt
-bin/trec_eval -c -m recall.1000 bright-robotics runs/run.bright-robotics.bm25.topics.bright-robotics.txt
+bin/trec_eval -c -m ndcg_cut.10 bright-robotics runs/run.lucene-inverted.bright-robotics.model-bm25.topics-bright-robotics.txt
+bin/trec_eval -c -m recall.100 bright-robotics runs/run.lucene-inverted.bright-robotics.model-bm25.topics-bright-robotics.txt
+bin/trec_eval -c -m recall.1000 bright-robotics runs/run.lucene-inverted.bright-robotics.model-bm25.topics-bright-robotics.txt
 ```
 
 ## Effectiveness

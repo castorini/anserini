@@ -23,7 +23,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection MrTyDiCollection \
   -input /path/to/mrtydi-v1.1-ko \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.mrtydi-v1.1-korean-aca/ \
+  -index indexes/lucene-inverted.mrtydi-v1.1-korean-aca/ \
   -storePositions -storeDocvectors -storeRaw -language ko -useAutoCompositeAnalyzer \
   >& logs/log.mrtydi-v1.1-ko &
 ```
@@ -37,31 +37,31 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.mrtydi-v1.1-korean-aca/ \
+  -index indexes/lucene-inverted.mrtydi-v1.1-korean-aca/ \
   -topics mrtydi-v1.1-ko.train \
   -topicReader TsvInt \
-  -output runs/run.mrtydi-v1.1-ko.bm25.topics.mrtydi-v1.1-ko.train.txt \
+  -output runs/run.lucene-inverted.mrtydi-v1.1-korean-aca.model-bm25.topics-mrtydi-v1.1-ko.train.txt \
   -bm25 -hits 100 -language ko -useAutoCompositeAnalyzer &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.mrtydi-v1.1-korean-aca/ \
+  -index indexes/lucene-inverted.mrtydi-v1.1-korean-aca/ \
   -topics mrtydi-v1.1-ko.dev \
   -topicReader TsvInt \
-  -output runs/run.mrtydi-v1.1-ko.bm25.topics.mrtydi-v1.1-ko.dev.txt \
+  -output runs/run.lucene-inverted.mrtydi-v1.1-korean-aca.model-bm25.topics-mrtydi-v1.1-ko.dev.txt \
   -bm25 -hits 100 -language ko -useAutoCompositeAnalyzer &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.mrtydi-v1.1-korean-aca/ \
+  -index indexes/lucene-inverted.mrtydi-v1.1-korean-aca/ \
   -topics mrtydi-v1.1-ko.test \
   -topicReader TsvInt \
-  -output runs/run.mrtydi-v1.1-ko.bm25.topics.mrtydi-v1.1-ko.test.txt \
+  -output runs/run.lucene-inverted.mrtydi-v1.1-korean-aca.model-bm25.topics-mrtydi-v1.1-ko.test.txt \
   -bm25 -hits 100 -language ko -useAutoCompositeAnalyzer &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 mrtydi-v1.1-ko.train runs/run.mrtydi-v1.1-ko.bm25.topics.mrtydi-v1.1-ko.train.txt
-bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 mrtydi-v1.1-ko.dev runs/run.mrtydi-v1.1-ko.bm25.topics.mrtydi-v1.1-ko.dev.txt
-bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 mrtydi-v1.1-ko.test runs/run.mrtydi-v1.1-ko.bm25.topics.mrtydi-v1.1-ko.test.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 mrtydi-v1.1-ko.train runs/run.lucene-inverted.mrtydi-v1.1-korean-aca.model-bm25.topics-mrtydi-v1.1-ko.train.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 mrtydi-v1.1-ko.dev runs/run.lucene-inverted.mrtydi-v1.1-korean-aca.model-bm25.topics-mrtydi-v1.1-ko.dev.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 mrtydi-v1.1-ko.test runs/run.lucene-inverted.mrtydi-v1.1-korean-aca.model-bm25.topics-mrtydi-v1.1-ko.test.txt
 ```
 
 ## Effectiveness

@@ -50,16 +50,16 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.bright-economics/ \
   -topics bright-economics \
   -topicReader TsvString \
-  -output runs/run.bright-economics.bm25.topics.bright-economics.txt \
+  -output runs/run.lucene-inverted.bright-economics.model-bm25.topics-bright-economics.txt \
   -bm25 -removeQuery -hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.10 bright-economics runs/run.bright-economics.bm25.topics.bright-economics.txt
-bin/trec_eval -c -m recall.100 bright-economics runs/run.bright-economics.bm25.topics.bright-economics.txt
-bin/trec_eval -c -m recall.1000 bright-economics runs/run.bright-economics.bm25.topics.bright-economics.txt
+bin/trec_eval -c -m ndcg_cut.10 bright-economics runs/run.lucene-inverted.bright-economics.model-bm25.topics-bright-economics.txt
+bin/trec_eval -c -m recall.100 bright-economics runs/run.lucene-inverted.bright-economics.model-bm25.topics-bright-economics.txt
+bin/trec_eval -c -m recall.1000 bright-economics runs/run.lucene-inverted.bright-economics.model-bm25.topics-bright-economics.txt
 ```
 
 ## Effectiveness
