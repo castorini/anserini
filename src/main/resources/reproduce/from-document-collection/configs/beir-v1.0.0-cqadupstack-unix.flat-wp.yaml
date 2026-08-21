@@ -38,9 +38,8 @@ metrics:
 topic_reader: TsvString
 topics:
   - name: "BEIR (v1.0.0): CQADupStack-unix"
-    id: test
-    path: topics.beir-v1.0.0-cqadupstack-unix.test.wp.tsv.gz
-    qrel: qrels.beir-v1.0.0-cqadupstack-unix.test.txt
+    id: beir-v1.0.0-cqadupstack-unix.test.wp
+    qrels: beir-v1.0.0-cqadupstack-unix.test
 
 models:
   - name: bm25

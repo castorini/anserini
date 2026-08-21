@@ -2,7 +2,7 @@
 corpus: mrtydi-v1.1-ko
 corpus_path: collections/mr-tydi-corpus/mrtydi-v1.1-korean/
 
-index_path: indexes/lucene-index.mrtydi-v1.1-korean/
+index_path: indexes/lucene-inverted.mrtydi-v1.1-korean/
 collection_class: MrTyDiCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 1
@@ -31,17 +31,14 @@ metrics:
 topic_reader: TsvInt
 topics:
   - name: "[Mr. TyDi (Korean): train](https://github.com/castorini/mr.tydi)"
-    id: train
-    path: topics.mrtydi-v1.1-ko.train.txt.gz
-    qrel: qrels.mrtydi-v1.1-ko.train.txt
+    id: mrtydi-v1.1-ko.train
+    qrels: mrtydi-v1.1-ko.train
   - name: "[Mr. TyDi (Korean): dev](https://github.com/castorini/mr.tydi)"
-    id: dev
-    path: topics.mrtydi-v1.1-ko.dev.txt.gz
-    qrel: qrels.mrtydi-v1.1-ko.dev.txt
+    id: mrtydi-v1.1-ko.dev
+    qrels: mrtydi-v1.1-ko.dev
   - name: "[Mr. TyDi (Korean): test](https://github.com/castorini/mr.tydi)"
-    id: test
-    path: topics.mrtydi-v1.1-ko.test.txt.gz
-    qrel: qrels.mrtydi-v1.1-ko.test.txt
+    id: mrtydi-v1.1-ko.test
+    qrels: mrtydi-v1.1-ko.test
 
 models:
   - name: bm25

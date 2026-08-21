@@ -52,25 +52,25 @@ For additional details, see explanation of [common indexing options](../../commo
 ## Retrieval
 
 Here, we are using 89 test topics from the TREC 2024 RAG Track with manual relevance judgments from NIST assessors.
-Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
+Topics and qrels are stored in a [centralized repo containing evaluation data](https://github.com/castorini/eval).
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```bash
 bin/run.sh io.anserini.search.SearchFlatDenseVectors \
   -index indexes/lucene-flat.msmarco-v2.1-doc-segmented-shard07.arctic-embed-l \
-  -topics tools/topics-and-qrels/topics.rag24.test.txt \
+  -topics rag24.test \
   -topicReader TsvString \
-  -output runs/run.msmarco-v2.1-doc-segmented-shard07.arctic-embed-l.arctic-embed-l-flat-onnx.topics.rag24.test.txt \
+  -output runs/run.lucene-flat.msmarco-v2.1-doc-segmented-shard07.arctic-embed-l.model-arctic-embed-l-flat-onnx.topics-rag24.test.txt \
   -topics rag24.test -topicReader TsvString -topicField title -encoder ArcticEmbedLEncoder &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.rag24.test.txt runs/run.msmarco-v2.1-doc-segmented-shard07.arctic-embed-l.arctic-embed-l-flat-onnx.topics.rag24.test.txt
-bin/trec_eval -c -m ndcg_cut.100 tools/topics-and-qrels/qrels.rag24.test.txt runs/run.msmarco-v2.1-doc-segmented-shard07.arctic-embed-l.arctic-embed-l-flat-onnx.topics.rag24.test.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.rag24.test.txt runs/run.msmarco-v2.1-doc-segmented-shard07.arctic-embed-l.arctic-embed-l-flat-onnx.topics.rag24.test.txt
+bin/trec_eval -c -m ndcg_cut.20 rag24.test runs/run.lucene-flat.msmarco-v2.1-doc-segmented-shard07.arctic-embed-l.model-arctic-embed-l-flat-onnx.topics-rag24.test.txt
+bin/trec_eval -c -m ndcg_cut.100 rag24.test runs/run.lucene-flat.msmarco-v2.1-doc-segmented-shard07.arctic-embed-l.model-arctic-embed-l-flat-onnx.topics-rag24.test.txt
+bin/trec_eval -c -m recall.100 rag24.test runs/run.lucene-flat.msmarco-v2.1-doc-segmented-shard07.arctic-embed-l.model-arctic-embed-l-flat-onnx.topics-rag24.test.txt
 ```
 
 ## Effectiveness

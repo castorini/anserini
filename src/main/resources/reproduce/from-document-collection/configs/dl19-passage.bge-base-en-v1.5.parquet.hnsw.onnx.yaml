@@ -45,9 +45,8 @@ metrics:
 topic_reader: TsvInt
 topics:
   - name: "[DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)"
-    id: dl19
-    path: topics.dl19-passage.txt
-    qrel: qrels.dl19-passage.txt
+    id: dl19-passage
+    qrels: dl19-passage
 
 models:
   - name: bge-hnsw-onnx

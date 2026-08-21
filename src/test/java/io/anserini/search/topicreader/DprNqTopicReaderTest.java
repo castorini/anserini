@@ -29,8 +29,7 @@ public class DprNqTopicReaderTest {
 
   @Test
   public void test() throws IOException {
-    TopicReader<Integer> reader = new DprNqTopicReader(
-        Paths.get("tools/topics-and-qrels/topics.dpr.nq.dev.txt"));
+    TopicReader<Integer> reader = new DprNqTopicReader(Paths.get("topics.dpr.nq.dev.txt"));
 
     SortedMap<Integer, Map<String, String>> topics = reader.read();
 

@@ -19,7 +19,6 @@ package io.anserini.search.topicreader;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 import java.util.SortedMap;
@@ -30,8 +29,7 @@ public class WebTopicReaderTest {
 
   @Test
   public void test() throws IOException {
-    TopicReader<Integer> reader = new WebTopicReader(
-        Paths.get("tools/topics-and-qrels/topics.terabyte05.efficiency.txt"));
+    TopicReader<Integer> reader = new WebTopicReader(Paths.get("topics.terabyte05.efficiency.txt"));
 
     SortedMap<Integer, Map<String, String>> topics = reader.read();
 
@@ -45,8 +43,7 @@ public class WebTopicReaderTest {
   
   @Test
   public void testMillionQueryTopics1() throws IOException {
-    Path resource = Paths.get("tools/topics-and-qrels/topics.mq.1-10000.txt");
-    TopicReader<Integer> reader = new WebTopicReader(resource);
+    TopicReader<Integer> reader = new WebTopicReader(Paths.get("topics.mq.1-10000.txt"));
     
     SortedMap<Integer, Map<String, String>> topics = reader.read();
     
@@ -60,8 +57,7 @@ public class WebTopicReaderTest {
   
   @Test
   public void testMillionQueryTopics2() throws IOException {
-    Path resource = Paths.get("tools/topics-and-qrels/topics.mq.10001-20000.txt");
-    TopicReader<Integer> reader = new WebTopicReader(resource);
+    TopicReader<Integer> reader = new WebTopicReader(Paths.get("topics.mq.10001-20000.txt"));
     
     SortedMap<Integer, Map<String, String>> topics = reader.read();
     

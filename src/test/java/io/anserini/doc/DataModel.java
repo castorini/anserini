@@ -24,6 +24,8 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
+import io.anserini.reproduce.ReproductionUtils;
+
 public class DataModel {
   private static final String INDEX_COMMAND = "bin/run.sh io.anserini.index.IndexCollection";
   private static final String INDEX_HNSW_COMMAND = "bin/run.sh io.anserini.index.IndexHnswDenseVectors";
@@ -197,7 +199,7 @@ public class DataModel {
     private String name;
     private String id;
     private String path;
-    private String qrel;
+    private String qrels;
     private String topic_reader;
     private String convert_params;
 
@@ -207,8 +209,8 @@ public class DataModel {
     public void setId(String id) { this.id = id; }
     public String getPath() { return path; }
     public void setPath(String path) { this.path = path; }
-    public String getQrel() { return qrel; }
-    public void setQrel(String qrel) { this.qrel = qrel; }
+    public String getQrels() { return qrels; }
+    public void setQrels(String qrels) { this.qrels = qrels; }
     public String getTopic_reader() { return topic_reader; }
     public void setTopic_reader(String topic_reader) { this.topic_reader = topic_reader; }
     public String getConvert_params() { return convert_params; }
@@ -302,20 +304,10 @@ public class DataModel {
         String.format("  >& logs/log.%s &", collection);
   }
 
-  private String generateRunFile(String collection, Model model, Topic topic) {
-    // Strip suffixes (e.g., gz) to avoid confusion.
-    String modifiedPath = topic.getPath();
-    if (modifiedPath.endsWith(".gz")) {
-      modifiedPath = modifiedPath.substring(0, modifiedPath.lastIndexOf(".gz"));
-    }
-    if (modifiedPath.endsWith(".txt")) {
-      modifiedPath = modifiedPath.substring(0, modifiedPath.lastIndexOf(".txt"));
-    }
-    if (modifiedPath.endsWith(".tsv")) {
-      modifiedPath = modifiedPath.substring(0, modifiedPath.lastIndexOf(".tsv"));
-    }
-
-    return "runs/run."+collection+"."+model.getName()+"."+modifiedPath+ ".txt";
+  private String generateRunFile(Model model, Topic topic) {
+    String topics = topic.getPath() == null ? "topics-" + topic.getId() : topic.getPath();
+    String indexName = Paths.get(getIndex_path()).normalize().getFileName().toString();
+    return ReproductionUtils.constructRunfilePath(indexName, "model-" + model.getName(), topics);
   }
 
   public String generateRankingCommand(String collection) {
@@ -332,9 +324,9 @@ public class DataModel {
         }
         builder.append(searchCommand).append(" \\\n");
         builder.append("  -index").append(" ").append(getIndex_path()).append(" \\\n");
-        builder.append("  -topics").append(" ").append(Paths.get("tools/topics-and-qrels", topic.getPath())).append(" \\\n");
+        builder.append("  -topics").append(" ").append(topic.getId()).append(" \\\n");
         builder.append("  -topicReader").append(" ").append((topic.getTopic_reader() == null) ? getTopic_reader() : topic.getTopic_reader()).append(" \\\n");
-        builder.append("  -output").append(" ").append(generateRunFile(collection, model, topic)).append(" \\\n");
+        builder.append("  -output").append(" ").append(generateRunFile(model, topic)).append(" \\\n");
         if (model.getParams() != null) {
           builder.append("  ").append(model.getParams());
         }
@@ -356,8 +348,8 @@ public class DataModel {
             builder.append(conversion.getCommand()).append(" \\\n");
             builder.append("  --index").append(" ").append(getIndex_path()).append(" \\\n");
             builder.append("  --topics").append(" ").append(topic.getId()).append(" \\\n");
-            builder.append("  --input").append(" ").append(generateRunFile(collection, model, topic)).append((conversion.getIn_file_ext() == null) ? "" : conversion.getIn_file_ext()).append(" \\\n");
-            builder.append("  --output").append(" ").append(generateRunFile(collection, model, topic)).append(conversion.getOut_file_ext()).append(" \\\n");
+            builder.append("  --input").append(" ").append(generateRunFile(model, topic)).append((conversion.getIn_file_ext() == null) ? "" : conversion.getIn_file_ext()).append(" \\\n");
+            builder.append("  --output").append(" ").append(generateRunFile(model, topic)).append(conversion.getOut_file_ext()).append(" \\\n");
             if (conversion.getParams() != null) {
               builder.append("  ").append(conversion.getParams());
             }
@@ -387,10 +379,10 @@ public class DataModel {
             evalCmdOption += " " + eval.getParams();
           }
           String evalCmdResidual = "";
-          if(topic.getQrel() != null){
-            evalCmdResidual += " " + Paths.get("tools/topics-and-qrels", topic.getQrel());
+          if (topic.getQrels() != null) {
+            evalCmdResidual += " " + topic.getQrels();
           }
-          evalCmdResidual += " " + generateRunFile(collection, model, topic);
+          evalCmdResidual += " " + generateRunFile(model, topic);
           List<Conversion> conversions = getConversions();
           if(conversions != null){
             Conversion lastConversion = conversions.get(conversions.size() - 1);

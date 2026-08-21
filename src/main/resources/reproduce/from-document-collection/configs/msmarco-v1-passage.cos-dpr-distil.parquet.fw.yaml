@@ -49,9 +49,8 @@ metrics:
 topic_reader: JsonIntVector
 topics:
   - name: "[MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking)"
-    id: dev
-    path: topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.gz
-    qrel: qrels.msmarco-passage.dev-subset.txt
+    id: msmarco-passage.dev-subset.cos-dpr-distil
+    qrels: msmarco-passage.dev-subset
 
 models:
   - name: cos-dpr-distil-fw-40-cached_q

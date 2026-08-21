@@ -75,11 +75,13 @@ public class CacheDirectoryResolverTest {
 
     Path base = Path.of(System.getProperty("user.home"), ".cache", "pyserini");
     assertEquals(base.resolve("indexes"), CacheDirectoryResolver.getIndexCachePath());
-    assertEquals(base.resolve("topics-and-qrels"), CacheDirectoryResolver.getTopicsAndQrelsCachePath());
+    assertEquals(base.resolve("topics"), CacheDirectoryResolver.getTopicCachePath());
+    assertEquals(base.resolve("qrels"), CacheDirectoryResolver.getQrelsCachePath());
     assertEquals(base.resolve("encoders"), CacheDirectoryResolver.getEncodersCachePath());
     assertEquals(base.resolve("collections"), CacheDirectoryResolver.getCollectionCachePath());
     assertTrue(Files.isDirectory(base.resolve("indexes")));
-    assertTrue(Files.isDirectory(base.resolve("topics-and-qrels")));
+    assertTrue(Files.isDirectory(base.resolve("topics")));
+    assertTrue(Files.isDirectory(base.resolve("qrels")));
     assertTrue(Files.isDirectory(base.resolve("encoders")));
     assertTrue(Files.isDirectory(base.resolve("collections")));
   }
@@ -93,12 +95,14 @@ public class CacheDirectoryResolverTest {
     Path base = cwd.resolve(".cache").resolve("pyserini");
     assertEquals(base, CacheDirectoryResolver.getBasePath());
     assertEquals(base.resolve("indexes"), CacheDirectoryResolver.getIndexCachePath());
-    assertEquals(base.resolve("topics-and-qrels"), CacheDirectoryResolver.getTopicsAndQrelsCachePath());
+    assertEquals(base.resolve("topics"), CacheDirectoryResolver.getTopicCachePath());
+    assertEquals(base.resolve("qrels"), CacheDirectoryResolver.getQrelsCachePath());
     assertEquals(base.resolve("encoders"), CacheDirectoryResolver.getEncodersCachePath());
     assertEquals(base.resolve("collections"), CacheDirectoryResolver.getCollectionCachePath());
     assertTrue(Files.isDirectory(base));
     assertTrue(Files.isDirectory(base.resolve("indexes")));
-    assertTrue(Files.isDirectory(base.resolve("topics-and-qrels")));
+    assertTrue(Files.isDirectory(base.resolve("topics")));
+    assertTrue(Files.isDirectory(base.resolve("qrels")));
     assertTrue(Files.isDirectory(base.resolve("encoders")));
     assertTrue(Files.isDirectory(base.resolve("collections")));
   }
@@ -114,12 +118,14 @@ public class CacheDirectoryResolverTest {
 
     assertEquals(override, CacheDirectoryResolver.getBasePath());
     assertEquals(override.resolve("indexes"), CacheDirectoryResolver.getIndexCachePath());
-    assertEquals(override.resolve("topics-and-qrels"), CacheDirectoryResolver.getTopicsAndQrelsCachePath());
+    assertEquals(override.resolve("topics"), CacheDirectoryResolver.getTopicCachePath());
+    assertEquals(override.resolve("qrels"), CacheDirectoryResolver.getQrelsCachePath());
     assertEquals(override.resolve("encoders"), CacheDirectoryResolver.getEncodersCachePath());
     assertEquals(override.resolve("collections"), CacheDirectoryResolver.getCollectionCachePath());
     assertTrue(Files.isDirectory(override));
     assertTrue(Files.isDirectory(override.resolve("indexes")));
-    assertTrue(Files.isDirectory(override.resolve("topics-and-qrels")));
+    assertTrue(Files.isDirectory(override.resolve("topics")));
+    assertTrue(Files.isDirectory(override.resolve("qrels")));
     assertTrue(Files.isDirectory(override.resolve("encoders")));
     assertTrue(Files.isDirectory(override.resolve("collections")));
   }

@@ -21,7 +21,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection MrTyDiCollection \
   -input /path/to/ciral-yoruba-english \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.ciral-v1.0-yo-en/ \
+  -index indexes/lucene-inverted.ciral-v1.0-yo-en/ \
   -storePositions -storeDocvectors -storeRaw \
   >& logs/log.ciral-yoruba-english &
 ```
@@ -35,34 +35,34 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.ciral-v1.0-yo-en/ \
-  -topics tools/topics-and-qrels/topics.ciral-v1.0-yo-test-a.tsv \
+  -index indexes/lucene-inverted.ciral-v1.0-yo-en/ \
+  -topics ciral-v1.0-yo-test-a \
   -topicReader TsvInt \
-  -output runs/run.ciral-yoruba-english.bm25-default.topics.ciral-v1.0-yo-test-a.txt \
+  -output runs/run.lucene-inverted.ciral-v1.0-yo-en.model-bm25-default.topics-ciral-v1.0-yo-test-a.txt \
   -bm25 -hits 1000 &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.ciral-v1.0-yo-en/ \
-  -topics tools/topics-and-qrels/topics.ciral-v1.0-yo-test-a.tsv \
+  -index indexes/lucene-inverted.ciral-v1.0-yo-en/ \
+  -topics ciral-v1.0-yo-test-a \
   -topicReader TsvInt \
-  -output runs/run.ciral-yoruba-english.bm25-default.topics.ciral-v1.0-yo-test-a.txt \
+  -output runs/run.lucene-inverted.ciral-v1.0-yo-en.model-bm25-default.topics-ciral-v1.0-yo-test-a.txt \
   -bm25 -hits 1000 &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.ciral-v1.0-yo-en/ \
-  -topics tools/topics-and-qrels/topics.ciral-v1.0-yo-test-b.tsv \
+  -index indexes/lucene-inverted.ciral-v1.0-yo-en/ \
+  -topics ciral-v1.0-yo-test-b \
   -topicReader TsvInt \
-  -output runs/run.ciral-yoruba-english.bm25-default.topics.ciral-v1.0-yo-test-b.txt \
+  -output runs/run.lucene-inverted.ciral-v1.0-yo-en.model-bm25-default.topics-ciral-v1.0-yo-test-b.txt \
   -bm25 -hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.ciral-v1.0-yo-test-a.tsv runs/run.ciral-yoruba-english.bm25-default.topics.ciral-v1.0-yo-test-a.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.ciral-v1.0-yo-test-a.tsv runs/run.ciral-yoruba-english.bm25-default.topics.ciral-v1.0-yo-test-a.txt
-bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.ciral-v1.0-yo-test-a-pools.tsv runs/run.ciral-yoruba-english.bm25-default.topics.ciral-v1.0-yo-test-a.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.ciral-v1.0-yo-test-a-pools.tsv runs/run.ciral-yoruba-english.bm25-default.topics.ciral-v1.0-yo-test-a.txt
-bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.ciral-v1.0-yo-test-b.tsv runs/run.ciral-yoruba-english.bm25-default.topics.ciral-v1.0-yo-test-b.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.ciral-v1.0-yo-test-b.tsv runs/run.ciral-yoruba-english.bm25-default.topics.ciral-v1.0-yo-test-b.txt
+bin/trec_eval -c -m ndcg_cut.20 ciral-v1.0-yo-test-a runs/run.lucene-inverted.ciral-v1.0-yo-en.model-bm25-default.topics-ciral-v1.0-yo-test-a.txt
+bin/trec_eval -c -m recall.100 ciral-v1.0-yo-test-a runs/run.lucene-inverted.ciral-v1.0-yo-en.model-bm25-default.topics-ciral-v1.0-yo-test-a.txt
+bin/trec_eval -c -m ndcg_cut.20 ciral-v1.0-yo-test-a-pools runs/run.lucene-inverted.ciral-v1.0-yo-en.model-bm25-default.topics-ciral-v1.0-yo-test-a.txt
+bin/trec_eval -c -m recall.100 ciral-v1.0-yo-test-a-pools runs/run.lucene-inverted.ciral-v1.0-yo-en.model-bm25-default.topics-ciral-v1.0-yo-test-a.txt
+bin/trec_eval -c -m ndcg_cut.20 ciral-v1.0-yo-test-b runs/run.lucene-inverted.ciral-v1.0-yo-en.model-bm25-default.topics-ciral-v1.0-yo-test-b.txt
+bin/trec_eval -c -m recall.100 ciral-v1.0-yo-test-b runs/run.lucene-inverted.ciral-v1.0-yo-en.model-bm25-default.topics-ciral-v1.0-yo-test-b.txt
 ```
 
 ## Effectiveness

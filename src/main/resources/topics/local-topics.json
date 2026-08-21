@@ -1,0 +1,6 @@
+{
+  "dummy": {
+    "path": "topics.dummy.tsv",
+    "reader_class": "io.anserini.search.topicreader.TsvStringTopicReader"
+  }
+}

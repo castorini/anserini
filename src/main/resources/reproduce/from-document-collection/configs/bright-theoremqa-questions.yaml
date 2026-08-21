@@ -38,9 +38,8 @@ metrics:
 topic_reader: TsvString
 topics:
   - name: "BRIGHT: TheoremQA-Q"
-    id: topics
-    path: topics.bright-theoremqa-questions.tsv.gz
-    qrel: qrels.bright-theoremqa-questions.txt
+    id: bright-theoremqa-questions
+    qrels: bright-theoremqa-questions
 
 models:
   - name: bm25

@@ -2,7 +2,7 @@
 corpus: fever
 corpus_path: collections/fever/wiki-pages/
 
-index_path: indexes/lucene-index.fever-paragraph/
+index_path: indexes/lucene-inverted.fever-paragraph/
 collection_class: FeverParagraphCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 1
@@ -31,9 +31,8 @@ metrics:
 topic_reader: TsvInt
 topics:
   - name: "[FEVER Paper Development Dataset](https://s3-eu-west-1.amazonaws.com/fever.public/paper_dev.jsonl)"
-    id: dev
-    path: topics.fever.dev.txt
-    qrel: qrels.fever.dev.txt
+    id: fever.dev
+    qrels: fever.dev
 
 models:
   - name: bm25-default

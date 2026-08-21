@@ -2,7 +2,7 @@
 corpus: cw09b
 corpus_path: collections/web/ClueWeb09b/
 
-index_path: indexes/lucene-index.cw09b/
+index_path: indexes/lucene-inverted.cw09b/
 collection_class: ClueWeb09Collection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 44
@@ -40,18 +40,15 @@ metrics:
 
 topic_reader: Webxml
 topics:
-  - name: "[TREC 2010 Web Track (Topics 51-100)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.web.51-100.txt)"
-    id: trec2010
-    path: topics.web.51-100.txt
-    qrel: qrels.web.51-100.txt
-  - name: "[TREC 2011 Web Track (Topics 101-150)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.web.101-150.txt)"
-    id: trec2011
-    path: topics.web.101-150.txt
-    qrel: qrels.web.101-150.txt
-  - name: "[TREC 2012 Web Track (Topics 151-200)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.web.151-200.txt)"
-    id: trec2012
-    path: topics.web.151-200.txt
-    qrel: qrels.web.151-200.txt
+  - name: "[TREC 2010 Web Track (Topics 51-100)](https://github.com/castorini/eval/tree/master/topics/topics.web.51-100.txt)"
+    id: web.51-100
+    qrels: web.51-100
+  - name: "[TREC 2011 Web Track (Topics 101-150)](https://github.com/castorini/eval/tree/master/topics/topics.web.101-150.txt)"
+    id: web.101-150
+    qrels: web.101-150
+  - name: "[TREC 2012 Web Track (Topics 151-200)](https://github.com/castorini/eval/tree/master/topics/topics.web.151-200.txt)"
+    id: web.151-200
+    qrels: web.151-200
 
 models:
   - name: bm25

@@ -46,8 +46,7 @@ topic_reader: TsvInt
 topics:
   - name: "[DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)"
     id: dl20
-    path: topics.dl20.txt
-    qrel: qrels.dl20-passage.txt
+    qrels: dl20-passage
 
 models:
   - name: cos-dpr-distil-flat-sqv-onnx

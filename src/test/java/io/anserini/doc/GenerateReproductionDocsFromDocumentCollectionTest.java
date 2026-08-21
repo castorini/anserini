@@ -17,12 +17,14 @@
 package io.anserini.doc;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -41,6 +43,8 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+
+import io.anserini.reproduce.ReproductionUtils;
 
 public class GenerateReproductionDocsFromDocumentCollectionTest {
   private static final Map<String, List<String>> ORDERING = new LinkedHashMap<>();
@@ -744,6 +748,22 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("wiki-all-6-3-tamber-bm25"),
         Pattern.quote("disk45")
     ));
+  }
+
+  @Test
+  public void testDisk45RunfilePathsAlign() throws Exception {
+    ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+    URL yaml = GenerateReproductionDocsFromDocumentCollectionTest.class.getResource(
+        "/reproduce/from-document-collection/configs/disk45.yaml");
+    assertNotNull(yaml);
+
+    DataModel data = mapper.readValue(new File(yaml.toURI()), DataModel.class);
+    String indexName = Paths.get(data.getIndex_path()).normalize().getFileName().toString();
+    String runfile = ReproductionUtils.constructRunfilePath(
+        indexName, "model-" + data.getModels().get(0).getName(), "topics-" + data.getTopics().get(0).getId());
+
+    assertTrue(data.generateRankingCommand(data.getCorpus()).contains("-output " + runfile));
+    assertTrue(data.generateEvalCommand(data.getCorpus()).contains(" " + runfile));
   }
 
   @Test

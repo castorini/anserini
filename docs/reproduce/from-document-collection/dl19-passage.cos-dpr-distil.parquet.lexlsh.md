@@ -65,7 +65,7 @@ Upon completion, we should have an index with 8,841,823 documents.
 
 ## Retrieval
 
-Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
+Topics and qrels are stored in a [centralized repo containing evaluation data](https://github.com/castorini/eval).
 The regression experiments here evaluate on the 43 topics for which NIST has provided judgments as part of the TREC 2019 Deep Learning Track.
 The original data can be found [here](https://trec.nist.gov/data/deep2019.html).
 
@@ -74,19 +74,19 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchInvertedDenseVectors \
   -index indexes/lucene-inverted.msmarco-v1-passage.cos-dpr-distil.lexlsh-600/ \
-  -topics tools/topics-and-qrels/topics.dl19-passage.cos-dpr-distil.jsonl.gz \
+  -topics dl19-passage.cos-dpr-distil \
   -topicReader JsonIntVector \
-  -output runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-lexlsh-600-cached_q.topics.dl19-passage.cos-dpr-distil.jsonl.txt \
+  -output runs/run.lucene-inverted.msmarco-v1-passage.cos-dpr-distil.lexlsh-600.model-cos-dpr-distil-lexlsh-600-cached_q.topics-dl19-passage.cos-dpr-distil.txt \
   -topicField vector -threads 16 -encoding lexlsh -lexlsh.b 600 -hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-lexlsh-600-cached_q.topics.dl19-passage.cos-dpr-distil.jsonl.txt
-bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-lexlsh-600-cached_q.topics.dl19-passage.cos-dpr-distil.jsonl.txt
-bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-lexlsh-600-cached_q.topics.dl19-passage.cos-dpr-distil.jsonl.txt
-bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl19-passage.txt runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-lexlsh-600-cached_q.topics.dl19-passage.cos-dpr-distil.jsonl.txt
+bin/trec_eval -m map -c -l 2 dl19-passage runs/run.lucene-inverted.msmarco-v1-passage.cos-dpr-distil.lexlsh-600.model-cos-dpr-distil-lexlsh-600-cached_q.topics-dl19-passage.cos-dpr-distil.txt
+bin/trec_eval -m ndcg_cut.10 -c dl19-passage runs/run.lucene-inverted.msmarco-v1-passage.cos-dpr-distil.lexlsh-600.model-cos-dpr-distil-lexlsh-600-cached_q.topics-dl19-passage.cos-dpr-distil.txt
+bin/trec_eval -m recall.100 -c -l 2 dl19-passage runs/run.lucene-inverted.msmarco-v1-passage.cos-dpr-distil.lexlsh-600.model-cos-dpr-distil-lexlsh-600-cached_q.topics-dl19-passage.cos-dpr-distil.txt
+bin/trec_eval -m recall.1000 -c -l 2 dl19-passage runs/run.lucene-inverted.msmarco-v1-passage.cos-dpr-distil.lexlsh-600.model-cos-dpr-distil-lexlsh-600-cached_q.topics-dl19-passage.cos-dpr-distil.txt
 ```
 
 ## Effectiveness

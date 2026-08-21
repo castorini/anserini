@@ -43,8 +43,7 @@ topic_reader: TsvString
 topics:
   - name: "RAG 24: Test queries"
     id: rag24.test
-    path: topics.rag24.test.txt
-    qrel: qrels.rag24.test-umbrela-all.txt
+    qrels: rag24.test-umbrela-all
 
 models:
   - name: splade-v3-onnx

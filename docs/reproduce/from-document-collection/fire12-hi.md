@@ -22,7 +22,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection CleanTrecCollection \
   -input /path/to/fire12-hi \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.fire12-hi/ \
+  -index indexes/lucene-inverted.fire12-hi/ \
   -storePositions -storeDocvectors -storeRaw -language hi \
   >& logs/log.fire12-hi &
 ```
@@ -34,37 +34,37 @@ For additional details, see explanation of [common indexing options](../../commo
 
 ## Retrieval
 
-Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
+Topics and qrels are stored in a [centralized repo containing evaluation data](https://github.com/castorini/eval).
 They are downloaded from the [FIRE data page](http://fire.irsi.res.in/fire/static/data):
 
-+ [`topics.fire12hi.176-225.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.fire12hi.176-225.txt): topics for FIRE 2012 Monolingual Hindi (176 to 225)
-+ [`qrels.fire12hi.176-225.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/qrels.fire12hi.176-225.txt): qrels (version II) for FIRE 2012 Monolingual Hindi (176 to 225)
++ [`topics.fire12hi.176-225.txt`](https://github.com/castorini/eval/tree/master/topics/topics.fire12hi.176-225.txt): topics for FIRE 2012 Monolingual Hindi (176 to 225)
++ [`qrels.fire12hi.176-225.txt`](https://github.com/castorini/eval/tree/master/qrels/qrels.fire12hi.176-225.txt): qrels (version II) for FIRE 2012 Monolingual Hindi (176 to 225)
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.fire12-hi/ \
-  -topics tools/topics-and-qrels/topics.fire12hi.176-225.txt \
+  -index indexes/lucene-inverted.fire12-hi/ \
+  -topics fire12hi.176-225 \
   -topicReader Trec \
-  -output runs/run.fire12-hi.bm25.topics.fire12hi.176-225.txt \
+  -output runs/run.lucene-inverted.fire12-hi.model-bm25.topics-fire12hi.176-225.txt \
   -bm25 -language hi &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -m map -m P.20 -m ndcg_cut.20 tools/topics-and-qrels/qrels.fire12hi.176-225.txt runs/run.fire12-hi.bm25.topics.fire12hi.176-225.txt
+bin/trec_eval -m map -m P.20 -m ndcg_cut.20 fire12hi.176-225 runs/run.lucene-inverted.fire12-hi.model-bm25.topics-fire12hi.176-225.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MAP**                                                                                                                               | **BM25**   |
-|:--------------------------------------------------------------------------------------------------------------------------------------|:----------:|
-| [FIRE 2012 (Monolingual Hindi)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.fire12en.176-225.txt) | 0.3867     |
-| **P20**                                                                                                                               | **BM25**   |
-| [FIRE 2012 (Monolingual Hindi)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.fire12en.176-225.txt) | 0.4470     |
-| **nDCG@20**                                                                                                                           | **BM25**   |
-| [FIRE 2012 (Monolingual Hindi)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.fire12en.176-225.txt) | 0.5310     |
+| **MAP**                                                                                                           | **BM25**   |
+|:------------------------------------------------------------------------------------------------------------------|:----------:|
+| [FIRE 2012 (Monolingual Hindi)](https://github.com/castorini/eval/tree/master/topics/topics.fire12en.176-225.txt) | 0.3867     |
+| **P20**                                                                                                           | **BM25**   |
+| [FIRE 2012 (Monolingual Hindi)](https://github.com/castorini/eval/tree/master/topics/topics.fire12en.176-225.txt) | 0.4470     |
+| **nDCG@20**                                                                                                       | **BM25**   |
+| [FIRE 2012 (Monolingual Hindi)](https://github.com/castorini/eval/tree/master/topics/topics.fire12en.176-225.txt) | 0.5310     |
