@@ -110,6 +110,11 @@ public final class ReproductionUtils {
     return String.format(Locale.ROOT, "%s%02d:%02d:%02d", duration.isNegative() ? "-" : "", hours, minutes, secs);
   }
 
+  public static String constructRunfilePath(String indexName, String modelName, String topics) {
+    return Paths.get(Constants.DEFAULT_RUNS_DIRECTORY,
+        String.format(Locale.ROOT, "run.%s.%s.%s.txt", indexName, modelName, topics)).toString();
+  }
+
   public static String escapeJson(String value) {
     return value
         .replace("\\", "\\\\")

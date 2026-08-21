@@ -38,9 +38,8 @@ metrics:
 topic_reader: TsvString
 topics:
   - name: "BRIGHT: Sustainable Living"
-    id: topics
-    path: topics.bright-sustainable-living.tsv.gz
-    qrel: qrels.bright-sustainable-living.txt
+    id: bright-sustainable-living
+    qrels: bright-sustainable-living
 
 models:
   - name: bm25

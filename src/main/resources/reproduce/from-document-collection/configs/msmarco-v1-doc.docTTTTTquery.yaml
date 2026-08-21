@@ -45,9 +45,8 @@ metrics:
 topic_reader: TsvInt
 topics:
   - name: "[MS MARCO Doc: Dev](https://github.com/microsoft/MSMARCO-Document-Ranking)"
-    id: dev
-    path: topics.msmarco-doc.dev.txt
-    qrel: qrels.msmarco-doc.dev.txt
+    id: msmarco-doc.dev
+    qrels: msmarco-doc.dev
 
 models:
   - name: bm25-default

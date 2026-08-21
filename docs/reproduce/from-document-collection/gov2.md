@@ -22,7 +22,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection TrecwebCollection \
   -input /path/to/gov2 \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.gov2/ \
+  -index indexes/lucene-inverted.gov2/ \
   -storePositions -storeDocvectors -storeRaw \
   >& logs/log.gov2 &
 ```
@@ -33,172 +33,172 @@ For additional details, see explanation of [common indexing options](../../commo
 
 ## Retrieval
 
-Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
+Topics and qrels are stored in a [centralized repo containing evaluation data](https://github.com/castorini/eval).
 They are downloaded from NIST:
 
-+ [`topics.terabyte04.701-750.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.terabyte04.701-750.txt): [topics for the TREC 2004 Terabyte Track (Topics 701-750)](http://trec.nist.gov/data/terabyte/04/04topics.701-750.txt)
-+ [`topics.terabyte05.751-800.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.terabyte05.751-800.txt): [topics for the TREC 2005 Terabyte Track (Topics 751-800)](http://trec.nist.gov/data/terabyte/05/05.topics.751-800.txt)
-+ [`topics.terabyte06.801-850.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.terabyte06.801-850.txt): [topics for the TREC 2006 Terabyte Track (Topics 801-850)](http://trec.nist.gov/data/terabyte/06/06.topics.801-850.txt)
-+ [`qrels.terabyte04.701-750.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/qrels.terabyte04.701-750.txt): [qrels for the TREC 2004 Terabyte Track (Topics 701-750)](http://trec.nist.gov/data/terabyte/04/04.qrels.12-Nov-04)
-+ [`qrels.terabyte05.751-800.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/qrels.terabyte05.751-800.txt): [qrels for the TREC 2005 Terabyte Track (Topics 751-800)](http://trec.nist.gov/data/terabyte/05/05.adhoc_qrels)
-+ [`qrels.terabyte06.801-850.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/qrels.terabyte06.801-850.txt): [qrels for the TREC 2006 Terabyte Track (Topics 801-850)](http://trec.nist.gov/data/terabyte/06/qrels.tb06.top50)
++ [`topics.terabyte04.701-750.txt`](https://github.com/castorini/eval/tree/master/topics/topics.terabyte04.701-750.txt): [topics for the TREC 2004 Terabyte Track (Topics 701-750)](http://trec.nist.gov/data/terabyte/04/04topics.701-750.txt)
++ [`topics.terabyte05.751-800.txt`](https://github.com/castorini/eval/tree/master/topics/topics.terabyte05.751-800.txt): [topics for the TREC 2005 Terabyte Track (Topics 751-800)](http://trec.nist.gov/data/terabyte/05/05.topics.751-800.txt)
++ [`topics.terabyte06.801-850.txt`](https://github.com/castorini/eval/tree/master/topics/topics.terabyte06.801-850.txt): [topics for the TREC 2006 Terabyte Track (Topics 801-850)](http://trec.nist.gov/data/terabyte/06/06.topics.801-850.txt)
++ [`qrels.terabyte04.701-750.txt`](https://github.com/castorini/eval/tree/master/qrels/qrels.terabyte04.701-750.txt): [qrels for the TREC 2004 Terabyte Track (Topics 701-750)](http://trec.nist.gov/data/terabyte/04/04.qrels.12-Nov-04)
++ [`qrels.terabyte05.751-800.txt`](https://github.com/castorini/eval/tree/master/qrels/qrels.terabyte05.751-800.txt): [qrels for the TREC 2005 Terabyte Track (Topics 751-800)](http://trec.nist.gov/data/terabyte/05/05.adhoc_qrels)
++ [`qrels.terabyte06.801-850.txt`](https://github.com/castorini/eval/tree/master/qrels/qrels.terabyte06.801-850.txt): [qrels for the TREC 2006 Terabyte Track (Topics 801-850)](http://trec.nist.gov/data/terabyte/06/qrels.tb06.top50)
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.gov2/ \
-  -topics tools/topics-and-qrels/topics.terabyte04.701-750.txt \
+  -index indexes/lucene-inverted.gov2/ \
+  -topics terabyte04.701-750 \
   -topicReader Trec \
-  -output runs/run.gov2.bm25.topics.terabyte04.701-750.txt \
+  -output runs/run.lucene-inverted.gov2.model-bm25.topics-terabyte04.701-750.txt \
   -bm25 &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.gov2/ \
-  -topics tools/topics-and-qrels/topics.terabyte05.751-800.txt \
+  -index indexes/lucene-inverted.gov2/ \
+  -topics terabyte05.751-800 \
   -topicReader Trec \
-  -output runs/run.gov2.bm25.topics.terabyte05.751-800.txt \
+  -output runs/run.lucene-inverted.gov2.model-bm25.topics-terabyte05.751-800.txt \
   -bm25 &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.gov2/ \
-  -topics tools/topics-and-qrels/topics.terabyte06.801-850.txt \
+  -index indexes/lucene-inverted.gov2/ \
+  -topics terabyte06.801-850 \
   -topicReader Trec \
-  -output runs/run.gov2.bm25.topics.terabyte06.801-850.txt \
+  -output runs/run.lucene-inverted.gov2.model-bm25.topics-terabyte06.801-850.txt \
   -bm25 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.gov2/ \
-  -topics tools/topics-and-qrels/topics.terabyte04.701-750.txt \
+  -index indexes/lucene-inverted.gov2/ \
+  -topics terabyte04.701-750 \
   -topicReader Trec \
-  -output runs/run.gov2.bm25+rm3.topics.terabyte04.701-750.txt \
+  -output runs/run.lucene-inverted.gov2.model-bm25+rm3.topics-terabyte04.701-750.txt \
   -bm25 -rm3 &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.gov2/ \
-  -topics tools/topics-and-qrels/topics.terabyte05.751-800.txt \
+  -index indexes/lucene-inverted.gov2/ \
+  -topics terabyte05.751-800 \
   -topicReader Trec \
-  -output runs/run.gov2.bm25+rm3.topics.terabyte05.751-800.txt \
+  -output runs/run.lucene-inverted.gov2.model-bm25+rm3.topics-terabyte05.751-800.txt \
   -bm25 -rm3 &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.gov2/ \
-  -topics tools/topics-and-qrels/topics.terabyte06.801-850.txt \
+  -index indexes/lucene-inverted.gov2/ \
+  -topics terabyte06.801-850 \
   -topicReader Trec \
-  -output runs/run.gov2.bm25+rm3.topics.terabyte06.801-850.txt \
+  -output runs/run.lucene-inverted.gov2.model-bm25+rm3.topics-terabyte06.801-850.txt \
   -bm25 -rm3 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.gov2/ \
-  -topics tools/topics-and-qrels/topics.terabyte04.701-750.txt \
+  -index indexes/lucene-inverted.gov2/ \
+  -topics terabyte04.701-750 \
   -topicReader Trec \
-  -output runs/run.gov2.bm25+ax.topics.terabyte04.701-750.txt \
+  -output runs/run.lucene-inverted.gov2.model-bm25+ax.topics-terabyte04.701-750.txt \
   -bm25 -axiom -axiom.beta 0.1 -rerankCutoff 20 &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.gov2/ \
-  -topics tools/topics-and-qrels/topics.terabyte05.751-800.txt \
+  -index indexes/lucene-inverted.gov2/ \
+  -topics terabyte05.751-800 \
   -topicReader Trec \
-  -output runs/run.gov2.bm25+ax.topics.terabyte05.751-800.txt \
+  -output runs/run.lucene-inverted.gov2.model-bm25+ax.topics-terabyte05.751-800.txt \
   -bm25 -axiom -axiom.beta 0.1 -rerankCutoff 20 &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.gov2/ \
-  -topics tools/topics-and-qrels/topics.terabyte06.801-850.txt \
+  -index indexes/lucene-inverted.gov2/ \
+  -topics terabyte06.801-850 \
   -topicReader Trec \
-  -output runs/run.gov2.bm25+ax.topics.terabyte06.801-850.txt \
+  -output runs/run.lucene-inverted.gov2.model-bm25+ax.topics-terabyte06.801-850.txt \
   -bm25 -axiom -axiom.beta 0.1 -rerankCutoff 20 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.gov2/ \
-  -topics tools/topics-and-qrels/topics.terabyte04.701-750.txt \
+  -index indexes/lucene-inverted.gov2/ \
+  -topics terabyte04.701-750 \
   -topicReader Trec \
-  -output runs/run.gov2.ql.topics.terabyte04.701-750.txt \
+  -output runs/run.lucene-inverted.gov2.model-ql.topics-terabyte04.701-750.txt \
   -qld &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.gov2/ \
-  -topics tools/topics-and-qrels/topics.terabyte05.751-800.txt \
+  -index indexes/lucene-inverted.gov2/ \
+  -topics terabyte05.751-800 \
   -topicReader Trec \
-  -output runs/run.gov2.ql.topics.terabyte05.751-800.txt \
+  -output runs/run.lucene-inverted.gov2.model-ql.topics-terabyte05.751-800.txt \
   -qld &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.gov2/ \
-  -topics tools/topics-and-qrels/topics.terabyte06.801-850.txt \
+  -index indexes/lucene-inverted.gov2/ \
+  -topics terabyte06.801-850 \
   -topicReader Trec \
-  -output runs/run.gov2.ql.topics.terabyte06.801-850.txt \
+  -output runs/run.lucene-inverted.gov2.model-ql.topics-terabyte06.801-850.txt \
   -qld &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.gov2/ \
-  -topics tools/topics-and-qrels/topics.terabyte04.701-750.txt \
+  -index indexes/lucene-inverted.gov2/ \
+  -topics terabyte04.701-750 \
   -topicReader Trec \
-  -output runs/run.gov2.ql+rm3.topics.terabyte04.701-750.txt \
+  -output runs/run.lucene-inverted.gov2.model-ql+rm3.topics-terabyte04.701-750.txt \
   -qld -rm3 &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.gov2/ \
-  -topics tools/topics-and-qrels/topics.terabyte05.751-800.txt \
+  -index indexes/lucene-inverted.gov2/ \
+  -topics terabyte05.751-800 \
   -topicReader Trec \
-  -output runs/run.gov2.ql+rm3.topics.terabyte05.751-800.txt \
+  -output runs/run.lucene-inverted.gov2.model-ql+rm3.topics-terabyte05.751-800.txt \
   -qld -rm3 &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.gov2/ \
-  -topics tools/topics-and-qrels/topics.terabyte06.801-850.txt \
+  -index indexes/lucene-inverted.gov2/ \
+  -topics terabyte06.801-850 \
   -topicReader Trec \
-  -output runs/run.gov2.ql+rm3.topics.terabyte06.801-850.txt \
+  -output runs/run.lucene-inverted.gov2.model-ql+rm3.topics-terabyte06.801-850.txt \
   -qld -rm3 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.gov2/ \
-  -topics tools/topics-and-qrels/topics.terabyte04.701-750.txt \
+  -index indexes/lucene-inverted.gov2/ \
+  -topics terabyte04.701-750 \
   -topicReader Trec \
-  -output runs/run.gov2.ql+ax.topics.terabyte04.701-750.txt \
+  -output runs/run.lucene-inverted.gov2.model-ql+ax.topics-terabyte04.701-750.txt \
   -qld -axiom -axiom.beta 0.1 -rerankCutoff 20 &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.gov2/ \
-  -topics tools/topics-and-qrels/topics.terabyte05.751-800.txt \
+  -index indexes/lucene-inverted.gov2/ \
+  -topics terabyte05.751-800 \
   -topicReader Trec \
-  -output runs/run.gov2.ql+ax.topics.terabyte05.751-800.txt \
+  -output runs/run.lucene-inverted.gov2.model-ql+ax.topics-terabyte05.751-800.txt \
   -qld -axiom -axiom.beta 0.1 -rerankCutoff 20 &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.gov2/ \
-  -topics tools/topics-and-qrels/topics.terabyte06.801-850.txt \
+  -index indexes/lucene-inverted.gov2/ \
+  -topics terabyte06.801-850 \
   -topicReader Trec \
-  -output runs/run.gov2.ql+ax.topics.terabyte06.801-850.txt \
+  -output runs/run.lucene-inverted.gov2.model-ql+ax.topics-terabyte06.801-850.txt \
   -qld -axiom -axiom.beta 0.1 -rerankCutoff 20 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.terabyte04.701-750.txt runs/run.gov2.bm25.topics.terabyte04.701-750.txt
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.terabyte05.751-800.txt runs/run.gov2.bm25.topics.terabyte05.751-800.txt
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.terabyte06.801-850.txt runs/run.gov2.bm25.topics.terabyte06.801-850.txt
+bin/trec_eval -m map -m P.30 terabyte04.701-750 runs/run.lucene-inverted.gov2.model-bm25.topics-terabyte04.701-750.txt
+bin/trec_eval -m map -m P.30 terabyte05.751-800 runs/run.lucene-inverted.gov2.model-bm25.topics-terabyte05.751-800.txt
+bin/trec_eval -m map -m P.30 terabyte06.801-850 runs/run.lucene-inverted.gov2.model-bm25.topics-terabyte06.801-850.txt
 
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.terabyte04.701-750.txt runs/run.gov2.bm25+rm3.topics.terabyte04.701-750.txt
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.terabyte05.751-800.txt runs/run.gov2.bm25+rm3.topics.terabyte05.751-800.txt
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.terabyte06.801-850.txt runs/run.gov2.bm25+rm3.topics.terabyte06.801-850.txt
+bin/trec_eval -m map -m P.30 terabyte04.701-750 runs/run.lucene-inverted.gov2.model-bm25+rm3.topics-terabyte04.701-750.txt
+bin/trec_eval -m map -m P.30 terabyte05.751-800 runs/run.lucene-inverted.gov2.model-bm25+rm3.topics-terabyte05.751-800.txt
+bin/trec_eval -m map -m P.30 terabyte06.801-850 runs/run.lucene-inverted.gov2.model-bm25+rm3.topics-terabyte06.801-850.txt
 
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.terabyte04.701-750.txt runs/run.gov2.bm25+ax.topics.terabyte04.701-750.txt
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.terabyte05.751-800.txt runs/run.gov2.bm25+ax.topics.terabyte05.751-800.txt
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.terabyte06.801-850.txt runs/run.gov2.bm25+ax.topics.terabyte06.801-850.txt
+bin/trec_eval -m map -m P.30 terabyte04.701-750 runs/run.lucene-inverted.gov2.model-bm25+ax.topics-terabyte04.701-750.txt
+bin/trec_eval -m map -m P.30 terabyte05.751-800 runs/run.lucene-inverted.gov2.model-bm25+ax.topics-terabyte05.751-800.txt
+bin/trec_eval -m map -m P.30 terabyte06.801-850 runs/run.lucene-inverted.gov2.model-bm25+ax.topics-terabyte06.801-850.txt
 
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.terabyte04.701-750.txt runs/run.gov2.ql.topics.terabyte04.701-750.txt
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.terabyte05.751-800.txt runs/run.gov2.ql.topics.terabyte05.751-800.txt
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.terabyte06.801-850.txt runs/run.gov2.ql.topics.terabyte06.801-850.txt
+bin/trec_eval -m map -m P.30 terabyte04.701-750 runs/run.lucene-inverted.gov2.model-ql.topics-terabyte04.701-750.txt
+bin/trec_eval -m map -m P.30 terabyte05.751-800 runs/run.lucene-inverted.gov2.model-ql.topics-terabyte05.751-800.txt
+bin/trec_eval -m map -m P.30 terabyte06.801-850 runs/run.lucene-inverted.gov2.model-ql.topics-terabyte06.801-850.txt
 
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.terabyte04.701-750.txt runs/run.gov2.ql+rm3.topics.terabyte04.701-750.txt
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.terabyte05.751-800.txt runs/run.gov2.ql+rm3.topics.terabyte05.751-800.txt
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.terabyte06.801-850.txt runs/run.gov2.ql+rm3.topics.terabyte06.801-850.txt
+bin/trec_eval -m map -m P.30 terabyte04.701-750 runs/run.lucene-inverted.gov2.model-ql+rm3.topics-terabyte04.701-750.txt
+bin/trec_eval -m map -m P.30 terabyte05.751-800 runs/run.lucene-inverted.gov2.model-ql+rm3.topics-terabyte05.751-800.txt
+bin/trec_eval -m map -m P.30 terabyte06.801-850 runs/run.lucene-inverted.gov2.model-ql+rm3.topics-terabyte06.801-850.txt
 
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.terabyte04.701-750.txt runs/run.gov2.ql+ax.topics.terabyte04.701-750.txt
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.terabyte05.751-800.txt runs/run.gov2.ql+ax.topics.terabyte05.751-800.txt
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.terabyte06.801-850.txt runs/run.gov2.ql+ax.topics.terabyte06.801-850.txt
+bin/trec_eval -m map -m P.30 terabyte04.701-750 runs/run.lucene-inverted.gov2.model-ql+ax.topics-terabyte04.701-750.txt
+bin/trec_eval -m map -m P.30 terabyte05.751-800 runs/run.lucene-inverted.gov2.model-ql+ax.topics-terabyte05.751-800.txt
+bin/trec_eval -m map -m P.30 terabyte06.801-850 runs/run.lucene-inverted.gov2.model-ql+ax.topics-terabyte06.801-850.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MAP**                                                                                                                                             | **BM25**   | **+RM3**   | **+Ax**    | **QL**     | **+RM3**   | **+Ax**    |
-|:----------------------------------------------------------------------------------------------------------------------------------------------------|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|
-| [TREC 2004 Terabyte Track (Topics 701-750)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.terabyte04.701-750.txt) | 0.2689     | 0.2840     | 0.2716     | 0.2681     | 0.2699     | 0.2714     |
-| [TREC 2005 Terabyte Track (Topics 751-800)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.terabyte05.751-800.txt) | 0.3391     | 0.3814     | 0.3664     | 0.3304     | 0.3555     | 0.3620     |
-| [TREC 2006 Terabyte Track (Topics 801-850)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.terabyte06.801-850.txt) | 0.3081     | 0.3372     | 0.3088     | 0.2998     | 0.3159     | 0.3075     |
-| **P30**                                                                                                                                             | **BM25**   | **+RM3**   | **+Ax**    | **QL**     | **+RM3**   | **+Ax**    |
-| [TREC 2004 Terabyte Track (Topics 701-750)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.terabyte04.701-750.txt) | 0.4864     | 0.5156     | 0.5109     | 0.4755     | 0.4939     | 0.4973     |
-| [TREC 2005 Terabyte Track (Topics 751-800)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.terabyte05.751-800.txt) | 0.5540     | 0.5933     | 0.5967     | 0.5347     | 0.5580     | 0.5887     |
-| [TREC 2006 Terabyte Track (Topics 801-850)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.terabyte06.801-850.txt) | 0.4907     | 0.5167     | 0.5107     | 0.4727     | 0.4867     | 0.5027     |
+| **MAP**                                                                                                                         | **BM25**   | **+RM3**   | **+Ax**    | **QL**     | **+RM3**   | **+Ax**    |
+|:--------------------------------------------------------------------------------------------------------------------------------|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|
+| [TREC 2004 Terabyte Track (Topics 701-750)](https://github.com/castorini/eval/tree/master/topics/topics.terabyte04.701-750.txt) | 0.2689     | 0.2840     | 0.2716     | 0.2681     | 0.2699     | 0.2714     |
+| [TREC 2005 Terabyte Track (Topics 751-800)](https://github.com/castorini/eval/tree/master/topics/topics.terabyte05.751-800.txt) | 0.3391     | 0.3814     | 0.3664     | 0.3304     | 0.3555     | 0.3620     |
+| [TREC 2006 Terabyte Track (Topics 801-850)](https://github.com/castorini/eval/tree/master/topics/topics.terabyte06.801-850.txt) | 0.3081     | 0.3372     | 0.3088     | 0.2998     | 0.3159     | 0.3075     |
+| **P30**                                                                                                                         | **BM25**   | **+RM3**   | **+Ax**    | **QL**     | **+RM3**   | **+Ax**    |
+| [TREC 2004 Terabyte Track (Topics 701-750)](https://github.com/castorini/eval/tree/master/topics/topics.terabyte04.701-750.txt) | 0.4864     | 0.5156     | 0.5109     | 0.4755     | 0.4939     | 0.4973     |
+| [TREC 2005 Terabyte Track (Topics 751-800)](https://github.com/castorini/eval/tree/master/topics/topics.terabyte05.751-800.txt) | 0.5540     | 0.5933     | 0.5967     | 0.5347     | 0.5580     | 0.5887     |
+| [TREC 2006 Terabyte Track (Topics 801-850)](https://github.com/castorini/eval/tree/master/topics/topics.terabyte06.801-850.txt) | 0.4907     | 0.5167     | 0.5107     | 0.4727     | 0.4867     | 0.5027     |

@@ -30,7 +30,7 @@ public class TopicsTest {
 
   @Test
   public void testTotalCount() {
-    assertEquals(451, Topics.names().size());
+    assertEquals(472, Topics.names().size());
   }
 
   @Test
@@ -63,6 +63,19 @@ public class TopicsTest {
     Topics canonical = Topics.get("msmarco-passage.dev-subset");
     assertEquals(canonical, Topics.get("msmarco-passage-dev"));
     assertEquals(canonical, Topics.get("dummy.msmarco-passage.dev-subset"));
+  }
+
+  @Test
+  public void testAdhocAliases() {
+    Topics trec7 = Topics.get("adhoc.351-400");
+    assertTrue(Topics.names().contains("adhoc.351-400"));
+    assertFalse(Topics.names().contains("trec7-adhoc"));
+    assertEquals(trec7, Topics.get("trec7-adhoc"));
+
+    Topics trec8 = Topics.get("adhoc.401-450");
+    assertTrue(Topics.names().contains("adhoc.401-450"));
+    assertFalse(Topics.names().contains("trec8-adhoc"));
+    assertEquals(trec8, Topics.get("trec8-adhoc"));
   }
 
   @Test

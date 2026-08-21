@@ -29,8 +29,7 @@ public class TsvIntTopicReaderGzTest {
 
   @Test
   public void test() throws IOException {
-    TopicReader<Integer> reader = new TsvIntTopicReader(
-        Paths.get("tools/topics-and-qrels/topics.msmarco-passage.dev-subset.deepimpact.tsv.gz"));
+    TopicReader<Integer> reader = new TsvIntTopicReader(Paths.get("topics.msmarco-passage.dev-subset.deepimpact.tsv.gz"));
 
     SortedMap<Integer, Map<String, String>> topics = reader.read();
 

@@ -76,7 +76,7 @@ import java.util.Set;
  * <pre>
  * bin/run.sh io.anserini.encoder.EncodeQuery \
  *   -encoder SpladeV3 \
- *   -queries tools/topics-and-qrels/topics.rag25.test.jsonl \
+ *   -queries topics.rag25.test.jsonl \
  *   -topicReader JsonString \
  *   -output encoded-queries/topics.rag25.test.splade-v3.jsonl
  * </pre>
@@ -175,7 +175,7 @@ public class EncodeQuery {
     // Use the TopicReader infrastructure.
     String readerClass = TOPIC_READER_PACKAGE + args.topicReader + "TopicReader";
     Map<String, Map<String, String>> topics =
-        TopicReader.getTopicsWithStringIdsFromFileWithTopicReaderClass(readerClass, args.queriesPath);
+        TopicReader.getTopicsWithStringIdsFromFileWithTopicReaderClass(args.queriesPath, readerClass);
 
     if (topics == null || topics.isEmpty()) {
       System.err.println("No topics loaded. Check -queries path and -topicReader class.");

@@ -62,7 +62,7 @@ Upon completion, we should have an index with 8,841,823 documents.
 
 ## Retrieval
 
-Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
+Topics and qrels are stored in a [centralized repo containing evaluation data](https://github.com/castorini/eval).
 The regression experiments here evaluate on the 6980 dev set questions; see [this page](../../../docs/experiments-msmarco-passage.md) for more details.
 
 After indexing has completed, you should be able to perform retrieval as follows using HNSW indexes:
@@ -70,19 +70,19 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchInvertedDenseVectors \
   -index indexes/lucene-inverted.msmarco-v1-passage.cos-dpr-distil.lexlsh-600/ \
-  -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.gz \
+  -topics msmarco-passage.dev-subset.cos-dpr-distil \
   -topicReader JsonIntVector \
-  -output runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-lexlsh-600-cached_q.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt \
+  -output runs/run.lucene-inverted.msmarco-v1-passage.cos-dpr-distil.lexlsh-600.model-cos-dpr-distil-lexlsh-600-cached_q.topics-msmarco-passage.dev-subset.cos-dpr-distil.txt \
   -topicField vector -threads 16 -encoding lexlsh -lexlsh.b 600 -hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-lexlsh-600-cached_q.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
-bin/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-lexlsh-600-cached_q.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-lexlsh-600-cached_q.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-cos-dpr-distil.parquet.cos-dpr-distil-lexlsh-600-cached_q.topics.msmarco-passage.dev-subset.cos-dpr-distil.jsonl.txt
+bin/trec_eval -c -m map msmarco-passage.dev-subset runs/run.lucene-inverted.msmarco-v1-passage.cos-dpr-distil.lexlsh-600.model-cos-dpr-distil-lexlsh-600-cached_q.topics-msmarco-passage.dev-subset.cos-dpr-distil.txt
+bin/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev-subset runs/run.lucene-inverted.msmarco-v1-passage.cos-dpr-distil.lexlsh-600.model-cos-dpr-distil-lexlsh-600-cached_q.topics-msmarco-passage.dev-subset.cos-dpr-distil.txt
+bin/trec_eval -c -m recall.100 msmarco-passage.dev-subset runs/run.lucene-inverted.msmarco-v1-passage.cos-dpr-distil.lexlsh-600.model-cos-dpr-distil-lexlsh-600-cached_q.topics-msmarco-passage.dev-subset.cos-dpr-distil.txt
+bin/trec_eval -c -m recall.1000 msmarco-passage.dev-subset runs/run.lucene-inverted.msmarco-v1-passage.cos-dpr-distil.lexlsh-600.model-cos-dpr-distil-lexlsh-600-cached_q.topics-msmarco-passage.dev-subset.cos-dpr-distil.txt
 ```
 
 ## Effectiveness

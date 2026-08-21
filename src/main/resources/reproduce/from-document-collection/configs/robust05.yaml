@@ -2,7 +2,7 @@
 corpus: robust05
 corpus_path: collections/newswire/AQUAINT/
 
-index_path: indexes/lucene-index.robust05/
+index_path: indexes/lucene-inverted.robust05/
 collection_class: TrecCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 16
@@ -30,10 +30,9 @@ metrics:
 
 topic_reader: Trec
 topics:
-  - name: "[TREC 2005 Robust Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.robust05.txt)"
-    id: trec05
-    path: topics.robust05.txt
-    qrel: qrels.robust05.txt
+  - name: "[TREC 2005 Robust Track Topics](https://github.com/castorini/eval/tree/master/topics/topics.robust05.txt)"
+    id: robust05
+    qrels: robust05
 
 models:
   - name: bm25

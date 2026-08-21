@@ -29,8 +29,7 @@ public class DprJsonlTopicReaderTest {
 
   @Test
   public void test() throws IOException {
-    TopicReader<Integer> reader = new DprJsonlTopicReader(
-        Paths.get("tools/topics-and-qrels/topics.dpr.wq.test.txt"));
+    TopicReader<Integer> reader = new DprJsonlTopicReader(Paths.get("topics.dpr.wq.test.txt"));
 
     SortedMap<Integer, Map<String, String>> topics = reader.read();
 

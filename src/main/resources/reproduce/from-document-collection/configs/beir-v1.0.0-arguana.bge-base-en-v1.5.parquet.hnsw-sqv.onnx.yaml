@@ -35,9 +35,8 @@ metrics:
 topic_reader: TsvString
 topics:
   - name: "BEIR (v1.0.0): ArguAna"
-    id: test
-    path: topics.beir-v1.0.0-arguana.test.tsv.gz
-    qrel: qrels.beir-v1.0.0-arguana.test.txt
+    id: beir-v1.0.0-arguana.test
+    qrels: beir-v1.0.0-arguana.test
 
 models:
   - name: bge-hnsw-sqv-onnx

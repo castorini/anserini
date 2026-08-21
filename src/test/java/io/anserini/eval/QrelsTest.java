@@ -41,7 +41,7 @@ public class QrelsTest{
 
   @Test
   public void testTotalCount() {
-    assertEquals(234, Qrels.names().size());
+    assertEquals(250, Qrels.names().size());
     assertFalse(Qrels.names().contains("this-qrels-name-does-not-exist"));
   }
 
@@ -67,6 +67,19 @@ public class QrelsTest{
     assertEquals(canonical.path(), Qrels.get("dummy.msmarco-doc-dev").path());
   }
 
+  @Test
+  public void testAdhocAliases() throws IOException {
+    Qrels canonical = Qrels.get("adhoc.351-400");
+    assertTrue(Qrels.names().contains("adhoc.351-400"));
+    assertFalse(Qrels.names().contains("trec7-adhoc"));
+    assertEquals(canonical.path(), Qrels.get("trec7-adhoc").path());
+
+    canonical = Qrels.get("adhoc.401-450");
+    assertTrue(Qrels.names().contains("adhoc.401-450"));
+    assertFalse(Qrels.names().contains("trec8-adhoc"));
+    assertEquals(canonical.path(), Qrels.get("trec8-adhoc").path());
+  }
+
   private void assertDummyQrels(String name) throws IOException {
     Qrels qrels = Qrels.get(name);
     assertEquals(name, qrels.name());
@@ -85,13 +98,13 @@ public class QrelsTest{
   @Test(expected = IOException.class)
   public void testFileNotFound() throws IOException {
     // Purposely read non-existent file.
-    Qrels.loadFromFile("tools/topics-and-qrels/qrels.xxx.txt");
+    Qrels.loadFromFile("qrels.xxx.txt");
   }
 
-  @Test(expected = IOException.class)
+  @Test(expected = ArrayIndexOutOfBoundsException.class)
   public void testNonvalidQrels() throws IOException {
     // Purposely read non-valid qrels.
-    Qrels.loadFromFile("tools/topics-and-qrels/topics.robust04.txt ");
+    Qrels.loadFromFile("src/test/resources/sample_topics/Trec");
   }
 
   @Test
@@ -1506,52 +1519,52 @@ public class QrelsTest{
     Path expected;
     Path produced;
 
-    expected = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve("qrels.cacm.txt");
+    expected = CacheDirectoryResolver.getQrelsCachePath().resolve("qrels.cacm.txt");
     produced = Qrels.resolveQrelsPath("cacm");
     assertNotNull(produced);
     assertEquals(expected, produced);
 
-    expected = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve("qrels.robust04.txt");
+    expected = CacheDirectoryResolver.getQrelsCachePath().resolve("qrels.robust04.txt");
     produced = Qrels.resolveQrelsPath("qrels.robust04.txt");
     assertNotNull(produced);
     assertEquals(expected, produced);
 
-    expected = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve("qrels.msmarco-passage.dev-subset.txt");
+    expected = CacheDirectoryResolver.getQrelsCachePath().resolve("qrels.msmarco-passage.dev-subset.txt");
     produced = Qrels.resolveQrelsPath("qrels.msmarco-passage.dev-subset.txt");
     assertNotNull(produced);
     assertEquals(expected, produced);
 
-    expected = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve("qrels.msmarco-v2-passage.dev2.txt");
+    expected = CacheDirectoryResolver.getQrelsCachePath().resolve("qrels.msmarco-v2-passage.dev2.txt");
     produced = Qrels.resolveQrelsPath("qrels.msmarco-v2-passage.dev2.txt");
     assertNotNull(produced);
     assertEquals(expected, produced);
 
-    expected = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve("qrels.miracl-v1.0-en-dev.tsv");
+    expected = CacheDirectoryResolver.getQrelsCachePath().resolve("qrels.miracl-v1.0-en-dev.tsv");
     produced = Qrels.resolveQrelsPath("qrels.miracl-v1.0-en-dev.tsv");
     assertNotNull(produced);
     assertEquals(expected, produced);
 
-    expected = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve("qrels.covid-round3.txt");
+    expected = CacheDirectoryResolver.getQrelsCachePath().resolve("qrels.covid-round3.txt");
     produced = Qrels.resolveQrelsPath("qrels.covid-round3.txt");
     assertNotNull(produced);
     assertEquals(expected, produced);
     
-    expected = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve("qrels.ciral-v1.0-yo-test-a-pools.tsv");
+    expected = CacheDirectoryResolver.getQrelsCachePath().resolve("qrels.ciral-v1.0-yo-test-a-pools.tsv");
     produced = Qrels.resolveQrelsPath("qrels.ciral-v1.0-yo-test-a-pools.tsv");
     assertNotNull(produced);
     assertEquals(expected, produced);
 
-    expected = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve("qrels.adhoc.151-200.txt");
+    expected = CacheDirectoryResolver.getQrelsCachePath().resolve("qrels.adhoc.151-200.txt");
     produced = Qrels.resolveQrelsPath("qrels.adhoc.151-200.txt");
     assertNotNull(produced);
     assertEquals(expected, produced);
 
-    expected = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve("qrels.microblog2012.txt");
+    expected = CacheDirectoryResolver.getQrelsCachePath().resolve("qrels.microblog2012.txt");
     produced = Qrels.resolveQrelsPath("qrels.microblog2012.txt");
     assertNotNull(produced);
     assertEquals(expected, produced);
 
-    expected = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve("qrels.terabyte04.701-750.txt");
+    expected = CacheDirectoryResolver.getQrelsCachePath().resolve("qrels.terabyte04.701-750.txt");
     produced = Qrels.resolveQrelsPath("qrels.terabyte04.701-750.txt");
     assertNotNull(produced);
     assertEquals(expected, produced);

@@ -29,8 +29,7 @@ public class WebxmlTopicReaderTest {
 
   @Test
   public void test() throws IOException {
-    TopicReader<Integer> reader = new WebxmlTopicReader(
-        Paths.get("tools/topics-and-qrels/topics.web.1-50.txt"));
+    TopicReader<Integer> reader = new WebxmlTopicReader(Paths.get("topics.web.1-50.txt"));
 
     SortedMap<Integer, Map<String, String>> topics = reader.read();
 

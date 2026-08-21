@@ -33,7 +33,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * A registry entry for a standard set of topics from various evaluations.
  */
 public final class Topics {
-  private static final String COMMIT_ID = "43add835e20bd66b48f9a640be9bad95a4762d82";
+  private static final String COMMIT_ID = "d9a27f26089a6019cef1788bdc16f77d8ec0a474";
   public static final String URL = "https://raw.githubusercontent.com/castorini/eval/" + COMMIT_ID + "/topics/";
 
   private static final String TOPICS_URL = "https://raw.githubusercontent.com/castorini/eval/" + COMMIT_ID + "/topics.json";
@@ -141,7 +141,9 @@ public final class Topics {
     }
 
     addAliasesToRegistry(canonical, lookup, loadAliasesMetadata(TOPICS_ALIASES_URL));
-    addAliasesToRegistry(canonical, lookup, loadLocalAliasesMetadata());
+    Map<String, List<String>> localAliases = loadLocalAliasesMetadata();
+    addAliasesToRegistry(canonical, lookup, localAliases);
+    localAliases.values().forEach(aliases -> aliases.forEach(canonical::remove));
 
     canonicalRegistryCache = Collections.unmodifiableMap(canonical);
     return Collections.unmodifiableMap(lookup);

@@ -2,7 +2,7 @@
 corpus: car-paragraphCorpus.v2.0
 corpus_path: collections/car/paragraphCorpus.v2.0/
 
-index_path: indexes/lucene-index.car-paragraphCorpus.v2.0/
+index_path: indexes/lucene-inverted.car-paragraphCorpus.v2.0/
 collection_class: CarCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 1
@@ -30,10 +30,9 @@ metrics:
 
 topic_reader: Car
 topics:
-  - name: "[TREC 2017 CAR: benchmarkY1test (v2.0)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt)"
-    id: car17v2.0
-    path: topics.car17v2.0.benchmarkY1test.txt
-    qrel: qrels.car17v2.0.benchmarkY1test.txt
+  - name: "[TREC 2017 CAR: benchmarkY1test (v2.0)](https://github.com/castorini/eval/tree/master/topics/topics.car17v2.0.benchmarkY1test.txt)"
+    id: car17v2.0.benchmarkY1test
+    qrels: car17v2.0.benchmarkY1test
 
 models:
   - name: bm25

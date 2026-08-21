@@ -38,9 +38,8 @@ metrics:
 topic_reader: TsvString
 topics:
   - name: "BEIR (v1.0.0): NQ"
-    id: test
-    path: topics.beir-v1.0.0-nq.test.tsv.gz
-    qrel: qrels.beir-v1.0.0-nq.test.txt
+    id: beir-v1.0.0-nq.test
+    qrels: beir-v1.0.0-nq.test
 
 models:
   - name: splade-v3-onnx

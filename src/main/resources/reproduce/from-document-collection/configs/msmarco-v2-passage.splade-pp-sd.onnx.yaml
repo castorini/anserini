@@ -49,13 +49,11 @@ metrics:
 topic_reader: TsvInt
 topics:
   - name: "[MS MARCO V2 Passage: Dev](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)"
-    id: dev
-    path: topics.msmarco-v2-passage.dev.txt
-    qrel: qrels.msmarco-v2-passage.dev.txt
+    id: msmarco-v2-passage.dev
+    qrels: msmarco-v2-passage.dev
   - name: "[MS MARCO V2 Passage: Dev2](https://microsoft.github.io/msmarco/TREC-Deep-Learning.html)"
-    id: dev2
-    path: topics.msmarco-v2-passage.dev2.txt
-    qrel: qrels.msmarco-v2-passage.dev2.txt
+    id: msmarco-v2-passage.dev2
+    qrels: msmarco-v2-passage.dev2
 
 models:
   - name: splade-pp-sd-onnx

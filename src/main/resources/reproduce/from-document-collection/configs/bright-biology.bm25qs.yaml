@@ -38,9 +38,8 @@ metrics:
 topic_reader: TsvString
 topics:
   - name: "BRIGHT: Biology"
-    id: topics
-    path: topics.bright-biology.tsv.gz
-    qrel: qrels.bright-biology.txt
+    id: bright-biology
+    qrels: bright-biology
 
 models:
   - name: bm25qs

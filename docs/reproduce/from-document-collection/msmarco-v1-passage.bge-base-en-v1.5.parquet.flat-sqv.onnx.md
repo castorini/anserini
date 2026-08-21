@@ -64,7 +64,7 @@ Upon completion, we should have an index with 8,841,823 documents.
 
 ## Retrieval
 
-Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
+Topics and qrels are stored in a [centralized repo containing evaluation data](https://github.com/castorini/eval).
 The regression experiments here evaluate on the 6980 dev set questions; see [this page](../../../docs/experiments-msmarco-passage.md) for more details.
 
 After indexing has completed, you should be able to perform retrieval as follows using HNSW indexes:
@@ -72,19 +72,19 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchFlatDenseVectors \
   -index indexes/lucene-flat-sqv.msmarco-v1-passage.bge-base-en-v1.5/ \
-  -topics tools/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
+  -topics msmarco-passage.dev-subset \
   -topicReader TsvInt \
-  -output runs/run.msmarco-passage-bge-base-en-v1.5.parquet.bge-flat-sqv-onnx.topics.msmarco-passage.dev-subset.txt \
+  -output runs/run.lucene-flat-sqv.msmarco-v1-passage.bge-base-en-v1.5.model-bge-flat-sqv-onnx.topics-msmarco-passage.dev-subset.txt \
   -encoder BgeBaseEn15 -hits 1000 -threads 16 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m map tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-bge-base-en-v1.5.parquet.bge-flat-sqv-onnx.topics.msmarco-passage.dev-subset.txt
-bin/trec_eval -c -M 10 -m recip_rank tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-bge-base-en-v1.5.parquet.bge-flat-sqv-onnx.topics.msmarco-passage.dev-subset.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-bge-base-en-v1.5.parquet.bge-flat-sqv-onnx.topics.msmarco-passage.dev-subset.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-bge-base-en-v1.5.parquet.bge-flat-sqv-onnx.topics.msmarco-passage.dev-subset.txt
+bin/trec_eval -c -m map msmarco-passage.dev-subset runs/run.lucene-flat-sqv.msmarco-v1-passage.bge-base-en-v1.5.model-bge-flat-sqv-onnx.topics-msmarco-passage.dev-subset.txt
+bin/trec_eval -c -M 10 -m recip_rank msmarco-passage.dev-subset runs/run.lucene-flat-sqv.msmarco-v1-passage.bge-base-en-v1.5.model-bge-flat-sqv-onnx.topics-msmarco-passage.dev-subset.txt
+bin/trec_eval -c -m recall.100 msmarco-passage.dev-subset runs/run.lucene-flat-sqv.msmarco-v1-passage.bge-base-en-v1.5.model-bge-flat-sqv-onnx.topics-msmarco-passage.dev-subset.txt
+bin/trec_eval -c -m recall.1000 msmarco-passage.dev-subset runs/run.lucene-flat-sqv.msmarco-v1-passage.bge-base-en-v1.5.model-bge-flat-sqv-onnx.topics-msmarco-passage.dev-subset.txt
 ```
 
 ## Effectiveness

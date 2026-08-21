@@ -38,9 +38,8 @@ metrics:
 topic_reader: TsvString
 topics:
   - name: "BRIGHT: AoPS"
-    id: topics
-    path: topics.bright-aops.tsv.gz
-    qrel: qrels.bright-aops.txt
+    id: bright-aops
+    qrels: bright-aops
 
 models:
   - name: bm25

@@ -43,8 +43,7 @@ topic_reader: JsonString
 topics:
   - name: "RAG 25: Test queries"
     id: rag25.test
-    path: topics.rag25.test.jsonl
-    qrel: qrels.rag25.test-umbrela2.txt
+    qrels: rag25.test-umbrela2
 
 models:
   - name: splade-v3-onnx

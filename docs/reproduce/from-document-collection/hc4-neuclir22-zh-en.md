@@ -36,7 +36,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection NeuClirCollection \
   -input /path/to/neuclir22-zh-en \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.neuclir22-zh-en \
+  -index indexes/lucene-inverted.neuclir22-zh-en \
   -storePositions -storeDocvectors -storeRaw \
   >& logs/log.neuclir22-zh-en &
 ```
@@ -50,104 +50,104 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.neuclir22-zh-en \
-  -topics tools/topics-and-qrels/topics.hc4-v1.0-zh.en.test.title.tsv \
+  -index indexes/lucene-inverted.neuclir22-zh-en \
+  -topics hc4-v1.0-zh.en.test.title \
   -topicReader TsvInt \
-  -output runs/run.neuclir22-zh-en.bm25-default.topics.hc4-v1.0-zh.en.test.title.txt \
+  -output runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default.topics-hc4-v1.0-zh.en.test.title.txt \
   -bm25 &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.neuclir22-zh-en \
-  -topics tools/topics-and-qrels/topics.hc4-v1.0-zh.en.test.desc.tsv \
+  -index indexes/lucene-inverted.neuclir22-zh-en \
+  -topics hc4-v1.0-zh.en.test.desc \
   -topicReader TsvInt \
-  -output runs/run.neuclir22-zh-en.bm25-default.topics.hc4-v1.0-zh.en.test.desc.txt \
+  -output runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default.topics-hc4-v1.0-zh.en.test.desc.txt \
   -bm25 &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.neuclir22-zh-en \
-  -topics tools/topics-and-qrels/topics.hc4-v1.0-zh.en.test.desc.title.tsv \
+  -index indexes/lucene-inverted.neuclir22-zh-en \
+  -topics hc4-v1.0-zh.en.test.desc.title \
   -topicReader TsvInt \
-  -output runs/run.neuclir22-zh-en.bm25-default.topics.hc4-v1.0-zh.en.test.desc.title.txt \
+  -output runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default.topics-hc4-v1.0-zh.en.test.desc.title.txt \
   -bm25 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.neuclir22-zh-en \
-  -topics tools/topics-and-qrels/topics.hc4-v1.0-zh.en.test.title.tsv \
+  -index indexes/lucene-inverted.neuclir22-zh-en \
+  -topics hc4-v1.0-zh.en.test.title \
   -topicReader TsvInt \
-  -output runs/run.neuclir22-zh-en.bm25-default+rm3.topics.hc4-v1.0-zh.en.test.title.txt \
+  -output runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default+rm3.topics-hc4-v1.0-zh.en.test.title.txt \
   -bm25 -rm3 &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.neuclir22-zh-en \
-  -topics tools/topics-and-qrels/topics.hc4-v1.0-zh.en.test.desc.tsv \
+  -index indexes/lucene-inverted.neuclir22-zh-en \
+  -topics hc4-v1.0-zh.en.test.desc \
   -topicReader TsvInt \
-  -output runs/run.neuclir22-zh-en.bm25-default+rm3.topics.hc4-v1.0-zh.en.test.desc.txt \
+  -output runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default+rm3.topics-hc4-v1.0-zh.en.test.desc.txt \
   -bm25 -rm3 &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.neuclir22-zh-en \
-  -topics tools/topics-and-qrels/topics.hc4-v1.0-zh.en.test.desc.title.tsv \
+  -index indexes/lucene-inverted.neuclir22-zh-en \
+  -topics hc4-v1.0-zh.en.test.desc.title \
   -topicReader TsvInt \
-  -output runs/run.neuclir22-zh-en.bm25-default+rm3.topics.hc4-v1.0-zh.en.test.desc.title.txt \
+  -output runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default+rm3.topics-hc4-v1.0-zh.en.test.desc.title.txt \
   -bm25 -rm3 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.neuclir22-zh-en \
-  -topics tools/topics-and-qrels/topics.hc4-v1.0-zh.en.test.title.tsv \
+  -index indexes/lucene-inverted.neuclir22-zh-en \
+  -topics hc4-v1.0-zh.en.test.title \
   -topicReader TsvInt \
-  -output runs/run.neuclir22-zh-en.bm25-default+rocchio.topics.hc4-v1.0-zh.en.test.title.txt \
+  -output runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default+rocchio.topics-hc4-v1.0-zh.en.test.title.txt \
   -bm25 -rocchio &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.neuclir22-zh-en \
-  -topics tools/topics-and-qrels/topics.hc4-v1.0-zh.en.test.desc.tsv \
+  -index indexes/lucene-inverted.neuclir22-zh-en \
+  -topics hc4-v1.0-zh.en.test.desc \
   -topicReader TsvInt \
-  -output runs/run.neuclir22-zh-en.bm25-default+rocchio.topics.hc4-v1.0-zh.en.test.desc.txt \
+  -output runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default+rocchio.topics-hc4-v1.0-zh.en.test.desc.txt \
   -bm25 -rocchio &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.neuclir22-zh-en \
-  -topics tools/topics-and-qrels/topics.hc4-v1.0-zh.en.test.desc.title.tsv \
+  -index indexes/lucene-inverted.neuclir22-zh-en \
+  -topics hc4-v1.0-zh.en.test.desc.title \
   -topicReader TsvInt \
-  -output runs/run.neuclir22-zh-en.bm25-default+rocchio.topics.hc4-v1.0-zh.en.test.desc.title.txt \
+  -output runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default+rocchio.topics-hc4-v1.0-zh.en.test.desc.title.txt \
   -bm25 -rocchio &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.hc4-neuclir22-zh.test.txt runs/run.neuclir22-zh-en.bm25-default.topics.hc4-v1.0-zh.en.test.title.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.hc4-neuclir22-zh.test.txt runs/run.neuclir22-zh-en.bm25-default.topics.hc4-v1.0-zh.en.test.title.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.hc4-neuclir22-zh.test.txt runs/run.neuclir22-zh-en.bm25-default.topics.hc4-v1.0-zh.en.test.title.txt
-bin/trec_eval -c -m map tools/topics-and-qrels/qrels.hc4-neuclir22-zh.test.txt runs/run.neuclir22-zh-en.bm25-default.topics.hc4-v1.0-zh.en.test.title.txt
-bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.hc4-neuclir22-zh.test.txt runs/run.neuclir22-zh-en.bm25-default.topics.hc4-v1.0-zh.en.test.desc.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.hc4-neuclir22-zh.test.txt runs/run.neuclir22-zh-en.bm25-default.topics.hc4-v1.0-zh.en.test.desc.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.hc4-neuclir22-zh.test.txt runs/run.neuclir22-zh-en.bm25-default.topics.hc4-v1.0-zh.en.test.desc.txt
-bin/trec_eval -c -m map tools/topics-and-qrels/qrels.hc4-neuclir22-zh.test.txt runs/run.neuclir22-zh-en.bm25-default.topics.hc4-v1.0-zh.en.test.desc.txt
-bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.hc4-neuclir22-zh.test.txt runs/run.neuclir22-zh-en.bm25-default.topics.hc4-v1.0-zh.en.test.desc.title.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.hc4-neuclir22-zh.test.txt runs/run.neuclir22-zh-en.bm25-default.topics.hc4-v1.0-zh.en.test.desc.title.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.hc4-neuclir22-zh.test.txt runs/run.neuclir22-zh-en.bm25-default.topics.hc4-v1.0-zh.en.test.desc.title.txt
-bin/trec_eval -c -m map tools/topics-and-qrels/qrels.hc4-neuclir22-zh.test.txt runs/run.neuclir22-zh-en.bm25-default.topics.hc4-v1.0-zh.en.test.desc.title.txt
+bin/trec_eval -c -m ndcg_cut.20 hc4-neuclir22-zh.test runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default.topics-hc4-v1.0-zh.en.test.title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 hc4-neuclir22-zh.test runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default.topics-hc4-v1.0-zh.en.test.title.txt
+bin/trec_eval -c -m recall.1000 hc4-neuclir22-zh.test runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default.topics-hc4-v1.0-zh.en.test.title.txt
+bin/trec_eval -c -m map hc4-neuclir22-zh.test runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default.topics-hc4-v1.0-zh.en.test.title.txt
+bin/trec_eval -c -m ndcg_cut.20 hc4-neuclir22-zh.test runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default.topics-hc4-v1.0-zh.en.test.desc.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 hc4-neuclir22-zh.test runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default.topics-hc4-v1.0-zh.en.test.desc.txt
+bin/trec_eval -c -m recall.1000 hc4-neuclir22-zh.test runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default.topics-hc4-v1.0-zh.en.test.desc.txt
+bin/trec_eval -c -m map hc4-neuclir22-zh.test runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default.topics-hc4-v1.0-zh.en.test.desc.txt
+bin/trec_eval -c -m ndcg_cut.20 hc4-neuclir22-zh.test runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default.topics-hc4-v1.0-zh.en.test.desc.title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 hc4-neuclir22-zh.test runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default.topics-hc4-v1.0-zh.en.test.desc.title.txt
+bin/trec_eval -c -m recall.1000 hc4-neuclir22-zh.test runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default.topics-hc4-v1.0-zh.en.test.desc.title.txt
+bin/trec_eval -c -m map hc4-neuclir22-zh.test runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default.topics-hc4-v1.0-zh.en.test.desc.title.txt
 
-bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.hc4-neuclir22-zh.test.txt runs/run.neuclir22-zh-en.bm25-default+rm3.topics.hc4-v1.0-zh.en.test.title.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.hc4-neuclir22-zh.test.txt runs/run.neuclir22-zh-en.bm25-default+rm3.topics.hc4-v1.0-zh.en.test.title.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.hc4-neuclir22-zh.test.txt runs/run.neuclir22-zh-en.bm25-default+rm3.topics.hc4-v1.0-zh.en.test.title.txt
-bin/trec_eval -c -m map tools/topics-and-qrels/qrels.hc4-neuclir22-zh.test.txt runs/run.neuclir22-zh-en.bm25-default+rm3.topics.hc4-v1.0-zh.en.test.title.txt
-bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.hc4-neuclir22-zh.test.txt runs/run.neuclir22-zh-en.bm25-default+rm3.topics.hc4-v1.0-zh.en.test.desc.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.hc4-neuclir22-zh.test.txt runs/run.neuclir22-zh-en.bm25-default+rm3.topics.hc4-v1.0-zh.en.test.desc.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.hc4-neuclir22-zh.test.txt runs/run.neuclir22-zh-en.bm25-default+rm3.topics.hc4-v1.0-zh.en.test.desc.txt
-bin/trec_eval -c -m map tools/topics-and-qrels/qrels.hc4-neuclir22-zh.test.txt runs/run.neuclir22-zh-en.bm25-default+rm3.topics.hc4-v1.0-zh.en.test.desc.txt
-bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.hc4-neuclir22-zh.test.txt runs/run.neuclir22-zh-en.bm25-default+rm3.topics.hc4-v1.0-zh.en.test.desc.title.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.hc4-neuclir22-zh.test.txt runs/run.neuclir22-zh-en.bm25-default+rm3.topics.hc4-v1.0-zh.en.test.desc.title.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.hc4-neuclir22-zh.test.txt runs/run.neuclir22-zh-en.bm25-default+rm3.topics.hc4-v1.0-zh.en.test.desc.title.txt
-bin/trec_eval -c -m map tools/topics-and-qrels/qrels.hc4-neuclir22-zh.test.txt runs/run.neuclir22-zh-en.bm25-default+rm3.topics.hc4-v1.0-zh.en.test.desc.title.txt
+bin/trec_eval -c -m ndcg_cut.20 hc4-neuclir22-zh.test runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default+rm3.topics-hc4-v1.0-zh.en.test.title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 hc4-neuclir22-zh.test runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default+rm3.topics-hc4-v1.0-zh.en.test.title.txt
+bin/trec_eval -c -m recall.1000 hc4-neuclir22-zh.test runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default+rm3.topics-hc4-v1.0-zh.en.test.title.txt
+bin/trec_eval -c -m map hc4-neuclir22-zh.test runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default+rm3.topics-hc4-v1.0-zh.en.test.title.txt
+bin/trec_eval -c -m ndcg_cut.20 hc4-neuclir22-zh.test runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default+rm3.topics-hc4-v1.0-zh.en.test.desc.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 hc4-neuclir22-zh.test runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default+rm3.topics-hc4-v1.0-zh.en.test.desc.txt
+bin/trec_eval -c -m recall.1000 hc4-neuclir22-zh.test runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default+rm3.topics-hc4-v1.0-zh.en.test.desc.txt
+bin/trec_eval -c -m map hc4-neuclir22-zh.test runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default+rm3.topics-hc4-v1.0-zh.en.test.desc.txt
+bin/trec_eval -c -m ndcg_cut.20 hc4-neuclir22-zh.test runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default+rm3.topics-hc4-v1.0-zh.en.test.desc.title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 hc4-neuclir22-zh.test runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default+rm3.topics-hc4-v1.0-zh.en.test.desc.title.txt
+bin/trec_eval -c -m recall.1000 hc4-neuclir22-zh.test runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default+rm3.topics-hc4-v1.0-zh.en.test.desc.title.txt
+bin/trec_eval -c -m map hc4-neuclir22-zh.test runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default+rm3.topics-hc4-v1.0-zh.en.test.desc.title.txt
 
-bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.hc4-neuclir22-zh.test.txt runs/run.neuclir22-zh-en.bm25-default+rocchio.topics.hc4-v1.0-zh.en.test.title.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.hc4-neuclir22-zh.test.txt runs/run.neuclir22-zh-en.bm25-default+rocchio.topics.hc4-v1.0-zh.en.test.title.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.hc4-neuclir22-zh.test.txt runs/run.neuclir22-zh-en.bm25-default+rocchio.topics.hc4-v1.0-zh.en.test.title.txt
-bin/trec_eval -c -m map tools/topics-and-qrels/qrels.hc4-neuclir22-zh.test.txt runs/run.neuclir22-zh-en.bm25-default+rocchio.topics.hc4-v1.0-zh.en.test.title.txt
-bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.hc4-neuclir22-zh.test.txt runs/run.neuclir22-zh-en.bm25-default+rocchio.topics.hc4-v1.0-zh.en.test.desc.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.hc4-neuclir22-zh.test.txt runs/run.neuclir22-zh-en.bm25-default+rocchio.topics.hc4-v1.0-zh.en.test.desc.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.hc4-neuclir22-zh.test.txt runs/run.neuclir22-zh-en.bm25-default+rocchio.topics.hc4-v1.0-zh.en.test.desc.txt
-bin/trec_eval -c -m map tools/topics-and-qrels/qrels.hc4-neuclir22-zh.test.txt runs/run.neuclir22-zh-en.bm25-default+rocchio.topics.hc4-v1.0-zh.en.test.desc.txt
-bin/trec_eval -c -m ndcg_cut.20 tools/topics-and-qrels/qrels.hc4-neuclir22-zh.test.txt runs/run.neuclir22-zh-en.bm25-default+rocchio.topics.hc4-v1.0-zh.en.test.desc.title.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 tools/topics-and-qrels/qrels.hc4-neuclir22-zh.test.txt runs/run.neuclir22-zh-en.bm25-default+rocchio.topics.hc4-v1.0-zh.en.test.desc.title.txt
-bin/trec_eval -c -m recall.1000 tools/topics-and-qrels/qrels.hc4-neuclir22-zh.test.txt runs/run.neuclir22-zh-en.bm25-default+rocchio.topics.hc4-v1.0-zh.en.test.desc.title.txt
-bin/trec_eval -c -m map tools/topics-and-qrels/qrels.hc4-neuclir22-zh.test.txt runs/run.neuclir22-zh-en.bm25-default+rocchio.topics.hc4-v1.0-zh.en.test.desc.title.txt
+bin/trec_eval -c -m ndcg_cut.20 hc4-neuclir22-zh.test runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default+rocchio.topics-hc4-v1.0-zh.en.test.title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 hc4-neuclir22-zh.test runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default+rocchio.topics-hc4-v1.0-zh.en.test.title.txt
+bin/trec_eval -c -m recall.1000 hc4-neuclir22-zh.test runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default+rocchio.topics-hc4-v1.0-zh.en.test.title.txt
+bin/trec_eval -c -m map hc4-neuclir22-zh.test runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default+rocchio.topics-hc4-v1.0-zh.en.test.title.txt
+bin/trec_eval -c -m ndcg_cut.20 hc4-neuclir22-zh.test runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default+rocchio.topics-hc4-v1.0-zh.en.test.desc.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 hc4-neuclir22-zh.test runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default+rocchio.topics-hc4-v1.0-zh.en.test.desc.txt
+bin/trec_eval -c -m recall.1000 hc4-neuclir22-zh.test runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default+rocchio.topics-hc4-v1.0-zh.en.test.desc.txt
+bin/trec_eval -c -m map hc4-neuclir22-zh.test runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default+rocchio.topics-hc4-v1.0-zh.en.test.desc.txt
+bin/trec_eval -c -m ndcg_cut.20 hc4-neuclir22-zh.test runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default+rocchio.topics-hc4-v1.0-zh.en.test.desc.title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 hc4-neuclir22-zh.test runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default+rocchio.topics-hc4-v1.0-zh.en.test.desc.title.txt
+bin/trec_eval -c -m recall.1000 hc4-neuclir22-zh.test runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default+rocchio.topics-hc4-v1.0-zh.en.test.desc.title.txt
+bin/trec_eval -c -m map hc4-neuclir22-zh.test runs/run.lucene-inverted.neuclir22-zh-en.model-bm25-default+rocchio.topics-hc4-v1.0-zh.en.test.desc.title.txt
 ```
 
 ## Effectiveness

@@ -57,8 +57,7 @@ topic_reader: TsvInt
 topics:
   - name: "[DL23 (Passage)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)"
     id: dl23
-    path: topics.dl23.txt
-    qrel: qrels.dl23-passage.txt
+    qrels: dl23-passage
 
 models:
   - name: splade-pp-sd-onnx

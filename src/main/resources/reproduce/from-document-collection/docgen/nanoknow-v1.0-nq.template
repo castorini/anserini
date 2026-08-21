@@ -33,10 +33,10 @@ For additional details, see explanation of [common indexing options](../../commo
 
 ## Retrieval
 
-Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule:
+[Topics](https://github.com/castorini/eval/tree/master/topics) and [qrels](https://github.com/castorini/eval/tree/master/qrels) are stored in the `castorini/eval` repository:
 
-+ [`topics.nanoknow-v1.0-nq.supported.tsv`](https://github.com/castorini/anserini-tools/blob/master/topics-and-qrels/topics.nanoknow-v1.0-nq.supported.tsv): 2,389 NQ-Open validation questions in `qid\tquery` TSV format.
-+ [`qrels.nanoknow-v1.0-nq.supported.txt`](https://github.com/castorini/anserini-tools/blob/master/topics-and-qrels/qrels.nanoknow-v1.0-nq.supported.txt): NanoKnow v1.0 supported-document qrels in TREC format.
++ [`topics.nanoknow-v1.0-nq.supported.tsv`](https://github.com/castorini/eval/tree/master/topics/topics.nanoknow-v1.0-nq.supported.tsv): 2,389 NQ-Open validation questions in `qid\tquery` TSV format.
++ [`qrels.nanoknow-v1.0-nq.supported.txt`](https://github.com/castorini/eval/tree/master/qrels/qrels.nanoknow-v1.0-nq.supported.txt): NanoKnow v1.0 supported-document qrels in TREC format.
 
 The qrels are derived from the [NanoKnow](https://github.com/castorini/NanoKnow) pipeline: for each question, BM25 over this index returns the top-100 documents; documents that contain a normalized form of any official answer string are passed to a Qwen3-8B verifier; documents that the verifier judges as actually answering the question are recorded as relevant.
 
@@ -60,4 +60,4 @@ ${effectiveness}
 
 The reported metric is **R@20** (Recall at 20). Because NanoKnow v1.0 qrels are themselves drawn from the BM25 top-100 over this exact index, R@100 is ~1.0 by construction and is not an interesting signal. R@20 instead measures what fraction of the verified answer-bearing documents BM25 ranks in the top-20; this number is sensitive to changes in the BM25 implementation, the index, or the topics, and so serves as a meaningful regression signal for the retrieval pipeline.
 
-This is intended to be a fully reproducible release regression: with the same Anserini code, the same `indexes/fineweb-edu-100b-official-index/` index, and the same NanoKnow v1.0 topics and qrels from `anserini-tools`, the reported R@20 value should remain unchanged across repeated runs.
+This is intended to be a fully reproducible release regression: with the same Anserini code, the same `indexes/fineweb-edu-100b-official-index/` index, and the same NanoKnow v1.0 topics and qrels from [`eval`](https://github.com/castorini/eval/), the reported R@20 value should remain unchanged across repeated runs.

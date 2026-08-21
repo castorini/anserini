@@ -76,25 +76,25 @@ For additional details, see explanation of [common indexing options](../../commo
 ## Retrieval
 
 Here, we are using 22 test topics from the TREC 2025 RAG Track with manual relevance judgments from NIST assessors.
-Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
+Topics and qrels are stored in a [centralized repo containing evaluation data](https://github.com/castorini/eval).
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3/ \
-  -topics tools/topics-and-qrels/topics.rag25.test.jsonl \
+  -topics rag25.test \
   -topicReader JsonString \
-  -output runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-onnx.topics.rag25.test.jsonl.txt \
+  -output runs/run.lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3.model-splade-v3-onnx.topics-rag25.test.txt \
   -impact -pretokenized -removeQuery -hits 1000 -encoder SpladeV3 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.30 tools/topics-and-qrels/qrels.rag25.test.txt runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-onnx.topics.rag25.test.jsonl.txt
-bin/trec_eval -c -m ndcg_cut.100 tools/topics-and-qrels/qrels.rag25.test.txt runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-onnx.topics.rag25.test.jsonl.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.rag25.test.txt runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-onnx.topics.rag25.test.jsonl.txt
+bin/trec_eval -c -m ndcg_cut.30 rag25.test runs/run.lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3.model-splade-v3-onnx.topics-rag25.test.txt
+bin/trec_eval -c -m ndcg_cut.100 rag25.test runs/run.lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3.model-splade-v3-onnx.topics-rag25.test.txt
+bin/trec_eval -c -m recall.100 rag25.test runs/run.lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3.model-splade-v3-onnx.topics-rag25.test.txt
 ```
 
 ## Effectiveness
