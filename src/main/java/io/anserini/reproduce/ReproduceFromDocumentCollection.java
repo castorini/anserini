@@ -32,6 +32,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -63,6 +64,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
+import io.anserini.eval.Qrels;
 import io.anserini.eval.TrecEval;
 import io.anserini.index.IndexCollection;
 import io.anserini.index.IndexFlatDenseVectors;
@@ -102,6 +104,8 @@ public class ReproduceFromDocumentCollection {
   private static final String SEARCH_FLAT_DENSE_COMMAND = "bin/run.sh io.anserini.search.SearchFlatDenseVectors";
   private static final String SEARCH_HNSW_DENSE_COMMAND = "bin/run.sh io.anserini.search.SearchHnswDenseVectors";
   private static final String SEARCH_INVERTED_DENSE_COMMAND = "bin/run.sh io.anserini.search.SearchInvertedDenseVectors";
+  private static final String GDEVAL_COMMAND = "bin/gdeval.pl";
+  private static final String GDEVAL_URL = "https://raw.githubusercontent.com/castorini/eval/d9a27f26089a6019cef1788bdc16f77d8ec0a474/eval/gdeval.pl";
 
   private static final Map<String, MainInvoker> MAIN_DISPATCH = Map.of(
       "io.anserini.index.IndexCollection", IndexCollection::main,
@@ -533,9 +537,6 @@ public class ReproduceFromDocumentCollection {
           int parseIndex = metric.get("parse_index").asInt();
           int precision = metric.get("metric_precision").asInt();
           String qrels = textOrNull(topic.get("qrels"));
-          if (qrels == null) {
-            qrels = textOrNull(topic.get("qrel"));
-          }
 
           String outputPath = constructRunfilePath(yaml, model, topic);
           JsonNode conversions = yaml.get("conversions");
@@ -547,13 +548,7 @@ public class ReproduceFromDocumentCollection {
             }
           }
 
-          StringBuilder evalCmd = new StringBuilder();
-          evalCmd.append(command);
-          if (params != null && !params.isBlank()) {
-            evalCmd.append(" ").append(params.trim());
-          }
-          evalCmd.append(" ").append(qrels);
-          evalCmd.append(" ").append(outputPath);
+          String evalCmd = constructEvaluationCommand(command, params, qrels, outputPath);
 
           if (args.dryRun) {
             LOG.info(evalCmd);
@@ -634,11 +629,28 @@ public class ReproduceFromDocumentCollection {
     }
   }
 
+  static String constructEvaluationCommand(String command, String params, String qrels, String outputPath) {
+    StringBuilder evalCmd = new StringBuilder(command);
+    if (params != null && !params.isBlank()) {
+      evalCmd.append(" ").append(params.trim());
+    }
+    if (qrels != null && !qrels.isBlank()) {
+      evalCmd.append(" ").append(qrels);
+    }
+    evalCmd.append(" ").append(outputPath);
+    return evalCmd.toString();
+  }
+
   private static String runCommandAndReturnOutput(String command) throws IOException, InterruptedException {
     if (command.contains("trec_eval") && !command.contains("pyserini")) {
       return runTrecEvalCommandAndReturnOutput(command);
     } else if (command.contains("io.anserini.index.IndexReaderUtils")) {
       return runIndexReaderUtilsCommandAndReturnOutput(command);
+    }
+
+    if (command.startsWith(GDEVAL_COMMAND + " ")) {
+      ensureGdevalAvailable(Paths.get(GDEVAL_COMMAND), URI.create(GDEVAL_URL));
+      command = resolveGdevalQrelsArgument(command);
     }
 
     ProcessBuilder pb = new ProcessBuilder("bash", "-lc", command);
@@ -653,6 +665,48 @@ public class ReproduceFromDocumentCollection {
       throw new RuntimeException("Command failed: " + command);
     }
     return buffer.toString(StandardCharsets.UTF_8);
+  }
+
+  static String resolveGdevalQrelsArgument(String command) throws IOException {
+    String[] args = command.trim().split("\\s+");
+    if (args.length < 3) {
+      throw new IllegalArgumentException("Invalid gdeval command: " + command);
+    }
+    args[args.length - 2] = Qrels.resolveQrelsPath(args[args.length - 2]).toString();
+    return String.join(" ", args);
+  }
+
+  static synchronized void ensureGdevalAvailable(Path destination, URI source) throws IOException {
+    if (Files.exists(destination)) {
+      return;
+    }
+
+    Files.createDirectories(destination.getParent());
+    Path temporary = Files.createTempFile(destination.getParent(), "gdeval-", ".tmp");
+    try {
+      LOG.info("Downloading {} to {}...", source, destination);
+      HttpClient client = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.NORMAL).build();
+      HttpRequest request = HttpRequest.newBuilder(source).GET().build();
+      HttpResponse<Path> response;
+      try {
+        response = client.send(request, HttpResponse.BodyHandlers.ofFile(temporary));
+      } catch (InterruptedException e) {
+        Thread.currentThread().interrupt();
+        throw new IOException("Interrupted while downloading " + source, e);
+      }
+
+      int status = response.statusCode();
+      if (status < 200 || status >= 300) {
+        throw new IOException("Failed to download " + source + " (HTTP " + status + ")");
+      }
+
+      Files.move(temporary, destination, StandardCopyOption.ATOMIC_MOVE);
+      if (!destination.toFile().setExecutable(true, false)) {
+        throw new IOException("Failed to make " + destination + " executable");
+      }
+    } finally {
+      Files.deleteIfExists(temporary);
+    }
   }
 
   private static String runIndexReaderUtilsCommandAndReturnOutput(String command) throws IOException {

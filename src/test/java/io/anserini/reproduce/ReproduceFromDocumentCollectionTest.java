@@ -20,6 +20,7 @@ import java.io.File;
 import java.lang.reflect.Method;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -136,8 +137,7 @@ public class ReproduceFromDocumentCollectionTest extends StdOutStdErrRedirectabl
     ReproduceFromDocumentCollection.main(new String[] {"--list"});
 
     List<?> outputConfigs = new ObjectMapper().readValue(out.toString(), List.class);
-    List<String> expectedConfigs = ReproductionUtils.listYamlConfigs(
-        ReproduceFromDocumentCollection.class, "reproduce/from-document-collection/configs");
+    List<String> expectedConfigs = ReproductionUtils.listYamlConfigs(ReproduceFromDocumentCollection.class, "reproduce/from-document-collection/configs");
     assertEquals(expectedConfigs.size(), outputConfigs.size());
   }
 
@@ -155,8 +155,7 @@ public class ReproduceFromDocumentCollectionTest extends StdOutStdErrRedirectabl
   public void testWorkflowStageRequired() throws Exception {
     ReproduceFromDocumentCollection.main(new String[] {"--config", "cacm", "--dry-run"});
 
-    assertTrue(err.toString().contains(
-        "Error: Select at least one workflow stage: --download, --index, --verify, --search."));
+    assertTrue(err.toString().contains("Error: Select at least one workflow stage: --download, --index, --verify, --search."));
     assertTrue(err.toString().contains("Options for ReproduceFromDocumentCollection:"));
   }
 
@@ -166,6 +165,38 @@ public class ReproduceFromDocumentCollectionTest extends StdOutStdErrRedirectabl
     assertNotNull(topics);
 
     ReproduceFromDocumentCollection.main(new String[] {"--config", "cacm", "--index", "--search", "--dry-run"});
+  }
+
+  @Test
+  public void testEvaluationCommandWithoutQrels() {
+    String command = ReproduceFromDocumentCollection.constructEvaluationCommand(
+        "python -m pyserini.eval.evaluate_dpr_retrieval",
+        "--topk 20 --retrieval",
+        null,
+        "runs/run.lucene-inverted.wikipedia-dpr-100w.model-bm25.topics-dpr.nq.test.txt.json");
+
+    assertEquals("python -m pyserini.eval.evaluate_dpr_retrieval --topk 20 --retrieval runs/run.lucene-inverted.wikipedia-dpr-100w.model-bm25.topics-dpr.nq.test.txt.json", command);
+  }
+
+  @Test
+  public void testExistingGdevalIsNotDownloadedAgain() throws Exception {
+    Path gdeval = createTempDir("gdeval").resolve("bin/gdeval.pl");
+    Files.createDirectories(gdeval.getParent());
+    Files.writeString(gdeval, "existing");
+
+    ReproduceFromDocumentCollection.ensureGdevalAvailable(gdeval, URI.create("https://invalid.example/gdeval.pl"));
+
+    assertEquals("existing", Files.readString(gdeval));
+  }
+
+  @Test
+  public void testGdevalQrelsPathResolution() throws Exception {
+    Path qrels = createTempFile("qrels", ".txt");
+    String run = "runs/run.lucene-inverted.cw09b.model-bm25.topics-web.51-100.txt";
+
+    String command = ReproduceFromDocumentCollection.resolveGdevalQrelsArgument("bin/gdeval.pl " + qrels + " " + run);
+
+    assertEquals("bin/gdeval.pl " + qrels + " " + run, command);
   }
 
   @Test
@@ -213,8 +244,7 @@ public class ReproduceFromDocumentCollectionTest extends StdOutStdErrRedirectabl
 
       ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
       ReproduceFromDocumentCollection.Args args = new ReproduceFromDocumentCollection.Args();
-      Method resolveCorpusPath = ReproduceFromDocumentCollection.class.getDeclaredMethod(
-          "resolveCorpusPath", com.fasterxml.jackson.databind.JsonNode.class, ReproduceFromDocumentCollection.Args.class);
+      Method resolveCorpusPath = ReproduceFromDocumentCollection.class.getDeclaredMethod("resolveCorpusPath", com.fasterxml.jackson.databind.JsonNode.class, ReproduceFromDocumentCollection.Args.class);
       resolveCorpusPath.setAccessible(true);
 
       String resolved = (String) resolveCorpusPath.invoke(null, mapper.readTree("""

@@ -59,103 +59,103 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.neuclir22-fa-en-splade \
-  -topics neuclir22-en.splade.original-title.txt.gz \
+  -topics neuclir22-en.splade.original-title \
   -topicReader TsvInt \
-  -output runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade.topics-neuclir22-en.splade.original-title.txt.gz.txt \
+  -output runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade.topics-neuclir22-en.splade.original-title.txt \
   -impact -pretokenized &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.neuclir22-fa-en-splade \
-  -topics neuclir22-en.splade.original-desc.txt.gz \
+  -topics neuclir22-en.splade.original-desc \
   -topicReader TsvInt \
-  -output runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade.topics-neuclir22-en.splade.original-desc.txt.gz.txt \
+  -output runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade.topics-neuclir22-en.splade.original-desc.txt \
   -impact -pretokenized &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.neuclir22-fa-en-splade \
-  -topics neuclir22-en.splade.original-desc_title.txt.gz \
+  -topics neuclir22-en.splade.original-desc_title \
   -topicReader TsvInt \
-  -output runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade.topics-neuclir22-en.splade.original-desc_title.txt.gz.txt \
+  -output runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade.topics-neuclir22-en.splade.original-desc_title.txt \
   -impact -pretokenized &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.neuclir22-fa-en-splade \
-  -topics neuclir22-en.splade.original-title.txt.gz \
+  -topics neuclir22-en.splade.original-title \
   -topicReader TsvInt \
-  -output runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rm3.topics-neuclir22-en.splade.original-title.txt.gz.txt \
+  -output runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rm3.topics-neuclir22-en.splade.original-title.txt \
   -impact -pretokenized -rm3 -collection JsonVectorCollection &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.neuclir22-fa-en-splade \
-  -topics neuclir22-en.splade.original-desc.txt.gz \
+  -topics neuclir22-en.splade.original-desc \
   -topicReader TsvInt \
-  -output runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rm3.topics-neuclir22-en.splade.original-desc.txt.gz.txt \
+  -output runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rm3.topics-neuclir22-en.splade.original-desc.txt \
   -impact -pretokenized -rm3 -collection JsonVectorCollection &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.neuclir22-fa-en-splade \
-  -topics neuclir22-en.splade.original-desc_title.txt.gz \
+  -topics neuclir22-en.splade.original-desc_title \
   -topicReader TsvInt \
-  -output runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rm3.topics-neuclir22-en.splade.original-desc_title.txt.gz.txt \
+  -output runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rm3.topics-neuclir22-en.splade.original-desc_title.txt \
   -impact -pretokenized -rm3 -collection JsonVectorCollection &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.neuclir22-fa-en-splade \
-  -topics neuclir22-en.splade.original-title.txt.gz \
+  -topics neuclir22-en.splade.original-title \
   -topicReader TsvInt \
-  -output runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rocchio.topics-neuclir22-en.splade.original-title.txt.gz.txt \
+  -output runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rocchio.topics-neuclir22-en.splade.original-title.txt \
   -impact -pretokenized -rocchio -collection JsonVectorCollection &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.neuclir22-fa-en-splade \
-  -topics neuclir22-en.splade.original-desc.txt.gz \
+  -topics neuclir22-en.splade.original-desc \
   -topicReader TsvInt \
-  -output runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rocchio.topics-neuclir22-en.splade.original-desc.txt.gz.txt \
+  -output runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rocchio.topics-neuclir22-en.splade.original-desc.txt \
   -impact -pretokenized -rocchio -collection JsonVectorCollection &
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.neuclir22-fa-en-splade \
-  -topics neuclir22-en.splade.original-desc_title.txt.gz \
+  -topics neuclir22-en.splade.original-desc_title \
   -topicReader TsvInt \
-  -output runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rocchio.topics-neuclir22-en.splade.original-desc_title.txt.gz.txt \
+  -output runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rocchio.topics-neuclir22-en.splade.original-desc_title.txt \
   -impact -pretokenized -rocchio -collection JsonVectorCollection &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.20 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade.topics-neuclir22-en.splade.original-title.txt.gz.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade.topics-neuclir22-en.splade.original-title.txt.gz.txt
-bin/trec_eval -c -m recall.1000 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade.topics-neuclir22-en.splade.original-title.txt.gz.txt
-bin/trec_eval -c -m map neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade.topics-neuclir22-en.splade.original-title.txt.gz.txt
-bin/trec_eval -c -m ndcg_cut.20 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade.topics-neuclir22-en.splade.original-desc.txt.gz.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade.topics-neuclir22-en.splade.original-desc.txt.gz.txt
-bin/trec_eval -c -m recall.1000 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade.topics-neuclir22-en.splade.original-desc.txt.gz.txt
-bin/trec_eval -c -m map neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade.topics-neuclir22-en.splade.original-desc.txt.gz.txt
-bin/trec_eval -c -m ndcg_cut.20 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade.topics-neuclir22-en.splade.original-desc_title.txt.gz.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade.topics-neuclir22-en.splade.original-desc_title.txt.gz.txt
-bin/trec_eval -c -m recall.1000 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade.topics-neuclir22-en.splade.original-desc_title.txt.gz.txt
-bin/trec_eval -c -m map neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade.topics-neuclir22-en.splade.original-desc_title.txt.gz.txt
+bin/trec_eval -c -m ndcg_cut.20 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade.topics-neuclir22-en.splade.original-title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade.topics-neuclir22-en.splade.original-title.txt
+bin/trec_eval -c -m recall.1000 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade.topics-neuclir22-en.splade.original-title.txt
+bin/trec_eval -c -m map neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade.topics-neuclir22-en.splade.original-title.txt
+bin/trec_eval -c -m ndcg_cut.20 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade.topics-neuclir22-en.splade.original-desc.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade.topics-neuclir22-en.splade.original-desc.txt
+bin/trec_eval -c -m recall.1000 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade.topics-neuclir22-en.splade.original-desc.txt
+bin/trec_eval -c -m map neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade.topics-neuclir22-en.splade.original-desc.txt
+bin/trec_eval -c -m ndcg_cut.20 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade.topics-neuclir22-en.splade.original-desc_title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade.topics-neuclir22-en.splade.original-desc_title.txt
+bin/trec_eval -c -m recall.1000 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade.topics-neuclir22-en.splade.original-desc_title.txt
+bin/trec_eval -c -m map neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade.topics-neuclir22-en.splade.original-desc_title.txt
 
-bin/trec_eval -c -m ndcg_cut.20 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rm3.topics-neuclir22-en.splade.original-title.txt.gz.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rm3.topics-neuclir22-en.splade.original-title.txt.gz.txt
-bin/trec_eval -c -m recall.1000 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rm3.topics-neuclir22-en.splade.original-title.txt.gz.txt
-bin/trec_eval -c -m map neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rm3.topics-neuclir22-en.splade.original-title.txt.gz.txt
-bin/trec_eval -c -m ndcg_cut.20 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rm3.topics-neuclir22-en.splade.original-desc.txt.gz.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rm3.topics-neuclir22-en.splade.original-desc.txt.gz.txt
-bin/trec_eval -c -m recall.1000 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rm3.topics-neuclir22-en.splade.original-desc.txt.gz.txt
-bin/trec_eval -c -m map neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rm3.topics-neuclir22-en.splade.original-desc.txt.gz.txt
-bin/trec_eval -c -m ndcg_cut.20 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rm3.topics-neuclir22-en.splade.original-desc_title.txt.gz.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rm3.topics-neuclir22-en.splade.original-desc_title.txt.gz.txt
-bin/trec_eval -c -m recall.1000 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rm3.topics-neuclir22-en.splade.original-desc_title.txt.gz.txt
-bin/trec_eval -c -m map neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rm3.topics-neuclir22-en.splade.original-desc_title.txt.gz.txt
+bin/trec_eval -c -m ndcg_cut.20 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rm3.topics-neuclir22-en.splade.original-title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rm3.topics-neuclir22-en.splade.original-title.txt
+bin/trec_eval -c -m recall.1000 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rm3.topics-neuclir22-en.splade.original-title.txt
+bin/trec_eval -c -m map neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rm3.topics-neuclir22-en.splade.original-title.txt
+bin/trec_eval -c -m ndcg_cut.20 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rm3.topics-neuclir22-en.splade.original-desc.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rm3.topics-neuclir22-en.splade.original-desc.txt
+bin/trec_eval -c -m recall.1000 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rm3.topics-neuclir22-en.splade.original-desc.txt
+bin/trec_eval -c -m map neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rm3.topics-neuclir22-en.splade.original-desc.txt
+bin/trec_eval -c -m ndcg_cut.20 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rm3.topics-neuclir22-en.splade.original-desc_title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rm3.topics-neuclir22-en.splade.original-desc_title.txt
+bin/trec_eval -c -m recall.1000 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rm3.topics-neuclir22-en.splade.original-desc_title.txt
+bin/trec_eval -c -m map neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rm3.topics-neuclir22-en.splade.original-desc_title.txt
 
-bin/trec_eval -c -m ndcg_cut.20 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rocchio.topics-neuclir22-en.splade.original-title.txt.gz.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rocchio.topics-neuclir22-en.splade.original-title.txt.gz.txt
-bin/trec_eval -c -m recall.1000 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rocchio.topics-neuclir22-en.splade.original-title.txt.gz.txt
-bin/trec_eval -c -m map neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rocchio.topics-neuclir22-en.splade.original-title.txt.gz.txt
-bin/trec_eval -c -m ndcg_cut.20 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rocchio.topics-neuclir22-en.splade.original-desc.txt.gz.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rocchio.topics-neuclir22-en.splade.original-desc.txt.gz.txt
-bin/trec_eval -c -m recall.1000 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rocchio.topics-neuclir22-en.splade.original-desc.txt.gz.txt
-bin/trec_eval -c -m map neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rocchio.topics-neuclir22-en.splade.original-desc.txt.gz.txt
-bin/trec_eval -c -m ndcg_cut.20 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rocchio.topics-neuclir22-en.splade.original-desc_title.txt.gz.txt
-python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rocchio.topics-neuclir22-en.splade.original-desc_title.txt.gz.txt
-bin/trec_eval -c -m recall.1000 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rocchio.topics-neuclir22-en.splade.original-desc_title.txt.gz.txt
-bin/trec_eval -c -m map neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rocchio.topics-neuclir22-en.splade.original-desc_title.txt.gz.txt
+bin/trec_eval -c -m ndcg_cut.20 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rocchio.topics-neuclir22-en.splade.original-title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rocchio.topics-neuclir22-en.splade.original-title.txt
+bin/trec_eval -c -m recall.1000 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rocchio.topics-neuclir22-en.splade.original-title.txt
+bin/trec_eval -c -m map neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rocchio.topics-neuclir22-en.splade.original-title.txt
+bin/trec_eval -c -m ndcg_cut.20 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rocchio.topics-neuclir22-en.splade.original-desc.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rocchio.topics-neuclir22-en.splade.original-desc.txt
+bin/trec_eval -c -m recall.1000 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rocchio.topics-neuclir22-en.splade.original-desc.txt
+bin/trec_eval -c -m map neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rocchio.topics-neuclir22-en.splade.original-desc.txt
+bin/trec_eval -c -m ndcg_cut.20 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rocchio.topics-neuclir22-en.splade.original-desc_title.txt
+python -m pyserini.eval.trec_eval -c -m judged.20 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rocchio.topics-neuclir22-en.splade.original-desc_title.txt
+bin/trec_eval -c -m recall.1000 neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rocchio.topics-neuclir22-en.splade.original-desc_title.txt
+bin/trec_eval -c -m map neuclir22-fa runs/run.lucene-inverted.neuclir22-fa-en-splade.model-splade+rocchio.topics-neuclir22-en.splade.original-desc_title.txt
 ```
 
 ## Effectiveness

@@ -166,46 +166,46 @@ bin/run.sh io.anserini.search.SearchCollection \
 Evaluation can be performed using `trec_eval` and `gdeval.pl`:
 
 ```bash
-tools/eval/gdeval.pl web.51-100 runs/run.lucene-inverted.cw09b.model-bm25.topics-web.51-100.txt
+bin/gdeval.pl web.51-100 runs/run.lucene-inverted.cw09b.model-bm25.topics-web.51-100.txt
 bin/trec_eval -m map -m P.30 web.51-100 runs/run.lucene-inverted.cw09b.model-bm25.topics-web.51-100.txt
-tools/eval/gdeval.pl web.101-150 runs/run.lucene-inverted.cw09b.model-bm25.topics-web.101-150.txt
+bin/gdeval.pl web.101-150 runs/run.lucene-inverted.cw09b.model-bm25.topics-web.101-150.txt
 bin/trec_eval -m map -m P.30 web.101-150 runs/run.lucene-inverted.cw09b.model-bm25.topics-web.101-150.txt
-tools/eval/gdeval.pl web.151-200 runs/run.lucene-inverted.cw09b.model-bm25.topics-web.151-200.txt
+bin/gdeval.pl web.151-200 runs/run.lucene-inverted.cw09b.model-bm25.topics-web.151-200.txt
 bin/trec_eval -m map -m P.30 web.151-200 runs/run.lucene-inverted.cw09b.model-bm25.topics-web.151-200.txt
 
-tools/eval/gdeval.pl web.51-100 runs/run.lucene-inverted.cw09b.model-bm25+rm3.topics-web.51-100.txt
+bin/gdeval.pl web.51-100 runs/run.lucene-inverted.cw09b.model-bm25+rm3.topics-web.51-100.txt
 bin/trec_eval -m map -m P.30 web.51-100 runs/run.lucene-inverted.cw09b.model-bm25+rm3.topics-web.51-100.txt
-tools/eval/gdeval.pl web.101-150 runs/run.lucene-inverted.cw09b.model-bm25+rm3.topics-web.101-150.txt
+bin/gdeval.pl web.101-150 runs/run.lucene-inverted.cw09b.model-bm25+rm3.topics-web.101-150.txt
 bin/trec_eval -m map -m P.30 web.101-150 runs/run.lucene-inverted.cw09b.model-bm25+rm3.topics-web.101-150.txt
-tools/eval/gdeval.pl web.151-200 runs/run.lucene-inverted.cw09b.model-bm25+rm3.topics-web.151-200.txt
+bin/gdeval.pl web.151-200 runs/run.lucene-inverted.cw09b.model-bm25+rm3.topics-web.151-200.txt
 bin/trec_eval -m map -m P.30 web.151-200 runs/run.lucene-inverted.cw09b.model-bm25+rm3.topics-web.151-200.txt
 
-tools/eval/gdeval.pl web.51-100 runs/run.lucene-inverted.cw09b.model-bm25+ax.topics-web.51-100.txt
+bin/gdeval.pl web.51-100 runs/run.lucene-inverted.cw09b.model-bm25+ax.topics-web.51-100.txt
 bin/trec_eval -m map -m P.30 web.51-100 runs/run.lucene-inverted.cw09b.model-bm25+ax.topics-web.51-100.txt
-tools/eval/gdeval.pl web.101-150 runs/run.lucene-inverted.cw09b.model-bm25+ax.topics-web.101-150.txt
+bin/gdeval.pl web.101-150 runs/run.lucene-inverted.cw09b.model-bm25+ax.topics-web.101-150.txt
 bin/trec_eval -m map -m P.30 web.101-150 runs/run.lucene-inverted.cw09b.model-bm25+ax.topics-web.101-150.txt
-tools/eval/gdeval.pl web.151-200 runs/run.lucene-inverted.cw09b.model-bm25+ax.topics-web.151-200.txt
+bin/gdeval.pl web.151-200 runs/run.lucene-inverted.cw09b.model-bm25+ax.topics-web.151-200.txt
 bin/trec_eval -m map -m P.30 web.151-200 runs/run.lucene-inverted.cw09b.model-bm25+ax.topics-web.151-200.txt
 
-tools/eval/gdeval.pl web.51-100 runs/run.lucene-inverted.cw09b.model-ql.topics-web.51-100.txt
+bin/gdeval.pl web.51-100 runs/run.lucene-inverted.cw09b.model-ql.topics-web.51-100.txt
 bin/trec_eval -m map -m P.30 web.51-100 runs/run.lucene-inverted.cw09b.model-ql.topics-web.51-100.txt
-tools/eval/gdeval.pl web.101-150 runs/run.lucene-inverted.cw09b.model-ql.topics-web.101-150.txt
+bin/gdeval.pl web.101-150 runs/run.lucene-inverted.cw09b.model-ql.topics-web.101-150.txt
 bin/trec_eval -m map -m P.30 web.101-150 runs/run.lucene-inverted.cw09b.model-ql.topics-web.101-150.txt
-tools/eval/gdeval.pl web.151-200 runs/run.lucene-inverted.cw09b.model-ql.topics-web.151-200.txt
+bin/gdeval.pl web.151-200 runs/run.lucene-inverted.cw09b.model-ql.topics-web.151-200.txt
 bin/trec_eval -m map -m P.30 web.151-200 runs/run.lucene-inverted.cw09b.model-ql.topics-web.151-200.txt
 
-tools/eval/gdeval.pl web.51-100 runs/run.lucene-inverted.cw09b.model-ql+rm3.topics-web.51-100.txt
+bin/gdeval.pl web.51-100 runs/run.lucene-inverted.cw09b.model-ql+rm3.topics-web.51-100.txt
 bin/trec_eval -m map -m P.30 web.51-100 runs/run.lucene-inverted.cw09b.model-ql+rm3.topics-web.51-100.txt
-tools/eval/gdeval.pl web.101-150 runs/run.lucene-inverted.cw09b.model-ql+rm3.topics-web.101-150.txt
+bin/gdeval.pl web.101-150 runs/run.lucene-inverted.cw09b.model-ql+rm3.topics-web.101-150.txt
 bin/trec_eval -m map -m P.30 web.101-150 runs/run.lucene-inverted.cw09b.model-ql+rm3.topics-web.101-150.txt
-tools/eval/gdeval.pl web.151-200 runs/run.lucene-inverted.cw09b.model-ql+rm3.topics-web.151-200.txt
+bin/gdeval.pl web.151-200 runs/run.lucene-inverted.cw09b.model-ql+rm3.topics-web.151-200.txt
 bin/trec_eval -m map -m P.30 web.151-200 runs/run.lucene-inverted.cw09b.model-ql+rm3.topics-web.151-200.txt
 
-tools/eval/gdeval.pl web.51-100 runs/run.lucene-inverted.cw09b.model-ql+ax.topics-web.51-100.txt
+bin/gdeval.pl web.51-100 runs/run.lucene-inverted.cw09b.model-ql+ax.topics-web.51-100.txt
 bin/trec_eval -m map -m P.30 web.51-100 runs/run.lucene-inverted.cw09b.model-ql+ax.topics-web.51-100.txt
-tools/eval/gdeval.pl web.101-150 runs/run.lucene-inverted.cw09b.model-ql+ax.topics-web.101-150.txt
+bin/gdeval.pl web.101-150 runs/run.lucene-inverted.cw09b.model-ql+ax.topics-web.101-150.txt
 bin/trec_eval -m map -m P.30 web.101-150 runs/run.lucene-inverted.cw09b.model-ql+ax.topics-web.101-150.txt
-tools/eval/gdeval.pl web.151-200 runs/run.lucene-inverted.cw09b.model-ql+ax.topics-web.151-200.txt
+bin/gdeval.pl web.151-200 runs/run.lucene-inverted.cw09b.model-ql+ax.topics-web.151-200.txt
 bin/trec_eval -m map -m P.30 web.151-200 runs/run.lucene-inverted.cw09b.model-ql+ax.topics-web.151-200.txt
 ```
 
