@@ -41,7 +41,7 @@ public class QrelsTest{
 
   @Test
   public void testTotalCount() {
-    assertEquals(250, Qrels.names().size());
+    assertEquals(254, Qrels.names().size());
     assertFalse(Qrels.names().contains("this-qrels-name-does-not-exist"));
   }
 
@@ -174,6 +174,66 @@ public class QrelsTest{
     assertEquals(0, qrels.getRelevanceGrade("xxx", "CACM-1410"));  // non-existent topic
     assertTrue(qrels.isDocJudged("1", "CACM-1410"));
     assertNull(qrels.getDocMap("xxx"));
+  }
+
+  @Test
+  public void testFeverDev() throws IOException {
+    Qrels qrels = Qrels.get("fever.dev");
+    assertNotNull(qrels);
+    assertEquals(6666, qrels.getQids().size());
+    assertEquals(8079, getQrelsCount(qrels));
+    assertEquals(2, qrels.getRelevanceGrade("137334", "Soul_Food_-LRB-film-RRB-"));
+  }
+
+  @Test
+  public void testNanoKnowNqSupported() throws IOException {
+    Qrels qrels = Qrels.get("nanoknow-v1.0-nq.supported");
+    assertNotNull(qrels);
+    assertEquals(2389, qrels.getQids().size());
+    assertEquals(56958, getQrelsCount(qrels));
+    assertEquals(1, qrels.getRelevanceGrade("0", "shard_01177_50695"));
+  }
+
+  @Test
+  public void testNanoKnowSquadSupported() throws IOException {
+    Qrels qrels = Qrels.get("nanoknow-v1.0-squad.supported");
+    assertNotNull(qrels);
+    assertEquals(7490, qrels.getQids().size());
+    assertEquals(151675, getQrelsCount(qrels));
+    assertEquals(1, qrels.getRelevanceGrade("0", "shard_01394_6521"));
+  }
+
+  @Test
+  public void testWeb51To100() throws IOException {
+    assertWebQrels("web.51-100", 48, 25329, "51", "clueweb09-en0001-01-17957", 1);
+  }
+
+  @Test
+  public void testWeb101To150() throws IOException {
+    assertWebQrels("web.101-150", 50, 19381, "101", "clueweb09-en0076-79-19134", 2);
+  }
+
+  @Test
+  public void testWeb151To200() throws IOException {
+    assertWebQrels("web.151-200", 50, 16055, "151", "clueweb09-en0000-00-17600", 1);
+  }
+
+  @Test
+  public void testWeb201To250() throws IOException {
+    assertWebQrels("web.201-250", 50, 14474, "201", "clueweb12-0000tw-05-12114", 1);
+  }
+
+  @Test
+  public void testWeb251To300() throws IOException {
+    assertWebQrels("web.251-300", 50, 14432, "251", "clueweb12-0000tw-34-04382", 1);
+  }
+
+  private void assertWebQrels(String name, int qids, int judgments, String qid, String docid, int grade) throws IOException {
+    Qrels qrels = Qrels.get(name);
+    assertNotNull(qrels);
+    assertEquals(qids, qrels.getQids().size());
+    assertEquals(judgments, getQrelsCount(qrels));
+    assertEquals(grade, qrels.getRelevanceGrade(qid, docid));
   }
 
   @Test

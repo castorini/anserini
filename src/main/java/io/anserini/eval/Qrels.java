@@ -37,7 +37,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.anserini.util.CacheDirectoryResolver;
 
 public class Qrels {
-  private static final String COMMIT_ID = "9b1c80887bbda7998021e78f3c36f1ee707fb0bb";
+  private static final String COMMIT_ID = "895a3da315cfa2d038f96bf945a440b8eb78c748";
   public static final String URL = "https://raw.githubusercontent.com/castorini/eval/" + COMMIT_ID + "/qrels/";
 
   private static final String QRELS_URL = "https://raw.githubusercontent.com/castorini/eval/" + COMMIT_ID + "/qrels.json";
