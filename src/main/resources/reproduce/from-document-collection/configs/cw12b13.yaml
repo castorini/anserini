@@ -28,12 +28,12 @@ metrics:
     metric_precision: 4
     can_combine: true
   - metric: nDCG@20
-    command: tools/eval/gdeval.pl
+    command: bin/gdeval.pl
     separator: ","
     parse_index: 2
     metric_precision: 4
   - metric: ERR@20
-    command: tools/eval/gdeval.pl
+    command: bin/gdeval.pl
     separator: ","
     parse_index: 3
     metric_precision: 4
