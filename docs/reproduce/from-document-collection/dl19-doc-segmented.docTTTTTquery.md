@@ -61,77 +61,77 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v1-doc-segmented.docTTTTTquery/ \
   -topics dl19-doc \
   -topicReader TsvInt \
-  -output runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default.topics.dl19-doc.txt \
+  -output runs/run.lucene-inverted.msmarco-v1-doc-segmented.docTTTTTquery.model-bm25-default.topics-dl19-doc.txt \
   -bm25 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v1-doc-segmented.docTTTTTquery/ \
   -topics dl19-doc \
   -topicReader TsvInt \
-  -output runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default+rm3.topics.dl19-doc.txt \
+  -output runs/run.lucene-inverted.msmarco-v1-doc-segmented.docTTTTTquery.model-bm25-default+rm3.topics-dl19-doc.txt \
   -bm25 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v1-doc-segmented.docTTTTTquery/ \
   -topics dl19-doc \
   -topicReader TsvInt \
-  -output runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default+rocchio.topics.dl19-doc.txt \
+  -output runs/run.lucene-inverted.msmarco-v1-doc-segmented.docTTTTTquery.model-bm25-default+rocchio.topics-dl19-doc.txt \
   -bm25 -rocchio -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v1-doc-segmented.docTTTTTquery/ \
   -topics dl19-doc \
   -topicReader TsvInt \
-  -output runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned.topics.dl19-doc.txt \
+  -output runs/run.lucene-inverted.msmarco-v1-doc-segmented.docTTTTTquery.model-bm25-tuned.topics-dl19-doc.txt \
   -bm25 -bm25.k1 2.56 -bm25.b 0.59 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v1-doc-segmented.docTTTTTquery/ \
   -topics dl19-doc \
   -topicReader TsvInt \
-  -output runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned+rm3.topics.dl19-doc.txt \
+  -output runs/run.lucene-inverted.msmarco-v1-doc-segmented.docTTTTTquery.model-bm25-tuned+rm3.topics-dl19-doc.txt \
   -bm25 -bm25.k1 2.56 -bm25.b 0.59 -rm3 -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v1-doc-segmented.docTTTTTquery/ \
   -topics dl19-doc \
   -topicReader TsvInt \
-  -output runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned+rocchio.topics.dl19-doc.txt \
+  -output runs/run.lucene-inverted.msmarco-v1-doc-segmented.docTTTTTquery.model-bm25-tuned+rocchio.topics-dl19-doc.txt \
   -bm25 -bm25.k1 2.56 -bm25.b 0.59 -rocchio -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -M 100 -m map dl19-doc runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default.topics.dl19-doc.txt
-bin/trec_eval -c -m ndcg_cut.10 dl19-doc runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default.topics.dl19-doc.txt
-bin/trec_eval -c -m recall.100 dl19-doc runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default.topics.dl19-doc.txt
-bin/trec_eval -c -m recall.1000 dl19-doc runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default.topics.dl19-doc.txt
+bin/trec_eval -c -M 100 -m map dl19-doc runs/run.lucene-inverted.msmarco-v1-doc-segmented.docTTTTTquery.model-bm25-default.topics-dl19-doc.txt
+bin/trec_eval -c -m ndcg_cut.10 dl19-doc runs/run.lucene-inverted.msmarco-v1-doc-segmented.docTTTTTquery.model-bm25-default.topics-dl19-doc.txt
+bin/trec_eval -c -m recall.100 dl19-doc runs/run.lucene-inverted.msmarco-v1-doc-segmented.docTTTTTquery.model-bm25-default.topics-dl19-doc.txt
+bin/trec_eval -c -m recall.1000 dl19-doc runs/run.lucene-inverted.msmarco-v1-doc-segmented.docTTTTTquery.model-bm25-default.topics-dl19-doc.txt
 
-bin/trec_eval -c -M 100 -m map dl19-doc runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default+rm3.topics.dl19-doc.txt
-bin/trec_eval -c -m ndcg_cut.10 dl19-doc runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default+rm3.topics.dl19-doc.txt
-bin/trec_eval -c -m recall.100 dl19-doc runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default+rm3.topics.dl19-doc.txt
-bin/trec_eval -c -m recall.1000 dl19-doc runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default+rm3.topics.dl19-doc.txt
+bin/trec_eval -c -M 100 -m map dl19-doc runs/run.lucene-inverted.msmarco-v1-doc-segmented.docTTTTTquery.model-bm25-default+rm3.topics-dl19-doc.txt
+bin/trec_eval -c -m ndcg_cut.10 dl19-doc runs/run.lucene-inverted.msmarco-v1-doc-segmented.docTTTTTquery.model-bm25-default+rm3.topics-dl19-doc.txt
+bin/trec_eval -c -m recall.100 dl19-doc runs/run.lucene-inverted.msmarco-v1-doc-segmented.docTTTTTquery.model-bm25-default+rm3.topics-dl19-doc.txt
+bin/trec_eval -c -m recall.1000 dl19-doc runs/run.lucene-inverted.msmarco-v1-doc-segmented.docTTTTTquery.model-bm25-default+rm3.topics-dl19-doc.txt
 
-bin/trec_eval -c -M 100 -m map dl19-doc runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default+rocchio.topics.dl19-doc.txt
-bin/trec_eval -c -m ndcg_cut.10 dl19-doc runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default+rocchio.topics.dl19-doc.txt
-bin/trec_eval -c -m recall.100 dl19-doc runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default+rocchio.topics.dl19-doc.txt
-bin/trec_eval -c -m recall.1000 dl19-doc runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-default+rocchio.topics.dl19-doc.txt
+bin/trec_eval -c -M 100 -m map dl19-doc runs/run.lucene-inverted.msmarco-v1-doc-segmented.docTTTTTquery.model-bm25-default+rocchio.topics-dl19-doc.txt
+bin/trec_eval -c -m ndcg_cut.10 dl19-doc runs/run.lucene-inverted.msmarco-v1-doc-segmented.docTTTTTquery.model-bm25-default+rocchio.topics-dl19-doc.txt
+bin/trec_eval -c -m recall.100 dl19-doc runs/run.lucene-inverted.msmarco-v1-doc-segmented.docTTTTTquery.model-bm25-default+rocchio.topics-dl19-doc.txt
+bin/trec_eval -c -m recall.1000 dl19-doc runs/run.lucene-inverted.msmarco-v1-doc-segmented.docTTTTTquery.model-bm25-default+rocchio.topics-dl19-doc.txt
 
-bin/trec_eval -c -M 100 -m map dl19-doc runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned.topics.dl19-doc.txt
-bin/trec_eval -c -m ndcg_cut.10 dl19-doc runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned.topics.dl19-doc.txt
-bin/trec_eval -c -m recall.100 dl19-doc runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned.topics.dl19-doc.txt
-bin/trec_eval -c -m recall.1000 dl19-doc runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned.topics.dl19-doc.txt
+bin/trec_eval -c -M 100 -m map dl19-doc runs/run.lucene-inverted.msmarco-v1-doc-segmented.docTTTTTquery.model-bm25-tuned.topics-dl19-doc.txt
+bin/trec_eval -c -m ndcg_cut.10 dl19-doc runs/run.lucene-inverted.msmarco-v1-doc-segmented.docTTTTTquery.model-bm25-tuned.topics-dl19-doc.txt
+bin/trec_eval -c -m recall.100 dl19-doc runs/run.lucene-inverted.msmarco-v1-doc-segmented.docTTTTTquery.model-bm25-tuned.topics-dl19-doc.txt
+bin/trec_eval -c -m recall.1000 dl19-doc runs/run.lucene-inverted.msmarco-v1-doc-segmented.docTTTTTquery.model-bm25-tuned.topics-dl19-doc.txt
 
-bin/trec_eval -c -M 100 -m map dl19-doc runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned+rm3.topics.dl19-doc.txt
-bin/trec_eval -c -m ndcg_cut.10 dl19-doc runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned+rm3.topics.dl19-doc.txt
-bin/trec_eval -c -m recall.100 dl19-doc runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned+rm3.topics.dl19-doc.txt
-bin/trec_eval -c -m recall.1000 dl19-doc runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned+rm3.topics.dl19-doc.txt
+bin/trec_eval -c -M 100 -m map dl19-doc runs/run.lucene-inverted.msmarco-v1-doc-segmented.docTTTTTquery.model-bm25-tuned+rm3.topics-dl19-doc.txt
+bin/trec_eval -c -m ndcg_cut.10 dl19-doc runs/run.lucene-inverted.msmarco-v1-doc-segmented.docTTTTTquery.model-bm25-tuned+rm3.topics-dl19-doc.txt
+bin/trec_eval -c -m recall.100 dl19-doc runs/run.lucene-inverted.msmarco-v1-doc-segmented.docTTTTTquery.model-bm25-tuned+rm3.topics-dl19-doc.txt
+bin/trec_eval -c -m recall.1000 dl19-doc runs/run.lucene-inverted.msmarco-v1-doc-segmented.docTTTTTquery.model-bm25-tuned+rm3.topics-dl19-doc.txt
 
-bin/trec_eval -c -M 100 -m map dl19-doc runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned+rocchio.topics.dl19-doc.txt
-bin/trec_eval -c -m ndcg_cut.10 dl19-doc runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned+rocchio.topics.dl19-doc.txt
-bin/trec_eval -c -m recall.100 dl19-doc runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned+rocchio.topics.dl19-doc.txt
-bin/trec_eval -c -m recall.1000 dl19-doc runs/run.msmarco-doc-segmented-docTTTTTquery.bm25-tuned+rocchio.topics.dl19-doc.txt
+bin/trec_eval -c -M 100 -m map dl19-doc runs/run.lucene-inverted.msmarco-v1-doc-segmented.docTTTTTquery.model-bm25-tuned+rocchio.topics-dl19-doc.txt
+bin/trec_eval -c -m ndcg_cut.10 dl19-doc runs/run.lucene-inverted.msmarco-v1-doc-segmented.docTTTTTquery.model-bm25-tuned+rocchio.topics-dl19-doc.txt
+bin/trec_eval -c -m recall.100 dl19-doc runs/run.lucene-inverted.msmarco-v1-doc-segmented.docTTTTTquery.model-bm25-tuned+rocchio.topics-dl19-doc.txt
+bin/trec_eval -c -m recall.1000 dl19-doc runs/run.lucene-inverted.msmarco-v1-doc-segmented.docTTTTTquery.model-bm25-tuned+rocchio.topics-dl19-doc.txt
 ```
 
 ## Effectiveness

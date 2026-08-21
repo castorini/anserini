@@ -29,8 +29,7 @@ public class MicroblogTopicReaderTest {
 
   @Test
   public void test() throws IOException {
-    TopicReader<Integer> reader =
-        new MicroblogTopicReader(Paths.get("tools/topics-and-qrels/topics.microblog2011.txt"));
+    TopicReader<Integer> reader = new MicroblogTopicReader(Paths.get("topics.microblog2011.txt"));
 
     SortedMap<Integer, Map<String, String>> topics = reader.read();
 
@@ -44,4 +43,3 @@ public class MicroblogTopicReaderTest {
     assertEquals("29723425576587264", topics.get(topics.lastKey()).get("time"));
   }
 }
-

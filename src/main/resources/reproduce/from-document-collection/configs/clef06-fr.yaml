@@ -2,7 +2,7 @@
 corpus: clef06-fr
 corpus_path: collections/newswire/clir/clef2006-fr.json/
 
-index_path: indexes/lucene-index.clef06-fr/
+index_path: indexes/lucene-inverted.clef06-fr/
 collection_class: JsonCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 16
@@ -37,7 +37,7 @@ metrics:
 
 topic_reader: TsvString
 topics:
-  - name: "[CLEF 2006 (Monolingual French)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.clef06fr.mono.fr.txt)"
+  - name: "[CLEF 2006 (Monolingual French)](https://github.com/castorini/eval/tree/master/topics/topics.clef06fr.mono.fr.txt)"
     id: clef06fr.mono.fr
     qrels: clef06fr
 

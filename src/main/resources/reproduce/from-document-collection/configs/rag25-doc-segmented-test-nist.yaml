@@ -38,7 +38,7 @@ metrics:
 topic_reader: JsonString
 topics:
   - name: "RAG 25: Test queries"
-    id: rag25.test.jsonl
+    id: rag25.test
     qrels: rag25.test
 
 models:

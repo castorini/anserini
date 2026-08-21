@@ -2,7 +2,7 @@
 corpus: wapo.v2
 corpus_path: collections/newswire/WashingtonPost.v2/data/
 
-index_path: indexes/lucene-index.wapo.v2/
+index_path: indexes/lucene-inverted.wapo.v2/
 collection_class: WashingtonPostCollection
 generator_class: WashingtonPostGenerator
 index_threads: 1
@@ -30,7 +30,7 @@ metrics:
 
 topic_reader: Trec
 topics:
-  - name: "[TREC 2018 Common Core Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.core18.txt)"
+  - name: "[TREC 2018 Common Core Track Topics](https://github.com/castorini/eval/tree/master/topics/topics.core18.txt)"
     id: core18
     qrels: core18
 

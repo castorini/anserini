@@ -22,7 +22,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection NewYorkTimesCollection \
   -input /path/to/nyt \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.nyt/ \
+  -index indexes/lucene-inverted.nyt/ \
   -storePositions -storeDocvectors -storeRaw \
   >& logs/log.nyt &
 ```
@@ -37,80 +37,80 @@ For additional details, see explanation of [common indexing options](../../commo
 Topics and qrels are stored in a [centralized repo containing evaluation data](https://github.com/castorini/eval).
 They are downloaded from NIST:
 
-+ [`topics.core17.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.core17.txt): [topics for the TREC 2017 Common Core Track](https://trec.nist.gov/data/core/core_nist.txt)
-+ [`qrels.core17.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/qrels.core17.txt): [qrels for the TREC 2017 Common Core Track](https://trec.nist.gov/data/core/qrels.txt)
++ [`topics.core17.txt`](https://github.com/castorini/eval/tree/master/topics/topics.core17.txt): [topics for the TREC 2017 Common Core Track](https://trec.nist.gov/data/core/core_nist.txt)
++ [`qrels.core17.txt`](https://github.com/castorini/eval/tree/master/qrels/qrels.core17.txt): [qrels for the TREC 2017 Common Core Track](https://trec.nist.gov/data/core/qrels.txt)
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.nyt/ \
+  -index indexes/lucene-inverted.nyt/ \
   -topics core17 \
   -topicReader Trec \
-  -output runs/run.nyt.bm25.topics.core17.txt \
+  -output runs/run.lucene-inverted.nyt.model-bm25.topics-core17.txt \
   -bm25 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.nyt/ \
+  -index indexes/lucene-inverted.nyt/ \
   -topics core17 \
   -topicReader Trec \
-  -output runs/run.nyt.bm25+rm3.topics.core17.txt \
+  -output runs/run.lucene-inverted.nyt.model-bm25+rm3.topics-core17.txt \
   -bm25 -rm3 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.nyt/ \
+  -index indexes/lucene-inverted.nyt/ \
   -topics core17 \
   -topicReader Trec \
-  -output runs/run.nyt.bm25+ax.topics.core17.txt \
+  -output runs/run.lucene-inverted.nyt.model-bm25+ax.topics-core17.txt \
   -bm25 -axiom -rerankCutoff 20 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.nyt/ \
+  -index indexes/lucene-inverted.nyt/ \
   -topics core17 \
   -topicReader Trec \
-  -output runs/run.nyt.ql.topics.core17.txt \
+  -output runs/run.lucene-inverted.nyt.model-ql.topics-core17.txt \
   -qld &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.nyt/ \
+  -index indexes/lucene-inverted.nyt/ \
   -topics core17 \
   -topicReader Trec \
-  -output runs/run.nyt.ql+rm3.topics.core17.txt \
+  -output runs/run.lucene-inverted.nyt.model-ql+rm3.topics-core17.txt \
   -qld -rm3 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.nyt/ \
+  -index indexes/lucene-inverted.nyt/ \
   -topics core17 \
   -topicReader Trec \
-  -output runs/run.nyt.ql+ax.topics.core17.txt \
+  -output runs/run.lucene-inverted.nyt.model-ql+ax.topics-core17.txt \
   -qld -axiom -rerankCutoff 20 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -m map -m P.30 core17 runs/run.nyt.bm25.topics.core17.txt
+bin/trec_eval -m map -m P.30 core17 runs/run.lucene-inverted.nyt.model-bm25.topics-core17.txt
 
-bin/trec_eval -m map -m P.30 core17 runs/run.nyt.bm25+rm3.topics.core17.txt
+bin/trec_eval -m map -m P.30 core17 runs/run.lucene-inverted.nyt.model-bm25+rm3.topics-core17.txt
 
-bin/trec_eval -m map -m P.30 core17 runs/run.nyt.bm25+ax.topics.core17.txt
+bin/trec_eval -m map -m P.30 core17 runs/run.lucene-inverted.nyt.model-bm25+ax.topics-core17.txt
 
-bin/trec_eval -m map -m P.30 core17 runs/run.nyt.ql.topics.core17.txt
+bin/trec_eval -m map -m P.30 core17 runs/run.lucene-inverted.nyt.model-ql.topics-core17.txt
 
-bin/trec_eval -m map -m P.30 core17 runs/run.nyt.ql+rm3.topics.core17.txt
+bin/trec_eval -m map -m P.30 core17 runs/run.lucene-inverted.nyt.model-ql+rm3.topics-core17.txt
 
-bin/trec_eval -m map -m P.30 core17 runs/run.nyt.ql+ax.topics.core17.txt
+bin/trec_eval -m map -m P.30 core17 runs/run.lucene-inverted.nyt.model-ql+ax.topics-core17.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MAP**                                                                                                                          | **BM25**   | **+RM3**   | **+Ax**    | **QL**     | **+RM3**   | **+Ax**    |
-|:---------------------------------------------------------------------------------------------------------------------------------|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|
-| [TREC 2017 Common Core Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.core17.txt) | 0.2087     | 0.2798     | 0.2739     | 0.2032     | 0.2593     | 0.2579     |
-| **P30**                                                                                                                          | **BM25**   | **+RM3**   | **+Ax**    | **QL**     | **+RM3**   | **+Ax**    |
-| [TREC 2017 Common Core Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.core17.txt) | 0.4293     | 0.5027     | 0.4940     | 0.4467     | 0.4827     | 0.4893     |
+| **MAP**                                                                                                      | **BM25**   | **+RM3**   | **+Ax**    | **QL**     | **+RM3**   | **+Ax**    |
+|:-------------------------------------------------------------------------------------------------------------|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|
+| [TREC 2017 Common Core Track Topics](https://github.com/castorini/eval/tree/master/topics/topics.core17.txt) | 0.2087     | 0.2798     | 0.2739     | 0.2032     | 0.2593     | 0.2579     |
+| **P30**                                                                                                      | **BM25**   | **+RM3**   | **+Ax**    | **QL**     | **+RM3**   | **+Ax**    |
+| [TREC 2017 Common Core Track Topics](https://github.com/castorini/eval/tree/master/topics/topics.core17.txt) | 0.4293     | 0.5027     | 0.4940     | 0.4467     | 0.4827     | 0.4893     |
 
 ## Reproduction Log[*](../../../docs/reproducibility.md)
 

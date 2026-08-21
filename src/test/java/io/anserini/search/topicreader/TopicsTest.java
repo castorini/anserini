@@ -30,7 +30,7 @@ public class TopicsTest {
 
   @Test
   public void testTotalCount() {
-    assertEquals(469, Topics.names().size());
+    assertEquals(472, Topics.names().size());
   }
 
   @Test

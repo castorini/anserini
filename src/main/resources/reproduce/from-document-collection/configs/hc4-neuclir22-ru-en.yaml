@@ -2,7 +2,7 @@
 corpus: neuclir22-ru-en
 corpus_path: collections/multilingual/neuclir22-ru-en/
 
-index_path: indexes/lucene-index.neuclir22-ru-en
+index_path: indexes/lucene-inverted.neuclir22-ru-en
 collection_class: NeuClirCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 8
@@ -44,13 +44,13 @@ metrics:
 topic_reader: TsvInt
 topics:
   - name: "[HC4 (Russian): test-topic title](https://github.com/hltcoe/HC4)"
-    id: hc4-v1.0-ru.en.test.title.tsv
+    id: hc4-v1.0-ru.en.test.title
     qrels: hc4-neuclir22-ru.test
   - name: "[HC4 (Russian): test-topic description](https://github.com/hltcoe/HC4)"
-    id: hc4-v1.0-ru.en.test.desc.tsv
+    id: hc4-v1.0-ru.en.test.desc
     qrels: hc4-neuclir22-ru.test
   - name: "[HC4 (Russian): test-topic description+title](https://github.com/hltcoe/HC4)"
-    id: hc4-v1.0-ru.en.test.desc.title.tsv
+    id: hc4-v1.0-ru.en.test.desc.title
     qrels: hc4-neuclir22-ru.test
 
 models:

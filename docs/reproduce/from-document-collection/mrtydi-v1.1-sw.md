@@ -21,7 +21,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection MrTyDiCollection \
   -input /path/to/mrtydi-v1.1-sw \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.mrtydi-v1.1-swahili/ \
+  -index indexes/lucene-inverted.mrtydi-v1.1-swahili/ \
   -storePositions -storeDocvectors -storeRaw -language sw \
   >& logs/log.mrtydi-v1.1-sw &
 ```
@@ -35,31 +35,31 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.mrtydi-v1.1-swahili/ \
-  -topics mrtydi-v1.1-sw.train.txt.gz \
+  -index indexes/lucene-inverted.mrtydi-v1.1-swahili/ \
+  -topics mrtydi-v1.1-sw.train \
   -topicReader TsvInt \
-  -output runs/run.mrtydi-v1.1-sw.bm25.topics.mrtydi-v1.1-sw.train.txt \
+  -output runs/run.lucene-inverted.mrtydi-v1.1-swahili.model-bm25.topics-mrtydi-v1.1-sw.train.txt \
   -bm25 -hits 100 -language sw &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.mrtydi-v1.1-swahili/ \
-  -topics mrtydi-v1.1-sw.dev.txt.gz \
+  -index indexes/lucene-inverted.mrtydi-v1.1-swahili/ \
+  -topics mrtydi-v1.1-sw.dev \
   -topicReader TsvInt \
-  -output runs/run.mrtydi-v1.1-sw.bm25.topics.mrtydi-v1.1-sw.dev.txt \
+  -output runs/run.lucene-inverted.mrtydi-v1.1-swahili.model-bm25.topics-mrtydi-v1.1-sw.dev.txt \
   -bm25 -hits 100 -language sw &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.mrtydi-v1.1-swahili/ \
-  -topics mrtydi-v1.1-sw.test.txt.gz \
+  -index indexes/lucene-inverted.mrtydi-v1.1-swahili/ \
+  -topics mrtydi-v1.1-sw.test \
   -topicReader TsvInt \
-  -output runs/run.mrtydi-v1.1-sw.bm25.topics.mrtydi-v1.1-sw.test.txt \
+  -output runs/run.lucene-inverted.mrtydi-v1.1-swahili.model-bm25.topics-mrtydi-v1.1-sw.test.txt \
   -bm25 -hits 100 -language sw &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 mrtydi-v1.1-sw.train runs/run.mrtydi-v1.1-sw.bm25.topics.mrtydi-v1.1-sw.train.txt
-bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 mrtydi-v1.1-sw.dev runs/run.mrtydi-v1.1-sw.bm25.topics.mrtydi-v1.1-sw.dev.txt
-bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 mrtydi-v1.1-sw.test runs/run.mrtydi-v1.1-sw.bm25.topics.mrtydi-v1.1-sw.test.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 mrtydi-v1.1-sw.train runs/run.lucene-inverted.mrtydi-v1.1-swahili.model-bm25.topics-mrtydi-v1.1-sw.train.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 mrtydi-v1.1-sw.dev runs/run.lucene-inverted.mrtydi-v1.1-swahili.model-bm25.topics-mrtydi-v1.1-sw.dev.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 mrtydi-v1.1-sw.test runs/run.lucene-inverted.mrtydi-v1.1-swahili.model-bm25.topics-mrtydi-v1.1-sw.test.txt
 ```
 
 ## Effectiveness

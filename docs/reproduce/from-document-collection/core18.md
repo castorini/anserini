@@ -22,7 +22,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection WashingtonPostCollection \
   -input /path/to/wapo.v2 \
   -generator WashingtonPostGenerator \
-  -index indexes/lucene-index.wapo.v2/ \
+  -index indexes/lucene-inverted.wapo.v2/ \
   -storePositions -storeDocvectors -storeRaw \
   >& logs/log.wapo.v2 &
 ```
@@ -37,80 +37,80 @@ For additional details, see explanation of [common indexing options](../../commo
 Topics and qrels are stored in a [centralized repo containing evaluation data](https://github.com/castorini/eval).
 They are downloaded from NIST:
 
-+ [`topics.core18.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.core18.txt): [topics for the TREC 2018 Common Core Track](https://trec.nist.gov/data/core/topics2018.txt)
-+ [`qrels.core18.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/qrels.core18.txt): [qrels for the TREC 2018 Common Core Track](https://trec.nist.gov/data/core/qrels2018.txt)
++ [`topics.core18.txt`](https://github.com/castorini/eval/tree/master/topics/topics.core18.txt): [topics for the TREC 2018 Common Core Track](https://trec.nist.gov/data/core/topics2018.txt)
++ [`qrels.core18.txt`](https://github.com/castorini/eval/tree/master/qrels/qrels.core18.txt): [qrels for the TREC 2018 Common Core Track](https://trec.nist.gov/data/core/qrels2018.txt)
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.wapo.v2/ \
+  -index indexes/lucene-inverted.wapo.v2/ \
   -topics core18 \
   -topicReader Trec \
-  -output runs/run.wapo.v2.bm25.topics.core18.txt \
+  -output runs/run.lucene-inverted.wapo.v2.model-bm25.topics-core18.txt \
   -bm25 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.wapo.v2/ \
+  -index indexes/lucene-inverted.wapo.v2/ \
   -topics core18 \
   -topicReader Trec \
-  -output runs/run.wapo.v2.bm25+rm3.topics.core18.txt \
+  -output runs/run.lucene-inverted.wapo.v2.model-bm25+rm3.topics-core18.txt \
   -bm25 -rm3 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.wapo.v2/ \
+  -index indexes/lucene-inverted.wapo.v2/ \
   -topics core18 \
   -topicReader Trec \
-  -output runs/run.wapo.v2.bm25+ax.topics.core18.txt \
+  -output runs/run.lucene-inverted.wapo.v2.model-bm25+ax.topics-core18.txt \
   -bm25 -axiom -rerankCutoff 20 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.wapo.v2/ \
+  -index indexes/lucene-inverted.wapo.v2/ \
   -topics core18 \
   -topicReader Trec \
-  -output runs/run.wapo.v2.ql.topics.core18.txt \
+  -output runs/run.lucene-inverted.wapo.v2.model-ql.topics-core18.txt \
   -qld &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.wapo.v2/ \
+  -index indexes/lucene-inverted.wapo.v2/ \
   -topics core18 \
   -topicReader Trec \
-  -output runs/run.wapo.v2.ql+rm3.topics.core18.txt \
+  -output runs/run.lucene-inverted.wapo.v2.model-ql+rm3.topics-core18.txt \
   -qld -rm3 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.wapo.v2/ \
+  -index indexes/lucene-inverted.wapo.v2/ \
   -topics core18 \
   -topicReader Trec \
-  -output runs/run.wapo.v2.ql+ax.topics.core18.txt \
+  -output runs/run.lucene-inverted.wapo.v2.model-ql+ax.topics-core18.txt \
   -qld -axiom -rerankCutoff 20 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -m map -m P.30 core18 runs/run.wapo.v2.bm25.topics.core18.txt
+bin/trec_eval -m map -m P.30 core18 runs/run.lucene-inverted.wapo.v2.model-bm25.topics-core18.txt
 
-bin/trec_eval -m map -m P.30 core18 runs/run.wapo.v2.bm25+rm3.topics.core18.txt
+bin/trec_eval -m map -m P.30 core18 runs/run.lucene-inverted.wapo.v2.model-bm25+rm3.topics-core18.txt
 
-bin/trec_eval -m map -m P.30 core18 runs/run.wapo.v2.bm25+ax.topics.core18.txt
+bin/trec_eval -m map -m P.30 core18 runs/run.lucene-inverted.wapo.v2.model-bm25+ax.topics-core18.txt
 
-bin/trec_eval -m map -m P.30 core18 runs/run.wapo.v2.ql.topics.core18.txt
+bin/trec_eval -m map -m P.30 core18 runs/run.lucene-inverted.wapo.v2.model-ql.topics-core18.txt
 
-bin/trec_eval -m map -m P.30 core18 runs/run.wapo.v2.ql+rm3.topics.core18.txt
+bin/trec_eval -m map -m P.30 core18 runs/run.lucene-inverted.wapo.v2.model-ql+rm3.topics-core18.txt
 
-bin/trec_eval -m map -m P.30 core18 runs/run.wapo.v2.ql+ax.topics.core18.txt
+bin/trec_eval -m map -m P.30 core18 runs/run.lucene-inverted.wapo.v2.model-ql+ax.topics-core18.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MAP**                                                                                                                          | **BM25**   | **+RM3**   | **+Ax**    | **QL**     | **+RM3**   | **+Ax**    |
-|:---------------------------------------------------------------------------------------------------------------------------------|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|
-| [TREC 2018 Common Core Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.core18.txt) | 0.2496     | 0.3129     | 0.2840     | 0.2527     | 0.3077     | 0.2920     |
-| **P30**                                                                                                                          | **BM25**   | **+RM3**   | **+Ax**    | **QL**     | **+RM3**   | **+Ax**    |
-| [TREC 2018 Common Core Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.core18.txt) | 0.3573     | 0.4167     | 0.3947     | 0.3653     | 0.4007     | 0.4013     |
+| **MAP**                                                                                                      | **BM25**   | **+RM3**   | **+Ax**    | **QL**     | **+RM3**   | **+Ax**    |
+|:-------------------------------------------------------------------------------------------------------------|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|
+| [TREC 2018 Common Core Track Topics](https://github.com/castorini/eval/tree/master/topics/topics.core18.txt) | 0.2496     | 0.3129     | 0.2840     | 0.2527     | 0.3077     | 0.2920     |
+| **P30**                                                                                                      | **BM25**   | **+RM3**   | **+Ax**    | **QL**     | **+RM3**   | **+Ax**    |
+| [TREC 2018 Common Core Track Topics](https://github.com/castorini/eval/tree/master/topics/topics.core18.txt) | 0.3573     | 0.4167     | 0.3947     | 0.3653     | 0.4007     | 0.4013     |
 
 ## Reproduction Log[*](../../../docs/reproducibility.md)
 

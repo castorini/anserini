@@ -2,7 +2,7 @@
 corpus: mrtydi-v1.1-bn
 corpus_path: collections/mr-tydi-corpus/mrtydi-v1.1-bengali/
 
-index_path: indexes/lucene-index.mrtydi-v1.1-bengali/
+index_path: indexes/lucene-inverted.mrtydi-v1.1-bengali/
 collection_class: MrTyDiCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 1
@@ -31,13 +31,13 @@ metrics:
 topic_reader: TsvInt
 topics:
   - name: "[Mr. TyDi (Bengali): train](https://github.com/castorini/mr.tydi)"
-    id: mrtydi-v1.1-bn.train.txt.gz
+    id: mrtydi-v1.1-bn.train
     qrels: mrtydi-v1.1-bn.train
   - name: "[Mr. TyDi (Bengali): dev](https://github.com/castorini/mr.tydi)"
-    id: mrtydi-v1.1-bn.dev.txt.gz
+    id: mrtydi-v1.1-bn.dev
     qrels: mrtydi-v1.1-bn.dev
   - name: "[Mr. TyDi (Bengali): test](https://github.com/castorini/mr.tydi)"
-    id: mrtydi-v1.1-bn.test.txt.gz
+    id: mrtydi-v1.1-bn.test
     qrels: mrtydi-v1.1-bn.test
 
 models:

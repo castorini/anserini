@@ -55,16 +55,16 @@ bin/run.sh io.anserini.search.SearchHnswDenseVectors \
   -index indexes/lucene-hnsw-sqv.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5/ \
   -topics beir-v1.0.0-cqadupstack-physics.test \
   -topicReader TsvString \
-  -output runs/run.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.bge-hnsw-sqv-onnx.topics.beir-v1.0.0-cqadupstack-physics.test.txt \
+  -output runs/run.lucene-hnsw-sqv.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.model-bge-hnsw-sqv-onnx.topics-beir-v1.0.0-cqadupstack-physics.test.txt \
   -encoder BgeBaseEn15 -hits 1000 -efSearch 2000 -removeQuery -threads 16 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.10 beir-v1.0.0-cqadupstack-physics.test runs/run.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.bge-hnsw-sqv-onnx.topics.beir-v1.0.0-cqadupstack-physics.test.txt
-bin/trec_eval -c -m recall.100 beir-v1.0.0-cqadupstack-physics.test runs/run.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.bge-hnsw-sqv-onnx.topics.beir-v1.0.0-cqadupstack-physics.test.txt
-bin/trec_eval -c -m recall.1000 beir-v1.0.0-cqadupstack-physics.test runs/run.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.bge-hnsw-sqv-onnx.topics.beir-v1.0.0-cqadupstack-physics.test.txt
+bin/trec_eval -c -m ndcg_cut.10 beir-v1.0.0-cqadupstack-physics.test runs/run.lucene-hnsw-sqv.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.model-bge-hnsw-sqv-onnx.topics-beir-v1.0.0-cqadupstack-physics.test.txt
+bin/trec_eval -c -m recall.100 beir-v1.0.0-cqadupstack-physics.test runs/run.lucene-hnsw-sqv.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.model-bge-hnsw-sqv-onnx.topics-beir-v1.0.0-cqadupstack-physics.test.txt
+bin/trec_eval -c -m recall.1000 beir-v1.0.0-cqadupstack-physics.test runs/run.lucene-hnsw-sqv.beir-v1.0.0-cqadupstack-physics.bge-base-en-v1.5.model-bge-hnsw-sqv-onnx.topics-beir-v1.0.0-cqadupstack-physics.test.txt
 ```
 
 ## Effectiveness

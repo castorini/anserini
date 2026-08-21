@@ -2,7 +2,7 @@
 corpus: mrtydi-v1.1-ar
 corpus_path: collections/mr-tydi-corpus/mrtydi-v1.1-arabic/
 
-index_path: indexes/lucene-index.mrtydi-v1.1-arabic-aca/
+index_path: indexes/lucene-inverted.mrtydi-v1.1-arabic-aca/
 collection_class: MrTyDiCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 1
@@ -31,13 +31,13 @@ metrics:
 topic_reader: TsvInt
 topics:
   - name: "[Mr. TyDi (Arabic): train](https://github.com/castorini/mr.tydi)"
-    id: mrtydi-v1.1-ar.train.txt.gz
+    id: mrtydi-v1.1-ar.train
     qrels: mrtydi-v1.1-ar.train
   - name: "[Mr. TyDi (Arabic): dev](https://github.com/castorini/mr.tydi)"
-    id: mrtydi-v1.1-ar.dev.txt.gz
+    id: mrtydi-v1.1-ar.dev
     qrels: mrtydi-v1.1-ar.dev
   - name: "[Mr. TyDi (Arabic): test](https://github.com/castorini/mr.tydi)"
-    id: mrtydi-v1.1-ar.test.txt.gz
+    id: mrtydi-v1.1-ar.test
     qrels: mrtydi-v1.1-ar.test
 
 models:

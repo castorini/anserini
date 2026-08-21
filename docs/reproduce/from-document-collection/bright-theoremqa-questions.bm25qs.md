@@ -52,16 +52,16 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.bright-theoremqa-questions/ \
   -topics bright-theoremqa-questions \
   -topicReader TsvString \
-  -output runs/run.bright-theoremqa-questions.bm25qs.topics.bright-theoremqa-questions.txt \
+  -output runs/run.lucene-inverted.bright-theoremqa-questions.model-bm25qs.topics-bright-theoremqa-questions.txt \
   -bm25.querySide -removeQuery -hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.10 bright-theoremqa-questions runs/run.bright-theoremqa-questions.bm25qs.topics.bright-theoremqa-questions.txt
-bin/trec_eval -c -m recall.100 bright-theoremqa-questions runs/run.bright-theoremqa-questions.bm25qs.topics.bright-theoremqa-questions.txt
-bin/trec_eval -c -m recall.1000 bright-theoremqa-questions runs/run.bright-theoremqa-questions.bm25qs.topics.bright-theoremqa-questions.txt
+bin/trec_eval -c -m ndcg_cut.10 bright-theoremqa-questions runs/run.lucene-inverted.bright-theoremqa-questions.model-bm25qs.topics-bright-theoremqa-questions.txt
+bin/trec_eval -c -m recall.100 bright-theoremqa-questions runs/run.lucene-inverted.bright-theoremqa-questions.model-bm25qs.topics-bright-theoremqa-questions.txt
+bin/trec_eval -c -m recall.1000 bright-theoremqa-questions runs/run.lucene-inverted.bright-theoremqa-questions.model-bm25qs.topics-bright-theoremqa-questions.txt
 ```
 
 ## Effectiveness

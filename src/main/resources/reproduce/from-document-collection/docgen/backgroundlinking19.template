@@ -30,8 +30,8 @@ For additional details, see explanation of [common indexing options](../../commo
 Topics and qrels are stored in a [centralized repo containing evaluation data](https://github.com/castorini/eval).
 They are downloaded from NIST:
 
-+ [`topics.backgroundlinking19.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.backgroundlinking19.txt): topics for the background linking task of the TREC 2019 News Track
-+ [`qrels.backgroundlinking19.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/qrels.backgroundlinking19.txt): qrels for the background linking task of the TREC 2019 News Track
++ [`topics.backgroundlinking19.txt`](https://github.com/castorini/eval/tree/master/topics/topics.backgroundlinking19.txt): topics for the background linking task of the TREC 2019 News Track
++ [`qrels.backgroundlinking19.txt`](https://github.com/castorini/eval/tree/master/qrels/qrels.backgroundlinking19.txt): qrels for the background linking task of the TREC 2019 News Track
 
 After indexing has completed, you should be able to perform retrieval as follows:
 

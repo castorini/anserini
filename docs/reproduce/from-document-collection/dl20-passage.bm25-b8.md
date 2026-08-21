@@ -73,17 +73,17 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v1-passage.bm25-b8/ \
   -topics dl20 \
   -topicReader TsvInt \
-  -output runs/run.msmarco-passage-bm25-b8.bm25-b8.topics.dl20.txt \
+  -output runs/run.lucene-inverted.msmarco-v1-passage.bm25-b8.model-bm25-b8.topics-dl20.txt \
   -impact &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -m map -c -l 2 dl20-passage runs/run.msmarco-passage-bm25-b8.bm25-b8.topics.dl20.txt
-bin/trec_eval -m ndcg_cut.10 -c dl20-passage runs/run.msmarco-passage-bm25-b8.bm25-b8.topics.dl20.txt
-bin/trec_eval -m recall.100 -c -l 2 dl20-passage runs/run.msmarco-passage-bm25-b8.bm25-b8.topics.dl20.txt
-bin/trec_eval -m recall.1000 -c -l 2 dl20-passage runs/run.msmarco-passage-bm25-b8.bm25-b8.topics.dl20.txt
+bin/trec_eval -m map -c -l 2 dl20-passage runs/run.lucene-inverted.msmarco-v1-passage.bm25-b8.model-bm25-b8.topics-dl20.txt
+bin/trec_eval -m ndcg_cut.10 -c dl20-passage runs/run.lucene-inverted.msmarco-v1-passage.bm25-b8.model-bm25-b8.topics-dl20.txt
+bin/trec_eval -m recall.100 -c -l 2 dl20-passage runs/run.lucene-inverted.msmarco-v1-passage.bm25-b8.model-bm25-b8.topics-dl20.txt
+bin/trec_eval -m recall.1000 -c -l 2 dl20-passage runs/run.lucene-inverted.msmarco-v1-passage.bm25-b8.model-bm25-b8.topics-dl20.txt
 ```
 
 ## Effectiveness

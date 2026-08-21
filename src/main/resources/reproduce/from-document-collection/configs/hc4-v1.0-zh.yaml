@@ -2,7 +2,7 @@
 corpus: hc4-v1.0-zh
 corpus_path: collections/multilingual/hc4-v1.0-zh/
 
-index_path: indexes/lucene-index.hc4-v1.0-zh
+index_path: indexes/lucene-inverted.hc4-v1.0-zh
 collection_class: NeuClirCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 8
@@ -44,22 +44,22 @@ metrics:
 topic_reader: TsvInt
 topics:
   - name: "[HC4 (Chinese): dev-topic title](https://github.com/hltcoe/HC4)"
-    id: hc4-v1.0-zh.dev.title.tsv
+    id: hc4-v1.0-zh.dev.title
     qrels: hc4-v1.0-zh.dev
   - name: "[HC4 (Chinese): dev-topic description](https://github.com/hltcoe/HC4)"
-    id: hc4-v1.0-zh.dev.desc.tsv
+    id: hc4-v1.0-zh.dev.desc
     qrels: hc4-v1.0-zh.dev
   - name: "[HC4 (Chinese): dev-topic description+title](https://github.com/hltcoe/HC4)"
-    id: hc4-v1.0-zh.dev.desc.title.tsv
+    id: hc4-v1.0-zh.dev.desc.title
     qrels: hc4-v1.0-zh.dev
   - name: "[HC4 (Chinese): test-topic title](https://github.com/hltcoe/HC4)"
-    id: hc4-v1.0-zh.test.title.tsv
+    id: hc4-v1.0-zh.test.title
     qrels: hc4-v1.0-zh.test
   - name: "[HC4 (Chinese): test-topic description](https://github.com/hltcoe/HC4)"
-    id: hc4-v1.0-zh.test.desc.tsv
+    id: hc4-v1.0-zh.test.desc
     qrels: hc4-v1.0-zh.test
   - name: "[HC4 (Chinese): test-topic description+title](https://github.com/hltcoe/HC4)"
-    id: hc4-v1.0-zh.test.desc.title.tsv
+    id: hc4-v1.0-zh.test.desc.title
     qrels: hc4-v1.0-zh.test
 
 

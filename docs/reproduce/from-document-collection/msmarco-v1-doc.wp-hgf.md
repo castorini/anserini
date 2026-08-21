@@ -47,17 +47,17 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v1-doc.wp-hgf/ \
   -topics msmarco-doc.dev \
   -topicReader TsvInt \
-  -output runs/run.msmarco-doc.bm25-default.topics.msmarco-doc.dev.txt \
+  -output runs/run.lucene-inverted.msmarco-v1-doc.wp-hgf.model-bm25-default.topics-msmarco-doc.dev.txt \
   -bm25 -analyzeWithHuggingFaceTokenizer bert-base-uncased &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m map msmarco-doc.dev runs/run.msmarco-doc.bm25-default.topics.msmarco-doc.dev.txt
-bin/trec_eval -c -M 100 -m recip_rank msmarco-doc.dev runs/run.msmarco-doc.bm25-default.topics.msmarco-doc.dev.txt
-bin/trec_eval -c -m recall.100 msmarco-doc.dev runs/run.msmarco-doc.bm25-default.topics.msmarco-doc.dev.txt
-bin/trec_eval -c -m recall.1000 msmarco-doc.dev runs/run.msmarco-doc.bm25-default.topics.msmarco-doc.dev.txt
+bin/trec_eval -c -m map msmarco-doc.dev runs/run.lucene-inverted.msmarco-v1-doc.wp-hgf.model-bm25-default.topics-msmarco-doc.dev.txt
+bin/trec_eval -c -M 100 -m recip_rank msmarco-doc.dev runs/run.lucene-inverted.msmarco-v1-doc.wp-hgf.model-bm25-default.topics-msmarco-doc.dev.txt
+bin/trec_eval -c -m recall.100 msmarco-doc.dev runs/run.lucene-inverted.msmarco-v1-doc.wp-hgf.model-bm25-default.topics-msmarco-doc.dev.txt
+bin/trec_eval -c -m recall.1000 msmarco-doc.dev runs/run.lucene-inverted.msmarco-v1-doc.wp-hgf.model-bm25-default.topics-msmarco-doc.dev.txt
 ```
 
 ## Effectiveness

@@ -23,7 +23,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection MrTyDiCollection \
   -input /path/to/mrtydi-v1.1-te \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.mrtydi-v1.1-telugu-aca/ \
+  -index indexes/lucene-inverted.mrtydi-v1.1-telugu-aca/ \
   -storePositions -storeDocvectors -storeRaw -language te -useAutoCompositeAnalyzer \
   >& logs/log.mrtydi-v1.1-te &
 ```
@@ -37,31 +37,31 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.mrtydi-v1.1-telugu-aca/ \
-  -topics mrtydi-v1.1-te.train.txt.gz \
+  -index indexes/lucene-inverted.mrtydi-v1.1-telugu-aca/ \
+  -topics mrtydi-v1.1-te.train \
   -topicReader TsvInt \
-  -output runs/run.mrtydi-v1.1-te.bm25.topics.mrtydi-v1.1-te.train.txt \
+  -output runs/run.lucene-inverted.mrtydi-v1.1-telugu-aca.model-bm25.topics-mrtydi-v1.1-te.train.txt \
   -bm25 -hits 100 -language te -useAutoCompositeAnalyzer &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.mrtydi-v1.1-telugu-aca/ \
-  -topics mrtydi-v1.1-te.dev.txt.gz \
+  -index indexes/lucene-inverted.mrtydi-v1.1-telugu-aca/ \
+  -topics mrtydi-v1.1-te.dev \
   -topicReader TsvInt \
-  -output runs/run.mrtydi-v1.1-te.bm25.topics.mrtydi-v1.1-te.dev.txt \
+  -output runs/run.lucene-inverted.mrtydi-v1.1-telugu-aca.model-bm25.topics-mrtydi-v1.1-te.dev.txt \
   -bm25 -hits 100 -language te -useAutoCompositeAnalyzer &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.mrtydi-v1.1-telugu-aca/ \
-  -topics mrtydi-v1.1-te.test.txt.gz \
+  -index indexes/lucene-inverted.mrtydi-v1.1-telugu-aca/ \
+  -topics mrtydi-v1.1-te.test \
   -topicReader TsvInt \
-  -output runs/run.mrtydi-v1.1-te.bm25.topics.mrtydi-v1.1-te.test.txt \
+  -output runs/run.lucene-inverted.mrtydi-v1.1-telugu-aca.model-bm25.topics-mrtydi-v1.1-te.test.txt \
   -bm25 -hits 100 -language te -useAutoCompositeAnalyzer &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 mrtydi-v1.1-te.train runs/run.mrtydi-v1.1-te.bm25.topics.mrtydi-v1.1-te.train.txt
-bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 mrtydi-v1.1-te.dev runs/run.mrtydi-v1.1-te.bm25.topics.mrtydi-v1.1-te.dev.txt
-bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 mrtydi-v1.1-te.test runs/run.mrtydi-v1.1-te.bm25.topics.mrtydi-v1.1-te.test.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 mrtydi-v1.1-te.train runs/run.lucene-inverted.mrtydi-v1.1-telugu-aca.model-bm25.topics-mrtydi-v1.1-te.train.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 mrtydi-v1.1-te.dev runs/run.lucene-inverted.mrtydi-v1.1-telugu-aca.model-bm25.topics-mrtydi-v1.1-te.dev.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 mrtydi-v1.1-te.test runs/run.lucene-inverted.mrtydi-v1.1-telugu-aca.model-bm25.topics-mrtydi-v1.1-te.test.txt
 ```
 
 ## Effectiveness

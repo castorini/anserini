@@ -59,16 +59,16 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.bright-robotics.splade-v3/ \
   -topics bright-robotics \
   -topicReader TsvString \
-  -output runs/run.bright-robotics.splade-v3-onnx.topics.bright-robotics.txt \
+  -output runs/run.lucene-inverted.bright-robotics.splade-v3.model-splade-v3-onnx.topics-bright-robotics.txt \
   -impact -pretokenized -removeQuery -hits 1000 -encoder SpladeV3 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.10 bright-robotics runs/run.bright-robotics.splade-v3-onnx.topics.bright-robotics.txt
-bin/trec_eval -c -m recall.100 bright-robotics runs/run.bright-robotics.splade-v3-onnx.topics.bright-robotics.txt
-bin/trec_eval -c -m recall.1000 bright-robotics runs/run.bright-robotics.splade-v3-onnx.topics.bright-robotics.txt
+bin/trec_eval -c -m ndcg_cut.10 bright-robotics runs/run.lucene-inverted.bright-robotics.splade-v3.model-splade-v3-onnx.topics-bright-robotics.txt
+bin/trec_eval -c -m recall.100 bright-robotics runs/run.lucene-inverted.bright-robotics.splade-v3.model-splade-v3-onnx.topics-bright-robotics.txt
+bin/trec_eval -c -m recall.1000 bright-robotics runs/run.lucene-inverted.bright-robotics.splade-v3.model-splade-v3-onnx.topics-bright-robotics.txt
 ```
 
 ## Effectiveness

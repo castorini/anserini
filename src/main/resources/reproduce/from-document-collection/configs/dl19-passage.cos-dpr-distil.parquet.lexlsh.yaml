@@ -49,7 +49,7 @@ metrics:
 topic_reader: JsonIntVector
 topics:
   - name: "[DL19 (Passage)](https://trec.nist.gov/data/deep2020.html)"
-    id: dl19-passage.cos-dpr-distil.jsonl.gz
+    id: dl19-passage.cos-dpr-distil
     qrels: dl19-passage
 
 models:

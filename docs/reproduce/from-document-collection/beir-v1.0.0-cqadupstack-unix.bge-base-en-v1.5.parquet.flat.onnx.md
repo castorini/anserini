@@ -54,16 +54,16 @@ bin/run.sh io.anserini.search.SearchFlatDenseVectors \
   -index indexes/lucene-flat.beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5/ \
   -topics beir-v1.0.0-cqadupstack-unix.test \
   -topicReader TsvString \
-  -output runs/run.beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-cqadupstack-unix.test.txt \
+  -output runs/run.lucene-flat.beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.model-bge-flat-onnx.topics-beir-v1.0.0-cqadupstack-unix.test.txt \
   -encoder BgeBaseEn15 -hits 1000 -removeQuery -threads 16 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.10 beir-v1.0.0-cqadupstack-unix.test runs/run.beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-cqadupstack-unix.test.txt
-bin/trec_eval -c -m recall.100 beir-v1.0.0-cqadupstack-unix.test runs/run.beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-cqadupstack-unix.test.txt
-bin/trec_eval -c -m recall.1000 beir-v1.0.0-cqadupstack-unix.test runs/run.beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.bge-flat-onnx.topics.beir-v1.0.0-cqadupstack-unix.test.txt
+bin/trec_eval -c -m ndcg_cut.10 beir-v1.0.0-cqadupstack-unix.test runs/run.lucene-flat.beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.model-bge-flat-onnx.topics-beir-v1.0.0-cqadupstack-unix.test.txt
+bin/trec_eval -c -m recall.100 beir-v1.0.0-cqadupstack-unix.test runs/run.lucene-flat.beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.model-bge-flat-onnx.topics-beir-v1.0.0-cqadupstack-unix.test.txt
+bin/trec_eval -c -m recall.1000 beir-v1.0.0-cqadupstack-unix.test runs/run.lucene-flat.beir-v1.0.0-cqadupstack-unix.bge-base-en-v1.5.model-bge-flat-onnx.topics-beir-v1.0.0-cqadupstack-unix.test.txt
 ```
 
 ## Effectiveness

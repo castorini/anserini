@@ -2,7 +2,7 @@
 corpus: car-paragraphCorpus.v2.0-doc2query
 corpus_path: collections/car/paragraphCorpus.v2.0-expanded-topk10/
 
-index_path: indexes/lucene-index.car-paragraphCorpus.v2.0-doc2query/
+index_path: indexes/lucene-inverted.car-paragraphCorpus.v2.0-doc2query/
 collection_class: JsonCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 30
@@ -30,7 +30,7 @@ metrics:
 
 topic_reader: Car
 topics:
-  - name: "[TREC 2017 CAR: benchmarkY1test (v2.0)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt)"
+  - name: "[TREC 2017 CAR: benchmarkY1test (v2.0)](https://github.com/castorini/eval/tree/master/topics/topics.car17v2.0.benchmarkY1test.txt)"
     id: car17v2.0.benchmarkY1test
     qrels: car17v2.0.benchmarkY1test
 

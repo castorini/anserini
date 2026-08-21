@@ -52,16 +52,16 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.bright-aops/ \
   -topics bright-aops \
   -topicReader TsvString \
-  -output runs/run.bright-aops.bm25qs.topics.bright-aops.txt \
+  -output runs/run.lucene-inverted.bright-aops.model-bm25qs.topics-bright-aops.txt \
   -bm25.querySide -removeQuery -hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.10 bright-aops runs/run.bright-aops.bm25qs.topics.bright-aops.txt
-bin/trec_eval -c -m recall.100 bright-aops runs/run.bright-aops.bm25qs.topics.bright-aops.txt
-bin/trec_eval -c -m recall.1000 bright-aops runs/run.bright-aops.bm25qs.topics.bright-aops.txt
+bin/trec_eval -c -m ndcg_cut.10 bright-aops runs/run.lucene-inverted.bright-aops.model-bm25qs.topics-bright-aops.txt
+bin/trec_eval -c -m recall.100 bright-aops runs/run.lucene-inverted.bright-aops.model-bm25qs.topics-bright-aops.txt
+bin/trec_eval -c -m recall.1000 bright-aops runs/run.lucene-inverted.bright-aops.model-bm25qs.topics-bright-aops.txt
 ```
 
 ## Effectiveness

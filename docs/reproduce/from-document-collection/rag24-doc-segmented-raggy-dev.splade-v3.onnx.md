@@ -80,17 +80,17 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3/ \
   -topics rag24.raggy-dev \
   -topicReader TsvString \
-  -output runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-onnx.topics.rag24.raggy-dev.txt \
+  -output runs/run.lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3.model-splade-v3-onnx.topics-rag24.raggy-dev.txt \
   -impact -pretokenized -removeQuery -hits 10000 -selectMaxPassage -selectMaxPassage.delimiter "#" -selectMaxPassage.hits 1000 -encoder SpladeV3 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -M 100 -m map rag24.raggy-dev runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-onnx.topics.rag24.raggy-dev.txt
-bin/trec_eval -c -m recall.100 rag24.raggy-dev runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-onnx.topics.rag24.raggy-dev.txt
-bin/trec_eval -c -m recall.1000 rag24.raggy-dev runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-onnx.topics.rag24.raggy-dev.txt
-bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 rag24.raggy-dev runs/run.msmarco-v2.1-doc-segmented-splade-v3.splade-v3-onnx.topics.rag24.raggy-dev.txt
+bin/trec_eval -c -M 100 -m map rag24.raggy-dev runs/run.lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3.model-splade-v3-onnx.topics-rag24.raggy-dev.txt
+bin/trec_eval -c -m recall.100 rag24.raggy-dev runs/run.lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3.model-splade-v3-onnx.topics-rag24.raggy-dev.txt
+bin/trec_eval -c -m recall.1000 rag24.raggy-dev runs/run.lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3.model-splade-v3-onnx.topics-rag24.raggy-dev.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 rag24.raggy-dev runs/run.lucene-inverted.msmarco-v2.1-doc-segmented.splade-v3.model-splade-v3-onnx.topics-rag24.raggy-dev.txt
 ```
 
 ## Effectiveness

@@ -50,16 +50,16 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.bright-sustainable-living/ \
   -topics bright-sustainable-living \
   -topicReader TsvString \
-  -output runs/run.bright-sustainable-living.bm25.topics.bright-sustainable-living.txt \
+  -output runs/run.lucene-inverted.bright-sustainable-living.model-bm25.topics-bright-sustainable-living.txt \
   -bm25 -removeQuery -hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.10 bright-sustainable-living runs/run.bright-sustainable-living.bm25.topics.bright-sustainable-living.txt
-bin/trec_eval -c -m recall.100 bright-sustainable-living runs/run.bright-sustainable-living.bm25.topics.bright-sustainable-living.txt
-bin/trec_eval -c -m recall.1000 bright-sustainable-living runs/run.bright-sustainable-living.bm25.topics.bright-sustainable-living.txt
+bin/trec_eval -c -m ndcg_cut.10 bright-sustainable-living runs/run.lucene-inverted.bright-sustainable-living.model-bm25.topics-bright-sustainable-living.txt
+bin/trec_eval -c -m recall.100 bright-sustainable-living runs/run.lucene-inverted.bright-sustainable-living.model-bm25.topics-bright-sustainable-living.txt
+bin/trec_eval -c -m recall.1000 bright-sustainable-living runs/run.lucene-inverted.bright-sustainable-living.model-bm25.topics-bright-sustainable-living.txt
 ```
 
 ## Effectiveness

@@ -22,7 +22,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection JsonCollection \
   -input /path/to/clef06-fr \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.clef06-fr/ \
+  -index indexes/lucene-inverted.clef06-fr/ \
   -storePositions -storeDocvectors -storeRaw -language fr \
   >& logs/log.clef06-fr &
 ```
@@ -37,34 +37,34 @@ For additional details, see explanation of [common indexing options](../../commo
 
 Topics and qrels are stored in a [centralized repo containing evaluation data](https://github.com/castorini/eval).
 
-+ [`topics.clef06fr.mono.fr.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.clef06fr.mono.fr.txt): CLEF 2006 ad hoc track topics in French
-+ [`qrels.clef06fr.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/qrels.clef06fr.txt): CLEF 2006 ad hoc track French relevance judgements
++ [`topics.clef06fr.mono.fr.txt`](https://github.com/castorini/eval/tree/master/topics/topics.clef06fr.mono.fr.txt): CLEF 2006 ad hoc track topics in French
++ [`qrels.clef06fr.txt`](https://github.com/castorini/eval/tree/master/qrels/qrels.clef06fr.txt): CLEF 2006 ad hoc track French relevance judgements
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.clef06-fr/ \
+  -index indexes/lucene-inverted.clef06-fr/ \
   -topics clef06fr.mono.fr \
   -topicReader TsvString \
-  -output runs/run.clef06-fr.bm25.topics.clef06fr.mono.fr.txt \
+  -output runs/run.lucene-inverted.clef06-fr.model-bm25.topics-clef06fr.mono.fr.txt \
   -bm25 -language fr &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -m map -m P.20 -m ndcg_cut.20 clef06fr runs/run.clef06-fr.bm25.topics.clef06fr.mono.fr.txt
+bin/trec_eval -m map -m P.20 -m ndcg_cut.20 clef06fr runs/run.lucene-inverted.clef06-fr.model-bm25.topics-clef06fr.mono.fr.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MAP**                                                                                                                                | **BM25**   |
-|:---------------------------------------------------------------------------------------------------------------------------------------|:----------:|
-| [CLEF 2006 (Monolingual French)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.clef06fr.mono.fr.txt) | 0.3115     |
-| **P20**                                                                                                                                | **BM25**   |
-| [CLEF 2006 (Monolingual French)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.clef06fr.mono.fr.txt) | 0.3184     |
-| **nDCG@20**                                                                                                                            | **BM25**   |
-| [CLEF 2006 (Monolingual French)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.clef06fr.mono.fr.txt) | 0.4457     |
+| **MAP**                                                                                                            | **BM25**   |
+|:-------------------------------------------------------------------------------------------------------------------|:----------:|
+| [CLEF 2006 (Monolingual French)](https://github.com/castorini/eval/tree/master/topics/topics.clef06fr.mono.fr.txt) | 0.3115     |
+| **P20**                                                                                                            | **BM25**   |
+| [CLEF 2006 (Monolingual French)](https://github.com/castorini/eval/tree/master/topics/topics.clef06fr.mono.fr.txt) | 0.3184     |
+| **nDCG@20**                                                                                                        | **BM25**   |
+| [CLEF 2006 (Monolingual French)](https://github.com/castorini/eval/tree/master/topics/topics.clef06fr.mono.fr.txt) | 0.4457     |

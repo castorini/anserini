@@ -2,7 +2,7 @@
 corpus: mrtydi-v1.1-ru
 corpus_path: collections/mr-tydi-corpus/mrtydi-v1.1-russian/
 
-index_path: indexes/lucene-index.mrtydi-v1.1-russian/
+index_path: indexes/lucene-inverted.mrtydi-v1.1-russian/
 collection_class: MrTyDiCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 1
@@ -31,13 +31,13 @@ metrics:
 topic_reader: TsvInt
 topics:
   - name: "[Mr. TyDi (Russian): train](https://github.com/castorini/mr.tydi)"
-    id: mrtydi-v1.1-ru.train.txt.gz
+    id: mrtydi-v1.1-ru.train
     qrels: mrtydi-v1.1-ru.train
   - name: "[Mr. TyDi (Russian): dev](https://github.com/castorini/mr.tydi)"
-    id: mrtydi-v1.1-ru.dev.txt.gz
+    id: mrtydi-v1.1-ru.dev
     qrels: mrtydi-v1.1-ru.dev
   - name: "[Mr. TyDi (Russian): test](https://github.com/castorini/mr.tydi)"
-    id: mrtydi-v1.1-ru.test.txt.gz
+    id: mrtydi-v1.1-ru.test
     qrels: mrtydi-v1.1-ru.test
 
 models:

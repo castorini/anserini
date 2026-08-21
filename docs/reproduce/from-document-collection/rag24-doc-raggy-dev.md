@@ -47,41 +47,41 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2.1-doc/ \
   -topics rag24.raggy-dev \
   -topicReader TsvInt \
-  -output runs/run.msmarco-v2.1-doc.bm25-default.topics.rag24.raggy-dev.txt \
+  -output runs/run.lucene-inverted.msmarco-v2.1-doc.model-bm25-default.topics-rag24.raggy-dev.txt \
   -hits 1000 -bm25 &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2.1-doc/ \
   -topics rag24.raggy-dev \
   -topicReader TsvInt \
-  -output runs/run.msmarco-v2.1-doc.bm25-default+rm3.topics.rag24.raggy-dev.txt \
+  -output runs/run.lucene-inverted.msmarco-v2.1-doc.model-bm25-default+rm3.topics-rag24.raggy-dev.txt \
   -hits 1000 -bm25 -rm3 -collection MsMarcoV2DocCollection &
 
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v2.1-doc/ \
   -topics rag24.raggy-dev \
   -topicReader TsvInt \
-  -output runs/run.msmarco-v2.1-doc.bm25-default+rocchio.topics.rag24.raggy-dev.txt \
+  -output runs/run.lucene-inverted.msmarco-v2.1-doc.model-bm25-default+rocchio.topics-rag24.raggy-dev.txt \
   -hits 1000 -bm25 -rocchio -collection MsMarcoV2DocCollection &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -M 100 -m map rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-default.topics.rag24.raggy-dev.txt
-bin/trec_eval -c -m recall.100 rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-default.topics.rag24.raggy-dev.txt
-bin/trec_eval -c -m recall.1000 rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-default.topics.rag24.raggy-dev.txt
-bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-default.topics.rag24.raggy-dev.txt
+bin/trec_eval -c -M 100 -m map rag24.raggy-dev runs/run.lucene-inverted.msmarco-v2.1-doc.model-bm25-default.topics-rag24.raggy-dev.txt
+bin/trec_eval -c -m recall.100 rag24.raggy-dev runs/run.lucene-inverted.msmarco-v2.1-doc.model-bm25-default.topics-rag24.raggy-dev.txt
+bin/trec_eval -c -m recall.1000 rag24.raggy-dev runs/run.lucene-inverted.msmarco-v2.1-doc.model-bm25-default.topics-rag24.raggy-dev.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 rag24.raggy-dev runs/run.lucene-inverted.msmarco-v2.1-doc.model-bm25-default.topics-rag24.raggy-dev.txt
 
-bin/trec_eval -c -M 100 -m map rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-default+rm3.topics.rag24.raggy-dev.txt
-bin/trec_eval -c -m recall.100 rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-default+rm3.topics.rag24.raggy-dev.txt
-bin/trec_eval -c -m recall.1000 rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-default+rm3.topics.rag24.raggy-dev.txt
-bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-default+rm3.topics.rag24.raggy-dev.txt
+bin/trec_eval -c -M 100 -m map rag24.raggy-dev runs/run.lucene-inverted.msmarco-v2.1-doc.model-bm25-default+rm3.topics-rag24.raggy-dev.txt
+bin/trec_eval -c -m recall.100 rag24.raggy-dev runs/run.lucene-inverted.msmarco-v2.1-doc.model-bm25-default+rm3.topics-rag24.raggy-dev.txt
+bin/trec_eval -c -m recall.1000 rag24.raggy-dev runs/run.lucene-inverted.msmarco-v2.1-doc.model-bm25-default+rm3.topics-rag24.raggy-dev.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 rag24.raggy-dev runs/run.lucene-inverted.msmarco-v2.1-doc.model-bm25-default+rm3.topics-rag24.raggy-dev.txt
 
-bin/trec_eval -c -M 100 -m map rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-default+rocchio.topics.rag24.raggy-dev.txt
-bin/trec_eval -c -m recall.100 rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-default+rocchio.topics.rag24.raggy-dev.txt
-bin/trec_eval -c -m recall.1000 rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-default+rocchio.topics.rag24.raggy-dev.txt
-bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-default+rocchio.topics.rag24.raggy-dev.txt
+bin/trec_eval -c -M 100 -m map rag24.raggy-dev runs/run.lucene-inverted.msmarco-v2.1-doc.model-bm25-default+rocchio.topics-rag24.raggy-dev.txt
+bin/trec_eval -c -m recall.100 rag24.raggy-dev runs/run.lucene-inverted.msmarco-v2.1-doc.model-bm25-default+rocchio.topics-rag24.raggy-dev.txt
+bin/trec_eval -c -m recall.1000 rag24.raggy-dev runs/run.lucene-inverted.msmarco-v2.1-doc.model-bm25-default+rocchio.topics-rag24.raggy-dev.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m ndcg_cut.10 rag24.raggy-dev runs/run.lucene-inverted.msmarco-v2.1-doc.model-bm25-default+rocchio.topics-rag24.raggy-dev.txt
 ```
 
 ## Effectiveness

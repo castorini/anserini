@@ -56,16 +56,16 @@ bin/run.sh io.anserini.search.SearchFlatDenseVectors \
   -index indexes/lucene-flat.bright-biology.bge-large-en-v1.5/ \
   -topics bright-biology \
   -topicReader TsvString \
-  -output runs/run.bright-biology.bge-large-en-v1.5.bge-flat-onnx.topics.bright-biology.txt \
+  -output runs/run.lucene-flat.bright-biology.bge-large-en-v1.5.model-bge-flat-onnx.topics-bright-biology.txt \
   -encoder BgeLargeEn15 -hits 1000 -removeQuery -threads 16 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.10 bright-biology runs/run.bright-biology.bge-large-en-v1.5.bge-flat-onnx.topics.bright-biology.txt
-bin/trec_eval -c -m recall.100 bright-biology runs/run.bright-biology.bge-large-en-v1.5.bge-flat-onnx.topics.bright-biology.txt
-bin/trec_eval -c -m recall.1000 bright-biology runs/run.bright-biology.bge-large-en-v1.5.bge-flat-onnx.topics.bright-biology.txt
+bin/trec_eval -c -m ndcg_cut.10 bright-biology runs/run.lucene-flat.bright-biology.bge-large-en-v1.5.model-bge-flat-onnx.topics-bright-biology.txt
+bin/trec_eval -c -m recall.100 bright-biology runs/run.lucene-flat.bright-biology.bge-large-en-v1.5.model-bge-flat-onnx.topics-bright-biology.txt
+bin/trec_eval -c -m recall.1000 bright-biology runs/run.lucene-flat.bright-biology.bge-large-en-v1.5.model-bge-flat-onnx.topics-bright-biology.txt
 ```
 
 ## Effectiveness

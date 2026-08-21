@@ -199,7 +199,6 @@ public class DataModel {
     private String name;
     private String id;
     private String path;
-    private String qrel;
     private String qrels;
     private String topic_reader;
     private String convert_params;
@@ -210,8 +209,6 @@ public class DataModel {
     public void setId(String id) { this.id = id; }
     public String getPath() { return path; }
     public void setPath(String path) { this.path = path; }
-    public String getQrel() { return qrel; }
-    public void setQrel(String qrel) { this.qrel = qrel; }
     public String getQrels() { return qrels; }
     public void setQrels(String qrels) { this.qrels = qrels; }
     public String getTopic_reader() { return topic_reader; }
@@ -308,8 +305,9 @@ public class DataModel {
   }
 
   private String generateRunFile(Model model, Topic topic) {
-    String topicPath = topic.getPath() == null ? "topics." + topic.getId() : topic.getPath();
-    return ReproductionUtils.constructRunfilePath(getCorpus(), model.getName(), topicPath);
+    String topics = topic.getPath() == null ? "topics-" + topic.getId() : topic.getPath();
+    String indexName = Paths.get(getIndex_path()).normalize().getFileName().toString();
+    return ReproductionUtils.constructRunfilePath(indexName, "model-" + model.getName(), topics);
   }
 
   public String generateRankingCommand(String collection) {
@@ -326,8 +324,7 @@ public class DataModel {
         }
         builder.append(searchCommand).append(" \\\n");
         builder.append("  -index").append(" ").append(getIndex_path()).append(" \\\n");
-        String topics = topic.getPath() == null ? topic.getId() : Paths.get("tools/topics-and-qrels", topic.getPath()).toString();
-        builder.append("  -topics").append(" ").append(topics).append(" \\\n");
+        builder.append("  -topics").append(" ").append(topic.getId()).append(" \\\n");
         builder.append("  -topicReader").append(" ").append((topic.getTopic_reader() == null) ? getTopic_reader() : topic.getTopic_reader()).append(" \\\n");
         builder.append("  -output").append(" ").append(generateRunFile(model, topic)).append(" \\\n");
         if (model.getParams() != null) {
@@ -384,8 +381,6 @@ public class DataModel {
           String evalCmdResidual = "";
           if (topic.getQrels() != null) {
             evalCmdResidual += " " + topic.getQrels();
-          } else if(topic.getQrel() != null){
-            evalCmdResidual += " " + Paths.get("tools/topics-and-qrels", topic.getQrel());
           }
           evalCmdResidual += " " + generateRunFile(model, topic);
           List<Conversion> conversions = getConversions();

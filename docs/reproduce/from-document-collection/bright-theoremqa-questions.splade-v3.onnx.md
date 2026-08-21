@@ -59,16 +59,16 @@ bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.bright-theoremqa-questions.splade-v3/ \
   -topics bright-theoremqa-questions \
   -topicReader TsvString \
-  -output runs/run.bright-theoremqa-questions.splade-v3-onnx.topics.bright-theoremqa-questions.txt \
+  -output runs/run.lucene-inverted.bright-theoremqa-questions.splade-v3.model-splade-v3-onnx.topics-bright-theoremqa-questions.txt \
   -impact -pretokenized -removeQuery -hits 1000 -encoder SpladeV3 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.10 bright-theoremqa-questions runs/run.bright-theoremqa-questions.splade-v3-onnx.topics.bright-theoremqa-questions.txt
-bin/trec_eval -c -m recall.100 bright-theoremqa-questions runs/run.bright-theoremqa-questions.splade-v3-onnx.topics.bright-theoremqa-questions.txt
-bin/trec_eval -c -m recall.1000 bright-theoremqa-questions runs/run.bright-theoremqa-questions.splade-v3-onnx.topics.bright-theoremqa-questions.txt
+bin/trec_eval -c -m ndcg_cut.10 bright-theoremqa-questions runs/run.lucene-inverted.bright-theoremqa-questions.splade-v3.model-splade-v3-onnx.topics-bright-theoremqa-questions.txt
+bin/trec_eval -c -m recall.100 bright-theoremqa-questions runs/run.lucene-inverted.bright-theoremqa-questions.splade-v3.model-splade-v3-onnx.topics-bright-theoremqa-questions.txt
+bin/trec_eval -c -m recall.1000 bright-theoremqa-questions runs/run.lucene-inverted.bright-theoremqa-questions.splade-v3.model-splade-v3-onnx.topics-bright-theoremqa-questions.txt
 ```
 
 ## Effectiveness
