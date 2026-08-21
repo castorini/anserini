@@ -39,3 +39,5 @@ fine_tuning_results/
 
 # directory where we keep throw-away Java classes that we don't want checked into the repo.
 src/main/java/io/anserini/scratch/
+index/
+encode/*/embeddings.jsonl
