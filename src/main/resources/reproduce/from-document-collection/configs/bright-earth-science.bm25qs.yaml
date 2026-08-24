@@ -38,9 +38,8 @@ metrics:
 topic_reader: TsvString
 topics:
   - name: "BRIGHT: Earth Science"
-    id: topics
-    path: topics.bright-earth-science.tsv.gz
-    qrel: qrels.bright-earth-science.txt
+    id: bright-earth-science
+    qrels: bright-earth-science
 
 models:
   - name: bm25qs

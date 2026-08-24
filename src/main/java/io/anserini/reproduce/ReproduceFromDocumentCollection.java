@@ -32,6 +32,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -63,6 +64,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
+import io.anserini.eval.Qrels;
 import io.anserini.eval.TrecEval;
 import io.anserini.index.IndexCollection;
 import io.anserini.index.IndexFlatDenseVectors;
@@ -102,6 +104,8 @@ public class ReproduceFromDocumentCollection {
   private static final String SEARCH_FLAT_DENSE_COMMAND = "bin/run.sh io.anserini.search.SearchFlatDenseVectors";
   private static final String SEARCH_HNSW_DENSE_COMMAND = "bin/run.sh io.anserini.search.SearchHnswDenseVectors";
   private static final String SEARCH_INVERTED_DENSE_COMMAND = "bin/run.sh io.anserini.search.SearchInvertedDenseVectors";
+  private static final String GDEVAL_COMMAND = "bin/gdeval.pl";
+  private static final String GDEVAL_URL = "https://raw.githubusercontent.com/castorini/eval/d9a27f26089a6019cef1788bdc16f77d8ec0a474/eval/gdeval.pl";
 
   private static final Map<String, MainInvoker> MAIN_DISPATCH = Map.of(
       "io.anserini.index.IndexCollection", IndexCollection::main,
@@ -363,6 +367,12 @@ public class ReproduceFromDocumentCollection {
     return indexPath;
   }
 
+  private static String constructRunfilePath(JsonNode yaml, JsonNode model, JsonNode topic) {
+    Path indexPath = Paths.get(Objects.requireNonNull(yaml.get("index_path")).asText()).normalize();
+    return ReproductionUtils.constructRunfilePath(indexPath.getFileName().toString(),
+        "model-" + model.get("name").asText(), "topics-" + topic.get("id").asText());
+  }
+
   private static String resolveCorpusPath(JsonNode yaml, Args args) {
     String corpusPath = null;
     if (args.corpusPath != null && !args.corpusPath.isEmpty()) {
@@ -433,23 +443,6 @@ public class ReproduceFromDocumentCollection {
     return cmd.toString();
   }
 
-  private static String constructRunfilePath(String index, String id, String modelName) {
-    String[] parts = index.split("/");
-    String indexPart = index;
-
-    if (parts.length > 1) {
-      String candidate = parts[1];
-      String[] split = candidate.split("-", 2);
-      if (split.length == 2) {
-        indexPart = split[1];
-      } else {
-        indexPart = candidate;
-      }
-    }
-
-    return Paths.get("runs", String.format(Locale.ROOT, "run.%s.%s.%s.txt", indexPart, id, modelName)).toString();
-  }
-
   private static List<String> constructSearchCommands(JsonNode yaml) {
     List<String> cmds = new ArrayList<>();
     JsonNode models = Objects.requireNonNull(yaml.get("models"));
@@ -471,22 +464,12 @@ public class ReproduceFromDocumentCollection {
       for (JsonNode topic : topics) {
         // The topic_reader is either a parent (in which case it applies to all topics) or a per-topic override.
         String topicReader = yaml.get("topic_reader") != null ? yaml.get("topic_reader").asText() : topic.get("topic_reader").asText();
-        String output = constructRunfilePath(Objects.requireNonNull(yaml.get("index_path")).asText(),
-            Objects.requireNonNull(topic.get("id")).asText(),
-            Objects.requireNonNull(model.get("name")).asText());
-
-        // Special case: we run the cacm regression in the test suite, and on GitHub CI tools/topics-and-qrels is not checked out.
-        String topicPath;
-        if ("topics.cacm.txt".equals(topic.get("path").asText())) {
-          topicPath = "cacm";
-        } else {
-          topicPath = Paths.get("tools/topics-and-qrels", topic.get("path").asText()).toString();
-        }
+        String output = constructRunfilePath(yaml, model, topic);
 
         StringBuilder cmd = new StringBuilder();
         cmd.append(rootCmd)
             .append(" -index ").append(constructIndexPath(yaml))
-            .append(" -topics ").append(topicPath)
+            .append(" -topics ").append(topic.get("id").asText())
             .append(" -topicReader ").append(topicReader)
             .append(" -output ").append(output);
         String params = textOrNull(model.get("params"));
@@ -511,10 +494,8 @@ public class ReproduceFromDocumentCollection {
     for (JsonNode model : models) {
       for (JsonNode topic : topics) {
         for (JsonNode conversion : conversions) {
-          String inFile = constructRunfilePath(yaml.get("index_path").asText(),
-              topic.get("id").asText(), model.get("name").asText()) + conversion.get("in_file_ext").asText();
-          String outFile = constructRunfilePath(yaml.get("index_path").asText(),
-              topic.get("id").asText(), model.get("name").asText()) + conversion.get("out_file_ext").asText();
+          String inFile = constructRunfilePath(yaml, model, topic) + conversion.get("in_file_ext").asText();
+          String outFile = constructRunfilePath(yaml, model, topic) + conversion.get("out_file_ext").asText();
           StringBuilder cmd = new StringBuilder();
           cmd.append(conversion.get("command").asText())
               .append(" --index ").append(constructIndexPath(yaml))
@@ -555,11 +536,9 @@ public class ReproduceFromDocumentCollection {
           String separator = metric.get("separator").asText();
           int parseIndex = metric.get("parse_index").asInt();
           int precision = metric.get("metric_precision").asInt();
-          String qrel = textOrNull(topic.get("qrel"));
-          String qrelPath = qrel == null ? "" : Paths.get("tools/topics-and-qrels", qrel).toString();
+          String qrels = textOrNull(topic.get("qrels"));
 
-          String outputPath = constructRunfilePath(yaml.get("index_path").asText(),
-              topic.get("id").asText(), model.get("name").asText());
+          String outputPath = constructRunfilePath(yaml, model, topic);
           JsonNode conversions = yaml.get("conversions");
           if (conversions != null && conversions.isArray() && conversions.size() > 0) {
             JsonNode last = conversions.get(conversions.size() - 1);
@@ -569,18 +548,10 @@ public class ReproduceFromDocumentCollection {
             }
           }
 
-          StringBuilder evalCmd = new StringBuilder();
-          evalCmd.append(command);
-          if (params != null && !params.isBlank()) {
-            evalCmd.append(" ").append(params.trim());
-          }
-          if (!qrelPath.isEmpty()) {
-            evalCmd.append(" ").append(qrelPath);
-          }
-          evalCmd.append(" ").append(outputPath);
+          String evalCmd = constructEvaluationCommand(command, params, qrels, outputPath);
 
           if (args.dryRun) {
-            LOG.info(evalCmd.toString());
+            LOG.info(evalCmd);
             continue;
           }
 
@@ -658,11 +629,28 @@ public class ReproduceFromDocumentCollection {
     }
   }
 
+  static String constructEvaluationCommand(String command, String params, String qrels, String outputPath) {
+    StringBuilder evalCmd = new StringBuilder(command);
+    if (params != null && !params.isBlank()) {
+      evalCmd.append(" ").append(params.trim());
+    }
+    if (qrels != null && !qrels.isBlank()) {
+      evalCmd.append(" ").append(qrels);
+    }
+    evalCmd.append(" ").append(outputPath);
+    return evalCmd.toString();
+  }
+
   private static String runCommandAndReturnOutput(String command) throws IOException, InterruptedException {
     if (command.contains("trec_eval") && !command.contains("pyserini")) {
       return runTrecEvalCommandAndReturnOutput(command);
     } else if (command.contains("io.anserini.index.IndexReaderUtils")) {
       return runIndexReaderUtilsCommandAndReturnOutput(command);
+    }
+
+    if (command.startsWith(GDEVAL_COMMAND + " ")) {
+      ensureGdevalAvailable(Paths.get(GDEVAL_COMMAND), URI.create(GDEVAL_URL));
+      command = resolveGdevalQrelsArgument(command);
     }
 
     ProcessBuilder pb = new ProcessBuilder("bash", "-lc", command);
@@ -677,6 +665,48 @@ public class ReproduceFromDocumentCollection {
       throw new RuntimeException("Command failed: " + command);
     }
     return buffer.toString(StandardCharsets.UTF_8);
+  }
+
+  static String resolveGdevalQrelsArgument(String command) throws IOException {
+    String[] args = command.trim().split("\\s+");
+    if (args.length < 3) {
+      throw new IllegalArgumentException("Invalid gdeval command: " + command);
+    }
+    args[args.length - 2] = Qrels.resolveQrelsPath(args[args.length - 2]).toString();
+    return String.join(" ", args);
+  }
+
+  static synchronized void ensureGdevalAvailable(Path destination, URI source) throws IOException {
+    if (Files.exists(destination)) {
+      return;
+    }
+
+    Files.createDirectories(destination.getParent());
+    Path temporary = Files.createTempFile(destination.getParent(), "gdeval-", ".tmp");
+    try {
+      LOG.info("Downloading {} to {}...", source, destination);
+      HttpClient client = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.NORMAL).build();
+      HttpRequest request = HttpRequest.newBuilder(source).GET().build();
+      HttpResponse<Path> response;
+      try {
+        response = client.send(request, HttpResponse.BodyHandlers.ofFile(temporary));
+      } catch (InterruptedException e) {
+        Thread.currentThread().interrupt();
+        throw new IOException("Interrupted while downloading " + source, e);
+      }
+
+      int status = response.statusCode();
+      if (status < 200 || status >= 300) {
+        throw new IOException("Failed to download " + source + " (HTTP " + status + ")");
+      }
+
+      Files.move(temporary, destination, StandardCopyOption.ATOMIC_MOVE);
+      if (!destination.toFile().setExecutable(true, false)) {
+        throw new IOException("Failed to make " + destination + " executable");
+      }
+    } finally {
+      Files.deleteIfExists(temporary);
+    }
   }
 
   private static String runIndexReaderUtilsCommandAndReturnOutput(String command) throws IOException {

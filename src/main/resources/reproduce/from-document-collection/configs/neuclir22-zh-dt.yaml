@@ -2,7 +2,7 @@
 corpus: neuclir22-zh-en
 corpus_path: collections/multilingual/neuclir22-zh-en/
 
-index_path: indexes/lucene-index.neuclir22-zh-en
+index_path: indexes/lucene-inverted.neuclir22-zh-en
 collection_class: NeuClirCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 8
@@ -44,17 +44,14 @@ metrics:
 topic_reader: TsvInt
 topics:
   - name: "[NeuCLIR 2022 (Chinese): title (original English queries)](https://neuclir.github.io/)"
-    id: title
-    path: topics.neuclir22-en.original-title.txt
-    qrel: qrels.neuclir22-zh.txt
+    id: neuclir22-en.original-title
+    qrels: neuclir22-zh
   - name: "[NeuCLIR 2022 (Chinese): desc (original English queries)](https://neuclir.github.io/)"
-    id: desc
-    path: topics.neuclir22-en.original-desc.txt
-    qrel: qrels.neuclir22-zh.txt
+    id: neuclir22-en.original-desc
+    qrels: neuclir22-zh
   - name: "[NeuCLIR 2022 (Chinese): desc+title (original English queries)](https://neuclir.github.io/)"
-    id: desc_title
-    path: topics.neuclir22-en.original-desc_title.txt
-    qrel: qrels.neuclir22-zh.txt
+    id: neuclir22-en.original-desc_title
+    qrels: neuclir22-zh
 
 models:
   - name: bm25-default

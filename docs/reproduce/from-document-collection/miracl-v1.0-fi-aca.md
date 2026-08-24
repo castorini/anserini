@@ -23,7 +23,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection MrTyDiCollection \
   -input /path/to/miracl-v1.0-fi \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.miracl-v1.0-fi-aca/ \
+  -index indexes/lucene-inverted.miracl-v1.0-fi-aca/ \
   -storePositions -storeDocvectors -storeRaw -language fi -useAutoCompositeAnalyzer \
   >& logs/log.miracl-v1.0-fi &
 ```
@@ -37,18 +37,18 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.miracl-v1.0-fi-aca/ \
-  -topics tools/topics-and-qrels/topics.miracl-v1.0-fi-dev.tsv \
+  -index indexes/lucene-inverted.miracl-v1.0-fi-aca/ \
+  -topics miracl-v1.0-fi-dev \
   -topicReader TsvInt \
-  -output runs/run.miracl-v1.0-fi.bm25.topics.miracl-v1.0-fi-dev.txt \
+  -output runs/run.lucene-inverted.miracl-v1.0-fi-aca.model-bm25.topics-miracl-v1.0-fi-dev.txt \
   -bm25 -hits 100 -language fi -useAutoCompositeAnalyzer &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -m ndcg_cut.10 tools/topics-and-qrels/qrels.miracl-v1.0-fi-dev.tsv runs/run.miracl-v1.0-fi.bm25.topics.miracl-v1.0-fi-dev.txt
-bin/trec_eval -c -m recall.100 tools/topics-and-qrels/qrels.miracl-v1.0-fi-dev.tsv runs/run.miracl-v1.0-fi.bm25.topics.miracl-v1.0-fi-dev.txt
+bin/trec_eval -c -m ndcg_cut.10 miracl-v1.0-fi-dev runs/run.lucene-inverted.miracl-v1.0-fi-aca.model-bm25.topics-miracl-v1.0-fi-dev.txt
+bin/trec_eval -c -m recall.100 miracl-v1.0-fi-dev runs/run.lucene-inverted.miracl-v1.0-fi-aca.model-bm25.topics-miracl-v1.0-fi-dev.txt
 ```
 
 ## Effectiveness

@@ -43,15 +43,12 @@ public class TopicReaderTest {
       String path = topic.path;
       assertEquals(topic.readerClass, Topics.getTopicReaderClassForPath(path));
     }
-    assertEquals(388, cnt);
+    assertEquals(478, cnt);
   }
 
   @Test
   public void testTopicReaderClassLookup() {
-    assertEquals(TrecTopicReader.class, Topics.getTopicReaderClassForPath("tools/topics-and-qrels/topics.robust04.txt"));
     assertEquals(TrecTopicReader.class, Topics.getTopicReaderClassForPath("topics.robust04.txt"));
-
-    assertEquals(CovidTopicReader.class, Topics.getTopicReaderClassForPath("tools/topics-and-qrels/topics.covid-round1.xml"));
     assertEquals(CovidTopicReader.class, Topics.getTopicReaderClassForPath("topics.covid-round1.xml"));
 
     // Unknown TopicReader class.
@@ -94,7 +91,7 @@ public class TopicReaderTest {
 
   @Test
   public void testGetTopicsByFile() {
-    SortedMap<Object, Map<String, String>> topics = TopicReader.getTopicsByFile("tools/topics-and-qrels/topics.robust04.txt");
+    SortedMap<Object, Map<String, String>> topics = TopicReader.getTopicsByFile("topics.robust04.txt");
 
     assertNotNull(topics);
     assertEquals(250, topics.size());
@@ -125,6 +122,33 @@ public class TopicReaderTest {
     assertTrue(topics.get(topics.firstKey()).get("title").contains("What articles exist which deal with TSS"));
     assertEquals(64, (int) topics.lastKey());
     assertTrue(topics.get(topics.lastKey()).get("title").contains("List all articles on EL1 and ECL"));
+  }
+
+  @Test
+  public void testFeverDevTopics() throws IOException {
+    SortedMap<Integer, Map<String, String>> topics = TopicReader.load(Topics.get("fever.dev"));
+    assertNotNull(topics);
+    assertEquals(9999, topics.size());
+    assertEquals("Colin Kaepernick became a starting quarterback during the 49ers 63rd season in the National Football League.", topics.get(91198).get("title"));
+    assertEquals("Shinji Mikami reviewed Resident Evil.", topics.get(75591).get("title"));
+  }
+
+  @Test
+  public void testNanoKnowNqSupportedTopics() throws IOException {
+    SortedMap<Integer, Map<String, String>> topics = TopicReader.load(Topics.get("nanoknow-v1.0-nq.supported"));
+    assertNotNull(topics);
+    assertEquals(2389, topics.size());
+    assertEquals("when was the last time anyone was on the moon", topics.get(0).get("title"));
+    assertEquals("what is the meaning of the name comanche", topics.get(3609).get("title"));
+  }
+
+  @Test
+  public void testNanoKnowSquadSupportedTopics() throws IOException {
+    SortedMap<Integer, Map<String, String>> topics = TopicReader.load(Topics.get("nanoknow-v1.0-squad.supported"));
+    assertNotNull(topics);
+    assertEquals(7490, topics.size());
+    assertEquals("Which NFL team represented the AFC at Super Bowl 50?", topics.get(0).get("title"));
+    assertEquals("What seldom used term of a unit of force equal to 1000 pound s of force?", topics.get(10568).get("title"));
   }
 
   @Test
@@ -571,18 +595,14 @@ public class TopicReaderTest {
     topics = TopicReader.getTopicsWithStringIds(Topics.get("car17v1.5.benchmarkY1test"));
     assertNotNull(topics);
     assertEquals(2125, topics.size());
-    assertEquals("Aftertaste/Aftertaste processing in the cerebral cortex",
-        topics.get("Aftertaste/Aftertaste%20processing%20in%20the%20cerebral%20cortex").get("title"));
-    assertEquals("Yellowstone National Park/Recreation",
-        topics.get("Yellowstone%20National%20Park/Recreation").get("title"));
+    assertEquals("Aftertaste/Aftertaste processing in the cerebral cortex", topics.get("Aftertaste/Aftertaste%20processing%20in%20the%20cerebral%20cortex").get("title"));
+    assertEquals("Yellowstone National Park/Recreation", topics.get("Yellowstone%20National%20Park/Recreation").get("title"));
 
     topics = TopicReader.getTopicsWithStringIds(Topics.get("car17v2.0.benchmarkY1test"));
     assertNotNull(topics);
     assertEquals(2254, topics.size());
-    assertEquals("Aftertaste",
-        topics.get("enwiki:Aftertaste").get("title"));
-    assertEquals("Yellowstone National Park/Recreation",
-        topics.get("enwiki:Yellowstone%20National%20Park/Recreation").get("title"));  }
+    assertEquals("Aftertaste", topics.get("enwiki:Aftertaste").get("title"));
+    assertEquals("Yellowstone National Park/Recreation", topics.get("enwiki:Yellowstone%20National%20Park/Recreation").get("title"));  }
 
   @Test
   public void testDprNq() throws IOException {
@@ -1282,37 +1302,27 @@ public class TopicReaderTest {
     // Round 1
     topics = TopicReader.load(Topics.get("covid-round1-udel"));
     assertEquals(30, topics.keySet().size());
-
-    assertEquals("coronavirus remdesivir remdesivir effective treatment COVID-19",
-        topics.get(30).get("query"));
+    assertEquals("coronavirus remdesivir remdesivir effective treatment COVID-19", topics.get(30).get("query"));
 
     // Round 2
     topics = TopicReader.load(Topics.get("covid-round2-udel"));
     assertEquals(35, topics.keySet().size());
-
-    assertEquals("coronavirus public datasets public datasets COVID-19",
-        topics.get(35).get("query"));
+    assertEquals("coronavirus public datasets public datasets COVID-19", topics.get(35).get("query"));
 
     // Round 3
     topics = TopicReader.load(Topics.get("covid-round3-udel"));
     assertEquals(40, topics.keySet().size());
-
-    assertEquals("coronavirus mutations observed mutations SARS-CoV-2 genome mutations",
-        topics.get(40).get("query"));
+    assertEquals("coronavirus mutations observed mutations SARS-CoV-2 genome mutations", topics.get(40).get("query"));
 
     // Round 4
     topics = TopicReader.load(Topics.get("covid-round4-udel"));
     assertEquals(45, topics.keySet().size());
-
-    assertEquals("coronavirus mental health impact COVID-19 pandemic impacted mental health",
-        topics.get(45).get("query"));
+    assertEquals("coronavirus mental health impact COVID-19 pandemic impacted mental health", topics.get(45).get("query"));
 
     // Round 5
     topics = TopicReader.load(Topics.get("covid-round5-udel"));
     assertEquals(50, topics.keySet().size());
-
-    assertEquals("mRNA vaccine coronavirus mRNA vaccine SARS-CoV-2 virus",
-            topics.get(50).get("query"));
+    assertEquals("mRNA vaccine coronavirus mRNA vaccine SARS-CoV-2 virus", topics.get(50).get("query"));
   }
 
   @Test
@@ -1321,43 +1331,34 @@ public class TopicReaderTest {
 
     // Round 1
     topics = TopicReader.getTopicsWithStringIds(Topics.get("covid-round1"));
-
     assertEquals(30, topics.keySet().size());
 
     assertEquals("coronavirus origin", topics.get("1").get("query"));
     assertEquals("what is the origin of COVID-19", topics.get("1").get("question"));
-    assertEquals("seeking range of information about the SARS-CoV-2 virus's origin, " +
-            "including its evolution, animal source, and first transmission into humans",
-        topics.get("1").get("narrative"));
+    assertEquals("seeking range of information about the SARS-CoV-2 virus's origin, including its evolution, animal source, and first transmission into humans", topics.get("1").get("narrative"));
 
     assertEquals("coronavirus remdesivir", topics.get("30").get("query"));
     assertEquals("is remdesivir an effective treatment for COVID-19", topics.get("30").get("question"));
-    assertEquals(
-        "seeking specific information on clinical outcomes in COVID-19 patients treated with remdesivir",
-        topics.get("30").get("narrative"));
+    assertEquals("seeking specific information on clinical outcomes in COVID-19 patients treated with remdesivir", topics.get("30").get("narrative"));
 
     // Round 2
     topics = TopicReader.getTopicsWithStringIds(Topics.get("covid-round2"));
     assertEquals(35, topics.keySet().size());
-
     assertEquals("coronavirus public datasets", topics.get("35").get("query"));
 
     // Round 3
     topics = TopicReader.getTopicsWithStringIds(Topics.get("covid-round3"));
     assertEquals(40, topics.keySet().size());
-
     assertEquals("coronavirus mutations", topics.get("40").get("query"));
 
     // Round 4
     topics = TopicReader.getTopicsWithStringIds(Topics.get("covid-round4"));
     assertEquals(45, topics.keySet().size());
-
     assertEquals("coronavirus mental health impact", topics.get("45").get("query"));
 
     // Round 5
     topics = TopicReader.getTopicsWithStringIds(Topics.get("covid-round5"));
     assertEquals(50, topics.keySet().size());
-
     assertEquals("mRNA vaccine coronavirus", topics.get("50").get("query"));
   }
 
@@ -1368,37 +1369,27 @@ public class TopicReaderTest {
     // Round 1
     topics = TopicReader.getTopicsWithStringIds(Topics.get("covid-round1-udel"));
     assertEquals(30, topics.keySet().size());
-
-    assertEquals("coronavirus remdesivir remdesivir effective treatment COVID-19",
-        topics.get("30").get("query"));
+    assertEquals("coronavirus remdesivir remdesivir effective treatment COVID-19", topics.get("30").get("query"));
 
     // Round 2
     topics = TopicReader.getTopicsWithStringIds(Topics.get("covid-round2-udel"));
     assertEquals(35, topics.keySet().size());
-
-    assertEquals("coronavirus public datasets public datasets COVID-19",
-        topics.get("35").get("query"));
+    assertEquals("coronavirus public datasets public datasets COVID-19", topics.get("35").get("query"));
 
     // Round 3
     topics = TopicReader.getTopicsWithStringIds(Topics.get("covid-round3-udel"));
     assertEquals(40, topics.keySet().size());
-
-    assertEquals("coronavirus mutations observed mutations SARS-CoV-2 genome mutations",
-        topics.get("40").get("query"));
+    assertEquals("coronavirus mutations observed mutations SARS-CoV-2 genome mutations", topics.get("40").get("query"));
 
     // Round 4
     topics = TopicReader.getTopicsWithStringIds(Topics.get("covid-round4-udel"));
     assertEquals(45, topics.keySet().size());
-
-    assertEquals("coronavirus mental health impact COVID-19 pandemic impacted mental health",
-        topics.get("45").get("query"));
+    assertEquals("coronavirus mental health impact COVID-19 pandemic impacted mental health", topics.get("45").get("query"));
 
     // Round 5
     topics = TopicReader.getTopicsWithStringIds(Topics.get("covid-round5-udel"));
     assertEquals(50, topics.keySet().size());
-
-    assertEquals("mRNA vaccine coronavirus mRNA vaccine SARS-CoV-2 virus",
-            topics.get("50").get("query"));
+    assertEquals("mRNA vaccine coronavirus mRNA vaccine SARS-CoV-2 virus", topics.get("50").get("query"));
   }
 
   @Test
@@ -1410,45 +1401,33 @@ public class TopicReaderTest {
     assertEquals(50, topics.keySet().size());
     assertEquals(321, (int) topics.firstKey());
     assertEquals("9171debc316e5e2782e0d2404ca7d09d", topics.get(topics.firstKey()).get("title"));
-    assertEquals("https://www.washingtonpost.com/news/worldviews/wp/2016/09/01/" +
-        "women-are-half-of-the-world-but-only-22-percent-of-its-parliaments/",
-        topics.get(topics.firstKey()).get("url"));
+    assertEquals("https://www.washingtonpost.com/news/worldviews/wp/2016/09/01/women-are-half-of-the-world-but-only-22-percent-of-its-parliaments/", topics.get(topics.firstKey()).get("url"));
 
     assertEquals(825, (int) topics.lastKey());
     assertEquals("a1c41a70-35c7-11e3-8a0e-4e2cf80831fc", topics.get(topics.lastKey()).get("title"));
-    assertEquals("https://www.washingtonpost.com/business/economy/" +
-        "cellulosic-ethanol-once-the-way-of-the-future-is-off-to-a-delayed-boisterous-start/" +
-        "2013/11/08/a1c41a70-35c7-11e3-8a0e-4e2cf80831fc_story.html", topics.get(topics.lastKey()).get("url"));
+    assertEquals("https://www.washingtonpost.com/business/economy/cellulosic-ethanol-once-the-way-of-the-future-is-off-to-a-delayed-boisterous-start/2013/11/08/a1c41a70-35c7-11e3-8a0e-4e2cf80831fc_story.html", topics.get(topics.lastKey()).get("url"));
 
     topics = TopicReader.load(Topics.get("backgroundlinking19"));
     
     assertEquals(60, topics.keySet().size());
     assertEquals(826, (int) topics.firstKey());
     assertEquals("96ab542e-6a07-11e6-ba32-5a4bf5aad4fa", topics.get(topics.firstKey()).get("title"));
-    assertEquals("https://www.washingtonpost.com/sports/nationals/" +
-        "the-minor-leagues-life-in-pro-baseballs-shadowy-corner/" +
-        "2016/08/26/96ab542e-6a07-11e6-ba32-5a4bf5aad4fa_story.html", topics.get(topics.firstKey()).get("url"));
+    assertEquals("https://www.washingtonpost.com/sports/nationals/the-minor-leagues-life-in-pro-baseballs-shadowy-corner/2016/08/26/96ab542e-6a07-11e6-ba32-5a4bf5aad4fa_story.html", topics.get(topics.firstKey()).get("url"));
 
     assertEquals(885, (int) topics.lastKey());
     assertEquals("5ae44bfd66a49bcad7b55b29b55d63b6", topics.get(topics.lastKey()).get("title"));
-    assertEquals("https://www.washingtonpost.com/news/capital-weather-gang/wp/2017/07/14/" +
-        "sun-erupts-to-mark-another-bastille-day-aurora-possible-in-new-england-sunday-night/",
-        topics.get(topics.lastKey()).get("url"));
+    assertEquals("https://www.washingtonpost.com/news/capital-weather-gang/wp/2017/07/14/sun-erupts-to-mark-another-bastille-day-aurora-possible-in-new-england-sunday-night/", topics.get(topics.lastKey()).get("url"));
 
     topics = TopicReader.load(Topics.get("backgroundlinking20"));
 
     assertEquals(50, topics.keySet().size());
     assertEquals(886, (int) topics.firstKey());
     assertEquals("AEQZNZSVT5BGPPUTTJO7SNMOLE", topics.get(topics.firstKey()).get("title"));
-    assertEquals("https://www.washingtonpost.com/politics/2019/06/05/" +
-        "trump-says-transgender-troops-cant-serve-because-troops-cant-take-any-drugs-hes-wrong-many-ways/",
-        topics.get(topics.firstKey()).get("url"));
+    assertEquals("https://www.washingtonpost.com/politics/2019/06/05/trump-says-transgender-troops-cant-serve-because-troops-cant-take-any-drugs-hes-wrong-many-ways/", topics.get(topics.firstKey()).get("url"));
 
     assertEquals(935, (int) topics.lastKey());
     assertEquals("CCUJNXOJNFEJFBL57GD27EHMWI", topics.get(topics.lastKey()).get("title"));
-    assertEquals("https://www.washingtonpost.com/news/to-your-health/wp/2018/05/30/" +
-        "this-mock-pandemic-killed-150-million-people-next-time-it-might-not-be-a-drill/",
-        topics.get(topics.lastKey()).get("url"));
+    assertEquals("https://www.washingtonpost.com/news/to-your-health/wp/2018/05/30/this-mock-pandemic-killed-150-million-people-next-time-it-might-not-be-a-drill/", topics.get(topics.lastKey()).get("url"));
   }
 
   @Test
@@ -1459,25 +1438,17 @@ public class TopicReaderTest {
     // No consumer questions from CQ035 to CQ037
     assertEquals(42, consumerTopics.keySet().size());
     assertEquals(1, (int) consumerTopics.firstKey());
-    assertEquals("what is the origin of COVID-19",
-                 consumerTopics.get(consumerTopics.firstKey()).get("question"));
+    assertEquals("what is the origin of COVID-19", consumerTopics.get(consumerTopics.firstKey()).get("question"));
     assertEquals("CQ001", consumerTopics.get(consumerTopics.firstKey()).get("question_id"));
     assertEquals("coronavirus origin", consumerTopics.get(consumerTopics.firstKey()).get("query"));
-    // There's a typo in this but the same typo is present in the topics 
-    // document.
-    assertEquals("seeking information about whether the virus was designed in a lab or occured "+
-                 "naturally in animals and how it got to humans",
-                 consumerTopics.get(consumerTopics.firstKey()).get("background"));
+    // There's a typo in this but the same typo is present in the topics document.
+    assertEquals("seeking information about whether the virus was designed in a lab or occured naturally in animals and how it got to humans", consumerTopics.get(consumerTopics.firstKey()).get("background"));
 
     assertEquals(45, (int) consumerTopics.lastKey());
-    assertEquals("how has the COVID-19 pandemic impacted mental health?",
-                 consumerTopics.get(consumerTopics.lastKey()).get("question"));
+    assertEquals("how has the COVID-19 pandemic impacted mental health?", consumerTopics.get(consumerTopics.lastKey()).get("question"));
     assertEquals("CQ045", consumerTopics.get(consumerTopics.lastKey()).get("question_id"));
-    assertEquals("coronavirus mental health impact",
-                 consumerTopics.get(consumerTopics.lastKey()).get("query"));
-    assertEquals("seeking information about psychological effects of COVID-19 and "+
-                 "COVID-19 effect on mental health and pre-existing conditions",
-                 consumerTopics.get(consumerTopics.lastKey()).get("background"));
+    assertEquals("coronavirus mental health impact", consumerTopics.get(consumerTopics.lastKey()).get("query"));
+    assertEquals("seeking information about psychological effects of COVID-19 and COVID-19 effect on mental health and pre-existing conditions", consumerTopics.get(consumerTopics.lastKey()).get("background"));
 
     SortedMap<Integer, Map<String, String>> expertTopics;
     expertTopics = TopicReader.load(Topics.get("epidemic-qa.expert.prelim"));
@@ -1485,23 +1456,16 @@ public class TopicReaderTest {
     assertEquals(45, expertTopics.keySet().size());
 
     assertEquals(1, (int) expertTopics.firstKey());
-    assertEquals("what is the origin of COVID-19",
-                 expertTopics.get(expertTopics.firstKey()).get("question"));
+    assertEquals("what is the origin of COVID-19", expertTopics.get(expertTopics.firstKey()).get("question"));
     assertEquals("EQ001", expertTopics.get(expertTopics.firstKey()).get("question_id"));
     assertEquals("coronavirus origin", expertTopics.get(expertTopics.firstKey()).get("query"));
-    assertEquals("seeking range of information about the SARS-CoV-2 virus's origin, " + 
-                 "including its evolution, animal source, and first transmission into humans",
-                 expertTopics.get(expertTopics.firstKey()).get("background"));
+    assertEquals("seeking range of information about the SARS-CoV-2 virus's origin, including its evolution, animal source, and first transmission into humans", expertTopics.get(expertTopics.firstKey()).get("background"));
 
     assertEquals(45, (int) expertTopics.lastKey());
-    assertEquals("How has the COVID-19 pandemic impacted mental health?",
-                 expertTopics.get(expertTopics.lastKey()).get("question"));
+    assertEquals("How has the COVID-19 pandemic impacted mental health?", expertTopics.get(expertTopics.lastKey()).get("question"));
     assertEquals("EQ045", expertTopics.get(expertTopics.lastKey()).get("question_id"));
-    assertEquals("coronavirus mental health impact",
-                 expertTopics.get(expertTopics.lastKey()).get("query"));
-    assertEquals("Includes increasing/decreasing rates of depression, anxiety, panic disorder, "+
-                 "and other psychiatric and mental health conditions.",
-                 expertTopics.get(expertTopics.lastKey()).get("background"));
+    assertEquals("coronavirus mental health impact", expertTopics.get(expertTopics.lastKey()).get("query"));
+    assertEquals("Includes increasing/decreasing rates of depression, anxiety, panic disorder, and other psychiatric and mental health conditions.", expertTopics.get(expertTopics.lastKey()).get("background"));
   }
 
   @Test
@@ -1703,16 +1667,13 @@ public class TopicReaderTest {
   public void testGetTopicsWithStringIdsFromFileWithTopicReader() {
     Map<String, Map<String, String>> topics;
 
-    topics = TopicReader.getTopicsWithStringIdsFromFileWithTopicReaderClass(TrecTopicReader.class.getName(),
-        "tools/topics-and-qrels/topics.robust04.txt");
-
+    topics = TopicReader.getTopicsWithStringIdsFromFileWithTopicReaderClass("topics.robust04.txt", TrecTopicReader.class.getName());
     assertNotNull(topics);
     assertEquals(250, topics.size());
     assertEquals("International Organized Crime", topics.get("301").get("title"));
     assertEquals("gasoline tax U.S.", topics.get("700").get("title"));
 
-    topics = TopicReader.getTopicsWithStringIdsFromFileWithTopicReaderClass(TsvIntTopicReader.class.getName(),
-        "tools/topics-and-qrels/topics.msmarco-doc.dev.txt");
+    topics = TopicReader.getTopicsWithStringIdsFromFileWithTopicReaderClass("topics.msmarco-doc.dev.txt", TsvIntTopicReader.class.getName());
     assertNotNull(topics);
     assertEquals(5193, topics.size());
     assertEquals("androgen receptor define", topics.get("2").get("title"));

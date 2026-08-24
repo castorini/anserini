@@ -38,9 +38,8 @@ metrics:
 topic_reader: TsvString
 topics:
   - name: "BEIR (v1.0.0): BioASQ"
-    id: test
-    path: topics.beir-v1.0.0-bioasq.test.wp.tsv.gz
-    qrel: qrels.beir-v1.0.0-bioasq.test.txt
+    id: beir-v1.0.0-bioasq.test.wp
+    qrels: beir-v1.0.0-bioasq.test
 
 models:
   - name: bm25

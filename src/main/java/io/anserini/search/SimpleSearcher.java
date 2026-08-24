@@ -87,8 +87,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * via pyjnius.  Note that methods are named according to Python conventions (e.g., snake case instead of camel case).
  */
 public class SimpleSearcher implements Closeable {
-  private static final Sort BREAK_SCORE_TIES_BY_DOCID =
-      new Sort(SortField.FIELD_SCORE, new SortField(Constants.ID, SortField.Type.STRING_VAL));
+  private static final Sort BREAK_SCORE_TIES_BY_DOCID = new Sort(SortField.FIELD_SCORE, new SortField(Constants.ID, SortField.Type.STRING_VAL));
   private static final Logger LOG = LogManager.getLogger(SimpleSearcher.class);
 
   protected IndexReader reader;
@@ -98,7 +97,6 @@ public class SimpleSearcher implements Closeable {
   protected QueryGenerator generator = new BagOfWordsQueryGenerator();
   protected boolean useRM3;
   protected boolean useRocchio;
-  protected boolean backwardsCompatibilityLucene8;
 
   protected IndexSearcher searcher = null;
 
@@ -131,12 +129,6 @@ public class SimpleSearcher implements Closeable {
     }
 
     this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
-
-    // Fix for index compatibility issue between Lucene 8 and 9: https://github.com/castorini/anserini/issues/1952
-    // If we detect an older index version, we turn off consistent tie-breaking, which avoids accessing docvalues,
-    // which is the source of the incompatibility.
-    this.backwardsCompatibilityLucene8 = !reader.toString().contains("lucene.version=9")
-        && !reader.toString().contains("lucene.version=10");
 
     // Default to using BM25.
     this.similarity = new BM25Similarity(Float.parseFloat(defaults.bm25_k1[0]), Float.parseFloat(defaults.bm25_b[0]));
@@ -633,15 +625,8 @@ public class SimpleSearcher implements Closeable {
     SearchCollection.Args searchArgs = new SearchCollection.Args();
     searchArgs.hits = k;
 
-    TopDocs rs;
-    RerankerContext<String> context;
-    if (this.backwardsCompatibilityLucene8) {
-      rs = searcher.search(query, useRM3 ? searchArgs.rerankcutoff : k);
-    } else {
-      rs = searcher.search(query, useRM3 ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_DOCID, true);
-    }
-    context = new RerankerContext<>(searcher, null, query, null,
-          queryString, queryTokens, null, searchArgs);
+    TopDocs rs = searcher.search(query, useRM3 ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_DOCID, true);
+    RerankerContext<String> context = new RerankerContext<>(searcher, null, query, null, queryString, queryTokens, null, searchArgs);
 
     ScoredDocs hits = cascade.run(ScoredDocs.fromTopDocs(rs, searcher), context);
 

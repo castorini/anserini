@@ -24,9 +24,8 @@ metrics:
 topic_reader: TsvInt
 topics:
   - name: "[NanoKnow v1.0: NQ-Open Validation](https://github.com/castorini/NanoKnow)"
-    id: nq
-    path: topics.nanoknow-v1.0-nq.supported.tsv
-    qrel: qrels.nanoknow-v1.0-nq.supported.txt
+    id: nanoknow-v1.0-nq.supported
+    qrels: nanoknow-v1.0-nq.supported
 
 models:
   - name: bm25

@@ -23,7 +23,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection MrTyDiCollection \
   -input /path/to/mrtydi-v1.1-ru \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.mrtydi-v1.1-russian-aca/ \
+  -index indexes/lucene-inverted.mrtydi-v1.1-russian-aca/ \
   -storePositions -storeDocvectors -storeRaw -language ru -useAutoCompositeAnalyzer \
   >& logs/log.mrtydi-v1.1-ru &
 ```
@@ -37,31 +37,31 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.mrtydi-v1.1-russian-aca/ \
-  -topics tools/topics-and-qrels/topics.mrtydi-v1.1-ru.train.txt.gz \
+  -index indexes/lucene-inverted.mrtydi-v1.1-russian-aca/ \
+  -topics mrtydi-v1.1-ru.train \
   -topicReader TsvInt \
-  -output runs/run.mrtydi-v1.1-ru.bm25.topics.mrtydi-v1.1-ru.train.txt \
+  -output runs/run.lucene-inverted.mrtydi-v1.1-russian-aca.model-bm25.topics-mrtydi-v1.1-ru.train.txt \
   -bm25 -hits 100 -language ru -useAutoCompositeAnalyzer &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.mrtydi-v1.1-russian-aca/ \
-  -topics tools/topics-and-qrels/topics.mrtydi-v1.1-ru.dev.txt.gz \
+  -index indexes/lucene-inverted.mrtydi-v1.1-russian-aca/ \
+  -topics mrtydi-v1.1-ru.dev \
   -topicReader TsvInt \
-  -output runs/run.mrtydi-v1.1-ru.bm25.topics.mrtydi-v1.1-ru.dev.txt \
+  -output runs/run.lucene-inverted.mrtydi-v1.1-russian-aca.model-bm25.topics-mrtydi-v1.1-ru.dev.txt \
   -bm25 -hits 100 -language ru -useAutoCompositeAnalyzer &
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.mrtydi-v1.1-russian-aca/ \
-  -topics tools/topics-and-qrels/topics.mrtydi-v1.1-ru.test.txt.gz \
+  -index indexes/lucene-inverted.mrtydi-v1.1-russian-aca/ \
+  -topics mrtydi-v1.1-ru.test \
   -topicReader TsvInt \
-  -output runs/run.mrtydi-v1.1-ru.bm25.topics.mrtydi-v1.1-ru.test.txt \
+  -output runs/run.lucene-inverted.mrtydi-v1.1-russian-aca.model-bm25.topics-mrtydi-v1.1-ru.test.txt \
   -bm25 -hits 100 -language ru -useAutoCompositeAnalyzer &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools/topics-and-qrels/qrels.mrtydi-v1.1-ru.train.txt runs/run.mrtydi-v1.1-ru.bm25.topics.mrtydi-v1.1-ru.train.txt
-bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools/topics-and-qrels/qrels.mrtydi-v1.1-ru.dev.txt runs/run.mrtydi-v1.1-ru.bm25.topics.mrtydi-v1.1-ru.dev.txt
-bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 tools/topics-and-qrels/qrels.mrtydi-v1.1-ru.test.txt runs/run.mrtydi-v1.1-ru.bm25.topics.mrtydi-v1.1-ru.test.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 mrtydi-v1.1-ru.train runs/run.lucene-inverted.mrtydi-v1.1-russian-aca.model-bm25.topics-mrtydi-v1.1-ru.train.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 mrtydi-v1.1-ru.dev runs/run.lucene-inverted.mrtydi-v1.1-russian-aca.model-bm25.topics-mrtydi-v1.1-ru.dev.txt
+bin/trec_eval -c -M 100 -m recip_rank -c -m recall.100 mrtydi-v1.1-ru.test runs/run.lucene-inverted.mrtydi-v1.1-russian-aca.model-bm25.topics-mrtydi-v1.1-ru.test.txt
 ```
 
 ## Effectiveness

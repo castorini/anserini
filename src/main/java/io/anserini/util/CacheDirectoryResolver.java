@@ -25,9 +25,10 @@ import java.nio.file.Path;
  * Resolves cache directories used by Anserini. The base cache path is {@code ~/.cache/pyserini} by default. The
  * {@code pyserini.cache} system property and {@code PYSERINI_CACHE} environment variable override the base cache path.
  * If neither override is set and a {@code .cache} directory exists in the current working directory, the base cache path
- * is {@code <cwd>/.cache/pyserini}. Indexes are stored under {@code <base>/indexes}. Topics and qrels are stored
- * together under {@code <base>/topics-and-qrels}. Encoders are stored under {@code <base>/encoders}. Collections are
- * stored under {@code <base>/collections}. All public accessors create the resolved directory before returning it.
+ * is {@code <cwd>/.cache/pyserini}. Indexes are stored under {@code <base>/indexes}. Topics are stored under
+ * {@code <base>/topics}. Qrels are stored under {@code <base>/qrels}. Encoders are stored under
+ * {@code <base>/encoders}. Collections are stored under {@code <base>/collections}. All public accessors create the
+ * resolved directory before returning it.
  */
 public final class CacheDirectoryResolver {
   public static final String CACHE_PROPERTY = "pyserini.cache";
@@ -37,7 +38,8 @@ public final class CacheDirectoryResolver {
   private static final String DEFAULT_CACHE_PARENT = ".cache";
   private static final String DEFAULT_CACHE_NAME = "pyserini";
   private static final String INDEXES_DIR = "indexes";
-  private static final String TOPICS_AND_QRELS_DIR = "topics-and-qrels";
+  private static final String TOPICS_DIR = "topics";
+  private static final String QRELS_DIR = "qrels";
   private static final String ENCODERS_DIR = "encoders";
   private static final String COLLECTIONS_DIR = "collections";
 
@@ -52,8 +54,12 @@ public final class CacheDirectoryResolver {
     return createDirectories(resolveBasePath().resolve(INDEXES_DIR));
   }
 
-  public static Path getTopicsAndQrelsCachePath() {
-    return createDirectories(resolveBasePath().resolve(TOPICS_AND_QRELS_DIR));
+  public static Path getTopicCachePath() {
+    return createDirectories(resolveBasePath().resolve(TOPICS_DIR));
+  }
+
+  public static Path getQrelsCachePath() {
+    return createDirectories(resolveBasePath().resolve(QRELS_DIR));
   }
 
   public static Path getEncodersCachePath() {

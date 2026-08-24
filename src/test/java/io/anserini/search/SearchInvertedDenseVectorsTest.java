@@ -144,7 +144,7 @@ public class SearchInvertedDenseVectorsTest extends StdOutStdErrRedirectableLuce
     SearchInvertedDenseVectors.main(searchArgs);
 
     assertTrue("Error output should contain the expected error message",
-        err.toString().contains("Error: \"fake/topics/here\" does not appear to be a valid topics file."));
+        err.toString().contains("Error: \"fake/topics/here\" does not refer to valid topics."));
   }
 
   @Test
@@ -172,7 +172,7 @@ public class SearchInvertedDenseVectorsTest extends StdOutStdErrRedirectableLuce
     SearchInvertedDenseVectors.main(searchArgs);
 
     assertTrue("Error output should contain the expected error message",
-        err.toString().contains("Error: Unable to load topic reader \"FakeJsonIntVector\"."));
+        err.toString().contains("Error: Unable to load topic reader \"FakeJsonIntVector\""));
   }
 
   @Test

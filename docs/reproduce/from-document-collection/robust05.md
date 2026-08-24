@@ -22,7 +22,7 @@ bin/run.sh io.anserini.index.IndexCollection \
   -collection TrecCollection \
   -input /path/to/robust05 \
   -generator DefaultLuceneDocumentGenerator \
-  -index indexes/lucene-index.robust05/ \
+  -index indexes/lucene-inverted.robust05/ \
   -storePositions -storeDocvectors -storeRaw \
   >& logs/log.robust05 &
 ```
@@ -33,80 +33,80 @@ For additional details, see explanation of [common indexing options](../../commo
 
 ## Retrieval
 
-Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
+Topics and qrels are stored in a [centralized repo containing evaluation data](https://github.com/castorini/eval).
 They are downloaded from NIST:
 
-+ [`topics.robust05.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.robust05.txt): [topics for the TREC 2005 Robust Track (Hard Topics of Robust04)](http://trec.nist.gov/data/robust/05/05.50.topics.txt)
-+ [`qrels.robust05.txt`](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/qrels.robust05.txt): [qrels for the TREC 2005 Robust Track (Hard Topics of Robust04)](http://trec.nist.gov/data/robust/05/TREC2005.qrels.txt)
++ [`topics.robust05.txt`](https://github.com/castorini/eval/tree/master/topics/topics.robust05.txt): [topics for the TREC 2005 Robust Track (Hard Topics of Robust04)](http://trec.nist.gov/data/robust/05/05.50.topics.txt)
++ [`qrels.robust05.txt`](https://github.com/castorini/eval/tree/master/qrels/qrels.robust05.txt): [qrels for the TREC 2005 Robust Track (Hard Topics of Robust04)](http://trec.nist.gov/data/robust/05/TREC2005.qrels.txt)
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.robust05/ \
-  -topics tools/topics-and-qrels/topics.robust05.txt \
+  -index indexes/lucene-inverted.robust05/ \
+  -topics robust05 \
   -topicReader Trec \
-  -output runs/run.robust05.bm25.topics.robust05.txt \
+  -output runs/run.lucene-inverted.robust05.model-bm25.topics-robust05.txt \
   -bm25 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.robust05/ \
-  -topics tools/topics-and-qrels/topics.robust05.txt \
+  -index indexes/lucene-inverted.robust05/ \
+  -topics robust05 \
   -topicReader Trec \
-  -output runs/run.robust05.bm25+rm3.topics.robust05.txt \
+  -output runs/run.lucene-inverted.robust05.model-bm25+rm3.topics-robust05.txt \
   -bm25 -rm3 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.robust05/ \
-  -topics tools/topics-and-qrels/topics.robust05.txt \
+  -index indexes/lucene-inverted.robust05/ \
+  -topics robust05 \
   -topicReader Trec \
-  -output runs/run.robust05.bm25+ax.topics.robust05.txt \
+  -output runs/run.lucene-inverted.robust05.model-bm25+ax.topics-robust05.txt \
   -bm25 -axiom -rerankCutoff 20 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.robust05/ \
-  -topics tools/topics-and-qrels/topics.robust05.txt \
+  -index indexes/lucene-inverted.robust05/ \
+  -topics robust05 \
   -topicReader Trec \
-  -output runs/run.robust05.ql.topics.robust05.txt \
+  -output runs/run.lucene-inverted.robust05.model-ql.topics-robust05.txt \
   -qld &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.robust05/ \
-  -topics tools/topics-and-qrels/topics.robust05.txt \
+  -index indexes/lucene-inverted.robust05/ \
+  -topics robust05 \
   -topicReader Trec \
-  -output runs/run.robust05.ql+rm3.topics.robust05.txt \
+  -output runs/run.lucene-inverted.robust05.model-ql+rm3.topics-robust05.txt \
   -qld -rm3 &
 
 bin/run.sh io.anserini.search.SearchCollection \
-  -index indexes/lucene-index.robust05/ \
-  -topics tools/topics-and-qrels/topics.robust05.txt \
+  -index indexes/lucene-inverted.robust05/ \
+  -topics robust05 \
   -topicReader Trec \
-  -output runs/run.robust05.ql+ax.topics.robust05.txt \
+  -output runs/run.lucene-inverted.robust05.model-ql+ax.topics-robust05.txt \
   -qld -axiom -rerankCutoff 20 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.robust05.txt runs/run.robust05.bm25.topics.robust05.txt
+bin/trec_eval -m map -m P.30 robust05 runs/run.lucene-inverted.robust05.model-bm25.topics-robust05.txt
 
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.robust05.txt runs/run.robust05.bm25+rm3.topics.robust05.txt
+bin/trec_eval -m map -m P.30 robust05 runs/run.lucene-inverted.robust05.model-bm25+rm3.topics-robust05.txt
 
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.robust05.txt runs/run.robust05.bm25+ax.topics.robust05.txt
+bin/trec_eval -m map -m P.30 robust05 runs/run.lucene-inverted.robust05.model-bm25+ax.topics-robust05.txt
 
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.robust05.txt runs/run.robust05.ql.topics.robust05.txt
+bin/trec_eval -m map -m P.30 robust05 runs/run.lucene-inverted.robust05.model-ql.topics-robust05.txt
 
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.robust05.txt runs/run.robust05.ql+rm3.topics.robust05.txt
+bin/trec_eval -m map -m P.30 robust05 runs/run.lucene-inverted.robust05.model-ql+rm3.topics-robust05.txt
 
-bin/trec_eval -m map -m P.30 tools/topics-and-qrels/qrels.robust05.txt runs/run.robust05.ql+ax.topics.robust05.txt
+bin/trec_eval -m map -m P.30 robust05 runs/run.lucene-inverted.robust05.model-ql+ax.topics-robust05.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| **MAP**                                                                                                                       | **BM25**   | **+RM3**   | **+Ax**    | **QL**     | **+RM3**   | **+Ax**    |
-|:------------------------------------------------------------------------------------------------------------------------------|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|
-| [TREC 2005 Robust Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.robust05.txt) | 0.2032     | 0.2624     | 0.2587     | 0.2028     | 0.2484     | 0.2476     |
-| **P30**                                                                                                                       | **BM25**   | **+RM3**   | **+Ax**    | **QL**     | **+RM3**   | **+Ax**    |
-| [TREC 2005 Robust Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.robust05.txt) | 0.3693     | 0.4200     | 0.4120     | 0.3653     | 0.4080     | 0.4113     |
+| **MAP**                                                                                                   | **BM25**   | **+RM3**   | **+Ax**    | **QL**     | **+RM3**   | **+Ax**    |
+|:----------------------------------------------------------------------------------------------------------|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|
+| [TREC 2005 Robust Track Topics](https://github.com/castorini/eval/tree/master/topics/topics.robust05.txt) | 0.2032     | 0.2624     | 0.2587     | 0.2028     | 0.2484     | 0.2476     |
+| **P30**                                                                                                   | **BM25**   | **+RM3**   | **+Ax**    | **QL**     | **+RM3**   | **+Ax**    |
+| [TREC 2005 Robust Track Topics](https://github.com/castorini/eval/tree/master/topics/topics.robust05.txt) | 0.3693     | 0.4200     | 0.4120     | 0.3653     | 0.4080     | 0.4113     |

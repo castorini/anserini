@@ -2,7 +2,7 @@
 corpus: mrtydi-v1.1-sw
 corpus_path: collections/mr-tydi-corpus/mrtydi-v1.1-swahili/
 
-index_path: indexes/lucene-index.mrtydi-v1.1-swahili/
+index_path: indexes/lucene-inverted.mrtydi-v1.1-swahili/
 collection_class: MrTyDiCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 1
@@ -31,17 +31,14 @@ metrics:
 topic_reader: TsvInt
 topics:
   - name: "[Mr. TyDi (Swahili): train](https://github.com/castorini/mr.tydi)"
-    id: train
-    path: topics.mrtydi-v1.1-sw.train.txt.gz
-    qrel: qrels.mrtydi-v1.1-sw.train.txt
+    id: mrtydi-v1.1-sw.train
+    qrels: mrtydi-v1.1-sw.train
   - name: "[Mr. TyDi (Swahili): dev](https://github.com/castorini/mr.tydi)"
-    id: dev
-    path: topics.mrtydi-v1.1-sw.dev.txt.gz
-    qrel: qrels.mrtydi-v1.1-sw.dev.txt
+    id: mrtydi-v1.1-sw.dev
+    qrels: mrtydi-v1.1-sw.dev
   - name: "[Mr. TyDi (Swahili): test](https://github.com/castorini/mr.tydi)"
-    id: test
-    path: topics.mrtydi-v1.1-sw.test.txt.gz
-    qrel: qrels.mrtydi-v1.1-sw.test.txt
+    id: mrtydi-v1.1-sw.test
+    qrels: mrtydi-v1.1-sw.test
 
 models:
   - name: bm25

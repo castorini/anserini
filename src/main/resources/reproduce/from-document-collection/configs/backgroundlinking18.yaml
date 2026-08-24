@@ -2,7 +2,7 @@
 corpus: wapo.v2
 corpus_path: collections/newswire/WashingtonPost.v2/data/
 
-index_path: indexes/lucene-index.wapo.v2/
+index_path: indexes/lucene-inverted.wapo.v2/
 collection_class: WashingtonPostCollection
 generator_class: WashingtonPostGenerator
 index_threads: 1
@@ -30,10 +30,9 @@ metrics:
 
 topic_reader: BackgroundLinking
 topics:
-  - name: "[TREC 2018 Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.backgroundlinking18.txt)"
-    id: bglink18
-    path: topics.backgroundlinking18.txt
-    qrel: qrels.backgroundlinking18.txt
+  - name: "[TREC 2018 Topics](https://github.com/castorini/eval/tree/master/topics/topics.backgroundlinking18.txt)"
+    id: backgroundlinking18
+    qrels: backgroundlinking18
 
 models:
   - name: bm25

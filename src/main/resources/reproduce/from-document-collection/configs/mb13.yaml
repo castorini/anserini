@@ -2,7 +2,7 @@
 corpus: mb13
 corpus_path: collections/twitter/Tweets2013-corpus/data/
 
-index_path: indexes/lucene-index.mb13/
+index_path: indexes/lucene-inverted.mb13/
 collection_class: TweetCollection
 generator_class: TweetGenerator
 index_threads: 44
@@ -30,14 +30,12 @@ metrics:
 
 topic_reader: Microblog
 topics:
-  - name: "[TREC 2013 Microblog Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.microblog2013.txt)"
-    id: mb13
-    path: topics.microblog2013.txt
-    qrel: qrels.microblog2013.txt
-  - name: "[TREC 2014 Microblog Track Topics](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.microblog2014.txt)"
-    id: mb14
-    path: topics.microblog2014.txt
-    qrel: qrels.microblog2014.txt
+  - name: "[TREC 2013 Microblog Track Topics](https://github.com/castorini/eval/tree/master/topics/topics.microblog2013.txt)"
+    id: microblog2013
+    qrels: microblog2013
+  - name: "[TREC 2014 Microblog Track Topics](https://github.com/castorini/eval/tree/master/topics/topics.microblog2014.txt)"
+    id: microblog2014
+    qrels: microblog2014
 
 models:
   - name: bm25

@@ -17,6 +17,7 @@
 package io.anserini.search.topicreader;
 
 import java.io.InputStream;
+import java.net.URI;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -32,10 +33,23 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * A registry entry for a standard set of topics from various evaluations.
  */
 public final class Topics {
-  private static final String LOCAL_METADATA_RESOURCE = "topics-and-qrels/_local_metadata_topics.json";
-  private static final String LOCAL_ALIASES_METADATA_RESOURCE = "topics-and-qrels/_local_metadata_topics_aliases.json";
+  private static final String COMMIT_ID = "5b819c1a45c8a0a3ec9426f476694f44a29dfaf3";
+  public static final String URL = "https://raw.githubusercontent.com/castorini/eval/" + COMMIT_ID + "/topics/";
+
+  private static final String TOPICS_URL = "https://raw.githubusercontent.com/castorini/eval/" + COMMIT_ID + "/topics.json";
+  private static final String TOPICS_ALIASES_URL = "https://raw.githubusercontent.com/castorini/eval/" + COMMIT_ID + "/topics-aliases.json";
+
+  // Staging area before merging into external GitHub repo; keep "dummy" for testing.
+  private static final String LOCAL_TOPICS = "topics/local-topics.json";
+  private static final String LOCAL_TOPICS_ALIASES = "topics/local-topics-aliases.json";
+
   private static final ObjectMapper MAPPER = new ObjectMapper();
-  private static volatile Registry registryCache;
+
+  // Contains only canonical topic names; used for enumeration by entries() and names().
+  private static volatile Map<String, Topics> canonicalRegistryCache;
+
+  // Contains every accepted lookup key, including canonical names, aliases, paths, and filenames; used by get().
+  private static volatile Map<String, Topics> registryCache;
 
   public final String path;
   public final Class<? extends TopicReader<?>> readerClass;
@@ -57,11 +71,12 @@ public final class Topics {
   }
 
   public static Map<String, Topics> entries() {
-    return registry().canonical;
+    registry();
+    return canonicalRegistryCache;
   }
 
   public static Set<String> names() {
-    return Collections.unmodifiableSet(registry().canonical.keySet());
+    return entries().keySet();
   }
 
   public static Class<? extends TopicReader<?>> getTopicReaderClassForPath(String path) {
@@ -88,8 +103,8 @@ public final class Topics {
     }
   }
 
-  private static Registry registry() {
-    Registry registry = registryCache;
+  private static Map<String, Topics> registry() {
+    Map<String, Topics> registry = registryCache;
     if (registry == null) {
       synchronized (Topics.class) {
         registry = registryCache;
@@ -102,9 +117,9 @@ public final class Topics {
     return registry;
   }
 
-  private static Registry loadRegistry() {
+  private static Map<String, Topics> loadRegistry() {
     Map<String, TopicMetadata> metadata = loadMetadata();
-    Map<String, List<String>> aliases = loadAliasesMetadata();
+    metadata.putAll(loadLocalMetadata());
     Map<String, Topics> canonical = new LinkedHashMap<>();
     Map<String, Topics> lookup = new LinkedHashMap<>();
 
@@ -125,6 +140,17 @@ public final class Topics {
       addLookupEntry(lookup, Path.of(value.path).getFileName().toString(), topic);
     }
 
+    addAliasesToRegistry(canonical, lookup, loadAliasesMetadata(TOPICS_ALIASES_URL));
+    Map<String, List<String>> localAliases = loadLocalAliasesMetadata();
+    addAliasesToRegistry(canonical, lookup, localAliases);
+    localAliases.values().forEach(aliases -> aliases.forEach(canonical::remove));
+
+    canonicalRegistryCache = Collections.unmodifiableMap(canonical);
+    return Collections.unmodifiableMap(lookup);
+  }
+
+  private static void addAliasesToRegistry(Map<String, Topics> canonical, Map<String, Topics> lookup,
+      Map<String, List<String>> aliases) {
     for (Map.Entry<String, List<String>> entry : aliases.entrySet()) {
       Topics topic = canonical.get(entry.getKey());
       if (topic == null) {
@@ -134,29 +160,43 @@ public final class Topics {
         addLookupEntry(lookup, alias, topic);
       }
     }
-
-    return new Registry(Collections.unmodifiableMap(canonical), Collections.unmodifiableMap(lookup));
   }
 
   private static Map<String, TopicMetadata> loadMetadata() {
-    try (InputStream inputStream = Topics.class.getClassLoader().getResourceAsStream(LOCAL_METADATA_RESOURCE)) {
-      if (inputStream == null) {
-        throw new IllegalStateException("Topic metadata resource not found: " + LOCAL_METADATA_RESOURCE);
-      }
+    try (InputStream inputStream = new URI(TOPICS_URL).toURL().openStream()) {
       return MAPPER.readValue(inputStream, new TypeReference<>() {});
     } catch (Exception e) {
-      throw new IllegalStateException("Failed to load topic metadata from " + LOCAL_METADATA_RESOURCE, e);
+      throw new IllegalStateException("Failed to load topic metadata from " + TOPICS_URL, e);
     }
   }
 
-  private static Map<String, List<String>> loadAliasesMetadata() {
-    try (InputStream inputStream = Topics.class.getClassLoader().getResourceAsStream(LOCAL_ALIASES_METADATA_RESOURCE)) {
+  private static Map<String, TopicMetadata> loadLocalMetadata() {
+    try (InputStream inputStream = Topics.class.getClassLoader().getResourceAsStream(LOCAL_TOPICS)) {
       if (inputStream == null) {
         return Map.of();
       }
       return MAPPER.readValue(inputStream, new TypeReference<>() {});
     } catch (Exception e) {
-      throw new IllegalStateException("Failed to load topic aliases metadata from " + LOCAL_ALIASES_METADATA_RESOURCE, e);
+      throw new IllegalStateException("Failed to load topic metadata from " + LOCAL_TOPICS, e);
+    }
+  }
+
+  private static Map<String, List<String>> loadAliasesMetadata(String url) {
+    try (InputStream inputStream = new URI(url).toURL().openStream()) {
+      return MAPPER.readValue(inputStream, new TypeReference<>() {});
+    } catch (Exception e) {
+      throw new IllegalStateException("Failed to load topic aliases metadata from " + url, e);
+    }
+  }
+
+  private static Map<String, List<String>> loadLocalAliasesMetadata() {
+    try (InputStream inputStream = Topics.class.getClassLoader().getResourceAsStream(LOCAL_TOPICS_ALIASES)) {
+      if (inputStream == null) {
+        return Map.of();
+      }
+      return MAPPER.readValue(inputStream, new TypeReference<>() {});
+    } catch (Exception e) {
+      throw new IllegalStateException("Failed to load topic aliases metadata from " + LOCAL_TOPICS_ALIASES, e);
     }
   }
 
@@ -179,20 +219,6 @@ public final class Topics {
       throw new IllegalStateException("Topic name maps to conflicting topics: " + name);
     }
     lookup.put(name, topic);
-  }
-
-  private static final class Registry {
-    private final Map<String, Topics> canonical;
-    private final Map<String, Topics> lookup;
-
-    private Registry(Map<String, Topics> canonical, Map<String, Topics> lookup) {
-      this.canonical = canonical;
-      this.lookup = lookup;
-    }
-
-    private Topics get(String name) {
-      return lookup.get(name);
-    }
   }
 
   private static class TopicMetadata {

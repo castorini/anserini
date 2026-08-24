@@ -35,9 +35,8 @@ metrics:
 topic_reader: TsvString
 topics:
   - name: "BRIGHT: Robotics"
-    id: topics
-    path: topics.bright-robotics.tsv.gz
-    qrel: qrels.bright-robotics.txt
+    id: bright-robotics
+    qrels: bright-robotics
 
 models:
   - name: bge-flat-onnx

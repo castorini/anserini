@@ -2,7 +2,7 @@
 corpus: neuclir22-zh-en
 corpus_path: collections/multilingual/neuclir22-zh-en/
 
-index_path: indexes/lucene-index.neuclir22-zh-en
+index_path: indexes/lucene-inverted.neuclir22-zh-en
 collection_class: NeuClirCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 8
@@ -44,17 +44,14 @@ metrics:
 topic_reader: TsvInt
 topics:
   - name: "[HC4 (Chinese): test-topic title](https://github.com/hltcoe/HC4)"
-    id: test_title
-    path: topics.hc4-v1.0-zh.en.test.title.tsv
-    qrel: qrels.hc4-neuclir22-zh.test.txt
+    id: hc4-v1.0-zh.en.test.title
+    qrels: hc4-neuclir22-zh.test
   - name: "[HC4 (Chinese): test-topic description](https://github.com/hltcoe/HC4)"
-    id: test_description
-    path: topics.hc4-v1.0-zh.en.test.desc.tsv
-    qrel: qrels.hc4-neuclir22-zh.test.txt
+    id: hc4-v1.0-zh.en.test.desc
+    qrels: hc4-neuclir22-zh.test
   - name: "[HC4 (Chinese): test-topic description+title](https://github.com/hltcoe/HC4)"
-    id: test_description_title
-    path: topics.hc4-v1.0-zh.en.test.desc.title.tsv
-    qrel: qrels.hc4-neuclir22-zh.test.txt
+    id: hc4-v1.0-zh.en.test.desc.title
+    qrels: hc4-neuclir22-zh.test
 
 models:
   - name: bm25-default

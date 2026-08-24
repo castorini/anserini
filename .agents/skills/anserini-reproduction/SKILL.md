@@ -1,8 +1,8 @@
 ---
 name: anserini-reproduction
-description: Reproduce experimental results with Anserini. Use when Codex needs to run or explain Anserini reproduction workflows for published or reported results, including reproductions with prebuilt indexes, reproductions from raw document collections, reproduction YAMLs, run generation, evaluation, and metric verification.
+description: Reproduce experimental results with Anserini. Use to run or explain Anserini reproduction workflows for published or reported results, including reproductions with prebuilt indexes, reproductions from raw document collections, reproduction YAMLs, run generation, evaluation, and metric verification.
 metadata:
-  version: v0.2.0
+  version: v0.2.1
 ---
 
 # Anserini Reproduction
@@ -36,7 +36,7 @@ implementation details until the user chooses a type or asks for more detail.
    - topics and qrels
    - expected metrics and tolerances
 2. Confirm the environment is ready:
-   - use `$install-anserini-dev-env` for source builds, submodules, and evaluation tools
+   - use `$install-anserini-dev-env` for source builds and Java/Maven setup
    - use `$install-anserini-fatjar` for released fatjar-only reproduction
    - use `$anserini-cli` for command syntax, catalog lookup, search, and REST examples
 3. Prefer checked reproduction definitions bundled with Anserini when available.

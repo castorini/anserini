@@ -38,9 +38,8 @@ metrics:
 topic_reader: TsvString
 topics:
   - name: "BEIR (v1.0.0): CQADupStack-webmasters"
-    id: test
-    path: topics.beir-v1.0.0-cqadupstack-webmasters.test.tsv.gz
-    qrel: qrels.beir-v1.0.0-cqadupstack-webmasters.test.txt
+    id: beir-v1.0.0-cqadupstack-webmasters.test
+    qrels: beir-v1.0.0-cqadupstack-webmasters.test
 
 models:
   - name: splade-pp-ed-onnx

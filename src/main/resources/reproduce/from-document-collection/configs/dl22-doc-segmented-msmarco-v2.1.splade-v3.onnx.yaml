@@ -57,8 +57,7 @@ topic_reader: TsvString
 topics:
   - name: "[DL22 (Doc)](https://microsoft.github.io/msmarco/TREC-Deep-Learning)"
     id: dl22
-    path: topics.dl22.txt
-    qrel: qrels.dl22-doc-msmarco-v2.1.txt
+    qrels: dl22-doc-msmarco-v2.1
 
 models:
   - name: splade-v3-onnx

@@ -17,6 +17,8 @@
 package io.anserini.search.topicreader;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.Map;
@@ -25,6 +27,11 @@ import java.util.SortedMap;
 import org.junit.Test;
 
 public class TopicsTest {
+
+  @Test
+  public void testTotalCount() {
+    assertEquals(478, Topics.names().size());
+  }
 
   @Test
   public void testBasic() {
@@ -49,6 +56,53 @@ public class TopicsTest {
     assertEquals(Topics.get("dl22"), Topics.get("dl22-doc"));
     assertEquals(Topics.get("dl23"), Topics.get("dl23-passage"));
     assertEquals(Topics.get("dl23"), Topics.get("dl23-doc"));
+  }
+
+  @Test
+  public void testLocalAliasesExtendExternalAliases() {
+    Topics canonical = Topics.get("msmarco-passage.dev-subset");
+    assertEquals(canonical, Topics.get("msmarco-passage-dev"));
+    assertEquals(canonical, Topics.get("dummy.msmarco-passage.dev-subset"));
+  }
+
+  @Test
+  public void testAdhocAliases() {
+    Topics trec7 = Topics.get("adhoc.351-400");
+    assertTrue(Topics.names().contains("adhoc.351-400"));
+    assertFalse(Topics.names().contains("trec7-adhoc"));
+    assertEquals(trec7, Topics.get("trec7-adhoc"));
+
+    Topics trec8 = Topics.get("adhoc.401-450");
+    assertTrue(Topics.names().contains("adhoc.401-450"));
+    assertFalse(Topics.names().contains("trec8-adhoc"));
+    assertEquals(trec8, Topics.get("trec8-adhoc"));
+  }
+
+  @Test
+  public void testLocalBindings() {
+    // Canonical should be in names().
+    assertTrue(Topics.names().contains("dummy"));
+    assertDummyTopics("dummy");
+
+    // Aliases shouldn't be in names().
+    assertFalse(Topics.names().contains("dummy.1"));
+    assertFalse(Topics.names().contains("dummy.2"));
+
+    // But they should be available via get.
+    assertDummyTopics("dummy.1");
+    assertDummyTopics("dummy.2");
+  }
+
+  private void assertDummyTopics(String name) {
+    Topics binding = Topics.get(name);
+    assertEquals("dummy", binding.name());
+    assertEquals("topics.dummy.tsv", binding.path);
+    assertEquals(TsvStringTopicReader.class, binding.readerClass);
+
+    SortedMap<String, Map<String, String>> topics = Topics.load(name);
+    assertEquals(2, topics.size());
+    assertEquals("blue whale migration", topics.get("1").get("title"));
+    assertEquals("ancient roman aqueducts", topics.get("2").get("title"));
   }
 
   @Test

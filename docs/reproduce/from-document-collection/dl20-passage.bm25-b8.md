@@ -62,7 +62,7 @@ For additional details, see explanation of [common indexing options](../../commo
 
 ## Retrieval
 
-Topics and qrels are stored [here](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels), which is linked to the Anserini repo as a submodule.
+Topics and qrels are stored in a [centralized repo containing evaluation data](https://github.com/castorini/eval).
 The regression experiments here evaluate on the 54 topics for which NIST has provided judgments as part of the TREC 2020 Deep Learning Track.
 The original data can be found [here](https://trec.nist.gov/data/deep2020.html).
 
@@ -71,19 +71,19 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```bash
 bin/run.sh io.anserini.search.SearchCollection \
   -index indexes/lucene-inverted.msmarco-v1-passage.bm25-b8/ \
-  -topics tools/topics-and-qrels/topics.dl20.txt \
+  -topics dl20 \
   -topicReader TsvInt \
-  -output runs/run.msmarco-passage-bm25-b8.bm25-b8.topics.dl20.txt \
+  -output runs/run.lucene-inverted.msmarco-v1-passage.bm25-b8.model-bm25-b8.topics-dl20.txt \
   -impact &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```bash
-bin/trec_eval -m map -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-bm25-b8.bm25-b8.topics.dl20.txt
-bin/trec_eval -m ndcg_cut.10 -c tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-bm25-b8.bm25-b8.topics.dl20.txt
-bin/trec_eval -m recall.100 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-bm25-b8.bm25-b8.topics.dl20.txt
-bin/trec_eval -m recall.1000 -c -l 2 tools/topics-and-qrels/qrels.dl20-passage.txt runs/run.msmarco-passage-bm25-b8.bm25-b8.topics.dl20.txt
+bin/trec_eval -m map -c -l 2 dl20-passage runs/run.lucene-inverted.msmarco-v1-passage.bm25-b8.model-bm25-b8.topics-dl20.txt
+bin/trec_eval -m ndcg_cut.10 -c dl20-passage runs/run.lucene-inverted.msmarco-v1-passage.bm25-b8.model-bm25-b8.topics-dl20.txt
+bin/trec_eval -m recall.100 -c -l 2 dl20-passage runs/run.lucene-inverted.msmarco-v1-passage.bm25-b8.model-bm25-b8.topics-dl20.txt
+bin/trec_eval -m recall.1000 -c -l 2 dl20-passage runs/run.lucene-inverted.msmarco-v1-passage.bm25-b8.model-bm25-b8.topics-dl20.txt
 ```
 
 ## Effectiveness

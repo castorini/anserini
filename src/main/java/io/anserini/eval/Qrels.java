@@ -37,17 +37,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.anserini.util.CacheDirectoryResolver;
 
 public class Qrels {
-  private static final String TOPICS_AND_QRELS_COMMIT = "12982126736f2ed7dc45bf30acb2af9fed13c0ef";
-  private static final String TOPICS_AND_QRELS_URL = "https://raw.githubusercontent.com/castorini/anserini-tools/" + TOPICS_AND_QRELS_COMMIT + "/topics-and-qrels/";
-  private static final String DEFAULT_METADATA_URL = TOPICS_AND_QRELS_URL + "_metadata_qrels.json";
-  private static final String DEFAULT_ALIASES_METADATA_URL = TOPICS_AND_QRELS_URL + "_metadata_qrels_aliases.json";
-  private static final String SERVER_PATH = TOPICS_AND_QRELS_URL;
+  private static final String COMMIT_ID = "5b819c1a45c8a0a3ec9426f476694f44a29dfaf3";
+  public static final String URL = "https://raw.githubusercontent.com/castorini/eval/" + COMMIT_ID + "/qrels/";
 
-  // Staging area for aliases that will eventually be moved into separate GitHub repo.
-  private static final String LOCAL_ALIASES_METADATA_RESOURCE = "topics-and-qrels/_local_metadata_qrels_aliases.json";
+  private static final String QRELS_URL = "https://raw.githubusercontent.com/castorini/eval/" + COMMIT_ID + "/qrels.json";
+  private static final String QREL_ALIASES_URL = "https://raw.githubusercontent.com/castorini/eval/" + COMMIT_ID + "/qrels-aliases.json";
+
+  // Staging area before merging into external GitHub repo; keep "dummy" for testing.
+  private static final String LOCAL_QRELS = "qrels/local-qrels.json";
+  private static final String LOCAL_QRELS_ALIASES = "qrels/local-qrels-aliases.json";
 
   private static final ObjectMapper mapper = new ObjectMapper();
-  private static volatile Map<String, String> registryCache;
+  private static volatile Registry registryCache;
 
   private final String name;
   private final Path path;
@@ -90,7 +91,7 @@ public class Qrels {
   }
 
   public static Qrels get(String name) throws IOException {
-    String path = registry().get(name);
+    String path = registry().lookup.get(name);
     if (path == null) {
       throw new IllegalArgumentException("Unknown qrels name: " + name);
     }
@@ -101,8 +102,8 @@ public class Qrels {
     return new Qrels(file);
   }
 
-  public static Map<String, String> registry() {
-    Map<String, String> registry = registryCache;
+  private static Registry registry() {
+    Registry registry = registryCache;
     if (registry == null) {
       synchronized (Qrels.class) {
         registry = registryCache;
@@ -116,18 +117,34 @@ public class Qrels {
   }
 
   public static Set<String> names() {
-    return registry().keySet();
+    return registry().canonical.keySet();
   }
 
-  private static Map<String, String> loadRegistry() {
-    try (InputStream inputStream = new URI(DEFAULT_METADATA_URL).toURL().openStream()) {
+  private static Registry loadRegistry() {
+    try (InputStream inputStream = new URI(QRELS_URL).toURL().openStream()) {
       Map<String, String> registry = mapper.readValue(inputStream, new TypeReference<>() {});
-      Map<String, String> registryWithAliases = new LinkedHashMap<>(registry);
-      addAliasesToRegistry(registryWithAliases, loadAliasesMetadata(DEFAULT_ALIASES_METADATA_URL));
-      addAliasesToRegistry(registryWithAliases, loadLocalAliasesMetadata());
-      return Collections.unmodifiableMap(registryWithAliases);
+      registry.putAll(loadLocalMetadata());
+      Map<String, List<String>> localAliases = loadLocalAliasesMetadata();
+      Map<String, String> canonicalRegistry = new LinkedHashMap<>(registry);
+      localAliases.values().forEach(aliases -> aliases.forEach(canonicalRegistry::remove));
+      Map<String, String> canonical = Collections.unmodifiableMap(canonicalRegistry);
+      Map<String, String> lookup = new LinkedHashMap<>(registry);
+      addAliasesToRegistry(lookup, loadAliasesMetadata(QREL_ALIASES_URL));
+      addAliasesToRegistry(lookup, localAliases);
+      return new Registry(canonical, Collections.unmodifiableMap(lookup));
     } catch (Exception e) {
-      throw new IllegalStateException("Failed to load qrels metadata from " + DEFAULT_METADATA_URL, e);
+      throw new IllegalStateException("Failed to load qrels metadata from " + QRELS_URL, e);
+    }
+  }
+
+  private static Map<String, String> loadLocalMetadata() {
+    try (InputStream inputStream = Qrels.class.getClassLoader().getResourceAsStream(LOCAL_QRELS)) {
+      if (inputStream == null) {
+        return Map.of();
+      }
+      return mapper.readValue(inputStream, new TypeReference<>() {});
+    } catch (Exception e) {
+      throw new IllegalStateException("Failed to load qrels metadata from " + LOCAL_QRELS, e);
     }
   }
 
@@ -140,13 +157,13 @@ public class Qrels {
   }
 
   private static Map<String, List<String>> loadLocalAliasesMetadata() {
-    try (InputStream inputStream = Qrels.class.getClassLoader().getResourceAsStream(LOCAL_ALIASES_METADATA_RESOURCE)) {
+    try (InputStream inputStream = Qrels.class.getClassLoader().getResourceAsStream(LOCAL_QRELS_ALIASES)) {
       if (inputStream == null) {
         return Map.of();
       }
       return mapper.readValue(inputStream, new TypeReference<>() {});
     } catch (Exception e) {
-      throw new IllegalStateException("Failed to load qrels aliases metadata from " + LOCAL_ALIASES_METADATA_RESOURCE, e);
+      throw new IllegalStateException("Failed to load qrels aliases metadata from " + LOCAL_QRELS_ALIASES, e);
     }
   }
 
@@ -218,7 +235,7 @@ public class Qrels {
    * Resolves a qrels reference to a local path.
    *
    * <p>The {@code qrels} argument may be a local path, a registered qrels name, a registered qrels filename, or an
-   * unregistered filename already present in the local topics-and-qrels cache. Registered qrels are downloaded into the
+   * unregistered filename already present in the local qrels cache. Registered qrels are downloaded into the
    * cache if needed. Unknown qrels are returned as paths unchanged, leaving the caller to handle any missing-file
    * failure.</p>
    *
@@ -232,7 +249,7 @@ public class Qrels {
       return qrelsPath;
     }
 
-    Map<String, String> registry = registry();
+    Map<String, String> registry = registry().lookup;
     String qrelsFileName = qrelsPath.getFileName().toString();
     String registeredPath = registry.get(qrels);
 
@@ -242,7 +259,7 @@ public class Qrels {
       qrelsPath = Path.of(qrelsFileName);
     } else {
       // If the qrels file is not in the list of known qrels, we assume it is a local file.
-      Path tempPath = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve(qrelsPath.getFileName());
+      Path tempPath = CacheDirectoryResolver.getQrelsCachePath().resolve(qrelsPath.getFileName());
       if (Files.exists(tempPath)) {
         // if it is an unregistered qrels in the Qrels registry, but it is in the cache, we use it.
         return tempPath;
@@ -250,7 +267,7 @@ public class Qrels {
       return qrelsPath;
     }
 
-    Path resultPath = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve(qrelsPath.getFileName());
+    Path resultPath = CacheDirectoryResolver.getQrelsCachePath().resolve(qrelsPath.getFileName());
     if (!Files.exists(resultPath)) {
       resultPath = downloadQrels(qrelsPath);
     }
@@ -258,9 +275,9 @@ public class Qrels {
   }
 
   public static Path downloadQrels(Path qrelsPath) throws IOException {
-    String qrelsURL = SERVER_PATH + qrelsPath.getFileName().toString();
+    String qrelsURL = URL + qrelsPath.getFileName().toString();
     System.out.println("Downloading qrels from " + qrelsURL);
-    Path localQrelsPath = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve(qrelsPath.getFileName());
+    Path localQrelsPath = CacheDirectoryResolver.getQrelsCachePath().resolve(qrelsPath.getFileName());
 
     try {
       FileUtils.copyURLToFile(new URI(qrelsURL).toURL(), localQrelsPath.toFile());
@@ -268,5 +285,15 @@ public class Qrels {
       throw new IOException("Error downloading qrels from " + qrelsURL);
     }
     return localQrelsPath;
+  }
+
+  private static final class Registry {
+    private final Map<String, String> canonical;
+    private final Map<String, String> lookup;
+
+    private Registry(Map<String, String> canonical, Map<String, String> lookup) {
+      this.canonical = canonical;
+      this.lookup = lookup;
+    }
   }
 }

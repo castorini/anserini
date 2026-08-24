@@ -46,7 +46,6 @@ import org.apache.logging.log4j.Logger;
  */
 public abstract class TopicReader<K> {
   private static final Logger LOG = LogManager.getLogger(TopicReader.class);
-  private static final String SERVER_PATH = "https://raw.githubusercontent.com/castorini/anserini-tools/master/topics-and-qrels/";
 
   protected final int BUFFER_SIZE = 1 << 16; // 64K
   protected Path topicFile;
@@ -202,11 +201,11 @@ public abstract class TopicReader<K> {
    * Returns a set of evaluation topics, reading from a file using a particular {@code TopicReader} class (as String).
    * This ridiculous method name is necessary for proper Python bindings via Pyjnius.
    *
-   * @param className {@code TopicReader} class
    * @param file topics file
+   * @param className {@code TopicReader} class
    * @return evaluation topics, with strings as topic ids
    */
-  public static Map<String, Map<String, String>> getTopicsWithStringIdsFromFileWithTopicReaderClass(String className, String file) {
+  public static Map<String, Map<String, String>> getTopicsWithStringIdsFromFileWithTopicReaderClass(String file, String className) {
     try {
       Class<?> clazz = Class.forName(className);
       Constructor<?>[] ctors = clazz.getDeclaredConstructors();
@@ -235,9 +234,9 @@ public abstract class TopicReader<K> {
    * @throws IOException if error encountered downloading topics
    */
   public static Path downloadTopics(Path topicPath) throws IOException {
-    String topicURL = SERVER_PATH + topicPath.getFileName().toString();
+    String topicURL = Topics.URL + topicPath.getFileName().toString();
     LOG.info("Downloading topics from " + topicURL);
-    Path localTopicPath = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve(topicPath.getFileName());
+    Path localTopicPath = CacheDirectoryResolver.getTopicCachePath().resolve(topicPath.getFileName());
     try {
       FileUtils.copyURLToFile(new URI(topicURL).toURL(), localTopicPath.toFile());
     } catch (Exception e){
@@ -259,7 +258,7 @@ public abstract class TopicReader<K> {
     } else {
       if (Topics.getTopicReaderClassForPath(topicPath.getFileName().toString()) == null) {
         // If the topic file is not in the list of known topics, we assume it is a local file.
-        Path tempPath = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve(topicPath.getFileName());
+        Path tempPath = CacheDirectoryResolver.getTopicCachePath().resolve(topicPath.getFileName());
         if (Files.exists(tempPath)) {
           // if it is an unregistered topic, but it is in the cache, we use it
           return tempPath;
@@ -268,7 +267,7 @@ public abstract class TopicReader<K> {
       }
     }
     
-    Path resultPath = CacheDirectoryResolver.getTopicsAndQrelsCachePath().resolve(topicPath.getFileName());
+    Path resultPath = CacheDirectoryResolver.getTopicCachePath().resolve(topicPath.getFileName());
     if (!Files.exists(resultPath)) {
       resultPath = downloadTopics(topicPath);
     }

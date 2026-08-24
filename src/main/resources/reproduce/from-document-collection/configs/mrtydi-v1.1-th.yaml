@@ -2,7 +2,7 @@
 corpus: mrtydi-v1.1-th
 corpus_path: collections/mr-tydi-corpus/mrtydi-v1.1-thai/
 
-index_path: indexes/lucene-index.mrtydi-v1.1-thai/
+index_path: indexes/lucene-inverted.mrtydi-v1.1-thai/
 collection_class: MrTyDiCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 1
@@ -31,17 +31,14 @@ metrics:
 topic_reader: TsvInt
 topics:
   - name: "[Mr. TyDi (Thai): train](https://github.com/castorini/mr.tydi)"
-    id: train
-    path: topics.mrtydi-v1.1-th.train.txt.gz
-    qrel: qrels.mrtydi-v1.1-th.train.txt
+    id: mrtydi-v1.1-th.train
+    qrels: mrtydi-v1.1-th.train
   - name: "[Mr. TyDi (Thai): dev](https://github.com/castorini/mr.tydi)"
-    id: dev
-    path: topics.mrtydi-v1.1-th.dev.txt.gz
-    qrel: qrels.mrtydi-v1.1-th.dev.txt
+    id: mrtydi-v1.1-th.dev
+    qrels: mrtydi-v1.1-th.dev
   - name: "[Mr. TyDi (Thai): test](https://github.com/castorini/mr.tydi)"
-    id: test
-    path: topics.mrtydi-v1.1-th.test.txt.gz
-    qrel: qrels.mrtydi-v1.1-th.test.txt
+    id: mrtydi-v1.1-th.test
+    qrels: mrtydi-v1.1-th.test
 
 models:
   - name: bm25

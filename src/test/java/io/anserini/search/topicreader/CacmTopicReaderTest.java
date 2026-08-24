@@ -29,8 +29,7 @@ public class CacmTopicReaderTest {
 
   @Test
   public void test() throws IOException {
-    TopicReader<Integer> reader = new CacmTopicReader(
-        Paths.get("tools/topics-and-qrels/topics.cacm.txt"));
+    TopicReader<Integer> reader = new CacmTopicReader(Paths.get("topics.cacm.txt"));
 
     SortedMap<Integer, Map<String, String>> topics = reader.read();
 

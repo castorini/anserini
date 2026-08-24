@@ -2,7 +2,7 @@
 corpus: cw12b13
 corpus_path: collections/web/ClueWeb12-B13/
 
-index_path: indexes/lucene-index.cw12b13/
+index_path: indexes/lucene-inverted.cw12b13/
 collection_class: ClueWeb12Collection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 44
@@ -28,26 +28,24 @@ metrics:
     metric_precision: 4
     can_combine: true
   - metric: nDCG@20
-    command: tools/eval/gdeval.pl
+    command: bin/gdeval.pl
     separator: ","
     parse_index: 2
     metric_precision: 4
   - metric: ERR@20
-    command: tools/eval/gdeval.pl
+    command: bin/gdeval.pl
     separator: ","
     parse_index: 3
     metric_precision: 4
 
 topic_reader: Webxml
 topics:
-  - name: "[TREC 2013 Web Track (Topics 201-250)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.web.201-250.txt)"
-    id: trec2013
-    path: topics.web.201-250.txt
-    qrel: qrels.web.201-250.txt
-  - name: "[TREC 2014 Web Track (Topics 251-300)](https://github.com/castorini/anserini-tools/tree/master/topics-and-qrels/topics.web.251-300.txt)"
-    id: trec2014
-    path: topics.web.251-300.txt
-    qrel: qrels.web.251-300.txt
+  - name: "[TREC 2013 Web Track (Topics 201-250)](https://github.com/castorini/eval/tree/master/topics/topics.web.201-250.txt)"
+    id: web.201-250
+    qrels: web.201-250
+  - name: "[TREC 2014 Web Track (Topics 251-300)](https://github.com/castorini/eval/tree/master/topics/topics.web.251-300.txt)"
+    id: web.251-300
+    qrels: web.251-300
 
 models:
   - name: bm25

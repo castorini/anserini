@@ -38,9 +38,8 @@ metrics:
 topic_reader: TsvString
 topics:
   - name: "BEIR (v1.0.0): CQADupStack-mathematica"
-    id: test
-    path: topics.beir-v1.0.0-cqadupstack-mathematica.test.tsv.gz
-    qrel: qrels.beir-v1.0.0-cqadupstack-mathematica.test.txt
+    id: beir-v1.0.0-cqadupstack-mathematica.test
+    qrels: beir-v1.0.0-cqadupstack-mathematica.test
 
 models:
   - name: bm25

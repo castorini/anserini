@@ -2,7 +2,7 @@
 corpus: hc4-v1.0-ru
 corpus_path: collections/multilingual/hc4-v1.0-ru/
 
-index_path: indexes/lucene-index.hc4-v1.0-ru
+index_path: indexes/lucene-inverted.hc4-v1.0-ru
 collection_class: NeuClirCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 8
@@ -44,29 +44,23 @@ metrics:
 topic_reader: TsvInt
 topics:
   - name: "[HC4 (Russian): dev-topic title](https://github.com/hltcoe/HC4)"
-    id: dev_title
-    path: topics.hc4-v1.0-ru.dev.title.tsv
-    qrel: qrels.hc4-v1.0-ru.dev.txt
+    id: hc4-v1.0-ru.dev.title
+    qrels: hc4-v1.0-ru.dev
   - name: "[HC4 (Russian): dev-topic description](https://github.com/hltcoe/HC4)"
-    id: dev_description
-    path: topics.hc4-v1.0-ru.dev.desc.tsv
-    qrel: qrels.hc4-v1.0-ru.dev.txt
+    id: hc4-v1.0-ru.dev.desc
+    qrels: hc4-v1.0-ru.dev
   - name: "[HC4 (Russian): dev-topic description+title](https://github.com/hltcoe/HC4)"
-    id: dev_description_title
-    path: topics.hc4-v1.0-ru.dev.desc.title.tsv
-    qrel: qrels.hc4-v1.0-ru.dev.txt
+    id: hc4-v1.0-ru.dev.desc.title
+    qrels: hc4-v1.0-ru.dev
   - name: "[HC4 (Russian): test-topic title](https://github.com/hltcoe/HC4)"
-    id: test_title
-    path: topics.hc4-v1.0-ru.test.title.tsv
-    qrel: qrels.hc4-v1.0-ru.test.txt
+    id: hc4-v1.0-ru.test.title
+    qrels: hc4-v1.0-ru.test
   - name: "[HC4 (Russian): test-topic description](https://github.com/hltcoe/HC4)"
-    id: test_description
-    path: topics.hc4-v1.0-ru.test.desc.tsv
-    qrel: qrels.hc4-v1.0-ru.test.txt
+    id: hc4-v1.0-ru.test.desc
+    qrels: hc4-v1.0-ru.test
   - name: "[HC4 (Russian): test-topic description+title](https://github.com/hltcoe/HC4)"
-    id: test_description_title
-    path: topics.hc4-v1.0-ru.test.desc.title.tsv
-    qrel: qrels.hc4-v1.0-ru.test.txt
+    id: hc4-v1.0-ru.test.desc.title
+    qrels: hc4-v1.0-ru.test
 
 
 models:
@@ -166,4 +160,3 @@ models:
         - 0.7728
         - 0.7680
         - 0.8271
-

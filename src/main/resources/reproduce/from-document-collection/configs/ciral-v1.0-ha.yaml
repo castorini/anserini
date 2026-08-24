@@ -2,7 +2,7 @@
 corpus: ciral-hausa
 corpus_path: collections/ciral/ciral-passages-hausa/
 
-index_path: indexes/lucene-index.ciral-v1.0-ha/
+index_path: indexes/lucene-inverted.ciral-v1.0-ha/
 collection_class: MrTyDiCollection
 generator_class: DefaultLuceneDocumentGenerator
 index_threads: 16
@@ -31,17 +31,14 @@ metrics:
 topic_reader: TsvInt
 topics:
   - name: "[CIRAL Hausa: Test Set A (Shallow Judgements)](https://huggingface.co/datasets/CIRAL/ciral)"
-    id: test-a-shallow
-    path: topics.ciral-v1.0-ha-test-a-native.tsv
-    qrel: qrels.ciral-v1.0-ha-test-a.tsv
+    id: ciral-v1.0-ha-test-a-native
+    qrels: ciral-v1.0-ha-test-a
   - name: "[CIRAL Hausa: Test Set A (Pools)](https://huggingface.co/datasets/CIRAL/ciral)"
-    id: test-a-pools
-    path: topics.ciral-v1.0-ha-test-a-native.tsv
-    qrel: qrels.ciral-v1.0-ha-test-a-pools.tsv
+    id: ciral-v1.0-ha-test-a-native
+    qrels: ciral-v1.0-ha-test-a-pools
   - name: "[CIRAL Hausa: Test Set B](https://huggingface.co/datasets/CIRAL/ciral)"
-    id: test-b-shallow
-    path: topics.ciral-v1.0-ha-test-b-native.tsv
-    qrel: qrels.ciral-v1.0-ha-test-b.tsv
+    id: ciral-v1.0-ha-test-b-native
+    qrels: ciral-v1.0-ha-test-b
 
 models:
   - name: bm25-default
