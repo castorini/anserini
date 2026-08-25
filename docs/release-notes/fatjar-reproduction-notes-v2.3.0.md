@@ -3,7 +3,11 @@
 The Anserini fatjar v2.3.0 release occurred at the following commit:
 
 ```text
-TBD
+commit 578143efbb73d842748e6a3c379f40f459d03895 (tag: anserini-2.3.0)
+Author: lintool <jimmylin@uwaterloo.ca>
+Date:   Tue Aug 25 09:01:52 2026 -0400
+
+    [maven-release-plugin] prepare release anserini-2.3.0
 ```
 
 Agent skills in `.agents/skills/` capture exactly how to use Anserini.
