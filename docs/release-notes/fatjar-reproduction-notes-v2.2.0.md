@@ -11,6 +11,7 @@ At the same time, the repo was renamed from `anserini-tools` to `eval`.
 The associated PR is [`eval#118`](https://github.com/castorini/eval/pull/118).
 This breaks consumers that depend on fetching a stable `topics-and-qrels/` path (on `master`).
 Note that the most obvious solution to add symlinks won't work, as `raw.githubusercontent.com` URLs do not automatically redirect.
+Unfortunately, there's no good solution... according to Codex, we either have to fix all downstream consumers or have separate copies of the data.
 + Anserini commit [`9bfc04b`](https://github.com/castorini/anserini/commit/9bfc04b2d5f22e3acf56edf43d06c1efa5fe2783) (2026/08/11) was the first commit that pinned a specific commit (hence ensuring stability).
 The associated PR is [`anserini#3369`](https://github.com/castorini/anserini/pull/3369).
 This means that any state of the repo before that commit is likely broken.
