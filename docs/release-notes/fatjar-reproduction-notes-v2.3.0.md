@@ -55,4 +55,4 @@ Again, use the `--dry-run` option to get an enumeration of individual commands w
 ```
 
 This is likely from `ReproduceFromPrebuiltIndexes`, which uses the GitHub REST API to query prebuilt index metadata.
-To fix, either authenticate using [`gh`](https://github.com/cli/cli) or run above `ReproduceFromPrebuiltIndexes` sequence of commands one at a time to stay below the limit.
+The simplest fix is to run the above `ReproduceFromPrebuiltIndexes` sequence of commands one at a time to stay below the limit.
