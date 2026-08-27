@@ -791,6 +791,16 @@ public class TopicReaderTest {
     assertEquals("[-0.010772705", topics.get(topics.firstKey()).get("vector").split(",")[0]);
     assertEquals(1133167, (int) topics.lastKey());
     assertEquals("[0.016159058", topics.get(topics.lastKey()).get("vector").split(",")[0]);
+
+    assertEquals(43, TopicReader.load(Topics.get("dl19-doc.unicoil-noexp.0shot")).size());
+    assertEquals(43, TopicReader.load(Topics.get("dl19-doc.unicoil.0shot")).size());
+    assertEquals(43, TopicReader.load(Topics.get("dl19-passage.cos-dpr-distil")).size());
+    assertEquals(43, TopicReader.load(Topics.get("dl19-passage.splade-pp-ed")).size());
+    assertEquals(43, TopicReader.load(Topics.get("dl19-passage.splade-pp-sd")).size());
+    assertEquals(43, TopicReader.load(Topics.get("dl19-passage.splade-v3")).size());
+    assertEquals(43, TopicReader.load(Topics.get("dl19-passage.splade_distil_cocodenser_medium")).size());
+    assertEquals(43, TopicReader.load(Topics.get("dl19-passage.unicoil-noexp.0shot")).size());
+    assertEquals(43, TopicReader.load(Topics.get("dl19-passage.unicoil.0shot")).size());
   }
 
   @Test
@@ -822,6 +832,14 @@ public class TopicReaderTest {
     assertEquals("[0.008285522", topics.get(topics.firstKey()).get("vector").split(",")[0]);
     assertEquals(1136962, (int) topics.lastKey());
     assertEquals("[0.0056495667", topics.get(topics.lastKey()).get("vector").split(",")[0]);
+
+    assertEquals(200, TopicReader.load(Topics.get("dl20.cos-dpr-distil")).size());
+    assertEquals(200, TopicReader.load(Topics.get("dl20.splade-pp-ed")).size());
+    assertEquals(200, TopicReader.load(Topics.get("dl20.splade-pp-sd")).size());
+    assertEquals(200, TopicReader.load(Topics.get("dl20.splade-v3")).size());
+    assertEquals(54, TopicReader.load(Topics.get("dl20.splade_distil_cocodenser_medium")).size());
+    assertEquals(200, TopicReader.load(Topics.get("dl20.unicoil-noexp.0shot")).size());
+    assertEquals(200, TopicReader.load(Topics.get("dl20.unicoil.0shot")).size());
   }
 
   @Test
@@ -844,6 +862,9 @@ public class TopicReaderTest {
     assertEquals("[-0.0054801227524876595", topics.get(topics.firstKey()).get("vector").split(",")[0]);
     assertEquals(1136769, (int) topics.lastKey());
     assertEquals("[0.0038787610828876495", topics.get(topics.lastKey()).get("vector").split(",")[0]);
+
+    assertEquals(477, TopicReader.load(Topics.get("dl21.unicoil-noexp.0shot")).size());
+    assertEquals(477, TopicReader.load(Topics.get("dl21.unicoil.0shot")).size());
   }
 
   @Test
@@ -866,6 +887,9 @@ public class TopicReaderTest {
     assertEquals("[0.020797204226255417", topics.get(topics.firstKey()).get("vector").split(",")[0]);
     assertEquals(2056473, (int) topics.lastKey());
     assertEquals("[0.005524440202862024", topics.get(topics.lastKey()).get("vector").split(",")[0]);
+
+    assertEquals(500, TopicReader.load(Topics.get("dl22.unicoil-noexp.0shot")).size());
+    assertEquals(500, TopicReader.load(Topics.get("dl22.unicoil.0shot")).size());
   }
 
   @Test
@@ -888,6 +912,9 @@ public class TopicReaderTest {
     assertEquals("[0.001558756805025041", topics.get(topics.firstKey()).get("vector").split(",")[0]);
     assertEquals(3100949, (int) topics.lastKey());
     assertEquals("[0.014963677152991295", topics.get(topics.lastKey()).get("vector").split(",")[0]);
+
+    assertEquals(700, TopicReader.load(Topics.get("dl23.unicoil-noexp.0shot")).size());
+    assertEquals(700, TopicReader.load(Topics.get("dl23.unicoil.0shot")).size());
   }
 
   @Test
@@ -998,6 +1025,18 @@ public class TopicReaderTest {
     assertEquals(1136966, (int) topics.lastKey());
     assertEquals("#ffffff color code", topics.get(topics.lastKey()).get("title"));
 
+    assertEquals(5193, TopicReader.load(Topics.get("msmarco-doc.dev.unicoil")).size());
+    assertEquals(5193, TopicReader.load(Topics.get("msmarco-doc.dev.unicoil-noexp")).size());
+    assertEquals(6980, TopicReader.load(Topics.get("msmarco-passage.dev-subset.cos-dpr-distil")).size());
+    assertEquals(6980, TopicReader.load(Topics.get("msmarco-passage.dev-subset.distill-splade-max")).size());
+    assertEquals(6980, TopicReader.load(Topics.get("msmarco-passage.dev-subset.splade-pp-ed")).size());
+    assertEquals(6980, TopicReader.load(Topics.get("msmarco-passage.dev-subset.splade-pp-sd")).size());
+    assertEquals(6980, TopicReader.load(Topics.get("msmarco-passage.dev-subset.splade-v3")).size());
+    assertEquals(6980, TopicReader.load(Topics.get("msmarco-passage.dev-subset.splade_distil_cocodenser_medium")).size());
+    assertEquals(6980, TopicReader.load(Topics.get("msmarco-passage.dev-subset.unicoil")).size());
+    assertEquals(6980, TopicReader.load(Topics.get("msmarco-passage.dev-subset.unicoil-noexp")).size());
+    assertEquals(6980, TopicReader.load(Topics.get("msmarco-passage.dev-subset.unicoil-tilde-expansion")).size());
+
     topics = TopicReader.load(Topics.get("msmarco-passage.dev-subset"));
     assertNotNull(topics);
     assertEquals(6980, topics.size());
@@ -1066,6 +1105,15 @@ public class TopicReaderTest {
     assertEquals(". irritability medical definition", topics.get(topics.firstKey()).get("title"));
     assertEquals(1102413, (int) topics.lastKey());
     assertEquals("why do a ferritin level", topics.get(topics.lastKey()).get("title"));
+
+    assertEquals(4552, TopicReader.load(Topics.get("msmarco-v2-doc.dev.unicoil-noexp.0shot")).size());
+    assertEquals(4552, TopicReader.load(Topics.get("msmarco-v2-doc.dev.unicoil.0shot")).size());
+    assertEquals(5000, TopicReader.load(Topics.get("msmarco-v2-doc.dev2.unicoil-noexp.0shot")).size());
+    assertEquals(5000, TopicReader.load(Topics.get("msmarco-v2-doc.dev2.unicoil.0shot")).size());
+    assertEquals(3903, TopicReader.load(Topics.get("msmarco-v2-passage.dev.unicoil-noexp.0shot")).size());
+    assertEquals(3903, TopicReader.load(Topics.get("msmarco-v2-passage.dev.unicoil.0shot")).size());
+    assertEquals(4281, TopicReader.load(Topics.get("msmarco-v2-passage.dev2.unicoil-noexp.0shot")).size());
+    assertEquals(4281, TopicReader.load(Topics.get("msmarco-v2-passage.dev2.unicoil.0shot")).size());
 
     topics = TopicReader.load(Topics.get("msmarco-v2-doc.dev2.snowflake-arctic-embed-l"));
     assertNotNull(topics);
@@ -1595,6 +1643,61 @@ public class TopicReaderTest {
     assertEquals(111, TopicReader.load(Topics.get("bright-aops")).keySet().size());
     assertEquals(76,  TopicReader.load(Topics.get("bright-theoremqa-theorems")).keySet().size());
     assertEquals(194, TopicReader.load(Topics.get("bright-theoremqa-questions")).keySet().size());
+
+    assertEquals(103, TopicReader.load(Topics.get("bright-biology.bge-large-en-v1.5")).size());
+    assertEquals(103, TopicReader.load(Topics.get("bright-biology.splade-v3")).size());
+    assertEquals(116, TopicReader.load(Topics.get("bright-earth-science.bge-large-en-v1.5")).size());
+    assertEquals(116, TopicReader.load(Topics.get("bright-earth-science.splade-v3")).size());
+    assertEquals(103, TopicReader.load(Topics.get("bright-economics.bge-large-en-v1.5")).size());
+    assertEquals(103, TopicReader.load(Topics.get("bright-economics.splade-v3")).size());
+    assertEquals(101, TopicReader.load(Topics.get("bright-psychology.bge-large-en-v1.5")).size());
+    assertEquals(101, TopicReader.load(Topics.get("bright-psychology.splade-v3")).size());
+    assertEquals(101, TopicReader.load(Topics.get("bright-robotics.bge-large-en-v1.5")).size());
+    assertEquals(101, TopicReader.load(Topics.get("bright-robotics.splade-v3")).size());
+    assertEquals(117, TopicReader.load(Topics.get("bright-stackoverflow.bge-large-en-v1.5")).size());
+    assertEquals(117, TopicReader.load(Topics.get("bright-stackoverflow.splade-v3")).size());
+    assertEquals(108, TopicReader.load(Topics.get("bright-sustainable-living.bge-large-en-v1.5")).size());
+    assertEquals(108, TopicReader.load(Topics.get("bright-sustainable-living.splade-v3")).size());
+    assertEquals(112, TopicReader.load(Topics.get("bright-pony.bge-large-en-v1.5")).size());
+    assertEquals(112, TopicReader.load(Topics.get("bright-pony.splade-v3")).size());
+    assertEquals(142, TopicReader.load(Topics.get("bright-leetcode.bge-large-en-v1.5")).size());
+    assertEquals(142, TopicReader.load(Topics.get("bright-leetcode.splade-v3")).size());
+    assertEquals(111, TopicReader.load(Topics.get("bright-aops.bge-large-en-v1.5")).size());
+    assertEquals(111, TopicReader.load(Topics.get("bright-aops.splade-v3")).size());
+    assertEquals(76, TopicReader.load(Topics.get("bright-theoremqa-theorems.bge-large-en-v1.5")).size());
+    assertEquals(76, TopicReader.load(Topics.get("bright-theoremqa-theorems.splade-v3")).size());
+    assertEquals(194, TopicReader.load(Topics.get("bright-theoremqa-questions.bge-large-en-v1.5")).size());
+    assertEquals(194, TopicReader.load(Topics.get("bright-theoremqa-questions.splade-v3")).size());
+  }
+
+  @Test
+  public void testAtomicValidationTopics() throws IOException {
+    String[] models = {
+        "Salesforce.blip-itm-base-coco",
+        "Salesforce.blip-itm-large-coco",
+        "ViT-B-32.laion2b_e16",
+        "ViT-B-32.laion400m_e32",
+        "ViT-H-14.laion2b_s32b_b79k",
+        "ViT-L-14.laion2b_s32b_b82k",
+        "ViT-bigG-14.laion2b_s39b_b160k",
+        "facebook.flava-full",
+        "openai.clip-vit-base-patch32",
+        "openai.clip-vit-large-patch14"
+    };
+
+    for (String model : models) {
+      assertEquals(16131, TopicReader.load(Topics.get("atomic.validation.image." + model)).size());
+      assertEquals(17173, TopicReader.load(Topics.get("atomic.validation.text." + model)).size());
+    }
+  }
+
+  @Test
+  public void testLegacyTopics() throws IOException {
+    assertEquals(73, TopicReader.load(Topics.get("ntcir8en.eval")).size());
+    assertEquals(50000, TopicReader.load(Topics.get("terabyte05.efficiency")).size());
+    assertEquals(50, TopicReader.load(Topics.get("web.1-50")).size());
+    assertEquals(100, TopicReader.load(Topics.get("www1.english")).size());
+    assertEquals(80, TopicReader.load(Topics.get("www2.english")).size());
   }
 
   @Test
@@ -1834,6 +1937,10 @@ public class TopicReaderTest {
 
   @Test
   public void testNeuCLIR22SpladeTopics() throws IOException {
+    assertEquals(114, TopicReader.load(Topics.get("neuclir22-en.splade.original-title")).keySet().size());
+    assertEquals(114, TopicReader.load(Topics.get("neuclir22-en.splade.original-desc")).keySet().size());
+    assertEquals(114, TopicReader.load(Topics.get("neuclir22-en.splade.original-desc_title")).keySet().size());
+
     assertEquals(114, TopicReader.load(Topics.get("neuclir22-fa.splade.ht-title")).keySet().size());
     assertEquals(114, TopicReader.load(Topics.get("neuclir22-fa.splade.ht-desc")).keySet().size());
     assertEquals(114, TopicReader.load(Topics.get("neuclir22-fa.splade.ht-desc_title")).keySet().size());
@@ -1879,6 +1986,23 @@ public class TopicReaderTest {
     assertEquals(393,  TopicReader.load(Topics.get("miracl-v1.0-zh-dev")).keySet().size());
     assertEquals(305,  TopicReader.load(Topics.get("miracl-v1.0-de-dev")).keySet().size());
     assertEquals(119,  TopicReader.load(Topics.get("miracl-v1.0-yo-dev")).keySet().size());
+
+    assertEquals(3495, TopicReader.load(Topics.get("miracl-v1.0-ar-train")).size());
+    assertEquals(1631, TopicReader.load(Topics.get("miracl-v1.0-bn-train")).size());
+    assertEquals(2863, TopicReader.load(Topics.get("miracl-v1.0-en-train")).size());
+    assertEquals(2162, TopicReader.load(Topics.get("miracl-v1.0-es-train")).size());
+    assertEquals(2107, TopicReader.load(Topics.get("miracl-v1.0-fa-train")).size());
+    assertEquals(2897, TopicReader.load(Topics.get("miracl-v1.0-fi-train")).size());
+    assertEquals(1143, TopicReader.load(Topics.get("miracl-v1.0-fr-train")).size());
+    assertEquals(1169, TopicReader.load(Topics.get("miracl-v1.0-hi-train")).size());
+    assertEquals(4071, TopicReader.load(Topics.get("miracl-v1.0-id-train")).size());
+    assertEquals(3477, TopicReader.load(Topics.get("miracl-v1.0-ja-train")).size());
+    assertEquals(868, TopicReader.load(Topics.get("miracl-v1.0-ko-train")).size());
+    assertEquals(4683, TopicReader.load(Topics.get("miracl-v1.0-ru-train")).size());
+    assertEquals(1901, TopicReader.load(Topics.get("miracl-v1.0-sw-train")).size());
+    assertEquals(3452, TopicReader.load(Topics.get("miracl-v1.0-te-train")).size());
+    assertEquals(2972, TopicReader.load(Topics.get("miracl-v1.0-th-train")).size());
+    assertEquals(1312, TopicReader.load(Topics.get("miracl-v1.0-zh-train")).size());
   }
 
   @Test

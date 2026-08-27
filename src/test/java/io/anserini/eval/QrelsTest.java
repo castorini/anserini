@@ -1575,6 +1575,91 @@ public class QrelsTest{
   }
 
   @Test
+  public void testAdhocQrels() throws IOException {
+    assertQrels("adhoc.51-100", 50, 89179);
+    assertQrels("adhoc.101-150", 50, 62620);
+    assertQrels("adhoc.151-200", 50, 97319);
+    assertQrels("adhoc.451-550", 100, 140470);
+  }
+
+  @Test
+  public void testAtomicValidationQrels() throws IOException {
+    assertQrels("atomic.validation.i2t", 16131, 17801);
+    assertQrels("atomic.validation.t2i", 17173, 17801);
+  }
+
+  @Test
+  public void testFireQrels() throws IOException {
+    assertQrels("fire12bn.176-225", 50, 44823);
+    assertQrels("fire12en.176-225", 50, 36499);
+    assertQrels("fire12hi.176-225", 50, 39827);
+  }
+
+  @Test
+  public void testMBeirQrels() throws IOException {
+    assertQrels("m-beir-cirr-task7", 4170, 4216);
+    assertQrels("m-beir-edis-task2", 3241, 8341);
+    assertQrels("m-beir-fashion200k-task0", 1719, 4847);
+    assertQrels("m-beir-fashion200k-task3", 4889, 4889);
+    assertQrels("m-beir-fashioniq-task7", 6003, 6014);
+    assertQrels("m-beir-infoseek-task6", 11323, 73869);
+    assertQrels("m-beir-infoseek-task8", 17593, 131376);
+    assertQrels("m-beir-mscoco-task0", 24809, 24989);
+    assertQrels("m-beir-mscoco-task3", 5000, 24989);
+    assertQrels("m-beir-nights-task4", 2120, 2120);
+    assertQrels("m-beir-oven-task6", 50004, 492654);
+    assertQrels("m-beir-oven-task8", 14741, 261258);
+    assertQrels("m-beir-visualnews-task0", 19995, 20000);
+    assertQrels("m-beir-visualnews-task3", 20000, 20000);
+    assertQrels("m-beir-webqa-task1", 2455, 5002);
+    assertQrels("m-beir-webqa-task2", 2511, 3627);
+  }
+
+  @Test
+  public void testMicroblogQrels() throws IOException {
+    assertQrels("microblog2011", 49, 60129);
+    assertQrels("microblog2012", 59, 73073);
+    assertQrels("microblog2013", 60, 71279);
+    assertQrels("microblog2014", 55, 57985);
+  }
+
+  @Test
+  public void testAdditionalMiraclQrels() throws IOException {
+    assertQrels("miracl-v1.0-ar-train", 3495, 25382);
+    assertQrels("miracl-v1.0-bn-train", 1631, 16754);
+    assertQrels("miracl-v1.0-de-dev", 305, 3144);
+    assertQrels("miracl-v1.0-en-train", 2863, 29416);
+    assertQrels("miracl-v1.0-es-train", 2162, 21531);
+    assertQrels("miracl-v1.0-fa-train", 2107, 21844);
+    assertQrels("miracl-v1.0-fi-train", 2897, 20350);
+    assertQrels("miracl-v1.0-fr-train", 1143, 11426);
+    assertQrels("miracl-v1.0-hi-train", 1169, 11668);
+    assertQrels("miracl-v1.0-id-train", 4071, 41358);
+    assertQrels("miracl-v1.0-ja-train", 3477, 34387);
+    assertQrels("miracl-v1.0-ko-train", 868, 12767);
+    assertQrels("miracl-v1.0-ru-train", 4683, 33921);
+    assertQrels("miracl-v1.0-sw-train", 1901, 9359);
+    assertQrels("miracl-v1.0-te-train", 3452, 18608);
+    assertQrels("miracl-v1.0-th-train", 2972, 21293);
+    assertQrels("miracl-v1.0-yo-dev", 119, 1188);
+    assertQrels("miracl-v1.0-zh-train", 1312, 13113);
+  }
+
+  @Test
+  public void testTerabyteQrels() throws IOException {
+    assertQrels("terabyte04.701-750", 49, 58077);
+    assertQrels("terabyte05.751-800", 50, 45291);
+    assertQrels("terabyte06.801-850", 50, 31984);
+  }
+
+  private void assertQrels(String name, int qids, int judgments) throws IOException {
+    Qrels qrels = Qrels.get(name);
+    assertNotNull(qrels);
+    assertEquals(qids, qrels.getQids().size());
+    assertEquals(judgments, getQrelsCount(qrels));
+  }
+
+  @Test
   public void testPathResolution() throws IOException {
     Path expected;
     Path produced;
