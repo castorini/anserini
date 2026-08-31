@@ -52,7 +52,9 @@ To confirm, `collectionandqueries.tar.gz` is around 1 GB and should have MD5 che
 Next, we need to convert the MS MARCO tsv collection into Anserini's jsonl files (which have one json object per line):
 
 ```bash
-python tools/scripts/msmarco/convert_collection_to_jsonl.py \
+wget https://raw.githubusercontent.com/castorini/eval/master/scripts/msmarco/convert_collection_to_jsonl.py -P collections/msmarco-passage/
+
+python collections/msmarco-passage/convert_collection_to_jsonl.py \
   --collection-path collections/msmarco-passage/collection.tsv \
   --output-folder collections/msmarco-passage/collection_jsonl
 ```
@@ -64,7 +66,9 @@ There are queries in the dev set that don't have relevance judgments.
 Let's discard them:
 
 ```bash
-python tools/scripts/msmarco/filter_queries.py \
+wget https://raw.githubusercontent.com/castorini/eval/master/scripts/msmarco/filter_queries.py -P collections/msmarco-passage/
+
+python collections/msmarco-passage/filter_queries.py \
   --qrels collections/msmarco-passage/qrels.dev.small.tsv \
   --queries collections/msmarco-passage/queries.dev.tsv \
   --output collections/msmarco-passage/queries.dev.small.tsv
@@ -204,10 +208,12 @@ Since the first column indicates the `qid`, it means that the file contains rank
 
 ## Evaluation
 
-Finally, we can evaluate the retrieved documents using the official MS MARCO evaluation script:
+Finally, we can evaluate the retrieved documents using the official MS MARCO evaluation script. The script has also been moved to castorini/eval, so fetch it first:
 
 ```bash
-python tools/scripts/msmarco/msmarco_passage_eval.py \
+wget https://raw.githubusercontent.com/castorini/eval/master/scripts/msmarco/msmarco_passage_eval.py -P collections/msmarco-passage/
+
+python collections/msmarco-passage/msmarco_passage_eval.py \
  collections/msmarco-passage/qrels.dev.small.tsv runs/run.msmarco-passage.dev.bm25.tsv
 ```
 
@@ -242,14 +248,18 @@ You can find this run on the [MS MARCO Passage Ranking Leaderboard](https://micr
 So you've just reproduced (part of) a leaderboard submission!
 
 We can also use the official [TREC](https://trec.nist.gov/) evaluation tool, `trec_eval`, to compute other metrics than MRR@10.
-For that we first need to convert runs and qrels files to the TREC format:
+For that we first need to convert runs and qrels files to the TREC format. Fetch scripts from castorini/eval first:
 
 ```bash
-python tools/scripts/msmarco/convert_msmarco_to_trec_run.py \
+wget https://raw.githubusercontent.com/castorini/eval/master/scripts/msmarco/convert_msmarco_to_trec_run.py -P collections/msmarco-passage/
+
+python collections/msmarco-passage/convert_msmarco_to_trec_run.py \
   --input runs/run.msmarco-passage.dev.bm25.tsv \
   --output runs/run.msmarco-passage.dev.bm25.trec
 
-python tools/scripts/msmarco/convert_msmarco_to_trec_qrels.py \
+wget https://raw.githubusercontent.com/castorini/eval/master/scripts/msmarco/convert_msmarco_to_trec_qrels.py -P collections/msmarco-passage/
+
+python collections/msmarco-passage/convert_msmarco_to_trec_qrels.py \
   --input collections/msmarco-passage/qrels.dev.small.tsv \
   --output collections/msmarco-passage/qrels.dev.small.trec
 ```
@@ -712,3 +722,4 @@ The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to th
 + Results reproduced by [@Ali-Sherazii](https://github.com/Ali-Sherazii) on 2026-08-25 (commit [`efb96dd`](https://github.com/castorini/anserini/commit/efb96ddf50857058c68298efb4a5430d1af1f95e))
 + Results reproduced by [@seangebob](https://github.com/seangebob) on 2026-08-26 (commit [`d178a77`](https://github.com/castorini/anserini/commit/d178a7748b5b25b7c9238df6cb1eac134e2e6b58))
 + Results reproduced by [@nointro3493](https://github.com/nointro3493) on 2026-08-29 (commit [`843af42`](https://github.com/castorini/anserini/commit/843af42914a62542053a5519ea92a1fc55f0ec0a))
++ Results reproduced by [@jnx01](https://github.com/jnx01) on 2026-08-31 (commit [`b228451`](https://github.com/castorini/anserini/commit/b228451f07ac86a59b3b93d35287e36a4c69fb4b))

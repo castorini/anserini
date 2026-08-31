@@ -200,10 +200,13 @@ Note that generically we call them "documents" but in truth they are passages; w
 Each line represents a passage:
 the first column contains a unique identifier for the passage (called the `docid`) and the second column contains the text of the passage itself.
 
-Next, we need to do a bit of data munging to get the collection into something Anserini can easily work with, which is a jsonl format (where we have one json object per line):
+Next, we need to do a bit of data munging to get the collection into something Anserini can easily work with, which is a jsonl format (where we have one json object per line). The conversion script has been moved to castorini/eval, so fetch it first:
 
 ```bash
-python tools/scripts/msmarco/convert_collection_to_jsonl.py \
+wget https://raw.githubusercontent.com/castorini/eval/master/scripts/msmarco/convert_collection_to_jsonl.py -P collections/msmarco-passage/
+
+
+python collections/msmarco-passage/convert_collection_to_jsonl.py \
   --collection-path collections/msmarco-passage/collection.tsv \
   --output-folder collections/msmarco-passage/collection_jsonl
 ```
@@ -245,10 +248,12 @@ As an aside, data munging along these lines is a very common data preparation op
 Collections rarely come in _exactly_ the format that your tools expect, so you'll be frequently writing lots of small scripts that munge data to convert from one format to another.
 
 Similarly, we'll also have to do a bit of data munging of the queries and the qrels.
-We're going to retain only the queries that are in the qrels file:
+We're going to retain only the queries that are in the qrels file. The query filtering script has also been moved to castorini/eval, so fetch it first:
 
 ```bash
-python tools/scripts/msmarco/filter_queries.py \
+wget https://raw.githubusercontent.com/castorini/eval/master/scripts/msmarco/filter_queries.py -P collections/msmarco-passage/
+
+python collections/msmarco-passage/filter_queries.py \
   --qrels collections/msmarco-passage/qrels.dev.small.tsv \
   --queries collections/msmarco-passage/queries.dev.tsv \
   --output collections/msmarco-passage/queries.dev.small.tsv
@@ -619,3 +624,4 @@ If you have any questions, look at previous pull requests for examples.
 + Results reproduced by [@Ali-Sherazii](https://github.com/Ali-Sherazii) on 2026-08-25 (commit [`efb96dd`](https://github.com/castorini/anserini/commit/efb96ddf50857058c68298efb4a5430d1af1f95e))
 + Results reproduced by [@seangebob](https://github.com/seangebob) on 2026-08-26 (commit [`d178a77`](https://github.com/castorini/anserini/commit/d178a7748b5b25b7c9238df6cb1eac134e2e6b58))
 + Results reproduced by [@nointro3493](https://github.com/nointro3493) on 2026-08-28 (commit [`843af42`](https://github.com/castorini/anserini/commit/843af42914a62542053a5519ea92a1fc55f0ec0a))
++ Results reproduced by [@jnx01](https://github.com/jnx01) on 2026-08-31 (commit [`b228451`](https://github.com/castorini/anserini/commit/b228451f07ac86a59b3b93d35287e36a4c69fb4b))
