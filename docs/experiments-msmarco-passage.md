@@ -52,9 +52,7 @@ To confirm, `collectionandqueries.tar.gz` is around 1 GB and should have MD5 che
 Next, we need to convert the MS MARCO tsv collection into Anserini's jsonl files (which have one json object per line):
 
 ```bash
-wget https://raw.githubusercontent.com/castorini/eval/master/scripts/msmarco/convert_collection_to_jsonl.py -P collections/msmarco-passage/
-
-python collections/msmarco-passage/convert_collection_to_jsonl.py \
+python src/main/python/msmarco/convert_collection_to_jsonl.py \
   --collection-path collections/msmarco-passage/collection.tsv \
   --output-folder collections/msmarco-passage/collection_jsonl
 ```
@@ -66,9 +64,7 @@ There are queries in the dev set that don't have relevance judgments.
 Let's discard them:
 
 ```bash
-wget https://raw.githubusercontent.com/castorini/eval/master/scripts/msmarco/filter_queries.py -P collections/msmarco-passage/
-
-python collections/msmarco-passage/filter_queries.py \
+python src/main/python/msmarco/filter_queries.py \
   --qrels collections/msmarco-passage/qrels.dev.small.tsv \
   --queries collections/msmarco-passage/queries.dev.tsv \
   --output collections/msmarco-passage/queries.dev.small.tsv
@@ -208,12 +204,10 @@ Since the first column indicates the `qid`, it means that the file contains rank
 
 ## Evaluation
 
-Finally, we can evaluate the retrieved documents using the official MS MARCO evaluation script. The script has also been moved to castorini/eval, so fetch it first:
+Finally, we can evaluate the retrieved documents using the official MS MARCO evaluation script:
 
 ```bash
-wget https://raw.githubusercontent.com/castorini/eval/master/scripts/msmarco/msmarco_passage_eval.py -P collections/msmarco-passage/
-
-python collections/msmarco-passage/msmarco_passage_eval.py \
+python src/main/python/msmarco/msmarco_passage_eval.py \
  collections/msmarco-passage/qrels.dev.small.tsv runs/run.msmarco-passage.dev.bm25.tsv
 ```
 
@@ -248,18 +242,14 @@ You can find this run on the [MS MARCO Passage Ranking Leaderboard](https://micr
 So you've just reproduced (part of) a leaderboard submission!
 
 We can also use the official [TREC](https://trec.nist.gov/) evaluation tool, `trec_eval`, to compute other metrics than MRR@10.
-For that we first need to convert runs and qrels files to the TREC format. Fetch scripts from castorini/eval first:
+For that we first need to convert runs and qrels files to the TREC format:
 
 ```bash
-wget https://raw.githubusercontent.com/castorini/eval/master/scripts/msmarco/convert_msmarco_to_trec_run.py -P collections/msmarco-passage/
-
-python collections/msmarco-passage/convert_msmarco_to_trec_run.py \
+python src/main/python/msmarco/convert_msmarco_to_trec_run.py \
   --input runs/run.msmarco-passage.dev.bm25.tsv \
   --output runs/run.msmarco-passage.dev.bm25.trec
 
-wget https://raw.githubusercontent.com/castorini/eval/master/scripts/msmarco/convert_msmarco_to_trec_qrels.py -P collections/msmarco-passage/
-
-python collections/msmarco-passage/convert_msmarco_to_trec_qrels.py \
+python src/main/python/msmarco/convert_msmarco_to_trec_qrels.py \
   --input collections/msmarco-passage/qrels.dev.small.tsv \
   --output collections/msmarco-passage/qrels.dev.small.trec
 ```
@@ -344,7 +334,7 @@ This section is **not** part of the onboarding path, so feel free to skip.
 
 Note that this figure differs slightly from the value reported in [Document Expansion by Query Prediction](https://arxiv.org/abs/1904.08375), which uses the Anserini (system-wide) default of `k1=0.9`, `b=0.4`.
 
-Tuning was accomplished with `tools/scripts/msmarco/tune_bm25.py`, using the queries found [here](https://github.com/castorini/Anserini-data/tree/master/MSMARCO); the basic approach is grid search of parameter values in tenth increments.
+Tuning was accomplished with `src/main/python/msmarco/tune_bm25.py`, using the queries found [here](https://github.com/castorini/Anserini-data/tree/master/MSMARCO); the basic approach is grid search of parameter values in tenth increments.
 There are five different sets of 10k samples (using the `shuf` command).
 We tuned on each individual set and then averaged parameter values across all five sets (this has the effect of regularization).
 In separate trials, we optimized for:
@@ -718,8 +708,10 @@ The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to th
 + Results reproduced by [@Rex-fortune](https://github.com/Rex-fortune) on 2026-08-12 (commit [`b99e095`](https://github.com/castorini/anserini/commit/b99e09582d3c3880c87e43eb0e1040adb4cfa0ac))
 + Results reproduced by [@Evan-Lowry](https://github.com/Evan-Lowry) on 2026-08-13 (commit [`ff848cb`](https://github.com/castorini/anserini/commit/ff848cb5872b42ee5305dbb1e27d72d2602aeade))
 + Results reproduced by [@AhmadT198](https://github.com/AhmadT198) on 2026-08-14 (commit [`1272378`](https://github.com/castorini/anserini/commit/127237835c675272668f0d65420602117fe50d09))
++ Results reproduced by [@taherb22](https://github.com/taherb22) on 2026-08-16 (commit [`9bfc04b`](https://github.com/castorini/anserini/commit/9bfc04b2d5f22e3acf56edf43d06c1efa5fe2783))
 + Results reproduced by [@sattipraveena3-sudo](https://github.com/sattipraveena3-sudo) on 2026-08-21 (commit [`d02b3dd`](https://github.com/castorini/anserini/commit/d02b3dd3c85c81a675c4f5a7dc721ab249170817))
 + Results reproduced by [@Ali-Sherazii](https://github.com/Ali-Sherazii) on 2026-08-25 (commit [`efb96dd`](https://github.com/castorini/anserini/commit/efb96ddf50857058c68298efb4a5430d1af1f95e))
 + Results reproduced by [@seangebob](https://github.com/seangebob) on 2026-08-26 (commit [`d178a77`](https://github.com/castorini/anserini/commit/d178a7748b5b25b7c9238df6cb1eac134e2e6b58))
 + Results reproduced by [@nointro3493](https://github.com/nointro3493) on 2026-08-29 (commit [`843af42`](https://github.com/castorini/anserini/commit/843af42914a62542053a5519ea92a1fc55f0ec0a))
-+ Results reproduced by [@jnx01](https://github.com/jnx01) on 2026-08-31 (commit [`b228451`](https://github.com/castorini/anserini/commit/b228451f07ac86a59b3b93d35287e36a4c69fb4b))
++ Results reproduced by [@iwis19](https://github.com/iwis19) on 2026-08-29 (commit [`b228451`](https://github.com/castorini/anserini/commit/b228451f07ac86a59b3b93d35287e36a4c69fb4b))
++ Results reproduced by [@Ben-geo](https://github.com/Ben-geo) on 2026-08-31 (commit [`b228451`](https://github.com/castorini/anserini/commit/b228451f07ac86a59b3b93d35287e36a4c69fb4b))

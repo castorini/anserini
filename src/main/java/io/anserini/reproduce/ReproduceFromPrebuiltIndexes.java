@@ -212,6 +212,7 @@ public class ReproduceFromPrebuiltIndexes {
       }
 
       // Compute dynamic widths for first and last columns.
+      @SuppressWarnings("null")
       int nameWidth = Math.max("name".length(), uniqueIndexNames.stream().mapToInt(String::length).max().orElse(4));
       nameWidth = Math.max(nameWidth, "total".length());
       int pathWidth = "local path".length();

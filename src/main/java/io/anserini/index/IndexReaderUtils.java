@@ -37,6 +37,7 @@ import org.apache.lucene.index.FieldInfos;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.MultiTerms;
 import org.apache.lucene.index.PostingsEnum;
+import org.apache.lucene.index.StoredFields;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
@@ -49,7 +50,6 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
-import org.apache.lucene.search.TotalHitCountCollector;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.search.similarities.Similarity;
 import org.apache.lucene.store.Directory;
@@ -208,15 +208,12 @@ public class IndexReaderUtils {
    * @return df (+cf if only one term) of the phrase
    * @throws IOException if error encountered during access to index
    */
-  public static Map<String, Long> getTermCountsWithAnalyzer(IndexReader reader, String termStr, Analyzer analyzer)
-      throws IOException {
+  public static Map<String, Long> getTermCountsWithAnalyzer(IndexReader reader, String termStr, Analyzer analyzer) throws IOException {
     if (AnalyzerUtils.analyze(analyzer, termStr).size() > 1) {
       Query query = new PhraseQueryGenerator().buildQuery(Constants.CONTENTS, analyzer, termStr);
       IndexSearcher searcher = new IndexSearcher(reader);
-      TotalHitCountCollector totalHitCountCollector = new TotalHitCountCollector();
-      searcher.search(query, totalHitCountCollector);
       return Map.ofEntries(
-        Map.entry("docFreq", (long) totalHitCountCollector.getTotalHits())
+        Map.entry("docFreq", (long) searcher.count(query))
       );
     }
 
@@ -426,8 +423,7 @@ public class IndexReaderUtils {
    *
    * @param reader index reader
    * @param docid collection docid
-   * @return the document vector for a particular document as a map of terms to term frequencies or {@code null} if
-   * document does not exist.
+   * @return the document vector for a particular document as a map of terms to term frequencies or {@code null} if document does not exist.
    * @throws IOException if error encountered during query
    * @throws NotStoredException if the term vector is not stored
    */
@@ -497,7 +493,7 @@ public class IndexReaderUtils {
 
   /**
    * Returns the Lucene {@link Document} based on a collection docid. The method is named to be consistent with Lucene's
-   * {@link IndexReader#document(int)}, contra Java's standard method naming conventions.
+   * {@link StoredFields#document(int)}, contra Java's standard method naming conventions.
    *
    * @param reader index reader
    * @param docid collection docid
@@ -515,7 +511,7 @@ public class IndexReaderUtils {
   /**
    * Fetches the Lucene {@link Document} based on some field other than its unique collection docid. For example,
    * scientific articles might have DOIs. The method is named to be consistent with Lucene's
-   * {@link IndexReader#document(int)}, contra Java's standard method naming conventions.
+   * {@link StoredFields#document(int)}, contra Java's standard method naming conventions.
    *
    * @param reader index reader
    * @param field field
@@ -543,7 +539,7 @@ public class IndexReaderUtils {
 
   /**
    * Returns the "raw" field of a document based on a collection docid. The method is named to be consistent with
-   * Lucene's {@link IndexReader#document(int)}, contra Java's standard method naming conventions.
+   * Lucene's {@link StoredFields#document(int)}, contra Java's standard method naming conventions.
    *
    * @param reader index reader
    * @param docid collection docid
@@ -560,7 +556,7 @@ public class IndexReaderUtils {
 
   /**
    * Returns the "contents" field of a document based on a collection docid. The method is named to be consistent with
-   * Lucene's {@link IndexReader#document(int)}, contra Java's standard method naming conventions.
+   * Lucene's {@link StoredFields#document(int)}, contra Java's standard method naming conventions.
    *
    * @param reader index reader
    * @param docid collection docid
@@ -934,8 +930,6 @@ public class IndexReaderUtils {
     }
     return String.format(Locale.US, "%.1f %s", size, units[unitIndex]);
   }
-
-    // This is needed by src/main/python/run_regression.py
 
   public static final class Args {
     @Option(name = "-index", metaVar = "[Path]", required = true, usage = "index path")

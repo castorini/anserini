@@ -157,12 +157,11 @@ Bringing together everything we've discussed so far, a test collection consists 
 
 Here, we're going to introduce the [MS MARCO passage ranking test collection](https://microsoft.github.io/msmarco/).
 
-If you haven't cloned the [anserini](https://github.com/castorini/anserini) repository already, clone it and get its `tools` submodule:
+If you haven't cloned the [anserini](https://github.com/castorini/anserini) repository already, clone it:
 
 ```bash
 git clone https://github.com/castorini/anserini.git
 cd anserini
-git submodule update --init --recursive
 ```
 
 In these instructions we're going to use Anserini's root directory as the working directory.
@@ -200,13 +199,10 @@ Note that generically we call them "documents" but in truth they are passages; w
 Each line represents a passage:
 the first column contains a unique identifier for the passage (called the `docid`) and the second column contains the text of the passage itself.
 
-Next, we need to do a bit of data munging to get the collection into something Anserini can easily work with, which is a jsonl format (where we have one json object per line). The conversion script has been moved to castorini/eval, so fetch it first:
+Next, we need to do a bit of data munging to get the collection into something Anserini can easily work with, which is a jsonl format (where we have one json object per line):
 
 ```bash
-wget https://raw.githubusercontent.com/castorini/eval/master/scripts/msmarco/convert_collection_to_jsonl.py -P collections/msmarco-passage/
-
-
-python collections/msmarco-passage/convert_collection_to_jsonl.py \
+python src/main/python/msmarco/convert_collection_to_jsonl.py \
   --collection-path collections/msmarco-passage/collection.tsv \
   --output-folder collections/msmarco-passage/collection_jsonl
 ```
@@ -248,12 +244,10 @@ As an aside, data munging along these lines is a very common data preparation op
 Collections rarely come in _exactly_ the format that your tools expect, so you'll be frequently writing lots of small scripts that munge data to convert from one format to another.
 
 Similarly, we'll also have to do a bit of data munging of the queries and the qrels.
-We're going to retain only the queries that are in the qrels file. The query filtering script has also been moved to castorini/eval, so fetch it first:
+We're going to retain only the queries that are in the qrels file:
 
 ```bash
-wget https://raw.githubusercontent.com/castorini/eval/master/scripts/msmarco/filter_queries.py -P collections/msmarco-passage/
-
-python collections/msmarco-passage/filter_queries.py \
+python src/main/python/msmarco/filter_queries.py \
   --qrels collections/msmarco-passage/qrels.dev.small.tsv \
   --queries collections/msmarco-passage/queries.dev.tsv \
   --output collections/msmarco-passage/queries.dev.small.tsv
@@ -620,8 +614,10 @@ If you have any questions, look at previous pull requests for examples.
 + Results reproduced by [@mehra-es](https://github.com/mehra-es) on 2026-08-11 (commit [`4179733`](https://github.com/castorini/anserini/commit/4179733cc8aabefd22a7cb1f3e674cbc347a3953))
 + Results reproduced by [@Rex-fortune](https://github.com/Rex-fortune) on 2026-08-12 (commit [`b99e095`](https://github.com/castorini/anserini/commit/b99e09582d3c3880c87e43eb0e1040adb4cfa0ac))
 + Results reproduced by [@Evan-Lowry](https://github.com/Evan-Lowry) on 2026-08-13 (commit [`ff848cb`](https://github.com/castorini/anserini/commit/ff848cb5872b42ee5305dbb1e27d72d2602aeade))
++ Results reproduced by [@taherb22](https://github.com/taherb22) on 2026-08-16 (commit [`9bfc04b`](https://github.com/castorini/anserini/commit/9bfc04b2d5f22e3acf56edf43d06c1efa5fe2783))
 + Results reproduced by [@sattipraveena3-sudo](https://github.com/sattipraveena3-sudo) on 2026-08-21 (commit [`d02b3dd`](https://github.com/castorini/anserini/commit/d02b3dd3c85c81a675c4f5a7dc721ab249170817))
 + Results reproduced by [@Ali-Sherazii](https://github.com/Ali-Sherazii) on 2026-08-25 (commit [`efb96dd`](https://github.com/castorini/anserini/commit/efb96ddf50857058c68298efb4a5430d1af1f95e))
 + Results reproduced by [@seangebob](https://github.com/seangebob) on 2026-08-26 (commit [`d178a77`](https://github.com/castorini/anserini/commit/d178a7748b5b25b7c9238df6cb1eac134e2e6b58))
 + Results reproduced by [@nointro3493](https://github.com/nointro3493) on 2026-08-28 (commit [`843af42`](https://github.com/castorini/anserini/commit/843af42914a62542053a5519ea92a1fc55f0ec0a))
-+ Results reproduced by [@jnx01](https://github.com/jnx01) on 2026-08-31 (commit [`b228451`](https://github.com/castorini/anserini/commit/b228451f07ac86a59b3b93d35287e36a4c69fb4b))
++ Results reproduced by [@iwis19](https://github.com/iwis19) on 2026-08-29 (commit [`b228451`](https://github.com/castorini/anserini/commit/b228451f07ac86a59b3b93d35287e36a4c69fb4b))
++ Results reproduced by [@Ben-geo](https://github.com/Ben-geo) on 2026-08-31 (commit [`b228451`](https://github.com/castorini/anserini/commit/b228451f07ac86a59b3b93d35287e36a4c69fb4b))
