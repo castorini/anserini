@@ -81,10 +81,8 @@ about available prebuilt indexes or MS MARCO passage retrieval setup.
 Recommended lookup for the standard MS MARCO V1 passage inverted index:
 
 ```bash
-java -cp "$ANSERINI_JAR" \
-  io.anserini.cli.PrebuiltIndexRegistry \
-  --list --filter '^msmarco-v1-passage$' \
-| jq '.[0] | {name, type, description, filename}'
+java -cp "$ANSERINI_JAR" io.anserini.cli.PrebuiltIndexRegistry --list --filter '^msmarco-v1-passage$' \
+  | jq '.[0] | {name, type, description, filename}'
 ```
 
 Useful variants:
@@ -106,45 +104,76 @@ To inspect topics exposed by `io.anserini.cli.TopicsRegistry`, run:
 java -cp "$ANSERINI_JAR" io.anserini.cli.TopicsRegistry --list
 ```
 
-`--list` emits JSON in current jars, so prefer `--filter` and `jq` to locate the
-exact symbol. If `jq` is not available, ask the user whether it should be
-installed before relying on `jq` examples.
+`--list` emits canonical topic names as JSON. Use `--filter <regexp>` to narrow
+the registry with a regular expression:
 
-To print all topics for a specific set, run:
+```bash
+java -cp "$ANSERINI_JAR" io.anserini.cli.TopicsRegistry --list --filter 'msmarco' | jq '.'
+```
+
+`--get` writes parsed topics as JSON to stdout:
 
 ```bash
 java -cp "$ANSERINI_JAR" io.anserini.cli.TopicsRegistry --get <name>
 ```
 
-To print metadata, including the downloaded local path, run:
+`--metadata` writes the canonical name, aliases, registered path, reader class,
+and downloaded local path as JSON to stdout:
 
 ```bash
 java -cp "$ANSERINI_JAR" io.anserini.cli.TopicsRegistry --metadata <name>
 ```
 
-For the standard MS MARCO V1 passage queries that pair with the
-`msmarco-v1-passage` prebuilt index, use `msmarco-v1-passage.dev`.
+Both `--get` and `--metadata` download the registered topics when needed.
 
-To inspect its metadata and resolve the topics to a local path:
+For the standard MS MARCO V1 passage queries that pair with the
+`msmarco-v1-passage` prebuilt index, use the canonical name
+`msmarco-passage.dev-subset`:
 
 ```bash
-java -cp "$ANSERINI_JAR" io.anserini.cli.TopicsRegistry \
-  --metadata msmarco-v1-passage.dev | jq '.'
+java -cp "$ANSERINI_JAR" io.anserini.cli.TopicsRegistry --metadata msmarco-passage.dev-subset | jq '.'
 ```
+
+Aliases such as `msmarco-v1-passage.dev` are also accepted by `--get` and
+`--metadata`.
 
 ## Qrels Registry
 
-To list available qrels, print raw qrels, or print metadata including the
-downloaded local path, run:
+To inspect qrels exposed by `io.anserini.cli.QrelsRegistry`, run:
 
 ```bash
 java -cp "$ANSERINI_JAR" io.anserini.cli.QrelsRegistry --list
+```
+
+`--list` emits canonical qrels names as JSON. Use `--filter <regexp>` to narrow
+the registry with a regular expression:
+
+```bash
+java -cp "$ANSERINI_JAR" io.anserini.cli.QrelsRegistry --list --filter 'msmarco' | jq '.'
+```
+
+`--get` writes raw qrels to stdout:
+
+```bash
 java -cp "$ANSERINI_JAR" io.anserini.cli.QrelsRegistry --get <name>
+```
+
+`--metadata` writes the canonical name, aliases, registered path, and downloaded
+local path as JSON to stdout:
+
+```bash
 java -cp "$ANSERINI_JAR" io.anserini.cli.QrelsRegistry --metadata <name>
 ```
 
-`--list` supports `--filter <regexp>`. Both `--get` and `--metadata` download
-the registered qrels when it is not already available locally.
+Both `--get` and `--metadata` download the registered qrels when needed.
+
+For the standard MS MARCO V1 passage relevance judgments that pair with the
+`msmarco-v1-passage` prebuilt index, use the canonical name
+`msmarco-passage.dev-subset`:
+
+```bash
+java -cp "$ANSERINI_JAR" io.anserini.cli.QrelsRegistry --metadata msmarco-passage.dev-subset | jq '.'
+```
 
 ## Search CLI
 
