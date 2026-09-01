@@ -2,7 +2,7 @@
 name: anserini-cli
 description: Run Anserini command-line and REST workflows from either a built fatjar or an Anserini source checkout. Use for PrebuiltIndexRegistry, TopicsRegistry, ad hoc search, interactive search, output formats, and RestServer examples.
 metadata:
-  version: v0.2.0
+  version: v0.3.0
 ---
 
 # Use Anserini CLI
