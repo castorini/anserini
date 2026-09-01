@@ -112,6 +112,7 @@ public class Qrels {
     return path;
   }
 
+  @SuppressWarnings("null")
   public static String getCanonicalName(String name) {
     String path = getRegisteredPath(name);
     return registry().canonical.entrySet().stream()

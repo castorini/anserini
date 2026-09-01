@@ -183,13 +183,13 @@ index path or a prebuilt index name.
 Example using the popular `msmarco-v1-passage` prebuilt index:
 
 ```bash
-java -cp "$ANSERINI_JAR" io.anserini.cli.Search --index msmarco-v1-passage --query "what is a lobster roll" --hits 10
+java -cp "$ANSERINI_JAR" io.anserini.cli.Search --index msmarco-v1-passage --query "what is a lobster roll" --hits 10 --json
 ```
 
 Interactive mode:
 
 ```bash
-java -cp "$ANSERINI_JAR" io.anserini.cli.Search --index msmarco-v1-passage --interactive
+java -cp "$ANSERINI_JAR" io.anserini.cli.Search --index msmarco-v1-passage --interactive --json
 ```
 
 Useful output variants:
@@ -260,8 +260,8 @@ java -cp "$ANSERINI_JAR" io.anserini.eval.TrecEval \
   cacm \
   run.cacm.bm25.txt | tee eval.cacm.bm25.txt
 
-grep -q $'map\tall\t0.3123' eval.cacm.bm25.txt
-grep -q $'P_30\tall\t0.1942' eval.cacm.bm25.txt
+grep -Eq '^map[[:space:]]+all[[:space:]]+0\.3123$' eval.cacm.bm25.txt
+grep -Eq '^P_30[[:space:]]+all[[:space:]]+0\.1942$' eval.cacm.bm25.txt
 ```
 
 ## REST API Server

@@ -21,6 +21,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
@@ -151,6 +152,30 @@ public class TopicsTest {
       fail("Expected IllegalArgumentException to be thrown");
     } catch (IllegalArgumentException e) {
       assertEquals("\"" + invalidTopics + "\" does not refer to valid topics.", e.getMessage());
+    }
+  }
+
+  @Test
+  public void testResolveRegisteredTopicPathWithUnknownName() throws IOException {
+    String invalidTopics = "this-topic-name-does-not-exist";
+
+    try {
+      Topics.resolveRegisteredTopicPath(invalidTopics);
+      fail("Expected IllegalArgumentException to be thrown");
+    } catch (IllegalArgumentException e) {
+      assertEquals("Unknown topics name: " + invalidTopics, e.getMessage());
+    }
+  }
+
+  @Test
+  public void testAliasesWithUnknownName() {
+    String invalidTopics = "this-topic-name-does-not-exist";
+
+    try {
+      Topics.aliases(invalidTopics);
+      fail("Expected IllegalArgumentException to be thrown");
+    } catch (IllegalArgumentException e) {
+      assertEquals("Unknown topics name: " + invalidTopics, e.getMessage());
     }
   }
 }
