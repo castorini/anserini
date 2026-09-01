@@ -125,17 +125,12 @@ java -cp "$ANSERINI_JAR" io.anserini.cli.TopicsRegistry --metadata <name>
 For the standard MS MARCO V1 passage queries that pair with the
 `msmarco-v1-passage` prebuilt index, use `msmarco-v1-passage.dev`.
 
-Recommended lookup:
+To inspect its metadata and resolve the topics to a local path:
 
 ```bash
-java -cp "$ANSERINI_JAR" \
-  io.anserini.cli.TopicsRegistry \
-  --list --filter '^msmarco(-v1)?-passage(\\.dev|-dev)$' \
-| jq '.'
+java -cp "$ANSERINI_JAR" io.anserini.cli.TopicsRegistry \
+  --metadata msmarco-v1-passage.dev | jq '.'
 ```
-
-Use `--list` first to discover the exact set name, then `--get` to inspect its
-contents.
 
 ## Qrels Registry
 
