@@ -157,12 +157,11 @@ Bringing together everything we've discussed so far, a test collection consists 
 
 Here, we're going to introduce the [MS MARCO passage ranking test collection](https://microsoft.github.io/msmarco/).
 
-If you haven't cloned the [anserini](https://github.com/castorini/anserini) repository already, clone it and get its `tools` submodule:
+If you haven't cloned the [anserini](https://github.com/castorini/anserini) repository already, clone it:
 
 ```bash
 git clone https://github.com/castorini/anserini.git
 cd anserini
-git submodule update --init --recursive
 ```
 
 In these instructions we're going to use Anserini's root directory as the working directory.
