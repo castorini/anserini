@@ -21,6 +21,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 
@@ -87,6 +88,9 @@ public class TopicsTest {
     // Aliases shouldn't be in names().
     assertFalse(Topics.names().contains("dummy.1"));
     assertFalse(Topics.names().contains("dummy.2"));
+
+    assertEquals(List.of("dummy.1", "dummy.2"), Topics.aliases("dummy"));
+    assertEquals(List.of("dummy.1", "dummy.2"), Topics.aliases("dummy.1"));
 
     // But they should be available via get.
     assertDummyTopics("dummy.1");

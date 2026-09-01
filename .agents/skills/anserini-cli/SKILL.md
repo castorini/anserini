@@ -116,6 +116,12 @@ To print all topics for a specific set, run:
 java -cp "$ANSERINI_JAR" io.anserini.cli.TopicsRegistry --get <set>
 ```
 
+To print metadata, including the downloaded local path, run:
+
+```bash
+java -cp "$ANSERINI_JAR" io.anserini.cli.TopicsRegistry --metadata <set>
+```
+
 For the standard MS MARCO V1 passage queries that pair with the
 `msmarco-v1-passage` prebuilt index, use `msmarco-v1-passage.dev`.
 
@@ -130,6 +136,20 @@ java -cp "$ANSERINI_JAR" \
 
 Use `--list` first to discover the exact set name, then `--get` to inspect its
 contents.
+
+## Qrels Registry
+
+To list available qrels, print raw qrels, or print metadata including the
+downloaded local path, run:
+
+```bash
+java -cp "$ANSERINI_JAR" io.anserini.cli.QrelsRegistry --list
+java -cp "$ANSERINI_JAR" io.anserini.cli.QrelsRegistry --get <set>
+java -cp "$ANSERINI_JAR" io.anserini.cli.QrelsRegistry --metadata <set>
+```
+
+`--list` supports `--filter <regexp>`. Both `--get` and `--metadata` download
+the registered qrels when it is not already available locally.
 
 ## Search CLI
 

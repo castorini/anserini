@@ -23,6 +23,7 @@ import java.io.InputStream;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -98,6 +99,32 @@ public class Qrels {
     return new Qrels(name, Path.of(path));
   }
 
+  public static Path resolveRegisteredQrelsPath(String name) throws IOException {
+    String path = getRegisteredPath(name);
+    return resolveQrelsPath(path);
+  }
+
+  public static String getRegisteredPath(String name) {
+    String path = registry().lookup.get(name);
+    if (path == null) {
+      throw new IllegalArgumentException("Unknown qrels name: " + name);
+    }
+    return path;
+  }
+
+  public static String getCanonicalName(String name) {
+    String path = getRegisteredPath(name);
+    return registry().canonical.entrySet().stream()
+        .filter(entry -> entry.getValue().equals(path))
+        .map(Map.Entry::getKey)
+        .findFirst()
+        .orElseThrow(() -> new IllegalStateException("No canonical qrels name for: " + name));
+  }
+
+  public static List<String> aliases(String name) {
+    return registry().aliases.getOrDefault(getCanonicalName(name), List.of());
+  }
+
   public static Qrels loadFromFile(String file) throws IOException {
     return new Qrels(file);
   }
@@ -124,17 +151,25 @@ public class Qrels {
     try (InputStream inputStream = new URI(QRELS_URL).toURL().openStream()) {
       Map<String, String> registry = mapper.readValue(inputStream, new TypeReference<>() {});
       registry.putAll(loadLocalMetadata());
+      Map<String, List<String>> aliases = new LinkedHashMap<>();
+      mergeAliases(aliases, loadAliasesMetadata(QREL_ALIASES_URL));
       Map<String, List<String>> localAliases = loadLocalAliasesMetadata();
+      mergeAliases(aliases, localAliases);
       Map<String, String> canonicalRegistry = new LinkedHashMap<>(registry);
-      localAliases.values().forEach(aliases -> aliases.forEach(canonicalRegistry::remove));
+      localAliases.values().forEach(aliasValues -> aliasValues.forEach(canonicalRegistry::remove));
       Map<String, String> canonical = Collections.unmodifiableMap(canonicalRegistry);
       Map<String, String> lookup = new LinkedHashMap<>(registry);
-      addAliasesToRegistry(lookup, loadAliasesMetadata(QREL_ALIASES_URL));
-      addAliasesToRegistry(lookup, localAliases);
-      return new Registry(canonical, Collections.unmodifiableMap(lookup));
+      addAliasesToRegistry(lookup, aliases);
+      aliases.replaceAll((name, values) -> List.copyOf(values));
+      return new Registry(canonical, Collections.unmodifiableMap(lookup), Collections.unmodifiableMap(aliases));
     } catch (Exception e) {
       throw new IllegalStateException("Failed to load qrels metadata from " + QRELS_URL, e);
     }
+  }
+
+  private static void mergeAliases(Map<String, List<String>> destination, Map<String, List<String>> source) {
+    source.forEach((name, aliases) ->
+        destination.computeIfAbsent(name, ignored -> new ArrayList<>()).addAll(aliases));
   }
 
   private static Map<String, String> loadLocalMetadata() {
@@ -276,7 +311,7 @@ public class Qrels {
 
   public static Path downloadQrels(Path qrelsPath) throws IOException {
     String qrelsURL = URL + qrelsPath.getFileName().toString();
-    System.out.println("Downloading qrels from " + qrelsURL);
+    System.err.println("Downloading qrels from " + qrelsURL);
     Path localQrelsPath = CacheDirectoryResolver.getQrelsCachePath().resolve(qrelsPath.getFileName());
 
     try {
@@ -290,10 +325,12 @@ public class Qrels {
   private static final class Registry {
     private final Map<String, String> canonical;
     private final Map<String, String> lookup;
+    private final Map<String, List<String>> aliases;
 
-    private Registry(Map<String, String> canonical, Map<String, String> lookup) {
+    private Registry(Map<String, String> canonical, Map<String, String> lookup, Map<String, List<String>> aliases) {
       this.canonical = canonical;
       this.lookup = lookup;
+      this.aliases = aliases;
     }
   }
 }
