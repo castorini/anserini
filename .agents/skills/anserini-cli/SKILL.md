@@ -113,13 +113,13 @@ installed before relying on `jq` examples.
 To print all topics for a specific set, run:
 
 ```bash
-java -cp "$ANSERINI_JAR" io.anserini.cli.TopicsRegistry --get <set>
+java -cp "$ANSERINI_JAR" io.anserini.cli.TopicsRegistry --get <name>
 ```
 
 To print metadata, including the downloaded local path, run:
 
 ```bash
-java -cp "$ANSERINI_JAR" io.anserini.cli.TopicsRegistry --metadata <set>
+java -cp "$ANSERINI_JAR" io.anserini.cli.TopicsRegistry --metadata <name>
 ```
 
 For the standard MS MARCO V1 passage queries that pair with the
@@ -144,8 +144,8 @@ downloaded local path, run:
 
 ```bash
 java -cp "$ANSERINI_JAR" io.anserini.cli.QrelsRegistry --list
-java -cp "$ANSERINI_JAR" io.anserini.cli.QrelsRegistry --get <set>
-java -cp "$ANSERINI_JAR" io.anserini.cli.QrelsRegistry --metadata <set>
+java -cp "$ANSERINI_JAR" io.anserini.cli.QrelsRegistry --get <name>
+java -cp "$ANSERINI_JAR" io.anserini.cli.QrelsRegistry --metadata <name>
 ```
 
 `--list` supports `--filter <regexp>`. Both `--get` and `--metadata` download
