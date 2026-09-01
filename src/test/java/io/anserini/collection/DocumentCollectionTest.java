@@ -24,6 +24,7 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -147,6 +148,28 @@ public abstract class DocumentCollectionTest<T extends SourceDocument> extends S
 
     assertEquals(totalSegments, segmentCnt.get());
     assertEquals(totalDocs, docCnt.get());
+  }
+
+  @Test
+  // Sharded getSegmentPaths must partition the collection: every segment lands in exactly one shard.
+  public void testShardedPartition() {
+    if (collection == null)
+      return;
+
+    Set<Path> all = new HashSet<>(collection.getSegmentPaths());
+    int shardCount = 3;
+    Set<Path> union = new HashSet<>();
+    int assigned = 0;
+    for (int i = 0; i < shardCount; i++) {
+      List<Path> shard = collection.getSegmentPaths(shardCount, i);
+      assigned += shard.size();
+      union.addAll(shard);
+    }
+
+    // Completeness: every segment is assigned to some shard (nothing silently dropped).
+    assertEquals(all, union);
+    // Disjointness: no segment is assigned to more than one shard.
+    assertEquals(all.size(), assigned);
   }
 
   abstract void checkDocument(SourceDocument doc, Map<String, String> expected);
