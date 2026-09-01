@@ -116,6 +116,7 @@ public class FeatureVector {
     return getOrderedFeatures(Order.VALUE_DESCENDING);
   }
 
+  @SuppressWarnings("null")
   private List<FeatureValuePair> getOrderedFeatures(Order order) {
     List<FeatureValuePair> pairs = new ArrayList<>(features.size());
     Iterator<String> featureIterator = features.keySet().iterator();
