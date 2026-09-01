@@ -157,12 +157,11 @@ Bringing together everything we've discussed so far, a test collection consists 
 
 Here, we're going to introduce the [MS MARCO passage ranking test collection](https://microsoft.github.io/msmarco/).
 
-If you haven't cloned the [anserini](https://github.com/castorini/anserini) repository already, clone it and get its `tools` submodule:
+If you haven't cloned the [anserini](https://github.com/castorini/anserini) repository already, clone it:
 
 ```bash
 git clone https://github.com/castorini/anserini.git
 cd anserini
-git submodule update --init --recursive
 ```
 
 In these instructions we're going to use Anserini's root directory as the working directory.
@@ -203,7 +202,7 @@ the first column contains a unique identifier for the passage (called the `docid
 Next, we need to do a bit of data munging to get the collection into something Anserini can easily work with, which is a jsonl format (where we have one json object per line):
 
 ```bash
-python tools/scripts/msmarco/convert_collection_to_jsonl.py \
+python src/main/python/msmarco/convert_collection_to_jsonl.py \
   --collection-path collections/msmarco-passage/collection.tsv \
   --output-folder collections/msmarco-passage/collection_jsonl
 ```
@@ -248,7 +247,7 @@ Similarly, we'll also have to do a bit of data munging of the queries and the qr
 We're going to retain only the queries that are in the qrels file:
 
 ```bash
-python tools/scripts/msmarco/filter_queries.py \
+python src/main/python/msmarco/filter_queries.py \
   --qrels collections/msmarco-passage/qrels.dev.small.tsv \
   --queries collections/msmarco-passage/queries.dev.tsv \
   --output collections/msmarco-passage/queries.dev.small.tsv
