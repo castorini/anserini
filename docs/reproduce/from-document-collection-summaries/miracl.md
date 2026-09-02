@@ -9,11 +9,11 @@ Each of these experiments starts from the raw document collection, builds the ne
 
 Key:
 
-+ BM25 = language-specific Lucene analyzer, keyword queries (🔑)
-+ BM25 (ACA) = Lucene's `AutoCompositeAnalyzer`, keyword queries (🔑)
++ BM25 = Anserini's language-specific Lucene analyzer, keyword queries (🔑)
++ BM25 (ACA) = Anserini's `AutoCompositeAnalyzer`, keyword queries (🔑)
 
-| Language   |                               BM25                                |                                  BM25 (ACA)                                   |
-|------------|:-----------------------------------------------------------------:|:-----------------------------------------------------------------------------:|
+| Language   |                        BM25                         |                       BM25 (ACA)                        |
+|------------|:---------------------------------------------------:|:-------------------------------------------------------:|
 | Arabic     | [🔑](../from-document-collection/miracl-v1.0-ar.md) | [🔑](../from-document-collection/miracl-v1.0-ar-aca.md) |
 | Bengali    | [🔑](../from-document-collection/miracl-v1.0-bn.md) | [🔑](../from-document-collection/miracl-v1.0-bn-aca.md) |
 | English    | [🔑](../from-document-collection/miracl-v1.0-en.md) | [🔑](../from-document-collection/miracl-v1.0-en-aca.md) |

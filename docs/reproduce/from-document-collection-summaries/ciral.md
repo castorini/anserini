@@ -9,11 +9,11 @@ Each of these experiments starts from the raw document collection, builds the ne
 
 Key:
 
-+ QT = BM25 with human-translated queries and the corpus in the original language (🔑)
-+ DT = BM25 with English queries and the corpus translated into English (🔑)
++ Query Translation (QT) = corpus in the original language, human-translated queries from English (🔑)
++ Document Translation (DT) = corpus translated into English, original English queries (🔑)
 
-| Language |                           QT                            |                              DT                               |
-|----------|:-------------------------------------------------------:|:-------------------------------------------------------------:|
+| Language |               Query Translation (QT)               |               Document Translation (DT)               |
+|----------|:--------------------------------------------------:|:-----------------------------------------------------:|
 | Hausa    | [🔑](../from-document-collection/ciral-v1.0-ha.md) | [🔑](../from-document-collection/ciral-v1.0-ha-en.md) |
 | Somali   | [🔑](../from-document-collection/ciral-v1.0-so.md) | [🔑](../from-document-collection/ciral-v1.0-so-en.md) |
 | Swahili  | [🔑](../from-document-collection/ciral-v1.0-sw.md) | [🔑](../from-document-collection/ciral-v1.0-sw-en.md) |
