@@ -24,6 +24,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -54,6 +55,9 @@ public class QrelsTest{
     // Aliases shouldn't be in names().
     assertFalse(Qrels.names().contains("dummy.1"));
     assertFalse(Qrels.names().contains("dummy.2"));
+
+    assertEquals(List.of("dummy.1", "dummy.2"), Qrels.aliases("dummy"));
+    assertEquals(List.of("dummy.1", "dummy.2"), Qrels.aliases("dummy.1"));
 
     // But they should be available via get.
     assertDummyQrels("dummy.1");

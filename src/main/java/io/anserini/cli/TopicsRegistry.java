@@ -16,6 +16,7 @@
 
 package io.anserini.cli;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
@@ -48,12 +49,14 @@ public final class TopicsRegistry {
     @Option(name = "--get", metaVar = "[topics]", usage = "Enumerate topics.")
     public String get = null;
 
+    @Option(name = "--metadata", metaVar = "[topics]", usage = "Print topics metadata.")
+    public String metadata = null;
+
     @Option(name = "--help", help = true, usage = "Print this help message and exit.")
     public boolean help = false;
   }
 
-  private static final String[] argsOrdering = new String[] {
-      "--list", "--filter", "--get", "--help"};
+  private static final String[] argsOrdering = new String[] {"--list", "--filter", "--get", "--metadata", "--help"};
 
   public static void main(String[] args) {
     LoggingBootstrap.installJulToSlf4jBridge();
@@ -74,8 +77,9 @@ public final class TopicsRegistry {
       return;
     }
 
-    if (parsedArgs.list == (parsedArgs.get != null)) {
-      System.err.println("Error: exactly one of --list or --get must be specified");
+    int actions = (parsedArgs.list ? 1 : 0) + (parsedArgs.get != null ? 1 : 0) + (parsedArgs.metadata != null ? 1 : 0);
+    if (actions != 1) {
+      System.err.println("Error: exactly one of --list, --get, or --metadata must be specified");
       CliUtils.printUsage(parser, TopicsRegistry.class, argsOrdering);
       return;
     }
@@ -107,7 +111,7 @@ public final class TopicsRegistry {
         }
 
         System.out.println(JSON_MAPPER.writeValueAsString(List.copyOf(names)));
-      } else {
+      } else if (args.get != null) {
         SortedMap<?, Map<String, String>> queries = getAllQueriesForTopic(args.get);
         if (queries == null) {
           if (Topics.get(args.get) == null) {
@@ -117,9 +121,25 @@ public final class TopicsRegistry {
         }
 
         System.out.println(JSON_MAPPER.writeValueAsString(queries));
+      } else {
+        Topics topic = Topics.get(args.metadata);
+        if (topic == null) {
+          System.err.printf("Error: unknown topics \"%s\"%n", args.metadata);
+          return;
+        }
+
+        Map<String, Object> metadata = new LinkedHashMap<>();
+        metadata.put("name", topic.name());
+        metadata.put("path", topic.path);
+        metadata.put("reader_class", topic.readerClass.getName());
+        metadata.put("local_path", Topics.resolveRegisteredTopicPath(args.metadata).toAbsolutePath().toString());
+        metadata.put("aliases", Topics.aliases(args.metadata));
+        System.out.println(JSON_MAPPER.writeValueAsString(metadata));
       }
     } catch (JsonProcessingException e) {
       System.err.printf("Error: %s%n", e.getMessage());
+    } catch (Exception e) {
+      System.err.printf("Error: unable to read topics \"%s\": %s%n", args.metadata, e.getMessage());
     }
   }
 

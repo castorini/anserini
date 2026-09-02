@@ -32,14 +32,12 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
-import io.anserini.search.topicreader.Topics;
+import io.anserini.eval.Qrels;
 
-public class TopicsRegistryTest extends StdOutStdErrRedirectableLuceneTestCase {
+public class QrelsRegistryTest extends StdOutStdErrRedirectableLuceneTestCase {
   private static final ObjectMapper MAPPER = new ObjectMapper();
   private static final TypeReference<List<String>> NAME_LIST_TYPE =
       new TypeReference<List<String>>() {};
-  private static final TypeReference<Map<String, Map<String, String>>> QUERY_MAP_TYPE =
-      new TypeReference<Map<String, Map<String, String>>>() {};
   private static final TypeReference<Map<String, Object>> METADATA_TYPE =
       new TypeReference<Map<String, Object>>() {};
 
@@ -59,113 +57,98 @@ public class TopicsRegistryTest extends StdOutStdErrRedirectableLuceneTestCase {
 
   @Test
   public void testInvalidOption() {
-    TopicsRegistry.main(new String[] {"--invalid"});
+    QrelsRegistry.main(new String[] {"--invalid"});
     assertTrue(err.toString().contains("Error:"));
     assertTrue(err.toString().contains("--invalid"));
-    assertTrue(err.toString().contains("Options for TopicsRegistry:"));
+    assertTrue(err.toString().contains("Options for QrelsRegistry:"));
   }
 
   @Test
   public void testHelp() {
-    TopicsRegistry.main(new String[] {"--help"});
-    assertTrue(err.toString().contains("Options for TopicsRegistry:"));
+    QrelsRegistry.main(new String[] {"--help"});
+    assertTrue(err.toString().contains("Options for QrelsRegistry:"));
     assertTrue(err.toString().contains("--help"));
     assertFalse(err.toString().contains("Error:"));
   }
 
   @Test
   public void testFilterRequiresList() {
-    TopicsRegistry.main(new String[] {"--get", "TREC2019_DL_PASSAGE", "--filter", "DL"});
+    QrelsRegistry.main(new String[] {"--get", "dummy", "--filter", "dummy"});
     assertTrue(err.toString().contains("Error: --filter only works with --list"));
   }
 
   @Test
   public void testListWithFilter() throws Exception {
-    TopicsRegistry.main(new String[] {"--list", "--filter", "msmarco"});
-
+    QrelsRegistry.main(new String[] {"--list", "--filter", "^dummy$"});
     List<String> names = MAPPER.readValue(out.toString(), NAME_LIST_TYPE);
-
-    Set<String> expectedNames = new TreeSet<>(Topics.names());
-    expectedNames.removeIf(name -> !name.contains("msmarco"));
-
-    assertEquals(expectedNames.size(), names.size());
-    assertEquals(expectedNames, new TreeSet<>(names));
-    assertTrue(names.contains("msmarco-passage.dev-subset"));
-    assertFalse(names.contains("topics.msmarco-passage.dev-subset.txt"));
+    assertEquals(List.of("dummy"), names);
   }
 
   @Test
   public void testListWithInvalidFilterRegex() {
-    TopicsRegistry.main(new String[] {"--list", "--filter", "["});
+    QrelsRegistry.main(new String[] {"--list", "--filter", "["});
     assertTrue(err.toString().contains("Error: invalid regular expression \"[\""));
     assertEquals("", out.toString());
   }
 
   @Test
   public void testMissingRequiredOption() {
-    TopicsRegistry.main(new String[] {});
+    QrelsRegistry.main(new String[] {});
     assertTrue(err.toString().contains("Error: exactly one of --list, --get, or --metadata must be specified"));
   }
 
   @Test
   public void testList() throws Exception {
-    TopicsRegistry.main(new String[] {"--list"});
-
+    QrelsRegistry.main(new String[] {"--list"});
     List<String> names = MAPPER.readValue(out.toString(), NAME_LIST_TYPE);
-
-    Set<String> expectedNames = new TreeSet<>(Topics.names());
-
-    assertEquals(expectedNames.size(), names.size());
+    Set<String> expectedNames = new TreeSet<>(Qrels.names());
     assertEquals(expectedNames, new TreeSet<>(names));
-    assertTrue(names.contains("dl19-passage"));
-    assertFalse(names.contains("topics.dl19-passage.txt"));
+    assertTrue(names.contains("dummy"));
+    assertFalse(names.contains("dummy.1"));
   }
 
   @Test
-  public void testGet() throws Exception {
-    Path topicFile = Path.of("topics.dl19-passage.txt");
-    Files.writeString(topicFile, "1\tquery one\n2\tquery two\n", StandardCharsets.UTF_8);
+  public void testGetRawContents() throws Exception {
+    Path qrelsFile = Path.of("qrels.dummy.txt");
+    String contents = "1 0 DOC1 1\n1 0 DOC2 0\n2 0 DOC3 1\n2 0 DOC4 0\n";
+    Files.writeString(qrelsFile, contents, StandardCharsets.UTF_8);
 
     try {
-      TopicsRegistry.main(new String[] {"--get", "dl19-passage"});
-
-      Map<String, Map<String, String>> queries = MAPPER.readValue(out.toString(), QUERY_MAP_TYPE);
-
-      assertEquals(2, queries.size());
-      assertEquals("query one", queries.get("1").get("title"));
-      assertEquals("query two", queries.get("2").get("title"));
+      QrelsRegistry.main(new String[] {"--get", "dummy"});
+      assertEquals(contents, out.toString());
+      assertEquals("", err.toString());
     } finally {
-      Files.deleteIfExists(topicFile);
+      Files.deleteIfExists(qrelsFile);
     }
   }
 
   @Test
-  public void testGetInvalidTopic() {
-    TopicsRegistry.main(new String[] {"--get", "NOT_A_TOPIC"});
-    assertTrue(err.toString().contains("Error: unknown topics \"NOT_A_TOPIC\""));
+  public void testGetInvalidQrels() {
+    QrelsRegistry.main(new String[] {"--get", "NOT_A_QRELS"});
+    assertTrue(err.toString().contains("Error: unknown qrels \"NOT_A_QRELS\""));
+    assertEquals("", out.toString());
   }
 
   @Test
   public void testMetadata() throws Exception {
-    Path topicFile = Path.of("topics.dummy.tsv");
-    Files.writeString(topicFile, "1\tquery one\n", StandardCharsets.UTF_8);
+    Path qrelsFile = Path.of("qrels.dummy.txt");
+    Files.writeString(qrelsFile, "1 0 DOC1 1\n", StandardCharsets.UTF_8);
 
     try {
-      TopicsRegistry.main(new String[] {"--metadata", "dummy"});
+      QrelsRegistry.main(new String[] {"--metadata", "dummy"});
       Map<String, Object> metadata = MAPPER.readValue(out.toString(), METADATA_TYPE);
       assertEquals("dummy", metadata.get("name"));
-      assertEquals("topics.dummy.tsv", metadata.get("path"));
-      assertEquals("io.anserini.search.topicreader.TsvStringTopicReader", metadata.get("reader_class"));
-      assertEquals(topicFile.toAbsolutePath().toString(), metadata.get("local_path"));
+      assertEquals("qrels.dummy.txt", metadata.get("path"));
+      assertEquals(qrelsFile.toAbsolutePath().toString(), metadata.get("local_path"));
       assertEquals(List.of("dummy.1", "dummy.2"), metadata.get("aliases"));
     } finally {
-      Files.deleteIfExists(topicFile);
+      Files.deleteIfExists(qrelsFile);
     }
   }
 
   @Test
-  public void testMetadataInvalidTopic() {
-    TopicsRegistry.main(new String[] {"--metadata", "NOT_A_TOPIC"});
-    assertTrue(err.toString().contains("Error: unknown topics \"NOT_A_TOPIC\""));
+  public void testMetadataInvalidQrels() {
+    QrelsRegistry.main(new String[] {"--metadata", "NOT_A_QRELS"});
+    assertTrue(err.toString().contains("Error: unknown qrels \"NOT_A_QRELS\""));
   }
 }
