@@ -52,7 +52,7 @@ To confirm, `collectionandqueries.tar.gz` is around 1 GB and should have MD5 che
 Next, we need to convert the MS MARCO tsv collection into Anserini's jsonl files (which have one json object per line):
 
 ```bash
-python tools/scripts/msmarco/convert_collection_to_jsonl.py \
+python src/main/python/msmarco/convert_collection_to_jsonl.py \
   --collection-path collections/msmarco-passage/collection.tsv \
   --output-folder collections/msmarco-passage/collection_jsonl
 ```
@@ -64,7 +64,7 @@ There are queries in the dev set that don't have relevance judgments.
 Let's discard them:
 
 ```bash
-python tools/scripts/msmarco/filter_queries.py \
+python src/main/python/msmarco/filter_queries.py \
   --qrels collections/msmarco-passage/qrels.dev.small.tsv \
   --queries collections/msmarco-passage/queries.dev.tsv \
   --output collections/msmarco-passage/queries.dev.small.tsv
@@ -207,7 +207,7 @@ Since the first column indicates the `qid`, it means that the file contains rank
 Finally, we can evaluate the retrieved documents using the official MS MARCO evaluation script:
 
 ```bash
-python tools/scripts/msmarco/msmarco_passage_eval.py \
+python src/main/python/msmarco/msmarco_passage_eval.py \
  collections/msmarco-passage/qrels.dev.small.tsv runs/run.msmarco-passage.dev.bm25.tsv
 ```
 
@@ -245,11 +245,11 @@ We can also use the official [TREC](https://trec.nist.gov/) evaluation tool, `tr
 For that we first need to convert runs and qrels files to the TREC format:
 
 ```bash
-python tools/scripts/msmarco/convert_msmarco_to_trec_run.py \
+python src/main/python/msmarco/convert_msmarco_to_trec_run.py \
   --input runs/run.msmarco-passage.dev.bm25.tsv \
   --output runs/run.msmarco-passage.dev.bm25.trec
 
-python tools/scripts/msmarco/convert_msmarco_to_trec_qrels.py \
+python src/main/python/msmarco/convert_msmarco_to_trec_qrels.py \
   --input collections/msmarco-passage/qrels.dev.small.tsv \
   --output collections/msmarco-passage/qrels.dev.small.trec
 ```
@@ -334,7 +334,7 @@ This section is **not** part of the onboarding path, so feel free to skip.
 
 Note that this figure differs slightly from the value reported in [Document Expansion by Query Prediction](https://arxiv.org/abs/1904.08375), which uses the Anserini (system-wide) default of `k1=0.9`, `b=0.4`.
 
-Tuning was accomplished with `tools/scripts/msmarco/tune_bm25.py`, using the queries found [here](https://github.com/castorini/Anserini-data/tree/master/MSMARCO); the basic approach is grid search of parameter values in tenth increments.
+Tuning was accomplished with `src/main/python/msmarco/tune_bm25.py`, using the queries found [here](https://github.com/castorini/Anserini-data/tree/master/MSMARCO); the basic approach is grid search of parameter values in tenth increments.
 There are five different sets of 10k samples (using the `shuf` command).
 We tuned on each individual set and then averaged parameter values across all five sets (this has the effect of regularization).
 In separate trials, we optimized for:
@@ -715,3 +715,5 @@ The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to th
 + Results reproduced by [@sliverdancer](https://github.com/sliverdancer) on 2026-08-27 (commit [`d178a77`](https://github.com/castorini/anserini/commit/d178a7748b5b25b7c9238df6cb1eac134e2e6b58))
 + Results reproduced by [@nointro3493](https://github.com/nointro3493) on 2026-08-29 (commit [`843af42`](https://github.com/castorini/anserini/commit/843af42914a62542053a5519ea92a1fc55f0ec0a))
 + Results reproduced by [@iwis19](https://github.com/iwis19) on 2026-08-29 (commit [`b228451`](https://github.com/castorini/anserini/commit/b228451f07ac86a59b3b93d35287e36a4c69fb4b))
++ Results reproduced by [@Ben-geo](https://github.com/Ben-geo) on 2026-08-31 (commit [`b228451`](https://github.com/castorini/anserini/commit/b228451f07ac86a59b3b93d35287e36a4c69fb4b))
++ Results reproduced by [@jnx01](https://github.com/jnx01) on 2026-08-31 (commit [`b228451`](https://github.com/castorini/anserini/commit/b228451f07ac86a59b3b93d35287e36a4c69fb4b))

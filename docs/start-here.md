@@ -157,12 +157,11 @@ Bringing together everything we've discussed so far, a test collection consists 
 
 Here, we're going to introduce the [MS MARCO passage ranking test collection](https://microsoft.github.io/msmarco/).
 
-If you haven't cloned the [anserini](https://github.com/castorini/anserini) repository already, clone it and get its `tools` submodule:
+If you haven't cloned the [anserini](https://github.com/castorini/anserini) repository already, clone it:
 
 ```bash
 git clone https://github.com/castorini/anserini.git
 cd anserini
-git submodule update --init --recursive
 ```
 
 In these instructions we're going to use Anserini's root directory as the working directory.
@@ -203,7 +202,7 @@ the first column contains a unique identifier for the passage (called the `docid
 Next, we need to do a bit of data munging to get the collection into something Anserini can easily work with, which is a jsonl format (where we have one json object per line):
 
 ```bash
-python tools/scripts/msmarco/convert_collection_to_jsonl.py \
+python src/main/python/msmarco/convert_collection_to_jsonl.py \
   --collection-path collections/msmarco-passage/collection.tsv \
   --output-folder collections/msmarco-passage/collection_jsonl
 ```
@@ -248,7 +247,7 @@ Similarly, we'll also have to do a bit of data munging of the queries and the qr
 We're going to retain only the queries that are in the qrels file:
 
 ```bash
-python tools/scripts/msmarco/filter_queries.py \
+python src/main/python/msmarco/filter_queries.py \
   --qrels collections/msmarco-passage/qrels.dev.small.tsv \
   --queries collections/msmarco-passage/queries.dev.tsv \
   --output collections/msmarco-passage/queries.dev.small.tsv
@@ -622,3 +621,5 @@ If you have any questions, look at previous pull requests for examples.
 + Results reproduced by [@sliverdancer](https://github.com/sliverdancer) on 2026-08-27 (commit [`d178a77`](https://github.com/castorini/anserini/commit/d178a7748b5b25b7c9238df6cb1eac134e2e6b58))
 + Results reproduced by [@nointro3493](https://github.com/nointro3493) on 2026-08-28 (commit [`843af42`](https://github.com/castorini/anserini/commit/843af42914a62542053a5519ea92a1fc55f0ec0a))
 + Results reproduced by [@iwis19](https://github.com/iwis19) on 2026-08-29 (commit [`b228451`](https://github.com/castorini/anserini/commit/b228451f07ac86a59b3b93d35287e36a4c69fb4b))
++ Results reproduced by [@Ben-geo](https://github.com/Ben-geo) on 2026-08-31 (commit [`b228451`](https://github.com/castorini/anserini/commit/b228451f07ac86a59b3b93d35287e36a4c69fb4b))
++ Results reproduced by [@jnx01](https://github.com/jnx01) on 2026-08-31 (commit [`b228451`](https://github.com/castorini/anserini/commit/b228451f07ac86a59b3b93d35287e36a4c69fb4b))
