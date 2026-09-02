@@ -2,7 +2,7 @@
 name: anserini-cli
 description: Run Anserini command-line and REST workflows from either a built fatjar or an Anserini source checkout. Use for PrebuiltIndexRegistry, TopicsRegistry, ad hoc search, interactive search, output formats, and RestServer examples.
 metadata:
-  version: v0.2.0
+  version: v0.3.0
 ---
 
 # Use Anserini CLI
@@ -81,10 +81,8 @@ about available prebuilt indexes or MS MARCO passage retrieval setup.
 Recommended lookup for the standard MS MARCO V1 passage inverted index:
 
 ```bash
-java -cp "$ANSERINI_JAR" \
-  io.anserini.cli.PrebuiltIndexRegistry \
-  --list --filter '^msmarco-v1-passage$' \
-| jq '.[0] | {name, type, description, filename}'
+java -cp "$ANSERINI_JAR" io.anserini.cli.PrebuiltIndexRegistry --list --filter '^msmarco-v1-passage$' \
+  | jq '.[0] | {name, type, description, filename}'
 ```
 
 Useful variants:
@@ -106,30 +104,76 @@ To inspect topics exposed by `io.anserini.cli.TopicsRegistry`, run:
 java -cp "$ANSERINI_JAR" io.anserini.cli.TopicsRegistry --list
 ```
 
-`--list` emits JSON in current jars, so prefer `--filter` and `jq` to locate the
-exact symbol. If `jq` is not available, ask the user whether it should be
-installed before relying on `jq` examples.
-
-To print all topics for a specific set, run:
+`--list` emits canonical topic names as JSON. Use `--filter <regexp>` to narrow
+the registry with a regular expression:
 
 ```bash
-java -cp "$ANSERINI_JAR" io.anserini.cli.TopicsRegistry --get <set>
+java -cp "$ANSERINI_JAR" io.anserini.cli.TopicsRegistry --list --filter 'msmarco' | jq '.'
 ```
+
+`--get` writes parsed topics as JSON to stdout:
+
+```bash
+java -cp "$ANSERINI_JAR" io.anserini.cli.TopicsRegistry --get <name>
+```
+
+`--metadata` writes the canonical name, aliases, registered path, reader class,
+and downloaded local path as JSON to stdout:
+
+```bash
+java -cp "$ANSERINI_JAR" io.anserini.cli.TopicsRegistry --metadata <name>
+```
+
+Both `--get` and `--metadata` download the registered topics when needed.
 
 For the standard MS MARCO V1 passage queries that pair with the
-`msmarco-v1-passage` prebuilt index, use `msmarco-v1-passage.dev`.
-
-Recommended lookup:
+`msmarco-v1-passage` prebuilt index, use the canonical name
+`msmarco-passage.dev-subset`:
 
 ```bash
-java -cp "$ANSERINI_JAR" \
-  io.anserini.cli.TopicsRegistry \
-  --list --filter '^msmarco(-v1)?-passage(\\.dev|-dev)$' \
-| jq '.'
+java -cp "$ANSERINI_JAR" io.anserini.cli.TopicsRegistry --metadata msmarco-passage.dev-subset | jq '.'
 ```
 
-Use `--list` first to discover the exact set name, then `--get` to inspect its
-contents.
+Aliases such as `msmarco-v1-passage.dev` are also accepted by `--get` and
+`--metadata`.
+
+## Qrels Registry
+
+To inspect qrels exposed by `io.anserini.cli.QrelsRegistry`, run:
+
+```bash
+java -cp "$ANSERINI_JAR" io.anserini.cli.QrelsRegistry --list
+```
+
+`--list` emits canonical qrels names as JSON. Use `--filter <regexp>` to narrow
+the registry with a regular expression:
+
+```bash
+java -cp "$ANSERINI_JAR" io.anserini.cli.QrelsRegistry --list --filter 'msmarco' | jq '.'
+```
+
+`--get` writes raw qrels to stdout:
+
+```bash
+java -cp "$ANSERINI_JAR" io.anserini.cli.QrelsRegistry --get <name>
+```
+
+`--metadata` writes the canonical name, aliases, registered path, and downloaded
+local path as JSON to stdout:
+
+```bash
+java -cp "$ANSERINI_JAR" io.anserini.cli.QrelsRegistry --metadata <name>
+```
+
+Both `--get` and `--metadata` download the registered qrels when needed.
+
+For the standard MS MARCO V1 passage relevance judgments that pair with the
+`msmarco-v1-passage` prebuilt index, use the canonical name
+`msmarco-passage.dev-subset`:
+
+```bash
+java -cp "$ANSERINI_JAR" io.anserini.cli.QrelsRegistry --metadata msmarco-passage.dev-subset | jq '.'
+```
 
 ## Search CLI
 
@@ -139,13 +183,13 @@ index path or a prebuilt index name.
 Example using the popular `msmarco-v1-passage` prebuilt index:
 
 ```bash
-java -cp "$ANSERINI_JAR" io.anserini.cli.Search --index msmarco-v1-passage --query "what is a lobster roll" --hits 10
+java -cp "$ANSERINI_JAR" io.anserini.cli.Search --index msmarco-v1-passage --query "what is a lobster roll" --hits 10 --json
 ```
 
 Interactive mode:
 
 ```bash
-java -cp "$ANSERINI_JAR" io.anserini.cli.Search --index msmarco-v1-passage --interactive
+java -cp "$ANSERINI_JAR" io.anserini.cli.Search --index msmarco-v1-passage --interactive --json
 ```
 
 Useful output variants:
@@ -216,8 +260,8 @@ java -cp "$ANSERINI_JAR" io.anserini.eval.TrecEval \
   cacm \
   run.cacm.bm25.txt | tee eval.cacm.bm25.txt
 
-grep -q $'map\tall\t0.3123' eval.cacm.bm25.txt
-grep -q $'P_30\tall\t0.1942' eval.cacm.bm25.txt
+grep -Eq '^map[[:space:]]+all[[:space:]]+0\.3123$' eval.cacm.bm25.txt
+grep -Eq '^P_30[[:space:]]+all[[:space:]]+0\.1942$' eval.cacm.bm25.txt
 ```
 
 ## REST API Server

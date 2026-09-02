@@ -16,9 +16,11 @@
 
 package io.anserini.search.topicreader;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -50,6 +52,7 @@ public final class Topics {
 
   // Contains every accepted lookup key, including canonical names, aliases, paths, and filenames; used by get().
   private static volatile Map<String, Topics> registryCache;
+  private static volatile Map<String, List<String>> aliasesCache;
 
   public final String path;
   public final Class<? extends TopicReader<?>> readerClass;
@@ -70,6 +73,14 @@ public final class Topics {
     return registry().get(name);
   }
 
+  public static Path resolveRegisteredTopicPath(String name) throws IOException {
+    Topics topics = get(name);
+    if (topics == null) {
+      throw new IllegalArgumentException("Unknown topics name: " + name);
+    }
+    return TopicReader.getTopicPath(Path.of(topics.path));
+  }
+
   public static Map<String, Topics> entries() {
     registry();
     return canonicalRegistryCache;
@@ -77,6 +88,14 @@ public final class Topics {
 
   public static Set<String> names() {
     return entries().keySet();
+  }
+
+  public static List<String> aliases(String name) {
+    Topics topics = get(name);
+    if (topics == null) {
+      throw new IllegalArgumentException("Unknown topics name: " + name);
+    }
+    return aliasesCache.getOrDefault(topics.name(), List.of());
   }
 
   public static Class<? extends TopicReader<?>> getTopicReaderClassForPath(String path) {
@@ -140,13 +159,22 @@ public final class Topics {
       addLookupEntry(lookup, Path.of(value.path).getFileName().toString(), topic);
     }
 
-    addAliasesToRegistry(canonical, lookup, loadAliasesMetadata(TOPICS_ALIASES_URL));
+    Map<String, List<String>> aliases = new LinkedHashMap<>();
+    mergeAliases(aliases, loadAliasesMetadata(TOPICS_ALIASES_URL));
     Map<String, List<String>> localAliases = loadLocalAliasesMetadata();
-    addAliasesToRegistry(canonical, lookup, localAliases);
-    localAliases.values().forEach(aliases -> aliases.forEach(canonical::remove));
+    mergeAliases(aliases, localAliases);
+    addAliasesToRegistry(canonical, lookup, aliases);
+    localAliases.values().forEach(aliasValues -> aliasValues.forEach(canonical::remove));
 
     canonicalRegistryCache = Collections.unmodifiableMap(canonical);
+    aliases.replaceAll((name, values) -> List.copyOf(values));
+    aliasesCache = Collections.unmodifiableMap(aliases);
     return Collections.unmodifiableMap(lookup);
+  }
+
+  private static void mergeAliases(Map<String, List<String>> destination, Map<String, List<String>> source) {
+    source.forEach((name, aliases) ->
+        destination.computeIfAbsent(name, ignored -> new ArrayList<>()).addAll(aliases));
   }
 
   private static void addAliasesToRegistry(Map<String, Topics> canonical, Map<String, Topics> lookup,
