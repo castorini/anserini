@@ -981,6 +981,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
   }
 
   private final Args args;
+  private final Path indexPath;
   private final IndexReader reader;
   private final Analyzer analyzer;
   private final Class<? extends DocumentCollection<?>> collectionClass;
@@ -994,11 +995,11 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
   @SuppressWarnings("unchecked")
   public SearchCollection(Args args) throws IOException {
     this.args = args;
-    Path indexPath = IndexReaderUtils.getIndex(args.index);
+    this.indexPath = IndexReaderUtils.getIndex(args.index);
 
     LOG.info("============ Initializing Searcher ============");
-    LOG.info("Index: {}", indexPath);
-    this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
+    LOG.info("Index: {}", this.indexPath);
+    this.reader = DirectoryReader.open(FSDirectory.open(this.indexPath));
 
     LOG.info("Threads: {}", args.threads);
     LOG.info("Fields: {}", Arrays.toString(args.fields));
@@ -1145,7 +1146,7 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
                   tag = String.format("ax(seed=%s,r=%s,n=%s,beta=%s,top=%s)", seed, r, n, beta, top);
                 }
                 RerankerCascade<K> cascade = new RerankerCascade<K>(tag);
-                cascade.add(new AxiomReranker<K>(analyzer, collectionClass, args.index, args.axiom_index, Constants.CONTENTS,
+                cascade.add(new AxiomReranker<K>(analyzer, collectionClass, indexPath.toString(), args.axiom_index, Constants.CONTENTS,
                     true, Integer.parseInt(seed), Integer.parseInt(r),
                     Integer.parseInt(n), Float.parseFloat(beta), Integer.parseInt(top),
                     args.axiom_docids, args.axiom_outputQuery, args.searchTweets));
