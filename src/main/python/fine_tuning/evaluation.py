@@ -16,7 +16,6 @@
 
 import logging
 import os
-from inspect import currentframe, getframeinfo
 from subprocess import Popen, PIPE
 
 logging.basicConfig()
@@ -26,15 +25,8 @@ class Evaluation(object):
     """
     Get the evaluation of a corpus for a result
     """
-    def __init__(self, index_path):
+    def __init__(self):
         self.logger = logging.getLogger('evalation.Evaluation')
-        self.index_path = os.path.abspath(index_path)
-        if not os.path.exists(self.index_path):
-            frameinfo = getframeinfo(currentframe())
-            self.logger.error(frameinfo.filename, frameinfo.lineno)
-            self.logger.error('[Search Constructor]:Please provide a valid index path - ' + self.index_path)
-            exit(1)
-
         self.run_files_root = 'run_files'
         self.eval_files_root = 'eval_files'
 
@@ -58,7 +50,7 @@ class Evaluation(object):
         @Return: a dict of all performances 
         """
         for i, qrel_program in enumerate(qrel_programs):
-            process = Popen(' '.join([qrel_program, qrel_file_path, result_file_path]), shell=True, stdout=PIPE)
+            process = Popen(' '.join([qrel_program, qrel_file_path, result_file_path]), shell=True, stdout=PIPE, stderr=PIPE)
             stdout, stderr = process.communicate()
             if process.returncode == 0:
                 try:
@@ -81,4 +73,7 @@ class Evaluation(object):
                 finally:
                     o.close()
             else:
-                self.logger.error('ERROR when running the evaluation for:' + result_file_path)
+                raise RuntimeError(
+                    'Error when running the evaluation for %s: %s' %
+                    (result_file_path, stderr.decode('utf-8').strip())
+                )

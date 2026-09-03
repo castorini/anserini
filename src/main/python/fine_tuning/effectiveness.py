@@ -18,7 +18,6 @@ import ast
 import json
 import logging
 import os
-from inspect import currentframe, getframeinfo
 from operator import itemgetter
 
 logging.basicConfig()
@@ -27,16 +26,9 @@ logging.basicConfig()
 class Effectiveness(object):
     """
     Handle the performace. For example, get all the effectiveness of one method(has multiple parameters).
-    When constructing, pass the index path
     """
-    def __init__(self, index_path):
+    def __init__(self):
         self.logger = logging.getLogger('effectiveness.Effectiveness')
-        self.index_path = os.path.abspath(index_path)
-        if not os.path.exists(self.index_path):
-            frameinfo = getframeinfo(currentframe())
-            self.logger.error(frameinfo.filename, frameinfo.lineno)
-            self.logger.error('[Effectiveness Constructor]:Please provide a valid index path - ' + self.index_path)
-            exit(1)
 
         self.run_files_root = 'run_files'
         self.eval_files_root = 'eval_files'
@@ -57,7 +49,7 @@ class Effectiveness(object):
                     all_results[output_fn].append( os.path.join(output_root, self.eval_files_root, metric_dir, fn) )
         for output_fn in all_results:
             performace_fn = os.path.join(output_root, self.effectiveness_root, output_fn)
-            tmp = [self.index_path, performace_fn]
+            tmp = [performace_fn]
             tmp.extend(all_results[output_fn])
             all_params.append(tuple(tmp))
 

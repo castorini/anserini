@@ -20,9 +20,9 @@ import logging
 import os
 import subprocess
 from multiprocessing import Pool
+from urllib.request import urlretrieve
 
 import yaml
-
 from effectiveness import Effectiveness
 from evaluation import Evaluation
 from search import Search
@@ -30,6 +30,9 @@ from xfold import XFoldValidate
 
 logger = logging.getLogger('fine_tuning')
 logger.setLevel(logging.INFO)
+
+GDEVAL_COMMIT = 'd9a27f26089a6019cef1788bdc16f77d8ec0a474'
+GDEVAL_URL = f'https://raw.githubusercontent.com/castorini/eval/{GDEVAL_COMMIT}/eval/gdeval.pl'
 
 
 def batch_everything(all_params, func):
@@ -44,59 +47,77 @@ def is_close(a, b):
     return abs(round(a, 4) - round(b, 4)) <= 1e-05
 
 
-def get_index_path(yaml_data):
-    """
-    Find the possible index path
-    """
-    index_path = ''
-    for index_root in yaml_data['index_roots']:
-        if os.path.exists(os.path.join(index_root, yaml_data['index_path'])):
-            index_path = os.path.join(index_root, yaml_data['index_path'])
-            break
-    return index_path
-
-
 def batch_retrieval(collection_yaml, models_yaml, output_root):
     all_params = []
-    program = os.path.join(collection_yaml['anserini_root'], 'bin/run.sh') + ' io.anserini.search.SearchCollection'
-    index_path = get_index_path(collection_yaml)
+    program = 'bin/run.sh io.anserini.search.SearchCollection'
+    index = collection_yaml['index']
     this_output_root = os.path.join(output_root, collection_yaml['name'])
-    logger.info('='*10+'Generating Batch Retrieval Parameters'+'='*10)
-    model_params = Search(index_path).gen_batch_retrieval_params(models_yaml, this_output_root, parallelism)
+    logger.info(f"{'=' * 10}Generating Batch Retrieval Parameters{'=' * 10}")
+    model_params = Search().gen_batch_retrieval_params(models_yaml, this_output_root, parallelism)
     for para in model_params:
         this_para = (
             program,
-            '-topicReader', collection_yaml['topic_reader'],
-            '-index', index_path,
-            '-topics', os.path.join(collection_yaml['anserini_root'], collection_yaml['topic_root'], collection_yaml['topic']),
+            '-index', index,
+            '-topics', collection_yaml['topic'],
             para[0],
             '-output', para[1]
         )
         all_params.append(this_para)
-    logger.info('='*10+'Starting Batch Retrieval'+'='*10)
+    logger.info(f"{'=' * 10}Starting Batch Retrieval{'=' * 10}")
     batch_everything(all_params, atom_retrieval)
 
 
 def atom_retrieval(para):
-    subprocess.call(' '.join(para), shell=True)
+    subprocess.run(' '.join(para), shell=True, check=True)
+
+
+def ensure_gdeval_available():
+    gdeval_path = 'bin/gdeval.pl'
+    if os.path.exists(gdeval_path):
+        return
+
+    temporary_path = f'{gdeval_path}.tmp'
+    try:
+        logger.info(f'Downloading {GDEVAL_URL} to {gdeval_path}')
+        urlretrieve(GDEVAL_URL, temporary_path)
+        os.chmod(temporary_path, 0o755)
+        os.replace(temporary_path, gdeval_path)
+    finally:
+        if os.path.exists(temporary_path):
+            os.remove(temporary_path)
+
+
+def resolve_qrels_path(qrels):
+    result = subprocess.run(
+        ['bin/run.sh', 'io.anserini.cli.QrelsRegistry', '--metadata', qrels],
+        check=True,
+        capture_output=True,
+        text=True
+    )
+    return json.loads(result.stdout)['local_path']
 
 
 def batch_eval(collection_yaml, output_root):
     all_params = []
-    index_path = get_index_path(collection_yaml)
     this_output_root = os.path.join(output_root, collection_yaml['name'])
+
     for eval in collection_yaml['evals']:
-        eval_params = Evaluation(index_path).gen_batch_eval_params(this_output_root, eval['metric'])
+        qrels = collection_yaml['qrel']
+        if 'gdeval' in eval['command']:
+            ensure_gdeval_available()
+            qrels = resolve_qrels_path(qrels)
+        eval_params = Evaluation().gen_batch_eval_params(this_output_root, eval['metric'])
         for param in eval_params:
             run_file_path, eval_output = param
             this_para = (
-                [os.path.join(collection_yaml['anserini_root'], eval['command']+' '+eval['params'])],
-                os.path.join(collection_yaml['anserini_root'], collection_yaml['qrels_root'], collection_yaml['qrel']),
+                [f"{eval['command']} {eval['params']}"],
+                qrels,
                 f"'{run_file_path}'",  # Make sure the filename is quoted
                 eval_output
             )
             all_params.append(this_para)
-    logger.info('='*10+'Starting Batch Evaluation'+'='*10)
+
+    logger.info(f"{'=' * 10}Starting Batch Evaluation{'=' * 10}")
     batch_everything(all_params, atom_eval)
 
 
@@ -106,27 +127,24 @@ def atom_eval(params):
 
 def batch_output_effectiveness(collection_yaml, output_root):
     all_params = []
-    index_path = get_index_path(collection_yaml)
     this_output_root = os.path.join(output_root, collection_yaml['name'])
-    all_params.extend(Effectiveness(index_path).gen_output_effectiveness_params(this_output_root))
-    logger.info('='*10+'Starting Output Effectiveness'+'='*10)
+    all_params.extend(Effectiveness().gen_output_effectiveness_params(this_output_root))
+    logger.info(f"{'=' * 10}Starting Output Effectiveness{'=' * 10}")
     batch_everything(all_params, atom_output_effectiveness)
 
 
 def atom_output_effectiveness(para):
-    index_path = para[0]
-    output_fn = para[1]
-    input_fns = para[2:]
-    Effectiveness(index_path).output_effectiveness(output_fn, input_fns)
+    output_fn = para[0]
+    input_fns = para[1:]
+    Effectiveness().output_effectiveness(output_fn, input_fns)
 
 
 # How to print colored text in terminal in Python?
 # https://stackoverflow.com/questions/287871/how-to-print-colored-text-in-terminal-in-python
 
-def verify_effectiveness(collection_yaml, models_yaml, output_root, fold_settings, verbose):
-    index_path = get_index_path(collection_yaml)
+def verify_effectiveness(collection_yaml, models_yaml, output_root, folds_setting, verbose):
     this_output_root = os.path.join(output_root, collection_yaml['name'])
-    effectiveness, per_topic_oracle = Effectiveness(index_path).load_optimal_effectiveness(this_output_root)
+    effectiveness, _per_topic_oracle = Effectiveness().load_optimal_effectiveness(this_output_root)
     success_optimal = True
 
     for e in effectiveness:
@@ -134,35 +152,36 @@ def verify_effectiveness(collection_yaml, models_yaml, output_root, fold_setting
             continue
         expected = models_yaml['expected'][collection_yaml['name']][e['metric']]
         if is_close(expected['best_avg'], e['best_avg']['value']):
-            logger.info(' best_avg          --- model: %s, metric: %6s, expected: %.4f, actual: %.4f \x1b[6;30;42m[OK]\x1b[0m' % (e['model'], e['metric'], expected['best_avg'], e['best_avg']['value']))
+            logger.info(f" best_avg          --- model: {e['model']}, metric: {e['metric']:>6}, expected: {expected['best_avg']:.4f}, actual: {e['best_avg']['value']:.4f} \x1b[6;30;42m[OK]\x1b[0m")
         else:
             success_optimal = False
-            logger.error('best_avg          --- model: %s, metric: %6s, expected: %.4f, actual: %.4f \x1b[6;30;41m[ERROR]\x1b[0m' % (e['model'], e['metric'], expected['best_avg'], e['best_avg']['value']))
+            logger.error(f"best_avg          --- model: {e['model']}, metric: {e['metric']:>6}, expected: {expected['best_avg']:.4f}, actual: {e['best_avg']['value']:.4f} \x1b[6;30;41m[ERROR]\x1b[0m")
         if is_close(expected['oracles_per_topic'], e['oracles_per_topic']):
-            logger.info(' oracles_per_topic --- model: %s, metric: %6s, expected: %.4f, actual: %.4f \x1b[6;30;42m[OK]\x1b[0m' % (e['model'], e['metric'], expected['oracles_per_topic'], e['oracles_per_topic']))
+            logger.info(f" oracles_per_topic --- model: {e['model']}, metric: {e['metric']:>6}, expected: {expected['oracles_per_topic']:.4f}, actual: {e['oracles_per_topic']:.4f} \x1b[6;30;42m[OK]\x1b[0m")
         else:
             success_optimal = False
-            logger.error('oracles_per_topic --- model: %s, metric: %6s, expected: %.4f, actual: %.4f \x1b[6;30;41m[ERROR]\x1b[0m' % (e['model'], e['metric'], expected['oracles_per_topic'], e['oracles_per_topic']))
+            logger.error(f"oracles_per_topic --- model: {e['model']}, metric: {e['metric']:>6}, expected: {expected['oracles_per_topic']:.4f}, actual: {e['oracles_per_topic']:.4f} \x1b[6;30;41m[ERROR]\x1b[0m")
 
-    if fold_settings == '':
+    if folds_setting == '':
         return
 
     success_xfold = True
 
-    logger.info('Checking fold settings: ' + fold_settings)
+    logger.info(f'Checking fold settings: {folds_setting}')
 
     fold_mapping = {}
     num_folds = 0
-    with open(fold_settings) as json_file:
+    with open(folds_setting) as json_file:
         raw_json_folds = json.load(json_file)
         for fold in raw_json_folds:
             for t in fold:
                 fold_mapping[t] = num_folds
             num_folds = num_folds + 1
 
-    logger.info('Number of folds: %d' % num_folds)
-    fold = num_folds
+    logger.info(f'Number of folds: {num_folds}')
 
+    fold = num_folds
+    fold_key = f'{fold}-fold'
     x_fold_effectiveness = XFoldValidate(output_root, collection_yaml['name'], fold, fold_mapping).tune(verbose)
 
     for model in x_fold_effectiveness:
@@ -172,11 +191,11 @@ def verify_effectiveness(collection_yaml, models_yaml, output_root, fold_setting
             if metric not in models_yaml['expected'][collection_yaml['name']]:
                 continue
             expected = models_yaml['expected'][collection_yaml['name']][metric]
-            if is_close(expected['%d-fold' % fold], x_fold_effectiveness[model][metric]):
-                logger.info(' xvalidation --- model: %s, metric: %6s, expected: %.4f, actual: %.4f \x1b[6;30;42m[OK]\x1b[0m' % (model, metric, expected['%d-fold' % fold], x_fold_effectiveness[model][metric]))
+            if is_close(expected[fold_key], x_fold_effectiveness[model][metric]):
+                logger.info(f" xvalidation --- model: {model}, metric: {metric:>6}, expected: {expected[fold_key]:.4f}, actual: {x_fold_effectiveness[model][metric]:.4f} \x1b[6;30;42m[OK]\x1b[0m")
             else:
                 success_optimal = False
-                logger.error('xvalidation --- model: %s, metric: %6s, expected: %.4f, actual: %.4f \x1b[6;30;41m[ERROR]\x1b[0m' % (model, metric, expected['%d-fold' % fold], x_fold_effectiveness[model][metric]))
+                logger.error(f"xvalidation --- model: {model}, metric: {metric:>6}, expected: {expected[fold_key]:.4f}, actual: {x_fold_effectiveness[model][metric]:.4f} \x1b[6;30;41m[ERROR]\x1b[0m")
 
     if success_optimal and success_xfold:
         logger.info('\x1b[6;30;42m[All Tests Passed!]\x1b[0m')
@@ -188,27 +207,23 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
     # general settings
-    parser.add_argument('--anserini_root', default='', help='Anserini path')
     parser.add_argument('--run', action='store_true', help='Generate the runs files and evaluate them. Otherwise we only output the evaluation results (based on the existing eval files)')
     parser.add_argument('--collection', required=True, help='the collection key in yaml')
     parser.add_argument('--model', required=True, help='model')
     parser.add_argument('--parallelism', dest='parallelism', type=int, default=8, help='number of parallel threads for retrieval and evaluation')
-    parser.add_argument('--output_root', default='fine_tuning_results', help='output directory of all results')
-    parser.add_argument('--fold_settings', default='', help='JSON file holding fold definitions, see src/main/resources/fine_tuning/robust04-paper1-folds.json for an example')
+    parser.add_argument('--output-root', default='fine_tuning_results', help='output directory of all results')
+    parser.add_argument('--folds-setting', default='', help='JSON file holding fold definitions, see src/main/resources/fine_tuning/robust04-paper1-folds.json for an example')
     parser.add_argument('--verbose', action='store_true', help='if specified print out model parameters and per fold scores')
-    parser.add_argument('--metrics', nargs='+', default=['map'], help='inputs: [metrics]. For example, --metrics map ndcg20')
-
     args = parser.parse_args()
+
     parallelism = args.parallelism
-    with open(os.path.join(args.anserini_root, 'src/main/resources/fine_tuning/collections.yaml')) as f:
+    with open('src/main/resources/fine_tuning/collections.yaml') as f:
         collections_yaml = yaml.safe_load(f)
-    with open(os.path.join(args.anserini_root, 'src/main/resources/fine_tuning/models.yaml')) as f:
-        models_yaml = yaml.safe_load(f)['models'][args.model]
     collection_yaml = collections_yaml['collections'][args.collection]
-    for k in collections_yaml:
-        if k != 'collections':
-            collection_yaml[k] = collections_yaml[k]
-    collection_yaml['anserini_root'] = args.anserini_root
+
+    with open('src/main/resources/fine_tuning/models.yaml') as f:
+        models_yaml = yaml.safe_load(f)['models'][args.model]
+
     if not os.path.exists(os.path.join(args.output_root, collection_yaml['name'])):
         os.makedirs(os.path.join(args.output_root, collection_yaml['name']))
 
@@ -216,4 +231,5 @@ if __name__ == '__main__':
         batch_retrieval(collection_yaml, models_yaml, args.output_root)
         batch_eval(collection_yaml, args.output_root)
         batch_output_effectiveness(collection_yaml, args.output_root)
-    verify_effectiveness(collection_yaml, models_yaml, args.output_root, args.fold_settings, args.verbose)
+
+    verify_effectiveness(collection_yaml, models_yaml, args.output_root, args.folds_setting, args.verbose)

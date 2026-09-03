@@ -16,21 +16,13 @@
 
 import logging
 import os
-from inspect import currentframe, getframeinfo
 
 logging.basicConfig()
 
 
 class Search(object):
-    def __init__(self, index_path):
+    def __init__(self):
         self.logger = logging.getLogger('search.Search')
-        self.index_path = os.path.abspath(index_path)
-        if not os.path.exists(self.index_path):
-            frameinfo = getframeinfo(currentframe())
-            self.logger.error(frameinfo.filename, frameinfo.lineno)
-            self.logger.error('[Search Constructor]:Please provide a valid index path - ' + self.index_path)
-            exit(1)
-
         self.run_files_root = 'run_files'
 
     def drange(self, x, y, jump):
