@@ -32,15 +32,19 @@ class Search:
 
     def gen_batch_retrieval_params(self, model_yaml, output_root, parallelism=4):
         all_params = []
+
         if not os.path.exists(os.path.join(output_root, self.run_files_root)):
             os.makedirs(os.path.join(output_root, self.run_files_root))
+
         para_str = f'-parallelism {parallelism} {model_yaml["fixed_params"]}'
+
         results_fn = os.path.join(output_root, self.run_files_root, model_yaml['name'])
         for param_name, params in model_yaml['params'].items():
             para_str += f' -{param_name}'
-            for p in self.drange(params['lower'], params['upper']+1e-8, params['pace']):
+            for p in self.drange(params['lower'], params['upper'] + 1e-8, params['pace']):
                 is_float = params['type'] == 'float'
                 para_str += f' {p:.2f}' if is_float else f' {int(p)}'
+
         all_params.append( (para_str, results_fn) )
 
         return all_params

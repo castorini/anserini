@@ -147,7 +147,7 @@ class XFoldValidate(object):
         for metric in param_performance_list[0].keys():
             param_avg_performances[metric] = {}
             for fold_id in param_performance_list:
-                param_avg_performances[metric][fold_id] = round(sum(param_performance_list[fold_id][metric])/len(param_performance_list[fold_id][metric]), 4)
+                param_avg_performances[metric][fold_id] = round(sum(param_performance_list[fold_id][metric]) / len(param_performance_list[fold_id][metric]), 4)
         return param_avg_performances
 
 
@@ -165,4 +165,3 @@ if __name__ == '__main__':
         from run_batch import load_drr_fold_mapping
         fold_mapping = load_drr_fold_mapping(args.fold_dir)
     print(json.dumps(XFoldValidate(args.output_root, args.collection, args.fold, fold_mapping).tune(args.verbose), sort_keys=True, indent=2))
-

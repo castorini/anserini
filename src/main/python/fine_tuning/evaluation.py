@@ -22,11 +22,8 @@ logging.basicConfig()
 
 
 class Evaluation:
-    """
-    Get the evaluation of a corpus for a result
-    """
     def __init__(self):
-        self.logger = logging.getLogger('evalation.Evaluation')
+        self.logger = logging.getLogger('evaluation.Evaluation')
         self.run_files_root = 'run_files'
         self.eval_files_root = 'eval_files'
 
@@ -44,11 +41,6 @@ class Evaluation:
 
     @classmethod
     def output_all_evaluations(self, qrel_programs, qrel_file_path, result_file_path, output_path):
-        """
-        get all kinds of performance
-
-        @Return: a dict of all performances 
-        """
         for i, qrel_program in enumerate(qrel_programs):
             process = Popen(f'{qrel_program} {qrel_file_path} {result_file_path}', shell=True, stdout=PIPE, stderr=PIPE)
             stdout, stderr = process.communicate()
