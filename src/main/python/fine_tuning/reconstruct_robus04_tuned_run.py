@@ -25,21 +25,31 @@ import glob
 import json
 import os
 import re
+import subprocess
+
+
+def resolve_topics_path(topics):
+    result = subprocess.run(
+        ['bin/run.sh', 'io.anserini.cli.TopicsRegistry', '--metadata', topics],
+        check=True,
+        capture_output=True,
+        text=True
+    )
+    return json.loads(result.stdout)['local_path']
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("--index", type=str, help='index', required=True)
     parser.add_argument("--folds", type=str, help='folds file', required=True)
     parser.add_argument("--params", type=str, help='params file', required=True)
     parser.add_argument("--output", type=str, help='output run file', required=True)
 
     args = parser.parse_args()
-    index = args.index
     folds_file = args.folds
     params_file = args.params
 
-    # This can be hard coded.
-    topics_file = 'tools/topics-and-qrels/topics.robust04.txt'
+    index = 'disk45'
+    topics_file = resolve_topics_path('robust04')
 
     # Load folds.
     with open(folds_file) as f:
