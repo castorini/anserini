@@ -59,7 +59,7 @@ models:
           5-fold: 0.4148
   bm25+axiom:
     name: bm25+axiom
-    fixed_params: "-skipExists -bm25 -rerankCutoff 50 -axiom -axiom.n 30 -axiom.deterministic"
+    fixed_params: "-skipExists -bm25 -rerankCutoff 50 -axiom -axiom.n 30"
     params:
       bm25.k1:
         type: float
