@@ -23,9 +23,9 @@ from operator import itemgetter
 logging.basicConfig()
 
 
-class Effectiveness(object):
+class Effectiveness:
     """
-    Handle the performace. For example, get all the effectiveness of one method(has multiple parameters).
+    Handle the effectiveness metrics. For example, get all the effectiveness of one method (has multiple parameters).
     """
     def __init__(self):
         self.logger = logging.getLogger('effectiveness.Effectiveness')
@@ -37,20 +37,22 @@ class Effectiveness(object):
     def gen_output_effectiveness_params(self, output_root):
         if not os.path.exists(os.path.join(output_root, self.effectiveness_root)):
             os.makedirs(os.path.join(output_root, self.effectiveness_root))
+
         all_params = []
         all_results = {}
         for metric_dir in os.listdir(os.path.join(output_root, self.eval_files_root)):
             for fn in os.listdir(os.path.join(output_root, self.eval_files_root, metric_dir)):
-                model, model_params = fn.split('_', 1)
+                model, _model_params = fn.split('_', 1)
                 output_fn = model+'_'+metric_dir
                 if not os.path.exists(output_fn):
                     if output_fn not in all_results:
                         all_results[output_fn] = []
                     all_results[output_fn].append( os.path.join(output_root, self.eval_files_root, metric_dir, fn) )
-        for output_fn in all_results:
-            performace_fn = os.path.join(output_root, self.effectiveness_root, output_fn)
-            tmp = [performace_fn]
-            tmp.extend(all_results[output_fn])
+
+        for output_fn, result_files in all_results.items():
+            performance_fn = os.path.join(output_root, self.effectiveness_root, output_fn)
+            tmp = [performance_fn]
+            tmp.extend(result_files)
             all_params.append(tuple(tmp))
 
         return all_params
@@ -84,14 +86,13 @@ class Effectiveness(object):
                     row = line.split()
                     metric = row[0]
                     qid = row[1]
-                    try:
-                        value = ast.literal_eval(row[2])
-                    except:
-                        continue
+                    value = ast.literal_eval(row[2])
+
                     if metric not in res:
                         res[metric] = {}
                     if qid not in res[metric]:
                         res[metric][qid] = []
+
                     res[metric][qid].append((value, params))
 
         return res
@@ -100,6 +101,7 @@ class Effectiveness(object):
         sum_optimal = 0.0
         n = 0
         params_dist = {}
+
         for qid in json_data:
             if qid != 'all':
                 sum_optimal += json_data[qid]['value']
@@ -116,14 +118,16 @@ class Effectiveness(object):
                     per_topic_oracle_with_metric[qid] = json_data[qid]['value']
                 else:
                     per_topic_oracle_with_metric[qid] = max(json_data[qid]['value'], per_topic_oracle_with_metric[qid])
+
         return round(sum_optimal/n, 4), params_dist
 
     def load_optimal_effectiveness(self, output_root):
         data = []
         per_topic_oracle = {} # per topic optimal across all kinds of methods
         effectiveness_root = os.path.join(output_root, self.effectiveness_root)
+
         for fn in os.listdir(effectiveness_root):
-            model, metric = fn.split('_')
+            model, _metric = fn.split('_')
             with open(os.path.join(effectiveness_root, fn)) as f:
                 for real_metric, all_performance in json.load(f).items():
                     if real_metric not in per_topic_oracle:
@@ -136,4 +140,5 @@ class Effectiveness(object):
                         'oracles_per_topic': all_optimal[0]
                     }
                     data.append(res)
+
         return data, per_topic_oracle

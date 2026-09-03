@@ -52,7 +52,7 @@ def batch_retrieval(collection_yaml, models_yaml, output_root):
     program = 'bin/run.sh io.anserini.search.SearchCollection'
     index = collection_yaml['index']
     this_output_root = os.path.join(output_root, collection_yaml['name'])
-    logger.info(f"{'=' * 10}Generating Batch Retrieval Parameters{'=' * 10}")
+    logger.info(f'{"=" * 10}Generating Batch Retrieval Parameters{"=" * 10}')
     model_params = Search().gen_batch_retrieval_params(models_yaml, this_output_root, parallelism)
     for para in model_params:
         this_para = (
@@ -63,7 +63,7 @@ def batch_retrieval(collection_yaml, models_yaml, output_root):
             '-output', para[1]
         )
         all_params.append(this_para)
-    logger.info(f"{'=' * 10}Starting Batch Retrieval{'=' * 10}")
+    logger.info(f'{"=" * 10}Starting Batch Retrieval{"=" * 10}')
     batch_everything(all_params, atom_retrieval)
 
 
@@ -110,14 +110,14 @@ def batch_eval(collection_yaml, output_root):
         for param in eval_params:
             run_file_path, eval_output = param
             this_para = (
-                [f"{eval['command']} {eval['params']}"],
+                [f'{eval["command"]} {eval["params"]}'],
                 qrels,
-                f"'{run_file_path}'",  # Make sure the filename is quoted
+                f'\'{run_file_path}\'',  # Make sure the filename is quoted
                 eval_output
             )
             all_params.append(this_para)
 
-    logger.info(f"{'=' * 10}Starting Batch Evaluation{'=' * 10}")
+    logger.info(f'{"=" * 10}Starting Batch Evaluation{"=" * 10}')
     batch_everything(all_params, atom_eval)
 
 
@@ -129,7 +129,7 @@ def batch_output_effectiveness(collection_yaml, output_root):
     all_params = []
     this_output_root = os.path.join(output_root, collection_yaml['name'])
     all_params.extend(Effectiveness().gen_output_effectiveness_params(this_output_root))
-    logger.info(f"{'=' * 10}Starting Output Effectiveness{'=' * 10}")
+    logger.info(f'{"=" * 10}Starting Output Effectiveness{"=" * 10}')
     batch_everything(all_params, atom_output_effectiveness)
 
 
@@ -152,15 +152,15 @@ def verify_effectiveness(collection_yaml, models_yaml, output_root, folds_settin
             continue
         expected = models_yaml['expected'][collection_yaml['name']][e['metric']]
         if is_close(expected['best_avg'], e['best_avg']['value']):
-            logger.info(f" best_avg          --- model: {e['model']}, metric: {e['metric']:>6}, expected: {expected['best_avg']:.4f}, actual: {e['best_avg']['value']:.4f} \x1b[6;30;42m[OK]\x1b[0m")
+            logger.info(f' best_avg          --- model: {e["model"]}, metric: {e["metric"]:>6}, expected: {expected["best_avg"]:.4f}, actual: {e["best_avg"]["value"]:.4f} \x1b[6;30;42m[OK]\x1b[0m')
         else:
             success_optimal = False
-            logger.error(f"best_avg          --- model: {e['model']}, metric: {e['metric']:>6}, expected: {expected['best_avg']:.4f}, actual: {e['best_avg']['value']:.4f} \x1b[6;30;41m[ERROR]\x1b[0m")
+            logger.error(f'best_avg          --- model: {e["model"]}, metric: {e["metric"]:>6}, expected: {expected["best_avg"]:.4f}, actual: {e["best_avg"]["value"]:.4f} \x1b[6;30;41m[ERROR]\x1b[0m')
         if is_close(expected['oracles_per_topic'], e['oracles_per_topic']):
-            logger.info(f" oracles_per_topic --- model: {e['model']}, metric: {e['metric']:>6}, expected: {expected['oracles_per_topic']:.4f}, actual: {e['oracles_per_topic']:.4f} \x1b[6;30;42m[OK]\x1b[0m")
+            logger.info(f' oracles_per_topic --- model: {e["model"]}, metric: {e["metric"]:>6}, expected: {expected["oracles_per_topic"]:.4f}, actual: {e["oracles_per_topic"]:.4f} \x1b[6;30;42m[OK]\x1b[0m')
         else:
             success_optimal = False
-            logger.error(f"oracles_per_topic --- model: {e['model']}, metric: {e['metric']:>6}, expected: {expected['oracles_per_topic']:.4f}, actual: {e['oracles_per_topic']:.4f} \x1b[6;30;41m[ERROR]\x1b[0m")
+            logger.error(f'oracles_per_topic --- model: {e["model"]}, metric: {e["metric"]:>6}, expected: {expected["oracles_per_topic"]:.4f}, actual: {e["oracles_per_topic"]:.4f} \x1b[6;30;41m[ERROR]\x1b[0m')
 
     if folds_setting == '':
         return
@@ -192,10 +192,10 @@ def verify_effectiveness(collection_yaml, models_yaml, output_root, folds_settin
                 continue
             expected = models_yaml['expected'][collection_yaml['name']][metric]
             if is_close(expected[fold_key], x_fold_effectiveness[model][metric]):
-                logger.info(f" xvalidation --- model: {model}, metric: {metric:>6}, expected: {expected[fold_key]:.4f}, actual: {x_fold_effectiveness[model][metric]:.4f} \x1b[6;30;42m[OK]\x1b[0m")
+                logger.info(f' xvalidation --- model: {model}, metric: {metric:>6}, expected: {expected[fold_key]:.4f}, actual: {x_fold_effectiveness[model][metric]:.4f} \x1b[6;30;42m[OK]\x1b[0m')
             else:
                 success_optimal = False
-                logger.error(f"xvalidation --- model: {model}, metric: {metric:>6}, expected: {expected[fold_key]:.4f}, actual: {x_fold_effectiveness[model][metric]:.4f} \x1b[6;30;41m[ERROR]\x1b[0m")
+                logger.error(f'xvalidation --- model: {model}, metric: {metric:>6}, expected: {expected[fold_key]:.4f}, actual: {x_fold_effectiveness[model][metric]:.4f} \x1b[6;30;41m[ERROR]\x1b[0m')
 
     if success_optimal and success_xfold:
         logger.info('\x1b[6;30;42m[All Tests Passed!]\x1b[0m')

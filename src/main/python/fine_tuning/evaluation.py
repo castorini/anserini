@@ -16,12 +16,12 @@
 
 import logging
 import os
-from subprocess import Popen, PIPE
+from subprocess import PIPE, Popen
 
 logging.basicConfig()
 
 
-class Evaluation(object):
+class Evaluation:
     """
     Get the evaluation of a corpus for a result
     """
@@ -50,14 +50,11 @@ class Evaluation(object):
         @Return: a dict of all performances 
         """
         for i, qrel_program in enumerate(qrel_programs):
-            process = Popen(' '.join([qrel_program, qrel_file_path, result_file_path]), shell=True, stdout=PIPE, stderr=PIPE)
+            process = Popen(f'{qrel_program} {qrel_file_path} {result_file_path}', shell=True, stdout=PIPE, stderr=PIPE)
             stdout, stderr = process.communicate()
             if process.returncode == 0:
-                try:
-                    if i == 0:
-                        o = open(output_path, 'w')
-                    else:
-                        o = open(output_path, 'a')
+                mode = 'w' if i == 0 else 'a'
+                with open(output_path, mode) as o:
                     if 'trec_eval' in qrel_program:
                         o.write(stdout.decode("utf-8"))
                     elif 'gdeval' in qrel_program:
@@ -68,12 +65,7 @@ class Evaluation(object):
                                 qid = row[-3]
                                 ndcg20 = row[-2]
                                 err20 = row[-1]
-                                o.write('ndcg20\t%s\t%s\n' % (qid if qid != 'amean' else 'all', ndcg20))
-                                o.write('err20\t%s\t%s\n' % (qid if qid != 'amean' else 'all', err20))
-                finally:
-                    o.close()
+                                o.write('ndcg20\t{}\t{}\n'.format(qid if qid != 'amean' else 'all', ndcg20))
+                                o.write('err20\t{}\t{}\n'.format(qid if qid != 'amean' else 'all', err20))
             else:
-                raise RuntimeError(
-                    'Error when running the evaluation for %s: %s' %
-                    (result_file_path, stderr.decode('utf-8').strip())
-                )
+                raise RuntimeError('Error when running the evaluation for {}: {}'.format(result_file_path, stderr.decode('utf-8').strip()))

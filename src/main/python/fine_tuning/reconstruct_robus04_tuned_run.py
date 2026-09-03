@@ -16,15 +16,14 @@
 
 """Script to reconstruct tuned BM25 + RM3 run.
 
-Takes as arguments an index, the folds, and per-fold parameters to
-reconstruct the tuned BM25 + RM3 run.
+Takes as arguments the folds and per-fold parameters to reconstruct the
+tuned BM25 + RM3 run.
 """
 
 import argparse
-import glob
 import json
-import os
 import re
+import shlex
 import subprocess
 
 
@@ -70,19 +69,20 @@ if __name__ == '__main__':
 
     # Generate separate topics for each fold.
     for i in range(len(folds)):
-        out = open(f'topics.robust04.fold{i}', 'w')
-        for t in range(len(topics)):
-            match = re.search(r'Number: (\d+)', topics[t], re.M)
-            if match:
-                if str(match.group(1)) in folds[i]:
+        with open(f'topics.robust04.fold{i}', 'w') as out:
+            for t in range(len(topics)):
+                match = re.search(r'Number: (\d+)', topics[t], re.MULTILINE)
+                if match and str(match.group(1)) in folds[i]:
                     out.write(topics[t])
-        out.close()
 
     # Generate run for each fold using tuned parameters.
     folds_run_files = []
     for i in range(len(folds)):
-        os.system(f'bin/run.sh io.anserini.search.SearchCollection -topicReader Trec -index {index} '
-                  f'-topics topics.robust04.fold{i} -output {args.output}.fold{i} -hits 1000 {params[i]}')
+        subprocess.run([
+            'bin/run.sh', 'io.anserini.search.SearchCollection', '-topicReader', 'Trec', '-index', index,
+            '-topics', f'topics.robust04.fold{i}', '-output', f'{args.output}.fold{i}', '-hits', '1000',
+            *shlex.split(params[i])
+        ], check=True)
         folds_run_files.append(f'{args.output}.fold{i}')
 
     # Concatenate all partial run files together.
@@ -92,4 +92,5 @@ if __name__ == '__main__':
             print(f' - {fname}')
             with open(fname) as infile:
                 outfile.write(infile.read())
+
     print(f'Finished writing {args.output}')
