@@ -1,52 +1,19 @@
 ---
-search_command: target/appassembler/bin/SearchCollection
-topic_root: tools/topics-and-qrels/
-qrels_root: tools/topics-and-qrels/
-index_roots:
-  - ./
 collections:
     robust04:
       name: robust04
-      index_path: indexes/lucene-index.disk45
-      topic_reader: Trec
-      topic: topics.robust04.txt
-      qrel: qrels.robust04.txt
+      index: disk45
+      topic: robust04
+      qrel: robust04
       evals:
-        - command: tools/eval/trec_eval.9.0.4/trec_eval
+        - command: bin/trec_eval
           params: -m map -q
           separator: "\t"
           parse_index: 2
           metric: map
           metric_precision: 4
           can_combine: true
-        - command: tools/eval/trec_eval.9.0.4/trec_eval
-          params: -m P.20 -q
-          separator: "\t"
-          parse_index: 2
-          metric: p20
-          metric_precision: 4
-          can_combine: true
-        - command: bin/gdeval.pl
-          params: ""
-          separator: ","
-          parse_index: -2
-          metric: ndcg20
-          metric_precision: 5
-    cw09b:
-      name: cw09b
-      index_path: lucene-index.cw09b.pos+docvectors
-      topic_reader: Webxml
-      topic: topics.web.51-200.txt
-      qrel: qrels.web.51-200.txt
-      evals:
-        - command: tools/eval/trec_eval.9.0.4/trec_eval
-          params: -m map -q
-          separator: "\t"
-          parse_index: 2
-          metric: map
-          metric_precision: 4
-          can_combine: true
-        - command: tools/eval/trec_eval.9.0.4/trec_eval
+        - command: bin/trec_eval
           params: -m P.20 -q
           separator: "\t"
           parse_index: 2

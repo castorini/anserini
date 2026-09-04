@@ -16,30 +16,39 @@
 
 """Script to reconstruct tuned BM25 + RM3 run.
 
-Takes as arguments an index, the folds, and per-fold parameters to
-reconstruct the tuned BM25 + RM3 run.
+Takes as arguments the folds and per-fold parameters to reconstruct the
+tuned BM25 + RM3 run.
 """
 
 import argparse
-import glob
 import json
-import os
 import re
+import shlex
+import subprocess
+
+
+def resolve_topics_path(topics):
+    result = subprocess.run(
+        ['bin/run.sh', 'io.anserini.cli.TopicsRegistry', '--metadata', topics],
+        check=True,
+        capture_output=True,
+        text=True
+    )
+    return json.loads(result.stdout)['local_path']
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("--index", type=str, help='index', required=True)
     parser.add_argument("--folds", type=str, help='folds file', required=True)
     parser.add_argument("--params", type=str, help='params file', required=True)
     parser.add_argument("--output", type=str, help='output run file', required=True)
 
     args = parser.parse_args()
-    index = args.index
     folds_file = args.folds
     params_file = args.params
 
-    # This can be hard coded.
-    topics_file = 'tools/topics-and-qrels/topics.robust04.txt'
+    index = 'disk45'
+    topics_file = resolve_topics_path('robust04')
 
     # Load folds.
     with open(folds_file) as f:
@@ -60,19 +69,20 @@ if __name__ == '__main__':
 
     # Generate separate topics for each fold.
     for i in range(len(folds)):
-        out = open(f'topics.robust04.fold{i}', 'w')
-        for t in range(len(topics)):
-            match = re.search(r'Number: (\d+)', topics[t], re.M)
-            if match:
-                if str(match.group(1)) in folds[i]:
+        with open(f'topics.robust04.fold{i}', 'w') as out:
+            for t in range(len(topics)):
+                match = re.search(r'Number: (\d+)', topics[t], re.MULTILINE)
+                if match and str(match.group(1)) in folds[i]:
                     out.write(topics[t])
-        out.close()
 
     # Generate run for each fold using tuned parameters.
     folds_run_files = []
     for i in range(len(folds)):
-        os.system(f'bin/run.sh io.anserini.search.SearchCollection -topicReader Trec -index {index} '
-                  f'-topics topics.robust04.fold{i} -output {args.output}.fold{i} -hits 1000 {params[i]}')
+        subprocess.run([
+            'bin/run.sh', 'io.anserini.search.SearchCollection', '-topicReader', 'Trec', '-index', index,
+            '-topics', f'topics.robust04.fold{i}', '-output', f'{args.output}.fold{i}', '-hits', '1000',
+            *shlex.split(params[i])
+        ], check=True)
         folds_run_files.append(f'{args.output}.fold{i}')
 
     # Concatenate all partial run files together.
@@ -82,4 +92,5 @@ if __name__ == '__main__':
             print(f' - {fname}')
             with open(fname) as infile:
                 outfile.write(infile.read())
+
     print(f'Finished writing {args.output}')
