@@ -625,3 +625,4 @@ If you have any questions, look at previous pull requests for examples.
 + Results reproduced by [@Ben-geo](https://github.com/Ben-geo) on 2026-08-31 (commit [`b228451`](https://github.com/castorini/anserini/commit/b228451f07ac86a59b3b93d35287e36a4c69fb4b))
 + Results reproduced by [@jnx01](https://github.com/jnx01) on 2026-08-31 (commit [`b228451`](https://github.com/castorini/anserini/commit/b228451f07ac86a59b3b93d35287e36a4c69fb4b))
 + Results reproduced by [@ParsaA2006](https://github.com/ParsaA2006) on 2026-09-04 (commit [`8af8d25`](https://github.com/castorini/anserini/commit/8af8d25810cdacf2a1f5d41c4a75f578bc4f96a9))
++ Results reproduced by [@mentaltraffic](https://github.com/mentaltraffic) on 2026-09-05 (commit [`8af8d25`](https://github.com/castorini/anserini/commit/8af8d25810cdacf2a1f5d41c4a75f578bc4f96a9))
