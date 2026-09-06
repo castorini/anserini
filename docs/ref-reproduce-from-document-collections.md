@@ -16,5 +16,8 @@ This [catalog](./ref-reproduce-from-document-collections-catalog.md) enumerates 
 + [MS MARCO V2.1 Doc](reproduce/from-document-collection-summaries/msmarco-v2.1-doc.md)
 + [BEIR](reproduce/from-document-collection-summaries/beir.md)
 + [BRIGHT](reproduce/from-document-collection-summaries/bright.md)
-+ [Multilingual Test Collections](reproduce/from-document-collection-summaries/multilingual.md): MIRACL, Mr. TyDi, CIRAL, TREC NeuCLIR, HC4, NTCIR-8 ACLIA, CLEF 2006 French, TREC 2002 Arabic, FIRE 2012 Bengali + Hindi
++ [MIRACL](reproduce/from-document-collection-summaries/miracl.md)
++ [Mr. TyDi](reproduce/from-document-collection-summaries/mrtydi.md)
++ [CIRAL](reproduce/from-document-collection-summaries/ciral.md)
++ [Multilingual Test Collections](reproduce/from-document-collection-summaries/multilingual.md): TREC NeuCLIR, HC4, NTCIR-8 ACLIA, CLEF 2006 French, TREC 2002 Arabic, FIRE 2012 Bengali + Hindi
 + [Other Test Collections](reproduce/from-document-collection-summaries/other.md)

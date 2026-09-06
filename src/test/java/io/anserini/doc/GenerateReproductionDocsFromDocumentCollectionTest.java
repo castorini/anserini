@@ -753,14 +753,12 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
   @Test
   public void testDisk45RunfilePathsAlign() throws Exception {
     ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-    URL yaml = GenerateReproductionDocsFromDocumentCollectionTest.class.getResource(
-        "/reproduce/from-document-collection/configs/disk45.yaml");
+    URL yaml = GenerateReproductionDocsFromDocumentCollectionTest.class.getResource("/reproduce/from-document-collection/configs/disk45.yaml");
     assertNotNull(yaml);
 
     DataModel data = mapper.readValue(new File(yaml.toURI()), DataModel.class);
     String indexName = Paths.get(data.getIndex_path()).normalize().getFileName().toString();
-    String runfile = ReproductionUtils.constructRunfilePath(
-        indexName, "model-" + data.getModels().get(0).getName(), "topics-" + data.getTopics().get(0).getId());
+    String runfile = ReproductionUtils.constructRunfilePath(indexName, "model-" + data.getModels().get(0).getName(), "topics-" + data.getTopics().get(0).getId());
 
     assertTrue(data.generateRankingCommand(data.getCorpus()).contains("-output " + runfile));
     assertTrue(data.generateEvalCommand(data.getCorpus()).contains(" " + runfile));
