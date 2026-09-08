@@ -16,6 +16,8 @@
 
 package io.anserini.reproduce;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -31,6 +33,9 @@ import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class SummarizeLogsFromPrebuiltIndexesTest {
   private Path temporaryWorkingDirectory;
@@ -117,7 +122,12 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
 
     String[] lines = output.strip().split("\\R");
     assertTrue(lines[0].startsWith("| run"));
-    assertTrue(lines[1].contains("| -----:"));
+    assertTrue(lines[0].contains("[OKish]"));
+    assertFalse(output.contains("[OK*]"));
+    for (String line : lines) {
+      assertEquals(lines[0].length(), line.length());
+    }
+    assertTrue(lines[1].contains("| ------:"));
     assertTrue(lines[2].matches("\\|\\s*alpha\\s+\\|\\s+0\\s+\\|\\s+0\\s+\\|\\s+2\\s+\\|\\s+00:00:01\\s+\\|"));
     assertTrue(lines[3].matches("\\|\\s*betaset\\s+\\|\\s+1\\s+\\|\\s+1\\s+\\|\\s+0\\s+\\|\\s+01:03:04\\s+\\|"));
     assertTrue(output.indexOf("alpha") < output.indexOf("betaset"));
@@ -144,7 +154,7 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
     assertTrue(lines.length >= 4);
     assertTrue(!lines[0].contains("|"));
     assertTrue(!lines[1].contains("|"));
-    assertTrue(lines[0].matches("\\s*run\\s+\\[OK\\]\\s+\\[OK\\*\\]\\s+\\[FAIL\\]\\s+elapsed\\s*"));
+    assertTrue(lines[0].matches("\\s*run\\s+\\[OK\\]\\s+\\[OKish\\]\\s+\\[FAIL\\]\\s+elapsed\\s*"));
     assertTrue(lines[2].matches("\\s*alpha\\s+0\\s+0\\s+2\\s+00:00:01\\s*"));
     assertTrue(lines[3].matches("\\s*betaset\\s+1\\s+1\\s+0\\s+01:03:04\\s*"));
   }
@@ -198,6 +208,55 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
     assertTrue(output.contains("\"[OK*]\": 1"));
     assertTrue(output.contains("\"[FAIL]\": 0"));
     assertTrue(output.contains("\"elapsed\": \"01:02\""));
+  }
+
+  @Test
+  public void testHistoricalCurrentAndMixedStatusLabels() throws Exception {
+    List<List<String>> collections = List.of(
+        List.of("[OK*]"), List.of("[OKish]"), List.of("[OK*]", "[OKish]"));
+    for (int collection = 0; collection < collections.size(); collection++) {
+      Path logsDir = Files.createDirectory(temporaryWorkingDirectory.resolve("logs-" + collection));
+      List<String> labels = collections.get(collection);
+      for (int i = 0; i < labels.size(); i++) {
+        Files.write(logsDir.resolve("log.from-prebuilt-indexes.run-" + i + ".txt"), List.of(
+            "Metric " + labels.get(i),
+            "Colored metric \u001B[94m" + labels.get(i) + "\u001B[0m",
+            "Metric [OK]",
+            "Metric [FAIL]",
+            "Ignore [OKishness] and [OKAY] and [FAILURE]",
+            "Duration: done (00:00:01)"));
+      }
+      if (labels.size() > 1) {
+        Files.write(logsDir.resolve("log.from-prebuilt-indexes.run-2.txt"), List.of(
+            "Historical metric [OK*]",
+            "Current metric [OKish]",
+            "Metric [OK]",
+            "Metric [FAIL]",
+            "Duration: done (00:00:01)"));
+      }
+      int runCount = labels.size() > 1 ? 3 : 1;
+      JsonNode rows = new ObjectMapper().readTree(runInTempDirectory(logsDir, "--json"));
+      assertEquals(runCount, rows.size());
+      for (JsonNode row : rows) {
+        assertEquals(5, row.size());
+        assertEquals(1, row.get("[OK]").asInt());
+        assertEquals(2, row.get("[OK*]").asInt());
+        assertEquals(1, row.get("[FAIL]").asInt());
+        assertFalse(row.has("[OKish]"));
+        assertEquals("00:00:01", row.get("elapsed").asText());
+      }
+      for (String mode : List.of("--md", "--text")) {
+        String output = runInTempDirectory(logsDir, mode);
+        assertTrue(output.contains("[OKish]"));
+        assertFalse(output.contains("[OK*]"));
+        String[] lines = output.stripTrailing().split("\\R");
+        assertEquals(runCount + 2, lines.length);
+        for (int i = 0; i < runCount; i++) {
+          assertEquals(List.of("run-" + i, "1", "2", "1", "00:00:01"),
+              List.of(lines[i + 2].replace('|', ' ').trim().split("\\s+")));
+        }
+      }
+    }
   }
 
   private void assertInvalidOption(String... args) throws Exception {

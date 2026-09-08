@@ -6,6 +6,16 @@ Each of these experiments starts from the raw document collection, builds the ne
 See [this overview](./ref-reproduce-from-document-collections-overview.md) for a description of the entire pipeline.
 This [catalog](./ref-reproduce-from-document-collections-catalog.md) enumerates all available configs, summarized below into natural groupings.
 
+## Reproduction Status and Log Summaries
+
+Reproduction checks report `[OK]`, `[OKish]`, or `[FAIL]`.
+`[OKish]` is the intermediate status for an acceptable deviation from the expected score; it replaces the historical `[OK*]` label without changing acceptance thresholds or metric classification.
+
+`io.anserini.reproduce.SummarizeLogsFromDocumentCollection` counts the final reproduction status in each log and supports `--logs-directory`, `--text` (the default), `--md`, and `--json`.
+It accepts both `[OK*]` and `[OKish]`, with or without ANSI colors, including mixed log collections, and displays `[OKish]` in plain-text and Markdown summaries.
+For compatibility, JSON output retains the existing `[OK*]` key in `status_counts` for the combined intermediate-status count; it does not add an `[OKish]` key.
+Historical logs do not need to be rewritten.
+
 ## Table of Contents
 
 + [MS MARCO V1 Passage](reproduce/from-document-collection-summaries/msmarco-v1-passage.md)

@@ -60,7 +60,7 @@ public final class ReproductionUtils {
     private static final String RESET = "\u001B[0m";
 
     public static final String OK = GREEN + "   [OK] " + RESET;
-    public static final String OKISH = BLUE + "  [OK*] " + RESET;
+    public static final String OKISH = BLUE + "[OKish] " + RESET;
     public static final String FAIL = RED + " [FAIL] " + RESET;
 
     public static final String DEFAULT_RUNS_DIRECTORY = "runs";

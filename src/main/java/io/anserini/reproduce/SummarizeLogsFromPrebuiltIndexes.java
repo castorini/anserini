@@ -110,7 +110,7 @@ public class SummarizeLogsFromPrebuiltIndexes {
 
         try (var lines = Files.lines(logFile, StandardCharsets.UTF_8)) {
           for (String line : (Iterable<String>) lines::iterator) {
-            if (line.contains("[OK*]")) {
+            if (line.contains("[OKish]") || line.contains("[OK*]")) {
               okishCount++;
             } else if (line.contains("[OK]")) {
               okCount++;
@@ -149,7 +149,7 @@ public class SummarizeLogsFromPrebuiltIndexes {
 
     rows.sort((left, right) -> left[0].compareTo(right[0]));
 
-    final String[] headers = {"run", "[OK]", "[OK*]", "[FAIL]", "elapsed"};
+    final String[] headers = {"run", "[OK]", "[OKish]", "[FAIL]", "elapsed"};
     int[] widths = new int[headers.length];
     for (int i = 0; i < headers.length; i++) {
       widths[i] = headers[i].length();
@@ -237,6 +237,7 @@ public class SummarizeLogsFromPrebuiltIndexes {
   }
 
   private static String rowsToJson(List<String[]> rows) {
+    // Preserve the historical JSON status key [OK*] for downstream consumers.
     StringBuilder sb = new StringBuilder();
     sb.append("[\n");
     for (int i = 0; i < rows.size(); i++) {
