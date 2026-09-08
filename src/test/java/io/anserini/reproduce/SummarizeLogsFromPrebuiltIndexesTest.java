@@ -185,7 +185,8 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
 
     String output = runInTempDirectory(logsDir, "--md");
 
-    assertTrue(output.contains("No prebuilt-index logs found in: " + logsDir + " (pattern: log.from-prebuilt-indexes.*)"));
+    assertTrue(output.contains(
+        "No prebuilt-index logs found in: " + logsDir + " (pattern: log.from-prebuilt-indexes.*)"));
     assertTrue(!output.contains("| "));
   }
 
@@ -212,8 +213,7 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
 
   @Test
   public void testHistoricalCurrentAndMixedStatusLabels() throws Exception {
-    List<List<String>> collections = List.of(
-        List.of("[OK*]"), List.of("[OKish]"), List.of("[OK*]", "[OKish]"));
+    List<List<String>> collections = List.of(List.of("[OK*]"), List.of("[OKish]"), List.of("[OK*]", "[OKish]"));
     for (int collection = 0; collection < collections.size(); collection++) {
       Path logsDir = Files.createDirectory(temporaryWorkingDirectory.resolve("logs-" + collection));
       List<String> labels = collections.get(collection);

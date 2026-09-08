@@ -94,11 +94,13 @@ public class SummarizeLogsFromDocumentCollectionTest {
 
     writeLog(logsDir.resolve("log.from-document-collection.1"), List.of(
         "2026-03-01 10:00:00,100 Starting ReproduceFromDocumentCollection for topic 1",
-        "2026-03-01 10:00:01,200 ReproduceFromDocumentCollection" + ReproductionUtils.Constants.OK + " completed topic 1"));
+        "2026-03-01 10:00:01,200 ReproduceFromDocumentCollection"
+            + ReproductionUtils.Constants.OK + " completed topic 1"));
 
     writeLog(logsDir.resolve("log.from-document-collection.2"), List.of(
         "2026-03-01 10:00:02,300 Starting ReproduceFromDocumentCollection for topic 2",
-        "2026-03-01 10:00:04,500 ReproduceFromDocumentCollection" + ReproductionUtils.Constants.FAIL + " completed topic 2"));
+        "2026-03-01 10:00:04,500 ReproduceFromDocumentCollection"
+            + ReproductionUtils.Constants.FAIL + " completed topic 2"));
 
     String output = runInTempDirectory();
     assertTrue(Pattern.compile("Total regressions:\\s+2").matcher(output).find());
@@ -106,8 +108,10 @@ public class SummarizeLogsFromDocumentCollectionTest {
     assertEquals(0, countForStatusLine(output, ReproductionUtils.Constants.OKISH));
     assertEquals(1, countForStatusLine(output, ReproductionUtils.Constants.FAIL));
 
-    assertTrue(Pattern.compile("(?m)^\\s*Start time:\\s+\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}:\\d{2}(?:,\\d+)?\\s+.+$").matcher(output).find());
-    assertTrue(Pattern.compile("(?m)^\\s*End time:\\s+\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}:\\d{2}(?:,\\d+)?\\s+.+$").matcher(output).find());
+    assertTrue(Pattern.compile("(?m)^\\s*Start time:\\s+\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}:\\d{2}(?:,\\d+)?\\s+.+$")
+        .matcher(output).find());
+    assertTrue(Pattern.compile("(?m)^\\s*End time:\\s+\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}:\\d{2}(?:,\\d+)?\\s+.+$")
+        .matcher(output).find());
     assertTrue(Pattern.compile("Duration:\\s+00:00:04").matcher(output).find());
   }
 
@@ -118,11 +122,13 @@ public class SummarizeLogsFromDocumentCollectionTest {
 
     writeLog(logsDir.resolve("log.from-document-collection.1"), List.of(
         "2026-03-01 10:00:00,100 Starting ReproduceFromDocumentCollection for topic 1",
-        "2026-03-01 10:00:01,200 ReproduceFromDocumentCollection" + ReproductionUtils.Constants.OK + " completed topic 1"));
+        "2026-03-01 10:00:01,200 ReproduceFromDocumentCollection"
+            + ReproductionUtils.Constants.OK + " completed topic 1"));
 
     writeLog(logsDir.resolve("log.from-document-collection.2"), List.of(
         "2026-03-01 10:00:02,300 Starting ReproduceFromDocumentCollection for topic 2",
-        "2026-03-01 10:00:04,500 ReproduceFromDocumentCollection" + ReproductionUtils.Constants.FAIL + " completed topic 2"));
+        "2026-03-01 10:00:04,500 ReproduceFromDocumentCollection"
+            + ReproductionUtils.Constants.FAIL + " completed topic 2"));
 
     String output = runInTempDirectory("--json");
 
@@ -143,11 +149,13 @@ public class SummarizeLogsFromDocumentCollectionTest {
 
     writeLog(logsDir.resolve("log.from-document-collection.1"), List.of(
         "2026-03-01 10:00:00,100 Starting ReproduceFromDocumentCollection for topic 1",
-        "2026-03-01 10:00:01,200 ReproduceFromDocumentCollection" + ReproductionUtils.Constants.OK + " completed topic 1"));
+        "2026-03-01 10:00:01,200 ReproduceFromDocumentCollection"
+            + ReproductionUtils.Constants.OK + " completed topic 1"));
 
     writeLog(logsDir.resolve("log.from-document-collection.2"), List.of(
         "2026-03-01 10:00:02,300 Starting ReproduceFromDocumentCollection for topic 2",
-        "2026-03-01 10:00:04,500 ReproduceFromDocumentCollection" + ReproductionUtils.Constants.FAIL + " completed topic 2"));
+        "2026-03-01 10:00:04,500 ReproduceFromDocumentCollection"
+            + ReproductionUtils.Constants.FAIL + " completed topic 2"));
 
     String output = runInTempDirectory("--md");
 
@@ -207,7 +215,8 @@ public class SummarizeLogsFromDocumentCollectionTest {
 
     writeLog(logsDir.resolve("log.from-document-collection.1"), List.of(
         "2026-03-01 10:00:00,100 Starting ReproduceFromDocumentCollection for topic 1",
-        "2026-03-01 10:00:01,200 ReproduceFromDocumentCollection" + ReproductionUtils.Constants.OK + " completed topic 1"));
+        "2026-03-01 10:00:01,200 ReproduceFromDocumentCollection"
+            + ReproductionUtils.Constants.OK + " completed topic 1"));
 
     String output = runInTempDirectory("--text");
     assertTrue(Pattern.compile("Total regressions:\\s+1").matcher(output).find());
@@ -226,8 +235,7 @@ public class SummarizeLogsFromDocumentCollectionTest {
   @Test
   public void testHistoricalCurrentAndMixedStatusLabels() throws Exception {
     Path logsDir = Files.createDirectory(temporaryWorkingDirectory.resolve("logs"));
-    List<List<String>> collections = List.of(
-        List.of("[OK*]"), List.of("[OKish]"), List.of("[OK*]", "[OKish]"));
+    List<List<String>> collections = List.of(List.of("[OK*]"), List.of("[OKish]"), List.of("[OK*]", "[OKish]"));
     for (List<String> labels : collections) {
       FileUtils.cleanDirectory(logsDir.toFile());
       int logCount = 0;
