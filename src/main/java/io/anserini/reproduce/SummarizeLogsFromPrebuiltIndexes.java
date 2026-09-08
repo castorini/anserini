@@ -25,6 +25,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.StringJoiner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -150,6 +151,19 @@ public class SummarizeLogsFromPrebuiltIndexes {
 
     rows.sort((left, right) -> left[0].compareTo(right[0]));
 
+    if (rows.isEmpty()) {
+      System.err.println("No prebuilt-index logs found in: " + logsDir + " (pattern: " + LOG_GLOB + ")");
+      return;
+    }
+    if (args.json) {
+      System.out.print(rowsToJson(rows));
+    } else {
+      String table = formatTable(rows);
+      System.out.print(args.markdown ? table : stripTableDelimiters(table));
+    }
+  }
+
+  static String formatTable(List<String[]> rows) {
     final String[] headers = {"run", "[OK]", "[OKish]", "[FAIL]", "elapsed"};
     int[] widths = new int[headers.length];
     for (int i = 0; i < headers.length; i++) {
@@ -160,69 +174,40 @@ public class SummarizeLogsFromPrebuiltIndexes {
         widths[i] = Math.max(widths[i], row[i].length());
       }
     }
-    if (rows.isEmpty()) {
-      System.err.println("No prebuilt-index logs found in: " + logsDir + " (pattern: " + LOG_GLOB + ")");
-      return;
-    }
     int statusWidth = Math.max(widths[1], Math.max(widths[2], widths[3]));
     widths[1] = statusWidth;
     widths[2] = statusWidth;
     widths[3] = statusWidth;
 
     StringBuilder sb = new StringBuilder(Math.max(256, rows.size() * 112));
-    appendHeaderRow(sb, headers, widths);
+    sb.append(formatRow(headers, widths));
     appendSeparator(sb, widths);
     for (String[] row : rows) {
-      appendRow(sb, row, widths);
+      sb.append(formatRow(row, widths));
     }
-    if (args.json) {
-      System.out.print(rowsToJson(rows));
-    } else if (args.markdown) {
-      System.out.print(sb);
-    } else {
-      System.out.print(stripTableDelimiters(sb));
-    }
+    return sb.toString();
   }
 
-  private static void appendRow(StringBuilder sb, String[] row, int[] widths) {
-    sb.append("| ");
+  private static String formatRow(String[] row, int[] widths) {
+    StringJoiner cells = new StringJoiner(" | ", "| ", " |\n");
     for (int i = 0; i < row.length; i++) {
-      if (i >= 1 && i <= 3) {
-        sb.append(" ".repeat(widths[i] - row[i].length())).append(row[i]);
-      } else {
-        sb.append(row[i]).append(" ".repeat(widths[i] - row[i].length()));
-      }
-      sb.append(i == row.length - 1 ? " |\n" : " | ");
+      String alignment = i >= 1 && i <= 3 ? "" : "-";
+      cells.add(String.format(Locale.ROOT, "%" + alignment + widths[i] + "s", row[i]));
     }
-  }
-
-  private static void appendHeaderRow(StringBuilder sb, String[] row, int[] widths) {
-    sb.append("| ");
-    for (int i = 0; i < row.length; i++) {
-      if (i >= 1 && i <= 3) {
-        sb.append(" ".repeat(widths[i] - row[i].length())).append(row[i]);
-      } else {
-        sb.append(row[i]).append(" ".repeat(widths[i] - row[i].length()));
-      }
-      sb.append(i == row.length - 1 ? " |\n" : " | ");
-    }
+    return cells.toString();
   }
 
   private static void appendSeparator(StringBuilder sb, int[] widths) {
-    sb.append("| ");
+    String[] separators = new String[widths.length];
     for (int i = 0; i < widths.length; i++) {
-      if (i >= 1 && i <= 3) {
-        sb.append("-".repeat(Math.max(1, widths[i] - 1))).append(":");
-      } else {
-        sb.append("-".repeat(widths[i]));
-      }
-      sb.append(i == widths.length - 1 ? " |\n" : " | ");
+      separators[i] = i >= 1 && i <= 3 ? "-".repeat(widths[i] - 1) + ":" : "-".repeat(widths[i]);
     }
+    sb.append(formatRow(separators, widths));
   }
 
-  private static StringBuilder stripTableDelimiters(StringBuilder sb) {
+  private static String stripTableDelimiters(String table) {
     StringBuilder plainText = new StringBuilder();
-    for (String line : sb.toString().split("\\R", -1)) {
+    for (String line : table.split("\\R", -1)) {
       if (line.isEmpty()) {
         plainText.append('\n');
         continue;
@@ -234,30 +219,26 @@ public class SummarizeLogsFromPrebuiltIndexes {
       }
       plainText.append(transformed.replaceFirst("^\\s+", "")).append('\n');
     }
-    return plainText;
+    return plainText.toString();
   }
 
   private static String rowsToJson(List<String[]> rows) {
-    StringBuilder sb = new StringBuilder();
-    sb.append("[\n");
-    for (int i = 0; i < rows.size(); i++) {
-      String[] row = rows.get(i);
-      sb.append("  {\n")
-          .append("    \"run\": \"").append(ReproductionUtils.escapeJson(row[0])).append("\",\n")
-          .append("    \"[OK]\": ").append(row[1]).append(",\n")
-          // Retain the historical JSON key for backward compatibility with downstream consumers.
-          .append("    \"[OK*]\": ").append(row[2]).append(",\n")
-          .append("    \"[FAIL]\": ").append(row[3]).append(",\n")
-          .append("    \"elapsed\": \"").append(ReproductionUtils.escapeJson(row[4])).append("\"\n")
-          .append("  }");
-      if (i < rows.size() - 1) {
-        sb.append(",\n");
-      } else {
-        sb.append('\n');
-      }
+    String rowTemplate = """
+          {
+            "run": "%s",
+            "[OK]": %s,
+            "[OKish]": %s,
+            "[FAIL]": %s,
+            "elapsed": "%s"
+          }
+        """;
+    StringJoiner entries = new StringJoiner(",\n", "[\n", "\n]\n");
+    for (String[] row : rows) {
+      entries.add(String.format(Locale.ROOT, rowTemplate,
+          ReproductionUtils.escapeJson(row[0]), row[1], row[2], row[3],
+          ReproductionUtils.escapeJson(row[4])).stripTrailing());
     }
-    sb.append("]\n");
-    return sb.toString();
+    return entries.toString();
   }
 
 }

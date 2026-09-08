@@ -28,8 +28,12 @@ import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.FileUtils;
@@ -89,78 +93,62 @@ public class SummarizeLogsFromDocumentCollectionTest {
 
   @Test
   public void testSummarizeLogs() throws Exception {
-    Path logsDir = temporaryWorkingDirectory.resolve("logs");
-    Files.createDirectory(logsDir);
-
-    writeLog(logsDir.resolve("log.from-document-collection.1"), List.of(
-        "2026-03-01 10:00:00,100 Starting ReproduceFromDocumentCollection for topic 1",
-        "2026-03-01 10:00:01,200 ReproduceFromDocumentCollection" + ReproductionUtils.Constants.OK + " completed topic 1"));
-
-    writeLog(logsDir.resolve("log.from-document-collection.2"), List.of(
-        "2026-03-01 10:00:02,300 Starting ReproduceFromDocumentCollection for topic 2",
-        "2026-03-01 10:00:04,500 ReproduceFromDocumentCollection" + ReproductionUtils.Constants.FAIL + " completed topic 2"));
-
+    writeSampleLogs();
     String output = runInTempDirectory();
-    assertTrue(Pattern.compile("Total regressions:\\s+2").matcher(output).find());
-    assertEquals(1, countForStatusLine(output, ReproductionUtils.Constants.OK));
-    assertEquals(0, countForStatusLine(output, ReproductionUtils.Constants.OKISH));
-    assertEquals(1, countForStatusLine(output, ReproductionUtils.Constants.FAIL));
+    // Keep the ANSI status labels in the expected output to check color and padding together.
+    assertEquals("""
+        Total regressions:   2
+         %s   1
+         %s   0
+         %s   1
 
-    assertTrue(Pattern.compile("(?m)^\\s*Start time:\\s+\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}:\\d{2}(?:,\\d+)?\\s+.+$").matcher(output).find());
-    assertTrue(Pattern.compile("(?m)^\\s*End time:\\s+\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}:\\d{2}(?:,\\d+)?\\s+.+$").matcher(output).find());
-    assertTrue(Pattern.compile("Duration:\\s+00:00:04").matcher(output).find());
+        Start time: 2026-03-01 10:00:00 %s
+        End time:   2026-03-01 10:00:04 %s
+        Duration:   00:00:04
+        """.formatted(ReproductionUtils.Constants.OK, ReproductionUtils.Constants.OKISH,
+        ReproductionUtils.Constants.FAIL, sampleTimeZone(), sampleTimeZone()), output);
   }
 
   @Test
   public void testSummarizeLogsJson() throws Exception {
-    Path logsDir = temporaryWorkingDirectory.resolve("logs");
-    Files.createDirectory(logsDir);
-
-    writeLog(logsDir.resolve("log.from-document-collection.1"), List.of(
-        "2026-03-01 10:00:00,100 Starting ReproduceFromDocumentCollection for topic 1",
-        "2026-03-01 10:00:01,200 ReproduceFromDocumentCollection" + ReproductionUtils.Constants.OK + " completed topic 1"));
-
-    writeLog(logsDir.resolve("log.from-document-collection.2"), List.of(
-        "2026-03-01 10:00:02,300 Starting ReproduceFromDocumentCollection for topic 2",
-        "2026-03-01 10:00:04,500 ReproduceFromDocumentCollection" + ReproductionUtils.Constants.FAIL + " completed topic 2"));
-
+    writeSampleLogs();
     String output = runInTempDirectory("--json");
 
-    assertTrue(output.contains("\"total_regressions\": 2"));
-    assertTrue(output.contains("\"status_counts\": {"));
-    assertTrue(output.contains("\"[OK]\": 1"));
-    // Retain the historical JSON key for backward compatibility with downstream consumers.
-    assertTrue(output.contains("\"[OK*]\": 0"));
-    assertTrue(output.contains("\"[FAIL]\": 1"));
-    assertTrue(output.contains("\"start_time\": "));
-    assertTrue(output.contains("\"end_time\": "));
-    assertTrue(output.contains("\"duration\": \"00:00:04\""));
+    String expected = """
+        {
+          "total_regressions": 2,
+          "status_counts": {
+            "[OK]": 1,
+            "[OKish]": 0,
+            "[FAIL]": 1
+          },
+          "start_time": "2026-03-01 10:00:00 %s",
+          "end_time": "2026-03-01 10:00:04 %s",
+          "duration": "00:00:04"
+        }
+        """.formatted(sampleTimeZone(), sampleTimeZone());
+    ObjectMapper mapper = new ObjectMapper();
+    assertEquals(mapper.readTree(expected), mapper.readTree(output));
+    // Also preserve the public output's field order, indentation, and final newline.
+    assertEquals(expected, output);
   }
 
   @Test
   public void testSummarizeLogsMarkdown() throws Exception {
-    Path logsDir = temporaryWorkingDirectory.resolve("logs");
-    Files.createDirectory(logsDir);
+    writeSampleLogs();
+    assertEquals("""
+        Total regressions:   2
 
-    writeLog(logsDir.resolve("log.from-document-collection.1"), List.of(
-        "2026-03-01 10:00:00,100 Starting ReproduceFromDocumentCollection for topic 1",
-        "2026-03-01 10:00:01,200 ReproduceFromDocumentCollection" + ReproductionUtils.Constants.OK + " completed topic 1"));
+        | status  | count |
+        | ------- | ----: |
+        | [OK]    |     1 |
+        | [OKish] |     0 |
+        | [FAIL]  |     1 |
 
-    writeLog(logsDir.resolve("log.from-document-collection.2"), List.of(
-        "2026-03-01 10:00:02,300 Starting ReproduceFromDocumentCollection for topic 2",
-        "2026-03-01 10:00:04,500 ReproduceFromDocumentCollection" + ReproductionUtils.Constants.FAIL + " completed topic 2"));
-
-    String output = runInTempDirectory("--md");
-
-    assertTrue(Pattern.compile("Total regressions:\\s+2").matcher(output).find());
-    assertTrue(output.contains("| status  | count |"));
-    assertTrue(output.contains("| ------- | ----: |"));
-    assertTrue(Pattern.compile("\\| \\[OK\\]\\s+\\|\\s+1 \\|").matcher(output).find());
-    assertTrue(Pattern.compile("\\| \\[OKish\\]\\s*\\|\\s+0 \\|").matcher(output).find());
-    assertTrue(Pattern.compile("\\| \\[FAIL\\]\\s+\\|\\s+1 \\|").matcher(output).find());
-    assertTrue(Pattern.compile("(?m)^Start time:").matcher(output).find());
-    assertTrue(Pattern.compile("(?m)^End time:").matcher(output).find());
-    assertTrue(Pattern.compile("Duration:\\s+00:00:04").matcher(output).find());
+        Start time: 2026-03-01 10:00:00 %s
+        End time:   2026-03-01 10:00:04 %s
+        Duration:   00:00:04
+        """.formatted(sampleTimeZone(), sampleTimeZone()), runInTempDirectory("--md").replace("\r\n", "\n"));
   }
 
   @Test
@@ -168,13 +156,15 @@ public class SummarizeLogsFromDocumentCollectionTest {
     Path logsDir = temporaryWorkingDirectory.resolve("logs");
     Files.createDirectory(logsDir);
 
-    writeLog(logsDir.resolve("log.from-document-collection.empty"), List.of(
-        "This is not a reproduction line",
-        "another non-matching line"));
+    Files.writeString(logsDir.resolve("log.from-document-collection.empty"), """
+        This is not a reproduction line
+        another non-matching line
+        """);
 
-    writeLog(logsDir.resolve("log.from-document-collection.partial"), List.of(
-        "2026-03-01 10:00:00,100 No timestamp format expected",
-        "ReproduceFromDocumentCollection without timestamp"));
+    Files.writeString(logsDir.resolve("log.from-document-collection.partial"), """
+        2026-03-01 10:00:00,100 No timestamp format expected
+        ReproduceFromDocumentCollection without timestamp
+        """);
 
     String output = runInTempDirectory();
 
@@ -203,18 +193,10 @@ public class SummarizeLogsFromDocumentCollectionTest {
 
   @Test
   public void testSummarizeLogsTextAlias() throws Exception {
-    Path logsDir = temporaryWorkingDirectory.resolve("logs");
-    Files.createDirectory(logsDir);
-
-    writeLog(logsDir.resolve("log.from-document-collection.1"), List.of(
-        "2026-03-01 10:00:00,100 Starting ReproduceFromDocumentCollection for topic 1",
-        "2026-03-01 10:00:01,200 ReproduceFromDocumentCollection" + ReproductionUtils.Constants.OK + " completed topic 1"));
-
-    String output = runInTempDirectory("--text");
-    assertTrue(Pattern.compile("Total regressions:\\s+1").matcher(output).find());
-
-    output = runInTempDirectory("--plain-text");
-    assertTrue(Pattern.compile("Total regressions:\\s+1").matcher(output).find());
+    writeSampleLogs();
+    String expected = runInTempDirectory();
+    assertEquals(expected, runInTempDirectory("--text"));
+    assertEquals(expected, runInTempDirectory("--plain-text"));
   }
 
   @Test
@@ -234,13 +216,14 @@ public class SummarizeLogsFromDocumentCollectionTest {
       int logCount = 0;
       for (String label : labels) {
         for (String status : List.of(label, "\u001B[94m  " + label + " \u001B[0m")) {
-          writeLog(logsDir.resolve("log.from-document-collection." + logCount++), List.of(
-              "2026-03-01 10:00:00,100 ReproduceFromDocumentCollection [FAIL] intermediate check",
-              // Historical log fixture retained to verify backward-compatible parsing.
-              "2026-03-01 10:00:01,200 ReproduceFromDocumentCollection [OK*] historical check",
-              "2026-03-01 10:00:02,300 ReproduceFromDocumentCollection [OKish] current check",
-              "2026-03-01 10:00:04,500 ReproduceFromDocumentCollection " + status + " Total elapsed time: 4s",
-              "2026-03-01 10:00:05,600 OtherClass [FAIL] unrelated line"));
+          // Historical log fixture retained to verify backward-compatible parsing.
+          Files.writeString(logsDir.resolve("log.from-document-collection." + logCount++), """
+              2026-03-01 10:00:00,100 ReproduceFromDocumentCollection [FAIL] intermediate check
+              2026-03-01 10:00:01,200 ReproduceFromDocumentCollection [OK*] historical check
+              2026-03-01 10:00:02,300 ReproduceFromDocumentCollection [OKish] current check
+              2026-03-01 10:00:04,500 ReproduceFromDocumentCollection %s Total elapsed time: 4s
+              2026-03-01 10:00:05,600 OtherClass [FAIL] unrelated line
+              """.formatted(status));
         }
       }
       JsonNode summary = new ObjectMapper().readTree(runInTempDirectory("--json"));
@@ -248,14 +231,14 @@ public class SummarizeLogsFromDocumentCollectionTest {
       JsonNode counts = summary.get("status_counts");
       assertEquals(3, counts.size());
       assertEquals(0, counts.get("[OK]").asInt());
-      // Retain the historical JSON key for backward compatibility with downstream consumers.
-      assertEquals(logCount, counts.get("[OK*]").asInt());
+      assertEquals(logCount, counts.get("[OKish]").asInt());
       assertEquals(0, counts.get("[FAIL]").asInt());
-      assertFalse(counts.has("[OKish]"));
+      // Backward compatibility accepts historical log input; JSON emits only the current key.
+      assertFalse(counts.has("[OK*]"));
       assertEquals("00:00:04", summary.get("duration").asText());
 
       String markdown = runInTempDirectory("--md");
-      // Backward compatibility preserves log input and JSON keys; readable output uses the current label.
+      // Backward compatibility accepts historical log input; all output uses the current label.
       assertFalse(markdown.contains("[OK*]"));
       assertTrue(markdown.contains("| [OKish] |     " + logCount + " |"));
       for (String line : markdown.split("\\R")) {
@@ -264,12 +247,87 @@ public class SummarizeLogsFromDocumentCollectionTest {
         }
       }
       String text = stripAnsi(runInTempDirectory("--text"));
-      // Backward compatibility preserves log input and JSON keys; readable output uses the current label.
+      // Backward compatibility accepts historical log input; all output uses the current label.
       assertFalse(text.contains("[OK*]"));
       assertTrue(text.contains(" [OKish]    " + logCount));
       assertTrue(text.contains("    [OK]    0"));
       assertTrue(text.contains("  [FAIL]    0"));
     }
+  }
+
+  @Test
+  public void testEmptyLogsJson() throws Exception {
+    Files.createDirectory(temporaryWorkingDirectory.resolve("logs"));
+    String expected = """
+        {
+          "total_regressions": 0,
+          "status_counts": {"[OK]": 0, "[OKish]": 0, "[FAIL]": 0},
+          "start_time": "n/a",
+          "end_time": "n/a",
+          "duration": "n/a"
+        }
+        """;
+    ObjectMapper mapper = new ObjectMapper();
+    assertEquals(mapper.readTree(expected), mapper.readTree(runInTempDirectory("--json")));
+  }
+
+  @Test
+  public void testLargeCountsPreserveAlignmentAndLocale() {
+    Locale previousLocale = Locale.getDefault();
+    try {
+      Locale.setDefault(Locale.forLanguageTag("ar-LB"));
+      int[] counts = {123456, 12, 3};
+      String[] labels = {"[OK]", "[OKish]", "[FAIL]"};
+      String markdown = SummarizeLogsFromDocumentCollection.formatSummaryMarkdown(
+          123471, counts, labels, null, null, null);
+      assertEquals("""
+          Total regressions: 123471
+
+          | status  | count  |
+          | ------- | -----: |
+          | [OK]    | 123456 |
+          | [OKish] |     12 |
+          | [FAIL]  |      3 |
+
+          Start time: n/a
+          End time:   n/a
+          Duration:   n/a
+          """, markdown.replace("\r\n", "\n"));
+
+      String[] coloredLabels = {ReproductionUtils.Constants.OK, ReproductionUtils.Constants.OKISH,
+          ReproductionUtils.Constants.FAIL};
+      String text = SummarizeLogsFromDocumentCollection.formatSummaryPlainText(
+          123471, counts, coloredLabels, null, null, null);
+      assertEquals("""
+          Total regressions: 123471
+              [OK]  123456
+           [OKish]   12
+            [FAIL]    3
+
+          Start time: n/a
+          End time:   n/a
+          Duration:   n/a
+          """, stripAnsi(text));
+    } finally {
+      Locale.setDefault(previousLocale);
+    }
+  }
+
+  private void writeSampleLogs() throws IOException {
+    Path logsDir = Files.createDirectory(temporaryWorkingDirectory.resolve("logs"));
+    Files.writeString(logsDir.resolve("log.from-document-collection.1"), """
+        2026-03-01 10:00:00,100 Starting ReproduceFromDocumentCollection for topic 1
+        2026-03-01 10:00:01,200 ReproduceFromDocumentCollection%s completed topic 1
+        """.formatted(ReproductionUtils.Constants.OK));
+    Files.writeString(logsDir.resolve("log.from-document-collection.2"), """
+        2026-03-01 10:00:02,300 Starting ReproduceFromDocumentCollection for topic 2
+        2026-03-01 10:00:04,500 ReproduceFromDocumentCollection%s completed topic 2
+        """.formatted(ReproductionUtils.Constants.FAIL));
+  }
+
+  private String sampleTimeZone() {
+    return ZonedDateTime.of(2026, 3, 1, 10, 0, 0, 0, ZoneId.systemDefault())
+        .format(DateTimeFormatter.ofPattern("z", Locale.ROOT));
   }
 
   private String stripAnsi(String text) {
@@ -289,38 +347,19 @@ public class SummarizeLogsFromDocumentCollectionTest {
     PrintStream previousOut = System.out;
     PrintStream previousErr = System.err;
     ByteArrayOutputStream output = new ByteArrayOutputStream();
-    Path workingDirLogs = Paths.get("logs");
-    Path backupLogs = null;
-    Path sourceLogs = temporaryWorkingDirectory.resolve("logs");
+    String[] mainArgs = Arrays.copyOf(args, args.length + 2);
+    mainArgs[args.length] = "--logs-directory";
+    mainArgs[args.length + 1] = temporaryWorkingDirectory.resolve("logs").toString();
 
-    try (PrintStream redirectedOut = new PrintStream(output, true, StandardCharsets.UTF_8);
-         PrintStream redirectedErr = new PrintStream(output, true, StandardCharsets.UTF_8)) {
-      if (Files.exists(workingDirLogs)) {
-        backupLogs = temporaryWorkingDirectory.resolve("logs-backup-" + System.nanoTime());
-        FileUtils.moveDirectory(workingDirLogs.toFile(), backupLogs.toFile());
-      }
-      FileUtils.copyDirectory(sourceLogs.toFile(), workingDirLogs.toFile());
-
-      System.setOut(redirectedOut);
-      System.setErr(redirectedErr);
-
-      SummarizeLogsFromDocumentCollection.main(args);
+    try (PrintStream redirected = new PrintStream(output, true, StandardCharsets.UTF_8)) {
+      System.setOut(redirected);
+      System.setErr(redirected);
+      SummarizeLogsFromDocumentCollection.main(mainArgs);
     } finally {
       System.setOut(previousOut);
       System.setErr(previousErr);
-      if (Files.exists(workingDirLogs)) {
-        FileUtils.deleteDirectory(workingDirLogs.toFile());
-      }
-      if (backupLogs != null) {
-        FileUtils.moveDirectory(backupLogs.toFile(), workingDirLogs.toFile());
-      }
     }
-
     return output.toString(StandardCharsets.UTF_8);
-  }
-
-  private void writeLog(Path path, List<String> lines) throws IOException {
-    Files.write(path, lines);
   }
 
   private int countForStatusLine(String output, String statusLabel) {
