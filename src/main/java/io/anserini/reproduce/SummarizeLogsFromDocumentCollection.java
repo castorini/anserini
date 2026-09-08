@@ -145,8 +145,8 @@ public class SummarizeLogsFromDocumentCollection {
         }
 
         for (int i = 0; i < statusLabels.length; i++) {
-          if (lastRunRegressionsLine.contains(rawStatusLabels[i]) ||
-              (i == 1 && lastRunRegressionsLine.contains("[OK*]"))) {
+          // Accept historical log labels for backward compatibility alongside the current label.
+          if (lastRunRegressionsLine.contains(rawStatusLabels[i]) || (i == 1 && lastRunRegressionsLine.contains("[OK*]"))) {
             statusCounters[i]++;
           }
         }
@@ -169,7 +169,7 @@ public class SummarizeLogsFromDocumentCollection {
     }
 
     if (args.json) {
-      // Preserve the historical JSON status key [OK*] for downstream consumers.
+      // Retain the historical JSON key for backward compatibility with downstream consumers.
       String[] jsonStatusLabels = {"[OK]", "[OK*]", "[FAIL]"};
       printSummaryJson(totalRegressions, statusCounters, jsonStatusLabels, startTime, endTime, duration);
     } else if (args.markdown) {
@@ -259,8 +259,7 @@ public class SummarizeLogsFromDocumentCollection {
     System.out.append("  \"total_regressions\": ").append(String.valueOf(totalRegressions)).append(",\n");
     System.out.append("  \"status_counts\": {\n");
     for (int i = 0; i < statusCounters.length; i++) {
-      System.out.append("    \"").append(ReproductionUtils.escapeJson(rawStatusLabels[i]))
-          .append("\": ").append(String.valueOf(statusCounters[i]));
+      System.out.append("    \"").append(ReproductionUtils.escapeJson(rawStatusLabels[i])).append("\": ").append(String.valueOf(statusCounters[i]));
       if (i + 1 < statusCounters.length) {
         System.out.append(",\n");
       } else {
@@ -268,12 +267,9 @@ public class SummarizeLogsFromDocumentCollection {
       }
     }
     System.out.append("  },\n");
-    System.out.append("  \"start_time\": \"")
-        .append(ReproductionUtils.escapeJson(startTime == null ? "n/a" : ReproductionUtils.formatStartTime(startTime))).append("\",\n");
-    System.out.append("  \"end_time\": \"")
-        .append(ReproductionUtils.escapeJson(endTime == null ? "n/a" : ReproductionUtils.formatEndTime(endTime))).append("\",\n");
-    System.out.append("  \"duration\": \"")
-        .append(ReproductionUtils.escapeJson(duration == null ? "n/a" : ReproductionUtils.formatDuration(duration.toMillis()))).append("\"\n");
+    System.out.append("  \"start_time\": \"").append(ReproductionUtils.escapeJson(startTime == null ? "n/a" : ReproductionUtils.formatStartTime(startTime))).append("\",\n");
+    System.out.append("  \"end_time\": \"").append(ReproductionUtils.escapeJson(endTime == null ? "n/a" : ReproductionUtils.formatEndTime(endTime))).append("\",\n");
+    System.out.append("  \"duration\": \"").append(ReproductionUtils.escapeJson(duration == null ? "n/a" : ReproductionUtils.formatDuration(duration.toMillis()))).append("\"\n");
     System.out.append("}\n");
   }
 

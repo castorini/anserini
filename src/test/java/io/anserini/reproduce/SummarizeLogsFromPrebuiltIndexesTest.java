@@ -78,6 +78,7 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
 
     Files.write(logsDir.resolve("log.from-prebuilt-indexes.betaset.txt"), List.of(
         "Run for beta [OK]",
+        // Historical log fixture retained to verify backward-compatible parsing.
         "Second line [OK*]",
         "Duration: done (01:03:04)"));
 
@@ -93,11 +94,13 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
     assertTrue(output.indexOf("\"run\": \"alpha\"") < output.indexOf("\"run\": \"betaset\""));
 
     assertTrue(output.contains("\"[OK]\": 0"));
+    // Retain the historical JSON key for backward compatibility with downstream consumers.
     assertTrue(output.contains("\"[OK*]\": 0"));
     assertTrue(output.contains("\"[FAIL]\": 2"));
     assertTrue(output.contains("\"elapsed\": \"00:00:01\""));
 
     assertTrue(output.contains("\"[OK]\": 1"));
+    // Retain the historical JSON key for backward compatibility with downstream consumers.
     assertTrue(output.contains("\"[OK*]\": 1"));
     assertTrue(output.contains("\"[FAIL]\": 0"));
     assertTrue(output.contains("\"elapsed\": \"01:03:04\""));
@@ -110,6 +113,7 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
 
     Files.write(logsDir.resolve("log.from-prebuilt-indexes.betaset.txt"), List.of(
         "Run for beta [OK]",
+        // Historical log fixture retained to verify backward-compatible parsing.
         "Second line [OK*]",
         "Duration: done (01:03:04)"));
 
@@ -123,6 +127,7 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
     String[] lines = output.strip().split("\\R");
     assertTrue(lines[0].startsWith("| run"));
     assertTrue(lines[0].contains("[OKish]"));
+    // Backward compatibility preserves log input and JSON keys; readable output uses the current label.
     assertFalse(output.contains("[OK*]"));
     for (String line : lines) {
       assertEquals(lines[0].length(), line.length());
@@ -140,6 +145,7 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
 
     Files.write(logsDir.resolve("log.from-prebuilt-indexes.betaset.txt"), List.of(
         "Run for beta [OK]",
+        // Historical log fixture retained to verify backward-compatible parsing.
         "Second line [OK*]",
         "Duration: done (01:03:04)"));
 
@@ -185,8 +191,7 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
 
     String output = runInTempDirectory(logsDir, "--md");
 
-    assertTrue(output.contains(
-        "No prebuilt-index logs found in: " + logsDir + " (pattern: log.from-prebuilt-indexes.*)"));
+    assertTrue(output.contains("No prebuilt-index logs found in: " + logsDir + " (pattern: log.from-prebuilt-indexes.*)"));
     assertTrue(!output.contains("| "));
   }
 
@@ -199,6 +204,7 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
         "Run for malformed [OK]",
         "Mangled marker [FAILURE] should not count",
         "Duration: 01:02",
+        // Historical log fixture retained to verify backward-compatible parsing.
         "Another token [OK*] and [OKAY]",
         "No duration value here"));
 
@@ -206,6 +212,7 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
 
     assertTrue(output.contains("\"run\": \"malformed\""));
     assertTrue(output.contains("\"[OK]\": 1"));
+    // Retain the historical JSON key for backward compatibility with downstream consumers.
     assertTrue(output.contains("\"[OK*]\": 1"));
     assertTrue(output.contains("\"[FAIL]\": 0"));
     assertTrue(output.contains("\"elapsed\": \"01:02\""));
@@ -213,6 +220,7 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
 
   @Test
   public void testHistoricalCurrentAndMixedStatusLabels() throws Exception {
+    // Cover backward compatibility with historical logs, current logs, and mixed collections.
     List<List<String>> collections = List.of(List.of("[OK*]"), List.of("[OKish]"), List.of("[OK*]", "[OKish]"));
     for (int collection = 0; collection < collections.size(); collection++) {
       Path logsDir = Files.createDirectory(temporaryWorkingDirectory.resolve("logs-" + collection));
@@ -228,6 +236,7 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
       }
       if (labels.size() > 1) {
         Files.write(logsDir.resolve("log.from-prebuilt-indexes.run-2.txt"), List.of(
+            // Historical log fixture retained to verify backward-compatible parsing.
             "Historical metric [OK*]",
             "Current metric [OKish]",
             "Metric [OK]",
@@ -240,6 +249,7 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
       for (JsonNode row : rows) {
         assertEquals(5, row.size());
         assertEquals(1, row.get("[OK]").asInt());
+        // Retain the historical JSON key for backward compatibility with downstream consumers.
         assertEquals(2, row.get("[OK*]").asInt());
         assertEquals(1, row.get("[FAIL]").asInt());
         assertFalse(row.has("[OKish]"));
@@ -248,6 +258,7 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
       for (String mode : List.of("--md", "--text")) {
         String output = runInTempDirectory(logsDir, mode);
         assertTrue(output.contains("[OKish]"));
+        // Backward compatibility preserves log input and JSON keys; readable output uses the current label.
         assertFalse(output.contains("[OK*]"));
         String[] lines = output.stripTrailing().split("\\R");
         assertEquals(runCount + 2, lines.length);
