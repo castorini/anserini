@@ -28,6 +28,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
@@ -73,96 +74,55 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
 
   @Test
   public void testSummarizeLogsFromPrebuiltIndexesJson() throws Exception {
-    Path logsDir = temporaryWorkingDirectory.resolve("logs");
-    Files.createDirectory(logsDir);
-
-    Files.write(logsDir.resolve("log.from-prebuilt-indexes.betaset.txt"), List.of(
-        "Run for beta [OK]",
-        // Historical log fixture retained to verify backward-compatible parsing.
-        "Second line [OK*]",
-        "Duration: done (01:03:04)"));
-
-    Files.write(logsDir.resolve("log.from-prebuilt-indexes.alpha.txt"), List.of(
-        "Run for alpha [FAIL]",
-        "Failure [FAIL]",
-        "Duration: 00:00:01"));
-
+    writeSampleLogs();
     String output = runInTempDirectory("--json");
 
-    assertTrue(output.contains("\"run\": \"alpha\""));
-    assertTrue(output.contains("\"run\": \"betaset\""));
-    assertTrue(output.indexOf("\"run\": \"alpha\"") < output.indexOf("\"run\": \"betaset\""));
-
-    assertTrue(output.contains("\"[OK]\": 0"));
-    // Retain the historical JSON key for backward compatibility with downstream consumers.
-    assertTrue(output.contains("\"[OK*]\": 0"));
-    assertTrue(output.contains("\"[FAIL]\": 2"));
-    assertTrue(output.contains("\"elapsed\": \"00:00:01\""));
-
-    assertTrue(output.contains("\"[OK]\": 1"));
-    // Retain the historical JSON key for backward compatibility with downstream consumers.
-    assertTrue(output.contains("\"[OK*]\": 1"));
-    assertTrue(output.contains("\"[FAIL]\": 0"));
-    assertTrue(output.contains("\"elapsed\": \"01:03:04\""));
+    String expected = """
+        [
+          {
+            "run": "alpha",
+            "[OK]": 0,
+            "[OKish]": 0,
+            "[FAIL]": 2,
+            "elapsed": "00:00:01"
+          },
+          {
+            "run": "betaset",
+            "[OK]": 1,
+            "[OKish]": 1,
+            "[FAIL]": 0,
+            "elapsed": "01:03:04"
+          }
+        ]
+        """;
+    ObjectMapper mapper = new ObjectMapper();
+    assertEquals(mapper.readTree(expected), mapper.readTree(output));
+    // Also preserve the public output's field order, indentation, and final newline.
+    assertEquals(expected, output);
   }
 
   @Test
   public void testSummarizeLogsFromPrebuiltIndexesMarkdown() throws Exception {
-    Path logsDir = temporaryWorkingDirectory.resolve("logs");
-    Files.createDirectory(logsDir);
-
-    Files.write(logsDir.resolve("log.from-prebuilt-indexes.betaset.txt"), List.of(
-        "Run for beta [OK]",
-        // Historical log fixture retained to verify backward-compatible parsing.
-        "Second line [OK*]",
-        "Duration: done (01:03:04)"));
-
-    Files.write(logsDir.resolve("log.from-prebuilt-indexes.alpha.txt"), List.of(
-        "Run for alpha [FAIL]",
-        "Failure [FAIL]",
-        "Duration: 00:00:01"));
-
-    String output = runInTempDirectory("--md");
-
-    String[] lines = output.strip().split("\\R");
-    assertTrue(lines[0].startsWith("| run"));
-    assertTrue(lines[0].contains("[OKish]"));
-    // Backward compatibility preserves log input and JSON keys; readable output uses the current label.
-    assertFalse(output.contains("[OK*]"));
-    for (String line : lines) {
-      assertEquals(lines[0].length(), line.length());
-    }
-    assertTrue(lines[1].contains("| ------:"));
-    assertTrue(lines[2].matches("\\|\\s*alpha\\s+\\|\\s+0\\s+\\|\\s+0\\s+\\|\\s+2\\s+\\|\\s+00:00:01\\s+\\|"));
-    assertTrue(lines[3].matches("\\|\\s*betaset\\s+\\|\\s+1\\s+\\|\\s+1\\s+\\|\\s+0\\s+\\|\\s+01:03:04\\s+\\|"));
-    assertTrue(output.indexOf("alpha") < output.indexOf("betaset"));
+    writeSampleLogs();
+    assertEquals("""
+        | run     |    [OK] | [OKish] |  [FAIL] | elapsed  |
+        | ------- | ------: | ------: | ------: | -------- |
+        | alpha   |       0 |       0 |       2 | 00:00:01 |
+        | betaset |       1 |       1 |       0 | 01:03:04 |
+        """, runInTempDirectory("--md"));
   }
 
   @Test
   public void testSummarizeLogsFromPrebuiltIndexesPlainText() throws Exception {
-    Path logsDir = temporaryWorkingDirectory.resolve("logs");
-    Files.createDirectory(logsDir);
-
-    Files.write(logsDir.resolve("log.from-prebuilt-indexes.betaset.txt"), List.of(
-        "Run for beta [OK]",
-        // Historical log fixture retained to verify backward-compatible parsing.
-        "Second line [OK*]",
-        "Duration: done (01:03:04)"));
-
-    Files.write(logsDir.resolve("log.from-prebuilt-indexes.alpha.txt"), List.of(
-        "Run for alpha [FAIL]",
-        "Failure [FAIL]",
-        "Duration: 00:00:01"));
-
-    String output = runInTempDirectory("--plain-text");
-
-    String[] lines = output.strip().split("\\R");
-    assertTrue(lines.length >= 4);
-    assertTrue(!lines[0].contains("|"));
-    assertTrue(!lines[1].contains("|"));
-    assertTrue(lines[0].matches("\\s*run\\s+\\[OK\\]\\s+\\[OKish\\]\\s+\\[FAIL\\]\\s+elapsed\\s*"));
-    assertTrue(lines[2].matches("\\s*alpha\\s+0\\s+0\\s+2\\s+00:00:01\\s*"));
-    assertTrue(lines[3].matches("\\s*betaset\\s+1\\s+1\\s+0\\s+01:03:04\\s*"));
+    writeSampleLogs();
+    // Explicit spaces preserve the existing trailing padding and final blank line.
+    assertEquals(String.join("\n",
+        "run          [OK]   [OKish]    [FAIL]   elapsed   ",
+        "-------   -------   -------   -------   --------  ",
+        "alpha           0         0         2   00:00:01  ",
+        "betaset         1         1         0   01:03:04  ",
+        "",
+        ""), runInTempDirectory("--plain-text"));
   }
 
   @Test
@@ -200,22 +160,20 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
     Path logsDir = temporaryWorkingDirectory.resolve("logs");
     Files.createDirectory(logsDir);
 
-    Files.write(logsDir.resolve("log.from-prebuilt-indexes.malformed.txt"), List.of(
-        "Run for malformed [OK]",
-        "Mangled marker [FAILURE] should not count",
-        "Duration: 01:02",
-        // Historical log fixture retained to verify backward-compatible parsing.
-        "Another token [OK*] and [OKAY]",
-        "No duration value here"));
+    // Historical log fixture retained to verify backward-compatible parsing.
+    Files.writeString(logsDir.resolve("log.from-prebuilt-indexes.malformed.txt"), """
+        Run for malformed [OK]
+        Mangled marker [FAILURE] should not count
+        Duration: 01:02
+        Another token [OK*] and [OKAY]
+        No duration value here
+        """);
 
-    String output = runInTempDirectory(logsDir, "--json");
-
-    assertTrue(output.contains("\"run\": \"malformed\""));
-    assertTrue(output.contains("\"[OK]\": 1"));
-    // Retain the historical JSON key for backward compatibility with downstream consumers.
-    assertTrue(output.contains("\"[OK*]\": 1"));
-    assertTrue(output.contains("\"[FAIL]\": 0"));
-    assertTrue(output.contains("\"elapsed\": \"01:02\""));
+    String expected = String.join("\n",
+        "[{\"run\": \"malformed\", \"[OK]\": 1, \"[OKish]\": 1, \"[FAIL]\": 0, \"elapsed\": \"01:02\"}]",
+        "");
+    ObjectMapper mapper = new ObjectMapper();
+    assertEquals(mapper.readTree(expected), mapper.readTree(runInTempDirectory(logsDir, "--json")));
   }
 
   @Test
@@ -226,22 +184,24 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
       Path logsDir = Files.createDirectory(temporaryWorkingDirectory.resolve("logs-" + collection));
       List<String> labels = collections.get(collection);
       for (int i = 0; i < labels.size(); i++) {
-        Files.write(logsDir.resolve("log.from-prebuilt-indexes.run-" + i + ".txt"), List.of(
-            "Metric " + labels.get(i),
-            "Colored metric \u001B[94m" + labels.get(i) + "\u001B[0m",
-            "Metric [OK]",
-            "Metric [FAIL]",
-            "Ignore [OKishness] and [OKAY] and [FAILURE]",
-            "Duration: done (00:00:01)"));
+        Files.writeString(logsDir.resolve("log.from-prebuilt-indexes.run-" + i + ".txt"), """
+            Metric %s
+            Colored metric \u001B[94m%s\u001B[0m
+            Metric [OK]
+            Metric [FAIL]
+            Ignore [OKishness] and [OKAY] and [FAILURE]
+            Duration: done (00:00:01)
+            """.formatted(labels.get(i), labels.get(i)));
       }
       if (labels.size() > 1) {
-        Files.write(logsDir.resolve("log.from-prebuilt-indexes.run-2.txt"), List.of(
-            // Historical log fixture retained to verify backward-compatible parsing.
-            "Historical metric [OK*]",
-            "Current metric [OKish]",
-            "Metric [OK]",
-            "Metric [FAIL]",
-            "Duration: done (00:00:01)"));
+        // Historical log fixture retained to verify backward-compatible parsing.
+        Files.writeString(logsDir.resolve("log.from-prebuilt-indexes.run-2.txt"), """
+            Historical metric [OK*]
+            Current metric [OKish]
+            Metric [OK]
+            Metric [FAIL]
+            Duration: done (00:00:01)
+            """);
       }
       int runCount = labels.size() > 1 ? 3 : 1;
       JsonNode rows = new ObjectMapper().readTree(runInTempDirectory(logsDir, "--json"));
@@ -249,16 +209,16 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
       for (JsonNode row : rows) {
         assertEquals(5, row.size());
         assertEquals(1, row.get("[OK]").asInt());
-        // Retain the historical JSON key for backward compatibility with downstream consumers.
-        assertEquals(2, row.get("[OK*]").asInt());
+        assertEquals(2, row.get("[OKish]").asInt());
         assertEquals(1, row.get("[FAIL]").asInt());
-        assertFalse(row.has("[OKish]"));
+        // Backward compatibility accepts historical log input; JSON emits only the current key.
+        assertFalse(row.has("[OK*]"));
         assertEquals("00:00:01", row.get("elapsed").asText());
       }
       for (String mode : List.of("--md", "--text")) {
         String output = runInTempDirectory(logsDir, mode);
         assertTrue(output.contains("[OKish]"));
-        // Backward compatibility preserves log input and JSON keys; readable output uses the current label.
+        // Backward compatibility accepts historical log input; all output uses the current label.
         assertFalse(output.contains("[OK*]"));
         String[] lines = output.stripTrailing().split("\\R");
         assertEquals(runCount + 2, lines.length);
@@ -268,6 +228,73 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
         }
       }
     }
+  }
+
+  @Test
+  public void testJsonEscaping() throws Exception {
+    Path logsDir = Files.createDirectory(temporaryWorkingDirectory.resolve("logs"));
+    String runId = "quoted\"\\\n\r\t\b\f-é";
+    String elapsed = "done \"quoted\" \\\t\b\f-é";
+    Files.writeString(logsDir.resolve("log.from-prebuilt-indexes." + runId + ".txt"),
+        "Metric [OK]\nDuration: " + elapsed + "\n");
+
+    JsonNode rows = new ObjectMapper().readTree(runInTempDirectory("--json"));
+    assertEquals(1, rows.size());
+    assertEquals(runId, rows.get(0).get("run").asText());
+    assertEquals(elapsed, rows.get(0).get("elapsed").asText());
+  }
+
+  @Test
+  public void testJsonPreservesLegacyControlCharacterOutput() throws Exception {
+    Path logsDir = Files.createDirectory(temporaryWorkingDirectory.resolve("logs"));
+    String runId = "control-\u0001-\u000b-\u001f";
+    Files.writeString(logsDir.resolve("log.from-prebuilt-indexes." + runId + ".txt"), "Metric [OK]\n");
+
+    // Preserve the existing raw control characters rather than changing the escaping policy in this refactor.
+    String expected = """
+        [
+          {
+            "run": "control-\u0001-\u000b-\u001f",
+            "[OK]": 1,
+            "[OKish]": 0,
+            "[FAIL]": 0,
+            "elapsed": "n/a"
+          }
+        ]
+        """;
+    assertEquals(expected, runInTempDirectory("--json"));
+  }
+
+  @Test
+  public void testTableExpandsForLongNamesAndLargeCounts() {
+    Locale previousLocale = Locale.getDefault();
+    try {
+      Locale.setDefault(Locale.forLanguageTag("ar-LB"));
+      String output = SummarizeLogsFromPrebuiltIndexes.formatTable(List.<String[]>of(
+          new String[]{"a-very-long-reproduction-run", "123456789", "12", "3", "100:00:00"}));
+      assertEquals("""
+          | run                          |      [OK] |   [OKish] |    [FAIL] | elapsed   |
+          | ---------------------------- | --------: | --------: | --------: | --------- |
+          | a-very-long-reproduction-run | 123456789 |        12 |         3 | 100:00:00 |
+          """, output);
+    } finally {
+      Locale.setDefault(previousLocale);
+    }
+  }
+
+  private void writeSampleLogs() throws Exception {
+    Path logsDir = Files.createDirectory(temporaryWorkingDirectory.resolve("logs"));
+    // Historical log fixture retained to verify backward-compatible parsing.
+    Files.writeString(logsDir.resolve("log.from-prebuilt-indexes.betaset.txt"), """
+        Run for beta [OK]
+        Second line [OK*]
+        Duration: done (01:03:04)
+        """);
+    Files.writeString(logsDir.resolve("log.from-prebuilt-indexes.alpha.txt"), """
+        Run for alpha [FAIL]
+        Failure [FAIL]
+        Duration: 00:00:01
+        """);
   }
 
   private void assertInvalidOption(String... args) throws Exception {

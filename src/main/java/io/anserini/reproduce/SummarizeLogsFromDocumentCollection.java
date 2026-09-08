@@ -29,6 +29,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.ZoneId;
 import java.util.Locale;
+import java.util.StringJoiner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -169,108 +170,76 @@ public class SummarizeLogsFromDocumentCollection {
     }
 
     if (args.json) {
-      // Retain the historical JSON key for backward compatibility with downstream consumers.
-      String[] jsonStatusLabels = {"[OK]", "[OK*]", "[FAIL]"};
-      printSummaryJson(totalRegressions, statusCounters, jsonStatusLabels, startTime, endTime, duration);
+      System.out.print(formatSummaryJson(totalRegressions, statusCounters, rawStatusLabels, startTime, endTime, duration));
     } else if (args.markdown) {
-      printSummaryMarkdown(totalRegressions, statusCounters, rawStatusLabels, startTime, endTime, duration);
+      System.out.print(formatSummaryMarkdown(totalRegressions, statusCounters, rawStatusLabels, startTime, endTime, duration));
     } else {
-      printSummaryPlainText(totalRegressions, statusCounters, statusLabels, startTime, endTime, duration);
+      System.out.print(formatSummaryPlainText(totalRegressions, statusCounters, statusLabels, startTime, endTime, duration));
     }
   }
 
-  private static void printSummaryPlainText(int totalRegressions, int[] statusCounters, String[] statusLabels,
-                                           Instant startTime, Instant endTime, Duration duration) {
-    StringBuilder sb = new StringBuilder(256);
-    sb.append("Total regressions: ");
-    appendThreeWidthRightAligned(sb, totalRegressions);
-    sb.append('\n');
+  static String formatSummaryPlainText(int totalRegressions, int[] statusCounters, String[] statusLabels,
+                                       Instant startTime, Instant endTime, Duration duration) {
+    StringBuilder sb = new StringBuilder(String.format(Locale.ROOT, "Total regressions: %3d\n", totalRegressions));
     for (int i = 0; i < statusLabels.length; i++) {
-      sb.append(' ');
-      sb.append(statusLabels[i]);
-      sb.append(' ');
-      appendThreeWidthRightAligned(sb, statusCounters[i]);
-      sb.append('\n');
+      sb.append(String.format(Locale.ROOT, " %s %3d\n", statusLabels[i], statusCounters[i]));
     }
-    sb.append('\n');
-    sb.append("Start time: ").append(startTime == null ? "n/a" : ReproductionUtils.formatStartTime(startTime)).append('\n');
-    sb.append("End time:   ").append(endTime == null ? "n/a" : ReproductionUtils.formatEndTime(endTime)).append('\n');
-    sb.append("Duration:   ").append(duration == null ? "n/a" : ReproductionUtils.formatDuration(duration)).append('\n');
-    System.out.print(sb);
+    return sb.append(formatTiming(startTime, endTime,
+        duration == null ? "n/a" : ReproductionUtils.formatDuration(duration))).toString();
   }
 
-  private static void appendThreeWidthRightAligned(StringBuilder sb, int value) {
-    String text = Integer.toString(value);
-    int padding = 3 - text.length();
-    while (padding > 0) {
-      sb.append(' ');
-      padding--;
-    }
-    sb.append(text);
-  }
-
-  private static void printSummaryMarkdown(int totalRegressions, int[] statusCounters, String[] rawStatusLabels,
-                                          Instant startTime, Instant endTime, Duration duration) {
-    StringBuilder sb = new StringBuilder(256);
+  static String formatSummaryMarkdown(int totalRegressions, int[] statusCounters, String[] statusLabels,
+                                      Instant startTime, Instant endTime, Duration duration) {
     int statusWidth = "status".length();
     int countWidth = "count".length();
-    for (int i = 0; i < rawStatusLabels.length; i++) {
-      if (rawStatusLabels[i].length() > statusWidth) {
-        statusWidth = rawStatusLabels[i].length();
-      }
-      int countDigits = String.valueOf(statusCounters[i]).length();
-      if (countDigits > countWidth) {
-        countWidth = countDigits;
-      }
+    for (int i = 0; i < statusLabels.length; i++) {
+      statusWidth = Math.max(statusWidth, statusLabels[i].length());
+      countWidth = Math.max(countWidth, Integer.toString(statusCounters[i]).length());
     }
 
-    sb.append(String.format(Locale.ROOT, "Total regressions: %3d%n", totalRegressions));
-    sb.append("\n");
-    sb.append("| ").append("status");
-    if ("status".length() < statusWidth) {
-      sb.append(" ".repeat(statusWidth - "status".length()));
-    }
-    sb.append(" | ").append("count");
-    if ("count".length() < countWidth) {
-      sb.append(" ".repeat(countWidth - "count".length()));
-    }
-    sb.append(" |\n");
-    sb.append("| ").append("-".repeat(statusWidth)).append(" | ");
-    sb.append("-".repeat(Math.max(countWidth - 1, 1))).append(": |\n");
+    String rowFormat = "| %-" + statusWidth + "s | %" + countWidth + "s |\n";
+    StringBuilder sb = new StringBuilder(String.format(Locale.ROOT, "Total regressions: %3d%n\n", totalRegressions));
+    sb.append(String.format(Locale.ROOT, "| %-" + statusWidth + "s | %-" + countWidth + "s |\n", "status", "count"));
+    sb.append(String.format(Locale.ROOT, rowFormat, "-".repeat(statusWidth), "-".repeat(countWidth - 1) + ":"));
     for (int i = 0; i < statusCounters.length; i++) {
-      sb.append("| ").append(rawStatusLabels[i]);
-      if (rawStatusLabels[i].length() < statusWidth) {
-        sb.append(" ".repeat(statusWidth - rawStatusLabels[i].length()));
-      }
-      sb.append(" | ")
-          .append(" ".repeat(Math.max(countWidth - String.valueOf(statusCounters[i]).length(), 0)))
-          .append(statusCounters[i]).append(" |\n");
+      sb.append(String.format(Locale.ROOT, rowFormat, statusLabels[i], statusCounters[i]));
     }
-    sb.append("\n");
-    sb.append("Start time: ").append(startTime == null ? "n/a" : ReproductionUtils.formatStartTime(startTime)).append("\n");
-    sb.append("End time:   ").append(endTime == null ? "n/a" : ReproductionUtils.formatEndTime(endTime)).append("\n");
-    sb.append("Duration:   ").append(duration == null ? "n/a" : ReproductionUtils.formatDuration(duration.toMillis())).append("\n");
-    System.out.print(sb);
+    return sb.append(formatTiming(startTime, endTime,
+        duration == null ? "n/a" : ReproductionUtils.formatDuration(duration.toMillis()))).toString();
   }
 
-  private static void printSummaryJson(int totalRegressions, int[] statusCounters, String[] rawStatusLabels,
-                                      Instant startTime, Instant endTime, Duration duration) {
-    System.out.append("{\n");
-    System.out.append("  \"total_regressions\": ").append(String.valueOf(totalRegressions)).append(",\n");
-    System.out.append("  \"status_counts\": {\n");
+  private static String formatTiming(Instant startTime, Instant endTime, String duration) {
+    return String.format(Locale.ROOT, """
+
+        Start time: %s
+        End time:   %s
+        Duration:   %s
+        """, startTime == null ? "n/a" : ReproductionUtils.formatStartTime(startTime),
+        endTime == null ? "n/a" : ReproductionUtils.formatEndTime(endTime),
+        duration);
+  }
+
+  private static String formatSummaryJson(int totalRegressions, int[] statusCounters, String[] statusLabels,
+                                          Instant startTime, Instant endTime, Duration duration) {
+    StringJoiner counts = new StringJoiner(",\n");
     for (int i = 0; i < statusCounters.length; i++) {
-      System.out.append("    \"").append(ReproductionUtils.escapeJson(rawStatusLabels[i])).append("\": ").append(String.valueOf(statusCounters[i]));
-      if (i + 1 < statusCounters.length) {
-        System.out.append(",\n");
-      } else {
-        System.out.append("\n");
-      }
+      counts.add(String.format(Locale.ROOT, "    \"%s\": %d",
+          ReproductionUtils.escapeJson(statusLabels[i]), statusCounters[i]));
     }
-    System.out.append("  },\n");
-    System.out.append("  \"start_time\": \"").append(ReproductionUtils.escapeJson(startTime == null ? "n/a" : ReproductionUtils.formatStartTime(startTime))).append("\",\n");
-    System.out.append("  \"end_time\": \"").append(ReproductionUtils.escapeJson(endTime == null ? "n/a" : ReproductionUtils.formatEndTime(endTime))).append("\",\n");
-    System.out.append("  \"duration\": \"").append(ReproductionUtils.escapeJson(duration == null ? "n/a" : ReproductionUtils.formatDuration(duration.toMillis()))).append("\"\n");
-    System.out.append("}\n");
+    return String.format(Locale.ROOT, """
+        {
+          "total_regressions": %d,
+          "status_counts": {
+        %s
+          },
+          "start_time": "%s",
+          "end_time": "%s",
+          "duration": "%s"
+        }
+        """, totalRegressions, counts,
+        ReproductionUtils.escapeJson(startTime == null ? "n/a" : ReproductionUtils.formatStartTime(startTime)),
+        ReproductionUtils.escapeJson(endTime == null ? "n/a" : ReproductionUtils.formatEndTime(endTime)),
+        ReproductionUtils.escapeJson(duration == null ? "n/a" : ReproductionUtils.formatDuration(duration.toMillis())));
   }
 
   private static String extractTimestamp(String line) {
