@@ -103,7 +103,8 @@ public class SummarizeLogsFromDocumentCollection {
     Path logsDir = Paths.get(args.logsDirectory);
     int totalRegressions = 0;
     String[] statusLabels = {ReproductionUtils.Constants.OK, ReproductionUtils.Constants.OKISH, ReproductionUtils.Constants.FAIL};
-    String[] rawStatusLabels = {"[OK]", "[OK*]", "[FAIL]"};
+    String[] rawStatusLabels = {"[OK]", ReproductionUtils.Constants.OKISH_LABEL, "[FAIL]"};
+    String[] jsonStatusLabels = {"[OK]", ReproductionUtils.Constants.LEGACY_OKISH_LABEL, "[FAIL]"};
     int[] statusCounters = new int[statusLabels.length];
 
     Instant startTime = null;
@@ -145,7 +146,11 @@ public class SummarizeLogsFromDocumentCollection {
         }
 
         for (int i = 0; i < statusLabels.length; i++) {
-          if (lastRunRegressionsLine.contains(statusLabels[i])) {
+          boolean containsStatus = i == 1
+              ? lastRunRegressionsLine.contains(ReproductionUtils.Constants.OKISH_LABEL)
+                  || lastRunRegressionsLine.contains(ReproductionUtils.Constants.LEGACY_OKISH_LABEL)
+              : lastRunRegressionsLine.contains(statusLabels[i]);
+          if (containsStatus) {
             statusCounters[i]++;
           }
         }
@@ -168,7 +173,8 @@ public class SummarizeLogsFromDocumentCollection {
     }
 
     if (args.json) {
-      printSummaryJson(totalRegressions, statusCounters, rawStatusLabels, startTime, endTime, duration);
+      // Keep the established JSON key for downstream consumers.
+      printSummaryJson(totalRegressions, statusCounters, jsonStatusLabels, startTime, endTime, duration);
     } else if (args.markdown) {
       printSummaryMarkdown(totalRegressions, statusCounters, rawStatusLabels, startTime, endTime, duration);
     } else {

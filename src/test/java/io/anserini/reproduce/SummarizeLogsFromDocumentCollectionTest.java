@@ -133,6 +133,30 @@ public class SummarizeLogsFromDocumentCollectionTest {
   }
 
   @Test
+  public void testCurrentAndLegacyOkishLabels() throws Exception {
+    Path logsDir = temporaryWorkingDirectory.resolve("logs");
+    Files.createDirectory(logsDir);
+
+    writeLog(logsDir.resolve("log.from-document-collection.current"), List.of(
+        "2026-03-01 10:00:00,100 Starting ReproduceFromDocumentCollection for current",
+        "2026-03-01 10:00:01,200 ReproduceFromDocumentCollection" + ReproductionUtils.Constants.OKISH + " completed current"));
+
+    writeLog(logsDir.resolve("log.from-document-collection.legacy"), List.of(
+        "2026-03-01 10:00:02,300 Starting ReproduceFromDocumentCollection for legacy",
+        "2026-03-01 10:00:03,400 ReproduceFromDocumentCollection" + ReproductionUtils.Constants.LEGACY_OKISH + " completed legacy"));
+
+    String output = runInTempDirectory();
+    assertEquals(2, countForStatusLine(output, ReproductionUtils.Constants.OKISH));
+
+    output = runInTempDirectory("--md");
+    assertTrue(Pattern.compile("\\| \\[OKish\\]\\s+\\|\\s+2 \\|").matcher(output).find());
+
+    output = runInTempDirectory("--json");
+    assertTrue(output.contains("\"[OK*]\": 2"));
+    assertTrue(!output.contains("\"[OKish]\":"));
+  }
+
+  @Test
   public void testSummarizeLogsMarkdown() throws Exception {
     Path logsDir = temporaryWorkingDirectory.resolve("logs");
     Files.createDirectory(logsDir);
@@ -148,10 +172,10 @@ public class SummarizeLogsFromDocumentCollectionTest {
     String output = runInTempDirectory("--md");
 
     assertTrue(Pattern.compile("Total regressions:\\s+2").matcher(output).find());
-    assertTrue(output.contains("| status | count |"));
-    assertTrue(output.contains("| ------ | ----: |"));
+    assertTrue(output.contains("| status  | count |"));
+    assertTrue(output.contains("| ------- | ----: |"));
     assertTrue(Pattern.compile("\\| \\[OK\\]\\s+\\|\\s+1 \\|").matcher(output).find());
-    assertTrue(Pattern.compile("\\| \\[OK\\*\\]\\s+\\|\\s+0 \\|").matcher(output).find());
+    assertTrue(Pattern.compile("\\| \\[OKish\\]\\s+\\|\\s+0 \\|").matcher(output).find());
     assertTrue(Pattern.compile("\\| \\[FAIL\\]\\s+\\|\\s+1 \\|").matcher(output).find());
     assertTrue(Pattern.compile("(?m)^Start time:").matcher(output).find());
     assertTrue(Pattern.compile("(?m)^End time:").matcher(output).find());

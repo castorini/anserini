@@ -59,8 +59,12 @@ public final class ReproductionUtils {
     // ANSI escape code to reset to the default text color
     private static final String RESET = "\u001B[0m";
 
+    public static final String OKISH_LABEL = "[OKish]";
+    public static final String LEGACY_OKISH_LABEL = "[OK*]";
+
     public static final String OK = GREEN + "   [OK] " + RESET;
-    public static final String OKISH = BLUE + "  [OK*] " + RESET;
+    public static final String OKISH = BLUE + OKISH_LABEL + " " + RESET;
+    public static final String LEGACY_OKISH = BLUE + "  " + LEGACY_OKISH_LABEL + " " + RESET;
     public static final String FAIL = RED + " [FAIL] " + RESET;
 
     public static final String DEFAULT_RUNS_DIRECTORY = "runs";

@@ -73,7 +73,8 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
 
     Files.write(logsDir.resolve("log.from-prebuilt-indexes.betaset.txt"), List.of(
         "Run for beta [OK]",
-        "Second line [OK*]",
+        "Current label [OKish]",
+        "Historical label [OK*]",
         "Duration: done (01:03:04)"));
 
     Files.write(logsDir.resolve("log.from-prebuilt-indexes.alpha.txt"), List.of(
@@ -93,7 +94,8 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
     assertTrue(output.contains("\"elapsed\": \"00:00:01\""));
 
     assertTrue(output.contains("\"[OK]\": 1"));
-    assertTrue(output.contains("\"[OK*]\": 1"));
+    assertTrue(output.contains("\"[OK*]\": 2"));
+    assertTrue(!output.contains("\"[OKish]\":"));
     assertTrue(output.contains("\"[FAIL]\": 0"));
     assertTrue(output.contains("\"elapsed\": \"01:03:04\""));
   }
@@ -105,7 +107,8 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
 
     Files.write(logsDir.resolve("log.from-prebuilt-indexes.betaset.txt"), List.of(
         "Run for beta [OK]",
-        "Second line [OK*]",
+        "Current label [OKish]",
+        "Historical label [OK*]",
         "Duration: done (01:03:04)"));
 
     Files.write(logsDir.resolve("log.from-prebuilt-indexes.alpha.txt"), List.of(
@@ -117,9 +120,10 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
 
     String[] lines = output.strip().split("\\R");
     assertTrue(lines[0].startsWith("| run"));
-    assertTrue(lines[1].contains("| -----:"));
+    assertTrue(lines[1].contains("| ------:"));
     assertTrue(lines[2].matches("\\|\\s*alpha\\s+\\|\\s+0\\s+\\|\\s+0\\s+\\|\\s+2\\s+\\|\\s+00:00:01\\s+\\|"));
-    assertTrue(lines[3].matches("\\|\\s*betaset\\s+\\|\\s+1\\s+\\|\\s+1\\s+\\|\\s+0\\s+\\|\\s+01:03:04\\s+\\|"));
+    assertTrue(lines[3].matches("\\|\\s*betaset\\s+\\|\\s+1\\s+\\|\\s+2\\s+\\|\\s+0\\s+\\|\\s+01:03:04\\s+\\|"));
+    assertTrue(lines[0].contains("[OKish]"));
     assertTrue(output.indexOf("alpha") < output.indexOf("betaset"));
   }
 
@@ -130,7 +134,8 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
 
     Files.write(logsDir.resolve("log.from-prebuilt-indexes.betaset.txt"), List.of(
         "Run for beta [OK]",
-        "Second line [OK*]",
+        "Current label [OKish]",
+        "Historical label [OK*]",
         "Duration: done (01:03:04)"));
 
     Files.write(logsDir.resolve("log.from-prebuilt-indexes.alpha.txt"), List.of(
@@ -144,9 +149,9 @@ public class SummarizeLogsFromPrebuiltIndexesTest {
     assertTrue(lines.length >= 4);
     assertTrue(!lines[0].contains("|"));
     assertTrue(!lines[1].contains("|"));
-    assertTrue(lines[0].matches("\\s*run\\s+\\[OK\\]\\s+\\[OK\\*\\]\\s+\\[FAIL\\]\\s+elapsed\\s*"));
+    assertTrue(lines[0].matches("\\s*run\\s+\\[OK\\]\\s+\\[OKish\\]\\s+\\[FAIL\\]\\s+elapsed\\s*"));
     assertTrue(lines[2].matches("\\s*alpha\\s+0\\s+0\\s+2\\s+00:00:01\\s*"));
-    assertTrue(lines[3].matches("\\s*betaset\\s+1\\s+1\\s+0\\s+01:03:04\\s*"));
+    assertTrue(lines[3].matches("\\s*betaset\\s+1\\s+2\\s+0\\s+01:03:04\\s*"));
   }
 
   @Test
