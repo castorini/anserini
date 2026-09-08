@@ -110,7 +110,8 @@ public class SummarizeLogsFromPrebuiltIndexes {
 
         try (var lines = Files.lines(logFile, StandardCharsets.UTF_8)) {
           for (String line : (Iterable<String>) lines::iterator) {
-            if (line.contains("[OK*]")) {
+            // Accept historical log labels for backward compatibility alongside the current label.
+            if (line.contains("[OKish]") || line.contains("[OK*]")) {
               okishCount++;
             } else if (line.contains("[OK]")) {
               okCount++;
@@ -149,7 +150,7 @@ public class SummarizeLogsFromPrebuiltIndexes {
 
     rows.sort((left, right) -> left[0].compareTo(right[0]));
 
-    final String[] headers = {"run", "[OK]", "[OK*]", "[FAIL]", "elapsed"};
+    final String[] headers = {"run", "[OK]", "[OKish]", "[FAIL]", "elapsed"};
     int[] widths = new int[headers.length];
     for (int i = 0; i < headers.length; i++) {
       widths[i] = headers[i].length();
@@ -244,6 +245,7 @@ public class SummarizeLogsFromPrebuiltIndexes {
       sb.append("  {\n")
           .append("    \"run\": \"").append(ReproductionUtils.escapeJson(row[0])).append("\",\n")
           .append("    \"[OK]\": ").append(row[1]).append(",\n")
+          // Retain the historical JSON key for backward compatibility with downstream consumers.
           .append("    \"[OK*]\": ").append(row[2]).append(",\n")
           .append("    \"[FAIL]\": ").append(row[3]).append(",\n")
           .append("    \"elapsed\": \"").append(ReproductionUtils.escapeJson(row[4])).append("\"\n")
