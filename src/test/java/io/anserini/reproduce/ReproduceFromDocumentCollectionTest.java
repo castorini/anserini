@@ -198,8 +198,7 @@ public class ReproduceFromDocumentCollectionTest extends StdOutStdErrRedirectabl
     assertEvaluationStatus("inverted", 0.5, 0.4999, 4, "tolerance: {MAP: [0.00001]}", ReproductionUtils.Constants.OKISH);
   }
 
-  private void assertEvaluationStatus(String type, double expected, double actual, int precision,
-      String toleranceYaml, String status) throws Exception {
+  private void assertEvaluationStatus(String type, double expected, double actual, int precision, String toleranceYaml, String status) throws Exception {
     JsonNode yaml = new ObjectMapper(new YAMLFactory()).readTree("""
         corpus: test
         index_path: indexes/test
@@ -226,16 +225,18 @@ public class ReproduceFromDocumentCollectionTest extends StdOutStdErrRedirectabl
     };
     Logger logger = (Logger) LogManager.getLogger(ReproduceFromDocumentCollection.class);
     Level previousLevel = logger.getLevel();
+    boolean previousAdditivity = logger.isAdditive();
     appender.start();
     logger.addAppender(appender);
+    logger.setAdditive(false);
     logger.setLevel(Level.INFO);
     try {
-      Method evaluate = ReproduceFromDocumentCollection.class.getDeclaredMethod("evaluateAndVerify",
-          JsonNode.class, ReproduceFromDocumentCollection.Args.class, long.class);
+      Method evaluate = ReproduceFromDocumentCollection.class.getDeclaredMethod("evaluateAndVerify", JsonNode.class, ReproduceFromDocumentCollection.Args.class, long.class);
       evaluate.setAccessible(true);
       evaluate.invoke(null, yaml, new ReproduceFromDocumentCollection.Args(), System.nanoTime());
     } finally {
       logger.setLevel(previousLevel);
+      logger.setAdditive(previousAdditivity);
       logger.removeAppender(appender);
       appender.stop();
     }
@@ -323,7 +324,7 @@ public class ReproduceFromDocumentCollectionTest extends StdOutStdErrRedirectabl
 
       ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
       ReproduceFromDocumentCollection.Args args = new ReproduceFromDocumentCollection.Args();
-      Method resolveCorpusPath = ReproduceFromDocumentCollection.class.getDeclaredMethod("resolveCorpusPath", com.fasterxml.jackson.databind.JsonNode.class, ReproduceFromDocumentCollection.Args.class);
+      Method resolveCorpusPath = ReproduceFromDocumentCollection.class.getDeclaredMethod("resolveCorpusPath", JsonNode.class, ReproduceFromDocumentCollection.Args.class);
       resolveCorpusPath.setAccessible(true);
 
       String resolved = (String) resolveCorpusPath.invoke(null, mapper.readTree("""
@@ -408,11 +409,7 @@ public class ReproduceFromDocumentCollectionTest extends StdOutStdErrRedirectabl
 
   private void assertTrecEvalP30(String qrelsPath, String runFile, String expectedP30) throws Exception {
     TrecEval trecEval = new TrecEval();
-    String[] args = new String[] {
-        "-m", "P.30",
-        qrelsPath,
-        runFile
-    };
+    String[] args = new String[] {"-m", "P.30", qrelsPath, runFile};
     String[][] output = trecEval.runAndGetOutput(args);
 
     assertNotNull(output);
