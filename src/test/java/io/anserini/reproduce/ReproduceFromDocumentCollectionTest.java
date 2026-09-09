@@ -27,6 +27,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
@@ -198,8 +199,21 @@ public class ReproduceFromDocumentCollectionTest extends StdOutStdErrRedirectabl
     assertEvaluationStatus("inverted", 0.5, 0.4999, 4, "tolerance: {MAP: [0.00001]}", ReproductionUtils.Constants.OKISH);
   }
 
+  @Test
+  public void testScoreComparisonWithLocalizedDigits() throws Exception {
+    Locale previousLocale = Locale.getDefault();
+    try {
+      Locale.setDefault(Locale.forLanguageTag("mzn-Arab-IR"));
+      assertEvaluationStatus("inverted", 0.5, 0.4375, 5, "tolerance: {MAP: [0.0625]}", ReproductionUtils.Constants.OK);
+      assertEvaluationStatus("inverted", 0.50004, 0.49996, 4, "", ReproductionUtils.Constants.OK);
+      assertEvaluationStatus("inverted", 0.50004, 0.49996, 5, "", ReproductionUtils.Constants.OKISH);
+    } finally {
+      Locale.setDefault(previousLocale);
+    }
+  }
+
   private void assertEvaluationStatus(String type, double expected, double actual, int precision, String toleranceYaml, String status) throws Exception {
-    JsonNode yaml = new ObjectMapper(new YAMLFactory()).readTree("""
+    JsonNode yaml = new ObjectMapper(new YAMLFactory()).readTree(String.format(Locale.ROOT, """
         corpus: test
         index_path: indexes/test
         topics:
@@ -215,7 +229,8 @@ public class ReproduceFromDocumentCollectionTest extends StdOutStdErrRedirectabl
             type: %s
             results: {MAP: [%s]}
             %s
-        """.formatted(actual, precision, type, expected, toleranceYaml));
+        """, actual, precision, type, expected, toleranceYaml));
+    assertEquals(precision, yaml.get("metrics").get(0).get("metric_precision").asInt());
     List<String> messages = new ArrayList<>();
     CustomAppender appender = new CustomAppender("score-comparison") {
       @Override
