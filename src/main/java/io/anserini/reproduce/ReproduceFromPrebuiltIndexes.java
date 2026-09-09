@@ -307,7 +307,12 @@ public class ReproduceFromPrebuiltIndexes {
           if (!dryRun) {
             try {
               double score = runTrecEvalAndGetScore(metricDefinitions.get(metric), topic.eval_key, output);
-              printMetricResult(topic, metric, score);
+              double tolerance = topic.tolerance == null ? 0.0 : topic.tolerance.getOrDefault(metric, 0.0);
+              switch (ReproductionUtils.compareScores(expected.get(metric), score, tolerance)) {
+                case OK -> System.out.printf(Locale.ROOT, "    %8s: %.4f %s%n", metric, score, ReproductionUtils.Constants.OK);
+                case OKISH -> System.out.printf(Locale.ROOT, "    %8s: %.4f %s expected %.4f%n", metric, score, ReproductionUtils.Constants.OKISH, expected.get(metric));
+                case FAIL -> System.out.printf(Locale.ROOT, "    %8s: %.4f %s expected %.4f%n", metric, score, ReproductionUtils.Constants.FAIL, expected.get(metric));
+              }
             } catch (RuntimeException e) {
               System.out.println("    Evaluation command failed for metric: " + metric);
               System.out.println("    " + e.getMessage());
@@ -455,16 +460,6 @@ public class ReproduceFromPrebuiltIndexes {
     }
     summary.append(System.lineSeparator());
     return summary.toString();
-  }
-
-  static void printMetricResult(Topic topic, String metric, double score) {
-    double expected = topic.expected_scores.get(metric);
-    double tolerance = topic.tolerance == null ? 0.0 : topic.tolerance.getOrDefault(metric, 0.0);
-    switch (ReproductionUtils.compareScores(expected, score, tolerance)) {
-      case OK -> System.out.printf(Locale.ROOT, "    %8s: %.4f %s%n", metric, score, ReproductionUtils.Constants.OK);
-      case OKISH -> System.out.printf(Locale.ROOT, "    %8s: %.4f %s expected %.4f%n", metric, score, ReproductionUtils.Constants.OKISH, expected);
-      case FAIL -> System.out.printf(Locale.ROOT, "    %8s: %.4f %s expected %.4f%n", metric, score, ReproductionUtils.Constants.FAIL, expected);
-    }
   }
 
   public static class Config {

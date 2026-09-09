@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.junit.After;
@@ -29,7 +30,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 import io.anserini.util.CacheDirectoryResolver;
@@ -177,8 +177,8 @@ public class ReproduceFromPrebuiltIndexesTest extends StdOutStdErrRedirectableLu
     assertTrue(output, output.contains("Run successfully completed!"));
     assertTrue(output, output.contains("Indexes referenced by this run (1 total):"));
     assertTrue(output, output.matches("(?s).*Total size across [01] of 1 indexes:.*"));
-    assertTrue(output, output.contains("MAP: 0.3123"));
-    assertTrue(output, output.contains("P30: 0.1942"));
+    assertTrue(output, output.contains("MAP: 0.3123 " + ReproductionUtils.Constants.OK));
+    assertTrue(output, output.contains("P30: 0.1942 " + ReproductionUtils.Constants.OK));
     assertTrue(output, output.matches("(?s).*Duration:\\s+[0-9]{2}:[0-9]{2}:[0-9]{2}.*"));
     assertFalse(output.contains("NumberFormatException"));
     assertTrue(Files.exists(runsDirectory.resolve("run.cacm.bm25.cacm.txt")));
@@ -207,36 +207,28 @@ public class ReproduceFromPrebuiltIndexesTest extends StdOutStdErrRedirectableLu
   }
 
   @Test
-  public void testMetricResultWithoutToleranceMatchesExplicitZero() throws Exception {
-    for (double score : new double[] {0.5, 0.5000000001, 0.4999, 0.6, 0.4}) {
-      String absent = metricResult(score, "");
-      assertEquals(absent, metricResult(score, "tolerance: {MAP: 0.0}"));
-      assertEquals(absent, metricResult(score, "tolerance: {P30: 0.1}"));
+  public void testScoreComparisonEndToEnd() throws Exception {
+    Path runsDirectory = createTempDir("runs");
+    ReproduceFromPrebuiltIndexes.main(new String[] {
+        "--config", "score-comparison",
+        "--runs-directory", runsDirectory.toString()
+    });
+
+    String output = out.toString();
+    for (String metric : List.of("equal", "noise", "within")) {
+      assertTrue(output, output.contains(String.format(Locale.ROOT,
+          "    %8s: 0.3123 %s%n", metric, ReproductionUtils.Constants.OK)));
     }
-  }
-
-  @Test
-  public void testMetricResultStatusesAndFormatting() throws Exception {
-    assertEquals(String.format(Locale.ROOT, "    %8s: 0.5000 %s%n", "MAP", ReproductionUtils.Constants.OK),
-        metricResult(0.5, ""));
-    assertEquals(String.format(Locale.ROOT, "    %8s: 0.5000 %s%n", "MAP", ReproductionUtils.Constants.OK),
-        metricResult(0.5000000001, ""));
-    assertEquals(String.format(Locale.ROOT, "    %8s: 0.6000 %s expected 0.5000%n", "MAP", ReproductionUtils.Constants.OKISH),
-        metricResult(0.6, ""));
-    assertEquals(String.format(Locale.ROOT, "    %8s: 0.4000 %s expected 0.5000%n", "MAP", ReproductionUtils.Constants.FAIL),
-        metricResult(0.4, ""));
-    assertTrue(metricResult(0.4375, "tolerance: {MAP: 0.0625}").contains(ReproductionUtils.Constants.OK));
-    assertTrue(metricResult(0.40625, "tolerance: {MAP: 0.0625}").contains(ReproductionUtils.Constants.OKISH));
-    assertTrue(metricResult(0.375, "tolerance: {MAP: 0.0625}").contains(ReproductionUtils.Constants.FAIL));
-    assertTrue(metricResult(0.4999, "tolerance: {MAP: 0.00001}").contains(ReproductionUtils.Constants.OKISH));
-  }
-
-  private String metricResult(double score, String toleranceYaml) throws Exception {
-    ReproduceFromPrebuiltIndexes.Topic topic = new ObjectMapper(new YAMLFactory()).readValue(
-        "expected_scores: {MAP: 0.5}\n" + toleranceYaml, ReproduceFromPrebuiltIndexes.Topic.class);
-    out.reset();
-    ReproduceFromPrebuiltIndexes.printMetricResult(topic, "MAP", score);
-    return out.toString();
+    Map<String, Double> okish = Map.of("improved", 0.2, "absent", 0.3124, "zero", 0.3124,
+        "fallback", 0.3124, "relaxed", 0.4123);
+    for (Map.Entry<String, Double> entry : okish.entrySet()) {
+      assertTrue(output, output.contains(String.format(Locale.ROOT,
+          "    %8s: 0.3123 %s expected %.4f%n", entry.getKey(), ReproductionUtils.Constants.OKISH, entry.getValue())));
+    }
+    for (String metric : List.of("outside", "failed")) {
+      assertTrue(output, output.contains(String.format(Locale.ROOT,
+          "    %8s: 0.3123 %s expected 0.5000%n", metric, ReproductionUtils.Constants.FAIL)));
+    }
   }
 
   @Test
