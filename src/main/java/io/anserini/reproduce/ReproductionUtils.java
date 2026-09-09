@@ -46,6 +46,31 @@ public final class ReproductionUtils {
 
   private ReproductionUtils() {}
 
+  public enum Status {
+    OK, OKISH, FAIL
+  }
+
+  /** Absolute allowance for floating-point noise, independent of metric scale or display precision. */
+  public static final double NUMERICAL_TOLERANCE = 1e-9;
+
+  /**
+   * Classifies scores after any metric-specific rounding performed by the caller.
+   * Callers should pass zero when no tolerance is configured.
+   * Differences within the larger of the configured and numerical tolerances are OK.
+   * Otherwise, differences within 1.5 times the configured tolerance, improvements,
+   * and differences strictly below 0.0002 are OKish; all other results fail.
+   */
+  public static Status compareScores(double expected, double observed, double tolerance) {
+    double delta = Math.abs(observed - expected);
+    if (delta <= Math.max(tolerance, NUMERICAL_TOLERANCE)) {
+      return Status.OK;
+    }
+    if (delta <= 1.5 * tolerance || observed > expected || delta < 0.0002) {
+      return Status.OKISH;
+    }
+    return Status.FAIL;
+  }
+
   public static final class Constants {
     // ANSI escape code for red text
     private static final String RED = "\u001B[91m";

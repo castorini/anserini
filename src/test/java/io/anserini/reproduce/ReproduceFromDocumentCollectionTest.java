@@ -34,6 +34,9 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.LogEvent;
+import org.apache.logging.log4j.core.Logger;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.junit.After;
 import org.junit.Assume;
@@ -42,9 +45,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
+import io.anserini.CustomAppender;
 import io.anserini.eval.TrecEval;
 import io.anserini.index.AbstractIndexer;
 import io.anserini.index.IndexCollection;
@@ -165,6 +170,80 @@ public class ReproduceFromDocumentCollectionTest extends StdOutStdErrRedirectabl
     assertNotNull(topics);
 
     ReproduceFromDocumentCollection.main(new String[] {"--config", "cacm", "--index", "--search", "--dry-run"});
+  }
+
+  @Test
+  public void testConfiguredToleranceAppliesToAllModelTypes() throws Exception {
+    for (String type : new String[] {"inverted", "flat", "hnsw"}) {
+      assertEvaluationStatus(type, 0.5, 0.4375, 5, "tolerance: {MAP: [0.0625]}", ReproductionUtils.Constants.OK);
+      assertEvaluationStatus(type, 0.5, 0.40625, 5, "tolerance: {MAP: [0.0625]}", ReproductionUtils.Constants.OKISH);
+      assertEvaluationStatus(type, 0.5, 0.375, 5, "tolerance: {MAP: [0.0625]}", ReproductionUtils.Constants.FAIL);
+    }
+  }
+
+  @Test
+  public void testAbsentAndZeroToleranceProduceSameStatuses() throws Exception {
+    for (String tolerance : new String[] {"", "tolerance: {MAP: [0.0]}", "tolerance: {P30: [0.1]}"}) {
+      assertEvaluationStatus("inverted", 0.5, 0.5, 4, tolerance, ReproductionUtils.Constants.OK);
+      assertEvaluationStatus("inverted", 0.5, 0.4999, 4, tolerance, ReproductionUtils.Constants.OKISH);
+      assertEvaluationStatus("inverted", 0.5, 0.6, 4, tolerance, ReproductionUtils.Constants.OKISH);
+      assertEvaluationStatus("inverted", 0.5, 0.4, 4, tolerance, ReproductionUtils.Constants.FAIL);
+    }
+  }
+
+  @Test
+  public void testMetricRoundingAndFallbackWithConfiguredTolerance() throws Exception {
+    assertEvaluationStatus("inverted", 0.50004, 0.49996, 4, "", ReproductionUtils.Constants.OK);
+    assertEvaluationStatus("inverted", 0.50004, 0.49996, 5, "", ReproductionUtils.Constants.OKISH);
+    assertEvaluationStatus("inverted", 0.5, 0.4999, 4, "tolerance: {MAP: [0.00001]}", ReproductionUtils.Constants.OKISH);
+  }
+
+  private void assertEvaluationStatus(String type, double expected, double actual, int precision,
+      String toleranceYaml, String status) throws Exception {
+    JsonNode yaml = new ObjectMapper(new YAMLFactory()).readTree("""
+        corpus: test
+        index_path: indexes/test
+        topics:
+          - id: test
+        metrics:
+          - metric: MAP
+            command: "echo %s"
+            separator: ' '
+            parse_index: 0
+            metric_precision: %d
+        models:
+          - name: test
+            type: %s
+            results: {MAP: [%s]}
+            %s
+        """.formatted(actual, precision, type, expected, toleranceYaml));
+    List<String> messages = new ArrayList<>();
+    CustomAppender appender = new CustomAppender("score-comparison") {
+      @Override
+      public void append(LogEvent event) {
+        messages.add(event.getMessage().getFormattedMessage());
+      }
+    };
+    Logger logger = (Logger) LogManager.getLogger(ReproduceFromDocumentCollection.class);
+    Level previousLevel = logger.getLevel();
+    appender.start();
+    logger.addAppender(appender);
+    logger.setLevel(Level.INFO);
+    try {
+      Method evaluate = ReproduceFromDocumentCollection.class.getDeclaredMethod("evaluateAndVerify",
+          JsonNode.class, ReproduceFromDocumentCollection.Args.class, long.class);
+      evaluate.setAccessible(true);
+      evaluate.invoke(null, yaml, new ReproduceFromDocumentCollection.Args(), System.nanoTime());
+    } finally {
+      logger.setLevel(previousLevel);
+      logger.removeAppender(appender);
+      appender.stop();
+    }
+    assertEquals(messages.toString(), 3, messages.size());
+    assertTrue(messages.toString(), messages.get(1).startsWith(status + "expected: "));
+    assertTrue(messages.toString(), messages.get(1).contains(" - metric: MAP      model: test topics: test"));
+    assertEquals(!"inverted".equals(type), messages.get(1).contains(", tolerance="));
+    assertTrue(messages.toString(), messages.get(2).startsWith(status + "Total elapsed time: "));
   }
 
   @Test

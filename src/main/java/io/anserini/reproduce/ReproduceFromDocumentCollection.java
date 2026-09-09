@@ -347,10 +347,6 @@ public class ReproduceFromDocumentCollection {
     }
   }
 
-  private static boolean isClose(double a, double b, double relTol, double absTol) {
-    return Math.abs(a - b) <= Math.max(relTol * Math.max(Math.abs(a), Math.abs(b)), absTol);
-  }
-
   private static String constructIndexPath(JsonNode yaml) {
     String indexPath = Objects.requireNonNull(yaml.get("index_path")).asText();
 
@@ -601,17 +597,16 @@ public class ReproduceFromDocumentCollection {
                 topic.get("id").asText());
           }
 
-          if (isClose(expected, actual, 1e-9, 0.0) || actual > expected ||
-              (usingFlat && isClose(expected, actual, 1e-9, toleranceOk)) ||
-              (usingHnsw && isClose(expected, actual, 1e-9, toleranceOk))) {
-            LOG.info(ReproductionUtils.Constants.OK + resultStr);
-          } else if ((usingFlat && isClose(expected, actual, 1e-9, toleranceOk * 1.5)) ||
-              (usingHnsw && isClose(expected, actual, 1e-9, toleranceOk * 1.5))) {
-            LOG.info(ReproductionUtils.Constants.OKISH + resultStr);
-            okish = true;
-          } else {
-            LOG.error(ReproductionUtils.Constants.FAIL + resultStr);
-            failures = true;
+          switch (ReproductionUtils.compareScores(expected, actual, toleranceOk)) {
+            case OK -> LOG.info(ReproductionUtils.Constants.OK + resultStr);
+            case OKISH -> {
+              LOG.info(ReproductionUtils.Constants.OKISH + resultStr);
+              okish = true;
+            }
+            case FAIL -> {
+              LOG.error(ReproductionUtils.Constants.FAIL + resultStr);
+              failures = true;
+            }
           }
         }
       }

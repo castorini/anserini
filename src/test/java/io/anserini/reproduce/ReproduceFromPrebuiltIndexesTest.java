@@ -29,6 +29,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 import io.anserini.util.CacheDirectoryResolver;
@@ -203,6 +204,39 @@ public class ReproduceFromPrebuiltIndexesTest extends StdOutStdErrRedirectableLu
     assertFalse(output.contains("NumberFormatException"));
     assertFalse(Files.exists(runsDirectory.resolve("run.faulty.retrieval-fails.cacm.txt")));
     assertFalse(Files.exists(runsDirectory.resolve("run.faulty.missing-run-file.cacm.txt")));
+  }
+
+  @Test
+  public void testMetricResultWithoutToleranceMatchesExplicitZero() throws Exception {
+    for (double score : new double[] {0.5, 0.5000000001, 0.4999, 0.6, 0.4}) {
+      String absent = metricResult(score, "");
+      assertEquals(absent, metricResult(score, "tolerance: {MAP: 0.0}"));
+      assertEquals(absent, metricResult(score, "tolerance: {P30: 0.1}"));
+    }
+  }
+
+  @Test
+  public void testMetricResultStatusesAndFormatting() throws Exception {
+    assertEquals(String.format(Locale.ROOT, "    %8s: 0.5000 %s%n", "MAP", ReproductionUtils.Constants.OK),
+        metricResult(0.5, ""));
+    assertEquals(String.format(Locale.ROOT, "    %8s: 0.5000 %s%n", "MAP", ReproductionUtils.Constants.OK),
+        metricResult(0.5000000001, ""));
+    assertEquals(String.format(Locale.ROOT, "    %8s: 0.6000 %s expected 0.5000%n", "MAP", ReproductionUtils.Constants.OKISH),
+        metricResult(0.6, ""));
+    assertEquals(String.format(Locale.ROOT, "    %8s: 0.4000 %s expected 0.5000%n", "MAP", ReproductionUtils.Constants.FAIL),
+        metricResult(0.4, ""));
+    assertTrue(metricResult(0.4375, "tolerance: {MAP: 0.0625}").contains(ReproductionUtils.Constants.OK));
+    assertTrue(metricResult(0.40625, "tolerance: {MAP: 0.0625}").contains(ReproductionUtils.Constants.OKISH));
+    assertTrue(metricResult(0.375, "tolerance: {MAP: 0.0625}").contains(ReproductionUtils.Constants.FAIL));
+    assertTrue(metricResult(0.4999, "tolerance: {MAP: 0.00001}").contains(ReproductionUtils.Constants.OKISH));
+  }
+
+  private String metricResult(double score, String toleranceYaml) throws Exception {
+    ReproduceFromPrebuiltIndexes.Topic topic = new ObjectMapper(new YAMLFactory()).readValue(
+        "expected_scores: {MAP: 0.5}\n" + toleranceYaml, ReproduceFromPrebuiltIndexes.Topic.class);
+    out.reset();
+    ReproduceFromPrebuiltIndexes.printMetricResult(topic, "MAP", score);
+    return out.toString();
   }
 
   @Test
