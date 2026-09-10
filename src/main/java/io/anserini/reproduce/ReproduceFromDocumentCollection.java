@@ -578,7 +578,7 @@ public class ReproduceFromDocumentCollection {
           boolean usingHnsw = "hnsw".equals(modelType);
           boolean usingFlat = "flat".equals(modelType);
 
-          double toleranceOk = 0.0;
+          Double toleranceOk = null;
           JsonNode tolerance = model.get("tolerance");
           if (tolerance != null && tolerance.has(metricName)) {
             toleranceOk = tolerance.get(metricName).get(i).asDouble();
@@ -588,7 +588,7 @@ public class ReproduceFromDocumentCollection {
           if (usingFlat || usingHnsw) {
             resultStr = String.format(Locale.ROOT,
                 "expected: %.4f actual: %.4f (delta=%.4f, tolerance=%.4f) - metric: %-8s model: %s topics: %s",
-                expected, actual, expected - actual, toleranceOk, metricName, model.get("name").asText(),
+                expected, actual, expected - actual, toleranceOk == null ? 0.0 : toleranceOk, metricName, model.get("name").asText(),
                 topic.get("id").asText());
           } else {
             resultStr = String.format(Locale.ROOT,

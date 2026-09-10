@@ -27,6 +27,8 @@ import static io.anserini.reproduce.ReproductionUtils.compareScores;
 public class ReproductionUtilsTest {
   @Test
   public void testEquality() {
+    assertEquals(OK, compareScores(0.0, 0.0, null));
+    assertEquals(OK, compareScores(0.3123, 0.3123, null));
     assertEquals(OK, compareScores(0.0, 0.0, 0.0));
     assertEquals(OK, compareScores(0.3123, 0.3123, 0.0));
   }
@@ -38,16 +40,18 @@ public class ReproductionUtilsTest {
     double allowance = ReproductionUtils.NUMERICAL_TOLERANCE;
     assertEquals(OK, compareScores(allowance, 0.0, 0.0));
     assertEquals(OK, compareScores(0.0, allowance, 0.0));
-    assertEquals(OKISH, compareScores(Math.nextUp(allowance), 0.0, 0.0));
+    assertEquals(FAIL, compareScores(Math.nextUp(allowance), 0.0, 0.0));
     assertEquals(OKISH, compareScores(0.0, Math.nextUp(allowance), 0.0));
     // The numerical allowance is absolute, not relative to the score's scale.
-    assertEquals(OKISH, compareScores(100.00000001, 100.0, 0.0));
+    assertEquals(FAIL, compareScores(100.00000001, 100.0, 0.0));
+    assertEquals(OK, compareScores(allowance, 0.0, null));
+    assertEquals(OKISH, compareScores(Math.nextUp(allowance), 0.0, null));
   }
 
   @Test
   public void testNumericalToleranceDominatesSmallerConfiguredTolerance() {
     assertEquals(OK, compareScores(1e-9, 0.0, 1e-10));
-    assertEquals(OKISH, compareScores(2e-9, 0.0, 1e-10));
+    assertEquals(FAIL, compareScores(2e-9, 0.0, 1e-10));
   }
 
   @Test
@@ -55,6 +59,7 @@ public class ReproductionUtilsTest {
     assertEquals(OK, compareScores(0.5, 0.5625, 0.0625));
     assertEquals(OKISH, compareScores(0.5, 0.75, 0.0625));
     assertEquals(OKISH, compareScores(0.5, 0.75, 0.0));
+    assertEquals(OKISH, compareScores(0.5, 0.75, null));
   }
 
   @Test
@@ -76,12 +81,27 @@ public class ReproductionUtilsTest {
   }
 
   @Test
-  public void testStrictFallbackWithAndWithoutConfiguredTolerance() {
-    for (double tolerance : new double[] {0.0, 0.00001}) {
-      assertEquals(OKISH, compareScores(Math.nextDown(0.0002), 0.0, tolerance));
-      assertEquals(FAIL, compareScores(0.0002, 0.0, tolerance));
-      assertEquals(FAIL, compareScores(Math.nextUp(0.0002), 0.0, tolerance));
-      assertEquals(FAIL, compareScores(0.5, 0.25, tolerance));
-    }
+  public void testStrictFallbackWithoutConfiguredTolerance() {
+    assertEquals(OKISH, compareScores(Math.nextDown(0.0002), 0.0, null));
+    assertEquals(FAIL, compareScores(0.0002, 0.0, null));
+    assertEquals(FAIL, compareScores(Math.nextUp(0.0002), 0.0, null));
+    assertEquals(FAIL, compareScores(0.5, 0.25, null));
+  }
+
+  @Test
+  public void testAbsentAndZeroToleranceProduceDifferentStatuses() {
+    assertEquals(OKISH, compareScores(0.0001, 0.0, null));
+    assertEquals(FAIL, compareScores(0.0001, 0.0, 0.0));
+  }
+
+  @Test
+  public void testConfiguredToleranceDisablesFallback() {
+    double tolerance = 0.0001;
+    double boundary = 1.5 * tolerance;
+    assertEquals(OK, compareScores(tolerance, 0.0, tolerance));
+    assertEquals(OKISH, compareScores(boundary, 0.0, tolerance));
+    assertEquals(FAIL, compareScores(Math.nextUp(boundary), 0.0, tolerance));
+    assertEquals(FAIL, compareScores(0.00018, 0.0, tolerance));
+    assertEquals(FAIL, compareScores(Math.nextDown(0.0002), 0.0, tolerance));
   }
 }

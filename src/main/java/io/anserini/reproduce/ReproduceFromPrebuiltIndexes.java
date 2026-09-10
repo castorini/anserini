@@ -307,7 +307,7 @@ public class ReproduceFromPrebuiltIndexes {
           if (!dryRun) {
             try {
               double score = runTrecEvalAndGetScore(metricDefinitions.get(metric), topic.eval_key, output);
-              double tolerance = topic.tolerance == null ? 0.0 : topic.tolerance.getOrDefault(metric, 0.0);
+              Double tolerance = topic.tolerance == null ? null : topic.tolerance.get(metric);
               switch (ReproductionUtils.compareScores(expected.get(metric), score, tolerance)) {
                 case OK -> System.out.printf(Locale.ROOT, "    %8s: %.4f %s%n", metric, score, ReproductionUtils.Constants.OK);
                 case OKISH -> System.out.printf(Locale.ROOT, "    %8s: %.4f %s expected %.4f%n", metric, score, ReproductionUtils.Constants.OKISH, expected.get(metric));
@@ -500,7 +500,7 @@ public class ReproduceFromPrebuiltIndexes {
     @JsonProperty
     public Map<String, Double> expected_scores;
 
-    /** Optional absolute tolerances keyed by metric; missing metrics default to zero. */
+    /** Optional absolute tolerances keyed by metric; missing metrics use the comparison fallback. */
     @JsonProperty
     public Map<String, Double> tolerance;
 

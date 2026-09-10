@@ -183,20 +183,31 @@ public class ReproduceFromDocumentCollectionTest extends StdOutStdErrRedirectabl
   }
 
   @Test
-  public void testAbsentAndZeroToleranceProduceSameStatuses() throws Exception {
-    for (String tolerance : new String[] {"", "tolerance: {MAP: [0.0]}", "tolerance: {P30: [0.1]}"}) {
-      assertEvaluationStatus("inverted", 0.5, 0.5, 4, tolerance, ReproductionUtils.Constants.OK);
-      assertEvaluationStatus("inverted", 0.5, 0.4999, 4, tolerance, ReproductionUtils.Constants.OKISH);
-      assertEvaluationStatus("inverted", 0.5, 0.6, 4, tolerance, ReproductionUtils.Constants.OKISH);
-      assertEvaluationStatus("inverted", 0.5, 0.4, 4, tolerance, ReproductionUtils.Constants.FAIL);
+  public void testAbsentAndZeroToleranceProduceDifferentStatuses() throws Exception {
+    for (String type : new String[] {"inverted", "flat", "hnsw"}) {
+      for (String tolerance : new String[] {"", "tolerance: {P30: [0.1]}"}) {
+        assertEvaluationStatus(type, 0.5, 0.5, 4, tolerance, ReproductionUtils.Constants.OK);
+        assertEvaluationStatus(type, 0.5, 0.4999, 4, tolerance, ReproductionUtils.Constants.OKISH);
+        assertEvaluationStatus(type, 0.5, 0.6, 4, tolerance, ReproductionUtils.Constants.OKISH);
+        assertEvaluationStatus(type, 0.5, 0.4, 4, tolerance, ReproductionUtils.Constants.FAIL);
+      }
+      String tolerance = "tolerance: {MAP: [0.0]}";
+      assertEvaluationStatus(type, 0.5, 0.5, 4, tolerance, ReproductionUtils.Constants.OK);
+      assertEvaluationStatus(type, 0.5, 0.4999, 4, tolerance, ReproductionUtils.Constants.FAIL);
+      assertEvaluationStatus(type, 0.5, 0.6, 4, tolerance, ReproductionUtils.Constants.OKISH);
+      assertEvaluationStatus(type, 0.5, 0.4, 4, tolerance, ReproductionUtils.Constants.FAIL);
     }
   }
 
   @Test
-  public void testMetricRoundingAndFallbackWithConfiguredTolerance() throws Exception {
+  public void testMetricRoundingAndConfiguredToleranceDisablesFallback() throws Exception {
     assertEvaluationStatus("inverted", 0.50004, 0.49996, 4, "", ReproductionUtils.Constants.OK);
     assertEvaluationStatus("inverted", 0.50004, 0.49996, 5, "", ReproductionUtils.Constants.OKISH);
-    assertEvaluationStatus("inverted", 0.5, 0.4999, 4, "tolerance: {MAP: [0.00001]}", ReproductionUtils.Constants.OKISH);
+    assertEvaluationStatus("inverted", 0.50004, 0.49996, 4, "tolerance: {MAP: [0.0]}", ReproductionUtils.Constants.OK);
+    assertEvaluationStatus("inverted", 0.50004, 0.49996, 5, "tolerance: {MAP: [0.0]}", ReproductionUtils.Constants.FAIL);
+    for (String type : new String[] {"inverted", "flat", "hnsw"}) {
+      assertEvaluationStatus(type, 0.5, 0.4999, 4, "tolerance: {MAP: [0.00001]}", ReproductionUtils.Constants.FAIL);
+    }
   }
 
   @Test

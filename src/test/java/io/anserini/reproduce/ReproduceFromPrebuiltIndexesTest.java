@@ -219,15 +219,15 @@ public class ReproduceFromPrebuiltIndexesTest extends StdOutStdErrRedirectableLu
       assertTrue(output, output.contains(String.format(Locale.ROOT,
           "    %8s: 0.3123 %s%n", metric, ReproductionUtils.Constants.OK)));
     }
-    Map<String, Double> okish = Map.of("improved", 0.2, "absent", 0.3124, "zero", 0.3124,
-        "fallback", 0.3124, "relaxed", 0.4123);
+    Map<String, Double> okish = Map.of("improved", 0.2, "absent", 0.3124, "relaxed", 0.4123);
     for (Map.Entry<String, Double> entry : okish.entrySet()) {
       assertTrue(output, output.contains(String.format(Locale.ROOT,
           "    %8s: 0.3123 %s expected %.4f%n", entry.getKey(), ReproductionUtils.Constants.OKISH, entry.getValue())));
     }
-    for (String metric : List.of("outside", "failed")) {
+    Map<String, Double> failed = Map.of("zero", 0.3124, "fallback", 0.3124, "outside", 0.5, "failed", 0.5);
+    for (Map.Entry<String, Double> entry : failed.entrySet()) {
       assertTrue(output, output.contains(String.format(Locale.ROOT,
-          "    %8s: 0.3123 %s expected 0.5000%n", metric, ReproductionUtils.Constants.FAIL)));
+          "    %8s: 0.3123 %s expected %.4f%n", entry.getKey(), ReproductionUtils.Constants.FAIL, entry.getValue())));
     }
   }
 

@@ -55,17 +55,18 @@ public final class ReproductionUtils {
 
   /**
    * Classifies scores after any metric-specific rounding performed by the caller.
-   * Callers should pass zero when no tolerance is configured.
+   * Callers should pass null when no tolerance is configured; explicit zero disables the fallback.
    * Differences within the larger of the configured and numerical tolerances are OK.
-   * Otherwise, differences within 1.5 times the configured tolerance, improvements,
-   * and differences strictly below 0.0002 are OKish; all other results fail.
+   * Otherwise, improvements and differences within 1.5 times the configured tolerance are OKish.
+   * When no tolerance is configured, differences strictly below 0.0002 are also OKish.
+   * All other results fail.
    */
-  public static Status compareScores(double expected, double observed, double tolerance) {
+  public static Status compareScores(double expected, double observed, Double tolerance) {
     double delta = Math.abs(observed - expected);
-    if (delta <= Math.max(tolerance, NUMERICAL_TOLERANCE)) {
+    if (delta <= Math.max(tolerance == null ? 0.0 : tolerance, NUMERICAL_TOLERANCE)) {
       return Status.OK;
     }
-    if (delta <= 1.5 * tolerance || observed > expected || delta < 0.0002) {
+    if (observed > expected || (tolerance == null ? delta < 0.0002 : delta <= 1.5 * tolerance)) {
       return Status.OKISH;
     }
     return Status.FAIL;
