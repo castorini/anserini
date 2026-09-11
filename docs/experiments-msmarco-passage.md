@@ -721,3 +721,4 @@ The BM25 run with default parameters `k1=0.9`, `b=0.4` roughly corresponds to th
 + Results reproduced by [@ParsaA2006](https://github.com/ParsaA2006) on 2026-09-04 (commit [`8af8d25`](https://github.com/castorini/anserini/commit/8af8d25810cdacf2a1f5d41c4a75f578bc4f96a9))
 + Results reproduced by [@mentaltraffic](https://github.com/mentaltraffic) on 2026-09-05 (commit [`8af8d25`](https://github.com/castorini/anserini/commit/8af8d25810cdacf2a1f5d41c4a75f578bc4f96a9))
 + Results reproduced by [@kamrankhoxa](https://github.com/kamrankhoxa) on 2026-09-07 (commit [`30e0b11`](https://github.com/castorini/anserini/commit/30e0b113a5bbc5e4d5b7d573ee9ed5c903e6a204))
++ Results reproduced by [@tanvirsarao](https://github.com/tanvirsarao) on 2026-09-09 (commit [`6c25df5`](https://github.com/castorini/anserini/commit/6c25df51724f3afc75b0daf8791ec5c79975efbe))
