@@ -334,15 +334,15 @@ This section is **not** part of the onboarding path, so feel free to skip.
 
 Note that this figure differs slightly from the value reported in [Document Expansion by Query Prediction](https://arxiv.org/abs/1904.08375), which uses the Anserini (system-wide) default of `k1=0.9`, `b=0.4`.
 
-Tuning was accomplished with `src/main/python/msmarco/tune_bm25.py`, using the queries found [here](https://github.com/castorini/Anserini-data/tree/master/MSMARCO); the basic approach is grid search of parameter values in tenth increments.
-There are five different sets of 10k samples (using the `shuf` command).
-We tuned on each individual set and then averaged parameter values across all five sets (this has the effect of regularization).
-In separate trials, we optimized for:
+For complete current commands, training data downloads, grid definitions, parameter averaging,
+and development-set evaluation, see [Reproducing MS MARCO BM25 tuning](experiments-msmarco-bm25-tuning.md).
+The passage grid is `k1=0.6:1.2:0.1`, `b=0.5:0.9:0.1` (inclusive ranges),
+with 1,000 hits per query. Tune each of the five published training-query samples
+independently, then average the five winning `k1` and `b` values for each objective:
+recall@1000, MRR@10, and MAP@1000. Do not select parameters on the development set.
 
-+ recall@1000, since Anserini output serves as input to downstream rerankers (e.g., based on BERT), and we want to maximize the number of relevant documents the rerankers have to work with;
-+ MRR@10, for the case where Anserini output is directly presented to users (i.e., no downstream reranking).
-
-It turns out that optimizing for MRR@10 and MAP yields the same settings.
+The following table records the historical results. The historical MRR@10 and MAP
+optima coincided; the current workflow selects and reports them independently.
 
 Here's the comparison between the Anserini default and optimized parameters:
 

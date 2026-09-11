@@ -153,16 +153,17 @@ More details on tuning BM25 parameters below...
 It is well known that BM25 parameter tuning is important.
 The setting of `k1=0.9`, `b=0.4` is often used as a default.
 
-Let's try to do better!
-We tuned BM25 using the queries found [here](https://github.com/castorini/anserini-data/tree/master/MSMARCO): these are five different sets of 10k samples from the training queries (using the `shuf` command).
-The basic approach is grid search of parameter values in tenth increments.
-We tuned on each individual set and then averaged parameter values across all five sets (this has the effect of regularization).
-In separate trials, we optimized for:
+For complete current commands, training data downloads, grid definitions, parameter averaging,
+and development-set evaluation, see [Reproducing MS MARCO BM25 tuning](experiments-msmarco-bm25-tuning.md).
+Tune each of the five published training-query samples independently, then average
+the five winning parameter pairs. The document objectives are **MRR@100**, **MAP@1000**,
+and **recall@1000**. Retrieve 1,000 hits once and apply the MRR cutoff only at evaluation time.
 
-+ recall@1000, since Anserini output serves as input to downstream rerankers (e.g., based on BERT), and we want to maximize the number of relevant documents the rerankers have to work with;
-+ MRR@10, for the case where Anserini output is directly presented to users (i.e., no downstream reranking).
-
-It turns out that optimizing for MRR@10 and MAP yields the same settings.
+The following table records the historical results. The original document tuning
+script and grid bounds were not recorded. In particular, `b=0.87` cannot be the
+average of five values drawn from a grid in increments of 0.1, so the historical
+claim about tenth increments is insufficient to reconstruct that experiment.
+The current workflow records its grid explicitly and selects MRR and MAP independently.
 
 Here's the comparison between different parameter settings:
 
@@ -170,45 +171,35 @@ Here's the comparison between different parameter settings:
 |:-----------------------------------------------|--------:|-------:|------------:|
 | Default (`k1=0.9`, `b=0.4`)                    |  0.2301 | 0.2310 |      0.8856 |
 | Optimized for MRR@100/MAP (`k1=3.8`, `b=0.87`) |  0.2784 | 0.2789 |      0.9326 |
-| Optimized for recall@100 (`k1=4.46`, `b=0.82`) |  0.2770 | 0.2775 |      0.9357 |
+| Optimized for recall@1000 (`k1=4.46`, `b=0.82`) |  0.2770 | 0.2775 |      0.9357 |
 
 As expected, BM25 tuning makes a big difference!
 
-Note that MRR@100 is computed with the leaderboard eval script (with 100 hits per query), while the other two metrics are computed with `trec_eval` (with 1000 hits per query).
-So, we need to use different search programs, for example:
+All three metrics can be computed from the same TREC run after converting the
+MS MARCO output to preserve rank order. For example, to check
+the historical MRR-tuned parameter pair with the current code:
 
 ```bash
-$ target/appassembler/bin/SearchCollection \
-    -index indexes/msmarco-doc/lucene-index-msmarco \
-    -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
-    -topicReader TsvInt \
-    -output runs/run.msmarco-doc.dev.opt-mrr.txt \
-    -parallelism 4 \
-    -bm25 -bm25.k1 3.8 -bm25.b 0.87 -hits 1000
+mkdir -p tmp/bm25-tuning
+bin/run.sh io.anserini.search.SearchCollection \
+  -index msmarco-v1-doc-slim \
+  -topics msmarco-doc.dev \
+  -output tmp/bm25-tuning/doc.dev.historical-mrr.txt -format msmarco \
+  -threads 8 -bm25 -bm25.k1 3.8 -bm25.b 0.87 -hits 1000
 
-$ target/appassembler/bin/trec_eval -c -mmap -mrecall.1000 \
-    tools/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc.dev.opt-mrr.txt
-map                   	all	0.2789
-recall_1000           	all	0.9326
+python3 src/main/python/msmarco/convert_msmarco_to_trec_run.py \
+  --input tmp/bm25-tuning/doc.dev.historical-mrr.txt \
+  --output tmp/bm25-tuning/doc.dev.historical-mrr.trec
 
-$ target/appassembler/bin/SearchCollection \
-    -index indexes/msmarco-doc/lucene-index-msmarco \
-    -topics tools/topics-and-qrels/topics.msmarco-doc.dev.txt \
-    -topicReader TsvInt \
-    -output runs/run.msmarco-doc.leaderboard-dev.opt-mrr.txt -format msmarco \
-    -parallelism 4 \
-    -bm25 -bm25.k1 3.8 -bm25.b 0.87 -hits 100
-
-$ python tools/scripts/msmarco/msmarco_doc_eval.py \
-    --judgments tools/topics-and-qrels/qrels.msmarco-doc.dev.txt \
-    --run runs/run.msmarco-doc.leaderboard-dev.opt-mrr.txt
-#####################
-MRR @100: 0.27836767424339787
-QueriesRanked: 5193
-#####################
+bin/run.sh io.anserini.eval.TrecEval -c -m map -m recall.1000 \
+  msmarco-doc.dev tmp/bm25-tuning/doc.dev.historical-mrr.trec
+bin/run.sh io.anserini.eval.TrecEval -c -M 100 -m recip_rank \
+  msmarco-doc.dev tmp/bm25-tuning/doc.dev.historical-mrr.trec
 ```
 
-That's it!
+The prebuilt index is downloaded on first use. An absolute local index path can
+also be supplied. The `-M 100` option applies only to the MRR invocation; applying
+it to MAP or recall would change those objectives.
 
 ## Reproduction Log[*](reproducibility.md)
 
