@@ -36,6 +36,8 @@ import java.util.Locale;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+import javax.annotation.Nullable;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -45,6 +47,47 @@ public final class ReproductionUtils {
   private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z", Locale.ROOT).withZone(ZoneId.systemDefault());
 
   private ReproductionUtils() {}
+
+  public enum Status {
+    OK, OKISH, FAIL
+  }
+
+  /** Absolute allowance for floating-point noise, independent of metric scale or display precision. */
+  public static final double NUMERICAL_TOLERANCE = 1e-9;
+
+  /** Exclusive OKish threshold when no tolerance is configured. */
+  public static final double DEFAULT_OKISH_TOLERANCE = 0.0002;
+
+  /**
+   * Classifies scores after any metric-specific rounding performed by the caller. 
+   * With {@code delta = abs(observed - expected)}, apply these checks in order:
+   * <ul>
+   *   <li><b>OK:</b> {@code delta <= max(tolerance, NUMERICAL_TOLERANCE)}, using zero for {@code null} tolerance in this calculation.</li>
+   *   <li><b>Otherwise, OKish:</b> any of:
+   *     <ul>
+   *       <li>{@code observed > expected}.</li>
+   *       <li>Tolerance is configured: {@code delta <= 1.5 * tolerance}.</li>
+   *       <li>Tolerance is absent ({@code null}): {@code delta < DEFAULT_OKISH_TOLERANCE}.</li>
+   *     </ul>
+   *   </li>
+   *   <li><b>Otherwise, FAIL.</b></li>
+   * </ul>
+   *
+   * @param expected expected reference score, after any metric-specific rounding
+   * @param observed observed score, after any metric-specific rounding
+   * @param tolerance configured absolute tolerance, or {@code null} when absent; explicit zero disables the {@code delta < DEFAULT_OKISH_TOLERANCE} fallback
+   * @return {@link Status#OK}, {@link Status#OKISH}, or {@link Status#FAIL} according to the decision tree above
+   */
+  public static Status compareScores(double expected, double observed, @Nullable Double tolerance) {
+    double delta = Math.abs(observed - expected);
+    if (delta <= Math.max(tolerance == null ? 0.0 : tolerance, NUMERICAL_TOLERANCE)) {
+      return Status.OK;
+    }
+    if (observed > expected || (tolerance == null ? delta < DEFAULT_OKISH_TOLERANCE : delta <= 1.5 * tolerance)) {
+      return Status.OKISH;
+    }
+    return Status.FAIL;
+  }
 
   public static final class Constants {
     // ANSI escape code for red text

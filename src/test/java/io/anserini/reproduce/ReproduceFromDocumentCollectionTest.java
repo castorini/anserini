@@ -27,6 +27,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
@@ -34,6 +35,9 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.LogEvent;
+import org.apache.logging.log4j.core.Logger;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.junit.After;
 import org.junit.Assume;
@@ -42,9 +46,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
+import io.anserini.CustomAppender;
 import io.anserini.eval.TrecEval;
 import io.anserini.index.AbstractIndexer;
 import io.anserini.index.IndexCollection;
@@ -168,6 +174,106 @@ public class ReproduceFromDocumentCollectionTest extends StdOutStdErrRedirectabl
   }
 
   @Test
+  public void testConfiguredToleranceAppliesToAllModelTypes() throws Exception {
+    for (String type : new String[] {"inverted", "flat", "hnsw"}) {
+      assertEvaluationStatus(type, 0.5, 0.4375, 5, "tolerance: {MAP: [0.0625]}", ReproductionUtils.Constants.OK);
+      assertEvaluationStatus(type, 0.5, 0.40625, 5, "tolerance: {MAP: [0.0625]}", ReproductionUtils.Constants.OKISH);
+      assertEvaluationStatus(type, 0.5, 0.375, 5, "tolerance: {MAP: [0.0625]}", ReproductionUtils.Constants.FAIL);
+    }
+  }
+
+  @Test
+  public void testAbsentAndZeroToleranceProduceDifferentStatuses() throws Exception {
+    for (String type : new String[] {"inverted", "flat", "hnsw"}) {
+      for (String tolerance : new String[] {"", "tolerance: {P30: [0.1]}"}) {
+        assertEvaluationStatus(type, 0.5, 0.5, 4, tolerance, ReproductionUtils.Constants.OK);
+        assertEvaluationStatus(type, 0.5, 0.4999, 4, tolerance, ReproductionUtils.Constants.OKISH);
+        assertEvaluationStatus(type, 0.5, 0.6, 4, tolerance, ReproductionUtils.Constants.OKISH);
+        assertEvaluationStatus(type, 0.5, 0.4, 4, tolerance, ReproductionUtils.Constants.FAIL);
+      }
+      String tolerance = "tolerance: {MAP: [0.0]}";
+      assertEvaluationStatus(type, 0.5, 0.5, 4, tolerance, ReproductionUtils.Constants.OK);
+      assertEvaluationStatus(type, 0.5, 0.4999, 4, tolerance, ReproductionUtils.Constants.FAIL);
+      assertEvaluationStatus(type, 0.5, 0.6, 4, tolerance, ReproductionUtils.Constants.OKISH);
+      assertEvaluationStatus(type, 0.5, 0.4, 4, tolerance, ReproductionUtils.Constants.FAIL);
+    }
+  }
+
+  @Test
+  public void testMetricRoundingAndConfiguredToleranceDisablesFallback() throws Exception {
+    assertEvaluationStatus("inverted", 0.50004, 0.49996, 4, "", ReproductionUtils.Constants.OK);
+    assertEvaluationStatus("inverted", 0.50004, 0.49996, 5, "", ReproductionUtils.Constants.OKISH);
+    assertEvaluationStatus("inverted", 0.50004, 0.49996, 4, "tolerance: {MAP: [0.0]}", ReproductionUtils.Constants.OK);
+    assertEvaluationStatus("inverted", 0.50004, 0.49996, 5, "tolerance: {MAP: [0.0]}", ReproductionUtils.Constants.FAIL);
+    for (String type : new String[] {"inverted", "flat", "hnsw"}) {
+      assertEvaluationStatus(type, 0.5, 0.4999, 4, "tolerance: {MAP: [0.00001]}", ReproductionUtils.Constants.FAIL);
+    }
+  }
+
+  @Test
+  public void testScoreComparisonWithLocalizedDigits() throws Exception {
+    Locale previousLocale = Locale.getDefault();
+    try {
+      Locale.setDefault(Locale.forLanguageTag("mzn-Arab-IR"));
+      assertEvaluationStatus("inverted", 0.5, 0.4375, 5, "tolerance: {MAP: [0.0625]}", ReproductionUtils.Constants.OK);
+      assertEvaluationStatus("inverted", 0.50004, 0.49996, 4, "", ReproductionUtils.Constants.OK);
+      assertEvaluationStatus("inverted", 0.50004, 0.49996, 5, "", ReproductionUtils.Constants.OKISH);
+    } finally {
+      Locale.setDefault(previousLocale);
+    }
+  }
+
+  private void assertEvaluationStatus(String type, double expected, double actual, int precision, String toleranceYaml, String status) throws Exception {
+    JsonNode yaml = new ObjectMapper(new YAMLFactory()).readTree(String.format(Locale.ROOT, """
+        corpus: test
+        index_path: indexes/test
+        topics:
+          - id: test
+        metrics:
+          - metric: MAP
+            command: "echo %s"
+            separator: ' '
+            parse_index: 0
+            metric_precision: %d
+        models:
+          - name: test
+            type: %s
+            results: {MAP: [%s]}
+            %s
+        """, actual, precision, type, expected, toleranceYaml));
+    assertEquals(precision, yaml.get("metrics").get(0).get("metric_precision").asInt());
+    List<String> messages = new ArrayList<>();
+    CustomAppender appender = new CustomAppender("score-comparison") {
+      @Override
+      public void append(LogEvent event) {
+        messages.add(event.getMessage().getFormattedMessage());
+      }
+    };
+    Logger logger = (Logger) LogManager.getLogger(ReproduceFromDocumentCollection.class);
+    Level previousLevel = logger.getLevel();
+    boolean previousAdditivity = logger.isAdditive();
+    appender.start();
+    logger.addAppender(appender);
+    logger.setAdditive(false);
+    logger.setLevel(Level.INFO);
+    try {
+      Method evaluate = ReproduceFromDocumentCollection.class.getDeclaredMethod("evaluateAndVerify", JsonNode.class, ReproduceFromDocumentCollection.Args.class, long.class);
+      evaluate.setAccessible(true);
+      evaluate.invoke(null, yaml, new ReproduceFromDocumentCollection.Args(), System.nanoTime());
+    } finally {
+      logger.setLevel(previousLevel);
+      logger.setAdditive(previousAdditivity);
+      logger.removeAppender(appender);
+      appender.stop();
+    }
+    assertEquals(messages.toString(), 3, messages.size());
+    assertTrue(messages.toString(), messages.get(1).startsWith(status + "expected: "));
+    assertTrue(messages.toString(), messages.get(1).contains(" - metric: MAP      model: test topics: test"));
+    assertEquals(!"inverted".equals(type), messages.get(1).contains(", tolerance="));
+    assertTrue(messages.toString(), messages.get(2).startsWith(status + "Total elapsed time: "));
+  }
+
+  @Test
   public void testEvaluationCommandWithoutQrels() {
     String command = ReproduceFromDocumentCollection.constructEvaluationCommand(
         "python -m pyserini.eval.evaluate_dpr_retrieval",
@@ -244,7 +350,7 @@ public class ReproduceFromDocumentCollectionTest extends StdOutStdErrRedirectabl
 
       ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
       ReproduceFromDocumentCollection.Args args = new ReproduceFromDocumentCollection.Args();
-      Method resolveCorpusPath = ReproduceFromDocumentCollection.class.getDeclaredMethod("resolveCorpusPath", com.fasterxml.jackson.databind.JsonNode.class, ReproduceFromDocumentCollection.Args.class);
+      Method resolveCorpusPath = ReproduceFromDocumentCollection.class.getDeclaredMethod("resolveCorpusPath", JsonNode.class, ReproduceFromDocumentCollection.Args.class);
       resolveCorpusPath.setAccessible(true);
 
       String resolved = (String) resolveCorpusPath.invoke(null, mapper.readTree("""
@@ -329,11 +435,7 @@ public class ReproduceFromDocumentCollectionTest extends StdOutStdErrRedirectabl
 
   private void assertTrecEvalP30(String qrelsPath, String runFile, String expectedP30) throws Exception {
     TrecEval trecEval = new TrecEval();
-    String[] args = new String[] {
-        "-m", "P.30",
-        qrelsPath,
-        runFile
-    };
+    String[] args = new String[] {"-m", "P.30", qrelsPath, runFile};
     String[][] output = trecEval.runAndGetOutput(args);
 
     assertNotNull(output);

@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.junit.After;
@@ -176,8 +177,8 @@ public class ReproduceFromPrebuiltIndexesTest extends StdOutStdErrRedirectableLu
     assertTrue(output, output.contains("Run successfully completed!"));
     assertTrue(output, output.contains("Indexes referenced by this run (1 total):"));
     assertTrue(output, output.matches("(?s).*Total size across [01] of 1 indexes:.*"));
-    assertTrue(output, output.contains("MAP: 0.3123"));
-    assertTrue(output, output.contains("P30: 0.1942"));
+    assertTrue(output, output.contains("MAP: 0.3123 " + ReproductionUtils.Constants.OK));
+    assertTrue(output, output.contains("P30: 0.1942 " + ReproductionUtils.Constants.OK));
     assertTrue(output, output.matches("(?s).*Duration:\\s+[0-9]{2}:[0-9]{2}:[0-9]{2}.*"));
     assertFalse(output.contains("NumberFormatException"));
     assertTrue(Files.exists(runsDirectory.resolve("run.cacm.bm25.cacm.txt")));
@@ -203,6 +204,31 @@ public class ReproduceFromPrebuiltIndexesTest extends StdOutStdErrRedirectableLu
     assertFalse(output.contains("NumberFormatException"));
     assertFalse(Files.exists(runsDirectory.resolve("run.faulty.retrieval-fails.cacm.txt")));
     assertFalse(Files.exists(runsDirectory.resolve("run.faulty.missing-run-file.cacm.txt")));
+  }
+
+  @Test
+  public void testScoreComparisonEndToEnd() throws Exception {
+    Path runsDirectory = createTempDir("runs");
+    ReproduceFromPrebuiltIndexes.main(new String[] {
+        "--config", "score-comparison",
+        "--runs-directory", runsDirectory.toString()
+    });
+
+    String output = out.toString();
+    for (String metric : List.of("equal", "noise", "within")) {
+      assertTrue(output, output.contains(String.format(Locale.ROOT,
+          "    %8s: 0.3123 %s%n", metric, ReproductionUtils.Constants.OK)));
+    }
+    Map<String, Double> okish = Map.of("improved", 0.2, "absent", 0.3124, "relaxed", 0.4123);
+    for (Map.Entry<String, Double> entry : okish.entrySet()) {
+      assertTrue(output, output.contains(String.format(Locale.ROOT,
+          "    %8s: 0.3123 %s expected %.4f%n", entry.getKey(), ReproductionUtils.Constants.OKISH, entry.getValue())));
+    }
+    Map<String, Double> failed = Map.of("zero", 0.3124, "fallback", 0.3124, "outside", 0.5, "failed", 0.5);
+    for (Map.Entry<String, Double> entry : failed.entrySet()) {
+      assertTrue(output, output.contains(String.format(Locale.ROOT,
+          "    %8s: 0.3123 %s expected %.4f%n", entry.getKey(), ReproductionUtils.Constants.FAIL, entry.getValue())));
+    }
   }
 
   @Test

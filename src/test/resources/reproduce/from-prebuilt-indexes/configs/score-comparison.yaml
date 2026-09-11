@@ -1,0 +1,35 @@
+conditions:
+  - name: bm25
+    display: "Score comparison statuses using CACM MAP"
+    command: io.anserini.search.SearchCollection -threads $threads -index cacm -topics $topics -output $output -hits 1000 -bm25
+    topics:
+      - topic_key: cacm
+        eval_key: cacm
+        expected_scores:
+          equal: 0.3123
+          noise: 0.3123000001
+          improved: 0.2
+          absent: 0.3124
+          zero: 0.3124
+          fallback: 0.3124
+          within: 0.375
+          relaxed: 0.4123
+          outside: 0.5
+          failed: 0.5
+        tolerance:
+          zero: 0.0
+          fallback: 0.00001
+          within: 0.07
+          relaxed: 0.07
+          outside: 0.07
+        metric_definitions:
+          equal: "-c -m map"
+          noise: "-c -m map"
+          improved: "-c -m map"
+          absent: "-c -m map"
+          zero: "-c -m map"
+          fallback: "-c -m map"
+          within: "-c -m map"
+          relaxed: "-c -m map"
+          outside: "-c -m map"
+          failed: "-c -m map"

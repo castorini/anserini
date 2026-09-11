@@ -347,10 +347,6 @@ public class ReproduceFromDocumentCollection {
     }
   }
 
-  private static boolean isClose(double a, double b, double relTol, double absTol) {
-    return Math.abs(a - b) <= Math.max(relTol * Math.max(Math.abs(a), Math.abs(b)), absTol);
-  }
-
   private static String constructIndexPath(JsonNode yaml) {
     String indexPath = Objects.requireNonNull(yaml.get("index_path")).asText();
 
@@ -582,7 +578,7 @@ public class ReproduceFromDocumentCollection {
           boolean usingHnsw = "hnsw".equals(modelType);
           boolean usingFlat = "flat".equals(modelType);
 
-          double toleranceOk = 0.0;
+          Double toleranceOk = null;
           JsonNode tolerance = model.get("tolerance");
           if (tolerance != null && tolerance.has(metricName)) {
             toleranceOk = tolerance.get(metricName).get(i).asDouble();
@@ -592,7 +588,7 @@ public class ReproduceFromDocumentCollection {
           if (usingFlat || usingHnsw) {
             resultStr = String.format(Locale.ROOT,
                 "expected: %.4f actual: %.4f (delta=%.4f, tolerance=%.4f) - metric: %-8s model: %s topics: %s",
-                expected, actual, expected - actual, toleranceOk, metricName, model.get("name").asText(),
+                expected, actual, expected - actual, toleranceOk == null ? 0.0 : toleranceOk, metricName, model.get("name").asText(),
                 topic.get("id").asText());
           } else {
             resultStr = String.format(Locale.ROOT,
@@ -601,17 +597,16 @@ public class ReproduceFromDocumentCollection {
                 topic.get("id").asText());
           }
 
-          if (isClose(expected, actual, 1e-9, 0.0) || actual > expected ||
-              (usingFlat && isClose(expected, actual, 1e-9, toleranceOk)) ||
-              (usingHnsw && isClose(expected, actual, 1e-9, toleranceOk))) {
-            LOG.info(ReproductionUtils.Constants.OK + resultStr);
-          } else if ((usingFlat && isClose(expected, actual, 1e-9, toleranceOk * 1.5)) ||
-              (usingHnsw && isClose(expected, actual, 1e-9, toleranceOk * 1.5))) {
-            LOG.info(ReproductionUtils.Constants.OKISH + resultStr);
-            okish = true;
-          } else {
-            LOG.error(ReproductionUtils.Constants.FAIL + resultStr);
-            failures = true;
+          switch (ReproductionUtils.compareScores(expected, actual, toleranceOk)) {
+            case OK -> LOG.info(ReproductionUtils.Constants.OK + resultStr);
+            case OKISH -> {
+              LOG.info(ReproductionUtils.Constants.OKISH + resultStr);
+              okish = true;
+            }
+            case FAIL -> {
+              LOG.error(ReproductionUtils.Constants.FAIL + resultStr);
+              failures = true;
+            }
           }
         }
       }
