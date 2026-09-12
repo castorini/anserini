@@ -20,6 +20,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -451,9 +452,9 @@ public class DataModel {
           int width = Math.max(display.length() + 5, 11);
           // 3 digits for HNSW, 4 otherwise:
           if ("hnsw".equals(getIndex_type())) {
-            builder.append(String.format(" %-" + width + ".3f|", model.getResults().get(eval.getMetric()).get(i)));
+            builder.append(String.format(Locale.ROOT, " %-" + width + ".3f|", model.getResults().get(eval.getMetric()).get(i)));
           } else {
-            builder.append(String.format(" %-" + width + ".4f|", model.getResults().get(eval.getMetric()).get(i)));
+            builder.append(String.format(Locale.ROOT, " %-" + width + ".4f|", model.getResults().get(eval.getMetric()).get(i)));
           }
         }
         builder.append("\n");
