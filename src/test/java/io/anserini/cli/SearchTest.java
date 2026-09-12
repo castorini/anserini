@@ -22,6 +22,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
@@ -132,6 +133,30 @@ public class SearchTest extends StdOutStdErrRedirectableLuceneTestCase {
     assertEquals(2, trecLines.size());
     assertTrue(isValidTrecLine(trecLines.get(0)));
     assertTrue(isValidTrecLine(trecLines.get(1)));
+  }
+
+  @Test
+  public void testSearchTrecOutputIsLocaleIndependent() {
+    Locale defaultLocale = Locale.getDefault();
+    try {
+      for (Locale locale : List.of(Locale.GERMANY, Locale.forLanguageTag("mzn-Arab-IR"))) {
+        Locale.setDefault(locale);
+        out.reset();
+        err.reset();
+
+        Search.main(new String[] {"--index", cacmIndexPath.toString(), "--query", "information retrieval", "--trec", "--hits", "2"});
+
+        List<String> trecLines = extractTrecLines(out.toString());
+        assertEquals(2, trecLines.size());
+        for (String line : trecLines) {
+          String[] fields = line.split("\\s+");
+          assertTrue(fields[3].matches("[0-9]+"));
+          assertTrue(fields[4].matches("[0-9]+\\.[0-9]{6}"));
+        }
+      }
+    } finally {
+      Locale.setDefault(defaultLocale);
+    }
   }
 
   @Test

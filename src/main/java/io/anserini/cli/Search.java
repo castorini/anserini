@@ -22,6 +22,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.logging.log4j.Level;
@@ -168,7 +169,7 @@ public final class Search {
       if (outputMode == OutputMode.TREC) {
         for (int rank = 0; rank < results.length; rank++) {
           ScoredDoc hit = results[rank];
-          System.out.printf("1 Q0 %s %d %.6f anserini%n", hit.docid, rank + 1, hit.score);
+          System.out.printf(Locale.ROOT, "1 Q0 %s %d %.6f anserini%n", hit.docid, rank + 1, hit.score);
         }
       } else {
         Map<String, Object> output = new LinkedHashMap<>();

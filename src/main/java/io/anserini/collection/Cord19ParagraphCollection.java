@@ -33,6 +33,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
@@ -180,7 +181,7 @@ public class Cord19ParagraphCollection extends DocumentCollection<Cord19Paragrap
       if (paragraphNumber == 0) {
         id = record.get("cord_uid");
       } else {
-        id = record.get("cord_uid") + "." + String.format("%05d", paragraphNumber);
+        id = record.get("cord_uid") + "." + String.format(Locale.ROOT, "%05d", paragraphNumber);
       }
 
       if (DUPLICATE_ABSTRACT) {
