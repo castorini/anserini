@@ -56,8 +56,10 @@ python3 src/main/python/msmarco/tune_bm25.py \
 ```
 
 The original document grid was not preserved. The following explicitly defined
-replacement searches `k1=0.5,...,5.0` in steps of 0.1 and `b=0.5,...,1.0` in steps
-of 0.05: 506 pairs per sample, or 2,530 searches. This is a new tuning experiment,
+replacement searches `k1=3.0,...,5.5` in steps of 0.1 and `b=0.75,...,0.95` in steps
+of 0.05: 130 pairs per sample, or 650 searches. These bounds leave room around
+the historical parameter averages while reducing the cost of the sweep.
+This is a new tuning experiment,
 not an exact reconstruction of the undocumented historical grid. It can take
 many hours; use `--dry-run` to inspect the commands first.
 
@@ -67,8 +69,14 @@ python3 src/main/python/msmarco/tune_bm25.py \
   --task doc --index msmarco-v1-doc-slim \
   --queries tmp/bm25-tuning/inputs/msmarco-doc.train.sample10k-{1,2,3,4,5}.tsv \
   --qrels-trec tmp/bm25-tuning/inputs/qrels.doc.train.tsv \
-  --k1 0.5:5.0:0.1 --b 0.5:1.0:0.05 --threads 8 --discard-runs
+  --k1 3.0:5.5:0.1 --b 0.75:0.95:0.05 --threads 8 --discard-runs
 ```
+
+Inspect every sample's winner for each objective. If a winner lies on a grid
+boundary, expand that boundary and evaluate the additional combinations before
+accepting the tuned parameters. For example, a winner at `k1=5.0` calls for
+extending the upper bound to 5.5. The tuner does not expand grids automatically;
+use a new output directory for a changed grid.
 
 Ranges are inclusive; comma-separated lists are also accepted. Supply explicit
 document grids: the script's default grid is the historical **passage** grid.
@@ -156,7 +164,7 @@ sweeps selected the same parameters.
 
 ## Verification status
 
-Local verification on 2026-09-11 started from commit
+Local verification on 2026-09-11–12 started from commit
 `58217175b415efb953fdf5d7e84d3773ae09f966` with the accompanying local fixes,
 Java 21.0.7, Maven 3.9.9, and Lucene 10.5.0. The 2022 prebuilt passage index
 and document slim index were used; the latter's archive MD5 is
@@ -197,6 +205,31 @@ queries. Seven Python regression tests and 41 targeted Java tests passed.
 Small end-to-end sweeps across five samples per task also verified conversion,
 metric cutoffs, parameter averaging, and checkpoint reuse.
 
-The full five-sample passage and replacement document sweeps are running locally;
-development evaluation of their averaged parameters remains pending. No full-sweep
-parameter averages are claimed here yet.
+The full passage sweep completed all 175 searches and development evaluations.
+The recall objective selected average parameters `k1=0.82`, `b=0.68`, reproducing
+MRR@10 0.1874, MAP 0.1957, and recall@1000 0.8573. The MAP objective selected
+`k1=0.60`, `b=0.62`, reproducing 0.1892, 0.1972, and 0.8555 respectively.
+The MRR objective instead selected `k1=0.60`, `b=0.58`, yielding 0.1895, 0.1976,
+and 0.8544. Thus the MRR and MAP parameter averages differ in this reproduction.
+
+An initial 420-search document sweep (`k1=3.0,...,5.0`, `b=0.80,...,0.95`)
+completed, but two recall winners reached its boundaries: sample 2 at `k1=5.0`
+and sample 3 at `b=0.80`. The expanded grid above completed all 650 configurations,
+with completed configurations reused. No sample's selected winner for any
+objective lies on the expanded grid's boundaries. This satisfies the boundary
+check; it does not establish a global optimum outside the tested grid.
+
+The resulting document parameter averages and development measurements are:
+
+| Training objective | Average k1 | Average b | MRR@100 | MAP | Recall@1000 |
+|:-------------------|-----------:|----------:|--------:|----:|------------:|
+| Recall@1000 | 4.94 | 0.86 | 0.2772 | 0.2777 | 0.9349 |
+| MRR@100 | 3.46 | 0.88 | 0.2777 | 0.2783 | 0.9318 |
+| MAP | 3.64 | 0.88 | 0.2780 | 0.2786 | 0.9322 |
+
+These are measurements from the replacement grid, not a reproduction of the
+historical document parameter selection. Relative to the corresponding historical
+objective scores, recall differs by -0.0008, MRR by -0.0007, and MAP by -0.0003.
+The boundary expansion changed the recall average from `k1=4.62`, `b=0.86` to
+`k1=4.94`, `b=0.86` and increased development recall from 0.9341 to 0.9349.
+The MRR and MAP averages were unchanged by the expansion.
