@@ -363,8 +363,8 @@ The original text above is retained as a historical record.
 For current commands, inputs, evaluation conventions, and the full reproduction analysis, see [Reproducing MS MARCO BM25 Tuning](experiments-msmarco-bm25-tuning.md).
 
 The reproduction completed the historical 35-pair grid on each of five training samples: 175 searches, followed by development evaluation of the averaged parameters.
-The table compares the original published parameter averages with the newly tuned averages for each objective; bold values changed.
-The development scores shown evaluate the **newly tuned** pairs.
+The table compares the original published parameter averages (from above) with the newly tuned averages for each objective; bold values have changed.
+The development scores shown evaluate the newly tuned pairs.
 The default baseline remains `k1=0.9`, `b=0.4`.
 
 | Training Objective | Original k1 | Original b | Newly Tuned k1 | Newly Tuned b | New MRR@10 | New MAP | New Recall@1000 |

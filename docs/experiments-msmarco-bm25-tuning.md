@@ -5,6 +5,8 @@
 **Date:** 2026/09/12
 
 This reproduction addresses [Anserini issue #3417](https://github.com/castorini/anserini/issues/3417).
+Passage recall and MAP tuning recover the previously published parameter averages and development scores; MRR tuning selects a different average.
+Document tuning uses a replacement grid and produces different parameter averages, with small differences from the previously published development scores.
 
 Run these commands from the Anserini repository root.
 
@@ -12,7 +14,7 @@ Run these commands from the Anserini repository root.
 + Build the current checkout with `bin/qbuild.sh`.
 
 Retrieval uses `SearchCollection`; evaluation uses the bundled native `trec_eval` through `io.anserini.eval.TrecEval`.
-Pyserini and an external `tools/` checkout are not required.
+Pyserini is not required.
 
 ## Training Inputs
 
@@ -42,17 +44,19 @@ Both judgment files already have four whitespace-separated TREC qrels columns: `
 No conversion is needed.
 
 The tuner accepts these through `--qrels-trec`; the legacy `--qrels-tsv` option is optional and, if supplied, must contain the same judgments.
-It never substitutes passage judgments for document judgments.
+The tuner never substitutes passage judgments for document judgments.
 
 Some sampled passage queries have no judgments.
 The tuner writes a separate qrels subset for each sample and reports the total and judged query counts.
 Metrics use `trec_eval -c` on that subset: judged queries with no retrieved hits score zero, and queries outside the sample do not affect the denominator.
+Sampled queries without judgments are excluded from the evaluation denominator.
 
 ## Sweeps and Averaging
 
 ### Passage
 
 For passages, the checked-in historical grid contains 35 parameter pairs: `k1=0.6,...,1.2` and `b=0.5,...,0.9`, both in steps of 0.1.
+The command below explicitly selects the `msmarco-v1-passage` prebuilt index with `--index`.
 
 ```bash
 python src/main/python/msmarco/tune_bm25.py \
@@ -71,6 +75,7 @@ These bounds leave room around the historical parameter averages while reducing 
 
 This is a new tuning experiment, not an exact reconstruction of the undocumented historical grid.
 It can take many hours; use `--dry-run` to inspect the commands first.
+The dry run prints retrieval and conversion commands and creates the settings manifest and sample qrels files, without executing retrieval or evaluation.
 
 ```bash
 python src/main/python/msmarco/tune_bm25.py \
@@ -82,7 +87,8 @@ python src/main/python/msmarco/tune_bm25.py \
 ```
 
 Supply explicit document grids: the script's default grid is the historical **passage** grid.
-The document slim index has the same BM25 postings and norms as the standard document index; stored text, positions, and document vectors are unnecessary for this experiment.
+The command above explicitly selects the `msmarco-v1-doc-slim` prebuilt index with `--index`.
+This slim index has the same BM25 postings and norms as the standard document index; stored text, positions, and document vectors are unnecessary for this experiment.
 Do not substitute a document-expansion or learned sparse index.
 
 ## Shared Evaluation and Checkpointing
@@ -96,7 +102,7 @@ Both tasks use the same evaluation and checkpointing workflow.
 Each search retrieves 1,000 hits in MS MARCO format, then invokes the checked-in `convert_msmarco_to_trec_run.py` converter.
 Its TREC scores are reciprocal ranks, which preserve the emitted ranking even when BM25 scores tie.
 
-This retains the original passage tuner's conversion behavior and agrees with the leaderboard's rank-based MRR convention.
+This retains the original passage tuner's conversion behavior and agrees with the rank-based MRR convention of the [MS MARCO Passage Ranking Leaderboard](https://microsoft.github.io/MSMARCO-Passage-Ranking-Submissions/leaderboard/).
 Evaluating native BM25 scores directly with `trec_eval` can reorder tied documents and give slightly different MRR and MAP values.
 
 The tuner evaluates MAP and recall@1000 on all hits, and MRR with `-M 10` for passages or `-M 100` for documents.
@@ -121,7 +127,7 @@ Only completed score checkpoints are reused; partial runs are searched again.
 + `--discard-runs` removes each large MS MARCO and TREC file after saving its scores; omit it to retain every run.
 
 Each parameter pair produces up to 10 million run lines per sample, or 50 million across five samples, so retained runs can consume hundreds of gigabytes.
-Logs and scores are always retained.
+The `--discard-runs` option retains retrieval logs and metric checkpoints.
 
 ## Development-Set Evaluation
 
@@ -168,16 +174,17 @@ Evaluating those fixed pairs checks the old development results; it does not est
 
 ## Verification Status
 
-Local verification on 2026-09-11–12 started from commit `58217175b415efb953fdf5d7e84d3773ae09f966` with the accompanying local fixes, Java 21.0.7, Maven 3.9.9, and Lucene 10.5.0.
-The 2022 prebuilt passage index and document slim index were used; the latter's archive MD5 is `1ac67c1150d5e6c9ec2b70b3ce1fb5e0`.
+Local verification on 2026-09-11–12 started from commit [`5821717`](https://github.com/castorini/anserini/commit/58217175b415efb953fdf5d7e84d3773ae09f966) with the accompanying local fixes, Java 21.0.7, Maven 3.9.9, and Lucene 10.5.0.
+The 2022 prebuilt passage index and document slim index were used.
+
++ The passage archive's published MD5 is `678876e8c99a89933d553609a0fd8793`, from the [passage index metadata](https://github.com/castorini/prebuilt-indexes/blob/367560b4de7d9c3486f666dcc2df7783ca7758f2/lucene/msmarco-v1-passage-inverted.json).
++ The document slim archive's published MD5 is `1ac67c1150d5e6c9ec2b70b3ce1fb5e0`, from the [document index metadata](https://github.com/castorini/prebuilt-indexes/blob/367560b4de7d9c3486f666dcc2df7783ca7758f2/lucene/msmarco-v1-doc-inverted.json).
+
 Input and runtime hashes are recorded in the sweep manifests.
 
 The following sections report development evaluations of both historical fixed parameter pairs and newly tuned averages, using the rank-preserving conversion above.
 Evaluating fixed pairs checks the published development results; the training sweeps separately determine whether tuning recovers the original parameters.
 MRR uses cutoff 10 for passages and 100 for documents; MAP and recall use all 1,000 retrieved hits.
-
-+ Seven Python regression tests and 41 targeted Java tests passed.
-+ Small end-to-end sweeps across five samples per task also verified conversion, metric cutoffs, parameter averaging, and checkpoint reuse.
 
 ### Passage
 
