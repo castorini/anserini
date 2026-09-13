@@ -17,13 +17,13 @@
 """Tune BM25 independently on training samples and average the winning parameters."""
 
 import argparse
-from decimal import Decimal
 import hashlib
 import json
-from pathlib import Path
 import shlex
 import subprocess
 import sys
+from decimal import Decimal
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[4]
 RUNNER = ROOT / 'bin/run.sh'
@@ -104,17 +104,14 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--base-directory', required=True, type=Path)
     parser.add_argument('--index', required=True, help='Local index path or prebuilt index name')
-    parser.add_argument('--queries', required=True, nargs='+', type=Path,
-                        help='One or more uncompressed query TSV samples, in averaging order')
+    parser.add_argument('--queries', required=True, nargs='+', type=Path, help='One or more uncompressed query TSV samples, in averaging order')
     parser.add_argument('--qrels-trec', required=True, type=Path)
-    parser.add_argument('--qrels-tsv', type=Path,
-                        help='Legacy MS MARCO qrels input; if supplied, must agree with --qrels-trec')
+    parser.add_argument('--qrels-tsv', type=Path, help='Legacy MS MARCO qrels input; if supplied, must agree with --qrels-trec')
     parser.add_argument('--task', choices=('passage', 'doc'), default='passage')
     parser.add_argument('--k1', type=grid, default=grid('0.6:1.2:0.1'))
     parser.add_argument('--b', type=grid, default=grid('0.5:0.9:0.1'))
     parser.add_argument('--threads', type=int, default=8)
-    parser.add_argument('--discard-runs', action='store_true',
-                        help='Remove each run after saving its evaluation checkpoint')
+    parser.add_argument('--discard-runs', action='store_true', help='Remove each run after saving its evaluation checkpoint')
     parser.add_argument('--dry-run', action='store_true')
     args = parser.parse_args()
     if args.threads < 1 or any(not 0 < k < float('inf') for k in args.k1) or any(not 0 <= b <= 1 for b in args.b):
