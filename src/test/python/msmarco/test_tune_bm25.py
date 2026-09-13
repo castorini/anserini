@@ -15,6 +15,10 @@ spec.loader.exec_module(tune)
 
 
 class TuneBm25Test(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        (ROOT / 'tmp').mkdir(exist_ok=True)
+
     def test_conversion_preserves_document_ids_and_rank_order(self):
         with tempfile.TemporaryDirectory(dir=ROOT / 'tmp') as directory:
             source, output = Path(directory) / 'run.txt', Path(directory) / 'run.trec'
