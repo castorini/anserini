@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.junit.After;
@@ -78,8 +79,7 @@ public class ReproduceFromPrebuiltIndexesTest extends StdOutStdErrRedirectableLu
     ReproduceFromPrebuiltIndexes.main(new String[] {"--list"});
 
     List<?> outputConfigs = new ObjectMapper().readValue(out.toString(), List.class);
-    List<String> expectedConfigs = ReproductionUtils.listYamlConfigs(
-        ReproduceFromPrebuiltIndexes.class, "reproduce/from-prebuilt-indexes/configs");
+    List<String> expectedConfigs = ReproductionUtils.listYamlConfigs(ReproduceFromPrebuiltIndexes.class, "reproduce/from-prebuilt-indexes/configs");
     assertEquals(expectedConfigs.size(), outputConfigs.size());
   }
 
@@ -176,8 +176,8 @@ public class ReproduceFromPrebuiltIndexesTest extends StdOutStdErrRedirectableLu
     assertTrue(output, output.contains("Run successfully completed!"));
     assertTrue(output, output.contains("Indexes referenced by this run (1 total):"));
     assertTrue(output, output.matches("(?s).*Total size across [01] of 1 indexes:.*"));
-    assertTrue(output, output.contains("MAP: 0.3123"));
-    assertTrue(output, output.contains("P30: 0.1942"));
+    assertTrue(output, output.contains("MAP: 0.3123 " + ReproductionUtils.Constants.OK));
+    assertTrue(output, output.contains("P30: 0.1942 " + ReproductionUtils.Constants.OK));
     assertTrue(output, output.matches("(?s).*Duration:\\s+[0-9]{2}:[0-9]{2}:[0-9]{2}.*"));
     assertFalse(output.contains("NumberFormatException"));
     assertTrue(Files.exists(runsDirectory.resolve("run.cacm.bm25.cacm.txt")));
@@ -206,43 +206,78 @@ public class ReproduceFromPrebuiltIndexesTest extends StdOutStdErrRedirectableLu
   }
 
   @Test
+  public void testScoreComparisonEndToEnd() throws Exception {
+    Path runsDirectory = createTempDir("runs");
+    ReproduceFromPrebuiltIndexes.main(new String[] {
+        "--config", "score-comparison",
+        "--runs-directory", runsDirectory.toString()
+    });
+
+    String output = out.toString();
+    for (String metric : List.of("exact_match", "within_numerical_tolerance", "within_configured_tolerance")) {
+      assertTrue(output, output.contains(String.format(Locale.ROOT, "    %8s: 0.3123 %s%n", metric, ReproductionUtils.Constants.OK)));
+    }
+    Map<String, Double> okish = Map.of(
+        "above_expected", 0.2, "within_default_threshold", 0.3124, "within_relaxed_tolerance", 0.4123);
+    for (Map.Entry<String, Double> entry : okish.entrySet()) {
+      assertTrue(output, output.contains(String.format(Locale.ROOT, "    %8s: 0.3123 %s expected %.4f%n", entry.getKey(), ReproductionUtils.Constants.OKISH, entry.getValue())));
+    }
+    Map<String, Double> failed = Map.of(
+        "explicit_zero_tolerance", 0.3124,
+        "configured_tolerance_disables_fallback", 0.3124,
+        "exceeds_relaxed_tolerance", 0.5,
+        "exceeds_default_threshold", 0.5);
+    for (Map.Entry<String, Double> entry : failed.entrySet()) {
+      assertTrue(output, output.contains(String.format(Locale.ROOT, "    %8s: 0.3123 %s expected %.4f%n", entry.getKey(), ReproductionUtils.Constants.FAIL, entry.getValue())));
+    }
+  }
+
+  @Test
   public void testRenderSummaryTable() {
     ReproduceFromPrebuiltIndexes.Config config = new ReproduceFromPrebuiltIndexes.Config();
 
     ReproduceFromPrebuiltIndexes.Condition firstCondition = new ReproduceFromPrebuiltIndexes.Condition();
     firstCondition.name = "cond-a";
+
     ReproduceFromPrebuiltIndexes.Topic firstTopic = new ReproduceFromPrebuiltIndexes.Topic();
     firstTopic.topic_key = "topic-a";
     firstTopic.expected_scores = new LinkedHashMap<>();
     firstTopic.expected_scores.put("MRR@10", 0.1234);
     firstTopic.expected_scores.put("R@1K", 0.5678);
+
     firstCondition.topics = Arrays.asList(firstTopic);
 
     ReproduceFromPrebuiltIndexes.Condition secondCondition = new ReproduceFromPrebuiltIndexes.Condition();
     secondCondition.name = "cond-b";
+
     ReproduceFromPrebuiltIndexes.Topic secondTopic = new ReproduceFromPrebuiltIndexes.Topic();
     secondTopic.topic_key = "topic-b";
     secondTopic.expected_scores = new LinkedHashMap<>();
     secondTopic.expected_scores.put("MAP", 0.9876);
+
     secondCondition.topics = Arrays.asList(secondTopic);
 
     config.conditions = Arrays.asList(firstCondition, secondCondition);
 
     String summary = ReproduceFromPrebuiltIndexes.renderSummaryTable(config);
+
     assertTrue(summary.startsWith("Summary"));
     assertTrue(summary.contains("condition"));
     assertTrue(summary.contains("topic"));
     assertTrue(summary.contains("metric"));
     assertTrue(summary.contains("expected"));
+
     assertTrue(summary.contains("cond-a"));
     assertTrue(summary.contains("topic-a"));
     assertTrue(summary.contains("MRR@10"));
     assertTrue(summary.contains("0.1234"));
     assertTrue(summary.contains("R@1K"));
     assertTrue(summary.contains("0.5678"));
+
     List<String> lines = summary.lines().collect(Collectors.toList());
     int firstConditionLastRow = -1;
     int secondConditionFirstRow = -1;
+
     for (int i = 0; i < lines.size(); i++) {
       String line = lines.get(i);
       if (line.startsWith("cond-a")) {
@@ -252,9 +287,11 @@ public class ReproduceFromPrebuiltIndexesTest extends StdOutStdErrRedirectableLu
         break;
       }
     }
+
     assertTrue(firstConditionLastRow >= 0);
     assertTrue(secondConditionFirstRow > firstConditionLastRow + 1);
     assertEquals("", lines.get(secondConditionFirstRow - 1));
+
     assertTrue(summary.contains("MAP"));
     assertTrue(summary.contains("0.9876"));
   }

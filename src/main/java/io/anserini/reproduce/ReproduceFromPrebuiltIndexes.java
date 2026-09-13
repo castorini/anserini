@@ -307,16 +307,11 @@ public class ReproduceFromPrebuiltIndexes {
           if (!dryRun) {
             try {
               double score = runTrecEvalAndGetScore(metricDefinitions.get(metric), topic.eval_key, output);
-              double delta = Math.abs(score - expected.get(metric));
-
-              if (score > expected.get(metric)) {
-                System.out.printf(Locale.ROOT, "    %8s: %.4f %s expected %.4f%n", metric, score, ReproductionUtils.Constants.OKISH, expected.get(metric));
-              } else if (delta < 0.00001) {
-                System.out.printf(Locale.ROOT, "    %8s: %.4f %s%n", metric, score, ReproductionUtils.Constants.OK);
-              } else if (delta < 0.0002) {
-                System.out.printf(Locale.ROOT, "    %8s: %.4f %s expected %.4f%n", metric, score, ReproductionUtils.Constants.OKISH, expected.get(metric));
-              } else {
-                System.out.printf(Locale.ROOT, "    %8s: %.4f %s expected %.4f%n", metric, score, ReproductionUtils.Constants.FAIL, expected.get(metric));
+              Double tolerance = topic.tolerance == null ? null : topic.tolerance.get(metric);
+              switch (ReproductionUtils.compareScores(expected.get(metric), score, tolerance)) {
+                case OK -> System.out.printf(Locale.ROOT, "    %8s: %.4f %s%n", metric, score, ReproductionUtils.Constants.OK);
+                case OKISH -> System.out.printf(Locale.ROOT, "    %8s: %.4f %s expected %.4f%n", metric, score, ReproductionUtils.Constants.OKISH, expected.get(metric));
+                case FAIL -> System.out.printf(Locale.ROOT, "    %8s: %.4f %s expected %.4f%n", metric, score, ReproductionUtils.Constants.FAIL, expected.get(metric));
               }
             } catch (RuntimeException e) {
               System.out.println("    Evaluation command failed for metric: " + metric);
@@ -504,6 +499,10 @@ public class ReproduceFromPrebuiltIndexes {
 
     @JsonProperty
     public Map<String, Double> expected_scores;
+
+    /** Optional absolute tolerances keyed by metric; missing metrics use the comparison fallback. */
+    @JsonProperty
+    public Map<String, Double> tolerance;
 
     @JsonProperty
     public Map<String, String> metric_definitions;
