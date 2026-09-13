@@ -215,16 +215,19 @@ public class ReproduceFromPrebuiltIndexesTest extends StdOutStdErrRedirectableLu
     });
 
     String output = out.toString();
-    for (String metric : List.of("equal", "noise", "within")) {
+    for (String metric : List.of("exact_match", "within_numerical_tolerance", "within_configured_tolerance")) {
       assertTrue(output, output.contains(String.format(Locale.ROOT,
           "    %8s: 0.3123 %s%n", metric, ReproductionUtils.Constants.OK)));
     }
-    Map<String, Double> okish = Map.of("improved", 0.2, "absent", 0.3124, "relaxed", 0.4123);
+    Map<String, Double> okish = Map.of(
+        "above_expected", 0.2, "within_default_threshold", 0.3124, "within_relaxed_tolerance", 0.4123);
     for (Map.Entry<String, Double> entry : okish.entrySet()) {
       assertTrue(output, output.contains(String.format(Locale.ROOT,
           "    %8s: 0.3123 %s expected %.4f%n", entry.getKey(), ReproductionUtils.Constants.OKISH, entry.getValue())));
     }
-    Map<String, Double> failed = Map.of("zero", 0.3124, "fallback", 0.3124, "outside", 0.5, "failed", 0.5);
+    Map<String, Double> failed = Map.of(
+        "explicit_zero_tolerance", 0.3124, "configured_tolerance_disables_fallback", 0.3124,
+        "exceeds_relaxed_tolerance", 0.5, "exceeds_default_threshold", 0.5);
     for (Map.Entry<String, Double> entry : failed.entrySet()) {
       assertTrue(output, output.contains(String.format(Locale.ROOT,
           "    %8s: 0.3123 %s expected %.4f%n", entry.getKey(), ReproductionUtils.Constants.FAIL, entry.getValue())));
