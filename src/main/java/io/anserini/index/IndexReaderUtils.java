@@ -867,9 +867,17 @@ public class IndexReaderUtils {
   }
 
   public static Path getIndex(String index) throws IOException {
-    // Note that we always check for the ambiguous case below, so as a result we always read the prebuilt
-    // index metadata from GitHub. This means that this method will fail if there's an issue with GitHub.
-    // However, the prebuilt index metadata is cached in memory, per JVM, via the static holder singletons.
+    // An absolute path is already unambiguous and should also work without network access.
+    Path indexPath = Paths.get(index);
+    if (indexPath.isAbsolute()) {
+      if (Files.exists(indexPath)) {
+        return indexPath;
+      }
+      throw new IllegalArgumentException(String.format("\"%s\" does not appear to be a valid index.", index));
+    }
+
+    // Bare names still require metadata to detect ambiguous prebuilt labels and local paths.
+    // The metadata is cached in memory, per JVM, via the static holder singletons.
     PrebuiltIndexHandler handler = PrebuiltIndexHandler.get(index);
 
     // Check for the ambiguous case.
@@ -886,7 +894,6 @@ public class IndexReaderUtils {
     }
 
     // Try local path
-    Path indexPath = Paths.get(index);
     if (Files.exists(indexPath)) {
       return indexPath;
     }

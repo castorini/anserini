@@ -38,8 +38,10 @@ import java.util.SortedMap;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.ConcurrentSkipListMap;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -923,9 +925,14 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
       }
 
       try (ExecutorService executor = Executors.newWorkStealingPool(args.threads)) {
-        executor.invokeAll(tasks);
+        for (Future<Void> result : executor.invokeAll(tasks)) {
+          result.get();
+        }
       } catch (InterruptedException e) {
         Thread.currentThread().interrupt();
+        throw new RuntimeException("Search interrupted", e);
+      } catch (ExecutionException e) {
+        throw new RuntimeException("Query failed", e.getCause());
       }
 
       final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
@@ -1328,9 +1335,14 @@ public final class SearchCollection<K extends Comparable<K>> implements Runnable
 
     // We want predictable thread count since each of the workers will spawn multiple threads.
     try (ExecutorService executor = Executors.newFixedThreadPool(args.parallelism)) {
-      executor.invokeAll(tasks);
+      for (Future<Void> result : executor.invokeAll(tasks)) {
+        result.get();
+      }
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
+      throw new RuntimeException("Search interrupted", e);
+    } catch (ExecutionException e) {
+      throw new RuntimeException("Search configuration failed", e.getCause());
     }
   }
 

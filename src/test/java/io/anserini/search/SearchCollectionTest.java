@@ -58,6 +58,22 @@ public class SearchCollectionTest extends StdOutStdErrRedirectableLuceneTestCase
   }
 
   @Test
+  public void testOutputFailurePropagates() throws Exception {
+    // A directory cannot be opened as a run file. The worker must not silently succeed.
+    String output = createTempDir().toAbsolutePath().toString();
+    try {
+      SearchCollection.main(new String[] {
+          "-index", new File("src/test/resources/prebuilt_indexes/lucene9-index.sample_docs_trec_collection2/").getAbsolutePath(),
+          "-topics", "src/test/resources/sample_topics/Trec",
+          "-topicReader", "Trec", "-output", output, "-bm25"});
+      fail("Expected the search worker's output failure to propagate");
+    } catch (RuntimeException e) {
+      assertEquals("Search configuration failed", e.getMessage());
+      assertNotNull(e.getCause());
+    }
+  }
+
+  @Test
   public void testIncompleteOptions() throws Exception {
     SearchCollection.main(new String[] {});
     assertTrue(err.toString().contains("Option \"-index\" is required"));
@@ -172,12 +188,13 @@ public class SearchCollectionTest extends StdOutStdErrRedirectableLuceneTestCase
 
   @Test
   public void testSearchBackgroundLinkingBm25_1() throws Exception {
-    SearchCollection.main(new String[] {
+    RuntimeException exception = expectThrows(RuntimeException.class, () -> SearchCollection.main(new String[] {
         "-index", "src/test/resources/prebuilt_indexes/lucene-inverted.sample-wapo.no-raw_no-docvectors/",
         "-topics", "src/test/resources/sample_topics/bglinking.txt",
         "-topicReader", "BackgroundLinking",
         "-output", RUN_TEST, "-bm25",
-        "-backgroundLinking", "-backgroundLinking.k", "100"});
+        "-backgroundLinking", "-backgroundLinking.k", "100"}));
+    assertEquals("Search configuration failed", exception.getMessage());
 
     // Running on index with no raw, no docvectors - should get an error.
     assertTrue(err.toString().contains("java.lang.RuntimeException: Raw documents not stored!"));
@@ -185,12 +202,13 @@ public class SearchCollectionTest extends StdOutStdErrRedirectableLuceneTestCase
 
   @Test
   public void testSearchBackgroundLinkingBm25_2() throws Exception {
-    SearchCollection.main(new String[] {
+    RuntimeException exception = expectThrows(RuntimeException.class, () -> SearchCollection.main(new String[] {
         "-index", "src/test/resources/prebuilt_indexes/lucene-inverted.sample-wapo.no-raw_with-docvectors/",
         "-topics", "src/test/resources/sample_topics/bglinking.txt",
         "-topicReader", "BackgroundLinking",
         "-output", RUN_TEST, "-bm25",
-        "-backgroundLinking", "-backgroundLinking.k", "100"});
+        "-backgroundLinking", "-backgroundLinking.k", "100"}));
+    assertEquals("Search configuration failed", exception.getMessage());
 
     // Running on index with no raw, no docvectors - should get an error.
     assertTrue(err.toString().contains("java.lang.RuntimeException: Raw documents not stored!"));
@@ -231,12 +249,13 @@ public class SearchCollectionTest extends StdOutStdErrRedirectableLuceneTestCase
 
   @Test
   public void testSearchBackgroundLinkingBm25Rm3_1() throws Exception {
-    SearchCollection.main(new String[] {
+    RuntimeException exception = expectThrows(RuntimeException.class, () -> SearchCollection.main(new String[] {
         "-index", "src/test/resources/prebuilt_indexes/lucene-inverted.sample-wapo.no-raw_no-docvectors/",
         "-topics", "src/test/resources/sample_topics/bglinking.txt",
         "-topicReader", "BackgroundLinking",
         "-output", RUN_TEST, "-bm25", "-rm3",
-        "-backgroundLinking", "-backgroundLinking.k", "100"});
+        "-backgroundLinking", "-backgroundLinking.k", "100"}));
+    assertEquals("Search configuration failed", exception.getMessage());
 
     // Running on index with no raw, no docvectors - should get an error.
     assertTrue(err.toString().contains("java.lang.RuntimeException: Raw documents not stored!"));
@@ -244,12 +263,13 @@ public class SearchCollectionTest extends StdOutStdErrRedirectableLuceneTestCase
 
   @Test
   public void testSearchBackgroundLinkingBm25Rm3_2() throws Exception {
-    SearchCollection.main(new String[] {
+    RuntimeException exception = expectThrows(RuntimeException.class, () -> SearchCollection.main(new String[] {
         "-index", "src/test/resources/prebuilt_indexes/lucene-inverted.sample-wapo.no-raw_with-docvectors/",
         "-topics", "src/test/resources/sample_topics/bglinking.txt",
         "-topicReader", "BackgroundLinking",
         "-output", RUN_TEST, "-bm25", "-rm3",
-        "-backgroundLinking", "-backgroundLinking.k", "100"});
+        "-backgroundLinking", "-backgroundLinking.k", "100"}));
+    assertEquals("Search configuration failed", exception.getMessage());
 
     // Running on index with no raw, no docvectors - should get an error.
     assertTrue(err.toString().contains("java.lang.RuntimeException: Raw documents not stored!"));
