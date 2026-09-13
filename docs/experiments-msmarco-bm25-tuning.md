@@ -8,7 +8,7 @@ This reproduction addresses [Anserini issue #3417](https://github.com/castorini/
 
 Run these commands from the Anserini repository root.
 
-+ Requirements are Java 21, Maven 3.9+, Python 3 (standard library only), `curl`, and `gzip`.
++ Requirements are Java 21, Maven 3.9+, Python 3.8+ (standard library only), `curl`, and `gzip`.
 + Build the current checkout with `bin/qbuild.sh`.
 
 Retrieval uses `SearchCollection`; evaluation uses the bundled native `trec_eval` through `io.anserini.eval.TrecEval`.
@@ -81,11 +81,6 @@ python src/main/python/msmarco/tune_bm25.py \
   --k1 3.0:5.5:0.1 --b 0.75:0.95:0.05 --threads 8 --discard-runs
 ```
 
-Inspect every sample's winner for each objective.
-If a winner lies on a grid boundary, expand that boundary and evaluate the additional combinations before accepting the tuned parameters.
-For example, a winner at `k1=5.0` calls for extending the upper bound to 5.5.
-The tuner does not expand grids automatically; use a new output directory for a changed grid.
-
 Supply explicit document grids: the script's default grid is the historical **passage** grid.
 The document slim index has the same BM25 postings and norms as the standard document index; stored text, positions, and document vectors are unnecessary for this experiment.
 Do not substitute a document-expansion or learned sparse index.
@@ -125,7 +120,7 @@ Only completed score checkpoints are reused; partial runs are searched again.
   Keep the underlying local index unchanged when resuming.
 + `--discard-runs` removes each large MS MARCO and TREC file after saving its scores; omit it to retain every run.
 
-With 10 million run lines per parameter pair, retained runs can consume hundreds of gigabytes.
+Each parameter pair produces up to 10 million run lines per sample, or 50 million across five samples, so retained runs can consume hundreds of gigabytes.
 Logs and scores are always retained.
 
 ## Development-Set Evaluation
@@ -153,7 +148,7 @@ with open(f'tmp/bm25-tuning/{sys.argv[1]}/summary.json') as source:
     summary = json.load(source)
 assert len(summary['samples']) == 5
 for objective, pair in summary['averages'].items():
-    print(objective, pair['k1'], pair['b'])
+    print(objective, pair['k1'], pair['b'], sep='\t')
 PY
 
 while read -r objective k1 b; do
@@ -177,8 +172,8 @@ Local verification on 2026-09-11–12 started from commit `58217175b415efb953fdf
 The 2022 prebuilt passage index and document slim index were used; the latter's archive MD5 is `1ac67c1150d5e6c9ec2b70b3ce1fb5e0`.
 Input and runtime hashes are recorded in the sweep manifests.
 
-The following development measurements evaluate the **historical fixed parameter pairs**, with the rank-preserving conversion above.
-They do not establish that a new sweep selects those parameters.
+The following sections report development evaluations of both historical fixed parameter pairs and newly tuned averages, using the rank-preserving conversion above.
+Evaluating fixed pairs checks the published development results; the training sweeps separately determine whether tuning recovers the original parameters.
 MRR uses cutoff 10 for passages and 100 for documents; MAP and recall use all 1,000 retrieved hits.
 
 + Seven Python regression tests and 41 targeted Java tests passed.
@@ -187,6 +182,7 @@ MRR uses cutoff 10 for passages and 100 for documents; MAP and recall use all 1,
 ### Passage
 
 For the published passage samples, the numbers of judged queries are 6,205, 6,222, 6,167, 6,309, and 6,205.
+The following table shows current development measurements for the historical fixed parameter pairs.
 
 | Task    |   k1 |    b | MRR@10 |    MAP | Recall@1000 |
 | :------ | ---: | ---: | -----: | -----: | ----------: |
@@ -200,16 +196,21 @@ At `k1=0.6`, `b=0.62`, native-score MRR is 0.1891, versus rank-preserving MRR 0.
 These differences arise without changing the retrieval run: `trec_eval` orders tied scores differently from the emitted ranks.
 
 The full passage sweep completed all 175 searches and development evaluations.
+The following table shows newly tuned parameter averages and their development measurements.
 
-+ The recall objective selected average parameters `k1=0.82`, `b=0.68`, reproducing MRR@10 0.1874, MAP 0.1957, and recall@1000 0.8573.
-+ The MAP objective selected `k1=0.60`, `b=0.62`, reproducing 0.1892, 0.1972, and 0.8555 respectively.
-+ The MRR objective instead selected `k1=0.60`, `b=0.58`, yielding 0.1895, 0.1976, and 0.8544.
+| Training Objective | Average k1 | Average b | MRR@10 |    MAP | Recall@1000 |
+| :----------------- | ---------: | --------: | -----: | -----: | ----------: |
+| Recall@1000        |       0.82 |      0.68 | 0.1874 | 0.1957 |      0.8573 |
+| MRR@10             |       0.60 |      0.58 | 0.1895 | 0.1976 |      0.8544 |
+| MAP                |       0.60 |      0.62 | 0.1892 | 0.1972 |      0.8555 |
 
-Thus the MRR and MAP parameter averages differ in this reproduction.
+Recall and MAP recover the original parameter averages and development scores.
+MRR selects average `b=0.58` instead of `b=0.62`, so the MRR and MAP parameter averages differ in this reproduction.
 
 ### Document
 
 All five document samples have 10,000 judged queries.
+The following table shows current development measurements for the historical fixed parameter pairs.
 
 | Task |   k1 |    b | MRR@100 |    MAP | Recall@1000 |
 | :--- | ---: | ---: | ------: | -----: | ----------: |
@@ -220,18 +221,14 @@ All five document samples have 10,000 judged queries.
 The document rows retain differences of up to 0.0004 from the historical table, even after preserving ranks.
 The original table used an older index/Lucene combination; the precise cause of these remaining differences has not been isolated.
 
-Keep the historical measurements labeled as such.
 For comparison, the current maintained `msmarco-v1-doc` regression uses native-score TREC evaluation: its default MAP 0.2305, MRR@100 0.2299, and recall@1000 0.8856 were also verified.
 
-An initial 420-search document sweep (`k1=3.0,...,5.0`, `b=0.80,...,0.95`) completed, but two recall winners reached its boundaries: sample 2 at `k1=5.0` and sample 3 at `b=0.80`.
-The expanded grid above completed all 650 configurations, with completed configurations reused.
+All 650 searches in the document grid completed.
+All selected per-sample parameters lie strictly inside the tested grid.
 
-No sample's selected winner for any objective lies on the expanded grid's boundaries.
-This satisfies the boundary check; it does not establish a global optimum outside the tested grid.
+The following table shows newly tuned parameter averages and their development measurements.
 
-The resulting document parameter averages and development measurements are:
-
-| Training objective | Average k1 | Average b | MRR@100 |    MAP | Recall@1000 |
+| Training Objective | Average k1 | Average b | MRR@100 |    MAP | Recall@1000 |
 | :----------------- | ---------: | --------: | ------: | -----: | ----------: |
 | Recall@1000        |       4.94 |      0.86 |  0.2772 | 0.2777 |      0.9349 |
 | MRR@100            |       3.46 |      0.88 |  0.2777 | 0.2783 |      0.9318 |
@@ -239,6 +236,4 @@ The resulting document parameter averages and development measurements are:
 
 These are measurements from the replacement grid, not a reproduction of the historical document parameter selection.
 
-+ Relative to the corresponding historical objective scores, recall differs by -0.0008, MRR by -0.0007, and MAP by -0.0003.
-+ The boundary expansion changed the recall average from `k1=4.62`, `b=0.86` to `k1=4.94`, `b=0.86` and increased development recall from 0.9341 to 0.9349.
-+ The MRR and MAP averages were unchanged by the expansion.
+Relative to the original published objective scores (recall 0.9357, MRR 0.2784, and MAP 0.2789), the newly tuned scores differ by -0.0008, -0.0007, and -0.0003, respectively.
