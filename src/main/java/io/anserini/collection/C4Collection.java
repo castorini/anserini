@@ -32,6 +32,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.time.Instant;
 import java.util.List;
+import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import java.util.zip.GZIPInputStream;
@@ -148,7 +149,7 @@ public class C4Collection extends DocumentCollection<C4Collection.Document> {
       this.raw = json.toPrettyString();
       this.contents = json.get("text").asText();
 
-      this.id = String.format("c4-%s-%06d", filename, jsonLoc);
+      this.id = String.format(Locale.ROOT, "c4-%s-%06d", filename, jsonLoc);
       this.url = json.get("url").asText();
 
       String dateTime = json.get("timestamp").asText();

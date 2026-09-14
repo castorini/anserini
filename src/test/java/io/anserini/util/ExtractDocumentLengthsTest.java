@@ -66,22 +66,31 @@ public class ExtractDocumentLengthsTest extends IndexerWithEmptyDocumentTestBase
 
   @Test
   public void test() throws Exception {
-    // See: https://github.com/castorini/anserini/issues/903
-    Locale.setDefault(Locale.US);
-    redirectStdOut();
-    redirectStdErr(); // redirecting to be quiet
-    ExtractDocumentLengths.main(new String[] {"-index", tempDir1.toString(), "-output", randomFileName});
-    restoreStdOut();
-    restoreStdErr();
+    Locale defaultLocale = Locale.getDefault();
+    try {
+      Locale.setDefault(Locale.forLanguageTag("mzn-Arab-IR"));
+      redirectStdOut();
+      redirectStdErr(); // redirecting to be quiet
+      try {
+        ExtractDocumentLengths.main(new String[] {"-index", tempDir1.toString(), "-output", randomFileName});
+      } finally {
+        restoreStdOut();
+        restoreStdErr();
+      }
 
-    assertEquals("Total number of terms in collection (sum of doclengths):\nLossy: 12\nExact: 12\n",
-        super.out.toString());
+      assertEquals(List.of(
+          "Total number of terms in collection (sum of doclengths):",
+          "Lossy: 12",
+          "Exact: 12"), super.out.toString().lines().toList());
 
-    List<String> lines = Files.readAllLines(Paths.get(randomFileName));
-    assertEquals(5, lines.size());
-    assertEquals("0\tdoc1\t8\t5\t8\t5", lines.get(1));
-    assertEquals("1\tdoc2\t2\t2\t2\t2", lines.get(2));
-    assertEquals("2\tdoc3\t2\t2\t2\t2", lines.get(3));
-    assertEquals("3\tdoc4\t0\t0\t0\t0", lines.get(4));
+      List<String> lines = Files.readAllLines(Paths.get(randomFileName));
+      assertEquals(5, lines.size());
+      assertEquals("0\tdoc1\t8\t5\t8\t5", lines.get(1));
+      assertEquals("1\tdoc2\t2\t2\t2\t2", lines.get(2));
+      assertEquals("2\tdoc3\t2\t2\t2\t2", lines.get(3));
+      assertEquals("3\tdoc4\t0\t0\t0\t0", lines.get(4));
+    } finally {
+      Locale.setDefault(defaultLocale);
+    }
   }
 }

@@ -36,6 +36,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.nio.file.Paths;
+import java.util.Locale;
 
 /**
  * Utility for extracting the norm of every document in the index. With Lucene's BM25 implementation, the norm is the
@@ -77,7 +78,7 @@ public class ExtractNorms {
         throw new NotStoredException("Norms do not appear to have been indexed!");
       }
       while (docValues.nextDoc() != DocIdSetIterator.NO_MORE_DOCS) {
-        out.println(String.format("%d\t%d", docValues.docID() + context.docBase,
+        out.println(String.format(Locale.ROOT, "%d\t%d", docValues.docID() + context.docBase,
             SmallFloat.byte4ToInt((byte) docValues.longValue())));
       }
     }
