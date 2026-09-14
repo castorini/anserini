@@ -603,6 +603,20 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
   private static final String PREBUILT_LABEL = "msmarco-v1-passage";
 
   @Test
+  public void testAbsoluteLocalIndexPath() throws IOException {
+    Path path = tempDir1.toAbsolutePath();
+    assertEquals(path.toString(), IndexReaderUtils.getIndex(path.toString()).toString());
+
+    Path missing = path.resolve("nonexistent");
+    try {
+      IndexReaderUtils.getIndex(missing.toString());
+      fail("Expected IllegalArgumentException for a missing absolute path");
+    } catch (IllegalArgumentException e) {
+      assertTrue(e.getMessage().contains("does not appear to be a valid index"));
+    }
+  }
+
+  @Test
   public void testAmbiguousPrebuiltLabelAndLocalPathThrows() throws IOException {
     Path cwd = java.nio.file.Paths.get("");
     Path localDir = cwd.resolve(PREBUILT_LABEL);
