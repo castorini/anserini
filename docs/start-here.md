@@ -609,7 +609,6 @@ If you have any questions, look at previous pull requests for examples.
 + Results reproduced by [@mahimairaja](https://github.com/mahimairaja) on 2026-08-04 (commit [`5b3e896`](https://github.com/castorini/anserini/commit/5b3e896e262caf07be1d3c6cb7768eafc839197b))
 + Results reproduced by [@AhmadT198](https://github.com/AhmadT198) on 2026-08-06 (commit [`1272378`](https://github.com/castorini/anserini/commit/127237835c675272668f0d65420602117fe50d09))
 + Results reproduced by [@nomsou](https://github.com/nomsou) on 2026-08-07 (commit [`1272378`](https://github.com/castorini/anserini/commit/127237835c675272668f0d65420602117fe50d09))
-+ Results reproduced by [@datascientist970](https://github.com/datascientist970) on 2026-09-13 (commit [`cb611fa`](https://github.com/castorini/anserini/commit/cb611fa273a95cfb32c94efff10b51a9b87f977b)).
 + Results reproduced by [@Navid-Ebadi-2003](https://github.com/Navid-Ebadi-2003) on 2026-08-09 (commit [`b99e095`](https://github.com/castorini/anserini/commit/b99e09582d3c3880c87e43eb0e1040adb4cfa0ac))
 + Results reproduced by [@akshaldhal](https://github.com/akshaldhal) on 2026-08-10 (commit [`b99e095`](https://github.com/castorini/anserini/commit/b99e09582d3c3880c87e43eb0e1040adb4cfa0ac))
 + Results reproduced by [@mehra-es](https://github.com/mehra-es) on 2026-08-11 (commit [`4179733`](https://github.com/castorini/anserini/commit/4179733cc8aabefd22a7cb1f3e674cbc347a3953))
@@ -632,3 +631,4 @@ If you have any questions, look at previous pull requests for examples.
 + Results reproduced by [@Kiarash-Ghaderi](https://github.com/Kiarash-Ghaderi) on 2026-09-13 (commit [`5821717`](https://github.com/castorini/anserini/commit/58217175b415efb953fdf5d7e84d3773ae09f966))
 + Results reproduced by [@Pasindu-Madhuwantha](https://github.com/Pasindu-Madhuwantha) on 2026-09-13 (commit [`5821717`](https://github.com/castorini/anserini/commit/58217175b415efb953fdf5d7e84d3773ae09f966))
 + Results reproduced by [@ivan2001kkk](https://github.com/ivan2001kkk) on 2026-09-13 (commit [`47370a7`](https://github.com/castorini/anserini/commit/47370a7d94db8fea804b9269243a1559c6e1015c))
++ Results reproduced by [@datascientist970](https://github.com/datascientist970) on 2026-09-13 (commit [`cb611fa`](https://github.com/castorini/anserini/commit/cb611fa273a95cfb32c94efff10b51a9b87f977b)).
