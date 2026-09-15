@@ -1,0 +1,36 @@
+conditions:
+  - name: bm25
+    display: "Score comparison statuses using CACM MAP"
+    command: io.anserini.search.SearchCollection -threads $threads -index cacm -topics $topics -output $output -hits 1000 -bm25
+    topics:
+      - topic_key: cacm
+        eval_key: cacm
+        # Each synthetic metric evaluates the same CACM MAP score against a different comparison scenario.
+        expected_scores:
+          exact_match: 0.3123
+          within_numerical_tolerance: 0.3123000001
+          above_expected: 0.2
+          within_default_threshold: 0.3124
+          explicit_zero_tolerance: 0.3124
+          configured_tolerance_disables_fallback: 0.3124
+          within_configured_tolerance: 0.375
+          within_relaxed_tolerance: 0.4123
+          exceeds_relaxed_tolerance: 0.5
+          exceeds_default_threshold: 0.5
+        tolerance:
+          explicit_zero_tolerance: 0.0
+          configured_tolerance_disables_fallback: 0.00001
+          within_configured_tolerance: 0.07
+          within_relaxed_tolerance: 0.07
+          exceeds_relaxed_tolerance: 0.07
+        metric_definitions:
+          exact_match: "-c -m map"
+          within_numerical_tolerance: "-c -m map"
+          above_expected: "-c -m map"
+          within_default_threshold: "-c -m map"
+          explicit_zero_tolerance: "-c -m map"
+          configured_tolerance_disables_fallback: "-c -m map"
+          within_configured_tolerance: "-c -m map"
+          within_relaxed_tolerance: "-c -m map"
+          exceeds_relaxed_tolerance: "-c -m map"
+          exceeds_default_threshold: "-c -m map"
