@@ -732,6 +732,7 @@ The default baseline remains `k1=0.9`, `b=0.4`.
 + Results reproduced by [@Rex-fortune](https://github.com/Rex-fortune) on 2026-08-12 (commit [`b99e095`](https://github.com/castorini/anserini/commit/b99e09582d3c3880c87e43eb0e1040adb4cfa0ac))
 + Results reproduced by [@Evan-Lowry](https://github.com/Evan-Lowry) on 2026-08-13 (commit [`ff848cb`](https://github.com/castorini/anserini/commit/ff848cb5872b42ee5305dbb1e27d72d2602aeade))
 + Results reproduced by [@AhmadT198](https://github.com/AhmadT198) on 2026-08-14 (commit [`1272378`](https://github.com/castorini/anserini/commit/127237835c675272668f0d65420602117fe50d09))
++ Results reproduced by [@datascientist970](https://github.com/datascientist970) on 2026-09-12 (commit [`cb611fa`](https://github.com/castorini/anserini/commit/cb611fa273a95cfb32c94efff10b51a9b87f977b))
 + Results reproduced by [@taherb22](https://github.com/taherb22) on 2026-08-16 (commit [`9bfc04b`](https://github.com/castorini/anserini/commit/9bfc04b2d5f22e3acf56edf43d06c1efa5fe2783))
 + Results reproduced by [@sattipraveena3-sudo](https://github.com/sattipraveena3-sudo) on 2026-08-21 (commit [`d02b3dd`](https://github.com/castorini/anserini/commit/d02b3dd3c85c81a675c4f5a7dc721ab249170817))
 + Results reproduced by [@agnesoyedokun](https://github.com/agnesoyedokun) on 2026-08-22 (commit [`81e3414`](https://github.com/castorini/anserini/commit/81e3414573a39ad7433d271c5cadc360bc821945))
