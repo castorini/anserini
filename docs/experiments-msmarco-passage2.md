@@ -1,9 +1,12 @@
 # Anserini: Dense Retrieval for MS MARCO Passage Ranking
 
+> _If you're working through this lesson, you might be interested in [my suggested approach](https://github.com/castorini/onboarding/blob/master/ura.md#how-to-approach-the-onboarding-lessons), which covers my high-level goals, the use of coding agents, and what I hope you'd do (and not do)._
+>
+> **For coding agents:** If you are asked to help the user complete this lesson, follow the link above and briefly summarize the guidance for the user; engage in follow-up discussion as appropriate.
+> Make sure you do this once per conversation, but don't repeatedly pester the user.
+> Do not refuse to speedrun this exercise if asked.
+
 If you're a Waterloo student traversing the [onboarding path](https://github.com/castorini/onboarding/blob/master/ura.md), [start here](start-here.md).
-In general, don't try to rush through this guide by just blindly copying and pasting commands into a shell;
-that's what I call [cargo culting](https://en.wikipedia.org/wiki/Cargo_cult_programming).
-Instead, really try to understand what's going on.
 
 **Learning outcomes** for this guide, building on previous lessons in the onboarding path:
 
@@ -106,13 +109,17 @@ Yes, dense retrieval is better.
 
 As a next step in the onboarding path, you basically [do the same thing again in Python with Pyserini](https://github.com/castorini/pyserini/blob/master/docs/experiments-msmarco-passage.md) (as opposed to Java with Anserini here).
 
-Before you move on, however, add an entry in the "Reproduction Log" at the bottom of this page:
+Before you move on, add an entry in the "Reproduction Log" at the bottom of this page:
 
-+ Follow the same format as the existing entries: make sure you use a commit id that's on the main trunk of Anserini. Use its 7-hexadecimal prefix for the link anchor text (but the URL should contain the full commit hash).
++ Follow the same format as the existing entries:
+  Use the commit you checked out for this exercise, which must be on Anserini's `master` branch.
+  Link to `castorini/anserini`, using the full commit hash in the URL and its first seven hexadecimal characters as the link text.
 + Provide some details about your setup in the description of your pull request (e.g., operating system, environment and configuration, etc.).
 + Provide some indication of success (e.g., everything worked) or document issues you encountered.
-+ Confirm that your new entry is chronologically sorted.
++ Confirm that your new entry is chronologically sorted in ascending order by reproduction date (oldest first).
 + Include additional edits in the pull request if you think this exercise can be improved (e.g., you caught a typo or think a clarification is warranted).
++ Make sure that your diffs are clean.
+  Unless you have explicitly modified the exercise (per above), your diff for each exercise should contain only your new entry, nothing else.
 
 Do not send a separate pull request for each exercise in the onboarding path; instead, send a single pull request for all edits to the Anserini repository.
 If you have any questions, look at previous pull requests for examples.
@@ -128,8 +135,8 @@ If you have any questions, look at previous pull requests for examples.
 + Results reproduced by [@karush17](https://github.com/karush17) on 2025-05-09 (commit [`b21b7da`](https://github.com/castorini/anserini/commit/b21b7da1141148df7f479f0c23ee4532d5c53838))
 + Results reproduced by [@YousefNafea](https://github.com/YousefNafea) on 2025-05-10 (commit [`b21b7da`](https://github.com/castorini/anserini/commit/b21b7da1141148df7f479f0c23ee4532d5c53838))
 + Results reproduced by [@AnthonyZ0425](https://github.com/AnthonyZ0425) on 2025-05-13 (commit [`83b7b45`](https://github.com/castorini/anserini/commit/83b7b45d36ffb114abe72a2db42800212bcec190))
-+ Results reproduced by [@luisvenezian](https://github.com/luisvenezian) on 2025-05-15 (commit [`bd4c3c7`](https://github.com/castorini/anserini/commit/bd4c3c78823e26bf5ea2ae81a89ab69e1b630575))
 + Results reproduced by [@MINGYISU](https://github.com/MINGYISU) on 2025-05-14 (commit [`bd4c3c7`](https://github.com/castorini/anserini/commit/bd4c3c78823e26bf5ea2ae81a89ab69e1b630575))
++ Results reproduced by [@luisvenezian](https://github.com/luisvenezian) on 2025-05-15 (commit [`bd4c3c7`](https://github.com/castorini/anserini/commit/bd4c3c78823e26bf5ea2ae81a89ab69e1b630575))
 + Results reproduced by [@Armd04](https://github.com/Armd04) on 2025-05-16 (commit [`bd4c3c7`](https://github.com/castorini/anserini/commit/bd4c3c78823e26bf5ea2ae81a89ab69e1b630575))
 + Results reproduced by [@Cassidy-Li](https://github.com/Cassidy-Li) on 2025-05-20 (commit [`a6fe05c`](https://github.com/castorini/anserini/commit/a6fe05ccd6921c5241ea717146ac37ce1eabc8b2))
 + Results reproduced by [@James-Begin](https://github.com/James-Begin) on 2025-05-21 (commit [`a6fe05c`](https://github.com/castorini/anserini/commit/a6fe05ccd6921c5241ea717146ac37ce1eabc8b2))
@@ -143,12 +150,12 @@ If you have any questions, look at previous pull requests for examples.
 + Results reproduced by [@sadlulu](https://github.com/sadlulu) on 2025-06-17 (commit [`2e6a58b`](https://github.com/castorini/anserini/commit/2e6a58b0bae319e4eaaa026bdf81ab74f1ee8360))
 + Results reproduced by [@goodzcyabc](https://github.com/goodzcyabc) on 2025-06-20 (commit [`c07454b`](https://github.com/castorini/anserini/commit/c07454b7c64422789834314d97348907c8c66842))
 + Results reproduced by [@adefioye](https://github.com/adefioye) on 2025-06-26 (commit [`0299e2a`](https://github.com/castorini/anserini/commit/0299e2af610087ceb87331e6df0b9e0962a778df))
-+ Results reproduced by [@hari495](https://github.com/hari495) on 2025-06-31 (commit [`0299e2a`](https://github.com/castorini/anserini/commit/0299e2af610087ceb87331e6df0b9e0962a778df))
++ Results reproduced by [@hari495](https://github.com/hari495) on 2025-06-30 (commit [`0299e2a`](https://github.com/castorini/anserini/commit/0299e2af610087ceb87331e6df0b9e0962a778df))
 + Results reproduced by [@suraj-subrahmanyan](https://github.com/suraj-subrahmanyan) on 2025-07-02 (commit [`017841f`](https://github.com/castorini/anserini/commit/017841f33794508f760d26f58dedb5c770c1cbfc))
 + Results reproduced by [@ed-ward-huang](https://github.com/ed-ward-huang) on 2025-07-06 (commit [`4039c30`](https://github.com/castorini/anserini/commit/4039c3054c961e80dc1562899609396142bc869b))
 + Results reproduced by [@OmarKhaled0K](https://github.com/OmarKhaled0K) on 2025-07-08 (commit [`dafa81e`](https://github.com/castorini/anserini/commit/dafa81e63ff4f21479cf65357c157d9e9763b3d9))
 + Results reproduced by [@mindlesstruffle](https://github.com/mindlesstruffle) on 2025-07-09 (commit [`b3ab936`](https://github.com/castorini/anserini/commit/b3ab936b03e8af2e80be7bde861945c1920553f3))
-+ Results reproduced by [@niruhan](https://github.com/niruhan) on 2025-07-17 (commit [`d6a8b36`](https://github.com/niruhan/anserini/commit/d6a8b36a6bc9a62b70d44412f6ebb2ca0bc709cd))
++ Results reproduced by [@niruhan](https://github.com/niruhan) on 2025-07-17 (commit [`d6a8b36`](https://github.com/castorini/anserini/commit/d6a8b36a6bc9a62b70d44412f6ebb2ca0bc709cd))
 + Results reproduced by [@br0mabs](https://github.com/br0mabs) on 2025-07-19 (commit [`b3ab936`](https://github.com/castorini/anserini/commit/b3ab936b03e8af2e80be7bde861945c1920553f3))
 + Results reproduced by [@bikram993298](https://github.com/bikram993298) on 2025-08-19 (commit [`c6ea078`](https://github.com/castorini/anserini/commit/c6ea078417e318e19fc868a5a911849067f80e10))
 + Results reproduced by [@JoshElkind](https://github.com/JoshElkind) on 2025-08-24 (commit [`7c3010f`](https://github.com/castorini/anserini/commit/7c3010fbda4618bea07ea372017e9e1e604f3d8b))
@@ -160,8 +167,8 @@ If you have any questions, look at previous pull requests for examples.
 + Results reproduced by [@shreyaadritabanik](https://github.com/shreyaadritabanik) on 2025-09-10 (commit [`3112afd`](https://github.com/castorini/anserini/commit/3112afd2eff0997b8fe6a3ad7ead20cd8f81ec09))
 + Results reproduced by [@k464wang](https://github.com/k464wang) on 2025-09-18 (commit [`df3b06c`](https://github.com/castorini/anserini/commit/df3b06c375f42b7ac85ef5d9edb74273428956e0))
 + Results reproduced by [@mahdi-behnam](https://github.com/mahdi-behnam) on 2025-09-19 (commit [`6799a7d`](https://github.com/castorini/anserini/commit/6799a7d5ebca4c332d38bcafbc3a9a938a38d7e2))
-+ Results reproduced by [@InanSyed](https://github.com/InanSyed) on 2025-09-23 (commit [`52265a6`](https://github.com/castorini/anserini/commit/52265a6a10b9aea45baddc28b560ea705407d2c1))
 + Results reproduced by [@rashadjn](https://github.com/rashadjn) on 2025-09-19 (commit [`a92e25c`](https://github.com/castorini/anserini/commit/a92e25c0775cec601776f15154f85d69dac62108))
++ Results reproduced by [@InanSyed](https://github.com/InanSyed) on 2025-09-23 (commit [`52265a6`](https://github.com/castorini/anserini/commit/52265a6a10b9aea45baddc28b560ea705407d2c1))
 + Results reproduced by [@samin-mehdizadeh](https://github.com/samin-mehdizadeh) on 2025-09-27 (commit [`a92e25c`](https://github.com/castorini/anserini/commit/a92e25c0775cec601776f15154f85d69dac62108))
 + Results reproduced by [@AniruddhThakur](https://github.com/AniruddhThakur) on 2025-09-27 (commit [`eeb7756`](https://github.com/castorini/anserini/commit/eeb775657e7fd4a6d70ad303b9f45b1b48f48a49))
 + Results reproduced by [@prav0761](https://github.com/prav0761) on 2025-10-13 (commit [`4a2f9a0`](https://github.com/castorini/anserini/commit/4a2f9a0022d50c743b3bb7f983c9c605d77fcb29))
@@ -176,14 +183,14 @@ If you have any questions, look at previous pull requests for examples.
 + Results reproduced by [@MahdiNoori2003](https://github.com/MahdiNoori2003) on 2025-10-28 (commit [`5c7d986`](https://github.com/castorini/anserini/commit/5c7d9866918f7ec45bf9ba4ccc60d589b6ea244c))
 + Results reproduced by [@minj22](https://github.com/minj22) on 2025-11-04 (commit [`c274dd8`](https://github.com/castorini/anserini/commit/c274dd8674ca2289c840e2a7844fd33afd2a7bbb))
 + Results reproduced by [@ipouyall](https://github.com/ipouyall) on 2025-11-05 (commit [`82dfba0`](https://github.com/castorini/anserini/commit/82dfba06fa8e96d8380aa4fcd3f5782c321c70b7))
-+ Results reproduced by [@AdrianGri](https://github.com/adriangri) on 2025-11-12 (commit [`c19077b`](https://github.com/castorini/anserini/commit/c19077b36a471263742cf63ac4d9b9ce57b7118d))
++ Results reproduced by [@AdrianGri](https://github.com/AdrianGri) on 2025-11-12 (commit [`c19077b`](https://github.com/castorini/anserini/commit/c19077b36a471263742cf63ac4d9b9ce57b7118d))
 + Results reproduced by [@jianxyou](https://github.com/jianxyou) on 2025-11-17 (commit [`9406dd8`](https://github.com/castorini/anserini/commit/9406dd893e02922cf2b690a8fabf181a14d36bf4))
 + Results reproduced by [@xincanfeng](https://github.com/xincanfeng) on 2025-11-18 (commit [`9406dd8`](https://github.com/castorini/anserini/commit/9406dd893e02922cf2b690a8fabf181a14d36bf4))
 + Results reproduced by [@Blank9999](https://github.com/Blank9999) on 2025-11-18 (commit [`9406dd8`](https://github.com/castorini/anserini/commit/9406dd893e02922cf2b690a8fabf181a14d36bf4))
 + Results reproduced by [@ball2004244](https://github.com/ball2004244) on 2025-11-23 (commit [`9aea5f3`](https://github.com/castorini/anserini/commit/9aea5f357c4d1ff50bd8cdf4594c035631ca73a5))
 + Results reproduced by [@Hasebul21](https://github.com/Hasebul21) on 2025-11-27 (commit [`9aea5f3`](https://github.com/castorini/anserini/commit/9aea5f357c4d1ff50bd8cdf4594c035631ca73a5))
 + Results reproduced by [@RudraMantri123](https://github.com/RudraMantri123) on 2025-11-28 (commit [`9aea5f3`](https://github.com/castorini/anserini/commit/9aea5f357c4d1ff50bd8cdf4594c035631ca73a5))
-+ Results reproduced by [@imishrr](https://www.github.com/imishrr) on 2025-12-01 (commit [`79e7777`](https://www.github.com/castorini/anserini/commit/79e77779dcf02c7e69b6e9869fc3c92005e5f2a4))
++ Results reproduced by [@imishrr](https://github.com/imishrr) on 2025-12-01 (commit [`79e7777`](https://github.com/castorini/anserini/commit/79e77779dcf02c7e69b6e9869fc3c92005e5f2a4))
 + Results reproduced by [@MehdiJmlkh](https://github.com/MehdiJmlkh) on 2025-12-08 (commit [`259d483`](https://github.com/castorini/anserini/commit/259d483628a7ae97995be05ee23d168b308238b5))
 + Results reproduced by [@Kushion32](https://github.com/Kushion32) on 2025-12-09 (commit [`3e65fbd`](https://github.com/castorini/anserini/commit/3e65fbd9227d32bbb343ec1ff0ccaba43915dd4f))
 + Results reproduced by [@anjanpa](https://github.com/anjanpa) on 2025-12-17 (commit [`1d062ef`](https://github.com/castorini/anserini/commit/1d062ef7461b0da9dd861b5385aa4bbcf61bb272))
@@ -194,28 +201,28 @@ If you have any questions, look at previous pull requests for examples.
 + Results reproduced by [@VarnitOS](https://github.com/VarnitOS) on 2025-12-26 (commit [`1c5cd32`](https://github.com/castorini/anserini/commit/1c5cd32b48f03f63eb5752834600ad7c17e5fe7d))
 + Results reproduced by [@zizimind](https://github.com/zizimind) on 2026-01-06 (commit [`d276b57`](https://github.com/castorini/anserini/commit/d276b57e1a5b1d1ba63558588ae88d90190258c3))
 + Results reproduced by [@izzat5233](https://github.com/izzat5233) on 2026-01-17 (commit [`5bda670`](https://github.com/castorini/anserini/commit/5bda6701ebe8cc217ffc66a600d3583671fe299d))
-+ Results reproduced by [@HusamIsied](https://github.com/HusamIsied) on 2026-01-25 (commit [`952ac5e4`](https://github.com/castorini/anserini/commit/952ac5e4573486a255778828b8f26fd892cda854))
++ Results reproduced by [@HusamIsied](https://github.com/HusamIsied) on 2026-01-25 (commit [`952ac5e`](https://github.com/castorini/anserini/commit/952ac5e4573486a255778828b8f26fd892cda854))
 + Results reproduced by [@aaryanshroff](https://github.com/aaryanshroff) on 2026-01-26 (commit [`952ac5e`](https://github.com/castorini/anserini/commit/952ac5e4573486a255778828b8f26fd892cda854))
-+ Results reproduced by [@maherapp](https://github.com/maherapp) on 2026-02-01 (commit [`f0ecf565`](https://github.com/castorini/anserini/commit/f0ecf5655430b3fdccb802cde31e7f8ef821d0de))
++ Results reproduced by [@maherapp](https://github.com/maherapp) on 2026-02-01 (commit [`f0ecf56`](https://github.com/castorini/anserini/commit/f0ecf5655430b3fdccb802cde31e7f8ef821d0de))
 + Results reproduced by [@Karrrthik](https://github.com/Karrrthik) on 2026-02-20 (commit [`792d9cb`](https://github.com/castorini/anserini/commit/792d9cbccf23507d164d63bc1a2a39b065777122))
 + Results reproduced by [@namatvir](https://github.com/namatvir) on 2026-02-28 (commit [`2133d40`](https://github.com/castorini/anserini/commit/2133d40d192bcf287f765e3a5ae6c6e36e2b7af3))
 + Results reproduced by [@aaliyan1230](https://github.com/aaliyan1230) on 2026-03-01 (commit [`6f7d205`](https://github.com/castorini/anserini/commit/6f7d2058761de58643b6b299cdbaae1e003e0f0a))
 + Results reproduced by [@VCY019](https://github.com/VCY019) on 2026-03-01 (commit [`6f7d205`](https://github.com/castorini/anserini/commit/6f7d2058761de58643b6b299cdbaae1e003e0f0a))
 + Results reproduced by [@raghav-ai](https://github.com/raghav-ai) on 2026-03-03 (commit [`f496153`](https://github.com/castorini/anserini/commit/f496153681bcc1d78f9b861ccdfd8e0968aebcdf))
 + Results reproduced by [@mahdijaf](https://github.com/mahdijaf) on 2026-03-13 (commit [`61c8beb`](https://github.com/castorini/anserini/commit/61c8beb69a63137067fcf6fdd40abf894aa98059))
-+ Results reproduced by [@justin13888](https://github.com/justin13888) on 2026-03-18 (commit [`f2ae641e`](https://github.com/castorini/anserini/commit/f2ae641e18ae64f3ba7c751cfdfdc79b30bf64a1))
++ Results reproduced by [@justin13888](https://github.com/justin13888) on 2026-03-18 (commit [`f2ae641`](https://github.com/castorini/anserini/commit/f2ae641e18ae64f3ba7c751cfdfdc79b30bf64a1))
 + Results reproduced by [@KhanShaheb34](https://github.com/KhanShaheb34) on 2026-03-20 (commit [`a64b6e4`](https://github.com/castorini/anserini/commit/a64b6e495f6173f1e3663a541dca82a2f1c00026))
 + Results reproduced by [@ShanaxWorld](https://github.com/ShanaxWorld) on 2026-03-27 (commit [`aaba107`](https://github.com/castorini/anserini/commit/aaba1079c92e629eeff300d398cb3ce50d1adde2))
 + Results reproduced by [@egekaya1](https://github.com/egekaya1) on 2026-03-29 (commit [`9434de7`](https://github.com/castorini/anserini/commit/9434de77347e3d482c320abde6907522cb7af713))
-+ Results reproduced by [@h79yan](https://github.com/h79yan) on 2026-04-10 (commit [`e441bc83`](https://github.com/castorini/anserini/commit/e441bc83cc29e4fc1c94491220fa09728be4e6c3))
++ Results reproduced by [@h79yan](https://github.com/h79yan) on 2026-04-10 (commit [`e441bc8`](https://github.com/castorini/anserini/commit/e441bc83cc29e4fc1c94491220fa09728be4e6c3))
 + Results reproduced by [@kwamearhinPORTFL](https://github.com/kwamearhinPORTFL) on 2026-04-15 (commit [`5c51ee5`](https://github.com/castorini/anserini/commit/5c51ee567f5039f97e5de8de17b4052fd34a0498))
-+ Results reproduced by [@zatchbell1311-wq](https://github.com/zatchbell1311-wq) on 2026-04-17 (commit [`c6eed686`](https://github.com/castorini/anserini/commit/c6eed686d26d6f39bd75cb44a1fc9385dbbd1b15))
++ Results reproduced by [@zatchbell1311-wq](https://github.com/zatchbell1311-wq) on 2026-04-17 (commit [`c6eed68`](https://github.com/castorini/anserini/commit/c6eed686d26d6f39bd75cb44a1fc9385dbbd1b15))
 + Results reproduced by [@Zixi-Sam-Tang](https://github.com/Zixi-Sam-Tang) on 2026-04-21 (commit [`1e7b470`](https://github.com/castorini/anserini/commit/1e7b4702f0d2fd00752867577c88d8db819d71aa))
 + Results reproduced by [@Seun-Ajayi](https://github.com/Seun-Ajayi) on 2026-04-25 (commit [`2896644`](https://github.com/castorini/anserini/commit/28966448532d560267be1f45f9f2d2ec3eb96ef4))
 + Results reproduced by [@alex-wang101](https://github.com/alex-wang101) on 2026-04-25 (commit [`112cab4`](https://github.com/castorini/anserini/commit/112cab455eca937f8463feb3374c65412f8c7cca))
 + Results reproduced by [@TahseenSust](https://github.com/TahseenSust) on 2026-04-28 (commit [`912d7c3`](https://github.com/castorini/anserini/commit/912d7c308559d6a86b9e57a80204a2d4598efc32))
 + Results reproduced by [@xiandadu](https://github.com/xiandadu) on 2026-05-01 (commit [`67e9fc4`](https://github.com/castorini/anserini/commit/67e9fc4356f84b2852dee2c0170aca194028c806))
-+ Results reproduced by [@blissuche90](https://github.com/blissuche90) on 2026-05-01 (commit [`fb2fd258`](https://github.com/castorini/anserini/commit/fb2fd258024cc87133e8c07c5316ad3e9a82407f))
++ Results reproduced by [@blissuche90](https://github.com/blissuche90) on 2026-05-01 (commit [`fb2fd25`](https://github.com/castorini/anserini/commit/fb2fd258024cc87133e8c07c5316ad3e9a82407f))
 + Results reproduced by [@mohamedshakir3](https://github.com/mohamedshakir3) on 2026-05-02 (commit [`ec9cf56`](https://github.com/castorini/anserini/commit/ec9cf5624a1d01ee026b97a2639229bd6ff648f3))
 + Results reproduced by [@mazleon](https://github.com/mazleon) on 2026-05-03 (commit [`a74898d`](https://github.com/castorini/anserini/commit/a74898de2d1596990663d0ecef21330521b858aa))
 + Results reproduced by [@nasazzam](https://github.com/nasazzam) on 2026-05-13 (commit [`878b97d`](https://github.com/castorini/anserini/commit/878b97da258ea6350c1cb3693f684ae337fc5e56))
@@ -234,17 +241,17 @@ If you have any questions, look at previous pull requests for examples.
 + Results reproduced by [@kenoi1](https://github.com/kenoi1) on 2026-06-11 (commit [`6663a15`](https://github.com/castorini/anserini/commit/6663a15bffe0242e927c53744e5b140ce1a0bcba))
 + Results reproduced by [@nayanananto](https://github.com/nayanananto) on 2026-06-12 (commit [`6caf7e8`](https://github.com/castorini/anserini/commit/6caf7e863b6d5758e96d326ca69c45e16ec2decb))
 + Results reproduced by [@Quaden2307](https://github.com/Quaden2307) on 2026-06-19 (commit [`420530f`](https://github.com/castorini/anserini/commit/420530fd8e2163e86e12c909930995d8b1259329))
-+ Results reproduced by [@MasrurAjhor](https://github.com/MasrurAjhor) on 2026-06-21 (commit [`70faa6e`](https://github.com/castorini/anserini/commit/70faa6e69d7faaf307b99a235b1f44f8614b88d5))
 + Results reproduced by [@farhadmoradi66](https://github.com/farhadmoradi66) on 2026-06-20 (commit [`1f4e592`](https://github.com/castorini/anserini/commit/1f4e592cbe8dc456986af022490d44cfb36c8d9e))
-+ Results reproduced by [@k22mitta](https://github.com/k22mitta) on 2026-06-27 (commit [`78e7e16`](https://github.com/castorini/anserini/commit/78e7e16bdc5c04085da3b0b2fcd5c06c9292d00e))
++ Results reproduced by [@MasrurAjhor](https://github.com/MasrurAjhor) on 2026-06-21 (commit [`70faa6e`](https://github.com/castorini/anserini/commit/70faa6e69d7faaf307b99a235b1f44f8614b88d5))
 + Results reproduced by [@sparshshah19](https://github.com/sparshshah19) on 2026-06-25 (commit [`e67bf09`](https://github.com/castorini/anserini/commit/e67bf09934dd4d348b2578d1517475dc5defb18b))
++ Results reproduced by [@k22mitta](https://github.com/k22mitta) on 2026-06-27 (commit [`78e7e16`](https://github.com/castorini/anserini/commit/78e7e16bdc5c04085da3b0b2fcd5c06c9292d00e))
 + Results reproduced by [@JonHolman](https://github.com/JonHolman) on 2026-06-27 (commit [`78e7e16`](https://github.com/castorini/anserini/commit/78e7e16bdc5c04085da3b0b2fcd5c06c9292d00e))
 + Results reproduced by [@Fustigate8933](https://github.com/Fustigate8933) on 2026-07-01 (commit [`77ec7ef`](https://github.com/castorini/anserini/commit/77ec7ef73ae3cec88c41ee0992133f5c751224f8))
 + Results reproduced by [@muhammad-ali-arshad](https://github.com/muhammad-ali-arshad) on 2026-07-02 (commit [`77ec7ef`](https://github.com/castorini/anserini/commit/77ec7ef73ae3cec88c41ee0992133f5c751224f8))
 + Results reproduced by [@yashs33244](https://github.com/yashs33244) on 2026-07-05 (commit [`77ec7ef`](https://github.com/castorini/anserini/commit/77ec7ef73ae3cec88c41ee0992133f5c751224f8))
 + Results reproduced by [@ayesha12321](https://github.com/ayesha12321) on 2026-07-08 (commit [`bd93b89`](https://github.com/castorini/anserini/commit/bd93b899a1f34362b4146153c94a8eab14d9a7da))
-+ Results reproduced by [@NMA19](https://github.com/NMA19) on 2026-07-12 (commit [`2a68adb`](https://github.com/castorini/anserini/commit/2a68adb9bb9ec8b180c0828d882e108a00bff7b5))
-+ Results reproduced by [@sadia213](https://github.com/sadia213) on 2026-07-12 (commit [`b98b8fb7`](https://github.com/castorini/anserini/commit/b98b8fb7c874cfda814daddbaa429dc2b8d6f982))
++ Results reproduced by [@NMA19](https://github.com/NMA19) on 2026-07-12 (commit [`bd93b89`](https://github.com/castorini/anserini/commit/bd93b899a1f34362b4146153c94a8eab14d9a7da))
++ Results reproduced by [@sadia213](https://github.com/sadia213) on 2026-07-12 (commit [`b98b8fb`](https://github.com/castorini/anserini/commit/b98b8fb7c874cfda814daddbaa429dc2b8d6f982))
 + Results reproduced by [@abduldattijo](https://github.com/abduldattijo) on 2026-07-12 (commit [`bd93b89`](https://github.com/castorini/anserini/commit/bd93b899a1f34362b4146153c94a8eab14d9a7da))
 + Results reproduced by [@abubinfahd](https://github.com/abubinfahd) on 2026-07-13 (commit [`b98b8fb`](https://github.com/castorini/anserini/commit/b98b8fb7c874cfda814daddbaa429dc2b8d6f982))
 + Results reproduced by [@mfrashidi](https://github.com/mfrashidi) on 2026-07-15 (commit [`6f6b00d`](https://github.com/castorini/anserini/commit/6f6b00d0ecb160557514ed0e00f8767831d16f3a))
@@ -255,7 +262,7 @@ If you have any questions, look at previous pull requests for examples.
 + Results reproduced by [@niloy-biswas](https://github.com/niloy-biswas) on 2026-07-30 (commit [`02f25de`](https://github.com/castorini/anserini/commit/02f25dea042ee651085340d60ffbe9bc9820169b))
 + Results reproduced by [@dawoodkhandev](https://github.com/dawoodkhandev) on 2026-08-02 (commit [`ff848cb`](https://github.com/castorini/anserini/commit/ff848cb5872b42ee5305dbb1e27d72d2602aeade))
 + Results reproduced by [@Hamza-Nadif](https://github.com/Hamza-Nadif) on 2026-08-03 (commit [`3a52e64`](https://github.com/castorini/anserini/commit/3a52e64fa331ade3de312b47b3674117aad399c4))
-+ Results reproduced by [@mahimairaja](https://github.com/mahimairaja) on 2026-08-04 (commit [`5b3e896`](https://github.com/castorini/anserini/commit/5b3e896e262caf07be1d3c6cb7768eafc839197b))
++ Results reproduced by [@mahimairaja](https://github.com/mahimairaja) on 2026-08-04 (commit [`92303d1`](https://github.com/castorini/anserini/commit/92303d179329740fd67d17983fdea69d3f18f6d8))
 + Results reproduced by [@nomsou](https://github.com/nomsou) on 2026-08-07 (commit [`1272378`](https://github.com/castorini/anserini/commit/127237835c675272668f0d65420602117fe50d09))
 + Results reproduced by [@Navid-Ebadi-2003](https://github.com/Navid-Ebadi-2003) on 2026-08-09 (commit [`b99e095`](https://github.com/castorini/anserini/commit/b99e09582d3c3880c87e43eb0e1040adb4cfa0ac))
 + Results reproduced by [@akshaldhal](https://github.com/akshaldhal) on 2026-08-10 (commit [`b99e095`](https://github.com/castorini/anserini/commit/b99e09582d3c3880c87e43eb0e1040adb4cfa0ac))
@@ -276,8 +283,11 @@ If you have any questions, look at previous pull requests for examples.
 + Results reproduced by [@ParsaA2006](https://github.com/ParsaA2006) on 2026-09-04 (commit [`8af8d25`](https://github.com/castorini/anserini/commit/8af8d25810cdacf2a1f5d41c4a75f578bc4f96a9))
 + Results reproduced by [@mentaltraffic](https://github.com/mentaltraffic) on 2026-09-05 (commit [`8af8d25`](https://github.com/castorini/anserini/commit/8af8d25810cdacf2a1f5d41c4a75f578bc4f96a9))
 + Results reproduced by [@kamrankhoxa](https://github.com/kamrankhoxa) on 2026-09-07 (commit [`30e0b11`](https://github.com/castorini/anserini/commit/30e0b113a5bbc5e4d5b7d573ee9ed5c903e6a204))
++ Results reproduced by [@zhouwinston1](https://github.com/zhouwinston1) on 2026-09-08 (commit [`30e0b11`](https://github.com/castorini/anserini/commit/30e0b113a5bbc5e4d5b7d573ee9ed5c903e6a204))
 + Results reproduced by [@tanvirsarao](https://github.com/tanvirsarao) on 2026-09-09 (commit [`6c25df5`](https://github.com/castorini/anserini/commit/6c25df51724f3afc75b0daf8791ec5c79975efbe))
 + Results partially reproduced by [@ahmadsiddiqui25](https://github.com/ahmadsiddiqui25) on 2026-09-14 (commit [`5821717`](https://github.com/castorini/anserini/commit/58217175b415efb953fdf5d7e84d3773ae09f966)) — BM25-via-prebuilt-index section reproduced exactly (MRR@10 0.1875); the BGE dense retrieval section could not be completed because the 26 GB HNSW index consistently failed to download on this network across three different download methods (see PR description for details)
 + Results reproduced by [@Kiarash-Ghaderi](https://github.com/Kiarash-Ghaderi) on 2026-09-13 (commit [`5821717`](https://github.com/castorini/anserini/commit/58217175b415efb953fdf5d7e84d3773ae09f966))
 + Results reproduced by [@Pasindu-Madhuwantha](https://github.com/Pasindu-Madhuwantha) on 2026-09-13 (commit [`5821717`](https://github.com/castorini/anserini/commit/58217175b415efb953fdf5d7e84d3773ae09f966))
 + Results reproduced by [@ivan2001kkk](https://github.com/ivan2001kkk) on 2026-09-13 (commit [`47370a7`](https://github.com/castorini/anserini/commit/47370a7d94db8fea804b9269243a1559c6e1015c))
++ Results reproduced by [@Ajay9450](https://github.com/Ajay9450) on 2026-09-14 (commit [`5821717`](https://github.com/castorini/anserini/commit/58217175b415efb953fdf5d7e84d3773ae09f966))
++ Results reproduced by [@nimra-maqbool](https://github.com/nimra-maqbool) on 2026-09-15 (commit [`5821717`](https://github.com/castorini/anserini/commit/58217175b415efb953fdf5d7e84d3773ae09f966))
