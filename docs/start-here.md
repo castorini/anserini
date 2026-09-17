@@ -643,3 +643,4 @@ If you have any questions, look at previous pull requests for examples.
 + Results reproduced by [@Pasindu-Madhuwantha](https://github.com/Pasindu-Madhuwantha) on 2026-09-13 (commit [`5821717`](https://github.com/castorini/anserini/commit/58217175b415efb953fdf5d7e84d3773ae09f966))
 + Results reproduced by [@ivan2001kkk](https://github.com/ivan2001kkk) on 2026-09-13 (commit [`47370a7`](https://github.com/castorini/anserini/commit/47370a7d94db8fea804b9269243a1559c6e1015c))
 + Results reproduced by [@nimra-maqbool](https://github.com/nimra-maqbool) on 2026-09-13 (commit [`5821717`](https://github.com/castorini/anserini/commit/58217175b415efb953fdf5d7e84d3773ae09f966))
++ Results reproduced by [@zahid111777](https://github.com/zahid111777) on 2026-09-14 (commit [`47370a7`](https://github.com/castorini/anserini/commit/47370a7d94db8fea804b9269243a1559c6e1015c))
