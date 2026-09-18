@@ -21,21 +21,21 @@ import argparse
 import pyserini.util
 
 all_indexes = {
-    '2020-04-10': ['https://git.uwaterloo.ca/jimmylin/cord19-indexes/raw/master/2020-04-10/lucene-index-covid-2020-04-10.tar.gz',
-                   'https://git.uwaterloo.ca/jimmylin/cord19-indexes/raw/master/2020-04-10/lucene-index-covid-full-text-2020-04-10.tar.gz',
-                   'https://git.uwaterloo.ca/jimmylin/cord19-indexes/raw/master/2020-04-10/lucene-index-covid-paragraph-2020-04-10.tar.gz'],
-    '2020-05-01': ['https://git.uwaterloo.ca/jimmylin/cord19-indexes/raw/master/2020-05-01/lucene-index-cord19-abstract-2020-05-01.tar.gz',
-                   'https://git.uwaterloo.ca/jimmylin/cord19-indexes/raw/master/2020-05-01/lucene-index-cord19-full-text-2020-05-01.tar.gz',
-                   'https://git.uwaterloo.ca/jimmylin/cord19-indexes/raw/master/2020-05-01/lucene-index-cord19-paragraph-2020-05-01.tar.gz'],
-    '2020-05-19': ['https://git.uwaterloo.ca/jimmylin/cord19-indexes/raw/master/2020-05-19/lucene-index-cord19-abstract-2020-05-19.tar.gz',
-                   'https://git.uwaterloo.ca/jimmylin/cord19-indexes/raw/master/2020-05-19/lucene-index-cord19-full-text-2020-05-19.tar.gz',
-                   'https://git.uwaterloo.ca/jimmylin/cord19-indexes/raw/master/2020-05-19/lucene-index-cord19-paragraph-2020-05-19.tar.gz'],
-    '2020-06-19': ['https://git.uwaterloo.ca/jimmylin/cord19-indexes/raw/master/2020-06-19/lucene-index-cord19-abstract-2020-06-19.tar.gz',
-                   'https://git.uwaterloo.ca/jimmylin/cord19-indexes/raw/master/2020-06-19/lucene-index-cord19-full-text-2020-06-19.tar.gz',
-                   'https://git.uwaterloo.ca/jimmylin/cord19-indexes/raw/master/2020-06-19/lucene-index-cord19-paragraph-2020-06-19.tar.gz'],
-    '2020-07-16': ['https://git.uwaterloo.ca/jimmylin/cord19-indexes/raw/master/2020-07-16/lucene-index-cord19-abstract-2020-07-16.tar.gz',
-                   'https://git.uwaterloo.ca/jimmylin/cord19-indexes/raw/master/2020-07-16/lucene-index-cord19-full-text-2020-07-16.tar.gz',
-                   'https://git.uwaterloo.ca/jimmylin/cord19-indexes/raw/master/2020-07-16/lucene-index-cord19-paragraph-2020-07-16.tar.gz']
+    '2020-04-10': ['https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-index-covid-2020-04-10.tar.gz',
+                   'https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-index-covid-full-text-2020-04-10.tar.gz',
+                   'https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-index-covid-paragraph-2020-04-10.tar.gz'],
+    '2020-05-01': ['https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-index-cord19-abstract-2020-05-01.tar.gz',
+                   'https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-index-cord19-full-text-2020-05-01.tar.gz',
+                   'https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-index-cord19-paragraph-2020-05-01.tar.gz'],
+    '2020-05-19': ['https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-index-cord19-abstract-2020-05-19.tar.gz',
+                   'https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-index-cord19-full-text-2020-05-19.tar.gz',
+                   'https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-index-cord19-paragraph-2020-05-19.tar.gz'],
+    '2020-06-19': ['https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-index-cord19-abstract-2020-06-19.tar.gz',
+                   'https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-index-cord19-full-text-2020-06-19.tar.gz',
+                   'https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-index-cord19-paragraph-2020-06-19.tar.gz'],
+    '2020-07-16': ['https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-index-cord19-abstract-2020-07-16.tar.gz',
+                   'https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-index-cord19-full-text-2020-07-16.tar.gz',
+                   'https://rgw.cs.uwaterloo.ca/pyserini/indexes/lucene/lucene-index-cord19-paragraph-2020-07-16.tar.gz']
 }
 
 
@@ -44,7 +44,7 @@ def main(args):
         print(f'Unknown index {args.date}')
     else:
         for index in all_indexes[args.date]:
-            pyserini.util.download_and_unpack_index(index, force=args.force)
+            pyserini.util.download_and_unpack_archive(index, force=args.force)
         print('Done!')
 
 
