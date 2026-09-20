@@ -648,3 +648,4 @@ If you have any questions, look at previous pull requests for examples.
 + Results reproduced by [@zahid111777](https://github.com/zahid111777) on 2026-09-14 (commit [`47370a7`](https://github.com/castorini/anserini/commit/47370a7d94db8fea804b9269243a1559c6e1015c))
 + Results reproduced by [@Daveed-shee](https://github.com/Daveed-shee) on 2026-09-14 (commit [`47370a7`](https://github.com/castorini/anserini/commit/47370a7d94db8fea804b9269243a1559c6e1015c))
 + Results reproduced by [@WahajAli14](https://github.com/WahajAli14) on 2026-09-15 (commit [`ace2729`](https://github.com/castorini/anserini/commit/ace27299f7bf094b3e231c75ebf72ff5fe583e81))
++ Results reproduced by [@Ehren-Chuah](https://github.com/Ehren-Chuah) on 2026-09-18 (commit [`ace2729`](https://github.com/castorini/anserini/commit/ace27299f7bf094b3e231c75ebf72ff5fe583e81))
