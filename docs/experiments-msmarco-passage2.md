@@ -294,6 +294,6 @@ If you have any questions, look at previous pull requests for examples.
 + Results reproduced by [@nimra-maqbool](https://github.com/nimra-maqbool) on 2026-09-15 (commit [`5821717`](https://github.com/castorini/anserini/commit/58217175b415efb953fdf5d7e84d3773ae09f966))
 + Results reproduced by [@zahid111777](https://github.com/zahid111777) on 2026-09-16 (commit [`47370a7`](https://github.com/castorini/anserini/commit/47370a7d94db8fea804b9269243a1559c6e1015c))
 + Results reproduced by [@WahajAli14](https://github.com/WahajAli14) on 2026-09-18 (commit [`ace2729`](https://github.com/castorini/anserini/commit/ace27299f7bf094b3e231c75ebf72ff5fe583e81))
-+ Results reproduced by [@Daveed-shee](https://github.com/Daveed-shee) on 2026-09-18 (commit [`47370a7`](https://github.com/Daveed-shee/anserini/commit/47370a7d94db8fea804b9269243a1559c6e1015c))
++ Results reproduced by [@Daveed-shee](https://github.com/Daveed-shee) on 2026-09-18 (commit [`47370a7`](https://github.com/castorini/anserini/commit/47370a7d94db8fea804b9269243a1559c6e1015c))
 + Results reproduced by [@Ehren-Chuah](https://github.com/Ehren-Chuah) on 2026-09-19 (commit [`ace2729`](https://github.com/castorini/anserini/commit/ace27299f7bf094b3e231c75ebf72ff5fe583e81))
 + Results reproduced by [@Firdovsirz](https://github.com/Firdovsirz) on 2026-09-20 (commit [`571320d`](https://github.com/castorini/anserini/commit/571320dda63d7a0a97f3da87c7933695a6631f47))
