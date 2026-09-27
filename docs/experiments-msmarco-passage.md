@@ -769,3 +769,5 @@ The default baseline remains `k1=0.9`, `b=0.4`.
 + Results reproduced by [@Firdovsirz](https://github.com/Firdovsirz) on 2026-09-20 (commit [`571320d`](https://github.com/castorini/anserini/commit/571320dda63d7a0a97f3da87c7933695a6631f47))
 + Results reproduced by [@mankydanky](https://github.com/mankydanky) on 2026-09-25 (commit [`2e00750`](https://github.com/castorini/anserini/commit/2e0075080dc5cc610131b7b78a972e2da8974c83))
 + Results reproduced by [@nabirarashid](https://github.com/nabirarashid) on 2026-09-26 (commit [`2e00750`](https://github.com/castorini/anserini/commit/2e0075080dc5cc610131b7b78a972e2da8974c83))
++ Results reproduced by [@UmmayMaimonaChaman](https://github.com/UmmayMaimonaChaman) on 2026-09-28 (commit [`d1b8025`](https://github.com/castorini/anserini/commit/d1b80256f4bb0a59d1d6b9a91592e5d9701240dc))
+
