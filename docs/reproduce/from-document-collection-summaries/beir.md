@@ -94,11 +94,20 @@ Key:
 
 ### Available Corpora for Download
 
-| Corpus.                                    |   Size | Checksum                           |
-|:-------------------------------------------|-------:|:-----------------------------------|
-| `beir-v1.0.0-corpus.tar`                   |  14 GB | `faefd5281b662c72ce03d22021e4ff6b` |
-| `beir-v1.0.0-corpus-wp.tar`                |  13 GB | `3cf8f3dcdcadd49362965dd4466e6ff2` |
-| `beir-v1.0.0-unicoil-noexp.tar`            |  30 GB | `4fd04d2af816a6637fc12922cccc8a83` |
-| `beir-v1.0.0-splade-pp-ed.tar`             |  43 GB | `9c7de5b444a788c9e74c340bf833173b` |
-| `beir-v1.0.0-splade-v3.tar`                |  55 GB | `37f294610af763ce48eed03afd9455df` |
-| `beir-v1.0.0-bge-base-en-v1.5.parquet.tar` | 127 GB | `5f8dce18660cc8ac0318500bea5993ac` |
+| Corpus                                            |   Size | Checksum                           |
+|:--------------------------------------------------|-------:|:-----------------------------------|
+| `beir-v1.0.0-corpus.tar`                          |  14 GB | `faefd5281b662c72ce03d22021e4ff6b` |
+| `beir-v1.0.0-corpus-wp.tar`                       |  13 GB | `3cf8f3dcdcadd49362965dd4466e6ff2` |
+| `beir-v1.0.0-unicoil-noexp.tar`                   |  30 GB | `4fd04d2af816a6637fc12922cccc8a83` |
+| `beir-v1.0.0-splade_distil_cocodenser_medium.tar` |  35 GB | `f4fb275eca15b4cb0f29957609b19e8e` |
+| `beir-v1.0.0-splade-pp-ed.tar`                    |  43 GB | `9c7de5b444a788c9e74c340bf833173b` |
+| `beir-v1.0.0-splade-v3.tar`                       |  55 GB | `37f294610af763ce48eed03afd9455df` |
+| `beir-v1.0.0-bge-base-en-v1.5.parquet.tar`        | 127 GB | `5f8dce18660cc8ac0318500bea5993ac` |
+
+To download the above corpora:
+
+```bash
+wget https://rgw.cs.uwaterloo.ca/pyserini/data/${model}
+```
+
+Replace `${model}` with the appropriate corpus above.
