@@ -17,6 +17,7 @@
 package io.anserini.fusion;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -42,9 +43,6 @@ public class ScoredDocsFuserTest extends StdOutStdErrRedirectableLuceneTestCase 
 
   @Before
   public void setUp() throws Exception {
-    // Explictly set locale to US so that decimal points use '.' instead of ','
-    Locale.setDefault(Locale.US);
-
     redirectStdErr();
     super.setUp();
   }
@@ -91,6 +89,26 @@ public class ScoredDocsFuserTest extends StdOutStdErrRedirectableLuceneTestCase 
     }
     catch (Exception e) {
       System.err.println(e.getMessage());
+    }
+  }
+
+  @Test
+  public void testSaveToTxtIsLocaleIndependent() throws Exception {
+    Locale defaultLocale = Locale.getDefault();
+    Path output = Files.createTempFile("anserini-fused-run", ".txt");
+    try {
+      for (Locale locale : List.of(Locale.GERMANY, Locale.forLanguageTag("mzn-Arab-IR"))) {
+        Locale.setDefault(locale);
+        ScoredDocs run = ScoredDocsFuser.readRun(Paths.get("src/test/resources/sample_runs/run3"), true);
+        ScoredDocsFuser.saveToTxt(output, "Anserini", run);
+
+        List<String> lines = Files.readAllLines(output);
+        assertEquals("query1 Q0 doc1 1 7.000000 Anserini", lines.get(0));
+        assertEquals("query2 Q0 doc3 3 12.000000 Anserini", lines.get(5));
+      }
+    } finally {
+      Locale.setDefault(defaultLocale);
+      Files.deleteIfExists(output);
     }
   }
 
