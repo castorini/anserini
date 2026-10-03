@@ -302,3 +302,5 @@ If you have any questions, look at previous pull requests for examples.
 + Results reproduced by [@nabirarashid](https://github.com/nabirarashid) on 2026-09-26 (commit [`2e00750`](https://github.com/castorini/anserini/commit/2e0075080dc5cc610131b7b78a972e2da8974c83))
 + Results reproduced by [@UmmayMaimonaChaman](https://github.com/UmmayMaimonaChaman) on 2026-09-28 (commit [`d1b8025`](https://github.com/castorini/anserini/commit/d1b80256f4bb0a59d1d6b9a91592e5d9701240dc))
 + Results reproduced by [@GavinYou4] (https://github.com/GavinYou4) on 2026-09-28 (commit [`6c72234`](https://github.com/castorini/anserini/commit/6c722342554dabe5999a4634dbf906105f247dcf))
++ Results reproduced by [@HasanMahmudShanto](https://github.com/HasanMahmudShanto) on 2026-10-03 (commit [`6c72234`](https://github.com/castorini/anserini/commit/6c722342554dabe5999a4634dbf906105f247dcf))
+
