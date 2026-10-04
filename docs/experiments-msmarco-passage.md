@@ -762,6 +762,7 @@ The default baseline remains `k1=0.9`, `b=0.4`.
 + Results reproduced by [@ivan2001kkk](https://github.com/ivan2001kkk) on 2026-09-13 (commit [`47370a7`](https://github.com/castorini/anserini/commit/47370a7d94db8fea804b9269243a1559c6e1015c))
 + Results reproduced by [@nimra-maqbool](https://github.com/nimra-maqbool) on 2026-09-13 (commit [`5821717`](https://github.com/castorini/anserini/commit/58217175b415efb953fdf5d7e84d3773ae09f966))
 + Results reproduced by [@zahid111777](https://github.com/zahid111777) on 2026-09-14 (commit [`47370a7`](https://github.com/castorini/anserini/commit/47370a7d94db8fea804b9269243a1559c6e1015c))
++ Results reproduced by [@AmirhosseinGhobakhloo](https://github.com/AmirhosseinGhobakhloo) on 2026-09-14 (commit [`5821717`](https://github.com/castorini/anserini/commit/58217175b415efb953fdf5d7e84d3773ae09f966))
 + Results reproduced by [@WahajAli14](https://github.com/WahajAli14) on 2026-09-16 (commit [`ace2729`](https://github.com/castorini/anserini/commit/ace27299f7bf094b3e231c75ebf72ff5fe583e81))
 + Results reproduced by [@Daveed-shee](https://github.com/Daveed-shee) on 2026-09-17 (commit [`47370a7`](https://github.com/castorini/anserini/commit/47370a7d94db8fea804b9269243a1559c6e1015c))
 + Results reproduced by [@bmqube](https://github.com/bmqube) on 2026-09-17 (commit [`e252db4`](https://github.com/castorini/anserini/commit/e252db42559b6a3bfdc39c3a4c305b95c8615caa))
