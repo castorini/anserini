@@ -21,6 +21,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Locale;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
@@ -87,11 +88,17 @@ public class SearchShardedHnswDenseVectorsTest {
         "-efSearch", "100", // Reduced from 1000 to reduce memory usage
         "-hits", "10" }; // Reduced hit count to reduce memory usage
 
-    SearchShardedHnswDenseVectors.main(searchArgs);
+    Locale defaultLocale = Locale.getDefault();
+    try {
+      Locale.setDefault(Locale.forLanguageTag("mzn-Arab-IR"));
+      SearchShardedHnswDenseVectors.main(searchArgs);
 
-    assertRunFileExistsAndNonEmpty(runfile);
-    assertRunFileExistsAndNonEmpty(runfile + ".shard00");
-    assertRunFileExistsAndNonEmpty(runfile + ".shard01");
+      assertRunFileExistsAndNonEmpty(runfile);
+      assertRunFileExistsAndNonEmpty(runfile + ".shard00");
+      assertRunFileExistsAndNonEmpty(runfile + ".shard01");
+    } finally {
+      Locale.setDefault(defaultLocale);
+    }
   }
 
   @Test

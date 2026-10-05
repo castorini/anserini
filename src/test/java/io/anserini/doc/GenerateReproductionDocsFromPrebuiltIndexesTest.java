@@ -20,6 +20,7 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -162,9 +163,9 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
         }
       }
 
-      summary.append(String.format("| [%d](#condition-%d) | %s", sectionNumber, sectionNumber, condition.display));
+      summary.append(String.format(Locale.ROOT, "| [%d](#condition-%d) | %s", sectionNumber, sectionNumber, condition.display));
       for (Double score : scores) {
-        summary.append(" | ").append(score == null ? "" : String.format("%.4f", score));
+        summary.append(" | ").append(score == null ? "" : String.format(Locale.ROOT, "%.4f", score));
       }
       summary.append(" |\n");
       row++;
@@ -180,7 +181,7 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
     for (int i = 0; i < config.conditions.size(); i++) {
       Condition condition = config.conditions.get(i);
       String heading = condition.short_name == null ? condition.display : condition.short_name;
-      summary.append(" | ").append(String.format("[%s](#condition-%d)", heading, i + 1));
+      summary.append(" | ").append(String.format(Locale.ROOT, "[%s](#condition-%d)", heading, i + 1));
     }
     summary.append(" |\n");
 
@@ -200,7 +201,7 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
             break;
           }
         }
-        summary.append(" | ").append(score == null ? "" : String.format("%.4f", score));
+        summary.append(" | ").append(score == null ? "" : String.format(Locale.ROOT, "%.4f", score));
       }
       summary.append(" |\n");
     }
@@ -213,7 +214,7 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
     StringBuilder command = new StringBuilder();
     int row = 1;
     for (Condition condition : context.config().conditions) {
-      command.append(String.format("<a id=\"condition-%d\"></a>\n\n### %d. %s\n\n", row, row, condition.display));
+      command.append(String.format(Locale.ROOT, "<a id=\"condition-%d\"></a>\n\n### %d. %s\n\n", row, row, condition.display));
       command.append(String.format("**Config**: %s\n\n", context.configLink()));
       row++;
 

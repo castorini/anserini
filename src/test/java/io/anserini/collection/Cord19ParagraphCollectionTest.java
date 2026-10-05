@@ -19,6 +19,7 @@ package io.anserini.collection;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import org.junit.Before;
@@ -47,7 +48,7 @@ public class Cord19ParagraphCollectionTest extends DocumentCollectionTest<Cord19
 
     // has paragraphs 1 ... 41
     for (int i = 1; i < 42; i++) {
-      String id = String.format("xqhn0vbp.%05d", i);
+      String id = String.format(Locale.ROOT, "xqhn0vbp.%05d", i);
       HashMap<String, String> doc = new HashMap<>();
       doc.put("id", id);
       expected.put(id, doc);
@@ -65,7 +66,7 @@ public class Cord19ParagraphCollectionTest extends DocumentCollectionTest<Cord19
 
     // has paragraphs 1 ... 32
     for (int i = 1; i < 33; i++) {
-      String id = String.format("a8cps3ko.%05d", i);
+      String id = String.format(Locale.ROOT, "a8cps3ko.%05d", i);
       HashMap<String, String> doc = new HashMap<>();
       doc.put("id", id);
       expected.put(id, doc);
