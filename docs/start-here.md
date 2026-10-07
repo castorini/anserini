@@ -659,3 +659,4 @@ If you have any questions, look at previous pull requests for examples.
 + Results reproduced by [@rs105](https://github.com/rs105) on 2026-10-03 (commit [`ea4a234`](https://github.com/castorini/anserini/commit/ea4a234303b029eefae71385c031cd34af167a2b))
 + Results reproduced by [@HasanMahmudShanto](https://github.com/HasanMahmudShanto) on 2026-10-03 (commit [`6c72234`](https://github.com/castorini/anserini/commit/6c722342554dabe5999a4634dbf906105f247dcf))
 + Results reproduced by [@isogand](https://github.com/isogand) on 2026-09-26 (commit [`2e00750`](https://github.com/castorini/anserini/commit/2e0075080dc5cc610131b7b78a972e2da8974c83))
++ Results reproduced by [@gauraang01](https://github.com/gauraang01) on 2026-10-05 (commit [`ea4a234`](https://github.com/castorini/anserini/commit/ea4a234303b029eefae71385c031cd34af167a2b))
