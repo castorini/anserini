@@ -785,4 +785,6 @@ The default baseline remains `k1=0.9`, `b=0.4`.
 + Results reproduced by [@james-yu2005](https://github.com/james-yu2005) on 2026-10-08 (commit [`6442451`](https://github.com/castorini/anserini/commit/64424514acdbcf17b6ef09f48d4750a4d8cf414b))
 + Results reproduced by [@Jaasia25](https://github.com/Jaasia25) on 2026-10-10 (commit [`ea4a234`](https://github.com/castorini/anserini/commit/ea4a234303b029eefae71385c031cd34af167a2b))
 + Results reproduced by [@anabansal](https://github.com/anabansal) on 2026-10-10 (commit [`491d1a2`](https://github.com/castorini/anserini/commit/491d1a2b42e3938d38b789dfd1360deb76ab58d0))
++ Results reproduced by [@nathyBekele](https://github.com/nathyBekele) on 2026-10-10 (commit [`491d1a2`](https://github.com/castorini/anserini/commit/491d1a2b42e3938d38b789dfd1360deb76ab58d0))
++ Results reproduced by [@rasyosef](https://github.com/rasyosef) on 2026-10-11 (commit [`1e8099f`](https://github.com/castorini/anserini/commit/1e8099fcd460aefd09c4006bd66c1063e17d32d9))
 + Results reproduced by [@capemox](https://github.com/capemox) on 2026-10-12 (commit [`1e8099f`](https://github.com/castorini/anserini/commit/1e8099fcd460aefd09c4006bd66c1063e17d32d9))
