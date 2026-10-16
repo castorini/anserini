@@ -320,3 +320,4 @@ If you have any questions, look at previous pull requests for examples.
 + Results reproduced by [@nathyBekele](https://github.com/nathyBekele) on 2026-10-10 (commit [`491d1a2`](https://github.com/castorini/anserini/commit/491d1a2b42e3938d38b789dfd1360deb76ab58d0))
 + Results reproduced by [@rasyosef](https://github.com/rasyosef) on 2026-10-11 (commit [`1e8099f`](https://github.com/castorini/anserini/commit/1e8099fcd460aefd09c4006bd66c1063e17d32d9))
 + Results reproduced by [@capemox](https://github.com/capemox) on 2026-10-12 (commit [`1e8099f`](https://github.com/castorini/anserini/commit/1e8099fcd460aefd09c4006bd66c1063e17d32d9))
++ Results reproduced by [@Ninjacat10](https://github.com/Ninjacat10) on 2026-10-16 (commit [`0387a59`](https://github.com/castorini/anserini/commit/0387a5978c029ed1928eb642278faeb03296d86c))
