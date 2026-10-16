@@ -309,7 +309,7 @@ If you have any questions, look at previous pull requests for examples.
 + Results reproduced by [@isogand](https://github.com/isogand) on 2026-10-04 (commit [`90cfc1e`](https://github.com/castorini/anserini/commit/90cfc1ec7abf3cb5bb7a9cc43dfec554c2204443))
 + Results reproduced by [@htanugarapur](https://github.com/htanugarapur) on 2026-10-04 (commit [`ea4a234`](https://github.com/castorini/anserini/commit/ea4a234303b029eefae71385c031cd34af167a2b))
 + Results reproduced by [@gauraang01](https://github.com/gauraang01) on 2026-10-05 (commit [`ea4a234`](https://github.com/castorini/anserini/commit/ea4a234303b029eefae71385c031cd34af167a2b))
-+ Results reproduced by @aidanyee17 on 2026-10-06 (commit [`ea4a234`](https://github.com/castorini/anserini/commit/ea4a234303b029eefae71385c031cd34af167a2b))
++ Results reproduced by [@aidanyee17](https://github.com/aidanyee17) on 2026-10-06 (commit [`ea4a234`](https://github.com/castorini/anserini/commit/ea4a234303b029eefae71385c031cd34af167a2b))
 + Results reproduced by [@utkarshg20](https://github.com/utkarshg20) on 2026-10-07 (commit [`900386b`](https://github.com/castorini/anserini/commit/900386b173e82c5fc5940973624bf7ab64d74559))
 + Results reproduced by [@cryptic0053](https://github.com/cryptic0053) on 2026-10-07 (commit [`ea4a234`](https://github.com/castorini/anserini/commit/ea4a234303b029eefae71385c031cd34af167a2b))
 + Results reproduced by [@Chen1919](https://github.com/Chen1919) on 2026-10-08 (commit [`59cb75f`](https://github.com/castorini/anserini/commit/59cb75fe30582186a233b0613cdf9dab6b7b364d))
