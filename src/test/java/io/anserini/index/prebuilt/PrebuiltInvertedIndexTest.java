@@ -63,11 +63,11 @@ public class PrebuiltInvertedIndexTest {
   public void testTotalCountForMsMarcoV1() {
     int v1Count = 0;
     for (PrebuiltInvertedIndex.Entry entry : PrebuiltInvertedIndex.entries()) {
-      if (entry != null && entry.name != null && entry.name.contains("v1")) {
+      if (entry != null && entry.name != null && entry.name.startsWith("msmarco-v1-")) {
         v1Count++;
       }
     }
-    assertEquals(113, v1Count);
+    assertEquals(15, v1Count);
   }
 
   @Test
