@@ -308,7 +308,7 @@ Note that this particular passage is a bit dirty (garbage characters, dups, etc.
 Before proceeding, try the same thing with a few more queries: map the queries to the relevance judgments to the actual documents.
 
 How big is the MS MARCO passage ranking test collection, btw?
-Well, we've just seen that there are 6980 training queries.
+Well, we've just seen that there are 6980 dev queries.
 For those, we have 7437 relevance judgments:
 
 ```bash
