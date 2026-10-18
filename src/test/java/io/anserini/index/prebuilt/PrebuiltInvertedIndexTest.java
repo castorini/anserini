@@ -55,8 +55,20 @@ public class PrebuiltInvertedIndexTest {
   }
 
   @Test
+  public void testLookupRetecoTrack1() {
+    PrebuiltInvertedIndex.Entry entry = PrebuiltInvertedIndex.get("reteco-v1.1-track1-iota");
+    assertNotNull(entry);
+    assertEquals("lucene-inverted.reteco-v1.1-track1-iota.20261017.1.6.0.tar.gz", entry.filename);
+    assertEquals("5fec2d2e72d29c4687ecbdbad1b8bf17", entry.md5);
+    assertEquals(9680, entry.documents);
+    assertEquals(34011796L, entry.size);
+    assertEquals(3184205L, entry.totalTerms);
+    assertEquals(336319L, entry.uniqueTerms);
+  }
+
+  @Test
   public void testTotalCount() {
-    assertEquals(204, PrebuiltInvertedIndex.entries().size());
+    assertEquals(217, PrebuiltInvertedIndex.entries().size());
   }
 
   @Test
@@ -112,6 +124,20 @@ public class PrebuiltInvertedIndexTest {
       }
     }
     assertEquals(12, brightCount);
+  }
+
+  @Test
+  public void testTotalCountForRetecoTrack1() {
+    int retecoCount = 0;
+    int documentCount = 0;
+    for (PrebuiltInvertedIndex.Entry entry : PrebuiltInvertedIndex.entries()) {
+      if (entry.name.startsWith("reteco-v1.1-track1-")) {
+        retecoCount++;
+        documentCount += entry.documents;
+      }
+    }
+    assertEquals(13, retecoCount);
+    assertEquals(1167159, documentCount);
   }
 
   @Test

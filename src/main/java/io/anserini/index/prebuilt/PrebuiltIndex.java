@@ -38,7 +38,7 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 
 public class PrebuiltIndex {
   // We pin to a specific commit id so that changes to the prebuilt-indexes repo does not inadvertently break code, especially for published artifacts.
-  protected static final String METADATA_COMMIT = "367560b4de7d9c3486f666dcc2df7783ca7758f2";
+  protected static final String METADATA_COMMIT = "51258526d78fa146ff0c42ec6cb08195ebd555f2";
   protected static final String DEFAULT_METADATA_URL = "https://api.github.com/repos/castorini/prebuilt-indexes/contents/lucene?ref=" + METADATA_COMMIT;
   protected static final String METADATA_SUFFIX = ".json";
   private static final Duration HTTP_TIMEOUT = Duration.ofSeconds(60);
