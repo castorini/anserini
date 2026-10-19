@@ -678,3 +678,4 @@ If you have any questions, look at previous pull requests for examples.
 + Results reproduced by [@Ninjacat10](https://github.com/Ninjacat10) on 2026-10-16 (commit [`0387a59`](https://github.com/castorini/anserini/commit/0387a5978c029ed1928eb642278faeb03296d86c))
 + Results reproduced by [@Kannav02](https://github.com/Kannav02) on 2026-10-16 (commit [`0387a59`](https://github.com/castorini/anserini/commit/0387a5978c029ed1928eb642278faeb03296d86c))
 + Results reproduced by [@msghik](https://github.com/msghik) on 2026-10-19 (commit [`c4c2666`](https://github.com/castorini/anserini/commit/c4c26663e0ae273acf9a7b2e91986e7e005286ec))
++ Results reproduced by [@saadbinather](https://github.com/saadbinather) on 2026-10-20 (commit [`4200762`](https://github.com/castorini/anserini/commit/420076273e8633dc7971c7ba4efce68d16f9381d))
