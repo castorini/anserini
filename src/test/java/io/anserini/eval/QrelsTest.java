@@ -42,8 +42,15 @@ public class QrelsTest{
 
   @Test
   public void testTotalCount() {
-    assertEquals(254, Qrels.names().size());
+    assertEquals(306, Qrels.names().size());
     assertFalse(Qrels.names().contains("this-qrels-name-does-not-exist"));
+  }
+
+  @Test
+  public void testRetecoTrack1Qrels() throws IOException {
+    assertEquals(52, Qrels.names().stream().filter(name -> name.startsWith("reteco-v1.1-track1")).count());
+    assertQrels("reteco-v1.1-track1a-iota.dev", 3, 9);
+    assertQrels("reteco-v1.1-track1b-iota.dev", 8, 8);
   }
 
   @Test

@@ -32,7 +32,7 @@ public class TopicsTest {
 
   @Test
   public void testTotalCount() {
-    assertEquals(478, Topics.names().size());
+    assertEquals(530, Topics.names().size());
   }
 
   @Test
@@ -41,6 +41,23 @@ public class TopicsTest {
     assertEquals("topics.msmarco-passage.dev-subset.txt", Topics.get("msmarco-passage.dev-subset").path);
     assertEquals("topics.dl19-passage.txt", Topics.get("dl19-passage").path);
     assertEquals("topics.dl20.txt", Topics.get("dl20").path);
+  }
+
+  @Test
+  public void testRetecoTrack1Topics() {
+    assertEquals(52, Topics.names().stream().filter(name -> name.startsWith("reteco-v1.1-track1")).count());
+
+    Topics temporal = Topics.get("reteco-v1.1-track1a-iota.dev");
+    assertEquals("topics.reteco-v1.1-track1a-iota.dev.tsv.gz", temporal.path);
+    assertEquals(TsvStringTopicReader.class, temporal.readerClass);
+    SortedMap<String, Map<String, String>> queries = Topics.load(temporal);
+    assertEquals(3, queries.size());
+    assertTrue(queries.containsKey("2714_798"));
+
+    Topics steps = Topics.get("reteco-v1.1-track1b-iota.dev");
+    assertEquals("topics.reteco-v1.1-track1b-iota.dev.tsv.gz", steps.path);
+    assertEquals(TsvStringTopicReader.class, steps.readerClass);
+    assertEquals(8, Topics.load(steps).size());
   }
 
   @Test

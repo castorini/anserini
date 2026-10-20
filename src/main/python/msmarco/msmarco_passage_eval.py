@@ -23,7 +23,7 @@ def load_reference_from_stream(f):
     qids_to_relevant_passageids = {}
     for l in f:
         try:
-            l = re.split('[\t\s]', l.strip())
+            l = re.split(r'[\t\s]', l.strip())
             qid = int(l[0])
             if qid in qids_to_relevant_passageids:
                 pass

@@ -308,7 +308,7 @@ Note that this particular passage is a bit dirty (garbage characters, dups, etc.
 Before proceeding, try the same thing with a few more queries: map the queries to the relevance judgments to the actual documents.
 
 How big is the MS MARCO passage ranking test collection, btw?
-Well, we've just seen that there are 6980 training queries.
+Well, we've just seen that there are 6980 dev queries.
 For those, we have 7437 relevance judgments:
 
 ```bash
@@ -673,4 +673,10 @@ If you have any questions, look at previous pull requests for examples.
 + Results reproduced by [@nathyBekele](https://github.com/nathyBekele) on 2026-10-10 (commit [`491d1a2`](https://github.com/castorini/anserini/commit/491d1a2b42e3938d38b789dfd1360deb76ab58d0))
 + Results reproduced by [@rasyosef](https://github.com/rasyosef) on 2026-10-11 (commit [`1e8099f`](https://github.com/castorini/anserini/commit/1e8099fcd460aefd09c4006bd66c1063e17d32d9))
 + Results reproduced by [@capemox](https://github.com/capemox) on 2026-10-12 (commit [`1e8099f`](https://github.com/castorini/anserini/commit/1e8099fcd460aefd09c4006bd66c1063e17d32d9))
++ Results reproduced by [@GuranshSinghKohli](https://github.com/GuranshSinghKohli) on 2026-10-15 (commit [`d033ef1`](https://github.com/castorini/anserini/commit/d033ef197035bda1723e67b1bca8936b9a821139))
++ Results reproduced by [@somanshudev](https://github.com/somanshudev) on 2026-10-16 (commit [`d033ef1`](https://github.com/castorini/anserini/commit/d033ef197035bda1723e67b1bca8936b9a821139))
++ Results reproduced by [@Ninjacat10](https://github.com/Ninjacat10) on 2026-10-16 (commit [`0387a59`](https://github.com/castorini/anserini/commit/0387a5978c029ed1928eb642278faeb03296d86c))
++ Results reproduced by [@Kannav02](https://github.com/Kannav02) on 2026-10-16 (commit [`0387a59`](https://github.com/castorini/anserini/commit/0387a5978c029ed1928eb642278faeb03296d86c))
 + Results reproduced by [@natty6418](https://github.com/natty6418) on 2026-10-16 (commit [`d033ef1`](https://github.com/castorini/anserini/commit/d033ef197035bda1723e67b1bca8936b9a821139))
++ Results reproduced by [@msghik](https://github.com/msghik) on 2026-10-19 (commit [`c4c2666`](https://github.com/castorini/anserini/commit/c4c26663e0ae273acf9a7b2e91986e7e005286ec))
++ Results reproduced by [@garvitkaushik-123](https://github.com/garvitkaushik-123) on 2026-10-20 (commit [`79bd2f2`](https://github.com/castorini/anserini/commit/79bd2f2e24ce1f0f0e2e505e7816b6368cc5119c))
