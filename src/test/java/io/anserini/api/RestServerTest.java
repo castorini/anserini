@@ -23,6 +23,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -49,7 +50,7 @@ public class RestServerTest extends StdOutStdErrRedirectableLuceneTestCase {
     server = new RestServer(args);
     startServerQuietly(server);
 
-    baseUrl = String.format("http://127.0.0.1:%d", server.getPort());
+    baseUrl = String.format(Locale.ROOT, "http://127.0.0.1:%d", server.getPort());
   }
 
   @Override
@@ -160,7 +161,7 @@ public class RestServerTest extends StdOutStdErrRedirectableLuceneTestCase {
       aliasServer = new RestServer(args);
       startServerQuietly(aliasServer);
 
-      TestResponse response = sendGet(String.format("http://127.0.0.1:%d/v1/sample/search?query=text&hits=1", aliasServer.getPort()));
+      TestResponse response = sendGet(String.format(Locale.ROOT, "http://127.0.0.1:%d/v1/sample/search?query=text&hits=1", aliasServer.getPort()));
       assertEquals(200, response.statusCode);
 
       JsonNode body = JSON_MAPPER.readTree(response.body);
