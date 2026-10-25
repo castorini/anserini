@@ -102,8 +102,6 @@ bin/trec_eval -c -M 10 -m recip_rank \
   runs/run.msmarco-passage.dev.bge.txt
 ```
 
-In this version, `-efSearch` defaults to 100 and sets the candidate count in Lucene's vector query. The command above returned 100 hits per query despite `-hits 1000`; the MRR@10 below was reproduced at that depth.
-
 You should get a score of 0.3521, which is much higher than the 0.1874 score from BM25.
 Yes, dense retrieval is better.
 
