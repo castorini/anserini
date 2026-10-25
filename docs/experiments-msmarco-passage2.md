@@ -102,6 +102,8 @@ bin/trec_eval -c -M 10 -m recip_rank \
   runs/run.msmarco-passage.dev.bge.txt
 ```
 
+In this version, `-efSearch` defaults to 100 and sets the candidate count in Lucene's vector query. The command above returned 100 hits per query despite `-hits 1000`; the MRR@10 below was reproduced at that depth.
+
 You should get a score of 0.3521, which is much higher than the 0.1874 score from BM25.
 Yes, dense retrieval is better.
 
@@ -330,3 +332,4 @@ If you have any questions, look at previous pull requests for examples.
 + Results reproduced by [@paudelanil](https://github.com/paudelanil) on 2026-10-20 (commit [`79bd2f2`](https://github.com/castorini/anserini/commit/79bd2f2e24ce1f0f0e2e505e7816b6368cc5119c))
 + Results reproduced by [@saadbinather](https://github.com/saadbinather) on 2026-10-20 (commit [`4200762`](https://github.com/castorini/anserini/commit/420076273e8633dc7971c7ba4efce68d16f9381d))
 + Results reproduced by [@moghazym](https://github.com/moghazym) on 2026-10-24 (commit [`900386b`](https://github.com/castorini/anserini/commit/900386b173e82c5fc5940973624bf7ab64d74559))
++ Results reproduced by [@AliMohammadiiii](https://github.com/AliMohammadiiii) on 2026-10-24 (commit [`59d6fa7`](https://github.com/castorini/anserini/commit/59d6fa720ffdf2af7f68e453ca97fa5b452289bf); default HNSW search returned 100 hits/query, with MRR@10 0.3521)
