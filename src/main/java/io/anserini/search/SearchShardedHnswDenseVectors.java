@@ -33,6 +33,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.IntStream;
 
 /**
@@ -120,7 +121,7 @@ public final class SearchShardedHnswDenseVectors<K extends Comparable<K>> implem
 
     List<String> shardOutputPaths = IntStream.range(0, searchers.size())
         .mapToObj(i -> {
-          String shardSuffix = ".shard" + String.format("%02d", i);
+          String shardSuffix = ".shard" + String.format(Locale.ROOT, "%02d", i);
           if (args.output.endsWith(".txt")) {
             return args.output.substring(0, args.output.length() - ".txt".length()) + shardSuffix + ".txt";
           }

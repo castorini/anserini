@@ -48,14 +48,13 @@ public abstract class DocumentCollectionTest<T extends SourceDocument> extends S
 
   // Holds the ground truth. Outer key is the docid, map is custom data based on subclass.
   Map<String, Map<String, String>> expected;
+  private Locale defaultLocale;
 
   @Before
   public void setUp() throws Exception {
     super.setUp();
-
-    // There's a non-deterministic bug that occurs when Arabic numerals in docids get "localized", and hence fail
-    // to match expected docids. This makes sure it doesn't happen.
-    Locale.setDefault(Locale.US);
+    defaultLocale = Locale.getDefault();
+    Locale.setDefault(Locale.forLanguageTag("mzn-Arab-IR"));
 
     segmentPaths = new HashSet<>();
     segmentDocCounts = new HashMap<>();
@@ -216,6 +215,10 @@ public abstract class DocumentCollectionTest<T extends SourceDocument> extends S
 
   @After
   public void tearDown() throws Exception {
-    super.tearDown();
+    try {
+      super.tearDown();
+    } finally {
+      Locale.setDefault(defaultLocale);
+    }
   }
 }

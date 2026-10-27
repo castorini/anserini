@@ -35,6 +35,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.nio.file.Paths;
+import java.util.Locale;
 
 /**
  * Utility for extracting the document length and the number of unique terms from every document in the index using the
@@ -86,7 +87,7 @@ public class ExtractDocumentLengths {
         // TermVector for a zero-length document. Warn, but don't throw exception.
         String external_did = IndexReaderUtils.convertLuceneDocidToDocid(reader, i);
         System.err.println(String.format("Warning: TermVector not available for docid %s.", external_did));
-        out.println(String.format("%d\t%s\t0\t0\t0\t0", i, external_did));
+        out.println(String.format(Locale.ROOT, "%d\t%s\t0\t0\t0\t0", i, external_did));
         continue;
       }
 
@@ -97,7 +98,7 @@ public class ExtractDocumentLengths {
       // See https://github.com/apache/lucene-solr/blob/master/lucene/core/src/java/org/apache/lucene/search/similarities/BM25Similarity.java
       int lossyDoclength = SmallFloat.byte4ToInt(SmallFloat.intToByte4((int) exactDoclength));
       int lossyTermCount = SmallFloat.byte4ToInt(SmallFloat.intToByte4((int) exactTermCount));
-      out.println(String.format("%d\t%s\t%d\t%d\t%d\t%d", i, IndexReaderUtils.convertLuceneDocidToDocid(reader, i),
+      out.println(String.format(Locale.ROOT, "%d\t%s\t%d\t%d\t%d\t%d", i, IndexReaderUtils.convertLuceneDocidToDocid(reader, i),
               exactDoclength, exactTermCount, lossyDoclength, lossyTermCount));
       lossyTotalTerms += lossyDoclength;
       exactTotalTerms += exactDoclength;
