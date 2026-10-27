@@ -454,3 +454,4 @@ Finally, we can run the end to end regression as seen in the previously mentione
 + Results reproduced by [@wu-ming233](https://github.com/wu-ming233) on 2025-06-13 (commit [`4d9e082`](https://github.com/castorini/anserini/commit/4d9e08201051b3a158fddd6e419683fc0da9be9c))
 + Results reproduced by [@nli33](https://github.com/nli33) on 2026-04-21 (commit [`b0023c2`](https://github.com/castorini/anserini/commit/b0023c20d46bf606cb8cb09dbbe8fff04a35aaa5))
 + Results reproduced by [@h79yan](https://github.com/h79yan) on 2026-04-22 (commit [`268ad60`](https://github.com/castorini/anserini/commit/268ad600a88631abcf30c1022f833c876b85735f))
++ Results reproduced by [@ricky42613](https://github.com/ricky42613) on 2026-10-27 (commit [`6622944`](https://github.com/castorini/anserini/commit/6622944b662d616a5b8ab0b28e0a1c97707aeae8))
