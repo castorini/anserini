@@ -60,7 +60,8 @@ if __name__ == "__main__":
             "output_weights": {0: "sparse_len"},
         },
         do_constant_folding=True,
-        opset_version=14,
+        opset_version=18,
+        dynamo=False,
         custom_opsets={"ai.onnx.ml": 4}
     )
 

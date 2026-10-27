@@ -12,7 +12,7 @@ The following tutorial will be using the scripts available in the above director
 
 ## Setups
 
-Python version: 3.12.
+Python version: 3.12.3
 
 pip requirements:
 ```bash
@@ -21,10 +21,15 @@ pip install torch transformers onnx onnxruntime onnxoptimizer onnxscript
 
 versions tested:
 ```bash
-onnx                         1.17.0
-onnxoptimizer                0.3.13
-onnxruntime                  1.20.1
+torch                        2.14.1+cpu
+transformers                 5.21.0
+onnx                         1.23.2
+onnxoptimizer                0.4.2
+onnxruntime                  1.31.1
+onnxscript                   0.7.2
 ```
+
+For Anserini integration and regression testing, the tested versions were Java 21, Anserini 2.3.0, and Pyserini 2.4.0.
 
 ## Converting from PyTorch models to ONNX model
 The following sections will describe how to convert a transformer-based model to ONNX model. 
@@ -143,7 +148,8 @@ torch.onnx.export(
     output_names=output_names,
     dynamic_axes=dynamic_axes,
     do_constant_folding=True,
-    opset_version=14
+    opset_version=18,
+    dynamo=True
 )
 ```
 

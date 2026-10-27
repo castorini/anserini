@@ -51,7 +51,8 @@ def convert_model_to_onnx(text, model, tokenizer, onnx_path, vocab_path, device)
         output_names=output_names,
         dynamic_axes=dynamic_axes,
         do_constant_folding=True,
-        opset_version=14,
+        opset_version=18,
+        dynamo=True
     )
     
     model_type = model.config.model_type
