@@ -434,7 +434,7 @@ python optimize_onnx_model.py --model_path models/splade-pp-ed.onnx
 
 ### Reproducing Transformer-Based Model Regressions 
 
-Now, we can reproduce regressions with the newly generated ONNX model, like seen in the [regressions-msmarco-v1-passage.splade-pp-ed.onnx.md](regressions/regressions-msmarco-v1-passage.splade-pp-ed.onnx.md).
+Now, we can reproduce regressions with the newly generated ONNX model, like seen in the [msmarco-v1-passage.splade-pp-ed.onnx.md](reproduce/from-document-collection/msmarco-v1-passage.splade-pp-ed.onnx.md).
 
 To make sure Anserini uses our generated model instead of downloading it, we want to store the newly generated models in the ```~/.cache/pyserini/encoders``` directory.
 
