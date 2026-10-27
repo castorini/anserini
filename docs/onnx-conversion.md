@@ -12,6 +12,8 @@ The following tutorial will be using the scripts available in the above director
 
 ## Setups
 
+Python version: 3.12.
+
 pip requirements:
 ```bash
 pip install torch transformers onnx onnxruntime onnxoptimizer onnxscript
