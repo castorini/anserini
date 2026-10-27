@@ -10,7 +10,7 @@ src/main/python/onnx
 
 The following tutorial will be using the scripts available in the above directory directly.
 
-## Setups
+## Setup
 
 Python version: 3.12.3
 
