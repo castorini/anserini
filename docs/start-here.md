@@ -684,6 +684,7 @@ If you have any questions, look at previous pull requests for examples.
 + Results reproduced by [@saadbinather](https://github.com/saadbinather) on 2026-10-20 (commit [`4200762`](https://github.com/castorini/anserini/commit/420076273e8633dc7971c7ba4efce68d16f9381d))
 + Results reproduced by [@Dristy03](https://github.com/Dristy03) on 2026-10-23 (commit [`6778bb7`](https://github.com/castorini/anserini/commit/6778bb7fe36a406be2173e6d1c12cadabc32651a))
 + Results reproduced by [@mobinano](https://github.com/mobinano) on 2026-10-23 (commit [`59d6fa7`](https://github.com/castorini/anserini/commit/59d6fa720ffdf2af7f68e453ca97fa5b452289bf))
++ Results reproduced by [@Jamal-Ahmed-Khan](https://github.com/Jamal-Ahmed-Khan) on 2026-10-23 (commit [`6778bb7`](https://github.com/castorini/anserini/commit/6778bb7fe36a406be2173e6d1c12cadabc32651a))
 + Results reproduced by [@moghazym](https://github.com/moghazym) on 2026-10-24 (commit [`900386b`](https://github.com/castorini/anserini/commit/900386b173e82c5fc5940973624bf7ab64d74559))
 + Results reproduced by [@AliMohammadiiii](https://github.com/AliMohammadiiii) on 2026-10-24 (commit [`59d6fa7`](https://github.com/castorini/anserini/commit/59d6fa720ffdf2af7f68e453ca97fa5b452289bf))
 + Results reproduced by [@StephenRebel](https://github.com/StephenRebel) on 2026-10-26 (commit [`5877aed`](https://github.com/castorini/anserini/commit/5877aedfc1a4781bbe6263f9853f2ad66d6fa2b2))
