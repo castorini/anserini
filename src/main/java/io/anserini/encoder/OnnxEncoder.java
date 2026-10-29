@@ -58,17 +58,29 @@ public abstract class OnnxEncoder<T> implements AutoCloseable {
 
   public OnnxEncoder(@NotNull String modelName, @NotNull String modelUrl, @NotNull String vocabName, @NotNull String vocabUrl, @NotNull String configUrl)
       throws IOException, OrtException, URISyntaxException {
+    this(modelName, modelUrl, vocabName, vocabUrl, configUrl, true);
+  }
+
+  /** Allows subclasses to initialize a non-BERT tokenizer while retaining the existing asset-loading flow. */
+  protected OnnxEncoder(@NotNull String modelName, @NotNull String modelUrl, @NotNull String vocabName,
+                        @NotNull String vocabUrl, String configUrl, boolean useBertTokenizer)
+      throws IOException, OrtException, URISyntaxException {
     this.vocabName = vocabName;
     this.vocabUrl = vocabUrl;
     this.modelName = modelName;
     this.modelUrl = modelUrl;
     this.configUrl = configUrl;
 
-    this.vocab = DefaultVocabulary.builder()
-        .addFromTextFile(getVocabPath())
-        .optUnknownToken("[UNK]")
-        .build();
-    this.tokenizer = new BertFullTokenizer(vocab, true);
+    if (useBertTokenizer) {
+      this.vocab = DefaultVocabulary.builder()
+          .addFromTextFile(getVocabPath())
+          .optUnknownToken("[UNK]")
+          .build();
+      this.tokenizer = new BertFullTokenizer(vocab, true);
+    } else {
+      this.vocab = null;
+      this.tokenizer = null;
+    }
 
     this.environment = OrtEnvironment.getEnvironment();
     this.session = environment.createSession(getModelPath().toString(), new OrtSession.SessionOptions());
