@@ -17,6 +17,8 @@
 package io.anserini.encoder.sparse;
 
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -711,6 +713,94 @@ public class SlideOnEncoderInferenceTest extends BaseSparseEncoderInferenceTest 
           new long[] { 50281, 7267, 27, 534, 4000, 1080, 39020, 6616, 42799, 327, 253, 749, 1026, 522, 792, 17122, 66, 273, 253, 660, 522, 3627, 285, 37034, 327, 253, 16277, 6985, 254, 2148, 273, 253, 1547, 254, 316, 32, 50282 } },
 
   };
+
+  @Test
+  public void testEmptyWhitespaceAndNullQueries() throws Exception {
+    try (SlideOnEncoder encoder = new SlideOnEncoder()) {
+      assertArrayEquals(new long[] {50281, 7267, 27, 50282}, encoder.tokenizeToIds(""));
+      assertArrayEquals(encoder.tokenizeToIds(""), encoder.tokenizeToIds(" \t\n\u00a0\u0085"));
+      assertEquals("query", assertThrows(NullPointerException.class, () -> encoder.tokenizeToIds(null)).getMessage());
+      assertThrows(NullPointerException.class, () -> encoder.encode(null));
+    }
+  }
+
+  @Test
+  public void testMaxLengthOverrideTruncatesAndKeepsSpecialTokens() throws Exception {
+    String property = "anserini.slideon.maxLength";
+    String previous = System.getProperty(property);
+    try {
+      System.setProperty(property, "8");
+      try (SlideOnEncoder encoder = new SlideOnEncoder()) {
+        long[] ids = encoder.tokenizeToIds("hello world ".repeat(20));
+        assertEquals(8, ids.length);
+        assertEquals(50281, ids[0]);
+        assertEquals(50282, ids[ids.length - 1]);
+      }
+    } finally {
+      restoreProperty(property, previous);
+    }
+  }
+
+  @Test
+  public void testRejectsInvalidConfigurationOverrides() throws Exception {
+    String maxLength = "anserini.slideon.maxLength";
+    String scale = "anserini.slideon.scale";
+    String previousLength = System.getProperty(maxLength);
+    String previousScale = System.getProperty(scale);
+    try {
+      System.clearProperty(scale);
+      System.setProperty(maxLength, "1");
+      assertTrue(assertThrows(IOException.class, SlideOnEncoder::new).getMessage().contains("maximum length"));
+      System.clearProperty(maxLength);
+      for (String invalidScale : new String[] {"0", "NaN"}) {
+        System.setProperty(scale, invalidScale);
+        assertTrue(assertThrows(IOException.class, SlideOnEncoder::new).getMessage().contains("scale"));
+      }
+    } finally {
+      restoreProperty(maxLength, previousLength);
+      restoreProperty(scale, previousScale);
+    }
+  }
+
+  private static void restoreProperty(String name, String value) {
+    if (value == null) {
+      System.clearProperty(name);
+    } else {
+      System.setProperty(name, value);
+    }
+  }
+
+  @Test
+  public void testQuantizationUsesFloat32AndTiesToEven() {
+    assertEquals(12, SlideOnEncoder.quantizeWeight(.125f, 100));
+    assertEquals(38, SlideOnEncoder.quantizeWeight(.375f, 100));
+    // Promoting to double before multiplying would incorrectly round this to 3.
+    assertEquals(2, SlideOnEncoder.quantizeWeight(.025f, 100));
+    assertEquals(0, SlideOnEncoder.quantizeWeight(.005f, 100));
+    assertEquals(0, SlideOnEncoder.quantizeWeight(Math.nextDown(.5f), 1));
+    assertEquals(1, SlideOnEncoder.quantizeWeight(Math.nextUp(.5f), 1));
+    assertEquals(0, SlideOnEncoder.quantizeWeight(0, 100));
+    assertEquals(0, SlideOnEncoder.quantizeWeight(-0.0f, 100));
+  }
+
+  @Test
+  public void testQuantizationRejectsInvalidArguments() {
+    for (float weight : new float[] {-1, Float.NaN, Float.POSITIVE_INFINITY, Float.NEGATIVE_INFINITY}) {
+      assertThrows(IllegalArgumentException.class, () -> SlideOnEncoder.quantizeWeight(weight, 100));
+    }
+    for (float scale : new float[] {0, -1, Float.NaN, Float.POSITIVE_INFINITY, Float.NEGATIVE_INFINITY}) {
+      assertThrows(IllegalArgumentException.class, () -> SlideOnEncoder.quantizeWeight(1, scale));
+    }
+  }
+
+  @Test
+  public void testQuantizationIntegerBoundaryAndOverflow() {
+    assertEquals(2147483520, SlideOnEncoder.quantizeWeight(Math.nextDown((float) Integer.MAX_VALUE), 1));
+    assertTrue(assertThrows(IllegalArgumentException.class,
+        () -> SlideOnEncoder.quantizeWeight((float) Integer.MAX_VALUE, 1)).getMessage().contains("Java int range"));
+    assertTrue(assertThrows(IllegalArgumentException.class,
+        () -> SlideOnEncoder.quantizeWeight(Float.MAX_VALUE, 2)).getMessage().contains("Java int range"));
+  }
 
   @Test
   public void testExamples() throws OrtException, IOException, URISyntaxException {
