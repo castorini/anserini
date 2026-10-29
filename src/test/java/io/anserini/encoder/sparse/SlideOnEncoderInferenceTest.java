@@ -24,6 +24,8 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Set;
 
 import org.junit.Test;
 
@@ -33,10 +35,20 @@ import ai.onnxruntime.OrtException;
  * Matches the SPLADE inference test structure and example queries.
  * Expected integer vectors and token IDs come from the matching HF tokenizer and
  * Python ONNX Runtime 1.17.0, using slideon-optimized.onnx and scale 100.
+ * Q64 membership is selected independently from the unquantized Python vectors.
  * This regression test does not assert raw-vector equivalence with PyTorch.
  */
 public class SlideOnEncoderInferenceTest extends BaseSparseEncoderInferenceTest {
 
+  // Python reference top-64 membership, selected before quantization, with numeric-ID tie-breaking.
+  private static final String[] Q64_TERMS = {
+      "86 346 365 522 723 1920 2377 2901 3329 3489 3700 4546 6788 7162 9827 10299 10477 10535 10682 10928 12064 13777 14484 14941 15341 15359 15960 15985 16118 16703 16846 16925 17091 17212 17911 18223 18236 18242 19345 19382 20387 20597 20866 21262 21618 22347 23413 23423 23577 23883 25187 25453 25827 25844 25873 27232 27737 27843 28044 30007 30565 30738 31926 32039",
+      "86 926 1560 2132 3489 3561 3886 4399 4634 4652 4717 4744 5289 5353 5486 6518 7299 8388 8643 8646 8979 9129 9418 9633 10297 11298 11793 11800 13245 13424 14828 15182 15333 15536 15752 15985 18019 18142 19269 19412 19627 19632 19715 20918 21135 21490 22565 23026 24421 24565 24715 25827 25830 27232 27500 27557 28406 28960 29966 30020 30028 30307 31420 32403",
+      "114 962 1471 1549 1754 1777 2429 2711 3168 3346 3522 3830 4196 5073 5623 5733 5832 7709 7950 8254 8924 9418 9785 10243 10913 12014 12662 13291 14086 15433 15435 15749 15796 16340 16802 17099 17507 17509 17715 18334 18369 19754 20684 20745 21259 21388 22343 22561 22585 22667 23481 23673 24733 25076 25413 25648 26377 27964 29414 30237 30731 31061 31822 32669",
+      "183 738 774 859 1472 1841 2267 2319 2361 2800 3053 3232 3636 4618 5442 5548 6269 6646 7570 8646 9490 9557 10041 11228 12715 13074 13127 13424 14886 15066 15157 15346 15543 15724 15864 15922 16090 16648 17500 17830 18446 19072 20742 21049 22562 23008 24484 24958 25137 25747 26246 26995 27405 27893 28643 28854 28919 29126 29881 30028 30249 30426 31471 31938"
+  };
+
+  // Full Python integer references; testExamples selects only the independently determined q64 terms.
   private static final SparseExampleOutputPair[] EXAMPLES = {
       new SparseExampleOutputPair("what is paula deen's brother",
           new HashMap<>() {{
@@ -803,10 +815,39 @@ public class SlideOnEncoderInferenceTest extends BaseSparseEncoderInferenceTest 
   }
 
   @Test
+  public void testTop64BeforeQuantizationAndNumericTieBreaking() throws Exception {
+    try (SlideOnEncoder encoder = new SlideOnEncoder()) {
+      var weights = new LinkedHashMap<String, Float>();
+      for (int id = 64; id >= 0; id--) {
+        weights.put(Integer.toString(id), .006f);
+      }
+      // All weights round to 1, but the largest float must survive before ties are broken.
+      weights.put("1000", .009f);
+      var actual = encoder.quantizeFloatWeights(weights);
+      var expected = new HashMap<String, Integer>();
+      for (int id = 0; id < 63; id++) {
+        expected.put(Integer.toString(id), 1);
+      }
+      expected.put("1000", 1);
+      assertEquals(expected, actual);
+      assertEquals(66, weights.size());
+      assertTrue(encoder.quantizeFloatWeights(java.util.Map.of("101", .001f)).isEmpty());
+    }
+  }
+
+  @Test
   public void testExamples() throws OrtException, IOException, URISyntaxException {
+    var q64Examples = new SparseExampleOutputPair[EXAMPLES.length];
+    for (int i = 0; i < EXAMPLES.length; i++) {
+      var expected = new HashMap<>(EXAMPLES[i].output());
+      var terms = Set.of(Q64_TERMS[i].split(" "));
+      assertEquals(64, terms.size());
+      expected.keySet().retainAll(terms);
+      q64Examples[i] = new SparseExampleOutputPair(EXAMPLES[i].example(), expected);
+    }
     try (SlideOnEncoder encoder = new SlideOnEncoder()) {
       assertTrue(encoder.getModelPath().endsWith("slideon-optimized.onnx"));
-      super.testExamples(EXAMPLES, encoder);
+      super.testExamples(q64Examples, encoder);
     }
   }
 

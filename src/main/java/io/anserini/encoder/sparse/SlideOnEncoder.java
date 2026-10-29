@@ -31,11 +31,12 @@ import io.anserini.util.CacheDirectoryResolver;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-/** Query encoder for the shared SlideOn ONNX graph. Terms are decimal latent IDs. */
+/** Query encoder for the shared SlideOn ONNX graph with fixed top-64 query pruning. Terms are decimal latent IDs. */
 public class SlideOnEncoder extends SparseEncoder {
   private static final String MODEL_URL = "https://huggingface.co/castorini/slideon-onnx/resolve/main/slideon-optimized.onnx";
   private static final String TOKENIZER_URL = "https://huggingface.co/castorini/slideon-onnx/resolve/main/tokenizer.json";
@@ -47,6 +48,7 @@ public class SlideOnEncoder extends SparseEncoder {
   private static final String MODEL_IS_DOCUMENT = "is_document";
   private static final String MODEL_OUTPUT_IDX = "output_idx";
   private static final String MODEL_OUTPUT_WEIGHTS = "output_weights";
+  private static final int QUERY_TOP_K = 64;
 
   private final HuggingFaceTokenizer hfTokenizer;
   private final String prefix;
@@ -170,12 +172,18 @@ public class SlideOnEncoder extends SparseEncoder {
   @Override
   public Map<String, Integer> quantizeFloatWeights(Map<String, Float> weights) {
     Map<String, Integer> result = new LinkedHashMap<>();
-    weights.forEach((term, weight) -> {
-      int value = quantizeWeight(weight, scale);
-      if (value > 0) {
-        result.put(term, value);
-      }
-    });
+    // Select by unquantized weight: rounding first can change the top-k boundary.
+    // Numeric latent ID breaks ties deterministically, matching pre-encoded q64 queries.
+    weights.entrySet().stream()
+        .sorted(Comparator.<Map.Entry<String, Float>>comparingDouble(entry -> -entry.getValue())
+            .thenComparingInt(entry -> Integer.parseInt(entry.getKey())))
+        .limit(QUERY_TOP_K)
+        .forEach(entry -> {
+          int value = quantizeWeight(entry.getValue(), scale);
+          if (value > 0) {
+            result.put(entry.getKey(), value);
+          }
+        });
     return result;
   }
 
