@@ -24,7 +24,7 @@ What's the problem we're trying to solve?
 This is the definition I typically give:
 
 > Given an information need expressed as a query _q_, the text retrieval task is to return a ranked list of _k_ texts {_d<sub>1</sub>_, _d<sub>2</sub>_ ... _d<sub>k</sub>_} from an arbitrarily large but finite collection
-of texts _C_ = {_d<sub>i</sub>_} that maximizes a metric of interest, for example, nDCG, AP, etc.
+> of texts _C_ = {_d<sub>i</sub>_} that maximizes a metric of interest, for example, nDCG, AP, etc.
 
 This problem has been given various names, e.g., the search problem, the information retrieval problem, the text ranking problem, the top-_k_ document retrieval problem, etc.
 In most contexts, "ranking" and "retrieval" are used interchangeably.
@@ -57,8 +57,8 @@ If you want more evidence, here's a [NeurIPS 2020 paper](https://arxiv.org/abs/2
 
 Bing is referenced here because it's the first major consumer product built on RAG.
 [Perplexity](https://www.perplexity.ai/), [ChatGPT search](https://openai.com/index/introducing-chatgpt-search/), and pretty much every customer service chatbot work in similar ways.
-And if you add in control loops and other non-linear flow, you get ["agentic RAG"](https://weaviate.io/blog/what-is-agentic-rag).
-If you need additional convincing, check out [Google Trends](https://trends.google.com/trends/explore?date=today%205-y&q=%2Fg%2F11w2hkn8vj&hl=en).
+And if you add in control loops and other non-linear flow, you get [&#34;agentic RAG&#34;](https://weaviate.io/blog/what-is-agentic-rag).
+If you need additional convincing, check out [Google Trends](<https://trends.google.com/trends/explore?date=today%205-y&q=%2Fg%2F11w2hkn8vj&hl=en>).
 
 This is just a long-winded way of saying that retrieval (i.e., search) forms the foundation of answer generation with LLMs.
 In fact, it's critical to the quality of the output.
@@ -137,8 +137,7 @@ Well, that's the story for another day...
 <summary>Additional readings...</summary>
 
 This is a very high-level summary of core concepts in information retrieval.
-More nuanced explanations are presented in our book [Pretrained Transformers for Text Ranking: BERT and Beyond](
-https://link.springer.com/book/10.1007/978-3-031-02181-7).
+More nuanced explanations are presented in our book [Pretrained Transformers for Text Ranking: BERT and Beyond](https://link.springer.com/book/10.1007/978-3-031-02181-7).
 If you can access the book (e.g., via your university), then please do, since it helps get our page views up.
 However, if you're paywalled, a pre-publication version is available [on arXiv](https://arxiv.org/abs/2010.06467) for free.
 
@@ -148,6 +147,7 @@ When should you do these readings?
 That's a good question:
 If you absolutely want to know more _right now_, then go for it.
 Otherwise, I think it's probably okay to continue along the onboarding path... although you'll need to circle back and get a deeper understanding of these concepts if you want to get into information retrieval research "more seriously".
+
 </details>
 
 ## A Tour of MS MARCO
@@ -690,3 +690,4 @@ If you have any questions, look at previous pull requests for examples.
 + Results reproduced by [@StephenRebel](https://github.com/StephenRebel) on 2026-10-26 (commit [`5877aed`](https://github.com/castorini/anserini/commit/5877aedfc1a4781bbe6263f9853f2ad66d6fa2b2))
 + Results reproduced by [@orangepineapple](https://github.com/orangepineapple) on 2026-10-27 (commit [`5877aedf`](https://github.com/castorini/anserini/commit/5877aedfc1a4781bbe6263f9853f2ad66d6fa2b2))
 + Results reproduced by [@bardia1122](https://github.com/bardia1122) on 2026-10-28 (commit [`0323d37`](https://github.com/castorini/anserini/commit/0323d37942ad109e33e7577094bd3ede58509f59))
++ Results reproduced by [@pawansapkota100](https://github.com/pawansapkota100) on 2026-10-29 (commit [`c0dcb02`](https://github.com/castorini/anserini/commit/c0dcb02732f5bf2725f2ee8a10f2efdc016feed5))
