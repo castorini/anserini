@@ -10,7 +10,9 @@ src/main/python/onnx
 
 The following tutorial will be using the scripts available in the above directory directly.
 
-## Setups
+## Setup
+
+Python version: 3.12.3
 
 pip requirements:
 ```bash
@@ -19,10 +21,15 @@ pip install torch transformers onnx onnxruntime onnxoptimizer onnxscript
 
 versions tested:
 ```bash
-onnx                         1.17.0
-onnxoptimizer                0.3.13
-onnxruntime                  1.20.1
+torch                        2.14.1+cpu
+transformers                 5.21.0
+onnx                         1.23.2
+onnxoptimizer                0.4.2
+onnxruntime                  1.31.1
+onnxscript                   0.7.2
 ```
+
+For Anserini integration and regression testing, the tested versions were Java 21, Anserini 2.3.0, and Pyserini 2.4.0.
 
 ## Converting from PyTorch models to ONNX model
 The following sections will describe how to convert a transformer-based model to ONNX model. 
@@ -141,7 +148,8 @@ torch.onnx.export(
     output_names=output_names,
     dynamic_axes=dynamic_axes,
     do_constant_folding=True,
-    opset_version=14
+    opset_version=18,
+    dynamo=True
 )
 ```
 
@@ -434,7 +442,7 @@ python optimize_onnx_model.py --model_path models/splade-pp-ed.onnx
 
 ### Reproducing Transformer-Based Model Regressions 
 
-Now, we can reproduce regressions with the newly generated ONNX model, like seen in the [regressions-msmarco-v1-passage.splade-pp-ed.onnx.md](regressions/regressions-msmarco-v1-passage.splade-pp-ed.onnx.md).
+Now, we can reproduce regressions with the newly generated ONNX model, like seen in the [msmarco-v1-passage.splade-pp-ed.onnx.md](reproduce/from-document-collection/msmarco-v1-passage.splade-pp-ed.onnx.md).
 
 To make sure Anserini uses our generated model instead of downloading it, we want to store the newly generated models in the ```~/.cache/pyserini/encoders``` directory.
 
@@ -454,3 +462,4 @@ Finally, we can run the end to end regression as seen in the previously mentione
 + Results reproduced by [@wu-ming233](https://github.com/wu-ming233) on 2025-06-13 (commit [`4d9e082`](https://github.com/castorini/anserini/commit/4d9e08201051b3a158fddd6e419683fc0da9be9c))
 + Results reproduced by [@nli33](https://github.com/nli33) on 2026-04-21 (commit [`b0023c2`](https://github.com/castorini/anserini/commit/b0023c20d46bf606cb8cb09dbbe8fff04a35aaa5))
 + Results reproduced by [@h79yan](https://github.com/h79yan) on 2026-04-22 (commit [`268ad60`](https://github.com/castorini/anserini/commit/268ad600a88631abcf30c1022f833c876b85735f))
++ Results reproduced by [@ricky42613](https://github.com/ricky42613) on 2026-10-27 (commit [`6622944`](https://github.com/castorini/anserini/commit/6622944b662d616a5b8ab0b28e0a1c97707aeae8))
