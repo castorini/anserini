@@ -25,6 +25,7 @@ import io.anserini.encoder.dense.DenseEncoder;
 import io.anserini.encoder.sparse.SpladePlusPlusEnsembleDistilEncoder;
 import io.anserini.encoder.sparse.SpladePlusPlusSelfDistilEncoder;
 import io.anserini.encoder.sparse.SpladeV3Encoder;
+import io.anserini.encoder.sparse.SlideOnEncoder;
 import io.anserini.encoder.sparse.SparseEncoder;
 import io.anserini.encoder.sparse.UniCoilEncoder;
 import io.anserini.search.topicreader.TopicReader;
@@ -69,7 +70,7 @@ import java.util.Set;
  * <ul>
  *   <li>Dense:  ArcticEmbedL, BgeBaseEn15, BgeLargeEn15, CosDprDistil</li>
  *   <li>Sparse: SpladePlusPlusEnsembleDistil, SpladePlusPlusSelfDistil,
- *               SpladeV3, UniCoil</li>
+ *               SpladeV3, UniCoil, SlideOn</li>
  * </ul>
  *
  * <p>Example invocation via fatjar:
@@ -92,13 +93,13 @@ public class EncodeQuery {
 
   public static final Set<String> SPARSE_ENCODER_NAMES = Set.of(
       "SpladePlusPlusEnsembleDistil", "SpladePlusPlusSelfDistil",
-      "SpladeV3", "UniCoil"
+      "SpladeV3", "UniCoil", "SlideOn"
   );
 
   public static class Args {
     @Option(name = "-encoder", metaVar = "[name]", required = true,
         usage = "Encoder name. Dense: ArcticEmbedL | BgeBaseEn15 | BgeLargeEn15 | CosDprDistil. " +
-                "Sparse: SpladePlusPlusEnsembleDistil | SpladePlusPlusSelfDistil | SpladeV3 | UniCoil.")
+                "Sparse: SpladePlusPlusEnsembleDistil | SpladePlusPlusSelfDistil | SpladeV3 | UniCoil | SlideOn.")
     public String encoder;
 
     @Option(name = "-queries", metaVar = "[path]", required = true,
@@ -141,6 +142,7 @@ public class EncodeQuery {
       case "SpladePlusPlusSelfDistil":     return new SpladePlusPlusSelfDistilEncoder();
       case "SpladeV3":                     return new SpladeV3Encoder();
       case "UniCoil":                      return new UniCoilEncoder();
+      case "SlideOn":                      return new SlideOnEncoder();
       default:
         throw new IllegalArgumentException(
             "Unknown encoder '" + name + "'. Valid names: " + allEncoderNames());
