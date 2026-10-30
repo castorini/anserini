@@ -546,6 +546,8 @@ java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl20-passage runs/run.msmarco-
 
 ### 8. SlideOn (ONNX), d512/q64, scale 100
 
+**Config**: [msmarco-v1-passage.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.yaml)
+
 #### msmarco-v1-passage.dev
 
 Retrieval command:
