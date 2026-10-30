@@ -15,41 +15,42 @@ Key:
 + **BM25f** = BM25, flat bag-of-words baseline
 + **BM25mf** = BM25, multifield bag-of-words baseline
 + **SPLADE** = SPLADE-v3 (ONNX)
++ **SlideOn** = SlideOn (ONNX), d512/q64, scale 100
 + **BGE** = bge-base-en-v1.5 w/ flat indexes (ONNX)
 + **RRF** = Fusion: RRF (BM25f + BGE)
 + **Avg** = Fusion: Average (BM25f + BGE) with normalization
 
-| corpus | [BM25f](#condition-1) | [BM25mf](#condition-2) | [SPLADE](#condition-3) | [BGE](#condition-4) | [RRF](#condition-5) | [Avg](#condition-6) |
-| --- | --- | --- | --- | --- | --- | --- |
-| trec-covid | 0.5947 | 0.6559 | 0.7299 | 0.7815 | 0.8041 | 0.7956 |
-| bioasq | 0.5225 | 0.4646 | 0.5142 | 0.4148 | 0.5278 | 0.5428 |
-| nfcorpus | 0.3218 | 0.3254 | 0.3629 | 0.3738 | 0.3725 | 0.3785 |
-| nq | 0.3055 | 0.3285 | 0.5842 | 0.5415 | 0.4831 | 0.5183 |
-| hotpotqa | 0.6330 | 0.6027 | 0.6884 | 0.7259 | 0.7389 | 0.7658 |
-| fiqa | 0.2361 | 0.2361 | 0.3798 | 0.4065 | 0.3671 | 0.3942 |
-| signal1m | 0.3304 | 0.3304 | 0.2465 | 0.2886 | 0.3533 | 0.3626 |
-| trec-news | 0.3952 | 0.3977 | 0.4365 | 0.4424 | 0.4855 | 0.5008 |
-| robust04 | 0.4070 | 0.4070 | 0.4952 | 0.4435 | 0.5070 | 0.5127 |
-| arguana | 0.3970 | 0.4142 | 0.4862 | 0.6375 | 0.5626 | 0.5738 |
-| webis-touche2020 | 0.4422 | 0.3673 | 0.3086 | 0.2571 | 0.3771 | 0.3755 |
-| cqadupstack-android | 0.3801 | 0.3709 | 0.4109 | 0.5076 | 0.4652 | 0.4868 |
-| cqadupstack-english | 0.3453 | 0.3321 | 0.4255 | 0.4857 | 0.4461 | 0.4678 |
-| cqadupstack-gaming | 0.4822 | 0.4418 | 0.5193 | 0.5967 | 0.5615 | 0.5818 |
-| cqadupstack-gis | 0.2901 | 0.2904 | 0.3236 | 0.4131 | 0.3679 | 0.3937 |
-| cqadupstack-mathematica | 0.2015 | 0.2046 | 0.2445 | 0.3163 | 0.2751 | 0.2951 |
-| cqadupstack-physics | 0.3214 | 0.3248 | 0.3753 | 0.4724 | 0.4143 | 0.4375 |
-| cqadupstack-programmers | 0.2802 | 0.2963 | 0.3387 | 0.4238 | 0.3715 | 0.4005 |
-| cqadupstack-stats | 0.2711 | 0.2790 | 0.3137 | 0.3728 | 0.3414 | 0.3534 |
-| cqadupstack-tex | 0.2244 | 0.2086 | 0.2493 | 0.3115 | 0.2931 | 0.3090 |
-| cqadupstack-unix | 0.2749 | 0.2788 | 0.3196 | 0.4220 | 0.3597 | 0.3853 |
-| cqadupstack-webmasters | 0.3059 | 0.3008 | 0.3250 | 0.4072 | 0.3711 | 0.3857 |
-| cqadupstack-wordpress | 0.2483 | 0.2562 | 0.2807 | 0.3547 | 0.3353 | 0.3546 |
-| quora | 0.7886 | 0.7886 | 0.8141 | 0.8876 | 0.8682 | 0.8858 |
-| dbpedia-entity | 0.3180 | 0.3128 | 0.4476 | 0.4073 | 0.4190 | 0.4374 |
-| scidocs | 0.1490 | 0.1581 | 0.1567 | 0.2172 | 0.1948 | 0.2019 |
-| fever | 0.6513 | 0.7530 | 0.8015 | 0.8629 | 0.8108 | 0.8584 |
-| climate-fever | 0.1651 | 0.2129 | 0.2625 | 0.3117 | 0.2812 | 0.2946 |
-| scifact | 0.6789 | 0.6647 | 0.7140 | 0.7408 | 0.7420 | 0.7472 |
+| corpus | [BM25f](#condition-1) | [BM25mf](#condition-2) | [SPLADE](#condition-3) | [SlideOn](#condition-7) | [BGE](#condition-4) | [RRF](#condition-5) | [Avg](#condition-6) |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| trec-covid | 0.5947 | 0.6559 | 0.7299 | 0.7955 | 0.7815 | 0.8041 | 0.7956 |
+| bioasq | 0.5225 | 0.4646 | 0.5142 | 0.5113 | 0.4148 | 0.5278 | 0.5428 |
+| nfcorpus | 0.3218 | 0.3254 | 0.3629 | 0.3829 | 0.3738 | 0.3725 | 0.3785 |
+| nq | 0.3055 | 0.3285 | 0.5842 | 0.6372 | 0.5415 | 0.4831 | 0.5183 |
+| hotpotqa | 0.6330 | 0.6027 | 0.6884 | 0.7969 | 0.7259 | 0.7389 | 0.7658 |
+| fiqa | 0.2361 | 0.2361 | 0.3798 | 0.4933 | 0.4065 | 0.3671 | 0.3942 |
+| signal1m | 0.3304 | 0.3304 | 0.2465 | 0.2963 | 0.2886 | 0.3533 | 0.3626 |
+| trec-news | 0.3952 | 0.3977 | 0.4365 | 0.5066 | 0.4424 | 0.4855 | 0.5008 |
+| robust04 | 0.4070 | 0.4070 | 0.4952 | 0.5751 | 0.4435 | 0.5070 | 0.5127 |
+| arguana | 0.3970 | 0.4142 | 0.4862 | 0.5228 | 0.6375 | 0.5626 | 0.5738 |
+| webis-touche2020 | 0.4422 | 0.3673 | 0.3086 | 0.3407 | 0.2571 | 0.3771 | 0.3755 |
+| cqadupstack-android | 0.3801 | 0.3709 | 0.4109 | 0.4772 | 0.5076 | 0.4652 | 0.4868 |
+| cqadupstack-english | 0.3453 | 0.3321 | 0.4255 | 0.5150 | 0.4857 | 0.4461 | 0.4678 |
+| cqadupstack-gaming | 0.4822 | 0.4418 | 0.5193 | 0.6016 | 0.5967 | 0.5615 | 0.5818 |
+| cqadupstack-gis | 0.2901 | 0.2904 | 0.3236 | 0.4196 | 0.4131 | 0.3679 | 0.3937 |
+| cqadupstack-mathematica | 0.2015 | 0.2046 | 0.2445 | 0.3143 | 0.3163 | 0.2751 | 0.2951 |
+| cqadupstack-physics | 0.3214 | 0.3248 | 0.3753 | 0.4580 | 0.4724 | 0.4143 | 0.4375 |
+| cqadupstack-programmers | 0.2802 | 0.2963 | 0.3387 | 0.4267 | 0.4238 | 0.3715 | 0.4005 |
+| cqadupstack-stats | 0.2711 | 0.2790 | 0.3137 | 0.3754 | 0.3728 | 0.3414 | 0.3534 |
+| cqadupstack-tex | 0.2244 | 0.2086 | 0.2493 | 0.3245 | 0.3115 | 0.2931 | 0.3090 |
+| cqadupstack-unix | 0.2749 | 0.2788 | 0.3196 | 0.4346 | 0.4220 | 0.3597 | 0.3853 |
+| cqadupstack-webmasters | 0.3059 | 0.3008 | 0.3250 | 0.4087 | 0.4072 | 0.3711 | 0.3857 |
+| cqadupstack-wordpress | 0.2483 | 0.2562 | 0.2807 | 0.3492 | 0.3547 | 0.3353 | 0.3546 |
+| quora | 0.7886 | 0.7886 | 0.8141 | 0.8590 | 0.8876 | 0.8682 | 0.8858 |
+| dbpedia-entity | 0.3180 | 0.3128 | 0.4476 | 0.4850 | 0.4073 | 0.4190 | 0.4374 |
+| scidocs | 0.1490 | 0.1581 | 0.1567 | 0.2010 | 0.2172 | 0.1948 | 0.2019 |
+| fever | 0.6513 | 0.7530 | 0.8015 | 0.9187 | 0.8629 | 0.8108 | 0.8584 |
+| climate-fever | 0.1651 | 0.2129 | 0.2625 | 0.4299 | 0.3117 | 0.2812 | 0.2946 |
+| scifact | 0.6789 | 0.6647 | 0.7140 | 0.7499 | 0.7408 | 0.7420 | 0.7472 |
 
 
 
@@ -3762,4 +3763,675 @@ Evaluation commands:
 java -cp $fatjar trec_eval -c -m ndcg_cut.10 beir-v1.0.0-scifact.test runs/run.beir.fusion-avg.scifact.txt
 ```
 
+<a id="condition-7"></a>
 
+### 7. SlideOn (ONNX), d512/q64, scale 100
+
+**Config**: [beir.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/beir.yaml)
+
+#### trec-covid
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index beir-v1.0.0-trec-covid.slideon \
+    -topics beir-trec-covid \
+    -encoder SlideOn \
+    -output runs/run.beir.slideon.onnx.trec-covid.txt \
+    -impact \
+    -pretokenized \
+    -hits 1000 \
+    -removeQuery
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 beir-v1.0.0-trec-covid.test runs/run.beir.slideon.onnx.trec-covid.txt
+```
+
+#### bioasq
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index beir-v1.0.0-bioasq.slideon \
+    -topics beir-bioasq \
+    -encoder SlideOn \
+    -output runs/run.beir.slideon.onnx.bioasq.txt \
+    -impact \
+    -pretokenized \
+    -hits 1000 \
+    -removeQuery
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 beir-v1.0.0-bioasq.test runs/run.beir.slideon.onnx.bioasq.txt
+```
+
+#### nfcorpus
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index beir-v1.0.0-nfcorpus.slideon \
+    -topics beir-nfcorpus \
+    -encoder SlideOn \
+    -output runs/run.beir.slideon.onnx.nfcorpus.txt \
+    -impact \
+    -pretokenized \
+    -hits 1000 \
+    -removeQuery
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 beir-v1.0.0-nfcorpus.test runs/run.beir.slideon.onnx.nfcorpus.txt
+```
+
+#### nq
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index beir-v1.0.0-nq.slideon \
+    -topics beir-nq \
+    -encoder SlideOn \
+    -output runs/run.beir.slideon.onnx.nq.txt \
+    -impact \
+    -pretokenized \
+    -hits 1000 \
+    -removeQuery
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 beir-v1.0.0-nq.test runs/run.beir.slideon.onnx.nq.txt
+```
+
+#### hotpotqa
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index beir-v1.0.0-hotpotqa.slideon \
+    -topics beir-hotpotqa \
+    -encoder SlideOn \
+    -output runs/run.beir.slideon.onnx.hotpotqa.txt \
+    -impact \
+    -pretokenized \
+    -hits 1000 \
+    -removeQuery
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 beir-v1.0.0-hotpotqa.test runs/run.beir.slideon.onnx.hotpotqa.txt
+```
+
+#### fiqa
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index beir-v1.0.0-fiqa.slideon \
+    -topics beir-fiqa \
+    -encoder SlideOn \
+    -output runs/run.beir.slideon.onnx.fiqa.txt \
+    -impact \
+    -pretokenized \
+    -hits 1000 \
+    -removeQuery
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 beir-v1.0.0-fiqa.test runs/run.beir.slideon.onnx.fiqa.txt
+```
+
+#### signal1m
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index beir-v1.0.0-signal1m.slideon \
+    -topics beir-signal1m \
+    -encoder SlideOn \
+    -output runs/run.beir.slideon.onnx.signal1m.txt \
+    -impact \
+    -pretokenized \
+    -hits 1000 \
+    -removeQuery
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 beir-v1.0.0-signal1m.test runs/run.beir.slideon.onnx.signal1m.txt
+```
+
+#### trec-news
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index beir-v1.0.0-trec-news.slideon \
+    -topics beir-trec-news \
+    -encoder SlideOn \
+    -output runs/run.beir.slideon.onnx.trec-news.txt \
+    -impact \
+    -pretokenized \
+    -hits 1000 \
+    -removeQuery
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 beir-v1.0.0-trec-news.test runs/run.beir.slideon.onnx.trec-news.txt
+```
+
+#### robust04
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index beir-v1.0.0-robust04.slideon \
+    -topics beir-robust04 \
+    -encoder SlideOn \
+    -output runs/run.beir.slideon.onnx.robust04.txt \
+    -impact \
+    -pretokenized \
+    -hits 1000 \
+    -removeQuery
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 beir-v1.0.0-robust04.test runs/run.beir.slideon.onnx.robust04.txt
+```
+
+#### arguana
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index beir-v1.0.0-arguana.slideon \
+    -topics beir-arguana \
+    -encoder SlideOn \
+    -output runs/run.beir.slideon.onnx.arguana.txt \
+    -impact \
+    -pretokenized \
+    -hits 1000 \
+    -removeQuery
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 beir-v1.0.0-arguana.test runs/run.beir.slideon.onnx.arguana.txt
+```
+
+#### webis-touche2020
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index beir-v1.0.0-webis-touche2020.slideon \
+    -topics beir-webis-touche2020 \
+    -encoder SlideOn \
+    -output runs/run.beir.slideon.onnx.webis-touche2020.txt \
+    -impact \
+    -pretokenized \
+    -hits 1000 \
+    -removeQuery
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 beir-v1.0.0-webis-touche2020.test runs/run.beir.slideon.onnx.webis-touche2020.txt
+```
+
+#### cqadupstack-android
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index beir-v1.0.0-cqadupstack-android.slideon \
+    -topics beir-cqadupstack-android \
+    -encoder SlideOn \
+    -output runs/run.beir.slideon.onnx.cqadupstack-android.txt \
+    -impact \
+    -pretokenized \
+    -hits 1000 \
+    -removeQuery
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 beir-v1.0.0-cqadupstack-android.test runs/run.beir.slideon.onnx.cqadupstack-android.txt
+```
+
+#### cqadupstack-english
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index beir-v1.0.0-cqadupstack-english.slideon \
+    -topics beir-cqadupstack-english \
+    -encoder SlideOn \
+    -output runs/run.beir.slideon.onnx.cqadupstack-english.txt \
+    -impact \
+    -pretokenized \
+    -hits 1000 \
+    -removeQuery
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 beir-v1.0.0-cqadupstack-english.test runs/run.beir.slideon.onnx.cqadupstack-english.txt
+```
+
+#### cqadupstack-gaming
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index beir-v1.0.0-cqadupstack-gaming.slideon \
+    -topics beir-cqadupstack-gaming \
+    -encoder SlideOn \
+    -output runs/run.beir.slideon.onnx.cqadupstack-gaming.txt \
+    -impact \
+    -pretokenized \
+    -hits 1000 \
+    -removeQuery
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 beir-v1.0.0-cqadupstack-gaming.test runs/run.beir.slideon.onnx.cqadupstack-gaming.txt
+```
+
+#### cqadupstack-gis
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index beir-v1.0.0-cqadupstack-gis.slideon \
+    -topics beir-cqadupstack-gis \
+    -encoder SlideOn \
+    -output runs/run.beir.slideon.onnx.cqadupstack-gis.txt \
+    -impact \
+    -pretokenized \
+    -hits 1000 \
+    -removeQuery
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 beir-v1.0.0-cqadupstack-gis.test runs/run.beir.slideon.onnx.cqadupstack-gis.txt
+```
+
+#### cqadupstack-mathematica
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index beir-v1.0.0-cqadupstack-mathematica.slideon \
+    -topics beir-cqadupstack-mathematica \
+    -encoder SlideOn \
+    -output runs/run.beir.slideon.onnx.cqadupstack-mathematica.txt \
+    -impact \
+    -pretokenized \
+    -hits 1000 \
+    -removeQuery
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 beir-v1.0.0-cqadupstack-mathematica.test runs/run.beir.slideon.onnx.cqadupstack-mathematica.txt
+```
+
+#### cqadupstack-physics
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index beir-v1.0.0-cqadupstack-physics.slideon \
+    -topics beir-cqadupstack-physics \
+    -encoder SlideOn \
+    -output runs/run.beir.slideon.onnx.cqadupstack-physics.txt \
+    -impact \
+    -pretokenized \
+    -hits 1000 \
+    -removeQuery
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 beir-v1.0.0-cqadupstack-physics.test runs/run.beir.slideon.onnx.cqadupstack-physics.txt
+```
+
+#### cqadupstack-programmers
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index beir-v1.0.0-cqadupstack-programmers.slideon \
+    -topics beir-cqadupstack-programmers \
+    -encoder SlideOn \
+    -output runs/run.beir.slideon.onnx.cqadupstack-programmers.txt \
+    -impact \
+    -pretokenized \
+    -hits 1000 \
+    -removeQuery
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 beir-v1.0.0-cqadupstack-programmers.test runs/run.beir.slideon.onnx.cqadupstack-programmers.txt
+```
+
+#### cqadupstack-stats
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index beir-v1.0.0-cqadupstack-stats.slideon \
+    -topics beir-cqadupstack-stats \
+    -encoder SlideOn \
+    -output runs/run.beir.slideon.onnx.cqadupstack-stats.txt \
+    -impact \
+    -pretokenized \
+    -hits 1000 \
+    -removeQuery
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 beir-v1.0.0-cqadupstack-stats.test runs/run.beir.slideon.onnx.cqadupstack-stats.txt
+```
+
+#### cqadupstack-tex
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index beir-v1.0.0-cqadupstack-tex.slideon \
+    -topics beir-cqadupstack-tex \
+    -encoder SlideOn \
+    -output runs/run.beir.slideon.onnx.cqadupstack-tex.txt \
+    -impact \
+    -pretokenized \
+    -hits 1000 \
+    -removeQuery
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 beir-v1.0.0-cqadupstack-tex.test runs/run.beir.slideon.onnx.cqadupstack-tex.txt
+```
+
+#### cqadupstack-unix
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index beir-v1.0.0-cqadupstack-unix.slideon \
+    -topics beir-cqadupstack-unix \
+    -encoder SlideOn \
+    -output runs/run.beir.slideon.onnx.cqadupstack-unix.txt \
+    -impact \
+    -pretokenized \
+    -hits 1000 \
+    -removeQuery
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 beir-v1.0.0-cqadupstack-unix.test runs/run.beir.slideon.onnx.cqadupstack-unix.txt
+```
+
+#### cqadupstack-webmasters
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index beir-v1.0.0-cqadupstack-webmasters.slideon \
+    -topics beir-cqadupstack-webmasters \
+    -encoder SlideOn \
+    -output runs/run.beir.slideon.onnx.cqadupstack-webmasters.txt \
+    -impact \
+    -pretokenized \
+    -hits 1000 \
+    -removeQuery
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 beir-v1.0.0-cqadupstack-webmasters.test runs/run.beir.slideon.onnx.cqadupstack-webmasters.txt
+```
+
+#### cqadupstack-wordpress
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index beir-v1.0.0-cqadupstack-wordpress.slideon \
+    -topics beir-cqadupstack-wordpress \
+    -encoder SlideOn \
+    -output runs/run.beir.slideon.onnx.cqadupstack-wordpress.txt \
+    -impact \
+    -pretokenized \
+    -hits 1000 \
+    -removeQuery
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 beir-v1.0.0-cqadupstack-wordpress.test runs/run.beir.slideon.onnx.cqadupstack-wordpress.txt
+```
+
+#### quora
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index beir-v1.0.0-quora.slideon \
+    -topics beir-quora \
+    -encoder SlideOn \
+    -output runs/run.beir.slideon.onnx.quora.txt \
+    -impact \
+    -pretokenized \
+    -hits 1000 \
+    -removeQuery
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 beir-v1.0.0-quora.test runs/run.beir.slideon.onnx.quora.txt
+```
+
+#### dbpedia-entity
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index beir-v1.0.0-dbpedia-entity.slideon \
+    -topics beir-dbpedia-entity \
+    -encoder SlideOn \
+    -output runs/run.beir.slideon.onnx.dbpedia-entity.txt \
+    -impact \
+    -pretokenized \
+    -hits 1000 \
+    -removeQuery
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 beir-v1.0.0-dbpedia-entity.test runs/run.beir.slideon.onnx.dbpedia-entity.txt
+```
+
+#### scidocs
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index beir-v1.0.0-scidocs.slideon \
+    -topics beir-scidocs \
+    -encoder SlideOn \
+    -output runs/run.beir.slideon.onnx.scidocs.txt \
+    -impact \
+    -pretokenized \
+    -hits 1000 \
+    -removeQuery
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 beir-v1.0.0-scidocs.test runs/run.beir.slideon.onnx.scidocs.txt
+```
+
+#### fever
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index beir-v1.0.0-fever.slideon \
+    -topics beir-fever \
+    -encoder SlideOn \
+    -output runs/run.beir.slideon.onnx.fever.txt \
+    -impact \
+    -pretokenized \
+    -hits 1000 \
+    -removeQuery
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 beir-v1.0.0-fever.test runs/run.beir.slideon.onnx.fever.txt
+```
+
+#### climate-fever
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index beir-v1.0.0-climate-fever.slideon \
+    -topics beir-climate-fever \
+    -encoder SlideOn \
+    -output runs/run.beir.slideon.onnx.climate-fever.txt \
+    -impact \
+    -pretokenized \
+    -hits 1000 \
+    -removeQuery
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 beir-v1.0.0-climate-fever.test runs/run.beir.slideon.onnx.climate-fever.txt
+```
+
+#### scifact
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index beir-v1.0.0-scifact.slideon \
+    -topics beir-scifact \
+    -encoder SlideOn \
+    -output runs/run.beir.slideon.onnx.scifact.txt \
+    -impact \
+    -pretokenized \
+    -hits 1000 \
+    -removeQuery
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 beir-v1.0.0-scifact.test runs/run.beir.slideon.onnx.scifact.txt
+```
