@@ -25,6 +25,7 @@ Key:
 | [5](#condition-5) | SPLADE-v3 (ONNX) | 0.4000 | 0.7264 | 0.7522 |
 | [6](#condition-6) | bge-base-en-v1.5 with HNSW (ONNX) | 0.3575 | 0.7016 | 0.6768 |
 | [7](#condition-7) | bge-base-en-v1.5 with quantized HNSW (ONNX) | 0.3575 | 0.7017 | 0.6767 |
+| [8](#condition-8) | SlideOn (ONNX), d512/q64, scale 100 | 0.3855 | 0.7247 | 0.7189 |
 
 
 
@@ -541,4 +542,79 @@ java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl20-passage runs/run.msmarco-v1-pa
 java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl20-passage runs/run.msmarco-v1-passage.bge-base-en-v1.5.hnsw-int8.onnx.dl20-passage.txt
 ```
 
+<a id="condition-8"></a>
 
+### 8. SlideOn (ONNX), d512/q64, scale 100
+
+**Config**: [msmarco-v1-passage.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-passage.yaml)
+
+#### msmarco-v1-passage.dev
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index msmarco-v1-passage.slideon \
+    -topics msmarco-v1-passage.dev \
+    -encoder SlideOn \
+    -output runs/run.msmarco-v1-passage.slideon.onnx.msmarco-v1-passage.dev.txt \
+    -impact \
+    -pretokenized \
+    -hits 1000
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -M 10 -m recip_rank msmarco-passage.dev runs/run.msmarco-v1-passage.slideon.onnx.msmarco-v1-passage.dev.txt
+java -cp $fatjar trec_eval -c -m recall.1000 msmarco-passage.dev runs/run.msmarco-v1-passage.slideon.onnx.msmarco-v1-passage.dev.txt
+```
+
+#### dl19-passage
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index msmarco-v1-passage.slideon \
+    -topics dl19-passage \
+    -encoder SlideOn \
+    -output runs/run.msmarco-v1-passage.slideon.onnx.dl19-passage.txt \
+    -impact \
+    -pretokenized \
+    -hits 1000
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -l 2 -m map dl19-passage runs/run.msmarco-v1-passage.slideon.onnx.dl19-passage.txt
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl19-passage runs/run.msmarco-v1-passage.slideon.onnx.dl19-passage.txt
+java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl19-passage runs/run.msmarco-v1-passage.slideon.onnx.dl19-passage.txt
+```
+
+#### dl20-passage
+
+Retrieval command:
+
+```bash
+java -cp $fatjar $jvm_args io.anserini.search.SearchCollection \
+    -threads 16 \
+    -index msmarco-v1-passage.slideon \
+    -topics dl20-passage \
+    -encoder SlideOn \
+    -output runs/run.msmarco-v1-passage.slideon.onnx.dl20-passage.txt \
+    -impact \
+    -pretokenized \
+    -hits 1000
+```
+
+Evaluation commands:
+
+```bash
+java -cp $fatjar trec_eval -c -l 2 -m map dl20-passage runs/run.msmarco-v1-passage.slideon.onnx.dl20-passage.txt
+java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl20-passage runs/run.msmarco-v1-passage.slideon.onnx.dl20-passage.txt
+java -cp $fatjar trec_eval -c -l 2 -m recall.1000 dl20-passage runs/run.msmarco-v1-passage.slideon.onnx.dl20-passage.txt
+```

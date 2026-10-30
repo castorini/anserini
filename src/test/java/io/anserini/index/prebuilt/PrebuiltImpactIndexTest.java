@@ -36,7 +36,7 @@ public class PrebuiltImpactIndexTest {
 
   @Test
   public void testTotalCount() {
-    assertEquals(94, PrebuiltImpactIndex.entries().size());
+    assertEquals(124, PrebuiltImpactIndex.entries().size());
   }
 
   @Test
@@ -47,7 +47,7 @@ public class PrebuiltImpactIndexTest {
         v1Count++;
       }
     }
-    assertEquals(76, v1Count);
+    assertEquals(106, v1Count);
   }
 
   @Test
@@ -80,7 +80,7 @@ public class PrebuiltImpactIndexTest {
         beirCount++;
       }
     }
-    assertEquals(58, beirCount);
+    assertEquals(87, beirCount);
   }
 
   @Test
