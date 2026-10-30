@@ -23,12 +23,18 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.attribute.FileTime;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
 import ai.onnxruntime.OrtException;
+import io.anserini.util.CacheDirectoryResolver;
 
 /**
  * On-the-fly query inference smoke tests, tokenizer regression tests, and
@@ -36,6 +42,8 @@ import ai.onnxruntime.OrtException;
  * representations are required, and raw-vector equivalence with PyTorch is not asserted.
  */
 public class SlideOnEncoderInferenceTest {
+  @Rule
+  public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
   private static final String[] EXAMPLE_QUERIES = {
       "what is paula deen's brother",
@@ -84,6 +92,43 @@ public class SlideOnEncoderInferenceTest {
           new long[] { 50281, 7267, 27, 534, 4000, 1080, 39020, 6616, 42799, 327, 253, 749, 1026, 522, 792, 17122, 66, 273, 253, 660, 522, 3627, 285, 37034, 327, 253, 16277, 6985, 254, 2148, 273, 253, 1547, 254, 316, 32, 50282 } },
 
   };
+
+  @Test
+  public void testRecoversMissingConfigWithCachedModel() throws Exception {
+    Path cachedModel;
+    Path cachedTokenizer;
+    try (SlideOnEncoder encoder = new SlideOnEncoder()) {
+      cachedModel = encoder.getModelPath();
+      cachedTokenizer = encoder.getVocabPath();
+    }
+
+    // Isolate the incomplete cache so the user's existing assets are never removed.
+    Path cache = temporaryFolder.newFolder("cache").toPath();
+    Path encoders = Files.createDirectory(cache.resolve("encoders"));
+    Path model = Files.copy(cachedModel, encoders.resolve(cachedModel.getFileName()));
+    Files.copy(cachedTokenizer, encoders.resolve(cachedTokenizer.getFileName()));
+    Path config = encoders.resolve("SlideOnEncoder-config.json");
+    Files.setLastModifiedTime(model, FileTime.fromMillis(1000));
+    FileTime modelTime = Files.getLastModifiedTime(model);
+    long modelSize = Files.size(model);
+    assertTrue(Files.notExists(config));
+
+    String property = CacheDirectoryResolver.CACHE_PROPERTY;
+    String previous = System.getProperty(property);
+    try {
+      System.setProperty(property, cache.toString());
+      try (SlideOnEncoder encoder = new SlideOnEncoder()) {
+        assertTrue(Files.isRegularFile(config));
+        assertTrue(Files.size(config) > 0);
+        assertEquals(model, encoder.getModelPath());
+        assertEquals(modelTime, Files.getLastModifiedTime(model));
+        assertEquals(modelSize, Files.size(model));
+        assertTrue(!encoder.encode("what is AI?").isEmpty());
+      }
+    } finally {
+      restoreProperty(property, previous);
+    }
+  }
 
   @Test
   public void testEmptyWhitespaceAndNullQueries() throws Exception {
