@@ -353,8 +353,8 @@ It turns out that optimizing for MRR@10 and MAP yields the same settings.
 
 Here's the comparison between the Anserini default and optimized parameters:
 
-| Setting                                         | MRR@10 |    MAP | Recall@1000 |
-|:------------------------------------------------|-------:|-------:|------------:|
+| Setting                                             | MRR@10 |    MAP | Recall@1000 |
+| :-------------------------------------------------- | -----: | -----: | ----------: |
 | Default (`k1=0.9`, `b=0.4`)                     | 0.1840 | 0.1926 |      0.8526 |
 | Optimized for recall@1000 (`k1=0.82`, `b=0.68`) | 0.1874 | 0.1957 |      0.8573 |
 | Optimized for MRR@10/MAP (`k1=0.60`, `b=0.62`)  | 0.1892 | 0.1972 |      0.8555 |
@@ -374,11 +374,11 @@ The table compares the original published parameter averages (from above) with t
 The development scores shown evaluate the newly tuned pairs.
 The default baseline remains `k1=0.9`, `b=0.4`.
 
-| Training Objective | Original k1 | Original b | Newly Tuned k1 | Newly Tuned b | New MRR@10 | New MAP | New Recall@1000 |
-| :----------------- | ----------: | ---------: | -------------: | ------------: | ---------: | ------: | --------------: |
-| Recall@1000        |        0.82 |       0.68 |           0.82 |          0.68 |     0.1874 |  0.1957 |          0.8573 |
-| MRR@10             |        0.60 |       0.62 |           0.60 |      **0.58** |     0.1895 |  0.1976 |          0.8544 |
-| MAP                |        0.60 |       0.62 |           0.60 |          0.62 |     0.1892 |  0.1972 |          0.8555 |
+| Training Objective | Original k1 | Original b | Newly Tuned k1 |  Newly Tuned b | New MRR@10 | New MAP | New Recall@1000 |
+| :----------------- | ----------: | ---------: | -------------: | -------------: | ---------: | ------: | --------------: |
+| Recall@1000        |        0.82 |       0.68 |           0.82 |           0.68 |     0.1874 |  0.1957 |          0.8573 |
+| MRR@10             |        0.60 |       0.62 |           0.60 | **0.58** |     0.1895 |  0.1976 |          0.8544 |
+| MAP                |        0.60 |       0.62 |           0.60 |           0.62 |     0.1892 |  0.1972 |          0.8555 |
 
 + Recall and MAP recover the original parameter averages and development scores.
 + MRR selects `b=0.58` instead of `b=0.62`, giving MRR@10 0.1895 instead of the historical 0.1892; MRR and MAP no longer select the same average.
@@ -806,3 +806,5 @@ The default baseline remains `k1=0.9`, `b=0.4`.
 + Results reproduced by [@StephenRebel](https://github.com/StephenRebel) on 2026-10-26 (commit [`5877aed`](https://github.com/castorini/anserini/commit/5877aedfc1a4781bbe6263f9853f2ad66d6fa2b2))
 + Results reproduced by [@orangepineapple](https://github.com/orangepineapple) on 2026-10-27 (commit [`5877aedf`](https://github.com/castorini/anserini/commit/5877aedfc1a4781bbe6263f9853f2ad66d6fa2b2))
 + Results reproduced by [@bardia1122](https://github.com/bardia1122) on 2026-10-28 (commit [`0323d37`](https://github.com/castorini/anserini/commit/0323d37942ad109e33e7577094bd3ede58509f59))
+
+- Results reproduced by [@pawansapkota100](https://github.com/pawansapkota100) on 2026-10-30 (commit [`c0dcb02`](https://github.com/castorini/anserini/commit/c0dcb02732f5bf2725f2ee8a10f2efdc016feed5))
