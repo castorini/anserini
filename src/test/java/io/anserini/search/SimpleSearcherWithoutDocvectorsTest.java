@@ -34,6 +34,23 @@ public class SimpleSearcherWithoutDocvectorsTest extends IndexerWithoutDocvector
   }
 
   @Test
+  public void testBM25PrfRawDocumentFallback() throws Exception {
+    try (SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString())) {
+      searcher.set_bm25prf("JsonCollection");
+      assertTrue(searcher.use_bm25prf());
+      ScoredDoc[] results = searcher.search("text", 1);
+      assertEquals(1, results.length);
+      assertEquals("doc1", results[0].docid);
+      assertTrue(Float.isFinite(results[0].score));
+      assertEquals(0, searcher.search("notintheindex").length);
+      Map<String, ScoredDoc[]> batch = searcher.batch_search(List.of("text", "test"), List.of("a", "b"), 1, 2);
+      assertEquals(results[0].docid, batch.get("a")[0].docid);
+      assertEquals(results[0].score, batch.get("a")[0].score, 0);
+      assertEquals("doc3", batch.get("b")[0].docid);
+    }
+  }
+
+  @Test
   public void testSearch5() throws Exception {
     // Counterpart of testSearch5 in SimpleSearcherTest
     try(SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString())) {
