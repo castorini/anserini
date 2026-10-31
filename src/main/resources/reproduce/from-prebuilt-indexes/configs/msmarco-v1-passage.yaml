@@ -151,6 +151,38 @@ conditions:
           MAP: "-c -l 2 -m map"
           nDCG@10: "-c -m ndcg_cut.10"
           R@1K: "-c -l 2 -m recall.1000"
+  - name: slideon.onnx
+    display: "SlideOn (ONNX)"
+    command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-passage.slideon -topics $topics -output $output -impact -pretokenized -hits 1000 -encoder SlideOn
+    topics:
+      - topic_key: msmarco-v1-passage.dev
+        eval_key: msmarco-passage.dev
+        expected_scores:
+          MRR@10: 0.3855
+          R@1K: 0.9878
+        metric_definitions:
+          MRR@10: "-c -M 10 -m recip_rank"
+          R@1K: "-c -m recall.1000"
+      - topic_key: dl19-passage
+        eval_key: dl19-passage
+        expected_scores:
+          MAP: 0.4881
+          nDCG@10: 0.7247
+          R@1K: 0.8742
+        metric_definitions:
+          MAP: "-c -l 2 -m map"
+          nDCG@10: "-c -m ndcg_cut.10"
+          R@1K: "-c -l 2 -m recall.1000"
+      - topic_key: dl20-passage
+        eval_key: dl20-passage
+        expected_scores:
+          MAP: 0.5064
+          nDCG@10: 0.7189
+          R@1K: 0.8744
+        metric_definitions:
+          MAP: "-c -l 2 -m map"
+          nDCG@10: "-c -m ndcg_cut.10"
+          R@1K: "-c -l 2 -m recall.1000"
   - name: bge-base-en-v1.5.hnsw.onnx
     display: "bge-base-en-v1.5 with HNSW (ONNX)"
     command: io.anserini.search.SearchHnswDenseVectors -threads $threads -index msmarco-v1-passage.bge-base-en-v1.5.hnsw -topics $topics -output $output -efSearch 1000 -hits 1000 -encoder BgeBaseEn15
@@ -211,38 +243,6 @@ conditions:
           MAP: 0.4596
           nDCG@10: 0.6767
           R@1K: 0.8468
-        metric_definitions:
-          MAP: "-c -l 2 -m map"
-          nDCG@10: "-c -m ndcg_cut.10"
-          R@1K: "-c -l 2 -m recall.1000"
-  - name: slideon.onnx
-    display: "SlideOn (ONNX), d512/q64, scale 100"
-    command: io.anserini.search.SearchCollection -threads $threads -index msmarco-v1-passage.slideon -topics $topics -output $output -impact -pretokenized -hits 1000 -encoder SlideOn
-    topics:
-      - topic_key: msmarco-v1-passage.dev
-        eval_key: msmarco-passage.dev
-        expected_scores:
-          MRR@10: 0.3855
-          R@1K: 0.9878
-        metric_definitions:
-          MRR@10: "-c -M 10 -m recip_rank"
-          R@1K: "-c -m recall.1000"
-      - topic_key: dl19-passage
-        eval_key: dl19-passage
-        expected_scores:
-          MAP: 0.4881
-          nDCG@10: 0.7247
-          R@1K: 0.8742
-        metric_definitions:
-          MAP: "-c -l 2 -m map"
-          nDCG@10: "-c -m ndcg_cut.10"
-          R@1K: "-c -l 2 -m recall.1000"
-      - topic_key: dl20-passage
-        eval_key: dl20-passage
-        expected_scores:
-          MAP: 0.5064
-          nDCG@10: 0.7189
-          R@1K: 0.8744
         metric_definitions:
           MAP: "-c -l 2 -m map"
           nDCG@10: "-c -m ndcg_cut.10"

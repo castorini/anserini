@@ -20,6 +20,9 @@ ${summary}
 
 The BM25 "slim index" does not contain the document texts, whereas the BM25 "regular index" does contain document texts (and hence supports pseudo-relevance feedback with on-the-fly document parsing).
 
+SlideOn uses sparse representations pruned to the top 512 document features and top 64 query features by weight (`d512/q64`).
+A scale factor of 100 is applied to the weights before rounding to integer impact values.
+
 ## Commands
 
 In the commands below:
