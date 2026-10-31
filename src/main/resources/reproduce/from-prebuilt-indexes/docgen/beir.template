@@ -7,7 +7,8 @@
 
 ## Summary
 
-The table below summarizes effectiveness in terms of nDCG@10.
+The tables below summarize effectiveness in terms of nDCG@10, separating CQADupStack from the other domains.
+Each **Average** row is the unweighted mean across the domains in that table (17 other domains or 12 CQADupStack domains).
 For more metrics, refer to the config directly.
 
 Key:
@@ -15,9 +16,10 @@ Key:
 + **BM25f** = BM25, flat bag-of-words baseline
 + **BM25mf** = BM25, multifield bag-of-words baseline
 + **SPLADE** = SPLADE-v3 (ONNX)
++ **SlideOn** = SlideOn (ONNX), d512/q64, scale 100
 + **BGE** = bge-base-en-v1.5 w/ flat indexes (ONNX)
 + **RRF** = Fusion: RRF (BM25f + BGE)
-+ **Avg** = Fusion: Average (BM25f + BGE) with normalization
++ **SF** = Score-based fusion (BM25f + BGE): average of normalized scores
 
 ${summary}
 
