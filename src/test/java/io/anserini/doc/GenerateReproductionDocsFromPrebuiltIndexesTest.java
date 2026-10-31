@@ -219,8 +219,9 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
     if (includeAverage) {
       summary.append("| Average");
       for (int i = 0; i < config.conditions.size(); i++) {
-        summary.append(" | ").append(counts[i] == topics.size() && counts[i] > 0
-            ? String.format("%.4f", sums[i] / counts[i]) : "");
+        summary.append(" | ")
+            .append(counts[i] == topics.size() && counts[i] > 0
+                ? String.format("%.4f", sums[i] / counts[i]) : "");
       }
       summary.append(" |\n");
     }
