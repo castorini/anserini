@@ -335,3 +335,4 @@ If you have any questions, look at previous pull requests for examples.
 + Results reproduced by [@StephenRebel](https://github.com/StephenRebel) on 2026-10-26 (commit [`5877aed`](https://github.com/castorini/anserini/commit/5877aedfc1a4781bbe6263f9853f2ad66d6fa2b2))
 + Results reproduced by [@orangepineapple](https://github.com/orangepineapple) on 2026-10-27 (commit [`5877aedf`](https://github.com/castorini/anserini/commit/5877aedfc1a4781bbe6263f9853f2ad66d6fa2b2))
 + Results reproduced by [@bardia1122](https://github.com/bardia1122) on 2026-10-28 (commit [`7ec35df`](https://github.com/castorini/anserini/commit/7ec35df889c8d12072652cea8df7cf877b9c5340))
++ Results reproduced by [@pawansapkota100](https://github.com/pawansapkota100) on 2026-10-31 (commit [`c0dcb02`](https://github.com/castorini/anserini/commit/c0dcb02732f5bf2725f2ee8a10f2efdc016feed5))
