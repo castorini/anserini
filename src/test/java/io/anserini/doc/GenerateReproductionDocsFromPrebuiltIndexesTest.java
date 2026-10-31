@@ -175,6 +175,10 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
   }
 
   private static String buildSummaryInColumns(Config config, String metric) {
+    return buildSummaryInColumns(config, metric, config.conditions.get(0).topics, false);
+  }
+
+  private static String buildSummaryInColumns(Config config, String metric, List<Topic> topics, boolean includeAverage) {
     StringBuilder summary = new StringBuilder();
     summary.append("| corpus");
     for (int i = 0; i < config.conditions.size(); i++) {
@@ -190,9 +194,12 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
     }
     summary.append(" |\n");
 
-    for (Topic topic : config.conditions.get(0).topics) {
+    double[] sums = new double[config.conditions.size()];
+    int[] counts = new int[config.conditions.size()];
+    for (Topic topic : topics) {
       summary.append(String.format("| %s", topic.topic_key));
-      for (Condition condition : config.conditions) {
+      for (int i = 0; i < config.conditions.size(); i++) {
+        Condition condition = config.conditions.get(i);
         Double score = null;
         for (Topic conditionTopic : condition.topics) {
           if (conditionTopic.topic_key.equals(topic.topic_key) && conditionTopic.expected_scores != null) {
@@ -201,10 +208,23 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
           }
         }
         summary.append(" | ").append(score == null ? "" : String.format("%.4f", score));
+        if (score != null) {
+          sums[i] += score;
+          counts[i]++;
+        }
       }
       summary.append(" |\n");
     }
 
+    if (includeAverage) {
+      summary.append("| Average");
+      for (int i = 0; i < config.conditions.size(); i++) {
+        summary.append(" | ")
+            .append(counts[i] == topics.size() && counts[i] > 0
+                ? String.format("%.4f", sums[i] / counts[i]) : "");
+      }
+      summary.append(" |\n");
+    }
     summary.append("\n");
     return summary.toString();
   }
@@ -328,7 +348,14 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
 
   @Test
   public void generateBeirReport() throws Exception {
-    generateReportInColumns("beir.yaml", "nDCG@10",
-        (topic, condition) -> topic.topic_key);
+    ReportContext context = loadReportContext("beir.yaml");
+    List<Topic> topics = context.config().conditions.get(0).topics;
+    List<Topic> otherDomains = topics.stream().filter(t -> !t.topic_key.startsWith("cqadupstack-")).toList();
+    List<Topic> cqadupstack = topics.stream().filter(t -> t.topic_key.startsWith("cqadupstack-")).toList();
+    String summary = "### Other domains\n\n"
+        + buildSummaryInColumns(context.config(), "nDCG@10", otherDomains, true)
+        + "### CQADupStack domains\n\n"
+        + buildSummaryInColumns(context.config(), "nDCG@10", cqadupstack, true);
+    writeReport(context, summary, buildCommandSections(context, (topic, condition) -> topic.topic_key));
   }
 }
