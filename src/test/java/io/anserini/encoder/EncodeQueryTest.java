@@ -38,6 +38,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
+import io.anserini.encoder.sparse.SlideOnEncoder;
 
 @LuceneTestCase.SuppressSysoutChecks(bugUrl = "output comes from args4j and EncodeQuery stderr")
 public class EncodeQueryTest extends StdOutStdErrRedirectableLuceneTestCase {
@@ -83,6 +84,18 @@ public class EncodeQueryTest extends StdOutStdErrRedirectableLuceneTestCase {
   }
 
   // --- CLI argument validation ---
+
+  @Test
+  public void testBuildSlideOnEncoder() throws Exception {
+    assertTrue(EncodeQuery.SPARSE_ENCODER_NAMES.contains("SlideOn"));
+    try (OnnxEncoder<?> encoder = EncodeQuery.buildEncoder("SlideOn")) {
+      assertTrue(encoder instanceof SlideOnEncoder);
+      assertTrue(encoder.getModelPath().endsWith("slideon-optimized.onnx"));
+      // An independently verified value from the existing SlideOn inference regression.
+      assertEquals(Integer.valueOf(24),
+          ((SlideOnEncoder) encoder).encode("Androgen receptor define").get("22565"));
+    }
+  }
 
   @Test(expected = IllegalArgumentException.class)
   public void testBuildEncoderUnknownThrows() throws Exception {
