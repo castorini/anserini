@@ -167,7 +167,7 @@ conditions:
         eval_key: dl19-passage
         expected_scores:
           MAP: 0.4881
-          nDCG@10: 0.7247
+          nDCG@10: 0.7252
           R@1K: 0.8742
         metric_definitions:
           MAP: "-c -l 2 -m map"

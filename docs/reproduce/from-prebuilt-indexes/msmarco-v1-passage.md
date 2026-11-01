@@ -23,7 +23,7 @@ Key:
 | [3](#condition-3) | BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) + Rocchio, regular index |  | 0.5275 | 0.4910 |
 | [4](#condition-4) | BM25 with doc2query-T5  (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.2723 | 0.6417 | 0.6187 |
 | [5](#condition-5) | SPLADE-v3 (ONNX) | 0.4000 | 0.7264 | 0.7522 |
-| [6](#condition-6) | SlideOn (ONNX) | 0.3855 | 0.7247 | 0.7189 |
+| [6](#condition-6) | SlideOn (ONNX) | 0.3855 | 0.7252 | 0.7189 |
 | [7](#condition-7) | bge-base-en-v1.5 with HNSW (ONNX) | 0.3575 | 0.7016 | 0.6768 |
 | [8](#condition-8) | bge-base-en-v1.5 with quantized HNSW (ONNX) | 0.3575 | 0.7017 | 0.6767 |
 
