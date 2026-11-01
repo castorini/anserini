@@ -652,5 +652,3 @@ java -cp $fatjar trec_eval -c -m ndcg_cut.10 rag24.raggy-dev runs/run.msmarco-v2
 java -cp $fatjar trec_eval -c -m recall.100 rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-segmented-doc.rag24.raggy-dev.txt
 java -cp $fatjar trec_eval -c -m recall.1000 rag24.raggy-dev runs/run.msmarco-v2.1-doc.bm25-segmented-doc.rag24.raggy-dev.txt
 ```
-
-

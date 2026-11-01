@@ -529,5 +529,3 @@ java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl23-passage runs/run.msmarco-v2-pa
 java -cp $fatjar trec_eval -c -m recall.100 -l 2 dl23-passage runs/run.msmarco-v2-passage.unicoil.onnx.dl23.txt
 java -cp $fatjar trec_eval -c -m recall.1000 -l 2 dl23-passage runs/run.msmarco-v2-passage.unicoil.onnx.dl23.txt
 ```
-
-

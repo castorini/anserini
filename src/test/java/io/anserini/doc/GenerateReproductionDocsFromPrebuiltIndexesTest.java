@@ -275,7 +275,7 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
         .replace("${jvm_args}", ReproductionUtils.Constants.JVM_ARGS)
         .replace("${summary}", summary)
         .replace("${commands}", commands)
-        .replace("${command}", commands), StandardCharsets.UTF_8);
+        .replace("${command}", commands).stripTrailing() + "\n", StandardCharsets.UTF_8);
   }
 
   @Test

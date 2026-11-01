@@ -1060,5 +1060,3 @@ Evaluation commands:
 ```bash
 java -cp $fatjar trec_eval -c -m ndcg_cut.10 bright-theoremqa-theorems runs/run.bright.bge-large-en-v1.5.flat.onnx.theoremqa-theorems.txt
 ```
-
-

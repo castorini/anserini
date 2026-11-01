@@ -696,5 +696,3 @@ java -cp $fatjar trec_eval -c -M 100 -m map dl20-doc runs/run.msmarco-v1-doc.uni
 java -cp $fatjar trec_eval -c -m ndcg_cut.10 dl20-doc runs/run.msmarco-v1-doc.unicoil.onnx.dl20-doc.txt
 java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.unicoil.onnx.dl20-doc.txt
 ```
-
-
