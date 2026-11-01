@@ -82,13 +82,13 @@ responsible for task prefixes, tokenization, truncation, and impact quantization
 
 ## Model maintenance
 
-[`slideon_to_onnx.py`](../src/main/python/onnx/slideon_to_onnx.py) patches an existing
+[`convert_slideon_to_onnx.py`](../src/main/python/onnx/convert_slideon_to_onnx.py) patches an existing
 ONNX graph; it is **not** a PyTorch-to-ONNX exporter. It downloads a pinned
 pre-pruning artifact by default, or accepts a local source with `--input`:
 
 ```bash
 python -m pip install onnx numpy
-python src/main/python/onnx/slideon_to_onnx.py \
+python src/main/python/onnx/convert_slideon_to_onnx.py \
   --output models/slideon-runtime-topk.onnx
 ```
 

@@ -1,7 +1,7 @@
 """Download SlideOn and insert runtime top-k pruning before final FP16 rounding.
 
 Requires: onnx, numpy. Example:
-  python src/main/python/onnx/slideon_to_onnx.py --output models/slideon-runtime-topk.onnx
+  python src/main/python/onnx/convert_slideon_to_onnx.py --output models/slideon-runtime-topk.onnx
 
 The output is a new deployment artifact, not an update to the hosted model or
 Anserini's cache. Publish/version it separately before changing the Java URL.
