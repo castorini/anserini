@@ -10,6 +10,9 @@ src/main/python/onnx
 
 The following tutorial will be using the scripts available in the above directory directly.
 
+For SlideOn runtime pruning, model maintenance, and client migration, see
+[SlideOn ONNX inference](onnx-slideon.md).
+
 ## Setup
 
 Python version: 3.12.3
@@ -402,7 +405,7 @@ To run the conversion script, all you need to do is run:
 
 ```bash
 cd src/main/python/onnx
-python splade_to_onnx.py --model_name naver/splade-cocondenser-ensembledistil
+python convert_splade_to_onnx.py --model_name naver/splade-cocondenser-ensembledistil
 ```
 
 So what actually happens under the hood? The following sections will discuss the key parts of the above script:

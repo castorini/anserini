@@ -31,12 +31,11 @@ import io.anserini.util.CacheDirectoryResolver;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
-import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-/** Query encoder for the shared SlideOn ONNX graph with fixed top-64 query pruning. Terms are decimal latent IDs. */
+/** Query encoder for SlideOn with runtime pruning (default top-64). Terms are decimal latent IDs. */
 public class SlideOnEncoder extends SparseEncoder {
   private static final String MODEL_URL = "https://huggingface.co/castorini/slideon-onnx/resolve/main/slideon-optimized.onnx";
   private static final String TOKENIZER_URL = "https://huggingface.co/castorini/slideon-onnx/resolve/main/tokenizer.json";
@@ -48,13 +47,14 @@ public class SlideOnEncoder extends SparseEncoder {
   private static final String MODEL_IS_DOCUMENT = "is_document";
   private static final String MODEL_OUTPUT_IDX = "output_idx";
   private static final String MODEL_OUTPUT_WEIGHTS = "output_weights";
-  private static final int QUERY_TOP_K = 64;
+  private static final String MODEL_TOP_K = "top_k";
 
   private final HuggingFaceTokenizer hfTokenizer;
   private final String prefix;
   private final int maxLength;
   private final int dimensions;
   private final float scale;
+  private final int topK;
 
   /** Uses the same model/config and tokenizer-asset download flow as SPLADE. */
   public SlideOnEncoder() throws IOException, OrtException, URISyntaxException {
@@ -76,6 +76,10 @@ public class SlideOnEncoder extends SparseEncoder {
           Integer.toString(modelMaxLength)));
       this.dimensions = config.required("head_config").required("n_latents").asInt();
       this.scale = Float.parseFloat(System.getProperty("anserini.slideon.scale", "100"));
+      this.topK = Integer.parseInt(System.getProperty("anserini.slideon.topK", "64"));
+      if (topK < 0) {
+        throw new IOException("SlideOn topK must be nonnegative (0 disables pruning)");
+      }
       if (maxLength < 2 || maxLength > modelMaxLength || dimensions <= 0
           || !Float.isFinite(scale) || scale <= 0) {
         throw new IOException("Invalid SlideOn maximum length, latent dimension, or scale");
@@ -84,11 +88,13 @@ public class SlideOnEncoder extends SparseEncoder {
       // Reject old query-only bundles or incompatible graphs before processing queries.
       Map<String, NodeInfo> inputs = session.getInputInfo();
       Map<String, NodeInfo> outputs = session.getOutputInfo();
-      if (!inputs.keySet().equals(Set.of(MODEL_INPUT_IDS, MODEL_ATTENTION_MASK, MODEL_IS_DOCUMENT))
+      Set<String> expectedInputs = Set.of(MODEL_INPUT_IDS, MODEL_ATTENTION_MASK, MODEL_IS_DOCUMENT, MODEL_TOP_K);
+      if (!inputs.keySet().equals(expectedInputs)
           || !outputs.keySet().equals(Set.of(MODEL_OUTPUT_IDX, MODEL_OUTPUT_WEIGHTS))) {
-        throw new IOException("Expected shared SlideOn ONNX inputs input_ids, attention_mask, is_document "
-            + "and outputs output_idx, output_weights");
+        throw new IOException("Expected SlideOn ONNX inputs input_ids, attention_mask, is_document, top_k "
+            + "and outputs output_idx, output_weights. Remove any old cached SlideOn model and download the new version.");
       }
+      checkTensor(inputs.get(MODEL_TOP_K), OnnxJavaType.INT64, 0);
       checkTensor(inputs.get(MODEL_INPUT_IDS), OnnxJavaType.INT64, 2);
       checkTensor(inputs.get(MODEL_ATTENTION_MASK), OnnxJavaType.INT64, 2);
       checkTensor(inputs.get(MODEL_IS_DOCUMENT), OnnxJavaType.BOOL, 0);
@@ -135,8 +141,9 @@ public class SlideOnEncoder extends SparseEncoder {
     try (OnnxTensor ids = OnnxTensor.createTensor(environment, new long[][] {encoding.getIds()});
          OnnxTensor mask = OnnxTensor.createTensor(environment, new long[][] {encoding.getAttentionMask()});
          OnnxTensor isDocument = OnnxTensor.createTensor(environment, Boolean.FALSE);
-         OrtSession.Result result = session.run(Map.of(
-             MODEL_INPUT_IDS, ids, MODEL_ATTENTION_MASK, mask, MODEL_IS_DOCUMENT, isDocument))) {
+         OnnxTensor pruning = OnnxTensor.createTensor(environment, Long.valueOf(topK));
+         OrtSession.Result result = session.run(Map.of(MODEL_INPUT_IDS, ids, MODEL_ATTENTION_MASK, mask,
+             MODEL_IS_DOCUMENT, isDocument, MODEL_TOP_K, pruning))) {
       long[] indices = (long[]) result.get(MODEL_OUTPUT_IDX).orElseThrow().getValue();
       float[] weights = (float[]) result.get(MODEL_OUTPUT_WEIGHTS).orElseThrow().getValue();
       if (indices.length != weights.length) {
@@ -172,18 +179,13 @@ public class SlideOnEncoder extends SparseEncoder {
   @Override
   public Map<String, Integer> quantizeFloatWeights(Map<String, Float> weights) {
     Map<String, Integer> result = new LinkedHashMap<>();
-    // Select by unquantized weight: rounding first can change the top-k boundary.
-    // Numeric latent ID breaks ties deterministically, matching pre-encoded q64 queries.
-    weights.entrySet().stream()
-        .sorted(Comparator.<Map.Entry<String, Float>>comparingDouble(entry -> -entry.getValue())
-            .thenComparingInt(entry -> Integer.parseInt(entry.getKey())))
-        .limit(QUERY_TOP_K)
-        .forEach(entry -> {
-          int value = quantizeWeight(entry.getValue(), scale);
-          if (value > 0) {
-            result.put(entry.getKey(), value);
-          }
-        });
+    // Pruning is performed by ONNX before FP16 rounding; Java only quantizes.
+    weights.forEach((term, weight) -> {
+      int value = quantizeWeight(weight, scale);
+      if (value > 0) {
+        result.put(term, value);
+      }
+    });
     return result;
   }
 

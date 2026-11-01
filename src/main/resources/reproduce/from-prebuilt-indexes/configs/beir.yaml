@@ -568,13 +568,13 @@ conditions:
       - topic_key: hotpotqa
         eval_key: beir-v1.0.0-hotpotqa.test
         expected_scores:
-          nDCG@10: 0.7969
+          nDCG@10: 0.7968
         metric_definitions:
           nDCG@10: "-c -m ndcg_cut.10"
       - topic_key: fiqa
         eval_key: beir-v1.0.0-fiqa.test
         expected_scores:
-          nDCG@10: 0.4933
+          nDCG@10: 0.4930
         metric_definitions:
           nDCG@10: "-c -m ndcg_cut.10"
       - topic_key: signal1m
@@ -598,7 +598,7 @@ conditions:
       - topic_key: arguana
         eval_key: beir-v1.0.0-arguana.test
         expected_scores:
-          nDCG@10: 0.5228
+          nDCG@10: 0.5231
         metric_definitions:
           nDCG@10: "-c -m ndcg_cut.10"
       - topic_key: webis-touche2020
@@ -616,7 +616,7 @@ conditions:
       - topic_key: cqadupstack-english
         eval_key: beir-v1.0.0-cqadupstack-english.test
         expected_scores:
-          nDCG@10: 0.5150
+          nDCG@10: 0.5152
         metric_definitions:
           nDCG@10: "-c -m ndcg_cut.10"
       - topic_key: cqadupstack-gaming
@@ -628,13 +628,13 @@ conditions:
       - topic_key: cqadupstack-gis
         eval_key: beir-v1.0.0-cqadupstack-gis.test
         expected_scores:
-          nDCG@10: 0.4196
+          nDCG@10: 0.4195
         metric_definitions:
           nDCG@10: "-c -m ndcg_cut.10"
       - topic_key: cqadupstack-mathematica
         eval_key: beir-v1.0.0-cqadupstack-mathematica.test
         expected_scores:
-          nDCG@10: 0.3143
+          nDCG@10: 0.3142
         metric_definitions:
           nDCG@10: "-c -m ndcg_cut.10"
       - topic_key: cqadupstack-physics
@@ -646,7 +646,7 @@ conditions:
       - topic_key: cqadupstack-programmers
         eval_key: beir-v1.0.0-cqadupstack-programmers.test
         expected_scores:
-          nDCG@10: 0.4267
+          nDCG@10: 0.4268
         metric_definitions:
           nDCG@10: "-c -m ndcg_cut.10"
       - topic_key: cqadupstack-stats
@@ -658,7 +658,7 @@ conditions:
       - topic_key: cqadupstack-tex
         eval_key: beir-v1.0.0-cqadupstack-tex.test
         expected_scores:
-          nDCG@10: 0.3245
+          nDCG@10: 0.3246
         metric_definitions:
           nDCG@10: "-c -m ndcg_cut.10"
       - topic_key: cqadupstack-unix
@@ -694,7 +694,7 @@ conditions:
       - topic_key: scidocs
         eval_key: beir-v1.0.0-scidocs.test
         expected_scores:
-          nDCG@10: 0.2010
+          nDCG@10: 0.2008
         metric_definitions:
           nDCG@10: "-c -m ndcg_cut.10"
       - topic_key: fever

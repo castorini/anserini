@@ -28,6 +28,7 @@ import java.nio.file.Path;
 import java.nio.file.attribute.FileTime;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -38,7 +39,7 @@ import io.anserini.util.CacheDirectoryResolver;
 
 /**
  * On-the-fly query inference smoke tests, tokenizer regression tests, and
- * synthetic checks of top-64 selection and quantization. No precomputed query
+ * runtime top-k checks and synthetic checks of quantization. No precomputed query
  * representations are required, and raw-vector equivalence with PyTorch is not asserted.
  */
 public class SlideOnEncoderInferenceTest {
@@ -92,6 +93,45 @@ public class SlideOnEncoderInferenceTest {
           new long[] { 50281, 7267, 27, 534, 4000, 1080, 39020, 6616, 42799, 327, 253, 749, 1026, 522, 792, 17122, 66, 273, 253, 660, 522, 3627, 285, 37034, 327, 253, 16277, 6985, 254, 2148, 273, 253, 1547, 254, 316, 32, 50282 } },
 
   };
+
+  @Test
+  public void testRuntimeTopK() throws Exception {
+    String previousK = System.getProperty("anserini.slideon.topK");
+    try {
+      int unprunedSize = 0;
+      for (int k : new int[] {0, 1, 32, 128, 40000}) {
+        System.setProperty("anserini.slideon.topK", Integer.toString(k));
+        try (SlideOnEncoder encoder = new SlideOnEncoder()) {
+          Map<String, Float> weights = encoder.computeFloatWeights("Androgen receptor define");
+          if (k == 0) {
+            unprunedSize = weights.size();
+            assertTrue(unprunedSize > 64);
+          } else {
+            assertEquals(Math.min(k, unprunedSize), weights.size());
+          }
+          Map<String, Float> synthetic = new LinkedHashMap<>();
+          for (int i = 0; i < 128; i++) {
+            synthetic.put(Integer.toString(i), 1f);
+          }
+          // The new graph owns pruning; Java must not silently apply a second q64 cap.
+          assertEquals(128, encoder.quantizeFloatWeights(synthetic).size());
+        }
+      }
+    } finally {
+      restoreProperty("anserini.slideon.topK", previousK);
+    }
+  }
+
+  @Test
+  public void testNegativeTopKRejected() throws Exception {
+    String previousK = System.getProperty("anserini.slideon.topK");
+    try {
+      System.setProperty("anserini.slideon.topK", "-1");
+      assertTrue(assertThrows(IOException.class, SlideOnEncoder::new).getMessage().contains("topK"));
+    } finally {
+      restoreProperty("anserini.slideon.topK", previousK);
+    }
+  }
 
   @Test
   public void testRecoversMissingConfigWithCachedModel() throws Exception {
@@ -219,17 +259,17 @@ public class SlideOnEncoderInferenceTest {
   }
 
   @Test
-  public void testTop64BeforeQuantizationAndNumericTieBreaking() throws Exception {
+  public void testQuantizationDoesNotPrune() throws Exception {
     try (SlideOnEncoder encoder = new SlideOnEncoder()) {
       var weights = new LinkedHashMap<String, Float>();
       for (int id = 64; id >= 0; id--) {
         weights.put(Integer.toString(id), .006f);
       }
-      // All weights round to 1, but the largest float must survive before ties are broken.
+      // All weights round to 1; Java must preserve every feature selected by ONNX.
       weights.put("1000", .009f);
       var actual = encoder.quantizeFloatWeights(weights);
       var expected = new HashMap<String, Integer>();
-      for (int id = 0; id < 63; id++) {
+      for (int id = 0; id <= 64; id++) {
         expected.put(Integer.toString(id), 1);
       }
       expected.put("1000", 1);
