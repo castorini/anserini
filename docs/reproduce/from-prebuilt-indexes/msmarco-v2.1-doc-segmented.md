@@ -1329,5 +1329,3 @@ java -cp $fatjar trec_eval -c -m ndcg_cut.30 rag25.test runs/run.msmarco-v2.1-do
 java -cp $fatjar trec_eval -c -m ndcg_cut.100 rag25.test runs/run.msmarco-v2.1-doc-segmented.shard09.arctic-l.hnsw-int8.onnx.rag25.test.txt
 java -cp $fatjar trec_eval -c -m recall.100 rag25.test runs/run.msmarco-v2.1-doc-segmented.shard09.arctic-l.hnsw-int8.onnx.rag25.test.txt
 ```
-
-
