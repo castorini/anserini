@@ -10,6 +10,9 @@ src/main/python/onnx
 
 The following tutorial will be using the scripts available in the above directory directly.
 
+For SlideOn runtime pruning, model maintenance, and client migration, see
+[SlideOn ONNX inference](slideon.md).
+
 ## Setup
 
 Python version: 3.12.3
