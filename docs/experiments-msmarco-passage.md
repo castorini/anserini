@@ -807,3 +807,4 @@ The default baseline remains `k1=0.9`, `b=0.4`.
 + Results reproduced by [@orangepineapple](https://github.com/orangepineapple) on 2026-10-27 (commit [`5877aedf`](https://github.com/castorini/anserini/commit/5877aedfc1a4781bbe6263f9853f2ad66d6fa2b2))
 + Results reproduced by [@bardia1122](https://github.com/bardia1122) on 2026-10-28 (commit [`0323d37`](https://github.com/castorini/anserini/commit/0323d37942ad109e33e7577094bd3ede58509f59))
 + Results reproduced by [@junieberry](https://github.com/junieberry) on 2026-10-30 (commit [`c0dcb02`](https://github.com/castorini/anserini/commit/c0dcb02732f5bf2725f2ee8a10f2efdc016feed5))
++ Partial reproduction by [@oma452](https://github.com/oma452) on 2026-11-02 (commit [`7ef7405`](https://github.com/castorini/anserini/commit/7ef740562b61c2d49bee049835ebee150db62b44)); MRR@10 0.18741227770955546 on 6,980 dev-small queries with top-10 retrieval. MAP and Recall@1000 were not measured.
