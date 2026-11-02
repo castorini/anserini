@@ -25,8 +25,9 @@ import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -38,11 +39,10 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 
 public class PrebuiltIndex {
   // We pin to a specific commit id so that changes to the prebuilt-indexes repo does not inadvertently break code, especially for published artifacts.
-  protected static final String METADATA_COMMIT = "c6592d62a6a51c39841b134739dbc397b45eb604";
-  protected static final String DEFAULT_METADATA_URL = "https://api.github.com/repos/castorini/prebuilt-indexes/contents/lucene?ref=" + METADATA_COMMIT;
+  protected static final String METADATA_COMMIT = "67badb84f4052f51681aa79ce99904a8a1422ce7";
+  protected static final String DEFAULT_METADATA_URL = "https://raw.githubusercontent.com/castorini/prebuilt-indexes/" + METADATA_COMMIT + "/lucene/manifest.json";
   protected static final String METADATA_SUFFIX = ".json";
   private static final Duration HTTP_TIMEOUT = Duration.ofSeconds(60);
-  private static final String USER_AGENT = "anserini-prebuilt-index-loader";
 
   private static final ObjectMapper MAPPER = JsonMapper.builder()
       .enable(JsonReadFeature.ALLOW_TRAILING_COMMA)
@@ -92,44 +92,41 @@ public class PrebuiltIndex {
     public long size;
   }
 
-  @JsonIgnoreProperties(ignoreUnknown = true)
-  private static class MetadataFile {
-    @JsonProperty("name")
-    public String name;
-
-    @JsonProperty("type")
-    public String type;
-
-    @JsonProperty("download_url")
-    public String downloadUrl;
-  }
-
   private static class MetadataFilesHolder {
-    private static final List<MetadataFile> FILES = Collections.unmodifiableList(fetchMetadataFiles());
+    private static final List<String> FILES = List.copyOf(fetchMetadataFiles());
   }
 
-  // This method looks through all metadata files and filters based on type. This makes the method resilient
-  // wrt filename changes, but the tradeoff is more scanning of files than absolutely necessary.
+  // Load metadata files listed in the manifest that match the requested index type.
   protected static <T extends PrebuiltIndex.Entry> List<T> loadEntries(IndexType type, Class<T> entryClass) {
-    try {
-      List<T> loadedEntries = new ArrayList<>();
-      String metadataTypeSuffix = "-" + type.id + METADATA_SUFFIX;
-      for (MetadataFile file : MetadataFilesHolder.FILES) {
-        if (!file.name.endsWith(metadataTypeSuffix)) {
-          continue;
-        }
-        loadedEntries.addAll(parseEntriesFromJson(type, entryClass, readUrl(file.downloadUrl)));
+    return loadEntries(type, entryClass, DEFAULT_METADATA_URL, MetadataFilesHolder.FILES);
+  }
+
+  static <T extends PrebuiltIndex.Entry> List<T> loadEntries(IndexType type, Class<T> entryClass, String manifestUrl, List<String> files) {
+    List<T> loadedEntries = new ArrayList<>();
+    String metadataTypeSuffix = "-" + type.id + METADATA_SUFFIX;
+    URI manifestUri = URI.create(manifestUrl);
+    for (String file : files) {
+      if (!file.endsWith(metadataTypeSuffix)) {
+        continue;
       }
-      return loadedEntries;
-    } catch (IOException e) {
-      throw new IllegalStateException("Failed to read prebuilt index metadata from " + DEFAULT_METADATA_URL, e);
+      String metadataUrl = manifestUri.resolve(file).toString();
+      try {
+        loadedEntries.addAll(parseEntriesFromJson(type, entryClass, readUrl(metadataUrl)));
+      } catch (IOException e) {
+        throw new IllegalStateException("Failed to read prebuilt index metadata from " + metadataUrl, e);
+      }
     }
+    return loadedEntries;
   }
 
   protected static <T extends PrebuiltIndex.Entry> List<T> parseEntriesFromJson(IndexType type, Class<T> entryClass, String metadataJson) throws IOException {
     List<T> loadedEntries = new ArrayList<>();
     JavaType entryListType = MAPPER.getTypeFactory().constructCollectionType(List.class, entryClass);
     List<T> entriesInFile = MAPPER.readValue(metadataJson, entryListType);
+
+    if (entriesInFile == null) {
+      throw new IOException("Expected an array of metadata entries");
+    }
 
     for (T entry : entriesInFile) {
       if (entry != null && type.id.equals(entry.type)) {
@@ -140,30 +137,33 @@ public class PrebuiltIndex {
     return loadedEntries;
   }
 
-  private static List<MetadataFile> fetchMetadataFiles() {
+  private static List<String> fetchMetadataFiles() {
     try {
-      String response = readUrl(DEFAULT_METADATA_URL);
-      JavaType metadataFileListType = MAPPER.getTypeFactory().constructCollectionType(List.class, MetadataFile.class);
-      List<MetadataFile> metadataFiles = MAPPER.readValue(response, metadataFileListType);
-      metadataFiles.sort(Comparator.comparing(file -> file.name == null ? "" : file.name));
-
-      List<MetadataFile> files = new ArrayList<>();
-      for (MetadataFile file : metadataFiles) {
-        if (file == null || !"file".equals(file.type) || file.name == null || !file.name.endsWith(METADATA_SUFFIX) ||
-            file.downloadUrl == null) {
-          continue;
-        }
-        files.add(file);
-      }
-
-      if (files.isEmpty()) {
-        throw new IOException("No metadata files found at " + DEFAULT_METADATA_URL);
-      }
-
-      return files;
+      return parseManifest(readUrl(DEFAULT_METADATA_URL));
     } catch (IOException e) {
-      throw new IllegalStateException("Failed to fetch prebuilt index metadata from " + DEFAULT_METADATA_URL, e);
+      throw new IllegalStateException("Failed to fetch prebuilt index manifest from " + DEFAULT_METADATA_URL, e);
     }
+  }
+
+  static List<String> parseManifest(String json) throws IOException {
+    var manifest = MAPPER.readTree(json);
+    if (manifest == null || !manifest.isArray() || manifest.isEmpty()) {
+      throw new IOException("Expected a nonempty array of metadata filenames");
+    }
+    List<String> files = new ArrayList<>();
+    Set<String> seen = new HashSet<>();
+    for (var file : manifest) {
+      if (!file.isTextual() || !file.textValue().matches("[A-Za-z0-9_][A-Za-z0-9_.-]*\\.json") ||
+          file.textValue().equals("manifest.json")) {
+        throw new IOException("Invalid metadata filename: " + file);
+      }
+      if (!seen.add(file.textValue())) {
+        throw new IOException("Duplicate metadata filename: " + file.textValue());
+      }
+      files.add(file.textValue());
+    }
+    Collections.sort(files);
+    return files;
   }
 
   private static String readUrl(String urlString) throws IOException {
@@ -171,8 +171,6 @@ public class PrebuiltIndex {
     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
     connection.setConnectTimeout((int) HTTP_TIMEOUT.toMillis());
     connection.setReadTimeout((int) HTTP_TIMEOUT.toMillis());
-    connection.setRequestProperty("Accept", "application/vnd.github+json");
-    connection.setRequestProperty("User-Agent", USER_AGENT);
 
     try {
       int statusCode = connection.getResponseCode();

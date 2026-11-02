@@ -19,10 +19,79 @@ package io.anserini.index.prebuilt;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
+
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+
+import com.sun.net.httpserver.HttpServer;
 
 import org.junit.Test;
 
 public class PrebuiltIndexTest {
+  @Test
+  public void testManifestParsing() throws Exception {
+    assertEquals(List.of("a-flat.json", "z-inverted.json"),
+        PrebuiltIndex.parseManifest("[\"z-inverted.json\",\"a-flat.json\"]"));
+    for (String json : List.of("null", "{}", "[]", "[null]", "[1]", "[\"manifest.json\"]",
+        "[\"../escape.json\"]", "[\"https://example.org/file.json\"]", "[\"README.md\"]", "invalid")) {
+      assertThrows(IOException.class, () -> PrebuiltIndex.parseManifest(json));
+    }
+  }
+
+  @Test
+  public void testDuplicateManifestFilename() {
+    IOException error = assertThrows(IOException.class,
+        () -> PrebuiltIndex.parseManifest("[\"test-flat.json\",\"test-flat.json\"]"));
+    assertEquals("Duplicate metadata filename: test-flat.json", error.getMessage());
+  }
+
+  @Test
+  public void testLoadManifestEntries() throws Exception {
+    HttpServer server = HttpServer.create(new InetSocketAddress("127.0.0.1", 0), 0);
+    server.createContext("/pinned/lucene/test-flat.json", exchange -> {
+      byte[] body = "[{\"name\":\"TEST\",\"type\":\"flat\"},{\"name\":\"SKIP\",\"type\":\"hnsw\"}]".getBytes(StandardCharsets.UTF_8);
+      exchange.sendResponseHeaders(200, body.length);
+      try (var output = exchange.getResponseBody()) {
+        output.write(body);
+      }
+    });
+    server.createContext("/pinned/lucene/bad-flat.json", exchange -> {
+      byte[] body = "invalid".getBytes(StandardCharsets.UTF_8);
+      exchange.sendResponseHeaders(200, body.length);
+      try (var output = exchange.getResponseBody()) {
+        output.write(body);
+      }
+    });
+    server.createContext("/pinned/lucene/null-flat.json", exchange -> {
+      byte[] body = "null".getBytes(StandardCharsets.UTF_8);
+      exchange.sendResponseHeaders(200, body.length);
+      try (var output = exchange.getResponseBody()) {
+        output.write(body);
+      }
+    });
+    server.start();
+    try {
+      String base = "http://127.0.0.1:" + server.getAddress().getPort() + "/pinned/lucene/";
+      List<PrebuiltIndex.Entry> entries = PrebuiltIndex.loadEntries(PrebuiltIndex.IndexType.FLAT,
+          PrebuiltIndex.Entry.class, base + "manifest.json", List.of("test-flat.json", "unrequested-inverted.json"));
+      assertEquals(1, entries.size());
+      assertEquals("TEST", entries.get(0).name);
+      for (String file : List.of("missing-flat.json", "bad-flat.json", "null-flat.json")) {
+        IllegalStateException error = assertThrows(IllegalStateException.class,
+            () -> PrebuiltIndex.loadEntries(PrebuiltIndex.IndexType.FLAT, PrebuiltIndex.Entry.class,
+                base + "manifest.json", List.of(file)));
+        assertTrue(error.getMessage().contains(base + file));
+        assertTrue(error.getCause() instanceof IOException);
+      }
+    } finally {
+      server.stop(0);
+    }
+  }
+
   @Test
   public void testInvalidName() {
     assertNull(PrebuiltIndex.get("fake_index"));
