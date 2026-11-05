@@ -16,6 +16,7 @@ This [catalog](./ref-reproduce-from-document-collections-catalog.md) enumerates 
 + [MS MARCO V2.1 Doc](reproduce/from-document-collection-summaries/msmarco-v2.1-doc.md)
 + [BEIR](reproduce/from-document-collection-summaries/beir.md)
 + [BRIGHT](reproduce/from-document-collection-summaries/bright.md)
++ [RETECO v1.1 Track 1a](reproduce/from-document-collection-summaries/reteco.md)
 + [MIRACL](reproduce/from-document-collection-summaries/miracl.md)
 + [Mr. TyDi](reproduce/from-document-collection-summaries/mrtydi.md)
 + [CIRAL](reproduce/from-document-collection-summaries/ciral.md)

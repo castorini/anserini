@@ -667,6 +667,9 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("ciral-v1.0-sw-en"),
         Pattern.quote("ciral-v1.0-yo-en")
     ));
+    ORDERING.put("RETECO v1.1 Track 1a: BM25", List.of(
+        "reteco-v1\\.1-track1-(bitcoin|cardano|economics|genealogy|history|hsm|iota|law|monero|politics|quant|travel|workplace)"
+    ));
     ORDERING.put("BRIGHT: BM25", List.of(
         Pattern.quote("bright-aops"),
         Pattern.quote("bright-biology"),
