@@ -39,6 +39,7 @@ Here are all the available configurations:
 + [MIRACL (v1.0): BM25 regressions](#miracl-v1-0-bm25-regressions)
 + [NanoKnow](#nanoknow)
 + [Other cross-lingual and multi-lingual regressions](#other-cross-lingual-and-multi-lingual-regressions)
++ [RETECO v1.1 Track 1a: BM25](#reteco-v1-1-track-1a-bm25)
 + [BRIGHT: BM25](#bright-bm25)
 + [BRIGHT: SPLADE-v3](#bright-splade-v3)
 + [BRIGHT: BGE-large-en-v1.5](#bright-bge-large-en-v1-5)
@@ -669,6 +670,24 @@ Here are all the available configurations:
 + [`ciral-v1.0-so-en`](../src/main/resources/reproduce/from-document-collection/configs/ciral-v1.0-so-en.yaml) [[docs](reproduce/from-document-collection/ciral-v1.0-so-en.md)]
 + [`ciral-v1.0-sw-en`](../src/main/resources/reproduce/from-document-collection/configs/ciral-v1.0-sw-en.yaml) [[docs](reproduce/from-document-collection/ciral-v1.0-sw-en.md)]
 + [`ciral-v1.0-yo-en`](../src/main/resources/reproduce/from-document-collection/configs/ciral-v1.0-yo-en.yaml) [[docs](reproduce/from-document-collection/ciral-v1.0-yo-en.md)]
+
+<a id="reteco-v1-1-track-1a-bm25"></a>
+
+## RETECO v1.1 Track 1a: BM25
+
++ [`reteco-v1.1-track1-bitcoin`](../src/main/resources/reproduce/from-document-collection/configs/reteco-v1.1-track1-bitcoin.yaml) [[docs](reproduce/from-document-collection/reteco-v1.1-track1-bitcoin.md)]
++ [`reteco-v1.1-track1-cardano`](../src/main/resources/reproduce/from-document-collection/configs/reteco-v1.1-track1-cardano.yaml) [[docs](reproduce/from-document-collection/reteco-v1.1-track1-cardano.md)]
++ [`reteco-v1.1-track1-economics`](../src/main/resources/reproduce/from-document-collection/configs/reteco-v1.1-track1-economics.yaml) [[docs](reproduce/from-document-collection/reteco-v1.1-track1-economics.md)]
++ [`reteco-v1.1-track1-genealogy`](../src/main/resources/reproduce/from-document-collection/configs/reteco-v1.1-track1-genealogy.yaml) [[docs](reproduce/from-document-collection/reteco-v1.1-track1-genealogy.md)]
++ [`reteco-v1.1-track1-history`](../src/main/resources/reproduce/from-document-collection/configs/reteco-v1.1-track1-history.yaml) [[docs](reproduce/from-document-collection/reteco-v1.1-track1-history.md)]
++ [`reteco-v1.1-track1-hsm`](../src/main/resources/reproduce/from-document-collection/configs/reteco-v1.1-track1-hsm.yaml) [[docs](reproduce/from-document-collection/reteco-v1.1-track1-hsm.md)]
++ [`reteco-v1.1-track1-iota`](../src/main/resources/reproduce/from-document-collection/configs/reteco-v1.1-track1-iota.yaml) [[docs](reproduce/from-document-collection/reteco-v1.1-track1-iota.md)]
++ [`reteco-v1.1-track1-law`](../src/main/resources/reproduce/from-document-collection/configs/reteco-v1.1-track1-law.yaml) [[docs](reproduce/from-document-collection/reteco-v1.1-track1-law.md)]
++ [`reteco-v1.1-track1-monero`](../src/main/resources/reproduce/from-document-collection/configs/reteco-v1.1-track1-monero.yaml) [[docs](reproduce/from-document-collection/reteco-v1.1-track1-monero.md)]
++ [`reteco-v1.1-track1-politics`](../src/main/resources/reproduce/from-document-collection/configs/reteco-v1.1-track1-politics.yaml) [[docs](reproduce/from-document-collection/reteco-v1.1-track1-politics.md)]
++ [`reteco-v1.1-track1-quant`](../src/main/resources/reproduce/from-document-collection/configs/reteco-v1.1-track1-quant.yaml) [[docs](reproduce/from-document-collection/reteco-v1.1-track1-quant.md)]
++ [`reteco-v1.1-track1-travel`](../src/main/resources/reproduce/from-document-collection/configs/reteco-v1.1-track1-travel.yaml) [[docs](reproduce/from-document-collection/reteco-v1.1-track1-travel.md)]
++ [`reteco-v1.1-track1-workplace`](../src/main/resources/reproduce/from-document-collection/configs/reteco-v1.1-track1-workplace.yaml) [[docs](reproduce/from-document-collection/reteco-v1.1-track1-workplace.md)]
 
 <a id="bright-bm25"></a>
 
