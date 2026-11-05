@@ -14,3 +14,4 @@ These experiments are grouped around configs, each of which focus on a specific 
 + [MS MARCO V2.1 Doc](reproduce/from-prebuilt-indexes/msmarco-v2.1-doc.md)
 + [BEIR](reproduce/from-prebuilt-indexes/beir.md)
 + [BRIGHT](reproduce/from-prebuilt-indexes/bright.md)
++ [RETECO v1.1 Track 1a](reproduce/from-prebuilt-indexes/reteco.md)
