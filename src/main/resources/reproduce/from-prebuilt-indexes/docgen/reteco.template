@@ -1,0 +1,39 @@
+# <img src="../../anserini-logo.png" height="30" /> RETECO v1.1 Track 1a
+
+**Anserini reproductions from prebuilt indexes**
+
++ **Corpus**: RETECO v1.1 Track 1a
++ **Config**: ${config}
+
+## Summary
+
+The table below summarizes effectiveness in terms of nDCG@10.
+
+Key:
+
++ **BM25 (train)** = BM25, bag-of-words baseline on train
++ **BM25 (dev)** = BM25, bag-of-words baseline on dev
+
+${summary}
+
+## Commands
+
+From an Anserini checkout, run the complete reproduction with:
+
+```bash
+bin/run.sh io.anserini.reproduce.ReproduceFromPrebuiltIndexes --config reteco
+```
+
+In the commands below:
+
++ Set `$fatjar` to the actual Anserini fatjar.
++ Set JVM args to `${jvm_args}`.
+
+Something like:
+
+```bash
+export fatjar=$(find . -maxdepth 2 -name 'anserini-*-fatjar.jar' -print -quit)
+export jvm_args="${jvm_args}"
+```
+
+${commands}
