@@ -66,8 +66,7 @@ bin/run.sh io.anserini.search.SearchCollection \
 wait
 ```
 
-These commands use standard Anserini BM25 (`k1=0.9`, `b=0.4`, top 1000), default English analysis (Porter stemming, stopword removal), and `TsvString` topics. No self-match exclusion is applied.
-On shared servers, omit the generated trailing `&` or `wait` after each command to run the searches sequentially.
+These commands use standard Anserini BM25 (`k1=0.9`, `b=0.4`, top 1000).
 
 Evaluation can be performed using `trec_eval`:
 
