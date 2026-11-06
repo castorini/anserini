@@ -14,27 +14,27 @@ Key:
 
 + BM25
 
-| Corpus | BM25 |
-|:---|:---:|
-| Bitcoin | [🔑](../from-document-collection/reteco-v1.1-track1-bitcoin.md) |
-| Cardano | [🔑](../from-document-collection/reteco-v1.1-track1-cardano.md) |
+| Corpus    | BM25                                                              |
+| :-------- | :---------------------------------------------------------------: |
+| Bitcoin   | [🔑](../from-document-collection/reteco-v1.1-track1-bitcoin.md)   |
+| Cardano   | [🔑](../from-document-collection/reteco-v1.1-track1-cardano.md)   |
 | Economics | [🔑](../from-document-collection/reteco-v1.1-track1-economics.md) |
 | Genealogy | [🔑](../from-document-collection/reteco-v1.1-track1-genealogy.md) |
-| History | [🔑](../from-document-collection/reteco-v1.1-track1-history.md) |
-| HSM | [🔑](../from-document-collection/reteco-v1.1-track1-hsm.md) |
-| IOTA | [🔑](../from-document-collection/reteco-v1.1-track1-iota.md) |
-| Law | [🔑](../from-document-collection/reteco-v1.1-track1-law.md) |
-| Monero | [🔑](../from-document-collection/reteco-v1.1-track1-monero.md) |
-| Politics | [🔑](../from-document-collection/reteco-v1.1-track1-politics.md) |
-| Quant | [🔑](../from-document-collection/reteco-v1.1-track1-quant.md) |
-| Travel | [🔑](../from-document-collection/reteco-v1.1-track1-travel.md) |
+| History   | [🔑](../from-document-collection/reteco-v1.1-track1-history.md)   |
+| HSM       | [🔑](../from-document-collection/reteco-v1.1-track1-hsm.md)       |
+| IOTA      | [🔑](../from-document-collection/reteco-v1.1-track1-iota.md)      |
+| Law       | [🔑](../from-document-collection/reteco-v1.1-track1-law.md)       |
+| Monero    | [🔑](../from-document-collection/reteco-v1.1-track1-monero.md)    |
+| Politics  | [🔑](../from-document-collection/reteco-v1.1-track1-politics.md)  |
+| Quant     | [🔑](../from-document-collection/reteco-v1.1-track1-quant.md)     |
+| Travel    | [🔑](../from-document-collection/reteco-v1.1-track1-travel.md)    |
 | Workplace | [🔑](../from-document-collection/reteco-v1.1-track1-workplace.md) |
 
 ### Available Corpora for Download
 
-| Corpora | Size | Checksum |
-|:---|---:|:---|
-| [Official RETECO v1.1 Track 1 corpora](https://huggingface.co/datasets/DataScience-UIBK/RETECO-SemEval2027/tree/c21e10b/track1_tempo) | — | — |
+| Corpora                                                                                                                               | Size | Checksum |
+| :------------------------------------------------------------------------------------------------------------------------------------ | ---: | :------- |
+| [Official RETECO v1.1 Track 1 corpora](https://huggingface.co/datasets/DataScience-UIBK/RETECO-SemEval2027/tree/c21e10b/track1_tempo) | —    | —        |
 
 Download the v1.1 corpora at revision `c21e10b` and convert them to Anserini format:
 

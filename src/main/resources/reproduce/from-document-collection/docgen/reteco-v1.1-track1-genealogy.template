@@ -63,4 +63,4 @@ The full domain corpus is searched for every split, with unmodified retrieval sc
 
 With the above commands, you should be able to reproduce the following results:
 
-${effectiveness}
+${padded_effectiveness}

@@ -270,10 +270,12 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
   }
 
   private static void writeReport(ReportContext context, String summary, String commands) throws Exception {
+    String paddedSummary = context.template().contains("${padded_summary}") ? DataModel.padMarkdownTable(summary) : summary;
     FileUtils.writeStringToFile(context.output(), context.template()
         .replace("${config}", context.configLink())
         .replace("${jvm_args}", ReproductionUtils.Constants.JVM_ARGS)
         .replace("${summary}", summary)
+        .replace("${padded_summary}", paddedSummary)
         .replace("${commands}", commands)
         .replace("${command}", commands).stripTrailing() + "\n", StandardCharsets.UTF_8);
   }

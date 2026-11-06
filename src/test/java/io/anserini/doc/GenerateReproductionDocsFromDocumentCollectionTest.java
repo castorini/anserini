@@ -801,13 +801,16 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
       valuesMap.put("eval_cmds", data.generateEvalCommand(corpus));
       valuesMap.put("effectiveness", data.generateEffectiveness(corpus));
 
-      StringSubstitutor sub = new StringSubstitutor(valuesMap);
       URL template = GenerateReproductionDocsFromDocumentCollectionTest.class.getResource(String.format("/reproduce/from-document-collection/docgen/%s.template", testName));
       assertNotNull(template);
 
       Scanner scanner = new Scanner(new File(template.toURI()), StandardCharsets.UTF_8);
       String text = scanner.useDelimiter("\\A").next();
       scanner.close();
+      if (text.contains("${padded_effectiveness}")) {
+        valuesMap.put("padded_effectiveness", DataModel.padMarkdownTable(valuesMap.get("effectiveness")));
+      }
+      StringSubstitutor sub = new StringSubstitutor(valuesMap);
       String resolvedString = sub.replace(text);
 
       FileUtils.writeStringToFile(new File(String.format("docs/reproduce/from-document-collection/%s.md", testName)),

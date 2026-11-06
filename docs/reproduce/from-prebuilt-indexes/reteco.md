@@ -14,21 +14,21 @@ Key:
 + **BM25 (train)** = BM25, bag-of-words baseline on train
 + **BM25 (dev)** = BM25, bag-of-words baseline on dev
 
-| corpus | [BM25 (train)](#condition-1) | [BM25 (dev)](#condition-2) |
-| --- | --- | --- |
-| bitcoin | 0.0468 | 0.0300 |
-| cardano | 0.1753 | 0.1144 |
-| economics | 0.0361 | 0.0269 |
-| genealogy | 0.0667 | 0.1476 |
-| history | 0.0336 | 0.0428 |
-| hsm | 0.1703 | 0.2366 |
-| iota | 0.0352 | 0.3852 |
-| law | 0.0399 | 0.0294 |
-| monero | 0.0288 | 0.0249 |
-| politics | 0.2664 | 0.2129 |
-| quant | 0.0128 | 0.0000 |
-| travel | 0.0412 | 0.0322 |
-| workplace | 0.0622 | 0.0000 |
+| corpus    | [BM25 (train)](#condition-1) | [BM25 (dev)](#condition-2) |
+| --------- | ---------------------------- | -------------------------- |
+| bitcoin   | 0.0468                       | 0.0300                     |
+| cardano   | 0.1753                       | 0.1144                     |
+| economics | 0.0361                       | 0.0269                     |
+| genealogy | 0.0667                       | 0.1476                     |
+| history   | 0.0336                       | 0.0428                     |
+| hsm       | 0.1703                       | 0.2366                     |
+| iota      | 0.0352                       | 0.3852                     |
+| law       | 0.0399                       | 0.0294                     |
+| monero    | 0.0288                       | 0.0249                     |
+| politics  | 0.2664                       | 0.2129                     |
+| quant     | 0.0128                       | 0.0000                     |
+| travel    | 0.0412                       | 0.0322                     |
+| workplace | 0.0622                       | 0.0000                     |
 
 
 

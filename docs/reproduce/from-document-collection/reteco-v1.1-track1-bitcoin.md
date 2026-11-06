@@ -86,13 +86,13 @@ The full domain corpus is searched for every split, with unmodified retrieval sc
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@10**                      | **BM25**   |
-|:---------------------------------|:----------:|
-| RETECO: Bitcoin, Track 1a, train | 0.0468     |
-| RETECO: Bitcoin, Track 1a, dev   | 0.0300     |
-| **R@100**                        | **BM25**   |
-| RETECO: Bitcoin, Track 1a, train | 0.1488     |
-| RETECO: Bitcoin, Track 1a, dev   | 0.2848     |
-| **R@1000**                       | **BM25**   |
-| RETECO: Bitcoin, Track 1a, train | 0.4914     |
-| RETECO: Bitcoin, Track 1a, dev   | 0.4907     |
+| **nDCG@10**                      | **BM25** |
+| :------------------------------- | :------: |
+| RETECO: Bitcoin, Track 1a, train | 0.0468   |
+| RETECO: Bitcoin, Track 1a, dev   | 0.0300   |
+| **R@100**                        | **BM25** |
+| RETECO: Bitcoin, Track 1a, train | 0.1488   |
+| RETECO: Bitcoin, Track 1a, dev   | 0.2848   |
+| **R@1000**                       | **BM25** |
+| RETECO: Bitcoin, Track 1a, train | 0.4914   |
+| RETECO: Bitcoin, Track 1a, dev   | 0.4907   |

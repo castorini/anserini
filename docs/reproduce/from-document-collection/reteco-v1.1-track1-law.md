@@ -86,13 +86,13 @@ The full domain corpus is searched for every split, with unmodified retrieval sc
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@10**                  | **BM25**   |
-|:-----------------------------|:----------:|
-| RETECO: Law, Track 1a, train | 0.0399     |
-| RETECO: Law, Track 1a, dev   | 0.0294     |
-| **R@100**                    | **BM25**   |
-| RETECO: Law, Track 1a, train | 0.2701     |
-| RETECO: Law, Track 1a, dev   | 0.2909     |
-| **R@1000**                   | **BM25**   |
-| RETECO: Law, Track 1a, train | 0.7243     |
-| RETECO: Law, Track 1a, dev   | 0.5212     |
+| **nDCG@10**                  | **BM25** |
+| :--------------------------- | :------: |
+| RETECO: Law, Track 1a, train | 0.0399   |
+| RETECO: Law, Track 1a, dev   | 0.0294   |
+| **R@100**                    | **BM25** |
+| RETECO: Law, Track 1a, train | 0.2701   |
+| RETECO: Law, Track 1a, dev   | 0.2909   |
+| **R@1000**                   | **BM25** |
+| RETECO: Law, Track 1a, train | 0.7243   |
+| RETECO: Law, Track 1a, dev   | 0.5212   |
