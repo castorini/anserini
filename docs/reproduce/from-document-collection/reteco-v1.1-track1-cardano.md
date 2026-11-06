@@ -38,7 +38,6 @@ bin/run.sh io.anserini.index.IndexCollection \
   -index indexes/lucene-inverted.reteco-v1.1-track1-cardano/ \
   -storePositions -storeDocvectors -storeRaw -optimize \
   >& logs/log.reteco-v1.1-track1-cardano &
-wait
 ```
 
 The path `/path/to/reteco-v1.1-track1-cardano/` should point to the prepared domain directory containing only `docs.jsonl`.
@@ -63,7 +62,6 @@ bin/run.sh io.anserini.search.SearchCollection \
   -topicReader TsvString \
   -output runs/run.lucene-inverted.reteco-v1.1-track1-cardano.model-bm25.topics-reteco-v1.1-track1a-cardano.dev.txt \
   -bm25 -bm25.k1 0.9 -bm25.b 0.4 -hits 1000 -threads 2 &
-wait
 ```
 
 These commands use standard Anserini BM25 (`k1=0.9`, `b=0.4`, top 1000).
