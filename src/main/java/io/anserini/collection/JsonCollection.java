@@ -76,8 +76,7 @@ import java.util.zip.GZIPInputStream;
 public class JsonCollection extends DocumentCollection<JsonCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(JsonCollection.class);
   // Permit large document contents without changing Jackson's process-wide defaults.
-  private static final JsonFactory JSON_FACTORY = JsonFactory.builder().streamReadConstraints(
-      StreamReadConstraints.builder().maxStringLength(256 * 1024 * 1024).build()).build();
+  private static final JsonFactory JSON_FACTORY = JsonFactory.builder().streamReadConstraints(StreamReadConstraints.builder().maxStringLength(256 * 1024 * 1024).build()).build();
 
   public JsonCollection() {
   }

@@ -348,8 +348,7 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
 
   @Test
   public void generateRetecoReport() throws Exception {
-    generateReportInColumns("reteco.yaml", "nDCG@10",
-        (topic, condition) -> topic.topic_key);
+    generateReportInColumns("reteco.yaml", "nDCG@10", (topic, condition) -> topic.topic_key);
   }
 
   @Test
