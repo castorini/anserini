@@ -21,7 +21,7 @@ Outside Waterloo, download and convert this domain as follows:
 mkdir -p collections/reteco-v1.1-raw/track1_tempo/workplace
 wget -c https://huggingface.co/datasets/DataScience-UIBK/RETECO-SemEval2027/resolve/c21e10b/track1_tempo/workplace/documents.jsonl \
   -O collections/reteco-v1.1-raw/track1_tempo/workplace/documents.jsonl
-python3 src/main/python/reteco/convert_collection.py \
+python src/main/python/reteco/convert_collection.py \
   --input collections/reteco-v1.1-raw --output collections/reteco --domains workplace
 ```
 

@@ -46,7 +46,7 @@ for domain in bitcoin cardano economics genealogy history hsm iota law monero po
   mkdir -p "$input"
   wget -c "$base/$domain/documents.jsonl" -O "$input/documents.jsonl"
 done
-python3 src/main/python/reteco/convert_collection.py \
+python src/main/python/reteco/convert_collection.py \
   --input collections/reteco-v1.1-raw --output collections/reteco
 ```
 

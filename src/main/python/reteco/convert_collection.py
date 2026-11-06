@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 #
 # Anserini: A Lucene toolkit for reproducible information retrieval research
 #
