@@ -1,0 +1,60 @@
+---
+corpus: reteco-v1.1-track1-workplace
+corpus_path: collections/reteco/track1_tempo/workplace
+index_path: indexes/lucene-inverted.reteco-v1.1-track1-workplace/
+collection_class: JsonCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 2
+index_options: -storePositions -storeDocvectors -storeRaw -optimize
+
+index_stats:
+  documents: 43584
+  documents (non-empty): 43582
+  total terms: 8530755
+
+metrics:
+  - metric: nDCG@10
+    command: bin/trec_eval
+    params: -c -m ndcg_cut.10
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: bin/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: bin/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvString
+topics:
+  - name: "RETECO: Workplace, Track 1a, train"
+    id: reteco-v1.1-track1a-workplace.train
+    qrels: reteco-v1.1-track1a-workplace.train
+  - name: "RETECO: Workplace, Track 1a, dev"
+    id: reteco-v1.1-track1a-workplace.dev
+    qrels: reteco-v1.1-track1a-workplace.dev
+
+models:
+  - name: bm25
+    display: BM25
+    params: -bm25 -bm25.k1 0.9 -bm25.b 0.4 -hits 1000 -threads 2
+    results:
+      nDCG@10:
+        - 0.0622
+        - 0.0000
+      R@100:
+        - 0.1891
+        - 0.2485
+      R@1000:
+        - 0.5651
+        - 0.6424
