@@ -299,7 +299,7 @@ java -cp $fatjar trec_eval -c -m ndcg_cut.10 bright-theoremqa-theorems runs/run.
 
 <a id="condition-2"></a>
 
-### 2. query-side BM25
+### 2. query-side BM25 (BM25QS)
 
 **Config**: [bright.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/bright.yaml#L79)
 

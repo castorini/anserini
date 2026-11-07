@@ -77,7 +77,7 @@ conditions:
         metric_definitions:
           nDCG@10: "-c -m ndcg_cut.10"
   - name: bm25qs
-    display: "query-side BM25"
+    display: "query-side BM25 (BM25QS)"
     short_name: BM25QS
     command: io.anserini.search.SearchCollection -threads $threads -index bright-$topics -topics bright-$topics -output $output -bm25.querySide -removeQuery
     topics:
