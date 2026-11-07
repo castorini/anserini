@@ -14,7 +14,7 @@ Key:
 + **BM25 (train)** = BM25, bag-of-words baseline on train
 + **BM25 (dev)** = BM25, bag-of-words baseline on dev
 
-${padded_summary}
+${summary}
 
 ## Commands
 

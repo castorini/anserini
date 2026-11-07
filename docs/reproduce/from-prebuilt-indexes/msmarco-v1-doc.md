@@ -16,19 +16,17 @@ Key:
 + **DL19** = dl19-doc
 + **DL20** = dl20-doc
 
-| # | name | dev | DL19 | DL20 |
-| --- | --- | --- | --- | --- |
-| [1](#condition-1) | BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index | 0.2299 | 0.5176 | 0.5286 |
-| [2](#condition-2) | BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), regular index | 0.2299 | 0.5176 | 0.5286 |
-| [3](#condition-3) | BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) + Rocchio, regular index |  | 0.5256 | 0.5192 |
-| [4](#condition-4) | BM25 complete doc with doc2query-T5 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.2880 | 0.5968 | 0.5885 |
-| [5](#condition-5) | BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index | 0.2684 | 0.5302 | 0.5281 |
-| [6](#condition-6) | BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), regular index | 0.2684 | 0.5302 | 0.5281 |
-| [7](#condition-7) | BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) + Rocchio, regular index |  | 0.5570 | 0.5226 |
-| [8](#condition-8) | BM25 segmented doc with doc2query-T5 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.3179 | 0.6119 | 0.5957 |
-| [9](#condition-9) | uniCOIL with doc2query-T5 (ONNX) | 0.3531 | 0.6396 | 0.6033 |
-
-
+| #                 | name                                                                                                | dev    | DL19   | DL20   |
+| ----------------- | --------------------------------------------------------------------------------------------------- | :----: | :----: | :----: |
+| [1](#condition-1) | BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index               | 0.2299 | 0.5176 | 0.5286 |
+| [2](#condition-2) | BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), regular index            | 0.2299 | 0.5176 | 0.5286 |
+| [3](#condition-3) | BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) + Rocchio, regular index  |        | 0.5256 | 0.5192 |
+| [4](#condition-4) | BM25 complete doc with doc2query-T5 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)         | 0.2880 | 0.5968 | 0.5885 |
+| [5](#condition-5) | BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index              | 0.2684 | 0.5302 | 0.5281 |
+| [6](#condition-6) | BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), regular index           | 0.2684 | 0.5302 | 0.5281 |
+| [7](#condition-7) | BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) + Rocchio, regular index |        | 0.5570 | 0.5226 |
+| [8](#condition-8) | BM25 segmented doc with doc2query-T5 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)        | 0.3179 | 0.6119 | 0.5957 |
+| [9](#condition-9) | uniCOIL with doc2query-T5 (ONNX)                                                                    | 0.3531 | 0.6396 | 0.6033 |
 
 The BM25 "slim index" does not contain the document texts, whereas the BM25 "regular index" does contain document texts (and hence supports pseudo-relevance feedback with on-the-fly document parsing).
 
@@ -55,7 +53,7 @@ export jvm_args="-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules
 
 ### 1. BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index
 
-**Config**: [msmarco-v1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.yaml)
+**Config**: [msmarco-v1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.yaml#L2)
 
 #### msmarco-doc.dev
 
@@ -125,7 +123,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.bm
 
 ### 2. BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), regular index
 
-**Config**: [msmarco-v1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.yaml)
+**Config**: [msmarco-v1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.yaml#L32)
 
 #### msmarco-doc.dev
 
@@ -195,7 +193,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.bm
 
 ### 3. BM25 complete doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) + Rocchio, regular index
 
-**Config**: [msmarco-v1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.yaml)
+**Config**: [msmarco-v1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.yaml#L62)
 
 #### dl19-doc
 
@@ -249,7 +247,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.bm
 
 ### 4. BM25 complete doc with doc2query-T5 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)
 
-**Config**: [msmarco-v1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.yaml)
+**Config**: [msmarco-v1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.yaml#L86)
 
 #### msmarco-doc.dev
 
@@ -319,7 +317,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.bm
 
 ### 5. BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index
 
-**Config**: [msmarco-v1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.yaml)
+**Config**: [msmarco-v1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.yaml#L116)
 
 #### msmarco-doc.dev
 
@@ -398,7 +396,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.bm
 
 ### 6. BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), regular index
 
-**Config**: [msmarco-v1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.yaml)
+**Config**: [msmarco-v1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.yaml#L146)
 
 #### msmarco-doc.dev
 
@@ -477,7 +475,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.bm
 
 ### 7. BM25 segmented doc (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) + Rocchio, regular index
 
-**Config**: [msmarco-v1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.yaml)
+**Config**: [msmarco-v1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.yaml#L176)
 
 #### dl19-doc
 
@@ -537,7 +535,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.bm
 
 ### 8. BM25 segmented doc with doc2query-T5 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)
 
-**Config**: [msmarco-v1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.yaml)
+**Config**: [msmarco-v1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.yaml#L200)
 
 #### msmarco-doc.dev
 
@@ -616,7 +614,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 dl20-doc runs/run.msmarco-v1-doc.bm
 
 ### 9. uniCOIL with doc2query-T5 (ONNX)
 
-**Config**: [msmarco-v1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.yaml)
+**Config**: [msmarco-v1-doc.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v1-doc.yaml#L230)
 
 #### msmarco-doc.dev
 

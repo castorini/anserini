@@ -1,3 +1,18 @@
+# RETECO v1.1 Track 1a
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config reteco-v1.1-track1-bitcoin
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config reteco-v1.1-track1-cardano
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config reteco-v1.1-track1-economics
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config reteco-v1.1-track1-genealogy
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config reteco-v1.1-track1-history
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config reteco-v1.1-track1-hsm
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config reteco-v1.1-track1-iota
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config reteco-v1.1-track1-law
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config reteco-v1.1-track1-monero
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config reteco-v1.1-track1-politics
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config reteco-v1.1-track1-quant
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config reteco-v1.1-track1-travel
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config reteco-v1.1-track1-workplace
+
 # Nanoknow
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config nanoknow-v1.0-nq
 
