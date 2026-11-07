@@ -15,7 +15,7 @@ Key:
 + **BM25 (dev)** = BM25, bag-of-words baseline on dev
 
 | corpus    | [BM25 (train)](#condition-1) | [BM25 (dev)](#condition-2) |
-| --------- | ---------------------------- | -------------------------- |
+| --------- | :--------------------------: | :------------------------: |
 | bitcoin   | 0.0468                       | 0.0300                     |
 | cardano   | 0.1753                       | 0.1144                     |
 | economics | 0.0361                       | 0.0269                     |
@@ -29,8 +29,6 @@ Key:
 | quant     | 0.0128                       | 0.0000                     |
 | travel    | 0.0412                       | 0.0322                     |
 | workplace | 0.0622                       | 0.0000                     |
-
-
 
 ## Commands
 
@@ -56,7 +54,7 @@ export jvm_args="-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules
 
 ### 1. BM25, bag-of-words baseline (train)
 
-**Config**: [reteco.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/reteco.yaml)
+**Config**: [reteco.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/reteco.yaml#L2)
 
 #### bitcoin
 
@@ -348,7 +346,7 @@ java -cp $fatjar trec_eval -c -m ndcg_cut.10 reteco-v1.1-track1a-workplace.train
 
 ### 2. BM25, bag-of-words baseline (dev)
 
-**Config**: [reteco.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/reteco.yaml)
+**Config**: [reteco.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/reteco.yaml#L85)
 
 #### bitcoin
 
