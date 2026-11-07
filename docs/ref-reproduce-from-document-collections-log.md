@@ -1,7 +1,32 @@
-# Anserini Regressions Log
+# Anserini Log: Reproductions from Document Collections
 
-The following change log details commits to regression tests that alter effectiveness and the addition (or removal) of new regression tests.
+The following log records substantive changes to reproductions from document collections (e.g., the addition or removal of new tests, changes that alter effectiveness, etc.).
 This documentation is useful for figuring why results may have changed over time.
+
+### November 6, 2026
+
++ commit [`92f8cb9`](https://github.com/castorini/anserini/commit/92f8cb98ec54ce891f507dc01b22247eae34127b)
+
+Added BM25 reproductions for RETECO v1.1 Track 1a across 13 Stack Exchange domains, with train and dev topics.
+
+### August 21, 2026
+
++ commit [`23c4dfd`](https://github.com/castorini/anserini/commit/23c4dfdd47eaacd2a321aa9aab19d3fe09aa12f8)
++ commit [`0ae24ab`](https://github.com/castorini/anserini/commit/0ae24abbc4608af7d8bfca91f2b1e6459f00f1cb)
++ commit [`5f091ba`](https://github.com/castorini/anserini/commit/5f091ba5267d6873d4f2de8608e15bfc42d1edfd)
++ commit [`6caeb33`](https://github.com/castorini/anserini/commit/6caeb33a27385d6acc726d81874e34d3a567f46f)
+
+Migrated document-collection reproductions away from the `tools/` submodule to registered topics/qrels and evaluation scripts under `bin/`.
+Follow-up fixes repaired topic/qrels identifiers and evaluation commands.
+Run filenames now use the index directory name to distinguish different index variants of the same corpus.
+
+### August 9, 2026
+
++ commit [`b99e095`](https://github.com/castorini/anserini/commit/b99e09582d3c3880c87e43eb0e1040adb4cfa0ac)
++ commit [`92303d1`](https://github.com/castorini/anserini/commit/92303d179329740fd67d17983fdea69d3f18f6d8)
+
+Adjusted tolerances after the upgrade to Lucene 10.5.0.
+The expected scores themselves were unchanged.
 
 ### June 5, 2026
 
