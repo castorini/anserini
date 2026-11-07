@@ -24,6 +24,7 @@ import io.anserini.index.IndexReaderUtils;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.lib.Rm3Reranker;
+import io.anserini.rerank.lib.BM25PrfReranker;
 import io.anserini.rerank.lib.RocchioReranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
@@ -97,6 +98,8 @@ public class SimpleSearcher implements Closeable {
   protected QueryGenerator generator = new BagOfWordsQueryGenerator();
   protected boolean useRM3;
   protected boolean useRocchio;
+  protected boolean useBM25PRF;
+  protected int bm25prfFbDocs;
 
   protected IndexSearcher searcher = null;
 
@@ -235,6 +238,7 @@ public class SimpleSearcher implements Closeable {
    * Disables RM3 query expansion.
    */
   public void unset_rm3() {
+    this.useBM25PRF = false;
     this.useRM3 = false;
     cascade = new RerankerCascade<String>();
     cascade.add(new ScoreTiesAdjusterReranker<String>());
@@ -304,9 +308,74 @@ public class SimpleSearcher implements Closeable {
       LOG.error("collectionClass: " + collectionClass + " not found!");
     }
 
+    useBM25PRF = false;
     useRM3 = true;
     cascade = new RerankerCascade<String>("rm3");
     cascade.add(new Rm3Reranker<String>(this.analyzer, clazz, Constants.CONTENTS, fbTerms, fbDocs, originalQueryWeight, outputQuery, filterTerms));
+    cascade.add(new ScoreTiesAdjusterReranker<String>());
+  }
+
+  /** Returns whether BM25 pseudo-relevance feedback is enabled. */
+  public boolean use_bm25prf() {
+    return useBM25PRF;
+  }
+
+  /** Disables BM25 pseudo-relevance feedback. */
+  public void unset_bm25prf() {
+    if (useBM25PRF) {
+      useBM25PRF = false;
+      cascade = new RerankerCascade<String>();
+      cascade.add(new ScoreTiesAdjusterReranker<String>());
+    }
+  }
+
+  /** Enables BM25 pseudo-relevance feedback with SearchCollection defaults. */
+  public void set_bm25prf() {
+    set_bm25prf(null);
+  }
+
+  /** Enables BM25 pseudo-relevance feedback, optionally parsing stored raw documents. */
+  public void set_bm25prf(String collectionClass) {
+    SearchCollection.Args defaults = new SearchCollection.Args();
+    set_bm25prf(collectionClass, Integer.parseInt(defaults.bm25prf_fbTerms[0]),
+        Integer.parseInt(defaults.bm25prf_fbDocs[0]), Float.parseFloat(defaults.bm25prf_k1[0]),
+        Float.parseFloat(defaults.bm25prf_b[0]), Float.parseFloat(defaults.bm25prf_newTermWeight[0]), false);
+  }
+
+  /**
+   * Enables BM25 pseudo-relevance feedback using the existing Anserini reranker.
+   *
+   * @param collectionClass parser for indexes without stored document vectors, or null
+   * @param fbTerms maximum number of expansion terms (original terms are always retained)
+   * @param fbDocs maximum number of first-stage feedback documents, independent of requested hits
+   * @param k1 second-stage BM25 term-frequency saturation
+   * @param b second-stage BM25 document-length normalization
+   * @param newTermWeight weight for expansion terms
+   * @param outputQuery whether to log the expanded query
+   */
+  @SuppressWarnings("unchecked")
+  public void set_bm25prf(String collectionClass, int fbTerms, int fbDocs, float k1, float b,
+      float newTermWeight, boolean outputQuery) {
+    if (fbTerms < 0 || fbDocs <= 0 || !Float.isFinite(k1) || k1 < 0 ||
+        !Float.isFinite(b) || b < 0 || b > 1 || !Float.isFinite(newTermWeight) || newTermWeight < 0) {
+      throw new IllegalArgumentException("Invalid BM25PRF parameters: require fbTerms >= 0, fbDocs > 0, " +
+          "finite k1 >= 0, b in [0, 1], and finite newTermWeight >= 0.");
+    }
+    Class<? extends DocumentCollection<?>> clazz = null;
+    try {
+      if (collectionClass != null) {
+        clazz = (Class<? extends DocumentCollection<?>>) Class.forName("io.anserini.collection." + collectionClass);
+      }
+    } catch (ClassNotFoundException e) {
+      throw new IllegalArgumentException("Unknown collection class: " + collectionClass, e);
+    }
+    useRM3 = false;
+    useRocchio = false;
+    useBM25PRF = true;
+    bm25prfFbDocs = fbDocs;
+    cascade = new RerankerCascade<String>("bm25prf");
+    cascade.add(new BM25PrfReranker<String>(analyzer, clazz, Constants.CONTENTS,
+        fbTerms, fbDocs, k1, b, newTermWeight, outputQuery));
     cascade.add(new ScoreTiesAdjusterReranker<String>());
   }
 
@@ -323,6 +392,7 @@ public class SimpleSearcher implements Closeable {
    * Disables Rocchio query expansion.
    */
   public void unset_rocchio() {
+    this.useBM25PRF = false;
     this.useRocchio = false;
     cascade = new RerankerCascade<String>();
     cascade.add(new ScoreTiesAdjusterReranker<String>());
@@ -377,6 +447,7 @@ public class SimpleSearcher implements Closeable {
       LOG.error("collectionClass: " + collectionClass + " not found!");
     }
 
+    useBM25PRF = false;
     useRocchio = true;
     cascade = new RerankerCascade<String>("rocchio");
     cascade.add(new RocchioReranker<String>(this.analyzer, clazz, Constants.CONTENTS, topFbTerms, topFbDocs, bottomFbTerms, bottomFbDocs, alpha, beta, gamma, outputQuery, useNegative));
@@ -616,6 +687,9 @@ public class SimpleSearcher implements Closeable {
 
   // internal implementation
   protected ScoredDoc[] _search(Query query, List<String> queryTokens, String queryString, int k) throws IOException {
+    if (useBM25PRF && queryTokens == null) {
+      throw new IllegalArgumentException("BM25PRF requires a text query, not a preconstructed Lucene Query.");
+    }
     // Create an IndexSearch only once. Note that the object is thread safe.
     if (searcher == null) {
       searcher = new IndexSearcher(reader);
@@ -625,7 +699,7 @@ public class SimpleSearcher implements Closeable {
     SearchCollection.Args searchArgs = new SearchCollection.Args();
     searchArgs.hits = k;
 
-    TopDocs rs = searcher.search(query, useRM3 ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_DOCID, true);
+    TopDocs rs = searcher.search(query, useBM25PRF ? Math.max(k, bm25prfFbDocs) : (useRM3 ? searchArgs.rerankcutoff : k), BREAK_SCORE_TIES_BY_DOCID, true);
     RerankerContext<String> context = new RerankerContext<>(searcher, null, query, null, queryString, queryTokens, null, searchArgs);
 
     ScoredDocs hits = cascade.run(ScoredDocs.fromTopDocs(rs, searcher), context);
@@ -667,7 +741,7 @@ public class SimpleSearcher implements Closeable {
     SearchCollection.Args searchArgs = new SearchCollection.Args();
     searchArgs.hits = k;
 
-    TopDocs rs = searcher.search(query, useRM3 ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_DOCID, true);
+    TopDocs rs = searcher.search(query, useBM25PRF ? Math.max(k, bm25prfFbDocs) : (useRM3 ? searchArgs.rerankcutoff : k), BREAK_SCORE_TIES_BY_DOCID, true);
     RerankerContext<String> context = new RerankerContext<>(searcher, null, query, null,
         queryString, queryTokens, null, searchArgs);
 
