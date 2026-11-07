@@ -693,5 +693,6 @@ If you have any questions, look at previous pull requests for examples.
 + Results reproduced by [@bardia1122](https://github.com/bardia1122) on 2026-10-28 (commit [`0323d37`](https://github.com/castorini/anserini/commit/0323d37942ad109e33e7577094bd3ede58509f59))
 + Results reproduced by [@junieberry](https://github.com/junieberry) on 2026-10-30 (commit [`c0dcb02`](https://github.com/castorini/anserini/commit/c0dcb02732f5bf2725f2ee8a10f2efdc016feed5))
 + Results reproduced by [@pawansapkota100](https://github.com/pawansapkota100) on 2026-10-31 (commit [`8bf7d5e`](https://github.com/castorini/anserini/commit/8bf7d5e0a1a12ce4b6baaa0606e5b2e1eba4ac67))
++ Results reproduced by [@oma452](https://github.com/oma452) on 2026-11-02 (commit [`7ef7405`](https://github.com/castorini/anserini/commit/7ef740562b61c2d49bee049835ebee150db62b44)); collection checksum and counts validated.
 + Results reproduced by [@nothingdev32](https://github.com/nothingdev32) on 2026-11-03 (commit [`7c796ff`](https://github.com/castorini/anserini/commit/7c796ffcdcfe178943472a0de769c324e45de293))
 + Results reproduced by [@fakhirhassan](https://github.com/fakhirhassan) on 2026-11-03 (commit [`37274e3`](https://github.com/castorini/anserini/commit/37274e31df3e86cd300a4188fc95d369c64efe29))
