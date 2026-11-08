@@ -8,13 +8,14 @@ Each of these experiments starts from the raw document collection, builds the ne
 ## RETECO v1.1 Track 1a
 
 RETECO is a reasoning-oriented retrieval benchmark described [here](https://datascienceuibk.github.io/RETECO/).
-These regressions cover BM25 on the deduplicated v1.1 corpus for Track 1a train/dev, with one full domain index shared by both query sets.
+These regressions cover BM25 and query-side BM25 (BM25QS) on the deduplicated v1.1 corpus for Track 1a train/dev, with one full domain index shared by both query sets.
 
 Key:
 
 + BM25
++ BM25QS = query-side BM25
 
-| Corpus    | BM25                                                              |
+| Corpus    | BM25 / BM25QS                                                              |
 | :-------- | :---------------------------------------------------------------: |
 | Bitcoin   | [🔑](../from-document-collection/reteco-v1.1-track1-bitcoin.md)   |
 | Cardano   | [🔑](../from-document-collection/reteco-v1.1-track1-cardano.md)   |
