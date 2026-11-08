@@ -1,6 +1,6 @@
 # Anserini Regressions: RETECO v1.1 Track 1a &mdash; Quant
 
-This page documents BM25 regression experiments for [RETECO v1.1 Track 1a &mdash; Quant](https://datascienceuibk.github.io/RETECO/).
+This page documents BM25 and BM25QS regression experiments for [RETECO v1.1 Track 1a &mdash; Quant](https://datascienceuibk.github.io/RETECO/).
 One full domain index is shared by train and dev.
 
 The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/reteco-v1.1-track1-quant.yaml).
@@ -62,9 +62,22 @@ bin/run.sh io.anserini.search.SearchCollection \
   -topicReader TsvString \
   -output runs/run.lucene-inverted.reteco-v1.1-track1-quant.model-bm25.topics-reteco-v1.1-track1a-quant.dev.txt \
   -bm25 -bm25.k1 0.9 -bm25.b 0.4 -hits 1000 -threads 2 &
+
+bin/run.sh io.anserini.search.SearchCollection \
+  -index indexes/lucene-inverted.reteco-v1.1-track1-quant/ \
+  -topics reteco-v1.1-track1a-quant.train \
+  -topicReader TsvString \
+  -output runs/run.lucene-inverted.reteco-v1.1-track1-quant.model-bm25qs.topics-reteco-v1.1-track1a-quant.train.txt \
+  -bm25.querySide -bm25.k1 0.9 -bm25.b 0.4 -hits 1000 -threads 2 &
+bin/run.sh io.anserini.search.SearchCollection \
+  -index indexes/lucene-inverted.reteco-v1.1-track1-quant/ \
+  -topics reteco-v1.1-track1a-quant.dev \
+  -topicReader TsvString \
+  -output runs/run.lucene-inverted.reteco-v1.1-track1-quant.model-bm25qs.topics-reteco-v1.1-track1a-quant.dev.txt \
+  -bm25.querySide -bm25.k1 0.9 -bm25.b 0.4 -hits 1000 -threads 2 &
 ```
 
-These commands use standard Anserini BM25 (`k1=0.9`, `b=0.4`, top 1000).
+These commands use standard Anserini BM25 and query-side BM25 (BM25QS, `-bm25.querySide`), both with `k1=0.9`, `b=0.4`, and top 1000.
 
 Evaluation can be performed using `trec_eval`:
 
@@ -75,6 +88,13 @@ bin/trec_eval -c -m recall.1000 reteco-v1.1-track1a-quant.train runs/run.lucene-
 bin/trec_eval -c -m ndcg_cut.10 reteco-v1.1-track1a-quant.dev runs/run.lucene-inverted.reteco-v1.1-track1-quant.model-bm25.topics-reteco-v1.1-track1a-quant.dev.txt
 bin/trec_eval -c -m recall.100 reteco-v1.1-track1a-quant.dev runs/run.lucene-inverted.reteco-v1.1-track1-quant.model-bm25.topics-reteco-v1.1-track1a-quant.dev.txt
 bin/trec_eval -c -m recall.1000 reteco-v1.1-track1a-quant.dev runs/run.lucene-inverted.reteco-v1.1-track1-quant.model-bm25.topics-reteco-v1.1-track1a-quant.dev.txt
+
+bin/trec_eval -c -m ndcg_cut.10 reteco-v1.1-track1a-quant.train runs/run.lucene-inverted.reteco-v1.1-track1-quant.model-bm25qs.topics-reteco-v1.1-track1a-quant.train.txt
+bin/trec_eval -c -m recall.100 reteco-v1.1-track1a-quant.train runs/run.lucene-inverted.reteco-v1.1-track1-quant.model-bm25qs.topics-reteco-v1.1-track1a-quant.train.txt
+bin/trec_eval -c -m recall.1000 reteco-v1.1-track1a-quant.train runs/run.lucene-inverted.reteco-v1.1-track1-quant.model-bm25qs.topics-reteco-v1.1-track1a-quant.train.txt
+bin/trec_eval -c -m ndcg_cut.10 reteco-v1.1-track1a-quant.dev runs/run.lucene-inverted.reteco-v1.1-track1-quant.model-bm25qs.topics-reteco-v1.1-track1a-quant.dev.txt
+bin/trec_eval -c -m recall.100 reteco-v1.1-track1a-quant.dev runs/run.lucene-inverted.reteco-v1.1-track1-quant.model-bm25qs.topics-reteco-v1.1-track1a-quant.dev.txt
+bin/trec_eval -c -m recall.1000 reteco-v1.1-track1a-quant.dev runs/run.lucene-inverted.reteco-v1.1-track1-quant.model-bm25qs.topics-reteco-v1.1-track1a-quant.dev.txt
 ```
 
 nDCG@10 is the primary benchmark metric; R@100 and R@1000 are additional diagnostics. `-c` includes all qrels queries.
@@ -84,13 +104,13 @@ The full domain corpus is searched for every split, with unmodified retrieval sc
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@10**                    | **BM25** |
-| :----------------------------- | :------: |
-| RETECO: Quant, Track 1a, train | 0.0128   |
-| RETECO: Quant, Track 1a, dev   | 0.0000   |
-| **R@100**                      | **BM25** |
-| RETECO: Quant, Track 1a, train | 0.0764   |
-| RETECO: Quant, Track 1a, dev   | 0.1000   |
-| **R@1000**                     | **BM25** |
-| RETECO: Quant, Track 1a, train | 0.4153   |
-| RETECO: Quant, Track 1a, dev   | 0.4917   |
+| **nDCG@10**                    | **BM25** | **BM25QS** |
+| :----------------------------- | :------: | :--------: |
+| RETECO: Quant, Track 1a, train | 0.0128   | 0.0255     |
+| RETECO: Quant, Track 1a, dev   | 0.0000   | 0.0204     |
+| **R@100**                      | **BM25** | **BM25QS** |
+| RETECO: Quant, Track 1a, train | 0.0764   | 0.1597     |
+| RETECO: Quant, Track 1a, dev   | 0.1000   | 0.2000     |
+| **R@1000**                     | **BM25** | **BM25QS** |
+| RETECO: Quant, Track 1a, train | 0.4153   | 0.4771     |
+| RETECO: Quant, Track 1a, dev   | 0.4917   | 0.4250     |

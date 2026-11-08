@@ -1,6 +1,6 @@
 # Anserini Regressions: BRIGHT &mdash; Biology
 
-This page documents BM25 regression experiments for [BRIGHT &mdash; Biology](https://brightbenchmark.github.io/).
+This page documents BM25 and BM25QS regression experiments for [BRIGHT &mdash; Biology](https://brightbenchmark.github.io/).
 
 The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/bright-biology.yaml).
 Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/bright-biology.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and build Anserini to rebuild the documentation.
@@ -52,6 +52,13 @@ bin/run.sh io.anserini.search.SearchCollection \
   -topicReader TsvString \
   -output runs/run.lucene-inverted.bright-biology.model-bm25.topics-bright-biology.txt \
   -bm25 -removeQuery -hits 1000 &
+
+bin/run.sh io.anserini.search.SearchCollection \
+  -index indexes/lucene-inverted.bright-biology/ \
+  -topics bright-biology \
+  -topicReader TsvString \
+  -output runs/run.lucene-inverted.bright-biology.model-bm25qs.topics-bright-biology.txt \
+  -bm25.querySide -removeQuery -hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -60,16 +67,20 @@ Evaluation can be performed using `trec_eval`:
 bin/trec_eval -c -m ndcg_cut.10 bright-biology runs/run.lucene-inverted.bright-biology.model-bm25.topics-bright-biology.txt
 bin/trec_eval -c -m recall.100 bright-biology runs/run.lucene-inverted.bright-biology.model-bm25.topics-bright-biology.txt
 bin/trec_eval -c -m recall.1000 bright-biology runs/run.lucene-inverted.bright-biology.model-bm25.topics-bright-biology.txt
+
+bin/trec_eval -c -m ndcg_cut.10 bright-biology runs/run.lucene-inverted.bright-biology.model-bm25qs.topics-bright-biology.txt
+bin/trec_eval -c -m recall.100 bright-biology runs/run.lucene-inverted.bright-biology.model-bm25qs.topics-bright-biology.txt
+bin/trec_eval -c -m recall.1000 bright-biology runs/run.lucene-inverted.bright-biology.model-bm25qs.topics-bright-biology.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@10**     | **BM25**   |
-|:----------------|:----------:|
-| BRIGHT: Biology | 0.1824     |
-| **R@100**       | **BM25**   |
-| BRIGHT: Biology | 0.4205     |
-| **R@1000**      | **BM25**   |
-| BRIGHT: Biology | 0.7644     |
+| **nDCG@10**     | **BM25**   | **BM25QS** |
+|:----------------|:----------:|:----------:|
+| BRIGHT: Biology | 0.1824     | 0.1972     |
+| **R@100**       | **BM25**   | **BM25QS** |
+| BRIGHT: Biology | 0.4205     | 0.4583     |
+| **R@1000**      | **BM25**   | **BM25QS** |
+| BRIGHT: Biology | 0.7644     | 0.7638     |

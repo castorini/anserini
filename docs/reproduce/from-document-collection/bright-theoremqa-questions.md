@@ -1,6 +1,6 @@
 # Anserini Regressions: BRIGHT &mdash; TheoremQA-Q
 
-This page documents BM25 regression experiments for [BRIGHT &mdash; TheoremQA-Q](https://brightbenchmark.github.io/).
+This page documents BM25 and BM25QS regression experiments for [BRIGHT &mdash; TheoremQA-Q](https://brightbenchmark.github.io/).
 
 The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/bright-theoremqa-questions.yaml).
 Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/bright-theoremqa-questions.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and build Anserini to rebuild the documentation.
@@ -52,6 +52,13 @@ bin/run.sh io.anserini.search.SearchCollection \
   -topicReader TsvString \
   -output runs/run.lucene-inverted.bright-theoremqa-questions.model-bm25.topics-bright-theoremqa-questions.txt \
   -bm25 -removeQuery -hits 1000 &
+
+bin/run.sh io.anserini.search.SearchCollection \
+  -index indexes/lucene-inverted.bright-theoremqa-questions/ \
+  -topics bright-theoremqa-questions \
+  -topicReader TsvString \
+  -output runs/run.lucene-inverted.bright-theoremqa-questions.model-bm25qs.topics-bright-theoremqa-questions.txt \
+  -bm25.querySide -removeQuery -hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -60,16 +67,20 @@ Evaluation can be performed using `trec_eval`:
 bin/trec_eval -c -m ndcg_cut.10 bright-theoremqa-questions runs/run.lucene-inverted.bright-theoremqa-questions.model-bm25.topics-bright-theoremqa-questions.txt
 bin/trec_eval -c -m recall.100 bright-theoremqa-questions runs/run.lucene-inverted.bright-theoremqa-questions.model-bm25.topics-bright-theoremqa-questions.txt
 bin/trec_eval -c -m recall.1000 bright-theoremqa-questions runs/run.lucene-inverted.bright-theoremqa-questions.model-bm25.topics-bright-theoremqa-questions.txt
+
+bin/trec_eval -c -m ndcg_cut.10 bright-theoremqa-questions runs/run.lucene-inverted.bright-theoremqa-questions.model-bm25qs.topics-bright-theoremqa-questions.txt
+bin/trec_eval -c -m recall.100 bright-theoremqa-questions runs/run.lucene-inverted.bright-theoremqa-questions.model-bm25qs.topics-bright-theoremqa-questions.txt
+bin/trec_eval -c -m recall.1000 bright-theoremqa-questions runs/run.lucene-inverted.bright-theoremqa-questions.model-bm25qs.topics-bright-theoremqa-questions.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@10**         | **BM25**   |
-|:--------------------|:----------:|
-| BRIGHT: TheoremQA-Q | 0.0733     |
-| **R@100**           | **BM25**   |
-| BRIGHT: TheoremQA-Q | 0.1587     |
-| **R@1000**          | **BM25**   |
-| BRIGHT: TheoremQA-Q | 0.3007     |
+| **nDCG@10**         | **BM25**   | **BM25QS** |
+|:--------------------|:----------:|:----------:|
+| BRIGHT: TheoremQA-Q | 0.0733     | 0.1036     |
+| **R@100**           | **BM25**   | **BM25QS** |
+| BRIGHT: TheoremQA-Q | 0.1587     | 0.2119     |
+| **R@1000**          | **BM25**   | **BM25QS** |
+| BRIGHT: TheoremQA-Q | 0.3007     | 0.4027     |
