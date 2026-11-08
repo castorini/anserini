@@ -1,6 +1,6 @@
 # Anserini Regressions: BRIGHT &mdash; Economics
 
-This page documents BM25 regression experiments for [BRIGHT &mdash; Economics](https://brightbenchmark.github.io/).
+This page documents BM25 and BM25QS regression experiments for [BRIGHT &mdash; Economics](https://brightbenchmark.github.io/).
 
 The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/bright-economics.yaml).
 Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/bright-economics.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and build Anserini to rebuild the documentation.
@@ -52,6 +52,13 @@ bin/run.sh io.anserini.search.SearchCollection \
   -topicReader TsvString \
   -output runs/run.lucene-inverted.bright-economics.model-bm25.topics-bright-economics.txt \
   -bm25 -removeQuery -hits 1000 &
+
+bin/run.sh io.anserini.search.SearchCollection \
+  -index indexes/lucene-inverted.bright-economics/ \
+  -topics bright-economics \
+  -topicReader TsvString \
+  -output runs/run.lucene-inverted.bright-economics.model-bm25qs.topics-bright-economics.txt \
+  -bm25.querySide -removeQuery -hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -60,16 +67,20 @@ Evaluation can be performed using `trec_eval`:
 bin/trec_eval -c -m ndcg_cut.10 bright-economics runs/run.lucene-inverted.bright-economics.model-bm25.topics-bright-economics.txt
 bin/trec_eval -c -m recall.100 bright-economics runs/run.lucene-inverted.bright-economics.model-bm25.topics-bright-economics.txt
 bin/trec_eval -c -m recall.1000 bright-economics runs/run.lucene-inverted.bright-economics.model-bm25.topics-bright-economics.txt
+
+bin/trec_eval -c -m ndcg_cut.10 bright-economics runs/run.lucene-inverted.bright-economics.model-bm25qs.topics-bright-economics.txt
+bin/trec_eval -c -m recall.100 bright-economics runs/run.lucene-inverted.bright-economics.model-bm25qs.topics-bright-economics.txt
+bin/trec_eval -c -m recall.1000 bright-economics runs/run.lucene-inverted.bright-economics.model-bm25qs.topics-bright-economics.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@10**       | **BM25**   |
-|:------------------|:----------:|
-| BRIGHT: Economics | 0.1645     |
-| **R@100**         | **BM25**   |
-| BRIGHT: Economics | 0.4077     |
-| **R@1000**        | **BM25**   |
-| BRIGHT: Economics | 0.6833     |
+| **nDCG@10**       | **BM25**   | **BM25QS** |
+|:------------------|:----------:|:----------:|
+| BRIGHT: Economics | 0.1645     | 0.1518     |
+| **R@100**         | **BM25**   | **BM25QS** |
+| BRIGHT: Economics | 0.4077     | 0.3774     |
+| **R@1000**        | **BM25**   | **BM25QS** |
+| BRIGHT: Economics | 0.6833     | 0.7140     |
