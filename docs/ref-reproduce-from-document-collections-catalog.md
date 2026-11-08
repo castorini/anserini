@@ -39,8 +39,8 @@ Here are all the available configurations:
 + [MIRACL (v1.0): BM25 regressions](#miracl-v1-0-bm25-regressions)
 + [NanoKnow](#nanoknow)
 + [Other cross-lingual and multi-lingual regressions](#other-cross-lingual-and-multi-lingual-regressions)
-+ [RETECO v1.1 Track 1a: BM25](#reteco-v1-1-track-1a-bm25)
-+ [BRIGHT: BM25](#bright-bm25)
++ [RETECO v1.1 Track 1a: BM25 and BM25QS](#reteco-v1-1-track-1a-bm25-and-bm25qs)
++ [BRIGHT: BM25 and BM25QS](#bright-bm25-and-bm25qs)
 + [BRIGHT: SPLADE-v3](#bright-splade-v3)
 + [BRIGHT: BGE-large-en-v1.5](#bright-bge-large-en-v1-5)
 + [Other regressions (TREC, etc.)](#other-regressions-trec-etc)
@@ -671,9 +671,9 @@ Here are all the available configurations:
 + [`ciral-v1.0-sw-en`](../src/main/resources/reproduce/from-document-collection/configs/ciral-v1.0-sw-en.yaml) [[docs](reproduce/from-document-collection/ciral-v1.0-sw-en.md)]
 + [`ciral-v1.0-yo-en`](../src/main/resources/reproduce/from-document-collection/configs/ciral-v1.0-yo-en.yaml) [[docs](reproduce/from-document-collection/ciral-v1.0-yo-en.md)]
 
-<a id="reteco-v1-1-track-1a-bm25"></a>
+<a id="reteco-v1-1-track-1a-bm25-and-bm25qs"></a>
 
-## RETECO v1.1 Track 1a: BM25
+## RETECO v1.1 Track 1a: BM25 and BM25QS
 
 + [`reteco-v1.1-track1-bitcoin`](../src/main/resources/reproduce/from-document-collection/configs/reteco-v1.1-track1-bitcoin.yaml) [[docs](reproduce/from-document-collection/reteco-v1.1-track1-bitcoin.md)]
 + [`reteco-v1.1-track1-cardano`](../src/main/resources/reproduce/from-document-collection/configs/reteco-v1.1-track1-cardano.yaml) [[docs](reproduce/from-document-collection/reteco-v1.1-track1-cardano.md)]
@@ -689,9 +689,9 @@ Here are all the available configurations:
 + [`reteco-v1.1-track1-travel`](../src/main/resources/reproduce/from-document-collection/configs/reteco-v1.1-track1-travel.yaml) [[docs](reproduce/from-document-collection/reteco-v1.1-track1-travel.md)]
 + [`reteco-v1.1-track1-workplace`](../src/main/resources/reproduce/from-document-collection/configs/reteco-v1.1-track1-workplace.yaml) [[docs](reproduce/from-document-collection/reteco-v1.1-track1-workplace.md)]
 
-<a id="bright-bm25"></a>
+<a id="bright-bm25-and-bm25qs"></a>
 
-## BRIGHT: BM25
+## BRIGHT: BM25 and BM25QS
 
 + [`bright-aops`](../src/main/resources/reproduce/from-document-collection/configs/bright-aops.yaml) [[docs](reproduce/from-document-collection/bright-aops.md)]
 + [`bright-biology`](../src/main/resources/reproduce/from-document-collection/configs/bright-biology.yaml) [[docs](reproduce/from-document-collection/bright-biology.md)]

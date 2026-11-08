@@ -1,6 +1,6 @@
 # Anserini Regressions: BRIGHT &mdash; Earth Science
 
-This page documents BM25 regression experiments for [BRIGHT &mdash; Earth Science](https://brightbenchmark.github.io/).
+This page documents BM25 and BM25QS regression experiments for [BRIGHT &mdash; Earth Science](https://brightbenchmark.github.io/).
 
 The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/bright-earth-science.yaml).
 Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/bright-earth-science.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and build Anserini to rebuild the documentation.
@@ -52,6 +52,13 @@ bin/run.sh io.anserini.search.SearchCollection \
   -topicReader TsvString \
   -output runs/run.lucene-inverted.bright-earth-science.model-bm25.topics-bright-earth-science.txt \
   -bm25 -removeQuery -hits 1000 &
+
+bin/run.sh io.anserini.search.SearchCollection \
+  -index indexes/lucene-inverted.bright-earth-science/ \
+  -topics bright-earth-science \
+  -topicReader TsvString \
+  -output runs/run.lucene-inverted.bright-earth-science.model-bm25qs.topics-bright-earth-science.txt \
+  -bm25.querySide -removeQuery -hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -60,16 +67,20 @@ Evaluation can be performed using `trec_eval`:
 bin/trec_eval -c -m ndcg_cut.10 bright-earth-science runs/run.lucene-inverted.bright-earth-science.model-bm25.topics-bright-earth-science.txt
 bin/trec_eval -c -m recall.100 bright-earth-science runs/run.lucene-inverted.bright-earth-science.model-bm25.topics-bright-earth-science.txt
 bin/trec_eval -c -m recall.1000 bright-earth-science runs/run.lucene-inverted.bright-earth-science.model-bm25.topics-bright-earth-science.txt
+
+bin/trec_eval -c -m ndcg_cut.10 bright-earth-science runs/run.lucene-inverted.bright-earth-science.model-bm25qs.topics-bright-earth-science.txt
+bin/trec_eval -c -m recall.100 bright-earth-science runs/run.lucene-inverted.bright-earth-science.model-bm25qs.topics-bright-earth-science.txt
+bin/trec_eval -c -m recall.1000 bright-earth-science runs/run.lucene-inverted.bright-earth-science.model-bm25qs.topics-bright-earth-science.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@10**           | **BM25**   |
-|:----------------------|:----------:|
-| BRIGHT: Earth Science | 0.2791     |
-| **R@100**             | **BM25**   |
-| BRIGHT: Earth Science | 0.5955     |
-| **R@1000**            | **BM25**   |
-| BRIGHT: Earth Science | 0.8101     |
+| **nDCG@10**           | **BM25**   | **BM25QS** |
+|:----------------------|:----------:|:----------:|
+| BRIGHT: Earth Science | 0.2791     | 0.2789     |
+| **R@100**             | **BM25**   | **BM25QS** |
+| BRIGHT: Earth Science | 0.5955     | 0.6013     |
+| **R@1000**            | **BM25**   | **BM25QS** |
+| BRIGHT: Earth Science | 0.8101     | 0.8418     |
