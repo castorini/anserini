@@ -409,6 +409,38 @@ public class DataModel {
     return builder.toString().trim();
   }
 
+  /** Pad Markdown table columns while preserving their rendered alignment. */
+  public static String padMarkdownTable(String table) {
+    if (table.isBlank()) {
+      return table;
+    }
+    List<String[]> rows = table.strip().lines().map(line -> line.substring(1, line.length() - 1).split("\\|", -1)).toList();
+    int[] widths = new int[rows.get(0).length];
+    for (String[] row : rows) {
+      for (int i = 0; i < row.length; i++) {
+        row[i] = row[i].strip();
+        String cell = row[i];
+        int markers = (cell.startsWith(":") ? 1 : 0) + (cell.endsWith(":") ? 1 : 0);
+        widths[i] = Math.max(widths[i], cell.matches(":?-+:?") ? 3 + markers : Math.max(3, cell.length()));
+      }
+    }
+    StringBuilder builder = new StringBuilder();
+    for (String[] row : rows) {
+      builder.append("|");
+      for (int i = 0; i < row.length; i++) {
+        String cell = row[i];
+        if (cell.matches(":?-+:?")) {
+          String left = cell.startsWith(":") ? ":" : "";
+          String right = cell.endsWith(":") ? ":" : "";
+          cell = left + "-".repeat(widths[i] - left.length() - right.length()) + right;
+        }
+        builder.append(" ").append(StringUtils.rightPad(cell, widths[i])).append(" |");
+      }
+      builder.append("\n");
+    }
+    return builder.toString().stripTrailing() + table.substring(table.stripTrailing().length());
+  }
+
   public String generateEffectiveness(String collection) {
     int rightPadding = 1;
     int firstColumnWidth = 0;

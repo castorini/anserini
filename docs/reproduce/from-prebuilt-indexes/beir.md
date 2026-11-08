@@ -23,46 +23,44 @@ Key:
 
 ### Other domains
 
-| corpus | [BM25f](#condition-1) | [BM25mf](#condition-2) | [SPLADE](#condition-3) | [SlideOn](#condition-4) | [BGE](#condition-5) | [RRF](#condition-6) | [SF](#condition-7) |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| trec-covid | 0.5947 | 0.6559 | 0.7299 | 0.7955 | 0.7815 | 0.8041 | 0.7956 |
-| bioasq | 0.5225 | 0.4646 | 0.5142 | 0.5113 | 0.4148 | 0.5278 | 0.5428 |
-| nfcorpus | 0.3218 | 0.3254 | 0.3629 | 0.3829 | 0.3738 | 0.3725 | 0.3785 |
-| nq | 0.3055 | 0.3285 | 0.5842 | 0.6372 | 0.5415 | 0.4831 | 0.5183 |
-| hotpotqa | 0.6330 | 0.6027 | 0.6884 | 0.7968 | 0.7259 | 0.7389 | 0.7658 |
-| fiqa | 0.2361 | 0.2361 | 0.3798 | 0.4930 | 0.4065 | 0.3671 | 0.3942 |
-| signal1m | 0.3304 | 0.3304 | 0.2465 | 0.2963 | 0.2886 | 0.3533 | 0.3626 |
-| trec-news | 0.3952 | 0.3977 | 0.4365 | 0.5066 | 0.4424 | 0.4855 | 0.5008 |
-| robust04 | 0.4070 | 0.4070 | 0.4952 | 0.5751 | 0.4435 | 0.5070 | 0.5127 |
-| arguana | 0.3970 | 0.4142 | 0.4862 | 0.5231 | 0.6375 | 0.5626 | 0.5738 |
-| webis-touche2020 | 0.4422 | 0.3673 | 0.3086 | 0.3407 | 0.2571 | 0.3771 | 0.3755 |
-| quora | 0.7886 | 0.7886 | 0.8141 | 0.8590 | 0.8876 | 0.8682 | 0.8858 |
-| dbpedia-entity | 0.3180 | 0.3128 | 0.4476 | 0.4850 | 0.4073 | 0.4190 | 0.4374 |
-| scidocs | 0.1490 | 0.1581 | 0.1567 | 0.2008 | 0.2172 | 0.1948 | 0.2019 |
-| fever | 0.6513 | 0.7530 | 0.8015 | 0.9187 | 0.8629 | 0.8108 | 0.8584 |
-| climate-fever | 0.1651 | 0.2129 | 0.2625 | 0.4299 | 0.3117 | 0.2812 | 0.2946 |
-| scifact | 0.6789 | 0.6647 | 0.7140 | 0.7499 | 0.7408 | 0.7420 | 0.7472 |
-| Average | 0.4315 | 0.4365 | 0.4958 | 0.5589 | 0.5142 | 0.5232 | 0.5380 |
+| corpus           | [BM25f](#condition-1) | [BM25mf](#condition-2) | [SPLADE](#condition-3) | [SlideOn](#condition-4) | [BGE](#condition-5) | [RRF](#condition-6) | [SF](#condition-7) |
+| ---------------- | :-------------------: | :--------------------: | :--------------------: | :---------------------: | :-----------------: | :-----------------: | :----------------: |
+| trec-covid       | 0.5947                | 0.6559                 | 0.7299                 | 0.7955                  | 0.7815              | 0.8041              | 0.7956             |
+| bioasq           | 0.5225                | 0.4646                 | 0.5142                 | 0.5113                  | 0.4148              | 0.5278              | 0.5428             |
+| nfcorpus         | 0.3218                | 0.3254                 | 0.3629                 | 0.3829                  | 0.3738              | 0.3725              | 0.3785             |
+| nq               | 0.3055                | 0.3285                 | 0.5842                 | 0.6372                  | 0.5415              | 0.4831              | 0.5183             |
+| hotpotqa         | 0.6330                | 0.6027                 | 0.6884                 | 0.7968                  | 0.7259              | 0.7389              | 0.7658             |
+| fiqa             | 0.2361                | 0.2361                 | 0.3798                 | 0.4930                  | 0.4065              | 0.3671              | 0.3942             |
+| signal1m         | 0.3304                | 0.3304                 | 0.2465                 | 0.2963                  | 0.2886              | 0.3533              | 0.3626             |
+| trec-news        | 0.3952                | 0.3977                 | 0.4365                 | 0.5066                  | 0.4424              | 0.4855              | 0.5008             |
+| robust04         | 0.4070                | 0.4070                 | 0.4952                 | 0.5751                  | 0.4435              | 0.5070              | 0.5127             |
+| arguana          | 0.3970                | 0.4142                 | 0.4862                 | 0.5231                  | 0.6375              | 0.5626              | 0.5738             |
+| webis-touche2020 | 0.4422                | 0.3673                 | 0.3086                 | 0.3407                  | 0.2571              | 0.3771              | 0.3755             |
+| quora            | 0.7886                | 0.7886                 | 0.8141                 | 0.8590                  | 0.8876              | 0.8682              | 0.8858             |
+| dbpedia-entity   | 0.3180                | 0.3128                 | 0.4476                 | 0.4850                  | 0.4073              | 0.4190              | 0.4374             |
+| scidocs          | 0.1490                | 0.1581                 | 0.1567                 | 0.2008                  | 0.2172              | 0.1948              | 0.2019             |
+| fever            | 0.6513                | 0.7530                 | 0.8015                 | 0.9187                  | 0.8629              | 0.8108              | 0.8584             |
+| climate-fever    | 0.1651                | 0.2129                 | 0.2625                 | 0.4299                  | 0.3117              | 0.2812              | 0.2946             |
+| scifact          | 0.6789                | 0.6647                 | 0.7140                 | 0.7499                  | 0.7408              | 0.7420              | 0.7472             |
+| Average          | 0.4315                | 0.4365                 | 0.4958                 | 0.5589                  | 0.5142              | 0.5232              | 0.5380             |
 
 ### CQADupStack domains
 
-| corpus | [BM25f](#condition-1) | [BM25mf](#condition-2) | [SPLADE](#condition-3) | [SlideOn](#condition-4) | [BGE](#condition-5) | [RRF](#condition-6) | [SF](#condition-7) |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| cqadupstack-android | 0.3801 | 0.3709 | 0.4109 | 0.4772 | 0.5076 | 0.4652 | 0.4868 |
-| cqadupstack-english | 0.3453 | 0.3321 | 0.4255 | 0.5152 | 0.4857 | 0.4461 | 0.4678 |
-| cqadupstack-gaming | 0.4822 | 0.4418 | 0.5193 | 0.6016 | 0.5967 | 0.5615 | 0.5818 |
-| cqadupstack-gis | 0.2901 | 0.2904 | 0.3236 | 0.4195 | 0.4131 | 0.3679 | 0.3937 |
-| cqadupstack-mathematica | 0.2015 | 0.2046 | 0.2445 | 0.3142 | 0.3163 | 0.2751 | 0.2951 |
-| cqadupstack-physics | 0.3214 | 0.3248 | 0.3753 | 0.4580 | 0.4724 | 0.4143 | 0.4375 |
-| cqadupstack-programmers | 0.2802 | 0.2963 | 0.3387 | 0.4268 | 0.4238 | 0.3715 | 0.4005 |
-| cqadupstack-stats | 0.2711 | 0.2790 | 0.3137 | 0.3754 | 0.3728 | 0.3414 | 0.3534 |
-| cqadupstack-tex | 0.2244 | 0.2086 | 0.2493 | 0.3246 | 0.3115 | 0.2931 | 0.3090 |
-| cqadupstack-unix | 0.2749 | 0.2788 | 0.3196 | 0.4346 | 0.4220 | 0.3597 | 0.3853 |
-| cqadupstack-webmasters | 0.3059 | 0.3008 | 0.3250 | 0.4087 | 0.4072 | 0.3711 | 0.3857 |
-| cqadupstack-wordpress | 0.2483 | 0.2562 | 0.2807 | 0.3492 | 0.3547 | 0.3353 | 0.3546 |
-| Average | 0.3021 | 0.2987 | 0.3438 | 0.4254 | 0.4237 | 0.3835 | 0.4043 |
-
-
+| corpus                  | [BM25f](#condition-1) | [BM25mf](#condition-2) | [SPLADE](#condition-3) | [SlideOn](#condition-4) | [BGE](#condition-5) | [RRF](#condition-6) | [SF](#condition-7) |
+| ----------------------- | :-------------------: | :--------------------: | :--------------------: | :---------------------: | :-----------------: | :-----------------: | :----------------: |
+| cqadupstack-android     | 0.3801                | 0.3709                 | 0.4109                 | 0.4772                  | 0.5076              | 0.4652              | 0.4868             |
+| cqadupstack-english     | 0.3453                | 0.3321                 | 0.4255                 | 0.5152                  | 0.4857              | 0.4461              | 0.4678             |
+| cqadupstack-gaming      | 0.4822                | 0.4418                 | 0.5193                 | 0.6016                  | 0.5967              | 0.5615              | 0.5818             |
+| cqadupstack-gis         | 0.2901                | 0.2904                 | 0.3236                 | 0.4195                  | 0.4131              | 0.3679              | 0.3937             |
+| cqadupstack-mathematica | 0.2015                | 0.2046                 | 0.2445                 | 0.3142                  | 0.3163              | 0.2751              | 0.2951             |
+| cqadupstack-physics     | 0.3214                | 0.3248                 | 0.3753                 | 0.4580                  | 0.4724              | 0.4143              | 0.4375             |
+| cqadupstack-programmers | 0.2802                | 0.2963                 | 0.3387                 | 0.4268                  | 0.4238              | 0.3715              | 0.4005             |
+| cqadupstack-stats       | 0.2711                | 0.2790                 | 0.3137                 | 0.3754                  | 0.3728              | 0.3414              | 0.3534             |
+| cqadupstack-tex         | 0.2244                | 0.2086                 | 0.2493                 | 0.3246                  | 0.3115              | 0.2931              | 0.3090             |
+| cqadupstack-unix        | 0.2749                | 0.2788                 | 0.3196                 | 0.4346                  | 0.4220              | 0.3597              | 0.3853             |
+| cqadupstack-webmasters  | 0.3059                | 0.3008                 | 0.3250                 | 0.4087                  | 0.4072              | 0.3711              | 0.3857             |
+| cqadupstack-wordpress   | 0.2483                | 0.2562                 | 0.2807                 | 0.3492                  | 0.3547              | 0.3353              | 0.3546             |
+| Average                 | 0.3021                | 0.2987                 | 0.3438                 | 0.4254                  | 0.4237              | 0.3835              | 0.4043             |
 
 ## Commands
 
@@ -87,7 +85,7 @@ export jvm_args="-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules
 
 ### 1. BM25, flat bag-of-words baseline
 
-**Config**: [beir.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/beir.yaml)
+**Config**: [beir.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/beir.yaml#L2)
 
 #### trec-covid
 
@@ -673,7 +671,7 @@ java -cp $fatjar trec_eval -c -m ndcg_cut.10 beir-v1.0.0-scifact.test runs/run.b
 
 ### 2. BM25, multifield bag-of-words baseline
 
-**Config**: [beir.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/beir.yaml)
+**Config**: [beir.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/beir.yaml#L181)
 
 #### trec-covid
 
@@ -1317,7 +1315,7 @@ java -cp $fatjar trec_eval -c -m ndcg_cut.10 beir-v1.0.0-scifact.test runs/run.b
 
 ### 3. SPLADE-v3 (ONNX)
 
-**Config**: [beir.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/beir.yaml)
+**Config**: [beir.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/beir.yaml#L360)
 
 #### trec-covid
 
@@ -1961,7 +1959,7 @@ java -cp $fatjar trec_eval -c -m ndcg_cut.10 beir-v1.0.0-scifact.test runs/run.b
 
 ### 4. SlideOn (ONNX), d512/q64, scale 100
 
-**Config**: [beir.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/beir.yaml)
+**Config**: [beir.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/beir.yaml#L539)
 
 #### trec-covid
 
@@ -2634,7 +2632,7 @@ java -cp $fatjar trec_eval -c -m ndcg_cut.10 beir-v1.0.0-scifact.test runs/run.b
 
 ### 5. bge-base-en-v1.5 w/ flat indexes (ONNX)
 
-**Config**: [beir.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/beir.yaml)
+**Config**: [beir.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/beir.yaml#L718)
 
 #### trec-covid
 
@@ -3220,7 +3218,7 @@ java -cp $fatjar trec_eval -c -m ndcg_cut.10 beir-v1.0.0-scifact.test runs/run.b
 
 ### 6. Fusion: RRF (BM25 + BGE)
 
-**Config**: [beir.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/beir.yaml)
+**Config**: [beir.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/beir.yaml#L897)
 
 #### trec-covid
 
@@ -3835,7 +3833,7 @@ java -cp $fatjar trec_eval -c -m ndcg_cut.10 beir-v1.0.0-scifact.test runs/run.b
 
 ### 7. Fusion: Average (BM25 + BGE) with normalization
 
-**Config**: [beir.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/beir.yaml)
+**Config**: [beir.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/beir.yaml#L1076)
 
 #### trec-covid
 

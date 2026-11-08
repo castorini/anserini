@@ -338,6 +338,8 @@ If you have any questions, look at previous pull requests for examples.
 + Results reproduced by [@bardia1122](https://github.com/bardia1122) on 2026-10-28 (commit [`7ec35df`](https://github.com/castorini/anserini/commit/7ec35df889c8d12072652cea8df7cf877b9c5340))
 + Results reproduced by [@junieberry](https://github.com/junieberry) on 2026-10-30 (commit [`c0dcb02`](https://github.com/castorini/anserini/commit/c0dcb02732f5bf2725f2ee8a10f2efdc016feed5))
 + Results reproduced by [@pawansapkota100](https://github.com/pawansapkota100) on 2026-10-31 (commit [`8bf7d5e`](https://github.com/castorini/anserini/commit/8bf7d5e0a1a12ce4b6baaa0606e5b2e1eba4ac67))
++ Results reproduced by [@marwa-kiani17](https://github.com/marwa-kiani17) on 2026-11-02 (commit [`aa3930f`](https://github.com/castorini/anserini/commit/aa3930fedb57c00b4c92ba70589a5c9e5beeac4b))
 + Results reproduced by [@nothingdev32](https://github.com/nothingdev32) on 2026-11-03 (commit [`7c796ff`](https://github.com/castorini/anserini/commit/7c796ffcdcfe178943472a0de769c324e45de293))
 + Results reproduced by [@karanverma](https://github.com/karanverma) on 2026-11-04 (commit [`e920b4a`](https://github.com/castorini/anserini/commit/e920b4ad3621da7b61ba81ac9251842dfb1d6f07))
 + Results reproduced by [@fakhirhassan](https://github.com/fakhirhassan) on 2026-11-05 (commit [`37274e3`](https://github.com/castorini/anserini/commit/37274e31df3e86cd300a4188fc95d369c64efe29))
++ Results reproduced by [@vardah-ch](https://github.com/vardah-ch) on 2026-11-08 (commit [`92f8cb9`](https://github.com/castorini/anserini/commit/92f8cb98ec54ce891f507dc01b22247eae34127b))

@@ -12,27 +12,25 @@ For more metrics, refer to the config directly.
 
 Key:
 
-+ **BM25** = BM25, bag-of-words baseline
-+ **BM25qs** = BM25, query-side BM25 baseline
-+ **SPLADE** = SPLADE-v3 (ONNX)
++ **BM25** = BM25
++ **BM25QS** = query-side BM25
++ **SPLADE-v3** = SPLADE-v3 (ONNX)
 + **BGE** = bge-large-en-v1.5 w/ flat indexes (ONNX)
 
-| corpus | [BM25](#condition-1) | [BM25qs](#condition-2) | [SPLADE](#condition-3) | [BGE](#condition-4) |
-| --- | --- | --- | --- | --- |
-| biology | 0.1824 | 0.1972 | 0.2101 | 0.1242 |
-| earth-science | 0.2791 | 0.2789 | 0.2670 | 0.2545 |
-| economics | 0.1645 | 0.1518 | 0.1604 | 0.1662 |
-| psychology | 0.1342 | 0.1266 | 0.1527 | 0.1805 |
-| robotics | 0.1091 | 0.1390 | 0.1578 | 0.1230 |
-| stackoverflow | 0.1626 | 0.1855 | 0.1290 | 0.1099 |
-| sustainable-living | 0.1613 | 0.1515 | 0.1497 | 0.1440 |
-| leetcode | 0.2471 | 0.2497 | 0.2603 | 0.2668 |
-| pony | 0.0434 | 0.0789 | 0.1440 | 0.0338 |
-| aops | 0.0645 | 0.0627 | 0.0692 | 0.0638 |
-| theoremqa-questions | 0.0733 | 0.1036 | 0.1113 | 0.1411 |
-| theoremqa-theorems | 0.0214 | 0.0492 | 0.0554 | 0.0532 |
-
-
+| corpus              | [BM25](#condition-1) | [BM25QS](#condition-2) | [SPLADE-v3](#condition-3) | [BGE](#condition-4) |
+| ------------------- | :------------------: | :--------------------: | :-----------------------: | :-----------------: |
+| biology             | 0.1824               | 0.1972                 | 0.2101                    | 0.1242              |
+| earth-science       | 0.2791               | 0.2789                 | 0.2670                    | 0.2545              |
+| economics           | 0.1645               | 0.1518                 | 0.1604                    | 0.1662              |
+| psychology          | 0.1342               | 0.1266                 | 0.1527                    | 0.1805              |
+| robotics            | 0.1091               | 0.1390                 | 0.1578                    | 0.1230              |
+| stackoverflow       | 0.1626               | 0.1855                 | 0.1290                    | 0.1099              |
+| sustainable-living  | 0.1613               | 0.1515                 | 0.1497                    | 0.1440              |
+| leetcode            | 0.2471               | 0.2497                 | 0.2603                    | 0.2668              |
+| pony                | 0.0434               | 0.0789                 | 0.1440                    | 0.0338              |
+| aops                | 0.0645               | 0.0627                 | 0.0692                    | 0.0638              |
+| theoremqa-questions | 0.0733               | 0.1036                 | 0.1113                    | 0.1411              |
+| theoremqa-theorems  | 0.0214               | 0.0492                 | 0.0554                    | 0.0532              |
 
 ## Commands
 
@@ -55,9 +53,9 @@ export jvm_args="-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules
 
 <a id="condition-1"></a>
 
-### 1. BM25, bag-of-words baseline
+### 1. BM25
 
-**Config**: [bright.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/bright.yaml)
+**Config**: [bright.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/bright.yaml#L2)
 
 #### biology
 
@@ -301,9 +299,9 @@ java -cp $fatjar trec_eval -c -m ndcg_cut.10 bright-theoremqa-theorems runs/run.
 
 <a id="condition-2"></a>
 
-### 2. BM25, query-side BM25 baseline
+### 2. query-side BM25 (BM25QS)
 
-**Config**: [bright.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/bright.yaml)
+**Config**: [bright.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/bright.yaml#L79)
 
 #### biology
 
@@ -549,7 +547,7 @@ java -cp $fatjar trec_eval -c -m ndcg_cut.10 bright-theoremqa-theorems runs/run.
 
 ### 3. SPLADE-v3 (ONNX)
 
-**Config**: [bright.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/bright.yaml)
+**Config**: [bright.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/bright.yaml#L156)
 
 #### biology
 
@@ -819,7 +817,7 @@ java -cp $fatjar trec_eval -c -m ndcg_cut.10 bright-theoremqa-theorems runs/run.
 
 ### 4. bge-large-en-v1.5 w/ flat indexes (ONNX)
 
-**Config**: [bright.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/bright.yaml)
+**Config**: [bright.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/bright.yaml#L233)
 
 #### biology
 
