@@ -13,6 +13,10 @@ Key:
 
 + **BM25 (train)** = BM25, bag-of-words baseline on train
 + **BM25 (dev)** = BM25, bag-of-words baseline on dev
++ **BM25QS (train)** = query-side BM25 on train
++ **BM25QS (dev)** = query-side BM25 on dev
+
+Both BM25 and BM25QS use `k1=0.9`, `b=0.4`, and retrieve the top 1000 documents from the full domain index.
 
 ${summary}
 
