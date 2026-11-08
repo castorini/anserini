@@ -11,8 +11,8 @@ The table below summarizes effectiveness in terms of nDCG@10.
 
 Key:
 
-+ **BM25 (train)** = BM25, bag-of-words baseline on train
-+ **BM25 (dev)** = BM25, bag-of-words baseline on dev
++ **BM25 (train)** = BM25 on train
++ **BM25 (dev)** = BM25 on dev
 + **BM25QS (train)** = query-side BM25 on train
 + **BM25QS (dev)** = query-side BM25 on dev
 
@@ -56,7 +56,7 @@ export jvm_args="-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules
 
 <a id="condition-1"></a>
 
-### 1. BM25, bag-of-words baseline (train)
+### 1. BM25 (train)
 
 **Config**: [reteco.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/reteco.yaml#L2)
 
@@ -348,7 +348,7 @@ java -cp $fatjar trec_eval -c -m ndcg_cut.10 reteco-v1.1-track1a-workplace.train
 
 <a id="condition-2"></a>
 
-### 2. BM25, bag-of-words baseline (dev)
+### 2. BM25 (dev)
 
 **Config**: [reteco.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/reteco.yaml#L85)
 

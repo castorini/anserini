@@ -1,6 +1,6 @@
 conditions:
   - name: bm25-train
-    display: "BM25, bag-of-words baseline (train)"
+    display: "BM25 (train)"
     short_name: "BM25 (train)"
     command: io.anserini.search.SearchCollection -threads 2 -index reteco-v1.1-track1-$topics -topics reteco-v1.1-track1a-$topics.train -output $output -bm25 -bm25.k1 0.9 -bm25.b 0.4 -hits 1000
     topics:
@@ -83,7 +83,7 @@ conditions:
         metric_definitions:
           nDCG@10: "-c -m ndcg_cut.10"
   - name: bm25-dev
-    display: "BM25, bag-of-words baseline (dev)"
+    display: "BM25 (dev)"
     short_name: "BM25 (dev)"
     command: io.anserini.search.SearchCollection -threads 2 -index reteco-v1.1-track1-$topics -topics reteco-v1.1-track1a-$topics.dev -output $output -bm25 -bm25.k1 0.9 -bm25.b 0.4 -hits 1000
     topics:
