@@ -455,10 +455,7 @@ public class SimpleSearcher implements Closeable {
    * @param threads number of threads
    * @return a map of query id to search results
    */
-  public Map<String, ScoredDoc[]> batch_search(List<String> queries,
-                                               List<String> qids,
-                                               int k,
-                                               int threads) {
+  public Map<String, ScoredDoc[]> batch_search(List<String> queries, List<String> qids, int k, int threads) {
     return batch_search_fields(this.generator, queries, qids, k, threads, new HashMap<>());
   }
 
@@ -472,11 +469,7 @@ public class SimpleSearcher implements Closeable {
    * @param threads number of threads
    * @return a map of query id to search results
    */
-  public Map<String, ScoredDoc[]> batch_search(QueryGenerator generator,
-                                               List<String> queries,
-                                               List<String> qids,
-                                               int k,
-                                               int threads) {
+  public Map<String, ScoredDoc[]> batch_search(QueryGenerator generator, List<String> queries, List<String> qids, int k, int threads) {
     return batch_search_fields(generator, queries, qids, k, threads, new HashMap<>());
   }
 
@@ -490,11 +483,7 @@ public class SimpleSearcher implements Closeable {
    * @param fields map of fields to search with weights
    * @return a map of query id to search results
    */
-  public Map<String, ScoredDoc[]> batch_search_fields(List<String> queries,
-                                                      List<String> qids,
-                                                      int k,
-                                                      int threads,
-                                                      Map<String, Float> fields) {
+  public Map<String, ScoredDoc[]> batch_search_fields(List<String> queries, List<String> qids, int k, int threads, Map<String, Float> fields) {
     return batch_search_fields(this.generator, queries, qids, k, threads, fields);
   }
 
@@ -509,12 +498,7 @@ public class SimpleSearcher implements Closeable {
    * @param fields map of fields to search with weights
    * @return a map of query id to search results
    */
-  public Map<String, ScoredDoc[]> batch_search_fields(QueryGenerator generator,
-                                                      List<String> queries,
-                                                      List<String> qids,
-                                                      int k,
-                                                      int threads,
-                                                      Map<String, Float> fields) {
+  public Map<String, ScoredDoc[]> batch_search_fields(QueryGenerator generator, List<String> queries, List<String> qids, int k, int threads, Map<String, Float> fields) {
     // Create the IndexSearcher here, if needed. We do it here because if we leave the creation to the search
     // method, we might end up with a race condition as multiple threads try to concurrently create the IndexSearcher.
     if (searcher == null) {
@@ -553,8 +537,7 @@ public class SimpleSearcher implements Closeable {
     }
 
     if (queryCnt != completedTaskCount.get()) {
-      throw new RuntimeException("queryCount = " + queryCnt +
-              " is not equal to completedTaskCount =  " + completedTaskCount.get());
+      throw new RuntimeException("queryCount = " + queryCnt + " is not equal to completedTaskCount =  " + completedTaskCount.get());
     }
 
     return results;
