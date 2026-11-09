@@ -1,6 +1,6 @@
 # Anserini Regressions: RETECO v1.1 Track 1a &mdash; Economics
 
-This page documents BM25 regression experiments for [RETECO v1.1 Track 1a &mdash; Economics](https://datascienceuibk.github.io/RETECO/).
+This page documents BM25 and BM25QS regression experiments for [RETECO v1.1 Track 1a &mdash; Economics](https://datascienceuibk.github.io/RETECO/).
 One full domain index is shared by train and dev.
 
 The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/reteco-v1.1-track1-economics.yaml).
@@ -62,9 +62,22 @@ bin/run.sh io.anserini.search.SearchCollection \
   -topicReader TsvString \
   -output runs/run.lucene-inverted.reteco-v1.1-track1-economics.model-bm25.topics-reteco-v1.1-track1a-economics.dev.txt \
   -bm25 -bm25.k1 0.9 -bm25.b 0.4 -hits 1000 -threads 2 &
+
+bin/run.sh io.anserini.search.SearchCollection \
+  -index indexes/lucene-inverted.reteco-v1.1-track1-economics/ \
+  -topics reteco-v1.1-track1a-economics.train \
+  -topicReader TsvString \
+  -output runs/run.lucene-inverted.reteco-v1.1-track1-economics.model-bm25qs.topics-reteco-v1.1-track1a-economics.train.txt \
+  -bm25.querySide -bm25.k1 0.9 -bm25.b 0.4 -hits 1000 -threads 2 &
+bin/run.sh io.anserini.search.SearchCollection \
+  -index indexes/lucene-inverted.reteco-v1.1-track1-economics/ \
+  -topics reteco-v1.1-track1a-economics.dev \
+  -topicReader TsvString \
+  -output runs/run.lucene-inverted.reteco-v1.1-track1-economics.model-bm25qs.topics-reteco-v1.1-track1a-economics.dev.txt \
+  -bm25.querySide -bm25.k1 0.9 -bm25.b 0.4 -hits 1000 -threads 2 &
 ```
 
-These commands use standard Anserini BM25 (`k1=0.9`, `b=0.4`, top 1000).
+These commands use standard Anserini BM25 and query-side BM25 (BM25QS, `-bm25.querySide`), both with `k1=0.9`, `b=0.4`, and top 1000.
 
 Evaluation can be performed using `trec_eval`:
 
@@ -75,6 +88,13 @@ bin/trec_eval -c -m recall.1000 reteco-v1.1-track1a-economics.train runs/run.luc
 bin/trec_eval -c -m ndcg_cut.10 reteco-v1.1-track1a-economics.dev runs/run.lucene-inverted.reteco-v1.1-track1-economics.model-bm25.topics-reteco-v1.1-track1a-economics.dev.txt
 bin/trec_eval -c -m recall.100 reteco-v1.1-track1a-economics.dev runs/run.lucene-inverted.reteco-v1.1-track1-economics.model-bm25.topics-reteco-v1.1-track1a-economics.dev.txt
 bin/trec_eval -c -m recall.1000 reteco-v1.1-track1a-economics.dev runs/run.lucene-inverted.reteco-v1.1-track1-economics.model-bm25.topics-reteco-v1.1-track1a-economics.dev.txt
+
+bin/trec_eval -c -m ndcg_cut.10 reteco-v1.1-track1a-economics.train runs/run.lucene-inverted.reteco-v1.1-track1-economics.model-bm25qs.topics-reteco-v1.1-track1a-economics.train.txt
+bin/trec_eval -c -m recall.100 reteco-v1.1-track1a-economics.train runs/run.lucene-inverted.reteco-v1.1-track1-economics.model-bm25qs.topics-reteco-v1.1-track1a-economics.train.txt
+bin/trec_eval -c -m recall.1000 reteco-v1.1-track1a-economics.train runs/run.lucene-inverted.reteco-v1.1-track1-economics.model-bm25qs.topics-reteco-v1.1-track1a-economics.train.txt
+bin/trec_eval -c -m ndcg_cut.10 reteco-v1.1-track1a-economics.dev runs/run.lucene-inverted.reteco-v1.1-track1-economics.model-bm25qs.topics-reteco-v1.1-track1a-economics.dev.txt
+bin/trec_eval -c -m recall.100 reteco-v1.1-track1a-economics.dev runs/run.lucene-inverted.reteco-v1.1-track1-economics.model-bm25qs.topics-reteco-v1.1-track1a-economics.dev.txt
+bin/trec_eval -c -m recall.1000 reteco-v1.1-track1a-economics.dev runs/run.lucene-inverted.reteco-v1.1-track1-economics.model-bm25qs.topics-reteco-v1.1-track1a-economics.dev.txt
 ```
 
 nDCG@10 is the primary benchmark metric; R@100 and R@1000 are additional diagnostics. `-c` includes all qrels queries.
@@ -84,13 +104,13 @@ The full domain corpus is searched for every split, with unmodified retrieval sc
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@10**                        | **BM25** |
-| :--------------------------------- | :------: |
-| RETECO: Economics, Track 1a, train | 0.0361   |
-| RETECO: Economics, Track 1a, dev   | 0.0269   |
-| **R@100**                          | **BM25** |
-| RETECO: Economics, Track 1a, train | 0.2402   |
-| RETECO: Economics, Track 1a, dev   | 0.2560   |
-| **R@1000**                         | **BM25** |
-| RETECO: Economics, Track 1a, train | 0.5687   |
-| RETECO: Economics, Track 1a, dev   | 0.6101   |
+| **nDCG@10**                        | **BM25** | **BM25QS** |
+| :--------------------------------- | :------: | :--------: |
+| RETECO: Economics, Track 1a, train | 0.0361   | 0.0355     |
+| RETECO: Economics, Track 1a, dev   | 0.0269   | 0.0466     |
+| **R@100**                          | **BM25** | **BM25QS** |
+| RETECO: Economics, Track 1a, train | 0.2402   | 0.2325     |
+| RETECO: Economics, Track 1a, dev   | 0.2560   | 0.2174     |
+| **R@1000**                         | **BM25** | **BM25QS** |
+| RETECO: Economics, Track 1a, train | 0.5687   | 0.6375     |
+| RETECO: Economics, Track 1a, dev   | 0.6101   | 0.5858     |

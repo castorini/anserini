@@ -1,6 +1,6 @@
 # Anserini Regressions: RETECO v1.1 Track 1a &mdash; Quant
 
-This page documents BM25 regression experiments for [RETECO v1.1 Track 1a &mdash; Quant](https://datascienceuibk.github.io/RETECO/).
+This page documents BM25 and BM25QS regression experiments for [RETECO v1.1 Track 1a &mdash; Quant](https://datascienceuibk.github.io/RETECO/).
 One full domain index is shared by train and dev.
 
 The exact configurations for these regressions are stored in [this YAML file](${yaml}).
@@ -46,7 +46,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 ${ranking_cmds}
 ```
 
-These commands use standard Anserini BM25 (`k1=0.9`, `b=0.4`, top 1000).
+These commands use standard Anserini BM25 and query-side BM25 (BM25QS, `-bm25.querySide`), both with `k1=0.9`, `b=0.4`, and top 1000.
 
 Evaluation can be performed using `trec_eval`:
 

@@ -58,3 +58,16 @@ models:
       R@1000:
         - 0.4153
         - 0.4917
+  - name: bm25qs
+    display: BM25QS
+    params: -bm25.querySide -bm25.k1 0.9 -bm25.b 0.4 -hits 1000 -threads 2
+    results:
+      nDCG@10:
+        - 0.0255
+        - 0.0204
+      R@100:
+        - 0.1597
+        - 0.2000
+      R@1000:
+        - 0.4771
+        - 0.4250

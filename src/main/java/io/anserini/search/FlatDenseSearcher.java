@@ -126,7 +126,7 @@ public class FlatDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
   }
 
   /**
-   * Searches the collection in batch using multiple threads.
+   * Searches the collection in batch using multiple threads (without logging progress).
    *
    * @param queries list of queries
    * @param qids list of unique query ids
@@ -135,6 +135,20 @@ public class FlatDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
    * @return a map of query id to search results
    */
   public SortedMap<K, ScoredDoc[]> batch_search(List<String> queries, List<K> qids, int k, int threads) {
+    return batch_search(queries, qids, k, threads, false);
+  }
+
+  /**
+   * Searches the collection in batch using multiple threads.
+   *
+   * @param queries list of queries
+   * @param qids list of unique query ids
+   * @param k number of hits
+   * @param threads number of threads
+   * @param verbose log progress
+   * @return a map of query id to search results
+   */
+  public SortedMap<K, ScoredDoc[]> batch_search(List<String> queries, List<K> qids, int k, int threads, boolean verbose) {
     final SortedMap<K, ScoredDoc[]> results = new ConcurrentSkipListMap<>();
     final AtomicInteger cnt = new AtomicInteger();
     final long start = System.nanoTime();
@@ -145,18 +159,18 @@ public class FlatDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
       K qid = qids.get(i);
       String queryString = queries.get(i);
 
-      // This is the per-query execution, in parallel.
+      // Adding each query to the task list; query execution in parallel.
       tasks.add(() -> {
         try {
           results.put(qid, search(qid, queryString, k));
+          int n = cnt.incrementAndGet();
+          if (verbose && n % 100 == 0) {
+            LOG.info(String.format("%d queries processed", n));
+          }
         } catch (IOException e) {
           throw new CompletionException(e);
         }
 
-        int n = cnt.incrementAndGet();
-        if (n % 100 == 0) {
-          LOG.info(String.format("%d queries processed", n));
-        }
         return null;
       });
     }
@@ -169,10 +183,10 @@ public class FlatDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
     }
 
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-
-    LOG.info("{} queries processed in {}{}", queries.size(),
-        DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"),
-        String.format(" = ~%.2f q/s", queries.size() / (durationMillis / 1000.0)));
+    if (verbose) {
+      LOG.info("{} queries processed in {}{}", queries.size(), DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"),
+          String.format(" = ~%.2f q/s", queries.size() / (durationMillis / 1000.0)));
+    }
 
     return results;
   }

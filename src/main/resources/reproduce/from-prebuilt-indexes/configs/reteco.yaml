@@ -1,6 +1,6 @@
 conditions:
   - name: bm25-train
-    display: "BM25, bag-of-words baseline (train)"
+    display: "BM25 (train)"
     short_name: "BM25 (train)"
     command: io.anserini.search.SearchCollection -threads 2 -index reteco-v1.1-track1-$topics -topics reteco-v1.1-track1a-$topics.train -output $output -bm25 -bm25.k1 0.9 -bm25.b 0.4 -hits 1000
     topics:
@@ -83,7 +83,7 @@ conditions:
         metric_definitions:
           nDCG@10: "-c -m ndcg_cut.10"
   - name: bm25-dev
-    display: "BM25, bag-of-words baseline (dev)"
+    display: "BM25 (dev)"
     short_name: "BM25 (dev)"
     command: io.anserini.search.SearchCollection -threads 2 -index reteco-v1.1-track1-$topics -topics reteco-v1.1-track1a-$topics.dev -output $output -bm25 -bm25.k1 0.9 -bm25.b 0.4 -hits 1000
     topics:
@@ -163,5 +163,171 @@ conditions:
         eval_key: reteco-v1.1-track1a-workplace.dev
         expected_scores:
           nDCG@10: 0.0000
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+  - name: bm25qs-train
+    display: "Query-side BM25 (train)"
+    short_name: "BM25QS (train)"
+    command: io.anserini.search.SearchCollection -threads 2 -index reteco-v1.1-track1-$topics -topics reteco-v1.1-track1a-$topics.train -output $output -bm25.querySide -bm25.k1 0.9 -bm25.b 0.4 -hits 1000
+    topics:
+      - topic_key: bitcoin
+        eval_key: reteco-v1.1-track1a-bitcoin.train
+        expected_scores:
+          nDCG@10: 0.0845
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: cardano
+        eval_key: reteco-v1.1-track1a-cardano.train
+        expected_scores:
+          nDCG@10: 0.1801
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: economics
+        eval_key: reteco-v1.1-track1a-economics.train
+        expected_scores:
+          nDCG@10: 0.0355
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: genealogy
+        eval_key: reteco-v1.1-track1a-genealogy.train
+        expected_scores:
+          nDCG@10: 0.1188
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: history
+        eval_key: reteco-v1.1-track1a-history.train
+        expected_scores:
+          nDCG@10: 0.0640
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: hsm
+        eval_key: reteco-v1.1-track1a-hsm.train
+        expected_scores:
+          nDCG@10: 0.1767
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: iota
+        eval_key: reteco-v1.1-track1a-iota.train
+        expected_scores:
+          nDCG@10: 0.1228
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: law
+        eval_key: reteco-v1.1-track1a-law.train
+        expected_scores:
+          nDCG@10: 0.0905
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: monero
+        eval_key: reteco-v1.1-track1a-monero.train
+        expected_scores:
+          nDCG@10: 0.0378
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: politics
+        eval_key: reteco-v1.1-track1a-politics.train
+        expected_scores:
+          nDCG@10: 0.2802
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: quant
+        eval_key: reteco-v1.1-track1a-quant.train
+        expected_scores:
+          nDCG@10: 0.0255
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: travel
+        eval_key: reteco-v1.1-track1a-travel.train
+        expected_scores:
+          nDCG@10: 0.0504
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: workplace
+        eval_key: reteco-v1.1-track1a-workplace.train
+        expected_scores:
+          nDCG@10: 0.0798
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+  - name: bm25qs-dev
+    display: "Query-side BM25 (dev)"
+    short_name: "BM25QS (dev)"
+    command: io.anserini.search.SearchCollection -threads 2 -index reteco-v1.1-track1-$topics -topics reteco-v1.1-track1a-$topics.dev -output $output -bm25.querySide -bm25.k1 0.9 -bm25.b 0.4 -hits 1000
+    topics:
+      - topic_key: bitcoin
+        eval_key: reteco-v1.1-track1a-bitcoin.dev
+        expected_scores:
+          nDCG@10: 0.0364
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: cardano
+        eval_key: reteco-v1.1-track1a-cardano.dev
+        expected_scores:
+          nDCG@10: 0.1027
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: economics
+        eval_key: reteco-v1.1-track1a-economics.dev
+        expected_scores:
+          nDCG@10: 0.0466
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: genealogy
+        eval_key: reteco-v1.1-track1a-genealogy.dev
+        expected_scores:
+          nDCG@10: 0.1854
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: history
+        eval_key: reteco-v1.1-track1a-history.dev
+        expected_scores:
+          nDCG@10: 0.0852
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: hsm
+        eval_key: reteco-v1.1-track1a-hsm.dev
+        expected_scores:
+          nDCG@10: 0.2437
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: iota
+        eval_key: reteco-v1.1-track1a-iota.dev
+        expected_scores:
+          nDCG@10: 0.3243
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: law
+        eval_key: reteco-v1.1-track1a-law.dev
+        expected_scores:
+          nDCG@10: 0.0574
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: monero
+        eval_key: reteco-v1.1-track1a-monero.dev
+        expected_scores:
+          nDCG@10: 0.0320
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: politics
+        eval_key: reteco-v1.1-track1a-politics.dev
+        expected_scores:
+          nDCG@10: 0.2607
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: quant
+        eval_key: reteco-v1.1-track1a-quant.dev
+        expected_scores:
+          nDCG@10: 0.0204
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: travel
+        eval_key: reteco-v1.1-track1a-travel.dev
+        expected_scores:
+          nDCG@10: 0.0315
+        metric_definitions:
+          nDCG@10: "-c -m ndcg_cut.10"
+      - topic_key: workplace
+        eval_key: reteco-v1.1-track1a-workplace.dev
+        expected_scores:
+          nDCG@10: 0.0398
         metric_definitions:
           nDCG@10: "-c -m ndcg_cut.10"

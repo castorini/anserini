@@ -8,14 +8,17 @@ Each of these experiments starts from the raw document collection, builds the ne
 ## BRIGHT
 
 BRIGHT is a retrieval benchmark described [here](https://arxiv.org/abs/2407.12883).
+Each BM25 / BM25QS page below includes commands and side-by-side results for both methods.
+The standalone `bright-*.bm25qs` configs and pages remain available for BM25QS-only reproductions.
 
 Key:
 
 + BM25
++ BM25QS = query-side BM25
 + SPLADE-v3 = SPLADE-v3: ONNX (🅾️)
 + BGE (flat) = BGE-large-en-v1.5 (flat vector indexes): ONNX (🅾️)
 
-| Corpus             |                               BM25                               |                                                                             SPLADE-v3                                                                              |                                                                                          BGE (flat)                                                                                          |
+| Corpus             |                          BM25 / BM25QS                          |                                                                             SPLADE-v3                                                                              |                                                                                          BGE (flat)                                                                                          |
 |--------------------|:----------------------------------------------------------------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
 | **StackExchange**  |                                                                  |                                                                                                                                                                    |                                                                                                                                                                                              |
 | Biology            |       [🔑](../from-document-collection/bright-biology.md)       |              [🅾️](../from-document-collection/bright-biology.splade-v3.onnx.md)             |              [🅾️](../from-document-collection/bright-biology.bge-large-en-v1.5.flat.onnx.md)             |

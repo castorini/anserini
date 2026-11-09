@@ -19,6 +19,7 @@ package io.anserini.doc;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
@@ -27,6 +28,8 @@ import java.util.function.Function;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
@@ -42,7 +45,7 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
   private static final String REPRODUCE_OUTPUT_DIRECTORY = "docs/reproduce/from-prebuilt-indexes/";
   private static final ObjectMapper YAML_MAPPER = new ObjectMapper(new YAMLFactory());
 
-  private record ReportContext(String yamlPath, String runTag, Config config, String template, File output, String configLink) {}
+  private record ReportContext(String yamlPath, String runTag, Config config, String template, File output, String configLink, Map<String, Integer> conditionLines) {}
 
   private record SummaryColumn(String label, Function<Topic, Double> scoreExtractor) {}
 
@@ -117,13 +120,22 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
     String outputPath = REPRODUCE_OUTPUT_DIRECTORY + runTag + ".md";
 
     Config config = YAML_MAPPER.readValue(new File(yamlPath), Config.class);
+    Map<String, Integer> conditionLines = new HashMap<>();
+    try (JsonParser parser = YAML_MAPPER.getFactory().createParser(new File(yamlPath))) {
+      while (parser.nextToken() != null) {
+        if (parser.currentToken() == JsonToken.FIELD_NAME && "name".equals(parser.currentName())) {
+          int line = parser.currentTokenLocation().getLineNr();
+          conditionLines.put(parser.nextTextValue(), line);
+        }
+      }
+    }
     String template = FileUtils.readFileToString(new File(templatePath), StandardCharsets.UTF_8);
 
     File output = new File(outputPath);
     FileUtils.forceMkdirParent(output);
 
     String configLink = String.format("[%s](../../../%s)", new File(yamlPath).getName(), yamlPath);
-    return new ReportContext(yamlPath, runTag, config, template, output, configLink);
+    return new ReportContext(yamlPath, runTag, config, template, output, configLink, conditionLines);
   }
 
   private static String buildSummaryInRows(Config config, List<SummaryColumn> columns) {
@@ -136,7 +148,7 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
 
     summary.append("| --- | ---");
     for (int i = 0; i < columns.size(); i++) {
-      summary.append(" | ---");
+      summary.append(" | :---:");
     }
     summary.append(" |\n");
 
@@ -171,7 +183,7 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
     }
 
     summary.append("\n");
-    return summary.toString();
+    return DataModel.padMarkdownTable(summary.toString()).stripTrailing();
   }
 
   private static String buildSummaryInColumns(Config config, String metric) {
@@ -190,7 +202,7 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
 
     summary.append("| ---");
     for (int i = 0; i < config.conditions.size(); i++) {
-      summary.append(" | ---");
+      summary.append(" | :---:");
     }
     summary.append(" |\n");
 
@@ -220,13 +232,12 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
       summary.append("| Average");
       for (int i = 0; i < config.conditions.size(); i++) {
         summary.append(" | ")
-            .append(counts[i] == topics.size() && counts[i] > 0
-                ? String.format("%.4f", sums[i] / counts[i]) : "");
+            .append(counts[i] == topics.size() && counts[i] > 0 ? String.format("%.4f", sums[i] / counts[i]) : "");
       }
       summary.append(" |\n");
     }
     summary.append("\n");
-    return summary.toString();
+    return DataModel.padMarkdownTable(summary.toString()).stripTrailing();
   }
 
   private static String buildCommandSections(ReportContext context, BiFunction<Topic, Condition, String> topicHeading) {
@@ -234,17 +245,20 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
     int row = 1;
     for (Condition condition : context.config().conditions) {
       command.append(String.format("<a id=\"condition-%d\"></a>\n\n### %d. %s\n\n", row, row, condition.display));
-      command.append(String.format("**Config**: %s\n\n", context.configLink()));
+      Integer line = context.conditionLines().get(condition.name);
+      if (line == null) {
+        throw new IllegalArgumentException("Missing YAML line for condition: " + condition.name);
+      }
+      String configLink = context.configLink().replace(")", "#L" + line + ")");
+      command.append(String.format("**Config**: %s\n\n", configLink));
       row++;
 
       for (Topic topic : condition.topics) {
         command.append(String.format("#### %s\n\n", topicHeading.apply(topic, condition)));
         command.append("Retrieval command:\n\n");
-        command.append(String.format("```bash\n%s\n```\n\n",
-            buildCommand(context.runTag(), condition.name, condition.command, topic.topic_key)));
+        command.append(String.format("```bash\n%s\n```\n\n", buildCommand(context.runTag(), condition.name, condition.command, topic.topic_key)));
         command.append("Evaluation commands:\n\n");
-        command.append(String.format("```bash\n%s\n```\n\n",
-            buildEvalCommands(context.runTag(), condition.name, topic)));
+        command.append(String.format("```bash\n%s\n```\n\n", buildEvalCommands(context.runTag(), condition.name, topic)));
       }
     }
 
@@ -270,12 +284,10 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
   }
 
   private static void writeReport(ReportContext context, String summary, String commands) throws Exception {
-    String paddedSummary = context.template().contains("${padded_summary}") ? DataModel.padMarkdownTable(summary) : summary;
     FileUtils.writeStringToFile(context.output(), context.template()
         .replace("${config}", context.configLink())
         .replace("${jvm_args}", ReproductionUtils.Constants.JVM_ARGS)
         .replace("${summary}", summary)
-        .replace("${padded_summary}", paddedSummary)
         .replace("${commands}", commands)
         .replace("${command}", commands).stripTrailing() + "\n", StandardCharsets.UTF_8);
   }
@@ -360,7 +372,7 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
     List<Topic> otherDomains = topics.stream().filter(t -> !t.topic_key.startsWith("cqadupstack-")).toList();
     List<Topic> cqadupstack = topics.stream().filter(t -> t.topic_key.startsWith("cqadupstack-")).toList();
     String summary = "### Other domains\n\n"
-        + buildSummaryInColumns(context.config(), "nDCG@10", otherDomains, true)
+        + buildSummaryInColumns(context.config(), "nDCG@10", otherDomains, true) + "\n\n"
         + "### CQADupStack domains\n\n"
         + buildSummaryInColumns(context.config(), "nDCG@10", cqadupstack, true);
     writeReport(context, summary, buildCommandSections(context, (topic, condition) -> topic.topic_key));

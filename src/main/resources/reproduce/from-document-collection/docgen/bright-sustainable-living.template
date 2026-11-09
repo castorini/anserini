@@ -1,6 +1,6 @@
 # Anserini Regressions: BRIGHT &mdash; Sustainable Living
 
-This page documents BM25 regression experiments for [BRIGHT &mdash; Sustainable Living](https://brightbenchmark.github.io/).
+This page documents BM25 and BM25QS regression experiments for [BRIGHT &mdash; Sustainable Living](https://brightbenchmark.github.io/).
 
 The exact configurations for these regressions are stored in [this YAML file](${yaml}).
 Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and build Anserini to rebuild the documentation.
