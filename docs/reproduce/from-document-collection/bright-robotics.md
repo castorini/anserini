@@ -1,6 +1,6 @@
 # Anserini Regressions: BRIGHT &mdash; Robotics
 
-This page documents BM25 regression experiments for [BRIGHT &mdash; Robotics](https://brightbenchmark.github.io/).
+This page documents BM25 and BM25QS regression experiments for [BRIGHT &mdash; Robotics](https://brightbenchmark.github.io/).
 
 The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/bright-robotics.yaml).
 Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/bright-robotics.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and build Anserini to rebuild the documentation.
@@ -52,6 +52,13 @@ bin/run.sh io.anserini.search.SearchCollection \
   -topicReader TsvString \
   -output runs/run.lucene-inverted.bright-robotics.model-bm25.topics-bright-robotics.txt \
   -bm25 -removeQuery -hits 1000 &
+
+bin/run.sh io.anserini.search.SearchCollection \
+  -index indexes/lucene-inverted.bright-robotics/ \
+  -topics bright-robotics \
+  -topicReader TsvString \
+  -output runs/run.lucene-inverted.bright-robotics.model-bm25qs.topics-bright-robotics.txt \
+  -bm25.querySide -removeQuery -hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -60,16 +67,20 @@ Evaluation can be performed using `trec_eval`:
 bin/trec_eval -c -m ndcg_cut.10 bright-robotics runs/run.lucene-inverted.bright-robotics.model-bm25.topics-bright-robotics.txt
 bin/trec_eval -c -m recall.100 bright-robotics runs/run.lucene-inverted.bright-robotics.model-bm25.topics-bright-robotics.txt
 bin/trec_eval -c -m recall.1000 bright-robotics runs/run.lucene-inverted.bright-robotics.model-bm25.topics-bright-robotics.txt
+
+bin/trec_eval -c -m ndcg_cut.10 bright-robotics runs/run.lucene-inverted.bright-robotics.model-bm25qs.topics-bright-robotics.txt
+bin/trec_eval -c -m recall.100 bright-robotics runs/run.lucene-inverted.bright-robotics.model-bm25qs.topics-bright-robotics.txt
+bin/trec_eval -c -m recall.1000 bright-robotics runs/run.lucene-inverted.bright-robotics.model-bm25qs.topics-bright-robotics.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@10**      | **BM25**   |
-|:-----------------|:----------:|
-| BRIGHT: Robotics | 0.1091     |
-| **R@100**        | **BM25**   |
-| BRIGHT: Robotics | 0.3711     |
-| **R@1000**       | **BM25**   |
-| BRIGHT: Robotics | 0.6582     |
+| **nDCG@10**      | **BM25**   | **BM25QS** |
+|:-----------------|:----------:|:----------:|
+| BRIGHT: Robotics | 0.1091     | 0.1390     |
+| **R@100**        | **BM25**   | **BM25QS** |
+| BRIGHT: Robotics | 0.3711     | 0.4672     |
+| **R@1000**       | **BM25**   | **BM25QS** |
+| BRIGHT: Robotics | 0.6582     | 0.7239     |

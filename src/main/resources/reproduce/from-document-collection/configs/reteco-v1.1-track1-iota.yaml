@@ -1,0 +1,73 @@
+---
+corpus: reteco-v1.1-track1-iota
+corpus_path: collections/reteco/track1_tempo/iota
+index_path: indexes/lucene-inverted.reteco-v1.1-track1-iota/
+collection_class: JsonCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 2
+index_options: -storePositions -storeDocvectors -storeRaw -optimize
+
+index_stats:
+  documents: 9680
+  documents (non-empty): 9680
+  total terms: 3184205
+
+metrics:
+  - metric: nDCG@10
+    command: bin/trec_eval
+    params: -c -m ndcg_cut.10
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: bin/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: bin/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvString
+topics:
+  - name: "RETECO: IOTA, Track 1a, train"
+    id: reteco-v1.1-track1a-iota.train
+    qrels: reteco-v1.1-track1a-iota.train
+  - name: "RETECO: IOTA, Track 1a, dev"
+    id: reteco-v1.1-track1a-iota.dev
+    qrels: reteco-v1.1-track1a-iota.dev
+
+models:
+  - name: bm25
+    display: BM25
+    params: -bm25 -bm25.k1 0.9 -bm25.b 0.4 -hits 1000 -threads 2
+    results:
+      nDCG@10:
+        - 0.0352
+        - 0.3852
+      R@100:
+        - 0.2714
+        - 0.5000
+      R@1000:
+        - 0.7000
+        - 1.0000
+  - name: bm25qs
+    display: BM25QS
+    params: -bm25.querySide -bm25.k1 0.9 -bm25.b 0.4 -hits 1000 -threads 2
+    results:
+      nDCG@10:
+        - 0.1228
+        - 0.3243
+      R@100:
+        - 0.3619
+        - 0.9167
+      R@1000:
+        - 0.7286
+        - 1.0000

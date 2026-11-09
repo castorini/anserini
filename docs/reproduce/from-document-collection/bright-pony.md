@@ -1,6 +1,6 @@
 # Anserini Regressions: BRIGHT &mdash; Pony
 
-This page documents BM25 regression experiments for [BRIGHT &mdash; Pony](https://brightbenchmark.github.io/).
+This page documents BM25 and BM25QS regression experiments for [BRIGHT &mdash; Pony](https://brightbenchmark.github.io/).
 
 The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/bright-pony.yaml).
 Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/bright-pony.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and build Anserini to rebuild the documentation.
@@ -52,6 +52,13 @@ bin/run.sh io.anserini.search.SearchCollection \
   -topicReader TsvString \
   -output runs/run.lucene-inverted.bright-pony.model-bm25.topics-bright-pony.txt \
   -bm25 -removeQuery -hits 1000 &
+
+bin/run.sh io.anserini.search.SearchCollection \
+  -index indexes/lucene-inverted.bright-pony/ \
+  -topics bright-pony \
+  -topicReader TsvString \
+  -output runs/run.lucene-inverted.bright-pony.model-bm25qs.topics-bright-pony.txt \
+  -bm25.querySide -removeQuery -hits 1000 &
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -60,16 +67,20 @@ Evaluation can be performed using `trec_eval`:
 bin/trec_eval -c -m ndcg_cut.10 bright-pony runs/run.lucene-inverted.bright-pony.model-bm25.topics-bright-pony.txt
 bin/trec_eval -c -m recall.100 bright-pony runs/run.lucene-inverted.bright-pony.model-bm25.topics-bright-pony.txt
 bin/trec_eval -c -m recall.1000 bright-pony runs/run.lucene-inverted.bright-pony.model-bm25.topics-bright-pony.txt
+
+bin/trec_eval -c -m ndcg_cut.10 bright-pony runs/run.lucene-inverted.bright-pony.model-bm25qs.topics-bright-pony.txt
+bin/trec_eval -c -m recall.100 bright-pony runs/run.lucene-inverted.bright-pony.model-bm25qs.topics-bright-pony.txt
+bin/trec_eval -c -m recall.1000 bright-pony runs/run.lucene-inverted.bright-pony.model-bm25qs.topics-bright-pony.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to reproduce the following results:
 
-| **nDCG@10**  | **BM25**   |
-|:-------------|:----------:|
-| BRIGHT: Pony | 0.0434     |
-| **R@100**    | **BM25**   |
-| BRIGHT: Pony | 0.1722     |
-| **R@1000**   | **BM25**   |
-| BRIGHT: Pony | 0.8007     |
+| **nDCG@10**  | **BM25**   | **BM25QS** |
+|:-------------|:----------:|:----------:|
+| BRIGHT: Pony | 0.0434     | 0.0789     |
+| **R@100**    | **BM25**   | **BM25QS** |
+| BRIGHT: Pony | 0.1722     | 0.2820     |
+| **R@1000**   | **BM25**   | **BM25QS** |
+| BRIGHT: Pony | 0.8007     | 0.9074     |

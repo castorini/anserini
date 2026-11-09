@@ -1,0 +1,73 @@
+---
+corpus: reteco-v1.1-track1-economics
+corpus_path: collections/reteco/track1_tempo/economics
+index_path: indexes/lucene-inverted.reteco-v1.1-track1-economics/
+collection_class: JsonCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 2
+index_options: -storePositions -storeDocvectors -storeRaw -optimize
+
+index_stats:
+  documents: 74692
+  documents (non-empty): 74690
+  total terms: 18107284
+
+metrics:
+  - metric: nDCG@10
+    command: bin/trec_eval
+    params: -c -m ndcg_cut.10
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: bin/trec_eval
+    params: -c -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: bin/trec_eval
+    params: -c -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvString
+topics:
+  - name: "RETECO: Economics, Track 1a, train"
+    id: reteco-v1.1-track1a-economics.train
+    qrels: reteco-v1.1-track1a-economics.train
+  - name: "RETECO: Economics, Track 1a, dev"
+    id: reteco-v1.1-track1a-economics.dev
+    qrels: reteco-v1.1-track1a-economics.dev
+
+models:
+  - name: bm25
+    display: BM25
+    params: -bm25 -bm25.k1 0.9 -bm25.b 0.4 -hits 1000 -threads 2
+    results:
+      nDCG@10:
+        - 0.0361
+        - 0.0269
+      R@100:
+        - 0.2402
+        - 0.2560
+      R@1000:
+        - 0.5687
+        - 0.6101
+  - name: bm25qs
+    display: BM25QS
+    params: -bm25.querySide -bm25.k1 0.9 -bm25.b 0.4 -hits 1000 -threads 2
+    results:
+      nDCG@10:
+        - 0.0355
+        - 0.0466
+      R@100:
+        - 0.2325
+        - 0.2174
+      R@1000:
+        - 0.6375
+        - 0.5858

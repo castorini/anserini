@@ -401,10 +401,7 @@ public class SimpleImpactSearcher implements Closeable {
    * @param threads number of threads
    * @return a map of query id to search results
    */
-  public Map<String, ScoredDoc[]> batch_search(List<Map<String, Integer>> encoded_queries,
-                                               List<String> qids,
-                                               int k,
-                                               int threads) {
+  public Map<String, ScoredDoc[]> batch_search(List<Map<String, Integer>> encoded_queries, List<String> qids, int k, int threads) {
     // Create the IndexSearcher here, if needed. We do it here because if we leave the creation to the search
     // method, we might end up with a race condition as multiple threads try to concurrently create the IndexSearcher.
     if (searcher == null) {
@@ -416,7 +413,6 @@ public class SimpleImpactSearcher implements Closeable {
     int queryCnt = encoded_queries.size();
     List<Callable<Void>> tasks = new ArrayList<>(queryCnt);
     AtomicInteger completedTaskCount = new AtomicInteger();
-
 
     for (int q = 0; q < queryCnt; ++q) {
       Map<String, Integer> query = encoded_queries.get(q);
@@ -440,8 +436,7 @@ public class SimpleImpactSearcher implements Closeable {
     }
 
     if (queryCnt != completedTaskCount.get()) {
-      throw new RuntimeException("queryCount = " + queryCnt +
-          " is not equal to completedTaskCount =  " + completedTaskCount.get());
+      throw new RuntimeException("queryCount = " + queryCnt + " is not equal to completedTaskCount =  " + completedTaskCount.get());
     }
 
     return results;
@@ -457,10 +452,7 @@ public class SimpleImpactSearcher implements Closeable {
    * @return a map of query id to search results
    */
   @SuppressWarnings("unused")
-  public Map<String, ScoredDoc[]> batch_search_queries(List<String> queries,
-                                                       List<String> qids,
-                                                       int k,
-                                                       int threads) {
+  public Map<String, ScoredDoc[]> batch_search_queries(List<String> queries, List<String> qids, int k, int threads) {
     // Create the IndexSearcher here, if needed. We do it here because if we leave the creation to the search
     // method, we might end up with a race condition as multiple threads try to concurrently create the IndexSearcher.
     if (searcher == null) {
@@ -495,8 +487,7 @@ public class SimpleImpactSearcher implements Closeable {
     }
 
     if (queryCnt != completionCount.get()) {
-      throw new RuntimeException("queryCount = " + queryCnt +
-          " is not equal to completedTaskCount =  " + completionCount.get());
+      throw new RuntimeException("queryCount = " + queryCnt + " is not equal to completedTaskCount =  " + completionCount.get());
     }
 
     return results;

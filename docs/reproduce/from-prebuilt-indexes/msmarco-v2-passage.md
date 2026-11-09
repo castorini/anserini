@@ -18,14 +18,12 @@ Key:
 + **DL22** = dl22-passage
 + **DL23** = dl23-passage
 
-| # | name | dev | dev2 | DL21 | DL22 | DL23 |
-| --- | --- | --- | --- | --- | --- | --- |
-| [1](#condition-1) | BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index | 0.0719 | 0.0802 | 0.4458 | 0.2692 | 0.2627 |
-| [2](#condition-2) | BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), regular index | 0.0719 | 0.0802 | 0.4458 | 0.2692 | 0.2627 |
+| #                 | name                                                                           | dev    | dev2   | DL21   | DL22   | DL23   |
+| ----------------- | ------------------------------------------------------------------------------ | :----: | :----: | :----: | :----: | :----: |
+| [1](#condition-1) | BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index       | 0.0719 | 0.0802 | 0.4458 | 0.2692 | 0.2627 |
+| [2](#condition-2) | BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), regular index    | 0.0719 | 0.0802 | 0.4458 | 0.2692 | 0.2627 |
 | [3](#condition-3) | BM25 with doc2query-T5 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4) | 0.1072 | 0.1123 | 0.4816 | 0.3599 | 0.3156 |
-| [4](#condition-4) | uniCOIL with doc2query-T5 (ONNX) | 0.1499 | 0.1577 | 0.6159 | 0.4614 | 0.3855 |
-
-
+| [4](#condition-4) | uniCOIL with doc2query-T5 (ONNX)                                               | 0.1499 | 0.1577 | 0.6159 | 0.4614 | 0.3855 |
 
 The BM25 "slim index" does not contain the document texts, whereas the BM25 "regular index" does contain document texts (and hence supports pseudo-relevance feedback with on-the-fly document parsing).
 
@@ -52,7 +50,7 @@ export jvm_args="-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules
 
 ### 1. BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index
 
-**Config**: [msmarco-v2-passage.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-passage.yaml)
+**Config**: [msmarco-v2-passage.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-passage.yaml#L2)
 
 #### msmarco-v2-passage.dev
 
@@ -170,7 +168,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 -l 2 dl23-passage runs/run.msmarco-
 
 ### 2. BM25 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), regular index
 
-**Config**: [msmarco-v2-passage.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-passage.yaml)
+**Config**: [msmarco-v2-passage.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-passage.yaml#L60)
 
 #### msmarco-v2-passage.dev
 
@@ -288,7 +286,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 -l 2 dl23-passage runs/run.msmarco-
 
 ### 3. BM25 with doc2query-T5 (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4)
 
-**Config**: [msmarco-v2-passage.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-passage.yaml)
+**Config**: [msmarco-v2-passage.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-passage.yaml#L118)
 
 #### msmarco-v2-passage.dev
 
@@ -406,7 +404,7 @@ java -cp $fatjar trec_eval -c -m recall.1000 -l 2 dl23-passage runs/run.msmarco-
 
 ### 4. uniCOIL with doc2query-T5 (ONNX)
 
-**Config**: [msmarco-v2-passage.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-passage.yaml)
+**Config**: [msmarco-v2-passage.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2-passage.yaml#L176)
 
 #### msmarco-v2-passage.dev
 
