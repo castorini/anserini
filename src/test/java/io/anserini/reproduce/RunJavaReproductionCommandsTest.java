@@ -20,11 +20,17 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
+import java.lang.management.ManagementFactory;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
@@ -149,6 +155,7 @@ public class RunJavaReproductionCommandsTest extends StdOutStdErrRedirectableLuc
 
     RunJavaReproductionCommands.main(new String[] {
         "--config", commandFile.toString(),
+        "--load", Integer.toString(Integer.MAX_VALUE),
         "--sleep", "1"
     });
 
@@ -160,6 +167,39 @@ public class RunJavaReproductionCommandsTest extends StdOutStdErrRedirectableLuc
 
     Files.deleteIfExists(commandFile);
     Files.deleteIfExists(logFile);
+  }
+
+  @Test
+  public void testHighLoadBlocksFirstCommand() throws Exception {
+    assumeTrue("System load average is unavailable",
+        ManagementFactory.getOperatingSystemMXBean().getSystemLoadAverage() >= 0);
+    Path tempDir = Paths.get("tmp");
+    Files.createDirectories(tempDir);
+    Path commandFile = Files.createTempFile(tempDir, "load-gate-", ".txt");
+    Path logsDirectory = Files.createTempDirectory(tempDir, "load-gate-logs-");
+    Files.writeString(commandFile, "does.not.Exist --config load-gate-test\n", StandardCharsets.UTF_8);
+
+    ExecutorService executor = Executors.newSingleThreadExecutor();
+    try {
+      Future<?> run = executor.submit(() -> {
+        RunJavaReproductionCommands.main(new String[] {
+            "--config", commandFile.toString(),
+            "--logs-directory", logsDirectory.toString(),
+            "--load", "-1",
+            "--sleep", "1"
+        });
+        return null;
+      });
+      expectThrows(TimeoutException.class, () -> run.get(2, TimeUnit.SECONDS));
+      assertFalse("Command launched despite high load", Files.exists(
+          logsDirectory.resolve("log.from-document-collection.load-gate-test.txt")));
+    } finally {
+      executor.shutdownNow();
+      assertTrue("Scheduler did not stop while waiting on load", executor.awaitTermination(5, TimeUnit.SECONDS));
+      Files.deleteIfExists(logsDirectory.resolve("log.from-document-collection.load-gate-test.txt"));
+      Files.deleteIfExists(logsDirectory);
+      Files.deleteIfExists(commandFile);
+    }
   }
 
   @Test
