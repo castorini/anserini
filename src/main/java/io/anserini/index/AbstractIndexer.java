@@ -41,6 +41,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -248,7 +249,7 @@ public abstract class AbstractIndexer implements Runnable {
     AtomicInteger completedTaskCount = new AtomicInteger(0);
 
     LOG.info("Thread pool with {} threads initialized.", args.threads);
-    LOG.info(String.format("%,d %s found in %s", segmentCnt, (segmentCnt == 1 ? "file" : "files"), collectionPath));
+    LOG.info(String.format(Locale.ROOT, "%,d %s found in %s", segmentCnt, (segmentCnt == 1 ? "file" : "files"), collectionPath));
     LOG.info("Starting to index...");
 
     // Dispatch to default method to process the segments; subclasses can override this method if desired.
@@ -289,16 +290,16 @@ public abstract class AbstractIndexer implements Runnable {
       }
     }
 
-    LOG.info(String.format("Indexing Complete! %,d documents indexed", numIndexed));
+    LOG.info(String.format(Locale.ROOT, "Indexing Complete! %,d documents indexed", numIndexed));
     LOG.info("============ Final Counter Values ============");
-    LOG.info(String.format("indexed:     %,12d", counters.indexed.get()));
-    LOG.info(String.format("unindexable: %,12d", counters.unindexable.get()));
-    LOG.info(String.format("empty:       %,12d", counters.empty.get()));
-    LOG.info(String.format("skipped:     %,12d", counters.skipped.get()));
-    LOG.info(String.format("errors:      %,12d", counters.errors.get()));
+    LOG.info(String.format(Locale.ROOT, "indexed:     %,12d", counters.indexed.get()));
+    LOG.info(String.format(Locale.ROOT, "unindexable: %,12d", counters.unindexable.get()));
+    LOG.info(String.format(Locale.ROOT, "empty:       %,12d", counters.empty.get()));
+    LOG.info(String.format(Locale.ROOT, "skipped:     %,12d", counters.skipped.get()));
+    LOG.info(String.format(Locale.ROOT, "errors:      %,12d", counters.errors.get()));
 
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-    LOG.info(String.format("Total %,d documents indexed in %s", numIndexed,
+    LOG.info(String.format(Locale.ROOT, "Total %,d documents indexed in %s", numIndexed,
         DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss")));
   }
 
@@ -344,11 +345,10 @@ public abstract class AbstractIndexer implements Runnable {
       int segmentCnt = segmentPaths.size();
       monitor.scheduleAtFixedRate(() -> {
         if (segmentCnt == 1) {
-          LOG.info(String.format("%,d documents indexed", counters.indexed.get()));
+          LOG.info(String.format(Locale.ROOT, "%,d documents indexed", counters.indexed.get()));
         } else {
           double percent = (double) completedTaskCount.get() / segmentCnt * 100.0;
-          LOG.info(String.format("%.2f%% of files completed, %,d documents indexed",
-                    percent, counters.indexed.get()));
+          LOG.info(String.format(Locale.ROOT, "%.2f%% of files completed, %,d documents indexed", percent, counters.indexed.get()));
           }
         }, 1, 1, TimeUnit.MINUTES);
 

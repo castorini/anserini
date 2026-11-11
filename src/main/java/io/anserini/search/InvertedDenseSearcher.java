@@ -133,7 +133,7 @@ public class InvertedDenseSearcher<K extends Comparable<K>> extends BaseSearcher
 
         int n = cnt.incrementAndGet();
         if (n % 100 == 0) {
-          LOG.info(String.format(Locale.ROOT, "%d queries processed", n));
+          LOG.info("{} queries processed", n);
         }
         return  null;
       });

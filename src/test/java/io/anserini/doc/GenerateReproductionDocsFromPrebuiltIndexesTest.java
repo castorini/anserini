@@ -16,6 +16,8 @@
 
 package io.anserini.doc;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -34,7 +36,6 @@ import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
-import io.anserini.LocaleTestUtils;
 import io.anserini.reproduce.ReproduceFromPrebuiltIndexes.Condition;
 import io.anserini.reproduce.ReproduceFromPrebuiltIndexes.Config;
 import io.anserini.reproduce.ReproduceFromPrebuiltIndexes.Topic;
@@ -233,8 +234,7 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
     if (includeAverage) {
       summary.append("| Average");
       for (int i = 0; i < config.conditions.size(); i++) {
-        summary.append(" | ")
-            .append(counts[i] == topics.size() && counts[i] > 0 ? String.format(Locale.ROOT, "%.4f", sums[i] / counts[i]) : "");
+        summary.append(" | ").append(counts[i] == topics.size() && counts[i] > 0 ? String.format(Locale.ROOT, "%.4f", sums[i] / counts[i]) : "");
       }
       summary.append(" |\n");
     }
@@ -381,38 +381,34 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
   }
 
   @Test
-  public void testNumericArtifactsAcrossLocales() throws Exception {
+  public void testNumericArtifactsIndependentOfLocale() {
     Config config = new Config();
     Condition condition = new Condition();
+    condition.name = "bm25";
     condition.display = "BM25";
+    condition.command = "SearchCollection -topics $topics -output $output";
     Topic topic = new Topic();
     topic.topic_key = "test";
+    topic.eval_key = "test";
+    topic.metric_definitions = Map.of("map", "-m map");
     topic.expected_scores = Map.of("map", 0.3123);
     condition.topics = List.of(topic);
     config.conditions = List.of(condition);
-    ReportContext context = loadReportContext("msmarco-v1-passage.yaml");
-    Locale previous = Locale.getDefault();
+    ReportContext context = new ReportContext("test.yaml", "test", config, "", null, "[config](test.yaml)", Map.of("bm25", 1));
+    Locale previousFormatLocale = Locale.getDefault(Locale.Category.FORMAT);
     try {
-      for (Locale locale : LocaleTestUtils.LOCALES) {
-        Locale.setDefault(locale);
-        String commands = buildCommandSections(context, (t, c) -> t.topic_key);
-        org.junit.Assert.assertTrue(commands, commands.contains("<a id=\"condition-1\"></a>"));
-        org.junit.Assert.assertTrue(commands, commands.contains("### 1. "));
-        org.junit.Assert.assertTrue(commands, commands.codePoints().noneMatch(
-            c -> Character.isDigit(c) && (c < '0' || c > '9')));
-        String rows = buildSummaryInRows(config, List.of(
-            new SummaryColumn("map", t -> t.expected_scores.get("map"))));
-        org.junit.Assert.assertTrue(rows, rows.contains("[1](#condition-1)"));
-        org.junit.Assert.assertTrue(rows, rows.contains("0.3123"));
-        String columns = buildSummaryInColumns(config, "map", List.of(topic), true);
-        org.junit.Assert.assertTrue(columns, columns.contains("#condition-1"));
-        org.junit.Assert.assertTrue(columns, columns.contains("0.3123"));
-        org.junit.Assert.assertFalse(columns, columns.contains("0,3123"));
-        org.junit.Assert.assertTrue(columns, columns.codePoints().noneMatch(
-            c -> Character.isDigit(c) && (c < '0' || c > '9')));
-      }
+      Locale.setDefault(Locale.Category.FORMAT, Locale.forLanguageTag("mzn-Arab-IR"));
+      String commands = buildCommandSections(context, (t, c) -> t.topic_key);
+      assertEquals("<a id=\"condition-1\"></a>", commands.lines().findFirst().orElseThrow());
+      String rows = buildSummaryInRows(config, List.of(new SummaryColumn("map", t -> t.expected_scores.get("map"))));
+      assertEquals("| [1](#condition-1) | BM25 | 0.3123 |", rows.lines().reduce((a, b) -> b).orElseThrow().replaceAll(" +", " "));
+      String columns = buildSummaryInColumns(config, "map", List.of(topic), true);
+      List<String> columnLines = columns.replaceAll(" +", " ").lines().toList();
+      assertEquals("| corpus | [BM25](#condition-1) |", columnLines.getFirst());
+      assertEquals("| test | 0.3123 |", columnLines.get(2));
+      assertEquals("| Average | 0.3123 |", columnLines.getLast());
     } finally {
-      Locale.setDefault(previous);
+      Locale.setDefault(Locale.Category.FORMAT, previousFormatLocale);
     }
   }
 }

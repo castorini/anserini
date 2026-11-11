@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -109,8 +110,8 @@ public final class RestServer implements Closeable {
 
   void start() {
     app.start(host, port);
-    System.out.printf("Anserini REST server listening on %s:%d%n", host, getPort());
-    System.out.printf("v1 endpoint: GET /v1/{index}/search?query=...&hits=%d%n", DEFAULT_HITS);
+    System.out.printf(Locale.ROOT, "Anserini REST server listening on %s:%d%n", host, getPort());
+    System.out.printf(Locale.ROOT, "v1 endpoint: GET /v1/{index}/search?query=...&hits=%d%n", DEFAULT_HITS);
     if (!configuredIndexes.isEmpty()) {
       System.out.printf("Configured index aliases: %s%n", String.join(", ", configuredIndexes.keySet()));
     }

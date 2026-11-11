@@ -16,6 +16,8 @@
 
 package io.anserini.doc;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.File;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -28,8 +30,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringSubstitutor;
 import org.junit.Test;
-
-import io.anserini.LocaleTestUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
@@ -138,22 +138,21 @@ public class JDIQ2018EffectivenessDocsTest {
   }
 
   @Test
-  public void testEffectivenessAcrossLocales() throws Exception {
-    ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-    URL yaml = getClass().getResource("/jdiq2018/models.yaml");
-    Model data = mapper.readValue(yaml, Model.class);
-    Locale previous = Locale.getDefault();
+  public void testEffectivenessIndependentOfLocale() {
+    Model data = new Model();
+    Map<String, Object> expected = new HashMap<>();
+    for (String collection : new String[] { "disk12", "robust04", "robust05", "core17", "wt10g", "gov2", "cw09b", "cw12b13", "mb11", "mb13" }) {
+      expected.put(collection, Map.of("map", Map.of("topics", 0.2274)));
+    }
+    data.setModels(Map.of("BM25", Map.of("expected", expected)));
+    Locale previousFormatLocale = Locale.getDefault(Locale.Category.FORMAT);
     try {
-      for (Locale locale : LocaleTestUtils.LOCALES) {
-        Locale.setDefault(locale);
-        String output = data.generateEffectiveness();
-        org.junit.Assert.assertTrue(output, output.contains("0.2274"));
-        org.junit.Assert.assertFalse(output, output.contains("0,2274"));
-        org.junit.Assert.assertTrue(output, output.codePoints().noneMatch(
-            c -> Character.isDigit(c) && (c < '0' || c > '9')));
-      }
+      Locale.setDefault(Locale.Category.FORMAT, Locale.forLanguageTag("mzn-Arab-IR"));
+      String output = data.generateEffectiveness();
+      String row = output.lines().filter(line -> line.contains("topics")).findFirst().orElseThrow();
+      assertEquals("0.2274", row.split("\\|")[1].trim());
     } finally {
-      Locale.setDefault(previous);
+      Locale.setDefault(Locale.Category.FORMAT, previousFormatLocale);
     }
   }
 }

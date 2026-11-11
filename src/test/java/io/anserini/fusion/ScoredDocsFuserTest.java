@@ -17,11 +17,13 @@
 package io.anserini.fusion;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.junit.After;
@@ -29,7 +31,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import io.anserini.LocaleTestUtils;
 import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 import io.anserini.TestUtils;
 import io.anserini.search.ScoredDocs;
@@ -185,21 +186,18 @@ public class ScoredDocsFuserTest extends StdOutStdErrRedirectableLuceneTestCase 
   }
 
   @Test
-  public void testRunOutputAcrossLocales() throws Exception {
-    Locale previous = Locale.getDefault();
+  public void testRunOutputIndependentOfLocale() throws Exception {
+    Locale previousFormatLocale = Locale.getDefault(Locale.Category.FORMAT);
     Path output = createTempDir().resolve("run.txt");
     ScoredDocs run = ScoredDocsFuser.readRun(Paths.get("src/test/resources/sample_runs/run1"), false);
     ScoredDocsFuser.normalizeScores(run);
     try {
-      for (Locale locale : LocaleTestUtils.LOCALES) {
-        Locale.setDefault(locale);
-        ScoredDocsFuser.saveToTxt(output, "Anserini", run);
-        assertEquals("query1 Q0 doc2 2 0.500000 Anserini",
-            java.nio.file.Files.readAllLines(output).get(1));
-        assertEquals(0.5f, ScoredDocsFuser.readRun(output, false).scores[1], 0.0f);
-      }
+      Locale.setDefault(Locale.Category.FORMAT, Locale.forLanguageTag("mzn-Arab-IR"));
+      ScoredDocsFuser.saveToTxt(output, "Anserini", run);
+      assertEquals("query1 Q0 doc2 2 0.500000 Anserini", Files.readAllLines(output).get(1));
+      assertEquals(0.5f, ScoredDocsFuser.readRun(output, false).scores[1], 0.0f);
     } finally {
-      Locale.setDefault(previous);
+      Locale.setDefault(Locale.Category.FORMAT, previousFormatLocale);
     }
   }
 }

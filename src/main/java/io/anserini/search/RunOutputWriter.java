@@ -52,7 +52,7 @@ public class RunOutputWriter<K extends Comparable<K>> implements Closeable {
 
     if ("msmarco".equals(format)) {
       for (ScoredDoc r : results) {
-        out.append(String.format(Locale.US, "%s\t%s\t%d\n", qid, r.docid, rank));
+        out.append(String.format(Locale.ROOT, "%s\t%s\t%d\n", qid, r.docid, rank));
         rank++;
       }
     } else {
@@ -64,7 +64,7 @@ public class RunOutputWriter<K extends Comparable<K>> implements Closeable {
       // + the fifth column shows the score (integer or floating point) that generated the ranking.
       // + the sixth column is called the "run tag" and should be a unique identifier for your
       for (ScoredDoc r : results) {
-        out.append(String.format(Locale.US, "%s Q0 %s %d %f %s\n", qid, r.docid, rank, r.score, runtag));
+        out.append(String.format(Locale.ROOT, "%s Q0 %s %d %f %s\n", qid, r.docid, rank, r.score, runtag));
         rank++;
       }
     }

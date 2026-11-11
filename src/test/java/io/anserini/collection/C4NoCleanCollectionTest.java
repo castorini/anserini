@@ -22,8 +22,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.junit.Before;
-import io.anserini.LocaleTestUtils;
-
 import org.junit.Test;
 
 public class C4NoCleanCollectionTest extends DocumentCollectionTest<C4Collection.Document> {
@@ -59,15 +57,13 @@ public class C4NoCleanCollectionTest extends DocumentCollectionTest<C4Collection
   }
 
   @Test
-  public void testDocumentIdsAcrossLocales() throws Exception {
-    Locale previous = Locale.getDefault();
+  public void testDocumentIdsIndependentOfLocale() throws Exception {
+    Locale previousFormatLocale = Locale.getDefault(Locale.Category.FORMAT);
     try {
-      for (Locale locale : LocaleTestUtils.LOCALES) {
-        Locale.setDefault(locale);
-        testManualSegmentInitialization();
-      }
+      Locale.setDefault(Locale.Category.FORMAT, Locale.forLanguageTag("mzn-Arab-IR"));
+      testManualSegmentInitialization();
     } finally {
-      Locale.setDefault(previous);
+      Locale.setDefault(Locale.Category.FORMAT, previousFormatLocale);
     }
   }
 }

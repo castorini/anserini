@@ -29,6 +29,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.LineIterator;
@@ -157,9 +158,9 @@ public class TrecEval {
     if (exit != 0) {
       String stderrMessage = stderr.toString(StandardCharsets.UTF_8).trim();
       if (!stderrMessage.isEmpty()) {
-        throw new RuntimeException(String.format("trec_eval ended with non-zero exit code (%d): %s", exit, stderrMessage));
+        throw new RuntimeException(String.format(Locale.ROOT, "trec_eval ended with non-zero exit code (%d): %s", exit, stderrMessage));
       }
-      throw new RuntimeException(String.format("trec_eval ended with non-zero exit code (%d)", exit));
+      throw new RuntimeException(String.format(Locale.ROOT, "trec_eval ended with non-zero exit code (%d)", exit));
     }
 
     return output.toArray(new String[output.size()][]);

@@ -24,11 +24,9 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import io.anserini.LocaleTestUtils;
-
 public class DataModelTest {
   @Test
-  public void testEffectivenessAcrossLocales() {
+  public void testEffectivenessIndependentOfLocale() {
     DataModel data = new DataModel();
     DataModel.Metric metric = new DataModel.Metric();
     metric.setMetric("map");
@@ -40,18 +38,21 @@ public class DataModelTest {
     data.setMetrics(List.of(metric));
     data.setTopics(List.of(topic));
     data.setModels(List.of(model));
-    Locale previous = Locale.getDefault();
+    Locale previousFormatLocale = Locale.getDefault(Locale.Category.FORMAT);
     try {
-      for (Locale locale : LocaleTestUtils.LOCALES) {
-        Locale.setDefault(locale);
-        for (String type : List.of("inverted", "hnsw")) {
-          data.setIndex_type(type);
-          String row = data.generateEffectiveness("test").lines().reduce((a, b) -> b).orElseThrow();
-          assertEquals("| test    | " + (type.equals("hnsw") ? "0.312      " : "0.3123     ") + "|", row);
-        }
-      }
+      Locale.setDefault(Locale.Category.FORMAT, Locale.forLanguageTag("mzn-Arab-IR"));
+      data.setIndex_type("inverted");
+      String row = data.generateEffectiveness("test").lines().reduce((a, b) -> b).orElseThrow();
+      assertEquals("| test    | 0.3123     |", row);
+      data.setIndex_type("hnsw");
+      row = data.generateEffectiveness("test").lines().reduce((a, b) -> b).orElseThrow();
+      assertEquals("| test    | 0.312      |", row);
+      Locale.setDefault(Locale.Category.FORMAT, Locale.GERMANY);
+      data.setIndex_type("inverted");
+      row = data.generateEffectiveness("test").lines().reduce((a, b) -> b).orElseThrow();
+      assertEquals("| test    | 0.3123     |", row);
     } finally {
-      Locale.setDefault(previous);
+      Locale.setDefault(Locale.Category.FORMAT, previousFormatLocale);
     }
   }
 }

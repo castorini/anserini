@@ -166,7 +166,7 @@ public class FlatDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
           results.put(qid, search(qid, queryString, k));
           int n = cnt.incrementAndGet();
           if (verbose && n % 100 == 0) {
-            LOG.info(String.format(Locale.ROOT, "%d queries processed", n));
+            LOG.info("{} queries processed", n);
           }
         } catch (IOException e) {
           throw new CompletionException(e);

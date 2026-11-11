@@ -115,13 +115,13 @@ public class FlatDenseSearcherTest extends SuppresedLoggingLuceneTestCase {
         SortedMap<Integer, ScoredDoc[]> quiet = searcher.batch_search(queries, qids, 5, 2, false);
         assertTrue(messages.toString(), messages.isEmpty());
         SortedMap<Integer, ScoredDoc[]> verbose;
-        Locale previousLocale = Locale.getDefault();
+        Locale previousFormatLocale = Locale.getDefault(Locale.Category.FORMAT);
         try {
           // Regression for localized progress counts such as "१०० queries processed" (#3427).
-          Locale.setDefault(Locale.forLanguageTag("hi-IN-u-nu-deva"));
+          Locale.setDefault(Locale.Category.FORMAT, Locale.forLanguageTag("hi-IN-u-nu-deva"));
           verbose = searcher.batch_search(queries, qids, 5, 2, true);
         } finally {
-          Locale.setDefault(previousLocale);
+          Locale.setDefault(Locale.Category.FORMAT, previousFormatLocale);
         }
         assertEquals(messages.toString(), 2, messages.size());
         assertEquals("100 queries processed", messages.get(0));

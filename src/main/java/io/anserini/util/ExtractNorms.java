@@ -78,8 +78,7 @@ public class ExtractNorms {
         throw new NotStoredException("Norms do not appear to have been indexed!");
       }
       while (docValues.nextDoc() != DocIdSetIterator.NO_MORE_DOCS) {
-        out.println(String.format(Locale.ROOT, "%d\t%d", docValues.docID() + context.docBase,
-            SmallFloat.byte4ToInt((byte) docValues.longValue())));
+        out.println(String.format(Locale.ROOT, "%d\t%d", docValues.docID() + context.docBase, SmallFloat.byte4ToInt((byte) docValues.longValue())));
       }
     }
     out.flush();

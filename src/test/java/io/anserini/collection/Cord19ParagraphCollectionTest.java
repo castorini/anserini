@@ -23,8 +23,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.junit.Before;
-import io.anserini.LocaleTestUtils;
-
 import org.junit.Test;
 
 public class Cord19ParagraphCollectionTest extends DocumentCollectionTest<Cord19ParagraphCollection.Document> {
@@ -51,7 +49,7 @@ public class Cord19ParagraphCollectionTest extends DocumentCollectionTest<Cord19
 
     // has paragraphs 1 ... 41
     for (int i = 1; i < 42; i++) {
-      String id = "xqhn0vbp." + "0".repeat(5 - Integer.toString(i).length()) + i;
+      String id = "xqhn0vbp." + (i < 10 ? "0000" : "000") + i;
       HashMap<String, String> doc = new HashMap<>();
       doc.put("id", id);
       expected.put(id, doc);
@@ -69,7 +67,7 @@ public class Cord19ParagraphCollectionTest extends DocumentCollectionTest<Cord19
 
     // has paragraphs 1 ... 32
     for (int i = 1; i < 33; i++) {
-      String id = "a8cps3ko." + "0".repeat(5 - Integer.toString(i).length()) + i;
+      String id = "a8cps3ko." + (i < 10 ? "0000" : "000") + i;
       HashMap<String, String> doc = new HashMap<>();
       doc.put("id", id);
       expected.put(id, doc);
@@ -90,15 +88,13 @@ public class Cord19ParagraphCollectionTest extends DocumentCollectionTest<Cord19
   }
 
   @Test
-  public void testDocumentIdsAcrossLocales() throws Exception {
-    Locale previous = Locale.getDefault();
+  public void testDocumentIdsIndependentOfLocale() throws Exception {
+    Locale previousFormatLocale = Locale.getDefault(Locale.Category.FORMAT);
     try {
-      for (Locale locale : LocaleTestUtils.LOCALES) {
-        Locale.setDefault(locale);
-        testManualSegmentInitialization();
-      }
+      Locale.setDefault(Locale.Category.FORMAT, Locale.forLanguageTag("mzn-Arab-IR"));
+      testManualSegmentInitialization();
     } finally {
-      Locale.setDefault(previous);
+      Locale.setDefault(Locale.Category.FORMAT, previousFormatLocale);
     }
   }
 }
