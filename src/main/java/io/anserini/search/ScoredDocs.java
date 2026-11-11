@@ -19,6 +19,7 @@ package io.anserini.search;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -59,7 +60,7 @@ public class ScoredDocs {
         scoredDocs.lucene_documents[i] = searcher.storedFields().document(rs.scoreDocs[i].doc);
         scoredDocs.docids[i] = scoredDocs.lucene_documents[i].get(Constants.ID);
       } catch (NullPointerException | IOException e) {
-        throw new RuntimeException(String.format("Cannot find lucene document %d.", rs.scoreDocs[i].doc));
+        throw new RuntimeException(String.format(Locale.ROOT, "Cannot find lucene document %d.", rs.scoreDocs[i].doc));
       }
       scoredDocs.scores[i] = rs.scoreDocs[i].score;
       scoredDocs.lucene_docids[i] = rs.scoreDocs[i].doc;

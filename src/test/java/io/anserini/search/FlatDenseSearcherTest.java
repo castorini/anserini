@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.SortedMap;
 
@@ -113,7 +114,15 @@ public class FlatDenseSearcherTest extends SuppresedLoggingLuceneTestCase {
         assertTrue(messages.toString(), messages.isEmpty());
         SortedMap<Integer, ScoredDoc[]> quiet = searcher.batch_search(queries, qids, 5, 2, false);
         assertTrue(messages.toString(), messages.isEmpty());
-        SortedMap<Integer, ScoredDoc[]> verbose = searcher.batch_search(queries, qids, 5, 2, true);
+        SortedMap<Integer, ScoredDoc[]> verbose;
+        Locale previousFormatLocale = Locale.getDefault(Locale.Category.FORMAT);
+        try {
+          // Regression for localized progress counts such as "१०० queries processed" (#3427).
+          Locale.setDefault(Locale.Category.FORMAT, Locale.forLanguageTag("hi-IN-u-nu-deva"));
+          verbose = searcher.batch_search(queries, qids, 5, 2, true);
+        } finally {
+          Locale.setDefault(Locale.Category.FORMAT, previousFormatLocale);
+        }
         assertEquals(messages.toString(), 2, messages.size());
         assertEquals("100 queries processed", messages.get(0));
         assertTrue(messages.get(1), messages.get(1).startsWith("100 queries processed in "));

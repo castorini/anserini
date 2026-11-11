@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 /**
@@ -129,7 +130,7 @@ public class BaseSearcher<K extends Comparable<K>> {
       try {
         lucene_document = searcher.storedFields().document(docs.scoreDocs[i].doc);
       } catch (IOException e) {
-        throw new RuntimeException(String.format("Unable to fetch document %d", docs.scoreDocs[i].doc));
+        throw new RuntimeException(String.format(Locale.ROOT, "Unable to fetch document %d", docs.scoreDocs[i].doc));
       }
       String docid = lucene_document.get(Constants.ID);
 
