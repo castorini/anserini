@@ -28,6 +28,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import io.anserini.LocaleTestUtils;
 import io.anserini.index.IndexerWithEmptyDocumentTestBase;
 
 public class ExtractNormsTest extends IndexerWithEmptyDocumentTestBase {
@@ -82,7 +83,7 @@ public class ExtractNormsTest extends IndexerWithEmptyDocumentTestBase {
   public void testExportAcrossLocales() throws Exception {
     Locale previous = Locale.getDefault();
     try {
-      for (Locale locale : new Locale[] {Locale.forLanguageTag("mzn-Arab-IR"), Locale.GERMANY}) {
+      for (Locale locale : LocaleTestUtils.LOCALES) {
         Locale.setDefault(locale);
         out.reset();
         test();

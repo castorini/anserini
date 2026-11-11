@@ -29,6 +29,8 @@ import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import io.anserini.LocaleTestUtils;
+
 /**
  * Tests for {@link SearchShardedHnswDenseVectors}
  */
@@ -97,6 +99,10 @@ public class SearchShardedHnswDenseVectorsTest {
 
   @Test
   public void testShardedSearchWithPreEncodedVectors() throws Exception {
+    assertShardedSearchWithPreEncodedVectors(SHARDED_VECTORS_RUN);
+  }
+
+  private void assertShardedSearchWithPreEncodedVectors(String runfile) throws Exception {
     // Verify the paths exist before running test
     String shardPath1 = "src/test/resources/prebuilt_indexes/fake-index-shard00";
     String shardPath2 = "src/test/resources/prebuilt_indexes/fake-index-shard01";
@@ -108,7 +114,6 @@ public class SearchShardedHnswDenseVectorsTest {
     String topicFile = "src/test/resources/sample_topics/arctic.jsonl";
     assertTrue("Topic file doesn't exist: " + topicFile, Files.exists(Paths.get(topicFile)));
 
-    String runfile = SHARDED_VECTORS_RUN;
     deleteRunFiles(runfile);
 
     // Create parent directory for output if it doesn't exist
@@ -128,8 +133,10 @@ public class SearchShardedHnswDenseVectorsTest {
     SearchShardedHnswDenseVectors.main(searchArgs);
 
     assertRunFileExistsAndNonEmpty(runfile);
-    assertRunFileExistsAndNonEmpty(runfile + ".shard00");
-    assertRunFileExistsAndNonEmpty(runfile + ".shard01");
+    String prefix = runfile.endsWith(".txt") ? runfile.substring(0, runfile.length() - 4) : runfile;
+    String extension = runfile.endsWith(".txt") ? ".txt" : "";
+    assertRunFileExistsAndNonEmpty(prefix + ".shard00" + extension);
+    assertRunFileExistsAndNonEmpty(prefix + ".shard01" + extension);
   }
 
   private static void assertRunFileExistsAndNonEmpty(String runfile) {
@@ -148,9 +155,17 @@ public class SearchShardedHnswDenseVectorsTest {
   public void testShardFilenamesAcrossLocales() throws Exception {
     Locale previous = Locale.getDefault();
     try {
-      for (Locale locale : new Locale[] {Locale.forLanguageTag("mzn-Arab-IR"), Locale.GERMANY}) {
+      for (Locale locale : LocaleTestUtils.LOCALES) {
         Locale.setDefault(locale);
         testShardedSearchWithPreEncodedVectors();
+        String txtOutput = SHARDED_VECTORS_RUN + ".txt";
+        try {
+          assertShardedSearchWithPreEncodedVectors(txtOutput);
+        } finally {
+          Files.deleteIfExists(Paths.get(txtOutput));
+          Files.deleteIfExists(Paths.get(SHARDED_VECTORS_RUN + ".shard00.txt"));
+          Files.deleteIfExists(Paths.get(SHARDED_VECTORS_RUN + ".shard01.txt"));
+        }
       }
     } finally {
       Locale.setDefault(previous);

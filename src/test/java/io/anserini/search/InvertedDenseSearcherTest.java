@@ -19,18 +19,25 @@ package io.anserini.search;
 import java.io.File;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.SortedMap;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.LogEvent;
+import org.apache.logging.log4j.core.Logger;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import io.anserini.CustomAppender;
+import io.anserini.LocaleTestUtils;
 import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 import io.anserini.index.AbstractIndexer;
 import io.anserini.index.IndexInvertedDenseVectors;
@@ -363,6 +370,55 @@ public class InvertedDenseSearcherTest extends StdOutStdErrRedirectableLuceneTes
       assertEquals(82.364830f, results[2].score, 10e-6);
       assertEquals(79.369530f, results[3].score, 10e-6);
       assertEquals(78.378647f, results[4].score, 10e-6);
+    }
+  }
+
+  @Test
+  public void testBatchSearchProgressAcrossLocales() throws Exception {
+    String indexPath = newIndexPath("target/idx-locale-inverted-dense-");
+    IndexInvertedDenseVectors.main(new String[] {
+        "-collection", "JsonDenseVectorCollection",
+        "-input", "src/test/resources/sample_docs/openai_ada2/json_vector",
+        "-generator", "InvertedDenseVectorDocumentGenerator",
+        "-index", indexPath, "-encoding", "fw"});
+    InvertedDenseSearcher.Args args = new InvertedDenseSearcher.Args();
+    args.index = indexPath;
+    args.encoding = "fw";
+    SortedMap<Integer, Map<String, String>> topics = new JsonIntVectorTopicReader(
+        Path.of("src/test/resources/sample_topics/sample-topics.msmarco-passage-dev-openai-ada2.jsonl")).read();
+    List<String> queries = Collections.nCopies(100, topics.get(topics.firstKey()).get("vector"));
+    List<Integer> qids = java.util.stream.IntStream.range(0, 100).boxed().toList();
+    List<String> messages = Collections.synchronizedList(new ArrayList<>());
+    CustomAppender appender = new CustomAppender("locale-progress") {
+      @Override
+      public void append(LogEvent event) {
+        messages.add(event.getMessage().getFormattedMessage());
+      }
+    };
+    Logger logger = (Logger) LogManager.getLogger(InvertedDenseSearcher.class);
+    Level previousLevel = logger.getLevel();
+    boolean previousAdditivity = logger.isAdditive();
+    Locale previous = Locale.getDefault();
+    appender.start();
+    logger.addAppender(appender);
+    logger.setAdditive(false);
+    logger.setLevel(Level.INFO);
+    try (InvertedDenseSearcher<Integer> searcher = new InvertedDenseSearcher<>(args)) {
+      for (Locale locale : LocaleTestUtils.LOCALES) {
+        Locale.setDefault(locale);
+        messages.clear();
+        assertEquals(100, searcher.batch_search(queries, qids, 5, 2).size());
+        assertEquals(messages.toString(), 2, messages.size());
+        assertEquals("100 queries processed", messages.get(0));
+        assertTrue(messages.get(1), messages.get(1).matches(
+            "100 queries processed in .* = ~(?:[0-9]+\\.[0-9]{2}|Infinity|NaN) q/s"));
+      }
+    } finally {
+      Locale.setDefault(previous);
+      logger.setLevel(previousLevel);
+      logger.setAdditive(previousAdditivity);
+      logger.removeAppender(appender);
+      appender.stop();
     }
   }
 }

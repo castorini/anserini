@@ -35,6 +35,7 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.anserini.LocaleTestUtils;
 import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 import io.anserini.index.IndexCollection;
 
@@ -252,7 +253,7 @@ public class SearchTest extends StdOutStdErrRedirectableLuceneTestCase {
   public void testTrecOutputAcrossLocales() {
     Locale previous = Locale.getDefault();
     try {
-      for (Locale locale : new Locale[] {Locale.forLanguageTag("mzn-Arab-IR"), Locale.GERMANY}) {
+      for (Locale locale : LocaleTestUtils.LOCALES) {
         Locale.setDefault(locale);
         out.reset();
         testSearchTrecOutputWithCacm();

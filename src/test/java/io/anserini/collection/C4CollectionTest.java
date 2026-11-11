@@ -22,6 +22,8 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.junit.Before;
+import io.anserini.LocaleTestUtils;
+
 import org.junit.Test;
 
 public class C4CollectionTest extends DocumentCollectionTest<C4Collection.Document> {
@@ -60,7 +62,7 @@ public class C4CollectionTest extends DocumentCollectionTest<C4Collection.Docume
   public void testDocumentIdsAcrossLocales() throws Exception {
     Locale previous = Locale.getDefault();
     try {
-      for (Locale locale : new Locale[] {Locale.forLanguageTag("mzn-Arab-IR"), Locale.GERMANY}) {
+      for (Locale locale : LocaleTestUtils.LOCALES) {
         Locale.setDefault(locale);
         testManualSegmentInitialization();
       }

@@ -29,6 +29,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import io.anserini.LocaleTestUtils;
 import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 import io.anserini.TestUtils;
 import io.anserini.search.ScoredDocs;
@@ -188,7 +189,7 @@ public class ScoredDocsFuserTest extends StdOutStdErrRedirectableLuceneTestCase 
     Locale previous = Locale.getDefault();
     Path output = createTempDir().resolve("run.txt");
     try {
-      for (Locale locale : new Locale[] {Locale.forLanguageTag("mzn-Arab-IR"), Locale.GERMANY}) {
+      for (Locale locale : LocaleTestUtils.LOCALES) {
         Locale.setDefault(locale);
         ScoredDocs run = ScoredDocsFuser.readRun(Paths.get("src/test/resources/sample_runs/run1"), false);
         ScoredDocsFuser.normalizeScores(run);

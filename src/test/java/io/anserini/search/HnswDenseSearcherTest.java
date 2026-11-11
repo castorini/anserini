@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.SortedMap;
 
@@ -35,6 +36,7 @@ import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import io.anserini.LocaleTestUtils;
 import io.anserini.CustomAppender;
 import io.anserini.SuppresedLoggingLuceneTestCase;
 import io.anserini.index.AbstractIndexer;
@@ -115,6 +117,8 @@ public class HnswDenseSearcherTest extends SuppresedLoggingLuceneTestCase {
         assertEquals(messages.toString(), 2, messages.size());
         assertEquals("100 queries processed", messages.get(0));
         assertTrue(messages.get(1), messages.get(1).startsWith("100 queries processed in "));
+        assertTrue(messages.get(1), messages.get(1).matches(
+            ".* = ~(?:[0-9]+\\.[0-9]{2}|Infinity|NaN) q/s"));
         assertEquals(100, defaults.size());
         assertEquals(defaults.keySet(), quiet.keySet());
         assertEquals(defaults.keySet(), verbose.keySet());
@@ -549,6 +553,19 @@ public class HnswDenseSearcherTest extends SuppresedLoggingLuceneTestCase {
       assertEquals(0.558932f, results[2].score, 10e-4);
       assertEquals(0.550985f, results[3].score, 10e-4);
       assertEquals(0.550977f, results[4].score, 10e-4);
+    }
+  }
+
+  @Test
+  public void testBatchSearchVerbosityAcrossLocales() throws Exception {
+    Locale previous = Locale.getDefault();
+    try {
+      for (Locale locale : LocaleTestUtils.LOCALES) {
+        Locale.setDefault(locale);
+        testBatchSearchVerbosity();
+      }
+    } finally {
+      Locale.setDefault(previous);
     }
   }
 }

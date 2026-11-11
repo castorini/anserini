@@ -29,6 +29,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringSubstitutor;
 import org.junit.Test;
 
+import io.anserini.LocaleTestUtils;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
@@ -133,5 +135,25 @@ public class JDIQ2018EffectivenessDocsTest {
     String resolvedString = sub.replace(text);
     FileUtils.writeStringToFile(new File("docs/experiments-jdiq2018.md"),
         resolvedString, "UTF-8");
+  }
+
+  @Test
+  public void testEffectivenessAcrossLocales() throws Exception {
+    ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+    URL yaml = getClass().getResource("/jdiq2018/models.yaml");
+    Model data = mapper.readValue(yaml, Model.class);
+    Locale previous = Locale.getDefault();
+    try {
+      for (Locale locale : LocaleTestUtils.LOCALES) {
+        Locale.setDefault(locale);
+        String output = data.generateEffectiveness();
+        org.junit.Assert.assertTrue(output, output.contains("0.2274"));
+        org.junit.Assert.assertFalse(output, output.contains("0,2274"));
+        org.junit.Assert.assertTrue(output, output.codePoints().noneMatch(
+            c -> Character.isDigit(c) && (c < '0' || c > '9')));
+      }
+    } finally {
+      Locale.setDefault(previous);
+    }
   }
 }

@@ -23,6 +23,8 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.junit.Before;
+import io.anserini.LocaleTestUtils;
+
 import org.junit.Test;
 
 public class Cord19ParagraphCollectionTest extends DocumentCollectionTest<Cord19ParagraphCollection.Document> {
@@ -91,7 +93,7 @@ public class Cord19ParagraphCollectionTest extends DocumentCollectionTest<Cord19
   public void testDocumentIdsAcrossLocales() throws Exception {
     Locale previous = Locale.getDefault();
     try {
-      for (Locale locale : new Locale[] {Locale.forLanguageTag("mzn-Arab-IR"), Locale.GERMANY}) {
+      for (Locale locale : LocaleTestUtils.LOCALES) {
         Locale.setDefault(locale);
         testManualSegmentInitialization();
       }

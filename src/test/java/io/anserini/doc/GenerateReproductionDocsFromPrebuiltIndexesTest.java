@@ -34,6 +34,7 @@ import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
+import io.anserini.LocaleTestUtils;
 import io.anserini.reproduce.ReproduceFromPrebuiltIndexes.Condition;
 import io.anserini.reproduce.ReproduceFromPrebuiltIndexes.Config;
 import io.anserini.reproduce.ReproduceFromPrebuiltIndexes.Topic;
@@ -380,7 +381,7 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
   }
 
   @Test
-  public void testNumericArtifactsAcrossLocales() {
+  public void testNumericArtifactsAcrossLocales() throws Exception {
     Config config = new Config();
     Condition condition = new Condition();
     condition.display = "BM25";
@@ -391,8 +392,14 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
     config.conditions = List.of(condition);
     Locale previous = Locale.getDefault();
     try {
-      for (Locale locale : new Locale[] {Locale.forLanguageTag("mzn-Arab-IR"), Locale.GERMANY}) {
+      for (Locale locale : LocaleTestUtils.LOCALES) {
         Locale.setDefault(locale);
+        ReportContext context = loadReportContext("msmarco-v1-passage.yaml");
+        String commands = buildCommandSections(context, (t, c) -> t.topic_key);
+        org.junit.Assert.assertTrue(commands, commands.contains("<a id=\"condition-1\"></a>"));
+        org.junit.Assert.assertTrue(commands, commands.contains("### 1. "));
+        org.junit.Assert.assertTrue(commands, commands.codePoints().noneMatch(
+            c -> Character.isDigit(c) && (c < '0' || c > '9')));
         String rows = buildSummaryInRows(config, List.of(
             new SummaryColumn("map", t -> t.expected_scores.get("map"))));
         org.junit.Assert.assertTrue(rows, rows.contains("[1](#condition-1)"));
@@ -401,6 +408,8 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
         org.junit.Assert.assertTrue(columns, columns.contains("#condition-1"));
         org.junit.Assert.assertTrue(columns, columns.contains("0.3123"));
         org.junit.Assert.assertFalse(columns, columns.contains("0,3123"));
+        org.junit.Assert.assertTrue(columns, columns.codePoints().noneMatch(
+            c -> Character.isDigit(c) && (c < '0' || c > '9')));
       }
     } finally {
       Locale.setDefault(previous);
