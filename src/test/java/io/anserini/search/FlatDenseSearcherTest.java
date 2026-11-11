@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.SortedMap;
 
@@ -547,6 +548,21 @@ public class FlatDenseSearcherTest extends SuppresedLoggingLuceneTestCase {
       assertEquals(0.558932f, results[2].score, 10e-4);
       assertEquals(0.550985f, results[3].score, 10e-4);
       assertEquals(0.550977f, results[4].score, 10e-4);
+    }
+  }
+
+  @Test
+  public void testBatchSearchVerbosityAcrossLocales() throws Exception {
+    Locale previous = Locale.getDefault();
+    try {
+      for (Locale locale : new Locale[] {
+          Locale.forLanguageTag("mzn-Arab-IR"), Locale.GERMANY,
+          Locale.forLanguageTag("hi-IN-u-nu-deva")}) {
+        Locale.setDefault(locale);
+        testBatchSearchVerbosity();
+      }
+    } finally {
+      Locale.setDefault(previous);
     }
   }
 }

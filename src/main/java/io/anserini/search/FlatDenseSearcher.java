@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.SortedMap;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletionException;
@@ -165,7 +166,7 @@ public class FlatDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
           results.put(qid, search(qid, queryString, k));
           int n = cnt.incrementAndGet();
           if (verbose && n % 100 == 0) {
-            LOG.info(String.format("%d queries processed", n));
+            LOG.info(String.format(Locale.ROOT, "%d queries processed", n));
           }
         } catch (IOException e) {
           throw new CompletionException(e);
@@ -185,7 +186,7 @@ public class FlatDenseSearcher<K extends Comparable<K>> extends BaseSearcher<K> 
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
     if (verbose) {
       LOG.info("{} queries processed in {}{}", queries.size(), DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"),
-          String.format(" = ~%.2f q/s", queries.size() / (durationMillis / 1000.0)));
+          String.format(Locale.ROOT, " = ~%.2f q/s", queries.size() / (durationMillis / 1000.0)));
     }
 
     return results;

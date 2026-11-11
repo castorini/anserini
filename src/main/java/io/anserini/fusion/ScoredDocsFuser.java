@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -281,7 +282,7 @@ public class ScoredDocsFuser {
     ScoredDocsFuser.sortScoredDocs(run);
     try (BufferedWriter writer = Files.newBufferedWriter(outputPath)) {
       for (int i = 0; i < run.lucene_documents.length; i++) {
-        writer.write(String.format("%s Q0 %s %d %.6f %s%n", 
+        writer.write(String.format(Locale.ROOT, "%s Q0 %s %d %.6f %s%n",
           run.lucene_documents[i].get(TOPIC), run.docids[i], run.lucene_docids[i], run.scores[i], tag));
       }
     }

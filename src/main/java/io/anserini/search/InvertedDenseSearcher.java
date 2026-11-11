@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.SortedMap;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -132,7 +133,7 @@ public class InvertedDenseSearcher<K extends Comparable<K>> extends BaseSearcher
 
         int n = cnt.incrementAndGet();
         if (n % 100 == 0) {
-          LOG.info(String.format("%d queries processed", n));
+          LOG.info(String.format(Locale.ROOT, "%d queries processed", n));
         }
         return  null;
       });
@@ -149,7 +150,7 @@ public class InvertedDenseSearcher<K extends Comparable<K>> extends BaseSearcher
 
     LOG.info("{} queries processed in {}{}", queries.size(),
         DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"),
-        String.format(" = ~%.2f q/s", queries.size() / (durationMillis / 1000.0)));
+        String.format(Locale.ROOT, " = ~%.2f q/s", queries.size() / (durationMillis / 1000.0)));
 
     return results;
   }

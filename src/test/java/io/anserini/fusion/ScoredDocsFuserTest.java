@@ -22,7 +22,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.junit.After;
@@ -42,9 +41,6 @@ public class ScoredDocsFuserTest extends StdOutStdErrRedirectableLuceneTestCase 
 
   @Before
   public void setUp() throws Exception {
-    // Explictly set locale to US so that decimal points use '.' instead of ','
-    Locale.setDefault(Locale.US);
-
     redirectStdErr();
     super.setUp();
   }
@@ -185,5 +181,24 @@ public class ScoredDocsFuserTest extends StdOutStdErrRedirectableLuceneTestCase 
     assertEquals("query2 doc1 RRF score (rank 1)", 1.0f / 61.0f, run.scores[3], 0.0001f);
     assertEquals("query2 doc2 RRF score (rank 2)", 1.0f / 62.0f, run.scores[4], 0.0001f);
     assertEquals("query2 doc3 RRF score (rank 3)", 1.0f / 63.0f, run.scores[5], 0.0001f);
+  }
+
+  @Test
+  public void testRunOutputAcrossLocales() throws Exception {
+    Locale previous = Locale.getDefault();
+    Path output = createTempDir().resolve("run.txt");
+    try {
+      for (Locale locale : new Locale[] {Locale.forLanguageTag("mzn-Arab-IR"), Locale.GERMANY}) {
+        Locale.setDefault(locale);
+        ScoredDocs run = ScoredDocsFuser.readRun(Paths.get("src/test/resources/sample_runs/run1"), false);
+        ScoredDocsFuser.normalizeScores(run);
+        ScoredDocsFuser.saveToTxt(output, "Anserini", run);
+        assertEquals("query1 Q0 doc2 2 0.500000 Anserini",
+            java.nio.file.Files.readAllLines(output).get(1));
+        assertEquals(0.5f, ScoredDocsFuser.readRun(output, false).scores[1], 0.0f);
+      }
+    } finally {
+      Locale.setDefault(previous);
+    }
   }
 }

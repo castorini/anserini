@@ -21,6 +21,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Locale;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
@@ -141,5 +142,18 @@ public class SearchShardedHnswDenseVectorsTest {
     new File(runfile).delete();
     new File(runfile + ".shard00").delete();
     new File(runfile + ".shard01").delete();
+  }
+
+  @Test
+  public void testShardFilenamesAcrossLocales() throws Exception {
+    Locale previous = Locale.getDefault();
+    try {
+      for (Locale locale : new Locale[] {Locale.forLanguageTag("mzn-Arab-IR"), Locale.GERMANY}) {
+        Locale.setDefault(locale);
+        testShardedSearchWithPreEncodedVectors();
+      }
+    } finally {
+      Locale.setDefault(previous);
+    }
   }
 }

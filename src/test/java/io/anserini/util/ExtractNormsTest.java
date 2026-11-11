@@ -66,8 +66,6 @@ public class ExtractNormsTest extends IndexerWithEmptyDocumentTestBase {
 
   @Test
   public void test() throws Exception {
-    // See: https://github.com/castorini/anserini/issues/903
-    Locale.setDefault(Locale.US);
     redirectStdOut(); // redirecting to be quiet
     ExtractNorms.main(new String[] {"-index", tempDir1.toString(), "-output", randomFileName});
     restoreStdOut();
@@ -78,5 +76,19 @@ public class ExtractNormsTest extends IndexerWithEmptyDocumentTestBase {
     assertEquals("1\t2", lines.get(2));
     assertEquals("2\t2", lines.get(3));
     assertEquals("3\t0", lines.get(4));
+  }
+
+  @Test
+  public void testExportAcrossLocales() throws Exception {
+    Locale previous = Locale.getDefault();
+    try {
+      for (Locale locale : new Locale[] {Locale.forLanguageTag("mzn-Arab-IR"), Locale.GERMANY}) {
+        Locale.setDefault(locale);
+        out.reset();
+        test();
+      }
+    } finally {
+      Locale.setDefault(previous);
+    }
   }
 }

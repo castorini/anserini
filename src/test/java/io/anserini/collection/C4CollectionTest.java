@@ -18,9 +18,11 @@ package io.anserini.collection;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Locale;
 import java.util.Map;
 
 import org.junit.Before;
+import org.junit.Test;
 
 public class C4CollectionTest extends DocumentCollectionTest<C4Collection.Document> {
   @Before
@@ -52,5 +54,18 @@ public class C4CollectionTest extends DocumentCollectionTest<C4Collection.Docume
     assertEquals(expected.get("text"), doc.contents());
     assertEquals((long) Long.valueOf(expected.get("timestamp")), ((C4Collection.Document) doc).getTimestamp());
     assertEquals(expected.get("url"), ((C4Collection.Document) doc).getUrl());
+  }
+
+  @Test
+  public void testDocumentIdsAcrossLocales() throws Exception {
+    Locale previous = Locale.getDefault();
+    try {
+      for (Locale locale : new Locale[] {Locale.forLanguageTag("mzn-Arab-IR"), Locale.GERMANY}) {
+        Locale.setDefault(locale);
+        testManualSegmentInitialization();
+      }
+    } finally {
+      Locale.setDefault(previous);
+    }
   }
 }

@@ -21,6 +21,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -174,9 +175,9 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
         }
       }
 
-      summary.append(String.format("| [%d](#condition-%d) | %s", sectionNumber, sectionNumber, condition.display));
+      summary.append(String.format(Locale.ROOT, "| [%d](#condition-%d) | %s", sectionNumber, sectionNumber, condition.display));
       for (Double score : scores) {
-        summary.append(" | ").append(score == null ? "" : String.format("%.4f", score));
+        summary.append(" | ").append(score == null ? "" : String.format(Locale.ROOT, "%.4f", score));
       }
       summary.append(" |\n");
       row++;
@@ -196,7 +197,7 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
     for (int i = 0; i < config.conditions.size(); i++) {
       Condition condition = config.conditions.get(i);
       String heading = condition.short_name == null ? condition.display : condition.short_name;
-      summary.append(" | ").append(String.format("[%s](#condition-%d)", heading, i + 1));
+      summary.append(" | ").append(String.format(Locale.ROOT, "[%s](#condition-%d)", heading, i + 1));
     }
     summary.append(" |\n");
 
@@ -219,7 +220,7 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
             break;
           }
         }
-        summary.append(" | ").append(score == null ? "" : String.format("%.4f", score));
+        summary.append(" | ").append(score == null ? "" : String.format(Locale.ROOT, "%.4f", score));
         if (score != null) {
           sums[i] += score;
           counts[i]++;
@@ -232,7 +233,7 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
       summary.append("| Average");
       for (int i = 0; i < config.conditions.size(); i++) {
         summary.append(" | ")
-            .append(counts[i] == topics.size() && counts[i] > 0 ? String.format("%.4f", sums[i] / counts[i]) : "");
+            .append(counts[i] == topics.size() && counts[i] > 0 ? String.format(Locale.ROOT, "%.4f", sums[i] / counts[i]) : "");
       }
       summary.append(" |\n");
     }
@@ -244,7 +245,7 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
     StringBuilder command = new StringBuilder();
     int row = 1;
     for (Condition condition : context.config().conditions) {
-      command.append(String.format("<a id=\"condition-%d\"></a>\n\n### %d. %s\n\n", row, row, condition.display));
+      command.append(String.format(Locale.ROOT, "<a id=\"condition-%d\"></a>\n\n### %d. %s\n\n", row, row, condition.display));
       Integer line = context.conditionLines().get(condition.name);
       if (line == null) {
         throw new IllegalArgumentException("Missing YAML line for condition: " + condition.name);
@@ -376,5 +377,33 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
         + "### CQADupStack domains\n\n"
         + buildSummaryInColumns(context.config(), "nDCG@10", cqadupstack, true);
     writeReport(context, summary, buildCommandSections(context, (topic, condition) -> topic.topic_key));
+  }
+
+  @Test
+  public void testNumericArtifactsAcrossLocales() {
+    Config config = new Config();
+    Condition condition = new Condition();
+    condition.display = "BM25";
+    Topic topic = new Topic();
+    topic.topic_key = "test";
+    topic.expected_scores = Map.of("map", 0.3123);
+    condition.topics = List.of(topic);
+    config.conditions = List.of(condition);
+    Locale previous = Locale.getDefault();
+    try {
+      for (Locale locale : new Locale[] {Locale.forLanguageTag("mzn-Arab-IR"), Locale.GERMANY}) {
+        Locale.setDefault(locale);
+        String rows = buildSummaryInRows(config, List.of(
+            new SummaryColumn("map", t -> t.expected_scores.get("map"))));
+        org.junit.Assert.assertTrue(rows, rows.contains("[1](#condition-1)"));
+        org.junit.Assert.assertTrue(rows, rows.contains("0.3123"));
+        String columns = buildSummaryInColumns(config, "map", List.of(topic), true);
+        org.junit.Assert.assertTrue(columns, columns.contains("#condition-1"));
+        org.junit.Assert.assertTrue(columns, columns.contains("0.3123"));
+        org.junit.Assert.assertFalse(columns, columns.contains("0,3123"));
+      }
+    } finally {
+      Locale.setDefault(previous);
+    }
   }
 }
