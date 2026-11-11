@@ -349,3 +349,4 @@ If you have any questions, look at previous pull requests for examples.
 + Results reproduced by [@ghaus-malik](https://github.com/ghaus-malik) on 2026-11-08 (commit [`80319f4`](https://github.com/castorini/anserini/commit/80319f4088fbb04ab40e80b5fe3a883038ad6994))
 + Results reproduced by [@mrnabdulai](https://github.com/mrnabdulai) on 2026-11-09 (commit [`92f8cb9`](https://github.com/castorini/anserini/commit/92f8cb98ec54ce891f507dc01b22247eae34127b))
 + Results reproduced by [@afroza-akter-cuet](https://github.com/afroza-akter-cuet) on 2026-11-10 (commit [`44c9ce9`](https://github.com/castorini/anserini/commit/44c9ce9e4548703db69f3a7df04b2297c32bbd5f))
++ Results reproduced by [@nahid2003131](https://github.com/nahid2003131) on 2026-11-11 (commit [`44c9ce9`](https://github.com/castorini/anserini/commit/44c9ce9e4548703db69f3a7df04b2297c32bbd5f))
