@@ -188,11 +188,11 @@ public class ScoredDocsFuserTest extends StdOutStdErrRedirectableLuceneTestCase 
   public void testRunOutputAcrossLocales() throws Exception {
     Locale previous = Locale.getDefault();
     Path output = createTempDir().resolve("run.txt");
+    ScoredDocs run = ScoredDocsFuser.readRun(Paths.get("src/test/resources/sample_runs/run1"), false);
+    ScoredDocsFuser.normalizeScores(run);
     try {
       for (Locale locale : LocaleTestUtils.LOCALES) {
         Locale.setDefault(locale);
-        ScoredDocs run = ScoredDocsFuser.readRun(Paths.get("src/test/resources/sample_runs/run1"), false);
-        ScoredDocsFuser.normalizeScores(run);
         ScoredDocsFuser.saveToTxt(output, "Anserini", run);
         assertEquals("query1 Q0 doc2 2 0.500000 Anserini",
             java.nio.file.Files.readAllLines(output).get(1));

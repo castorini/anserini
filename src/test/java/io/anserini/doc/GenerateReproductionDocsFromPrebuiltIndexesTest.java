@@ -390,11 +390,11 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
     topic.expected_scores = Map.of("map", 0.3123);
     condition.topics = List.of(topic);
     config.conditions = List.of(condition);
+    ReportContext context = loadReportContext("msmarco-v1-passage.yaml");
     Locale previous = Locale.getDefault();
     try {
       for (Locale locale : LocaleTestUtils.LOCALES) {
         Locale.setDefault(locale);
-        ReportContext context = loadReportContext("msmarco-v1-passage.yaml");
         String commands = buildCommandSections(context, (t, c) -> t.topic_key);
         org.junit.Assert.assertTrue(commands, commands.contains("<a id=\"condition-1\"></a>"));
         org.junit.Assert.assertTrue(commands, commands.contains("### 1. "));

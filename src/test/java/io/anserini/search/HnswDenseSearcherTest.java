@@ -108,17 +108,24 @@ public class HnswDenseSearcherTest extends SuppresedLoggingLuceneTestCase {
       logger.addAppender(appender);
       logger.setAdditive(false);
       logger.setLevel(Level.INFO);
+      Locale previousLocale = Locale.getDefault();
       try {
         SortedMap<Integer, ScoredDoc[]> defaults = searcher.batch_search(queries, qids, 5, 2);
         assertTrue(messages.toString(), messages.isEmpty());
         SortedMap<Integer, ScoredDoc[]> quiet = searcher.batch_search(queries, qids, 5, 2, false);
         assertTrue(messages.toString(), messages.isEmpty());
-        SortedMap<Integer, ScoredDoc[]> verbose = searcher.batch_search(queries, qids, 5, 2, true);
-        assertEquals(messages.toString(), 2, messages.size());
-        assertEquals("100 queries processed", messages.get(0));
-        assertTrue(messages.get(1), messages.get(1).startsWith("100 queries processed in "));
-        assertTrue(messages.get(1), messages.get(1).matches(
-            ".* = ~(?:[0-9]+\\.[0-9]{2}|Infinity|NaN) q/s"));
+        SortedMap<Integer, ScoredDoc[]> verbose = Collections.emptySortedMap();
+        for (Locale locale : LocaleTestUtils.LOCALES) {
+          Locale.setDefault(locale);
+          messages.clear();
+          verbose = searcher.batch_search(queries, qids, 5, 2, true);
+          assertEquals(messages.toString(), 2, messages.size());
+          assertEquals("100 queries processed", messages.get(0));
+          assertTrue(messages.get(1), messages.get(1).startsWith("100 queries processed in "));
+          assertTrue(messages.get(1), messages.get(1).matches(
+              ".* = ~(?:[0-9]+\\.[0-9]{2}|Infinity|NaN) q/s"));
+        }
+        Locale.setDefault(previousLocale);
         assertEquals(100, defaults.size());
         assertEquals(defaults.keySet(), quiet.keySet());
         assertEquals(defaults.keySet(), verbose.keySet());
@@ -146,6 +153,7 @@ public class HnswDenseSearcherTest extends SuppresedLoggingLuceneTestCase {
         assertEquals(messages.toString(), 1, messages.size());
         assertTrue(messages.get(0), messages.get(0).startsWith("0 queries processed in "));
       } finally {
+        Locale.setDefault(previousLocale);
         logger.setLevel(previousLevel);
         logger.setAdditive(previousAdditivity);
         logger.removeAppender(appender);
@@ -556,16 +564,4 @@ public class HnswDenseSearcherTest extends SuppresedLoggingLuceneTestCase {
     }
   }
 
-  @Test
-  public void testBatchSearchVerbosityAcrossLocales() throws Exception {
-    Locale previous = Locale.getDefault();
-    try {
-      for (Locale locale : LocaleTestUtils.LOCALES) {
-        Locale.setDefault(locale);
-        testBatchSearchVerbosity();
-      }
-    } finally {
-      Locale.setDefault(previous);
-    }
-  }
 }
