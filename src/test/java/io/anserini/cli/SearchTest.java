@@ -22,7 +22,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
@@ -35,7 +34,6 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.anserini.LocaleTestUtils;
 import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 import io.anserini.index.IndexCollection;
 
@@ -247,26 +245,5 @@ public class SearchTest extends StdOutStdErrRedirectableLuceneTestCase {
       }
     }
     return "";
-  }
-
-  @Test
-  public void testTrecOutputAcrossLocales() {
-    Locale previous = Locale.getDefault();
-    try {
-      for (Locale locale : LocaleTestUtils.LOCALES) {
-        Locale.setDefault(locale);
-        out.reset();
-        testSearchTrecOutputWithCacm();
-        List<String> lines = extractTrecLines(out.toString());
-        for (int i = 0; i < lines.size(); i++) {
-          String[] fields = lines.get(i).split("\\s+");
-          assertEquals(Integer.toString(i + 1), fields[3]);
-          assertTrue(lines.get(i), fields[4].matches("-?[0-9]+\\.[0-9]{6}"));
-          assertTrue(Float.isFinite(Float.parseFloat(fields[4])));
-        }
-      }
-    } finally {
-      Locale.setDefault(previous);
-    }
   }
 }

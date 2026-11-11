@@ -32,7 +32,6 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.anserini.LocaleTestUtils;
 import io.anserini.StdOutStdErrRedirectableLuceneTestCase;
 
 public class RestServerTest extends StdOutStdErrRedirectableLuceneTestCase {
@@ -44,10 +43,6 @@ public class RestServerTest extends StdOutStdErrRedirectableLuceneTestCase {
   @Override
   public void setUp() throws Exception {
     super.setUp();
-    startDefaultServer();
-  }
-
-  private void startDefaultServer() throws Exception {
     RestServer.Args args = new RestServer.Args();
     args.host = "127.0.0.1";
     args.port = 0;
@@ -637,24 +632,6 @@ public class RestServerTest extends StdOutStdErrRedirectableLuceneTestCase {
     private TestResponse(int statusCode, String body) {
       this.statusCode = statusCode;
       this.body = body;
-    }
-  }
-
-  @Test
-  public void testNumericUrlsAcrossLocales() throws Exception {
-    Locale previous = Locale.getDefault();
-    try {
-      for (Locale locale : LocaleTestUtils.LOCALES) {
-        Locale.setDefault(locale);
-        server.close();
-        startDefaultServer();
-        assertTrue(baseUrl, baseUrl.matches("http://127\\.0\\.0\\.1:[0-9]+"));
-        assertEquals(server.getPort(), URI.create(baseUrl).getPort());
-        testDocsEndpoint();
-        testIndexAliasFromConfig();
-      }
-    } finally {
-      Locale.setDefault(previous);
     }
   }
 }

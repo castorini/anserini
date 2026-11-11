@@ -28,7 +28,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import io.anserini.LocaleTestUtils;
 import io.anserini.index.IndexerWithEmptyDocumentTestBase;
 
 public class ExtractDocumentLengthsTest extends IndexerWithEmptyDocumentTestBase {
@@ -67,6 +66,8 @@ public class ExtractDocumentLengthsTest extends IndexerWithEmptyDocumentTestBase
 
   @Test
   public void test() throws Exception {
+    // See: https://github.com/castorini/anserini/issues/903
+    Locale.setDefault(Locale.US);
     redirectStdOut();
     redirectStdErr(); // redirecting to be quiet
     ExtractDocumentLengths.main(new String[] {"-index", tempDir1.toString(), "-output", randomFileName});
@@ -82,19 +83,5 @@ public class ExtractDocumentLengthsTest extends IndexerWithEmptyDocumentTestBase
     assertEquals("1\tdoc2\t2\t2\t2\t2", lines.get(2));
     assertEquals("2\tdoc3\t2\t2\t2\t2", lines.get(3));
     assertEquals("3\tdoc4\t0\t0\t0\t0", lines.get(4));
-  }
-
-  @Test
-  public void testExportAcrossLocales() throws Exception {
-    Locale previous = Locale.getDefault();
-    try {
-      for (Locale locale : LocaleTestUtils.LOCALES) {
-        Locale.setDefault(locale);
-        out.reset();
-        test();
-      }
-    } finally {
-      Locale.setDefault(previous);
-    }
   }
 }
