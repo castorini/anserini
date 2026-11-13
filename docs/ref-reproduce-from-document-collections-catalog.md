@@ -30,6 +30,7 @@ Here are all the available configurations:
 + [MS MARCO V2 + DL21-23](#ms-marco-v2-dl21-23)
 + [MS MARCO V2.1 + RAG24-25](#ms-marco-v2-1-rag24-25)
 + [BEIR (v1.0.0): BGE-base-en-v1.5](#beir-v1-0-0-bge-base-en-v1-5)
++ [BEIR (v1.0.0): SlideOn](#beir-v1-0-0-slideon)
 + [BEIR (v1.0.0): SPLADE-v3](#beir-v1-0-0-splade-v3)
 + [BEIR (v1.0.0): SPLADE++ CoCondenser-EnsembleDistil](#beir-v1-0-0-splade-cocondenser-ensembledistil)
 + [BEIR (v1.0.0): "flat" baseline](#beir-v1-0-0-flat-baseline)
@@ -67,6 +68,7 @@ Here are all the available configurations:
 + [`msmarco-v1-passage.splade-pp-ed.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.splade-pp-ed.onnx.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.splade-pp-ed.onnx.md)]
 + [`msmarco-v1-passage.splade-pp-sd.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.splade-pp-sd.onnx.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.splade-pp-sd.onnx.md)]
 + [`msmarco-v1-passage.splade-v3.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.splade-v3.onnx.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.splade-v3.onnx.md)]
++ [`msmarco-v1-passage.slideon.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.slideon.onnx.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.slideon.onnx.md)]
 + [`msmarco-v1-passage.cos-dpr-distil.parquet.fw`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.cos-dpr-distil.parquet.fw.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.cos-dpr-distil.parquet.fw.md)]
 + [`msmarco-v1-passage.cos-dpr-distil.parquet.lexlsh`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.cos-dpr-distil.parquet.lexlsh.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.cos-dpr-distil.parquet.lexlsh.md)]
 + [`msmarco-v1-passage.cos-dpr-distil.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.cos-dpr-distil.parquet.flat.onnx.yaml) [[docs](reproduce/from-document-collection/msmarco-v1-passage.cos-dpr-distil.parquet.flat.onnx.md)]
@@ -97,6 +99,7 @@ Here are all the available configurations:
 + [`dl19-passage.splade-pp-ed.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.splade-pp-ed.onnx.yaml) [[docs](reproduce/from-document-collection/dl19-passage.splade-pp-ed.onnx.md)]
 + [`dl19-passage.splade-pp-sd.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.splade-pp-sd.onnx.yaml) [[docs](reproduce/from-document-collection/dl19-passage.splade-pp-sd.onnx.md)]
 + [`dl19-passage.splade-v3.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.splade-v3.onnx.yaml) [[docs](reproduce/from-document-collection/dl19-passage.splade-v3.onnx.md)]
++ [`dl19-passage.slideon.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.slideon.onnx.yaml) [[docs](reproduce/from-document-collection/dl19-passage.slideon.onnx.md)]
 + [`dl19-passage.cos-dpr-distil.parquet.fw`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.cos-dpr-distil.parquet.fw.yaml) [[docs](reproduce/from-document-collection/dl19-passage.cos-dpr-distil.parquet.fw.md)]
 + [`dl19-passage.cos-dpr-distil.parquet.lexlsh`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.cos-dpr-distil.parquet.lexlsh.yaml) [[docs](reproduce/from-document-collection/dl19-passage.cos-dpr-distil.parquet.lexlsh.md)]
 + [`dl19-passage.cos-dpr-distil.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.cos-dpr-distil.parquet.flat.onnx.yaml) [[docs](reproduce/from-document-collection/dl19-passage.cos-dpr-distil.parquet.flat.onnx.md)]
@@ -127,6 +130,7 @@ Here are all the available configurations:
 + [`dl20-passage.splade-pp-ed.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.splade-pp-ed.onnx.yaml) [[docs](reproduce/from-document-collection/dl20-passage.splade-pp-ed.onnx.md)]
 + [`dl20-passage.splade-pp-sd.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.splade-pp-sd.onnx.yaml) [[docs](reproduce/from-document-collection/dl20-passage.splade-pp-sd.onnx.md)]
 + [`dl20-passage.splade-v3.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.splade-v3.onnx.yaml) [[docs](reproduce/from-document-collection/dl20-passage.splade-v3.onnx.md)]
++ [`dl20-passage.slideon.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.slideon.onnx.yaml) [[docs](reproduce/from-document-collection/dl20-passage.slideon.onnx.md)]
 + [`dl20-passage.cos-dpr-distil.parquet.fw`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.cos-dpr-distil.parquet.fw.yaml) [[docs](reproduce/from-document-collection/dl20-passage.cos-dpr-distil.parquet.fw.md)]
 + [`dl20-passage.cos-dpr-distil.parquet.lexlsh`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.cos-dpr-distil.parquet.lexlsh.yaml) [[docs](reproduce/from-document-collection/dl20-passage.cos-dpr-distil.parquet.lexlsh.md)]
 + [`dl20-passage.cos-dpr-distil.parquet.flat.onnx`](../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.cos-dpr-distil.parquet.flat.onnx.yaml) [[docs](reproduce/from-document-collection/dl20-passage.cos-dpr-distil.parquet.flat.onnx.md)]
@@ -389,6 +393,40 @@ Here are all the available configurations:
 + [`beir-v1.0.0-fever.bge-base-en-v1.5.parquet.hnsw-sqv.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-fever.bge-base-en-v1.5.parquet.hnsw-sqv.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-fever.bge-base-en-v1.5.parquet.hnsw-sqv.onnx.md)]
 + [`beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.hnsw-sqv.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.hnsw-sqv.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.hnsw-sqv.onnx.md)]
 + [`beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.hnsw-sqv.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.hnsw-sqv.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.hnsw-sqv.onnx.md)]
+
+<a id="beir-v1-0-0-slideon"></a>
+
+## BEIR (v1.0.0): SlideOn
+
++ [`beir-v1.0.0-arguana.slideon.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-arguana.slideon.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-arguana.slideon.onnx.md)]
++ [`beir-v1.0.0-bioasq.slideon.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-bioasq.slideon.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-bioasq.slideon.onnx.md)]
++ [`beir-v1.0.0-climate-fever.slideon.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-climate-fever.slideon.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-climate-fever.slideon.onnx.md)]
++ [`beir-v1.0.0-cqadupstack-android.slideon.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-android.slideon.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-android.slideon.onnx.md)]
++ [`beir-v1.0.0-cqadupstack-english.slideon.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-english.slideon.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-english.slideon.onnx.md)]
++ [`beir-v1.0.0-cqadupstack-gaming.slideon.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-gaming.slideon.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-gaming.slideon.onnx.md)]
++ [`beir-v1.0.0-cqadupstack-gis.slideon.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-gis.slideon.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-gis.slideon.onnx.md)]
++ [`beir-v1.0.0-cqadupstack-mathematica.slideon.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-mathematica.slideon.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-mathematica.slideon.onnx.md)]
++ [`beir-v1.0.0-cqadupstack-physics.slideon.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-physics.slideon.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-physics.slideon.onnx.md)]
++ [`beir-v1.0.0-cqadupstack-programmers.slideon.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-programmers.slideon.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-programmers.slideon.onnx.md)]
++ [`beir-v1.0.0-cqadupstack-stats.slideon.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-stats.slideon.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-stats.slideon.onnx.md)]
++ [`beir-v1.0.0-cqadupstack-tex.slideon.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-tex.slideon.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-tex.slideon.onnx.md)]
++ [`beir-v1.0.0-cqadupstack-unix.slideon.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-unix.slideon.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-unix.slideon.onnx.md)]
++ [`beir-v1.0.0-cqadupstack-webmasters.slideon.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-webmasters.slideon.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-webmasters.slideon.onnx.md)]
++ [`beir-v1.0.0-cqadupstack-wordpress.slideon.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-wordpress.slideon.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-wordpress.slideon.onnx.md)]
++ [`beir-v1.0.0-dbpedia-entity.slideon.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-dbpedia-entity.slideon.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-dbpedia-entity.slideon.onnx.md)]
++ [`beir-v1.0.0-fever.slideon.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-fever.slideon.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-fever.slideon.onnx.md)]
++ [`beir-v1.0.0-fiqa.slideon.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-fiqa.slideon.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-fiqa.slideon.onnx.md)]
++ [`beir-v1.0.0-hotpotqa.slideon.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-hotpotqa.slideon.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-hotpotqa.slideon.onnx.md)]
++ [`beir-v1.0.0-nfcorpus.slideon.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-nfcorpus.slideon.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-nfcorpus.slideon.onnx.md)]
++ [`beir-v1.0.0-nq.slideon.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-nq.slideon.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-nq.slideon.onnx.md)]
++ [`beir-v1.0.0-quora.slideon.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-quora.slideon.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-quora.slideon.onnx.md)]
++ [`beir-v1.0.0-robust04.slideon.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-robust04.slideon.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-robust04.slideon.onnx.md)]
++ [`beir-v1.0.0-scidocs.slideon.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-scidocs.slideon.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-scidocs.slideon.onnx.md)]
++ [`beir-v1.0.0-scifact.slideon.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-scifact.slideon.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-scifact.slideon.onnx.md)]
++ [`beir-v1.0.0-signal1m.slideon.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-signal1m.slideon.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-signal1m.slideon.onnx.md)]
++ [`beir-v1.0.0-trec-covid.slideon.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-trec-covid.slideon.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-trec-covid.slideon.onnx.md)]
++ [`beir-v1.0.0-trec-news.slideon.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-trec-news.slideon.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-trec-news.slideon.onnx.md)]
++ [`beir-v1.0.0-webis-touche2020.slideon.onnx`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-webis-touche2020.slideon.onnx.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-webis-touche2020.slideon.onnx.md)]
 
 <a id="beir-v1-0-0-splade-v3"></a>
 
