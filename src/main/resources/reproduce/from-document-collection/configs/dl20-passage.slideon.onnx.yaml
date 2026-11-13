@@ -1,0 +1,61 @@
+---
+corpus: msmarco-v1-passage.slideon
+corpus_path: collections/msmarco/msmarco-passage-slideon-jsonl
+
+index_path: indexes/lucene-inverted.msmarco-v1-passage.slideon/
+collection_class: JsonVectorCollection
+generator_class: DefaultLuceneDocumentGenerator
+index_threads: 16
+index_options: -impact -pretokenized
+index_stats:
+  documents: 8841823
+
+metrics:
+  - metric: AP@1000
+    command: bin/trec_eval
+    params: -m map -c -l 2
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: nDCG@10
+    command: bin/trec_eval
+    params: -c -m ndcg_cut.10
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@100
+    command: bin/trec_eval
+    params: -c -l 2 -m recall.100
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+  - metric: R@1000
+    command: bin/trec_eval
+    params: -c -l 2 -m recall.1000
+    separator: "\t"
+    parse_index: 2
+    metric_precision: 4
+    can_combine: false
+
+topic_reader: TsvInt
+topics:
+  - name: "[DL20 (Passage)](https://trec.nist.gov/data/deep2020.html)"
+    id: dl20-passage
+    qrels: dl20-passage
+
+models:
+  - name: slideon-onnx
+    display: SlideOn (ONNX), d512/q64, scale 100
+    params: -impact -pretokenized -hits 1000 -encoder SlideOn
+    results:
+      AP@1000:
+        - 0.5064
+      nDCG@10:
+        - 0.7189
+      R@100:
+        - 0.7422
+      R@1000:
+        - 0.8744
