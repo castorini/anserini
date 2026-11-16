@@ -37,7 +37,7 @@ From any machine, the following command will download the corpus and perform the
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --download --index --verify --search --config rag25-doc-segmented-test-nist.splade-v3.onnx
 ```
 
-The `run_regression.py` script automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same regression results.
+The `ReproduceFromDocumentCollection` program automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same results.
 
 ## Corpus Download
 

@@ -29,7 +29,7 @@ tar xvf collections/bright-bge-large-en-v1.5.tar -C collections/
 ```
 
 The tarball is 13 GB and has MD5 checksum `0ce2634d34d3d467cd1afd74f2f63c7b`.
-After download and unpacking the corpora, the `run_regression.py` command above should work without any issue.
+After download and unpacking the corpora, the `ReproduceFromDocumentCollection` command above should work without any issue.
 
 ## Indexing
 

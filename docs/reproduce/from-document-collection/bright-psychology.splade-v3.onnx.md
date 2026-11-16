@@ -29,7 +29,7 @@ tar xvf collections/bright-splade-v3.tar -C collections/
 ```
 
 The tarball is 1.5 GB and has MD5 checksum `434cd776b5c40f8112d2bf888c58a516`.
-After download and unpacking the corpora, the `run_regression.py` command above should work without any issue.
+After download and unpacking the corpora, the `ReproduceFromDocumentCollection` command above should work without any issue.
 
 ## Indexing
 

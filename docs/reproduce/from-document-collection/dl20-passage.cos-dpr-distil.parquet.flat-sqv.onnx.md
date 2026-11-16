@@ -6,7 +6,7 @@
 + **Config**: [`dl20-passage.cos-dpr-distil.parquet.flat-sqv.onnx.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.cos-dpr-distil.parquet.flat-sqv.onnx.yaml)
 + **Template**: [`dl20-passage.cos-dpr-distil.parquet.flat-sqv.onnx.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/dl20-passage.cos-dpr-distil.parquet.flat-sqv.onnx.template)
 
-This page describes reproductions from the raw document collection using cosDPR-distil on the [TREC 2020 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html), as described in the following paper:
+This page describes reproductions from the raw document collection using cosDPR-distil on the [TREC 2020 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2020.html), as described in the following paper:
 
 > Xueguang Ma, Tommaso Teofili, and Jimmy Lin. [Anserini Gets Dense Retrieval: Integration of Lucene's HNSW Indexes.](https://dl.acm.org/doi/10.1145/3583780.3615112) _Proceedings of the 32nd International Conference on Information and Knowledge Management (CIKM 2023)_, October 2023, pages 5366–5370, Birmingham, the United Kingdom.
 
@@ -31,7 +31,7 @@ From any machine, the following command will download the corpus and perform the
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --download --index --verify --search --config dl20-passage.cos-dpr-distil.parquet.flat-sqv.onnx
 ```
 
-The `run_regression.py` script automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same regression results.
+The `ReproduceFromDocumentCollection` program automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same results.
 
 ## Corpus Download
 

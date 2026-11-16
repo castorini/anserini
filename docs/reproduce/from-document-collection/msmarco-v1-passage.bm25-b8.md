@@ -6,7 +6,7 @@
 + **Config**: [`msmarco-v1-passage.bm25-b8.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.bm25-b8.yaml)
 + **Template**: [`msmarco-v1-passage.bm25-b8.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-passage.bm25-b8.template)
 
-This page describes reproductions from the raw document collection on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking), which is integrated into Anserini's reproduction testing framework.
+This page describes reproductions from the raw document collection on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking), using BM25 with quantized weights (8 bits).
 For more complete instructions on how to run end-to-end experiments, refer to [this page](../../../docs/experiments-msmarco-passage.md).
 Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-passage.bm25-b8.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
@@ -22,7 +22,7 @@ From any machine, the following command will download the corpus (as quantized B
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --download --index --verify --search --config msmarco-v1-passage.bm25-b8
 ```
 
-The `run_regression.py` script automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same regression results.
+The `ReproduceFromDocumentCollection` program automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same results.
 
 ## Corpus Download
 

@@ -6,7 +6,7 @@
 + **Config**: [`dl20-passage.splade-pp-sd.onnx.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.splade-pp-sd.onnx.yaml)
 + **Template**: [`dl20-passage.splade-pp-sd.onnx.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/dl20-passage.splade-pp-sd.onnx.template)
 
-This page describes reproductions from the raw document collection using [SPLADE++ CoCondenser-SelfDistil](https://huggingface.co/naver/splade-cocondenser-selfdistil) on the [TREC 2020 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html), as described in the following paper:
+This page describes reproductions from the raw document collection using [SPLADE++ CoCondenser-SelfDistil](https://huggingface.co/naver/splade-cocondenser-selfdistil) on the [TREC 2020 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2020.html), as described in the following paper:
 
 > Thibault Formal, Carlos Lassance, Benjamin Piwowarski, and Stéphane Clinchant. [From Distillation to Hard Negative Sampling: Making Sparse Neural IR Models More Effective.](https://dl.acm.org/doi/10.1145/3477495.3531857) _Proceedings of the 45th International ACM SIGIR Conference on Research and Development in Information Retrieval_, pages 2353–2359.
 
@@ -31,7 +31,7 @@ From any machine, the following command will download the corpus and perform the
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --download --index --verify --search --config dl20-passage.splade-pp-sd.onnx
 ```
 
-The `run_regression.py` script automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same regression results.
+The `ReproduceFromDocumentCollection` program automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same results.
 
 ## Corpus Download
 

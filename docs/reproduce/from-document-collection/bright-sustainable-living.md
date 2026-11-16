@@ -23,7 +23,7 @@ tar xvf collections/bright-corpus.tar -C collections/
 ```
 
 The tarball is 284 MB and has MD5 checksum `568b594709a9977369033117bfb6889c`.
-After download and unpacking the corpora, the `run_regression.py` command above should work without any issue.
+After download and unpacking the corpora, the `ReproduceFromDocumentCollection` command above should work without any issue.
 
 ## Indexing
 

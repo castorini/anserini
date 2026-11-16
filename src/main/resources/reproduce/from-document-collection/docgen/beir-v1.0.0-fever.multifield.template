@@ -25,7 +25,7 @@ tar xvf collections/beir-v1.0.0-corpus.tar -C collections/
 ```
 
 The tarball is 14 GB and has MD5 checksum `faefd5281b662c72ce03d22021e4ff6b`.
-After download and unpacking the corpora, the `run_regression.py` command above should work without any issue.
+After download and unpacking the corpora, the `ReproduceFromDocumentCollection` command above should work without any issue.
 
 ## Indexing
 

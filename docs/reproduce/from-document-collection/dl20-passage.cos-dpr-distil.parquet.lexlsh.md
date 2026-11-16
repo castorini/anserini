@@ -6,7 +6,7 @@
 + **Config**: [`dl20-passage.cos-dpr-distil.parquet.lexlsh.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.cos-dpr-distil.parquet.lexlsh.yaml)
 + **Template**: [`dl20-passage.cos-dpr-distil.parquet.lexlsh.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/dl20-passage.cos-dpr-distil.parquet.lexlsh.template)
 
-This page describes reproductions from the raw document collection using cosDPR-distil on the [TREC 2020 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html), searching inverted indexes using the "LexLSH" technique (_b_=600), as described in the following paper:
+This page describes reproductions from the raw document collection using cosDPR-distil on the [TREC 2020 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2020.html), searching inverted indexes using the "LexLSH" technique (_b_=600), as described in the following paper:
 
 > Jimmy Lin and Tommaso Teofili. [Searching Dense Representations with Inverted Indexes.](https://arxiv.org/abs/2312.01556) arXiv:2312.01556, 2023.
 
@@ -31,7 +31,7 @@ From any machine, the following command will download the corpus and perform the
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --download --index --verify --search --config dl20-passage.cos-dpr-distil.parquet.lexlsh
 ```
 
-The `run_regression.py` script automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same regression results.
+The `ReproduceFromDocumentCollection` program automates the following steps, but if you want to perform each step manually, simply copy/paste from the commands below and you'll obtain the same results.
 
 ## Corpus Download
 

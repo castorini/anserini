@@ -29,7 +29,7 @@ tar xvf collections/beir-v1.0.0-splade-v3.tar -C collections/
 ```
 
 The tarball is 55 GB and has MD5 checksum `37f294610af763ce48eed03afd9455df`.
-After download and unpacking the corpora, the `run_regression.py` command above should work without any issue.
+After download and unpacking the corpora, the `ReproduceFromDocumentCollection` command above should work without any issue.
 
 ## Indexing
 
