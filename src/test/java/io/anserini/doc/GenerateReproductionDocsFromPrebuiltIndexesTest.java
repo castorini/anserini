@@ -21,6 +21,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -102,7 +103,7 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
   }
 
   private static String runOutputPath(String runTag, String conditionName, String topicKey) {
-    return String.format("%s/run.%s.%s.%s.txt", ReproductionUtils.Constants.DEFAULT_RUNS_DIRECTORY, runTag, conditionName, topicKey);
+    return String.format(Locale.ROOT, "%s/run.%s.%s.%s.txt", ReproductionUtils.Constants.DEFAULT_RUNS_DIRECTORY, runTag, conditionName, topicKey);
   }
 
   private static String yamlPath(String yamlConfig) {
@@ -134,7 +135,7 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
     File output = new File(outputPath);
     FileUtils.forceMkdirParent(output);
 
-    String configLink = String.format("[%s](../../../%s)", new File(yamlPath).getName(), yamlPath);
+    String configLink = String.format(Locale.ROOT, "[%s](../../../%s)", new File(yamlPath).getName(), yamlPath);
     return new ReportContext(yamlPath, runTag, config, template, output, configLink, conditionLines);
   }
 
@@ -174,9 +175,9 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
         }
       }
 
-      summary.append(String.format("| [%d](#condition-%d) | %s", sectionNumber, sectionNumber, condition.display));
+      summary.append(String.format(Locale.ROOT, "| [%d](#condition-%d) | %s", sectionNumber, sectionNumber, condition.display));
       for (Double score : scores) {
-        summary.append(" | ").append(score == null ? "" : String.format("%.4f", score));
+        summary.append(" | ").append(score == null ? "" : String.format(Locale.ROOT, "%.4f", score));
       }
       summary.append(" |\n");
       row++;
@@ -196,7 +197,7 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
     for (int i = 0; i < config.conditions.size(); i++) {
       Condition condition = config.conditions.get(i);
       String heading = condition.short_name == null ? condition.display : condition.short_name;
-      summary.append(" | ").append(String.format("[%s](#condition-%d)", heading, i + 1));
+      summary.append(" | ").append(String.format(Locale.ROOT, "[%s](#condition-%d)", heading, i + 1));
     }
     summary.append(" |\n");
 
@@ -209,7 +210,7 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
     double[] sums = new double[config.conditions.size()];
     int[] counts = new int[config.conditions.size()];
     for (Topic topic : topics) {
-      summary.append(String.format("| %s", topic.topic_key));
+      summary.append(String.format(Locale.ROOT, "| %s", topic.topic_key));
       for (int i = 0; i < config.conditions.size(); i++) {
         Condition condition = config.conditions.get(i);
         Double score = null;
@@ -219,7 +220,7 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
             break;
           }
         }
-        summary.append(" | ").append(score == null ? "" : String.format("%.4f", score));
+        summary.append(" | ").append(score == null ? "" : String.format(Locale.ROOT, "%.4f", score));
         if (score != null) {
           sums[i] += score;
           counts[i]++;
@@ -232,7 +233,7 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
       summary.append("| Average");
       for (int i = 0; i < config.conditions.size(); i++) {
         summary.append(" | ")
-            .append(counts[i] == topics.size() && counts[i] > 0 ? String.format("%.4f", sums[i] / counts[i]) : "");
+            .append(counts[i] == topics.size() && counts[i] > 0 ? String.format(Locale.ROOT, "%.4f", sums[i] / counts[i]) : "");
       }
       summary.append(" |\n");
     }
@@ -244,21 +245,21 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
     StringBuilder command = new StringBuilder();
     int row = 1;
     for (Condition condition : context.config().conditions) {
-      command.append(String.format("<a id=\"condition-%d\"></a>\n\n### %d. %s\n\n", row, row, condition.display));
+      command.append(String.format(Locale.ROOT, "<a id=\"condition-%d\"></a>\n\n### %d. %s\n\n", row, row, condition.display));
       Integer line = context.conditionLines().get(condition.name);
       if (line == null) {
         throw new IllegalArgumentException("Missing YAML line for condition: " + condition.name);
       }
       String configLink = context.configLink().replace(")", "#L" + line + ")");
-      command.append(String.format("**Config**: %s\n\n", configLink));
+      command.append(String.format(Locale.ROOT, "**Config**: %s\n\n", configLink));
       row++;
 
       for (Topic topic : condition.topics) {
-        command.append(String.format("#### %s\n\n", topicHeading.apply(topic, condition)));
+        command.append(String.format(Locale.ROOT, "#### %s\n\n", topicHeading.apply(topic, condition)));
         command.append("Retrieval command:\n\n");
-        command.append(String.format("```bash\n%s\n```\n\n", buildCommand(context.runTag(), condition.name, condition.command, topic.topic_key)));
+        command.append(String.format(Locale.ROOT, "```bash\n%s\n```\n\n", buildCommand(context.runTag(), condition.name, condition.command, topic.topic_key)));
         command.append("Evaluation commands:\n\n");
-        command.append(String.format("```bash\n%s\n```\n\n", buildEvalCommands(context.runTag(), condition.name, topic)));
+        command.append(String.format(Locale.ROOT, "```bash\n%s\n```\n\n", buildEvalCommands(context.runTag(), condition.name, topic)));
       }
     }
 
@@ -351,7 +352,7 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
         new SummaryColumn("RAG24 NIST", topic -> extractExpectedScore(topic, topic.eval_key.equals("rag24.test"), "nDCG@20")),
         new SummaryColumn("RAG25 ☂️", topic -> extractExpectedScore(topic, topic.eval_key.equals("rag25.test-umbrela2"), "nDCG@30")),
         new SummaryColumn("RAG25 NIST", topic -> extractExpectedScore(topic, topic.eval_key.equals("rag25.test"), "nDCG@30"))),
-        (topic, condition) -> String.format("%s / %s", topic.topic_key, topic.eval_key));
+        (topic, condition) -> String.format(Locale.ROOT, "%s / %s", topic.topic_key, topic.eval_key));
   }
 
   @Test

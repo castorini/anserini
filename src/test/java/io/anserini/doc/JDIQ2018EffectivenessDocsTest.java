@@ -20,6 +20,7 @@ import java.io.File;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -101,7 +102,7 @@ public class JDIQ2018EffectivenessDocsTest {
             builder.append(String.format("%1$-40s|", topic));
             for (Map.Entry<String, Object> entry4 : ((Map<String, Object>) entry3.getValue()).entrySet()) {
               Double value = (Double) entry4.getValue();
-              builder.append(String.format(" %-10.4f|", value));
+              builder.append(String.format(Locale.ROOT, " %-10.4f|", value));
             }
             builder.append("\n");
           }
