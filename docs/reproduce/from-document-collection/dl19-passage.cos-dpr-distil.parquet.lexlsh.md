@@ -2,12 +2,17 @@
 
 **Anserini reproductions from raw documents**
 
-+ **Models**: cosDPR-distil with inverted indexes using the "LexLSH" technique (b=600) using cached queries
++ **Models**: cosDPR-distil with inverted indexes using the "LexLSH" technique (_b_=600) using cached queries
 + **Config**: [`dl19-passage.cos-dpr-distil.parquet.lexlsh.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.cos-dpr-distil.parquet.lexlsh.yaml)
 + **Template**: [`dl19-passage.cos-dpr-distil.parquet.lexlsh.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/dl19-passage.cos-dpr-distil.parquet.lexlsh.template)
 
 This page describes reproductions from the raw document collection using the cosDPR-distil model on the [TREC 2019 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html).
-In these experiments, we are using cached queries (i.e., cached results of query encoding).
+These experiments search inverted indexes using the "LexLSH" technique (_b_=600), as described in the following paper:
+
+> Jimmy Lin and Tommaso Teofili. [Searching Dense Representations with Inverted Indexes.](https://arxiv.org/abs/2312.01556) arXiv:2312.01556, 2023.
+
+Here, we are using cached queries (i.e., cached results of query encoding).
+
 Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl19-passage.cos-dpr-distil.parquet.lexlsh.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
