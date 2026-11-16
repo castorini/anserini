@@ -1,6 +1,6 @@
 ---
 corpus: beir-v1.0.0-bioasq.slideon
-corpus_path: collections/beir-v1.0.0/slideon-jsonl/bioasq
+corpus_path: collections/beir-v1.0.0/slideon/bioasq
 
 index_path: indexes/lucene-inverted.beir-v1.0.0-bioasq.slideon/
 collection_class: JsonVectorCollection

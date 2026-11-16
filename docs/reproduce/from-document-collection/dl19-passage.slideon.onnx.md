@@ -16,7 +16,6 @@ Note that this page is automatically generated from [this template](../../../src
 NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 For additional instructions on working with MS MARCO passage collection, refer to [this page](../../../docs/experiments-msmarco-passage.md).
 
-First convert the pre-encoded Parquet vectors to JSONL as described below.
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```bash
@@ -25,15 +24,16 @@ bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verif
 
 ## Preparing the Collection
 
-On our Waterloo servers, the pre-encoded Parquet files are located at `/store/collections/msmarco/msmarco-passage-slideon`.
+On our Waterloo servers, the converted JSONL files are located at `/store/collections/msmarco/msmarco-passage-slideon`.
+The original Parquet files are kept at `/store/collections/msmarco/msmarco-passage-slideon.parquet`.
 These files contain `id`, `indices`, and FP16 `weights`, rather than the JSONL records required by `JsonVectorCollection`.
-Convert them using [to_anserini.py](../../../src/main/python/slideon/to_anserini.py), copied from the [upstream script](https://huggingface.co/datasets/lightonai/SlideOn-sparse-vectors/blob/main/to_anserini.py):
+To prepare your own JSONL copy, convert the Parquet files using [to_anserini.py](../../../src/main/python/slideon/to_anserini.py), copied from the [upstream script](https://huggingface.co/datasets/lightonai/SlideOn-sparse-vectors/blob/main/to_anserini.py):
 
 ```bash
 python -m pip install 'pyarrow>=21' numpy
 python src/main/python/slideon/to_anserini.py \
-  /store/collections/msmarco/msmarco-passage-slideon \
-  collections/msmarco/msmarco-passage-slideon-jsonl/corpus.jsonl.gz \
+  /store/collections/msmarco/msmarco-passage-slideon.parquet \
+  collections/msmarco/msmarco-passage-slideon/corpus.jsonl.gz \
   --k 512 --scale 100
 ```
 

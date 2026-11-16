@@ -13,7 +13,6 @@ In these experiments, we are using ONNX to perform query encoding on the fly.
 See [SlideOn ONNX inference](../../onnx-slideon.md) for model requirements and query settings.
 Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/beir-v1.0.0-cqadupstack-physics.slideon.onnx.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
-First convert the pre-encoded Parquet vectors to JSONL as described below.
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
 ```bash
@@ -22,15 +21,16 @@ bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verif
 
 ## Preparing the Collection
 
-On our Waterloo servers, the pre-encoded Parquet files are located at `/store/collections/beir-v1.0.0/slideon/cqadupstack-physics`.
+On our Waterloo servers, the converted JSONL files are located at `/store/collections/beir-v1.0.0/slideon/cqadupstack-physics`.
+The original Parquet files are kept at `/store/collections/beir-v1.0.0/slideon.parquet/cqadupstack-physics`.
 These files contain `id`, `indices`, and FP16 `weights`, rather than the JSONL records required by `JsonVectorCollection`.
-Convert them using [to_anserini.py](../../../src/main/python/slideon/to_anserini.py), copied from the [upstream script](https://huggingface.co/datasets/lightonai/SlideOn-sparse-vectors/blob/main/to_anserini.py):
+To prepare your own JSONL copy, convert the Parquet files using [to_anserini.py](../../../src/main/python/slideon/to_anserini.py), copied from the [upstream script](https://huggingface.co/datasets/lightonai/SlideOn-sparse-vectors/blob/main/to_anserini.py):
 
 ```bash
 python -m pip install 'pyarrow>=21' numpy
 python src/main/python/slideon/to_anserini.py \
-  /store/collections/beir-v1.0.0/slideon/cqadupstack-physics \
-  collections/beir-v1.0.0/slideon-jsonl/cqadupstack-physics/corpus.jsonl.gz \
+  /store/collections/beir-v1.0.0/slideon.parquet/cqadupstack-physics \
+  collections/beir-v1.0.0/slideon/cqadupstack-physics/corpus.jsonl.gz \
   --k 512 --scale 100
 ```
 
