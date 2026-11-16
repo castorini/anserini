@@ -1,6 +1,6 @@
 ---
 corpus: beir-v1.0.0-arguana.slideon
-corpus_path: collections/beir-v1.0.0/slideon-jsonl/arguana
+corpus_path: collections/beir-v1.0.0/slideon/arguana
 
 index_path: indexes/lucene-inverted.beir-v1.0.0-arguana.slideon/
 collection_class: JsonVectorCollection

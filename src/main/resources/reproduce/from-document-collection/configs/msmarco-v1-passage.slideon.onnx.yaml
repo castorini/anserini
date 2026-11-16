@@ -1,6 +1,6 @@
 ---
 corpus: msmarco-v1-passage.slideon
-corpus_path: collections/msmarco/msmarco-passage-slideon-jsonl
+corpus_path: collections/msmarco/msmarco-passage-slideon
 
 index_path: indexes/lucene-inverted.msmarco-v1-passage.slideon/
 collection_class: JsonVectorCollection

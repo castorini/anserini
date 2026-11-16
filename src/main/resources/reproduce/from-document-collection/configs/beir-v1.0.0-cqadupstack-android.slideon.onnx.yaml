@@ -1,6 +1,6 @@
 ---
 corpus: beir-v1.0.0-cqadupstack-android.slideon
-corpus_path: collections/beir-v1.0.0/slideon-jsonl/cqadupstack-android
+corpus_path: collections/beir-v1.0.0/slideon/cqadupstack-android
 
 index_path: indexes/lucene-inverted.beir-v1.0.0-cqadupstack-android.slideon/
 collection_class: JsonVectorCollection

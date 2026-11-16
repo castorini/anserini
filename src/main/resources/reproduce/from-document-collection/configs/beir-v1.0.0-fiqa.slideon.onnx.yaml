@@ -1,6 +1,6 @@
 ---
 corpus: beir-v1.0.0-fiqa.slideon
-corpus_path: collections/beir-v1.0.0/slideon-jsonl/fiqa
+corpus_path: collections/beir-v1.0.0/slideon/fiqa
 
 index_path: indexes/lucene-inverted.beir-v1.0.0-fiqa.slideon/
 collection_class: JsonVectorCollection

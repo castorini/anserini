@@ -1,6 +1,6 @@
 ---
 corpus: beir-v1.0.0-webis-touche2020.slideon
-corpus_path: collections/beir-v1.0.0/slideon-jsonl/webis-touche2020
+corpus_path: collections/beir-v1.0.0/slideon/webis-touche2020
 
 index_path: indexes/lucene-inverted.beir-v1.0.0-webis-touche2020.slideon/
 collection_class: JsonVectorCollection

@@ -1,6 +1,6 @@
 ---
 corpus: beir-v1.0.0-cqadupstack-gaming.slideon
-corpus_path: collections/beir-v1.0.0/slideon-jsonl/cqadupstack-gaming
+corpus_path: collections/beir-v1.0.0/slideon/cqadupstack-gaming
 
 index_path: indexes/lucene-inverted.beir-v1.0.0-cqadupstack-gaming.slideon/
 collection_class: JsonVectorCollection

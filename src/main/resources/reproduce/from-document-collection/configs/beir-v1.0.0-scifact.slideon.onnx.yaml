@@ -1,6 +1,6 @@
 ---
 corpus: beir-v1.0.0-scifact.slideon
-corpus_path: collections/beir-v1.0.0/slideon-jsonl/scifact
+corpus_path: collections/beir-v1.0.0/slideon/scifact
 
 index_path: indexes/lucene-inverted.beir-v1.0.0-scifact.slideon/
 collection_class: JsonVectorCollection

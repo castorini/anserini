@@ -1,6 +1,6 @@
 ---
 corpus: beir-v1.0.0-trec-news.slideon
-corpus_path: collections/beir-v1.0.0/slideon-jsonl/trec-news
+corpus_path: collections/beir-v1.0.0/slideon/trec-news
 
 index_path: indexes/lucene-inverted.beir-v1.0.0-trec-news.slideon/
 collection_class: JsonVectorCollection
