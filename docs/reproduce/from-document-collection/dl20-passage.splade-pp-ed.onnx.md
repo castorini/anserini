@@ -6,7 +6,7 @@
 + **Config**: [`dl20-passage.splade-pp-ed.onnx.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.splade-pp-ed.onnx.yaml)
 + **Template**: [`dl20-passage.splade-pp-ed.onnx.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/dl20-passage.splade-pp-ed.onnx.template)
 
-This page describes reproductions from the raw document collection using the [SPLADE++ CoCondenser-EnsembleDistil](https://huggingface.co/naver/splade-cocondenser-ensembledistil) model on the [TREC 2020 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html), as described in the following paper:
+This page describes reproductions from the raw document collection using [SPLADE++ CoCondenser-EnsembleDistil](https://huggingface.co/naver/splade-cocondenser-ensembledistil) on the [TREC 2020 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html), as described in the following paper:
 
 > Thibault Formal, Carlos Lassance, Benjamin Piwowarski, and Stéphane Clinchant. [From Distillation to Hard Negative Sampling: Making Sparse Neural IR Models More Effective.](https://dl.acm.org/doi/10.1145/3477495.3531857) _Proceedings of the 45th International ACM SIGIR Conference on Research and Development in Information Retrieval_, pages 2353–2359.
 

@@ -6,7 +6,7 @@
 + **Config**: [`dl20-passage.bge-base-en-v1.5.parquet.hnsw.onnx.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.bge-base-en-v1.5.parquet.hnsw.onnx.yaml)
 + **Template**: [`dl20-passage.bge-base-en-v1.5.parquet.hnsw.onnx.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/dl20-passage.bge-base-en-v1.5.parquet.hnsw.onnx.template)
 
-This page describes reproductions from the raw document collection using the [BGE-base-en-v1.5](https://huggingface.co/BAAI/bge-base-en-v1.5) model on the [TREC 2020 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html), as described in the following paper:
+This page describes reproductions from the raw document collection using [BGE-base-en-v1.5](https://huggingface.co/BAAI/bge-base-en-v1.5) on the [TREC 2020 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html), as described in the following paper:
 
 > Shitao Xiao, Zheng Liu, Peitian Zhang, and Niklas Muennighoff. [C-Pack: Packaged Resources To Advance General Chinese Embedding.](https://arxiv.org/abs/2309.07597) _arXiv:2309.07597_, 2023.
 

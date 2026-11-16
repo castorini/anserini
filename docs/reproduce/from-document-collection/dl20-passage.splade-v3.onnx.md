@@ -6,7 +6,7 @@
 + **Config**: [`dl20-passage.splade-v3.onnx.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.splade-v3.onnx.yaml)
 + **Template**: [`dl20-passage.splade-v3.onnx.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/dl20-passage.splade-v3.onnx.template)
 
-This page describes reproductions from the raw document collection using the [SPLADE-v3](https://huggingface.co/naver/splade-v3) model on the [TREC 2020 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html), as described in the following paper:
+This page describes reproductions from the raw document collection using [SPLADE-v3](https://huggingface.co/naver/splade-v3) on the [TREC 2020 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html), as described in the following paper:
 
 > Carlos Lassance, Hervé Déjean, Thibault Formal, and Stéphane Clinchant. [SPLADE-v3: New baselines for SPLADE.](https://arxiv.org/abs/2403.06789) _arXiv:2403.06789_.
 

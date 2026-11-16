@@ -6,8 +6,7 @@
 + **Config**: [`msmarco-v1-passage.cos-dpr-distil.parquet.lexlsh.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.cos-dpr-distil.parquet.lexlsh.yaml)
 + **Template**: [`msmarco-v1-passage.cos-dpr-distil.parquet.lexlsh.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-passage.cos-dpr-distil.parquet.lexlsh.template)
 
-This page describes reproductions from the raw document collection using the cosDPR-distil model on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking).
-These experiments search inverted indexes using the "LexLSH" technique (_b_=600), as described in the following paper:
+This page describes reproductions from the raw document collection using cosDPR-distil on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking), searching inverted indexes using the "LexLSH" technique (_b_=600), as described in the following paper:
 
 > Jimmy Lin and Tommaso Teofili. [Searching Dense Representations with Inverted Indexes.](https://arxiv.org/abs/2312.01556) arXiv:2312.01556, 2023.
 

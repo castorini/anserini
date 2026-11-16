@@ -6,8 +6,7 @@
 + **Config**: [`dl19-passage.cos-dpr-distil.parquet.lexlsh.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.cos-dpr-distil.parquet.lexlsh.yaml)
 + **Template**: [`dl19-passage.cos-dpr-distil.parquet.lexlsh.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/dl19-passage.cos-dpr-distil.parquet.lexlsh.template)
 
-This page describes reproductions from the raw document collection using the cosDPR-distil model on the [TREC 2019 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html).
-These experiments search inverted indexes using the "LexLSH" technique (_b_=600), as described in the following paper:
+This page describes reproductions from the raw document collection using cosDPR-distil on the [TREC 2019 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html), searching inverted indexes using the "LexLSH" technique (_b_=600), as described in the following paper:
 
 > Jimmy Lin and Tommaso Teofili. [Searching Dense Representations with Inverted Indexes.](https://arxiv.org/abs/2312.01556) arXiv:2312.01556, 2023.
 

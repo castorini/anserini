@@ -6,7 +6,7 @@
 + **Config**: [`beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.flat-sqv.onnx.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.flat-sqv.onnx.yaml)
 + **Template**: [`beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.flat-sqv.onnx.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/beir-v1.0.0-fiqa.bge-base-en-v1.5.parquet.flat-sqv.onnx.template)
 
-This page describes regression experiments, integrated into Anserini's regression testing framework, using the [BGE-base-en-v1.5](https://huggingface.co/BAAI/bge-base-en-v1.5) model on [BEIR (v1.0.0) &mdash; FiQA-2018](http://beir.ai/), as described in the following paper:
+This page describes regression experiments, integrated into Anserini's regression testing framework, using [BGE-base-en-v1.5](https://huggingface.co/BAAI/bge-base-en-v1.5) on [BEIR (v1.0.0) &mdash; FiQA-2018](http://beir.ai/), as described in the following paper:
 
 > Shitao Xiao, Zheng Liu, Peitian Zhang, and Niklas Muennighoff. [C-Pack: Packaged Resources To Advance General Chinese Embedding.](https://arxiv.org/abs/2309.07597) _arXiv:2309.07597_, 2023.
 
