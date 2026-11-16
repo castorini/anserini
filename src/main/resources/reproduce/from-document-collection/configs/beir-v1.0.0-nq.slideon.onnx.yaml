@@ -1,6 +1,6 @@
 ---
 corpus: beir-v1.0.0-nq.slideon
-corpus_path: collections/beir-v1.0.0/slideon-jsonl/nq
+corpus_path: collections/beir-v1.0.0/slideon/nq
 
 index_path: indexes/lucene-inverted.beir-v1.0.0-nq.slideon/
 collection_class: JsonVectorCollection
