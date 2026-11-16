@@ -1,6 +1,6 @@
 ---
 corpus: beir-v1.0.0-climate-fever.slideon
-corpus_path: collections/beir-v1.0.0/slideon-jsonl/climate-fever
+corpus_path: collections/beir-v1.0.0/slideon/climate-fever
 
 index_path: indexes/lucene-inverted.beir-v1.0.0-climate-fever.slideon/
 collection_class: JsonVectorCollection

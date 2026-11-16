@@ -1,6 +1,6 @@
 ---
 corpus: beir-v1.0.0-signal1m.slideon
-corpus_path: collections/beir-v1.0.0/slideon-jsonl/signal1m
+corpus_path: collections/beir-v1.0.0/slideon/signal1m
 
 index_path: indexes/lucene-inverted.beir-v1.0.0-signal1m.slideon/
 collection_class: JsonVectorCollection

@@ -1,6 +1,6 @@
 ---
 corpus: beir-v1.0.0-dbpedia-entity.slideon
-corpus_path: collections/beir-v1.0.0/slideon-jsonl/dbpedia-entity
+corpus_path: collections/beir-v1.0.0/slideon/dbpedia-entity
 
 index_path: indexes/lucene-inverted.beir-v1.0.0-dbpedia-entity.slideon/
 collection_class: JsonVectorCollection

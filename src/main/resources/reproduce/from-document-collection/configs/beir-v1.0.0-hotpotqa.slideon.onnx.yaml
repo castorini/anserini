@@ -1,6 +1,6 @@
 ---
 corpus: beir-v1.0.0-hotpotqa.slideon
-corpus_path: collections/beir-v1.0.0/slideon-jsonl/hotpotqa
+corpus_path: collections/beir-v1.0.0/slideon/hotpotqa
 
 index_path: indexes/lucene-inverted.beir-v1.0.0-hotpotqa.slideon/
 collection_class: JsonVectorCollection

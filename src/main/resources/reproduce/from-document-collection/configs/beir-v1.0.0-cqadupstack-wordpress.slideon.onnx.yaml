@@ -1,6 +1,6 @@
 ---
 corpus: beir-v1.0.0-cqadupstack-wordpress.slideon
-corpus_path: collections/beir-v1.0.0/slideon-jsonl/cqadupstack-wordpress
+corpus_path: collections/beir-v1.0.0/slideon/cqadupstack-wordpress
 
 index_path: indexes/lucene-inverted.beir-v1.0.0-cqadupstack-wordpress.slideon/
 collection_class: JsonVectorCollection
