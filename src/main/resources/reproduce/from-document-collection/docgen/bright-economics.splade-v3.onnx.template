@@ -6,7 +6,7 @@
 + **Config**: [`${yaml_short}`](${yaml})
 + **Template**: [`${template_short}`](${template})
 
-This page documents reproductions from the raw document collection for [BRIGHT &mdash; Economics](https://brightbenchmark.github.io/) using [SPLADE-v3](https://arxiv.org/abs/2403.06789).
+This page describes reproductions from the raw document collection for [BRIGHT &mdash; Economics](https://brightbenchmark.github.io/) using [SPLADE-v3](https://arxiv.org/abs/2403.06789).
 The model itself can be download [here](https://huggingface.co/naver/splade-v3).
 See the [official SPLADE repo](https://github.com/naver/splade) and the following paper for more details:
 

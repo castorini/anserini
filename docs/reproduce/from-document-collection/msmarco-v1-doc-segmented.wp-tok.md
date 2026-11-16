@@ -6,11 +6,12 @@
 + **Config**: [`msmarco-v1-doc-segmented.wp-tok.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc-segmented.wp-tok.yaml)
 + **Template**: [`msmarco-v1-doc-segmented.wp-tok.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-doc-segmented.wp-tok.template)
 
-This page documents reproductions from the raw document collection on the [MS MARCO document ranking task](https://github.com/microsoft/MSMARCO-Document-Ranking), which is integrated into Anserini's reproduction testing framework.
+This page describes reproductions from the raw document collection on the [MS MARCO document ranking task](https://github.com/microsoft/MSMARCO-Document-Ranking), which is integrated into Anserini's reproduction testing framework.
+Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-doc-segmented.wp-tok.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
+
 Here we are using **WordPiece tokenization** (i.e., from BERT) on passages from the documents.
 At retrieval time, we select the score of the highest-scoring passage from a document as the score for that document to produce a document ranking; this is known as the MaxP technique.
 In general, effectiveness is lower than with "standard" Lucene tokenization for two reasons: (1) we're losing stemming, and (2) some terms are chopped into less meaningful subwords.
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-doc-segmented.wp-tok.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

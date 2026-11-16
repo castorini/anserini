@@ -6,7 +6,7 @@
 + **Config**: [`msmarco-v1-passage.splade-pp-sd.onnx.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.splade-pp-sd.onnx.yaml)
 + **Template**: [`msmarco-v1-passage.splade-pp-sd.onnx.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-passage.splade-pp-sd.onnx.template)
 
-This page describes regression experiments, integrated into Anserini's regression testing framework, using the [SPLADE++ CoCondenser-SelfDistil](https://huggingface.co/naver/splade-cocondenser-selfdistil) model on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking), as described in the following paper:
+This page describes reproductions from the raw document collection using the [SPLADE++ CoCondenser-SelfDistil](https://huggingface.co/naver/splade-cocondenser-selfdistil) model on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking), as described in the following paper:
 
 > Thibault Formal, Carlos Lassance, Benjamin Piwowarski, and Stéphane Clinchant. [From Distillation to Hard Negative Sampling: Making Sparse Neural IR Models More Effective.](https://dl.acm.org/doi/10.1145/3477495.3531857) _Proceedings of the 45th International ACM SIGIR Conference on Research and Development in Information Retrieval_, pages 2353–2359.
 

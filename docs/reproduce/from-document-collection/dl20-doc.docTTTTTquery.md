@@ -7,17 +7,18 @@
 + **Template**: [`dl20-doc.docTTTTTquery.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/dl20-doc.docTTTTTquery.template)
 
 This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2020 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2020.html).
+Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl20-doc.docTTTTTquery.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
-Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 For additional instructions on working with MS MARCO document collection, refer to [this page](../../../docs/experiments-msmarco-doc.md).
 
-Note that there are four different bag-of-words regression conditions for this task, and this page describes the following:
+There are four different bag-of-words regression conditions for this task, and this page describes the following:
 
 + **Indexing Condition:** each MS MARCO document is treated as a unit of indexing
 + **Expansion Condition:** doc2query-T5
 
 All four conditions are described in detail [here](https://github.com/castorini/docTTTTTquery), in the context of doc2query-T5.
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl20-doc.docTTTTTquery.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
+
+NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 
 Note that in November 2021 we discovered issues in our regression tests, documented [here](../../../docs/experiments-msmarco-doc-doc2query-details.md).
 As a result, we have had to rebuild all our regressions from the raw corpus.

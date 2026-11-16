@@ -6,7 +6,7 @@
 + **Config**: [`car17v2.0-doc2query.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/car17v2.0-doc2query.yaml)
 + **Template**: [`car17v2.0-doc2query.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/car17v2.0-doc2query.template)
 
-This page documents reproductions from the raw document collection for the [TREC 2017 Complex Answer Retrieval (CAR)](http://trec-car.cs.unh.edu/) section-level passage retrieval task (v2.0), with doc2query expansions, as proposed in the following paper:
+This page describes reproductions from the raw document collection for the [TREC 2017 Complex Answer Retrieval (CAR)](http://trec-car.cs.unh.edu/) section-level passage retrieval task (v2.0), with doc2query expansions, as proposed in the following paper:
 
 > Rodrigo Nogueira, Wei Yang, Jimmy Lin, Kyunghyun Cho. [Document Expansion by Query Prediction.](https://arxiv.org/abs/1904.08375) _arxiv:1904.08375_
 

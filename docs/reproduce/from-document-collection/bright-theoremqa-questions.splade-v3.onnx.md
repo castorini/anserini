@@ -6,7 +6,7 @@
 + **Config**: [`bright-theoremqa-questions.splade-v3.onnx.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/bright-theoremqa-questions.splade-v3.onnx.yaml)
 + **Template**: [`bright-theoremqa-questions.splade-v3.onnx.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/bright-theoremqa-questions.splade-v3.onnx.template)
 
-This page documents reproductions from the raw document collection for [BRIGHT &mdash; TheoremQA-Q](https://brightbenchmark.github.io/) using [SPLADE-v3](https://arxiv.org/abs/2403.06789).
+This page describes reproductions from the raw document collection for [BRIGHT &mdash; TheoremQA-Q](https://brightbenchmark.github.io/) using [SPLADE-v3](https://arxiv.org/abs/2403.06789).
 The model itself can be download [here](https://huggingface.co/naver/splade-v3).
 See the [official SPLADE repo](https://github.com/naver/splade) and the following paper for more details:
 

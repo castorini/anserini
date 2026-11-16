@@ -6,14 +6,14 @@
 + **Config**: [`dl19-passage.slideon.onnx.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.slideon.onnx.yaml)
 + **Template**: [`dl19-passage.slideon.onnx.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/dl19-passage.slideon.onnx.template)
 
-This page describes regression experiments, integrated into Anserini's regression testing framework, using the [SlideOn](https://huggingface.co/lightonai/SlideOn) model on the [TREC 2019 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html).
+This page describes reproductions from the raw document collection using the [SlideOn](https://huggingface.co/lightonai/SlideOn) model on the [TREC 2019 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html).
 
 In these experiments, we are using ONNX to perform query encoding on the fly.
 See [SlideOn ONNX inference](../../onnx-slideon.md) for model requirements and query settings.
-
-Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
-For additional instructions on working with MS MARCO passage collection, refer to [this page](../../../docs/experiments-msmarco-passage.md).
 Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl19-passage.slideon.onnx.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
+
+NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
+For additional instructions on working with MS MARCO passage collection, refer to [this page](../../../docs/experiments-msmarco-passage.md).
 
 First convert the pre-encoded Parquet vectors to JSONL as described below.
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:

@@ -8,7 +8,7 @@
 
 This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2022 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2022.html) using the MS MARCO V2.1 document corpus, which was derived from the MS MARCO V2 document corpus and prepared for the TREC 2024 RAG Track.
 
-Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
+NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 An important caveat is that these document judgments were inferred from the passages.
 That is, if a passage is relevant, the document containing it is considered relevant.
 

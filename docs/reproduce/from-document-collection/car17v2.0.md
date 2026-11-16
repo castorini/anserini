@@ -6,7 +6,7 @@
 + **Config**: [`car17v2.0.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/car17v2.0.yaml)
 + **Template**: [`car17v2.0.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/car17v2.0.template)
 
-This page documents reproductions from the raw document collection for the [TREC 2017 Complex Answer Retrieval (CAR)](http://trec-car.cs.unh.edu/) section-level passage retrieval task (v2.0).
+This page describes reproductions from the raw document collection for the [TREC 2017 Complex Answer Retrieval (CAR)](http://trec-car.cs.unh.edu/) section-level passage retrieval task (v2.0).
 Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/car17v2.0.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:

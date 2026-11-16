@@ -6,7 +6,7 @@
 + **Config**: [`msmarco-v1-passage.cos-dpr-distil.parquet.fw.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.cos-dpr-distil.parquet.fw.yaml)
 + **Template**: [`msmarco-v1-passage.cos-dpr-distil.parquet.fw.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-passage.cos-dpr-distil.parquet.fw.template)
 
-This page describes regression experiments, integrated into Anserini's regression testing framework, using the cosDPR-distil model on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking).
+This page describes reproductions from the raw document collection using the cosDPR-distil model on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking).
 In these experiments, we are using cached queries (i.e., cached results of query encoding).
 Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-passage.cos-dpr-distil.parquet.fw.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 

@@ -6,7 +6,7 @@
 + **Config**: [`${yaml_short}`](${yaml})
 + **Template**: [`${template_short}`](${template})
 
-This page describes regression experiments, integrated into Anserini's regression testing framework, using the [SlideOn](https://huggingface.co/lightonai/SlideOn) model on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking).
+This page describes reproductions from the raw document collection using the [SlideOn](https://huggingface.co/lightonai/SlideOn) model on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking).
 
 In these experiments, we are using ONNX to perform query encoding on the fly.
 See [SlideOn ONNX inference](../../onnx-slideon.md) for model requirements and query settings.

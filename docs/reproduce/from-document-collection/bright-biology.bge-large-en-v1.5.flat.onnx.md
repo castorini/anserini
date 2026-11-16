@@ -6,7 +6,7 @@
 + **Config**: [`bright-biology.bge-large-en-v1.5.flat.onnx.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/bright-biology.bge-large-en-v1.5.flat.onnx.yaml)
 + **Template**: [`bright-biology.bge-large-en-v1.5.flat.onnx.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/bright-biology.bge-large-en-v1.5.flat.onnx.template)
 
-This page documents reproductions from the raw document collection, integrated into Anserini's regression testing framework, for [BRIGHT &mdash; Biology](https://brightbenchmark.github.io/) using [BGE-large-en-v1.5](https://huggingface.co/BAAI/bge-large-en-v1.5).
+This page describes reproductions from the raw document collection, integrated into Anserini's regression testing framework, for [BRIGHT &mdash; Biology](https://brightbenchmark.github.io/) using [BGE-large-en-v1.5](https://huggingface.co/BAAI/bge-large-en-v1.5).
 The model itself can be download [here](https://huggingface.co/BAAI/bge-large-en-v1.5).
 See the following paper for more details:
 

@@ -6,7 +6,7 @@
 + **Config**: [`${yaml_short}`](${yaml})
 + **Template**: [`${template_short}`](${template})
 
-This page documents reproductions from the raw document collection on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking), which is integrated into Anserini's reproduction testing framework.
+This page describes reproductions from the raw document collection on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking), which is integrated into Anserini's reproduction testing framework.
 For more complete instructions on how to run end-to-end experiments, refer to [this page](${root_path}/docs/experiments-msmarco-passage.md).
 Note that this page is automatically generated from [this template](${template}) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
