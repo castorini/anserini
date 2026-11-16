@@ -1,12 +1,14 @@
-# Anserini Regressions: MS MARCO Passage Ranking
+# <img src="../../anserini-logo.png" height="30" /> MS MARCO Passage Ranking
 
-**Model**: cosDPR-distil with inverted indexes using the "LexLSH" technique (b=600) using cached queries
+**Anserini reproductions from raw documents**
+
++ **Models**: cosDPR-distil with inverted indexes using the "LexLSH" technique (b=600) using cached queries
++ **Config**: [`msmarco-v1-passage.cos-dpr-distil.parquet.lexlsh.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.cos-dpr-distil.parquet.lexlsh.yaml)
++ **Template**: [`msmarco-v1-passage.cos-dpr-distil.parquet.lexlsh.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-passage.cos-dpr-distil.parquet.lexlsh.template)
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, using the cosDPR-distil model on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking).
 In these experiments, we are using cached queries (i.e., cached results of query encoding).
-
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.cos-dpr-distil.parquet.lexlsh.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-passage.cos-dpr-distil.parquet.lexlsh.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
+Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-passage.cos-dpr-distil.parquet.lexlsh.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

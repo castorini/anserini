@@ -1,8 +1,12 @@
-# Anserini Regressions: MS MARCO Document Ranking
+# <img src="../../anserini-logo.png" height="30" /> MS MARCO Document Ranking
 
-**Models**: BM25 on segmented documents with doc2query-T5 expansions
+**Anserini reproductions from raw documents**
 
-This page documents regression experiments on the [MS MARCO document ranking task](https://github.com/microsoft/MSMARCO-Document-Ranking), which is integrated into Anserini's regression testing framework.
++ **Models**: BM25 on segmented documents with doc2query-T5 expansions
++ **Config**: [`msmarco-v1-doc-segmented.docTTTTTquery.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc-segmented.docTTTTTquery.yaml)
++ **Template**: [`msmarco-v1-doc-segmented.docTTTTTquery.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-doc-segmented.docTTTTTquery.template)
+
+This page documents reproductions from the raw document collection on the [MS MARCO document ranking task](https://github.com/microsoft/MSMARCO-Document-Ranking), which is integrated into Anserini's reproduction testing framework.
 Note that there are four different bag-of-words regression conditions for this task, and this page describes the following:
 
 + **Indexing Condition:** each MS MARCO document is first segmented into passages, each passage is treated as a unit of indexing
@@ -10,9 +14,7 @@ Note that there are four different bag-of-words regression conditions for this t
 
 All four conditions are described in detail [here](https://github.com/castorini/docTTTTTquery#reproducing-ms-marco-document-ranking-results-with-anserini), in the context of doc2query-T5.
 In the passage (i.e., segment) indexing condition, we select the score of the highest-scoring passage from a document as the score for that document to produce a document ranking; this is known as the MaxP technique.
-
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc-segmented.docTTTTTquery.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-doc-segmented.docTTTTTquery.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-doc-segmented.docTTTTTquery.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 Note that in November 2021 we discovered issues in our regression tests, documented [here](../../../docs/experiments-msmarco-doc-doc2query-details.md).
 As a result, we have had to rebuild all our regressions from the raw corpus.

@@ -1,10 +1,14 @@
-# Anserini Regressions: CLEF2006 Monolingual French
+# <img src="../../anserini-logo.png" height="30" /> CLEF2006 Monolingual French
+
+**Anserini reproductions from raw documents**
+
++ **Models**: BM25
++ **Config**: [`clef06-fr.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/clef06-fr.yaml)
++ **Template**: [`clef06-fr.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/clef06-fr.template)
 
 This page documents BM25 regression experiments for monolingual French document retrieval as part of the [CLEF 2006 Multilingual Document Retrieval (Ad Hoc) Track](http://www.clef-initiative.eu/edition/clef2006).
 Associated data can be found on the [CLEF test suites pages](http://www.clef-initiative.eu/dataset/corpus).
-
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/clef06-fr.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/clef06-fr.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/clef06-fr.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

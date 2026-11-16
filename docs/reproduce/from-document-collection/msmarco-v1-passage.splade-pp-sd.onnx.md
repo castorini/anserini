@@ -1,15 +1,17 @@
-# Anserini Regressions: MS MARCO Passage Ranking
+# <img src="../../anserini-logo.png" height="30" /> MS MARCO Passage Ranking
 
-**Model**: SPLADE++ CoCondenser-SelfDistil (using ONNX for on-the-fly query encoding)
+**Anserini reproductions from raw documents**
+
++ **Models**: SPLADE++ CoCondenser-SelfDistil (using ONNX for on-the-fly query encoding)
++ **Config**: [`msmarco-v1-passage.splade-pp-sd.onnx.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.splade-pp-sd.onnx.yaml)
++ **Template**: [`msmarco-v1-passage.splade-pp-sd.onnx.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-passage.splade-pp-sd.onnx.template)
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, using the [SPLADE++ CoCondenser-SelfDistil](https://huggingface.co/naver/splade-cocondenser-selfdistil) model on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking), as described in the following paper:
 
 > Thibault Formal, Carlos Lassance, Benjamin Piwowarski, and Stéphane Clinchant. [From Distillation to Hard Negative Sampling: Making Sparse Neural IR Models More Effective.](https://dl.acm.org/doi/10.1145/3477495.3531857) _Proceedings of the 45th International ACM SIGIR Conference on Research and Development in Information Retrieval_, pages 2353–2359.
 
 In these experiments, we are using ONNX to perform query encoding on the fly.
-
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.splade-pp-sd.onnx.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-passage.splade-pp-sd.onnx.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and then run `bin/build.sh` to rebuild the documentation.
+Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-passage.splade-pp-sd.onnx.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

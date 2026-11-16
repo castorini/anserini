@@ -1,6 +1,10 @@
-# Anserini Regressions: TREC 2022 DL Track on V2.1 Corpus
+# <img src="../../anserini-logo.png" height="30" /> TREC 2022 DL Track on V2.1 Corpus
 
-**Models**: various bag-of-words approaches on segmented documents
+**Anserini reproductions from raw documents**
+
++ **Models**: various bag-of-words approaches on segmented documents
++ **Config**: [`dl22-doc-segmented-msmarco-v2.1.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/dl22-doc-segmented-msmarco-v2.1.yaml)
++ **Template**: [`dl22-doc-segmented-msmarco-v2.1.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/dl22-doc-segmented-msmarco-v2.1.template)
 
 This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2022 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2022.html) using the MS MARCO V2.1 _segmented_ document corpus, which was derived from the MS MARCO V2 segmented document corpus and prepared for the TREC 2024 RAG Track.
 
@@ -9,9 +13,7 @@ An important caveat is that these document judgments were inferred from the pass
 That is, if a passage is relevant, the document containing it is considered relevant.
 
 Here, we cover bag-of-words baselines where each _segment_ in the MS MARCO V2.1 segmented document corpus is treated as a unit of indexing.
-
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/dl22-doc-segmented-msmarco-v2.1.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl22-doc-segmented-msmarco-v2.1.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl22-doc-segmented-msmarco-v2.1.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

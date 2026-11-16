@@ -1,6 +1,10 @@
-# Anserini Regressions: TREC 2021 Deep Learning Track (Passage)
+# <img src="../../anserini-logo.png" height="30" /> TREC 2021 Deep Learning Track (Passage)
 
-**Model**: SPLADE++ CoCondenser-EnsembleDistil (using ONNX for on-the-fly query encoding)
+**Anserini reproductions from raw documents**
+
++ **Models**: SPLADE++ CoCondenser-EnsembleDistil (using ONNX for on-the-fly query encoding)
++ **Config**: [`dl21-passage.splade-pp-ed.onnx.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/dl21-passage.splade-pp-ed.onnx.yaml)
++ **Template**: [`dl21-passage.splade-pp-ed.onnx.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/dl21-passage.splade-pp-ed.onnx.template)
 
 This page describes regression experiments, integrated into Anserini's regression testing framework, applying the [SPLADE++ CoCondenser-EnsembleDistil](https://huggingface.co/naver/splade-cocondenser-ensembledistil) model to the MS MARCO V2 passage corpus.
 Here, we evaluate on the [TREC 2021 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2021.html), using ONNX to perform query encoding on the fly.
@@ -12,9 +16,7 @@ The model is described in the following paper:
 For additional instructions on working with the MS MARCO V2 passage corpus, refer to [this page](../../../docs/experiments-msmarco-v2.md).
 
 Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
-
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/dl21-passage.splade-pp-ed.onnx.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl21-passage.splade-pp-ed.onnx.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl21-passage.splade-pp-ed.onnx.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

@@ -1,11 +1,15 @@
-# Anserini Regressions: BEIR (v1.0.0) &mdash; ArguAna
+# <img src="../../anserini-logo.png" height="30" /> BEIR (v1.0.0) &mdash; ArguAna
+
+**Anserini reproductions from raw documents**
+
++ **Models**: BM25
++ **Config**: [`beir-v1.0.0-arguana.multifield.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-arguana.multifield.yaml)
++ **Template**: [`beir-v1.0.0-arguana.multifield.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/beir-v1.0.0-arguana.multifield.template)
 
 This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; ArguAna](http://beir.ai/).
 These experiments index the "title" and "text" fields in corpus separately.
 At retrieval time, a query is issued across both fields (equally weighted).
-
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-arguana.multifield.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/beir-v1.0.0-arguana.multifield.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/beir-v1.0.0-arguana.multifield.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

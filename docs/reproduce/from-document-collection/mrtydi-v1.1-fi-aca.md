@@ -1,11 +1,13 @@
-# Anserini Regressions: Mr. TyDi (v1.1) &mdash; Finnish
+# <img src="../../anserini-logo.png" height="30" /> Mr. TyDi (v1.1) &mdash; Finnish
 
-**Models**: bag-of-words approaches using `AutoCompositeAnalyzer`
+**Anserini reproductions from raw documents**
+
++ **Models**: bag-of-words approaches using `AutoCompositeAnalyzer`
++ **Config**: [`mrtydi-v1.1-fi-aca.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/mrtydi-v1.1-fi-aca.yaml)
++ **Template**: [`mrtydi-v1.1-fi-aca.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/mrtydi-v1.1-fi-aca.template)
 
 This page documents BM25 regression experiments for [Mr. TyDi (v1.1) &mdash; Finnish](https://github.com/castorini/mr.tydi) using `AutoCompositeAnalyzer`.
-
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/mrtydi-v1.1-fi-aca.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/mrtydi-v1.1-fi-aca.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/mrtydi-v1.1-fi-aca.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

@@ -1,11 +1,15 @@
-# Anserini Regressions: HC4 (v1.0) on NeuCLIR22 &mdash; Persian
+# <img src="../../anserini-logo.png" height="30" /> HC4 (v1.0) on NeuCLIR22 &mdash; Persian
+
+**Anserini reproductions from raw documents**
+
++ **Models**: BM25
++ **Config**: [`hc4-neuclir22-fa.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/hc4-neuclir22-fa.yaml)
++ **Template**: [`hc4-neuclir22-fa.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/hc4-neuclir22-fa.template)
 
 This page documents BM25 regression experiments for [HC4 (v1.0) Persian topics](https://github.com/hltcoe/HC4) on the [NeuCLIR22 Persian corpus](https://neuclir.github.io/).
 The HC4 qrels have been filtered down to include only those in the intersection of the HC4 and NeuCLIR22 corpora.
 To be clear, the queries are in Persian (human translations) and the corpus is in Persian.
-
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/hc4-neuclir22-fa.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/hc4-neuclir22-fa.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/hc4-neuclir22-fa.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

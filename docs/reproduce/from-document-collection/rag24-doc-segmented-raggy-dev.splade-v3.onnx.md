@@ -1,6 +1,10 @@
-# Anserini Regressions: TREC 2024 RAG Track RAGgy Dev Topics
+# <img src="../../anserini-logo.png" height="30" /> TREC 2024 RAG Track RAGgy Dev Topics
 
-**Model**: [SPLADE-v3](https://arxiv.org/abs/2403.06789) (using ONNX for on-the-fly query encoding)
+**Anserini reproductions from raw documents**
+
++ **Models**: [SPLADE-v3](https://arxiv.org/abs/2403.06789) (using ONNX for on-the-fly query encoding)
++ **Config**: [`rag24-doc-segmented-raggy-dev.splade-v3.onnx.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/rag24-doc-segmented-raggy-dev.splade-v3.onnx.yaml)
++ **Template**: [`rag24-doc-segmented-raggy-dev.splade-v3.onnx.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/rag24-doc-segmented-raggy-dev.splade-v3.onnx.template)
 
 This page describes experiments, integrated into Anserini's regression testing framework, on the "RAGgy dev topics" on the MS MARCO V2.1 _segmented_ document corpus.
 These "RAGgy topics" were manually curated from the TREC 2021, 2022, and 2023 Deep Learning Tracks to be "RAG-worthy" according to the track organizers.
@@ -11,9 +15,7 @@ See the [official SPLADE repo](https://github.com/naver/splade) and the followin
 > Carlos Lassance, Hervé Déjean, Thibault Formal, and Stéphane Clinchant. [SPLADE-v3: New baselines for SPLADE.](https://arxiv.org/abs/2403.06789) _arXiv:2403.06789_.
 
 In these experiments, we are using ONNX to perform query encoding on the fly.
-
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/rag24-doc-segmented-raggy-dev.splade-v3.onnx.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/rag24-doc-segmented-raggy-dev.splade-v3.onnx.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/rag24-doc-segmented-raggy-dev.splade-v3.onnx.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

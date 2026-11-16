@@ -1,6 +1,10 @@
-# Anserini Regressions: TREC 2019 Deep Learning Track (Document)
+# <img src="../../anserini-logo.png" height="30" /> TREC 2019 Deep Learning Track (Document)
 
-**Models**: various bag-of-words approaches on segmented documents
+**Anserini reproductions from raw documents**
+
++ **Models**: various bag-of-words approaches on segmented documents
++ **Config**: [`dl19-doc-segmented.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/dl19-doc-segmented.yaml)
++ **Template**: [`dl19-doc-segmented.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/dl19-doc-segmented.template)
 
 This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2019 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2019.html).
 
@@ -14,9 +18,7 @@ Note that there are four different bag-of-words regression conditions for this t
 
 All four conditions are described in detail [here](https://github.com/castorini/docTTTTTquery), in the context of doc2query-T5.
 In the passage (i.e., segment) indexing condition, we select the score of the highest-scoring passage from a document as the score for that document to produce a document ranking; this is known as the MaxP technique.
-
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/dl19-doc-segmented.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl19-doc-segmented.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl19-doc-segmented.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 Note that in November 2021 we discovered issues in our regression tests, documented [here](../../../docs/experiments-msmarco-doc-doc2query-details.md).
 As a result, we have had to rebuild all our regressions from the raw corpus.

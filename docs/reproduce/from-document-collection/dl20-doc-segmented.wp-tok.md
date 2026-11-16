@@ -1,6 +1,10 @@
-# Anserini Regressions: TREC 2020 Deep Learning Track (Document)
+# <img src="../../anserini-logo.png" height="30" /> TREC 2020 Deep Learning Track (Document)
 
-**Models**: various bag-of-words approaches on segmented documents with WordPiece tokenization
+**Anserini reproductions from raw documents**
+
++ **Models**: various bag-of-words approaches on segmented documents with WordPiece tokenization
++ **Config**: [`dl20-doc-segmented.wp-tok.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/dl20-doc-segmented.wp-tok.yaml)
++ **Template**: [`dl20-doc-segmented.wp-tok.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/dl20-doc-segmented.wp-tok.template)
 
 This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2020 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2020.html).
 Here we are using **WordPiece tokenization** (i.e., from BERT) on passages from the documents.
@@ -8,9 +12,7 @@ At retrieval time, we select the score of the highest-scoring passage from a doc
 In general, effectiveness is lower than with "standard" Lucene tokenization for two reasons: (1) we're losing stemming, and (2) some terms are chopped into less meaningful subwords.
 
 Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
-
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/dl20-doc-segmented.wp-tok.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl20-doc-segmented.wp-tok.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl20-doc-segmented.wp-tok.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

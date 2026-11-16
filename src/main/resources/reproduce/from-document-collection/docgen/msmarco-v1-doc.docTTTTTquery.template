@@ -1,17 +1,19 @@
-# Anserini Regressions: MS MARCO Document Ranking
+# <img src="../../anserini-logo.png" height="30" /> MS MARCO Document Ranking
 
-**Models**: BM25 on complete documents with doc2query-T5 expansions
+**Anserini reproductions from raw documents**
 
-This page documents regression experiments on the [MS MARCO document ranking task](https://github.com/microsoft/MSMARCO-Document-Ranking), which is integrated into Anserini's regression testing framework.
++ **Models**: BM25 on complete documents with doc2query-T5 expansions
++ **Config**: [`${yaml_short}`](${yaml})
++ **Template**: [`${template_short}`](${template})
+
+This page documents reproductions from the raw document collection on the [MS MARCO document ranking task](https://github.com/microsoft/MSMARCO-Document-Ranking), which is integrated into Anserini's reproduction testing framework.
 Note that there are four different bag-of-words regression conditions for this task, and this page describes the following:
 
 + **Indexing Condition:** each MS MARCO document is treated as a unit of indexing
 + **Expansion Condition:** doc2query-T5
 
 All four conditions are described in detail [here](https://github.com/castorini/docTTTTTquery), in the context of doc2query-T5.
-
-The exact configurations for these regressions are stored in [this YAML file](${yaml}).
-Note that this page is automatically generated from [this template](${template}) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+Note that this page is automatically generated from [this template](${template}) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 Note that in November 2021 we discovered issues in our regression tests, documented [here](${root_path}/docs/experiments-msmarco-doc-doc2query-details.md).
 As a result, we have had to rebuild all our regressions from the raw corpus.

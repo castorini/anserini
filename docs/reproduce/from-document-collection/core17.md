@@ -1,10 +1,13 @@
-# Anserini Regressions: TREC 2017 Common Core Track
+# <img src="../../anserini-logo.png" height="30" /> TREC 2017 Common Core Track
 
-**Models**: various bag-of-words approaches
+**Anserini reproductions from raw documents**
+
++ **Models**: various bag-of-words approaches
++ **Config**: [`core17.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/core17.yaml)
++ **Template**: [`core17.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/core17.template)
 
 This page describes regressions for the TREC 2017 Common Core Track, which uses the [New York Times Annotated Corpus](https://catalog.ldc.upenn.edu/LDC2008T19).
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/core17.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/core17.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/core17.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

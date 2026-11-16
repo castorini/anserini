@@ -1,12 +1,14 @@
-# Anserini Regressions: MS MARCO Passage Ranking
+# <img src="../../anserini-logo.png" height="30" /> MS MARCO Passage Ranking
 
-**Models**: BM25 with quantized weights (8 bits)
+**Anserini reproductions from raw documents**
 
-This page documents regression experiments on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking), which is integrated into Anserini's regression testing framework.
++ **Models**: BM25 with quantized weights (8 bits)
++ **Config**: [`msmarco-v1-passage.bm25-b8.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.bm25-b8.yaml)
++ **Template**: [`msmarco-v1-passage.bm25-b8.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-passage.bm25-b8.template)
+
+This page documents reproductions from the raw document collection on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking), which is integrated into Anserini's reproduction testing framework.
 For more complete instructions on how to run end-to-end experiments, refer to [this page](../../../docs/experiments-msmarco-passage.md).
-
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.bm25-b8.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-passage.bm25-b8.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-passage.bm25-b8.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

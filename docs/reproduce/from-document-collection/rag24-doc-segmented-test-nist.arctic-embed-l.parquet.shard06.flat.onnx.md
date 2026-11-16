@@ -1,8 +1,12 @@
-# Anserini Regressions: TREC 2024 RAG Track Test Topics
+# <img src="../../anserini-logo.png" height="30" /> TREC 2024 RAG Track Test Topics
 
-**Model**: Snowflake's [Arctic-embed-l](https://huggingface.co/Snowflake/snowflake-arctic-embed-l) with flat indexes (using ONNX for on-the-fly query encoding)
+**Anserini reproductions from raw documents**
 
-This page describes regression experiments for ranking _on the segmented version_ of the MS MARCO V2.1 document corpus using the test topics (= queries in TREC parlance), which is integrated into Anserini's regression testing framework.
++ **Models**: Snowflake's [Arctic-embed-l](https://huggingface.co/Snowflake/snowflake-arctic-embed-l) with flat indexes (using ONNX for on-the-fly query encoding)
++ **Config**: [`rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard06.flat.onnx.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard06.flat.onnx.yaml)
++ **Template**: [`rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard06.flat.onnx.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard06.flat.onnx.template)
+
+This page describes regression experiments for ranking _on the segmented version_ of the MS MARCO V2.1 document corpus using the test topics (= queries in TREC parlance), which is integrated into Anserini's reproduction testing framework.
 This corpus was derived from the MS MARCO V2 _segmented_ document corpus and prepared for the TREC 2024 RAG Track.
 
 We build on embeddings made available by Snowflake on [Hugging Face Datasets](https://huggingface.co/datasets/Snowflake/msmarco-v2.1-snowflake-arctic-embed-l), which contains vectors already encoded by the Arctic-embed-l model.
@@ -20,9 +24,7 @@ More details can be found in the following two papers:
 > Shivani Upadhyay, Ronak Pradeep, Nandan Thakur, Daniel Campos, Nick Craswell, Ian Soboroff, and Jimmy Lin. [A Large-Scale Study of Relevance Assessments with Large Language Models Using UMBRELA.](https://dl.acm.org/doi/10.1145/3731120.3744605) Proceedings of the 2025 International ACM SIGIR Conference on Innovative Concepts and Theories in Information Retrieval (ICTIR 2025), pages 358-368, July 2025, Padua, Italy.
 
 > Shivani Upadhyay, Ronak Pradeep, Nandan Thakur, Daniel Campos, Nick Craswell, Ian Soboroff, Hoa Trang Dang, and Jimmy Lin. [A Large-Scale Study of Relevance Assessments with Large Language Models: An Initial Look.](https://arxiv.org/abs/2411.08275) _arXiv:2411.08275_, November 2024.
-
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard06.flat.onnx.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard06.flat.onnx.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/rag24-doc-segmented-test-nist.arctic-embed-l.parquet.shard06.flat.onnx.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

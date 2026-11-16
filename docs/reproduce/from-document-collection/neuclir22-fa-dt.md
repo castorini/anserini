@@ -1,13 +1,16 @@
-# Anserini Regressions: NeuCLIR22 &mdash; Persian (Document Translation)
+# <img src="../../anserini-logo.png" height="30" /> NeuCLIR22 &mdash; Persian (Document Translation)
+
+**Anserini reproductions from raw documents**
+
++ **Models**: BM25
++ **Config**: [`neuclir22-fa-dt.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/neuclir22-fa-dt.yaml)
++ **Template**: [`neuclir22-fa-dt.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/neuclir22-fa-dt.template)
 
 This page presents **document translation** regression experiments for the [TREC 2022 NeuCLIR Track](https://neuclir.github.io/), Persian, with the following configuration:
 
 + Queries: English
 + Documents: Machine-translated documents from Persian into English (corpus provided by the organizers)
-+ Model: BM25
-
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/neuclir22-fa-dt.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/neuclir22-fa-dt.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/neuclir22-fa-dt.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

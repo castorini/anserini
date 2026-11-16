@@ -1,9 +1,13 @@
-# Anserini Regressions: Mr. TyDi (v1.1) &mdash; Swahili
+# <img src="../../anserini-logo.png" height="30" /> Mr. TyDi (v1.1) &mdash; Swahili
+
+**Anserini reproductions from raw documents**
+
++ **Models**: BM25
++ **Config**: [`mrtydi-v1.1-sw.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/mrtydi-v1.1-sw.yaml)
++ **Template**: [`mrtydi-v1.1-sw.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/mrtydi-v1.1-sw.template)
 
 This page documents BM25 regression experiments for [Mr. TyDi (v1.1) &mdash; Swahili](https://github.com/castorini/mr.tydi).
-
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/mrtydi-v1.1-sw.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/mrtydi-v1.1-sw.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/mrtydi-v1.1-sw.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

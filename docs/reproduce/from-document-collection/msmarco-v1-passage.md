@@ -1,12 +1,14 @@
-# Anserini Regressions: MS MARCO Passage Ranking
+# <img src="../../anserini-logo.png" height="30" /> MS MARCO Passage Ranking
 
-**Models**: various bag-of-words approaches
+**Anserini reproductions from raw documents**
 
-This page documents regression experiments on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking), which is integrated into Anserini's regression testing framework.
++ **Models**: various bag-of-words approaches
++ **Config**: [`msmarco-v1-passage.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.yaml)
++ **Template**: [`msmarco-v1-passage.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-passage.template)
+
+This page documents reproductions from the raw document collection on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking), which is integrated into Anserini's reproduction testing framework.
 For more complete instructions on how to run end-to-end experiments, refer to [this page](../../../docs/experiments-msmarco-passage.md).
-
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-passage.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-passage.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-passage.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

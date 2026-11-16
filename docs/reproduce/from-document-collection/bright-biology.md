@@ -1,9 +1,13 @@
-# Anserini Regressions: BRIGHT &mdash; Biology
+# <img src="../../anserini-logo.png" height="30" /> BRIGHT &mdash; Biology
+
+**Anserini reproductions from raw documents**
+
++ **Models**: BM25 and BM25QS
++ **Config**: [`bright-biology.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/bright-biology.yaml)
++ **Template**: [`bright-biology.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/bright-biology.template)
 
 This page documents BM25 and BM25QS regression experiments for [BRIGHT &mdash; Biology](https://brightbenchmark.github.io/).
-
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/bright-biology.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/bright-biology.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and build Anserini to rebuild the documentation.
+Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/bright-biology.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

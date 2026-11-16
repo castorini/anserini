@@ -1,13 +1,15 @@
-# Anserini Regressions: MS MARCO (V2) Passage Ranking
+# <img src="../../anserini-logo.png" height="30" /> MS MARCO (V2) Passage Ranking
 
-**Models**: various bag-of-words approaches on original passages
+**Anserini reproductions from raw documents**
 
-This page describes regression experiments for passage ranking on the MS MARCO V2 passage corpus using the dev queries, which is integrated into Anserini's regression testing framework.
++ **Models**: various bag-of-words approaches on original passages
++ **Config**: [`msmarco-v2-passage.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-passage.yaml)
++ **Template**: [`msmarco-v2-passage.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v2-passage.template)
+
+This page describes regression experiments for passage ranking on the MS MARCO V2 passage corpus using the dev queries, which is integrated into Anserini's reproduction testing framework.
 Here, we cover bag-of-words baselines.
 For additional instructions on working with the MS MARCO V2 passage corpus, refer to [this page](../../../docs/experiments-msmarco-v2.md).
-
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2-passage.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v2-passage.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v2-passage.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

@@ -1,6 +1,10 @@
-# Anserini Regressions: TREC 2023 Deep Learning Track (Document)
+# <img src="../../anserini-logo.png" height="30" /> TREC 2023 Deep Learning Track (Document)
 
-**Models**: various bag-of-words approaches on complete documents
+**Anserini reproductions from raw documents**
+
++ **Models**: various bag-of-words approaches on complete documents
++ **Config**: [`dl23-doc.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/dl23-doc.yaml)
++ **Template**: [`dl23-doc.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/dl23-doc.template)
 
 This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2023 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2023.html) using the MS MARCO V2 document corpus.
 For additional instructions on working with the MS MARCO V2 document corpus, refer to [this page](../../../docs/experiments-msmarco-v2.md).
@@ -13,9 +17,7 @@ Note that there are four different bag-of-words regression conditions for this t
 
 + **Indexing Condition:** each document in the MS MARCO V2 document corpus is treated as a unit of indexing
 + **Expansion Condition:** none
-
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/dl23-doc.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl23-doc.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl23-doc.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

@@ -1,14 +1,16 @@
-# Anserini Regressions: MS MARCO V2.1 Document Ranking
+# <img src="../../anserini-logo.png" height="30" /> MS MARCO V2.1 Document Ranking
 
-**Models**: various bag-of-words approaches on segmented documents
+**Anserini reproductions from raw documents**
 
-This page describes regression experiments for document ranking _on the segmented version_ of the MS MARCO V2.1 document corpus using the dev queries, which is integrated into Anserini's regression testing framework.
++ **Models**: various bag-of-words approaches on segmented documents
++ **Config**: [`msmarco-v2.1-doc-segmented.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2.1-doc-segmented.yaml)
++ **Template**: [`msmarco-v2.1-doc-segmented.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v2.1-doc-segmented.template)
+
+This page describes regression experiments for document ranking _on the segmented version_ of the MS MARCO V2.1 document corpus using the dev queries, which is integrated into Anserini's reproduction testing framework.
 This corpus was derived from the MS MARCO V2 _segmented_ document corpus and prepared for the TREC 2024 RAG Track.
 
 Here, we cover bag-of-words baselines where each document in the MS MARCO V2.1 _segmented_ document corpus is treated as a unit of indexing.
-
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/msmarco-v2.1-doc-segmented.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v2.1-doc-segmented.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v2.1-doc-segmented.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

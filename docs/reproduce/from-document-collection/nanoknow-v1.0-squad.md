@@ -1,13 +1,15 @@
-# Anserini Regressions: NanoKnow v1.0 &mdash; SQuAD
+# <img src="../../anserini-logo.png" height="30" /> NanoKnow v1.0 &mdash; SQuAD
 
-**Models**: BM25
+**Anserini reproductions from raw documents**
+
++ **Models**: BM25
++ **Config**: [`nanoknow-v1.0-squad.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/nanoknow-v1.0-squad.yaml)
++ **Template**: [`nanoknow-v1.0-squad.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/nanoknow-v1.0-squad.template)
 
 This page documents BM25 retrieval over the NanoKnow v1.0 corpus ([karpathy/fineweb-edu-100b-shuffle](https://huggingface.co/datasets/karpathy/fineweb-edu-100b-shuffle), ~97M documents) with SQuAD validation queries, integrated into Anserini's regression testing framework.
 The corpus and qrels come from [NanoKnow](https://github.com/castorini/NanoKnow), a project that uses BM25 over this corpus to study the parametric knowledge of nanochat language models.
 Future versions (v2, v3, ...) of the NanoKnow regression are expected to project these query sets onto different corpora (e.g., ClimbMix), keeping the task format fixed and varying the index.
-
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/nanoknow-v1.0-squad.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/nanoknow-v1.0-squad.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/nanoknow-v1.0-squad.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

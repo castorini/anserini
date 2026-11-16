@@ -1,6 +1,10 @@
-# Anserini Regressions: TREC 2019 Deep Learning Track (Passage)
+# <img src="../../anserini-logo.png" height="30" /> TREC 2019 Deep Learning Track (Passage)
 
-**Models**: bag-of-words approaches with WordPiece tokenization provided by HuggingFace Tokenizer Integration
+**Anserini reproductions from raw documents**
+
++ **Models**: bag-of-words approaches with WordPiece tokenization provided by HuggingFace Tokenizer Integration
++ **Config**: [`dl19-passage.wp-hgf.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.wp-hgf.yaml)
++ **Template**: [`dl19-passage.wp-hgf.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/dl19-passage.wp-hgf.template)
 
 This page describes baseline experiments, integrated into Anserini's regression testing framework, on the [TREC 2019 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2019.html).
 Here we are using **WordPiece tokenization** (i.e., from BERT).
@@ -8,9 +12,7 @@ In general, effectiveness is lower than with "standard" Lucene tokenization for 
 
 Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 For additional instructions on working with MS MARCO passage collection, refer to [this page](../../../docs/experiments-msmarco-passage.md).
-
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/dl19-passage.wp-hgf.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl19-passage.wp-hgf.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl19-passage.wp-hgf.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

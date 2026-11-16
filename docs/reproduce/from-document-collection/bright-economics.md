@@ -1,9 +1,13 @@
-# Anserini Regressions: BRIGHT &mdash; Economics
+# <img src="../../anserini-logo.png" height="30" /> BRIGHT &mdash; Economics
+
+**Anserini reproductions from raw documents**
+
++ **Models**: BM25 and BM25QS
++ **Config**: [`bright-economics.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/bright-economics.yaml)
++ **Template**: [`bright-economics.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/bright-economics.template)
 
 This page documents BM25 and BM25QS regression experiments for [BRIGHT &mdash; Economics](https://brightbenchmark.github.io/).
-
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/bright-economics.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/bright-economics.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and build Anserini to rebuild the documentation.
+Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/bright-economics.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

@@ -1,6 +1,10 @@
-# Anserini Regressions: TREC 2023 Deep Learning Track (Document)
+# <img src="../../anserini-logo.png" height="30" /> TREC 2023 Deep Learning Track (Document)
 
-**Models**: BM25 on segmented documents with doc2query-T5 expansions
+**Anserini reproductions from raw documents**
+
++ **Models**: BM25 on segmented documents with doc2query-T5 expansions
++ **Config**: [`dl23-doc-segmented.d2q-t5.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/dl23-doc-segmented.d2q-t5.yaml)
++ **Template**: [`dl23-doc-segmented.d2q-t5.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/dl23-doc-segmented.d2q-t5.template)
 
 This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2023 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2023.html) using the MS MARCO V2 _segmented_ document corpus (with doc2query-T5 expansions).
 For additional instructions on working with the MS MARCO V2 document corpus, refer to [this page](../../../docs/experiments-msmarco-v2.md).
@@ -13,9 +17,7 @@ Note that there are four different bag-of-words regression conditions for this t
 
 + **Indexing Condition:** each segment in the MS MARCO V2 _segmented_ document corpus is treated as a unit of indexing
 + **Expansion Condition:** doc2query-T5
-
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/dl23-doc-segmented.d2q-t5.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl23-doc-segmented.d2q-t5.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl23-doc-segmented.d2q-t5.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 
