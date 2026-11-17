@@ -7,7 +7,7 @@
 + **Template**: [`bright-theoremqa-questions.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/bright-theoremqa-questions.template)
 
 This page documents BM25 and BM25QS regression experiments for [BRIGHT &mdash; TheoremQA-Q](https://brightbenchmark.github.io/).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/bright-theoremqa-questions.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/bright-theoremqa-questions.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

@@ -13,11 +13,11 @@ NIST relevance judgments provide far more relevant documents per topic, unlike t
 An important caveat is that these document judgments were inferred from the passages.
 That is, if a passage is relevant, the document containing it is considered relevant.
 
-Note that there are four different bag-of-words regression conditions for this task, and this page describes the following:
+There are four different bag-of-words regression conditions for this task, and this page describes the following:
 
 + **Indexing Condition:** each document in the MS MARCO V2 document corpus is treated as a unit of indexing
 + **Expansion Condition:** doc2query-T5
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl23-doc.d2q-t5.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl23-doc.d2q-t5.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

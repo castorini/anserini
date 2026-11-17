@@ -6,8 +6,7 @@
 + **Config**: [`msmarco-v1-doc.docTTTTTquery.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc.docTTTTTquery.yaml)
 + **Template**: [`msmarco-v1-doc.docTTTTTquery.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-doc.docTTTTTquery.template)
 
-This page describes reproductions from the raw document collection on the [MS MARCO document ranking task](https://github.com/microsoft/MSMARCO-Document-Ranking), which is integrated into Anserini's reproduction testing framework.
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-doc.docTTTTTquery.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
+This page describes reproductions from the raw document collection on the [MS MARCO document ranking task](https://github.com/microsoft/MSMARCO-Document-Ranking).
 
 There are four different bag-of-words regression conditions for this task, and this page describes the following:
 
@@ -15,6 +14,8 @@ There are four different bag-of-words regression conditions for this task, and t
 + **Expansion Condition:** doc2query-T5
 
 All four conditions are described in detail [here](https://github.com/castorini/docTTTTTquery), in the context of doc2query-T5.
+
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-doc.docTTTTTquery.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 Note that in November 2021 we discovered issues in our regression tests, documented [here](../../../docs/experiments-msmarco-doc-doc2query-details.md).
 As a result, we have had to rebuild all our regressions from the raw corpus.

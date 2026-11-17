@@ -7,8 +7,8 @@
 + **Template**: [`msmarco-v1-passage.bm25-b8.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-passage.bm25-b8.template)
 
 This page describes reproductions from the raw document collection on the [MS MARCO passage ranking task](https://github.com/microsoft/MSMARCO-Passage-Ranking), using BM25 with quantized weights (8 bits).
-For more complete instructions on how to run end-to-end experiments, refer to [this page](../../../docs/experiments-msmarco-passage.md).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-passage.bm25-b8.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
+
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-passage.bm25-b8.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

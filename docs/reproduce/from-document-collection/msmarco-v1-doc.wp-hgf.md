@@ -2,15 +2,16 @@
 
 **Anserini reproductions from raw documents**
 
-+ **Models**: bag-of-words approaches with WordPiece tokenization provided by HuggingFace Tokenizer Integration
++ **Models**: bag-of-words on complete documents using WordPiece tokenization ([`bert-base-uncased`](https://huggingface.co/bert-base-uncased) from Hugging Face)
 + **Config**: [`msmarco-v1-doc.wp-hgf.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc.wp-hgf.yaml)
 + **Template**: [`msmarco-v1-doc.wp-hgf.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-doc.wp-hgf.template)
 
-This page describes reproductions from the raw document collection on the [MS MARCO document ranking task](https://github.com/microsoft/MSMARCO-Document-Ranking), which is integrated into Anserini's reproduction testing framework.
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-doc.wp-hgf.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
+This page describes reproductions from the raw document collection on the [MS MARCO document ranking task](https://github.com/microsoft/MSMARCO-Document-Ranking).
 
-Here we are using **WordPiece tokenization** (i.e., from BERT) with the following tokenizer from HuggingFace [`bert-base-uncased`](https://huggingface.co/bert-base-uncased): .
+In these experiments, we are using WordPiece tokenization (i.e., from BERT) with the [`bert-base-uncased`](https://huggingface.co/bert-base-uncased) tokenizer from Hugging Face.
 In general, effectiveness is lower than with "standard" Lucene tokenization for two reasons: (1) we're losing stemming, and (2) some terms are chopped into less meaningful subwords.
+
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-doc.wp-hgf.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

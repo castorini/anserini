@@ -2,15 +2,16 @@
 
 **Anserini reproductions from raw documents**
 
-+ **Models**: various bag-of-words approaches
++ **Models**: bag-of-words
 + **Config**: [`dl20-passage.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.yaml)
 + **Template**: [`dl20-passage.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/dl20-passage.template)
 
 This page describes reproductions from the raw document collection on the [TREC 2020 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2020.html).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl20-passage.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
+For additional instructions on working with MS MARCO passage collection, refer to [this page](../../../docs/experiments-msmarco-passage.md).
+
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl20-passage.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
-For additional instructions on working with MS MARCO passage collection, refer to [this page](../../../docs/experiments-msmarco-passage.md).
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

@@ -9,7 +9,7 @@
 This page documents BM25 regression experiments for [HC4 (v1.0) Russian topics](https://github.com/hltcoe/HC4) on the [NeuCLIR22 Russian corpus](https://neuclir.github.io/).
 The HC4 qrels have been filtered down to include only those in the intersection of the HC4 and NeuCLIR22 corpora.
 To be clear, the queries are in Russian (human translations) and the corpus is in Russian.
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/hc4-neuclir22-ru.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/hc4-neuclir22-ru.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

@@ -10,9 +10,9 @@ This page describes reproductions from the raw document collection using cosDPR-
 
 > Jimmy Lin and Tommaso Teofili. [Searching Dense Representations with Inverted Indexes.](https://arxiv.org/abs/2312.01556) arXiv:2312.01556, 2023.
 
-Here, we are using cached queries (i.e., cached results of query encoding).
+In these experiments, we are using cached queries (i.e., cached results of query encoding).
 
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-passage.cos-dpr-distil.parquet.lexlsh.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-passage.cos-dpr-distil.parquet.lexlsh.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

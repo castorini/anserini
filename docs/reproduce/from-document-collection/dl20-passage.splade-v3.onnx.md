@@ -11,11 +11,11 @@ This page describes reproductions from the raw document collection using [SPLADE
 > Carlos Lassance, Hervé Déjean, Thibault Formal, and Stéphane Clinchant. [SPLADE-v3: New baselines for SPLADE.](https://arxiv.org/abs/2403.06789) _arXiv:2403.06789_.
 
 In these experiments, we are using ONNX to perform query encoding on the fly.
+For additional instructions on working with MS MARCO passage collection, refer to [this page](../../../docs/experiments-msmarco-passage.md).
 
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl20-passage.splade-v3.onnx.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl20-passage.splade-v3.onnx.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
-For additional instructions on working with MS MARCO passage collection, refer to [this page](../../../docs/experiments-msmarco-passage.md).
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

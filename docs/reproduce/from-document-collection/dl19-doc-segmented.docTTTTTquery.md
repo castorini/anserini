@@ -6,9 +6,7 @@
 + **Config**: [`dl19-doc-segmented.docTTTTTquery.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/dl19-doc-segmented.docTTTTTquery.yaml)
 + **Template**: [`dl19-doc-segmented.docTTTTTquery.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/dl19-doc-segmented.docTTTTTquery.template)
 
-This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2019 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2019.html).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl19-doc-segmented.docTTTTTquery.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
-
+This page describes reproductions from the raw document collection on the [TREC 2019 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2019.html).
 For additional instructions on working with MS MARCO document collection, refer to [this page](../../../docs/experiments-msmarco-doc.md).
 
 There are four different bag-of-words regression conditions for this task, and this page describes the following:
@@ -18,6 +16,8 @@ There are four different bag-of-words regression conditions for this task, and t
 
 All four conditions are described in detail [here](https://github.com/castorini/docTTTTTquery), in the context of doc2query-T5.
 In the passage (i.e., segment) indexing condition, we select the score of the highest-scoring passage from a document as the score for that document to produce a document ranking; this is known as the MaxP technique.
+
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl19-doc-segmented.docTTTTTquery.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 

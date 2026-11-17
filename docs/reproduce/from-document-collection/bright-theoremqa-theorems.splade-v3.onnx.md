@@ -13,7 +13,7 @@ See the [official SPLADE repo](https://github.com/naver/splade) and the followin
 > Carlos Lassance, Hervé Déjean, Thibault Formal, and Stéphane Clinchant. [SPLADE-v3: New baselines for SPLADE.](https://arxiv.org/abs/2403.06789) _arXiv:2403.06789_.
 
 In these experiments, we are using ONNX to perform query encoding on the fly.
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/bright-theoremqa-theorems.splade-v3.onnx.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/bright-theoremqa-theorems.splade-v3.onnx.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

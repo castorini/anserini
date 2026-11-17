@@ -2,7 +2,7 @@
 
 **Anserini reproductions from raw documents**
 
-+ **Models**: various bag-of-words approaches on segmented documents
++ **Models**: bag-of-words on segmented documents
 + **Config**: [`rag24-doc-segmented-raggy-dev.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/rag24-doc-segmented-raggy-dev.yaml)
 + **Template**: [`rag24-doc-segmented-raggy-dev.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/rag24-doc-segmented-raggy-dev.template)
 
@@ -10,7 +10,7 @@ This page describes experiments, integrated into Anserini's regression testing f
 These "RAGgy topics" were manually curated from the TREC 2021, 2022, and 2023 Deep Learning Tracks to be "RAG-worthy" according to the track organizers.
 
 Here, we cover bag-of-words baselines where each _segment_ in the MS MARCO V2.1 segmented document corpus is treated as a unit of indexing.
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/rag24-doc-segmented-raggy-dev.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/rag24-doc-segmented-raggy-dev.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

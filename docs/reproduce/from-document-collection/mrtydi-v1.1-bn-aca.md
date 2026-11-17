@@ -2,12 +2,12 @@
 
 **Anserini reproductions from raw documents**
 
-+ **Models**: bag-of-words approaches using `AutoCompositeAnalyzer`
++ **Models**: bag-of-words using `AutoCompositeAnalyzer`
 + **Config**: [`mrtydi-v1.1-bn-aca.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/mrtydi-v1.1-bn-aca.yaml)
 + **Template**: [`mrtydi-v1.1-bn-aca.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/mrtydi-v1.1-bn-aca.template)
 
 This page documents BM25 regression experiments for [Mr. TyDi (v1.1) &mdash; Bengali](https://github.com/castorini/mr.tydi) using `AutoCompositeAnalyzer`.
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/mrtydi-v1.1-bn-aca.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/mrtydi-v1.1-bn-aca.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

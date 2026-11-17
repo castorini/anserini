@@ -10,12 +10,12 @@ This page describes reproductions from the raw document collection using cosDPR-
 
 > Jimmy Lin and Tommaso Teofili. [Searching Dense Representations with Inverted Indexes.](https://arxiv.org/abs/2312.01556) arXiv:2312.01556, 2023.
 
-Here, we are using cached queries (i.e., cached results of query encoding).
+In these experiments, we are using cached queries (i.e., cached results of query encoding).
+For additional instructions on working with MS MARCO passage collection, refer to [this page](../../experiments-msmarco-passage.md).
 
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl19-passage.cos-dpr-distil.parquet.lexlsh.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl19-passage.cos-dpr-distil.parquet.lexlsh.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
-For additional instructions on working with MS MARCO passage collection, refer to [this page](../../experiments-msmarco-passage.md).
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

@@ -2,14 +2,16 @@
 
 **Anserini reproductions from raw documents**
 
-+ **Models**: various bag-of-words approaches on complete documents using `CompositeAnalyzer`
++ **Models**: bag-of-words on complete documents using `CompositeAnalyzer`
 + **Config**: [`dl20-doc.wp-ca.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/dl20-doc.wp-ca.yaml)
 + **Template**: [`dl20-doc.wp-ca.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/dl20-doc.wp-ca.template)
 
-This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2020 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2020.html).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl20-doc.wp-ca.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
+This page describes reproductions from the raw document collection on the [TREC 2020 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2020.html).
+For additional instructions on working with MS MARCO document collection, refer to [this page](../../../docs/experiments-msmarco-doc.md).
 
-Here we are using `CompositeAnalyzer` which combines **Lucene tokenization** with **WordPiece tokenization** (i.e., from BERT) using the following tokenizer from HuggingFace [`bert-base-uncased`](https://huggingface.co/bert-base-uncased).
+In these experiments, we are using `CompositeAnalyzer`, which combines Lucene tokenization and WordPiece tokenization (i.e., from BERT) with the [`bert-base-uncased`](https://huggingface.co/bert-base-uncased) tokenizer from Hugging Face.
+
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl20-doc.wp-ca.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 

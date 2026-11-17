@@ -2,7 +2,7 @@
 
 **Anserini reproductions from raw documents**
 
-+ **Models**: various bag-of-words approaches on segmented documents
++ **Models**: bag-of-words on segmented documents
 + **Config**: [`rag25-doc-segmented-test-nist.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/rag25-doc-segmented-test-nist.yaml)
 + **Template**: [`rag25-doc-segmented-test-nist.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/rag25-doc-segmented-test-nist.template)
 
@@ -17,7 +17,7 @@ More details can be found in the following paper:
 > Shivani Upadhyay, Nandan Thakur, Ronak Pradeep, Nick Craswell, Daniel Campos and Jimmy Lin. [Overview of the TREC 2025 Retrieval Augmented Generation (RAG) Track.](https://arxiv.org/abs/2603.09891) _arXiv:2603.09891_, March 2026.
 
 Here, we cover bag-of-words baselines where each _segment_ in the MS MARCO V2.1 segmented document corpus is treated as a unit of indexing.
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/rag25-doc-segmented-test-nist.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/rag25-doc-segmented-test-nist.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

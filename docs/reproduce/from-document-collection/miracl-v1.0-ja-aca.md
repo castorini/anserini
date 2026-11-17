@@ -2,12 +2,12 @@
 
 **Anserini reproductions from raw documents**
 
-+ **Models**: bag-of-words approaches using `AutoCompositeAnalyzer`
++ **Models**: bag-of-words using `AutoCompositeAnalyzer`
 + **Config**: [`miracl-v1.0-ja-aca.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/miracl-v1.0-ja-aca.yaml)
 + **Template**: [`miracl-v1.0-ja-aca.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/miracl-v1.0-ja-aca.template)
 
 This page documents BM25 regression experiments for [MIRACL (v1.0) &mdash; Japanese](https://github.com/project-miracl/miracl) using `AutoCompositeAnalyzer`.
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/miracl-v1.0-ja-aca.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/miracl-v1.0-ja-aca.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

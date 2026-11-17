@@ -8,7 +8,7 @@
 
 This page documents BM25 regression experiments for monolingual Arabic document retrieval as part of the [TREC 2002 CLIR Track](https://trec.nist.gov/pubs/trec11/t11_proceedings.html).
 The description of the document collection can be found on the [TREC data page](https://trec.nist.gov/data/docs_noneng.html).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/trec02-ar.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/trec02-ar.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

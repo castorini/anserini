@@ -8,7 +8,7 @@
 
 This page documents BM25 regression experiments for monolingual French document retrieval as part of the [CLEF 2006 Multilingual Document Retrieval (Ad Hoc) Track](http://www.clef-initiative.eu/edition/clef2006).
 Associated data can be found on the [CLEF test suites pages](http://www.clef-initiative.eu/dataset/corpus).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/clef06-fr.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/clef06-fr.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

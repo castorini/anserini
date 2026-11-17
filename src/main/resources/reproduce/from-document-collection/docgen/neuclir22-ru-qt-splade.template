@@ -10,7 +10,7 @@ This page presents **query translation** regression experiments for the [TREC 20
 
 + Queries: Translated from English into Russian
 + Documents: Original Russian corpus
-Note that this page is automatically generated from [this template](${template}) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
+This page is automatically generated from [this template](${template}) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 We make available a version of the corpus that has already been encoded with SPLADE NeuCLIR22, i.e., we performed model inference on every document and stored the output sparse vectors.
 Thus, no neural inference is required to reproduce these experiments; see instructions below.

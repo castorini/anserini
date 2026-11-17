@@ -2,7 +2,7 @@
 
 **Anserini reproductions from raw documents**
 
-+ **Models**: various bag-of-words approaches on complete documents
++ **Models**: bag-of-words on complete documents
 + **Config**: [`dl22-doc-msmarco-v2.1.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/dl22-doc-msmarco-v2.1.yaml)
 + **Template**: [`dl22-doc-msmarco-v2.1.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/dl22-doc-msmarco-v2.1.template)
 
@@ -13,7 +13,7 @@ An important caveat is that these document judgments were inferred from the pass
 That is, if a passage is relevant, the document containing it is considered relevant.
 
 Here, we cover bag-of-words baselines where each document in the MS MARCO V2.1 document corpus is treated as a unit of indexing.
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl22-doc-msmarco-v2.1.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl22-doc-msmarco-v2.1.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

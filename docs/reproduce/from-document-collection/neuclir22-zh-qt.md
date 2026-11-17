@@ -10,7 +10,7 @@ This page presents **query translation** regression experiments for the [TREC 20
 
 + Queries: Translated from English into Chinese
 + Documents: Original Chinese corpus
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/neuclir22-zh-qt.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/neuclir22-zh-qt.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

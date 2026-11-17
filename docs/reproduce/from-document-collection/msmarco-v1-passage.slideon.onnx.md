@@ -11,7 +11,7 @@ This page describes reproductions from the raw document collection using the [Sl
 In these experiments, we are using ONNX to perform query encoding on the fly.
 See [SlideOn ONNX inference](../../onnx-slideon.md) for model requirements and query settings.
 
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-passage.slideon.onnx.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-passage.slideon.onnx.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

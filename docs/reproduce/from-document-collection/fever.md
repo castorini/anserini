@@ -7,7 +7,7 @@
 + **Template**: [`fever.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/fever.template)
 
 This page documents BM25 regression experiments for the [FEVER fact verification task](https://fever.ai/), which is integrated into Anserini's reproduction testing framework.
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/fever.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/fever.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

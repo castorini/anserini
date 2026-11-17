@@ -8,7 +8,7 @@
 
 This page documents BM25 regression experiments for [NTCIR-8 ACLIA (IR4QA subtask), monolingual Chinese topics](http://research.nii.ac.jp/ntcir/ntcir-ws8/ws-en.html).
 The description of the document collection can be found in the [NTCIR-8 data page](http://research.nii.ac.jp/ntcir/permission/ntcir-8/perm-en-ACLIA.html).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/ntcir8-zh.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/ntcir8-zh.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

@@ -8,7 +8,7 @@
 
 This page documents BM25 and BM25QS regression experiments for [RETECO v1.1 Track 1a &mdash; HSM](https://datascienceuibk.github.io/RETECO/).
 One full domain index is shared by train and dev.
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/reteco-v1.1-track1-hsm.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/reteco-v1.1-track1-hsm.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), after [preparing the local corpus](../from-document-collection-summaries/reteco.md#available-corpora-for-download), the following command will perform the complete regression, end to end:
 

@@ -12,7 +12,7 @@ This page describes reproductions from the raw document collection using cosDPR-
 
 In these experiments, we are performing query inference "on-the-fly" with ONNX.
 
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-passage.cos-dpr-distil.parquet.hnsw.onnx.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-passage.cos-dpr-distil.parquet.hnsw.onnx.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

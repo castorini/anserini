@@ -2,13 +2,11 @@
 
 **Anserini reproductions from raw documents**
 
-+ **Models**: various bag-of-words approaches on complete documents
++ **Models**: bag-of-words on complete documents
 + **Config**: [`dl20-doc.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/dl20-doc.yaml)
 + **Template**: [`dl20-doc.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/dl20-doc.template)
 
-This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2020 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2020.html).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl20-doc.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
-
+This page describes reproductions from the raw document collection on the [TREC 2020 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2020.html).
 For additional instructions on working with MS MARCO document collection, refer to [this page](../../../docs/experiments-msmarco-doc.md).
 
 There are four different bag-of-words regression conditions for this task, and this page describes the following:
@@ -17,6 +15,8 @@ There are four different bag-of-words regression conditions for this task, and t
 + **Expansion Condition:** none
 
 All four conditions are described in detail [here](https://github.com/castorini/docTTTTTquery), in the context of doc2query-T5.
+
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl20-doc.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 

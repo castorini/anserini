@@ -2,12 +2,12 @@
 
 **Anserini reproductions from raw documents**
 
-+ **Models**: various bag-of-words approaches
++ **Models**: bag-of-words
 + **Config**: [`disk12.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/disk12.yaml)
 + **Template**: [`disk12.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/disk12.template)
 
 This page describes regressions for ad hoc topics from TREC 1-3, which use [TIPSTER Disks 1 &amp; 2](https://catalog.ldc.upenn.edu/LDC93T3A).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/disk12.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/disk12.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
 

@@ -10,7 +10,7 @@ This page presents **document translation** regression experiments for the [TREC
 
 + Queries: English
 + Documents: Machine-translated documents from Russian into English (corpus provided by the organizers)
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/neuclir22-ru-dt-splade.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/neuclir22-ru-dt-splade.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 We make available a version of the corpus that has already been encoded with [SPLADE CoCondenser SelfDistil](https://huggingface.co/naver/splade-cocondenser-selfdistil), i.e., we performed model inference on every document and stored the output sparse vectors.
 Thus, no neural inference is required to reproduce these experiments; see instructions below.
