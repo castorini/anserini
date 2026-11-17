@@ -67,6 +67,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("msmarco-v1-passage.splade-pp-ed.onnx"),
         Pattern.quote("msmarco-v1-passage.splade-pp-sd.onnx"),
         Pattern.quote("msmarco-v1-passage.splade-v3.onnx"),
+        Pattern.quote("msmarco-v1-passage.slideon.onnx"),
         Pattern.quote(""),
         Pattern.quote("msmarco-v1-passage.cos-dpr-distil.parquet.fw"),
         Pattern.quote("msmarco-v1-passage.cos-dpr-distil.parquet.lexlsh"),
@@ -102,6 +103,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("dl19-passage.splade-pp-ed.onnx"),
         Pattern.quote("dl19-passage.splade-pp-sd.onnx"),
         Pattern.quote("dl19-passage.splade-v3.onnx"),
+        Pattern.quote("dl19-passage.slideon.onnx"),
         Pattern.quote(""),
         Pattern.quote("dl19-passage.cos-dpr-distil.parquet.fw"),
         Pattern.quote("dl19-passage.cos-dpr-distil.parquet.lexlsh"),
@@ -137,6 +139,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("dl20-passage.splade-pp-ed.onnx"),
         Pattern.quote("dl20-passage.splade-pp-sd.onnx"),
         Pattern.quote("dl20-passage.splade-v3.onnx"),
+        Pattern.quote("dl20-passage.slideon.onnx"),
         Pattern.quote(""),
         Pattern.quote("dl20-passage.cos-dpr-distil.parquet.fw"),
         Pattern.quote("dl20-passage.cos-dpr-distil.parquet.lexlsh"),
@@ -407,6 +410,9 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("beir-v1.0.0-fever.bge-base-en-v1.5.parquet.hnsw-sqv.onnx"),
         Pattern.quote("beir-v1.0.0-climate-fever.bge-base-en-v1.5.parquet.hnsw-sqv.onnx"),
         Pattern.quote("beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.hnsw-sqv.onnx")
+    ));
+    ORDERING.put("BEIR (v1.0.0): SlideOn", List.of(
+        "beir-v1\\.0\\.0-.*\\.slideon\\.onnx"
     ));
     ORDERING.put("BEIR (v1.0.0): SPLADE-v3", List.of(
         Pattern.quote("beir-v1.0.0-trec-covid.splade-v3.onnx"),
