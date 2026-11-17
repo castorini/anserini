@@ -412,7 +412,35 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("beir-v1.0.0-scifact.bge-base-en-v1.5.parquet.hnsw-sqv.onnx")
     ));
     ORDERING.put("BEIR (v1.0.0): SlideOn", List.of(
-        "beir-v1\\.0\\.0-.*\\.slideon\\.onnx"
+        Pattern.quote("beir-v1.0.0-trec-covid.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-bioasq.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-nfcorpus.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-nq.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-hotpotqa.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-fiqa.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-signal1m.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-trec-news.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-robust04.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-arguana.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-webis-touche2020.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-cqadupstack-android.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-cqadupstack-english.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-cqadupstack-gaming.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-cqadupstack-gis.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-cqadupstack-mathematica.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-cqadupstack-physics.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-cqadupstack-programmers.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-cqadupstack-stats.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-cqadupstack-tex.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-cqadupstack-unix.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-cqadupstack-webmasters.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-cqadupstack-wordpress.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-quora.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-dbpedia-entity.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-scidocs.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-fever.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-climate-fever.slideon.onnx"),
+        Pattern.quote("beir-v1.0.0-scifact.slideon.onnx")
     ));
     ORDERING.put("BEIR (v1.0.0): SPLADE-v3", List.of(
         Pattern.quote("beir-v1.0.0-trec-covid.splade-v3.onnx"),
@@ -713,8 +741,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("bright-stackoverflow.splade-v3.onnx"),
         Pattern.quote("bright-sustainable-living.splade-v3.onnx"),
         Pattern.quote("bright-theoremqa-questions.splade-v3.onnx"),
-        Pattern.quote("bright-theoremqa-theorems.splade-v3.onnx"),
-        Pattern.quote("")
+        Pattern.quote("bright-theoremqa-theorems.splade-v3.onnx")
     ));
     ORDERING.put("BRIGHT: BGE-large-en-v1.5", List.of(
         Pattern.quote("bright-aops.bge-large-en-v1.5.flat.onnx"),
@@ -728,8 +755,7 @@ public class GenerateReproductionDocsFromDocumentCollectionTest {
         Pattern.quote("bright-stackoverflow.bge-large-en-v1.5.flat.onnx"),
         Pattern.quote("bright-sustainable-living.bge-large-en-v1.5.flat.onnx"),
         Pattern.quote("bright-theoremqa-questions.bge-large-en-v1.5.flat.onnx"),
-        Pattern.quote("bright-theoremqa-theorems.bge-large-en-v1.5.flat.onnx"),
-        Pattern.quote("")
+        Pattern.quote("bright-theoremqa-theorems.bge-large-en-v1.5.flat.onnx")
     ));
     ORDERING.put("Other regressions (TREC, etc.)", List.of(
         Pattern.quote("backgroundlinking18"),

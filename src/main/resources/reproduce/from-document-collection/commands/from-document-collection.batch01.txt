@@ -31,6 +31,7 @@ io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search 
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.splade-pp-ed.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.splade-pp-sd.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.splade-v3.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.slideon.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.cos-dpr-distil.parquet.flat.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.cos-dpr-distil.parquet.flat-sqv.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.cos-dpr-distil.parquet.hnsw.onnx
@@ -142,6 +143,7 @@ io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.splade-pp-ed.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.splade-pp-sd.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.splade-v3.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.slideon.onnx
 
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.cos-dpr-distil.parquet.flat.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl19-passage.cos-dpr-distil.parquet.flat-sqv.onnx
@@ -176,6 +178,7 @@ io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.splade-pp-ed.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.splade-pp-sd.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.splade-v3.onnx
+io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.slideon.onnx
 
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.cos-dpr-distil.parquet.flat.onnx
 io.anserini.reproduce.ReproduceFromDocumentCollection --verify --search --config dl20-passage.cos-dpr-distil.parquet.flat-sqv.onnx
