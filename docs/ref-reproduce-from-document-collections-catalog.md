@@ -37,7 +37,6 @@ Here are all the available configurations:
 + [BEIR (v1.0.0): SPLADE-v3](#beir-v1-0-0-splade-v3)
 + [BEIR (v1.0.0): SPLADE++ CoCondenser-EnsembleDistil](#beir-v1-0-0-splade-cocondenser-ensembledistil)
 + [BEIR (v1.0.0): "flat" baseline](#beir-v1-0-0-flat-baseline)
-+ [BEIR (v1.0.0): "flat" baseline with WordPiece tokenization](#beir-v1-0-0-flat-baseline-with-wordpiece-tokenization)
 + [BEIR (v1.0.0): "multifield" baseline](#beir-v1-0-0-multifield-baseline)
 + [Mr.TyDi (v1.1): BM25 regressions](#mr-tydi-v1-1-bm25-regressions)
 + [MIRACL (v1.0): BM25 regressions](#miracl-v1-0-bm25-regressions)
@@ -532,40 +531,6 @@ Here are all the available configurations:
 + [`beir-v1.0.0-fever.flat`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-fever.flat.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-fever.flat.md)]
 + [`beir-v1.0.0-climate-fever.flat`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-climate-fever.flat.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-climate-fever.flat.md)]
 + [`beir-v1.0.0-scifact.flat`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-scifact.flat.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-scifact.flat.md)]
-
-<a id="beir-v1-0-0-flat-baseline-with-wordpiece-tokenization"></a>
-
-## BEIR (v1.0.0): "flat" baseline with WordPiece tokenization
-
-+ [`beir-v1.0.0-trec-covid.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-trec-covid.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-trec-covid.flat-wp.md)]
-+ [`beir-v1.0.0-bioasq.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-bioasq.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-bioasq.flat-wp.md)]
-+ [`beir-v1.0.0-nfcorpus.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-nfcorpus.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-nfcorpus.flat-wp.md)]
-+ [`beir-v1.0.0-nq.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-nq.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-nq.flat-wp.md)]
-+ [`beir-v1.0.0-hotpotqa.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-hotpotqa.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-hotpotqa.flat-wp.md)]
-+ [`beir-v1.0.0-fiqa.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-fiqa.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-fiqa.flat-wp.md)]
-+ [`beir-v1.0.0-signal1m.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-signal1m.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-signal1m.flat-wp.md)]
-+ [`beir-v1.0.0-trec-news.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-trec-news.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-trec-news.flat-wp.md)]
-+ [`beir-v1.0.0-robust04.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-robust04.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-robust04.flat-wp.md)]
-+ [`beir-v1.0.0-arguana.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-arguana.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-arguana.flat-wp.md)]
-+ [`beir-v1.0.0-webis-touche2020.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-webis-touche2020.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-webis-touche2020.flat-wp.md)]
-+ [`beir-v1.0.0-cqadupstack-android.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-android.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-android.flat-wp.md)]
-+ [`beir-v1.0.0-cqadupstack-english.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-english.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-english.flat-wp.md)]
-+ [`beir-v1.0.0-cqadupstack-gaming.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-gaming.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-gaming.flat-wp.md)]
-+ [`beir-v1.0.0-cqadupstack-gis.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-gis.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-gis.flat-wp.md)]
-+ [`beir-v1.0.0-cqadupstack-mathematica.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-mathematica.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-mathematica.flat-wp.md)]
-+ [`beir-v1.0.0-cqadupstack-physics.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-physics.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-physics.flat-wp.md)]
-+ [`beir-v1.0.0-cqadupstack-programmers.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-programmers.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-programmers.flat-wp.md)]
-+ [`beir-v1.0.0-cqadupstack-stats.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-stats.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-stats.flat-wp.md)]
-+ [`beir-v1.0.0-cqadupstack-tex.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-tex.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-tex.flat-wp.md)]
-+ [`beir-v1.0.0-cqadupstack-unix.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-unix.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-unix.flat-wp.md)]
-+ [`beir-v1.0.0-cqadupstack-webmasters.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-webmasters.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-webmasters.flat-wp.md)]
-+ [`beir-v1.0.0-cqadupstack-wordpress.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-wordpress.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-cqadupstack-wordpress.flat-wp.md)]
-+ [`beir-v1.0.0-quora.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-quora.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-quora.flat-wp.md)]
-+ [`beir-v1.0.0-dbpedia-entity.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-dbpedia-entity.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-dbpedia-entity.flat-wp.md)]
-+ [`beir-v1.0.0-scidocs.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-scidocs.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-scidocs.flat-wp.md)]
-+ [`beir-v1.0.0-fever.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-fever.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-fever.flat-wp.md)]
-+ [`beir-v1.0.0-climate-fever.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-climate-fever.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-climate-fever.flat-wp.md)]
-+ [`beir-v1.0.0-scifact.flat-wp`](../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-scifact.flat-wp.yaml) [[docs](reproduce/from-document-collection/beir-v1.0.0-scifact.flat-wp.md)]
 
 <a id="beir-v1-0-0-multifield-baseline"></a>
 
