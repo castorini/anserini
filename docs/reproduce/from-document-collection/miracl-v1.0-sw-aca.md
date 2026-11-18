@@ -6,11 +6,11 @@
 + **Config**: [`miracl-v1.0-sw-aca.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/miracl-v1.0-sw-aca.yaml)
 + **Template**: [`miracl-v1.0-sw-aca.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/miracl-v1.0-sw-aca.template)
 
-This page describes reproductions from the raw document collection using BM25 with `AutoCompositeAnalyzer` for [MIRACL (v1.0) &mdash; Swahili](https://github.com/project-miracl/miracl).
+This page describes reproductions from the raw document collection on [MIRACL (v1.0) &mdash; Swahili](https://github.com/project-miracl/miracl).
 
 This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/miracl-v1.0-sw-aca.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
-From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config miracl-v1.0-sw-aca

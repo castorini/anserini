@@ -6,11 +6,11 @@
 + **Config**: [`mrtydi-v1.1-ar-aca.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/mrtydi-v1.1-ar-aca.yaml)
 + **Template**: [`mrtydi-v1.1-ar-aca.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/mrtydi-v1.1-ar-aca.template)
 
-This page documents BM25 regression experiments for [Mr. TyDi (v1.1) &mdash; Arabic](https://github.com/castorini/mr.tydi) using `AutoCompositeAnalyzer`.
+This page describes reproductions from the raw document collection on [Mr. TyDi (v1.1) &mdash; Arabic](https://github.com/castorini/mr.tydi).
 
 This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/mrtydi-v1.1-ar-aca.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
-From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config mrtydi-v1.1-ar-aca

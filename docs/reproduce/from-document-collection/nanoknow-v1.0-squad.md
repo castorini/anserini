@@ -12,7 +12,7 @@ Future versions (v2, v3, ...) of the NanoKnow regression are expected to project
 
 This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/nanoknow-v1.0-squad.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
-From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config nanoknow-v1.0-squad

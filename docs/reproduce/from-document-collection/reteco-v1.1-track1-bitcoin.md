@@ -11,7 +11,7 @@ One full domain index is shared by train and dev.
 
 This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/reteco-v1.1-track1-bitcoin.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
-From one of our Waterloo servers (e.g., `orca`), after [preparing the local corpus](../from-document-collection-summaries/reteco.md#available-corpora-for-download), the following command will perform the complete regression, end to end:
+From one of our Waterloo servers (e.g., `orca`), after [preparing the local corpus](../from-document-collection-summaries/reteco.md#available-corpora-for-download), the following command will perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection \

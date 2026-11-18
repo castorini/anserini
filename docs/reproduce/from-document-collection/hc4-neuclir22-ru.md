@@ -12,7 +12,7 @@ To be clear, the queries are in Russian (human translations) and the corpus is i
 
 This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/hc4-neuclir22-ru.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
-From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config hc4-neuclir22-ru

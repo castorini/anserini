@@ -17,7 +17,7 @@ This page is automatically generated from [this template](../../../src/main/reso
 
 NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 
-From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-passage.splade-pp-sd.onnx
@@ -25,7 +25,7 @@ bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verif
 
 We make available a version of the MS MARCO Passage Corpus that has already been encoded with SPLADE++ CoCondenser-SelfDistil.
 
-From any machine, the following command will download the corpus and perform the complete regression, end to end:
+From any machine, the following command will download the corpus and perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --download --index --verify --search --config dl19-passage.splade-pp-sd.onnx

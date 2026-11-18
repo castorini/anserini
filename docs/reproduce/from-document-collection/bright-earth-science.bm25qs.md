@@ -12,7 +12,7 @@ This page documents BM25 regression experiments for [BRIGHT &mdash; Earth Scienc
 
 This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/bright-earth-science.bm25qs.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
-From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-earth-science.bm25qs

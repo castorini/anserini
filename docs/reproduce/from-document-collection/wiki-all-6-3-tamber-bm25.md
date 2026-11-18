@@ -13,7 +13,7 @@ The exact configuration here is the 6/3 sentence sliding window corpus described
 
 This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/wiki-all-6-3-tamber-bm25.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
-From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config wiki-all-6-3-tamber-bm25

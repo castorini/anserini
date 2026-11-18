@@ -14,7 +14,7 @@ For more complete instructions on how to run end-to-end experiments, refer to [t
 
 This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-passage.doc2query.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
-From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-passage.doc2query
@@ -94,7 +94,7 @@ With the above commands, you should be able to reproduce the following results:
 Explanation of settings:
 
 + The setting "default" refers to the default BM25 settings of `k1=0.9`, `b=0.4`.
-+ The setting "tuned" refers to `k1=0.82`, `b=0.68`, tuned on _on the original passages_, as described in [this page](../../../docs/experiments-msmarco-passage.md).
++ The setting "tuned" refers to `k1=0.82`, `b=0.68`, tuned _on the original passages_, as described in [this page](../../../docs/experiments-msmarco-passage.md).
 
 ## Additional Implementation Details
 

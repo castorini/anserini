@@ -26,7 +26,7 @@ More details can be found in the following two papers:
 
 This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/rag24-doc-segmented-test-nist.splade-v3.onnx.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
-From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config rag24-doc-segmented-test-nist.splade-v3.onnx
@@ -34,7 +34,7 @@ bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verif
 
 We make available a version of the MS MARCO V2.1 segmented document corpus that has already been encoded with SPLADE-v3.
 
-From any machine, the following command will download the corpus and perform the complete regression, end to end:
+From any machine, the following command will download the corpus and perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --download --index --verify --search --config rag24-doc-segmented-test-nist.splade-v3.onnx
