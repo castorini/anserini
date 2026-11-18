@@ -1,19 +1,21 @@
-# Anserini Regressions: BRIGHT &mdash; Pony
+# <img src="../../anserini-logo.png" height="30" /> BRIGHT &mdash; Pony
 
-**Model**: [BGE-large-en-v1.5](https://huggingface.co/BAAI/bge-large-en-v1.5) with flat indexes (using ONNX for on-the-fly query encoding)
+**Anserini reproductions from document collection**
 
-This page documents regression experiments, integrated into Anserini's regression testing framework, for [BRIGHT &mdash; Pony](https://brightbenchmark.github.io/) using [BGE-large-en-v1.5](https://huggingface.co/BAAI/bge-large-en-v1.5).
-The model itself can be download [here](https://huggingface.co/BAAI/bge-large-en-v1.5).
++ **Models**: [BGE-large-en-v1.5](https://huggingface.co/BAAI/bge-large-en-v1.5) with flat indexes (using ONNX for on-the-fly query encoding)
++ **Config**: [`bright-pony.bge-large-en-v1.5.flat.onnx.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/bright-pony.bge-large-en-v1.5.flat.onnx.yaml)
++ **Template**: [`bright-pony.bge-large-en-v1.5.flat.onnx.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/bright-pony.bge-large-en-v1.5.flat.onnx.template)
+
+This page describes reproductions from the raw document collection for [BRIGHT &mdash; Pony](https://brightbenchmark.github.io/) using [BGE-large-en-v1.5](https://huggingface.co/BAAI/bge-large-en-v1.5).
 See the following paper for more details:
 
 > Shitao Xiao, Zheng Liu, Peitian Zhang, and Niklas Muennighoff. [C-Pack: Packaged Resources To Advance General Chinese Embedding.](https://arxiv.org/abs/2309.07597) _arXiv:2309.07597_, 2023.
 
 In these experiments, we are using ONNX to perform query encoding on the fly.
 
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/bright-pony.bge-large-en-v1.5.flat.onnx.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/bright-pony.bge-large-en-v1.5.flat.onnx.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and build Anserini to rebuild the documentation.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/bright-pony.bge-large-en-v1.5.flat.onnx.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
-From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-pony.bge-large-en-v1.5.flat.onnx
@@ -27,7 +29,7 @@ tar xvf collections/bright-bge-large-en-v1.5.tar -C collections/
 ```
 
 The tarball is 13 GB and has MD5 checksum `0ce2634d34d3d467cd1afd74f2f63c7b`.
-After download and unpacking the corpora, the `run_regression.py` command above should work without any issue.
+After download and unpacking the corpora, the `ReproduceFromDocumentCollection` command above should work without any issue.
 
 ## Indexing
 

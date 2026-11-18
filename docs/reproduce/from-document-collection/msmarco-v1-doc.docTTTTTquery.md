@@ -1,23 +1,27 @@
-# Anserini Regressions: MS MARCO Document Ranking
+# <img src="../../anserini-logo.png" height="30" /> MS MARCO Document Ranking
 
-**Models**: BM25 on complete documents with doc2query-T5 expansions
+**Anserini reproductions from document collection**
 
-This page documents regression experiments on the [MS MARCO document ranking task](https://github.com/microsoft/MSMARCO-Document-Ranking), which is integrated into Anserini's regression testing framework.
-Note that there are four different bag-of-words regression conditions for this task, and this page describes the following:
++ **Models**: bag-of-words on complete documents with doc2query-T5 expansions
++ **Config**: [`msmarco-v1-doc.docTTTTTquery.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc.docTTTTTquery.yaml)
++ **Template**: [`msmarco-v1-doc.docTTTTTquery.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-doc.docTTTTTquery.template)
+
+This page describes reproductions from the raw document collection on the [MS MARCO document ranking task](https://github.com/microsoft/MSMARCO-Document-Ranking).
+
+There are four different bag-of-words regression conditions for this task, and this page describes the following:
 
 + **Indexing Condition:** each MS MARCO document is treated as a unit of indexing
 + **Expansion Condition:** doc2query-T5
 
 All four conditions are described in detail [here](https://github.com/castorini/docTTTTTquery), in the context of doc2query-T5.
 
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc.docTTTTTquery.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-doc.docTTTTTquery.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-doc.docTTTTTquery.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 Note that in November 2021 we discovered issues in our regression tests, documented [here](../../../docs/experiments-msmarco-doc-doc2query-details.md).
 As a result, we have had to rebuild all our regressions from the raw corpus.
 These new versions yield end-to-end scores that are slightly different, so if numbers reported in a paper do not exactly match the numbers here, this may be the reason.
 
-From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config msmarco-v1-doc.docTTTTTquery
@@ -96,7 +100,7 @@ With the above commands, you should be able to reproduce the following results:
 
 Explanation of settings:
 
-+ The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`.
++ The setting "default" refers to the default BM25 settings of `k1=0.9`, `b=0.4`.
 + The setting "tuned" refers to `k1=4.68`, `b=0.87`, tuned in 2020/12 using the MS MARCO document sparse judgments to optimize for recall@100 (i.e., for first-stage retrieval).
 
 In these runs, we are retrieving the top 1000 hits for each query and using `trec_eval` to evaluate all 1000 hits.

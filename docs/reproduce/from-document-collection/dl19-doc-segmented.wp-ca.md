@@ -1,25 +1,22 @@
-# Anserini Regressions: TREC 2019 Deep Learning Track (Document)
+# <img src="../../anserini-logo.png" height="30" /> TREC 2019 Deep Learning Track (Document)
 
-**Models**: various bag-of-words approaches on segmented documents using `CompositeAnalyzer`.
+**Anserini reproductions from document collection**
 
-This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2019 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2019.html).
++ **Models**: bag-of-words on segmented documents using `CompositeAnalyzer`
++ **Config**: [`dl19-doc-segmented.wp-ca.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/dl19-doc-segmented.wp-ca.yaml)
++ **Template**: [`dl19-doc-segmented.wp-ca.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/dl19-doc-segmented.wp-ca.template)
 
-Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
+This page describes reproductions from the raw document collection on the [TREC 2019 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2019.html).
 For additional instructions on working with MS MARCO document collection, refer to [this page](../../../docs/experiments-msmarco-doc.md).
 
-+ **Indexing Condition:** each MS MARCO document is first segmented into passages, each passage is treated as a unit of indexing
-+ **Expansion Condition:** none
+In these experiments, we are using `CompositeAnalyzer`, which combines Lucene tokenization and WordPiece tokenization (i.e., from BERT) with the [`bert-base-uncased`](https://huggingface.co/bert-base-uncased) tokenizer from Hugging Face.
+At retrieval time, we select the score of the highest-scoring passage from a document as the score for that document to produce a document ranking; this is known as the MaxP technique.
 
-In the passage (i.e., segment) indexing condition, we select the score of the highest-scoring passage from a document as the score for that document to produce a document ranking; this is known as the MaxP technique.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl19-doc-segmented.wp-ca.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/dl19-doc-segmented.wp-ca.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl19-doc-segmented.wp-ca.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 
-Note that in November 2021 we discovered issues in our regression tests, documented [here](../../../docs/experiments-msmarco-doc-doc2query-details.md).
-As a result, we have had to rebuild all our regressions from the raw corpus.
-These new versions yield end-to-end scores that are slightly different, so if numbers reported in a paper do not exactly match the numbers here, this may be the reason.
-
-From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl19-doc-segmented.wp-ca
@@ -87,7 +84,7 @@ With the above commands, you should be able to reproduce the following results:
 
 Explanation of settings:
 
-+ The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`.
++ The setting "default" refers to the default BM25 settings of `k1=0.9`, `b=0.4`.
 
 Note that in the official evaluation for document ranking, all runs were truncated to top-100 hits per query (whereas all top-1000 hits per query were retained for passage ranking).
 Thus, average precision is computed to depth 100 (i.e., AP@100); nDCG@10 remains unaffected.

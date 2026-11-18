@@ -1,12 +1,17 @@
-# Anserini Regressions: RETECO v1.1 Track 1a &mdash; History
+# <img src="../../anserini-logo.png" height="30" /> RETECO v1.1 Track 1a &mdash; History
+
+**Anserini reproductions from document collection**
+
++ **Models**: BM25 and BM25QS
++ **Config**: [`reteco-v1.1-track1-history.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/reteco-v1.1-track1-history.yaml)
++ **Template**: [`reteco-v1.1-track1-history.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/reteco-v1.1-track1-history.template)
 
 This page documents BM25 and BM25QS regression experiments for [RETECO v1.1 Track 1a &mdash; History](https://datascienceuibk.github.io/RETECO/).
 One full domain index is shared by train and dev.
 
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/reteco-v1.1-track1-history.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/reteco-v1.1-track1-history.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and build Anserini to rebuild the documentation.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/reteco-v1.1-track1-history.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
-From one of our Waterloo servers (e.g., `orca`), after [preparing the local corpus](../from-document-collection-summaries/reteco.md#available-corpora-for-download), the following command will perform the complete regression, end to end:
+From one of our Waterloo servers (e.g., `orca`), after [preparing the local corpus](../from-document-collection-summaries/reteco.md#available-corpora-for-download), the following command will perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection \

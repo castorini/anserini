@@ -1,23 +1,26 @@
-# Anserini Regressions: TREC 2023 Deep Learning Track (Document)
+# <img src="../../anserini-logo.png" height="30" /> TREC 2023 Deep Learning Track (Document)
 
-**Models**: BM25 on complete documents with doc2query-T5 expansions
+**Anserini reproductions from document collection**
 
-This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2023 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2023.html) using the MS MARCO V2 document corpus (with doc2query-T5 expansions).
++ **Models**: bag-of-words on complete documents with doc2query-T5 expansions
++ **Config**: [`dl23-doc.d2q-t5.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/dl23-doc.d2q-t5.yaml)
++ **Template**: [`dl23-doc.d2q-t5.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/dl23-doc.d2q-t5.template)
+
+This page describes reproductions from the raw document collection on the [TREC 2023 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2023.html) using the MS MARCO V2 document corpus (with doc2query-T5 expansions).
 For additional instructions on working with the MS MARCO V2 document corpus, refer to [this page](../../../docs/experiments-msmarco-v2.md).
 
-Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
-An important caveat is that these document judgments were inferred from the passages.
-That is, if a passage is relevant, the document containing it is considered relevant.
-
-Note that there are four different bag-of-words regression conditions for this task, and this page describes the following:
+There are four different bag-of-words regression conditions for this task, and this page describes the following:
 
 + **Indexing Condition:** each document in the MS MARCO V2 document corpus is treated as a unit of indexing
 + **Expansion Condition:** doc2query-T5
 
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/dl23-doc.d2q-t5.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl23-doc.d2q-t5.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl23-doc.d2q-t5.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
-From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
+An important caveat is that these document judgments were inferred from the passages.
+That is, if a passage is relevant, the document containing it is considered relevant.
+
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl23-doc.d2q-t5

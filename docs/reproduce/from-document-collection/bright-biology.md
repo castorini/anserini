@@ -1,11 +1,16 @@
-# Anserini Regressions: BRIGHT &mdash; Biology
+# <img src="../../anserini-logo.png" height="30" /> BRIGHT &mdash; Biology
+
+**Anserini reproductions from document collection**
+
++ **Models**: BM25 and BM25QS
++ **Config**: [`bright-biology.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/bright-biology.yaml)
++ **Template**: [`bright-biology.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/bright-biology.template)
 
 This page documents BM25 and BM25QS regression experiments for [BRIGHT &mdash; Biology](https://brightbenchmark.github.io/).
 
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/bright-biology.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/bright-biology.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead and build Anserini to rebuild the documentation.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/bright-biology.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
-From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config bright-biology
@@ -19,7 +24,7 @@ tar xvf collections/bright-corpus.tar -C collections/
 ```
 
 The tarball is 284 MB and has MD5 checksum `568b594709a9977369033117bfb6889c`.
-After download and unpacking the corpora, the `run_regression.py` command above should work without any issue.
+After download and unpacking the corpora, the `ReproduceFromDocumentCollection` command above should work without any issue.
 
 ## Indexing
 

@@ -1,15 +1,19 @@
-# Anserini Regressions: NeuCLIR22 &mdash; Russian (Query Translation)
+# <img src="../../anserini-logo.png" height="30" /> NeuCLIR22 &mdash; Russian (Query Translation)
+
+**Anserini reproductions from document collection**
+
++ **Models**: BM25
++ **Config**: [`neuclir22-ru-qt.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/neuclir22-ru-qt.yaml)
++ **Template**: [`neuclir22-ru-qt.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/neuclir22-ru-qt.template)
 
 This page presents **query translation** regression experiments for the [TREC 2022 NeuCLIR Track](https://neuclir.github.io/), Russian, with the following configuration:
 
 + Queries: Translated from English into Russian
 + Documents: Original Russian corpus
-+ Model: BM25
 
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/neuclir22-ru-qt.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/neuclir22-ru-qt.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/neuclir22-ru-qt.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
-From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config neuclir22-ru-qt

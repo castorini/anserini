@@ -1,17 +1,22 @@
-# Anserini Regressions: TREC 2020 Deep Learning Track (Document)
+# <img src="../../anserini-logo.png" height="30" /> TREC 2020 Deep Learning Track (Document)
 
-**Models**: various bag-of-words approaches on complete documents with WordPiece tokenization provided by HuggingFace Tokenizer Integration
+**Anserini reproductions from document collection**
 
-This page describes experiments, integrated into Anserini's regression testing framework, on the [TREC 2020 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2020.html).
-Here we are using **WordPiece tokenization** (i.e., from BERT) on the entire document.
++ **Models**: bag-of-words on complete documents using WordPiece tokenization ([`bert-base-uncased`](https://huggingface.co/bert-base-uncased) from Hugging Face)
++ **Config**: [`dl20-doc.wp-hgf.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/dl20-doc.wp-hgf.yaml)
++ **Template**: [`dl20-doc.wp-hgf.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/dl20-doc.wp-hgf.template)
+
+This page describes reproductions from the raw document collection on the [TREC 2020 Deep Learning Track document ranking task](https://trec.nist.gov/data/deep2020.html).
+For additional instructions on working with MS MARCO document collection, refer to [this page](../../../docs/experiments-msmarco-doc.md).
+
+In these experiments, we are using WordPiece tokenization (i.e., from BERT) with the [`bert-base-uncased`](https://huggingface.co/bert-base-uncased) tokenizer from Hugging Face.
 In general, effectiveness is lower than with "standard" Lucene tokenization for two reasons: (1) we're losing stemming, and (2) some terms are chopped into less meaningful subwords.
 
-Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl20-doc.wp-hgf.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/dl20-doc.wp-hgf.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl20-doc.wp-hgf.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
 
-From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-doc.wp-hgf

@@ -1,18 +1,22 @@
-# Anserini Regressions: TREC 2020 Deep Learning Track (Passage)
+# <img src="../../anserini-logo.png" height="30" /> TREC 2020 Deep Learning Track (Passage)
 
-**Models**: bag-of-words approaches with WordPiece tokenization provided by HuggingFace Tokenizer Integration
+**Anserini reproductions from document collection**
 
-This page describes baseline experiments, integrated into Anserini's regression testing framework, on the [TREC 2020 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2020.html).
-Here we are using **WordPiece tokenization** (i.e., from BERT).
-In general, effectiveness is lower than with "standard" Lucene tokenization for two reasons: (1) we're losing stemming, and (2) some terms are chopped into less meaningful subwords.
++ **Models**: bag-of-words using WordPiece tokenization ([`bert-base-uncased`](https://huggingface.co/bert-base-uncased) from Hugging Face)
++ **Config**: [`dl20-passage.wp-hgf.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.wp-hgf.yaml)
++ **Template**: [`dl20-passage.wp-hgf.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/dl20-passage.wp-hgf.template)
 
-Note that the NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
+This page describes reproductions from the raw document collection on the [TREC 2020 Deep Learning Track passage ranking task](https://trec.nist.gov/data/deep2020.html).
 For additional instructions on working with MS MARCO passage collection, refer to [this page](../../../docs/experiments-msmarco-passage.md).
 
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/dl20-passage.wp-hgf.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl20-passage.wp-hgf.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+In these experiments, we are using WordPiece tokenization (i.e., from BERT) with the [`bert-base-uncased`](https://huggingface.co/bert-base-uncased) tokenizer from Hugging Face.
+In general, effectiveness is lower than with "standard" Lucene tokenization for two reasons: (1) we're losing stemming, and (2) some terms are chopped into less meaningful subwords.
 
-From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/dl20-passage.wp-hgf.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
+
+NIST relevance judgments provide far more relevant passages per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
+
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config dl20-passage.wp-hgf

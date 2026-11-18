@@ -1,12 +1,16 @@
-# Anserini Regressions: TREC 2005 Robust Track
+# <img src="../../anserini-logo.png" height="30" /> TREC 2005 Robust Track
 
-**Models**: various bag-of-words approaches
+**Anserini reproductions from document collection**
+
++ **Models**: bag-of-words
++ **Config**: [`robust05.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/robust05.yaml)
++ **Template**: [`robust05.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/robust05.template)
 
 This page describes regressions for the TREC 2005 Robust Track, which uses the [AQUAINT collection](https://tac.nist.gov//data/data_desc.html#AQUAINT).
-The exact configurations for these regressions are stored in [this YAML file](../../../src/main/resources/reproduce/from-document-collection/configs/robust05.yaml).
-Note that this page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/robust05.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
-From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:
+This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/robust05.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
+
+From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete reproduction, end to end:
 
 ```bash
 bin/run.sh io.anserini.reproduce.ReproduceFromDocumentCollection --index --verify --search --config robust05
