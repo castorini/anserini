@@ -2,7 +2,7 @@
 
 **Anserini reproductions from document collection**
 
-+ **Models**: bag-of-words on segmented documents using `CompositeAnalyzer`.
++ **Models**: bag-of-words on segmented documents using `CompositeAnalyzer`
 + **Config**: [`msmarco-v1-doc-segmented.wp-ca.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc-segmented.wp-ca.yaml)
 + **Template**: [`msmarco-v1-doc-segmented.wp-ca.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-doc-segmented.wp-ca.template)
 
@@ -80,7 +80,7 @@ With the above commands, you should be able to reproduce the following results:
 
 Explanation of settings:
 
-+ The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`.
++ The setting "default" refers to the default BM25 settings of `k1=0.9`, `b=0.4`.
 
 Note that in the official evaluation for document ranking, all runs were truncated to top-100 hits per query (whereas all top-1000 hits per query were retained for passage ranking).
 Thus, average precision is computed to depth 100 (i.e., AP@100); nDCG@10 remains unaffected.

@@ -6,8 +6,9 @@
 + **Config**: [`beir-v1.0.0-cqadupstack-physics.flat.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-cqadupstack-physics.flat.yaml)
 + **Template**: [`beir-v1.0.0-cqadupstack-physics.flat.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/beir-v1.0.0-cqadupstack-physics.flat.template)
 
-This page documents BM25 regression experiments for [BEIR (v1.0.0) &mdash; CQADupStack-physics](http://beir.ai/).
+This page describes reproductions from the raw document collection using BM25 for [BEIR (v1.0.0) &mdash; CQADupStack-physics](http://beir.ai/).
 These experiments index the corpus in a "flat" manner, by concatenating the "title" and "text" into the "contents" field.
+
 This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/beir-v1.0.0-cqadupstack-physics.flat.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:

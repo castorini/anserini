@@ -7,6 +7,7 @@
 + **Template**: [`bright-sustainable-living.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/bright-sustainable-living.template)
 
 This page documents BM25 and BM25QS regression experiments for [BRIGHT &mdash; Sustainable Living](https://brightbenchmark.github.io/).
+
 This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/bright-sustainable-living.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:

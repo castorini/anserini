@@ -7,6 +7,7 @@
 + **Template**: [`ciral-v1.0-so.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/ciral-v1.0-so.template)
 
 This page documents BM25 regression experiments for [CIRAL (v1.0) &mdash; Somali](https://github.com/ciralproject/ciral) with query translations. To be clear, the queries are in Somali (human translations) and the corpus is in Somali.
+
 This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/ciral-v1.0-so.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:

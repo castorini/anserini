@@ -7,6 +7,7 @@
 + **Template**: [`gov2.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/gov2.template)
 
 This page describes regressions for the Terabyte Tracks from TREC 2004 to 2006, which uses the [Gov2 collection](http://ir.dcs.gla.ac.uk/test_collections/gov2-summary.htm).
+
 This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/gov2.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:

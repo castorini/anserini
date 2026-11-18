@@ -6,13 +6,13 @@
 + **Config**: [`beir-v1.0.0-signal1m.splade-v3.onnx.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/beir-v1.0.0-signal1m.splade-v3.onnx.yaml)
 + **Template**: [`beir-v1.0.0-signal1m.splade-v3.onnx.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/beir-v1.0.0-signal1m.splade-v3.onnx.template)
 
-This page describes regression experiments, integrated into Anserini's regression testing framework, using [SPLADE-v3](https://arxiv.org/abs/2403.06789) on [BEIR (v1.0.0) &mdash; Signal-1M](http://beir.ai/).
-The model itself can be download [here](https://huggingface.co/naver/splade-v3).
+This page describes reproductions from the raw document collection using [SPLADE-v3](https://huggingface.co/naver/splade-v3) on [BEIR (v1.0.0) &mdash; Signal-1M](http://beir.ai/).
 See the [official SPLADE repo](https://github.com/naver/splade) and the following paper for more details:
 
 > Carlos Lassance, Hervé Déjean, Thibault Formal, and Stéphane Clinchant. [SPLADE-v3: New baselines for SPLADE.](https://arxiv.org/abs/2403.06789) _arXiv:2403.06789_.
 
 In these experiments, we are using ONNX to perform query encoding on the fly.
+
 This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/beir-v1.0.0-signal1m.splade-v3.onnx.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:

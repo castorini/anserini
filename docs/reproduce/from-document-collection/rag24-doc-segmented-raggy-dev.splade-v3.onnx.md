@@ -6,15 +6,15 @@
 + **Config**: [`rag24-doc-segmented-raggy-dev.splade-v3.onnx.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/rag24-doc-segmented-raggy-dev.splade-v3.onnx.yaml)
 + **Template**: [`rag24-doc-segmented-raggy-dev.splade-v3.onnx.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/rag24-doc-segmented-raggy-dev.splade-v3.onnx.template)
 
-This page describes experiments, integrated into Anserini's regression testing framework, on the "RAGgy dev topics" on the MS MARCO V2.1 _segmented_ document corpus.
+This page describes reproductions from the raw document collection with [SPLADE-v3](https://huggingface.co/naver/splade-v3) on the "RAGgy dev topics" on the MS MARCO V2.1 _segmented_ document corpus.
 These "RAGgy topics" were manually curated from the TREC 2021, 2022, and 2023 Deep Learning Tracks to be "RAG-worthy" according to the track organizers.
-
-The model itself can be download [here](https://huggingface.co/naver/splade-v3).
+This corpus was derived from the MS MARCO V2 _segmented_ document corpus and prepared for the TREC 2024 RAG Track.
 See the [official SPLADE repo](https://github.com/naver/splade) and the following paper for more details:
 
 > Carlos Lassance, Hervé Déjean, Thibault Formal, and Stéphane Clinchant. [SPLADE-v3: New baselines for SPLADE.](https://arxiv.org/abs/2403.06789) _arXiv:2403.06789_.
 
-In these experiments, we are using ONNX to perform query encoding on the fly.
+In these experiments, each document in the MS MARCO V2.1 _segmented_ document corpus is treated as a unit of indexing and we are using ONNX to perform query encoding on the fly.
+
 This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/rag24-doc-segmented-raggy-dev.splade-v3.onnx.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:

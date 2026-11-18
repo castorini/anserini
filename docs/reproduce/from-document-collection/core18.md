@@ -7,6 +7,7 @@
 + **Template**: [`core18.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/core18.template)
 
 This page describes regressions for the TREC 2018 Common Core Track, which uses the [TREC Washington Post Corpus](https://trec.nist.gov/data/wapost/).
+
 This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/core18.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:

@@ -7,6 +7,7 @@
 + **Template**: [`cw09b.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/cw09b.template)
 
 This page describes regressions for the Web Tracks from TREC 2009 to 2012 using the [ClueWeb09 (Category B) collection](http://lemurproject.org/clueweb09.php/).
+
 This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/cw09b.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:

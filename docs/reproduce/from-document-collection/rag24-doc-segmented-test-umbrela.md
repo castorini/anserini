@@ -18,6 +18,7 @@ More details can be found in the following two papers:
 > Shivani Upadhyay, Ronak Pradeep, Nandan Thakur, Daniel Campos, Nick Craswell, Ian Soboroff, Hoa Trang Dang, and Jimmy Lin. [A Large-Scale Study of Relevance Assessments with Large Language Models: An Initial Look.](https://arxiv.org/abs/2411.08275) _arXiv:2411.08275_, November 2024.
 
 Here, we cover bag-of-words baselines where each _segment_ in the MS MARCO V2.1 segmented document corpus is treated as a unit of indexing.
+
 This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/rag24-doc-segmented-test-umbrela.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:

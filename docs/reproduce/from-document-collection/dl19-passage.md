@@ -213,7 +213,7 @@ With the above commands, you should be able to reproduce the following results:
 
 Explanation of settings:
 
-+ The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`.
++ The setting "default" refers to the default BM25 settings of `k1=0.9`, `b=0.4`.
 + The setting "tuned" refers to `k1=0.82`, `b=0.68`, tuned using the MS MARCO passage sparse judgments, as described in [this page](../../../docs/experiments-msmarco-passage.md).
 
 Settings tuned on the MS MARCO passage sparse judgments _may not_ work well on the TREC dense judgments.

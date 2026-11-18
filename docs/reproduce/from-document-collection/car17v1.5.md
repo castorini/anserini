@@ -7,6 +7,7 @@
 + **Template**: [`car17v1.5.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/car17v1.5.template)
 
 This page describes reproductions from the raw document collection for the [TREC 2017 Complex Answer Retrieval (CAR)](http://trec-car.cs.unh.edu/) section-level passage retrieval task (v1.5).
+
 This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/car17v1.5.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:

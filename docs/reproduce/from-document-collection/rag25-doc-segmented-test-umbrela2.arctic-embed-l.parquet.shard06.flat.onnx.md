@@ -22,6 +22,7 @@ Evaluation uses qrels over 22 topics from the TREC 2025 RAG Track test set.
 More details can be found in the following paper:
 
 > Shivani Upadhyay, Nandan Thakur, Ronak Pradeep, Nick Craswell, Daniel Campos and Jimmy Lin. [Overview of the TREC 2025 Retrieval Augmented Generation (RAG) Track.](https://arxiv.org/abs/2603.09891) _arXiv:2603.09891_, March 2026.
+
 This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/rag25-doc-segmented-test-umbrela2.arctic-embed-l.parquet.shard06.flat.onnx.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:

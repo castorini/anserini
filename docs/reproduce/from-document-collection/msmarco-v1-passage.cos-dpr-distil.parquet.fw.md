@@ -95,15 +95,15 @@ bin/trec_eval -c -m recall.1000 msmarco-passage.dev-subset runs/run.lucene-inver
 
 With the above commands, you should be able to reproduce the following results:
 
-| **AP@1000**                                                                   | **cosDPR-distill** |
-|:------------------------------------------------------------------------------|:------------------:|
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking) | 0.3654             |
-| **RR@10**                                                                     | **cosDPR-distill** |
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking) | 0.3605             |
-| **R@100**                                                                     | **cosDPR-distill** |
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking) | 0.8711             |
-| **R@1000**                                                                    | **cosDPR-distill** |
-| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking) | 0.9668             |
+| **AP@1000**                                                                   | **cosDPR-distil** |
+|:------------------------------------------------------------------------------|:-----------------:|
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking) | 0.3654            |
+| **RR@10**                                                                     | **cosDPR-distil** |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking) | 0.3605            |
+| **R@100**                                                                     | **cosDPR-distil** |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking) | 0.8711            |
+| **R@1000**                                                                    | **cosDPR-distil** |
+| [MS MARCO Passage: Dev](https://github.com/microsoft/MSMARCO-Passage-Ranking) | 0.9668            |
 
 ## Reproduction Log[*](../../../docs/reproducibility.md)
 

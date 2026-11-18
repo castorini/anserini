@@ -7,6 +7,7 @@
 + **Template**: [`ciral-v1.0-yo.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/ciral-v1.0-yo.template)
 
 This page documents BM25 regression experiments for [CIRAL (v1.0) &mdash; Yoruba](https://github.com/ciralproject/ciral) with query translations. To be clear, the queries are in Yoruba (human translations) and the corpus is in Yoruba.
+
 This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/ciral-v1.0-yo.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:

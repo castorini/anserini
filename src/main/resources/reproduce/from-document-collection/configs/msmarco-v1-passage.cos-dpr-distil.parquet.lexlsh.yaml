@@ -54,7 +54,7 @@ topics:
 
 models:
   - name: cos-dpr-distil-lexlsh-600-cached_q
-    display: cosDPR-distill
+    display: cosDPR-distil
     type: inverted-dense
     params: -topicField vector -threads 16 -encoding lexlsh -lexlsh.b 600 -hits 1000
     results:

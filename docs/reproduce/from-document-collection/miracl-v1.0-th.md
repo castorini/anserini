@@ -6,7 +6,8 @@
 + **Config**: [`miracl-v1.0-th.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/miracl-v1.0-th.yaml)
 + **Template**: [`miracl-v1.0-th.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/miracl-v1.0-th.template)
 
-This page documents BM25 regression experiments for [MIRACL (v1.0) &mdash; Thai](https://github.com/project-miracl/miracl).
+This page describes reproductions from the raw document collection using BM25 for [MIRACL (v1.0) &mdash; Thai](https://github.com/project-miracl/miracl).
+
 This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/miracl-v1.0-th.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:

@@ -2,7 +2,7 @@
 
 **Anserini reproductions from document collection**
 
-+ **Models**: bag-of-words on complete documents using `CompositeAnalyzer`.
++ **Models**: bag-of-words on complete documents using `CompositeAnalyzer`
 + **Config**: [`msmarco-v1-doc.wp-ca.yaml`](../../../src/main/resources/reproduce/from-document-collection/configs/msmarco-v1-doc.wp-ca.yaml)
 + **Template**: [`msmarco-v1-doc.wp-ca.template`](../../../src/main/resources/reproduce/from-document-collection/docgen/msmarco-v1-doc.wp-ca.template)
 

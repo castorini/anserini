@@ -10,6 +10,7 @@ This page presents **document translation** regression experiments for the [TREC
 
 + Queries: English
 + Documents: Machine-translated documents from Chinese into English (corpus provided by the organizers)
+
 This page is automatically generated from [this template](../../../src/main/resources/reproduce/from-document-collection/docgen/neuclir22-zh-dt.template) by the `GenerateReproductionDocsFromDocumentCollectionTest` JUnit test case, so do not modify this page directly; modify the template instead.
 
 From one of our Waterloo servers (e.g., `orca`), the following command will perform the complete regression, end to end:

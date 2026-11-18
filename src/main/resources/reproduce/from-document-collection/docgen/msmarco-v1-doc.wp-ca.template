@@ -2,7 +2,7 @@
 
 **Anserini reproductions from document collection**
 
-+ **Models**: bag-of-words on complete documents using `CompositeAnalyzer`.
++ **Models**: bag-of-words on complete documents using `CompositeAnalyzer`
 + **Config**: [`${yaml_short}`](${yaml})
 + **Template**: [`${template_short}`](${template})
 
