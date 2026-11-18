@@ -4,6 +4,7 @@
 
 + **Corpus**: BEIR
 + **Config**: ${config}
++ **Template**: ${template}
 
 ## Summary
 

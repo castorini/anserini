@@ -3,7 +3,8 @@
 **Anserini reproductions from prebuilt indexes**
 
 + **Corpus**: BRIGHT
-+ **Config**: [bright.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/bright.yaml)
++ **Config**: [`bright.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/bright.yaml)
++ **Template**: [`bright.template`](../../../src/main/resources/reproduce/from-prebuilt-indexes/docgen/bright.template)
 
 ## Summary
 
@@ -55,7 +56,7 @@ export jvm_args="-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules
 
 ### 1. BM25
 
-**Config**: [bright.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/bright.yaml#L2)
+**Config**: [`bright.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/bright.yaml#L2)
 
 #### biology
 
@@ -301,7 +302,7 @@ java -cp $fatjar trec_eval -c -m ndcg_cut.10 bright-theoremqa-theorems runs/run.
 
 ### 2. query-side BM25 (BM25QS)
 
-**Config**: [bright.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/bright.yaml#L79)
+**Config**: [`bright.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/bright.yaml#L79)
 
 #### biology
 
@@ -547,7 +548,7 @@ java -cp $fatjar trec_eval -c -m ndcg_cut.10 bright-theoremqa-theorems runs/run.
 
 ### 3. SPLADE-v3 (ONNX)
 
-**Config**: [bright.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/bright.yaml#L156)
+**Config**: [`bright.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/bright.yaml#L156)
 
 #### biology
 
@@ -817,7 +818,7 @@ java -cp $fatjar trec_eval -c -m ndcg_cut.10 bright-theoremqa-theorems runs/run.
 
 ### 4. bge-large-en-v1.5 w/ flat indexes (ONNX)
 
-**Config**: [bright.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/bright.yaml#L233)
+**Config**: [`bright.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/bright.yaml#L233)
 
 #### biology
 

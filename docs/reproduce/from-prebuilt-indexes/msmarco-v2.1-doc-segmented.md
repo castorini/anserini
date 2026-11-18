@@ -3,7 +3,8 @@
 **Anserini reproductions from prebuilt indexes**
 
 + **Corpus**: MS MARCO V2.1 Segmented Doc
-+ **Config**: [msmarco-v2.1-doc-segmented.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc-segmented.yaml)
++ **Config**: [`msmarco-v2.1-doc-segmented.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc-segmented.yaml)
++ **Template**: [`msmarco-v2.1-doc-segmented.template`](../../../src/main/resources/reproduce/from-prebuilt-indexes/docgen/msmarco-v2.1-doc-segmented.template)
 
 ## Summary
 
@@ -58,7 +59,7 @@ export jvm_args="-Xms512M -Xmx192G -Dslf4j.internal.verbosity=WARN --add-modules
 
 ### 1. BM25 doc segmented (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), slim index
 
-**Config**: [msmarco-v2.1-doc-segmented.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc-segmented.yaml#L2)
+**Config**: [`msmarco-v2.1-doc-segmented.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc-segmented.yaml#L2)
 
 #### rag24.test / rag24.test-umbrela-all
 
@@ -152,7 +153,7 @@ java -cp $fatjar trec_eval -c -m recall.100 rag25.test runs/run.msmarco-v2.1-doc
 
 ### 2. BM25 doc segmented (<i>k<sub><small>1</small></sub></i>=0.9, <i>b</i>=0.4), regular index
 
-**Config**: [msmarco-v2.1-doc-segmented.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc-segmented.yaml#L46)
+**Config**: [`msmarco-v2.1-doc-segmented.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc-segmented.yaml#L46)
 
 #### rag24.test / rag24.test-umbrela-all
 
@@ -246,7 +247,7 @@ java -cp $fatjar trec_eval -c -m recall.100 rag25.test runs/run.msmarco-v2.1-doc
 
 ### 3. SPLADE-v3 (ONNX)
 
-**Config**: [msmarco-v2.1-doc-segmented.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc-segmented.yaml#L90)
+**Config**: [`msmarco-v2.1-doc-segmented.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc-segmented.yaml#L90)
 
 #### rag24.test / rag24.test-umbrela-all
 
@@ -352,7 +353,7 @@ java -cp $fatjar trec_eval -c -m recall.100 rag25.test runs/run.msmarco-v2.1-doc
 
 ### 4. ArcticEmbed-L (shard00) with quantized HNSW (ONNX)
 
-**Config**: [msmarco-v2.1-doc-segmented.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc-segmented.yaml#L134)
+**Config**: [`msmarco-v2.1-doc-segmented.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc-segmented.yaml#L134)
 
 #### rag24.test / rag24.test-umbrela-all
 
@@ -450,7 +451,7 @@ java -cp $fatjar trec_eval -c -m recall.100 rag25.test runs/run.msmarco-v2.1-doc
 
 ### 5. ArcticEmbed-L (shard01) with quantized HNSW (ONNX)
 
-**Config**: [msmarco-v2.1-doc-segmented.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc-segmented.yaml#L178)
+**Config**: [`msmarco-v2.1-doc-segmented.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc-segmented.yaml#L178)
 
 #### rag24.test / rag24.test-umbrela-all
 
@@ -548,7 +549,7 @@ java -cp $fatjar trec_eval -c -m recall.100 rag25.test runs/run.msmarco-v2.1-doc
 
 ### 6. ArcticEmbed-L (shard02) with quantized HNSW (ONNX)
 
-**Config**: [msmarco-v2.1-doc-segmented.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc-segmented.yaml#L222)
+**Config**: [`msmarco-v2.1-doc-segmented.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc-segmented.yaml#L222)
 
 #### rag24.test / rag24.test-umbrela-all
 
@@ -646,7 +647,7 @@ java -cp $fatjar trec_eval -c -m recall.100 rag25.test runs/run.msmarco-v2.1-doc
 
 ### 7. ArcticEmbed-L (shard03) with quantized HNSW (ONNX)
 
-**Config**: [msmarco-v2.1-doc-segmented.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc-segmented.yaml#L266)
+**Config**: [`msmarco-v2.1-doc-segmented.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc-segmented.yaml#L266)
 
 #### rag24.test / rag24.test-umbrela-all
 
@@ -744,7 +745,7 @@ java -cp $fatjar trec_eval -c -m recall.100 rag25.test runs/run.msmarco-v2.1-doc
 
 ### 8. ArcticEmbed-L (shard04) with quantized HNSW (ONNX)
 
-**Config**: [msmarco-v2.1-doc-segmented.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc-segmented.yaml#L310)
+**Config**: [`msmarco-v2.1-doc-segmented.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc-segmented.yaml#L310)
 
 #### rag24.test / rag24.test-umbrela-all
 
@@ -842,7 +843,7 @@ java -cp $fatjar trec_eval -c -m recall.100 rag25.test runs/run.msmarco-v2.1-doc
 
 ### 9. ArcticEmbed-L (shard05) with quantized HNSW (ONNX)
 
-**Config**: [msmarco-v2.1-doc-segmented.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc-segmented.yaml#L354)
+**Config**: [`msmarco-v2.1-doc-segmented.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc-segmented.yaml#L354)
 
 #### rag24.test / rag24.test-umbrela-all
 
@@ -940,7 +941,7 @@ java -cp $fatjar trec_eval -c -m recall.100 rag25.test runs/run.msmarco-v2.1-doc
 
 ### 10. ArcticEmbed-L (shard06) with quantized HNSW (ONNX)
 
-**Config**: [msmarco-v2.1-doc-segmented.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc-segmented.yaml#L398)
+**Config**: [`msmarco-v2.1-doc-segmented.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc-segmented.yaml#L398)
 
 #### rag24.test / rag24.test-umbrela-all
 
@@ -1038,7 +1039,7 @@ java -cp $fatjar trec_eval -c -m recall.100 rag25.test runs/run.msmarco-v2.1-doc
 
 ### 11. ArcticEmbed-L (shard07) with quantized HNSW (ONNX)
 
-**Config**: [msmarco-v2.1-doc-segmented.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc-segmented.yaml#L442)
+**Config**: [`msmarco-v2.1-doc-segmented.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc-segmented.yaml#L442)
 
 #### rag24.test / rag24.test-umbrela-all
 
@@ -1136,7 +1137,7 @@ java -cp $fatjar trec_eval -c -m recall.100 rag25.test runs/run.msmarco-v2.1-doc
 
 ### 12. ArcticEmbed-L (shard08) with quantized HNSW (ONNX)
 
-**Config**: [msmarco-v2.1-doc-segmented.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc-segmented.yaml#L486)
+**Config**: [`msmarco-v2.1-doc-segmented.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc-segmented.yaml#L486)
 
 #### rag24.test / rag24.test-umbrela-all
 
@@ -1234,7 +1235,7 @@ java -cp $fatjar trec_eval -c -m recall.100 rag25.test runs/run.msmarco-v2.1-doc
 
 ### 13. ArcticEmbed-L (shard09) with quantized HNSW (ONNX)
 
-**Config**: [msmarco-v2.1-doc-segmented.yaml](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc-segmented.yaml#L530)
+**Config**: [`msmarco-v2.1-doc-segmented.yaml`](../../../src/main/resources/reproduce/from-prebuilt-indexes/configs/msmarco-v2.1-doc-segmented.yaml#L530)
 
 #### rag24.test / rag24.test-umbrela-all
 
