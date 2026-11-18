@@ -402,7 +402,7 @@ public class GenerateReproductionDocsFromPrebuiltIndexesTest {
     topic.expected_scores = Map.of("map", 0.3123);
     condition.topics = List.of(topic);
     config.conditions = List.of(condition);
-    ReportContext context = new ReportContext("test.yaml", "test", config, "", null, "[config](test.yaml)", Map.of("bm25", 1));
+    ReportContext context = new ReportContext("test.yaml", "test", config, "", null, "[config](test.yaml)", "[template](test.template)", Map.of("bm25", 1));
     Locale previousFormatLocale = Locale.getDefault(Locale.Category.FORMAT);
     try {
       Locale.setDefault(Locale.Category.FORMAT, Locale.forLanguageTag("mzn-Arab-IR"));
